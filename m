@@ -1,90 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F450248886;
-	Tue, 27 May 2025 16:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D3327F756
+	for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 16:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748363568; cv=none; b=HkepIb2bBitZ4jomAm1lDGtV1pXHjdXB603TNm4lFJK7Ci3MVQG02VZxbCwqlC3ArTE5RtJgUR9DKiL6Ka77kV8NJm0WBV6porLz250ncq/xXpPN2ijNa2euEZTsXPmlBZkJzCzReLAsF9EAPpjyyh9UElLjx3Iual+JxGQ56yI=
+	t=1748364127; cv=none; b=IA7/Og6BPqheeffMkZwDrM6RZ0J6PdDMLTJLAmzFxtWBBz5H+MbkgB89Nqp5SUk5J2WeQifTRDh5Vk13QF/Wo1WX2wXeVvBw8hCdbgvrZ1TMMdF1beUEQLWhlkNjYiMnnhmRhZzTPo4YoOFm03koxR0uvoWX5JfHOtbKxm2a/e8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748363568; c=relaxed/simple;
-	bh=ZVXm/cQRgPmvtNwv7BIjBbyhxwseApmwFg3oUawaEz8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tV2rY5wjxqDwlXHc4CakMkE6qusCad68PwfFPfuxZqpeUfwhM/giD0N2kcdsvcmzXN1mKUWya5Ofy58Ka+K1zBejtOvQgqjhPvshY8M8xPSKcQM0mIsAjmdjkifL05zKSr5nNqXtnptf7wNO9VuLdHlmECwJqBJXvUCMzMWl3Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jg90TGWr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748364127; c=relaxed/simple;
+	bh=o6IP1ZSE7iTj86N6LUhJhtCOx5zFOGbL5Y2ity8VNvs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=TcqiqCx1e1MH9jGKJnybdKlVz5OyPS7AMaWN8OLE9E2kU232X9Vuxk3kxPAffFF6vvvQJDXpnfbG5veO05WJurIuwUolHc4RxiTEKRshladCrWZR3PY+pjENfQjBVb1HfPN4qgBB5Q2GxSHRZoOVbQ09MM6snKJlFV6VmMijuSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OxlXVsy4; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jg90TGWr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1209AC4CEE9;
-	Tue, 27 May 2025 16:32:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748363567;
-	bh=ZVXm/cQRgPmvtNwv7BIjBbyhxwseApmwFg3oUawaEz8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Jg90TGWrPXQA8joQ1m4c7eR3VScy3tirvEQY2rWELL9r8hamJ7h2fJfuFFwfl+fgX
-	 zP15pVpwjtM9YyskMPQReQ4k/0YcflXAOylnXnZNjtFi+vF1prhL0F55HOcWetHy7b
-	 OsXxRDgEDpx2DMlNwF1S/7lpczzZ6ATi/ypm9rne0Oh3oLmcSrwEajftl0P3q0IJ3s
-	 uxgMA+TT3IuKjJK4AyGHcO+M9j8Sxq5A42GKfWIz4lALjdNlq3snybKu97+40L9xNw
-	 9NVe2eezBqHA4AisZu5GntVyHQOb5juDFSvHE5Z+LjSktNwNaWEnG3zt6+1a7U7eVG
-	 qYom8HKfDZBoA==
-From: Mark Brown <broonie@kernel.org>
-To: Kevin Cernekee <cernekee@chromium.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Bram Vlerick <bram.vlerick@openpixelsystems.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- peter@korsgaard.com
-In-Reply-To: <20250527-tas5733-biquad-fix-v1-1-0d3d941700bb@openpixelsystems.org>
-References: <20250527-tas5733-biquad-fix-v1-1-0d3d941700bb@openpixelsystems.org>
-Subject: Re: [PATCH] ASoC: tas571x: add separate tas5733 controls
-Message-Id: <174836356579.104699.8312897041646074055.b4-ty@kernel.org>
-Date: Tue, 27 May 2025 17:32:45 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OxlXVsy4"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a3758b122cso2306220f8f.1
+        for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 09:42:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748364124; x=1748968924; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gC+Kv6MDihqVMIw1+edFXcpQJgi1ehuY/J0XFAu4/hg=;
+        b=OxlXVsy44edlq64sSEGc7JA5szCVGkXupCPcjVt31kSjcrlxI6SwejpaKj0FX3DvWY
+         p6roNhIdp6a4y3nqerCKTex/4g8ZiV/btLkd9FcgPxjVtIzKzD0n9l5uVRDVHBpxc5t/
+         vBqC4MRniSHRyQpN7Rezxj/wbA0x1/NKv2Atzr7ZpgqvpFsHUD01vsTL8W44I4VTtkLQ
+         VITZ2jGWAFnQfStzEA4OACBCnAE4CZQz6CPsmQDD7gnsV6dapMOPSe/Gne1NeaT4TP5u
+         /psdeAD/MZZIgWMZtaqsVtrTxOBKXolyGcb4582iitadLeyz6omHAgVtxYiwVwXUhvFL
+         Wcgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748364124; x=1748968924;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gC+Kv6MDihqVMIw1+edFXcpQJgi1ehuY/J0XFAu4/hg=;
+        b=MQYgApu/yGIsKvahod/VAzSa/WO+Gqz0oRc6MwygzsRGivJNXFV5huB8d1B0m6gKBf
+         v9PWheLBjGoG+BP7C50WHrOXCBxQuWZb9PNoIDTi0dA/liFVHUlBp4kaSfYrpEZSw7ov
+         hQdu+UTAi/eN/FPVuocm727dCUTsxzRhgpSB2hWl4ikZiqpTSXub0dZ6mzL1GXMrPuOd
+         VM1Pq7X6lkmwXAhlkIv1i/DNksUp2FXK1UAnbTprp/OCaAcoceT8imJW+UA/b1mot31c
+         KC2WzLN/id/8alOrpJ7SKoHn4jf4OIA+rjpcM7JZ4B76Kv/yvsnAF8anof6tnXyRZ+Dd
+         EU/A==
+X-Forwarded-Encrypted: i=1; AJvYcCUDmxL49EF5XOKigFEwbXSHZMeX9PkoNokyOHiOJPjBsTy+5WyuYURRtyqbJUWCcNH7JcME1A9iRglMtA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyljzZGiaeclBqJPjMBwbLH/Hoa1r4oaO/g7/k0xlm95XQhWhwN
+	Usq2/m1YDaMaTNApu2s5i2/SvMx+XPXlDEbTt6Zi4+b7I8al0vMScStU6FQkwziCWgQ=
+X-Gm-Gg: ASbGncuB2aMUAhKx8xaj4tjyhttFkX0awWNitL1t3llwqasvr04PuTqaB7NSioo7zmT
+	LZANhiE78PmghAc2ATGnI76Zy93LOUj7HlZBA4lo5WUahMI1tWqZPXIuRgb7rwMAANWSwb9u8Vr
+	EEcsBTtiIqbqZsiUbPjQKqcxOv+M+Ogl8Oi1qGReh/oo8KT4w6MpxhK60xnSfNa/xqR3Y4mllBy
+	SjFarYaofAKd61BxLi7JGXRlMIljZduR2TL/qAFgfEEb6raozA4duYnE/VHKKVXRoGlPqlnGRsx
+	z1RggyUnW+/9Gzxa1ZJIFbgzF6IkcU0V9y9FrG20XsT+TjcpteB0Hz3ZBw==
+X-Google-Smtp-Source: AGHT+IHOCmeAAiPle45FazpuCrAts2+QCHvGJ68DgsGkOFH6AJFdSzOvGZC9JM9TNpY3pT25HAXqLA==
+X-Received: by 2002:a05:6000:2282:b0:3a3:621a:d3c5 with SMTP id ffacd0b85a97d-3a4cb44f91dmr11350352f8f.19.1748364124005;
+        Tue, 27 May 2025 09:42:04 -0700 (PDT)
+Received: from localhost ([2a02:c7c:7213:c700:f024:90b8:5947:4156])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4e1fe9430sm2346073f8f.75.2025.05.27.09.42.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 May 2025 09:42:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 27 May 2025 17:42:02 +0100
+Message-Id: <DA73CTVYS10G.1O0RVVAHTCEGX@linaro.org>
+Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Bjorn Andersson" <andersson@kernel.org>, "Dmitry
+ Baryshkov" <lumag@kernel.org>, "Konrad Dybcio" <konradybcio@kernel.org>,
+ "Konrad Dybcio" <konrad.dybcio@oss.qualcomm.com>, "Jaroslav Kysela"
+ <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v3 04/12] ASoC: codecs: lpass-rx-macro: add sm6115
+ compatible
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>, "Srinivas
+ Kandagatla" <srini@kernel.org>, "Mark Brown" <broonie@kernel.org>,
+ <linux-sound@vger.kernel.org>
+X-Mailer: aerc 0.20.0
+References: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
+ <20250522-rb2_audio_v3-v3-4-9eeb08cab9dc@linaro.org>
+ <45124768-c10f-42ff-a899-6dd6e988b21c@linaro.org>
+In-Reply-To: <45124768-c10f-42ff-a899-6dd6e988b21c@linaro.org>
 
-On Tue, 27 May 2025 13:08:49 +0200, Bram Vlerick wrote:
-> The controls between the tas5717 and tas5733 should not be shared since
-> the biquad and register setup is not identical. For example, writing to
-> 0x5c on the tas5717 modifies ch2_bq[10] while on the tas5733 this is
-> ch1_cross_bq[3].
-> 
-> see https://www.ti.com/lit/ds/symlink/tas5733l.pdf and
-> https://www.ti.com/lit/ds/symlink/tas5717.pdf for more details on the
-> register maps.
-> 
-> [...]
+On Thu May 22, 2025 at 6:49 PM BST, Krzysztof Kozlowski wrote:
+> On 22/05/2025 19:40, Alexey Klimov wrote:
+>> Add rxmacro compatible for sm6115.
+>>=20
+>> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+>> ---
+>>  sound/soc/codecs/lpass-rx-macro.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-=
+rx-macro.c
+>> index 45a6b83808b277344f17d35a70cd1e3bb89cbaea..3ce7ad758df9fb0b7845a1df=
+ef46cdf0ecf3b8c8 100644
+>> --- a/sound/soc/codecs/lpass-rx-macro.c
+>> +++ b/sound/soc/codecs/lpass-rx-macro.c
+>> @@ -3946,7 +3946,9 @@ static const struct of_device_id rx_macro_dt_match=
+[] =3D {
+>>  	{
+>>  		.compatible =3D "qcom,sc7280-lpass-rx-macro",
+>>  		.data =3D (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
+>> -
+>> +	}, {
+>> +		.compatible =3D "qcom,sm6115-lpass-rx-macro",
+>> +		.data =3D (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
+>>  	}, {
+>>  		.compatible =3D "qcom,sm8250-lpass-rx-macro",
+>>  		.data =3D (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
+>
+> So devices are compatible, thus why do we need this change?
 
-Applied to
+Ok, I'll link it to sm8250-lpass-rx-macro I guess.
+Thanks.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: tas571x: add separate tas5733 controls
-      commit: e3de7984e45155888eebbca5a32c1cc5f29fa859
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+Alexey
