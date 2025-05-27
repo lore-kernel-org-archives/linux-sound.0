@@ -1,92 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6421E521E;
-	Tue, 27 May 2025 02:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1949E1C6FFE;
+	Tue, 27 May 2025 08:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748313471; cv=none; b=AYWDXGDjgofTO3WHX8UebisazEJbJ9NXqZ8UC520d90gOlrBwFVXOJ3MxqGJN4YFywyUdyB3ZUgqwmolRpoZvcgfQ0zoOwwY9YFnbJXBAQ72J3jQz0Wp+BA0SYGO0b89vleHg3esEHUUAqYdcpgBzOeh6TPKDI5xeWFWCHt7dg8=
+	t=1748334315; cv=none; b=demPUzongfV197+aHNgyqa1y6TTClhRCmV6CD3e7MgDPBJ+YoyEdspoW4W0R1B0rHJYQYZRfXlPR2wt7SCmk6HSIMFNFuEbc/TrVEEuLHli0facnPeJtrBqCD1HrngrcOzVkeBFFoR8LCMJfN5nQwEOlidOaHkHAvjamAj+YnrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748313471; c=relaxed/simple;
-	bh=nWh09nF2kVkcH43I7gRxRnLbso+PvhAm0oytX5FZIaI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GXR8mfqsgkUgjfWaHjzvwGmCxF2ALL0goLJRVAM7puSYuWudj/nmEL6e6pyCBn5pO635LwiY8MKrxN001vbFcMMcpaIfUbCm0hpjnqCgzRoZwzuiFNRsPSBav3dXNDp9aQDLPMtEGw/B+MQC9Fs6VqGVMtTxAONIPz2BTGsYJps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=svGFC4jS; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="svGFC4jS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69184C4CEED;
-	Tue, 27 May 2025 02:37:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748313470;
-	bh=nWh09nF2kVkcH43I7gRxRnLbso+PvhAm0oytX5FZIaI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=svGFC4jSdXHys6snUMCyYLFIunapnSI0aPaexYnoJOA9HYF25H0w+B3pj6WSeSEqh
-	 sbEn6NVjf+RifDUof3aXlHvrZCI/fhFfXCVjxp0RXOY46Af+x9eRmDdnI3n3NiHf2e
-	 bH4UexhFWTIYZC0OxBJFTqkpoIFgRowK1gfYvaa3olMrwrQkzhC98yT7wsgFtUjfxj
-	 6fjI/bovnuhTHkYcK5BZ25DKdP/VTOgqQ/UwmDgkoW7Idwk1XLnul+3CBXlbSBNty2
-	 XqWzk2JW6szy8MApwzlQ0jgo26yHO/kjp4imkbP4EfHPnIgxMEVA0tglTmmHkhLbwt
-	 Iv8PQlRJRJKMQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Kailang Yang <kailang@realtek.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
+	s=arc-20240116; t=1748334315; c=relaxed/simple;
+	bh=MNVQFRdgVR76J2FChLUD7YAoquGb8Y9eYaiMckwgG8g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Adfbv9CM07dMVXJ/pFGTR+449o01TdLRfhuo9nYct7fapz7d0vi01gDcEvU0VXlC1F/xIapDBieAWqa/3q1UWv4qxQptLCCezQAXaf6+RxQYewLCwBTm8OjZVyWBSVtgChg57YwD0ZQ908bfO/GA0dbiaDJrR/Q6ymHxdmSUWN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 16b3a29c3ad411f0b29709d653e92f7d-20250527
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:52dbf973-d560-4d92-ab36-debd7af511ff,IP:0,U
+	RL:0,TC:0,Content:33,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:33
+X-CID-META: VersionHash:6493067,CLOUDID:76905b17bcdc2d36468f4541233e31d5,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:4|50,EDM:-3,IP:nil,UR
+	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 16b3a29c3ad411f0b29709d653e92f7d-20250527
+Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 756001150; Tue, 27 May 2025 16:25:03 +0800
+Received: from node4.com.cn (localhost [127.0.0.1])
+	by node4.com.cn (NSMail) with SMTP id F0C9D16001F49;
+	Tue, 27 May 2025 16:25:02 +0800 (CST)
+X-ns-mid: postfix-683576DD-9767322679
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by node4.com.cn (NSMail) with ESMTPA id F384916001F49;
+	Tue, 27 May 2025 08:24:57 +0000 (UTC)
+From: Ai Chao <aichao@kylinos.cn>
+To: perex@perex.cz,
 	tiwai@suse.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 2/5] ALSA: hda/realtek - restore auto-mute mode for Dell Chrome platform
-Date: Mon, 26 May 2025 22:37:42 -0400
-Message-Id: <20250527023745.1017153-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250527023745.1017153-1-sashal@kernel.org>
-References: <20250527023745.1017153-1-sashal@kernel.org>
+	johannes@sipsolutions.net,
+	kuninori.morimoto.gx@renesas.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	jbrunet@baylibre.com,
+	neil.armstrong@linaro.org,
+	khilman@baylibre.com,
+	martin.blumenstingl@googlemail.com,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	srinivas.kandagatla@linaro.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	imx@lists.linux.dev,
+	kernel@pengutronix.de,
+	linux-arm-msm@vger.kernel.org,
+	Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH v3 0/6] Use helper function for_each_child_of_node_scoped()
+Date: Tue, 27 May 2025 16:24:40 +0800
+Message-ID: <20250527082446.2265500-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.30
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Kailang Yang <kailang@realtek.com>
+This patch series introduces wrapper functions for_each_child_of_node_sco=
+ped().
 
-[ Upstream commit 5ad8a4ddc45048bc2fe23b75357b6bf185db004f ]
+The for_each_child_of_node_scoped() helper provides a scope-based clean-u=
+p
+functionality to put the device_node automatically, and as such, there is
+no need to call of_node_put() directly.
 
-This board need to shutdown Class-D amp to avoid EMI issue.
-Restore the Auto-Mute mode item will off pin control when Auto-mute mode was enable.
+Summary:
 
-Signed-off-by: Kailang Yang <kailang@realtek.com>
-Links: https://lore.kernel.org/ee8bbe5236464c369719d96269ba8ef8@realtek.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+ - Patch 1 ALSA: ppc: Use helper function for_each_child_of_node_scoped()
+
+ - Patch 2 ALSA: aoa: Use helper function for_each_child_of_node_scoped()
+
+ - Patch 3 ASoC: renesas: Use helper function for_each_child_of_node_scop=
+ed()
+
+ - Patch 4 ASoC: meson: Use helper function for_each_child_of_node_scoped=
+()
+
+ - Patch 5 ASoC: imx-card: Use helper function for_each_child_of_node_sco=
+ped()
+
+ - Patch 6 ASoC: qcom: Use helper function for_each_child_of_node_scoped(=
+)
+
 ---
- sound/pci/hda/patch_realtek.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Changes in v3:
+ - Change Patch name ASoC to ALSA for patch 1,2.
+ - Change commit message information.
+ - for_each_child_of_node_scoped() instead of
+   for_each_child_of_node() in i2cbus_add_dev().
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index db72c5fce9d18..88f0180e79f65 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6812,7 +6812,10 @@ static void alc256_fixup_chromebook(struct hda_codec *codec,
- 
- 	switch (action) {
- 	case HDA_FIXUP_ACT_PRE_PROBE:
--		spec->gen.suppress_auto_mute = 1;
-+		if (codec->core.subsystem_id == 0x10280d76)
-+			spec->gen.suppress_auto_mute = 0;
-+		else
-+			spec->gen.suppress_auto_mute = 1;
- 		spec->gen.suppress_auto_mic = 1;
- 		spec->en_3kpull_low = false;
- 		break;
--- 
-2.39.5
+Changes in v2:
+ - Fix error reported by kernel test rebot
+ - Keep "node"
+---
+
+ sound/aoa/soundbus/i2sbus/core.c   |  7 +++---
+ sound/ppc/tumbler.c                |  5 ++---
+ sound/soc/fsl/imx-card.c           | 13 +++++------
+ sound/soc/meson/axg-card.c         |  3 +--
+ sound/soc/meson/meson-card-utils.c | 16 +++++---------
+ sound/soc/qcom/lpass-cpu.c         |  3 +--
+ sound/soc/qcom/qdsp6/q6afe-dai.c   |  3 +--
+ sound/soc/qcom/qdsp6/q6asm-dai.c   |  4 +---
+ sound/soc/renesas/rcar/core.c      | 35 ++++++++++--------------------
+ sound/soc/renesas/rcar/ctu.c       |  8 ++-----
+ sound/soc/renesas/rcar/dma.c       |  4 +---
+ sound/soc/renesas/rcar/dvc.c       |  8 ++-----
+ sound/soc/renesas/rcar/mix.c       |  8 ++-----
+ sound/soc/renesas/rcar/src.c       | 10 ++-------
+ sound/soc/renesas/rcar/ssi.c       | 18 +++++----------
+ sound/soc/renesas/rcar/ssiu.c      |  7 ++----
+ 16 files changed, 46 insertions(+), 106 deletions(-)
+
+--=20
+2.47.1
 
