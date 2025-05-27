@@ -1,292 +1,82 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0C925B1DC;
-	Tue, 27 May 2025 11:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432D019DF6A
+	for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 11:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748344372; cv=none; b=J1BJX+Kz/50j6RXO65Wi4HztehUoZ78wr1YyHlm5ud1Ofe/wkYFdmeQxdgeeHw1+KhJ5lT1f7ehsDV3xB5PW0WTLSVyVnHMbC0tD7yoOQowYX9wFFFgAg4Yu1hoGKNx7o7UihMiRNfQeWs8/jzDkGS11wWZMEvw11lnX6YbWo98=
+	t=1748346375; cv=none; b=oUgLM5R6P13Yb7xGWP13ildBo3ZzlapD+efCK2ct7398oYT3SY4y5Hcj4+unAckboUET/N5qE121iLZCPtDunGpotDKYlH6wl84jC0Jgd4wgxpSZDHdkX6diEvdmy6nyQrAa2qBHO6PPSisoVuf2io08HVr/zgA6i9MqTWC5jps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748344372; c=relaxed/simple;
-	bh=5r2HvjqiZUVGW/xahOQI+543HT0A/atJY7y6zBKeQBI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Si9KxTX1DcYsjhQbv4O/M3vFQb1arvDMqdt4hGIqXe+LL8Jr1vZ6gDKatWMa0TQgxTiOXw78cnjjt+xFCzkxWNqsXJMsXyvvZYg/DSfq+oXfoNwUmUmHTfc5ttUToewXOxLntyl1EYELFsd4BJedZkYWNyVDbxNoSba04HfNt1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=J5dxX0Hl; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1748346375; c=relaxed/simple;
+	bh=hZgsNJN5U6euHAUZEHEmUPgEJHbDN2WW54ZAPUUNn8I=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Zq+oeceTBaBRGcpKV9PXlyalmOuPA3po8rPZOpsnONHYN6iQAKWL+u/NLbmnXF1w6bgELHokGH0a87aUYtz/c7jhjw5meDhzEqjVuXsfgwpQdvSYiQ4WOp8zQAEdIdWssW2pftXprbRN6w9DXI5pjAm86BLPk3FTGu494J1QWqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org; spf=fail smtp.mailfrom=openpixelsystems.org; dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b=zhWlcXvX; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=openpixelsystems.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="J5dxX0Hl"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54RA2VCC022637;
-	Tue, 27 May 2025 11:12:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=cFPWKgVmNhH
-	t9vG6tJY5O1LEscQ+A4Qjw6u5Eha/gew=; b=J5dxX0HlYRt0H7gE6WaurFS1zQr
-	gG8ZsJEHsWfTWiiIHvoCSaCAZurPUFYBDkV2gdyEcVIa2Cj74d37cA2eH/qE8gcm
-	VuAVjW5QkqgV13f8ZXXAiLEDlZVIV6AxGdLdbOlb0ngVyAYEIsN60YtXlY+enPe7
-	Qgslo+cGKMMo/+6pmMvwQHdSom9K7HyvWeM4fGmcuP+Y0nUgXXhK1wu7iEMByruL
-	AqWBzmdiDj+R3KNFhDA2AqbGgdGht5hsev0lOIvOHXyG2YophIm9ZLbLD4QKsEeg
-	opuQHHQ9UW8AQITKYujC7I/KQbfXfuub1wmdmzVOhPsNcxai4vTtS+WakvA==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u6b5pq22-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 27 May 2025 11:12:45 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 54RBCfJ7028182;
-	Tue, 27 May 2025 11:12:41 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 46u76ksccb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 27 May 2025 11:12:41 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 54RBCfOZ028167;
-	Tue, 27 May 2025 11:12:41 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 54RBCec0028164
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 27 May 2025 11:12:41 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id AEE565CD; Tue, 27 May 2025 16:42:38 +0530 (+0530)
-From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-To: Bjorn Andersson <andersson@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-        quic_pkumpatl@quicinc.com, kernel@oss.qualcomm.com,
-        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Subject: [PATCH v4 7/8] arm64: dts: qcom: qcm6490-idp: Add WSA8830 speakers and WCD9370 headset codec
-Date: Tue, 27 May 2025 16:42:26 +0530
-Message-Id: <20250527111227.2318021-8-quic_pkumpatl@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250527111227.2318021-1-quic_pkumpatl@quicinc.com>
-References: <20250527111227.2318021-1-quic_pkumpatl@quicinc.com>
+	dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b="zhWlcXvX"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a36efcadb8so3181812f8f.0
+        for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 04:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=openpixelsystems-org.20230601.gappssmtp.com; s=20230601; t=1748346370; x=1748951170; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hZgsNJN5U6euHAUZEHEmUPgEJHbDN2WW54ZAPUUNn8I=;
+        b=zhWlcXvXXbVPPhRC9534eIKWVRk0AijQqeFnKb5xZRtuhQcxN4dUpjyptiYYWxGdW8
+         OZ6u7m3mWDuJDik2DK1VEEfhGtC2jOEjzN2LS435rYvaOJTH4wkUNEVRodpMRTx/x4K6
+         DwCQ5TWyrNSY9KX+rvj2ylsPsKgSun4znHnivkye0OjgldDLOEem5IKQT/eVesc7lPHb
+         LlV/HQMdbdUzXNPMqpQr/gfb7NetSeWSXMy1OcuyRszaSrFL1g+R3riC6nd4AUXEs/yJ
+         YdN4vIedFilyvFPJe56hC8KSmk17QjJO2cFoMt1pkkKT/DbNwmMnZuHiLE5f8UATauB2
+         Mmtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748346370; x=1748951170;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hZgsNJN5U6euHAUZEHEmUPgEJHbDN2WW54ZAPUUNn8I=;
+        b=pPMNrgOHT8kro25P4T9VxnDuahmrpPNxJ6gcLo8hPEwqhDTs24VZkMY//HJvEfHsAF
+         EmeVSljyNIPzebaE82diE4NDILR8GWjqOi1q6AAzsFoUE0UK9cpOY0gEgtdR/b1TwYBV
+         +kIioqX8HC8HVftOlkOZNa6cRoEORzioTXbTgHfQBMwR2fvRLN/3Q9PZnyb10Bg+LGEl
+         rXlhc3NzGPbtvZo0AWbELuzRXy26jBuVE899zbpamk6C0tAVbICwONVykoXtSgBPizg2
+         2+e8smlI+ZC9RvN9upC/Fw80Iub/PFVZZ6AHWofZIM+3vD83gZQgUHRKzV9q6hw4lfTM
+         grTg==
+X-Gm-Message-State: AOJu0YwBBfcuDy4LKzHlpQW90cuoA3GWdJxC5gjvvPAUIcA0+1CFSx1b
+	MS0To8Fg9Ob9sZaI+j1ZEgdgndYNnrEy5PpxLepQdZawacj1zcZOa5IyYnnA9JuyWt8=
+X-Gm-Gg: ASbGncsLoTWWWtcSi69JgiedYLz/1P8D+cL6kNB6jB+Mf8Trc/nHBofQbt/YO72s2wt
+	OrSholUpK6a3VVZndvWjzaQBL04GrWBrRiQRjhvaFRMFYmMEIRgpNJwQBgKe1iVtCxYoX4A1Ku2
+	02ofogcreeW0NEfLipium1R8oGFkmp6rdJULvxiHeXkaP8t2CMgG03Gl1g0jV0msVNISSX406Jn
+	2E75SF89Etmz2/Ob/kY4LbA2EzANGjvcWw5Wq/U6cEHTNVcjVKiZ4xk0OC/wcJEKI5KITJVtUtj
+	UxP9e//Aq3WbtAD5yvOefWGgwU5DxAh5mSJgnG4+UF1e3dTNnIB5SefhKn2ftCH8pj/sM4NR1yt
+	NUlvKBcOvyZSmVuvh9Be1cJkXjdGOzjahEtxk3EU=
+X-Google-Smtp-Source: AGHT+IEJksL9yUy4jX+PG0AKVXuGsMzofM/R8YjCchkDDQuXA/zsN6zJKbbWLD2SqIYtzpiCCZu9+w==
+X-Received: by 2002:a05:6000:240d:b0:3a4:d6ed:8e07 with SMTP id ffacd0b85a97d-3a4d6eda68cmr5840366f8f.32.1748346370483;
+        Tue, 27 May 2025 04:46:10 -0700 (PDT)
+Received: from localhost (253.124-78-194.adsl-static.isp.belgacom.be. [194.78.124.253])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-44fcced4713sm17270135e9.1.2025.05.27.04.46.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 May 2025 04:46:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=ZcodNtVA c=1 sm=1 tr=0 ts=68359e2d cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=ki5966V2wckrMalOmGkA:9
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI3MDA5MiBTYWx0ZWRfX7hhptMI1/hiC
- x+zEkWxJ84MGWQK8RiQ31IkApkt+g4bHnHjX2tL3FfKZBjCo9BkxxsTXZGl0aVPJk15tjecJ+JO
- 25JzJ1bfWgI10QyBFMlfwpq3vp80A/MT7yCSWieyBln7IqfyIkqBo3Ao2MNHllULpG+dqxKimOx
- fS3EE3u0bw3sgOh+H4QRPslGB7OptHgMN1ZqjHn5RaC6RHEIqexLbBajlEXchopKZHUh52PlFoY
- WFXvGGJA/PbL6Rui/43bWrNXbWVfZsHfovqGbQORlkpNDjJLjBk1ohD3HlMncg0UDpYEKUVK5Of
- E9nUblnsoLdwQWoSAHMTAAJyb8251KLCuiRopEzFH43zjSpFWxhhGRgJuU9WUr4VGuwgY8n5Lid
- OyHLdF65ztJ1ysegsdKGVpKhL24uiKCkwwcEmXD69NO4BocotfXotHPFVrUj8G5t+oUP6lP2
-X-Proofpoint-GUID: x0hVfgBpUuCsUNvVOcdpIm3e63Jazqq_
-X-Proofpoint-ORIG-GUID: x0hVfgBpUuCsUNvVOcdpIm3e63Jazqq_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-27_05,2025-05-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0 priorityscore=1501
- spamscore=0 clxscore=1011 suspectscore=0 lowpriorityscore=0 phishscore=0
- impostorscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505270092
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 27 May 2025 13:46:09 +0200
+Message-Id: <DA6X2A2JC57H.DK70D9XL9C8Z@openpixelsystems.org>
+Cc: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <peter@korsgaard.com>
+Subject: Re: [PATCH] ASoC: tas571x: add separate tas5733 controls
+From: "Bram Vlerick" <bram.vlerick@openpixelsystems.org>
+To: "Bram Vlerick" <bram.vlerick@openpixelsystems.org>, "Kevin Cernekee"
+ <cernekee@chromium.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark
+ Brown" <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, "Kamel Bouhara" <kamel.bouhara@bootlin.com>
+X-Mailer: aerc 0.20.1
+References: <20250527-tas5733-biquad-fix-v1-1-0d3d941700bb@openpixelsystems.org>
+In-Reply-To: <20250527-tas5733-biquad-fix-v1-1-0d3d941700bb@openpixelsystems.org>
 
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-
-Add nodes for WSA8830 speakers and WCD9370 headset codec
-on qcm6490-idp board.
-
-Enable lpass macros along with audio support pin controls.
-
-Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Co-developed-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
----
- arch/arm64/boot/dts/qcom/qcm6490-idp.dts      | 96 +++++++++++++++++++
- .../boot/dts/qcom/qcs6490-audioreach.dtsi     | 24 +++++
- 2 files changed, 120 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
-index 7a155ef6492e..884abbda74fd 100644
---- a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
-+++ b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
-@@ -18,6 +18,7 @@
- #include "pm7325.dtsi"
- #include "pm8350c.dtsi"
- #include "pmk8350.dtsi"
-+#include "qcs6490-audioreach.dtsi"
- 
- /delete-node/ &ipa_fw_mem;
- /delete-node/ &rmtfs_mem;
-@@ -169,6 +170,30 @@ vph_pwr: vph-pwr-regulator {
- 		regulator-min-microvolt = <3700000>;
- 		regulator-max-microvolt = <3700000>;
- 	};
-+
-+	wcd9370: audio-codec-0 {
-+		compatible = "qcom,wcd9370-codec";
-+
-+		pinctrl-0 = <&wcd_default>;
-+		pinctrl-names = "default";
-+
-+		reset-gpios = <&tlmm 83 GPIO_ACTIVE_HIGH>;
-+
-+		vdd-buck-supply = <&vreg_l17b_1p7>;
-+		vdd-rxtx-supply = <&vreg_l18b_1p8>;
-+		vdd-px-supply = <&vreg_l18b_1p8>;
-+		vdd-mic-bias-supply = <&vreg_bob_3p296>;
-+
-+		qcom,micbias1-microvolt = <1800000>;
-+		qcom,micbias2-microvolt = <1800000>;
-+		qcom,micbias3-microvolt = <1800000>;
-+		qcom,micbias4-microvolt = <1800000>;
-+
-+		qcom,rx-device = <&wcd937x_rx>;
-+		qcom,tx-device = <&wcd937x_tx>;
-+
-+		#sound-dai-cells = <1>;
-+	};
- };
- 
- &apps_rsc {
-@@ -536,6 +561,22 @@ &gpu_zap_shader {
- 	firmware-name = "qcom/qcm6490/a660_zap.mbn";
- };
- 
-+&lpass_rx_macro {
-+	status = "okay";
-+};
-+
-+&lpass_tx_macro {
-+	status = "okay";
-+};
-+
-+&lpass_va_macro {
-+	status = "okay";
-+};
-+
-+&lpass_wsa_macro {
-+	status = "okay";
-+};
-+
- &mdss {
- 	status = "okay";
- };
-@@ -716,6 +757,54 @@ &sdhc_2 {
- 	cd-gpios = <&tlmm 91 GPIO_ACTIVE_LOW>;
- };
- 
-+&swr0 {
-+	status = "okay";
-+
-+	wcd937x_rx: codec@0,4 {
-+		compatible = "sdw20217010a00";
-+		reg = <0 4>;
-+		qcom,rx-port-mapping = <1 2 3 4 5>;
-+		qcom,rx-channel-mapping = /bits/ 8 <1 2 1 1 2 1 1 2>;
-+	};
-+};
-+
-+&swr1 {
-+	status = "okay";
-+
-+	wcd937x_tx: codec@0,3 {
-+		compatible = "sdw20217010a00";
-+		reg = <0 3>;
-+		qcom,tx-port-mapping = <1 1 2 3>;
-+		qcom,tx-channel-mapping = /bits/ 8 <1 2 1 1 2 3 3 4 1 2 3 4>;
-+	};
-+};
-+
-+&swr2 {
-+	status = "okay";
-+
-+	left_spkr: speaker@0,1 {
-+		compatible = "sdw10217020200";
-+		reg = <0 1>;
-+		powerdown-gpios = <&tlmm 63 GPIO_ACTIVE_LOW>;
-+		#sound-dai-cells = <0>;
-+		sound-name-prefix = "SpkrLeft";
-+		#thermal-sensor-cells = <0>;
-+		vdd-supply = <&vreg_l18b_1p8>;
-+		qcom,port-mapping = <1 2 3 7>;
-+	};
-+
-+	right_spkr: speaker@0,2 {
-+		compatible = "sdw10217020200";
-+		reg = <0 2>;
-+		powerdown-gpios = <&tlmm 62 GPIO_ACTIVE_LOW>;
-+		#sound-dai-cells = <0>;
-+		sound-name-prefix = "SpkrRight";
-+		#thermal-sensor-cells = <0>;
-+		vdd-supply = <&vreg_l18b_1p8>;
-+		qcom,port-mapping = <4 5 6 8>;
-+	};
-+};
-+
- &tlmm {
- 	gpio-reserved-ranges = <32 2>, /* ADSP */
- 			       <48 4>; /* NFC */
-@@ -725,6 +814,13 @@ sd_cd: sd-cd-state {
- 		function = "gpio";
- 		bias-pull-up;
- 	};
-+
-+	wcd_default: wcd-reset-n-active-state {
-+		pins = "gpio83";
-+		function = "gpio";
-+		drive-strength = <16>;
-+		bias-disable;
-+	};
- };
- 
- &uart5 {
-diff --git a/arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi b/arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi
-index 542a39ca72bb..2e75e7706fb4 100644
---- a/arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi
-+++ b/arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi
-@@ -29,6 +29,30 @@ &lpass_dmic23_data {
- 	bias-pull-down;
- };
- 
-+&lpass_rx_swr_clk {
-+	drive-strength = <2>;
-+	slew-rate = <1>;
-+	bias-disable;
-+};
-+
-+&lpass_rx_swr_data {
-+	drive-strength = <2>;
-+	slew-rate = <1>;
-+	bias-bus-hold;
-+};
-+
-+&lpass_tx_swr_clk {
-+	drive-strength = <2>;
-+	slew-rate = <1>;
-+	bias-disable;
-+};
-+
-+&lpass_tx_swr_data {
-+	drive-strength = <2>;
-+	slew-rate = <1>;
-+	bias-bus-hold;
-+};
-+
- &lpass_rx_macro {
- 	/delete-property/ power-domains;
- 	/delete-property/ power-domain-names;
--- 
-2.34.1
-
+Add Kamel Bouhara
