@@ -1,245 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DA614AD2B;
-	Tue, 27 May 2025 15:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C0427AC34
+	for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 15:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748359589; cv=none; b=k1vN2KDlEsUx+uoHmQoUysn4t7lstJK+a/Z6NQ6Nrco07f0mLE5jUqQjVLnkbOu6qQVIib99j1564nHgl/gs89xMBzVwpfK7+77E0Ci+y8mCz+DTpm2vWCa7jl40A3MQxGpv0dICZIxa6cW0JdrW6UVtUAAI90qJ9xGsIaiJrsc=
+	t=1748361365; cv=none; b=FUVtEgUhhQ7bfC2TbxbxIIyT44GCXpbOzcjcPENZaCm1SRoo3u1Xpx7sNZwrcIrRNiRPfS2vnsiN04An6jnD8GXsKY5NA+ZFh+UkFWYdnlMdXAAtWWQkVIGTJgHLdNqnG81xhCcIkzy2wTfiJaazDo2iB/W8aWRavrauctCA5m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748359589; c=relaxed/simple;
-	bh=YnA1/IvrO7Twz/AlZKv3r93FTZ8BSs9KSJRQMN6qNzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=idA43/iOA6c9j2cmMGed67ss8XNQeiCfYplFcJCj5H5U4eXZzaf39lcMUokMv5OQqRoxU9HGtyrh0LHzj/PE2+4hPqeKXAXXeD0JflKJsKwpxIjfz81lbnf09OhUlOkZAhisL8QdM5ETUZ753KvlNAUH6QaunSauKMFcMrc76Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzgIx9Uw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1748361365; c=relaxed/simple;
+	bh=1EN/qo7phDn1lEOJKo1bEU9nZpbFRZxjY4LQ8qzGqFI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=G2DVFs7jPTpgxuOZp1W0fEGDgk8BH8M3vqESoDZRuttd+Vw7Y3LeGMXWxU4bC1amhAb1cuy2WhGUdPg3GuzAHy4muBAW1CWdOh4BrGirde9yvqJnIsZUoLbeBffYcsuHD5F820puA2WAr97H7akfgg7FaaYGKp40Km0lHv0oNL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D9+bMXgB; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzgIx9Uw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 278B2C4CEE9;
-	Tue, 27 May 2025 15:26:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748359589;
-	bh=YnA1/IvrO7Twz/AlZKv3r93FTZ8BSs9KSJRQMN6qNzc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bzgIx9UwCykCNFvylFkgv4bWgjxzHmsmueoxfv/ocntlwYNaIU/IS6QU5HaD4sdFm
-	 vqU63BjYSIovLIVA4C/KbMcJtSgBrN4whSumRpdoeqW9Lh+pe22+yOgsClZgfhocN0
-	 ocbnvkUk2QjBqszwpsCogI37+N9WZeqO3Jutxw541z2AFlSP1n+q0oKPqwrdSKRDlr
-	 J6aZhTO7nS6kxLyI5xE4+1ovrt+Q7JFzncaOJ7ZTtBie727RcqojMpCfjqt7uM1c8i
-	 roigQKMzE3isKqSz5xicEnjzsyZ40HksMZGrK+GNdh9BKF98EcfjbWOaZJrzzTQKZr
-	 7dCNuCJGbou4w==
-Date: Tue, 27 May 2025 16:26:24 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	"open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/1] ASoC: dt-bindings: covert mxs-audio-sgtl5000.txt to
- yaml format
-Message-ID: <20250527-disloyal-maritime-fea9f6a1d8f4@spud>
-References: <20250523192055.563711-1-Frank.Li@nxp.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D9+bMXgB"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso27798995e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 08:56:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748361361; x=1748966161; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WUOHpXno4FKjbaz+Vq7mO6g3BDL4JOg348p7rmPIkO0=;
+        b=D9+bMXgBs7Whru0LXz2r8gO7XmJknG9G4OyDwi7ccJ1O7tl45N6R2SM7BXlixt0hbN
+         p+wdfVF4mcWYrxKOqKhvj5QneCwW0HGgbkSstk3ZSOqrISIK3XRYzvLmmnzRQcbjjRHH
+         roaC8DMpMmT2XxdheJluYHIFNAblObzopbfDiKrdzVWHIiWy5kg4klQ/FvzPd7IprvWV
+         s2anymuNGOFM8TWZP+3Tj9DyWDwW26vmtZaLmJotryTT3NJunu2hHKQ+jEqerXwKSf8o
+         Tkr6cB1LTmEUnzw3ZhBFOi+plBdu6UPT4yuFFT53IWUA0E191w2W7eIfDOyxRRBEzWMR
+         B2Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748361361; x=1748966161;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=WUOHpXno4FKjbaz+Vq7mO6g3BDL4JOg348p7rmPIkO0=;
+        b=Db9Dc5SRHNx+oDcPgQ8YX6NlkqlXAutRWXcU4eco98dNbwNF7x1dUH31lpgrHsR4da
+         eE4YsB+6L7axBOGIXAnf/fjwd3/dEMfpvgippveQc7+Hr9dJRF7QYkGQP3b1+jYpquKi
+         5v7corYYQatClsrQKAM99D1Irg8ZyobDAgrnpQcimgTyGZmrVmtYFScq8YtjIevlM66D
+         Iv8jGJsiqczDfYpjS5/uhkQ34MW5H2JlgfVVFqDoX7vAL509q9JK363oaEWvNrwgNX9a
+         l8umOnnIa8jdIM5ZhmRLtNGr+ErGqIDM2MY8wUaH8MX8o/n5vaH0WRPvjy+noEkU1HHX
+         UF7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUX5JFURBxFnGPVHkoeTUYGDlFZIghRFCUnHQMl9TcfJlGd8wDzAUwTO+hJ7dE/WCkP8DRZJ8T0Fk2Ilw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfdXqFtkuLT/W2hFjoXCgFtwe94NiaoGbhWQQbfrtWtBGw/Y2j
+	qwUnlzAE2PKHxmOA9dwlb/aNbzoPoC/rxoYFSTveehV73T6k61PsZmAHiKUQUzui8gs=
+X-Gm-Gg: ASbGncsurQcqpFFA/FAU24Ul62MgGuAESTd5I4NsYhOBO2npAla3QNbOF92JM3m1+vP
+	SV/+faVGayYQl7q5FDqMMpay3DA/kU5s1E+hagoDUq+meHs4p6UZa5TBK+xfhASW/4tCXNBjGt0
+	lRI0bT+7ofHSt8RvIrcIOk4F35r8JCPejRebvatLaX1Kn0WVj3VNCCHMewYuINx35rhaMlnS4aX
+	ip8IMFYQnw+3RTduhraEioEGdln37juFWt3DO4v8SgAM+83ASZaXCCfzZ1t+EZg2hv7za1btML+
+	D3Wigigjd+Uy37zllBT9Li51TACtejL75RCG+akNuYYprzZrzc23p/KOHq5f+h30nXIL
+X-Google-Smtp-Source: AGHT+IGWpBubqNiiMJO9C0pBAekzBnLwiPK9uY689/6fUTlai3/xs++Qb/ljE1+USh/yGxcE4+gWhA==
+X-Received: by 2002:a05:600c:6296:b0:43c:f616:f08 with SMTP id 5b1f17b1804b1-44c91ad6b46mr120335515e9.8.1748361360729;
+        Tue, 27 May 2025 08:56:00 -0700 (PDT)
+Received: from localhost ([2a02:c7c:7213:c700:f024:90b8:5947:4156])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f1ef0ab8sm270595235e9.13.2025.05.27.08.55.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 May 2025 08:55:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="QgV6b+xA9WWLoYJ+"
-Content-Disposition: inline
-In-Reply-To: <20250523192055.563711-1-Frank.Li@nxp.com>
-
-
---QgV6b+xA9WWLoYJ+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 27 May 2025 16:55:59 +0100
+Message-Id: <DA72DKCKVX7T.269HYJZNIABOB@linaro.org>
+Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Bjorn Andersson" <andersson@kernel.org>, "Dmitry Baryshkov"
+ <lumag@kernel.org>, "Konrad Dybcio" <konradybcio@kernel.org>, "Jaroslav
+ Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v3 10/12] arm64: dts: qcom: qrb4210-rb2: enable wsa881x
+ amplifier
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Konrad Dybcio" <konrad.dybcio@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Mark Brown" <broonie@kernel.org>,
+ <linux-sound@vger.kernel.org>
+X-Mailer: aerc 0.20.0
+References: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
+ <20250522-rb2_audio_v3-v3-10-9eeb08cab9dc@linaro.org>
+ <c7d5dbab-0a51-4239-811e-dc68cac18887@oss.qualcomm.com>
+In-Reply-To: <c7d5dbab-0a51-4239-811e-dc68cac18887@oss.qualcomm.com>
 
-On Fri, May 23, 2025 at 03:20:54PM -0400, Frank Li wrote:
-> Convert mxs-audio-sgtl5000.txt to yaml format.
->=20
-> Additional changes:
-> - Add compatible string:
->     bluegiga,apx4devkit-sgtl5000
->     denx,m28evk-sgtl5000
->     fsl,imx28-mbmx28lc-sgtl500
+On Thu May 22, 2025 at 7:13 PM BST, Konrad Dybcio wrote:
+> On 5/22/25 7:41 PM, Alexey Klimov wrote:
+>> One WSA881X amplifier is connected on QRB4210 RB2 board
+>> hence only mono speaker is supported. This amplifier is set
+>> to work in analog mode only. Also add required powerdown
+>> pin/gpio.
+>>=20
+>> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+>> ---
+>>  arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 26 +++++++++++++++++++++++++=
++
+>>  1 file changed, 26 insertions(+)
+>>=20
+>> diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/=
+dts/qcom/qrb4210-rb2.dts
+>> index 6bce63720cfffd8e0e619937fb1f365cbbbcb283..4b878e585227ee6b3b362108=
+be96aad99acba21d 100644
+>> --- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+>> +++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+>> @@ -270,6 +270,24 @@ zap-shader {
+>>  	};
+>>  };
+>> =20
+>> +&i2c1 {
+>> +	clock-frequency =3D <400000>;
+>> +	status =3D "okay";
+>> +
+>> +	wsa881x: amplifier@f {
+>> +		compatible =3D "qcom,wsa8815";
+>> +		reg =3D <0x0f>;
+>> +		pinctrl-0 =3D <&wsa_en_active>;
+>> +		pinctrl-names =3D "default";
+>> +		clocks =3D <&q6afecc LPASS_CLK_ID_MCLK_2 LPASS_CLK_ATTRIBUTE_COUPLE_N=
+O>;
+>> +		powerdown-gpios =3D <&lpass_tlmm 16 GPIO_ACTIVE_LOW>;
+>> +		mclk-gpios =3D <&lpass_tlmm 18 GPIO_ACTIVE_HIGH>;
+>> +		sound-name-prefix =3D "SpkrMono";
+>> +		#sound-dai-cells =3D <0>;
+>> +		#thermal-sensor-cells =3D <0>;
+>> +	};
+>> +};
+>> +
+>>  &i2c2_gpio {
+>>  	clock-frequency =3D <400000>;
+>>  	status =3D "okay";
+>> @@ -736,6 +754,14 @@ wcd_reset_n: wcd-reset-n-state {
+>>  		drive-strength =3D <16>;
+>>  		output-high;
+>>  	};
+>> +
+>> +	wsa_en_active: wsa-en-active-state {
+>> +		pins =3D "gpio106";
+>
+> Are there two separate enable pins? Or is the powerdown-gpio something
+> else?
 
-Really? I don't see them.
+No, should be only one. I think 106 on tlmm is wired into 16 on lpass tlmm.
+We need to assign gpio function to such pins, aren't we?
 
-> - Remove audio-routing from required list.
+Best regards,
+Alexey
 
-Nope, still there?
-
-Confused,
-Conor.
-
->=20
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  .../sound/fsl,mxs-audio-sgtl5000.yaml         | 78 +++++++++++++++++++
->  .../bindings/sound/mxs-audio-sgtl5000.txt     | 42 ----------
->  2 files changed, 78 insertions(+), 42 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,mxs-audio=
--sgtl5000.yaml
->  delete mode 100644 Documentation/devicetree/bindings/sound/mxs-audio-sgt=
-l5000.txt
->=20
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,mxs-audio-sgtl50=
-00.yaml b/Documentation/devicetree/bindings/sound/fsl,mxs-audio-sgtl5000.ya=
-ml
-> new file mode 100644
-> index 0000000000000..9fe815d6c233d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/fsl,mxs-audio-sgtl5000.yaml
-> @@ -0,0 +1,78 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/fsl,mxs-audio-sgtl5000.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale MXS audio complex with SGTL5000 codec
-> +
-> +maintainers:
-> +  - Frank Li <Frank.Li@nxp.com>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - fsl,imx28-evk-sgtl5000
-> +      - const: fsl,mxs-audio-sgtl5000
-> +
-> +  model:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    description: The user-visible name of this sound complex
-> +
-> +  saif-controllers:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    description: The phandle list of the MXS SAIF controller
-> +
-> +  audio-codec:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of the SGTL5000 audio codec
-> +
-> +  audio-routing:
-> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> +    description: |
-> +      A list of the connections between audio components.
-> +      Each entry is a pair of strings, the first being the
-> +      connection's sink, the second being the connection's
-> +      source. Valid names could be power supplies, SGTL5000
-> +      pins, and the jacks on the board:
-> +
-> +      Power supplies:
-> +        * Mic Bias
-> +
-> +      SGTL5000 pins:
-> +        * MIC_IN
-> +        * LINE_IN
-> +        * HP_OUT
-> +        * LINE_OUT
-> +
-> +      Board connectors:
-> +        * Mic Jack
-> +        * Line In Jack
-> +        * Headphone Jack
-> +        * Line Out Jack
-> +        * Ext Spk
-> +
-> +required:
-> +  - compatible
-> +  - saif-controllers
-> +  - audio-codec
-> +  - audio-routing
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    sound {
-> +        compatible =3D "fsl,imx28-evk-sgtl5000", "fsl,mxs-audio-sgtl5000=
-";
-> +        model =3D "imx28-evk-sgtl5000";
-> +        saif-controllers =3D <&saif0 &saif1>;
-> +        audio-codec =3D <&sgtl5000>;
-> +        audio-routing =3D
-> +            "MIC_IN", "Mic Jack",
-> +            "Mic Jack", "Mic Bias",
-> +            "Headphone Jack", "HP_OUT";
-> +    };
-> diff --git a/Documentation/devicetree/bindings/sound/mxs-audio-sgtl5000.t=
-xt b/Documentation/devicetree/bindings/sound/mxs-audio-sgtl5000.txt
-> deleted file mode 100644
-> index 4eb980bd02874..0000000000000
-> --- a/Documentation/devicetree/bindings/sound/mxs-audio-sgtl5000.txt
-> +++ /dev/null
-> @@ -1,42 +0,0 @@
-> -* Freescale MXS audio complex with SGTL5000 codec
-> -
-> -Required properties:
-> -- compatible		: "fsl,mxs-audio-sgtl5000"
-> -- model			: The user-visible name of this sound complex
-> -- saif-controllers	: The phandle list of the MXS SAIF controller
-> -- audio-codec		: The phandle of the SGTL5000 audio codec
-> -- audio-routing		: A list of the connections between audio components.
-> -			  Each entry is a pair of strings, the first being the
-> -			  connection's sink, the second being the connection's
-> -			  source. Valid names could be power supplies, SGTL5000
-> -			  pins, and the jacks on the board:
-> -
-> -			  Power supplies:
-> -			   * Mic Bias
-> -
-> -			  SGTL5000 pins:
-> -			   * MIC_IN
-> -			   * LINE_IN
-> -			   * HP_OUT
-> -			   * LINE_OUT
-> -
-> -			  Board connectors:
-> -			   * Mic Jack
-> -			   * Line In Jack
-> -			   * Headphone Jack
-> -			   * Line Out Jack
-> -			   * Ext Spk
-> -
-> -Example:
-> -
-> -sound {
-> -	compatible =3D "fsl,imx28-evk-sgtl5000",
-> -		     "fsl,mxs-audio-sgtl5000";
-> -	model =3D "imx28-evk-sgtl5000";
-> -	saif-controllers =3D <&saif0 &saif1>;
-> -	audio-codec =3D <&sgtl5000>;
-> -	audio-routing =3D
-> -		"MIC_IN", "Mic Jack",
-> -		"Mic Jack", "Mic Bias",
-> -		"Headphone Jack", "HP_OUT";
-> -};
-> --=20
-> 2.34.1
->=20
-
---QgV6b+xA9WWLoYJ+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaDXZnwAKCRB4tDGHoIJi
-0nEvAP4+0dWY7AbxfwECG2Q0jh6CNsRqWWVvKqxzBboFQZHLnAEArcUEPosW6/FK
-ixi841HYZzgd/3HVGrZSyjMCPRArVgk=
-=5OT+
------END PGP SIGNATURE-----
-
---QgV6b+xA9WWLoYJ+--
