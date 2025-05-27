@@ -1,105 +1,92 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB377241679;
-	Mon, 26 May 2025 19:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B111A8401;
+	Tue, 27 May 2025 02:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748287109; cv=none; b=pj3ewIxtSJC5l2vqfoPIzyGdPE7hv0eRfC9FRuALAxuaMK3vODXG/bvFo2Rj5a1P07wabfilinxx60PxRGHZTNPBTKVSFoLmF5BWEk8RnpVDXSXkRExSE+/RdDbeqA1+8BGCgbPSho58JCk4oXrOfv+IyYhpuartDLjCfdqDUik=
+	t=1748313460; cv=none; b=qiLhi/I8Qbz/5NNv2/k/77a5jyvNWFVGboAM6YkNllHRMeXQh3eC8G/3CYBvEwPNeqd1UaM7dB/RfMJXMRnioe+91QcP+951yom1+n21PGG7yT1V/FH/QyKzDQLWZ861dOzoyLf1sM/Uboub5u+pC3u0F7LSA0QRkZyYqH4POK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748287109; c=relaxed/simple;
-	bh=/XXt3U0JMu1raRhyrF9oJQA2clBB5QTdJ540lDkDHdg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hR5xvhW0/Gsty6hKNGP6nWzecl3s2d0a6YIfPhHcSS7l+9SxsJyGmpln14oTmTOT52T6Idw56JhWAGozNHem8xijGMcySlX4oi8N64HlYoJJirpp/icYiUyC4SJ6uNIkB4m31Kg4kjJKSQP6on95rQJ+MuVKDHCsrF0BvE3kH/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hC7gO/eb; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748313460; c=relaxed/simple;
+	bh=4068hxbCAmggoE1hsd0cGt2lSl6xQ8bqvsTGFeTzWdU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=LCjBMket51o2D7DdXSuN0hOUjkAKRevDms78j1W/mlJWpv195ZDVmv30e8cxQb7chU3dGpI1g8PlH/jmUwmjMLO0doFvZZ82tRBcHwG6dn1V09izY2w9ndhYr/My1FqSiRtstjeEopqK7hP1vSMoG9fphHr8DIzV/Sng60RqR64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nD2OLDfr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hC7gO/eb"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso433471966b.0;
-        Mon, 26 May 2025 12:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748287106; x=1748891906; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ldNbYW3XI/Vm+PviMJj/fPRWUCWil11gviiTBdOEyR4=;
-        b=hC7gO/eb/IGC5oGe93RsN7ohh/opgoK+SjQpBsDncwBOW/mSvOfVwmaBcEa8F4gitA
-         npKwvK5K37RLIsUshl4TOR5PDdajyZU9ff64PH6TylE4fgO8SPjR8fWncgvOPabAEaf9
-         iUEGtQJ7Liy7MVMcXJEGIHDW20/JcFHlNLXovnBdcXDXHvtSoVLapHj68svDArV8vpMR
-         3u5BtJg6ccjnTfcqJXnRym2h3X4eDcAh5zL+zJ29f3AvDmHRwp4owhNb17fSKoagQiof
-         LHE8HlE7gIE3gH6qm79mk4ZahtO1RNor+3xPcedfQPf0Kcl40lvyk/p0XoXpboOsa5SO
-         zg9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748287106; x=1748891906;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ldNbYW3XI/Vm+PviMJj/fPRWUCWil11gviiTBdOEyR4=;
-        b=Ztur+FcCxoaDFCg440XW74OiNRYrZaYIMSMuCK0UqqM4qFja8TBsLYO1VVYKqXv7Y8
-         tBLOmrniGnKGfzeFtn1/ZKvXBgkkJrxTCltuzXOQuLQYMx8mQpiBFtREcVhLKJhw9mG3
-         DjCpZMFHhMMjzGn+/2g2iHfm1cSD8WMs2I9U39RFJi7xBCNTR6fYQcm/mLOAPEpoxqdf
-         AlYOW7gHhIDgkwgHG3QBReNiQB+h3OE6T6vFuYEc7GrmnFy+Ac/Lex7HcxAgLfmLiUS6
-         Kk3JyyMJ8PnyZUWaDOXYawqKBCw3Rec1bLFbxPuuJhJQeyuWC9I/d9uA/YjQ3982mANZ
-         181g==
-X-Forwarded-Encrypted: i=1; AJvYcCV6DJY+REEXFR9aKe4iCDUQrKUjlGklKVu5VZEVcRq0ajVH/DwUMnSNHFVYjAvxRK+KgeCTnUikycZlqJo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzf/GMgXfQ8E91sMAcrYFlOR2ULi9YgQoIHZ5C9ZU2bSUhdQAxA
-	THQCW5iNCj+gj00AAZ+cAsPa9f/mzFMEyKpnxnoDekeEI3y0W4wRQR7M
-X-Gm-Gg: ASbGnct3Drg2HOx7/BLFVeuf/c9RDMmbonVt4MnhKowWW9c1DqK0anX/417iemWIO4a
-	cDZI5ZspBgzeVQHkRAEnaZoMRX4mpw4qPf0Er+JSPJwFENJSpeAlJ16HrOTz9zJbxlK1frcC1Vv
-	QacrSLj0bblRmYdxh4xD1CgGVEC2ouzuX/v6k7scXa9IfN8Bj2RbGobbpzbAf4wbIw3A0uk7OJ7
-	1HAkhJA26HpcETB8pArOSg02RSniCAP9jFrVkYt/M3HLAamjN1QwmMuAZVPI0pp0eWbun6b2cLh
-	/Kte/adfsDOEbN7taO3pT2ZKm4p9p/AHQz0n4/rI36Iw+yAcmEKM
-X-Google-Smtp-Source: AGHT+IHCJg5ZbArAQQ1B1ZAf6mmdeVbfxQzWWDOqn3djiY7YnQ4NyesnvHqfXqjpa/yDvJmfCA7dFQ==
-X-Received: by 2002:a17:907:7f8a:b0:ad4:d069:324b with SMTP id a640c23a62f3a-ad85b0b28e7mr932702866b.10.1748287105815;
-        Mon, 26 May 2025 12:18:25 -0700 (PDT)
-Received: from qasdev.Home ([2a02:c7c:6696:8300:8814:6671:65ae:f9dd])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad5572f6402sm1491097666b.178.2025.05.26.12.18.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 May 2025 12:18:25 -0700 (PDT)
-From: Qasim Ijaz <qasdev00@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nD2OLDfr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52EA6C4CEED;
+	Tue, 27 May 2025 02:37:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748313459;
+	bh=4068hxbCAmggoE1hsd0cGt2lSl6xQ8bqvsTGFeTzWdU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=nD2OLDfricuWRN+Cf3obSvvPiZMGBWWD+E7vFletdnMO82zRN7Ny7jDV2w6ebfW5t
+	 WvLX81+YSb9fR9e6gl9Xgx5FqpeTTJlDZt61QSymBxJqS9c0JIc3bBx4KnEf09g4ex
+	 KUIVFzAVpjPAiAOOH9rM0IFnbUNZG8Y9Fgi9tbWCq2BWtM5gZnhqwukclD+qFrAqjh
+	 UyyqQYc5npdJXMcJekGKrhTAlcYwdXZ9KfS390CbK+EgUn6zGppyudVFxSMKoPmUru
+	 XEsguqsD9WKzcxw4cvHQ3n+FHyiHQE4POGrzf6a6nd1wAZhxoLty4T1AAbzdlN6nYO
+	 Xi28VdHFKpJ8A==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Kailang Yang <kailang@realtek.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	zhangyi@everest-semi.com
-Cc: linux-sound@vger.kernel.org,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: fix out-of-bounds access on invalid clock config
-Date: Mon, 26 May 2025 20:18:20 +0100
-Message-Id: <20250526191820.72577-1-qasdev00@gmail.com>
+Subject: [PATCH AUTOSEL 6.14 2/5] ALSA: hda/realtek - restore auto-mute mode for Dell Chrome platform
+Date: Mon, 26 May 2025 22:37:31 -0400
+Message-Id: <20250527023734.1017073-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250527023734.1017073-1-sashal@kernel.org>
+References: <20250527023734.1017073-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=n
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.8
 Content-Transfer-Encoding: 8bit
 
-get_coeff() returns –EINVAL when no table entry matches. 
-The driver then uses that value as an index into coeff_div[],
-causing an OOB access.
+From: Kailang Yang <kailang@realtek.com>
 
-To fix lets abort the hw_params call instead.
+[ Upstream commit 5ad8a4ddc45048bc2fe23b75357b6bf185db004f ]
 
-Fixes: de2b3119f9f7 ("ASoC: codecs: add support for ES8375")
-Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+This board need to shutdown Class-D amp to avoid EMI issue.
+Restore the Auto-Mute mode item will off pin control when Auto-mute mode was enable.
+
+Signed-off-by: Kailang Yang <kailang@realtek.com>
+Links: https://lore.kernel.org/ee8bbe5236464c369719d96269ba8ef8@realtek.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/es8375.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/pci/hda/patch_realtek.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/es8375.c b/sound/soc/codecs/es8375.c
-index decc86c92427..009259632107 100644
---- a/sound/soc/codecs/es8375.c
-+++ b/sound/soc/codecs/es8375.c
-@@ -319,6 +319,7 @@ static int es8375_hw_params(struct snd_pcm_substream *substream,
- 	coeff = get_coeff(es8375->vddd, dmic_enable, es8375->mclk_freq, params_rate(params));
- 	if (coeff < 0) {
- 		dev_warn(component->dev, "Clock coefficients do not match");
-+		return coeff;
- 	}
- 	regmap_write(es8375->regmap, ES8375_CLK_MGR4,
- 			coeff_div[coeff].Reg0x04);
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 2ff02fb6f7e94..3421a3c69b49a 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6810,7 +6810,10 @@ static void alc256_fixup_chromebook(struct hda_codec *codec,
+ 
+ 	switch (action) {
+ 	case HDA_FIXUP_ACT_PRE_PROBE:
+-		spec->gen.suppress_auto_mute = 1;
++		if (codec->core.subsystem_id == 0x10280d76)
++			spec->gen.suppress_auto_mute = 0;
++		else
++			spec->gen.suppress_auto_mute = 1;
+ 		spec->gen.suppress_auto_mic = 1;
+ 		spec->en_3kpull_low = false;
+ 		break;
 -- 
 2.39.5
 
