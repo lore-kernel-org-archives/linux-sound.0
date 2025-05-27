@@ -1,248 +1,153 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDE416D9C2
-	for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 11:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D1823E35E;
+	Tue, 27 May 2025 11:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748344167; cv=none; b=AGgrisailxVC3yVyKqSgGiglVqKlF65yFtjHJ050CFyXVAFR0Pr49oqpDyMvgtwAwrvs1t0FLm9Q11286CvkC34sv/XfGoepQcP9j5+5VcUCq6cPHJH1EF3ymHVRs6lW1DpNK5RH23Ng6aFekkt34teEmt631o513l5yPOIrbpc=
+	t=1748344368; cv=none; b=aBQDb69IXff/0c5zrXDPYVBLmQRjhePs5fho6WyQNnE4f/i9JAWddloUjNqmqe1L/GawhYDp7JSkIImEziU/aKkBg8f17XvcRoys80VKDYamd+z0yW112xXsLOekKXByPO3u2w00VwBABkmgCA0WPh7V4jHgaslaPW8zH8ctUkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748344167; c=relaxed/simple;
-	bh=4fBzg0IECeatk98Un140p9pZO2EoxDTUIPqXK4PDwEw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SLNfiscF9pni/bwl9/DpwufXHikrbbZrpVKHvmGprTCGL5sJkUzb+oY3s4S2NXxJWdx23SlRiGyhyvzO+/252tiOzdKUnVx4KkF6HsDknNqKq6DGm5Zj+1pwt+XVPAD+wn42NZT3DodRHVb7s3EszVevxLkYvakAo4SjQzuOxDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org; spf=fail smtp.mailfrom=openpixelsystems.org; dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b=bwB6wZW2; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=openpixelsystems.org
+	s=arc-20240116; t=1748344368; c=relaxed/simple;
+	bh=+9vIz8RPmIiRf0C4dtd1KKpx/hVy47Wgk7T3FPC2ZZg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GCnB1LpslfMUlqgYY7VCgElLrhEFZXnpd6y99yCGLOI5462WMIU2fhugFWxjAOyFsqFZnPqjfn4k+rxMq96G9SERSGlBaxpon1QV0QRLBvZtutDBbrddsdwiEkqTKzxHiQKZcnGL/8UyIz8ZsJkLc+4bFT/4vlPKBCYQy7mMIXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VmMxHqyB; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b="bwB6wZW2"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-442d146a1aaso38249445e9.1
-        for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 04:09:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openpixelsystems-org.20230601.gappssmtp.com; s=20230601; t=1748344161; x=1748948961; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iSn8HwNeIB4B6ODebFHk5PWqwMtncqzsIsvepp5c0us=;
-        b=bwB6wZW2cqVhztAWwrNbx7pvDvIJZx0P503aLg/WjxTJRViE0tmxp89SHQhqJwmyzF
-         a0nzMaolNfqEOoDJxqlYMEVyuIxYDeHq7jqgpPvkCcg131DN5PAjnUFvoolpV1BDn1Bj
-         RXvwFglcdZbemPUQ00wGpcfLDwE7Cr39t3wH1ojaZLM3CrjPH9gvQxcGdDTccZZzcvcY
-         EUrfjrNoui0CDWiVBY2qtScVsm97GsuOPEOS4/AnkrjEUNagbJjPdcY39e2s4cTAnLT0
-         So47fyeLlG1psFRSopjLP2jVwUYGb/RAE23G3kbJ7sT5ZThqRWEfs8mHJtqgdOfyueOn
-         engw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748344161; x=1748948961;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iSn8HwNeIB4B6ODebFHk5PWqwMtncqzsIsvepp5c0us=;
-        b=enPz1MhJZa2xJZNxRQQmeK3OP2/cw+iQCBZlg38/0zBYI3M0IE9Hv9ECv5V4DPpHuA
-         MKP+yolr6IBoOMryKkOa9USPxwHZNxLLetaXIyLyZn4xifEYHDGgBwn7YDn+1GzBO/Hu
-         A9ztKoWTJ0294VB1UeeFLtj0LgzB+PZHI1TaqHSiC6+fuWZPZAHy3eT0MxEUTJ+PUAPw
-         VHTZaRtjO56iFuIMrkMZEIIaHKBglfrIhHeuAYG1GVOcg/aFKeSUq4uTrHGBla/XSVbo
-         3MWh3xtdLZsrgW/3o7ZTmSoZ/diqRDJLP5dgTSWFVk0CZrrwmF4/pcm3aHZC3MyWTItI
-         n8rA==
-X-Gm-Message-State: AOJu0YzSW0QFiCvjdvnGgFdidQyRxTf90YXG27NbF5ApVN3OhLwqKYJo
-	kwpOfQxESkcTBFlLh93bLs2+9VDbTAYDhZFd9BUEtRU071QljkkFJrq+UHUJx7Xr0+1rvl4CD+e
-	Wpx11Aj4=
-X-Gm-Gg: ASbGnctgrtDGkXR90iyPR7sC07avMhlMu9wbpQaVS50KLLpuP3lYh6H9iQz5Hl8HvA1
-	7Qznt081R+4D8mYxBfWL/u9mbj+S+HO3CCf8iKBh8woob3zVWO9OAe1oDttXwcBGFf3vhFaSRam
-	DfFbTzdVW+P7GU/D+Q99YN01SHx4xYqUTcxbm/diQCfD8xK3gDNbq/yhS48R1cve3oWdUX9ueDc
-	adEOed9LqbrMECQbAhN3TQ7Ou1v6sWWf95Wnk+kt842xhUvnrMjmwVw/gNaRg5loRWZ/ynSTEY7
-	MoXZ3af10XG7H9x4fSc6xEemTR+xk1dxyESa5NHE931m5yy87QN2SBDQC9EXRBiN1d8qFht2bXU
-	SUoJSLLK5L3MHFhH7iRmxQ3QE6lHgzOMCqQvy/HcgHQY=
-X-Google-Smtp-Source: AGHT+IH4onwpn19mRvTfN2dRUOSQu6PABo0ta6MzwHwqf013Fr01WgZBUk8t5KUHN/34+a552MAetg==
-X-Received: by 2002:a05:600c:3d8e:b0:439:9424:1b70 with SMTP id 5b1f17b1804b1-44c95aada01mr121881555e9.30.1748344161332;
-        Tue, 27 May 2025 04:09:21 -0700 (PDT)
-Received: from [10.0.12.41] (253.124-78-194.adsl-static.isp.belgacom.be. [194.78.124.253])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f6b29672sm277655525e9.3.2025.05.27.04.09.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 May 2025 04:09:20 -0700 (PDT)
-From: Bram Vlerick <bram.vlerick@openpixelsystems.org>
-Date: Tue, 27 May 2025 13:08:49 +0200
-Subject: [PATCH] ASoC: tas571x: add separate tas5733 controls
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VmMxHqyB"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54R9l5jf015869;
+	Tue, 27 May 2025 11:12:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=NiQ8r7m1fImqQ96assEtTys1ZULVRCidbg5
+	E2QC9s2U=; b=VmMxHqyBq0QsXDh36Wq9fRU6mWn8NLlKiU1qtsRiYRGr2pIo0sD
+	8wCKMZ5GfkemmpwekRCNxdwj/2czWqJx39JpI4BZN1zVW5fmQkPEUKcK+yFLldkP
+	f5I9dfwwrauH9mKkJNMuEmIuIWR0BNQgyvzVendPG7JX0gpkpJy6sQE1jNVgpkJB
+	TUwMhrPiEhcUsSETOWRm8KwNruCLkfaijLmxGpK4OIj4NDsLtmU6daX4gNY0geiw
+	maHU4Idf3XGe3f15+crSnFVwv5UaY7rKqw/6tQCmc3IuSdL9Tz08Wp8se6wbQUl9
+	n/N/3SMDmbueRlfNZIGADBjO26YzNyBX02Q==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u79p6m4u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 May 2025 11:12:41 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 54RBCbD5028074;
+	Tue, 27 May 2025 11:12:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 46u76kscbb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 May 2025 11:12:37 +0000
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 54RBCath028006;
+	Tue, 27 May 2025 11:12:36 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 54RBCaVg027868
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 May 2025 11:12:36 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id 474825C2; Tue, 27 May 2025 16:42:35 +0530 (+0530)
+From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+        quic_pkumpatl@quicinc.com, kernel@oss.qualcomm.com,
+        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: [PATCH v4 0/8] Enable audio on qcs6490-RB3Gen2 and qcm6490-idp boards
+Date: Tue, 27 May 2025 16:42:19 +0530
+Message-Id: <20250527111227.2318021-1-quic_pkumpatl@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250527-tas5733-biquad-fix-v1-1-0d3d941700bb@openpixelsystems.org>
-X-B4-Tracking: v=1; b=H4sIAECdNWgC/x2MywqAIBAAfyX23IIpovUr0WHLrfbSQyuC6N+Tj
- jMw80DiKJygKR6IfEmSdclQlQUMMy0To4TMoJW2ymqHByXrjMFe9pMCjnKj0z3X3gdiGiGHW+S
- s/2nbve8HMUwID2QAAAA=
-X-Change-ID: 20250527-tas5733-biquad-fix-72be988daeaf
-To: Kevin Cernekee <cernekee@chromium.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- peter@korsgaard.com, Bram Vlerick <bram.vlerick@openpixelsystems.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6027;
- i=bram.vlerick@openpixelsystems.org; h=from:subject:message-id;
- bh=4fBzg0IECeatk98Un140p9pZO2EoxDTUIPqXK4PDwEw=;
- b=owEBbQKS/ZANAwAIAblauka9BQbwAcsmYgBoNZ1gv3LNjvsi39NE/rtK4BAMRI8THp67U75G/
- LmVlji8zIiJAjMEAAEIAB0WIQQO7PtG7b77XLxuay25WrpGvQUG8AUCaDWdYAAKCRC5WrpGvQUG
- 8FooEAC2ysQve1IJBwRGNg2Py7gGSOEHzber4GrE2TVB3tJ8KbeSchO+C9tMTQ9gryz3cFaJ2/n
- B2J59oMlTVaG7rBUlZRf2oX2I+nnCHzkIKH86auXLs+cp1OABznjyEibKC6ZQCi1khTapUBrWbF
- caLOTiRf98Qh1MGn4UezuEevDi/Yc3OW4bPEpYvsM18Xkml1zgHsbfVs6CijJB3/OmIRLLHLsz9
- f0oB8ZiZYcKDG0PqjvK3qm/S1JdF+UAs9bwBnCSJszvb+9umD5JSgzb/Yz8nvKQIiOS2HOfkj1E
- QN+GmGHusiEiXuHcacYPX5u6dLVJy6IlZSZeY0M3RJ8rhHOOoCgq/K/3siNZA/ZlKzPwwV2KumM
- Qgph+o5A3GJMJnHw/9QakgJ/GMAtclhsmDdSnM7iBamfwlagsY7dFTYQ4EhwJywVI7DowMDPZRN
- 8sWV1JPzGjTjBD48VgdPkp9/00FCyQvtRrayFjpX6TkfjJrMWr/JRFGgmoKYAQL/uebzxpz3jC3
- 1cJ4eiWJk1OpzzW/coQPvYGflH2cI9u7clezZsyTFMZghu7/FZHL9FkMw162ffR20RJWs+xogXU
- XZd/cZvIVE0nA1nOd3xyHplg2LyxHUNVGjigOXcO1SWW7Sl0yKbLY65JVRLvsa2w7VjpLFwR+6E
- 5jvIGl3lw6eCOKw==
-X-Developer-Key: i=bram.vlerick@openpixelsystems.org; a=openpgp;
- fpr=0EECFB46EDBEFB5CBC6E6B2DB95ABA46BD0506F0
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: AnpWjkQdGj2IVN-3opCWtR3eDLzETS4Z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI3MDA5MiBTYWx0ZWRfXwjCceqau7Z2Q
+ JUt2SViSRD9gIMCKnsMmSO6Sa46mX0GIw6ImV50aHPgsaSss8BGYafBoA639xhaF7IF4LEpqk+D
+ IrFHhgskwLOCHvn7l06R0IbV5YltHH09F26P9AmJ3wtnMSQhoGrki8LA1AmX+lQ3/TBUht/gjui
+ 10+EpZ+J5Taf9YxK0yl5MsNpjas9mFevH9h5NXZ8FGGA/eWjKqXjcV9mK3RpZJ0Syx7skqqwEak
+ wwSSdTBjVClb86F9zdBn0Rh/xE+ZL/ZrbQsd+IR2FYZ3hFF+p+vPMW3nRQfw24RdBazgRyOS/Dv
+ na00LabWEilBpXW7Vgtgj4xtA4h5WMoMP30I610mclGQ27KI8zBTweSl9ulfly8bYuIs9GD2cAP
+ sXbf5oaCux5l5zVaKZR9yg/+aKu4txQNjmnjxM8CHKV02ri+4F8Ee1+FSzg1Yxy+NJhyafuI
+X-Authority-Analysis: v=2.4 cv=HNnDFptv c=1 sm=1 tr=0 ts=68359e2a cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=3ZyjhVE0i7BfmCAa4gMA:9
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: AnpWjkQdGj2IVN-3opCWtR3eDLzETS4Z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-27_05,2025-05-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 suspectscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 mlxlogscore=916 phishscore=0 mlxscore=0 spamscore=0
+ bulkscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
+ definitions=main-2505270092
 
-The controls between the tas5717 and tas5733 should not be shared since
-the biquad and register setup is not identical. For example, writing to
-0x5c on the tas5717 modifies ch2_bq[10] while on the tas5733 this is
-ch1_cross_bq[3].
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
 
-see https://www.ti.com/lit/ds/symlink/tas5733l.pdf and
-https://www.ti.com/lit/ds/symlink/tas5717.pdf for more details on the
-register maps.
+Audio support is now enabled on the qcs6490-RB3Gen2 and qcm6490-idp boards.
+The updates include adding the necessary audio device tree support and the required
+dependencies.
 
-Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
----
- sound/soc/codecs/tas571x.c | 65 +++++++++++++++++++++++++++++++++++++++++++++-
- sound/soc/codecs/tas571x.h | 34 ++++++++++++++++++++++++
- 2 files changed, 98 insertions(+), 1 deletion(-)
+Both the qcs6490-RB3Gen2 and qcm6490-idp boards are derived from the same SoC 
+platform. Therefore, the audio support changes are included in a single patch 
+set for consistency and ease of maintenance.
 
-diff --git a/sound/soc/codecs/tas571x.c b/sound/soc/codecs/tas571x.c
-index 6c6e7ae07d80eeeefd0fdf713e09ec097ccda6a0..00b131294547812f1406056d17e6c42ddf92003f 100644
---- a/sound/soc/codecs/tas571x.c
-+++ b/sound/soc/codecs/tas571x.c
-@@ -718,6 +718,69 @@ static const struct regmap_config tas5721_regmap_config = {
- 	.volatile_table			= &tas571x_volatile_regs,
- };
- 
-+static const struct snd_kcontrol_new tas5733_controls[] = {
-+	/* MVOL LSB is ignored - see comments in tas571x_i2c_probe() */
-+	SOC_SINGLE_TLV("Master Volume",
-+		       TAS571X_MVOL_REG, 1, 0x1ff, 1,
-+		       tas5717_volume_tlv),
-+	SOC_DOUBLE_R_TLV("Speaker Volume",
-+			 TAS571X_CH1_VOL_REG, TAS571X_CH2_VOL_REG,
-+			 1, 0x1ff, 1, tas5717_volume_tlv),
-+	SOC_DOUBLE("Speaker Switch",
-+		   TAS571X_SOFT_MUTE_REG,
-+		   TAS571X_SOFT_MUTE_CH1_SHIFT, TAS571X_SOFT_MUTE_CH2_SHIFT,
-+		   1, 1),
-+
-+	SOC_DOUBLE_R_RANGE("CH1 Mixer Volume",
-+			   TAS5717_CH1_LEFT_CH_MIX_REG,
-+			   TAS5717_CH1_RIGHT_CH_MIX_REG,
-+			   16, 0, 0x80, 0),
-+
-+	SOC_DOUBLE_R_RANGE("CH2 Mixer Volume",
-+			   TAS5717_CH2_LEFT_CH_MIX_REG,
-+			   TAS5717_CH2_RIGHT_CH_MIX_REG,
-+			   16, 0, 0x80, 0),
-+
-+	/*
-+	 * The biquads are named according to the register names.
-+	 * Please note that TI's TAS57xx Graphical Development Environment
-+	 * tool names them different.
-+	 */
-+	BIQUAD_COEFS("CH1 - Biquad 0", TAS5733_CH1_BQ0_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 1", TAS5733_CH1_BQ1_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 2", TAS5733_CH1_BQ2_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 3", TAS5733_CH1_BQ3_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 4", TAS5733_CH1_BQ4_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 5", TAS5733_CH1_BQ5_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 6", TAS5733_CH1_BQ6_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 7", TAS5733_CH1_BQ7_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 8", TAS5733_CH1_BQ8_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 9", TAS5733_CH1_BQ9_REG),
-+	BIQUAD_COEFS("CH1 - Biquad 10", TAS5733_CH1_BQ10_REG),
-+
-+	BIQUAD_COEFS("CH2 - Biquad 0", TAS5733_CH2_BQ0_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 1", TAS5733_CH2_BQ1_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 2", TAS5733_CH2_BQ2_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 3", TAS5733_CH2_BQ3_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 4", TAS5733_CH2_BQ4_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 5", TAS5733_CH2_BQ5_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 6", TAS5733_CH2_BQ6_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 7", TAS5733_CH2_BQ7_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 8", TAS5733_CH2_BQ8_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 9", TAS5733_CH2_BQ9_REG),
-+	BIQUAD_COEFS("CH2 - Biquad 10", TAS5733_CH2_BQ10_REG),
-+
-+	BIQUAD_COEFS("CH1 - Cross Biquad 0", TAS5733_CH1_CBQ0_REG),
-+	BIQUAD_COEFS("CH1 - Cross Biquad 1", TAS5733_CH1_CBQ1_REG),
-+	BIQUAD_COEFS("CH1 - Cross Biquad 2", TAS5733_CH1_CBQ2_REG),
-+	BIQUAD_COEFS("CH1 - Cross Biquad 3", TAS5733_CH1_CBQ3_REG),
-+
-+	BIQUAD_COEFS("CH2 - Cross Biquad 0", TAS5733_CH2_CBQ0_REG),
-+	BIQUAD_COEFS("CH2 - Cross Biquad 1", TAS5733_CH2_CBQ1_REG),
-+	BIQUAD_COEFS("CH2 - Cross Biquad 2", TAS5733_CH2_CBQ2_REG),
-+	BIQUAD_COEFS("CH2 - Cross Biquad 3", TAS5733_CH2_CBQ3_REG),
-+};
-+
- static const char *const tas5733_supply_names[] = {
- 	"AVDD",
- 	"DVDD",
-@@ -770,7 +833,7 @@ static const struct regmap_config tas5733_regmap_config = {
- static const struct tas571x_chip tas5733_chip = {
- 	.supply_names                   = tas5733_supply_names,
- 	.num_supply_names               = ARRAY_SIZE(tas5733_supply_names),
--	.controls                       = tas5717_controls,
-+	.controls                       = tas5733_controls,
- 	.num_controls                   = ARRAY_SIZE(tas5717_controls),
- 	.regmap_config                  = &tas5733_regmap_config,
- 	.vol_reg_size                   = 2,
-diff --git a/sound/soc/codecs/tas571x.h b/sound/soc/codecs/tas571x.h
-index 5340d3bec31dfdee0be234aa80dab27b44037304..2b3eff4023b9fb3193e55c0c970b3f71b7b7620b 100644
---- a/sound/soc/codecs/tas571x.h
-+++ b/sound/soc/codecs/tas571x.h
-@@ -104,4 +104,38 @@
- #define TAS5717_CH2_LEFT_CH_MIX_REG	0x76
- #define TAS5717_CH2_RIGHT_CH_MIX_REG	0x77
- 
-+#define TAS5733_CH1_BQ0_REG		0x26
-+#define TAS5733_CH1_BQ1_REG		0x27
-+#define TAS5733_CH1_BQ2_REG		0x28
-+#define TAS5733_CH1_BQ3_REG		0x29
-+#define TAS5733_CH1_BQ4_REG		0x2a
-+#define TAS5733_CH1_BQ5_REG		0x2b
-+#define TAS5733_CH1_BQ6_REG		0x2c
-+#define TAS5733_CH1_BQ7_REG		0x2d
-+#define TAS5733_CH1_BQ8_REG		0x2e
-+#define TAS5733_CH1_BQ9_REG		0x2f
-+
-+#define TAS5733_CH2_BQ0_REG		0x30
-+#define TAS5733_CH2_BQ1_REG		0x31
-+#define TAS5733_CH2_BQ2_REG		0x32
-+#define TAS5733_CH2_BQ3_REG		0x33
-+#define TAS5733_CH2_BQ4_REG		0x34
-+#define TAS5733_CH2_BQ5_REG		0x35
-+#define TAS5733_CH2_BQ6_REG		0x36
-+#define TAS5733_CH2_BQ7_REG		0x37
-+#define TAS5733_CH2_BQ8_REG		0x38
-+#define TAS5733_CH2_BQ9_REG		0x39
-+
-+#define TAS5733_CH1_BQ10_REG		0x58
-+#define TAS5733_CH1_CBQ0_REG		0x59
-+#define TAS5733_CH1_CBQ1_REG		0x5a
-+#define TAS5733_CH1_CBQ2_REG		0x5b
-+#define TAS5733_CH1_CBQ3_REG		0x5c
-+
-+#define TAS5733_CH2_BQ10_REG		0x5d
-+#define TAS5733_CH2_CBQ0_REG		0x5e
-+#define TAS5733_CH2_CBQ1_REG		0x5f
-+#define TAS5733_CH2_CBQ2_REG		0x60
-+#define TAS5733_CH2_CBQ3_REG		0x61
-+
- #endif /* _TAS571X_H */
+Changes in [v4]:
+	- Fix DT binding errors by adding dt-binding clock changes for ADSP base platform.
+	- Link to V3 : https://lore.kernel.org/linux-arm-msm/20250520062618.2765109-1-quic_pkumpatl@quicinc.com/
 
----
-base-commit: 914873bc7df913db988284876c16257e6ab772c6
-change-id: 20250527-tas5733-biquad-fix-72be988daeaf
+Changes in [v3]:
+	- Added protection-domain in gpr services.
+	- Addressed the review commnets from Konrad Dybcio.
+	- Fix DT binding errors reported by Rob Herring.
+	- Link to V2 : https://lore.kernel.org/linux-arm-msm/20250429092430.21477-1-quic_pkumpatl@quicinc.com/
 
-Best regards,
+Changes in [v2]:
+	- Created dtsi file to handle common audio nodes to support Audioreach.
+	- Addressed the review comments.
+	- Link to V1 : https://lore.kernel.org/linux-arm-msm/20250317054151.6095-2-quic_pkumpatl@quicinc.com/
+
+Mohammad Rafi Shaik (8):
+  arm64: dts: qcom: qcs6490-audioreach: Add gpr node
+  ASoC: dt-bindings: qcom: Manage clock settings for ADSP solution
+  arm64: dts: qcom: sc7280: Add WSA SoundWire and LPASS support
+  arm64: dts: qcom: qcs6490-audioreach: Modify LPASS macros clock
+    settings for audioreach
+  arm64: dts: qcom: qcs6490-rb3gen2: Add WSA8830 speakers amplifier
+  arm64: dts: qcom: qcs6490-rb3gen2: Add sound card
+  arm64: dts: qcom: qcm6490-idp: Add WSA8830 speakers and WCD9370
+    headset codec
+  arm64: dts: qcom: qcm6490-idp: Add sound card
+
+ .../qcom,sc7280-lpass-lpi-pinctrl.yaml        |  10 +
+ .../bindings/sound/qcom,lpass-va-macro.yaml   |  12 +-
+ .../bindings/sound/qcom,lpass-wsa-macro.yaml  |  24 ++-
+ arch/arm64/boot/dts/qcom/qcm6490-idp.dts      | 180 ++++++++++++++++++
+ .../boot/dts/qcom/qcs6490-audioreach.dtsi     | 158 +++++++++++++++
+ arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts  |  80 ++++++++
+ arch/arm64/boot/dts/qcom/sc7280.dtsi          |  78 +++++++-
+ 7 files changed, 535 insertions(+), 7 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi
+
+
+base-commit: 176e917e010cb7dcc605f11d2bc33f304292482b
 -- 
-Bram Vlerick <bram.vlerick@openpixelsystems.org>
+2.34.1
 
