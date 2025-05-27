@@ -1,62 +1,62 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C0427AC34
-	for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 15:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7921827CCC8
+	for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 15:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748361365; cv=none; b=FUVtEgUhhQ7bfC2TbxbxIIyT44GCXpbOzcjcPENZaCm1SRoo3u1Xpx7sNZwrcIrRNiRPfS2vnsiN04An6jnD8GXsKY5NA+ZFh+UkFWYdnlMdXAAtWWQkVIGTJgHLdNqnG81xhCcIkzy2wTfiJaazDo2iB/W8aWRavrauctCA5m8=
+	t=1748361545; cv=none; b=ppXDL0Bc3hjANfZNrMmQAtc+WH7cyBwaaeLdeolp9DuVFOMY3ue6Pdi3cIteRu4Spf+p+HaqnyFI919lsgq8szFVnAzBJMd4fv/+sUbir8RDSsJflCg4lIKK4PrSB5SlauljbhBPDovQML8NDSUS8ZzEdd0OpUfpGo6UQKVbHxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748361365; c=relaxed/simple;
-	bh=1EN/qo7phDn1lEOJKo1bEU9nZpbFRZxjY4LQ8qzGqFI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=G2DVFs7jPTpgxuOZp1W0fEGDgk8BH8M3vqESoDZRuttd+Vw7Y3LeGMXWxU4bC1amhAb1cuy2WhGUdPg3GuzAHy4muBAW1CWdOh4BrGirde9yvqJnIsZUoLbeBffYcsuHD5F820puA2WAr97H7akfgg7FaaYGKp40Km0lHv0oNL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D9+bMXgB; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1748361545; c=relaxed/simple;
+	bh=yfN2uQGm7zbUd++gV/nEJsaDi3LFlJ4HhiGQBuIdi5Q=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=EvHEg3R8IxZIv8zpeHob9CnQPR2/NuHL8vXmDrVMnejX9tX+/hRK2cuzI3p4YuGNu6d4p9oiJpi9oDp6R/3vJckNGhci7kecRdbdlnZEozvQw8uf6D/Nc8e7qAy863SnoJAbtQP4wq+Su6LqxTDfg6XpSgJit82X4reBAauTDY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tju3Rccq; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D9+bMXgB"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso27798995e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 08:56:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tju3Rccq"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a37a243388so3608296f8f.1
+        for <linux-sound@vger.kernel.org>; Tue, 27 May 2025 08:59:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748361361; x=1748966161; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
+        d=linaro.org; s=google; t=1748361542; x=1748966342; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WUOHpXno4FKjbaz+Vq7mO6g3BDL4JOg348p7rmPIkO0=;
-        b=D9+bMXgBs7Whru0LXz2r8gO7XmJknG9G4OyDwi7ccJ1O7tl45N6R2SM7BXlixt0hbN
-         p+wdfVF4mcWYrxKOqKhvj5QneCwW0HGgbkSstk3ZSOqrISIK3XRYzvLmmnzRQcbjjRHH
-         roaC8DMpMmT2XxdheJluYHIFNAblObzopbfDiKrdzVWHIiWy5kg4klQ/FvzPd7IprvWV
-         s2anymuNGOFM8TWZP+3Tj9DyWDwW26vmtZaLmJotryTT3NJunu2hHKQ+jEqerXwKSf8o
-         Tkr6cB1LTmEUnzw3ZhBFOi+plBdu6UPT4yuFFT53IWUA0E191w2W7eIfDOyxRRBEzWMR
-         B2Uw==
+        bh=uLKlrSM5FsamXha6aN6KEk+RGQKQsgUaENo7zbmfoNQ=;
+        b=tju3RccqZMoLfrpizNOg32ku6XPo2Vr5LDfbDsQ5IiUV870YoIJgS1H/ATswtw/U2t
+         Dh5Kb8+kkxc3Lp/LR5Mn8MRPEyA/GLTZxrzap6fiBTNVB2ELfET9yRox6X6GMLcRnXpZ
+         QUxF4hQqxSbyuyvzCLK/BbzoMajB0zzAuiyx5jJ1geCa3c78jbdrXxvGB5IntAjV89xC
+         IgO9Ppi5uTBbuW+C1qmZXriPhBNeXcFicHpkWcC3mSc+aK222HJlKzyQOijC8+/RsAce
+         lMUe1EMhtfkLo+lqMsCNeNAbARlh+gmidif8bOcepupq5qvm0tT7smVTF819Mq13x5Sn
+         nPPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748361361; x=1748966161;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
+        d=1e100.net; s=20230601; t=1748361542; x=1748966342;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
          :content-transfer-encoding:mime-version:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=WUOHpXno4FKjbaz+Vq7mO6g3BDL4JOg348p7rmPIkO0=;
-        b=Db9Dc5SRHNx+oDcPgQ8YX6NlkqlXAutRWXcU4eco98dNbwNF7x1dUH31lpgrHsR4da
-         eE4YsB+6L7axBOGIXAnf/fjwd3/dEMfpvgippveQc7+Hr9dJRF7QYkGQP3b1+jYpquKi
-         5v7corYYQatClsrQKAM99D1Irg8ZyobDAgrnpQcimgTyGZmrVmtYFScq8YtjIevlM66D
-         Iv8jGJsiqczDfYpjS5/uhkQ34MW5H2JlgfVVFqDoX7vAL509q9JK363oaEWvNrwgNX9a
-         l8umOnnIa8jdIM5ZhmRLtNGr+ErGqIDM2MY8wUaH8MX8o/n5vaH0WRPvjy+noEkU1HHX
-         UF7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUX5JFURBxFnGPVHkoeTUYGDlFZIghRFCUnHQMl9TcfJlGd8wDzAUwTO+hJ7dE/WCkP8DRZJ8T0Fk2Ilw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfdXqFtkuLT/W2hFjoXCgFtwe94NiaoGbhWQQbfrtWtBGw/Y2j
-	qwUnlzAE2PKHxmOA9dwlb/aNbzoPoC/rxoYFSTveehV73T6k61PsZmAHiKUQUzui8gs=
-X-Gm-Gg: ASbGncsurQcqpFFA/FAU24Ul62MgGuAESTd5I4NsYhOBO2npAla3QNbOF92JM3m1+vP
-	SV/+faVGayYQl7q5FDqMMpay3DA/kU5s1E+hagoDUq+meHs4p6UZa5TBK+xfhASW/4tCXNBjGt0
-	lRI0bT+7ofHSt8RvIrcIOk4F35r8JCPejRebvatLaX1Kn0WVj3VNCCHMewYuINx35rhaMlnS4aX
-	ip8IMFYQnw+3RTduhraEioEGdln37juFWt3DO4v8SgAM+83ASZaXCCfzZ1t+EZg2hv7za1btML+
-	D3Wigigjd+Uy37zllBT9Li51TACtejL75RCG+akNuYYprzZrzc23p/KOHq5f+h30nXIL
-X-Google-Smtp-Source: AGHT+IGWpBubqNiiMJO9C0pBAekzBnLwiPK9uY689/6fUTlai3/xs++Qb/ljE1+USh/yGxcE4+gWhA==
-X-Received: by 2002:a05:600c:6296:b0:43c:f616:f08 with SMTP id 5b1f17b1804b1-44c91ad6b46mr120335515e9.8.1748361360729;
-        Tue, 27 May 2025 08:56:00 -0700 (PDT)
+        bh=uLKlrSM5FsamXha6aN6KEk+RGQKQsgUaENo7zbmfoNQ=;
+        b=bt5b7pyLsuuK6PN/rQncy+YfquEfBQLJoIEULfBC6SurNWJwFb9T4ojnAnbYtaHqEp
+         o0foMuxZzsfdygLumTiQvVPoRu/6NS/lI4xGCRwsJD9P2G92CKsgnJnDGTYvyao+4Xzl
+         m6KkG+iaDKUJO2Q/cg9yem9wS3BtSgoLxKrVIHJ3PIO8pBo4PHA6xJBWqSbxL3sLM6mt
+         qeyAcvlMVSQslPGt8fGHR50GnsJrBfv3tWAhFJyK8nNLDEhhw1grdfseFnyQhzUvzePo
+         Ere9bMTLJ1Hmnq6RBDaRR8h6raQDAc3k0jqDLfh1hwXeiWzggHrgDih49iS5ypfktF7x
+         9Iqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXqjh7UpL+SliaM/5poN+BUJqSOOLRn8BAmFrnNEMrleSn1Nut+VVu5ML34ozi4cd7wP5rALcONL/r4ag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSBQQrOi1++FcllvF1fYE9hvl2i2WQUFlQbhu/jXKuR5+I0jg6
+	ZJ3loA0tVGkVcTIOzHiFZsjJL4trBgIM270FrkNMYllhcUdOVpIO+O3cGFg6smd82LA=
+X-Gm-Gg: ASbGnctU+PuCUzB0JTYIeQDdtcGXYhnvqeICDgnX0yAG7exr27NWpJTZHtBPcXU9NHG
+	6oSEH/104fIvKSWetljUcbHlVxGL0R0A9lhGhgUXErA/3Mzf8gKZwYRTOBKefqwNotVbzZm9BRd
+	BEA0BYpIZpkAyQwgONNohgS+Ab+EVK6u9UObVaIehn34x/SJkdvZuKCweGfJv97LMwVdeZQGpHu
+	aoyoaDX76Cx7aWmL9Z398UOhYy1Xf+U8jHjK+agibm7yz48pcDyqgV2lU+yMpyOoxnkWwFawCYO
+	mYhV+bY3ja6XCXmLLxviX+MA2g4+4R0b3PO2Le6rlrieaD8Si8Cym7Jk4g==
+X-Google-Smtp-Source: AGHT+IH8iNaWsyltjjn5hm92Mn0i+lKy9tqudHYWMWemBgptnZTFbGMbCShMorMXcJs0g8uoqovcGw==
+X-Received: by 2002:a05:6000:2087:b0:3a4:e706:5328 with SMTP id ffacd0b85a97d-3a4e70655cbmr52232f8f.48.1748361541676;
+        Tue, 27 May 2025 08:59:01 -0700 (PDT)
 Received: from localhost ([2a02:c7c:7213:c700:f024:90b8:5947:4156])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f1ef0ab8sm270595235e9.13.2025.05.27.08.55.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4d4132534sm8134257f8f.21.2025.05.27.08.59.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 May 2025 08:55:59 -0700 (PDT)
+        Tue, 27 May 2025 08:59:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,8 +65,14 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 27 May 2025 16:55:59 +0100
-Message-Id: <DA72DKCKVX7T.269HYJZNIABOB@linaro.org>
+Date: Tue, 27 May 2025 16:59:00 +0100
+Message-Id: <DA72FVL1VA1K.1MS0NMPR9PJ87@linaro.org>
+Subject: Re: [PATCH v3 08/12] arm64: dts: qcom: sm4250: add description of
+ soundwire and dmic pins
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Konrad Dybcio" <konrad.dybcio@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Mark Brown" <broonie@kernel.org>,
+ <linux-sound@vger.kernel.org>
 Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Rob Herring" <robh@kernel.org>,
  "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Krzysztof Kozlowski"
  <krzysztof.kozlowski@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
@@ -75,78 +81,67 @@ Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Rob Herring" <robh@kernel.org>,
  Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
  <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH v3 10/12] arm64: dts: qcom: qrb4210-rb2: enable wsa881x
- amplifier
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Konrad Dybcio" <konrad.dybcio@oss.qualcomm.com>, "Srinivas Kandagatla"
- <srini@kernel.org>, "Mark Brown" <broonie@kernel.org>,
- <linux-sound@vger.kernel.org>
 X-Mailer: aerc 0.20.0
 References: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
- <20250522-rb2_audio_v3-v3-10-9eeb08cab9dc@linaro.org>
- <c7d5dbab-0a51-4239-811e-dc68cac18887@oss.qualcomm.com>
-In-Reply-To: <c7d5dbab-0a51-4239-811e-dc68cac18887@oss.qualcomm.com>
+ <20250522-rb2_audio_v3-v3-8-9eeb08cab9dc@linaro.org>
+ <a8b2f310-2b1b-454b-9977-f74d975e6e66@oss.qualcomm.com>
+In-Reply-To: <a8b2f310-2b1b-454b-9977-f74d975e6e66@oss.qualcomm.com>
 
-On Thu May 22, 2025 at 7:13 PM BST, Konrad Dybcio wrote:
-> On 5/22/25 7:41 PM, Alexey Klimov wrote:
->> One WSA881X amplifier is connected on QRB4210 RB2 board
->> hence only mono speaker is supported. This amplifier is set
->> to work in analog mode only. Also add required powerdown
->> pin/gpio.
+On Thu May 22, 2025 at 7:12 PM BST, Konrad Dybcio wrote:
+> On 5/22/25 7:40 PM, Alexey Klimov wrote:
+>> Adds data and clock pins description (their active state) of
+>> soundwire masters and onboard DMIC.
 >>=20
 >> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 >> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 >> ---
->>  arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 26 +++++++++++++++++++++++++=
-+
->>  1 file changed, 26 insertions(+)
+>>  arch/arm64/boot/dts/qcom/sm4250.dtsi | 62 +++++++++++++++++++++++++++++=
++++++++
+>>  1 file changed, 62 insertions(+)
 >>=20
->> diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/=
-dts/qcom/qrb4210-rb2.dts
->> index 6bce63720cfffd8e0e619937fb1f365cbbbcb283..4b878e585227ee6b3b362108=
-be96aad99acba21d 100644
->> --- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
->> +++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
->> @@ -270,6 +270,24 @@ zap-shader {
->>  	};
+>> diff --git a/arch/arm64/boot/dts/qcom/sm4250.dtsi b/arch/arm64/boot/dts/=
+qcom/sm4250.dtsi
+>> index cd8c8e59976e5dc4b48d0e14566cf142895711d5..723391ba9aa21d84ba2dda23=
+932c20bd048fbe80 100644
+>> --- a/arch/arm64/boot/dts/qcom/sm4250.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/sm4250.dtsi
+>> @@ -37,10 +37,36 @@ &cpu7 {
+>>  	compatible =3D "qcom,kryo240";
 >>  };
 >> =20
->> +&i2c1 {
->> +	clock-frequency =3D <400000>;
->> +	status =3D "okay";
->> +
->> +	wsa881x: amplifier@f {
->> +		compatible =3D "qcom,wsa8815";
->> +		reg =3D <0x0f>;
->> +		pinctrl-0 =3D <&wsa_en_active>;
->> +		pinctrl-names =3D "default";
->> +		clocks =3D <&q6afecc LPASS_CLK_ID_MCLK_2 LPASS_CLK_ATTRIBUTE_COUPLE_N=
-O>;
->> +		powerdown-gpios =3D <&lpass_tlmm 16 GPIO_ACTIVE_LOW>;
->> +		mclk-gpios =3D <&lpass_tlmm 18 GPIO_ACTIVE_HIGH>;
->> +		sound-name-prefix =3D "SpkrMono";
->> +		#sound-dai-cells =3D <0>;
->> +		#thermal-sensor-cells =3D <0>;
->> +	};
+>> +&swr0 {
+>> +	pinctrl-0 =3D <&lpass_tx_swr_active>;
+>> +	pinctrl-names =3D "default";
 >> +};
 >> +
->>  &i2c2_gpio {
->>  	clock-frequency =3D <400000>;
->>  	status =3D "okay";
->> @@ -736,6 +754,14 @@ wcd_reset_n: wcd-reset-n-state {
->>  		drive-strength =3D <16>;
->>  		output-high;
->>  	};
+>> +&swr1 {
+>> +	pinctrl-0 =3D <&lpass_rx_swr_active>;
+>> +	pinctrl-names =3D "default";
+>> +};
 >> +
->> +	wsa_en_active: wsa-en-active-state {
->> +		pins =3D "gpio106";
+>>  &lpass_tlmm {
+>>  	compatible =3D "qcom,sm4250-lpass-lpi-pinctrl";
+>>  	gpio-ranges =3D <&lpass_tlmm 0 0 27>;
+>> =20
+>> +	lpass_dmic01_active: lpass-dmic01-active-state {
+>> +		clk-pins {
+>> +			pins =3D "gpio6";
+>> +			function =3D "dmic01_clk";
+>> +			drive-strength =3D <8>;
+>> +			output-high;
+>> +		};
+>> +
+>> +		data-pins {
+>> +			pins =3D "gpio7";
+>> +			function =3D "dmic01_data";
+>> +			drive-strength =3D <8>;
+>> +			input-enable;
+>> +		};
 >
-> Are there two separate enable pins? Or is the powerdown-gpio something
-> else?
+> Other SoCs put these in the common dtsi
 
-No, should be only one. I think 106 on tlmm is wired into 16 on lpass tlmm.
-We need to assign gpio function to such pins, aren't we?
+which seems to be sm4250.dtsi in this case unless I am missing something.
 
-Best regards,
+Thanks,
 Alexey
 
