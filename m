@@ -1,66 +1,65 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2319284B4E
-	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 10:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC1E283FD7
+	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 12:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748428951; cv=none; b=KmzVZPF0Zh7qbgmIaYr0nv1hfLuiyvaWNbW/F9WBhAOtC0PWxAqtl7Az95iB4OiSxVOF1DIY6yR+Kp3t9JyQxwSlgTx0luIN4ATEIpnriXveEqtakplTtS8FdDzf1r8jDOsp+AIOKOsebJ2TD/8S2CfduxUtZ7zsfuUbWdg4p/Q=
+	t=1748434227; cv=none; b=b8ckSfKE2XpEwkbCIJh765Z8huRy0LSqstVhe87b/DNUVLj5IWunz7gc8p39pU69rSW9boWIXhOKKwYW6M+1Sciy4Q4sjVjDO/mvxkLInuwFNmPtF+vEbXCTueZ1zjw9jEaS1OxH62vEo2WXvv/UMWOSpX8+0xW22Pq2x8U2jgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748428951; c=relaxed/simple;
-	bh=aZiHVtAix4Bs7VFa47r9w+gaIOPFsTrPZZVeoeZFBbI=;
+	s=arc-20240116; t=1748434227; c=relaxed/simple;
+	bh=L2QoiMpgOAYzN7j7NsvzKHgBXzYZoaXqi8JnrpWblsA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pP76VK6mwkZnPb5FV4UbtUX5RWeAcZKUnveSLzDt7a5TAZXjabzZnJ0Ee3AYhkwIBEBI6gvU1dhnHDg7aUyyldkkSUU0dkPqDPpZapgXZ2zhrz4pDwJn/de+9TXvzocCdl/SUZAP/WIFbyyrnmKpwssmPevWSCHN5jjN6u696Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hZF/OfWg; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 In-Reply-To:To:Cc; b=I1IsD40Tw+DeiJmRXwIyrXy4y5qVNmdxLhy56Ga6VjFBDU2Ld/1q5J3+qDgjhbYF9DNkC0oEHzE1hlsEbIXbIugC550jxA7q7k+ItBjplQPei4zF1F0lZ+8DLwDV/5RtpdpIcoThKsOA/3rEq2VXJhvj3Ffsxe2IiaFK0utS448=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org; spf=fail smtp.mailfrom=openpixelsystems.org; dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b=fnoVvoK+; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=openpixelsystems.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hZF/OfWg"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a4db4d1bd7so472396f8f.3
-        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 03:42:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b="fnoVvoK+"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a4dd5f69e7so2022274f8f.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 05:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748428946; x=1749033746; darn=vger.kernel.org;
+        d=openpixelsystems-org.20230601.gappssmtp.com; s=20230601; t=1748434224; x=1749039024; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wvIZrAnHYUbgegc3KzvI7IvlrGTu2jq1NObvCezVWR4=;
-        b=hZF/OfWgiDHsJZEHrud44zYhYtnloSsHnCau96QeFCOvnXEXgLj4a12VyTxSCAm11z
-         N6oQ8koJ3ZnP8Ku5giMNrcY8pPyidl0PJuPILzUVpSbiCEIcHfZXXDVQrxzRsojwpETD
-         +R09V8wtE9uHZXCgLssg8todkWdxNY6vBOmmqenSidkbH7oFrattB1MsjFbYuJS/Fdyy
-         gIVCWCNXneazqGlBLC65swhWSZAwvbQ3I3kvCoYCckFFpi5lVxlTitLJnnuJRS0Ix8nk
-         sOUfo111r1jspmfRO6g5KbZOC9Pk/V1AEhyJkDAFaV1hTtFM1XHieblnho6lyLHB7rv/
-         TCmQ==
+        bh=xCHwIJitPDNtzV+MO2vPhGWV1mftwYBcoejgITmYhyc=;
+        b=fnoVvoK+RKDsr6kjPWOS9KgbW7tQDaB3uRgk0z2DtTzbQ4B7Gp3RC79wlnc78j8++a
+         zrdD+PuElYd5/rhSNii0W2caT2/KKzLy01yCtJ6NNY+7+ZcRe7VcR/uISAeCV0cbW2uh
+         0B+ijIxly/Zd17O4KnXdL7gc7nZjXxw1P1yd7vgWHdQ9O1bL5T8pE7ZOzZt7MUyAnZEY
+         Myvw7QF9lmJzRp6+HOxDIqDUBnYIuc9icWgljwl5b2nmV+Vum7JTcVPpdOLxI1issX2a
+         cQzFPolDC4CfxW0H7Qovr4c+jyD6vu40eFZw7f/2NHGMacAMUaHptx4EtwpBJ68btsYp
+         jXzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748428946; x=1749033746;
+        d=1e100.net; s=20230601; t=1748434224; x=1749039024;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wvIZrAnHYUbgegc3KzvI7IvlrGTu2jq1NObvCezVWR4=;
-        b=JFHNDhumt9Z/EAlPh8amJ+Qu1JRCHhgQUOOLBTrZ9H+i5jpZ3aLCySYz6xgX00R4v2
-         0Zbdca81LlNBuRBYcQV/5eFoveoqrnKZqIzpFvr8htPQDSDG0e0XY4yw0Q0gq7GKqbG4
-         8zoRxhCRKXMGlw1+A6KjyhqoioFJIJ0ayu5bGM+eQ+flBcy+sIGdLsByEzyphCXRzGZL
-         yUsJP3Ov7JJ+jLKoKhmBcPfCsuiz0+QULUFrnw6TY9r5K12SqmcRZpjYVwEWOJVqbeBi
-         /l4UrH65bRYn0uvR6fzEqvjZLxXo1Gfmrhd6t5qCoU0drOY/9VGJJ4IUZUuRFfO7CcNG
-         5Hqg==
-X-Forwarded-Encrypted: i=1; AJvYcCX5YNit1UIx2YOXJA0JCAlAGjp3+SwG3NANMHxiq1hI7257Kj23oL7GZ7fZ+FuTf7GCTwpEvTy00F8haA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0H9WI2HjX9ByxZH/YBx1akt/8p7i1GUf+JD4uFBmdtPlnDFo6
-	MP3tjRoaHvcyPa/XOexlmTKC90MINWvRy7HNg0QpX5/LXcubQYdVLfHhl0227AVQsbA=
-X-Gm-Gg: ASbGnctaoDWX5N4ZSgWItKonLzr5DqSmpjr8HvdVCbtc5c2RZ7DkaflnILdPLXs14A5
-	P+/SuZvqSieJhmIveZ4XVIU4XZPFupvJVM5a0/mEWvUOXCHNOQ7w5451DFIxh5q/ybFfxdNgnai
-	LhOeff0GcjtArOuM8bwgJ/ebb2QroTg3GI8nCSuYjKLEwQdAvrz7GT39oy7RonZ5k8I+hHVPOCl
-	eMUw9HogfpDz6UJQsITL0irjG+awoZ0pu4PGQ/6RfkGrxJvdQl8bPP1LJso7WCCngSqFA0k3MaG
-	RNnhNUrjnAtPUMIn/AW98zcyQ3N3/MxmOp9jzZT1osY57jpEY3UiXZwzk0uF4+YjYQOoGGp5hAY
-	g6Fp21w==
-X-Google-Smtp-Source: AGHT+IFNlq9KlCXRCQr1+6Ymqq9Ne7A6NiNU48Hh7WmaFcskniRj1xewpQQJ+ro3UTKAzWuWhYjH7g==
-X-Received: by 2002:a05:6000:2408:b0:3a4:d0dc:184b with SMTP id ffacd0b85a97d-3a4d0dc1c54mr4702445f8f.6.1748428946040;
-        Wed, 28 May 2025 03:42:26 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450064add8bsm17331595e9.17.2025.05.28.03.42.23
+        bh=xCHwIJitPDNtzV+MO2vPhGWV1mftwYBcoejgITmYhyc=;
+        b=MyVWhtbPNRaKxOWYrNEG0fstMPXLIYTlwLyUU2D6Kj//g7NDgfw32XFrILDHRJhh6o
+         JHvc3i87HVSRC9Ynvi4xfMDyHEUDIyCtIvqiWBgrX/Q2s0+bvWI5k2ItI0GoAc0LPAdF
+         zZsA8qRLpoWc3R/b2xz7f+XZck8//1o59Sq5Z3ttliLqST1pkut+MS4uLsw2e8qKbVRB
+         A5+OtXB54SYurQje2utDIS9h1PaMtDJawpYyUdKOK+SxrgPUNamJ1S1bJ0LDy6pdYRHR
+         Oh1RlEdlwLlLsufjL9+kj0m9ZBvMLO2ifEpBLtkh97SoLxP7Yg95xkOvg4BWHgoC3c4G
+         3tCA==
+X-Gm-Message-State: AOJu0Yx1vtztXIY1zVT9ubsiOnKliKZ4w/wER1wJsXIw+T0tb6sY+T6c
+	JMIqpIdPWYCsMtT5QD5oyWaPCVAhVOyz5+Ca1Pc3cvuwVZbs5c7oVYpgi+n6jyrWBN8=
+X-Gm-Gg: ASbGncufjr50RzapZQ4p6MpOL8QnUbbQEyUKHZxt6QFL6uiGQPrViothnm3j6B2UqgM
+	/rBXAV/J6sKhl/UwSsJqEmM+FMHkOqWuL5QR6zFONF2EHF+nfiB6reBPopSMdxDCk+WyB1Kvwlw
+	p5+chQg0osm17TqZ3S71WdLZYqHS7R1SBRs+bUdrRpaycCVyXAnp8sETXI/SbxYMN/BKhPt6TvI
+	Lrq7+sh3jpqsmcpKGg6bp3N2tWn7JIqpm1O3eecu2ilgWFvYZEU87lk980Kia3zoZev0WBhhJcC
+	T2RG+o0YNGvYVp10dRg7Hm4XnsWhwwhiX1uzXgvp43lMTt1JyzaeNp+0V78oQgx36r1jza0bJxD
+	l36i5XmAXKiIoAxsn6P4OLC5tanXyQCqFRbwVN+Pmdqc=
+X-Google-Smtp-Source: AGHT+IED45FQM2vua2vIu7C3PBz+jaHdAgReY/lAMgqoxxgZ4KBbr/mmdnIHszTsfaSdGiBGi/ntYA==
+X-Received: by 2002:a05:6000:2c11:b0:3a4:e6e8:ac1b with SMTP id ffacd0b85a97d-3a4e6e8ac5amr2972942f8f.51.1748434223753;
+        Wed, 28 May 2025 05:10:23 -0700 (PDT)
+Received: from [10.0.12.41] (253.124-78-194.adsl-static.isp.belgacom.be. [194.78.124.253])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45006499727sm19874145e9.3.2025.05.28.05.10.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 03:42:25 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 28 May 2025 12:41:13 +0200
-Subject: [PATCH 17/17] rtc: stm32: Constify static 'pinctrl_desc'
+        Wed, 28 May 2025 05:10:23 -0700 (PDT)
+From: Bram Vlerick <bram.vlerick@openpixelsystems.org>
+Date: Wed, 28 May 2025 14:10:09 +0200
+Subject: [PATCH 2/2] ASoC: dt-bindings: tas57xx: add tas5753 compatibility
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,91 +68,65 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250528-pinctrl-const-desc-v1-17-76fe97899945@linaro.org>
-References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
-In-Reply-To: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>, 
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, 
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
- =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
- Jesper Nilsson <jesper.nilsson@axis.com>, 
- Lars Persson <lars.persson@axis.com>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Damien Le Moal <dlemoal@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>, 
- Michal Simek <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>, 
- Jianlong Huang <jianlong.huang@starfivetech.com>, 
- Hal Feng <hal.feng@starfivetech.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com, 
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Message-Id: <20250528-asoc-tas5753-support-v1-2-a50c3f6734ee@openpixelsystems.org>
+References: <20250528-asoc-tas5753-support-v1-0-a50c3f6734ee@openpixelsystems.org>
+In-Reply-To: <20250528-asoc-tas5753-support-v1-0-a50c3f6734ee@openpixelsystems.org>
+To: Kevin Cernekee <cernekee@chromium.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, 
+ Bram Vlerick <bram.vlerick@openpixelsystems.org>, peter@korsgaard.com
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=923;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=aZiHVtAix4Bs7VFa47r9w+gaIOPFsTrPZZVeoeZFBbI=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoNuhXAXetqzUvjtim1sn5fQnWeOfKvyrbA0k7X
- 0F7r4JYgYKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDboVwAKCRDBN2bmhouD
- 1y5gEACCSmP7bayECWKFTkwRKQ26DxhFqjfLlRRjLxFm5/ZteZr52oR68NuAqE5Oteaw0uuTlF0
- AY7psL9i9caogUFyGEHFJLQoNlWHJx87dbPtNhMZbGpsCLwXVf9MNN9NM5+baphXdCKj68+Ffud
- mc+WQUO8p0rqIbRViIvXBJ6gAx6Ilh7Q8yFzuoVIEAV6I9BDpcBgRtB0mqwZfNT1P01nvvfn/HK
- 0/jT3G9Vdnpc9i1iTCLhpNp/FZupziVL6jPzDf47eWUlT3HFPpaJJ0tYcLLFl85Bsb82X73rnKM
- UBkCUre2kyXNDYjCNKOoZChLO04ZipNp38cUsCGyMOFi677HtzDsxz1RSX5Rbcbla1EOnS+6Zi6
- wES2PU+vUxe+LvEjmBnfAnsp4Vv47qY8+rU+v+N/7L2UAOT/N9w0X38a93OxUVi8HaJ071gheJB
- QCoBqlVg7+rjFK0nodd/1cYnU618gnyxlmtSWGKEOE1t7M+ApTiup2lOqvjt5YqTWangb8P6mI4
- 91zeGot+yAXPL2gIH1Z6qaPZGgJ8qD+xTXRdP2qbVHh+EYSYcb3iCINKLCkSmeAA113O5CegW0f
- 2YlveQzrIRHcqQzevdatgXRW8aDA6/KL/GFs07DAXEI2lUdBp+jh/3BAyA2S//my1rkpdfbhzcL
- ONXQAendt+UGD9Q==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+X-Developer-Signature: v=1; a=openpgp-sha256; l=920;
+ i=bram.vlerick@openpixelsystems.org; h=from:subject:message-id;
+ bh=L2QoiMpgOAYzN7j7NsvzKHgBXzYZoaXqi8JnrpWblsA=;
+ b=owEBbQKS/ZANAwAIAblauka9BQbwAcsmYgBoNv0t8tlsWJHF6JYAINe/SQ1/WK7J7WDtFULhk
+ aN5eiyvExKJAjMEAAEIAB0WIQQO7PtG7b77XLxuay25WrpGvQUG8AUCaDb9LQAKCRC5WrpGvQUG
+ 8Bh1EACE40ZRk1UccTLzW3s93Xm4PFR2oG9NTmDHZ8RYCVJqcdnRInm302dSwHxSUZ9kiLaKIS8
+ cnchN8+UU4Ry8scY+fyzeTTQYIC9p7xXnLRfUxRYZ/BQcgIruPy1PAxN0yoEG0lWJn6ajLPPnl1
+ MTlgP2VDvG0rEwQDavRFpxmY983+kNAaeeoyJ6VGyfSbZozJyV32nJq4Mo39Ptt2OAgN2xxQJJ6
+ m3fdggpWULzuD43FlHyBgt4TrW2cMjTyDcLh4ayk7qTG4BmJMbRyeqwoKiDL5TrgttpUk5KXaVX
+ I+4bcpC8IBOgvs+DAfA0cSIUhznHfOVDzhgji6Wn9Y4M14t81UYOFBDqOVJXg4SpFUY4ZegHp1X
+ RKAX+aM7jjNDDPMLC35guHxD2un86YCsTIZ8ARfo43bpE3PMQcV9KwyvWqHUMjBAL0AZCrTphIn
+ is717hztgexbARZanZb8ooOsrp5jdsfPkt0TADW2XKIs1NOlv+/6WEsTNDrdUGb9ZS9m2Z9NAut
+ ieJgPhhIynmrrtTqolSgZzfvI6fiyUP+kP25jaOxglurHZEqlFUrlgf/vVBpCW1te2SStaRWaWa
+ Lu29/Z5I2bP9pB8YEEFGhFEQ1vtl3F5gtM4fDxu2s+NuCBI+dUh4AlSSAnvmpGipBq2rSj5fRPL
+ L/oZ228M92bw9hA==
+X-Developer-Key: i=bram.vlerick@openpixelsystems.org; a=openpgp;
+ fpr=0EECFB46EDBEFB5CBC6E6B2DB95ABA46BD0506F0
 
-The local static 'struct pinctrl_desc' is not modified, so can be made
-const for code safety.
+Add tas5753 to ti,tas57xx devicetree bindings.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
 ---
+ Documentation/devicetree/bindings/sound/ti,tas57xx.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Patch depends on this series - const in pinctrl core. Please ack and
-this should go via pinctrl tree.
----
- drivers/rtc/rtc-stm32.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/rtc/rtc-stm32.c b/drivers/rtc/rtc-stm32.c
-index ef8fb88aab48a0edad19ae5872421815aa04fe46..d4ebf3eb54aa9e91c8e9f8254f571c53794192fd 100644
---- a/drivers/rtc/rtc-stm32.c
-+++ b/drivers/rtc/rtc-stm32.c
-@@ -393,7 +393,7 @@ static const struct pinmux_ops stm32_rtc_pinmux_ops = {
- 	.strict			= true,
- };
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml b/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml
+index 74f7d02b424b9c5d5fd7ea573d7beeb5a2253337..0b013a34e2c10787cf7627a84565078c49bdb7b6 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tas57xx.yaml
+@@ -18,6 +18,7 @@ properties:
+       - ti,tas5719
+       - ti,tas5721
+       - ti,tas5733
++      - ti,tas5753
  
--static struct pinctrl_desc stm32_rtc_pdesc = {
-+static const struct pinctrl_desc stm32_rtc_pdesc = {
- 	.name = DRIVER_NAME,
- 	.pins = stm32_rtc_pinctrl_pins,
- 	.npins = ARRAY_SIZE(stm32_rtc_pinctrl_pins),
+   reg:
+     maxItems: 1
+@@ -98,6 +99,7 @@ allOf:
+           contains:
+             enum:
+               - ti,tas5721
++              - ti,tas5753
+     then:
+       properties:
+         HPVDD-supply: false
 
 -- 
-2.45.2
+2.49.0
 
