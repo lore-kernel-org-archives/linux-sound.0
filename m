@@ -1,33 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913A727A448;
-	Wed, 28 May 2025 12:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C3F2857E4
+	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 12:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748436327; cv=none; b=cqLsoaEY+aZ9gATZe7ArHu9Uhfa5JXVxC0zzlrQAOU7GmIsIkvsAvT+HFInYcxwSMekyppsCRxwP4mdXlPhWkDoyTsA7E/ZiX50KfxbGwtn/z6zws25IOLyeFe2EwlzsYtL+vjvt9gYDHGc0mXzJ3FPTWrep+pVVxuZoRdoz5Xw=
+	t=1748436711; cv=none; b=sJVJRWwD0px0AMkgdlEgqClFmdauH+nbCJMwAHUsdX+L2/tk6wiZw6dkaOyOGs3lyh9sbg1OBbPOnwXowg91kpgVE3iKf9375aTVc4Z0twRt0faek4HMGE24xjLoNsdENY8sAsfd5LAhBlH1fjD/irmE0p/0o0VruM+mxJ75gUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748436327; c=relaxed/simple;
-	bh=LmgEcjResPLXXpFob/3Qa7tbGuBJRLI/7Xpku70pX8o=;
+	s=arc-20240116; t=1748436711; c=relaxed/simple;
+	bh=smnmeCYjTzrN7LZXl255smVaN14J1a0yovz29gZaSe4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u00MXJy1ZGV1t3bDLfkDQ2f/gdcy9rW25OA3UY++RUqgVuiOubxzQWYojvDZaqdqaW4VPR9P91JsJ+kSwtTBmq+iyFD2Nrdfl/OEpz7BYW57o6cTEgLQb+SzefD8eBY6L+ZIEm91Dft9YqinnZEiUhQj4FvRnhi87raQkS2b7sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=muAyxPrr; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=kqtLzN+FZernnBHyjc05kzsvNj5SzddVqJTKg5tir/Y02OI51PEzwSzE8GuWClG2a1HQTmELyms06xIv3+tynA5GcETXZ/+nqWASpGCbosEJ6fc3q4VLnsjTGHReXrmGSxX+/x+ziVaWlvsGjYmAM/33s9EY4kef8LADjufkFZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hRTYQjBy; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="muAyxPrr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC895C4CEE7;
-	Wed, 28 May 2025 12:45:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748436327;
-	bh=LmgEcjResPLXXpFob/3Qa7tbGuBJRLI/7Xpku70pX8o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=muAyxPrrQfAiKqrfximT+GDqOnM4CS0L94Azb4XzOrb1W1jcZp3z3GRc1tB+Y/pL8
-	 ePEXZt64V73V7hVJzxAAlpmdyNUU26wir0mn3oE6bz/OEJRkaiopKzdsxaLRcO4Z2x
-	 hAeaIkgVrQD7r3jO81z2CJ8SxSKed/4b6W0nssW7aXCbqUE0kC4oZKsA1e9t0wrVu0
-	 otDdIZqkS2vkaA4v9TWHuIilfQ28RPEre3jgzaNnOaJ+VaHk0JFwZ+N38gWxbFs8k9
-	 J5eB4+QpcclcMeXw0iZ9M3xSxMcwKGd6RZIwh5fZVqP3wLosvyCEHce7nEvrArw2nA
-	 2zEikJN3ksVeA==
-Message-ID: <bf7281d8-20bb-4013-a0e2-6cdaf4e0349c@kernel.org>
-Date: Wed, 28 May 2025 14:45:22 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hRTYQjBy"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a4ebfaa623so83198f8f.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 05:51:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748436708; x=1749041508; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=gtxFBVmEk7OdwaX8iO3/bw0IJ4UWR9xfEnW8+jRDwF4=;
+        b=hRTYQjByxz8tUg+v5qNHFSF0N1NN0zvNq/apZ9uLhnxdNHEhyqT4PtHylGFHjwaHyV
+         bcHP2m9AcLzOEoDAbUeg7lZ/aPNz8JXv+4AwcivV2hhe8rG7TOnDsiPu3kB2vwfo9Ba0
+         37KmteoDyj0UL1pGv0H9iQ7KCv9rBLAB//3fSVweYDKG+S0j9ytwPiXs7eQ4azRgl4Li
+         1YZlPhcab3nUh3kBb11XXw0VygNQHO0BZ125xzD42rNlLizuRIaQ5SlmwLxe78+5deWl
+         SJoO+ahGwN3lAlU+9b2ltoVXIWrFiitW+gxQupS4XW7e5oUVVmEUahpD4WBGC0mv+4CM
+         s8Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748436708; x=1749041508;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gtxFBVmEk7OdwaX8iO3/bw0IJ4UWR9xfEnW8+jRDwF4=;
+        b=MyzgMUEbP5yTwT+VWz6WKF4Rl7H/kpYKr/aIDCuI3mOOIs3qGDiJqXfmNg4fJ3f21X
+         uTKHm5a9kpZhBwAe47dOG9e/63r0euxSz/yEaY5+DctY7Nfer9yoUlRcv2lrDEBqratb
+         g0IjSlwfuNd2UdcIsXWsyxTrRMNw1RxsijEr3fvIcJiqLWwbVSxIGl+1NzRI7HMPeTp6
+         CYknrlulED9kCLBiyglonhWFIU7IJ3/+NXrZBbZ+/qZ7wqc1VBpJDBLIuGBySOWAxmY5
+         JBuN4M+0W2iG0QQeIcwNNldPpdnOSCGOKBjaFgM9VhT3+QTj2O5ocGm64+caWHznwK03
+         rXyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSG1AyEfdTNOpG+ssgVD7SR505PznHzHobJrnRB2j1mOqjP5M9sDkkWM7DujzgOk4iZcRwZ00CA/hfCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyINXZjjmQqjeUFzFPYQlNMSxVs/GzdV8AnJCoM7ksgz1w4BKv9
+	AJTHdt+KXF24pdtSg1lK47uGm9tGKocYitRBX73NLk9J+4CjKJrP1NbIYzKvxLvO9JI=
+X-Gm-Gg: ASbGncvUTBxTL2KprRbeRKw4u5o6iTdGdYpldzEJCd3pXiybStaqy0eXeUYjBsAE10H
+	8+73lI7+CT1nXn3cPfHZ0lJmcee1poQHUbY9Rw60LjUqFBNFPI7T75Y6UfTWhzy5wgnXmiAMKc8
+	Ix38OjxsVMwtTAIsTQpMOG10psCbQRq/JfRCyfErlOjp0Foqgf5qxgoX7CZmqnMKX7fZgu4ei7e
+	QninPoKvm2o9IKIxq2kAKncs0fI0FU7lQ000Gw6nD3JeXtZz180SPU8Z2eijKin2vZoLigXuLxz
+	6rJwJytru+yY+qI2Cv3alXdZdhugw0VN0RHOpdRWGI+M3A/U0dpJHotB6F0pDxJa0mKspd4=
+X-Google-Smtp-Source: AGHT+IHZRUnH5Rp4aCZ1f9KHXVlEFS+hqrw/ulDU4vW45oSOCS0VZWSjD+ROhW/0PEAj5L3PAac3+A==
+X-Received: by 2002:a05:6000:4210:b0:3a4:e0e1:8dc8 with SMTP id ffacd0b85a97d-3a4e0e18ffamr1983903f8f.9.1748436707566;
+        Wed, 28 May 2025 05:51:47 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4eac7e0c8sm1423525f8f.30.2025.05.28.05.51.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 May 2025 05:51:46 -0700 (PDT)
+Message-ID: <4a2a8504-310d-4b65-ba52-1854f461b604@linaro.org>
+Date: Wed, 28 May 2025 14:51:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,20 +67,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: tas571x: add support for tas5753
-To: Bram Vlerick <bram.vlerick@openpixelsystems.org>,
- Kevin Cernekee <cernekee@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, peter@korsgaard.com
-References: <20250528-asoc-tas5753-support-v1-0-a50c3f6734ee@openpixelsystems.org>
- <20250528-asoc-tas5753-support-v1-1-a50c3f6734ee@openpixelsystems.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 01/17] pinctrl: starfive: Allow compile testing on other
+ platforms
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+ Jesper Nilsson <jesper.nilsson@axis.com>,
+ Lars Persson <lars.persson@axis.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Damien Le Moal <dlemoal@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>,
+ Michal Simek <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>,
+ Jianlong Huang <jianlong.huang@starfivetech.com>,
+ Hal Feng <hal.feng@starfivetech.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org,
+ linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
+ <20250528-pinctrl-const-desc-v1-1-76fe97899945@linaro.org>
+ <CAMuHMdX7krbAssbYpJ1RA1EkpOP26nUhuhmtSW8X9nJkB5amBQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
  JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
@@ -58,54 +120,84 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  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
- 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 a/A=
-In-Reply-To: <20250528-asoc-tas5753-support-v1-1-a50c3f6734ee@openpixelsystems.org>
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <CAMuHMdX7krbAssbYpJ1RA1EkpOP26nUhuhmtSW8X9nJkB5amBQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/05/2025 14:10, Bram Vlerick wrote:
-> Add support for tas5753, device is similar to tas5733 but with added
-> headphone / line driver.
+On 28/05/2025 14:36, Geert Uytterhoeven wrote:
+> Hi Krzysztof,
 > 
-> Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
-> ---
->  sound/soc/codecs/tas571x.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 52 insertions(+)
+> On Wed, 28 May 2025 at 12:41, Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>> Always descent to drivers/pinctrl/starfive/ because limiting it with
+>> SOC_STARFIVE is redundant since all of its Kconfig entries are already
 > 
+> ... since its Makefile doesn't build anything if no Starfive-specific
+> pin control Kconfig options are enabled?
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Yes, that's better. Thank you.
+
+> 
+>> have "depends on SOC_STARFIVE".  This allows compile testing on other
+>> architectures with allyesconfig.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>>  drivers/pinctrl/Makefile | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/pinctrl/Makefile b/drivers/pinctrl/Makefile
+>> index ac27e88677d14f1c697e0d0be9f295c746556f4d..dcede70b25660833a158c298d1269d6ecea9dd8b 100644
+>> --- a/drivers/pinctrl/Makefile
+>> +++ b/drivers/pinctrl/Makefile
+>> @@ -82,7 +82,7 @@ obj-y                         += sophgo/
+>>  obj-y                          += spacemit/
+>>  obj-$(CONFIG_PINCTRL_SPEAR)    += spear/
+>>  obj-y                          += sprd/
+>> -obj-$(CONFIG_SOC_STARFIVE)     += starfive/
+>> +obj-y                          += starfive/
+>>  obj-$(CONFIG_PINCTRL_STM32)    += stm32/
+>>  obj-y                          += sunplus/
+>>  obj-$(CONFIG_PINCTRL_SUNXI)    += sunxi/
+> 
+> The actual change LGTM, so
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+Ack
 
 Best regards,
 Krzysztof
