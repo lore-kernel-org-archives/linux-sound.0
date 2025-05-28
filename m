@@ -1,65 +1,65 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9C7220689
-	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 20:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FDD221262
+	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 20:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748462413; cv=none; b=sWYJHnm/kLfoVmi/kxF5lCT0nctox1Xosumj9NuqR9tLFnVyp+znFZ0J/CdXxKdYfW00kt1fQWuUtNdzysi3A2CbD9CpqOBypywWqE7T5TuFoagJEmWkcyx5pdf060wzF51MKpUTuvqVgUIbxYvxBUTOy+FD2y2FUiiaOnDAuoM=
+	t=1748462414; cv=none; b=N4O1PwUGtMbmLZiM8XyQmDH4sIMvOSro8oew2AFyA8fQFOv0BEUFrgGCdFekG3f5wu/dEj+gBg8CfhW34HarxXKKt1nCHCH3+NofkrgBnhDKVMnhZ0pDdk1skSuePm7YqV6xf8HrfawErYLe3WI+S8awn8d8MdRs3Rci1zZ0KB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748462413; c=relaxed/simple;
-	bh=Z9SxgzJQKUDvvpklxiiL0R/g7Mpc1YmBxkKUBnHBTw4=;
+	s=arc-20240116; t=1748462414; c=relaxed/simple;
+	bh=CpYH823lP1gANgxKRTCYkC1iXZwcMTKwp/L88jc6Xws=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fUpr9+Ym7JwjwxYj1EvXUisGEXCQLDP/SsAY1a2/flA8+OQWlO/EeOiC892lvN6Isl/12wXFLZSJUjyhBGB6bDN0QUzlP421IRqJqINTfkSzaGFPLJXhIAXFhcgbvf2W8Zg1BHs4t5LR669eQSwcE+dPKLMP0Jf/O2UBEKIc+h8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ybb0kwwi; arc=none smtp.client-ip=209.85.221.45
+	 In-Reply-To:To:Cc; b=csNO68V7osu3Lp0EjGG8GV3F5nAjYOy27D8S53XcrpUapUbhe2PKv2an+BagM2qFMYMEjFC5twjygjC978oZGy7wlGyTf3QzBeFSkUv8vfT1Yrw/+zLnLfdtO4Y/Wm9CMiaylTVYxKbMw9IJcH39elP44hbTpmHddoUOaP0LC98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EcqMzV7b; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ybb0kwwi"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a4d1e8e02dso16697f8f.1
-        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 13:00:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EcqMzV7b"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a4cfa5c8ddso29265f8f.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 13:00:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748462409; x=1749067209; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1748462411; x=1749067211; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VojE7/1d0sx/36NX9p5/dlSS3t9d1f2yOUDGBM4pW9o=;
-        b=ybb0kwwi2Y+9glsj0rXv8xppUVtwxGEVyzj/M3Tfc6pWs2AV6fUiGKGhkdqw9HzBN0
-         LFcORCMUAnKwTtTrQXKTObgY+O4WYR3gt7Odz7EFAy+d1XAdfkcGp23mYNBUJTRRGV/N
-         TyHPHoZQ9MDPwgL2Rn/jxtDP8reVEsFfNPMA1/2D8fy2848n25qRJ4ME/f64+gMvOMLu
-         E/wj+GgdOA5lmMRzWpSeqQBo9vDez55I6RdBy7igSIff7Q+YS5vSzoh0mXQHpRpHQkUJ
-         SmHlq1fXqYroiaibJ48zUkf3J7s1UISwaRtF/sAhPytkPdc3M1+OPtUJoD0cgYD9KR3a
-         21MQ==
+        bh=PDq0VVP4RBrXESa/PJeathjlPVt4SwgrUucxImBu+7c=;
+        b=EcqMzV7bAeJT1vV4xfnJLSrs9E0OwVyz9EWvG/WxeBZCx33Lbehwn+dOvpGxdUVaU1
+         OdJxlOX3FWh2ZryuF29StlKMQZ5l2c/s8QZf9c90NHm2v1z5ztyvgnwrns+9K9Jci++O
+         zc15aX+dn0JOiLhvayOmBDaE3/DcnI8Xy+21Q/WPYDHimpeSpG5KuBoI/kJiJ+sp90X1
+         JXGuKdYrN11aBForg3OicMNIy5u9CuyadSAyxgMajcVLUqP2DaYrYsKnUOFS7uNjtrJ9
+         LNY1epowm5W+jaPf5VWa4vQVffTMgQ+R9VIZMSGAWsgSjUu0e9L6zBbkBOMf3OxfWSh0
+         Wn8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748462409; x=1749067209;
+        d=1e100.net; s=20230601; t=1748462411; x=1749067211;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VojE7/1d0sx/36NX9p5/dlSS3t9d1f2yOUDGBM4pW9o=;
-        b=I56i/NZ/2h9fW+JKrUG4wTbCvVtdcPugB8IWF+94VeHTZ7W3IkDwdd8X3mr2Tf8y1B
-         AvsnaDuw19tx/yJ/Qv/Ea3t2RdPIAUdBaGUY9IPa/2RBAdGIwoFUTdD1g4tce6WcgwwE
-         p22AYPuLc1pX0ttUhTALWqoAkBqovqSqmgHpGblTVOctRvleBMwnPTnX3FZ4dBN4QFUZ
-         7aINSPs6DrwLYTgBAjq639VHwO+7QVzZlsQIC8swge/VOqx4IwrK38W9uqpahR+6PPn4
-         yyNldXlraV9t+mlY5WDyGPSVF/R4TcUnSR2DykIId8PuAMH/iorZUL/yo4MDgBklDb1J
-         k/4A==
-X-Gm-Message-State: AOJu0Yyty3x1v8B3rh3a/Qi2l85fBbWsgmbXdBLzq5alz09+l9lYcCNJ
-	3xyi7VmifOeVGLPjbar36S5m3ucONjT9xwxS9dSX4VTHNXyH9az9Dpq96PM6Gb2y0sk=
-X-Gm-Gg: ASbGncsTwt+sNARu4dGWIwDeyVAVjCBP3WC2EQB+L2PYK4Zb8DyVnOlzQtZnyQZaTh9
-	Gsy/wNUOJ57ieyPhMcTGoULlp7y7J2siQmyoFEhYT1rzEjEIc/u7tkYSkK+wQunIbdLdNTayQWB
-	m3xHMtxgk5mzbGzrU4WIyslMr1an3U6nDMoRULdZOcstNvT8U8tC48wg8shPveWQeDSXUUT9WD+
-	8sBSQtVhu0x5keCREF1j9XXcwLtug0joQVrhQkHIk+gJ8S54OMIw2m/Ehdg36PKc8qiP3lvOuC8
-	nVT1iXoikGLZq631mC+rjfmRR1p/ozR7M04wa9XtahK8AsZ+bcctQqtBiKlD4+UI3t3QIdE=
-X-Google-Smtp-Source: AGHT+IEpJWK04H1Jk2KDz14W33GOaHF4ef97VNekR7RxVVrRDyfOsdZQ8TpRKKVPiZWvjeGWp4YagA==
-X-Received: by 2002:a05:6000:1445:b0:3a4:e482:ec77 with SMTP id ffacd0b85a97d-3a4e482f096mr1978591f8f.9.1748462409096;
-        Wed, 28 May 2025 13:00:09 -0700 (PDT)
+        bh=PDq0VVP4RBrXESa/PJeathjlPVt4SwgrUucxImBu+7c=;
+        b=sn2dQcCx8V0WUyJSXI2ubta+NR6sdvZoTr0kmWbfPBKeZh/ah1dRCmDOZGeFugvRTz
+         7RmLLBEExLWTdDz4qNeKOgdB2Tpqi1hUz0vsye0nXosNys9qMkZXIm/ubRpst4T0ELbB
+         yaerpFOQCKNzhUVJe3O776164kUnkaNnQs1Q+eKUAEZ/VAfdR9X8lp0BDdenIoR3xhfh
+         n3RMivvb0XcvhkYHuOxRuX+x0H2Fmqez9+5nrUx5KoRyzo0vvHZssasZsLlB27ZDC0zl
+         odE9tBGgP+BsQtp1daq0k+tuYYU7ttQTqItvd9Cha7XmFT7S0pjVMIiMb+9VldJ2XlQy
+         RUig==
+X-Gm-Message-State: AOJu0YwOd2OURF4niss26YO1Lso0FxpamLjVLk4G0kmrtHOufRmRUBu6
+	2O23HYeDULKjq04t9daJsirpHmWs+QG4ZaBCxxFuDeqeLRL0hxWw0yFH40rACUpOZEI=
+X-Gm-Gg: ASbGncvn/wNQNoqLDjWHrezBV1CxMMhXFxbRnoNdUlKRM1ArhH7qoGoWBuNPSJgu97E
+	mmhX7A0euVRj8U5OOXF5Q4V213NODCeqIXqFECtjMFsMzt8BQghckMdkTMzBgRA2d0ILrmOeWVG
+	fjGpN5gI+3C4HLe6ozgLGUwKR/V6gD3Ol70FQJwgtjoyeeABed8KzHRxbLblxSg8+ATf1VpToT3
+	kIlH92nKdzSwH+CncoNDdg7O/oU3kDJ/EAlFBPffMYRP4rwRdI983zTtv3eaId/qplCs2IruGnQ
+	jFTAoG2JBPuqY+KlLzKB3l4lksoTkngsSRaesqYZCBE4kAulJAUQ0avGKVMCgNv6Lb8B/caxQ67
+	lTWNx3A==
+X-Google-Smtp-Source: AGHT+IHZUGUK6yTkOMly/UTCf5TfkRX+RuLMJ+zm0TaswuyyY5q5bbmG4zBXo05PBD4iH1y4pl+NdQ==
+X-Received: by 2002:a05:600c:4752:b0:441:b397:e324 with SMTP id 5b1f17b1804b1-44c93caeb6amr61901665e9.9.1748462410755;
+        Wed, 28 May 2025 13:00:10 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-44fcbd61553sm53347665e9.0.2025.05.28.13.00.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-44fcbd61553sm53347665e9.0.2025.05.28.13.00.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 13:00:07 -0700 (PDT)
+        Wed, 28 May 2025 13:00:10 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 28 May 2025 21:59:55 +0200
-Subject: [PATCH 1/8] ASoC: codecs: Constify regmap configuration static
- variables
+Date: Wed, 28 May 2025 21:59:56 +0200
+Subject: [PATCH 2/8] ASoC: fsl: Constify reg_default array
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250528-asoc-const-unused-v1-1-19a5d07b9d5c@linaro.org>
+Message-Id: <20250528-asoc-const-unused-v1-2-19a5d07b9d5c@linaro.org>
 References: <20250528-asoc-const-unused-v1-0-19a5d07b9d5c@linaro.org>
 In-Reply-To: <20250528-asoc-const-unused-v1-0-19a5d07b9d5c@linaro.org>
 To: David Rhodes <david.rhodes@cirrus.com>, 
@@ -84,311 +84,68 @@ Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
  linuxppc-dev@lists.ozlabs.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11915;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1754;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=Z9SxgzJQKUDvvpklxiiL0R/g7Mpc1YmBxkKUBnHBTw4=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoN2s9T7C7p3EFXVEu7vbd0VKKvStX3mTYGqviF
- zfaFYYh6cCJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDdrPQAKCRDBN2bmhouD
- 1+m4D/4zCtHkWmOUd+xtdQvuOdYkXQyr9ErCPsRRonOTbYo8OT2BekoBNsyX6yQIFayV8RjrDc7
- HMKEsPwff11fxyCPRo9nEG0MhFBedpLBypjJJR6s94LG7gm99lrtZrlrQJHVGTmSf1/bt+SYtiD
- 2JmoX4ND99VQ2iJ9GVrApj+/M/Oyiy8Jxb2ET9Cwm8iyBwgIJQKdBN3p22SAS3PQRPGuDYANl6y
- E5PlQCxrlOpTfRPR8ieo3c4KMldAg/phYnnPuoDCsT2glQn68J+Yf8sOmvee257U9539xqeMmRF
- Y1zvg5YA/6Azhmvvrq8QwID+pDluLiANMzTZMXDbjkQUsEG3BzM4mHG7pWpJ8r44YYtYri4mgyb
- jom9+J+c8yPkURdEGIgLUVZj4ciXyMTFn4kBMmKHOPkj3YNiEYI6MtqEsqhL+1aQ5o+9lSNu6qc
- Yz2LngzoBGXK6jNCULmmAzqk7R4m8PU5Lvtx0PvOuKU+vBXOg+gPVnEDnYEVWDjiPro3vzx4x6/
- 60eN2wec46edNviz46FVueQz+PR1QEH7UYyvQjmy4LWF3n/aCRcLExbPLRiYwBL8nkCpUWZIGoL
- TPRDjKLc+PDgn6Q8y2/AS0YmNAKxM+wq885w6ocDeiLYMxWy/FeqElt+ytae235hnhOhMf/+jEe
- KQ1WZqNJPTrGZCw==
+ bh=CpYH823lP1gANgxKRTCYkC1iXZwcMTKwp/L88jc6Xws=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoN2s+XsqS9sFfoi0z9c+1UBE4EIIisHahFoDdV
+ IQAKD8fYDSJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDdrPgAKCRDBN2bmhouD
+ 14HkEACFdeeKCanwIs9cv17+UMezTLZWq0x8/jrTebWUBqQqWOfNZFxDU6WjQcbXZ7dXF5S8wQ4
+ 7bLJBjpg/DGuUc+eS4RBF2PEZ6NX2WBqzoXpwQqGh5IU8mjJoaqnNFYzOQandX1OW//JzbLGrGO
+ YFprEji4Oid03TG7/AgU/DvnN4+g+/8BtNMeq1G+VklfGrQKT49hUMNnST2geP66RYQwpi77ogY
+ 2s+J3a1eRLYcA04uRF54ZJyA2FLE6SMIm6kwzLmwGliMUbqO6w3bRbbwMTdizD3zn3aBPEEZtpG
+ ++ayreX9g0cV5IzOIFqbVfycaLLHom3iO7dy3K4L8Pqz4Ozx5YGewOHbcb3G0kllU6sxYLgfkDX
+ tXro/sl120J1X55bh9T2FwBWVNQuFhi6V8REO7tRcZj/cYwyfXrq3tbAWfH+/iUTKX7dFXCWIk4
+ BafMN7HfrnzbHhhm0m4SrH57UsvnoLA9ZZhao+zwe5EerO0Wb0TKL7tgV3g1I/VdWKCRyHn9wM9
+ jUvYBzaZqnoxLhtU0JcSwfNjwz5TKbJo0TnrJq35lqZOw+zKvpHlx7hqUiSyr088rslYMHZJXp6
+ 2RAFQfgHUZhqSe2i8GfEeRoanO/1RWmQOD3NOHWI1RbMqJObKGTgBWW3+LYWY5ssXczSr3oHcfu
+ 3MvwM/3z7gf87DQ==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Static arrays/structs for regmap configuration like 'struct
-reg_default', 'struct reg_sequence' and others are not modified so can
-be changed to const for more safety.
+Static 'struct reg_default' array is not modified so can be changed to
+const for more safety.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/codecs/cs35l36.c        | 2 +-
- sound/soc/codecs/da7218.c         | 2 +-
- sound/soc/codecs/da7219.c         | 4 ++--
- sound/soc/codecs/es8375.c         | 2 +-
- sound/soc/codecs/max98363.c       | 2 +-
- sound/soc/codecs/max98373-i2c.c   | 2 +-
- sound/soc/codecs/max98373-sdw.c   | 2 +-
- sound/soc/codecs/max98388.c       | 2 +-
- sound/soc/codecs/max98390.c       | 2 +-
- sound/soc/codecs/max98396.c       | 4 ++--
- sound/soc/codecs/max98504.c       | 2 +-
- sound/soc/codecs/max98520.c       | 2 +-
- sound/soc/codecs/max98927.c       | 2 +-
- sound/soc/codecs/rt722-sdca-sdw.c | 2 +-
- sound/soc/codecs/wcd938x.c        | 2 +-
- sound/soc/codecs/wsa881x.c        | 4 ++--
- sound/soc/codecs/wsa883x.c        | 2 +-
- sound/soc/codecs/wsa884x.c        | 2 +-
- 18 files changed, 21 insertions(+), 21 deletions(-)
+ sound/soc/fsl/fsl_asrc.c | 2 +-
+ sound/soc/fsl/fsl_sai.c  | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/cs35l36.c b/sound/soc/codecs/cs35l36.c
-index b49c6905e8727d7c07fd10e668507ca07bf2cff5..b60697ff7a506dccf3dba1b01faa985761bbbc42 100644
---- a/sound/soc/codecs/cs35l36.c
-+++ b/sound/soc/codecs/cs35l36.c
-@@ -129,7 +129,7 @@ static const struct cs35l36_pll_config cs35l36_pll_sysclk[] = {
- 	{27000000,	0x3F, 0x0A},
- };
- 
--static struct reg_default cs35l36_reg[] = {
-+static const struct reg_default cs35l36_reg[] = {
- 	{CS35L36_TESTKEY_CTRL,			0x00000000},
- 	{CS35L36_USERKEY_CTL,			0x00000000},
- 	{CS35L36_OTP_CTRL1,			0x00002460},
-diff --git a/sound/soc/codecs/da7218.c b/sound/soc/codecs/da7218.c
-index 5f2f67e3bd29240acfa0d53a0892c8e92f711c1f..a7539e1a18939683558accd207b57324a1ce6aeb 100644
---- a/sound/soc/codecs/da7218.c
-+++ b/sound/soc/codecs/da7218.c
-@@ -3033,7 +3033,7 @@ static const struct snd_soc_component_driver soc_component_dev_da7218 = {
-  * Regmap configs
-  */
- 
--static struct reg_default da7218_reg_defaults[] = {
-+static const struct reg_default da7218_reg_defaults[] = {
- 	{ DA7218_SYSTEM_ACTIVE, 0x00 },
- 	{ DA7218_CIF_CTRL, 0x00 },
- 	{ DA7218_SPARE1, 0x00 },
-diff --git a/sound/soc/codecs/da7219.c b/sound/soc/codecs/da7219.c
-index 3958e88a244563c81b373cab38bc221fc8ba795e..221577574525a5fd60180a4441331d7db88f50e2 100644
---- a/sound/soc/codecs/da7219.c
-+++ b/sound/soc/codecs/da7219.c
-@@ -2312,7 +2312,7 @@ static void da7219_handle_pdata(struct snd_soc_component *component)
-  * Regmap configs
-  */
- 
--static struct reg_default da7219_reg_defaults[] = {
-+static const struct reg_default da7219_reg_defaults[] = {
- 	{ DA7219_MIC_1_SELECT, 0x00 },
- 	{ DA7219_CIF_TIMEOUT_CTRL, 0x01 },
- 	{ DA7219_SR_24_48, 0x00 },
-@@ -2443,7 +2443,7 @@ static const struct regmap_config da7219_regmap_config = {
- 	.cache_type = REGCACHE_RBTREE,
- };
- 
--static struct reg_sequence da7219_rev_aa_patch[] = {
-+static const struct reg_sequence da7219_rev_aa_patch[] = {
- 	{ DA7219_REFERENCES, 0x08 },
- };
- 
-diff --git a/sound/soc/codecs/es8375.c b/sound/soc/codecs/es8375.c
-index decc86c92427c0c61a1531fb0fed1d9b853449d5..d12b3dc9e1f7fc03b8737e6b001b44c0d51c1b93 100644
---- a/sound/soc/codecs/es8375.c
-+++ b/sound/soc/codecs/es8375.c
-@@ -619,7 +619,7 @@ static bool es8375_writeable_register(struct device *dev, unsigned int reg)
+diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
+index 677529916dc0e53a15952c53016930203c56dc9d..637260f306ecab109ed23b92a882cffce1c65421 100644
+--- a/sound/soc/fsl/fsl_asrc.c
++++ b/sound/soc/fsl/fsl_asrc.c
+@@ -930,7 +930,7 @@ static bool fsl_asrc_writeable_reg(struct device *dev, unsigned int reg)
  	}
  }
  
--static struct regmap_config es8375_regmap_config = {
-+static const struct regmap_config es8375_regmap_config = {
- 	.reg_bits = 8,
- 	.val_bits = 8,
- 	.max_register = ES8375_REG_MAX,
-diff --git a/sound/soc/codecs/max98363.c b/sound/soc/codecs/max98363.c
-index 950105e5bffdc2c7606e10e7af6f3cf97ece5b4c..fd6830a7579d4860c8bc4fdd26d05698834ddcc2 100644
---- a/sound/soc/codecs/max98363.c
-+++ b/sound/soc/codecs/max98363.c
-@@ -14,7 +14,7 @@
- 
- #include "max98363.h"
- 
--static struct reg_default max98363_reg[] = {
-+static const struct reg_default max98363_reg[] = {
- 	{MAX98363_R2021_ERR_MON_CTRL, 0x0},
- 	{MAX98363_R2022_SPK_MON_THRESH, 0x0},
- 	{MAX98363_R2023_SPK_MON_DURATION, 0x0},
-diff --git a/sound/soc/codecs/max98373-i2c.c b/sound/soc/codecs/max98373-i2c.c
-index 56c4ba1f37826f279df4007b0de36fa932257b8f..f58b8c8625a7061fc9564c9f84dd95d77df33b72 100644
---- a/sound/soc/codecs/max98373-i2c.c
-+++ b/sound/soc/codecs/max98373-i2c.c
-@@ -23,7 +23,7 @@ static const u32 max98373_i2c_cache_reg[] = {
- 	MAX98373_R20B6_BDE_CUR_STATE_READBACK,
+-static struct reg_default fsl_asrc_reg[] = {
++static const struct reg_default fsl_asrc_reg[] = {
+ 	{ REG_ASRCTR, 0x0000 }, { REG_ASRIER, 0x0000 },
+ 	{ REG_ASRCNCR, 0x0000 }, { REG_ASRCFG, 0x0000 },
+ 	{ REG_ASRCSR, 0x0000 }, { REG_ASRCDR1, 0x0000 },
+diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+index af1a168d35e379e24ce46715ba53b4a4dac65988..c84e3bb1290fd1188118b220adeb4f8e279a3372 100644
+--- a/sound/soc/fsl/fsl_sai.c
++++ b/sound/soc/fsl/fsl_sai.c
+@@ -1059,7 +1059,7 @@ static const struct snd_soc_component_driver fsl_component = {
+ 	.legacy_dai_naming	= 1,
  };
  
--static struct reg_default max98373_reg[] = {
-+static const struct reg_default max98373_reg[] = {
- 	{MAX98373_R2000_SW_RESET, 0x00},
- 	{MAX98373_R2001_INT_RAW1, 0x00},
- 	{MAX98373_R2002_INT_RAW2, 0x00},
-diff --git a/sound/soc/codecs/max98373-sdw.c b/sound/soc/codecs/max98373-sdw.c
-index 6088278e6503dc7ea743ccc439cd6365c7475017..43b52bda6ad5297d856123aa515e0019f4866097 100644
---- a/sound/soc/codecs/max98373-sdw.c
-+++ b/sound/soc/codecs/max98373-sdw.c
-@@ -26,7 +26,7 @@ static const u32 max98373_sdw_cache_reg[] = {
- 	MAX98373_R20B6_BDE_CUR_STATE_READBACK,
+-static struct reg_default fsl_sai_reg_defaults_ofs0[] = {
++static const struct reg_default fsl_sai_reg_defaults_ofs0[] = {
+ 	{FSL_SAI_TCR1(0), 0},
+ 	{FSL_SAI_TCR2(0), 0},
+ 	{FSL_SAI_TCR3(0), 0},
+@@ -1082,7 +1082,7 @@ static struct reg_default fsl_sai_reg_defaults_ofs0[] = {
+ 	{FSL_SAI_RMR, 0},
  };
  
--static struct reg_default max98373_reg[] = {
-+static const struct reg_default max98373_reg[] = {
- 	{MAX98373_R0040_SCP_INIT_STAT_1, 0x00},
- 	{MAX98373_R0041_SCP_INIT_MASK_1, 0x00},
- 	{MAX98373_R0042_SCP_INIT_STAT_2, 0x00},
-diff --git a/sound/soc/codecs/max98388.c b/sound/soc/codecs/max98388.c
-index 99986090b4a63a9759763881f3004d0e509e53cd..076f15a9867e13527324354cd6364ade3bca4846 100644
---- a/sound/soc/codecs/max98388.c
-+++ b/sound/soc/codecs/max98388.c
-@@ -18,7 +18,7 @@
- #include <sound/tlv.h>
- #include "max98388.h"
- 
--static struct reg_default max98388_reg[] = {
-+static const struct reg_default max98388_reg[] = {
- 	{MAX98388_R2000_SW_RESET, 0x00},
- 	{MAX98388_R2001_INT_RAW1, 0x00},
- 	{MAX98388_R2002_INT_RAW2, 0x00},
-diff --git a/sound/soc/codecs/max98390.c b/sound/soc/codecs/max98390.c
-index 76296176f9486f72a9d6077a0c69a475e277ed88..a8a282ff9fc5abfbf6c6bdc7fc209ed15bda0cfd 100644
---- a/sound/soc/codecs/max98390.c
-+++ b/sound/soc/codecs/max98390.c
-@@ -23,7 +23,7 @@
- 
- #include "max98390.h"
- 
--static struct reg_default max98390_reg_defaults[] = {
-+static const struct reg_default max98390_reg_defaults[] = {
- 	{MAX98390_INT_EN1, 0xf0},
- 	{MAX98390_INT_EN2, 0x00},
- 	{MAX98390_INT_EN3, 0x00},
-diff --git a/sound/soc/codecs/max98396.c b/sound/soc/codecs/max98396.c
-index c1888cd83dbc6fe2d418012dc1a9b1c58c3ded86..4b4e1fc98a6da5bf3a713133ce974b2f09161ed4 100644
---- a/sound/soc/codecs/max98396.c
-+++ b/sound/soc/codecs/max98396.c
-@@ -16,7 +16,7 @@ static const char * const max98396_core_supplies[MAX98396_NUM_CORE_SUPPLIES] = {
- 	"dvddio",
- };
- 
--static struct reg_default max98396_reg[] = {
-+static const struct reg_default max98396_reg[] = {
- 	{MAX98396_R2000_SW_RESET, 0x00},
- 	{MAX98396_R2001_INT_RAW1, 0x00},
- 	{MAX98396_R2002_INT_RAW2, 0x00},
-@@ -174,7 +174,7 @@ static struct reg_default max98396_reg[] = {
- 	{MAX98396_R21FF_REVISION_ID, 0x00},
- };
- 
--static struct reg_default max98397_reg[] = {
-+static const struct reg_default max98397_reg[] = {
- 	{MAX98396_R2000_SW_RESET, 0x00},
- 	{MAX98396_R2001_INT_RAW1, 0x00},
- 	{MAX98396_R2002_INT_RAW2, 0x00},
-diff --git a/sound/soc/codecs/max98504.c b/sound/soc/codecs/max98504.c
-index 6b6a7ece4cecc3d114da276faf859c8176955300..c94142768c818228aae8b90c636cfd6b496e9859 100644
---- a/sound/soc/codecs/max98504.c
-+++ b/sound/soc/codecs/max98504.c
-@@ -35,7 +35,7 @@ struct max98504_priv {
- 	unsigned int brownout_release_rate;
- };
- 
--static struct reg_default max98504_reg_defaults[] = {
-+static const struct reg_default max98504_reg_defaults[] = {
- 	{ 0x01,	0},
- 	{ 0x02,	0},
- 	{ 0x03,	0},
-diff --git a/sound/soc/codecs/max98520.c b/sound/soc/codecs/max98520.c
-index adf5a898c6df5b10661861f6329ca54db6445f1a..2bf8976c1828210d2e6106f08e571df650640606 100644
---- a/sound/soc/codecs/max98520.c
-+++ b/sound/soc/codecs/max98520.c
-@@ -16,7 +16,7 @@
- #include <sound/tlv.h>
- #include "max98520.h"
- 
--static struct reg_default max98520_reg[] = {
-+static const struct reg_default max98520_reg[] = {
- 	{MAX98520_R2000_SW_RESET, 0x00},
- 	{MAX98520_R2001_STATUS_1, 0x00},
- 	{MAX98520_R2002_STATUS_2, 0x00},
-diff --git a/sound/soc/codecs/max98927.c b/sound/soc/codecs/max98927.c
-index 55cc18451a2d26e0ad72031d5017d68c215240ef..0e9b8970997cf6485a775a3187b1470f93b5c057 100644
---- a/sound/soc/codecs/max98927.c
-+++ b/sound/soc/codecs/max98927.c
-@@ -19,7 +19,7 @@
- #include <sound/tlv.h>
- #include "max98927.h"
- 
--static struct reg_default max98927_reg[] = {
-+static const struct reg_default max98927_reg[] = {
- 	{MAX98927_R0001_INT_RAW1,  0x00},
- 	{MAX98927_R0002_INT_RAW2,  0x00},
- 	{MAX98927_R0003_INT_RAW3,  0x00},
-diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
-index 609ca0d6c83a1f28c73a0981f2a8f857816e5eb2..70700bdb80a14374321d1d8d8744356484ac01ac 100644
---- a/sound/soc/codecs/rt722-sdca-sdw.c
-+++ b/sound/soc/codecs/rt722-sdca-sdw.c
-@@ -147,7 +147,7 @@ static int rt722_sdca_mbq_size(struct device *dev, unsigned int reg)
- 	}
- }
- 
--static struct regmap_sdw_mbq_cfg rt722_mbq_config = {
-+static const struct regmap_sdw_mbq_cfg rt722_mbq_config = {
- 	.mbq_size = rt722_sdca_mbq_size,
- };
- 
-diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-index d9b61eab029af3d4782620ee017fc84fbd26ce0b..342d1f7d5dee3ac2d703e5b5602aef9ca2987158 100644
---- a/sound/soc/codecs/wcd938x.c
-+++ b/sound/soc/codecs/wcd938x.c
-@@ -275,7 +275,7 @@ static const struct regmap_irq wcd938x_irqs[WCD938X_NUM_IRQS] = {
- 	REGMAP_IRQ_REG(WCD938X_IRQ_HPHR_SURGE_DET_INT, 2, 0x08),
- };
- 
--static struct regmap_irq_chip wcd938x_regmap_irq_chip = {
-+static const struct regmap_irq_chip wcd938x_regmap_irq_chip = {
- 	.name = "wcd938x",
- 	.irqs = wcd938x_irqs,
- 	.num_irqs = ARRAY_SIZE(wcd938x_irqs),
-diff --git a/sound/soc/codecs/wsa881x.c b/sound/soc/codecs/wsa881x.c
-index 6627d2da372206eff879f8f3bd5fae9ddc0757d7..d479521a6d504ee45797be8ea99206a4b1787f73 100644
---- a/sound/soc/codecs/wsa881x.c
-+++ b/sound/soc/codecs/wsa881x.c
-@@ -202,7 +202,7 @@
- 	SOC_SINGLE_EXT_TLV(xname, reg, shift, max, invert, \
- 			   snd_soc_get_volsw, wsa881x_put_pa_gain, tlv_array)
- 
--static struct reg_default wsa881x_defaults[] = {
-+static const struct reg_default wsa881x_defaults[] = {
- 	{ WSA881X_CHIP_ID0, 0x00 },
- 	{ WSA881X_CHIP_ID1, 0x00 },
- 	{ WSA881X_CHIP_ID2, 0x00 },
-@@ -346,7 +346,7 @@ static const struct reg_sequence wsa881x_vi_txfe_en_2_0[] = {
- };
- 
- /* Default register reset values for WSA881x rev 2.0 */
--static struct reg_sequence wsa881x_rev_2_0[] = {
-+static const struct reg_sequence wsa881x_rev_2_0[] = {
- 	{ WSA881X_RESET_CTL, 0x00, 0x00 },
- 	{ WSA881X_TADC_VALUE_CTL, 0x01, 0x00 },
- 	{ WSA881X_INTR_MASK, 0x1B, 0x00 },
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index f04d99c66f332e18fe4c201f78360416c1607466..13c9d4a6f01537e448a5595f489c1716eb2053f2 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -572,7 +572,7 @@ static const struct sdw_port_config wsa883x_pconfig[WSA883X_MAX_SWR_PORTS] = {
- 	},
- };
- 
--static struct reg_default wsa883x_defaults[] = {
-+static const struct reg_default wsa883x_defaults[] = {
- 	{ WSA883X_REF_CTRL, 0xD5 },
- 	{ WSA883X_TEST_CTL_0, 0x06 },
- 	{ WSA883X_BIAS_0, 0xD2 },
-diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-index fd6ebc25fe894a5981df4e39d10d0f27d21c3a25..07d8a2645404ec49d4b12297d79bbddbe2950a4c 100644
---- a/sound/soc/codecs/wsa884x.c
-+++ b/sound/soc/codecs/wsa884x.c
-@@ -899,7 +899,7 @@ static const struct sdw_port_config wsa884x_pconfig[WSA884X_MAX_SWR_PORTS] = {
- 	},
- };
- 
--static struct reg_default wsa884x_defaults[] = {
-+static const struct reg_default wsa884x_defaults[] = {
- 	{ WSA884X_BG_CTRL,			0xa5 },
- 	{ WSA884X_ADC_CTRL,			0x00 },
- 	{ WSA884X_BOP1_PROG,			0x22 },
+-static struct reg_default fsl_sai_reg_defaults_ofs8[] = {
++static const struct reg_default fsl_sai_reg_defaults_ofs8[] = {
+ 	{FSL_SAI_TCR1(8), 0},
+ 	{FSL_SAI_TCR2(8), 0},
+ 	{FSL_SAI_TCR3(8), 0},
 
 -- 
 2.45.2
