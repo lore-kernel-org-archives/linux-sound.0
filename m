@@ -1,88 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2036023CB;
-	Wed, 28 May 2025 13:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7E3548EE;
+	Wed, 28 May 2025 13:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748438436; cv=none; b=isCzrwnUbiGWY1Jo5YZbhNH8/noy6oARxbSwLsSr4TI9E3tIaH/UCtQ9qE1lAYrQDzFcz1xtfp6QAH2n+5I9rHdkYMZqW9tFtLg6oyVDKOcAzXFcb3q0KRjkm8CJAxFKs3eEhjgSVVlXJvvRcZHvmeujPopXVt4P+i5jlyN39DE=
+	t=1748439972; cv=none; b=SyK+3iLtBxRzS0l+K+LBCwWr6YxxTcDyAvXiLlqd4FcJiPl2+VQbdTCa/KyikHt7NlHigrSBzYtC+sAqSMb3cuGquqkMARkX3W893Ei+ENjDH0P7J42k14aXmbOMSyBwEBkaFZA/m4Z1eCA4SIouii1uAZ9fLvHKrT06x7yiP0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748438436; c=relaxed/simple;
-	bh=bqh02R+RktuC2AJ2tt0yfPMqfFsQm9schP9JHE8WnDI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=D2gkpuvBt0iHLcJwyHkemJovwTTPoaehYo+DBqFNlzvpRM+ukD/f4hWTdMIY8va2oz2a8CC+Pk9hnZoSwupeGxQBDl13nn33BKS+B7r+8IBCisN9Mli3Oepx2+zMJf8XpEZQZzaPvh7TJZpYToi51MEWmWNSvWT1NFWTol1F3to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oCYq2K9h; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oCYq2K9h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12F5BC4CEE7;
-	Wed, 28 May 2025 13:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748438435;
-	bh=bqh02R+RktuC2AJ2tt0yfPMqfFsQm9schP9JHE8WnDI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oCYq2K9hh6jJLtZockCyaC3kKwD2EPfD3X+pHxuN21Qz18vP9Ks+0oCP3aSV9PLEi
-	 H4k5zDX1E72ULPi8XwG1LCEdy2VgNc5PEyBdr9uNVmFwUjVrpnVoKdjk39WNeKRNBA
-	 frQIZtDYmK7sxgUE+ChQ03fmpO5XVWf07bDTzo/sDGsa5+ICSR28yj92U+I5uwcbSn
-	 7fi2KGxww94+pnybT6QW28gBSPtq542WXeCgj+MyKNGB3o9cCBM+Zt6uW5Tk5845RB
-	 Ihh/oQNvZKJiL4AhIPdGPGdTkYwa8WxjGYAc64tOJC8Zl5PcjwIKd3t7gLptZ9CbQL
-	 PgS6fAaqZBJ7w==
-From: Mark Brown <broonie@kernel.org>
-To: Kevin Cernekee <cernekee@chromium.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Bram Vlerick <bram.vlerick@openpixelsystems.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- peter@korsgaard.com, kamel.bouhara@bootlin.com
-In-Reply-To: <20250528-tas5733-fix-controls-size-v1-1-5c70595accaf@openpixelsystems.org>
-References: <20250528-tas5733-fix-controls-size-v1-1-5c70595accaf@openpixelsystems.org>
-Subject: Re: [PATCH] ASoC: tas571x: fix tas5733 num_controls
-Message-Id: <174843843382.44834.14730284248939713769.b4-ty@kernel.org>
-Date: Wed, 28 May 2025 14:20:33 +0100
+	s=arc-20240116; t=1748439972; c=relaxed/simple;
+	bh=9QsVaD96h9TZ8yRguSQmceVk5sbKpRXUCWFq4YA94Uc=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	 MIME-Version:Content-Type; b=c4nsfwiunfqzhRfqHRUTnpHaUT1t5FChEcOVNV5Fxz6PIcmPf3+Xv4ugUYCyEUkNiTh9p5Cfb523nx4BK7osMQZka8+TR7jNGzLqD1oB7a8PJHvPAKEzoNFULsDVKIvT7AxhVkept2+j1RcaNyeRq1J2JPzA9T5G6/rM4m5FpE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com; spf=pass smtp.mailfrom=korsgaard.com; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korsgaard.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 42762438DA;
+	Wed, 28 May 2025 13:46:04 +0000 (UTC)
+Received: from peko by dell.be.48ers.dk with local (Exim 4.96)
+	(envelope-from <peter@korsgaard.com>)
+	id 1uKH6Z-001CgK-2G;
+	Wed, 28 May 2025 15:46:03 +0200
+From: Peter Korsgaard <peter@korsgaard.com>
+To: Bram Vlerick <bram.vlerick@openpixelsystems.org>
+Cc: Kevin Cernekee <cernekee@chromium.org>,  Liam Girdwood
+ <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,  Jaroslav Kysela
+ <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,  Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor
+ Dooley <conor+dt@kernel.org>,  Neil Armstrong <neil.armstrong@linaro.org>,
+  linux-sound@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: tas571x: add support for tas5753
+References: <20250528-asoc-tas5753-support-v1-0-a50c3f6734ee@openpixelsystems.org>
+	<20250528-asoc-tas5753-support-v1-1-a50c3f6734ee@openpixelsystems.org>
+Date: Wed, 28 May 2025 15:46:03 +0200
+In-Reply-To: <20250528-asoc-tas5753-support-v1-1-a50c3f6734ee@openpixelsystems.org>
+	(Bram Vlerick's message of "Wed, 28 May 2025 14:10:08 +0200")
+Message-ID: <87plfsx2zo.fsf@dell.be.48ers.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+Content-Type: text/plain
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgddvfeegvdculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufhffjgfkfgggtgesthdttddttdertdenucfhrhhomheprfgvthgvrhcumfhorhhsghgrrghrugcuoehpvghtvghrsehkohhrshhgrggrrhgurdgtohhmqeenucggtffrrghtthgvrhhnpeetgfelveffveehtdevgeefjeeiudduledtffehgefgleekteektedutdfhleeiueenucfkphepkedvrddugeefrdelhedrvddvvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeekvddrudegfedrleehrddvvddvpdhhvghlohepuggvlhhlrdgsvgdrgeekvghrshdrughkpdhmrghilhhfrhhomhepphgvthgvrheskhhorhhsghgrrghrugdrtghomhdpnhgspghrtghpthhtohepudefpdhrtghpthhtohepsghrrghmrdhvlhgvrhhitghksehophgvnhhpihigvghlshihshhtvghmshdrohhrghdprhgtphhtthhopegtvghrnhgvkhgvvgestghhrhhomhhiuhhmrdhorhhgpdhrtghpthhtoheplhhgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopehpvghrvgigsehpvghrvgigrdgtiidprhgtphhtthhopehtihifrghisehsuhhsvgdrtghomhdpr
+ hgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: peter@korsgaard.com
 
-On Wed, 28 May 2025 10:25:48 +0200, Bram Vlerick wrote:
-> Commit e3de7984e451 ("ASoC: tas571x: add separate tas5733 controls")
-> introduces a separate struct for the tas5733 controls but did not update
-> the num_controls with the correct ARRAY_SIZE.
-> 
-> Fixes: e3de7984e451 ("ASoC: tas571x: add separate tas5733 controls")
-> 
-> 
-> [...]
+>>>>> "Bram" == Bram Vlerick <bram.vlerick@openpixelsystems.org> writes:
 
-Applied to
+ > Add support for tas5753, device is similar to tas5733 but with added
+ > headphone / line driver.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+ > Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
 
-Thanks!
+Acked-by: Peter Korsgaard <peter@korsgaard.com>
 
-[1/1] ASoC: tas571x: fix tas5733 num_controls
-      commit: bc4005ef43104da589951dba69291360c6a11ae7
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Bye, Peter Korsgaard
