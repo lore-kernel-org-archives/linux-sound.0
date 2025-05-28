@@ -1,139 +1,208 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5543E26A0F3
-	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 08:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68AB27602A
+	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 10:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748422013; cv=none; b=pj9N6t8bC6PtqZ/OciEImAjqs/GJqJD/Gnsho8xY5TFxF8xuGS///hUJi1dXbV1XvNjjhhXoZTJUNrtfa97uIM0C6UpdyED9oLSf64TjLnOpeHWQJnTdt2hP2cWBhM5Yas3NdVLRypBznJv2MRN4E5QbvhivDM6uOlnRvqAu7LA=
+	t=1748428896; cv=none; b=puYe+4FDtJObPW3CFGNjkCXJMDuQY+huNXoxiOyG4ptuk6FVlaSghCXvQ9qt+Gd8P7JqQPlH8gfIQ7KeWHk6bkDvOkB5jsmpt1PL1FoHN2vyCX7hpVzcA3eAM+oyAHWnUg0ImRJLI4F58k4ojmS2VoJ4ZeNpQsRJOswmer5nD7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748422013; c=relaxed/simple;
-	bh=Fi+QiGSJC8uF2K0X5kt8vPGp5bckmVAYGE46xxU1R40=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Me8iov4QRANRRrbf1s2HOOjCtmTpkRDLFbTF9WNulHg4aY3mHudgAosYefCmRkcAdTJXnBm5ZmwREEoR5C5tdJMt0g4R1xfX4At/URSW9DdehD0BFQhy0qsvOlo22CQbkR38QeSCtyeWP/t8koCW4IQzqwFGWYlSQDpqTLveII4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NYX8fy24; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1748428896; c=relaxed/simple;
+	bh=31q5XaAMlBexIYczbpLSD3TpwdohBFMpqp6LWBCJyAo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QZuQ1TlAiITiy+HzqdTJG8V2RdhCUoUEQG/JmQmrkmeeOtJREmK6ZDHcbcgNtv/xET5USgiqP8Gar+vRPn5R0vkm550RPtQCKYsEGj9zcc4W6xT9X4Inxd5w2hY/00ph3/MVwVUr6fDJx3h8neXaOmUHFIBc/XQnEpCjySBzUJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MW7/9SVE; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NYX8fy24"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54RKuxco018912
-	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 08:46:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=DRzWkDK3ft+iwkKji/GjVMzB
-	ocQDwCbSuP5DIc/EUys=; b=NYX8fy24OEESH86jLxZM9FLzbN+nsk41j6+K93rW
-	ueBNg7KgmhdpslFMbhhc4lTXjuX2liHHDZxYeQ/+t5uz9RssxOwPIu4W9c2tZM+J
-	CGtb5ziTFEhYj5WTXFiQn5KrflxgZV78v52nlevTu5N0Jjc4c+qYaCk8LOv+Tn+X
-	X9OkFAJ3pBEtSkNYly3WQ2nZCCsEO0I5MNBO/kIJSpabr4MU67xuXpVyT/mgYo2N
-	NHHOxlvQLJOx7rtO0uWJ3xj2jV7gU37aeb1yVu/1aXV7A4de+16hUocYKszCct8r
-	MsQgCFogJEUBfWNdmeQitrcpH8XZeyPrbMesdFQBdkqzXA==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46u549hkg7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 08:46:49 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6f8e23d6657so72300706d6.2
-        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 01:46:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MW7/9SVE"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfe99f2a7so5846085e9.2
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 03:41:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748428892; x=1749033692; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WYGECA6tC+WcTnZvoeh8g+cRlyTZnil5/IN1N4S/06M=;
+        b=MW7/9SVE0LCBuR3VdEZQUcZI+q/wrIA8c1C82+QV/i0t6FupFFHSg5l8cIl1L2qV6t
+         7a17W8thQR+NdgEGpmX06gW1eFnke2QnUnEkBGLUhdo1fGGdnxFuS+rHMSBE7AXbEHv0
+         gRelWuPHzAimrILeHTv/M0SGCacUb8r7OJFsApDbkKmLjBJqjC2WXPqgO9/nDEYOSlJS
+         kpR5dayR10fS6Uy3p6x9P+v4VS3QzWafxGvuKub4kL7x5nTbfzt2+utPmDHFiJpDkDNn
+         k2NqbIFuSyUCnefkKp1QuDyRx758YiALZlg2EX4EJFALBdpu5TwB8+fimlvfTDTbhIts
+         fA1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748422009; x=1749026809;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DRzWkDK3ft+iwkKji/GjVMzBocQDwCbSuP5DIc/EUys=;
-        b=JuB+CcV7fFq39cGWccCbUjEEDkWierrrXVixmE6hlssJetz/uiotv+LzfSoybzZjoG
-         jVybqsUVWnMjgvDrhIaRYL1T8lkPxjNCGluagkec+3F+7jkN79zCk9nMQnzcQBfL8gBu
-         QveCfYB584PW+xxgbhruFCnBZB0ExSsrYRZJ/JCW0bixs7idIdzo7c538Cs1Wy0ZXUiF
-         mlpv/AMToVPOD+5QbkBCkuVwpw7rg3nplicz9MWCMvcVyZR93Fo2ZMpQczLza0oWGQjY
-         3qC8K6J9x3N3Vql2C0BC2cCIrt5tXZmBUlr0KKYEqDUU3AfNibYj95dZ/lf/jZbT9aJV
-         5NgA==
-X-Forwarded-Encrypted: i=1; AJvYcCUUM09zxu02qzsiTOabtUM6v2oN/IfP30K9cm7ORigZ6unG2js8W8D3fj4H4knwwxUmSDXtCRmlkv5tlQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEfg35le2S4h+3mJvzZI0M9US5A38ay+kaHXkP33lDncJvk212
-	pyr2721FNQtL7dDP1qqwxXhv/b8TYSqt4P/jKB8RY3H4xdbfbvg6emYiyO9Q8pGoYDUje/9SVfn
-	XVH2NyfdwYTweJMp0AWq8YV77kALEl1KQAwSnyHS2JZifoUgCdIK1K87Gqbs3JVUknw==
-X-Gm-Gg: ASbGncvpAm7tW4ueUQwcgXYP1oIh7Es+qDOL8FxS5Uj5KWdRRUj+7kKY9I0eoThzlDJ
-	hAccob86YTA35PTYRbWeue5x42JZEhDB2g51UgmSmS59d7eetPY3yNlGKmbJri+c9LuemBjpdYg
-	6UsDy4pb4waYfcahYHwycIhoOuSa1M8qGeMIa6TZx0IDnBbP/jJB/7lLCRkPbxMQDjfWXkLaLq7
-	lJErqKnpZVPYZTUx0bmrmKEI0IC07LyoLCLxjfqtTvv17px66ICnMatWhD8FZA1tVIlarEdgY0h
-	cQk+3nm46b0q4hRobQOKfq+47wdeK3L0xacqwFut3LJAcC1UiBu36hQHd009DcpByLAhnJc20BI
-	=
-X-Received: by 2002:ad4:5b81:0:b0:6f8:e367:8440 with SMTP id 6a1803df08f44-6fa9d0330admr302008616d6.23.1748422008954;
-        Wed, 28 May 2025 01:46:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGo9qqoQrF01ykPGF/17EjYHoPs6gmbavsSE2zy6sawKd53Clq0hMx0BlOXLpAzfgtNG6M5ag==
-X-Received: by 2002:ad4:5b81:0:b0:6f8:e367:8440 with SMTP id 6a1803df08f44-6fa9d0330admr302008336d6.23.1748422008535;
-        Wed, 28 May 2025 01:46:48 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5532f6b3e3asm182752e87.234.2025.05.28.01.46.47
+        d=1e100.net; s=20230601; t=1748428892; x=1749033692;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WYGECA6tC+WcTnZvoeh8g+cRlyTZnil5/IN1N4S/06M=;
+        b=cm4S+bn0vjW2/Zm9FCarnVSZluNvsBi2sIYXaPb5llESCJlDqKnNw+U9h9pGz1Hsbk
+         +gbiqd16G6nExRQCCew8p1O8douOlurUMt4Qv8/H4XAMDVMWvErRscTG4vJsCvVpAowV
+         u10CZb7ke3ICLAH2Hzr8zSAQSjrihPQMtvdR3gvFIgWe3OWcZWFYSH4zanQqccgE+IsM
+         6Cc+4m6w0XBEJV1SejzpUueb6NvxW0IckqNEUJezBSgtfy6GQKIZLVD7o4qqYLqLgYdH
+         61w7aGX0gHD4xIpP3goz/qx3O20s5BquXI1Y6f7tUJLl0HXTFhmB/0sGTwM/jqdNRpSH
+         biFg==
+X-Forwarded-Encrypted: i=1; AJvYcCWH/Xfh0E8iHp/1UdKfIyxKgjSAxZsnDMQzPKaFmwDsvGRCNmjhGYQPwdqyM09yjqQVoKwP//Bhvuqf1A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxhys0SoE8tgMT8734cnW88/OZ+jAucoBBIjfBGAw46bK9Q0WjP
+	X467CZSVH8Wg8QbCrME30xBPjU7Nb/8n41iHr+PgOOVTFXdGMvEygni9pXAn+DSoyq4=
+X-Gm-Gg: ASbGncu5TjdeSg/JjCM/zaONOztoKp13lOIxIw3ZcTxUVnA3W37APcf2wY29cZc/tWS
+	pQZLab0yrAy1oqhCUueNuhoNfiO2YA0F8gMSq/o/daNbO8yV/QPLMoPi8KWKOguJAaJciQd8yVG
+	hTptuGsdK/S0MtDM9DHiH9jr9CewKa303/57XvOz6EXJP7h/dr5IlY2swAdbleP7vnczF9fdFrW
+	VTNwc4SmSiQcSsKq4cxOpC/JjJiPjnUqOOnyUL+65j6vuhW5D78ahmkRW9oimUMz+AwA+fBO18g
+	lqDWbPO1a1kiFmBtl0I59fIx2kfVEmiFjNkVwtIDRm/SwCO0X7iM+6VVK/c7XUbXF0kKzgQ=
+X-Google-Smtp-Source: AGHT+IGEfOLQIkgSBlZ2iFouY1f/KgLVcIHYsjuV4CgQ8KecLfZQnSg2l0D8HirR5K2pryTmJCchcg==
+X-Received: by 2002:a05:600c:3144:b0:43d:fa58:81d2 with SMTP id 5b1f17b1804b1-44ffbf6531fmr6551045e9.9.1748428891894;
+        Wed, 28 May 2025 03:41:31 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450064add8bsm17331595e9.17.2025.05.28.03.41.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 01:46:47 -0700 (PDT)
-Date: Wed, 28 May 2025 11:46:45 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ai Chao <aichao@kylinos.cn>
-Cc: perex@perex.cz, tiwai@suse.com, johannes@sipsolutions.net,
-        kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com,
-        broonie@kernel.org, jbrunet@baylibre.com, neil.armstrong@linaro.org,
-        khilman@baylibre.com, martin.blumenstingl@googlemail.com,
-        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-        nicoleotsuka@gmail.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        srinivas.kandagatla@linaro.org, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
-        kernel@pengutronix.de, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] ASoC: qcom: Use helper function
- for_each_child_of_node_scoped()
-Message-ID: <vjtgxpbpaowlz7ftryudf44f35jyaislvkckuzrzlpj25z25cf@vytjvui65gec>
-References: <20250527082446.2265500-1-aichao@kylinos.cn>
- <20250527082446.2265500-7-aichao@kylinos.cn>
+        Wed, 28 May 2025 03:41:31 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 00/17] pinctrl: Constify pointers to 'pinctrl_desc' and
+ more
+Date: Wed, 28 May 2025 12:40:56 +0200
+Message-Id: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250527082446.2265500-7-aichao@kylinos.cn>
-X-Proofpoint-GUID: 5ZaSOZGt1VuMOD6bRj_K41p6RSo_AE60
-X-Authority-Analysis: v=2.4 cv=E9nNpbdl c=1 sm=1 tr=0 ts=6836cd79 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=dt9VzEwgFbYA:10 a=uJ6pKfArofpzZCl0i4YA:9 a=CjuIK1q_8ugA:10
- a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI4MDA3NSBTYWx0ZWRfXwrnZlkKkCZn1
- Tx5LznUc0eDyPlq73Givk9FHsMDd00NtMLwGEP5rKt0IZMqqOf3LDir0W/7VO9OJj3syv17IYm7
- LRT3v/f+wGdmJ9sXH3koIO5ECi0kMugtUybuGBwBkFp7sHkb7XA/7+xAVsB/ugkfeYlEfyGUG9e
- vBN2rmPfaLmPKOVZDVln52op/HuqtinmwegbeXHp9mqViLoS/co8cFah4EgEWODhA5Gqz6yfMv0
- IjvEmNFvtyqhf/qnu6Ma0l6E5Jqh5o6Lt5g/zyAFx8Wddx/v0DKGhkO7G59bJ26UQE9hMLL//Zz
- OuPpZXZ89YsVImEzUeNObmkLoXn6OyTZX1fu6NGAnA/9dhkxU8MK0O/LA+L3WOgv/ZmzHAOBqSz
- vpa38i+QURWgO4GIT/FYcUPiU+tn8fN5lvlR4qU08u6DTL/qThMmuvKchMaGE3bhO0lrDJsB
-X-Proofpoint-ORIG-GUID: 5ZaSOZGt1VuMOD6bRj_K41p6RSo_AE60
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-28_04,2025-05-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=459 spamscore=0 malwarescore=0 priorityscore=1501
- adultscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
- clxscore=1015 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505280075
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADjoNmgC/x3MMQqAMAxA0atIZgO1WlCvIg4lRg1IlUZEKL27x
+ fEN/ydQjsIKY5Ug8iMqZyho6gpo92FjlKUYrLHOONvjJYHueCCdQW9cWAlb3xluBybfOCjhFXm
+ V959Oc84fseaE1mQAAAA=
+X-Change-ID: 20250528-pinctrl-const-desc-3a40e39eca15
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, 
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
+ =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+ =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
+ Jesper Nilsson <jesper.nilsson@axis.com>, 
+ Lars Persson <lars.persson@axis.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Damien Le Moal <dlemoal@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>, 
+ Michal Simek <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>, 
+ Jianlong Huang <jianlong.huang@starfivetech.com>, 
+ Hal Feng <hal.feng@starfivetech.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com, 
+ linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4130;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=31q5XaAMlBexIYczbpLSD3TpwdohBFMpqp6LWBCJyAo=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoNuhIG4ER1L7WtI9n7LAHBv7yR7/wd9Y62GAPM
+ YOkBRMFzV2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDboSAAKCRDBN2bmhouD
+ 1/WaD/9J3m4W4vBhw2XThuOyRYX1b6hv7wnFg0kwf/oG58B+tqan9UkROsMsYaftbalsBBZ5ZRN
+ 1M9nkKj1NYeRqNX8GD5zgdOlhg99/xoNAe4tKnXdHhemj/SZnMwRRpjoouoI5MZtU0Wyr3D/iRh
+ apzqHY1Bktzyyz3i0o+EX3N6UGXKOyRFk/Nv4gpE89Tnp5pCpCtNpTewhTStIJo5v/+Zbe2YPrQ
+ AnR+OeW0EPpY4/9GqX4FIXW/SBGtMEBrUl82vugNf3cxGgJTWmgAVoKYZNsVPsoZ7Cw5w9ZG7UJ
+ nT+moUwF280v4jVOMoAy14NfrX3rj2HWST1PKwMiowU5NSmpEaJi+w6xE/2vB6qVh2QW7+3dAaA
+ BpZVKNBQeFJMhZ8WdOg+Jh/qQ6uiZPxIFnUZRKqjwl44agPEeENckIbyD1wJJfAA+JkHuc8AiPh
+ V9ANQmhknrtWhe7+PeFJI8GfxRXLnum00ByOaQGly2msm7YKUjNC5gshTcRyWaWNB5rCwL7LPa1
+ 0IdR7g9/Tt/4d5KIA6xWPHTzupJxtq1nsBEZwM9n0z2/82V8a2ByQNlhmzte2qCLPiweUR6oikT
+ 3AEpIeiINOC5++QtVlihhuU7o9fNUbOyMpEqQNMr5jj0m6eoELYBLii4S7gWJrXGzT0Ya3JNLAx
+ mzmNbbD8leWapdw==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-On Tue, May 27, 2025 at 04:24:46PM +0800, Ai Chao wrote:
-> The for_each_child_of_node_scoped() helper provides a scope-based
-> clean-up functionality to put the device_node automatically.
+In several drivers pointers to 'struct pinctrl_desc' is not modified, so
+since core does not modify it, it can be made as const.
 
-There are no calls to put the node. In the patched files the nodes are
-already automatically put by the looping macro, there is nothing to
-cleanup. Please stop sending this patch.
+Dependencies/merging:
+Patch #4 "pinctrl: Constify pointers to 'pinctrl_desc'" is a
+prerequisite for all further patches, including RTC patch, therefore
+probably everything should be via main pinctrl tree.
 
-> 
-> Signed-off-by: Ai Chao <aichao@kylinos.cn>
-> ---
->  sound/soc/qcom/lpass-cpu.c       | 3 +--
->  sound/soc/qcom/qdsp6/q6afe-dai.c | 3 +--
->  sound/soc/qcom/qdsp6/q6asm-dai.c | 4 +---
->  3 files changed, 3 insertions(+), 7 deletions(-)
-> 
+I split several patches, although not all, per SoC-submaintainers, so
+reviewing will be easier.
 
+Best regards,
+Krzysztof
+
+---
+Krzysztof Kozlowski (17):
+      pinctrl: starfive: Allow compile testing on other platforms
+      pinctrl: Allow compile testing for K210, TB10X and ZYNQ
+      pinctrl: amd: Constify pointers to 'pinctrl_desc'
+      pinctrl: Constify pointers to 'pinctrl_desc'
+      pinctrl: aspeed: Constify static 'pinctrl_desc'
+      pinctrl: nuvoton: Constify static 'pinctrl_desc'
+      pinctrl: bcm: Constify static 'pinctrl_desc'
+      pinctrl: bcm: cygnus-mux: Move fixed assignments to 'pinctrl_desc' definition
+      pinctrl: bcm: cygnus-ns2: Move fixed assignments to 'pinctrl_desc' definition
+      pinctrl: bcm: cygnus-nsp: Move fixed assignments to 'pinctrl_desc' definition
+      pinctrl: as3722: Move fixed assignments to 'pinctrl_desc' definition
+      pinctrl: max77620: Move fixed assignments to 'pinctrl_desc' definition
+      pinctrl: palmas: Move fixed assignments to 'pinctrl_desc' definition
+      pinctrl: renesas: Move fixed assignments to 'pinctrl_desc' definition
+      pinctrl: pistachio: Constify static 'pinctrl_desc'
+      pinctrl: Constify static 'pinctrl_desc'
+      rtc: stm32: Constify static 'pinctrl_desc'
+
+ drivers/pinctrl/Kconfig                            |  8 ++++----
+ drivers/pinctrl/Makefile                           |  2 +-
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g4.c         |  2 +-
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g5.c         |  2 +-
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c         |  2 +-
+ drivers/pinctrl/aspeed/pinctrl-aspeed.c            |  2 +-
+ drivers/pinctrl/aspeed/pinctrl-aspeed.h            |  2 +-
+ drivers/pinctrl/bcm/pinctrl-bcm4908.c              |  2 +-
+ drivers/pinctrl/bcm/pinctrl-cygnus-mux.c           |  8 ++++----
+ drivers/pinctrl/bcm/pinctrl-ns.c                   |  2 +-
+ drivers/pinctrl/bcm/pinctrl-ns2-mux.c              |  8 ++++----
+ drivers/pinctrl/bcm/pinctrl-nsp-mux.c              |  8 ++++----
+ drivers/pinctrl/berlin/berlin.c                    |  2 +-
+ drivers/pinctrl/cirrus/pinctrl-cs42l43.c           |  2 +-
+ drivers/pinctrl/core.c                             | 13 +++++++------
+ drivers/pinctrl/core.h                             |  2 +-
+ drivers/pinctrl/mediatek/pinctrl-airoha.c          |  2 +-
+ drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c          |  2 +-
+ drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c          |  2 +-
+ drivers/pinctrl/nuvoton/pinctrl-wpcm450.c          |  2 +-
+ drivers/pinctrl/pinctrl-amd.c                      |  8 ++++----
+ drivers/pinctrl/pinctrl-artpec6.c                  |  2 +-
+ drivers/pinctrl/pinctrl-as3722.c                   |  4 ++--
+ drivers/pinctrl/pinctrl-bm1880.c                   |  2 +-
+ drivers/pinctrl/pinctrl-k210.c                     |  2 +-
+ drivers/pinctrl/pinctrl-lpc18xx.c                  |  2 +-
+ drivers/pinctrl/pinctrl-max77620.c                 |  9 ++++-----
+ drivers/pinctrl/pinctrl-mlxbf3.c                   |  2 +-
+ drivers/pinctrl/pinctrl-palmas.c                   |  4 ++--
+ drivers/pinctrl/pinctrl-pistachio.c                |  8 ++++----
+ drivers/pinctrl/pinctrl-tb10x.c                    |  2 +-
+ drivers/pinctrl/pinctrl-zynq.c                     |  2 +-
+ drivers/pinctrl/renesas/pinctrl-rzn1.c             |  4 ++--
+ drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c |  2 +-
+ drivers/rtc/rtc-stm32.c                            |  2 +-
+ include/linux/pinctrl/pinctrl.h                    |  8 ++++----
+ 36 files changed, 69 insertions(+), 69 deletions(-)
+---
+base-commit: 08ea0cc455fbf6f6719b7a4cdcd1d132ea34577b
+change-id: 20250528-pinctrl-const-desc-3a40e39eca15
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
