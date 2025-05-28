@@ -1,123 +1,131 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8916F44C94;
-	Wed, 28 May 2025 07:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A14229B2B
+	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 08:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748417884; cv=none; b=Lo862uFWy+o8iGNx3g/+Rncv/uhrbBErbig92i6z9blM+eyGhAWuVu00TBgJ0gtK8LOOlfKI1HONvmqujJcwBsBOoN7ATifk2nNzFCmTRmXh6Z9GSe0FsfPMM3xKs3jgLFfCYhBX7C/I+2AADKy97Q21QN2/PZpf8OWnGAUGplc=
+	t=1748420755; cv=none; b=guCila02/kTG35A4+iiJeHMWB3/idAXaSY7+KW9N7zHpbD6UcPh8AdwF7S5wZfXXtxsq732mrsGw0DYuMCDBmow/gEyPbX9n4ri2Hj3cWgHP/DHy0AjKTKMoHnxwWLp8Uk5MDtM6KDW5mgRFWnNyIr48PnE8ipKVtQlsCoc+IuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748417884; c=relaxed/simple;
-	bh=dC6/r+XL94KrBaJDEg8ysPYbOiXiNK3lHLZP0ifcAGY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kTxAf7rV/xP0/J4YaEMyJZMJUO9RGlOUySWFTruLZyS8OrTLQZ8zBuEZvUtw6vhu/24Wqsh+8NDjeSzMoP+rqoftN6aZq1nM4DNUkfgUIQ3uvH4YKj9ADEekxaAZk1hoPd6aP+LPi8afzCbzU+QjqB5GTZXvBNPoztLb9GSGAZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-52413efd0d3so1395947e0c.2;
-        Wed, 28 May 2025 00:38:02 -0700 (PDT)
+	s=arc-20240116; t=1748420755; c=relaxed/simple;
+	bh=VlsN1y4ZMRHLcmrX8scixqd0Vvvyz2jgvsJCDQnq7cE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lvUsH/IP+s4DDAPx8JP0/qj52j0cEkV7GqNtbJNzzsNtVt7yHDeMl7TwAqSDAiijv12d1i9qTJjcnVefn9GFnMZBKalcR1wh04AcOwnIO/HK8OFY99jbDlCSEE5dnCVbYSqV4Iv5fpF9ZqXa4nwP8lGfdnJmcGYVz6Z8WnSvyAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org; spf=fail smtp.mailfrom=openpixelsystems.org; dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b=d7aJZPQ9; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=openpixelsystems.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b="d7aJZPQ9"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a363d15c64so2920635f8f.3
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 01:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=openpixelsystems-org.20230601.gappssmtp.com; s=20230601; t=1748420750; x=1749025550; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UQgBkpDBPRTw134Tn/zp7QWRfZiqjrIZv2nl5UdLNb0=;
+        b=d7aJZPQ9/MxuQKtpUx9vVoRkf5cVigXuB14uYOGoUF7gfdEBThVRQj6EJxbqPEiPL4
+         AnHst6DCvy9/VYvzp/Rw2wZNo1nwxQftAHJ6znICxdhA2eTwZpSwhH2AxkXHTvMWYnK6
+         4MP1i1X/STWxI17sQHc29cmZOMXVWvydDUzLOLU75AUmIQeDBIJ6DV6q9fraGwl6VIX1
+         a5mUg53zleeHXgbEX/V+UiMzhi4Tic1gHh0DMVoGk3kZwmVMW+TK8PrqRYdlF9a9ObQ7
+         zkThUwy05gbeEgSx3caM+39hwY6pw/eNcgkXHouMbIiXJ2u4WnUH76Jg9AKhMP4mhHLU
+         3Mhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748417881; x=1749022681;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1748420750; x=1749025550;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=q0FIvnATmtkNNdXQbt1Fz7I3kCcVI6Dqou2JsI1LDaQ=;
-        b=A9bhradSkN8DWqfBk3rvVrpiTtQl65UtOoPNI4pulVn4A/Hv32aGMExEdMtpBezzuC
-         ZJXob/1rOEf3VSQo1PuP/wCiPZFln09UBCjGMIBZreyhzqz7E1IQ9huF+lZl40ufFdX2
-         sICx5RQkEuOJ/LPmvuia/PajdePAZM5HXFsi/bjnYcDlO4Hq/QNW2ULMi/U9zlWXw7UQ
-         mT/Wmb7j8eF+oncTR/O9CxUPMaWUIiYjfPU2baw48echfXQFFFKiwuAYFZa476vCRsDC
-         Yu52foPtOWA/K4JT5u1YqqzlXzv9D4lJKTPuBV/V8tKDAKzYG470V0cjJuy4Fen3sk2A
-         Jksg==
-X-Forwarded-Encrypted: i=1; AJvYcCUEYeFh8j9rwwPAz1uEQXUZ4lVvjAdwZL+ezGGXBBN1IoNhsSNAXZdKo1NnQs/qsDJ11PNQbD5aLNTV2v9Y@vger.kernel.org, AJvYcCUnM+XU6UpQXTyqOouCBKVscaelBJZTKj/U5d9QjIlBFqc0vuaeXfthsjnZr09ftY3H7CnNubIOIFxw+zfCdhrY5h8=@vger.kernel.org, AJvYcCV5zdEC3VdrrOUS/tgFrlJY/uh1tAKVbHCaIuCEYBtbAvHXVeRhALr1gBbptiVWzkdw5QKhw5Dzbx3qHJ8=@vger.kernel.org, AJvYcCVXHifsSyyJilK+CKodWu6mvewV26NEiRHUzsPIUSSOYXO8WlHRGuvftN3yIYw8smdTv4oNlayLU/qxCDSO@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIUucXOAyU7uv2XEXViTG2bkg4gok9OW5XaMOm0GG+D27albWV
-	nlbsY3n0laGy+F8v7zeYFipbaajQhffy8qIp5+S/cQDJb+G0Oa3NwNfWU/ayb8Xh
-X-Gm-Gg: ASbGncvosmqhEra7BQ7lKL8qpJhmqbhMiGSnUwy8yc8CcOjn+71oz0zaWQsRsp00KfG
-	KIh+pfAnzFVeI4VkgUlzvOoYPpjiyjHY00vp2s6GqOUL1F8vCDbRqE3pvvf7kmbGHSdvblnmdWr
-	Oz+DQVrHplgx5ypMEuqdmu1rAB95ljNFpHg5AtmNwhDUpqAQj3ssIn/r5mVlSQiGgM1wn2U4GIx
-	tlAj8wEii8uQY8x1HyGCje/2HOj2PvZTLoidaeByZStjW21lvCcApAM50VA9dIbWpPmyMipgJTn
-	JIy5bhR4HtKqfXhMm9C4XKqfTNvfDYFxHaBljoNa6FwBRy4s0k6NWc4GYfOoWww9KMF1ypU91eW
-	p5sQYRcsYIRVQtw==
-X-Google-Smtp-Source: AGHT+IHispFt8IBDadtOKw22E5PPSlK7FrOJnlZ6MHJgJfUuzrpL8uTku28GgfXu+2wGW9Q/rkVwQg==
-X-Received: by 2002:a05:6122:2986:b0:530:6bcb:c97f with SMTP id 71dfb90a1353d-5306bcbcb83mr91593e0c.8.1748417880716;
-        Wed, 28 May 2025 00:38:00 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53066979b54sm500426e0c.47.2025.05.28.00.38.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 00:38:00 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4e5a1a4e4aaso51509137.0;
-        Wed, 28 May 2025 00:38:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVDZTB8ablys595TS9S9OnRgPpBY6bjjKNMugyGypR3fhN0i/Q39ycwczYEvVaow7PvAmWRr4Q3ZVLJGprXh6le5CA=@vger.kernel.org, AJvYcCVStZOEDp/IllMB/lm283bw//VTOrhXbbRh9Ii13zHVXVBQ61w37f5P4jO9SngvB3xPtoq4RUstL/hjoY7/@vger.kernel.org, AJvYcCWKlpDEaEZCdH4pHZes2TdL/ko2IYBVRjjW1FfTrmZM3T76t6BWkrxVRWIFMzcPgLL6xizbUtdMi/oDKuM=@vger.kernel.org, AJvYcCXgDU4RzsChkkcfW+3K/qDh6U8l4qHuK6mUfb/LW0xrueGwddvzgvkZDWA1Bn+SS+WIWonl2vrBJwm5P4BT@vger.kernel.org
-X-Received: by 2002:a05:6102:d87:b0:4e5:9731:6ded with SMTP id
- ada2fe7eead31-4e597316ebfmr3313200137.6.1748417879962; Wed, 28 May 2025
- 00:37:59 -0700 (PDT)
+        bh=UQgBkpDBPRTw134Tn/zp7QWRfZiqjrIZv2nl5UdLNb0=;
+        b=ppfRnsG4X70VcUAKbAvgaCJShIWC6za4OfEqt+o3s/hPI3ruaq9PVfNGMpjfA/HI0X
+         kuXb/qONdwMeENcxZqGq8F+ewxMn49GSkOhvDn9P053u6BVx2JyuxqM8IL6/UvXN1W3h
+         ZZNUayiqarA7PgZjPP0Nx6AlTnf7vwku9mBRr6b1B4dhMPxB6McVX1WAoCrPve/p611y
+         ZV54wufDkLnaJN37LgaUAZCNlYI9iJOT6fmfdWfsSygJgdlaL2dYtu+9LBOv2bRd+APp
+         9tVDMw44aEz/vwVa7CznPFNi9LPci2bQ1MgUoMTFs07fGJ5RK3uOpu6nN6J5dhXPxLgZ
+         HdIQ==
+X-Gm-Message-State: AOJu0YwVARXgE+zc+K2VWO5QSSHYYCoPDU8y4TjsWtZq/kYnMvZ3Vnvs
+	JJvRN82bUwa97Pch63JynoVFOgZaoBLz69cPdcjnLfkMRPdrm9Xd1TK4prZqQnRPjdM=
+X-Gm-Gg: ASbGncsWx+2yIoMKHY73Pkjrwsp/ak6YwIrbhDvrd9++tA+ESwg12ITmWxB7Prb23+5
+	vRJnw6Q/DwW3IioJahwu+AtgYRY2HxmkxtGUN/tJWscrztASs7EpKzLa3tMGY88BKw5MjHLD7BX
+	zCL7eWSPieGSsaild7HDBm5T9bKj0X/8GgE7H6pLTGW77sYF/VU5VHw1dcCcZXBap6JlWeo8iex
+	OsS+Y3y/R0V7WCIzgvWxWReb6iFniaZhkOPK74WURltE0+pZRPgmXo+HkCzlikt5TiCgqDr753S
+	pFRW6QIXGWuQ1TxTNOgI9FbKUNfaHDG50P4SaCHKbi/LtnBHQzkqNAtcbY0/5zfi5h6uKpYvQ/+
+	TQNb5TgpgtAKWV6W+JogqUPMRDb1XHi5ok+1FkBelTQs=
+X-Google-Smtp-Source: AGHT+IHFPkP2u7PmZOuSF74kJDUP1U5Ppd3h9qvZktrhcp3E4VbXOBQgP+zpNOdXBTsKfvKAWbA8VQ==
+X-Received: by 2002:a05:6000:1a8f:b0:3a4:df80:7284 with SMTP id ffacd0b85a97d-3a4e9437a5emr1346230f8f.1.1748420749819;
+        Wed, 28 May 2025 01:25:49 -0700 (PDT)
+Received: from [10.0.12.41] (253.124-78-194.adsl-static.isp.belgacom.be. [194.78.124.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4eacd78fesm805814f8f.72.2025.05.28.01.25.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 May 2025 01:25:49 -0700 (PDT)
+From: Bram Vlerick <bram.vlerick@openpixelsystems.org>
+Date: Wed, 28 May 2025 10:25:48 +0200
+Subject: [PATCH] ASoC: tas571x: fix tas5733 num_controls
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250527082446.2265500-1-aichao@kylinos.cn> <20250527082446.2265500-3-aichao@kylinos.cn>
-In-Reply-To: <20250527082446.2265500-3-aichao@kylinos.cn>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 28 May 2025 09:37:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV5ZhJrRiuEWLbU_gFcv40+izLpR0HN0EZU415s3QAkVg@mail.gmail.com>
-X-Gm-Features: AX0GCFve4Aj5WArc9KkplJVctpVO9pqz2wSMOeJzSTUgarGo2ZgOa2T8YLQGOCU
-Message-ID: <CAMuHMdV5ZhJrRiuEWLbU_gFcv40+izLpR0HN0EZU415s3QAkVg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] ALSA: aoa: Use helper function for_each_child_of_node_scoped()
-To: Ai Chao <aichao@kylinos.cn>
-Cc: perex@perex.cz, tiwai@suse.com, johannes@sipsolutions.net, 
-	kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	jbrunet@baylibre.com, neil.armstrong@linaro.org, khilman@baylibre.com, 
-	martin.blumenstingl@googlemail.com, shengjiu.wang@gmail.com, 
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, srinivas.kandagatla@linaro.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	imx@lists.linux.dev, kernel@pengutronix.de, linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250528-tas5733-fix-controls-size-v1-1-5c70595accaf@openpixelsystems.org>
+X-B4-Tracking: v=1; b=H4sIAIvINmgC/x2MQQqEMAwAvyI5G7Btist+ZfFQNWpA2qUREcW/W
+ zwOzMwFyllY4VtdkHkXlRQLmLqCYQlxZpSxMNjG+sbbD25BfescTnLgkOKW06qocjKSNYaIRuq
+ dgdL/Mxfpff+6+34AnGGeqWsAAAA=
+X-Change-ID: 20250528-tas5733-fix-controls-size-4211444d4b31
+To: Kevin Cernekee <cernekee@chromium.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ peter@korsgaard.com, kamel.bouhara@bootlin.com, 
+ Bram Vlerick <bram.vlerick@openpixelsystems.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1346;
+ i=bram.vlerick@openpixelsystems.org; h=from:subject:message-id;
+ bh=VlsN1y4ZMRHLcmrX8scixqd0Vvvyz2jgvsJCDQnq7cE=;
+ b=owEBbQKS/ZANAwAIAblauka9BQbwAcsmYgBoNsiM6LMdvtHRZTGKEC1Ur+ZyURKIFZhIjJkQe
+ fXnJOIr40yJAjMEAAEIAB0WIQQO7PtG7b77XLxuay25WrpGvQUG8AUCaDbIjAAKCRC5WrpGvQUG
+ 8OQYD/95OMr8hM8sTip7vn7zRZ8JKHpADTrZUr+WUMSmN2qivhLs7DxMzQGjkQw7hxHb5VCezG+
+ 0nwxg0GzcHigsD55Xi7yGjFItDd2muZcP2dH2gC+VH2d1jUZoneHfmKVjiZJIeoupREVWhapf/T
+ A3M8vIh+D/xmqkb+1NHcV+NkLMjQDscMSVWi3yS92AafDJKpwHb63rFBf0lMKA79L9K8hsMe7Kl
+ y3L/KgmB9XOHyogA3FoAXDRfnRwClMGPDrESmmd++GoQiLq3U6tJXL3n6iMMqtCZdirFicjLD6j
+ pW7pxHXAKphjVRxCTxg+50BkgyVJBYJyIb4Bq64MXdksTxCqXDTH/+t3mxU9xoSJQmYmhLsyi57
+ ct1hq6h8hYCxlZnjsWOonS/8/MwW1JXM9drx/hTkCh5XDcayuoAyG/WClouyq5JwUs1NrWWizkR
+ oLRmwFymGgewfbzSQqlcJcjKkjj1f6MZHwyrMXVPi3SmPMZikl5Ej7EHVZ+nmMi3rFDQ8GrlXtm
+ AsULVFcBquHAjiQe/pCxCBnD8GDum2O4qjAVEvQbr5LIesCJO7YxmSWOy6KcfFb0gUIP6DvziyQ
+ SVuVVwGXJDP+4Txvf6C9XLZNe5U0UlKLhi8RuJrQc6R1m6UWiEGBz81UbKdF9ZZr36arflvzHMN
+ ThiCUr8dUiK59/Q==
+X-Developer-Key: i=bram.vlerick@openpixelsystems.org; a=openpgp;
+ fpr=0EECFB46EDBEFB5CBC6E6B2DB95ABA46BD0506F0
 
-Hi Ai,
+Commit e3de7984e451 ("ASoC: tas571x: add separate tas5733 controls")
+introduces a separate struct for the tas5733 controls but did not update
+the num_controls with the correct ARRAY_SIZE.
 
-On Tue, 27 May 2025 at 12:52, Ai Chao <aichao@kylinos.cn> wrote:
-> The for_each_child_of_node_scoped() helper provides a scope-based
-> clean-up functionality to put the device_node automatically.
->
-> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+Fixes: e3de7984e451 ("ASoC: tas571x: add separate tas5733 controls")
 
-Thanks for your patch!
+Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
+---
+ sound/soc/codecs/tas571x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> --- a/sound/aoa/soundbus/i2sbus/core.c
-> +++ b/sound/aoa/soundbus/i2sbus/core.c
-> @@ -155,7 +155,7 @@ static int i2sbus_add_dev(struct macio_dev *macio,
->                           struct device_node *np)
->  {
->         struct i2sbus_dev *dev;
-> -       struct device_node *child, *sound = NULL;
-> +       struct device_node *sound = NULL;
->         struct resource *r;
->         int i, layout = 0, rlen, ok = force;
->         char node_name[8];
-> @@ -178,7 +178,7 @@ static int i2sbus_add_dev(struct macio_dev *macio,
->                 return 0;
->
->         i = 0;
-> -       for_each_child_of_node(np, child) {
-> +       for_each_child_of_node_scoped(np, child) {
->                 if (of_node_name_eq(child, "sound")) {
->                         i++;
->                         sound = child;
+diff --git a/sound/soc/codecs/tas571x.c b/sound/soc/codecs/tas571x.c
+index 00b131294547812f1406056d17e6c42ddf92003f..6bf37c77f0a77b11464a3560b1680fb89b0ed2dd 100644
+--- a/sound/soc/codecs/tas571x.c
++++ b/sound/soc/codecs/tas571x.c
+@@ -834,7 +834,7 @@ static const struct tas571x_chip tas5733_chip = {
+ 	.supply_names                   = tas5733_supply_names,
+ 	.num_supply_names               = ARRAY_SIZE(tas5733_supply_names),
+ 	.controls                       = tas5733_controls,
+-	.num_controls                   = ARRAY_SIZE(tas5717_controls),
++	.num_controls                   = ARRAY_SIZE(tas5733_controls),
+ 	.regmap_config                  = &tas5733_regmap_config,
+ 	.vol_reg_size                   = 2,
+ };
 
-As people pointed out before, the original (and new) code is buggy,
-as child is saved to sound, and the latter is used after this loop.
+---
+base-commit: 76f8d35964e4de1b464de22e4f3fdc14937ed854
+change-id: 20250528-tas5733-fix-controls-size-4211444d4b31
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+Best regards,
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Bram Vlerick <bram.vlerick@openpixelsystems.org>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
