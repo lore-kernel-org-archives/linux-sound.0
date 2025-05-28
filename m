@@ -1,63 +1,63 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF7128DEFF
-	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 16:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A0228DB7C
+	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 16:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748450762; cv=none; b=kmtO05DY3GZPtjO8a0z72VOG9Fg/1aYO3mJZojZxNPtSEX2HitMLHXudqs57bCPdc07/yxkfek/SqiM/sMzU7UsJvixkvkDavK+LTOGPJ02K/m7IlS1nUMPYv2tGfbbscmkVfphbWAMYLDPod6sN2QsWCg101R3VLv5+UIQTfyY=
+	t=1748450798; cv=none; b=TlZ8+o6zhKTEDIGU0PnqawCEkcWqkmLvzTmhncZbY23q32UwxVXXA8dO/6bcQQgVY5ESrmX+u0uweNfmlE1cZnRGljoc00+PRMa/5W7urHPtCCaKeKRYNBCG6kuO0smCaQcNx6/Sw/HIzgQ1ma/oI7+/XZLTaIpn55KW2DYyQj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748450762; c=relaxed/simple;
-	bh=DmepkfV1uDO57Y5SMc5Alh4+4DNwBam01/LL8tNZMC4=;
+	s=arc-20240116; t=1748450798; c=relaxed/simple;
+	bh=fas8NjeBHx36fk2SeFaW4ahoas3ree6HOp9z1G1GKPA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q2L06s0vETbGn+McjhwgbAoPpv5rdAI+D3URNXZVxb3MJRgQSAcqiMzjYQC1I4CdN4++/5Vxc0FoZSxJZZZRG5GhYZtmgu4PTbez9Gi98dbYlMez5BjZUN3SDElV7485D8coy/gtdLgnQpUeaej1B9vs7qlSAhKEjSDvvLEjc2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=I8DfzcTo; arc=none smtp.client-ip=209.85.214.180
+	 In-Reply-To:Content-Type; b=qxAoqDFEHdAdK40vs7qYEUJs6YZD2dXf6+noLuTHhXyBHcQO738BpyRC4VwjH29X4BgL5zBzMqVJ9h47oHHbfJ/nEfyrrTU9cQ17lDjCjFfmuYGZu4As+CDzDx1xuwtxWFIAWl2blcSDJZUHvlBne5O0sy3rlP6j9fvbECrfDS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=XhZ89rjO; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="I8DfzcTo"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-22c336fcdaaso982665ad.3
-        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 09:46:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="XhZ89rjO"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-22c33677183so922195ad.2
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 09:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1748450760; x=1749055560; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1748450796; x=1749055596; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1SRpD7poP71J0Z5qeEtY8RTEWey1In+xs4H1dHguqyI=;
-        b=I8DfzcToYVkgy2PT2V/eqMpTyNNa9X6FK7bQQwFda3D1OSwcOqZn2I5glGj8wNBRiJ
-         9YBApwyypZyqxXMnbysOA8i10bGzor5WHsC0xCuCcrWzY2SCoRvkTlYKPdqUVsjINqnM
-         /BmrtI9/hV9wTlC0hZwFTF57yKlct2DXrZ0oI=
+        bh=bTrLQar6gjTjFnrAkyn0kezzixoXN+IjT1tsTT4veX4=;
+        b=XhZ89rjOXrmaNwv1rX3EsAV5kY9U493RpL6+RXX41CxFWq1AShjnlN+1EqbdzrD2B3
+         Sab2cMxEHlfce+TPOxCA5c2WcLfN6bph3U5UX/Bsmhb5JJF7EYz/faVK3C9jS7Jk/5sW
+         xn/C72oawNPVryD6x0MxFjry0zN9Il6OjeZEc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748450760; x=1749055560;
+        d=1e100.net; s=20230601; t=1748450796; x=1749055596;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1SRpD7poP71J0Z5qeEtY8RTEWey1In+xs4H1dHguqyI=;
-        b=AVm1jjJitmArOTLTcQIsmAz9nM+CFDNUUYuNjNp/zQSB7FbTYnPseywSS8S6g92T8t
-         ov9C9vujcWK1y9DAXqlMC8f+mVcnxgSjGPRmTaSVHO+AKJgN3qhyexQ/+AEKCqlqNNIi
-         HXwjNhQm/3zkjXScEsyZ65YgAZQuzEbYpwX79LOJx6cBsT6IKI7zbN4ugPB/+13McrEV
-         9k3cJ1VLNCiljc56FbbYlQX8lcWdjKYtmML1QPytV/Cq2uYXeVsvGdNwr9NXhYvf/SSP
-         gQztBkjeH0yP3Ur1a37UftqWFEZ3/uL8eiu47FFckxH8deR92Qo8dt+FhpxxAXrsow/R
-         0frQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWwamkeqW816at3iKMtRX1Z6mrj6jRzKStGpIws7BKzAP2901FnGfwVhYaWfxnYu9lP7xujO4o1jGiePg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzkuo5O8TFdiKBwaYHprxDqHUYQXBlFG4bXpVZhaYizznAL9cw5
-	6u6z0+vQ4G7rotIsqizh3QMaqeueCzlTfupYl1Unv/eMDJi8kxvcaG2o8ZLYPofmIA==
-X-Gm-Gg: ASbGnct1Lp0gAQKhwk5nXsRLzGRYnRgGg6xE1tqvia5mHiu1TCLt+LUOItgXQcj+shC
-	w6HJw4dxGwDEGGwXZyH6O398PenG3jbAOL0Xpc7Io4zN3ZFg48gklXSpwKJg6NYnftmYKRyGKn1
-	7+5mWRjCxnYkS+otC7jJEDDm0qm5uRmhLCE3qFezQDMIWintpDwu+MMqFQXzIcFt7+ZSeCA5uwJ
-	BfYBfcNaYKUg6hoT9x1iKiHGgQ8rhj+/SwQvqC39hXyxaSVamR17u8ic/tqnd+n4esPef8yS+Kc
-	s/+fdUP4YA+a/m03BKaKzMkBXPJQ4MUfJrNamB7yIvwgcwwJfQR6COfpiaVomImTp4pTl/EpJ0n
-	zWU3z6MbbZCVRzsA=
-X-Google-Smtp-Source: AGHT+IFDqqRyt96nyrm1smBWGPbaIUUGA60gdUbEGZQYCr4hXTXZ7qx/vOTbUl93u1wjePXxrv/QGQ==
-X-Received: by 2002:a17:902:d50b:b0:234:a734:4ac2 with SMTP id d9443c01a7336-234a7344be1mr87356785ad.9.1748450760577;
-        Wed, 28 May 2025 09:46:00 -0700 (PDT)
+        bh=bTrLQar6gjTjFnrAkyn0kezzixoXN+IjT1tsTT4veX4=;
+        b=R62CtlNi6frMZgfiFBL3Ivf7yc1MUvCSWIZuRn+19PaBnZ2t4qscNHxqwRk5V+zXHA
+         eZaHjcZpDW+EV9dyuyfTON83goMm8L0mGf2qtODaXlhST4GO/6CL/I0E5m151FgkrNls
+         m5JWMosxOXHxKma3h4BtXBEGlow8eEwEN6Jcocl+QhLTZQ4D9VgRyakCBbFhawBOEz2V
+         Wr+yrP0dsfkWtAgrSDOSducuDjvOvGeoAmuCjJpBnI0IvtAv05GrfRpZgMFZHS+2/uTw
+         WTx3bqiHN4UNxE6BM80TB1YHRE2IO6F/xE9mrAUEHbAM64BAlJmjlniF6le2lkryPQsg
+         SRZw==
+X-Forwarded-Encrypted: i=1; AJvYcCW67L22XC3FxdhIw+UVQX6ymbY3+IvQ0S62msaZAUBwkehRfgjC98dseAaD4JmTWTRFAsC64Uh7dU7+3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlbkKpOAkDFALsQnOocGRufHvPq4n8WpNAD0XKGXOkfJ38KIFd
+	Q+SpqGlZjzLVpwJ335s96dn11ZjQRLYinxE+koQIb2nPZsiEeE/JeBNggCObvAb9Uw==
+X-Gm-Gg: ASbGncv//Aj8oFrCS36PX/PpxQj2LPjFzF8WTEKooyMJMR7BDmNa8UU5UnlQhzkh9S9
+	Szf8GIk02QN2ZqCNEZdfCMz2Kit1W4zYRg3Ri7+KupZdC5AGDmQw3Y/XQD5GrG9eQzzydPj8rJA
+	t5PFgLBTjjnDB/+3ZZ68GOtA/XTz/7tgPH+Eu9bkltahXMSLu2cEJcOaMTVr9YYii2HWYMs/6Ea
+	Q/5JjM77/TqNBSHJIJDw35GfavxFM9YsJj/pHwN4dpc6XOXDN8fp8edTw6BOcSyykx75jYtIfgF
+	mzLPAdNQ9njeuWCNIEj8z4TFYLKPF1tMXbbnxxYYVkVBTVhEb4QDs32o1XdGBiqQYquzot6gQkY
+	a2ldk6gQz+kSnKVk=
+X-Google-Smtp-Source: AGHT+IFZp5UK5jGx1R+UdIJR5to06T9Np6rNPVYDOR8PPYv1Mujf2unJbIiknwRlJEbu8Z7S2Ap77w==
+X-Received: by 2002:a17:902:e848:b0:234:8ac5:754 with SMTP id d9443c01a7336-2348ac50844mr145646295ad.4.1748450796372;
+        Wed, 28 May 2025 09:46:36 -0700 (PDT)
 Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-234d2fd22besm14180885ad.40.2025.05.28.09.45.51
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-234d2fe1854sm14097295ad.66.2025.05.28.09.46.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 09:45:59 -0700 (PDT)
-Message-ID: <4474875f-bfd7-4f98-836c-0624f75c0f27@broadcom.com>
-Date: Wed, 28 May 2025 09:45:49 -0700
+        Wed, 28 May 2025 09:46:35 -0700 (PDT)
+Message-ID: <0df6f879-f819-492b-b9c5-f91d544203ad@broadcom.com>
+Date: Wed, 28 May 2025 09:46:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,7 +65,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/17] pinctrl: bcm: Constify static 'pinctrl_desc'
+Subject: Re: [PATCH 08/17] pinctrl: bcm: cygnus-mux: Move fixed assignments to
+ 'pinctrl_desc' definition
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Linus Walleij <linus.walleij@linaro.org>,
  Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
@@ -104,7 +105,7 @@ Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com
 References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
- <20250528-pinctrl-const-desc-v1-7-76fe97899945@linaro.org>
+ <20250528-pinctrl-const-desc-v1-8-76fe97899945@linaro.org>
 Content-Language: en-US
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
@@ -139,13 +140,13 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <20250528-pinctrl-const-desc-v1-7-76fe97899945@linaro.org>
+In-Reply-To: <20250528-pinctrl-const-desc-v1-8-76fe97899945@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 5/28/25 03:41, Krzysztof Kozlowski wrote:
-> The local static 'struct pinctrl_desc' is not modified, so can be made
-> const for code safety.
+> Assign 'struct pinctrl_desc' .npins member in definition to make clear
+> that number of pins is fixed and have less code in the probe.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
