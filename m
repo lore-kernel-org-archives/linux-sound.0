@@ -1,67 +1,66 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C1E27A44C
-	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 10:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BD127AC4D
+	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 10:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748428899; cv=none; b=TqjFEHgNrB3DT/UQX6dPBWdK2RgdXJIe/cjoUXC8kU6y/aahseoHOi0rGUNT1fdB6lWn0GOMlQ3RTUdthjcelqP+MsLT7N+RI814fvtrsobP0rrukbi4UIf96MoP63/2SCnaCM2Jb/bQWPA9TFFHsssMDPT6QAPWnQaMelqQ2Qo=
+	t=1748428901; cv=none; b=oldnIiVIC7toeV7l1EHFBW/FUy3k2S0pr9LBSGBklspgDR1kIXXvcDEufPL2xcs2o/5Pfs6A+5yF0KbUQDKgTyE8WlAvEwhPY9vith0wmiB9TcfyLICvveIU8BqazsIlS0ZJi+2x1QVfxmPIEVpWrFTrNCL9VjAZJ8iB4R2dMsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748428899; c=relaxed/simple;
-	bh=zrI5XszXIHo55XzuEzxs+Nt+l2DX90UOcjrVjPXljcM=;
+	s=arc-20240116; t=1748428901; c=relaxed/simple;
+	bh=ctLoeYbHiiEBT9tiXppJUMjUFh7QHQFzP0xX2rdTSyo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QldD127z7t/MhuXMoTIUeOkoEHQxQCWjRfbstMpZsgHhW4WpnjkuvdSTwXE7nT79fOVQy1OE7PDgjYCvhQzDtVeiqSw8CxeDs2ITm1b8/YNrw5E8hRHi2ZaDr7YzMURSGS67V26/MUD9LXi8f4HELmI5/ltKRmK+LNIAWSp2AnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FUf26LPi; arc=none smtp.client-ip=209.85.128.42
+	 In-Reply-To:To:Cc; b=e45n7NrlgHT/PmvPo21aOsRLyFiOxcaOMqVrbqzJ/E8rEh4al4Y5e9taSEm1WTito4aoFNyjjh/lbibI1PIfRGEcje0czV6fGvzihOcPr/CwYy6K13nBVqLF6XhISpMlmCksKvJnM9foG+LUkbfLjTjxFfPDRmufT3mpb5awnf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s58b/9H9; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FUf26LPi"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-44069f5f3aaso5068855e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 03:41:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s58b/9H9"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-444582310e3so4549565e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 03:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748428895; x=1749033695; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1748428898; x=1749033698; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7p6g8nrYLu2YSRDRFX7+ayHvEGE7eEHjSKPeWK9MLgc=;
-        b=FUf26LPiWgQDd/7WsZegNt9UYRVHMfMbl34DHzO3qwlmPqWWyNobyvpeC5gTt+tCoP
-         UAbfiKG94aigNoTDMorQWZhYeAo+xRyQ9rj4SHa+f5HpE9oRFMGka+zMowpyy8mGqoJ1
-         4rye4kYIanGg59wVZ/gldCV4VePH6DK8usT9ClDDJgydWpxHPsZQbh0FbfRiqU4JIqfN
-         5KZhrzO+X7Drj9gmgr+TQAMGRoubl3kPjmkiU69dNy8FDU9vg9Epxh15hmePzn2ksq0/
-         5yCPls6EXmSBURAVYvKIwKWN8bC2eCMrXszsTSbxYF5tXQfiKZ5uEI0kNKxqzsD32CmA
-         eAig==
+        bh=5o7kHuq5fh1nhgrBmbItAcmZQfVjyPSWaEBF50baGeo=;
+        b=s58b/9H9Xb23FRjzD7gHPlTSFdA+ODYb1pzBnFDfVnrXU3V8L/pMYQiMmQy3NBvmQQ
+         iBSI9pWR5nAs6yDkY0er1/PwDI4wzJG7H6dcrpSnGIB7dC6lYpy63yvFudToVZ2orKX0
+         +zi8MGsGtQkus0m3ejGLN8PA24IhMjQhaPrOrrVCQBr70H6VRXgG1oEZr9OwouFXnh7O
+         fGv3JGzU/dSHEmIFE6PbyGqgHOt1Ecfg4eW7azw+79+fS8CQSjU9h80eCw/FBGI/sbef
+         Cageh0CB4d3jxhMHcxWtOQLsaQ2krssaC7fhWRiEWGok/cIEvDcaqawNJwPQ794OubBX
+         bnIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748428895; x=1749033695;
+        d=1e100.net; s=20230601; t=1748428898; x=1749033698;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7p6g8nrYLu2YSRDRFX7+ayHvEGE7eEHjSKPeWK9MLgc=;
-        b=JoPddJ3fxc2FuXJNCa5UgeGRmaDU+F334qYfaD4CYWvxcfnMn1FVfy4Ol19KzSppEB
-         TTc9eNwiTflmQtewAoEg9LwoEPRbK+EgtF2z2dePfc56F61Mn2+l6figXyFiMq809pvC
-         +gCWUJBFIFLIZLfPAu5HteJ8qrp6CDCfPTJO35bHuU4b9hQKr3zROzKOBYBRD/KUICH/
-         c6qqlZUDNs+9ugqbldUzB/wTMwlVTaJKlC+4KyDWpA7Vh4jZUV1CGiXw45cqqqtapG3x
-         sCrfkBuuq8TKksHEo6YfL+/j39uBMPd6Qcb8SoBBte5CPnbKvWeFWl732tPMSRWQQKFi
-         CbmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVblXQ9UIiAftp8ElZhHZhMS8FnxK7vcRH8BsTqCJ1l7FfelpVUdrLAxpXIjoZMW/nqwJMc1JMow5Uzbg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjC40dxRnSIw65c8L7Jr+W6rHLDvAJHKjnMYgt5wRvKyQvMIz9
-	cMqkQj9CT4UKTSJus98rvP5CsKSoZYki/jg1oUg4T5oALB7ugo5RMotyikbX/QI/nR4=
-X-Gm-Gg: ASbGncvtMhiTOTtj5X+b93VmqgBy1R/y0ijy3LzNkCgZx1FIdovYGdJNjitWKfm2M5j
-	FXID69Ugi4V1glsTPgsxiF+U0JhEaM3kg0PvjUeGaOj2GmiLiMus1LWvCEbbOklxsXX0r/jaYJt
-	oVaOctVCunNATAxAnZGn2Et+LHBN8GB9e+r0pAUtv/Th/OW4vIr5oGqpjjCI50z0E6HVKWc5IGe
-	EJmeqpxMVY3FgqIibgkUUBRQBGzUQpItKOljDwYtKEhGBy0fHdSPaOiG7VyyMA11ztAZ6c2fv5l
-	IgFrErnreBKCduVgsqb1hiOqJXWPD0K9ybO4ONj4E+TC/LiHaEmxnXjRhIeekQ7AK6RvOvWLLYr
-	S+U2kdQ==
-X-Google-Smtp-Source: AGHT+IF4XXp1aLCWKB2Y2JNdxIiZKbtNgU9ZnNFVay8r7bVjoBOcuQslbgG6XG2skmv22UHi94V+gA==
-X-Received: by 2002:a05:6000:1885:b0:3a4:e672:df0c with SMTP id ffacd0b85a97d-3a4e672e083mr1108871f8f.13.1748428894969;
-        Wed, 28 May 2025 03:41:34 -0700 (PDT)
+        bh=5o7kHuq5fh1nhgrBmbItAcmZQfVjyPSWaEBF50baGeo=;
+        b=mjLeQby1MH+/c+/kQhotYeyfGqI46WZT1SigfK4tr2Up41ZBbd5cMAcC9Pm6f5W+Xz
+         AEI9TZvPHv3mlFX+mDzH30rPiW+cKB8psY5kINaYJnpAoMz7LlsjyZswxyjKLfGNpcPW
+         i9BVBe+SgelLDVCVSdto5UC6HjcLb/YmihtzJRB93og9jIimITWPPJyIr6JGKKCGTe37
+         aq4pOqLbo/+vbzAH9JaLVGK/z9W/aWNn7H4DUHyIvfIRWa7R1/NjgEr7t78FaVLaD4Nv
+         5ptNqLFEIgdtQI2P4SS5iG7oK5zT9OVpJe6QX+BiZJZVRlE9q/XrULWq0F40VdNo9Cwu
+         ILbg==
+X-Forwarded-Encrypted: i=1; AJvYcCX4Oe1JwB2Uvep6pHGwLw4t/x2EkkZ68IpwTBEVvZCyg62/W8/q8MdF4GCiGkTFlP8NReqAuDiSAlJ2sQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTNI0zf/Mz9W+jHtH9OrvFAvqDaZXrL2FK7B8WZZ6LRDCDs4S5
+	9Vir1dQyDHt91yxdhVWyQG7FIUg/jIZ/obX6ZFZV1354FXHDtyfCX/Aeeh0qjYpd/ms=
+X-Gm-Gg: ASbGnctHjxl0Xtpie7iEnbSpCkGvaDdpuAujqMBO6UAH4bkl/T7VkFE43PkTG+eNH2J
+	tjzAcFOaHg9lL2pw2HsicuHxRGCg2MhAVF+RKtW+Tv77+IVkmlVUbwoYl3tbuNg//6WZTe0CegS
+	8C/vnjzsE6UhWC4MSW6t7lUgfqiPzi1ZattrmORhj1HE/HtfU27w3PHGcIFQP9JpZQgxh3UNjbD
+	k25aGswKI1qxlQprO/sBWgtHz2wAqFjHR64Z8hoz1LHhzRBCZSTWYgYlMxRvird4gduPejvoxrk
+	hBN0DbmDuCfPf+AL9NNSz891Dz6T6Wv1GRjiffUzbHWb2MqRYN6eTFvN2CFdE4LKHBwSp4Y=
+X-Google-Smtp-Source: AGHT+IEqdF3+R9PvjaaVFg6PDyOWyRZc3HR0H7gqLL2irDsUydaByqxkZ9IUn5cux0xSEgLuwczlgg==
+X-Received: by 2002:a05:600c:45ce:b0:43b:c938:1d0e with SMTP id 5b1f17b1804b1-44fcb9e409dmr26120075e9.2.1748428898180;
+        Wed, 28 May 2025 03:41:38 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450064add8bsm17331595e9.17.2025.05.28.03.41.32
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450064add8bsm17331595e9.17.2025.05.28.03.41.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 03:41:34 -0700 (PDT)
+        Wed, 28 May 2025 03:41:37 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 28 May 2025 12:40:57 +0200
-Subject: [PATCH 01/17] pinctrl: starfive: Allow compile testing on other
- platforms
+Date: Wed, 28 May 2025 12:40:58 +0200
+Subject: [PATCH 02/17] pinctrl: Allow compile testing for K210, TB10X and
+ ZYNQ
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,7 +69,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250528-pinctrl-const-desc-v1-1-76fe97899945@linaro.org>
+Message-Id: <20250528-pinctrl-const-desc-v1-2-76fe97899945@linaro.org>
 References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
 In-Reply-To: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
 To: Linus Walleij <linus.walleij@linaro.org>, 
@@ -110,47 +109,65 @@ Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=941;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1365;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=zrI5XszXIHo55XzuEzxs+Nt+l2DX90UOcjrVjPXljcM=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoNuhJ4yZZSqj6dEPnXTgLNjKYLUIHgwgauUARk
- H8eJl7B4ryJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDboSQAKCRDBN2bmhouD
- 1+ivEACCJDREpm7C+JuFF39/eQGACEJKolMKPZ3B1qh8VZPQQTidC/Sc4YJsNMf2ALyneQVNJRr
- ee0rzIGyB1dV+BdbrAAaU1luTOQfqd28ZU+hkN12kluq5TtfVYsfjC3qY+xT+s57CmqWJrS8suf
- tF84DJ05p8vijBMGOe4xzZO7or5BqM1JK32hTFyoZh7kOPiI174p0w91Flem3uX1rLg8f2iRGf5
- nPHw4aLV+fgDVeF1lulUpeOAfqHnt0lqKBhpWkowevGEp1PvCHxN9C+zZxjzyVFbhW7DQ7Vtb2q
- ekSrBr/nfXxV1LWbppOeZjsUoqbUYpEBFiNSjCW5tB6Rc2K4ez83OLBVRPG6U/mKcdlG/sz8MYf
- kxnETUB/7A5YgTrEHNeATC8iZ+qcu0dlniWB178PRj/Ohb5p/++wVINLNbOzxqKur1h03+i74ZQ
- lU+QrFHay3EclA4eZmLOSb5rWnnCam0dbD7OAwUxuYLUeB1dFqcULcpDozUjb0t6M4vPm2Opadi
- Y+Kcj/2g3qAtprbL+7BXQPANgJ7TNXpvHXfiUyPvyMmZPuCNkI2SsPmCPNPVAMn0fgSqkoz6iC1
- UKVdN+23XFZMk5MbzTHm838PZoLCCpE96EW79bgbL2OEPv4hPAfZ9GTjdJjAGafoQ+3/4WhNNSh
- y+XmeSNsjaGGtHQ==
+ bh=ctLoeYbHiiEBT9tiXppJUMjUFh7QHQFzP0xX2rdTSyo=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoNuhKnpMXQJB0a7WYDcwZWwHu8C1P+bTuhMNNC
+ +EXWDs6a8+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDboSgAKCRDBN2bmhouD
+ 11VaD/9bw31tjR68bxVpvaTyp/6cSym928yjCV9vR7oyl3BoFzh4W/a+7D30PLrsKSbtBC0J/LD
+ ZSkuCuQRCTdT/n3XZG0T+ABgncoGE8an/aWUK1QeNySdpFSaEb5IitD03FUnLNTrxbziwX2OSOt
+ 6Z8A1nYodGD43IqazDQ2Xa7koDf9waLjKZ4MmbB8/+UkbSkzvm0UwGsFauOIvDrdj5PPraBwoo0
+ W1X4sxPqQbmIu/4DVRh6oGcHsCwbTyAArmCXRUGcCavGlYBMYD0sfBZ14yAoyXbd+TywqhMmceW
+ Tgtkyg/cXJ8JinZQIyzaHGnbQKLMukCGj+sTXlEyYG54GXhLmH3szir1Zsww23gOCwDK/qdnObe
+ c/31A7IEOIftcgkxejUbOr2hcAttBy7peOBZmeIe2iHS2xV/0B3z4DN69SNuH7YSD06YPSnBrgv
+ BPRrGVkzC6QpojpzpZYG1rdP1Mov2N6Xb6lFueCWghnaWhmNte0hYDoOi3sHyHcLTY1RBqCyKVb
+ ghPKA7ZSaMhuw3XFjrTUOHMhvO/Qxo44gHjL9XbyoHVDmw2vtEczKKN6madwPnMdoxroiO8Szan
+ PthWKLwLidRlevSuV3zpMfPWxCO8gOal4o4jOif7BkNZmL0L1ELFxabGoZqrimpzXrW9si4MeWO
+ jCjZimWjAIxLjVg==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Always descent to drivers/pinctrl/starfive/ because limiting it with
-SOC_STARFIVE is redundant since all of its Kconfig entries are already
-have "depends on SOC_STARFIVE".  This allows compile testing on other
-architectures with allyesconfig.
+Pinctrl drivers for K210, TB10X and ZYNQ do not reference any machine
+headers, thus can be compile tested for increased build coverage.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/pinctrl/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pinctrl/Kconfig | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/pinctrl/Makefile b/drivers/pinctrl/Makefile
-index ac27e88677d14f1c697e0d0be9f295c746556f4d..dcede70b25660833a158c298d1269d6ecea9dd8b 100644
---- a/drivers/pinctrl/Makefile
-+++ b/drivers/pinctrl/Makefile
-@@ -82,7 +82,7 @@ obj-y				+= sophgo/
- obj-y				+= spacemit/
- obj-$(CONFIG_PINCTRL_SPEAR)	+= spear/
- obj-y				+= sprd/
--obj-$(CONFIG_SOC_STARFIVE)	+= starfive/
-+obj-y				+= starfive/
- obj-$(CONFIG_PINCTRL_STM32)	+= stm32/
- obj-y				+= sunplus/
- obj-$(CONFIG_PINCTRL_SUNXI)	+= sunxi/
+diff --git a/drivers/pinctrl/Kconfig b/drivers/pinctrl/Kconfig
+index 33db9104df178e5a3148b60c3c6bd153113385d3..77a5d13e899f8c5251987c2c74df1d05dbd59128 100644
+--- a/drivers/pinctrl/Kconfig
++++ b/drivers/pinctrl/Kconfig
+@@ -269,7 +269,7 @@ config PINCTRL_INGENIC
+ 
+ config PINCTRL_K210
+ 	bool "Pinctrl driver for the Canaan Kendryte K210 SoC"
+-	depends on RISCV && SOC_CANAAN_K210 && OF
++	depends on RISCV && SOC_CANAAN_K210 && OF || COMPILE_TEST
+ 	select GENERIC_PINMUX_FUNCTIONS
+ 	select GENERIC_PINCONF
+ 	select GPIOLIB
+@@ -554,8 +554,8 @@ config PINCTRL_SX150X
+ 	  - 16 bits: sx1509q, sx1506q
+ 
+ config PINCTRL_TB10X
+-	bool
+-	depends on OF && ARC_PLAT_TB10X
++	bool "Pinctrl for TB10X" if COMPILE_TEST
++	depends on OF && ARC_PLAT_TB10X || COMPILE_TEST
+ 	select GPIOLIB
+ 
+ config PINCTRL_TPS6594
+@@ -590,7 +590,7 @@ config PINCTRL_TH1520
+ 
+ config PINCTRL_ZYNQ
+ 	bool "Pinctrl driver for Xilinx Zynq"
+-	depends on ARCH_ZYNQ
++	depends on ARCH_ZYNQ || COMPILE_TEST
+ 	select PINMUX
+ 	select GENERIC_PINCONF
+ 	help
 
 -- 
 2.45.2
