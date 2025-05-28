@@ -1,190 +1,146 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0716283FCD
-	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 12:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0073284686
+	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 12:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748434228; cv=none; b=OGVDhOslfYfSzMfGJyhZr2V4i2hwFHpITjWCMaYQHyqS4KLQLVEPhbp1rZCvIDkDvpe1hPX5plDNCQx9VEY0Zy9EAsT5biJqYLqa5lIfPRBnBpfEItaq6lsmYvhji3NI1f3ODq+GL+CpYUASjj4qn2zm0NvUBBtZX/Q4nsILUHg=
+	t=1748434824; cv=none; b=kuGMNYLxlL/y0EsuzB08rsJBc20aS4TqnK8EDEOeDClGBs5HOgqb8t6U+tI3oTk+TRyNgll2AimQ1+/r8RvVcHDSB1RwB6QCFsNQ6WdY8GxwgV+r7suVRBFetSJ6dvQhvMIk+Kdy51gPyPrWSNA11QrSx3JERHffZI3w1lMd1T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748434228; c=relaxed/simple;
-	bh=pJEDr/qugQx4eH6wJYeHlFwWjJLN3bxQWo8T2Qnk3Dc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=btpQOIGH3R+o5BF94zJ/4GMil91x8LZ3NZdJuTQhG1opWDE6yDKhg/PgVV0BZ9nmpv4hbPsODDaPD6k35cIeWJDpTEsWTjhzEIyBTJwGQf3TEBQJcHqgdU0DT8eQIrIwvSzzTdWeuQwz4JZc57JCv9jxvBkRU0m+wnwU2DgsE7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org; spf=fail smtp.mailfrom=openpixelsystems.org; dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b=DeUPSriI; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=openpixelsystems.org
+	s=arc-20240116; t=1748434824; c=relaxed/simple;
+	bh=LgluqXTAQPOxJPKju8Bo8ViAFRC7s0F2a9tFXlqvtIo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=X/gvDv50C+XLKrtDmqMd6r7senSax06QGFtpOEYGdtw8KlhC9PHiUqdai4gykuL7ravZnYf6/FpnrFJX/wR1SBLB7WxAwQl9j2wrA8rz66OvInjb4M+Z3B/nQqmeXj9BvZ1Z4dsf9dLltB0/Djdn7XFbIKnnbE8m2ScgN7vnRZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Up9MwRuH; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b="DeUPSriI"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfa7e7f54so6669275e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 05:10:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Up9MwRuH"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-440685d6afcso52885365e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 05:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openpixelsystems-org.20230601.gappssmtp.com; s=20230601; t=1748434223; x=1749039023; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bE1qAzhNE5HZd1ubRE3mU3j6Ns9DRAixhCjB1nZFWXI=;
-        b=DeUPSriIJOVzWvIBDMp3jJxkQpqfK5OJDwtuDH1s4uzysEiB7J1RheUQcOzV0nyd3E
-         oumGIS9sA3ihSiUxO3+hlYqkp1Y9a21NC2URNvo9ZFX52fFLzT2ew9UBKCmf68wBgJcv
-         w5Dvf5ADvVvy1fOs7bV+X/TP43dhOKvoFCy3JvTc1pUAY7+joecz4lSum7cGheDnQ5vP
-         frNYERAjbnlTqmudxEQNlSiLK+mFc1hd3c1SLe3i+GGntETz3czcUFJo5gtux1w8Y54j
-         IUcS2+KHM9vHb9MGIme+qvIvE6wckINUUADZiNMmHYtI3vO5Pk8dlXewUx8LgjaxsC6y
-         KkTQ==
+        d=linaro.org; s=google; t=1748434818; x=1749039618; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nUiSIyBK9bnL6y5jkIEyCSHfBFQ4eE1Z0A1Z3a6M0aM=;
+        b=Up9MwRuHNjPw1rlRQzUew66x7qEPzJiY9UVqJhwvtqIf0Eyo8lBQCHqtWdrA5m9oYE
+         cQuPLlhoGUjI1pgVqE+wE/s544dc0VOLMRzLVEmaDPWy9BpuDGjDTlWu7NHnXkeqYYDi
+         LS/N2aq0Q5HHtM26h+IwOruFH3o0lEwdzLbpOu8LTAoMEIQUmLpzyomxAMNSLuLFe+l+
+         hN1kFmpyq4xM5UYNtEbrl0NZjqmb8dCbT0mXGc0ahpMwuiHfCCMu3MdqvNnqbNRXfM5M
+         tx3XGeVV7oXENS2jWvJto04TScoaNtoDRPUeSBNGT2V7MU+bmGc+wOKiTULLKBme1g96
+         wzOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748434223; x=1749039023;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bE1qAzhNE5HZd1ubRE3mU3j6Ns9DRAixhCjB1nZFWXI=;
-        b=i4rsSiI8WJV6T2Q6Ro8QS04Cczl4X2+gdOWcKW9ge787jOVXmN9x0NjDkeicIWskte
-         A5BpGK7AMFEACwy/9Ql8QKK90IOTKW7gwhhQ9r15iL04aEYnbWf3pUdoUmHuyI8o9NC0
-         HR+l4OMZavGf+hLJ7MHpD8ibW+CA8NH8Yhdny4PII94l4K6kJS3SjO7DGcholUM634Fu
-         QKyR/P/EU8eMSAOHHSHp6YAjUXY6Rmc/017QWVyjLY033dnRpoWclUzcBhvAAnpk+TMK
-         DGOSdMO1BjSD0EIaSOZJTIgNb7yFetDOts5Gn3PDCJ8vtKxVm1Vt3DHzMT7megiDxxD/
-         ej2A==
-X-Gm-Message-State: AOJu0Yw2Bgy4YnW29NsOQl5OV7ylkzk5V++0Kq+zzH1s+faI3PeG3DP7
-	yVrowAcUpTDwcrXH9C6Fh1fYG9ZCyF39uJfp7TcwLeMNuATvjOolJ1xjaB8BE5w5+4s=
-X-Gm-Gg: ASbGncsmRojdeV6AN4U1VNyaWNoSW8vCZRXlELsBC6+YBO4qi207ogmhdmDvsiZqgsM
-	nE+zOwxBEZyuuyD1TUeJa5/WnGnaPkCWDUugT2WpzI+pYjNI5d9o1IBIcYUz3dm5NnVtiP8U50t
-	nO5dJMUSVh2iqYFyHyTcG8KHKVG8qNMSA6CI7uXs0Gc00nsUkZG1XCs6qpkIqKh6nUMvQ1a4is0
-	HU4x8VvBAgqUcBTnb7dC/XeXu92e/9BLZMj2MweaBJhTOtsTm1gNyhdxkZvKcYUAzaknVmLOjDu
-	8GRCEOOXfvKDnP+fZhZfCief5ndN8XbuoN3UGMvZixBRZhkbL1yKNYjopLivasHlbZRECEysx12
-	JqXoH51vyrWZdnBXxzwaD+a8Ig2eVXAVGyStuMQ6VcY8=
-X-Google-Smtp-Source: AGHT+IGcE3Yp8bAVOCVgnJKGkwATDVpB/cTdFinAHS7r+RAhvqsfHiBYYpvMiJ1biMvf0uyRn2ZFHw==
-X-Received: by 2002:a05:600c:1d1f:b0:442:cd12:c68a with SMTP id 5b1f17b1804b1-44fd1a01f9fmr40280845e9.1.1748434222845;
-        Wed, 28 May 2025 05:10:22 -0700 (PDT)
-Received: from [10.0.12.41] (253.124-78-194.adsl-static.isp.belgacom.be. [194.78.124.253])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45006499727sm19874145e9.3.2025.05.28.05.10.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 05:10:22 -0700 (PDT)
-From: Bram Vlerick <bram.vlerick@openpixelsystems.org>
-Date: Wed, 28 May 2025 14:10:08 +0200
-Subject: [PATCH 1/2] ASoC: tas571x: add support for tas5753
+        d=1e100.net; s=20230601; t=1748434818; x=1749039618;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nUiSIyBK9bnL6y5jkIEyCSHfBFQ4eE1Z0A1Z3a6M0aM=;
+        b=MtWIvYijWbS8w0sOvWX6u+HCIuGLx+9ufEmQwFnO+gUmmlweCADxXfqn+P4TxWf/vT
+         WXvdAmjrwPSZwaoZC7M8xWVkPWb5iVES1MLVUeSpSaCc5r3vfYwM5jpy0WD/YNM0ZK3t
+         3VuLfylhh8jRj0kdeCk/I8GJITjYXOpy+MaEr93uX7jstaL9ed38/lCZPe9YkxPqtDQK
+         kwDU/MX2FwwOQeB1KTQVscXh+d4jMkxlyD6sHZFV6vkKh2whULi/6qbykHoYE0weAq53
+         Th8M4RjVwR+MROek50W0TNstd5IzwjzYrCSbTjqd6aI/7hoolat8WX7evoeKJbTSYx2k
+         cJOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXyfM+EZ05yQhKqpahm3dyyzdN5lgnxCN6AAgDC5V30Qdapi7LmXpObZfe8ZKhCdAZ2Jnc3oUYCMTfQcQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEtxNu5zT99EtHd1v1Jzxqj5wskNU1G6DgL6AD6DSbjCw6TGu+
+	65YZ3CLQ2Mw8NyJ1JWWmxoMw0loxrgCnCRcIioLu8Ssm89l0FUYCkd1rq9WYoanq2IUyQzTFcXd
+	BEtMA
+X-Gm-Gg: ASbGncvgwSK72u1zld2fKPK6LHUlf03+uW7b9GmEUNcBa+k9aliFxlC7eX85eVA3JqS
+	Bv7HCqKcrxW7nDD3Cs0Q4foeWnKdLbQM54BM268QWvBkK93dUzRdyc1YHryyd1qHusEgCUgovZ6
+	1aCr1AuddzDf+LfZ7UEZpPXC4IRRVRHeCUFgT7vYgBW1q83+iyqVoFEp1H6wNGfVoBPUqv0Y+jy
+	FPm1TWZawfdfoBewyx1EBQZcAa9fyJSSF3Ie0tTo8RrARjxKTUiQzxQFrp4ki42eDwRKdqv2Ysu
+	5l9p5nEO6NEf5S7LUAdVuzW9sqMXHZbC0lf6rXfLD/tu0bbCgwGPBlN+dJOdeKCSZZo=
+X-Google-Smtp-Source: AGHT+IGZexNRqILydRhcO4IU4n98EZEdu0fFVjtfd4sxx1IIeEAtAXBTC1Us7iU6PxbqQgpjB0cAjw==
+X-Received: by 2002:a05:600c:3109:b0:43d:1b74:e89a with SMTP id 5b1f17b1804b1-44c941884eamr149032045e9.9.1748434817966;
+        Wed, 28 May 2025 05:20:17 -0700 (PDT)
+Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4507255b619sm15992525e9.22.2025.05.28.05.20.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 May 2025 05:20:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250528-asoc-tas5753-support-v1-1-a50c3f6734ee@openpixelsystems.org>
-References: <20250528-asoc-tas5753-support-v1-0-a50c3f6734ee@openpixelsystems.org>
-In-Reply-To: <20250528-asoc-tas5753-support-v1-0-a50c3f6734ee@openpixelsystems.org>
-To: Kevin Cernekee <cernekee@chromium.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, 
- Bram Vlerick <bram.vlerick@openpixelsystems.org>, peter@korsgaard.com
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3260;
- i=bram.vlerick@openpixelsystems.org; h=from:subject:message-id;
- bh=pJEDr/qugQx4eH6wJYeHlFwWjJLN3bxQWo8T2Qnk3Dc=;
- b=owEBbQKS/ZANAwAIAblauka9BQbwAcsmYgBoNv0stC7BS5QfA4/R40SJ3UKg/Z0reSEOgJeqB
- J+6ZB/f4xyJAjMEAAEIAB0WIQQO7PtG7b77XLxuay25WrpGvQUG8AUCaDb9LAAKCRC5WrpGvQUG
- 8Ee9EACwK7jyH73TEFUrymNw/Ov4xTcRHvis+2TDZ5LX2TUiQJZHIlckf96N5ILSDfvT8lB7Ros
- 4uICNWMwg2iYVQSJulfHw53rXTzQN4ybvLPfIZAoqwtSexxXqhHFU4BPKyaROShrSEIWER2HDFX
- q6o+F2VQP0rFdBJ25nLHTjoZSZZuZf/bcI/QL+W/FOGJWH+35u8IL5doh8GY4+hpCXMvJ954vVN
- KUfljO6Jn5q4cMKlZur54YeXCBOuoVuUXvbQulKVfmhs/p8NZuQ7WsW+TQr6A+rw16V982tHIg+
- J8p6pAOS7Jb5ZMjdvEuhp1S8zNn/BDUmTo6CA09SgBU5EyX1QH59BuRGLn8XAM3TC2n6cvMTD8u
- 6/3ZxHmN1aAqh2CRB2okmwKaVBKz3dJIKdxi3I8IAGi0xnA2FzB3FAh2t1o3S/KqTOG8rTy/qNF
- QP/3C6I1VdX5V1rLeT9BLx8E2YigJuFJ0owH1oC0M9BvKcFEcgV7SKpUuOVWJXjx7Qi+/c9UX5+
- eRGNXCvPLg7PHB51qZkgJyKfuJgo2g9inBLfx6bSSU58PZIGr/91yMuCc8LVXw/NyElb0uLPX5N
- HULdIxuRhLRg2e5Pm5B+EFtHicamWsQJvmuL08ZiXXxiC8notgPfRhqaYiSrdhcvX9LkyD+8VXF
- t83v6t03L1WtJAw==
-X-Developer-Key: i=bram.vlerick@openpixelsystems.org; a=openpgp;
- fpr=0EECFB46EDBEFB5CBC6E6B2DB95ABA46BD0506F0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 28 May 2025 13:20:16 +0100
+Message-Id: <DA7SEY5S1F1Z.1LZE7191BKBFM@linaro.org>
+Cc: "Bjorn Andersson" <andersson@kernel.org>, "Linus Walleij"
+ <linus.walleij@linaro.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Konrad Dybcio"
+ <konradybcio@kernel.org>, <cros-qcom-dts-watchers@chromium.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <kernel@oss.qualcomm.com>
+Subject: Re: [PATCH v4 7/8] arm64: dts: qcom: qcm6490-idp: Add WSA8830
+ speakers and WCD9370 headset codec
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Prasad Kumpatla" <quic_pkumpatl@quicinc.com>, "Mohammad Rafi Shaik"
+ <quic_mohs@quicinc.com>
+X-Mailer: aerc 0.20.0
+References: <20250527111227.2318021-1-quic_pkumpatl@quicinc.com>
+ <20250527111227.2318021-8-quic_pkumpatl@quicinc.com>
+In-Reply-To: <20250527111227.2318021-8-quic_pkumpatl@quicinc.com>
 
-Add support for tas5753, device is similar to tas5733 but with added
-headphone / line driver.
+On Tue May 27, 2025 at 12:12 PM BST, Prasad Kumpatla wrote:
+> From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+>
+> Add nodes for WSA8830 speakers and WCD9370 headset codec
+> on qcm6490-idp board.
+>
+> Enable lpass macros along with audio support pin controls.
+>
+> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+> Co-developed-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+> Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/qcm6490-idp.dts      | 96 +++++++++++++++++++
+>  .../boot/dts/qcom/qcs6490-audioreach.dtsi     | 24 +++++
+>  2 files changed, 120 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts b/arch/arm64/boot/d=
+ts/qcom/qcm6490-idp.dts
+> index 7a155ef6492e..884abbda74fd 100644
+> --- a/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+> +++ b/arch/arm64/boot/dts/qcom/qcm6490-idp.dts
+> @@ -18,6 +18,7 @@
+>  #include "pm7325.dtsi"
 
-Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
----
- sound/soc/codecs/tas571x.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+[..]
 
-diff --git a/sound/soc/codecs/tas571x.c b/sound/soc/codecs/tas571x.c
-index 00b131294547812f1406056d17e6c42ddf92003f..b0b360aaf1202d3254d25215a5fa288e48410637 100644
---- a/sound/soc/codecs/tas571x.c
-+++ b/sound/soc/codecs/tas571x.c
-@@ -839,6 +839,56 @@ static const struct tas571x_chip tas5733_chip = {
- 	.vol_reg_size                   = 2,
- };
- 
-+static const struct reg_default tas5753_reg_defaults[] = {
-+	{TAS571X_CLK_CTRL_REG,		0x6c},
-+	{TAS571X_DEV_ID_REG,		0x41},
-+	{TAS571X_ERR_STATUS_REG,	0x00},
-+	{TAS571X_SYS_CTRL_1_REG,	0xa0},
-+	{TAS571X_SDI_REG,		0x05},
-+	{TAS571X_SYS_CTRL_2_REG,	0x40},
-+	{TAS571X_SOFT_MUTE_REG,		0x00},
-+	{TAS571X_MVOL_REG,		0x03ff},
-+	{TAS571X_CH1_VOL_REG,		0x00c0},
-+	{TAS571X_CH2_VOL_REG,		0x00c0},
-+	{TAS571X_CH3_VOL_REG,		0x00c0},
-+	{TAS571X_VOL_CFG_REG,		0xf0},
-+	{TAS571X_MODULATION_LIMIT_REG,	0x01},
-+	{TAS571X_IC_DELAY_CH1_REG,	0xac},
-+	{TAS571X_IC_DELAY_CH2_REG,	0x54},
-+	{TAS571X_IC_DELAY_CH3_REG,	0xac},
-+	{TAS571X_IC_DELAY_CH4_REG,	0x54},
-+	{TAS571X_OSC_TRIM_REG,		0x82},
-+	{TAS571X_BKND_ERR_REG,		0x57},
-+	{TAS571X_INPUT_MUX_REG,		0x00017772},
-+	{TAS571X_PWM_MUX_REG,		0x01021345},
-+	{TAS5717_CH1_RIGHT_CH_MIX_REG,	0x00},
-+	{TAS5717_CH1_LEFT_CH_MIX_REG,	0x800000},
-+	{TAS5717_CH2_LEFT_CH_MIX_REG,	0x00},
-+	{TAS5717_CH2_RIGHT_CH_MIX_REG,	0x800000},
-+};
-+
-+static const struct regmap_config tas5753_regmap_config = {
-+	.reg_bits			= 8,
-+	.val_bits			= 32,
-+	.max_register			= 0xff,
-+	.reg_read			= tas571x_reg_read,
-+	.reg_write			= tas571x_reg_write,
-+	.reg_defaults			= tas5753_reg_defaults,
-+	.num_reg_defaults		= ARRAY_SIZE(tas5753_reg_defaults),
-+	.cache_type			= REGCACHE_RBTREE,
-+	.wr_table			= &tas571x_write_regs,
-+	.volatile_table			= &tas571x_volatile_regs,
-+};
-+
-+static const struct tas571x_chip tas5753_chip = {
-+	.supply_names			= tas5721_supply_names,
-+	.num_supply_names		= ARRAY_SIZE(tas5721_supply_names),
-+	.controls			= tas5733_controls,
-+	.num_controls			= ARRAY_SIZE(tas5733_controls),
-+	.regmap_config			= &tas5753_regmap_config,
-+	.vol_reg_size			= 2,
-+};
-+
- static const struct tas571x_chip tas5721_chip = {
- 	.supply_names			= tas5721_supply_names,
- 	.num_supply_names		= ARRAY_SIZE(tas5721_supply_names),
-@@ -1007,6 +1057,7 @@ static const struct of_device_id tas571x_of_match[] __maybe_unused = {
- 	{ .compatible = "ti,tas5719", .data = &tas5717_chip, },
- 	{ .compatible = "ti,tas5721", .data = &tas5721_chip, },
- 	{ .compatible = "ti,tas5733", .data = &tas5733_chip, },
-+	{ .compatible = "ti,tas5753", .data = &tas5753_chip, },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, tas571x_of_match);
-@@ -1018,6 +1069,7 @@ static const struct i2c_device_id tas571x_i2c_id[] = {
- 	{ "tas5719", (kernel_ulong_t) &tas5717_chip },
- 	{ "tas5721", (kernel_ulong_t) &tas5721_chip },
- 	{ "tas5733", (kernel_ulong_t) &tas5733_chip },
-+	{ "tas5753", (kernel_ulong_t) &tas5753_chip },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tas571x_i2c_id);
+> +&swr0 {
+> +	status =3D "okay";
+> +
+> +	wcd937x_rx: codec@0,4 {
+> +		compatible =3D "sdw20217010a00";
+> +		reg =3D <0 4>;
+> +		qcom,rx-port-mapping =3D <1 2 3 4 5>;
+> +		qcom,rx-channel-mapping =3D /bits/ 8 <1 2 1 1 2 1 1 2>;
+> +	};
+> +};
+> +
+> +&swr1 {
+> +	status =3D "okay";
+> +
+> +	wcd937x_tx: codec@0,3 {
+> +		compatible =3D "sdw20217010a00";
+> +		reg =3D <0 3>;
+> +		qcom,tx-port-mapping =3D <1 1 2 3>;
+> +		qcom,tx-channel-mapping =3D /bits/ 8 <1 2 1 1 2 3 3 4 1 2 3 4>;
 
--- 
-2.49.0
+It will be tremendously useful to add comments that elaborate the {rx,tx}-c=
+hannel-mapping
+(and port mapping for what it's worth) here like it is done in other dt fil=
+es.
+For example in the same way as it is done in sm8650-qrd.dts
+or like here:
+https://lore.kernel.org/linux-arm-msm/20250526-sm8750-audio-part-2-v3-3-744=
+29c686bb1@linaro.org/
 
+Best regards,
+Alexey
