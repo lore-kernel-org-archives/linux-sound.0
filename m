@@ -1,140 +1,107 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C900285411;
-	Wed, 28 May 2025 12:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27BC283FF6;
+	Wed, 28 May 2025 12:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748435798; cv=none; b=Pj7DAMbiJUyQA3VmpN1pt9p8y2BDlRiGAVnpqDsO1tnVO8Hv6vM8r6I7zpQkB9SGL/X+1AMQPFJMVwlbDy9Fn1UsVMqMoWhohU28UdlrddSiEGW+Nzw/U3Su2+Q1JAJru2j39dBeZRO6IJKB5om624U+shKp5X27zfWZIg2bRN8=
+	t=1748436304; cv=none; b=qE5/3NODVJ32l6xjL/qgP4m+Mg4tTDtMEIR1nGREbU/IBuU2hjlpIrGE/AUTggAa2Pml62ckxErlmXwOejTUhnXtDmNp2V/2de06DvMVe14tRVGBu9tNzqU4KMR2KdPstz2ZUkVh1C5i8DJmE8J3Yr8Y+S6lQa++9MTXyePnc1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748435798; c=relaxed/simple;
-	bh=Tb8JwKiZIuYCl3tOsCNwIpx036fyGp61/t1y80b2mTM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NWtc3N3dk/bKFKug90xxuDsMY8AMs8THXFrhR1zkDqpZp2kCn9gtiwNQXg03TfF0k9IZkjNjibX/fTezDgU9sstoxpouPpWgEKAGY/vR06/9vEhimhusMGxFtg6JuaobFzyczoEKT/fsYeCcnOdycLv0tZhqG+F906olnrIwKHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-86d5e3ddb66so1273840241.2;
-        Wed, 28 May 2025 05:36:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748435794; x=1749040594;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EttMl+UEO23MQ5/zgKZh51X1fkqP6brx9qDrKYFmyoA=;
-        b=Zz8NzvcetK05jErEbx/ZP8QJVx1G1THE7k6BzGtuwnEbL2Qlt7JPbihNQNyZy+irtN
-         rGQ7yMEwBzW0E7ZED5ZGqtWh7NW37aMscQmtkpmsHXqc9XMsrrsoDFuXuNTdzqdE7y78
-         FjurhvWJA3n7ltUBXfXRQ4VFzUmv++koJilWjNF12as13Vk/8ZCzu6MSqt94ard3Qimx
-         jGUEDKZ5CMFWkwCSuyoYDgLnReAseueGT4/haA6zy+bnAkE0NYt1h+jD1CGnfUPFZSTR
-         lqzEDhVXDhcGLkQKATNACqsfNhRRU1Bmfu2CJj1yIey71WaMBiRPWy/46NFRJwkRgaW2
-         bH2g==
-X-Forwarded-Encrypted: i=1; AJvYcCVa0JJeYhTLJ34WgLsKtf4mDSUfm5oirLJbNQ/y5wBvWOsu3olB3WLKOsMk+tPA+2+B1xWh/QuB+uRu2Ro=@vger.kernel.org, AJvYcCWRlyQmU8QDqHotGTZlOMYs8Asmdyini862gJvv11kqpghYsMN07kdDBR4P0FRWnLtLAl9L/PCTXZgU@vger.kernel.org, AJvYcCWUJT+wEWHZaGm0jBVz0QWYpTbEcBqHuiy7SOnk9H7HH4aDK8hEbcxPud7pga510WV4wOpOqt8rssHE@vger.kernel.org, AJvYcCX9UlbJpcH8IqGWQADHeY0dJCieWJSUkNSMjH0vw2lz+c4vyOvv3D6aiJdQyr2v9nYScwmq8H4U63ggqJfS@vger.kernel.org, AJvYcCXZasUqzV8vVyIZwXY2bJcoKtjTxpEPfMPoNP9KKJTdFBcnpIed0byge8siNpUPxAL3D3qAhLcmXHYVyvKfa4Fn8LA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywLC8EMdRBpVJuq2XMLXCLZCWjlI7JPL8afTt3Q+CEo8eH8mRd
-	UQlLg+O8cnCeBnhjb1GvWmGEVqmq4NBCjrwneizw+LwBS+aXxFYaeEjjW0036KVB
-X-Gm-Gg: ASbGncuEZYv5tV0/4YUZigYV5sBzjO1Rqe6YtjxRg0I8fwgHoxv874GIGzz9jmc+vkm
-	f8+FF+/ncD3WSM/Cs/ZzOnR09DLfvfZsdGjlaBNiL0VEbh1ogivtDBm64PpDWSXsPyce3CsJahp
-	BhsIdB+REanGq9TsKGrF9N+CRGvQNoirMmiIkAHflwl0kqPGYk6bfxyQWUEDMtqRfCKEOXj2HVI
-	uVnnBglR9aNrfkyj6Gz+l3xMT7IbhfSwZInfmOHI1QM8VPdpPidiC7fDUleHahoea/iP6a5z7z8
-	A4uqJARiEMdB/TFXFL07CuEJS1PpP3Ln7gYz1geQL9DFJVykJCpdETWQO51pvQxVXMIaCsR4JO6
-	tYfP1r0PDi5x09A==
-X-Google-Smtp-Source: AGHT+IFqX++8xVp+nCvnBBtE1xW7PBsDc7dPeyBs/u6wrEFcPIIOb+1g2Ka1Xfb5vCu7pD3ebvj7wg==
-X-Received: by 2002:a05:6122:d81:b0:526:720:704 with SMTP id 71dfb90a1353d-52f2c56e83emr12183548e0c.7.1748435793843;
-        Wed, 28 May 2025 05:36:33 -0700 (PDT)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53066973c62sm872607e0c.44.2025.05.28.05.36.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 05:36:33 -0700 (PDT)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-87dfe8388f8so834813241.0;
-        Wed, 28 May 2025 05:36:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUdZMdzQj2tjIztXLodfaEF0vTWGP+GzqSKV9mrRsm7pzPKRREnrw0WMod4EsutEqZrnYWnw4WVTDyZ@vger.kernel.org, AJvYcCV1RP1XBseuqv33llEzkRQYA/Sy4ZB7qtd5jKFVvorlYyQDCz5K1F5TsQvcI+f0d/SnvprpTIbabd0gLJr2tSY/bpY=@vger.kernel.org, AJvYcCVcq3wrLQ6S8UN+kGk9Xm8SfIvKmB3+/nsM20AoorYIR1rPd9bRxne9pg5teFw8KbqJOwBJIbJpEzUG@vger.kernel.org, AJvYcCW3Nug3JCEca+iJygNTK7HuzaGKOk2lY1tYBPVYpBFRJIxDcGylvOwwAsasTW0uvZr8zi9yh2VACqIy0sU=@vger.kernel.org, AJvYcCWoURuO9za1nINwJwZ3CyCghrYlBYTKN3WZv01ZrZZtE7tGUPyrmpVhFR0Vt8UhrfLa7pDYwvRGx3ZIKk+S@vger.kernel.org
-X-Received: by 2002:a05:6102:3e95:b0:4c5:1c2e:79f5 with SMTP id
- ada2fe7eead31-4e42415db7dmr12024574137.16.1748435792883; Wed, 28 May 2025
- 05:36:32 -0700 (PDT)
+	s=arc-20240116; t=1748436304; c=relaxed/simple;
+	bh=jPRH3OiK/9a97AF/dwI7dyrPsGMp9AO1LyvMSi3+Sc8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G2+UuSKQqtA6Yw4Hzq1kaDr/M6qx3jpA9NHxgawSUb7TIxN8AaSeGSwOdqAP5zfYom5t7gQT1+Zt0zZyHYZEEBKUTRfH9pL3LGhbfrloiRD+YYb1xl0XPRQ3vUaDKBv7d5IHnbtQEdlMDM49nRXpKqJmpPH05WxEIHimTCF73u4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=emJiWeVa; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="emJiWeVa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38105C4CEE7;
+	Wed, 28 May 2025 12:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748436304;
+	bh=jPRH3OiK/9a97AF/dwI7dyrPsGMp9AO1LyvMSi3+Sc8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=emJiWeVa/VjqGNMEKf7A2csHkn4bg6RJdJPE0suLmSmPzPBjBnPdde2jtE3w9Xq2z
+	 eWYE/WCRPTSyF2hMHNDXe/RL7pZv6cN3SPTXMnRM/HuO3VWfhNW8LKfN9yn2nCbcom
+	 Enhd1sp0SyXskxDr5K/vLJ+3YlQrC/2BFgUPU+8YRLLNg5td2Rz8uW2eKfBe4H4K2Z
+	 7b5veurmdOEAfYhiXvuHs/qByX08aHcaBkpo1CsPIaoeVnIZaUZnJ9JVlfnZcLm+H2
+	 pVMRkA/2XpIwRJnPLqrLRfW1hsLWWsWB7GKTAJKDZKPmUXBbiagFkUX2Eqfq2JoiID
+	 beQScaDzurshw==
+Message-ID: <7aa4a8c8-a719-4c53-8732-25b7908af30f@kernel.org>
+Date: Wed, 28 May 2025 14:44:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org> <20250528-pinctrl-const-desc-v1-1-76fe97899945@linaro.org>
-In-Reply-To: <20250528-pinctrl-const-desc-v1-1-76fe97899945@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 28 May 2025 14:36:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdX7krbAssbYpJ1RA1EkpOP26nUhuhmtSW8X9nJkB5amBQ@mail.gmail.com>
-X-Gm-Features: AX0GCFvOxqSsQb6hAAUjvGh24-ydFSS3wze_W2Lj6wpwfm4mEoNhN1lAYOnpqvg
-Message-ID: <CAMuHMdX7krbAssbYpJ1RA1EkpOP26nUhuhmtSW8X9nJkB5amBQ@mail.gmail.com>
-Subject: Re: [PATCH 01/17] pinctrl: starfive: Allow compile testing on other platforms
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
-	Benjamin Fair <benjaminfair@google.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Sean Wang <sean.wang@kernel.org>, Jesper Nilsson <jesper.nilsson@axis.com>, 
-	Lars Persson <lars.persson@axis.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Damien Le Moal <dlemoal@kernel.org>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
-	Hal Feng <hal.feng@starfivetech.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
-	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org, 
-	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: tas57xx: add tas5753 compatibility
+To: Bram Vlerick <bram.vlerick@openpixelsystems.org>,
+ Kevin Cernekee <cernekee@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, peter@korsgaard.com
+References: <20250528-asoc-tas5753-support-v1-0-a50c3f6734ee@openpixelsystems.org>
+ <20250528-asoc-tas5753-support-v1-2-a50c3f6734ee@openpixelsystems.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250528-asoc-tas5753-support-v1-2-a50c3f6734ee@openpixelsystems.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
-
-On Wed, 28 May 2025 at 12:41, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> Always descent to drivers/pinctrl/starfive/ because limiting it with
-> SOC_STARFIVE is redundant since all of its Kconfig entries are already
-
-... since its Makefile doesn't build anything if no Starfive-specific
-pin control Kconfig options are enabled?
-
-> have "depends on SOC_STARFIVE".  This allows compile testing on other
-> architectures with allyesconfig.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On 28/05/2025 14:10, Bram Vlerick wrote:
+> Add tas5753 to ti,tas57xx devicetree bindings.
+> 
+> Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
 > ---
->  drivers/pinctrl/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/pinctrl/Makefile b/drivers/pinctrl/Makefile
-> index ac27e88677d14f1c697e0d0be9f295c746556f4d..dcede70b25660833a158c298d1269d6ecea9dd8b 100644
-> --- a/drivers/pinctrl/Makefile
-> +++ b/drivers/pinctrl/Makefile
-> @@ -82,7 +82,7 @@ obj-y                         += sophgo/
->  obj-y                          += spacemit/
->  obj-$(CONFIG_PINCTRL_SPEAR)    += spear/
->  obj-y                          += sprd/
-> -obj-$(CONFIG_SOC_STARFIVE)     += starfive/
-> +obj-y                          += starfive/
->  obj-$(CONFIG_PINCTRL_STM32)    += stm32/
->  obj-y                          += sunplus/
->  obj-$(CONFIG_PINCTRL_SUNXI)    += sunxi/
 
-The actual change LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
