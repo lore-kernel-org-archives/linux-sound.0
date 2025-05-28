@@ -1,65 +1,65 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FDD221262
-	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 20:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB2F221277
+	for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 20:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748462414; cv=none; b=N4O1PwUGtMbmLZiM8XyQmDH4sIMvOSro8oew2AFyA8fQFOv0BEUFrgGCdFekG3f5wu/dEj+gBg8CfhW34HarxXKKt1nCHCH3+NofkrgBnhDKVMnhZ0pDdk1skSuePm7YqV6xf8HrfawErYLe3WI+S8awn8d8MdRs3Rci1zZ0KB8=
+	t=1748462415; cv=none; b=rnLABJfl4F1KHdnB59nOxGimHJ1x3bOllm4ydKCPi+B7/JJGog4Y9T0e7Lg5CkxCL12b0MnzLnk0KDL4rP9fyKZuXwk6oNRr/zSHbJHVQEhPRovhNIxPJx/chkG7ONfNFAvqfNVlyhpt/kqc9oAcLcbG2bq8wo8vWesu1knlfQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748462414; c=relaxed/simple;
-	bh=CpYH823lP1gANgxKRTCYkC1iXZwcMTKwp/L88jc6Xws=;
+	s=arc-20240116; t=1748462415; c=relaxed/simple;
+	bh=0ZRY/+q+W8Hjs6RGmmOVXS/0Gcaj4yO/XRQKw0A/w7A=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=csNO68V7osu3Lp0EjGG8GV3F5nAjYOy27D8S53XcrpUapUbhe2PKv2an+BagM2qFMYMEjFC5twjygjC978oZGy7wlGyTf3QzBeFSkUv8vfT1Yrw/+zLnLfdtO4Y/Wm9CMiaylTVYxKbMw9IJcH39elP44hbTpmHddoUOaP0LC98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EcqMzV7b; arc=none smtp.client-ip=209.85.221.51
+	 In-Reply-To:To:Cc; b=HynWGXitpGyNoD3Nbj302DNsTdblk+2+Z4BKpjEE6sJIcEb2pFX8YEwCkSf29+ZvdBG0yn9demjEm0pjx7W3gOp6RCV9amGLXh0uZmWj+/e9EmqAk8fxVkAw/WQLsLQzWdFW7FlFLCGak6jw8eRo/VqtqxWaS5WFmYx93ZyP6uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Kc+Z8zok; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EcqMzV7b"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a4cfa5c8ddso29265f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 13:00:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Kc+Z8zok"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-450828af36aso82275e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 13:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748462411; x=1749067211; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1748462412; x=1749067212; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PDq0VVP4RBrXESa/PJeathjlPVt4SwgrUucxImBu+7c=;
-        b=EcqMzV7bAeJT1vV4xfnJLSrs9E0OwVyz9EWvG/WxeBZCx33Lbehwn+dOvpGxdUVaU1
-         OdJxlOX3FWh2ZryuF29StlKMQZ5l2c/s8QZf9c90NHm2v1z5ztyvgnwrns+9K9Jci++O
-         zc15aX+dn0JOiLhvayOmBDaE3/DcnI8Xy+21Q/WPYDHimpeSpG5KuBoI/kJiJ+sp90X1
-         JXGuKdYrN11aBForg3OicMNIy5u9CuyadSAyxgMajcVLUqP2DaYrYsKnUOFS7uNjtrJ9
-         LNY1epowm5W+jaPf5VWa4vQVffTMgQ+R9VIZMSGAWsgSjUu0e9L6zBbkBOMf3OxfWSh0
-         Wn8w==
+        bh=b7yDCQi4rHSCnETU9ud9r++MJrTNq+R9cHXXFxzlNlc=;
+        b=Kc+Z8zokSQfSKSSoX+O9BcaJvf6OaKxwKmfMF9KHmxlZ2upNYxx/dEvwKN74KJeY0n
+         /rVqdC4BjAQRyBNy677tQTUsvdIW8EJN98D8DLgmXH/DRmUZS0RAlvhDuRyHj2eHjWzO
+         ykCUZgg7xqk0SmV7+yDKGluGa0ess1L/OV5pKn5VypGEtX8CnHWoACVm9rHrsrEWYjag
+         em1JXvuRRRQ3miEGXa26+iZSkssZuLnMXFbyMNiSA3BCJY65/KU8AyKcnmVOyW7bcp87
+         x4O5LT/UdThdPGFTODNLTlMzTePfQjqc8JPu+cWV1Ob36nqERHuIu8INarX2U10eVFyO
+         r0MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748462411; x=1749067211;
+        d=1e100.net; s=20230601; t=1748462412; x=1749067212;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PDq0VVP4RBrXESa/PJeathjlPVt4SwgrUucxImBu+7c=;
-        b=sn2dQcCx8V0WUyJSXI2ubta+NR6sdvZoTr0kmWbfPBKeZh/ah1dRCmDOZGeFugvRTz
-         7RmLLBEExLWTdDz4qNeKOgdB2Tpqi1hUz0vsye0nXosNys9qMkZXIm/ubRpst4T0ELbB
-         yaerpFOQCKNzhUVJe3O776164kUnkaNnQs1Q+eKUAEZ/VAfdR9X8lp0BDdenIoR3xhfh
-         n3RMivvb0XcvhkYHuOxRuX+x0H2Fmqez9+5nrUx5KoRyzo0vvHZssasZsLlB27ZDC0zl
-         odE9tBGgP+BsQtp1daq0k+tuYYU7ttQTqItvd9Cha7XmFT7S0pjVMIiMb+9VldJ2XlQy
-         RUig==
-X-Gm-Message-State: AOJu0YwOd2OURF4niss26YO1Lso0FxpamLjVLk4G0kmrtHOufRmRUBu6
-	2O23HYeDULKjq04t9daJsirpHmWs+QG4ZaBCxxFuDeqeLRL0hxWw0yFH40rACUpOZEI=
-X-Gm-Gg: ASbGncvn/wNQNoqLDjWHrezBV1CxMMhXFxbRnoNdUlKRM1ArhH7qoGoWBuNPSJgu97E
-	mmhX7A0euVRj8U5OOXF5Q4V213NODCeqIXqFECtjMFsMzt8BQghckMdkTMzBgRA2d0ILrmOeWVG
-	fjGpN5gI+3C4HLe6ozgLGUwKR/V6gD3Ol70FQJwgtjoyeeABed8KzHRxbLblxSg8+ATf1VpToT3
-	kIlH92nKdzSwH+CncoNDdg7O/oU3kDJ/EAlFBPffMYRP4rwRdI983zTtv3eaId/qplCs2IruGnQ
-	jFTAoG2JBPuqY+KlLzKB3l4lksoTkngsSRaesqYZCBE4kAulJAUQ0avGKVMCgNv6Lb8B/caxQ67
-	lTWNx3A==
-X-Google-Smtp-Source: AGHT+IHZUGUK6yTkOMly/UTCf5TfkRX+RuLMJ+zm0TaswuyyY5q5bbmG4zBXo05PBD4iH1y4pl+NdQ==
-X-Received: by 2002:a05:600c:4752:b0:441:b397:e324 with SMTP id 5b1f17b1804b1-44c93caeb6amr61901665e9.9.1748462410755;
-        Wed, 28 May 2025 13:00:10 -0700 (PDT)
+        bh=b7yDCQi4rHSCnETU9ud9r++MJrTNq+R9cHXXFxzlNlc=;
+        b=KMeWs2m7Fko/MymdKOiJBpJClu17TzSzMgADnY3IOG6zJSeis1f9c/0t3O2rCVxYUN
+         eISiscC8FwYtO93yoUwO5OPZ4tL3Sm5zOxmVPCeLgk42FS6283gKrKWRN166I5Q4ItKw
+         AFBwJDCHuugTncZ4qgbYfE4mj1T4Rgt8ICJsduj5//tauzt26quVGcmOO+0jkF0AQMYZ
+         ohPGLGOlKnfNDA9uUy0eCx1pC6nf9bNC1L28JoXVOXj8n7MfPM3ny/WUDqFj44ePZ6ek
+         PMWWIrNPNBJA5NmLzZ9/0IRv/asDefxfu0JDu4sSqQPDwa/Jbq+2vqSc3mJQL0CDG/oI
+         3Abg==
+X-Gm-Message-State: AOJu0YyTebuKUWEdlcmrtRqdx8zj23qeVYM1gEOqRV82PHC9y36oA0v5
+	Gpy9BVVqwdJawnZTzUDktMy7WxpspiKHT1FnHW8SrdJQrEhEcIRaSIeZB97CkzMKrp8=
+X-Gm-Gg: ASbGncvu41ty6Ehv0GT3TNbWCWqg+4pg1ehQOCaYGc2jE6jthDCl0Gprju5sL6zIjHb
+	YgcwoXJdfpT71RORWxa0GiD7HGM3MsUooNRhNQnys5KJfWeV0Dt9jFAUZYuIOeVQBRGSWaR+7Dp
+	to21KP/cac8z30wgLc6mYKoPgQff9++r+9f5Zdr/lrSCNBYaTcIGKle+kPUqWPs0iGjwDN7xF3W
+	QHY3YSqKRA6Q2yqRJvWHr/AA3471zPzSZsS9M7rhQizknLVaaRhH3fM/J4ZhK47FvoIo2T2TfXY
+	cl8Z0rf096ugu4yBfsP5Z0AiuHpk6Y01RFxoYIRqzyHkSwSgPYLbHeVJE9ySlBSqLJly7pI=
+X-Google-Smtp-Source: AGHT+IFQP0FibM1rqz/lOLHDDJIP46KUlhvU3MMzWhlSZjooZREosH5m2BiFsQxW10TootF1bWqdog==
+X-Received: by 2002:a05:600c:4f0c:b0:439:a30f:2e49 with SMTP id 5b1f17b1804b1-44ff407200bmr13873405e9.5.1748462412453;
+        Wed, 28 May 2025 13:00:12 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-44fcbd61553sm53347665e9.0.2025.05.28.13.00.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-44fcbd61553sm53347665e9.0.2025.05.28.13.00.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 13:00:10 -0700 (PDT)
+        Wed, 28 May 2025 13:00:12 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 28 May 2025 21:59:56 +0200
-Subject: [PATCH 2/8] ASoC: fsl: Constify reg_default array
+Date: Wed, 28 May 2025 21:59:57 +0200
+Subject: [PATCH 3/8] ASoC: codecs: wcd9335: Drop unused sido_input_src
+ field
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250528-asoc-const-unused-v1-2-19a5d07b9d5c@linaro.org>
+Message-Id: <20250528-asoc-const-unused-v1-3-19a5d07b9d5c@linaro.org>
 References: <20250528-asoc-const-unused-v1-0-19a5d07b9d5c@linaro.org>
 In-Reply-To: <20250528-asoc-const-unused-v1-0-19a5d07b9d5c@linaro.org>
 To: David Rhodes <david.rhodes@cirrus.com>, 
@@ -84,68 +84,69 @@ Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
  linuxppc-dev@lists.ozlabs.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1754;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1807;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=CpYH823lP1gANgxKRTCYkC1iXZwcMTKwp/L88jc6Xws=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoN2s+XsqS9sFfoi0z9c+1UBE4EIIisHahFoDdV
- IQAKD8fYDSJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDdrPgAKCRDBN2bmhouD
- 14HkEACFdeeKCanwIs9cv17+UMezTLZWq0x8/jrTebWUBqQqWOfNZFxDU6WjQcbXZ7dXF5S8wQ4
- 7bLJBjpg/DGuUc+eS4RBF2PEZ6NX2WBqzoXpwQqGh5IU8mjJoaqnNFYzOQandX1OW//JzbLGrGO
- YFprEji4Oid03TG7/AgU/DvnN4+g+/8BtNMeq1G+VklfGrQKT49hUMNnST2geP66RYQwpi77ogY
- 2s+J3a1eRLYcA04uRF54ZJyA2FLE6SMIm6kwzLmwGliMUbqO6w3bRbbwMTdizD3zn3aBPEEZtpG
- ++ayreX9g0cV5IzOIFqbVfycaLLHom3iO7dy3K4L8Pqz4Ozx5YGewOHbcb3G0kllU6sxYLgfkDX
- tXro/sl120J1X55bh9T2FwBWVNQuFhi6V8REO7tRcZj/cYwyfXrq3tbAWfH+/iUTKX7dFXCWIk4
- BafMN7HfrnzbHhhm0m4SrH57UsvnoLA9ZZhao+zwe5EerO0Wb0TKL7tgV3g1I/VdWKCRyHn9wM9
- jUvYBzaZqnoxLhtU0JcSwfNjwz5TKbJo0TnrJq35lqZOw+zKvpHlx7hqUiSyr088rslYMHZJXp6
- 2RAFQfgHUZhqSe2i8GfEeRoanO/1RWmQOD3NOHWI1RbMqJObKGTgBWW3+LYWY5ssXczSr3oHcfu
- 3MvwM/3z7gf87DQ==
+ bh=0ZRY/+q+W8Hjs6RGmmOVXS/0Gcaj4yO/XRQKw0A/w7A=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoN2s/W7KGWelejUXL5jEOanL3Ib8Zn2ryY+42I
+ viAZm3zT/uJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaDdrPwAKCRDBN2bmhouD
+ 1w1mD/0TE/pr2WWpzbfzTZpzuf9Ihpzqt5a1AGUtL71i8JsTXwd7jut9/Gm0IH0nme0q1yGZ9dZ
+ praHkDhRMtcT9pyzKbMwyz9ZqNFlKSJPWmGG0tA5kd+cSFAOUcqyIVknxv2katMudoqLAXi72XX
+ VzqQrT4YVsoP95hFaKGCb0lOnpIiHu56DJKJvdGSPV8SOkVmh45MIILx6SgMXVWfJKnNKITmrsP
+ iLTUF2HnE8S5rNM7WCdCxn87Tevk6EREKKWi2BXjLwMPjKYzHGm4sbITJuZ9/Ondk+CZIJGGk37
+ I6U9dMaoCm9v5m3MNpIW9e+tLL3h1VIUrqfd/egIrkSkMGZZC+HWN8aL4rPPry604hZy4iIt2+/
+ GoN1EA4gtuKpwN9/1fw/5baSiNgZSkW0b8HIXp/VN8XSAJ/Dy3DTv+8fT55ulerizsBTcpo9RC8
+ vwIFOktKU74Op6kLo0q2t3TVsCf8YELIge+FEFKbAbORWdq8anQvYDdElWqDxh4JUtI3OzTLb8X
+ jGt5qZZIMoNLTh896qRPaEDJKVnKFsjCOBdxXi59aSKFqEjVUjszRZx0ktaQa/xcUwvi0JKSR9i
+ iSzmtn7L6KTu2Mh8MRgpkPdkbNSXRJQlMteUkQdPsCw3zshP3vKJjvovpudc7fz6o1mBNfGeA/W
+ b6EdcUurjtIG3VQ==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Static 'struct reg_default' array is not modified so can be changed to
-const for more safety.
+Member wcd9335_codec.sido_input_src is not read anywhere after
+assignment, so it can be safely dropped.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/fsl/fsl_asrc.c | 2 +-
- sound/soc/fsl/fsl_sai.c  | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ sound/soc/codecs/wcd9335.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
-index 677529916dc0e53a15952c53016930203c56dc9d..637260f306ecab109ed23b92a882cffce1c65421 100644
---- a/sound/soc/fsl/fsl_asrc.c
-+++ b/sound/soc/fsl/fsl_asrc.c
-@@ -930,7 +930,7 @@ static bool fsl_asrc_writeable_reg(struct device *dev, unsigned int reg)
- 	}
+diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
+index 5e19e813748dfa0d065287494240007d60478dea..1c050b8c19de43cf494583d2c96f50f65aefe567 100644
+--- a/sound/soc/codecs/wcd9335.c
++++ b/sound/soc/codecs/wcd9335.c
+@@ -312,7 +312,6 @@ struct wcd9335_codec {
+ 	u32 num_rx_port;
+ 	u32 num_tx_port;
+ 
+-	int sido_input_src;
+ 	enum wcd9335_sido_voltage sido_voltage;
+ 
+ 	struct wcd_slim_codec_dai_data dai[NUM_CODEC_DAIS];
+@@ -4725,8 +4724,6 @@ static const struct snd_soc_dapm_widget wcd9335_dapm_widgets[] = {
+ 
+ static void wcd9335_enable_sido_buck(struct snd_soc_component *component)
+ {
+-	struct wcd9335_codec *wcd = dev_get_drvdata(component->dev);
+-
+ 	snd_soc_component_update_bits(component, WCD9335_ANA_RCO,
+ 					WCD9335_ANA_RCO_BG_EN_MASK,
+ 					WCD9335_ANA_RCO_BG_ENABLE);
+@@ -4740,7 +4737,6 @@ static void wcd9335_enable_sido_buck(struct snd_soc_component *component)
+ 					WCD9335_ANA_BUCK_CTL_VOUT_D_VREF_EXT);
+ 	/* 100us sleep needed after VREF settings */
+ 	usleep_range(100, 110);
+-	wcd->sido_input_src = SIDO_SOURCE_RCO_BG;
  }
  
--static struct reg_default fsl_asrc_reg[] = {
-+static const struct reg_default fsl_asrc_reg[] = {
- 	{ REG_ASRCTR, 0x0000 }, { REG_ASRIER, 0x0000 },
- 	{ REG_ASRCNCR, 0x0000 }, { REG_ASRCFG, 0x0000 },
- 	{ REG_ASRCSR, 0x0000 }, { REG_ASRCDR1, 0x0000 },
-diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index af1a168d35e379e24ce46715ba53b4a4dac65988..c84e3bb1290fd1188118b220adeb4f8e279a3372 100644
---- a/sound/soc/fsl/fsl_sai.c
-+++ b/sound/soc/fsl/fsl_sai.c
-@@ -1059,7 +1059,7 @@ static const struct snd_soc_component_driver fsl_component = {
- 	.legacy_dai_naming	= 1,
- };
+ static int wcd9335_enable_efuse_sensing(struct snd_soc_component *comp)
+@@ -4871,7 +4867,6 @@ static int wcd9335_probe(struct wcd9335_codec *wcd)
+ 	memcpy(wcd->rx_chs, wcd9335_rx_chs, sizeof(wcd9335_rx_chs));
+ 	memcpy(wcd->tx_chs, wcd9335_tx_chs, sizeof(wcd9335_tx_chs));
  
--static struct reg_default fsl_sai_reg_defaults_ofs0[] = {
-+static const struct reg_default fsl_sai_reg_defaults_ofs0[] = {
- 	{FSL_SAI_TCR1(0), 0},
- 	{FSL_SAI_TCR2(0), 0},
- 	{FSL_SAI_TCR3(0), 0},
-@@ -1082,7 +1082,7 @@ static struct reg_default fsl_sai_reg_defaults_ofs0[] = {
- 	{FSL_SAI_RMR, 0},
- };
+-	wcd->sido_input_src = SIDO_SOURCE_INTERNAL;
+ 	wcd->sido_voltage = SIDO_VOLTAGE_NOMINAL_MV;
  
--static struct reg_default fsl_sai_reg_defaults_ofs8[] = {
-+static const struct reg_default fsl_sai_reg_defaults_ofs8[] = {
- 	{FSL_SAI_TCR1(8), 0},
- 	{FSL_SAI_TCR2(8), 0},
- 	{FSL_SAI_TCR3(8), 0},
+ 	return devm_snd_soc_register_component(dev, &wcd9335_component_drv,
 
 -- 
 2.45.2
