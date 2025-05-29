@@ -1,71 +1,64 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335AA21CC40
-	for <linux-sound@vger.kernel.org>; Thu, 29 May 2025 09:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB23C25C82F
+	for <linux-sound@vger.kernel.org>; Thu, 29 May 2025 09:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748511200; cv=none; b=uF7uD99c3B4rCIBYnSDzB1VLBHwk0ih0X+5BhiTrk3k2o81VyX7/HbNP0iUnzUkw+uA4wxziwEvLC4Yrmq8cdycdCZXJ5m7Jz1vAqBZHEuFTzj1HqrIaxXyl7D7IVBNUvSkDLWKH/leZcmFlHAwmu8G6ZbfcjfFEEiGBixpn/dU=
+	t=1748511488; cv=none; b=HNfNZV6YjflnAhrS+rgR0xGgwZ3ecw7U2lvXVTmllovlg94bn5LzqkJoxyT/ztK7/dzmUflrBHU1DXTftrv5USNYbGXliNn/dWlRQicALYVISbk16QUyMy+YSSfKQSQeC4kxbjhtDEDB+8dz9+A1L0RFhzwCuGDm0ETU7CkxXMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748511200; c=relaxed/simple;
-	bh=upaHpcoQNaYRpzfjT5IJF09oP9mPC/4FHbCQA5gbkaw=;
+	s=arc-20240116; t=1748511488; c=relaxed/simple;
+	bh=nidXm6RjwTc3HEwY2WsuPfUBUD+8TIDBoLfPZzX1Ho4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HY7N+Qe6WJjj3U0RBU1r8DTBW2B/CmuJijAU7/hr4OqePazbzPl7QZzSMX6Jr4C+Hr3DQ0PLAIOeQ7XQJtTRtP3D7JLoX5M4boCqWAq/37uuaub3cAQhmsfCxpxXoNrhOQcq/oJq0R7yJSmdajXoqVkcx6ZfD3DIer+PJwxtouE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=G78IVkSj; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=Ni6THsmSGmBrS8/5zhsucFkBYxZ2zAZH3Ua21w6XdEvQVg+tKXy9T6KNp/GAKOVpIxAOPtOVMPB6rRknIqWl3I+PL4lYgLN9z4p+A3z5PwqTiBS2+CFX1A1YOUU1nehipx+LOCK3wlfzKZVWhB16SdA3jT1AD1GkGITVSSh8JX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NXDg9ThE; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="G78IVkSj"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54T5gEtS002142
-	for <linux-sound@vger.kernel.org>; Thu, 29 May 2025 09:33:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	J19CTIdOjN4o9N+SR4QD26ilvGTAu4kkXOBnmt8QyYw=; b=G78IVkSjKa2cFUdG
-	TQimbwKv8Sbzgk/GS0OyD9/a1LlaBbCdVjBWFXr8yM3OX5WigqO0oMsV+etu5rNX
-	ens3zoETm/wB7RwxyKTIxhvivztq8I01kS3KqZT+snFp7srDPWorfR0va2ZokDKg
-	mJMT8zgo9xx2YMmCTlkhUmrclZW1LA2x0Gfbrg6xTokzvgIRjMBW9ODBwhrPxNQy
-	9pszzhrFoi4zyS6eIaWLsl7HMr9ZnVaDkJ5GEyKPgKRqX4b0O1tYxGQpV+1JBhCO
-	IG02JIHj1Bkavgu3tpzrz+jA1y7XF8WpvpifHS3dKvZxXRCH8X4T6Mozc4w9wuQx
-	pnqbDg==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46wavky28h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 29 May 2025 09:33:17 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6faa33468f2so13864396d6.3
-        for <linux-sound@vger.kernel.org>; Thu, 29 May 2025 02:33:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NXDg9ThE"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a4ef892ab2so64426f8f.3
+        for <linux-sound@vger.kernel.org>; Thu, 29 May 2025 02:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1748511485; x=1749116285; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=gQA3tchOGlR5qDPRloAnwGTrIDQ4bOFY7MUhX29PeuI=;
+        b=NXDg9ThEsnN0M37p7RNXKCXJa5JIerSKPnSYyRkmPCxJuwD/EzirFQu8p43taTdAgz
+         mcQzqSphZ84TO2auSVof7ChewaogKVC/qSYxYz6Gs1nHNd+UdZ7xi6H/T4ZAzlwgmXrg
+         D3npIUarxb45d/u2jbhyA2H82rUWOafs+bWLf12ykYqV9xTy7drcK0aGSTZIPx7qPMux
+         YlDNOHUYR+nZETMjrbq33In7os1oSMSEpotbkFZmqKIuCtqn6zygkCGjkMr/iwoBTgSb
+         rXQnQosEwNN85e6F1TLeMqfJyDhBcIe18zDIffwQrA2Xn+66BS2+qFIMoMskLz/BERXg
+         ATog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748511196; x=1749115996;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J19CTIdOjN4o9N+SR4QD26ilvGTAu4kkXOBnmt8QyYw=;
-        b=vr1l/intupCxTAcf94MT0ColXtkNurLP2Uoj5GECEWCjDKy6lQQnOT/s1fPGUEXjQo
-         9MKptAFQOqzk1HYX8Yu4lDaNSzCWiqjfgyjrBJvafugMeIqK/pO/y/V+zqLLKwLeT0eJ
-         VqzWw0GPe4gV4KmsxQWZ5JcIinMldc/K5gFTwkP4bJpzE04E9c/rogKth+CVGJ//4iiD
-         SfL5466x0vHK6hgryoLTVrPWDOXryT+MHiyLK6g6IQn/9sgyd75jQpG81+G7puSQ8psp
-         BTjZTMov6wNAPVryHheRshttuWUUQ7CfC3f0ktRRkl6nQNLhxFBqFlYWk5blGesKEQYC
-         TsnQ==
-X-Gm-Message-State: AOJu0Yzywi9eG05lsRW6OAZzC2QvUmVZtBjTHOvRN54WOReuB1FLeXHe
-	Ny9ZvZyUhBEa45Pm1tUvhcJl/f8k4lEtkj4VceNAfCPPs6iOp7YNjexxV+5OUIiXO69DKv6dbLD
-	O87xhlEOC3vtcgVBt0o/jHEGk2DBndupgqoaMO6CDB0j/6z7SnFXZYkeeyftK4AUJaA==
-X-Gm-Gg: ASbGnct3AzhxbUIHbiqbPv/lwaLivWKU/V4KmNPGvvnRPGMvsTFWdnz3BYWLPOWvsQB
-	N0ywrS+CEvKotBh3XY9btsl1F5Jrve3lyZqCk01cKMVmnb1NCUywNn9H8Xc7iiIzY5r94DYnSXn
-	w7x2lcTpZoPfsh+lgI8EdgLNAW/fkRT5sVYYmkfXV7ZbKVxwR+S59pvNXqjboyUM0YMPy5p87DE
-	BbL1udplC5Ot9k5yYzJ67VdymsZJj16+HNCMpJvhp46vBqjA/asH7K4nVh/5HoOxa+ZEg2wNTba
-	V7oEDh2js5pLM4oYZ38WzXqydYm9kx2v4TvLwA==
-X-Received: by 2002:ad4:5ccb:0:b0:6fa:c697:97a5 with SMTP id 6a1803df08f44-6fac841db7emr19528776d6.15.1748511195806;
-        Thu, 29 May 2025 02:33:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGA79GLpD3HZiK/IRAurUe6TU66mlX4HbtpUZm3DMIN5fjfS4J9m+gB7K+ZJszdXMACo2cUIQ==
-X-Received: by 2002:ad4:5ccb:0:b0:6fa:c697:97a5 with SMTP id 6a1803df08f44-6fac841db7emr19528356d6.15.1748511195376;
-        Thu, 29 May 2025 02:33:15 -0700 (PDT)
-Received: from [192.168.68.109] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-450cfbf498bsm15179805e9.1.2025.05.29.02.33.13
+        d=1e100.net; s=20230601; t=1748511485; x=1749116285;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gQA3tchOGlR5qDPRloAnwGTrIDQ4bOFY7MUhX29PeuI=;
+        b=fYSrhGiaBpyv4gBbx+g6riqUTeXD/IpGaEQm3Bx0/t4GnC8bVoIvVZLaf5Pw/3Yh4A
+         6dfTuq6K201PJy5N6fQqSDvcdyowlW2i+gHvo15aYZwaY3s8k5bh4gwFpA4/8sj7enDj
+         eAxxR8yFLTaRQAtxu3WtvYPzeY4ZzARcOXItSA6wvbuhcbe0v4QEVDacJQ9zJoqSthcc
+         uk0bsMyeT5DKyaE17S9hrHYOXz2kFTIgBG5Wj9Hlrdbm8UYMwhRzfl25Y4lBIrPK7jgW
+         FP0xil+rNIxYuATEu4IUe0ONJ85/ATWdlGVg+lSZEGKbgQr865WH7gQEx8QdtwMxmnfh
+         imcQ==
+X-Gm-Message-State: AOJu0YzpSm3pdI2XkN7OBHuc6U9x4/uGXLgA7bZTC6ISAW79k3FaZ88h
+	7y4EzOJFpZ06eqQJg4HeFNMU+EtekoMkJlDUSqQWW5pOuOEQo8c4rek93SMATvWItk0=
+X-Gm-Gg: ASbGncuODINOmRk6+4fztLGp1BNIQPbHeBYC22UbSEsF6ep811d8KSS/1sPK/f/B3ql
+	w7jpiHCz3eoM79h34IGuLcTZ0n+nFWaIq2h9AFUXpnSs6q4KIJH974pFTUQVJ8EowZYbIKXFMxV
+	d1FokY4H77QNmHtTIIVbYbcSS3VwOqqPkrsTh7vK4VgFZ7SP1oi0wqdO1GhTe073+kQzajTBcJc
+	EBgYfvzLbuL/eQVrlbVwKVebk+gTA0NHS0JJaDngVFjnjna91flKkE2WOW7NLEANGXNtqcR0Z3O
+	Kw5fEw86K9HLBp05o2ql70/2P1PDN5FLnR2N640NHplhP6HQ0RBMuw+Lo/TSd4PSPFmnRAM=
+X-Google-Smtp-Source: AGHT+IG2KHg1RZohAGcF8Ql9GO6udEqYKqOIjzHEygo2NxgJdK/utVnegk1sAe3vpwYFfGdGIM1yBw==
+X-Received: by 2002:a05:6000:2dc4:b0:3a4:e8c8:fb89 with SMTP id ffacd0b85a97d-3a4e8c8fcc2mr1629165f8f.0.1748511485114;
+        Thu, 29 May 2025 02:38:05 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4f009f865sm1405197f8f.81.2025.05.29.02.38.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 May 2025 02:33:14 -0700 (PDT)
-Message-ID: <a4c0d421-9062-4424-a750-ee74e2f0407f@oss.qualcomm.com>
-Date: Thu, 29 May 2025 10:33:13 +0100
+        Thu, 29 May 2025 02:38:04 -0700 (PDT)
+Message-ID: <60c39c91-4ef7-4a14-8317-da0e2c3aa962@linaro.org>
+Date: Thu, 29 May 2025 11:38:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,112 +67,103 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/8] ASoC: codecs: More const and unused member cleanups
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Oder Chiou <oder_chiou@realtek.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Shengjiu Wang <shengjiu.wang@gmail.com>,
-        Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
-        Nicolin Chen <nicoleotsuka@gmail.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Oder Chiou <oder_chiou@realtek.com>, Srinivas Kandagatla <srini@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>
 Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
 References: <20250528-asoc-const-unused-v1-0-19a5d07b9d5c@linaro.org>
+ <a4c0d421-9062-4424-a750-ee74e2f0407f@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20250528-asoc-const-unused-v1-0-19a5d07b9d5c@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <a4c0d421-9062-4424-a750-ee74e2f0407f@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: A-FIKSPRpK-_9u_T_mRY9X94tDXHmXQI
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTI5MDA5MSBTYWx0ZWRfX9JTQUGxAkjbN
- ShrcXDfONmh/eEc2b18kidh9g2vpXyjaeBlcBRbwLYqbmFk6KOJbPIGWTU996RPopjzy7qp9KM7
- zG9K+ArM6eNKOg2mpRp4hkiwAG7JB2qJdfq/53TJLFbUPBLcW/GyEsZxFDo7PGSG6z2Wv/kOWsZ
- 9D2MH86qwdT3HfbjQSF5qGlXrZ8VZkE40v/NO2p+pPZHkAtvBS+gPN3q4xIYm/JlgGXwO9dmXQ4
- y4yhXMqFJ+sP/jy8CEmoG/BGSt+SA8gPk05eqvMz2l/JKJFae+dfSaleaBfEgQkByM2pruARuSe
- oUFetXk0nziyi5ihctPFnRv2SN+fxzY3ZJM30C9W6GyBfrdJqHEkM4M45Y9WrtMxqz0C3ElisUe
- gCXY7fGANMotlLCRs4g3xQIBjYuKasHEdtpQN1ZOS224v7uy0zPpjNK1O8dtBcOzhE8GXufm
-X-Authority-Analysis: v=2.4 cv=fMk53Yae c=1 sm=1 tr=0 ts=683829dd cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=b5hiRvTwp8EW11ydFUEA:9
- a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-ORIG-GUID: A-FIKSPRpK-_9u_T_mRY9X94tDXHmXQI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-29_04,2025-05-29_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 impostorscore=0 phishscore=0 suspectscore=0
- spamscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=946 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505160000
- definitions=main-2505290091
 
-
-
-On 5/28/25 8:59 PM, Krzysztof Kozlowski wrote:
-> Make static data const for code safety and drop some unused fields in
-> structs.
+On 29/05/2025 11:33, Srinivas Kandagatla wrote:
 > 
-> This is based on for-v6.16 branch in ASoC tree for context in wcd938x
-> driver.
 > 
-> Best regards,
-> Krzysztof
+> On 5/28/25 8:59 PM, Krzysztof Kozlowski wrote:
+>> Make static data const for code safety and drop some unused fields in
+>> structs.
+>>
+>> This is based on for-v6.16 branch in ASoC tree for context in wcd938x
+>> driver.
+>>
+>> Best regards,
+>> Krzysztof
+>>
+>> ---
+>> Krzysztof Kozlowski (8):
+>>       ASoC: codecs: Constify regmap configuration static variables
+>>       ASoC: fsl: Constify reg_default array
+>>       ASoC: codecs: wcd9335: Drop unused sido_input_src field
+>>       ASoC: codecs: wcd934x: Drop unused num_rx_port/num_tx_port fields
+>>       ASoC: codecs: wcd937x: Drop unused 'struct wcd937x_priv' fields
+>>       ASoC: codecs: wcd938x: Drop unused 'struct wcd938x_priv' fields
+>>       ASoC: codecs: wcd938x: Drop unused variant field
+>>       ASoC: codecs: wcd939x: Drop unused 'struct wcd939x_priv' fields
 > 
-> ---
-> Krzysztof Kozlowski (8):
->       ASoC: codecs: Constify regmap configuration static variables
->       ASoC: fsl: Constify reg_default array
->       ASoC: codecs: wcd9335: Drop unused sido_input_src field
->       ASoC: codecs: wcd934x: Drop unused num_rx_port/num_tx_port fields
->       ASoC: codecs: wcd937x: Drop unused 'struct wcd937x_priv' fields
->       ASoC: codecs: wcd938x: Drop unused 'struct wcd938x_priv' fields
->       ASoC: codecs: wcd938x: Drop unused variant field
->       ASoC: codecs: wcd939x: Drop unused 'struct wcd939x_priv' fields
-
-
-Thanks Krzysztof for the cleanups, its surprising to see so many unused
-stuct members in qcom codecs. Did you use any static analysis tool to do
-this or was this manually done?
-
-
---Srini
 > 
->  sound/soc/codecs/cs35l36.c        |  2 +-
->  sound/soc/codecs/da7218.c         |  2 +-
->  sound/soc/codecs/da7219.c         |  4 ++--
->  sound/soc/codecs/es8375.c         |  2 +-
->  sound/soc/codecs/max98363.c       |  2 +-
->  sound/soc/codecs/max98373-i2c.c   |  2 +-
->  sound/soc/codecs/max98373-sdw.c   |  2 +-
->  sound/soc/codecs/max98388.c       |  2 +-
->  sound/soc/codecs/max98390.c       |  2 +-
->  sound/soc/codecs/max98396.c       |  4 ++--
->  sound/soc/codecs/max98504.c       |  2 +-
->  sound/soc/codecs/max98520.c       |  2 +-
->  sound/soc/codecs/max98927.c       |  2 +-
->  sound/soc/codecs/rt722-sdca-sdw.c |  2 +-
->  sound/soc/codecs/wcd9335.c        |  5 -----
->  sound/soc/codecs/wcd934x.c        |  4 ----
->  sound/soc/codecs/wcd937x.c        |  2 --
->  sound/soc/codecs/wcd938x.c        | 18 ++++++++----------
->  sound/soc/codecs/wcd939x.c        |  2 --
->  sound/soc/codecs/wsa881x.c        |  4 ++--
->  sound/soc/codecs/wsa883x.c        |  2 +-
->  sound/soc/codecs/wsa884x.c        |  2 +-
->  sound/soc/fsl/fsl_asrc.c          |  2 +-
->  sound/soc/fsl/fsl_sai.c           |  4 ++--
->  24 files changed, 31 insertions(+), 46 deletions(-)
-> ---
-> base-commit: 22d449bcd69e66f25fe847b678738950dcf9301e
-> change-id: 20250528-asoc-const-unused-1e39b434e427
-> prerequisite-change-id: 20250526-b4-b4-asoc-wcd9395-vdd-px-fixes-0ce64398f9cc:v1
-> prerequisite-patch-id: 104000f7254b9cc81be49af9ca584544718e52f1
-> prerequisite-patch-id: 230fcd1b712c5a3199e7c9d8250e98e5d55c0a40
-> prerequisite-patch-id: ecdbe74955eb7b710f72af1e3cf32ccac52890d5
-> 
-> Best regards,
+> Thanks Krzysztof for the cleanups, its surprising to see so many unused
+> stuct members in qcom codecs. Did you use any static analysis tool to do
+> this or was this manually done?
 
+No, only the tool between seat and keyboard. I should find something
+better (more automated), because every 3 months I discover a new unused
+field. :) I think now I cleaned them for good, but some new cases are
+added when some code is dropped or simplified.
+
+Best regards,
+Krzysztof
