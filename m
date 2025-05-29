@@ -1,65 +1,65 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E2B202C3A
-	for <linux-sound@vger.kernel.org>; Thu, 29 May 2025 06:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4EA220F36
+	for <linux-sound@vger.kernel.org>; Thu, 29 May 2025 06:38:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748499989; cv=none; b=KnHoHSOJUT2UFPe7zxWYt5H1I1UUMoBmdL4oJh7flrTzj6Qnz7Z3AnX7YuRCFmU4GqHou2GVwgkEMlKtw5LQSWVQw4G6vatEplKHkLIFq4qRp9iTBsSIh4BCFVCaW+qabAOuSJRibT4usI4Wz+TR+J2Qnw476rfuGySoDBr904A=
+	t=1748500717; cv=none; b=FWc3prKcHObuHLDdW7nr+mGx17dDrvO+O/sdiXoy0mB7wj7G2ozYTnJMSSf2ZDQ8k4FR9GKpDHU8Kfg+6ENfMs4Hb+Qz8YxAZu8hnRjctk6adJsC3/p8zs8HZ6AhX4IFSp1H0YB+zOaR5oR6FgYOLBIXvMTAqEnRFSg8SbvadDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748499989; c=relaxed/simple;
-	bh=JELwsM4iALKvFPVxf/Brir7616QfPWrF93PbUJN3mR8=;
+	s=arc-20240116; t=1748500717; c=relaxed/simple;
+	bh=0aidQ5TH+mXzGykMadncfoYltrB58taVl1vxlpxmFuI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=joTrv9wfgtg+piC4jJTNb7KfXQ3Wae9pJ1xMyzYSnhwRtwTFmm/yoL01AuG5Kg4nFJX9GuJ2PwXl4/eo0GyKV/WVxYUrdu8sbNaSKZ144iSwPneo0crPhC7KJuiQLIiNnV047tKpq69k2Ywh6Qnucitm584SGD2qu+g56p8xpWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WSOkXg5e; arc=none smtp.client-ip=209.85.218.51
+	 In-Reply-To:Content-Type; b=Nbs0ahpVdzQbJ0mGOTdhOdM/s24KcGuzdH995SSwyukCjbrKkGhlHNgyM6/2ASJdPAMehgbi9voCF8oJ3hg8rRKwt1GpJMpaTY0w1isQ7pUhkagMNVD42+PCYf/NZwiPxe3ObXYItkF06C6OicFtCsyrMKdIUZzZ6G/8CIw3KzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UddCykqn; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WSOkXg5e"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ad538578668so4849366b.1
-        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 23:26:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UddCykqn"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a4e749d7b2so105029f8f.0
+        for <linux-sound@vger.kernel.org>; Wed, 28 May 2025 23:38:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748499986; x=1749104786; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1748500713; x=1749105513; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=+2SWtTNE3E49MOlHnO8uVeg5xT5IQxhtgIcjK83+ABU=;
-        b=WSOkXg5ewtHwee9YahJlde52FSJMdlGkBH/gyhGvZGj9b0WGxyRzC/tk7pmDf+6WlC
-         VjmxpR+1DM6TssIu1ZHj3MINnOrJfUllSa/snXty8yd7Y/UFZMzZS7JgvBwB98COOCUQ
-         4Gt8E6w9ZOXsTYg3mDCYpQ0gYklVvd2gFeCt/OIYdYQZ9VDhUFhAZOtj54Uee4+BCx/p
-         IZks4ArYScFDVBlK15AkFY8KbByt7aCbK5cGKVcAY77C+naiJ7XawTd4IiDEEl/rZWvY
-         +H2B9dHmwWCXsxSnCIZc/ZK76Ybpeg3kPubkNEq1wJ18Af4rbdHPjGZq9Y/PfmuJ0lE2
-         oX8g==
+        bh=EY1aP3IrlRwlb4h50GQEgfZI127sO1qf07y90xDx+ws=;
+        b=UddCykqn07Mw1825AynhHhMIbNzKuPWEIK11ucGaMYcKsLs1KCy5ieOQRmmKwDZKdm
+         darbpZIZJsnlZljmzZ4Qm5rwysVclid6AZeJDKhsu0y91biMIJ2lD87PoDDJsIaZvCqA
+         SDPwqJBT2WulfsOJ0ZF7DdfZMlvmNK4Igaj+zEFqTbVVgeqgnzNuIUh8S8A78rMDI3Cx
+         Mw4Big6wiVBUS0UndXdosfZQZtr27tBBHpkYacGzYHElAmvEyI1cTRnyFZWGIoRvAsUu
+         v31mxv4tglZ5q/T0rbSRK+SQLnOvo3OdCr8ynip1rwAC+zh2O7weDJP/R+kqx+Yo9zpd
+         AlNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748499986; x=1749104786;
+        d=1e100.net; s=20230601; t=1748500713; x=1749105513;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+2SWtTNE3E49MOlHnO8uVeg5xT5IQxhtgIcjK83+ABU=;
-        b=FR1aISYWosq2IOqhz37rqKvjFiGQAggCBqQV+QT6RG7NN4DGCptyw3qoNDvvZDHrsR
-         Fr5atN4Ust7PDjPeGNqxr3SiSum9fI0BGu8aP++IFTipx8hZVtUWK4B48aeQZBWjJIpC
-         x6hcG6nNHtf1VKsauuRtPUzSKcj7U4ShpIhGyp26N7nwAn1/AwPOFKZQdnDkawfdwi7l
-         t+1NcTXzyNZ6jaJPRMWYBf7c49MLAalA793ojUPdANiBhst0tegrha9J8l3LUWCloPjI
-         Q1SU8gtO2hI1ZFgG0mGoJ8UNjAQkit1DHcyjmoLGcXlB4zrqkmL4fhzCwNPOFXkpddZb
-         UftA==
-X-Forwarded-Encrypted: i=1; AJvYcCX43q1oUE0a+I2f/qEFSTxpbMXrBzoCRmBkISX9k17MMyHuw7WTMy+0fhlUNFEOxJnRA4FIq/rABVgXnA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEkfwfUjVSPVHgGXOW3REPMYbEluciKW/b0xi2q/wgt+5sQWDM
-	JPS2VYe3kz7IuxKX0dUGudIQbnRgXSuRw+6vXoANrWPl0kUwXeFXfvuz13Xe5DZT+xA=
-X-Gm-Gg: ASbGncsIAE66Yib92kCMcf3TDmbq8qVPsvzMvKLHfEz80q3cG50tQ7wGnrd5oCz3+j9
-	R/Vb5ym6PzadVnG53+k68+kNxdUpxex9a5AnKue98VLihvYDuxECqdVGFgND2kXrtok0sbImq+Y
-	Pp6LylHrcBOPSjLJNO1QS9ogWVMwiRzfiLXBbvPiIFGxM2P36dvdTleQ5bOFUDfGXBY5xBUwuGg
-	ryEYIsiT4utwI/GY/T2ShHhudpRwZFkxGFXPUlOiX1PYs9FMRFv2SdxME1MN0Ju1X5kC5OWRKGB
-	DqNIeLnYIy+PyuyBFDKhwTIbRLyxc2zR+OpVbrdDFaVsbI6i5rwDSpv0EJU4DVIlWLeP4oU=
-X-Google-Smtp-Source: AGHT+IGlMDzn+QG/07M9P/X4G1UkWeHWA61AWrk71VubiDANJ+WF35EJENPRBZsOw8VSgdWIr7Porg==
-X-Received: by 2002:a17:907:2724:b0:ad8:882e:39a with SMTP id a640c23a62f3a-ad8882e03ddmr319125766b.8.1748499985639;
-        Wed, 28 May 2025 23:26:25 -0700 (PDT)
+        bh=EY1aP3IrlRwlb4h50GQEgfZI127sO1qf07y90xDx+ws=;
+        b=DSoY+rF7MCQfMhcVb3sMfsO2kZjBlSco/ZGqVqTJkcd/pLhMmi9FdZDeDrhu8FSpoa
+         qkNtBvhof7mNeyZKnDhKK6fCziIhtG1nqPxZ1RABJvK74lDHPx1bwuQPDL6VjsSrDniG
+         fxmJgbOKJE5lZ+eYcrqIvKPepcF/qDwYodaJqQGe6pGE7fwHYoBnrVaH5/pdgnd46/QY
+         T6njYzGhAoSjePE+sabnyeiPLa186lzFUIbwO3t2raBACBVbMAVd+Y1Dv2M9x2QHfaeR
+         crzh79ltLNRE8pDiZzwtOaunSc+8y7Imr6crxtWAakycDeNMWXB22a4msngJVMi+pIKv
+         HNRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNSTi4yMbP2lELB3OCOrVMDu1SIFmE8BxRkP03KTZX8F1/cH6bsxxxWnpJ5G5YydTJ4Bsz8thuEJ/Q7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfT+WHD92bjlb5sHVPmcmiLVQ8MEuY+1utxTIechpy9yco4W1s
+	3+Fu3MxK7xsU8FzQkBS1cflBWBsn/C2jTB9LzmjP5HbDqvX51+5t1WPuSjeE6TkmSFc=
+X-Gm-Gg: ASbGnctKwM+m1ziD2I1I6m7nObFnkrk38ScQIDV/RfLHUupaXR9GFVLb8NiS4eZPmTa
+	ugxPnyieU1uxeKek6P5oIPHwlSHwcHw3FnIEKMPMudod8XiKTKSt6dharkD6n+UCKCPIad2KiYa
+	dSbsAljkGe65z77YJeTDeypNig2GdEleS9dvwwED5B3m09WvtVJqDVheO6B7fh/mQNtX8Mvrl7Z
+	FW6Hkxr3pbAYqlYDw4kFp9uTFEeKupqX9IGnjd2OwE0CH2w857H7hlGrVsarfFaJB2aIKI4vYRr
+	DoWXiRan2UQcr/eLtyqP13ZVd7zRB1dMAFZ4d5/pluIQhFTKcquxlaVxGn4rnfAkEBRJcXE=
+X-Google-Smtp-Source: AGHT+IEqC9+X7UdM4x6ymiMYpCXF2A9umIdi8++8F/hH+RGEfz5sKPNo1L21QYEspe606sPhJQ58Eg==
+X-Received: by 2002:a05:600c:3588:b0:439:a1c7:7b3a with SMTP id 5b1f17b1804b1-44ff400feb3mr16506235e9.1.1748500712596;
+        Wed, 28 May 2025 23:38:32 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada6ad6aaf5sm79818366b.183.2025.05.28.23.26.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe7440asm1019578f8f.58.2025.05.28.23.38.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 May 2025 23:26:24 -0700 (PDT)
-Message-ID: <6bb4f8f7-ef95-4f10-ad94-027fa18dada3@linaro.org>
-Date: Thu, 29 May 2025 08:26:21 +0200
+        Wed, 28 May 2025 23:38:31 -0700 (PDT)
+Message-ID: <dccf91eb-c5b6-4057-a010-269dbc0f9b8a@linaro.org>
+Date: Thu, 29 May 2025 08:38:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,46 +67,22 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/17] pinctrl: Allow compile testing for K210, TB10X and
- ZYNQ
-To: Linus Walleij <linus.walleij@linaro.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
- Jesper Nilsson <jesper.nilsson@axis.com>,
- Lars Persson <lars.persson@axis.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Damien Le Moal <dlemoal@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>,
- Michal Simek <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>,
- Jianlong Huang <jianlong.huang@starfivetech.com>,
- Hal Feng <hal.feng@starfivetech.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
- <20250528-pinctrl-const-desc-v1-2-76fe97899945@linaro.org>
+Subject: Re: [PATCH v3 02/12] dt-bindings: arm: qcom-soc: ignore "wsa" from
+ being selected as SoC component
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
+ linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+References: <20250522-rb2_audio_v3-v3-0-9eeb08cab9dc@linaro.org>
+ <20250522-rb2_audio_v3-v3-2-9eeb08cab9dc@linaro.org>
+ <20250523-fancy-upbeat-stoat-e9ecbd@kuoka>
+ <DA7VC87A0OMF.1X5XEWVCHFLE5@linaro.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -153,31 +129,68 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
  vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
  2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20250528-pinctrl-const-desc-v1-2-76fe97899945@linaro.org>
+In-Reply-To: <DA7VC87A0OMF.1X5XEWVCHFLE5@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/05/2025 12:40, Krzysztof Kozlowski wrote:
-> Pinctrl drivers for K210, TB10X and ZYNQ do not reference any machine
-> headers, thus can be compile tested for increased build coverage.
+On 28/05/2025 16:37, Alexey Klimov wrote:
+> On Fri May 23, 2025 at 9:12 AM BST, Krzysztof Kozlowski wrote:
+>> On Thu, May 22, 2025 at 06:40:52PM GMT, Alexey Klimov wrote:
+>>> The pattern matching incorrectly selects "wsa" because of "sa" substring
+>>> and evaluates it as a SoC component or block.
+>>>
+>>> Wsa88xx are family of amplifiers and should not be evaluated here.
+>>>
+>>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+>>> ---
+>>>  Documentation/devicetree/bindings/arm/qcom-soc.yaml | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/arm/qcom-soc.yaml b/Documentation/devicetree/bindings/arm/qcom-soc.yaml
+>>> index a77d68dcad4e52e4fee43729ac8dc1caf957262e..99521813a04ca416fe90454a811c4a13143efce3 100644
+>>> --- a/Documentation/devicetree/bindings/arm/qcom-soc.yaml
+>>> +++ b/Documentation/devicetree/bindings/arm/qcom-soc.yaml
+>>> @@ -23,7 +23,7 @@ description: |
+>>>  select:
+>>>    properties:
+>>>      compatible:
+>>> -      pattern: "^qcom,.*(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sa|sar|sc|sd[amx]|sm|x1[ep])[0-9]+.*$"
+>>> +      pattern: "^qcom,(?!.*wsa)(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sa|sar|sc|sd[amx]|smx1[ep])[0-9]+.*$"
+>>
+>> Why dropping front .*? Are you sure this matches what we want - so
+>> incorrect compatibles? To me it breaks the entire point of this select,
+>> so I am sure you did not test whether it still works. To remind: this is
+>> to select incorrect compatibles.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/pinctrl/Kconfig | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Thanks, great point. I tested it with regular dtbs checks with different
+> dtb files but I didn't check if it selects incorrect compatibles.
 > 
-> diff --git a/drivers/pinctrl/Kconfig b/drivers/pinctrl/Kconfig
-> index 33db9104df178e5a3148b60c3c6bd153113385d3..77a5d13e899f8c5251987c2c74df1d05dbd59128 100644
-> --- a/drivers/pinctrl/Kconfig
-> +++ b/drivers/pinctrl/Kconfig
-> @@ -269,7 +269,7 @@ config PINCTRL_INGENIC
->  
->  config PINCTRL_K210
->  	bool "Pinctrl driver for the Canaan Kendryte K210 SoC"
-> -	depends on RISCV && SOC_CANAAN_K210 && OF
-> +	depends on RISCV && SOC_CANAAN_K210 && OF || COMPILE_TEST
->  	select GENERIC_PINMUX_FUNCTIONS
-LKP reported here issue, so there will be v2 of this.
+> 
+>> (?!wsa)
+>> Because qcom,x-wsa8845 should be matched and cause warnings.
+> 
+> This is now confusing. I thought that the main job for the pattern above
+> is to avoid selecting wsa88xx amplifiers in the first place. Or, if I can
+> quote yourself: "What is WSA8815 that it should be here?"
+> 
+> If said wsa8845 with incorrect or correct should be selected by that pattern
+> then why not just leave that pattern as it is then? I am lost.
+
+I guess I wanted to catch x-wsa8845 as well, but now never mind. It is
+not a soc so does not really matter for this file.
+
+
+> 
+>> And probably we are getting past the point of readability, so could you
+>> try:
+>>
+>> compatible:
+>>   anyOf:
+>>     - pattern: "^qcom,.*(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sar|sc|sd[amx]|sm|x1[ep])[0-9]+.*$"
+>>     - pattern: "^qcom,.*(?!wsa)sa[0-9]+.*$"
+
+Here should be:
+s/wsa/w/
 
 
 Best regards,
