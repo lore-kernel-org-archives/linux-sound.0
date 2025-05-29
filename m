@@ -1,108 +1,85 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9460B188006;
-	Wed, 28 May 2025 23:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FCE15D1;
+	Thu, 29 May 2025 00:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748476419; cv=none; b=PsTgY8/tRe6Cx7Dw5AXdrJay6TnsvxNtfoQRTREmOrZTLtPoS5nOp7u03PuYydm3wyKdF6fEr4nwjKfPlv/0bjpLFdXys47/tzr/pqOpNi4B+bBaTw713p2aiHivzX+vfO5P7y4ygvDiPtOHeEZD3IrKrqemIjLFvamwGg8E8pY=
+	t=1748479162; cv=none; b=GFUzsJr3lzTwNcQqJNUJwmyz6ULlLFwjJ03se62T6WrS2R59VnZ4viY5F3qoFL+YuEtU9wZ5B57XF/FqDMUvjL2AN/EPfimd92jLOWBwKI4jD2jRCZnYZfrn87P/3RQYK6SCD5x+Hi+1V8YkhQ9Ns357QqWt04Pp0DTFiHSkoAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748476419; c=relaxed/simple;
-	bh=KP7CAby1iz8rXB04zsn9FKsUJMmeiuGP+msDRFkyZ5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MTqhsCFwsDYtOS9C/41N6HCgMbQ0BCnszWT9CUzPk/hRvjz1s0hPcaA3ecCNEi7k7FQyB2KWcJDE1CvlWIVCNXm8g3AiNe6AGHdeG8U0giWsP/5iFKBspx+zW82knoJuxc1hZaSP1KxkvazESx4ClaL+Bq6K6bJO2VIWszRA1kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TXBngv/1; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748479162; c=relaxed/simple;
+	bh=ny8UrZV+yDW12ChrpSJinfCzQgq9Rotc7NxMtarbZ9w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Isryh8dVvRIo0GOcLHEkugyfzivdLZRuEI7FNY/booWa2ckNrRl9leH+ac6j0+pX1mY3UUaItyfe7vxdHzs0YfB2a4K6+BiK1QhUxY6Wim8X5WTVQ88vDkWve6ZuETbRUblYJ0yHa3qAIl0c2bEdCDFTCpwcVDYtjkRU632QXUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=lhVxSlw1; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TXBngv/1"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ad572ba1347so44870766b.1;
-        Wed, 28 May 2025 16:53:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="lhVxSlw1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748476416; x=1749081216; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fcZmpzXS9vr1PSL41aNxHZ22YQ1WSLqCFIureeqm19A=;
-        b=TXBngv/1Zug/qyZakR4UH8RTRLQHEhj1os9ruP3I2FyVQAn8okq9SjeeRhTJZzCzOs
-         ECozck1FvDif8VjkPEoUBl6XHzCwKh54v/WcIbkBxatKnd/hQfbZvy61LYOM05SCZlEs
-         FUcPq0865Je0S2fcAe7t+HEI0TSOBABCHWQ535pKzm5mnyGfWM/DOchCcEOsBCwPke4y
-         1h31G1mw68zipm1zO7LhuHGgFyeMRP9w3DTp3lrj3k+ZCKTq9uPychAq8cHNymSWf49b
-         89LzuvAPhWcmFhcGFbV7ng652rJunnkuGEW0/wJ6nOWrt7r82uXLGonMBLAzl8l6NaO3
-         3Cdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748476416; x=1749081216;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fcZmpzXS9vr1PSL41aNxHZ22YQ1WSLqCFIureeqm19A=;
-        b=kRzeiEVXqKmZk8pSS14fqnUKURmcSjQnoj9/euT6YtupuotutG42pQOPVAO8/0KRa8
-         UsDhf3hcepSk9w+FwO83sHoKpf2WJ73Mr/ZjZRffkDVhabrDKhCXEYRX9WCW22Nl1GIK
-         gyGiXPQYNyId91iUEnHg/k0XYn5HrnEwl5Hjw57XjLk1mpSo9j/iOU9NUZqajEjfLj2y
-         5PGFbNtMlMg2Phx9vw3K8fCjNx9CBGsfcKctXp1cl5///SBWj9xx3Nwh3x6besUAL9vZ
-         HJNItroXHiIT1HASgu6pGji+JigqWT3iJZ9hNXBJYdczKUhwJ4zCZQmfdMO0dL27EWwj
-         NX8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVQoDH0Z4ZR/6Yx7hJOQanCh9ZqyeeKUrxj1KnYbDzpdB5qfcV7sIwvylfcFsYPdnT02v+vVDdvF7cvqOI=@vger.kernel.org, AJvYcCXKr7uzhgPjAHrJg5clvnU6UJYAcyiskgAKema+xe0/2lha8zFTRXTuS9I+Jcm/1UWcPc+bMSY0tHtfT2s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysLFCtLIX2rHKjFWP0ZvrYNjePwLPt8S/NbOVw7eN1eDJGvulR
-	aBeHBb2Q9MasY19fLRp2scFEM4TxKVcojZLg2BnrS8kBJy+5hze4Cxyo
-X-Gm-Gg: ASbGncsFn8W/O6+6U5q10FyQiN6EZ+/v7RxQCZrf54YaD6eP0A5k7+m0huAotJO5a8X
-	FA60j6OmcrsDuSGBQqP2t3phCftc7vjGoNbqvsbX1Frfowv1pCjY+vtH3uWNWQ37FBwbWshiYbx
-	zP4Z04ce6monlfvUS5GmmdUw3xMQkYRBrIm5ZbGCbpAR+GPXbwnbI6cHgWjggdhau9DWJRTxsCe
-	7NrzGiThzAg5AgUkHF4wLoGDJPFm4fhjA0xenan1EbF0H8KlrHFdB+JWUBFPZsSvB4FsBxPHxjX
-	H5AjiBG2WVyvCJDt6h+m51ONjSVHftkIe8kMDa/BbuvIkLrCx82elgFe9/+Xez1x89UyQD8=
-X-Google-Smtp-Source: AGHT+IErKBHm/gvm+nX3ZF6Mcc79iKwbFEakxyoQXNJEVzJOq/8bcy5V1OznpgdUueOVr7wQGwVFCQ==
-X-Received: by 2002:a17:907:d8d:b0:ad5:5067:6bb9 with SMTP id a640c23a62f3a-ad85b1de2e2mr1646305066b.47.1748476415494;
-        Wed, 28 May 2025 16:53:35 -0700 (PDT)
-Received: from archlinux.lan ([2001:b07:2eb:e808:4809:a7e0:3d2b:a46e])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ada5d7fef72sm26118566b.34.2025.05.28.16.53.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 16:53:35 -0700 (PDT)
-From: Gabriel Santese <santesegabriel@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: mario.limonciello@amd.com,
-	venkataprasad.potturu@amd.com,
-	talhah.peerbhai@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Gabriel Santese <santesegabriel@gmail.com>
-Subject: [PATCH] mfd: Add quirk for MSI Bravo 17 D7VF internal mic
-Date: Thu, 29 May 2025 01:53:31 +0200
-Message-ID: <20250528235331.67800-1-santesegabriel@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	d=codeconstruct.com.au; s=2022a; t=1748479155;
+	bh=ny8UrZV+yDW12ChrpSJinfCzQgq9Rotc7NxMtarbZ9w=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=lhVxSlw1XDyalKK+FYY9gimu5uKVHJnqaeDIt0HjfhB9x7uQWy4SQI/TGIY1Wadbb
+	 OBr8B5u5921nStK7WPkz8zc4MGzv2ocjjcgGlJ5cdSLqKRB3yuwNNZFghEaoqXOuCU
+	 XGaz4hQH9WJDhXlF8jAqHQVlbLn9J2xItnpaLWAaOSf8uRWGcOYpJzwJ/z8Yza+HV2
+	 WSRl6+BECuvxv7ZqlPnd0zrRetMjz80rmuwva0+xhB1ZJ6+J3uQ3VeB2RJYY7yrZD8
+	 LjDNdWRt2mnVqiGXOpycjhV17I3sk9KD2OTyKXx3l5mPgsYmNZWnz+Ux5vXkgut4Mj
+	 cMaTpUDMxrqLQ==
+Received: from [192.168.68.112] (unknown [180.150.112.166])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DE6426449F;
+	Thu, 29 May 2025 08:39:07 +0800 (AWST)
+Message-ID: <af3edc0a454eecbe52608e0bc16d82b99be6bad7.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 05/17] pinctrl: aspeed: Constify static 'pinctrl_desc'
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Joel Stanley <joel@jms.id.au>,
+ Avi Fishman <avifishman70@gmail.com>,  Tomer Maimon <tmaimon77@gmail.com>,
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
+ Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+ =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>,  Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, David Rhodes
+ <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Lorenzo Bianconi
+ <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, Jesper Nilsson
+ <jesper.nilsson@axis.com>, Lars Persson <lars.persson@axis.com>, Manivannan
+ Sadhasivam <manivannan.sadhasivam@linaro.org>, Damien Le Moal
+ <dlemoal@kernel.org>,  Vladimir Zapolskiy <vz@mleia.com>, Michal Simek
+ <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>, Jianlong
+ Huang <jianlong.huang@starfivetech.com>, Hal Feng
+ <hal.feng@starfivetech.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com, 
+	linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Date: Thu, 29 May 2025 10:09:06 +0930
+In-Reply-To: <20250528-pinctrl-const-desc-v1-5-76fe97899945@linaro.org>
+References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
+	 <20250528-pinctrl-const-desc-v1-5-76fe97899945@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-MSI Bravo 17 (D7VF), like other laptops from the family,
-has broken ACPI tables and needs a quirk for internal mic
-to work properly.
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Wed, 2025-05-28 at 12:41 +0200, Krzysztof Kozlowski wrote:
+> The local static 'struct pinctrl_desc' is not modified, so can be made
+> const for code safety.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 3d9da93d22ee..fed150002041 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -444,6 +444,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 17 D7VEK"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 17 D7VF"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.49.0
-
+Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
