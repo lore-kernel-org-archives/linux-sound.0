@@ -1,111 +1,121 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E23221560;
-	Fri, 30 May 2025 09:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831486F099
+	for <linux-sound@vger.kernel.org>; Fri, 30 May 2025 13:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748597475; cv=none; b=XDQsH0+YHY5XjVaTgW1RXTiRtlDQ/lp88FXy4/cj7GBakfV6qVUY2cKke9J9lZ2jjdpFZv55ByhPv8cTeziefySjasfOZXZKIhjru0aIZ4rpFGehtisopqnpXMlQp9s0H1c1alTedwqiyPewprK8rgH/9aKuIj06/sty1GfygjU=
+	t=1748613231; cv=none; b=uh5LTv5ScSg4vNutW1TXrwGilnqJXGUiP6tWYcrxLX2L7XEaoRfXFHPREQSwTnReY8I+mtvcqfWfD3lcbQqIdViY4Yew3gmx9jj48C51Xt96zt+fuVFJd61hHfOz86csYpcHVW1gKTKF7c2o2+RyAIj9y2wNthx05hyU1TRGOos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748597475; c=relaxed/simple;
-	bh=aggFkJ8dzIspA0Ee5ZCSXr4Q9BtosF9ZAdFKHZ23WJo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z6FuM1baEJfcQGThZwWYaN+tXugFSQ43L79TFAHQKqmMcJO3zBO4hcsOV1PreEBWZPOoKjgp/ikJgmnHs04zx/bTKn1i1toDcQIVcX36h4aAZVp5otRMe4K6ck3XLd8y/IODVygwXlFdCqId1AnSDQtpXJumA+v4tUm77xuySus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ce23f0383d3811f0b29709d653e92f7d-20250530
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:9901f846-04db-40fa-9f89-284431738858,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:30,RULE:Release_Ham,ACTI
-	ON:release,TS:31
-X-CID-INFO: VERSION:1.1.45,REQID:9901f846-04db-40fa-9f89-284431738858,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:30,RULE:Release_Ham,ACTION
-	:release,TS:31
-X-CID-META: VersionHash:6493067,CLOUDID:9a3853ec8758490979c83e53ed79c393,BulkI
-	D:250522180435BN613KC0,BulkQuantity:9,Recheck:0,SF:17|19|24|38|45|64|66|78
-	|80|81|82|83|102|841,TC:nil,Content:0|50,EDM:-3,IP:-2,URL:0,File:nil,RT:ni
-	l,Bulk:40|23,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:
-	0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR
-X-UUID: ce23f0383d3811f0b29709d653e92f7d-20250530
-X-User: aichao@kylinos.cn
-Received: from [172.25.120.86] [(112.64.161.44)] by mailgw.kylinos.cn
-	(envelope-from <aichao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1724392610; Fri, 30 May 2025 17:31:03 +0800
-Message-ID: <22dfeb0b-c3ff-4a7a-8471-1bb89dccdc17@kylinos.cn>
-Date: Fri, 30 May 2025 17:30:58 +0800
+	s=arc-20240116; t=1748613231; c=relaxed/simple;
+	bh=GMiH8KzdukebsQxBYxF3ZoStyhV1tf5ur2y8aNjSJGM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=L27QmT5RKhScUhmd0Y0O+q//1Xr2A8S1xkHvXlrQTtHhBg+16C4HJHH5VeVDSxzHdv4tMGMuJ3NbGnJpFUL16blzOQ28UOv4/8lJwnPCBr5vw2GHTMS5ikSKOEbIf4iJ+9+Py626l64aFaptsa2ydLXNh+PVIeV51P0oNSnYOSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N6rf68EQ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N6rf68EQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748613229; x=1780149229;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GMiH8KzdukebsQxBYxF3ZoStyhV1tf5ur2y8aNjSJGM=;
+  b=N6rf68EQF9kiAZy/7LQFzfQS3gaqNSBC1gpHP+uMJlUpOpDt5EvKIeib
+   paCkFMhgVn8mMgYUs39py3jtM6W7FFwcC4GlYebbxtezCj2Bo+mS/5uLg
+   ovg5+4SfhsnyZhuelqo9YQVntDXGh6halGdwhdOUPbKCCNyhxni+bJ5xA
+   qeKUO7ttdCAzkttClc/zXqoU/bJzoJ+FcIdLrv8JVLhVPp0SnkZgKMBJm
+   Rmq1gLP6BC1HzCu/a23lokvlV03CCTJ84QRsbTPw5A4HxUAbtVynG87ws
+   YO1iolNvqwjDfRmvhu9nfXLDzsiP262QY4rXwOvrBfXdWKsA+Tv0gH4o8
+   Q==;
+X-CSE-ConnectionGUID: 8urlCRj8SZeMD7SAmQIF6g==
+X-CSE-MsgGUID: 9MMvgY/gQ+eLUVN+xFoB5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="68256162"
+X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
+   d="scan'208";a="68256162"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 06:53:48 -0700
+X-CSE-ConnectionGUID: A67P0PPHSuCJ1qMl8ucqQw==
+X-CSE-MsgGUID: iIrmgErJS0GHRh7+VlPUjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
+   d="scan'208";a="174763286"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by fmviesa001.fm.intel.com with ESMTP; 30 May 2025 06:53:47 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/9] ASoC: Intel: avs: Set of functional fixes
+Date: Fri, 30 May 2025 16:10:16 +0200
+Message-Id: <20250530141025.2942936-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] ASoC: aoa: Use helper function
- for_each_child_of_node_scoped()
-To: Johannes Berg <johannes@sipsolutions.net>, perex <perex@perex.cz>,
- tiwai <tiwai@suse.com>,
- "kuninori.morimoto.gx" <kuninori.morimoto.gx@renesas.com>,
- lgirdwood <lgirdwood@gmail.com>, broonie <broonie@kernel.org>,
- jbrunet <jbrunet@baylibre.com>, "neil.armstrong"
- <neil.armstrong@linaro.org>, khilman <khilman@baylibre.com>,
- "martin.blumenstingl" <martin.blumenstingl@googlemail.com>,
- "shengjiu.wang" <shengjiu.wang@gmail.com>, "Xiubo.Lee"
- <Xiubo.Lee@gmail.com>, festevam <festevam@gmail.com>,
- nicoleotsuka <nicoleotsuka@gmail.com>, shawnguo <shawnguo@kernel.org>,
- "s.hauer" <s.hauer@pengutronix.de>,
- "srinivas.kandagatla" <srinivas.kandagatla@linaro.org>
-Cc: linux-sound <linux-sound@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- linux-renesas-soc <linux-renesas-soc@vger.kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- linux-amlogic <linux-amlogic@lists.infradead.org>, imx
- <imx@lists.linux.dev>, kernel <kernel@pengutronix.de>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>
-References: <2aq0nyvyf7t-2aq4hsc7kp6@nsmail7.0.0--kylin--1>
- <7e708dcc98c6f0f615b1b87d190464cfe78be668.camel@sipsolutions.net>
- <eb1ddeb3-06b6-4ac5-b20a-06b92c7f1363@kylinos.cn>
- <23aadbd78d3585c900c579c26f360011cf1ca830.camel@sipsolutions.net>
- <9ec008a8-b569-4ad1-9206-fe241fb1712d@kylinos.cn>
- <b36908bf35a20f7196bec4fe22e392a015d9b7d1.camel@sipsolutions.net>
-Content-Language: en-US
-From: Ai Chao <aichao@kylinos.cn>
-In-Reply-To: <b36908bf35a20f7196bec4fe22e392a015d9b7d1.camel@sipsolutions.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Johannes:
-     Thanks for your feedback.  I will drop it.
+Medium range of fixes all avs-driver related. The most important fixes
+lead the way:
 
-> On Mon, 2025-05-26 at 16:20 +0800, Ai Chao wrote:
->> Hi Johannes:
->>>> for_each_child_of_node.
->>> You still haven't explained why it's even correct.
->>>
->>> johannes
->> The for_each_child_of_node() function is used to iterate over all child
->> nodes of a device tree node.
->> During each iteration, it retrieves a pointer to the child node via
->> of_get_next_child() and automatically increments the node's reference
->> count (of_node_get()).
->> Each call to of_get_next_child() increases the reference count
->> (refcount) of the returned child node, ensuring that the node is not
->> freed while in use.
->> for_each_child_of_node() increments the child node's reference count in
->> each iteration but does not decrement it automatically.
->> If of_node_put() is not called manually, the reference count will never
->> reach zero, resulting in a memory leak of the node.
-> Yes, good! Now show that you can apply what you've learned to the
-> specific code (and changes) at hand.
->
-> johannes
+1. For ASoC-hda codec driver, existing RPM manipulation in
+hda_codec_probe_complete()'s error path is superfluous and leads to RPM
+usage count underflow if the probe exists early e.g.: build-controls
+operation fails.
+
+2. Resolve deadlock when DSP-recovery is a consequence of SET_D0IX IPC.
+The procedure handling IPC timeouts and EXCEPTION_CAUGHT notification
+shall cancel any D0IX work before proceeding with DSP recovery. If
+SET_D0IX called from delayed_work is the failing IPC the procedure will
+deadlock.
+
+3. LINK format (PPLCxFMT) calculation is incorrect.
+HDAudio transfer types utilize SDxFMT for front-end (HOST) and PPLCxFMT
+for back-end (LINK) side when setting up the stream. BE's
+substream->runtime duplicates FE runtime so switch to using BE's
+hw_params to address incorrect format values on the LINK side when FE
+and BE formats differ.
+
+
+Below three patches address problems found by Coverity static analyzer:
+  ASoC: Intel: avs: Fix possible null-ptr-deref when initing hw
+  ASoC: Intel: avs: Verify kcalloc() status when setting constraints
+  ASoC: Intel: avs: Verify content returned by parse_int_array()
+
+While unlikely in runtime, it's good to keep code resilient. The last
+few patches are readability/cohesiveness improvements.
+
+
+Amadeusz Sławiński (1):
+  ASoC: Intel: avs: Fix paths in MODULE_FIRMWARE hints
+
+Cezary Rojewski (8):
+  ASoC: codecs: hda: Fix RPM usage count underflow
+  ASoC: Intel: avs: Fix deadlock when the failing IPC is SET_D0IX
+  ASoC: Intel: avs: Fix PPLCxFMT calculation
+  ASoC: Intel: avs: Fix possible null-ptr-deref when initing hw
+  ASoC: Intel: avs: Verify kcalloc() status when setting constraints
+  ASoC: Intel: avs: Verify content returned by parse_int_array()
+  ASoC: Intel: avs: Simplify verification of parse_int_array() result
+  ASoC: Intel: avs: Include missing string.h
+
+ sound/soc/codecs/hda.c                |  4 ++--
+ sound/soc/intel/avs/board_selection.c |  2 +-
+ sound/soc/intel/avs/core.c            | 20 ++++++++++----------
+ sound/soc/intel/avs/debugfs.c         | 12 ++++++++----
+ sound/soc/intel/avs/ipc.c             |  4 +++-
+ sound/soc/intel/avs/loader.c          |  1 +
+ sound/soc/intel/avs/path.c            |  2 ++
+ sound/soc/intel/avs/pcm.c             | 13 ++++++-------
+ 8 files changed, 33 insertions(+), 25 deletions(-)
 
 -- 
-Best regards,
-Ai Chao
+2.25.1
 
