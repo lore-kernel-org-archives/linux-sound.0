@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3DE2222C0
-	for <linux-sound@vger.kernel.org>; Fri, 30 May 2025 14:04:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0312222C0
+	for <linux-sound@vger.kernel.org>; Fri, 30 May 2025 14:04:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748613887; cv=none; b=ri1saXBC6QFbNIJNeA/MdDdfu+pgJx+bEixG4wBEXIqk8q/zHv3szXB1M2uV0dIYpNzVRSJ0tCyoDbp+W3M7a92uH+qQVebZdzap5avOlVBHlkdcSXlhNdk5Ymi5UHVA9KSsKmJGb1lII47C8OpsK8kqw/RW9FCcieFJLOEe7/Y=
+	t=1748613889; cv=none; b=fH4S/CQJsOeymxPO/Dl24R3k+FNHatXbvQm3XoHQUneEi9Che98WI34KKFsROx4J9MeCvwRykNq4hy0bh5i9VwPXvat1efjp6c/m4bu0Vaj2tgYuTae2yajWHGQqWkrTe0Y3wsS/lZ7SqeuL2nEFJTSapnjPjKr8nLuHhkQH+fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748613887; c=relaxed/simple;
-	bh=yPFk9RTUHrD6mQ4UK67aUdb5PKUji98l2nL6qbRqowA=;
+	s=arc-20240116; t=1748613889; c=relaxed/simple;
+	bh=OKq5ig2RoToY1Re9cNHhABlCAAsxw09SeYRnXld5mjo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TWbQhCRVsrbLb4YPlNQenA9lr/NKYne78iHnxGN8nnsQ3uPkEJy2dWcAYNVWCeWWvjpw2iRL1xDIr9qB7u773cRflIK/+hz9T/jL7IsgHsbmULIbBvv6p7ISAM0m+EwX6iQGm2FTIKAQzpy9MTVF9Ng0JNQj2GFNC42zZ14Iwuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fxy0QQqI; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version:Content-Type; b=NHa9AsNeu82LzPz8jdD0vBJ6AWH6gQomzRCcenV3GV7UB3zrDfW1EehFTvSmc7dOR4RULehHIxc3mFrsuf/jm86gBYPB6p/e59Cb/0nblXSck31u3QiRsgLA6fA4mH034iXCWBsowJNIIWsVdhLOcB6at1xCUkv1BxyMvmTxG+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HGCJ9c5v; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fxy0QQqI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HGCJ9c5v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748613886; x=1780149886;
+  t=1748613888; x=1780149888;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=yPFk9RTUHrD6mQ4UK67aUdb5PKUji98l2nL6qbRqowA=;
-  b=Fxy0QQqIkQdlP86Jn7A9ldl3VXbM3AKfaVujwkJtwcP6hxsxCJZzpwkZ
-   wap1lRDTJ1YnvSZM0epCNmIogUeZMOvYhaE1B3VdtlPPddmfDBkF/ZxUT
-   UqiaqAl8GmHV2Wa29LBqItW4VhCH9B9bRCJzPSz7APJ2XYn2a5IBQeHPk
-   dRgdyWjKPFcFRG9QH7UsS2T/J6mNZJ0wFwwSLK8DLZekyDCfjHqKI/DUd
-   e3DKiD3w/dEbrl6RlGuWg/Hm6hGj+zY8XNv6Oc3WnOiOvoKIHavr+DEfY
-   giyo6jP5tC4crVDS6X4b9FarTyyhWD39ePXGgaAVQ/oqT/97b4Dmo6eDx
-   A==;
-X-CSE-ConnectionGUID: jh7777kpQMO6V+j75T0rTA==
-X-CSE-MsgGUID: kgeqDET+T/GZKPEvLcc+QQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="53336543"
+  bh=OKq5ig2RoToY1Re9cNHhABlCAAsxw09SeYRnXld5mjo=;
+  b=HGCJ9c5vjEWBxGOsy+tHt+akeuuphvs0IC23Ah21skV/w52OeavATpon
+   e8ItUmxYNP70EE1rbGv4mh136ZYNZczqz401gWT8RFifoSIs3BUznQ2lo
+   z3fSrYRoAL9HWe/Xpu6NgU6Y2a/uBkhAtu6rjdPaQEJY8GyH7LwEBpXfw
+   LHoVwRbdal+sE6C3yoFdE1PhCxBL9z4//RwjUuMO1L6MBl6eFi0p3Y0N6
+   RUs3izljGXiBfNQrq8xSdIQkngp7ilBkZFKWQesMGrPIIDTX1EdObgldF
+   N5oGFh1PHEG6G1cx1gwkzW6x9Q0qzk879QszG5r+kdQsDkIMKE/fb6qV/
+   Q==;
+X-CSE-ConnectionGUID: 7LObCnaGT6Oc3wnLxcaAFA==
+X-CSE-MsgGUID: ylAJWAh+R4uVyaHSw66zfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="53336550"
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="53336543"
+   d="scan'208";a="53336550"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 07:04:45 -0700
-X-CSE-ConnectionGUID: m9ovGDSNRI++swEzXbZKZg==
-X-CSE-MsgGUID: 0W3dL7rVTRy/+x8Oj8fS4A==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 07:04:47 -0700
+X-CSE-ConnectionGUID: Q/od+GT7TxOkjx9mAB6wog==
+X-CSE-MsgGUID: CXH7vJpsRSGOrjNGuoA8tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="144357404"
+   d="scan'208";a="144357414"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa010.fm.intel.com with ESMTP; 30 May 2025 07:04:43 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 May 2025 07:04:45 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
 	perex@perex.cz,
 	amadeuszx.slawinski@linux.intel.com,
 	linux-sound@vger.kernel.org,
-	Xinxin Wan <xinxin.wan@intel.com>,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 2/3] ASoC: codecs: rt5640: Retry DEVICE_ID verification
-Date: Fri, 30 May 2025 16:21:19 +0200
-Message-Id: <20250530142120.2944095-3-cezary.rojewski@intel.com>
+Subject: [PATCH 3/3] ASoC: Intel: avs: Add rt5640 machine board
+Date: Fri, 30 May 2025 16:21:20 +0200
+Message-Id: <20250530142120.2944095-4-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250530142120.2944095-1-cezary.rojewski@intel.com>
 References: <20250530142120.2944095-1-cezary.rojewski@intel.com>
@@ -66,38 +65,380 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Xinxin Wan <xinxin.wan@intel.com>
-
-To be more resilient to codec-detection failures when the hardware
-powers on slowly, add retry mechanism to the device verification check.
-Similar pattern is found throughout a number of Realtek codecs. Our
-tests show that 60ms delay is sufficient to address readiness issues on
-rt5640 chip.
+To support connection between Intel AudioDSP and Realek 5640 codec
+implement avs_rt5640 machine board driver. The codec chip is located on
+I2C bus and the streaming occurs over I2S interface. A number of such
+devices can be connected simultaneously to the platform. Majority of the
+board's behavior is inherited from existing representatives such as
+avs_rt274.
 
 Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: Xinxin Wan <xinxin.wan@intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/codecs/rt5640.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ sound/soc/intel/avs/board_selection.c |  27 +++
+ sound/soc/intel/avs/boards/Kconfig    |  12 ++
+ sound/soc/intel/avs/boards/Makefile   |   2 +
+ sound/soc/intel/avs/boards/rt5640.c   | 270 ++++++++++++++++++++++++++
+ 4 files changed, 311 insertions(+)
+ create mode 100644 sound/soc/intel/avs/boards/rt5640.c
 
-diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
-index 265b30856faf..f50e771db24b 100644
---- a/sound/soc/codecs/rt5640.c
-+++ b/sound/soc/codecs/rt5640.c
-@@ -3013,6 +3013,11 @@ static int rt5640_i2c_probe(struct i2c_client *i2c)
- 	}
+diff --git a/sound/soc/intel/avs/board_selection.c b/sound/soc/intel/avs/board_selection.c
+index 673ccf162023..fb49167f5fc4 100644
+--- a/sound/soc/intel/avs/board_selection.c
++++ b/sound/soc/intel/avs/board_selection.c
+@@ -308,6 +308,33 @@ static struct snd_soc_acpi_mach avs_tgl_i2s_machines[] = {
+ 		},
+ 		.tplg_filename = "rt1308-tplg.bin",
+ 	},
++	{
++		.id = "10EC5640",
++		.uid = "1",
++		.drv_name = "avs_rt5640",
++		.mach_params = {
++			.i2s_link_mask = AVS_SSP(0),
++		},
++		.tplg_filename = "rt5640-tplg.bin",
++	},
++	{
++		.id = "10EC5640",
++		.uid = "3",
++		.drv_name = "avs_rt5640",
++		.mach_params = {
++			.i2s_link_mask = AVS_SSP(1),
++		},
++		.tplg_filename = "rt5640-tplg.bin",
++	},
++	{
++		.id = "10EC5640",
++		.uid = "2",
++		.drv_name = "avs_rt5640",
++		.mach_params = {
++			.i2s_link_mask = AVS_SSP(2),
++		},
++		.tplg_filename = "rt5640-tplg.bin",
++	},
+ 	{
+ 		.id = "ESSX8336",
+ 		.drv_name = "avs_es8336",
+diff --git a/sound/soc/intel/avs/boards/Kconfig b/sound/soc/intel/avs/boards/Kconfig
+index 8b654181004e..82f50207bb2f 100644
+--- a/sound/soc/intel/avs/boards/Kconfig
++++ b/sound/soc/intel/avs/boards/Kconfig
+@@ -153,6 +153,18 @@ config SND_SOC_INTEL_AVS_MACH_RT5514
+ 	   Say Y or m if you have such a device. This is a recommended option.
+ 	   If unsure select "N".
  
- 	regmap_read(rt5640->regmap, RT5640_VENDOR_ID2, &val);
-+	if (val != RT5640_DEVICE_ID) {
-+		usleep_range(60000, 100000);
-+		regmap_read(rt5640->regmap, RT5640_VENDOR_ID2, &val);
++config SND_SOC_INTEL_AVS_MACH_RT5640
++	tristate "rt5640 in I2S mode"
++	depends on I2C
++	depends on MFD_INTEL_LPSS || COMPILE_TEST
++	select SND_SOC_RT5640
++	help
++	  This adds support for ASoC machine board connecting AVS with RT5640,
++	  components representing Intel AudioDSP and Realtek 5640 codec respectively.
++	  The codec chip is present on I2C bus and the streaming occurs over I2S
++	  interface.
++	  Say Y or m if you have such a device.
++
+ config SND_SOC_INTEL_AVS_MACH_RT5663
+ 	tristate "rt5663 in I2S mode"
+ 	depends on I2C
+diff --git a/sound/soc/intel/avs/boards/Makefile b/sound/soc/intel/avs/boards/Makefile
+index a95256b94dc8..46ef1babda34 100644
+--- a/sound/soc/intel/avs/boards/Makefile
++++ b/sound/soc/intel/avs/boards/Makefile
+@@ -15,6 +15,7 @@ snd-soc-avs-rt274-y := rt274.o
+ snd-soc-avs-rt286-y := rt286.o
+ snd-soc-avs-rt298-y := rt298.o
+ snd-soc-avs-rt5514-y := rt5514.o
++snd-soc-avs-rt5640-y := rt5640.o
+ snd-soc-avs-rt5663-y := rt5663.o
+ snd-soc-avs-rt5682-y := rt5682.o
+ snd-soc-avs-ssm4567-y := ssm4567.o
+@@ -34,6 +35,7 @@ obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_RT274) += snd-soc-avs-rt274.o
+ obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_RT286) += snd-soc-avs-rt286.o
+ obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_RT298) += snd-soc-avs-rt298.o
+ obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_RT5514) += snd-soc-avs-rt5514.o
++obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_RT5640) += snd-soc-avs-rt5640.o
+ obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_RT5663) += snd-soc-avs-rt5663.o
+ obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_RT5682) += snd-soc-avs-rt5682.o
+ obj-$(CONFIG_SND_SOC_INTEL_AVS_MACH_SSM4567) += snd-soc-avs-ssm4567.o
+diff --git a/sound/soc/intel/avs/boards/rt5640.c b/sound/soc/intel/avs/boards/rt5640.c
+new file mode 100644
+index 000000000000..706b84ffe1ef
+--- /dev/null
++++ b/sound/soc/intel/avs/boards/rt5640.c
+@@ -0,0 +1,270 @@
++// SPDX-License-Identifier: GPL-2.0-only
++//
++// Copyright(c) 2022-2025 Intel Corporation
++//
++// Authors: Cezary Rojewski <cezary.rojewski@intel.com>
++//          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
++//
++
++#include <linux/module.h>
++#include <sound/jack.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/soc.h>
++#include <sound/soc-acpi.h>
++#include "../../../codecs/rt5640.h"
++#include "../utils.h"
++
++#define AVS_RT5640_MCLK_HZ		19200000
++#define RT5640_CODEC_DAI		"rt5640-aif1"
++
++static const struct snd_soc_dapm_widget card_widgets[] = {
++	SND_SOC_DAPM_HP("Headphone Jack", NULL),
++	SND_SOC_DAPM_MIC("Mic Jack", NULL),
++	SND_SOC_DAPM_SPK("Speaker", NULL),
++};
++
++static const struct snd_soc_dapm_route card_routes[] = {
++	{ "Headphone Jack", NULL, "HPOR" },
++	{ "Headphone Jack", NULL, "HPOL" },
++	{ "IN2P", NULL, "Mic Jack" },
++	{ "IN2P", NULL, "MICBIAS1" },
++	{ "Speaker", NULL, "SPOLP" },
++	{ "Speaker", NULL, "SPOLN" },
++	{ "Speaker", NULL, "SPORP" },
++	{ "Speaker", NULL, "SPORN" },
++};
++
++static const struct snd_soc_jack_pin card_headset_pins[] = {
++	{
++		.pin = "Headphone Jack",
++		.mask = SND_JACK_HEADPHONE,
++	},
++	{
++		.pin = "Mic Jack",
++		.mask = SND_JACK_MICROPHONE,
++	},
++};
++
++static int avs_rt5640_codec_init(struct snd_soc_pcm_runtime *runtime)
++{
++	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(runtime, 0);
++	struct snd_soc_card *card = runtime->card;
++	struct snd_soc_jack_pin *pins;
++	struct snd_soc_jack *jack;
++	int num_pins, ret;
++
++	jack = snd_soc_card_get_drvdata(card);
++	num_pins = ARRAY_SIZE(card_headset_pins);
++
++	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
++	if (!pins)
++		return -ENOMEM;
++
++	ret = snd_soc_card_jack_new_pins(card, "Headset Jack", SND_JACK_HEADSET, jack, pins,
++					 num_pins);
++	if (ret)
++		return ret;
++
++	snd_soc_component_set_jack(codec_dai->component, jack, NULL);
++	card->dapm.idle_bias_off = true;
++
++	return 0;
++}
++
++static void avs_rt5640_codec_exit(struct snd_soc_pcm_runtime *runtime)
++{
++	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(runtime, 0);
++
++	snd_soc_component_set_jack(codec_dai->component, NULL, NULL);
++}
++
++static int avs_rt5640_be_fixup(struct snd_soc_pcm_runtime *runtime,
++			       struct snd_pcm_hw_params *params)
++{
++	struct snd_mask *fmask = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
++
++	/* Format 24/32 is MSB-aligned for HDAudio and LSB-aligned for I2S. */
++	if (params_format(params) == SNDRV_PCM_FORMAT_S32_LE)
++		snd_mask_set_format(fmask, SNDRV_PCM_FORMAT_S24_LE);
++
++	return 0;
++}
++
++static int avs_rt5640_hw_params(struct snd_pcm_substream *substream,
++				struct snd_pcm_hw_params *params)
++{
++	struct snd_soc_pcm_runtime *runtime = snd_soc_substream_to_rtd(substream);
++	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(runtime, 0);
++	int ret;
++
++	ret = snd_soc_dai_set_pll(codec_dai, 0, RT5640_PLL1_S_MCLK, AVS_RT5640_MCLK_HZ,
++				  params_rate(params) * 512);
++	if (ret < 0) {
++		dev_err(runtime->dev, "Set codec PLL failed: %d\n", ret);
++		return ret;
 +	}
 +
- 	if (val != RT5640_DEVICE_ID) {
- 		dev_err(&i2c->dev,
- 			"Device with ID register %#x is not rt5640/39\n", val);
++	ret = snd_soc_dai_set_sysclk(codec_dai, RT5640_SCLK_S_PLL1, params_rate(params) * 512,
++				     SND_SOC_CLOCK_IN);
++	if (ret < 0) {
++		dev_err(runtime->dev, "Set codec SCLK failed: %d\n", ret);
++		return ret;
++	}
++
++	ret = rt5640_sel_asrc_clk_src(codec_dai->component,
++				      RT5640_DA_STEREO_FILTER | RT5640_AD_STEREO_FILTER |
++				      RT5640_DA_MONO_L_FILTER | RT5640_DA_MONO_R_FILTER |
++				      RT5640_AD_MONO_L_FILTER | RT5640_AD_MONO_R_FILTER,
++				      RT5640_CLK_SEL_ASRC);
++	if (ret)
++		dev_err(runtime->dev, "Set codec ASRC failed: %d\n", ret);
++
++	return ret;
++}
++
++static const struct snd_soc_ops avs_rt5640_ops = {
++	.hw_params = avs_rt5640_hw_params,
++};
++
++static int avs_create_dai_link(struct device *dev, int ssp_port, int tdm_slot,
++			       struct snd_soc_acpi_mach *mach,
++			       struct snd_soc_dai_link **dai_link)
++{
++	struct snd_soc_dai_link_component *platform;
++	struct snd_soc_dai_link *dl;
++	u32 uid = 0;
++	int ret;
++
++	if (mach->uid) {
++		ret = kstrtou32(mach->uid, 0, &uid);
++		if (ret)
++			return ret;
++		uid--; /* 0-based indexing. */
++	}
++
++	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
++	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
++	if (!dl || !platform)
++		return -ENOMEM;
++
++	dl->name = devm_kasprintf(dev, GFP_KERNEL,
++				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
++	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
++	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs), GFP_KERNEL);
++	if (!dl->name || !dl->cpus || !dl->codecs)
++		return -ENOMEM;
++
++	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
++					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
++	dl->codecs->name = devm_kasprintf(dev, GFP_KERNEL, "i2c-10EC5640:0%d", uid);
++	dl->codecs->dai_name = devm_kasprintf(dev, GFP_KERNEL, RT5640_CODEC_DAI);
++	if (!dl->cpus->dai_name || !dl->codecs->name || !dl->codecs->dai_name)
++		return -ENOMEM;
++
++	platform->name = dev_name(dev);
++	dl->num_cpus = 1;
++	dl->num_codecs = 1;
++	dl->platforms = platform;
++	dl->num_platforms = 1;
++	dl->id = 0;
++	dl->dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBC_CFC;
++	dl->init = avs_rt5640_codec_init;
++	dl->exit = avs_rt5640_codec_exit;
++	dl->be_hw_params_fixup = avs_rt5640_be_fixup;
++	dl->ops = &avs_rt5640_ops;
++	dl->nonatomic = 1;
++	dl->no_pcm = 1;
++
++	*dai_link = dl;
++
++	return 0;
++}
++
++static int avs_card_suspend_pre(struct snd_soc_card *card)
++{
++	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, RT5640_CODEC_DAI);
++
++	return snd_soc_component_set_jack(codec_dai->component, NULL, NULL);
++}
++
++static int avs_card_resume_post(struct snd_soc_card *card)
++{
++	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, RT5640_CODEC_DAI);
++	struct snd_soc_jack *jack = snd_soc_card_get_drvdata(card);
++
++	return snd_soc_component_set_jack(codec_dai->component, jack, NULL);
++}
++
++static int avs_rt5640_probe(struct platform_device *pdev)
++{
++	struct snd_soc_dai_link *dai_link;
++	struct device *dev = &pdev->dev;
++	struct snd_soc_acpi_mach *mach;
++	struct snd_soc_card *card;
++	struct snd_soc_jack *jack;
++	int ssp_port, tdm_slot, ret;
++
++	mach = dev_get_platdata(dev);
++
++	ret = avs_mach_get_ssp_tdm(dev, mach, &ssp_port, &tdm_slot);
++	if (ret)
++		return ret;
++
++	ret = avs_create_dai_link(dev, ssp_port, tdm_slot, mach, &dai_link);
++	if (ret) {
++		dev_err(dev, "Failed to create dai link: %d", ret);
++		return ret;
++	}
++
++	jack = devm_kzalloc(dev, sizeof(*jack), GFP_KERNEL);
++	card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
++	if (!jack || !card)
++		return -ENOMEM;
++
++	if (mach->uid) {
++		card->name = devm_kasprintf(dev, GFP_KERNEL, "AVS I2S ALC5640.%s", mach->uid);
++		if (!card->name)
++			return -ENOMEM;
++	} else {
++		card->name = "AVS I2S ALC5640";
++	}
++	card->driver_name = "avs_rt5640";
++	card->long_name = card->name;
++	card->dev = dev;
++	card->owner = THIS_MODULE;
++	card->suspend_pre = avs_card_suspend_pre;
++	card->resume_post = avs_card_resume_post;
++	card->dai_link = dai_link;
++	card->num_links = 1;
++	card->dapm_widgets = card_widgets;
++	card->num_dapm_widgets = ARRAY_SIZE(card_widgets);
++	card->dapm_routes = card_routes;
++	card->num_dapm_routes = ARRAY_SIZE(card_routes);
++	card->fully_routed = true;
++	snd_soc_card_set_drvdata(card, jack);
++
++	return devm_snd_soc_register_deferrable_card(dev, card);
++}
++
++static const struct platform_device_id avs_rt5640_driver_ids[] = {
++	{
++		.name = "avs_rt5640",
++	},
++	{},
++};
++MODULE_DEVICE_TABLE(platform, avs_rt5640_driver_ids);
++
++static struct platform_driver avs_rt5640_driver = {
++	.probe = avs_rt5640_probe,
++	.driver = {
++		.name = "avs_rt5640",
++		.pm = &snd_soc_pm_ops,
++	},
++	.id_table = avs_rt5640_driver_ids,
++};
++
++module_platform_driver(avs_rt5640_driver);
++
++MODULE_DESCRIPTION("Intel rt5640 machine driver");
++MODULE_LICENSE("GPL");
 -- 
 2.25.1
 
