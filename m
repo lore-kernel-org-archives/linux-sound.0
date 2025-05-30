@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837CA6F099
-	for <linux-sound@vger.kernel.org>; Fri, 30 May 2025 13:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1382B21D3D3
+	for <linux-sound@vger.kernel.org>; Fri, 30 May 2025 13:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748613244; cv=none; b=aA8j5BVvL0GRsYEWpBTt0qIAhu/g7SbF24B4GSjNaat6SPFIwV+reWLsYEhdqCD3g3upuvZRLwW4ftUUGCfUdfphabbiClgp4YDqlW6W6lTBQpA+hiRObngtrzvj3renfs0JxttKb69vxeyOLYf28X1maxnf/RqCd0pMA64Z3x4=
+	t=1748613245; cv=none; b=rWOwUOEOaCmty1jc9clgRRU2YpRXt737E1Apvp5yY8+WVmWIPaUGVLc4QQCtcc19+2sBWHSgGd818OraS6Lko/07pJBzH1QU87NLchoJGjgXSiUxgbowNo/HedPzucy226Qfr/+R2SA/ozOeZDPnJrKL8QMhoKFq5BM5iSWoiG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748613244; c=relaxed/simple;
-	bh=MnhE6+wP+zTrrxTDKdEbuZIx5TBpekJ5tU9TGBZATQk=;
+	s=arc-20240116; t=1748613245; c=relaxed/simple;
+	bh=OlXYKvoyfcluB+pZKeVU2Z+eqGGPiMq/htAEAh6sAZs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W3Q/rxg7YLsksbirs+xKRtBPPWoN0IjrbsN7KPZA43FHb6CTNAzfRRQTWVUsuHYYzd+1+hPa4ZWCRblDUcnBxouUDyz8js3cx6uqWbLlFr6ZFVcAk5KQGIj9/wXnQO9ooNHo915/k5dYev/VFXt/8CXU3vctNYi0Cs09i0kfztI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gD4zI+PM; arc=none smtp.client-ip=192.198.163.8
+	 MIME-Version:Content-Type; b=PVmX3UfwxP5D75G2F6pwYtrYan0RQOydqsWygbeLgX2d5A348xHILPjsOzXkZhwiJyxaDC8eeGiK/FnkRmXrM6b1O3+83cDiBKn0U9sJ3ovGZhIACj2yahEwTI0SNJ5KpkVd49r6if8WOIzccWGG6JQgMBS3c5Y5XSk0zycBbxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXQ57PcC; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gD4zI+PM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXQ57PcC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748613242; x=1780149242;
+  t=1748613244; x=1780149244;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=MnhE6+wP+zTrrxTDKdEbuZIx5TBpekJ5tU9TGBZATQk=;
-  b=gD4zI+PMVcFGqtKiG+i/8Yy4NdfAnyctNdJXtDY0bCmqumgZhzp4rRcy
-   ESsJ8J6cagXJYFb6Y7laVfloX3kdE3WZnnNe7zyd81V2oSVnHLo4Stvo4
-   XpsmBuLcOcS3lRLhRtlAZfw1KUtefi00wP2hzAyju3RaggCpQNMm2oAXC
-   YqKwD0gqgUf/v7/CFngSObFB9+Q6rJg2avoAen/LDAKIQxXO2DBLaXzN0
-   AB70fOozKWoKV75qmNvctJB6D1Na55SQJJt0Xw+rTtvp/xPJinJ8DuqAH
-   hRsZKqkTiuTRQCcgNA7tJUzSq7O8ODdyMo79okH1V5jGM7NyUOnxMllFt
+  bh=OlXYKvoyfcluB+pZKeVU2Z+eqGGPiMq/htAEAh6sAZs=;
+  b=LXQ57PcCIvIFQXEAEvU6L+jjyUhuEXVhCuZ9L3Q864r12Vr75FlNV+8e
+   IChAixl7smnWy9nuFr/NVCwVhigMBMZDmVJ/PGtwtLpl8gs5p/xiYPcFt
+   Un3ZWLjG+yPNYlZ8njG3yYg/yikfrSQhPQbDbqHuU6sM/kzF0dJ1k32b1
+   mCpqOfkp/a2Imr/rJwlZA3nkybuYmhiQYQNU7UKfUd7k7b9QKOlBN1W50
+   lKJ//XvsFjbel3XpQQUO6QAe9ETnxL+1qZj8bgesB1RkcAiE5XnAvr+th
+   pa097Y2IfVR9AMxeVAiSTKqhnJXA0lyAvQ7M4Czyt7BaUEYueeXKN3Hgt
    A==;
-X-CSE-ConnectionGUID: R7bwY2JITWuOuJhkqq2k4w==
-X-CSE-MsgGUID: AEH411e9T82jMcVqGYC9Qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="68256188"
+X-CSE-ConnectionGUID: QtkQ4RhlRbWGEleQe1WuxQ==
+X-CSE-MsgGUID: 0EMx2/m9QOe5fnMzsGxKJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="68256194"
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="68256188"
+   d="scan'208";a="68256194"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 06:54:02 -0700
-X-CSE-ConnectionGUID: SfGSQVVuQoGru1RGCqd1DQ==
-X-CSE-MsgGUID: Es4m7m+iQKus+7yrd+J+hA==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 06:54:03 -0700
+X-CSE-ConnectionGUID: e+uunW+lSoKsqcZdo8E8bQ==
+X-CSE-MsgGUID: Njtf9XPNSJOBY16QCB9rxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="174763391"
+   d="scan'208";a="174763416"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa001.fm.intel.com with ESMTP; 30 May 2025 06:54:01 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 May 2025 06:54:02 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amadeuszx.slawinski@linux.intel.com,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 4/9] ASoC: Intel: avs: Fix possible null-ptr-deref when initing hw
-Date: Fri, 30 May 2025 16:10:20 +0200
-Message-Id: <20250530141025.2942936-5-cezary.rojewski@intel.com>
+Subject: [PATCH 5/9] ASoC: Intel: avs: Fix paths in MODULE_FIRMWARE hints
+Date: Fri, 30 May 2025 16:10:21 +0200
+Message-Id: <20250530141025.2942936-6-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250530141025.2942936-1-cezary.rojewski@intel.com>
 References: <20250530141025.2942936-1-cezary.rojewski@intel.com>
@@ -65,42 +65,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Search result of avs_dai_find_path_template() shall be verified before
-being used. As 'template' is already known when
-avs_hw_constraints_init() is fired, drop the search entirely.
+From: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 
-Fixes: f2f847461fb7 ("ASoC: Intel: avs: Constrain path based on BE capabilities")
-Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+The binaries for cAVS architecture are located in "intel/avs"
+subdirectory, not "intel".
+
+Fixes: 94aa347d34e0 ("ASoC: Intel: avs: Add MODULE_FIRMWARE to inform about FW")
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/pcm.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ sound/soc/intel/avs/core.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index d1acc636add7..ccf90428126d 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -83,10 +83,8 @@ void avs_period_elapsed(struct snd_pcm_substream *substream)
- static int hw_rule_param_size(struct snd_pcm_hw_params *params, struct snd_pcm_hw_rule *rule);
- static int avs_hw_constraints_init(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
- {
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct snd_pcm_hw_constraint_list *r, *c, *s;
--	struct avs_tplg_path_template *template;
- 	struct avs_dma_data *data;
- 	int ret;
- 
-@@ -99,8 +97,7 @@ static int avs_hw_constraints_init(struct snd_pcm_substream *substream, struct s
- 	c = &(data->channels_list);
- 	s = &(data->sample_bits_list);
- 
--	template = avs_dai_find_path_template(dai, !rtd->dai_link->no_pcm, substream->stream);
--	ret = avs_path_set_constraint(data->adev, template, r, c, s);
-+	ret = avs_path_set_constraint(data->adev, data->template, r, c, s);
- 	if (ret <= 0)
- 		return ret;
- 
+diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
+index 485842838025..ec1b3f55cb5c 100644
+--- a/sound/soc/intel/avs/core.c
++++ b/sound/soc/intel/avs/core.c
+@@ -945,14 +945,14 @@ MODULE_AUTHOR("Cezary Rojewski <cezary.rojewski@intel.com>");
+ MODULE_AUTHOR("Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>");
+ MODULE_DESCRIPTION("Intel cAVS sound driver");
+ MODULE_LICENSE("GPL");
+-MODULE_FIRMWARE("intel/skl/dsp_basefw.bin");
+-MODULE_FIRMWARE("intel/apl/dsp_basefw.bin");
+-MODULE_FIRMWARE("intel/cnl/dsp_basefw.bin");
+-MODULE_FIRMWARE("intel/icl/dsp_basefw.bin");
+-MODULE_FIRMWARE("intel/jsl/dsp_basefw.bin");
+-MODULE_FIRMWARE("intel/lkf/dsp_basefw.bin");
+-MODULE_FIRMWARE("intel/tgl/dsp_basefw.bin");
+-MODULE_FIRMWARE("intel/ehl/dsp_basefw.bin");
+-MODULE_FIRMWARE("intel/adl/dsp_basefw.bin");
+-MODULE_FIRMWARE("intel/adl_n/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/skl/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/apl/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/cnl/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/icl/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/jsl/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/lkf/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/tgl/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/ehl/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/adl/dsp_basefw.bin");
++MODULE_FIRMWARE("intel/avs/adl_n/dsp_basefw.bin");
+ MODULE_FIRMWARE("intel/fcl/dsp_basefw.bin");
 -- 
 2.25.1
 
