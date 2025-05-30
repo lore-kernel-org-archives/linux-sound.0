@@ -1,162 +1,151 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2065.outbound.protection.outlook.com [40.107.244.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F58201006;
-	Fri, 30 May 2025 05:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748583919; cv=fail; b=WoyQeUNrLel6ILZg7FIZR6Cpk6PlIQOFhrrIBlK+yM0BxRlcg0hWe5eZLYzEHuCOnWnTlXmLvWzrj+eF3kBEbILQb3SZqP1yQ6j8o72lM1gO4wC2TJoqS70qeac11CSVDOSQA0D+k8LuNBLybZQQAtSKAZgFvq1GqqNEMUBy4oE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748583919; c=relaxed/simple;
-	bh=b1j3ryeGgdN9w7n5P3u/LD/ofKvYOb7IO3nrzDXMALM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O75w3AqwVEJlTnAeUOJ2yPSGTFSVeCMEcw5scsFaUqklUokXR9C1LLzzXVIGsjq3g0CEFDidAByo1uR96BZudUVF7IopJvPMIdXaBwf+lbPKFXZ1uonDDmiNlE5OtjdAa6f/lz+T/Gb1i/ZbJN3WKsQNpuA4QRoNr1E/fsf6TFs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=h+5rbugB; arc=fail smtp.client-ip=40.107.244.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="h+5rbugB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tOIevCyI87WFllC14w9Udp5xeoTgb+lsJNTFZpydhTJNhgT1WsYWNDwH+VT5GJjjihoTZfAVakxgPIxwNiTTbVVLmCrQBmCZhiLApPpPm58gcVAfp19nF8nufDu6wjQ29+oVX81tbFSkBCUWAqWuUzWUaA1HmRInuD/wagwuIzzl8vOjb9ZW+d0UDFyrTvqn59yqOv1TC8pGZBvLV+muP2Q6RqWcnYZ0xqd0TbbnLLXuwnJ80hOT2j8f6CzgFd3H49SzF3zjEP5kcmHz7S8SlhPg4O8qvPgF1jSl9456zBsWZlRjnYpJ3gBSi4D1rCtMxDtj2T/3PZBoLEpp6l3wVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dF+WF40QFPDmL3gixvagH5aH66oiJaShlZujnp+kxAc=;
- b=riVAynQulfnHTSxkhTGppixUgJ4SJ9UnCDJVUQSfa612/MRo1eCY7nUvKZ+Lj19ioBKGw3x4qB2bVrLEfjFiZU+Ga4xl2q1vyvTKmZJwSF6A7Axg0pPUZWelNp3bmYpdJ6Z0Soft1Rg7yG+PE4Bt6gFCzl5aX/+OJqPNgUva7njq9cFfw8iUSigDCV75hMXhWvID+KWqsAzw/nB0h7An6tkjmwBO2FdIX+xQinqub4hmZqLkdNuHmBxpEvu5azdfJO2oa6MAwW1REot/EfmAMnrp2HwaifIxrty8/CPXQWKm+ps5fWvWoPIPjAvww+AHe6tyGCOYlSaoCwO0Rx9bKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dF+WF40QFPDmL3gixvagH5aH66oiJaShlZujnp+kxAc=;
- b=h+5rbugBE4l6Wg9eukdlIo0ByzZHhfgKvO47xFZLKa7Xf+eb1FIgVGUf1LHJYKrUuM7LHURm8/V5r+qPcTN27o6D5vkQW4SGXss+zD//t93MQvu/wOErw5B3JhPTf383R2ATAizXfmYWMpPl2wbjXzEudg18SzjURovOSApSVas=
-Received: from BL1P222CA0004.NAMP222.PROD.OUTLOOK.COM (2603:10b6:208:2c7::9)
- by PH7PR12MB8828.namprd12.prod.outlook.com (2603:10b6:510:26b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.27; Fri, 30 May
- 2025 05:45:13 +0000
-Received: from BN3PEPF0000B073.namprd04.prod.outlook.com
- (2603:10b6:208:2c7:cafe::9d) by BL1P222CA0004.outlook.office365.com
- (2603:10b6:208:2c7::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.22 via Frontend Transport; Fri,
- 30 May 2025 05:45:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN3PEPF0000B073.mail.protection.outlook.com (10.167.243.118) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8769.18 via Frontend Transport; Fri, 30 May 2025 05:45:12 +0000
-Received: from vijendar-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 30 May
- 2025 00:45:06 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <vkoul@kernel.org>
-CC: <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
-	<sanyog.r.kale@intel.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 2/3] soundwire: amd: serialize amd manager resume sequence during pm_prepare
-Date: Fri, 30 May 2025 11:13:40 +0530
-Message-ID: <20250530054447.1645807-3-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250530054447.1645807-1-Vijendar.Mukunda@amd.com>
-References: <20250530054447.1645807-1-Vijendar.Mukunda@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FB038B;
+	Fri, 30 May 2025 08:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748592397; cv=none; b=PS1DMPywh9PtnL0dZuCj/YHcTNBKnnoZrvk1rnDpyJ87BF+x62/wVUy0mNklku5emeuQwx3TP5DBXlZq2wAdUqJU4LP2uwrtfIZTdz0dq2UBUgb/ibKaZdoB9b0B2Oqlnka6D9OwE5t0lZ2hoqFSM2XWKHwC3kygD7PjFyoRBG4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748592397; c=relaxed/simple;
+	bh=lvLxyVrYQzJysV3uOxVPsS5JhN/ohssoYL5mRw3MV+M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wu0Iq8xxEEz2i+lDQombBrC+Hzki611Bqu3MckStmGSzufIzCTBpah+B19aT8u6/LCCxOsZ7w4rQXMHclqJXhj/KTlLGVk/BjOGfDam7ywnRC2p23F1Sh9B3MrMatXWKj9wmNTGxaTRwpCFPlS5uwaLCQrY0vg7y+Wg2vmV3I3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-87dfde2aea2so467738241.2;
+        Fri, 30 May 2025 01:06:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748592390; x=1749197190;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UODADZBFNNuhdOjNi7w1d1lWaPaCSwIUX58mKie6mVI=;
+        b=oNlFZsYdIE7gwINfDQw+t7ZjXs9pJFH2MiJIefyCXFRNb3LoyWIFRswXPo3vKrwZ0F
+         F55MT1izLI/2R+uV99dSjF5pNpfRbhCxbIBHXIoPR63zMmlom8CM6bndHjrEA1gQ19FH
+         upNBiHDADq5/3yDkSDQatZwDVhN9CwwK9pm9myVvQ3wTqMzfb9gMm6Pf3vE/9fIQBwlG
+         FPBMRXwCfClsTcXqfPV1OzVidxCuej9iNI0iOyy5Kbnb668jNV3uNxUWaky35sTb9OLv
+         ukGfw0j98Qkb0pLiOWTpuSckZeSqHEAnxfJllb9Psp4S7HLcgd6b/LTynWjoLZRdFM0h
+         Fnzg==
+X-Forwarded-Encrypted: i=1; AJvYcCUB6rnhVVrN++sOInR6FEmPk2eDAoCMYh5ClQd83Js5Ns/5ppT9QL9I2iP2K+DR6gPxpthZGswbgAYrBF81@vger.kernel.org, AJvYcCUrZFgu/FNVDqaAlnrZJlZ2DcFPnG1zKJTf506odnyBQf86ukoNglHn1vU89nIUJhh5RZyxXhf56aj+@vger.kernel.org, AJvYcCVZO/1q/TLnFA5aZpgdNvMljM4KpXOY1oJQ4GWOISsjNwnPGNGgrJTu4UmSY2YGn087TV12NncXWiDfbYw=@vger.kernel.org, AJvYcCWdG9N/PeiGpZPwLWL7rQ7J5PAohS1x75HzTmrCyhyAKPGJ3lodStRgSQuih5w2pZAJFclaPx7wuQ/c@vger.kernel.org, AJvYcCXtnh+VMDUiq2uL04wSu7KB0McGMcV4mncuOvHR48xm3txR914KqHLrdDovfocMmyDYZYazL21QBqKpZJhKNqHlhnE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsXIuZPYofvTmPdqTrRKkA5c4bWeMD32QWLeHOmuRIQrmettog
+	WE5pWEeI1jMrYAcrH+R5mKw6nl+kw02d4lDow2JRgGv7M5DXiaTvatO7N1jvSEFj
+X-Gm-Gg: ASbGncvyu+cOWnwfz9IEBFd/IFUs0lh5xV8N3akIUKqjjnao3O3GNZpu+YK/KjmF315
+	c353egU9FOOC+udoVmKpZO0tpatocPWNw4A/R0A6y/sgJmzn30nCWqRQONrEwERaihroXw6zsB3
+	fBr2CsJb4OcrgN1Dnb1iUmRSOBN1ZHh7J9tw9FmS6N2Fk2sX4GzQcBEV1sAEzx5ge5htWF5XQzn
+	Qh5MXjRL8wVcKGYiptcZcFk3kpMhcNRwQxTC65UdBWv8a0j0pT5QFiy4mOomgpKu2WWeO7tGlHQ
+	q2W5Fldh/13fvdrk+78LWYwY9nsOp8eoJh206ZpXBPT9fC3TxrAo5QK9bWqiDjfmoqh7pWNUh1t
+	7JZ/lnjGkBf9b0IJtZw==
+X-Google-Smtp-Source: AGHT+IFWq1SXxMlo8s+dLVsk6Dc+TcdJkvf+UTgpCEvKu7cUsL4LnPlY+2mnpsxt3AQ+1ZkyBf/rWQ==
+X-Received: by 2002:a05:6102:508e:b0:4e5:a40b:5a72 with SMTP id ada2fe7eead31-4e6e40d93afmr2320037137.5.1748592390606;
+        Fri, 30 May 2025 01:06:30 -0700 (PDT)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87e2a3b63c9sm2320275241.31.2025.05.30.01.06.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 May 2025 01:06:29 -0700 (PDT)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-527a2b89a11so728000e0c.2;
+        Fri, 30 May 2025 01:06:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUZ5HETBlxCjIl/PE+SBuD3rCQluZPWGPXUYw+I/JLnNUrOsfeysr0WKJXMH9cEdPOkhXHTGR8+jiMz10g=@vger.kernel.org, AJvYcCUoWqKxhuWbBVn2M0caX90mfkkW3cwAqs7yi/7plCkst8iFwQHjJSbz76Hm7OD5/qPRocPp1i6HPRBC@vger.kernel.org, AJvYcCVqj+ulthrjb4OJEy1adZvC7MyimW/EYdxyzOOmHh1EP2fjgiZ50lR4ZTjDmQOCouiLxENqR2LykMIzPKpmrvipOvE=@vger.kernel.org, AJvYcCW87ir6kPgbN15zHj1/9dsZxVH+VY6WoFvnJ94ng4lS0HD1snAI9/gvZ4ynQ6+fA5ky9gojZEmBaO1g@vger.kernel.org, AJvYcCXi0Hxn1n6ckSApWBxIlxO2RWJ1dqZi6n7hQzWDQ+EpJ/0kEXI72JK483G2XIu9NinmCDJhv88WAI/KIoPz@vger.kernel.org
+X-Received: by 2002:a05:6122:17aa:b0:530:677b:1e93 with SMTP id
+ 71dfb90a1353d-53080df1088mr2012964e0c.0.1748592388616; Fri, 30 May 2025
+ 01:06:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B073:EE_|PH7PR12MB8828:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20538e36-08ad-4e5f-ff82-08dd9f3d2574
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ftl/v76nYqAg27MEatVf5QzT1jvF6kjjMkEfHgajHW8ZTWE69yCYcJg0Avgq?=
- =?us-ascii?Q?FY9MjWxIR69BbJeZx0WnFZmkAAR3fHJwsPi8tnX1TYM8+y/hzNrve4XX0sSR?=
- =?us-ascii?Q?1KcQJ9J8kxnqM60GRkxJPpQJXJazhmqrBdRzdY4sccS2YNHP+D8cQThf+UNN?=
- =?us-ascii?Q?Avs21sn/y1vuCNA17bqwbQrMaU8ITZW4e5NSUmJPKd5E8umKorcDc+26TMpj?=
- =?us-ascii?Q?Uc4aY0+jqAO+y5cdvMYC8g8H66TilN8qbVHf4rUw39x4bTCrdu5Oj4KKcOZe?=
- =?us-ascii?Q?++vdr4PgtmQjB8Z4fbJdIp8BFLiWqlblXtD9sYSyk8L2nTTnhOGPswpRyM7A?=
- =?us-ascii?Q?W6g5EtBE5OOntbGBnX66UqQwvyOiTq7/jgkzaV2BNJVUZ2Y4bBWvsXchCR2O?=
- =?us-ascii?Q?LHgTyr7GMozSvYAwmMWC/VQxQU4BbA+sTWtu3XQ8YzFuPH3YEb/ynnynQTU6?=
- =?us-ascii?Q?W5sMxPWqZEFPuo2ukuWL3gOJoINecYB2nVmCkfoggszg9r3g0P3HWzXll6Ou?=
- =?us-ascii?Q?XLWvrgZZEOlOB2GE3asJQSZPPEjm6WnaRbx1tVZ9kgoJ29eBYlKmu1dD9++t?=
- =?us-ascii?Q?ACxGW9rlyxJp/KljL3H6TIUWVuA2X+52w7jDz1keEvDm+Rk5JVCJ8V5Q5Lne?=
- =?us-ascii?Q?OcqI33Wtk2ZIIdcOiByekg0pZSlhMNLgXT/McjXOnQR1zsEsP/TXzsY2me/a?=
- =?us-ascii?Q?X3rIK+p3QiTlKNTbPrzN6SdW0uEQFpHENfr0UcuQ4QHVsIxa87oqOFH6lopo?=
- =?us-ascii?Q?RcMtmm3HaGf2kM+OXhrX5ARaK7UeAvDYtoV2KbPfY3c90m31hIoIvKkwV6yu?=
- =?us-ascii?Q?eihAL8FolUwLeMVNFiLXe+Z+CqTd+Ly/02b6OAXENplv4vAcmklTQHiLs07Z?=
- =?us-ascii?Q?TljBgm4pXQxvCNt7O9MmI7mKkr7lN+QOMbTol7nxAmLN83ji+FcULhyBYSQH?=
- =?us-ascii?Q?VK3ywnxUafj9Fk9SR0XArbmpwXh3KuSh9gP2L9YEKMAR9DRtkvYOw8t5ERZH?=
- =?us-ascii?Q?nP26NXlUpMCPbGXflN2GtUxqk/g9fdRlMiCY1geGsRpTWHOdiQditjSYVqai?=
- =?us-ascii?Q?zT/9PEZlmWUHy3uCinDu7erAntWGwfhJ7tQHFGqwpLBAB1cL7sIYP8NubERi?=
- =?us-ascii?Q?X5PpiZnaX39nYjdXyPhYmOHXo01nyO9s6IxW9ayGHQTCAA9jyARLq4E6KQaJ?=
- =?us-ascii?Q?HLBFy6WxqfUXq0UjJTjXVVwrvTTQ4+EZ56MTXVVuio/p6z1k/MTbz1IxTpGh?=
- =?us-ascii?Q?fvkzirBxjtOA1jENHcVBwLuuS6ziMBGHldH/4ijv0XkkQBazRqnq/6ugHgk+?=
- =?us-ascii?Q?ysvAeqq1dIRDe/qL4xjE4diSdkv2DSOT2UoOFodHDFAkxgtn9H1K5mgYDcdq?=
- =?us-ascii?Q?81Is1I6bD5VxANFCTkB19TIpMu+mXJCuL0Nc6w5zGPls1dh9LtDCh5qoiWL1?=
- =?us-ascii?Q?Pl8eC299y4+Buu6Ywsq+17Qnk+JNENiGnd3I3iwyZRJwKyr/IMMC+uLYfu1n?=
- =?us-ascii?Q?u4Fxn7eGAGBfmZHPxnX3IcMQ9SiZo3KKWfIT?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2025 05:45:12.6305
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20538e36-08ad-4e5f-ff82-08dd9f3d2574
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B073.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8828
+References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
+ <20250528-pinctrl-const-desc-v1-14-76fe97899945@linaro.org>
+ <CAMuHMdUGDf5n_Fg7pwiPumm95nPUXyH15geAy2ULwY3U+OtZJA@mail.gmail.com> <b6b7fb61-878e-4407-b964-564efb3524b1@linaro.org>
+In-Reply-To: <b6b7fb61-878e-4407-b964-564efb3524b1@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 30 May 2025 10:06:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUHyLYk0oSN8XDNCXUvLQLe2u0k0noVJLbR+pYWDTB4+w@mail.gmail.com>
+X-Gm-Features: AX0GCFuCNZIpijI8V-LFtD11RdEuCtx09JrM6Rph_c1WT65W3SrLJtlImd30cUI
+Message-ID: <CAMuHMdUHyLYk0oSN8XDNCXUvLQLe2u0k0noVJLbR+pYWDTB4+w@mail.gmail.com>
+Subject: Re: [PATCH 14/17] pinctrl: renesas: Move fixed assignments to
+ 'pinctrl_desc' definition
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>, 
+	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
+	Benjamin Fair <benjaminfair@google.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Sean Wang <sean.wang@kernel.org>, Jesper Nilsson <jesper.nilsson@axis.com>, 
+	Lars Persson <lars.persson@axis.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Damien Le Moal <dlemoal@kernel.org>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
+	Hal Feng <hal.feng@starfivetech.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org, 
+	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
 
-During pm_prepare callback, pm_request_resume() delays SoundWire manager D0
-entry sequence. Synchronize runtime resume sequence for amd_manager
-instance prior to invoking child devices resume sequence for both the amd
-power modes(ClockStop Mode and Power off mode).
-Change the power_mode_mask check and use pm_runtime_resume() in
-amd_pm_prepare() callback.
+Hi Krzysztof,
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- drivers/soundwire/amd_manager.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+CC wsa
 
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index a9a57cb6257c..b775ecab697c 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -1178,10 +1178,10 @@ static int __maybe_unused amd_pm_prepare(struct device *dev)
- 	 * device is not in runtime suspend state, observed that device alerts are missing
- 	 * without pm_prepare on AMD platforms in clockstop mode0.
- 	 */
--	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
--		ret = pm_request_resume(dev);
-+	if (amd_manager->power_mode_mask) {
-+		ret = pm_runtime_resume(dev);
- 		if (ret < 0) {
--			dev_err(bus->dev, "pm_request_resume failed: %d\n", ret);
-+			dev_err(bus->dev, "pm_runtime_resume failed: %d\n", ret);
- 			return 0;
- 		}
- 	}
+On Wed, 28 May 2025 at 19:55, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 28/05/2025 14:54, Geert Uytterhoeven wrote:
+> >>         .pmxops = &rzn1_pmx_ops,
+> >>         .confops = &rzn1_pinconf_ops,
+> >>         .owner = THIS_MODULE,
+> >> +       .pins = rzn1_pins,
+> >> +       .npins = ARRAY_SIZE(rzn1_pins),
+> >>  };
+> >>
+> >>  static int rzn1_pinctrl_parse_groups(struct device_node *np,
+> >> @@ -878,8 +880,6 @@ static int rzn1_pinctrl_probe(struct platform_device *pdev)
+> >>
+> >>         ipctl->dev = &pdev->dev;
+> >>         rzn1_pinctrl_desc.name = dev_name(&pdev->dev);
+> >
+> > ... if you would replace this assignment by a hardcoded name
+> > like "pinctrl-rzn1".
+>
+> I saw it, but this would not be equivalent. dev_name includes platform
+> bus id, e.g. pinctrl-rzn1.0 which might matter here - conflict of names.
+> Are you sure this would work fine?
+
+There can be only one anyway.
+Most drivers used a fixed name:
+
+drivers/pinctrl/renesas/pinctrl-rza1.c: rza1_pctl->desc.name = DRIVER_NAME;
+drivers/pinctrl/renesas/pinctrl-rza2.c: priv->desc.name = DRIVER_NAME;
+drivers/pinctrl/renesas/pinctrl-rzg2l.c: pctrl->desc.name = DRV_NAME;
+drivers/pinctrl/renesas/pinctrl-rzn1.c: rzn1_pinctrl_desc.name =
+dev_name(&pdev->dev);
+drivers/pinctrl/renesas/pinctrl-rzt2h.c: desc->name = DRV_NAME;
+drivers/pinctrl/renesas/pinctrl-rzv2m.c: pctrl->desc.name = DRV_NAME;
+drivers/pinctrl/renesas/pinctrl.c: pmx->pctl_desc.name = DRV_NAME;
+
+It might change the path in debugfs (/sys/kernel/debug/pinctrl/) though.
+Wolfram?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.45.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
