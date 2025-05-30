@@ -1,151 +1,111 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FB038B;
-	Fri, 30 May 2025 08:06:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E23221560;
+	Fri, 30 May 2025 09:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748592397; cv=none; b=PS1DMPywh9PtnL0dZuCj/YHcTNBKnnoZrvk1rnDpyJ87BF+x62/wVUy0mNklku5emeuQwx3TP5DBXlZq2wAdUqJU4LP2uwrtfIZTdz0dq2UBUgb/ibKaZdoB9b0B2Oqlnka6D9OwE5t0lZ2hoqFSM2XWKHwC3kygD7PjFyoRBG4=
+	t=1748597475; cv=none; b=XDQsH0+YHY5XjVaTgW1RXTiRtlDQ/lp88FXy4/cj7GBakfV6qVUY2cKke9J9lZ2jjdpFZv55ByhPv8cTeziefySjasfOZXZKIhjru0aIZ4rpFGehtisopqnpXMlQp9s0H1c1alTedwqiyPewprK8rgH/9aKuIj06/sty1GfygjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748592397; c=relaxed/simple;
-	bh=lvLxyVrYQzJysV3uOxVPsS5JhN/ohssoYL5mRw3MV+M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Wu0Iq8xxEEz2i+lDQombBrC+Hzki611Bqu3MckStmGSzufIzCTBpah+B19aT8u6/LCCxOsZ7w4rQXMHclqJXhj/KTlLGVk/BjOGfDam7ywnRC2p23F1Sh9B3MrMatXWKj9wmNTGxaTRwpCFPlS5uwaLCQrY0vg7y+Wg2vmV3I3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-87dfde2aea2so467738241.2;
-        Fri, 30 May 2025 01:06:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748592390; x=1749197190;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UODADZBFNNuhdOjNi7w1d1lWaPaCSwIUX58mKie6mVI=;
-        b=oNlFZsYdIE7gwINfDQw+t7ZjXs9pJFH2MiJIefyCXFRNb3LoyWIFRswXPo3vKrwZ0F
-         F55MT1izLI/2R+uV99dSjF5pNpfRbhCxbIBHXIoPR63zMmlom8CM6bndHjrEA1gQ19FH
-         upNBiHDADq5/3yDkSDQatZwDVhN9CwwK9pm9myVvQ3wTqMzfb9gMm6Pf3vE/9fIQBwlG
-         FPBMRXwCfClsTcXqfPV1OzVidxCuej9iNI0iOyy5Kbnb668jNV3uNxUWaky35sTb9OLv
-         ukGfw0j98Qkb0pLiOWTpuSckZeSqHEAnxfJllb9Psp4S7HLcgd6b/LTynWjoLZRdFM0h
-         Fnzg==
-X-Forwarded-Encrypted: i=1; AJvYcCUB6rnhVVrN++sOInR6FEmPk2eDAoCMYh5ClQd83Js5Ns/5ppT9QL9I2iP2K+DR6gPxpthZGswbgAYrBF81@vger.kernel.org, AJvYcCUrZFgu/FNVDqaAlnrZJlZ2DcFPnG1zKJTf506odnyBQf86ukoNglHn1vU89nIUJhh5RZyxXhf56aj+@vger.kernel.org, AJvYcCVZO/1q/TLnFA5aZpgdNvMljM4KpXOY1oJQ4GWOISsjNwnPGNGgrJTu4UmSY2YGn087TV12NncXWiDfbYw=@vger.kernel.org, AJvYcCWdG9N/PeiGpZPwLWL7rQ7J5PAohS1x75HzTmrCyhyAKPGJ3lodStRgSQuih5w2pZAJFclaPx7wuQ/c@vger.kernel.org, AJvYcCXtnh+VMDUiq2uL04wSu7KB0McGMcV4mncuOvHR48xm3txR914KqHLrdDovfocMmyDYZYazL21QBqKpZJhKNqHlhnE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsXIuZPYofvTmPdqTrRKkA5c4bWeMD32QWLeHOmuRIQrmettog
-	WE5pWEeI1jMrYAcrH+R5mKw6nl+kw02d4lDow2JRgGv7M5DXiaTvatO7N1jvSEFj
-X-Gm-Gg: ASbGncvyu+cOWnwfz9IEBFd/IFUs0lh5xV8N3akIUKqjjnao3O3GNZpu+YK/KjmF315
-	c353egU9FOOC+udoVmKpZO0tpatocPWNw4A/R0A6y/sgJmzn30nCWqRQONrEwERaihroXw6zsB3
-	fBr2CsJb4OcrgN1Dnb1iUmRSOBN1ZHh7J9tw9FmS6N2Fk2sX4GzQcBEV1sAEzx5ge5htWF5XQzn
-	Qh5MXjRL8wVcKGYiptcZcFk3kpMhcNRwQxTC65UdBWv8a0j0pT5QFiy4mOomgpKu2WWeO7tGlHQ
-	q2W5Fldh/13fvdrk+78LWYwY9nsOp8eoJh206ZpXBPT9fC3TxrAo5QK9bWqiDjfmoqh7pWNUh1t
-	7JZ/lnjGkBf9b0IJtZw==
-X-Google-Smtp-Source: AGHT+IFWq1SXxMlo8s+dLVsk6Dc+TcdJkvf+UTgpCEvKu7cUsL4LnPlY+2mnpsxt3AQ+1ZkyBf/rWQ==
-X-Received: by 2002:a05:6102:508e:b0:4e5:a40b:5a72 with SMTP id ada2fe7eead31-4e6e40d93afmr2320037137.5.1748592390606;
-        Fri, 30 May 2025 01:06:30 -0700 (PDT)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-87e2a3b63c9sm2320275241.31.2025.05.30.01.06.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 May 2025 01:06:29 -0700 (PDT)
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-527a2b89a11so728000e0c.2;
-        Fri, 30 May 2025 01:06:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUZ5HETBlxCjIl/PE+SBuD3rCQluZPWGPXUYw+I/JLnNUrOsfeysr0WKJXMH9cEdPOkhXHTGR8+jiMz10g=@vger.kernel.org, AJvYcCUoWqKxhuWbBVn2M0caX90mfkkW3cwAqs7yi/7plCkst8iFwQHjJSbz76Hm7OD5/qPRocPp1i6HPRBC@vger.kernel.org, AJvYcCVqj+ulthrjb4OJEy1adZvC7MyimW/EYdxyzOOmHh1EP2fjgiZ50lR4ZTjDmQOCouiLxENqR2LykMIzPKpmrvipOvE=@vger.kernel.org, AJvYcCW87ir6kPgbN15zHj1/9dsZxVH+VY6WoFvnJ94ng4lS0HD1snAI9/gvZ4ynQ6+fA5ky9gojZEmBaO1g@vger.kernel.org, AJvYcCXi0Hxn1n6ckSApWBxIlxO2RWJ1dqZi6n7hQzWDQ+EpJ/0kEXI72JK483G2XIu9NinmCDJhv88WAI/KIoPz@vger.kernel.org
-X-Received: by 2002:a05:6122:17aa:b0:530:677b:1e93 with SMTP id
- 71dfb90a1353d-53080df1088mr2012964e0c.0.1748592388616; Fri, 30 May 2025
- 01:06:28 -0700 (PDT)
+	s=arc-20240116; t=1748597475; c=relaxed/simple;
+	bh=aggFkJ8dzIspA0Ee5ZCSXr4Q9BtosF9ZAdFKHZ23WJo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z6FuM1baEJfcQGThZwWYaN+tXugFSQ43L79TFAHQKqmMcJO3zBO4hcsOV1PreEBWZPOoKjgp/ikJgmnHs04zx/bTKn1i1toDcQIVcX36h4aAZVp5otRMe4K6ck3XLd8y/IODVygwXlFdCqId1AnSDQtpXJumA+v4tUm77xuySus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: ce23f0383d3811f0b29709d653e92f7d-20250530
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:9901f846-04db-40fa-9f89-284431738858,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:30,RULE:Release_Ham,ACTI
+	ON:release,TS:31
+X-CID-INFO: VERSION:1.1.45,REQID:9901f846-04db-40fa-9f89-284431738858,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:30,RULE:Release_Ham,ACTION
+	:release,TS:31
+X-CID-META: VersionHash:6493067,CLOUDID:9a3853ec8758490979c83e53ed79c393,BulkI
+	D:250522180435BN613KC0,BulkQuantity:9,Recheck:0,SF:17|19|24|38|45|64|66|78
+	|80|81|82|83|102|841,TC:nil,Content:0|50,EDM:-3,IP:-2,URL:0,File:nil,RT:ni
+	l,Bulk:40|23,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:
+	0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR
+X-UUID: ce23f0383d3811f0b29709d653e92f7d-20250530
+X-User: aichao@kylinos.cn
+Received: from [172.25.120.86] [(112.64.161.44)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1724392610; Fri, 30 May 2025 17:31:03 +0800
+Message-ID: <22dfeb0b-c3ff-4a7a-8471-1bb89dccdc17@kylinos.cn>
+Date: Fri, 30 May 2025 17:30:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
- <20250528-pinctrl-const-desc-v1-14-76fe97899945@linaro.org>
- <CAMuHMdUGDf5n_Fg7pwiPumm95nPUXyH15geAy2ULwY3U+OtZJA@mail.gmail.com> <b6b7fb61-878e-4407-b964-564efb3524b1@linaro.org>
-In-Reply-To: <b6b7fb61-878e-4407-b964-564efb3524b1@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 30 May 2025 10:06:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUHyLYk0oSN8XDNCXUvLQLe2u0k0noVJLbR+pYWDTB4+w@mail.gmail.com>
-X-Gm-Features: AX0GCFuCNZIpijI8V-LFtD11RdEuCtx09JrM6Rph_c1WT65W3SrLJtlImd30cUI
-Message-ID: <CAMuHMdUHyLYk0oSN8XDNCXUvLQLe2u0k0noVJLbR+pYWDTB4+w@mail.gmail.com>
-Subject: Re: [PATCH 14/17] pinctrl: renesas: Move fixed assignments to
- 'pinctrl_desc' definition
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>, 
-	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
-	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
-	Benjamin Fair <benjaminfair@google.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Sean Wang <sean.wang@kernel.org>, Jesper Nilsson <jesper.nilsson@axis.com>, 
-	Lars Persson <lars.persson@axis.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Damien Le Moal <dlemoal@kernel.org>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
-	Hal Feng <hal.feng@starfivetech.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
-	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org, 
-	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/6] ASoC: aoa: Use helper function
+ for_each_child_of_node_scoped()
+To: Johannes Berg <johannes@sipsolutions.net>, perex <perex@perex.cz>,
+ tiwai <tiwai@suse.com>,
+ "kuninori.morimoto.gx" <kuninori.morimoto.gx@renesas.com>,
+ lgirdwood <lgirdwood@gmail.com>, broonie <broonie@kernel.org>,
+ jbrunet <jbrunet@baylibre.com>, "neil.armstrong"
+ <neil.armstrong@linaro.org>, khilman <khilman@baylibre.com>,
+ "martin.blumenstingl" <martin.blumenstingl@googlemail.com>,
+ "shengjiu.wang" <shengjiu.wang@gmail.com>, "Xiubo.Lee"
+ <Xiubo.Lee@gmail.com>, festevam <festevam@gmail.com>,
+ nicoleotsuka <nicoleotsuka@gmail.com>, shawnguo <shawnguo@kernel.org>,
+ "s.hauer" <s.hauer@pengutronix.de>,
+ "srinivas.kandagatla" <srinivas.kandagatla@linaro.org>
+Cc: linux-sound <linux-sound@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+ linux-renesas-soc <linux-renesas-soc@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-amlogic <linux-amlogic@lists.infradead.org>, imx
+ <imx@lists.linux.dev>, kernel <kernel@pengutronix.de>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>
+References: <2aq0nyvyf7t-2aq4hsc7kp6@nsmail7.0.0--kylin--1>
+ <7e708dcc98c6f0f615b1b87d190464cfe78be668.camel@sipsolutions.net>
+ <eb1ddeb3-06b6-4ac5-b20a-06b92c7f1363@kylinos.cn>
+ <23aadbd78d3585c900c579c26f360011cf1ca830.camel@sipsolutions.net>
+ <9ec008a8-b569-4ad1-9206-fe241fb1712d@kylinos.cn>
+ <b36908bf35a20f7196bec4fe22e392a015d9b7d1.camel@sipsolutions.net>
+Content-Language: en-US
+From: Ai Chao <aichao@kylinos.cn>
+In-Reply-To: <b36908bf35a20f7196bec4fe22e392a015d9b7d1.camel@sipsolutions.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Krzysztof,
+Hi Johannes:
+     Thanks for your feedback.  I will drop it.
 
-CC wsa
-
-On Wed, 28 May 2025 at 19:55, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 28/05/2025 14:54, Geert Uytterhoeven wrote:
-> >>         .pmxops = &rzn1_pmx_ops,
-> >>         .confops = &rzn1_pinconf_ops,
-> >>         .owner = THIS_MODULE,
-> >> +       .pins = rzn1_pins,
-> >> +       .npins = ARRAY_SIZE(rzn1_pins),
-> >>  };
-> >>
-> >>  static int rzn1_pinctrl_parse_groups(struct device_node *np,
-> >> @@ -878,8 +880,6 @@ static int rzn1_pinctrl_probe(struct platform_device *pdev)
-> >>
-> >>         ipctl->dev = &pdev->dev;
-> >>         rzn1_pinctrl_desc.name = dev_name(&pdev->dev);
-> >
-> > ... if you would replace this assignment by a hardcoded name
-> > like "pinctrl-rzn1".
+> On Mon, 2025-05-26 at 16:20 +0800, Ai Chao wrote:
+>> Hi Johannes:
+>>>> for_each_child_of_node.
+>>> You still haven't explained why it's even correct.
+>>>
+>>> johannes
+>> The for_each_child_of_node() function is used to iterate over all child
+>> nodes of a device tree node.
+>> During each iteration, it retrieves a pointer to the child node via
+>> of_get_next_child() and automatically increments the node's reference
+>> count (of_node_get()).
+>> Each call to of_get_next_child() increases the reference count
+>> (refcount) of the returned child node, ensuring that the node is not
+>> freed while in use.
+>> for_each_child_of_node() increments the child node's reference count in
+>> each iteration but does not decrement it automatically.
+>> If of_node_put() is not called manually, the reference count will never
+>> reach zero, resulting in a memory leak of the node.
+> Yes, good! Now show that you can apply what you've learned to the
+> specific code (and changes) at hand.
 >
-> I saw it, but this would not be equivalent. dev_name includes platform
-> bus id, e.g. pinctrl-rzn1.0 which might matter here - conflict of names.
-> Are you sure this would work fine?
-
-There can be only one anyway.
-Most drivers used a fixed name:
-
-drivers/pinctrl/renesas/pinctrl-rza1.c: rza1_pctl->desc.name = DRIVER_NAME;
-drivers/pinctrl/renesas/pinctrl-rza2.c: priv->desc.name = DRIVER_NAME;
-drivers/pinctrl/renesas/pinctrl-rzg2l.c: pctrl->desc.name = DRV_NAME;
-drivers/pinctrl/renesas/pinctrl-rzn1.c: rzn1_pinctrl_desc.name =
-dev_name(&pdev->dev);
-drivers/pinctrl/renesas/pinctrl-rzt2h.c: desc->name = DRV_NAME;
-drivers/pinctrl/renesas/pinctrl-rzv2m.c: pctrl->desc.name = DRV_NAME;
-drivers/pinctrl/renesas/pinctrl.c: pmx->pctl_desc.name = DRV_NAME;
-
-It might change the path in debugfs (/sys/kernel/debug/pinctrl/) though.
-Wolfram?
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> johannes
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Best regards,
+Ai Chao
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
