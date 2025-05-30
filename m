@@ -1,70 +1,73 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2083.outbound.protection.outlook.com [40.107.223.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E16339A8
-	for <linux-sound@vger.kernel.org>; Fri, 30 May 2025 00:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748566539; cv=none; b=IGGUFAEx/UruRnWBF32d1ru5duoVAKptlBX6Dw9/DheHXwT3OUo8rn6Xxm9ntDUDyaWS+Wb+4rqKHylzOHrz1AloKVANI0qKPdAgtqOiuvaN+liTVzNGztur42dTzJMOVgCLZcGVX0mEj1K5Z43Djo8Md4saxg8ySCDDlqqOfeo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748566539; c=relaxed/simple;
-	bh=4mGUeibckp/9Lam8HqYkqN5Q1dFJz4zN20Gjmi4devo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cx/WyqWLSu2GMFr0/VXQIsAzW6+GW7fA01Iz7fK2XiLUnd23ndYSsag+AONv6d8gEicXDKUa6GXpSjuKE5aXsybiox1QOA1Hhj8NE5UMPSW6EKXKKdi3DCmNdC2hz+VcLWAYy16o3tHA5zXtYGik5B+8NorOWPB+Gq3rnShagWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cxo/xUVR; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5336163B9;
+	Fri, 30 May 2025 05:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.83
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1748583913; cv=fail; b=Ehf3DkD2PfCLpQxNztJB1ypM3HTOWsNrOCsoZe5zr7q7RrWyALzENMnvvyqE/7Z5L+vP4e6CbDPHMN3mpQc3/T4hfxydUqFlXdGZC4PPCbvRaxJuQJ2kwt3UWkvUsneZrIJwEv8EohkycgSuyETtohSDc5rKRra+S8q/BX0oW+s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1748583913; c=relaxed/simple;
+	bh=9kEwJastSr9UiSczctBOmEwgO/SMiwBcZ2keawHcJlQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XgmK3Sz2hQZj9yXnxdg59nBEgTBo9Wm+HsFNyC35M/qHiNatwJN997mazZh2snPZE0+pcV3sDWxZwCDYv6GhxTIDcDQ6HT3beGXrTuyS2dRLVePPss+ahcGjO34ZR/VJB028rnxiVK+AZXUksN1GFlsSRYaH+U05qLebL6VgHvI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LLZYplyE; arc=fail smtp.client-ip=40.107.223.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cxo/xUVR"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-450cf0120cdso11667155e9.2
-        for <linux-sound@vger.kernel.org>; Thu, 29 May 2025 17:55:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748566535; x=1749171335; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AirVpZjhooagqDOn25zbbZIb05rXDODFJUlbSWd9V8k=;
-        b=Cxo/xUVRV3AOBCYB7ZJEmYti26avAa6xEqDI20XqesnaNmwVb85E1nq8vlwrVvcfwe
-         0f7R6ZNGRtvNVKxGYgcuKfG5lQYdASM9Y1YT2DpByN7CHpPMqCmgx1nR9rL5LpQuN1TZ
-         yQsuXigqXYrWFx0F7MAQ5m2oU9Dudo7T4kiPzmcbaplAwEL1mGYFNQV7XicoJcj2QGGu
-         7+ngEjNheW1c+OxkgN+cOrPu/kBfoJi8AR8T+haa/obd+2Vgd+WjWKHeGo6djMBP5Nlo
-         cX/+ceXxnXeexcfYgaXhDS9idWbGu01oxTiBoGRAkaqZ48+9WxEjj41LJ34+vTsoEsp3
-         AauQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748566535; x=1749171335;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AirVpZjhooagqDOn25zbbZIb05rXDODFJUlbSWd9V8k=;
-        b=Twaook60xR8J/yeia+H9ceyqurpp38jYSSraCuQbcPhc0hegvgZau77DX5Q6QiCQWc
-         61q7AJEYbbJCBvbGrrlrIAz9WipXiKfYLmngb2a4rT+v32mxn+2RMpHkY5P5l+Gr7tqz
-         Hx3j3sPRgAeh07gKAO/Uo2kLPIaEG46t/1ZjY9poheaNj9RObOG7SmBG8eW8PNnkKAK9
-         PtPOMrffCJxFnCyBIxnYoFHt352vnmAa0qjOxaWLaKdAC7eB1sAQTd5ecQXVWwsWCPxy
-         uql/JY9N/YA1Woe3x4Gle5uFLG76vv8AC9naNU34Us+3CL14Eq0RHR2nV6T38jV1E1ZS
-         zywQ==
-X-Gm-Message-State: AOJu0Yz5iFKk7f4V7aB6w/Bo4CTaoXG3NOyfsbq7eOSCESUEGOKn1gFA
-	VILiBBMhEUVew3qWVFCVH4Z18WN9rt8g8nbaK3qsJIT+roV+dVf3EwZnciLcddYS
-X-Gm-Gg: ASbGnctlIInKC/XgP6y1duBrSDplAga8xwfUQvu4kGWw5QmqI6B9LS0CiYGpbz5SDRM
-	BOYPPDiCwnq38I6rEodXanREXvvZpAiI7rfCLOWWoqhvizxTW6Tme3wUqKoNXK1h6b3sHVLW50N
-	0RvKgzUteOs5sG5FLlE5JH2fxOFQoJdI26ji/MsLF3kB/XLcYdZ4Oru7+P2k4YHtsITwVQbg1VE
-	5IUtw/zjzvVAfNgeez6q3Zsp0krdGqd0hdo/k/Tb+do8fjuw8bNnCBVgJnjrvaaMeksoFhFOKh7
-	svAUi4TPr28UVusXyuyOJzYzIL3DFbl79wMg6PBGUEjk5v78rxG/xiU09Ad3
-X-Google-Smtp-Source: AGHT+IEleyGD+i28SUitzaJ4QkMitQR1wjae3koXjFc8eHIfM2W8j+lYoh+6/U+gIbV58fNZpqhSLg==
-X-Received: by 2002:a05:600c:5116:b0:450:c20d:64c3 with SMTP id 5b1f17b1804b1-450d64f5c42mr14735825e9.18.1748566535269;
-        Thu, 29 May 2025 17:55:35 -0700 (PDT)
-Received: from archlinux.lan ([2001:b07:2eb:e808:4809:a7e0:3d2b:a46e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d7f8f1basm3200955e9.6.2025.05.29.17.55.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 May 2025 17:55:34 -0700 (PDT)
-From: Gabriel Santese <santesegabriel@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Gabriel Santese <santesegabriel@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: Add quirk for MSI Bravo 17 D7VF internal mic
-Date: Fri, 30 May 2025 02:52:32 +0200
-Message-ID: <20250530005444.23398-1-santesegabriel@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <2bca9eea-d75e-4e2b-a32c-25b2e7fcaa2e@sirena.org.uk>
-References: <2bca9eea-d75e-4e2b-a32c-25b2e7fcaa2e@sirena.org.uk>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LLZYplyE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X7k8d2+CPElD1KOYFEz4hkIX8PJXfzI4kzeeqAke4v3+A4FyjBCwCfzmNBQ0gVn9x16OPvFyquLja85VIqFkVHZex3nTgLr3+HktnZn8iVpEIkmi4ucT9JNKNwIjZiXOni1dvK4V+EjkiiO+QpPyWM0jKQaVUunixKJGSvZ4H+8IEn8ubyqNb1gS761Y2aeUYLQ1/+t9Sd65NX1WMSPgNR4T1WJu5gbyY2lzGf6cVCcctGivbL5CJihcp/nrMMgb7CJmGBTCvLFrWGGCUGrpMFEAJDhAP1m4TSP5JtEVRf62U+nqRiddFpRClMokOGUftxgX5UXucRusdin8dgOYrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rupLOagtRgGGyYPdunw8RmSTkmuUjjM7q7k3OolFVXc=;
+ b=IeRig+MmFp2NVZprm2J+AmHFFImGxRzTdDFcLzY450g1uyjH5CVsNRxr/ego2FPKT9JWKDLIio320Gz8SQ7UJyxD4u5im5hzUSvyvwLDtzDfDD/zfAYCCbM2BZeH9UrW33M8xGjzKRXiYG5o2FnYuKp5Yh7DuFhW1cj0HZGIhwb8kfU1tsbcFy8RP/R1bYaGOG6qNrQuuHR0ufKTrQH/83dTm/z/oC47qf3eZpGmRP3l75Geb/EmAYuN9lTDdaOaXb3Le5bMbPpBlYBNCh5RnYYWJpeITWV5PYiMunUhHw/O7KZ+/vRRLab/lBGSslMjbObC9OxmQEt059xfimfMTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rupLOagtRgGGyYPdunw8RmSTkmuUjjM7q7k3OolFVXc=;
+ b=LLZYplyEumuSGhEs2bklDtsxvthZpVlEW2bH4uJk0+Cn5QjQBKe/kMlZCcJ2OvDNRz1ri5sswKnyHn1Vbgn3shqTCE0CGl7vV6xemaPAd7Ry2nNXegE69kFTqvi9hpitHp41Fjk0kbKBcUsbqkFfHfTakid7mtUbtS/pzpEe2nQ=
+Received: from BYAPR11CA0037.namprd11.prod.outlook.com (2603:10b6:a03:80::14)
+ by SN7PR12MB8769.namprd12.prod.outlook.com (2603:10b6:806:34b::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.27; Fri, 30 May
+ 2025 05:45:08 +0000
+Received: from MWH0EPF000989E8.namprd02.prod.outlook.com
+ (2603:10b6:a03:80:cafe::6e) by BYAPR11CA0037.outlook.office365.com
+ (2603:10b6:a03:80::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.32 via Frontend Transport; Fri,
+ 30 May 2025 05:45:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MWH0EPF000989E8.mail.protection.outlook.com (10.167.241.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8769.18 via Frontend Transport; Fri, 30 May 2025 05:45:08 +0000
+Received: from vijendar-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 30 May
+ 2025 00:45:03 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <vkoul@kernel.org>
+CC: <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<sanyog.r.kale@intel.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 1/3] soundwire: amd: fix for handling slave alerts after link is down
+Date: Fri, 30 May 2025 11:13:39 +0530
+Message-ID: <20250530054447.1645807-2-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250530054447.1645807-1-Vijendar.Mukunda@amd.com>
+References: <20250530054447.1645807-1-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,34 +75,104 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000989E8:EE_|SN7PR12MB8769:EE_
+X-MS-Office365-Filtering-Correlation-Id: a297c352-8972-425a-327b-08dd9f3d22ec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3DBrFpS7+idDg9HuMLRv1Bjh03hO94C1+IyvYw3V3lYmiv/iQbvDAMrQriJY?=
+ =?us-ascii?Q?n4tZx4mIYlNMAgZNrpg00HcX+opDkDAH0AmXfbnq5O4cCIVhGwDsMUZhNNVQ?=
+ =?us-ascii?Q?SzT8Mqc8ycrCTmZQZJLLUsv/3RhB6HYzpz62oZ+fD8/XAdxpUtsjwSkEbEIs?=
+ =?us-ascii?Q?+podwfopGG82HHgkJ8WGhhmHDbAOBn1tkw6rcmv0ONP7yOqBYHqTL5Bo84Eq?=
+ =?us-ascii?Q?fwUoKTjnBeAZFXHvoWpnKnnL2QQy6AjOLlLi3S/dpjyfw5Lp/hodZ76oFPDz?=
+ =?us-ascii?Q?8gQh/h/bg9j3zpkyFpBZ1kc3XsGpWSuZ16qOcWOynfPIIlizL+0K30H/pfqQ?=
+ =?us-ascii?Q?bfrUh2PkaM6e5QtmnYserRKcNMqwPwD0ilOCZR1jMaILDX6Z4juluOH/fdh9?=
+ =?us-ascii?Q?P/hLskIXsmXwjLOJAc5yWk6Bfr4upOQ6AcqHb/AEQ+HU2YeZY78RoM5JCl8a?=
+ =?us-ascii?Q?3YHezFh6twzm05a/lx6v5HZN95ENAvukJacTN3CeIUaEYnBTjvxWodfcpwsw?=
+ =?us-ascii?Q?1dvJJ2oKbE08RZarGyw6OxrRCCXnOlpGkaJpPR+OEWvAtbH7jmwamqg/Vuiw?=
+ =?us-ascii?Q?21N9tQUw5VrSMv3QKThYPH1n7uxA/Z4LVoEHE1ZPpSCoA2xWPuqBHEBtufBJ?=
+ =?us-ascii?Q?ceG0PluO/9zYxneCGDUZCsHJhwUUg0S7FiDcOpviE5lnoq4bMLkaI6ZYxVuR?=
+ =?us-ascii?Q?4f47DAoO2AZYt/Cbvy5OIAF8dy5Fe2M3PStJIC9Cl2go32Qw4uJiQY3s5nAY?=
+ =?us-ascii?Q?4CQpdikvi6GgF7gzyAcvpUC/HBkAo3fanMsLurbvCDaK/K22UgQCovkItvBv?=
+ =?us-ascii?Q?Xf7DEf0EK0HgJnJN9m//EwinwFMMTy0s/Y4Ja55M6NFsfEzB3zr/b525ED81?=
+ =?us-ascii?Q?nfrWGIJbnsdLLKw9F/vB2USJ9BK5CfysVAHvuSlpj7G9ExSWhRsSR7x97ndR?=
+ =?us-ascii?Q?j+PfDmHz7Ko8JLUok5aTRNXwpbkncOx4rM3y2hB3cGu6+Qp3TFueTdQQyIcX?=
+ =?us-ascii?Q?GcltWcWQ+b2ru/H5mv+vXzIXI4YIO9xOt5HjbXFZkN9aVK2q6xMNCiR6z46K?=
+ =?us-ascii?Q?VlG933UNu2tffUzhjV6dx45liILDL4MZhtcdX1A4TO7mxmTOIHVarhL8r2eK?=
+ =?us-ascii?Q?/LrWXcybF5XvO3IzaAv66CD6ss+20+oqfjJT1hTjl6xiDEWzjvAGW0tUcflJ?=
+ =?us-ascii?Q?WZJDZhtyCkkYVb7WiwvdeFxgI2t3TeDjHQdvB28BXQx64TT5aUpa3dDVa0lH?=
+ =?us-ascii?Q?Ex3SEDtJOtYiASUAOKHh24l652mEhCrst6x4VW+ialHZ48NHeWCXhXtemM0Y?=
+ =?us-ascii?Q?L32SerWhanOJbHF9ujD6sz3AOrEtrgR+hV3gw5jQw9cJ+msO7Ne63Zqqsnp8?=
+ =?us-ascii?Q?6SD5taVSphrK6Kex96QI3YAwOMvss1hgELc4IZ5vYLxehPO8Cafs8psveTfu?=
+ =?us-ascii?Q?ZcTw4I40lckzclUlYCWxtW9HclZOahJGfcSZr92LRfAud+S7Oa+lA7DQu8od?=
+ =?us-ascii?Q?FNBmTdZdOyp35CceiYP38UOmFz3LsWtp3UhX?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2025 05:45:08.2738
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a297c352-8972-425a-327b-08dd9f3d22ec
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000989E8.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8769
 
-MSI Bravo 17 (D7VF), like other laptops from the family,
-has broken ACPI tables and needs a quirk for internal mic
-to work properly.
+Sometimes, its observed that during system level suspend callback
+execution, after link is down, handling pending slave status workqueue
+results in mipi register access failures as shown below.
 
-Signed-off-by: Gabriel Santese <santesegabriel@gmail.com>
+soundwire sdw-master-0-0: trf on Slave 1 failed:-110 read addr 0 count 1
+rt722-sdca sdw:0:0:025d:0722:01: SDW_DP0_INT recheck read failed:-110
+rt722-sdca sdw:0:0:025d:0722:01: Slave 1 alert handling failed: -110
+amd_sdw_manager amd_sdw_manager.0: SDW0 cmd response timeout occurred
+amd_sdw_manager amd_sdw_manager.0: command timeout for Slave 1
+soundwire sdw-master-0-0: trf on Slave 1 failed:-110 write addr 5c count 1
+amd_sdw_manager amd_sdw_manager.0: SDW0 previous cmd status clear failed
+amd_sdw_manager amd_sdw_manager.0: command timeout for Slave 1
+soundwire sdw-master-0-0: trf on Slave 1 failed:-110 write addr 5d count 1
+amd_sdw_manager amd_sdw_manager.0: SDW0 previous cmd status clear failed
+amd_sdw_manager amd_sdw_manager.0: command timeout for Slave 1
+
+Cancel the pending slave status workqueue prior to initiating clock stop
+sequence during suspend callback execution for both the power modes.
+
+Fixes: 9cf1efc5ed2d ("soundwire: amd: add pm_prepare callback and pm ops support")
+
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/soundwire/amd_manager.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 3d9da93d22ee..fed150002041 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -444,6 +444,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 17 D7VEK"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 17 D7VF"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index a12c68b93b1c..a9a57cb6257c 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -1209,6 +1209,7 @@ static int __maybe_unused amd_suspend(struct device *dev)
+ 	}
+ 
+ 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
++		cancel_work_sync(&amd_manager->amd_sdw_work);
+ 		amd_sdw_wake_enable(amd_manager, false);
+ 		if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
+ 			ret = amd_sdw_host_wake_enable(amd_manager, false);
+@@ -1219,6 +1220,7 @@ static int __maybe_unused amd_suspend(struct device *dev)
+ 		if (ret)
+ 			return ret;
+ 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
++		cancel_work_sync(&amd_manager->amd_sdw_work);
+ 		amd_sdw_wake_enable(amd_manager, false);
+ 		if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
+ 			ret = amd_sdw_host_wake_enable(amd_manager, false);
 -- 
-2.49.0
+2.45.2
 
