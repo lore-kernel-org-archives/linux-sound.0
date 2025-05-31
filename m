@@ -1,146 +1,105 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7F32BCF5;
-	Sat, 31 May 2025 14:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AAF1624DF
+	for <linux-sound@vger.kernel.org>; Sat, 31 May 2025 16:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748700839; cv=none; b=esC/yHP//Y0H+nqQybGJ3xTtKyfyXerSNaE9h2L5G8i/QpPtCcf+taFAUPj1HN+KTiBii5/tWbDcRPsJz0vww6rgfpaNElrcH9vA/GAuvh/ZUc3Qbe71j7OQgToOoBMkH8H57g8301xiZLf1segms2eskT6gH0UfJ8FP4h6/1lY=
+	t=1748707205; cv=none; b=Jtd/07UtRvjmjKf2EtEjHe2ppDkAwFUA3F2OHWSSyv91wtwklGVWkZ6b95JZgdZ9FtGU9tG5Fw7oDn3/4YtL33VKcM7d0bhP74SdY1uBpYSxBU5oy102j4NThYk1ozpNxFXWlkj/wZgmTZQQ8yKiewN3ACmw6uygsblES2UAiRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748700839; c=relaxed/simple;
-	bh=jClOl4d/ELwIaidMD0YDUkJojPmuj94eLxAmlAxnuR4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XQglfFcqEK2KNkPzUAp3N2r+6AJ+qGMhF2O8FFMiYiVGDGZLLZrVlWmdUgFhpeD3tG9BSlQSQ1YiuBdAFVFCRhbs5Ni0Dsx8M7P29Sa94Aw6DSxaHpEhBTDT52QSGBn6QSkFpcZuEKV4uLrc8o85tXB1ISwqdpITDMNMusprFTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iv4VoH58; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1748707205; c=relaxed/simple;
+	bh=hfuAqi0lelQWkZX6/fPYy9nuFo6zIHK36dI9WQUMvMI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KSKY5e2vUDcmz53QUlH4Nst4uT5e60/DsF8fq8uqzv4I4+clwrOtAGS3BhQPXNTt4kMGh175/fxhyQv7QK3N9vFPHYK/n/jjWPqHV3bU1TuyeEXzK5maolXFiB4rfPyDp4FZs7l9FY3uYoLxvh+z8CwT5+hcUI1KsdNtH7kJYB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DpEJJfYJ; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iv4VoH58"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-312150900afso3019742a91.1;
-        Sat, 31 May 2025 07:13:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DpEJJfYJ"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43d4ff56136so784225e9.3
+        for <linux-sound@vger.kernel.org>; Sat, 31 May 2025 09:00:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748700838; x=1749305638; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1748707202; x=1749312002; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZByPvqrueKC3c9aa9kKxrMQLY2qgkp2Pbw7suNhDht0=;
-        b=iv4VoH585LXr0A/tTf2l+zqIEihaxxYTxlwx36H56sHoDEMjMKq1BzYQb6/7zXv7KU
-         rGKlCmmuC61iyrtD5zWGGMVPw6SWpl1QziKhmsr2d9IjY2nTjzrXHCxV0ia2EClgYU7u
-         3J4abned+Sav0Diqj9mT1Zj0aMzD2Ba0UXE4eTC+YdkhzE7MYMkzeQEAOurFczuw3Y47
-         XwLBdfw5QaxEIJCGP/jVC3dwVFtWXazcbr7EfyN3+O5nWJmyRmHvwA+WJheOZ+lsrUPA
-         SktX839+5Km57hJLkGL/8kE50ToPmUPSkDz/Nb4/nWv1pIKa9FkIE5fgJ23c2RQCBdLb
-         9j3A==
+        bh=g3/7b7sAur+LGqclPpSqvB9KECRV68HTQpr4XmjRfR0=;
+        b=DpEJJfYJxkIsSHzTisW8US2gSEv4zl7ma3sew+1sk28zBycACq7fjkdL3FecfLlcmO
+         shFSOEqOLa5e18o9ODrHjXW2QIrs214aF0eS9EXAcZfyNppiLfvhESsqnEFQRruWfTOr
+         UX9Wam2xRrZSLpTY8FvZbFKsk9dWdNxkInK+vWbI0OVXT2h5xiaBCJ3wX3QzrhZM6ouy
+         etiPLkcJv3CB0no9I7L9P7Gxyq9vMXRwx5vf33f0Ow7Ryn3hl2vrh/g84Ue96fGSjebu
+         uzL5P3xKdjf/Wpr5X2/1j865o7YEWm0lXqmh2N2iQrlfgYRYQHvh+LdRc8dp40Mru+l/
+         Lgcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748700838; x=1749305638;
+        d=1e100.net; s=20230601; t=1748707202; x=1749312002;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZByPvqrueKC3c9aa9kKxrMQLY2qgkp2Pbw7suNhDht0=;
-        b=usDhMj87UwjGgewu48FKcFKVF0tT1SHPO6PkiRmxh193ETVpaJpoVAZrknEskXiGFM
-         fVU9GtCBLUm+ht2IawzjdafNNT3J8MhYVZJAih4m6dNjXC/QYfIAsfPkXjnC0cao2G2v
-         xOBGInJPqvd94Gg6tfwnO+8fR+7/2IzeMQyWyWJB2HEnFmEHS6P4D1CdRkBjKmj3ICIo
-         WJastaSMCMGIDO4hsmDpWKkP84PL+yP26EjsMbs5R/JUtoj8eafRkuMaPRtdkju5KirB
-         sK6k32n2gHQC96p9pOF8Qo4eMN+I4EZ7EqYvgHtSZJNs/iL762ZGH40ho4lxlR7MvpJd
-         /6Jg==
-X-Forwarded-Encrypted: i=1; AJvYcCUTRGxVDxLK/+jLWFyF2FuNPy0Tkf7k6MDvG8xZXRI6ykGRGdc5l/C6n7gIXTmUbjIIdDGwBS15A/GchoI=@vger.kernel.org, AJvYcCWaZtsKJmpsr0f3nT4YaeYYqPT8BmBlLGsOu0CA0b5aHZajUTrgURNHNirxaKl/JrCFw301B5hd9oRO1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2/IBxeuq6yEVgOgfvEu7WXt0nsN6KadT0GmLQRtw6sGSOcwV3
-	xYmrihjyz7QuUKEYasJWXj02Pm7X+Bk0YmY2p3zgURg9SahTU/5p5SF8TOzH1oy/
-X-Gm-Gg: ASbGncuNevE7nygua+lPNzAgCt1YFRYjGN3dtnaB17uoWZHXASi4zCXRcpXI+czMHD/
-	jwMBFhZrwebTgza0FzPdVgOxJZPBbiOA8lkOzFGpR5W7UmaTQIHZq9jbZgaAqNMguTYBOgCab27
-	WMozVKVI5s3n5m2ufkMEU2xyrft/hGDWG37DM5rzu3jNjwkhxqmcTKX4CvJXijsZzEWhZ1GOgn3
-	Grg4Xk6rmZtxhmxXJE1Xg4ZcrQHksKrCUQMTCVDxx635jNqys9HKCobeKjOiHqTpjoGW4uG3C2z
-	esNSlD0Uz+6o7198/6t6ZCMEuZj6Q820vdkb/LUPh+ZhcDV8JA6ky3jvAYCNnB5GiQ84pvTv/LS
-	piw==
-X-Google-Smtp-Source: AGHT+IFYU4KVCP8B3byl3tmb0tTbxJppAnwli3RGwvqFUoEzTzVn13HOAyXwmQfc7P7gQn9gi+RgOw==
-X-Received: by 2002:a17:90a:ec8d:b0:312:1e41:3a58 with SMTP id 98e67ed59e1d1-3127c871ca7mr2752786a91.34.1748700837652;
-        Sat, 31 May 2025 07:13:57 -0700 (PDT)
-Received: from yn386-ZK.. (p1273134-ipoe.ipoe.ocn.ne.jp. [122.26.118.133])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3124e29f883sm2774643a91.1.2025.05.31.07.13.55
+        bh=g3/7b7sAur+LGqclPpSqvB9KECRV68HTQpr4XmjRfR0=;
+        b=vmI5DMj2K5ezeURkrA5sv1t8Q2T+ol6YLPiNW+BbGPcc45LJF3xW715/s14T+PivTA
+         2b6SzoXsDTFwnOJVzUWVwERbDUxYwnID2/oh7xinYA91gq7J0CWW9CV5pReAYgrdbnmr
+         fwO0itgzM0HgJdHmrLd0qubnlZyElGCYOdK6/UProyKtc5M4CQ15tUnEkbxLBhhBwvNi
+         0DJPwKL9s5E6myogWaZcFRiwOUJc1r1j7a36O03KsGsS4PLZ2XrJDVAASxqpZYbZDqlJ
+         QvuyQqM8QVlL46IecSVwdQduAKuk4b+F7m+dz1LPJE9TxVAm7+U3barccCKZpJY3il52
+         Tf3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUgC6i+lnFCioYotBH0dZy9c+cCOa3Mf1VIBaqFV+UxiSfu4WZUpDPHgCjirDzb8Kw3d9rZwBT2B7BjtA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzN5WwI5QybAvQJnRVAv+Faphc+mpl70byXuXNDSiwcz6JCURkG
+	0q+nGLmuoMADvR2hEl5TfPODXEoQdzJZRQdalNuOj+1kyPMtsG7IMZc=
+X-Gm-Gg: ASbGncvRlBCmo90iM7lVb3NycniAbQvMvHf3F575Nn3bnlQl9JSW3/Thq3U5DEXp8zW
+	syHfQwzc77PQmrBmRuZdj3rCd3QkZ89FJMGastX4FYkrg5Xh1L6wpvHeScJ27uOzihZF5y4hH/d
+	K1YZMbMmnsjZTharOgTgBqp5C5iKthkfaCW9QBAxqnT42X7XaEfghhjc9qW3nBL2AqPQRc7WTOE
+	+OY57JWmRLa3l3LvPw/K3aTFkvvdqEj3vi5kCHz34hDbHi0Im7c2oyR/q6XIh/0pQKqZ70cPTz3
+	6GccB7J1Ms3m3cYDqL2PSOPWGj1WvWe9DGKzElEZd6A5HmY2LEVVi7fBuS7deX9SUmeagL7KuOo
+	ddvPljG+RO2LZltfWtBdwOQ97Tg==
+X-Google-Smtp-Source: AGHT+IG24VPqGTUlEu40NhO7aglqx2+Gnxxp+tCh5n+1wu6jubU6cE/Nh3inPKaAhC8Cjn9YWQ924Q==
+X-Received: by 2002:a05:600c:358e:b0:439:8c80:6aee with SMTP id 5b1f17b1804b1-450d6543c86mr24150645e9.4.1748707201605;
+        Sat, 31 May 2025 09:00:01 -0700 (PDT)
+Received: from localhost (131.red-80-39-31.staticip.rima-tde.net. [80.39.31.131])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-450d7fb0467sm53630305e9.19.2025.05.31.09.00.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 May 2025 07:13:57 -0700 (PDT)
-From: Yuuki NAGAO <wf.yn386@gmail.com>
-To: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+        Sat, 31 May 2025 09:00:01 -0700 (PDT)
+From: Xose Vazquez Perez <xose.vazquez@gmail.com>
+To: 
+Cc: Xose Vazquez Perez <xose.vazquez@gmail.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yuuki NAGAO <wf.yn386@gmail.com>
-Subject: [PATCH] ASoC: ti: omap-hdmi: Re-add dai_link->platform to fix card init
-Date: Sat, 31 May 2025 23:13:41 +0900
-Message-ID: <20250531141341.81164-1-wf.yn386@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	SOUND ML <linux-sound@vger.kernel.org>,
+	MEDIATEK ML <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] ASoC: mt6660: delete MODULE_VERSION
+Date: Sat, 31 May 2025 17:59:49 +0200
+Message-ID: <20250531155950.101164-1-xose.vazquez@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Patchwork-Bot: notify
 Content-Transfer-Encoding: 8bit
 
-The removed dai_link->platform component cause a fail which
-is exposed at runtime. (ex: when a sound tool is used)
-This patch re-adds the dai_link->platform component to have
-a full card registered.
-
-Before this patch:
-$ aplay -l
-**** List of PLAYBACK Hardware Devices ****
-card 1: HDMI [HDMI], device 0: HDMI snd-soc-dummy-dai-0 []
-  Subdevices: 1/1
-  Subdevice #0: subdevice #0
-
-$ speaker-test -D plughw:1,0 -t sine
-speaker-test 1.2.8
-Playback device is plughw:1,0
-Stream parameters are 48000Hz, S16_LE, 1 channels
-Sine wave rate is 440.0000Hz
-Playback open error: -22,Invalid argument
-
-After this patch which restores the platform component:
-$ aplay -l
-**** List of PLAYBACK Hardware Devices ****
-card 0: HDMI [HDMI], device 0: HDMI snd-soc-dummy-dai-0 [HDMI snd-soc-dummy-dai-0]
-  Subdevices: 0/1
-  Subdevice #0: subdevice #0
-
--> Resolve the playback error.
-
-Fixes: 3b0db249cf8f ("ASoC: ti: remove unnecessary dai_link->platform")
-
-Signed-off-by: Yuuki NAGAO <wf.yn386@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: SOUND ML <linux-sound@vger.kernel.org>
+Cc: MEDIATEK ML <linux-mediatek@lists.infradead.org>
 ---
- sound/soc/ti/omap-hdmi.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ sound/soc/codecs/mt6660.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/ti/omap-hdmi.c b/sound/soc/ti/omap-hdmi.c
-index cf43ac19c4a6..55e7cb96858f 100644
---- a/sound/soc/ti/omap-hdmi.c
-+++ b/sound/soc/ti/omap-hdmi.c
-@@ -361,17 +361,20 @@ static int omap_hdmi_audio_probe(struct platform_device *pdev)
- 	if (!card->dai_link)
- 		return -ENOMEM;
- 
--	compnent = devm_kzalloc(dev, sizeof(*compnent), GFP_KERNEL);
-+	compnent = devm_kzalloc(dev, 2 * sizeof(*compnent), GFP_KERNEL);
- 	if (!compnent)
- 		return -ENOMEM;
--	card->dai_link->cpus		= compnent;
-+	card->dai_link->cpus		= &compnent[0];
- 	card->dai_link->num_cpus	= 1;
- 	card->dai_link->codecs		= &snd_soc_dummy_dlc;
- 	card->dai_link->num_codecs	= 1;
-+	card->dai_link->platforms	= &compnent[1];
-+	card->dai_link->num_platforms	= 1;
- 
- 	card->dai_link->name = card->name;
- 	card->dai_link->stream_name = card->name;
- 	card->dai_link->cpus->dai_name = dev_name(ad->dssdev);
-+	card->dai_link->platforms->name = dev_name(ad->dssdev);
- 	card->num_links = 1;
- 	card->dev = dev;
- 
+diff --git a/sound/soc/codecs/mt6660.c b/sound/soc/codecs/mt6660.c
+index d16bccebae52..9415656f8285 100644
+--- a/sound/soc/codecs/mt6660.c
++++ b/sound/soc/codecs/mt6660.c
+@@ -578,4 +578,3 @@ module_i2c_driver(mt6660_i2c_driver);
+ MODULE_AUTHOR("Jeff Chang <jeff_chang@richtek.com>");
+ MODULE_DESCRIPTION("MT6660 SPKAMP Driver");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION("1.0.8_G");
 -- 
-2.43.0
-
+2.49.0
