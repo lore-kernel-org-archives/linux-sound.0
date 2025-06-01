@@ -1,50 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3682673B6;
-	Sun,  1 Jun 2025 23:33:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6EAA2676C2;
+	Sun,  1 Jun 2025 23:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748820817; cv=none; b=bEIQgwtItQIuxKujItXmD0PIyFihbjUfen4vjgD7DJkTZi+sLTxqSVB2a3a84xfHGPij5nWvCaLZckjZ47kpSSSj18/rrpM+n7fzBLXHWuKf6HLh0sdo7qKcU9ChCnbG5fNH8R8oFOKfqwEW9Hv4a4NxK1EBTY+99jbq9maF9Qo=
+	t=1748820826; cv=none; b=QTy5dBbrBJdapl3PFL7KFbF9p9JgQRmSB2nTcPc3VMc0CT6Dwrbv6Yj0kbb9FwHDbTnsfJ2Oi7U8a7uEEPrR4ZJkpS7r7pYboI6seon2W88hXTYfL6C3Rd51Om7PrlnnhUCLbNF0qci5QcXc+cENMIiu0tomxZqG2efHWXkB9dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748820817; c=relaxed/simple;
-	bh=UoMqPF0JODIkz2Nbh672KEMJcLMwggCN1tSMDfpD35E=;
+	s=arc-20240116; t=1748820826; c=relaxed/simple;
+	bh=7Wn2KFmwDnYRftwPvHMhG01QYnA7XYqct+5mMt08MhE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mvhOvI3T898SDGp379xpLZWOUlAr2kq3s5X3xYj9xHKkYX6G78MXvB4sfWGmKRtqwZJ+9cxNMAxHRYcY4IzdG55G026tQ8muqn7U0Od6g7CGj6kHx0AJYW86t0cO7uKWeRDBqCiji8pX3ro1kG6ZXfZ/WCLXNRyaFJlAWi9L9vI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4cgecUE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=fxh6O+nPOM1nJGVhFZqAsOSrRzckzLrVwxQje6YFOOib32+sjkgXHEgKWVWBVtMXJR2tySjojdjqXER4S+PXghwAIR5ndUIQw9GB8CvzZhn+wcivIq2OVM4MulrG/M692cy4vhWEq1r7BhVlUIEfzujHmYStGpVhFsWCu91uWZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXQOmQLB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4cgecUE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A829C4CEE7;
-	Sun,  1 Jun 2025 23:33:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXQOmQLB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABD2CC4CEE7;
+	Sun,  1 Jun 2025 23:33:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748820817;
-	bh=UoMqPF0JODIkz2Nbh672KEMJcLMwggCN1tSMDfpD35E=;
+	s=k20201202; t=1748820825;
+	bh=7Wn2KFmwDnYRftwPvHMhG01QYnA7XYqct+5mMt08MhE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=P4cgecUEgF1aBZ0qtTlPAfzchRsWix5aMEnhZbpNNC55Fbtpem08j8BTtOPn5sj8/
-	 nhaIReBbQdQqQeAQAFs2Cs07Gxl01/hNX/J02Ap9fUxhgUrWsRpSahDONhW2e9H9qu
-	 BaA7ecDb/fubNxF7iKjKNyTfD3sBfQfEume9G27FYavKrMdSGB/vhq/XHN65iLYRDm
-	 CG0C4maPS3xho+8Qo1U9JSZIYfR5L77kh3GaJpATvy8fP8AreRsg8VrAWM5e25LZLv
-	 KNK8m5+Ay/agIuJWtcoAYeFHt/7/Y+BMlxdGc6FQR3n8OS/k+weE1CloBhyG2+e8Zu
-	 3GFostwkwpq/A==
+	b=bXQOmQLBOcxLDEZvnlzFVCm2VPTlVqv6SwHZk41PS0IVdlKZfKM26m2v0f2wLEzVU
+	 kdYJT9LmIOMACm+WNSCUpUM748PFsgV/kSBV9KUWtYt60BMrw0Av14N3SvURy48UPv
+	 5acO2/VupS9Z4o600tL4GPWqYn9FsmGBilJNb9zuqgomGJ5ntYw2JsswOciZtvOoM9
+	 t/kdvXOyFhXS3bpJa32+tGOIHlVOMBJRRIjK+rFK94vl9VcOAq2m3Yrq1CAP3jEi/6
+	 m11bSzsCOVPmczzjz6pQjLjXvUEzig0hKOd7MO05O0St8zacRaDC23kBmLlErSKtCz
+	 hLAVM/sz/4H7A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: I Hsin Cheng <richard120310@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: "Dr. David Alan Gilbert" <linux@treblig.org>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	Vijendar.Mukunda@amd.com,
-	gregkh@linuxfoundation.org,
-	peterz@infradead.org,
+	yuehaibing@huawei.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 089/102] ASoC: intel/sdw_utils: Assign initial value in asoc_sdw_rt_amp_spk_rtd_init()
-Date: Sun,  1 Jun 2025 19:29:21 -0400
-Message-Id: <20250601232937.3510379-89-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 094/102] ALSA: seq: Remove unused snd_seq_queue_client_leave_cells
+Date: Sun,  1 Jun 2025 19:29:26 -0400
+Message-Id: <20250601232937.3510379-94-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601232937.3510379-1-sashal@kernel.org>
 References: <20250601232937.3510379-1-sashal@kernel.org>
@@ -59,88 +54,100 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.9
 Content-Transfer-Encoding: 8bit
 
-From: I Hsin Cheng <richard120310@gmail.com>
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-[ Upstream commit 5fb3878216aece471af030b33a9fbef3babd8617 ]
+[ Upstream commit 81ea9e92941091bb3178d49e63b13bf4df2ee46b ]
 
-Initialize "ret" with "-EINVAL" to handle cases where "strstr()" for
-"codec_dai->component->name_prefix" doesn't find "-1" nor "-2". In that
-case "name_prefix" is invalid because for current implementation it's
-expected to have either "-1" or "-2" in it. (Maybe "-3", "-4" and so on
-in the future.)
+The last use of snd_seq_queue_client_leave_cells() was removed in 2018
+by
+commit 85d59b57be59 ("ALSA: seq: Remove superfluous
+snd_seq_queue_client_leave_cells() call")
 
-Link: https://scan5.scan.coverity.com/#/project-view/36179/10063?selectedIssue=1627120
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
-Link: https://patch.msgid.link/20250505185423.680608-1-richard120310@gmail.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Remove it.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://patch.msgid.link/20250502235219.1000429-4-linux@treblig.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-Based on my comprehensive analysis of this commit, I can now provide my
-backport recommendation: **YES** This commit should be backported to
-stable kernel trees. Here's my extensive analysis: ## Bug Description
-and Analysis The commit fixes a critical bug in the
-`asoc_sdw_rt_amp_spk_rtd_init()` function in
-`sound/soc/sdw_utils/soc_sdw_rt_amp.c`. The issue is that the `ret`
-variable is declared but never initialized, and in certain execution
-paths, it may be returned uninitialized. ### Specific Problem Details 1.
-**Uninitialized Variable Issue**: The `ret` variable is declared on line
-193 but never given an initial value. 2. **Problematic Code Path**: In
-the `for_each_rtd_codec_dais()` loop (lines 204-209), `ret` is only
-assigned a value if `strstr()` finds either "-1" or "-2" in the
-`codec_dai->component->name_prefix`. However, if neither condition is
-met, `ret` remains uninitialized. 3. **Return of Garbage Value**: When
-the function reaches `return ret;` on line 211, if neither condition in
-the loop was satisfied, the function returns an uninitialized value,
-which could be any random memory content. ### Why This Is a Serious Bug
-1. **Unpredictable Behavior**: The function may return success (0) or
-failure (non-zero) randomly depending on stack contents, leading to
-inconsistent system behavior. 2. **Audio Subsystem Impact**: The
-function is used as an `rtd_init` callback for multiple Realtek audio
-amplifier codecs (rt1308, rt1316, rt1318, rt1320) as evidenced by the
-codec info list in `soc_sdw_utils.c`. 3. **Error Propagation**: The
-return value is checked in `asoc_sdw_rtd_init()` and propagated upward -
-a garbage positive value would cause audio initialization to fail
-unexpectedly. ### Evidence from Code Analysis The function is called via
-the `rtd_init` callback mechanism: ```c if
-(codec_info->dais[dai_index].rtd_init) { ret =
-codec_info->dais[dai_index].rtd_init(rtd, dai); if (ret) return ret; //
-Failure propagated upward } ``` The fix correctly initializes `ret =
--EINVAL` to handle the case where the `name_prefix` doesn't contain the
-expected "-1" or "-2" suffixes, which indicates an invalid configuration
-that should properly return an error. ### Characteristics Supporting
-Backport 1. **Clear Bug Fix**: This is a straightforward bug fix with no
-new features or architectural changes. 2. **Minimal Risk**: The change
-is one line adding initialization - extremely low risk of introducing
-regressions. 3. **Wide Hardware Impact**: Affects multiple Realtek audio
-amplifier codecs used in Intel SoundWire configurations. 4. **Stable
-Tree Compatible**: Bug was introduced in v6.10 (commit 84e0a19adb73d),
-making it applicable to stable kernels from v6.10 onward. 5. **Static
-Analysis Found**: The bug was found by Coverity static analysis,
-indicating it's a real issue that could manifest in practice. 6. **User
-Impact**: Audio hardware initialization failures can significantly
-impact user experience, especially on laptops and embedded systems using
-these codecs. This commit perfectly fits the stable kernel criteria: it
-fixes an important bug, has minimal risk, is contained to a specific
-subsystem, and addresses undefined behavior that could cause random
-failures in audio hardware initialization.
+NO This commit should not be backported to stable kernel trees for
+several reasons: **1. This is a code cleanup, not a bug fix** The commit
+removes dead code (`snd_seq_queue_client_leave_cells()`) that hasn't
+been used since 2018. The commit message explicitly states this function
+was already removed from use by commit 85d59b57be59 in 2018, and this
+commit is simply cleaning up the unused function definition. This is
+purely a maintenance/cleanup change with no functional impact. **2. No
+user-visible impact or bug being fixed** The removed function
+`snd_seq_queue_client_leave_cells()` was already unused, so removing it
+doesn't fix any existing bugs, security issues, or user-reported
+problems. The code changes show: - Removal of the function
+implementation from `sound/core/seq/seq_queue.c` (lines that iterate
+through queues and call `snd_seq_prioq_leave()`) - Removal of the
+function declaration from `sound/core/seq/seq_queue.h` **3. Follows
+pattern of similar non-backported commits** Looking at the similar
+commits provided: - **Similar Commit #1**: Removed superfluous function
+call - Status: NO - **Similar Commit #2**: Removed useless function -
+Status: NO - **Similar Commit #4**: Removed unused declarations -
+Status: NO - **Similar Commit #5**: Code refactoring with no functional
+changes - Status: NO Only **Similar Commit #3** was backported (Status:
+YES), and that was because it fixed an actual race condition bug that
+could cause long stalls, not because it was removing unused code. **4.
+Stable tree criteria not met** Stable kernel backports should focus on:
+- Important bug fixes that affect users - Security fixes - Critical
+functionality issues This commit doesn't meet any of these criteria.
+It's purely cosmetic code cleanup that removes dead code without
+changing any runtime behavior. **5. Risk vs. benefit analysis** While
+the risk of regression is minimal since the function was unused, there's
+no benefit to users of stable kernels from this change. Stable trees
+should minimize churn and only include changes that provide tangible
+benefits to users. The commit represents good housekeeping for the
+mainline kernel but doesn't provide the type of user-impacting fix that
+justifies inclusion in stable kernel trees.
 
- sound/soc/sdw_utils/soc_sdw_rt_amp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/core/seq/seq_queue.c | 16 ----------------
+ sound/core/seq/seq_queue.h |  1 -
+ 2 files changed, 17 deletions(-)
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_rt_amp.c b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
-index 0538c252ba69b..83c2368170cb5 100644
---- a/sound/soc/sdw_utils/soc_sdw_rt_amp.c
-+++ b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
-@@ -190,7 +190,7 @@ int asoc_sdw_rt_amp_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc
- 	const struct snd_soc_dapm_route *rt_amp_map;
- 	char codec_name[CODEC_NAME_SIZE];
- 	struct snd_soc_dai *codec_dai;
--	int ret;
-+	int ret = -EINVAL;
- 	int i;
+diff --git a/sound/core/seq/seq_queue.c b/sound/core/seq/seq_queue.c
+index 5df26788dda41..10add922323da 100644
+--- a/sound/core/seq/seq_queue.c
++++ b/sound/core/seq/seq_queue.c
+@@ -564,22 +564,6 @@ void snd_seq_queue_client_leave(int client)
  
- 	rt_amp_map = get_codec_name_and_route(dai, codec_name);
+ /*----------------------------------------------------------------*/
+ 
+-/* remove cells from all queues */
+-void snd_seq_queue_client_leave_cells(int client)
+-{
+-	int i;
+-	struct snd_seq_queue *q;
+-
+-	for (i = 0; i < SNDRV_SEQ_MAX_QUEUES; i++) {
+-		q = queueptr(i);
+-		if (!q)
+-			continue;
+-		snd_seq_prioq_leave(q->tickq, client, 0);
+-		snd_seq_prioq_leave(q->timeq, client, 0);
+-		queuefree(q);
+-	}
+-}
+-
+ /* remove cells based on flush criteria */
+ void snd_seq_queue_remove_cells(int client, struct snd_seq_remove_events *info)
+ {
+diff --git a/sound/core/seq/seq_queue.h b/sound/core/seq/seq_queue.h
+index 74cc31aacdac1..b81379c9af43e 100644
+--- a/sound/core/seq/seq_queue.h
++++ b/sound/core/seq/seq_queue.h
+@@ -66,7 +66,6 @@ void snd_seq_queue_client_leave(int client);
+ int snd_seq_enqueue_event(struct snd_seq_event_cell *cell, int atomic, int hop);
+ 
+ /* Remove events */
+-void snd_seq_queue_client_leave_cells(int client);
+ void snd_seq_queue_remove_cells(int client, struct snd_seq_remove_events *info);
+ 
+ /* return pointer to queue structure for specified id */
 -- 
 2.39.5
 
