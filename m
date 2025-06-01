@@ -1,47 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C4827CCEB;
-	Sun,  1 Jun 2025 23:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABACF25EF8F;
+	Sun,  1 Jun 2025 23:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748820530; cv=none; b=ikuNUe6mqV/QoEDjSmtZJ+iycC3zmMPjAZeAqDBGfVjIwYTSPckHweHOD0VGRgO22+bjSSP+ZHM/q3kMI/pGKV32dtj9AaCqa33uf7PlLjgsCZrIXZLP2SKtWjzJCwNo41YI228WEQd8xQyGusHzxfYaCNXxMwNOBZMqcdNBYMA=
+	t=1748820549; cv=none; b=CSZ9+4pFi5hE7VInxMyRnsDGXQDWxeHV6JnyJ1gqkrnY988IaKCxplAzoBrbT+mSpk75SHr3Tg//ZkeXAio4VK3XXWBaM3rcsiV0mUstbvS4qC0DARtvdIWar+W7XepS+ZnNRXK68d3UXRt5HYcvUoZVqDXuuFquoces0+3iqF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748820530; c=relaxed/simple;
-	bh=xt1922hGTLaMdflCLOntAvppka8T3QMYTAxfOubtOSc=;
+	s=arc-20240116; t=1748820549; c=relaxed/simple;
+	bh=UoMqPF0JODIkz2Nbh672KEMJcLMwggCN1tSMDfpD35E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QcpH8XOf9m+dEzGdQqa42f+vClw4642wKPoVDFIRhmzuW0Tff78uXp8JndugFGt9ZV3KVAbfnmNQjBSVjl3rhBbsPgtow9XZfnWPUzLJNaYog9nkVOrEO8PfdMmaYo2zL15/S2qk3oKnXxPS4XQOpQ0Nd/El26Us9ZMpJiq5wMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rC+c9D+q; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=c/e8d4Z6zlmN7673J1YZ4LA1yQI8JqHERJpVaL0i2Rgq6D97gjArPYDLjSKmyTmz+JuWgaDLLionv3Lxu/l30Ay4LDk9HxrkBtL+HIW73zlTaAaixkYaEkoFgkJxt1h//IpImWHWcpv+0qh4rNazSVJpFk9VHIaqobIYOGSALyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nFL67hmZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rC+c9D+q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E9E8C4CEE7;
-	Sun,  1 Jun 2025 23:28:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nFL67hmZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3152C4CEE7;
+	Sun,  1 Jun 2025 23:29:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748820530;
-	bh=xt1922hGTLaMdflCLOntAvppka8T3QMYTAxfOubtOSc=;
+	s=k20201202; t=1748820549;
+	bh=UoMqPF0JODIkz2Nbh672KEMJcLMwggCN1tSMDfpD35E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rC+c9D+qK2KGql3q+2y8EGME5cuQREcRxWxBbsok75B5SniKmZLlq/vccluLsogNP
-	 emdWuAoQ03JIR+xX4W+YutNrM9YkOO9hGAw0iWAy3CG3+U6AY2bj5cbMpa7p7c1nsO
-	 sHWeW1expijrhu16OlWqEqFgchrEsGvvT9zKNX+q/2k42v6hILx5pyBMcUeLrP/uib
-	 7Z9BpFyEdtjHI9yaZM2QNKVMRlWjx7Qv7jsJGACqfnX5ek9U4cQhYPbasiFHg/Eecx
-	 jRUCiVaxcPVq2xYhGRWVBvXkiH+L3OpJDYZXQ4VnyX3U9wF4LcMrQU/VIM+4gSl1Dm
-	 y/9qZwkF6nTtQ==
+	b=nFL67hmZ7S5dAJv9kTO/Yz669TLfH0zghMwLElZaLZDeFttcl0Q5plDU5pbnB6r7u
+	 vkxV92GwGMII2GCokI4AGgpm9CuG2qxX54jFJGIVs/Gq9/dA8DupmWFyDiZgSmacbR
+	 5amqXv1sDvMa9J0/PGIDDBcl8XVB//QIZtGAWf0Hg9NxHBpiBn9WrOPE5Gj16+0X9B
+	 x+SLHsgBaAGUDRaCzXxnw1elDcQCQHvqdLmbpEAbPb/7LNDbw+Qt5e0naGAEqmj7+L
+	 xzP6HYUUaDKxX1ZaXto/I76UBS0YnPqhkVR8gG6sapRTbCJeRIQEG9QR2vxmuWFm0o
+	 eJqSKCMKHvHFA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: I Hsin Cheng <richard120310@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kailang@realtek.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	Vijendar.Mukunda@amd.com,
+	gregkh@linuxfoundation.org,
+	peterz@infradead.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 088/110] ALSA: hda/realtek: Add support for Acer Helios Laptops using CS35L41 HDA
-Date: Sun,  1 Jun 2025 19:24:10 -0400
-Message-Id: <20250601232435.3507697-88-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.15 096/110] ASoC: intel/sdw_utils: Assign initial value in asoc_sdw_rt_amp_spk_rtd_init()
+Date: Sun,  1 Jun 2025 19:24:18 -0400
+Message-Id: <20250601232435.3507697-96-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250601232435.3507697-1-sashal@kernel.org>
 References: <20250601232435.3507697-1-sashal@kernel.org>
@@ -56,97 +59,88 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.15
 Content-Transfer-Encoding: 8bit
 
-From: Stefan Binding <sbinding@opensource.cirrus.com>
+From: I Hsin Cheng <richard120310@gmail.com>
 
-[ Upstream commit d64cbb5ed9227566c068ac9300a85912234d10aa ]
+[ Upstream commit 5fb3878216aece471af030b33a9fbef3babd8617 ]
 
-Laptops use 2 CS35L41 Amps with HDA, using External boost with I2C.
-Similar to previous Acer laptops, these laptops also need the
-ALC255_FIXUP_PREDATOR_SUBWOOFER quirk to function properly.
+Initialize "ret" with "-EINVAL" to handle cases where "strstr()" for
+"codec_dai->component->name_prefix" doesn't find "-1" nor "-2". In that
+case "name_prefix" is invalid because for current implementation it's
+expected to have either "-1" or "-2" in it. (Maybe "-3", "-4" and so on
+in the future.)
 
-Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
-Link: https://patch.msgid.link/20250515162848.405055-2-sbinding@opensource.cirrus.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://scan5.scan.coverity.com/#/project-view/36179/10063?selectedIssue=1627120
+Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+Link: https://patch.msgid.link/20250505185423.680608-1-richard120310@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-Based on my analysis of the commit and comparing it to similar commits
-that were marked with "Backport Status: YES", I can now provide my
-assessment: **YES** This commit should be backported to stable kernel
-trees. **Detailed Analysis:** **Code Changes Analysis:** 1. **Enum
-Addition**: The commit adds `ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2` to
-the enum list at line 8029, which is a standard pattern for adding new
-HDA fixups. 2. **Fixup Implementation**: Lines 9303-9307 add the actual
-fixup implementation: ```c [ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2] = {
-.type = HDA_FIXUP_FUNC, .v.func = cs35l41_fixup_i2c_two, .chained =
-true, .chain_id = ALC255_FIXUP_PREDATOR_SUBWOOFER }; ``` This follows
-the exact same pattern as existing CS35L41 fixups in the codebase. 3.
-**Device Quirks**: Lines 10444-10446 add three new Acer Helios laptop
-models: ```c SND_PCI_QUIRK(0x1025, 0x1826, "Acer Helios ZPC",
-ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2), SND_PCI_QUIRK(0x1025, 0x182c,
-"Acer Helios ZPD", ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2),
-SND_PCI_QUIRK(0x1025, 0x1844, "Acer Helios ZPS",
-ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2), ``` **Comparison to Similar
-Commits:** This commit is nearly identical in structure and purpose to
-Similar Commits #1-4, which were all marked with "Backport Status: YES".
-Like those commits: - It adds hardware support for specific laptop
-models - Uses existing CS35L41 infrastructure (`cs35l41_fixup_i2c_two`
-function) - Chains to existing predator subwoofer fixup
-(`ALC255_FIXUP_PREDATOR_SUBWOOFER`) - Makes minimal, contained changes -
-Follows established patterns for HDA audio fixups **Backport
-Suitability:** 1. **Important Bug Fix**: This enables audio
-functionality on specific Acer Helios laptop models that would otherwise
-have non-functional speakers 2. **Small and Contained**: The changes are
-minimal and isolated to the realtek patch file 3. **Low Risk**: Uses
-existing, well-tested CS35L41 and predator subwoofer code paths 4. **No
-Architectural Changes**: Simply adds new device IDs and combines
-existing fixups 5. **Hardware Enablement**: Essential for users with
-these specific laptop models The commit message indicates this adds
-support for CS35L41 amplifiers with I2C interface and external boost,
-which is critical for proper audio functionality on these laptops.
-Without this fix, users would have non-functional speakers on these
-specific Acer Helios models. This follows the stable tree criteria
-perfectly: it's an important hardware enablement fix with minimal risk
-of regression.
+Based on my comprehensive analysis of this commit, I can now provide my
+backport recommendation: **YES** This commit should be backported to
+stable kernel trees. Here's my extensive analysis: ## Bug Description
+and Analysis The commit fixes a critical bug in the
+`asoc_sdw_rt_amp_spk_rtd_init()` function in
+`sound/soc/sdw_utils/soc_sdw_rt_amp.c`. The issue is that the `ret`
+variable is declared but never initialized, and in certain execution
+paths, it may be returned uninitialized. ### Specific Problem Details 1.
+**Uninitialized Variable Issue**: The `ret` variable is declared on line
+193 but never given an initial value. 2. **Problematic Code Path**: In
+the `for_each_rtd_codec_dais()` loop (lines 204-209), `ret` is only
+assigned a value if `strstr()` finds either "-1" or "-2" in the
+`codec_dai->component->name_prefix`. However, if neither condition is
+met, `ret` remains uninitialized. 3. **Return of Garbage Value**: When
+the function reaches `return ret;` on line 211, if neither condition in
+the loop was satisfied, the function returns an uninitialized value,
+which could be any random memory content. ### Why This Is a Serious Bug
+1. **Unpredictable Behavior**: The function may return success (0) or
+failure (non-zero) randomly depending on stack contents, leading to
+inconsistent system behavior. 2. **Audio Subsystem Impact**: The
+function is used as an `rtd_init` callback for multiple Realtek audio
+amplifier codecs (rt1308, rt1316, rt1318, rt1320) as evidenced by the
+codec info list in `soc_sdw_utils.c`. 3. **Error Propagation**: The
+return value is checked in `asoc_sdw_rtd_init()` and propagated upward -
+a garbage positive value would cause audio initialization to fail
+unexpectedly. ### Evidence from Code Analysis The function is called via
+the `rtd_init` callback mechanism: ```c if
+(codec_info->dais[dai_index].rtd_init) { ret =
+codec_info->dais[dai_index].rtd_init(rtd, dai); if (ret) return ret; //
+Failure propagated upward } ``` The fix correctly initializes `ret =
+-EINVAL` to handle the case where the `name_prefix` doesn't contain the
+expected "-1" or "-2" suffixes, which indicates an invalid configuration
+that should properly return an error. ### Characteristics Supporting
+Backport 1. **Clear Bug Fix**: This is a straightforward bug fix with no
+new features or architectural changes. 2. **Minimal Risk**: The change
+is one line adding initialization - extremely low risk of introducing
+regressions. 3. **Wide Hardware Impact**: Affects multiple Realtek audio
+amplifier codecs used in Intel SoundWire configurations. 4. **Stable
+Tree Compatible**: Bug was introduced in v6.10 (commit 84e0a19adb73d),
+making it applicable to stable kernels from v6.10 onward. 5. **Static
+Analysis Found**: The bug was found by Coverity static analysis,
+indicating it's a real issue that could manifest in practice. 6. **User
+Impact**: Audio hardware initialization failures can significantly
+impact user experience, especially on laptops and embedded systems using
+these codecs. This commit perfectly fits the stable kernel criteria: it
+fixes an important bug, has minimal risk, is contained to a specific
+subsystem, and addresses undefined behavior that could cause random
+failures in audio hardware initialization.
 
- sound/pci/hda/patch_realtek.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ sound/soc/sdw_utils/soc_sdw_rt_amp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 20ab1fb2195ff..cd0d7ba7320ef 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -8029,6 +8029,7 @@ enum {
- 	ALC283_FIXUP_DELL_HP_RESUME,
- 	ALC294_FIXUP_ASUS_CS35L41_SPI_2,
- 	ALC274_FIXUP_HP_AIO_BIND_DACS,
-+	ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2,
- };
+diff --git a/sound/soc/sdw_utils/soc_sdw_rt_amp.c b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
+index 0538c252ba69b..83c2368170cb5 100644
+--- a/sound/soc/sdw_utils/soc_sdw_rt_amp.c
++++ b/sound/soc/sdw_utils/soc_sdw_rt_amp.c
+@@ -190,7 +190,7 @@ int asoc_sdw_rt_amp_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc
+ 	const struct snd_soc_dapm_route *rt_amp_map;
+ 	char codec_name[CODEC_NAME_SIZE];
+ 	struct snd_soc_dai *codec_dai;
+-	int ret;
++	int ret = -EINVAL;
+ 	int i;
  
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -9301,6 +9302,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{ }
- 		}
- 	},
-+	[ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = cs35l41_fixup_i2c_two,
-+		.chained = true,
-+		.chain_id = ALC255_FIXUP_PREDATOR_SUBWOOFER
-+	},
- 	[ALC256_FIXUP_MEDION_HEADSET_NO_PRESENCE] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -10456,6 +10463,9 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1025, 0x1534, "Acer Predator PH315-54", ALC255_FIXUP_ACER_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
-+	SND_PCI_QUIRK(0x1025, 0x1826, "Acer Helios ZPC", ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1025, 0x182c, "Acer Helios ZPD", ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1025, 0x1844, "Acer Helios ZPS", ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1028, 0x0470, "Dell M101z", ALC269_FIXUP_DELL_M101Z),
- 	SND_PCI_QUIRK(0x1028, 0x053c, "Dell Latitude E5430", ALC292_FIXUP_DELL_E7X),
- 	SND_PCI_QUIRK(0x1028, 0x054b, "Dell XPS one 2710", ALC275_FIXUP_DELL_XPS),
+ 	rt_amp_map = get_codec_name_and_route(dai, codec_name);
 -- 
 2.39.5
 
