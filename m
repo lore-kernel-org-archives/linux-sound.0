@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66481330ADB;
-	Sun,  1 Jun 2025 23:43:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFD8338588;
+	Sun,  1 Jun 2025 23:45:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748821437; cv=none; b=pyjBVThTh62DabjCYad3xVC3V6BUeFOOtfX7gpDWLschdOPMU4Slewel8/tVuZSm+gDvTmRDfFq7HUyBE1DlcRT1VZgT6Fi2BDY9K7AkLX+BmYICbbBlzuQ0KUH4k8XMuSifaVWvR+H9sRQsxmUm70Tyjg/ghBuVs2/6EzBKvEU=
+	t=1748821513; cv=none; b=CDJtBzby2x0YDU4wDk+3IxfHkH7uEpXBBDPMmmMo1VbcKmodHILsWJpJr3SdPodF5R/HM4TRfI/NOfYqjyITT/Y1ydqK0Yc96BRQNcarIkfDeNrQ04HaA9AK0SrszDFTQiSwRXejoJ0qRhzjL0hdQ+0HhclNLFfdldMmdrjdpxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748821437; c=relaxed/simple;
-	bh=WIIRaWk9RY+zaXgyadcMyFmqdPSjEHs6pCyEg3UefSw=;
+	s=arc-20240116; t=1748821513; c=relaxed/simple;
+	bh=g8dG9QvQT4i2D1iS298Vrn8I0SYgO69VMjI49o2+Mho=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RjzzWQjdxlQDujespF2Cxvj50LT0XTwZ/jT6HGBqjI2voi8IVLMHJ5KHI5z02TrgyzwmUo+jeEEtnnPc/woza7L9dB4I9TQcHIHxEjvBZqh+EZTDZi2KKVvYIfVQNHVbwd6PeNI+E86BQP+OI9tVEqWDBXOM6BeVlwVL84HvtZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fUxw8EvA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=m3RHWO3JOhKuU1nta7WgCyYWOGj2KmqgyARqoiC51GDvCtO0yH3q9F84UKIxkTIfEAgQgpMiiDIM8XBOROgC8nhI/xUgyobo3Lsj8es8gBQYZYpiiaXgZwspXGMhniY+b1IEZ0l7GL//U+nNP6I4GC4cqOGxXE2O8m8XntLBWvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JvJigB0F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fUxw8EvA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43EFCC4CEEE;
-	Sun,  1 Jun 2025 23:43:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JvJigB0F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57711C4CEF1;
+	Sun,  1 Jun 2025 23:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748821436;
-	bh=WIIRaWk9RY+zaXgyadcMyFmqdPSjEHs6pCyEg3UefSw=;
+	s=k20201202; t=1748821513;
+	bh=g8dG9QvQT4i2D1iS298Vrn8I0SYgO69VMjI49o2+Mho=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fUxw8EvAeZn2owp+gbiXhecne+6l72A27RkczEitgzRCXxAnNDe9rNa0XBp2Vl+xH
-	 Eq4wKcotkMI2atmeyFC2rot2N2Natm3CQzzyLxlG4/Dt5C8rXgyIWfS4z9cTEvgToA
-	 qhvj/2deNW8gTPmsIsoA+rvzT/2Spx4w71ZMEx1g5pAN0nZ0HP9h41lXzzESty+IgW
-	 jxgE/hU9kju2tAVJzUvPqAPoTsbPf4qmo8ckLKuOvN9c2hx0TtouLjC92mKM0RsxCV
-	 GZnNgjEgl0iSkYwTl1uNo7pigY3Xg5gqebsuzZvkHCgu+vT8SrCVP4zVzTXS96AhZh
-	 czGBbhum/VqQA==
+	b=JvJigB0F2X6z4vzIYvK7eT8ZhS01aOl7TgU581VSNu/O/8j/jC36d8mpx4JGksvsR
+	 X3FCGXpgdjgNiHQFr5he9DvhZ+TKK+QU1Prx9uhD4ygbkV7LCrfdg7CB6l7tmIXPZF
+	 WrCEnU3P7x4TBhm3gS4+x0tGvVqmvTmjL69t9XySN+J0bvpl3RWGkS1ygIR00r2/MA
+	 gNoXvzQYcl9KoaulKta3huAq9gkzGMTR2XaTdgDXKlDcfzpPR08C1cx8robHj8bJZv
+	 4LMD9aVW+b7vhdAq63XTB2o7sLnCj71aqXaST6SELUykCTlRKDoC4VxW8drjIL//aq
+	 XQOXWD0pa7MGw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -42,12 +42,12 @@ Cc: Hector Martin <marcan@marcan.st>,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 43/43] ASoC: tas2770: Power cycle amp on ISENSE/VSENSE change
-Date: Sun,  1 Jun 2025 19:42:23 -0400
-Message-Id: <20250601234224.3517599-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 34/34] ASoC: tas2770: Power cycle amp on ISENSE/VSENSE change
+Date: Sun,  1 Jun 2025 19:43:58 -0400
+Message-Id: <20250601234359.3518595-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250601234224.3517599-1-sashal@kernel.org>
-References: <20250601234224.3517599-1-sashal@kernel.org>
+In-Reply-To: <20250601234359.3518595-1-sashal@kernel.org>
+References: <20250601234359.3518595-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.184
+X-stable-base: Linux 5.10.237
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -123,7 +123,7 @@ codec operation and hardware protection.
  1 file changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index 4e71dc1cf588f..48bef7e5e4002 100644
+index 1928c1616a52d..629cc24d51c3d 100644
 --- a/sound/soc/codecs/tas2770.c
 +++ b/sound/soc/codecs/tas2770.c
 @@ -158,11 +158,37 @@ static const struct snd_kcontrol_new isense_switch =
