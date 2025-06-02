@@ -1,86 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E4E2AE9A
-	for <linux-sound@vger.kernel.org>; Mon,  2 Jun 2025 14:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6387A1DF73C
+	for <linux-sound@vger.kernel.org>; Mon,  2 Jun 2025 14:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748875831; cv=none; b=frl84mAaFILm5rKRzmUTY141hUfmJ5vmPngxjiV0Pi5/3ZtW9/uLVWP5/hsANTfK6RweyihRVNtSR/skFvsTFyNw0s3yVbNaQQLrr3yeNeqUQqGMQBF+TA/3VWW0Zez5r5EStfcocuttSdedNeF2/Y9KTok+QMX04vcjqlOFHzo=
+	t=1748876154; cv=none; b=lcAaSi0Kq+7EMf2yHemTorJk1a2ckj2yuMeCBuGQXdGh021R74NwUBL4teCSIH2XPl6QFbwCbOyvXXgHO0c9itJ1kg5HFnxKA24Jzi5oSBet2jI6hNEggrWQcs9vPMO9oQgHnnwHqfMRjItDsA+AFYO8cY68kucpzXVAvVpkimw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748875831; c=relaxed/simple;
-	bh=cD4utyu5riOW/V88wiSLFky7g7XfLN/qhdRlEyPH7cQ=;
+	s=arc-20240116; t=1748876154; c=relaxed/simple;
+	bh=mmsuWg92E1oRARJsckfmaN9kCc+sTcUE7a4qFv2JjcY=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D5/u/ppqKf1IRrfT7qI1W4ZxunwHelTi/pgIle51vhgyYEsyHvP/h56/ByrBekuO8YDlPAkIX6BV5PfGsnb8xkzVzQYJDVhsSJF3NbtvE2g83bNeN/AD6tclfQRX6Zjq1fJ1HIIZT4Foh9OHDwuwo/M8X0t3bxYnjn+zw+FtzvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0riFQfn/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VvDhAlkd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0riFQfn/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VvDhAlkd; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=R/WNn59DEYJgzY7HhvMg9zdzlYU69E1iTaZVemlBJmoKnqvQkHYcIrFaA79TkLozqTm9k5iHo5/fWUUZKjr4SaZSAGV+DvONAO+vYjSDSrR7yYAjYu8OIL7xbRZ6LkC36yVV/zjexZ0aY3di1+JUdt5sYotGqo/tuGJI3LJ+yXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jeWyvWNp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=apFAX9Vi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jeWyvWNp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=apFAX9Vi; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0riFQfn/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VvDhAlkd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0riFQfn/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VvDhAlkd"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jeWyvWNp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="apFAX9Vi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jeWyvWNp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="apFAX9Vi"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 134CB219DF;
-	Mon,  2 Jun 2025 14:50:28 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 92E781F7BD;
+	Mon,  2 Jun 2025 14:55:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1748875828; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1748876149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7yRG/WBt5KTJudP/SPS57xZI3pNN4+BeO93PpMIaodY=;
-	b=0riFQfn/O6vo82Ugquo9J2M404GjVS4vWwWrpFG4/oajj+58OCkKwjZrNxMgkfSvZZHHCD
-	99SREuYjabMfSVmiI2cBPpndw0Eag+4VWtLEKTfpiwU5rvFEuZVetZnolrVcZKj/xVKJCS
-	xJA6Nbl/D3SsPgXetrROMnS4HaGNHhc=
+	bh=aGgH2NC4M/mYCe/ce1FmqHa6Dl8VRr5A1u9oMQuPP5Q=;
+	b=jeWyvWNpHb1y6AAXrn5cbsuxUSq0HkLL8QEwl3BGs1pjzQFzShw3UA5Tkw+4eV2odPj6kp
+	sWI5PJnh6Shj1Yi2aU2hwTbW6AiFPg1euTy6tnHnabk5fe6gc8dFbV1VIe8LkHwR4Xd4rD
+	QnkGtEYbEk1MIY2EkGrZfs0YAd1RdKQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1748875828;
+	s=susede2_ed25519; t=1748876149;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7yRG/WBt5KTJudP/SPS57xZI3pNN4+BeO93PpMIaodY=;
-	b=VvDhAlkdD/zqyARal94gTpiTwPKf9mGGs2cVwn0/n/55qnj5ks3Yxvz1/ZxsVhusslI4C3
-	T6BIehk82DSnOyBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="0riFQfn/";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VvDhAlkd
+	bh=aGgH2NC4M/mYCe/ce1FmqHa6Dl8VRr5A1u9oMQuPP5Q=;
+	b=apFAX9ViT3BTWfUZu24e6mWYkx8J8Z1xccr16w4qFiYzRhZqzgO2Qqo7fm0JHLP/T0hanf
+	99X2TL4uEtAajGDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1748875828; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1748876149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7yRG/WBt5KTJudP/SPS57xZI3pNN4+BeO93PpMIaodY=;
-	b=0riFQfn/O6vo82Ugquo9J2M404GjVS4vWwWrpFG4/oajj+58OCkKwjZrNxMgkfSvZZHHCD
-	99SREuYjabMfSVmiI2cBPpndw0Eag+4VWtLEKTfpiwU5rvFEuZVetZnolrVcZKj/xVKJCS
-	xJA6Nbl/D3SsPgXetrROMnS4HaGNHhc=
+	bh=aGgH2NC4M/mYCe/ce1FmqHa6Dl8VRr5A1u9oMQuPP5Q=;
+	b=jeWyvWNpHb1y6AAXrn5cbsuxUSq0HkLL8QEwl3BGs1pjzQFzShw3UA5Tkw+4eV2odPj6kp
+	sWI5PJnh6Shj1Yi2aU2hwTbW6AiFPg1euTy6tnHnabk5fe6gc8dFbV1VIe8LkHwR4Xd4rD
+	QnkGtEYbEk1MIY2EkGrZfs0YAd1RdKQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1748875828;
+	s=susede2_ed25519; t=1748876149;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7yRG/WBt5KTJudP/SPS57xZI3pNN4+BeO93PpMIaodY=;
-	b=VvDhAlkdD/zqyARal94gTpiTwPKf9mGGs2cVwn0/n/55qnj5ks3Yxvz1/ZxsVhusslI4C3
-	T6BIehk82DSnOyBQ==
+	bh=aGgH2NC4M/mYCe/ce1FmqHa6Dl8VRr5A1u9oMQuPP5Q=;
+	b=apFAX9ViT3BTWfUZu24e6mWYkx8J8Z1xccr16w4qFiYzRhZqzgO2Qqo7fm0JHLP/T0hanf
+	99X2TL4uEtAajGDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB70313AE0;
-	Mon,  2 Jun 2025 14:50:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59A65136C7;
+	Mon,  2 Jun 2025 14:55:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vfLxLzO6PWgGXwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 02 Jun 2025 14:50:27 +0000
-Date: Mon, 02 Jun 2025 16:50:27 +0200
-Message-ID: <87plfmxkng.wl-tiwai@suse.de>
+	id h77BE3W7PWhnYAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Jun 2025 14:55:49 +0000
+Date: Mon, 02 Jun 2025 16:55:48 +0200
+Message-ID: <87jz5uxkej.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: "David Heimann" <d@dmeh.net>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	kernel@collabora.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add implicit feedback quirk for RODE AI-1
-In-Reply-To: <084dc88c-1193-4a94-a002-5599adff936c@app.fastmail.com>
-References: <084dc88c-1193-4a94-a002-5599adff936c@app.fastmail.com>
+Subject: Re: [PATCH 0/9] ALSA: usb-audio: Support jack detection on Sony DualSense PS5
+In-Reply-To: <20250526-dualsense-alsa-jack-v1-0-1a821463b632@collabora.com>
+References: <20250526-dualsense-alsa-jack-v1-0-1a821463b632@collabora.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,52 +89,60 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
 	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,collabora.com:email,suse.de:mid]
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 134CB219DF
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -3.51
 
-On Sun, 01 Jun 2025 18:41:16 +0200,
-David Heimann wrote:
+On Mon, 26 May 2025 16:07:39 +0200,
+Cristian Ciocaltea wrote:
 > 
-> The RODE AI-1 audio interface requires implicit feedback sync between playback endpoint 0x03 and feedback endpoint 0x84 on interface 3, but doesn't advertise this in its USB descriptors.
+> The Sony DualSense PS5 controller has an internal mono speaker, but it
+> also provides a 3.5mm jack socket for headphone output and headset
+> microphone input.
 > 
-> Without this quirk, the device receives audio data but produces no output.
+> Since this is a UAC1 device, it doesn't advertise any jack detection
+> capability.  However, the controller is able to report HP & MIC insert
+> events via HID, i.e. through a dedicated input device managed by the
+> hid-playstation driver [1].
 > 
-> Signed-off-by: David Heimann <d@dmeh.net>
-> ---
-> Tested using module parameter:
->   options snd-usb-audio implicit_fb=1:19f7:000a
+> This patch series implements a quirk to create the jack controls for
+> headphone and headset mic, respectively, and registers an input handler
+> for each of them in order to intercept the related hotplug events.
 > 
-> This device previously worked but stopped producing audio output (possibly after a kernel or audio subsystem update). This quirk restores functionality.
+> It's worth noting there is no hard dependency on the HID patch set [1],
+> as the usb-audio driver will simply bind the jack controls to the input
+> devices when they become available - this is managed internally by the
+> input handler framework.
 > 
-> This resolves audio output on the RODE AI-1 which otherwise receives audio data but produces no sound.
+> Unrelated to the above, the series also provides fixes to a bunch of
+> general coding style issues as reported by checkpatch.
+> 
+> [1] https://lore.kernel.org/all/20250526-dualsense-hid-jack-v1-0-a65fee4a60cc@collabora.com/
+> 
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-Applied now.  Thanks.
+Thanks for patches.  Through a quick glance, the code change looks OK,
+but since it's with significant amount of changes, so I'll postpone
+after 6.16 merge window (once after I'm back from traveling).
 
 
 Takashi
