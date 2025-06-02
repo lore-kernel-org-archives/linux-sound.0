@@ -1,142 +1,111 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB72A1BC3F
-	for <linux-sound@vger.kernel.org>; Mon,  2 Jun 2025 05:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1232119CC0E
+	for <linux-sound@vger.kernel.org>; Mon,  2 Jun 2025 08:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748841429; cv=none; b=Loy+RCeqhu6L9mQ8QlYpwlITfyHWbFM6oaXnEa9kSuygEg6rCDSt7685zO0Qh6ZdcrXa/3nWurm7vxuw6HgSJj5YYzdd9bPQmBzkGCN5l1XW+bwfMCoJXhgqVNkFLENgAhnGVdGWE7wR6VV5oe2tVBREDnRvwaHfviJ+1M7TZlg=
+	t=1748854775; cv=none; b=FMubsT1UtruniNcp3b5wy1n7of1lb78UPSbe9l422jKK5UGnkQs1QI6wx+Ki2t6kCpy/c2+Hgb3u8y9yR6c5yHwL8mrbUUylRUZF3jrbiE3g6VREOO0qefCtLN62dLAUmxLsjl5AjPN7KpG9Dere1HTCyvxz1Pf8MJNrrlz0RAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748841429; c=relaxed/simple;
-	bh=QlgZisWVY17SLtoiXdf351YXoW5eO2YEIBQ2EQVI5BE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eT3C9Jetmld5kRhn3qTQk4FLWknsclqC8p0xtFKUrQbReLdh9GAsTuUWs8wskinvTiBIcjyfNQVZlNk87xEQ6PJJ05UCPlXmfmtrZSD8XtZJ7CUO0unCdqBZ0ZmJQhDD09c/et/2ReM0dlXedwukfCEwHH+ns0dY0/eXdnNywZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GP9bYpvp; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1748854775; c=relaxed/simple;
+	bh=/CfL7zRAm5M7s8JDGqaNfvadiCWkijryuRC0sOvo3DQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f0zhbZ1dYao7mOsuEB7VzXjKUWcg6559Gghpy0ApgTE9hyc8kAGIqQivTIL2I4wm1AepSly23zA5I0P+vrQQeXL8gcq42Hy4LHCVCBdmxmIqq+QhPBlthJ9j9UAthsKJQhQOcJ7DAPH3JQ2Fuk2duKTRkwfdchUa+8lHucQU18s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=qrE+AbdX; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GP9bYpvp"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 551LVljp024495
-	for <linux-sound@vger.kernel.org>; Mon, 2 Jun 2025 05:17:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=BcvF3wu0+glYxRvQURwwkyPb
-	Iw+40g+dQPFaEyxFw88=; b=GP9bYpvpahtE5IBqlgEbKiOhXg6THipkPi4Sa5D2
-	SDZd1Ulu6vmJUpASjAQBAffcirieEVAqMA5mze5s3AHyEfOWMQ8K1OuOUMnKqacP
-	F2JWvLk7F2DwE5WPOmhf1PW9G7vPGgDGjAbDPqPbaXh3Zy/as4cENeh1CW32oAkh
-	RjFVpzP3HjJAdDEcoXLmmOG9Sq5ICWR3sjOXHv5EMs/Z5f0JgUA5LDniHTtk21PX
-	tgbI6FTDQnejfSJPJOgp6TvFP2ZlpDZ5ysdfstweYpronhBD1wOGuIiWFuUonZO3
-	iXmuM+5UbEyubg9ok1IjZwETRJCMSqMN4bbvr11Fio5UyA==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46ytxm3dx1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 02 Jun 2025 05:17:06 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-30ea0e890ccso3744393a91.2
-        for <linux-sound@vger.kernel.org>; Sun, 01 Jun 2025 22:17:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748841426; x=1749446226;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BcvF3wu0+glYxRvQURwwkyPbIw+40g+dQPFaEyxFw88=;
-        b=YSE9YXVYtwqNwM1fOGWfiN6T4LlwYKC92eD7G7nQaVSQg7bscRkK32a9ZWA2mC7XhD
-         hOz+52Iu6rCeWyEzOM+TR3iOslsKFF1dJ22vTbDStXicP9YwiBqdon3BBSARTwiqKVqB
-         xGCf6N7FYd5Lg9cWGZw27DE+4uS/5AovTSAPGrI8ymB91yai+JBUiNCxkHFOrSlDgOSx
-         aj2cySogQyKa/69hOuVvPU9YLdVS1J/lazMpwDm/9SIRma/SGCdkbKuBeOJzxRi0ql2c
-         gvZTuk0hqjB1Vxjvppk/s4b/xjoyD1H6tv6JZZKhn23+AhNPSFAEDJfGsr+xxDrz1twC
-         BHlg==
-X-Forwarded-Encrypted: i=1; AJvYcCXfuLC3Cx2/8kjDSxABjGYxQL3mrPJwc0xXfP6SKV5vPGuFa4q6OlLucM5Xy+SIVAtx7Wi3/tBMD8eCnA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHN4+qeZ3Y3kcfzpKsorMBfjmVGE8FOYDeBplgQILvTXkudQAw
-	af0mUj/IZBuPCrlW8ygtxXhbYhE7zUSg2d9gJxkJGlq+g2jx6gxm+qUzqglrmcV1PYoWzG4AUhv
-	9io4s94twhjV9GwnqEU8MEgneX6UMdLCEd/SvrVmsCVNhp+46T7hKKS6OSfKQmCDtBVAahVUtEU
-	txIWG9bGEpVhwqCo40UaNlHrsh7ctDyh3lw5VoxPms
-X-Gm-Gg: ASbGnctvZhG1SK4yQG0wvMp7v/0gHGngV0xh7J646XElPG8YVL1NStFoYYSg7yiN6bR
-	1Gi9cWMbjGpL/qd4635J0s3VW+zxcbsn+WFE1GWYtmNa2tyAglIcUdgUttoI966BOEroVAa/f86
-	q0mG0=
-X-Received: by 2002:a17:90b:5828:b0:311:e8cc:4264 with SMTP id 98e67ed59e1d1-31250363513mr19184382a91.12.1748841426100;
-        Sun, 01 Jun 2025 22:17:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHChfK7PzYEZQwIvqSMCkJ/uvXJUWw56R0DX0Cq8T43ylpHzEa8bN6hcW7rjeT7ueXeX59XgKnJOr16AZ1SCX8=
-X-Received: by 2002:a17:90b:5828:b0:311:e8cc:4264 with SMTP id
- 98e67ed59e1d1-31250363513mr19184328a91.12.1748841425612; Sun, 01 Jun 2025
- 22:17:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="qrE+AbdX"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5528wtyU73827943, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1748854735; bh=tJDSuMafo1TVGCV5ad4RV960v3zIuEONc2dWwtMKdlA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=qrE+AbdXBn8fZgAfW3/cLJ81RxVvY2d9mH2mcV02F5svfnISj/qYXPacZ6ddLF+04
+	 iiK69Sdl6sRypfFotgI4YBe5SCIqDwynP8MrhU53rJVS1DmtdiOQQTrlbF+MBAn8NN
+	 YTFZBRwunWeq/tRjl8ElPTSIcATDljKUalkLE3zBMt+j1owTVcKZ69E7miRCVLMmFr
+	 donpCSeT9C9DWw68ie7NhciFAe3IEC7cEggX4t6vyg14ndtX0GvdZZGTzaYzBE6XFo
+	 pjXRHOYGvuIPxssBOiBEqvKGk5eHoBmQJFEA9XllugrZt2yNaiSWlXiUVM5eCS7G96
+	 pl2ibsNgaMMKQ==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 5528wtyU73827943
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 2 Jun 2025 16:58:55 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 2 Jun 2025 16:58:56 +0800
+Received: from sw-server.localdomain (172.22.102.1) by
+ RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 2 Jun 2025 16:58:55 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH] ASoC: rt1320: fix speaker noise when volume bar is 100%
+Date: Mon, 2 Jun 2025 16:58:51 +0800
+Message-ID: <20250602085851.4081886-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250527111227.2318021-1-quic_pkumpatl@quicinc.com>
- <DA70A4LOJ57L.1RTX2K0Z6PU0L@linaro.org> <5b28e37d-6d46-472a-9aef-d2d86ea8f04b@quicinc.com>
-In-Reply-To: <5b28e37d-6d46-472a-9aef-d2d86ea8f04b@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 2 Jun 2025 08:16:54 +0300
-X-Gm-Features: AX0GCFtphupxUXzge-OP-7CeHDdsIOZC-CkWPj3OAeMdCwPb4GB5B5RCJ_MKFaQ
-Message-ID: <CAO9ioeUPQOTgAY1FDW=VCNbcTHv6jZFnjF7F0JdJb5Px3Dhotg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] Enable audio on qcs6490-RB3Gen2 and qcm6490-idp boards
-To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Cc: Alexey Klimov <alexey.klimov@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-        kernel@oss.qualcomm.com, Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-GUID: eOt6NWnjpm5SF-SXbCIxkSzIkWt75RBQ
-X-Proofpoint-ORIG-GUID: eOt6NWnjpm5SF-SXbCIxkSzIkWt75RBQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjAyMDA0MiBTYWx0ZWRfX/splpHIxYuLw
- Y/iRxD5B3YsuKCT8JnCLGj2PyA2lBS2J5fu7k+numGZdwLq+9b9UGSO9uD0YMh+KaZMd80ctEL9
- 13/o+D5Yyh91Q0WJ+u+lSaNmnZ1iIV9eie3AVrjwuC6EtQkgkOIihQC5r9i/YN1Lc8FbnzQ8bw4
- Btw7X8QxO2fbL9lTPItVsPXkXoOTufbsAPVimdebhXNE8f+S2gIUvqqMB8iU9ZJCyIhov5eCSt0
- 5QQ+bgo/F1gI21swk0muk00LHFSfKAJF24bF2kJiRC4B4i1P5UYzp2ztIeGp65zrNW3Ue+rPs71
- XPAaOcerTA68jAotSB0cry/ZNjTuWya7Pxjy6dMg0jxM6wvmLr1GoXUH0kz5wmdMIWKkI32HPdR
- eSKboN4ETTtq/Pg7Md1kqfm5e8/iz0Q7UGNw8DWmZvbehMyamFLgBE3ID9o/XaApBnYL1LTb
-X-Authority-Analysis: v=2.4 cv=XdKJzJ55 c=1 sm=1 tr=0 ts=683d33d2 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
- a=NEAV23lmAAAA:8 a=COk6AnOGAAAA:8 a=XMtzzObD5LvXkpxU5CkA:9 a=QEXdDO2ut3YA:10
- a=iS9zxrgQBfv6-_F4QbHw:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-02_01,2025-05-30_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxlogscore=935 spamscore=0 lowpriorityscore=0
- suspectscore=0 phishscore=0 impostorscore=0 clxscore=1015 mlxscore=0
- bulkscore=0 malwarescore=0 adultscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505160000 definitions=main-2506020042
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
+ RTEXMBS01.realtek.com.tw (172.21.6.94)
+X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-On Sun, 1 Jun 2025 at 16:02, Prasad Kumpatla <quic_pkumpatl@quicinc.com> wrote:
->
->
->
-> On 5/27/2025 7:47 PM, Alexey Klimov wrote:
-> > On Tue May 27, 2025 at 12:12 PM BST, Prasad Kumpatla wrote:
-> >> From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-> >>
-> >> Audio support is now enabled on the qcs6490-RB3Gen2 and qcm6490-idp boards.
-> >> The updates include adding the necessary audio device tree support and the required
-> >> dependencies.
-> >
-> > Do you have topology file and mixers commands (or UCM profile) to test this?
-> >
-> > I already asked but I don't see any replies. How this can be tested?
->
-> please use these below UCM config files
-> https://github.com/mohsRafi/alsa-ucm-conf/blob/qcs6490_qcm6490_hifi/ucm2/Qualcomm/qcs6490/QCS6490-RB3Gen2/HiFi.conf
->
-> https://github.com/mohsRafi/alsa-ucm-conf/blob/qcs6490_qcm6490_hifi/ucm2/Qualcomm/qcm6490/QCM6490-IDP/HiFi.conf
+From: Shuming Fan <shumingf@realtek.com>
 
-Is there anything there that isn't a part of the 1.2.14 release of
-alsa-ucm-conf?
+This patch updates the settings to fix the speaker noise.
 
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt1320-sdw.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
+diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+index f51ba345a16e..015cc710e6dc 100644
+--- a/sound/soc/codecs/rt1320-sdw.c
++++ b/sound/soc/codecs/rt1320-sdw.c
+@@ -204,7 +204,7 @@ static const struct reg_sequence rt1320_vc_blind_write[] = {
+ 	{ 0x3fc2bfc0, 0x03 },
+ 	{ 0x0000d486, 0x43 },
+ 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x00 },
+-	{ 0x1000db00, 0x04 },
++	{ 0x1000db00, 0x07 },
+ 	{ 0x1000db01, 0x00 },
+ 	{ 0x1000db02, 0x11 },
+ 	{ 0x1000db03, 0x00 },
+@@ -225,6 +225,21 @@ static const struct reg_sequence rt1320_vc_blind_write[] = {
+ 	{ 0x1000db12, 0x00 },
+ 	{ 0x1000db13, 0x00 },
+ 	{ 0x1000db14, 0x45 },
++	{ 0x1000db15, 0x0d },
++	{ 0x1000db16, 0x01 },
++	{ 0x1000db17, 0x00 },
++	{ 0x1000db18, 0x00 },
++	{ 0x1000db19, 0xbf },
++	{ 0x1000db1a, 0x13 },
++	{ 0x1000db1b, 0x09 },
++	{ 0x1000db1c, 0x00 },
++	{ 0x1000db1d, 0x00 },
++	{ 0x1000db1e, 0x00 },
++	{ 0x1000db1f, 0x12 },
++	{ 0x1000db20, 0x09 },
++	{ 0x1000db21, 0x00 },
++	{ 0x1000db22, 0x00 },
++	{ 0x1000db23, 0x00 },
+ 	{ 0x0000d540, 0x01 },
+ 	{ 0x0000c081, 0xfc },
+ 	{ 0x0000f01e, 0x80 },
 -- 
-With best wishes
-Dmitry
+2.34.1
+
