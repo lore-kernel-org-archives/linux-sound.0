@@ -1,111 +1,91 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1232119CC0E
-	for <linux-sound@vger.kernel.org>; Mon,  2 Jun 2025 08:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA041DE2A4
+	for <linux-sound@vger.kernel.org>; Mon,  2 Jun 2025 11:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748854775; cv=none; b=FMubsT1UtruniNcp3b5wy1n7of1lb78UPSbe9l422jKK5UGnkQs1QI6wx+Ki2t6kCpy/c2+Hgb3u8y9yR6c5yHwL8mrbUUylRUZF3jrbiE3g6VREOO0qefCtLN62dLAUmxLsjl5AjPN7KpG9Dere1HTCyvxz1Pf8MJNrrlz0RAk=
+	t=1748863288; cv=none; b=Bx+KYIbA9uioW6+1Rmp/qmbUuvbBnMApfh0M5iUK7q5FGNO99NOe2SIK7MH19Unkq4syjP6yF6UuoTUqfxtKF2746RoemxGf7e0BiO3tlLkfm8AKb38YZ3H3sGnA5Lh7p7iQi3MLDEkoTMMCJP8xCQ4UJrjtEa0exH6S85BVwWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748854775; c=relaxed/simple;
-	bh=/CfL7zRAm5M7s8JDGqaNfvadiCWkijryuRC0sOvo3DQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f0zhbZ1dYao7mOsuEB7VzXjKUWcg6559Gghpy0ApgTE9hyc8kAGIqQivTIL2I4wm1AepSly23zA5I0P+vrQQeXL8gcq42Hy4LHCVCBdmxmIqq+QhPBlthJ9j9UAthsKJQhQOcJ7DAPH3JQ2Fuk2duKTRkwfdchUa+8lHucQU18s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=qrE+AbdX; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1748863288; c=relaxed/simple;
+	bh=YC0EqCOZh+bGnAS0g2+hJzdV0xxtzSuWEz6dOnQ4Dp0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J7RSWVQN7ONmc0DilxCGN57qNPI11su10UAl0ki/dm6WXnUVvlGGmuTe/2AFEJs1VESwZ0qm4SyHwIJJnjWLIVZbHWvFjUvN9uY/w4BNUdcK8dHZkC7YuWVlggXJtpdgkNdkru9J9AuWiD7MJKQ/xNQU7FmS05Mw0QFJTbVeMnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lWIjQUl9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="qrE+AbdX"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5528wtyU73827943, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1748854735; bh=tJDSuMafo1TVGCV5ad4RV960v3zIuEONc2dWwtMKdlA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=qrE+AbdXBn8fZgAfW3/cLJ81RxVvY2d9mH2mcV02F5svfnISj/qYXPacZ6ddLF+04
-	 iiK69Sdl6sRypfFotgI4YBe5SCIqDwynP8MrhU53rJVS1DmtdiOQQTrlbF+MBAn8NN
-	 YTFZBRwunWeq/tRjl8ElPTSIcATDljKUalkLE3zBMt+j1owTVcKZ69E7miRCVLMmFr
-	 donpCSeT9C9DWw68ie7NhciFAe3IEC7cEggX4t6vyg14ndtX0GvdZZGTzaYzBE6XFo
-	 pjXRHOYGvuIPxssBOiBEqvKGk5eHoBmQJFEA9XllugrZt2yNaiSWlXiUVM5eCS7G96
-	 pl2ibsNgaMMKQ==
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 5528wtyU73827943
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 2 Jun 2025 16:58:55 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 2 Jun 2025 16:58:56 +0800
-Received: from sw-server.localdomain (172.22.102.1) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 2 Jun 2025 16:58:55 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] ASoC: rt1320: fix speaker noise when volume bar is 100%
-Date: Mon, 2 Jun 2025 16:58:51 +0800
-Message-ID: <20250602085851.4081886-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lWIjQUl9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9998EC4CEED;
+	Mon,  2 Jun 2025 11:21:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748863288;
+	bh=YC0EqCOZh+bGnAS0g2+hJzdV0xxtzSuWEz6dOnQ4Dp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lWIjQUl9Nbkx5Plohd4MnWjQlnxZ+y5p0geoc3A/PsyKEIv0lPMjTdAgImsBUVKS5
+	 txK5tdfgiNpQy35l6h2zzzLQBcSVdTfmyuzE6kD+sDw7POHhw4p3nO8o+vw7I2gymx
+	 jiiZXdtl6qtNnCReOjPyWJpVhXbjFr7TALEbf66ySRy/JWth7krcg/yGi02JC/WUIP
+	 NzKQ0GymQ5dcou5zXiYsJvYFfHORbtlKl2TIffHCa6PkDWtf/ljigZ+G3p+lHLNkj3
+	 MOlrVTLeSzv24oOgPFlDGWD1U2JLvgrDD8zAD52DcOKwTO/c+ZZPOdbQCqMSqYMt2b
+	 8axp7Hq+/kwyw==
+Date: Mon, 2 Jun 2025 12:21:23 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Xose Vazquez Perez <xose.vazquez@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	SOUND ML <linux-sound@vger.kernel.org>,
+	MEDIATEK ML <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH] ASoC: mt6660: delete MODULE_VERSION
+Message-ID: <bd02757e-458b-4a3c-9194-7d7bbbd318f5@sirena.org.uk>
+References: <20250531155950.101164-1-xose.vazquez@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
- RTEXMBS01.realtek.com.tw (172.21.6.94)
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BITvhzOI4tGAp1//"
+Content-Disposition: inline
+In-Reply-To: <20250531155950.101164-1-xose.vazquez@gmail.com>
+X-Cookie: Knowledge is power.
 
-From: Shuming Fan <shumingf@realtek.com>
 
-This patch updates the settings to fix the speaker noise.
+--BITvhzOI4tGAp1//
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/codecs/rt1320-sdw.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+On Sat, May 31, 2025 at 05:59:49PM +0200, Xose Vazquez Perez wrote:
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index f51ba345a16e..015cc710e6dc 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -204,7 +204,7 @@ static const struct reg_sequence rt1320_vc_blind_write[] = {
- 	{ 0x3fc2bfc0, 0x03 },
- 	{ 0x0000d486, 0x43 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x00 },
--	{ 0x1000db00, 0x04 },
-+	{ 0x1000db00, 0x07 },
- 	{ 0x1000db01, 0x00 },
- 	{ 0x1000db02, 0x11 },
- 	{ 0x1000db03, 0x00 },
-@@ -225,6 +225,21 @@ static const struct reg_sequence rt1320_vc_blind_write[] = {
- 	{ 0x1000db12, 0x00 },
- 	{ 0x1000db13, 0x00 },
- 	{ 0x1000db14, 0x45 },
-+	{ 0x1000db15, 0x0d },
-+	{ 0x1000db16, 0x01 },
-+	{ 0x1000db17, 0x00 },
-+	{ 0x1000db18, 0x00 },
-+	{ 0x1000db19, 0xbf },
-+	{ 0x1000db1a, 0x13 },
-+	{ 0x1000db1b, 0x09 },
-+	{ 0x1000db1c, 0x00 },
-+	{ 0x1000db1d, 0x00 },
-+	{ 0x1000db1e, 0x00 },
-+	{ 0x1000db1f, 0x12 },
-+	{ 0x1000db20, 0x09 },
-+	{ 0x1000db21, 0x00 },
-+	{ 0x1000db22, 0x00 },
-+	{ 0x1000db23, 0x00 },
- 	{ 0x0000d540, 0x01 },
- 	{ 0x0000c081, 0xfc },
- 	{ 0x0000f01e, 0x80 },
--- 
-2.34.1
+Why?
 
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Cc: SOUND ML <linux-sound@vger.kernel.org>
+> Cc: MEDIATEK ML <linux-mediatek@lists.infradead.org>
+> ---
+
+You've not provided a Signed-off-by for this so I can't do anything with
+it, please see Documentation/process/submitting-patches.rst for details
+on what this is and why it's important.
+
+--BITvhzOI4tGAp1//
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmg9iTMACgkQJNaLcl1U
+h9B9ggf+Loveli4/RDFRqTHaFC6/CBG63rebesdMGUnYUtvOmCxl+57fKdkjzLqn
+Aa604mlfThBqgiFrW1LUlEGXohRq9aD/EBfKxwn64VDq5e2kDtVnKozr2FcnD8+6
+tR3TSwvdvrq1G2sWahRR09v176jweqbdUVd/4q3LojhKCT3arXdL0EZtvMQMZVLo
+p4FUMAH2ZpnFVOusr074RyX2bmeZl/toiiNAligp3N0GlhJXU9PcQAA0USYs38zq
+5hwS3sejJpnP7D8DPceYrzisKywf80nK2+RSHYObUvcQSNwrySK6Y8pAkoI6NB5c
+CtQm4xzQGAW9F5b/+v7sfFAlDRkVvg==
+=Jazz
+-----END PGP SIGNATURE-----
+
+--BITvhzOI4tGAp1//--
