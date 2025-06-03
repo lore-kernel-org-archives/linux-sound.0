@@ -1,94 +1,130 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8931386344;
-	Mon,  2 Jun 2025 19:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67290137C52;
+	Tue,  3 Jun 2025 05:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748892927; cv=none; b=EDbrdQdN8sC44JjoCBTW0rVbqJW4YAOP3LLh1k+xdiLplWNKIiEHIzFDSwCmhnJvXH3zKqiZFE/qa0XeB8o0tU7DbPhDbsi7ywgL6JNyTtRlIkPjjTxDsQFoLeRF2AuAH9/tY21kyqi2XN7BlVU0Mc6gTggyXHKIbNfWHE0nYL8=
+	t=1748929887; cv=none; b=cwwhdjUEY5mBVvZR/SYMvFVAH27DpkceHVdaHOFb3k6F2gW+8iS9LagM08M4Y5rKNDtTheorFOma87P2f1H2FM6Ib+5Fq/ek4dWDZ4Umr19nm10AKMohYlr61vvmmZoyglKnV+DgAuCs40cQsjnyjyz048DgTJimvS202TItLT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748892927; c=relaxed/simple;
-	bh=DzeqapKfXOeLo/h40hwv/+ekVEA5yJxW5rpifuUtKjw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CW5SUTBf9SX5NpVxWJ0DgS9JsJ3HnntFP1yTiN5pnCXHQ1PbXPqIUKsBb3Bfl/yYIPu9Z+EzR+qwbKpw/Imc/dMCUJUEGli7D3lp3O1+VRh/ICHQbpe11rN8K1JnL948Io4n22icHDy58ha0Ie66P7BK5bat3PkVBW9ltcdq4pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MG5NioNS; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MG5NioNS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1748892923;
-	bh=DzeqapKfXOeLo/h40hwv/+ekVEA5yJxW5rpifuUtKjw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MG5NioNSySBYdaSYee23zZ9tOWszOvcJenenQ/r0eYJd3aiRJj0jJRUafFYs7rFny
-	 g8olPb1XAt2UrCW46sjuXWrKyLXwzUIJyec5o/Cp9X9wNiDeVUTd489B1/3qHPzX+N
-	 745SrbFGHs+NCVvEgy6xegZHRhN1YALKH2x+f2UDVOHgz2vowfV9bzH3l848Cif3Fz
-	 jUoa4LGl0MNJLL1uRWVppSzhFgqAS2WGKlUOQi6+WENGBn1mlDcTpAevH5VcwNAP/c
-	 q+B0Zq18E5IXRpmS1lkWBol+dfmzXnD4oi1huIMGQN2cL0Y9x7ourl1EHvJAyxYMNg
-	 h59QuRQbuF6DA==
-Received: from [192.168.1.90] (unknown [188.24.155.2])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6126F17E088C;
-	Mon,  2 Jun 2025 21:35:23 +0200 (CEST)
-Message-ID: <0c2b3de3-700c-4ee8-9650-6033a4882d58@collabora.com>
-Date: Mon, 2 Jun 2025 22:35:22 +0300
+	s=arc-20240116; t=1748929887; c=relaxed/simple;
+	bh=n5BjHU0sJZzgoIfQXD0y0/OV4wC2/rt+U/E5IJFAGnw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WVErC4TJfL3aDdzDDe2AQZKEsZz1JQk6wVyRK/ETBHak/CwzjxlKtm8wMg6p/4zMyds42a4yjiI3Qv2sRoRfSwvrUMTm/CxqElX7icy0A4SZettE/P41S0dPwT4YRZJgItOZQS/cWhnv2l27ggWOSGjeGlN8mGBoLJRkBORy5fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: c44b1a9c403e11f0b29709d653e92f7d-20250603
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:36da481d-9628-499b-b408-b3ee3ad83ee2,IP:0,U
+	RL:0,TC:0,Content:32,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:32
+X-CID-META: VersionHash:6493067,CLOUDID:fc49a494d89cd9d5410e466ec1068e3b,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:4|50,EDM:-3,IP:nil,UR
+	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: c44b1a9c403e11f0b29709d653e92f7d-20250603
+Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 576421780; Tue, 03 Jun 2025 13:51:17 +0800
+Received: from node4.com.cn (localhost [127.0.0.1])
+	by node4.com.cn (NSMail) with SMTP id 0A62516001A03;
+	Tue,  3 Jun 2025 13:51:17 +0800 (CST)
+X-ns-mid: postfix-683E8D54-83035764
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by node4.com.cn (NSMail) with ESMTPA id 070CF16001CC7;
+	Tue,  3 Jun 2025 05:51:12 +0000 (UTC)
+From: Ai Chao <aichao@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	kuninori.morimoto.gx@renesas.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	jbrunet@baylibre.com,
+	neil.armstrong@linaro.org,
+	khilman@baylibre.com,
+	martin.blumenstingl@googlemail.com,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH v4 0/4] Use helper function for_each_child_of_node_scoped()
+Date: Tue,  3 Jun 2025 13:51:05 +0800
+Message-ID: <20250603055109.3154061-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] ALSA: usb-audio: Support jack detection on Sony
- DualSense PS5
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- kernel@collabora.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250526-dualsense-alsa-jack-v1-0-1a821463b632@collabora.com>
- <87jz5uxkej.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <87jz5uxkej.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 6/2/25 5:55 PM, Takashi Iwai wrote:
-> On Mon, 26 May 2025 16:07:39 +0200,
-> Cristian Ciocaltea wrote:
->>
->> The Sony DualSense PS5 controller has an internal mono speaker, but it
->> also provides a 3.5mm jack socket for headphone output and headset
->> microphone input.
->>
->> Since this is a UAC1 device, it doesn't advertise any jack detection
->> capability.  However, the controller is able to report HP & MIC insert
->> events via HID, i.e. through a dedicated input device managed by the
->> hid-playstation driver [1].
->>
->> This patch series implements a quirk to create the jack controls for
->> headphone and headset mic, respectively, and registers an input handler
->> for each of them in order to intercept the related hotplug events.
->>
->> It's worth noting there is no hard dependency on the HID patch set [1],
->> as the usb-audio driver will simply bind the jack controls to the input
->> devices when they become available - this is managed internally by the
->> input handler framework.
->>
->> Unrelated to the above, the series also provides fixes to a bunch of
->> general coding style issues as reported by checkpatch.
->>
->> [1] https://lore.kernel.org/all/20250526-dualsense-hid-jack-v1-0-a65fee4a60cc@collabora.com/
->>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> 
-> Thanks for patches.  Through a quick glance, the code change looks OK,
-> but since it's with significant amount of changes, so I'll postpone
-> after 6.16 merge window (once after I'm back from traveling).
+This patch series introduces wrapper functions for_each_child_of_node_sco=
+ped().
 
-Sure, no worries, take your time!  Thanks for the early feedback!
+The for_each_child_of_node_scoped() helper provides a scope-based clean-u=
+p
+functionality to put the device_node automatically, and as such, there is
+no need to call of_node_put() directly.
 
-Cristian
+Summary:
+
+ - Patch 1 ALSA: ppc: Use helper function for_each_child_of_node_scoped()
+
+ - Patch 2 ASoC: renesas: Use helper function for_each_child_of_node_scop=
+ed()
+
+ - Patch 3 ASoC: meson: Use helper function for_each_child_of_node_scoped=
+()
+
+ - Patch 4 ASoC: imx-card: Use helper function for_each_child_of_node_sco=
+ped()
+
+---
+Changes in V4:
+ - Remove patch ALSA: aoa: Use helper function for_each_child_of_node_sco=
+ped()
+ - Remove Patch ASoC: qcom: Use helper function for_each_child_of_node_sc=
+oped()
+
+Changes in v3:
+ - Change Patch name ASoC to ALSA for patch 1,2.
+ - Change commit message information.
+ - for_each_child_of_node_scoped() instead of
+   for_each_child_of_node() in i2cbus_add_dev().
+
+Changes in v2:
+ - Fix error reported by kernel test rebot
+ - Keep "node"
+---
+
+ sound/ppc/tumbler.c                |  5 ++---
+ sound/soc/fsl/imx-card.c           | 13 +++++------
+ sound/soc/meson/axg-card.c         |  3 +--
+ sound/soc/meson/meson-card-utils.c | 16 +++++---------
+ sound/soc/renesas/rcar/core.c      | 35 ++++++++++--------------------
+ sound/soc/renesas/rcar/ctu.c       |  8 ++-----
+ sound/soc/renesas/rcar/dma.c       |  4 +---
+ sound/soc/renesas/rcar/dvc.c       |  8 ++-----
+ sound/soc/renesas/rcar/mix.c       |  8 ++-----
+ sound/soc/renesas/rcar/src.c       | 10 ++-------
+ sound/soc/renesas/rcar/ssi.c       | 18 +++++----------
+ sound/soc/renesas/rcar/ssiu.c      |  7 ++----
+ 12 files changed, 40 insertions(+), 95 deletions(-)
+
+--=20
+2.47.1
+
