@@ -1,89 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB42A15624B
-	for <linux-sound@vger.kernel.org>; Tue,  3 Jun 2025 14:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C8572605
+	for <linux-sound@vger.kernel.org>; Tue,  3 Jun 2025 16:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748962287; cv=none; b=Ta1wC8X6Qm4SbKaqjob7I36tjKN7K7aJNiLswntFd1Me5Z3llIPLr7p25Vc8ztP8HXJwxSRfwUXqjpOf0kSXyrovJ076OGqjBM3MbwBUrWZIRRQJsGm47S+iazLPyCBZ1gkaZ6ubJgZ/1nvIz+DNrEapjuz6Ou2Fqr0w4DmRiAM=
+	t=1748966662; cv=none; b=UtZ2h45aqmicRbUCYYVhtOAGiqQvJGMsElc3eTfZznydvVNzE6HqLD78C6X93trLCjyOEtPOnmYinwjOFu8+e4BLl3Aoa3xmrJSuoJqL3MH2+WP/33WmrSyTh8sj/KfIceuIy8VuzvNl+2Gnf0csVNLFyEus308ir6LszBX/D5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748962287; c=relaxed/simple;
-	bh=6U1sMgIAneBnxyIBANSsIrANJ/cGK15fXwv5rJIFRPY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=eBZjM1gUMfQwbG8sdyPMBDwj7zoxCC5QixoTQ3zzaLYuatV6I5jNi4QjlucZb4p3VM/obz+l5rYY1y9nwUcVRxYGEWsjh6pmeq6jy2D8HhRmOH6otNPRcXPhHCVa5R8rwf31S8ygAnSQFOC5Ckwn03sb9D6YS5VPBNCWFpqKjw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6s+mrEI; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1748966662; c=relaxed/simple;
+	bh=O6tGFLAPh32MDHFLYF1415IcZZBh2OL86oaVKyHMT3c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Pamg4veIrXR1pxf8tq8KuFxoQnIpgN/HW+N6EdvyZixYv7aouRz3WMtBClqtG+AAo1JIrZJ17DLeJarFLa2k/gCKzBhcprD4rZAspQC43WKLK89wRNRuDHCeeEdp6MTV2vRyXcc6FpqWoRZorZLwLKigeL0avdPPlHrCHFI1wAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dvOwdsZI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6s+mrEI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748962286; x=1780498286;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6U1sMgIAneBnxyIBANSsIrANJ/cGK15fXwv5rJIFRPY=;
-  b=M6s+mrEIzTogzwUHsN5iNfXRbGtmaczzR9Ua0129Hp6xCM66hTLwAQl9
-   KyMvCH7RM94FLa5/Kx2PY6OJPTNazkb2uU+qXBNXf/oZhPUE8fexn9i6g
-   QjjMJ8YM22jiucxxDQsmEEtEXoQXK/p5beD0lmz94ZZLaufpMUVqi0UiP
-   Kl4rmtbWX4b6r9UeyfkoVj2SwfUiAOC9E+8Fh5oYhjufSZ06w515OLGlA
-   ytiOgi/io4nf/XeKIvNglV4kb5KiGSDB+ReR+3bJ+S7RLthu/FUIv/UyN
-   cR07ExNzX4cHFaKIhITxnyfmwNAlrd4rErDWsy4z77k9ztcDUEVkHVaL/
-   g==;
-X-CSE-ConnectionGUID: /RSyXzG9RdqIbpJ/PZ0AFw==
-X-CSE-MsgGUID: FkpzrruzRfKqeX+Ouc68lA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="51077653"
-X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; 
-   d="scan'208";a="51077653"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 07:51:25 -0700
-X-CSE-ConnectionGUID: svBuqR5ISOiWNbfabb8zRQ==
-X-CSE-MsgGUID: GVDARnClQa6Zs/7GYC5ZJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; 
-   d="scan'208";a="148728933"
-Received: from dev2.igk.intel.com ([10.237.148.94])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Jun 2025 07:51:23 -0700
-From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	linux-sound@vger.kernel.org,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH] ASoC: Intel: avs: boards: Fix rt5663 front end name
-Date: Tue,  3 Jun 2025 16:52:44 +0200
-Message-Id: <20250603145244.871239-1-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dvOwdsZI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63669C4CEED;
+	Tue,  3 Jun 2025 16:04:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748966661;
+	bh=O6tGFLAPh32MDHFLYF1415IcZZBh2OL86oaVKyHMT3c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=dvOwdsZIy8U6VXtrX3i1eSoeru/auXoOIZIdpJHYxcHG+uTAzNTZYZ4y1VmQESXsC
+	 cFrArhE4OdqjRMyKrORjj74KmFHIffbGV52q168seOOvKns4fjXljOMj1MQGjcOn26
+	 NkcpKBXZ4d8lTLptcGIoYY7Z2fE5c2Ekh0ePZY5HFoxpccWQ4wpoOMMBjDxtZG5QuS
+	 u9a/mSzCv7589ImfzHQ2ZPGG8OHSLOtKiCiDvP7QQaq/IK8s/mwQnm+27vVhTFlOTD
+	 iTJtjF8UXgtcJQabRuHs9pS97QohNSOY2nNRhh7THqCu4L+zJ1qC5kQ5OU1CpJrRrC
+	 mr0UmwW1Z/qSg==
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20250530141025.2942936-1-cezary.rojewski@intel.com>
+References: <20250530141025.2942936-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH 0/9] ASoC: Intel: avs: Set of functional fixes
+Message-Id: <174896666012.64254.14190132665871862218.b4-ty@kernel.org>
+Date: Tue, 03 Jun 2025 17:04:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-Fix copy paste mistake in board name.
+On Fri, 30 May 2025 16:10:16 +0200, Cezary Rojewski wrote:
+> Medium range of fixes all avs-driver related. The most important fixes
+> lead the way:
+> 
+> 1. For ASoC-hda codec driver, existing RPM manipulation in
+> hda_codec_probe_complete()'s error path is superfluous and leads to RPM
+> usage count underflow if the probe exists early e.g.: build-controls
+> operation fails.
+> 
+> [...]
 
-Fixes: f1e282c333ac ("ASoC: Intel: avs: boards: Change rt5663 card name")
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
----
- sound/soc/intel/avs/boards/rt5663.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to
 
-diff --git a/sound/soc/intel/avs/boards/rt5663.c b/sound/soc/intel/avs/boards/rt5663.c
-index 122b6c48fd807..51648801710af 100644
---- a/sound/soc/intel/avs/boards/rt5663.c
-+++ b/sound/soc/intel/avs/boards/rt5663.c
-@@ -228,7 +228,7 @@ static int avs_rt5663_probe(struct platform_device *pdev)
- 		card->name = "avs_rt5663";
- 	} else {
- 		card->driver_name = "avs_rt5663";
--		card->long_name = card->name = "AVS I2S ALC5640";
-+		card->long_name = card->name = "AVS I2S ALC5663";
- 	}
- 	card->dev = dev;
- 	card->owner = THIS_MODULE;
--- 
-2.34.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/9] ASoC: codecs: hda: Fix RPM usage count underflow
+      commit: ff0045de4ee0288dec683690f66f2f369b7d3466
+[2/9] ASoC: Intel: avs: Fix deadlock when the failing IPC is SET_D0IX
+      commit: 9ad1f3cd0d60444c69948854c7e50d2a61b63755
+[3/9] ASoC: Intel: avs: Fix PPLCxFMT calculation
+      commit: 347c8d6db7c9d65d93ef226849b273823f54eaea
+[4/9] ASoC: Intel: avs: Fix possible null-ptr-deref when initing hw
+      commit: 2f78724d4f0c665c83e202e3989d5333a2cb1036
+[5/9] ASoC: Intel: avs: Fix paths in MODULE_FIRMWARE hints
+      commit: 9e3285be55e6c0829e451b4a341e3059da47ec9d
+[6/9] ASoC: Intel: avs: Verify kcalloc() status when setting constraints
+      commit: 5f342aeee2724d31046172eb5caab8e0e8afd57d
+[7/9] ASoC: Intel: avs: Verify content returned by parse_int_array()
+      commit: 93e246b6769bdacb09cfff4ea0f00fe5ab4f0d7a
+[8/9] ASoC: Intel: avs: Simplify verification of parse_int_array() result
+      commit: 065a651e2fb35209cbfe6fc5f1ababf92b66d4a4
+[9/9] ASoC: Intel: avs: Include missing string.h
+      commit: 38b1befc7a35a475d90ec32bfbe319f4412880a1
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
