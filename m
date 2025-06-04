@@ -1,81 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD98A25179A
-	for <linux-sound@vger.kernel.org>; Wed,  4 Jun 2025 11:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A173C2B9BC
+	for <linux-sound@vger.kernel.org>; Wed,  4 Jun 2025 11:31:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749036041; cv=none; b=H5A2RuGP3GJ3+RcNKALrgy5FP15Lj1QhW90AcrAF12qDE2ArrMSmDzC5bleNrIRsuF4NI5m6DOHQUdbtI9e0R5yifgLCHaFQ/Yk+ttqO1sBDJNQFmPUFf3j8uGTo+PeKm/d9usGu2q7cLSwrtuojh2BEHTYTFw19uKZyHYJ4iww=
+	t=1749036679; cv=none; b=ODEkn7xdl7gWC3jsrKSGh4h+MRzPMuSDaaPbUHEERSUtGFZT2IyMEQM8RYmSlWiQVG7LAZl3VQIgAuUhdBlRhfw8B0ipHdxJT4b//QotzldLE7PrmC9WUYKCDKRkkReIxwpcoJgruSI9xOMdLSqTwxHVyig+ahTPH1cykBjYjWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749036041; c=relaxed/simple;
-	bh=YEisNjW51wJtXkb1/A3QPq4yG6PaRm0ahzR9jyhpgkA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mjhH5PiUNkGqXWrIoxz2VXLENPlGWv7zvVEjQFsQhmIs9vVPIaeUakq0fpkNaCeQAQm1JdyVRAnadaaiQJbBETnx8vo21qDKUD0b+1y8oUFPaGLTKt+3SNMbV1O26boyMawX4BghDjz7UosZkvQumb97NCHqx/SuHZMIevq7taY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QLz9HN4Z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749036679; c=relaxed/simple;
+	bh=ZX0ItmnNbojzBHBC/dcRzu7609Te3f708c0QQ3pKAfI=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=WxpdFHZmUBUZ2CqHn8btQJSbaa+EaptWI8wwb+lZLloYhI1Th2cpGXUX2CLGseXIzISKfE1Tx4NDm4FknzgfEVF5HQs/vTx4OVnc3rGD3tXLSSGqGMob9WqVKhYnidPpnsSc8eYUN51KFl7laKUj/2OoUmYgkJSr7RfDITSUc0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r9E3WoDp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QLz9HN4Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA322C4CEF3;
-	Wed,  4 Jun 2025 11:20:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r9E3WoDp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2424FC4CEE7;
+	Wed,  4 Jun 2025 11:31:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749036041;
-	bh=YEisNjW51wJtXkb1/A3QPq4yG6PaRm0ahzR9jyhpgkA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QLz9HN4ZnDCCG18BoT9pOxMxaNUd8G44eZ7F1TwluPNdQqhv6dkU2vS0DqCyOqp7L
-	 9sXO6BDT/q/NW3QDU1HlRomJSQRlVlyk3n0HiwzsZRQuD1IkIDAtGwNDym5HYJ+LZY
-	 jDn2Nzqy+cinduZ58+lZUA8kEbBvwdqGLT9Kh2DfFpm7g0UPjOzPFDje1+u4UDJnZZ
-	 bREUNWeqt2C0efzyqBn27KBQ+UxeoAsRI+3UtwGG07m2aaue9FGkHKQilEsgg9cUKJ
-	 RgCy4WgDkcRYy9wxuDB7fE9Kae1fNQnlz46jdVSJTtbZpgFM3U4caPxzWVcoFC/hKh
-	 fEIPJKK9QJ+DQ==
-Date: Wed, 4 Jun 2025 12:20:38 +0100
+	s=k20201202; t=1749036679;
+	bh=ZX0ItmnNbojzBHBC/dcRzu7609Te3f708c0QQ3pKAfI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=r9E3WoDp2CmCGjuSRqydrA1olIUkEOXP1FHFYujZXfDuZjFd7MfQP18sPaM5dCieo
+	 u5DnE1ew8CuxGHG2fKvW/SjZ6yJWlikphZmkh29HCk011ZDR9TSDW5m+BXrUgL2u8C
+	 oVhGAWSFEuqgBUbCuzQoZLVzjVyYetpkzzJij+qXMc0o6zMISxkTWZ0zXTmyzD3CF7
+	 8D5vR4u0fW5rd8Yuc5bdapqwElp+mU2oXAYt9rmogTo4xCivsbqaEbyZccLDOno9/l
+	 mnATWBH7OwFoV4Qn8gAAblDCJWvl4bhjNcxmcWyHyYcSPPuqT+qXwUzTWzMQ3f+hEK
+	 j5ZBB4Dg5QILg==
+Message-ID: <b1d4ad0e144128a16f88faa924f41432.broonie@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ASoC: hdac_hdmi: remove hdac_hdmi_jack[_port]_init()
-Message-ID: <35983696-730b-4a89-a675-3e73fbde47cc@sirena.org.uk>
-References: <875xhcut6o.wl-kuninori.morimoto.gx@renesas.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.16-merge-window
+Date: Wed, 04 Jun 2025 12:31:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XIvDWg2iwzYmdKmH"
-Content-Disposition: inline
-In-Reply-To: <875xhcut6o.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: Non-sequiturs make me eat lampshades.
 
+The following changes since commit 43a38a0ff8c63ee156d997cd13063c63cd55d812:
 
---XIvDWg2iwzYmdKmH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  ASoC: codecs: add support for ES8375 (2025-05-23 16:52:28 +0100)
 
-On Wed, Jun 04, 2025 at 02:38:56AM +0000, Kuninori Morimoto wrote:
-> No one is using hdac_hdmi_jack[_port]_init(). Remove it.
-> We might need it in the future, keep it and its related functions
-> under #if 0, so far.
->=20
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
-> This patch try to keep code, but please let me know if is should
-> remove all.
+are available in the Git repository at:
 
-It'd be better to just remove them.
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.16-merge-window
 
---XIvDWg2iwzYmdKmH
-Content-Type: application/pgp-signature; name="signature.asc"
+for you to fetch changes up to b7188a1c0d2d7b04f4558e10293651d49fcb2398:
 
------BEGIN PGP SIGNATURE-----
+  ASoC: Intel: avs: boards: Fix rt5663 front end name (2025-06-03 17:04:32 +0100)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhALAUACgkQJNaLcl1U
-h9DWDgf/eE2M4xaaSt2BsoYwcSBDJS+oqteGdnTHuZQPVmUPMr7decRspgrbhct+
-WqVxCQAJ8uym/CNa0t4/1/edqImJFS2yMYMzchu9FR64tn9Z1DoydLqqRKuKd1bu
-7ZJCn0noVBZgBIyhjQsPyh2suYoee5RUMCZA0IQXXXLYKDgDk4jV0/uXk+blX4fJ
-X3WGut6toMkfNP5+D+QFWS3zEwdwW7Vi5mW+0oXH1rF2+L5t5dhLX/X+HKKmpupy
-YvzcPI7TdPlA8uF7Il4hIIZSCqFa1H2d4MdptcBDDcIJb5c01XzispJcqwXWIPKu
-P+seyg5FfvbXfBTeUdQpVUphyq35jw==
-=hv9E
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+ASoC: Fixes for v6.16
 
---XIvDWg2iwzYmdKmH--
+A bunch of fixes, including a big batch for the Intel AVS driver, and
+one new device ID.  It's all device specific.
+
+----------------------------------------------------------------
+Amadeusz Sławiński (2):
+      ASoC: Intel: avs: Fix paths in MODULE_FIRMWARE hints
+      ASoC: Intel: avs: boards: Fix rt5663 front end name
+
+Bram Vlerick (2):
+      ASoC: tas571x: add separate tas5733 controls
+      ASoC: tas571x: fix tas5733 num_controls
+
+Cezary Rojewski (9):
+      ASoC: codecs: hda: Fix RPM usage count underflow
+      ASoC: Intel: avs: Fix deadlock when the failing IPC is SET_D0IX
+      ASoC: Intel: avs: Fix PPLCxFMT calculation
+      ASoC: Intel: avs: Fix possible null-ptr-deref when initing hw
+      ASoC: Intel: avs: Verify kcalloc() status when setting constraints
+      ASoC: Intel: avs: Verify content returned by parse_int_array()
+      ASoC: Intel: avs: Include missing string.h
+      ASoC: pcm: Do not open FEs with no BEs connected
+      ASoC: Intel: avs: Simplify verification of parse_int_array() result
+
+Jaroslav Kysela (2):
+      firmware: cs_dsp: Fix OOB memory read access in KUnit test (wmfw info)
+      firmware: cs_dsp: Fix OOB memory read access in KUnit test (ctl cache)
+
+Krzysztof Kozlowski (3):
+      ASoC: codecs: wcd9335: Fix missing free of regulator supplies
+      ASoC: codecs: wcd937x: Drop unused buck_supply
+      ASoC: codecs: wcd9375: Fix double free of regulator supplies
+
+Mark Brown (2):
+      ASoC: codecs: wcd93xx: Few regulator supplies fixes
+      ASoC: Intel: avs: Set of functional fixes
+
+Qasim Ijaz (1):
+      ASoC: codecs: fix out-of-bounds access on invalid clock config
+
+Shuming Fan (1):
+      ASoC: rt1320: fix speaker noise when volume bar is 100%
+
+Yuuki NAGAO (1):
+      ASoC: ti: omap-hdmi: Re-add dai_link->platform to fix card init
+
+meowmeowbeanz (1):
+      ASoC: amd: yc: Add support for Lenovo Yoga 7 16ARP8
+
+ drivers/firmware/cirrus/test/cs_dsp_mock_wmfw.c    |  3 +-
+ .../cirrus/test/cs_dsp_test_control_cache.c        |  1 -
+ sound/soc/amd/yc/acp6x-mach.c                      |  7 +++
+ sound/soc/codecs/es8375.c                          |  1 +
+ sound/soc/codecs/hda.c                             |  4 +-
+ sound/soc/codecs/rt1320-sdw.c                      | 17 +++++-
+ sound/soc/codecs/tas571x.c                         | 67 +++++++++++++++++++++-
+ sound/soc/codecs/tas571x.h                         | 34 +++++++++++
+ sound/soc/codecs/wcd9335.c                         | 25 +++-----
+ sound/soc/codecs/wcd937x.c                         |  7 +--
+ sound/soc/intel/avs/board_selection.c              |  2 +-
+ sound/soc/intel/avs/boards/rt5663.c                |  2 +-
+ sound/soc/intel/avs/core.c                         | 20 +++----
+ sound/soc/intel/avs/debugfs.c                      | 12 ++--
+ sound/soc/intel/avs/ipc.c                          |  4 +-
+ sound/soc/intel/avs/loader.c                       |  1 +
+ sound/soc/intel/avs/path.c                         |  2 +
+ sound/soc/intel/avs/pcm.c                          | 13 ++---
+ sound/soc/soc-pcm.c                                | 23 ++++----
+ sound/soc/ti/omap-hdmi.c                           |  7 ++-
+ 20 files changed, 184 insertions(+), 68 deletions(-)
