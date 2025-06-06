@@ -1,33 +1,75 @@
-Received: from mail-m155100.qiye.163.com (mail-m155100.qiye.163.com [101.71.155.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B657288511;
-	Fri,  6 Jun 2025 12:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76DB43AA9;
+	Fri,  6 Jun 2025 19:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749211793; cv=none; b=SGoHcXr3Vv10mw08hl9FAYcwhiuaW3rLpLj8tchJJzPQ+dD+TYT390cIzrOT4uCoFkb3P6AB+ohppLlD7IDUlZv6QqDXRXuPRr/8r8p39Qje3nkSwJ6X0MtDxaKLElDYxqa8ddF3vWwVEBE/Cz7huMcWD61Fv6D89noo3IXgdQY=
+	t=1749238063; cv=none; b=X9mfvHHIfuCy8obWRma0hdKrovqueXr0dfmampTNl12sq0voqN39S7ZrVqHgx+W9vAyCmS8e6sZ7Ua30tWwTmLt5pMxoFK3cgzuhwoEw+NCzKj17P60WD9Kvh/yzgxjbCdYfHrxu4RmVnhl9z0cZu/B0JQG8Hgy7d11YN9pPiyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749211793; c=relaxed/simple;
-	bh=fKLaM3Y/zvFJjqno1ZuE4eCqxRCZBQdRSSXpdfOYEUQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e5kiGe0St54BO3oD9JD25NON4wqKLHxmsxch4KZ32a5wpLAc1JQY2HNDpH+c0cwETxcBunP5ySvZvVQprT+AjF/E//I4v1fJyDGwh+E+Fiyvbxvrl9G0euR9cwPlzyrEyn0NiSxM7af5O9Lqn9PTjIy9pkpNdXH1b2z9mNocFSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b=dpFK+QGy; arc=none smtp.client-ip=101.71.155.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+	s=arc-20240116; t=1749238063; c=relaxed/simple;
+	bh=faRcReKxhmUofDDkCeQVM6SzXCNDLDJuD4syhu+Fdgs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GiirUJJ2cba+KVuBJB0Mkv0UwL0v5e2H6m/pGAf7dBv8A3skDwyJpNjdJSQ6x1r5EU0YIaO7Yr56LeQ9sVc85U3ZOELtncIA1XpkzdLObATYCm+IelKmwSXpHfViBvC50CV/ZyGA4CIhCtY+SW7eHXCkVJ09Lw6J1/45D/zGtpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gaeSW+zt; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b="dpFK+QGy"
-Received: from f-15NBC1011.. (unknown [59.173.180.60])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 17c70785f;
-	Fri, 6 Jun 2025 19:34:15 +0800 (GMT+08:00)
-From: "feng.liu" <feng.liu@senarytech.com>
-To: perex@perex.cz,
-	tiwai@susu.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"feng.liu" <feng.liu@senarytech.com>
-Subject: [PATCH] Correct boost volume 
-Date: Fri,  6 Jun 2025 19:33:49 +0800
-Message-ID: <20250606113349.129746-1-feng.liu@senarytech.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gaeSW+zt"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6facacf521eso25437956d6.3;
+        Fri, 06 Jun 2025 12:27:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749238060; x=1749842860; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XfNAXAYoR35jdBQCiZAgVgr8/Q8x1ESP6dlgjpAxiGU=;
+        b=gaeSW+ztdCiPtjAGe5RPrrerQZzwKiIusT/P2toAdlC1GP5QVRWfQsVfiaSxEreihV
+         IgT3SSNyyup5KibdJeHcx5w0D839hdDyE9DQMgfANpdwTxKO0JTFSksxIgIfQ1p5GcDZ
+         AeFPnheBanH/fHUKEcI1jvBNzTJtFfFlvfAYeaxhVfaAu8/WACRlqBwky6FGEzT8UmA0
+         o1QNnbRluTpW/vI5nV8OrSU9zVFKeg0x3gV1GBajhaUYG3iLONxbk/SOcuyThdP55gr+
+         NfiBjBReP8ARvRCZnWaHNIw8+o3XsoOCnyUVMVtQF7rlf+EfTyNjRzzv+z/1mSRj0wNY
+         ziWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749238060; x=1749842860;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XfNAXAYoR35jdBQCiZAgVgr8/Q8x1ESP6dlgjpAxiGU=;
+        b=KLcyH7veqhKeJLjsFXEx7bni6BP5hbn/iyDeQB9c/ehSKUj83a1XZPoWAgkl4f6BFO
+         eb+v3cofzCfePVtQtPJ0tqFCvb4fVFgjAzzoSO4hpx6H4vRaDdOGAj+76Nd9jfoYVzcM
+         H3KHcdJvCrjJvcMrumYC2M5CVbTN8ingrYmE44lgRP+DxjxZlytx4bk31IC9UD1iFArw
+         wAJmGNXBq3AUnCLRv+6SODgnQdfbbXvTRXrPHVQu9uQnA8aVVZdFYAE1QKKZrJfB2mZ9
+         OG7qPijxhNAMbw9uFj6eolROddnWxc5UC3wea4yf/TIpJPaZXsjod1ToqDAu2ZRN53dJ
+         wA6g==
+X-Forwarded-Encrypted: i=1; AJvYcCUFeKa4HntNF25T8OElQbEaUQMsVbf04KftvYC+n85kHwM0bgSOJ9eV9QHL8SJpZWUJUDJzZ+KTy6s5qOc=@vger.kernel.org, AJvYcCVQrftFRP+5WA/EG4AUpM+a9sOPw7QqOcibVCigUXOs+gTcsaFLj8zsQc+IbPXvH9d7Obkmx+sqvTzMMP8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH86U1cpXRIviJIn/pbRA+tAFJEBFqxzGpHQFsrQrtfUU/sYr9
+	6R8oj+z4DTvkm96f7xu0ZOFSlYiXV0Qsb8/nF9AtH+cubW76Ny5cZTq/
+X-Gm-Gg: ASbGnctvIzQwQYIYnmTm68+hv0m3AM1OsM6Z7vnkgbBHAYgtFCtM+Ohy8thW1zcVlRZ
+	Zd06qbaXv2Xv7q+pE5kDR7fRY7fDn9QCfj11wP4Qb4G137t2ep66c48TaSinfrtN/UljW0hR9uj
+	CV8Cw1QBhMDKqCfOMu7v1fnWTEQh3C7Y9hdqowKq4aas4jrlgPCVLH0FnuhMNWsRQrZ9iAQrF7A
+	MPlakJNpR+qR1cITc1wBdjv9nngy6Ff2wVedVawzUtdqSL/DeH1desP6DU9ZB6LnTftMj19dwaa
+	Clp1Lf0IjGDF3e0ggwJOsCyqPu0weILr1trWK2RfBTZxCP4iSUYhOgm0XQ5l8MinI0kG7Nhatit
+	vxT7KI2KRR8zRCXSYpVzDPdksl6Nl
+X-Google-Smtp-Source: AGHT+IFKK3dqPe3m+hyJ/34Eh4G/DiPSW4Ls1MsN2CSwtrtVQbJhawXArGvuztELDopYMt8ftm0fbQ==
+X-Received: by 2002:a05:6214:e83:b0:6fa:c697:97b5 with SMTP id 6a1803df08f44-6fb08f6dbf8mr73843476d6.20.1749238060636;
+        Fri, 06 Jun 2025 12:27:40 -0700 (PDT)
+Received: from SunshineGrove.mtu.edu (rover-237-192.rovernet.mtu.edu. [141.219.237.192])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d25a59161dsm174932585a.51.2025.06.06.12.27.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 12:27:40 -0700 (PDT)
+From: SunOfLife1 <sunoflife1.git@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: SunOfLife1 <sunoflife1.git@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek - Enable mute LED on HP Pavilion Laptop 15-eg100
+Date: Fri,  6 Jun 2025 15:24:59 -0400
+Message-ID: <20250606192650.10948-1-sunoflife1.git@gmail.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <87sekixkqg.wl-tiwai@suse.de>
+References: <87sekixkqg.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,102 +77,26 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZH0lIVkMdGkhISEhCHkxPGlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlOQlVKTEhVSkNLVU1LWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ01CVUpLS1
-	VLWQY+
-X-HM-Tid: 0a974505283309d6kunme17f59d81e151d
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NSo6Sww*MjE#PRgDMig3TToO
-	Ii1PCR9VSlVKTE9CSUtCTU5NT09PVTMWGhIXVR0eFRxVFxIOOwgeFRoJAg8eGBNVGBQWRVlXWRIL
-	WUFZTkJVSkxIVUpDS1VNS1lXWQgBWUFISUpJNwY+
-DKIM-Signature:a=rsa-sha256;
-	b=dpFK+QGyk0gMHMAteJBMJAceC9R4A/PKk+bff+0MnEaAhqnFHxLKItgVmX/k+FU2QtqSg/L2ke11icl/orAqOOp2yuao8NRlWYXkmR6G/adnflVKcYa196gt+UjJXIvA2BXKtDhavbfItkGGLxgNIi3IAUBC0J3i1Jk6sEMnawM=; s=default; c=relaxed/relaxed; d=senarytech.com; v=1;
-	bh=pIG8r7shakLbmdpIlhngJPrd8+12FVKQFSGXxV9t87E=;
-	h=date:mime-version:subject:message-id:from;
 
-Read the Boost Level configured for input pins in the BIOS 
- init verbs, and restore these settings during audio recording. 
- This addresses issues of low recording volume or excessive 
- background noise caused by incorrect boost configurations. 
+Of course, thank you for notifying me. Is this better?
 
-Signed-off-by: feng.liu <feng.liu@senarytech.com>
-
+Signed-off-by: Yasmin Fitzgerald <sunoflife1.git@gmail.com>
 ---
- sound/pci/hda/patch_conexant.c | 46 ++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index 34874039ad4..77101363e06 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -43,6 +43,8 @@ struct conexant_spec {
- 	unsigned int gpio_mute_led_mask;
- 	unsigned int gpio_mic_led_mask;
- 	bool is_cx8070_sn6140;
-+
-+	unsigned char init_imux_boost_val[HDA_MAX_NUM_INPUTS];
- };
- 
- 
-@@ -1178,6 +1180,48 @@ static void add_cx5051_fake_mutes(struct hda_codec *codec)
- 	spec->gen.dac_min_mute = true;
- }
- 
-+static void cxt_fixed_mic_boost(struct hda_codec *codec,
-+	unsigned char node_id,
-+	unsigned char mic_boost)
-+{
-+	unsigned char value = 0;
-+
-+	value = snd_hda_codec_read(codec, node_id, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
-+	if (value != mic_boost)
-+		snd_hda_codec_amp_stereo(codec, node_id, HDA_INPUT, 0, HDA_AMP_VOLMASK, mic_boost);
-+}
-+
-+static void cxt_cap_sync_hook(struct hda_codec *codec,
-+					 struct snd_kcontrol *kcontrol,
-+					 struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct conexant_spec *spec = codec->spec;
-+	hda_nid_t mux_pin = spec->gen.imux_pins[spec->gen.cur_mux[0]];
-+
-+	if (spec->init_imux_boost_val[mux_pin])
-+		cxt_fixed_mic_boost(codec, mux_pin, spec->init_imux_boost_val[mux_pin]);
-+}
-+
-+static int cxt_get_defaut_capture_gain_boost(struct hda_codec *codec)
-+{
-+	struct conexant_spec *spec = codec->spec;
-+	int i;
-+	unsigned int boost;
-+
-+	for (i = 0; i < HDA_MAX_NUM_INPUTS; i++) {
-+		if (spec->gen.imux_pins[i] == 0)
-+			continue;
-+
-+		boost = snd_hda_codec_read(codec, spec->gen.imux_pins[i],
-+			0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
-+		spec->init_imux_boost_val[spec->gen.imux_pins[i]] = boost;
-+		codec_info(codec, "%s, node_id = %x, mic_boost =%x", __func__,
-+			spec->gen.imux_pins[i], boost);
-+	}
-+
-+	spec->gen.cap_sync_hook = cxt_cap_sync_hook;
-+}
-+
- static int patch_conexant_auto(struct hda_codec *codec)
- {
- 	struct conexant_spec *spec;
-@@ -1245,6 +1289,8 @@ static int patch_conexant_auto(struct hda_codec *codec)
- 	if (!spec->gen.vmaster_mute.hook && spec->dynamic_eapd)
- 		spec->gen.vmaster_mute.hook = cx_auto_vmaster_hook;
- 
-+	cxt_get_defaut_capture_gain_boost(codec);
-+
- 	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE);
- 
- 	err = snd_hda_parse_pin_defcfg(codec, &spec->gen.autocfg, NULL,
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index cd0d7ba7320e..0c09bcae2006 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10713,6 +10713,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8975, "HP EliteBook x360 840 Aero G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x897d, "HP mt440 Mobile Thin Client U74", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8981, "HP Elite Dragonfly G3", ALC245_FIXUP_CS35L41_SPI_4),
++	SND_PCI_QUIRK(0x103c, 0x898a, "HP Pavilion 15-eg100", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x898e, "HP EliteBook 835 G9", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x898f, "HP EliteBook 835 G9", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8991, "HP EliteBook 845 G9", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
 -- 
-2.45.2
+2.49.0
 
