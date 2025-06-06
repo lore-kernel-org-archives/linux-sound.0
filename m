@@ -1,97 +1,111 @@
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BCA26B95A;
-	Fri,  6 Jun 2025 09:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749201563; cv=none; b=QWlYIpPDpwAcCV1b9nJXbhTerBAhFQ2QTddv9T58vkquzubplo3zeW1PKMcIe2J0oSkL/9hPbJFfA87bCjdX/fgBSPVtQgI7Gfo3BspxZUzY7H3nnnN0mV7af4l2M9ByRO6TIqg5NBzcfvOAxjv8SUoCvFvQf73483lwhT7N5b8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749201563; c=relaxed/simple;
-	bh=tKDi5g+WJYXkiDu84THtecwGQt34edB7qK5WTJ+hv1I=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CE2VVARr5o/cAR6ck0oNSkkVEoyojKtnpq9TBtMKiEsCyVSxojJFQlUaRVlsPM+D9iIWh6z06Fdd+h3+eiCYMc5ElOxnKi9Ksrfy1mXG1JfkZ/TgIOjUhTJY3L7jdLR36qLxHFT1QrDnN+AjTVEkwMiH963A8FbReIj160u6p0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=I4Okap8r; arc=none smtp.client-ip=220.130.44.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684B3191F7E;
+	Fri,  6 Jun 2025 09:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749203353; cv=pass; b=cGyE+YzEfxMsU8WqUmhh3GcjlhmDjs7wxUpSHUyGc0KCA514mGbth/RaKN0mVXQ+zU6Bu9FsNUNYfM5PP/rqwuhlOMDxkb5MhIXvvh61RjB69UZTOSVSEEUhqD5KmMf4RlZtvy+mUY+dYdIrxRUfsARv/PLHJ/P2P4jNbsvbNoE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749203353; c=relaxed/simple;
+	bh=ufQdgJJ8ELiGvRLyctLyDxDULThwCFQ5M0s2dHp5WcU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=evxLqmH9vtNp39RF1DNMtcyryPccZW12xxtHqtrfbhMTCKfcZLqyyRQdZPHqlWiJ38p/n67Od8WhdWdhx2S7iFcrny5eLT3lU1u4Yq4999+Md3RTlU7PbQAanX3uSuBAKQ4dGYLz+Mwki3O1NEZgvIkJ4HkhAY+IFcmO9YZtp2w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=AXrT3X/g; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="I4Okap8r"
-X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
-	s=richtek; t=1749201556;
-	bh=15QNaksYI2zs+1jCXDG0pPlORekfTpURDzMdJDiHTJg=; l=801;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=I4Okap8rXVG3dJqrjFL8jak2qvriNzOzi/OA7XxTIWulnumdOPOSoFEk8J0eEeVg1
-	 uFqJxTCR9LrZNWBaChXSbZ887Qqbf0au/iouOtRxKfTyNgA314nHUPPjn3xmlBUbqw
-	 OHfQuioYRyBBVz0tNAZSe1m+a92IuonPhhSkyjjIvR62Detrn8yXdKq15P2zfKWd3K
-	 jc4XifX870bWtWKkcGC54XQLrc6ibBMRZnBg73OMjTRKxsaP70sxeSOb0lvk2QJs2N
-	 GKMX5s7xgixoCUKEg1R+suyyjF1Nd9o+1kn9mlsgd6BmBA4CJoWRVvxmodrNv0jKBz
-	 Pw5UZu960mSZQ==
-Received: from 192.168.10.47
-	by mg.richtek.com with MailGates ESMTPS Server V6.0(2288495:0:AUTH_RELAY)
-	(envelope-from <cy_huang@richtek.com>)
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Fri, 06 Jun 2025 17:18:57 +0800 (CST)
-Received: from ex3.rt.l (192.168.10.46) by ex4.rt.l (192.168.10.47) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 6 Jun
- 2025 17:18:57 +0800
-Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
- (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
- Transport; Fri, 6 Jun 2025 17:18:57 +0800
-Date: Fri, 6 Jun 2025 17:19:12 +0800
-From: ChiYuan Huang <cy_huang@richtek.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Conor
- Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Roy Chiu <roy_chiu@richtek.com>,
-	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: Add Richtek RTQ9124
-Message-ID: <aEKykANxE/v0UN1b@git-send.richtek.com>
-References: <cover.1749197773.git.cy_huang@richtek.com>
- <b95d701e5eb93d011a9e428adede845a309d1f12.1749197773.git.cy_huang@richtek.com>
- <3853e99b-30bf-4263-8abb-2b9f812415bc@kernel.org>
- <aEKqGS8xGKNL4WxD@git-send.richtek.com>
- <d923e0a2-acee-4e25-80e7-cdbc125408a4@kernel.org>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="AXrT3X/g"
+ARC-Seal: i=1; a=rsa-sha256; t=1749203325; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=BDRQhUXbZUXBzSw5etuAVJudYAJv3trPbVEKVW6rlGrgnN2e08Az+GzLRKwRLQdkcFR7fOyxG9ejgamyeLed2xLloQDaL7Tj4xkzuxHsT1U4x4jtQoA050uUt3/9O/uIALARzVrZGsXqwm6Snm/kIao1kEYs0Qvi3mfNjtDFCSQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1749203325; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=pOMikGDm0MmBx1ffFfqI8HnHprOULeEnm50fJ4rduiM=; 
+	b=OuYOkQ9JUvFU83oyRWnXcQMzx7c4joJcXfgHpBqS5d05ixiVEmg0hDqHLMfvCSdHv63o8X7iWYPBOVVzhk1JR20vnJlxODrToAaQWK1QowIlGwo+dp10ALfOvcP/mwK41OYAJiNtA2gXQDfdfaN2U98I06l4YnCZ5jTFDi5epzk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749203325;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=pOMikGDm0MmBx1ffFfqI8HnHprOULeEnm50fJ4rduiM=;
+	b=AXrT3X/gdWM3d/al73oHTm1DN8lTjiDmui1fUMKEtuAgJ8VTAhcjSRq1wH5kJy1D
+	i6TL+OWL3LgzNr/iD08U06uj/1K7RrfU3lipLp0BRWmhtFqYTQ7OmYX+ir8o+VVQ+8B
+	RMNAI2YuCzcS8ffKZTdwWX4K7unjDiVoAPnTqY0M=
+Received: by mx.zohomail.com with SMTPS id 17492033238565.683996663710104;
+	Fri, 6 Jun 2025 02:48:43 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ heiko@sntech.de, linux-rockchip@lists.infradead.org,
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Pei Xiao <xiaopei01@kylinos.cn>
+Cc: Pei Xiao <xiaopei01@kylinos.cn>
+Subject:
+ Re: [PATCH v2 1/2] ASOC: rockchip: fix capture stream handling in
+ rockchip_sai_xfer_stop
+Date: Fri, 06 Jun 2025 11:48:38 +0200
+Message-ID: <9468228.NyiUUSuA9g@workhorse>
+In-Reply-To:
+ <c374aae92c177aaf42c0f1371eccdbc7e9615786.1749201126.git.xiaopei01@kylinos.cn>
+References:
+ <cover.1749201126.git.xiaopei01@kylinos.cn>
+ <c374aae92c177aaf42c0f1371eccdbc7e9615786.1749201126.git.xiaopei01@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <d923e0a2-acee-4e25-80e7-cdbc125408a4@kernel.org>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, Jun 06, 2025 at 10:50:14AM +0200, Krzysztof Kozlowski wrote:
-> On 06/06/2025 10:43, ChiYuan Huang wrote:
-> > On Fri, Jun 06, 2025 at 10:33:46AM +0200, Krzysztof Kozlowski wrote:
-> >> On 06/06/2025 10:24, cy_huang@richtek.com wrote:
-> >>> +
-> >>> +allOf:
-> >>> +  - $ref: dai-common.yaml#
-> >>> +
-> >>> +properties:
-> >>> +  compatible:
-> >>> +    enum:
-> >>> +      - richtek,rtq9124
-> >>
-> >> Exactly the same as richtek,rt9123. Don't create same binding files for
-> >> similar devices.
-> >>
-> > Do you mean to expand rtq9124 description in rt9123 binding file? 
+On Friday, 6 June 2025 11:18:21 Central European Summer Time Pei Xiao wrote:
+> Correcting the capture stream handling which was incorrectly setting
+> playback=true for capture streams.
 > 
-> Yes
+> The original code mistakenly set playback=true for capture streams,
+> causing incorrect behavior.
 > 
-Compared to write a similar file, this should be better.
-Will use that way in next revision.
+> Fixes: cc78d1eaabad ("ASoC: rockchip: add Serial Audio Interface (SAI) driver")
+> Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+> ---
+>  sound/soc/rockchip/rockchip_sai.c | 16 +++-------------
+>  1 file changed, 3 insertions(+), 13 deletions(-)
+> 
+> diff --git a/sound/soc/rockchip/rockchip_sai.c b/sound/soc/rockchip/rockchip_sai.c
+> index 602f1ddfad00..916af63f1c2c 100644
+> --- a/sound/soc/rockchip/rockchip_sai.c
+> +++ b/sound/soc/rockchip/rockchip_sai.c
+> @@ -378,19 +378,9 @@ static void rockchip_sai_xfer_start(struct rk_sai_dev *sai, int stream)
+>  static void rockchip_sai_xfer_stop(struct rk_sai_dev *sai, int stream)
+>  {
+>  	unsigned int msk = 0, val = 0, clr = 0;
+> -	bool playback;
+> -	bool capture;
+> -
+> -	if (stream < 0) {
+> -		playback = true;
+> -		capture = true;
+> -	} else if (stream == SNDRV_PCM_STREAM_PLAYBACK) {
+> -		playback = true;
+> -		capture = false;
+> -	} else {
+> -		playback = true;
+> -		capture = false;
+> -	}
+> +	bool capture = stream == SNDRV_PCM_STREAM_CAPTURE || stream < 0;
+> +	bool playback = stream == SNDRV_PCM_STREAM_PLAYBACK || stream < 0;
+> +	/* could be <= 0 but we don't want to depend on enum values */
+>  
+>  	if (playback) {
+>  		msk |= SAI_XFER_TXS_MASK;
+> 
 
-Thanks.
-> > Any example that I
-> > can refer to?
-> 
-> Majority of bindings.
-> 
-> Best regards,
-> Krzysztof
+Tested-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Acked-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+
+Thank you!
+
+
