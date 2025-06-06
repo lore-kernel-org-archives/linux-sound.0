@@ -1,124 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3F1265CC5;
-	Fri,  6 Jun 2025 08:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4B41A5BA9;
+	Fri,  6 Jun 2025 09:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749199819; cv=none; b=t6Eubs1VjsNGAbgl//YLOEkcR0Rl3HmmJs6i5Iez8VVUlBpf9jKaXRv/c27Lf9NTJKL/az/W4cWrXFgCQ8qOvpqe/7mRfgUsx99qkVBb+2mm8x7zVw6BHPbcfPrIADGjcpioqKXNZSQoDVQ3m3CEDVRlPTicB9EwtC2/2hsqdxg=
+	t=1749201527; cv=none; b=poewbzQQp27SYxAZ4s3qxJZU3KYkHLavYB6mT1t7muX2pg0sxxbUtZGPi9AcaRB+lrsIm+ZjW/Mj6wcJj379MzPwzgmvWRmC9dFdAUZSR/oNQb7KSjKlMpUt5F2PVCXrKYAlKS7bpszM+NkSDbIrFV0hsOkBEayJykDzbladKM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749199819; c=relaxed/simple;
-	bh=+eoLmQacIUxSOHGpeCe3Yx9Bo4ZyJjcv0ewuZVWgALM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dxR6DkWnE5nEdQkfdSG7XppvNbS6TBJ4sB/nb+c8RikCqcOR0PHPUzQZbOzk7JBLonrBUaVFFO2KbgIWp9foKQ8au5PhJ0vRCQopOb1e4o5Mh2xX+JSh/gFp5fUctziry17xX2xSgSagFjDJx/jWRMA1Q9H01AitLTlXSlJsuiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vNZfKOvu; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vNZfKOvu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55B8CC4CEEB;
-	Fri,  6 Jun 2025 08:50:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749199819;
-	bh=+eoLmQacIUxSOHGpeCe3Yx9Bo4ZyJjcv0ewuZVWgALM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vNZfKOvu1A7E3h7LJyn76lt30+qcmJazKz2EcIziOlKhm5FDuncInYcu/MQ8GgA9o
-	 wc5IWQ9iedMzvM1y2dRP7BpKeS3cu8mZ0IhNq0iJgqGclNloqSCi93lbM/6wsgMuId
-	 /cVirHko1VUxU957M/cGVqghhKMHBgdxPZgLURttuJwgLuLwrBAhKJ7L16b1lg/2eu
-	 HCQIE/JhgRm0epIR1K2Z+6JkWpL/84iaoHAZC+FWoFCbzHeZQikeoRKgTyYqeE9/FP
-	 7pJ6znGJcjO92l1H8N0j+eGGQ48YXmxKEFVDmMg2zTe4DbVYYE7Nm/mBr6ztpEDheB
-	 zKAd6k6oLiwiw==
-Message-ID: <d923e0a2-acee-4e25-80e7-cdbc125408a4@kernel.org>
-Date: Fri, 6 Jun 2025 10:50:14 +0200
+	s=arc-20240116; t=1749201527; c=relaxed/simple;
+	bh=PUindHAXEQQlbpUG5MYIfwz0e2Z4ol8KN/X7GV15tAU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uDF3kzuMOTUVUSt4igCUMEYHh0IaasmUuGAQPZrOMwswFgxluNbSJ5YtPYQcJfYtjv0TbYDBH/hkfXKGiY26WputZmw8Z4S8IyMUm8iVFfyHK9S1myXtUFoCSUL/ZLssQ4iXnXmUwfrHmIrTKsizjflP1u8z31ty65E+55M72No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 354b21b842b711f0b29709d653e92f7d-20250606
+X-CTIC-Tags:
+	HR_CC_AS_FROM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_DIGIT_LEN
+	HR_FROM_NAME, HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER
+	HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT
+	HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED
+	SA_TRUSTED, SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS
+	DKIM_NOPASS, DMARC_NOPASS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:0efc04ef-84fe-408f-9e18-ff4cbbc641cc,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-INFO: VERSION:1.1.45,REQID:0efc04ef-84fe-408f-9e18-ff4cbbc641cc,IP:0,URL
+	:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:-5
+X-CID-META: VersionHash:6493067,CLOUDID:53816a4433045665c159fbe3fa3a4e04,BulkI
+	D:250606171829N6GA982N,BulkQuantity:0,Recheck:0,SF:17|19|38|66|78|102,TC:n
+	il,Content:0|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:ni
+	l,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-UUID: 354b21b842b711f0b29709d653e92f7d-20250606
+X-User: xiaopei01@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <xiaopei01@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 599363329; Fri, 06 Jun 2025 17:18:28 +0800
+From: Pei Xiao <xiaopei01@kylinos.cn>
+To: nicolas.frattaroli@collabora.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	heiko@sntech.de,
+	linux-rockchip@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Pei Xiao <xiaopei01@kylinos.cn>
+Subject: [PATCH v2 0/2]  Cleanup in rockchip_sai.c
+Date: Fri,  6 Jun 2025 17:18:20 +0800
+Message-Id: <cover.1749201126.git.xiaopei01@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: Add Richtek RTQ9124
-To: ChiYuan Huang <cy_huang@richtek.com>
-Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Roy Chiu <roy_chiu@richtek.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1749197773.git.cy_huang@richtek.com>
- <b95d701e5eb93d011a9e428adede845a309d1f12.1749197773.git.cy_huang@richtek.com>
- <3853e99b-30bf-4263-8abb-2b9f812415bc@kernel.org>
- <aEKqGS8xGKNL4WxD@git-send.richtek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aEKqGS8xGKNL4WxD@git-send.richtek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/06/2025 10:43, ChiYuan Huang wrote:
-> On Fri, Jun 06, 2025 at 10:33:46AM +0200, Krzysztof Kozlowski wrote:
->> On 06/06/2025 10:24, cy_huang@richtek.com wrote:
->>> +
->>> +allOf:
->>> +  - $ref: dai-common.yaml#
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - richtek,rtq9124
->>
->> Exactly the same as richtek,rt9123. Don't create same binding files for
->> similar devices.
->>
-> Do you mean to expand rtq9124 description in rt9123 binding file? 
+1.Simplify the condition logic in
+2.Use helper function devm_clk_get_enabled()
+---
+changlog in v2:
+1.fix capture flag in rockchip_sai_xfer_stop
+2.remove err_disable_hclk
+---
 
-Yes
+Pei Xiao (2):
+  ASOC: rockchip: fix capture stream handling in rockchip_sai_xfer_stop
+  ASOC: rockchip: Use helper function devm_clk_get_enabled()
 
-> Any example that I
-> can refer to?
+ sound/soc/rockchip/rockchip_sai.c | 51 ++++++++-----------------------
+ 1 file changed, 13 insertions(+), 38 deletions(-)
 
-Majority of bindings.
+-- 
+2.25.1
 
-Best regards,
-Krzysztof
