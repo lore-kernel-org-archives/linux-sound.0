@@ -1,102 +1,125 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76DB43AA9;
-	Fri,  6 Jun 2025 19:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161E81EE033;
+	Fri,  6 Jun 2025 20:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749238063; cv=none; b=X9mfvHHIfuCy8obWRma0hdKrovqueXr0dfmampTNl12sq0voqN39S7ZrVqHgx+W9vAyCmS8e6sZ7Ua30tWwTmLt5pMxoFK3cgzuhwoEw+NCzKj17P60WD9Kvh/yzgxjbCdYfHrxu4RmVnhl9z0cZu/B0JQG8Hgy7d11YN9pPiyg=
+	t=1749241768; cv=none; b=KBYH9zxACC9WIqFq417Tv9cBtOnEbxbRsoKPso82rGgpePh9xb3a+neqJQQt439/GvBS0AGMM6057Ye6imAXRXCvKNkNYbxjykTk/bhdzAmp2LgcEhWwPCLKwKi2gBc8OSDSMa7k4Vbd6kErw6FLgt8jroHTXqGXZJlytCHmZ50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749238063; c=relaxed/simple;
-	bh=faRcReKxhmUofDDkCeQVM6SzXCNDLDJuD4syhu+Fdgs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GiirUJJ2cba+KVuBJB0Mkv0UwL0v5e2H6m/pGAf7dBv8A3skDwyJpNjdJSQ6x1r5EU0YIaO7Yr56LeQ9sVc85U3ZOELtncIA1XpkzdLObATYCm+IelKmwSXpHfViBvC50CV/ZyGA4CIhCtY+SW7eHXCkVJ09Lw6J1/45D/zGtpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gaeSW+zt; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749241768; c=relaxed/simple;
+	bh=XE8OBWuC9+U991iDiZIJKTb6Sh+vpFUYsmJELuaWVeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BSA04iuYANyC9HxTOx62P6Ki3I9tvJovo9sait1aZq811eT+nfGNeVyqEXnbqaWSDDtjrM5E2IP/tm7UA2V3W36xm56A1mVosBO7teFs5AHrSLNXcxGD3YBmfHNvfz8+EnoOL1Wm9rHYSW1x8o/s+RZSrWA1UYC6I9KQ5yY1Nk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EvwcQn5I; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gaeSW+zt"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6facacf521eso25437956d6.3;
-        Fri, 06 Jun 2025 12:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749238060; x=1749842860; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XfNAXAYoR35jdBQCiZAgVgr8/Q8x1ESP6dlgjpAxiGU=;
-        b=gaeSW+ztdCiPtjAGe5RPrrerQZzwKiIusT/P2toAdlC1GP5QVRWfQsVfiaSxEreihV
-         IgT3SSNyyup5KibdJeHcx5w0D839hdDyE9DQMgfANpdwTxKO0JTFSksxIgIfQ1p5GcDZ
-         AeFPnheBanH/fHUKEcI1jvBNzTJtFfFlvfAYeaxhVfaAu8/WACRlqBwky6FGEzT8UmA0
-         o1QNnbRluTpW/vI5nV8OrSU9zVFKeg0x3gV1GBajhaUYG3iLONxbk/SOcuyThdP55gr+
-         NfiBjBReP8ARvRCZnWaHNIw8+o3XsoOCnyUVMVtQF7rlf+EfTyNjRzzv+z/1mSRj0wNY
-         ziWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749238060; x=1749842860;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XfNAXAYoR35jdBQCiZAgVgr8/Q8x1ESP6dlgjpAxiGU=;
-        b=KLcyH7veqhKeJLjsFXEx7bni6BP5hbn/iyDeQB9c/ehSKUj83a1XZPoWAgkl4f6BFO
-         eb+v3cofzCfePVtQtPJ0tqFCvb4fVFgjAzzoSO4hpx6H4vRaDdOGAj+76Nd9jfoYVzcM
-         H3KHcdJvCrjJvcMrumYC2M5CVbTN8ingrYmE44lgRP+DxjxZlytx4bk31IC9UD1iFArw
-         wAJmGNXBq3AUnCLRv+6SODgnQdfbbXvTRXrPHVQu9uQnA8aVVZdFYAE1QKKZrJfB2mZ9
-         OG7qPijxhNAMbw9uFj6eolROddnWxc5UC3wea4yf/TIpJPaZXsjod1ToqDAu2ZRN53dJ
-         wA6g==
-X-Forwarded-Encrypted: i=1; AJvYcCUFeKa4HntNF25T8OElQbEaUQMsVbf04KftvYC+n85kHwM0bgSOJ9eV9QHL8SJpZWUJUDJzZ+KTy6s5qOc=@vger.kernel.org, AJvYcCVQrftFRP+5WA/EG4AUpM+a9sOPw7QqOcibVCigUXOs+gTcsaFLj8zsQc+IbPXvH9d7Obkmx+sqvTzMMP8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwH86U1cpXRIviJIn/pbRA+tAFJEBFqxzGpHQFsrQrtfUU/sYr9
-	6R8oj+z4DTvkm96f7xu0ZOFSlYiXV0Qsb8/nF9AtH+cubW76Ny5cZTq/
-X-Gm-Gg: ASbGnctvIzQwQYIYnmTm68+hv0m3AM1OsM6Z7vnkgbBHAYgtFCtM+Ohy8thW1zcVlRZ
-	Zd06qbaXv2Xv7q+pE5kDR7fRY7fDn9QCfj11wP4Qb4G137t2ep66c48TaSinfrtN/UljW0hR9uj
-	CV8Cw1QBhMDKqCfOMu7v1fnWTEQh3C7Y9hdqowKq4aas4jrlgPCVLH0FnuhMNWsRQrZ9iAQrF7A
-	MPlakJNpR+qR1cITc1wBdjv9nngy6Ff2wVedVawzUtdqSL/DeH1desP6DU9ZB6LnTftMj19dwaa
-	Clp1Lf0IjGDF3e0ggwJOsCyqPu0weILr1trWK2RfBTZxCP4iSUYhOgm0XQ5l8MinI0kG7Nhatit
-	vxT7KI2KRR8zRCXSYpVzDPdksl6Nl
-X-Google-Smtp-Source: AGHT+IFKK3dqPe3m+hyJ/34Eh4G/DiPSW4Ls1MsN2CSwtrtVQbJhawXArGvuztELDopYMt8ftm0fbQ==
-X-Received: by 2002:a05:6214:e83:b0:6fa:c697:97b5 with SMTP id 6a1803df08f44-6fb08f6dbf8mr73843476d6.20.1749238060636;
-        Fri, 06 Jun 2025 12:27:40 -0700 (PDT)
-Received: from SunshineGrove.mtu.edu (rover-237-192.rovernet.mtu.edu. [141.219.237.192])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7d25a59161dsm174932585a.51.2025.06.06.12.27.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Jun 2025 12:27:40 -0700 (PDT)
-From: SunOfLife1 <sunoflife1.git@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: SunOfLife1 <sunoflife1.git@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek - Enable mute LED on HP Pavilion Laptop 15-eg100
-Date: Fri,  6 Jun 2025 15:24:59 -0400
-Message-ID: <20250606192650.10948-1-sunoflife1.git@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <87sekixkqg.wl-tiwai@suse.de>
-References: <87sekixkqg.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EvwcQn5I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749241767; x=1780777767;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XE8OBWuC9+U991iDiZIJKTb6Sh+vpFUYsmJELuaWVeI=;
+  b=EvwcQn5Ivl7QD3OlwVjzIR/hXUEvzijyLW8ETWgmRsNi87qk3WwLwS6K
+   AlIUjqg0QXo1ZKRmX4ycGvnrrtnQcifXpi43U6lIE8V/xYZKlFMDjk41J
+   hHby+LfbgVf+5cPG6pl1NCUyLGCDu80SptVpY96w/Fj5Kzi/rrokipu5a
+   52TeCppz8E2q/bNr1qLUHQsC8OGXN7bvBrPiYklIqXHo/VZDMUiuZ1B8o
+   ZoUSRlSQkN6PaT0VQstLzexib2gOZ2TmQ1SzYR+OaKt2y0WY5YlWJJmx8
+   8ON9dRagg2FYiv5o8ochJeWianC5B0IZg3Ixe/lul8MAI5MoRdlf1F2Ls
+   A==;
+X-CSE-ConnectionGUID: aQtAo0kcQnayHLCDW+xOjQ==
+X-CSE-MsgGUID: pJRE5U4QQP+odBHRGO3Wqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="62059335"
+X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
+   d="scan'208";a="62059335"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 13:29:26 -0700
+X-CSE-ConnectionGUID: MlPlovSpR4CrjKcFPkerWA==
+X-CSE-MsgGUID: nKyfc+FEQTuVjuW0oKJFtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
+   d="scan'208";a="145847260"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 06 Jun 2025 13:29:25 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uNdgo-0005Fx-2F;
+	Fri, 06 Jun 2025 20:29:22 +0000
+Date: Sat, 7 Jun 2025 04:28:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: "feng.liu" <feng.liu@senarytech.com>, perex@perex.cz, tiwai@susu.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, "feng.liu" <feng.liu@senarytech.com>
+Subject: Re: [PATCH] Correct boost volume
+Message-ID: <202506070421.thMBn9rY-lkp@intel.com>
+References: <20250606113349.129746-1-feng.liu@senarytech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250606113349.129746-1-feng.liu@senarytech.com>
 
-Of course, thank you for notifying me. Is this better?
+Hi feng.liu,
 
-Signed-off-by: Yasmin Fitzgerald <sunoflife1.git@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index cd0d7ba7320e..0c09bcae2006 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10713,6 +10713,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8975, "HP EliteBook x360 840 Aero G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x897d, "HP mt440 Mobile Thin Client U74", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8981, "HP Elite Dragonfly G3", ALC245_FIXUP_CS35L41_SPI_4),
-+	SND_PCI_QUIRK(0x103c, 0x898a, "HP Pavilion 15-eg100", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x898e, "HP EliteBook 835 G9", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x898f, "HP EliteBook 835 G9", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8991, "HP EliteBook 845 G9", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.15 next-20250606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/feng-liu/Correct-boost-volume/20250606-201348
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250606113349.129746-1-feng.liu%40senarytech.com
+patch subject: [PATCH] Correct boost volume
+config: i386-buildonly-randconfig-002-20250607 (https://download.01.org/0day-ci/archive/20250607/202506070421.thMBn9rY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506070421.thMBn9rY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506070421.thMBn9rY-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   sound/pci/hda/patch_conexant.c: In function 'cxt_get_defaut_capture_gain_boost':
+>> sound/pci/hda/patch_conexant.c:1223:1: warning: no return statement in function returning non-void [-Wreturn-type]
+    1223 | }
+         | ^
+
+
+vim +1223 sound/pci/hda/patch_conexant.c
+
+  1204	
+  1205	static int cxt_get_defaut_capture_gain_boost(struct hda_codec *codec)
+  1206	{
+  1207		struct conexant_spec *spec = codec->spec;
+  1208		int i;
+  1209		unsigned int boost;
+  1210	
+  1211		for (i = 0; i < HDA_MAX_NUM_INPUTS; i++) {
+  1212			if (spec->gen.imux_pins[i] == 0)
+  1213				continue;
+  1214	
+  1215			boost = snd_hda_codec_read(codec, spec->gen.imux_pins[i],
+  1216				0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
+  1217			spec->init_imux_boost_val[spec->gen.imux_pins[i]] = boost;
+  1218			codec_info(codec, "%s, node_id = %x, mic_boost =%x", __func__,
+  1219				spec->gen.imux_pins[i], boost);
+  1220		}
+  1221	
+  1222		spec->gen.cap_sync_hook = cxt_cap_sync_hook;
+> 1223	}
+  1224	
+
 -- 
-2.49.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
