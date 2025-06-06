@@ -1,226 +1,232 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4A523A6;
-	Fri,  6 Jun 2025 03:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749180450; cv=none; b=W5KSJ8wA+OFShKDg0IHv7cqMsE4cSglQK0ntxlhkEkplNyMV6X/jAKTRIuzb7TI0Jyl0t4a2CvLYFOyMvQs2MrsS3IHaZwdeRkxwSK7dEaeQcf1jwLGNQBMs524apmqUiovWMuYSZzz00NU8IFFCUMIaZfyamLzw6tVMQtPjc0k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749180450; c=relaxed/simple;
-	bh=j11qS+3iZ3c1Kqt5nLnoCEYCTM05m7hNK64pUTMgBXY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=KKrBw8dJcf0tXkYDk51U6lhUdBgu4UvZwwXD4qDijvCTTdKhl7vPikRQiBzEnsgwi+ZFvJrh0c6QOnc6Zum++uda4WlNWAMGeyWFV7P2/Xiv+wrwQuDXwhTOoNrqImaWqLV1lpfwQZ+siiNx+rbb2zENYl8m6MMJ1FEXx3PibG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 24be5cc4428611f0b29709d653e92f7d-20250606
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:b5740708-e9d2-4d9f-87c8-2456abc1d479,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:bf5a24c28619cba9b3ca4c7f565fe913,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
-	-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 24be5cc4428611f0b29709d653e92f7d-20250606
-Received: from node4.com.cn [(10.44.16.170)] by mailgw.kylinos.cn
-	(envelope-from <xiaopei01@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 163200506; Fri, 06 Jun 2025 11:27:15 +0800
-Received: from node4.com.cn (localhost [127.0.0.1])
-	by node4.com.cn (NSMail) with SMTP id 93A3416001A01;
-	Fri,  6 Jun 2025 11:27:15 +0800 (CST)
-X-ns-mid: postfix-68426013-513704641
-Received: from [10.42.13.56] (unknown [10.42.13.56])
-	by node4.com.cn (NSMail) with ESMTPA id 00CC516001CC7;
-	Fri,  6 Jun 2025 03:27:13 +0000 (UTC)
-Message-ID: <3f589ddf-e421-494f-85e5-1adebd19d03a@kylinos.cn>
-Date: Fri, 6 Jun 2025 11:27:13 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF508283FF6;
+	Fri,  6 Jun 2025 08:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749198417; cv=pass; b=mkpdnf9EvMbc5uHj/ohs0EKHf7FcVFYyXtLFdPqT6moLh8RK4E+Lopil+gMAFc3hPyKr7cJceXJVBRgnxsq74XwgjqohAKa7cns2eiThxA9fQdr0cWrjJ3rEOWDWDWyB0KZK7K8OxCkXBDW6LuuWeEjgYjNLmvrgQeNlNSeRb4c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749198417; c=relaxed/simple;
+	bh=JzybpB9O50HKqd2tQryFsC67T6tQEyKjF0z8lV3FvkI=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oz9IvDi8W4rKnHVL3hIpGC2zzIrJx9G1FtIBjGHcgVsk6VL1Oe3HDC+DSStdEgpRMs+9i5+uPDk8ep40g+bAjCVdwBrKiaTmuouh7XqQter54ZHyPJs3XjvaqPbPkWnNuCuP0FKQH0b7jN+zA/l5maJW3iq0x7hQydzz8xsk24s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=c9OJCCPX; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="c9OJCCPX"
+ARC-Seal: i=1; a=rsa-sha256; t=1749198402; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=b350DFtfUedur7zBIMRauTVll3wzUq/8EEXa4/OZnxG4gtK048GBPd7gBlTKV7+QxtNWFmOMdLgbCTq7ca61CNBIMDPzuyNcF7fVuLkv2T+W8DmLB4Y6cRbnJn/sDfiLkP++JzF6JyG8bFg9kKYhFt021kaGwlLLn2G9U2CmnLM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1749198402; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=RaYpsPgJJHeNg4Z6G85HvxDq+rrSNHiEHejBmAZBSBs=; 
+	b=EJ6G2a+EznvdWSFMcrOZ92fnTeugzxllS4zd13h7jTOg2oR+CIgG5Nfk/zHh/PIvl+t5S8uNS8wCnmVIp1hANxeGRQFkE080kjhogModZ7hmVV+IC/myrDSnQUPQFl06iRUcdTWLQ/XAvf2OFmZQzzVXxV0h9MSUOFgW5k0AB/I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1749198402;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To:Cc;
+	bh=RaYpsPgJJHeNg4Z6G85HvxDq+rrSNHiEHejBmAZBSBs=;
+	b=c9OJCCPXAHT6EhmKgJ6A2wg23RjKUXmZWwGn/+UUqIypKLtpwDBG5YNShBPFkU/S
+	428Z0fjqPBHjLMtw6dzxYtIAokLSiDRN2qVkC+NEi8MLXN9KBhxkimFMYOannJ9BBV2
+	bulOUHREm+9SPPpKO58YV50moLjw28r84Tmzcj/k=
+Received: by mx.zohomail.com with SMTPS id 1749198399941963.5389095677118;
+	Fri, 6 Jun 2025 01:26:39 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Pei Xiao <xiaopei01@kylinos.cn>
+Subject:
+ Re: [PATCH 2/2] ASOC: rockchip: Use helper function devm_clk_get_enabled()
+Date: Fri, 06 Jun 2025 10:26:36 +0200
+Message-ID: <2895073.PYKUYFuaPT@workhorse>
+In-Reply-To: <3f589ddf-e421-494f-85e5-1adebd19d03a@kylinos.cn>
+References:
+ <cover.1749006565.git.xiaopei01@kylinos.cn> <24654754.ouqheUzb2q@workhorse>
+ <3f589ddf-e421-494f-85e5-1adebd19d03a@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASOC: rockchip: Use helper function
- devm_clk_get_enabled()
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <cover.1749006565.git.xiaopei01@kylinos.cn>
- <3b3d8f60e553af09a51b501b8ff5406fa5e898dd.1749006565.git.xiaopei01@kylinos.cn>
- <24654754.ouqheUzb2q@workhorse>
-From: Pei Xiao <xiaopei01@kylinos.cn>
-In-Reply-To: <24654754.ouqheUzb2q@workhorse>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-
-=E5=9C=A8 2025/6/5 01:42, Nicolas Frattaroli =E5=86=99=E9=81=93:
-> On Wednesday, 4 June 2025 05:13:30 Central European Summer Time Pei Xia=
+On Friday, 6 June 2025 05:27:13 Central European Summer Time Pei Xiao wrote:
+>=20
+> =E5=9C=A8 2025/6/5 01:42, Nicolas Frattaroli =E5=86=99=E9=81=93:
+> > On Wednesday, 4 June 2025 05:13:30 Central European Summer Time Pei Xia=
 o wrote:
->> Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prep=
+> >> Since commit 7ef9651e9792 ("clk: Provide new devm_clk helpers for prep=
 ared
->> and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now =
+> >> and enabled clocks"), devm_clk_get() and clk_prepare_enable() can now =
 be
->> replaced by devm_clk_get_enabled() when driver enables the clocks for =
+> >> replaced by devm_clk_get_enabled() when driver enables the clocks for =
 the
->> whole lifetime of the device. Moreover, it is no longer necessary to
->> unprepare and disable the clocks explicitly.
->>
->> Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
->> ---
->>  sound/soc/rockchip/rockchip_sai.c | 8 +-------
->>  1 file changed, 1 insertion(+), 7 deletions(-)
->>
->> diff --git a/sound/soc/rockchip/rockchip_sai.c b/sound/soc/rockchip/ro=
+> >> whole lifetime of the device. Moreover, it is no longer necessary to
+> >> unprepare and disable the clocks explicitly.
+> >>
+> >> Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+> >> ---
+> >>  sound/soc/rockchip/rockchip_sai.c | 8 +-------
+> >>  1 file changed, 1 insertion(+), 7 deletions(-)
+> >>
+> >> diff --git a/sound/soc/rockchip/rockchip_sai.c b/sound/soc/rockchip/ro=
 ckchip_sai.c
->> index 79b04770da1c..2ec675708681 100644
->> --- a/sound/soc/rockchip/rockchip_sai.c
->> +++ b/sound/soc/rockchip/rockchip_sai.c
->> @@ -1448,16 +1448,12 @@ static int rockchip_sai_probe(struct platform_=
+> >> index 79b04770da1c..2ec675708681 100644
+> >> --- a/sound/soc/rockchip/rockchip_sai.c
+> >> +++ b/sound/soc/rockchip/rockchip_sai.c
+> >> @@ -1448,16 +1448,12 @@ static int rockchip_sai_probe(struct platform_=
 device *pdev)
->>  				     "Failed to get mclk\n");
->>  	}
->> =20
->> -	sai->hclk =3D devm_clk_get(&pdev->dev, "hclk");
->> +	sai->hclk =3D devm_clk_get_enabled(&pdev->dev, "hclk");
->>  	if (IS_ERR(sai->hclk)) {
->>  		return dev_err_probe(&pdev->dev, PTR_ERR(sai->hclk),
->>  				     "Failed to get hclk\n");
->>  	}
->> =20
->> -	ret =3D clk_prepare_enable(sai->hclk);
->> -	if (ret)
->> -		return dev_err_probe(&pdev->dev, ret, "Failed to enable hclk\n");
->> -
->>  	regmap_read(sai->regmap, SAI_VERSION, &sai->version);
->> =20
->>  	ret =3D rockchip_sai_init_dai(sai, res, &dai);
->> @@ -1512,8 +1508,6 @@ static int rockchip_sai_probe(struct platform_de=
+> >>  				     "Failed to get mclk\n");
+> >>  	}
+> >> =20
+> >> -	sai->hclk =3D devm_clk_get(&pdev->dev, "hclk");
+> >> +	sai->hclk =3D devm_clk_get_enabled(&pdev->dev, "hclk");
+> >>  	if (IS_ERR(sai->hclk)) {
+> >>  		return dev_err_probe(&pdev->dev, PTR_ERR(sai->hclk),
+> >>  				     "Failed to get hclk\n");
+> >>  	}
+> >> =20
+> >> -	ret =3D clk_prepare_enable(sai->hclk);
+> >> -	if (ret)
+> >> -		return dev_err_probe(&pdev->dev, ret, "Failed to enable hclk\n");
+> >> -
+> >>  	regmap_read(sai->regmap, SAI_VERSION, &sai->version);
+> >> =20
+> >>  	ret =3D rockchip_sai_init_dai(sai, res, &dai);
+> >> @@ -1512,8 +1508,6 @@ static int rockchip_sai_probe(struct platform_de=
 vice *pdev)
->>  	if (pm_runtime_put(&pdev->dev))
->>  		rockchip_sai_runtime_suspend(&pdev->dev);
->>  err_disable_hclk:
->> -	clk_disable_unprepare(sai->hclk);
->> -
->>  	return ret;
->>  }
->> =20
->>
-> Please get rid of the err_disable_hclk label, and change the
->
->     goto err_disable_hclk;
->
-> in the resume failure condition to a=20
->
->     return ret;
-May I ask, could we use the=C2=A0dev_err_probe=C2=A0function instead?
+> >>  	if (pm_runtime_put(&pdev->dev))
+> >>  		rockchip_sai_runtime_suspend(&pdev->dev);
+> >>  err_disable_hclk:
+> >> -	clk_disable_unprepare(sai->hclk);
+> >> -
+> >>  	return ret;
+> >>  }
+> >> =20
+> >>
+> > Please get rid of the err_disable_hclk label, and change the
+> >
+> >     goto err_disable_hclk;
+> >
+> > in the resume failure condition to a=20
+> >
+> >     return ret;
+> May I ask, could we use the dev_err_probe function instead?
+>=20
+> return dev_err_probe(&pdev->dev, ret, "Failed to initialize DAI\n");
 
-return dev_err_probe(&pdev->dev, ret, "Failed to initialize DAI\n");
+Absolutely, dev_err_probe states the following in its documentation:
 
+    Using this helper in your probe function is totally fine even if @err
+    is known to never be -EPROBE_DEFER.
 
-@@ -1441,28 +1441,22 @@ static int rockchip_sai_probe(struct platform_dev=
+This means you can use it for every error case in the probe function.
+
+>=20
+>=20
+> @@ -1441,28 +1441,22 @@ static int rockchip_sai_probe(struct platform_dev=
 ice *pdev)
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Faile=
-d to get mclk\n");
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-=C2=A0
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sai->hclk =3D devm_clk_get(&pdev->d=
-ev, "hclk");
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sai->hclk =3D devm_clk_get_enabled(=
-&pdev->dev, "hclk");
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ERR(sai->hclk)) {
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 return dev_err_probe(&pdev->dev, PTR_ERR(sai->hclk),
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Faile=
-d to get hclk\n");
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-=C2=A0
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D clk_prepare_enable(sai->hcl=
-k);
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 return dev_err_probe(&pdev->dev, ret, "Failed to enable hclk=
+>                                      "Failed to get mclk\n");
+>         }
+> =20
+> -       sai->hclk =3D devm_clk_get(&pdev->dev, "hclk");
+> +       sai->hclk =3D devm_clk_get_enabled(&pdev->dev, "hclk");
+>         if (IS_ERR(sai->hclk)) {
+>                 return dev_err_probe(&pdev->dev, PTR_ERR(sai->hclk),
+>                                      "Failed to get hclk\n");
+>         }
+> =20
+> -       ret =3D clk_prepare_enable(sai->hclk);
+> -       if (ret)
+> -               return dev_err_probe(&pdev->dev, ret, "Failed to enable h=
+clk\n");
+> -
+>         regmap_read(sai->regmap, SAI_VERSION, &sai->version);
+> =20
+>         ret =3D rockchip_sai_init_dai(sai, res, &dai);
+>         if (ret) {
+> -               dev_err(&pdev->dev, "Failed to initialize DAI: %d\n", ret=
+);
+> -               goto err_disable_hclk;
+> +               return dev_err_probe(&pdev->dev, ret, "Failed to initiali=
+ze DAI\n");
+>         }
+
+This would now be a one-line statement in the if branch, so checkpatch will
+advise you to remove the redundant { } from the if, so that it becomes
+
+    if (ret)
+            return dev_err_probe(&pdev->dev, ret, "Failed to initialize DAI=
 \n");
--
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 regmap_read(sai->regmap, SAI_V=
-ERSION, &sai->version);
-=C2=A0
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D rockchip_sai_init_dai(=
-sai, res, &dai);
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 dev_err(&pdev->dev, "Failed to initialize DAI: %d\n", ret);
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 goto err_disable_hclk;
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 return dev_err_probe(&pdev->dev, ret, "Failed to initialize =
-DAI\n");
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-=C2=A0
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D rockchip_sai_parse_pat=
-hs(sai, node);
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 dev_err(&pdev->dev, "Failed to parse paths: %d\n", ret);
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 goto err_disable_hclk;
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 return dev_err_probe(&pdev->dev, ret, "Failed to parse paths=
-\n");
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-=C2=A0
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
-@@ -1475,8 +1469,7 @@ static int rockchip_sai_probe(struct platform_devic=
+
+You can run `./scripts/checkpatch.pl` on either a git commit range or a
+patch file, and it'll let you know. If you use b4, it'll run that
+script with some recommended flags on all commits in your series with
+`b4 prep --check`.
+
+> =20
+>         ret =3D rockchip_sai_parse_paths(sai, node);
+>         if (ret) {
+> -               dev_err(&pdev->dev, "Failed to parse paths: %d\n", ret);
+> -               goto err_disable_hclk;
+> +               return dev_err_probe(&pdev->dev, ret, "Failed to parse pa=
+ths\n");
+>         }
+
+Same here
+
+> =20
+>         /*
+> @@ -1475,8 +1469,7 @@ static int rockchip_sai_probe(struct platform_devic=
 e *pdev)
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_get_noresume(&pdev-=
->dev);
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D rockchip_sai_runtime_r=
-esume(&pdev->dev);
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 dev_err(&pdev->dev, "Failed to resume device: %pe\n", ERR_PT=
-R(ret));
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 goto err_disable_hclk;
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 return dev_err_probe(&pdev->dev, ret, "Failed to resume devi=
-ce\n");
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-=C2=A0
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D devm_snd_dmaengine_pcm=
-_register(&pdev->dev, NULL, 0);
-@@ -1504,8 +1497,6 @@ static int rockchip_sai_probe(struct platform_devic=
+>         pm_runtime_get_noresume(&pdev->dev);
+>         ret =3D rockchip_sai_runtime_resume(&pdev->dev);
+>         if (ret) {
+> -               dev_err(&pdev->dev, "Failed to resume device: %pe\n", ERR=
+_PTR(ret));
+> -               goto err_disable_hclk;
+> +               return dev_err_probe(&pdev->dev, ret, "Failed to resume d=
+evice\n");
+>         }
+
+Same here
+
+> =20
+>         ret =3D devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
+> @@ -1504,8 +1497,6 @@ static int rockchip_sai_probe(struct platform_devic=
 e *pdev)
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* If we're !CONFIG_PM, we get=
- -ENOSYS and disable manually */
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pm_runtime_put(&pdev->dev)=
-)
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 rockchip_sai_runtime_suspend(&pdev->dev);
--err_disable_hclk:
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clk_disable_unprepare(sai->hclk);
-=C2=A0
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
-=C2=A0}
+>         /* If we're !CONFIG_PM, we get -ENOSYS and disable manually */
+>         if (pm_runtime_put(&pdev->dev))
+>                 rockchip_sai_runtime_suspend(&pdev->dev);
+> -err_disable_hclk:
+> -       clk_disable_unprepare(sai->hclk);
+> =20
+>         return ret;
+>  }
+>=20
+> thanks!
+>=20
+> Pei.
 
-thanks!
+Kind regards,
+Nicolas Frattaroli
 
-Pei.
+>=20
+> > Other than that, patch tested to be working fine.
+> >
+> > Kind regards,
+> > Nicolas Frattaroli
+> >
+> >
+>=20
 
-> Other than that, patch tested to be working fine.
->
-> Kind regards,
-> Nicolas Frattaroli
->
->
+
+
+
