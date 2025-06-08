@@ -1,63 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86AC7213E61;
-	Sat,  7 Jun 2025 19:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EABDBA3D
+	for <linux-sound@vger.kernel.org>; Sun,  8 Jun 2025 09:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749323206; cv=none; b=P9WXn6rshncGqnGfv2v0i33WbIXpR36wxq3zYOhkT5LM0m7I1qbmbf8hJfevB2Jo7WXQsoOGNTsE5u7HwOjz4UV093i1WenlGhCHqVhyx4t36RXeitw15D//tUylmKHoSxEaEzDNlCnrXIqGBgQzJJe9JnK8xk3GUUqHUEmGU90=
+	t=1749374068; cv=none; b=FthgLGNWZdPm7s1amOImlZqo0tZofj4YhyViQ4c24RL1iiBrihpZoZ+CrGqMGfaSCAfUNM/8jvzLJt+J2lpeus4ctrGjoltv9R+0R2debOktKdZOsx4jHBQ9I+FCRQNvG2t7Ss2SnZBw7KOH3ncoY/N3GHLGV+Hp0yaCRTprMO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749323206; c=relaxed/simple;
-	bh=8t+lcB1KYzlmCQEeH2dqILvshtis6ZBhuqQEnBWttnw=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=AdYgULzfZ4rGRNzgkKyFBh6o6LVgwzJGLY/DSmlMeeBhJu7Ag9wm3+JJAXW/ir7PjpoqGBJ6EMbkFIWrUi6PQsMaA998ll7mmPqvS6QcGb4AM+48hosFzY3bC8YRsQjZKQrtQnl8L9YGcND9rAFu4Bb3/2EX+FC0CgP9LEEPSOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wzxe+k2d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749374068; c=relaxed/simple;
+	bh=sqBQ9qexhP03hZCNqTalgvpvDqlI5ca9BwpBEd3eTtQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=NL8gNWp9gM0NQ+UMjPB/vkbVIhPSPThY7y34LH/uXIS+XYdJGWCv5KU8uTGJGQya+2IrKanXvpz0Y2jIqwD2+4TgvRtkPJihMFRNMHQXW+znu6DlZ0pmhg+2hGbP3jWWTAf9I0EkWq20IM3LdMk69QKKKhIZo3L0lKzvH9YFR3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E6yTe/FF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jMvBk2T0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E6yTe/FF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jMvBk2T0; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wzxe+k2d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60D2CC4CEF1;
-	Sat,  7 Jun 2025 19:06:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749323206;
-	bh=8t+lcB1KYzlmCQEeH2dqILvshtis6ZBhuqQEnBWttnw=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=Wzxe+k2dhbNTyHJIM05EfRnEaI+b/fRFeP+XTqbTvtra72Fp2jzv8yQONKQFnrFQ5
-	 XvnKPKxH/H0fkgUgdqQU/Z6y2ZM2Pc4toh2i0Du9NEKoq8UVvzdtQnDNwWBjos+6Mm
-	 KrYvgIL9p8ZymRdfxTo0UtNeICHbZqNWX1OwEfI6DCLiHqLxCrnt0JvK9b8tJS2e2n
-	 2GeivaJ8msIsnWDuZww5gYb3KyAuN2A3WcoSzrVCKuMaRvz7SR4e/VjSNZt1JD0yd0
-	 G13VDSIuemuXCS0xpa+kMgn5vCILZ4MZoFRDIAa+fxFcdbKhyqKnnTnQE0ObIdjp5h
-	 nKlrkY3vZwmuA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EACEA3806649;
-	Sat,  7 Jun 2025 19:07:18 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.16-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87y0u4hsp9.wl-tiwai@suse.de>
-References: <87y0u4hsp9.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87y0u4hsp9.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.16-rc1
-X-PR-Tracked-Commit-Id: 10db95285240743e7b288272ede140aabce5e631
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: af477f4d5a6c183e2dd44f49dd9a7950bfa7bd50
-Message-Id: <174932323750.115837.4243001094875396382.pr-tracker-bot@kernel.org>
-Date: Sat, 07 Jun 2025 19:07:17 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E6yTe/FF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jMvBk2T0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E6yTe/FF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jMvBk2T0"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 91CEE1F394;
+	Sun,  8 Jun 2025 09:14:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749374057; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=5761d9QvXVsK3xsnzu6vCSuf4rzhTzUarBepGu6VRpY=;
+	b=E6yTe/FFPnkGSA6rw96XxX9k6S3Ao9eo/PQRWblB6aTLpSpRrJ4HLqCiounUzb6bKOEgZ8
+	AHCC4OZpR1BHSfnNUY/oyR8/CMSxZRFE97f91k/FP9ScK/7aok0owVgPLUChtsBmr18vVq
+	Y2KuTomgodrILv/5H+43t0JNSYP3Klk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749374057;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=5761d9QvXVsK3xsnzu6vCSuf4rzhTzUarBepGu6VRpY=;
+	b=jMvBk2T0LprCb/hP+Ao47oWCIpT928bdCdORUhXkLTCDPNyODb2Q6b1JXkWSjy9VK71nbf
+	iHilkBitNjjbO6Aw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="E6yTe/FF";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jMvBk2T0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749374057; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=5761d9QvXVsK3xsnzu6vCSuf4rzhTzUarBepGu6VRpY=;
+	b=E6yTe/FFPnkGSA6rw96XxX9k6S3Ao9eo/PQRWblB6aTLpSpRrJ4HLqCiounUzb6bKOEgZ8
+	AHCC4OZpR1BHSfnNUY/oyR8/CMSxZRFE97f91k/FP9ScK/7aok0owVgPLUChtsBmr18vVq
+	Y2KuTomgodrILv/5H+43t0JNSYP3Klk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749374057;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=5761d9QvXVsK3xsnzu6vCSuf4rzhTzUarBepGu6VRpY=;
+	b=jMvBk2T0LprCb/hP+Ao47oWCIpT928bdCdORUhXkLTCDPNyODb2Q6b1JXkWSjy9VK71nbf
+	iHilkBitNjjbO6Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A3B1133CF;
+	Sun,  8 Jun 2025 09:14:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id X2tBGGlURWjYKQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 08 Jun 2025 09:14:17 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/intel: Add Thinkpad E15 to PM deny list
+Date: Sun,  8 Jun 2025 11:14:14 +0200
+Message-ID: <20250608091415.21170-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 91CEE1F394
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
+X-Spam-Level: 
 
-The pull request you sent on Sat, 07 Jun 2025 10:16:50 +0200:
+Lenovo Thinkpad E15 with Conexant CX8070 codec seems causing ugly
+noises after runtime-PM suspend.  Disable the codec runtime PM as a
+workaround.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.16-rc1
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220210
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/hda/hda_intel.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/af477f4d5a6c183e2dd44f49dd9a7950bfa7bd50
-
-Thank you!
-
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index e5210ed48ddf..439cf1bda6e6 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -2283,6 +2283,8 @@ static const struct snd_pci_quirk power_save_denylist[] = {
+ 	SND_PCI_QUIRK(0x1734, 0x1232, "KONTRON SinglePC", 0),
+ 	/* Dell ALC3271 */
+ 	SND_PCI_QUIRK(0x1028, 0x0962, "Dell ALC3271", 0),
++	/* https://bugzilla.kernel.org/show_bug.cgi?id=220210 */
++	SND_PCI_QUIRK(0x17aa, 0x5079, "Lenovo Thinkpad E15", 0),
+ 	{}
+ };
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.49.0
+
