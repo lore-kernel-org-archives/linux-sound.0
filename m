@@ -1,137 +1,133 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EABDBA3D
-	for <linux-sound@vger.kernel.org>; Sun,  8 Jun 2025 09:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0A284A35
+	for <linux-sound@vger.kernel.org>; Sun,  8 Jun 2025 09:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749374068; cv=none; b=FthgLGNWZdPm7s1amOImlZqo0tZofj4YhyViQ4c24RL1iiBrihpZoZ+CrGqMGfaSCAfUNM/8jvzLJt+J2lpeus4ctrGjoltv9R+0R2debOktKdZOsx4jHBQ9I+FCRQNvG2t7Ss2SnZBw7KOH3ncoY/N3GHLGV+Hp0yaCRTprMO4=
+	t=1749374966; cv=none; b=hf51Od4N8vpxfliMEsRunyjUcvB/14HZU5F12fdLVFpn3Xfd4aGbukt1x4Q7zmXoPiVyBHyVuC2Dn/W04wZYcF9oQr7whvU06ptFwDgb6IcshbjfiPlpXBeoUqfMNZcRyJUgEW66CRr9WsHT6XV7AIz0qyDHcq2jksIVeskjpyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749374068; c=relaxed/simple;
-	bh=sqBQ9qexhP03hZCNqTalgvpvDqlI5ca9BwpBEd3eTtQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=NL8gNWp9gM0NQ+UMjPB/vkbVIhPSPThY7y34LH/uXIS+XYdJGWCv5KU8uTGJGQya+2IrKanXvpz0Y2jIqwD2+4TgvRtkPJihMFRNMHQXW+znu6DlZ0pmhg+2hGbP3jWWTAf9I0EkWq20IM3LdMk69QKKKhIZo3L0lKzvH9YFR3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E6yTe/FF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jMvBk2T0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E6yTe/FF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jMvBk2T0; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1749374966; c=relaxed/simple;
+	bh=OffBpAIXRWfvepR34kuRrpweLfuH2ywLE7wtRA8e7v8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AjuP9A4o2o+JNO+OFwhEupqW2Tjq/NoFMTQr9GXxKBRdp1dv0GqAbQzh4ZFmGp9Nofai7B7heh5TYe9QfdF1X6QJ7AkU08xSf1sLNu1a0pqOr2OjdBW/srFPq8SIcpnPnKXm9f17IyMWQyzBK1B1fLSxU1orxyQ8lAyeLUUQ1iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E6p20/aL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7XqceUJH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v9K/RxIO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=D9F9xBjk; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E6yTe/FF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jMvBk2T0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E6yTe/FF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jMvBk2T0"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E6p20/aL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7XqceUJH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v9K/RxIO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="D9F9xBjk"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 91CEE1F394;
-	Sun,  8 Jun 2025 09:14:17 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B34DD21172;
+	Sun,  8 Jun 2025 09:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749374057; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=5761d9QvXVsK3xsnzu6vCSuf4rzhTzUarBepGu6VRpY=;
-	b=E6yTe/FFPnkGSA6rw96XxX9k6S3Ao9eo/PQRWblB6aTLpSpRrJ4HLqCiounUzb6bKOEgZ8
-	AHCC4OZpR1BHSfnNUY/oyR8/CMSxZRFE97f91k/FP9ScK/7aok0owVgPLUChtsBmr18vVq
-	Y2KuTomgodrILv/5H+43t0JNSYP3Klk=
+	t=1749374956; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mRKrC5CoI2qpKhIypUg5jdMTEVyo7fGBuDeZ+DLjf54=;
+	b=E6p20/aLr38crvdpYviVHULCVuCYMcIBq+fsORBfxMkPf9+sIAZ+BhOT7XUJGHKHhhmw+l
+	jEJU2AEQVqMpKKxCPhFwMTMDzjfB8P275r8c9SfpbmTQ8MKAA5QsfdJh/rrSkzqRtXEYgc
+	/VfLQTnMjkiYVcQ8QPScqHZphdwax7Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749374057;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=5761d9QvXVsK3xsnzu6vCSuf4rzhTzUarBepGu6VRpY=;
-	b=jMvBk2T0LprCb/hP+Ao47oWCIpT928bdCdORUhXkLTCDPNyODb2Q6b1JXkWSjy9VK71nbf
-	iHilkBitNjjbO6Aw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="E6yTe/FF";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jMvBk2T0
+	s=susede2_ed25519; t=1749374956;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mRKrC5CoI2qpKhIypUg5jdMTEVyo7fGBuDeZ+DLjf54=;
+	b=7XqceUJHV2p0La2QU0LaEfL5vHC2a5XCwOfiLNoBs3DlZvj+CcE2lzkbDh6duJcRzWHqFT
+	V2fdUewEFXZAFECQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749374057; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=5761d9QvXVsK3xsnzu6vCSuf4rzhTzUarBepGu6VRpY=;
-	b=E6yTe/FFPnkGSA6rw96XxX9k6S3Ao9eo/PQRWblB6aTLpSpRrJ4HLqCiounUzb6bKOEgZ8
-	AHCC4OZpR1BHSfnNUY/oyR8/CMSxZRFE97f91k/FP9ScK/7aok0owVgPLUChtsBmr18vVq
-	Y2KuTomgodrILv/5H+43t0JNSYP3Klk=
+	t=1749374955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mRKrC5CoI2qpKhIypUg5jdMTEVyo7fGBuDeZ+DLjf54=;
+	b=v9K/RxIOX0bohZ6HLOSh9mZtjHuOVTnapSoQQAE8kVjDkR8gFMZdv6C+DtTEeAAqgw7tQY
+	8JsM2HFPeqPFRLkM6iALvHzM8zelCLyKxxOwPkyWnMb2Cm1JgqFrgGC6dYy+1tjYq244ux
+	4BqJuTgP7XxuZNVfF7DB2JgU5c+AjSg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749374057;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=5761d9QvXVsK3xsnzu6vCSuf4rzhTzUarBepGu6VRpY=;
-	b=jMvBk2T0LprCb/hP+Ao47oWCIpT928bdCdORUhXkLTCDPNyODb2Q6b1JXkWSjy9VK71nbf
-	iHilkBitNjjbO6Aw==
+	s=susede2_ed25519; t=1749374955;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mRKrC5CoI2qpKhIypUg5jdMTEVyo7fGBuDeZ+DLjf54=;
+	b=D9F9xBjknFc6PpT42xQw3e0w4M2TCaVyZrQloy3jt6Dxlyu13Uqw51XdXQuwgT7C9jtC+5
+	Ka0hIgV64yqq4JBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A3B1133CF;
-	Sun,  8 Jun 2025 09:14:17 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 89CE113A78;
+	Sun,  8 Jun 2025 09:29:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X2tBGGlURWjYKQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 08 Jun 2025 09:14:17 +0000
+	id tow1IOtXRWi3LQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 08 Jun 2025 09:29:15 +0000
+Date: Sun, 08 Jun 2025 11:29:15 +0200
+Message-ID: <87qzzu8tuc.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda/intel: Add Thinkpad E15 to PM deny list
-Date: Sun,  8 Jun 2025 11:14:14 +0200
-Message-ID: <20250608091415.21170-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.49.0
+To: SunOfLife1 <sunoflife1.git@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek - Enable mute LED on HP Pavilion Laptop 15-eg100
+In-Reply-To: <20250606192650.10948-1-sunoflife1.git@gmail.com>
+References: <87sekixkqg.wl-tiwai@suse.de>
+	<20250606192650.10948-1-sunoflife1.git@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 91CEE1F394
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-1.79 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.19)[-0.965];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.01
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -1.79
 
-Lenovo Thinkpad E15 with Conexant CX8070 codec seems causing ugly
-noises after runtime-PM suspend.  Disable the codec runtime PM as a
-workaround.
+On Fri, 06 Jun 2025 21:24:59 +0200,
+SunOfLife1 wrote:
+> 
+> Of course, thank you for notifying me. Is this better?
+> 
+> Signed-off-by: Yasmin Fitzgerald <sunoflife1.git@gmail.com>
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=220210
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/hda/hda_intel.c | 2 ++
- 1 file changed, 2 insertions(+)
+Improved, but the patch description is missing now...
+Please restore your original patch description and resubmit with the
+proper sign-off.
 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index e5210ed48ddf..439cf1bda6e6 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -2283,6 +2283,8 @@ static const struct snd_pci_quirk power_save_denylist[] = {
- 	SND_PCI_QUIRK(0x1734, 0x1232, "KONTRON SinglePC", 0),
- 	/* Dell ALC3271 */
- 	SND_PCI_QUIRK(0x1028, 0x0962, "Dell ALC3271", 0),
-+	/* https://bugzilla.kernel.org/show_bug.cgi?id=220210 */
-+	SND_PCI_QUIRK(0x17aa, 0x5079, "Lenovo Thinkpad E15", 0),
- 	{}
- };
- 
--- 
-2.49.0
 
+thanks,
+
+Takashi
