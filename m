@@ -1,73 +1,90 @@
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2791E98FB
-	for <linux-sound@vger.kernel.org>; Sun,  8 Jun 2025 12:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 788311FE455;
+	Sun,  8 Jun 2025 14:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749387441; cv=none; b=tTOSV0T79EEPo1T11HOYIpf+JlN2r1XTl7T8MKGreKSOaZ6kS5wGeneLXMc7CV0XAOyTEVtNJnM7zXImRBTTWrOHVIE42MvpTKbm5iQ50jHMVh4/Ogy85SpPxypYscatCyc4NOG70E2t65Kkyqk6sUbdd4hvRomu2OD0n1rKdTM=
+	t=1749392877; cv=none; b=qxyx4BOFSY4QWUDW4eRf3rT4v4l1k+nk3AgilUZIcjMPNxRm8qNT4TGpPP+5XMm1k/GZtHcoEif2aRE47P8vvagKtXQCA5Mq3t2jRj6ftiCnEd0ardtMDsljAK1Myh+JVFtkh4Bv89Gk/aHZ5+5Ghj8kMCfM6qmmDqFBy/iTTFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749387441; c=relaxed/simple;
-	bh=ZjNiY1y2u5kjTlkd8/fGf0g9nzDiVGj2fhehqICHAow=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=pB4W4lshpimSHPnUdBb3so1M+nMeDf5Oh88xpB+I6YCPigHVcXmvOTJlzAY8s586k1d1q+TB/Yd1cjhkV/Vv8XQo0ieAxkbVBQFDJgsIWE+yqSj0Gl2kP2rUIMm5lG9FYlQunDSWnlH6w7r84dd10hlWkqmNnPw82u1OTZNNzHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [192.168.2.111] (p5dc550b5.dip0.t-ipconnect.de [93.197.80.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 67E7261E64783
-	for <linux-sound@vger.kernel.org>; Sun, 08 Jun 2025 14:57:14 +0200 (CEST)
-Message-ID: <51fbfbce-cbc9-4e7f-9ce0-0653379ef9f1@molgen.mpg.de>
-Date: Sun, 8 Jun 2025 14:57:11 +0200
+	s=arc-20240116; t=1749392877; c=relaxed/simple;
+	bh=yWQL4s47QCYcRIFV28KOQF6sJyk9kJ3f9WRi8LtlGWQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=osw48s7tFFyvWxDC//LvbKU6jwXKhAUQFzWD7fxVQ7ScGrB+k+YI345Byn7uMNJI2kAwj9OUIxVEn+3bsmrCtLtBKCTuuLNvNbGnTVpNMJWbpdEzvrIy6JmkL/MtGZMTz9I03brttgTTgij5Q8c9POaC2ygONq1QBVONpWbua/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.69.3])
+	by gateway (Coremail) with SMTP id _____8AxSWrnnUVolnQQAQ--.7257S3;
+	Sun, 08 Jun 2025 22:27:51 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.69.3])
+	by front1 (Coremail) with SMTP id qMiowMAxTsXhnUVoVsEQAQ--.2327S2;
+	Sun, 08 Jun 2025 22:27:50 +0800 (CST)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Huacai Chen <chenhuacai@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xuerui Wang <kernel@xen0n.name>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Huacai Chen <chenhuacai@loongson.cn>
+Subject: [PATCH] ASoC: loongson: Fix build warnings about export.h
+Date: Sun,  8 Jun 2025 22:27:37 +0800
+Message-ID: <20250608142737.168829-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-sound@vger.kernel.org
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-Subject: C10 C-State possible when playing music on a laptop?
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowMAxTsXhnUVoVsEQAQ--.2327S2
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj9xXoW7GFWrZw4kJryrGryDKFy8JFc_yoWDurc_Cw
+	1Igw4rWry7JFy2k343Aa1DAr15X34rJa15uF1vyr13X3ZFy39agayxCa4DuF1xWr1vvFs5
+	Zr48Wr18ZryFkosvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUb28YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE
+	14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x
+	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcV
+	C0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF
+	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
+	CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j83kZUUUUU=
 
-Dear Linux folks,
+After commit a934a57a42f64a4 ("scripts/misc-check: check missing #include
+<linux/export.h> when W=1") and 7d95680d64ac8e836c ("scripts/misc-check:
+check unnecessary #include <linux/export.h> when W=1"), we get some build
+warnings with W=1:
 
+sound/soc/loongson/loongson_i2s.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
-On an Intel Kaby Lake Dell XPS 13 9360 with
+So fix these build warnings for ASoC/Loongson.
 
-     $ lspci -nn -s 00:1f.3
-     00:1f.3 Audio device [0403]: Intel Corporation Sunrise Point-LP HD 
-Audio [8086:9d71] (rev 21)
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ sound/soc/loongson/loongson_i2s.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-and
+diff --git a/sound/soc/loongson/loongson_i2s.c b/sound/soc/loongson/loongson_i2s.c
+index e8852a30f213..e336656e13eb 100644
+--- a/sound/soc/loongson/loongson_i2s.c
++++ b/sound/soc/loongson/loongson_i2s.c
+@@ -9,6 +9,7 @@
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/delay.h>
++#include <linux/export.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/dma-mapping.h>
+ #include <sound/soc.h>
+-- 
+2.47.1
 
-     Codec: Realtek ALC3246
-     Address: 0
-     AFG Function Id: 0x1 (unsol 1)
-     Vendor Id: 0x10ec0256
-     Subsystem Id: 0x1028075b
-     Revision Id: 0x100002
-
-Playing music, for example a song, the system does not enter the lowest 
-C-State C10 (pc10)¹ according to PowerTOP. No having heard something 
-about off-loading support, I wanted to ask, if on x86 laptops, the 
-hardware would support C10 C-State when (just) audio is used. If yes, 
-what would be needed on the software side?
-
-
-Kind regards,
-
-Paul
-
-
-¹ In general it can only be entered after running the command below on 
-that device.
-
-     $ echo 8 | sudo tee /sys/kernel/debug/pmc_core/ltr_ignore && sudo 
-powertop --auto-tune
