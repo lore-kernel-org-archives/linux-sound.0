@@ -1,28 +1,39 @@
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268702522A4
-	for <linux-sound@vger.kernel.org>; Mon,  9 Jun 2025 10:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CE9F18035;
+	Mon,  9 Jun 2025 10:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749464024; cv=none; b=nPIV75Qp+c1QFRcT/3w6K1cJdB34RyRnwC0B0kUXynyb1um0pborQD6yj9qwfgwrln0Dnc1/k1VDRUKRn1093APuBa3Uw/CvmeJkeqpdOcpGfMGe6Ud4y9UQ/nRxJu1MkBU/kP7IarQB66bonrYb5WDgKSCg5ag+JfjGmkgmuRc=
+	t=1749464441; cv=none; b=SMt4632qbop0j1grP88Qq5Fm90XF22lmRBIwzea4BYFUgVGEsKmwWJS26ZlmVnRTL6pp/DkW1x8WcsF8ALx8LFqZquTOOzMrcuIukYOZkbyndNLrOlTvJvTYm4IraAmq/NRC/fpdOLV4/v4ihxxpKXUUBJqk+N79kIdeEwyOBm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749464024; c=relaxed/simple;
-	bh=U6HfvVV1QbOaz3N9AgeLi3s3AhYnk2nZ+3MMftI68Ag=;
+	s=arc-20240116; t=1749464441; c=relaxed/simple;
+	bh=ArEQ/2nsEBAtXmpn4zBP2QfXDUFWWBM+qfF11borbxI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DMVc6Q9mjS/LEJ9n4xcCQ+Ox99wtwv1q4fqsmGCsMau7v67mXE3ANcjo52COKLaC7BR3+FAgQKWTBsSZCZU3lJCm7u7zlkZVuPbMKJADAB6pLQdB5dAV6oqWPTCEliUJTiY1q340lElK39XXMgcUfWKb2heNFFKHa8ZFAEMWpcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [192.168.191.14] (unknown [61.8.147.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 08DCC61E647A7;
-	Mon, 09 Jun 2025 12:13:17 +0200 (CEST)
-Message-ID: <50c64ad3-960f-4837-a815-9839e49c93c0@molgen.mpg.de>
-Date: Mon, 9 Jun 2025 12:13:14 +0200
+	 In-Reply-To:Content-Type; b=pO9uB+d3v3Oi2WuinH6dzc0MIdepbTg/RtRGl2PVXrIp1f2oTrZhf4Y6E/4AilQ7xqspNcY6swX5NXUMSUpHeEQ59/nwTSQtrJVAX46KM+6+eR7itbScBY6G/hXUOxinABaUkirJo76r3/R8ftsW/mDaw85DqaDcBDFyzgCHTwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
+	by localhost (Postfix) with ESMTP id 4bG6sP4M6zz9sTD;
+	Mon,  9 Jun 2025 12:02:01 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9TNlJkUIjdtp; Mon,  9 Jun 2025 12:02:01 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4bG6sP3W12z9sN6;
+	Mon,  9 Jun 2025 12:02:01 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 725B08B764;
+	Mon,  9 Jun 2025 12:02:01 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id M0XrWoJzsNRE; Mon,  9 Jun 2025 12:02:01 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id EBC588B763;
+	Mon,  9 Jun 2025 12:02:00 +0200 (CEST)
+Message-ID: <6fbbb13e-aedd-47ad-a58b-cc00e9ea138c@csgroup.eu>
+Date: Mon, 9 Jun 2025 12:02:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -30,112 +41,97 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: C10 C-State possible when playing music on a laptop?
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, Cezary Rojewski <cezary.rojewski@intel.com>
-References: <51fbfbce-cbc9-4e7f-9ce0-0653379ef9f1@molgen.mpg.de>
- <08af40c9-25dc-4b11-9406-4a697e294fe9@linux.intel.com>
-Content-Language: en-US
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <08af40c9-25dc-4b11-9406-4a697e294fe9@linux.intel.com>
+Subject: Re: [PATCH v2] ALSA: pcm: Convert multiple {get/put}_user to
+ user_access_begin/user_access_end()
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sound@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>,
+ Mark Brown <broonie@kernel.org>
+References: <d2609397eafc2b55ec1f44a3f30ccec00e0c7f6e.1749455639.git.christophe.leroy@csgroup.eu>
+ <87zfeh72sz.wl-tiwai@suse.de>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <87zfeh72sz.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Dear Amadeusz,
 
 
-Thank you for your insightful reply.
-
-
-Am 09.06.25 um 10:40 schrieb Amadeusz Sławiński:
-
-> First thing to check would be which driver is used on your machine?
->   lspci -k -d 8086:9d71
-> Most likely it is snd_hda_intel.
-
-Indeed it is.
-
-     $ lspci -k -d 8086:9d71
-     00:1f.3 Audio device: Intel Corporation Sunrise Point-LP HD Audio 
-(rev 21)
-     	Subsystem: Dell Device 075b
-     	Kernel driver in use: snd_hda_intel
-     	Kernel modules: snd_hda_intel, snd_soc_avs, snd_sof_pci_intel_skl
-
-> However looking at your device ID, your HW most likely has DSP support, 
-> which should allow some power savings.
-
-Indeed, there are some power savings. But according to PowerTOP’s *Idle 
-stats* it only reaches Pkg(HW) C8 (pc8) instead of C10 (pc10), and 
-*Device stats* shows:
-
-   2.87 W    100.0%        Audio codec hwC0D0: Realtek (pipewire )
-
-> If your BIOS has not blocked it, you should be able to change to DSP driver:
-> # cat /etc/modprobe.d/avs.conf
-> options snd_intel_dspcfg dsp_driver=4
-
-Interesting. Thank you. Is there a way to check, what is automatically 
-detected? Linux only logs:
-
-     $ sudo dmesg | grep -i dsp
-     [    0.019197] ACPI: SSDT 0x00000000651B6150 000161 (v02 INTEL 
-HdaDsp   00000000 INTL 20160422)
-
-Sorry for not providing the Linux messages the first time [1][2].
-
-> You also need FW and topology files, usually should be provided by your 
-> distribution by default. (If not I can give locations)
-
-I am using Debian sid/unstable, so they should be installed for this 
-“old” laptop.
-
-> It should result in some power savings, as it is DSP which handles audio 
-> signal then.
-
-I’d be interesting, if that means C8 C-State at most, C10 C-State would 
-be possible.
-
-
-Kind regards,
-
-Paul
-
-
-[1]: https://alsa-project.org/db/?f=581ebf765fdb72b49922bc5d964ed25270e2c7b5
-[2]: //linux-hardware.org/?probe=1373c64db3
-
-
-> On 2025-06-08 14:57, Paul Menzel wrote:
-
->> On an Intel Kaby Lake Dell XPS 13 9360 with
+Le 09/06/2025 à 10:10, Takashi Iwai a écrit :
+> On Mon, 09 Jun 2025 10:00:38 +0200,
+> Christophe Leroy wrote:
 >>
->>      $ lspci -nn -s 00:1f.3
->>      00:1f.3 Audio device [0403]: Intel Corporation Sunrise Point-LP HD Audio [8086:9d71] (rev 21)
+>> With user access protection (Called SMAP on x86 or KUAP on powerpc)
+>> each and every call to get_user() or put_user() performs heavy
+>> operations to unlock and lock kernel access to userspace.
 >>
->> and
+>> To avoid that, perform user accesses by blocks using
+>> user_access_begin/user_access_end() and unsafe_get_user()/
+>> unsafe_put_user() and alike.
 >>
->>      Codec: Realtek ALC3246
->>      Address: 0
->>      AFG Function Id: 0x1 (unsol 1)
->>      Vendor Id: 0x10ec0256
->>      Subsystem Id: 0x1028075b
->>      Revision Id: 0x100002
+>> As an exemple, before the patch the 9 calls to put_user() at the
+>> end of snd_pcm_ioctl_sync_ptr_compat() imply the following set of
+>> instructions about 9 times (access_ok - enable user - write - disable
+>> user):
+>>      0.00 :   c057f858:       3d 20 7f ff     lis     r9,32767
+>>      0.29 :   c057f85c:       39 5e 00 14     addi    r10,r30,20
+>>      0.77 :   c057f860:       61 29 ff fc     ori     r9,r9,65532
+>>      0.32 :   c057f864:       7c 0a 48 40     cmplw   r10,r9
+>>      0.36 :   c057f868:       41 a1 fb 58     bgt     c057f3c0 <snd_pcm_ioctl+0xbb0>
+>>      0.30 :   c057f86c:       3d 20 dc 00     lis     r9,-9216
+>>      1.95 :   c057f870:       7d 3a c3 a6     mtspr   794,r9
+>>      0.33 :   c057f874:       92 8a 00 00     stw     r20,0(r10)
+>>      0.27 :   c057f878:       3d 20 de 00     lis     r9,-8704
+>>      0.28 :   c057f87c:       7d 3a c3 a6     mtspr   794,r9
+>> ...
 >>
->> Playing music, for example a song, the system does not enter the 
->> lowest C-State C10 (pc10)¹ according to PowerTOP. No having heard 
->> something about off-loading support, I wanted to ask, if on x86 
->> laptops, the hardware would support C10 C-State when (just) audio is 
->> used. If yes, what would be needed on the software side?
+>> A perf profile shows that in total the 9 put_user() represent 36% of
+>> the time spent in snd_pcm_ioctl() and about 80 instructions.
 >>
+>> With this patch everything is done in 13 instructions and represent
+>> only 15% of the time spent in snd_pcm_ioctl():
 >>
->> Kind regards,
+>>      0.57 :   c057f5dc:       3d 20 dc 00     lis     r9,-9216
+>>      0.98 :   c057f5e0:       7d 3a c3 a6     mtspr   794,r9
+>>      0.16 :   c057f5e4:       92 7f 00 04     stw     r19,4(r31)
+>>      0.63 :   c057f5e8:       93 df 00 0c     stw     r30,12(r31)
+>>      0.16 :   c057f5ec:       93 9f 00 10     stw     r28,16(r31)
+>>      4.95 :   c057f5f0:       92 9f 00 14     stw     r20,20(r31)
+>>      0.19 :   c057f5f4:       92 5f 00 18     stw     r18,24(r31)
+>>      0.49 :   c057f5f8:       92 bf 00 1c     stw     r21,28(r31)
+>>      0.27 :   c057f5fc:       93 7f 00 20     stw     r27,32(r31)
+>>      5.88 :   c057f600:       93 36 00 00     stw     r25,0(r22)
+>>      0.11 :   c057f604:       93 17 00 00     stw     r24,0(r23)
+>>      0.00 :   c057f608:       3d 20 de 00     lis     r9,-8704
+>>      0.79 :   c057f60c:       7d 3a c3 a6     mtspr   794,r9
 >>
->> Paul
+>> Note that here the access_ok() in user_write_access_begin() is skipped
+>> because the exact same verification has already been performed at the
+>> beginning of the fonction with the call to user_read_access_begin().
 >>
+>> A couple more can be converted as well but require
+>> unsafe_copy_from_user() which is not defined on x86 and arm64, so
+>> those are left aside for the time being and will be handled in a
+>> separate patch.
 >>
->> ¹ In general it can only be entered after running the command below on 
->> that device.
->>
->>      $ echo 8 | sudo tee /sys/kernel/debug/pmc_core/ltr_ignore && sudo powertop --auto-tune
+>> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+>> ---
+>> v2: Split out the two hunks using copy_from_user() as unsafe_copy_from_user() is not implemented on x86 and arm64 yet.
+> 
+> Thanks for the patch.
+> 
+> The idea looks interesting, but the implementations with
+> unsafe_get_user() leads to very ugly goto lines, and that's too bad;
+> it makes the code flow much more difficult to follow.
+> 
+> I guess that, in most cases this patch tries to cover, we just use
+> another temporary variable for compat struct, copy fields locally,
+> then run copy_to_user() in a shot instead.
+
+Thanks for looking.
+
+I'll give it a try but I think going through a local intermediate will 
+be less performant than direct copy with unsafe_get/put_user().
+
+Christophe
