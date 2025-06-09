@@ -1,212 +1,115 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A8C17A2EF
-	for <linux-sound@vger.kernel.org>; Mon,  9 Jun 2025 11:01:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71CF1DE2C9;
+	Mon,  9 Jun 2025 11:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749466865; cv=none; b=jLSwQcMxnqS7nLejpGdfSNFc/qn2FV/JjyXNZDBsIQKVdcBEzbwZ+Yb06yBA/TE+DNF+b+lzjP7Dir2XuENa+dVisgav0IXFP48366HIDeKOGV9hLw4zrCaqFe+tCqPyjS8eDlKCtzhL2H3uXmHcLQu+7MKDziapYF24T6zXlgM=
+	t=1749469901; cv=none; b=Uja6qYqcEGEARbbb+vpXjLVkIrOAR80JyIyd4u0L1MkGOqnVIaSniPy+N71gts7+G0NOnLVi/4yHzsSIsNHXhSVVOVfszBaVqIZkWxkHHd58W/aPa7xD3FbGQ0Xoz3lRtFFfwxbWVBLFTCBE+LUWQqCXgJxZXsuAb2fbGq8RsZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749466865; c=relaxed/simple;
-	bh=rqS3Bm58vNRFabYVeSdoNkgNOF0B+PGk8fRjtMoS0ts=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OCPYVaktZicaRdEHb8oMsvgwF5fOFiQSjeYwnjLASuAvf2dqzYyPeABlk2GbKSfNHSTM0rW7ZJINHgWEicwisXo3Syj9eGTuYsVTRD3Te9oMKXeB9WRgpUgnXC+vlx2qsXV/4cu6zOOTfKcjI2pOI0UpJsIgisMY2ZVWVBIAfw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GgAQO5Gd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RaUrq8tV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GgAQO5Gd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RaUrq8tV; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1749469901; c=relaxed/simple;
+	bh=wRnzep0un26/I6l2B9rLwcxLBqjgLGGglUlDx+xg5MQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CnCMG+S6xUIKZAxbNuNUVAzW6ZYiGiRKLe2ccKYMNufYX18q5Fe6l2gsvSL64zEK+UoXH0eRU8NLpEfHMYcGXsI4iua4OYQRATr036B0koSpVkje5Vl+GfoJRl6RC4vGmGvaZDTQSoN8ZQvk8Zvh65XlPvZh3atsDB+AohJaqC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MhmnjE03; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GgAQO5Gd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RaUrq8tV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GgAQO5Gd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RaUrq8tV"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 867DC1F443;
-	Mon,  9 Jun 2025 11:01:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749466860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AYDkissmsxsA6CZ2/OeDcVyhcRKbhFLuEAjl5FIP/C4=;
-	b=GgAQO5GddygkhIYveM6lNCArjjp734Wcs5dP1KYd4BQpFd6dSur5NCnJeg4FG11IZKW+89
-	segwXyPdglI1cCwzQzEVBCI5q4IdafGmjyIwfwY9kWEs8IuHCMNNieaq1uunWtiUwDdJLu
-	GToNpjkqp9kCHunIBchT5qHCXCbCBpE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749466860;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AYDkissmsxsA6CZ2/OeDcVyhcRKbhFLuEAjl5FIP/C4=;
-	b=RaUrq8tVarcHGkyzfrDfRtWMcIqJKoEs2FwkoTA87VIXWERbocthvYqqw7KITAKjnjXNKI
-	cHB97qUoci3xLKDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749466860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AYDkissmsxsA6CZ2/OeDcVyhcRKbhFLuEAjl5FIP/C4=;
-	b=GgAQO5GddygkhIYveM6lNCArjjp734Wcs5dP1KYd4BQpFd6dSur5NCnJeg4FG11IZKW+89
-	segwXyPdglI1cCwzQzEVBCI5q4IdafGmjyIwfwY9kWEs8IuHCMNNieaq1uunWtiUwDdJLu
-	GToNpjkqp9kCHunIBchT5qHCXCbCBpE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749466860;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AYDkissmsxsA6CZ2/OeDcVyhcRKbhFLuEAjl5FIP/C4=;
-	b=RaUrq8tVarcHGkyzfrDfRtWMcIqJKoEs2FwkoTA87VIXWERbocthvYqqw7KITAKjnjXNKI
-	cHB97qUoci3xLKDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 42B18137FE;
-	Mon,  9 Jun 2025 11:01:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ne9+Duy+RmgmNAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 09 Jun 2025 11:01:00 +0000
-Date: Mon, 09 Jun 2025 13:00:59 +0200
-Message-ID: <87frg96uxg.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v2] ALSA: pcm: Convert multiple {get/put}_user to user_access_begin/user_access_end()
-In-Reply-To: <6fbbb13e-aedd-47ad-a58b-cc00e9ea138c@csgroup.eu>
-References: <d2609397eafc2b55ec1f44a3f30ccec00e0c7f6e.1749455639.git.christophe.leroy@csgroup.eu>
-	<87zfeh72sz.wl-tiwai@suse.de>
-	<6fbbb13e-aedd-47ad-a58b-cc00e9ea138c@csgroup.eu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MhmnjE03"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C045D439F7;
+	Mon,  9 Jun 2025 11:51:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1749469889;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=V3C4n3ou7ij5UokZQiLqkdL4RwROiCMcbEbk2tj+ftE=;
+	b=MhmnjE03JZ4ZUzUFi628UWJeHoA4CxpNFhowA8nz0Mq5itorCsof1S5dJ/sPtEIBFbo1Jk
+	Hwy9sKtXMoE+VsshcCvWY4aQi05oMVWEaNGYjo1T0dR8W+EBZw9E4OIz81AGzdwAlM8n75
+	2S+VvR+H07zXSDHTo48yn8Sq4KUIZFSqhQfVvTrnquZZj6UCWEoHoDpFDd6fbQpyznWbrC
+	A4WGlnLqKUz40b7mb/ENkP4GxS/W4M7EmGv0N4rUlnfvOZAh01XVgUGi4BFenPxDeeMxCY
+	MQyOkQ2VCAYBSi5zwXQEJ94eZHPYAx5IUAPY9ZA4FFH6YDYqKg3JUAVp2NpqFQ==
+From: Thomas Richard <thomas.richard@bootlin.com>
+Date: Mon, 09 Jun 2025 13:51:15 +0200
+Subject: [PATCH] pinctrl: cirrus: madera-core: Use
+ devm_pinctrl_register_mappings()
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250609-pinctrl-madera-devm-pinctrl-register-mappings-v1-1-ba2c2822cf6c@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIALLKRmgC/z2NQQqDQAxFryJZNxClCvYqpYs4E8dAnQ6JiCDev
+ UMXXb734f0TXEzF4dGcYLKr6ydXaG8NhIVzEtRYGTrqehpoxKI5bPbGlaMYY5R9/TuTpL6J1bF
+ Ulxx5IKYpTGPb36E2i8msx+/v+bquLx4RDJl/AAAA
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, Lee Jones <lee@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Thomas Richard <thomas.richard@bootlin.com>
+X-Mailer: b4 0.14.1
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdelvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomhepvfhhohhmrghsucftihgthhgrrhguuceothhhohhmrghsrdhrihgthhgrrhgusegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeelgffgffejtdeivdeifeeltdffgfeludekudeiueffffejuedvgfejteeuffegtdenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmegutgekudemrggrugdtmehfuggtrgemtggtudgrnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmegutgekudemrggrugdtmehfuggtrgemtggtudgrpdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehthhhomhgrshdrrhhitghhrghrugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrthgthhgvshesohhpvghnshhouhhrtggvrdgtihhrrhhushdrtghomhdprhgtp
+ hhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopehthhhomhgrshdrrhhitghhrghrugessghoohhtlhhinhdrtghomhdprhgtphhtthhopehrfhesohhpvghnshhouhhrtggvrdgtihhrrhhushdrtghomhdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhgphhiohesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-GND-Sasl: thomas.richard@bootlin.com
 
-On Mon, 09 Jun 2025 12:02:00 +0200,
-Christophe Leroy wrote:
-> 
-> 
-> 
-> Le 09/06/2025 à 10:10, Takashi Iwai a écrit :
-> > On Mon, 09 Jun 2025 10:00:38 +0200,
-> > Christophe Leroy wrote:
-> >> 
-> >> With user access protection (Called SMAP on x86 or KUAP on powerpc)
-> >> each and every call to get_user() or put_user() performs heavy
-> >> operations to unlock and lock kernel access to userspace.
-> >> 
-> >> To avoid that, perform user accesses by blocks using
-> >> user_access_begin/user_access_end() and unsafe_get_user()/
-> >> unsafe_put_user() and alike.
-> >> 
-> >> As an exemple, before the patch the 9 calls to put_user() at the
-> >> end of snd_pcm_ioctl_sync_ptr_compat() imply the following set of
-> >> instructions about 9 times (access_ok - enable user - write - disable
-> >> user):
-> >>      0.00 :   c057f858:       3d 20 7f ff     lis     r9,32767
-> >>      0.29 :   c057f85c:       39 5e 00 14     addi    r10,r30,20
-> >>      0.77 :   c057f860:       61 29 ff fc     ori     r9,r9,65532
-> >>      0.32 :   c057f864:       7c 0a 48 40     cmplw   r10,r9
-> >>      0.36 :   c057f868:       41 a1 fb 58     bgt     c057f3c0 <snd_pcm_ioctl+0xbb0>
-> >>      0.30 :   c057f86c:       3d 20 dc 00     lis     r9,-9216
-> >>      1.95 :   c057f870:       7d 3a c3 a6     mtspr   794,r9
-> >>      0.33 :   c057f874:       92 8a 00 00     stw     r20,0(r10)
-> >>      0.27 :   c057f878:       3d 20 de 00     lis     r9,-8704
-> >>      0.28 :   c057f87c:       7d 3a c3 a6     mtspr   794,r9
-> >> ...
-> >> 
-> >> A perf profile shows that in total the 9 put_user() represent 36% of
-> >> the time spent in snd_pcm_ioctl() and about 80 instructions.
-> >> 
-> >> With this patch everything is done in 13 instructions and represent
-> >> only 15% of the time spent in snd_pcm_ioctl():
-> >> 
-> >>      0.57 :   c057f5dc:       3d 20 dc 00     lis     r9,-9216
-> >>      0.98 :   c057f5e0:       7d 3a c3 a6     mtspr   794,r9
-> >>      0.16 :   c057f5e4:       92 7f 00 04     stw     r19,4(r31)
-> >>      0.63 :   c057f5e8:       93 df 00 0c     stw     r30,12(r31)
-> >>      0.16 :   c057f5ec:       93 9f 00 10     stw     r28,16(r31)
-> >>      4.95 :   c057f5f0:       92 9f 00 14     stw     r20,20(r31)
-> >>      0.19 :   c057f5f4:       92 5f 00 18     stw     r18,24(r31)
-> >>      0.49 :   c057f5f8:       92 bf 00 1c     stw     r21,28(r31)
-> >>      0.27 :   c057f5fc:       93 7f 00 20     stw     r27,32(r31)
-> >>      5.88 :   c057f600:       93 36 00 00     stw     r25,0(r22)
-> >>      0.11 :   c057f604:       93 17 00 00     stw     r24,0(r23)
-> >>      0.00 :   c057f608:       3d 20 de 00     lis     r9,-8704
-> >>      0.79 :   c057f60c:       7d 3a c3 a6     mtspr   794,r9
-> >> 
-> >> Note that here the access_ok() in user_write_access_begin() is skipped
-> >> because the exact same verification has already been performed at the
-> >> beginning of the fonction with the call to user_read_access_begin().
-> >> 
-> >> A couple more can be converted as well but require
-> >> unsafe_copy_from_user() which is not defined on x86 and arm64, so
-> >> those are left aside for the time being and will be handled in a
-> >> separate patch.
-> >> 
-> >> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> >> ---
-> >> v2: Split out the two hunks using copy_from_user() as unsafe_copy_from_user() is not implemented on x86 and arm64 yet.
-> > 
-> > Thanks for the patch.
-> > 
-> > The idea looks interesting, but the implementations with
-> > unsafe_get_user() leads to very ugly goto lines, and that's too bad;
-> > it makes the code flow much more difficult to follow.
-> > 
-> > I guess that, in most cases this patch tries to cover, we just use
-> > another temporary variable for compat struct, copy fields locally,
-> > then run copy_to_user() in a shot instead.
-> 
-> Thanks for looking.
-> 
-> I'll give it a try but I think going through a local intermediate will
-> be less performant than direct copy with unsafe_get/put_user().
+Use devm_pinctrl_register_mappings(), so the mappings are automatically
+unregistered by the core. If pinctrl_enable() failed during the probe,
+pinctrl_mappings were not freed. Now it is done by the core.
 
-Yes, but the code readability is often more important than minor
-optimizations unless it's in a hot path.
+Fixes: 218d72a77b0b ("pinctrl: madera: Add driver for Cirrus Logic Madera codecs")
+Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
+---
+Compile tested only.
+---
+ drivers/pinctrl/cirrus/pinctrl-madera-core.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/pinctrl/cirrus/pinctrl-madera-core.c b/drivers/pinctrl/cirrus/pinctrl-madera-core.c
+index 73ec5b9beb49..d19ef13224cc 100644
+--- a/drivers/pinctrl/cirrus/pinctrl-madera-core.c
++++ b/drivers/pinctrl/cirrus/pinctrl-madera-core.c
+@@ -1061,8 +1061,9 @@ static int madera_pin_probe(struct platform_device *pdev)
+ 
+ 	/* if the configuration is provided through pdata, apply it */
+ 	if (pdata->gpio_configs) {
+-		ret = pinctrl_register_mappings(pdata->gpio_configs,
+-						pdata->n_gpio_configs);
++		ret = devm_pinctrl_register_mappings(priv->dev,
++						     pdata->gpio_configs,
++						     pdata->n_gpio_configs);
+ 		if (ret)
+ 			return dev_err_probe(priv->dev, ret,
+ 						"Failed to register pdata mappings\n");
+@@ -1081,17 +1082,8 @@ static int madera_pin_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static void madera_pin_remove(struct platform_device *pdev)
+-{
+-	struct madera_pin_private *priv = platform_get_drvdata(pdev);
+-
+-	if (priv->madera->pdata.gpio_configs)
+-		pinctrl_unregister_mappings(priv->madera->pdata.gpio_configs);
+-}
+-
+ static struct platform_driver madera_pin_driver = {
+ 	.probe = madera_pin_probe,
+-	.remove = madera_pin_remove,
+ 	.driver = {
+ 		.name = "madera-pinctrl",
+ 	},
 
-thanks,
+---
+base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+change-id: 20250609-pinctrl-madera-devm-pinctrl-register-mappings-a60a0bcb9154
 
-Takashi
+Best regards,
+-- 
+Thomas Richard <thomas.richard@bootlin.com>
+
