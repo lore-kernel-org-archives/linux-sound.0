@@ -1,41 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5D6226527;
-	Mon,  9 Jun 2025 21:00:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60062222598;
+	Mon,  9 Jun 2025 21:00:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749502848; cv=none; b=W0kCantqXjOhiYESUjqOg6WmhaCJ3WwMbH3QyZVJoHe4DMjh5ny6z8uTZGwXcyo38eIvjyS4qU9gsDa4wZ/3P77dKM950HKwyBtzhyrIZnFNumV7I5OGa/HL/+zJTHw5K/YuPEURyiEymNU1lZgBjWe4MhtW0rEmxQYz6WqO4eA=
+	t=1749502852; cv=none; b=NyQhC81KbUWAxF/zQEz/k/uD5QRRxKk2CY9bQ5hgwKDw31bfsjia56frwZS2vr9Y+hi/QOAcgq37yPyAXZf+FW4NL/UUQkJaJirIuEgxAYSAmuXymal03pHhiGEj9dd1lDnb/aG5jbZ47Mz+kiHARhajuu582qk0+AkerNRTd1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749502848; c=relaxed/simple;
-	bh=d5ryB50fBGU3rzUwb1bK5ko4/jniZfD9F03PdA5Rci8=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CNABrb7iwPfT29HP4MaLhtTxNNzjMJGxK43C1bc9NisdL3uptwl3bm/0OqVS7kURsfr1wR9S4LGY1VXq/tWYuJJuDa4E+h6of6LneLhyJruQgjgxgLKdN2fEJO6rPJ68wk4bGuif/m9ZeyzyumUE2AT4fKyOBXQ+BcB09PBr+yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L9ILCQni; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749502852; c=relaxed/simple;
+	bh=4kqJW1ciMSPYKms3Y+JdGC7f/q+aGKCLpMKAts86L60=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=A3mcWssdBIH3WzJNM+khUew62WerBRDg5zhHRzq63KH88Ib29lVMDoD8ZvN8DGrQApbLDlxkUg0fE6rME6XdlODyc0Icva64Qgl7E8oaBOcHZ4ktifeGySdKqJi6vwwvbYvsmrh4MdMIZ0zG0HEuOquW461oT9qKA7VVAno5+uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pv/uXhpu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L9ILCQni"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55D0BC4CEEB;
-	Mon,  9 Jun 2025 21:00:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pv/uXhpu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C4ABC4CEEF;
+	Mon,  9 Jun 2025 21:00:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749502847;
-	bh=d5ryB50fBGU3rzUwb1bK5ko4/jniZfD9F03PdA5Rci8=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=L9ILCQni0241UVt1GJYRSMoIieGpegVcNt6eXKm10Cyt6stVqq9ZBTZ/ksM1n6+NR
-	 B9co3engPmT+iRtw0c2WZm18Kf+fNKTY9BUSRw8oo9xGKiTeNmqCQN+zE15s4hD4Qq
-	 69MZztoFugy/wsXr0F4fHYOPJV+CoTAs2X7UcPGcm6ggk5x/gGIYTIqZ3dQOsQp9kv
-	 T08/XoC2nX6K2pgHpNeyN2btwZKPmlPFiXWbMLmWg9/9EzsWGfluZapMHUcDcGKKaA
-	 FCtQ+eN2JMrwzRaUPD3wYT/+SmLlPL7tiXpuhV8UzwzP7vo8aNeMvm3I9e1Uvu8DcQ
-	 YjwdOFLxow8Dw==
+	s=k20201202; t=1749502851;
+	bh=4kqJW1ciMSPYKms3Y+JdGC7f/q+aGKCLpMKAts86L60=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=pv/uXhpuR9ZUpJOCDfH4EtcgNdI2KVijdLyoVEFoklMIpiFMXuyX2w2RiUjll+Dvc
+	 epnH1q4y5U/p9R7+bGNyVh3F+MQdhXLSQZ+x8o5rRx0qDW4PUatpKOyj3U0dFTYMJT
+	 zqx5VSP9aGlyp5iR9xCEgkHn/GpMkIoyljRmwtR1iAgR3Smy3VySb50Wb92eHG8abT
+	 M6byrRuwZZwueXNpDOnevEJgZrHZGA1ohfpmhNVUsgbIfbl5Sr9ukuT9thIptFp/Fb
+	 mcuG/xJHfU6Rn/kmzdUWD+JvTaKi6qqhiQFtv9v6qVCMXsUJFal50MzDGwuhHcyAL3
+	 ugxLnp5j/933A==
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87bjr4uup4.wl-kuninori.morimoto.gx@renesas.com>
-References: <87bjr4uup4.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v4 0/3] ASoC: remove component->id
-Message-Id: <174950284608.277844.8283182888349680837.b4-ty@kernel.org>
-Date: Mon, 09 Jun 2025 22:00:46 +0100
+To: perex@perex.cz, tiwai@suse.com, kuninori.morimoto.gx@renesas.com, 
+ lgirdwood@gmail.com, jbrunet@baylibre.com, neil.armstrong@linaro.org, 
+ khilman@baylibre.com, martin.blumenstingl@googlemail.com, 
+ shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, Ai Chao <aichao@kylinos.cn>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org
+In-Reply-To: <20250603055109.3154061-1-aichao@kylinos.cn>
+References: <20250603055109.3154061-1-aichao@kylinos.cn>
+Subject: Re: (subset) [PATCH v4 0/4] Use helper function
+ for_each_child_of_node_scoped()
+Message-Id: <174950284791.277844.12094958567890827693.b4-ty@kernel.org>
+Date: Mon, 09 Jun 2025 22:00:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,13 +52,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Wed, 04 Jun 2025 02:06:15 +0000, Kuninori Morimoto wrote:
-> snd_soc_component has "id", but no one is using it except Qcom. It is
-> initialized at snd_soc_component_initialize(), but Qcom overwrites it.
+On Tue, 03 Jun 2025 13:51:05 +0800, Ai Chao wrote:
+> This patch series introduces wrapper functions for_each_child_of_node_scoped().
 > 
-> According to Srinivas, unfortunately, current Qcom lpass is broken.
-> But we can update it and then, avoid to use component->id.
-> Let's do it, and remove it.
+> The for_each_child_of_node_scoped() helper provides a scope-based clean-up
+> functionality to put the device_node automatically, and as such, there is
+> no need to call of_node_put() directly.
+> 
+> Summary:
 > 
 > [...]
 
@@ -62,12 +69,12 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: qcom: use drvdata instead of component to keep id
-      commit: 8167f4f42572818fa8153be2b03e4c2120846603
-[2/3] ASoC: soc-core: save ID if param was set in fmt_single_name()
-      commit: 6ada7351af0c4e295739adfa2c4b780c037b3d27
-[3/3] ASoC: remove component->id
-      commit: d3de84858811ea2c501cb45f0aafcae5beba20b6
+[2/4] ASoC: renesas: Use helper function for_each_child_of_node_scoped()
+      commit: 077caf1d1763e069239101b4a72351fb38d37f13
+[3/4] ASoC: meson: Use helper function for_each_child_of_node_scoped()
+      commit: 618abc785e0cbe9993f7217c9f8ecb1cd2478e4f
+[4/4] ASoC: imx-card: Use helper function for_each_child_of_node_scoped()
+      commit: 111a2c8ab462d77d1519b71b46f13ae1b46920b4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
