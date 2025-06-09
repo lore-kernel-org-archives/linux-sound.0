@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE57CA5A;
-	Mon,  9 Jun 2025 15:39:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66362CA5A;
+	Mon,  9 Jun 2025 15:40:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749483598; cv=none; b=kHGZ9EeWDL2RMgNlMbjALjORA72B/aXoomCeYyA9qfnb/isVK9g++krw17MRhyGgc3fjHmYJe7aVjCOmCMvZd21cS+U6R/n7AgEhlOOu22eeQmtD+ub5Uj8My+FeXu3V1nEcxUisUL98/sLx703RFjnZbL47/t16z3baGRqjTOg=
+	t=1749483601; cv=none; b=cQzzZAUaKcD7JWxyNfLL1ubq2BcR3pnvz7P+pVd+LGP9DJVuCdF5PvBAMAWvClShCpmegMVpseaEq++BZGWFVG7DI+NAuL3MqY0Uh3p0DGw7FuI9MhfEDZ462XGdA8QQmp7HjaeTnid9ZK5kdIJVp4GWtuV139AWMCAFA5H+GkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749483598; c=relaxed/simple;
-	bh=EqC/uvkRrrh4ubAMjbTCQuOMddZGul995t0PkHwoBco=;
+	s=arc-20240116; t=1749483601; c=relaxed/simple;
+	bh=79i4R9SAD/alYf7WTzRlygyu10EANW52xvy2M/Do+QY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CqI7xqbaHI5+1gfp9k3kZRNdIUSNMiFUBUxrafI47ib2b7jmum/wbbDm1/sECgTh1Oj1E+n5F3Fte+wZkVpLRhBGIyASLyMLnaso2wcypTdNahjIpRir2sMLIf88An/RZzrOBl5c4I5weyjHEumFGu5wEdfRVtMqvhxrZTMKbVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sO3OTTOS; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=DizJUtAilF553o4vYi7+ZDmi+roeo0g+yrukiSLQP35GhsJqaqkVWNla6f6Yy2I/+Ap92y1vX/RCZlArBzHXYONA2oD7nPreygWRziNMuCvjrmGCjkFU0xRynorlX1uEou5blDQf/2pFLV4GRfkhrU+SUaDXadU5XYiM0iu1gjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jkd8Z7hy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sO3OTTOS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B442C4CEEB;
-	Mon,  9 Jun 2025 15:39:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jkd8Z7hy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77850C4CEEF;
+	Mon,  9 Jun 2025 15:39:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749483598;
-	bh=EqC/uvkRrrh4ubAMjbTCQuOMddZGul995t0PkHwoBco=;
+	s=k20201202; t=1749483600;
+	bh=79i4R9SAD/alYf7WTzRlygyu10EANW52xvy2M/Do+QY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=sO3OTTOSLyxGQMnoZ3sceHt3YjgWfYP3wYTWdYSF0LajblcI6aLzDs7E+PB30/+Jz
-	 xUF/yhk5uw6kVtwLcf7QABf/KFS0Y71CHHJ3U4Phjf9Tpc1bCRO4E9DBhe4VrU4hnq
-	 WKLySNzDhRb/uKtxMUy87je9kye8YXNLcOK0EcQa/lIPBvywffo5spd0VdyJTbbEFc
-	 sJ+TzWeKy5OO1UlELS4VPmiXYw2lEVdi/3mhSpkvWxIacixDcf5WhOcpgBQk7g3mD9
-	 C7KXuInur2HeKwWpn53VRhd+05hlBaDunpBiU0s7MwoTQ2enqhKvG7TCPJQwEKYjUt
-	 qT+BOJPGgKzDg==
+	b=jkd8Z7hy9VcKFGVF/k3GMiuZNhA8hpfqrTKYXXW9Je8G7+feslv2lSkbwsZS8sFn5
+	 QHkWbADZUD9XV/luyZa1vbkWCt1YTgW7akHYZKWDy1u9qBHveFledA9n37B2QONLhc
+	 ZktHqXIL8WQg79ILLwbsqsTpd6QbQQChORr4D2Z059wold8li4fSPKbQ43s6UTBLk5
+	 upjF0NTuViNfBiXpLY8YpDs6hSLQJduk5+MecH8Rn1R99xoBKCITYInJG2v8E0UW5V
+	 wy4Iuom04TDjcvXLP3bV1uWBwQmfeOkoAp2zASX1+v/QVpagpQSE8hmgbp72YIZWE5
+	 LwbWi+g1AK2wg==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+To: alsa-devel@alsa-project.org, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com, 
+ Sunil-kumar.Dommati@amd.com, syed.sabakareem@amd.com, 
+ mario.limonciello@amd.com, yung-chuan.liao@linux.intel.com, 
  Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Koji Matsuoka <koji.matsuoka.xm@renesas.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-spi@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
-References: <cover.1747401908.git.geert+renesas@glider.be>
-Subject: Re: (subset) [PATCH v2 00/22] spi: sh-msiof: Transfer size
- improvements and I2S reuse
-Message-Id: <174948359584.187608.4441619994832648508.b4-ty@kernel.org>
-Date: Mon, 09 Jun 2025 16:39:55 +0100
+ Takashi Iwai <tiwai@suse.com>, 
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>
+In-Reply-To: <20250609121251.639080-1-venkataprasad.potturu@amd.com>
+References: <20250609121251.639080-1-venkataprasad.potturu@amd.com>
+Subject: Re: [PATCH] ASoC: amd: acp: Fix pointer assignments for
+ snd_soc_acpi_mach structures
+Message-Id: <174948359821.187608.7932953931685705829.b4-ty@kernel.org>
+Date: Mon, 09 Jun 2025 16:39:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,17 +52,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Fri, 16 May 2025 15:32:03 +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
+On Mon, 09 Jun 2025 17:42:32 +0530, Venkata Prasad Potturu wrote:
+> This patch modifies the assignment of machine structure pointers in the
+> acp_pci_probe function. Previously, the machine pointers were assigned
+> using the address-of operator (&), which caused incompatibility issues
+> in type assignments.
 > 
-> This patch series (A) improves single transfer sizes in the MSIOF
-> driver, using two methods:
->   - By increasing the assumed FIFO sizes, impacting both PIO and DMA
->     transfers,
->   - By using two groups, impacting DMA transfers,
-> and (B) lets the recently-introduced MSIOF I2S drive reuse the SPI
-> driver's register definitions.  All of this is covered with a thick
-> sauce of fixes for (harmless) bugs, cleanups, and refactorings.
+> Additionally, the declarations of the machine arrays in amd.h have been
+> updated to reflect that they are indeed arrays (`[]`). The code is
+> further cleaned up by declaring the codec structures in
+> amd-acpi-mach.c as static, reflecting their intended usage.
 > 
 > [...]
 
@@ -70,8 +71,8 @@ Applied to
 
 Thanks!
 
-[22/22] ASoC: renesas: msiof: Convert to <linux/spi/sh_msiof.h>
-        commit: 6ba68e5aa9d5d15c8877a655db279fcfc0b38b04
+[1/1] ASoC: amd: acp: Fix pointer assignments for snd_soc_acpi_mach structures
+      commit: 0779c0ad2a7cc0ae1865860c9bc8732613cc56b1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
