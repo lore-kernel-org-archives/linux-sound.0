@@ -1,57 +1,33 @@
-Received: from e3i282.smtp2go.com (e3i282.smtp2go.com [158.120.85.26])
+Received: from mail-m1973183.qiye.163.com (mail-m1973183.qiye.163.com [220.197.31.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1642459D1
-	for <linux-sound@vger.kernel.org>; Mon,  9 Jun 2025 08:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B6C281379;
+	Mon,  9 Jun 2025 08:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749456251; cv=none; b=RG0Yo85TC71YEvl2QLuZMtDd3bxQOwnbjGsonmWbAhVDNhxEIvOmi+FS7aWtPfX0PwH9QSujN78Pxf1H4drrEW+dh9j+5NlAQQqWPUoCNl46mKih95cvs4fjicb7RIS6Dlg0piUytSUzMoR7rj4M203fcVtg2ei4Y9834oEL8v0=
+	t=1749456585; cv=none; b=V148plY8Xa1mEoOz6Bwfd8racsOsDOlc6i5rZBT42vW67BlsEWQ8zBGoHBFpJ9Oi3iUqQOx+soZb/jEGpkcPhZiIonuBgJ6Gi2eCuk64ZFz4eIZGX9Bi9sWE5IaZKHPrmUywZMuq6A7wC1w7gRSMq75cGU9cLtsD6woJAeupe38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749456251; c=relaxed/simple;
-	bh=7VIXiVnLp6xUMZfeU9BYhxVdq25YMhx1Vl2EPXeFzSQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kYAhLkkQA4CSX8+cWRGcrkRDG7aluO4J4mdF1JewM0AK7S4cuHNMK0wdSwuBVlRzK91BCq7NFO3haAMiAY/obAhlWPwpM2sYlhvsXZZyT6xqpYOrDcM9ugxsJoaU8Ou3GzdZg87/nPX2DcOzr+LVJb50zR6T31ygI4MAMD6ccsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev; spf=pass smtp.mailfrom=em1255854.medip.dev; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=YMZRFFX5; dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b=mU60Z7Fh; arc=none smtp.client-ip=158.120.85.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1255854.medip.dev
+	s=arc-20240116; t=1749456585; c=relaxed/simple;
+	bh=mhLDgR1V42W+Ux7CXpjqpKsltVehwem5kLAhAgpoQVo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U3o5NSjrBvxzfzLIgKeC4rNjsO1/Jxvi5pHDKEecI+oofBgllLQF741kYT/IBdzQaLJ+t+YvxKc6zOQnTNptS420vU6OhHsJ8aEHCzgQa9QeoFEkQrjqP9++93VYByjvIa9CeTKnkwq8YmLB7Q2ruq9YIxQZ52OmfhlLnwW4imI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b=bXYXgGN6; arc=none smtp.client-ip=220.197.31.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="YMZRFFX5";
-	dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b="mU60Z7Fh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
- i=@smtpservice.net; q=dns/txt; s=a1-4; t=1749456241; h=feedback-id :
- x-smtpcorp-track : date : message-id : to : subject : from : reply-to
- : sender : list-unsubscribe : list-unsubscribe-post;
- bh=OAD1I4lKD9GurTiefje3GPSgP3drA15uqZbSTFtnYlY=;
- b=YMZRFFX5YW323plcVIGPCDZcl1nQ8/KQRnU0oWifT/ep8imYDttrM1CfLJmwxxvOY7NAx
- 5xemnmJgbaeJbHvOmn2/u7kEr78KwXhoCMnNpIBrwtDHi1UHK/1melxYMz9dcmbn+Mnndzm
- cMLxE6/aAlNuLj769Q8czzDB0jXqymld6taAvEKX8vr1h8pDDCTManSBrQ5t9PtCXnVhhkY
- CUgwfT9dQjw84u5/xYjVvYZPPMFKg9fAt5IKiJXHtKTxsccc3wu7BgdnuQFHyNrcoYOgI+S
- 56N06rYC5GVzgYr9Z1gTVpX0GkmayyFyiPPuxmOiLnKDR3kPVVMHihLOAxnA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=medip.dev;
- i=@medip.dev; q=dns/txt; s=s1255854; t=1749456241; h=from : subject :
- to : message-id : date;
- bh=OAD1I4lKD9GurTiefje3GPSgP3drA15uqZbSTFtnYlY=;
- b=mU60Z7FhFiYg1gnObiC9lxQRlh9lXpUc/ZCfEOu8IppUMAwjZjssqc9YVlLGB/P91qfa9
- DOpMq6bXdwGiK08n9LQRX0PgSfJfm6DUnw1CFkt0Zbf+ns+XtPPQwlXb67AwfwUIsvAXEms
- d0K/7ymtJ0hpEWflHkNnSHnJQMa7AodQyjC4yOLtZsCuhNVx8KHXb4tKaMrUgDlM6YEZ6gj
- 7meawRXIlghadS3JvTuPvVqcSDtqQcC7gdpeTN+TiHkjgkW90o+8nRmRMnrzc5Czevox5ZE
- j5Y8775D+VCZI5hAVoRTAsdszzAmV7o01NRDP8F6wuxNQujuaKtuL/4uxsmA==
-Received: from [10.152.250.198] (helo=localhost.localdomain)
-	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.97.1-S2G)
-	(envelope-from <edip@medip.dev>)
-	id 1uOXU0-FnQW0hPmmyb-hAwU;
-	Mon, 09 Jun 2025 08:03:52 +0000
-From: edip@medip.dev
+	dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b="bXYXgGN6"
+Received: from f-15NBC1011.. (unknown [59.173.180.60])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 17fa83ee2;
+	Mon, 9 Jun 2025 14:53:59 +0800 (GMT+08:00)
+From: "feng.liu" <feng.liu@senarytech.com>
 To: perex@perex.cz,
 	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Edip Hazuri <edip@medip.dev>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda/realtek - Add mute LED support for HP Victus 16-s1xxx and HP Victus 15-fa1xxx
-Date: Mon,  9 Jun 2025 10:59:44 +0300
-Message-ID: <20250609075943.13934-2-edip@medip.dev>
-X-Mailer: git-send-email 2.49.0
+	"feng.liu" <feng.liu@senarytech.com>
+Subject: [PATCH] correct boot value
+Date: Mon,  9 Jun 2025 14:53:30 +0800
+Message-ID: <20250609065331.495109-1-feng.liu@senarytech.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,48 +35,109 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 1255854m:1255854ay30w_v:1255854sVoHSOn4rB
-X-smtpcorp-track: LzJ8puFTQq8Q.S39vPUXB9bLL.fOw0jQdROiu
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSk4YVkkZHh1ITEwdSxgaSVYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlOQlVKTEhVSkNLVU1LWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+X-HM-Tid: 0a975377a36a09d6kunma05c786b5fc08d
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PjY6CSo4HDE3ExIOMEsKDAJC
+	Kh0aFD1VSlVKTE9CT05JS09LSExLVTMWGhIXVR0eFRxVFxIOOwgeFRoJAg8eGBNVGBQWRVlXWRIL
+	WUFZTkJVSkxIVUpDS1VNS1lXWQgBWUFITkhMNwY+
+DKIM-Signature:a=rsa-sha256;
+	b=bXYXgGN66/zbQG6e8tYTlpMNyXqeedjfLEM9g+hpVtkmgdjd32P8fCmfcszzoVKhiEJ4oly4V1ADYS1nYZI6CjNRmWdVDtHTyTh+QZm0kusZ8cBKTk2FY0+d97iRcWT3fs1mW//WqhqJ23SIgEyJc5Gvfcb7/7BkOkUFrycJzgc=; s=default; c=relaxed/relaxed; d=senarytech.com; v=1;
+	bh=S12uKf9spm0opERSHYctai6dvUt6IhIlINdaX4aa0yE=;
+	h=date:mime-version:subject:message-id:from;
 
-From: Edip Hazuri <edip@medip.dev>
+  Read the Boost Level configured for input pins in the BIOS 
+init verbs, and restore these settings during audio recording. 
+This addresses issues of low recording volume or excessive 
+background noise caused by incorrect boost configurations.
+  Compare with the last commit:
+  1.Correct the function definition; cxt_get_default_capture_gain_boost 
+does not require a return value.
+  2.Check array indices to prevent operations causing memory out-of-bounds
+access.
 
-The mute led on those laptops is using ALC245 but requires a quirk to work
-This patch enables the existing quirk for the devices.
-
-Tested on my Victus 16-s1011nt Laptop and my friend's Victus 15-fa1xxx. The LED behaviour works as intended.
-
-v2:
-- add new entries according to (PCI) SSID order
-- link to v1: https://lore.kernel.org/linux-sound/20250607105051.41162-1-edip@medip.dev/#R
-
-
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Edip Hazuri <edip@medip.dev>
+Signed-off-by: feng.liu <feng.liu@senarytech.com>
 ---
- sound/pci/hda/patch_realtek.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/pci/hda/patch_conexant.c | 49 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index cd0d7ba73..c70bee626 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10787,6 +10787,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8b97, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8bb3, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8bb4, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8bc8, "HP Victus 15-fa1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8bcd, "HP Omen 16-xd0xxx", ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8bdd, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8bde, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
-@@ -10840,6 +10841,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8c91, "HP EliteBook 660", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8c97, "HP ZBook", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x8c9c, "HP Victus 16-s1xxx (MB 8C9C)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8ca1, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ca2, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ca4, "HP ZBook Fury", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index 34874039ad4..95c76bb8e3c 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -43,6 +43,8 @@ struct conexant_spec {
+ 	unsigned int gpio_mute_led_mask;
+ 	unsigned int gpio_mic_led_mask;
+ 	bool is_cx8070_sn6140;
++
++	unsigned char init_imux_boost_val[HDA_MAX_NUM_INPUTS];
+ };
+ 
+ 
+@@ -1178,6 +1180,51 @@ static void add_cx5051_fake_mutes(struct hda_codec *codec)
+ 	spec->gen.dac_min_mute = true;
+ }
+ 
++static void cxt_fixed_mic_boost(struct hda_codec *codec,
++	unsigned char node_id,
++	unsigned char mic_boost)
++{
++	unsigned char value = 0;
++
++	value = snd_hda_codec_read(codec, node_id, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
++	if (value != mic_boost)
++		snd_hda_codec_amp_stereo(codec, node_id, HDA_INPUT, 0, HDA_AMP_VOLMASK, mic_boost);
++}
++
++static void cxt_cap_sync_hook(struct hda_codec *codec,
++					 struct snd_kcontrol *kcontrol,
++					 struct snd_ctl_elem_value *ucontrol)
++{
++	struct conexant_spec *spec = codec->spec;
++	hda_nid_t mux_pin = spec->gen.imux_pins[spec->gen.cur_mux[0]];
++
++	if (spec->init_imux_boost_val[mux_pin])
++		cxt_fixed_mic_boost(codec, mux_pin, spec->init_imux_boost_val[mux_pin]);
++}
++
++static void cxt_get_default_capture_gain_boost(struct hda_codec *codec)
++{
++	struct conexant_spec *spec = codec->spec;
++	int i;
++	unsigned int boost;
++
++	spec->init_imux_boost_val[0] = 0;
++	for (i = 0; i < HDA_MAX_NUM_INPUTS; i++) {
++		if (spec->gen.imux_pins[i] == 0)
++			continue;
++
++		if (spec->gen.imux_pins[i] < HDA_MAX_NUM_INPUTS) {
++			boost = snd_hda_codec_read(codec, spec->gen.imux_pins[i],
++				0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
++			spec->init_imux_boost_val[spec->gen.imux_pins[i]] = boost;
++			codec_info(codec, "%s, node_id = %x, mic_boost =%x", __func__,
++				spec->gen.imux_pins[i], boost);
++		}
++	}
++
++	spec->gen.cap_sync_hook = cxt_cap_sync_hook;
++}
++
+ static int patch_conexant_auto(struct hda_codec *codec)
+ {
+ 	struct conexant_spec *spec;
+@@ -1245,6 +1292,8 @@ static int patch_conexant_auto(struct hda_codec *codec)
+ 	if (!spec->gen.vmaster_mute.hook && spec->dynamic_eapd)
+ 		spec->gen.vmaster_mute.hook = cx_auto_vmaster_hook;
+ 
++	cxt_get_default_capture_gain_boost(codec);
++
+ 	snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE);
+ 
+ 	err = snd_hda_parse_pin_defcfg(codec, &spec->gen.autocfg, NULL,
 -- 
-2.49.0
+2.45.2
 
