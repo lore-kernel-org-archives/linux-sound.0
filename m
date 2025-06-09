@@ -1,51 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632ED1E1C1A;
-	Mon,  9 Jun 2025 21:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35523224B0B;
+	Mon,  9 Jun 2025 21:00:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749502838; cv=none; b=CyvzjHjfuLa48qQq6fpqQTwtXVe53pETM38+Ly6t+0MetgIJRy9GFqL6WNqPHgAlYKAom4q/5prE1+cvtpMzPvD2pMSkeWtZDsBi9nK15N1RGIHNwvV9DfffgJd5oGsP8D4SrTxJJrwYphemWl8wHFwt3ogZTi7wHS2Jfh+3//U=
+	t=1749502841; cv=none; b=OkeajcbFfRRcLh5f3YO9NkDG0KlwcuZLOgiACkaf3WJ+P7PeT9UoLXXe2x1zsB1rlDI0FG5hPtJYe5wm1koQTLYlTJUwdRrg1yuIMclZOl8tyWXn640YSgyeO2NN+PsYPD/0SVcpJJgok8ylgiFsHFyZUrd7/4Q7wu4b4q/JPho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749502838; c=relaxed/simple;
-	bh=zqrMe1sn7XHdZVE7LCOKTyfEo8TpwJkf0G8jdLXjznM=;
+	s=arc-20240116; t=1749502841; c=relaxed/simple;
+	bh=PE6ib+uLRoqj590T1jWJYp0ehNnnQOpkGoqllX8Ob9o=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fxwn9PJHo4gNH5l8rIc7FCgK127qF/3LH60Tmdmzftg5DCBh8x0Y5aZN40J3EgTnKnxJ1JSxNcxcLxeO+T2TJCYq5UiaeHoAVZioKnUBjp2x3hESm7WVuVQSUt2ANRCkACzaWHIJ+5S6qv12iSyk1y8mFwLTXCblyUvqAxEgTd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KUPkIIyl; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=G8FlImeDBVDeL7DN5sGvyuZ+MXm1F1C+bhNNbttOP8JLaYgZcShiTlQfgo3vtyJWO8PIq75igRX4coogaUhdcYM1enqobWiVtYZ59KoC133RqydL/PjNOYG1Mvv8exO5bE0ke6lX7YJ1sU2NOYz28AHp4zF8emiGNY2ngyM/dqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=adv8bIF+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KUPkIIyl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CCE7C4CEEF;
-	Mon,  9 Jun 2025 21:00:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="adv8bIF+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61C05C4CEEB;
+	Mon,  9 Jun 2025 21:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749502837;
-	bh=zqrMe1sn7XHdZVE7LCOKTyfEo8TpwJkf0G8jdLXjznM=;
+	s=k20201202; t=1749502840;
+	bh=PE6ib+uLRoqj590T1jWJYp0ehNnnQOpkGoqllX8Ob9o=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KUPkIIyla7GStsdPfBCxwIp7zBZcKRNwfODNlQP68t8IhkD9BJKZ/FiALoJXLptA6
-	 +4cyStfaNISmp5STLNwFyfFhjYJH1rquAxXNX14e3H6tvnpAZFiABYqTQP8bSiS7MJ
-	 rpWpypO876E76VkRrsw7JsYtTX6wdnKcNgufLrihS79RAdwlqR3JCmnsA8e5bUXTLL
-	 azPyyEnaolGGbuJ/zdKLQXs6qnFq9uYe0R97005Wzen8+drUcMFB7JDwTuHh3Pb3bS
-	 mHmrxFYWBE1I1wwPpKe1KksyymrYu/vxQflKfBGGN4M3yzTzaCvO3jA3/4TxcZY6gF
-	 KXEXe/XveO+Ow==
+	b=adv8bIF+ESe1aZAnZhp/JvEwuWLb9AtWvP4YJPnQjKG2At4nvcSbkQruAnba/ZxhU
+	 lDHZ2e6/Wk5YlVnKB+9j3X8GBA79stguKtyJOa6kWMHsexdTaPiQ/OyjqO26YX9Zt/
+	 oCmJ0/3qe7hR8qIjOvbOSKonOGIjMl5h5C8HtM3YMXtHsRMaQjJcyJMJZ281r4vUhz
+	 Pfd1OrQ0P6qWVj5hF1mOjgkwr8uLP5MiUZeo9iUttVmLs3XYp/oT96JY4FUJRNsWGp
+	 GvwIgGLpTaIrPdSx43Rjg0eaZ0Iq2jUnDzwk0CMiBTqhhvSOka2V8un5QEn12XErT4
+	 c3kOxv1I8Q9UA==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Banajit Goswami <bgoswami@quicinc.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-In-Reply-To: <20250507-fp5-dp-sound-v4-0-4098e918a29e@fairphone.com>
-References: <20250507-fp5-dp-sound-v4-0-4098e918a29e@fairphone.com>
-Subject: Re: (subset) [PATCH v4 0/5] Add DisplayPort sound support for
- Fairphone 5 smartphone
-Message-Id: <174950283411.277844.1603420608213566024.b4-ty@kernel.org>
-Date: Mon, 09 Jun 2025 22:00:34 +0100
+To: Kevin Cernekee <cernekee@chromium.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Bram Vlerick <bram.vlerick@openpixelsystems.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, peter@korsgaard.com
+In-Reply-To: <20250528-asoc-tas5753-support-v1-0-a50c3f6734ee@openpixelsystems.org>
+References: <20250528-asoc-tas5753-support-v1-0-a50c3f6734ee@openpixelsystems.org>
+Subject: Re: [PATCH 0/2] ASoC: tas571x: add support for tas5753
+Message-Id: <174950283813.277844.9032715257429571455.b4-ty@kernel.org>
+Date: Mon, 09 Jun 2025 22:00:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,19 +51,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Wed, 07 May 2025 10:01:36 +0200, Luca Weiss wrote:
-> Add the necessary sound card bits and some dts additions to enable sound
-> over DisplayPort-over-USB-C, e.g. to a connected TV or monitor.
+On Wed, 28 May 2025 14:10:07 +0200, Bram Vlerick wrote:
+> Add support for the ti,tas5753 to tas571x driver.
 > 
-> The UCM files can be found here:
-> https://gitlab.postmarketos.org/postmarketOS/pmaports/-/tree/master/device/testing/device-fairphone-fp5/ucm
 > 
-> This series - in spirit - depends on the series enabling DisplayPort in
-> the first place, but can land pretty independently, especially the ASoC
-> bits:
-> https://lore.kernel.org/linux-arm-msm/20250312-fp5-pmic-glink-dp-v2-0-a55927749d77@fairphone.com/
-> 
-> [...]
 
 Applied to
 
@@ -76,14 +62,10 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: dt-bindings: qcom,sm8250: Add Fairphone 5 sound card
-      (no commit info)
-[2/5] ASoC: qcom: sm8250: set card driver name from match data
-      commit: c4b79a2fbfb28308e958e4ffdd988f3cf678fe2a
-[3/5] ASoC: qcom: sm8250: add DisplayPort Jack support
-      commit: ed82808c6a0f333e51fee4e97cbe8e0189b7f354
-[4/5] ASoC: qcom: sm8250: Add Fairphone 5 soundcard compatible
-      commit: e6e8897995a9e6028563ce36c27877e5478c8571
+[1/2] ASoC: tas571x: add support for tas5753
+      commit: 23d3f6ecafbbc7cd98925a87a4f59794928348b9
+[2/2] ASoC: dt-bindings: tas57xx: add tas5753 compatibility
+      commit: f6f914893d478b7ba08e5c375de1ced16deb5e92
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
