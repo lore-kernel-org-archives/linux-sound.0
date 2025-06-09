@@ -1,40 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A8C259C98
-	for <linux-sound@vger.kernel.org>; Mon,  9 Jun 2025 13:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F89525A352;
+	Mon,  9 Jun 2025 13:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749476411; cv=none; b=CtBh1NIu4O7pjZ7Ejp8mIz8R+VeCsiTr6q/xulbRuenySa/nZm0Edj7Wd28PjRwrK8jt9Ts+CBXaE+RU8rZC/Vm/2TQOAezc12PSYXCL9wPLMZIID61mhmMoyiGkxRFVYBdDOL2+2M0GEPcffOI3djAxLPj5n5URub+Rm+Z1y18=
+	t=1749476416; cv=none; b=l4tgi90gWy6f0X7akoEH3779olHHwhGd8cAg+fFL8XSeAKuyfCJpGiEfL52NoYoxUeNksVCY4noo96+K5OnczeFyuvFpqeCB8LmWZn5IGv/TBa7M7hEp8+57vyGwGJ5Whbm2orr8xHU8f78s0x0e6u88K5syFQJm1gcM7moFL3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749476411; c=relaxed/simple;
-	bh=M6+f7kKS0qfeMmL8u8eZC8e1yxKQbj9zOHRpYRM9j48=;
+	s=arc-20240116; t=1749476416; c=relaxed/simple;
+	bh=X9XD4EFOdykRcFhrxrtSRa7vv6d3l9lZP9aiuTUFF+M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mSYokohNLEubM4PQvq+mXdzM/zzTdfWeNk136+0zLd00ap540zPtgoYLeF1xpnJ+m5Fbv4NUCpNwlJ5IU5XJUSa4w5IqS2dTpO+kRlvsjhshR5FaFEGBlNXod5OOago8iLNiDgtvwjrOjj3d8Gze22EK0K9kAyjthzXIFkS3fHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VoKqI4rB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=oH39N1S/B3FCgaLzVXV1ahHfnYybuoHHtd3lOmQWpZFriBfFioQkQPVtKXwmkskB/D/OqwHo8mMjZPbCbJsLxmPLl9cOP++PbGow0PpxAPfM/LuR51NOtwKqO014YH/9KO2l9uh9omf9LjiWT8jjCiwv3uaz1sr1EDKtBPbM810=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IBm62lse; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VoKqI4rB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33B92C4CEF0;
-	Mon,  9 Jun 2025 13:40:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IBm62lse"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F713C4CEEB;
+	Mon,  9 Jun 2025 13:40:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749476411;
-	bh=M6+f7kKS0qfeMmL8u8eZC8e1yxKQbj9zOHRpYRM9j48=;
+	s=k20201202; t=1749476414;
+	bh=X9XD4EFOdykRcFhrxrtSRa7vv6d3l9lZP9aiuTUFF+M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=VoKqI4rBtkO9EpZKBnWXW0DZHHkKYuG0unSz/krBPuLZYVJopDfYNScAPdpTQfkB7
-	 8Td2Kd7yQ5eXsFxkcJtVSe4KkRDytBDvY/xXR0egjVeowHqzo5OjPsf9tkBIMSyMbU
-	 WH0mVPx6VCEZRTGKY6xDDg+waSh6U/UlOL1sj1vXTtjPXA2S5Dcd7DWfCD6Y+bO/gv
-	 yLWK6SWF+ed6X4YYW8pij8rbQ8ahObDzOQosISCDy4zDxuuG8fAwWg/sX3pq0Z+NOe
-	 Q87/o7TlGvm79YCma+WXesnx/K+OvFs/EBQr8oWyNUTNn1UZ/C3HeW6OBrIiBd87ug
-	 k4xa1CdIIpu9Q==
+	b=IBm62lseXrAlWxrhAiW5V4GsDw9OWbep6hi0qSwy7hMU8L0y9sFm2mNVPJSqfNIu2
+	 FmRSnRVZ2JKvG+eYRI9yB6GgxbjEY/Jiq4dhVpkgC/JskwlexcfDS8Lt+2uT36Rjgl
+	 3nLHq7xZQWdwK1Cj6cttY1TF2xXjbdsmHOikKKrycR2VogzQZXI7D246l9ulu073VT
+	 tM5hnn//H22CIl/VuPYpoMpQMI2u2hww13RV8z1KRqIuzkaYTP/TGnCayiQea9eKeX
+	 Zu3Fr51dmUIafNMl4/YOLMd4/n0tDikElp5el1fB3qqSV5roL6LV+qFVSIdq9RieAN
+	 hXDK6kKbaApgA==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87o6v3j73q.wl-kuninori.morimoto.gx@renesas.com>
-References: <87o6v3j73q.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2] ASoC: hdac_hdmi: remove
- hdac_hdmi_jack[_port]_init()
-Message-Id: <174947641095.126747.16949328350532141170.b4-ty@kernel.org>
-Date: Mon, 09 Jun 2025 14:40:10 +0100
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Stuart Henderson <stuarth@opensource.cirrus.com>, 
+ Piotr Stankiewicz <piotrs@opensource.cirrus.com>, 
+ Qi Zhou <qi.zhou@cirrus.com>, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+ Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org, 
+ error27@gmail.com
+In-Reply-To: <20250603214813.197346-1-harshit.m.mogalapalli@oracle.com>
+References: <20250603214813.197346-1-harshit.m.mogalapalli@oracle.com>
+Subject: Re: [PATCH] ASoC: cs48l32: Fix a signedness bug in
+ cs48l32_hw_params()
+Message-Id: <174947641193.126747.915802797193162530.b4-ty@kernel.org>
+Date: Mon, 09 Jun 2025 14:40:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,11 +54,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Thu, 05 Jun 2025 01:43:37 +0000, Kuninori Morimoto wrote:
-> No one is using hdac_hdmi_jack[_port]_init(). Remove it and its
-> related functions.
+On Tue, 03 Jun 2025 14:48:13 -0700, Harshit Mogalapalli wrote:
+> There is a type promotion that can happen when freq(u32) variable is
+> comapared with sclk_target(integer), when sclk_target is a negative
+> value it promotes to a large postive integer which might not be a
+> problem in this particular case as the condition evaluates to false
+> when that happens, but bail out early when sclk_target has negative
+> error codes.
 > 
-> 
+> [...]
 
 Applied to
 
@@ -57,8 +70,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: hdac_hdmi: remove hdac_hdmi_jack[_port]_init()
-      commit: 039de8f598dd7f060c8fde2498a7163315466f6d
+[1/1] ASoC: cs48l32: Fix a signedness bug in cs48l32_hw_params()
+      commit: 22188b9df60dde48eaba276da22062aaf8e12dfe
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
