@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E170425B67C
-	for <linux-sound@vger.kernel.org>; Mon,  9 Jun 2025 13:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092CE259CA4;
+	Mon,  9 Jun 2025 13:40:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749476421; cv=none; b=aLvd+I/nLjhcU6cUEvepiIUGj8wqQsa+ORVoXYzVGeSASv1RQbBdJjLepZn4RLa6FWcGnLE8F8K4jO3UJ6VxZK8Krmx2oXsps4krX7JrgxF2BI4SzfwHJg/OP/8fDmWOc6AKbER2sB5sJEP9v8l8MMZafhirrtQcLTlinMhX5i8=
+	t=1749476423; cv=none; b=XpEE8/cjAu31RNTTXfyZZJg3DvUQYVONR7LwtzS8QkGKY13ELnc+lKq3gpmScgEN7UoZ7kojTC/Kzd5EbydWazWaUDSSmDjV2UsI6Y5/lOmrWOx6RualLkrOilq1SWjfBNg5+UmbrLfujCqMAn7As/cn96b9pbRWpU2t7kDyAHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749476421; c=relaxed/simple;
-	bh=09ch661Pz0G7NXwnu1TICzZJqFSvQwjwPx5EeEx5CVg=;
+	s=arc-20240116; t=1749476423; c=relaxed/simple;
+	bh=vom0D/WvWlkg1JF/ExNR9+I+0VGrFhg2XqPiT+4ITcs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fxK/cktbFoasqF1IYUDu/y0xfd1qcM8Glx2KPe/Me9rKpLhpLoHi2dFfR8zYyZcgPwxvLPgL4P+gRVSfZpZKLglsEs9mSlkEN5BpQ5mxJ/fa9kiZX77od6oaQVduO7cTArBNB3pwcAUKR09O3YisdXVvFbXbAjKTyt7u7I8aIPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TOL6gC2T; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=JciQePpGY249okK+A6T4o1exPLOw8PA+sJTWElOeKlc0SJxZ3BWKAc40EhI6dPbCDN1G1q8CQIo/OK8zxqlYVhnRgKWqFdPo36TfE9Aj2Sq5DY4dLiCCxvB760r1IrbZ/QyyR/wB1VrsQVZqKDyuzTWXUeSKYQdls/ZlHnVrtLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pp6+Q2Iz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TOL6gC2T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4088C4CEED;
-	Mon,  9 Jun 2025 13:40:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pp6+Q2Iz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4F95C4CEF0;
+	Mon,  9 Jun 2025 13:40:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749476420;
-	bh=09ch661Pz0G7NXwnu1TICzZJqFSvQwjwPx5EeEx5CVg=;
+	s=k20201202; t=1749476422;
+	bh=vom0D/WvWlkg1JF/ExNR9+I+0VGrFhg2XqPiT+4ITcs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=TOL6gC2TOmZYwj3cpMhKu7omZx1VxFr9xE8HPLbDOrnZxnfGd890jDdLi8b0cfoT/
-	 WUX+a4K9NhCMlW+zTNMT1n1tl0QHM+ifH5nxJoNVr8MK2YbrtyjbLJ3cY2qysEC96A
-	 tp156L30caTpmCCfvKa/JIxsyA6+RnbvtmGrnTrJEdC8DusG96oJdnJwGH4Tro0SkH
-	 pekMEgWBBUYLyx2WlwhEEQz+3wRNCoXbY/Kw452heB0kOddDPTIW422LUtl8fOi4dk
-	 ReezkK9jUCJlfpjpEA/0JtRMLecrTLcKcQAjiIm+ar7CFDb7XIKF0dA0SFzEuyztGr
-	 uGPOV0l/tLFbA==
+	b=pp6+Q2IzM2pCPVl7xnUjRkrZzBs0v/D33Z6VhLJceULESnkviiJnm8bk4G0x6uw/7
+	 JlnBcNeF6e4tAGTzd9xPYfJma4odXoBzH0GcrRVdj5CjFAuQ7pBloDXmL5e+MdDjNq
+	 adCoOnG2iC1fz6+kTCCZZZnjM87sKAoZjAjUwKcbQef7FbI6L5kAhR5Pbnw8kyoxgb
+	 pn7PpHYXXZgd0cxuos8OzRfqsAFYte6Skowf4trYrQVOs+6Zybd50ueSkXG/8sCh+t
+	 y0nzAUvdF0xx7BmO14nncdWbBAAZNMa3npN2aZArfOlrzRQ0Rhl5KE6vbyjj4wZLSM
+	 z/6ihjXQWbA0w==
 From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?q?Giedrius_Trainavi=C4=8Diu_s?= <giedrius@blokas.io>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <8734cdfx59.wl-kuninori.morimoto.gx@renesas.com>
-References: <8734cdfx59.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2] ASoC: soc-dai: tidyup return value of
- snd_soc_xlate_tdm_slot_mask()
-Message-Id: <174947641953.126747.3362638266431442826.b4-ty@kernel.org>
-Date: Mon, 09 Jun 2025 14:40:19 +0100
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, Huacai Chen <chenhuacai@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Xuerui Wang <kernel@xen0n.name>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20250608142737.168829-1-chenhuacai@loongson.cn>
+References: <20250608142737.168829-1-chenhuacai@loongson.cn>
+Subject: Re: [PATCH] ASoC: loongson: Fix build warnings about export.h
+Message-Id: <174947642066.126747.2342329587404506443.b4-ty@kernel.org>
+Date: Mon, 09 Jun 2025 14:40:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,28 +47,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-c25d1
 
-On Fri, 06 Jun 2025 01:59:15 +0000, Kuninori Morimoto wrote:
-> commit 7f1186a8d738661 ("ASoC: soc-dai: check return value at
-> snd_soc_dai_set_tdm_slot()") checks return value of
-> xlate_tdm_slot_mask() (A1)(A2).
+On Sun, 08 Jun 2025 22:27:37 +0800, Huacai Chen wrote:
+> After commit a934a57a42f64a4 ("scripts/misc-check: check missing #include
+> <linux/export.h> when W=1") and 7d95680d64ac8e836c ("scripts/misc-check:
+> check unnecessary #include <linux/export.h> when W=1"), we get some build
+> warnings with W=1:
 > 
-> 	/*
-> 	 * ...
-> (Y)	 * TDM mode can be disabled by passing 0 for @slots. In this case @tx_mask,
-> 	 * @rx_mask and @slot_width will be ignored.
-> 	 * ...
-> 	 */
-> 	int snd_soc_dai_set_tdm_slot(...)
-> 	{
-> 		...
-> 		if (...)
-> (A1)			ret = dai->driver->ops->xlate_tdm_slot_mask(...);
-> 		else
-> (A2)			ret = snd_soc_xlate_tdm_slot_mask(...);
-> 		if (ret)
-> 			goto err;
-> 		...
-> 	}
+> sound/soc/loongson/loongson_i2s.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 > 
 > [...]
 
@@ -77,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc-dai: tidyup return value of snd_soc_xlate_tdm_slot_mask()
-      commit: f4c77d5af0a9cd0ee22617baa8b49d0e151fbda7
+[1/1] ASoC: loongson: Fix build warnings about export.h
+      commit: a4e469c1e2e0ec7f08fff9ed29f5500f187ba9f2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
