@@ -1,167 +1,82 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDCF1F4727
-	for <linux-sound@vger.kernel.org>; Mon,  9 Jun 2025 07:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A521C280A52;
+	Mon,  9 Jun 2025 07:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749455274; cv=none; b=aUIOAwhOjRKgg/ei+yr3G+nQP5bEzCIUi1dYsvy0PO3O+CsIHDbojtM3TL437oUvjUjHI6o8h8EydwNmjWPrlZfHhb6hMJ7/F7XYQU2l2wUPPP/roNw1NQcw6TqeEY2CGVYzQuBcuKAU4/ljqPMfz+AUH66fphluN/4vMYiU5Rw=
+	t=1749455279; cv=none; b=Hy3xUwFEgtC6KzZuHnuttaZJyv33ykY7jA1W1MjpnuD43AB/aIh9E2typQvZNibW6iMSqPjic105Eb7jm4u/mwH1ruHkdPD82RwC32cUps6QfRvB/Qf7N21T+FrX6sXjEYvJvmBRvOsRQ/bdUOTk7Sr6ejHsNVpmYc8U+lp9QBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749455274; c=relaxed/simple;
-	bh=DVZmFDRN34wedu9EopZdzBpF92Y8lkbGctIbaZuk0UM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OPLb25VnPmtx3Nd93CzdtF2cX5ufz+UhYD5dSVEELGGQYDCGA2eZLjrao6PVOBRwdrbxR4x5QkSb1LC4ZWk68wBh4q14F4tzTSgV0XWUecrFeo5i8dibLO1KERf2Pfs9li518yFk1hpfyaCv50qZe7KxhNjntFoeaw2NJPCPF7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BrPXUiE2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LL4ukOCX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BrPXUiE2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LL4ukOCX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1749455279; c=relaxed/simple;
+	bh=pHiT/m2BXiIP3lv0/1Ix6x0PspGZOFem/8TU5u3+DCI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WZvGnx3Bdixx5RdeoafLPSPI9KQnlyaEnPeIyN/UGjk83R2FF1UbW1iyeL5grxtifsxT6RxVEv1plLM/t7P+fQT6FrgAxhpk50gsZBnreT0LYD9zzzyQqyWfB+RlvoQ15Lif/NbglL9X4DEo5MHAN/Lb+6IZk0CONsHqM5HGUv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=bpk6Pb86; arc=none smtp.client-ip=220.130.44.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BrPXUiE2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LL4ukOCX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BrPXUiE2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LL4ukOCX"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 77ED81F38D;
-	Mon,  9 Jun 2025 07:47:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749455270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8qKTHDnHNUm56SfYdpRWGsl0y8TWAmzpz6qTvuBz+E8=;
-	b=BrPXUiE2ZDlzzcO8GIfGdgRktHmmm4U95gf5NNNebOERxII3YYYtFeN6+puyLkTZjB9ref
-	PEB6ihKicW8ZVxMWofPN9QY5VprICkLbXfZzVbxeU+Zo7iO+c0sVkQFBLKak5p6k/3I12J
-	skgmO/P4H/V57Rvp9UCT9INLoTGWMkY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749455270;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8qKTHDnHNUm56SfYdpRWGsl0y8TWAmzpz6qTvuBz+E8=;
-	b=LL4ukOCXDCfg4mu6OsN7GaZ25PI7qrDMaE3vhNcAsGgaTy3SkSjBtvFDYepNvLWLZU1keT
-	lFULLJa2qPBHf4Dw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=BrPXUiE2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LL4ukOCX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749455270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8qKTHDnHNUm56SfYdpRWGsl0y8TWAmzpz6qTvuBz+E8=;
-	b=BrPXUiE2ZDlzzcO8GIfGdgRktHmmm4U95gf5NNNebOERxII3YYYtFeN6+puyLkTZjB9ref
-	PEB6ihKicW8ZVxMWofPN9QY5VprICkLbXfZzVbxeU+Zo7iO+c0sVkQFBLKak5p6k/3I12J
-	skgmO/P4H/V57Rvp9UCT9INLoTGWMkY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749455270;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8qKTHDnHNUm56SfYdpRWGsl0y8TWAmzpz6qTvuBz+E8=;
-	b=LL4ukOCXDCfg4mu6OsN7GaZ25PI7qrDMaE3vhNcAsGgaTy3SkSjBtvFDYepNvLWLZU1keT
-	lFULLJa2qPBHf4Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 450C913A1D;
-	Mon,  9 Jun 2025 07:47:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sTwLD6aRRmhCfQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 09 Jun 2025 07:47:50 +0000
-Date: Mon, 09 Jun 2025 09:47:49 +0200
-Message-ID: <87bjqx8ifu.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: edip@medip.dev
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek - Add mute LED support for HP Victus 16-s1xxx and HP Victus 15-fa1xxx
-In-Reply-To: <20250607105051.41162-1-edip@medip.dev>
-References: <20250607105051.41162-1-edip@medip.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="bpk6Pb86"
+X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1749455268;
+	bh=4s1C+hBgY4ybJmSElnyUuaZf7zSmbzvZE+p1okI9Lkk=; l=642;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=bpk6Pb86/SESncyt7tUnmg7616nYzm3gRAM/b1+i7f3xUJMGfMLd57cR9TKYMHaJh
+	 CeiVpeixgo/k4hdTdxmyAmWjeIP47zsSdVtmetGwXhFKN/+NRifPITI1Ama6iILuUp
+	 /Gw3cl9yasggIuMri8MC/hWHXSAXp0bBvoGw6qbA8Ae15YMvS3tvvUXmMtMm80h9xJ
+	 qkgqXjtyd4tUPm9YOZCiVi4sqKEet8o+1i0uzmt4we3AeaVEhwNiO/x7nz4Jt82kGo
+	 6l27jTykDZ9HDBrwa3BT4MJhYwnuM6OcsMaLIVT0YA32N1x1zNIoGnK9+RNMN6f9RC
+	 3xzd1c6DldTvQ==
+Received: from 192.168.10.46
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(2288478:0:AUTH_RELAY)
+	(envelope-from <cy_huang@richtek.com>)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Mon, 09 Jun 2025 15:47:22 +0800 (CST)
+Received: from ex4.rt.l (192.168.10.47) by ex3.rt.l (192.168.10.46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 9 Jun
+ 2025 15:47:21 +0800
+Received: from git-send.richtek.com (192.168.10.154) by ex4.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1544.11 via Frontend
+ Transport; Mon, 9 Jun 2025 15:47:21 +0800
+From: <cy_huang@richtek.com>
+To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "ChiYuan
+ Huang" <cy_huang@richtek.com>, Roy Chiu <roy_chiu@richtek.com>,
+	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/2] ASoC: Add Richtek RTQ9124 support
+Date: Mon, 9 Jun 2025 15:47:26 +0800
+Message-ID: <cover.1749454717.git.cy_huang@richtek.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 77ED81F38D
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Sat, 07 Jun 2025 12:50:51 +0200,
-edip@medip.dev wrote:
-> 
-> From: Edip Hazuri <edip@medip.dev>
-> 
-> The mute led on those laptops is using ALC245 but requires a quirk to work
-> This patch enables the existing quirk for the devices.
-> 
-> Tested on my Victus 16-s1011nt Laptop and my friend's Victus 15-fa1xxx. The LED behaviour works as intended.
-> 
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Edip Hazuri <edip@medip.dev>
-> ---
->  sound/pci/hda/patch_realtek.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index cd0d7ba73..1e07da9c6 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10733,6 +10733,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
->  	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
-> +	SND_PCI_QUIRK(0x103c, 0x8c9c, "HP Victus 16-s1xxx (MB 8C9C)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
->  	SND_PCI_QUIRK(0x103c, 0x8a28, "HP Envy 13", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x103c, 0x8a29, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x103c, 0x8a2a, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+From: ChiYuan Huang <cy_huang@richtek.com>
 
-The table entries are sorted in (PCI) SSID order.
-Could you try to put the new item at the right position?
+This patch series adds Richtek RTQ9124 1x30W audio amplifier support.
 
+v2:
+- Instead to add a dedicated rtq9124 document file, append the
+  description to the existed rt9123 yaml
 
-> @@ -10805,6 +10806,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x8c16, "HP Spectre x360 2-in-1 Laptop 16-aa0xxx", ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX),
->  	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
->  	SND_PCI_QUIRK(0x103c, 0x8c21, "HP Pavilion Plus Laptop 14-ey0XXX", ALC245_FIXUP_HP_X360_MUTE_LEDS),
-> +	SND_PCI_QUIRK(0x103c, 0x8bc8, "HP Victus 15-fa1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ChiYuan Huang (2):
+  ASoC: dt-bindings: rt9123: Append RTQ9124 description
+  ASoC: codecs: Add support for Richtek RTQ9124
 
-Ditto.
+ .../bindings/sound/richtek,rt9123.yaml        |   9 +-
+ sound/soc/codecs/Kconfig                      |   9 +
+ sound/soc/codecs/Makefile                     |   4 +-
+ sound/soc/codecs/rtq9124.c                    | 543 ++++++++++++++++++
+ 4 files changed, 563 insertions(+), 2 deletions(-)
+ create mode 100644 sound/soc/codecs/rtq9124.c
 
+-- 
+2.34.1
 
-thanks,
-
-Takashi
