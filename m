@@ -1,78 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6881E14B959;
-	Mon,  9 Jun 2025 15:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE57CA5A;
+	Mon,  9 Jun 2025 15:39:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749482570; cv=none; b=Tnp7fn1mb8x+ojAwBLzQW+3nZplwh9VYTKEV9WQq9WGTClPFvDs6wrUFqIDH0NpNQb83L7Rj55FLKoyYF3UU3gi+ywv5n9f1bI/S+9a+PO6IRM1ChIj7najr3pBg9OrROOP4UedtIZ+FTNUEFAdqvUQJFWHn4vjE61TxgHpxoWI=
+	t=1749483598; cv=none; b=kHGZ9EeWDL2RMgNlMbjALjORA72B/aXoomCeYyA9qfnb/isVK9g++krw17MRhyGgc3fjHmYJe7aVjCOmCMvZd21cS+U6R/n7AgEhlOOu22eeQmtD+ub5Uj8My+FeXu3V1nEcxUisUL98/sLx703RFjnZbL47/t16z3baGRqjTOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749482570; c=relaxed/simple;
-	bh=jh7x6p3DYphNzVfNtqxjHPYF2H1kiP2lApiVSn+gMac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tRpW/yVrKhm6BWdZzPqrgIrHvVZlXhOaTloOqjys4fPBLdZCMmK1Wzim/xFrGUP2LT35V1smOmanvQTA1jgdhfjSu4cIDWvxDWnBG4SNm7+O33f0hmJVAit0xXct4H5iIkgXtIDRw+TwsEGSO51nkDvmR6zhHN8H2KHlKnelWtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oqUFnGVn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749483598; c=relaxed/simple;
+	bh=EqC/uvkRrrh4ubAMjbTCQuOMddZGul995t0PkHwoBco=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CqI7xqbaHI5+1gfp9k3kZRNdIUSNMiFUBUxrafI47ib2b7jmum/wbbDm1/sECgTh1Oj1E+n5F3Fte+wZkVpLRhBGIyASLyMLnaso2wcypTdNahjIpRir2sMLIf88An/RZzrOBl5c4I5weyjHEumFGu5wEdfRVtMqvhxrZTMKbVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sO3OTTOS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oqUFnGVn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 393F1C4CEEB;
-	Mon,  9 Jun 2025 15:22:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sO3OTTOS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B442C4CEEB;
+	Mon,  9 Jun 2025 15:39:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749482570;
-	bh=jh7x6p3DYphNzVfNtqxjHPYF2H1kiP2lApiVSn+gMac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oqUFnGVnTa3iQNOf9B/uNDLHqCUJNMVrD46R3jsu7o6fFxuTu537ysgu08geIxnHK
-	 M40StvD0zwqT1mGzxRLSXZVKMEwCvOCou6SdyG50o8Kvi7yUKirR99ihuQVPY3eDAo
-	 auesRo9mNrV9I7QZn3hf34tB05r2FMBM86yBQUbwZV4aIMQjrTThHpjSU6Dn3uMxXF
-	 sdKGifRs6Qitf9OnzKYxWOHUtZOzLlc7z6o8h7Lk1b/GV36uAYQydkBcsY87jzkRQx
-	 ZV4P3bVus6S3Mm5ROPn/5/F+EGz9pjUDaOvrXwWjzWqxCau5G2PX74UyLTn5eDi7tm
-	 OjcYxb1GrptwQ==
-Date: Mon, 9 Jun 2025 16:22:45 +0100
+	s=k20201202; t=1749483598;
+	bh=EqC/uvkRrrh4ubAMjbTCQuOMddZGul995t0PkHwoBco=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=sO3OTTOSLyxGQMnoZ3sceHt3YjgWfYP3wYTWdYSF0LajblcI6aLzDs7E+PB30/+Jz
+	 xUF/yhk5uw6kVtwLcf7QABf/KFS0Y71CHHJ3U4Phjf9Tpc1bCRO4E9DBhe4VrU4hnq
+	 WKLySNzDhRb/uKtxMUy87je9kye8YXNLcOK0EcQa/lIPBvywffo5spd0VdyJTbbEFc
+	 sJ+TzWeKy5OO1UlELS4VPmiXYw2lEVdi/3mhSpkvWxIacixDcf5WhOcpgBQk7g3mD9
+	 C7KXuInur2HeKwWpn53VRhd+05hlBaDunpBiU0s7MwoTQ2enqhKvG7TCPJQwEKYjUt
+	 qT+BOJPGgKzDg==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: vkoul@kernel.org, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] ASoC: cs42l43: Remove unnecessary work functions
-Message-ID: <93e7841e-3c21-4e2a-bdb7-44d8ea5a5493@sirena.org.uk>
-References: <20250609143041.495049-1-ckeepax@opensource.cirrus.com>
- <20250609143041.495049-4-ckeepax@opensource.cirrus.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Koji Matsuoka <koji.matsuoka.xm@renesas.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-spi@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+In-Reply-To: <cover.1747401908.git.geert+renesas@glider.be>
+References: <cover.1747401908.git.geert+renesas@glider.be>
+Subject: Re: (subset) [PATCH v2 00/22] spi: sh-msiof: Transfer size
+ improvements and I2S reuse
+Message-Id: <174948359584.187608.4441619994832648508.b4-ty@kernel.org>
+Date: Mon, 09 Jun 2025 16:39:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+NiZRx2BqVwnE3JT"
-Content-Disposition: inline
-In-Reply-To: <20250609143041.495049-4-ckeepax@opensource.cirrus.com>
-X-Cookie: Restaurant package, not for resale.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
+On Fri, 16 May 2025 15:32:03 +0200, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> This patch series (A) improves single transfer sizes in the MSIOF
+> driver, using two methods:
+>   - By increasing the assumed FIFO sizes, impacting both PIO and DMA
+>     transfers,
+>   - By using two groups, impacting DMA transfers,
+> and (B) lets the recently-introduced MSIOF I2S drive reuse the SPI
+> driver's register definitions.  All of this is covered with a thick
+> sauce of fixes for (harmless) bugs, cleanups, and refactorings.
+> 
+> [...]
 
---+NiZRx2BqVwnE3JT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Jun 09, 2025 at 03:30:41PM +0100, Charles Keepax wrote:
-> Now the SoundWire IRQ lock has been changed in the core, it is no longer
-> necessary to use a bunch of work functions to dodge mutex inversions.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Thanks!
 
---+NiZRx2BqVwnE3JT
-Content-Type: application/pgp-signature; name="signature.asc"
+[22/22] ASoC: renesas: msiof: Convert to <linux/spi/sh_msiof.h>
+        commit: 6ba68e5aa9d5d15c8877a655db279fcfc0b38b04
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhG/EQACgkQJNaLcl1U
-h9DDEQf/f/ASyYYEUwhRFVZQB2V5FgiDwiYJ/DYJx/6D+I4XBW6CA5CflvN7bCoo
-4lgbigWx7fFcs4Re8hVzrfZ9YBM5duRWXsJS1Ejjx0DJ7yOgwOwkNjRvmeuajqdR
-CjoHJ0f7LR9UuuQ9m4UoDWpNI7npT39S0iVsYeXMIIK9u2DAR6igLMRn6115lGv3
-rCm+riZJkSzKKcyy232PZupYke4on+l7zxa6V7nzySUSxY54omC0ah0Y8NM0BJT3
-y9SPV/H/T3N8qORnsF0F/uQtXb9Oqy3hYpME3aTw6+yX7jOMHUUNYoQXzvSGsHpi
-GO6no7OVJX10blknvv6w0jKmFQD63w==
-=mOSb
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---+NiZRx2BqVwnE3JT--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
