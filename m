@@ -1,87 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C331911185;
-	Mon,  9 Jun 2025 00:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDCF1F4727
+	for <linux-sound@vger.kernel.org>; Mon,  9 Jun 2025 07:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749429557; cv=none; b=Vtu3FNH/iJeE2lZ/YYVjYGp1SoNlLViN4G/PqYu/9y8o0aBjKGXi7eAxJIEsUHub5HdX0bM9wW31YS5OjICAWsvrLns0Ej+qCup5OmX3JAKvFVTOxdHPTHIcs45IXlYsRP+tdOcOTtPHAI2KJNaI5wT7hMsWeY4xVY6NldZtRZo=
+	t=1749455274; cv=none; b=aUIOAwhOjRKgg/ei+yr3G+nQP5bEzCIUi1dYsvy0PO3O+CsIHDbojtM3TL437oUvjUjHI6o8h8EydwNmjWPrlZfHhb6hMJ7/F7XYQU2l2wUPPP/roNw1NQcw6TqeEY2CGVYzQuBcuKAU4/ljqPMfz+AUH66fphluN/4vMYiU5Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749429557; c=relaxed/simple;
-	bh=JVn2p/DOukt6MdIMXqYFhWzO3ZLA2yCp1Wi2vYVnstU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=olKQDn29Dhg/8r38OmXk220wrb4L9M1I5AOevMi/odN2Ev6paH2QZ5EbtnGaSADIQy4DrTEv9q+UhE+Hv9OlmILIsq8nPOdjL2+a1CW8iv8y3CY3TJDkVHzAEBmGfqxymlvZP2FJSP0B3cL7lan0dxX7cc4E8KLErru8hzRNQrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tQDX7zkK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749455274; c=relaxed/simple;
+	bh=DVZmFDRN34wedu9EopZdzBpF92Y8lkbGctIbaZuk0UM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OPLb25VnPmtx3Nd93CzdtF2cX5ufz+UhYD5dSVEELGGQYDCGA2eZLjrao6PVOBRwdrbxR4x5QkSb1LC4ZWk68wBh4q14F4tzTSgV0XWUecrFeo5i8dibLO1KERf2Pfs9li518yFk1hpfyaCv50qZe7KxhNjntFoeaw2NJPCPF7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BrPXUiE2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LL4ukOCX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BrPXUiE2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LL4ukOCX; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tQDX7zkK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E78C4CEEE;
-	Mon,  9 Jun 2025 00:39:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749429556;
-	bh=JVn2p/DOukt6MdIMXqYFhWzO3ZLA2yCp1Wi2vYVnstU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tQDX7zkKhmq30JMPReVhM3QEmttw76a44yZgVue2m3L3937ogxZgYWDSQufNhzw1I
-	 fWZxMVCIRkZ1kb4dOxT8aUOFnqk2u8QonuCuAkfi8lpdioUYaajV1kLDUKYvH92PXo
-	 eY1gFfZh6wYzGnBs/haf8vGSa6+CL/bYFwJ5d8pulPoV6Yzq8a2hzgbe0REpZHdh2b
-	 aL1idE+3Cd2CMJ7p4XcpeJwtj5AehzBHo9nmueAN6KrHVcA10gmxgWFKDyLsW8PI90
-	 X/LGMBINQCl7zjX4w8fAx+HbSL+Hq6rkzCru8VDo7N3X5JF26Wt0rVFZUQ7ZnPx+99
-	 ubcUP1gR45L/w==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5532e0ad84aso4062309e87.2;
-        Sun, 08 Jun 2025 17:39:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWEqNIViFNAT6f1iU1ib9BFlE9S0lWjfVQ9Cr69QCP99XUFufkVYmPMm1l5aWFSA8aT4smIUyKsrD2d7GM=@vger.kernel.org, AJvYcCXFljV7T9E4U0DGXa2MtztH9oDKcuFdFXpcYSs+WqbUInzB0SNfuX2D/K+lRrMxeawj0s+ue9VeMur2C6I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7w1EnZg7VTFmytrTNJMeLkie7DL4McoRUwzAvbMFxGyXm/hlL
-	APqydRjla+ZuPDIfAUM9ri6wbCNO7PesQ+Yda0rKMs4NUMo6+rSU90IPRWbx9Jf+Km/gKanEkiJ
-	BZIDEXgLrR14IzX1tpVXpMyOcj5tyHTA=
-X-Google-Smtp-Source: AGHT+IGqVARft2TYYa+6T9yYG/WuZGNFqU+b6fS5l1/WPY/oHwSWtDlykGIeEjkIK+DWT1ClbDqcxkWe66OyJ4e50q0=
-X-Received: by 2002:a05:6512:3e0f:b0:553:267e:914e with SMTP id
- 2adb3069b0e04-55366bd0e82mr2971642e87.1.1749429555011; Sun, 08 Jun 2025
- 17:39:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BrPXUiE2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LL4ukOCX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BrPXUiE2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LL4ukOCX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 77ED81F38D;
+	Mon,  9 Jun 2025 07:47:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749455270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8qKTHDnHNUm56SfYdpRWGsl0y8TWAmzpz6qTvuBz+E8=;
+	b=BrPXUiE2ZDlzzcO8GIfGdgRktHmmm4U95gf5NNNebOERxII3YYYtFeN6+puyLkTZjB9ref
+	PEB6ihKicW8ZVxMWofPN9QY5VprICkLbXfZzVbxeU+Zo7iO+c0sVkQFBLKak5p6k/3I12J
+	skgmO/P4H/V57Rvp9UCT9INLoTGWMkY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749455270;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8qKTHDnHNUm56SfYdpRWGsl0y8TWAmzpz6qTvuBz+E8=;
+	b=LL4ukOCXDCfg4mu6OsN7GaZ25PI7qrDMaE3vhNcAsGgaTy3SkSjBtvFDYepNvLWLZU1keT
+	lFULLJa2qPBHf4Dw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=BrPXUiE2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LL4ukOCX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749455270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8qKTHDnHNUm56SfYdpRWGsl0y8TWAmzpz6qTvuBz+E8=;
+	b=BrPXUiE2ZDlzzcO8GIfGdgRktHmmm4U95gf5NNNebOERxII3YYYtFeN6+puyLkTZjB9ref
+	PEB6ihKicW8ZVxMWofPN9QY5VprICkLbXfZzVbxeU+Zo7iO+c0sVkQFBLKak5p6k/3I12J
+	skgmO/P4H/V57Rvp9UCT9INLoTGWMkY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749455270;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8qKTHDnHNUm56SfYdpRWGsl0y8TWAmzpz6qTvuBz+E8=;
+	b=LL4ukOCXDCfg4mu6OsN7GaZ25PI7qrDMaE3vhNcAsGgaTy3SkSjBtvFDYepNvLWLZU1keT
+	lFULLJa2qPBHf4Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 450C913A1D;
+	Mon,  9 Jun 2025 07:47:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sTwLD6aRRmhCfQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 09 Jun 2025 07:47:50 +0000
+Date: Mon, 09 Jun 2025 09:47:49 +0200
+Message-ID: <87bjqx8ifu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: edip@medip.dev
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek - Add mute LED support for HP Victus 16-s1xxx and HP Victus 15-fa1xxx
+In-Reply-To: <20250607105051.41162-1-edip@medip.dev>
+References: <20250607105051.41162-1-edip@medip.dev>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250608142737.168829-1-chenhuacai@loongson.cn>
-In-Reply-To: <20250608142737.168829-1-chenhuacai@loongson.cn>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 9 Jun 2025 09:38:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAREbns8J8QV0SHSvgu21tcUPoxNmGaig9yueOmSOt5_oQ@mail.gmail.com>
-X-Gm-Features: AX0GCFtaA6qH1gDKXaSx7uF6m4SsiJMJhIU62CV9PNl0D0e6ozT7rt0W875uef8
-Message-ID: <CAK7LNAREbns8J8QV0SHSvgu21tcUPoxNmGaig9yueOmSOt5_oQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: loongson: Fix build warnings about export.h
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: linux-kbuild@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
-	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 77ED81F38D
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -3.51
 
-On Sun, Jun 8, 2025 at 11:27=E2=80=AFPM Huacai Chen <chenhuacai@loongson.cn=
-> wrote:
->
-> After commit a934a57a42f64a4 ("scripts/misc-check: check missing #include
-> <linux/export.h> when W=3D1") and 7d95680d64ac8e836c ("scripts/misc-check=
-:
-> check unnecessary #include <linux/export.h> when W=3D1"), we get some bui=
-ld
-> warnings with W=3D1:
->
-> sound/soc/loongson/loongson_i2s.c: warning: EXPORT_SYMBOL() is used, but =
-#include <linux/export.h> is missing
->
-> So fix these build warnings for ASoC/Loongson.
->
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+On Sat, 07 Jun 2025 12:50:51 +0200,
+edip@medip.dev wrote:
+> 
+> From: Edip Hazuri <edip@medip.dev>
+> 
+> The mute led on those laptops is using ALC245 but requires a quirk to work
+> This patch enables the existing quirk for the devices.
+> 
+> Tested on my Victus 16-s1011nt Laptop and my friend's Victus 15-fa1xxx. The LED behaviour works as intended.
+> 
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Edip Hazuri <edip@medip.dev>
 > ---
+>  sound/pci/hda/patch_realtek.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index cd0d7ba73..1e07da9c6 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10733,6 +10733,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
+>  	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+>  	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+> +	SND_PCI_QUIRK(0x103c, 0x8c9c, "HP Victus 16-s1xxx (MB 8C9C)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+>  	SND_PCI_QUIRK(0x103c, 0x8a28, "HP Envy 13", ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x103c, 0x8a29, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x103c, 0x8a2a, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+
+The table entries are sorted in (PCI) SSID order.
+Could you try to put the new item at the right position?
 
 
-Thank you for your contribution.
+> @@ -10805,6 +10806,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x103c, 0x8c16, "HP Spectre x360 2-in-1 Laptop 16-aa0xxx", ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX),
+>  	SND_PCI_QUIRK(0x103c, 0x8c17, "HP Spectre 16", ALC287_FIXUP_CS35L41_I2C_2),
+>  	SND_PCI_QUIRK(0x103c, 0x8c21, "HP Pavilion Plus Laptop 14-ey0XXX", ALC245_FIXUP_HP_X360_MUTE_LEDS),
+> +	SND_PCI_QUIRK(0x103c, 0x8bc8, "HP Victus 15-fa1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
 
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+Ditto.
 
---=20
-Best Regards
-Masahiro Yamada
+
+thanks,
+
+Takashi
