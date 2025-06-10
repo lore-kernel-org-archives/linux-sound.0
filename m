@@ -1,92 +1,124 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61FF2BEC3B
-	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 12:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F462C17A0
+	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 12:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749559535; cv=none; b=dzK+fPSkM2XRQMLS2mM30NBMlBb7s/2xLvpOKuZYWpnJQJITC0pmnhD5B4gVfANxfZnjLGxHnb/+lfl7iLJW+WvK4MrUVX8b+U2Ve2H2JjNQcrUCGUX7TgiH4r0HNFGytnRbsf6gNC/TTtx3M2ThIAnxCal3NaBOlx5TJqZ+K0Y=
+	t=1749559619; cv=none; b=fxH6Ixi8XTjtG+MNn/V+AOivigHxshhdpTEVDXezogbgvSClcvjGM7UCZlaX03vE0hNQby0Jkhu/pXWa98w0lCPEYDsaSGeGAoNXvsk6vPbKBktnO5tZAg66hITWsvLbMNb0feDkdmyK6UL5nnbk5tiYElAEFPXg6mMAjIbpays=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749559535; c=relaxed/simple;
-	bh=sF3FchzuHdlUwCW3Mdst6w7S6yA7e0tQPeXt1aAxPg0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JdZ9mOWeNwyFyx27JKVD5C0UeSIpwR2am36HSUTmZwFZeP0fs1a9UgCkXPNrh9IrYQDzOwiMp5YTb3p7BgrdnoRJWaUmLP+1dt7uM5CCFEw2Drm7yEG+QmJ4dI7gfDMbuEI+WowPk5PP7CFDnu35q8ahi1Ceoa+UyjS7iQOyW1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cdWLT90K; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1749559619; c=relaxed/simple;
+	bh=0Ao78xTvYcp2mX0VpMvQFffsRbSnXFb/4TqPYor1H3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hncXM8kNi4lewzZABgI4i1eMGkVm7dC5amuo7PUj1YaGoMBfY+EAmrWt7gk6T7xb+VuDZsHCG7lJNYqn2JQlJLJ8rH12zy+moiMVm1wJJawyxNQ3OY5voMYExuJvcHWWC0q9ZNQVsSPioQeK56RIJnRh9G/UTGQSFEYhJXYnyOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ltC1SiRY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cdWLT90K"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5535e35b059so5166898e87.1
-        for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 05:45:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749559532; x=1750164332; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sF3FchzuHdlUwCW3Mdst6w7S6yA7e0tQPeXt1aAxPg0=;
-        b=cdWLT90KdVDdw1FeZRif/kXP3wq3j1yji3n831jAbXEWZI9FtBXYnUk6v0OwkDghpQ
-         jeJjp9i/Ee1CdBTtS7sdRCEhRWsJWIcgg5naQlDPX5hzgiW/fB/6digZfrFcdnR7cdbW
-         15h44GQZOW4hiUNmAaQBWJibbypGQ2wfj1PSao1pB7ZIYy66QhpRTmxxNk6JuQid/B+F
-         dQDrwjib+jozs7g/T7Va1NE//MtpXrJj7Pn3xXMqKyNKsZXg6Qt9cAYkCFbIFYGYcuw4
-         Q8wKyMOH08CNApCsvZINcw9tAVJw2CmABqzCt2WhwtaOm+hXoBhg11lLhL2tsBhhCaD8
-         WNQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749559532; x=1750164332;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sF3FchzuHdlUwCW3Mdst6w7S6yA7e0tQPeXt1aAxPg0=;
-        b=jSe3q8SZiEBd4u62OK4KoonxUaIUBKlZhntc+JTYBIMatvzR/hAEckCEoDDaTBvu0F
-         B9+jjSt/j/4pd2PbPYsp4LEPRmrsALunZBHp30OTaWRIAKvl4Bxj0aWexeqCepm53UEU
-         NoJ8gdpRLBXbyhp6X5zNzAqe0kC2Dn+rmKU/m+Ses+MtuiWU4BpudGZZD4qWvbfEgdqk
-         BXMVINq2vcUpcvVRkp3l4ApbDu85pGsKbtFp/yPelFN3qAoQ3cUbD4zDP9EXSIr924dZ
-         xhWL4IsoACdIkxKL9LG8HBYiOViJ27lL6ZBKpCZKz958fm7L77dtf/9GHmAEbpQCaPKX
-         2wRg==
-X-Forwarded-Encrypted: i=1; AJvYcCU0Jv3xxSqXb7D7/VDFwN3jgB3QxRvdjXnSvCKcQD4Yn511wI9xvxcSLtHAqLjxPeHBQ01vmUxsmgALhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0c+eRq6pT08chauQGq1X/S4/+el/wUMnzg6rc/+H1LyKa79xE
-	pbegnSxMbK/mJktcFafy/fShcgFNKePXdEwYAloPIyFd8ZMX24+mKhy310cxTJ+esIqnHaLIPF8
-	N+rkJWbUh5fPZ0v5lSCJzIauw1egGKy29OVdhjc/Jlg==
-X-Gm-Gg: ASbGncsUOCKG6vK0Md6AtOXpOD5F8gFXXpnoiVryVa7+B4CYUbFTbMlwWrVNlylSQuK
-	7n2PK0zOfzd/hvgDTMD5ZqkKjpwFFxn66OlKrnuozmD9izAgB23q5iGGwnXrJkmopl72rPrKF+y
-	dEMMdwRMLCyqUH6gkSpCwHQPdF93cyPYJefeeqS5vepDRIVn/opM7n/A==
-X-Google-Smtp-Source: AGHT+IGeGbzOznS3BG0D0jszT5lHYaE7HjuqbP1wt0m4nT4Evnfz8bKcaQ8NdIRwiSEm4rryiTNmXeZgEAh41G1MX+I=
-X-Received: by 2002:a05:6512:12d2:b0:551:f166:bbb with SMTP id
- 2adb3069b0e04-553931fec79mr844508e87.13.1749559532010; Tue, 10 Jun 2025
- 05:45:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ltC1SiRY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2C5EC4CEF1;
+	Tue, 10 Jun 2025 12:46:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749559618;
+	bh=0Ao78xTvYcp2mX0VpMvQFffsRbSnXFb/4TqPYor1H3s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ltC1SiRYAJONvzBbQzJhGPQgInf2fNY0OSCHEwcMU6nOdjsUSg1rnw1HO65lc/e7a
+	 jUqJNt4mpfrXesu+zPZT11AODHhmrcYM5GtZ0VfAbqBcn2oo3yLreRRNZOrLUBIXt4
+	 Thhmr4IlHXYyZ8+q5+kEmc6X0ostU9IEScwOIYArAFBMMv+RWcGiejemj7/3LeOtw8
+	 lBHuOuApLr7rcqWuWZWvznZYZfgRMd0mcWrxls2VsawrFp3WrE/7FUqexpMZOkurq1
+	 6JgMsyAHtJmU4gLQTeXMWGHL2mwahQsu7AEY18OuOvfTiDOwSETuDLqi4jbg3yra40
+	 OPmbavApJj9Dw==
+Date: Tue, 10 Jun 2025 13:46:54 +0100
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/37] ASoC: Standardize ASoC menu
+Message-ID: <08c118aa-5aee-4eac-8d9f-2821fc2bb970@sirena.org.uk>
+References: <8734c8bf3l.wl-kuninori.morimoto.gx@renesas.com>
+ <5835adae-5dc6-4896-ae04-690ac6893f02@linux.intel.com>
+ <cbef2f84-9f83-4cf0-87b3-39173099d136@sirena.org.uk>
+ <11029ccf-5128-4fe8-bef8-9fd6de316e37@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250609-pinctrl-madera-devm-pinctrl-register-mappings-v1-1-ba2c2822cf6c@bootlin.com>
-In-Reply-To: <20250609-pinctrl-madera-devm-pinctrl-register-mappings-v1-1-ba2c2822cf6c@bootlin.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 10 Jun 2025 14:45:20 +0200
-X-Gm-Features: AX0GCFv8wM1qzK88fvC3YYxO09_iv1tchDQeyw0PYmsnKvpSJ44gK7Ltfx9W9bk
-Message-ID: <CACRpkdZZoO4QxgiBr06BkzByiCouMNiP8jhz+qzxg5fQAjWDfQ@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: cirrus: madera-core: Use devm_pinctrl_register_mappings()
-To: Thomas Richard <thomas.richard@bootlin.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HP2fFSGJn+YyxZH5"
+Content-Disposition: inline
+In-Reply-To: <11029ccf-5128-4fe8-bef8-9fd6de316e37@linux.intel.com>
+X-Cookie: When in doubt, follow your heart.
+
+
+--HP2fFSGJn+YyxZH5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 9, 2025 at 1:51=E2=80=AFPM Thomas Richard
-<thomas.richard@bootlin.com> wrote:
+On Tue, Jun 10, 2025 at 03:35:09PM +0300, P=E9ter Ujfalusi wrote:
+> On 10/06/2025 14:07, Mark Brown wrote:
+> > On Tue, Jun 10, 2025 at 11:51:41AM +0300, P=E9ter Ujfalusi wrote:
 
-> Use devm_pinctrl_register_mappings(), so the mappings are automatically
-> unregistered by the core. If pinctrl_enable() failed during the probe,
-> pinctrl_mappings were not freed. Now it is done by the core.
->
-> Fixes: 218d72a77b0b ("pinctrl: madera: Add driver for Cirrus Logic Madera=
- codecs")
-> Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
+> >> The other awkward thing with this change (which was awkward before, but
+> >> going to be double awkwarded) is that the Intel Machine drivers will be
+> >> quite detached from SOF, not visible of hinted that they are now under
+> >> "ASoC support for Intel"
 
-Patch applied as non-urgent for v6.17.
+> > That does make things in line with other platforms, though (as you
+> > mention later).  The issue I guess is to an extent that people might not
+> > know that SOF is important for a given platform, prehaps it should be
+> > selected by platforms that need it similarly to what we do with CODEC
+> > drivers?
 
-Yours,
-Linus Walleij
+> At least the match modules are selected from SOF stack and if I'm not
+> mistaken some or most machine driver will be selected as well, likely no
+> need for users to hunt down the needed one.
+
+> But this is the reverse I guess than what you suggest, The platform
+> selects the machine driver and not the machine driver the platform(s).
+
+Yes, that - I know I've got whatever machine sitting in front of me.
+
+> We have generic machine drivers for SOF, used on several platforms (HDA,
+> SDW as main examples).
+
+Those are a bit different (like the generic DT cards).
+
+> Probably this can be reversed, but touching Kconfing never goes without
+> regression ;)
+
+Indeed, it's error prone.
+
+> >> The title already tells that this menu is for ASoC.
+
+> > I don't have a strong opinion on that one.
+
+> I'm not sure about this now, probably it is better to keep the 'ASoC
+> support for' in case one searches for symbols? But that will show t*he
+> path to the menu entry, indicating that it is ASoC.
+> GPIO for example adds a postfix, some subsystems do not add the
+> subsystem name in entries.
+
+> I guess whichever looks better?
+
+Yeah, the reason I don't have a strong opinion is that I mostly edit
+=2Econfig with 'vi .config', people who actually use the UIs will have
+a relevant opinion here but I don't really.
+
+--HP2fFSGJn+YyxZH5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhIKT4ACgkQJNaLcl1U
+h9DnwQf/fAKRLYqUJ+BYPdlKueTJGmgAHSM43z5ZiEo16jTai5l+OeQfdZPGwj9r
+5GeDHtiBfTrO6tNXlyLfihVfoTacasE+0hR7hSV8hqAF67WT8AU5bymiFpxgekqU
+mMqmK4TBGW3k3RrUqGI+p7/SCiVj9ruBuToGoN6CpRn34XcHjkMHPJqmdP1FmkVa
+/OdgYfFzNC5t9PNzsKzu0u2goBMSFlaTOGTDkuOeU5n+sDnBSMN/f4V1s7YyzoGY
+CiKnnsLJvlFr7ApXALEnqlOBd9EJGKrwTkkh2GOE+DbmizKm2UMsE3+uv56Q9eAR
+JCVEzZyazSz65QWRHhAFbaW119Ty9A==
+=Puan
+-----END PGP SIGNATURE-----
+
+--HP2fFSGJn+YyxZH5--
