@@ -1,108 +1,96 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.220])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91482918C6
-	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 12:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.220
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749558377; cv=pass; b=q2IX9JinhnqwAZ/ShaXkufuRsh3ZaCcajbyurRfo4zLy1SaBcIq0x7xsQInyTw9BhLWKNEKk3zpDzr5rUmzQz0ET8dWeePOZN8cAhbBDiVWYzpf8wGz0ZiCGj+ujxnAgQAGS8qqYCy4QE8MruYegtqf3LYxtXivdbJSaYCvkALc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749558377; c=relaxed/simple;
-	bh=6xLYooeRA4v1nOnqvUH+TKkf8pa4qz9qpvIO6l0iu00=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DMtklZxfk4URcROd7gyG41oKnV7W/gMQrnYdy22vz/M1Y9DXENjschJiKshmUSvEI36IJdiLLYgAPNcEYl3811jdF6oNdJLPlsFi+IPIplYH+EeAKMg7TSdaGEMUH22sXxNthv1gzO5PkuDTwskvAayvZCYQRamPJHLVrp50RuE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=digital-rabbithole.de; spf=none smtp.mailfrom=digital-rabbithole.de; dkim=pass (2048-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b=e1oPepRb; dkim=permerror (0-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b=rf7y+tDH; arc=pass smtp.client-ip=81.169.146.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=digital-rabbithole.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=digital-rabbithole.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55276223DC4
+	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 12:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749558406; cv=none; b=Yehg28yLiClyrhXqLkiRVO8VV4B8WGGdqotGQnkon0RdbCkIIhbfwDHY0r6JjO9ctKwZS9y50IAUlDZtfqB9CzEs3OntzXP8H1mCNF8q4QwylqFyHcp2QoOdA5INhvAQ9bM+vahbc47lCzqG0Yh1goT8QQ6C7YgEDQsoZCXVgCo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749558406; c=relaxed/simple;
+	bh=ogZDEZ6ApZ9ncDB706+LR/kyQPRoa3NaYcBXysQTpZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eLD9ywlsZiPFn72DjIkgLWvbH8eg/s/lKdy650d8OJ65hHrRgB7ynpt8shHl8jFGXyfcPPLtNWPXEVKwAIxFv22QVVKNwzTTpBvBIgwUE1QCqYQDESX/Wrm0LIFxWauJsBpzuYiw+uVqHs3e2jC9OsHtFaqcRJBCxvg1Q8z2XHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=adzdqbrk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b="e1oPepRb";
-	dkim=permerror (0-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b="rf7y+tDH"
-ARC-Seal: i=1; a=rsa-sha256; t=1749558362; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=Gzqx9Vv77/ITz3xzr7gfTeRE2msFWDZyfmXIc422/feLVGL3r8IBvphqLK9LArZYVO
-    PmB46mThlIEbZc9phT/yC23e9SL5FQ3eyPmMRxVfxyeGrP12IhaWMIW/7RZ6n473Tfbg
-    WapqcPbIoZbkpXfrcJ3cg8J4EXC5QJzUVG5eqO9gMgPRhs965WSBeoierrFY945JQKFl
-    VoBc4H9HWwYhspBcx5ty4svddz8Oi+SHkCwffyg+U1zmGA22xiVg7YImBgdmqJuX4DCj
-    u0u0zlExOWpAwWiI4H05AqarhLh+hI3T+Y9Cjog6aTyjBbbd3syNcB+VRXq+htFc8LC6
-    4NLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1749558362;
-    s=strato-dkim-0002; d=strato.com;
-    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=lgoLDHH6/IbbZyRF1opII5a58KtuvLvjhXM9JGYxa0s=;
-    b=nOZSDaIUki7IaVOgIbtMUo2MkVOtUzUP2TU3tW5g15jjigoq70INqA7JH1ZQbKjKrg
-    qrpUh3x/NOt/25nM/SYp8bE4SffKvC3LP9F8qHQYOCg4M+VOb5tCskTC9JB37xPHJb/K
-    tNShzNqx3pNtq57iZhUnRdd7Xc3dzY6GKq3L05HHLTdeYSGeLtdIsuglmgVqhXs0aCAo
-    NyQv3CkRMFDZCn7N4+0t0PZivWMrvwMuyhCiantWvI9LQc2GNSZBodq3adBKPFXyd//C
-    HW9muA1dhmhNtaMiNsoxCehfBot2QdQAOmYrwvDZcPnu6FTk9AHz5ZKBoc9u/L0ofvaH
-    y/lA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1749558362;
-    s=strato-dkim-0002; d=digital-rabbithole.de;
-    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=lgoLDHH6/IbbZyRF1opII5a58KtuvLvjhXM9JGYxa0s=;
-    b=e1oPepRbB1WO3MUsThnXEuxer76X6PEdx0v9SudEp94R4K6h4bi1AAAN81K9x9R8PY
-    LOWi85NpxCkNC/DbQ4eG0EKF3do8UL9eau7jUpq9U/bx37lGqZLKo0yrHs8RS1QYPyqz
-    UTm9OdiF6Ae0T3K5esMQNVmN6kmFb63w/8MGd40pWKAfimc1ULZ6k8Dej5oLMOIG9HGe
-    h55Wre0jewUYnYbIUYKnGRX5D7Sbt8e7kjFYJJ2IafKpeAc62DBrCdTlQGC4Ko3Ma6Sl
-    vySMUQ6/3YBwddgXXBOuwJHznBSjaCd01MliD2YZHY58ygKnvgo096IS4jW8QN2pmjwI
-    vDhQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1749558362;
-    s=strato-dkim-0003; d=digital-rabbithole.de;
-    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=lgoLDHH6/IbbZyRF1opII5a58KtuvLvjhXM9JGYxa0s=;
-    b=rf7y+tDHwJQg0NswWyyvWTFSD+TGcpeQ20y1Zt9z+XBBOKYpRqPdzpxcrMyrQ4LJeX
-    yxpn7D+cicjnkJPfAPDQ==
-X-RZG-AUTH: ":IHkHbA68c+1zn2gb8+6dxsBP09h2Do/Zi4V+rbxtNBl2hCipBO6GPyNXZ6xAUEuHlZnKbp4UbhpDgteKQ1Dc5rYYRejjsEqb4WrQK85vHAG31zgy+09F"
-Received: from localhost.localdomain
-    by smtp.strato.de (RZmta 51.3.0 AUTH)
-    with ESMTPSA id Y1c6d815ACQ21Ap
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Tue, 10 Jun 2025 14:26:02 +0200 (CEST)
-From: Lucy Thrun <lucy.thrun@digital-rabbithole.de>
-To: tiwai@suse.de
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	lkp@intel.com,
-	Lucy Thrun <lucy.thrun@digital-rabbithole.de>
-Subject: [PATCH 1/2] ALSA: hda/ca0132: Use NULL instead of 0 for pointer assignment
-Date: Tue, 10 Jun 2025 14:24:37 +0200
-Message-ID: <20250610122438.820-1-lucy.thrun@digital-rabbithole.de>
-X-Mailer: git-send-email 2.45.1.windows.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="adzdqbrk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE4E5C4CEF2;
+	Tue, 10 Jun 2025 12:26:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749558406;
+	bh=ogZDEZ6ApZ9ncDB706+LR/kyQPRoa3NaYcBXysQTpZA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=adzdqbrkUJHneo7YZcAhBpYyLf2Dlffs/TyEUDF4OexRNuujHuOpBtsWTGlPH7Srg
+	 XXQtye7B7qMwz1R/B9amOP5scmJ5l002FoyxW7a/nfzFxxP4Xsj8p7qqwuuXKGmmw/
+	 7bmF5UKCtkzAhV7sPwAET718plUo9NKjtQJ9xn1g8vMSz+TMqEhLz/5mctREfhxhGZ
+	 rOcKMqOXpDiDWQqLY1c5dxI1sOayq128k0sTyNGf4jWjj2XdFC2vtgmiuhXm3tLK/t
+	 F6liX5fyMYBp1Wh52nxjOexPJ8c5Lm34pGb2cUV6h0C/I3l5flGgrDn8wKQUcZ+jc+
+	 ftlKydDyucijA==
+Date: Tue, 10 Jun 2025 13:26:41 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+	yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com
+Subject: Re: [PATCH 7/7] ASoC: SDCA: Add some initial IRQ handlers
+Message-ID: <6c1d909c-9617-4f1b-a158-6676fe27475e@sirena.org.uk>
+References: <20250609123936.292827-1-ckeepax@opensource.cirrus.com>
+ <20250609123936.292827-8-ckeepax@opensource.cirrus.com>
+ <283bafe1-136d-46f4-a83b-7467d0344fd4@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qRHh/xVxb1DrN6Ij"
+Content-Disposition: inline
+In-Reply-To: <283bafe1-136d-46f4-a83b-7467d0344fd4@linux.dev>
+X-Cookie: When in doubt, follow your heart.
 
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506100842.d8lwwdwU-lkp@intel.com/
 
-Signed-off-by: Lucy Thrun <lucy.thrun@digital-rabbithole.de>
----
- sound/pci/hda/patch_ca0132.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--qRHh/xVxb1DrN6Ij
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/pci/hda/patch_ca0132.c b/sound/pci/hda/patch_ca0132.c
-index cfe422a79703..491d45d652dd 100644
---- a/sound/pci/hda/patch_ca0132.c
-+++ b/sound/pci/hda/patch_ca0132.c
-@@ -4385,8 +4385,8 @@ static int add_tuning_control(struct hda_codec *codec,
- 
- 	knew.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
- 			SNDRV_CTL_ELEM_ACCESS_TLV_READ;
--	knew.tlv.c = 0;
--	knew.tlv.p = 0;
-+	knew.tlv.c = NULL;
-+	knew.tlv.p = NULL;
- 	switch (pnid) {
- 	case VOICE_FOCUS:
- 		knew.info = voice_focus_ctl_info;
--- 
-2.45.1.windows.1
+On Tue, Jun 10, 2025 at 11:07:00AM +0200, Pierre-Louis Bossart wrote:
 
+> > +static irqreturn_t function_status_handler(int irq, void *data)
+> > +{
+
+> > +	ret = regmap_read(interrupt->component->regmap, reg, &val);
+> > +	if (ret < 0) {
+> > +		dev_err(dev, "failed to read function status: %d\n", ret);
+> > +		return IRQ_NONE;
+
+> usually when a read fails, the entire device is in the weeds. Not sure squelching the interrupts is wise, something more drastic should happen.
+
+It's the correct response in terms of returning from the interrupt
+handler at least, it tells genirq that we weren't able to handle the
+interrupt.  If it's a level triggered interrupt (or otherwise keeps
+firing without being handled) then it'll eventually get shut off by the
+core.  We could potentially do some Soundwire thing to try to kick
+things into life, though it might be better to punt that to a higher
+layer.
+
+Please fix your mail client to word wrap within paragraphs at something
+substantially less than 80 columns.  Doing this makes your messages much
+easier to read and reply to.
+
+--qRHh/xVxb1DrN6Ij
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhIJIEACgkQJNaLcl1U
+h9A2Hgf/erzFqSrOqQEM69UH7S0EQIY+VzjnY/H5R+d7MTJyhN74cc0a4/nRE9EZ
+Mb+VKJAlo9R75vp2AaKJ1/ptZJSejjvCmnqKXmwxFKcOnSXlYAapoQX7WYtV7UW8
++nLrrkitdG9vYP24wb079jtiHOVQEwQnCrQcQ907QFQ8mzG7f4gEG6Ga5U/ZJu+i
+Znm1+8vIxNIl4CW3fr8zOLc+bdmiw+TjG5WGdjghM3iUt055LUXuNqAEglsIEw93
+USw27shFrhftQ2afIHWHyHNdIYNjJRlZMtLs5Sz8BoHTVopLXQiHvAH+KfUr6MYn
+SFRt6P5v4FGYK7RzcIkxzHZvW6fm3A==
+=vVbR
+-----END PGP SIGNATURE-----
+
+--qRHh/xVxb1DrN6Ij--
