@@ -1,91 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECF22248BD;
-	Tue, 10 Jun 2025 14:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062C92356A7
+	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 15:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749565001; cv=none; b=iV2di4BWkU4cZkNdukYUod7bp6dKSAWDgLOCvhf+FjNkFtiarGihT4WTG15ulY08zQfxasKWT5/tDo7mJDh7Li/IKi7cjll6CGNGCGG0FPYpG6fIjYQiaLI4u6uNpr9q1kmcFXLQTUcoBm1/D+kZV9LhOF9jkitAblw5dY6SBCA=
+	t=1749570845; cv=none; b=RajxxKX8MQinPhlsVy8OEpS7YOCvQKkjgwKwlD01Ggw948PhWhZV+xtbPHhAZXwLmGsHMkttnOMSex+SHMp5E+dsytsPIet5+sWjP3cVSV4jrd6pPBFcy0HrIxnWXE24+Pw8xf1ztBc71+UbWM4FA+1WvCY+g+PrW22XoehzPlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749565001; c=relaxed/simple;
-	bh=xzjkJXy5nV12SXSVlGCVriM090em/5m6G36M0RvdZnU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HBisKkk8JmI1e409wAQCYkAl09oBbP0GfP2yreoLeniaa+cTgM5Y/vpSvDJ69Avnwddda9ehhfnywpPkEx98jydMthkeIht51LfWUomRLN1UJ7vMOu/L+i8/w5kORaM4//R/kS++5aB5X2GqOjYOr1Z225GAP3f2I4pWgSo/4Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PI9OD33N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749570845; c=relaxed/simple;
+	bh=7zpIauZi2y3KxkbRsPtn6tj1vuZMF5W3CDAg7x6Tm9s=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lBBWGXQ+au9aL3p2Eo8zSIPphQO694Dr03eZZkgguDKH6oSUwlimuAO61evKD5tZiTYzJC49BhTDb/mb+Zu0aciCoKKiGgWo33r6SoWcRpY+YToAsh3ZCgJo6THsP0OkitL+8ocVLMdFAB0+IUFYCl1Z6cbW2PCQnKKeSdLnkDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T6Pgjj24; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IJFfJnOq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aNtiIjZJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HjCpOOrA; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PI9OD33N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3360C4CEF1;
-	Tue, 10 Jun 2025 14:16:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749565000;
-	bh=xzjkJXy5nV12SXSVlGCVriM090em/5m6G36M0RvdZnU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=PI9OD33Nff5Z58Y9xqxk+aTeRsPO5ykdw0lzLY2KdlEJud4eaIvJLOxJ54ElWfXmy
-	 JtzOXWFfln2LcPRCCsSW92Jmv7xvgI4tG2vIctS9GcuN+SGp8YWg0+YqmctcjZnMnA
-	 M9sDfaGfa5LE45rUqnLI+pdTMYsLkdmwkWcQ09TP1uxhn41DzhVS826AHq+NupzZ0y
-	 5+WAwQ3mC3HZwMXNmeqSUNqDOR6xiiPdisyXCifmaq9aqQ1g88+Gp3Kfm4n3HT40uO
-	 J6bmC6ULP+Mf1XHzQ5R3bns/v57SgZn0+a8ZpnlYM92z1DxoCyyCys1Qfi2uvvjwfQ
-	 eGeIdUWWwSqVQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Peter Zijlstra <peterz@infradead.org>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Thorsten Blum <thorsten.blum@linux.dev>
-Cc: stable@vger.kernel.org, Liam Girdwood <liam.r.girdwood@intel.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250610103225.1475-2-thorsten.blum@linux.dev>
-References: <20250610103225.1475-2-thorsten.blum@linux.dev>
-Subject: Re: [PATCH] ASoC: sdw_utils: Fix potential NULL pointer deref in
- is_sdca_endpoint_present()
-Message-Id: <174956499773.45975.12052046970647716420.b4-ty@kernel.org>
-Date: Tue, 10 Jun 2025 15:16:37 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T6Pgjj24";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IJFfJnOq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aNtiIjZJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HjCpOOrA"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3B6D81F79E;
+	Tue, 10 Jun 2025 15:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749570842; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xWCeRdGzABEyBlWgT5L7nsAwVMuulDsRU+gqM3E7azU=;
+	b=T6Pgjj246hguhskRv/qQtVPiK61EUoDuolumiP0OC2Icu89NWYVdeMQardrIGeo8b0N+IR
+	ic75yyiCFcxKySOVWWDwnOaL8PBbq0lwwWwZN+CLOtvGU1W1dbgINF7K3USNuryXWJ3DaL
+	LuD/JE2gPbgcYLz1gaY/yC4UeRJ9UKA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749570842;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xWCeRdGzABEyBlWgT5L7nsAwVMuulDsRU+gqM3E7azU=;
+	b=IJFfJnOqTUYBl0FwRKlNtvAHAfhbczZDqSy18JWRZY5QHd8CS8h5NQDYU6mrz81rvkP6Nv
+	z8ssh7MCxKS2OXBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aNtiIjZJ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HjCpOOrA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749570841; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xWCeRdGzABEyBlWgT5L7nsAwVMuulDsRU+gqM3E7azU=;
+	b=aNtiIjZJpo6OR1AzSwYcTUsr5vDY9iLna/B2gg4varX4NdX+pNEhF7PFTONa5yUuR3XCPJ
+	HE9CfJoxw+mqm1DEFTRxyravj5HuEmpQj+rjKwBE/zGWJ0BM0Bsm8MwuD01OHHPr2ivolq
+	sYdDK8bO9kkfpyihvNrtycEP8A9+jSg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749570841;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xWCeRdGzABEyBlWgT5L7nsAwVMuulDsRU+gqM3E7azU=;
+	b=HjCpOOrAYQG6H7+yX5orb1pgf5WWnPNTHQe07a+5rVB0hvTpFOXwXGhcdoXFc13YKFyv1q
+	hM8V7p8lTdor0iAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 026DC13964;
+	Tue, 10 Jun 2025 15:54:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8ROXOhhVSGh8WAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 10 Jun 2025 15:54:00 +0000
+Date: Tue, 10 Jun 2025 17:54:00 +0200
+Message-ID: <87cybby4mf.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,	Takashi
+ Iwai <tiwai@suse.de>,	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: mips/sgio2audio: Replace deprecated strcpy() with strscpy()
+In-Reply-To: <20250610121835.2908-2-thorsten.blum@linux.dev>
+References: <20250610121835.2908-2-thorsten.blum@linux.dev>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-c25d1
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 3B6D81F79E
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -3.51
 
-On Tue, 10 Jun 2025 12:32:16 +0200, Thorsten Blum wrote:
-> Check the return value of kzalloc() and exit early to avoid a potential
-> NULL pointer dereference.
+On Tue, 10 Jun 2025 14:18:33 +0200,
+Thorsten Blum wrote:
 > 
+> strcpy() is deprecated; use strscpy() instead.
 > 
+> No functional changes intended.
+> 
+> Link: https://github.com/KSPP/linux/issues/88
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Applied to
+Applied now to for-next branch.  Thanks.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
-
-[1/1] ASoC: sdw_utils: Fix potential NULL pointer deref in is_sdca_endpoint_present()
-      commit: 6325766d69900d1aa9733fc7572456fc4427b708
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
