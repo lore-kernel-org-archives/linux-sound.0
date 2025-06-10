@@ -1,119 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DF21F0984;
-	Tue, 10 Jun 2025 09:31:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0021628CF51;
+	Tue, 10 Jun 2025 09:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749547862; cv=none; b=DpxAcAbb8SAOr3NirQRr6pRFodMtLBeO0oYnGZk+nLLd2G8XU5GK10SYHnlwc422pXMp+NdX09Lx/mq6Q3HIOGrCDf5kHRu9x2rDgXqwRuXRF1q+kZFQn669VJT3wKY9+VUjljdE5CnDYqCXvBd6roOvaKprn4avAo9e79XwxvE=
+	t=1749548654; cv=none; b=lxMErYGUo9C+QQ4LkiAOrJBPhJs2WYUfYzfR/NvwDai3fGrVsNd/PifWCr9kJcbdR+B9G4p6nbg+AVs7U0FwrTz0wsVhAv76URKLGwZx9uMS69ZPXbIVPT9PDjUC4DHjeeTqNNjcNh/wyQKW9uYswnpkwvhKgwPanNgAaUP1ecw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749547862; c=relaxed/simple;
-	bh=YKy/3amZLqH2nzrlfIaM1pmEoEybpgu45G58wMSbjrA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Rrb4ua1qOuYXPzGlLFY6+2JLz3mar+3k4iQVUo24QBGed4ru+qt4fLDNdH9L4MBW430YsU6LzYczA6r1WWN7GkY7pGM/fsB9nUe8MfyeQYKH9kdE4kpGvj32Fa/IEVLlf0Nrm3ZcokwM2S23h+GqSCr9oKJ4oOjAzKnjA+h4/4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4iwjV2O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749548654; c=relaxed/simple;
+	bh=wSB4let2azkz/4VauOOdqBB9YK0CGcEwyZ6mrzquiWs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=V1j8lXQwUsbdHcVACEPE8QJs3VX+kfTCbY4x72koQv3EQ5wZvqZVz5/nOleWS/xGE/CYFVh1w5YRC36xEGOYqN0oylx07LrzQx9smCuOkoLF62C0avTo9TmSmT3RJ27iAI7Pey7r9qDj8l9iuDVuzSEZnmtdKpKUNL0hdO62pRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=S+L5lUUg; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4iwjV2O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49FB2C4CEED;
-	Tue, 10 Jun 2025 09:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749547862;
-	bh=YKy/3amZLqH2nzrlfIaM1pmEoEybpgu45G58wMSbjrA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=t4iwjV2OYGDxQJffBC6xTdOgJ2c9WJkN7PG/I3NMe5yYWCi2fCsdEV1NuPwPwi8LE
-	 hzN0/p0rMJPg0IPOnVnjgvyIfJIKXEmLZBpfKK2PaZJxPx85EQMq0YBjefS4WWvH5w
-	 5twWc7Jm8T43zs8sYGhzTJjQ3NTYDmt2V7rdJo6FScPeEUFtGoJzgf0iI5lpn+O1gq
-	 zQ3hhEhfNzmkQ/rGv5hirKaNLMHWRa5GtcYnP+5PNuVYRjYZ/Y8mTPharvBmH03CT+
-	 ctGDJEC5cq0nGgXDgYPPHHHENrOpOcwDdnyYHQOiLAzI/tAEMkpvIhzrXaK12zLMSS
-	 BVQall8+QAb7A==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: ops: dynamically allocate struct snd_ctl_elem_value
-Date: Tue, 10 Jun 2025 11:30:53 +0200
-Message-Id: <20250610093057.2643233-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="S+L5lUUg"
+X-UUID: 5566b66445dd11f0b910cdf5d4d8066a-20250610
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=HYD5PVmudBJk+mszv7UWM/fKJWhEJVZ2kOsb27Mivno=;
+	b=S+L5lUUgQlyJwaeJPPgb9tmpj4Q/97eMaMPFU5CPvefo8EffK7REg8x5U4/rmcIFhYefPS9gy5XX7Wa6PLmP0isjUE6kfQhyp8knKXcz5lB12KIC9txGTCtj4Ow06dqgRH0J16qC0HQWbNnrn7X0eqIbyFo8oJLM4TVIyUpjPZc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.2.3,REQID:3a1c336d-9cc5-4c63-9d32-c29c3d56ce9d,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:09905cf,CLOUDID:104212f2-fe3f-487e-8db5-d099c876a5c3,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|102,TC:nil,Content:0|50,EDM:-3,IP
+	:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
+	LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5566b66445dd11f0b910cdf5d4d8066a-20250610
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+	(envelope-from <darren.ye@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1355219880; Tue, 10 Jun 2025 17:28:57 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Tue, 10 Jun 2025 17:28:55 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Tue, 10 Jun 2025 17:28:55 +0800
+From: Darren.Ye <darren.ye@mediatek.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-gpio@vger.kernel.org>, Darren Ye
+	<darren.ye@mediatek.com>
+Subject: [PATCH v4 00/10] ASoC: mediatek: Add support for MT8196 SoC
+Date: Tue, 10 Jun 2025 17:27:17 +0800
+Message-ID: <20250610092852.21986-1-darren.ye@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-MTK: N
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Darren Ye <darren.ye@mediatek.com>
 
-This structure is really too larget to be allocated on the stack:
+This series of patches adds support for Mediatek AFE of MT8196 SoC.
+Patches are based on broonie tree "for-next" branch.
 
-sound/soc/soc-ops.c:435:5: error: stack frame size (1296) exceeds limit (1280) in 'snd_soc_limit_volume' [-Werror,-Wframe-larger-than]
+Changes since v3:
+ - the AFE TOP CG index is added to the common header.
+ - remove the audsys clk register and directly read and write to the regmap of afe cg clk.
+ - modify the clk logic according to the suggestions.
+ - remove the macro definition of MTKAIF4.
+ - remove the tdm cg event and directly read and write the tdm cg reg form the widget.
+ - remove the i2s and cm cg event and directly read and write cg reg.
+ - afe hopping and f26m clk cg are placed in remap_register_patch and enable.
+ - the yaml file is modified according to the suggestions.
+ - replace SND_SOC_DAIFMT_CBS_CFS with SND_SOC_DAIFMT_CBC_CFC.
 
-Change the function to dynamically allocate it instead.
+Changes since v2:
+  - remove the mtk_memif_set_channel interface modify.
+  - remove duplicate definitions from the header file.
+  - move the afe gate clk to the audio driver for management and registration
+    and manage the afe clk gate in each dai driver.
+  - delete the useless clk source.
+  - the i2s driver adds i2s clk gate management, removes the additional dts
+    configuration of i2s4.
+  - the afe and i2s dai driver,memif and irq data structs are encapsulated using
+    macros to reduce the amount of code.
+  - the volatile reg is modified as suggested.
+  - mt6681 codec is not supported, the mt6681 keyword is removed.
+  - the name of the machine driver is changed from mt8196-mt6681.c to mt8196-nau8825.c
+  - remove the i2s4 configuration from mt8196-afe.yaml and make the modifications as suggested.
+  - change the mt8196-mt6681.yaml to mt8196-nau8825.yaml and make the modifications as suggested.
 
-There is probably a better way to do it since only two integer fields
-inside of that structure are actually used, but this is the simplest
-rework for the moment.
+Changes since v1:
+  - modify mtk_memif_set_channel and mtk_afe_pcm_pointer interfaces
+    are improved to support mt8196.
+  - remove duplicate definitions in the mt8196 common header file.
+  - cm logic is merge into the afe platform driver.
+  - modify afe clk to return judgment logic and remove useless clk sources.
+  - refactor the mt8196 adda dai driver.
+  - remove the gpio module and use SND_SOC_DAPM_PINCTRL to manage it.
+  - removes CONNSYS_I2S related functions that are not supported in i2s dai driver.
+  - fixed mt8196-afe.yaml and mt8196-mt6681.yaml syntax issues.
+  - modify log printing in all modules.
+  - optimize the header file included for machine driver.
 
-Fixes: 783db6851c18 ("ASoC: ops: Enforce platform maximum on initial value")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- sound/soc/soc-ops.c | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+Darren Ye (10):
+  ASoC: mediatek: common: modify mtk afe platform driver for mt8196
+  ASoC: mediatek: mt8196: add common header
+  ASoC: mediatek: mt8196: support audio clock control
+  ASoC: mediatek: mt8196: support ADDA in platform driver
+  ASoC: mediatek: mt8196: support I2S in platform driver
+  ASoC: mediatek: mt8196: support TDM in platform driver
+  ASoC: mediatek: mt8196: add platform driver
+  ASoC: dt-bindings: mediatek,mt8196-afe: add audio AFE document
+  ASoC: mediatek: mt8196: add machine driver with nau8825
+  ASoC: dt-bindings: mediatek,mt8196-nau8825: add mt8196-nau8825
+    document
 
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index a1a011e6b17c..00c6f1ce7474 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -399,28 +399,32 @@ EXPORT_SYMBOL_GPL(snd_soc_put_volsw_sx);
- static int snd_soc_clip_to_platform_max(struct snd_kcontrol *kctl)
- {
- 	struct soc_mixer_control *mc = (struct soc_mixer_control *)kctl->private_value;
--	struct snd_ctl_elem_value uctl;
-+	struct snd_ctl_elem_value *uctl;
- 	int ret;
- 
- 	if (!mc->platform_max)
- 		return 0;
- 
--	ret = kctl->get(kctl, &uctl);
-+	uctl = kzalloc(sizeof(*uctl), GFP_KERNEL);
-+	if (!uctl)
-+		return -ENOMEM;
-+
-+	ret = kctl->get(kctl, uctl);
- 	if (ret < 0)
--		return ret;
-+		goto out;
- 
--	if (uctl.value.integer.value[0] > mc->platform_max)
--		uctl.value.integer.value[0] = mc->platform_max;
-+	if (uctl->value.integer.value[0] > mc->platform_max)
-+		uctl->value.integer.value[0] = mc->platform_max;
- 
- 	if (snd_soc_volsw_is_stereo(mc) &&
--	    uctl.value.integer.value[1] > mc->platform_max)
--		uctl.value.integer.value[1] = mc->platform_max;
-+	    uctl->value.integer.value[1] > mc->platform_max)
-+		uctl->value.integer.value[1] = mc->platform_max;
- 
--	ret = kctl->put(kctl, &uctl);
--	if (ret < 0)
--		return ret;
-+	ret = kctl->put(kctl, uctl);
- 
--	return 0;
-+out:
-+	kfree(uctl);
-+	return ret;
- }
- 
- /**
+ .../bindings/sound/mediatek,mt8196-afe.yaml   |   155 +
+ .../sound/mediatek,mt8196-nau8825.yaml        |   102 +
+ sound/soc/mediatek/Kconfig                    |    30 +
+ sound/soc/mediatek/Makefile                   |     1 +
+ .../mediatek/common/mtk-afe-platform-driver.c |    47 +-
+ .../mediatek/common/mtk-afe-platform-driver.h |     2 +
+ sound/soc/mediatek/mt8196/Makefile            |    17 +
+ sound/soc/mediatek/mt8196/mt8196-afe-clk.c    |   728 +
+ sound/soc/mediatek/mt8196/mt8196-afe-clk.h    |    80 +
+ sound/soc/mediatek/mt8196/mt8196-afe-common.h |   213 +
+ sound/soc/mediatek/mt8196/mt8196-afe-pcm.c    |  2665 ++++
+ sound/soc/mediatek/mt8196/mt8196-dai-adda.c   |   888 ++
+ sound/soc/mediatek/mt8196/mt8196-dai-i2s.c    |  3970 +++++
+ sound/soc/mediatek/mt8196/mt8196-dai-tdm.c    |   836 ++
+ .../mediatek/mt8196/mt8196-interconnection.h  |   121 +
+ sound/soc/mediatek/mt8196/mt8196-nau8825.c    |   869 ++
+ sound/soc/mediatek/mt8196/mt8196-reg.h        | 12068 ++++++++++++++++
+ 17 files changed, 22776 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8196-nau8825.yaml
+ create mode 100644 sound/soc/mediatek/mt8196/Makefile
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-clk.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-clk.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-common.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-dai-adda.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-dai-i2s.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-dai-tdm.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-interconnection.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-nau8825.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-reg.h
+
 -- 
-2.39.5
+2.45.2
 
