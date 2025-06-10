@@ -1,241 +1,339 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC6528A3FC
-	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 09:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0272928A409
+	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 09:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749546624; cv=none; b=eV3asST1+LrxIJBGBrMhVz/8tG5MWaFyJeL0K2hzFxAgWl60Fh30Jy4JzZ3qykiTOz179dyhGC493LSw12d9v9cy6I0cBtKhvPx8ZgtUShpkG3N9DcGdC8GHJEq3/ROBJW6e71yEL5iReiegNt/EDc6IyjEd9dzAwOldmlwtlZU=
+	t=1749546757; cv=none; b=SnPbVNERJAXiac9JyNil8FBaBqGpIpkjJWp6HzwW+jaoIL1AiporMxjYFW2aZAbRKU1DYI8zlxar4oizy7Jwf4hooAv0polePN6rVmzKISIV/6CvoeuZpr3IwJ8Nkmvxst85vAqaA2SgLXWqKNwEGR5kTX5L+X8ENQP2b6+o7tY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749546624; c=relaxed/simple;
-	bh=ud+3VCzu7jEQlkOBhHzNOJwUMyBxJtKJ3o8aslpGXxo=;
+	s=arc-20240116; t=1749546757; c=relaxed/simple;
+	bh=m5aPKINS7mU04RBLRyl2vz94zmI8w6f8NrI8Kcpn5Js=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tSp/tqwNPuI7Qyw4GNfa/uE36E38MKA26w0Js3DS03YrwdFx8ETPITqSWmH+GmYxUGx2odqHlLlR9cLOWkLyNSiTi4XGgx8VrZkjgN2C4wiB/YHTe2LaTYZGwcu+eJVn7XQF4Qgq7wJiJjvRWX0q8PwMJOLeFTMU/hX95HYPrFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UxEiNdJD; arc=none smtp.client-ip=91.218.175.182
+	 In-Reply-To:Content-Type; b=ibroOM+u5b4XbVkkqsBT+/od+4hRbW1VQs2x6JihDePt+JZ5fy94NBjD+O4gCuv7tRR2+89jA9ULtLvwf3XSt5Ij94WcoFMRUQvQ9KycCg5HNorAP81qH02o4gkFN+TodzXukvqsr7m+XMbWOpu+oAnTHhhPepfXpKqEoPjK6UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AQC50bc8; arc=none smtp.client-ip=91.218.175.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UxEiNdJD"
-Message-ID: <283bafe1-136d-46f4-a83b-7467d0344fd4@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AQC50bc8"
+Message-ID: <4233bfad-973b-4803-82f1-13a0b1dae8cb@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1749546618;
+	t=1749546752;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zuX3/rPddYq0Bx023UfuvO87XaFRwmBh/xEM9vNYq5I=;
-	b=UxEiNdJDXGXHEY526VAnj440tkVGTMqYcY8YWoTvrUWpLNy9sNvQzyN8xa3rvA7VlmqZkb
-	rKD+EmhUAL/ek2ZmlzIIcJHuLi1JAve1elZ20EJGgrhHrjFyO08/SuogqgJSuPlK78daFN
-	3srd7lvJkNGx9KUUgsHAKid15Natt54=
-Date: Tue, 10 Jun 2025 11:07:00 +0200
+	bh=u7URLDmnu4gMGdorNp5kIg3JflZ+7dNlpHKIAhnVizw=;
+	b=AQC50bc80rP7UTwSLn8bCDjLp8vzjzejMt5DFs0QKDD3DToB9w0AMZP/0mvkjGc/CxczBK
+	DLgwHMs956H9sqeIhIiuH8bRkoqj50Te9JhioVbAJuNIBZPllg1rBAYtGm8YykPVgdmXu0
+	1QtI4j6yaKs55dwcF4CW9CneIwZfkUE=
+Date: Tue, 10 Jun 2025 10:52:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 7/7] ASoC: SDCA: Add some initial IRQ handlers
+Subject: Re: [PATCH 6/7] ASoC: SDCA: Generic interrupt support
 To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
 Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
  patches@opensource.cirrus.com, yung-chuan.liao@linux.intel.com,
  peter.ujfalusi@linux.intel.com
 References: <20250609123936.292827-1-ckeepax@opensource.cirrus.com>
- <20250609123936.292827-8-ckeepax@opensource.cirrus.com>
+ <20250609123936.292827-7-ckeepax@opensource.cirrus.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20250609123936.292827-8-ckeepax@opensource.cirrus.com>
+In-Reply-To: <20250609123936.292827-7-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
-> +static irqreturn_t function_status_handler(int irq, void *data)
+> +/**
+> + * struct sdca_interrupt - contains information about a single SDCA interrupt
+> + * @name: The name of the interrupt.
+> + * @component: Pointer to the ASoC component owns the interrupt.
+> + * @function: Pointer to the Function that the interrupt is associated with.
+> + * @entity: Pointer to the Entity that the interrupt is associated with.
+> + * @control: Pointer to the Control that the interrupt is associated with.
+> + * @externally_requested: Internal flag used to check if something has already
+> + * requested the interrupt.
+
+I am not following what 'externally' and 'something' refer to. Each interrupt is allocated to a specific function/entity/control, this hints at another agent getting in the way but that's not really how this is supposed to work.
+
+This deserves additional clarifications IMHO.
+
+> + */
+> +struct sdca_interrupt {
+> +	const char *name;
+> +
+> +	struct snd_soc_component *component;
+> +	struct sdca_function_data *function;
+> +	struct sdca_entity *entity;
+> +	struct sdca_control *control;
+> +
+> +	bool externally_requested;
+> +};
+> +
+> +/**
+> + * struct sdca_interrupt_info - contains top-level SDCA interrupt information
+> + * @irq_chip: regmap irq chip structure.
+> + * @irq_data: regmap irq chip data structure.
+> + * @irqs: Array of data for each individual IRQ.
+> + * @irq_lock: Protects access to the list of sdca_interrupt structures.
+> + */
+> +struct sdca_interrupt_info {
+> +	struct regmap_irq_chip irq_chip;
+> +	struct regmap_irq_chip_data *irq_data;
+> +
+> +	struct sdca_interrupt irqs[SDCA_MAX_INTERRUPTS];
+> +
+> +	struct mutex irq_lock; /* Protect accesses to irqs list */
+
+Can you elaborate on what might conflict?
+
+The only thing I can think of in terms of required locking is access to the common SDCA interrupt registers, but that's different to the irq list.
+
+> +static const struct regmap_irq_chip sdca_irq_chip = {
+> +	.name = "sdca_irq",
+> +
+> +	.status_base = SDW_SCP_SDCA_INT1,
+> +	.unmask_base = SDW_SCP_SDCA_INTMASK1,
+> +	.ack_base = SDW_SCP_SDCA_INT1,
+> +	.num_regs = 4,
+> +
+> +	.irqs = regmap_irqs,
+> +	.num_irqs = SDCA_MAX_INTERRUPTS,
+> +
+> +	.runtime_pm = true,
+
+can you clarify what this last initialization does? runtime_pm is far from obvious for SDCA with the different levels between the SoundWire bus (enumeration, clock stop, register access, etc) and Function management.
+
+> +};
+> +
+> +static irqreturn_t base_handler(int irq, void *data)
 > +{
 > +	struct sdca_interrupt *interrupt = data;
 > +	struct device *dev = interrupt->component->dev;
-> +	unsigned int reg, val;
-> +	unsigned long status;
-> +	unsigned int mask;
-> +	int ret;
 > +
-> +	reg = SDW_SDCA_CTL(interrupt->function->desc->adr, interrupt->entity->id,
-> +			   interrupt->control->sel, 0);
-> +
-> +	ret = regmap_read(interrupt->component->regmap, reg, &val);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to read function status: %d\n", ret);
-> +		return IRQ_NONE;
+> +	dev_warn(dev, "%s irq without full handling\n", interrupt->name);
 
-usually when a read fails, the entire device is in the weeds. Not sure squelching the interrupts is wise, something more drastic should happen.
+is this saying this function is really a placeholder for something else?
 
-> +	}
-> +
-> +	dev_dbg(dev, "function status: %#x\n", val);
-> +
-> +	status = val;
-> +	for_each_set_bit(mask, &status, BITS_PER_BYTE) {
-> +		mask = 1 << mask;
-> +
-> +		switch (mask) {
-> +		case SDCA_CTL_ENTITY_0_FUNCTION_NEEDS_INITIALIZATION:
-> +			//FIXME: Add init writes
-> +			break;
-
-between here...
-
-> +		case SDCA_CTL_ENTITY_0_FUNCTION_FAULT:
-> +			dev_err(dev, "function fault\n");
-> +			break;
-> +		case SDCA_CTL_ENTITY_0_UMP_SEQUENCE_FAULT:
-> +			dev_err(dev, "ump sequence fault\n");
-> +			break;
-> +		case SDCA_CTL_ENTITY_0_DEVICE_NEWLY_ATTACHED:
-> +		case SDCA_CTL_ENTITY_0_INTS_DISABLED_ABNORMALLY:
-> +		case SDCA_CTL_ENTITY_0_STREAMING_STOPPED_ABNORMALLY:
-> +		case SDCA_CTL_ENTITY_0_FUNCTION_HAS_BEEN_RESET:
-
-... and here, the status bit essentially mean the Function isn't working as expected. I really don't see the point of attempting to write a register below, we'd need something that essentially resets the SoundWire device to restart from a known position.
-
-> +		case SDCA_CTL_ENTITY_0_FUNCTION_BUSY:
-> +			break;
-
-Conversely this one seems harmless, FUNCTION_BUSY only impacts specific SDCA registers and this status cannot have any bearing on how to deal with interrupts.
-
-> +		}
-> +	}
-> +
-> +	ret = regmap_write(interrupt->component->regmap, reg, val);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to clear function status: %d\n", ret);
-> +		return IRQ_NONE;
-> +	}
 > +
 > +	return IRQ_HANDLED;
 > +}
 > +
-> +static irqreturn_t detected_mode_handler(int irq, void *data)
+> +static int sdca_irq_request_locked(struct device *dev,
+> +				   struct sdca_interrupt_info *info,
+> +				   int sdca_irq, const char *name,
+> +				   irq_handler_t handler, void *data)
 > +{
-> +	struct sdca_interrupt *interrupt = data;
-> +	struct snd_soc_component *component = interrupt->component;
-> +	struct device *dev = component->dev;
-> +	struct snd_soc_card *card = component->card;
-> +	struct rw_semaphore *rwsem = &card->snd_card->controls_rwsem;
-> +	struct snd_kcontrol *kctl = interrupt->priv;
-> +	struct snd_ctl_elem_value ucontrol;
-> +	struct soc_enum *soc_enum;
-> +	unsigned int reg, val;
+> +	int irq;
 > +	int ret;
 > +
-> +	if (!kctl) {
-> +		const char *name __free(kfree) = kasprintf(GFP_KERNEL, "%s %s",
-> +							   interrupt->entity->label,
-> +							   SDCA_CTL_SELECTED_MODE_NAME);
+> +	irq = regmap_irq_get_virq(info->irq_data, sdca_irq);
+> +	if (irq < 0)
+> +		return irq;
 > +
-> +		if (!name)
-> +			return -ENOMEM;
+> +	ret = devm_request_threaded_irq(dev, irq, NULL, handler,
+> +					IRQF_ONESHOT, name, data);
+> +	if (ret)
+> +		return ret;
 > +
-> +		kctl = snd_soc_component_get_kcontrol(component, name);
-> +		if (!kctl) {
-> +			dev_dbg(dev, "control not found: %s\n", name);
-> +			return IRQ_NONE;
-> +		}
-> +
-> +		interrupt->priv = kctl;
-> +	}
-> +
-> +	soc_enum = (struct soc_enum *)kctl->private_value;
-> +
-> +	reg = SDW_SDCA_CTL(interrupt->function->desc->adr, interrupt->entity->id,
-> +			   interrupt->control->sel, 0);
+> +	dev_dbg(dev, "requested irq %d for %s\n", irq, name);
 
-Humm, I have to walk back what I wrote above, if FUNCTION_BUSY is set the read below can be problematic, no?
+might be worth adding the function and entity name?
 
-> +	ret = regmap_read(component->regmap, reg, &val);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to read detected mode: %d\n", ret);
-> +		return IRQ_NONE;
-> +	}
 > +
-> +	switch (val) {
-> +	case SDCA_DETECTED_MODE_DETECTION_IN_PROGRESS:
-> +	case SDCA_DETECTED_MODE_JACK_UNKNOWN:
-> +		reg = SDW_SDCA_CTL(interrupt->function->desc->adr,
-> +				   interrupt->entity->id,
-> +				   SDCA_CTL_GE_SELECTED_MODE, 0);
-> +
-> +		/*
-> +		 * Selected mode is not typically a volatile register, but
-> +		 * force a read from the hardware in the case detected mode
-> +		 * is unknown to see what the device selected as a "safe"
-> +		 * option.
-> +		 */
-
-I am not sure this explanation is correct. I was my understanding that when there's a jack interrupt, both the DETECTED and SELECTED values are set by hardware, but SELECTED can be overridden by higher-level software or user interaction. DETECTED is RO, SELECTED is R/W IIRC.
-
-> +		regcache_drop_region(component->regmap, reg, reg);
-> +
-> +		ret = regmap_read(component->regmap, reg, &val);
-> +		if (ret) {
-> +			dev_err(dev, "failed to re-check selected mode: %d\n", ret);
-> +			return IRQ_NONE;
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	dev_dbg(dev, "%s: %#x\n", interrupt->name, val);
-> +
-> +	ucontrol.value.enumerated.item[0] = snd_soc_enum_val_to_item(soc_enum, val);
-> +
-> +	down_write(rwsem);
-> +	ret = kctl->put(kctl, &ucontrol);
-> +	up_write(rwsem);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to update selected mode: %d\n", ret);
-> +		return IRQ_NONE;
-> +	}
-> +
-> +	snd_ctl_notify(card->snd_card, SNDRV_CTL_EVENT_MASK_VALUE, &kctl->id);
-> +
-> +	return IRQ_HANDLED;
+> +	return 0;
 > +}
 > +
->  static int sdca_irq_request_locked(struct device *dev,
->  				   struct sdca_interrupt_info *info,
->  				   int sdca_irq, const char *name,
-> @@ -202,6 +339,7 @@ int sdca_irq_populate(struct sdca_function_data *function,
->  			struct sdca_control *control = &entity->controls[j];
->  			int irq = control->interrupt_position;
->  			struct sdca_interrupt *interrupt;
-> +			irq_handler_t handler;
->  			const char *name;
->  			int ret;
->  
-> @@ -226,8 +364,23 @@ int sdca_irq_populate(struct sdca_function_data *function,
->  			if (ret)
->  				return ret;
->  
-> +			handler = base_handler;
+> +/**
+> + * sdca_request_irq - request an individual SDCA interrupt
+> + * @dev: Pointer to the struct device against which things should be allocated.
+> + * @interrupt_info: Pointer to the interrupt information structure.
+> + * @sdca_irq: SDCA interrupt position.
+> + * @name: Name to be given to the IRQ.
+> + * @handler: A callback thread function to be called for the IRQ.
+> + * @data: Private data pointer that will be passed to the handler.
+> + *
+> + * Typically this is handled internally by sdca_irq_populate, however if
+> + * a device requires custom IRQ handling this can be called manually before
+> + * calling sdca_irq_populate, which will then skip that IRQ whilst processing.
+> + *
+> + * Return: Zero on success, and a negative error code on failure.
+> + */
+> +int sdca_irq_request(struct device *dev, struct sdca_interrupt_info *info,
+> +		     int sdca_irq, const char *name, irq_handler_t handler,
+> +		     void *data)
+> +{
+> +	int ret;
 > +
-> +			switch (entity->type) {
-> +			case SDCA_ENTITY_TYPE_ENTITY_0:
-> +				if (control->sel == SDCA_CTL_ENTITY_0_FUNCTION_STATUS)
-> +					handler = function_status_handler;
-> +				break;
-> +			case SDCA_ENTITY_TYPE_GE:
-> +				if (control->sel == SDCA_CTL_GE_DETECTED_MODE)
-> +					handler = detected_mode_handler;
-> +				break;
-> +			default:
-> +				break;
+> +	if (sdca_irq < 0 || sdca_irq > SDCA_MAX_INTERRUPTS) {
+> +		dev_err(dev, "bad irq request: %d\n", sdca_irq);
+> +		return -EINVAL;
+> +	}
+> +
+> +	guard(mutex)(&info->irq_lock);
+> +
+> +	ret = sdca_irq_request_locked(dev, info, sdca_irq, name, handler, data);
+> +	if (ret) {
+> +		dev_err(dev, "failed to request irq %s: %d\n", name, ret);
+> +		return ret;
+> +	}
+> +
+> +	info->irqs[sdca_irq].externally_requested = true;
+
+this looks like generic/core code, not sure what's 'external' about this...
+
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(sdca_irq_request, "SND_SOC_SDCA_IRQ");
+> +
+> +/**
+> + * sdca_irq_data_populate - Populate common interrupt data
+> + * @component: Pointer to the ASoC component for the Function.
+> + * @function: Pointer to the SDCA Function.
+> + * @entity: Pointer to the SDCA Entity.
+> + * @control: Pointer to the SDCA Control.
+> + * @interrupt: Pointer to the SDCA interrupt for this IRQ.
+> + *
+> + * Return: Zero on success, and a negative error code on failure.
+> + */
+> +int sdca_irq_data_populate(struct snd_soc_component *component,
+> +			   struct sdca_function_data *function,
+> +			   struct sdca_entity *entity,
+> +			   struct sdca_control *control,
+> +			   struct sdca_interrupt *interrupt)
+> +{
+> +	struct device *dev = component->dev;
+> +	const char *name;
+> +
+> +	name = devm_kasprintf(dev, GFP_KERNEL, "%s %s %s", function->desc->name,
+> +			      entity->label, control->label);
+> +	if (!name)
+> +		return -ENOMEM;
+> +
+> +	interrupt->name = name;
+> +	interrupt->component = component;
+> +	interrupt->function = function;
+> +	interrupt->entity = entity;
+> +	interrupt->control = control;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(sdca_irq_data_populate, "SND_SOC_SDCA_IRQ");
+> +
+> +/**
+> + * sdca_irq_populate - Request all the individual IRQs for an SDCA Function
+> + * @function: Pointer to the SDCA Function.
+> + * @component: Pointer to the ASoC component for the Function.
+> + * @info: Pointer to the SDCA interrupt info for this device.
+> + *
+> + * Typically this would be called from the driver for a single SDCA Function.
+> + *
+> + * Return: Zero on success, and a negative error code on failure.
+> + */
+> +int sdca_irq_populate(struct sdca_function_data *function,
+> +		      struct snd_soc_component *component,
+> +		      struct sdca_interrupt_info *info)
+> +{
+> +	struct device *dev = component->dev;
+> +	int i, j;
+> +
+> +	guard(mutex)(&info->irq_lock);
+> +
+> +	for (i = 0; i < function->num_entities; i++) {
+> +		struct sdca_entity *entity = &function->entities[i];
+> +
+> +		for (j = 0; j < entity->num_controls; j++) {
+> +			struct sdca_control *control = &entity->controls[j];
+> +			int irq = control->interrupt_position;
+> +			struct sdca_interrupt *interrupt;
+> +			const char *name;
+> +			int ret;
+> +
+> +			if (irq == SDCA_NO_INTERRUPT) {
+> +				continue;
+> +			} else if (irq < 0 || irq >= SDCA_MAX_INTERRUPTS) {
+> +				dev_err(dev, "bad irq position: %d\n", irq);
+> +				return -EINVAL;
 > +			}
 > +
->  			ret = sdca_irq_request_locked(dev, info, irq, interrupt->name,
-> -						      base_handler, interrupt);
-> +						      handler, interrupt);
->  			if (ret) {
->  				dev_err(dev, "failed to request irq %s: %d\n",
->  					name, ret);
+> +			interrupt = &info->irqs[irq];
+> +
+> +			if (interrupt->externally_requested) {
+> +				dev_dbg(dev,
+> +					"skipping irq %d, externally requested\n",
+> +					irq);
+> +				continue;
+> +			}
+> +
+> +			ret = sdca_irq_data_populate(component, function, entity,
+> +						     control, interrupt);
+> +			if (ret)
+> +				return ret;
+> +
+> +			ret = sdca_irq_request_locked(dev, info, irq, interrupt->name,
+> +						      base_handler, interrupt);
+> +			if (ret) {
+> +				dev_err(dev, "failed to request irq %s: %d\n",
+> +					name, ret);
+> +				return ret;
+> +			}
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(sdca_irq_populate, "SND_SOC_SDCA_IRQ");
+> +
+> +/**
+> + * sdca_irq_allocate - allocate an SDCA interrupt structure for a device
+> + * @dev: Device pointer against which things should be allocated.
+> + * @regmap: regmap to be used for accessing the SDCA IRQ registers.
+> + * @irq: The interrupt number.
+> + *
+> + * Typically this would be called from the top level driver for the whole
+> + * SDCA device, as only a single instance is required across all Functions
+> + * on the device.
+> + *
+> + * Return: A pointer to the allocated sdca_interrupt_info struct, or an
+> + * error code.
+> + */
+> +struct sdca_interrupt_info *sdca_irq_allocate(struct device *dev,
+> +					      struct regmap *regmap, int irq)
+> +{
+> +	struct sdca_interrupt_info *info;
+> +	int ret;
+> +
+> +	info = devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
+> +	if (!info)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	info->irq_chip = sdca_irq_chip;
+> +
+> +	devm_mutex_init(dev, &info->irq_lock);
+> +
+> +	ret = devm_regmap_add_irq_chip(dev, regmap, irq, IRQF_ONESHOT, 0,
+> +				       &info->irq_chip, &info->irq_data);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register irq chip: %d\n", ret);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	dev_dbg(dev, "registered on irq %d\n", irq);
+
+not sure how helpful this message might be, it'll be rather cryptic without additional context on which interrupt this code handles.
+
+> +
+> +	return info;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(sdca_irq_allocate, "SND_SOC_SDCA_IRQ");
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("SDCA IRQ library");
 
