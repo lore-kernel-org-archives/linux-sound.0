@@ -1,89 +1,126 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2574241CBA
-	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 05:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A2921C9F7
+	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 06:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749533363; cv=none; b=Q1GnVapOOOSSIKrcGdS2CV/P1Tb+NInaLHaPp5nKWIjXx2+l3QlS7fzuu6qDIZYvnAleA19RSLCxHie9gJpoEp1nxev1j0k6XwEjCrz9Qsllc7KKR5J9Cud/piIC7YkSkwp9ApyWUTr4uXyE6Oeeog1wVmOwj45sBmzODXyfC70=
+	t=1749537184; cv=none; b=ZILkmsFE3+hHUA5qD//Itr0b0/xgoOe2UGlVVzOQBHCM+J2XzVq4f6vstSrRTZV+mMZFEu+FP4iV/cg797vpKeDl9oPHfEtywchDRkowu8ZvJpMJd3tbS4mYYFS+OcUprJKxuQDkxNidZpJdz+pmsBOXfCNIA2pMbNWiZwi12b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749533363; c=relaxed/simple;
-	bh=dbQoRbu8bw3SwlzKgna/42qSxwpbUze97q6wZR6+/Fk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=abBccwaqMnN/t34TDgDMVE2TC4QErnUNbRmztQ8oko1pupSXMVgftV3dNS0yFmn7VMxf+5Wr2nRHHiAJfrTnR+OXgJrb/8rtmFDdWyTiday+2KzQvdJNq5DCBSOHP8tp55h4xvS/dV+GMnck7XLo2qCAOnDR/yZ0w3uZAQ19tNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5535e35b059so4802748e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 09 Jun 2025 22:29:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749533359; x=1750138159;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dbQoRbu8bw3SwlzKgna/42qSxwpbUze97q6wZR6+/Fk=;
-        b=quwBiPxMtVX09/pbALUF270OvcD8xQ57gdJ2fp3eRfJTADLBfMW6bP5Kf4CTaQpZN0
-         gZB7gmatKj1UrqPhuTpW8bgFT+zie6tZtplYrJuI/OS8ZeKrb8RdyNRZ1p18L5cLKfHq
-         MUz116F9j+jF3LbNUx5/R+zD62su+Rw0XKDLj22JqQxiDrgZZortW10xLRWPjx6IYtCC
-         hQKAvPA2zF4V0ZdaN8YxlINmvfarFAxgUIQW29J5k0eHO0ugEdQasd7ca5NCbZldpBw/
-         ToFPZy70gaRcdkWup1IDQ3Uzc0izjoa5fgveS2l4Hm0muIxgffhpvKd8Dyeo1bZHnPnL
-         c95Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVjcH2t0nD/+r2Kr0Fz9Ox3qYzNA6OHZk4YCU7IeRqw/2t/cgZruoxyO3NLKEL8ievVDOqh1F7OA33MMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy43K/Vi+FMa0tM9yBemMzFD10JhJjBiHh7bOPKoFD6j2H9Rit3
-	IhYQtULOeji/LuY65PfRqV2viE8tisyZNg98ZleXZDd8M5xrjqpx+hMx/Dl8aQhf08M=
-X-Gm-Gg: ASbGncvoucouko2vcbuTAfi27FvLA1VVBc0VPZ2jH9nxmopk6N+eruG68weA5KTc+uh
-	+V05qa+Z36DalaHKR9b1UvK+7UJxO+1EuecsK0cuGkqJBsm4tSud0+CCMFJF6nwgvG1HeF/31Uc
-	NwtTNBhcqj2NsfDnvNF4+MHHDWMyfjctzs8dtpWGqF+2wf77EusvnK6tCIWlbXpmLGMdKw3cb0U
-	lqCzAVjSFyKZori6jskkwZpqu4qpd9YIIUcRnYk4/u9VLyUUjL4gST3+71dxjvCHKQG8ncXRM8Q
-	mI+wfQ7FYBDt+c8UWRrHqNiJR9tgIRy+iabosRPMJqbJXqFD33Q9rjtK6jLDszD2AOinMfu3u0o
-	yRODHykMmfhEihcAjJi4=
-X-Google-Smtp-Source: AGHT+IEaht127BPxyV/WomxcWdSwMkqTzd3GXMAu/TNBdS7b3Q3TYPDChXGa39smfK0QyAGZQRG0vQ==
-X-Received: by 2002:a05:6512:3e1f:b0:550:e692:611b with SMTP id 2adb3069b0e04-5539319f287mr704755e87.16.1749533358513;
-        Mon, 09 Jun 2025 22:29:18 -0700 (PDT)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553676d77aesm1406868e87.88.2025.06.09.22.29.18
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Jun 2025 22:29:18 -0700 (PDT)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-32a64f8480eso58140541fa.1
-        for <linux-sound@vger.kernel.org>; Mon, 09 Jun 2025 22:29:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW+WUWNbbgL9GzoTjsR7+XGiPP+Zl6xVOmoDbC4qBCTgY2ewLaKn3caxA/vNpGNt4tkz+s4YjMp41cllA==@vger.kernel.org
-X-Received: by 2002:a2e:a547:0:b0:329:1550:1446 with SMTP id
- 38308e7fff4ca-32b12c5e810mr5685311fa.0.1749533358234; Mon, 09 Jun 2025
- 22:29:18 -0700 (PDT)
+	s=arc-20240116; t=1749537184; c=relaxed/simple;
+	bh=xWUNeZn/fUujpDjZn21+OrXlpDN5AyGFQixd+sVnGv0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VyTgBAZs3N0UZJFrsPb4S1hULKixt5RFN/wHGChP5MbG/Oe5CnKvRIfaDriUYSbxKAiiFB2A/AgToO7GEQ+qlV7O2T1JrDQcr2zcb3dNWJUEqYl13VT5rU17yol395HUzpy4w/6nLQRoBWZUJSLZtPQE+vmslJV6P+TMJWHTMrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mh6MbGHg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jiOe0Mty; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mh6MbGHg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jiOe0Mty; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mh6MbGHg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jiOe0Mty";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mh6MbGHg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jiOe0Mty"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B96FA211AD;
+	Tue, 10 Jun 2025 06:32:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749537179; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CwosfureBc1HkgXyB2mqgHkCAAAYd0di1JVE7J4yI/U=;
+	b=mh6MbGHgyQcwWjOG/nbJJeUi+njE/9i+9bdH96Cu68UR4EFyzujQ6V4bDNpHJhpuv7RLxC
+	40yjRjM1dOhZt4pJ2dgO767TDaRn1/TIuMD/RX1NboY6Sh5BRdkg5mH6m5Vx2Zagq9bZCE
+	zWxTErM3B2ZgsEI83hZybM0XkQ3iDW4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749537179;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CwosfureBc1HkgXyB2mqgHkCAAAYd0di1JVE7J4yI/U=;
+	b=jiOe0Mtyt083fHhOEhPTt8JD207pMzxVd+zfhtYFUboUl1pBBIXH/dJ2VDDajxAkzgH3Jd
+	9js9AsEj6zhqNuBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749537179; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CwosfureBc1HkgXyB2mqgHkCAAAYd0di1JVE7J4yI/U=;
+	b=mh6MbGHgyQcwWjOG/nbJJeUi+njE/9i+9bdH96Cu68UR4EFyzujQ6V4bDNpHJhpuv7RLxC
+	40yjRjM1dOhZt4pJ2dgO767TDaRn1/TIuMD/RX1NboY6Sh5BRdkg5mH6m5Vx2Zagq9bZCE
+	zWxTErM3B2ZgsEI83hZybM0XkQ3iDW4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749537179;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CwosfureBc1HkgXyB2mqgHkCAAAYd0di1JVE7J4yI/U=;
+	b=jiOe0Mtyt083fHhOEhPTt8JD207pMzxVd+zfhtYFUboUl1pBBIXH/dJ2VDDajxAkzgH3Jd
+	9js9AsEj6zhqNuBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90EBE139E2;
+	Tue, 10 Jun 2025 06:32:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id e9QoIpvRR2iycQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 10 Jun 2025 06:32:59 +0000
+Date: Tue, 10 Jun 2025 08:32:59 +0200
+Message-ID: <8734c814ys.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Chris Chiu <chris.chiu@canonical.com>
+Cc: tiwai@suse.com,
+	kailang@realtek.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix built-in mic on ASUS VivoBook X513EA
+In-Reply-To: <20250610035607.690771-1-chris.chiu@canonical.com>
+References: <20250610035607.690771-1-chris.chiu@canonical.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <8734c8bf3l.wl-kuninori.morimoto.gx@renesas.com> <87ikl46xar.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87ikl46xar.wl-kuninori.morimoto.gx@renesas.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 10 Jun 2025 13:29:06 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64jmnFYqzEBqpsoi1Evq4V9-CYubkz7Y4=xXy6C5vtOQQ@mail.gmail.com>
-X-Gm-Features: AX0GCFuyzK_pfgFmr1lYzWlrdGmWd3rkJt0gGDBDq03REYhwpKJghf2ewZJCPdc
-Message-ID: <CAGb2v64jmnFYqzEBqpsoi1Evq4V9-CYubkz7Y4=xXy6C5vtOQQ@mail.gmail.com>
-Subject: Re: [PATCH 20/37] ASoC: sunxi: Standardize ASoC menu
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-(Dropped non-maintainers from CC list)
+On Tue, 10 Jun 2025 05:56:07 +0200,
+Chris Chiu wrote:
+> 
+> The built-in mic of ASUS VivoBook X513EA is broken recently by the
+> fix of the pin sort. The fixup ALC256_FIXUP_ASUS_MIC_NO_PRESENCE
+> is working for addressing the regression, too.
+> 
+> Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
 
-On Tue, Jun 10, 2025 at 12:22=E2=80=AFPM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
-> Current Kconfig menu at [ALSA for SoC audio support] has no rules.
-> So, some venders are using menu style, some venders are listed each drive=
-rs
-> on top page, etc. It is difficult to find target vender and/or drivers
-> because it is very random.
->
-> Let's standardize ASoC menu
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Applied now.  Thanks.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+
+Takashi
