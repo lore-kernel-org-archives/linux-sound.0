@@ -1,81 +1,68 @@
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C06236424
-	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 18:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749578571; cv=pass; b=cvsK8yfTUc2yb7MuOlIGvywrsn84bKHrk+vzPnCbrdq3qh2ito4wanVVSiBHNTiNbn03qt9605iDrFG81h/T8j8ChR1Yd3eO2V0V2dt8z2XQw5CmVpcEXBRzh0COaFZWQfdmUO63ymPNi52MzztMQrqvj6WwnJYLnDZprLH5XZg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749578571; c=relaxed/simple;
-	bh=e/FaYhB3HkTHURkyM2WFMSiQ52kBNTMlOwJZH1piPxQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VUPZvnVB25k8VDKCNzPCylwthcwo5rU2aEPkRZCbVHlStXu3VWBHWgwjIznauNqgfylewubUGTtSI43U+VMWlQ9NBwG83W18qUj8lHSABULntyacQHyYqJxRxPbfJk0488YPl/7D4xHam1vp07bNVDkqtWWkoqzJFFe5P34zyf4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=digital-rabbithole.de; spf=none smtp.mailfrom=digital-rabbithole.de; dkim=pass (2048-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b=n/TGi//h; dkim=permerror (0-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b=t5DQqbNt; arc=pass smtp.client-ip=85.215.255.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=digital-rabbithole.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=digital-rabbithole.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4DB235062
+	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 18:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749579873; cv=none; b=LtYPWfcTLxF3rcIIbOayWWsUlLerdy84fJryDLDLJh9iqfyl35sust3CUhQE5v5goqSJ/TEIKgfQ0relQrdnMFltibgiqL5hJjvxYBwtW/rx1YhJlfkazC9QOvUKCUrcjKGVH4dfAjFdUWiP7hwfZ7hlVgpaqIyAVAQdfL1EJCU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749579873; c=relaxed/simple;
+	bh=sD0+jWcWj1cmPA9v0uGPUmjcPj/TYs7nmp29Qur/TNc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hmK93W9eovldAUvVbmESFwNSQPv4UTJAOsYBpj8Y2EbR8xEPCuuHxVul8c+UL+9AMXCfEyG33Qfe48LPuPnBNhW3VNoCb+LcqcqzM83cG3W28qCbGDDeE5vfBabK6MO5PDEqX096854mOtNOBLVwGMTI5sHS1cd4AFkfnLTx2t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K2yb74Wo; arc=none smtp.client-ip=209.85.222.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b="n/TGi//h";
-	dkim=permerror (0-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b="t5DQqbNt"
-ARC-Seal: i=1; a=rsa-sha256; t=1749577867; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=QwwWCM5EAMIWojN/FrK4LobEkp43KCID6nZuXkTt6PUVKOV0IG5+MtLrx6o1xCNGN4
-    asxmEJ0zaMr6qTfVzFxsxtAd2YeKjG8Rt0dgw3NSMLqaYU08WWOip/cihHPYI51n8V22
-    1iVHxDLWzfY5vQZbFnY2HnmFwR51WFgBcaUPZNsgYN1diDmvs4mQ2LqJy8euMItwyxfy
-    g2udeMLuETlAXsDuvXMuFtKgzxUZv5xkIWDgw1CpEUPwHPpCeKHO6fMmfvIn+/mySXlN
-    VV/Gc3lQWg5oAplGBm71HELEFPQNTmwrsoQmBrvTwtAn9SrNRYT130Vpq7FoVJE2hdg/
-    qerg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1749577867;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=LFp6nnAx0S5v64FS8/IsZyVPyoBqJx5oNsblu5xaEbU=;
-    b=KKdQm03KFOxExlvTjhXsbCjFH9zkXyz7FXofK84u1fgnIa9ZCO31wyeSpSgWeyGuDS
-    /sJ8jHr4dC/V3psrbyotm/a0FX1u2WEPhlmpDihIEA9NtO8eD/Ga+mrUolKf5ArOCovh
-    nrOX8frLoVByGb2QoR6nambPKgd9WXmSn/il1ePbudLZj2cAncgUbonDfYT+Vz005VJn
-    bnE17l7jns7l5gulRGhdC0ak3sT03ON2vol9QAlgTNoYcf81tIAm6v3FXXvV9rsh8wwL
-    /of+Lgt/fz+5xDuY4zLRjQGMJNKxfAFop3JqVUAX57/KuvXb7bnvTfAPuISzXbkDBQ5g
-    AhiA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1749577867;
-    s=strato-dkim-0002; d=digital-rabbithole.de;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=LFp6nnAx0S5v64FS8/IsZyVPyoBqJx5oNsblu5xaEbU=;
-    b=n/TGi//hfSSsvFQbAGh3VUJpvCwzwaiP9Rf3hTIWUDnmPib5a2icNUrj0KUfGfud1m
-    qd/R7vbcnLp14uiM44rb5cFwbIfOZ7i9u7Mu8U4/rto49vrPadGRj/2+p+gKFmG+3m3P
-    hAOeU5RdKIW/nOqKVnT5Np/iWudbHvqBkzqHp2FiFEAnc1w8dflyTqOAUA5m5qVNdrUu
-    6nNw1pn4GBetC1Nz7wuA1QjDdjrfd30oIZ04p5RiynIsY5WeUmv4laL4/zSINn00l6iu
-    BJ0M6V1ULr39qM2wKhHf3n7W4mJkudXlBdU3SJm3CezvEDVJ9gMsnJ1rvm6M3Es7An87
-    pEcQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1749577867;
-    s=strato-dkim-0003; d=digital-rabbithole.de;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=LFp6nnAx0S5v64FS8/IsZyVPyoBqJx5oNsblu5xaEbU=;
-    b=t5DQqbNtUtjYMnUU+sjfBNKTJEFWU5VoOtdUfj/y5b8iXziYskuGdQKqjXAvQUZo1W
-    nqftLpZQmuGoDM4XhNBA==
-X-RZG-AUTH: ":IHkHbA68c+1zn2gb8+6dxsBP09h2Do/Zi4V+rbxtNBl2hCipBO6GPyNXZ6xAUEuHlZnKbp4UbhpDgteKQ1Dc5rYYRejjsEqb4WrQK85vHAG31zgy+09F"
-Received: from localhost.localdomain
-    by smtp.strato.de (RZmta 51.3.0 AUTH)
-    with ESMTPSA id Y1c6d815AHp72d2
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Tue, 10 Jun 2025 19:51:07 +0200 (CEST)
-From: Lucy Thrun <lucy.thrun@digital-rabbithole.de>
-To: tiwai@suse.de
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	lkp@intel.com,
-	Lucy Thrun <lucy.thrun@digital-rabbithole.de>
-Subject: [PATCH v2 2/2] ALSA: hda/ca0132: Fix buffer overflow in add_tuning_control
-Date: Tue, 10 Jun 2025 19:50:12 +0200
-Message-ID: <20250610175012.918-3-lucy.thrun@digital-rabbithole.de>
-X-Mailer: git-send-email 2.45.1.windows.1
-In-Reply-To: <20250610175012.918-1-lucy.thrun@digital-rabbithole.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K2yb74Wo"
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-87ecd70679cso1934949241.0
+        for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 11:24:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749579871; x=1750184671; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l5OR86WXtJlmPNFlKGzNp6AS6Xl1F7AuncDjOXG/9s8=;
+        b=K2yb74WokGiO6alUrqSNkeOYz5MRO1N0tmyKNQaFPYwXMx5aYTH7KE5GBP8s9AZRzh
+         dYNvbEq35xy6yHBoyGwtWnvuq7tt3PY8qv6ElfjSe86sCs4qPqFqT0WzzchiZP459l+8
+         XHSvu8VGLagcCSt336MzLBjRM1YRfW/xhtwoEf0fkRGqiZhvYgCEoED3Gi9krrPXHNzN
+         VpvMHLFIKaUrzjS01pze1BF70YdL8U3hWGmZE3Mb7fvp9IH3raZrQ/3Dtpvjt5gw3YWz
+         UoBW28Y8SqK+jklVRJeaV4nhM9yH6o2z5CM9UNSmw4SbVD5VOez6mZIzq4vaobsNeMCX
+         wDdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749579871; x=1750184671;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l5OR86WXtJlmPNFlKGzNp6AS6Xl1F7AuncDjOXG/9s8=;
+        b=AB2iczApnP/azAtRRDjt2pEz96OB7JUYalLtOHYgvAK2X+L9m8LD8mdH3yONhNYKZV
+         aNIsS+uddtnDYaJ/BYy4PoBLm+VPvgqIqanAH/RyAq5KBp1dM778vqrlqw184NNvpRoD
+         8Tghmf5GyovQb0v971eMwXxNZ+e9dnwrgKZLJltICKA6DwK8Nfv02qRQP9EjX73TRPjT
+         O6q3/7I7jJOjQqUJgwxk2xDFEBod5CaZm2MrrJlcnzp2+e+aGvAL6QVeHOED4fSjYWy+
+         M++cUh/uNk8Y3sc4QKTADnfjfVHvP7+8cLqK9UvmuVZUWHiCcbjgCr5JVofLoZSISkTN
+         ruBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXdrnKbu68nRY0b8ohNyeVz4w/GDSm5/HsnZhX/ompLTScsr/zWvsONWurNbUavTsOJxy2H3Oq9hEEQFA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAPqh+xlTKNIvzEOSv8EW133za3vhO4g0Z3Nql81xNRmAJQ/18
+	i18XkGn37DqU+fO9xh+AYQHVSzf27KXzqTMNKZXKJXchbBR3yJBjaSTi
+X-Gm-Gg: ASbGncs/b2WOdLM9B/pYgH8WrWj3qNCThKf+1FnP1bEjXdzETkG8UNSG3e93B6orbii
+	klrggXeffzXWMAJ+ilaXxsMoMbKw8rasRxg/tmNgcaeY7W+HEMtJbDv1iXTpAa01jqNS7sFmv2F
+	Y/WvY+fvnZxUJ9C03s6ogXtoPjKyZvp9FvCdt7KIpJeRiiz5M560B34N2aHPVp7P0RrOxw/jHG3
+	ZV1rQSMDcRmyYULCCWVP3SvqbZh2xhqOf2rCajH1SK/6OgsfQuDAYvnW0DnletHu6hzjVVWttRd
+	ZcQCljK+9g3+uZ9UvAuo6ZtxJVRPbw83gPDbsu2Jcxe/N0ub0w==
+X-Google-Smtp-Source: AGHT+IGBZDLSAqF3B7DkkAhTuoFpP+yYyrs+PHGGvli6xSfM/sJpcMOFWkHX3SSmFMuqXVUxVxzqZg==
+X-Received: by 2002:a05:6122:511a:10b0:531:188b:c199 with SMTP id 71dfb90a1353d-5312211dc12mr451148e0c.5.1749579871283;
+        Tue, 10 Jun 2025 11:24:31 -0700 (PDT)
+Received: from geday ([2804:7f2:800b:5a56::dead:c001])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53113c0d850sm1774566e0c.35.2025.06.10.11.24.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Jun 2025 11:24:30 -0700 (PDT)
+Date: Tue, 10 Jun 2025 15:24:26 -0300
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+To: Lucy Thrun <lucy.thrun@digital-rabbithole.de>
+Cc: tiwai@suse.de, perex@perex.cz, linux-sound@vger.kernel.org,
+	lkp@intel.com
+Subject: Re: [PATCH v2 0/2] Regarding recent patches
+Message-ID: <aEh4WvURfXKjFSBx@geday>
 References: <20250610175012.918-1-lucy.thrun@digital-rabbithole.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -83,33 +70,31 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610175012.918-1-lucy.thrun@digital-rabbithole.de>
 
-The 'sprintf' call in 'add_tuning_control' may exceed the 44-byte buffer if either string argument is too long. This triggers a compiler warning.
-Replaced 'sprintf' with 'snprintf' to limit string lengths to prevent overflow.
+On Tue, Jun 10, 2025 at 07:50:10PM +0200, Lucy Thrun wrote:
+> Hello Takashi,
+> 
+> Thank you for the response to my last patches.
+> I've created them in response to the kernel test warnings.
+> I apologise for the left out description, while I have experience with git,
+> I'm new to using it via email submission and must have not realised after getting home from work.
+> I hope the following patches are suiting your requirements better.
+> 
+> Regards,
+> A Linux enthusiast trying to get their soundcard to work without having to deal with dkms after every distro hop,
+> Lucy Thrun
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202506100642.95jpuMY1-lkp@intel.com/
+Hi Lucy,
 
-Signed-off-by: Lucy Thrun <lucy.thrun@digital-rabbithole.de>
----
- sound/pci/hda/patch_ca0132.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I know I speak for Takashi when I say no worries, thank you and welcome!
 
-diff --git a/sound/pci/hda/patch_ca0132.c b/sound/pci/hda/patch_ca0132.c
-index 491d45d652dd..1904964591db 100644
---- a/sound/pci/hda/patch_ca0132.c
-+++ b/sound/pci/hda/patch_ca0132.c
-@@ -4410,7 +4410,7 @@ static int add_tuning_control(struct hda_codec *codec,
- 	}
- 	knew.private_value =
- 		HDA_COMPOSE_AMP_VAL(nid, 1, 0, type);
--	sprintf(namestr, "%s %s Volume", name, dirstr[dir]);
-+	snprintf(namestr, sizeof(namestr), "%s %s Volume", name, dirstr[dir]);
- 	return snd_hda_ctl_add(codec, nid, snd_ctl_new1(&knew, codec));
- }
- 
--- 
-2.45.1.windows.1
+But I'd add: Welcome, to the free software maintenance burden nightmare,
+where git is always ready to bite you.
 
+:)
+
+Regards,
+Geraldo Nascimento
