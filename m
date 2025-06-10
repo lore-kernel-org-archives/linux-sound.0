@@ -1,41 +1,76 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2769428F505
-	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 12:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749557958; cv=none; b=RIC1T158f6k5pw0jZOqrPLw+B9xMXZ0sWP4LzfQEhN3IXyVH7vEdUMvA94ckJMbixiHGpcrUobQB0QaHAusxNTXTrP6dlZfsN4NKm+7/4EMFH/qzMA31MCuZihGeG9RiI+xaSuVqgjvVcXsrJaLt/y8pp+OaC7/Je2f5Yj1jWB0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749557958; c=relaxed/simple;
-	bh=1TdCJVE90zc0uyWujCuswdWM8W/ne8tamClZI14mU+E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B//QecgThm1qHNmGB9Vwi0+XHE3YQ3cPLQXx0nPTlpe4KEW4GTASPPbOKLJwP4EjZaw5SNn1BkB11Xg3jER5oSzObaG0w5MWZn0debg2nKOqN2uh8HFAVI7P5vGH1ji8J5Qz1vGyWhi8oM1FZITW6VsovilxXiFXz77RvIfR24I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VsIkrWmG; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91482918C6
+	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 12:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.220
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749558377; cv=pass; b=q2IX9JinhnqwAZ/ShaXkufuRsh3ZaCcajbyurRfo4zLy1SaBcIq0x7xsQInyTw9BhLWKNEKk3zpDzr5rUmzQz0ET8dWeePOZN8cAhbBDiVWYzpf8wGz0ZiCGj+ujxnAgQAGS8qqYCy4QE8MruYegtqf3LYxtXivdbJSaYCvkALc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749558377; c=relaxed/simple;
+	bh=6xLYooeRA4v1nOnqvUH+TKkf8pa4qz9qpvIO6l0iu00=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DMtklZxfk4URcROd7gyG41oKnV7W/gMQrnYdy22vz/M1Y9DXENjschJiKshmUSvEI36IJdiLLYgAPNcEYl3811jdF6oNdJLPlsFi+IPIplYH+EeAKMg7TSdaGEMUH22sXxNthv1gzO5PkuDTwskvAayvZCYQRamPJHLVrp50RuE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=digital-rabbithole.de; spf=none smtp.mailfrom=digital-rabbithole.de; dkim=pass (2048-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b=e1oPepRb; dkim=permerror (0-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b=rf7y+tDH; arc=pass smtp.client-ip=81.169.146.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=digital-rabbithole.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=digital-rabbithole.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VsIkrWmG"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1749557943;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=YUwa1ViRWulotG3v7RHXQ5HOR2NEuBqQc72Nd6jY0H4=;
-	b=VsIkrWmGB5orYIpgBr//Td/JFwFBSYO/Ae8YRUZuOP6+A8qMRyilZ13SHGCIrZK3hnfOc6
-	0DY8vuuTLC0zeIk/7RwYynJXvYVly65vcbo91NkIrTMcvueqAdPdtrEQ0DHcpuh38A4Jbe
-	FrG+/onZjg/oJs277tYlHuxyw1gexvU=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	Takashi Iwai <tiwai@suse.de>,
+	dkim=pass (2048-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b="e1oPepRb";
+	dkim=permerror (0-bit key) header.d=digital-rabbithole.de header.i=@digital-rabbithole.de header.b="rf7y+tDH"
+ARC-Seal: i=1; a=rsa-sha256; t=1749558362; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=Gzqx9Vv77/ITz3xzr7gfTeRE2msFWDZyfmXIc422/feLVGL3r8IBvphqLK9LArZYVO
+    PmB46mThlIEbZc9phT/yC23e9SL5FQ3eyPmMRxVfxyeGrP12IhaWMIW/7RZ6n473Tfbg
+    WapqcPbIoZbkpXfrcJ3cg8J4EXC5QJzUVG5eqO9gMgPRhs965WSBeoierrFY945JQKFl
+    VoBc4H9HWwYhspBcx5ty4svddz8Oi+SHkCwffyg+U1zmGA22xiVg7YImBgdmqJuX4DCj
+    u0u0zlExOWpAwWiI4H05AqarhLh+hI3T+Y9Cjog6aTyjBbbd3syNcB+VRXq+htFc8LC6
+    4NLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1749558362;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=lgoLDHH6/IbbZyRF1opII5a58KtuvLvjhXM9JGYxa0s=;
+    b=nOZSDaIUki7IaVOgIbtMUo2MkVOtUzUP2TU3tW5g15jjigoq70INqA7JH1ZQbKjKrg
+    qrpUh3x/NOt/25nM/SYp8bE4SffKvC3LP9F8qHQYOCg4M+VOb5tCskTC9JB37xPHJb/K
+    tNShzNqx3pNtq57iZhUnRdd7Xc3dzY6GKq3L05HHLTdeYSGeLtdIsuglmgVqhXs0aCAo
+    NyQv3CkRMFDZCn7N4+0t0PZivWMrvwMuyhCiantWvI9LQc2GNSZBodq3adBKPFXyd//C
+    HW9muA1dhmhNtaMiNsoxCehfBot2QdQAOmYrwvDZcPnu6FTk9AHz5ZKBoc9u/L0ofvaH
+    y/lA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1749558362;
+    s=strato-dkim-0002; d=digital-rabbithole.de;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=lgoLDHH6/IbbZyRF1opII5a58KtuvLvjhXM9JGYxa0s=;
+    b=e1oPepRbB1WO3MUsThnXEuxer76X6PEdx0v9SudEp94R4K6h4bi1AAAN81K9x9R8PY
+    LOWi85NpxCkNC/DbQ4eG0EKF3do8UL9eau7jUpq9U/bx37lGqZLKo0yrHs8RS1QYPyqz
+    UTm9OdiF6Ae0T3K5esMQNVmN6kmFb63w/8MGd40pWKAfimc1ULZ6k8Dej5oLMOIG9HGe
+    h55Wre0jewUYnYbIUYKnGRX5D7Sbt8e7kjFYJJ2IafKpeAc62DBrCdTlQGC4Ko3Ma6Sl
+    vySMUQ6/3YBwddgXXBOuwJHznBSjaCd01MliD2YZHY58ygKnvgo096IS4jW8QN2pmjwI
+    vDhQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1749558362;
+    s=strato-dkim-0003; d=digital-rabbithole.de;
+    h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=lgoLDHH6/IbbZyRF1opII5a58KtuvLvjhXM9JGYxa0s=;
+    b=rf7y+tDHwJQg0NswWyyvWTFSD+TGcpeQ20y1Zt9z+XBBOKYpRqPdzpxcrMyrQ4LJeX
+    yxpn7D+cicjnkJPfAPDQ==
+X-RZG-AUTH: ":IHkHbA68c+1zn2gb8+6dxsBP09h2Do/Zi4V+rbxtNBl2hCipBO6GPyNXZ6xAUEuHlZnKbp4UbhpDgteKQ1Dc5rYYRejjsEqb4WrQK85vHAG31zgy+09F"
+Received: from localhost.localdomain
+    by smtp.strato.de (RZmta 51.3.0 AUTH)
+    with ESMTPSA id Y1c6d815ACQ21Ap
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Tue, 10 Jun 2025 14:26:02 +0200 (CEST)
+From: Lucy Thrun <lucy.thrun@digital-rabbithole.de>
+To: tiwai@suse.de
+Cc: perex@perex.cz,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: mips/sgio2audio: Replace deprecated strcpy() with strscpy()
-Date: Tue, 10 Jun 2025 14:18:33 +0200
-Message-ID: <20250610121835.2908-2-thorsten.blum@linux.dev>
+	lkp@intel.com,
+	Lucy Thrun <lucy.thrun@digital-rabbithole.de>
+Subject: [PATCH 1/2] ALSA: hda/ca0132: Use NULL instead of 0 for pointer assignment
+Date: Tue, 10 Jun 2025 14:24:37 +0200
+Message-ID: <20250610122438.820-1-lucy.thrun@digital-rabbithole.de>
+X-Mailer: git-send-email 2.45.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,59 +78,31 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="us-ascii"
 
-strcpy() is deprecated; use strscpy() instead.
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506100842.d8lwwdwU-lkp@intel.com/
 
-No functional changes intended.
-
-Link: https://github.com/KSPP/linux/issues/88
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+Signed-off-by: Lucy Thrun <lucy.thrun@digital-rabbithole.de>
 ---
- sound/mips/sgio2audio.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ sound/pci/hda/patch_ca0132.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/mips/sgio2audio.c b/sound/mips/sgio2audio.c
-index 4e2ff954ff59..1af177f25c68 100644
---- a/sound/mips/sgio2audio.c
-+++ b/sound/mips/sgio2audio.c
-@@ -16,6 +16,7 @@
- #include <linux/platform_device.h>
- #include <linux/io.h>
- #include <linux/slab.h>
-+#include <linux/string.h>
- #include <linux/module.h>
+diff --git a/sound/pci/hda/patch_ca0132.c b/sound/pci/hda/patch_ca0132.c
+index cfe422a79703..491d45d652dd 100644
+--- a/sound/pci/hda/patch_ca0132.c
++++ b/sound/pci/hda/patch_ca0132.c
+@@ -4385,8 +4385,8 @@ static int add_tuning_control(struct hda_codec *codec,
  
- #include <asm/ip32/ip32_ints.h>
-@@ -685,7 +686,7 @@ static int snd_sgio2audio_new_pcm(struct snd_sgio2audio *chip)
- 		return err;
- 
- 	pcm->private_data = chip;
--	strcpy(pcm->name, "SGI O2 DAC1");
-+	strscpy(pcm->name, "SGI O2 DAC1");
- 
- 	/* set operators */
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK,
-@@ -700,7 +701,7 @@ static int snd_sgio2audio_new_pcm(struct snd_sgio2audio *chip)
- 		return err;
- 
- 	pcm->private_data = chip;
--	strcpy(pcm->name, "SGI O2 DAC2");
-+	strscpy(pcm->name, "SGI O2 DAC2");
- 
- 	/* set operators */
- 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK,
-@@ -892,8 +893,8 @@ static int snd_sgio2audio_probe(struct platform_device *pdev)
- 		return err;
- 	}
- 
--	strcpy(card->driver, "SGI O2 Audio");
--	strcpy(card->shortname, "SGI O2 Audio");
-+	strscpy(card->driver, "SGI O2 Audio");
-+	strscpy(card->shortname, "SGI O2 Audio");
- 	sprintf(card->longname, "%s irq %i-%i",
- 		card->shortname,
- 		MACEISA_AUDIO1_DMAT_IRQ,
+ 	knew.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
+ 			SNDRV_CTL_ELEM_ACCESS_TLV_READ;
+-	knew.tlv.c = 0;
+-	knew.tlv.p = 0;
++	knew.tlv.c = NULL;
++	knew.tlv.p = NULL;
+ 	switch (pnid) {
+ 	case VOICE_FOCUS:
+ 		knew.info = voice_focus_ctl_info;
 -- 
-2.49.0
+2.45.1.windows.1
 
