@@ -1,112 +1,101 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD13828ECF7
-	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 12:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2769428F505
+	for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 12:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749557824; cv=none; b=Zlfhwmze28f3umGZx63fv1rrdvubnFCT4X6ykiNjQyRSapc5xZHbNgZ27OBEJHEY93eSzJcCcJNOM9rl/m02ZjP58SxPRMdyY5FYWhXZkf8SO5GdZv4Amlijj8PB/5D/aT6nQS+x/LBgtFc/PAIjkDHGOLzs8orMIjGKkCdTCTw=
+	t=1749557958; cv=none; b=RIC1T158f6k5pw0jZOqrPLw+B9xMXZ0sWP4LzfQEhN3IXyVH7vEdUMvA94ckJMbixiHGpcrUobQB0QaHAusxNTXTrP6dlZfsN4NKm+7/4EMFH/qzMA31MCuZihGeG9RiI+xaSuVqgjvVcXsrJaLt/y8pp+OaC7/Je2f5Yj1jWB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749557824; c=relaxed/simple;
-	bh=siXBLzRLss7mh07NwalB4yKgr7YnqKr9rIj6Xo6f3j4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=izGJe5BxF7gWu5PkyjAp9G7062SUww9A+ktG7d8nhZ2GCiTSulABCNJaixGounC22Dy6iTVee8Hh4SVVtiOrfYKX9l5Nvysy0Vl4rNj6kW0qK5QgsOT+i+sTAtWyZm8+eGYSrNghK8IBfiRe0EqjT6DyjXHA/mqES1wgAWn4Ekg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xKAYnwT0; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1749557958; c=relaxed/simple;
+	bh=1TdCJVE90zc0uyWujCuswdWM8W/ne8tamClZI14mU+E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B//QecgThm1qHNmGB9Vwi0+XHE3YQ3cPLQXx0nPTlpe4KEW4GTASPPbOKLJwP4EjZaw5SNn1BkB11Xg3jER5oSzObaG0w5MWZn0debg2nKOqN2uh8HFAVI7P5vGH1ji8J5Qz1vGyWhi8oM1FZITW6VsovilxXiFXz77RvIfR24I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VsIkrWmG; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xKAYnwT0"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5532e0ad84aso5601603e87.2
-        for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 05:17:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749557821; x=1750162621; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=siXBLzRLss7mh07NwalB4yKgr7YnqKr9rIj6Xo6f3j4=;
-        b=xKAYnwT01L2nhypvYKscjinTuM31ltvKGf5E3UmypxMkAwpbw3718/cE2rbHHKcZNz
-         Twzyryv3vHidqjN9rTY4zlibzIYqXCC7qtrthfAKCmLYrhLoF+3+ratQCgG38FhZ7mEK
-         bCLGlqOEZLloWdF8ACmzbyRRiwPhp3b2pjzLa+IPetGeksw5pVXtLJJkWbx1wNzq0X1i
-         u3M2Ag8GcLV9JpROERwk6wd7dZMrkuzwyt4y4m6KXmkuDFZTzhG7ZYnTSNU0/OTaMTJN
-         i8XbF0aThVtJ0UlYncCosCYbtpFwIwtCOar/SgjJTxlhXzRIBmIncQZhqpT0ajXjCUVA
-         TFIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749557821; x=1750162621;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=siXBLzRLss7mh07NwalB4yKgr7YnqKr9rIj6Xo6f3j4=;
-        b=clmSZxvYUxtLz/yYWqdwR9//0MVoQejtVq49GIXxrdAhtnkNx3Nu+BEQXoGvnFxMgq
-         0++6k2NLA9f9ZTz4fq1TBRSsxNsA+xdA4rjANdgjM+0qg3foZg0U1U8V9oA+slvoP+ve
-         bdabbdCHyK+MY1kNt3Ps9JIHh99Rj1OIf8zHHKsAjlmxTdwI5mTvALL0OhWSYv4hiqI8
-         smfeJ51XmFtTWPGyYPIkOH5z2EdltkbUkA5jYALFDGeuhS72edfJx8AZMBCb3nnzMyh/
-         yGUeddJ1QA1w3H1u/+C3VuHGi8tHCPnp1WSqUDzqnnab31a09iKM5C33P0aQmsffuVax
-         Fdxw==
-X-Forwarded-Encrypted: i=1; AJvYcCXsKxO7n54r2DNl2ndGLyzNXtuPojHwhNBjwW+pR3bB+VSgKtzR5VwqcHDlFZ1xyGeMEdCa9RglsT1VGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY3xjDYdtOlRlZjaWk7OnzaYNz9cefkVq+9cprPY1d0qYCHcuk
-	qNcWRCAhmJLB5jmOlSP+xaOYW2UmrbAxKfE8eW5vr52XhYxmHb1jNPAbdqvf3F58F9uAha6WRdS
-	KlNHgTJ6jSFiC8EZuDibXOfSCqUxcPTVjz28LpkGA4A==
-X-Gm-Gg: ASbGncvd+BpcHTAf8Ybw+1CknWWn2a/jD4YDopbiYr6tc/h/48n0bbyvppzP0sGZiJR
-	I9QbVsbKWCQIa+NUUg+c2IBZ8VICkV3xzA60q84axHBxNuzJeGpCY8GxtiA3hzfgHW0IXmRltMm
-	siGZDp1+7627LIy3r/gjhvfVYww0KB7QveRrYbLvvs+wvDDeZFRa2uLQ==
-X-Google-Smtp-Source: AGHT+IFQxMti2+Q8Uenwhc0/S6UdaliHxGCkJGgDod8emAA4asQK/90KUnu0JtAhA4sI4nKXBC2mhVRJZkpkWFN1Jcw=
-X-Received: by 2002:a05:651c:2211:b0:32a:8591:66a9 with SMTP id
- 38308e7fff4ca-32adfbb0c50mr43449421fa.6.1749557820819; Tue, 10 Jun 2025
- 05:17:00 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VsIkrWmG"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1749557943;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=YUwa1ViRWulotG3v7RHXQ5HOR2NEuBqQc72Nd6jY0H4=;
+	b=VsIkrWmGB5orYIpgBr//Td/JFwFBSYO/Ae8YRUZuOP6+A8qMRyilZ13SHGCIrZK3hnfOc6
+	0DY8vuuTLC0zeIk/7RwYynJXvYVly65vcbo91NkIrTMcvueqAdPdtrEQ0DHcpuh38A4Jbe
+	FrG+/onZjg/oJs277tYlHuxyw1gexvU=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: mips/sgio2audio: Replace deprecated strcpy() with strscpy()
+Date: Tue, 10 Jun 2025 14:18:33 +0200
+Message-ID: <20250610121835.2908-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
-In-Reply-To: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 10 Jun 2025 14:16:49 +0200
-X-Gm-Features: AX0GCFuA2Dfvx1J77MshD7Tzhu9rwDlijvkgXfC-wltdCoDdq-4uVh1ABAKFvmw
-Message-ID: <CACRpkdaQLq3YGfOg81gt5=1Wh2ZkoKHeK6H=NWaeW9aLbX4VCA@mail.gmail.com>
-Subject: Re: [PATCH 00/17] pinctrl: Constify pointers to 'pinctrl_desc' and more
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, 
-	Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
-	Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
-	Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
-	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Sean Wang <sean.wang@kernel.org>, Jesper Nilsson <jesper.nilsson@axis.com>, 
-	Lars Persson <lars.persson@axis.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Damien Le Moal <dlemoal@kernel.org>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
-	Hal Feng <hal.feng@starfivetech.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
-	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org, 
-	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Krzysztof,
+strcpy() is deprecated; use strscpy() instead.
 
-On Wed, May 28, 2025 at 12:41=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+No functional changes intended.
 
-> In several drivers pointers to 'struct pinctrl_desc' is not modified, so
-> since core does not modify it, it can be made as const.
+Link: https://github.com/KSPP/linux/issues/88
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/mips/sgio2audio.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-will you rebase this series on v6.16-rc1, fix the snags and send a new vers=
-ion?
-It's all nice cleanups so it'd be great to just merge this.
+diff --git a/sound/mips/sgio2audio.c b/sound/mips/sgio2audio.c
+index 4e2ff954ff59..1af177f25c68 100644
+--- a/sound/mips/sgio2audio.c
++++ b/sound/mips/sgio2audio.c
+@@ -16,6 +16,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/io.h>
+ #include <linux/slab.h>
++#include <linux/string.h>
+ #include <linux/module.h>
+ 
+ #include <asm/ip32/ip32_ints.h>
+@@ -685,7 +686,7 @@ static int snd_sgio2audio_new_pcm(struct snd_sgio2audio *chip)
+ 		return err;
+ 
+ 	pcm->private_data = chip;
+-	strcpy(pcm->name, "SGI O2 DAC1");
++	strscpy(pcm->name, "SGI O2 DAC1");
+ 
+ 	/* set operators */
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK,
+@@ -700,7 +701,7 @@ static int snd_sgio2audio_new_pcm(struct snd_sgio2audio *chip)
+ 		return err;
+ 
+ 	pcm->private_data = chip;
+-	strcpy(pcm->name, "SGI O2 DAC2");
++	strscpy(pcm->name, "SGI O2 DAC2");
+ 
+ 	/* set operators */
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK,
+@@ -892,8 +893,8 @@ static int snd_sgio2audio_probe(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
+-	strcpy(card->driver, "SGI O2 Audio");
+-	strcpy(card->shortname, "SGI O2 Audio");
++	strscpy(card->driver, "SGI O2 Audio");
++	strscpy(card->shortname, "SGI O2 Audio");
+ 	sprintf(card->longname, "%s irq %i-%i",
+ 		card->shortname,
+ 		MACEISA_AUDIO1_DMAT_IRQ,
+-- 
+2.49.0
 
-Yours,
-Linus Walleij
