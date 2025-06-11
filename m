@@ -1,45 +1,40 @@
-Received: from mail.mleia.com (mleia.com [178.79.152.223])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5455626988E;
-	Wed, 11 Jun 2025 10:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.79.152.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA49233722;
+	Wed, 11 Jun 2025 10:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749636220; cv=none; b=ZM+bBLFI/kXfanKCnFnv99Cfbm9862Fn8gGk36PU3TinWNorfISRvq/MRq47X7FGuvOd4s6q+gw3e6Bcvf1hDpPiA2Ga66DS47AGaspDsRcftAymyMrqzKdLS2OqyDsczMI6PP9a5sMkeMd9+SJTuriwiYjw2DhdCnBpMOfekdk=
+	t=1749637342; cv=none; b=qZL+mbMm4tfpQuZI5mcuLjyxsCSoxVPcD+4F4De9rZESTXnI+T1v/L9hUsnMJrRdbxIqjWuXrF0tQH5ZAgmbmMfbnQUIVy7zJGyHk1Ywhj/EvhaGjJ1jxdkLCqUfR9tP/7Y9+LZJ21ZGZbaw8quXDVJ3vpjPv53n+jbtd3EIpLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749636220; c=relaxed/simple;
-	bh=ZELWje44IQXg+aqRqhMjZlzmAPP8bdbQVZYOFJq3M9g=;
+	s=arc-20240116; t=1749637342; c=relaxed/simple;
+	bh=4b8PduoACBUaCTjAzlGQ9Kuyj+rMJBqCfxKWwFHLieI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jPwi2aCIyJBP1/jIqYMSsWp8Nr9duv8gpVAemQ20wbc4cbKB/W0p2uqFUkaZL5QygGnPBAZiThvwXbnoBQoeAJSEtcrNJH3AkQCqNr7TC/7I86hGxHxIXbaonHK8R4aimiR3rAZt5kNkhSL1n7iO8/0W/1BQqDoJocRH8dKh3OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com; spf=none smtp.mailfrom=mleia.com; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=Jxt6xsAg; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=Jxt6xsAg; arc=none smtp.client-ip=178.79.152.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mleia.com
+	 In-Reply-To:Content-Type; b=R7t7kQNyZ7Lncn20lyqTjxebRmVS6PpXbH2C3WWxQWV2UCkBMZOjEAY+BytdvxjlSKOwXSQ825mqwo4PUw0jRYqbr7UHrpUL+9aFH/5ahnic3xM4sOrJGMA4MOJmS6A8HiK/hqsWOKDjeDb5Nc02yf68JSDwwbbCF38NGPaW2WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hLGriKWW; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="Jxt6xsAg";
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="Jxt6xsAg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1749635665; bh=ZELWje44IQXg+aqRqhMjZlzmAPP8bdbQVZYOFJq3M9g=;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hLGriKWW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1749637338;
+	bh=4b8PduoACBUaCTjAzlGQ9Kuyj+rMJBqCfxKWwFHLieI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Jxt6xsAgMAOUb4jl76i3Cw/ob+3g27CDrEJ11UaNWweARmh3pASKr9vGVkS92IFac
-	 YPXA6hqSgGV5dnyifiEPzFxSuWmHwqtnnBorcndP4VXu30erdJBfP8YrJ46WtqkT2C
-	 ZB5SXynEGjYF90uyMsBkLTP7/K9tKTjfvpNQc65M4ZFGcmOJyetoZJbQyfgMTcccnC
-	 ovv/hF2800vFjHZenrXZ9Ib3Cs3634CyeipOu5H15sVoNWHX/j8qicu106Z5ZeHvjj
-	 l5CXC3vkbBXv/RUgPw6tOFDOWz5MZGDnaCREKgxUUUqRvZgLkdcVlwdN1MIjOJGq3p
-	 fGRPXfFbZHprg==
-Received: from mail.mleia.com (localhost [127.0.0.1])
-	by mail.mleia.com (Postfix) with ESMTP id 964313C153A;
-	Wed, 11 Jun 2025 09:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1749635665; bh=ZELWje44IQXg+aqRqhMjZlzmAPP8bdbQVZYOFJq3M9g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Jxt6xsAgMAOUb4jl76i3Cw/ob+3g27CDrEJ11UaNWweARmh3pASKr9vGVkS92IFac
-	 YPXA6hqSgGV5dnyifiEPzFxSuWmHwqtnnBorcndP4VXu30erdJBfP8YrJ46WtqkT2C
-	 ZB5SXynEGjYF90uyMsBkLTP7/K9tKTjfvpNQc65M4ZFGcmOJyetoZJbQyfgMTcccnC
-	 ovv/hF2800vFjHZenrXZ9Ib3Cs3634CyeipOu5H15sVoNWHX/j8qicu106Z5ZeHvjj
-	 l5CXC3vkbBXv/RUgPw6tOFDOWz5MZGDnaCREKgxUUUqRvZgLkdcVlwdN1MIjOJGq3p
-	 fGRPXfFbZHprg==
-Message-ID: <2ae6aa29-ea42-4fdf-a0ae-8cd088c88786@mleia.com>
-Date: Wed, 11 Jun 2025 12:54:21 +0300
+	b=hLGriKWWoCwGqWdh1GbD0GObWrxIh27iLleEURTa0gamLYw1slQuzfcKHMThAZbbD
+	 u/vWvaGQDSIvec+qPx4kRkcu84Q3dsS2iEAn0TZgTlHYxEkQaKVXUOdN1CWlPz2Pfw
+	 78Vi4zza2iDTen1lja1G3CwBtqnyHtgtd1ULn/QU4QIJQEH75hjpltDGZoaYdZrf/F
+	 e8odADGznQabfvc23h6j2ZZ1CzL4S4POiylYfoRNYYiYnT89tSXS2ARYxerv4vP+/0
+	 aA2Fyqq9t/mCPGrtj+2cjexHHTob+S3WGIb0LDbfY67LCGPZu3Ce1zxacePla06KqF
+	 FR20WHeTAJipQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A640317E0C99;
+	Wed, 11 Jun 2025 12:22:17 +0200 (CEST)
+Message-ID: <89e2699a-94cc-4d1d-9788-2c5bce1c361c@collabora.com>
+Date: Wed, 11 Jun 2025 12:22:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,81 +42,49 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 16/17] pinctrl: Constify static 'pinctrl_desc'
-Content-Language: ru-RU
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
- Jesper Nilsson <jesper.nilsson@axis.com>,
- Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>,
- Michal Simek <michal.simek@amd.com>, Emil Renner Berthing <kernel@esmil.dk>,
- Jianlong Huang <jianlong.huang@starfivetech.com>,
- Hal Feng <hal.feng@starfivetech.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
- <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
-From: Vladimir Zapolskiy <vz@mleia.com>
-In-Reply-To: <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+Subject: Re: [PATCH v2 00/13] ASoC: mediatek: use reserved memory or enable
+ buffer pre-allocation
+To: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Jiaxin Yu <jiaxin.yu@mediatek.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250424102509.1083185-1-wenst@chromium.org>
+ <aCRaTY76dnaavsrd@finisterre.sirena.org.uk>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <aCRaTY76dnaavsrd@finisterre.sirena.org.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
-X-CRM114-CacheID: sfid-20250611_095425_660571_DE75DF41 
-X-CRM114-Status: UNSURE (   7.40  )
-X-CRM114-Notice: Please train this message. 
 
-On 6/11/25 09:13, Krzysztof Kozlowski wrote:
-> The local static 'struct pinctrl_desc' is not modified, so can be made
-> const for code safety.
+Il 14/05/25 10:54, Mark Brown ha scritto:
+> On Thu, Apr 24, 2025 at 06:24:54PM +0800, Chen-Yu Tsai wrote:
 > 
-> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->   drivers/pinctrl/berlin/berlin.c                    | 2 +-
->   drivers/pinctrl/cirrus/pinctrl-cs42l43.c           | 2 +-
->   drivers/pinctrl/mediatek/pinctrl-airoha.c          | 2 +-
->   drivers/pinctrl/pinctrl-artpec6.c                  | 2 +-
->   drivers/pinctrl/pinctrl-bm1880.c                   | 2 +-
->   drivers/pinctrl/pinctrl-k210.c                     | 2 +-
->   drivers/pinctrl/pinctrl-lpc18xx.c                  | 2 +-
-
-Acked-by: Vladimir Zapolskiy <vz@mleia.com>
-
->   drivers/pinctrl/pinctrl-mlxbf3.c                   | 2 +-
->   drivers/pinctrl/pinctrl-tb10x.c                    | 2 +-
->   drivers/pinctrl/pinctrl-zynq.c                     | 2 +-
->   drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 +-
->   11 files changed, 11 insertions(+), 11 deletions(-)
+>> This is v2 of what was just a single patch "ASoC: mediatek: re-enable
+>> buffer pre-allocation on some platforms". Link to v1:
+>>
+>>      https://lore.kernel.org/all/20250401085659.1222008-1-wenst@chromium.org/
+>>
+>> Angelo requested that these platforms use reserved memory regions if
+>> possible, and fall back to pre-allocated buffers only if that fails,
+>> to align with other MediaTek SoCs / platforms that already use reserved
+>> memory. The series covers MediaTek's MT8173, MT8183, MT8186, and MT8192
+>> SoCs.
 > 
+> AngeloGioacchino?
 
---
-Best wishes,
-Vladimir
+Truly sorry for this slipping through the cracks - and thank you for the pings.
+Also, thank you for all this code, love it.
+
+Whole series is:
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Sorry again for all the wait.
+
+Cheers!
+Angelo
