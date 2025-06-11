@@ -1,176 +1,310 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011023.outbound.protection.outlook.com [52.101.125.23])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2364E24B29
-	for <linux-sound@vger.kernel.org>; Wed, 11 Jun 2025 02:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.23
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749607220; cv=fail; b=n9B0Z6mF8UmCZhxV9vCGa23Pze3iyJNmnq3r5h4Oo1ENUtz+9ybGnM7+FnAdJBCHaXjD2rQw6oUpJXDv9fOmomG8uuf+p7hn1YgvPOy0L775GcJy2P4nNEd3ka37qgLEi7brZhufQxvPs8xDfC8e7hOGxMFr6P8pNy1eiyRE3UM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749607220; c=relaxed/simple;
-	bh=vDTHHZAw4wFsPv6AhHkNhtOhVcrRXMYtTx+un5z4Bv8=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=i9nrgUN9O+ittQiq4pGHO5YrBVf38WpyTDpIayNNtp6doXycMmsdJM6Gcr9vFEE3Ruvj2TOV5QXNLC12x6JVDJKOLk9iLqbu2T4GRY51lvD1JQr2wlyA7c58yo2xFJNELILWXflHo5ifuCMIs/XWSH2EEZYBXTZkf0Rjgedzxz4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=cmx39Sk/; arc=fail smtp.client-ip=52.101.125.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341312253FB;
+	Wed, 11 Jun 2025 03:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749611028; cv=none; b=qFV965rQ12OKpkgiN4b6m0qJMtA7dpnZX9AyLi2s9a/0uwMPpXwqdLWrZAXlQ7A7pco5XpYwjPcoZjWFsJpBqQVeg7O1sc1xrSPkfhgsl35YBPO3iGIxZ7BhTkAvIqMRiQ181AQUGBfSUi0DB3miME0u3A5NpNsanYD2drL8ljo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749611028; c=relaxed/simple;
+	bh=3zY7OPrHfBJ8D5fNCMI/aXZ74/+C9WQVAvtm2BH8Q9I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G8ifMNKc7p3jl5SDvrTfk+yCbLHyMVYh0sRGmVu20KT8o6xFsnyOKHa3BwW9rLmQVWPnjpvC0a+e4vvh7sMpc9IXSZ9XKF69gaP9F827+os68vNC6CUJp8FQLj5Uao7DRaxmWXa/IgoP8C2sIQWxoNgslyY8TdULq91TPgkgt60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fjmtIOHb; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="cmx39Sk/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z2KVAGQzrpkuvMYP455ZHy127hNJnOVQN+vPR0MWT/irTor64/Y9axVlnjxf8uzlH985zD+3Zf2x/oC2+tbT2IBLChRFkMl8ptU7mlgM6zRhQqMg/ELiJINqhBBX3auC1FeLRhwOoJ77Oti1bsVoOkWtm1f8kZ1OYgNWQpwrY0Bpy5SVY2zxK0XvRDESuz/zkrAR6GPXr97pn8GBQMTgRLVm0wUho2YLndjm61720dDWNtm/oHuiQO8pZ0tLVVcekdtCHH3CrHZqEyFgZa1ahqWyAFpizOtt544B1XoCxR8FjaApoTUOhiJCB8RkU1a3CLdEQMBxgCu9hJYGnIBDMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m+Lc+yyOCL25155dI8z9IzfJAkxeRAPrUC+3r4rwMH0=;
- b=ZkkFeZ316bcssABXWB7tUfFIG1ekMoEpU8t7txMz+9Y9AVyhxt9EdDYeyUWM51XgqSifhEhrbL0EwJPuixkQalAFLE4GvSvypYpzycLch87IGfzEVS6ScfTVoHubUv4V6sanB5h7ZSYXHNqoqHBexI+CWGOab5QF86wDATM+lGhlDZ5sHwbxhfqM2qWInzL7EqPlPeE1MwBQcj1ddOWoYGjIPYfxD19ZxBwBtWymHbCNFO4fbUEDYONPOX77IuhFA79sR7X8/AkgS4Ue1gsmGW2yckbVshetD7wwWyVkvCq//d78KVu0T7VEn1v1o0eJl5JQ/c8oLNtc9iIS8gsNCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m+Lc+yyOCL25155dI8z9IzfJAkxeRAPrUC+3r4rwMH0=;
- b=cmx39Sk/g41yRlyqAkYK2SFvHaUCIJO3wTxlnuL6+Ulx4jeedttMUZJZKTHXD+WAG3O5OHgc4ni3glSdl6fEwav/eE2CGagMSXJDTxRa5m264nz8KFowhGx0edv4yq/Hz2lkWiF2fq15ujlekBIAicP6IZY/hz57jvv1y6l4wp0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14) by TY7PR01MB16043.jpnprd01.prod.outlook.com
- (2603:1096:405:2ab::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.32; Wed, 11 Jun
- 2025 02:00:15 +0000
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8]) by TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8%5]) with mapi id 15.20.8813.024; Wed, 11 Jun 2025
- 02:00:15 +0000
-Message-ID: <87jz5jhwbj.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Geraldo Nascimento <geraldogabriel@gmail.com>,
-	wens@csie.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/37] ASoC: Standardize ASoC menu
-In-Reply-To: <0ebf280a-ab8d-4993-9d32-b4013c5cacac@sirena.org.uk>
-References: <8734c8bf3l.wl-kuninori.morimoto.gx@renesas.com>
-	<CAGb2v66xb9duevXtZf=YcUM8WvoopG76_yud8PHXOnYD+i=kQQ@mail.gmail.com>
-	<aEeqsul4gzxde4Mx@geday>
-	<CAGb2v66MU_Sz6bVPrvMacL-wX_XU+JPWxMWjsfN=vPkzRsRoAw@mail.gmail.com>
-	<87cybc8d0k.wl-kuninori.morimoto.gx@renesas.com>
-	<aEet9HP7WWBTdz6P@geday>
-	<87bjqw8c11.wl-kuninori.morimoto.gx@renesas.com>
-	<0ebf280a-ab8d-4993-9d32-b4013c5cacac@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 11 Jun 2025 02:00:15 +0000
-X-ClientProxiedBy: TYCP286CA0046.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b5::6) To TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fjmtIOHb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749611026; x=1781147026;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3zY7OPrHfBJ8D5fNCMI/aXZ74/+C9WQVAvtm2BH8Q9I=;
+  b=fjmtIOHbbw86645V5eWVYESoCCbl+MgvtxcC84aKxE9H99nReSp/H116
+   AcXaiF/K4pySfu8kFBxU7Bi1oxsaSWOcYSMJwaIzwP4FT/qWOU2rN+xW1
+   5DgblMmaY5k++NHuPyElpVJ9FAL+AZ97WdmXU6SrzX41IFrr2K69QeATf
+   TEZRQfTgYCGiz5dCojAyvrkLPP7mS65tNRZKCXYta+uhJopFzjzRlzw0T
+   1cXmc6ZuEXzqADAcEiejyk3AnJ6n4IqeBqLoerlh05zEW3Q2GtJS51b1s
+   Fh0H2ksWHLMYX8dmEvfocbPdLNfCoQv/Dt/LfYsk+sol/kdIootUeZGEp
+   w==;
+X-CSE-ConnectionGUID: zqYF68dsR1OxLx3BVE7Kow==
+X-CSE-MsgGUID: SfFbxYV7TxGH27aFVkKshA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="55544310"
+X-IronPort-AV: E=Sophos;i="6.16,226,1744095600"; 
+   d="scan'208";a="55544310"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 20:03:46 -0700
+X-CSE-ConnectionGUID: 2dff+bDFRzGZFeWc8MMivA==
+X-CSE-MsgGUID: 3H9wXEEfRfec+bJEfsTIRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,226,1744095600"; 
+   d="scan'208";a="146930170"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 10 Jun 2025 20:03:41 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uPBkY-0009xY-1A;
+	Wed, 11 Jun 2025 03:03:38 +0000
+Date: Wed, 11 Jun 2025 11:03:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Darren.Ye" <darren.ye@mediatek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Darren Ye <darren.ye@mediatek.com>
+Subject: Re: [PATCH v4 03/10] ASoC: mediatek: mt8196: support audio clock
+ control
+Message-ID: <202506111019.lK2Vphtz-lkp@intel.com>
+References: <20250610092852.21986-4-darren.ye@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB10906:EE_|TY7PR01MB16043:EE_
-X-MS-Office365-Filtering-Correlation-Id: 382fd82a-77c3-4127-140d-08dda88bb584
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?9utvz+r7AaOEffSOqjn4LkxcVs7bftZ6KqnBjmlBj1xKod8l9Mpy5m8Razq5?=
- =?us-ascii?Q?haDHHnp1RONMv9R9CXBC4HrG9RPrA8O1pxxjHBpwggomlYVvKUNuqtpcG8bh?=
- =?us-ascii?Q?qgI/YWBOufXOI/wXg8/MSoessQoI2EUjr2JJsBXx3LI3LHl295jN2me2dIMp?=
- =?us-ascii?Q?gUjqwTTy4Dsa8S1rqFW7cYJP/tMWKbwkMFMKyEDO0q7R1ZBb/FWlbJ5lx1NL?=
- =?us-ascii?Q?YywvoxjrY8YOeTwcS/ZbCdNnvhaxjZ1zHJnZr3/5cl1ozCwzk4l/BsacMpcf?=
- =?us-ascii?Q?pwZedpne6eMHRTFIAIUeXP3zL7Kn77aJyD+v/rzRsBfNMPxcSaxL+U+PDhyu?=
- =?us-ascii?Q?UtmtgpEnsAFdNx4+UL9RId96B6R4m2HuOSVv2DkFzJSLJf3TbgFLdQrMArQE?=
- =?us-ascii?Q?5YeIi8l3kiPuQheKyvFds0ydviadJ5xuSXmRYfilQ3XZifszRBmr5oCkQDpn?=
- =?us-ascii?Q?trbooQr6WK4LnJ2KEVbZFnQHpsnKR1qk5vwgOYlmmRteLZyIyoS9m0hVJWM/?=
- =?us-ascii?Q?WboC09sMW4eQCyLim9hasraFPOtMiooLiRWGAeQqZc2PEoJuo/33pVFfJLwK?=
- =?us-ascii?Q?7rble5zpoxua8fCoKqpvuSFZYYk/BMNVNz7RsWt5Z/wv7l94hI7ohcun1fO3?=
- =?us-ascii?Q?7c5kfIAt3Atxaom0BflRSt7QP0wWCpVtjP52ACf+wThQ+ROgqeQxMVFOmBey?=
- =?us-ascii?Q?CBpXofYWV4ymXZeOAAmIdiuRPr5uWx57VpFvwgF0xeDCDCP8n1GoJWafNNxp?=
- =?us-ascii?Q?eE5SR3gRHPwP+Zhqqb7uZ2L/aM7BuFNjiYli6ejyP5tLpcP+SaW/sPHcndSt?=
- =?us-ascii?Q?Zwey6rvHt7FAVqcaLkEVTAcTo1rHmdiIMdWCJMtJfaDid8Mqt7N79KHm620k?=
- =?us-ascii?Q?j75quFHQXVZvo6OpoQIjS56OIpdAkQexVtDUP1EYkK/Kk36AD7XWW1yf3GYe?=
- =?us-ascii?Q?9l1dizJbMZWJue9nZU06flucLEz/d+UTjH9uZzYcXCsM+yiBbMS74NsBo/C8?=
- =?us-ascii?Q?Hsq2fF6Vxfm/EtN/jXt+swzdmPqar1V3t5OJW/I1SOyRhSiKjhwzNwD2V/I+?=
- =?us-ascii?Q?pnRjkztkHVVoWKCsAl97jd4eYRVDJ5atNl6QswybTBeTwS8DQFg0KiwYzrYK?=
- =?us-ascii?Q?UCtZWBXScoG6AH4BxrJge670W7ED8MWDWCzvf/VggTw/I+VFMpzaqKkPoaNU?=
- =?us-ascii?Q?euGojvPkbsX4UPSAHbJSpka4OvejRBayJcoKGjUdtWnWG4YMn+7MrCGLoRfX?=
- =?us-ascii?Q?7Lphd4t2ee4Q8hrjAMGtPqJeCJGHL+fsejCIUazAPb6oopqNE1iu9tiOg/T7?=
- =?us-ascii?Q?VjD0keoxkI0ID3eXhfs/MtT/AvsHddjOYnQq9aXcLxfI6Iyqwgqdvwx1S3id?=
- =?us-ascii?Q?3/JvKH3FaPpGz9aS0IKVpZUux0WvFWLXB3ppisilmGSbRrz7w7CCcJDzg7SP?=
- =?us-ascii?Q?/TvwCapICnKu5JLIxiYFk6ia6Aj7XF/X46Li9SKHEyMgSXBXpgNzwg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB10906.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?k2r8bj7bLH/crbayzZbZbY6ZuvdyCuJTIPpZw5Eir8vn44U8cU98l/HC4sg8?=
- =?us-ascii?Q?MW9/vHO4XvYUnzVe/6EWXBz9PLpZCdcuxeqdpX3HWyRIU5I8K9ymnTbpO1vP?=
- =?us-ascii?Q?kTZFM84qyO/LC0SFEvTSnxZz4VXviBZGXUxmSc5glOPGHo8yUjk452x25bFM?=
- =?us-ascii?Q?qPB47ox/GIYYtjV4nTxRhdyHlMb/u89bRW9BU6l0zBS7miuEQ0M9AgJ4JfR4?=
- =?us-ascii?Q?Pl9qB2NW17VNea68rfGUPU2B+lHxvm9xy4Y2d5pL7iOIY1RLX+Tt4FysUiaD?=
- =?us-ascii?Q?QwMrcDLxLlp7VE7QgySKK6hYRxy7ZewAsrkHFe5nSXVU7ga0tYRow97z0q+t?=
- =?us-ascii?Q?LnQo0BBfyaTLjodjiaCiKimhppor+yApuWhZ04JKQvuofuU6A1tk6SZQ3Ron?=
- =?us-ascii?Q?VUuzGzBItUrVBOACOP98QuSkaCM43p8/pR+dhiJxKZF8b7bZc26vhv332XJ/?=
- =?us-ascii?Q?GpbxTFFCn8TFPaesP3VtsGw4Md+LpEDraldMnj5Ow/aFLP5JGxj5hTdyVG9a?=
- =?us-ascii?Q?l9vhvCJfAzmi168I28GiKFGHF/S3lr865Q9kXonl1RbX2v8yd8/sipx4x5jb?=
- =?us-ascii?Q?o8mC0EYRLSFcFP3GOd3bYZY7/Rx3ml5jOTLLg8rxZ41AJw7KFB/rgq1L8GQJ?=
- =?us-ascii?Q?Ab5JJzMwjbH8sBpMZyR0VcnQrAzmp5hWqqRQ2oBaNFdyn7d0I/Ot9CxkCqoI?=
- =?us-ascii?Q?UrdzoRlgbrkGYENtyoo9BskmnIwMkNEHYBXBDIAcK94N+LDWWRjEq8231sT7?=
- =?us-ascii?Q?lSYagtm1W55MSKDdtnbAtdtl+fTMvkrGwajALYatVzuC+NUpdfXiikGIJ/Wz?=
- =?us-ascii?Q?Z3Xj8+1TLrmEnC05vTaAm1aQ/1EFUhG/Br6rg2YMPcA2B0YWtVGLZ500Lrjk?=
- =?us-ascii?Q?IeZEk09HlAfBWJQXyApGZwpm8DGfYDCfxNu2+CU79N3/FGTQ12O4KRqfoY3m?=
- =?us-ascii?Q?uw9uz8rENToNogugzzOce0pRoa4D8iwcL0LVSip5ZE4jGoRsNoqEoZogbII6?=
- =?us-ascii?Q?2Xn7Nlc4T7whEewdr9QvYtYAdfkJZ+t7NKPR6wzVfUpBTZ4bqd/ygpru1VhG?=
- =?us-ascii?Q?nbu4v0PUC9ETWWIl1KtBqOOVeQj3vitwxCdz5cD+OsjxkzotggZ8Xgt2sQx2?=
- =?us-ascii?Q?Ea0h+J+sy3fJLXuxIFSqIVo/jE5O9KCHvv2gPnnnM5m4ddyTF+ouaDHLBkJv?=
- =?us-ascii?Q?ma/gzyi4YzgjT18LE35jOR9UAChQ47q1olxmkmDOPH5/0A4d1XRdkDfKLazt?=
- =?us-ascii?Q?PBrQXWhyZd2nkB4DRCVLMpIhGg4otq/XERRGJBZfG/rNA6xg+QF6VL6iqVBu?=
- =?us-ascii?Q?7l2sO+S+bzyKUK3tyeakmk8wSjqAoOa6PrOXgqncYkVJG7a2XMoi7UKm1Ish?=
- =?us-ascii?Q?Rz4T5ci1uuneXFpW4rd+LxOcPJ37FKOTpW3yd8vPHACzTvZrKAfIRP8v5Mh+?=
- =?us-ascii?Q?cbbepFdtsgJB5RLjEP+lDVc8HQzgJQNOb0JeTiPhaEeYXm7CP6b8OyCeaZVi?=
- =?us-ascii?Q?7U5KQoF9Gsqy01SwZSROxKB88vpDNV3UYqhTWL5mG2+rYCqE9V6SmBPSxjTp?=
- =?us-ascii?Q?LvfE382RbQ7lizS54DpzxcZa9Uim/ZpSEnvyyj9+zu+TY5R01vFLaRCG/Qa3?=
- =?us-ascii?Q?g7oxsGDXMhDlcpwzlLO55DM=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 382fd82a-77c3-4127-140d-08dda88bb584
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10906.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2025 02:00:15.7833
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lmj3+I2NQVvXtsat+cC3pPO08AtUY8NExXNtA2gVqOKG1H/kD1+/L2lD5ZjDGdi1cXFfZfRYhib0hj3RM4MFtiaDMcScPuAjyBZhj9NFDnXhzjUOF3ZV3u/46CtU0iJq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB16043
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610092852.21986-4-darren.ye@mediatek.com>
 
+Hi Darren.Ye,
 
-Hi Mark
+kernel test robot noticed the following build warnings:
 
-> > > Sorry to intervene again but I think Chen-Yu's concern is about Cc:
-> > > missing to open list (linux-sound) not his own address.
-> 
-> > > He was referring to the (likely) fact that you forgot to Cc: list...
-> 
-> > Oops, Indeed
-> > Sorry for my miss, will post again.
-> 
-> I do see a CC to linux-sound in the mails I've got, and lore appears to
-> have a full copy of the thread which means it should've hit some list.
-> A bit confused here but I think it's fine?
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on broonie-spi/for-next robh/for-next linus/master v6.16-rc1 next-20250610]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Sorry for my noise.
+url:    https://github.com/intel-lab-lkp/linux/commits/Darren-Ye/ASoC-mediatek-common-modify-mtk-afe-platform-driver-for-mt8196/20250610-175139
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250610092852.21986-4-darren.ye%40mediatek.com
+patch subject: [PATCH v4 03/10] ASoC: mediatek: mt8196: support audio clock control
+config: i386-buildonly-randconfig-001-20250611 (https://download.01.org/0day-ci/archive/20250611/202506111019.lK2Vphtz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506111019.lK2Vphtz-lkp@intel.com/reproduce)
 
-I have re-post the patch-set, so ML member got full patch-set in final.
-But To member have received same patch twice (with Cc: linux-sound,
-without Cc: linux-sound).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506111019.lK2Vphtz-lkp@intel.com/
 
-Thank you for your help !!
+All warnings (new ones prefixed by >>):
 
-Best regards
----
-Kuninori Morimoto
+   sound/soc/codecs/pcm186x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/pcm3060.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/pcm3168a.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/pcm512x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rl6231.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rl6347a.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt-sdw-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5514-spi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5640.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5645.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5659.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5663.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5670.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5677-spi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5677.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5682.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/rt5682s.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/sigmadsp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/src4xxx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/ssm2602.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/tas2781-comlib-i2c.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/tas2781-comlib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/tas2781-fmwlib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/tlv320aic23.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/tlv320aic32x4-clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/tlv320aic32x4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/tlv320aic3x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/ts3a227e.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/twl6040.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wcd-clsh-v2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wcd-mbhc-v2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wcd937x-sdw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wcd938x-sdw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wcd939x-sdw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wl1273.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wm8350.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wm8731.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wm8804.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wm8903.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wm8962.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wm8994.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wm8996.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wm_adsp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/codecs/wm_hubs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/fsl/fsl_asrc_dma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/fsl/fsl_asrc_m2m.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/fsl/fsl_utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/fsl/imx-audmux.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/fsl/imx-pcm-dma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/fsl/imx-pcm-fiq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/fsl/lpc3xxx-pcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/fsl/mpc5200_dma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/generic/audio-graph-card.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/generic/audio-graph-card2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/generic/simple-card-utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/atom/sst-mfld-platform-pcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/atom/sst/sst.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/atom/sst/sst_pvt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/boards/hda_dsp_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/boards/sof_board_helpers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/boards/sof_cirrus_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/boards/sof_maxim_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/boards/sof_nuvoton_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/boards/sof_realtek_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-adl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-arl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-bxt-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-byt-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-cfl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-cht-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-cml-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-cnl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-ehl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-glk-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-hda-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-hsw-bdw-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-icl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-jsl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-kbl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-lnl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-mtl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-ptl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-rpl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-sdca-quirks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-skl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-ssp-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/intel/common/soc-acpi-intel-tgl-match.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/common/mtk-afe-fe-dai.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/common/mtk-afe-platform-driver.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/common/mtk-dai-adda-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/common/mtk-dsp-sof-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/common/mtk-soundcard-driver.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/mt8183/mt8183-dai-i2s.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/mt8186/mt8186-afe-gpio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/mt8186/mt8186-dai-i2s.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/mt8186/mt8186-mt6366-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/mt8188/mt8188-afe-clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/mt8192/mt8192-afe-gpio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/mt8192/mt8192-dai-i2s.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mediatek/mt8195/mt8195-afe-clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+>> sound/soc/mediatek/mt8196/mt8196-afe-clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/meson/axg-fifo.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/meson/axg-tdm-formatter.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/meson/axg-tdm-interface.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/meson/meson-card-utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/meson/meson-codec-glue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mxs/mxs-pcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/mxs/mxs-saif.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/lpass-cpu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/lpass-hdmi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/audioreach.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6adm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6afe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6apm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6asm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6dsp-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6prm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/q6routing.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/qdsp6/topology.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/sdw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/qcom/usb_offload_utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/renesas/siu_pcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/samsung/dmaengine.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/samsung/idma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdca/sdca_asoc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdca/sdca_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdca/sdca_functions.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdca/sdca_regmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_cs42l42.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_cs42l43.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_cs_amp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_dmic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_maxim.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_rt5682.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_rt700.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_rt711.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_rt_amp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_rt_dmic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sdw_utils/soc_sdw_utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-card.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-component.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-dai.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-dapm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-devres.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-generic-dmaengine-pcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-link.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-ops.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/soc-usb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp-ipc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp-loader.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp-pcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp-probes.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp-stream.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp-trace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp63.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/acp70.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/rembrandt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/renoir.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/amd/vangogh.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/debug.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/fw-file-profile.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/imx/imx-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/atom.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/cnl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-bus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-codec.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-common-ops.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-ctrl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-dai.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-dsp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-ipc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-loader.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-mlink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-pcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-probes.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-sdw-bpt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-stream.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda-trace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/hda.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/lnl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/mtl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/ptl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/skl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/intel/telemetry.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/iomem-utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/ipc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/ipc3.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   sound/soc/sof/ipc4-pcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
