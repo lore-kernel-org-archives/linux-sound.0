@@ -1,159 +1,125 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0753423C4F3
-	for <linux-sound@vger.kernel.org>; Wed, 11 Jun 2025 06:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBB7229B38;
+	Wed, 11 Jun 2025 07:35:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749622513; cv=none; b=e4q9iBdBx8IGrA1srrVilmXzkufGGmYl3xLKs8oRTIc05aPNOBGg0lno3Erm3tW7BsaOrSUkTFOKlvunsU+2JWZfCUYkkI9/hnrcz/AIF+Q8Y+RiP/1GK7p4iGcTFf5aPrCrXHsVdoA+9n6r1oqfPikZOTNjbHx5JPEf1CaBByg=
+	t=1749627331; cv=none; b=NM5qqWUckzVBLtmSm3A0/ajX4tfuhyj0AbVpXzeXoNJe9ic5eSG7v6hl0UnmRiRVwxAFZPiMV5iNkPf1kpkCw/oxKQX0c4kdqNU8fUClzCeN4D6p76kCzdMLeDhINKdkjZcBARGF2TYb+CKcXSSgr+t9OBmczC5W97Zyv5jXbNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749622513; c=relaxed/simple;
-	bh=aZiHVtAix4Bs7VFa47r9w+gaIOPFsTrPZZVeoeZFBbI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=g6nlR0ek/SU5aoEz9r20c4yre1s9OkpK5OgN7CaEqRC++H7jN5uXRfjyqycOr1UgbA4zW8JXlyF0X1fXjbDkz82UMdOs7R/fxKTWKo/ZMUOC1b+RrVrRHVEpo2RDiE2zDa4xIQAIEq0dauWiaAHdt2NfhloBWLhp/c9JlNm9RSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ah5Iao1u; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1749627331; c=relaxed/simple;
+	bh=NmUB89glos6asOSTmWibIDn1aNbS9flC3wOiPjY7pAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V/nuLA3cJ1HSjXnQ9ZO/hssn4a39uvZT4h+YU+/4ao4y1xNJQ/U3MER+jCLOecO+xqT+D84dZs+fKJExA1/Xy8rESdLXB+7nxSKPrPsrq572zWDGaZcI1OBjjKCaxytU0MHxQtyX6rixn1zuIFLmvw1yhGo3U5olE0Unm6sSgmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ExHWWoEY; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ah5Iao1u"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4e6a0c274so24933f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 10 Jun 2025 23:15:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749622510; x=1750227310; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wvIZrAnHYUbgegc3KzvI7IvlrGTu2jq1NObvCezVWR4=;
-        b=Ah5Iao1uoR91qIN+j4clhnv9wQrnCGse0RsdpiYp50PwzmBiW0/GgHL8bZx35Dr/Rs
-         ndFeaMF0Q0pD7R71+oCaUa35eE+oOQLsLBbHAPmujZNqlOQ9+sWlJejfH4o/isnj/Nr0
-         09WZQabZTrbGIVMiqZu4EhMCoT+YAD5Poy/Celpj5EXvKQBlAtRD+zhuBDj2BtedTBuu
-         WUYcWluSk6ytY8OGy41gSgbokRFHZbtiuk/iv5uqS4155bfmbCIHKEvOrFqGKUflSpne
-         /5rp+ci3q5Wx+atE0l/M2qK33OD8B7nMksdFknkkzWQIwpaguc7F6M+MDNqL3iACANkG
-         gWUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749622510; x=1750227310;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wvIZrAnHYUbgegc3KzvI7IvlrGTu2jq1NObvCezVWR4=;
-        b=BGmUFHZ3z+E2Wh6RUu29W2texAYVyFyC3dnxXHbag+SjJB7iW+V4LXfMnFOdM/sb8N
-         PyTDVaD+licyxMEUUYFzVXoq2lqOQ+/KnTXNyVcDptHEyf2r1ZFxU2hdS0pqjDC2ynth
-         cjxR1uB8VpJHfk+geUBFe9fI6DyUTYFfwqBoWV0m257vN1MSG5ZWLnhXJunb/d3IP/qB
-         g6Yg1oFkdbQoSZmzU5f6Xu0BtDmvUxdqo127iCRjEkwVM+rl74TPHWYwVOWR8nWkLHOa
-         a/huqKnXp+38rZZz0oT2J5kiH/y7+ia80DIZC6R+S85kFAYj8kcHbXboSscxFhrSAyLj
-         X5Sg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcdNhWI7epBGo82nkiiHYZik0jrVR6EWAT34GruHs6cGS1j449w8gj+OSJk4GDAQPDgyQwlWbBSsXK3A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIhUJqHtmDahNb4KsljPATQMm5c/iaNgQZXR6VXkis2gTB1YF1
-	L0v9ZEGijax6sI1ZkNEaO9KWfimhUPue0TR1BSkYDHzj4RPBLA+YHCOf83Qe1JRdSYE=
-X-Gm-Gg: ASbGncszeIqG30mBMP6xH561Gx21jGmjIOmfUC4JB6iryj5sVH18oqgsx0q1zV6R7wY
-	tFpkSJVZxrKHvG/l3q5RjUHENICJu6V3R8p8n2oooP+Z1QjY+nYcqVXlMEFsUOT7OifVNZ41oKI
-	9Ess9LpVvtAZAcbvKTJ9gg0Tb4ldYVvNClGXOR1zgqpBW04n/lKDr15+xsBx7NBiLvxe+EjT0sk
-	woe0FnBdRsowlFB288Bm2qpU8CW5qVVdx4niSQ5Z4nXJXrGxaz+nMy7Us3CIjQqbCGN8pMrUJoH
-	b9wDSjP9HW1PFo7+k4U2QbFhj/44LuJld3iy/z4pTxEWC3YtyALcrGhUy+z5tabzyWEpzmHixGh
-	KeVWmZamOUP21MydYVg==
-X-Google-Smtp-Source: AGHT+IE7ZMpyUDf4YrNSUvsjoRE3vjRVPb6bVXPGoeL9ls3/WZGat0okcbwks4ptZKut2a4VQEsADA==
-X-Received: by 2002:a05:6000:18a5:b0:3a4:e667:923d with SMTP id ffacd0b85a97d-3a5586cbaafmr541720f8f.7.1749622510208;
-        Tue, 10 Jun 2025 23:15:10 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a53244f516sm14142791f8f.74.2025.06.10.23.15.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 23:15:08 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Wed, 11 Jun 2025 08:13:49 +0200
-Subject: [PATCH v2 17/17] rtc: stm32: Constify static 'pinctrl_desc'
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ExHWWoEY"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E7773443D3;
+	Wed, 11 Jun 2025 07:35:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1749627326;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KiyDyclqecsk9BIhJPotcA86DvJLdYwDNphU2h/Syvs=;
+	b=ExHWWoEY7rGIzBH2hTP41+dRx7QD45h9+GCRlhMqsGjxIUva5rl/uu6M7C0UepYUk7Y9I4
+	y0QCs58j7ZYuyIoZCiOsT7vAdRmdkfa4EtnvTsBT1pAMdwtmXmYU7NRLjlgz/AogBmT9gq
+	2US+W4HBVTtpEw73AVkrR8bxCiZTAOQiYLy4Yt0KuNdklqu4q7Okv0y1OK+A26vcxX6zqf
+	6wsxpsI6vtrPBsIEOGd0J/N5QdPcZ5QjoQqEX5Kxy9Ra7Jwt2ZmzTwU5dJMbq7HNgHQQcr
+	ISRQwIoW5kmXWeccGDoDXEyzEJpJB9DPCj8MHSy8O/THILFtsRDHsDLiDWTTvg==
+Date: Wed, 11 Jun 2025 09:35:21 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Sean Wang <sean.wang@kernel.org>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Lars Persson <lars.persson@axis.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Jianlong Huang <jianlong.huang@starfivetech.com>,
+	Hal Feng <hal.feng@starfivetech.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Manivannan Sadhasivam <mani@kernel.org>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org,
+	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v2 17/17] rtc: stm32: Constify static 'pinctrl_desc'
+Message-ID: <20250611073521eaf70434@mail.local>
+References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
+ <20250611-pinctrl-const-desc-v2-17-b11c1d650384@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250611-pinctrl-const-desc-v2-17-b11c1d650384@linaro.org>
-References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
-In-Reply-To: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
-To: Linus Walleij <linus.walleij@linaro.org>, 
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, 
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
- =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>, 
- Jesper Nilsson <jesper.nilsson@axis.com>, 
- Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>, 
- Emil Renner Berthing <kernel@esmil.dk>, 
- Jianlong Huang <jianlong.huang@starfivetech.com>, 
- Hal Feng <hal.feng@starfivetech.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com, 
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=923;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=aZiHVtAix4Bs7VFa47r9w+gaIOPFsTrPZZVeoeZFBbI=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoSR6t5SafcpPp5dX+SCVOeGb2hFRBkfuLb14pw
- s7c8HNmfV+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaEkerQAKCRDBN2bmhouD
- 11knD/9M3DV/vwXFJpNByYjPAAfPbQYiYkwFNYQHUnPzXNhKs/vugtZWoOplA3JWYFVV83HKQP7
- uw3WamLIyTbIQRBTc1s5kYotDILFcXtEuSZn9ut+zGmEtrMVigSPDvqgokfS+ZQSs6dQPF5ZJv7
- +aqYtV+yIAgCJ5de6A8vYZsWp6UYmn51U4Y4R/OX8UM6fxzj+bbMuXr73AsweooW/WYTwxs0tGQ
- u8J/Ig7SVBkSMfYTdGAi2fabtexF7dXOeVyVlmbn9PdktSW/PsChHgaxt74g8YGyq8RAVS7G3oy
- Wb5YIe+nXI8oxp2pRHHcp/1xme8/Dq/OHlHDjYlqltkPGqKUpbDCTqOMbfwl+oqk832IU9YSTYE
- 6qMWelzKCzuphqYOP+gk02SE2WKQ5xuQ3kLSCC2YtcSwoP3/V85G4qFLQm2dXZHHW1lAjFiMdL4
- k6iyeo+At8cXPMKvUYLbuCfzKzXpCJ1F45XL0v4mlYrRtXqlWYkAdPq93S3x5jij462AEvNwTz4
- G6DrpD8SbLh/EnkF2C3h7fpu++EsQsj3fXVaN5uHzzibtagMfWEF/xN9Li05E8PYsIhiqmrijA/
- blAWty+7bSqiSP1NbqhzH0zmIcCtAbAzmN9j6DHNVcQq5mzCAKwkNBKtxMNJ2suuFDzyHqWvfGI
- a63Jhr46asoT94w==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250611-pinctrl-const-desc-v2-17-b11c1d650384@linaro.org>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdduudeklecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeiieevfeekgeevgfegudeuuedtfffgiefffedtudeftdehkeelieettdffhffftdenucfkphepvdgrtddumegtsgdugeemheehieemjegrtddtmedvugdutdemkeejugehmedvsgguieemvdehjeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemheehieemjegrtddtmedvugdutdemkeejugehmedvsgguieemvdehjeejpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegledprhgtphhtthhopehkrhiihihsiihtohhfrdhkohiilhhofihskhhisehlihhnrghrohdrohhrghdprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopeeurghsrghvrghrrghjrdfpr
+ ghtihhkrghrsegrmhgurdgtohhmpdhrtghpthhtohepufhhhigrmhdqshhunhgurghrrdfuqdhksegrmhgurdgtohhmpdhrtghpthhtoheprghnughrvgifsegtohguvggtohhnshhtrhhutghtrdgtohhmrdgruhdprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruhdprhgtphhtthhopegrvhhifhhishhhmhgrnhejtdesghhmrghilhdrtghomhdprhgtphhtthhopehtmhgrihhmohhnjeejsehgmhgrihhlrdgtohhm
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-The local static 'struct pinctrl_desc' is not modified, so can be made
-const for code safety.
+On 11/06/2025 08:13:49+0200, Krzysztof Kozlowski wrote:
+> The local static 'struct pinctrl_desc' is not modified, so can be made
+> const for code safety.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
----
-
-Patch depends on this series - const in pinctrl core. Please ack and
-this should go via pinctrl tree.
----
- drivers/rtc/rtc-stm32.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/rtc/rtc-stm32.c b/drivers/rtc/rtc-stm32.c
-index ef8fb88aab48a0edad19ae5872421815aa04fe46..d4ebf3eb54aa9e91c8e9f8254f571c53794192fd 100644
---- a/drivers/rtc/rtc-stm32.c
-+++ b/drivers/rtc/rtc-stm32.c
-@@ -393,7 +393,7 @@ static const struct pinmux_ops stm32_rtc_pinmux_ops = {
- 	.strict			= true,
- };
- 
--static struct pinctrl_desc stm32_rtc_pdesc = {
-+static const struct pinctrl_desc stm32_rtc_pdesc = {
- 	.name = DRIVER_NAME,
- 	.pins = stm32_rtc_pinctrl_pins,
- 	.npins = ARRAY_SIZE(stm32_rtc_pinctrl_pins),
-
--- 
-2.45.2
-
+> 
+> ---
+> 
+> Patch depends on this series - const in pinctrl core. Please ack and
+> this should go via pinctrl tree.
+> ---
+>  drivers/rtc/rtc-stm32.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/rtc/rtc-stm32.c b/drivers/rtc/rtc-stm32.c
+> index ef8fb88aab48a0edad19ae5872421815aa04fe46..d4ebf3eb54aa9e91c8e9f8254f571c53794192fd 100644
+> --- a/drivers/rtc/rtc-stm32.c
+> +++ b/drivers/rtc/rtc-stm32.c
+> @@ -393,7 +393,7 @@ static const struct pinmux_ops stm32_rtc_pinmux_ops = {
+>  	.strict			= true,
+>  };
+>  
+> -static struct pinctrl_desc stm32_rtc_pdesc = {
+> +static const struct pinctrl_desc stm32_rtc_pdesc = {
+>  	.name = DRIVER_NAME,
+>  	.pins = stm32_rtc_pinctrl_pins,
+>  	.npins = ARRAY_SIZE(stm32_rtc_pinctrl_pins),
+> 
+> -- 
+> 2.45.2
+> 
