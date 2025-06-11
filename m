@@ -1,145 +1,96 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B740526E6E1
-	for <linux-sound@vger.kernel.org>; Wed, 11 Jun 2025 13:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 569C229ACC6;
+	Wed, 11 Jun 2025 14:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749648475; cv=none; b=nodRrf+Sr2vmvfmVM27c/Sd8Cer8PsQNVGAeebXUKZis+d5WcanYqiP1jvNniWyN+fefFELv+CKRpa685hpzW3/hnUbUbtfls2ULImvgh8DH0DOW00OUavxU62Mys0kGLxKxiqAMaJ1rert2rx1pm7HK4PYj6uWFNJiwRPhGMCw=
+	t=1749651639; cv=none; b=UoQdN0bf4XPgnqwGfkoP9pfIUgdI71MRagsWlh5CnxRwah7uX5cL+Msc03z4xZ50UjWBOzFsNG1AutUDi5bZx+JrZH2ppIT2hgAnB8bxcmxAXa5ZCaDi1o0GxGej4sBNQ12ddJBilte3PY9vUYsb81wQ50NKIoS44yldz8IXfh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749648475; c=relaxed/simple;
-	bh=tGq8foj6iLd6N0PhN2dK7hADifmXGY22WlvOGUXNhCA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MV+gOB2zmtGbB5mRObLXW7HCGecszvtrwlfQ0O/c5deHhKjJh+8hB0SNJnMUS6snGyNqPKK8gqR9mSluZWmv727PefcfH2R17w0z6n2wKbSSnGOMpqNuWnUNZrHSi2mA6VorvWZx7Ghs+jANrXZYsQl+QeHnN4W+NC1gXUmYgOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qFfjohfY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BhYvHKV2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aV12Ip1t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X/3BgWm+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qFfjohfY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BhYvHKV2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aV12Ip1t";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X/3BgWm+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E443521203;
-	Wed, 11 Jun 2025 13:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749648472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s57eOMf5J5irzCCAHv57SCw/pxWuxYXl4EYw+BA8W9Y=;
-	b=qFfjohfY9IptDgYU8SnNUN5PUqLM0vK0dAZSXhqseEY8TuThjcBeragZ3MiHozoZgvg/A4
-	mL4X7Mk802aCKtmr2lTfqMWjz7PLOqbcl6WWvvL5zZuxjlyLEXsa0vh6ktO87ab7bfJWPn
-	Gjyq9viWTCc3zXtOIa3kYTZJcr5cNhs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749648472;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s57eOMf5J5irzCCAHv57SCw/pxWuxYXl4EYw+BA8W9Y=;
-	b=BhYvHKV2g/48hkZ6R6MetcSFnoMCV2c95uplVp3DPHwdYtTDYbz//3zFrBIz+mp+4ovgA9
-	Wsbmy29LgVyEN6CQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aV12Ip1t;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="X/3BgWm+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749648471; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s57eOMf5J5irzCCAHv57SCw/pxWuxYXl4EYw+BA8W9Y=;
-	b=aV12Ip1tW4c1Y+loEWEln9BKXIn7LsSTwbQKrXsGw8WLpTRhutG5q3Wydzt7H4Pg7HVJRZ
-	pz8XrtY2a4Swg1QUeM1MDAQ1LBZpcAJxzXCMK8g4ZhgXICmp+URXVZEpVXbNi1tjR3/fg0
-	MfyXMjtLgzsDedGAHS96daeFze6cWvg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749648471;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s57eOMf5J5irzCCAHv57SCw/pxWuxYXl4EYw+BA8W9Y=;
-	b=X/3BgWm+T1jTje9uamRwxCmxhEynHUqAUOJ6EvbvY9rkeqXaKkOUO5QwUv1OrnxFicCNL7
-	jZJMgGY3+cuGr1Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CAB32139CE;
-	Wed, 11 Jun 2025 13:27:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pkn1MFeESWhrTwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 11 Jun 2025 13:27:51 +0000
-Date: Wed, 11 Jun 2025 15:27:51 +0200
-Message-ID: <87cybawgq0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Lucy Thrun <lucy.thrun@digital-rabbithole.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/ca0132: use snprintf() for kernel hardenning
-In-Reply-To: <aEl_0XoK4Q__MOVU@stanley.mountain>
-References: <aEl_0XoK4Q__MOVU@stanley.mountain>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1749651639; c=relaxed/simple;
+	bh=lrsNJweeZYaMaTbdcd2GbbAYTKskhj3jd9U8ksOBE9c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WKxlKPwzdh6mZkp6llo5VsBDLyeqFya7MVmEOYMtoXY7xoi5tSJOEyxUywBOr7+CNOEEz4Pmai8X874xuKsvxdpABWJ8lnoaeBbnz8mlkLzI+oaz4iVMC1AdCbLJq3T4pqPD4zATwQ0UMMURakv0vJUopAz7EzHHIM6qK1opUjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
+	by localhost (Postfix) with ESMTP id 4bHRnp6q9mz9t1J;
+	Wed, 11 Jun 2025 15:48:30 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yiP35XkF9PLz; Wed, 11 Jun 2025 15:48:30 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4bHRnp65M1z9sqT;
+	Wed, 11 Jun 2025 15:48:30 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id CBBD18B77A;
+	Wed, 11 Jun 2025 15:48:30 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id 0Cm2GCpeF4lX; Wed, 11 Jun 2025 15:48:30 +0200 (CEST)
+Received: from [10.25.207.146] (unknown [10.25.207.146])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id A32698B769;
+	Wed, 11 Jun 2025 15:48:30 +0200 (CEST)
+Message-ID: <051e9722-44ad-4547-af5d-3e42c8cfe8d9@csgroup.eu>
+Date: Wed, 11 Jun 2025 15:48:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: E443521203
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -3.51
-
-On Wed, 11 Jun 2025 15:08:33 +0200,
-Dan Carpenter wrote:
-> 
-> In this sprintf():
-> 
-> 	sprintf(namestr, "%s %s Volume", name, dirstr[dir]);
-> 
-> Then "namestr" and "name" buffer are both SNDRV_CTL_ELEM_ID_NAME_MAXLEN
-> (44) characters long.  We never actually use that full amount in real
-> life so everything works fine, but static checkers complain that if name
-> is 44 characters then when you combine that with the other strings it
-> will lead to a buffer overflow.  Using snprintf() silences the warning
-> and makes the code a little bit safer for the future.
-> 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-Thanks for the patch, but the very same fix was already submitted from
-Lucy and merged in commit a409c60111e6.
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: pcm: Convert multiple {get/put}_user to
+ user_access_begin/user_access_end()
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sound@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>,
+ Mark Brown <broonie@kernel.org>
+References: <bf9288392b1d4b9e92fe29212d9cb933c5b3fbae.1749296015.git.christophe.leroy@csgroup.eu>
+ <20250610205358.07b1cc05@pumpkin>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <20250610205358.07b1cc05@pumpkin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-Takashi
+
+Le 10/06/2025 à 21:53, David Laight a écrit :
+> On Sat,  7 Jun 2025 13:37:42 +0200
+> Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+> 
+>> With user access protection (Called SMAP on x86 or KUAP on powerpc)
+>> each and every call to get_user() or put_user() performs heavy
+>> operations to unlock and lock kernel access to userspace.
+>>
+>> To avoid that, perform user accesses by blocks using
+>> user_access_begin/user_access_end() and unsafe_get_user()/
+>> unsafe_put_user() and alike.
+> 
+> Did you consider using masked_user_access_begin() ?
+> It removes a conditional branch and lfence as well.
+
+Thanks, was not aware of that new function, allthought I remember some 
+discussion about masked user access.
+
+Looks like this is specific to x86 at the time being. I would have 
+expected that to be transparent to the consumer. Allthought looking at 
+strncpy_from_user() I understand the benefit of keeping it separate.
+
+However is it worth the effort and the ugliness of having to do (copied 
+from fs/select.c):
+
+		if (can_do_masked_user_access())
+			from = masked_user_access_begin(from);
+		else if (!user_read_access_begin(from, sizeof(*from)))
+			return -EFAULT;
+
+In addition I would expect a masked_user_read_access_begin() and a 
+masked_write_access_begin(). It looks odd (and would be wrong on 
+powerpc) to not be able to differentiate between read and write in the 
+begin yet using user_read_access_end() at the end, ref get_sigset_argpack()
+
+Christophe
