@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045BB1A725A;
-	Wed, 11 Jun 2025 16:21:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D37E1E47BA;
+	Wed, 11 Jun 2025 16:22:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749658876; cv=none; b=K6YfSpDXF+K5YV3q0HIwiNpQ8tUsVjTTIaDvE8hgq0tudMYZO8ahIunxH59u/gkJpvNsqYiCsE9tRNvZo4tdljRLkcVdIXG51PuOvGvZFk4z277aIMWErqtOqH1IuP7YthWACx8Yh1wEDn52m+9Jd6xxCCLN9p5vA8qPjTETmhg=
+	t=1749658936; cv=none; b=tm0DIESBiyvDUx4x+OGwCqLwpDgGBXAkben7o4BbJurioSqJ3hOEyqlcQEgRmHZqrUIVNtEdXf33I9f6w+axAqjn7QlPeUOs5WWiy4WHVkIYCHNola7tOndkrpfO6QvLBHnY2Jh1gtSsa3+9ncz+RErjrlJqIzoGuNLHngIgf+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749658876; c=relaxed/simple;
-	bh=/L2dGUpW09AvMNpTRzGqIRxdazsuqBgLkgcIZOJe1Z0=;
+	s=arc-20240116; t=1749658936; c=relaxed/simple;
+	bh=ziAnfRxyNjEpCFfJWS21721Am3P++TML+hoaHXrdOSE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wse5HPG5jPV7eSCuGcswn4d2lKVvdBpyVh3lyJmZHpxR2WJ6BvP4FrxYhgVO1hCRqs3RZV79bTDFEg8HB6JVYJyGqi/c3h87toXx/B7ZTdNw0PLBwIZ1oRQ/Pbr05IXdXuHIkfIkWeim7mEgdxljSUhReiK8nWbfXHmIVxh0JUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L/PnBta6; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lvCwbJS9XyiKLr5OAY66hIC+FVwcWMxA0ebo/kRf+I5i8alNdXElYyMrGCbGjDYUMk5xqPpUvJidAk4AH3A6hfE3tbTayAA2GjFnzTlhrZW66CzF3xkwWcNrL9WaMD2gPna1bDDytgDFKuHVnaYExlUTEvVz0yR54+YIwloF+7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYDhMv3P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L/PnBta6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 966A5C4CEE3;
-	Wed, 11 Jun 2025 16:21:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYDhMv3P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D1A4C4CEEA;
+	Wed, 11 Jun 2025 16:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749658874;
-	bh=/L2dGUpW09AvMNpTRzGqIRxdazsuqBgLkgcIZOJe1Z0=;
+	s=k20201202; t=1749658936;
+	bh=ziAnfRxyNjEpCFfJWS21721Am3P++TML+hoaHXrdOSE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L/PnBta6Iy+ClZux3wRoK4yrCk9t4MPLyyuTpRp0Y7qcVus/mxM+svP3md8SSnjL2
-	 UCUr+Yl1neMOpEOYjBzjPUM+w2ZEFqfEamafnyotP3BEwv7F21nMnigZV3N1lwf7AW
-	 5uahA+KLvgZRw2OfVrjzHyoMQ6Q/OezymhXceo/wopr4TPMNj4nrj/RN7jvKYlQhOR
-	 dpAbJPIo0qgyMpmtA5o4DsbFFZGyQyyF+bTf1WsTwZaThKXLv5Tp2wpPGuJr8SKWeJ
-	 wucpMB5FOLCy5qEGH/mQ6IIAApOzyB9f1euBcw58K9DeTl1bIVr+FGmw1VIqfCdIP7
-	 f/VhO2cbEF5pA==
-Date: Wed, 11 Jun 2025 17:21:08 +0100
+	b=EYDhMv3P1nNHg7yQuL9LjYXiZ9ORAsq3I68fYTi/2MNVIkJkwzZ9gQUBM0bw6BRD/
+	 uOIgFxIblO8opvv5LsAMfBCV3JzloO1RU+Z4O+h9gN3jmb6Vowpf4LdTv8LZrRZx8U
+	 qvOBN+9Vt3fAIFctk5tBrnICe6qGbKihcNe/SvUJ9H0r6vDlte0Zlgl6JYjjVAA17L
+	 Ei96J7SqN5MeI5JlM8IpMY+pHQH96geciXxUkoTsa6Ienw5cOXVqs2vQ9odQol+RmC
+	 ZQPMz+HK68AAsgRKnxaAgBoJOJpt+oUgPyyTdJvs4dET0RNjYu6wJZlVWNql8nkVQT
+	 L0h3l3NTO/8Mg==
+Date: Wed, 11 Jun 2025 17:22:10 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Chen-Yu Tsai <wenst@chromium.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -39,11 +39,11 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	Jiaxin Yu <jiaxin.yu@mediatek.com>, linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 07/13] ASoC: mediatek: mt8183-afe-pcm: Support >32 bit
- DMA addresses
-Message-ID: <e9baeb61-9cb1-4b58-b957-fe753e629f12@sirena.org.uk>
+Subject: Re: [PATCH v2 09/13] ASoC: mediatek: mt8183-afe-pcm: use local `dev`
+ pointer in driver callbacks
+Message-ID: <d9107e29-ccb3-4a60-b6d7-dfd938c45b4f@sirena.org.uk>
 References: <20250424102509.1083185-1-wenst@chromium.org>
- <20250424102509.1083185-8-wenst@chromium.org>
+ <20250424102509.1083185-10-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,40 +51,45 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9PAPZhOpllzoEdZ4"
+	protocol="application/pgp-signature"; boundary="OKDsn+6sk/Ui8xxs"
 Content-Disposition: inline
-In-Reply-To: <20250424102509.1083185-8-wenst@chromium.org>
-X-Cookie: Metermaids eat their young.
+In-Reply-To: <20250424102509.1083185-10-wenst@chromium.org>
+X-Cookie: I've Been Moved!
 
 
---9PAPZhOpllzoEdZ4
+--OKDsn+6sk/Ui8xxs
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 24, 2025 at 06:25:01PM +0800, Chen-Yu Tsai wrote:
-> The AFE DMA hardware supports up to 34 bits for DMA addresses. This is
-> missing from the driver and prevents reserved memory regions from
-> working properly when the allocated region is above the 4GB line.
+On Thu, Apr 24, 2025 at 06:25:03PM +0800, Chen-Yu Tsai wrote:
+> The probe and remove functions in the mt8183-afe-pcm driver repeatedly us=
+es
+> `&pdev->dev` for |struct device *|, but then assigns this value to
+> `afe->dev` and uses that in other places in the same function.
 >=20
-> Fill in the related register offsets for each DAI, and also set the
-> DMA mask. Also fill in the LSB end register offsets for completeness.
+> Store `&pdev->dev` in a local pointer and use that exclusively to avoid
+> the numerous dereferences and to make the code more consistent. Lines
+> are reflowed where it makes sense.
 
 This doesn't apply against current code, please check and resend.
 
---9PAPZhOpllzoEdZ4
+I'm just about to drop everything else into CI so it should just be the
+couple of patches I flagged.
+
+--OKDsn+6sk/Ui8xxs
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhJrPMACgkQJNaLcl1U
-h9BXaAf8Cp0/Qk9S9BCu/1WQ9b7h9uIwroAKxXnge/cWjZAaw3lpUGDxTZlGp4uf
-yIxD1RWhQNL2YeHVH+6Wq9x142AZ5jCCme/GswQGThwVPxau9mVVCV1nJzSMbnlf
-kUfAQcRN9S4a1FpsRqcfHXIwww8LT7Kog75DmLv9weUHy5biFlThiQkqcaR5nOm7
-9cbzIK8FzYHgpgP5E2nEpSbP2z/czOjR0SVGql2pwalRa0lGYoZ9/3a38cipDbc5
-bCEIXr9b48FLg4ZKOPO2qRb/pXvOQ0abFlye4lOjd5OhRkFXtZEEX7u6IZSej66s
-Tmv8ID9+Oy7Ej3ybPmH24gNdTcpCuA==
-=W2oV
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhJrTIACgkQJNaLcl1U
+h9A0swf/YV8Fwq4XzOoUcESeG40woM73Nf36oZKuCPnJShafmWlvwGNu1nrxUXgT
+B5uc4HFldlyHz9V+Z3ICpZcWX8BxfVGgGQz6gdUFv0dHmTrF1Uw8jMLQnRzW7Ay8
+mPUO4wGiDkOzS4Fr2c0CIs1rjLnFlRg+V4cwfXgC7Tt9MEZl/A0Njgp/WF85PD9A
+fHpwE5sBvo57t2tkt/Jy9p6F7JT7QkVTAGljnbiuxQMBkqrX6rj+Old5UhDaYoaJ
+R7ktKAYju/Xa2ChFYSwSipX7Mg/7vPMepYJSW8WsYf+XHkUYjjHPqZ99mpCOPvsC
+AZJCtp3kY5y+dz8R35xID2GHWqvstA==
+=F1JI
 -----END PGP SIGNATURE-----
 
---9PAPZhOpllzoEdZ4--
+--OKDsn+6sk/Ui8xxs--
