@@ -1,304 +1,99 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA7C20C485
-	for <linux-sound@vger.kernel.org>; Wed, 11 Jun 2025 10:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436CE26A1AA;
+	Wed, 11 Jun 2025 10:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749637663; cv=none; b=WrWEAUwRcYEwSPiflwvdYuUk8aas0vlqRWbmXjw52Yuxu6f7wufyTNE0lCCwJOzo4SJSptvAHyxqNo6Fu5z/p1yvjzLXiHzT/MmPmcA2o4bVUgMhU6lEh0zr7ehT+6aFfC5NVOOrgAcezg/Mi+WBUQMraJWgTQLXxIUTZqfUZNY=
+	t=1749637916; cv=none; b=KSLHWZcd8a6nosBHPEKI5VzGxwBKyyF2KalRqCEkKaWWxsA6eI+Fw9+mBVYRyvUPvSddHowQTEz2e64PKtEksVUouG0TWQpaCLVlTJMimz0qCq0UFexB+moIB6uRX0PH8GoZAcsewr2EJbXO8kKyj8iQMAM2QwAbmKXkHwtwUng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749637663; c=relaxed/simple;
-	bh=uui9IR9FEhkDm2K4Esk/VwvdHEOb6D/CooKGXhnWamE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EcskIgRcjq8KrMSMAwdN/N6a04XtdRy+G77TfosXzTQNuXRA7YWjQQp/ZeDkAjp5dtnF3goi97TRnlUohJzF2FlBs2s5adrknxzV0QnevUojJm3MqSz/WqP5EW9aO1AmYeIpM8NoFwR5Mn8J5i9pI+V2Q1sEbtUVfNHk/zOIypE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=GqTjl/yE; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1749637916; c=relaxed/simple;
+	bh=3z8hZFa9//bUvzwLa3zjwL+7K6avZpJg2PLIMuQmLL4=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=JZnBJJVnmIB7XEjaCo5HiGr31ZbRdYLA5bzdK/1IpmhesjsTqphhfmipD08rL1EEZZwinG67YPUqKNXdKiaIBGgL1eFfmo7lsguOq8fzv063mP3MzcJUW9s78Ajo09OTdpb6lFhEsV6spp51ETgBcauwMlrVP1gLGfT2WbBZX/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Og+Ohgdr; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="GqTjl/yE"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 55BAREpsC385849, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1749637635; bh=zFcO5NXpqCRL0ZMpTlmQ9BFp8Tl1K+uHU6Rb+ElEXIU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=GqTjl/yET7N4EhwWrWleQaM7SQMKR1OHyzfGHJntQk55gBF6c0Fj334de9lxHj5im
-	 Jmw8hcsaHPNNqWbHvq4AnTQ1MHOl4y+RpwSsPwieQ2OtDjUYeqeL16ZzBzbsndp3mT
-	 4hIKXtEPzJdahKiOzu0kzUGviLAL5tPRatnXsiFLlDTJSOc2jVUde4GHXHonPCLEKm
-	 gipy0MdaAND3cV97HwNOdPeXkRvCHU3hRAvnMHHMkO9v8U+/N/TgPA79iJcXMoOAkO
-	 JN7BGAT87vwH8vi7awC96s5MaCn30cHnMjAwd6st6oR0BJPZuFqdedQ9QVTFMT6aIN
-	 Bu1RGLEYgd2Lw==
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 55BAREpsC385849
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 11 Jun 2025 18:27:14 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 11 Jun 2025 18:27:15 +0800
-Received: from sw-server.localdomain (172.22.102.1) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 11 Jun 2025 18:27:15 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, <ckeepax@opensource.cirrus.com>,
-        <bard.liao@intel.com>, Shuming Fan
-	<shumingf@realtek.com>
-Subject: [PATCH 3/3] ASoC: SDCA: add a HID device for HIDE entity
-Date: Wed, 11 Jun 2025 18:27:09 +0800
-Message-ID: <20250611102709.563179-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Og+Ohgdr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1749637912;
+	bh=3z8hZFa9//bUvzwLa3zjwL+7K6avZpJg2PLIMuQmLL4=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=Og+Ohgdrlx/tf6pMagXXUidF1owJ7JRpFiMxz0sXLlLR9I2U8xFsYL9B+0W1w1MT3
+	 ABTGmg3o1ZfpZDQW+9sCzpec1N0npade21fFY2BIdbUSmoTiAndGHckAXyVLBin1Zw
+	 SEFLxL2fNGuiAOER7JvOE7F5hrIsNSMOMWwk5wJLRaG04QJoWl4/qY1oXWuzJBb6Af
+	 wsSwTI7WHVnBOjhKpaaXNrSKvb/y52T44HaGHpXZpxyCXBT0I6xgzKADXngnaMedXD
+	 TeT5RIjeDhQMAfnPxWxgjbiRGw9wPUnIqens1694qMuudhCCCtN7OR2QcCO8DmFrm2
+	 P+aTeW0M3kohQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6F6D417E02B0;
+	Wed, 11 Jun 2025 12:31:51 +0200 (CEST)
+Message-ID: <ccd10443-c643-487b-ab2b-f1da00f97ed7@collabora.com>
+Date: Wed, 11 Jun 2025 12:31:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/13] ASoC: mediatek: use reserved memory or enable
+ buffer pre-allocation
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Jiaxin Yu <jiaxin.yu@mediatek.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250424102509.1083185-1-wenst@chromium.org>
+ <aCRaTY76dnaavsrd@finisterre.sirena.org.uk>
+ <89e2699a-94cc-4d1d-9788-2c5bce1c361c@collabora.com>
+Content-Language: en-US
+In-Reply-To: <89e2699a-94cc-4d1d-9788-2c5bce1c361c@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
- RTEXMBS01.realtek.com.tw (172.21.6.94)
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
 
-From: Shuming Fan <shumingf@realtek.com>
+Il 11/06/25 12:22, AngeloGioacchino Del Regno ha scritto:
+> Il 14/05/25 10:54, Mark Brown ha scritto:
+>> On Thu, Apr 24, 2025 at 06:24:54PM +0800, Chen-Yu Tsai wrote:
+>>
+>>> This is v2 of what was just a single patch "ASoC: mediatek: re-enable
+>>> buffer pre-allocation on some platforms". Link to v1:
+>>>
+>>>      https://lore.kernel.org/all/20250401085659.1222008-1-wenst@chromium.org/
+>>>
+>>> Angelo requested that these platforms use reserved memory regions if
+>>> possible, and fall back to pre-allocated buffers only if that fails,
+>>> to align with other MediaTek SoCs / platforms that already use reserved
+>>> memory. The series covers MediaTek's MT8173, MT8183, MT8186, and MT8192
+>>> SoCs.
+>>
+>> AngeloGioacchino?
+> 
+> Truly sorry for this slipping through the cracks - and thank you for the pings.
+> Also, thank you for all this code, love it.
+> 
+> Whole series is:
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> 
+> Sorry again for all the wait.
+> 
+> Cheers!
+> Angelo
 
-This patch supports to add a HID device for SDCA HIDE entity.
-The codec driver could call 'hid_input_report' to report events.
+Also, I picked patches 10 to 13, applied to v6.16-next/dts64 and manually fixed
+a merge issue with patch 13.
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- include/sound/sdca_hid.h        |  25 +++++++
- sound/soc/sdca/Kconfig          |   4 +
- sound/soc/sdca/Makefile         |   3 +
- sound/soc/sdca/sdca_functions.c |   9 +++
- sound/soc/sdca/sdca_hid.c       | 127 ++++++++++++++++++++++++++++++++
- 5 files changed, 168 insertions(+)
- create mode 100644 include/sound/sdca_hid.h
- create mode 100644 sound/soc/sdca/sdca_hid.c
+https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git/log/?h=v6.16-next/dts64
 
-diff --git a/include/sound/sdca_hid.h b/include/sound/sdca_hid.h
-new file mode 100644
-index 000000000000..8ab3e498884e
---- /dev/null
-+++ b/include/sound/sdca_hid.h
-@@ -0,0 +1,25 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause) */
-+/*
-+ * The MIPI SDCA specification is available for public downloads at
-+ * https://www.mipi.org/mipi-sdca-v1-0-download
-+ *
-+ */
-+
-+#ifndef __SDCA_HID_H__
-+#define __SDCA_HID_H__
-+
-+#include <linux/types.h>
-+#include <linux/hid.h>
-+
-+#if IS_ENABLED(CONFIG_SND_SOC_SDCA_HID)
-+int sdca_add_hid_device(struct device *dev, struct sdca_entity *entity);
-+
-+#else
-+static inline int sdca_add_hid_device(struct device *dev, struct sdca_entity *entity)
-+{
-+	return 0;
-+}
-+
-+#endif
-+
-+#endif /* __SDCA_HID_H__ */
-diff --git a/sound/soc/sdca/Kconfig b/sound/soc/sdca/Kconfig
-index ee20b9914aa1..ec28855fe3b0 100644
---- a/sound/soc/sdca/Kconfig
-+++ b/sound/soc/sdca/Kconfig
-@@ -9,3 +9,7 @@ config SND_SOC_SDCA
- 
- config SND_SOC_SDCA_OPTIONAL
- 	def_tristate SND_SOC_SDCA || !SND_SOC_SDCA
-+
-+config SND_SOC_SDCA_HID
-+	tristate "SDCA HID support"
-+	depends on SND_SOC_SDCA && HID
-diff --git a/sound/soc/sdca/Makefile b/sound/soc/sdca/Makefile
-index 53344f108ca6..9af46e7edfd2 100644
---- a/sound/soc/sdca/Makefile
-+++ b/sound/soc/sdca/Makefile
-@@ -2,4 +2,7 @@
- 
- snd-soc-sdca-y	:= sdca_functions.o sdca_device.o sdca_regmap.o sdca_asoc.o
- 
-+snd-soc-sdca-hid-y := sdca_hid.o
-+
-+obj-$(CONFIG_SND_SOC_SDCA_HID)	+= snd-soc-sdca-hid.o
- obj-$(CONFIG_SND_SOC_SDCA)	+= snd-soc-sdca.o
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 4a89067dcf76..093c681e9387 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -19,6 +19,7 @@
- #include <linux/types.h>
- #include <sound/sdca.h>
- #include <sound/sdca_function.h>
-+#include <sound/sdca_hid.h>
- 
- /*
-  * Should be long enough to encompass all the MIPI DisCo properties.
-@@ -1294,6 +1295,13 @@ find_sdca_entity_hide(struct device *dev, struct fwnode_handle *function_node,
- 			hide->hid_report_desc = report_desc;
- 			fwnode_property_read_u8_array(function_node, "mipi-sdca-report-descriptor",
- 						      report_desc, nval);
-+
-+			/* add HID device */
-+			ret = sdca_add_hid_device(dev, entity);
-+			if (ret) {
-+				dev_err(dev, "%pfwP: failed to add HID device: %d\n", entity_node, ret);
-+				return ret;
-+			}
- 		}
- 	}
- 
-@@ -1933,3 +1941,4 @@ EXPORT_SYMBOL_NS(sdca_parse_function, "SND_SOC_SDCA");
- 
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_DESCRIPTION("SDCA library");
-+MODULE_IMPORT_NS("SND_SOC_SDCA_HID");
-diff --git a/sound/soc/sdca/sdca_hid.c b/sound/soc/sdca/sdca_hid.c
-new file mode 100644
-index 000000000000..b227ad94d08f
---- /dev/null
-+++ b/sound/soc/sdca/sdca_hid.c
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
-+
-+/*
-+ * The MIPI SDCA specification is available for public downloads at
-+ * https://www.mipi.org/mipi-sdca-v1-0-download
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/byteorder/generic.h>
-+#include <linux/cleanup.h>
-+#include <linux/device.h>
-+#include <linux/dev_printk.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/soundwire/sdw.h>
-+#include <linux/types.h>
-+#include <sound/sdca.h>
-+#include <sound/sdca_function.h>
-+#include <sound/sdca_hid.h>
-+
-+static int sdwhid_parse(struct hid_device *hid)
-+{
-+	struct sdca_entity *entity = hid->driver_data;
-+	unsigned int rsize;
-+	int ret;
-+
-+	rsize = entity->hide.hid_desc.rpt_desc.wDescriptorLength;
-+
-+	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
-+		dev_err(&hid->dev, "invalid size of report descriptor (%u)\n", rsize);
-+		return -EINVAL;
-+	}
-+
-+	ret = hid_parse_report(hid, entity->hide.hid_report_desc, rsize);
-+
-+	if (!ret)
-+		return 0;
-+
-+	dev_err(&hid->dev, "parsing report descriptor failed\n");
-+	return ret;
-+}
-+
-+static int sdwhid_start(struct hid_device *hid)
-+{
-+	return 0;
-+}
-+
-+static void sdwhid_stop(struct hid_device *hid)
-+{
-+}
-+
-+static int sdwhid_raw_request(struct hid_device *hid, unsigned char reportnum,
-+			      __u8 *buf, size_t len, unsigned char rtype, int reqtype)
-+{
-+	switch (reqtype) {
-+	case HID_REQ_GET_REPORT:
-+		/* not implemented yet */
-+		return 0;
-+	case HID_REQ_SET_REPORT:
-+		/* not implemented yet */
-+		return 0;
-+	default:
-+		return -EIO;
-+	}
-+}
-+
-+static int sdwhid_open(struct hid_device *hid)
-+{
-+	return 0;
-+}
-+
-+static void sdwhid_close(struct hid_device *hid)
-+{
-+}
-+
-+static const struct hid_ll_driver sdw_hid_driver = {
-+	.parse = sdwhid_parse,
-+	.start = sdwhid_start,
-+	.stop = sdwhid_stop,
-+	.open = sdwhid_open,
-+	.close = sdwhid_close,
-+	.raw_request = sdwhid_raw_request,
-+};
-+
-+int sdca_add_hid_device(struct device *dev, struct sdca_entity *entity)
-+{
-+	struct sdw_bus *bus;
-+	struct hid_device *hid;
-+	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-+	int ret;
-+
-+	bus = slave->bus;
-+
-+	hid = hid_allocate_device();
-+	if (IS_ERR(hid))
-+		return PTR_ERR(hid);
-+
-+	hid->ll_driver = &sdw_hid_driver;
-+
-+	hid->dev.parent = dev;
-+	hid->bus = BUS_SDW;
-+	hid->version = le16_to_cpu(entity->hide.hid_desc.bcdHID);
-+
-+	snprintf(hid->name, sizeof(hid->name),
-+		 "HID sdw:%01x:%01x:%04x:%04x:%02x",
-+		 bus->controller_id, bus->link_id, slave->id.mfg_id,
-+		 slave->id.part_id, slave->id.class_id);
-+
-+	snprintf(hid->phys, sizeof(hid->phys), "%s", dev->bus->name);
-+
-+	hid->driver_data = entity;
-+
-+	ret = hid_add_device(hid);
-+	if (ret && ret != -ENODEV) {
-+		dev_err(dev, "can't add hid device: %d\n", ret);
-+		hid_destroy_device(hid);
-+		return ret;
-+	}
-+
-+	entity->hide.hid = hid;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(sdca_add_hid_device, "SND_SOC_SDCA_HID");
-+
-+MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SDCA HID library");
--- 
-2.34.1
-
+Cheers!
