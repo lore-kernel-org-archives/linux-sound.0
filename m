@@ -1,107 +1,139 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5DF2E611E;
-	Wed, 11 Jun 2025 11:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97819272E63
+	for <linux-sound@vger.kernel.org>; Wed, 11 Jun 2025 12:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749640499; cv=none; b=SNxV2kcWIJvTxDkzQyTDOhDD34bNE805ub7x9WS5IgBTpxgcYAirhxltHnlb+f+tdRwSGqJd2jop0i8wE9krVlabDwIgXxOh0Kg/Xklxms1/EcA+X+540qKuMilUOGoeQ1EhE1KRQtNdm+D0zDp24CSak4IPx6TPk1K9fCgjE+g=
+	t=1749646156; cv=none; b=j4CT7aZaS99xZomK6DP2Co9pWZOVltyMnW3SDFy8jX7QYMmEsVmk4bhMlMudY7FRCYSUvERWKcI9pJeHJEvcM3rpchP3QfHeJYVd+NtQDiMKfMKe1PkoH6N5jbdKJ46YMOJyCC/fvZ+xb8uTEFspdFo+P/iawdpEspajcU+FcVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749640499; c=relaxed/simple;
-	bh=xoTzQij77wJqxKu/8WOJivHo5xvIanP8StGNmp1ewxg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XFdsCHTxSzWPUWoSND9WcnF5/kXor7uXWSU1tRO4zdHaYxnUkUxt9vrKZa2B2yoORp78h+Uq7VS9IsCJ+TnnHGjK5naNmITiwBRbCtOtk7/UNjpeZAjWAEJZjcThAkItbtGk/PEsjNZIgzvWBSsXItLk8xrQAyoddY/+08fwbpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UW/oVHTA; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1749646156; c=relaxed/simple;
+	bh=JEL5rHgZNb7DAsn6xBRypsK6BNQMJX3AEL99ZzoDNpA=;
+	h=From:In-Reply-To:References:Mime-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fKbnWv1oUwlJPZ4t0eW4QLHSl7bV3PeHS0OhQYEGnyRdxHC4F86Qe6lCiqqKqLm3Xt0KE+AgSPWebWyihehHDIPS/1zQXhgOlIl/4MFWAOCiwpMLCB0ofv8y11k1CcQ7LO5uXHGEDa6X4sWwgdjTDBcWZ2SWHcQQX/x/4FMz2yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=a20UDsYi; arc=none smtp.client-ip=185.125.188.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UW/oVHTA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1749640495;
-	bh=xoTzQij77wJqxKu/8WOJivHo5xvIanP8StGNmp1ewxg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UW/oVHTA/HuPIQy39vzAQ7DA1PBC85oXq9visjD+/znO4tH1rAuNncJk7GIpCza8Z
-	 NkJYneqv/byx/sB3AzA9mHYHsVnvMDH39Qzg+cJxGpZYLqMw35tG4YtCW/UlBljvgt
-	 SSHevCKLFTzbtMwSM7OG5tJMAs7FxDqJNOYYId38nYUePx/y8g65jhRAeKj6T129bb
-	 tYyvyPRuaamYqgV+zK5zS9OaGByXCmkMrUX/QYs8wz03ouNmTyfU1W0IeiGKep1pYI
-	 RKF0sX21fDaXM0/WJANlVHC8WLQq2/DeV+6iLHMj49MhbCbChRJJFCSei0rjNEDSZl
-	 mUWhfOw23cFNQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="a20UDsYi"
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com [209.85.160.70])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8EA3D17E10F8;
-	Wed, 11 Jun 2025 13:14:54 +0200 (CEST)
-Message-ID: <5cf01f45-ea0b-421e-81a7-163c069aeaf0@collabora.com>
-Date: Wed, 11 Jun 2025 13:14:54 +0200
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 4A4E344705
+	for <linux-sound@vger.kernel.org>; Wed, 11 Jun 2025 12:49:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1749646141;
+	bh=bELfz3w2j893PNHUaLtbdQ42P6gz+Z983PYtPwmORCE=;
+	h=From:In-Reply-To:References:Mime-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type;
+	b=a20UDsYi2qY6HfKd0ZzRlNFs5q9bSATI67LFDqW7k9VCeo8Pzz1ntvfqvBPk84gNS
+	 TtvsigjkOUdlMnT6/2zFeVlbqp8YPC0ErnLHdBpT1VVyMKVajZALtwwN9Go2SlruAD
+	 DgXbPSedT/bERJb/w+rtOuqMk1wlf15a5HDBgiVpFCNm9MjO/iX081rDvsNVaCrkI5
+	 9/vuR7AWTgVC5l0yKeypcCULMzrnyc61ti6WR/2wm10LSob5BPtWE9Top8UeS9/CSW
+	 fedML+7o8c/yamObmkxmytfqHfmYHEGsFDHrLiHDGm0Ke746QC3Y8HXqD1uR6QdQwu
+	 sBGB9kituaXMg==
+Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-2d9ea524aa6so5906893fac.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Jun 2025 05:49:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749646139; x=1750250939;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bELfz3w2j893PNHUaLtbdQ42P6gz+Z983PYtPwmORCE=;
+        b=P29yX80t/t5Lb4Ow8ZjFjTukugpnsGQ2RNjgAJSLSH1YwT/uYCsBjKkz5cbTqj+HHp
+         AWU2q0806xerRUzoPKj15ktsp+xRYxI8yqBUonBXSx4g5EIHs2YuUOeSjqRIsqjwiWcD
+         RFgS++fI4zWf2mR/SwWGP4gxvhRJ9R6sumM3iY6iPRXDKuSLmAfqbRhHpACui2UVK+g7
+         DlLH3xhA+dRvH1GnMHNmAEv1Fvl/Rxh7bqhf7n46L1mSLL6MIEhCSrsCIMfym6wlTLtR
+         X6BFqwrIK0X6PgiJZePU/+Iym6kxpCX4+9TKygzR5jMdpt/iG7F+6dI9eeOw22X+nQ1k
+         XUxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXfOMC+u/bla8UO8vD9jxEo5t53voQwjhZmCOEns/PRwKOd1GAP3+b0LJYTymtL5rcY/XQtEkQtpVFsJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWJ4P+ORiMrculFQC0Gu8xa0Hv9K3WMirh811lefO1Kmsjk1lk
+	dtUHF7n8MIu79nMT+Lv453pZV48aQSJuZvAEFPq+vOUZ9FRtHSeGz6wmHJ1tMvaLoOVNq2qBfm6
+	syxBluTKJ+vY9k3KypOsLLmPPIOa1A+hYz7uyL+kJApMIgBlfFl3zNXO68U+MgbW0c5VWdldduv
+	mmIRtt+eUdgqIG9E1CgO01dRyYbuFt1cfcBcrtlmaTXWNvASZdoRQNA4A=
+X-Gm-Gg: ASbGnct/k1OGkb0cYAnChEUJ1zqAYk1bQSTf3Mf0j9YB+WiDL/An4CT5/J2Sz0I2d6y
+	MAInQf/E7ls9PL3fzprrixJbEVvvsKGBSHDMJ5yl/qkBm1yK4mZQP8qeu3d9bWx1GD/t5DBMPg1
+	AZWg==
+X-Received: by 2002:a05:6871:e803:b0:289:2126:6826 with SMTP id 586e51a60fabf-2ea96f18fc2mr1940858fac.30.1749646138969;
+        Wed, 11 Jun 2025 05:48:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGzhqyM2kCCDhwaEPz02MLETIROTaGu5WeJENkIMCzCu3hfLe4ldyitgFfsfYyGdI6dZNlApiM1ratiR1ypk/k=
+X-Received: by 2002:a05:6871:e803:b0:289:2126:6826 with SMTP id
+ 586e51a60fabf-2ea96f18fc2mr1940818fac.30.1749646138634; Wed, 11 Jun 2025
+ 05:48:58 -0700 (PDT)
+Received: from 348282803490 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 Jun 2025 07:48:57 -0500
+From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+In-Reply-To: <20250611-pinctrl-const-desc-v2-1-b11c1d650384@linaro.org>
+References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org> <20250611-pinctrl-const-desc-v2-1-b11c1d650384@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/10] ASoC: mediatek: common: modify mtk afe platform
- driver for mt8196
-To: "Darren.Ye" <darren.ye@mediatek.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org
-References: <20250610092852.21986-1-darren.ye@mediatek.com>
- <20250610092852.21986-2-darren.ye@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250610092852.21986-2-darren.ye@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Date: Wed, 11 Jun 2025 07:48:57 -0500
+X-Gm-Features: AX0GCFuz_RtY5rxDREJdwFYXLGRQkyQfytWb3LifI1_It-SfpAfrMZfWta2TVOY
+Message-ID: <CAJM55Z9WzsxWGmQYH05hSisigTRaHuKOn8g3AsLJ9h6Womy2dg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/17] pinctrl: starfive: Allow compile testing on
+ other platforms
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>, 
+	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
+	Benjamin Fair <benjaminfair@google.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Sean Wang <sean.wang@kernel.org>, Jesper Nilsson <jesper.nilsson@axis.com>, 
+	Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
+	Hal Feng <hal.feng@starfivetech.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com, 
+	linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="UTF-8"
 
-Il 10/06/25 11:27, Darren.Ye ha scritto:
-> From: Darren Ye <darren.ye@mediatek.com>
-> 
-> Mofify the pcm pointer interface to support 64-bit address access.
-> 
-> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
+Krzysztof Kozlowski wrote:
+> Always descent to drivers/pinctrl/starfive/ because limiting it with
+> SOC_STARFIVE is redundant since its Makefile doesn't build anything if
+> no Starfive-specific pin control Kconfig options are enabled.  This
+> allows compile testing on other architectures with allyesconfig.
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Reviewed-by: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+
 > ---
->   .../mediatek/common/mtk-afe-platform-driver.c | 47 ++++++++++++-------
->   .../mediatek/common/mtk-afe-platform-driver.h |  2 +
->   2 files changed, 33 insertions(+), 16 deletions(-)
-> 
-> diff --git a/sound/soc/mediatek/common/mtk-afe-platform-driver.c b/sound/soc/mediatek/common/mtk-afe-platform-driver.c
-> index 6b6330583941..a86594dca2b7 100644
-> --- a/sound/soc/mediatek/common/mtk-afe-platform-driver.c
-> +++ b/sound/soc/mediatek/common/mtk-afe-platform-driver.c
-
-..snip..
-
-> diff --git a/sound/soc/mediatek/common/mtk-afe-platform-driver.h b/sound/soc/mediatek/common/mtk-afe-platform-driver.h
-> index fcc923b88f12..9809e60db511 100644
-> --- a/sound/soc/mediatek/common/mtk-afe-platform-driver.h
-> +++ b/sound/soc/mediatek/common/mtk-afe-platform-driver.h
-> @@ -12,6 +12,8 @@
->   #define AFE_PCM_NAME "mtk-afe-pcm"
->   extern const struct snd_soc_component_driver mtk_afe_pcm_platform;
->   
-> +#define MTK_WORD_SIZE_ALIGN(x) ((x) & (0xfffffffff0))
-
-This doesn't really look like alignment to me, so perhaps change the macro name.
-Also, please use the GENMASK macro.
-
-0xfffffffff0 -> GENMASK(39, 4)
-
-after which:
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-> +
->   struct mtk_base_afe;
->   struct snd_pcm;
->   struct snd_soc_component;
-
-
+>  drivers/pinctrl/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pinctrl/Makefile b/drivers/pinctrl/Makefile
+> index 65dac8e387985ac7f865d13325eb903f64645a2a..de80f3ee52c40f3a817f229a751909c590161594 100644
+> --- a/drivers/pinctrl/Makefile
+> +++ b/drivers/pinctrl/Makefile
+> @@ -83,7 +83,7 @@ obj-y				+= sophgo/
+>  obj-y				+= spacemit/
+>  obj-$(CONFIG_PINCTRL_SPEAR)	+= spear/
+>  obj-y				+= sprd/
+> -obj-$(CONFIG_SOC_STARFIVE)	+= starfive/
+> +obj-y				+= starfive/
+>  obj-$(CONFIG_PINCTRL_STM32)	+= stm32/
+>  obj-y				+= sunplus/
+>  obj-$(CONFIG_PINCTRL_SUNXI)	+= sunxi/
+>
+> --
+> 2.45.2
+>
