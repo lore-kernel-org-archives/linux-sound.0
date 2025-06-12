@@ -1,205 +1,141 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011034.outbound.protection.outlook.com [40.107.74.34])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2226E15AF6
-	for <linux-sound@vger.kernel.org>; Thu, 12 Jun 2025 01:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749692772; cv=fail; b=H0D/icD+C85trAjcfR6fw5ILGkMSJiWx8bUe6qH/GaWHgDTMQEu28kzL9BXk1lcZFcGf04FFzDOT/QGdgEYWy7jXNh8p6fCSaUyEEN0unMajZZs2mNWnGVyI2CMeOdDikXkAlqUQncXPrVSxwKFGTO7sWZUk93vgiWzgDVr1fQ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749692772; c=relaxed/simple;
-	bh=JrSOnEQGmq9kphaKHNPoZFiYQHULbiHJYFRIppyT6Yk=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Bc4zJiZ+/gOkQe+oh/4LBeexC1MN2yeHN68W/tJy6TphKdWTxaCnljeyzZGn4sqFUP3ouL6HxtpPUXCCiOS52KqsF9HwwZDTKXH91fBnbzcbaYc6ymEwKoy+Yq9cct2k6PC6iZjh2w5zK2ZdfmyOL8yFOtLlmeGw3dngeiQ9JF0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=iRYP/5VK; arc=fail smtp.client-ip=40.107.74.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="iRYP/5VK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hJuM9XeT870emuvvH6ooPTqFvuQc9IhhYPxecEkhRCvom0UXmpoOesgiLxE9I4tVnfKeblyx6cMDu1F2T0Eva+Br/H9JupGBTC6LyIZg0aWUTDuMzMS6oLVtkvoMo2X9CZA8/N3ULBT6TBYkECvqQF78XFID+5Z8g6ic/d8vpceUP1psZDkHpWnl1VYydHysxjl0dEr92xQ+pkulN5AlJKv/NLAMa1+X/9ywQ31K/mJ39N4zDn1tKF4VjeTqEvziLwjHp7m/aJGrnis4GkXTKK/Bsli55dpDJ5VNkWZ3vrNT+K6bwexehh9pNXc5WjsXr3+ypEbpKHNubRQecSmgOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ux67MRQu+sIbBS9gi4tzOIpwkkjG4H3xco1rGVAP+eg=;
- b=G7aqZjvpN9rvU76xp9nZi/DoLitgaw/dp2PH6P6jhPfn4Dvb5karH16OlcdQ+VxPlHEB2z6/MYN9SOeWwJlkv9o4xvtLt65O6GmffgEM00WSNMnyac3P7u4a2qmYtP1vOa8t08FQOcPejyFK1OTe+TtU+0bnKYgaEImKcR6QHX4sLmX19KYZ9whNkTAzAIq+KeFMTZkQSl+iOJOfQv37EMQOcJGX4DEEQLWnFLRza+Uuumqfkrv6mLzmR3EeW18gXXKJCShJKJz+3EpArWpPaqW2u/BaYrFoC6gzaZTRJ879aXd+LvEp1yoIgLeImP/KxGzhHnoqYt/qUNuzxY+dBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ux67MRQu+sIbBS9gi4tzOIpwkkjG4H3xco1rGVAP+eg=;
- b=iRYP/5VK8DzoilkS4MQEtW1Jr8i798Z/XqMUg6DXp9kbehIaN5XFjUoC1sccv89YSfQe7SRSZOMDvFKmaQ+5A9zIG19MRVC/bcz8gttjYi4eDVoOMrrzHQnRizLIcpueYB4veEJHfSkWdpplMaHWxHugctl0jx1XNp3Ob6fs/yo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TY7PR01MB16176.jpnprd01.prod.outlook.com
- (2603:1096:405:2ab::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.19; Thu, 12 Jun
- 2025 01:46:08 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8835.019; Thu, 12 Jun 2025
- 01:46:08 +0000
-Message-ID: <87jz5hybog.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>,	Jaroslav Kysela <perex@perex.cz>,
-	Martin =?ISO-8859-2?Q?Povi=B9er?= <povik+lin@cutebit.org>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Andrei Simion <andrei.simion@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Cezary Rojewski
- <cezary.rojewski@intel.com>,	Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>,	Bard Liao
- <yung-chuan.liao@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.dev>,	Paul Cercueil <paul@crapouillou.net>,
-	Shawn Guo <shawnguo@kernel.org>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,	Fabio Estevam
- <festevam@gmail.com>,	Daniel Mack <daniel@zonque.org>,	Haojian Zhuang
- <haojian.zhuang@gmail.com>,	Robert Jarzmik <robert.jarzmik@free.fr>,	Heiko
- Stuebner <heiko@sntech.de>,	Daniel Baluta <daniel.baluta@nxp.com>,	Orson
- Zhai <orsonzhai@gmail.com>,	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,	Arnaud Pouliquen
- <arnaud.pouliquen@foss.st.com>,	Olivier Moysan
- <olivier.moysan@foss.st.com>,	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,	Chen-Yu Tsai
- <wens@csie.org>,	Jernej Skrabec <jernej.skrabec@gmail.com>,	Samuel Holland
- <samuel@sholland.org>,	Thierry Reding <thierry.reding@gmail.com>,	Jonathan
- Hunter <jonathanh@nvidia.com>,	Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>,	Masami Hiramatsu <mhiramat@kernel.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,	Michal Simek
- <michal.simek@amd.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Mario Limonciello
- <mario.limonciello@amd.com>,	Yu-Chun Lin <eleanor15x@gmail.com>,	Vijendar
- Mukunda <Vijendar.Mukunda@amd.com>,	Nikita Shubin
- <nikita.shubin@maquefel.me>,	Arnd Bergmann <arnd@arndb.de>,	Alexander
- Sverdlin <alexander.sverdlin@gmail.com>,	Vinod Koul <vkoul@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,	Piotr Wojtaszczyk
- <piotr.wojtaszczyk@timesys.com>,	Sudeep Holla <sudeep.holla@arm.com>,
-	Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,	Binbin Zhou
- <zhoubinbin@loongson.cn>,	Keguang Zhang <keguang.zhang@gmail.com>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	"=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,	Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>,	Sameer Pujar
- <spujar@nvidia.com>,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 32/37] ASoC: mediatek: Standardize ASoC menu
-In-Reply-To: <2f9e2735-a95c-4839-ac8b-ad5d5fdc4012@gmail.com>
-References: <8734c8bf3l.wl-kuninori.morimoto.gx@renesas.com>
-	<871prs6x8s.wl-kuninori.morimoto.gx@renesas.com>
-	<2f9e2735-a95c-4839-ac8b-ad5d5fdc4012@gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 12 Jun 2025 01:46:08 +0000
-X-ClientProxiedBy: TYAPR01CA0004.jpnprd01.prod.outlook.com (2603:1096:404::16)
- To TYCPR01MB10914.jpnprd01.prod.outlook.com (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F341418D;
+	Thu, 12 Jun 2025 03:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749697243; cv=none; b=pE5/5zvavkrofOYr6MCiALKZIY1iWoLfs1W3dMB0bfAnLCrjOHzjvoFmZIXFHnoqR/rF/jczf3v9ryHJNc3D3qbrYdeFRsmc+SSJoyD7XEWCdlXjG5oxhxOHTyxm9F27hBaZ+FxoE/GqYYSsJNgrhfbf/E4jmWkI9YnRK2vqHVE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749697243; c=relaxed/simple;
+	bh=kzLZEBvYk1M0n5Vs175spQvUD2gAJxA1W819nH0NQoc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DsGrleELrbTrwG4BqVupb1cysbYVpzfBuTIlp+koRs0thQyE48pASW1w9bEUb0SUT+DFT4evbQ3H3V5SHnLqVUO3TjSwYd+XbcNQPMekvNU8sKEAGQW7Mdmrv/nFRfZRt8IVw65tjqoTs1MIuM+KunUxE1pJu1EFC/AR3UiELPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com; spf=none smtp.mailfrom=linux.starfivetech.com; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.starfivetech.com
+X-QQ-mid: esmtpgz14t1749697213t65c22161
+X-QQ-Originating-IP: IF1P/oCMu5+Z6gtoOhY0chVmlDO4Lfc/wt6ay8GGmZA=
+Received: from [192.168.125.115] ( [113.104.142.205])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 12 Jun 2025 11:00:10 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 7120148681061884487
+Message-ID: <E9D57DC946595F4F+762b7c45-ba5f-4bba-86d3-4eeea7643157@linux.starfivetech.com>
+Date: Thu, 12 Jun 2025 11:00:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY7PR01MB16176:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62f1df54-0ed9-47ad-2473-08dda952e71b
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|376014|7416014|366016|38350700014|41080700001;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?iDYfNmhP6lBfWILZxVwGqWeKFa2W/WUL2+POYQFl9XQQPqkEV9vaGjSgDQJH?=
- =?us-ascii?Q?1y/Ju4vyW1iMqwKy/TuTbAwcEG15t1f/+uHV0uf3+ErbKZwprVr5mJ3Lh+Dv?=
- =?us-ascii?Q?lw2wQdKxwTAaPLG8HvesqHfC/aQqaOVtfQs6XGSfxvFleycM7LLhKrZNLGI6?=
- =?us-ascii?Q?GbZXoviqf6YLyTHdymSxSk8k/qT/7v2giMbw8O/lvgK5sDNkqvU6WYwVbLFd?=
- =?us-ascii?Q?xZ3pHsX41q6oh88FXPQAD0lJXL16QPjYsWaxwy8G178ZgS7fixwHI1JY5hhX?=
- =?us-ascii?Q?h6splS48MbTpZOxjkGVoSLj+CUn9Xx4bW3L7R+kU+XtyC/uU5UASxwUd7tM7?=
- =?us-ascii?Q?6Ez/cJToqdJ0eVwv4n7wDkXEa6MvtPP9XLg9wM2FEsK5O7YvUPnPGB8VRLHy?=
- =?us-ascii?Q?v8WbCG/U2XNeMdNxGtWvcMMBqsiS4iFn9gfc649KwrD+Aue1kWTJllc2pTtE?=
- =?us-ascii?Q?GRPDZ/iJ1GBqWqRdPviAKrbJqfkin+K4T9pW1nbmvFw5kHw1ngh+LGb56YvQ?=
- =?us-ascii?Q?I3dfK8W1UJU/yHrZg5USEsYBjiIA9R2ycTDgbpw5bXnqg/GegewFyk8BCC/B?=
- =?us-ascii?Q?5CDgJ908AToIVXpEvRkJKUftBg7tmD9h+0rliS1/N7sOmPwmAtNImgJdAwin?=
- =?us-ascii?Q?WYsWknsnBsZ4rBf7azGsAXPdunK27OITnXaYhENgmpC8cwEvkn7WydL066o4?=
- =?us-ascii?Q?OvnE5/3GuOVt9XTpg7yc4rBi0ZG7tsAi04ozSlcGLxExGBLJBnNd0oi/ldFW?=
- =?us-ascii?Q?lFW68M1NuiYf5YKnpTaphaubK6yFjOT6wp2IbSY8Kjyso/4ybJ+iBNd4x8Um?=
- =?us-ascii?Q?fo0aLTj42oxUmmZlZVXv7AovbYCTThmwhPVmEnjlUX7N4VQyVXQlRFCnU4nb?=
- =?us-ascii?Q?PiOeq3vJ57uJg9jUpNfNzka3W29O7/d4bct8JM95HEwt2fmZBgAek4CnIW4L?=
- =?us-ascii?Q?4laCKAY2c4F8SqSBECljGtrqU2wnHsx9T2Up2LrLS/Ae2Ei+iqEAr3Lwk8p3?=
- =?us-ascii?Q?/suXNfQP8YOmYnvTJJ0mDMFPmW7KTlv1A95XHTxapDOuMwZvBOXEaImppfNg?=
- =?us-ascii?Q?IAPDSezLCOv4fvUN3Z2doMlbSBn6hC8OfmTagJh9cK2ihaq8H7pTtie1l5tw?=
- =?us-ascii?Q?SIT4hDEEu4qOl7YcuI/yGQ1Ci+meqIgALAL4MDPqNIjxGpXpWShF0dJu6egT?=
- =?us-ascii?Q?JcYuLWhcWrFrY9pVTNS9VhENhcvYBsz85+v+dD7wzNlUiBglBG0qR0ChurXU?=
- =?us-ascii?Q?jzFcPGLGxHXoV7jiNsvlWEXTJb/09NS5UxWjYcKemOaD/kYv1x7OXe/Dqnn9?=
- =?us-ascii?Q?46akHR5Sy2/QJ4o3zPKdDPSg5+pMQi8xSTDIqD9WWvtdunKpQ6CfcFKhOYqu?=
- =?us-ascii?Q?Yxpw4qMm5u+7IDfne69fGEs/ofXqSqfyrvXq3B+EfOwXX0mbNxoKgNa29c2r?=
- =?us-ascii?Q?2mjKvAg3NKKJpQQWYv1WzVC/BKn3pqWxwjrbPDHILdoTnLOt7lOBjJ8r05zm?=
- =?us-ascii?Q?NWjOqN6DJnZmiMIP0vaGIYN59pn2tljbbRxd?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(38350700014)(41080700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SsesLSEKwS3LwnNAstIFdEBqSkhwfN78oh1ohjzlcdMn5O7j62memxY/r9KT?=
- =?us-ascii?Q?o+2swn84buyD5hwqX1EDRPdXFKToWNCRRHSs09vFHoeDBjoO6dHhyiVsG7EL?=
- =?us-ascii?Q?rmuhCn3+oBXPL8dLKQW+TUGov379+S+eJjXvB8YIJv4+IHDRBHNLleWuBbI5?=
- =?us-ascii?Q?zW1cRJkLaNaQ8TEmWKgV9NVi5dhqywLzr991LI8nBwYZElRvMM86qwIq4uNJ?=
- =?us-ascii?Q?UOxrNcn3XAIHUl6h1zHGKDl7tYFTCcB+awfR8c2qt8SqDgwhHc35hLMJr5rf?=
- =?us-ascii?Q?/IoW6ouFXA+iF5V2xdm/VEcOlXEdSTyvLOureFgdwK/ivJWYI8oRawzKcbT1?=
- =?us-ascii?Q?rUobbEWeRuVSQlOrQNgLvx3RLU/vK0jTYu5v6XI+rLP7EoadZf2QI58RnB93?=
- =?us-ascii?Q?nXPXzhug+o607uruL7qCJ1mdE/+V9Z0Ovx1oRb6AM3wB4MdYY/k2hT/DFLt2?=
- =?us-ascii?Q?W3oP6WFOyZPx3TyRvxIuJRu8CQauhnX0rrGFG//SR6wSkzqRnyUtFggYPEUk?=
- =?us-ascii?Q?hy4ooy9i5oxYIelCtUtt76rxJUJsCh6eZPlkP4i+PCCNqq3hyDWuu+ygKhqw?=
- =?us-ascii?Q?k88wdgcj/35lyu4c9/yH3jOoZKzOwfGrPTc0Siwd5Qq3dobD3frexzXyum05?=
- =?us-ascii?Q?/273gkx6Epm5asM8Q34qHwrVAI0QsJ0a7OLuunnBIBM7yU9FlatDeYELu7HO?=
- =?us-ascii?Q?F+8c8jskq9pOdRBARGPJOFnikwNsCu3vjDaERCDeeN0XL/U1neAnv0piEVDb?=
- =?us-ascii?Q?BRENFWIHsJLrnZ00NXF2lm00FBcKPPf4KO68hJBEgibNMohbTV+xU5JOLP6A?=
- =?us-ascii?Q?VIB9Q6tDmXoC7wUS0Or4uHrZ2g0SxTRfg2QhonQjL+gZEOFRJgAriljqcKvv?=
- =?us-ascii?Q?Qs2bERXASAw/P2eH5MDJcVIKVyHEuXExtxe7RohXlyTA6ACjEx0GS/QnPn/w?=
- =?us-ascii?Q?Tex6UjKyb21+ALJv2QLSCX3C9UZOKKBRpW+sN0nbtHMRLO21MbagKcGMOERD?=
- =?us-ascii?Q?KuA70TOtUfjuG02MjZuJDAB4cwafsf++H7gGFuE+Q6iSbf2u1jIHjFrda01Q?=
- =?us-ascii?Q?MKkb55nLg3Xqd2ifLG5tt4WsEX4dA0sW9bw+m7zwLwQJbpqKP/v4exARmlLC?=
- =?us-ascii?Q?YvfRfIPELOMvuQtaZYV7llM2k8oMPCMXmMXe0tP5f0IQawtf9tvKsukK7bMy?=
- =?us-ascii?Q?sAFb9HbR4ZdhFYnX3XUdmFYtmN/W7D8EvUNcNz7Hd7QaRJfG+PuIprcoP6Gv?=
- =?us-ascii?Q?DXI4HEGRr+2fEdqiSLzOU0GzdmYBpbv5NT+h4S4LnErYmLpHDNtTtEGAe2Bo?=
- =?us-ascii?Q?seqJP8qOQFCeV03dgaA6MBLnnQ9YdM7P+0uDc5816qOYdrZLnxivdZ8KUNBE?=
- =?us-ascii?Q?kicVu7a32r/rKv8hrNnnKTCWntQFjsOhYKuFUK1U/GtG++CPM2/c+jVhOGgV?=
- =?us-ascii?Q?012japVlCVjTPoim+9aJSlwAif7y6g7QsbKIg0jOQn0aoEAbyzTMQs0A8Tru?=
- =?us-ascii?Q?1okCa6baMzbDj3uOIyyTOAh7kmG7dR4AFa7gU2/J419F4hSU5jqP58kkzzZR?=
- =?us-ascii?Q?l+y3U3Y+qk5fH7kQhJe1OxdnJNzqK9V2urgO83sx/RQBCa3d2jF4I/weEMYm?=
- =?us-ascii?Q?z46zMievDZh02Ox3cjsWlaI=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62f1df54-0ed9-47ad-2473-08dda952e71b
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2025 01:46:08.8101
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hGkmstwIvohquVCtSjQl/rkahI9jXZ2vFCTFxck15pXyHm5q+WbZOJXRyUB4vY2eZG6jPkxAq+Tgn0wzbTSPl61P3fTMmeiAUOj3UUTrT4fu1Q9zpvbYKjo378KREMPs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB16176
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 16/17] pinctrl: Constify static 'pinctrl_desc'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+ Jesper Nilsson <jesper.nilsson@axis.com>,
+ Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>,
+ Emil Renner Berthing <kernel@esmil.dk>,
+ Jianlong Huang <jianlong.huang@starfivetech.com>,
+ Hal Feng <hal.feng@starfivetech.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
+ linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
+ <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+Content-Language: en-US
+From: Hal Feng <hal.feng@linux.starfivetech.com>
+In-Reply-To: <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:linux.starfivetech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-QQ-XMAILINFO: MwQdfXoP8nuz5XryFdT9mMm5fPxIgvtrmAX83IcgZtRvrqA2KW6dPH7Y
+	UeTHfCncUD9Jw4FWoJXE6riCJ0qi42Tk97iYaZpQDy6wJAfOvCIKqsmZDUCum60Nt/3VI2Q
+	yJVcRouYmizOR86phNyTK+P+HakgJ6+pEI/aqw0RtOKyLhZuLSgKBoynOzcJ5/6RTkE9B5J
+	puSgBmWvIPLeHjJGbyL8JGWYM0Nq3MrWOa1r/0AXtg6DhVMXhlnJrE7o5AjgqjW10RrA+AE
+	5WE2g15YJe2NJklbaucjk0x4K8cryOhRte7230lqlcmRn8gpi1TBaGEDPQGwtFvcvdoODoQ
+	ViN+9EEw1CGjxsqKDswvwoYTmth4hbIF00mxePxjRvyPRJjjMTtZkxWQCXbu1vuVrNj0GU6
+	H92XK6yvShN0RwLay58+1CtT7J1hb0JjCTpQXCEQqh09Y5crsfflVW1nGPua30VSNL7ga/0
+	UQX6RQAQO+yxCdRUPZxoU63SFxIZUYPEw1pf8oT+7AIJCL/uwu2l8C4BOgYTwfYJlWu/teS
+	RSfgRojHYXOVP7I5iHZ7gVrjzenWIqpCyTviHWQQynv7hQMcsSB3U6GtG66WBSgNeu/pNRe
+	Tocet3yEmZ3qO9qBY3680fHoGxJmX+2gy3Wb0wK+bE2SNQOLvmC3RBmuKh+u5aotwInZ0Qq
+	umP8CAGdPjIaX38kcieoKqhzStBo4Jie2+ZSoghn6Ck5Fvs44muufEOzqH43fyGx2hZ+7Ru
+	mBMHQxMbcFRzFfjZAC8A6JHUscRn/CTbwVv9Uqwt1BFk9oEFE4NFxraS/6Th3U3Al2wGXFi
+	Etyp8vXKhF4yCKJnAVYSzS8gpG9LuTHIDswn/A6QbJ4k+aoGh3DBxSpg+w4K6/MMu+IZPej
+	HjFmIJRGP9uvo8Wq6JIzSVfeV5ogrg4FMF7F7BzfszsyHR/FtAtCLA6MUurCWMMxSs4OcYZ
+	ut8Fd0Jmm3ZCA/D7WJRiH33XX8PvGYHAZM67TrNlbvIJmEudSrGb/Q0o0
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-
-Hi Matthias
-
-> > Current Kconfig menu at [ALSA for SoC audio support] has no rules.
-> > So, some venders are using menu style, some venders are listed each drivers
-> > on top page, etc. It is difficult to find target vender and/or drivers
-> > because it is very random.
-> > 
-> > Let's standardize ASoC menu
-> > 
-> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On 6/11/2025 2:13 PM, Krzysztof Kozlowski wrote:
+> The local static 'struct pinctrl_desc' is not modified, so can be made
+> const for code safety.
 > 
-> I wonder if we really need to split this up into patch per vendor if we 
-> could do the whole thing in one go. Anyway for the MediaTek part:
+> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
+> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/pinctrl/berlin/berlin.c                    | 2 +-
+>  drivers/pinctrl/cirrus/pinctrl-cs42l43.c           | 2 +-
+>  drivers/pinctrl/mediatek/pinctrl-airoha.c          | 2 +-
+>  drivers/pinctrl/pinctrl-artpec6.c                  | 2 +-
+>  drivers/pinctrl/pinctrl-bm1880.c                   | 2 +-
+>  drivers/pinctrl/pinctrl-k210.c                     | 2 +-
+>  drivers/pinctrl/pinctrl-lpc18xx.c                  | 2 +-
+>  drivers/pinctrl/pinctrl-mlxbf3.c                   | 2 +-
+>  drivers/pinctrl/pinctrl-tb10x.c                    | 2 +-
+>  drivers/pinctrl/pinctrl-zynq.c                     | 2 +-
+>  drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 +-
+>  11 files changed, 11 insertions(+), 11 deletions(-)
+> 
+...
+> diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+> index 27f99183d994dccb92aac81ca42228bdb9225e87..aeaa0ded7c1e5ee7f9c5e4113bfd208fb844ba7d 100644
+> --- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+> +++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+> @@ -898,7 +898,7 @@ static const struct pinconf_ops starfive_pinconf_ops = {
+>  	.is_generic = true,
+>  };
+>  
+> -static struct pinctrl_desc starfive_desc = {
+> +static const struct pinctrl_desc starfive_desc = {
+>  	.name = DRIVER_NAME,
+>  	.pins = starfive_pins,
+>  	.npins = ARRAY_SIZE(starfive_pins),
+> 
 
-I believe it makes backport easy for each vender.
+Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
 
-Thank you for your help !!
+Best regards,
+Hal
 
-Best regards
----
-Kuninori Morimoto
