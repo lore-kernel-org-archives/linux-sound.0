@@ -1,95 +1,94 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF0D19A;
-	Thu, 12 Jun 2025 06:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110001DFE20;
+	Thu, 12 Jun 2025 06:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749708202; cv=none; b=ARbuYofGl+lqO+RE0QvB+Gh4LI6avHkvJMGaZ0VyP9tRDVc5N89+IWgfX//nD0HGe14JlTCBHzjJHwMI/BvWWgCpU+atzwjhEaY/iV6naYC6OElTZq7U+qN1X1b878CPr8gxj/M7FrB8ShbGQqfPSL0LshXyde9WZNsAifDlAwE=
+	t=1749708852; cv=none; b=MdXL9Gc6/YLnhmFetp+pCbUKJX6N2oTPVVQWw8iTymXZ+THxHC6yickSbs7r5TLOzqXIKJFk4pa8D+UnXfs+dfj7JPNWgkQkWdl/RpI090wOZfXndQNg+dhVU0xlaKRNCf2pEoN/Qnm4K9muat/uEVHdL8gBUsd5iSe0Jp4JN4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749708202; c=relaxed/simple;
-	bh=QmqBPG8NonA32v4DbJZ0zNh0hvG9+etFn3ENep3iOpQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VxIdNYRO9E7BTdkNa2b0hZM43oKgJvRDxm1J60MtaMfuOKK5Xn/vlt7L6n6FUXYiDf8xEB8hPB2Bn4iRO4xiqy8aMHJuv42ECCB1a8Zjj5k4U9MVwm7r/ZYScK1jQmKcwLmYy85ZgzVwsaYY5ABFJzFgv4FxVPx27jCXRKxEIGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowAAXyNaObUpo1KP6BQ--.35961S2;
-	Thu, 12 Jun 2025 14:02:54 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	cristian.ciocaltea@collabora.com,
-	franta-linux@frantovo.cz,
-	lina+kernel@asahilina.net,
-	livvy@base.nu,
-	sstistrup@gmail.com,
-	s@srd.tw
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] ALSA: usb-audio: Convert comma to semicolon
-Date: Thu, 12 Jun 2025 14:02:28 +0800
-Message-Id: <20250612060228.1518028-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1749708852; c=relaxed/simple;
+	bh=N1ALVDfrYGPmjOFwwjT7K4Q9Dit3eb5jqKkO8HFS3ho=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TrMJq9fL5WMimGxqGh//7obyC3HdPCbg1Z8f/qkcsM41lMWH+4U2uPZOl9wcbTFa55e5kvUZqCC+pjBD80M+Grzfh+IGu97ks2dsEDbzLAYNHE20Ct6wLW1ptCbpyXl6YvxqICP0lQI+dVU4hZG856csyNx6nnJB2E8lUg7HYxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dkNQZqnb; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dkNQZqnb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1749708848;
+	bh=N1ALVDfrYGPmjOFwwjT7K4Q9Dit3eb5jqKkO8HFS3ho=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dkNQZqnbA0YtXKgvELtqrku34gkNoRLMpuyGMJRiyfRmCw9FAK3CQFbIMPnQFdRbq
+	 H+ayX4EsvP4Wl/0VEwVWrcX4d11lm7n0GGB8ghIlfvvihLIvNtWsykzloDglB7Yzh9
+	 ghOqCt1OrBpTvFwiHXP/faya+GBTwlmexOTXsgTTXc+U40zDeLVms50YRGj3Q+QWqe
+	 lmaXpnXZWgoCLuz2uJv80wJMkluBnSabc19H2jMo5CgvoZa3RVV6qdly84uMNiwb9h
+	 6FIOlQN3sLnadhBeoLq/VQZTkEnrZwz/vnjBsGT4g5Pxn+Bpu2rWC6LShd4n1h8do+
+	 nNti/nXyNiUWQ==
+Received: from [192.168.1.90] (unknown [212.93.144.165])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A696817E0FDB;
+	Thu, 12 Jun 2025 08:14:07 +0200 (CEST)
+Message-ID: <25839448-6307-479d-a6f2-8c3ae03bbfaf@collabora.com>
+Date: Thu, 12 Jun 2025 09:13:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAXyNaObUpo1KP6BQ--.35961S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gr4rCw4kuw4kuw1xGrW3ZFb_yoWkurc_Wa
-	nYg3WkXr1jkay0qry2yF1Fkw47G342v34v9F1jqw17Z3WkAr9xCr4kXry7KFn7Ww4rKr95
-	JwnxWr4v9ryIgjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbf8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r47MxAIw28IcxkI7VAKI4
-	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
-	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
-	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20E
-	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
-	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjylkDUUUUU==
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: usb-audio: Convert comma to semicolon
+To: Chen Ni <nichen@iscas.ac.cn>, perex@perex.cz, tiwai@suse.com,
+ franta-linux@frantovo.cz, lina+kernel@asahilina.net, livvy@base.nu,
+ sstistrup@gmail.com, s@srd.tw
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250612060228.1518028-1-nichen@iscas.ac.cn>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20250612060228.1518028-1-nichen@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Replace comma between expressions with semicolons.
+On 6/12/25 9:02 AM, Chen Ni wrote:
+> Replace comma between expressions with semicolons.
+> 
+> Using a ',' in place of a ';' can have unintended side effects.
+> Although that is not the case here, it is seems best to use ';'
+> unless ',' is intended.
+> 
+> Found by inspection.
+> No functional change intended.
+> Compile tested only.
+> 
+> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+> ---
+>  sound/usb/mixer_quirks.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+> index 0769ecd91144..a0ffe8b559dc 100644
+> --- a/sound/usb/mixer_quirks.c
+> +++ b/sound/usb/mixer_quirks.c
+> @@ -762,9 +762,9 @@ static int snd_dualsense_jack_create(struct usb_mixer_interface *mixer,
+>  
+>  	mei->ih.event = snd_dualsense_ih_event;
+>  	mei->ih.match = snd_dualsense_ih_match;
+> -	mei->ih.connect = snd_dualsense_ih_connect,
+> -	mei->ih.disconnect = snd_dualsense_ih_disconnect,
+> -	mei->ih.start = snd_dualsense_ih_start,
+> +	mei->ih.connect = snd_dualsense_ih_connect;
+> +	mei->ih.disconnect = snd_dualsense_ih_disconnect;
+> +	mei->ih.start = snd_dualsense_ih_start;
+>  	mei->ih.name = name;
+>  	mei->ih.id_table = mei->id_table;
 
-Using a ',' in place of a ';' can have unintended side effects.
-Although that is not the case here, it is seems best to use ';'
-unless ',' is intended.
 
-Found by inspection.
-No functional change intended.
-Compile tested only.
+Thanks for catching this!
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- sound/usb/mixer_quirks.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 0769ecd91144..a0ffe8b559dc 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -762,9 +762,9 @@ static int snd_dualsense_jack_create(struct usb_mixer_interface *mixer,
- 
- 	mei->ih.event = snd_dualsense_ih_event;
- 	mei->ih.match = snd_dualsense_ih_match;
--	mei->ih.connect = snd_dualsense_ih_connect,
--	mei->ih.disconnect = snd_dualsense_ih_disconnect,
--	mei->ih.start = snd_dualsense_ih_start,
-+	mei->ih.connect = snd_dualsense_ih_connect;
-+	mei->ih.disconnect = snd_dualsense_ih_disconnect;
-+	mei->ih.start = snd_dualsense_ih_start;
- 	mei->ih.name = name;
- 	mei->ih.id_table = mei->id_table;
- 
--- 
-2.25.1
+Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
