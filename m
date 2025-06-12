@@ -1,60 +1,60 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F41220F20
-	for <linux-sound@vger.kernel.org>; Thu, 12 Jun 2025 07:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24D5221543
+	for <linux-sound@vger.kernel.org>; Thu, 12 Jun 2025 07:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749714562; cv=none; b=eZ6C48raoXLMK+SJBUO0suqUizAFnqpQI64rbxen21Mb/8sUfdW23ICI8SF5hh20d6sPDrQUCfrae/6dhFBo8vk4xw6/dxTp2qqgirleng7DWnxRZgjwqTzeUV50pnrlLCYVh84Gk56DohksNvufgyze+65m2YjVijYPkRgQCis=
+	t=1749714565; cv=none; b=L9Pbw5yG3y516VtbMKi7HfDngh0w/cHVt4q2a18lXWCLKi87Ei4Y5HxzWlaBZW8ySieDYuwwfeI2aAsIQbEMPz1BxJ2CGMtz5DUhc7EWJLhYanCqpglMcLkHC//fx+JQ+TDQc/Kl1Nse9PfspmU1ampxZITChBTvtM1DIbSosoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749714562; c=relaxed/simple;
-	bh=M6CossAzrTItIWAzn1A9+kxxQ8xCK/jJ8XqU64/5Zf8=;
+	s=arc-20240116; t=1749714565; c=relaxed/simple;
+	bh=lybc9W6Ru2g35FCl7tbh/0HER58S9785YR+C4VsyJks=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rCFrL+HZrlgdORo1G98khmQXIDJXWyPRobhjFBHfezDxuvQPSCaUk+wed0qRRx6Re2jAjU6S5crR5E0Szz3xSf7GMA27tCakc2I5Av2TABQXxJcGgo4kfxyTY2qWmFBGjfZkcdHeAQa0UeQjP7HQ4Nkds4MP2RsQn/3arv/LA4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QpMq05/2; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version; b=g+3uNkpcBHalVxYWPCR47zNA/v1BMjv23D7ZwrCfXFbPCNtLNVRaqkTs7Y1EMGyke3PfsA5fECBu+hcxbom330kip+9+DJMeKeGTszW06hZK2fPh1wiqvMPiiz3XRwBX12PddVi3ggz+2c5Ch2Bb3UsCEbHxnTjHjYFB8HDKjfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GqUHbFbl; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QpMq05/2"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2363497cc4dso5939185ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 12 Jun 2025 00:49:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GqUHbFbl"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-235f9ea8d08so6472025ad.1
+        for <linux-sound@vger.kernel.org>; Thu, 12 Jun 2025 00:49:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1749714560; x=1750319360; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1749714563; x=1750319363; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hYQyoxfiAVqopjQvGW02GMsvVlG13E9Tz7Vl2Ymi3WE=;
-        b=QpMq05/2z0Omoetd1k2lkYpR5mgNnSVKYnFD96tlVCx3UOsgllXd/gTeyw2iLXoGsg
-         PQfj4eTdL0UiPNTFYIkujWcpQUV1SfJ9EdRsdSk9bKe9QeX8xqR0YTzTUJCiDiZ7mHqJ
-         xUn9fp6+ytjSwG44KQ0/ve6hmOhsBzJw8UsoY=
+        bh=8rmXxgdE5Y76+Q2Sd3HDIMfBzQR9l3cd66jsguV0wzs=;
+        b=GqUHbFblYGohkfQRjGfR1legR6wNquH5dFtmetAN1T8hhsJixH543l0elRO7f6XddV
+         y35p95+H34d1gEabntLOoLL6w8U2ML6xVRgzeFglzCscq14KVLm6/JIfeYpWprji7NKO
+         QI/QmhLmdzI4IHUC2gelYhP1rRxIk02b4yNUM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749714560; x=1750319360;
+        d=1e100.net; s=20230601; t=1749714563; x=1750319363;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hYQyoxfiAVqopjQvGW02GMsvVlG13E9Tz7Vl2Ymi3WE=;
-        b=O2tfQS/U7b9g3wwMlvwCe7XKcFOTO5Lh2nBeQMEIVk4kVDPtsjeKGAQiaUiJ4FwByK
-         G1OeOKr7UdKfKAQRFsDybZVfgUjFZRKOf2YQ1kN9SwArnznfRiPsRMBYWPzCfYo8U19s
-         QzitUbPMruSJfkqyKM1/MbRiE09UjFLUCAW6fes124xTOKhAVU7N2nQsk7LA7uqYRKC3
-         AIjiw4cmJgKIygHytgDYiyP1mkdCEjCH30xm1UHKnzsy8Eva2f7pBe8Ct9tGJqUeWpwo
-         UkKl7w5vmyPQD/Wsnm6SsIepx9QlzIuW+L9MXmpAjKULzrrLd6o/7nqpgyD1Ay3v9LaR
-         ASmw==
-X-Forwarded-Encrypted: i=1; AJvYcCXHbdFffjDtUfIHKNiy6WLsTTTLzIU6EyA4BpT33T6wruW+5gMnXg27LON+d2+/ENk0bSAiHbW0MSFnCg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgxtFoJfWHC4aJ9BKvTj8IwuEYXu7na1HBB1OEJdPpriYqKJd6
-	tkNAjaWBp2XH5GwRXH0iV944owH924D1UMMgEqYVNyTJU0vM3ZAw/LSrRk1sjJ97zw==
-X-Gm-Gg: ASbGncuhXAJjpl7HkBGZNTyGz0XDe8mlXGnZlBvlGXhjUys7Wv/8j3TjQnMzKLPef0H
-	4PHp1zW2haYe3pj8RF5zAy7ZhSRJqNzdzbRjVqwHQjnrMlCpz3mSEw5gOclob1DKOf9iBKh3NZL
-	kGvLZKRT7ri1gFqQssl8HEe/3OiU81V/lVW1n02H6J1J370iZsRLRb8OvHBvV0D4FeGY4RTR/BX
-	mAVplt/Gh+fheetobdATc0Nf61mdbZ9A5znmSRi01HS/NTimdAXdA7zGip601Kbqp3LRaoFDaRL
-	9ERn3f96o4/99kIF68I/XdY2vrkXwdvhezqgKJDRikrwN/cgan8mDIaE4V+FwkBlPO009otPik5
-	jAYo=
-X-Google-Smtp-Source: AGHT+IFaK/aSeTPU1FVSUiJwy75RRBlflMYnV4oLKYPHyMqt0+SId2lcqzKkgBqwPYhNLtKoxyy+Ag==
-X-Received: by 2002:a17:902:d60d:b0:223:4537:65b1 with SMTP id d9443c01a7336-23641b28de4mr102187465ad.36.1749714560273;
-        Thu, 12 Jun 2025 00:49:20 -0700 (PDT)
+        bh=8rmXxgdE5Y76+Q2Sd3HDIMfBzQR9l3cd66jsguV0wzs=;
+        b=lGTBLlEFooOeEAAVn0IfhNVmPG0aHJ3ucfOIsM7wKh2TIy+afOT3BMelTdswctjHxn
+         /186aYHuSOcFLy5Aic0kb9cN5kPGuHXbLbKzdLmG3R7ZxpKwNtrO73g2pMDhZrghAukC
+         cZq0CzYK0bQWIPCwgkVUXqmADae33sJaOSQh0cQQqT5e1ad425J8EQ4zwHqt9Go/D1ZT
+         qs3djJYloangz/bOCd0a8vXdkBmTZaXerF0KwKiWqoiob2MQHqMNimmR9YpH0yQVmruT
+         WxK5bAQ96EsuiPF3xsWKK+mIGnjpJgc3exC/HJq8NiQU8qpLJTqlYbrJt7oe57+JAu44
+         283w==
+X-Forwarded-Encrypted: i=1; AJvYcCWviYpvTAUgNB3mGwcQ8Gnvf6VaU0eM0k8MolC/5myAP76l++3QFtoEyZRSvXJObKvWPkHcrwXYjQhbgg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4QYLVN2QdhGJbRo3AkcZF2YmO91TGd0QSEQlqLxAoJCVsuDt9
+	HtQqJSC6ZSmhVKPWyxYdukJyMjFOzQAeynXkn8NMGVOjyfSBAO3KG1MNdgSo6aznAg==
+X-Gm-Gg: ASbGnctKy4Fh2I8LlTRPWbHsdUvLSpoWujF6KC4VdhRxUfkuauwkpnQd/71flHU+eYq
+	X8ZHubSrVT41TPbmWOGOv6a1bcC3WQvlzhgpJIyVUllgJKno5Wr9fZlsmwnzutvhOt2X8ze+0vJ
+	gW2nmxAKAh4WhbNgR6ke7ajiCnVXpnLCE4AVXlVuEVd98FxhzsiSXBUaGulhOPk2Iwxt3btaMhq
+	8RshGHeZ70VqiOQivVDN9nt8fksqgxMuqEJekhldK7eSWtrnwscvPgidZbItO5ZkjpZP/eyRWY6
+	YACND78JYEArbiDwG36wJadrcw40zW04OL+0WqUbnPOnyNVztB+3WZjrfjvrW0UCiXJEXgC4R4g
+	iQi4=
+X-Google-Smtp-Source: AGHT+IETZGBfj/YzdDSsonxEfwWc/CcthND9zSTKGdklyqrJnMUaY4T2coeXgqpNXh9qqeHQt9lwGA==
+X-Received: by 2002:a17:902:d2c6:b0:234:c65f:6c0f with SMTP id d9443c01a7336-23641aa245dmr76936875ad.8.1749714563347;
+        Thu, 12 Jun 2025 00:49:23 -0700 (PDT)
 Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:5b9:e73a:2e58:5a47])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2364e63d42esm7893295ad.74.2025.06.12.00.49.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2364e63d42esm7893295ad.74.2025.06.12.00.49.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 00:49:19 -0700 (PDT)
+        Thu, 12 Jun 2025 00:49:22 -0700 (PDT)
 From: Chen-Yu Tsai <wenst@chromium.org>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
@@ -72,9 +72,9 @@ Cc: Chen-Yu Tsai <wenst@chromium.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/9] ASoC: dt-bindings: mt8173-afe-pcm: Add power domain
-Date: Thu, 12 Jun 2025 15:48:53 +0800
-Message-ID: <20250612074901.4023253-3-wenst@chromium.org>
+Subject: [PATCH v3 3/9] ASoC: dt-bindings: mt8173-afe-pcm: Allow specifying reserved memory region
+Date: Thu, 12 Jun 2025 15:48:54 +0800
+Message-ID: <20250612074901.4023253-4-wenst@chromium.org>
 X-Mailer: git-send-email 2.50.0.rc1.591.g9c95f17f64-goog
 In-Reply-To: <20250612074901.4023253-1-wenst@chromium.org>
 References: <20250612074901.4023253-1-wenst@chromium.org>
@@ -86,52 +86,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The audio subsystem sits under a controllable power domain.
+It is desirable to reserve memory for the audio frontend.
 
-Add it to the binding.
+Allow the "memory-region" property, to be used to point to a reserved
+memory region.
 
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 ---
- .../devicetree/bindings/sound/mediatek,mt8173-afe-pcm.yaml  | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../devicetree/bindings/sound/mediatek,mt8173-afe-pcm.yaml   | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8173-afe-pcm.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8173-afe-pcm.yaml
-index a95215ba6361..666408d32f5c 100644
+index 666408d32f5c..d8993b5d457a 100644
 --- a/Documentation/devicetree/bindings/sound/mediatek,mt8173-afe-pcm.yaml
 +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8173-afe-pcm.yaml
-@@ -45,12 +45,16 @@ properties:
-       - const: i2s3_m
-       - const: i2s3_b
+@@ -48,6 +48,10 @@ properties:
+   power-domains:
+     maxItems: 1
  
-+  power-domains:
++  memory-region:
++    description: memory region for audio DMA buffers
 +    maxItems: 1
 +
  required:
    - compatible
    - reg
-   - interrupts
-   - clocks
-   - clock-names
-+  - power-domains
- 
- additionalProperties: false
- 
-@@ -59,11 +63,13 @@ examples:
-     #include <dt-bindings/clock/mt8173-clk.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/power/mt8173-power.h>
- 
-     mt8173-afe-pcm@11220000 {
-         compatible = "mediatek,mt8173-afe-pcm";
-         reg = <0x11220000 0x1000>;
-         interrupts = <GIC_SPI 134 IRQ_TYPE_EDGE_FALLING>;
-+        power-domains = <&spm MT8173_POWER_DOMAIN_AUDIO>;
-         clocks = <&infracfg CLK_INFRA_AUDIO>,
-                  <&topckgen CLK_TOP_AUDIO_SEL>,
-                  <&topckgen CLK_TOP_AUD_INTBUS_SEL>,
+@@ -90,4 +94,5 @@ examples:
+                        "i2s2_m",
+                        "i2s3_m",
+                        "i2s3_b";
++          memory-region = <&afe_dma_mem>;
+     };
 -- 
 2.50.0.rc1.591.g9c95f17f64-goog
 
