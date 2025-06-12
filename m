@@ -1,141 +1,95 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F341418D;
-	Thu, 12 Jun 2025 03:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF0D19A;
+	Thu, 12 Jun 2025 06:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749697243; cv=none; b=pE5/5zvavkrofOYr6MCiALKZIY1iWoLfs1W3dMB0bfAnLCrjOHzjvoFmZIXFHnoqR/rF/jczf3v9ryHJNc3D3qbrYdeFRsmc+SSJoyD7XEWCdlXjG5oxhxOHTyxm9F27hBaZ+FxoE/GqYYSsJNgrhfbf/E4jmWkI9YnRK2vqHVE=
+	t=1749708202; cv=none; b=ARbuYofGl+lqO+RE0QvB+Gh4LI6avHkvJMGaZ0VyP9tRDVc5N89+IWgfX//nD0HGe14JlTCBHzjJHwMI/BvWWgCpU+atzwjhEaY/iV6naYC6OElTZq7U+qN1X1b878CPr8gxj/M7FrB8ShbGQqfPSL0LshXyde9WZNsAifDlAwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749697243; c=relaxed/simple;
-	bh=kzLZEBvYk1M0n5Vs175spQvUD2gAJxA1W819nH0NQoc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DsGrleELrbTrwG4BqVupb1cysbYVpzfBuTIlp+koRs0thQyE48pASW1w9bEUb0SUT+DFT4evbQ3H3V5SHnLqVUO3TjSwYd+XbcNQPMekvNU8sKEAGQW7Mdmrv/nFRfZRt8IVw65tjqoTs1MIuM+KunUxE1pJu1EFC/AR3UiELPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com; spf=none smtp.mailfrom=linux.starfivetech.com; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.starfivetech.com
-X-QQ-mid: esmtpgz14t1749697213t65c22161
-X-QQ-Originating-IP: IF1P/oCMu5+Z6gtoOhY0chVmlDO4Lfc/wt6ay8GGmZA=
-Received: from [192.168.125.115] ( [113.104.142.205])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 12 Jun 2025 11:00:10 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7120148681061884487
-Message-ID: <E9D57DC946595F4F+762b7c45-ba5f-4bba-86d3-4eeea7643157@linux.starfivetech.com>
-Date: Thu, 12 Jun 2025 11:00:09 +0800
+	s=arc-20240116; t=1749708202; c=relaxed/simple;
+	bh=QmqBPG8NonA32v4DbJZ0zNh0hvG9+etFn3ENep3iOpQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VxIdNYRO9E7BTdkNa2b0hZM43oKgJvRDxm1J60MtaMfuOKK5Xn/vlt7L6n6FUXYiDf8xEB8hPB2Bn4iRO4xiqy8aMHJuv42ECCB1a8Zjj5k4U9MVwm7r/ZYScK1jQmKcwLmYy85ZgzVwsaYY5ABFJzFgv4FxVPx27jCXRKxEIGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-01 (Coremail) with SMTP id qwCowAAXyNaObUpo1KP6BQ--.35961S2;
+	Thu, 12 Jun 2025 14:02:54 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	cristian.ciocaltea@collabora.com,
+	franta-linux@frantovo.cz,
+	lina+kernel@asahilina.net,
+	livvy@base.nu,
+	sstistrup@gmail.com,
+	s@srd.tw
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] ALSA: usb-audio: Convert comma to semicolon
+Date: Thu, 12 Jun 2025 14:02:28 +0800
+Message-Id: <20250612060228.1518028-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 16/17] pinctrl: Constify static 'pinctrl_desc'
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
- Jesper Nilsson <jesper.nilsson@axis.com>,
- Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>,
- Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>,
- Emil Renner Berthing <kernel@esmil.dk>,
- Jianlong Huang <jianlong.huang@starfivetech.com>,
- Hal Feng <hal.feng@starfivetech.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
- <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
-Content-Language: en-US
-From: Hal Feng <hal.feng@linux.starfivetech.com>
-In-Reply-To: <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.starfivetech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
-X-QQ-XMAILINFO: MwQdfXoP8nuz5XryFdT9mMm5fPxIgvtrmAX83IcgZtRvrqA2KW6dPH7Y
-	UeTHfCncUD9Jw4FWoJXE6riCJ0qi42Tk97iYaZpQDy6wJAfOvCIKqsmZDUCum60Nt/3VI2Q
-	yJVcRouYmizOR86phNyTK+P+HakgJ6+pEI/aqw0RtOKyLhZuLSgKBoynOzcJ5/6RTkE9B5J
-	puSgBmWvIPLeHjJGbyL8JGWYM0Nq3MrWOa1r/0AXtg6DhVMXhlnJrE7o5AjgqjW10RrA+AE
-	5WE2g15YJe2NJklbaucjk0x4K8cryOhRte7230lqlcmRn8gpi1TBaGEDPQGwtFvcvdoODoQ
-	ViN+9EEw1CGjxsqKDswvwoYTmth4hbIF00mxePxjRvyPRJjjMTtZkxWQCXbu1vuVrNj0GU6
-	H92XK6yvShN0RwLay58+1CtT7J1hb0JjCTpQXCEQqh09Y5crsfflVW1nGPua30VSNL7ga/0
-	UQX6RQAQO+yxCdRUPZxoU63SFxIZUYPEw1pf8oT+7AIJCL/uwu2l8C4BOgYTwfYJlWu/teS
-	RSfgRojHYXOVP7I5iHZ7gVrjzenWIqpCyTviHWQQynv7hQMcsSB3U6GtG66WBSgNeu/pNRe
-	Tocet3yEmZ3qO9qBY3680fHoGxJmX+2gy3Wb0wK+bE2SNQOLvmC3RBmuKh+u5aotwInZ0Qq
-	umP8CAGdPjIaX38kcieoKqhzStBo4Jie2+ZSoghn6Ck5Fvs44muufEOzqH43fyGx2hZ+7Ru
-	mBMHQxMbcFRzFfjZAC8A6JHUscRn/CTbwVv9Uqwt1BFk9oEFE4NFxraS/6Th3U3Al2wGXFi
-	Etyp8vXKhF4yCKJnAVYSzS8gpG9LuTHIDswn/A6QbJ4k+aoGh3DBxSpg+w4K6/MMu+IZPej
-	HjFmIJRGP9uvo8Wq6JIzSVfeV5ogrg4FMF7F7BzfszsyHR/FtAtCLA6MUurCWMMxSs4OcYZ
-	ut8Fd0Jmm3ZCA/D7WJRiH33XX8PvGYHAZM67TrNlbvIJmEudSrGb/Q0o0
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAAXyNaObUpo1KP6BQ--.35961S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gr4rCw4kuw4kuw1xGrW3ZFb_yoWkurc_Wa
+	nYg3WkXr1jkay0qry2yF1Fkw47G342v34v9F1jqw17Z3WkAr9xCr4kXry7KFn7Ww4rKr95
+	JwnxWr4v9ryIgjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbf8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r47MxAIw28IcxkI7VAKI4
+	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
+	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
+	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20E
+	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
+	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjylkDUUUUU==
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-On 6/11/2025 2:13 PM, Krzysztof Kozlowski wrote:
-> The local static 'struct pinctrl_desc' is not modified, so can be made
-> const for code safety.
-> 
-> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/pinctrl/berlin/berlin.c                    | 2 +-
->  drivers/pinctrl/cirrus/pinctrl-cs42l43.c           | 2 +-
->  drivers/pinctrl/mediatek/pinctrl-airoha.c          | 2 +-
->  drivers/pinctrl/pinctrl-artpec6.c                  | 2 +-
->  drivers/pinctrl/pinctrl-bm1880.c                   | 2 +-
->  drivers/pinctrl/pinctrl-k210.c                     | 2 +-
->  drivers/pinctrl/pinctrl-lpc18xx.c                  | 2 +-
->  drivers/pinctrl/pinctrl-mlxbf3.c                   | 2 +-
->  drivers/pinctrl/pinctrl-tb10x.c                    | 2 +-
->  drivers/pinctrl/pinctrl-zynq.c                     | 2 +-
->  drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 +-
->  11 files changed, 11 insertions(+), 11 deletions(-)
-> 
-...
-> diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
-> index 27f99183d994dccb92aac81ca42228bdb9225e87..aeaa0ded7c1e5ee7f9c5e4113bfd208fb844ba7d 100644
-> --- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
-> +++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
-> @@ -898,7 +898,7 @@ static const struct pinconf_ops starfive_pinconf_ops = {
->  	.is_generic = true,
->  };
->  
-> -static struct pinctrl_desc starfive_desc = {
-> +static const struct pinctrl_desc starfive_desc = {
->  	.name = DRIVER_NAME,
->  	.pins = starfive_pins,
->  	.npins = ARRAY_SIZE(starfive_pins),
-> 
+Replace comma between expressions with semicolons.
 
-Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
+Using a ',' in place of a ';' can have unintended side effects.
+Although that is not the case here, it is seems best to use ';'
+unless ',' is intended.
 
-Best regards,
-Hal
+Found by inspection.
+No functional change intended.
+Compile tested only.
+
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ sound/usb/mixer_quirks.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 0769ecd91144..a0ffe8b559dc 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -762,9 +762,9 @@ static int snd_dualsense_jack_create(struct usb_mixer_interface *mixer,
+ 
+ 	mei->ih.event = snd_dualsense_ih_event;
+ 	mei->ih.match = snd_dualsense_ih_match;
+-	mei->ih.connect = snd_dualsense_ih_connect,
+-	mei->ih.disconnect = snd_dualsense_ih_disconnect,
+-	mei->ih.start = snd_dualsense_ih_start,
++	mei->ih.connect = snd_dualsense_ih_connect;
++	mei->ih.disconnect = snd_dualsense_ih_disconnect;
++	mei->ih.start = snd_dualsense_ih_start;
+ 	mei->ih.name = name;
+ 	mei->ih.id_table = mei->id_table;
+ 
+-- 
+2.25.1
 
