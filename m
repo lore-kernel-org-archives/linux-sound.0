@@ -1,220 +1,166 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885C3227B8E
-	for <linux-sound@vger.kernel.org>; Thu, 12 Jun 2025 07:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0078D223339;
+	Thu, 12 Jun 2025 10:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749714584; cv=none; b=tx130hKSiepFLmkGZcq53kzJ5vlvBFkTFHfVte+qlufMPsAtEfUzvptarvwKloi3Pm1b9lhh7XS7T2Kwef1nuke8wa2nkOMi6m50mTveA4JMsiR7d88lwgS+Pqu1LDM5wWRMmL86gfEpmky2c7Plc3pHHV/PleEbf6hBfHmlQ24=
+	t=1749725438; cv=none; b=nELIOVtEFLyYJpNMcE+ZcycopUM0ENnpSWpP1S/gJctxX5XwzeYzuFMuVbRvY4IrGLE8LvC9pMwzKZvtM69CLVi3lQX+NX1ze2PSQyfnu4IUewbamHKgnDAA0xPvUcGAAbprNd3+4QvkmbBMt5nA5+f5LeOTnZ8haKl5fxR7uwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749714584; c=relaxed/simple;
-	bh=mgKRPAxHp5lw/IYW6/80BbNLOKQ1CXL+sHNydAPoR2M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jZZ+ycWxwOQJ+ygKVKZeQiVcq1rIDYJ2lafumE1aHrt9VVbgmY2lvy1M1VXl24N7gBC3loXRkTHl31UfKpJ4Qi+RRF2zxLNVUoACGaJgYEFKk8y7NZnTAIKiXGbiq8doyTKhJhOoTA/GgIRnejSmuxzl8ks60ugB4vkKgJj4p1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QPt4ys4Q; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QPt4ys4Q"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2363497cc4dso5941325ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 12 Jun 2025 00:49:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1749714582; x=1750319382; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ddcn6csaeeV+h8a6qan45mbc5QA320UytwqG7KT7p5k=;
-        b=QPt4ys4QNYwt3/Sh66gUaxGP1JRYAyslYTdNE+iyZdAmRIMMLVBo3dCrDQ8A0Ax6MJ
-         VNZ59azg0FB5MMBBaH6Kp0XtIgSPXw0cqsIcszhTtwBVNUJKDWBtvzeoX4tWWcc21Piw
-         aF6fltV3kQuEZbFmnpfb1qFCvBN7Lgy3b6448=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749714582; x=1750319382;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ddcn6csaeeV+h8a6qan45mbc5QA320UytwqG7KT7p5k=;
-        b=UQyfvXURkWEe6fDf5S4eNIOK/f6IJZVBsypMfVvuXEb8JhYIc8cZ1rKX5rOLAoJofp
-         R9Pp657iGZdVYCaCe0HJwYYE/wZPiysBBSsR1uYl0tSLR2jvy/HJvJPw7df7WmuDVq93
-         0EbjW3j1hakUx21oboEdF3ZFURhjzn1G7Y967mTQy6vfqpBD1xXF+IHHoYS+sOPHEzs/
-         rWKy21EgkOhQUigeqfsxn2oQ91Jlv87ysJUKZqVOx2puxaS1ykMSTalL2veN/ASvJGxk
-         f6g94B8UXcqoWpLEJ7FsO3HRL0T7BVVBMc/b+s/lAkyC3TwLXhtLaJEw3SoppEu2Y3MP
-         WB0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVP+1H9Cu6YxoTZNnmc4pujZEMbwRxYk73ThLY0g/U6S29KN29PHV6fbLukFa5++fPrkF76LB9+7HRnCw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5MAGt8oULoGdTWygrqSF76f8WhkHmcRxH25ecJKbeFAe3owvx
-	p7KGONNfSIXjpjQ2GYYkr5guHRy5v4ufT8Uh/P/1h+hYqaS/2mwyy4xh3LZd270KTg==
-X-Gm-Gg: ASbGncu290FrB/yQebnyH1YSx8aucCVEJiSZVkgn7NGKQ+dRKkebQrrc0xSA6u559Vm
-	VDVlsoTp983vVj6CkD4zRqAIremxyFDhr1CAPjqXnCJFwcRHHMud6FNcfObgoligLC3YHKQSEA9
-	KOUytiPj00W7Zg2gBR4CJgnCa4JrNOQ1rzFfBIc5hSD576xjbNu4w9brwUE6yXOVmepGPRy4tZv
-	UvTOuUMqQSJbSgx7u76DVgEdE2guuU7Ha6IHsnpiBt0s22vHiuwtE0kpMQf7P38jlXpnvcLlFl5
-	jFSzvVhIlDhDkMi4xuMsuBGIUCEP7f6Y+YC3gXLi4yGoaLGzyCvlyVDQ1JjUNFtEozeJq78w0ty
-	aTXU=
-X-Google-Smtp-Source: AGHT+IGBp6g9KafxxLhpwpCbKXrP6FojB0bp0d+xTc5kKarZApwn/2KeJhM/CNXIUtiGxu8HhD0Ecw==
-X-Received: by 2002:a17:902:f684:b0:234:b41e:37a2 with SMTP id d9443c01a7336-23641aa223amr95318655ad.11.1749714581947;
-        Thu, 12 Jun 2025 00:49:41 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:5b9:e73a:2e58:5a47])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2364e63d42esm7893295ad.74.2025.06.12.00.49.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 00:49:41 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jiaxin Yu <jiaxin.yu@mediatek.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 9/9] ASoC: mediatek: mt8183-afe-pcm: use local `dev` pointer in driver callbacks
-Date: Thu, 12 Jun 2025 15:49:00 +0800
-Message-ID: <20250612074901.4023253-10-wenst@chromium.org>
-X-Mailer: git-send-email 2.50.0.rc1.591.g9c95f17f64-goog
-In-Reply-To: <20250612074901.4023253-1-wenst@chromium.org>
-References: <20250612074901.4023253-1-wenst@chromium.org>
+	s=arc-20240116; t=1749725438; c=relaxed/simple;
+	bh=7BSZe8+beUgmypE7JzP+qQZrtF8zpwmQBhHO7r4ycdA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WTD+Nc6Lw8rDOctbjq24mANu6vvpDB4NE1FVBoKUmMN7vntsRub8QufPTnfw5PUIyXi8VgqbgVHe64c6aY3zWmv8VN97odKxqCPA2rQcnT+7TLX/0pUUl205Ix1AOsbCk9EJzotfiq6UAXQoiZYSh1QyX92HdejEneCqtexxUkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
+	by localhost (Postfix) with ESMTP id 4bHzXv173dz9v8B;
+	Thu, 12 Jun 2025 12:39:11 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 745naYi7a1d6; Thu, 12 Jun 2025 12:39:11 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4bHzXv0K5Wz9thj;
+	Thu, 12 Jun 2025 12:39:11 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 059D18B77B;
+	Thu, 12 Jun 2025 12:39:11 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id PjhTgEekJaLp; Thu, 12 Jun 2025 12:39:10 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 76DD38B769;
+	Thu, 12 Jun 2025 12:39:10 +0200 (CEST)
+Message-ID: <722831ed-b37c-41e9-ba96-d359883bcb3f@csgroup.eu>
+Date: Thu, 12 Jun 2025 12:39:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ALSA: pcm: Convert multiple {get/put}_user to
+ user_access_begin/user_access_end()
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sound@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>,
+ Mark Brown <broonie@kernel.org>
+References: <d2609397eafc2b55ec1f44a3f30ccec00e0c7f6e.1749455639.git.christophe.leroy@csgroup.eu>
+ <87zfeh72sz.wl-tiwai@suse.de>
+ <6fbbb13e-aedd-47ad-a58b-cc00e9ea138c@csgroup.eu>
+ <87frg96uxg.wl-tiwai@suse.de>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <87frg96uxg.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The probe and remove functions in the mt8183-afe-pcm driver repeatedly uses
-`&pdev->dev` for |struct device *|, but then assigns this value to
-`afe->dev` and uses that in other places in the same function.
 
-Store `&pdev->dev` in a local pointer and use that exclusively to avoid
-the numerous dereferences and to make the code more consistent. Lines
-are reflowed where it makes sense.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- sound/soc/mediatek/mt8183/mt8183-afe-pcm.c | 37 ++++++++++------------
- 1 file changed, 17 insertions(+), 20 deletions(-)
+Le 09/06/2025 à 13:00, Takashi Iwai a écrit :
+> On Mon, 09 Jun 2025 12:02:00 +0200,
+> Christophe Leroy wrote:
+>>
+>>
+>>
+>> Le 09/06/2025 à 10:10, Takashi Iwai a écrit :
+>>> On Mon, 09 Jun 2025 10:00:38 +0200,
+>>> Christophe Leroy wrote:
+>>>>
+>>>> With user access protection (Called SMAP on x86 or KUAP on powerpc)
+>>>> each and every call to get_user() or put_user() performs heavy
+>>>> operations to unlock and lock kernel access to userspace.
+>>>>
+>>>> To avoid that, perform user accesses by blocks using
+>>>> user_access_begin/user_access_end() and unsafe_get_user()/
+>>>> unsafe_put_user() and alike.
+>>>>
+>>>> As an exemple, before the patch the 9 calls to put_user() at the
+>>>> end of snd_pcm_ioctl_sync_ptr_compat() imply the following set of
+>>>> instructions about 9 times (access_ok - enable user - write - disable
+>>>> user):
+>>>>       0.00 :   c057f858:       3d 20 7f ff     lis     r9,32767
+>>>>       0.29 :   c057f85c:       39 5e 00 14     addi    r10,r30,20
+>>>>       0.77 :   c057f860:       61 29 ff fc     ori     r9,r9,65532
+>>>>       0.32 :   c057f864:       7c 0a 48 40     cmplw   r10,r9
+>>>>       0.36 :   c057f868:       41 a1 fb 58     bgt     c057f3c0 <snd_pcm_ioctl+0xbb0>
+>>>>       0.30 :   c057f86c:       3d 20 dc 00     lis     r9,-9216
+>>>>       1.95 :   c057f870:       7d 3a c3 a6     mtspr   794,r9
+>>>>       0.33 :   c057f874:       92 8a 00 00     stw     r20,0(r10)
+>>>>       0.27 :   c057f878:       3d 20 de 00     lis     r9,-8704
+>>>>       0.28 :   c057f87c:       7d 3a c3 a6     mtspr   794,r9
+>>>> ...
+>>>>
+>>>> A perf profile shows that in total the 9 put_user() represent 36% of
+>>>> the time spent in snd_pcm_ioctl() and about 80 instructions.
+>>>>
+>>>> With this patch everything is done in 13 instructions and represent
+>>>> only 15% of the time spent in snd_pcm_ioctl():
+>>>>
+>>>>       0.57 :   c057f5dc:       3d 20 dc 00     lis     r9,-9216
+>>>>       0.98 :   c057f5e0:       7d 3a c3 a6     mtspr   794,r9
+>>>>       0.16 :   c057f5e4:       92 7f 00 04     stw     r19,4(r31)
+>>>>       0.63 :   c057f5e8:       93 df 00 0c     stw     r30,12(r31)
+>>>>       0.16 :   c057f5ec:       93 9f 00 10     stw     r28,16(r31)
+>>>>       4.95 :   c057f5f0:       92 9f 00 14     stw     r20,20(r31)
+>>>>       0.19 :   c057f5f4:       92 5f 00 18     stw     r18,24(r31)
+>>>>       0.49 :   c057f5f8:       92 bf 00 1c     stw     r21,28(r31)
+>>>>       0.27 :   c057f5fc:       93 7f 00 20     stw     r27,32(r31)
+>>>>       5.88 :   c057f600:       93 36 00 00     stw     r25,0(r22)
+>>>>       0.11 :   c057f604:       93 17 00 00     stw     r24,0(r23)
+>>>>       0.00 :   c057f608:       3d 20 de 00     lis     r9,-8704
+>>>>       0.79 :   c057f60c:       7d 3a c3 a6     mtspr   794,r9
+>>>>
+>>>> Note that here the access_ok() in user_write_access_begin() is skipped
+>>>> because the exact same verification has already been performed at the
+>>>> beginning of the fonction with the call to user_read_access_begin().
+>>>>
+>>>> A couple more can be converted as well but require
+>>>> unsafe_copy_from_user() which is not defined on x86 and arm64, so
+>>>> those are left aside for the time being and will be handled in a
+>>>> separate patch.
+>>>>
+>>>> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+>>>> ---
+>>>> v2: Split out the two hunks using copy_from_user() as unsafe_copy_from_user() is not implemented on x86 and arm64 yet.
+>>>
+>>> Thanks for the patch.
+>>>
+>>> The idea looks interesting, but the implementations with
+>>> unsafe_get_user() leads to very ugly goto lines, and that's too bad;
+>>> it makes the code flow much more difficult to follow.
+>>>
+>>> I guess that, in most cases this patch tries to cover, we just use
+>>> another temporary variable for compat struct, copy fields locally,
+>>> then run copy_to_user() in a shot instead.
+>>
+>> Thanks for looking.
+>>
+>> I'll give it a try but I think going through a local intermediate will
+>> be less performant than direct copy with unsafe_get/put_user().
+> 
 
-diff --git a/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c b/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
-index 7383184097a4..a7fef772760a 100644
---- a/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
-@@ -770,27 +770,25 @@ static int mt8183_afe_pcm_dev_probe(struct platform_device *pdev)
- {
- 	struct mtk_base_afe *afe;
- 	struct mt8183_afe_private *afe_priv;
--	struct device *dev;
-+	struct device *dev = &pdev->dev;
- 	struct reset_control *rstc;
- 	int i, irq_id, ret;
- 
--	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
-+	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(34));
- 	if (ret)
- 		return ret;
- 
--	afe = devm_kzalloc(&pdev->dev, sizeof(*afe), GFP_KERNEL);
-+	afe = devm_kzalloc(dev, sizeof(*afe), GFP_KERNEL);
- 	if (!afe)
- 		return -ENOMEM;
- 	platform_set_drvdata(pdev, afe);
- 
--	afe->platform_priv = devm_kzalloc(&pdev->dev, sizeof(*afe_priv),
--					  GFP_KERNEL);
-+	afe->platform_priv = devm_kzalloc(dev, sizeof(*afe_priv), GFP_KERNEL);
- 	if (!afe->platform_priv)
- 		return -ENOMEM;
- 
- 	afe_priv = afe->platform_priv;
--	afe->dev = &pdev->dev;
--	dev = afe->dev;
-+	afe->dev = dev;
- 
- 	ret = of_reserved_mem_device_init(dev);
- 	if (ret) {
-@@ -835,7 +833,7 @@ static int mt8183_afe_pcm_dev_probe(struct platform_device *pdev)
- 
- 	/* enable clock for regcache get default value from hw */
- 	afe_priv->pm_runtime_bypass_reg_ctl = true;
--	pm_runtime_get_sync(&pdev->dev);
-+	pm_runtime_get_sync(dev);
- 
- 	ret = regmap_reinit_cache(afe->regmap, &mt8183_afe_regmap_config);
- 	if (ret) {
-@@ -843,7 +841,7 @@ static int mt8183_afe_pcm_dev_probe(struct platform_device *pdev)
- 		goto err_pm_disable;
- 	}
- 
--	pm_runtime_put_sync(&pdev->dev);
-+	pm_runtime_put_sync(dev);
- 	afe_priv->pm_runtime_bypass_reg_ctl = false;
- 
- 	regcache_cache_only(afe->regmap, true);
-@@ -901,7 +899,7 @@ static int mt8183_afe_pcm_dev_probe(struct platform_device *pdev)
- 	for (i = 0; i < ARRAY_SIZE(dai_register_cbs); i++) {
- 		ret = dai_register_cbs[i](afe);
- 		if (ret) {
--			dev_warn(afe->dev, "dai register i %d fail, ret %d\n",
-+			dev_warn(dev, "dai register i %d fail, ret %d\n",
- 				 i, ret);
- 			goto err_pm_disable;
- 		}
-@@ -910,8 +908,7 @@ static int mt8183_afe_pcm_dev_probe(struct platform_device *pdev)
- 	/* init dai_driver and component_driver */
- 	ret = mtk_afe_combine_sub_dai(afe);
- 	if (ret) {
--		dev_warn(afe->dev, "mtk_afe_combine_sub_dai fail, ret %d\n",
--			 ret);
-+		dev_warn(dev, "mtk_afe_combine_sub_dai fail, ret %d\n", ret);
- 		goto err_pm_disable;
- 	}
- 
-@@ -923,16 +920,14 @@ static int mt8183_afe_pcm_dev_probe(struct platform_device *pdev)
- 	afe->runtime_suspend = mt8183_afe_runtime_suspend;
- 
- 	/* register component */
--	ret = devm_snd_soc_register_component(&pdev->dev,
--					      &mtk_afe_pcm_platform,
-+	ret = devm_snd_soc_register_component(dev, &mtk_afe_pcm_platform,
- 					      NULL, 0);
- 	if (ret) {
- 		dev_warn(dev, "err_platform\n");
- 		goto err_pm_disable;
- 	}
- 
--	ret = devm_snd_soc_register_component(afe->dev,
--					      &mt8183_afe_pcm_dai_component,
-+	ret = devm_snd_soc_register_component(dev, &mt8183_afe_pcm_dai_component,
- 					      afe->dai_drivers,
- 					      afe->num_dai_drivers);
- 	if (ret) {
-@@ -943,15 +938,17 @@ static int mt8183_afe_pcm_dev_probe(struct platform_device *pdev)
- 	return ret;
- 
- err_pm_disable:
--	pm_runtime_disable(&pdev->dev);
-+	pm_runtime_disable(dev);
- 	return ret;
- }
- 
- static void mt8183_afe_pcm_dev_remove(struct platform_device *pdev)
- {
--	pm_runtime_disable(&pdev->dev);
--	if (!pm_runtime_status_suspended(&pdev->dev))
--		mt8183_afe_runtime_suspend(&pdev->dev);
-+	struct device *dev = &pdev->dev;
-+
-+	pm_runtime_disable(dev);
-+	if (!pm_runtime_status_suspended(dev))
-+		mt8183_afe_runtime_suspend(dev);
- }
- 
- static const struct of_device_id mt8183_afe_pcm_dt_match[] = {
--- 
-2.50.0.rc1.591.g9c95f17f64-goog
+I have now tried going through a temporary struct and the result is 
+awful, even worth than the current implementation, because 
+snd_pcm_ioctl_sync_ptr_compat() is not inlined anymore into 
+snd_pcm_ioctl(), and the call to copy_from_user() and copy_to_user() 
+also show up in the top 10 functions in the perf profile.
 
+> Yes, but the code readability is often more important than minor
+> optimizations unless it's in a hot path.
+
+So let's focus on the identified hot path: the SNDRV_PCM_IOCTL_SYNC_PTR 
+iotcl.
+
+I will send a patch focussing only on that part. I tweaked it a bit to 
+increase readability by nesting the failure labels closer to the 
+actions. Let me know whether that patch is more acceptable for you.
+
+In parallel I will send a RFC series that reworks a bit deaper the 
+SNDRV_PCM_IOCTL_SYNC_PTR functions with a helper macro, maybe you will 
+prefer that allthough the churn is bigger.
+
+Christophe
