@@ -1,103 +1,130 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE6E2727F7
-	for <linux-sound@vger.kernel.org>; Fri, 13 Jun 2025 08:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA29F2727EF
+	for <linux-sound@vger.kernel.org>; Fri, 13 Jun 2025 08:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749803494; cv=none; b=RTNwsxbMgvSifv6wPOf1XOEvl7+/VMrXv1T0InRjVEPm7xDfGGVB1x3eTFIQtJLqrZsGv+GMrGqy8H2NP5/7R5PsPGghf3NtSqOZb614jsH6GpxbjeoUn3668i38ntASiJFaXPWok0UksVWUaFPRS1VgBeqr3tttWR41K2tYxFU=
+	t=1749804695; cv=none; b=NDSB1jwlXDCILto9UQlhBy0n3iGE/2PHsPCVhEAiPoYFwgefH9enU9bgJCe+gB+v0Vbn/Y28oZ3piZFzL3stKGa/Z6ynyEkuN0QWrRV+z+XCq9MQhvPR2WXZgaPJhY9UQiLtSQDMApV9E+yVJDzsuD6akVBBAqdtixY58O5D9Mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749803494; c=relaxed/simple;
-	bh=f7FxhpRUtUIGGFoGKILNoTB8pDoWHpEnwcICkPuljlw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qBSkgeIY0DBUI+E+9/8DkpBbFtFVRIQ0Y9tQauwlStEpRVP6W5QV4prVJiX7owGXmsbpgdk8fb03UMX0T1C93d69lsC+s9HEoTF6GJY0crLSuFRHbxlcFcGE0jZBgqh1xScy7lSwrNVpxcqDyqYa1M62UsrUwg/u3o7+shgFR1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: c7b29e0e483011f0b29709d653e92f7d-20250613
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
-	IP_UNTRUSTED, SRC_UNTRUSTED, IP_UNFAMILIAR, SRC_UNFAMILIAR, DN_TRUSTED
-	SRC_TRUSTED, SA_EXISTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS, CIE_BAD, CIE_GOOD_SPF, CIE_UNKNOWN, GTI_FG_BS
-	GTI_RG_INFO, GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI
-	AMN_C_BU, ABX_MISS_RDNS
-X-CID-UNFAMILIAR: 1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:5ec73827-5a1b-4d02-974f-9e472043e9d6,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:18,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:28
-X-CID-INFO: VERSION:1.1.45,REQID:5ec73827-5a1b-4d02-974f-9e472043e9d6,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:18,FILE:0,BULK:0,RULE:Release_HamU,ACTION
-	:release,TS:28
-X-CID-META: VersionHash:6493067,CLOUDID:572a1130b895e28e08a796ce3e08b149,BulkI
-	D:2506131631229W3ZE9UI,BulkQuantity:0,Recheck:0,SF:16|19|23|38|43|66|74|78
-	|102,TC:nil,Content:0|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:ni
-	l,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:
-	0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_USA,TF_CID_SPAM_FSD
-X-UUID: c7b29e0e483011f0b29709d653e92f7d-20250613
-X-User: zhangyongzhen@kylinos.cn
-Received: from localhost.localdomain [(114.246.237.253)] by mailgw.kylinos.cn
-	(envelope-from <zhangyongzhen@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 925452158; Fri, 13 Jun 2025 16:31:19 +0800
-From: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	Yongzhen Zhang <zhangyongzhen@kylinos.cn>
-Subject: [PATCH] ALSA: hda/conexant: Add resume function
-Date: Fri, 13 Jun 2025 16:30:44 +0800
-Message-Id: <20250613083044.125916-1-zhangyongzhen@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1749804695; c=relaxed/simple;
+	bh=ue1V2fMlHFxjzWDa7ywds9gbO56VeSoCDkL1sUWu9lI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hBoFQXa18fzesCpjPySpmJdArniAAEHZCjcxjT1gRkrU3znMoI1pnAbsBIBnChvAAB6w83itkIFsAnStGrVl++FkDvgMYj0OKB4drmUljgB5EDnKz0HQvnv29rYIhf1yxhL/QTojaI2bfyXvCX/X+8GvCiSvxDe+wb0cDkATqE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Vk+RyFkP; arc=none smtp.client-ip=209.85.210.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Vk+RyFkP"
+Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-73972a54919so1743190b3a.3
+        for <linux-sound@vger.kernel.org>; Fri, 13 Jun 2025 01:51:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1749804693; x=1750409493; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ra+cpBxpnqunFQ4OV0qpDstT9OVa7F5M+0LYQ6+T/Pk=;
+        b=Vk+RyFkPfsKDz9H8vL9zUnNbxgif+YWg+5F2GR5B7w9ZmBDKFr03ds2eDlVBYjH+oi
+         Q1ZHrs9Ag2cclFvOX8IuDuHXhd+g5Qng5yG78feKQ9nKKN/Livg/1R/614VrYLg+4/Wq
+         I7bbbvFOfbbMYTuORd1rCBKXn6xrHH9IH6/wY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749804693; x=1750409493;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ra+cpBxpnqunFQ4OV0qpDstT9OVa7F5M+0LYQ6+T/Pk=;
+        b=PIL0YG0C477AONx1vkhWNqT9B84N2+2ajekJWvZpzOLJDsm8QpHFFjf7Fkt8YadBdz
+         3uQh2bUAhLsymv8ktQL8OR0mSuqEcOk5p7S3fjM5CWUL2E+lCIK0pfJJANfVo12gHTID
+         /VFulm80+YK3oxm5yaymOiAoL5Xtn3s7zGln6INU1PWWSqj047OX1/quOSXQKMigEV++
+         O34V9WPuffEzdxjKzEWfzbhL+5QkZZJJgpmv/ERqY1FfCNSIxfHGi72AmBE8m/8qqlYf
+         upi5RUnZMfuTAU3Z0k+4k/eolQtp/AseK7Tr9J/B8zwYUnM6hoCnfEEP9tKp0rCsZhQ3
+         d/4Q==
+X-Gm-Message-State: AOJu0YxXYqD0+jUA72jHMLLRZr2dBlZv91nqihiQfuRa/rrqQ9zRh/Ii
+	zvoFMpxr+PhHnja0ABZt7gmAC0mV3z9V9wwH8aW3YfyefLqd5kdQYHtKM+Bt6J+RmA==
+X-Gm-Gg: ASbGnctPEJO3JR9UfS+v9pWfg5t9k1hxNGuN4KL9Gj7BVkabYizUL7G7wUyEQsKprGV
+	oodVgqsJONpE+Axh6ueZfCdcAGuWV3bIS50n091rZsQS/scVMuVnN9d6alO1k4mzgZ5mhTK6Btb
+	LNSYXP6RXDXVjDHuCfFXOJDF2opeGqseQUxlWazHH+U1z2yFUIVIgurM8Bhu/jKFym/VXohm+c2
+	YwkWqFxZKgKvzUalpIJq9H6pmHBg3uqEFb7MotLkJZHzWlLdREP6ILqHrFEKdQbsxaSjamyKbUa
+	fvkwLYfoa/yelbKw6wuQmaXWTLQ5F/Je9+KzBo6UnfgXfhjFFc3+AglIFxAJl9KcGi8/IeBW8y2
+	dvC2PLR8TehhpMTMTZMZl0Fo=
+X-Google-Smtp-Source: AGHT+IH9vwPEaPkVV6IKS2ERa3AkzSRnik4hPp/d8F3OsHuqwJVSjrz2eaWzpBszwWSFt7ME9aFmZQ==
+X-Received: by 2002:a05:6a00:984:b0:739:50c0:b3fe with SMTP id d2e1a72fcca58-7488f6cb9b2mr3944526b3a.8.1749804693085;
+        Fri, 13 Jun 2025 01:51:33 -0700 (PDT)
+Received: from htcheong-p620.tpe.corp.google.com ([2401:fa00:1:17:6b54:d556:d2c0:44d])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748900affa1sm1064510b3a.118.2025.06.13.01.51.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jun 2025 01:51:32 -0700 (PDT)
+From: Terry Cheong <htcheong@chromium.org>
+Date: Fri, 13 Jun 2025 16:51:27 +0800
+Subject: [PATCH] ASoC: hdmi-codec: use SND_JACK_AVOUT as jack status
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250613-hdmi-v1-1-665ba7ecd5e7@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAI7mS2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDM0Nj3YyU3ExdS3PTtBQT46SU1OQkJaDSgqLUtMwKsDHRsbW1AJu54AB
+ WAAAA
+X-Change-ID: 20250613-hdmi-975fd43bdecb
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bailideng@google.com, judyhsiao@google.com, yuhsuan@google.com, 
+ Terry Cheong <htcheong@chromium.org>
+X-Mailer: b4 0.14.2
 
-During S3 sleep state, if headphones are unplugged, we need to re-report
-their status during the wake phase to ensure proper headphone presence
-detection after system resume.
+Use SND_JACK_AVOUT as the mask to align with hdac_hdmi driver so that we
+can determine HDMI/DP devices from event type.
 
-Signed-off-by: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
+Most drivers that uses hdmi-codec driver will not be affected since they
+are creating jacks with SND_JACK_LINEOUT mask. They will still report
+SND_JACK_LINEOUT when the jack status is updated with
+snd_soc_jack_report.
+
+Signed-off-by: Terry Cheong <htcheong@chromium.org>
 ---
- sound/pci/hda/patch_conexant.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ sound/soc/codecs/hdmi-codec.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index 34874039ad45..c77629378879 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -264,6 +264,13 @@ static int cx_auto_suspend(struct hda_codec *codec)
- 	return 0;
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index 31121f9c18c91a7444420c7ad2a10fd5ea406dc3..e1933f733af1032bc6f8fef1de4356a346aabcfa 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -943,7 +943,7 @@ static void hdmi_codec_jack_report(struct hdmi_codec_priv *hcp,
+ {
+ 	if (jack_status != hcp->jack_status) {
+ 		if (hcp->jack)
+-			snd_soc_jack_report(hcp->jack, jack_status, SND_JACK_LINEOUT);
++			snd_soc_jack_report(hcp->jack, jack_status, SND_JACK_AVOUT);
+ 		hcp->jack_status = jack_status;
+ 	}
  }
+@@ -964,7 +964,7 @@ static void plugged_cb(struct device *dev, bool plugged)
+ 			else
+ 				snd_show_eld(dev, &hcp->eld_parsed);
+ 		}
+-		hdmi_codec_jack_report(hcp, SND_JACK_LINEOUT);
++		hdmi_codec_jack_report(hcp, SND_JACK_AVOUT);
+ 	} else {
+ 		hdmi_codec_jack_report(hcp, 0);
+ 		memset(hcp->eld, 0, sizeof(hcp->eld));
+@@ -984,7 +984,7 @@ static int hdmi_codec_set_jack(struct snd_soc_component *component,
+ 		 * Report the initial jack status which may have been provided
+ 		 * by the parent hdmi driver while the hpd hook was registered.
+ 		 */
+-		snd_soc_jack_report(jack, hcp->jack_status, SND_JACK_LINEOUT);
++		snd_soc_jack_report(jack, hcp->jack_status, SND_JACK_AVOUT);
  
-+static int cx_auto_resume(struct hda_codec *codec)
-+{
-+	cx_auto_init(codec);
-+	snd_hda_jack_report_sync(codec);
-+	return 0;
-+}
-+
- static const struct hda_codec_ops cx_auto_patch_ops = {
- 	.build_controls = snd_hda_gen_build_controls,
- 	.build_pcms = snd_hda_gen_build_pcms,
-@@ -271,6 +278,7 @@ static const struct hda_codec_ops cx_auto_patch_ops = {
- 	.free = cx_auto_free,
- 	.unsol_event = snd_hda_jack_unsol_event,
- 	.suspend = cx_auto_suspend,
-+	.resume = cx_auto_resume,
- 	.check_power_status = snd_hda_gen_check_power_status,
- };
- 
+ 		return 0;
+ 	}
+
+---
+base-commit: 27605c8c0f69e319df156b471974e4e223035378
+change-id: 20250613-hdmi-975fd43bdecb
+
+Best regards,
 -- 
-2.25.1
+Terry Cheong <htcheong@chromium.org>
 
