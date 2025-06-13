@@ -1,110 +1,89 @@
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F07CF2E0B79;
-	Fri, 13 Jun 2025 11:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AF62D5C88;
+	Fri, 13 Jun 2025 11:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749813635; cv=none; b=LCV9xHHyhnO8XjK+zP6F1fXge9UJXtHuP5yGYXxcQP79EJ4qBdeCF1L8+wDgy4haU986w8FJIURDkmFf+PmOb0/SXgvEs0wjOrpLmmr3XRl1tHX5gowDgts3FtlksN5Iip5onVHN5X/3D6X+LOdrP9xYnZQAnf6jrXfzbQc3OLM=
+	t=1749813676; cv=none; b=UyawX48MzfJEz2t9GbH+04edJfox2FVsI7/SmbzO0J0CXs9jZ5mEnqimzFCQgn59UcjmbktJX3Ilw1ZoTODLMFxUw+KpWFhrqYpd6Qfl4Kzvc4q2AoGl7YHb+UHGhAABss+MDxrs+qitklo6t3zTXGW0KvT5EhB+DKCaMW0SZyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749813635; c=relaxed/simple;
-	bh=4ORPoEmUrrRcxmN7XshtQHXsvTt3IceYcN2rLTizFKc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NhDs5lFfCjBvYINO6nmyBML0Ow5A3cmMvN7bKqE4qa7Of33tbldqTapo0CZkj0a105iN5+mTofg/Dk2DKVNEvryMGML+Y5cDWpZ35jnCtB+nvNiTUUr0RO2BFb73/UZbO5HehZZdx3hs3ugX01TcsbWzqPgD+vbM3PrDQGvgfMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-	by localhost (Postfix) with ESMTP id 4bJc2151R8z9sqS;
-	Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2EYXYIC_ssC4; Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4bJc214Bzmz9sl0;
-	Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 8B7A58B77B;
-	Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id Gd6ZZdiQooSp; Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 067608B769;
-	Fri, 13 Jun 2025 13:03:04 +0200 (CEST)
-Message-ID: <2df61bbf-76f6-4932-a347-7820350a156e@csgroup.eu>
-Date: Fri, 13 Jun 2025 13:03:04 +0200
+	s=arc-20240116; t=1749813676; c=relaxed/simple;
+	bh=VzCFaO5EvYXj74XVYWA+TK4eC3sDvKCDu0tRrR2diUs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MfQDizQluI0bqt+IhiPn/GRjBHY3XZEMf8Ig6cES5iFHh8GwPkcq9bYmJSc5KhPZr8FgvhKoS39bXGvlGjanktORPJvUsBVzy1elvZXzeGDBogj2Qb+FKq15xdSRv/Ogs9N3u+iKwhdUqIWlOG/fou4/dFHpkMopSCevC9fOMls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLSqHlGA; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLSqHlGA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE4A9C4CEE3;
+	Fri, 13 Jun 2025 11:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749813675;
+	bh=VzCFaO5EvYXj74XVYWA+TK4eC3sDvKCDu0tRrR2diUs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PLSqHlGA4oFY7mIM9i1/yuPltk0mRTbczmVu7zwjFyKb+QsgPbYjCzg0fmtemLDgR
+	 +6pNPgIfDn7eGopIeFbAcv/QY6vyfK5Nhn+9CSUT08bjach1A3i8rers9l2BnhQOSP
+	 wMG+4NNTQEb9fl8RNjDp0Kirok6t1mHDBikifzKx3aDEhb2SOaIzMnovaNh2O9FLIm
+	 w6DJVH5o5BOzJubdRFwcNd3/QIukgb4MlqPWlDo04U73JBXz8y7c82ofHnquaNu9QW
+	 6WzSw84oSBS+X2ewcPJ+RPmFraxdkLlBcM9Qch+50eTZbls4NZ61G8jDcSOPs6m0eQ
+	 6OAfvA6ly768w==
+Date: Fri, 13 Jun 2025 12:21:10 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com
+Subject: Re: [PATCH] ASoC: wm8524: Remove the constraints of rate
+Message-ID: <db0f3982-b99e-4d90-8c28-9d49c3c5e478@sirena.org.uk>
+References: <20250613035216.1924353-1-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/3] ALSA: pcm: Convert snd_pcm_sync_ptr() to
- user_access_begin/user_access_end()
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-sound@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>,
- Mark Brown <broonie@kernel.org>
-References: <7baa34d4046c7750799b11830d38a46f8b581765.1749724478.git.christophe.leroy@csgroup.eu>
- <79b86a0618328ba1d0cb5cf4011fd73ac6900e8f.1749724478.git.christophe.leroy@csgroup.eu>
- <878qlwrnv1.wl-tiwai@suse.de>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <878qlwrnv1.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WdELm66K4STULC2W"
+Content-Disposition: inline
+In-Reply-To: <20250613035216.1924353-1-shengjiu.wang@nxp.com>
+X-Cookie: Use extra care when cleaning on stairs.
 
 
+--WdELm66K4STULC2W
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Le 13/06/2025 à 11:29, Takashi Iwai a écrit :
-> On Thu, 12 Jun 2025 12:51:05 +0200,
-> Christophe Leroy wrote:
->>
->> Now that snd_pcm_sync_ptr_get_user() and snd_pcm_sync_ptr_put_user()
->> are converted to user_access_begin/user_access_end(),
->> snd_pcm_sync_ptr_get_user() is more efficient than a raw get_user()
->> followed by a copy_from_user(). And because copy_{to/from}_user() are
->> generic functions focussed on transfer of big data blocks to/from user,
->> snd_pcm_sync_ptr_put_user() is also more efficient for small amont of
->> data.
->>
->> So use snd_pcm_sync_ptr_get_user() and snd_pcm_sync_ptr_put_user() in
->> snd_pcm_sync_ptr() too.
->>
->> In order to have snd_pcm_mmap_status32 similar to snd_pcm_mmap_status,
->> replace to tsamp_{sec/nsec} and audio_tstamp_{sec/nsec} by equivalent
->> struct __snd_timespec.
->>
->> snd_pcm_ioctl_sync_ptr_buggy() is left as it is because the conversion
->> wouldn't be straigh-forward do to the workaround it provides.
->>
->> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> 
-> Through a quick glance, all patches look almost fine, but one favor to
-> ask: this patch contains the convert from s32/s32 pair to struct
-> __snd_timespec.  It should be factored out to a prerequisite patch
-> instead of burying in a big change.
+On Fri, Jun 13, 2025 at 11:52:16AM +0800, Shengjiu Wang wrote:
 
-Shall I understand you prefer this series over the more simple "ALSA: 
-pcm: Convert snd_pcm_ioctl_sync_ptr_{compat/x32} to 
-user_access_begin/user_access_end()" patch ?
+> WM8524 is a codec which can only work in slave mode, the bit clock and
+> frame sync clock are from cpu dai, if there is any constraint, the
+> constraint should be from cpu dai, no need to add constraint in codec
+> side.
 
-I'm asking because I was myself not sure about the benefit of such two 
-big macros over the other proposal in terms of readability.
+No, there is a need here - the constraint is enforcing that the ratio
+between the MCLK and sample rate is within spec which is a common
+requirement for audio performance. =20
 
+> On the other hand, with the constraint of rate in codec requires the
+> sysclk to be fixed, which brings unnecessary limitations on sound card
+> usage.
 
-> 
-> I'm asking it because this timepsec definition is very confusing (and
-> complex) due to historical reasons, and it should be handled with a
-> special care.
-> IIUC, struct __snd_timespec is always s32/s32 for the kernel code, so
-> the conversion must be fine.  This needs to be commented in the
-> commit.
+A common pattern is to only enforce constraints once a sysclk is
+configured.
 
+--WdELm66K4STULC2W
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Sure I will do that.
+-----BEGIN PGP SIGNATURE-----
 
-Christophe
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhMCaYACgkQJNaLcl1U
+h9Bf9wf/bPtLXfmMvk8+lyQL0YwP1a4IdU6IgeLX4/7IwkqhztZoXBDjzcO5zp1a
+Gf+55kWmz/3Kp5H0i/kiV1plI5RBKQDy8JYlFP7O852FqcFjKEs++yxUfVUC3ULC
+g4CXglMJU/X+oN3qbnt3xGWTUym5B2T0FZJv8WH3pmg40mOMelu5N0iveFcNW+U1
+FFWyz/PCq3Mi9Yd7/SB0zBljM30eUPEj4zzcl9Ms/19KFDZ4vw1k8jNphhc00REu
+pgjFWovuNBtRJaBIlDOF/4KiyxeobGkLOK24gbkJlLx3nwf91ZFzRoD6mPnJu2e0
+RWA+Mg1WMqWls5q1NWvO5Mnnhs628Q==
+=w10j
+-----END PGP SIGNATURE-----
+
+--WdELm66K4STULC2W--
