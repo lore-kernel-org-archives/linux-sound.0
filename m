@@ -1,157 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE58291C15
-	for <linux-sound@vger.kernel.org>; Fri, 13 Jun 2025 09:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A3427281F
+	for <linux-sound@vger.kernel.org>; Fri, 13 Jun 2025 09:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749806966; cv=none; b=Fp8YuqbZmzbZDN2v9l6IRuOGM5cSOhrjsKrP38v94LmZfkKwVUKIhJGQdwGQ3SVLBjO46aCeD8LRiWabGFKLGVlZ5One03fDUHGU3+WqoPdxRXGh+EoAJR5dzvn66I1S/cZef9va1k0B1m/chSiYBJb2c+Ws9w0ZAq48vG7mijI=
+	t=1749807475; cv=none; b=R2ZbDG6ghXudmhjeZc4szHQ/ltmwQBwKoUnAUMEMgZei4XoILC3+MYy31kzpjbgM2zVP0m3387lBDbCHiGlQ2EjetRbgaoHBPjQ1+LuPrS2SKqFQJSI/y8CCwwGs0S6MRcWFQpdggkR8C+TCN2hvMJMvIdYaX9vK/dzjg73/1Vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749806966; c=relaxed/simple;
-	bh=aaWU0JbRBgJpEiuAAKKpR0HniuEKPBx62vLLuPv5jcc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E9CTnwFk0Bkk0NHrXGVhZHVST1y9USoB4LGDZ4IhPkOOkQtth0yGi/YlLoYg2WLOfEKOx3MS9TpHn2AulgRCwySpbPxaKQe/njwPKBGR/iV/+zg9uKVJ3ePx8Fg0WebVDz4Re6WzYOnk+Ok0I6ZKrYDjuZNso2Af1I/x82yb7bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XHHurhqz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yklLGTdN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XHHurhqz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yklLGTdN; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1749807475; c=relaxed/simple;
+	bh=Hd1wYP2WYkviLqKa+/kw8K1TDIqfFEdGFyx2vJMiRWM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=jjrWRLMqqUQ9MCzTYTKAmpkTqw9+2oFoVChmp/KAMEmmPQiWG+cCyACpC09xx6gsOLjzRmGE/bMlbHgOr0pRMx7IgSjBgY+b5yidaDKdzbsPCjH/rnQpgVMLpes8JHv+NspkWrK6CZWcO91xtejJq76BTayQHti7LYjWMHipgiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=T4I2uh/p; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XHHurhqz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yklLGTdN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XHHurhqz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yklLGTdN"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="T4I2uh/p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1749807464;
+	bh=Hd1wYP2WYkviLqKa+/kw8K1TDIqfFEdGFyx2vJMiRWM=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=T4I2uh/p7GoH1EmMjhpfTcKdRpy5Xc3Gv7PD1WzRhvnK4vuWeRKhr8MIjVwHSxETo
+	 uNrNur793d2Dl2Hz/aK9vXXJ+/vurq4YsdbsVuQ1UxYcBHMb7NbZq31AG/zTTCN+xl
+	 H1BiS1mXUozJ2MJcTKkbO4CyVR+CoDwj/RLlp5C5BtiBG8Qu5NsCw76KDzMfkf9r2o
+	 6lTToiOOIHjkp4e9J/bZaBMrvcIYEzjLXqlNknN3CWC0DgKmUqZON0COdJuVzCnNZr
+	 u1sQWcEh36g+SGx+ojdMZkFAcA5B2uetFDae12ACwFSox5Br3UGq4xvdd/MWjnupsW
+	 4oLwTqJYi0V/A==
+Received: from [192.168.1.90] (unknown [212.93.144.165])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3B9311F7F7;
-	Fri, 13 Jun 2025 09:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749806963; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=72rtZU9GPUCX6PrpkBBfovdIHSFV6jLcLA2KhXYzn7A=;
-	b=XHHurhqzQ7lHaxDJMcutUKIg/R/gLJcWMndGnSXfm3w9lF0Kh11U3VyRnW8kPdyw34Sv9h
-	K6QSUfc4ODnwptBFyXqK2gLWnaK08u6wMLqktiWpQSGEJ0DUklE/rdoXn82HJSfq1+KGB2
-	IFLo9BBcCh+gT6fxohNqV1+msbuE4Y4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749806963;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=72rtZU9GPUCX6PrpkBBfovdIHSFV6jLcLA2KhXYzn7A=;
-	b=yklLGTdNEzPOLGMCIFlLpbe509WfQuwTWxUr3TEiaiaPPNRfq4a5oa1YRUo2Brzv+xHSMV
-	nXJfYUuNGZgjalBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749806963; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=72rtZU9GPUCX6PrpkBBfovdIHSFV6jLcLA2KhXYzn7A=;
-	b=XHHurhqzQ7lHaxDJMcutUKIg/R/gLJcWMndGnSXfm3w9lF0Kh11U3VyRnW8kPdyw34Sv9h
-	K6QSUfc4ODnwptBFyXqK2gLWnaK08u6wMLqktiWpQSGEJ0DUklE/rdoXn82HJSfq1+KGB2
-	IFLo9BBcCh+gT6fxohNqV1+msbuE4Y4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749806963;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=72rtZU9GPUCX6PrpkBBfovdIHSFV6jLcLA2KhXYzn7A=;
-	b=yklLGTdNEzPOLGMCIFlLpbe509WfQuwTWxUr3TEiaiaPPNRfq4a5oa1YRUo2Brzv+xHSMV
-	nXJfYUuNGZgjalBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5B76137FE;
-	Fri, 13 Jun 2025 09:29:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rTHMNnLvS2hZOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 13 Jun 2025 09:29:22 +0000
-Date: Fri, 13 Jun 2025 11:29:22 +0200
-Message-ID: <878qlwrnv1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [RFC PATCH 3/3] ALSA: pcm: Convert snd_pcm_sync_ptr() to user_access_begin/user_access_end()
-In-Reply-To: <79b86a0618328ba1d0cb5cf4011fd73ac6900e8f.1749724478.git.christophe.leroy@csgroup.eu>
-References: <7baa34d4046c7750799b11830d38a46f8b581765.1749724478.git.christophe.leroy@csgroup.eu>
-	<79b86a0618328ba1d0cb5cf4011fd73ac6900e8f.1749724478.git.christophe.leroy@csgroup.eu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 809D017E046C;
+	Fri, 13 Jun 2025 11:37:44 +0200 (CEST)
+Message-ID: <ef20f7e8-9d78-44df-9ee4-841e7634460e@collabora.com>
+Date: Fri, 13 Jun 2025 12:37:38 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-7.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -7.30
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: usb-audio: Fix build with CONFIG_INPUT=n
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+References: <20250613081543.7404-1-tiwai@suse.de>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20250613081543.7404-1-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 12 Jun 2025 12:51:05 +0200,
-Christophe Leroy wrote:
+Hi Takashi,
+
+On 6/13/25 11:15 AM, Takashi Iwai wrote:
+> The recent addition of DualSense mixer quirk relies on the input
+> device handle, and the build can fail if CONFIG_INPUT isn't set.
+> Put (rather ugly) workarounds to wrap with IS_REACHABLE() for avoiding
+> the build error.
 > 
-> Now that snd_pcm_sync_ptr_get_user() and snd_pcm_sync_ptr_put_user()
-> are converted to user_access_begin/user_access_end(),
-> snd_pcm_sync_ptr_get_user() is more efficient than a raw get_user()
-> followed by a copy_from_user(). And because copy_{to/from}_user() are
-> generic functions focussed on transfer of big data blocks to/from user,
-> snd_pcm_sync_ptr_put_user() is also more efficient for small amont of
-> data.
+> Fixes: 79d561c4ec04 ("ALSA: usb-audio: Add mixer quirk for Sony DualSense PS5")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202506130733.gnPKw2l3-lkp@intel.com/
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>  sound/usb/mixer_quirks.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> So use snd_pcm_sync_ptr_get_user() and snd_pcm_sync_ptr_put_user() in
-> snd_pcm_sync_ptr() too.
-> 
-> In order to have snd_pcm_mmap_status32 similar to snd_pcm_mmap_status,
-> replace to tsamp_{sec/nsec} and audio_tstamp_{sec/nsec} by equivalent
-> struct __snd_timespec.
-> 
-> snd_pcm_ioctl_sync_ptr_buggy() is left as it is because the conversion
-> wouldn't be straigh-forward do to the workaround it provides.
-> 
-> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+> index a0ffe8b559dc..7cc27ae5512f 100644
+> --- a/sound/usb/mixer_quirks.c
+> +++ b/sound/usb/mixer_quirks.c
+> @@ -532,6 +532,7 @@ static int snd_emu0204_controls_create(struct usb_mixer_interface *mixer)
+>  					  &snd_emu0204_control, NULL);
+>  }
+>  
+> +#if IS_REACHABLE(CONFIG_INPUT)
+>  /*
+>   * Sony DualSense controller (PS5) jack detection
+>   *
+> @@ -788,6 +789,7 @@ static int snd_dualsense_controls_create(struct usb_mixer_interface *mixer)
+>  
+>  	return snd_dualsense_jack_create(mixer, "Headset Mic Jack", false);
+>  }
+> +#endif /* IS_REACHABLE(CONFIG_INPUT) */
+>  
+>  /* ASUS Xonar U1 / U3 controls */
+>  
+> @@ -4331,10 +4333,12 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
+>  		err = snd_emu0204_controls_create(mixer);
+>  		break;
+>  
+> +#if IS_REACHABLE(CONFIG_INPUT)
+>  	case USB_ID(0x054c, 0x0ce6): /* Sony DualSense controller (PS5) */
+>  	case USB_ID(0x054c, 0x0df2): /* Sony DualSense Edge controller (PS5) */
+>  		err = snd_dualsense_controls_create(mixer);
+>  		break;
+> +#endif /* IS_REACHABLE(CONFIG_INPUT) */
+>  
+>  	case USB_ID(0x0763, 0x2030): /* M-Audio Fast Track C400 */
+>  	case USB_ID(0x0763, 0x2031): /* M-Audio Fast Track C400 */
 
-Through a quick glance, all patches look almost fine, but one favor to
-ask: this patch contains the convert from s32/s32 pair to struct
-__snd_timespec.  It should be factored out to a prerequisite patch
-instead of burying in a big change.
+I've seen the build issue report earlier today and planned to
+investigate, but you beat me to it, so thanks for the quick fix!
 
-I'm asking it because this timepsec definition is very confusing (and
-complex) due to historical reasons, and it should be handled with a
-special care.
-IIUC, struct __snd_timespec is always s32/s32 for the kernel code, so
-the conversion must be fine.  This needs to be commented in the
-commit.
+I reproduced the linker errors on a minimal kernel configuration with
+CONFIG_INPUT not being set and I confirm the build passes after applying
+the patch.
 
+Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-Thanks!
-
-Takashi
