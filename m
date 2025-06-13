@@ -1,123 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9645212D9D;
-	Fri, 13 Jun 2025 16:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE3D715A87C;
+	Fri, 13 Jun 2025 16:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749832901; cv=none; b=gVqM2VLWIjSDEKeQtm7CSi7LtU1foFsSuUU9EWKGCRadUgSZablGKYxonjsNmbs0tsujveadQ6JwKeu64wAS9iFu4TWsGYJtkK6+/pOhW/mFV1k2XT3DQHGyFe6Xat2Bht9T7alJm1FFQfGrLiRaFpUsn4mtfDpxTYi+t8znL+c=
+	t=1749833429; cv=none; b=IENNzv0tPurCN5Zt8ngXn6ZEvX3ZK2ZazGkX9eRj13U+my5lW5pYZmmo7ehLNqZUOgxiLwo1EmYU0YfxTazx/oyhbtsajBcCb5MHjPH6PBKvwpEhue+mv9Viy9SX3fD5P97Fkl3k3FwbyK9WCTwC7ACXBgw4kAso31KFueY9fM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749832901; c=relaxed/simple;
-	bh=j+85Z9iN6id/AZxF/3c6k5SRIkQ38TfU+QOw2QPbJ8w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WlFlc8nRpdTxaoj6xZnV/lTB/53cYI+YfVuIe2hmMOPOt3P76p0ehri6RsFYUeG2GUFrdgdry7Wx3axiqP77gPg/gbW2hlqZpwk14+BWPN613gI3pExSD+jQBesLbQ8JTKs7yv/N25OJbky8j8QFxInnpFIsZjqzNX2/Y+Bu6fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6fNnxut; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6fNnxut"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 635D3C4CEF0;
-	Fri, 13 Jun 2025 16:41:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749832900;
-	bh=j+85Z9iN6id/AZxF/3c6k5SRIkQ38TfU+QOw2QPbJ8w=;
-	h=From:Date:Subject:To:Cc:From;
-	b=N6fNnxut65qhEuKg9enKMwgzKL7Wacb/3e7B6NfRkjdGw9xIu3r5NQsiMd+64f5/Y
-	 MCEAN4Qes1iuM5Nczrl6SNV9VFMnNyA7t4sk3ElkUxZABBJOiQJIqT65VBrIREL2l+
-	 bT1/f4ZaflvPej5n9VhZZt8qtiN/yZLqIV646exvAs2exq/dP9yXH45h85TVAc5IId
-	 6jMl5hUg7ZkG4kSjcNiw22gZ6V27x69OITk+VB+xr+RfMYeUxttmS4vk/jbY/D7hLT
-	 xsQpx1CxZSGOnfScn6bU/XLGC2Orb3m4Zm6KTbekETkHvSMW8nTRaDuGLw8TTyp6IP
-	 apLZAV0WmNTHw==
-From: Mark Brown <broonie@kernel.org>
-Date: Fri, 13 Jun 2025 17:41:04 +0100
-Subject: [PATCH] ASoC: hdac_hdmi: Rate limit logging on connection and
- disconnection
+	s=arc-20240116; t=1749833429; c=relaxed/simple;
+	bh=7bhRMmk/rqBBya6D/yZgVdiqWytle+3/P0OHnRbqkE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g9Km91Li3RINnrlUSYGRvoP9flskxbcRRSwuhJp3LGl+mR6dW6R1bRQCodnsBfLe6ITnEhgMTNU5hne8QrOwBdVR/03OMy3UzoPkvM+GjhtRFxoOPEyBU42bD0lUAFimVPMZDFnhBVQIQYsPrcwGaHTaS3kwrS2T++aSahi9Lpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B22231C0A;
+	Fri, 13 Jun 2025 09:50:06 -0700 (PDT)
+Received: from [10.57.28.131] (unknown [10.57.28.131])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 534A23F673;
+	Fri, 13 Jun 2025 09:50:22 -0700 (PDT)
+Message-ID: <2e022f4e-4c87-4da1-9d02-f7a3ae7c5798@arm.com>
+Date: Fri, 13 Jun 2025 17:50:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/11] arm64: defconfig: Enable Apple Silicon drivers
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Vinod Koul <vkoul@kernel.org>, =?UTF-8?Q?Martin_Povi=C5=A1er?=
+ <povik+lin@cutebit.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev,
+ linux-input@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
+ <20250612-apple-kconfig-defconfig-v1-11-0e6f9cb512c1@kernel.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250612-apple-kconfig-defconfig-v1-11-0e6f9cb512c1@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250613-asoc-hdmi-eld-logging-v1-1-76d64154d969@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAJ9UTGgC/x3MQQqAIBBA0avIrBvIIoOuEi1MRxsoDYUIxLsnL
- d/i/wKZElOGRRRI9HDmGBpkJ8AcOnhCts0w9MPUKzmiztHgYS9GOi2e0XsOHqXc3Twp45yy0No
- 7keP3/65brR8jrGH0ZwAAAA==
-X-Change-ID: 20250613-asoc-hdmi-eld-logging-11bf756cff6d
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2292; i=broonie@kernel.org;
- h=from:subject:message-id; bh=j+85Z9iN6id/AZxF/3c6k5SRIkQ38TfU+QOw2QPbJ8w=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBoTFTCLQoZVWZGDdV4XfO/HfdlIqg/6O2BeqOGV08y
- vAWrtPqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaExUwgAKCRAk1otyXVSH0HSaB/
- wP8CA12qJpoQG9DN3qyrYnlFc4egfdjAOYzx05tIe61x1ZloJ33iPLMbhuCYoQ89hqJqrDWbXHUrL0
- Sauo495wQpM6MHW1LGrFOkdaUUypqVBMs032pGGYj26eUdgXU2qvJZYbsbYn7L/4i8j492040AyhaP
- 0bWSxmBeYRC/Lf+zTKzux8QuLX1GUuhBmRjKq4sUnPP3021pk5UVl+IsBWhsBIvBnmRyhuNtuUPvic
- YI0RkriHy2A9pEmJqkH/sXDrCxWbL5OcCcDeAjMMmUcjIoOtmfizqvqc1mYn84OyyngMU2f4RUUIPp
- pexxpqF60PZxXLuW0cK6nnxW6ubn2g
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-We currently log parse failures for ELD data and some disconnection events
-as errors without rate limiting. These log messages can be triggered very
-frequently in some situations, especially ELD parsing when there is nothing
-connected to a HDMI port which will generate:
+On 2025-06-12 10:11 pm, Sven Peter wrote:
+> Enable drivers for hardware present on Apple Silicon machines.
+> The power domain and interrupt driver should be built-it since these are
+> critical for the system to boot, the rest can be build as modules.
 
-hdmi-audio-codec hdmi-audio-codec.1.auto: HDMI: Unknown ELD version 0
+Nit: I'd be tempted to put this patch first, just in case anyone 
+bisecting with "make defconfig" in their process lands in the middle and 
+suddenly loses some drivers (although arguably them going from "=y" to 
+"=m" could still be a surprise, but at least a bit less so).
 
-While there's doubtless work that could be done on reducing the number of
-connection notification callbacks it's possible these may be legitimately
-generated by poor quality physical connections so let's use rate limiting
-to mitigate the log spam for the parse errors and lower the severity for
-disconnect logging to debug level.
+[...]
+> @@ -1504,6 +1520,7 @@ CONFIG_ARCH_TEGRA_194_SOC=y
+>   CONFIG_ARCH_TEGRA_234_SOC=y
+>   CONFIG_TI_PRUSS=m
+>   CONFIG_OWL_PM_DOMAINS=y
+> +CONFIG_APPLE_PMGR_PWRSTATE=y
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/codecs/hdac_hdmi.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+If this is critical for any Apple platform to work then it would 
+probably make sense to explicitly select it from ARCH_APPLE, as is done 
+for APPLE_AIC...
 
-diff --git a/sound/soc/codecs/hdac_hdmi.c b/sound/soc/codecs/hdac_hdmi.c
-index 1139a2754ca3..056d98154682 100644
---- a/sound/soc/codecs/hdac_hdmi.c
-+++ b/sound/soc/codecs/hdac_hdmi.c
-@@ -1232,7 +1232,8 @@ static int hdac_hdmi_parse_eld(struct hdac_device *hdev,
- 						>> DRM_ELD_VER_SHIFT;
- 
- 	if (ver != ELD_VER_CEA_861D && ver != ELD_VER_PARTIAL) {
--		dev_err(&hdev->dev, "HDMI: Unknown ELD version %d\n", ver);
-+		dev_err_ratelimited(&hdev->dev,
-+				    "HDMI: Unknown ELD version %d\n", ver);
- 		return -EINVAL;
- 	}
- 
-@@ -1240,7 +1241,8 @@ static int hdac_hdmi_parse_eld(struct hdac_device *hdev,
- 		DRM_ELD_MNL_MASK) >> DRM_ELD_MNL_SHIFT;
- 
- 	if (mnl > ELD_MAX_MNL) {
--		dev_err(&hdev->dev, "HDMI: MNL Invalid %d\n", mnl);
-+		dev_err_ratelimited(&hdev->dev,
-+				    "HDMI: MNL Invalid %d\n", mnl);
- 		return -EINVAL;
- 	}
- 
-@@ -1299,8 +1301,8 @@ static void hdac_hdmi_present_sense(struct hdac_hdmi_pin *pin,
- 
- 	if (!port->eld.monitor_present || !port->eld.eld_valid) {
- 
--		dev_err(&hdev->dev, "%s: disconnect for pin:port %d:%d\n",
--						__func__, pin->nid, port->id);
-+		dev_dbg(&hdev->dev, "%s: disconnect for pin:port %d:%d\n",
-+			__func__, pin->nid, port->id);
- 
- 		/*
- 		 * PCMs are not registered during device probe, so don't
+>   CONFIG_RASPBERRYPI_POWER=y
+>   CONFIG_IMX_SCU_PD=y
+>   CONFIG_QCOM_CPR=y
+> @@ -1567,6 +1584,7 @@ CONFIG_QCOM_PDC=y
+>   CONFIG_QCOM_MPM=y
+>   CONFIG_TI_SCI_INTR_IRQCHIP=y
+>   CONFIG_TI_SCI_INTA_IRQCHIP=y
+> +CONFIG_APPLE_AIC=y
 
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250613-asoc-hdmi-eld-logging-11bf756cff6d
+...which I think means this would already be redundant.
 
-Best regards,
--- 
-Mark Brown <broonie@kernel.org>
+Thanks,
+Robin.
+
+>   CONFIG_RESET_GPIO=m
+>   CONFIG_RESET_IMX7=y
+>   CONFIG_RESET_QCOM_AOSS=y
+> @@ -1640,6 +1658,7 @@ CONFIG_ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU=m
+>   CONFIG_NVIDIA_CORESIGHT_PMU_ARCH_SYSTEM_PMU=m
+>   CONFIG_MESON_DDR_PMU=m
+>   CONFIG_NVMEM_LAYOUT_SL28_VPD=m
+> +CONFIG_NVMEM_APPLE_EFUSES=m
+>   CONFIG_NVMEM_IMX_OCOTP=y
+>   CONFIG_NVMEM_IMX_OCOTP_ELE=m
+>   CONFIG_NVMEM_IMX_OCOTP_SCU=y
+> 
 
