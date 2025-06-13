@@ -1,39 +1,25 @@
-Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD381E50E;
-	Fri, 13 Jun 2025 13:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84AF619047A;
+	Fri, 13 Jun 2025 13:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749820837; cv=none; b=OK6gnDG0x/sysuMO4NkP27PBZIiFPdn3GS1rMbe7yHESAwYYw8gyzKys3Uuit6Uq/0Gu8XhYq1S5zlEcjl5IjEvXIvinSTyUVdt9FArzC0OcTkCjRknhfDAgmAA148/UaGczcnHP3MT5h1vh3XTbho9boVVj3PdvIvQOENOVlqo=
+	t=1749822906; cv=none; b=qEPc3qbgezMqvF70dIuATB+qc/TzSKG+myOt3UjXfGr93fRKjFZRpNBjhsYXDDIw1esj7r66YqHnwMXS5/n2Lvb01tJuPSjrwPRZhxsTKXWWtCCoOGjVBjo8z+o3X8r3/fSx73bZatNSsx7bxGmG1+O5PPkufMP9a0NoHIf+mtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749820837; c=relaxed/simple;
-	bh=8ZA2pjmPBOMlITDw8dUanWs9Is45wgO0iG6R2MtrSzU=;
+	s=arc-20240116; t=1749822906; c=relaxed/simple;
+	bh=ENX9QtWbYw4Rxu2kw33jFBDaHiweTvxpiRQiKM+M9rg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c8P+OqfuBoSNDnuZtiKeJMNJqhbdXtFVphrV3g0IEFglsFWmRP5EKUWmm4xwB/ex0e2SB3ZPbxDfrMxvVDQXe2LFUC/pvkHLVzIeDd5EELMDPlYrvlCm8Az6/AFono2QPnDw/rcGFbbWsHOugnqHGEDaCVLvs6L7idJcCIdPLLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
-	by localhost (Postfix) with ESMTP id 4bJfKg2Cn2z9tHZ;
-	Fri, 13 Jun 2025 14:46:47 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cqfwE16bHLFZ; Fri, 13 Jun 2025 14:46:47 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase1.c-s.fr (Postfix) with ESMTP id 4bJfKg1Tgbz9tHF;
-	Fri, 13 Jun 2025 14:46:47 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 2DABD8B77B;
-	Fri, 13 Jun 2025 14:46:47 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id BdURGYxBYsF6; Fri, 13 Jun 2025 14:46:47 +0200 (CEST)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id B187F8B769;
-	Fri, 13 Jun 2025 14:46:46 +0200 (CEST)
-Message-ID: <4f2f8e14-22d2-44f1-82cd-5f2a3b5117b1@csgroup.eu>
-Date: Fri, 13 Jun 2025 14:46:46 +0200
+	 In-Reply-To:Content-Type; b=oJL9v8S3AAGFeCNuGcmvE0k1QAsJ5ZoPDt1eQij0FNFeIh6k2XeAZOR2ynpdS5tEqyvamD3j4nQQNZ2zJZy8o6DzCvHfX326vfjogliVkntlGZSnakBsf3gFwFo5l5GKbzFLl/9+b3kBV72PAS1PfCNip70XgpZ/3Xk7Vp4cOHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 775451C0A;
+	Fri, 13 Jun 2025 06:54:42 -0700 (PDT)
+Received: from [10.57.28.131] (unknown [10.57.28.131])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A0C03F59E;
+	Fri, 13 Jun 2025 06:54:52 -0700 (PDT)
+Message-ID: <1437fe89-341b-4b57-b1fa-a0395081e941@arm.com>
+Date: Fri, 13 Jun 2025 14:54:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,117 +27,162 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/3] ALSA: pcm: Convert snd_pcm_sync_ptr() to
- user_access_begin/user_access_end()
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-sound@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>,
- Mark Brown <broonie@kernel.org>
-References: <7baa34d4046c7750799b11830d38a46f8b581765.1749724478.git.christophe.leroy@csgroup.eu>
- <79b86a0618328ba1d0cb5cf4011fd73ac6900e8f.1749724478.git.christophe.leroy@csgroup.eu>
- <878qlwrnv1.wl-tiwai@suse.de>
- <2df61bbf-76f6-4932-a347-7820350a156e@csgroup.eu>
- <87wm9frf5x.wl-tiwai@suse.de>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <87wm9frf5x.wl-tiwai@suse.de>
+Subject: Re: [PATCH 01/20] bitfield: introduce HWORD_UPDATE bitfield macros
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang
+ <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: linux-pm@vger.kernel.org, netdev@vger.kernel.org, llvm@lists.linux.dev,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
+ kernel@collabora.com, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
+ <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-
-Le 13/06/2025 à 14:37, Takashi Iwai a écrit :
-> On Fri, 13 Jun 2025 13:03:04 +0200,
-> Christophe Leroy wrote:
->>
->>
->>
->> Le 13/06/2025 à 11:29, Takashi Iwai a écrit :
->>> On Thu, 12 Jun 2025 12:51:05 +0200,
->>> Christophe Leroy wrote:
->>>>
->>>> Now that snd_pcm_sync_ptr_get_user() and snd_pcm_sync_ptr_put_user()
->>>> are converted to user_access_begin/user_access_end(),
->>>> snd_pcm_sync_ptr_get_user() is more efficient than a raw get_user()
->>>> followed by a copy_from_user(). And because copy_{to/from}_user() are
->>>> generic functions focussed on transfer of big data blocks to/from user,
->>>> snd_pcm_sync_ptr_put_user() is also more efficient for small amont of
->>>> data.
->>>>
->>>> So use snd_pcm_sync_ptr_get_user() and snd_pcm_sync_ptr_put_user() in
->>>> snd_pcm_sync_ptr() too.
->>>>
->>>> In order to have snd_pcm_mmap_status32 similar to snd_pcm_mmap_status,
->>>> replace to tsamp_{sec/nsec} and audio_tstamp_{sec/nsec} by equivalent
->>>> struct __snd_timespec.
->>>>
->>>> snd_pcm_ioctl_sync_ptr_buggy() is left as it is because the conversion
->>>> wouldn't be straigh-forward do to the workaround it provides.
->>>>
->>>> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
->>>
->>> Through a quick glance, all patches look almost fine, but one favor to
->>> ask: this patch contains the convert from s32/s32 pair to struct
->>> __snd_timespec.  It should be factored out to a prerequisite patch
->>> instead of burying in a big change.
->>
->> Shall I understand you prefer this series over the more simple "ALSA:
->> pcm: Convert snd_pcm_ioctl_sync_ptr_{compat/x32} to
->> user_access_begin/user_access_end()" patch ?
+On 2025-06-12 7:56 pm, Nicolas Frattaroli wrote:
+> Hardware of various vendors, but very notably Rockchip, often uses
+> 32-bit registers where the upper 16-bit half of the register is a
+> write-enable mask for the lower half.
 > 
-> Err, no, sorry for ambiguity.
-
-Then I'm lost.
-
-I sent two alternative proposals:
-A/ Single patch, simple, handling only two fonctions 
-snd_pcm_ioctl_sync_ptr_{compat/x32} , without refactoring. [1]
-B/ This RFC series, more elaborate, refactoring and putting user copy 
-into helper macros. [2]
-
-So the question was to be sure you prefer alternative B over alternative 
-A. I guess the answer is YES as you asking me improve it.
-
-[1] 
-https://patchwork.ozlabs.org/project/linuxppc-dev/patch/8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy@csgroup.eu/
-[2] 
-https://patchwork.ozlabs.org/project/linuxppc-dev/list/?state=*&series=460665
-
-
-> I wanted to move the replacement of tstamp_sec/nsec with struct
-> __snd_timespec as a small preliminary patch from patch#3.
-> That is,
-
-Yes that's what I understood.
-
-Thanks
-Christophe
-
-
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -3103,11 +3103,9 @@ struct snd_pcm_mmap_status32 {
->   	snd_pcm_state_t state;
->   	s32 pad1;
->   	u32 hw_ptr;
-> -	s32 tstamp_sec;
-> -	s32 tstamp_nsec;
-> +	struct __snd_timespec tstamp;
->   	snd_pcm_state_t suspended_state;
-> -	s32 audio_tstamp_sec;
-> -	s32 audio_tstamp_nsec;
-> +	struct __snd_timespec audio_tstamp;
->   } __packed;
-> etc.  By factoring this out, it becomes clear that the timespec
-> compatibility is fully cared.
+> This type of hardware setup allows for more granular concurrent register
+> write access.
 > 
-> __snd_timespec may be defined in different ways on user-space, but in
-> the kernel code, it's a single definition of s32/s32 pair.  This needs
-> to be emphasized.
+> Over the years, many drivers have hand-rolled their own version of this
+> macro, usually without any checks, often called something like
+> HIWORD_UPDATE or FIELD_PREP_HIWORD, commonly with slightly different
+> semantics between them.
 > 
+> Clearly there is a demand for such a macro, and thus the demand should
+> be satisfied in a common header file.
 > 
-> thanks,
+> Add two macros: HWORD_UPDATE, and HWORD_UPDATE_CONST. The latter is a
+> version that can be used in initializers, like FIELD_PREP_CONST. The
+> macro names are chosen to not clash with any potential other macros that
+> drivers may already have implemented themselves, while retaining a
+> familiar name.
+
+Nit: while from one angle it indeed looks similar, from another it's 
+even more opaque and less meaningful than what we have already. 
+Personally I cannot help but see "hword" as "halfword", so logically if 
+we want 32+32-bit or 8+8-bit variants in future those would be 
+WORD_UPDATE() and BYTE_UPDATE(), right? ;)
+
+It's also confounded by "update" not actually having any obvious meaning 
+at this level without all the implicit usage context. FWIW my suggestion 
+would be FIELD_PREP_WM_U16, such that the reader instantly sees 
+"FIELD_PREP with some additional semantics", even if they then need to 
+glance at the kerneldoc for clarification that WM stands for writemask 
+(or maybe WE for write-enable if people prefer). Plus it then leaves 
+room to easily support different sizes (and potentially even bonkers 
+upside-down Ux_WM variants?!) without any bother if we need to.
+
+Thanks,
+Robin.
+
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>   include/linux/bitfield.h | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 47 insertions(+)
 > 
-> Takashi
+> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
+> index 6d9a53db54b66c0833973c880444bd289d9667b1..b90d88db7405f95b78cdd6f3426263086bab5aa6 100644
+> --- a/include/linux/bitfield.h
+> +++ b/include/linux/bitfield.h
+> @@ -8,6 +8,7 @@
+>   #define _LINUX_BITFIELD_H
+>   
+>   #include <linux/build_bug.h>
+> +#include <linux/limits.h>
+>   #include <linux/typecheck.h>
+>   #include <asm/byteorder.h>
+>   
+> @@ -142,6 +143,52 @@
+>   		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
+>   	)
+>   
+> +/**
+> + * HWORD_UPDATE() - prepare a bitfield element with a mask in the upper half
+> + * @_mask: shifted mask defining the field's length and position
+> + * @_val:  value to put in the field
+> + *
+> + * HWORD_UPDATE() masks and shifts up the value, as well as bitwise ORs the
+> + * result with the mask shifted up by 16.
+> + *
+> + * This is useful for a common design of hardware registers where the upper
+> + * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
+> + * register, a bit in the lower half is only updated if the corresponding bit
+> + * in the upper half is high.
+> + */
+> +#define HWORD_UPDATE(_mask, _val)					 \
+> +	({								 \
+> +		__BF_FIELD_CHECK(_mask, ((u16) 0U), _val,		 \
+> +				 "HWORD_UPDATE: ");			 \
+> +		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask)) | \
+> +		((_mask) << 16);					 \
+> +	})
+> +
+> +/**
+> + * HWORD_UPDATE_CONST() - prepare a constant bitfield element with a mask in
+> + *                        the upper half
+> + * @_mask: shifted mask defining the field's length and position
+> + * @_val:  value to put in the field
+> + *
+> + * HWORD_UPDATE_CONST() masks and shifts up the value, as well as bitwise ORs
+> + * the result with the mask shifted up by 16.
+> + *
+> + * This is useful for a common design of hardware registers where the upper
+> + * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
+> + * register, a bit in the lower half is only updated if the corresponding bit
+> + * in the upper half is high.
+> + *
+> + * Unlike HWORD_UPDATE(), this is a constant expression and can therefore
+> + * be used in initializers. Error checking is less comfortable for this
+> + * version.
+> + */
+> +#define HWORD_UPDATE_CONST(_mask, _val)					  \
+> +	(								  \
+> +		FIELD_PREP_CONST(_mask, _val) |				  \
+> +		(BUILD_BUG_ON_ZERO(const_true((u64) (_mask) > U16_MAX)) + \
+> +		 ((_mask) << 16))					  \
+> +	)
+> +
+>   /**
+>    * FIELD_GET() - extract a bitfield element
+>    * @_mask: shifted mask defining the field's length and position
+> 
 
