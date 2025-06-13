@@ -1,103 +1,86 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE3D715A87C;
-	Fri, 13 Jun 2025 16:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038E4372
+	for <linux-sound@vger.kernel.org>; Fri, 13 Jun 2025 16:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749833429; cv=none; b=IENNzv0tPurCN5Zt8ngXn6ZEvX3ZK2ZazGkX9eRj13U+my5lW5pYZmmo7ehLNqZUOgxiLwo1EmYU0YfxTazx/oyhbtsajBcCb5MHjPH6PBKvwpEhue+mv9Viy9SX3fD5P97Fkl3k3FwbyK9WCTwC7ACXBgw4kAso31KFueY9fM8=
+	t=1749833557; cv=none; b=pu3IDBjviuhdkbUqfRjnh5mI8BQGvfYx00OEe0zws5fV9tBUonK/+qsITQUP70EVIJRKUQEeCyDx+wHkUWd0G3F4QnEJRQjN8UUCKwSo+OET764sYRndRqZnfEa7D27ZxNqSL15LgPESmePN30Q8v1mZ0Z2re6hfnu6YwG65pwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749833429; c=relaxed/simple;
-	bh=7bhRMmk/rqBBya6D/yZgVdiqWytle+3/P0OHnRbqkE8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g9Km91Li3RINnrlUSYGRvoP9flskxbcRRSwuhJp3LGl+mR6dW6R1bRQCodnsBfLe6ITnEhgMTNU5hne8QrOwBdVR/03OMy3UzoPkvM+GjhtRFxoOPEyBU42bD0lUAFimVPMZDFnhBVQIQYsPrcwGaHTaS3kwrS2T++aSahi9Lpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B22231C0A;
-	Fri, 13 Jun 2025 09:50:06 -0700 (PDT)
-Received: from [10.57.28.131] (unknown [10.57.28.131])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 534A23F673;
-	Fri, 13 Jun 2025 09:50:22 -0700 (PDT)
-Message-ID: <2e022f4e-4c87-4da1-9d02-f7a3ae7c5798@arm.com>
-Date: Fri, 13 Jun 2025 17:50:20 +0100
+	s=arc-20240116; t=1749833557; c=relaxed/simple;
+	bh=ZP8SqTy5h8/LVrXATd4z8DxAP1e9mzSt9gmnvU94rfs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Dd27UAOCBAJ1j35+swXDMrTvaCQoas++2Xgvv5hUDfISgUY36yZnfs7PjjSc9tPtKYJlCk1MylSHlWQVt6SPRRRtmbPHZyph6oDg9+J9vA46xhnTiGYZpj62dxFWBybm04bNDXzeTNy3yDLDkSIoqWCc6dsngOxdAlflScM1mBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VuPzOlZA; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VuPzOlZA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1123CC4CEEB;
+	Fri, 13 Jun 2025 16:52:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749833556;
+	bh=ZP8SqTy5h8/LVrXATd4z8DxAP1e9mzSt9gmnvU94rfs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=VuPzOlZA7p2xVVIJHPhKRx/Ioc758k27isxxkdNiCtqzr58YxXieO2V055l9BLIb8
+	 0RLNvcxe9qGqlH1tqBqQrGOr7Cn54lxjt7+KUn69aA/bmZ7H6riPx1auYTdp6voH8i
+	 UxyjhCNrmhuaOoSWAJ8/S+hZU4cKMswNvRkjeFxHNu9HfG5loV7xYgosRNQJX3mf47
+	 0y8b6eWB60O57hWZVF+WTj1bInKNDaOieIIzidEGy/RxtdBX0JBjj6TziHFU2XhTid
+	 SLeRYCUyHfuE+4Ek2gsD0k4GgXen4PeLqKD6lrYWcah4czkz5hJwffNGuBL38NRidj
+	 wvgqHwloQBqTQ==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87sek489l8.wl-kuninori.morimoto.gx@renesas.com>
+References: <87sek489l8.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2] ASoC: soc-ops-test: dynamically allocate struct
+ snd_ctl_elem_value
+Message-Id: <174983355578.217351.13383396626687362293.b4-ty@kernel.org>
+Date: Fri, 13 Jun 2025 17:52:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/11] arm64: defconfig: Enable Apple Silicon drivers
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Vinod Koul <vkoul@kernel.org>, =?UTF-8?Q?Martin_Povi=C5=A1er?=
- <povik+lin@cutebit.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, iommu@lists.linux.dev,
- linux-input@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
- <20250612-apple-kconfig-defconfig-v1-11-0e6f9cb512c1@kernel.org>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-11-0e6f9cb512c1@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-c25d1
 
-On 2025-06-12 10:11 pm, Sven Peter wrote:
-> Enable drivers for hardware present on Apple Silicon machines.
-> The power domain and interrupt driver should be built-it since these are
-> critical for the system to boot, the rest can be build as modules.
+On Fri, 13 Jun 2025 06:00:20 +0000, Kuninori Morimoto wrote:
+> This structure is really too larget to be allocated on the stack:
+> 
+> 	linux/sound/soc/soc-ops-test.c:520:1: error: the frame size of\
+> 	1304 bytes is larger than 1280 bytes
+> 	[-Werror=frame-larger-than=]
+> 
+> Change the function to dynamically allocate it instead.
+> 
+> [...]
 
-Nit: I'd be tempted to put this patch first, just in case anyone 
-bisecting with "make defconfig" in their process lands in the middle and 
-suddenly loses some drivers (although arguably them going from "=y" to 
-"=m" could still be a surprise, but at least a bit less so).
+Applied to
 
-[...]
-> @@ -1504,6 +1520,7 @@ CONFIG_ARCH_TEGRA_194_SOC=y
->   CONFIG_ARCH_TEGRA_234_SOC=y
->   CONFIG_TI_PRUSS=m
->   CONFIG_OWL_PM_DOMAINS=y
-> +CONFIG_APPLE_PMGR_PWRSTATE=y
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-If this is critical for any Apple platform to work then it would 
-probably make sense to explicitly select it from ARCH_APPLE, as is done 
-for APPLE_AIC...
+Thanks!
 
->   CONFIG_RASPBERRYPI_POWER=y
->   CONFIG_IMX_SCU_PD=y
->   CONFIG_QCOM_CPR=y
-> @@ -1567,6 +1584,7 @@ CONFIG_QCOM_PDC=y
->   CONFIG_QCOM_MPM=y
->   CONFIG_TI_SCI_INTR_IRQCHIP=y
->   CONFIG_TI_SCI_INTA_IRQCHIP=y
-> +CONFIG_APPLE_AIC=y
+[1/1] ASoC: soc-ops-test: dynamically allocate struct snd_ctl_elem_value
+      commit: dae29b678bb74aa2995c1d2b0fa6b1b91f5d8986
 
-...which I think means this would already be redundant.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Robin.
-
->   CONFIG_RESET_GPIO=m
->   CONFIG_RESET_IMX7=y
->   CONFIG_RESET_QCOM_AOSS=y
-> @@ -1640,6 +1658,7 @@ CONFIG_ARM_CORESIGHT_PMU_ARCH_SYSTEM_PMU=m
->   CONFIG_NVIDIA_CORESIGHT_PMU_ARCH_SYSTEM_PMU=m
->   CONFIG_MESON_DDR_PMU=m
->   CONFIG_NVMEM_LAYOUT_SL28_VPD=m
-> +CONFIG_NVMEM_APPLE_EFUSES=m
->   CONFIG_NVMEM_IMX_OCOTP=y
->   CONFIG_NVMEM_IMX_OCOTP_ELE=m
->   CONFIG_NVMEM_IMX_OCOTP_SCU=y
-> 
+Mark
 
