@@ -1,146 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCF12DECBE;
-	Fri, 13 Jun 2025 09:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF9829B233
+	for <linux-sound@vger.kernel.org>; Fri, 13 Jun 2025 09:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749807936; cv=none; b=DEpJ3CUEJJxeFkVAdvEX2EDEHPzVgy1Xpdb0k5FtVVm+KBX6hEiGp+ig73z5T05XFJDSVCu344+3/BlFF0oyfT667F2uBVUwlsdIGWAqJJggpG34i1pwjKgPD8e6AYdPy+wwjVFSNzHPEEWMUxHcqGd4yqNEO1JxbZsO/zN9NcM=
+	t=1749808384; cv=none; b=APMtwrWoFjC4ypyoksmvIBfpHtHN/u5VHKjCwV0dx7kuyMZRlliYT6QeQeH5AyzIy83e5GNxEa5wB/0oGRX3Z4wRl78fCU9IrQKpWQU5/Ke8p0mjh9maynS8dOvsbqCNdr9p0xhpZhnw49HV5mY5CU95krvJSvsbWGd4/3wu2v8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749807936; c=relaxed/simple;
-	bh=KZ0BWcWO/Nnu1q5NglmWAod4+nGJ2WWcd5CNjfdsUO4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C9EoiobhyFhlJHavrBmsG1n+E6i3WdZmYFHOznN4EK5SPkXrYWe2NMjFT40hEIOxrFOoVlfGVl2pzfj5BMW6Gk/oEb7Qmc6rpJjsZOgtRzjDCBhO27CRVCaPJ/tKePnxZAtQLRgi8I7+/lN6ecOXCKPM9qlOSk2AI7QpeBOkCcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aCQ+ArOM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749808384; c=relaxed/simple;
+	bh=x62EadplCZWWsiLqnG3MrLqOBbJ0l5XToE1s9bI6e9E=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h6G08NPG7U/KyJqdojP+MVShazG9B0/S1ejXHquNXuwg71P8Xzw8HbSSm6/TTIftPO3toTm2jLpFndYew0HXQoIRGMNtvDLEjMsOHwgTmHdmnRmIc1KjIOUgwcg04WqhaXdkQDq+E2gwU6UadQ5cq7AGbF155EJT2RtW3CVVWmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hTMcXb8J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+ewhLLmj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hTMcXb8J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+ewhLLmj; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCQ+ArOM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7727C4CEEB;
-	Fri, 13 Jun 2025 09:45:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749807936;
-	bh=KZ0BWcWO/Nnu1q5NglmWAod4+nGJ2WWcd5CNjfdsUO4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aCQ+ArOMfZ8sj9/trk2RN4zzQmNDRm57UcCwHqzSNmBb3apdfrSNyzaknWyYLRPjh
-	 6E3L22twogCDgusyUyZzDGlDING27CHkfgVwL7Qfe5BDfSkbBp55e6vFTCsUCYhfWa
-	 iFB8yIknypSzugsOXAz7FH6q/xY/0xFIUp7GlroH+Qbv1fuibs4wDOAL+dnSd7SmBh
-	 PUekiEcVEkwP6WVmzgXHMenCSFCR5E17+KZjgA7/phOXpz9JEn4cTHyKgpHeTYwm+V
-	 Fhc+PM/4QdvEhSmY2I4S88xQ+fYARMAcOlJnmoU94LA5kiKThUq2MTXDYd0v0NZdZI
-	 bcsXM5H49D58w==
-Date: Fri, 13 Jun 2025 11:45:22 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH 17/20] PCI: dw-rockchip: switch to HWORD_UPDATE macro
-Message-ID: <aEvzMnxgsjfryCOo@ryzen>
-References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
- <20250612-byeword-update-v1-17-f4afb8f6313f@collabora.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hTMcXb8J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+ewhLLmj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hTMcXb8J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+ewhLLmj"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A5D121999;
+	Fri, 13 Jun 2025 09:53:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749808381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tKeZgvkx7kTj0t5xUI/PYIHd7DiOi81o4Y/4g0AmZuk=;
+	b=hTMcXb8JpCbYlA60rhC9UVdbfoPJMwvzg12NnfjiAEOGVE95L4zlm5JNgYCbsAK2ea76zu
+	tuLUWYFgUNoLthFNjA1gPCgYHUK7/VnyWOrpQ59/vdBcpREtFID68uyDUg0odOWF0FLja6
+	pp/MtYN07OBa1d2F0tbtxOskU97XCuI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749808381;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tKeZgvkx7kTj0t5xUI/PYIHd7DiOi81o4Y/4g0AmZuk=;
+	b=+ewhLLmjwq6cPkrjWlrfNI9Ckrvks0+XsAj+bFkbd+D9Rkf2tQOaW2Vz+50TKbZuvr409R
+	ctux5J5uq1QUAFCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749808381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tKeZgvkx7kTj0t5xUI/PYIHd7DiOi81o4Y/4g0AmZuk=;
+	b=hTMcXb8JpCbYlA60rhC9UVdbfoPJMwvzg12NnfjiAEOGVE95L4zlm5JNgYCbsAK2ea76zu
+	tuLUWYFgUNoLthFNjA1gPCgYHUK7/VnyWOrpQ59/vdBcpREtFID68uyDUg0odOWF0FLja6
+	pp/MtYN07OBa1d2F0tbtxOskU97XCuI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749808381;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tKeZgvkx7kTj0t5xUI/PYIHd7DiOi81o4Y/4g0AmZuk=;
+	b=+ewhLLmjwq6cPkrjWlrfNI9Ckrvks0+XsAj+bFkbd+D9Rkf2tQOaW2Vz+50TKbZuvr409R
+	ctux5J5uq1QUAFCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A6B8137FE;
+	Fri, 13 Jun 2025 09:53:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aoLjAP30S2jWQgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 13 Jun 2025 09:53:01 +0000
+Date: Fri, 13 Jun 2025 11:53:00 +0200
+Message-ID: <8734c4rmrn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Fix build with CONFIG_INPUT=n
+In-Reply-To: <ef20f7e8-9d78-44df-9ee4-841e7634460e@collabora.com>
+References: <20250613081543.7404-1-tiwai@suse.de>
+	<ef20f7e8-9d78-44df-9ee4-841e7634460e@collabora.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250612-byeword-update-v1-17-f4afb8f6313f@collabora.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-Spam-Level: 
 
-Hello Nicolas,
-
-On Thu, Jun 12, 2025 at 08:56:19PM +0200, Nicolas Frattaroli wrote:
+On Fri, 13 Jun 2025 11:37:38 +0200,
+Cristian Ciocaltea wrote:
 > 
-> PCIE_CLIENT_RC_MODE/PCIE_CLIENT_EP_MODE was another field that wasn't
-> super clear on what the bit field modification actually is. As far as I
-> can tell, switching to RC mode doesn't actually write the correct value
-> to the field if any of its bits have been set previously, as it only
-> updates one bit of a 4 bit field.
+> Hi Takashi,
 > 
-> Replace it by actually writing the full values to the field, using the
-> new HWORD_UPDATE macro, which grants us the benefit of better
-> compile-time error checking.
+> On 6/13/25 11:15 AM, Takashi Iwai wrote:
+> > The recent addition of DualSense mixer quirk relies on the input
+> > device handle, and the build can fail if CONFIG_INPUT isn't set.
+> > Put (rather ugly) workarounds to wrap with IS_REACHABLE() for avoiding
+> > the build error.
+> > 
+> > Fixes: 79d561c4ec04 ("ALSA: usb-audio: Add mixer quirk for Sony DualSense PS5")
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202506130733.gnPKw2l3-lkp@intel.com/
+> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > ---
+> >  sound/usb/mixer_quirks.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+> > index a0ffe8b559dc..7cc27ae5512f 100644
+> > --- a/sound/usb/mixer_quirks.c
+> > +++ b/sound/usb/mixer_quirks.c
+> > @@ -532,6 +532,7 @@ static int snd_emu0204_controls_create(struct usb_mixer_interface *mixer)
+> >  					  &snd_emu0204_control, NULL);
+> >  }
+> >  
+> > +#if IS_REACHABLE(CONFIG_INPUT)
+> >  /*
+> >   * Sony DualSense controller (PS5) jack detection
+> >   *
+> > @@ -788,6 +789,7 @@ static int snd_dualsense_controls_create(struct usb_mixer_interface *mixer)
+> >  
+> >  	return snd_dualsense_jack_create(mixer, "Headset Mic Jack", false);
+> >  }
+> > +#endif /* IS_REACHABLE(CONFIG_INPUT) */
+> >  
+> >  /* ASUS Xonar U1 / U3 controls */
+> >  
+> > @@ -4331,10 +4333,12 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
+> >  		err = snd_emu0204_controls_create(mixer);
+> >  		break;
+> >  
+> > +#if IS_REACHABLE(CONFIG_INPUT)
+> >  	case USB_ID(0x054c, 0x0ce6): /* Sony DualSense controller (PS5) */
+> >  	case USB_ID(0x054c, 0x0df2): /* Sony DualSense Edge controller (PS5) */
+> >  		err = snd_dualsense_controls_create(mixer);
+> >  		break;
+> > +#endif /* IS_REACHABLE(CONFIG_INPUT) */
+> >  
+> >  	case USB_ID(0x0763, 0x2030): /* M-Audio Fast Track C400 */
+> >  	case USB_ID(0x0763, 0x2031): /* M-Audio Fast Track C400 */
+> 
+> I've seen the build issue report earlier today and planned to
+> investigate, but you beat me to it, so thanks for the quick fix!
+> 
+> I reproduced the linker errors on a minimal kernel configuration with
+> CONFIG_INPUT not being set and I confirm the build passes after applying
+> the patch.
+> 
+> Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-The current code looks like this:
-#define  PCIE_CLIENT_RC_MODE            HIWORD_UPDATE_BIT(0x40)
-#define  PCIE_CLIENT_EP_MODE            HIWORD_UPDATE(0xf0, 0x0)
-
-The device_type field is defined like this:
-4'h0: PCI Express endpoint
-4'h1: Legacy PCI Express endpoint
-4'h4: Root port of PCI Express root complex
-
-The reset value of the device_type field is 0x0 (EP mode).
-
-So switching between RC mode / EP mode should be fine.
-
-But I agree, theoretically there could be a bug if e.g. bootloader
-has set the device_type to 0x1 (Legacy EP).
-
-So if you want, you could send a patch:
--#define  PCIE_CLIENT_RC_MODE            HIWORD_UPDATE_BIT(0x40)
-+#define  PCIE_CLIENT_RC_MODE            HIWORD_UPDATE(0xf0, 0x40)
-
-With:
-Fixes: 0e898eb8df4e ("PCI: rockchip-dwc: Add Rockchip RK356X host controller driver")
-
-But I also think that your current patch is fine as-is.
-
-I do however think that you can drop this line:
-+#define  PCIE_CLIENT_MODE_LEGACY       0x1U
-
-Since the define is never used.
+Thanks for confirmation.  Now queued.
 
 
-Also, is there any point in adding the U suffix?
-
-Usually you see UL or ULL suffix, when that is needed, but there actually
-seems to be extremely few hits of simply U suffix:
-$ git grep 0x1U | grep -v UL
-
-
-Kind regards,
-Niklas
+Takashi
