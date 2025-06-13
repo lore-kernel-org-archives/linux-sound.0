@@ -1,216 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BCB279DA6;
-	Fri, 13 Jun 2025 08:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2BA256C73
+	for <linux-sound@vger.kernel.org>; Fri, 13 Jun 2025 09:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749804701; cv=none; b=ptMl7qygjDzTXBFYMD2NeLYUcGyKxaOvB8T/wmjeZxDoGDGPBNVzjTmwenaA3+JdFqIRoZeKtMJAc3sWihLT5QCkWulq8ptieQI27Y9uTUQRdh4z7cOh0RupdFsktAgQ4Ip/IyGK6EX0SAoJsOX8+/BmG86t0ERx6JGnQnnb/90=
+	t=1749805807; cv=none; b=HA5S8YGuanMgSSU7K5fGCunsskWqbTAJEkvjRjAqdFjNZcqO+aHmrZMeFs34dhYB1Dq7fSaW3NrQ8apg3gN2nj+MAJFZ+kxh/S6Tz+VbaWYN9S2LQ7KbBxM47E+gLVv8qy20rQK9zCnZyQW9yB6Y0BihZWIIf7I/tTgsW5YKaz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749804701; c=relaxed/simple;
-	bh=4dvU2gjTBAobluxvnHDFcItktqR+5ChasN0aGjgKaKI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=TF+CL1X33sxw0VqtEuxr3jb9iDssc9X7A3EbESabllYS5bQypE7xtvrP24WRopbaODEJsnEitLuRSOADTb6xhjheuJ5PqfcRLTFF2NFwhhfBsRcfAtQhb6sU/Xl3UrBDR0Oi9rk601w22W+jpBT3WcnxDQYE78zs3mn4Qq2qOj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAYWQDjD; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749805807; c=relaxed/simple;
+	bh=MuGJpj2Qnf2g6ipZgPHKVzOuNrghvSDBj7k7WQnTBTE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ScAQu68jmYAwa9c+FZ4hfr3U7Z7ISmBW65GGmKYr/TEFavp2+Ftq8z6PfK3dgVt4HRtRcqlIXKyjZieMh8QkDVt1AIK1vvA4O7JkqvtobHit1/JBy+v+yUi+6zxfN2dXg1A0zmP7WdmhD2v13GW89BRxOc8uwWpRYmUcFHcFCpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M2cIYY2b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L8cvCIsU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M2cIYY2b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L8cvCIsU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAYWQDjD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749804698; x=1781340698;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=4dvU2gjTBAobluxvnHDFcItktqR+5ChasN0aGjgKaKI=;
-  b=bAYWQDjDkqgi8W41nfXsD1GhZHc4vEcptHrcwRhlbYzs7p38uM/FRHY9
-   QI07SMAxI1j8YzAT+3A3xox4j6T5WDx5/kCRLw/4dvrB7gCYsUrcPGeUM
-   5Or/jMlTJwCF9tVnwbSHcrTt0AljSpxDJLPrZMoMV5Ca26pjAG/R/Fn/k
-   kVm5Zzh+lhEWkw/4s1/v1bmFadgHTs+qEplVvRsPzDVnphKTVWxulJOLY
-   CvwJSb1IjkEXK8Tlx3lXlNqBNVMtTilFT/z1CPBfL5uJlk5FjJUrlE1bo
-   7edJ/NKsfKL8WTu2ls85/a+WJfSnuVj9IHa/k2TntcNrGzpGMC1k43DNP
-   Q==;
-X-CSE-ConnectionGUID: o9pnfUYGRrqHAutgH0cHwA==
-X-CSE-MsgGUID: HMom63YgR4GFn4jvLO1IUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="74547609"
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="74547609"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 01:51:37 -0700
-X-CSE-ConnectionGUID: agVmFPqcQfiQWHXPtV8Rmw==
-X-CSE-MsgGUID: gWFTP0HTRC2RODcDIuxKFQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="147619241"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.26])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 01:51:19 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Yury Norov
- <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Shreeya Patel
- <shreeya.patel@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Vinod Koul
- <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Nicolas
- Frattaroli <frattaroli.nicolas@gmail.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Shawn Lin
- <shawn.lin@rock-chips.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Manivannan
- Sadhasivam
- <mani@kernel.org>, Rob Herring <robh@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham
- <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, Qin
- Jian <qinjian@cqplus1.com>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Tvrtko Ursulin
- <tursulin@igalia.com>
-Subject: Re: [PATCH 01/20] bitfield: introduce HWORD_UPDATE bitfield macros
-In-Reply-To: <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
- <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
-Date: Fri, 13 Jun 2025 11:51:15 +0300
-Message-ID: <5493fd6017de3f393f632125fad95945d1c4294c@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M2cIYY2b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L8cvCIsU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M2cIYY2b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L8cvCIsU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 977B42116C;
+	Fri, 13 Jun 2025 09:10:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749805803; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ntBvV81QWuCqZkSb0W5UPQYi2OXq6oNuUU7NsQ10lEA=;
+	b=M2cIYY2byCF98aOJUypxC4xoomguGZda9n+btAfdbwHWxgo1sWLlQH5nNf/BRYbYiKiU7f
+	pcuSRYJ9hoYACEfXa9F/X4AgY1EPU59v1OKE8zDa04pFvT9P9GKa83cID33w/tqySuQN9A
+	w48oNQ0+uh8G+lhNagCd9nqvHkel73k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749805803;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ntBvV81QWuCqZkSb0W5UPQYi2OXq6oNuUU7NsQ10lEA=;
+	b=L8cvCIsU+7s8EfJ3vYzQ3TIjQDSQEzf6BkEOyw1R51ZmBL1ShRS7ttgm6POA0OJlq8PhmQ
+	0Me7tjqs1KuVfOBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=M2cIYY2b;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=L8cvCIsU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749805803; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ntBvV81QWuCqZkSb0W5UPQYi2OXq6oNuUU7NsQ10lEA=;
+	b=M2cIYY2byCF98aOJUypxC4xoomguGZda9n+btAfdbwHWxgo1sWLlQH5nNf/BRYbYiKiU7f
+	pcuSRYJ9hoYACEfXa9F/X4AgY1EPU59v1OKE8zDa04pFvT9P9GKa83cID33w/tqySuQN9A
+	w48oNQ0+uh8G+lhNagCd9nqvHkel73k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749805803;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ntBvV81QWuCqZkSb0W5UPQYi2OXq6oNuUU7NsQ10lEA=;
+	b=L8cvCIsU+7s8EfJ3vYzQ3TIjQDSQEzf6BkEOyw1R51ZmBL1ShRS7ttgm6POA0OJlq8PhmQ
+	0Me7tjqs1KuVfOBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6FCD9137FE;
+	Fri, 13 Jun 2025 09:10:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BVyuGevqS2giNgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 13 Jun 2025 09:10:03 +0000
+Date: Fri, 13 Jun 2025 11:10:03 +0200
+Message-ID: <87cyb8ror8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/conexant: Add resume function
+In-Reply-To: <20250613083044.125916-1-zhangyongzhen@kylinos.cn>
+References: <20250613083044.125916-1-zhangyongzhen@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 977B42116C
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-On Thu, 12 Jun 2025, Nicolas Frattaroli <nicolas.frattaroli@collabora.com> wrote:
-> Hardware of various vendors, but very notably Rockchip, often uses
-> 32-bit registers where the upper 16-bit half of the register is a
-> write-enable mask for the lower half.
->
-> This type of hardware setup allows for more granular concurrent register
-> write access.
->
-> Over the years, many drivers have hand-rolled their own version of this
-> macro, usually without any checks, often called something like
-> HIWORD_UPDATE or FIELD_PREP_HIWORD, commonly with slightly different
-> semantics between them.
->
-> Clearly there is a demand for such a macro, and thus the demand should
-> be satisfied in a common header file.
->
-> Add two macros: HWORD_UPDATE, and HWORD_UPDATE_CONST. The latter is a
-> version that can be used in initializers, like FIELD_PREP_CONST. The
-> macro names are chosen to not clash with any potential other macros that
-> drivers may already have implemented themselves, while retaining a
-> familiar name.
->
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+On Fri, 13 Jun 2025 10:30:44 +0200,
+Yongzhen Zhang wrote:
+> 
+> During S3 sleep state, if headphones are unplugged, we need to re-report
+> their status during the wake phase to ensure proper headphone presence
+> detection after system resume.
+> 
+> Signed-off-by: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
 > ---
->  include/linux/bitfield.h | 47 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
->
-> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-> index 6d9a53db54b66c0833973c880444bd289d9667b1..b90d88db7405f95b78cdd6f3426263086bab5aa6 100644
-> --- a/include/linux/bitfield.h
-> +++ b/include/linux/bitfield.h
-> @@ -8,6 +8,7 @@
->  #define _LINUX_BITFIELD_H
+>  sound/pci/hda/patch_conexant.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+> index 34874039ad45..c77629378879 100644
+> --- a/sound/pci/hda/patch_conexant.c
+> +++ b/sound/pci/hda/patch_conexant.c
+> @@ -264,6 +264,13 @@ static int cx_auto_suspend(struct hda_codec *codec)
+>  	return 0;
+>  }
 >  
->  #include <linux/build_bug.h>
-> +#include <linux/limits.h>
->  #include <linux/typecheck.h>
->  #include <asm/byteorder.h>
->  
-> @@ -142,6 +143,52 @@
->  		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
->  	)
->  
-> +/**
-> + * HWORD_UPDATE() - prepare a bitfield element with a mask in the upper half
-> + * @_mask: shifted mask defining the field's length and position
-> + * @_val:  value to put in the field
-> + *
-> + * HWORD_UPDATE() masks and shifts up the value, as well as bitwise ORs the
-> + * result with the mask shifted up by 16.
-> + *
-> + * This is useful for a common design of hardware registers where the upper
-> + * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
-> + * register, a bit in the lower half is only updated if the corresponding bit
-> + * in the upper half is high.
-> + */
-> +#define HWORD_UPDATE(_mask, _val)					 \
-> +	({								 \
-> +		__BF_FIELD_CHECK(_mask, ((u16) 0U), _val,		 \
-> +				 "HWORD_UPDATE: ");			 \
-> +		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask)) | \
-> +		((_mask) << 16);					 \
-> +	})
+> +static int cx_auto_resume(struct hda_codec *codec)
+> +{
+> +	cx_auto_init(codec);
+> +	snd_hda_jack_report_sync(codec);
+> +	return 0;
+> +}
 
-i915 uses something like this for a few registers too, with the name
-_MASKED_FIELD(). I think we could use it.
+Hm, this shouldn't be needed.  When no resume callback is set, the
+hda-codec core calls:
+	codec->patch_ops.init(codec);
+	snd_hda_regmap_sync(codec);
+and right afterwards
+	snd_hda_jack_report_sync(codec);
 
-I do think this is clearly an extension of FIELD_PREP(), though, and
-should be be named similarly, instead of the completely deviating
-HWORD_UPDATE().
-
-Also, we recently got GENMASK() versions with sizes, GENMASK_U16()
-etc. so I find it inconsistent to denote size here with HWORD.
-
-FIELD_PREP_MASKED_U16? MASKED_FIELD_PREP_U16? Something along those
-lines?
-
-And perhaps that (and more potential users) could persuade Jakub that
-this is not that weird after all?
+See hda_call_codec_resume().
 
 
-BR,
-Jani.
+thanks,
 
-
-
-
-> +
-> +/**
-> + * HWORD_UPDATE_CONST() - prepare a constant bitfield element with a mask in
-> + *                        the upper half
-> + * @_mask: shifted mask defining the field's length and position
-> + * @_val:  value to put in the field
-> + *
-> + * HWORD_UPDATE_CONST() masks and shifts up the value, as well as bitwise ORs
-> + * the result with the mask shifted up by 16.
-> + *
-> + * This is useful for a common design of hardware registers where the upper
-> + * 16-bit half of a 32-bit register is used as a write-enable mask. In such a
-> + * register, a bit in the lower half is only updated if the corresponding bit
-> + * in the upper half is high.
-> + *
-> + * Unlike HWORD_UPDATE(), this is a constant expression and can therefore
-> + * be used in initializers. Error checking is less comfortable for this
-> + * version.
-> + */
-> +#define HWORD_UPDATE_CONST(_mask, _val)					  \
-> +	(								  \
-> +		FIELD_PREP_CONST(_mask, _val) |				  \
-> +		(BUILD_BUG_ON_ZERO(const_true((u64) (_mask) > U16_MAX)) + \
-> +		 ((_mask) << 16))					  \
-> +	)
-> +
->  /**
->   * FIELD_GET() - extract a bitfield element
->   * @_mask: shifted mask defining the field's length and position
-
--- 
-Jani Nikula, Intel
+Takashi
