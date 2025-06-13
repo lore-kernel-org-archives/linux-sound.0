@@ -1,161 +1,207 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6889C1E1C36;
-	Fri, 13 Jun 2025 14:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749826354; cv=none; b=utXtxWPwl+pA7seKB+r/M0H+x5P6s80mz+3EWg2itqs05dOOjPkDsPy8J7VBsNfyXzmyVms8JYNT9+rFITQrK60Q+C76e0U/fTNeYldpKUIWgKRqTPm9m6nT6ZIE2HsTPFq3iN/yBNJMjwwis7UeqoHYHiku5r6ItwWTVjX/8jI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749826354; c=relaxed/simple;
-	bh=Q9XbAxGbPKwPgpFGLC6BiXPwoGl54z+or5xHNF9dw1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LfhmBGT4bOEJ1v8jyEbBNGa0Gljnagkz/+5vOJtDQ7FXY8mgb+Tmy83Z3oyrZ4vgG/ObZ9Js2K+iivCiiZzmPuo7oZaBKIfdZ8TzZObZjVW8A+XEtBV9CYzuYTNw4ye255x8yre8lBYTOedPg8/4CHkQZ+L+tghct5TSdgZThoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jTTUQp+6; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F4919FA93;
+	Fri, 13 Jun 2025 14:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749826399; cv=fail; b=h+GMFEaV7OjyG68uMOgJ7yvquJbWsww/hGsaEiv1n50iH4YQ3VJaeGr0zaing7MSzKjmmrxXHm2BPBmt5V/GdzqHn784BOlFpdjuCU0X7CQSjlQHTIpeUmfbnuTUGobBGQtBjpj/pwZbB3jMZkdIxzPI4G6No5LtgQ0zGBmDLZA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749826399; c=relaxed/simple;
+	bh=xtSccUSIKO8vabOgAJm6bwuB7wDORVPDnhkm9QdFKG0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dKLsyLshIfuBhrezMW1xUlsMZPwgsMzIHho4dwIN8ZdBSIMMmmj6D0KQz+rYHV7Bi3xSKQd2jr3KXA2qpLBGHyC9/MxZzAXsSOxQDlOtyXNW07y9YHXVnMpsYXZDqpNeiPNqe0OOZ+cB/bcKmbNuOv3fbG3lWzIlj8GfMRkrOmA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=j2C32GJ3; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=nHus9rs4; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTTUQp+6"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-747e41d5469so2466237b3a.3;
-        Fri, 13 Jun 2025 07:52:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="j2C32GJ3";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="nHus9rs4"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55D6SgDd031504;
+	Fri, 13 Jun 2025 09:53:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=VnV3z1A75Pbx8bdw
+	N6JiXIZbCMeK4tWls3Dng3s9QUo=; b=j2C32GJ3ChBFU0jHmsTdul4Z/83GlPcT
+	8JAOALxgbn/bH86bXGwhXBjV4+g3bBcibhSUofKDVNnqUBQkZEQU4Ys4r4YbyUB/
+	raj/y8qzvhun6ln3GEiQ3Ch0Do7+pWu6aYVwtSLXNk4udhJFSTEwcmTm/gedqtfg
+	3tm+1PJy9pV48cmNWOTJyLIVXjt0eemaQJWGqhIMlq4yZPKBwbBymsicDE6hcOqO
+	HrUAsN2v2imP5iCmiErHwoV9IoEhmKHCH3CErGbVknAleaExtxIw9BLUdqZOkuu2
+	oqFIiGJ4yN9X3RE3tGSGVsc7SskeYnAi3jtgkRJSnt95hZZj39DnGg==
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11on2121.outbound.protection.outlook.com [40.107.223.121])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4760mwxw2d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Jun 2025 09:53:08 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jtHi/yLpVOgzxZ5hO7vFhhGs04b60qrgUxD14J5doCpKXs/OZ0dmDZalP00W901uCIdB20CSMprkEx6ExwhfiferEC8u1CL1jLdv6to0E9zqNDpp3RD+2lvDAjfQlUlmv6N+59IybDeTgDiC4L4VG4BVpDL88XGIIJPJfOKB/mWS0HpcerClAUpDtgMgGvkBgAQVombRr/7S8MbanQIE9oDa0e2VZSWyVtnJFUZnxz7GFezi1KMxuJRCjndZzUsZVAP1vBT9XLm+3r5/zSYXNkU5TA5EYG/fkA+Op5d1V7532UR6LD+4ik0Sw9EPx2SRdYkXPVklKfmEVQFRbMdOzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VnV3z1A75Pbx8bdwN6JiXIZbCMeK4tWls3Dng3s9QUo=;
+ b=kJj+odCNXoDgktOvbxFKRpmd2X6aNSHzu/KtjlwT3WWzdNvBQk682VQwfCp0nVUcMSwjzXW0dabagofvATu6xooJdKbN/E34DQcA8B3GSMi8mHVE6b0dm6eaNWd2YVHZnSzfm9KlubGHwj083gNH4zreDc+lMURi9B621c1TMQFboDZ9dCJBc6HF11KumhUBz9UYJ58TriOYv+OuvuSzco599rorkefK6al/mekMbU4cabHB1WbwKizhL949FG75vFK/Kv2UZ6UmmnV6OR1+fjS0NzuuEO14EXFfeFJZ8ZpN+shdUsGAFHfjgOvGc4oHqLJR6wSk2RLdfnpEE/o9WQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749826351; x=1750431151; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nX9ttAjMiBk5GnAWKnbFZ+j4zoLGHNZodgimLxzGDTU=;
-        b=jTTUQp+606vG66KHI3WiyWpDzIKpz4cu8AalziZ9DIgPy62Z+j0Z5rVci7SRKLTcYI
-         jyrbrrQP1bjNVn42hF3vs/m7mAICQHem0mNhZqOlcnzfjDtveUrOyNmxI4GNCHq52J+j
-         0ikQkJYDo02yuw+dk0JsAkLTi20u6t+Va31GnhvmTiMIfZXipLNiFpzRew3mw0ehZE9G
-         63pAoFi+gZK26Zei/lNRdoFrsZd6Jfb8H8on1mDC0ZJkCK2RXzr5obujM2LOIDHpeINF
-         NanblWJSmCkJa+f32qNjwWLAiCElfup8IWRg2BWq8fpI4a0Qr/RlNrXRiP/xyMCvWc09
-         Ee9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749826351; x=1750431151;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nX9ttAjMiBk5GnAWKnbFZ+j4zoLGHNZodgimLxzGDTU=;
-        b=O7BCRCsiYhgC7VNVf4LFxnV/UxO2sPiAigUQQGXFiEeWKNU3RrQbU2PzjJjBVC7x3H
-         KFP5Oac1XsQQmBJQkS7r2dAMeh0ZeyMzwVaXdBrWJpx+qXIzjHzJZ25OngYL6Jv1qTa0
-         vje77lBE9L+B6+WBSeKDkrVdQ1UXPzuuNL2MgzdqtF8uuv9/9WiTHxOx1NFN7etE63oZ
-         O9nFGUresRPM9rMid8MI4CXZC0q8GLWAS9CuQWUmwSRG49KXr/ebtVFh+GQr0/wA2Swq
-         1swxhdk8xLM3Zow3AIhPpdBqJhBK0Dmg8vpniSwnuvJPQLBCIi20brmwsZ7U0sKZuV1h
-         aBcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUsCc7DzKC1nKkjSKYs7ZdnLcAkqd6W47+wbseeap+mFLnHuV3/3bD5aJRVmZhnWG2wiqK5p7JMadQ=@vger.kernel.org, AJvYcCVNCyEy28Aw9FLa7Hia0xgpOk1lA1XntjW4785s4RtWImWTGxQtyZqir+VbELNRUjdqxFuKr80LlFd3@vger.kernel.org, AJvYcCVYo8FsTp8kGdqb5W0+S8SXZJvNmr4HrSxFOcFQxjryUrbLyNi9lO5fHkKO+QMuGe6Wa4kWvU1wnmwn@vger.kernel.org, AJvYcCVuT5Bx0W7fsYRU1U/hPP5AXLLTxDxR4kxpoy/n0qLjnZKUnL9W0RZHt5+bt9TpTQWFTKdsTbfOn87iJ2I=@vger.kernel.org, AJvYcCWvfNgaC4PWZ6eVk9nrM/lkoL7Y5FZS2SR6RiiGvPCZy5NE9qMxXaTA3Qdt8gH85+ZHun4OSq9W5Mg=@vger.kernel.org, AJvYcCXt+A2K8knd/buRanBtUQUoam5V0IHVhbfPUJ8baLxE7EJvtImPl908e8W6J0RD4l/WI1bJNx8J@vger.kernel.org, AJvYcCXtdHQlmzl6Ec/HymgCw7Y1C+29HyML40DdWdR32pbaZWXtfJfPIjkc5lsGtcpYp4Rqp2RqZfHEddsNWkk=@vger.kernel.org, AJvYcCXulk7a9ihm4yAYO37oHuhwjQZwJd/SVi9JpnWWeyKj9/KuWQNXch3+1jBM+8W+tx+1YVCdcxukIH8I/vv/@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxql/qfGHfWb+kFlPhgA9E+VWjlK5Kf6MUGrTk9xQ2KSWgMol2X
-	5lVkaiFBNH1EvzFGA4bU1VkRI4RORg+Mj/3LwYAxMFx7KixqlxrZzpUB
-X-Gm-Gg: ASbGncu2Rg6sNhV5rMMzPlA+URr/WXHKsMGC7vgsj4XQ1S2NBYqVjZNiKhakG42M/hm
-	0JMNHz+Soinc13zl5csCcXy3SEPwcOtz/GpKyGLio+q8W58REKTPE7Cw9dDiTB/LMvSP/uURDAA
-	wix6GCq3Up1a2p0wDr3nXi9KbsXWi72u64y2MpOO0TXP4TqKpeeLvDRQMZ7hpzueka5ase6gkVg
-	mCxVVKsUO1aJFB0gdNgulQe8prhKdgssy6OBca/ky+RhN8nNnPO0zwKqRJ4ZFXXdBRwYyPhibWz
-	jWjMe2rUy0M7cW7Aq9QSvEcggwDA9QxCQtsQcA+SzMz9UDxjGN0FVor+FjhqpQ==
-X-Google-Smtp-Source: AGHT+IGmduwXbHVfGIDlskqKLcCBNDCHGWRFnOFCbxfY7iXbpVq03NTOlkVGcUndD/CI3gBb8mRMVQ==
-X-Received: by 2002:a05:6a00:2d8d:b0:742:b3a6:db16 with SMTP id d2e1a72fcca58-7488f7e38f1mr4843190b3a.20.1749826350828;
-        Fri, 13 Jun 2025 07:52:30 -0700 (PDT)
-Received: from localhost ([216.228.127.129])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748900cbf58sm1723692b3a.148.2025.06.13.07.52.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Jun 2025 07:52:30 -0700 (PDT)
-Date: Fri, 13 Jun 2025 10:52:28 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-pm@vger.kernel.org,
-	netdev@vger.kernel.org, llvm@lists.linux.dev,
-	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
-	kernel@collabora.com, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 01/20] bitfield: introduce HWORD_UPDATE bitfield macros
-Message-ID: <aEw7LBpmkfOqZgf1@yury>
-References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
- <20250612-byeword-update-v1-1-f4afb8f6313f@collabora.com>
- <1437fe89-341b-4b57-b1fa-a0395081e941@arm.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VnV3z1A75Pbx8bdwN6JiXIZbCMeK4tWls3Dng3s9QUo=;
+ b=nHus9rs4C2j1/ya97OKsDo036nfa9icvVtjbCGXvvRDv4ilK4fgRHhjykFvLE6b0M1ggvNg3LhXViyxQatf06kApuDR0KM5SlD843Iec7dcQPJvhHAId0bq7TYmbndGib5+pdvd/qi0JEHWxzvXIWAzCTzwXtXC8o5DsyLCXpIs=
+Received: from BYAPR01CA0027.prod.exchangelabs.com (2603:10b6:a02:80::40) by
+ DS7PR19MB4552.namprd19.prod.outlook.com (2603:10b6:5:2c4::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8835.18; Fri, 13 Jun 2025 14:53:04 +0000
+Received: from SJ1PEPF000026C3.namprd04.prod.outlook.com
+ (2603:10b6:a02:80:cafe::27) by BYAPR01CA0027.outlook.office365.com
+ (2603:10b6:a02:80::40) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.23 via Frontend Transport; Fri,
+ 13 Jun 2025 14:53:09 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SJ1PEPF000026C3.mail.protection.outlook.com (10.167.244.100) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.15
+ via Frontend Transport; Fri, 13 Jun 2025 14:53:03 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 65602406541;
+	Fri, 13 Jun 2025 14:53:01 +0000 (UTC)
+Received: from lonswws01.ad.cirrus.com (lonswws01.ad.cirrus.com [198.90.188.26])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 23BB182024A;
+	Fri, 13 Jun 2025 14:53:01 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com, nefelim4ag@gmail.com,
+        Simon Trimmer <simont@opensource.cirrus.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for Asus GA605K
+Date: Fri, 13 Jun 2025 14:52:51 +0000
+Message-ID: <20250613145251.397500-1-simont@opensource.cirrus.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1437fe89-341b-4b57-b1fa-a0395081e941@arm.com>
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C3:EE_|DS7PR19MB4552:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 56881f84-e119-4af1-2829-08ddaa89ffbf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|61400799027|376014|82310400026|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?anmQdNmBelOaks8XOrTryw9+qmRPY3Tt3GxnsZ3V2ewsMpr8FuDeakEGObee?=
+ =?us-ascii?Q?8Cty5HlpVYtq761WBfcC2WeJlFrWVuOCBXk2YecEKsoF6Kd/WkXlBen5g+k2?=
+ =?us-ascii?Q?mzGdwSCv+HdJecwFPUNaxIB0ESOLyE2CWsCwxjlucolFkKKeQ8D/fCYaTJXU?=
+ =?us-ascii?Q?tj7vYeEmRC/BAqB8gmkESvNpEGaWqnJmUjuAW4nA2O6SyLJ9r0TnOBothzUV?=
+ =?us-ascii?Q?RVhS0yonk7KZa8Fwm8aoo3EefbTcWy+mUu+A0spINWa/sgLoDs6SumKAb3dd?=
+ =?us-ascii?Q?ct/7gjybCS+nBADoTx5qf4rIoQG/BQE3r23Z0J/XUZrW1I4h0zyy1u/h37pr?=
+ =?us-ascii?Q?qHQzBJBkF2YTY3SrVp33GsmZ/NdHf8sSDwnSd/8bEoPsiIjIMjro1REf4R1o?=
+ =?us-ascii?Q?k3yEzC1qRP6Q50+DCjLauSSPcaGbp8yb1gVoEZmINshp02+tE1U7991gZH5o?=
+ =?us-ascii?Q?ECTWf0n0V6qmGQKTQUQM2OhYmKbiSLgCOiQzLRHzjGAffbyC7JmzS5AnA5ap?=
+ =?us-ascii?Q?CCjskL5DIX2fks2zmhT+gBnKKo78EjIHu5O8EYDbFo872xyK8ogD80ut/j1T?=
+ =?us-ascii?Q?3dfaYZcM8hpi/dL1CDTtJHHkQXlcb2JAdZhgI7jTZsvnOWj1GbFVq9OVj9kz?=
+ =?us-ascii?Q?gPhsMzfOvBxPI3Nbyi/2r5YwSk+IyRlQQ4VOLK2zCeW+nu8oLBr2wBS3Tcfm?=
+ =?us-ascii?Q?aQFjeDrS5u87FAG54xFHJDPTyKJICNaiLY3ek7sXcHI+p+Jx3jxeE2P4Ecim?=
+ =?us-ascii?Q?+s15kcmYWeiUyPpAt6gbUxiWl3hQwYGak11j9M4c1PHX2hZYpcOs6OW89aBh?=
+ =?us-ascii?Q?7hirIJr0GNIOmTF6KSuv2h2mi9rf4IwS4KQrmKPx6A5YGW5vTQnZzknoJvp1?=
+ =?us-ascii?Q?AaeI3W0tOGVsuc96Uya07FP0KEirc1on2DSnuGiUyYLA43urCGeE/c4YLS07?=
+ =?us-ascii?Q?3+Z/Rl7Boe3XfV1V6BYXlx6xB378nNCOirojZVxISXgCYBQ3lMU8Vd1NySeo?=
+ =?us-ascii?Q?nHsFVhLzT6MyLkKrmgAyBESVCCu4u0vU7bhLRotGOAYT/0iBEhIxwCnB999K?=
+ =?us-ascii?Q?WkWMDUQ1t53c/pqADiipdYlrHDSCR2G1K6gOFXqMj/PknGySIxXaENN6AWuv?=
+ =?us-ascii?Q?bplTCnv1YQ32gie0EHeL18YERMznztaIpgnrRkExYgBj6Cb+kPH7mzebI34Z?=
+ =?us-ascii?Q?tFO+Y5/OVQuqYkFEqnCWSYwkkwsg3j8J/kZi3FUCtej1AfVFtAyeTdGn2QX7?=
+ =?us-ascii?Q?P+6r+SaKfqgA6oTgbOanxJ+L3cYvoA6F1zplktPocdFGn0lRgx6DQ21hLPtB?=
+ =?us-ascii?Q?qi8vnN2TuVnllKVUdDJEo5eJWVeisajhle2RX0xuMEe3sl5dqpSi+3Hoq4aS?=
+ =?us-ascii?Q?3XBXZDZmIJU/FGgE3D/zh/ZQlR8vng8UJLHdTPMXL1PAtHPuCFcn5/gnbzaL?=
+ =?us-ascii?Q?C/sIKdpOYXA588oCikv8Y18R8krnV3BLEXqMZLmx+xLBSrJ6+67fWoUUTRzl?=
+ =?us-ascii?Q?0EtOYwA478XNYNi8073lNBkRFETyDvQxvctnsBXpo3uf7z3esfrjC3YgWA?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(61400799027)(376014)(82310400026)(7053199007);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2025 14:53:03.1094
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56881f84-e119-4af1-2829-08ddaa89ffbf
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF000026C3.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB4552
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjEzMDEwNyBTYWx0ZWRfX4iwQPArefw3V 8mi7dQ2SA8nhwMvzNeE2bAXipWSk2/33lDUeCVHoNYtgWZiBtjUpTSUQHLynnL7AlkehBWkSng1 BzThJJHHIj6rOaXhBgZqpbm94zpzP+v0C23WMQew14ORYmStSPO7Ion6is5mC9rQKYRHvPL0bNX
+ a0JHAncKIUWbLZDZ8EVVePp6zgguAAyi3mAX9+gSvHyNv3YaCiOhhljanJHW/iMFeCKkCWl+v/y LsCuhMawfwSDcssVJH1tiDiF5jRYyFd1EldjEg7H8imfZXbUSmHFP1OXcvSWWlrR9oHAICsmvDo fb2ERMeM58bTbUAzdhbumD2lYVHVE0n/vy0pMMqlq40joYXUSqTxwBe3OBX0ZqxCC4iIPw1vkVG
+ Qh97ewjWzOGtEfdko9y73Uhl9hfS9hdurbVVnxESiC2bikLkf0NDt5twM6c1fNMkVUnwm9cv
+X-Authority-Analysis: v=2.4 cv=coCbk04i c=1 sm=1 tr=0 ts=684c3b54 cx=c_pps a=V1iWK7uDBm2tx9d+rKTUiQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=6IFa9wvqVegA:10
+ a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=NEAV23lmAAAA:8 a=w1d2syhTAAAA:8 a=pGLkceISAAAA:8 a=qQBMiwKV7t5ryLTBdsoA:9
+X-Proofpoint-ORIG-GUID: 3yzoX3ZTherJoddyyJjSRCQPGC-lDhMU
+X-Proofpoint-GUID: 3yzoX3ZTherJoddyyJjSRCQPGC-lDhMU
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, Jun 13, 2025 at 02:54:50PM +0100, Robin Murphy wrote:
-> On 2025-06-12 7:56 pm, Nicolas Frattaroli wrote:
-> > Hardware of various vendors, but very notably Rockchip, often uses
-> > 32-bit registers where the upper 16-bit half of the register is a
-> > write-enable mask for the lower half.
-> > 
-> > This type of hardware setup allows for more granular concurrent register
-> > write access.
-> > 
-> > Over the years, many drivers have hand-rolled their own version of this
-> > macro, usually without any checks, often called something like
-> > HIWORD_UPDATE or FIELD_PREP_HIWORD, commonly with slightly different
-> > semantics between them.
-> > 
-> > Clearly there is a demand for such a macro, and thus the demand should
-> > be satisfied in a common header file.
-> > 
-> > Add two macros: HWORD_UPDATE, and HWORD_UPDATE_CONST. The latter is a
-> > version that can be used in initializers, like FIELD_PREP_CONST. The
-> > macro names are chosen to not clash with any potential other macros that
-> > drivers may already have implemented themselves, while retaining a
-> > familiar name.
-> 
-> Nit: while from one angle it indeed looks similar, from another it's even
-> more opaque and less meaningful than what we have already. Personally I
-> cannot help but see "hword" as "halfword", so logically if we want 32+32-bit
-> or 8+8-bit variants in future those would be WORD_UPDATE() and
-> BYTE_UPDATE(), right? ;)
-> 
-> It's also confounded by "update" not actually having any obvious meaning at
-> this level without all the implicit usage context. FWIW my suggestion would
-> be FIELD_PREP_WM_U16, such that the reader instantly sees "FIELD_PREP with
-> some additional semantics", even if they then need to glance at the
-> kerneldoc for clarification that WM stands for writemask (or maybe WE for
-> write-enable if people prefer). Plus it then leaves room to easily support
-> different sizes (and potentially even bonkers upside-down Ux_WM variants?!)
-> without any bother if we need to.
+The GA605K has similar audio hardware to the GA403U so apply the
+same quirk.
 
-I like the idea. Maybe even shorter: FIELD_PREP_WM16()?
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+Tested-by: Timofey Titovets <nefelim4ag@gmail.com>
+Link: https://github.com/alsa-project/alsa-ucm-conf/issues/578
+---
+ sound/pci/hda/patch_realtek.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 7db62477b785..3df6f4ecc203 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -8036,6 +8036,8 @@ enum {
+ 	ALC294_FIXUP_ASUS_CS35L41_SPI_2,
+ 	ALC274_FIXUP_HP_AIO_BIND_DACS,
+ 	ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2,
++	ALC285_FIXUP_ASUS_GA605K_HEADSET_MIC,
++	ALC285_FIXUP_ASUS_GA605K_I2C_SPEAKER2_TO_DAC1,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -10424,6 +10426,20 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc274_fixup_hp_aio_bind_dacs,
+ 	},
++	[ALC285_FIXUP_ASUS_GA605K_HEADSET_MIC] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x19, 0x03a11050 },
++			{ 0x1b, 0x03a11c30 },
++			{ }
++		},
++		.chained = true,
++		.chain_id = ALC285_FIXUP_ASUS_GA605K_I2C_SPEAKER2_TO_DAC1
++	},
++	[ALC285_FIXUP_ASUS_GA605K_I2C_SPEAKER2_TO_DAC1] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc285_fixup_speaker2_to_dac1,
++	},
+ };
+ 
+ static const struct hda_quirk alc269_fixup_tbl[] = {
+@@ -10942,6 +10958,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x12e0, "ASUS X541SA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x12f0, "ASUS X541UV", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1313, "Asus K42JZ", ALC269VB_FIXUP_ASUS_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1043, 0x1314, "ASUS GA605K", ALC285_FIXUP_ASUS_GA605K_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x13b0, "ASUS Z550SA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1427, "Asus Zenbook UX31E", ALC269VB_FIXUP_ASUS_ZENBOOK),
+ 	SND_PCI_QUIRK(0x1043, 0x1433, "ASUS GX650PY/PZ/PV/PU/PYV/PZV/PIV/PVV", ALC285_FIXUP_ASUS_I2C_HEADSET_MIC),
+-- 
+2.43.0
+
