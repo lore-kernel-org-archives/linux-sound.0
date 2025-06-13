@@ -1,122 +1,100 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95C92D2382;
-	Fri, 13 Jun 2025 10:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BA422068B;
+	Fri, 13 Jun 2025 11:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749809736; cv=none; b=NR00+fm32/N12qoD4XCO9Neq2GxyfIeCl1jZNoLyLZo0jCDjW/MMseDzwcV+JSS8k1XmNmH08wW/CdZfcLU0Q9IQ1l6zK+qBbl5ixBmuUQAVB6So8HfAB1B2iI0KBDYkSXKtj28UXpuL4OVN4eVTGCjsbfOzRgSo+66UJ5HQ7tQ=
+	t=1749812637; cv=none; b=aHNL7xoz3SIDghD6CPH3ieJDY6DUStnjcQ4J2gtXG9VA5E/J1sJaJOKtpKe17lzCTkVpzDdKCZVJFIfhwKsbNVSN0lgcKYFrtSWxmd336D98T0pfk38u03joCOZBz3SJ9cF9dXZjVibc/iyfBNDVAWMYxW18B3ixvqFKrUaGtro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749809736; c=relaxed/simple;
-	bh=CZqYmHg36RMSs1ABWyY6d1Bd8dHgzQog9KqyX+oH+Lk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a0fzXDBTbSbvWb6aJqdaGIHtHWiBOT4Lkt7HEfBZg1qcJXwau5daPy3eYPvflP2V02GECQNi+FML2RTG59O7klCbOJJYzGKcT2UK2dQuHDZpV6JRPNrzx1V9oW5L8Tflf4e0fK026h99fdtPuExGJZ7MpPKzkaI1zR4lY4sCaHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hPYQPpsa; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1749812637; c=relaxed/simple;
+	bh=ImOyARAzYzFA2uZnP4HrKkCzOzuHZTZu1WoIccEMb9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eFy1kq8aA7+yUPcuJ+8Jb44XvtHHNcKa9CQfRHMcBdxsy7bZgF3UvWuMx2u9Kytv7tWUbtQtma5G+Hsd4Hge7RKHVzJMSPZtJ05TZGbF13lL/pH3Q2TTa6K6b9FDO3Awjb63ivUQGnzbdwzLVbJ+4Jv/jcsELvd9egoQsjMw8sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZYVPSlg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hPYQPpsa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1749809732;
-	bh=CZqYmHg36RMSs1ABWyY6d1Bd8dHgzQog9KqyX+oH+Lk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hPYQPpsaE6puBxDXojLRDR1BTHvBiTT4DxSG2fp1VqTMJGRFbuJJG9mBWuT6S8Bhr
-	 GH0D+YbNoCyVr+h96i86944sAcuSmZLne4zxBO3F4kCdhNHKR+erVRWSOdpRz5lkDJ
-	 wY3NGcTphnUWlnonyAZlr/MmsZ1ZUm7B3a21XR6MEdqCyWPtw1eDSKQfxHqeiXE/r/
-	 hvmq1iQxB0FK7FYlrQJP97uQsqXPN0+n5N4IzzY0wwQPO40YQ1uuhdQnWhVLglsS+l
-	 +qENCeLTD07E8uz/NptSuuyh6+6BgDSlhteAfq4VUg8WXqdhlx+FW5AizQL6LAj3BC
-	 E0C8nbLHeNTdw==
-Received: from [192.168.1.90] (unknown [212.93.144.165])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2A22C17E00AC;
-	Fri, 13 Jun 2025 12:15:30 +0200 (CEST)
-Message-ID: <c8e3081f-cd0c-48c0-8934-bd81fd681943@collabora.com>
-Date: Fri, 13 Jun 2025 13:15:15 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZYVPSlg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5567AC4CEE3;
+	Fri, 13 Jun 2025 11:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749812637;
+	bh=ImOyARAzYzFA2uZnP4HrKkCzOzuHZTZu1WoIccEMb9w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NZYVPSlgnNrOjaleyFTtJmCmkH0pxkECwf1lK4LDu85aNK2JlHgCpWmjtrzBDPXFx
+	 Op30Zqu+pGrSid+xkejjm8KFhajeuLUUdSqiKwubbIVj2v2onugE2DEBrIhLvrsfko
+	 cFx2klkWMgWdP8WO6oPXqFVO2iwm9biOeasEwtkpiNeKUhwHBxhO6JKtDXRdbnpUNG
+	 W6Ycg5KPDkqk27jZixFo8wHCDMHy2AZQ+UewFdPJ91TJ7JCN15V1L62OD/LwcDMPCC
+	 HWHHR6FiSYtVhhwshEPISpN4x1dl3KhRzfgPz3LqKjU2SkXYz1kcKpEy0sHv/yvFlA
+	 EeeRSVOcC7lFA==
+Date: Fri, 13 Jun 2025 12:03:52 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Raven Black <ravenblack@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Talhah Peerbhai <talhah.peerbhai@gmail.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Add HP Victus to yc_acp_quirk_table
+Message-ID: <39aecfc7-7066-4f32-a3f2-9b9aa71aac04@sirena.org.uk>
+References: <CAEUaNDfDmSDs19NU7+dW+-_zGgvUsaaK7ox2YhjQ-q3+xvFF1w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/20] drm/rockchip: dw_hdmi: switch to HWORD_UPDATE*
- macros
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang
- <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Shawn Lin <shawn.lin@rock-chips.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
-References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
- <20250612-byeword-update-v1-13-f4afb8f6313f@collabora.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20250612-byeword-update-v1-13-f4afb8f6313f@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bpy3FwVTxf4W336P"
+Content-Disposition: inline
+In-Reply-To: <CAEUaNDfDmSDs19NU7+dW+-_zGgvUsaaK7ox2YhjQ-q3+xvFF1w@mail.gmail.com>
+X-Cookie: Use extra care when cleaning on stairs.
 
-Hi Nicolas,
 
-On 6/12/25 9:56 PM, Nicolas Frattaroli wrote:
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
-> 
-> Remove this driver's very own HIWORD_UPDATE macro, and replace all
-> instances of it with equivalent instantiations of HWORD_UPDATE or
-> HWORD_UPDATE_CONST, depending on whether it's in an initializer.
-> 
-> This gives us better error checking, and a centrally agreed upon
-> signature for this macro, to ease in code comprehension.
-> 
-> Because HWORD_UPDATE/HWORD_UPDATE_CONST shifts the value to the mask
-> (like FIELD_PREP et al do), a lot of macro instantiations get easier to
-> read.
-> 
-> This was tested on an RK3568 ODROID M1, as well as an RK3399 ROCKPro64.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+--bpy3FwVTxf4W336P
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This again LGTM and I could verify the RK3568 related bits on my Radxa
-ROCK 3A board.
+On Thu, Jun 12, 2025 at 10:45:53PM -0400, Raven Black wrote:
 
-Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Tested-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>   DMI_MATCH(DMI_PRODUCT_NAME, "OMEN by HP Gaming Laptop 16z-n000"),
+>   }
+>   },
+> + {
+> + .driver_data = &acp6x_card,
+> + .matches = {
+> + DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
+> + DMI_MATCH(DMI_PRODUCT_NAME, "Victus by HP Gaming Laptop 15-fb2xxx"),
+> + }
+> + },
+>   {
 
-Cheers,
-Cristian
+This is badly mangled and won't apply, it looks like tabs have just been
+completely deleted.  You might want to look at b4 to send the patches,
+especially it's web submission endpoint which avoids having to configure
+mail:
 
+   https://b4.docs.kernel.org/en/latest/contributor/overview.html
+
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+--bpy3FwVTxf4W336P
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhMBZcACgkQJNaLcl1U
+h9C63wf/VDscDIqAokUDo7qagKtMfgI1Xu+t2X8b2kmQLZyu6btC91x63hQ6uYsD
+fq3tv1WzwloW2jYpz0ENKAm/NsksLicGzrCDvidhHZHhPDpwlwilvGd04OaHwXMz
+DNWf7KzTIHeqyh8ZB31RmWEJBQgtp2T1YBs26+X2Nbhh0KjeRMXEo5WB5Nd4vRsk
+4WrYvgbwC6FrwVjIK2oTRXr6OqyTN266rXXpBGmVeqw8lBxNKej5ptdYmWkceEq5
+zRtBJl5vaMHpKazbeQ3uG72We3oW0l0W/tNwDkfPgFxvHgQ2MN89hjlhcw9I127a
+oUhGuPNzsXhd6s+lpfZYVx+k07b1Sw==
+=IHmk
+-----END PGP SIGNATURE-----
+
+--bpy3FwVTxf4W336P--
