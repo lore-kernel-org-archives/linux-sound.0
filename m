@@ -1,43 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BA422068B;
-	Fri, 13 Jun 2025 11:03:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0F72D5C63;
+	Fri, 13 Jun 2025 11:12:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749812637; cv=none; b=aHNL7xoz3SIDghD6CPH3ieJDY6DUStnjcQ4J2gtXG9VA5E/J1sJaJOKtpKe17lzCTkVpzDdKCZVJFIfhwKsbNVSN0lgcKYFrtSWxmd336D98T0pfk38u03joCOZBz3SJ9cF9dXZjVibc/iyfBNDVAWMYxW18B3ixvqFKrUaGtro=
+	t=1749813157; cv=none; b=SIE0oH12zaJNGQgTffdst6kxIlvMHSdHjKBEYy+I2T6tBLLm1saRCC7H6t+Oeby9jOEwmRYks9xmPIF8QrY9j0yTcZQ9MT4hLokl2PyDMnYrnU3AKhmYs+G+X3KWaJNG3W+rmJyX31Qq8VbqNmjvlQW1EWa7vNTy6dO7O9ssolU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749812637; c=relaxed/simple;
-	bh=ImOyARAzYzFA2uZnP4HrKkCzOzuHZTZu1WoIccEMb9w=;
+	s=arc-20240116; t=1749813157; c=relaxed/simple;
+	bh=3JSffdcKG1BEdfLxDkvCLXE5WcpkgQe1rrYaCHuFNrw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eFy1kq8aA7+yUPcuJ+8Jb44XvtHHNcKa9CQfRHMcBdxsy7bZgF3UvWuMx2u9Kytv7tWUbtQtma5G+Hsd4Hge7RKHVzJMSPZtJ05TZGbF13lL/pH3Q2TTa6K6b9FDO3Awjb63ivUQGnzbdwzLVbJ+4Jv/jcsELvd9egoQsjMw8sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZYVPSlg; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gxwTZXmvmzlIjd4Wtz6vucKvPu0KgqWuIKw28WuizKOHJ7y3czPBm4Rur1Ps/ffXaM7s8DybRV8AjDdtHSSR0JHY6HSTPCpnO8/dVsa/60T+DKMWwm5bopFKdY+SEnPiwvXWy++8WUKPaPr290dXLifV2tuCDI/ePYyZOb/x6sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4kKdw9S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZYVPSlg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5567AC4CEE3;
-	Fri, 13 Jun 2025 11:03:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4kKdw9S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE8AC4CEF1;
+	Fri, 13 Jun 2025 11:12:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749812637;
-	bh=ImOyARAzYzFA2uZnP4HrKkCzOzuHZTZu1WoIccEMb9w=;
+	s=k20201202; t=1749813156;
+	bh=3JSffdcKG1BEdfLxDkvCLXE5WcpkgQe1rrYaCHuFNrw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NZYVPSlgnNrOjaleyFTtJmCmkH0pxkECwf1lK4LDu85aNK2JlHgCpWmjtrzBDPXFx
-	 Op30Zqu+pGrSid+xkejjm8KFhajeuLUUdSqiKwubbIVj2v2onugE2DEBrIhLvrsfko
-	 cFx2klkWMgWdP8WO6oPXqFVO2iwm9biOeasEwtkpiNeKUhwHBxhO6JKtDXRdbnpUNG
-	 W6Ycg5KPDkqk27jZixFo8wHCDMHy2AZQ+UewFdPJ91TJ7JCN15V1L62OD/LwcDMPCC
-	 HWHHR6FiSYtVhhwshEPISpN4x1dl3KhRzfgPz3LqKjU2SkXYz1kcKpEy0sHv/yvFlA
-	 EeeRSVOcC7lFA==
-Date: Fri, 13 Jun 2025 12:03:52 +0100
+	b=g4kKdw9SM2bno1fEAUiCi6mw5ZmG2oOwM9TdgZeIyT1IQbX7X77HcJ1LYqfuskboa
+	 JGRT3GgKJU7HfdKVHhEwM6RbZVBVlK/P5c4ZU4IqGpHDoM9jVWM/ytqZuhOEoKayrO
+	 xTsq76VB+ZzyRppRpOMFJJN6JOHbjdwagkrEFx3Ng0/lhqAyAceklyVmJaQug8641Q
+	 JSHHo90KaBC05xuTm1/zTU/9LwbDwYf8mzg7yZYfDEuuM89nlEVvUy9Ws3qrTN5xaj
+	 +W1kJlaU5hXI6P9GIWNe9FGwWwkVeh7uwqDhoiXxU9TaeL0RzbPSSxvPd6dZscVPeL
+	 2OG33FATjlbqg==
+Date: Fri, 13 Jun 2025 12:12:23 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Raven Black <ravenblack@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Talhah Peerbhai <talhah.peerbhai@gmail.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Add HP Victus to yc_acp_quirk_table
-Message-ID: <39aecfc7-7066-4f32-a3f2-9b9aa71aac04@sirena.org.uk>
-References: <CAEUaNDfDmSDs19NU7+dW+-_zGgvUsaaK7ox2YhjQ-q3+xvFF1w@mail.gmail.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Shreeya Patel <shreeya.patel@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Qin Jian <qinjian@cqplus1.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+	linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH 14/20] ASoC: rockchip: i2s-tdm: switch to
+ HWORD_UPDATE_CONST macro
+Message-ID: <f38ea320-8eaa-4eea-85c1-63d44c8d359a@sirena.org.uk>
+References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
+ <20250612-byeword-update-v1-14-f4afb8f6313f@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,56 +88,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bpy3FwVTxf4W336P"
+	protocol="application/pgp-signature"; boundary="EoywhozqJ8iTP5HR"
 Content-Disposition: inline
-In-Reply-To: <CAEUaNDfDmSDs19NU7+dW+-_zGgvUsaaK7ox2YhjQ-q3+xvFF1w@mail.gmail.com>
+In-Reply-To: <20250612-byeword-update-v1-14-f4afb8f6313f@collabora.com>
 X-Cookie: Use extra care when cleaning on stairs.
 
 
---bpy3FwVTxf4W336P
+--EoywhozqJ8iTP5HR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 12, 2025 at 10:45:53PM -0400, Raven Black wrote:
+On Thu, Jun 12, 2025 at 08:56:16PM +0200, Nicolas Frattaroli wrote:
+> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
+> drivers that use constant masks.
+>=20
+> Replace the implementation of this driver's HIWORD_UPDATE macro with an
+> instance of HWORD_UPDATE_CONST. The const variant is chosen here because
+> some of the header defines are then used in initializers.
 
->   DMI_MATCH(DMI_PRODUCT_NAME, "OMEN by HP Gaming Laptop 16z-n000"),
->   }
->   },
-> + {
-> + .driver_data = &acp6x_card,
-> + .matches = {
-> + DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-> + DMI_MATCH(DMI_PRODUCT_NAME, "Victus by HP Gaming Laptop 15-fb2xxx"),
-> + }
-> + },
->   {
+Acked-by: Mark Brown <broonie@kernel.org>
 
-This is badly mangled and won't apply, it looks like tabs have just been
-completely deleted.  You might want to look at b4 to send the patches,
-especially it's web submission endpoint which avoids having to configure
-mail:
-
-   https://b4.docs.kernel.org/en/latest/contributor/overview.html
-
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---bpy3FwVTxf4W336P
+--EoywhozqJ8iTP5HR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhMBZcACgkQJNaLcl1U
-h9C63wf/VDscDIqAokUDo7qagKtMfgI1Xu+t2X8b2kmQLZyu6btC91x63hQ6uYsD
-fq3tv1WzwloW2jYpz0ENKAm/NsksLicGzrCDvidhHZHhPDpwlwilvGd04OaHwXMz
-DNWf7KzTIHeqyh8ZB31RmWEJBQgtp2T1YBs26+X2Nbhh0KjeRMXEo5WB5Nd4vRsk
-4WrYvgbwC6FrwVjIK2oTRXr6OqyTN266rXXpBGmVeqw8lBxNKej5ptdYmWkceEq5
-zRtBJl5vaMHpKazbeQ3uG72We3oW0l0W/tNwDkfPgFxvHgQ2MN89hjlhcw9I127a
-oUhGuPNzsXhd6s+lpfZYVx+k07b1Sw==
-=IHmk
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhMB5YACgkQJNaLcl1U
+h9Bobgf/dsPkAlIpLO/GS4oVRLlRiPIWa/agIoUuXFfDugqesR7MdX12gZHAzJ9s
+BnznMlPSuOjDnlFPdVpRCgVr4iPfs88ixFAuy/SjKEjvV8VYAUBEs1sg2JykJyMZ
+SkQ69/Iii/uButuWqecqljEHZvL7j67axT7KsEimeZ1zynLexrz7vtE6t4P8p+YE
+7qrc1oKA5kjXrIug8enyLvuLzI75M7MfzuRaooCPej44mc4bjqpuH6zXCxPzAWt9
+0LEzYDn7kdMZ5Yn0Vp35b8uKRqPdQs1heacEsmiHmKPfvnY/klYg1G9M71t9OVpm
+EE2sy3C4QrYbYl73/UBH9Z7zoN/X2A==
+=9PDr
 -----END PGP SIGNATURE-----
 
---bpy3FwVTxf4W336P--
+--EoywhozqJ8iTP5HR--
