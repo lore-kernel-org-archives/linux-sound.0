@@ -1,127 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0F72D5C63;
-	Fri, 13 Jun 2025 11:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from pegase1.c-s.fr (pegase1.c-s.fr [93.17.236.30])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F07CF2E0B79;
+	Fri, 13 Jun 2025 11:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.236.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749813157; cv=none; b=SIE0oH12zaJNGQgTffdst6kxIlvMHSdHjKBEYy+I2T6tBLLm1saRCC7H6t+Oeby9jOEwmRYks9xmPIF8QrY9j0yTcZQ9MT4hLokl2PyDMnYrnU3AKhmYs+G+X3KWaJNG3W+rmJyX31Qq8VbqNmjvlQW1EWa7vNTy6dO7O9ssolU=
+	t=1749813635; cv=none; b=LCV9xHHyhnO8XjK+zP6F1fXge9UJXtHuP5yGYXxcQP79EJ4qBdeCF1L8+wDgy4haU986w8FJIURDkmFf+PmOb0/SXgvEs0wjOrpLmmr3XRl1tHX5gowDgts3FtlksN5Iip5onVHN5X/3D6X+LOdrP9xYnZQAnf6jrXfzbQc3OLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749813157; c=relaxed/simple;
-	bh=3JSffdcKG1BEdfLxDkvCLXE5WcpkgQe1rrYaCHuFNrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gxwTZXmvmzlIjd4Wtz6vucKvPu0KgqWuIKw28WuizKOHJ7y3czPBm4Rur1Ps/ffXaM7s8DybRV8AjDdtHSSR0JHY6HSTPCpnO8/dVsa/60T+DKMWwm5bopFKdY+SEnPiwvXWy++8WUKPaPr290dXLifV2tuCDI/ePYyZOb/x6sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4kKdw9S; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4kKdw9S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EE8AC4CEF1;
-	Fri, 13 Jun 2025 11:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749813156;
-	bh=3JSffdcKG1BEdfLxDkvCLXE5WcpkgQe1rrYaCHuFNrw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g4kKdw9SM2bno1fEAUiCi6mw5ZmG2oOwM9TdgZeIyT1IQbX7X77HcJ1LYqfuskboa
-	 JGRT3GgKJU7HfdKVHhEwM6RbZVBVlK/P5c4ZU4IqGpHDoM9jVWM/ytqZuhOEoKayrO
-	 xTsq76VB+ZzyRppRpOMFJJN6JOHbjdwagkrEFx3Ng0/lhqAyAceklyVmJaQug8641Q
-	 JSHHo90KaBC05xuTm1/zTU/9LwbDwYf8mzg7yZYfDEuuM89nlEVvUy9Ws3qrTN5xaj
-	 +W1kJlaU5hXI6P9GIWNe9FGwWwkVeh7uwqDhoiXxU9TaeL0RzbPSSxvPd6dZscVPeL
-	 2OG33FATjlbqg==
-Date: Fri, 13 Jun 2025 12:12:23 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH 14/20] ASoC: rockchip: i2s-tdm: switch to
- HWORD_UPDATE_CONST macro
-Message-ID: <f38ea320-8eaa-4eea-85c1-63d44c8d359a@sirena.org.uk>
-References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
- <20250612-byeword-update-v1-14-f4afb8f6313f@collabora.com>
+	s=arc-20240116; t=1749813635; c=relaxed/simple;
+	bh=4ORPoEmUrrRcxmN7XshtQHXsvTt3IceYcN2rLTizFKc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NhDs5lFfCjBvYINO6nmyBML0Ow5A3cmMvN7bKqE4qa7Of33tbldqTapo0CZkj0a105iN5+mTofg/Dk2DKVNEvryMGML+Y5cDWpZ35jnCtB+nvNiTUUr0RO2BFb73/UZbO5HehZZdx3hs3ugX01TcsbWzqPgD+vbM3PrDQGvgfMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.236.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [192.168.12.233])
+	by localhost (Postfix) with ESMTP id 4bJc2151R8z9sqS;
+	Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+	by localhost (pegase1.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2EYXYIC_ssC4; Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase1.c-s.fr (Postfix) with ESMTP id 4bJc214Bzmz9sl0;
+	Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 8B7A58B77B;
+	Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id Gd6ZZdiQooSp; Fri, 13 Jun 2025 13:03:05 +0200 (CEST)
+Received: from [192.168.235.99] (unknown [192.168.235.99])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 067608B769;
+	Fri, 13 Jun 2025 13:03:04 +0200 (CEST)
+Message-ID: <2df61bbf-76f6-4932-a347-7820350a156e@csgroup.eu>
+Date: Fri, 13 Jun 2025 13:03:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="EoywhozqJ8iTP5HR"
-Content-Disposition: inline
-In-Reply-To: <20250612-byeword-update-v1-14-f4afb8f6313f@collabora.com>
-X-Cookie: Use extra care when cleaning on stairs.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/3] ALSA: pcm: Convert snd_pcm_sync_ptr() to
+ user_access_begin/user_access_end()
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sound@vger.kernel.org, Herve Codina <herve.codina@bootlin.com>,
+ Mark Brown <broonie@kernel.org>
+References: <7baa34d4046c7750799b11830d38a46f8b581765.1749724478.git.christophe.leroy@csgroup.eu>
+ <79b86a0618328ba1d0cb5cf4011fd73ac6900e8f.1749724478.git.christophe.leroy@csgroup.eu>
+ <878qlwrnv1.wl-tiwai@suse.de>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <878qlwrnv1.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---EoywhozqJ8iTP5HR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 12, 2025 at 08:56:16PM +0200, Nicolas Frattaroli wrote:
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
->=20
-> Replace the implementation of this driver's HIWORD_UPDATE macro with an
-> instance of HWORD_UPDATE_CONST. The const variant is chosen here because
-> some of the header defines are then used in initializers.
+Le 13/06/2025 à 11:29, Takashi Iwai a écrit :
+> On Thu, 12 Jun 2025 12:51:05 +0200,
+> Christophe Leroy wrote:
+>>
+>> Now that snd_pcm_sync_ptr_get_user() and snd_pcm_sync_ptr_put_user()
+>> are converted to user_access_begin/user_access_end(),
+>> snd_pcm_sync_ptr_get_user() is more efficient than a raw get_user()
+>> followed by a copy_from_user(). And because copy_{to/from}_user() are
+>> generic functions focussed on transfer of big data blocks to/from user,
+>> snd_pcm_sync_ptr_put_user() is also more efficient for small amont of
+>> data.
+>>
+>> So use snd_pcm_sync_ptr_get_user() and snd_pcm_sync_ptr_put_user() in
+>> snd_pcm_sync_ptr() too.
+>>
+>> In order to have snd_pcm_mmap_status32 similar to snd_pcm_mmap_status,
+>> replace to tsamp_{sec/nsec} and audio_tstamp_{sec/nsec} by equivalent
+>> struct __snd_timespec.
+>>
+>> snd_pcm_ioctl_sync_ptr_buggy() is left as it is because the conversion
+>> wouldn't be straigh-forward do to the workaround it provides.
+>>
+>> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> 
+> Through a quick glance, all patches look almost fine, but one favor to
+> ask: this patch contains the convert from s32/s32 pair to struct
+> __snd_timespec.  It should be factored out to a prerequisite patch
+> instead of burying in a big change.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Shall I understand you prefer this series over the more simple "ALSA: 
+pcm: Convert snd_pcm_ioctl_sync_ptr_{compat/x32} to 
+user_access_begin/user_access_end()" patch ?
 
---EoywhozqJ8iTP5HR
-Content-Type: application/pgp-signature; name="signature.asc"
+I'm asking because I was myself not sure about the benefit of such two 
+big macros over the other proposal in terms of readability.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhMB5YACgkQJNaLcl1U
-h9Bobgf/dsPkAlIpLO/GS4oVRLlRiPIWa/agIoUuXFfDugqesR7MdX12gZHAzJ9s
-BnznMlPSuOjDnlFPdVpRCgVr4iPfs88ixFAuy/SjKEjvV8VYAUBEs1sg2JykJyMZ
-SkQ69/Iii/uButuWqecqljEHZvL7j67axT7KsEimeZ1zynLexrz7vtE6t4P8p+YE
-7qrc1oKA5kjXrIug8enyLvuLzI75M7MfzuRaooCPej44mc4bjqpuH6zXCxPzAWt9
-0LEzYDn7kdMZ5Yn0Vp35b8uKRqPdQs1heacEsmiHmKPfvnY/klYg1G9M71t9OVpm
-EE2sy3C4QrYbYl73/UBH9Z7zoN/X2A==
-=9PDr
------END PGP SIGNATURE-----
+> 
+> I'm asking it because this timepsec definition is very confusing (and
+> complex) due to historical reasons, and it should be handled with a
+> special care.
+> IIUC, struct __snd_timespec is always s32/s32 for the kernel code, so
+> the conversion must be fine.  This needs to be commented in the
+> commit.
 
---EoywhozqJ8iTP5HR--
+
+Sure I will do that.
+
+Christophe
