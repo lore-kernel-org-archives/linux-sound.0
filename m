@@ -1,169 +1,74 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D9F2C08D2
-	for <linux-sound@vger.kernel.org>; Sat, 14 Jun 2025 11:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4E61CAA4;
+	Sat, 14 Jun 2025 14:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.149.199.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749901240; cv=none; b=fP8g+fmhQDchd2T34ZNQQtoFYjiJbw4pdOdUP520xAsUHUff/WrzA8p77x3pPSI04y/NSJ4Wp81wEZBQfO6jXxYvcqCmfDr/ggUn5uR2+xIoGQfWDBD0vj1d58LjT1NswbcYx0trRIQ4sTu6RkI9GiyTJbNan4p5mcA281dHEgE=
+	t=1749911486; cv=none; b=PcvLx3MSpCtZvdh3Pz4pnUngJjkmGsDjhZ9SHW3N0zxBZm2dOZ1IXgTlzBHwCWdY+GSrBZSDrW0q/e3XN8E78aXDspMo2SHkpWuL+s1LdVefBBkGCQEZp4rk2fTrxU2opsQG6zMpjRQQlO5k9sqxbOgaifoTaqUu2yi6UFCfxAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749901240; c=relaxed/simple;
-	bh=ZIYpkuU/T03fzdX/8jF6Kg6q4VaYgoZbs4ULm3W849w=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LhYv/9UJwIUqKYbzatHs5ifY9X/x9NycUgV9dftbXYEMtE6IwO4iUz6cYPZ+YjPCmjv54y0sNFpAX7dLFVFej23zYdI/nYh/rqve+C9hkV614rwSg/WxsMmsXr5Uv4agl8DQP24/al+WH0XzFsymOuoZ5bbKTKpbERmHKeOwP78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 64ED1219A0;
-	Sat, 14 Jun 2025 11:40:37 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A30C13A17;
-	Sat, 14 Jun 2025 11:40:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id adOlCLVfTWj7UAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 14 Jun 2025 11:40:37 +0000
-Date: Sat, 14 Jun 2025 13:40:36 +0200
-Message-ID: <87a56ar1or.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>
-Subject: Re: [PATCH v3 0/4] ALSA: pcm: Convert SNDRV_PCM_IOCTL_SYNC_PTR to user_access_begin/user_access_end()
-In-Reply-To: <cover.1749883041.git.christophe.leroy@csgroup.eu>
-References: <cover.1749883041.git.christophe.leroy@csgroup.eu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1749911486; c=relaxed/simple;
+	bh=nkZfACPbAZYiMo0yba8y/ZNVqELFDNwH2ijh2AR8nig=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n1uo9iIkRqRVciLUmg8vNxUXjUPdhQlQSmoWMbCIGo62coGxlfmcM/HqTGtk5y0dJjKITl2eHKAlGW46exE4x4em4NfnG8StqfxisJJUQS7LaL25rphJWVPaNpB9zhpQBT9PkLOK4OP03jFfKPkxueGSGbj1cwZs+/CpMMiJrmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru; spf=pass smtp.mailfrom=ispras.ru; dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b=dTE4CLCm; arc=none smtp.client-ip=83.149.199.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ispras.ru
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ispras.ru header.i=@ispras.ru header.b="dTE4CLCm"
+Received: from localhost (unknown [10.10.165.14])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 2BB4E552F527;
+	Sat, 14 Jun 2025 14:31:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 2BB4E552F527
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+	s=default; t=1749911479;
+	bh=vezHVgus5Nj2g1IeYhLAF3M4Cc0sGwErYshdPXsCNIQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dTE4CLCm9fLLXAyEtPxYcwpVrSDQQ8+AZBUS7t+OV0F6esV9Qk7FeT4+Y+OY59XOC
+	 hKZdQERA+2llYBJxiUeRX1DdGRkpXopWJ8eGhYoxPcaLjasaEgOvhFfw7dkQgW0G+c
+	 2VZMfb+fYama65bAwIMB3sgywPL3XND8R3GKe/t8=
+Date: Sat, 14 Jun 2025 17:31:19 +0300
+From: Fedor Pchelkin <pchelkin@ispras.ru>
+To: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+	Ravulapati Vishnu vardhan rao <Vishnuvardhanrao.Ravulapati@amd.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+Subject: Re: [PATCH 0/3] ASoC: amd: fixes for runtime private data memory
+ leaks
+Message-ID: <ikzadk3upz2uh2zbnamycs2ua6qmhsdok34xsvygdcwqy3hzbk@epeuts7j5htr>
+References: <20250530164425.119102-1-pchelkin@ispras.ru>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 64ED1219A0
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -4.00
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250530164425.119102-1-pchelkin@ispras.ru>
 
-On Sat, 14 Jun 2025 08:43:13 +0200,
-Christophe Leroy wrote:
-> 
-> This series converts all variants of SNDRV_PCM_IOCTL_SYNC_PTR to 
-> user_access_begin/user_access_end() in order to reduce the CPU load
-> measured in function snd_pcm_ioctl.
-> 
-> With the current implementation, "perf top" reports a high load in
-> snd_pcm_iotcl(). Most calls to that function are SNDRV_PCM_IOCTL_SYNC_PTR.
-> 
->     14.20%  test_perf           [.] engine_main
-> ==> 12.86%  [kernel]            [k] snd_pcm_ioctl
->     11.91%  [kernel]            [k] finish_task_switch.isra.0
->      4.15%  [kernel]            [k] snd_pcm_group_unlock_irq.part.0
->      4.07%  libc.so.6           [.] __ioctl_time64
->      3.58%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin_generic
->      3.37%  [kernel]            [k] sys_ioctl
->      2.96%  libasound.so.2.0.0  [.] snd_pcm_hw_avail_update
->      2.73%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin
->      2.58%  [kernel]            [k] system_call_exception
->      1.93%  libasound.so.2.0.0  [.] sync_ptr1
->      1.85%  libasound.so.2.0.0  [.] snd_pcm_unlock
->      1.84%  libasound.so.2.0.0  [.] snd_pcm_mmap_begin
->      1.83%  libasound.so.2.0.0  [.] bad_pcm_state
->      1.68%  libasound.so.2.0.0  [.] snd_pcm_mmap_avail
->      1.67%  libasound.so.2.0.0  [.] snd_pcm_avail_update
-> 
-> A tentative was done with going via intermediaire structs on stack to
-> replace the multiple get_user() and put_user() with copy_from_user()
-> and copy_to_user(). But copy_from_user() calls _copy_from_user() and
-> copy_to_user() calls _copy_to_user(). Both then call __copy_tofrom_user().
-> In total it is 16.4% so it is worse than before.
-> 
->     14.47%  test_perf           [.] engine_main
->     12.00%  [kernel]            [k] finish_task_switch.isra.0
-> ==>  8.37%  [kernel]            [k] snd_pcm_ioctl
->      5.44%  libc.so.6           [.] __ioctl_time64
->      5.03%  [kernel]            [k] snd_pcm_group_unlock_irq.part.0
-> ==>  4.86%  [kernel]            [k] __copy_tofrom_user
->      4.62%  [kernel]            [k] sys_ioctl
->      3.22%  [kernel]            [k] system_call_exception
->      2.42%  libasound.so.2.0.0  [.] snd_pcm_mmap_begin
->      2.31%  [kernel]            [k] fdget
->      2.23%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin_generic
->      2.19%  [kernel]            [k] syscall_exit_prepare
->      1.92%  libasound.so.2.0.0  [.] snd_pcm_mmap_avail
->      1.86%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin
->      1.68%  libasound.so.2.0.0  [.] snd_pcm_hw_avail_update
-> ==>  1.67%  [kernel]            [k] _copy_from_user
->      1.66%  libasound.so.2.0.0  [.] bad_pcm_state
-> ==>  1.53%  [kernel]            [k] _copy_to_user
->      1.40%  libasound.so.2.0.0  [.] sync_ptr1
-> 
-> With this series which uses unsafe_put_user() and unsafe_get_user(),
-> the load is significantly reduced:
-> 
->     17.46%  test_perf           [.] engine_main
->      9.14%  [kernel]            [k] finish_task_switch.isra.0
-> ==>  4.92%  [kernel]            [k] snd_pcm_ioctl
->      3.99%  [kernel]            [k] snd_pcm_group_unlock_irq.part.0
->      3.71%  libc.so.6           [.] __ioctl_time64
->      3.61%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin_generic
->      2.72%  libasound.so.2.0.0  [.] sync_ptr1
->      2.65%  [kernel]            [k] system_call_exception
->      2.46%  [kernel]            [k] sys_ioctl
->      2.43%  [kernel]            [k] __rseq_handle_notify_resume
->      2.34%  [kernel]            [k] do_epoll_wait
->      2.30%  libasound.so.2.0.0  [.] __snd_pcm_mmap_commit
->      2.14%  libasound.so.2.0.0  [.] __snd_pcm_avail
->      2.04%  libasound.so.2.0.0  [.] snd_pcm_hw_avail_update
->      1.89%  libasound.so.2.0.0  [.] snd_pcm_lock
->      1.84%  libasound.so.2.0.0  [.] snd_pcm_mmap_avail
->      1.76%  libasound.so.2.0.0  [.] __snd_pcm_avail_update
->      1.61%  libasound.so.2.0.0  [.] bad_pcm_state
->      1.60%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin
->      1.49%  libasound.so.2.0.0  [.] query_status_data
-> 
-> Since v2:
-> - Fix macros to skip user_read_access_end() when user_read_access_begin() failed
-> - Fix some tabulations for properly aligning backslashes
-> 
-> Since RFC:
-> - Added a cover letter to summarize some of the measurements done on and around the RFC
-> - Fixed relevant checkpatch feedback
-> - Split last patch in two
-> 
-> Christophe Leroy (4):
->   ALSA: pcm: refactor copy from/to user in SNDRV_PCM_IOCTL_SYNC_PTR
->   ALSA: pcm: Convert SNDRV_PCM_IOCTL_SYNC_PTR to
->     user_access_begin/user_access_end()
->   ALSA: pcm: Replace [audio_]tstamp_[n]sec by struct __snd_timespec in
->     struct snd_pcm_mmap_status32
->   ALSA: pcm: Convert snd_pcm_sync_ptr() to
->     user_access_begin/user_access_end()
+On Fri, 30. May 19:44, Fedor Pchelkin wrote:
+> Here follows a set of related patches regarding leaks of memory referenced
+> to by runtime->private_data pointers in amd soc drivers.
 
-Applied now all patches.  Thanks!
+Hi,
 
+a ping on the series..
 
-Takashi
+Thanks!
+
+> 
+> Fedor Pchelkin (3):
+>   ASoC: amd: acp6x-pdm-dma: free pdm device data on closing
+>   ASoC: amd: acp3x-pcm-dma: free runtime private data on closing
+>   ASoC: amd: acp3x-pdm-dma: free pdm device data on closing
+> 
+>  sound/soc/amd/raven/acp3x-pcm-dma.c  | 2 +-
+>  sound/soc/amd/renoir/acp3x-pdm-dma.c | 2 ++
+>  sound/soc/amd/yc/acp6x-pdm-dma.c     | 2 ++
+>  3 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> -- 
+> 2.49.0
+> 
