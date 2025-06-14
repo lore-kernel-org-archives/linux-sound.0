@@ -1,87 +1,50 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750592C158D
-	for <linux-sound@vger.kernel.org>; Sat, 14 Jun 2025 11:38:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D9F2C08D2
+	for <linux-sound@vger.kernel.org>; Sat, 14 Jun 2025 11:40:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749901103; cv=none; b=o1ngUOJEKAiU77iJ0NLxZwaQIQOQzSyn1VWcx41sPV4KWg/oeMKFn6Apg+Sp6dvXDQV7NHE+QJOZk/oW7BVfQ9A6y670aZwcmvrWyqGUlNECx0NboortRuSgk60heDT8PAVGzMkUvS+xzQebmZRP5VxeJuaJiTyCwCU8mbLLCnQ=
+	t=1749901240; cv=none; b=fP8g+fmhQDchd2T34ZNQQtoFYjiJbw4pdOdUP520xAsUHUff/WrzA8p77x3pPSI04y/NSJ4Wp81wEZBQfO6jXxYvcqCmfDr/ggUn5uR2+xIoGQfWDBD0vj1d58LjT1NswbcYx0trRIQ4sTu6RkI9GiyTJbNan4p5mcA281dHEgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749901103; c=relaxed/simple;
-	bh=x/Aa6PrSDM8cOma4szcWO4omMxjzyXrKN5b+GYb3pxM=;
+	s=arc-20240116; t=1749901240; c=relaxed/simple;
+	bh=ZIYpkuU/T03fzdX/8jF6Kg6q4VaYgoZbs4ULm3W849w=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=azBm+6kUj6U9mGhizPr4j7XWOOzfTqpP3irQOCMfPuwHqC7ObfRIBAr40ddWAUvJ2LQ2Jio+ITZzGE3apgGBdjpJUExU925POh/YInWlCap9mOHgJhjCRG0DTW3xtZShuoxYXn1A9VmFD2oVOUP/4vPmcvP4oPpan6GKYBoxWl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=F1KjQGvz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GePBkVqF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GB8PUis+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7x3Wa1Ro; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=LhYv/9UJwIUqKYbzatHs5ifY9X/x9NycUgV9dftbXYEMtE6IwO4iUz6cYPZ+YjPCmjv54y0sNFpAX7dLFVFej23zYdI/nYh/rqve+C9hkV614rwSg/WxsMmsXr5Uv4agl8DQP24/al+WH0XzFsymOuoZ5bbKTKpbERmHKeOwP78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="F1KjQGvz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GePBkVqF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GB8PUis+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7x3Wa1Ro"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 28424219A0;
-	Sat, 14 Jun 2025 11:38:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749901098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h14esWdWQ5P2NEIReJZEb5wLNB54zIBc6ajyfNRAzlM=;
-	b=F1KjQGvzfvYDYe8oMjB3BBDW4MzNa3YIKoSxi5Lj+BGNhJsV860ibqc3P8xgbOmrrApo8F
-	L2uTVGkBbzew805fFbmQmiSmZFsN1SPKOGiWyIYTET1mk+HUISoj5hpk/8Rc6FHAaVtl/A
-	hl9UAZWmtz+s0zngYvBoACGNF+DuPZo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749901098;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h14esWdWQ5P2NEIReJZEb5wLNB54zIBc6ajyfNRAzlM=;
-	b=GePBkVqFSY2Cb1gSesXnPSmFWUgtKySBBF43mL5FqVoKAHrpA9SqI9Xi/m+MKZCttWiomq
-	kTy16hZBEf8Z2MCQ==
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 64ED1219A0;
+	Sat, 14 Jun 2025 11:40:37 +0000 (UTC)
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GB8PUis+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7x3Wa1Ro
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749901097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h14esWdWQ5P2NEIReJZEb5wLNB54zIBc6ajyfNRAzlM=;
-	b=GB8PUis+RVyD8q+eLTRO+TuaIonYZFpn2xF1bxnw77KGezNH912g0XaJuHv1NkLtGcdpkX
-	S2ugvnCRAImcQ0PS5VmCME/Ie3E2kOi41p1bV1+AeeZJf06ScklcYCLOevQDEAbH9F5Qsw
-	SdETJNlNQz2+7lXEKpZJgG/whekhOf8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749901097;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h14esWdWQ5P2NEIReJZEb5wLNB54zIBc6ajyfNRAzlM=;
-	b=7x3Wa1RoHBxYdVzAkbjmwm0M9lCKL+ULefqet/nW8G9PcIELCTidL0z8o/c5IS/sUOM3Dc
-	ts1XNanH6wiFhDAw==
+	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E99F513A17;
-	Sat, 14 Jun 2025 11:38:16 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A30C13A17;
+	Sat, 14 Jun 2025 11:40:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wbuXNyhfTWhhUAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 14 Jun 2025 11:38:16 +0000
-Date: Sat, 14 Jun 2025 13:38:16 +0200
-Message-ID: <87bjqqr1sn.wl-tiwai@suse.de>
+	id adOlCLVfTWj7UAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 14 Jun 2025 11:40:37 +0000
+Date: Sat, 14 Jun 2025 13:40:36 +0200
+Message-ID: <87a56ar1or.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: tiwai@suse.com,
-	linux-sound@vger.kernel.org,
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	nefelim4ag@gmail.com
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for Asus GA605K
-In-Reply-To: <20250613145251.397500-1-simont@opensource.cirrus.com>
-References: <20250613145251.397500-1-simont@opensource.cirrus.com>
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	Herve Codina <herve.codina@bootlin.com>
+Subject: Re: [PATCH v3 0/4] ALSA: pcm: Convert SNDRV_PCM_IOCTL_SYNC_PTR to user_access_begin/user_access_end()
+In-Reply-To: <cover.1749883041.git.christophe.leroy@csgroup.eu>
+References: <cover.1749883041.git.christophe.leroy@csgroup.eu>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,51 +53,117 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.com,vger.kernel.org,opensource.cirrus.com,gmail.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Queue-Id: 64ED1219A0
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 28424219A0
-X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -3.51
+X-Spam-Score: -4.00
 
-On Fri, 13 Jun 2025 16:52:51 +0200,
-Simon Trimmer wrote:
+On Sat, 14 Jun 2025 08:43:13 +0200,
+Christophe Leroy wrote:
 > 
-> The GA605K has similar audio hardware to the GA403U so apply the
-> same quirk.
+> This series converts all variants of SNDRV_PCM_IOCTL_SYNC_PTR to 
+> user_access_begin/user_access_end() in order to reduce the CPU load
+> measured in function snd_pcm_ioctl.
 > 
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-> Tested-by: Timofey Titovets <nefelim4ag@gmail.com>
-> Link: https://github.com/alsa-project/alsa-ucm-conf/issues/578
+> With the current implementation, "perf top" reports a high load in
+> snd_pcm_iotcl(). Most calls to that function are SNDRV_PCM_IOCTL_SYNC_PTR.
+> 
+>     14.20%  test_perf           [.] engine_main
+> ==> 12.86%  [kernel]            [k] snd_pcm_ioctl
+>     11.91%  [kernel]            [k] finish_task_switch.isra.0
+>      4.15%  [kernel]            [k] snd_pcm_group_unlock_irq.part.0
+>      4.07%  libc.so.6           [.] __ioctl_time64
+>      3.58%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin_generic
+>      3.37%  [kernel]            [k] sys_ioctl
+>      2.96%  libasound.so.2.0.0  [.] snd_pcm_hw_avail_update
+>      2.73%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin
+>      2.58%  [kernel]            [k] system_call_exception
+>      1.93%  libasound.so.2.0.0  [.] sync_ptr1
+>      1.85%  libasound.so.2.0.0  [.] snd_pcm_unlock
+>      1.84%  libasound.so.2.0.0  [.] snd_pcm_mmap_begin
+>      1.83%  libasound.so.2.0.0  [.] bad_pcm_state
+>      1.68%  libasound.so.2.0.0  [.] snd_pcm_mmap_avail
+>      1.67%  libasound.so.2.0.0  [.] snd_pcm_avail_update
+> 
+> A tentative was done with going via intermediaire structs on stack to
+> replace the multiple get_user() and put_user() with copy_from_user()
+> and copy_to_user(). But copy_from_user() calls _copy_from_user() and
+> copy_to_user() calls _copy_to_user(). Both then call __copy_tofrom_user().
+> In total it is 16.4% so it is worse than before.
+> 
+>     14.47%  test_perf           [.] engine_main
+>     12.00%  [kernel]            [k] finish_task_switch.isra.0
+> ==>  8.37%  [kernel]            [k] snd_pcm_ioctl
+>      5.44%  libc.so.6           [.] __ioctl_time64
+>      5.03%  [kernel]            [k] snd_pcm_group_unlock_irq.part.0
+> ==>  4.86%  [kernel]            [k] __copy_tofrom_user
+>      4.62%  [kernel]            [k] sys_ioctl
+>      3.22%  [kernel]            [k] system_call_exception
+>      2.42%  libasound.so.2.0.0  [.] snd_pcm_mmap_begin
+>      2.31%  [kernel]            [k] fdget
+>      2.23%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin_generic
+>      2.19%  [kernel]            [k] syscall_exit_prepare
+>      1.92%  libasound.so.2.0.0  [.] snd_pcm_mmap_avail
+>      1.86%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin
+>      1.68%  libasound.so.2.0.0  [.] snd_pcm_hw_avail_update
+> ==>  1.67%  [kernel]            [k] _copy_from_user
+>      1.66%  libasound.so.2.0.0  [.] bad_pcm_state
+> ==>  1.53%  [kernel]            [k] _copy_to_user
+>      1.40%  libasound.so.2.0.0  [.] sync_ptr1
+> 
+> With this series which uses unsafe_put_user() and unsafe_get_user(),
+> the load is significantly reduced:
+> 
+>     17.46%  test_perf           [.] engine_main
+>      9.14%  [kernel]            [k] finish_task_switch.isra.0
+> ==>  4.92%  [kernel]            [k] snd_pcm_ioctl
+>      3.99%  [kernel]            [k] snd_pcm_group_unlock_irq.part.0
+>      3.71%  libc.so.6           [.] __ioctl_time64
+>      3.61%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin_generic
+>      2.72%  libasound.so.2.0.0  [.] sync_ptr1
+>      2.65%  [kernel]            [k] system_call_exception
+>      2.46%  [kernel]            [k] sys_ioctl
+>      2.43%  [kernel]            [k] __rseq_handle_notify_resume
+>      2.34%  [kernel]            [k] do_epoll_wait
+>      2.30%  libasound.so.2.0.0  [.] __snd_pcm_mmap_commit
+>      2.14%  libasound.so.2.0.0  [.] __snd_pcm_avail
+>      2.04%  libasound.so.2.0.0  [.] snd_pcm_hw_avail_update
+>      1.89%  libasound.so.2.0.0  [.] snd_pcm_lock
+>      1.84%  libasound.so.2.0.0  [.] snd_pcm_mmap_avail
+>      1.76%  libasound.so.2.0.0  [.] __snd_pcm_avail_update
+>      1.61%  libasound.so.2.0.0  [.] bad_pcm_state
+>      1.60%  libasound.so.2.0.0  [.] __snd_pcm_mmap_begin
+>      1.49%  libasound.so.2.0.0  [.] query_status_data
+> 
+> Since v2:
+> - Fix macros to skip user_read_access_end() when user_read_access_begin() failed
+> - Fix some tabulations for properly aligning backslashes
+> 
+> Since RFC:
+> - Added a cover letter to summarize some of the measurements done on and around the RFC
+> - Fixed relevant checkpatch feedback
+> - Split last patch in two
+> 
+> Christophe Leroy (4):
+>   ALSA: pcm: refactor copy from/to user in SNDRV_PCM_IOCTL_SYNC_PTR
+>   ALSA: pcm: Convert SNDRV_PCM_IOCTL_SYNC_PTR to
+>     user_access_begin/user_access_end()
+>   ALSA: pcm: Replace [audio_]tstamp_[n]sec by struct __snd_timespec in
+>     struct snd_pcm_mmap_status32
+>   ALSA: pcm: Convert snd_pcm_sync_ptr() to
+>     user_access_begin/user_access_end()
 
-Applied now.  Thanks.
+Applied now all patches.  Thanks!
 
 
 Takashi
