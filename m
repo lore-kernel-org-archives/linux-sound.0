@@ -1,214 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1F6261586;
-	Sun, 15 Jun 2025 08:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C358717548;
+	Sun, 15 Jun 2025 23:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749977922; cv=none; b=cAM/w6KOPUJa3Uz14nCz3qEHaJN5EA5nBxsweTHQtvbly2X9yhUds0dLSWbmhz2BVKymKCCUeSLIAxOwnfiB72YvX5n1IH1IUck9tEcrjBdbLSVlElQXpVJ4w7IfJw2VOO7ACixDpyFP8p5Q+rInLAQ7FpT/ImS1fCoQb+38ZWk=
+	t=1750031755; cv=none; b=NjeXn5YeH3DujI9NQE7aAeu1+x4KOmGy3JbntWwT58JAWvO1kLajB45Wp7GXVJSTla5+kMKC8Xf0yi7QGomFuz8Ie0goWs/NBg5ZGXomKsfacxaTsaZnVCpbDv9jH3bBwta5ok9rbWLCBZruTPsbZ5+U0zxJgl8q1v/sZ326qEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749977922; c=relaxed/simple;
-	bh=vd9EWcG9WB3a/aRk95MO6cgl/oduG7IEefBMkFtrx/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BMci2XaveajqsSaQVucWq1X3B17XBoqN18CbPxYwPraE7k9PXr7wqcFSDKfQnussFfcjPdUee67OfGNSGGh5vvnfRZ2QCGaNaZf8g+UpJ2FsO6l7Z9Szer7je3MsC5i7oOcxPfOuq2SrRzU2XdaDf+aCo5RPYSofxQiTfMpslV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYgoVdMb; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750031755; c=relaxed/simple;
+	bh=L9GfQmJxzHxe4TznI4/9RwlDfpK1DAahnSh5eeCyyWw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k8wz0MVXiAvdIZuvnjjlbmrFzXy3iJid27YMDG+HbFERRVm9VFT044USOy+K6noFb6riPWxIhA4DdFAvE/9cmmrNxaVUZbm3DTH3DhjpTkHv/McLxl8KBTwjpffT1N3sQLo1TrhZ/+reLD/UYBUTcJLWnuBCo+DU4XmKzdLYRA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eB6WtTgx; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYgoVdMb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749977920; x=1781513920;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vd9EWcG9WB3a/aRk95MO6cgl/oduG7IEefBMkFtrx/U=;
-  b=IYgoVdMb7R7Ow0Uw2tV4O/hUX+grfsc7Zf7rL1AaqN+bihJ4gCW9/DGP
-   Rqvwq6XFnj3efJflNH9LbeTC8TuuKNAdHGF1CV9zDZJ+0tgpOpcC3l4AT
-   SrARM2hxR7rkNB6WrlqyuJ6JOVmMSlHhttbaqy5wsSGdlK+wR+dlxLz8H
-   sg5qEa2yD2hHYsOU9lhBaxA7KFUUqfivt7A/omQk+HVx0QlmtI76Ez8n0
-   dyAd0uAxldYJ/GfW62TPO95THIgeOqInCONL98QDYv+khmX0SS3cg7STn
-   XOPOWKLPG79c/MfMo6cyyqeW9JGIEghoY/23eKKZhyYc+Av6WZe8ATOQQ
-   w==;
-X-CSE-ConnectionGUID: bAJ1st4wToGLASZ1kfuORg==
-X-CSE-MsgGUID: dz+xYzlASNW56P9BGBwZlw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="62748806"
-X-IronPort-AV: E=Sophos;i="6.16,238,1744095600"; 
-   d="scan'208";a="62748806"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 01:58:39 -0700
-X-CSE-ConnectionGUID: xFOJF83dRSGTCkUmbw1xtw==
-X-CSE-MsgGUID: m6FSb+f4TFWUuajt+B8hTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,238,1744095600"; 
-   d="scan'208";a="148094278"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Jun 2025 01:58:36 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uQjCE-000EDo-0E;
-	Sun, 15 Jun 2025 08:58:34 +0000
-Date: Sun, 15 Jun 2025 16:57:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eB6WtTgx"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so2942434b3a.0;
+        Sun, 15 Jun 2025 16:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750031753; x=1750636553; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3oXTFOZvRBZ3I5wRKU6UJZVyS7BzSZ7iEhJSIGe4VX0=;
+        b=eB6WtTgx7NgGJpuBRVgCaM8+qbXlF6sm5xsQb4w+cDmSbHd3kVYov2Hm09ikd+52pT
+         ZFl3282stQjjVEJwEzlkuOESci7QTTONMpljh2dIdj7Nwfl7QGOo59IPCiHVsHULpgBw
+         +xf/5qq4Khu2vEah7dN3mdeHIL+xZkPN/Ov2fX1+MLaZMRlikvEvFrkVQ2R1UW07jtD1
+         2COeiz3uDaR+EjSqjVjeuHpodl3c47Wx0DlQs3a9pm6R/gan70GfxomwckIBpZDhW1hK
+         c5yoKzh5QoUJ7rcPABZz2q4ADpz/tj/frJxsvhvs56vTwh/gGO9n8ZXw3QMu1hsTxSFw
+         XxfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750031753; x=1750636553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3oXTFOZvRBZ3I5wRKU6UJZVyS7BzSZ7iEhJSIGe4VX0=;
+        b=VaHMBX38FYwGlNT7qU/z4Y4C8itcX6dFd8LGIy7+ximOsnji07BVtVWsPf0MpWJiJs
+         Ns4+5lniGvkSOsuJTkVvcEjWvdqGmL4jXmG08kmBKlifS4LzmXsmFxq+AAHX1qBa7cYa
+         UBxI1RCSrJFC6um0G8q7M4mtAdBMt9QLeWTTYsldadmDaGflJKIFufolTpLwbx9R6I9L
+         ZduDCty0c8lBRUu+H6Wm1JslNuGTDM4iSzlZ3d77Mk7gkWAMJhtC5DhpBHa+6U27HXXY
+         7kpFA+z58KK23x0zybr8WAFCiavTddGPUtMxvx4qTT5wg0fao6TvGktX8gSAStKw3kLA
+         w1jA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7izkbLLN49eH08203Cdqrvr5q82EBvn82Bij47c7wwOBW6EeXSy/un0B9g+GMb7WB+QZKe08EogySaXc=@vger.kernel.org, AJvYcCXh1CKjFVStLaNqK4YqjfQFg/TfIf2//+UFO/G0ukBUxa3cJQl5haW4Vyu8PQOUdgXQLyPbmFWe1QIQWnU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrL+g6fVanpZAwxEKFpSVgHkA4t22un6/orK3LV36zYRxWFIyz
+	mNS5vdp4kpgx9302wf+RgC2PYXsDJursnd01sNP+wTMPdQYHVUcOHXRy
+X-Gm-Gg: ASbGncsgAFg31lJ9ZwKu20bvn7KSEq+P2CJ1Lp2L41GqsAJhysGtLVrx1KnG5pwaZBq
+	DrQ8nwa1VWU0F7IJdsH8QKJJrz1b82HkcX/CWZrQeLARUJCi6vcEWQo+QxCAU8mAcAiyfAN6So1
+	1gCp2iHyshoonzoBBzr/iEEIZvBQiql5Bop/fkGTxQ6kLuf0heVhmbCWDOEvysl5LyD1Q/Kaxx/
+	5MX6NmHF1w3fTa5qzxdJu66nQQSvxSUoz1jWeboHe/7B53OoHPS2c0GgmpLzEp7qga/2+8Gu5we
+	5MF4uxBHrwEZMDLnPXLJMTjBqzEDyPEUlq4s5WWh/nt8N9nhZG+Dq/gIrA==
+X-Google-Smtp-Source: AGHT+IHts+jc+sEhTgMrw5finIuEPAbVfeCVaotG31uGeSGSXXyjliuHN40sI2hjX+/y27GsvrKVuw==
+X-Received: by 2002:a05:6a00:2185:b0:736:a8db:93bb with SMTP id d2e1a72fcca58-7489cdedbb5mr8787611b3a.5.1750031752929;
+        Sun, 15 Jun 2025 16:55:52 -0700 (PDT)
+Received: from dorado ([2405:6584:3840:2300:3b98:dc25:3fd8:603])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffee2aesm5480126b3a.24.2025.06.15.16.55.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Jun 2025 16:55:52 -0700 (PDT)
+From: Tamura Dai <kirinode0@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH] ALSA: pcm: Convert snd_pcm_ioctl_sync_ptr_{compat/x32}
- to user_access_begin/user_access_end()
-Message-ID: <202506151632.jvLtNHPb-lkp@intel.com>
-References: <8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy@csgroup.eu>
+	linux-kernel@vger.kernel.org,
+	Tamura Dai <kirinode0@gmail.com>
+Subject: [PATCH] ASoC: SOF: Intel: hda: Use devm_kstrdup() to avoid memleak.
+Date: Mon, 16 Jun 2025 08:55:48 +0900
+Message-Id: <20250615235548.8591-1-kirinode0@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy@csgroup.eu>
+Content-Transfer-Encoding: 8bit
 
-Hi Christophe,
+sof_pdata->tplg_filename can have address allocated by kstrdup()
+and can be overwritten. Memory leak was detected with kmemleak:
 
-kernel test robot noticed the following build errors:
+unreferenced object 0xffff88812391ff60 (size 16):
+  comm "kworker/4:1", pid 161, jiffies 4294802931
+  hex dump (first 16 bytes):
+    73 6f 66 2d 68 64 61 2d 67 65 6e 65 72 69 63 00  sof-hda-generic.
+  backtrace (crc 4bf1675c):
+    __kmalloc_node_track_caller_noprof+0x49c/0x6b0
+    kstrdup+0x46/0xc0
+    hda_machine_select.cold+0x1de/0x12cf [snd_sof_intel_hda_generic]
+    sof_init_environment+0x16f/0xb50 [snd_sof]
+    sof_probe_continue+0x45/0x7c0 [snd_sof]
+    sof_probe_work+0x1e/0x40 [snd_sof]
+    process_one_work+0x894/0x14b0
+    worker_thread+0x5e5/0xfb0
+    kthread+0x39d/0x760
+    ret_from_fork+0x31/0x70
+    ret_from_fork_asm+0x1a/0x30
 
-[auto build test ERROR on tiwai-sound/for-next]
-[also build test ERROR on tiwai-sound/for-linus linus/master v6.16-rc1 next-20250613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Tamura Dai <kirinode0@gmail.com>
+---
+ sound/soc/sof/intel/hda.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/ALSA-pcm-Convert-snd_pcm_ioctl_sync_ptr_-compat-x32-to-user_access_begin-user_access_end/20250612-185240
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH] ALSA: pcm: Convert snd_pcm_ioctl_sync_ptr_{compat/x32} to user_access_begin/user_access_end()
-config: x86_64-randconfig-008-20250615 (https://download.01.org/0day-ci/archive/20250615/202506151632.jvLtNHPb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250615/202506151632.jvLtNHPb-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506151632.jvLtNHPb-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from sound/core/pcm_native.c:4033:
-   sound/core/pcm_compat.c: In function 'snd_pcm_ioctl_sync_ptr_x32':
->> sound/core/pcm_compat.c:473:70: error: macro "unsafe_put_user" requires 3 arguments, but only 2 given
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |                                                                      ^
-   In file included from include/linux/uaccess.h:12,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:34,
-                    from include/linux/compat.h:17,
-                    from sound/core/pcm_native.c:7:
-   arch/x86/include/asm/uaccess.h:532: note: macro "unsafe_put_user" defined here
-     532 | #define unsafe_put_user(x, ptr, label)  \
-         | 
->> sound/core/pcm_compat.c:473:9: error: 'unsafe_put_user' undeclared (first use in this function)
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |         ^~~~~~~~~~~~~~~
-   sound/core/pcm_compat.c:473:9: note: each undeclared identifier is reported only once for each function it appears in
->> sound/core/pcm_compat.c:473:73: error: 'Efault_wr' undeclared (first use in this function)
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |                                                                         ^~~~~~~~~
-   sound/core/pcm_compat.c:473:71: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |                                                                       ^
->> sound/core/pcm_compat.c:473:82: error: expected ';' before ')' token
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |                                                                                  ^
-         |                                                                                  ;
->> sound/core/pcm_compat.c:473:82: error: expected statement before ')' token
-
-
-vim +/unsafe_put_user +473 sound/core/pcm_compat.c
-
-   405	
-   406	static int snd_pcm_ioctl_sync_ptr_x32(struct snd_pcm_substream *substream,
-   407					      struct snd_pcm_sync_ptr_x32 __user *src)
-   408	{
-   409		struct snd_pcm_runtime *runtime = substream->runtime;
-   410		volatile struct snd_pcm_mmap_status *status;
-   411		volatile struct snd_pcm_mmap_control *control;
-   412		u32 sflags;
-   413		struct snd_pcm_mmap_control scontrol;
-   414		struct snd_pcm_mmap_status sstatus;
-   415		snd_pcm_uframes_t boundary;
-   416		int err;
-   417	
-   418		if (snd_BUG_ON(!runtime))
-   419			return -EINVAL;
-   420	
-   421		if (!user_read_access_begin(src, sizeof(*src)))
-   422			return -EFAULT;
-   423		err = -EFAULT;
-   424		unsafe_get_user(sflags, &src->flags, Efault_rd);
-   425		unsafe_get_user(scontrol.appl_ptr, &src->c.control.appl_ptr, Efault_rd);
-   426		unsafe_get_user(scontrol.avail_min, &src->c.control.avail_min, Efault_rd);
-   427		err = 0;
-   428	Efault_rd:
-   429		user_read_access_end();
-   430		if (err)
-   431			return err;
-   432	
-   433		if (sflags & SNDRV_PCM_SYNC_PTR_HWSYNC) {
-   434			err = snd_pcm_hwsync(substream);
-   435			if (err < 0)
-   436				return err;
-   437		}
-   438		status = runtime->status;
-   439		control = runtime->control;
-   440		boundary = recalculate_boundary(runtime);
-   441		if (!boundary)
-   442			boundary = 0x7fffffff;
-   443		scoped_guard(pcm_stream_lock_irq, substream) {
-   444			/* FIXME: we should consider the boundary for the sync from app */
-   445			if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
-   446				control->appl_ptr = scontrol.appl_ptr;
-   447			else
-   448				scontrol.appl_ptr = control->appl_ptr % boundary;
-   449			if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
-   450				control->avail_min = scontrol.avail_min;
-   451			else
-   452				scontrol.avail_min = control->avail_min;
-   453			sstatus.state = status->state;
-   454			sstatus.hw_ptr = status->hw_ptr % boundary;
-   455			sstatus.tstamp = status->tstamp;
-   456			sstatus.suspended_state = status->suspended_state;
-   457			sstatus.audio_tstamp = status->audio_tstamp;
-   458		}
-   459		if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
-   460			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
-   461	
-   462		if (!user_write_access_begin(src, sizeof(*src)))
-   463			return -EFAULT;
-   464		err = -EFAULT;
-   465		unsafe_put_user(sstatus.state, &src->s.status.state, Efault_wr);
-   466		unsafe_put_user(sstatus.hw_ptr, &src->s.status.hw_ptr, Efault_wr);
-   467		unsafe_put_user(sstatus.tstamp.tv_sec, &src->s.status.tstamp_sec, Efault_wr);
-   468		unsafe_put_user(sstatus.tstamp.tv_nsec, &src->s.status.tstamp_nsec, Efault_wr);
-   469		unsafe_put_user(sstatus.suspended_state, &src->s.status.suspended_state, Efault_wr);
-   470		unsafe_put_user(sstatus.audio_tstamp.tv_sec, &src->s.status.audio_tstamp_sec, Efault_wr);
-   471		unsafe_put_user(sstatus.audio_tstamp.tv_nsec, &src->s.status.audio_tstamp_nsec, Efault_wr);
-   472		unsafe_put_user(scontrol.appl_ptr, &src->c.control.appl_ptr, Efault_wr);
- > 473		unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-   474		err = 0;
-   475	Efault_wr:
-   476		user_write_access_end();
-   477	
-   478		return err;
-   479	}
-   480	#endif /* CONFIG_X86_X32_ABI */
-   481	
-
+diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+index bdfe388da198..3b47191ea7a5 100644
+--- a/sound/soc/sof/intel/hda.c
++++ b/sound/soc/sof/intel/hda.c
+@@ -1257,11 +1257,11 @@ static int check_tplg_quirk_mask(struct snd_soc_acpi_mach *mach)
+ 	return 0;
+ }
+ 
+-static char *remove_file_ext(const char *tplg_filename)
++static char *remove_file_ext(struct device *dev, const char *tplg_filename)
+ {
+ 	char *filename, *tmp;
+ 
+-	filename = kstrdup(tplg_filename, GFP_KERNEL);
++	filename = devm_kstrdup(dev, tplg_filename, GFP_KERNEL);
+ 	if (!filename)
+ 		return NULL;
+ 
+@@ -1345,7 +1345,7 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
+ 		 */
+ 		if (!sof_pdata->tplg_filename) {
+ 			/* remove file extension if it exists */
+-			tplg_filename = remove_file_ext(mach->sof_tplg_filename);
++			tplg_filename = remove_file_ext(sdev->dev, mach->sof_tplg_filename);
+ 			if (!tplg_filename)
+ 				return NULL;
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.5
+
