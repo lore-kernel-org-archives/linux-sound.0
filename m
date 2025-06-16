@@ -1,79 +1,56 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C358717548;
-	Sun, 15 Jun 2025 23:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB1972626;
+	Mon, 16 Jun 2025 03:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750031755; cv=none; b=NjeXn5YeH3DujI9NQE7aAeu1+x4KOmGy3JbntWwT58JAWvO1kLajB45Wp7GXVJSTla5+kMKC8Xf0yi7QGomFuz8Ie0goWs/NBg5ZGXomKsfacxaTsaZnVCpbDv9jH3bBwta5ok9rbWLCBZruTPsbZ5+U0zxJgl8q1v/sZ326qEI=
+	t=1750046231; cv=none; b=ES2w7r+Wpfxh5hZb08SYVnBQAICJvre3R9HDdtLV4aBeibSxVqicbH8hXGZas5bup4NMslhcDy9o+STPw5oWxyLY026XFKFke+ZRvntXjVBK/Q0haNMQyhWEwLqow84mAkmqbYl20WC3ifgU1aurJliP3jDrcfxcwAHBk62Nm3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750031755; c=relaxed/simple;
-	bh=L9GfQmJxzHxe4TznI4/9RwlDfpK1DAahnSh5eeCyyWw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k8wz0MVXiAvdIZuvnjjlbmrFzXy3iJid27YMDG+HbFERRVm9VFT044USOy+K6noFb6riPWxIhA4DdFAvE/9cmmrNxaVUZbm3DTH3DhjpTkHv/McLxl8KBTwjpffT1N3sQLo1TrhZ/+reLD/UYBUTcJLWnuBCo+DU4XmKzdLYRA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eB6WtTgx; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750046231; c=relaxed/simple;
+	bh=av85PXSp0j0yVNqsy20d9eC8UAShLP5AvEix2MTrAPA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CLJPsj7js/BYbBTKyj7qvSR8w8IZg+Ti8IRQVxibr/MD3EHfwKyJyKoA1Phw+xAx+BnW3Y3+j1rfVFq6LSjqu5Zj86O49qNcesz6+pLQ9FhoKwajnu6cyCWxX55UVZIzvXPrtO69D8UwzczM8odRSQqvsdrhxD8v52uYn5INxRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=LujWeaKO; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eB6WtTgx"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so2942434b3a.0;
-        Sun, 15 Jun 2025 16:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750031753; x=1750636553; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3oXTFOZvRBZ3I5wRKU6UJZVyS7BzSZ7iEhJSIGe4VX0=;
-        b=eB6WtTgx7NgGJpuBRVgCaM8+qbXlF6sm5xsQb4w+cDmSbHd3kVYov2Hm09ikd+52pT
-         ZFl3282stQjjVEJwEzlkuOESci7QTTONMpljh2dIdj7Nwfl7QGOo59IPCiHVsHULpgBw
-         +xf/5qq4Khu2vEah7dN3mdeHIL+xZkPN/Ov2fX1+MLaZMRlikvEvFrkVQ2R1UW07jtD1
-         2COeiz3uDaR+EjSqjVjeuHpodl3c47Wx0DlQs3a9pm6R/gan70GfxomwckIBpZDhW1hK
-         c5yoKzh5QoUJ7rcPABZz2q4ADpz/tj/frJxsvhvs56vTwh/gGO9n8ZXw3QMu1hsTxSFw
-         XxfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750031753; x=1750636553;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3oXTFOZvRBZ3I5wRKU6UJZVyS7BzSZ7iEhJSIGe4VX0=;
-        b=VaHMBX38FYwGlNT7qU/z4Y4C8itcX6dFd8LGIy7+ximOsnji07BVtVWsPf0MpWJiJs
-         Ns4+5lniGvkSOsuJTkVvcEjWvdqGmL4jXmG08kmBKlifS4LzmXsmFxq+AAHX1qBa7cYa
-         UBxI1RCSrJFC6um0G8q7M4mtAdBMt9QLeWTTYsldadmDaGflJKIFufolTpLwbx9R6I9L
-         ZduDCty0c8lBRUu+H6Wm1JslNuGTDM4iSzlZ3d77Mk7gkWAMJhtC5DhpBHa+6U27HXXY
-         7kpFA+z58KK23x0zybr8WAFCiavTddGPUtMxvx4qTT5wg0fao6TvGktX8gSAStKw3kLA
-         w1jA==
-X-Forwarded-Encrypted: i=1; AJvYcCW7izkbLLN49eH08203Cdqrvr5q82EBvn82Bij47c7wwOBW6EeXSy/un0B9g+GMb7WB+QZKe08EogySaXc=@vger.kernel.org, AJvYcCXh1CKjFVStLaNqK4YqjfQFg/TfIf2//+UFO/G0ukBUxa3cJQl5haW4Vyu8PQOUdgXQLyPbmFWe1QIQWnU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrL+g6fVanpZAwxEKFpSVgHkA4t22un6/orK3LV36zYRxWFIyz
-	mNS5vdp4kpgx9302wf+RgC2PYXsDJursnd01sNP+wTMPdQYHVUcOHXRy
-X-Gm-Gg: ASbGncsgAFg31lJ9ZwKu20bvn7KSEq+P2CJ1Lp2L41GqsAJhysGtLVrx1KnG5pwaZBq
-	DrQ8nwa1VWU0F7IJdsH8QKJJrz1b82HkcX/CWZrQeLARUJCi6vcEWQo+QxCAU8mAcAiyfAN6So1
-	1gCp2iHyshoonzoBBzr/iEEIZvBQiql5Bop/fkGTxQ6kLuf0heVhmbCWDOEvysl5LyD1Q/Kaxx/
-	5MX6NmHF1w3fTa5qzxdJu66nQQSvxSUoz1jWeboHe/7B53OoHPS2c0GgmpLzEp7qga/2+8Gu5we
-	5MF4uxBHrwEZMDLnPXLJMTjBqzEDyPEUlq4s5WWh/nt8N9nhZG+Dq/gIrA==
-X-Google-Smtp-Source: AGHT+IHts+jc+sEhTgMrw5finIuEPAbVfeCVaotG31uGeSGSXXyjliuHN40sI2hjX+/y27GsvrKVuw==
-X-Received: by 2002:a05:6a00:2185:b0:736:a8db:93bb with SMTP id d2e1a72fcca58-7489cdedbb5mr8787611b3a.5.1750031752929;
-        Sun, 15 Jun 2025 16:55:52 -0700 (PDT)
-Received: from dorado ([2405:6584:3840:2300:3b98:dc25:3fd8:603])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7488ffee2aesm5480126b3a.24.2025.06.15.16.55.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jun 2025 16:55:52 -0700 (PDT)
-From: Tamura Dai <kirinode0@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tamura Dai <kirinode0@gmail.com>
-Subject: [PATCH] ASoC: SOF: Intel: hda: Use devm_kstrdup() to avoid memleak.
-Date: Mon, 16 Jun 2025 08:55:48 +0900
-Message-Id: <20250615235548.8591-1-kirinode0@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="LujWeaKO"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55G3ucrv2475103;
+	Sun, 15 Jun 2025 22:56:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1750046198;
+	bh=BT6uTsm+SshfGprNywgOdyoXgx2zW871i2OdC9PQSvE=;
+	h=From:To:CC:Subject:Date;
+	b=LujWeaKO0JSQ8ISUKSKwtQxHYJ+K//qUKDnep0Xh6DTdwkh4uGOr5URoXu+oY4mzX
+	 qv5cvOmnDl8KBtmH6u4X41KzlvMOJxGE8QWrbNKZGTWMptOX3MGaVRHzvO6FDEf4Bd
+	 g53+B14Fx6NDErW1nC/GSytCAne+zIh7VesyB+W4=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55G3ubDu459774
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Sun, 15 Jun 2025 22:56:37 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Sun, 15
+ Jun 2025 22:56:37 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Sun, 15 Jun 2025 22:56:37 -0500
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55G3uWFn3386670;
+	Sun, 15 Jun 2025 22:56:33 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>
+CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>, <navada@ti.com>,
+        <13916275206@139.com>, <v-hampiholi@ti.com>, <v-po@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <baojun.xu@ti.com>
+Subject: [PATCH v1] ALSA: hda/tas2781: Add compatible for hardware id TIAS2781 and TXNW2781
+Date: Mon, 16 Jun 2025 11:56:07 +0800
+Message-ID: <20250616035607.2569-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,59 +58,116 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-sof_pdata->tplg_filename can have address allocated by kstrdup()
-and can be overwritten. Memory leak was detected with kmemleak:
+TIAS2781 is unofficial hardware id in ACPI for tas2781 in HDA,
+has been used for several projects. TXNW is the official hardware
+id for TI, will be used in new projects, including device on SPI bus,
+which was enumerated by drivers/acpi/scan.c, and probed by smi_probe()
+in drivers/platform/x86/serial-multi-instantiate.c.
+This patch will support both TIAS2781 and TXNW2781 in ACPI with
+tas2781 under HDA.
+As our I2C driver will handle all of slaver devices, so we probe
+first device only: "TXNW2781:00-tas2781-hda.0"
 
-unreferenced object 0xffff88812391ff60 (size 16):
-  comm "kworker/4:1", pid 161, jiffies 4294802931
-  hex dump (first 16 bytes):
-    73 6f 66 2d 68 64 61 2d 67 65 6e 65 72 69 63 00  sof-hda-generic.
-  backtrace (crc 4bf1675c):
-    __kmalloc_node_track_caller_noprof+0x49c/0x6b0
-    kstrdup+0x46/0xc0
-    hda_machine_select.cold+0x1de/0x12cf [snd_sof_intel_hda_generic]
-    sof_init_environment+0x16f/0xb50 [snd_sof]
-    sof_probe_continue+0x45/0x7c0 [snd_sof]
-    sof_probe_work+0x1e/0x40 [snd_sof]
-    process_one_work+0x894/0x14b0
-    worker_thread+0x5e5/0xfb0
-    kthread+0x39d/0x760
-    ret_from_fork+0x31/0x70
-    ret_from_fork_asm+0x1a/0x30
-
-Signed-off-by: Tamura Dai <kirinode0@gmail.com>
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 ---
- sound/soc/sof/intel/hda.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/pci/hda/patch_realtek.c   | 21 +++++++++++++++++----
+ sound/pci/hda/tas2781_hda_i2c.c |  6 ++++++
+ 2 files changed, 23 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index bdfe388da198..3b47191ea7a5 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1257,11 +1257,11 @@ static int check_tplg_quirk_mask(struct snd_soc_acpi_mach *mach)
- 	return 0;
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index bca725bb8..c5ef5e35e 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7323,7 +7323,7 @@ static void alc285_fixup_asus_ga403u(struct hda_codec *cdc, const struct hda_fix
+ 		alc_fixup_inv_dmic(cdc, fix, action);
  }
  
--static char *remove_file_ext(const char *tplg_filename)
-+static char *remove_file_ext(struct device *dev, const char *tplg_filename)
+-static void tas2781_fixup_i2c(struct hda_codec *cdc,
++static void tas2781_fixup_tias_i2c(struct hda_codec *cdc,
+ 	const struct hda_fixup *fix, int action)
  {
- 	char *filename, *tmp;
+ 	comp_generic_fixup(cdc, action, "i2c", "TIAS2781", "-%s:00", 1);
+@@ -7334,6 +7334,12 @@ static void tas2781_fixup_spi(struct hda_codec *cdc, const struct hda_fixup *fix
+ 	comp_generic_fixup(cdc, action, "spi", "TXNW2781", "-%s:00-tas2781-hda.%d", 2);
+ }
  
--	filename = kstrdup(tplg_filename, GFP_KERNEL);
-+	filename = devm_kstrdup(dev, tplg_filename, GFP_KERNEL);
- 	if (!filename)
- 		return NULL;
- 
-@@ -1345,7 +1345,7 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
- 		 */
- 		if (!sof_pdata->tplg_filename) {
- 			/* remove file extension if it exists */
--			tplg_filename = remove_file_ext(mach->sof_tplg_filename);
-+			tplg_filename = remove_file_ext(sdev->dev, mach->sof_tplg_filename);
- 			if (!tplg_filename)
- 				return NULL;
- 
++static void tas2781_fixup_txnw_i2c(struct hda_codec *cdc,
++	const struct hda_fixup *fix, int action)
++{
++	comp_generic_fixup(cdc, action, "i2c", "TXNW2781", "-%s:00-tas2781-hda.%d", 1);
++}
++
+ static void yoga7_14arb7_fixup_i2c(struct hda_codec *cdc,
+ 	const struct hda_fixup *fix, int action)
+ {
+@@ -8001,6 +8007,7 @@ enum {
+ 	ALC287_FIXUP_CS35L41_I2C_2_THINKPAD_ACPI,
+ 	ALC287_FIXUP_TAS2781_I2C,
+ 	ALC245_FIXUP_TAS2781_SPI_2,
++	ALC287_FIXUP_TXNW2781_I2C,
+ 	ALC287_FIXUP_YOGA7_14ARB7_I2C,
+ 	ALC245_FIXUP_HP_MUTE_LED_COEFBIT,
+ 	ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT,
+@@ -10251,7 +10258,7 @@ static const struct hda_fixup alc269_fixups[] = {
+ 	},
+ 	[ALC287_FIXUP_TAS2781_I2C] = {
+ 		.type = HDA_FIXUP_FUNC,
+-		.v.func = tas2781_fixup_i2c,
++		.v.func = tas2781_fixup_tias_i2c,
+ 		.chained = true,
+ 		.chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK,
+ 	},
+@@ -10261,6 +10268,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC285_FIXUP_HP_GPIO_LED,
+ 	},
++	[ALC287_FIXUP_TXNW2781_I2C] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = tas2781_fixup_txnw_i2c,
++		.chained = true,
++		.chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK,
++	},
+ 	[ALC287_FIXUP_YOGA7_14ARB7_I2C] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = yoga7_14arb7_fixup_i2c,
+@@ -11322,8 +11335,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
+-	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TAS2781_I2C),
+-	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TAS2781_I2C),
++	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TXNW2781_I2C),
++	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TXNW2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo B50-70", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x3bf8, "Quanta FL1", ALC269_FIXUP_PCM_44K),
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index eb2295b49..b9cdbca95 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -587,6 +587,11 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
+ 		device_name = "TIAS2781";
+ 		hda_priv->save_calibration = tas2781_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
++	} else if (strstarts(dev_name(&clt->dev),
++			     "TXNW2781:00-tas2781-hda.0")) {
++		device_name = "TXNW2781";
++		hda_priv->save_calibration = tas2781_save_calibration;
++		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
+ 	} else if (strstr(dev_name(&clt->dev), "INT8866")) {
+ 		device_name = "INT8866";
+ 		hda_priv->save_calibration = tas2563_save_calibration;
+@@ -725,6 +730,7 @@ static const struct i2c_device_id tas2781_hda_i2c_id[] = {
+ static const struct acpi_device_id tas2781_acpi_hda_match[] = {
+ 	{"INT8866", 0 },
+ 	{"TIAS2781", 0 },
++	{"TXNW2781", 0 },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(acpi, tas2781_acpi_hda_match);
 -- 
-2.39.5
+2.43.0
 
