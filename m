@@ -1,35 +1,36 @@
-Received: from RTEXH36505.realtek.com.tw (211-75-126-119.hinet-ip.hinet.net [211.75.126.119])
+Received: from RTEXH36506.realtek.com.tw (unknown [122.146.120.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5BC25E450
-	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 11:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597D727FB34
+	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 11:49:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=122.146.120.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750074514; cv=none; b=cJBr8ItFy68A85Ml2qabctdAN6QsjL3Bl+T2AtJ0slN7FkIjew0H2FUS3u7/Dua9d8A/cJPuLUuaq2KlcdZrTY2b5Qf81H51svMRF0+3LhdH4nkmXwUgS4BWXa8hTsUdEq3lVoPeIPhUvEPFdhXcBlfhaJk5MP1BDoTtGjq2Ks0=
+	t=1750074566; cv=none; b=Kb8RYvwc6TEXKlWEHY/hB8mxh8svQc6C+soLeHS3242h9T7PrRohz7oDl0ntbAKJjH9ZjeEW0iWwEDDPpEVsym/Kjiy4q07dpFJqbIl60n7US501yI4cFHNAc3LgsQhF60ajxvhPF3pnEp8AhvDDJ7m22VWsszttSwrw4s/rstw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750074514; c=relaxed/simple;
-	bh=mvMyuNg94BklKOPlJXP3sYnPivgs5U3VtPtKH8ePR4M=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TKnYnFXMKuJlB9mzqsmyYlBUP0WybgmqxgbH0YcSoxyiyMf6saebDLK8n5baRvbMj0H1NXhn7Ewp3qxtU7uv0JbjkmUkAvikDzW9ES1RXUceRqG/PeK0ll6eOhQDJToj6lOAXhDb9l+6DyytoDrqS9YWEAbP/xp26uxZ/2bN2Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=211.75.126.119
+	s=arc-20240116; t=1750074566; c=relaxed/simple;
+	bh=XliCIADOzm8CqKR9rx4CzMtBhb/GokGmlNgEES+geC8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=L8HRaMQp9yu8IIczwpnxOBvZ/XLqPjpxwnHuCm+MEJcDVntTvFAN10VPmwVTguREP6Von0tW3mTZSpMEGCfkAk9dDupWA73Y/dIcchYq2X+pGjpnCxWCrNKXzMvg06wh/tLDjM6LJEFubter32qv2iHlndhp4auGkyAHJkQjoQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=122.146.120.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 16 Jun 2025 19:48:35 +0800
+ 15.1.2507.39; Mon, 16 Jun 2025 19:49:24 +0800
 Received: from sw-server.localdomain (172.22.102.1) by
  RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 16 Jun 2025 19:48:33 +0800
+ 15.1.2507.35; Mon, 16 Jun 2025 19:49:18 +0800
 From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>, <jikos@kernel.org>,
+	<bentiss@kernel.org>
 CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
 	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
 	<ckeepax@opensource.cirrus.com>, <bard.liao@intel.com>, Shuming Fan
 	<shumingf@realtek.com>
-Subject: [PATCH v2 1/3] ASoC: SDCA: add support for HIDE entity properties and HID descriptor/report
-Date: Mon, 16 Jun 2025 19:48:20 +0800
-Message-ID: <20250616114820.855401-1-shumingf@realtek.com>
+Subject: [PATCH v2 2/3] HID: core: Add bus define for SoundWire bus
+Date: Mon, 16 Jun 2025 19:49:07 +0800
+Message-ID: <20250616114907.855452-1-shumingf@realtek.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -46,178 +47,45 @@ X-KSE-AntiSpam-Interceptor-Info: fallback
 X-KSE-Antivirus-Interceptor-Info: fallback
 X-KSE-AntiSpam-Interceptor-Info: fallback
 
-From: Shuming Fan <shumingf@realtek.com>
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Add support for parsing the HIDE entity descriptor and HID descriptor/report
+SDCA (SoundWire Device Class for Audio) uses HID to convey
+input events from peripheral devices. Add a bus define for the
+SoundWire bus to prepare support for this.
 
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: Shuming Fan <shumingf@realtek.com>
 ---
- include/sound/sdca_function.h   | 29 ++++++++++++
- sound/soc/sdca/sdca_functions.c | 83 +++++++++++++++++++++++++++++++++
- 2 files changed, 112 insertions(+)
+ drivers/hid/hid-core.c     | 3 +++
+ include/uapi/linux/input.h | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-index eaedb54a8322..856b0f40ce5e 100644
---- a/include/sound/sdca_function.h
-+++ b/include/sound/sdca_function.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/bits.h>
- #include <linux/types.h>
-+#include <linux/hid.h>
- 
- struct device;
- struct sdca_entity;
-@@ -1040,6 +1041,32 @@ struct sdca_entity_ge {
- 	int num_modes;
- };
- 
-+/**
-+ * struct sdca_entity_hide - information specific to HIDE Entities
-+ * @hid: HID device structure
-+ * @hidtx_ids: HIDTx Report ID
-+ * @num_hidtx_ids: number of HIDTx Report ID
-+ * @hidrx_ids: HIDRx Report ID
-+ * @num_hidrx_ids: number of HIDRx Report ID
-+ * @hide_reside_function_num: indicating which Audio Function Numbers within this Device
-+ * @max_delay: the maximum time in microseconds allowed for the Device to change the ownership from Device to Host
-+ * @af_number_list: which Audio Function Numbers within this Device are sending/receiving the messages in this HIDE
-+ * @hid_desc: HID descriptor for the HIDE Entity
-+ * @hid_report_desc: HID Report Descriptor for the HIDE Entity
-+ */
-+struct sdca_entity_hide {
-+	struct hid_device *hid;
-+	unsigned int *hidtx_ids;
-+	int num_hidtx_ids;
-+	unsigned int *hidrx_ids;
-+	int num_hidrx_ids;
-+	unsigned int hide_reside_function_num;
-+	unsigned int max_delay;
-+	unsigned int af_number_list[SDCA_MAX_FUNCTION_COUNT];
-+	struct hid_descriptor hid_desc;
-+	unsigned char *hid_report_desc;
-+};
-+
- /**
-  * struct sdca_entity - information for one SDCA Entity
-  * @label: String such as "OT 12".
-@@ -1055,6 +1082,7 @@ struct sdca_entity_ge {
-  * @cs: Clock Source specific Entity properties.
-  * @pde: Power Domain Entity specific Entity properties.
-  * @ge: Group Entity specific Entity properties.
-+ * @hide: HIDE Entity specific Entity properties.
-  */
- struct sdca_entity {
- 	const char *label;
-@@ -1071,6 +1099,7 @@ struct sdca_entity {
- 		struct sdca_entity_cs cs;
- 		struct sdca_entity_pde pde;
- 		struct sdca_entity_ge ge;
-+		struct sdca_entity_hide hide;
- 	};
- };
- 
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 64ac26443890..4a89067dcf76 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -1220,6 +1220,86 @@ static int find_sdca_entity_ge(struct device *dev,
- 	return -EINVAL;
- }
- 
-+static int
-+find_sdca_entity_hide(struct device *dev, struct fwnode_handle *function_node,
-+		      struct fwnode_handle *entity_node, struct sdca_entity *entity)
-+{
-+	struct sdca_entity_hide *hide = &entity->hide;
-+	unsigned int delay, *af_list = hide->af_number_list;
-+	int nval, ret;
-+	unsigned char *report_desc = NULL;
-+
-+	ret = fwnode_property_read_u32(entity_node,
-+				       "mipi-sdca-RxUMP-ownership-transition-maxdelay", &delay);
-+	if (!ret)
-+		hide->max_delay = delay;
-+
-+	nval = fwnode_property_count_u32(entity_node, "mipi-sdca-HIDTx-supported-report-ids");
-+	if (nval > 0) {
-+		hide->num_hidtx_ids = nval;
-+		hide->hidtx_ids = devm_kcalloc(dev, hide->num_hidtx_ids,
-+					       sizeof(*hide->hidtx_ids), GFP_KERNEL);
-+		if (!hide->hidtx_ids)
-+			return -ENOMEM;
-+
-+		ret = fwnode_property_read_u32_array(entity_node,
-+						     "mipi-sdca-HIDTx-supported-report-ids",
-+						     hide->hidtx_ids,
-+						     hide->num_hidtx_ids);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	nval = fwnode_property_count_u32(entity_node, "mipi-sdca-HIDRx-supported-report-ids");
-+	if (nval > 0) {
-+		hide->num_hidrx_ids = nval;
-+		hide->hidrx_ids = devm_kcalloc(dev, hide->num_hidrx_ids,
-+					       sizeof(*hide->hidrx_ids), GFP_KERNEL);
-+		if (!hide->hidrx_ids)
-+			return -ENOMEM;
-+
-+		ret = fwnode_property_read_u32_array(entity_node,
-+						     "mipi-sdca-HIDRx-supported-report-ids",
-+						     hide->hidrx_ids,
-+						     hide->num_hidrx_ids);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	nval = fwnode_property_count_u32(entity_node, "mipi-sdca-hide-related-audio-function-list");
-+	if (nval <= 0) {
-+		dev_err(dev, "%pfwP: audio function numbers list missing: %d\n",
-+			entity_node, nval);
-+		return -EINVAL;
-+	} else if (nval > SDCA_MAX_FUNCTION_COUNT) {
-+		dev_err(dev, "%pfwP: maximum number of audio function exceeded\n", entity_node);
-+		return -EINVAL;
-+	}
-+
-+	hide->hide_reside_function_num = nval;
-+	fwnode_property_read_u32_array(entity_node,
-+				       "mipi-sdca-hide-related-audio-function-list", af_list, nval);
-+
-+	nval = fwnode_property_count_u8(function_node, "mipi-sdca-hid-descriptor");
-+	if (nval)
-+		fwnode_property_read_u8_array(function_node, "mipi-sdca-hid-descriptor",
-+					      (u8 *)&hide->hid_desc, nval);
-+
-+	if (hide->hid_desc.bNumDescriptors) {
-+		nval = fwnode_property_count_u8(function_node, "mipi-sdca-report-descriptor");
-+		if (nval) {
-+			report_desc = devm_kzalloc(dev, nval, GFP_KERNEL);
-+			if (!report_desc)
-+				return -ENOMEM;
-+			hide->hid_report_desc = report_desc;
-+			fwnode_property_read_u8_array(function_node, "mipi-sdca-report-descriptor",
-+						      report_desc, nval);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int find_sdca_entity(struct device *dev,
- 			    struct fwnode_handle *function_node,
- 			    struct fwnode_handle *entity_node,
-@@ -1261,6 +1341,9 @@ static int find_sdca_entity(struct device *dev,
- 	case SDCA_ENTITY_TYPE_GE:
- 		ret = find_sdca_entity_ge(dev, entity_node, entity);
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index b348d0464314..b419e31005b8 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -2294,6 +2294,9 @@ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
+ 	case BUS_I2C:
+ 		bus = "I2C";
  		break;
-+	case SDCA_ENTITY_TYPE_HIDE:
-+		ret = find_sdca_entity_hide(dev, function_node, entity_node, entity);
++	case BUS_SDW:
++		bus = "SOUNDWIRE";
 +		break;
- 	default:
+ 	case BUS_VIRTUAL:
+ 		bus = "VIRTUAL";
  		break;
- 	}
+diff --git a/include/uapi/linux/input.h b/include/uapi/linux/input.h
+index 2557eb7b0561..127119c287cf 100644
+--- a/include/uapi/linux/input.h
++++ b/include/uapi/linux/input.h
+@@ -275,6 +275,7 @@ struct input_mask {
+ #define BUS_CEC			0x1E
+ #define BUS_INTEL_ISHTP		0x1F
+ #define BUS_AMD_SFH		0x20
++#define BUS_SDW			0x21
+ 
+ /*
+  * MT_TOOL types
 -- 
 2.34.1
 
