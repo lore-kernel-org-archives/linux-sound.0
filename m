@@ -1,65 +1,66 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6B1257458
-	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 11:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E162E7F06
+	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 11:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750074861; cv=none; b=InqT/l3I9eEYVcipPXEWbc9tQ7KTBbF+s53qD8+RhK6SNayFwf0l5xZB0EK+Ehm3op5AELLZHa9ZbBmfKNcML3/F1cAznh/yDPkHS7M4u+yY22Ihy9l5bBdTfulraR/FBIDcnm3cN9u1kFJY/jItvsK+EN34OL4aoKHQ+3tyJ/A=
+	t=1750074862; cv=none; b=dtFGtWHsf5f2Pax/ZhkZIPnmfgU4L95hHMcqAvl4nRXVo5CituahFP1bxI6Vc6neC/ZpYgIGkSM0HClMilmzzvYQt6AhS4JU8gA0vTZPdfxrirQzkBo59WQwMXP0JVjVt13tZZfhibQWClrHmUDhuSJ94mm81cqOOqY952KZXxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750074861; c=relaxed/simple;
-	bh=02prJ0VqZ+GsFSoh42Mdecmpc0qDDL8ucou4yVC4PUE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mjKRLam/MUO9DusOWVTUgi2EBDyAS/S9NrFtyhF2Q7ydbE0aWSt3XBfgAHzUZA5Gzq4fbqVBelpytz0vSalV9y5ybjjhXJF9aqZZwtJbHrcPGGKk+dgZKy8bLhjBqCyY7wscO2EyS+uPC36AqLzQK3ZyJcB7VnzILYQbvCRzWqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wXbqDPBM; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1750074862; c=relaxed/simple;
+	bh=W84ukinUJ51e433j/q7HBi699hZcbP1TxUuIsLTTSuw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=OT/v00NKIZlgvMyWGn2/RpxBcqhbZTzEecyN0tvsEEGQLavrNF4Dzyn5Yzuo7nIz3EKOFrfnCO6KIZp2ZxqkjKC3qwAphU2Vwt6npVz8nVPQgxRuH1JOx7tfGwt7G8rqAUV90e8wTgneAMPotJG8EjfR5sPmKoxNFkhBy2o/XdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=agsKQr77; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wXbqDPBM"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-453486940fdso418865e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 04:54:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="agsKQr77"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-453079c1e2eso2436275e9.3
+        for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 04:54:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750074858; x=1750679658; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Axc5YR1xTLRmQrgaUwcSZbD+3O2bXFrl+qMuGw1iiww=;
-        b=wXbqDPBM0/K1MF+mu2fGPBko+Dgn1j2LC+f+LfH3Ut/udryYxdBA7i2PACMlfOL3R4
-         bVtRWuLCpdBMkzyDaidWOYTh7tqLc+HS2RlPl+HMFXes8+QJfOKXwYNR9QkMpjxeQY8X
-         yRriD/tM3cDUJlVbuf2twRMLj6Xh0CU0FnJ+75hhomCJ+xZuM1nvvt6Z5qrIfXSfHruM
-         SfE9VXIFb4weeEex7kl063X3tZxa9jIMhU8gKPyweIcbJDYjLhuebSB2kIVBTBfzY7BM
-         EwTr30X/ugldFIVpyYmF5LNIJ/vdGf+qtXgsIyBbTa1RbnX5YWmljowt5IvzaEKnZIK1
-         /egA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750074858; x=1750679658;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1750074859; x=1750679659; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Axc5YR1xTLRmQrgaUwcSZbD+3O2bXFrl+qMuGw1iiww=;
-        b=gEfk8o/5FwkQzqd9v22H9tN7znledzzZivrmtX4/ssrlhIYn7b1LpZTqyaAUTvc8rR
-         5ixq0ODEC9v2sinXuu1I6ZbBjsniYRsgLH9kBRenRm9jM4CThmqAEZMQ7aJGjvzLB34m
-         6rpEeZHTlASG/ZuLnJrzCXyuytaMr6P4/LR9eKih7+bx1XgP+gCogwkrW8UY1mzd93hP
-         mKFOZK8oyhYnisW7g62yTtDfbQb0KWlI1EVYo8mEBt9IHzdmjQzaTCtDcyYr3W3uB1bH
-         AqJhpILSnNbPKMMTpQlnii18d/80Fdt0ksThYZw1Gh/FVkLXBiJrBXS6Zo4vx8H30dhD
-         86aw==
-X-Gm-Message-State: AOJu0YzJNGR2tpMwncaJX6tTqMsZKAAA6eGU0/+hQUErtnNru7wSGYld
-	7piXSnGpPpXoLOoE485GmolLlUAyBrcbOv6k5AtV/E4EpLYXrxpwxJfsac8p4myW8Lc=
-X-Gm-Gg: ASbGncsqwvwUfLkmjHewqICWcrQf8pTFk6J5+CLSAJvsu+RJ77NpA0/Ne0inxJ9iaEj
-	S0CjcJHfMZAsuyVNAi8/8pMoSx6TVQA9UZi1Pp7rPZ0RFPNwQXI7SBWszCeEkESOYRCJMo2NmOi
-	gJq4B6DPsO+/VyJy5GqXlKzepy3W/OPGT4gsvWrNM0XiGBXB0YpLRw0FTJHMO9Uv5lg3oNvr4tu
-	iCgYxE9aoix9Xsn7OXyzmPtiqwEwixZzuMnep/yHTu1ffDuqrWk0FBXYhIzWzLhPMuNATFyx3+P
-	52MP29TBk9spkGj2cL9lDLvA11ij1vmnQwcaH7ooo4z0sYJkAZ53DZjXQvrJyPeIzSTytPguJsq
-	yozCk85zk3NZmUta5Kg==
-X-Google-Smtp-Source: AGHT+IGK+tjTTJ8c7IWrPMjC4mNJIkszghBU1YhqBDcjTY1QJn0mBt4ZAVrGF0h+GliE7t3u2AP5dQ==
-X-Received: by 2002:a05:600c:8b81:b0:441:c5ee:cdb4 with SMTP id 5b1f17b1804b1-453418d03bcmr24960315e9.4.1750074857638;
-        Mon, 16 Jun 2025 04:54:17 -0700 (PDT)
+        bh=/UW8DtABN+4gWLwcxZoGbouWonY/5+M3DyOMQmabf+s=;
+        b=agsKQr77RMc1ryWO+oMeX3TE9IBI8mWIC1XlHgv0oeVQtO0v78hU/Ly2P6hXSd+DK1
+         ErSBoMi6IzawMVpizvon8RQgxWPJgoY/Nyz1ZU5AFN6re1KcXJuGr9O3Can8kgKCEcfd
+         G3lESaGeXv7fJ1ZSSAgDXrP2LMDuXOVWCNh1cuxgvUccpGSEjYFlw7zON4pcyiygD202
+         A9dCjCFPfKWAM9FJA/IbmQPq9VqreqU5Kln0v4rK2ZgO+4tANySdvqfwdChxf5luQYBu
+         sGLsDxaBrlI+xjWjZwbkf3gnuamO+dAAmJyoEbJ0ky/v8sueEG4GT5SuUnoQYLnrK6H3
+         /gJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750074859; x=1750679659;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/UW8DtABN+4gWLwcxZoGbouWonY/5+M3DyOMQmabf+s=;
+        b=E3ay25kGk6JBG7WXppKx4qt+ghYXzjTw4WDA+TF/QXcvTqD1xRXonbLvFOH9oqRuIs
+         WEtPnVItjFgEI+v8rCZTCZDxOFeHePGtNhNJ2HTeo9KWjpzOrEw/4/sTcySlJtFVksyi
+         P1U5xRNdkq+2uxYdYVPaZjpGGw93GWo3ZQBakMscwUdmjUqb5RM2p5uzVUfpP0WwGQ4w
+         Mlu/InuytUjs+T8s7pJqQ0nYj1yAJ5Y0mGjL6DjwlAcjhJpLdfI1w8xRgsbEOMlqA29T
+         A82NeydOSNyWQwCphvJU1UTFiuvxSimuH/kFdDGSb4sUZKzzUOyrj6L1WWl8qMULG/Py
+         vetA==
+X-Gm-Message-State: AOJu0YyAQbE4LGkbR2KRg2ocGlr6W9eM/5rHbFyrhWHkulFlVmfbNaDz
+	Uc/vZA2MeDOHFX1EPACTSAv9fJr7pRod9YxzpGA9J+RxDzuuYlnIb2uSwZZz+c0C1Gk=
+X-Gm-Gg: ASbGncv6dn6CPN4XWQnQVX7qtFrjYsa9LkR4mLyIbqDYIlv6kxF3ySVRQPXNwoUxhPT
+	1Y+HJeQ8Yf4l1NzKl+WLQO9rwzbKEie0WERMbbjwKgjkxB8SEjYXJiGVixWasqdl/7eaCwKQ5Al
+	beSQX8+vfryLrd8Y8PEQ8OQT+YzCob+YSfW3A2VVrtUStFLuE3OvNzL7aqmvQMha9/e98rzzzvl
+	egD5vA49W1DQnXW0oGHivXafdkYMtkZQ0SVRE0LPoeccRT4MvBFkmybUz/WwEGuzTQBS56f7D+O
+	/I8AaOaTLytmkqZjaPJoPO69Il5d074KAclfow+HGLQSsmRHDgxO2yp1Riv5Jpt3t1rqVvtYixk
+	BlXEpFSE=
+X-Google-Smtp-Source: AGHT+IGOeVJ7hItLg5CQ32p4wI1JoyTJsXl9AjQIR/wzWxC9zhhxkEHKpKD3ExHNiskXVW2Tx2rErA==
+X-Received: by 2002:a05:600c:a48:b0:43b:c844:a4ba with SMTP id 5b1f17b1804b1-4533ca57522mr30136775e9.3.1750074858974;
+        Mon, 16 Jun 2025 04:54:18 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.223.125])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4534172d2b0sm73485315e9.35.2025.06.16.04.54.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4534172d2b0sm73485315e9.35.2025.06.16.04.54.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Jun 2025 04:54:16 -0700 (PDT)
+        Mon, 16 Jun 2025 04:54:18 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 0/4] ASoC: codecs: wcd93xx: Drop enums for chipid values
- (minor cleanup)
-Date: Mon, 16 Jun 2025 13:54:07 +0200
-Message-Id: <20250616-asoc-wcd93xx-enum-v1-0-a20a1b538509@linaro.org>
+Date: Mon, 16 Jun 2025 13:54:08 +0200
+Subject: [PATCH 1/4] ASoC: codecs: wcd937x: Use simple defines for chipid
+ register value
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,55 +69,60 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAN8FUGgC/x3MQQqAIBBA0avErBvQSqmuEi3ExppFFkolSHdPW
- r7F/xkiBaYIY5Uh0M2RD18g6wrsZvxKyEsxNKJRQkuNJh4WH7sMbUpI/tqx7zpHsldOGAelOwM
- 5Tv9zmt/3A0CkqmNjAAAA
-X-Change-ID: 20250616-asoc-wcd93xx-enum-844fe185f0af
+Message-Id: <20250616-asoc-wcd93xx-enum-v1-1-a20a1b538509@linaro.org>
+References: <20250616-asoc-wcd93xx-enum-v1-0-a20a1b538509@linaro.org>
+In-Reply-To: <20250616-asoc-wcd93xx-enum-v1-0-a20a1b538509@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=867;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=927;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=02prJ0VqZ+GsFSoh42Mdecmpc0qDDL8ucou4yVC4PUE=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoUAXh4fdEUeN1mFITIPIKloYddzv7IJ5Ztjwb6
- /5e6Gfq0MqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaFAF4QAKCRDBN2bmhouD
- 1wqtD/4+dLjTdI0+yzJwDYJ9vFNIy0nSi1OSX1t4zVfDBVGcrIkx9dGHJD2s0MA4sNrwnK9ErXP
- BGI1BsM26eWmthFR/78QlweynU17aMRwbJ58iuBZ++DlKow8HiTyWlI8oRxFF5rONDuRzVx2c91
- aV1ZGsRbFZm8gr7ZHEggEk8S1cxQf9r8Uo8Ze0p5CHSrObyclPONAUVnwiAWvPbSf5xZrOt6ldO
- 6UIlkqhlgbOSuE5MR/EWjovOrownpxBm+F7gBEQxIsioKOnWUDbUEjWVB/djNmxGI1mgivLHdzj
- Pn5r4QN5gSAW/8Ai6Kvc43A/dDj5qv8ybCkACjOmoumFrudj5qZ1heLdlccDMjRZZpP1z0jm2yf
- aYky7+1FzWNGLET7UmVQCoAb4wcFwZQHN8OAxlq0rBx4UEeMwmjBMnRf0HCCL01obhDUxRI1eSD
- IGWWM6RoCsoyjnQaA82W4W6hkIAdtXzne3FbDiTAWcE18K/XAa6FLc3lTCkDO2oUI1XSVkNWrQZ
- Z4urSCeaFZQ1XWpKiMC2mVphun5YIsSAd+ajbn7tmzwWpGbZ4FKa8DMZo9cbrG5U9OdZpZtleRe
- 4OFQ8PzkRj4cgA72EuQMj30ceDrl0NCJHyBPo2xqbitaZDO+PkeB5isVKvyCRw44FudewtdDvzY
- curIW/BLZDgilmw==
+ bh=W84ukinUJ51e433j/q7HBi699hZcbP1TxUuIsLTTSuw=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoUAXk+l067ic4pERy8pOXfmZc2SFP5Zk3PoJq7
+ 81En4HhsT2JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaFAF5AAKCRDBN2bmhouD
+ 16FOD/0ZTGSCOltZ9CPLHSVGrcrND9/EAZxYyYNKS7n2lwRXCdv711TKFzklJGyEOPKtlhjNgGH
+ /Dvjfbtx6vHTFEcz5MdZGN9vSVgRoWKl55pbOzxB6inkSdEUojs3/CSdYjlcyEJh4AR3er1ZG5r
+ HuXK+5YFt3IQX/sbmhUodNP1jZP11zeA8stiggC/eIPv/HJXDbU1A8B9PM+8L/tn38UcrqpQ3B3
+ 3RtYNcrgcvgQd7PlbVB9t2YubgMjwUFC0gC/ag+/y/eYMns1eKw5q3kPXngqHwRbSBUqsUzRXad
+ 1keaiM89EaRst8l1pqPtK54hCrEHb19vmQFMDT0Pfu6QTiNJrIjVpdnoY6n9qKvo4/UR/4V+jmc
+ qEj/8MW3s2K85Q4dgaVmNHXMgr0Rw7IbV16vzyt8xf2LZ1sUxdo4brq/+d2IsVZDhhveLdDB/EY
+ bsn2JZBw1bfG1RmIRAHtXh5iBjNV2MsfoWeTjJd+miGNWkz9uYDdDUOimLyxsF4p0b7P8yj9v/P
+ We+/G9qBHJkRJe2Z47wCLnBy7n8OUUU+jrAL+panlciAG+rHLNoFcQVoeaWpN5SrMe7OWXMS34e
+ xOPNIw5Ctq00Oi5fBNUhuIjM8J94FSfEWMxlZkEkUqHki0CPveVOQDlRz7jZ95ytObU+dNHDeGw
+ Pn9HC4FYijI5U2g==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Minor cleanup while preparing for adding WCD9378 support: do not use
-enum for values which are not an enumeration.
+The value used to identify chip variant is not an enumeration, but raw
+value used to compare registers with.  The 'enum' is not used in the
+code at all, so simplify and make it a raw hex value define, so
+intention will be explicit.
 
-Best regards,
-Krzysztof
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Krzysztof Kozlowski (4):
-      ASoC: codecs: wcd937x: Use simple defines for chipid register value
-      ASoC: codecs: wcd938x: Use simple defines for chipid register value
-      ASoC: codecs: wcd939x: Use simple defines for chipid register value
-      ASoC: codecs: wcd939x: Add defines for major/minor version decoding
+ sound/soc/codecs/wcd937x.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
- sound/soc/codecs/wcd937x.c |  6 ++----
- sound/soc/codecs/wcd938x.c | 12 +++++-------
- sound/soc/codecs/wcd939x.c | 23 +++++++++++++----------
- 3 files changed, 20 insertions(+), 21 deletions(-)
----
-base-commit: 050f8ad7b58d9079455af171ac279c4b9b828c11
-change-id: 20250616-asoc-wcd93xx-enum-844fe185f0af
+diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
+index a5cf6015122cc9d30526dd4415a2b28353868d74..3b0a8cc314e05934bbffd38876b7ad7e0f444965 100644
+--- a/sound/soc/codecs/wcd937x.c
++++ b/sound/soc/codecs/wcd937x.c
+@@ -24,10 +24,8 @@
+ #include "wcd-mbhc-v2.h"
+ #include "wcd937x.h"
+ 
+-enum {
+-	CHIPID_WCD9370 = 0,
+-	CHIPID_WCD9375 = 5,
+-};
++#define CHIPID_WCD9370			0x0
++#define CHIPID_WCD9375			0x5
+ 
+ /* Z value defined in milliohm */
+ #define WCD937X_ZDET_VAL_32		(32000)
 
-Best regards,
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.45.2
 
