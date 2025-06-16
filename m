@@ -1,281 +1,221 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7EB27FD7C;
-	Mon, 16 Jun 2025 10:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750069885; cv=fail; b=ceRnofTNGAhHtpXvDVmUdHK2QM65i5HnT79A3L/iWGWJwBZbA19n6R4XObUqTdu7YTfZlc67isxMj3XLxCEhTlLHnMPt9BZtPPhN4PKdGM9fD/OfkBq5h9Ta+/4MCm3KG76ulHoJgQnuM06hc9KGuKlt1yKtVVhDUL9NJ4x90pY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750069885; c=relaxed/simple;
-	bh=nDGgEAhmcSwabhpcQM6V9977hTrROj7B3KMC39JQ8QQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BCSl27bONdENGeBMw4BlZMGARna/rX1rYkcWQNVU/DVwwOBIzclZ8OUZHOdbBaHbm3cO/xHwbnH4Q9rCKJhxQVrqaiKGj3idc3saKVU52rX1QpaxELDFC/REYKnkli27TGnZw+J3/HKFbj+w8c7qhkXcb4MPGlKC0qXgVCw7V/Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Sn/WkAVV; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=FWV+HDL2; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Sn/WkAVV";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="FWV+HDL2"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55G752Cs015353;
-	Mon, 16 Jun 2025 05:31:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=hR9NVl4LnE7FvTJa
-	cpH15648Iu4a07Qm/HarD4ghjr0=; b=Sn/WkAVVxyrWIkFOkEWXsSo3swsClVcg
-	Qj5ksS1EVKqiqkW4uBM+H2vSyAy2HjuKpReIXfjtiiJbQJao4JhuWUjYTQz9iRXU
-	Pm9igyh402Ubf6Z5vot/16eUiTpFqx+o1cX0SJ1JxCJsPId14mDN/n2ClopALW4r
-	xHKQV2GFLmiPqP4saHzuHk2xWorQ+xukLlTfmaJAVXb94C6BB3DhH+bbFc8ijejw
-	qNI5Wd6o21by9lyv6jlCzQvXr2LLMbUHyt3WozP/GLeIa3UCTpLsF2832HhAmQzB
-	FNAhpefZZ1bJJ+yRv3HOzrax/8R0plsojukDhImnhut2McmdyYeigQ==
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10on2125.outbound.protection.outlook.com [40.107.93.125])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 47aeja870p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Jun 2025 05:31:07 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HoLJYrLlkm4o95KofUj/d1U8OrqqHh/Unm/L/hVs6hCx0koXL6lh3eyvAMSHqVEOZ+Tmg7bMLAEe37tawWbifr5PdCUT5UJO4aB+lIGH+9wd5tUloXddOQsGryVPKX0gkFXt7B+TJA3XsN1/K8woBAQPoJrnvZgphq/9OBzbPXl2PBqxxvhMPn7sQV7+poC8CSicx8uAo8R0PoXQRMlxH8LZ3KzpNSbrrQW1RjsiA6B+Uv6+aDguxqxVz2vG72n70+2wGD1aaEAlwFu3UmFLDMmHBGeWKqRtwFlqzQVW6p95ZxokwtZic1r/1ZtuNRzAlyeivIMQa6gff8P3ARFm5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hR9NVl4LnE7FvTJacpH15648Iu4a07Qm/HarD4ghjr0=;
- b=JVo9vGzdxxmbCTpe+TBbvlemws/9SI71cOJDCAj9rkOS9bM2LWQ8Dyk0Cto1qRfQ/cad75MhMxDL8xWdLvLkbnYHN5sKwrXlzjro0uBqVAe6S86TK3RQ+WPsCpLFgBAuJSoQTlfQpguMkI6QNRMyBxiYsFMiKfbjylGQFGEsihUf61PjcUR/tcizZCy1L1S2JMGa0FW5wceuz/XOhEopx4c97i6Kw/e8m/QFPK8J8vAXBiSdmDY6Xgxk5zWGAzAd5FQ3b2OdhQYGkGXRDiadyzU5xBD8Gj85+uQvDia9VKjdAAuJLIUA05EP9MypHy2Tnx6pGDJWEQoRq+53l3aRBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hR9NVl4LnE7FvTJacpH15648Iu4a07Qm/HarD4ghjr0=;
- b=FWV+HDL2j24WVHfeRRLffOqVtOT4fNeeYtBjRGwrDoYZh6ZbeMeerEj//RKQ3ST/NcjD2+bRmzWmn9ao6IrVMK+gRZQj+p3XeMfcWJYVLrFVdtSoozrxrx2aVHVo37rqbApJ6zBIjh4ZUt6u1gmnE03A/SRuAf+SinOlaInJ73g=
-Received: from BY5PR13CA0002.namprd13.prod.outlook.com (2603:10b6:a03:180::15)
- by DM6PR19MB4025.namprd19.prod.outlook.com (2603:10b6:5:24b::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.17; Mon, 16 Jun
- 2025 10:31:03 +0000
-Received: from CY4PEPF0000EE3E.namprd03.prod.outlook.com
- (2603:10b6:a03:180:cafe::f9) by BY5PR13CA0002.outlook.office365.com
- (2603:10b6:a03:180::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.21 via Frontend Transport; Mon,
- 16 Jun 2025 10:31:03 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CY4PEPF0000EE3E.mail.protection.outlook.com (10.167.242.16) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.15
- via Frontend Transport; Mon, 16 Jun 2025 10:31:02 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id D7D2C40654F;
-	Mon, 16 Jun 2025 10:31:00 +0000 (UTC)
-Received: from EDIN4L06LR3.ad.cirrus.com (EDIN4L06LR3.ad.cirrus.com [198.61.68.186])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 0BE94820249;
-	Mon, 16 Jun 2025 10:31:00 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH RESEND] firmware: cs_dsp: Remove unused struct list_head from cs_dsp_coeff_ctl
-Date: Mon, 16 Jun 2025 11:30:52 +0100
-Message-ID: <20250616103052.66537-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C6920B80D
+	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 11:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750072412; cv=none; b=PSGyxuFWQtgaKaEmOy2fsFjc+ZS44AIwWFvy2UwiHb1sSo25X+0ryA0thpsATpP3aKPSMFrha9whoH7pWBSY8GpkNuv9PcXQMLcDkUHLc9wwC9hI7z3bNKcrORgOxlF83mQvcmpch1xO0mumdMtFcTwyJ3+pHCl04V0WUfO7HsE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750072412; c=relaxed/simple;
+	bh=qzzpG1yhlTFXLicE/nzP1mHOmttFLdrgk1WXTZk3Vzw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=bnBIbrRHAKURlekQz0pqxRTbTV7WIySU6pevmz3N8ne7hQKOL/3umjz3rO7cDE239tol/q7ADPZWsjRDtSa3+87/eMm5VW66F+LKk4y04nD2crxaXZcYnuhMTZtg5O0mKEWRGRxI3KT+ac9pQpvj5wn930f0cEQZR97itl7H/+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3de121edd59so33742515ab.2
+        for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 04:13:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750072409; x=1750677209;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GZUkox9EnM49K7dAigRfdnYSXpxO3giUILTtq/fBLuA=;
+        b=lcdXv+Ld8Xlnr3/punGrjSveV6+AtJkMLDa6rJxbmB5a/aDvDin1J+rfI201DBRM/y
+         1mNBfgdQxQej1zxlKBt4yB+sDnZv4XQqRJKmTOMvCT0dMA4uip43fEwCXwANySfq4txS
+         7pO6UpAYnB+eJiAGQACTzwXlp6j+FKlZqeSAqQch7n0A4HEkmlGLoZXfWl7oCPngPt7L
+         f5tKtGjoOAtcdkAO/LNO/VBnJzqEev2uNUeLM2jwzFUHly1DhbwRKEyR08l/5IbGjSFn
+         sguzN6t1bA8mlstkhJhsL9odSNgon7RDinmB5iUe7cVG0f8NldUut2oqqkT3+H5lYokX
+         hwIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWwXg+RvNLti2rDNB2hmNenGIBhR090v3d4CHnFbmmkzc6F9mPo2p0tg1IwnmNpbxoairZo5cnUXJAC8A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5uIdim/gUa/kvE4sE7wLjUSxQi4fg3rXUY34pg1nofdPkHWnp
+	RUoOUBR+GtuLJ17iQy37UTJpzRxizu9nutzlyzhaBhXIrPMz4u/UHf2K7SZgfvAPx7BA8r0WWmi
+	SiJgzsjOzNIoMUk/MqPxzsx3r8BMhCDsuvyK0KNs3R9Dv8gJ+/bncQMc5pYY=
+X-Google-Smtp-Source: AGHT+IGCE0zBM/W0w4ZAf+75g9V7Xxd7PM3nFPHwyJgIpRE5vauYkmCpcQs7+SsdMHAF65o0EX2IlbuqvO4rtZWq9LggXBpJ+NzO
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3E:EE_|DM6PR19MB4025:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 592f506a-724c-4344-3041-08ddacc0e484
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|82310400026|61400799027;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?J0QHnACaRCbkU+y+nA5nO1Y0zZTf4x/qF/nwi9IqBPrQknJUaoRzapShS4zW?=
- =?us-ascii?Q?SkW9+N5VhNaxvom+Qms+PQeQ5YXyvlSHVJg+fkBb78MX0ssTlzahsAn66TdQ?=
- =?us-ascii?Q?fojzK+v1LQSUPQPhvo/v7tHvKoG4ZA4r9+pBJQSOg+xXyG74IyP3pLg6hctV?=
- =?us-ascii?Q?C7yVrWG1klI9Nleyi1fLG7dMHiwMcF1XNuKWVFiyhC7RoaQa+Ot4gqgn8LiO?=
- =?us-ascii?Q?DFB22ASTmc+a3cPoFmqtw9ENwHwC333v01CtQWl0AykUFTInRLQGEtwqHzd5?=
- =?us-ascii?Q?FWNCDMaWxEu1TYiUsGv2hKOvQO3mjBephrR4mwpRJGlutbHT+IhcuPFhh+jm?=
- =?us-ascii?Q?Hw2YkD+F6WMULtYVVSPyma7YF0B+VE44965imdSewjVIDasKHuKPhchYdlRt?=
- =?us-ascii?Q?eSbd+mzCoKW74LvFN0bvhBUOeWU6BGwDaDSX5K6qJIX5diBRisWsEty0ZNHD?=
- =?us-ascii?Q?YRPedRVNeNgzSJT9GcvMIL8UbUyFwqCj9G2xgIqO9d7FdXLV/U7LzY3f15s3?=
- =?us-ascii?Q?pjfH8LAZJHSUAFCxKTOwLLZZH+yvsv8QJRFid7VX+pOBPMkc7AOMe2dy4IfC?=
- =?us-ascii?Q?DCN8vylCPzianeA9TIwPpVlEZNDkDMoC+nNi4k8tSZYDl7huUqd1X3TsBrLt?=
- =?us-ascii?Q?X/xU1r8ASS8Y4zryn1t3pv/z82MqamT3IUYR1RI6M8BP7L/aBSjTD8jtvfw2?=
- =?us-ascii?Q?GrHJ/XHNl7mg+Tdhd7cR844KnthPQI9AyVX+t144MK9OZ3753PX7mjTz36o3?=
- =?us-ascii?Q?a2PkcjcpAgFPW8PW1IW/XAewmRroEedDboMY5mfD3Z+Jc5vKIs/Up9+xD1dA?=
- =?us-ascii?Q?pN3tUUT+khY+fa89suIQk2QrXezoYmPzr20TBD9bbKmn/2VVIL3750mgBCAA?=
- =?us-ascii?Q?TqkNdpxFzPqrjCm2lrUO5Xy/joZncmCu8YtAAnDVuxowLaEcebLnVF+D8hnV?=
- =?us-ascii?Q?KyHDypwVkvY1FjEx3NzXwUXNIufjdC7y1bmsMrMSxYNYcAXTdO+c0b3Ija/b?=
- =?us-ascii?Q?G6lySDV/9iyFnOBrJ1txOWUN7YJ4klBfEApwJtB+mDlpBK0tNV0qcHM5F0MQ?=
- =?us-ascii?Q?gxeg4piFZmuuJNpv3MBwT5Bp41l148KEDFuxOYemNKaoiCU+e74FKQsymcBT?=
- =?us-ascii?Q?etET8OnGA5WiGuSEBu8A/gdjyLcSIDcBMHssSXGB4G/kIiM108+ws6o8lE6h?=
- =?us-ascii?Q?OMqESd3GddvWYmuLT1iQEVB3zaMLo6SmzXOO7QGjIDruQHMy2DvWachzw9ly?=
- =?us-ascii?Q?9PE8sEEyBGQ0SxPBy6mqjbeNERLW6CwoBkGOf32fm67yw10curgtcg/g7/TA?=
- =?us-ascii?Q?770SPdp7dtbmJxy9fzJBdHW6dofTm3AZC3yIwS9JPzbyHhmjn/C7EiQ2nwus?=
- =?us-ascii?Q?QM9yUpghv21WhLJeJODu0u+hOgWpOMePcZ5HV5Bz5xDhWhIq0HCMqNiZ382D?=
- =?us-ascii?Q?Z4ek3mFu+D3V3CocxMqmUnqipxpRd0WeNHTMAPKhhjvgrYDUVmBJF3i95L6R?=
- =?us-ascii?Q?XH5D69z84CXGCyNjrITp7nDjws0Sstk61HLw?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(61400799027);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 10:31:02.1082
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 592f506a-724c-4344-3041-08ddacc0e484
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE3E.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR19MB4025
-X-Proofpoint-ORIG-GUID: aWgghXMoG8of_lv1k-hY6ZQU0UPnfCix
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDA2NiBTYWx0ZWRfX5rtbS+5rHWGb wwKZbqLDRdhIUR54wpz6/QJOoWWpmA67klVhqWRxGOdVkWgtU4Eo4A++XxJXSPDiAyloHtlmvvG wrShDMWv0rCktecdsQW/WbNYxQa/+H44lwUeuylEUZHYMSimCcgTPE+PG/pj8oRUoklsjbiHAVy
- A+mgG5zpQH2x6syzdm3bdWS5F5pwqbkAlkxsiSoAsGtbhX9+GkSz5IRrp9Tj8PLl8eFJi+pllOo JNtU6T27XQiFylX+arixIA/ndJdS1hm7toMKuSQrBLl5aPvO45a2YPVtbcVFxPgVlRsh6KZFqlf BjKzLyaphDeH3AJ5H3w4uUgwgEmjh9ysZiK4AzVGpxTLs6Bxn3eWNqIO4vK40pTi+fVESQFYvK1
- 2jafTQVRUN9jccy59PkjIIYLPmhQ5NBhdfSygfa9tiSZIy2Id6eUXlCfQwFQ4uhw/SKoCoA7
-X-Proofpoint-GUID: aWgghXMoG8of_lv1k-hY6ZQU0UPnfCix
-X-Authority-Analysis: v=2.4 cv=OvpPyz/t c=1 sm=1 tr=0 ts=684ff26b cx=c_pps a=3C69hXDWRDSes6eSmwOwlw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=6IFa9wvqVegA:10
- a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=m3vUYHqNXDkfss99RkQA:9
-X-Proofpoint-Spam-Reason: safe
+X-Received: by 2002:a05:6e02:198d:b0:3dc:7fa4:804 with SMTP id
+ e9e14a558f8ab-3de07ced6acmr95367675ab.16.1750072409701; Mon, 16 Jun 2025
+ 04:13:29 -0700 (PDT)
+Date: Mon, 16 Jun 2025 04:13:29 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <684ffc59.a00a0220.279073.0037.GAE@google.com>
+Subject: [syzbot] [sound?] kernel BUG in filemap_fault (2)
+From: syzbot <syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-Remove two unused pointers from struct cs_dsp_coeff_ctl by taking the
-struct list_head out of struct cs_dsp_alg_region. On a x86_64 build
-this saves 16 bytes per control.
+Hello,
 
-Each cs_dsp_coeff_ctl instance needs to keep information about the
-algorithm region it refers to. This is done by embedding an instance
-of struct cs_dsp_alg_region. But cs_dsp_alg_region was also used to
-store entries in a list of algorithm regions, and so had a struct
-list_head object for that purpose. This list_head object is not used
-with the embedded object in struct cs_dsp_alg_region so was just
-wasted bytes.
+syzbot found the following issue on:
 
-A new struct cs_dsp_alg_region_list_item has been defined for creating
-the list of algorithm regions. It contains a struct cs_dsp_alg_region
-and a struct list_head.
+HEAD commit:    488ef3560196 KEYS: Invert FINAL_PUT bit
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1503a10c580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=162faeb2d1eaefb4
+dashboard link: https://syzkaller.appspot.com/bug?extid=263f159eb37a1c4c67a4
+compiler:       Debian clang version 20.1.6 (++20250514063057+1e4d39e07757-1~exp1~20250514183223.118), Debian LLD 20.1.6
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/10b92ce8eca6/disk-488ef356.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4d4223a305b2/vmlinux-488ef356.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/b4a8f82f3ac9/bzImage-488ef356.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com
+
+ lookup_one_qstr_excl fs/namei.c:1711 [inline]
+ do_renameat2+0x470/0xc50 fs/namei.c:5234
+ __do_sys_rename fs/namei.c:5324 [inline]
+ __se_sys_rename fs/namei.c:5322 [inline]
+ __x64_sys_rename+0x82/0x90 fs/namei.c:5322
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+------------[ cut here ]------------
+kernel BUG at mm/filemap.c:3442!
+Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
+CPU: 0 UID: 0 PID: 7049 Comm: syz.2.293 Not tainted 6.16.0-rc1-syzkaller-00005-g488ef3560196 #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
+RIP: 0010:filemap_fault+0x117d/0x1200 mm/filemap.c:3442
+Code: 38 c1 0f 8c 8e fc ff ff 4c 89 e7 e8 ad 64 29 00 e9 81 fc ff ff e8 23 18 c8 ff 48 89 df 48 c7 c6 20 30 94 8b e8 c4 a7 0d 00 90 <0f> 0b e8 0c 18 c8 ff 48 8b 3c 24 48 c7 c6 a0 36 94 8b e8 ac a7 0d
+RSP: 0018:ffffc90004b073c0 EFLAGS: 00010246
+RAX: f04d382b8d45cd00 RBX: ffffea0001dae580 RCX: f04d382b8d45cd00
+RDX: 0000000000000000 RSI: ffffffff8db594ef RDI: ffff888027438000
+RBP: ffffc90004b074f8 R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffffbfff1bfa9ec R12: dffffc0000000000
+R13: 1ffffd40003b5cb1 R14: ffffea0001dae598 R15: ffffea0001dae588
+FS:  00007f5736abb6c0(0000) GS:ffff888125c86000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00002000000069e2 CR3: 0000000028984000 CR4: 00000000003526f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __do_fault+0x135/0x390 mm/memory.c:5189
+ do_read_fault mm/memory.c:5610 [inline]
+ do_fault mm/memory.c:5744 [inline]
+ do_pte_missing mm/memory.c:4251 [inline]
+ handle_pte_fault mm/memory.c:6089 [inline]
+ __handle_mm_fault+0x37ed/0x5620 mm/memory.c:6232
+ handle_mm_fault+0x2d5/0x7f0 mm/memory.c:6401
+ do_user_addr_fault+0x764/0x1390 arch/x86/mm/fault.c:1387
+ handle_page_fault arch/x86/mm/fault.c:1476 [inline]
+ exc_page_fault+0x76/0xf0 arch/x86/mm/fault.c:1532
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0010:rep_movs_alternative+0xf/0x90 arch/x86/lib/copy_user_64.S:46
+Code: c4 10 c3 cc cc cc cc cc cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 48 83 f9 40 73 44 83 f9 08 73 25 85 c9 74 0f <8a> 06 88 07 48 ff c7 48 ff c6 48 ff c9 75 f1 e9 fd f6 03 00 66 2e
+RSP: 0018:ffffc90004b07978 EFLAGS: 00050202
+RAX: 00007ffffffff001 RBX: 0000000000000001 RCX: 0000000000000001
+RDX: 0000000000000001 RSI: 00002000000069e2 RDI: ffff8880297ba722
+RBP: 00000000000088de R08: ffff8880297ba722 R09: 1ffff110052f74e4
+R10: dffffc0000000000 R11: ffffed10052f74e5 R12: 0000000000000000
+R13: 0000000000000001 R14: ffff8880297ba722 R15: 00002000000069e2
+ copy_user_generic arch/x86/include/asm/uaccess_64.h:126 [inline]
+ raw_copy_from_user arch/x86/include/asm/uaccess_64.h:141 [inline]
+ _inline_copy_from_user include/linux/uaccess.h:178 [inline]
+ _copy_from_user+0x7a/0xb0 lib/usercopy.c:18
+ copy_from_user include/linux/uaccess.h:212 [inline]
+ snd_rawmidi_kernel_write1+0x3ab/0x650 sound/core/rawmidi.c:1560
+ snd_rawmidi_write+0x5ad/0xbd0 sound/core/rawmidi.c:1629
+ do_loop_readv_writev fs/read_write.c:850 [inline]
+ vfs_writev+0x4b3/0x960 fs/read_write.c:1059
+ do_writev+0x14d/0x2d0 fs/read_write.c:1103
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5735b8e929
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f5736abb038 EFLAGS: 00000246 ORIG_RAX: 0000000000000014
+RAX: ffffffffffffffda RBX: 00007f5735db5fa0 RCX: 00007f5735b8e929
+RDX: 0000000000000002 RSI: 0000200000000840 RDI: 000000000000000a
+RBP: 00007f5735c10b39 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 00007f5735db5fa0 R15: 00007ffe2d0cdd08
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:filemap_fault+0x117d/0x1200 mm/filemap.c:3442
+Code: 38 c1 0f 8c 8e fc ff ff 4c 89 e7 e8 ad 64 29 00 e9 81 fc ff ff e8 23 18 c8 ff 48 89 df 48 c7 c6 20 30 94 8b e8 c4 a7 0d 00 90 <0f> 0b e8 0c 18 c8 ff 48 8b 3c 24 48 c7 c6 a0 36 94 8b e8 ac a7 0d
+RSP: 0018:ffffc90004b073c0 EFLAGS: 00010246
+RAX: f04d382b8d45cd00 RBX: ffffea0001dae580 RCX: f04d382b8d45cd00
+RDX: 0000000000000000 RSI: ffffffff8db594ef RDI: ffff888027438000
+RBP: ffffc90004b074f8 R08: 0000000000000003 R09: 0000000000000004
+R10: dffffc0000000000 R11: fffffbfff1bfa9ec R12: dffffc0000000000
+R13: 1ffffd40003b5cb1 R14: ffffea0001dae598 R15: ffffea0001dae588
+FS:  00007f5736abb6c0(0000) GS:ffff888125c86000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00002000000069e2 CR3: 0000000028984000 CR4: 00000000003526f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	10 c3                	adc    %al,%bl
+   2:	cc                   	int3
+   3:	cc                   	int3
+   4:	cc                   	int3
+   5:	cc                   	int3
+   6:	cc                   	int3
+   7:	cc                   	int3
+   8:	cc                   	int3
+   9:	cc                   	int3
+   a:	90                   	nop
+   b:	90                   	nop
+   c:	90                   	nop
+   d:	90                   	nop
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	90                   	nop
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	90                   	nop
+  16:	90                   	nop
+  17:	90                   	nop
+  18:	90                   	nop
+  19:	90                   	nop
+  1a:	48 83 f9 40          	cmp    $0x40,%rcx
+  1e:	73 44                	jae    0x64
+  20:	83 f9 08             	cmp    $0x8,%ecx
+  23:	73 25                	jae    0x4a
+  25:	85 c9                	test   %ecx,%ecx
+  27:	74 0f                	je     0x38
+* 29:	8a 06                	mov    (%rsi),%al <-- trapping instruction
+  2b:	88 07                	mov    %al,(%rdi)
+  2d:	48 ff c7             	inc    %rdi
+  30:	48 ff c6             	inc    %rsi
+  33:	48 ff c9             	dec    %rcx
+  36:	75 f1                	jne    0x29
+  38:	e9 fd f6 03 00       	jmp    0x3f73a
+  3d:	66                   	data16
+  3e:	2e                   	cs
+
+
 ---
- drivers/firmware/cirrus/cs_dsp.c       | 45 ++++++++++++++------------
- include/linux/firmware/cirrus/cs_dsp.h |  2 --
- 2 files changed, 25 insertions(+), 22 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/firmware/cirrus/cs_dsp.c b/drivers/firmware/cirrus/cs_dsp.c
-index 560724ce21aa..f51047d8ea64 100644
---- a/drivers/firmware/cirrus/cs_dsp.c
-+++ b/drivers/firmware/cirrus/cs_dsp.c
-@@ -311,6 +311,11 @@ static const struct cs_dsp_ops cs_dsp_adsp2_ops[];
- static const struct cs_dsp_ops cs_dsp_halo_ops;
- static const struct cs_dsp_ops cs_dsp_halo_ao_ops;
- 
-+struct cs_dsp_alg_region_list_item {
-+	struct list_head list;
-+	struct cs_dsp_alg_region alg_region;
-+};
-+
- struct cs_dsp_buf {
- 	struct list_head list;
- 	void *buf;
-@@ -1752,13 +1757,13 @@ static void *cs_dsp_read_algs(struct cs_dsp *dsp, size_t n_algs,
- struct cs_dsp_alg_region *cs_dsp_find_alg_region(struct cs_dsp *dsp,
- 						 int type, unsigned int id)
- {
--	struct cs_dsp_alg_region *alg_region;
-+	struct cs_dsp_alg_region_list_item *item;
- 
- 	lockdep_assert_held(&dsp->pwr_lock);
- 
--	list_for_each_entry(alg_region, &dsp->alg_regions, list) {
--		if (id == alg_region->alg && type == alg_region->type)
--			return alg_region;
-+	list_for_each_entry(item, &dsp->alg_regions, list) {
-+		if (id == item->alg_region.alg && type == item->alg_region.type)
-+			return &item->alg_region;
- 	}
- 
- 	return NULL;
-@@ -1769,35 +1774,35 @@ static struct cs_dsp_alg_region *cs_dsp_create_region(struct cs_dsp *dsp,
- 						      int type, __be32 id,
- 						      __be32 ver, __be32 base)
- {
--	struct cs_dsp_alg_region *alg_region;
-+	struct cs_dsp_alg_region_list_item *item;
- 
--	alg_region = kzalloc(sizeof(*alg_region), GFP_KERNEL);
--	if (!alg_region)
-+	item = kzalloc(sizeof(*item), GFP_KERNEL);
-+	if (!item)
- 		return ERR_PTR(-ENOMEM);
- 
--	alg_region->type = type;
--	alg_region->alg = be32_to_cpu(id);
--	alg_region->ver = be32_to_cpu(ver);
--	alg_region->base = be32_to_cpu(base);
-+	item->alg_region.type = type;
-+	item->alg_region.alg = be32_to_cpu(id);
-+	item->alg_region.ver = be32_to_cpu(ver);
-+	item->alg_region.base = be32_to_cpu(base);
- 
--	list_add_tail(&alg_region->list, &dsp->alg_regions);
-+	list_add_tail(&item->list, &dsp->alg_regions);
- 
- 	if (dsp->wmfw_ver > 0)
--		cs_dsp_ctl_fixup_base(dsp, alg_region);
-+		cs_dsp_ctl_fixup_base(dsp, &item->alg_region);
- 
--	return alg_region;
-+	return &item->alg_region;
- }
- 
- static void cs_dsp_free_alg_regions(struct cs_dsp *dsp)
- {
--	struct cs_dsp_alg_region *alg_region;
-+	struct cs_dsp_alg_region_list_item *item;
- 
- 	while (!list_empty(&dsp->alg_regions)) {
--		alg_region = list_first_entry(&dsp->alg_regions,
--					      struct cs_dsp_alg_region,
--					      list);
--		list_del(&alg_region->list);
--		kfree(alg_region);
-+		item = list_first_entry(&dsp->alg_regions,
-+					struct cs_dsp_alg_region_list_item,
-+					list);
-+		list_del(&item->list);
-+		kfree(item);
- 	}
- }
- 
-diff --git a/include/linux/firmware/cirrus/cs_dsp.h b/include/linux/firmware/cirrus/cs_dsp.h
-index 7cae703b3137..a66eb7624730 100644
---- a/include/linux/firmware/cirrus/cs_dsp.h
-+++ b/include/linux/firmware/cirrus/cs_dsp.h
-@@ -64,14 +64,12 @@ struct cs_dsp_region {
- 
- /**
-  * struct cs_dsp_alg_region - Describes a logical algorithm region in DSP address space
-- * @list:	List node for internal use
-  * @alg:	Algorithm id
-  * @ver:	Expected algorithm version
-  * @type:	Memory region type
-  * @base:	Address of region
-  */
- struct cs_dsp_alg_region {
--	struct list_head list;
- 	unsigned int alg;
- 	unsigned int ver;
- 	int type;
--- 
-2.43.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
