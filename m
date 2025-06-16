@@ -1,163 +1,147 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010022.outbound.protection.outlook.com [52.101.228.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B0C28E0F
-	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 06:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750053782; cv=fail; b=rfT8qQBdmUUumhWkYBRfXYgYel4cvXjRRXI3ovOFGicq6z9tfwPJBcnwsza7cw85DwjM6Q1Y927HJAW1wFr2yEBnA8lLd1Ae+BlzrPRXxNkzkorHE1ZQzEc04U/98d3u4XXZerU2oa8p2YV+5POM/npFZwh+GMjhFHw7FtMFwHM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750053782; c=relaxed/simple;
-	bh=Lib7g+5gS3uLEPJO6tEnhCrQA0b9Q9SdoYvdCkD+GIk=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=T2rFA16Jjd2cCZdlzmHGzWiOB90XCEkxEycQTOxzWPH0uyYFzZZIQdV9Bkv5KHTLKLaJwlp6TlN74RVDRmTngoqcZLOCpETzyv/pd5xEJFWTl9Fzg83OLS9yO5jHrfsxom0TKPHDaf5LUP86UmJrnrjfNjrqKYVOQRj4aiEEoLA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=e1qbtwjQ; arc=fail smtp.client-ip=52.101.228.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2FE1D63F7
+	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 06:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750055203; cv=none; b=B5peM8Jo3atWuqUzZbP9EHl52fgNn5Tb1UA42AjlZNNC1wmFMEbWz9qFK0/A6x4W3bZch8wkAbHR8LAm8ZFyVKpwgGVkIMjJy87YG21uOvbKEaTDgLQqSbUV0k1u+WTntsG4EkfgTaqMfNkwYGcluvoBfezx5gWD0A88t3k/RqM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750055203; c=relaxed/simple;
+	bh=Cd5DJ8GhGdAJV/3P+e6FI2qK0V5T4ipeUo4EYkbuzUM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Aa3MuHDSZf1KGhk7/lFDqD2CD+KYXMtyJZ0zEQ7FWeJQFrrjeLjONAYDz6SzPYBQr+d4eJpjiv7HCLHPPuv0MuCGgljTFaBvV0szULHWKUcG6VuIHLugm+/ivdj4BleMi+g8tWK4BV/HtJz66cC/a8K+SbWJ+kgcbUGOrFRL0Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HC+49SZX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hu6tLGIk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rcifyaT3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=P8Ndl+ub; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="e1qbtwjQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yLeOndpy4P9cnvptUiRn6sD6gou2ElixeMqzYkJ79X7lEB1AuRYOJlIXLzvgpajf40aj9Khg7aZLshWMoDHe9BSbEz9CSz2cEuTDjjyvEbHA+mhaf5olIxpY/jZVRY0vcL4cqNP2AXM5peZ2bwo/abcBagLX2c6ktTwlrx9QP/YnYFUt91rUayF7l0IUS6zHEEZQEV++4OwdXsDxGUVpY6TBx9O8enLFoN9e1amd94lW8HOP6TPLCyA6K6NrrqL3JQeVD49kUPwzaPH/weeBneTE2REi9EYf/x+ap97C3Pm3ewKP7xL+b5Esl36o/0RTiHOgyPzWFUlrhHJfgRlskA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z5ZaAaRj0TBFP1LcCtvoEM/mQ4bPA7uQmDtNDwqGApg=;
- b=NF2oylVqPukfUex08muoz060n5KUWXe24Ry5Vr2fDymXZyf9D0Kt+7I/mFT3WMz55WfZWN8iWgkMsKMic8sH7TNf9h7pIA5kiw7o5EinTA8ePw2NJgeFL2DHo5waD9/29k9o2bXG48kOYxSQXWCsLiZbiA8292SIBzpS0b7mKIputKspGEazsKVyMdOdfntUw9fPVebkmZslLspff3TsQOS3Er65Ek0i8Uxh8DdRYwtJ+VV5fZj6z04T4W0ve3NUI+q5SweqLQo+N/uEeZ7XNxhDsOF19wAVUwh/+E+dW/n6ZusYHiZcSuC7QuhjCSdCzAUXdkGK4AwrxukeEZxixA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z5ZaAaRj0TBFP1LcCtvoEM/mQ4bPA7uQmDtNDwqGApg=;
- b=e1qbtwjQmf8KKPKiNGadrQsorukEjzLB+qnwEQ8edAioWGd8izLbBdEs7p7sqXD52LcSe3P1OU0+cJIzbmWyK92VHLvQHdxSnjTfRG6M7H37T+0TcJQsFzDJX+q0SNTThZaOTsi8724A3PWY8SumWgsv8Vk43KE4b6RUaOrIcH8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB10214.jpnprd01.prod.outlook.com
- (2603:1096:400:1ee::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Mon, 16 Jun
- 2025 06:02:57 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8835.027; Mon, 16 Jun 2025
- 06:02:57 +0000
-Message-ID: <874iwgp6jz.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: soc-ops-test: dynamically allocate struct snd_ctl_elem_value
-In-Reply-To: <174983355578.217351.13383396626687362293.b4-ty@kernel.org>
-References: <87sek489l8.wl-kuninori.morimoto.gx@renesas.com>
-	<174983355578.217351.13383396626687362293.b4-ty@kernel.org>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 16 Jun 2025 06:02:56 +0000
-X-ClientProxiedBy: TYCP286CA0178.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c6::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HC+49SZX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hu6tLGIk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rcifyaT3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P8Ndl+ub"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A40981F38F;
+	Mon, 16 Jun 2025 06:26:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750055193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TM8BnJnwLihHgKpZh1N/pfWX8smWwKIHYxEZVvlFanY=;
+	b=HC+49SZXn2eD695SFgZF2P7Aux/mSC+0uzAmjd/djhwhqXr3BTEY4CVHyjfH7ypZNXGymt
+	YiAn84/Xz1QPikKo+3RghEjFMYb2gQUP1eBkCxq9Q5XXvU4iIMO9YBTe96SlAgXE6c2gVm
+	nWr7AYwQEBR+ky5MsPhvHZrrXViitFY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750055193;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TM8BnJnwLihHgKpZh1N/pfWX8smWwKIHYxEZVvlFanY=;
+	b=hu6tLGIk7Eck1KrXI3uz6k5aFBKNymvqTgWgGGYWwXoxLwIZoOyHxbbxQtSqnUeocBYdzc
+	NRiU1Sckv49KDcAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750055192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TM8BnJnwLihHgKpZh1N/pfWX8smWwKIHYxEZVvlFanY=;
+	b=rcifyaT3tOUGB0al4+wj+Nmq0HJ+azO6Q+ClMVf118YnKDVs8/SCJjL29VWRpD8SmwFiW1
+	5+WDhDWziYOkFF3mAn1ejB2E+CB09BxsbhUEZGpb7Qlx/yOkGTwdOi34RQefoj5d9jMPkG
+	pxKL0MveSLfaqoLjFEn/Owbs7woBX8k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750055192;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TM8BnJnwLihHgKpZh1N/pfWX8smWwKIHYxEZVvlFanY=;
+	b=P8Ndl+ubhZhzsVH7w3ddyXA7bVC1Q1Dk9e6CHSyl2jsLl2+NT3YQFfFuUvtCvrnyPDlSLJ
+	gdNQf+VtPmTs4jCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E705139E2;
+	Mon, 16 Jun 2025 06:26:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WA2IGRi5T2jzEgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 16 Jun 2025 06:26:32 +0000
+Date: Mon, 16 Jun 2025 08:26:32 +0200
+Message-ID: <87o6uop5gn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] ALSA: pcm: Replace [audio_]tstamp_[n]sec by struct __snd_timespec64 in struct snd_pcm_mmap_status_x32
+In-Reply-To: <e46139ed61bc52fab51babadb8b656fa1aa15506.1750050658.git.christophe.leroy@csgroup.eu>
+References: <e46139ed61bc52fab51babadb8b656fa1aa15506.1750050658.git.christophe.leroy@csgroup.eu>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB10214:EE_
-X-MS-Office365-Filtering-Correlation-Id: b047955f-1ac2-4da7-6c8e-08ddac9b70da
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?L0Crhiy22bqJkT4uvJqRLQksfYI/H2Uqsx/WDeuYIl6XkZG/EWBRsGiVT0Kz?=
- =?us-ascii?Q?gSDbja0Kgnw/NBS0+ENQxIawkSY4FqMfCsz4Vu/y82pMJlLAIj6vpN90HTHq?=
- =?us-ascii?Q?oQCVZZ2PDKu4+njU6JcsUNd3rbXCwsu12V+ZHUNEX3mxtMMM2eoxMG2UowwK?=
- =?us-ascii?Q?M2cCvfnJr/ugGzSeJyNDLcCpKvmlsEXsm7fbVs501oy1MA5515TL7SkJzVn1?=
- =?us-ascii?Q?Qr0QwMAp8JHN+z2c/iMs8wmILZSWYWljaRN9le+TGL4vpZKKDWCr4O7uncgF?=
- =?us-ascii?Q?h7LJNHqKnhF5j+xZZDxN7YwWVuVwoiMHi/fYdt86LUea3pOBaYCWmJPSSlrZ?=
- =?us-ascii?Q?NzxN79fVJvmM3oVwzROvlg+jRoWO7LUSijZG/eoaIphEwdVNlx7ASgcLPPA/?=
- =?us-ascii?Q?1zCeTXwm7jhCMl749Od4K+3vtcwP0LyjBwOA2ISse0MIg/S6ZnUT7b5f2+op?=
- =?us-ascii?Q?x6Ojo2QMHNwn+v0m7eQbASG6g7FSoOa1mixz2LcX7+86ceopU+3/bSl0YO89?=
- =?us-ascii?Q?KWbqQ3hDJNpVymbQPgZ00tiBzgPVJkcHbpcaw88wN8D+ZsKlkQw3qDpJ1nR9?=
- =?us-ascii?Q?pGTQLMF5VQgBt01JBur04aRzjLlzsKX9/Hn8L5fERngYRVM33Eu3WxXcwErT?=
- =?us-ascii?Q?og2uhc+TT5jObasds4bysM0OLim6AJ32oujG+VxCBR1yjpEg6nrLc9MrZ+j8?=
- =?us-ascii?Q?5lnh6tjgBXVUrGZ53MQXN096PEKuo2uY0sezPcqA675Jb9G9xZfVry5/u9xk?=
- =?us-ascii?Q?0M9NtZIm2V1kpqXJPrlLMFEN5RXwXd86yg8CX7r/yEqdno2lhJdjHgckGtOw?=
- =?us-ascii?Q?LCLlmXrYxR2uL8w9Iri3n4ee9/PWB4jvboB31BwjJNbDoYDpd+INwGGNGW25?=
- =?us-ascii?Q?FKPEivo+YKBTebxXNUZ8zvT8j9WDwHHb8vrUlVbvXqx6IJySRo6mZuFN68uw?=
- =?us-ascii?Q?+jT4opz/9pwlrizWX9t1s7X6g7kZ77hbqBvoD7Hub2u3PRlWfRiVzOCV0kYp?=
- =?us-ascii?Q?X/SX+ivZOmaSJ7UxvICo4+PRBSxBHtww6VXLY+XJ8iFGAHf1rf1FkaAwxnMT?=
- =?us-ascii?Q?Sz0g19N+eWc7V6Lizo0Zae2naHTESr/gAPsd+grwYCkAqR+JtwLUyyiGffB/?=
- =?us-ascii?Q?S6QNJ8gtLspSJ9fE1QfhZ4TTontFUy0U0l4WOPF38H/m14V19oDcAfQK3ZIw?=
- =?us-ascii?Q?8ZOA5WjEGySoyebRafFhOtfmplCvRBqP1ZdX7AFdhmh10qam9ZrtK0Nz3i5H?=
- =?us-ascii?Q?/kG1y1gsAQrVR8nCq6CF7E9TsxXh9wJYBpXeDUpYGx1mF2oJSC/+8YfzoZZp?=
- =?us-ascii?Q?YdU5ATWnzMpwKSCRWbxXhQDX+c/oA6SSZsTVuhXfKbAfYsQnpokEPUeJujgb?=
- =?us-ascii?Q?VOA+mddUWLoaibfvuEiXcLk29bSLUlh406rNfYfBwPv1Jod2LXA0+1VORIl/?=
- =?us-ascii?Q?caWODLrLMagxKGS62WQYg++XW47PXoin+SlUSXwjEa6SwdZKq0cFlA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lFQ9yUxa2IAPmzrwH+0SfoleYbDbhOTUNog9uzO5JgWTxNBuOmUC/HnXQNDr?=
- =?us-ascii?Q?cXv8AQyQIQj0MPoWlR6UuMT/tK7seOp2HCwdX5nuGORdC98JAIYZlb3RUY6E?=
- =?us-ascii?Q?+dmaKPj9qMwSbdvbfnuYmFgOp47OBUm7PDdGEYUwsK98m9ntJBbJcnVN5mJu?=
- =?us-ascii?Q?y6JpwSw0h2htNaq5u5PUJaQA4aSPKZ/ndlsUqwAVOV/1t+Qww338tAW0NWqv?=
- =?us-ascii?Q?2Og4ZA5eaBZZOPsjil/UA7hqnc6v24zjf8Y//Ti3XZZwWnULJnRBBsRxq3mx?=
- =?us-ascii?Q?X1XwKeg7405LhWCYVDOEk1YG46nRs3gVD5JhyXybYfdMkopqU8UjW1urRHb9?=
- =?us-ascii?Q?m3r1kWbl9oMsgpz7WrCZaFNRhs49v1EpqePD/qavN+7Kp3qNTca3IQ7Akt/r?=
- =?us-ascii?Q?dfjtpdoh0QsRa559kgmiqlqsMYMAkl6CLsH6WTtrI4SFaMJorQvF4TpQkZlp?=
- =?us-ascii?Q?l8r7Cy0heBZGUhmXQ45uoxRgN775CEg5gbhTkWdHMywUErHCy44X/ncldryZ?=
- =?us-ascii?Q?6jzHepwSv76RwkEOLCZrz2BRyfaQS4YsOsA1/YEb6IYQ9zL3nZRfhb1T48Rs?=
- =?us-ascii?Q?+xUt/Mi+vPPd7+r5FzRgXVPdS2yihNFyjaUbgXA7PEKfOCHREe1/j23AjpHw?=
- =?us-ascii?Q?JkgYsmhp4ThKbBpAu5JpBuylf9AEhFZblTLSprUlLgGkD58CJpEip/vMj1WR?=
- =?us-ascii?Q?1uVBKFTVT3F4mJpNRKBj7x5SP6EwE8/gHfRIEJqtFqcH8ybRUw6ThuhgynA3?=
- =?us-ascii?Q?CIi7fV0cxXij+WRvZI+1x9+qy48MoVw0JfuU7Ix6XKk1m/PfHH10FxvtafIX?=
- =?us-ascii?Q?GLuxlfEKAY8oIqcMHFXq7RmI4NkMs6VVy4jY07cQj9n0iJc+QMBll9Xr8Tdg?=
- =?us-ascii?Q?Vyv2yWLCGXa5RnpioTCmnKTW84xbvWTvp1pZRD2aycx9OmsSsd04D2BtD/fD?=
- =?us-ascii?Q?M8RSlS8Ivdp2GCNK8Lc7ZySi4T50BCA8PUg+xvx1N1/n7DO9Ny8SlA04v87T?=
- =?us-ascii?Q?jc7bt4JS40GxZIUgrmc8TjPBZxKnsqu8VadPyg/jmPRY92yxbS6yk0D8DdT6?=
- =?us-ascii?Q?sQcqdaoQL+Ix7oq17QAb+QAQy0Kim2Ea2Ii7+vv96m9Szk9Yi/8yTKmHdrVO?=
- =?us-ascii?Q?FLpSlayl2cWlcwFI4eqCZ7cI88A4ofALKLusJM6uk7j4YM3ZWOFvoJAcs9Jk?=
- =?us-ascii?Q?6uQJhbMDR4KjzVI7RjyCiA6PfRHZWCBtspjpu4BCLDGjcZiAXRRRHP9/d5Rx?=
- =?us-ascii?Q?1XYdjcBd6KmtHzOI2sx9NPRrMJX6CbjpH5IiU3zq0WqtS/q+4R+EXbfSbiLN?=
- =?us-ascii?Q?l+hJqWnzVgR4RLeLD7j8UvQXVPqOBMNZwrlwPzoXu4ONDfSAQNx5GhlbRxUX?=
- =?us-ascii?Q?ycA/A4wqhsWr2pN1e4cLqk9+Twmyu8vSetIj5xT6qX3CBrfX9iNl5ASYXFXC?=
- =?us-ascii?Q?9pCF7A12s76xZxtQ0dGM1+DE5WmDlOAHn6rp+2WdbQAqax5iXsFmip4PYxr6?=
- =?us-ascii?Q?iWGjOgCt+oTes+8chfg1fxygRJDj82SMWSYVxYs+ReNdcQw0Lw90pQdxORyA?=
- =?us-ascii?Q?21QZddwl3OloAjwtUkj/V6HgVoWOsKru8J6FhswKt11SRub/x8edx7x3xq5L?=
- =?us-ascii?Q?4NuwzvZcEyUbuhpH9e4D+ow=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b047955f-1ac2-4da7-6c8e-08ddac9b70da
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 06:02:57.1760
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X9SFIYgAiOTjP3tjRm1e5t9uAci/EgJLVJTjebdeJ3g8rXMdlnKbDyoU19+CGwwC9I/sOpIIfSstvs0IZG4baRwgiVmN+/+rrt5QqMC+OoZF0yof0IEmW+k3S0cUzYOT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10214
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-7.30 / 50.00];
+	REPLY(-4.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -7.30
 
-
-Hi Mark
-
-Thank you for your work
-
-> > This structure is really too larget to be allocated on the stack:
-> > 
-> > 	linux/sound/soc/soc-ops-test.c:520:1: error: the frame size of\
-> > 	1304 bytes is larger than 1280 bytes
-> > 	[-Werror=frame-larger-than=]
-> > 
-> > Change the function to dynamically allocate it instead.
-> > 
-> > [...]
+On Mon, 16 Jun 2025 07:12:23 +0200,
+Christophe Leroy wrote:
 > 
-> Applied to
+> To match struct __snd_pcm_mmap_status and enable reuse of
+> snd_pcm_sync_ptr_get_user() and snd_pcm_sync_ptr_put_user() by
+> snd_pcm_sync_ptr() replace tstamp_sec and tstamp_nsec fields by
+> a struct __snd_timespec64 in struct snd_pcm_mmap_status_x32.
+> Do the same with audio_tstamp_sec and audio_tstamp_nsec.
+> 
+> This is possible because struct snd_pcm_mmap_status_x32 is packed
+> and __SND_STRUCT_TIME64 is always defined for kernel which means
+> struct __snd_timespec64 is always defined as struct __kernel_timespec
+> which is:
+> 
+> 	struct __kernel_timespec {
+> 		long long tv_sec;
+> 		long long tv_nsec;
+> 	};
+> 
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Fixes: a0f3992ee86e ("ALSA: pcm: Replace [audio_]tstamp_[n]sec by struct __snd_timespec in struct snd_pcm_mmap_status32")
+> Closes: https://lore.kernel.org/all/20250616130126.08729b84@canb.auug.org.au/
+> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> ---
+> Might be squashed with a0f3992ee86e if you happen to rebase sound tree.
 
-This patch is needed to latest linus/master tree, too.
+Since your patches are the last ones, I rebased now exceptionally.
 
-Best regards
----
-Kuninori Morimoto
+
+thanks,
+
+Takashi
