@@ -1,35 +1,35 @@
 Received: from RTEXH36505.realtek.com.tw (211-75-126-119.hinet-ip.hinet.net [211.75.126.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D242E6D0B
-	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 11:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5BC25E450
+	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 11:48:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750074439; cv=none; b=N5an8UBuV6x3+mUI/nsR9NIVj0olgc1JUo9BfclS+cP29ZV0Q4UjwF6gbomxubwZwvLapkFjahmKE4ws9Y61qLKw4TSpo5yy2qR+UTbYJAB0T6NIBiNBXooNZAlKd+HoBeMWEytZoa+HU5ARYoyYFgkBd27h0b3B1+ankf+W9zM=
+	t=1750074514; cv=none; b=cJBr8ItFy68A85Ml2qabctdAN6QsjL3Bl+T2AtJ0slN7FkIjew0H2FUS3u7/Dua9d8A/cJPuLUuaq2KlcdZrTY2b5Qf81H51svMRF0+3LhdH4nkmXwUgS4BWXa8hTsUdEq3lVoPeIPhUvEPFdhXcBlfhaJk5MP1BDoTtGjq2Ks0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750074439; c=relaxed/simple;
+	s=arc-20240116; t=1750074514; c=relaxed/simple;
 	bh=mvMyuNg94BklKOPlJXP3sYnPivgs5U3VtPtKH8ePR4M=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=X5gjqix+rW2aRk+LqKwWI9jyb7Z3RQBH4WitE0O+RFdnlt7zbsQFflCOGojVEhRJXrbHYJyryjog7WDhoMGcEdM+HbpRMt4tbELrhMIyUqJwh0eQfZqbc5OVpvFeGs2iLGh0FsOorj+U6MF6p/IOcoLbrtDNjVSz+guRH3QSCM0=
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TKnYnFXMKuJlB9mzqsmyYlBUP0WybgmqxgbH0YcSoxyiyMf6saebDLK8n5baRvbMj0H1NXhn7Ewp3qxtU7uv0JbjkmUkAvikDzW9ES1RXUceRqG/PeK0ll6eOhQDJToj6lOAXhDb9l+6DyytoDrqS9YWEAbP/xp26uxZ/2bN2Nk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=211.75.126.119
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
  RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 16 Jun 2025 19:47:20 +0800
+ 15.1.2507.39; Mon, 16 Jun 2025 19:48:35 +0800
 Received: from sw-server.localdomain (172.22.102.1) by
  RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 16 Jun 2025 19:47:19 +0800
+ 15.1.2507.35; Mon, 16 Jun 2025 19:48:33 +0800
 From: <shumingf@realtek.com>
 To: <broonie@kernel.org>, <lgirdwood@gmail.com>
 CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
 	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
 	<ckeepax@opensource.cirrus.com>, <bard.liao@intel.com>, Shuming Fan
 	<shumingf@realtek.com>
-Subject: [PATCH 1/3] ASoC: SDCA: add support for HIDE entity properties and HID descriptor/report
-Date: Mon, 16 Jun 2025 19:47:07 +0800
-Message-ID: <20250616114707.855310-1-shumingf@realtek.com>
+Subject: [PATCH v2 1/3] ASoC: SDCA: add support for HIDE entity properties and HID descriptor/report
+Date: Mon, 16 Jun 2025 19:48:20 +0800
+Message-ID: <20250616114820.855401-1-shumingf@realtek.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -39,7 +39,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
+X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
  RTEXMBS01.realtek.com.tw (172.21.6.94)
 X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
 X-KSE-AntiSpam-Interceptor-Info: fallback
