@@ -1,287 +1,176 @@
-Received: from RTEXH36506.realtek.com.tw (unknown [122.146.120.47])
+Received: from RTEXH36505.realtek.com.tw (211-75-126-119.hinet-ip.hinet.net [211.75.126.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B1B2737F4
-	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 11:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=122.146.120.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C912D2737F4
+	for <linux-sound@vger.kernel.org>; Mon, 16 Jun 2025 11:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750074586; cv=none; b=kKpzs7Q6UYyiDcZ/OW5ED/7/9JiV2vywRJC9iRAPGTepW+I3h1P5OtPbCL6Uvf0lBC5AqWCzcSiC3iWpjV6a7QNWSwLcszfVnDZ+xNhK8dOr8q/2PM9KjdDB8rp2M9bADC8I1ao/zds9Bmq2prdFx6VLxuhSnAG7gvVQeL/w5w4=
+	t=1750074655; cv=none; b=B28Hsdfr6wn7MqbKE/0Ax5HUHnLa1AKrBf2rsssU5lZJircFMn5fABYKYGDKZzWM7rL0TyKzUrXI6JZH3LGWw5/cRCJeeXcnCWFZpXfrRSy7jsv8pPCwfyuMl2F/wj4j8JwizSi4LylbdLhBcLAF/tWJZNQnym3gVw8aV710BEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750074586; c=relaxed/simple;
-	bh=uui9IR9FEhkDm2K4Esk/VwvdHEOb6D/CooKGXhnWamE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HDWXiT0fzTWV6zLjJ4E2Y+bC5kVNNTqYhmf1te6QI79jndsaH9UAppyKJ9rgC9oG+6TemaC4qVVy5gFIGko11ocUJy1l5XFvM0d6mPUEB8sRqhbROgGWmIq/5JfFanvaqLtpIlUirm+NFKcPStFRjKese+ejlhc2s+LZVCeX0Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=122.146.120.47
+	s=arc-20240116; t=1750074655; c=relaxed/simple;
+	bh=yYKnieHsmmva7DlolcS26XYVcoAxGMsIMYzd+w5S/z0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ltJtnYG1Tyquju2gLkp4mZf5blxiaxsbaHFlhx0FAq9d1rRi/G7IrOJIjd1vScIA3IXpL3Jio852JQCgcFe1+FSkvZH2UOxKayKSU2NWGOEwLnGxogKrDOPBQ1CYkJ3FVzK+1E76IJcYq6+8bnImLK0r/j1yLEFM2FNubGitFC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; arc=none smtp.client-ip=211.75.126.119
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 16 Jun 2025 19:50:56 +0800
 Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 16 Jun 2025 19:49:41 +0800
-Received: from sw-server.localdomain (172.22.102.1) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 16 Jun 2025 19:49:38 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>, <jikos@kernel.org>,
-	<bentiss@kernel.org>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
-	<ckeepax@opensource.cirrus.com>, <bard.liao@intel.com>, Shuming Fan
-	<shumingf@realtek.com>
-Subject: [PATCH v2 3/3] ASoC: SDCA: add a HID device for HIDE entity
-Date: Mon, 16 Jun 2025 19:49:29 +0800
-Message-ID: <20250616114929.855496-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+ 15.1.2507.35; Mon, 16 Jun 2025 19:50:49 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
+ RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
+ 15.01.2507.035; Mon, 16 Jun 2025 19:50:49 +0800
+From: =?big5?B?U2h1bWluZyBbrVOu0bvKXQ==?= <shumingf@realtek.com>
+To: "broonie@kernel.org" <broonie@kernel.org>, "lgirdwood@gmail.com"
+	<lgirdwood@gmail.com>
+CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"lars@metafoo.de" <lars@metafoo.de>, "Flove(HsinFu)" <flove@realtek.com>,
+	Oder Chiou <oder_chiou@realtek.com>, Jack Yu <jack.yu@realtek.com>,
+	=?big5?B?RGVyZWsgW6TovHe4cV0=?= <derek.fang@realtek.com>,
+	"ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
+	"bard.liao@intel.com" <bard.liao@intel.com>
+Subject: RE: [PATCH 1/3] ASoC: SDCA: add support for HIDE entity properties
+ and HID descriptor/report
+Thread-Topic: [PATCH 1/3] ASoC: SDCA: add support for HIDE entity properties
+ and HID descriptor/report
+Thread-Index: AQHb3rRqkG+Pq9TlHkudDcXlKm6KG7QFrCJg
+Date: Mon, 16 Jun 2025 11:50:49 +0000
+Message-ID: <d50e86880ca245aa9d1ca77feab923e2@realtek.com>
+References: <20250616114707.855310-1-shumingf@realtek.com>
+In-Reply-To: <20250616114707.855310-1-shumingf@realtek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-kse-serverinfo: RTEXMBS02.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
- RTEXMBS01.realtek.com.tw (172.21.6.94)
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
 X-KSE-AntiSpam-Interceptor-Info: fallback
 
-From: Shuming Fan <shumingf@realtek.com>
-
-This patch supports to add a HID device for SDCA HIDE entity.
-The codec driver could call 'hid_input_report' to report events.
-
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- include/sound/sdca_hid.h        |  25 +++++++
- sound/soc/sdca/Kconfig          |   4 +
- sound/soc/sdca/Makefile         |   3 +
- sound/soc/sdca/sdca_functions.c |   9 +++
- sound/soc/sdca/sdca_hid.c       | 127 ++++++++++++++++++++++++++++++++
- 5 files changed, 168 insertions(+)
- create mode 100644 include/sound/sdca_hid.h
- create mode 100644 sound/soc/sdca/sdca_hid.c
-
-diff --git a/include/sound/sdca_hid.h b/include/sound/sdca_hid.h
-new file mode 100644
-index 000000000000..8ab3e498884e
---- /dev/null
-+++ b/include/sound/sdca_hid.h
-@@ -0,0 +1,25 @@
-+/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause) */
-+/*
-+ * The MIPI SDCA specification is available for public downloads at
-+ * https://www.mipi.org/mipi-sdca-v1-0-download
-+ *
-+ */
-+
-+#ifndef __SDCA_HID_H__
-+#define __SDCA_HID_H__
-+
-+#include <linux/types.h>
-+#include <linux/hid.h>
-+
-+#if IS_ENABLED(CONFIG_SND_SOC_SDCA_HID)
-+int sdca_add_hid_device(struct device *dev, struct sdca_entity *entity);
-+
-+#else
-+static inline int sdca_add_hid_device(struct device *dev, struct sdca_entity *entity)
-+{
-+	return 0;
-+}
-+
-+#endif
-+
-+#endif /* __SDCA_HID_H__ */
-diff --git a/sound/soc/sdca/Kconfig b/sound/soc/sdca/Kconfig
-index ee20b9914aa1..ec28855fe3b0 100644
---- a/sound/soc/sdca/Kconfig
-+++ b/sound/soc/sdca/Kconfig
-@@ -9,3 +9,7 @@ config SND_SOC_SDCA
- 
- config SND_SOC_SDCA_OPTIONAL
- 	def_tristate SND_SOC_SDCA || !SND_SOC_SDCA
-+
-+config SND_SOC_SDCA_HID
-+	tristate "SDCA HID support"
-+	depends on SND_SOC_SDCA && HID
-diff --git a/sound/soc/sdca/Makefile b/sound/soc/sdca/Makefile
-index 53344f108ca6..9af46e7edfd2 100644
---- a/sound/soc/sdca/Makefile
-+++ b/sound/soc/sdca/Makefile
-@@ -2,4 +2,7 @@
- 
- snd-soc-sdca-y	:= sdca_functions.o sdca_device.o sdca_regmap.o sdca_asoc.o
- 
-+snd-soc-sdca-hid-y := sdca_hid.o
-+
-+obj-$(CONFIG_SND_SOC_SDCA_HID)	+= snd-soc-sdca-hid.o
- obj-$(CONFIG_SND_SOC_SDCA)	+= snd-soc-sdca.o
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 4a89067dcf76..093c681e9387 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -19,6 +19,7 @@
- #include <linux/types.h>
- #include <sound/sdca.h>
- #include <sound/sdca_function.h>
-+#include <sound/sdca_hid.h>
- 
- /*
-  * Should be long enough to encompass all the MIPI DisCo properties.
-@@ -1294,6 +1295,13 @@ find_sdca_entity_hide(struct device *dev, struct fwnode_handle *function_node,
- 			hide->hid_report_desc = report_desc;
- 			fwnode_property_read_u8_array(function_node, "mipi-sdca-report-descriptor",
- 						      report_desc, nval);
-+
-+			/* add HID device */
-+			ret = sdca_add_hid_device(dev, entity);
-+			if (ret) {
-+				dev_err(dev, "%pfwP: failed to add HID device: %d\n", entity_node, ret);
-+				return ret;
-+			}
- 		}
- 	}
- 
-@@ -1933,3 +1941,4 @@ EXPORT_SYMBOL_NS(sdca_parse_function, "SND_SOC_SDCA");
- 
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_DESCRIPTION("SDCA library");
-+MODULE_IMPORT_NS("SND_SOC_SDCA_HID");
-diff --git a/sound/soc/sdca/sdca_hid.c b/sound/soc/sdca/sdca_hid.c
-new file mode 100644
-index 000000000000..b227ad94d08f
---- /dev/null
-+++ b/sound/soc/sdca/sdca_hid.c
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
-+
-+/*
-+ * The MIPI SDCA specification is available for public downloads at
-+ * https://www.mipi.org/mipi-sdca-v1-0-download
-+ */
-+
-+#include <linux/acpi.h>
-+#include <linux/byteorder/generic.h>
-+#include <linux/cleanup.h>
-+#include <linux/device.h>
-+#include <linux/dev_printk.h>
-+#include <linux/module.h>
-+#include <linux/property.h>
-+#include <linux/soundwire/sdw.h>
-+#include <linux/types.h>
-+#include <sound/sdca.h>
-+#include <sound/sdca_function.h>
-+#include <sound/sdca_hid.h>
-+
-+static int sdwhid_parse(struct hid_device *hid)
-+{
-+	struct sdca_entity *entity = hid->driver_data;
-+	unsigned int rsize;
-+	int ret;
-+
-+	rsize = entity->hide.hid_desc.rpt_desc.wDescriptorLength;
-+
-+	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
-+		dev_err(&hid->dev, "invalid size of report descriptor (%u)\n", rsize);
-+		return -EINVAL;
-+	}
-+
-+	ret = hid_parse_report(hid, entity->hide.hid_report_desc, rsize);
-+
-+	if (!ret)
-+		return 0;
-+
-+	dev_err(&hid->dev, "parsing report descriptor failed\n");
-+	return ret;
-+}
-+
-+static int sdwhid_start(struct hid_device *hid)
-+{
-+	return 0;
-+}
-+
-+static void sdwhid_stop(struct hid_device *hid)
-+{
-+}
-+
-+static int sdwhid_raw_request(struct hid_device *hid, unsigned char reportnum,
-+			      __u8 *buf, size_t len, unsigned char rtype, int reqtype)
-+{
-+	switch (reqtype) {
-+	case HID_REQ_GET_REPORT:
-+		/* not implemented yet */
-+		return 0;
-+	case HID_REQ_SET_REPORT:
-+		/* not implemented yet */
-+		return 0;
-+	default:
-+		return -EIO;
-+	}
-+}
-+
-+static int sdwhid_open(struct hid_device *hid)
-+{
-+	return 0;
-+}
-+
-+static void sdwhid_close(struct hid_device *hid)
-+{
-+}
-+
-+static const struct hid_ll_driver sdw_hid_driver = {
-+	.parse = sdwhid_parse,
-+	.start = sdwhid_start,
-+	.stop = sdwhid_stop,
-+	.open = sdwhid_open,
-+	.close = sdwhid_close,
-+	.raw_request = sdwhid_raw_request,
-+};
-+
-+int sdca_add_hid_device(struct device *dev, struct sdca_entity *entity)
-+{
-+	struct sdw_bus *bus;
-+	struct hid_device *hid;
-+	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-+	int ret;
-+
-+	bus = slave->bus;
-+
-+	hid = hid_allocate_device();
-+	if (IS_ERR(hid))
-+		return PTR_ERR(hid);
-+
-+	hid->ll_driver = &sdw_hid_driver;
-+
-+	hid->dev.parent = dev;
-+	hid->bus = BUS_SDW;
-+	hid->version = le16_to_cpu(entity->hide.hid_desc.bcdHID);
-+
-+	snprintf(hid->name, sizeof(hid->name),
-+		 "HID sdw:%01x:%01x:%04x:%04x:%02x",
-+		 bus->controller_id, bus->link_id, slave->id.mfg_id,
-+		 slave->id.part_id, slave->id.class_id);
-+
-+	snprintf(hid->phys, sizeof(hid->phys), "%s", dev->bus->name);
-+
-+	hid->driver_data = entity;
-+
-+	ret = hid_add_device(hid);
-+	if (ret && ret != -ENODEV) {
-+		dev_err(dev, "can't add hid device: %d\n", ret);
-+		hid_destroy_device(hid);
-+		return ret;
-+	}
-+
-+	entity->hide.hid = hid;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(sdca_add_hid_device, "SND_SOC_SDCA_HID");
-+
-+MODULE_LICENSE("Dual BSD/GPL");
-+MODULE_DESCRIPTION("SDCA HID library");
--- 
-2.34.1
-
+SWdub3JlIHRoaXMgb25lLCBzb3JyeS4NCg0KPiBTdWJqZWN0OiBbUEFUQ0ggMS8zXSBBU29DOiBT
+RENBOiBhZGQgc3VwcG9ydCBmb3IgSElERSBlbnRpdHkgcHJvcGVydGllcyBhbmQNCj4gSElEIGRl
+c2NyaXB0b3IvcmVwb3J0DQo+IA0KPiBGcm9tOiBTaHVtaW5nIEZhbiA8c2h1bWluZ2ZAcmVhbHRl
+ay5jb20+DQo+IA0KPiBBZGQgc3VwcG9ydCBmb3IgcGFyc2luZyB0aGUgSElERSBlbnRpdHkgZGVz
+Y3JpcHRvciBhbmQgSElEIGRlc2NyaXB0b3IvcmVwb3J0DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBT
+aHVtaW5nIEZhbiA8c2h1bWluZ2ZAcmVhbHRlay5jb20+DQo+IC0tLQ0KPiAgaW5jbHVkZS9zb3Vu
+ZC9zZGNhX2Z1bmN0aW9uLmggICB8IDI5ICsrKysrKysrKysrKw0KPiAgc291bmQvc29jL3NkY2Ev
+c2RjYV9mdW5jdGlvbnMuYyB8IDgzDQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+Kw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMTIgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdp
+dCBhL2luY2x1ZGUvc291bmQvc2RjYV9mdW5jdGlvbi5oIGIvaW5jbHVkZS9zb3VuZC9zZGNhX2Z1
+bmN0aW9uLmgNCj4gaW5kZXggZWFlZGI1NGE4MzIyLi44NTZiMGY0MGNlNWUgMTAwNjQ0DQo+IC0t
+LSBhL2luY2x1ZGUvc291bmQvc2RjYV9mdW5jdGlvbi5oDQo+ICsrKyBiL2luY2x1ZGUvc291bmQv
+c2RjYV9mdW5jdGlvbi5oDQo+IEBAIC0xMSw2ICsxMSw3IEBADQo+IA0KPiAgI2luY2x1ZGUgPGxp
+bnV4L2JpdHMuaD4NCj4gICNpbmNsdWRlIDxsaW51eC90eXBlcy5oPg0KPiArI2luY2x1ZGUgPGxp
+bnV4L2hpZC5oPg0KPiANCj4gIHN0cnVjdCBkZXZpY2U7DQo+ICBzdHJ1Y3Qgc2RjYV9lbnRpdHk7
+DQo+IEBAIC0xMDQwLDYgKzEwNDEsMzIgQEAgc3RydWN0IHNkY2FfZW50aXR5X2dlIHsNCj4gIAlp
+bnQgbnVtX21vZGVzOw0KPiAgfTsNCj4gDQo+ICsvKioNCj4gKyAqIHN0cnVjdCBzZGNhX2VudGl0
+eV9oaWRlIC0gaW5mb3JtYXRpb24gc3BlY2lmaWMgdG8gSElERSBFbnRpdGllcw0KPiArICogQGhp
+ZDogSElEIGRldmljZSBzdHJ1Y3R1cmUNCj4gKyAqIEBoaWR0eF9pZHM6IEhJRFR4IFJlcG9ydCBJ
+RA0KPiArICogQG51bV9oaWR0eF9pZHM6IG51bWJlciBvZiBISURUeCBSZXBvcnQgSUQNCj4gKyAq
+IEBoaWRyeF9pZHM6IEhJRFJ4IFJlcG9ydCBJRA0KPiArICogQG51bV9oaWRyeF9pZHM6IG51bWJl
+ciBvZiBISURSeCBSZXBvcnQgSUQNCj4gKyAqIEBoaWRlX3Jlc2lkZV9mdW5jdGlvbl9udW06IGlu
+ZGljYXRpbmcgd2hpY2ggQXVkaW8gRnVuY3Rpb24gTnVtYmVycw0KPiArd2l0aGluIHRoaXMgRGV2
+aWNlDQo+ICsgKiBAbWF4X2RlbGF5OiB0aGUgbWF4aW11bSB0aW1lIGluIG1pY3Jvc2Vjb25kcyBh
+bGxvd2VkIGZvciB0aGUgRGV2aWNlDQo+ICt0byBjaGFuZ2UgdGhlIG93bmVyc2hpcCBmcm9tIERl
+dmljZSB0byBIb3N0DQo+ICsgKiBAYWZfbnVtYmVyX2xpc3Q6IHdoaWNoIEF1ZGlvIEZ1bmN0aW9u
+IE51bWJlcnMgd2l0aGluIHRoaXMgRGV2aWNlIGFyZQ0KPiArc2VuZGluZy9yZWNlaXZpbmcgdGhl
+IG1lc3NhZ2VzIGluIHRoaXMgSElERQ0KPiArICogQGhpZF9kZXNjOiBISUQgZGVzY3JpcHRvciBm
+b3IgdGhlIEhJREUgRW50aXR5DQo+ICsgKiBAaGlkX3JlcG9ydF9kZXNjOiBISUQgUmVwb3J0IERl
+c2NyaXB0b3IgZm9yIHRoZSBISURFIEVudGl0eSAgKi8NCj4gK3N0cnVjdCBzZGNhX2VudGl0eV9o
+aWRlIHsNCj4gKwlzdHJ1Y3QgaGlkX2RldmljZSAqaGlkOw0KPiArCXVuc2lnbmVkIGludCAqaGlk
+dHhfaWRzOw0KPiArCWludCBudW1faGlkdHhfaWRzOw0KPiArCXVuc2lnbmVkIGludCAqaGlkcnhf
+aWRzOw0KPiArCWludCBudW1faGlkcnhfaWRzOw0KPiArCXVuc2lnbmVkIGludCBoaWRlX3Jlc2lk
+ZV9mdW5jdGlvbl9udW07DQo+ICsJdW5zaWduZWQgaW50IG1heF9kZWxheTsNCj4gKwl1bnNpZ25l
+ZCBpbnQgYWZfbnVtYmVyX2xpc3RbU0RDQV9NQVhfRlVOQ1RJT05fQ09VTlRdOw0KPiArCXN0cnVj
+dCBoaWRfZGVzY3JpcHRvciBoaWRfZGVzYzsNCj4gKwl1bnNpZ25lZCBjaGFyICpoaWRfcmVwb3J0
+X2Rlc2M7DQo+ICt9Ow0KPiArDQo+ICAvKioNCj4gICAqIHN0cnVjdCBzZGNhX2VudGl0eSAtIGlu
+Zm9ybWF0aW9uIGZvciBvbmUgU0RDQSBFbnRpdHkNCj4gICAqIEBsYWJlbDogU3RyaW5nIHN1Y2gg
+YXMgIk9UIDEyIi4NCj4gQEAgLTEwNTUsNiArMTA4Miw3IEBAIHN0cnVjdCBzZGNhX2VudGl0eV9n
+ZSB7DQo+ICAgKiBAY3M6IENsb2NrIFNvdXJjZSBzcGVjaWZpYyBFbnRpdHkgcHJvcGVydGllcy4N
+Cj4gICAqIEBwZGU6IFBvd2VyIERvbWFpbiBFbnRpdHkgc3BlY2lmaWMgRW50aXR5IHByb3BlcnRp
+ZXMuDQo+ICAgKiBAZ2U6IEdyb3VwIEVudGl0eSBzcGVjaWZpYyBFbnRpdHkgcHJvcGVydGllcy4N
+Cj4gKyAqIEBoaWRlOiBISURFIEVudGl0eSBzcGVjaWZpYyBFbnRpdHkgcHJvcGVydGllcy4NCj4g
+ICAqLw0KPiAgc3RydWN0IHNkY2FfZW50aXR5IHsNCj4gIAljb25zdCBjaGFyICpsYWJlbDsNCj4g
+QEAgLTEwNzEsNiArMTA5OSw3IEBAIHN0cnVjdCBzZGNhX2VudGl0eSB7DQo+ICAJCXN0cnVjdCBz
+ZGNhX2VudGl0eV9jcyBjczsNCj4gIAkJc3RydWN0IHNkY2FfZW50aXR5X3BkZSBwZGU7DQo+ICAJ
+CXN0cnVjdCBzZGNhX2VudGl0eV9nZSBnZTsNCj4gKwkJc3RydWN0IHNkY2FfZW50aXR5X2hpZGUg
+aGlkZTsNCj4gIAl9Ow0KPiAgfTsNCj4gDQo+IGRpZmYgLS1naXQgYS9zb3VuZC9zb2Mvc2RjYS9z
+ZGNhX2Z1bmN0aW9ucy5jDQo+IGIvc291bmQvc29jL3NkY2Evc2RjYV9mdW5jdGlvbnMuYyBpbmRl
+eCA2NGFjMjY0NDM4OTAuLjRhODkwNjdkY2Y3Ng0KPiAxMDA2NDQNCj4gLS0tIGEvc291bmQvc29j
+L3NkY2Evc2RjYV9mdW5jdGlvbnMuYw0KPiArKysgYi9zb3VuZC9zb2Mvc2RjYS9zZGNhX2Z1bmN0
+aW9ucy5jDQo+IEBAIC0xMjIwLDYgKzEyMjAsODYgQEAgc3RhdGljIGludCBmaW5kX3NkY2FfZW50
+aXR5X2dlKHN0cnVjdCBkZXZpY2UgKmRldiwNCj4gIAlyZXR1cm4gLUVJTlZBTDsNCj4gIH0NCj4g
+DQo+ICtzdGF0aWMgaW50DQo+ICtmaW5kX3NkY2FfZW50aXR5X2hpZGUoc3RydWN0IGRldmljZSAq
+ZGV2LCBzdHJ1Y3QgZndub2RlX2hhbmRsZQ0KPiAqZnVuY3Rpb25fbm9kZSwNCj4gKwkJICAgICAg
+c3RydWN0IGZ3bm9kZV9oYW5kbGUgKmVudGl0eV9ub2RlLCBzdHJ1Y3Qgc2RjYV9lbnRpdHkNCj4g
+KmVudGl0eSkNCj4gK3sNCj4gKwlzdHJ1Y3Qgc2RjYV9lbnRpdHlfaGlkZSAqaGlkZSA9ICZlbnRp
+dHktPmhpZGU7DQo+ICsJdW5zaWduZWQgaW50IGRlbGF5LCAqYWZfbGlzdCA9IGhpZGUtPmFmX251
+bWJlcl9saXN0Ow0KPiArCWludCBudmFsLCByZXQ7DQo+ICsJdW5zaWduZWQgY2hhciAqcmVwb3J0
+X2Rlc2MgPSBOVUxMOw0KPiArDQo+ICsJcmV0ID0gZndub2RlX3Byb3BlcnR5X3JlYWRfdTMyKGVu
+dGl0eV9ub2RlLA0KPiArDQo+ICJtaXBpLXNkY2EtUnhVTVAtb3duZXJzaGlwLXRyYW5zaXRpb24t
+bWF4ZGVsYXkiLCAmZGVsYXkpOw0KPiArCWlmICghcmV0KQ0KPiArCQloaWRlLT5tYXhfZGVsYXkg
+PSBkZWxheTsNCj4gKw0KPiArCW52YWwgPSBmd25vZGVfcHJvcGVydHlfY291bnRfdTMyKGVudGl0
+eV9ub2RlLA0KPiAibWlwaS1zZGNhLUhJRFR4LXN1cHBvcnRlZC1yZXBvcnQtaWRzIik7DQo+ICsJ
+aWYgKG52YWwgPiAwKSB7DQo+ICsJCWhpZGUtPm51bV9oaWR0eF9pZHMgPSBudmFsOw0KPiArCQlo
+aWRlLT5oaWR0eF9pZHMgPSBkZXZtX2tjYWxsb2MoZGV2LCBoaWRlLT5udW1faGlkdHhfaWRzLA0K
+PiArCQkJCQkgICAgICAgc2l6ZW9mKCpoaWRlLT5oaWR0eF9pZHMpLCBHRlBfS0VSTkVMKTsNCj4g
+KwkJaWYgKCFoaWRlLT5oaWR0eF9pZHMpDQo+ICsJCQlyZXR1cm4gLUVOT01FTTsNCj4gKw0KPiAr
+CQlyZXQgPSBmd25vZGVfcHJvcGVydHlfcmVhZF91MzJfYXJyYXkoZW50aXR5X25vZGUsDQo+ICsJ
+CQkJCQkgICAgICJtaXBpLXNkY2EtSElEVHgtc3VwcG9ydGVkLXJlcG9ydC1pZHMiLA0KPiArCQkJ
+CQkJICAgICBoaWRlLT5oaWR0eF9pZHMsDQo+ICsJCQkJCQkgICAgIGhpZGUtPm51bV9oaWR0eF9p
+ZHMpOw0KPiArCQlpZiAocmV0IDwgMCkNCj4gKwkJCXJldHVybiByZXQ7DQo+ICsJfQ0KPiArDQo+
+ICsJbnZhbCA9IGZ3bm9kZV9wcm9wZXJ0eV9jb3VudF91MzIoZW50aXR5X25vZGUsDQo+ICJtaXBp
+LXNkY2EtSElEUngtc3VwcG9ydGVkLXJlcG9ydC1pZHMiKTsNCj4gKwlpZiAobnZhbCA+IDApIHsN
+Cj4gKwkJaGlkZS0+bnVtX2hpZHJ4X2lkcyA9IG52YWw7DQo+ICsJCWhpZGUtPmhpZHJ4X2lkcyA9
+IGRldm1fa2NhbGxvYyhkZXYsIGhpZGUtPm51bV9oaWRyeF9pZHMsDQo+ICsJCQkJCSAgICAgICBz
+aXplb2YoKmhpZGUtPmhpZHJ4X2lkcyksIEdGUF9LRVJORUwpOw0KPiArCQlpZiAoIWhpZGUtPmhp
+ZHJ4X2lkcykNCj4gKwkJCXJldHVybiAtRU5PTUVNOw0KPiArDQo+ICsJCXJldCA9IGZ3bm9kZV9w
+cm9wZXJ0eV9yZWFkX3UzMl9hcnJheShlbnRpdHlfbm9kZSwNCj4gKwkJCQkJCSAgICAgIm1pcGkt
+c2RjYS1ISURSeC1zdXBwb3J0ZWQtcmVwb3J0LWlkcyIsDQo+ICsJCQkJCQkgICAgIGhpZGUtPmhp
+ZHJ4X2lkcywNCj4gKwkJCQkJCSAgICAgaGlkZS0+bnVtX2hpZHJ4X2lkcyk7DQo+ICsJCWlmIChy
+ZXQgPCAwKQ0KPiArCQkJcmV0dXJuIHJldDsNCj4gKwl9DQo+ICsNCj4gKwludmFsID0gZndub2Rl
+X3Byb3BlcnR5X2NvdW50X3UzMihlbnRpdHlfbm9kZSwNCj4gIm1pcGktc2RjYS1oaWRlLXJlbGF0
+ZWQtYXVkaW8tZnVuY3Rpb24tbGlzdCIpOw0KPiArCWlmIChudmFsIDw9IDApIHsNCj4gKwkJZGV2
+X2VycihkZXYsICIlcGZ3UDogYXVkaW8gZnVuY3Rpb24gbnVtYmVycyBsaXN0IG1pc3Npbmc6ICVk
+XG4iLA0KPiArCQkJZW50aXR5X25vZGUsIG52YWwpOw0KPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4g
+Kwl9IGVsc2UgaWYgKG52YWwgPiBTRENBX01BWF9GVU5DVElPTl9DT1VOVCkgew0KPiArCQlkZXZf
+ZXJyKGRldiwgIiVwZndQOiBtYXhpbXVtIG51bWJlciBvZiBhdWRpbyBmdW5jdGlvbg0KPiBleGNl
+ZWRlZFxuIiwgZW50aXR5X25vZGUpOw0KPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gKwl9DQo+ICsN
+Cj4gKwloaWRlLT5oaWRlX3Jlc2lkZV9mdW5jdGlvbl9udW0gPSBudmFsOw0KPiArCWZ3bm9kZV9w
+cm9wZXJ0eV9yZWFkX3UzMl9hcnJheShlbnRpdHlfbm9kZSwNCj4gKwkJCQkgICAgICAgIm1pcGkt
+c2RjYS1oaWRlLXJlbGF0ZWQtYXVkaW8tZnVuY3Rpb24tbGlzdCIsDQo+IGFmX2xpc3QsDQo+ICtu
+dmFsKTsNCj4gKw0KPiArCW52YWwgPSBmd25vZGVfcHJvcGVydHlfY291bnRfdTgoZnVuY3Rpb25f
+bm9kZSwNCj4gIm1pcGktc2RjYS1oaWQtZGVzY3JpcHRvciIpOw0KPiArCWlmIChudmFsKQ0KPiAr
+CQlmd25vZGVfcHJvcGVydHlfcmVhZF91OF9hcnJheShmdW5jdGlvbl9ub2RlLA0KPiAibWlwaS1z
+ZGNhLWhpZC1kZXNjcmlwdG9yIiwNCj4gKwkJCQkJICAgICAgKHU4ICopJmhpZGUtPmhpZF9kZXNj
+LCBudmFsKTsNCj4gKw0KPiArCWlmIChoaWRlLT5oaWRfZGVzYy5iTnVtRGVzY3JpcHRvcnMpIHsN
+Cj4gKwkJbnZhbCA9IGZ3bm9kZV9wcm9wZXJ0eV9jb3VudF91OChmdW5jdGlvbl9ub2RlLA0KPiAi
+bWlwaS1zZGNhLXJlcG9ydC1kZXNjcmlwdG9yIik7DQo+ICsJCWlmIChudmFsKSB7DQo+ICsJCQly
+ZXBvcnRfZGVzYyA9IGRldm1fa3phbGxvYyhkZXYsIG52YWwsIEdGUF9LRVJORUwpOw0KPiArCQkJ
+aWYgKCFyZXBvcnRfZGVzYykNCj4gKwkJCQlyZXR1cm4gLUVOT01FTTsNCj4gKwkJCWhpZGUtPmhp
+ZF9yZXBvcnRfZGVzYyA9IHJlcG9ydF9kZXNjOw0KPiArCQkJZndub2RlX3Byb3BlcnR5X3JlYWRf
+dThfYXJyYXkoZnVuY3Rpb25fbm9kZSwNCj4gIm1pcGktc2RjYS1yZXBvcnQtZGVzY3JpcHRvciIs
+DQo+ICsJCQkJCQkgICAgICByZXBvcnRfZGVzYywgbnZhbCk7DQo+ICsJCX0NCj4gKwl9DQo+ICsN
+Cj4gKwlyZXR1cm4gMDsNCj4gK30NCj4gKw0KPiAgc3RhdGljIGludCBmaW5kX3NkY2FfZW50aXR5
+KHN0cnVjdCBkZXZpY2UgKmRldiwNCj4gIAkJCSAgICBzdHJ1Y3QgZndub2RlX2hhbmRsZSAqZnVu
+Y3Rpb25fbm9kZSwNCj4gIAkJCSAgICBzdHJ1Y3QgZndub2RlX2hhbmRsZSAqZW50aXR5X25vZGUs
+IEBAIC0xMjYxLDYgKzEzNDEsOQ0KPiBAQCBzdGF0aWMgaW50IGZpbmRfc2RjYV9lbnRpdHkoc3Ry
+dWN0IGRldmljZSAqZGV2LA0KPiAgCWNhc2UgU0RDQV9FTlRJVFlfVFlQRV9HRToNCj4gIAkJcmV0
+ID0gZmluZF9zZGNhX2VudGl0eV9nZShkZXYsIGVudGl0eV9ub2RlLCBlbnRpdHkpOw0KPiAgCQli
+cmVhazsNCj4gKwljYXNlIFNEQ0FfRU5USVRZX1RZUEVfSElERToNCj4gKwkJcmV0ID0gZmluZF9z
+ZGNhX2VudGl0eV9oaWRlKGRldiwgZnVuY3Rpb25fbm9kZSwgZW50aXR5X25vZGUsIGVudGl0eSk7
+DQo+ICsJCWJyZWFrOw0KPiAgCWRlZmF1bHQ6DQo+ICAJCWJyZWFrOw0KPiAgCX0NCj4gLS0NCj4g
+Mi4zNC4xDQoNCg==
