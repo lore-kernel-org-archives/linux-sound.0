@@ -1,79 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270C92F3C26;
-	Tue, 17 Jun 2025 21:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBEA2F5302
+	for <linux-sound@vger.kernel.org>; Tue, 17 Jun 2025 21:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750195905; cv=none; b=GXb4pvR8Pdt5Bku/tRcTK/uiX1zVqbD/U/fRhNOGnMOUQW0AexXmrJWv8dtTFTfAkHRuOp08fGDuMLKPpb4anrtwW5QFR5nHuDh5RXF8hJFrPFKYstHDky3t5J+4frhaEl9DyqWFkUnF/kO3/cr4APJ/9sapnNrOch7F6hRw8NY=
+	t=1750197008; cv=none; b=A3eVwQ6w/WLqnisCgHcd/7MFrcMzN43UTk6SD336H3Ssk9ygOl8V75HbTr4qR53Kwk3z+dx/2SdsfRpBfCu3Hw3a8rMcM5O5j1biLv6ohZkL71C11+FbR1t2WdwzR6pza6fqeSXmmr+NAJwDlnSsktIff+thc4jykKVQfbOX4Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750195905; c=relaxed/simple;
-	bh=NT7M7j9aB6aePj5CbZFLDDn7LGqCaV8n7k94j3/n5LA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rkaNe4uCs0kU9r31rWnaBJNFd5pFheUtXE6DWVICpgGqRwcVRYiUkbJxwnWnknaUBxZhg+C+j/SIsgT7bLX8ZvpvEIJiPAHxZceyCX2MwOJdtG5sbjcsWFXHsqW2DKaW3jeDi2Wq2Rh0RLWZeZMFCv9Dy2Hx1kIr2y6Fz4BO8M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dl3sYCKy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750197008; c=relaxed/simple;
+	bh=7hg3diAfSTflKx1ekrefsRo12RxfH5pUGgLV5fLTmQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=F6uFigrWOMY6eN1F70KBFWqudKQlsAOhS3jimIzsgd13KrurflwYGP2425DWDal33yEzkh3Elq4eadROaF3tbknvw8Q5HxKrONf7o3XjspLTSXJzkpKE2ZLF77RxblSulwVG64qG4Zl+C7dPJZYErF/AkMTlZtsgWvgE3o6bWak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HuAPjIZu; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dl3sYCKy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753FDC4CEEE;
-	Tue, 17 Jun 2025 21:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750195904;
-	bh=NT7M7j9aB6aePj5CbZFLDDn7LGqCaV8n7k94j3/n5LA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dl3sYCKyUozT3U/2oJYxWUqfvullkcUJn6bX8BkD4PeFgZE1AuN3jOFPfODWsKspl
-	 4od+mwlDdn57MhH4M2rmASYW7gSUiuc8yTji9XoieYZqSFZF82gQxj/8jHeTw3f4SB
-	 kWZ45sbVFSSBlygyEgRV5cUcifyvN2iqObIworsqzODqQzpg4Q9RQmsiGNizenmS/u
-	 ZvhKtHdjqrTeJPRj8k9b6nuQt/DBozHmcAi5bWKxvD/JkV7e5bPKFaMOop0UnuvmSJ
-	 hZw4eZvSkQYXNZiDiP/RqChWNnXipJessF/YmItg0geO5D2F2wsryy4db9glrYXzbc
-	 u0j7U4z8YKBCA==
-From: Bjorn Andersson <andersson@kernel.org>
-To: ~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Luca Weiss <luca@lucaweiss.eu>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/3] Add support for AW8898 Amplifier
-Date: Tue, 17 Jun 2025 16:31:28 -0500
-Message-ID: <175019588868.714929.11356929679548081810.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250406-aw8898-v1-0-58a2d554693f@lucaweiss.eu>
-References: <20250406-aw8898-v1-0-58a2d554693f@lucaweiss.eu>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HuAPjIZu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750197004;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fBKdNTag+8kHHBGbrlvR1RGtOCqp0CC7Lr8789j1j90=;
+	b=HuAPjIZuCzGIC7l9KXF9HZdU1K2obz0eK1sByvoDieGgDe9uwNXIMuH/CPOawHDO8ttCm0
+	NCiN1982QRBF9kBxZ6tdnnSZMml2kTrOw7618fBeABGiVaieqRM8meK8Z6BQ4f9fubYHhb
+	B/StcuaXRpj1lBFDC+nVv9KhH5qPOTw=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-653-Qr-OoVvdPemvogAb38VlCQ-1; Tue, 17 Jun 2025 17:50:03 -0400
+X-MC-Unique: Qr-OoVvdPemvogAb38VlCQ-1
+X-Mimecast-MFC-AGG-ID: Qr-OoVvdPemvogAb38VlCQ_1750197002
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-86cff09d29dso88482239f.3
+        for <linux-sound@vger.kernel.org>; Tue, 17 Jun 2025 14:50:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750197002; x=1750801802;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fBKdNTag+8kHHBGbrlvR1RGtOCqp0CC7Lr8789j1j90=;
+        b=JDFg6cYFaMSbb0nhFQ1wlLOPykeeVWvIrsLIC+qugZFzjXkpFj67M5NjDfmd3xStbY
+         /oEvh7nH0x2dkF8hX5IU1oeoDBStPnkGB16OWEi3bV9PSOpYntczvhK/DaTJTis5IuvL
+         W33rRPrC2snzlg79tQyUYcNjZIVmjdN80q4uHq1NvjB2ccxF6W6wNXgD5ulPXuHGeHgv
+         /lmf5SBJl1fzDIuElnsM3lbY8O+UVkUcmPYDJOxbdpeENS4DkNRXNY+/eJw/gs7REHGl
+         uGHz9hCytIofv8GJoqZpcfSU+eWHLW5ZJaIz5cLwl1umrBTMj4Kn9WmBM+8ME+l1dExs
+         ANCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWpPUzIplXoxC4yGWnmm7oWQU7cQG3Yzcm8JttuvSsshooW4IeQOoaqg6HL8SzKY8XxXhDqKdvsGQskqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxx8dEAiwXZcJ9aBn6s8Sa8FP9OBNaL5bUM8SrjCtVoOrA6TeH/
+	iMEotXAsKpoUU8zfXyGC+lj5x/R2Jg9Y0t2n1h05/EZlz7+Pb5Gi2Qd4l0N3HyED2JKQWOSvf13
+	Gk50V/NP+mqYyWT9oTFchB4Zp3MsPxWW0UBVGWUhCX3QV60xdH9zq1RK8zAQ+NCng
+X-Gm-Gg: ASbGncsId5SyQZrNxNRzb8/4z6Ru0sueP5QgeiNinKwWXNH2NL6RCmb11H//Rd/btFm
+	0OoyEonKk7OtUOBmoui3LC7NwBAtvprunTMYmGRuZ/1yST16MybqVyBoQwS4TYlszkfgQoxJhNh
+	McDCeYx3W/HRSu8nWPyutn4xu2TAlH5U3i9fA8Hf4VYkRAQsN8FwYd1elC+ajgC7N9yo2WF9Zk0
+	NnpbxT8hqOrlPqel0/mzhrKcURbUhIGxoU0eL/hscs48pAWSULfqHg/EJZYDxovjEh+sNIXtojd
+	fRxY42T+Ctv3o96LynobE0CQiA==
+X-Received: by 2002:a92:c267:0:b0:3dc:7ba2:7a2e with SMTP id e9e14a558f8ab-3de07cd4de3mr48365885ab.3.1750197002224;
+        Tue, 17 Jun 2025 14:50:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEw17zHi8Y9Wb/PhxrxSkYd31JRhlQUJWVwqBEfsj4LLkKjncc5bMw2gyst2ZndPGvwl0QioA==
+X-Received: by 2002:a92:c267:0:b0:3dc:7ba2:7a2e with SMTP id e9e14a558f8ab-3de07cd4de3mr48365855ab.3.1750197001760;
+        Tue, 17 Jun 2025 14:50:01 -0700 (PDT)
+Received: from redhat.com ([38.15.36.11])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-50149bb529fsm2445872173.60.2025.06.17.14.49.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 14:50:01 -0700 (PDT)
+Date: Tue, 17 Jun 2025 15:49:57 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Daniel Dadap <ddadap@nvidia.com>
+Cc: Mario Limonciello <superm1@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Alex Deucher <alexander.deucher@amd.com>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Lukas Wunner
+ <lukas@wunner.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Woodhouse <dwmw2@infradead.org>, Lu Baolu
+ <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
+ <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "open list:DRM DRIVERS"
+ <dri-devel@lists.freedesktop.org>, open list
+ <linux-kernel@vger.kernel.org>, "open list:INTEL IOMMU (VT-d)"
+ <iommu@lists.linux.dev>, "open list:PCI SUBSYSTEM"
+ <linux-pci@vger.kernel.org>, "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+ "open list:SOUND" <linux-sound@vger.kernel.org>, Mario Limonciello
+ <mario.limonciello@amd.com>
+Subject: Re: [PATCH v2 6/6] vgaarb: Look at all PCI display devices in VGA
+ arbiter
+Message-ID: <20250617154957.67144f0a.alex.williamson@redhat.com>
+In-Reply-To: <aFHWejvqNpGv-3UI@ddadap-lakeline.nvidia.com>
+References: <20250617175910.1640546-1-superm1@kernel.org>
+	<20250617175910.1640546-7-superm1@kernel.org>
+	<aFHABY5yTYrJ4OUw@ddadap-lakeline.nvidia.com>
+	<d40a585f-6eca-45dd-aa9f-7dcda065c80a@kernel.org>
+	<aFHWejvqNpGv-3UI@ddadap-lakeline.nvidia.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Ijy7kVRnlM8A4O4LBi2j1iIpYuFh4HYJBAd7iL0glyk_1750197002
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Tue, 17 Jun 2025 15:56:26 -0500
+Daniel Dadap <ddadap@nvidia.com> wrote:
 
-On Sun, 06 Apr 2025 15:03:14 +0200, Luca Weiss wrote:
-> Add devicetree bindings and a driver for the AW8898 Amplifier, and add
-> it to the devicetree for the Fairphone 3 smartphone.
+> On Tue, Jun 17, 2025 at 03:15:35PM -0500, Mario Limonciello wrote:
+> > 
+> > 
+> > On 6/17/25 2:20 PM, Daniel Dadap wrote:  
+> > > On Tue, Jun 17, 2025 at 12:59:10PM -0500, Mario Limonciello wrote:  
+> > > > From: Mario Limonciello <mario.limonciello@amd.com>
+> > > > 
+> > > > On a mobile system with an AMD integrated GPU + NVIDIA discrete GPU the
+> > > > AMD GPU is not being selected by some desktop environments for any
+> > > > rendering tasks. This is because neither GPU is being treated as
+> > > > "boot_vga" but that is what some environments use to select a GPU [1].
+> > > > 
+> > > > The VGA arbiter driver only looks at devices that report as PCI display
+> > > > VGA class devices. Neither GPU on the system is a PCI display VGA class
+> > > > device:
+> > > > 
+> > > > c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
+> > > > c6:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Device 150e (rev d1)
+> > > > 
+> > > > If the GPUs were looked at the vga_is_firmware_default() function actually
+> > > > does do a good job at recognizing the case from the device used for the
+> > > > firmware framebuffer.
+> > > > 
+> > > > Modify the VGA arbiter code and matching sysfs file entries to examine all
+> > > > PCI display class devices. The existing logic stays the same.
+> > > > 
+> > > > This will cause all GPUs to gain a `boot_vga` file, but the correct device
+> > > > (AMD GPU in this case) will now show `1` and the incorrect device shows `0`.
+> > > > Userspace then picks the right device as well.
+> > > > 
+> > > > Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12 [1]
+> > > > Suggested-by: Daniel Dadap <ddadap@nvidia.com>
+> > > > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> > > > ---
+> > > >   drivers/pci/pci-sysfs.c | 2 +-
+> > > >   drivers/pci/vgaarb.c    | 8 ++++----
+> > > >   2 files changed, 5 insertions(+), 5 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> > > > index 268c69daa4d57..c314ee1b3f9ac 100644
+> > > > --- a/drivers/pci/pci-sysfs.c
+> > > > +++ b/drivers/pci/pci-sysfs.c
+> > > > @@ -1707,7 +1707,7 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
+> > > >   	struct device *dev = kobj_to_dev(kobj);
+> > > >   	struct pci_dev *pdev = to_pci_dev(dev);
+> > > > -	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
+> > > > +	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
+> > > >   		return a->mode;  
+> > > 
+> > > I can't help but worry about userspace clients that might be checking for
+> > > the presence of the boot_vga sysfs file but don't check its contents.  
+> > 
+> > Wouldn't those clients "already" be broken by such an assumption?
+> > We know today that there are systems with two VGA devices in them too.
+> >  
 > 
-> Note, that this is the first audio driver I've worked on, so please
-> complain if something doesn't quite look right, it probably wasn't done
-> on purpose.
+> Yes, for systems with multiple VGA devices, which is an uncommon case. I
+> think that on systems with one VGA device and one 3D device, which is
+> probably the most common case, this change might break such clients.
+
+FWIW, this is exactly the opposite of what I'd expect is the common
+case.  IME, an integrated GPU and discrete GPU, or multiple discrete
+GPUs are all VGA devices.
+
+> > I'd think those should have both GPUs exporting a file and one having a 0
+> > the other 1.  
 > 
-> [...]
+> Yeah, agreed. I'd consider it a userspace bug if the client only tests for
+> the presence of the file but doesn't look at its contents, but it's still
+> preferable not to break (hypothetical, buggy) clients unnecessarily. One
+> could make a philosophical argument that "boot_vga" should really mean VGA
+> subclass, as the name implies, but even so I think that, in lieu of a new
+> interface to report what the desktop environments are actually trying to
+> test for (which nobody uses yet because it doesn't exist), exposing the
+> boot_vga file for a non-VGA GPU in the special case of there being zero
+> VGA GPUs on the system is a reasonable and practical compromise to allow
+> existing code to work on the zero-VGA systems.
+> 
+> I think it ultimately comes down to a semantic argument about what "VGA"
+> is really supposed to mean here. There's the real, honest-to-goodness VGA
+> interface with INT 10h and VBE, and then there's the common de facto sort
+> of shorthand convention (commonly but not universally followed) where VGA
+> means it can drive displays and 3D means it can't. It used to be the case
+> (at least on x86) that display controllers which could drive real display
+> hardware were always VGA-compatible, and display controllers were not VGA
+> compatible could never drive real display hardware, which I think is how
+> that convention originated, but on UEFI systems with no CSM support, it's
+> not necessarily true any more. However, there's so much existing software
+> out there that conflates VGA-ness with display-ness that some controllers
+> with no actual VGA support get listed with the VGA controller subclass to
+> avoid breaking such software.
+> 
+> If you go by the language of the definitions for the subclasses of PCI
+> base class 03h, it seems pretty clear that the VGA subclass is supposed
+> to mean actually compatible with real honest-to-goodness VGA. So those
+> non-VGA devices that pretend to be VGA for software compatibility aren't
+> following the spec. I'd be willing to wager that the system in question
+> is being accurate when it says that it has no VGA controllers. It is
+> arguably a userspace bug that these desktop environments are testing for
+> "VGA" when they really probably mean something else, but it will probably
+> take some time to hunt down everything that's relying on boot_vga for
+> possibly wrong reasons, and I think the pragmatic option is to lie about
+> it until we have a better way to test for whatever the desktops really
+> want to know, and that better way is widely used. But it would be nice to
+> limit the lying to cases where it unbreaks things if we can.
 
-Applied, thanks!
+I don't know if you have wiggle room with boot_vga specifically, I
+generally take it at face value that it's a VGA device and imo seems
+inconsistent to suggest otherwise.  I do note however that there's
+really no philosophical discussion related to the VGA arbiter, it is
+managing devices and routing among them according to the strict PCI
+definition of VGA.
 
-[3/3] arm64: dts: qcom: sdm632-fairphone-fp3: Add AW8898 amplifier
-      commit: 87ab84799a90bb73f3f42ae636b213ac4564e237
+Elsewhere in the kernel we can see that vga_default_device() is being
+used for strictly VGA related things, the VGA shadow ROM and legacy VGA
+resource aperture resolution for instance.  It's unfortunate that the
+x86 video_is_primary_device() relies on it, but that seems like a
+growing pain of introducing non-VGA displays on a largely legacy
+encumbered architecture and should be addressed.
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+Note that it should probably be considered whether VGA_ARB_MAX_GPUS
+needs a new default value if all display adapters were to be included.
+Thanks,
+
+Alex
+
