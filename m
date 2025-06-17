@@ -1,179 +1,166 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB472EFD89;
-	Tue, 17 Jun 2025 20:22:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44B42EFDB8;
+	Tue, 17 Jun 2025 20:45:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750191758; cv=none; b=BG8ib6PYHZE0V4B9I8dfLOOLUUWwl9f5Rf3dYGQYbtquVR2NNHi0hhuPdKqaelA7LAPaQrfhvWwCUroo/dCnXVaORg5Xrq86CVrAvzp0wGbVCF2Cqw21drdPvZfC+HOkuv1qW1wpM3Nc5qkEpaLMCyvLmordxcdWAtrpu17PLig=
+	t=1750193152; cv=none; b=MgEAofEYdRXlOBVLTI4/2XjudriQgxEgzZmEHjBwIWhWWznuzud0fy3wjqooJBebQqakOArRFuJhJXvXDwpIxpJu00b+ymBxsOp5XY4Lh3HeWLF5RSXwltitHQKD3j73tfIm2zcjBDvMUVWUVj04jjtxJOBQqkXhlGbuCiR+Wh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750191758; c=relaxed/simple;
-	bh=J6g0JMbLqQPGqasC6o9XOXSYlfEwiBhYFRmGDDOKVKk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e1cNMfFfTfrHDrAg9WfK2eKJDW002Kh045vjS87m7dK7FvzBJuhnpyJi3FaRlhhdvPuFJGBnNGiIUO+dQkVCB48R9WDry8i6B6WPXOQdbUYQ1HE0yCX1U0qp0FAFYuZoR1naakOqEpVR4L3BZtTz7nSVEL4a22db/R0BM/cb5FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDGsc1mh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750193152; c=relaxed/simple;
+	bh=Tx8+d2nD4wLUvww1aSh8rXSe19KajEylICAhrQR2kpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ae1yCijF/RQeOx9C1ip4W3k8TWB81gvemJNo7zfoGklKUicZwSLnx2hSu1WKmdjmB6KzN2+tIIs+VIq8aCMMRkKJKjNCdwkZyC4bWuaWdZCEXpPGO/Ya3iPO8nsxNVPcGsWcwbrWA10xrJE//Mz0eXGnzzjZKI9ZC01//h9wMTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I7TPalyN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDGsc1mh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34571C4CEE3;
-	Tue, 17 Jun 2025 20:22:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I7TPalyN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC74AC4CEE3;
+	Tue, 17 Jun 2025 20:45:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750191757;
-	bh=J6g0JMbLqQPGqasC6o9XOXSYlfEwiBhYFRmGDDOKVKk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HDGsc1mhUWSEa8FKP84Yqh4/mc3eosyuoTZNAuaZ99uZ59tERqY8mwEvz697A9CN5
-	 zwTIptPUEfGyGckjrte0eOrnVVQz8D/DNKApTH8LhLCSUN8/pPNWRYqnEM5mPoXj0J
-	 iBV1EOkAm5encrjRlcZqXylH6PFTOr4T21z0EqN+Ly+6YPTuUN3LBYIqJsseDThtbP
-	 easTYu+UXRUBZxf22exZF3zuvZagMPzQMQqL8vYL48flKYuqiZN89cg5MuniBRc2Bz
-	 tj9ULiqqIorn0Znw+DqFFYSZxt5mLf11wgUJILhzv1YFVekciGl98+MftbF1rTyFzw
-	 Up8otWSF17luA==
-Message-ID: <08257531-c8e4-47b1-a5d1-1e67378ff129@kernel.org>
-Date: Tue, 17 Jun 2025 15:22:34 -0500
+	s=k20201202; t=1750193152;
+	bh=Tx8+d2nD4wLUvww1aSh8rXSe19KajEylICAhrQR2kpI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I7TPalyNaweNsA7yHTQHpg3+Lba52Ul2KBIUw8QFnISPSlkn21pcWoGlJTM44m0wX
+	 7vgh53i0mA7KwApa78gy0U7DTLlgxw8nkPPq+kQ8+iOnKm0MnDeXoje0yvE6tANqCF
+	 gMdHzMD5UO9QXaKFgPP5W06oy01V+P4Kp+0jg53Z1GtAP3JkkumuYwzgSbJu0WRnNg
+	 NXlYoqjsZX61VNgNPe0kBWrbdfow4GP/rKrIwKnWHgFJext7qAVi1OQMqdSrgKsT9u
+	 F7igQi6yqvltWa+JLsvdXvbCu7yFuroPEKCLEgKTm4O9o09tVS4IMRX6NwyMvH6mHu
+	 t3FP74ai9hG/Q==
+Date: Tue, 17 Jun 2025 15:45:49 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, cros-qcom-dts-watchers@chromium.org, 
+	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, kernel@oss.qualcomm.com, 
+	Mohammad Rafi Shaik <quic_mohs@quicinc.com>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v4 1/8] arm64: dts: qcom: qcs6490-audioreach: Add gpr node
+Message-ID: <q6rbvbvejugioon6l23nmmzeue7l4bgtlaf44o3a4krj3lytjp@p3y6opl7vs25>
+References: <20250527111227.2318021-1-quic_pkumpatl@quicinc.com>
+ <20250527111227.2318021-2-quic_pkumpatl@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/6] vgaarb: Look at all PCI display devices in VGA
- arbiter
-To: Alex Williamson <alex.williamson@redhat.com>,
- David Airlie <airlied@gmail.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20250617175910.1640546-1-superm1@kernel.org>
- <20250617175910.1640546-7-superm1@kernel.org>
- <20250617132228.434adebf.alex.williamson@redhat.com>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250617132228.434adebf.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250527111227.2318021-2-quic_pkumpatl@quicinc.com>
 
-
-
-On 6/17/25 2:22 PM, Alex Williamson wrote:
-> On Tue, 17 Jun 2025 12:59:10 -0500
-> Mario Limonciello <superm1@kernel.org> wrote:
+On Tue, May 27, 2025 at 04:42:20PM +0530, Prasad Kumpatla wrote:
+> From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
 > 
->> From: Mario Limonciello <mario.limonciello@amd.com>
->>
->> On a mobile system with an AMD integrated GPU + NVIDIA discrete GPU the
->> AMD GPU is not being selected by some desktop environments for any
->> rendering tasks. This is because neither GPU is being treated as
->> "boot_vga" but that is what some environments use to select a GPU [1].
->>
->> The VGA arbiter driver only looks at devices that report as PCI display
->> VGA class devices. Neither GPU on the system is a PCI display VGA class
->> device:
->>
->> c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
->> c6:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Device 150e (rev d1)
->>
->> If the GPUs were looked at the vga_is_firmware_default() function actually
->> does do a good job at recognizing the case from the device used for the
->> firmware framebuffer.
->>
->> Modify the VGA arbiter code and matching sysfs file entries to examine all
->> PCI display class devices. The existing logic stays the same.
->>
->> This will cause all GPUs to gain a `boot_vga` file, but the correct device
->> (AMD GPU in this case) will now show `1` and the incorrect device shows `0`.
->> Userspace then picks the right device as well.
->>
->> Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12 [1]
->> Suggested-by: Daniel Dadap <ddadap@nvidia.com>
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->> ---
->>   drivers/pci/pci-sysfs.c | 2 +-
->>   drivers/pci/vgaarb.c    | 8 ++++----
->>   2 files changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
->> index 268c69daa4d57..c314ee1b3f9ac 100644
->> --- a/drivers/pci/pci-sysfs.c
->> +++ b/drivers/pci/pci-sysfs.c
->> @@ -1707,7 +1707,7 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
->>   	struct device *dev = kobj_to_dev(kobj);
->>   	struct pci_dev *pdev = to_pci_dev(dev);
->>   
->> -	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
->> +	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
->>   		return a->mode;
->>   
->>   	return 0;
->> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->> index 78748e8d2dbae..63216e5787d73 100644
->> --- a/drivers/pci/vgaarb.c
->> +++ b/drivers/pci/vgaarb.c
->> @@ -1499,8 +1499,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
->>   
->>   	vgaarb_dbg(dev, "%s\n", __func__);
->>   
->> -	/* Only deal with VGA class devices */
->> -	if (!pci_is_vga(pdev))
->> +	/* Only deal with PCI display class devices */
->> +	if (!pci_is_display(pdev))
->>   		return 0;
->>   
->>   	/*
->> @@ -1546,12 +1546,12 @@ static int __init vga_arb_device_init(void)
->>   
->>   	bus_register_notifier(&pci_bus_type, &pci_notifier);
->>   
->> -	/* Add all VGA class PCI devices by default */
->> +	/* Add all PCI display class devices by default */
->>   	pdev = NULL;
->>   	while ((pdev =
->>   		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
->>   			       PCI_ANY_ID, pdev)) != NULL) {
->> -		if (pci_is_vga(pdev))
->> +		if (pci_is_display(pdev))
->>   			vga_arbiter_add_pci_device(pdev);
->>   	}
->>   
-> 
-> At the very least a non-VGA device should not mark that it decodes
-> legacy resources, marking the boot VGA device is only a part of what
-> the VGA arbiter does.  It seems none of the actual VGA arbitration
-> interfaces have been considered here though.
-> 
-> I still think this is a bad idea and I'm not sure Thomas didn't
-> withdraw his ack in the previous round[1].  Thanks,
-
-Ah; I didn't realize that was intended to be a withdrawl.
-If there's another version of this I'll remove it.
-
-Dave,
-
-What is your current temperature on this approach?
-
-Do you still think it's best for something in the kernel or is this 
-better done in libpciaccess?
-
-Mutter, Kwin, and Cosmic all handle this case in the compositor.
-
-
-> 
-> Alex
-> 
-> [1]https://lore.kernel.org/all/bc0a3ac2-c86c-43b8-b83f-edfdfa5ee184@suse.de/
+> Add GPR(Generic Pack router) node along with
+> APM(Audio Process Manager) and PRM(Proxy resource
+> Manager) audio services.
 > 
 
+This should talk about the choice of adding a new "-audioreach.dtsi"
+file, and should cover why it wouldn't make more sense to add the
+opposite of this change in sc7180-trogdor.dtsi.
+
+> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+> Co-developed-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+> Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>  .../boot/dts/qcom/qcs6490-audioreach.dtsi     | 53 +++++++++++++++++++
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi          |  2 +-
+>  2 files changed, 54 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi b/arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi
+> new file mode 100644
+> index 000000000000..29d4a6a2db26
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi
+> @@ -0,0 +1,53 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+
+We can be more permissive than that, please use BSD-3-Clause.
+
+> +/*
+> + * qcs6490 device tree source for Audioreach Solution.
+> + * This file will handle the common audio device tree nodes.
+
+"Common audio device tree nodes", but not those audio device tree nodes
+that are already specified in sc7180.dtsi...
+
+> + *
+> + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#include <dt-bindings/clock/qcom,lpass-sc7280.h>
+> +#include <dt-bindings/soc/qcom,gpr.h>
+> +#include <dt-bindings/sound/qcom,q6afe.h>
+> +#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
+> +
+> +&remoteproc_adsp_glink {
+> +	/delete-node/ apr;
+> +
+> +	gpr {
+
+Glink only consider available (status = "okay") nodes, so if there's a
+even spread across AudioReach and not, we could even move this to
+sc7180.dtsi and mark both status = "disabled", and have the appropriate
+one enabled for each board.
+
+Regards,
+Bjorn
+
+> +		compatible = "qcom,gpr";
+> +		qcom,glink-channels = "adsp_apps";
+> +		qcom,domain = <GPR_DOMAIN_ID_ADSP>;
+> +		qcom,intents = <512 20>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		q6apm: service@1 {
+> +			compatible = "qcom,q6apm";
+> +			reg = <GPR_APM_MODULE_IID>;
+> +			#sound-dai-cells = <0>;
+> +			qcom,protection-domain = "avs/audio", "msm/adsp/audio_pd";
+> +
+> +			q6apmdai: dais {
+> +				compatible = "qcom,q6apm-dais";
+> +				iommus = <&apps_smmu 0x1801 0x0>;
+> +			};
+> +
+> +			q6apmbedai: bedais {
+> +				compatible = "qcom,q6apm-lpass-dais";
+> +				#sound-dai-cells = <1>;
+> +			};
+> +		};
+> +
+> +		q6prm: service@2 {
+> +			compatible = "qcom,q6prm";
+> +			reg = <GPR_PRM_MODULE_IID>;
+> +			qcom,protection-domain = "avs/audio", "msm/adsp/audio_pd";
+> +
+> +			q6prmcc: clock-controller {
+> +				compatible = "qcom,q6prm-lpass-clocks";
+> +				#clock-cells = <2>;
+> +			};
+> +		};
+> +	};
+> +};
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index b1cc3bc1aec8..708df3f08984 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -3814,7 +3814,7 @@ remoteproc_adsp: remoteproc@3700000 {
+>  
+>  			status = "disabled";
+>  
+> -			glink-edge {
+> +			remoteproc_adsp_glink: glink-edge {
+>  				interrupts-extended = <&ipcc IPCC_CLIENT_LPASS
+>  							     IPCC_MPROC_SIGNAL_GLINK_QMP
+>  							     IRQ_TYPE_EDGE_RISING>;
+> -- 
+> 2.34.1
+> 
