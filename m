@@ -1,65 +1,43 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD072DE1F2
-	for <linux-sound@vger.kernel.org>; Tue, 17 Jun 2025 12:20:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EBE199E9D;
+	Tue, 17 Jun 2025 13:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750162826; cv=none; b=cjzu+w6rCY/J4xMohosf3xLZaoq2XZYrHD6DaneaikGJZhpiewAajFxt7KcQEcZQMm6lnlf3n6JuPnBkFEB0uBaxXDOh4ctRJLfGsWdKUf/01hYuNqSz4u4OBLFX6mZfzTCldxqBBJ6V2KQs6QSkiTxIwA9OKLb1M3auPd/oSPs=
+	t=1750166502; cv=none; b=VowpRTHlg2HAVJab1dV6MilqeYarW0/Xu1F1sbmxx3zCCOyMmPX1NaPLR1fMiYxkvH02KIYdFI5P03Y52EPtmb3Ca6misv0R3y4TYYfso7Gz+XB2y3rG/PsrGOUI6ZYJ/7ARAxSE0KhN3wwJ6uhkUdTneYjCjPCW4sBemCHszxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750162826; c=relaxed/simple;
-	bh=DwcF0NlBlxdXmxZ4P1HYVbWm6Pa7UHrd11SXdQpckGI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=inxte0t0YVOLYow6mkzLdOtNmE6l9kVZPBLLyZzAapFLBSpftbbref5QmnLxN2kYdPC8cRpqjLqGe7aYyx+fQULnObn12pPmqKA4mVOltsRZFLmrUHDiIlJ7fjtcuO9KyPOHBObmc9ZrH2iD6ygqmIXzBIdrsEjmVLmMEqt/jxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=OL0VXSCc; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1750166502; c=relaxed/simple;
+	bh=fkLB4KJre60wZsb+cBk8QXhaiGcgNVN5pkbyduMuRgM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MNTlfxY/SXaRi9u0VSo7So1TsmgCb/QFx4kKCpDn0CLOg8gr1DTolKgnHVIFwcMmpmaVn2nP76dsEA3PfcX2N8FsIhfJXcw575XeYqtAF5zytwpY0tP2WZZLsqD75StDFSEH9tuVQs1zi7F+OircIydOhBTRbDoOtd+/CaV4mAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cMVNIq7s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="OL0VXSCc"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6097de2852aso1815801a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 17 Jun 2025 05:20:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1750162822; x=1750767622; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EUdlhR7H14Eo2mUGN1/ZO0ngxMr42fTDow94RiXbg9k=;
-        b=OL0VXSCc/eUsfqlBUy0rYg1yUN79DIw8lPDh1ZA3L0n/44xmAqcqXzNJXNi+srWz/H
-         EPeGpXgc9ErDTlDB7tql/uvTa2SlGMWwyI/FPhK4NWXALlgXCJlH9bXN5fVw5QGNPjZ4
-         p1OwbC0jHtpRMrIGILXSmu8aT30qpHPaRchEzOFssPoMqIpyet0ljMwc26TU7q594tcC
-         XetWKaE3q4EikCBFPpRBThJaW/Pc+XhKUAC/rPunSI2DbDaHCus1QtvyR/BlCRvDYB05
-         QMg9OPAPRdt28uD0iAwhQgbieYIYungae/XLJVlhWDz+quAJX9WIMwIpgJ5xLMRXo4sz
-         +Yhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750162822; x=1750767622;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EUdlhR7H14Eo2mUGN1/ZO0ngxMr42fTDow94RiXbg9k=;
-        b=EwvevdSMpZhpiFOm0+nYnAwWGRLD9sD52GEPUG37rLCbB2FA7sPpfk5EOGDhOykiRm
-         Kcmai56LKp9JtThpdXd9p/2Jhh7VDLwiIlMRTu+BybAUdPW6eU9mz2W2b+pv7y+5sp/u
-         8zMHLkSB8DlCcXSYlUJTDpsmPbLDWw5ViZjvzvfG770VwIc6L8Cqni4QlZdN5FVgPc+K
-         HmPGUR0xjdjltB1t1EjaDaQDGQG+5j60a9ULa0bXJVabmtJ2FqTpRnmdtMnlWgnn9hmV
-         eG5Su0pRSWLtbmH/4OpzxsQYwxzcS73xG43r8PiBzYeB/yvT+l8oIy7nvOrILTKuFDvk
-         vRPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3ihc6U4I2HgdTjLYKA8jW+vxv927L0HgYFnk5Gi6Usf8sShsKj0YIWV9yx0TNv1ccz5EwjOoHWjtIfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YydsXoE6fuYN/MEMvt2m3zsClTJQv+LxBnQwThN6pVBoXOf2jHl
-	8XMK8YSilpq16XiUshkioubCmJeiyIcS3ZC1BEvW6Zc868oNPxNy0K62DJGlUQ2HciY3jiFKXJ3
-	Nnm7nPNM=
-X-Gm-Gg: ASbGnctguLVtbRazx2+RlBU7/AHf5xmUSaz9LKKJAatINVP3/5L92fx+Byy/tOtKK1e
-	IDvgoXaUKCRf9RTRYWhbdPIsq0FMOntjcY0UtVBAqWGBOpCjy7RCmWA7XQmKccVQxKI9EibKp5W
-	2vJndekaaxaCr1kTR6esQQ0xZ7kTXOc93ExQheMtlo3u1kGjbZDI1zGi7X2ORUAdbHTkHyXkPUD
-	dGgHO6Pc6vydRuxrxXLdTGkjxaxEtTcgqtJastxPLdONS5hp4onbryIWlWXHkYiwvfU89KusvdG
-	SopaCfiwYKxdZD29fUaE4+UYTfs06oA1qaRMf/S+EdNjwxI2L/hFPS4HDJuf08ChmVxZ1uzb0O5
-	tUjJmVxQCWf6kde7EmLh9A5K6xPzwi+sb
-X-Google-Smtp-Source: AGHT+IHXdzCpZsabrbUfZ1/mAGhW1nkU1uiB24DWPjENG/rLfQm1pdzkmZDiD5h6daPKGYzfxXx5lw==
-X-Received: by 2002:a05:6402:3506:b0:607:32e8:652 with SMTP id 4fb4d7f45d1cf-608d09998eemr11138714a12.19.1750162822453;
-        Tue, 17 Jun 2025 05:20:22 -0700 (PDT)
-Received: from otso.local (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-608b4a8c34asm8053834a12.55.2025.06.17.05.20.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 05:20:22 -0700 (PDT)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Tue, 17 Jun 2025 14:20:12 +0200
-Subject: [PATCH] ASoC: qcom: sm8250: Fix possibly undefined reference
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cMVNIq7s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 809BFC4CEE3;
+	Tue, 17 Jun 2025 13:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750166501;
+	bh=fkLB4KJre60wZsb+cBk8QXhaiGcgNVN5pkbyduMuRgM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=cMVNIq7scUGAicrvb3WCnalpEkMC8AU8op2D06fAzQaWGa1PvKS+F+Pfm9lopy532
+	 myHNPd+EggBz2OGjUv08dXIK03bthrzbxAAuV0GicuqI1Retmi9ORC1jie5nKNErRk
+	 6nFDVhQfZMAHHpeKOXUkAHx5zSa4JM2wBqAlbhjYMx7DKkFDGVi8KPa6xWL6rjSaLV
+	 OHyohUza2dy1eioFMDTOBoFShbwZuuSnuQLLpr/mKk3FhvB5lWlU5grFLDejlkavO4
+	 W+K4bhKtWQ4Zwu3INOT3jEUqwYUNSpYTsWItaygjMZtNXtQcTUGmAy+rTBUVjpIyIf
+	 /FU30L73gNAtw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ thierry.reding@gmail.com, jonathanh@nvidia.com, sheetal@nvidia.com, 
+ u.kleine-koenig@baylibre.com, mkumard@nvidia.com, rituc@nvidia.com, 
+ ruc_gongyuanjun@163.com, Chen Ni <nichen@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250617032103.1725040-1-nichen@iscas.ac.cn>
+References: <20250617032103.1725040-1-nichen@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: tegra: AHUB: Remove unneeded semicolon
+Message-Id: <175016649927.38619.12894561378049163567.b4-ty@kernel.org>
+Date: Tue, 17 Jun 2025 14:21:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,57 +46,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250617-snd-sm8250-dep-fix-v1-1-879af8906ec4@fairphone.com>
-X-B4-Tracking: v=1; b=H4sIAHtdUWgC/x3MSwqAMAxF0a1IxgZs638r4qDYVDOwSgMiiHs3O
- DwX3ntAKDMJjMUDmS4WPpLClAUsm08rIQc12Mo2VWs6lBRQ9l6FgU6MfGPtBhe98yZ2FnR4ZtL
- 8n07z+35i7VCTZAAAAA==
-X-Change-ID: 20250617-snd-sm8250-dep-fix-4393fa3a1f72
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Wesley Cheng <quic_wcheng@quicinc.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Matthew Croughan <matthew.croughan@nix.how>, 
- Luca Weiss <luca.weiss@fairphone.com>
-X-Mailer: b4 0.14.2
+X-Mailer: b4 0.15-dev-08c49
 
-With CONFIG_SND_SOC_SM8250=y and CONFIG_SND_SOC_QCOM_OFFLOAD_UTILS=m
-selected in kconfig, the build will fail due to trying to link against a
-symbol only found in the module.
+On Tue, 17 Jun 2025 11:21:03 +0800, Chen Ni wrote:
+> Remove unnecessary semicolons reported by Coccinelle/coccicheck and the
+> semantic patch at scripts/coccinelle/misc/semicolon.cocci.
+> 
+> 
 
-  aarch64-linux-gnu-ld: sound/soc/qcom/sm8250.o: in function `sm8250_snd_exit':
-  sound/soc/qcom/sm8250.c:52:(.text+0x210): undefined reference to `qcom_snd_usb_offload_jack_remove'
+Applied to
 
-Fix this by declaring the dependency that forces CONFIG_SND_SOC_SM8250=m
-when CONFIG_SND_SOC_QCOM_OFFLOAD_UTILS is =m.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Reported-by: Matthew Croughan <matthew.croughan@nix.how>
-Fixes: 1b8d0d87b934 ("ASoC: qcom: qdsp6: Add headphone jack for offload connection status")
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- sound/soc/qcom/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Thanks!
 
-diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
-index e86b4a03dd61d2d3ad6a4d9602f69effbaefaa83..3d9ba13ee1e5250c7c4ecce664ff5a62dddf5094 100644
---- a/sound/soc/qcom/Kconfig
-+++ b/sound/soc/qcom/Kconfig
-@@ -186,6 +186,7 @@ config SND_SOC_SM8250
- 	tristate "SoC Machine driver for SM8250 boards"
- 	depends on QCOM_APR && SOUNDWIRE
- 	depends on COMMON_CLK
-+	depends on SND_SOC_QCOM_OFFLOAD_UTILS || !SND_SOC_QCOM_OFFLOAD_UTILS
- 	select SND_SOC_QDSP6
- 	select SND_SOC_QCOM_COMMON
- 	select SND_SOC_QCOM_SDW
+[1/1] ASoC: tegra: AHUB: Remove unneeded semicolon
+      commit: d9f38d9824bfb1b046d2e720349d2f45959ab184
 
----
-base-commit: e04c78d86a9699d136910cfc0bdcf01087e3267e
-change-id: 20250617-snd-sm8250-dep-fix-4393fa3a1f72
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Best regards,
--- 
-Luca Weiss <luca.weiss@fairphone.com>
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
