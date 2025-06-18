@@ -1,195 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8862F5481;
-	Wed, 18 Jun 2025 18:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8C61624DF;
+	Wed, 18 Jun 2025 19:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750272344; cv=none; b=VQQS459a4GNaa4Gqe5i84mxCzJvWPQ5vqDWC3HfDuDvQnqCZm+0ne0tgoKgwCXr5U4PVQVZKGStNq8fl4DBtMSWKmlwqgwxt3gEqGc8EnDMvgMuFNYkML/1tCm8/ASoI5upg3ylth8keBzxYV7vFsIIzXd55LacoUFJtbj+6rOo=
+	t=1750274392; cv=none; b=r2aBLF1/Q2JCyN0Y2zwTRG1kHP0oaf6JHs/JQISPxno2kk3KPkMgpYu4qZ4K/K++v2oBcAZ7rt+GiNslvqg0/BrXeI7vAas+aF+gs9ALPyAOYxKmOu1Kmj+8UImVW1ONtm/HlodZzc15zEyyweuNDJpHJ+DoAIxadfTEjfw02Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750272344; c=relaxed/simple;
-	bh=kbXAVpybQ2pDJoOh5xCA8sgCP7NubFSj4yGjwUtH7RA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=FUCmKbDnB2Lf/rLERu1ikfpCQkjFinhWIhNkxyPNyesM0JK2J+qpKCiBu+9MEVUbS+2DI92I9M/uk9psSvSeH92LhFVicjsQQM9JZ/4ShLe31e6rmA1Vuo5B1RkfGh/JSh3bT1Kyd++g24+nrB+padjsne7SWa3ruHWfFhQSdJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hRrNC2H2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750274392; c=relaxed/simple;
+	bh=c4qdY3tnTY9wWZCO2RT52Bky6b3xLh9TnGYkaIovRNg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZX7nCX25/dCzcOco8tlxKzGXRhnTgYifK/3ocPV82MYN0QUJQ6+GQZjxrUsIgSOzfdSOW2DM6LEeY0BpiweX9FbNv+wrgCw3snIuooTvwXgGVqD9J7xsAmNisQLEPSbjzvhcHOeyIz93yRGXXKbdXn1InQABXlkgiuQb2jKfwTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=HYOxmFEK; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hRrNC2H2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A706C4CEEF;
-	Wed, 18 Jun 2025 18:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750272343;
-	bh=kbXAVpybQ2pDJoOh5xCA8sgCP7NubFSj4yGjwUtH7RA=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=hRrNC2H2IBsPTgQYQSA8Xg3omiE3vcsZbrhWm88sx6eRH8ApMQXqxoWHRTIPc7Rgg
-	 sDNxvlqwAJiuitvuH0rkeYX6+Kvh18Eke5FU6A1CzSIyecKPJUq3wqICErHjeFnACP
-	 wE9z2GZ//HzavUx909tQyzmmHs9QiH5YPvhdRLOuzCYBQCF+1tYQ8B/y8nNiHoeOlZ
-	 gisotdvj7cUs+u1yyKmAGVYNjvjahEcOmg5E6AvyXgG51oB/DtETcrgxr7q3mQVLnL
-	 1qlaBFyuXZlEwql4Y3YW+agIOHa9ilzm+eer6pmJbOOwf3Dv5/e6dpaq1W+ml1XtL4
-	 Jbp89RX+5B4Ng==
-Message-ID: <8ee5d492-4777-4dc7-a001-0bdbb3bff2a4@kernel.org>
-Date: Wed, 18 Jun 2025 13:45:40 -0500
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HYOxmFEK"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55IHgFEI024969;
+	Wed, 18 Jun 2025 19:19:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=+aW2YSIMxaUjDzZn1X4t6XsLFabUP
+	JcRS0G2vvx8WuU=; b=HYOxmFEKR3MgszoCdtqxpVUPdb2KIr/S5ESn1fTihHQhx
+	SSLB/2Q8qpalz26irpoVtURqyZuB0BrKDq2tLHNrm/y87H2uc4vNcNa+HjpYZSwj
+	afVKvRBGIYlK4cib4xsZbofUV0yNkp/UaRzVKIZk3E+CDtuJq6ZcnT3aSqPuJusX
+	Vqe6ermtvRuCCWRwlUoUYMkKLYA3ZBrGoV39yk1yU471SpQ6sitpoxvDa8kTrS7C
+	EOLFFMq/wHWyIGWEPBC0KDShz/JqFqS/uNHV6w3wterN6+XdzPVbxbg24hiL75/I
+	NCOMt/tY7LvOdSxDShR/8Tl9W27Q639jW5AvK0dQQ==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 479q8r7hs8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Jun 2025 19:19:33 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55IHfuYM000831;
+	Wed, 18 Jun 2025 19:19:32 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 478yhb2800-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 Jun 2025 19:19:32 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55IJJWxG026607;
+	Wed, 18 Jun 2025 19:19:32 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 478yhb27xr-1;
+	Wed, 18 Jun 2025 19:19:32 +0000
+From: Alok Tiwari <alok.a.tiwari@oracle.com>
+To: perex@perex.cz, tiwai@suse.com, phasta@kernel.org,
+        andriy.shevchenko@linux.intel.com, linux-sound@vger.kernel.org
+Cc: alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org
+Subject: [BUG] ALSA: intel8x: Why incorrect codec index used setting ICH_DI2L SDIN
+Date: Wed, 18 Jun 2025 12:19:21 -0700
+Message-ID: <20250618191929.2382821-1-alok.a.tiwari@oracle.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/6] vgaarb: Look at all PCI display devices in VGA
- arbiter
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Williamson <alex.williamson@redhat.com>,
- David Airlie <airlied@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20250617175910.1640546-1-superm1@kernel.org>
- <20250617175910.1640546-7-superm1@kernel.org>
- <20250617132228.434adebf.alex.williamson@redhat.com>
- <08257531-c8e4-47b1-a5d1-1e67378ff129@kernel.org>
- <4b4224b8-aa91-4f21-8425-2adf9a2b3d38@suse.de>
- <aFLJTSIPVE0EnNvh@phenom.ffwll.local>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <aFLJTSIPVE0EnNvh@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-18_05,2025-06-18_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 bulkscore=0 spamscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505160000 definitions=main-2506180165
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE4MDE2NCBTYWx0ZWRfXwgy3gO4DXp5n MBoW9EaGDpR0hG4cYp0j4tiFSM2Bx2mMHV01Fd6olCZzhq/B4N0XPmSmrmaP38RbtineoWXPfkX zCafCYCL8NOl7IWmS4qdq2oV4ZRdacIqC7A2+FWmX30Q8EbiFvG0xzWGds7x3mIp7DTO2t92Z5G
+ fOXnvsTBchoIEpF2yQZ4ZYfBb3wOpw0A3imMik0BCevQK25m4YtZZghP3ebe+ppjC3cw4Y8I3ZJ Wjh22WQceGo6jq/8ZvRflVg0d3W4ThJY+OyD8JVPHXu5xtqV5o7NNjC+lfMdgxp4KdCcXis+uY2 bdIeQkq30wEt2Ym/1q9nUQf/9fUq4X4tm1kRzDmYO0hzqcPMsnqy90lKE3Q8UNKp2sHQzUGCOal
+ 1z1qV1+xRTU0KcurX/f3ecHGcBMlEP2lmQ1/zjRoa1AS55Zo6rFhrIpjuOCaUUevmWu0YlCU
+X-Proofpoint-GUID: XRr2tr9Y1BNd17p7D-a1Lw1XW65G2oaO
+X-Proofpoint-ORIG-GUID: XRr2tr9Y1BNd17p7D-a1Lw1XW65G2oaO
+X-Authority-Analysis: v=2.4 cv=dvLbC0g4 c=1 sm=1 tr=0 ts=68531145 b=1 cx=c_pps a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=ajM-e9yD8c-mEGuaoXUA:9 cc=ntf awl=host:13206
 
-On 6/18/2025 9:12 AM, Simona Vetter wrote:
-> On Wed, Jun 18, 2025 at 11:11:26AM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 17.06.25 um 22:22 schrieb Mario Limonciello:
->>>
->>>
->>> On 6/17/25 2:22 PM, Alex Williamson wrote:
->>>> On Tue, 17 Jun 2025 12:59:10 -0500
->>>> Mario Limonciello <superm1@kernel.org> wrote:
->>>>
->>>>> From: Mario Limonciello <mario.limonciello@amd.com>
->>>>>
->>>>> On a mobile system with an AMD integrated GPU + NVIDIA discrete GPU the
->>>>> AMD GPU is not being selected by some desktop environments for any
->>>>> rendering tasks. This is because neither GPU is being treated as
->>>>> "boot_vga" but that is what some environments use to select a GPU [1].
->>>>>
->>>>> The VGA arbiter driver only looks at devices that report as PCI display
->>>>> VGA class devices. Neither GPU on the system is a PCI display VGA class
->>>>> device:
->>>>>
->>>>> c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
->>>>> c6:00.0 Display controller: Advanced Micro Devices, Inc.
->>>>> [AMD/ATI] Device 150e (rev d1)
->>>>>
->>>>> If the GPUs were looked at the vga_is_firmware_default()
->>>>> function actually
->>>>> does do a good job at recognizing the case from the device used for the
->>>>> firmware framebuffer.
->>>>>
->>>>> Modify the VGA arbiter code and matching sysfs file entries to
->>>>> examine all
->>>>> PCI display class devices. The existing logic stays the same.
->>>>>
->>>>> This will cause all GPUs to gain a `boot_vga` file, but the
->>>>> correct device
->>>>> (AMD GPU in this case) will now show `1` and the incorrect
->>>>> device shows `0`.
->>>>> Userspace then picks the right device as well.
->>>>>
->>>>> Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12
->>>>> [1]
->>>>> Suggested-by: Daniel Dadap <ddadap@nvidia.com>
->>>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>>> ---
->>>>>    drivers/pci/pci-sysfs.c | 2 +-
->>>>>    drivers/pci/vgaarb.c    | 8 ++++----
->>>>>    2 files changed, 5 insertions(+), 5 deletions(-)
->>>>>
->>>>> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
->>>>> index 268c69daa4d57..c314ee1b3f9ac 100644
->>>>> --- a/drivers/pci/pci-sysfs.c
->>>>> +++ b/drivers/pci/pci-sysfs.c
->>>>> @@ -1707,7 +1707,7 @@ static umode_t
->>>>> pci_dev_attrs_are_visible(struct kobject *kobj,
->>>>>        struct device *dev = kobj_to_dev(kobj);
->>>>>        struct pci_dev *pdev = to_pci_dev(dev);
->>>>>    -    if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
->>>>> +    if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
->>>>>            return a->mode;
->>>>>          return 0;
->>>>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->>>>> index 78748e8d2dbae..63216e5787d73 100644
->>>>> --- a/drivers/pci/vgaarb.c
->>>>> +++ b/drivers/pci/vgaarb.c
->>>>> @@ -1499,8 +1499,8 @@ static int pci_notify(struct
->>>>> notifier_block *nb, unsigned long action,
->>>>>          vgaarb_dbg(dev, "%s\n", __func__);
->>>>>    -    /* Only deal with VGA class devices */
->>>>> -    if (!pci_is_vga(pdev))
->>>>> +    /* Only deal with PCI display class devices */
->>>>> +    if (!pci_is_display(pdev))
->>>>>            return 0;
->>>>>          /*
->>>>> @@ -1546,12 +1546,12 @@ static int __init vga_arb_device_init(void)
->>>>>          bus_register_notifier(&pci_bus_type, &pci_notifier);
->>>>>    -    /* Add all VGA class PCI devices by default */
->>>>> +    /* Add all PCI display class devices by default */
->>>>>        pdev = NULL;
->>>>>        while ((pdev =
->>>>>            pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
->>>>>                       PCI_ANY_ID, pdev)) != NULL) {
->>>>> -        if (pci_is_vga(pdev))
->>>>> +        if (pci_is_display(pdev))
->>>>>                vga_arbiter_add_pci_device(pdev);
->>>>>        }
->>>>
->>>> At the very least a non-VGA device should not mark that it decodes
->>>> legacy resources, marking the boot VGA device is only a part of what
->>>> the VGA arbiter does.  It seems none of the actual VGA arbitration
->>>> interfaces have been considered here though.
->>>>
->>>> I still think this is a bad idea and I'm not sure Thomas didn't
->>>> withdraw his ack in the previous round[1].  Thanks,
->>>
->>> Ah; I didn't realize that was intended to be a withdrawl.
->>> If there's another version of this I'll remove it.
->>
->> Then let me formally withdraw the A-b.
->>
->> I think this updated patch doesn't address the concerns raised in the
->> previous reviews. AFAIU vgaarb is really only about VGA devices.
-> 
-> I missed the earlier version, but wanted to chime in that I concur. vgaarb
-> is about vga decoding, and modern gpu drivers are trying pretty hard to
-> disable that since it can cause pain. If we mix in the meaning of "default
-> display device" into this, we have a mess.
-> 
-> I guess what does make sense is if the kernel exposes its notion of
-> "default display device", since we do have that in some sense with
-> simpledrm. At least on systems where simpledrm is a thing, but I think you
-> need some really old machines for that to not be the case.
-> 
-> Cheers, Sima
+Correct the index to use codec[i] to match the loop iteration, not codec[1].
 
-Thanks guys.  Let's discard patch 6.  Here's a spin of an approach for 
-userspace that does something similar to what the compositors are doing.
-We can iterate on that.
+Is this a mistake or intentional?
 
-https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/38
+Thanks,
+Alok
 
-I think patches 1-5 still are valuable though.  So please add reviews to 
-those and we can take those without patch 6 if there is agreement.
+propose changes
+Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+---
+ sound/pci/intel8x0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/pci/intel8x0.c b/sound/pci/intel8x0.c
+index 51e7f1f1a48e..b521cec20333 100644
+--- a/sound/pci/intel8x0.c
++++ b/sound/pci/intel8x0.c
+@@ -2249,7 +2249,7 @@ static int snd_intel8x0_mixer(struct intel8x0 *chip, int ac97_clock,
+ 			tmp |= chip->ac97_sdin[0] << ICH_DI1L_SHIFT;
+ 			for (i = 1; i < 4; i++) {
+ 				if (pcm->r[0].codec[i]) {
+-					tmp |= chip->ac97_sdin[pcm->r[0].codec[1]->num] << ICH_DI2L_SHIFT;
++					tmp |= chip->ac97_sdin[pcm->r[0].codec[i]->num] << ICH_DI2L_SHIFT;
+ 					break;
+ 				}
+ 			}
+-- 
+2.47.1
+
