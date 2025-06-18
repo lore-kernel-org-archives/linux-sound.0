@@ -1,279 +1,120 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987D42EA147
-	for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 12:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA8A2E54BF
+	for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 12:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750250050; cv=none; b=OvstUMjO1GcFQjjSPpJTM0kNwI4I813s3zCDMyEwinUH0vNiwtKfHmLu2Q5e47moJ1IYRiDSinOYLgtPiwIcUZL1xLV3df+oi3GzQtVfdIqUw/cxHDLrhP69Bql4CuzPf84lYHg0lVIURu1/qzVoHhcQpfuggjk2UGdDjsPcr+I=
+	t=1750251430; cv=none; b=keniMZe9wQL3Ga3APItI39rlGM9Sxr7IdTDZlwQP8dD76xb9Pye0T2mRcy1QrwnOyJAnE7/CeoMm8Ij591aPtVkettfmbcg2yN7EQ6VFUvo/O7OfOBgsXZgPZbld1qEgJYDT+h9ZAfSz9OFgxqP/LKknTAQQez2FWsl0ARqQzZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750250050; c=relaxed/simple;
-	bh=LHuWM7ztPWhVr2EVCa7CXadp0RwlRl4KOvg2bTSK20A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N3qjZ4nCH0RnvLaGoXFRN7i+WDVfQM6iTOReRcczWj/ylVMFi3pkhurGaB5933nR1+8RqyqAWaHsEsK19B1F6osnDM0aL2KvNub3lqzYmdPUeeYW9VfjaXMhTSMeOxTA5v363B07FrrPsSuTeV97FwYEsTj76FEz4foNni7w6OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=P/mqFCxW; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1750251430; c=relaxed/simple;
+	bh=chU3ZzgX8ixQ80XuNsDpy9w595hkOFK6g+6/L8GwJwM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ep5f+7FGEclyvXxtfIGGFzGMcQ1fRn1KaqIJZjO141Xo441Q5fMK8I5xgyko7VZ1Mwzrz4EBa+YpNuUHCtG2lf0uoP6rdZHt0d+zNKTnWZJIYoij5UcaqlojkGHKsQhWLNYMP84QETLoB27356+LAmGrx49xRIm1R2c3tuVBdIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vooGQp+c; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="P/mqFCxW"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55I9ewar020826
-	for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 12:34:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	eRMFOT/3PMbmmB1Uw0yQJVEOADQQc5KkeNtsfpN1UNE=; b=P/mqFCxW/4QSRV1/
-	37pIrJw4kzfdLphMJ07MHJF1jNz/3/49ZJHyje/rOwfUztGMP5HFGRp6i4Jh1G4Q
-	mh4gHE4scAXHlSKGBxSyI3m/BBSC82GI+uDd26BlAn4qz/Rj7PETOR0HVlyRKZI/
-	iTTSdV3NzjfTkDGBLngLKlVF7dmhppQhzkNF0P1t9YJ7G4cpFao1jC9EpAVdozXT
-	RatuJjCPu4SFYtDE7ux2SbJktRcQ0lA4z/AEw0lR+SifCLArMGgMsCzw3D+gIjPE
-	RsUnOetSpOvO1D98A8LizC33cQuIe66Sp4i/mo5DSrEhZ5FdScD82Nfqg/JZhjLy
-	EtLt2Q==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791h9c1u0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 12:34:07 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7d399070cecso145524585a.3
-        for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 05:34:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vooGQp+c"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e81a7d90835so6583732276.1
+        for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 05:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750251427; x=1750856227; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
+        b=vooGQp+cXA7Bl9EdDFb5l+L/SbQXuI4V5FZ0RzgjuAXNy2/KAcAyg2o0IWDzripkkE
+         tBcO61mGf6On7hilM9Kk8BA7p/r54kdadUGCT7+RjJWLFtKtD49Ey3xovothllGuoj/4
+         cxXsMsagUqhtNDY9xe3IgmmjXPfqYXJqlV92vCEkihxdk3DWBzTR13Wc9w9peHStJI3V
+         2RGg4jkTHOtGpN/1nexrUJ0QdBXUzSHI/I18yISa6Mx4qaxv6QSZzxrY1VkWUzOfo/r6
+         IL7vbyCJIta0JWgxjWOjrHPMkACNqcs8A1MbsIp1o40U5q2UIjPOipsV3G9Vi/CcrE/r
+         7Gug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750250046; x=1750854846;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eRMFOT/3PMbmmB1Uw0yQJVEOADQQc5KkeNtsfpN1UNE=;
-        b=GM8xON1QaNXHczSUPreNSzDe+Yt9QpF+PyqY+DXWu/3MsYGfZdusXr0N0fgDkSaGaH
-         czIsWNhDySfyyARe/aU4YeDe/Su5J4VM8ZCg2xVgRQjhvZC1bXiUdbebdfazfQTPKJBv
-         4c4OZQjn2AAJXGLbnE446Temlzgb5/qDS6ae7JaA/DugE5hI5Gi3iMQ69QEoMw3u6BNt
-         ddCSL49l+MRgpq/KfrwugCpIn9J+djXER1GjBybCHtmjSXdSqTHmn4Zu0QF1Rlvz+ukP
-         E2PmWUClS5Y4ZQA7OWXZS6oBjiN+9UX0/z7ZhR59u5ffsr0am+NP04CVZr56yIu0lTYI
-         5kDw==
-X-Forwarded-Encrypted: i=1; AJvYcCX3IG31W69Tqf5LfDKP2QgiJ6uUa+BCHEUnioy1s/D6fJkfZFIM67h9A4iGIKJ8XwIGnCF3co1r9KxzeQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/kS3BOAYasuxoITWkJoaUmY67tnfvU2kcWKrD504O4b0BtrFb
-	o5RvoUZ6btRJWgeOKqt9zyHEktosMip0aghsXVnGTGvbE9MLXUhYMI7zbta0BGfR4QhiHEoOvQC
-	3zNPK2HL0JjjiT//K+M3ufdKJnecVsfIElx6qGVcwtuHpIC8muzDDoH3GfNs8vsui8Q==
-X-Gm-Gg: ASbGncuDs1uO3vcwXdWeWSPKyDVmpbnHg/jPC+9xbpF0KFbW0rHUJXaPrHrC/jxUM9a
-	YYGgIGpayAdvwkvJQ7HfRa9m7riJirW5TbdtVNa6CpfFUrKO8mQ5G/rwf1rvVdf5hDBLHFPkYSL
-	X1wzckPQ3nOz6Tkc4TQEIUAeIYo6sODi+xhP1dK7E5PvEWe9jpSt7bKNSIcx7t4OYyBvtQlMwWP
-	2e2y9NzosQCI1dFPLR3xpn8j4CYm1VMmMp0sHeSWp0ufqQqZmFO6j5VPUgLWsGYd0e7rWpxYOyk
-	P2pCai8KA/9ciNvUvwtgTE/ZrBcnMcZvQb4BwaogPcd0bikq
-X-Received: by 2002:a05:620a:a20d:b0:7d3:e83c:951d with SMTP id af79cd13be357-7d3e83ce085mr412952885a.21.1750250046583;
-        Wed, 18 Jun 2025 05:34:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFmOq0+HrAD5r/cYf5XwPht6kA6wl8WHkSrFkKeJLapYf8ANWSDAI5kyUuHdTLnUrshNBaNyA==
-X-Received: by 2002:a05:620a:a20d:b0:7d3:e83c:951d with SMTP id af79cd13be357-7d3e83ce085mr412947885a.21.1750250046135;
-        Wed, 18 Jun 2025 05:34:06 -0700 (PDT)
-Received: from [192.168.68.111] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4535969b60asm13435595e9.0.2025.06.18.05.34.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jun 2025 05:34:05 -0700 (PDT)
-Message-ID: <c4d934c1-0218-4147-882f-279795bcd1f4@oss.qualcomm.com>
-Date: Wed, 18 Jun 2025 13:34:04 +0100
+        d=1e100.net; s=20230601; t=1750251427; x=1750856227;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
+        b=G/6vrq//c/wVr3XLcJAnqyN1h4ZVLVxINe4LKAl/E3BHCn2f2YxKNQETPMMiDrPmig
+         jAgSoqWZFsj1g6D9KQa29zEIScfQwez1xJSGpKw7BOiWsLf/5NOMdejwwpk9nhmIUF5L
+         TMptNk7XK0R6NTGUpolt3lTLMUZUiPaSLCwif7ebwBbymRoIfMHkrUZY1HO9FinPQi7Y
+         7CIzQxXgZ5JptD6KQM4rGv43EovpRW6oKSf2QoIpol679hhnAhjURFtJ8MUI5rDRKTpg
+         DJhxJCV42QCvErZoI3hQ0qKyMbzSHrp4gSj02m2NwGrfHcya4bpQ833MW3OH4EVEpkRe
+         KWAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXeqMQY9PQNcsIMz4Qg20UTl+0t0E9PT/Kvl4OyZZ/dXfJT4lZPPxz+6WrVCcrscVQVM6LmxD7lGWYR0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN3ZyIOk161KjOBNywKeo2F80a0w/TSXzSBKdMqJZYnhOP1LCD
+	jrJD6tp4yQNrXD5ChhDI5FL9rh0Y8w1HIRPy3lgZDbiix6ectC6+3wLCs/w6qzBWFsAFp+KiJXu
+	Au5k8dAUgBHdhlQW6TqYFqgQiuYFfTaI1PL7/8whvnA==
+X-Gm-Gg: ASbGncs2+8ZvZVkc1M6M4zgcOCv1LafJWZV+XeAUcFl/YNA9WqEY87k/b8EpX9KHGfq
+	x5for5Stvd0MBzEwJOBu3TkVaOfZiMlMzVX2FgD5VGdrdCyRbnl7wUe6VbR90xDppD+gwaZwU5U
+	Gyi+iNM9BGfs5QWw7+AdnBGLc/Dh2Y+YtouRD18OzkCwk=
+X-Google-Smtp-Source: AGHT+IEZlf2SkQ6pDtcOhhdvV3LmUw3iR0H22QpguHg1V4liWBddtmQy97+4HMMAxIbIevgaVnIrB0SHGsEYRyBVYzQ=
+X-Received: by 2002:a05:6902:6303:b0:e82:2b85:ea3a with SMTP id
+ 3f1490d57ef6-e822b85ee43mr16723424276.32.1750251426746; Wed, 18 Jun 2025
+ 05:57:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 2/2] ASoC: qcom: qdsp6/audioreach: add support for
- offloading raw opus playback
-To: Alexey Klimov <alexey.klimov@linaro.org>, Vinod Koul <vkoul@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-Cc: Patrick Lai <plai@qti.qualcomm.com>,
-        Annemarie Porter <annemari@quicinc.com>, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        kernel@oss.qualcomm.com, Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-References: <20250616-opus_codec_rfc_v1-v1-0-1f70b0a41a70@linaro.org>
- <20250616-opus_codec_rfc_v1-v1-2-1f70b0a41a70@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20250616-opus_codec_rfc_v1-v1-2-1f70b0a41a70@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: oird_muCF4ToDEH4R-RBw8kkTOedOZ-d
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE4MDEwNiBTYWx0ZWRfX9rtbSlgIMisn
- EmCrkarRJDlIdcoZOltgvXY7aNEqtNKY/0eL/zI/w+sn91OPt8TuTjO8VGRxovN5an5UYety3Ws
- PNNGCYAhOaCDGYLyhai1rOKhvFoTYCs/iOdf1WXtndkRXipe/PUI7Y9Bd6FjDhSyzVCbmSFPwQd
- Wq2+Zb0nTgGm4YKl+47IIHIWvZu/tqvzElMIWOwfuma9oAf2/rRKIxdETtmNuDhZ611CO1YlZDx
- bJinqn9qBMmCz5HpowUBCEGqe8GoH5ttX16bZmjw401edBovEfII2cVpXWknCcPU+H3rfEhIiAC
- cPYJFGGkhSQBr8jIONXXpXVOS9ikQjWkBFsafHIW9MA+YVZc1DhoLsIRy/vXEvDHze0P5Rya/GL
- +o9k5eDiYupV2Wn+o05NRKC5BDMEQe3Xbc1A3nWs65K+RNDd/QK8vGbX4KhWifIUjKbFSGNi
-X-Authority-Analysis: v=2.4 cv=UL/dHDfy c=1 sm=1 tr=0 ts=6852b23f cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
- a=VwQbUJbxAAAA:8 a=9AdGPr7lSesGDd7r4mQA:9 a=QEXdDO2ut3YA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: oird_muCF4ToDEH4R-RBw8kkTOedOZ-d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-18_05,2025-06-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- malwarescore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506180106
+References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org> <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
+In-Reply-To: <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 18 Jun 2025 14:56:30 +0200
+X-Gm-Features: AX0GCFsnEI_9cu3U9fY7I_D0EnrNerJPcmhYfg39LAqv66uN774UfRLbAU6VCkM
+Message-ID: <CAPDyKFrQ3Uj+coa0WCG00_pyaxu-yEnH26qmS6tevZ_772oZVg@mail.gmail.com>
+Subject: Re: [PATCH 01/11] pmdomain: apple: Drop default ARCH_APPLE in Kconfig
+To: Sven Peter <sven@kernel.org>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, linux-input@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, 12 Jun 2025 at 23:12, Sven Peter <sven@kernel.org> wrote:
+>
+> When the first driver for Apple Silicon was upstreamed we accidentally
+> included `default ARCH_APPLE` in its Kconfig which then spread to almost
+> every subsequent driver. As soon as ARCH_APPLE is set to y this will
+> pull in many drivers as built-ins which is not what we want.
+> Thus, drop `default ARCH_APPLE` from Kconfig.
+>
+> Signed-off-by: Sven Peter <sven@kernel.org>
+
+Applied for next, thanks!
+
+Kind regards
+Uffe
 
 
-
-On 6/16/25 4:26 PM, Alexey Klimov wrote:
-> Add support for OPUS module, OPUS format ID, media format payload struct
-> and make it all recognizable by audioreach compress playback path.
-> 
-> At this moment this only supports raw or plain OPUS packets not
-> encapsulated in container (for instance OGG container). For this usecase
-> each OPUS packet needs to be prepended with 4-bytes long length field
-> which is expected to be done by userspace applications. This is
-> Qualcomm DSP specific requirement.
-> > This patch is based on earlier work done by
-> Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
-Thanks for picking this up Alexey,
-
-Same, co-dev by should be good attribute for such things.
-
-
-> 
-> Cc: Annemarie Porter <annemari@quicinc.com>
-> Cc: Srinivas Kandagatla <srini@kernel.org>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 > ---
->  sound/soc/qcom/qdsp6/audioreach.c | 33 +++++++++++++++++++++++++++++++++
->  sound/soc/qcom/qdsp6/audioreach.h | 17 +++++++++++++++++
->  sound/soc/qcom/qdsp6/q6apm-dai.c  |  3 ++-
->  sound/soc/qcom/qdsp6/q6apm.c      |  3 +++
->  4 files changed, 55 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-> index 4ebaaf736fb98a5a8a58d06416b3ace2504856e1..09e3a4da945d61b6915bf8b6f382c25ae94c5888 100644
-> --- a/sound/soc/qcom/qdsp6/audioreach.c
-> +++ b/sound/soc/qcom/qdsp6/audioreach.c
-> @@ -859,6 +859,7 @@ static int audioreach_set_compr_media_format(struct media_format *media_fmt_hdr,
->  	struct payload_media_fmt_aac_t *aac_cfg;
->  	struct payload_media_fmt_pcm *mp3_cfg;
->  	struct payload_media_fmt_flac_t *flac_cfg;
-> +	struct payload_media_fmt_opus_t *opus_cfg;
->  
->  	switch (mcfg->fmt) {
->  	case SND_AUDIOCODEC_MP3:
-> @@ -901,6 +902,38 @@ static int audioreach_set_compr_media_format(struct media_format *media_fmt_hdr,
->  		flac_cfg->min_frame_size = mcfg->codec.options.flac_d.min_frame_size;
->  		flac_cfg->max_frame_size = mcfg->codec.options.flac_d.max_frame_size;
->  		break;
-> +	case SND_AUDIOCODEC_OPUS_RAW:
-> +		media_fmt_hdr->data_format = DATA_FORMAT_RAW_COMPRESSED;
-> +		media_fmt_hdr->fmt_id = MEDIA_FMT_ID_OPUS;
-> +		media_fmt_hdr->payload_size = sizeof(struct payload_media_fmt_opus_t);
-
-maybe sizeof(*opus_cfg)?
-
-> +		p = p + sizeof(*media_fmt_hdr);
-> +		opus_cfg = p;
-> +		/* raw opus packets prepended with 4 bytes of length */
-> +		opus_cfg->bitstream_format = 1;
-> +		/*
-> +		 * payload_type:
-> +		 * 0 -- read metadata from opus stream;
-> +		 * 1 -- metadata is provided by filling in the struct here.
-> +		 */
-> +		opus_cfg->payload_type = 1;
-> +		opus_cfg->version = mcfg->codec.options.opus_d.version;
-> +		opus_cfg->num_channels = mcfg->codec.options.opus_d.num_channels;
-> +		opus_cfg->pre_skip = mcfg->codec.options.opus_d.pre_skip;
-> +		opus_cfg->sample_rate = mcfg->codec.options.opus_d.sample_rate;
-> +		opus_cfg->output_gain = mcfg->codec.options.opus_d.output_gain;
-> +		opus_cfg->mapping_family = mcfg->codec.options.opus_d.mapping_family;
-> +		opus_cfg->stream_count = mcfg->codec.options.opus_d.stream_count;
-> +		opus_cfg->coupled_count = mcfg->codec.options.opus_d.coupled_count;
-> +
-> +		if (mcfg->codec.options.opus_d.num_channels == 1) {
-> +			opus_cfg->channel_mapping[0] = PCM_CHANNEL_FL;
-> +		} else if (mcfg->codec.options.opus_d.num_channels == 2) {
-> +			opus_cfg->channel_mapping[0] = PCM_CHANNEL_FL;
-> +			opus_cfg->channel_mapping[1] = PCM_CHANNEL_FR;
-> +		}
-
-Pl use audioreach_set_default_channel_mapping() to fill in the channel
-mapping data.
-
-Why are we not using channel mapping info from the snd_dec_opus struct here?
-
-
-> +
-> +		opus_cfg->reserved[0] = opus_cfg->reserved[1] = opus_cfg->reserved[2] = 0;
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-> index 61a69df4f50f6cc90b56697c272ade6f1411bbf2..512ea24fd402c95f98db790313b756a5ba3dcca1 100644
-> --- a/sound/soc/qcom/qdsp6/audioreach.h
-> +++ b/sound/soc/qcom/qdsp6/audioreach.h
-> @@ -29,6 +29,7 @@ struct q6apm_graph;
->  #define MODULE_ID_MP3_DECODE		0x0700103B
->  #define MODULE_ID_GAPLESS		0x0700104D
->  #define MODULE_ID_DISPLAY_PORT_SINK	0x07001069
-> +#define MODULE_ID_OPUS_DEC		0x07001174
->  
->  #define APM_CMD_GET_SPF_STATE		0x01001021
->  #define APM_CMD_RSP_GET_SPF_STATE	0x02001007
-> @@ -255,6 +256,22 @@ struct payload_media_fmt_aac_t {
->  	uint32_t sample_rate;
->  } __packed;
->  
-> +#define MEDIA_FMT_ID_OPUS	0x09001039
-> +struct payload_media_fmt_opus_t {
-> +	uint16_t bitstream_format;
-> +	uint16_t payload_type;
-> +	uint8_t version;
-> +	uint8_t num_channels;
-> +	uint16_t pre_skip;
-> +	uint32_t sample_rate;
-> +	uint16_t output_gain;
-> +	uint8_t mapping_family;
-> +	uint8_t stream_count;
-> +	uint8_t coupled_count;
-> +	uint8_t channel_mapping[8];
-> +	uint8_t reserved[3];
-> +} __packed;
-> +
->  #define DATA_CMD_WR_SH_MEM_EP_EOS			0x04001002
->  #define WR_SH_MEM_EP_EOS_POLICY_LAST	1
->  #define WR_SH_MEM_EP_EOS_POLICY_EACH	2
-> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-> index 2cd522108221a2ec5c7bbbb63f7d4ae4f8001cf6..7da91ed297f4a5ed39ca0747804cabd579634b50 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-> @@ -550,10 +550,11 @@ static int q6apm_dai_compr_get_caps(struct snd_soc_component *component,
->  	caps->max_fragment_size = COMPR_PLAYBACK_MAX_FRAGMENT_SIZE;
->  	caps->min_fragments = COMPR_PLAYBACK_MIN_NUM_FRAGMENTS;
->  	caps->max_fragments = COMPR_PLAYBACK_MAX_NUM_FRAGMENTS;
-> -	caps->num_codecs = 3;
-> +	caps->num_codecs = 4;
->  	caps->codecs[0] = SND_AUDIOCODEC_MP3;
->  	caps->codecs[1] = SND_AUDIOCODEC_AAC;
->  	caps->codecs[2] = SND_AUDIOCODEC_FLAC;
-> +	caps->codecs[3] = SND_AUDIOCODEC_OPUS_RAW;
->  
->  	return 0;
->  }
-> diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-> index b4ffa0f0b188e2c32fdfb863b9130d1d11e578dd..0e667a7eb5467bdd65326099132e8ba9dfefa21e 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm.c
-> @@ -354,6 +354,9 @@ int q6apm_set_real_module_id(struct device *dev, struct q6apm_graph *graph,
->  	case SND_AUDIOCODEC_FLAC:
->  		module_id = MODULE_ID_FLAC_DEC;
->  		break;
-> +	case SND_AUDIOCODEC_OPUS_RAW:
-> +		module_id = MODULE_ID_OPUS_DEC;
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> 
-
+>  drivers/pmdomain/apple/Kconfig | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/pmdomain/apple/Kconfig b/drivers/pmdomain/apple/Kconfig
+> index 12237cbcfaa983083367bad70b1b54ded9ac9824..a8973f8057fba74cd3e8c7d15cd2972081c6697d 100644
+> --- a/drivers/pmdomain/apple/Kconfig
+> +++ b/drivers/pmdomain/apple/Kconfig
+> @@ -9,7 +9,6 @@ config APPLE_PMGR_PWRSTATE
+>         select MFD_SYSCON
+>         select PM_GENERIC_DOMAINS
+>         select RESET_CONTROLLER
+> -       default ARCH_APPLE
+>         help
+>           The PMGR block in Apple SoCs provides high-level power state
+>           controls for SoC devices. This driver manages them through the
+>
+> --
+> 2.34.1
+>
+>
