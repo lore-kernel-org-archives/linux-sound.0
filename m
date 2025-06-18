@@ -1,120 +1,276 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA8A2E54BF
-	for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 12:57:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D232EAB70
+	for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 14:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750251430; cv=none; b=keniMZe9wQL3Ga3APItI39rlGM9Sxr7IdTDZlwQP8dD76xb9Pye0T2mRcy1QrwnOyJAnE7/CeoMm8Ij591aPtVkettfmbcg2yN7EQ6VFUvo/O7OfOBgsXZgPZbld1qEgJYDT+h9ZAfSz9OFgxqP/LKknTAQQez2FWsl0ARqQzZE=
+	t=1750255956; cv=none; b=iUVv6ggyP4kvDqsRLVVs3zKRVGrwNyD0flY9b25k79Ro5wGs07+yU2Z6Phd2CilqN5BQMH2TuMkRr7LDD+zEkxUfhXbtQy6hdJm9ZLu+P9c+rH9FaGMpQa+wz6OL83jPLq/FusIGW/avvgxZo5ulZxbmk3yLwEu+l+HegTDCY1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750251430; c=relaxed/simple;
-	bh=chU3ZzgX8ixQ80XuNsDpy9w595hkOFK6g+6/L8GwJwM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ep5f+7FGEclyvXxtfIGGFzGMcQ1fRn1KaqIJZjO141Xo441Q5fMK8I5xgyko7VZ1Mwzrz4EBa+YpNuUHCtG2lf0uoP6rdZHt0d+zNKTnWZJIYoij5UcaqlojkGHKsQhWLNYMP84QETLoB27356+LAmGrx49xRIm1R2c3tuVBdIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vooGQp+c; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750255956; c=relaxed/simple;
+	bh=7kj7G2jswNX3K0YTdwCRIBC9FAqoENBLPyK5Aq5xsG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bMewGQeq+pQaCFTgHTP8o680tcVZ8p89zkT/Is1slYuDxafGKF8gw/OOvB682ux+WLlfDwkr3ph3xVqVbXe923+QxfrJp1KkmvRsXhYBi60yMyvKRzNzW1pi+1/raMmmM2jrcyClEVnmglOLENSRdP4Czuoq28LbKykXl5jybb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=hwL7rjVx; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vooGQp+c"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e81a7d90835so6583732276.1
-        for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 05:57:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="hwL7rjVx"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6077dea37easo13516272a12.3
+        for <linux-sound@vger.kernel.org>; Wed, 18 Jun 2025 07:12:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750251427; x=1750856227; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
-        b=vooGQp+cXA7Bl9EdDFb5l+L/SbQXuI4V5FZ0RzgjuAXNy2/KAcAyg2o0IWDzripkkE
-         tBcO61mGf6On7hilM9Kk8BA7p/r54kdadUGCT7+RjJWLFtKtD49Ey3xovothllGuoj/4
-         cxXsMsagUqhtNDY9xe3IgmmjXPfqYXJqlV92vCEkihxdk3DWBzTR13Wc9w9peHStJI3V
-         2RGg4jkTHOtGpN/1nexrUJ0QdBXUzSHI/I18yISa6Mx4qaxv6QSZzxrY1VkWUzOfo/r6
-         IL7vbyCJIta0JWgxjWOjrHPMkACNqcs8A1MbsIp1o40U5q2UIjPOipsV3G9Vi/CcrE/r
-         7Gug==
+        d=ffwll.ch; s=google; t=1750255952; x=1750860752; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cz84Hc3uQ6sKBV5PwfzjhcRcDvTwqgSKPuxbgQX5TiY=;
+        b=hwL7rjVx7+zCjsgfT/jaB+YQC3AUTUKtmx0B18LgDMmsDoxkiuaEhtcN9m1DphsY05
+         A0Or5UbDzrWx5JnGTb6P16sUKCS6s0MaZOYi5a0J57Bd6LbIWTtfH3cq5NR0qbhDyqgu
+         6vEMyawYoA7vM70lxtjqlsnMVSuMIfl2y3bbg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750251427; x=1750856227;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1750255952; x=1750860752;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2X2h53UoNZQhDXBsMhRcUUHtA/t5wbotkmy7UVTkX7E=;
-        b=G/6vrq//c/wVr3XLcJAnqyN1h4ZVLVxINe4LKAl/E3BHCn2f2YxKNQETPMMiDrPmig
-         jAgSoqWZFsj1g6D9KQa29zEIScfQwez1xJSGpKw7BOiWsLf/5NOMdejwwpk9nhmIUF5L
-         TMptNk7XK0R6NTGUpolt3lTLMUZUiPaSLCwif7ebwBbymRoIfMHkrUZY1HO9FinPQi7Y
-         7CIzQxXgZ5JptD6KQM4rGv43EovpRW6oKSf2QoIpol679hhnAhjURFtJ8MUI5rDRKTpg
-         DJhxJCV42QCvErZoI3hQ0qKyMbzSHrp4gSj02m2NwGrfHcya4bpQ833MW3OH4EVEpkRe
-         KWAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXeqMQY9PQNcsIMz4Qg20UTl+0t0E9PT/Kvl4OyZZ/dXfJT4lZPPxz+6WrVCcrscVQVM6LmxD7lGWYR0w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxN3ZyIOk161KjOBNywKeo2F80a0w/TSXzSBKdMqJZYnhOP1LCD
-	jrJD6tp4yQNrXD5ChhDI5FL9rh0Y8w1HIRPy3lgZDbiix6ectC6+3wLCs/w6qzBWFsAFp+KiJXu
-	Au5k8dAUgBHdhlQW6TqYFqgQiuYFfTaI1PL7/8whvnA==
-X-Gm-Gg: ASbGncs2+8ZvZVkc1M6M4zgcOCv1LafJWZV+XeAUcFl/YNA9WqEY87k/b8EpX9KHGfq
-	x5for5Stvd0MBzEwJOBu3TkVaOfZiMlMzVX2FgD5VGdrdCyRbnl7wUe6VbR90xDppD+gwaZwU5U
-	Gyi+iNM9BGfs5QWw7+AdnBGLc/Dh2Y+YtouRD18OzkCwk=
-X-Google-Smtp-Source: AGHT+IEZlf2SkQ6pDtcOhhdvV3LmUw3iR0H22QpguHg1V4liWBddtmQy97+4HMMAxIbIevgaVnIrB0SHGsEYRyBVYzQ=
-X-Received: by 2002:a05:6902:6303:b0:e82:2b85:ea3a with SMTP id
- 3f1490d57ef6-e822b85ee43mr16723424276.32.1750251426746; Wed, 18 Jun 2025
- 05:57:06 -0700 (PDT)
+        bh=Cz84Hc3uQ6sKBV5PwfzjhcRcDvTwqgSKPuxbgQX5TiY=;
+        b=Zr9dt8TSJYu7kk93si6OaI15K2+gURSZg8AsDkY+C/uDHAXqDZFKsOJ9cAod/C49S4
+         8XO79dv1dj4heMdY3u+Zj0hPNV1b83MCsph/w334wy56hAInkennxg+wGtoFc9CqmsUQ
+         odpfQdcpH/CTE3ydOBv9d4CL7XwAXBCH47tqCks2vzEKmr4hoc9GNc78xg0ARuSNXtYj
+         pWyy3+nDwSL4fgSTbJ5oacbJ1R+bGTTUBzp5xELfdLuDsGfBeAqfbDOfNrwxxAX2t+KK
+         JAjeD2gBXIc7abjTEc451r8jxReUsLIRcFvJ86A7Yg36/1KzW/dFQ44AoeEawtxj8UcV
+         SDyg==
+X-Forwarded-Encrypted: i=1; AJvYcCWZ8ButIn4/qOzZmnFE3X4TL9DxPAS95Ppx+IbchEw/PDN8HYNOwjmPOmkp7O31zx1j7apT3+pynV9azQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw++TC1BXoJWs/pFBZV/ExcdTZQrU3l2u64uJ/hSJBEXLTfVg/J
+	26Z8kMjPkgTW9YQJ0hL4u4VOMFUO6eoWAmyIW15NDT8346hoYyzDT22zxkqEpAw0WHc=
+X-Gm-Gg: ASbGncs114L0FnCipzRElSJZF7VKFrMU8vdGAQ4yvNPnVLWbSucYUuEjxbmkHbn8oxv
+	aEDgYjbeEXX8vevgfEjRFEoWMOmimXKNxSnhELdTan6iY0nndAu/c3CuvpHPe+HHxz09oq1s29o
+	pGVGR7/aM3E7kHRbsYFxhfp5hZEAkhG6asD3WfZOGXFs2lnYwahZ768w0hvseU4Kf886cTPwig9
+	KxLUuP1Vc6a/yhuQ29K7Kf2+b/Uyx8PlAPB1xRBgbXFEj2v+OYetsdsSI52JqKRww7vDfj+nvnB
+	uA8Knz6ve2lXzXzJG1IeYwtD/mbg3r4ZZzERkXbP2NX7c5S4vtynLWkoHfnUMA1BhdBXCwu9cg=
+	=
+X-Google-Smtp-Source: AGHT+IGngqXytowFqo9vFefDWIVGWRd6341iJxu/XHfEW5ddA5khtLzeGEkme1kvilPhkRGvjw4AVA==
+X-Received: by 2002:a17:906:9f91:b0:ad8:9257:571b with SMTP id a640c23a62f3a-adfad32fa19mr1651880266b.16.1750255952414;
+        Wed, 18 Jun 2025 07:12:32 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec8929371sm1062739466b.117.2025.06.18.07.12.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jun 2025 07:12:31 -0700 (PDT)
+Date: Wed, 18 Jun 2025 16:12:29 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Mario Limonciello <superm1@kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	David Airlie <airlied@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+	"open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+	"open list:SOUND" <linux-sound@vger.kernel.org>,
+	Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v2 6/6] vgaarb: Look at all PCI display devices in VGA
+ arbiter
+Message-ID: <aFLJTSIPVE0EnNvh@phenom.ffwll.local>
+Mail-Followup-To: Thomas Zimmermann <tzimmermann@suse.de>,
+	Mario Limonciello <superm1@kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	David Airlie <airlied@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+	"open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+	"open list:SOUND" <linux-sound@vger.kernel.org>,
+	Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+References: <20250617175910.1640546-1-superm1@kernel.org>
+ <20250617175910.1640546-7-superm1@kernel.org>
+ <20250617132228.434adebf.alex.williamson@redhat.com>
+ <08257531-c8e4-47b1-a5d1-1e67378ff129@kernel.org>
+ <4b4224b8-aa91-4f21-8425-2adf9a2b3d38@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org> <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-1-0e6f9cb512c1@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 18 Jun 2025 14:56:30 +0200
-X-Gm-Features: AX0GCFsnEI_9cu3U9fY7I_D0EnrNerJPcmhYfg39LAqv66uN774UfRLbAU6VCkM
-Message-ID: <CAPDyKFrQ3Uj+coa0WCG00_pyaxu-yEnH26qmS6tevZ_772oZVg@mail.gmail.com>
-Subject: Re: [PATCH 01/11] pmdomain: apple: Drop default ARCH_APPLE in Kconfig
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
-	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, linux-input@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4b4224b8-aa91-4f21-8425-2adf9a2b3d38@suse.de>
+X-Operating-System: Linux phenom 6.12.30-amd64 
 
-On Thu, 12 Jun 2025 at 23:12, Sven Peter <sven@kernel.org> wrote:
->
-> When the first driver for Apple Silicon was upstreamed we accidentally
-> included `default ARCH_APPLE` in its Kconfig which then spread to almost
-> every subsequent driver. As soon as ARCH_APPLE is set to y this will
-> pull in many drivers as built-ins which is not what we want.
-> Thus, drop `default ARCH_APPLE` from Kconfig.
->
-> Signed-off-by: Sven Peter <sven@kernel.org>
+On Wed, Jun 18, 2025 at 11:11:26AM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 17.06.25 um 22:22 schrieb Mario Limonciello:
+> > 
+> > 
+> > On 6/17/25 2:22 PM, Alex Williamson wrote:
+> > > On Tue, 17 Jun 2025 12:59:10 -0500
+> > > Mario Limonciello <superm1@kernel.org> wrote:
+> > > 
+> > > > From: Mario Limonciello <mario.limonciello@amd.com>
+> > > > 
+> > > > On a mobile system with an AMD integrated GPU + NVIDIA discrete GPU the
+> > > > AMD GPU is not being selected by some desktop environments for any
+> > > > rendering tasks. This is because neither GPU is being treated as
+> > > > "boot_vga" but that is what some environments use to select a GPU [1].
+> > > > 
+> > > > The VGA arbiter driver only looks at devices that report as PCI display
+> > > > VGA class devices. Neither GPU on the system is a PCI display VGA class
+> > > > device:
+> > > > 
+> > > > c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
+> > > > c6:00.0 Display controller: Advanced Micro Devices, Inc.
+> > > > [AMD/ATI] Device 150e (rev d1)
+> > > > 
+> > > > If the GPUs were looked at the vga_is_firmware_default()
+> > > > function actually
+> > > > does do a good job at recognizing the case from the device used for the
+> > > > firmware framebuffer.
+> > > > 
+> > > > Modify the VGA arbiter code and matching sysfs file entries to
+> > > > examine all
+> > > > PCI display class devices. The existing logic stays the same.
+> > > > 
+> > > > This will cause all GPUs to gain a `boot_vga` file, but the
+> > > > correct device
+> > > > (AMD GPU in this case) will now show `1` and the incorrect
+> > > > device shows `0`.
+> > > > Userspace then picks the right device as well.
+> > > > 
+> > > > Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12
+> > > > [1]
+> > > > Suggested-by: Daniel Dadap <ddadap@nvidia.com>
+> > > > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> > > > ---
+> > > >   drivers/pci/pci-sysfs.c | 2 +-
+> > > >   drivers/pci/vgaarb.c    | 8 ++++----
+> > > >   2 files changed, 5 insertions(+), 5 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> > > > index 268c69daa4d57..c314ee1b3f9ac 100644
+> > > > --- a/drivers/pci/pci-sysfs.c
+> > > > +++ b/drivers/pci/pci-sysfs.c
+> > > > @@ -1707,7 +1707,7 @@ static umode_t
+> > > > pci_dev_attrs_are_visible(struct kobject *kobj,
+> > > >       struct device *dev = kobj_to_dev(kobj);
+> > > >       struct pci_dev *pdev = to_pci_dev(dev);
+> > > >   -    if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
+> > > > +    if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
+> > > >           return a->mode;
+> > > >         return 0;
+> > > > diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+> > > > index 78748e8d2dbae..63216e5787d73 100644
+> > > > --- a/drivers/pci/vgaarb.c
+> > > > +++ b/drivers/pci/vgaarb.c
+> > > > @@ -1499,8 +1499,8 @@ static int pci_notify(struct
+> > > > notifier_block *nb, unsigned long action,
+> > > >         vgaarb_dbg(dev, "%s\n", __func__);
+> > > >   -    /* Only deal with VGA class devices */
+> > > > -    if (!pci_is_vga(pdev))
+> > > > +    /* Only deal with PCI display class devices */
+> > > > +    if (!pci_is_display(pdev))
+> > > >           return 0;
+> > > >         /*
+> > > > @@ -1546,12 +1546,12 @@ static int __init vga_arb_device_init(void)
+> > > >         bus_register_notifier(&pci_bus_type, &pci_notifier);
+> > > >   -    /* Add all VGA class PCI devices by default */
+> > > > +    /* Add all PCI display class devices by default */
+> > > >       pdev = NULL;
+> > > >       while ((pdev =
+> > > >           pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+> > > >                      PCI_ANY_ID, pdev)) != NULL) {
+> > > > -        if (pci_is_vga(pdev))
+> > > > +        if (pci_is_display(pdev))
+> > > >               vga_arbiter_add_pci_device(pdev);
+> > > >       }
+> > > 
+> > > At the very least a non-VGA device should not mark that it decodes
+> > > legacy resources, marking the boot VGA device is only a part of what
+> > > the VGA arbiter does.  It seems none of the actual VGA arbitration
+> > > interfaces have been considered here though.
+> > > 
+> > > I still think this is a bad idea and I'm not sure Thomas didn't
+> > > withdraw his ack in the previous round[1].  Thanks,
+> > 
+> > Ah; I didn't realize that was intended to be a withdrawl.
+> > If there's another version of this I'll remove it.
+> 
+> Then let me formally withdraw the A-b.
+> 
+> I think this updated patch doesn't address the concerns raised in the
+> previous reviews. AFAIU vgaarb is really only about VGA devices.
 
-Applied for next, thanks!
+I missed the earlier version, but wanted to chime in that I concur. vgaarb
+is about vga decoding, and modern gpu drivers are trying pretty hard to
+disable that since it can cause pain. If we mix in the meaning of "default
+display device" into this, we have a mess.
 
-Kind regards
-Uffe
+I guess what does make sense is if the kernel exposes its notion of
+"default display device", since we do have that in some sense with
+simpledrm. At least on systems where simpledrm is a thing, but I think you
+need some really old machines for that to not be the case.
 
+Cheers, Sima
 
-> ---
->  drivers/pmdomain/apple/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/pmdomain/apple/Kconfig b/drivers/pmdomain/apple/Kconfig
-> index 12237cbcfaa983083367bad70b1b54ded9ac9824..a8973f8057fba74cd3e8c7d15cd2972081c6697d 100644
-> --- a/drivers/pmdomain/apple/Kconfig
-> +++ b/drivers/pmdomain/apple/Kconfig
-> @@ -9,7 +9,6 @@ config APPLE_PMGR_PWRSTATE
->         select MFD_SYSCON
->         select PM_GENERIC_DOMAINS
->         select RESET_CONTROLLER
-> -       default ARCH_APPLE
->         help
->           The PMGR block in Apple SoCs provides high-level power state
->           controls for SoC devices. This driver manages them through the
->
+> Best regards
+> Thomas
+> 
+> > 
+> > Dave,
+> > 
+> > What is your current temperature on this approach?
+> > 
+> > Do you still think it's best for something in the kernel or is this
+> > better done in libpciaccess?
+> > 
+> > Mutter, Kwin, and Cosmic all handle this case in the compositor.
+> > 
+> > 
+> > > 
+> > > Alex
+> > > 
+> > > [1]https://lore.kernel.org/all/bc0a3ac2-c86c-43b8-b83f-edfdfa5ee184@suse.de/
+> > > 
+> > > 
+> > 
+> 
+> -- 
 > --
-> 2.34.1
->
->
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+> 
+
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
