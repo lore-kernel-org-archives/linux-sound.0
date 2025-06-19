@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC26221717
-	for <linux-sound@vger.kernel.org>; Thu, 19 Jun 2025 10:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3951E21ABDD
+	for <linux-sound@vger.kernel.org>; Thu, 19 Jun 2025 10:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750329950; cv=none; b=stMPl+U2z7E4eWS+qy9l8PdZCKWcyCIIRCxmaw5xjB8wi82+rlVTLqejDE7GzsBVw6GmwZM+av64ldHTe7B4EG8tPd7OTje9SzLpAFuDHKImT/44R5L74VJvX6ZLOavawM5gu43MYqFd4kzmEN4MSmMDeJFPHBA21FCyqM0zF0A=
+	t=1750329968; cv=none; b=AnAk+bzgZ3L0n6UzZzwqDg7h4FVlq21miExn00hpqSlXzH+pWI0uYghvTfnE24cL6+9rbEcHOCJDl6Jlc67vCKM7ogk6BtEX6tw3mUefKbmliqRf2T+SySMHLwDf9zWT7Z6IQIlk5SNsk0BXg/27W+1Tyb8DWPFePgG7czk+5S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750329950; c=relaxed/simple;
-	bh=n3bb25l3ROUykoNkOGxcqX94iy99zrN7+hekeg17EnA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u5wca9c/bNFm835lq6ttzo1Z+59YxcYM5wfs7wxJxsWJnexgZOe/AgcpE6wu0m1qGMY4z7lceItBB4sAMjyNUHJE7b5AGRYwB0YgoDHPsqQsOAq4IFWn2F4zbTcONPec2bd6bKro9I2bK4L0U/v60DfzR4M7WTzGDNIoV0plhuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsLSQO3s; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1750329968; c=relaxed/simple;
+	bh=dQoenzMX4tVljL4J8wZjMUUYvKfrToh+G7fpO6mFnss=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QO8QSYOMqrOXg+Y28Plbg4GM1FF5Ay7JVJ+8XO/JK0u3u8/fKKcgKD7RdcCE6ulH+5E2nYE7hOUMKzQsKbWun7uVGDE/AWB2zY9mP1OoIUnQx29BIbVhc1j3AFu03fZHimJU9iZUKePjW7pO3Nqf1IhTlT3NZ61XrLj4QJ3EN3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJjPjW6g; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsLSQO3s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJjPjW6g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750329949; x=1781865949;
+  t=1750329967; x=1781865967;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=n3bb25l3ROUykoNkOGxcqX94iy99zrN7+hekeg17EnA=;
-  b=JsLSQO3sR6wVUG87Nx211uv45ow4EabFjQVEzbrPOPbIm7Gysov6o54z
-   PPCj+SOHXQOOBVgetDRx759d0QvhZEP9ATjG4YQAJ/Aqdb3R8648Rl38w
-   yo5szDvTv/Vc0jr+hkAiOOG3yst/p4ebK+VSKHoEfSYvlFfZwHGq+qR99
-   3ek4P6JbjbSe3FBW3qvPnptpqAnF9usMgTDQ7X7yKrZJgypz6/p9WVLJd
-   ANrK8sTGAW09yW+tuaMZv14OidnuKPiPvoaAbkkzaUMoqkF5PUAlAAMXN
-   dxHtbIClJnb7V6gEktsoD4leDbS/qYLorVbzKStwWGDIS9WvBV7Be+bHq
-   Q==;
-X-CSE-ConnectionGUID: pf/rLEUCSUCd+WgpG9YvWA==
-X-CSE-MsgGUID: iAvIL6jRSSeSeZpZwUk7GQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52547792"
+  bh=dQoenzMX4tVljL4J8wZjMUUYvKfrToh+G7fpO6mFnss=;
+  b=fJjPjW6gHWATccU35xD29LyWgoNUquv1ViVdDRcgWRAGstIlUnud2ixA
+   jl1t62WSuUMPI7Ah939MrcRSG99B1ILgUORyqZbASNw5mL9GxqnFgmPba
+   OsvQp5HOUI5txnNnc5FgwtuSEbFx/gnhEmEvyiXa6wyLc7J9sH6bDvVSc
+   bOzX9KuTTFneGq4mxYCB/Iw6nZ2t/UI6dgKEET2QFksuwxrMb8iRNk5UC
+   Tmgw4tCVjlyQYqlTrnFrRadL1ajsQNUNjwVy3OPhtylL2yjRRDxlMzU4V
+   /ojqRE1Y8Hp32MRON4q5XxXoFpdZ2WdMNuK2zvOoGg9cMix0trYxa8WxR
+   g==;
+X-CSE-ConnectionGUID: 5wbu42twRFqKtOugEayy5g==
+X-CSE-MsgGUID: 7uZsNdQYTlSUk3Kz36+pgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52547805"
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="52547792"
+   d="scan'208";a="52547805"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:45:48 -0700
-X-CSE-ConnectionGUID: kdbPmoCJQimxSAkDQ6iIug==
-X-CSE-MsgGUID: wcarP2PjTRKWuBfJz2snBQ==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:46:05 -0700
+X-CSE-ConnectionGUID: GcgTWw8WRsKsQ+lf0aApmg==
+X-CSE-MsgGUID: whEKPC+wQzCKABzBHACdJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="154879217"
+   d="scan'208";a="154879399"
 Received: from fdefranc-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.182])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:45:46 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:46:03 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -50,9 +50,9 @@ Cc: linux-sound@vger.kernel.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev
-Subject: [PATCH] ASoC: SOF: pcm: Reverse check for prepared stream in sof_pcm_hw_params()
-Date: Thu, 19 Jun 2025 13:45:51 +0300
-Message-ID: <20250619104551.25912-1-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH] ASoC: SOF: pcm: Remove local create_page_table() wrapper function
+Date: Thu, 19 Jun 2025 13:46:08 +0300
+Message-ID: <20250619104608.25947-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -62,32 +62,59 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Reduce the number of checks needed with the simple and most common audio
-sequence when the stream is started then stopped.
-
-If the stream has not been prepared there is no need to check if we have
-pcm_ops and pcm_ops->hw_free() callback as it does not matter.
+The create_page_table() can be dropped and replaced with a direct call to
+snd_sof_create_page_table().
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/sof/pcm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/sof/pcm.c | 24 ++++--------------------
+ 1 file changed, 4 insertions(+), 20 deletions(-)
 
 diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
-index d584a72e6f52..deeb1fd8392a 100644
+index deeb1fd8392a..090ea3a76892 100644
 --- a/sound/soc/sof/pcm.c
 +++ b/sound/soc/sof/pcm.c
-@@ -144,7 +144,7 @@ static int sof_pcm_hw_params(struct snd_soc_component *component,
- 	 * Handle repeated calls to hw_params() without free_pcm() in
- 	 * between. At least ALSA OSS emulation depends on this.
- 	 */
--	if (pcm_ops && pcm_ops->hw_free && spcm->prepared[substream->stream]) {
-+	if (spcm->prepared[substream->stream] && pcm_ops && pcm_ops->hw_free) {
- 		ret = pcm_ops->hw_free(component, substream);
+@@ -20,24 +20,6 @@
+ #include "sof-utils.h"
+ #include "ops.h"
+ 
+-/* Create DMA buffer page table for DSP */
+-static int create_page_table(struct snd_soc_component *component,
+-			     struct snd_pcm_substream *substream,
+-			     unsigned char *dma_area, size_t size)
+-{
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_sof_pcm *spcm;
+-	struct snd_dma_buffer *dmab = snd_pcm_get_dma_buf(substream);
+-	int stream = substream->stream;
+-
+-	spcm = snd_sof_find_spcm_dai(component, rtd);
+-	if (!spcm)
+-		return -EINVAL;
+-
+-	return snd_sof_create_page_table(component->dev, dmab,
+-		spcm->stream[stream].page_table.area, size);
+-}
+-
+ /*
+  * sof pcm period elapse work
+  */
+@@ -168,9 +150,11 @@ static int sof_pcm_hw_params(struct snd_soc_component *component,
+ 
+ 	/* create compressed page table for audio firmware */
+ 	if (runtime->buffer_changed) {
+-		ret = create_page_table(component, substream, runtime->dma_area,
+-					runtime->dma_bytes);
++		struct snd_dma_buffer *dmab = snd_pcm_get_dma_buf(substream);
+ 
++		ret = snd_sof_create_page_table(component->dev, dmab,
++				spcm->stream[substream->stream].page_table.area,
++				runtime->dma_bytes);
  		if (ret < 0)
  			return ret;
+ 	}
 -- 
 2.49.0
 
