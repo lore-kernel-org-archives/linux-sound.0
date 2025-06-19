@@ -1,82 +1,283 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A0C23505C;
-	Thu, 19 Jun 2025 15:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7B728C020
+	for <linux-sound@vger.kernel.org>; Thu, 19 Jun 2025 17:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750347545; cv=none; b=DVcEObZIdzg9ARWqnmd/VThk+R5ZOsCwlsmucuYYfvUZcrN+r68mqJZS7IkOSY1chlySOkglWdOcSzolL6J2AKzOshYM9UwDjqI3DhCRX/VXT4MBjtwcG+JElT3gLVnK1SCk6D8eGA88WhWLaYwvvejX2UnPIsVytm/pp3/8ny8=
+	t=1750354924; cv=none; b=h2Oyk/WEAAL/qA3X3HSNTZBP+FtJB8w1c49IpBJMUcwzCSnJ548kwBWDYZ0obGOpp/MztFdNmqFhl1r+BYTx6gjOYP7eO9EvfR7DlsJjrJoIGf4SP8YjuWOFFbvci/23VsltxdCxQF59/iCyhWJiDGSNgznFCpwUuYlmUZnj2Eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750347545; c=relaxed/simple;
-	bh=qWn0uC6liADYd2fNdSq+3xV/EBcjTFETNx8WJJKkQs8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YUEMAvjJkvxsEfEgIVQQmsQRnsOADyR2TA4FNEgjyHbf0LQyySQik8wvSZb9MOVLclgiGAilpkhC+n2mUSNnxECIECVWollVgL+ewzvdJcrrZP6W3nfMCX18WOMTFg82pz4wBMUCFUhPfK6VsP+ECVHaqYlzi+FF1V4HaRW9RvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RzDP5Tb5; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1750354924; c=relaxed/simple;
+	bh=L/OerO8K7dV84+t/54H44SeC92ZXlm5XpyIgZREAD0c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZNfI/ozjJ1MgiO1cP4c+iXXkaw1QSwXGtm+2nmjZ7+sBTkaR5Q2dBiIAE1ZTT5r+rP0HRESASF+OyfJV7wGNLVz9XTiU+MP218YNCQjAiovzDgwoaIxxkoghsK7Lug5nOATVyg+InCrgAIsCEuKbHIiRvHoVWztg5EPW0TJj8Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EwxdnANh; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RzDP5Tb5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750347543; x=1781883543;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qWn0uC6liADYd2fNdSq+3xV/EBcjTFETNx8WJJKkQs8=;
-  b=RzDP5Tb5cnQ/jjoX7H4QA2RJJ0NMCvPwzr5dRdYpw4wENYig9FIFtYxh
-   9ZSRsM9lJGeRWTLRdwmQR/+eqYW71iHyQt6Kg5ElBwDCyX3OaZA78csda
-   3Bpz30a+JP/y+qONB2Xwy1Td634FGr7dvWNO5S+3GRQatiujd6q7EuviJ
-   FNN4VmkzUyDQ0qD4eIUn2OjCCtOMf0OGmifi1lsPUGAcMn7dmomwsde4a
-   nTJ+SjH1xs1dFviQBdlnMk/stYT7oj5rcQE5TdIQi2nqvDxZfQv3zVaZT
-   NF4nOTm4UDIiYBVckGgu1WneDzKLd40qTlkabNM4zo5r4LSQPftry5yPL
-   g==;
-X-CSE-ConnectionGUID: oi+EaJQSRwGWA7nRX2eD1w==
-X-CSE-MsgGUID: b7TIwGwDSkGnAG5US4UEXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63292231"
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="63292231"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 08:39:02 -0700
-X-CSE-ConnectionGUID: 3ILzQEcaQaiYnVu6ZkqivA==
-X-CSE-MsgGUID: 8X0c9595SEmHRw8t/GFiVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="156479039"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 08:39:01 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uSHLu-000000086j1-0lUv;
-	Thu, 19 Jun 2025 18:38:58 +0300
-Date: Thu, 19 Jun 2025 18:38:57 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Alok Tiwari <alok.a.tiwari@oracle.com>
-Cc: perex@perex.cz, tiwai@suse.com, phasta@kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] ALSA: intel8x: Why incorrect codec index used setting
- ICH_DI2L SDIN
-Message-ID: <aFQvEYdQfiJn-29o@smile.fi.intel.com>
-References: <20250618191929.2382821-1-alok.a.tiwari@oracle.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EwxdnANh"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1750354919;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jloEniBJzWZUd3yTjD8bjym70kpKQBVd5Lz0POnC08Y=;
+	b=EwxdnANhsAu7DLNTdnzO4Mj/dCZ4k/BzHHMniYeIbBBVo6Vgjy8Lvhq0LfAGcn7psyC43N
+	WFq9gSXwxfrgW86FEVCS9UwzBRMdfZ5DDjd3l2zk/dCvTxpv6HCBJvEIQHfFASwMLmagQs
+	xNXav/dWYqcoFwqiJY5KKZkuHgmwFhc=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Philipp Stanner <phasta@kernel.org>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: emu10k1: Replace deprecated strcpy() with strscpy()
+Date: Thu, 19 Jun 2025 19:40:48 +0200
+Message-ID: <20250619174057.175676-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250618191929.2382821-1-alok.a.tiwari@oracle.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jun 18, 2025 at 12:19:21PM -0700, Alok Tiwari wrote:
-> Correct the index to use codec[i] to match the loop iteration, not codec[1].
-> 
-> Is this a mistake or intentional?
+strcpy() is deprecated; use strscpy() instead.
 
-You marked it as a BUG in the Subject, can you elaborate more, please?
+No functional changes intended.
 
+Link: https://github.com/KSPP/linux/issues/88
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/pci/emu10k1/emu10k1.c  |  3 ++-
+ sound/pci/emu10k1/emu10k1x.c | 13 +++++++------
+ sound/pci/emu10k1/emufx.c    | 23 ++++++++++++-----------
+ sound/pci/emu10k1/emumixer.c |  9 +++++----
+ 4 files changed, 26 insertions(+), 22 deletions(-)
+
+diff --git a/sound/pci/emu10k1/emu10k1.c b/sound/pci/emu10k1/emu10k1.c
+index dadeda7758ce..548e7d049901 100644
+--- a/sound/pci/emu10k1/emu10k1.c
++++ b/sound/pci/emu10k1/emu10k1.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/init.h>
+ #include <linux/pci.h>
++#include <linux/string.h>
+ #include <linux/time.h>
+ #include <linux/module.h>
+ #include <sound/core.h>
+@@ -154,7 +155,7 @@ static int snd_card_emu10k1_probe(struct pci_dev *pci,
+ 	} else {
+ 		struct snd_emu10k1_synth_arg *arg;
+ 		arg = SNDRV_SEQ_DEVICE_ARGPTR(wave);
+-		strcpy(wave->name, "Emu-10k1 Synth");
++		strscpy(wave->name, "Emu-10k1 Synth");
+ 		arg->hwptr = emu;
+ 		arg->index = 1;
+ 		arg->seq_ports = seq_ports[dev];
+diff --git a/sound/pci/emu10k1/emu10k1x.c b/sound/pci/emu10k1/emu10k1x.c
+index 30ac37b5a214..8c18ad987223 100644
+--- a/sound/pci/emu10k1/emu10k1x.c
++++ b/sound/pci/emu10k1/emu10k1x.c
+@@ -20,6 +20,7 @@
+ #include <linux/pci.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/slab.h>
++#include <linux/string.h>
+ #include <linux/module.h>
+ #include <sound/core.h>
+ #include <sound/initval.h>
+@@ -840,15 +841,15 @@ static int snd_emu10k1x_pcm(struct emu10k1x *emu, int device)
+ 	pcm->info_flags = 0;
+ 	switch(device) {
+ 	case 0:
+-		strcpy(pcm->name, "EMU10K1X Front");
++		strscpy(pcm->name, "EMU10K1X Front");
+ 		map = snd_pcm_std_chmaps;
+ 		break;
+ 	case 1:
+-		strcpy(pcm->name, "EMU10K1X Rear");
++		strscpy(pcm->name, "EMU10K1X Rear");
+ 		map = surround_map;
+ 		break;
+ 	case 2:
+-		strcpy(pcm->name, "EMU10K1X Center/LFE");
++		strscpy(pcm->name, "EMU10K1X Center/LFE");
+ 		map = clfe_map;
+ 		break;
+ 	}
+@@ -1461,7 +1462,7 @@ static int emu10k1x_midi_init(struct emu10k1x *emu,
+ 	spin_lock_init(&midi->open_lock);
+ 	spin_lock_init(&midi->input_lock);
+ 	spin_lock_init(&midi->output_lock);
+-	strcpy(rmidi->name, name);
++	strscpy(rmidi->name, name);
+ 	snd_rawmidi_set_ops(rmidi, SNDRV_RAWMIDI_STREAM_OUTPUT, &snd_emu10k1x_midi_output);
+ 	snd_rawmidi_set_ops(rmidi, SNDRV_RAWMIDI_STREAM_INPUT, &snd_emu10k1x_midi_input);
+ 	rmidi->info_flags |= SNDRV_RAWMIDI_INFO_OUTPUT |
+@@ -1540,8 +1541,8 @@ static int __snd_emu10k1x_probe(struct pci_dev *pci,
+ 
+ 	snd_emu10k1x_proc_init(chip);
+ 
+-	strcpy(card->driver, "EMU10K1X");
+-	strcpy(card->shortname, "Dell Sound Blaster Live!");
++	strscpy(card->driver, "EMU10K1X");
++	strscpy(card->shortname, "Dell Sound Blaster Live!");
+ 	sprintf(card->longname, "%s at 0x%lx irq %i",
+ 		card->shortname, chip->port, chip->irq);
+ 
+diff --git a/sound/pci/emu10k1/emufx.c b/sound/pci/emu10k1/emufx.c
+index 03efc317e05f..7db0660e6b61 100644
+--- a/sound/pci/emu10k1/emufx.c
++++ b/sound/pci/emu10k1/emufx.c
+@@ -12,6 +12,7 @@
+ #include <linux/capability.h>
+ #include <linux/delay.h>
+ #include <linux/slab.h>
++#include <linux/string.h>
+ #include <linux/vmalloc.h>
+ #include <linux/init.h>
+ #include <linux/mutex.h>
+@@ -1175,7 +1176,7 @@ snd_emu10k1_init_mono_control2(struct snd_emu10k1_fx8010_control_gpr *ctl,
+ 			       const char *name, int gpr, int defval, int defval_hr)
+ {
+ 	ctl->id.iface = (__force int)SNDRV_CTL_ELEM_IFACE_MIXER;
+-	strcpy(ctl->id.name, name);
++	strscpy(ctl->id.name, name);
+ 	ctl->vcount = ctl->count = 1;
+ 	if (high_res_gpr_volume) {
+ 		ctl->min = -1;
+@@ -1199,7 +1200,7 @@ snd_emu10k1_init_stereo_control2(struct snd_emu10k1_fx8010_control_gpr *ctl,
+ 				 const char *name, int gpr, int defval, int defval_hr)
+ {
+ 	ctl->id.iface = (__force int)SNDRV_CTL_ELEM_IFACE_MIXER;
+-	strcpy(ctl->id.name, name);
++	strscpy(ctl->id.name, name);
+ 	ctl->vcount = ctl->count = 2;
+ 	if (high_res_gpr_volume) {
+ 		ctl->min = -1;
+@@ -1224,7 +1225,7 @@ snd_emu10k1_init_mono_onoff_control(struct snd_emu10k1_fx8010_control_gpr *ctl,
+ 				    const char *name, int gpr, int defval)
+ {
+ 	ctl->id.iface = (__force int)SNDRV_CTL_ELEM_IFACE_MIXER;
+-	strcpy(ctl->id.name, name);
++	strscpy(ctl->id.name, name);
+ 	ctl->vcount = ctl->count = 1;
+ 	ctl->gpr[0] = gpr + 0; ctl->value[0] = defval;
+ 	ctl->min = 0;
+@@ -1237,7 +1238,7 @@ snd_emu10k1_init_stereo_onoff_control(struct snd_emu10k1_fx8010_control_gpr *ctl
+ 				      const char *name, int gpr, int defval)
+ {
+ 	ctl->id.iface = (__force int)SNDRV_CTL_ELEM_IFACE_MIXER;
+-	strcpy(ctl->id.name, name);
++	strscpy(ctl->id.name, name);
+ 	ctl->vcount = ctl->count = 2;
+ 	ctl->gpr[0] = gpr + 0; ctl->value[0] = defval;
+ 	ctl->gpr[1] = gpr + 1; ctl->value[1] = defval;
+@@ -1325,7 +1326,7 @@ static int _snd_emu10k1_audigy_init_efx(struct snd_emu10k1 *emu)
+ 	/* clear TRAM data & address lines */
+ 	memset(icode->tram_valid, 0xff, 256 / 8);
+ 
+-	strcpy(icode->name, "Audigy DSP code for ALSA");
++	strscpy(icode->name, "Audigy DSP code for ALSA");
+ 	ptr = 0;
+ 	nctl = 0;
+ 	gpr_map[bit_shifter16] = 0x00008000;
+@@ -1563,7 +1564,7 @@ static int _snd_emu10k1_audigy_init_efx(struct snd_emu10k1 *emu)
+ 	 */
+ 	ctl = &controls[nctl + 0];
+ 	ctl->id.iface = (__force int)SNDRV_CTL_ELEM_IFACE_MIXER;
+-	strcpy(ctl->id.name, "Tone Control - Bass");
++	strscpy(ctl->id.name, "Tone Control - Bass");
+ 	ctl->vcount = 2;
+ 	ctl->count = 10;
+ 	ctl->min = 0;
+@@ -1572,7 +1573,7 @@ static int _snd_emu10k1_audigy_init_efx(struct snd_emu10k1 *emu)
+ 	ctl->translation = EMU10K1_GPR_TRANSLATION_BASS;
+ 	ctl = &controls[nctl + 1];
+ 	ctl->id.iface = (__force int)SNDRV_CTL_ELEM_IFACE_MIXER;
+-	strcpy(ctl->id.name, "Tone Control - Treble");
++	strscpy(ctl->id.name, "Tone Control - Treble");
+ 	ctl->vcount = 2;
+ 	ctl->count = 10;
+ 	ctl->min = 0;
+@@ -1849,7 +1850,7 @@ static int _snd_emu10k1_init_efx(struct snd_emu10k1 *emu)
+ 	/* clear TRAM data & address lines */
+ 	memset(icode->tram_valid, 0xff, 160 / 8);
+ 
+-	strcpy(icode->name, "SB Live! FX8010 code for ALSA v1.2 by Jaroslav Kysela");
++	strscpy(icode->name, "SB Live! FX8010 code for ALSA v1.2 by Jaroslav Kysela");
+ 	ptr = 0; i = 0;
+ 	/* we have 12 inputs */
+ 	playback = SND_EMU10K1_INPUTS;
+@@ -2160,7 +2161,7 @@ static int _snd_emu10k1_init_efx(struct snd_emu10k1 *emu)
+ 	 */
+ 	ctl = &controls[i + 0];
+ 	ctl->id.iface = (__force int)SNDRV_CTL_ELEM_IFACE_MIXER;
+-	strcpy(ctl->id.name, "Tone Control - Bass");
++	strscpy(ctl->id.name, "Tone Control - Bass");
+ 	ctl->vcount = 2;
+ 	ctl->count = 10;
+ 	ctl->min = 0;
+@@ -2170,7 +2171,7 @@ static int _snd_emu10k1_init_efx(struct snd_emu10k1 *emu)
+ 	ctl->translation = EMU10K1_GPR_TRANSLATION_BASS;
+ 	ctl = &controls[i + 1];
+ 	ctl->id.iface = (__force int)SNDRV_CTL_ELEM_IFACE_MIXER;
+-	strcpy(ctl->id.name, "Tone Control - Treble");
++	strscpy(ctl->id.name, "Tone Control - Treble");
+ 	ctl->vcount = 2;
+ 	ctl->count = 10;
+ 	ctl->min = 0;
+@@ -2623,7 +2624,7 @@ int snd_emu10k1_fx8010_new(struct snd_emu10k1 *emu, int device)
+ 	err = snd_hwdep_new(emu->card, "FX8010", device, &hw);
+ 	if (err < 0)
+ 		return err;
+-	strcpy(hw->name, "EMU10K1 (FX8010)");
++	strscpy(hw->name, "EMU10K1 (FX8010)");
+ 	hw->iface = SNDRV_HWDEP_IFACE_EMU10K1;
+ 	hw->ops.open = snd_emu10k1_fx8010_open;
+ 	hw->ops.ioctl = snd_emu10k1_fx8010_ioctl;
+diff --git a/sound/pci/emu10k1/emumixer.c b/sound/pci/emu10k1/emumixer.c
+index 05b98d9b547b..d665d5d1ad7c 100644
+--- a/sound/pci/emu10k1/emumixer.c
++++ b/sound/pci/emu10k1/emumixer.c
+@@ -12,6 +12,7 @@
+ 
+ #include <linux/time.h>
+ #include <linux/init.h>
++#include <linux/string.h>
+ #include <sound/core.h>
+ #include <sound/emu10k1.h>
+ #include <linux/delay.h>
+@@ -1983,7 +1984,7 @@ static int remove_ctl(struct snd_card *card, const char *name)
+ {
+ 	struct snd_ctl_elem_id id;
+ 	memset(&id, 0, sizeof(id));
+-	strcpy(id.name, name);
++	strscpy(id.name, name);
+ 	id.iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+ 	return snd_ctl_remove_id(card, &id);
+ }
+@@ -2188,11 +2189,11 @@ int snd_emu10k1_mixer(struct snd_emu10k1 *emu,
+ 	} else {
+ 	no_ac97:
+ 		if (emu->card_capabilities->ecard)
+-			strcpy(emu->card->mixername, "EMU APS");
++			strscpy(emu->card->mixername, "EMU APS");
+ 		else if (emu->audigy)
+-			strcpy(emu->card->mixername, "SB Audigy");
++			strscpy(emu->card->mixername, "SB Audigy");
+ 		else
+-			strcpy(emu->card->mixername, "Emu10k1");
++			strscpy(emu->card->mixername, "Emu10k1");
+ 	}
+ 
+ 	if (emu->audigy)
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.49.0
 
