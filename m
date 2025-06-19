@@ -1,38 +1,40 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022088.outbound.protection.outlook.com [52.101.126.88])
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022108.outbound.protection.outlook.com [52.101.126.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7374514A4E0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D099A18E02A
 	for <linux-sound@vger.kernel.org>; Thu, 19 Jun 2025 02:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.88
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.108
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750298964; cv=fail; b=baIfXngGOEwTzm92y+he6cKNoQzy6xGFk64ItJLfABEzFZcM5iAH8mKNd0QouKXIaCFH9PFbq5RSDc/BfjUAVVkp4lhKiDUWlYikbEO3MNfzTGBxyU4+qt3yLNE+wGVNSGXyiJdeIv1q5xKa0TGh9JoY+dF48rEokFcunhAWlOA=
+	t=1750298964; cv=fail; b=lteJ6nPJe9HIIfBVavprYzDXDCY9b9tpMCk8qx+bF1Ql1hJd+mIQl7b1y7PUoHiB/jIegOYOl+fO6Pjy0gQgNFCvOOX0CNxIYeCEhvynwW4otVKUBfIqYxd4tkiguJpsQVKPSeax+i3coVG6FqnBDEAsQ1cN66RMUzsupwkdshM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750298964; c=relaxed/simple;
-	bh=nlJEHGozifai3H/kJKKQWA2QrduyL1NR9lY3UTQybR4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Pipam6HUEkb/Tg9m3tgFKhiqB4xtbl/87lVombGsrPUoXSkU4eDcJZwVWRrBIDTBeZ5Cu7tzjkgcbQ1Z9OsHXrOA48/W1xEkzsspCaP4q1kMiOqVGuozG429tTU9C663RT7eqsR7DfxrlrMr96CtQ24NUzpp6eHZ0FhGbuoEiQ0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.88
+	bh=s5YHBb45DmfRof878putuh1oRRxNWs4AnDG4cJcpkuA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CiltKofyYpZXAquk1g3QudwAsxtakTpS5hSwu06AF/Kh29b7gINouYm3yt4IoBlAqmEIOCMwfJFH1eGNEdq86pWswSwfa/ijnqsvtZM1RPrP9el6KsXWHx/peYr2MXD0KSRs7nUkvg7eb3TIrXes/9XsCHTLPL9vZbaLL0mUP5o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ipaHpFGQHIcGFwq6OY2/V9WBOiucvxAqaAUKMCLeNNEWKnDXvkt8XRIdYbfl3l6kPwGDnMDFPIXD+IIQPJj0CQzdQakzawgurO7xF+WYKbiwW+I2i2K9s/QDeZxMMsJ8P5QgZOUHPmj+YCphLqMAa/EA62vfKcQGH+qHCa+UWGSM1vHSDmYX91cBGoash7hp45JMF6Jb4ilX9hQbURiCqy9SA7mkmZSxgmQCtPYon8gDLii6NO4VdSiaVEZHQz4befAUXwRnggBFlDi3nPNm3qWvnXu7oPLzCEmNsNf9tctccj2DFxnGpZA70RIdkQ7JrgYusIlw8Pr5zzNeiL+Ejg==
+ b=qCXZ5aJznaLTj7IaZ2NweARnw5mwFzoIgLB2YLWZz7LWwwi15hqGBr2PxpR0KdWAvxl6jYTM2ue6Rju3JNC38xM+HnIeDC+WBC5UfW65K1aaA7w02ifzMJDlyA8LhVc19dpjOT3Id+qesLwtxuOWK8Q3TRo0CZQv4iEylCc/MI5OIh/Fu7yZT4v+SlSsFe1xl26xh64fmZ4XFDbU8B91Usr5E+KwJ5a32FiUyd9dHC1kNJRq4BlgmteOmOo741aSSoFJIjlTsmcQMK9D/Lt4MGlXVCwydGBx9JQBFd8WJwmuMrhE9VuaD08mwWGEmF44pqgPONN6dzVJoliQJgtGaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PjmwPcKrVdchVGfXyBd+6ukOE1RnArf+DMp8HwqYJhY=;
- b=lJyyngEMUWdGOAa5BUpvaHQ64RrtbduOryM+6OwN11rqriBl7HqgmYWsR1vcB5IoCrpRItoKmwV+Vkzz81GHJvqOqygyH+MYfc6XErzmJRIMaXgYWKJUIRn8CEJ/KESnI3q5g8n5i7yaMT1yFyW5nIfe7jsDr1nxQCEQdnwtWIdL7Xv91wukV16nT4gbNiAw38ChlSz5VDxwaqf7Cn1AnmrxcoEeFjjFUhQnYx/Rr0tlfqMUztLKQj0i+m7jI/J5d+7wok5zFZkDdSuQxoiFQVVP4zqZ/ohH83iK/oM6FMREbYK9F1ZK3+N/SWBieCEWR0+lr+qT76FJ469hzZQMNg==
+ bh=89kY6Q4rfiWVyxABzgSti6V4pmmWCeOucSJ8Q9H77Ro=;
+ b=VVLUknWZuxabsg4rZwsB4XudEHQ7sjvbpWHSak8aeNMo1bXaL6OHfR1/SY8EJNAk054RbnMjPE35MCzYVzTdiwE1DZNR0jGvJEq1Y9l31xQ4je5mOD07nhSzTl0tarGYiVGBsOMxgDjF0cJsJR5+25VxtVtjPH9/Edq5VxKHIw+iq2plERE5CO6QFRfrv+Ka77mCC8OwOTqfgO24/hcogWaHdwv66kuRmWI1XAeUNwpl3Ude3lyra39NvIGNWggFQXY0+RvFOdFnkeCis5xL9zxwdyRgo1K9ZRPJd3xuMTDWuu9cXon3D16vykHLgxdSB8qrScevGFUHptG5WQLcGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  222.71.101.198) smtp.rcpttodomain=canonical.com smtp.mailfrom=cixtech.com;
  dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
  not signed); arc=none (0)
-Received: from SG2PR02CA0025.apcprd02.prod.outlook.com (2603:1096:3:18::13) by
- TYZPR06MB6499.apcprd06.prod.outlook.com (2603:1096:400:462::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8835.29; Thu, 19 Jun 2025 02:09:18 +0000
-Received: from SG2PEPF000B66CD.apcprd03.prod.outlook.com
- (2603:1096:3:18:cafe::f3) by SG2PR02CA0025.outlook.office365.com
- (2603:1096:3:18::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.32 via Frontend Transport; Thu,
- 19 Jun 2025 02:09:17 +0000
+Received: from TYAPR01CA0174.jpnprd01.prod.outlook.com (2603:1096:404:ba::18)
+ by KL1PR06MB6592.apcprd06.prod.outlook.com (2603:1096:820:f1::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Thu, 19 Jun
+ 2025 02:09:18 +0000
+Received: from OSA0EPF000000CC.apcprd02.prod.outlook.com
+ (2603:1096:404:ba:cafe::2b) by TYAPR01CA0174.outlook.office365.com
+ (2603:1096:404:ba::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.33 via Frontend Transport; Thu,
+ 19 Jun 2025 02:09:18 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
  smtp.mailfrom=cixtech.com; dkim=none (message not signed)
  header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
@@ -40,11 +42,11 @@ Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
  222.71.101.198 as permitted sender) receiver=protection.outlook.com;
  client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
 Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- SG2PEPF000B66CD.mail.protection.outlook.com (10.167.240.27) with Microsoft
+ OSA0EPF000000CC.mail.protection.outlook.com (10.167.240.58) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.8857.21 via Frontend Transport; Thu, 19 Jun 2025 02:09:17 +0000
 Received: from localhost.localdomain (unknown [172.18.64.15])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id BBE8140A5A01;
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id D738640A5A03;
 	Thu, 19 Jun 2025 10:09:12 +0800 (CST)
 From: joakim.zhang@cixtech.com
 To: perex@perex.cz,
@@ -55,10 +57,12 @@ Cc: chris.chiu@canonical.com,
 	geans_chen@realsil.com.cn,
 	cix-kernel-upstream@cixtech.com,
 	Joakim Zhang <joakim.zhang@cixtech.com>
-Subject: [PATCH V1 0/4] ALSA: hda: jack detect fixes
-Date: Thu, 19 Jun 2025 10:08:40 +0800
-Message-ID: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
+Subject: [PATCH V1 1/4] ALSA: hda: fix controller cannot suspend when codec using jackpoll
+Date: Thu, 19 Jun 2025 10:08:41 +0800
+Message-ID: <20250619020844.2974160-2-joakim.zhang@cixtech.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
+References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,71 +72,93 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CD:EE_|TYZPR06MB6499:EE_
+X-MS-TrafficTypeDiagnostic: OSA0EPF000000CC:EE_|KL1PR06MB6592:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a0f28224-8996-4d98-fda8-08ddaed64ba5
+X-MS-Office365-Filtering-Correlation-Id: dfc0be1c-2efb-4a4a-5f24-08ddaed64bc6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014;
+	BCL:0;ARA:13230040|376014|82310400026|36860700013|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?aoFlySInvwz9xku88sEuVXmxGODSPG/EvIe4OXfr7ULco8kNK6qcJv8C0iMK?=
- =?us-ascii?Q?4Aq6KrVMWs3UO9T9H2C+pjZ96EsFXVGYO9KN+67ef/GD2kxWbQiFGW1NWnoh?=
- =?us-ascii?Q?QjI4Q6rIy96XccWRSAbL7SEKLl6fO9GS6xNQMOUjZ4bKVDFTmyvjopP5IdHT?=
- =?us-ascii?Q?8x1dqgg+MM/qII4yJyx6eW6vybqefebKuxyPyeVqnVwPFdriTpEAEFxDzorb?=
- =?us-ascii?Q?0LaYSie0yFpnD4wF3A5+/paZZupDmbrsr+z9kLPPunotIP18XUtuRicrmgyN?=
- =?us-ascii?Q?PzkLH3kn3qwRzjUFwwvWYAZfDQJfAUAuvS/cFl4AjooKrp1S5v9VgQ31248e?=
- =?us-ascii?Q?WgYNfjavUoaC6uqZSdFA36BMdoTGuBPF7ybYbdpUnTOtqQc18rI55a1XAvGI?=
- =?us-ascii?Q?4xSdMoXFttFxez3UwEhbP+OA6LO1ATxD5vxlXvII3aG93wqA59/TNtgg8HmA?=
- =?us-ascii?Q?wPj2XzpsyFh/dyqGpwc0t6hZT6EnTQmOtnPUkKjg14G/SAq5mLrYCiHkFYoD?=
- =?us-ascii?Q?BFV5sHIFMygqE59PfVr6AhyUdwjyYoBHNU45ly/n3VlZyMbQ8D7YhLJ/+oyB?=
- =?us-ascii?Q?/wXJiFHZrrdAZsIgbgDAt7UekYK3AsEYf9Crjmv5czSqe6fCuVS6I2NZaZto?=
- =?us-ascii?Q?UYLrvmSFG8KeVOSTV7/pEaGzklfEpNc5CDfjHh4cMW8T4497TGHgaXW6GLdm?=
- =?us-ascii?Q?XgKpr1+7GZReMgOQrHFK8hrBTbgb0xqm58IcNQD6taQiceNOU8OJobduBkz9?=
- =?us-ascii?Q?9PzpUkmPnZpTypl+jQ16A5A8wFwsIFT3SyAfYTNH5/HvX0B3bgdyj7ZdRCva?=
- =?us-ascii?Q?PXcVmRkRvMM2+tQtz7hoGUjqy8yV17bmGWF6SMYqQDMriPUxYiFgl1bOrm7k?=
- =?us-ascii?Q?n5F4nb/x73Az1u4O29v1PMznMk52hLhLFA4mfh3V81NLR/4y4Ls+yds3+iBC?=
- =?us-ascii?Q?XSZwyfnB0OFm3aDd5a3PGBdIK1PNoWHLGZW7nIDgrh+PexnEDUH9EpxYIWfG?=
- =?us-ascii?Q?vgSPiQYt8xW3qZuZOSoH0+8dCnc5JStgpQ6T9u7i2R/Qv7P7hAVcXPUTQaTU?=
- =?us-ascii?Q?a+On/5/lVe6+/4zR9nCbSF7KPYfMe8rAM72P+E+2Y8yc1vVscBvqsINaAuBR?=
- =?us-ascii?Q?wk60YgXkmZpjQTGOK9fniSuM2UsiiaMEXI7v9WjZaM+60MXGt6Nbc3lkSBZv?=
- =?us-ascii?Q?osQ5m2K8feDa49ftiPxyZkpVJMP0gNlcQaFF/aeQXRZCS78fwVVqmy0mSSa/?=
- =?us-ascii?Q?tyb8MOCs5caqQdtvrPsrBLF79rMfPKEb62x0y4R65oDx4DiZv4SV7fDf5iVe?=
- =?us-ascii?Q?0+KBZjVA+szGjlz1y1samTZMkpnRI3DX/wKwzR6LRHzo39a9Lbu3n4cwHA5n?=
- =?us-ascii?Q?r7tVrZMA+N9CDUeQrMtAG+LHM8c/F5vYk+LxBBR35AAM71USAxPUGdMGv7Vb?=
- =?us-ascii?Q?pWpZeG0DfeXntwFk7SWI/oBZo/MaQcBw4v6bU9e/2eHIhEoR/VejpE+i57o0?=
- =?us-ascii?Q?Ui7t729GHCYiPF/NVyA2ziGn/c5URQZgHpH8?=
+	=?us-ascii?Q?uHHz7xCm1OxGBXcBWJFJ5fRsgtHYqAsrScVFe2gv52mPC41RxR8xHpy5B1ND?=
+ =?us-ascii?Q?R+J4a5fOPgqqh5gbOdn13xf1jJF+GB4Ej9dgCV8JUu03QU9XDJQ38eHUePTY?=
+ =?us-ascii?Q?j+g+hqVVIF/Z+wEW2ZENJxIX9ttk8+di0Lr4o0Y/f+TSmUJLS55YqxvtJtWN?=
+ =?us-ascii?Q?hSA9cULryqlnOe4v/EQ/6kXeMHuQvIkXDTopp9WoO+po9yGGjHAm14zIlx9Z?=
+ =?us-ascii?Q?lzQg2kptx+FEVaURTb+5ZJR/u7deawUMBpvH+L7+s1H1xO4DiBt1nxka6lTZ?=
+ =?us-ascii?Q?PduApLfeiajNA3ZYdN8Ixj+k6ps296GBDjsahY6Y/ODOmPGm7TQ2egv3usOb?=
+ =?us-ascii?Q?TkDNiuZAv/Pf84K2XrD3mWGPG0bHBFWFBfHTOCSstw/O1J33Wv1nDQtzpQZX?=
+ =?us-ascii?Q?uQHJ2Ai1foB5qkD+HRad7S1iqmnK2mxi3WizC6fw1zJnnPr8ihiA9VZ8pHvQ?=
+ =?us-ascii?Q?RvMB2fGrlrDkwt/CMAihI2x0y/13K2zby48lqmZ/AEhcq2GtXS1Tne1lvaDv?=
+ =?us-ascii?Q?rR+RaCcOusGK3gD93U++Uudgo/ICnyoT7Umy35Q84zwZsHuJ4dB2KqgNE8Jm?=
+ =?us-ascii?Q?Z5O5enAFNF20BiuXG1/fwluIz9QLed18LifUvfQ3+eeTOXKylU0YENhL3QHS?=
+ =?us-ascii?Q?YKV87rORW9lE7uKoCqe1RX/ywGVeqooISWHQW0se95M4tTscDDHCxf1hq/7P?=
+ =?us-ascii?Q?ucrzFb2z5GxLOPIrYV9sd7HztKMTCd9CRrr1MGKxfgMS3HiSJJIDveMNiLrM?=
+ =?us-ascii?Q?aFUaWO4WMpkyb1kHA5z5nzZDMQraQ6gGYuUws1rQXETz7Smw48JLjmoOFkQe?=
+ =?us-ascii?Q?VOFF3jUelSUyi5ds5AKXTUozjIH8aGOpOqRZW1RfZeVdZ3mAviErsfkBjjVV?=
+ =?us-ascii?Q?iU7xau4uDIAZSGkKfOnLrXbsMddtILOJkspZUkTP12I4T78+tUoGvVxe9Vhd?=
+ =?us-ascii?Q?FLOr5Pdx2CeVQFp2TzjJwuDXLofyb2LaTf5X/cx1azYY20mYzcO7OwvfAR+F?=
+ =?us-ascii?Q?lftg42bga1jNMtyYdO/xyj01O6SHKGxsTPFGoKAnY2NnczG9czatWBhmyRJD?=
+ =?us-ascii?Q?byEoI9o/jJ5xNjx7Z1Bbyr7MCxjT9zS0PemVNWpbgQDFIIfsuKe7kQrrdTMD?=
+ =?us-ascii?Q?or6Cq3bzuect24IFd9ImzMavKHuM+v8anYZrw3fxe0DSGBE7cLrNyn1hzd6V?=
+ =?us-ascii?Q?WlJKH6nQbg3OqNFgCXMaItVR4VHNUJZjoHiktJM+O50FrpZh//OPCmtgJZKi?=
+ =?us-ascii?Q?TleplARLOzE+Vxr8sa0eDKpbepJFxhV8e65f2t0uEV4UvGWlaP1F0OFFE9WD?=
+ =?us-ascii?Q?EfeEAJCgRDqmhM+DuGAnNjMORCQ1WhJhwkQX1HHhRhghE5AqNDsb23lUZY0h?=
+ =?us-ascii?Q?wJfgZD670r4CAXAcFpB72SuPog5Xn+J3eop0m58OeVDCRS9Zr3D8Wa0OpDLj?=
+ =?us-ascii?Q?oHdJwbBB1fsyQbnaaVoJA/oCdCcf4gsZEk5Y27pfrdQ3Fs32OQNKmUAdthdP?=
+ =?us-ascii?Q?ZyYvsAMO51v6H978T+aT0p4SuAygUVcSlpjv?=
 X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014);DIR:OUT;SFP:1102;
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1102;
 X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 02:09:17.0264
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 02:09:17.1967
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0f28224-8996-4d98-fda8-08ddaed64ba5
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfc0be1c-2efb-4a4a-5f24-08ddaed64bc6
 X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SG2PEPF000B66CD.apcprd03.prod.outlook.com
+	OSA0EPF000000CC.apcprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6499
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6592
 
 From: Joakim Zhang <joakim.zhang@cixtech.com>
 
- - fixes for hda jack detection with polling mode
+For current design, sync cancel jackpoll delayed work in
+hda_codec_runtime_suspend(), sync means it will cancel pending
+works, so jackpoll work would be called.
+  hda_jackpoll_work()-->
+      snd_hda_power_up_pm()-->
+          if (!atomic_inc_not_zero(&codec->in_pm))
+		return snd_hdac_power_up(codec);-->
+		    pm_runtime_get_sync()
 
-Joakim Zhang (4):
-  ALSA: hda: fix controller cannot suspend when codec using jackpoll
-  ALSA: hda: add no_pin_sense_update flag for jack detection
-  ALSA: hda: disable jackpoll_in_suspend when system shutdown
-  ALSA: hda/realtek: fix mic jack detect failed on alc256
+The point where cancel_delayed_work_sync() called not in_pm,
+though it actually is. It will runtime resume codec device again,
+the power usage_count increase 1, but it should be 0 when codec
+is suspending, finally codec is in resume state, not suspended.
 
- include/sound/hda_codec.h     |  1 +
- sound/pci/hda/hda_codec.c     |  3 +++
- sound/pci/hda/hda_generic.c   | 11 +++++++++--
- sound/pci/hda/hda_jack.c      |  2 +-
- sound/pci/hda/patch_realtek.c |  2 ++
- 5 files changed, 16 insertions(+), 3 deletions(-)
+HDA controller as the parent of codec device, also cannot enter
+suspend, this patch change to sync cancel jackpoll delayed work when
+codec in_pm is set, so it will not resume codec again.
 
+Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
+---
+ sound/pci/hda/hda_codec.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
+index c018beeecd3d..12caa5b2e678 100644
+--- a/sound/pci/hda/hda_codec.c
++++ b/sound/pci/hda/hda_codec.c
+@@ -2912,7 +2912,9 @@ static int hda_codec_runtime_suspend(struct device *dev)
+ 	if (!codec->card)
+ 		return 0;
+ 
++	snd_hdac_enter_pm(&codec->core);
+ 	cancel_delayed_work_sync(&codec->jackpoll_work);
++	snd_hdac_leave_pm(&codec->core);
+ 
+ 	state = hda_call_codec_suspend(codec);
+ 	if (codec->link_down_at_suspend ||
 -- 
 2.49.0
 
