@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB18E222584
-	for <linux-sound@vger.kernel.org>; Thu, 19 Jun 2025 10:26:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83DA223302
+	for <linux-sound@vger.kernel.org>; Thu, 19 Jun 2025 10:26:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750328801; cv=none; b=MdXEibxp7vsu4Ksq3JqN7/udktehO8UKpzIuIxBhmABAMMdeExRAC68b69EQFYEDkckh2nSFrLL3XOdlDFOYI2NHMvjkukefCGJGxVpHfxNcBvS8V1/GBj1+9awgvFtfz6p/EoUCMO5vA4jphelmSmE3z3L+bpCAlOwS289vP6U=
+	t=1750328817; cv=none; b=M0iVlXILDX48dgfog8E5O/tpLLHq0TOBt3e17rtPQBDOWwHzNXDnRHrtXqxCMX980+f7+FNbvGpufPvRxXuR11jDRqpIECWZD4EaXVfaYiJGarRRtaIQh5qVFtSPZLGT9GnBRDGPGDQ5cYx1K00wGdzfXKco0vocdPb8uVxo0XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750328801; c=relaxed/simple;
-	bh=z/AQOkQFF3YmlHZ0CJkuMwP+A3XSMo+mKkKoH6rWZkk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vAwIaSFv5A9vQUR5LHAlgJAcPKoMg5FIjMf4S8Ua1ioVAs2BrcoSph6H7ERirvAfAlQL04IUOtR+oAUjJ19xUSK1WPNN3JyuM5GuVevty5rNlG6JR8gzrXKYvwsqO6dHZnhow2QnuxfGQTkkb5izE/vlAas0HULimIkcJEZ9YyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P8q8DLfy; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1750328817; c=relaxed/simple;
+	bh=mo0pLRPXB4r6nnQuWCt8vP3GBBVPtEp8DbhjFmQvFZs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qJagB56k0VIU9Lzzy7cPIMyvK1ete/J94sDbT3EQ9iBsxEQ33OeWOEbCfROjYjoVaHK2RZ+vIjXHUQ7UTW55IvVONQRVc5DSSpKbiJ/UhnEXiutCQcgNK4IwPcMJJeij5/8gbQ4zfKVAKlzD7ty1t0PvX5QJS2Rk8vEdzZmz3Ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkBuOCHo; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P8q8DLfy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkBuOCHo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750328800; x=1781864800;
+  t=1750328816; x=1781864816;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=z/AQOkQFF3YmlHZ0CJkuMwP+A3XSMo+mKkKoH6rWZkk=;
-  b=P8q8DLfyihjMr+/J6qnR5KNeB50pJ0m+eobZCIIoqBAX4DzHePd2PjJP
-   8x9unkDXmhXmaO4UbuEOj6BKhUsmxZsd5S0Day1Sf085HnADv37sEd2ss
-   28J5nyYAaX+n+b1IAx1jpPibfz7a1b5UHC2OX9eWVPgMPzVSwiJG2VM3k
-   TQfaWy1PGXbt0om+t3K6HzhhnBbsXVXMljp0m8ku/aOEnTNpn8nII68U+
-   6HxKWPJq3C8Sckr9Jp/5IUkwFRjrdblQsjXcWRDtnfcfxTyjL5Hxrtv/1
-   B1I4WqbwrRs4MxRZvPJZ7uxs+mtHZH0DqVIx9tGywvMhk/wsflCFNOgYA
-   A==;
-X-CSE-ConnectionGUID: sf+RiEt/SMGRfYD6mkDwWw==
-X-CSE-MsgGUID: UVwADPoGRx+Zu6idmCnSrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="64008399"
+  bh=mo0pLRPXB4r6nnQuWCt8vP3GBBVPtEp8DbhjFmQvFZs=;
+  b=mkBuOCHoxpnA6XODXFmuLvbJDYE3/aNM0TZgEY8nVAK7gnOLasx2ebIy
+   uacNXPWoj5Kn0SWIbTLKMJT6juY08vmj1RmVAN56TEgqKOLqBY2vrqULO
+   CKKrso/JKlVaNf5eP5lMbBCphZxzpZHT+tE4h1rCCheiTrXO8M5+s9zsE
+   h4+3NvitIkJDyhq4mGQyxfluKHfTCHz2RjrBvuhvyVYxJsmXksqFC0vKD
+   w/s/fHEpuWdV4gktAg8QHTmmtJJ9eV21PIy2DB1A0LBMEuqArVXhYM27/
+   H5ePbGS3ShgyJYe9TahIEb3J5hMOpJWZG3h+XMMCTKVHgLK21hmpwCOjr
+   Q==;
+X-CSE-ConnectionGUID: BMqL0RDmQ7GXjmwldZS1Qg==
+X-CSE-MsgGUID: uVODBLVjRzG+rrFZAKXLlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="64008418"
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="64008399"
+   d="scan'208";a="64008418"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:26:38 -0700
-X-CSE-ConnectionGUID: eX/V4XWkTkyfauLjyDxs5A==
-X-CSE-MsgGUID: MzU6tFJ/T8eKpeRlq+/X1w==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:26:55 -0700
+X-CSE-ConnectionGUID: /DXSvepSRyyXpALmN2ZY8g==
+X-CSE-MsgGUID: n7LGwhH7S1u/uJ7oVyu0Hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="155174248"
+   d="scan'208";a="155174270"
 Received: from fdefranc-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.182])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:26:36 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 03:26:53 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -50,9 +50,9 @@ Cc: linux-sound@vger.kernel.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev
-Subject: [PATCH] ASoC: SOF: topology: Parse the dapm_widget_tokens in case of DSPless mode
-Date: Thu, 19 Jun 2025 13:26:40 +0300
-Message-ID: <20250619102640.12068-1-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH] ASoC: SOF: ipc4-pcm: Look for best matching hw_config for SSP
+Date: Thu, 19 Jun 2025 13:26:57 +0300
+Message-ID: <20250619102657.12109-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -62,56 +62,123 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Parsing the dapm_widget_tokens is also needed for DSPless mode as it is
-setting the snd_soc_dapm_widget.no_wname_in_kcontrol_name flag for the
-kcontrol creation from DAPM widgets.
-Without that flag set, the following warnings might appear because of long
-control names:
-ALSA: Control name 'eqiir.2.1 Post Mixer Analog Playback IIR Eq bytes' truncated to 'eqiir.2.1 Post Mixer Analog Playback IIR Eq'
-ALSA: Control name 'eqfir.2.1 Post Mixer Analog Playback FIR Eq bytes' truncated to 'eqfir.2.1 Post Mixer Analog Playback FIR Eq'
-ALSA: Control name 'drc.2.1 Post Mixer Analog Playback DRC bytes' truncated to 'drc.2.1 Post Mixer Analog Playback DRC byte'
-ALSA: Control name 'drc.2.1 Post Mixer Analog Playback DRC switch' truncated to 'drc.2.1 Post Mixer Analog Playback DRC swit'
-ALSA: Control name 'gain.15.1 Pre Mixer Deepbuffer HDA Analog Volume' truncated to 'gain.15.1 Pre Mixer Deepbuffer HDA Analog V'
+Instead of just looking for a hw_config with matching rate only it sounds
+better to try to find the best matching configuration.
+
+If we have multiple hw_configurations with the same rate, but each with
+different format for example then we have been picking the first config
+with the matching rate, which can be a problem and it wil depend on how
+the configs are ordered.
+
+Instead we should be trying to find the best match out of the configs
+1. rate + format + channels are matching
+2. rate + format are matching
+3. rate matching
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/sof/topology.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ sound/soc/sof/ipc4-pcm.c | 61 ++++++++++++++++++++++++++++++----------
+ 1 file changed, 46 insertions(+), 15 deletions(-)
 
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index d612d693efc3..b6d5c8024f8c 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -2378,14 +2378,25 @@ static int sof_dspless_widget_ready(struct snd_soc_component *scomp, int index,
- 				    struct snd_soc_dapm_widget *w,
- 				    struct snd_soc_tplg_dapm_widget *tw)
+diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
+index 8eee3e1aadf9..a5b365ab1945 100644
+--- a/sound/soc/sof/ipc4-pcm.c
++++ b/sound/soc/sof/ipc4-pcm.c
+@@ -557,12 +557,15 @@ static int sof_ipc4_pcm_hw_free(struct snd_soc_component *component,
+ 	return sof_ipc4_trigger_pipelines(component, substream, SOF_IPC4_PIPE_RESET, 0);
+ }
+ 
+-static void ipc4_ssp_dai_config_pcm_params_match(struct snd_sof_dev *sdev, const char *link_name,
+-						 struct snd_pcm_hw_params *params)
++static int ipc4_ssp_dai_config_pcm_params_match(struct snd_sof_dev *sdev,
++						const char *link_name,
++						struct snd_pcm_hw_params *params)
  {
-+	struct snd_soc_tplg_private *priv = &tw->priv;
-+	int ret;
+ 	struct snd_sof_dai_link *slink;
+ 	struct snd_sof_dai *dai;
+ 	bool dai_link_found = false;
++	int current_config = -1;
++	bool partial_match;
+ 	int i;
+ 
+ 	list_for_each_entry(slink, &sdev->dai_link_list, list) {
+@@ -573,19 +576,50 @@ static void ipc4_ssp_dai_config_pcm_params_match(struct snd_sof_dev *sdev, const
+ 	}
+ 
+ 	if (!dai_link_found)
+-		return;
++		return 0;
+ 
++	/*
++	 * Find the first best matching hardware config:
++	 * rate + format + channels are matching
++	 * rate + channel are matching
++	 *
++	 * The copier cannot do rate and/or channel conversion.
++	 */
+ 	for (i = 0; i < slink->num_hw_configs; i++) {
+ 		struct snd_soc_tplg_hw_config *hw_config = &slink->hw_configs[i];
+ 
+-		if (params_rate(params) == le32_to_cpu(hw_config->fsync_rate)) {
+-			/* set current config for all DAI's with matching name */
+-			list_for_each_entry(dai, &sdev->dai_list, list)
+-				if (!strcmp(slink->link->name, dai->name))
+-					dai->current_config = le32_to_cpu(hw_config->id);
++		if (params_rate(params) == le32_to_cpu(hw_config->fsync_rate) &&
++		    params_width(params) == le32_to_cpu(hw_config->tdm_slot_width) &&
++		    params_channels(params) == le32_to_cpu(hw_config->tdm_slots)) {
++			current_config = le32_to_cpu(hw_config->id);
++			partial_match = false;
++			/* best match found */
+ 			break;
++		} else if (current_config < 0 &&
++			   params_rate(params) == le32_to_cpu(hw_config->fsync_rate) &&
++			   params_channels(params) == le32_to_cpu(hw_config->tdm_slots)) {
++			current_config = le32_to_cpu(hw_config->id);
++			partial_match = true;
++			/* keep looking for better match */
+ 		}
+ 	}
 +
-+	/* for snd_soc_dapm_widget.no_wname_in_kcontrol_name */
-+	ret = sof_parse_tokens(scomp, w, dapm_widget_tokens,
-+			       ARRAY_SIZE(dapm_widget_tokens),
-+			       priv->array, le32_to_cpu(priv->size));
-+	if (ret < 0) {
-+		dev_err(scomp->dev, "failed to parse dapm widget tokens for %s\n",
-+			w->name);
-+		return ret;
++	if (current_config < 0) {
++		dev_err(sdev->dev,
++			"%s: No suitable hw_config found for %s (num_hw_configs: %d)\n",
++			__func__, slink->link->name, slink->num_hw_configs);
++		return -EINVAL;
 +	}
 +
- 	if (WIDGET_IS_DAI(w->id)) {
- 		static const struct sof_topology_token dai_tokens[] = {
- 			{SOF_TKN_DAI_TYPE, SND_SOC_TPLG_TUPLE_TYPE_STRING, get_token_dai_type, 0}};
- 		struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
--		struct snd_soc_tplg_private *priv = &tw->priv;
- 		struct snd_sof_widget *swidget;
- 		struct snd_sof_dai *sdai;
--		int ret;
++	dev_dbg(sdev->dev,
++		"hw_config for %s: %d (num_hw_configs: %d) with %s match\n",
++		slink->link->name, current_config, slink->num_hw_configs,
++		partial_match ? "partial" : "full");
++	list_for_each_entry(dai, &sdev->dai_list, list)
++		if (!strcmp(slink->link->name, dai->name))
++			dai->current_config = current_config;
++
++	return 0;
+ }
  
- 		swidget = kzalloc(sizeof(*swidget), GFP_KERNEL);
- 		if (!swidget)
+ /*
+@@ -728,13 +762,10 @@ static int sof_ipc4_pcm_dai_link_fixup(struct snd_soc_pcm_runtime *rtd,
+ 		break;
+ 	}
+ 
+-	switch (ipc4_copier->dai_type) {
+-	case SOF_DAI_INTEL_SSP:
+-		ipc4_ssp_dai_config_pcm_params_match(sdev, (char *)rtd->dai_link->name, params);
+-		break;
+-	default:
+-		break;
+-	}
++	if (ipc4_copier->dai_type == SOF_DAI_INTEL_SSP)
++		return ipc4_ssp_dai_config_pcm_params_match(sdev,
++							    (char *)rtd->dai_link->name,
++							    params);
+ 
+ 	return 0;
+ }
 -- 
 2.49.0
 
