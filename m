@@ -1,111 +1,83 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209172FE384
-	for <linux-sound@vger.kernel.org>; Thu, 19 Jun 2025 18:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBFC1A238D;
+	Thu, 19 Jun 2025 19:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750356384; cv=none; b=KLSkvLPkee3faTTtLUx0Xbb72df8yjvgQNRqpqI+IY0wg8Sk67fWQUBck3vXP8CvVqWZylCEXytvytrO1gYcInGlTZ8QgSLxSoyhUurkrvofMLYEiIBSXCb/VRRi3W+0h7JYBBlY1NVDLnmOhS6pJfIYx4ELoMCFDnfeaCft0ak=
+	t=1750360057; cv=none; b=LDmcWb9RTZ2LEKW5DgBYL4/b0071yHr4cOYr/7amTUZ3qRyhk/aj9UGu88PzpLXbv9dYDbRl8mo6CAMKxjBgaF/W2wzb/vN2WJARqFaGHhBLh6N98SUQNZq6NjQxnL6ixN5QT8MI5g4aLkqwVx2vfduYDTnmOHiduDUPXRU+q2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750356384; c=relaxed/simple;
-	bh=8rFZcmFKoB+G9wDyBIy9E1UDrKe2IpqE1SruPDPlznE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WFWnTGgy4KgSfv262bJcq1oye5FTQpwuLiCkDvVhq1FtqQXGW5odLVjNEWnY1p97NfhdKq/1TjWWMEzu5wOveQtQ+JE8xpCiPOwWV50Q8JOB0Yv4HVgVi0E+/IGcav/waVUtWqx9zzfCT3nUq4OO/BBSC50g24mUsCwTO5Nba4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dAGPj1O+; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750360057; c=relaxed/simple;
+	bh=dibH5wDjyn5Zb1B4FCcc/AiyaYSHKBFKlPjRvmfNeBA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=J8OYUnpJ2Oc3VzcKsAs+ZPB6dBwiZY4mKKhgOKtPPTcL4NN+WfFHmJTwQYHk6xDTaz/rukqR8haX/tH7t1Yk05Tlr01ZJ7ZMtlJQLqTv1Z6ppwcxHW/ztKC+LQeF8Ipa1VBEqX6CCx1Wvi0QyhyqYfBed0rA4ZukzoYGf1+aIZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=adUJ4rok; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dAGPj1O+"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-553ba7f11cbso1227042e87.1
-        for <linux-sound@vger.kernel.org>; Thu, 19 Jun 2025 11:06:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750356381; x=1750961181; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=v4GDLvtDDGSq/Qy+QO7VaqR9d/e2gHqaBWo5/ZVZ0dw=;
-        b=dAGPj1O+fwodJH5QMW0tH5Exc3bpPncsisJkhj9q67HUshF7Si9GtIf0JZ2JAL11dY
-         0P3OYK2ARR5MquvpiBrmF4upBBL28cCx3b6GTp728lehlX+wjc13Lu4N3H99o6ZT84CS
-         4HJrjbtcuN7ggfDeYQ+TxnxuxqB78AWs2TzPXRdP6qz3679/6GgB7yjcoqmCdsJdNw/G
-         uvpk7x1LeSOEVzBWMyGPtBu/I19sCCFBjkItxXIqWDt92NtuiZAdJrUgMGwzfYKpC1Ha
-         vn1JsilZZFW81WTAvLjMW7CdA2Ny9yXKn6Yi2q0XZzYwF40B0GHEZVc//wKg17+1BQeW
-         m3kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750356381; x=1750961181;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v4GDLvtDDGSq/Qy+QO7VaqR9d/e2gHqaBWo5/ZVZ0dw=;
-        b=n64vWjGNlt+h7qvQF2gnHb0n6kGeg4Cl9Biu8ptHBAjIjQe1Y660RY3RxzpQ78b/C1
-         8DD9iJDcXV0eHfdB4T1RfRKn0NMMfOvLS/zZ5OArWx2OdAd48nj5aWc1FF3HZsfUFVfm
-         kHJDdQBNxASGiu5vFeFadxprBkac3mO/AI5+b9c4dxARcbW6Y1fk0jn300NrxmqMoOuV
-         ON2J2WFtBWLP2DIqUW/2ahcEVtZpAnOnDVmHLE9b6yub1mzAL6UadAjuvAapY2Y3fT/t
-         DWpng8jSZh/Dk+jyYsb5RUAuvphZ8HUWiIgPanCKIfwKzrbW8/JGbmMKkTP0xVnDhrRC
-         GbLw==
-X-Gm-Message-State: AOJu0Yx6Ir50xbiB4q0tDUQ/Qqo10+/0DPF6I4SUqlL+WiqqSoligx2d
-	wI6Dwb4wCEV/qPVwOrkT393T7dUbXbyIHQuKR4hzsjOSCzasmo2xe5yJ
-X-Gm-Gg: ASbGncu3Vgezx9dWAqIAHG4sEHScM21gsh7cad1MuS9bRP18wP+aASKcDGU6Mi66R9W
-	TzqDmcAMV+ogU8jhuhS3SgA2olRjYJyeobCdQCmotibt9T8JgId8TBnOyFGvDSVTswzcEIpRQHV
-	GGsond6tyFwvy08uVObDmq8YYKouHX5Nv0laggbQ3OIRMvygR54HL+4YrYtjqi6kY4IoTDFKK9I
-	D04ZBatwM4wbMtntHt+8s4KCH/H0zV78h4kC4s5nuefb7z+NOGf25y5rCQuGq3GCuQEsgS9vEdK
-	MhFpFGb1mXWBkkQd5uMG3+6WMeMebLOxAIIpzJlZu2J55D2q3nDsU2kqNiPHEvnCSQZXHyRISNZ
-	+E7P5DjfxkeGZrHlgpsvwx0PMsJHPpOWo
-X-Google-Smtp-Source: AGHT+IHxrn8+YzC2Gym11QFTWAVlTIN4KBCnYKHhwrYGEJWoN2lxoZ8l/K5GQ47Xp/SejkIjNj8WIg==
-X-Received: by 2002:a05:6512:3d88:b0:553:33b9:bd3a with SMTP id 2adb3069b0e04-553e3d07f75mr41038e87.53.1750356380896;
-        Thu, 19 Jun 2025 11:06:20 -0700 (PDT)
-Received: from [10.0.0.100] (host-185-69-73-15.kaisa-laajakaista.fi. [185.69.73.15])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553e3e43dd1sm6505e87.128.2025.06.19.11.06.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jun 2025 11:06:20 -0700 (PDT)
-Message-ID: <d2883cc9-5ee3-44f9-b3a8-60a1adbb3e20@gmail.com>
-Date: Thu, 19 Jun 2025 21:08:12 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="adUJ4rok"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D258C4CEED;
+	Thu, 19 Jun 2025 19:07:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750360056;
+	bh=dibH5wDjyn5Zb1B4FCcc/AiyaYSHKBFKlPjRvmfNeBA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=adUJ4rok9YQYiXnNK6U7o8itoBFKGfyv+/ORUNkpLhuclhUL3wgE5ZNFcMvTP6xwX
+	 d4D7tstkQ9BMwJq9aWdAk9mndGtUFApGMiKO5rRyMhQKmG+qSa+aPKtl8j0RoK62iT
+	 hc9mvxqcRMJ8PelRBbps5ZPlhQKpKrVbiyDtizYRKyUU0VdSa4FBZlEztsaTDqHlQx
+	 AwKoId1ofLZP4WQSqSil2n839660RvdqJJ4fXaN+U2PqO57jV3j308/LSA8VS48aQm
+	 Mv8zAkthsENlXmi6/VG7wUToOAmB2cWoYpXw3gO8POya/XU11MIlucn9HYs2w754tq
+	 YQC0ycmLx7Vqw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, stable@vger.kernel.org
+In-Reply-To: <20250619104705.26057-1-peter.ujfalusi@linux.intel.com>
+References: <20250619104705.26057-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: sof-function-topology-lib: Print out the
+ unsupported dmic count
+Message-Id: <175036005483.540225.2904640601416826643.b4-ty@kernel.org>
+Date: Thu, 19 Jun 2025 20:07:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/39] ASoC: ti: Standardize ASoC menu
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
-References: <875xh120u3.wl-kuninori.morimoto.gx@renesas.com>
- <874iwl20th.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>
-In-Reply-To: <874iwl20th.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-08c49
 
-
-
-On 12/06/2025 04:41, Kuninori Morimoto wrote:
-> Current Kconfig menu at [ALSA for SoC audio support] has no rules.
-> So, some venders are using menu style, some venders are listed each drivers
-> on top page, etc. It is difficult to find target vender and/or drivers
-> because it is very random.
+On Thu, 19 Jun 2025 13:47:05 +0300, Peter Ujfalusi wrote:
+> It is better to print out the non supported num_dmics than printing that
+> it is not matching with 2 or 4.
 > 
-> Let's standardize ASoC menu
-
-Acked-by: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-
 > 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  sound/soc/ti/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/ti/Kconfig b/sound/soc/ti/Kconfig
-> index e22e41af32269..3323cf96e3095 100644
-> --- a/sound/soc/ti/Kconfig
-> +++ b/sound/soc/ti/Kconfig
-> @@ -1,5 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> -menu "Audio support for Texas Instruments SoCs"
-> +menu "Texas Instruments"
->  depends on DMA_OMAP || TI_EDMA || TI_K3_UDMA || COMPILE_TEST
->  
->  config SND_SOC_TI_EDMA_PCM
+
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: Intel: sof-function-topology-lib: Print out the unsupported dmic count
+      commit: 16ea4666bbb7f5bd1130fa2d75631ccf8b62362e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
