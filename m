@@ -1,93 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C69224898
-	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 11:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65B830E828
+	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 11:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750419157; cv=none; b=W6GsF4Pe+EOEJV+CqLMWhxRtiN7a3ZIPY59M5bsxj5YPN5USaFvZoYsrPEFcwi0GNit1DvBH7sxlzPb2PNsfm7eBbYU/8eEe7trUQdrp6gMswSvFU+qFn23Xx6PFl6L2JsW4AwlSuLTOGY/aarcFeXFgPwtbWYWacie0hpwabJA=
+	t=1750420271; cv=none; b=HPHrsN5y3DlLCPpFe4v4EQmY+hQqwPqRJ0bgvkGrHD3sE6+GJaBYawY/8FbPsNOFi/JUC/zySoYJg0OESZNRS1zCokShuNopIrBoamTXuG21uuuBs0DXroxMz6Sy8U8SFyxzOmFHdcLBPgbsRBVGXK1O/H33JTGGnAG56xTAuBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750419157; c=relaxed/simple;
-	bh=Wmw3UJvoLkWNeOFwQbjejAsPCQ/a+Wi5YBCgWtzdEyE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bg5uaMMzJRN44y/nSYsmWNfHnu7miSLUWpDyqXJYXOeby3AQFGCHt8Crje2CX5Pmk64NRCwEbAdf+ZWiX3j7wKCmH6k3Fw8uaAlR5Mjrjgg2NCmtB04QQPzU0DMe/M6pmuA5r0eifVtwudoW79KX1C3/rfX1eTRxIRtIKWozoGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N/ZVQY6D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750420271; c=relaxed/simple;
+	bh=pyxJ+718/Xlfk7owjr78XcIdxzHc3dPqU6hJsbfQ11s=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HP0hg6IUu6CCUB1uLpVmvIEW3W0O5mQJKO8o6sDCOI39wsb7NjPN9v+jgUnz7DbCVsRCD/AaD7xT+VBNCYFRAX59y+9y9MmG05tCEqpfvihrYXVAts+QgvtC/CmYWjfC5dRI2m6TbZTk53Mqx7JPlTA/PWK1lBfJ45rLkXNPQaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oDsOnjsS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wq0FzKdY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eneDD1ZM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9Q25c5EM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N/ZVQY6D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 286F8C4CEE3;
-	Fri, 20 Jun 2025 11:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750419156;
-	bh=Wmw3UJvoLkWNeOFwQbjejAsPCQ/a+Wi5YBCgWtzdEyE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=N/ZVQY6Dk5YpamATzQBmjcM9cDrBQXQ8crxg6gYDAZMdL1ylWW90IafKrJyaTnm4l
-	 KOZ9e9+awTgT0v3vKm4TGQ/+3FFcoeYE+zcFnXdwhUvtNAWg24FFFrj8a5ilgCksxU
-	 xK1xU1WeaHqlf+zeMBKyAUMNX7DZ6RQtlRL802E3AAijCXJ00oe37fJVKrcBzmeYYt
-	 qL+w3HfKgAowLNJFuCJBiq5nDU5Vhb1yx09rOJ/UyyRR51BYkQtUWp3x7rNpXQMkDh
-	 lBpRy4wMxFCqexcRfTKsU2fSiFP2JjxZgM3h74Qlw6mbMwCT2xRAeE/jalB6SOLTM8
-	 z4lZpqQwzGwtQ==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, guennadi.liakhovetski@linux.intel.com, 
- liam.r.girdwood@intel.com, jyri.sarha@linux.intel.com
-In-Reply-To: <20250619121121.25241-1-peter.ujfalusi@linux.intel.com>
-References: <20250619121121.25241-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/3] ASoC: SOF: ipc4-pcm: Harmonize set pipeline state
- dbg prints
-Message-Id: <175041915490.41098.8722633097184612026.b4-ty@kernel.org>
-Date: Fri, 20 Jun 2025 12:32:34 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oDsOnjsS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wq0FzKdY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eneDD1ZM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Q25c5EM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E473821190;
+	Fri, 20 Jun 2025 11:51:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750420265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tD/Z/p3qc8QgM1uIYMvK1IgJOzGnqI494XzwnQ2UBr4=;
+	b=oDsOnjsSIQL60WB/iS9cGKjIN11xBHyFLAM1MxbmlJhUJR5PIA83dKU1Nezb7834MnvWdW
+	KisJVR0/FvYI+XVAEN9jZ0UD/p0570ECuUnAhU+2I0CTFYzYC6ejjVQIiAJ+tjQnxJxDHE
+	pSTthbKgyUBFEhe/ernsOr3YIdA68aE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750420265;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tD/Z/p3qc8QgM1uIYMvK1IgJOzGnqI494XzwnQ2UBr4=;
+	b=wq0FzKdYgGPLwOvd7H4VsSZqQ26LJ3Idaahmi+koo+I1H0TJih/jcB4PySsl5qMA+IjJhx
+	I27JI2vAqs2zWqAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eneDD1ZM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9Q25c5EM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750420264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tD/Z/p3qc8QgM1uIYMvK1IgJOzGnqI494XzwnQ2UBr4=;
+	b=eneDD1ZMjjA/ycoebHvwNhQwnlkL6E9DJcqWuroPilkejHb1niuMjBDUvGL3pHR1OIIi1q
+	EG1X7d/BqiCprx9R2a9NpJ3ADSui5CuHrFD0o4Llv48IrjeAMuiYzRy4DacmzeeRwFNzRN
+	0HdAxyTpTRWKgyEGv4evUTeumxgX+Lc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750420264;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tD/Z/p3qc8QgM1uIYMvK1IgJOzGnqI494XzwnQ2UBr4=;
+	b=9Q25c5EMeoZku35qgSJ8SoMzrbsuDYVoZC023DwPmX9Wxde8rrW6cEd8Vafyb/LAJLBPa/
+	gWE+FqWHTo8fh2BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A62DA13736;
+	Fri, 20 Jun 2025 11:51:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id n6ewJihLVWjsHQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 20 Jun 2025 11:51:04 +0000
+Date: Fri, 20 Jun 2025 13:51:04 +0200
+Message-ID: <87frfuws0n.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: joakim.zhang@cixtech.com
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	chris.chiu@canonical.com,
+	kailang@realtek.com,
+	geans_chen@realsil.com.cn,
+	cix-kernel-upstream@cixtech.com
+Subject: Re: [PATCH V1 0/4] ALSA: hda: jack detect fixes
+In-Reply-To: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
+References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-08c49
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: E473821190
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -3.51
 
-On Thu, 19 Jun 2025 15:11:18 +0300, Peter Ujfalusi wrote:
-> The series harmonizes the debug prints for pipeline state changes.
+On Thu, 19 Jun 2025 04:08:40 +0200,
+joakim.zhang@cixtech.com wrote:
 > 
-> Currently we only print readable state change for single pipeline
-> changes but when multiple pipeline's state is changed, it is omitted.
+> From: Joakim Zhang <joakim.zhang@cixtech.com>
 > 
-> Use human readable information in both cases in a harmonized way to aid
-> debugging.
+>  - fixes for hda jack detection with polling mode
 > 
-> [...]
+> Joakim Zhang (4):
+>   ALSA: hda: fix controller cannot suspend when codec using jackpoll
+>   ALSA: hda: add no_pin_sense_update flag for jack detection
+>   ALSA: hda: disable jackpoll_in_suspend when system shutdown
+>   ALSA: hda/realtek: fix mic jack detect failed on alc256
 
-Applied to
+Thanks for the patches.  Indeed the polling mode has been little cared
+for now.  I'll comment / suggest in each patch reply.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
-
-[1/3] ASoC: SOF: ipc4: Add sof_ipc4_pipeline_state_str() for debugging
-      commit: ecd41e0e2581d60f5268ad662065d17e0f049539
-[2/3] ASoC: SOF: ipc4-pcm: Pipe instances to dev_dbg in multi_pipeline_state()
-      commit: 0e57fa20678d2d2dc0f047f052bb509c8f3ebc3b
-[3/3] ASoC: SOF: ipc4-pcm: Harmonize sof_ipc4_set_pipeline_state() dbg print
-      commit: 2756b7f08ff6ca7c68c8c7dd61c8dc6895c9de34
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
