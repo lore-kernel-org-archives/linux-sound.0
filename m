@@ -1,89 +1,78 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA7228A400
-	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 12:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32FF28C02F
+	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 12:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750421594; cv=none; b=ZgaCw6fQ45Bjj9n5H/qK4D/cn3zNmcjrKUGvXQgeAJUJNYt4MECh6cCFoqh1DRm45RBJX2ewsctzM+x211+C4XiD0m8Dm+oxARtlGp7ObSGmAvlJFDZGVDd5ZRCY8UKB+zWYWRXujNiRctguomSPipkcu0HLh9rfD/yJrt6qE7o=
+	t=1750422252; cv=none; b=kI5vONamuJRE97n4ekVg2OzyUmGg7ShSm54OsUw/UUt1x934F+YTcujTacBIB0hdy5nB14nvIc5ua+kkf8l+8CaN7TD3QPslvd7r4QpiOu67Fv5CH/qPxRJSxrEOTGlwMqPoUXJVVZwUlj1pi4LMs47WHVUEVPVtIAEii4QddOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750421594; c=relaxed/simple;
-	bh=26LSMY857CcRz8JRTBROMgOasaBUKBV+3qzeLQ0WvyE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b6/sv//9oVHG8c00dVPzRtP3QVCm82sePS6sDJSSCaJJGsMaLEH06PIoQRHmlJ1iLEN9zbVfmGeL17cytEy2BpW9JmesbH6FeYFJg+bOGH1zdmTRub5CPyycbbExRHzirLHokKMwyHsppmVG/8cvxlP0mM5GSdVT9yf9V8uFmgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=b8J9LsPo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oR+yve50; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vVef2+dH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ujztlUZ7; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1750422252; c=relaxed/simple;
+	bh=RXzXQ8TqTmoYVGDEalpbzik0jifSJ3y2hzRDdGogep4=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=kGPlCRfs47ZUL8LISbDd7Bwta7dqxsEoHyEb1ecxs+VfYkZwKQKHkwsm/DSk5S3kKmQmFXARF6IB/HFGnZBlkN48QDGp/ywXcKMQtZqAAgVIDLhBZZ/CUOEZPCSoFBeIl1f9UWRFVYJKOzuWgStLqzD6hfEt4Xt9IxX2z4OmxSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Krq+s+QP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6KuqpHGB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G4j6zbd7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S8uXG4Nf; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="b8J9LsPo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oR+yve50";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vVef2+dH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ujztlUZ7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Krq+s+QP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6KuqpHGB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G4j6zbd7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S8uXG4Nf"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 412B32120F;
-	Fri, 20 Jun 2025 12:13:10 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CACC11F38D;
+	Fri, 20 Jun 2025 12:24:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750421591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m7pibm/bIvpzbSUDcmXRHCpoPjJfJ+pH5DnWVONucOs=;
-	b=b8J9LsPoPrixy/C4GY9FSwnxJbY26I/Q3Fda+q7fJ/fInIb2dURM4n2A7hkwF0z6Emg2Xj
-	GYJk1t6/tDfMCBFdskO4lg7AiUYWfOGo1d5EygELMSveww5pQpC4m9y0eDIibUsW+4Lo1j
-	LbBQ2vNwchdOcY6lqRpJ7vPaMXurfUM=
+	t=1750422249; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=JvhMaG3LPeg39/7bULRqdItTnUSq1YO2/hpHdIL5NGU=;
+	b=Krq+s+QP/ElAMEg4Ai+ZYyZPwSikLf1Q2aQWubhbBRumH44mPlZhDUhvfJMFMDa2+Ds3e6
+	5YmEo3ywDZptoZePGeDt2pObqYscpJNBocA6YDqJyqhGfyTyxOLYcEcSDzDzfWPRHfKQTC
+	VY054nRlW2/9LSKajnjhEBK5VMykVo0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750421591;
+	s=susede2_ed25519; t=1750422249;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m7pibm/bIvpzbSUDcmXRHCpoPjJfJ+pH5DnWVONucOs=;
-	b=oR+yve5026jw2o6EUJZR1OuJBWHW1BrS/i7kSMsI0PtCqAiNYXFviZ+T/kl3iMFIhpZtbg
-	Me4qy/rvITWY8xAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	 mime-version:mime-version:content-type:content-type;
+	bh=JvhMaG3LPeg39/7bULRqdItTnUSq1YO2/hpHdIL5NGU=;
+	b=6KuqpHGBH/lfgkGhG/p9t5EaCuJb+aE0t+03914LKIjqpU3WFOz3a2rfu5XInLIFUoUrng
+	cg5kzA1Gb88UD0AQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=G4j6zbd7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=S8uXG4Nf
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750421590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m7pibm/bIvpzbSUDcmXRHCpoPjJfJ+pH5DnWVONucOs=;
-	b=vVef2+dHeiqj/b4wUzxn9yFDZZ7yBCRO7niS+iy8HPGC6wNjnO2cVjbPpwkThrfB+mZz08
-	3ZdTmyBNxbMb2or6SxUPax5TlrwFUGzFJF/RZ7Ks5naLVbSibMTmPgEH69PEvOAo8771Mv
-	bU4GWXZ1uDBguEyC7mkBt0+iXCwYslY=
+	t=1750422248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=JvhMaG3LPeg39/7bULRqdItTnUSq1YO2/hpHdIL5NGU=;
+	b=G4j6zbd7aOx4d14+ykgCqG++H64aGrNKCfuJd9ELqihWn7+8gaeeU5ZvWrJrW5B9Xc7vTq
+	Pq50RN2Q1Usl5BvuuKLKY3rhb0clc+tLO/yRP8lXVa4IT85kL1/Vs/mKF1/Mhcvrpk+Ym/
+	pzyWlcr8C3iULknJD9OSXcrbObi8RiI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750421590;
+	s=susede2_ed25519; t=1750422248;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m7pibm/bIvpzbSUDcmXRHCpoPjJfJ+pH5DnWVONucOs=;
-	b=ujztlUZ7OLBLpaoeEeOUHg94hDjgyV1dq+bhf+N+Z00HIY5UWzU1Kdr86228fWNfvAtQJv
-	eKWMlxIpCyKzF5Aw==
+	 mime-version:mime-version:content-type:content-type;
+	bh=JvhMaG3LPeg39/7bULRqdItTnUSq1YO2/hpHdIL5NGU=;
+	b=S8uXG4NfJKPKsGq14gpFNYtZJxrSPS7N8cyoDjla+i6dhrwXvB2HDabRQkORK23zNP6ADF
+	4pKEol8BOV3Pa1BQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC0B813736;
-	Fri, 20 Jun 2025 12:13:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B16B136BA;
+	Fri, 20 Jun 2025 12:24:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VxQ2OFVQVWgKJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 20 Jun 2025 12:13:09 +0000
-Date: Fri, 20 Jun 2025 14:13:09 +0200
-Message-ID: <87a562wqzu.wl-tiwai@suse.de>
+	id n5bcI+hSVWj4JgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 20 Jun 2025 12:24:08 +0000
+Date: Fri, 20 Jun 2025 14:24:08 +0200
+Message-ID: <877c16wqhj.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: joakim.zhang@cixtech.com
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	chris.chiu@canonical.com,
-	kailang@realtek.com,
-	geans_chen@realsil.com.cn,
-	cix-kernel-upstream@cixtech.com
-Subject: Re: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on alc256
-In-Reply-To: <20250619020844.2974160-5-joakim.zhang@cixtech.com>
-References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
-	<20250619020844.2974160-5-joakim.zhang@cixtech.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.16-rc3
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,59 +81,143 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: CACC11F38D
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,cixtech.com:email,imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
 X-Spam-Level: 
 
-On Thu, 19 Jun 2025 04:08:44 +0200,
-joakim.zhang@cixtech.com wrote:
-> 
-> From: Joakim Zhang <joakim.zhang@cixtech.com>
-> 
->  - fix mic jack detect failed on alc256, similar issue as below commit
->    commit 3f7424905782 ("ALSA: hda/realtek - Couldn't detect Mic if booting with headset plugged")
->  - confirm with realtek engineer, alc256 also has such issue
-> 
-> Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
-> ---
->  sound/pci/hda/patch_realtek.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index bca725bb8281..a79b542e2a01 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -12193,6 +12193,8 @@ static int patch_alc269(struct hda_codec *codec)
->  		if (codec->core.vendor_id == 0x10ec0236 &&
->  		    codec->bus->pci->vendor != PCI_VENDOR_ID_AMD)
->  			spec->en_3kpull_low = false;
-> +		if (codec->core.vendor_id == 0x10ec0256)
-> +			spec->en_3kpull_low = false;
+Linus,
 
-This needs a confirmation from Realtek.
+please pull sound fixes for v6.16-rc3 from:
 
-Kailang, could you verify it?
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.16-rc3
 
+The topmost commit is 33bdee12822d240caaa01aeac231eac42182fd64
 
-thanks,
+----------------------------------------------------------------
 
-Takashi
+sound fixes for 6.16-rc3
+
+A collection of small fixes.
+All changes are device-specific at this time.
+
+- Fixes for Cirrus codecs with SoundWire, including firmware name
+  updates
+- Fix for i.MX8 SoC DSP
+- Usual HD-audio, USB-audio, and ASoC AMD quirks
+- Fixes for legendary SoundBlaster AWE32 ISA device (a real one, we
+  still got a bug report after 25 years)
+- Minor build fixes
+
+----------------------------------------------------------------
+
+Brahmajit Das (1):
+      ALSA: ctxfi: Replace deprecated strcpy() with strscpy()
+
+Chris Chiu (1):
+      ALSA: hda/realtek: Fix built-in mic on ASUS VivoBook X513EA
+
+Edip Hazuri (1):
+      ALSA: hda/realtek - Add mute LED support for HP Victus 16-s1xxx and HP Victus 15-fa1xxx
+
+Edson Juliano Drosdeck (1):
+      ALSA: hda/realtek: Enable headset Mic on Positivo P15X
+
+Gabriel Santese (1):
+      ASoC: amd: yc: Add quirk for MSI Bravo 17 D7VF internal mic
+
+Harshit Mogalapalli (1):
+      ASoC: cs48l32: Fix a signedness bug in cs48l32_hw_params()
+
+Huacai Chen (1):
+      ASoC: loongson: Fix build warnings about export.h
+
+Jonathan Lane (1):
+      ALSA: hda/realtek: enable headset mic on Latitude 5420 Rugged
+
+Laurentiu Mihalcea (1):
+      ASoC: SOF: imx8: add core shutdown operation for imx8/imx8x
+
+Peter Ujfalusi (1):
+      ASoC: Intel: sof-function-topology-lib: Print out the unsupported dmic count
+
+Raven Black (1):
+      ASoC: amd: yc: update quirk data for HP Victus
+
+Richard Fitzgerald (5):
+      ALSA: hda/realtek: Add quirk for Asus GU605C
+      ASoC: cs35l56: Use SoundWire address as firmware name suffix for new silicon
+      ASoC: cs35l56: Use SoundWire address as alternate firmware suffix on L56 B0
+      ASoC: doc: cs35l56: Update to add new SoundWire firmware filename suffix
+      ASoC: doc: cs35l56: Add CS35L63 to the list of supported devices
+
+Simon Trimmer (1):
+      ALSA: hda/realtek: Add quirk for Asus GA605K
+
+Sven Peter (1):
+      ASoC: apple: mca: Drop default ARCH_APPLE in Kconfig
+
+Takashi Iwai (3):
+      ALSA: hda/intel: Add Thinkpad E15 to PM deny list
+      ALSA: sb: Don't allow changing the DMA mode during operations
+      ALSA: sb: Force to disable DMAs once when DMA mode is changed
+
+Thorsten Blum (1):
+      ASoC: sdw_utils: Fix potential NULL pointer deref in is_sdca_endpoint_present()
+
+Zhang Yi (1):
+      ASoC: codecs: ES8326: Modify initialization configuration
+
+wangdicheng (1):
+      ALSA: usb-audio: Rename ALSA kcontrol PCM and PCM1 for the KTMicro sound card
+
+---
+ Documentation/sound/codecs/cs35l56.rst             | 24 ++++++--
+ sound/isa/sb/sb16_main.c                           |  7 +++
+ sound/pci/ctxfi/xfi.c                              |  4 +-
+ sound/pci/hda/hda_intel.c                          |  2 +
+ sound/pci/hda/patch_realtek.c                      | 30 +++++++++
+ sound/soc/amd/yc/acp6x-mach.c                      | 14 +++++
+ sound/soc/apple/Kconfig                            |  1 -
+ sound/soc/codecs/cs35l56-sdw.c                     | 18 +++---
+ sound/soc/codecs/cs35l56.c                         | 72 +++++++++++++++++++---
+ sound/soc/codecs/cs35l56.h                         |  3 +
+ sound/soc/codecs/cs48l32.c                         |  4 ++
+ sound/soc/codecs/es8326.c                          |  3 +-
+ sound/soc/codecs/wm_adsp.c                         | 27 +++++---
+ sound/soc/codecs/wm_adsp.h                         |  2 +
+ sound/soc/intel/common/sof-function-topology-lib.c |  3 +-
+ sound/soc/loongson/loongson_i2s.c                  |  1 +
+ sound/soc/sdw_utils/soc_sdw_utils.c                |  2 +
+ sound/soc/sof/imx/imx8.c                           | 15 +++++
+ sound/usb/mixer_maps.c                             | 12 ++++
+ 19 files changed, 207 insertions(+), 37 deletions(-)
+
