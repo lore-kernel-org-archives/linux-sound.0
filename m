@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCC0266B52
-	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 11:32:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C69224898
+	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 11:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750419154; cv=none; b=Gj8035eRDP0KYVFejCouxvytTvAgVpuw4bVOP9yj3qCCeWsV7IbLEdPeBr0HwZ6eGIH7A5XlMKM7huPMo8OlJO/nLhwsAto2ocOCrr2lrjOz1AE4x96tvEGqmdLi0gW0H3t9+aQ8doEn8XuDy5JXjfC2XAxs3IJt8h702ySL/ZI=
+	t=1750419157; cv=none; b=W6GsF4Pe+EOEJV+CqLMWhxRtiN7a3ZIPY59M5bsxj5YPN5USaFvZoYsrPEFcwi0GNit1DvBH7sxlzPb2PNsfm7eBbYU/8eEe7trUQdrp6gMswSvFU+qFn23Xx6PFl6L2JsW4AwlSuLTOGY/aarcFeXFgPwtbWYWacie0hpwabJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750419154; c=relaxed/simple;
-	bh=Ir2mcXVoAvfH3YL8g5loVbH+kTfF9ORLEBDBXVtPj+g=;
+	s=arc-20240116; t=1750419157; c=relaxed/simple;
+	bh=Wmw3UJvoLkWNeOFwQbjejAsPCQ/a+Wi5YBCgWtzdEyE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RCjum5J2udkqR4dK0th4liWbvr/9F3Qae/IQPooInPzgA66c450jVXBkHkCSLyTlSuldbBYfuR73bgOXx0Jx6NrP58ska899tsHRuVz892UtW2ryKviR/ZiagJbdraqJU2m8UlAnvh3oqEtw/aPDCXIb7ooUQCJaSBnGgGtLWEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HmGEneML; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=bg5uaMMzJRN44y/nSYsmWNfHnu7miSLUWpDyqXJYXOeby3AQFGCHt8Crje2CX5Pmk64NRCwEbAdf+ZWiX3j7wKCmH6k3Fw8uaAlR5Mjrjgg2NCmtB04QQPzU0DMe/M6pmuA5r0eifVtwudoW79KX1C3/rfX1eTRxIRtIKWozoGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N/ZVQY6D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HmGEneML"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 165ABC4CEED;
-	Fri, 20 Jun 2025 11:32:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N/ZVQY6D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 286F8C4CEE3;
+	Fri, 20 Jun 2025 11:32:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750419154;
-	bh=Ir2mcXVoAvfH3YL8g5loVbH+kTfF9ORLEBDBXVtPj+g=;
+	s=k20201202; t=1750419156;
+	bh=Wmw3UJvoLkWNeOFwQbjejAsPCQ/a+Wi5YBCgWtzdEyE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HmGEneMLpoESmeedxQNwSAQD2pX8zIotNmyhtr88zWjYj8oUx2+EzAQVcQnpaWVvF
-	 QyFM3+RaqK06n68nXm2W3CT8R+tSA4ZwD/LEGxNgZe5BaVcu2AnhymjddaEVmXp7TO
-	 hU8A35U2Tgu1kx2RwIMiLiNT/W25qJsCsbl2O1EpYO/r3B+NwmUbhdPv4ngxua9c5H
-	 N5bHKlvhsFR0yP9icorKMgiOAI61mfpO//nuEqTnA03xgCUbfGjt6AW6S59vns2Xrd
-	 mLHkVGv6m/J2GGgdxmg/IPGAjNi75inZKH38QRN/hFaluttJfMM/0AHhoP3hPlp1bW
-	 z8t3FKJu4TwXQ==
+	b=N/ZVQY6Dk5YpamATzQBmjcM9cDrBQXQ8crxg6gYDAZMdL1ylWW90IafKrJyaTnm4l
+	 KOZ9e9+awTgT0v3vKm4TGQ/+3FFcoeYE+zcFnXdwhUvtNAWg24FFFrj8a5ilgCksxU
+	 xK1xU1WeaHqlf+zeMBKyAUMNX7DZ6RQtlRL802E3AAijCXJ00oe37fJVKrcBzmeYYt
+	 qL+w3HfKgAowLNJFuCJBiq5nDU5Vhb1yx09rOJ/UyyRR51BYkQtUWp3x7rNpXQMkDh
+	 lBpRy4wMxFCqexcRfTKsU2fSiFP2JjxZgM3h74Qlw6mbMwCT2xRAeE/jalB6SOLTM8
+	 z4lZpqQwzGwtQ==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
  ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
  pierre-louis.bossart@linux.dev, guennadi.liakhovetski@linux.intel.com, 
- liam.r.girdwood@intel.com
-In-Reply-To: <20250619105623.4546-1-peter.ujfalusi@linux.intel.com>
-References: <20250619105623.4546-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: SOF: ipc4/Intel: Support for partial context
- restore
-Message-Id: <175041915283.41098.2329825317228918261.b4-ty@kernel.org>
-Date: Fri, 20 Jun 2025 12:32:32 +0100
+ liam.r.girdwood@intel.com, jyri.sarha@linux.intel.com
+In-Reply-To: <20250619121121.25241-1-peter.ujfalusi@linux.intel.com>
+References: <20250619121121.25241-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/3] ASoC: SOF: ipc4-pcm: Harmonize set pipeline state
+ dbg prints
+Message-Id: <175041915490.41098.8722633097184612026.b4-ty@kernel.org>
+Date: Fri, 20 Jun 2025 12:32:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,15 +48,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-08c49
 
-On Thu, 19 Jun 2025 13:56:21 +0300, Peter Ujfalusi wrote:
-> The firmware will be able to only save and restore the context related to
-> library management.
-> This means that even without a full context save, the libraries do not
-> need to be re-loaded to the firmware after second or consecutive boots.
+On Thu, 19 Jun 2025 15:11:18 +0300, Peter Ujfalusi wrote:
+> The series harmonizes the debug prints for pipeline state changes.
 > 
-> This is reported via the FW_READY notification, where BIT(15) indicates:
-> 0 - the library restore is not done
-> 1 - library restore is done
+> Currently we only print readable state change for single pipeline
+> changes but when multiple pipeline's state is changed, it is omitted.
+> 
+> Use human readable information in both cases in a harmonized way to aid
+> debugging.
 > 
 > [...]
 
@@ -66,10 +65,12 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: SOF: ipc4-priv: Add kernel doc for fw_context_save of sof_ipc4_fw_data
-      commit: cec49fa47bccadb288fd984ef2a5c45e8a2e2099
-[2/2] ASoC: SOF: ipc4/Intel: Add support for library restore firmware functionality
-      commit: ace9b3daf2b4778358573d3698e34cb1c0fa7e14
+[1/3] ASoC: SOF: ipc4: Add sof_ipc4_pipeline_state_str() for debugging
+      commit: ecd41e0e2581d60f5268ad662065d17e0f049539
+[2/3] ASoC: SOF: ipc4-pcm: Pipe instances to dev_dbg in multi_pipeline_state()
+      commit: 0e57fa20678d2d2dc0f047f052bb509c8f3ebc3b
+[3/3] ASoC: SOF: ipc4-pcm: Harmonize sof_ipc4_set_pipeline_state() dbg print
+      commit: 2756b7f08ff6ca7c68c8c7dd61c8dc6895c9de34
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
