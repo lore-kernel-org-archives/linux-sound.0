@@ -1,154 +1,163 @@
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2076.outbound.protection.outlook.com [40.107.212.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5185D28E616;
-	Fri, 20 Jun 2025 12:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750421414; cv=fail; b=dttDyQfsYHYnx2+nKBe2QJpw26ydqivEihIfeeUEXr0XWZY5zxFnHvFgO1vDj6YTXIdC+4q9Q2Z5p3nffaXXrmEJN2tApKfATg6KniNRWHiIaYo+rwTgU7rbfELSN94bTD5wCzJW1Jd9U3asbgA01+c04pb0w6tSNlibCAXD0r0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750421414; c=relaxed/simple;
-	bh=YqVoR5uuAywnWw4eUOOZ14GsFpp3MT//oKZng2EbceI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jGjX+gBdu1tSxjG1E532mmpWOd+pkOeT7DfbRHxGbgThVwHi0aiJy0fiZ47sLZ8PfWH85kqvZTOj+uQNVCvWszc7KXJwdXmvX0jqLA4AR6+NTRt7HBgZY18hwFJ8uo1r/Dc91arHZmx0UpZo/yGooOAw5gXGBuvI4cJsvczjQh4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SReD+QQ3; arc=fail smtp.client-ip=40.107.212.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A3E28C2B4
+	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 12:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750421480; cv=none; b=c6wFz/qYH8/hDn/7PCcyBZ6ZXZ0zMkfYFXhVz2XXx1S2zSbX15fMI/TZkPsICcv+BHX1Nj4kUVb0DgbAlUqXFsTL5HcfLIxvputPCR5Zu+CC+OBX5WYfQei5eZP/r6AogPK7ccQ/qwAV7XU8fpDDjQbY2A39/SHfCkpPMpMsCEc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750421480; c=relaxed/simple;
+	bh=0N/kcpGYydm6PnWMi2EQ4bXhmSIyMp8ye4SobJ9CTcw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TaIqOef8QgMe0/4L0UgQ2PALfRLv5V+uDzjaDDnIBXRkeJgkaNH10oej4rP5V4Adc2f/3cEFZzYLevXS9tGafngS/BaLh7oGSjP2Yy7++5zI0yqm/xBwmUafdYHKW0RUCz0OI2tV4Tz4p3zKGwsJfRD5l1K3HkRTZFqpMhUOY9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YnwW59GK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UB1lR9X1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kN0yv7Mr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=058fJKJx; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SReD+QQ3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RudmLtyPGAjBO22C7Em/HcJuty4aZs5zUnPCoauj6wKoon7/2gLIPJqnrP1UmpIuPbKOgQ4NdQ7tbJagf+cQOQrcEWglbXG2yBlotLhQtoDU7jlZu7zmDIqbFdGQSo/GmB/vzo6wj/Oqkwv3y+7P7nj4r06iuM+FhX7ciPebXjqQi14bepNExcEUOQYVbdZcGDENB2jTqXvXFoqaEODY3K23DA8qou3KKYyjBg0qGHNHUr3QVYlLVnI2KUjYE0ZEARWpFNg7RBoyAu5t6zPQTb3JVMKsdOLWVEHOgYrmoaQH/HamUCWzg7qrqYfp9Wr578n8ZLCBTV33m3EhOGJ/Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yq4ZSvWOmcQlnycmyVYqXJK6HheVQhCr5C0POVFc3zc=;
- b=T9/UHNrpS982/Sp17ntbEGQbfc1+ubmiihSPjvXoI0apMRdUY/WFptErWqfyW2xnoWduWMe85pzZUUhcQRWF0o3XBRrDPWxfwP0HEtsnoCC2CDHifkg1DEFgFhm6wmUczraY2zBNFMIUbXK8FjeMQHoHfB0X1qd/pZuZgLMqXFaPKg3UQHI2Y3gQLHA3GNHA4VFa4GZcg92kY7Exy9rCdg9o5WHR4OV3+Fwo3ENOiAdnHDBg528IaBRdC67ZuRqHa62lPIPx2SMqUZJIpli/Zm6GzuXg0YT/S6jBzB1M6BJdZE8BCY/7r0y3W/EwXKOAgLmmvp0ZbBPKWbW4+eRPFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yq4ZSvWOmcQlnycmyVYqXJK6HheVQhCr5C0POVFc3zc=;
- b=SReD+QQ3kcDt4LJNQsi8EFuvrsKhN88ItnViiaiKCkLnxWmpameuxjOgA0alfRqqf+QjlalQ8+/yHTCzwM5IbD0PAUEnEpPc3MQA+0de38/havK7Ha9tyFJFPr/63U8FuphGX7/5Wg7h7gzTd1DV7Pu4sIPUQ5HxS3Iwi5IrYkM=
-Received: from BYAPR07CA0032.namprd07.prod.outlook.com (2603:10b6:a02:bc::45)
- by MN0PR12MB6053.namprd12.prod.outlook.com (2603:10b6:208:3cf::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Fri, 20 Jun
- 2025 12:10:10 +0000
-Received: from SJ5PEPF000001EA.namprd05.prod.outlook.com
- (2603:10b6:a02:bc:cafe::ab) by BYAPR07CA0032.outlook.office365.com
- (2603:10b6:a02:bc::45) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8857.26 via Frontend Transport; Fri,
- 20 Jun 2025 12:10:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF000001EA.mail.protection.outlook.com (10.167.242.198) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8857.21 via Frontend Transport; Fri, 20 Jun 2025 12:10:10 +0000
-Received: from vijendar-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 20 Jun
- 2025 07:10:02 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>,
-	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
-	<perex@perex.cz>, <tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
-	<mario.limonciello@amd.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <sound-open-firmware@alsa-project.org>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 2/2] ASoC: SOF: amd: add alternate machines for ACP7.0 and ACP7.1 platforms
-Date: Fri, 20 Jun 2025 17:38:43 +0530
-Message-ID: <20250620120942.1168827-3-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250620120942.1168827-1-Vijendar.Mukunda@amd.com>
-References: <20250620120942.1168827-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YnwW59GK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UB1lR9X1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kN0yv7Mr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="058fJKJx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7A5021F38D;
+	Fri, 20 Jun 2025 12:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750421476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ugl3v8/nAt+d8TooVUpcSwC6++NI5kFKr9e1aG63Z0M=;
+	b=YnwW59GKL25eNsqTZ0KsODA1Y8u7VBl6zL/jtXRov+1fmV5nSjgeT/udYjyDbfGEQ964EW
+	5gmyxzzNfNMEbwFS2QwOSPNwsVsWSxPKH9RldVcmO44oNDbgK8G0VCmhZHdwBo0Ju8Uezu
+	JTOLfuxSixpOKbl6LZlb/Ak0/Jj0/8M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750421476;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ugl3v8/nAt+d8TooVUpcSwC6++NI5kFKr9e1aG63Z0M=;
+	b=UB1lR9X1C8IhKxPU6BcP48Nc+gbR+fCXp4peoMZlVljT3g8G0ucE+scA/rVLjga8KsTdZr
+	9gDJLz8HlpsofEBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kN0yv7Mr;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=058fJKJx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750421475; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ugl3v8/nAt+d8TooVUpcSwC6++NI5kFKr9e1aG63Z0M=;
+	b=kN0yv7Mrz/yJ2WrSbSCHnQC9XChzzGj+S0CouQbq1h07BgXtNKVE0JsC3DjU1v3JOfu8TT
+	K7RgENoneu64E3ZiCf8mztcrrgRR4iiEJwKF7tw90MjtwYJQpx3FSPzfAbrsTbFV3hQT4U
+	29bzVU+RFKqv7OOx8fPrC8qjcgwKwiA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750421475;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ugl3v8/nAt+d8TooVUpcSwC6++NI5kFKr9e1aG63Z0M=;
+	b=058fJKJxNB4kQwx/SYmPYZO6En33ARvtUaWR4IMryU2L2vVZJ/aoxyc0AHI+6N6pUHFxtV
+	EdPIzVmlbAYgeBCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CFF813736;
+	Fri, 20 Jun 2025 12:11:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id c06ODeNPVWiOIwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 20 Jun 2025 12:11:15 +0000
+Date: Fri, 20 Jun 2025 14:11:14 +0200
+Message-ID: <87cyaywr31.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: joakim.zhang@cixtech.com
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	chris.chiu@canonical.com,
+	kailang@realtek.com,
+	geans_chen@realsil.com.cn,
+	cix-kernel-upstream@cixtech.com
+Subject: Re: [PATCH V1 2/4] ALSA: hda: add no_pin_sense_update flag for jack detection
+In-Reply-To: <20250619020844.2974160-3-joakim.zhang@cixtech.com>
+References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
+	<20250619020844.2974160-3-joakim.zhang@cixtech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001EA:EE_|MN0PR12MB6053:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a3988e8-25a7-4cbd-c292-08ddaff36778
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?86uEwqu9tV/Ck69McCBzCuc2PgSStVnovqF7Phu1r/xcDtOBl6t7Ohn6Ot/2?=
- =?us-ascii?Q?lXO2jynP/dvLFJ3OJGCvoHdvFlBXoyL0aQDWwQoazW+yYmQN9avIVY9zTFVj?=
- =?us-ascii?Q?LmxuX1uTgybd+DaJqyvNZMuM7OfUn9ob3YsM4Yriq0CV1+tDZd0ERKxS2MF/?=
- =?us-ascii?Q?ZqKO+09/dS2TKMWiyhpYOY2/EwS8lhm/n1w51Tf/2jCjAdeneDPch3uyoDBs?=
- =?us-ascii?Q?WtpZGroZbHFO6l+J4hk3FOKZ1WW9mnTPf36iHepFWEM/E1gYdLhzyj2f5lrl?=
- =?us-ascii?Q?SKH2X+KLvLXA6Yomma+SwmYHJDUt1XfIhPqixwi9hSt9ecUm2auAXpkTTJ/+?=
- =?us-ascii?Q?/S1GcDUw1CjqQsW9B7pQcoKgu9AIkBKbeXesF+Z4YhTr/NBMQ+bAzM39mHvz?=
- =?us-ascii?Q?3M0eFplqvFiZPfaHeGc6fjdbotGUtoK8q6hotob2w3sUvg+DqETfRtk2omUq?=
- =?us-ascii?Q?O/URQPGeIRW/31MymQzKT+sCDnK37jYABISsx7gOm+yqhyfBsWL6+j7M0wXM?=
- =?us-ascii?Q?Ck77h0dF+xLCa0LQkZAtCE+ntHF+O0EwC0rM2sdkWEO6YogNKtoXCzz1dtOm?=
- =?us-ascii?Q?1RVV3PnUCoi9ilMCUFdm431lKLMNCWm6lG4WbYFRSyjttR6mXTDe9GX3+GTA?=
- =?us-ascii?Q?QVDYJZHNohUcZCg3A2DeAQjDvx4fcFQ1xabVSAG2gF/IcsKoO5OHydte42rR?=
- =?us-ascii?Q?rZnaSOSYudB/QCaIUv9EenXz4Y2XHGOIeMFGAzcfbg128C0jJLY2v0t+Irk7?=
- =?us-ascii?Q?J9OopivWy+UlYVX/hMohjG34/LLDe3LNnM5hCdfiCLSYPvIOs3IkOOUvNCyi?=
- =?us-ascii?Q?pXg65naEtROmn4GBdaZCTC2cIrA3sK1lg9KSkxkWqYzM/yb9eAYOBd4uwwEv?=
- =?us-ascii?Q?JVUL4ep8Fr4zJN3kIgYhw/KxrqNybwoj3ZeZ7ZhxanA2GE/7RP8AhsF+TjSo?=
- =?us-ascii?Q?PkWHORkZwdd0hF+BFi850pLBAmwKVhzAiDwjPFvnO1ajzpngbjaoybdNmW3G?=
- =?us-ascii?Q?a351GVer9Uba15olPdmkgbIw5wPEC8++qgAGFzG5aY0soXLPrvoSMzjE05sR?=
- =?us-ascii?Q?rzFI1QK4jj1G5UbvbdvV7HlESBEmrC7uwE3zB9BacVvEckXX038P8y1IKxjs?=
- =?us-ascii?Q?pOqP3vvsCpKsp5Kywcp+YrcpWj2U0J83qZrO28DFeJBLyNI25/meQzPu/Y9e?=
- =?us-ascii?Q?ktQ1IPC7r6kJPKTgVZOGxC9uCRedQHP4SLNgb9gf0GrOsZ2NsuloVQv01paK?=
- =?us-ascii?Q?HezXPP/h4VuttbutrILg0gxAxReZv4SHHYy9plOWIh6X/xu7Rad4Poafm3Yp?=
- =?us-ascii?Q?r7IunOtajdk5eGb084kCBQzhUqOl+1fdEDRNEwZSotex8jgoOmXcpkZpA77P?=
- =?us-ascii?Q?BnQWGDe7faApOthT4pN9Sv8rLoFaPHm4ixsLlsi6V5CKI9aUttZyeAQjX3QA?=
- =?us-ascii?Q?i8LGgiTpp9/rOlXd1Fi8lr/IjpRk/AYZKCiFrLSFCZtmcohDB1nNhSS2Dz1T?=
- =?us-ascii?Q?eDhJ6+d9hBJK8hOtvitJ03GC6FnfbR4ZVsMa?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2025 12:10:10.3007
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a3988e8-25a7-4cbd-c292-08ddaff36778
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001EA.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6053
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,cixtech.com:email];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 7A5021F38D
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -3.51
 
-Add SoundWire machines as alternate machines for ACP7.0 and ACP7.1
-platforms.
+On Thu, 19 Jun 2025 04:08:42 +0200,
+joakim.zhang@cixtech.com wrote:
+> 
+> From: Joakim Zhang <joakim.zhang@cixtech.com>
+> 
+> snd_hda_jack_detect_* functions should be called when want to
+> detect then report jack status immediately, however it now called
+> from other points such as patch_ops.init which just want to
+> judge if the device is attached and no report behaviour.
+> 
+> Let take corner case into account:
+> 1) device is de-attached before suspended, old pin sense is not present
+> 2) attach the device when device in suspended
+> 3) when codec resume back and the device is attached, it will update
+>    pin sense as present from codec init function (patch_ops.init),
+>    when it tries to read pin sense from jackpoll delayed work,
+>    the old pin sense would be present (but actaully it is not present),
+>    and the new pin sense also is present, so decides no changes, cause
+>    the device cannot be detected.
+> 
+> Add no_pin_sense_update flag to control if we need update the pin
+> sense when read the hardware pin sense.
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/sof/amd/pci-acp70.c | 1 +
- 1 file changed, 1 insertion(+)
+I don't understand the situation well.  Do you mean "device" in the
+steps 1/2/3 as a device to be connected to the jack, such as a
+headphone, not the HD-audio codec device, right?
 
-diff --git a/sound/soc/sof/amd/pci-acp70.c b/sound/soc/sof/amd/pci-acp70.c
-index c4db21668252..51d36d43c42b 100644
---- a/sound/soc/sof/amd/pci-acp70.c
-+++ b/sound/soc/sof/amd/pci-acp70.c
-@@ -48,6 +48,7 @@ static const struct sof_amd_acp_desc acp70_chip_info = {
- 
- static const struct sof_dev_desc acp70_desc = {
- 	.machines		= snd_soc_acpi_amd_acp70_sof_machines,
-+	.alt_machines           = snd_soc_acpi_amd_acp70_sof_sdw_machines,
- 	.resindex_lpe_base	= 0,
- 	.resindex_pcicfg_base	= -1,
- 	.resindex_imr_base	= -1,
--- 
-2.45.2
+Even with that assumption, I still don't follow your logic fully...
+Basically, when snd_hda_jack_report_sync() is called, this should
+report the jack state changes.  I believe we should simply call
+snd_hda_jack_report_sync() unconditionally, then schedule the jackpoll
+work, as done in my PoC patch.
 
+
+thanks,
+
+Takashi
