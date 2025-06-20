@@ -1,317 +1,145 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC4E1624DE
-	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 12:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750420837; cv=none; b=DBj11MUJ6lcOkIf7z07L1455Zw/SyXc99ebKDRMUpsstncqx6JPWa2fALzA8DPgB59cMwDsU061q5j9X5ZuycVyO7P7y50q3ai1wSE3XAR1t+S1oIwPSaFbCjGfLPU7kroPehNacE14UHSrTts/51PuTTLSyhVW6E5nKPPBTJN0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750420837; c=relaxed/simple;
-	bh=WD1ocKzLrtwl8MSDj4xKbLvty8ljT/4Gc/U1swAVu4Q=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LSJroKohseyJQOEEhVwf2Y7dvvakCAcw1sw1zGv+rroZmT91BIECbUZExaH4OUFvOgT5Tbf2A7Ubmyoaumx838nLswq3r8H+xFXXlfT/kqwiAFAxoQJV4UDgIam+ISzwl3PMYKwr3bdLA6LAMGHXiVdCGZZ7YYD2xA/FcDJsIzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tLvOHQYl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DOtivUjs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tLvOHQYl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DOtivUjs; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA9028C860;
+	Fri, 20 Jun 2025 12:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750421404; cv=fail; b=gkoADjrmQsBsB4ERzqDj2sAK14V73hYFctp1RUQNFc8fNlmg+UatX+wwq+781SRsQNwqn/blgv9tX0rKPvh3ld79xGQVcUjZabd4F9Tff4/a+OLRfxZX3+yn+xpxkrPz8L8hq2luUBbRUCt2FCOEKK7124vsKhlDouIY8P7Zplo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750421404; c=relaxed/simple;
+	bh=26o30OrLH6ADivCw1bQBNISBFB85yKShSiJaApW432U=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SHN5qP0TEC4yb2HvWR6VxtUqtzZzaM+5YKyxIaeikANqZN8UiWD9qSgzYllG83AJ4uoaA66bpvCmqMStPX1RwpUYP/yaA8oGaOc9uF+CN5TJh9EFGpVq11bFaGso39Y49JsQezy06D7canc9FpHYfcBJq/VMNBuszyu4n0vnedM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HBHDeQZ3; arc=fail smtp.client-ip=40.107.243.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tLvOHQYl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DOtivUjs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tLvOHQYl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DOtivUjs"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AB0F01F38D;
-	Fri, 20 Jun 2025 12:00:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750420833; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vugQT9FFwDNH2t7QrM8tK1r2QvU61bb5rv043Mm+ito=;
-	b=tLvOHQYl92LhuNfXNYm0w5ZM+TdvWs0bw7J4HTH+N+1wMEcFyEc8PetTDCwwakwt4j1sIr
-	UdKXQ6gY8yX0VDTsPtCZ6d6HMtquq7qf2YBWj12LQUgjR1imOh9SkoaAyfraPGvQXdpzNH
-	s+EhDIbcy2QbMxHMvmV2wE/p5dtNudg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750420833;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vugQT9FFwDNH2t7QrM8tK1r2QvU61bb5rv043Mm+ito=;
-	b=DOtivUjslS5wUymnbNGBEmXOQk8esWp23UNIcr1Pd8djprSKo963jTa0IzW2bvGvIgP9xR
-	eFArgmyU5+cNEjDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tLvOHQYl;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DOtivUjs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750420833; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vugQT9FFwDNH2t7QrM8tK1r2QvU61bb5rv043Mm+ito=;
-	b=tLvOHQYl92LhuNfXNYm0w5ZM+TdvWs0bw7J4HTH+N+1wMEcFyEc8PetTDCwwakwt4j1sIr
-	UdKXQ6gY8yX0VDTsPtCZ6d6HMtquq7qf2YBWj12LQUgjR1imOh9SkoaAyfraPGvQXdpzNH
-	s+EhDIbcy2QbMxHMvmV2wE/p5dtNudg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750420833;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vugQT9FFwDNH2t7QrM8tK1r2QvU61bb5rv043Mm+ito=;
-	b=DOtivUjslS5wUymnbNGBEmXOQk8esWp23UNIcr1Pd8djprSKo963jTa0IzW2bvGvIgP9xR
-	eFArgmyU5+cNEjDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6433213736;
-	Fri, 20 Jun 2025 12:00:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZM+1FmFNVWibIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 20 Jun 2025 12:00:33 +0000
-Date: Fri, 20 Jun 2025 14:00:33 +0200
-Message-ID: <87ecvewrku.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: joakim.zhang@cixtech.com
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	chris.chiu@canonical.com,
-	kailang@realtek.com,
-	geans_chen@realsil.com.cn,
-	cix-kernel-upstream@cixtech.com
-Subject: Re: [PATCH V1 1/4] ALSA: hda: fix controller cannot suspend when codec using jackpoll
-In-Reply-To: <20250619020844.2974160-2-joakim.zhang@cixtech.com>
-References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
-	<20250619020844.2974160-2-joakim.zhang@cixtech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HBHDeQZ3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PvsYxc0t6LU7Kn5S/NXp/F3JGVdK7QAb/x9kQZIpYqCnRKmvJ9oRrJHHYinsPaGXv4WEDpQOnDZq4IlSy+/WeuTybqgRgBIXpyAklsbB/U9eTJMMoO2FMvpcvMPhUQb92dWpDwcjWtq63JAkCZAbSGNj1gx7WmCJIxNweOh+AWXeVu+VeBnKzSRrte1F2l94A0NSzrg8QW2Um60cNhVnAiugeQP/YWAke4Wg/p9QArzpIoLPvg86IHL78hINe7ZOPgkTGs9kX4kGH1xj7s1bzPd90vbHPGxrpYVpYITUr3vw6BgBa8UXxf7f4J3vKP8Dsq3e8eaTUieWNsbqspGloA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BhAUD8tTkg92cyKthTaSKTQGaCyfc2/22Z9ZNswNtao=;
+ b=XRvkbFv4WBpGbqWrbeVGTnA0L4AxAj4cifzfzUgl2clCOJv4wodrMoEUcdGW8cZgnJnlfGx0A6+TZPCHF0yQwItiRRw8hF8KFcYjIbi+HwE37CYGD/vfZH0dWcxtQFJloA8fWbJvV2o0wcBIsrE+I2ajKW30cGbJWwitzNifYS8fPgL5GnWmc4n6cd+9LmLZnUPGUl7LAMR8l8SOFcQ7mTz6pLRFbINb6ec+jLC6EXJX6geSL4RRqqkPyAxTPkSEAQdE1Jg2Lo/x5LebfRUu4aMdPJ+d9Co9aHqVZRdaB7HKM6HIXFUNaois4QJpBG4Szwh8h+42Gfe+yXfYmPGXrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BhAUD8tTkg92cyKthTaSKTQGaCyfc2/22Z9ZNswNtao=;
+ b=HBHDeQZ3u9oox9w7tRqICx6bW6LLLTmlB9jgihpDehyIk1d3x5uOP/cvmcDh+BXQk18L83//0ao/g4fxAueLWwOP51hbk2gtg71gkWZWGk+5RM/K0xkN95PjV7J7ZfSAVHwIl3l//xBlDsLKRzIt2tDezEAkdgMFHMF4OwYLiLQ=
+Received: from SJ0P220CA0026.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:41b::30)
+ by MW6PR12MB8734.namprd12.prod.outlook.com (2603:10b6:303:249::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.22; Fri, 20 Jun
+ 2025 12:09:59 +0000
+Received: from SJ5PEPF000001E8.namprd05.prod.outlook.com
+ (2603:10b6:a03:41b:cafe::68) by SJ0P220CA0026.outlook.office365.com
+ (2603:10b6:a03:41b::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8857.26 via Frontend Transport; Fri,
+ 20 Jun 2025 12:09:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ5PEPF000001E8.mail.protection.outlook.com (10.167.242.196) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8857.21 via Frontend Transport; Fri, 20 Jun 2025 12:09:58 +0000
+Received: from vijendar-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 20 Jun
+ 2025 07:09:54 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>,
+	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<perex@perex.cz>, <tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<mario.limonciello@amd.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <sound-open-firmware@alsa-project.org>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 0/2] Add SoundWire machines for ACP7.0/ACP7.1 sof stack
+Date: Fri, 20 Jun 2025 17:38:41 +0530
+Message-ID: <20250620120942.1168827-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: AB0F01F38D
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001E8:EE_|MW6PR12MB8734:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31177a56-9d35-4f06-597e-08ddaff360aa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Un1VJtMrdRRYRnP7h3hKjgfC6lBDnvRGp9uqR+9F3SXF00Fm9OLhxkTdZUpP?=
+ =?us-ascii?Q?iLj0ORaOdXS0VkOu+ivzR8mWbuOUlQdzq70M3z+Q1LUdJoJHHA617LV0T8pj?=
+ =?us-ascii?Q?lVpTStoR/nofiuoTukvP0XMAcftytMDYwexQt5QKaf+9pRZnO4If+nXzIYxz?=
+ =?us-ascii?Q?M3Fn1lEwzfrHBrJufm/WL2XSkEtGC1LU/sxBMPWo2+8M0xl+gevPVWj30mm5?=
+ =?us-ascii?Q?2kUWtfDJEVYqgMxvfwMD0k8ox8LDPzyiOmsdrSUDo6W6wFb7fqKiHF0qpPT7?=
+ =?us-ascii?Q?jFrJ+wRzSpsigNWExZn16NbPVynhC5YbHsTfBIOdesEk9a/ClpJHUpjBeiiK?=
+ =?us-ascii?Q?TyXG1IW6/SuAh+eR2dKQrgXqHQzU8NgBlMhbVAjvKbH5KrCOvwuol+cRDFX6?=
+ =?us-ascii?Q?mZ5DdC4h1qO6rV5UGIpHRIOnoLOX1AeLBdu1qd/P/5O2RpKciNbW7ojQbnx7?=
+ =?us-ascii?Q?vJyttVHrXRkjU5ppYaSx5BWWsKfS4NZV3+UZkYhHvbj9FkMhFaeacUhHvYrk?=
+ =?us-ascii?Q?lyUtOPLeLpTQ5Rd9O9Ksr24FExp0En70MmSQVHccya+YqmlUY5x+PugKwYm9?=
+ =?us-ascii?Q?T3pIBmoiBhaZKEv5HgGOUfOlGvpGnPUisRqKoHRa8szKCDmiPtNiwP3k6I3C?=
+ =?us-ascii?Q?nEQrU+tyZiZ6v+3sYp+W+klcJB3cA1ivGVXh72emmG1hEphkCJ6eI8ZBjK/z?=
+ =?us-ascii?Q?BT1wck8QXAmCGO/5oS5nYsg+VOV/UluxzapHjitBMk1Fd+a6QmfpobiiiIiW?=
+ =?us-ascii?Q?9fh9h2OSAKTOHpM4mVz9yby/gxhroFOLAEbfL3Gg1Fp1xNSncaPulg1S+eXt?=
+ =?us-ascii?Q?eIhSfQJuK+jEW6zYoQh852ExFKKIRiLcsT8h310UZwLa4fUVtzPsfm0n8aiq?=
+ =?us-ascii?Q?LU1MZE6vBKFv+VPQscGBJh9QR0rejXygMXqE1J50Q+beNq8YXtSFPszUBp86?=
+ =?us-ascii?Q?EDz3YpmbglSVNJ3njp8V/YY/eq/PccTW95LVjzRnOmFBWdmx0kyKpZPDJVq/?=
+ =?us-ascii?Q?inv8pZT8zcHzDeCqRzfgMLzHYUtdY3/A9v5NF8zE5090gqoH33fA4zn3ciiY?=
+ =?us-ascii?Q?nhWeXJ1QL1efcrCjbmkopiwyu2ppj26OKDBL+260+efpA4MDikclmZPHofrx?=
+ =?us-ascii?Q?+ftcCIQVoWubi1f/GfrFFAoktWIFPlPPNg7CXUyuH8ktBGlQvPqssoWQmlxC?=
+ =?us-ascii?Q?jbguhCHjPRbxihv9zU0T4XXXzbk7BTLSZLTsLX6ImBg1k9rjcJTTWJ2ngtFA?=
+ =?us-ascii?Q?mWV4sTeb0fovnVkdRmpLorqS+Y/9fwOX0iqiYJHoDtY6UXCtnWLaCfo7STz/?=
+ =?us-ascii?Q?6XnlZzz3PhfNtC9O0Vy7Z7EnNCfxG+twuTs/05e3p8mTv8KTjdsRnUF6hHOq?=
+ =?us-ascii?Q?smH9LTXcZKGpHXLElfr2IIV0Cg8PV/FSFWGv/JV5WxYUhe8Fv3ftTrXGAg9b?=
+ =?us-ascii?Q?eZKRAPhmV+Uc569j/6b3UhOOeaP6NRyrMJsZ9YEMx84+ETOAvRL6uzvOOH68?=
+ =?us-ascii?Q?a6piUfTNmB0Cgq3GRrsfgSDY6d5J/YCydUPH?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2025 12:09:58.8590
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31177a56-9d35-4f06-597e-08ddaff360aa
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001E8.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8734
 
-On Thu, 19 Jun 2025 04:08:41 +0200,
-joakim.zhang@cixtech.com wrote:
-> 
-> From: Joakim Zhang <joakim.zhang@cixtech.com>
-> 
-> For current design, sync cancel jackpoll delayed work in
-> hda_codec_runtime_suspend(), sync means it will cancel pending
-> works, so jackpoll work would be called.
->   hda_jackpoll_work()-->
->       snd_hda_power_up_pm()-->
->           if (!atomic_inc_not_zero(&codec->in_pm))
-> 		return snd_hdac_power_up(codec);-->
-> 		    pm_runtime_get_sync()
-> 
-> The point where cancel_delayed_work_sync() called not in_pm,
-> though it actually is. It will runtime resume codec device again,
-> the power usage_count increase 1, but it should be 0 when codec
-> is suspending, finally codec is in resume state, not suspended.
-> 
-> HDA controller as the parent of codec device, also cannot enter
-> suspend, this patch change to sync cancel jackpoll delayed work when
-> codec in_pm is set, so it will not resume codec again.
-> 
-> Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
-> ---
->  sound/pci/hda/hda_codec.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-> index c018beeecd3d..12caa5b2e678 100644
-> --- a/sound/pci/hda/hda_codec.c
-> +++ b/sound/pci/hda/hda_codec.c
-> @@ -2912,7 +2912,9 @@ static int hda_codec_runtime_suspend(struct device *dev)
->  	if (!codec->card)
->  		return 0;
->  
-> +	snd_hdac_enter_pm(&codec->core);
->  	cancel_delayed_work_sync(&codec->jackpoll_work);
-> +	snd_hdac_leave_pm(&codec->core);
+Add SoundWire machines as alternate machines for ACP7.0 & ACP7.1
+platforms with the below machine configuration.
+Link 0: RT722 codec with three endpoints: Headset, Speaker, and DMIC.
 
-That's too awkward...
+Vijendar Mukunda (2):
+  ASoC: amd: acp: add soundwire machine for ACP7.0 and ACP7.1 sof stack
+  ASoC: SOF: amd: add alternate machines for ACP7.0 and ACP7.1 platforms
 
-I believe that, if the hda-codec doesn't set jackpoll_in_suspend flag,
-we should simply disable the runtime PM.  Such a device is supposed to
-be polling frequently (e.g. VIA codec) that conflicts with the runtime
-PM.
+ sound/soc/amd/acp/Kconfig                |  1 +
+ sound/soc/amd/acp/amd-acp70-acpi-match.c | 12 ++++++++++++
+ sound/soc/amd/mach-config.h              |  1 +
+ sound/soc/sof/amd/pci-acp70.c            |  1 +
+ 4 files changed, 15 insertions(+)
 
-For that, we can simply define the runtime_idle callback.
+-- 
+2.45.2
 
-Another point is that hda_jackpoll_work() could simply use
-snd_hda_power_up() and *_down() instead of snd_hda_power_up_pm() and
-co.  We used *_pm variant because the function was called directly in
-the init or the resume paths.  But we can call this only from the
-work, then we can switch to the safer *_up/down() calls.  Then this
-assures the runtime resume completion in the work without much races.
-
-With those transitions, basically the cancel_delayed_work_sync() call
-at hda_codec_runtime_suspend() can be dropped.  Also, the conditional
-schedule_delayed_work() there, too; if we don't cancel, we don't need
-reschedule, either.
-
-So the (totally untested) PoC is something like below.
-It contains also the fix corresponding to your patch 3, too.
-
-
-thanks,
-
-Takashi
-
----
-diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-index c018beeecd3d..5508381a1833 100644
---- a/sound/pci/hda/hda_codec.c
-+++ b/sound/pci/hda/hda_codec.c
-@@ -639,24 +639,16 @@ static void hda_jackpoll_work(struct work_struct *work)
- 	struct hda_codec *codec =
- 		container_of(work, struct hda_codec, jackpoll_work.work);
- 
--	/* for non-polling trigger: we need nothing if already powered on */
--	if (!codec->jackpoll_interval && snd_hdac_is_power_on(&codec->core))
--		return;
--
--	/* the power-up/down sequence triggers the runtime resume */
--	snd_hda_power_up_pm(codec);
--	/* update jacks manually if polling is required, too */
--	if (codec->jackpoll_interval) {
--		snd_hda_jack_set_dirty_all(codec);
--		snd_hda_jack_poll_all(codec);
--	}
--	snd_hda_power_down_pm(codec);
--
- 	if (!codec->jackpoll_interval)
- 		return;
- 
--	schedule_delayed_work(&codec->jackpoll_work,
--			      codec->jackpoll_interval);
-+	/* the power-up/down sequence triggers the runtime resume */
-+	snd_hda_power_up(codec);
-+	/* update jacks manually if polling is required, too */
-+	snd_hda_jack_set_dirty_all(codec);
-+	snd_hda_jack_poll_all(codec);
-+	schedule_delayed_work(&codec->jackpoll_work, codec->jackpoll_interval);
-+	snd_hda_power_down(codec);
- }
- 
- /* release all pincfg lists */
-@@ -2895,12 +2887,12 @@ static void hda_call_codec_resume(struct hda_codec *codec)
- 		snd_hda_regmap_sync(codec);
- 	}
- 
--	if (codec->jackpoll_interval)
--		hda_jackpoll_work(&codec->jackpoll_work.work);
--	else
--		snd_hda_jack_report_sync(codec);
-+	snd_hda_jack_report_sync(codec);
- 	codec->core.dev.power.power_state = PMSG_ON;
- 	snd_hdac_leave_pm(&codec->core);
-+	if (codec->jackpoll_interval)
-+		schedule_delayed_work(&codec->jackpoll_work,
-+				      codec->jackpoll_interval);
- }
- 
- static int hda_codec_runtime_suspend(struct device *dev)
-@@ -2912,8 +2904,6 @@ static int hda_codec_runtime_suspend(struct device *dev)
- 	if (!codec->card)
- 		return 0;
- 
--	cancel_delayed_work_sync(&codec->jackpoll_work);
--
- 	state = hda_call_codec_suspend(codec);
- 	if (codec->link_down_at_suspend ||
- 	    (codec_has_clkstop(codec) && codec_has_epss(codec) &&
-@@ -2921,10 +2911,6 @@ static int hda_codec_runtime_suspend(struct device *dev)
- 		snd_hdac_codec_link_down(&codec->core);
- 	snd_hda_codec_display_power(codec, false);
- 
--	if (codec->bus->jackpoll_in_suspend &&
--		(dev->power.power_state.event != PM_EVENT_SUSPEND))
--		schedule_delayed_work(&codec->jackpoll_work,
--					codec->jackpoll_interval);
- 	return 0;
- }
- 
-@@ -2943,6 +2929,15 @@ static int hda_codec_runtime_resume(struct device *dev)
- 	return 0;
- }
- 
-+static int hda_codec_runtime_idle(struct device *dev)
-+{
-+	struct hda_codec *codec = dev_to_hda_codec(dev);
-+
-+	if (codec->jackpoll_interval && !codec->bus->jackpoll_in_suspend)
-+		return -EBUSY;
-+	return 0;
-+}
-+
- static int hda_codec_pm_prepare(struct device *dev)
- {
- 	struct hda_codec *codec = dev_to_hda_codec(dev);
-@@ -3008,7 +3003,8 @@ const struct dev_pm_ops hda_codec_driver_pm = {
- 	.thaw = pm_sleep_ptr(hda_codec_pm_thaw),
- 	.poweroff = pm_sleep_ptr(hda_codec_pm_suspend),
- 	.restore = pm_sleep_ptr(hda_codec_pm_restore),
--	RUNTIME_PM_OPS(hda_codec_runtime_suspend, hda_codec_runtime_resume, NULL)
-+	RUNTIME_PM_OPS(hda_codec_runtime_suspend, hda_codec_runtime_resume,
-+		       hda_codec_runtime_idle)
- };
- 
- /* suspend the codec at shutdown; called from driver's shutdown callback */
-@@ -3020,6 +3016,7 @@ void snd_hda_codec_shutdown(struct hda_codec *codec)
- 	if (!codec->core.registered)
- 		return;
- 
-+	codec->jackpoll_interval = 0; /* don't poll any longer */
- 	cancel_delayed_work_sync(&codec->jackpoll_work);
- 	list_for_each_entry(cpcm, &codec->pcm_list_head, list)
- 		snd_pcm_suspend_all(cpcm->pcm);
-@@ -3086,10 +3083,11 @@ int snd_hda_codec_build_controls(struct hda_codec *codec)
- 	if (err < 0)
- 		return err;
- 
-+	snd_hda_jack_report_sync(codec); /* call at the last init point */
- 	if (codec->jackpoll_interval)
--		hda_jackpoll_work(&codec->jackpoll_work.work);
--	else
--		snd_hda_jack_report_sync(codec); /* call at the last init point */
-+		schedule_delayed_work(&codec->jackpoll_work,
-+				      codec->jackpoll_interval);
-+
- 	sync_power_up_states(codec);
- 	return 0;
- }
