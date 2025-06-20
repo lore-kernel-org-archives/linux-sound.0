@@ -1,74 +1,33 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F6221FF51
-	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 18:35:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218A419E98C;
+	Fri, 20 Jun 2025 22:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750444545; cv=none; b=rzClL8ri59nUa+P/deaT92lqNlKTq2OicFaqWYnCs4TL/oML/utu9wCuHaSmezj91O7DHnI5SHCP0rSgPXRyLvU7zhKW9hcgIj79+PY7RSHo6qkQro2c0oWizocX9hsB/89OQ9punZyJEJELdc+ufu9l7aS3hRC2HCOWiGy+OGo=
+	t=1750457870; cv=none; b=CSv/JsI7JTv9rcKiOvNmS9m/RSy9rsB6xMm+jeR+rF9LsO3l8ldTqFiYWC0UEO0etGfL373REtyvrnAsyDdQMO3tL72ejIkKIMwmt0FnzblTvOCb8of5bTTxoaZ6fgAx7sPsOXm6Z8UXR8dVR4J4BR4AvxwwHuJdDk1JCA5gHNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750444545; c=relaxed/simple;
-	bh=JWMSYzBtLnLZCvwsZk3KkGLaQqwSbdl7evbVSyyidtQ=;
+	s=arc-20240116; t=1750457870; c=relaxed/simple;
+	bh=snYopvsiCq4b2vwnac6pmoTUyZPOxpsdJWVhg5Rc8Tw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wb8eaZLW5z+REC11cX/GFAohw00SbSOGaLcDPl3z81yUL7rMJOAp2BIzxn/ddRW1KuJOUU/QLtLFKJfMlCbZqtIq2uvHauP0paF6ne7sc51VBG+Iv9gRR4ojoYTUJ98K3jxJojrhW2AfmNCLNty0rZy+baf7w++4Fl9qIFeKfnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=X5nx7/Gr; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=iFjTPISKnvp6pewmmtaD2sVn9D19jWr8GzDm4MkFyJtIY+DQ9OoMYVw+NcocZlbWlNEIEd4ACrhkfS1ETrqAkmn5uxxT4MAKSquCddC/dNaJsL+XpTcslfbuUIHMo0q8utKuf/qJa0HziQ2POVPXtX2twOsU0fs/Cbz8yIhXZ+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DCGTkk84; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="X5nx7/Gr"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55KDHdqR017879
-	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 18:35:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	gJw9p79NQp28rgL0YjqCtfjNT9ZaiNa7ynXf7QFlFhE=; b=X5nx7/Gr7MmRCnEu
-	ylS3DFsjLg6Dqq3SlAo/V3lwIKBV7b1RxrEClRzwr7TloClwe3i3vX1hRNTY20O0
-	lltwffkVdYLQYVcoP51FkX7yBVYgwGWFV8j09CNuUWVKjpaa51WYwOQMDwiOZEux
-	1lUFguT22EJv3rd4mMGu/LYPAjC2sYMHxd01+T6xUUAx3Gxs6CF8RimcXXzYeSyZ
-	ZD2VcC5CJiVw5ZGvX1R/XdzA9kIPNxvgDL7YFboE4Gi7K/5KaAY4v6XU8tJiq5a2
-	SRJJ2gF7NBP5vOtA6dw1LgPkl/GNwb4otu6qBuRAwN0KTGIph8WMJsI/ooBcCcfe
-	PmmcNA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47d0pcj84k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 18:35:43 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5cd0f8961so420090585a.1
-        for <linux-sound@vger.kernel.org>; Fri, 20 Jun 2025 11:35:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750444542; x=1751049342;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gJw9p79NQp28rgL0YjqCtfjNT9ZaiNa7ynXf7QFlFhE=;
-        b=kNY6NTaWCru7tm3OqUfmoDrL5qQVDiS/sVlK4oRnJ/O/qQ10syq1KviXDLTYsHYDWs
-         pjbZvat5h2xdSxDdtME5RSPxXj5XODthWuOIlu1v2Y1BWwsxouNMHwakBezUrZ31eZr7
-         QdiV4VesofS9iyllGn+RLD+mAEmcD82pOGtzS4X3X0s8+3aQtSMdxyY3IpxcOewZS4y3
-         wcP8FkCrVuV/reO0sUgNgUFZEwWXp06OGmE/tAyiQ1I9kpY4NDlkl16I11VSXG9GimL0
-         9BoqVR0YMYZUb3IqLmFtGn8l3YyzYZ+3WeEQtR0dplNDV08H13nZdmqnkwN71KAw7lul
-         fEQg==
-X-Forwarded-Encrypted: i=1; AJvYcCXv2BSEtijocndUXfdW9S+65S9/h28u0nv9mZ8l9I+7U0Sm147ck125McdnDzMtic+ZPG10QGpozvaPog==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzlm1D50Gt+MUQvmamLQfRSv1pDOOA/UbeM3AMJzwYdznbwkWGk
-	pZ835bGtfQJSZa7G+aXnzNrHbAT8unTWSkojTHLfOYsURvUTT9iuYou8q/GvnwgNaD5D3ej53nK
-	NanKE6tZMSJoIMNtE4QVNLMUp1OlcCabsaPli7ukg+wrMw9UZ7OTI8pd1G9QrwlCerg==
-X-Gm-Gg: ASbGncsgb2V3SNFOuYgxAVdwXKE0CabO7CB4gY4So9KhVZtT4IlzlatQTaCervtNM4t
-	15EMhvFkQKos8Asum7f+5YTRsWC5LxO9jUX6+zMw6fppzmav8DQ76R6BIpPBGuDDWkP8io0I7DV
-	GUzYRRh6JzDcThWVySYZWVydLQh3X6Yo5Cy9nXjB8+dkD8y8gm4YrkccZqZ8uDPFDhwP9Jc+U06
-	CV+2e0IGUnm4vdkD2dqTnyCqvfB3TFbrP0UYAvpklcAKmVZHqSSOwz/k9+hhLVbmg4XiJDUTpch
-	UpgNdhiFLmWnNaXHmEd0TdWPiVsLw/cJnALoEfuruqf1YIt7nyZ7tPaXKgHevwtb1iQC2D7zOpq
-	VuODAVMTrwaJ03m5ukppx4rztBRFUoxINgcVdbh+PLB46kDXvOzXKz3bmZ7igsNtv3BCrG8+tOV
-	Q=
-X-Received: by 2002:a05:620a:7003:b0:7d0:a1ac:e83a with SMTP id af79cd13be357-7d3f98e00bfmr464036485a.16.1750444541652;
-        Fri, 20 Jun 2025 11:35:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFsuEvU180uOuJG3lc80Lg0/m23ATne7omtzgMrhGIFzbRZsPZTYyD0LPioJVHR3t63qkWJcA==
-X-Received: by 2002:a05:620a:7003:b0:7d0:a1ac:e83a with SMTP id af79cd13be357-7d3f98e00bfmr464031685a.16.1750444541092;
-        Fri, 20 Jun 2025 11:35:41 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:a2:64d7:15aa:a456:4eca:f826? (2001-14bb-a2-64d7-15aa-a456-4eca-f826.rev.dnainternet.fi. [2001:14bb:a2:64d7:15aa:a456:4eca:f826])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-553e41bbbe4sm369113e87.110.2025.06.20.11.35.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Jun 2025 11:35:39 -0700 (PDT)
-Message-ID: <f9f96bf0-3539-4e77-8d3e-b87ddc561925@oss.qualcomm.com>
-Date: Fri, 20 Jun 2025 21:35:37 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DCGTkk84"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F5DBC4CEE3;
+	Fri, 20 Jun 2025 22:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750457869;
+	bh=snYopvsiCq4b2vwnac6pmoTUyZPOxpsdJWVhg5Rc8Tw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DCGTkk844k/dx7H3Y4wFJdO37+twNnnSN1ap6pg1rC6bsnuygUGQizkn5BibpxKX/
+	 uy5rok7SzMTt5PHXkZMxiMZKI0lpakipXWmvMdiko31m9U2WjpkGktBoOxyC3KFABv
+	 eb9ABKwjUTrGE0a7oJn6xub7jSi43BJniBFpKuTEoLb1th3N0b4AlLx3sEKOQhZ7vQ
+	 6Di4vmZtPdY5nkD6FUgJ7Pq//aFdCHsrSFUgbg5kDu2IVRTv893lVsJucWj54+rO0n
+	 DLpc74Z+u6fLGkq0Qgk+AD07zXUBnHkrip2fnDykkYEuVWP7Ll3Jo1L5oc1zIg0L3N
+	 dDCiABPSBa9IQ==
+Message-ID: <fa3bfed9-8a6f-4001-bd4a-d4d237b001d3@kernel.org>
+Date: Fri, 20 Jun 2025 17:17:44 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,67 +35,301 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] ASoC: codecs: wsa883x: Handle shared reset GPIO
- for WSA883x speakers
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
-        kernel@oss.qualcomm.com
-References: <20250620103012.360794-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20250620103012.360794-3-mohammad.rafi.shaik@oss.qualcomm.com>
+Subject: Re: [PATCH v3 6/7] PCI/VGA: Move check for firmware default out of
+ VGA arbiter
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+ "open list:SOUND" <linux-sound@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20250620024943.3415685-1-superm1@kernel.org>
+ <20250620024943.3415685-7-superm1@kernel.org>
+ <704d2a80-79bb-4247-a2aa-25bd3eb9a7e5@suse.de>
 Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20250620103012.360794-3-mohammad.rafi.shaik@oss.qualcomm.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <704d2a80-79bb-4247-a2aa-25bd3eb9a7e5@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: vnWl7kdyKc_x1fMkSJVotBgILwAdShO1
-X-Authority-Analysis: v=2.4 cv=YKyfyQGx c=1 sm=1 tr=0 ts=6855a9ff cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=5BTet7WxsRtOupFzBhsA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: vnWl7kdyKc_x1fMkSJVotBgILwAdShO1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIwMDEzMCBTYWx0ZWRfX4DERtfgSENAI
- OPbexN+n6j0xyyEN0RMOYTKQ1wpSOv600JnZQOmksPCn/gZ6wCPdmkz7Lq+jrwt2ThzfbI/6vUN
- px3IZyhIEh/meQVeaOCFzTHvPfPoAgYkBre1nCEzKPIebxGt/cJvs/J08Y+ro9GGqccoesvnT6O
- BI1AcKv0fb1ihnHpY70s6a/TkO9Gk2yNiGxYRnimwocDSCD0f9nw6RePO0Ro6cyPiuAk3sX8OyS
- ccpYdRN++9mq7PwgXF1YibPH6wJ9ZeZaQyKfCfoAcdDv38hcgf0EkEHcBKxg3spp2gnL1IDguiV
- XsCH+7DhCDyxttO01G8/N9ZIuSz+OUkIvxoTkkd1zJrAm1pH61FnbArpFsfucyNK7tg9j6OH0RF
- /HzJPKx36w3hVWKs9uT1xiR0MgzuPGk5tngcw1/qBfQEYQan/z1IC3lsvAY/1EtMtzUO1r/O
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-20_07,2025-06-20_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0 impostorscore=0 priorityscore=1501 mlxscore=0
- malwarescore=0 mlxlogscore=729 phishscore=0 suspectscore=0 clxscore=1015
- lowpriorityscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506200130
+Content-Transfer-Encoding: 8bit
 
-On 20/06/2025 13:30, Mohammad Rafi Shaik wrote:
-> On some Qualcomm platforms, such as QCS6490-RB3Gen2 and QCM6490-IDP,
-> multiple WSA8830/WSA8835 speakers share a common reset (shutdown) GPIO.
-> To handle such cases, use the reset controller framework along with the
-> "reset-gpio" driver.
+On 6/20/2025 3:45 AM, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 20.06.25 um 04:49 schrieb Mario Limonciello:
+>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>
+>> The x86 specific check for whether a framebuffer belongs to a device
+>> works for display devices as well as VGA devices.  Callers to
+>> video_is_primary_device() can benefit from checking non-VGA display
+>> devices.
+>>
+>> Move the x86 specific check into x86 specific code, and adjust VGA
+>> arbiter to call that code as well. This allows fbcon to find the
+>> right PCI device on systems that don't have VGA devices.
+>>
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>> ---
+>>   arch/x86/video/video-common.c | 28 +++++++++++++++++++++++++++
+>>   drivers/pci/vgaarb.c          | 36 ++---------------------------------
+>>   2 files changed, 30 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/arch/x86/video/video-common.c b/arch/x86/video/video- 
+>> common.c
+>> index 81fc97a2a837a..718116e35e450 100644
+>> --- a/arch/x86/video/video-common.c
+>> +++ b/arch/x86/video/video-common.c
+>> @@ -9,6 +9,7 @@
+>>   #include <linux/module.h>
+>>   #include <linux/pci.h>
+>> +#include <linux/screen_info.h>
+>>   #include <linux/vgaarb.h>
+>>   #include <asm/video.h>
+>> @@ -27,13 +28,40 @@ EXPORT_SYMBOL(pgprot_framebuffer);
+>>   bool video_is_primary_device(struct device *dev)
+> 
+> I'm not sure I understand this patch. video_is_primary_device() already 
+> exists for 3 architectures, including x86. [1] Adding it here should 
+> produce an error. (?)
 
-How does this handle the fact that resetting one codec will also 
-silently reset another one?
+I wasn't adding a new implementation of it, I was augmenting the x86 
+implementation.
+
+But I guess based on your below point it just needs to call 
+screen_info_pci_dev().
 
 > 
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> ---
->   sound/soc/codecs/wsa883x.c | 57 ++++++++++++++++++++++++++++++++------
->   1 file changed, 48 insertions(+), 9 deletions(-)
+> [1] https://elixir.bootlin.com/linux/v6.15.2/A/ident/ 
+> video_is_primary_device
+> 
+> The code on x86 is
+> 
+> bool <https://elixir.bootlin.com/linux/v6.15.2/C/ident/ 
+> bool>video_is_primary_device <https://elixir.bootlin.com/linux/v6.15.2/ 
+> C/ident/video_is_primary_device>(structdevice <https:// 
+> elixir.bootlin.com/linux/v6.15.2/C/ident/device>*dev) { structpci_dev 
+> <https://elixir.bootlin.com/linux/v6.15.2/C/ident/pci_dev>*pdev; if(! 
+> dev_is_pci <https://elixir.bootlin.com/linux/v6.15.2/C/ident/ 
+> dev_is_pci>(dev)) returnfalse <https://elixir.bootlin.com/linux/v6.15.2/ 
+> C/ident/false>; pdev=to_pci_dev <https://elixir.bootlin.com/linux/ 
+> v6.15.2/C/ident/to_pci_dev>(dev); return(pdev==vga_default_device 
+> <https://elixir.bootlin.com/linux/v6.15.2/C/ident/vga_default_device>()); }
+> 
+> I was thinking about extending it to test for additional properties, 
+> like this
+> 
+> bool <https://elixir.bootlin.com/linux/v6.15.2/C/ident/ 
+> bool>video_is_primary_device <https://elixir.bootlin.com/linux/v6.15.2/ 
+> C/ident/video_is_primary_device>(structdevice <https:// 
+> elixir.bootlin.com/linux/v6.15.2/C/ident/device>*dev) { structpci_dev 
+> <https://elixir.bootlin.com/linux/v6.15.2/C/ident/pci_dev>*pdev; if(! 
+> dev_is_pci <https://elixir.bootlin.com/linux/v6.15.2/C/ident/ 
+> dev_is_pci>(dev)) returnfalse <https://elixir.bootlin.com/linux/v6.15.2/ 
+> C/ident/false>; pdev=to_pci_dev <https://elixir.bootlin.com/linux/ 
+> v6.15.2/C/ident/to_pci_dev>(dev); if(pdev==vga_default_device <https:// 
+> elixir.bootlin.com/linux/v6.15.2/C/ident/vga_default_device>()) return 
+> true for_each_pci_dev() { // test if display and could be primary. } 
+> return false; // nothing found }
+> 
 
--- 
-With best wishes
-Dmitry
+The above looks like some bad copy / paste.  Could you clarify?
+
+> 
+> This would then be called from per-device sysfs code that export a 
+> property similar to boot_vga (such as boot_display).
+
+Here's the other idea I had in mind.
+
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index 268c69daa4d57..8535950b4c0f3 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -30,6 +30,7 @@
+  #include <linux/msi.h>
+  #include <linux/of.h>
+  #include <linux/aperture.h>
++#include <asm/video.h>
+  #include "pci.h"
+
+  #ifndef ARCH_PCI_DEV_GROUPS
+@@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
+         NULL,
+  };
+
++static ssize_t boot_console_show(struct device *dev, struct 
+device_attribute *attr,
++                                char *buf)
++{
++       return sysfs_emit(buf, "%u\n", video_is_primary_device(dev));
++}
++static DEVICE_ATTR_RO(boot_console);
++
+  static ssize_t boot_vga_show(struct device *dev, struct 
+device_attribute *attr,
+                              char *buf)
+  {
+@@ -1698,6 +1706,7 @@ late_initcall(pci_sysfs_init);
+
+  static struct attribute *pci_dev_dev_attrs[] = {
+         &dev_attr_boot_vga.attr,
++       &dev_attr_boot_console.attr,
+         NULL,
+  };
+
+@@ -1710,6 +1719,9 @@ static umode_t pci_dev_attrs_are_visible(struct 
+kobject *kobj,
+         if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
+                 return a->mode;
+
++       if (a == &dev_attr_boot_console.attr && pci_is_display(pdev))
++               return a->mode;
++
+         return 0;
+  }
+
+
+> 
+> 
+> The issue is currently just an x86 problem, but I can imagine something 
+> similar happening on ARM. There we'd have to go through the DT tree to 
+> figure out the primary device. That's a problem for a later patch set, 
+> but we should keep this in mind.
+
+I think that the sysfs file idea above would work for any arch.
+
+> 
+>>   {
+>> +    u64 base = screen_info.lfb_base;
+>> +    u64 size = screen_info.lfb_size;
+>>       struct pci_dev *pdev;
+>> +    struct resource *r;
+>> +    u64 limit;
+>>       if (!dev_is_pci(dev))
+>>           return false;
+>>       pdev = to_pci_dev(dev);
+>> +    if (!pci_is_display(pdev))
+>> +        return false;
+>> +
+>> +    /* Select the device owning the boot framebuffer if there is one */
+>> +    if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+>> +        base |= (u64)screen_info.ext_lfb_base << 32;
+>> +
+>> +    limit = base + size;
+>> +
+>> +    /* Does firmware framebuffer belong to us? */
+>> +    pci_dev_for_each_resource(pdev, r) {
+>> +        if (resource_type(r) != IORESOURCE_MEM)
+>> +            continue;
+>> +
+>> +        if (!r->start || !r->end)
+>> +            continue;
+>> +
+>> +        if (base < r->start || limit >= r->end)
+>> +            continue;
+>> +
+>> +        return true;
+>> +    }
+>> +
+> 
+> You can drop all this code and call screen_info_pci_dev() instead. I 
+> simply never got to update vgaarb to use it.
+
+👍
+
+> 
+> [2] https://elixir.bootlin.com/linux/v6.15.2/source/drivers/video/ 
+> screen_info_pci.c#L109
+> 
+>>       return (pdev == vga_default_device());
+>>   }
+>>   EXPORT_SYMBOL(video_is_primary_device);
+>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>> index 78748e8d2dbae..15ab58c70b016 100644
+>> --- a/drivers/pci/vgaarb.c
+>> +++ b/drivers/pci/vgaarb.c
+>> @@ -26,12 +26,12 @@
+>>   #include <linux/poll.h>
+>>   #include <linux/miscdevice.h>
+>>   #include <linux/slab.h>
+>> -#include <linux/screen_info.h>
+>>   #include <linux/vt.h>
+>>   #include <linux/console.h>
+>>   #include <linux/acpi.h>
+>>   #include <linux/uaccess.h>
+>>   #include <linux/vgaarb.h>
+>> +#include <asm/video.h>
+>>   static void vga_arbiter_notify_clients(void);
+>> @@ -554,38 +554,6 @@ void vga_put(struct pci_dev *pdev, unsigned int 
+>> rsrc)
+>>   }
+>>   EXPORT_SYMBOL(vga_put);
+>> -static bool vga_is_firmware_default(struct pci_dev *pdev)
+>> -{
+>> -#if defined(CONFIG_X86)
+>> -    u64 base = screen_info.lfb_base;
+>> -    u64 size = screen_info.lfb_size;
+>> -    struct resource *r;
+>> -    u64 limit;
+>> -
+>> -    /* Select the device owning the boot framebuffer if there is one */
+>> -
+>> -    if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+>> -        base |= (u64)screen_info.ext_lfb_base << 32;
+>> -
+>> -    limit = base + size;
+>> -
+>> -    /* Does firmware framebuffer belong to us? */
+>> -    pci_dev_for_each_resource(pdev, r) {
+>> -        if (resource_type(r) != IORESOURCE_MEM)
+>> -            continue;
+>> -
+>> -        if (!r->start || !r->end)
+>> -            continue;
+>> -
+>> -        if (base < r->start || limit >= r->end)
+>> -            continue;
+>> -
+>> -        return true;
+>> -    }
+>> -#endif
+>> -    return false;
+>> -}
+>> -
+>>   static bool vga_arb_integrated_gpu(struct device *dev)
+>>   {
+>>   #if defined(CONFIG_ACPI)
+>> @@ -623,7 +591,7 @@ static bool vga_is_boot_device(struct vga_device 
+>> *vgadev)
+>>       if (boot_vga && boot_vga->is_firmware_default)
+>>           return false;
+>> -    if (vga_is_firmware_default(pdev)) {
+>> +    if (video_is_primary_device(&pdev->dev)) {
+> 
+> Maybe not change this because you don't want to end up with non-VGA 
+> devices here.
+
+👍
+
+> 
+> Best regards
+> Thomas
+> 
+>>           vgadev->is_firmware_default = true;
+>>           return true;
+>>       }
+> 
+
