@@ -1,178 +1,244 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2066.outbound.protection.outlook.com [40.107.237.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEA4195B1A;
-	Sat, 21 Jun 2025 08:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750494936; cv=none; b=bT6fUsDFsdysI/grn8VXGdzE74daOlYUZGLDGxNNurpdJ8d74aIumSm/OBtrakWn0nW5TC7zuXe1z5I6gcQ+KVOy3BwlaHL9wNLf0E22VNe7MuW7/LcF1TR103KMBKBZ2giBcGhNhotlBrVh9K2ZyH690zku/2SoimRXIqg7Bzk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750494936; c=relaxed/simple;
-	bh=IxnvwpPtE9uiMFUZjHjsqPPB12QCtRhBXJ2KaoEI0sk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fh40yw9P+k5YM/t6s1TctsZ691qQyWAQiFyh4FdYBa8QyDVcOl3pj9Unr6qwPiGI9w/I9SRq5pFGwSow9mfuHg45fw0ITgt4AoFe9ORSVtGCeNv1eXm4iGYm4O9nrUwKM4YDKPlYcP3FGE6Z9z/4T2zSamHK9fEpHJDDYWBU2To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIy7nkRB; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB56B1A2632;
+	Sat, 21 Jun 2025 09:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750499427; cv=fail; b=t7fsieizuOUQpXMmvrpVJpoh4y2H95eRoHQAtOBqQPoJr1BcO2Nn8sddNv171aFo93eL+2uGtH68ddaLf820fZvrIyCDHQU4bG/XInEPpWUYcnM6rutQDjv2KgKGSuS5oM/ElyF8o8yJAF4TILa94DzO8E+HHrJqtGCTaQ3bneI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750499427; c=relaxed/simple;
+	bh=d3oH/jm0hVley4rBqx0hTJxM90/Au7C4bLJz2I2Gozw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KDXtHTjSwUiZkGhPzLSNOvC9//uz4bZfEuXJclq4bg7C3ur3/P/NC69bbqnKb7Jgw9XrBCj72G/QthlPvsmG36IdQT7CTgY81MplFFWjWFvuwYoJd28xQSqkPoK2b6w8kBng8EutcCANKCeHqNKzBimY6QWmPbBpYaG1A0kdQj0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SBMQWhnp; arc=fail smtp.client-ip=40.107.237.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIy7nkRB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750494934; x=1782030934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IxnvwpPtE9uiMFUZjHjsqPPB12QCtRhBXJ2KaoEI0sk=;
-  b=GIy7nkRBvQyHa3RBChGbixYD7vhQ1h7ekL2ej3MVXcI/FxYEz2oBdjTu
-   11ayPoG2BXEl121elRb4KXVua/NQjD1ijUyoLNpQQt2/hIGJe+ubE4sOH
-   II1wucFJy+P4RhAkdYIbHthvwkxmLTG/Y/9DBhNJOvcKFQb0ngL46f/zD
-   dlfnlS7bX7MSqOZkTvH/f79yEEDJZIhBmrTWZgcDDJus/KukiKtRlRxcr
-   BHhs3KKS0/Mx8X7fiveZrnS2NCY7emiult77MPl5ow2XvJh9BpEosp2mY
-   NMPfzDWtq5jW8+/XzcoJl874ytmvPwowttcwEwGP3OMyrk0J7eknBrwEL
-   w==;
-X-CSE-ConnectionGUID: v/zdKtSoQmi1bcrjKnwPUg==
-X-CSE-MsgGUID: hCVX9DhfSyquA6OTJIYrqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52459030"
-X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; 
-   d="scan'208";a="52459030"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 01:35:33 -0700
-X-CSE-ConnectionGUID: x3bpnHumREixSSOk2WjHgQ==
-X-CSE-MsgGUID: tYh93x4SQcS5i6AK0sfC5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; 
-   d="scan'208";a="150897564"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Jun 2025 01:35:28 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uSth7-000MU4-1R;
-	Sat, 21 Jun 2025 08:35:25 +0000
-Date: Sat, 21 Jun 2025 16:34:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Darren.Ye" <darren.ye@mediatek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
-	Darren Ye <darren.ye@mediatek.com>,
-	Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Subject: Re: [PATCH v5 01/10] ASoC: mediatek: common: modify mtk afe platform
- driver for mt8196
-Message-ID: <202506211649.TGCEqNZ6-lkp@intel.com>
-References: <20250620094140.11093-2-darren.ye@mediatek.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SBMQWhnp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yc8404Jq/l6nRSZRj7R8FAACFcX/W2QAAKIT/uuMD49mvSZucZPS5cFMbhAjyh0d35PsJT55yC+c0r/oPyTa7QT6E89T/np42sfdIlMUNe/awvxYJCnow5032rfzcZxH4MlkXWnZXpqpRRq71hxzkcGfU6tg37E2YZLJrdySDvLKp7fWq+TaM3jCFw2H3C/UyL7kDRzYaBTy8pkQQk+R4g676cF5Wansv+33Y3MLs60YxJWFC+QwOXOQw32/h7cc2GG/hR5IxtvFR59br+ML7dcYR72ncSybOSYFRQjHskXjih1wl29P13MwOGj6DUZ7e9xGGjD2fThXvm2M0f12Jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+aiKXv+BWPK812kC9y//HntNm4rrxvyo6Lw9cyPny2Q=;
+ b=Jx0sC2A0qNR7q/nEjBxlfilo90AFhQLz+1N2qzOMcr1Qhoum6fkTZ7CrpuE7/ixCR24KVp/Pz2t+VFPZAyrD4UDsAYMkqkPIjJitCLw5iOCTfOjjnuRTuUb81urlfMzR0Q8G3QhQ4oOod3cY8qT6kv0zVheYT70Oh4bzkPYSDKUszWfWpPsaNVJA6IwJrxZHIc3Ewg+mX4+YZ/Wn3TZfO3KHkqf2LS/yYFXAXwe0oWJ70AWNV5y04RZ6dDilFWiNPlCvBCOq2SnS5fTXSso8KXm/EFNEasd/7HrihPlRRL2f17WasC7VYg0miaRQqoirA0Ywh+YXRkpSu7i+ZBsXJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+aiKXv+BWPK812kC9y//HntNm4rrxvyo6Lw9cyPny2Q=;
+ b=SBMQWhnpYFFqye8SS5BMxAeljstkMWplZLG04orRp5fffU+Zhpg87/RZyz5foj5WGbsgQ7xvp8/hadSBW1HP/CcFF/mB4SSb45c3I+Ux9wUFnPvQRYkNVp/6ymg9Zlmprtt6DPu5Jq05B9DEp0Qnxe9wCqt0DzRnkBN4TsxoIJU=
+Received: from SJ0PR03CA0367.namprd03.prod.outlook.com (2603:10b6:a03:3a1::12)
+ by BL3PR12MB6643.namprd12.prod.outlook.com (2603:10b6:208:38f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Sat, 21 Jun
+ 2025 09:50:20 +0000
+Received: from SJ1PEPF00002317.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1:cafe::18) by SJ0PR03CA0367.outlook.office365.com
+ (2603:10b6:a03:3a1::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8857.27 via Frontend Transport; Sat,
+ 21 Jun 2025 09:50:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00002317.mail.protection.outlook.com (10.167.242.171) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8857.21 via Frontend Transport; Sat, 21 Jun 2025 09:50:20 +0000
+Received: from vijendar-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sat, 21 Jun
+ 2025 04:50:16 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Syed.SabaKareem@amd.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH] ASoC: amd: ps: fix for soundwire failures during hibernation exit sequence
+Date: Sat, 21 Jun 2025 15:17:34 +0530
+Message-ID: <20250621095002.1336167-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250620094140.11093-2-darren.ye@mediatek.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002317:EE_|BL3PR12MB6643:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85143ffb-33fe-47c5-2b71-08ddb0a9090a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?6p5xWJ5h8oQfl1o3wwo6ssYA2k7n0g1tm7eJZKGmbHyQOzSzeqeKzpU/iyja?=
+ =?us-ascii?Q?F37+492QBRgE7z7S5w1QNWMfFy601TN0A/QtZUSW76y5i+0G5zx++Ls+Sy2t?=
+ =?us-ascii?Q?p6bkf3De1R9XNI0TTFmBhYLGmm1m1YEnITOhCCC//kyIT6vL+HGD1hHzB3jK?=
+ =?us-ascii?Q?NnNxNPFjRZaHe0PUMVmbi3H5EPQX30/Nk+sRhXx1pQQAhKaBCT51HEZfBnJR?=
+ =?us-ascii?Q?aKwa9XkKY7U3yKUYdmpOqpVkuvSBqKVzb3m5rcKGwkYGuT9/g9Sud5i9zB6T?=
+ =?us-ascii?Q?j60/M3HMn7crfFhwithS9SccuScY7m6eOpoac2gGK5vcG6QRGqxTmbosYVkX?=
+ =?us-ascii?Q?YSTU6D2njjophywWU/kpiHF6mQEmJRDjFRUG3CnaclHOS/rDtaMr1bZ/3l3a?=
+ =?us-ascii?Q?csmbafei5Vyhj7/0aAg3ToUTUN8/+OGETldggfBoRWDLhemaiw24KJxekVf1?=
+ =?us-ascii?Q?iOSK4pcmIXdASk0Ac/o4HXT7SbQeD8dLbHgf7ZfRxCIT8wMeKxpnuc/eyqhb?=
+ =?us-ascii?Q?zF46T7UQ5JVdzrA0hW6PhWSipWD8c2Acn8mJPffF/DFQANqLzXFPFNdfyfF9?=
+ =?us-ascii?Q?tTsknV5wFIhyyJMXF5jmiVirD7VQxJycVYe8NdniZeJnb50kEpzqU4oFDRCM?=
+ =?us-ascii?Q?hwVfGZQrCN84GleE814efQyhoNfG+gI9iAfDNF2ouB2BWVMbD1BTA6U6cMqJ?=
+ =?us-ascii?Q?6262RaPvIRCyK7br5iqMV6pEhPyxpzHTSz4MKSFLyz3Wl4YXKOTpNNPILesa?=
+ =?us-ascii?Q?wN5YzHfaPdJpEuKBiW+tOVYl/8I0wSDALdQt+cStzjVHbQzzFDm5Kqsiru83?=
+ =?us-ascii?Q?aqp/ELy07+bUiLELfKf609fgZ+RuafumiRRzCFN8Cyy50QbqIsRRrobZaRjT?=
+ =?us-ascii?Q?R1VheFFb3ok1yyS8z1EXo8OkMAqVamCOpelGC5lQFaaS6+GGNTWPNiXNm+3I?=
+ =?us-ascii?Q?A3NR30jBPVxbryo1qrC1XDbEYEbeUg0VYPZr1QPXx9Eid5gRFN0jIPVJPLXD?=
+ =?us-ascii?Q?/xnbzEGkpjjCPY9sY0IB8pXhUGtpayC39x24//PJ16uB6BoCaWZ0U9vwoeoz?=
+ =?us-ascii?Q?/yrQllcKfud6Pdh8ro+4JSM6VYSH7aQw0eWfLSUlhJeOl7bTc9fYBXVeYdG/?=
+ =?us-ascii?Q?fTO8n5KFX9gn81SEg/eMoubfwtvF0TmxRTADcRxKR9s+g40eHYBWJXYZ+7di?=
+ =?us-ascii?Q?B9cEB/EuuIH2tSjvfpcVQsokPrOMCv+DUA78Ilu6T545UkSxMfrFEDEBclYd?=
+ =?us-ascii?Q?HeOUp+Ddjx+cN2tCy3KwZAoO0QaHFmvf/Xg4ZYivtKH2N9m7ywgwWyllVDzn?=
+ =?us-ascii?Q?fZ3yPij+m0rMO6SGd7fDx4RtNaHsuOE0rOf1xyGFJNRdD5QPz8hMx5wtgfqq?=
+ =?us-ascii?Q?NahOk/sYzYHyreSPQHQS9bckb/LA5zZ4wM4zZMA+IS9LMnTZUDkYi/4SPm+v?=
+ =?us-ascii?Q?Bren9QzRIgxcBuRpqrYYnjBV+uWWRhMzb3WjZSX+cAodJKP4Q1X4q0E33IMe?=
+ =?us-ascii?Q?yF65wNjc5+1DKwewcJb1ou3tQUyl6bFjkiAo?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2025 09:50:20.2763
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85143ffb-33fe-47c5-2b71-08ddb0a9090a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00002317.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6643
 
-Hi Darren.Ye,
+During the hibernate entry sequence, ACP registers will be reset to
+default values and acp ip will be completely powered off including acp
+SoundWire pads. During resume sequence, if acp SoundWire pad keeper enable
+register is not restored along with pad pulldown control register value,
+then SoundWire manager links won't be powered on correctly results in
+peripheral register access failures and completely audio function is
+broken.
 
-kernel test robot noticed the following build warnings:
+Add code to store the acp SoundWire pad keeper enable register and acp pad
+pulldown ctrl register values before entering into suspend state and
+restore the register values during resume sequence based on condition check
+for acp SoundWire pad keeper enable register for ACP6.3, ACP7.0 & ACP7.1
+platforms.
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on broonie-spi/for-next robh/for-next linus/master v6.16-rc2 next-20250620]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Fixes: 491628388005 ("ASoC: amd: ps: add callback functions for acp pci driver pm ops")
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ sound/soc/amd/ps/acp63.h     |  5 +++++
+ sound/soc/amd/ps/ps-common.c | 18 ++++++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Darren-Ye/ASoC-mediatek-common-modify-mtk-afe-platform-driver-for-mt8196/20250620-174746
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250620094140.11093-2-darren.ye%40mediatek.com
-patch subject: [PATCH v5 01/10] ASoC: mediatek: common: modify mtk afe platform driver for mt8196
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250621/202506211649.TGCEqNZ6-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250621/202506211649.TGCEqNZ6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506211649.TGCEqNZ6-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> sound/soc/mediatek/common/mtk-afe-platform-driver.c:125:18: warning: shift count is negative [-Wshift-count-negative]
-     125 |         pcm_ptr_bytes = MTK_ALIGN_16BYTES(hw_ptr - hw_base);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/common/mtk-afe-platform-driver.h:15:37: note: expanded from macro 'MTK_ALIGN_16BYTES'
-      15 | #define MTK_ALIGN_16BYTES(x) ((x) & GENMASK(39, 4))
-         |                                     ^~~~~~~~~~~~~~
-   include/linux/bits.h:87:31: note: expanded from macro 'GENMASK'
-      87 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |                                      ^~~~~~~~~~~~~~~
-   include/uapi/linux/bits.h:7:56: note: expanded from macro '__GENMASK'
-       7 | #define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (BITS_PER_LONG - 1 - (h))))
-         |                                                        ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +125 sound/soc/mediatek/common/mtk-afe-platform-driver.c
-
-    79	
-    80	snd_pcm_uframes_t mtk_afe_pcm_pointer(struct snd_soc_component *component,
-    81					      struct snd_pcm_substream *substream)
-    82	{
-    83		struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-    84		struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
-    85		struct mtk_base_afe_memif *memif = &afe->memif[snd_soc_rtd_to_cpu(rtd, 0)->id];
-    86		const struct mtk_base_memif_data *memif_data = memif->data;
-    87		struct regmap *regmap = afe->regmap;
-    88		struct device *dev = afe->dev;
-    89		unsigned int hw_ptr_lower32 = 0, hw_ptr_upper32 = 0;
-    90		unsigned int hw_base_lower32 = 0, hw_base_upper32 = 0;
-    91		unsigned long long hw_ptr = 0, hw_base = 0;
-    92		int ret;
-    93		unsigned long long pcm_ptr_bytes = 0;
-    94	
-    95		ret = regmap_read(regmap, memif_data->reg_ofs_cur, &hw_ptr_lower32);
-    96		if (ret || hw_ptr_lower32 == 0) {
-    97			dev_err(dev, "%s hw_ptr_lower32 err\n", __func__);
-    98			goto POINTER_RETURN_FRAMES;
-    99		}
-   100	
-   101		if (memif_data->reg_ofs_cur_msb) {
-   102			ret = regmap_read(regmap, memif_data->reg_ofs_cur_msb, &hw_ptr_upper32);
-   103			if (ret) {
-   104				dev_err(dev, "%s hw_ptr_upper32 err\n", __func__);
-   105				goto POINTER_RETURN_FRAMES;
-   106			}
-   107		}
-   108	
-   109		ret = regmap_read(regmap, memif_data->reg_ofs_base, &hw_base_lower32);
-   110		if (ret || hw_base_lower32 == 0) {
-   111			dev_err(dev, "%s hw_base_lower32 err\n", __func__);
-   112			goto POINTER_RETURN_FRAMES;
-   113		}
-   114		if (memif_data->reg_ofs_base_msb) {
-   115			ret = regmap_read(regmap, memif_data->reg_ofs_base_msb, &hw_base_upper32);
-   116			if (ret) {
-   117				dev_err(dev, "%s hw_base_upper32 err\n", __func__);
-   118				goto POINTER_RETURN_FRAMES;
-   119			}
-   120		}
-   121		hw_ptr = ((unsigned long long)hw_ptr_upper32 << 32) + hw_ptr_lower32;
-   122		hw_base = ((unsigned long long)hw_base_upper32 << 32) + hw_base_lower32;
-   123	
-   124	POINTER_RETURN_FRAMES:
- > 125		pcm_ptr_bytes = MTK_ALIGN_16BYTES(hw_ptr - hw_base);
-   126		return bytes_to_frames(substream->runtime, (ssize_t)pcm_ptr_bytes);
-   127	}
-   128	EXPORT_SYMBOL_GPL(mtk_afe_pcm_pointer);
-   129	
-
+diff --git a/sound/soc/amd/ps/acp63.h b/sound/soc/amd/ps/acp63.h
+index 85feae45c44c..babf2fa7ea27 100644
+--- a/sound/soc/amd/ps/acp63.h
++++ b/sound/soc/amd/ps/acp63.h
+@@ -82,6 +82,7 @@
+ #define ACP63_SDW0_DMA_MAX_STREAMS	6
+ #define ACP63_SDW1_DMA_MAX_STREAMS	2
+ #define ACP63_P1_AUDIO_TX_THRESHOLD	6
++#define ACP_SW_PAD_KEEPER_EN		0x0001454
+ 
+ /*
+  * Below entries describes SDW0 instance DMA stream id and DMA irq bit mapping
+@@ -334,6 +335,8 @@ struct acp_hw_ops {
+  * @addr: pci ioremap address
+  * @reg_range: ACP reigister range
+  * @acp_rev: ACP PCI revision id
++ * @acp_sw_pad_keeper_en: store acp SoundWire pad keeper enable register value
++ * @acp_pad_pulldown_ctrl: store acp pad pulldown control register value
+  * @acp63_sdw0-dma_intr_stat: DMA interrupt status array for ACP6.3 platform SoundWire
+  * manager-SW0 instance
+  * @acp63_sdw_dma_intr_stat: DMA interrupt status array for ACP6.3 platform SoundWire
+@@ -367,6 +370,8 @@ struct acp63_dev_data {
+ 	u32 addr;
+ 	u32 reg_range;
+ 	u32 acp_rev;
++	u32 acp_sw_pad_keeper_en;
++	u32 acp_pad_pulldown_ctrl;
+ 	u16 acp63_sdw0_dma_intr_stat[ACP63_SDW0_DMA_MAX_STREAMS];
+ 	u16 acp63_sdw1_dma_intr_stat[ACP63_SDW1_DMA_MAX_STREAMS];
+ 	u16 acp70_sdw0_dma_intr_stat[ACP70_SDW0_DMA_MAX_STREAMS];
+diff --git a/sound/soc/amd/ps/ps-common.c b/sound/soc/amd/ps/ps-common.c
+index 1c89fb5fe1da..f18d2a0d83aa 100644
+--- a/sound/soc/amd/ps/ps-common.c
++++ b/sound/soc/amd/ps/ps-common.c
+@@ -160,6 +160,8 @@ static int __maybe_unused snd_acp63_suspend(struct device *dev)
+ 
+ 	adata = dev_get_drvdata(dev);
+ 	if (adata->is_sdw_dev) {
++		adata->acp_sw_pad_keeper_en = readl(adata->acp63_base + ACP_SW_PAD_KEEPER_EN);
++		adata->acp_pad_pulldown_ctrl = readl(adata->acp63_base + ACP_PAD_PULLDOWN_CTRL);
+ 		adata->sdw_en_stat = check_acp_sdw_enable_status(adata);
+ 		if (adata->sdw_en_stat) {
+ 			writel(1, adata->acp63_base + ACP_ZSC_DSP_CTRL);
+@@ -197,6 +199,7 @@ static int __maybe_unused snd_acp63_runtime_resume(struct device *dev)
+ static int __maybe_unused snd_acp63_resume(struct device *dev)
+ {
+ 	struct acp63_dev_data *adata;
++	u32 acp_sw_pad_keeper_en;
+ 	int ret;
+ 
+ 	adata = dev_get_drvdata(dev);
+@@ -209,6 +212,12 @@ static int __maybe_unused snd_acp63_resume(struct device *dev)
+ 	if (ret)
+ 		dev_err(dev, "ACP init failed\n");
+ 
++	acp_sw_pad_keeper_en = readl(adata->acp63_base + ACP_SW_PAD_KEEPER_EN);
++	dev_dbg(dev, "ACP_SW_PAD_KEEPER_EN:0x%x\n", acp_sw_pad_keeper_en);
++	if (!acp_sw_pad_keeper_en) {
++		writel(adata->acp_sw_pad_keeper_en, adata->acp63_base + ACP_SW_PAD_KEEPER_EN);
++		writel(adata->acp_pad_pulldown_ctrl, adata->acp63_base + ACP_PAD_PULLDOWN_CTRL);
++	}
+ 	return ret;
+ }
+ 
+@@ -408,6 +417,8 @@ static int __maybe_unused snd_acp70_suspend(struct device *dev)
+ 
+ 	adata = dev_get_drvdata(dev);
+ 	if (adata->is_sdw_dev) {
++		adata->acp_sw_pad_keeper_en = readl(adata->acp63_base + ACP_SW0_PAD_KEEPER_EN);
++		adata->acp_pad_pulldown_ctrl = readl(adata->acp63_base + ACP_PAD_PULLDOWN_CTRL);
+ 		adata->sdw_en_stat = check_acp_sdw_enable_status(adata);
+ 		if (adata->sdw_en_stat) {
+ 			writel(1, adata->acp63_base + ACP_ZSC_DSP_CTRL);
+@@ -445,6 +456,7 @@ static int __maybe_unused snd_acp70_runtime_resume(struct device *dev)
+ static int __maybe_unused snd_acp70_resume(struct device *dev)
+ {
+ 	struct acp63_dev_data *adata;
++	u32 acp_sw_pad_keeper_en;
+ 	int ret;
+ 
+ 	adata = dev_get_drvdata(dev);
+@@ -459,6 +471,12 @@ static int __maybe_unused snd_acp70_resume(struct device *dev)
+ 	if (ret)
+ 		dev_err(dev, "ACP init failed\n");
+ 
++	acp_sw_pad_keeper_en = readl(adata->acp63_base + ACP_SW_PAD_KEEPER_EN);
++	dev_dbg(dev, "ACP_SW_PAD_KEEPER_EN:0x%x\n", acp_sw_pad_keeper_en);
++	if (!acp_sw_pad_keeper_en) {
++		writel(adata->acp_sw_pad_keeper_en, adata->acp63_base + ACP_SW0_PAD_KEEPER_EN);
++		writel(adata->acp_pad_pulldown_ctrl, adata->acp63_base + ACP_PAD_PULLDOWN_CTRL);
++	}
+ 	return ret;
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.45.2
+
