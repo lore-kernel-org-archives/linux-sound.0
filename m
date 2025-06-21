@@ -1,127 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51193134CF;
-	Sat, 21 Jun 2025 16:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95B62561BB;
+	Sat, 21 Jun 2025 18:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750521703; cv=none; b=Km6J8Vt3A4mZ5EuXrinObRvwKiCPhPmOB9kpcO1ZrQRJDISTM6/XeTPrtNia16NcYe0ipGiMNj6nsrwnmM/qSSuVuJuesiytxJcJgvETf7WW5DF8tvN6XRLBEPYY5P8F8hkpkQJ880OlWNRGKMRZ6utt1xe8qJWibZJluI8LyTg=
+	t=1750531998; cv=none; b=giJ48X/WsKr+zStQ7s2my7HeJFX4TSOmJ1GrWe9XogiEk2IxCugSARnkiuoy0l9jYu46bJXR0RpNBCfIPdS93MZZwl4ojC1LU9jJ5HrWT+XkSt7mdyvqIkAUSQTNmJzfB7Y1ZLCm3WtSfiabVMO0BP8wObCk01F9s12jDoCoirk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750521703; c=relaxed/simple;
-	bh=7z06BI2WfCKHgocG5mZp+KFS5XZpvyaukvIGuVj/RlU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F9FTd7ICjmVh1PnwdvbZLUw2TwCOGk/CSfVT7resyUV9W7rUOFgM5OPUaQ/beboDwo5j6orFxcCPpckjuDmvXYOq2MPu+7fLQzcIj62zuKiZuwWOJc9PaAKveVeNx3b9vIObzk+bPy4xPTXMRQ/XELjTL/CYwsqsvzzQXxcOFxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uDwXevel; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750531998; c=relaxed/simple;
+	bh=uxoKRcY2W6kCcNzZ8+R+4JIj5r251Ne/rkyNdGnRGY8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sY8T9M86MGCp1qfChj2WfbfNd+lHR8q6zAFSby0P6b+4Pkbjh/6bE++QXlvHGdvQ/MhluNlXvkvgy6Aq31bzplbEMup7UW3ioJnlyZdEEBdtgIaMCkV/9CcP5OlC2DMwolblkDGIpnI6BOM8mJIXJHftLkDv6YCWtiZXyjmHp+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=O/Fzwsk3; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uDwXevel"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3502C4CEE7;
-	Sat, 21 Jun 2025 16:01:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750521701;
-	bh=7z06BI2WfCKHgocG5mZp+KFS5XZpvyaukvIGuVj/RlU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uDwXevel3/1jiq4Sl2EDKgEHARqYuu8Bl7nrJLZ8lUCzHpBkeoumIp6jzt/ZP4Nsl
-	 wqLBEHqbQv7BeGHwV/DPP5ckgANF6VbYI5AyU+Yd7Skc57x9V4PhZEjE744+ExYRFr
-	 AkERmpzc03BtzkqT5tG8hywtOyMFB4oMbjoTgSssty33EMxdWKqHIONBBQ3NX56YP1
-	 1s66LaJ7sUP5cIPW3qhTCIyNXnqk1AvoKqeUz+bq+RtWlN5ktVenNOvVQfcXtnbR0P
-	 yISLwmztKCaQ6JNWVfJn38zjoEhxBT4pRdcGegeMhL6zVqHpjw3aesU2v9O/kMhLww
-	 W9a4U4D46RlpQ==
-Message-ID: <d5a616f3-67a3-4504-904e-6cec503ab157@kernel.org>
-Date: Sat, 21 Jun 2025 18:01:33 +0200
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="O/Fzwsk3"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55LIYZgV008646;
+	Sat, 21 Jun 2025 18:53:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=Dd9iZj99umaHJEcHImbFxWpsE+0f+
+	IXdMuohHxZlqSE=; b=O/Fzwsk3oCw8QyOBgSkKsURbsi3AIghTBVfbcOBuToQ9i
+	YvOnSzdRxOdpUAbvQ3BiYSFi/pTlNkqFz9YKblD4wGuQby1DUrLHdeN97h0yTyrp
+	pmJ38rziy37BuCKRypH8V7r37RyomFYkCo704U4r9seeGtU5sffX71iR7sbfTJjw
+	X7XjwQ2VbUPTAKBFtlv1dpL7M1cwlnxA5k7HQXy0lRyxO11l6fNNiSRE4KvHw00e
+	Dt4eiXFii2f9UtAxcFYZReJ1EiUw2L5XAyKEh4UUEu7eiweHpFj1T/WiPaOiZPWB
+	9v3+H9wUltsrNMSySW600cm4eCJEsnwOjDr150IBA==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47ds7crchy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 21 Jun 2025 18:53:04 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 55LE4TMP034526;
+	Sat, 21 Jun 2025 18:53:03 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 47dk67wej7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 21 Jun 2025 18:53:03 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 55LIr2XG002700;
+	Sat, 21 Jun 2025 18:53:02 GMT
+Received: from ca-dev110.us.oracle.com (ca-dev110.us.oracle.com [10.129.136.45])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 47dk67wej2-1;
+	Sat, 21 Jun 2025 18:53:02 +0000
+From: Alok Tiwari <alok.a.tiwari@oracle.com>
+To: perex@perex.cz, tiwai@suse.com, phasta@kernel.org,
+        andriy.shevchenko@linux.intel.com, linux-sound@vger.kernel.org
+Cc: alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: intel8x0: Fix incorrect codec index usage in mixer for ICH4
+Date: Sat, 21 Jun 2025 11:52:24 -0700
+Message-ID: <20250621185233.4081094-1-alok.a.tiwari@oracle.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/11] arm64: defconfig: Enable Apple Silicon drivers
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: asahi@lists.linux.dev, Stephen Boyd <sboyd@kernel.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Janne Grunau <j@jannau.net>,
- linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
- Srinivas Kandagatla <srini@kernel.org>, linux-kernel@vger.kernel.org,
- Viresh Kumar <viresh.kumar@linaro.org>, Neal Gompa <neal@gompa.dev>,
- linux-clk@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- linux-i2c@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, =?UTF-8?Q?Martin_Povi=C5=A1er?=
- <povik+lin@cutebit.org>, Joerg Roedel <joro@8bytes.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Mark Brown <broonie@kernel.org>, iommu@lists.linux.dev,
- linux-input@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-sound@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>,
- Andi Shyti <andi.shyti@kernel.org>, Will Deacon <will@kernel.org>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
- <20250612-apple-kconfig-defconfig-v1-11-0e6f9cb512c1@kernel.org>
- <2e022f4e-4c87-4da1-9d02-f7a3ae7c5798@arm.com>
-Content-Language: en-US
-From: Sven Peter <sven@kernel.org>
-In-Reply-To: <2e022f4e-4c87-4da1-9d02-f7a3ae7c5798@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-21_06,2025-06-20_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 suspectscore=0
+ malwarescore=0 phishscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2506210119
+X-Proofpoint-GUID: OEZ8hdpfEkdqASKukuF-8mLYe3dSoj20
+X-Proofpoint-ORIG-GUID: OEZ8hdpfEkdqASKukuF-8mLYe3dSoj20
+X-Authority-Analysis: v=2.4 cv=G5McE8k5 c=1 sm=1 tr=0 ts=6856ff90 b=1 cx=c_pps a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17 a=6IFa9wvqVegA:10 a=yPCof4ZbAAAA:8 a=96bbWqfXC7VXjgqvvdgA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIxMDEyMCBTYWx0ZWRfX0w0VY+4531sR T+oMjgoTVRmfuruY4b7xt3sd2AZmPM+NrrDuCbWtUf7DMH60UMQxiNdLt+YegzYucPrscONfQDF LSDqfynpTPGROj1lvBDoOb18SwuJXTtxpNBBhSnpyU3kqQkHbb1hensvGqKXtj2YcXj3ku7TdpM
+ r/RfXqDA5MEt9R/3SXCWuGY1DQLQwbCChFpxBjc4HGDzr32sKuC0h5/g1lzaVOKQWnOzNm+PVij XG9T+T6WC6l5e3EdFj1RCQqjM5K3DQtCPxW/QnFUSrrv81Xj1HFVZWpwpEL37PiGs1YoMMLB64M 1Fh2DMErlilAS895llH44+MH9mWZNYbSYRjb4Ah+eg5yA13jpsSSJ9JhVn+55UO9P/POxA6ycpw
+ 0MFgB0ZN1xvFLhefLq5xlqRQiTsqB6dqbhqgntM9ZVRTw0EPi5rQHuI8qTWQyTFkehtZbF7l
 
-On 13.06.25 18:50, Robin Murphy wrote:
-> On 2025-06-12 10:11 pm, Sven Peter wrote:
->> Enable drivers for hardware present on Apple Silicon machines.
->> The power domain and interrupt driver should be built-it since these are
->> critical for the system to boot, the rest can be build as modules.
-> 
-> Nit: I'd be tempted to put this patch first, just in case anyone 
-> bisecting with "make defconfig" in their process lands in the middle and 
-> suddenly loses some drivers (although arguably them going from "=y" to 
-> "=m" could still be a surprise, but at least a bit less so).
+code mistakenly used a hardcoded index (codec[1]) instead of
+iterating, over the codec array using the loop variable i.
+Use codec[i] instead of codec[1] to match the loop iteration.
 
-Ah, that's a good point that I hadn't even thought about.
-Now that most of these have already been merged into different trees 
-that ship has sailed though.
+Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+---
+ sound/pci/intel8x0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> [...]
->> @@ -1504,6 +1520,7 @@ CONFIG_ARCH_TEGRA_194_SOC=y
->>   CONFIG_ARCH_TEGRA_234_SOC=y
->>   CONFIG_TI_PRUSS=m
->>   CONFIG_OWL_PM_DOMAINS=y
->> +CONFIG_APPLE_PMGR_PWRSTATE=y
-> 
-> If this is critical for any Apple platform to work then it would 
-> probably make sense to explicitly select it from ARCH_APPLE, as is done 
-> for APPLE_AIC...
-
-
-Documentation/kbuild/kconfig-language.rst:
-
-   select should be used with care. select will force a symbol to a value
-   without visiting the dependencies. By abusing select you are able to
-   select a symbol FOO even if FOO depends on BAR that is not set. In
-   general use select only for non-visible symbols (no prompts anywhere)
-   and for symbols with no dependencies. That will limit the usefulness
-   but on the other hand avoid the illegal configurations all over.
-
-
-That's probably fine for APPLE_AIC which only depends on ARM64 (and 
-ARCH_APPLE) which is guaranteed to be set when ARCH_APPLE is set anyway.
-APPLE_PMGR_PWRSTATE also has an additional dependency on PM so it should 
-probably remain in defconfig and not use select.
-
-
->>   CONFIG_RASPBERRYPI_POWER=y
->>   CONFIG_IMX_SCU_PD=y
->>   CONFIG_QCOM_CPR=y
->> @@ -1567,6 +1584,7 @@ CONFIG_QCOM_PDC=y
->>   CONFIG_QCOM_MPM=y
->>   CONFIG_TI_SCI_INTR_IRQCHIP=y
->>   CONFIG_TI_SCI_INTA_IRQCHIP=y
->> +CONFIG_APPLE_AIC=y
-> 
-> ...which I think means this would already be redundant.
-
-Yup, this can be dropped.
-
-
-Thanks,
-
-Sven
+diff --git a/sound/pci/intel8x0.c b/sound/pci/intel8x0.c
+index 51e7f1f1a48e4..b521cec203336 100644
+--- a/sound/pci/intel8x0.c
++++ b/sound/pci/intel8x0.c
+@@ -2249,7 +2249,7 @@ static int snd_intel8x0_mixer(struct intel8x0 *chip, int ac97_clock,
+ 			tmp |= chip->ac97_sdin[0] << ICH_DI1L_SHIFT;
+ 			for (i = 1; i < 4; i++) {
+ 				if (pcm->r[0].codec[i]) {
+-					tmp |= chip->ac97_sdin[pcm->r[0].codec[1]->num] << ICH_DI2L_SHIFT;
++					tmp |= chip->ac97_sdin[pcm->r[0].codec[i]->num] << ICH_DI2L_SHIFT;
+ 					break;
+ 				}
+ 			}
+-- 
+2.46.0
 
