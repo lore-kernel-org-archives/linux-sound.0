@@ -1,142 +1,125 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9281487F6
-	for <linux-sound@vger.kernel.org>; Sun, 22 Jun 2025 09:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE1E372;
+	Sun, 22 Jun 2025 09:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750584728; cv=none; b=QIIr5Lw4EoZb+8FLriv0GmG1pxV9rJLvtEZvRzf/5RBNyFGzZ3e+ETMfcvzJ3SV5C712zFZexGjcNlIvA4NH3DAhTTSHCfNe0XEX0lW1DzKrVy3pFdmQXnZigzH1KCJcwjO8MI20XGfwkEkyyHrNjgUyeGSduv8L5oZzvGf2j5I=
+	t=1750585400; cv=none; b=u3HwHpXdVZ23OXbTFj9K1AtZ4N+lolrbzbBzGWJO5NB8JjOG173K7ladRTDepoj0Jrq9P3SiUP3H1/DxG7DMoQxZTibtiH7uvNDV4dmz3LzGmLvs6BSnGRX8T0A1zWtV8wvDoMg9iKz2IV5E5TQTtN0P1iF2yLG0m0DgDk4delA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750584728; c=relaxed/simple;
-	bh=SK/Scp2evJ7oxS0LuSoIroKqQUaFdexYMVy5yXP/mHs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fgYmU6+gQjpUJ6mlFnD7tqlqkmzoSlo+5aUjVdcQy0trb9v7ZeMBPqSHuYY3/qba7baCjfnINq4TKo1CwI7cn1nOPWC7h19Fy48GTcrVmDGL1uEWSyRzayKg/K23UV5qVHDUPa5qZlz2vs7fbVssMjXsdgO0XYj6fD7Bhd1wotw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OQFUkg8X; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tgQ2rV1b; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zAbZ+Ilk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eTDuhkp/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1750585400; c=relaxed/simple;
+	bh=e1iTg55YXGYZf/uvlSW1Nxdb1Xs0RNsU3Mekj6cFODU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Up28UNx3le4oxlOnuFuP9PqYyGThUW5TUKRDXNUuHKE1WV9Y9yFpUXf4K/NtIZlk1hoo+QyxgY0gXZStJ87oMx7rNpihwNi7LyUXMlqu3+2QKulL53yYHWY4JTQlmNZn4EnJLx8Kyi8WGXtZjULRGiQ+0VWEEijnv39A+BhZctQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CSf1wYRn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OQFUkg8X";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tgQ2rV1b";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zAbZ+Ilk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eTDuhkp/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CE4121F388;
-	Sun, 22 Jun 2025 09:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750584725; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXbPdzoN3z/dImJCR/ZE4KPTLkgMQ7udahG1QxRCciI=;
-	b=OQFUkg8XjI1aabOHPu3kkiSoWQ2F1V/4o+zBljmMxc9/0I81CVGpHMuRYxr2/YY8OY97GY
-	YM6O1rpkHRKkbPadSGlmA0REHvfO+MYRRYN+rIf39JvXMyPVq5o6Xzdh4pBHD2pjqkjfQb
-	qe0OIjjH/7Ojcn+NIH3TCedo8oxJE3s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750584725;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXbPdzoN3z/dImJCR/ZE4KPTLkgMQ7udahG1QxRCciI=;
-	b=tgQ2rV1b7Pxv6g8kz7u225K2dltzt3zRrOG+TGnvHJZeVxHSZuLPAtiodVkRb1uEX7JxDC
-	8QyZP11WTXXLaeDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zAbZ+Ilk;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="eTDuhkp/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750584723; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXbPdzoN3z/dImJCR/ZE4KPTLkgMQ7udahG1QxRCciI=;
-	b=zAbZ+Ilkl+fDVaaL7Rk7Ji8pjqxyhtQ4KZku8aZN2IfHnZQwv8+mcn3FCgc1S9q9rrXUlZ
-	RryUk3R4fIBZVI5GH5xuIcwD7Yrz/X4/C56zaKnzITeQNosx0IdM1OBMKHoaWk4EbDBysi
-	r1YV+8ePh6i7fOqyO6yj5M3mCKpsKIU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750584723;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eXbPdzoN3z/dImJCR/ZE4KPTLkgMQ7udahG1QxRCciI=;
-	b=eTDuhkp/QI1HflyMmK5c3NVzQ+LlUSUAP7Zn7IDFtzz811sDRru7s5dDkflrRqrI5rdGVl
-	f668Gzvt0q21kNDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A1D7D13A69;
-	Sun, 22 Jun 2025 09:32:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ht3xJZPNV2iWLAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 22 Jun 2025 09:32:03 +0000
-Date: Sun, 22 Jun 2025 11:32:03 +0200
-Message-ID: <87ldpkw298.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: SunOfLife1 <sunoflife1.git@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek - Enable mute LED on HP Pavilion Laptop 15-eg100
-In-Reply-To: <20250621053832.52950-1-sunoflife1.git@gmail.com>
-References: <87qzzu8tuc.wl-tiwai@suse.de>
-	<20250621053832.52950-1-sunoflife1.git@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CSf1wYRn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60EFDC4CEE3;
+	Sun, 22 Jun 2025 09:43:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750585397;
+	bh=e1iTg55YXGYZf/uvlSW1Nxdb1Xs0RNsU3Mekj6cFODU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CSf1wYRnx6mhnlUz/ZS0L086OYQTAsug3WeLL8oprIsrJWpznpYTOJbYEReD8p4nb
+	 RVDvFBFNnhx/O+e8DxwpdZZDDSjpJxe3TQbTfYCyKwanYyoAc8lNuxg1GOqk696f+7
+	 6I/NwAGswkku/MZ+h4aYXp5+gE6lVBr2WLlwpqBFSuK4fXcXNk7layHpXsFHVL7ewz
+	 nBWsO2hZbO24pqQr4XiS8U1GXBrzMQap11RpoYr46IwSKT5P9PcgKl2KfdgVbR+9JP
+	 lQb3ddRSO05mMe8a69nCAjky5nj1hGZNYPBF5OzdUM32DyQkbniLk/fW58edMW6vHt
+	 4TbLgMIrv4q5Q==
+Message-ID: <011093f8-85a1-4c3c-b3fa-7be9e6df8a25@kernel.org>
+Date: Sun, 22 Jun 2025 11:43:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: CE4121F388
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
-X-Spam-Score: -2.01
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/10] ASoC: dt-bindings: mediatek,mt8196-afe: add
+ support for MT8196 audio AFE controller
+To: "Darren.Ye" <darren.ye@mediatek.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250620094140.11093-1-darren.ye@mediatek.com>
+ <20250620094140.11093-9-darren.ye@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250620094140.11093-9-darren.ye@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 21 Jun 2025 07:36:14 +0200,
-SunOfLife1 wrote:
+On 20/06/2025 11:40, Darren.Ye wrote:
+> From: Darren Ye <darren.ye@mediatek.com>
 > 
-> Sorry about that! This is my first time doing anything like this. ^^;
-> I've restored the original patch description with the proper sign-off. Hopefully this is suitable now. :)
-> 
-> 
-> The HP Pavilion Laptop 15-eg100 has Realtek HDA codec ALC287.
-> It needs the ALC287_FIXUP_HP_GPIO_LED quirk to enable the mute LED.
-> 
-> Signed-off-by: Yasmin Fitzgerald <sunoflife1.git@gmail.com>
+> This patch adds initial support for the audio AFE(Audio Front End) controller
 
-Applied now.  Thanks.
+Why this was changed to undesired 'This patch' (see submitting patches)?
+I think you are circling back to previous versions, reintroducing issues
+fixed in between.
+
+> on the mediatek MT8196 platform.
+> 
+> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
-Takashi
+Subject: I asked to drop document, because the rest was correct and you
+totally rewritten it to unnecessary too long subject.
+
+Well, at least the rest you implemented, but I just don't get why, when
+asked to change something you change several things to less desired style.
+
+Best regards,
+Krzysztof
