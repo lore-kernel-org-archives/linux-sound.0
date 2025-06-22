@@ -1,142 +1,116 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B56211F;
-	Sat, 21 Jun 2025 19:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C61718FDBD;
+	Sun, 22 Jun 2025 06:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750533330; cv=none; b=D+ymbIQiNN2yMBWWIvX62rRTEAZhvL3A+iXbzdwMBemcRxNNQ5+4BI8PWr8tiGcBcR5LA8Sj6I3RLblHJB9lbPPVFLf2cXWWoc2CTJJxapNQLASjvMMk5cPMfFaeCHhOjl9gnAupdUbqq59HOqSUHaE2LlAn5e8Yq9cT8IlOUWc=
+	t=1750572200; cv=none; b=JLgCLqQm3rzpc9620KM3LQ8bbJg+9BhuLgk3EPT4aSZrVhNcPEeKFoN5bPrSGgdb56H9QVDi6I0Ib+ysvt3Zf3XNn62xBkFRm+CrhoD9oIwkRXou2mTXNzxdNC3Mhz0QJ02Jd6JPG+h8T8jjTCgXKSJ5i+BEHNYTj8PYmO3UABk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750533330; c=relaxed/simple;
-	bh=KzUQDnReREBPfVZQbb3GMmWlm2zqkpJbIDRwtszYAKg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nx4zFZJbYsRa2c9AR2cTW5rOkkmnhCt0bvwxD9WgVevQGiQ7HPngRniDA3k7b7Ye2X6a/S5VTnbkmcszyjwrs92w8GxW5q8ZFGQas1W/7cayZ/lEX04/lO6+L8/DWBSsflqP+pML+knbPNc/ZXIrd06c9fW2PeonT/L1eq0ySVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nC4a2Wdw; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750572200; c=relaxed/simple;
+	bh=6Q8FrnkdsmldV9GcNFIT4wN8l3RVnI5WN8GsaLdbscs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I3hMv/CAqC8P3Cq1R2jKf3iGSnJ4R3NFOoWk3tdNQP2RYowsr8QeGAoEEbtYt0MDSuGYPMDONvzfbpdjhDXNeadDx+g6NheaDglqX/mvyHtNfcsdaNfgDL6GNXc06DYboW7LK4PR2v99o+KsO3GwaVppl4faInOWhWmbMCreshE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L8wdi/Dj; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nC4a2Wdw"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b26df8f44e6so3381185a12.2;
-        Sat, 21 Jun 2025 12:15:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750533328; x=1751138128; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FyabKKZRpe1kbc7KaEKrqFY9IqxUD7ZU2rCerIRqy7M=;
-        b=nC4a2WdwIuxRa0T5XJiPacTlmkXN3IW+Os26yLMj+ltIbNpp9r4ZRh+/REqc3bgYPA
-         V9IChSrs1/YodXKluAmPxln5BJu/pTqmX/UGizTOf06+qUBFhK5dBSrW6XMtiMTaIUyd
-         JnKyEFpBEZyoLdG3itDv8wuDGFN2E5E0rPJUy/GBBTzw/SWzPhpX9thaxRQpmXd0sUcA
-         1FYwa+h2gQKEqxq4YkKeA+3UTPu0sRdZRoJW6cvfyOSa4ekoGIZlPWo/sHgtNRV6W3lL
-         WWel5m82lB785Q441e2NCge8CgCoSjuA3oRXPvocF/nZriFZJV0Pumy8NNsTNiyipX5d
-         MGpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750533328; x=1751138128;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FyabKKZRpe1kbc7KaEKrqFY9IqxUD7ZU2rCerIRqy7M=;
-        b=Zep3qnMBkkyzOTxeJxXmPteBPPHTHNrJY5DFTj8QarkukE8O5ZxIY+cWgL1ISR9zg9
-         t2nGVfDGxyLcKdLoBlltwLL4AzlLWCkb2W3b0yupCVENGujQDMsEZxjcTotv7N6yuxcl
-         vf8SNrKPAlbgZH75TVvLrlFauWNI6rue4Pr5CZx8V5C/EkObBn40+h7p6rTWlWmsykRD
-         pr87z06jqOEBj/w7BQMTjj1Zse8ru6qV/oUp/A8B5NW5vvkffDMhWU/udSinc/i26MoR
-         T27CzcXAOrxjOR5cnD1uH/9GVgTo/cFfz8zQbZkrxP6yE5VWOu1DFZQUntT0vm517G94
-         13pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVuXP53GV5ae/GSL8SYulpq1tb4uNQgMzse/mI8Dvw2Gthz3xWtjuwVuoXDDxMJLd52/5IWcDe9SrcoHZU=@vger.kernel.org, AJvYcCWUXCZxanspRu+G+hZjB3jh/vCHMfUg878MCZx7Q2Tqf55bgy9M68Zr8Hoy004PJTYDLdwhH7sfTLbz6wE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDjHLhYrIYNktiydonID1WvpMjBuZrGTUHLFs36I4WexUhCmjG
-	VSn9/sZR6kt0ZMbCG9QorHqJJwYhX80z29HtJ85FG9TiG1KSWD3qFmZD
-X-Gm-Gg: ASbGnct8d4oMzzFxna7C/eABXKFF/6UshUksijfAg0ggOnFA8Q1LvyuC3jLrxNWCffz
-	EyB0u22sT0N+OaOXzvzGRegVO28uBDG/xmQVkVRE+Gfa3KrTCKyekD1IQaaR1Uzyon1TPusWHQM
-	ikkdQoWWggZA8dBWVwcdK12C9ykdQPJSsC2JjBo2EOHeVWthfVaTPNhD6AVk0TULBpRIN9fEWjh
-	SBGSAOu8xBXBZ3+PRiXJL84cwXmbD0d0Ma3WaozE9lX3fqBoedpEOn4O/pw9nOWbIZvVtSizMYO
-	7P/IfLI3gEYhtG2rbtDohtP/HOGPmEkYrzvuyyBdEk0Ho9OxiKRGLPNUXJFQfzWVFe+TjDE5QLH
-	TSQOQwBT12Q==
-X-Google-Smtp-Source: AGHT+IH0/oCczFhSPKQ3YqY770/xMT6R9Vz+U/odFqTFEILAvRAB8bWMSAOlsFEqbW1XlAarUlPBfQ==
-X-Received: by 2002:a17:902:db11:b0:235:f45f:ed55 with SMTP id d9443c01a7336-237d977a56cmr120790325ad.1.1750533328466;
-        Sat, 21 Jun 2025 12:15:28 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:4c64:81ec:7409:107a:a63b:a3da])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d86628ffsm44843365ad.156.2025.06.21.12.15.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jun 2025 12:15:28 -0700 (PDT)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	sanyog.r.kale@intel.com
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] soundwire: debugfs: move debug statement outside of error handling
-Date: Sat, 21 Jun 2025 16:09:38 -0300
-Message-ID: <20250621191522.14415-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L8wdi/Dj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750572198; x=1782108198;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6Q8FrnkdsmldV9GcNFIT4wN8l3RVnI5WN8GsaLdbscs=;
+  b=L8wdi/DjgBkqsUn6VOoMUpREt3Ueq5Xaa97I4q9kIfo7H6zgy5qFsRVF
+   3A80sxjmBVgAAkY4ZzV2Wx11uqohPQANJ5StaRXfXGqZX7ycGLTE2nTVr
+   wb7/usA9SAJKMxQZ0cbtLfkOwfmnpqEAlQaIQvZc56H5kTzxrYSt+n7gv
+   N6fuV59hOiM12mdQUcz7rXyd6sZiDlST0oiSyQ13UVPQsD5fsgSytpuiX
+   ZEPvIuTsU9unMTEhtmSrlEcdhqOZXxUoz3v8pJAFx1+febSv93NrzmFXU
+   WOxkhA2lrU2ZETnX0blqkjNBSWjJlLXriPvqoDd7RVgAfN8s9DmYfokld
+   Q==;
+X-CSE-ConnectionGUID: eGRT+8zxRl2DmD9s3zO9Mg==
+X-CSE-MsgGUID: J0E5uukVQeqNrmxXAX4grQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="63473344"
+X-IronPort-AV: E=Sophos;i="6.16,255,1744095600"; 
+   d="scan'208";a="63473344"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 23:03:16 -0700
+X-CSE-ConnectionGUID: YCSARsZ5RWG/zST+8dcpBQ==
+X-CSE-MsgGUID: 3MdxRylsSUqbPeP8nS9RvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,255,1744095600"; 
+   d="scan'208";a="150871451"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 21 Jun 2025 23:03:10 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uTDnI-000N5q-1P;
+	Sun, 22 Jun 2025 06:03:08 +0000
+Date: Sun, 22 Jun 2025 14:02:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v3 6/7] PCI/VGA: Move check for firmware default out of
+ VGA arbiter
+Message-ID: <202506221312.49Fy1aNA-lkp@intel.com>
+References: <20250620024943.3415685-7-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250620024943.3415685-7-superm1@kernel.org>
 
-The start_t and finish_t variables are not properly initialized
-if errors happens over request_firmware actions.
-This was also detected by smatch:
+Hi Mario,
 
-drivers/soundwire/debugfs.c:301 cmd_go() error: uninitialized symbol 'finish_t'.
-drivers/soundwire/debugfs.c:301 cmd_go() error: uninitialized symbol 'start_t'.
+kernel test robot noticed the following build errors:
 
-Initialize those variables and move the debug statement outside of
-firmware error handling.
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus awilliam-vfio/next awilliam-vfio/for-linus tip/x86/core linus/master v6.16-rc2 next-20250620]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/linux-sound/0db6d0bf-7bac-43a7-b624-a00d3d2bf829@stanley.mountain/
-Fixes: bb5cb09eedce ("soundwire: debugfs: add interface for BPT/BRA transfers")
----
-@Vinod Koul, tks for the suggestion. I`ve kept the ktime_t initialization, after moving
-the debug statement, they are not actually needed, but I think there is no harm to keep that.
-Tks and regards.
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250620-105220
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250620024943.3415685-7-superm1%40kernel.org
+patch subject: [PATCH v3 6/7] PCI/VGA: Move check for firmware default out of VGA arbiter
+config: sparc-defconfig (https://download.01.org/0day-ci/archive/20250622/202506221312.49Fy1aNA-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506221312.49Fy1aNA-lkp@intel.com/reproduce)
 
-Changelog:
-v2: moving debug statement
-v1: https://lore.kernel.org/linux-sound/20250617015230.54981-1-rodrigo.gobbi.7@gmail.com/#t
----
- drivers/soundwire/debugfs.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506221312.49Fy1aNA-lkp@intel.com/
 
-diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
-index 3099ea074f10..42d2aba285f5 100644
---- a/drivers/soundwire/debugfs.c
-+++ b/drivers/soundwire/debugfs.c
-@@ -237,8 +237,8 @@ static int cmd_go(void *data, u64 value)
- {
- 	const struct firmware *fw = NULL;
- 	struct sdw_slave *slave = data;
--	ktime_t start_t;
--	ktime_t finish_t;
-+	ktime_t start_t = 0;
-+	ktime_t finish_t = 0;
- 	int ret;
- 
- 	if (value != 1)
-@@ -291,6 +291,9 @@ static int cmd_go(void *data, u64 value)
- 
- 	finish_t = ktime_get();
- 
-+	dev_dbg(&slave->dev, "command completed, num_byte %zu status %d, time %lld ms\n",
-+		num_bytes, ret, div_u64(finish_t - start_t, NSEC_PER_MSEC));
-+
- out:
- 	if (fw)
- 		release_firmware(fw);
-@@ -298,9 +301,6 @@ static int cmd_go(void *data, u64 value)
- 	pm_runtime_mark_last_busy(&slave->dev);
- 	pm_runtime_put(&slave->dev);
- 
--	dev_dbg(&slave->dev, "command completed, num_byte %zu status %d, time %lld ms\n",
--		num_bytes, ret, div_u64(finish_t - start_t, NSEC_PER_MSEC));
--
- 	return ret;
- }
- DEFINE_DEBUGFS_ATTRIBUTE(cmd_go_fops, NULL,
+All errors (new ones prefixed by >>):
+
+   sparc-linux-ld: drivers/pci/vgaarb.o: in function `vga_arbiter_add_pci_device':
+>> vgaarb.c:(.text+0x14ec): undefined reference to `video_is_primary_device'
+>> sparc-linux-ld: vgaarb.c:(.text+0x174c): undefined reference to `video_is_primary_device'
+
 -- 
-2.49.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
