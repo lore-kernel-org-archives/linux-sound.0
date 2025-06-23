@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CB729B8E2;
-	Mon, 23 Jun 2025 16:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C5A2D0267
+	for <linux-sound@vger.kernel.org>; Mon, 23 Jun 2025 16:12:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750695159; cv=none; b=gMf6C7scZR9CJmU5hWUVXfcdYKivQmBJmArB3GG+GTRdwuKbH6lOvwlqqFikDLafb6AMjrJa8nc574ZFrwjgbZ1HEGNG5iaTXwHeGuO6N2D1eyi0k/z8M7MjZI5Pgj5E34R+abkpkjTVZkSmG2ukMR9B97GXj60gOtgPXYTLS9o=
+	t=1750695163; cv=none; b=R4q3p8U/u0qzWdF5Zj7eAuqgZo6BxxewEVoZNbRS+42IQ1hOJwv7V7Myfmz1mEFfwp5e24ji4yq4oHwSp6dU1MozvR9BStATi1J+Ge7VlNoSzFRRe+05wPRAIw5GI4mFSnkWNkGmwQz2WkabvhpsmRMUi3+LSDAWXa+er9uF8aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750695159; c=relaxed/simple;
-	bh=ZAnwQDqTESYH6oy4uvfg/zruit4no4oBmPm9404Wxng=;
+	s=arc-20240116; t=1750695163; c=relaxed/simple;
+	bh=36IAByr6RBgj8o3eqK0U6LrIzDicCyLZCGNPx5hI0rs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=r84rBIvxcY3va8mj3F5CdzrfZ21qHVeJ0y/sANdDHbe80AngTmuuvoy4llcSZjA8SGDumithIQN4lru7+GRxB4Vg3xJQbty5Y6xiZF7MwbQS2cyGF6jxaqTKv1xg1tkhVG2XqskbtEs0NbfznLNNo8rjW4EK1OncjohCVJS5km0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lbvzN3MM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nyhaGAfwT/OeivGZ3W/FzERnSFRGzP4NZsuq7p7Q5yIauhn7liePak4A2OlC8IXiYTarw8aqgcmgSZGZj6l2whJH5E6gAPbE9lx9iLtTG0FA0GjPZQ+ZyiqPBMNI0tlvceP5F/V5ZpVZhegSEsli4rlszdpC+kP5DDQdPvXdLBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IczoP+JE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lbvzN3MM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2264AC4CEEA;
-	Mon, 23 Jun 2025 16:12:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IczoP+JE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 617DAC4CEEA;
+	Mon, 23 Jun 2025 16:12:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750695158;
-	bh=ZAnwQDqTESYH6oy4uvfg/zruit4no4oBmPm9404Wxng=;
+	s=k20201202; t=1750695162;
+	bh=36IAByr6RBgj8o3eqK0U6LrIzDicCyLZCGNPx5hI0rs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=lbvzN3MMztshVTjkgSlF31R0UTLMPY271szcuu4G50fJdgJG5R4REwswZEpGO/45v
-	 InNcpiAM37DYqzvlphdgG7swwHlRhz3LQUM/DV/ryfOhsZQtw4lHKzwYSOGIQd7BHn
-	 ofue4ZxR8Q8vXL4iQ9vgD4vHDiCiISWi/XGrt5Ryhw1KFXp4FOWGwnb/plDDPBHuIb
-	 sg/8+v3MBilMYQ2JS5UL6EzMYjRWwFEBw53QeGaQomkPnb35C0JkVPgymkRZV7OxxR
-	 uP3QEcyTBur2fCGs+EgfjYtpUYXYMZqHbfxFO3x4j7AcpaHkPMiO1ICHBBAmVf2Flf
-	 fCnwB3IOHKopQ==
+	b=IczoP+JE9wN7eU0HlygTa7ivdg5iBi0utYVnnCLhyItySvSGRFMNsMZQuSV4bOQZ8
+	 nBfLcRohmStdDXvVv828FRKBGCEWYLnZhp9q5aGsnuCsmdwWH8N+IEbjZV6Cc/P973
+	 uFOlPUUeZVCNo9tDLtgiajQax6eS4T4r2M0PrwWF/xRAzUCvEBkDqMLo4OFlRT3bEv
+	 FzOlD/R68fVASfSulQyhdqYttUgxS+f4XJNUf9LuT9Qkuq0j80HhSrCkbFvl3LAaFY
+	 VBSTTfxnBfXw5ktgb9lEMh2Zw2ih43W62+Z/ccl8ryFdRz96t3LZoMCDhJn6LDAMkM
+	 rjQIQK4R29BzQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250613-asoc-hdmi-eld-logging-v1-1-76d64154d969@kernel.org>
-References: <20250613-asoc-hdmi-eld-logging-v1-1-76d64154d969@kernel.org>
-Subject: Re: [PATCH] ASoC: hdac_hdmi: Rate limit logging on connection and
- disconnection
-Message-Id: <175069515687.146175.12666282913525155773.b4-ty@kernel.org>
-Date: Mon, 23 Jun 2025 17:12:36 +0100
+To: lgirdwood@gmail.com, jikos@kernel.org, bentiss@kernel.org, 
+ shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
+ ckeepax@opensource.cirrus.com, bard.liao@intel.com
+In-Reply-To: <20250616114929.855496-1-shumingf@realtek.com>
+References: <20250616114929.855496-1-shumingf@realtek.com>
+Subject: Re: [PATCH v2 3/3] ASoC: SDCA: add a HID device for HIDE entity
+Message-Id: <175069515912.146175.14647482741367051122.b4-ty@kernel.org>
+Date: Mon, 23 Jun 2025 17:12:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,15 +47,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-08c49
 
-On Fri, 13 Jun 2025 17:41:04 +0100, Mark Brown wrote:
-> We currently log parse failures for ELD data and some disconnection events
-> as errors without rate limiting. These log messages can be triggered very
-> frequently in some situations, especially ELD parsing when there is nothing
-> connected to a HDMI port which will generate:
+On Mon, 16 Jun 2025 19:49:29 +0800, shumingf@realtek.com wrote:
+> This patch supports to add a HID device for SDCA HIDE entity.
+> The codec driver could call 'hid_input_report' to report events.
 > 
-> hdmi-audio-codec hdmi-audio-codec.1.auto: HDMI: Unknown ELD version 0
 > 
-> [...]
 
 Applied to
 
@@ -63,8 +59,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: hdac_hdmi: Rate limit logging on connection and disconnection
-      commit: c4ca928a6db1593802cd945f075a7e21dd0430c1
+[3/3] ASoC: SDCA: add a HID device for HIDE entity
+      commit: ac558015dfd803626622bd0ba9645d58a3ed16b1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
