@@ -1,45 +1,42 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5142828E61E;
-	Mon, 23 Jun 2025 16:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750695073; cv=pass; b=m/fMGmAsFJsbe6kCUepzFIZf+rXSHU3FMEYv2B70B8a4klISSz8f6UcwAkvZF+Htt4fGsFypE8/bxYGFBDtKvXovudx+yStlIRgDzjhSJUDiTWoYgBwvxz+xTMi+Da0qhk3P8fqZcKOZJhAhWomcx8LW5JCK1CyjyHVKs7WM8Gw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750695073; c=relaxed/simple;
-	bh=UblQ/Xi9teuoaZM1+IlFLdoyalC6siaHzqHpUWPdXp4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ciITSoQcMwtFbHlUF6wvsoTWPmtVcdSHHW2fQbjYcnHHMdQfm8UvDiluQ244fs0gizvriN/dBQrOwGgCy8QLLIN9KVIxYaGc3GGjjUiDlA+7n9we2NqqnMfH+x7b3vnyPXNyUAydNebvGAIZBcCEjBdpru+z0pFMMCR5XhPadCw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=ifhrRglT; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CB729B8E2;
+	Mon, 23 Jun 2025 16:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750695159; cv=none; b=gMf6C7scZR9CJmU5hWUVXfcdYKivQmBJmArB3GG+GTRdwuKbH6lOvwlqqFikDLafb6AMjrJa8nc574ZFrwjgbZ1HEGNG5iaTXwHeGuO6N2D1eyi0k/z8M7MjZI5Pgj5E34R+abkpkjTVZkSmG2ukMR9B97GXj60gOtgPXYTLS9o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750695159; c=relaxed/simple;
+	bh=ZAnwQDqTESYH6oy4uvfg/zruit4no4oBmPm9404Wxng=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=r84rBIvxcY3va8mj3F5CdzrfZ21qHVeJ0y/sANdDHbe80AngTmuuvoy4llcSZjA8SGDumithIQN4lru7+GRxB4Vg3xJQbty5Y6xiZF7MwbQS2cyGF6jxaqTKv1xg1tkhVG2XqskbtEs0NbfznLNNo8rjW4EK1OncjohCVJS5km0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lbvzN3MM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ifhrRglT"
-ARC-Seal: i=1; a=rsa-sha256; t=1750695014; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=EpBtJRjKcgPsO+xAJObVVmFvnI4hmdsZ6LijaICW3w0zdFpegt0k3I/wGT51x6yq9t7zXoX7sFb3yMWpHNE+rLAu2ZZjCp+N9VFX+Q4/04KiU/EsrfstavBLC9MQzFMo/b3QMwzBRvoc+e13RHmo8OoEeFd00ZASOpK3oSJJglM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1750695014; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=LrDqBL7o/mg/nAqIiAJ/LSWqzkg2m3/2ojuA+PZ4zkE=; 
-	b=Yke2UH0sgLcdjm6t4ucqMhYEpUfHQfgnCY1vqDVFeITgfZA/sUs1RgZRk340I6Jejbq5/pXgjtH289g684o8J2aZHAELCY9xvv5ldmSWpCLm6se5G3BspfIU/bZG+gRqwJ87tvnoqoBCO23T0tPs75Dpj4AZstHKLhiuIw2w0TY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750695014;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=LrDqBL7o/mg/nAqIiAJ/LSWqzkg2m3/2ojuA+PZ4zkE=;
-	b=ifhrRglTFZ2RX+hsYHYJv5VSQEYe/R1mGxnsPnU80GFRfFV+SXXAgL+bnaRD8IDJ
-	XMwx3CHErJ+Z05XkEGWJF+8nIMYLmSNdyD9nVywEoYVsytQSuhHMaK3gAoItL9dGZk9
-	hC/Qo/9ULp3XvQ8MVn1Ko0pBL0TX2Clu2xmUyeEg=
-Received: by mx.zohomail.com with SMTPS id 17506950128651017.218237604295;
-	Mon, 23 Jun 2025 09:10:12 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 23 Jun 2025 18:05:48 +0200
-Subject: [PATCH v2 20/20] phy: rockchip-pcie: switch to FIELD_PREP_WM16
- macro
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lbvzN3MM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2264AC4CEEA;
+	Mon, 23 Jun 2025 16:12:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750695158;
+	bh=ZAnwQDqTESYH6oy4uvfg/zruit4no4oBmPm9404Wxng=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=lbvzN3MMztshVTjkgSlF31R0UTLMPY271szcuu4G50fJdgJG5R4REwswZEpGO/45v
+	 InNcpiAM37DYqzvlphdgG7swwHlRhz3LQUM/DV/ryfOhsZQtw4lHKzwYSOGIQd7BHn
+	 ofue4ZxR8Q8vXL4iQ9vgD4vHDiCiISWi/XGrt5Ryhw1KFXp4FOWGwnb/plDDPBHuIb
+	 sg/8+v3MBilMYQ2JS5UL6EzMYjRWwFEBw53QeGaQomkPnb35C0JkVPgymkRZV7OxxR
+	 uP3QEcyTBur2fCGs+EgfjYtpUYXYMZqHbfxFO3x4j7AcpaHkPMiO1ICHBBAmVf2Flf
+	 fCnwB3IOHKopQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
+Cc: Dmitry Baryshkov <lumag@kernel.org>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250613-asoc-hdmi-eld-logging-v1-1-76d64154d969@kernel.org>
+References: <20250613-asoc-hdmi-eld-logging-v1-1-76d64154d969@kernel.org>
+Subject: Re: [PATCH] ASoC: hdac_hdmi: Rate limit logging on connection and
+ disconnection
+Message-Id: <175069515687.146175.12666282913525155773.b4-ty@kernel.org>
+Date: Mon, 23 Jun 2025 17:12:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,218 +45,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250623-byeword-update-v2-20-cf1fc08a2e1f@collabora.com>
-References: <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
-In-Reply-To: <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
-To: Yury Norov <yury.norov@gmail.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Jaehoon Chung <jh80.chung@samsung.com>, 
- Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Shreeya Patel <shreeya.patel@collabora.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Shawn Lin <shawn.lin@rock-chips.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
- MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, 
- linux-sound@vger.kernel.org, netdev@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.2
+X-Mailer: b4 0.15-dev-08c49
 
-The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-drivers that use constant masks.
+On Fri, 13 Jun 2025 17:41:04 +0100, Mark Brown wrote:
+> We currently log parse failures for ELD data and some disconnection events
+> as errors without rate limiting. These log messages can be triggered very
+> frequently in some situations, especially ELD parsing when there is nothing
+> connected to a HDMI port which will generate:
+> 
+> hdmi-audio-codec hdmi-audio-codec.1.auto: HDMI: Unknown ELD version 0
+> 
+> [...]
 
-The Rockchip PCIe PHY driver, used on the RK3399, has its own definition
-of HIWORD_UPDATE.
+Applied to
 
-Remove it, and replace instances of it with hw_bitfield.h's
-FIELD_PREP_WM16. To achieve this, some mask defines are reshuffled, as
-FIELD_PREP_WM16 uses the mask as both the mask of bits to write and to
-derive the shift amount from in order to shift the value.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-In order to ensure that the mask is always a constant, the inst->index
-shift is performed after the FIELD_PREP_WM16, as this is a runtime
-value.
+Thanks!
 
-From this, we gain compile-time error checking, and in my humble opinion
-nicer code, as well as a single definition of this macro across the
-entire codebase to aid in code comprehension.
+[1/1] ASoC: hdac_hdmi: Rate limit logging on connection and disconnection
+      commit: c4ca928a6db1593802cd945f075a7e21dd0430c1
 
-Tested on a RK3399 ROCKPro64, where PCIe still works as expected when
-accessing an NVMe drive.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/phy/rockchip/phy-rockchip-pcie.c | 72 ++++++++++----------------------
- 1 file changed, 21 insertions(+), 51 deletions(-)
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-pcie.c b/drivers/phy/rockchip/phy-rockchip-pcie.c
-index bd44af36c67a5a504801275c1b0384d373fe7ec7..d7f994c3bcdf93faffd5c04ed4d0f9d29eaf43cc 100644
---- a/drivers/phy/rockchip/phy-rockchip-pcie.c
-+++ b/drivers/phy/rockchip/phy-rockchip-pcie.c
-@@ -8,6 +8,7 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
-+#include <linux/hw_bitfield.h>
- #include <linux/io.h>
- #include <linux/mfd/syscon.h>
- #include <linux/module.h>
-@@ -18,23 +19,14 @@
- #include <linux/regmap.h>
- #include <linux/reset.h>
- 
--/*
-- * The higher 16-bit of this register is used for write protection
-- * only if BIT(x + 16) set to 1 the BIT(x) can be written.
-- */
--#define HIWORD_UPDATE(val, mask, shift) \
--		((val) << (shift) | (mask) << ((shift) + 16))
- 
- #define PHY_MAX_LANE_NUM      4
--#define PHY_CFG_DATA_SHIFT    7
--#define PHY_CFG_ADDR_SHIFT    1
--#define PHY_CFG_DATA_MASK     0xf
--#define PHY_CFG_ADDR_MASK     0x3f
--#define PHY_CFG_RD_MASK       0x3ff
-+#define PHY_CFG_DATA_MASK     GENMASK(10, 7)
-+#define PHY_CFG_ADDR_MASK     GENMASK(6, 1)
-+#define PHY_CFG_RD_MASK       GENMASK(9, 0)
- #define PHY_CFG_WR_ENABLE     1
- #define PHY_CFG_WR_DISABLE    1
--#define PHY_CFG_WR_SHIFT      0
--#define PHY_CFG_WR_MASK       1
-+#define PHY_CFG_WR_MASK       BIT(0)
- #define PHY_CFG_PLL_LOCK      0x10
- #define PHY_CFG_CLK_TEST      0x10
- #define PHY_CFG_CLK_SCC       0x12
-@@ -49,11 +41,7 @@
- #define PHY_LANE_RX_DET_SHIFT 11
- #define PHY_LANE_RX_DET_TH    0x1
- #define PHY_LANE_IDLE_OFF     0x1
--#define PHY_LANE_IDLE_MASK    0x1
--#define PHY_LANE_IDLE_A_SHIFT 3
--#define PHY_LANE_IDLE_B_SHIFT 4
--#define PHY_LANE_IDLE_C_SHIFT 5
--#define PHY_LANE_IDLE_D_SHIFT 6
-+#define PHY_LANE_IDLE_MASK    BIT(3)
- 
- struct rockchip_pcie_data {
- 	unsigned int pcie_conf;
-@@ -100,22 +88,14 @@ static inline void phy_wr_cfg(struct rockchip_pcie_phy *rk_phy,
- 			      u32 addr, u32 data)
- {
- 	regmap_write(rk_phy->reg_base, rk_phy->phy_data->pcie_conf,
--		     HIWORD_UPDATE(data,
--				   PHY_CFG_DATA_MASK,
--				   PHY_CFG_DATA_SHIFT) |
--		     HIWORD_UPDATE(addr,
--				   PHY_CFG_ADDR_MASK,
--				   PHY_CFG_ADDR_SHIFT));
-+		     FIELD_PREP_WM16(PHY_CFG_DATA_MASK, data) |
-+		     FIELD_PREP_WM16(PHY_CFG_ADDR_MASK, addr));
- 	udelay(1);
- 	regmap_write(rk_phy->reg_base, rk_phy->phy_data->pcie_conf,
--		     HIWORD_UPDATE(PHY_CFG_WR_ENABLE,
--				   PHY_CFG_WR_MASK,
--				   PHY_CFG_WR_SHIFT));
-+		     FIELD_PREP_WM16(PHY_CFG_WR_MASK, PHY_CFG_WR_ENABLE));
- 	udelay(1);
- 	regmap_write(rk_phy->reg_base, rk_phy->phy_data->pcie_conf,
--		     HIWORD_UPDATE(PHY_CFG_WR_DISABLE,
--				   PHY_CFG_WR_MASK,
--				   PHY_CFG_WR_SHIFT));
-+		     FIELD_PREP_WM16(PHY_CFG_WR_MASK, PHY_CFG_WR_DISABLE));
- }
- 
- static int rockchip_pcie_phy_power_off(struct phy *phy)
-@@ -126,11 +106,9 @@ static int rockchip_pcie_phy_power_off(struct phy *phy)
- 
- 	guard(mutex)(&rk_phy->pcie_mutex);
- 
--	regmap_write(rk_phy->reg_base,
--		     rk_phy->phy_data->pcie_laneoff,
--		     HIWORD_UPDATE(PHY_LANE_IDLE_OFF,
--				   PHY_LANE_IDLE_MASK,
--				   PHY_LANE_IDLE_A_SHIFT + inst->index));
-+	regmap_write(rk_phy->reg_base, rk_phy->phy_data->pcie_laneoff,
-+		     FIELD_PREP_WM16(PHY_LANE_IDLE_MASK,
-+				     PHY_LANE_IDLE_OFF) << inst->index);
- 
- 	if (--rk_phy->pwr_cnt) {
- 		return 0;
-@@ -140,11 +118,9 @@ static int rockchip_pcie_phy_power_off(struct phy *phy)
- 	if (err) {
- 		dev_err(&phy->dev, "assert phy_rst err %d\n", err);
- 		rk_phy->pwr_cnt++;
--		regmap_write(rk_phy->reg_base,
--			     rk_phy->phy_data->pcie_laneoff,
--			     HIWORD_UPDATE(!PHY_LANE_IDLE_OFF,
--					   PHY_LANE_IDLE_MASK,
--					   PHY_LANE_IDLE_A_SHIFT + inst->index));
-+		regmap_write(rk_phy->reg_base, rk_phy->phy_data->pcie_laneoff,
-+			     FIELD_PREP_WM16(PHY_LANE_IDLE_MASK,
-+					     !PHY_LANE_IDLE_OFF) << inst->index);
- 		return err;
- 	}
- 
-@@ -172,15 +148,11 @@ static int rockchip_pcie_phy_power_on(struct phy *phy)
- 	}
- 
- 	regmap_write(rk_phy->reg_base, rk_phy->phy_data->pcie_conf,
--		     HIWORD_UPDATE(PHY_CFG_PLL_LOCK,
--				   PHY_CFG_ADDR_MASK,
--				   PHY_CFG_ADDR_SHIFT));
-+		     FIELD_PREP_WM16(PHY_CFG_ADDR_MASK, PHY_CFG_PLL_LOCK));
- 
--	regmap_write(rk_phy->reg_base,
--		     rk_phy->phy_data->pcie_laneoff,
--		     HIWORD_UPDATE(!PHY_LANE_IDLE_OFF,
--				   PHY_LANE_IDLE_MASK,
--				   PHY_LANE_IDLE_A_SHIFT + inst->index));
-+	regmap_write(rk_phy->reg_base, rk_phy->phy_data->pcie_laneoff,
-+		     FIELD_PREP_WM16(PHY_LANE_IDLE_MASK,
-+				     !PHY_LANE_IDLE_OFF) << inst->index);
- 
- 	/*
- 	 * No documented timeout value for phy operation below,
-@@ -211,9 +183,7 @@ static int rockchip_pcie_phy_power_on(struct phy *phy)
- 	}
- 
- 	regmap_write(rk_phy->reg_base, rk_phy->phy_data->pcie_conf,
--		     HIWORD_UPDATE(PHY_CFG_PLL_LOCK,
--				   PHY_CFG_ADDR_MASK,
--				   PHY_CFG_ADDR_SHIFT));
-+		     FIELD_PREP_WM16(PHY_CFG_ADDR_MASK, PHY_CFG_PLL_LOCK));
- 
- 	err = regmap_read_poll_timeout(rk_phy->reg_base,
- 				       rk_phy->phy_data->pcie_status,
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
--- 
-2.50.0
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
