@@ -1,117 +1,113 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BC678F4F
-	for <linux-sound@vger.kernel.org>; Mon, 23 Jun 2025 07:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D05942056
+	for <linux-sound@vger.kernel.org>; Mon, 23 Jun 2025 07:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750662023; cv=none; b=UMl73p5BhUIcv2cq9Tq5t8NoJhideVcAJ4Uf4i8PBShtwW75EW71o1BG1nqqMYpvxWERSpPuQvnN3cXfIBBPaUnC/7nek6drJf2qjnogm2cgnUzGZHXCl6fKkytCDeDFTJe8Kv7pFO94l3xOj/8o5dPBazi1RK1cka8VH0RdRWM=
+	t=1750662233; cv=none; b=azGTElhgdmqQb5nhVAehoZNX1RaOSmJQjRVXywuXTIL9YuU4n13AJ8eLSVREK6IUK5C8f8CTSOe/C7e3kf+rBcKH5tcDKb2Si+qGw6pAEbhoDEOLEVx9hXEZkSoEYbpWrz5pFJNNgu7YByeI6lctvG6eniFGw98RMpPB59jnGnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750662023; c=relaxed/simple;
-	bh=zoGqFvTYQu5TGvKf49l6X4WkX7DKurr8Fb3EEXazdSU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kgPoUhA8GXYtnALro6pXpH6mGV0vicyOgB6OQXz1B9W1FBxffXLwUeNR74B1w0eKrQwPcXmNea46X/AO1JqRAc7c7S7jkcNi1sCx5bxqRUMBKpZ41QHSfaHCXEyK1Rw29LPCxD2QgOn3Xm5M+4BoP3gts3XCc9U/fdNR12PZ5Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uTb9z-0001os-My; Mon, 23 Jun 2025 09:00:07 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uTb9y-004u2X-0w;
-	Mon, 23 Jun 2025 09:00:06 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uTb9y-0004eq-0g;
-	Mon, 23 Jun 2025 09:00:06 +0200
-Message-ID: <d42dda52f92b327fd9a051a892c212643f5ab75a.camel@pengutronix.de>
-Subject: Re: [PATCH v1 2/2] ASoC: codecs: wsa883x: Handle shared reset GPIO
- for WSA883x speakers
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, Srinivas
- Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus
- Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
- kernel@oss.qualcomm.com
-Date: Mon, 23 Jun 2025 09:00:06 +0200
-In-Reply-To: <20250620103012.360794-3-mohammad.rafi.shaik@oss.qualcomm.com>
-References: <20250620103012.360794-1-mohammad.rafi.shaik@oss.qualcomm.com>
-	 <20250620103012.360794-3-mohammad.rafi.shaik@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1750662233; c=relaxed/simple;
+	bh=P3kETJ8LidkPZ//hW+gPV08IjIWLb5wulVSUE8kb97w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 References; b=XHvq0CRTkWktsyoOfmxWF3FxrKy64WH3nZxg0ouHUgtSL+C/olFE+/As4y52neGafjATUBv0+wrUhe4eBh6oRM/nQe3FTL2rdDwEE+3MQD4vbkwj0c7sovcBWzPacwogpSMlva/ZpogPmvKSQ8h9kLBYLCR7kXWFlIjsZYjqWx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=D2+xuEaO; arc=none smtp.client-ip=203.254.224.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="D2+xuEaO"
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250623070344epoutp035f0dd82ecd78bc3242d5d3a9fb0b078a~LmgRxvwi30046300463epoutp03T
+	for <linux-sound@vger.kernel.org>; Mon, 23 Jun 2025 07:03:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250623070344epoutp035f0dd82ecd78bc3242d5d3a9fb0b078a~LmgRxvwi30046300463epoutp03T
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1750662224;
+	bh=YTLfCfcDzwFqFf1VO++bPGO86I60DjAXQ5KSiJJ+9JQ=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=D2+xuEaOBg6NSOKaaIk/HyluydzNPAzVLDZjHgwcW+pwbdfC1/U/ELio0xiIDlMk6
+	 W+VwwNkg4HXgLIzefoO2scSgdTXVQPXbakzNZLNSz57/f0/Y+sTk7PeMvCqBSGah6N
+	 Vgc/Z9tNcwaSlh4hM1OxVYbcCP6hhHXrZa4Cy810=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
+	20250623070343epcas2p2a6da5d633764311650e541a9c297a3e6~LmgRfQtKt0483104831epcas2p25;
+	Mon, 23 Jun 2025 07:03:43 +0000 (GMT)
+Received: from epcas2p1.samsung.com (unknown [182.195.36.88]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4bQfFB5Jlvz3hhTM; Mon, 23 Jun
+	2025 07:03:42 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
+	20250623070342epcas2p40b58c1bf858f69021e917deddc76015d~LmgP5NGdG0481904819epcas2p4h;
+	Mon, 23 Jun 2025 07:03:42 +0000 (GMT)
+Received: from KORCO117793 (unknown [12.36.188.221]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20250623070341epsmtip2595ecbbd0cb912e76fe85f5f7c924f4a~LmgP1hbE20757107571epsmtip20;
+	Mon, 23 Jun 2025 07:03:41 +0000 (GMT)
+From: =?ks_c_5601-1987?B?wMy9wrrz?= <seungbin.lee@samsung.com>
+To: <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<gregkh@linuxfoundation.org>, <perex@perex.cz>, <tiwai@suse.de>
+Cc: <pilsun.jang@samsung.com>, <s47.kang@samsung.com>,
+	<donghee.moon@samsung.com>
+Subject: [PATCH] ASoC: soc-compress: Fix race condition in soc_compr_open_fe
+Date: Mon, 23 Jun 2025 16:03:41 +0900
+Message-ID: <009401dbe40c$f3df4dc0$db9de940$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="ks_c_5601-1987"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdvkDPOwqDp8ee4vSw2zWHcjHl49Kg==
+Content-Language: ko
+X-CMS-MailID: 20250623070342epcas2p40b58c1bf858f69021e917deddc76015d
+X-Msg-Generator: CA
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+cpgsPolicy: CPGSC10-234,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250623070342epcas2p40b58c1bf858f69021e917deddc76015d
+References: <CGME20250623070342epcas2p40b58c1bf858f69021e917deddc76015d@epcas2p4.samsung.com>
 
-On Fr, 2025-06-20 at 16:00 +0530, Mohammad Rafi Shaik wrote:
-> On some Qualcomm platforms, such as QCS6490-RB3Gen2 and QCM6490-IDP,
-> multiple WSA8830/WSA8835 speakers share a common reset (shutdown) GPIO.
-> To handle such cases, use the reset controller framework along with the
-> "reset-gpio" driver.
->=20
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> ---
->  sound/soc/codecs/wsa883x.c | 57 ++++++++++++++++++++++++++++++++------
->  1 file changed, 48 insertions(+), 9 deletions(-)
->=20
-> diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-> index 13c9d4a6f015..b82b925c1f8d 100644
-> --- a/sound/soc/codecs/wsa883x.c
-> +++ b/sound/soc/codecs/wsa883x.c
-[...]
-> @@ -1547,6 +1549,44 @@ static const struct hwmon_chip_info wsa883x_hwmon_=
-chip_info =3D {
->  	.info	=3D wsa883x_hwmon_info,
->  };
-> =20
-> +static void wsa883x_reset_powerdown(void *data)
-> +{
-> +	struct wsa883x_priv *wsa883x =3D data;
-> +
-> +	if (wsa883x->sd_reset)
-> +		reset_control_assert(wsa883x->sd_reset);
-> +	else
-> +		gpiod_direction_output(wsa883x->sd_n, 1);
-> +}
-> +
-> +static void wsa883x_reset_deassert(struct wsa883x_priv *wsa883x)
-> +{
-> +	if (wsa883x->sd_reset)
-> +		reset_control_deassert(wsa883x->sd_reset);
-> +	else
-> +		gpiod_direction_output(wsa883x->sd_n, 0);
-> +}
-> +
-> +static int wsa883x_get_reset(struct device *dev, struct wsa883x_priv *ws=
-a883x)
-> +{
-> +	wsa883x->sd_reset =3D devm_reset_control_get_optional_shared(dev, NULL)=
-;
+From: Seungbin Lee <seungbin.lee@samsung.com>
+Date: Wed, 18 Jun 2025 13:33:02 +0900
+Subject: [PATCH] ASoC: soc-compress: Fix race condition in soc_compr_open_fe
 
-Since this driver only deasserts/asserts on probe/remove, you could use
-devm_reset_control_get_optional_shared_deasserted() and let the
-framework code handle the (de)assertion of sd_reset.
+If the soc_compr_trigger_fe function is called during snd_soc_dpcm_runtime_update execution,
+the FE's DPCM runtime update variable may be changed.
+Then the BE list connected to the FE flies away, and the BE cannot be closed.
 
-I wonder if the codec could also be put into reset during (runtime)
-suspend.
+This needs to be protected by the snd_soc_dpcm_mutex_lock.
 
-regards
-Philipp
+Change-Id: Ibfd1712e6baf41a30afa357a91ada83d205f968b
+Signed-off-by: Seungbin Lee <seungbin.lee@samsung.com>
+---
+ sound/soc/soc-compress.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/sound/soc/soc-compress.c b/sound/soc/soc-compress.c
+index fc8db54352541..1a2a3fe6a2340 100644
+--- a/sound/soc/soc-compress.c
++++ b/sound/soc/soc-compress.c
+@@ -286,6 +286,8 @@ static int soc_compr_trigger_fe(struct snd_compr_stream *cstream, int cmd)
+ 
+ 	snd_soc_card_mutex_lock(fe->card);
+ 
++	snd_soc_dpcm_mutex_lock(fe);
++
+ 	ret = snd_soc_dai_compr_trigger(cpu_dai, cstream, cmd);
+ 	if (ret < 0)
+ 		goto out;
+@@ -315,6 +317,8 @@ static int soc_compr_trigger_fe(struct snd_compr_stream *cstream, int cmd)
+ 
+ out:
+ 	fe->dpcm[stream].runtime_update = SND_SOC_DPCM_UPDATE_NO;
++	snd_soc_dpcm_mutex_unlock(fe);
++
+ 	snd_soc_card_mutex_unlock(fe->card);
+ 	return ret;
+ }
+-- 
+2.34.1
+
