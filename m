@@ -1,86 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E3727585C
-	for <linux-sound@vger.kernel.org>; Mon, 23 Jun 2025 15:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD418223328
+	for <linux-sound@vger.kernel.org>; Mon, 23 Jun 2025 15:10:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750691303; cv=none; b=QnhVyUj8D+RYAIBZJafWmKVZ24b12kw7HzpwUD/t3YrRzQSS11YQjLwKOebQ/yPqIpWR3vceCya0iKjsOaINAuxZ740dZwS4SuWycNP3wTiCvqVdjEa9WrEKPNZvwOEPDodABr+W+ZrIqKQ77nMgAeCbcVS8GkwItXa9D578OOA=
+	t=1750691404; cv=none; b=H7EnYbrpAB59z/aykFfq7YOJ3PWdJd84j89iBzr+NL0X4/fDoMvWnXIr5HFkzN40LZ+EwrIg65tiKxnbstBH5GGlV0F9yxeYWKmQCSy7UJqjdixdfJKwZwIHXhcJjnglc8xMvSnaKKTMD3BvmTo81R08gx3Iz2i0VGgtVOCfEBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750691303; c=relaxed/simple;
-	bh=lCHEKHDTBGA7sngthTxGgEm0DdxCj/5wv0WcOAMH1rc=;
+	s=arc-20240116; t=1750691404; c=relaxed/simple;
+	bh=Sr6/aCQ9znPK0NL2GOwKpOyKYgNPew7jDLwEkifHL80=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rnDsEn0n0oWiUb8yo3QGAoLjstmHo8axO0xSyWyqWhiy8wVWAw0prgj3MaNaWmNM/3RhCbNpGjkWgNgEfhQGFUv6nsUR/OFoaiBEBKDdmcsHL7uSwTgpHUZAdzkJN/FHroWxkYnqWIqGEtuRMdK5xq/KaEj35RkdF2Zbh/26JOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oBEnQcLd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qzjn4OTv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g2BfOa9Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bJ19qL1M; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=nd8bCxpDNuXykQxq7sfML9dWE1ePQ7I4SHWzGNDMFuPSxgKB74txpicvr3uPP/XoLXEZCgzC1kJwlbu1MQm8ZRSE+2m8jJYL6MJxBM1s5O9LRsIn3x26qvDjetG1Gn0+QZX01gL7BUgwcJ4vbJ35SIRUjV6SpGeSHXaXNzH6cz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YoZeGuAy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F5+uKMA4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ieetEjru; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1OQJtbvH; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oBEnQcLd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qzjn4OTv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g2BfOa9Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bJ19qL1M"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YoZeGuAy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F5+uKMA4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ieetEjru";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1OQJtbvH"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CFF081F391;
-	Mon, 23 Jun 2025 15:08:19 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CF56B1F385;
+	Mon, 23 Jun 2025 15:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750691300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1750691400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Jm17F0qCMLZaEtjGisUEhzTepmYvnFzS3mvvaRneJAw=;
-	b=oBEnQcLd/BH6a1PaEqTZA9wn786AWwaK1mYUp8QsmDXV0Rr+SxYUh/nI5J4YZLpQbyJXIW
-	tfrZNjNBUX7adiTLavlzHI9nohmi8BKyD0igVKeKGBGkN7kIfOq/Hd2FusIWLj1w+nB6K8
-	AFhmCX3OmHRZznilLK/EfEWWr65ynZU=
+	bh=T1dRgbIxqHurv3dSR//sEvbLJ0hF3p55nTvWWdq+TLc=;
+	b=YoZeGuAyk7uC4VcturGkRVX8EjFKtVogsK5oUqeOXE12c4crHVvl7J3C9N7OQUQRrmV+eB
+	U4jX7sYyNYzK5Fdkn4nJSng3U6zX6JawAgUe4/3ttRAP/Y+zQNKzgB7dFzuawp+Ip2xDos
+	LBT68qZ0+Q46yK1C9gHOdJ9xOO1JW8w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750691300;
+	s=susede2_ed25519; t=1750691400;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Jm17F0qCMLZaEtjGisUEhzTepmYvnFzS3mvvaRneJAw=;
-	b=Qzjn4OTvBiUP252OwBAO0qGPHpMZwgniIIIiJQAcxI3qlA0oBPGevbSrmHfH2tiAGoQn4a
-	41th81XD+GWBcvAQ==
+	bh=T1dRgbIxqHurv3dSR//sEvbLJ0hF3p55nTvWWdq+TLc=;
+	b=F5+uKMA4ZkDS/xgWcN4Ck9F7U4DSIg9Bl6MsQTtigqzpVROw63GShzWZwcdZoLJykFywEG
+	AdtQ5f/TMFNfa8Bg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=g2BfOa9Q;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bJ19qL1M
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ieetEjru;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1OQJtbvH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750691299; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1750691399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Jm17F0qCMLZaEtjGisUEhzTepmYvnFzS3mvvaRneJAw=;
-	b=g2BfOa9QTq+BfDYify54/Qiv/koTrnnA92LGszxSHSe682xY0sChZ3QdTVpWdE3irjVy7k
-	D6ZKxUPZQXq6q4D1smiuvz5AQCmlnfU0SoP9RmRsdj66JJNi4YO9fJ3v2a4aSts73GaQj7
-	x8sBw1KZHvIHfsi7YLmlTU/4Yz5wLJw=
+	bh=T1dRgbIxqHurv3dSR//sEvbLJ0hF3p55nTvWWdq+TLc=;
+	b=ieetEjrueTl3rs2HD48OvAXFhi5aSkspx/3GB9HRPerajQ6kUZJOpYXVskeTM+YD5jjNwc
+	p4ee/HjqCRtd4T/1gU9sU1XBH7r233CxgZuyQLSBgaGXg/2ZV1avXWjQB8SwdU5f5hs/0D
+	YUiN8xYGoTBwjbrZYjvFtJ/aN8jJ7zA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750691299;
+	s=susede2_ed25519; t=1750691399;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Jm17F0qCMLZaEtjGisUEhzTepmYvnFzS3mvvaRneJAw=;
-	b=bJ19qL1MImFgzJ5Yin9PpoZseyeqg70H/ZYqDStrNSqTKvK0VbYh8faWLiKMkJzdA2hBNo
-	RR59MkthcJ5gcMBg==
+	bh=T1dRgbIxqHurv3dSR//sEvbLJ0hF3p55nTvWWdq+TLc=;
+	b=1OQJtbvHiLA4wMj6nKk4pHlQLBi9a2E++HaIKds90qT2s/3yVt6Turq92o8VT9ZGmuXLxP
+	3XlysG7Sc/eDeiBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9DF3D13A27;
-	Mon, 23 Jun 2025 15:08:19 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A4E1313A27;
+	Mon, 23 Jun 2025 15:09:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ieiYJONtWWgTdAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 23 Jun 2025 15:08:19 +0000
-Date: Mon, 23 Jun 2025 17:08:19 +0200
-Message-ID: <87cyaumr6k.wl-tiwai@suse.de>
+	id E2dMJkduWWh4dAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 23 Jun 2025 15:09:59 +0000
+Date: Mon, 23 Jun 2025 17:09:59 +0200
+Message-ID: <87bjqemr3s.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Chris Chiu <chris.chiu@canonical.com>
-Cc: tiwai@suse.com,
-	kailang@realtek.com,
+To: Youngjun Lee <yjjuny.lee@samsung.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs for HP EliteBook 6 G1a
-In-Reply-To: <20250623063023.374920-1-chris.chiu@canonical.com>
-References: <20250623063023.374920-1-chris.chiu@canonical.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Fix out-of-bounds read in snd_usb_get_audioformat_uac3()
+In-Reply-To: <20250623-uac3-oob-fix-v1-1-527303eaf40a@samsung.com>
+References: <CGME20250623110528epcas1p3900a802d75f41ab81d30a527808bc094@epcas1p3.samsung.com>
+	<20250623-uac3-oob-fix-v1-1-527303eaf40a@samsung.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,7 +91,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: CFF081F391
+X-Rspamd-Queue-Id: CF56B1F385
 X-Rspamd-Action: no action
 X-Spam-Flag: NO
 X-Spamd-Result: default: False [-3.51 / 50.00];
@@ -120,14 +121,22 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 X-Spam-Score: -3.51
 X-Spam-Level: 
 
-On Mon, 23 Jun 2025 08:30:23 +0200,
-Chris Chiu wrote:
+On Mon, 23 Jun 2025 13:05:25 +0200,
+Youngjun Lee wrote:
 > 
-> HP EliteBook 6 G1a laptops use ALC236 codec and need the fixup
-> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF to make the mic/micmute LEDs
-> work.
+> In snd_usb_get_audioformat_uac3(), the length value returned from
+> snd_usb_ctl_msg() is used directly for memory allocation without
+> validation. This length is controlled by the USB device.
 > 
-> Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
+> The allocated buffer is cast to a uac3_cluster_header_descriptor
+> and its fields are accessed without verifying that the buffer
+> is large enough. If the device returns a smaller than expected
+> length, this leads to an out-of-bounds read.
+> 
+> Add a length check to ensure the buffer is large enough for
+> uac3_cluster_header_descriptor.
+> 
+> Signed-off-by: Youngjun Lee <yjjuny.lee@samsung.com>
 
 Applied now.  Thanks.
 
