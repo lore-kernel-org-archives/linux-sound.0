@@ -1,86 +1,176 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A2D1EFFBB
-	for <linux-sound@vger.kernel.org>; Mon, 23 Jun 2025 07:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4F11EFF9B
+	for <linux-sound@vger.kernel.org>; Mon, 23 Jun 2025 07:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750662707; cv=none; b=nuLYHDjInuUaa8evSBcq8hhcaNvkrLZnxNoK/9UbLb5Eb1ydKbh+D1c2fc7CIQo25M19Ja4T6Kom+JcjeUoJOWGNjwGpyrusYD4rElOHQkSny60RH3AogL2TEvN0yC1qZWnSvRcGJ9/ei72lx7ThIo6R/TNzA6DTNjJfADjXGY8=
+	t=1750663824; cv=none; b=V7F1P0WbrWjgf/wERQaMNDQH1yXwl1S0tAROMDHg7HZIs3TtGXuLiGqAyMM2PCMUAlXDkaYIYPXRAI3MErSjOYJG64jdYxxDtBUtTS7ZK9aotvdDkVx8e9no7p1MQkF9tD2Ai8YrP01C0YqsHc57iPs4dQ7VOfnpdxSkenjWgDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750662707; c=relaxed/simple;
-	bh=8E9pKEeqU9K5+berDfkrRQez1dGqpjpeYbjpaAzRN7U=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EAsVxOwuTb6xPWjqUsotBXgTysRfY145nI2O+qirLI6fqs0FAIX/5m7D8MbmQNHdnaktQFpO8vZWvojpWS0R6HM5eO3c3LS0RSTfgWyzWHf0H4qALp5LyAXhvc54Qa3FJXGvV+D7KMzt77Zt1LieRV8fJma+e2y9YR88wEdkGcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uTbL3-0003AE-8Z; Mon, 23 Jun 2025 09:11:33 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uTbL2-004uJr-0o;
-	Mon, 23 Jun 2025 09:11:32 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uTbL2-0005Oi-0T;
-	Mon, 23 Jun 2025 09:11:32 +0200
-Message-ID: <c1b2f651f73b4469a410f1f5027f974b4e07ddd2.camel@pengutronix.de>
-Subject: Re: [PATCH v1 2/2] ASoC: codecs: wsa883x: Handle shared reset GPIO
- for WSA883x speakers
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Mohammad Rafi
- Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, Srinivas Kandagatla
- <srini@kernel.org>,  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
- kernel@oss.qualcomm.com
-Date: Mon, 23 Jun 2025 09:11:32 +0200
-In-Reply-To: <f9f96bf0-3539-4e77-8d3e-b87ddc561925@oss.qualcomm.com>
-References: <20250620103012.360794-1-mohammad.rafi.shaik@oss.qualcomm.com>
-	 <20250620103012.360794-3-mohammad.rafi.shaik@oss.qualcomm.com>
-	 <f9f96bf0-3539-4e77-8d3e-b87ddc561925@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1750663824; c=relaxed/simple;
+	bh=1H4Bg1xSrIFZOITWzyXEdnXralTg6Df4XFkD/EzqYK4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OM9v4bpN02hYCBmssDgL4y7fQGaWsQyg8lqRRKZ4ygLFLArmXAB8et2QGthXZ+h3E70uvf+xZEdsCJIt4K8T8KAGL8H//vWNEUTsWkjthaui1IH4HseDjt/zTpg649l34nMG0ar+hr2eBV4xitPW9nqKdxeqi1lNomYzvtVxnhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zmh8NBlJ; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zmh8NBlJ"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a4f64cdc2dso565350f8f.1
+        for <linux-sound@vger.kernel.org>; Mon, 23 Jun 2025 00:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750663818; x=1751268618; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=JyX7Id45J55w0I/fP0ufUOPO5FO7kbptXGfhsQYTedw=;
+        b=zmh8NBlJ43y+YhVlIOzdEx82ohFYHpmrNJYOsfx7RTzGSJOR4D1yrF1GamsOXuBV59
+         yUsfQLWfopbxfhZl0PSIgFBjzR/ywxemqJaMYfvjwLAZzooaMI9/8uHtnhlXnahTVgBO
+         mt+gZWv6b40oo3HZaOgaOiu+SNXXYaPj6xnezt9dLIimEk919ivtIxtq+Nf22M9k4Qlo
+         HR5srk46NTpMr47ZNGbQ/wWA9BKOiBgdpKpZfXBl3yoxGCezBA4key8KSeT4lik0l95c
+         rcmHVU5Eu9isRI7nMdAYsvzR8X8zzP/F6ko0gY8oF8rIOA0AzjeD2lGz/BfXtxBWWbeC
+         ea7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750663818; x=1751268618;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JyX7Id45J55w0I/fP0ufUOPO5FO7kbptXGfhsQYTedw=;
+        b=APuLu9mOV9wyhjQuS0sOUCujK/NXGtixeMgwYXJZ3lywB64dg53jDsO+8lH4zPADvN
+         exHgd3f4uW/6VvBT0+tjUWKyJx2QjuLIxLKPX+LOatINdDX8bAb3SIzbhAtwzGh115t3
+         XSNMnOhKoHYRIHj6KaM31k7t9LMVrMKEzd5z7X6usJ/52qNvAQQQZrjuOJIx7PITh0zj
+         S8oz2wLuoHU+zPxSQwH0I05xa/0bQ+CvfYz8cP8WK1uvgShjGLWrhgVYiaEj8u/Fngz2
+         lXWObJmC3odX7qyzLURMgdoDbhyssoWgDReaEDDc/ojpbeRt5AXoxt1jNbsNl4A4XDPA
+         nkRg==
+X-Forwarded-Encrypted: i=1; AJvYcCVYmkWTJYKSsQXE/3uQGyWG0M3jxkhiDhDYSfMdvWb+OwMYZSpOAENAOOuYM+G/oYe4ESrm+tYq2+aTcQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNw6N4zw7rBaO9t2vVKOmIx1X24VHZ53EaOSd5rTn1cgbKVfpJ
+	bxvnIaVDTHNVfp9K1oRuEPcBItvqdJPmLnVDRgmj28De4RxN/+Xqh9r9ruVGTB3h0K4=
+X-Gm-Gg: ASbGncu/8GuZ0vb0/p8Ru85mU/rg8p4hcloTdtoS77NWvjOEGWUcXjk8R36E+UUv69x
+	9eRNHw0bR7j12NkzcV+89QuUYzfxmD0xHYWdYd6tFTDCIAqOf/nIPLDDmXy6ff6U2ujSlKFANcp
+	DUEGdpNq2zEvz7hzlXZji117CSn5gNKLSkK5jqdJU+F2pZM6VUqJ0RLD5DxmWH5fr7+VEE8iXQa
+	ARuhaKj5698ultmOak57cOwhgset9o4XH/XM4qfZyVMscTfK7Fp87jKzCTxhO9wodC7yKZ+pimJ
+	Tty5Y7OePnQwZb/GfRg1SaPce1OFxcdPQUGalGF/reGARfXrbnjUb5TF7/3ye74+a3UbhMkN+oF
+	8QT7CF+uXdnAPp5L/IQ==
+X-Google-Smtp-Source: AGHT+IE5sAJn2EldwKQPeiP4adLRE3U5OsQwf6bTownItGgAHFLMi64HBwYJ6D64VqjEns0LJrnYrg==
+X-Received: by 2002:a05:600c:3549:b0:43d:fa5e:50e6 with SMTP id 5b1f17b1804b1-453659ddde0mr39535235e9.9.1750663818470;
+        Mon, 23 Jun 2025 00:30:18 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.223.125])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646fd816sm101186905e9.24.2025.06.23.00.30.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jun 2025 00:30:17 -0700 (PDT)
+Message-ID: <16ae3a9e-4ba5-48a0-959c-4c593d1f90b6@linaro.org>
+Date: Mon, 23 Jun 2025 09:30:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 08/10] ASoC: dt-bindings: mediatek,mt8196-afe: add
+ support for MT8196 audio AFE controller
+To: =?UTF-8?B?RGFycmVuIFllICjlj7bpo54p?= <Darren.Ye@mediatek.com>,
+ "krzk@kernel.org" <krzk@kernel.org>,
+ "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+ "broonie@kernel.org" <broonie@kernel.org>, "brgl@bgdev.pl" <brgl@bgdev.pl>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, "tiwai@suse.com"
+ <tiwai@suse.com>, "robh@kernel.org" <robh@kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "perex@perex.cz"
+ <perex@perex.cz>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+References: <20250620094140.11093-1-darren.ye@mediatek.com>
+ <20250620094140.11093-9-darren.ye@mediatek.com>
+ <011093f8-85a1-4c3c-b3fa-7be9e6df8a25@kernel.org>
+ <3562cdd32d6f723a35ed063b65560a8e25801255.camel@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ 2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <3562cdd32d6f723a35ed063b65560a8e25801255.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fr, 2025-06-20 at 21:35 +0300, Dmitry Baryshkov wrote:
-> On 20/06/2025 13:30, Mohammad Rafi Shaik wrote:
-> > On some Qualcomm platforms, such as QCS6490-RB3Gen2 and QCM6490-IDP,
-> > multiple WSA8830/WSA8835 speakers share a common reset (shutdown) GPIO.
-> > To handle such cases, use the reset controller framework along with the
-> > "reset-gpio" driver.
->=20
-> How does this handle the fact that resetting one codec will also=20
-> silently reset another one?
+On 23/06/2025 08:52, Darren Ye (叶飞) wrote:
+>>> This patch adds initial support for the audio AFE(Audio Front End)
+>>> controller
+>>
+>> Why this was changed to undesired 'This patch' (see submitting
+>> patches)?
+>> I think you are circling back to previous versions, reintroducing
+>> issues
+>> fixed in between.
+> 
+> Thanks for you feedback. Just to confirm, for the next version, should
+> I revert the subject/description back to previous version and only drop
+> the document part, whitout making other changes?
+> 
+> 
+> Please see the following change:
+> 
+> ASoC: dt-bindings: mediatek,mt8196-afe: add audio AFE
 
-It's the other way around. Since shared reset controls have a common
-deassertion refcount, actual reset assertion only happens once
-reset_control_assert() has been called on all shared reset controls
-[1]. The speakers would only be put back into reset once the last one
-is unbound.
+Yes
 
-[1] https://docs.kernel.org/driver-api/reset.html#shared-and-exclusive-rese=
-ts
+> 
+> Add mt8196 audio AFE.
 
-regards
-Philipp
+This can be longer, but just read submitting patches regarding preferred
+style. Changing to less preferred makes me thinking you did not read
+that document.
+
+Anyway, don't send new version just for that.
+
+Best regards,
+Krzysztof
