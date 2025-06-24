@@ -1,117 +1,139 @@
-Received: from out28-125.mail.aliyun.com (out28-125.mail.aliyun.com [115.124.28.125])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C75372;
-	Tue, 24 Jun 2025 07:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56382248F7E
+	for <linux-sound@vger.kernel.org>; Tue, 24 Jun 2025 08:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750748601; cv=none; b=rUNAfw+VQLF5dU/lI3d5k8dPjEaQ95qfe/tuF37j40EELomj8vhH32leU+ccia96GZpDxXiK5l09GK5MCoAyoTu6NeD+YYhwNFgeN8HkcuchJk4oHT3PIpsJvRnSsI7BOHG4OYyKi0iBk+SpWuZOPhn0orRhzbWu6bINnznemUU=
+	t=1750752683; cv=none; b=blXxOiXW+L41uqR7qqeUsiXDmpyMn7vj2UbPpzzPR24D6OdXtZINU/T16ai1wDepTLt8CspwXs2CZ0pzGVFwCm5oH8eY9LQcKScWQR8bERaH5/p6mqKfWgQLZuYU7DiLpKyQruFb6GeS26l4VDGDxu1TCieqsYJaYKK/1wmDOPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750748601; c=relaxed/simple;
-	bh=5yxFHUftbyV+RMCcFSunsXqR9/ZdNxpPFMQ7e3zC6zc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k1JoWR6hv5D5gRds6MtIuIZFUS47cUYNEvbhEUx6e9OrDpEKE/uuNvUZH8psCwcwevT607bYkBpXgY+R0DzDo0Bud95t9/o4eNEHHxFu4SEqtFOWjDXUwDx+4sxsihnm5NC76GdryKjHF4YXfgb2TdUJfa500pKaRd43W3ZqahI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.dVKPy6z_1750748268 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Tue, 24 Jun 2025 14:57:50 +0800
-From: wangweidong.a@awinic.com
-To: broonie@kernel.org
-Cc: colin.i.king@gmail.com,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1750752683; c=relaxed/simple;
+	bh=CDbw7JAaAd0HXAZdAzS1WL4b7LmL8Bi0ELx/uNpOvPw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cDaUZC4QvAxrAfnz3oyGEeeukANy6G7gkF/+qs/aCruC6768dYlc4vrUFV6+LfCfW+Q6RFQhtvfhWilyKeM7SfWiFFv+Bpc2ZG5Y7O9x5TmcnXfP006z2otg/khTdewgYNrFQHKwd42m+ArG33/vJskuW1tBP1VGzIxZ3t84SMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0rsoSxPP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5Jy3CgFn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0rsoSxPP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5Jy3CgFn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0rsoSxPP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5Jy3CgFn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0rsoSxPP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5Jy3CgFn"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4607821192;
+	Tue, 24 Jun 2025 08:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750752675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5AdF4xuhAt3rJskHFdIpyRXilGik+8sjAdWXfveamwc=;
+	b=0rsoSxPPF5+T29CdDMXTf2aVNXsBpGvNBOxKPl6Ys+tabRkwkmtOFC0H2BYQyKQark52cj
+	71nHi5hszJx87fDEFAs1CfGHxz3IXIXpl5F+qf/3T22/nFbi+KtAfxkeQvN7ATDYQ1SyO/
+	zJaASk7Cilded/yUtLMcXDyPJ7IgSRk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750752675;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5AdF4xuhAt3rJskHFdIpyRXilGik+8sjAdWXfveamwc=;
+	b=5Jy3CgFn6f+Bepqw7iYvUEsNJ+Jiaov8+uq6eZlPqOt1HHtj2jVUMAgQUWl/+K2kc/9yk3
+	wQPhzG4aQiWkJ8Dg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750752675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5AdF4xuhAt3rJskHFdIpyRXilGik+8sjAdWXfveamwc=;
+	b=0rsoSxPPF5+T29CdDMXTf2aVNXsBpGvNBOxKPl6Ys+tabRkwkmtOFC0H2BYQyKQark52cj
+	71nHi5hszJx87fDEFAs1CfGHxz3IXIXpl5F+qf/3T22/nFbi+KtAfxkeQvN7ATDYQ1SyO/
+	zJaASk7Cilded/yUtLMcXDyPJ7IgSRk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750752675;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5AdF4xuhAt3rJskHFdIpyRXilGik+8sjAdWXfveamwc=;
+	b=5Jy3CgFn6f+Bepqw7iYvUEsNJ+Jiaov8+uq6eZlPqOt1HHtj2jVUMAgQUWl/+K2kc/9yk3
+	wQPhzG4aQiWkJ8Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5AB013751;
+	Tue, 24 Jun 2025 08:11:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6JHaNqJdWmgaBAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 24 Jun 2025 08:11:14 +0000
+Date: Tue, 24 Jun 2025 10:11:14 +0200
+Message-ID: <87sejplftp.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Mark Brown <broonie@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	thorsten.blum@linux.dev,
-	tiwai@suse.com,
-	u.kleine-koenig@baylibre.com,
-	wangweidong.a@awinic.com,
-	yijiangtao@awinic.com,
-	zhujun2@cmss.chinamobile.com
-Subject: Re: [PATCH V2] ASoC: codecs: Add calibration function to aw88399 chip
-Date: Tue, 24 Jun 2025 14:57:48 +0800
-Message-ID: <20250624065748.60509-1-wangweidong.a@awinic.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <aFVgVTIe5oT0MkZy@finisterre.sirena.org.uk>
-References: <aFVgVTIe5oT0MkZy@finisterre.sirena.org.uk>
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	error27@gmail.com
+Subject: Re: [PATCH] ALSA: qc_audio_offload: Fix missing error code in prepare_qmi_response()
+In-Reply-To: <20250623142639.2938056-1-harshit.m.mogalapalli@oracle.com>
+References: <20250623142639.2938056-1-harshit.m.mogalapalli@oracle.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,wanadoo.fr];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,linuxfoundation.org,quicinc.com,kernel.org,arndb.de,linaro.org,wanadoo.fr,vger.kernel.org,gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,linaro.org:email]
+X-Spam-Level: 
 
-Thank you very much for your review=0D
-=0D
-On Fri, Jun 20, 2025 at 14:21:25PM +0100, broonie@kernel.org wrote:=0D
-> On Fri, Jun 20, 2025 at 07:08:44PM +0800, wangweidong.a@awinic.com wrote:=
-=0D
-=0D
->> +static int aw_cali_svc_dev_cali_re(struct aw88399 *aw88399)=0D
->> +{=0D
->> +	struct aw_device *aw_dev =3D aw88399->aw_pa;=0D
->> +	int ret;=0D
->> +=0D
->> +	mutex_lock(&aw88399->lock);=0D
->> +	aw_cali_svc_run_mute(aw_dev, CALI_RESULT_NORMAL);=0D
->> +=0D
->> +	ret =3D aw_cali_svc_cali_re_mode_enable(aw_dev, true);=0D
->> +	if (ret) {=0D
->> +		dev_err(aw_dev->dev, "start cali re failed\n");=0D
->> +		goto re_mode_err;=0D
->> +	}=0D
->> +=0D
->> +	msleep(3000);=0D
-=0D
-> Callibration takes 3s which is a fairly long time.=0D
-=0D
-This time is because the chip needs to wait for =0D
-the data to stabilise during calibration =0D
-in order to ensure more accurate calibration values.=0D
-I will reduce this time to 1s.=0D
-=0D
->> @@ -1588,6 +1968,13 @@ static int aw88399_re_get(struct snd_kcontrol *kc=
-ontrol,=0D
->>  	struct snd_soc_component *codec =3D snd_soc_kcontrol_component(kcontro=
-l);=0D
->>  	struct aw88399 *aw88399 =3D snd_soc_component_get_drvdata(codec);=0D
->>  	struct aw_device *aw_dev =3D aw88399->aw_pa;=0D
->> +	int ret;=0D
->> +=0D
->> +	if (aw_dev->status) {=0D
->> +		ret =3D aw_cali_svc_dev_cali_re(aw88399);=0D
->> +		if (ret)=0D
->> +			return -EPERM;=0D
->> +	}=0D
-=0D
-> AFAICT it's triggered if the device is powered on and userspace reads=0D
-> the control that reports the callibration value.  That seems like it's a=
-=0D
-> bit too easy to trigger - something like running amixer would read the=0D
-> control and lock the CODEC up for 3s, and I'm guessing that if the CODEC=
-=0D
-> is powered due to audio playing that'd result in disruption to users=0D
-> listening to that audio.  I think it'd be better to have another write=0D
-> only control (or volatile one which reads 0 always) that triggers the=0D
-> calibration when userspace writes to it ("Calibrate Now Switch" or=0D
-> something).  Since the calibration is also directly writable from=0D
-> userspace we can't just use a write to this control.  In general it=0D
-> should always be possible to read controls without disrupting anything=0D
-> else that's going on.=0D
-=0D
-> BTW since the calibration is dynamically done the control should be=0D
-> flagged as volatile.=0D
-I will make the following two changes:=0D
-1.Add an additional "Calib Switch" Kcontrol to =0D
-  indicate whether calibration operations can be performed.=0D
-2.Add "Trigger Calib" to Kcontrol. =0D
-  This Kcontrol is write-only. When calibration is allowed,=0D
-  perform the calibration operation.=0D
-=0D
-Thank you again.=0D
-=0D
-Best regards,=0D
-Weidong Wang=0D
+On Mon, 23 Jun 2025 16:26:27 +0200,
+Harshit Mogalapalli wrote:
+> 
+> When snd_soc_usb_find_priv_data() fails, return failure instead of
+> success. While we are at it also use direct returns at first few error
+> paths where there is no additional cleanup needed.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/all/Z_40qL4JnyjR4j0O@stanley.mountain/
+> Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
+> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+
+Thanks, applied now.
+
+
+Takashi
