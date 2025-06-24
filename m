@@ -1,203 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99112E610B;
-	Tue, 24 Jun 2025 16:48:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34449170826;
+	Tue, 24 Jun 2025 19:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750783729; cv=none; b=KuoIaMrPDy0+lPWIdvUEYgAv0AIV5DZxukEF665FaKJul3pDgSfpofTEwjXZ6z840+eO5XIyJeVpaBGI6Mb6b5xhw7ASuZxRSIitPLxfI6zltUtswqMCVtF1eMbWpS7yly2yMz3p/bVJK7tLFwo1EbMbKIwRRaPlF/HJMRGuAMA=
+	t=1750792345; cv=none; b=F8poT7H7+k1/tVxxG3y/AT3Xr1Bn/Cp/TxekkKhGC0+2IzmJ/7Kxgzas3bmGcUsLigCBwof6+UP5KqAn5KexX7jf3hFGNJCI50niUXCA+dhmGuoYfku8VB5DeambJ0Y1NgyuA9NYwc5dQdJWIE4ChfjDrNhBnXgOy4Q2Q4GdG6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750783729; c=relaxed/simple;
-	bh=oQ1jbpZY26uLhcovpi99AHhjhynbQIDhCOwniw/kLP0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iuhwGsEa8SrOAad6pSsBt5GkRTE6DBpbP9hsK6wIgl9zrU1HAweTqPK9X4ZZCFXfuEfBEVUH4kNFL7uGZZJgzmVNAKoumsVnTmiQjkgXrKSRpROYoeFHR+9ZMv/38uffRszrj+IcntkHq8N9/OXSrL5/dU/nsO29iBHjfWVPH8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TfvzZR/f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750792345; c=relaxed/simple;
+	bh=2aydhy8/TYUYSu7UbTfOAnvVmmk+OduayyCx4UJx7Xo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fSE/VCMHu8kmVI0iDHx5mSvyccNzOIbb2WIFdT4Od049ZMhfH0nxcmo7fJl2f1RxxqRbpVL9LT7CtCVQXh8F2XxYJ7QWcqCrXML0/37SvjJE+Yfzsyu233QTUOlcJQnK+fymHdlepx/5ma0nzJyxatdCLSsvLDEOkq1/zgwrgmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eo31JjoI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TfvzZR/f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A303AC4CEE3;
-	Tue, 24 Jun 2025 16:48:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eo31JjoI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD5BC4CEEF;
+	Tue, 24 Jun 2025 19:12:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750783728;
-	bh=oQ1jbpZY26uLhcovpi99AHhjhynbQIDhCOwniw/kLP0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TfvzZR/fYpui/a9fNXGb7tsI/EUZhlLeCnYb27CR99Srqf6zNPIOsJlmfeTuFanQd
-	 +U8LSrvF2KJfjmg9Dj8afnFHGuJNPLwcACdFl9oekBU5rVtPUCXwyKp49bEiA6va0G
-	 D822dRBTWbaEg42k/S41DXH5Fm+CLGFZTkyzOG7ykSr4sOkWqV+nX+CXeB3OUOogMJ
-	 +hsktnQLM+lh57CpY8wjn/nzK9UO55m2DoY0PiaAF+ylQ4aV6DjBd16hW7pTGD+Piy
-	 9tWuJ4Lfcrmp1JfhNZoShtc5/hVK1DzqJLhRd0eqhUmr1upBlQhxNkTsFcvNdSBGMt
-	 ys6f6Kg5zVTRA==
-Message-ID: <939129a9-0a93-4539-b651-b08fcddf57b5@kernel.org>
-Date: Tue, 24 Jun 2025 11:48:45 -0500
+	s=k20201202; t=1750792345;
+	bh=2aydhy8/TYUYSu7UbTfOAnvVmmk+OduayyCx4UJx7Xo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Eo31JjoI+IdZVNPciylTBZoO+FwvjiY+o25DOjLuFbQ1+DE3mcTJqQFzuD9uaJDcF
+	 FAYpdziddQLuaNabIa63rD1/oYs83g3OiKaYhkaNZnl2ikp0WUoFEP4D5oRh7mFeD2
+	 WfkWoAtyOHo20Hg1dyO27r5ZgVFIindza29qqF0XuCaut2VDwpCMHx0sHtDgsJgY4u
+	 q7uifl+QvMUIJi1OKNythNRo4QFVLZm70Gm4NZT2yeFkekY9TclPHlV5HrEV6kj9YI
+	 HZYxQLM0vpd/s2cc2AQamasw1tVHrYnrPyriYt4xUokNBEBkwbErCIx5oFx5FOMVf4
+	 6nz2VgcAd874Q==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Tamura Dai <kirinode0@gmail.com>
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250615235548.8591-1-kirinode0@gmail.com>
+References: <20250615235548.8591-1-kirinode0@gmail.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: hda: Use devm_kstrdup() to avoid
+ memleak.
+Message-Id: <175079234144.274448.17790781183539385240.b4-ty@kernel.org>
+Date: Tue, 24 Jun 2025 20:12:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 7/8] PCI/VGA: Move check for firmware default out of
- VGA arbiter
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20250623184757.3774786-1-superm1@kernel.org>
- <20250623184757.3774786-8-superm1@kernel.org>
- <f0e70269-b55e-4ac8-b052-da092a177eda@suse.de>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <f0e70269-b55e-4ac8-b052-da092a177eda@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-08c49
 
-On 6/24/25 4:21 AM, Thomas Zimmermann wrote:
+On Mon, 16 Jun 2025 08:55:48 +0900, Tamura Dai wrote:
+> sof_pdata->tplg_filename can have address allocated by kstrdup()
+> and can be overwritten. Memory leak was detected with kmemleak:
 > 
+> unreferenced object 0xffff88812391ff60 (size 16):
+>   comm "kworker/4:1", pid 161, jiffies 4294802931
+>   hex dump (first 16 bytes):
+>     73 6f 66 2d 68 64 61 2d 67 65 6e 65 72 69 63 00  sof-hda-generic.
+>   backtrace (crc 4bf1675c):
+>     __kmalloc_node_track_caller_noprof+0x49c/0x6b0
+>     kstrdup+0x46/0xc0
+>     hda_machine_select.cold+0x1de/0x12cf [snd_sof_intel_hda_generic]
+>     sof_init_environment+0x16f/0xb50 [snd_sof]
+>     sof_probe_continue+0x45/0x7c0 [snd_sof]
+>     sof_probe_work+0x1e/0x40 [snd_sof]
+>     process_one_work+0x894/0x14b0
+>     worker_thread+0x5e5/0xfb0
+>     kthread+0x39d/0x760
+>     ret_from_fork+0x31/0x70
+>     ret_from_fork_asm+0x1a/0x30
 > 
-> Am 23.06.25 um 20:47 schrieb Mario Limonciello:
->> From: Mario Limonciello <mario.limonciello@amd.com>
->>
->> The x86 specific check for whether a framebuffer belongs to a device
->> works for display devices as well as VGA devices.  Callers to
->> video_is_primary_device() can benefit from checking non-VGA display
->> devices.
->>
->> Move the x86 specific check into x86 specific code, and adjust VGA
->> arbiter to call that code as well. This allows fbcon to find the
->> right PCI device on systems that don't have VGA devices.
->>
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->> ---
->> v4:
->>   * use helper
->> ---
->>   arch/x86/video/video-common.c | 13 ++++++++++++-
->>   drivers/pci/vgaarb.c          | 36 ++---------------------------------
->>   2 files changed, 14 insertions(+), 35 deletions(-)
->>
->> diff --git a/arch/x86/video/video-common.c b/arch/x86/video/video- 
->> common.c
->> index 81fc97a2a837a..917568e4d7fb1 100644
->> --- a/arch/x86/video/video-common.c
->> +++ b/arch/x86/video/video-common.c
->> @@ -9,6 +9,7 @@
->>   #include <linux/module.h>
->>   #include <linux/pci.h>
->> +#include <linux/screen_info.h>
->>   #include <linux/vgaarb.h>
->>   #include <asm/video.h>
->> @@ -27,6 +28,7 @@ EXPORT_SYMBOL(pgprot_framebuffer);
->>   bool video_is_primary_device(struct device *dev)
->>   {
->> +    struct screen_info *si = &screen_info;
->>       struct pci_dev *pdev;
->>       if (!dev_is_pci(dev))
->> @@ -34,7 +36,16 @@ bool video_is_primary_device(struct device *dev)
->>       pdev = to_pci_dev(dev);
->> -    return (pdev == vga_default_device());
->> +    if (!pci_is_display(pdev))
->> +        return false;
->> +
->> +    if (pdev == vga_default_device())
->> +        return true;
->> +
->> +    if (pdev == screen_info_pci_dev(si))
->> +        return true;
->> +
->> +    return false;
->>   }
->>   EXPORT_SYMBOL(video_is_primary_device);
->> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->> index 78748e8d2dbae..15ab58c70b016 100644
->> --- a/drivers/pci/vgaarb.c
->> +++ b/drivers/pci/vgaarb.c
->> @@ -26,12 +26,12 @@
->>   #include <linux/poll.h>
->>   #include <linux/miscdevice.h>
->>   #include <linux/slab.h>
->> -#include <linux/screen_info.h>
->>   #include <linux/vt.h>
->>   #include <linux/console.h>
->>   #include <linux/acpi.h>
->>   #include <linux/uaccess.h>
->>   #include <linux/vgaarb.h>
->> +#include <asm/video.h>
->>   static void vga_arbiter_notify_clients(void);
->> @@ -554,38 +554,6 @@ void vga_put(struct pci_dev *pdev, unsigned int 
->> rsrc)
->>   }
->>   EXPORT_SYMBOL(vga_put);
->> -static bool vga_is_firmware_default(struct pci_dev *pdev)
->> -{
->> -#if defined(CONFIG_X86)
->> -    u64 base = screen_info.lfb_base;
->> -    u64 size = screen_info.lfb_size;
->> -    struct resource *r;
->> -    u64 limit;
->> -
->> -    /* Select the device owning the boot framebuffer if there is one */
->> -
->> -    if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
->> -        base |= (u64)screen_info.ext_lfb_base << 32;
->> -
->> -    limit = base + size;
->> -
->> -    /* Does firmware framebuffer belong to us? */
->> -    pci_dev_for_each_resource(pdev, r) {
->> -        if (resource_type(r) != IORESOURCE_MEM)
->> -            continue;
->> -
->> -        if (!r->start || !r->end)
->> -            continue;
->> -
->> -        if (base < r->start || limit >= r->end)
->> -            continue;
->> -
->> -        return true;
->> -    }
->> -#endif
->> -    return false;
->> -}
->> -
->>   static bool vga_arb_integrated_gpu(struct device *dev)
->>   {
->>   #if defined(CONFIG_ACPI)
->> @@ -623,7 +591,7 @@ static bool vga_is_boot_device(struct vga_device 
->> *vgadev)
->>       if (boot_vga && boot_vga->is_firmware_default)
->>           return false;
->> -    if (vga_is_firmware_default(pdev)) {
->> +    if (video_is_primary_device(&pdev->dev)) {
-> 
-> Doesn't this generate a cyclic dependency between vgaarb and video? I 
-> find this call cycle hard to reason about because 
-> vgaarb_default_device() depends on the results of these boot-device 
-> tests. Maybe keep vga_is_firmware_default() and just replace its content 
-> with a call to screen_info_pci_dev().
-> Best regards
-> Thomas
+> [...]
 
-OK, I'll do that, thanks.
+Applied to
 
-> 
->>           vgadev->is_firmware_default = true;
->>           return true;
->>       }
-> 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: SOF: Intel: hda: Use devm_kstrdup() to avoid memleak.
+      commit: 6c038b58a2dc5a008c7e7a1297f5aaa4deaaaa7e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
