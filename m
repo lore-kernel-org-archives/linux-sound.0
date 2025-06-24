@@ -1,93 +1,95 @@
-Received: from mail.postale.io (mail.postale.io [3.136.239.197])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041D338F9C;
-	Tue, 24 Jun 2025 04:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.136.239.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E37CB652;
+	Tue, 24 Jun 2025 04:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750739673; cv=none; b=A+M5k9rlrvweUKpRvS/mhftKun5IezOIoQC9XpQPvH8MwNttuUB9dIqlBeeRfPe8Q8JWVIXgM15D9nfMP2Wg3EC2aLLstOAQToixSOmcNnatkD3qpf1KHq57ctk478Az8Bf0yBaN6zF8cM7S057VkUuqOWURr11ubaDVjfbFE6Y=
+	t=1750740256; cv=none; b=ZMIhutsfOx6V8qsdx0pv3R/LQ1ReTcYd/Byv4aThUJ+8FU4R/iZwbbA2R8yTiceXNfAxAd99f/4pRyN0S7aPIXSNgaPv5SQLhvLDLgEP/PlLpN2JpdDEjwods05CFVSbdq82RZcuEqfn6wFboqITFPMaQJqCHMuuFueisQZsdlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750739673; c=relaxed/simple;
-	bh=HLJex5AUKx/+gXv4/Jh5B0qZpNxDDVXokDOpEZVZUF4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ny5xGkzhBOpVYVHDCxrYsMCEtAVIbsVhMeuJisJZ8BSL20aTTRY0OHb6ZA9HFOy3UNuYyldrMg9OsdruBUhGLxxaJZRRUGV9bXi0dy8XoFPbRMs43WwwwTei/v390y2vIUUCu4DprLQNNgkZ2xR2qF2xOWwlLTxuk/QCen1CG+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=glxys.nl; spf=pass smtp.mailfrom=glxys.nl; dkim=pass (1024-bit key) header.d=glxys.nl header.i=@glxys.nl header.b=GfeUtc2s; arc=none smtp.client-ip=3.136.239.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=glxys.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=glxys.nl
+	s=arc-20240116; t=1750740256; c=relaxed/simple;
+	bh=70vF/+LDkN4q7jTfHlGAIAhxNTippQO8QdvV+YYKln0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HQhckBpxnIgfvs3RBd+JFVbLnC8kp/rgRP5ve00N7Rl2pc/ghtM3uzlpMcLMFHFtiS7vZILbp4AlzRYtd1DGtKX/Zhx+kOjo59g7ydsErZkimmASwWTIreA3/VYRccfnfiBaKDizbpCak2Uxm+4+S4E4hHN/QsHuE5eHKEO/ess=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LtJg/Vod; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=glxys.nl header.i=@glxys.nl header.b="GfeUtc2s"
-Authentication-Results: mail.postale.io;
-	auth=pass (plain)
-From: GalaxySnail <me@glxys.nl>
-To: lkp@intel.com
-Cc: david.rhodes@cirrus.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	me@glxys.nl,
-	oe-kbuild-all@lists.linux.dev,
-	patches@opensource.cirrus.com,
-	perex@perex.cz,
-	rf@opensource.cirrus.com,
-	tiwai@suse.com
-Subject: [PATCH v2] ALSA: hda: add MODULE_FIRMWARE for cs35l41/cs35l56
-Date: Tue, 24 Jun 2025 12:31:21 +0800
-Message-ID: <20250624043120.2119742-2-me@glxys.nl>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <202506241158.kxrazQoo-lkp@intel.com>
-References: <202506241158.kxrazQoo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LtJg/Vod"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750740255; x=1782276255;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=70vF/+LDkN4q7jTfHlGAIAhxNTippQO8QdvV+YYKln0=;
+  b=LtJg/VodfdOJE0vsCBm0M4TQNyrN5nxq20QX2i5afMTULXVLmiHC9azW
+   1bbBRV5aRdiPdCxhmk1i/VmAEFTPDikYXq+RVBk7Qpc6FFBhMMw0clXcn
+   f+JxwNu8kJG9+gGgX7DrLbWj+rb3wBZJyp2+fittPdZpNRpKTy+WdyQyf
+   acgfAmLpuuhr6wBpHVhwUDW03GDtsZ41YSPz2e4e539FcaDUHDtekXxdH
+   Xzva66R3IRroVEN/1+Ld4fbb9G5I96u4zVg8DRfYxZGFbMHDx09/LMoaE
+   hAXQw27z7s+/UU2FY/D+eoVF8/xU+Q3ZKnszsDz6JDWZjb8FZ32SaACMh
+   A==;
+X-CSE-ConnectionGUID: d47SEBL/Rcq+3r46AZ9mkQ==
+X-CSE-MsgGUID: CVxzRt2oQeSNyGOIIrXJ5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="53097156"
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="53097156"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 21:44:14 -0700
+X-CSE-ConnectionGUID: /IMDF3uBQ862VPPddpuBuw==
+X-CSE-MsgGUID: ZdH+2z/NRSGVG1dkvjtRHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="157578062"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 21:44:08 -0700
+Message-ID: <06992407-0c84-4f3f-a89a-5986024928a4@linux.intel.com>
+Date: Tue, 24 Jun 2025 12:42:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received: from localhost (Unknown [127.0.0.1])
-	by mail.postale.io  with ESMTPSA id A4F82316-DE20-478E-AEAB-1A2E688300B5.1
-	envelope-from <me@glxys.nl>
-	tls TLS_AES_256_GCM_SHA384 (authenticated bits=0);
-	Tue, 24 Jun 2025 04:34:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=glxys.nl; s=s20221125375;
-	h=from:subject:date:message-id:to:cc:mime-version;
-	bh=HLJex5AUKx/+gXv4/Jh5B0qZpNxDDVXokDOpEZVZUF4=;
-	b=GfeUtc2slL3zfPMcf2qI8umKz0h399zumbdVpEJDiskzaUd92jTIiNWgoOPoBdu/Pkm+qJ4VMo
-	BGz8o0meAE7jCi4VlNXv53fZOSE7R0v2ca4fK1lxqaVJyyQCdnhxFx4r24CIcmCmpPNBRZvS2aTw
-	udpQsPLiKiHEWnaY9NMxg=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/8] iommu/vt-d: Use pci_is_display()
+To: Mario Limonciello <superm1@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Woodhouse <dwmw2@infradead.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+ "open list:SOUND" <linux-sound@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>
+References: <20250623184757.3774786-1-superm1@kernel.org>
+ <20250623184757.3774786-5-superm1@kernel.org>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <20250623184757.3774786-5-superm1@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-add firmware information in the .modinfo section, so that userspace
-tools can find out firmware required by cs35l41/cs32l56 kernel module
+On 6/24/25 02:47, Mario Limonciello wrote:
+> From: Mario Limonciello<mario.limonciello@amd.com>
+> 
+> The inline pci_is_display() helper does the same thing.  Use it.
+> 
+> Reviewed-by: Daniel Dadap<ddadap@nvidia.com>
+> Reviewed-by: Simona Vetter<simona.vetter@ffwll.ch>
+> Suggested-by: Bjorn Helgaas<helgaas@kernel.org>
+> Signed-off-by: Mario Limonciello<mario.limonciello@amd.com>
 
-Signed-off-by: GalaxySnail <me@glxys.nl>
----
-v1 -> v2: fixed missing ';' in the previous patch
-
- sound/pci/hda/cs35l41_hda.c | 2 ++
- sound/pci/hda/cs35l56_hda.c | 4 ++++
- 2 files changed, 6 insertions(+)
-
-diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
-index d5bc81099d0d..f71f6aca0601 100644
---- a/sound/pci/hda/cs35l41_hda.c
-+++ b/sound/pci/hda/cs35l41_hda.c
-@@ -2085,3 +2085,5 @@ MODULE_IMPORT_NS("SND_SOC_CS_AMP_LIB");
- MODULE_AUTHOR("Lucas Tanure, Cirrus Logic Inc, <tanureal@opensource.cirrus.com>");
- MODULE_LICENSE("GPL");
- MODULE_IMPORT_NS("FW_CS_DSP");
-+MODULE_FIRMWARE("cirrus/cs35l41-*.wmfw");
-+MODULE_FIRMWARE("cirrus/cs36l41-*.bin");
-diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-index 3f2fd32f4ad9..eedd8fdd3b8b 100644
---- a/sound/pci/hda/cs35l56_hda.c
-+++ b/sound/pci/hda/cs35l56_hda.c
-@@ -1122,3 +1122,7 @@ MODULE_IMPORT_NS("SND_SOC_CS_AMP_LIB");
- MODULE_AUTHOR("Richard Fitzgerald <rf@opensource.cirrus.com>");
- MODULE_AUTHOR("Simon Trimmer <simont@opensource.cirrus.com>");
- MODULE_LICENSE("GPL");
-+MODULE_FIRMWARE("cirrus/cs35l54-*.wmfw");
-+MODULE_FIRMWARE("cirrus/cs35l54-*.bin");
-+MODULE_FIRMWARE("cirrus/cs35l56-*.wmfw");
-+MODULE_FIRMWARE("cirrus/cs35l56-*.bin");
--- 
-2.50.0
-
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
