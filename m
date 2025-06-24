@@ -1,95 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E37CB652;
-	Tue, 24 Jun 2025 04:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE7A1991DD;
+	Tue, 24 Jun 2025 06:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750740256; cv=none; b=ZMIhutsfOx6V8qsdx0pv3R/LQ1ReTcYd/Byv4aThUJ+8FU4R/iZwbbA2R8yTiceXNfAxAd99f/4pRyN0S7aPIXSNgaPv5SQLhvLDLgEP/PlLpN2JpdDEjwods05CFVSbdq82RZcuEqfn6wFboqITFPMaQJqCHMuuFueisQZsdlU=
+	t=1750745183; cv=none; b=hpnaynZ+wOr0ugNUMlXHdTrbzRKXWvr4o0F3GEKWORzDL1o9cr/9PLrGHbNAFx2a/t4e4OVk37/3NF4ruhC572hWqRZQRD1kjUQoKmwmXJ8kCkkIgN+zk5F6J8I//DXGSno/4Vua9UGE0tN4qfzroWRM+p+ZWqMxXkGPSdhCqf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750740256; c=relaxed/simple;
-	bh=70vF/+LDkN4q7jTfHlGAIAhxNTippQO8QdvV+YYKln0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HQhckBpxnIgfvs3RBd+JFVbLnC8kp/rgRP5ve00N7Rl2pc/ghtM3uzlpMcLMFHFtiS7vZILbp4AlzRYtd1DGtKX/Zhx+kOjo59g7ydsErZkimmASwWTIreA3/VYRccfnfiBaKDizbpCak2Uxm+4+S4E4hHN/QsHuE5eHKEO/ess=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LtJg/Vod; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LtJg/Vod"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750740255; x=1782276255;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=70vF/+LDkN4q7jTfHlGAIAhxNTippQO8QdvV+YYKln0=;
-  b=LtJg/VodfdOJE0vsCBm0M4TQNyrN5nxq20QX2i5afMTULXVLmiHC9azW
-   1bbBRV5aRdiPdCxhmk1i/VmAEFTPDikYXq+RVBk7Qpc6FFBhMMw0clXcn
-   f+JxwNu8kJG9+gGgX7DrLbWj+rb3wBZJyp2+fittPdZpNRpKTy+WdyQyf
-   acgfAmLpuuhr6wBpHVhwUDW03GDtsZ41YSPz2e4e539FcaDUHDtekXxdH
-   Xzva66R3IRroVEN/1+Ld4fbb9G5I96u4zVg8DRfYxZGFbMHDx09/LMoaE
-   hAXQw27z7s+/UU2FY/D+eoVF8/xU+Q3ZKnszsDz6JDWZjb8FZ32SaACMh
-   A==;
-X-CSE-ConnectionGUID: d47SEBL/Rcq+3r46AZ9mkQ==
-X-CSE-MsgGUID: CVxzRt2oQeSNyGOIIrXJ5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="53097156"
-X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="53097156"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 21:44:14 -0700
-X-CSE-ConnectionGUID: /IMDF3uBQ862VPPddpuBuw==
-X-CSE-MsgGUID: ZdH+2z/NRSGVG1dkvjtRHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="157578062"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 21:44:08 -0700
-Message-ID: <06992407-0c84-4f3f-a89a-5986024928a4@linux.intel.com>
-Date: Tue, 24 Jun 2025 12:42:51 +0800
+	s=arc-20240116; t=1750745183; c=relaxed/simple;
+	bh=zyuthmMGbNOvqlF/tjoKHpLbIAe+30SOZPWwJpDllQ8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ej6jE2b8lxUGAoYYbD57KCC4zbsQgAqcl55gAXGFNRF6INK+4oKAne+710MLDOj7fw3xCWsv7sHgNTUMqgzgKhXdfkW5ve+AR78DbxT3IkUso72SVogPZMlDiVr9IUWPYCQn5y3OjS58zX9dvSes5reKB7Y4cKfNwO4MLmaR8F8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 5505a89e50c111f0b29709d653e92f7d-20250624
+X-CTIC-Tags:
+	HR_CC_AS_FROM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_DIGIT_LEN
+	HR_FROM_NAME, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, CIE_BAD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
+	GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI, AMN_C_BU
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:60ef29b2-48e7-4bfb-b64f-44f3e89c42ee,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:20
+X-CID-INFO: VERSION:1.1.45,REQID:60ef29b2-48e7-4bfb-b64f-44f3e89c42ee,IP:0,URL
+	:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:20
+X-CID-META: VersionHash:6493067,CLOUDID:605243b45c863a5a1380aab1059dd500,BulkI
+	D:250624140613P6WC34EL,BulkQuantity:0,Recheck:0,SF:17|19|38|66|78|102,TC:n
+	il,Content:0|50,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil
+	,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-UUID: 5505a89e50c111f0b29709d653e92f7d-20250624
+X-User: xiaopei01@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <xiaopei01@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1602980613; Tue, 24 Jun 2025 14:06:13 +0800
+From: Pei Xiao <xiaopei01@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz,
+	quic_wcheng@quicinc.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Pei Xiao <xiaopei01@kylinos.cn>
+Subject: [PATCH] ALSA: usb-audio: qcom: fix NULL pointer dereference in qmi_stop_session
+Date: Tue, 24 Jun 2025 14:06:06 +0800
+Message-Id: <9da1a13ffee0924e4813ef5b20625a89680ce88d.1750745062.git.xiaopei01@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/8] iommu/vt-d: Use pci_is_display()
-To: Mario Limonciello <superm1@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Woodhouse <dwmw2@infradead.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>
-References: <20250623184757.3774786-1-superm1@kernel.org>
- <20250623184757.3774786-5-superm1@kernel.org>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20250623184757.3774786-5-superm1@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/24/25 02:47, Mario Limonciello wrote:
-> From: Mario Limonciello<mario.limonciello@amd.com>
-> 
-> The inline pci_is_display() helper does the same thing.  Use it.
-> 
-> Reviewed-by: Daniel Dadap<ddadap@nvidia.com>
-> Reviewed-by: Simona Vetter<simona.vetter@ffwll.ch>
-> Suggested-by: Bjorn Helgaas<helgaas@kernel.org>
-> Signed-off-by: Mario Limonciello<mario.limonciello@amd.com>
+The find_substream() call may return NULL, but the original error path
+dereferenced 'subs' unconditionally in dev_err(&subs->dev->dev, ...),
+causing a NULL pointer dereference when subs is NULL.
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Fix by replacing dev_err with pr_err which doesn't require device context.
+This safely handles NULL subs while preserving the critical debugging
+information (pcm_card_num, pcm_dev_num, direction).
+
+Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+---
+ sound/usb/qcom/qc_audio_offload.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 5bc27c82e0af..556fd9cb4fa6 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -759,8 +759,7 @@ static void qmi_stop_session(void)
+ 			subs = find_substream(pcm_card_num, info->pcm_dev_num,
+ 					      info->direction);
+ 			if (!subs || !chip || atomic_read(&chip->shutdown)) {
+-				dev_err(&subs->dev->dev,
+-					"no sub for c#%u dev#%u dir%u\n",
++				pr_err("no sub for c#%u dev#%u dir%u\n",
+ 					info->pcm_card_num,
+ 					info->pcm_dev_num,
+ 					info->direction);
+-- 
+2.25.1
+
