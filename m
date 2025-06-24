@@ -1,139 +1,129 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56382248F7E
-	for <linux-sound@vger.kernel.org>; Tue, 24 Jun 2025 08:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E89B257455;
+	Tue, 24 Jun 2025 08:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750752683; cv=none; b=blXxOiXW+L41uqR7qqeUsiXDmpyMn7vj2UbPpzzPR24D6OdXtZINU/T16ai1wDepTLt8CspwXs2CZ0pzGVFwCm5oH8eY9LQcKScWQR8bERaH5/p6mqKfWgQLZuYU7DiLpKyQruFb6GeS26l4VDGDxu1TCieqsYJaYKK/1wmDOPk=
+	t=1750753464; cv=none; b=WzYbb5bXWRJ5/kZ7hChR6nYE0gwErzczh42CXDgUsvbuNqhERVk8rMv3mL4VNy5VV2NL4rz/+Tn+HJceb1bxPVKBiRErpVoCLZoo0UFOd+eYvqGhKq7kWmRVknDjX3FFCxAfFI2Im+bP0VIm7kuJGaysSayBrVhclI9bxUIxF1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750752683; c=relaxed/simple;
-	bh=CDbw7JAaAd0HXAZdAzS1WL4b7LmL8Bi0ELx/uNpOvPw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cDaUZC4QvAxrAfnz3oyGEeeukANy6G7gkF/+qs/aCruC6768dYlc4vrUFV6+LfCfW+Q6RFQhtvfhWilyKeM7SfWiFFv+Bpc2ZG5Y7O9x5TmcnXfP006z2otg/khTdewgYNrFQHKwd42m+ArG33/vJskuW1tBP1VGzIxZ3t84SMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0rsoSxPP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5Jy3CgFn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0rsoSxPP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5Jy3CgFn; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1750753464; c=relaxed/simple;
+	bh=Jl8CLti6K4pODZB0dj33uxfV/xUr4+NEKzZFxbWq5QA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rGLH6567YspQANVjMXRmor1q474KjYiLKK0PZUI8HCgv8DEFR/GQbAKGpPGWB72fCBWyzb+0VjEKwwpeGnrqBuSZ9ozwKMdNhzDqJ5Xe6enK7+BRA7ikyMeijxRzcLPAcxV0zPLQKkColmhJsfL2yjcdjXjBpqltxsli/uOMY2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OVj/lxak; arc=none smtp.client-ip=209.85.166.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0rsoSxPP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5Jy3CgFn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0rsoSxPP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5Jy3CgFn"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4607821192;
-	Tue, 24 Jun 2025 08:11:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750752675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5AdF4xuhAt3rJskHFdIpyRXilGik+8sjAdWXfveamwc=;
-	b=0rsoSxPPF5+T29CdDMXTf2aVNXsBpGvNBOxKPl6Ys+tabRkwkmtOFC0H2BYQyKQark52cj
-	71nHi5hszJx87fDEFAs1CfGHxz3IXIXpl5F+qf/3T22/nFbi+KtAfxkeQvN7ATDYQ1SyO/
-	zJaASk7Cilded/yUtLMcXDyPJ7IgSRk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750752675;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5AdF4xuhAt3rJskHFdIpyRXilGik+8sjAdWXfveamwc=;
-	b=5Jy3CgFn6f+Bepqw7iYvUEsNJ+Jiaov8+uq6eZlPqOt1HHtj2jVUMAgQUWl/+K2kc/9yk3
-	wQPhzG4aQiWkJ8Dg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1750752675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5AdF4xuhAt3rJskHFdIpyRXilGik+8sjAdWXfveamwc=;
-	b=0rsoSxPPF5+T29CdDMXTf2aVNXsBpGvNBOxKPl6Ys+tabRkwkmtOFC0H2BYQyKQark52cj
-	71nHi5hszJx87fDEFAs1CfGHxz3IXIXpl5F+qf/3T22/nFbi+KtAfxkeQvN7ATDYQ1SyO/
-	zJaASk7Cilded/yUtLMcXDyPJ7IgSRk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1750752675;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5AdF4xuhAt3rJskHFdIpyRXilGik+8sjAdWXfveamwc=;
-	b=5Jy3CgFn6f+Bepqw7iYvUEsNJ+Jiaov8+uq6eZlPqOt1HHtj2jVUMAgQUWl/+K2kc/9yk3
-	wQPhzG4aQiWkJ8Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5AB013751;
-	Tue, 24 Jun 2025 08:11:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6JHaNqJdWmgaBAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 24 Jun 2025 08:11:14 +0000
-Date: Tue, 24 Jun 2025 10:11:14 +0200
-Message-ID: <87sejplftp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Mark Brown <broonie@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	error27@gmail.com
-Subject: Re: [PATCH] ALSA: qc_audio_offload: Fix missing error code in prepare_qmi_response()
-In-Reply-To: <20250623142639.2938056-1-harshit.m.mogalapalli@oracle.com>
-References: <20250623142639.2938056-1-harshit.m.mogalapalli@oracle.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OVj/lxak"
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3dc9e7d10bdso16489265ab.2;
+        Tue, 24 Jun 2025 01:24:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750753462; x=1751358262; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jl8CLti6K4pODZB0dj33uxfV/xUr4+NEKzZFxbWq5QA=;
+        b=OVj/lxakMjnQUtI3AL/SSqU1rOnyMTap4xBefI2/8F90g1BT044Y2d6uJxfwtBsWNz
+         xAxhX2ObV1/tBh6uRNtygHypo09K/As5WPkfqCaNa7pRTBHrE3FEJg50w2k2DtK6Iz64
+         Vvh5WIhPxUjts2wWoLD+SKXYe9eN/DyIwwSKA0e2YbcIvk4hdGDzhac53gsYIifpxaee
+         JKYKxGYiwNvfMBvTosqpL/QUzjfLQ9dRDkeW/z7woZ1vn2Tw7j0xLMHuavWQ93PjbT4K
+         ovZExwV8ls8oJRthRtle3B3AjwhRfAGAVe21/dScZFuRChW5EWVnQR9c0FVQ4/+wHSyO
+         fvaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750753462; x=1751358262;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Jl8CLti6K4pODZB0dj33uxfV/xUr4+NEKzZFxbWq5QA=;
+        b=AH2kSQNv5s3FthmaYZ6EijXMwgRUVzgL9NQJt/gFrcZYAznzPYRyEXuTAf/aF9R/cT
+         EWACTiqslDKAjoFr28g5fp6S+StkpAEop7OedsrosM7ciYVpYXYa0WhKEqyHGMLkOzAW
+         ilyMLG3gUfSc8VBahPu807DVXEemN0ZHYt93sPkUw1xQKDkt0eBtkBgad5qv7c1JN1Hw
+         JU3jJu1SCumN/D/hogiLakfz1/bhDxRsgUjY33XluMs3wd8wJY6Am42Al9zCiWM/MQTd
+         3i2UTjbcGa9i6xjv2wEor0q8c+oDwJrpmQeP0k1RdBwGzH6TiGQs6F2SxCQizmiKgud3
+         5a0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUTkjDjHqyucqn5YTAZn4UIB8SSr6WX90MEN4PHswZcwOYqLgAgM07sI27al58SHiADsYlhxIjH4rzogdo=@vger.kernel.org, AJvYcCW7fBC6D97YiZe7xexftEbA0ODM4TduoI4ErglkWDNhRpZBsx7uCFJ7ZLC2+6WXFxi4OJVcNM79j1RlDPI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXAJYXs7vuGACcO4JEkqOiqLA/hj7Rptg1wNfrIY95Xs9MdPhF
+	DLe41pqhejut/p03FXxPNrpxKs7E8LRykN5x19sJmG0BYakpA1R3E0zft+//ArqMtfH6XKaehWC
+	o3mWCe+esDJ+4G+KNGkQd4bax3cUp8D0=
+X-Gm-Gg: ASbGncs5RHWIsyKzhJDsK3Pmcs90JukczGnwch70mujk5Cs0TVxdejKe/JxNrqtIMa9
+	LQ59ZkZGwPQ8GFuHq+nviGBRAK8JCAUdkKA2qQzRu8s9cm/aUbVPXHkeBSIDqaPNMZ+RQCEPyiW
+	leOJZAXPNjdqG45QA0n1vrEnyGmVLP8RSICu7sS0pE3n0=
+X-Google-Smtp-Source: AGHT+IHycWZ/xVo3Cc9/nhPhd1qJ7nsaCgIMPtdKa5ASPFyg5vQ7tJ0psIzkhc1u6DczbCgaZ8+ePoOxUwQNaz/cX4w=
+X-Received: by 2002:a05:6e02:12e8:b0:3dc:8b29:30b1 with SMTP id
+ e9e14a558f8ab-3de38c98784mr166520675ab.14.1750753461902; Tue, 24 Jun 2025
+ 01:24:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,wanadoo.fr];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,linuxfoundation.org,quicinc.com,kernel.org,arndb.de,linaro.org,wanadoo.fr,vger.kernel.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,linaro.org:email]
-X-Spam-Level: 
+MIME-Version: 1.0
+References: <20250620021403.624303-1-shengjiu.wang@nxp.com>
+ <aFUbGFNAISmamfv8@opensource.cirrus.com> <aFUfEgY9hfhB3lKO@opensource.cirrus.com>
+ <aFVXLMtEOuXFL8B-@finisterre.sirena.org.uk> <aFWF84HMipnQTOxs@opensource.cirrus.com>
+In-Reply-To: <aFWF84HMipnQTOxs@opensource.cirrus.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Tue, 24 Jun 2025 16:24:04 +0800
+X-Gm-Features: AX0GCFspNWx95ugPmUS4GeIzxC1XVwZFFkWPdeClRd0-Q5Ek4MRt6NqvcQTtNGU
+Message-ID: <CAA+D8AMCZ8jbcMFPMEm1f6AK8e_iCwi7Jyg8Qb==zzUFO_1cog@mail.gmail.com>
+Subject: Re: [PATCH v3] ASoC: wm8524: enable constraints when sysclk is configured.
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, lgirdwood@gmail.com, 
+	perex@perex.cz, tiwai@suse.com, patches@opensource.cirrus.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 23 Jun 2025 16:26:27 +0200,
-Harshit Mogalapalli wrote:
-> 
-> When snd_soc_usb_find_priv_data() fails, return failure instead of
-> success. While we are at it also use direct returns at first few error
-> paths where there is no additional cleanup needed.
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/all/Z_40qL4JnyjR4j0O@stanley.mountain/
-> Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+On Sat, Jun 21, 2025 at 12:02=E2=80=AFAM Charles Keepax
+<ckeepax@opensource.cirrus.com> wrote:
+>
+> On Fri, Jun 20, 2025 at 01:42:20PM +0100, Mark Brown wrote:
+> > On Fri, Jun 20, 2025 at 09:42:58AM +0100, Charles Keepax wrote:
+> > > On Fri, Jun 20, 2025 at 09:26:00AM +0100, Charles Keepax wrote:
+> >
+> > > > This is kinda the opposite of what I was hoping we could do. The
+> > > > idea was to make sure we returned an error if we can't support
+> > > > the given rate. So if we don't have the constraint, we check the
+> > > > value in hw_params. This looks like it checks in hw_params only
+> > > > in the case the constraint existed, but in that case there is no
+> > > > need to check because we had the constraint.
+> >
+> > > Although perhaps I am mistaken here, I guess is the clock has
+> > > been set by the machine driver then we would pass this check.
+> > > Would it perhaps make more sense to return an error rather than
+> > > zero here?
+> >
+> > The link hw_params() should be run before the CODEC ones so we would be
+> > able to insist on the clocks having been configured first.
+> >
+> > Or I wonder if it might be easier to just implement clock API support i=
+n
+> > the driver and if we get a MCLK we set it to a sensible value here?
+> > That wouldn't work if the MCLK is coming from the other DAI though.
+> > Also I'm really not sure how this bikeshed fits into the design concept
+> > here.
+>
+> I think clock framework stuff is probably more work than makes
+> sense here.
+>
+> If you are happy with this as is I don't object to it getting
+> merged, ultimately if the machine driver doesn't configure the
+> clock that is a bug in the machine driver and it will likely be
+> relatively obvious audibily so the returning an error is really
+> just a nice to have.
 
-Thanks, applied now.
+The code here wants to avoid returning an error when the machine driver
+doesn't configure the sysclk. As wm8524 is a slave codec, it don't have
+any registers to be configured, it can work without sysclk configured.
 
+Maybe we can release this flexibility for wm8524?
 
-Takashi
+Best regards
+Shengjiu Wang
+
+>
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+>
+> Thanks,
+> Charles
