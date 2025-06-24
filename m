@@ -1,178 +1,117 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out28-125.mail.aliyun.com (out28-125.mail.aliyun.com [115.124.28.125])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2783519AD48
-	for <linux-sound@vger.kernel.org>; Tue, 24 Jun 2025 06:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C75372;
+	Tue, 24 Jun 2025 07:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750745877; cv=none; b=JbGjIopLZrAA0qpeUwdHwhUz7CkiDrwGIgmjzNmgf/X463CepB51VgFJkRsAHBv6YzopQF1JBoOCd3tcDu4TUQFrfsfxxG5DHP142gTve+j+E2wnHNaAOzXoJMjBIaMP/SfiT+KIjILwJcIYrXA33hqOtbJ6IR8jP1L8A9/PS/o=
+	t=1750748601; cv=none; b=rUNAfw+VQLF5dU/lI3d5k8dPjEaQ95qfe/tuF37j40EELomj8vhH32leU+ccia96GZpDxXiK5l09GK5MCoAyoTu6NeD+YYhwNFgeN8HkcuchJk4oHT3PIpsJvRnSsI7BOHG4OYyKi0iBk+SpWuZOPhn0orRhzbWu6bINnznemUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750745877; c=relaxed/simple;
-	bh=15ZZ8X73PKv1rwIdJxta3c/mgJYupJdmQs7EKLvvAes=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=YWxPRhdVNjErzjTmLuc87GTXiUcKxpVX9609yg5NGri6vwjFRN2k1eVWXqt6ZS/aE5/Hb8bZ+4PyAmSMIS0qEA10CxwpoM49M/3VClAI+n7lS7YzuFycAV+DEDS0rkIjwdPDRua123cUVUeqUr0Z/M102wVneCR1xRBdzCzFyvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=FGpYbdxm; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="FGpYbdxm"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 55O6HSDs83154471, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1750745848; bh=25uQGpu7+UVqiDa0s6df+jxna3qkv4hWlAjtKpCRlrM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=FGpYbdxm5ehPWvWbYiT/Qvd4FQOBFlPOxdGbkaO+orKlWVeSbU+hl803ae7AHSlri
-	 idsTtoLIq/KToQ7OrW7c9fv6xH1/jtbyOZyZaXBpLbHfcmmf8CDxFZzElFi43i606j
-	 yQlJsDI8H6VvufsoVptbznZalwaTZEIsDgN7d4WH0pvX7msK35gBKnH8OCoAnz7sil
-	 5RiFHJ+0pYEP7b6tk5UJLqncp0ZBc9nlGNVYZ6MWDveOrN+Zhw8t3XMCbJlyHCw21F
-	 mWMAA3SdwZeSzYZ6jANvZGLwtv7BB4EPCSgbsJY2+AZI3aiWilUMg6k+ofb/uNaNLh
-	 aRJqvOBgHxvZw==
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 55O6HSDs83154471
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Jun 2025 14:17:28 +0800
-Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 24 Jun 2025 14:17:42 +0800
-Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
- RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 24 Jun 2025 14:17:41 +0800
-Received: from RTEXDAG01.realtek.com.tw ([fe80::504c:148e:f72c:7466]) by
- RTEXDAG01.realtek.com.tw ([fe80::504c:148e:f72c:7466%5]) with mapi id
- 15.01.2507.035; Tue, 24 Jun 2025 14:17:41 +0800
-From: Kailang <kailang@realtek.com>
-To: "Joakim  Zhang" <joakim.zhang@cixtech.com>, Takashi Iwai <tiwai@suse.de>
-CC: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "chris.chiu@canonical.com" <chris.chiu@canonical.com>,
-        Geans_chen
-	<geans_chen@realsil.com.cn>,
-        cix-kernel-upstream
-	<cix-kernel-upstream@cixtech.com>
-Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on alc256
-Thread-Topic: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on
- alc256
-Thread-Index: AQHb4L8xB01VN1cvK0+4lsxOtof+qrQLccSAgAYrnZD//4w9gIAAsHPw
-Date: Tue, 24 Jun 2025 06:17:41 +0000
-Message-ID: <abb90ebd8dab4cedbb831d4ad943bd56@realtek.com>
-References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
-	<20250619020844.2974160-5-joakim.zhang@cixtech.com>
- <87a562wqzu.wl-tiwai@suse.de> <431c41bd52224eb5ac341c9c24d52af1@realtek.com>
- <SEYPR06MB6278B03237E451616AC060E38278A@SEYPR06MB6278.apcprd06.prod.outlook.com>
-In-Reply-To: <SEYPR06MB6278B03237E451616AC060E38278A@SEYPR06MB6278.apcprd06.prod.outlook.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1750748601; c=relaxed/simple;
+	bh=5yxFHUftbyV+RMCcFSunsXqR9/ZdNxpPFMQ7e3zC6zc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=k1JoWR6hv5D5gRds6MtIuIZFUS47cUYNEvbhEUx6e9OrDpEKE/uuNvUZH8psCwcwevT607bYkBpXgY+R0DzDo0Bud95t9/o4eNEHHxFu4SEqtFOWjDXUwDx+4sxsihnm5NC76GdryKjHF4YXfgb2TdUJfa500pKaRd43W3ZqahI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
+Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.dVKPy6z_1750748268 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Tue, 24 Jun 2025 14:57:50 +0800
+From: wangweidong.a@awinic.com
+To: broonie@kernel.org
+Cc: colin.i.king@gmail.com,
+	lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	thorsten.blum@linux.dev,
+	tiwai@suse.com,
+	u.kleine-koenig@baylibre.com,
+	wangweidong.a@awinic.com,
+	yijiangtao@awinic.com,
+	zhujun2@cmss.chinamobile.com
+Subject: Re: [PATCH V2] ASoC: codecs: Add calibration function to aw88399 chip
+Date: Tue, 24 Jun 2025 14:57:48 +0800
+Message-ID: <20250624065748.60509-1-wangweidong.a@awinic.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <aFVgVTIe5oT0MkZy@finisterre.sirena.org.uk>
+References: <aFVgVTIe5oT0MkZy@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-
-> > +             if (codec->core.vendor_id =3D=3D 0x10ec0256)
-> > +                     spec->en_3kpull_low =3D false;
-
-This usage will affect all ALC256.
-
-Codec: Realtek ALC256
-Address: 0
-AFG Function Id: 0x1 (unsol 1)
-Vendor Id: 0x10ec0256
-Subsystem Id: 0x10ec0256   =3D=3D>  Could you assign this to 0x10EC129E ?  =
-This codec SSID was provide from our AE. It's verb table.
-Revision Id: 0x100002
-No Modem Function Group found
-Default PCM:
-
-We can check Subsystem Id to let spec->en_3kpull_low =3D false.
-
-> -----Original Message-----
-> From: Joakim Zhang <joakim.zhang@cixtech.com>
-> Sent: Tuesday, June 24, 2025 11:32 AM
-> To: Kailang <kailang@realtek.com>; Takashi Iwai <tiwai@suse.de>
-> Cc: perex@perex.cz; tiwai@suse.com; linux-sound@vger.kernel.org;
-> chris.chiu@canonical.com; Geans_chen <geans_chen@realsil.com.cn>;
-> cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
-> Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed=
- on
-> alc256
->=20
->=20
-> External mail : This email originated from outside the organization. Do n=
-ot
-> reply, click links, or open attachments unless you recognize the sender a=
-nd
-> know the content is safe.
->=20
->=20
->=20
-> Hello Kailang
->=20
-> > -----Original Message-----
-> > From: Kailang <kailang@realtek.com>
-> > Sent: Tuesday, June 24, 2025 10:31 AM
-> > To: Takashi Iwai <tiwai@suse.de>; Joakim Zhang
-> > <joakim.zhang@cixtech.com>
-> > Cc: perex@perex.cz; tiwai@suse.com; linux-sound@vger.kernel.org;
-> > chris.chiu@canonical.com; Geans_chen <geans_chen@realsil.com.cn>; cix-
-> > kernel-upstream <cix-kernel-upstream@cixtech.com>
-> > Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect
-> > failed on
-> > alc256
-> >
-> > EXTERNAL EMAIL
-> >
-> > Hi Joakim,
-> >
-> > Could you use alsa-info.sh to dump codec info to us?
-> > Your platform was ARM Architecture. So, it's no PCI device. Right?
->=20
-> Yes, our HDA controller under AXI bus based on ARM arch, so I'm a little
-> worried whether some known fixup for pci not applied.
->=20
-> Attached log is dumped after the system boot with headset plugin, but the=
- mic
-> cannot be detected.
->=20
-> numid=3D14,iface=3DCARD,name=3D'Headphone Jack'
->   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
->   : values=3Don
-> numid=3D12,iface=3DCARD,name=3D'Internal Mic Phantom Jack'
->   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
->   : values=3Don
-> numid=3D13,iface=3DCARD,name=3D'Mic Jack'
->   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
->   : values=3Doff
-> numid=3D15,iface=3DCARD,name=3D'Speaker Phantom Jack'
->   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
->   : values=3Don
->=20
-> thanks,
->=20
-> Joakim
->=20
->=20
-> This email (including its attachments) is intended only for the person or=
- entity
-> to which it is addressed and may contain information that is privileged,
-> confidential or otherwise protected from disclosure. Unauthorized use,
-> dissemination, distribution or copying of this email or the information h=
-erein
-> or taking any action in reliance on the contents of this email or the
-> information herein, by anyone other than the intended recipient, or an
-> employee or agent responsible for delivering the message to the intended
-> recipient, is strictly prohibited. If you are not the intended recipient,=
- please do
-> not read, copy, use or disclose any part of this e-mail to others. Please=
- notify
-> the sender immediately and permanently delete this e-mail and any
-> attachments if you received it in error. Internet communications cannot b=
-e
-> guaranteed to be timely, secure, error-free or virus-free. The sender doe=
-s not
-> accept liability for any errors or omissions.
+Thank you very much for your review=0D
+=0D
+On Fri, Jun 20, 2025 at 14:21:25PM +0100, broonie@kernel.org wrote:=0D
+> On Fri, Jun 20, 2025 at 07:08:44PM +0800, wangweidong.a@awinic.com wrote:=
+=0D
+=0D
+>> +static int aw_cali_svc_dev_cali_re(struct aw88399 *aw88399)=0D
+>> +{=0D
+>> +	struct aw_device *aw_dev =3D aw88399->aw_pa;=0D
+>> +	int ret;=0D
+>> +=0D
+>> +	mutex_lock(&aw88399->lock);=0D
+>> +	aw_cali_svc_run_mute(aw_dev, CALI_RESULT_NORMAL);=0D
+>> +=0D
+>> +	ret =3D aw_cali_svc_cali_re_mode_enable(aw_dev, true);=0D
+>> +	if (ret) {=0D
+>> +		dev_err(aw_dev->dev, "start cali re failed\n");=0D
+>> +		goto re_mode_err;=0D
+>> +	}=0D
+>> +=0D
+>> +	msleep(3000);=0D
+=0D
+> Callibration takes 3s which is a fairly long time.=0D
+=0D
+This time is because the chip needs to wait for =0D
+the data to stabilise during calibration =0D
+in order to ensure more accurate calibration values.=0D
+I will reduce this time to 1s.=0D
+=0D
+>> @@ -1588,6 +1968,13 @@ static int aw88399_re_get(struct snd_kcontrol *kc=
+ontrol,=0D
+>>  	struct snd_soc_component *codec =3D snd_soc_kcontrol_component(kcontro=
+l);=0D
+>>  	struct aw88399 *aw88399 =3D snd_soc_component_get_drvdata(codec);=0D
+>>  	struct aw_device *aw_dev =3D aw88399->aw_pa;=0D
+>> +	int ret;=0D
+>> +=0D
+>> +	if (aw_dev->status) {=0D
+>> +		ret =3D aw_cali_svc_dev_cali_re(aw88399);=0D
+>> +		if (ret)=0D
+>> +			return -EPERM;=0D
+>> +	}=0D
+=0D
+> AFAICT it's triggered if the device is powered on and userspace reads=0D
+> the control that reports the callibration value.  That seems like it's a=
+=0D
+> bit too easy to trigger - something like running amixer would read the=0D
+> control and lock the CODEC up for 3s, and I'm guessing that if the CODEC=
+=0D
+> is powered due to audio playing that'd result in disruption to users=0D
+> listening to that audio.  I think it'd be better to have another write=0D
+> only control (or volatile one which reads 0 always) that triggers the=0D
+> calibration when userspace writes to it ("Calibrate Now Switch" or=0D
+> something).  Since the calibration is also directly writable from=0D
+> userspace we can't just use a write to this control.  In general it=0D
+> should always be possible to read controls without disrupting anything=0D
+> else that's going on.=0D
+=0D
+> BTW since the calibration is dynamically done the control should be=0D
+> flagged as volatile.=0D
+I will make the following two changes:=0D
+1.Add an additional "Calib Switch" Kcontrol to =0D
+  indicate whether calibration operations can be performed.=0D
+2.Add "Trigger Calib" to Kcontrol. =0D
+  This Kcontrol is write-only. When calibration is allowed,=0D
+  perform the calibration operation.=0D
+=0D
+Thank you again.=0D
+=0D
+Best regards,=0D
+Weidong Wang=0D
