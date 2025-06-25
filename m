@@ -1,173 +1,214 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011038.outbound.protection.outlook.com [40.107.130.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410B43074BD;
-	Wed, 25 Jun 2025 02:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.38
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750817244; cv=fail; b=jQq1soOGVbWZlnoZy0xjsJDGe5taFP2izyfP7d5gWAlIMJI4li0V6Rf+6Iqen3OV3Y4g1K5UER6cbXewb5xSmnyc6sxsDMJN4y4vy8X+rHDJwxseXlp2rYJKQHPDfvR6MakZZnSVEBHPrUzjfvibKRb02sB81XiLoxJJyCf3dmI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750817244; c=relaxed/simple;
-	bh=1pMl135sNHxBgSK53OJSTy1L/8bebVgoRsuH64iuKPI=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=J5dP2d4E5qGZmefNkPSE26B+ESGiot0N9FtUnr6eTsgqZkeuVSEp5NEnzXSVTQ808eyJQP7QgXI6zkBCpJYKuAXaXx1WJpOZ+RhB24msgdZCYA0nvuD/K4F2WDPXwRJmssQHzi0/3xkjLBn0lW6sSd7/0F/ho8FiW0Lu/hLwOw8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=NMDum3z5; arc=fail smtp.client-ip=40.107.130.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E802C1D63EF
+	for <linux-sound@vger.kernel.org>; Wed, 25 Jun 2025 03:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750820768; cv=none; b=tv3GOATc+wDk5GeZ2bqaWybdwEniDhfJZrhGom1E2DpiFA3rqZWWkdRnExiHg6b0V479Bo9s+gTC6YOYcaKrgpduC3nStXxX6ShqBhrit7Za8RpE5WaKO6Sjz4t9CgmP19z5mMgARyqwYUr+45GFRCkXLVyAWZesmBYUMYWjA7Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750820768; c=relaxed/simple;
+	bh=YSljDAFJhHgL0yus4IZ/owBXUZkTjv5p21Wt4MkNPac=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iNwJYkbSB4ImKNA8XF59Nn4L2Z9JZrvYIzRrHHmCP5noGgp1vBJ9TGdMdM8Q5FJjW0AkcrJL+2RXE9V5pEfA9VVuiKYeesndu7snblfMJPzvjSQmjP87nP6UndKYy4ed+BNW35stClDUDCOFv5bJjwStvU6n1xS+kdaBtVImHtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=raoRLB+x; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="NMDum3z5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qtj1H4eCgzIbv6teRH9WMNJ4ncPCUECuGhs0ek9iqTYKJsgfd/LglAp/GBfvmgxNxBZ7HvrifatBUxAqgd5kJuF3bDr4Rq+bPBOr5yBHS57kxexHWdMUJqEltJLiy4MOwqnP2B75v3RrwHWE5r81F2mmxKbCiA+nNE6sgYdOsVN9hb20ScwWb/x/xuOB7e8fZvnLGGfjQTBxcsrG0HQAykKlNj+m41YOr1OIigsiMGDVhqtbyR0kZdvZuxiGh3qMcXKIh/MgZ2O98SKfCsqcQSzCc5amn9Nf/VybJFoeJq1030hsCgopFK6aHkVYYAluz3YQ1zwHyKadIj/G6UAeUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dp3sh28CaxeSzlF0eAGsqDF6PEpno+gQxpxNKcMWYWU=;
- b=euLBFZ+Dy0V5OFRJuBqDGFoXK0yDMJ9sKw0CFYlss7N7zxxcvuEeEFz5yNxMdwOE9YFXZYd9B8Ticts51JyEfOocw/+EqlCzuIxYFErRQzJJNXz6IQT/oTFqBBDgRcVYiyTQX0bWAdJCt/VbiGC0dL7TNogu2jJUztHFekBP+V/pkN/wmLVY+LX3H/5rp8cjk+sj02AsoDviRTXQiafIRqlLj6fJQPM4aSKRkqesReBud2s/mLz4iUYJ8xVuHxeBE4VKzIMUO9CPx/2T4etXar+cqcRgME0vzhOm5nHj6DN254X25kswSZyVV2jsNOMIluIrvgmXzZZws17P4F5NLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dp3sh28CaxeSzlF0eAGsqDF6PEpno+gQxpxNKcMWYWU=;
- b=NMDum3z5z1q3pJ2uMSql0QJtjbOZp65dpZaAl9u3eaQVVmtwA1Lgy65m5nXUvjZkE8n5+Rs0TYrObZkt4muNO+NJdYIjUh9kJnrbSoPGOn6K19rBTYN2xJvYdWw4Sk5RarMVEiTM5EqFj29x04lboxeGpI8RnCUqaq2H0rnMoORZcrLgKCwohWfCXV4fxtyNG9Ou/2N0dHAewvHZ1vu5iNEkYeLd60VWaVmGINqS+4IL9Gy2fyohqYPZWPZsS33bfFYEJCuTLwxJPkjWwvWUNiP/Or8ob8l7TPduhrWtqStb9JwrXZi/XFVp/lG4LcBO3AUDL31/VTvQeonPXUKtAw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by DBBPR04MB7850.eurprd04.prod.outlook.com (2603:10a6:10:1e8::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.29; Wed, 25 Jun
- 2025 02:07:18 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::7be0:296:768c:e891%4]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
- 02:07:17 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_asrc: use internal measured ratio for non-ideal ratio mode
-Date: Wed, 25 Jun 2025 10:05:04 +0800
-Message-Id: <20250625020504.2728161-1-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA1PR01CA0173.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:d::14) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="raoRLB+x"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 55P35OhrC644709, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1750820725; bh=gJfPdiwOaeUFbnZe7iKutivahqDj6YMeb2pgyBM8ADg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version;
+	b=raoRLB+xZiy4DIH81x9ZbSqJ2Sx2KGxIVv16Ghm91j0o4hxHMtQM8XnSYW/d6aMnn
+	 8y0WqtJaZM/k2R5jM410XY+dXo5hhC64alf8izl71xO3ADRhQT6q5+LuUrXV42pXnV
+	 Bjp2dRdJYJv/3HZ71oeQGU3M4ikrpmHdIDygjR0NmvR9NlKEH2qjBhI+U/S8sp/qvX
+	 /URiuCW4WaIVoy9VeJJ89UjabgMeT+89BGvZIVBQipAsdgBqI54C0x8onBqsh0yR0A
+	 iCUCce2t5DmczpoCJYgHhTj4VIWDWtIn6vz1whPg/K8d2OtgfRIybBdlhUexMQyy6F
+	 zf1gL8wQTbZXQ==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 55P35OhrC644709
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Jun 2025 11:05:25 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 25 Jun 2025 11:05:38 +0800
+Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
+ RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 25 Jun 2025 11:05:36 +0800
+Received: from RTEXDAG01.realtek.com.tw ([fe80::504c:148e:f72c:7466]) by
+ RTEXDAG01.realtek.com.tw ([fe80::504c:148e:f72c:7466%5]) with mapi id
+ 15.01.2507.035; Wed, 25 Jun 2025 11:05:36 +0800
+From: Kailang <kailang@realtek.com>
+To: "Joakim  Zhang" <joakim.zhang@cixtech.com>, Takashi Iwai <tiwai@suse.de>
+CC: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+        "chris.chiu@canonical.com" <chris.chiu@canonical.com>,
+        Geans_chen
+	<geans_chen@realsil.com.cn>,
+        cix-kernel-upstream
+	<cix-kernel-upstream@cixtech.com>
+Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on alc256
+Thread-Topic: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on
+ alc256
+Thread-Index: AQHb4L8xB01VN1cvK0+4lsxOtof+qrQLccSAgAYrnZD//4w9gIAAsHPwgADASoCAAJ2KgA==
+Date: Wed, 25 Jun 2025 03:05:32 +0000
+Message-ID: <5f2431ca8ef2453daa9da2034798e682@realtek.com>
+References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
+	<20250619020844.2974160-5-joakim.zhang@cixtech.com>
+ <87a562wqzu.wl-tiwai@suse.de> <431c41bd52224eb5ac341c9c24d52af1@realtek.com>
+ <SEYPR06MB6278B03237E451616AC060E38278A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+ <abb90ebd8dab4cedbb831d4ad943bd56@realtek.com>
+ <SEYPR06MB6278C26C6B0479C920FEB364827BA@SEYPR06MB6278.apcprd06.prod.outlook.com>
+In-Reply-To: <SEYPR06MB6278C26C6B0479C920FEB364827BA@SEYPR06MB6278.apcprd06.prod.outlook.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+Content-Type: multipart/mixed;
+	boundary="_002_5f2431ca8ef2453daa9da2034798e682realtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DBBPR04MB7850:EE_
-X-MS-Office365-Filtering-Correlation-Id: f258da91-c798-4a01-083d-08ddb38d0284
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|52116014|366016|376014|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?D6le8EwF6MR7CNiOiCk27vRa+bgjE2RdEr4PSdxu7iXYqqRcP+xevpr7CCPX?=
- =?us-ascii?Q?Z8uQiqsYLBg9Ru7NKiI3t9KHayzzACXTFGYMLOTiKucNOybopKqoz6zApJAI?=
- =?us-ascii?Q?UJ+tESqOBDfzJ976GB9Rw4kcdgmjsZuPMNA4XkNRUjQfxk691v3JJ10sf/b3?=
- =?us-ascii?Q?VbFBsBa83MWcW5Y47hK0Y5u3Uy/Fg5z5SzZBsEOjlM49QVvOBeSLTPhd0kdH?=
- =?us-ascii?Q?DD58UrFZbZSg//WEmB1K9GHsrLxpCy9tMwsxp3gTOT4bTpluUAINU/XuZsR6?=
- =?us-ascii?Q?/lFaDr2pMJdbQHkJPKPYzJkHQWG56tD9BR0/OIHmBIzz4l68niZ6y6uM7sE6?=
- =?us-ascii?Q?86z0w113GdGBuSoX4W+i2/wOmhmS8ZF2RUPSJ/dlf3i61YV14lS0C1CQUDMw?=
- =?us-ascii?Q?I9mxFxTQREtNQNfr5HSxjJ6K3DRnNMbEDXXS24WdHQz9w0QxGAQEZe/91k1a?=
- =?us-ascii?Q?MGI58pV9m5kRiipSPgheq9nlTHWQXIeclAPxQndc+iQcek24Sf1k+IX7L5ez?=
- =?us-ascii?Q?Xu70mCPPngiWMuObSSTn5RqPqmTmYJ3FxCsigx1AqYF25NjB9u0VY+v9aTYF?=
- =?us-ascii?Q?oYgvXB1Gpe754Iz3hjSs9RgrY3NddhNKa0Q2ULqOcfK516OAbzWBeEUNLHDx?=
- =?us-ascii?Q?SvwonHb8huujWZlafm5ePzOmtibCRm59rgGN33A/Xs2JfHV3hUZmrdaFLpLw?=
- =?us-ascii?Q?fcxE8meqrAa4Iza6bZlGkqqulK7q5PlP9UNbJiy6MHZIlk7vhr2bp6ZAdWu5?=
- =?us-ascii?Q?16AkFkyctx2QVwjtk9GuYT/UcaaIvIL+lPY6Ya0j93lqkj4Ell7rcmcgaEIw?=
- =?us-ascii?Q?a5EtvqhVfy93zG3ZNHztwncjwRU4Zc37nTLs68csJrA4njIXg20yjj/TB32s?=
- =?us-ascii?Q?QLeAj2XsaOD0RH9oMgdeXph+6aLC5/pRtVTw18mjgkozLjGMmQ4kThvH6jHl?=
- =?us-ascii?Q?+iWGPxNSH2il/IlctoSEjNdTIK2C0WjhZBrQ3hnNoQGFlWJPkvSskJH4pn8p?=
- =?us-ascii?Q?pCMK7Uo+G7RaW8a5jddGMK1+BqBDNinc4+l8zekt/wN0k/DkW9i+dOHWwjpO?=
- =?us-ascii?Q?CU4cPOv0FiI3kjci81AssMWw1mFBjS+/YYxPb6rQcj0GKCCOxEUlcJgOvwRr?=
- =?us-ascii?Q?IoakOeeJuB/KSoCPmIqBZPKSoKJdQYOrWKWWiGVxLak6/DoLG8gwlmsZguqM?=
- =?us-ascii?Q?wMslOWzFhntngzVV7btNyrRQwQST+1o15L2Q5qeJD36EDFtGhRh1lPGGOlqW?=
- =?us-ascii?Q?/UwAhzfYjjg1PynVmuigQeLcBphd3tAyflVWRA9tPtr2n4gDVGfjNbXTqjPF?=
- =?us-ascii?Q?FVPQ1zlKsfiBqDgKd2Fkuldp8t2+bwIConZC0/frgCcEaDWGN5LetLWgAE6D?=
- =?us-ascii?Q?5jmOaj4XaVel5x4sTFkmqe+9gvrnnygM6HsbQfD7EyWwZK6CNbB4bVw8SCR9?=
- =?us-ascii?Q?RqlARuNQ4b4YtdTdGWd8FQBV4lwmR2o71L/HtuJxlqMpzVWAF9+HgIMvUPpb?=
- =?us-ascii?Q?ohWHCxdOvTsXS+A=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(52116014)(366016)(376014)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?g+xaN6bI1xIQjkgLGHQAKJ51gKaWLP2mZ0f46xvNLFZn73h+WPNoj8k0v+ZK?=
- =?us-ascii?Q?YUvu427rzEISr9ZV7a59cVjVv2fwkwx3wTE1D73s/PrFM+K9XwN39McA2z0Q?=
- =?us-ascii?Q?H5OSNpJstxQKWgKlTH3vVeS8mZ6keWYk1KSZXyAY59SpDFUusCR/PQRyVGwb?=
- =?us-ascii?Q?bVnfYN1n4N4TRr81t5dUU6qrJawDyOcxL+jFzhzg6wKlECt5GUXet4n0s4UU?=
- =?us-ascii?Q?HzykMKxBhhyukeG01uOEoB85k/qlEjA+IccNUtgrs01tzTPdDVLN/s//riFv?=
- =?us-ascii?Q?GxA4HI52LMSBeWgyaDDNP4b/OTQIS8LRe6zf1NaIY4qOHA+BlaWN1GbdbqMk?=
- =?us-ascii?Q?OOYl4Ta/ahCFSrbP18ni1ifJcQtuyrMVwPAyDRNJPZp7v3S5+JIWU8yrKwH9?=
- =?us-ascii?Q?cJDsJB+eHdKda7hEdYMFVp4t7qCyDNL9m5PLVSfm781fxmxPWPGIYzjBgJup?=
- =?us-ascii?Q?lq5/8DtgcZqXxLC4ATnX/Y2CPL2zeR7hFqw3JUSbw+1vUevmyj3xsYf11QuD?=
- =?us-ascii?Q?Z2aJ+L4opKiQsdMPGsXabwuVo9PeAxdreIzWyXqUSQf0L4THd19dOt2i5jWS?=
- =?us-ascii?Q?7sml0cQRQ9i4jncI3FG0QKt/SeDEmKoiEHRtjBWbs+D7VGWhZdDl4dYu1hws?=
- =?us-ascii?Q?pqshjElvuKGrL2ir4F0aBDzm/ALQ7smTBWHa+iL/wteQDFhEmkOKTCocnP19?=
- =?us-ascii?Q?F9ShQBzbKOmbfEKSiR+SfGKQ804Pikdb6pehaB3O9J/+jo2i749SOTHlCQNv?=
- =?us-ascii?Q?DKcKo6SD/w+Bu+7hkvyIAUkFrmFWFbwtv3kxs+gT9A0tbDm3RYBhN2w/NKoy?=
- =?us-ascii?Q?kMPkmeS0gDvvtJR5tbqf1LCGJYQ6cdwg/erswlqVrJeoThFtZAG1+Fl4g2jI?=
- =?us-ascii?Q?RMxrbgNSPW7LFfQv1wNsnFCxDu5IkxOmgu7yx0S3o7zxkSt+dThS75TAwpGh?=
- =?us-ascii?Q?lhbNRBN4wd7QpNPrf+GGFnlo49lQmm3LAejJxw4lsmcqULHui5SQs0GxvC23?=
- =?us-ascii?Q?mr9X1X1FH/Khz5jgW03Gu1JlV5jXkyKD89U5JE95hpCQy0ugKaLY0T6Sm4A3?=
- =?us-ascii?Q?DWoMwFZCBHSYy6p1AO+lCY9kbBWgsK4H3WoR6ygs06dcTkTb+Dj1OOtBwAk1?=
- =?us-ascii?Q?lxiXDIRito0KkRbt0/tLZN5/hq+fAFJaCNpdJ+siloZOuMrkKyqdjrbxdl3m?=
- =?us-ascii?Q?6zb5UUbEpJQSZLA9sqEEPhfOaWxvHyNOigdQI4yfrPSb5Pvgd1h2QqAqXCJE?=
- =?us-ascii?Q?2B6qAl/7WIxwQbDoYhn6xa/gUPxM+3rndm9Y0Q4l5ZfI5U8tbPgriBmJMSVw?=
- =?us-ascii?Q?rzyLl/LOfKNCgaXcr2HLs7DbVrozOowNgiDxcWOkvWvZBoCkfcg0ObDBG2eK?=
- =?us-ascii?Q?nDgyjsHx/RBNtxrMVDxtuVLsEXSlu2XWPK2CCf7EpbvBVVDIWUfx8IzHKOHM?=
- =?us-ascii?Q?Q1BKNUo3lTe2JSRbKYUB+TjjRzrDz1Yl7TCJd2NKLrBfHck3e+VhspgsFiV8?=
- =?us-ascii?Q?jR7MNWyA2LPaL3UCNP6BiEF+oU6s5RKcgVNE/6uwbkbIsXJn5JrfA6lP8+cs?=
- =?us-ascii?Q?FsLUweQi5kMIkNJtdnd5P7WJhwIthnO+Pc2xj1ls?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f258da91-c798-4a01-083d-08ddb38d0284
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 02:07:17.7439
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6emaybj5zut26ex5lNwGFV1Df23x2XogP6y8X1qPUalh5L+AXgMfc+lT/ZadvC3ABBdyBoAAweLxkJo7G+g8lw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7850
 
-When USRC=0, there is underrun issue for the non-ideal ratio mode;
-according to the reference mannual, the internal measured ratio can be
-used with USRC=1 and IDRC=0.
+--_002_5f2431ca8ef2453daa9da2034798e682realtekcom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: d0250cf4f2ab ("ASoC: fsl_asrc: Add an option to select internal ratio mode")
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_asrc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
-index 677529916dc0..745532ccbdba 100644
---- a/sound/soc/fsl/fsl_asrc.c
-+++ b/sound/soc/fsl/fsl_asrc.c
-@@ -517,7 +517,8 @@ static int fsl_asrc_config_pair(struct fsl_asrc_pair *pair, bool use_ideal_rate)
- 	regmap_update_bits(asrc->regmap, REG_ASRCTR,
- 			   ASRCTR_ATSi_MASK(index), ASRCTR_ATS(index));
- 	regmap_update_bits(asrc->regmap, REG_ASRCTR,
--			   ASRCTR_USRi_MASK(index), 0);
-+			   ASRCTR_IDRi_MASK(index) | ASRCTR_USRi_MASK(index),
-+			   ASRCTR_USR(index));
- 
- 	/* Set the input and output clock sources */
- 	regmap_update_bits(asrc->regmap, REG_ASRCSR,
--- 
-2.34.1
+Maybe your platform need to set spec->en_3kpull_low to false.
+If spec->en_3kpull_low =3D false will help you to get MIC JD.
 
+
+> -----Original Message-----
+> From: Joakim Zhang <joakim.zhang@cixtech.com>
+> Sent: Wednesday, June 25, 2025 9:32 AM
+> To: Kailang <kailang@realtek.com>; Takashi Iwai <tiwai@suse.de>
+> Cc: perex@perex.cz; tiwai@suse.com; linux-sound@vger.kernel.org;
+> chris.chiu@canonical.com; Geans_chen <geans_chen@realsil.com.cn>;
+> cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
+> Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed=
+ on
+> alc256
+>=20
+>=20
+> External mail : This email originated from outside the organization. Do n=
+ot
+> reply, click links, or open attachments unless you recognize the sender a=
+nd
+> know the content is safe.
+>=20
+>=20
+>=20
+> Hello Kailang
+>=20
+> > -----Original Message-----
+> > From: Kailang <kailang@realtek.com>
+> > Sent: Tuesday, June 24, 2025 2:18 PM
+> > To: Joakim Zhang <joakim.zhang@cixtech.com>; Takashi Iwai
+> > <tiwai@suse.de>
+> > Cc: perex@perex.cz; tiwai@suse.com; linux-sound@vger.kernel.org;
+> > chris.chiu@canonical.com; Geans_chen <geans_chen@realsil.com.cn>; cix-
+> > kernel-upstream <cix-kernel-upstream@cixtech.com>
+> > Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect
+> > failed on
+> > alc256
+> >
+> >
+> > > > +             if (codec->core.vendor_id =3D=3D 0x10ec0256)
+> > > > +                     spec->en_3kpull_low =3D false;
+> >
+> > This usage will affect all ALC256.
+> >
+> > Codec: Realtek ALC256
+> > Address: 0
+> > AFG Function Id: 0x1 (unsol 1)
+> > Vendor Id: 0x10ec0256
+> > Subsystem Id: 0x10ec0256   =3D=3D>  Could you assign this to 0x10EC129E=
+ ?
+> This
+> > codec SSID was provide from our AE. It's verb table.
+> > Revision Id: 0x100002
+> > No Modem Function Group found
+> > Default PCM:
+> >
+> > We can check Subsystem Id to let spec->en_3kpull_low =3D false.
+>=20
+> Did you find anything from the log? Is it a potential issue?
+No, there were many platform need this setting.
+
+>=20
+> You mean re-generate the verb table with SSID equal 0x10EC129E? But from
+> the patch_realtek.c have not found any hook to fixup this SSID.
+This SSID need add menually. Like attach patch.
+
+>=20
+>=20
+> This email (including its attachments) is intended only for the person or=
+ entity
+> to which it is addressed and may contain information that is privileged,
+> confidential or otherwise protected from disclosure. Unauthorized use,
+> dissemination, distribution or copying of this email or the information h=
+erein
+> or taking any action in reliance on the contents of this email or the
+> information herein, by anyone other than the intended recipient, or an
+> employee or agent responsible for delivering the message to the intended
+> recipient, is strictly prohibited. If you are not the intended recipient,=
+ please do
+> not read, copy, use or disclose any part of this e-mail to others. Please=
+ notify
+> the sender immediately and permanently delete this e-mail and any
+> attachments if you received it in error. Internet communications cannot b=
+e
+> guaranteed to be timely, secure, error-free or virus-free. The sender doe=
+s not
+> accept liability for any errors or omissions.
+
+--_002_5f2431ca8ef2453daa9da2034798e682realtekcom_
+Content-Type: application/octet-stream; name="0000-dis-3kpull-low.patch"
+Content-Description: 0000-dis-3kpull-low.patch
+Content-Disposition: attachment; filename="0000-dis-3kpull-low.patch";
+	size=1838; creation-date="Wed, 25 Jun 2025 02:59:37 GMT";
+	modification-date="Wed, 25 Jun 2025 02:54:40 GMT"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL3NvdW5kL3BjaS9oZGEvcGF0Y2hfcmVhbHRlay5jIGIvc291bmQvcGNpL2hk
+YS9wYXRjaF9yZWFsdGVrLmMKaW5kZXggOTEwOGM3MTJkYjAzLi4wNjY3MDM4MzgzODAgMTAwNjQ0
+Ci0tLSBhL3NvdW5kL3BjaS9oZGEvcGF0Y2hfcmVhbHRlay5jCisrKyBiL3NvdW5kL3BjaS9oZGEv
+cGF0Y2hfcmVhbHRlay5jCkBAIC03NzM0LDYgKzc3MzQsMTUgQEAgc3RhdGljIHZvaWQgYWxjMjgz
+X2ZpeHVwX2RlbGxfaHBfcmVzdW1lKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLAogCQlhbGNfd3Jp
+dGVfY29lZl9pZHgoY29kZWMsIDB4ZCwgMHgyODAwKTsKIH0KIAorc3RhdGljIHZvaWQgYWxjX2Zp
+eHVwXzNrcHVsbF9sb3coc3RydWN0IGhkYV9jb2RlYyAqY29kZWMsCisJCQkJICBjb25zdCBzdHJ1
+Y3QgaGRhX2ZpeHVwICpmaXgsIGludCBhY3Rpb24pCit7CisJc3RydWN0IGFsY19zcGVjICpzcGVj
+ID0gY29kZWMtPnNwZWM7CisKKwlpZiAoYWN0aW9uID09IEhEQV9GSVhVUF9BQ1RfUFJFX1BST0JF
+KQorCQlzcGVjLT5lbl8za3B1bGxfbG93ID0gZmFsc2U7Cit9CisKIGVudW0gewogCUFMQzI2OV9G
+SVhVUF9HUElPMiwKIAlBTEMyNjlfRklYVVBfU09OWV9WQUlPLApAQCAtODA0OSw2ICs4MDU4LDcg
+QEAgZW51bSB7CiAJQUxDMjg1X0ZJWFVQX0FTVVNfR0E2MDVLX0hFQURTRVRfTUlDLAogCUFMQzI4
+NV9GSVhVUF9BU1VTX0dBNjA1S19JMkNfU1BFQUtFUjJfVE9fREFDMSwKIAlBTEMyNjlfRklYVVBf
+UE9TSVRJVk9fUDE1WF9IRUFEU0VUX01JQywKKwlBTEMyNTZfRklYVVBfRElTXzNLUFVMTF9MT1cs
+CiB9OwogCiAvKiBBIHNwZWNpYWwgZml4dXAgZm9yIExlbm92byBDOTQwIGFuZCBZb2dhIER1ZXQg
+NzsKQEAgLTEwNDYzLDYgKzEwNDczLDEwIEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaGRhX2ZpeHVw
+IGFsYzI2OV9maXh1cHNbXSA9IHsKIAkJLmNoYWluZWQgPSB0cnVlLAogCQkuY2hhaW5faWQgPSBB
+TEMyNjlWQ19GSVhVUF9BQ0VSX01JQ19OT19QUkVTRU5DRSwKIAl9LAorCVtBTEMyNTZfRklYVVBf
+RElTXzNLUFVMTF9MT1ddID0geworCQkudHlwZSA9IEhEQV9GSVhVUF9GVU5DLAorCQkudi5mdW5j
+ID0gYWxjX2ZpeHVwXzNrcHVsbF9sb3csCisJfSwKIH07CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+aGRhX3F1aXJrIGFsYzI2OV9maXh1cF90YmxbXSA9IHsKQEAgLTExMTI4LDYgKzExMTQyLDcgQEAg
+c3RhdGljIGNvbnN0IHN0cnVjdCBoZGFfcXVpcmsgYWxjMjY5X2ZpeHVwX3RibFtdID0gewogCVNO
+RF9QQ0lfUVVJUksoMHgxMGVjLCAweDEyNGMsICJJbnRlbCBSZWZlcmVuY2UgYm9hcmQiLCBBTEMy
+OTVfRklYVVBfQ0hST01FX0JPT0spLAogCVNORF9QQ0lfUVVJUksoMHgxMGVjLCAweDEyNTIsICJJ
+bnRlbCBSZWZlcmVuY2UgYm9hcmQiLCBBTEMyOTVfRklYVVBfQ0hST01FX0JPT0spLAogCVNORF9Q
+Q0lfUVVJUksoMHgxMGVjLCAweDEyNTQsICJJbnRlbCBSZWZlcmVuY2UgYm9hcmQiLCBBTEMyOTVf
+RklYVVBfQ0hST01FX0JPT0spLAorCVNORF9QQ0lfUVVJUksoMHgxMGVjLCAweDEyOWUsICJDSVgg
+UGhlY2RhIEJvYXJkIiwgQUxDMjU2X0ZJWFVQX0RJU18zS1BVTExfTE9XKSwKIAlTTkRfUENJX1FV
+SVJLKDB4MTBlYywgMHgxMmNjLCAiSW50ZWwgUmVmZXJlbmNlIGJvYXJkIiwgQUxDMjk1X0ZJWFVQ
+X0NIUk9NRV9CT09LKSwKIAlTTkRfUENJX1FVSVJLKDB4MTBlYywgMHgxMmY2LCAiSW50ZWwgUmVm
+ZXJlbmNlIGJvYXJkIiwgQUxDMjk1X0ZJWFVQX0NIUk9NRV9CT09LKSwKIAlTTkRfUENJX1FVSVJL
+KDB4MTBmNywgMHg4MzM4LCAiUGFuYXNvbmljIENGLVNaNiIsIEFMQzI2OV9GSVhVUF9BU1BJUkVf
+SEVBRFNFVF9NSUMpLAo=
+
+--_002_5f2431ca8ef2453daa9da2034798e682realtekcom_--
