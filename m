@@ -1,131 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA9C1B4F09;
-	Thu, 26 Jun 2025 20:45:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D04238141;
+	Thu, 26 Jun 2025 20:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750970742; cv=none; b=TVlBucX+z9iKnj+GSBmi3utOblcWc8C+6R9MmOBcAlCR6WKgqKZOrVohJPVscCz3vSHk7Mb77nQltE7snlsBmKhQ8XsbJ3m1cj9xqIBbx/zudYOmoVbNY/lKbyfz1dgNX0z+y7ldMOBLbMZ4XpnVI5c0GG0gJF7R17etnlJnCvs=
+	t=1750971435; cv=none; b=L9fLWkrp3d6nuHh3gm4YLrlf8+2OUOkeWvL1pX3DgMhlFdT0wcor9iZK0LgLyAtc1mZ9X/ve+4thm+dhcLFnD4Bd+CKc5ddvTeyCJTz+xLXqofRSvmudxdE6hAY8+fNRSMk4b4jBrpMfzah+TD6Bu+Eig1IuO7fCDTeKCFAY+KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750970742; c=relaxed/simple;
-	bh=y44KbF3C7rhYBkeJUpprj4Hik/9NkPbfiCyQ/CmZYI0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=jyJ7Yvf5B1bzyPudzjYG2QtjawNs+lFVD4SFSTL5cV5SGh8UfGrX0/LZH6xcpZXr1sAW1q9wQNndwPc1u8+PVsZmR694glsXDIWB7ItPi+yzKGtQgAcK0uO2Y2Awv6KymLDB9RJhpUQlnXmN7Iu4IH43++OmhrO5C5bLHVpX6mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hn9LJB4+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750971435; c=relaxed/simple;
+	bh=y+I3wvSFJie1KbTB1qaDSKpuCbBStfymZluyOJOzXjk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GhA39EhnT6VmN3FVdtV73ZvCbFqSMCbXDF678ar0C3eKkasUC9KYNI734KKqlX+eRy9t8SjY15uS2TBuGnd4YtVJ8gPh/NQ+JO0dJquzXXFOSRzELS6XTwJ+F/SjEd6WyHk3mjQv4Pq1YQXIIA5VEJsy5WFhU3B/Gk+SNjjt3KE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=giK+k8ld; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hn9LJB4+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4413AC4CEEB;
-	Thu, 26 Jun 2025 20:45:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="giK+k8ld"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16B61C4CEEB;
+	Thu, 26 Jun 2025 20:57:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750970741;
-	bh=y44KbF3C7rhYBkeJUpprj4Hik/9NkPbfiCyQ/CmZYI0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=Hn9LJB4+wuyQ+xtwfZPAIAyfAmaPZUL8TYDnbOGgRk1KSbDX80XziLoX9/rjjXh6V
-	 h9waOa+PkLTNAYq+a3LdV0aqRp33R2fikWgze11a+4RZ6aArT8MOB9nS39tJnvfiMK
-	 NiT4q6hEuHnJarVyVAh+zl7vXxBSPzL8hyHmvVCzLDeE/UHCB37jK4BXOO4pYNh5oC
-	 3SH6f98nl6R+X5bjxWiBngJPgh2NlA86FPTgsyMD5IYaqdGtWtPXVU6zde6G4QojZg
-	 +b8epJ/QvMWT15Ffkzt35F32OqZ/B5Qg9ZZxqJSmgYQxvdVQc4qHXHbgABOgzqVASJ
-	 HDwhGBhsohBAQ==
-Date: Thu, 26 Jun 2025 15:45:40 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
-	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
-	"open list:VFIO DRIVER" <kvm@vger.kernel.org>,
-	"open list:SOUND" <linux-sound@vger.kernel.org>,
-	Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v5 7/9] PCI/VGA: Replace vga_is_firmware_default() with a
- screen info check
-Message-ID: <20250626204540.GA1639372@bhelgaas>
+	s=k20201202; t=1750971435;
+	bh=y+I3wvSFJie1KbTB1qaDSKpuCbBStfymZluyOJOzXjk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=giK+k8ld5Xi2maVQuSgSdTLIxCt64I3ZXLyzWmUA1pYErAp2REflslxyqE4356ITk
+	 eIjUbKNoru3G5msVRsKIFdp7bEFXh1agUwozRIIdze5uekl8AceD9jdwrEq8kJCzC/
+	 RObRamMmYR+6RX79VfXOAR3Owmhxy5M75YHIVtT16U1lCrsVBUwAy8AuKRKlkIrpob
+	 uJ/Iij1LJKvl/3yt+/L+Z2xt4yzfKk9CP7CdG1QplOJ8W62GZCIPXlivR/h2AfvJha
+	 cMuLj7cAO/0+QwO8qPgyPjy8JB+nju1ojcMfBstEPHNGkOSYEPFtXO9/t3tf3kaNZc
+	 aOkjUZwf1hvlg==
+From: Vinod Koul <vkoul@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ peter.ujfalusi@linux.intel.com, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250624125507.2866346-1-ckeepax@opensource.cirrus.com>
+References: <20250624125507.2866346-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] soundwire: Correct some property names
+Message-Id: <175097143504.44160.17127007052966518976.b4-ty@kernel.org>
+Date: Thu, 26 Jun 2025 13:57:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250624203042.1102346-8-superm1@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Tue, Jun 24, 2025 at 03:30:40PM -0500, Mario Limonciello wrote:
-> From: Mario Limonciello <mario.limonciello@amd.com>
-> 
-> vga_is_firmware_default() checks firmware resources to find the owner
-> framebuffer resources to find the firmware PCI device.  This is an
-> open coded implementation of screen_info_pci_dev().  Switch to using
-> screen_info_pci_dev() instead.
-> 
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
-(after the kernel robot issue is fixed, of course)
-
-> ---
-> v5:
->  * split from next patch
-> ---
->  drivers/pci/vgaarb.c | 29 ++---------------------------
->  1 file changed, 2 insertions(+), 27 deletions(-)
+On Tue, 24 Jun 2025 13:55:07 +0100, Charles Keepax wrote:
+> The DisCo properties should be mipi-sdw-paging-supported and
+> mipi-sdw-bank-delay-supported, with an 'ed' on the end. Correct the
+> property names used in sdw_slave_read_prop().
 > 
-> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-> index 78748e8d2dbae..c3457708c01e3 100644
-> --- a/drivers/pci/vgaarb.c
-> +++ b/drivers/pci/vgaarb.c
-> @@ -556,34 +556,9 @@ EXPORT_SYMBOL(vga_put);
->  
->  static bool vga_is_firmware_default(struct pci_dev *pdev)
->  {
-> -#if defined(CONFIG_X86)
-> -	u64 base = screen_info.lfb_base;
-> -	u64 size = screen_info.lfb_size;
-> -	struct resource *r;
-> -	u64 limit;
-> +	struct screen_info *si = &screen_info;
->  
-> -	/* Select the device owning the boot framebuffer if there is one */
-> -
-> -	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
-> -		base |= (u64)screen_info.ext_lfb_base << 32;
-> -
-> -	limit = base + size;
-> -
-> -	/* Does firmware framebuffer belong to us? */
-> -	pci_dev_for_each_resource(pdev, r) {
-> -		if (resource_type(r) != IORESOURCE_MEM)
-> -			continue;
-> -
-> -		if (!r->start || !r->end)
-> -			continue;
-> -
-> -		if (base < r->start || limit >= r->end)
-> -			continue;
-> -
-> -		return true;
-> -	}
-> -#endif
-> -	return false;
-> +	return pdev == screen_info_pci_dev(si);
->  }
->  
->  static bool vga_arb_integrated_gpu(struct device *dev)
-> -- 
-> 2.43.0
+> The internal flag bank_delay_support is currently unimplemented, so that
+> being read wrong does not currently affect anything. The two existing
+> users for this helper and the paging_support flag rt1320-sdw.c and
+> rt721-sdca-sdw.c both manually set the flag in their slave properties,
+> thus are not affected by this bug either.
 > 
+> [...]
+
+Applied, thanks!
+
+[1/1] soundwire: Correct some property names
+      commit: ae6a0f5b8a5b0ca2e4bf1c0380267ad83aca8401
+
+Best regards,
+-- 
+~Vinod
+
+
