@@ -1,46 +1,46 @@
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987C02ED842;
-	Thu, 26 Jun 2025 18:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173C92ED875;
+	Thu, 26 Jun 2025 18:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750961668; cv=none; b=WWnXlHO2jca7lC9bSFVS2Dyja8LPhcdSUh1e4DeE94tGC9FS5LiEmI5z76fjgF4X4/K2YokBW5ixRoM2+eJARDUVLgogI27ijy4hhS4PP93nIe4odb+RPNqd4hGOY2vc6v5XZjUWDg1SXkErxzqfgkEvouEEVXr/aa5JsANqkSs=
+	t=1750961676; cv=none; b=mdJgZoyExyUyokgF/g1hi3mhI3+Vva4KPXRZWPSzdgMRqB6O2LrHTKSu8S9Z3CHa8mtbp1uO2TcxqpZUIxMu/x7ezx0XGXwuxF926yAJ8ihJcpsZtKQMdTIPDX4d5xSyPIIwhQqzx42XB8x0GO3ob6CPnVYFe9UsrekWIwoTJG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750961668; c=relaxed/simple;
-	bh=0/SIVN/Jra/dhih8+orDjkflgSjw0ilgmUmV8Cu4D90=;
+	s=arc-20240116; t=1750961676; c=relaxed/simple;
+	bh=3voyKilclrJyFpyj0vDLDIuW3RdmQV7SMimX+9MHXPk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=In0ZScNETvj1+XHYHRHcPhDxDba7Wo+QNwar1RLJKTuPuoQpgBSRwpWJnH2KO3yxbr1awZjQxEzLjDcchR09rmJUAVd8lftUFygli6gpo5PnR7h0qav6sEvyugKB9glLLtRvXfjJ+up6btKPrNMpPpkJ+Hke2M7z2aGVJLooEso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=gJE2jZxm; arc=none smtp.client-ip=198.47.23.235
+	 MIME-Version:Content-Type; b=CXk3DTJhYAHUy6pj2ObsQLG30I+WJZNBGwW28AUXTuGcPEluE4ks4nhlwHREGcFBWYV/ROV84E3loIAwUOdxFXk7aUl4DQ7e8gPHofFG5yeZnUO+Q3q9xyl94eVbC+x9JpNtXSTDarP4srFvbtUCUcicagnd8W/BdmC986IZCnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=SjbDdLhN; arc=none smtp.client-ip=198.47.23.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="gJE2jZxm"
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55QIEGUo2501799;
-	Thu, 26 Jun 2025 13:14:16 -0500
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="SjbDdLhN"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55QIEMTl1807739;
+	Thu, 26 Jun 2025 13:14:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1750961656;
-	bh=b4mseCcw+xyQ5JfvmJ9eWBu3vbT/W32xs7Zo/wABf+k=;
+	s=ti-com-17Q1; t=1750961662;
+	bh=4aYqEZqvY1R6ptZgQ9lV04nxsm6ZavtlpgfJ9aUmVPs=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=gJE2jZxmd2pTQhg+WNRpIfQN7LBEP5y05l9YHSRElpL5uzu2RrBACMgTz0E2fu31m
-	 pkAk4G0jHArlSVss9W80r+sRl+937a5PwvtqsxD3qH8Tb7LIk+0w7B+gG1XwLlj8RS
-	 tKENm1ECfobGaR86SOY0GB8ryAi8Y2WQg7PSgErc=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55QIEGiO3851214
+	b=SjbDdLhNEK9udWDTh6omWCm25LncguH+n7s96ajqeMShbRy2OZQyfZxns3htyBWbX
+	 5Po4D8ZWQ2nYC/NfYjSRlQnlHS4mCuuYRHvAiKkL6AjmKDl42bO/5Lny/Lm/630oS+
+	 1i1zrv/ZXZSq8L0aOrFmUxb4593VJwAvOX6LUTvI=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55QIEMVF3842200
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 26 Jun 2025 13:14:16 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 26 Jun 2025 13:14:22 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 26
- Jun 2025 13:14:15 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2025 13:14:21 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Thu, 26 Jun 2025 13:14:16 -0500
+ Frontend Transport; Thu, 26 Jun 2025 13:14:22 -0500
 Received: from LTPW0EX92E.dhcp.ti.com ([10.249.133.122])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55QIDr691713573;
-	Thu, 26 Jun 2025 13:14:11 -0500
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55QIDr6A1713573;
+	Thu, 26 Jun 2025 13:14:17 -0500
 From: Niranjan H Y <niranjan.hy@ti.com>
 To: <broonie@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
 CC: <andriy.shevchenko@linux.intel.com>, <tiwai@suse.de>,
@@ -49,9 +49,9 @@ CC: <andriy.shevchenko@linux.intel.com>, <tiwai@suse.de>,
         <lgirdwood@gmail.com>, <robh@kernel.org>,
         <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <navada@ti.com>, <v-hampiholi@ti.com>, <niranjan.hy@ti.com>
-Subject: [PATCH v3 3/4] Asoc: pcm6240: remove support for taac5x1x family
-Date: Thu, 26 Jun 2025 23:43:32 +0530
-Message-ID: <20250626181334.1200-4-niranjan.hy@ti.com>
+Subject: [PATCH v3 4/4] dt-bindings: sound: device support list for pcm6240
+Date: Thu, 26 Jun 2025 23:43:33 +0530
+Message-ID: <20250626181334.1200-5-niranjan.hy@ti.com>
 X-Mailer: git-send-email 2.33.0.windows.2
 In-Reply-To: <20250626181334.1200-1-niranjan.hy@ti.com>
 References: <20250626181334.1200-1-niranjan.hy@ti.com>
@@ -65,214 +65,60 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-tac5x1x codec driver suporrts tac5x1x family which includes
-the following ADCs and DACs. So removed the duplicate entries
-in the pcm6240 i2c driver.
+Removed taa* and tad* device from the support list
+as these devices are supported by tac5x1x codec driver
 
 Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
 
 ---
 v3:
-- remove unused code
+- update the subject of the patch file
 ---
- sound/soc/codecs/pcm6240.c | 126 +------------------------------------
- sound/soc/codecs/pcm6240.h |   4 --
- 2 files changed, 3 insertions(+), 127 deletions(-)
+ .../devicetree/bindings/sound/ti,pcm6240.yaml          | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/sound/soc/codecs/pcm6240.c b/sound/soc/codecs/pcm6240.c
-index 75af12231d1d..535c3f727e06 100644
---- a/sound/soc/codecs/pcm6240.c
-+++ b/sound/soc/codecs/pcm6240.c
-@@ -44,10 +44,6 @@ static const struct i2c_device_id pcmdevice_i2c_id[] = {
- 	{ "pcmd3140", PCMD3140 },
- 	{ "pcmd3180", PCMD3180 },
- 	{ "pcmd512x", PCMD512X },
--	{ "taa5212",  TAA5212  },
--	{ "taa5412",  TAA5412  },
--	{ "tad5212",  TAD5212  },
--	{ "tad5412",  TAD5412  },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, pcmdevice_i2c_id);
-@@ -442,60 +438,6 @@ static const struct pcmdevice_mixer_control pcmd3180_fine_gain_ctl[] = {
- 	}
- };
+diff --git a/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml b/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
+index d89b4255b51c..b0d5f57dc0f5 100644
+--- a/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
+@@ -29,8 +29,6 @@ description: |
+     https://www.ti.com/lit/gpn/pcm9211
+     https://www.ti.com/lit/gpn/pcmd3140
+     https://www.ti.com/lit/gpn/pcmd3180
+-    https://www.ti.com/lit/gpn/taa5212
+-    https://www.ti.com/lit/gpn/tad5212
  
--static const struct pcmdevice_mixer_control taa5412_digi_vol_ctl[] = {
--	{
--		.shift = 0,
--		.reg = TAA5412_REG_CH1_DIGITAL_VOLUME,
--		.max = 0xff,
--		.invert = 0,
--	},
--	{
--		.shift = 0,
--		.reg = TAA5412_REG_CH2_DIGITAL_VOLUME,
--		.max = 0xff,
--		.invert = 0,
--	},
--	{
--		.shift = 0,
--		.reg = TAA5412_REG_CH3_DIGITAL_VOLUME,
--		.max = 0xff,
--		.invert = 0,
--	},
--	{
--		.shift = 0,
--		.reg = TAA5412_REG_CH4_DIGITAL_VOLUME,
--		.max = 0xff,
--		.invert = 0,
--	}
--};
+ properties:
+   compatible:
+@@ -81,10 +79,6 @@ properties:
+       ti,pcmd3180: Eight-channel pulse-density-modulation input to TDM or
+       I2S output converter.
+ 
+-      ti,taa5212: Low-power high-performance stereo audio ADC with 118-dB
+-      dynamic range.
 -
--static const struct pcmdevice_mixer_control taa5412_fine_gain_ctl[] = {
--	{
--		.shift = 4,
--		.reg = TAA5412_REG_CH1_FINE_GAIN,
--		.max = 0xf,
--		.invert = 0,
--	},
--	{
--		.shift = 4,
--		.reg = TAA5412_REG_CH2_FINE_GAIN,
--		.max = 0xf,
--		.invert = 0,
--	},
--	{
--		.shift = 4,
--		.reg = TAA5412_REG_CH3_FINE_GAIN,
--		.max = 0xf,
--		.invert = 4,
--	},
--	{
--		.shift = 0,
--		.reg = TAA5412_REG_CH4_FINE_GAIN,
--		.max = 0xf,
--		.invert = 4,
--	}
--};
--
- static const DECLARE_TLV_DB_MINMAX_MUTE(pcmd3140_dig_gain_tlv,
- 	-10000, 2700);
- static const DECLARE_TLV_DB_MINMAX_MUTE(pcm1690_fine_dig_gain_tlv,
-@@ -510,9 +452,7 @@ static const DECLARE_TLV_DB_LINEAR(adc5120_chgain_tlv, 0, 4200);
- static const DECLARE_TLV_DB_MINMAX_MUTE(pcm6260_fgain_tlv,
- 	-10000, 2700);
- static const DECLARE_TLV_DB_LINEAR(pcm6260_chgain_tlv, 0, 4200);
--static const DECLARE_TLV_DB_MINMAX_MUTE(taa5412_dig_vol_tlv,
--	-8050, 4700);
--static const DECLARE_TLV_DB_LINEAR(taa5412_fine_gain_tlv,
-+static const DECLARE_TLV_DB_LINEAR(pcmd31x0_fine_gain_tlv,
- 	-80, 70);
- 
- static int pcmdev_change_dev(struct pcmdevice_priv *pcm_priv,
-@@ -981,7 +921,7 @@ static const struct pcmdev_ctrl_info pcmdev_gain_ctl_info[][2] = {
- 	// PCMD3140
- 	{
- 		{
--			.gain = taa5412_fine_gain_tlv,
-+			.gain = pcmd31x0_fine_gain_tlv,
- 			.pcmdev_ctrl = pcmd3140_fine_gain_ctl,
- 			.ctrl_array_size = ARRAY_SIZE(pcmd3140_fine_gain_ctl),
- 			.get = pcmdevice_get_volsw,
-@@ -1000,7 +940,7 @@ static const struct pcmdev_ctrl_info pcmdev_gain_ctl_info[][2] = {
- 	// PCMD3180
- 	{
- 		{
--			.gain = taa5412_fine_gain_tlv,
-+			.gain = pcmd31x0_fine_gain_tlv,
- 			.pcmdev_ctrl = pcmd3180_fine_gain_ctl,
- 			.ctrl_array_size = ARRAY_SIZE(pcmd3180_fine_gain_ctl),
- 			.get = pcmdevice_get_volsw,
-@@ -1025,62 +965,6 @@ static const struct pcmdev_ctrl_info pcmdev_gain_ctl_info[][2] = {
- 			.ctrl_array_size = 0,
- 		},
- 	},
--	// TAA5212
--	{
--		{
--			.gain = taa5412_fine_gain_tlv,
--			.pcmdev_ctrl = taa5412_fine_gain_ctl,
--			.ctrl_array_size = ARRAY_SIZE(taa5412_fine_gain_ctl),
--			.get = pcmdevice_get_volsw,
--			.put = pcmdevice_put_volsw,
--			.pcmdev_ctrl_name_id = 2,
--		},
--		{
--			.gain = taa5412_dig_vol_tlv,
--			.pcmdev_ctrl = taa5412_digi_vol_ctl,
--			.ctrl_array_size = ARRAY_SIZE(taa5412_digi_vol_ctl),
--			.get = pcmdevice_get_volsw,
--			.put = pcmdevice_put_volsw,
--			.pcmdev_ctrl_name_id = 1,
--		},
--	},
--	// TAA5412
--	{
--		{
--			.gain = taa5412_fine_gain_tlv,
--			.pcmdev_ctrl = taa5412_fine_gain_ctl,
--			.ctrl_array_size = ARRAY_SIZE(taa5412_fine_gain_ctl),
--			.get = pcmdevice_get_volsw,
--			.put = pcmdevice_put_volsw,
--			.pcmdev_ctrl_name_id = 2,
--		},
--		{
--			.gain = taa5412_dig_vol_tlv,
--			.pcmdev_ctrl = taa5412_digi_vol_ctl,
--			.ctrl_array_size = ARRAY_SIZE(taa5412_digi_vol_ctl),
--			.get = pcmdevice_get_volsw,
--			.put = pcmdevice_put_volsw,
--			.pcmdev_ctrl_name_id = 1,
--		},
--	},
--	// TAD5212
--	{
--		{
--			.ctrl_array_size = 0,
--		},
--		{
--			.ctrl_array_size = 0,
--		},
--	},
--	// TAD5412
--	{
--		{
--			.ctrl_array_size = 0,
--		},
--		{
--			.ctrl_array_size = 0,
--		},
--	},
- };
- 
- static int pcmdev_dev_bulk_write(struct pcmdevice_priv *pcm_dev,
-@@ -2002,10 +1886,6 @@ static const struct of_device_id pcmdevice_of_match[] = {
- 	{ .compatible = "ti,pcmd3140" },
- 	{ .compatible = "ti,pcmd3180" },
- 	{ .compatible = "ti,pcmd512x" },
--	{ .compatible = "ti,taa5212"  },
--	{ .compatible = "ti,taa5412"  },
--	{ .compatible = "ti,tad5212"  },
--	{ .compatible = "ti,tad5412"  },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, pcmdevice_of_match);
-diff --git a/sound/soc/codecs/pcm6240.h b/sound/soc/codecs/pcm6240.h
-index 2d8f9e798139..86b1ef734a3d 100644
---- a/sound/soc/codecs/pcm6240.h
-+++ b/sound/soc/codecs/pcm6240.h
-@@ -33,10 +33,6 @@ enum pcm_device {
- 	PCMD3140,
- 	PCMD3180,
- 	PCMD512X,
--	TAA5212,
--	TAA5412,
--	TAD5212,
--	TAD5412,
- 	MAX_DEVICE,
- };
- 
+-      ti,tad5212: Low-power stereo audio DAC with 120-dB dynamic range.
+     oneOf:
+       - items:
+           - enum:
+@@ -98,8 +92,6 @@ properties:
+           - enum:
+               - ti,pcmd512x
+               - ti,pcm9211
+-              - ti,taa5212
+-              - ti,tad5212
+           - const: ti,adc6120
+       - items:
+           - enum:
+@@ -114,8 +106,6 @@ properties:
+               - ti,pcmd3140
+               - ti,pcmd3180
+               - ti,pcm1690
+-              - ti,taa5412
+-              - ti,tad5412
+           - const: ti,pcm6240
+       - enum:
+           - ti,adc6120
 -- 
 2.45.2
 
