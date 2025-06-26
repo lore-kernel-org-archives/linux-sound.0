@@ -1,158 +1,150 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABD21991DD
-	for <linux-sound@vger.kernel.org>; Thu, 26 Jun 2025 05:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DFE1A0BF1
+	for <linux-sound@vger.kernel.org>; Thu, 26 Jun 2025 06:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750917145; cv=none; b=C0axU3nx/OPaHbg5RVPHOOK4injRstVw4T1CWi5MB6ZUEJ+gQLEWYKBVztYOVoD5lnVT8y8oyZcZR+FB1XRo7JuJtw1tDeSLYpRu2gB7ijesXjc5NvdFPjLFzhLHSPQFbAvfPzzIVwwEw6XXko/52JClOfgikityivaUGO4vjEI=
+	t=1750917640; cv=none; b=jvCIpw83SprnoOJ4+tiA3EQm1OkV6su3YIunhzvPu9qRpLspt64EkXbMaMDkZRp2PUjW0ZwE/L5TZCLLlRQfeDYe5XXNlSq5uT9s5x1pcF9OOK/153YP4Mvy9FSR4kNtj83qrBJKsXRVxPpM6V+gPJN0fsuAlQVGyG3bZPhnQkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750917145; c=relaxed/simple;
-	bh=wWjrQNkOoaM6bU5uGdIuJWx460JFDQZlZxvb4eBumpg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=FGnM/2gYMSQv0fdcXvYlsqJ6yUF7QMklz+AoldbwlKUxo89Dwd7d4wp5Z4lS7ib+bf0dZhD6TlMbju7XmY4tS0wBLQXfgpROlbdT5vYy0fqm+wwFGFbzZ5Ch04f84HoY/aDf17AjEOSHmVaT5qvbodljZDvPWmtGgqpFGzzXmsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=sXOGPUXO; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1750917640; c=relaxed/simple;
+	bh=kt8S1AwRVp2f2Q7HzwOBSEqicSROuvwWzZwUUdwCpoM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qUioHp5+FqiAA08fQaA6KPmN7YitEqnfqFhf/2sJn1PgI4mVToMvgUlgiZ7h6qmbjluVwWyQoppFODbBGmCP9nKn/LhA3JKnxxNgSt65OZNSyeu371+P69pSwa7SseeooJuELBxnZ+Scbs6CZvPtB7g7O1p8gKv7OwXOmOnlCy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XZVR+Uou; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2kfKKdqw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2MJkZ0nm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S2mDMiTo; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="sXOGPUXO"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 55Q5piPkB2606228, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1750917104; bh=wWjrQNkOoaM6bU5uGdIuJWx460JFDQZlZxvb4eBumpg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=sXOGPUXOsxXuOnQY7cxKjYvcJHed2HdpVWoSCm+6CSUzg/nA/K/mIoTl0/Oic7eg5
-	 Ntjvl7zeoi0HNlaWOQvC3fx/W7jTnRgy+GZA/YxzAxbYyfUy2JrCRh5nPgRpIZK43z
-	 RetB3D6eUdab/YHr1r5XQtyoqwgNV//XQvAGINC4lOQx9B2DUyPGTm5otuKi/qEnjj
-	 VoqsQQYe7sOEfe+UpPZql4V2+jpNZEKHFJUv7Hizv9gbYCu49beQswMdA8hiutvYC8
-	 ZoBMvRO0e2nV6vXTvLKzllZNb4ogiLEwm3Md1eB/EvjHIL/2iCOGej6Nw8Lpm2FvqK
-	 +Fg4jEs9M1rpQ==
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 55Q5piPkB2606228
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 26 Jun 2025 13:51:44 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 26 Jun 2025 13:52:00 +0800
-Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 26 Jun 2025 13:51:59 +0800
-Received: from RTEXDAG01.realtek.com.tw ([fe80::504c:148e:f72c:7466]) by
- RTEXDAG01.realtek.com.tw ([fe80::504c:148e:f72c:7466%5]) with mapi id
- 15.01.2507.035; Thu, 26 Jun 2025 13:51:58 +0800
-From: Kailang <kailang@realtek.com>
-To: "Joakim  Zhang" <joakim.zhang@cixtech.com>, Takashi Iwai <tiwai@suse.de>
-CC: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "chris.chiu@canonical.com" <chris.chiu@canonical.com>,
-        Geans_chen
-	<geans_chen@realsil.com.cn>,
-        cix-kernel-upstream
-	<cix-kernel-upstream@cixtech.com>
-Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on alc256
-Thread-Topic: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on
- alc256
-Thread-Index: AQHb4L8xB01VN1cvK0+4lsxOtof+qrQLccSAgAYrnZD//4w9gIAAsHPwgADASoCAAJ2KgIABGdEAgAClalA=
-Date: Thu, 26 Jun 2025 05:51:58 +0000
-Message-ID: <a0d71d7f93a94800881c8c67c9e715f8@realtek.com>
-References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
-	<20250619020844.2974160-5-joakim.zhang@cixtech.com>
- <87a562wqzu.wl-tiwai@suse.de> <431c41bd52224eb5ac341c9c24d52af1@realtek.com>
- <SEYPR06MB6278B03237E451616AC060E38278A@SEYPR06MB6278.apcprd06.prod.outlook.com>
- <abb90ebd8dab4cedbb831d4ad943bd56@realtek.com>
- <SEYPR06MB6278C26C6B0479C920FEB364827BA@SEYPR06MB6278.apcprd06.prod.outlook.com>
- <5f2431ca8ef2453daa9da2034798e682@realtek.com>
- <SEYPR06MB62788CE70E017CB5FD7F5317827AA@SEYPR06MB6278.apcprd06.prod.outlook.com>
-In-Reply-To: <SEYPR06MB62788CE70E017CB5FD7F5317827AA@SEYPR06MB6278.apcprd06.prod.outlook.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-x-kse-serverinfo: RTEXMBS01.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XZVR+Uou";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2kfKKdqw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2MJkZ0nm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S2mDMiTo"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5CBFE1F441;
+	Thu, 26 Jun 2025 06:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750917635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6Q8QIzfyUARkcqlvcPaQ0iw0lpqqWetSOtoj4xBjSsI=;
+	b=XZVR+UouBh/liivfC3lf3DR47rqfOZXZzeZtaVankrfziSAORaw6yf2LCde+C1/STK5y0q
+	AA9Tq6kFs0GJQIjBFZHc5jBsK5jk395BfOFwW/Na9ZzEXbIvQdR31GxGt9fkKzwAGr7v19
+	Pzz7PhlPatCWQ7s4Chtzic7yngKlpAk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750917635;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6Q8QIzfyUARkcqlvcPaQ0iw0lpqqWetSOtoj4xBjSsI=;
+	b=2kfKKdqwHDH83z9mhLC11Dal1BJTo8yQwZ3rRwvZsNa3xR9aH5vpzrU5peB+p599eYq4JB
+	f5WuibcKs9kPYmBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2MJkZ0nm;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=S2mDMiTo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1750917634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6Q8QIzfyUARkcqlvcPaQ0iw0lpqqWetSOtoj4xBjSsI=;
+	b=2MJkZ0nm/tWUdhUUgpcb4ZoOTu7/JyVtM2ES2thgf4PlO+nwvH8PmyKVwLawH7js8/mxds
+	PfcIiYL5RoiaqqeO8NfRrjkHlq1d2TWvKYk6tQNSG7VghnWszG0qSDxLNw7Djdj0OjaTtS
+	dChw8ZcyefrjTEDGn9HrWZlfTX+BEGs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1750917634;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6Q8QIzfyUARkcqlvcPaQ0iw0lpqqWetSOtoj4xBjSsI=;
+	b=S2mDMiToDmHDZgTEOlH+dDu40ceaArSuj40AkLym8HWK1VWBgayIF+l4GHbratfgu4wtdN
+	393gO55XQm1/5HCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3657B138A7;
+	Thu, 26 Jun 2025 06:00:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kBWXCwLiXGjyEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 26 Jun 2025 06:00:34 +0000
+Date: Thu, 26 Jun 2025 08:00:33 +0200
+Message-ID: <8734bnhwji.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v6.16-rc3
+In-Reply-To: <053302a805a2cc9f35f96bcf6e29c640.broonie@kernel.org>
+References: <053302a805a2cc9f35f96bcf6e29c640.broonie@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 5CBFE1F441
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -3.51
+
+On Wed, 25 Jun 2025 20:52:55 +0200,
+Mark Brown wrote:
+> 
+> The following changes since commit 86731a2a651e58953fc949573895f2fa6d456841:
+> 
+>   Linux 6.16-rc3 (2025-06-22 13:30:08 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.16-rc3
+> 
+> for you to fetch changes up to 6c038b58a2dc5a008c7e7a1297f5aaa4deaaaa7e:
+> 
+>   ASoC: SOF: Intel: hda: Use devm_kstrdup() to avoid memleak. (2025-06-24 16:39:42 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v6.16
+> 
+> A small collection of fixes, the main one being a fix for resume from
+> hibernation on AMD systems, plus a few new quirk entries for AMD
+> systems.
+
+Pulled now.  Thanks.
 
 
-
-> -----Original Message-----
-> From: Joakim Zhang <joakim.zhang@cixtech.com>
-> Sent: Thursday, June 26, 2025 11:45 AM
-> To: Kailang <kailang@realtek.com>; Takashi Iwai <tiwai@suse.de>
-> Cc: perex@perex.cz; tiwai@suse.com; linux-sound@vger.kernel.org;
-> chris.chiu@canonical.com; Geans_chen <geans_chen@realsil.com.cn>;
-> cix-kernel-upstream <cix-kernel-upstream@cixtech.com>
-> Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed=
- on
-> alc256
->=20
->=20
-> External mail : This email originated from outside the organization. Do n=
-ot
-> reply, click links, or open attachments unless you recognize the sender a=
-nd
-> know the content is safe.
->=20
->=20
->=20
-> Hello Kailang,
->=20
-> > -----Original Message-----
-> > From: Kailang <kailang@realtek.com>
-> > Sent: Wednesday, June 25, 2025 11:06 AM
-> > To: Joakim Zhang <joakim.zhang@cixtech.com>; Takashi Iwai
-> > <tiwai@suse.de>
-> > Cc: perex@perex.cz; tiwai@suse.com; linux-sound@vger.kernel.org;
-> > chris.chiu@canonical.com; Geans_chen <geans_chen@realsil.com.cn>; cix-
-> > kernel-upstream <cix-kernel-upstream@cixtech.com>
-> > Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect
-> > failed on
-> > alc256
-> >
-> >
-> > Maybe your platform need to set spec->en_3kpull_low to false.
-> > If spec->en_3kpull_low =3D false will help you to get MIC JD.
->=20
-> Yes, but don't know what exact hardware design makes this difference, do =
-you
-> know it?
-
-I don't know. But FT(Phytium) platform was disable runtime suspend, it does=
-n't have this issue.
-FT has not upstream his patch until now.
-
->=20
-> Indeed, it's better to add a board fixup, please ignore this patch, will =
-upstream
-> later after hda controller upstreamed.
->=20
-> Joakim
->=20
->=20
-> This email (including its attachments) is intended only for the person or=
- entity
-> to which it is addressed and may contain information that is privileged,
-> confidential or otherwise protected from disclosure. Unauthorized use,
-> dissemination, distribution or copying of this email or the information h=
-erein
-> or taking any action in reliance on the contents of this email or the
-> information herein, by anyone other than the intended recipient, or an
-> employee or agent responsible for delivering the message to the intended
-> recipient, is strictly prohibited. If you are not the intended recipient,=
- please do
-> not read, copy, use or disclose any part of this e-mail to others. Please=
- notify
-> the sender immediately and permanently delete this e-mail and any
-> attachments if you received it in error. Internet communications cannot b=
-e
-> guaranteed to be timely, secure, error-free or virus-free. The sender doe=
-s not
-> accept liability for any errors or omissions.
+Takashi
