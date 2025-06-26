@@ -1,97 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55044A33;
-	Thu, 26 Jun 2025 15:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C5B19B3EC;
+	Thu, 26 Jun 2025 17:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750952751; cv=none; b=noH4D5dK4csjkzFSenRqEoTw08eP4Hz4ED9vF8iiP+EOKbn60Rv0v5sQRSZE9wYugjNb89BHHLzujLegYKFGub4PZj0wnbLXhlTOZwkdH3jTAIeyIE5P8LT6CdSsbiNo3NTbJYY3S/6yzjTSc7GFMYY2Vnn+d93cnE4d2yUoN0c=
+	t=1750959261; cv=none; b=uLudhh4xwk7TtvFCBJSWRuK9r81gmYnbjxcIK0PP/x1RCu7KtCK+SAdc8tiZkkRP9ODJsn5COd2y1RocdXviXOiDhesGU4SXUBHf5yMjCiCDz0yS3C6zcehdyBPNDwfN8h+aUHyt/rarT4gnzTaxKBVLcOPmni/W5NLawYnpHeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750952751; c=relaxed/simple;
-	bh=lWecqGE0ZqUlI8R9J48Q6f79uZrYRpTG9U7FhQ/dYUM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j54tBy9huSk01w8Mc7qf/YYoWr8TpjnDrlYgf2/H3f3K3zldNXMf9vn3SI2W6x3D7YxJFj9fRxgX/L/j8cePVY3csvdBlzp8jFSkAmoJU+CBLmIbKylNQqfWQfjc6W0YeebwZ9pT/5zqMgiSbV3BgzUiHZcshEs8SotE29Eqzfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JGWs5ViX; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1750959261; c=relaxed/simple;
+	bh=zEQS1ug5v1lforkO+zqWpi+COmj73DWRUbk05YFmnSE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VCan8vc1ztQ5YCcQuePoDHtd54E9JK1TNheRp5pXptkh0fZ6bV+/ogK7mEqLV1IwC4Drk68Pf14hMA52oS8nGZrRqeyOx9seDsoDRfGYW7xNcJE19AtIr5nzM3xxD6P4AL8er1hhgCnpFYOz6MbJwq8TsxJgod14BMZ4IVt9pfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nVbMnrMA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JGWs5ViX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750952750; x=1782488750;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lWecqGE0ZqUlI8R9J48Q6f79uZrYRpTG9U7FhQ/dYUM=;
-  b=JGWs5ViXelEU/l1eLDEr/tuP9/StRXwv5sV9zNqH/M7G9FZAnDGNRMPq
-   HVEylKtOxR4aHQlglN7BYlRy/8m+yUgBsSHhB4lajfBcuDEFJPIM6fBZ1
-   ovO+m8d7nGaXYbRWjpZiwmm+eFaHkyJyKqdd9EtLrMmrwfBpMQYoS+NQA
-   LAeWZGRRoLxFafkZnG7Scz1LJf23jE8U/kpObHiLRZUqavo+lGZ4YQZqp
-   d2Hgpc+owHrruDBoYkitdSrd32b32fg/Ac+y3HLAw2q5GDFWRBJD7bL9G
-   bHK7YDso13/KkcOOUzSTdNOb+ypEaP8IfggAB6Uq69Ryko9AWuiUoXuhM
-   w==;
-X-CSE-ConnectionGUID: 5Soi1IDnRZ6RMP+5jjlGdQ==
-X-CSE-MsgGUID: VPswh1BQTtGHuEE+PcgROA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="64691307"
-X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
-   d="scan'208";a="64691307"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 08:45:49 -0700
-X-CSE-ConnectionGUID: dRwG9I1oTZOJoZXKLKAAFg==
-X-CSE-MsgGUID: WCwabfHxQbGlbP0wu7JYIg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
-   d="scan'208";a="152307520"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa009.jf.intel.com with ESMTP; 26 Jun 2025 08:45:47 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 28EE82AD; Thu, 26 Jun 2025 18:45:46 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Lee Jones <lee@kernel.org>
-Subject: [PATCH v1 1/1] mfd: madera: Don't use "proxy" headers
-Date: Thu, 26 Jun 2025 18:45:44 +0300
-Message-ID: <20250626154544.324724-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nVbMnrMA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B4E7C4CEEB;
+	Thu, 26 Jun 2025 17:34:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750959260;
+	bh=zEQS1ug5v1lforkO+zqWpi+COmj73DWRUbk05YFmnSE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nVbMnrMACT4Kqkly4XlcOPUhXlk1+vFfwFSNJSf4aHKapL2d0Za6G04NXIkINHlGg
+	 JmRT73lRGrYidZyPwg2a5BiUwpqMJQOSq47chG7tYzrBF7WDOlsyMwJZWHT8YYyhwY
+	 NGodrhrOS4pxv2QPFE4JxUucSNrEwj4RN3qlHNkThHAvtrURJGkuEwhUXJsBYGyogG
+	 1+pHohn2v/Wz6QvFt+KZOwsHNrVNw24M7rZH6dAUdmU46HgLmlw1Id8z+R8N/YSrTt
+	 xXHB171fRZMN1kZg+1umA0k9Gih6AXN6+fMPvfuaM1nLDDSibezkW3ZGM3W8n4PALM
+	 4qfDWd+FsidVg==
+Date: Thu, 26 Jun 2025 10:34:19 -0700
+From: Vinod Koul <vkoul@kernel.org>
+To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	sanyog.r.kale@intel.com, ~lkcamp/patches@lists.sr.ht,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] soundwire: debugfs: move debug statement outside of
+ error handling
+Message-ID: <aF2Em76RGWVpJfg-@vaman>
+References: <20250621191522.14415-1-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250621191522.14415-1-rodrigo.gobbi.7@gmail.com>
 
-Update header inclusions to follow IWYU (Include What You Use)
-principle.
+On 21-06-25, 16:09, Rodrigo Gobbi wrote:
+> The start_t and finish_t variables are not properly initialized
+> if errors happens over request_firmware actions.
+> This was also detected by smatch:
+> 
+> drivers/soundwire/debugfs.c:301 cmd_go() error: uninitialized symbol 'finish_t'.
+> drivers/soundwire/debugfs.c:301 cmd_go() error: uninitialized symbol 'start_t'.
+> 
+> Initialize those variables and move the debug statement outside of
+> firmware error handling.
+> 
+> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Closes: https://lore.kernel.org/linux-sound/0db6d0bf-7bac-43a7-b624-a00d3d2bf829@stanley.mountain/
+> Fixes: bb5cb09eedce ("soundwire: debugfs: add interface for BPT/BRA transfers")
+> ---
+> @Vinod Koul, tks for the suggestion. I`ve kept the ktime_t initialization, after moving
+> the debug statement, they are not actually needed, but I think there is no harm to keep that.
+> Tks and regards.
 
-Note that kernel.h is discouraged to be included as it's written
-at the top of that file.
+Thanks, but I guess lets avoid superfluous initialization. we should
+drop this as well
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/linux/mfd/madera/pdata.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> Changelog:
+> v2: moving debug statement
+> v1: https://lore.kernel.org/linux-sound/20250617015230.54981-1-rodrigo.gobbi.7@gmail.com/#t
+> ---
+>  drivers/soundwire/debugfs.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
+> index 3099ea074f10..42d2aba285f5 100644
+> --- a/drivers/soundwire/debugfs.c
+> +++ b/drivers/soundwire/debugfs.c
+> @@ -237,8 +237,8 @@ static int cmd_go(void *data, u64 value)
+>  {
+>  	const struct firmware *fw = NULL;
+>  	struct sdw_slave *slave = data;
+> -	ktime_t start_t;
+> -	ktime_t finish_t;
+> +	ktime_t start_t = 0;
+> +	ktime_t finish_t = 0;
+>  	int ret;
+>  
+>  	if (value != 1)
+> @@ -291,6 +291,9 @@ static int cmd_go(void *data, u64 value)
+>  
+>  	finish_t = ktime_get();
+>  
+> +	dev_dbg(&slave->dev, "command completed, num_byte %zu status %d, time %lld ms\n",
+> +		num_bytes, ret, div_u64(finish_t - start_t, NSEC_PER_MSEC));
+> +
+>  out:
+>  	if (fw)
+>  		release_firmware(fw);
+> @@ -298,9 +301,6 @@ static int cmd_go(void *data, u64 value)
+>  	pm_runtime_mark_last_busy(&slave->dev);
+>  	pm_runtime_put(&slave->dev);
+>  
+> -	dev_dbg(&slave->dev, "command completed, num_byte %zu status %d, time %lld ms\n",
+> -		num_bytes, ret, div_u64(finish_t - start_t, NSEC_PER_MSEC));
+> -
+>  	return ret;
+>  }
+>  DEFINE_DEBUGFS_ATTRIBUTE(cmd_go_fops, NULL,
+> -- 
+> 2.49.0
 
-diff --git a/include/linux/mfd/madera/pdata.h b/include/linux/mfd/madera/pdata.h
-index 32e3470708ed..7e84738cbb20 100644
---- a/include/linux/mfd/madera/pdata.h
-+++ b/include/linux/mfd/madera/pdata.h
-@@ -8,10 +8,11 @@
- #ifndef MADERA_PDATA_H
- #define MADERA_PDATA_H
- 
--#include <linux/kernel.h>
- #include <linux/regulator/arizona-ldo1.h>
- #include <linux/regulator/arizona-micsupp.h>
- #include <linux/regulator/machine.h>
-+#include <linux/types.h>
-+
- #include <sound/madera-pdata.h>
- 
- #define MADERA_MAX_MICBIAS		4
 -- 
-2.47.2
-
+~Vinod
