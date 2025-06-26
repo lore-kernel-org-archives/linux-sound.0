@@ -1,170 +1,95 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013801494A9;
-	Thu, 26 Jun 2025 00:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE9F1494A9;
+	Thu, 26 Jun 2025 01:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750899296; cv=none; b=rBRZQUxVNUQ1/VDW77zL+e0xRVZakyqdk/g37t6+yVj+FBlCXMsPjDeRpOtznjpN/sYXg6JzBcHHKNLKBxe35f0rpCUGNRtGAUCrXh+7BWRxPDsHzKOpUBbdzifQRZz0NMlnkVLwgAP1bwhFbiLWwMefqbah8YjAsWOqKdZf8vU=
+	t=1750901461; cv=none; b=WEolbF0tB3NcPcYOpKEj3VT3S7MQpiYxU5rho9uQrzjvxPlS31xJc7gK+5mrxKK4WAgdNQj9KBnoAOoUi+ab2mVEHhKJUbn8TMsMkpBkcaVuJ8e6Dq4nzNrxOYIiwU7kT2YvgrZzbDucKnVtSGsBLd5QlwMC8+QJr8J/Rl/e8mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750899296; c=relaxed/simple;
-	bh=9/v899sjDZPrW1UB99mD3F+dd81w7HeCELfpdkfQqus=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KMmiovW+fdF37HEmm9bZbFPKGvKttIe2zQu7v4Sb3unOJxrTx4abdA507kMvdAJrSsYNAa521KXqYDhG5Ru7WCo0vQODZ93QWqjNys85I4ankZXGCe29Vmk6z+fH8jEC/araPtF+vAxlGFh8Okp4/DPmJsSJb2r5WRmBILEReao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K74KYAbu; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750901461; c=relaxed/simple;
+	bh=NDQSvvYRBsU/VaEDIahaF/xTnl/9PAVZzq2BKXAfSIg=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=qHKPqnb2w8rIZJs6BvUvy+0uttmPXs8fy9gKH+gXBJThl7uTsIeXRO2uDV/3BU2VOYUYpeOB3av1Q2LUf9seaEFx9trZu6PbwHmZpsAgazEWExjxDenSt7IqMWEbmmqaZF4xWAoGVQVOEo+bTwYmgTeCOF0lBfVErrummydumZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SivDk4eE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K74KYAbu"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3d948ce7d9dso2366255ab.2;
-        Wed, 25 Jun 2025 17:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750899294; x=1751504094; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Xlua2bBZpnuY8yUpTwsazELVSXrkboThh5oafk32JNI=;
-        b=K74KYAbuv8Hp4m9i8EiKJL/2+l4SCrfV+LpOexDuawY0if9pG9fK1OyGfopJ5d/rik
-         Eld3+US7SzipWJi4DHoShx6sCh0mxa0nAUjwsvJ0obJWV2xirOitae9ZHjsDiK30GhYl
-         ejFxUeFrOBMBRsuSixRR5hdgERpHyIvRNLh0rEAn67O7FV2zisyWjXDo+ukKEr8lwlkv
-         WIJwtHTPq1stvtmfoiG0yG+WpPBcBjZTIyV0CK4MkQW4frylaleS0Wp9hMo2aufRZx8k
-         W6C7HVxsJ6xe29IxLaDrGHjYTdt5BG3gY6lcST38Zp7U8oqPCDjWsD4M4jbX/aN8DE5y
-         RTZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750899294; x=1751504094;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Xlua2bBZpnuY8yUpTwsazELVSXrkboThh5oafk32JNI=;
-        b=jep1D0E5y+n5G5690yXEsZ/t3lCaxCcP+Nb+hRx/+LgCS0TRsEFvabWQZOvrxc4NfG
-         eQIOMLFET1GX3Pz63X72cmyFtqMqNrBBdLoPX8HdDuM88xB27TJ27X5otCNtiSFfqvCU
-         qjz4Fjnw7giDIc6pVInG7eDn921/f2rr50ikJUEDHDATxfMelHZDzAEKdUO1XJ8bNABS
-         7zNIf+4I4ooAShIJDoz0NNXEqqDyvGpNG/P5tB91YECu/kEBxuLQUVgDtNjwyGj+Tezt
-         tcepspgvWlR+tQRQBtwFsjaLx9LF98DwAiwQxQbbYvwNNyLgoSbxrq8pWW+a0pJqtMZ0
-         Vd+g==
-X-Forwarded-Encrypted: i=1; AJvYcCU65vV/K8M+L55PYlyYkx+MGz80AZe06Jj59lkHpZ64PWPv5YiIOWIk8wv2+bH5drZqJE/CiUJs@vger.kernel.org, AJvYcCW6MpQmPKgjdAOXbJFPzO2MPhiDimClHpndyl8F29l9oXdBRj4TCdlvmtTq6tbDYNvxSDLuuFus52Gcggo=@vger.kernel.org, AJvYcCWPJ93/x/5XDL4ZIQRFLjnOWsilmmDhfJWwljnfKP6R0x5MAAMhKPKiD/ZRWIZcEQR+tx1/iRS6nyxyYnU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTAXlUmLGhUcp/fxcufZfDN5z6z6WmXHCShdE2iCCe9gktDTz4
-	67eEYQ2sjp3kR10FwA8deCX4W1JMR1iWA9cUBFdw71Re8FS5Vv53XtFUwGuHZ24Wyo2pRAW7qsP
-	dJCM9oa5XtO2uV7QRrrE6AiOrUB1ni7mBceJT
-X-Gm-Gg: ASbGncuZ0N6USYnuju/byMErHrDRCBZPb0sCdyjszmdmHY1l+VHy049sow+TS7aanjb
-	DR/C0OI1da0b7vk/WdlKxMuew16Aeq7veBVyJj3fYkkyyqOMToAQHHnpn58KUeTgWFy30CE0qEG
-	ZcSNgPSgO2MylR8XK9aJza2GSb004axpA94LhGFH37STo=
-X-Google-Smtp-Source: AGHT+IEM4Zu/NqEgMAR7cpVTqhvAeYd78ecZvEroVaZEKTVRACwfsA80W5BqWfT3uKhyoat30h3E6QDKK7+WKc3Tkzk=
-X-Received: by 2002:a05:6e02:3089:b0:3dd:b4b5:5c9f with SMTP id
- e9e14a558f8ab-3df329f1560mr66113975ab.19.1750899293867; Wed, 25 Jun 2025
- 17:54:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SivDk4eE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF1FDC4CEEA;
+	Thu, 26 Jun 2025 01:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750901460;
+	bh=NDQSvvYRBsU/VaEDIahaF/xTnl/9PAVZzq2BKXAfSIg=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=SivDk4eEahk+3uEn9qZu4Lj3gOWkBciKl+eY2uRIHXGkeIesJy6yt++2AEUv4+hSJ
+	 zBGwa2cvsub4fD/Su3NH4zOutLvOAgQ4HJn7S5737zqA2pyXShnQKVVubF399nOZXm
+	 oAbG0EG48Ln5tBCa67ZkLwncye5B4+i43dEF9YyanWOlnwW1kOxvZFYeuRztzcwhV6
+	 6nuNz/aD9Po7ZlrQmPMsK0sTc2rLdqXmslEN/tIj0YvHFoBFIrn73pQECwTFmKV4gy
+	 LQIj3PELy2klUosGiVKHkmcimV0Bz1RsKs4VY6MiEzKuauVBceB3UeXaaG96Tx40dg
+	 MLmKDbPwkXfiw==
+Date: Wed, 25 Jun 2025 20:30:59 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <175038697334.5297.17990232291668400728.reportbug@donsam> <aFxETAn3YKNZqpXL@eldamar.lan>
-In-Reply-To: <aFxETAn3YKNZqpXL@eldamar.lan>
-Reply-To: igor.tamara@gmail.com
-From: =?UTF-8?B?SWdvciBUw6FtYXJh?= <igor.tamara@gmail.com>
-Date: Wed, 25 Jun 2025 19:54:42 -0500
-X-Gm-Features: Ac12FXyhUNTguzUHacxLK76dRQjlt-OizyMS50oa56X2hY7EZu30xOtT7OiAHRc
-Message-ID: <CADdHDco7_o=4h_epjEAb92Dj-vUz_PoTC2-W9g5ncT2E0NzfeQ@mail.gmail.com>
-Subject: Re: [regression] Builtin recognized microphone Asus X507UA does not record
-To: Salvatore Bonaccorso <carnil@debian.org>
-Cc: 1108069@bugs.debian.org, stable@vger.kernel.org, 
-	Kuan-Wei Chiu <visitorckw@gmail.com>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Salvatore,
-
-
-El mi=C3=A9, 25 jun 2025 a las 13:47, Salvatore Bonaccorso
-(<carnil@debian.org>) escribi=C3=B3:
->
-> Hi Igor,
->
-> [For context, there was a regression report in Debian at
-> https://bugs.debian.org/1108069]
->
-> On Thu, Jun 19, 2025 at 09:36:13PM -0500, Igor Tamara wrote:
-> > Package: src:linux
-> > Version: 6.12.32-1
-> > Severity: normal
-> > Tags: a11y
-> >
-> > Dear Maintainer,
-> >
-> > The builtin microphone on my Asus X507UA does not record, is
-> > recognized and some time ago it worked on Bookworm with image-6.1.0-31,
-> > newer images are able to record when appending snd_hda_intel.model=3D10=
-43:1271
-> > to the boot as a workaround.
-> >
-> > The images that work with the boot option appended are, but not without
-> > it are:
-> >
-> > linux-image-6.15-amd64
-> > linux-image-6.12.32-amd64
-> > linux-image-6.1.0-37-amd64
-> > linux-image-6.1.0-0.a.test-amd64-unsigned_6.1.129-1a~test_amd64.deb
-> > referenced by https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D11009=
-28
-> > Also compiled from upstream 6.12.22 and 6.1.133 with the same result
-> >
-> > The image linux-image-6.1.0-31-amd64 worked properly, the problem was
-> > introduced in 129 and the result of the bisect was
-> >
-> > d26408df0e25f2bd2808d235232ab776e4dd08b9 is the first bad commit
-> > commit d26408df0e25f2bd2808d235232ab776e4dd08b9
-> > Author: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > Date:   Wed Jan 29 00:54:15 2025 +0800
-> >
-> >     ALSA: hda: Fix headset detection failure due to unstable sort
-> >
-> >     commit 3b4309546b48fc167aa615a2d881a09c0a97971f upstream.
-> >
-> >     The auto_parser assumed sort() was stable, but the kernel's sort() =
-uses
-> >     heapsort, which has never been stable. After commit 0e02ca29a563
-> >     ("lib/sort: optimize heapsort with double-pop variation"), the orde=
-r of
-> >     equal elements changed, causing the headset to fail to work.
-> >
-> >     Fix the issue by recording the original order of elements before
-> >     sorting and using it as a tiebreaker for equal elements in the
-> >     comparison function.
-> >
-> >     Fixes: b9030a005d58 ("ALSA: hda - Use standard sort function in hda=
-_auto_parser.c")
-> >     Reported-by: Austrum <austrum.lab@gmail.com>
-> >     Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D219158
-> >     Tested-by: Austrum <austrum.lab@gmail.com>
-> >     Cc: stable@vger.kernel.org
-> >     Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> >     Link: https://patch.msgid.link/20250128165415.643223-1-visitorckw@g=
-mail.com
-> >     Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> >     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >
-> >  sound/pci/hda/hda_auto_parser.c | 8 +++++++-
-> >  sound/pci/hda/hda_auto_parser.h | 1 +
-> >  2 files changed, 8 insertions(+), 1 deletion(-)
-> >
-> > I'm attaching the output of alsa-info_alsa-info.sh script
-> >
-> > Please let me know if I can provide more information.
->
-> Might you be able to try please the attached patch to see if it fixes
-> the issue?
->
-
-I recompiled and the mic is recording without issues when running on
-6.1.133 and 6.12.32
-
-Thank you everyone for all your hard work.
-
-> Regards,
-> Salvatore
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ devicetree@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+ linux-arm-msm@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>, 
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>, 
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Lee Jones <lee@kernel.org>, linux-sound@vger.kernel.org, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Alexey Klimov <alexey.klimov@linaro.org>
+In-Reply-To: <20250626-pm4125_audio_codec_v1-v1-1-e52933c429a0@linaro.org>
+References: <20250626-pm4125_audio_codec_v1-v1-0-e52933c429a0@linaro.org>
+ <20250626-pm4125_audio_codec_v1-v1-1-e52933c429a0@linaro.org>
+Message-Id: <175090145961.2702141.17071553013552846812.robh@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: sound: add bindings for pm4125 audio
+ codec
 
 
---
-http://igor.tamarapatino.org
+On Thu, 26 Jun 2025 00:50:29 +0100, Alexey Klimov wrote:
+> The audio codec IC is found on Qualcomm PM4125/PM2250 PMIC.
+> It has TX and RX soundwire slave devices hence two files
+> are added.
+> 
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
+>  .../bindings/sound/qcom,pm4125-codec.yaml          | 147 +++++++++++++++++++++
+>  .../devicetree/bindings/sound/qcom,pm4125-sdw.yaml |  86 ++++++++++++
+>  2 files changed, 233 insertions(+)
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/qcom,pm4125-codec.example.dtb: pmic@0 (qcom,pm8916): audio-codec@f000: 'qcom,micbias1-microvolt', 'qcom,micbias2-microvolt', 'qcom,micbias3-microvolt', 'qcom,rx-device', 'qcom,tx-device', 'vdd-cp-supply', 'vdd-io-supply', 'vdd-mic-bias-supply', 'vdd-pa-vpos-supply' do not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/qcom,pm4125-codec.example.dtb: pmic@0 (qcom,pm8916): audio-codec@f000:compatible:0: 'qcom,pm8916-wcd-analog-codec' was expected
+	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250626-pm4125_audio_codec_v1-v1-1-e52933c429a0@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
