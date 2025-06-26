@@ -1,152 +1,170 @@
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E1A287252;
-	Wed, 25 Jun 2025 23:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013801494A9;
+	Thu, 26 Jun 2025 00:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750895933; cv=none; b=U99seVtZu71jlMaKCYqdr7v6ISUlmHX994ULqoCX6eG7kmj//4aV22ZHcj6WvcBWRH5xklIlwlAtwQFxyC+p1PuVhCPRFePkkspNxCTsm3BHQZqlMv6B/6pTnCXccXoyQOj6q/Exvm5RHYb8SNAINJJ4du38dCSsH92+/bW/VJs=
+	t=1750899296; cv=none; b=rBRZQUxVNUQ1/VDW77zL+e0xRVZakyqdk/g37t6+yVj+FBlCXMsPjDeRpOtznjpN/sYXg6JzBcHHKNLKBxe35f0rpCUGNRtGAUCrXh+7BWRxPDsHzKOpUBbdzifQRZz0NMlnkVLwgAP1bwhFbiLWwMefqbah8YjAsWOqKdZf8vU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750895933; c=relaxed/simple;
-	bh=dvEesDSwiBt0Jop3jpMeVHjCHKSIuew6oU8iajJpkLk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p5D61VcW8yrG6FqikVMkKW36swi6FiMlywJfGRZkvqJHWGvCMa54mDJN/tVcii+Tm4mV8lVnIqe38a98ynSZ3Pjpdp9hmx+i55g6c4aHhOXbzXmPVK3Xjr9JOX4aU9z/CLcG1fRcynOzTxzK4EkkHqNdJ3AGxFTWFv7AWXr8N54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arunraghavan.net; spf=pass smtp.mailfrom=arunraghavan.net; dkim=pass (2048-bit key) header.d=arunraghavan.net header.i=@arunraghavan.net header.b=hFYrc8cX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=S55TUUup; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arunraghavan.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arunraghavan.net
+	s=arc-20240116; t=1750899296; c=relaxed/simple;
+	bh=9/v899sjDZPrW1UB99mD3F+dd81w7HeCELfpdkfQqus=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KMmiovW+fdF37HEmm9bZbFPKGvKttIe2zQu7v4Sb3unOJxrTx4abdA507kMvdAJrSsYNAa521KXqYDhG5Ru7WCo0vQODZ93QWqjNys85I4ankZXGCe29Vmk6z+fH8jEC/araPtF+vAxlGFh8Okp4/DPmJsSJb2r5WRmBILEReao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K74KYAbu; arc=none smtp.client-ip=209.85.166.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arunraghavan.net header.i=@arunraghavan.net header.b="hFYrc8cX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="S55TUUup"
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 2C0D5EC006C;
-	Wed, 25 Jun 2025 19:58:50 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 25 Jun 2025 19:58:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	arunraghavan.net; h=cc:cc:content-transfer-encoding:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1750895930; x=1750982330; bh=CD1lNkNuFLFWeglbXsOJf1Gqo9Ci9AUb
-	2FltuLTlbM4=; b=hFYrc8cXITwzHzjT/F/aPQJ77rnx5e+MBO/a13cIGRb5tj+7
-	cUyJsyBF2SicL9lKAm3/KxBlyEFCfshn3SBHBrCrgWwiBCOSGXdWMjxSKCLMz2X6
-	JruQ62JUmJn+GNYOJYhTraKa/k9STkzhfUSNzeNCHjRYFuc2Yp+DrqgqJ3+bwxcl
-	Kx+yWK44kS9p4EuJTsw0r6cMJs50FNRUFdsq1VK+3fNnQ9bSHy3W1l4FbPhgbpNu
-	ti+uicl4HXSgJxqVhvlyfqt46EsPR0Mk4lOk8xABD8rnDT8K2sKLkNmBgP4l7Pwt
-	3WBkGMQPM6Ys6IYEmauBpx48PPkZxz5D/pvmWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1750895930; x=1750982330; bh=C
-	D1lNkNuFLFWeglbXsOJf1Gqo9Ci9AUb2FltuLTlbM4=; b=S55TUUup7W5nUabXM
-	5GrKoGJCLCdjhlQbM7P7XI6R1dv/nXq0EtPndoA1j6Y1mcKR9gNylRXGqs9e/rUL
-	u67CmAmErYTLZydXyiMBEC9EvU3ywfOqYUex2PQbpZmar/rJMQPBRC3fjPCR02bT
-	G4p7zPuaRbKeNh1E6UPDVwSBX3PRn3o9eE7mFOraaL63otc1XrMqGGQbAqXwI4eA
-	Bk4UhlDAlBaCHDkrXzMqK5wesk9Ok2oaDyodLWcp67PLeSrYdDz3U2lisOc9fAaa
-	qSUaULQNGfsNPJ/eG67P+t7bOZfh+iRTXLIYK2/iS5SB0WoZV2i+kJOW+wW1QokK
-	Ns3gA==
-X-ME-Sender: <xms:OY1caGS5hhhT6f4CjOJ-dl7nvFlvkdzxY2FMxZCbBGM-Tl50THJJbg>
-    <xme:OY1caLzjEmTQG1o7c1Zsm6hUy83R2QA7DRWnfV-9V_NInwT6v-QRpWvpIQfytabZ1
-    1MNgMoDRffyNwFXng>
-X-ME-Received: <xmr:OY1caD03VoUDuA3YRdsrOFe1_iVCtdx_Vuvmlnux0dWrtcHxqW5yUufNQWQn5UL7>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvgeduhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeetrhhunhcutfgr
-    ghhhrghvrghnuceorghruhhnsegrrhhunhhrrghghhgrvhgrnhdrnhgvtheqnecuggftrf
-    grthhtvghrnhepieduheehtedukeeuheeiudevgeelgfelvdelgeeftedutdeutdefjeek
-    feejfeelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghruhhnsegrrhhunhhrrghghhgrvhgrnhdrnhgvthdpnhgspghrtghpthhtohepudef
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehshhgvnhhgjhhiuhdrfigrnhhgse
-    hgmhgrihhlrdgtohhmpdhrtghpthhtohepgihiuhgsohdrlhgvvgesghhmrghilhdrtgho
-    mhdprhgtphhtthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomhdprhgtphhtthhope
-    hnihgtohhlvghothhsuhhkrgesghhmrghilhdrtghomhdprhgtphhtthhopehlghhirhgu
-    fihoohgusehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrohhonhhivgeskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgiipdhrtghpthhtohep
-    thhifigrihesshhushgvrdgtohhmpdhrtghpthhtohepphdrtggrmhgvrhhlhihntghkse
-    htvghlvghvihgtrdgtohhm
-X-ME-Proxy: <xmx:OY1caCC_dVKYHIlC4s3YEUEVi3EQEA_1-fTdfIneZE3dUoLt3JMOAQ>
-    <xmx:OY1caPjknBNGroiNcNWnGDngbv4tTWukNiQD71-d6XRCnqMiWTYp9A>
-    <xmx:OY1caOrpCvXLDXEJxG-FpXmikX1mow5PYnPKUJg6y9i0rsp0zYVJJQ>
-    <xmx:OY1caChmIyY52nia4tniWmsAjJhAb45YPGk1nBTa88poAeKTm2kyVw>
-    <xmx:Oo1caNwtsxehlSruYPtKNWHbl-gn7HkGmXPL_YSbY_8VvuYkXaTtwsNA>
-Feedback-ID: i42c0435e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Jun 2025 19:58:48 -0400 (EDT)
-From: Arun Raghavan <arun@arunraghavan.net>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>
-Cc: Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Pieterjan Camerlynck <p.camerlynck@televic.com>,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	Arun Raghavan <arun@asymptotic.io>
-Subject: [PATCH v2] ASoC: fsl_sai: Force a software reset when starting in consumer mode
-Date: Wed, 25 Jun 2025 19:56:16 -0400
-Message-ID: <20250625235757.68058-3-arun@arunraghavan.net>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250625130648.201331-1-arun@arunraghavan.net>
-References: <20250625130648.201331-1-arun@arunraghavan.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K74KYAbu"
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3d948ce7d9dso2366255ab.2;
+        Wed, 25 Jun 2025 17:54:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750899294; x=1751504094; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Xlua2bBZpnuY8yUpTwsazELVSXrkboThh5oafk32JNI=;
+        b=K74KYAbuv8Hp4m9i8EiKJL/2+l4SCrfV+LpOexDuawY0if9pG9fK1OyGfopJ5d/rik
+         Eld3+US7SzipWJi4DHoShx6sCh0mxa0nAUjwsvJ0obJWV2xirOitae9ZHjsDiK30GhYl
+         ejFxUeFrOBMBRsuSixRR5hdgERpHyIvRNLh0rEAn67O7FV2zisyWjXDo+ukKEr8lwlkv
+         WIJwtHTPq1stvtmfoiG0yG+WpPBcBjZTIyV0CK4MkQW4frylaleS0Wp9hMo2aufRZx8k
+         W6C7HVxsJ6xe29IxLaDrGHjYTdt5BG3gY6lcST38Zp7U8oqPCDjWsD4M4jbX/aN8DE5y
+         RTZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750899294; x=1751504094;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Xlua2bBZpnuY8yUpTwsazELVSXrkboThh5oafk32JNI=;
+        b=jep1D0E5y+n5G5690yXEsZ/t3lCaxCcP+Nb+hRx/+LgCS0TRsEFvabWQZOvrxc4NfG
+         eQIOMLFET1GX3Pz63X72cmyFtqMqNrBBdLoPX8HdDuM88xB27TJ27X5otCNtiSFfqvCU
+         qjz4Fjnw7giDIc6pVInG7eDn921/f2rr50ikJUEDHDATxfMelHZDzAEKdUO1XJ8bNABS
+         7zNIf+4I4ooAShIJDoz0NNXEqqDyvGpNG/P5tB91YECu/kEBxuLQUVgDtNjwyGj+Tezt
+         tcepspgvWlR+tQRQBtwFsjaLx9LF98DwAiwQxQbbYvwNNyLgoSbxrq8pWW+a0pJqtMZ0
+         Vd+g==
+X-Forwarded-Encrypted: i=1; AJvYcCU65vV/K8M+L55PYlyYkx+MGz80AZe06Jj59lkHpZ64PWPv5YiIOWIk8wv2+bH5drZqJE/CiUJs@vger.kernel.org, AJvYcCW6MpQmPKgjdAOXbJFPzO2MPhiDimClHpndyl8F29l9oXdBRj4TCdlvmtTq6tbDYNvxSDLuuFus52Gcggo=@vger.kernel.org, AJvYcCWPJ93/x/5XDL4ZIQRFLjnOWsilmmDhfJWwljnfKP6R0x5MAAMhKPKiD/ZRWIZcEQR+tx1/iRS6nyxyYnU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTAXlUmLGhUcp/fxcufZfDN5z6z6WmXHCShdE2iCCe9gktDTz4
+	67eEYQ2sjp3kR10FwA8deCX4W1JMR1iWA9cUBFdw71Re8FS5Vv53XtFUwGuHZ24Wyo2pRAW7qsP
+	dJCM9oa5XtO2uV7QRrrE6AiOrUB1ni7mBceJT
+X-Gm-Gg: ASbGncuZ0N6USYnuju/byMErHrDRCBZPb0sCdyjszmdmHY1l+VHy049sow+TS7aanjb
+	DR/C0OI1da0b7vk/WdlKxMuew16Aeq7veBVyJj3fYkkyyqOMToAQHHnpn58KUeTgWFy30CE0qEG
+	ZcSNgPSgO2MylR8XK9aJza2GSb004axpA94LhGFH37STo=
+X-Google-Smtp-Source: AGHT+IEM4Zu/NqEgMAR7cpVTqhvAeYd78ecZvEroVaZEKTVRACwfsA80W5BqWfT3uKhyoat30h3E6QDKK7+WKc3Tkzk=
+X-Received: by 2002:a05:6e02:3089:b0:3dd:b4b5:5c9f with SMTP id
+ e9e14a558f8ab-3df329f1560mr66113975ab.19.1750899293867; Wed, 25 Jun 2025
+ 17:54:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <175038697334.5297.17990232291668400728.reportbug@donsam> <aFxETAn3YKNZqpXL@eldamar.lan>
+In-Reply-To: <aFxETAn3YKNZqpXL@eldamar.lan>
+Reply-To: igor.tamara@gmail.com
+From: =?UTF-8?B?SWdvciBUw6FtYXJh?= <igor.tamara@gmail.com>
+Date: Wed, 25 Jun 2025 19:54:42 -0500
+X-Gm-Features: Ac12FXyhUNTguzUHacxLK76dRQjlt-OizyMS50oa56X2hY7EZu30xOtT7OiAHRc
+Message-ID: <CADdHDco7_o=4h_epjEAb92Dj-vUz_PoTC2-W9g5ncT2E0NzfeQ@mail.gmail.com>
+Subject: Re: [regression] Builtin recognized microphone Asus X507UA does not record
+To: Salvatore Bonaccorso <carnil@debian.org>
+Cc: 1108069@bugs.debian.org, stable@vger.kernel.org, 
+	Kuan-Wei Chiu <visitorckw@gmail.com>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Arun Raghavan <arun@asymptotic.io>
+Hi Salvatore,
 
-In a setup with an external clock provider, when running the receiver
-(arecord) and triggering an xrun with xrun_injection, we see a channel
-swap/offset. This happens sometimes when running only the receiver, but
-occurs reliably if a transmitter (aplay) is also concurrently running.
 
-The theory is that SAI seems to lose track of frame sync during the
-trigger stop -> trigger start cycle that occurs during an xrun. Doing
-just a FIFO reset in this case does not suffice, and only a software
-reset seems to get it back on track.
+El mi=C3=A9, 25 jun 2025 a las 13:47, Salvatore Bonaccorso
+(<carnil@debian.org>) escribi=C3=B3:
+>
+> Hi Igor,
+>
+> [For context, there was a regression report in Debian at
+> https://bugs.debian.org/1108069]
+>
+> On Thu, Jun 19, 2025 at 09:36:13PM -0500, Igor Tamara wrote:
+> > Package: src:linux
+> > Version: 6.12.32-1
+> > Severity: normal
+> > Tags: a11y
+> >
+> > Dear Maintainer,
+> >
+> > The builtin microphone on my Asus X507UA does not record, is
+> > recognized and some time ago it worked on Bookworm with image-6.1.0-31,
+> > newer images are able to record when appending snd_hda_intel.model=3D10=
+43:1271
+> > to the boot as a workaround.
+> >
+> > The images that work with the boot option appended are, but not without
+> > it are:
+> >
+> > linux-image-6.15-amd64
+> > linux-image-6.12.32-amd64
+> > linux-image-6.1.0-37-amd64
+> > linux-image-6.1.0-0.a.test-amd64-unsigned_6.1.129-1a~test_amd64.deb
+> > referenced by https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D11009=
+28
+> > Also compiled from upstream 6.12.22 and 6.1.133 with the same result
+> >
+> > The image linux-image-6.1.0-31-amd64 worked properly, the problem was
+> > introduced in 129 and the result of the bisect was
+> >
+> > d26408df0e25f2bd2808d235232ab776e4dd08b9 is the first bad commit
+> > commit d26408df0e25f2bd2808d235232ab776e4dd08b9
+> > Author: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > Date:   Wed Jan 29 00:54:15 2025 +0800
+> >
+> >     ALSA: hda: Fix headset detection failure due to unstable sort
+> >
+> >     commit 3b4309546b48fc167aa615a2d881a09c0a97971f upstream.
+> >
+> >     The auto_parser assumed sort() was stable, but the kernel's sort() =
+uses
+> >     heapsort, which has never been stable. After commit 0e02ca29a563
+> >     ("lib/sort: optimize heapsort with double-pop variation"), the orde=
+r of
+> >     equal elements changed, causing the headset to fail to work.
+> >
+> >     Fix the issue by recording the original order of elements before
+> >     sorting and using it as a tiebreaker for equal elements in the
+> >     comparison function.
+> >
+> >     Fixes: b9030a005d58 ("ALSA: hda - Use standard sort function in hda=
+_auto_parser.c")
+> >     Reported-by: Austrum <austrum.lab@gmail.com>
+> >     Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D219158
+> >     Tested-by: Austrum <austrum.lab@gmail.com>
+> >     Cc: stable@vger.kernel.org
+> >     Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> >     Link: https://patch.msgid.link/20250128165415.643223-1-visitorckw@g=
+mail.com
+> >     Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> >     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >
+> >  sound/pci/hda/hda_auto_parser.c | 8 +++++++-
+> >  sound/pci/hda/hda_auto_parser.h | 1 +
+> >  2 files changed, 8 insertions(+), 1 deletion(-)
+> >
+> > I'm attaching the output of alsa-info_alsa-info.sh script
+> >
+> > Please let me know if I can provide more information.
+>
+> Might you be able to try please the attached patch to see if it fixes
+> the issue?
+>
 
-Signed-off-by: Arun Raghavan <arun@asymptotic.io>
-Reported-by: Pieterjan Camerlynck <p.camerlynck@televic.com>
----
+I recompiled and the mic is recording without issues when running on
+6.1.133 and 6.12.32
 
-v2:
-- Address build warning from kernel test robot
+Thank you everyone for all your hard work.
 
- sound/soc/fsl/fsl_sai.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+> Regards,
+> Salvatore
 
-diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index af1a168d35e3..d158352c7640 100644
---- a/sound/soc/fsl/fsl_sai.c
-+++ b/sound/soc/fsl/fsl_sai.c
-@@ -841,6 +841,18 @@ static int fsl_sai_trigger(struct snd_pcm_substream *substream, int cmd,
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_RESUME:
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-+		/*
-+		 * Force a software reset if we are not the clock provider, as we
-+		 * might have lost frame sync during xrun recovery.
-+		 */
-+		if (sai->is_consumer_mode[tx]) {
-+			regmap_update_bits(sai->regmap,
-+					FSL_SAI_xCSR(tx, ofs), FSL_SAI_CSR_SR,
-+					FSL_SAI_CSR_SR);
-+			regmap_update_bits(sai->regmap,
-+					FSL_SAI_xCSR(tx, ofs), FSL_SAI_CSR_SR,
-+					0);
-+		}
- 		regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs),
- 				   FSL_SAI_CSR_FRDE, FSL_SAI_CSR_FRDE);
- 
--- 
-2.49.0
 
+--
+http://igor.tamarapatino.org
