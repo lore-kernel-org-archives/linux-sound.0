@@ -1,133 +1,119 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEDC259C9C
-	for <linux-sound@vger.kernel.org>; Thu, 26 Jun 2025 11:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862AE215191;
+	Thu, 26 Jun 2025 11:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750936143; cv=none; b=QZu8ngWSLV/zo4mOOgTyQMNWcHTicWi7+6LfP18JoOP4wZZMLSLUFgRGMzUtz7zMoTcGkRveMNaJIoVlwSNKPF4pM90uZR9FTn0Isc05izp+pxyg8XfCHfs9fCc7WpryWpyAebiXKFK5zv6iCkiBOoy3FM1eSECsK8UDne3TihM=
+	t=1750936879; cv=none; b=NLCDVcvK65Jg0+Ve5WcG6On8+9XXCQuCaLtz1OI5ECgv0Sg57vNP8PVVweaCGSsrsGGnwrOIU535uTUsTL7LWBE8EReXx2lQJgZohLl+aar8xXfpPEkkRZINCvyoF01n23boRVsxyS/h/qJjMhk8xSxCANGd3+DNBBrrZDlppyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750936143; c=relaxed/simple;
-	bh=Jfn0fS2LI3pBix9K0aM+ywu2YM+BVe8pJsIOOMevAyY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=SkzUiRzh+VZV2oFwfIjmmgkcwRTnahnNNsR5/r3TS7ZOodjlnRkHI52ijhPV1IOUUZigdy0JLIZ4z6KQJH8MuHS0ISNoIy9fpgFp59jcnVeIoWHLGT0oJ9AqpIYGTKvmuFsodL46HMpfexmp+FwgyY7AKJsl3/0Vwgf+iJ9T2IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D7FIelBi; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750936879; c=relaxed/simple;
+	bh=m0CL5AizdnwL+eTdcWO6GvAVudTqSmnqEQW6X1g/RNw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=gMoF+jOoJOwuiWCi5yvaEdyxNcsUiICivPMd+pEHNEhC4WxOj7goRERF3vFHUqxD+PLWVV2b9y3+xgVO8ymF8OHXGbk9CmUa6xHQMeuTuOXtoX4woMWHUuUQ1voWbN1zBAtsadNtIKNvDF8JE7SsgKU2LYc7OIL/DGAbZhoN20E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arunraghavan.net; spf=pass smtp.mailfrom=arunraghavan.net; dkim=pass (2048-bit key) header.d=arunraghavan.net header.i=@arunraghavan.net header.b=aUx+u+Pz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NRG2LYb7; arc=none smtp.client-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arunraghavan.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arunraghavan.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D7FIelBi"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-450cfb79177so4563845e9.0
-        for <linux-sound@vger.kernel.org>; Thu, 26 Jun 2025 04:08:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750936138; x=1751540938; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L47FMmq/heBHOm6gQHtGzqnF4x9Cl2uyNAnRXAGiwmw=;
-        b=D7FIelBiZ3Hm3+LTCyuURHsgZpIEjay5r+e1ThraOFBaJASP+es927Ydqu6Q+ob0wn
-         jcch+eeR2/cwORQiufg1xN/ZvZgydLvD9iiH0R+5puFJgpZJ9hyFY8IecgI6kuVp5Yub
-         EKDx18upmAPBClNs2kGYy8ZwfXpB5dIffoMwMWP1qHkSe6dB7/zBYzOt8suOx2xbh4uo
-         R72uF97skIr9m4/fn9WR9z8VNykciYtG8X72TCl/1DEX0rTJ6sv6mQGHeGrjdIXZn6UH
-         UmdbYQRfFDIysKg5dR1Hc+4Yd7TBhCg1qCAhHi/RReugjouzr6l43xWXERhRHlwVKBct
-         TbUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750936138; x=1751540938;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=L47FMmq/heBHOm6gQHtGzqnF4x9Cl2uyNAnRXAGiwmw=;
-        b=Bhz5MnoLmAtncP0O+VME/MUswgNz9j+yjSmAbMaS+RghMhTcAO3+34DrIjEChBJAQn
-         CoMf7xmsxD5wqjdwVWBXPphaNSeHOPWq72Rgep2Rmw8kHqiGXfrwPd3/YiN2mU/E1lUY
-         oKpHHPRRAMxF8fzXngYyVbyQqsoPmNqkXcuQpSxW1fZgl33wMduzdgiuCxOti8enauxA
-         k6+e1EfehjVGy1YAeJjqqgXA00w84ttevaoN+roD3q0O8+54oNNr26u4jqVJgi1OZIhs
-         YAsYUabQcbboGVuyUJhWN6VeHVJXtmwPspfFEWmdZ380TQ/e/0nCdYKjCdPnWgvgaKH0
-         R3fw==
-X-Forwarded-Encrypted: i=1; AJvYcCUDbMPK2ux/y5k0+x3dqKuQI/2xrFHSG8OHCE4kvh6Dhuys1Th3mpJXdQvJnER35auiu3hgjzCh9vWIMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzZxaxK9Z/RKvDTuQnsrVK6BXDAicxHnDIQyDbBc6eOmvcStQm
-	svRc+LMImzztLR/4mu8kGRyeLYwNCSrkERC8zgV/l2AQN+UwlrQWUILByEpZUzZ2HZE=
-X-Gm-Gg: ASbGncua7G2otksYJ6pB75I1FsMT6YBfZmQYRFcWoukWiKwsXNHD4Ni6ORfryhKZEQp
-	XlOuEGOHYR/2zysfRJY7RWVsvz7/KAISaUFuKmwwEWYJSKWFzciOTJq0/RSkZRryg9b5za6i6+w
-	xSyExWi6RcFVgCEMeDBEpCbuxwrZhxM3DyfU9hRNaw1vdZDQcRlGGleziweX29gw9HHL+yKFFp4
-	rvMs3Y56FhdtxGTr88QYAhuX/mmDrielAUvWwRSNgyyIaQeudhRklIFbVjh592CkbfIlsEeVZ7h
-	Up6LtFl0BsVXio89tN4bFFjTLCXcMfHq2fNxaqPGblwgLVNQFP1LOP5Ydsv669XZjm4=
-X-Google-Smtp-Source: AGHT+IELxnFr+7S8k465yXgeM0nKFIFmu+MciekB6iPH5ORG6jBuwjyOj4litHeUFKiMBlazAykM6w==
-X-Received: by 2002:a05:600c:1e1e:b0:43c:f3e4:d6f6 with SMTP id 5b1f17b1804b1-45381b0632dmr72455385e9.31.1750936138307;
-        Thu, 26 Jun 2025 04:08:58 -0700 (PDT)
-Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a390c88sm17336235e9.8.2025.06.26.04.08.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 04:08:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=arunraghavan.net header.i=@arunraghavan.net header.b="aUx+u+Pz";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NRG2LYb7"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id E8E0A7A0112;
+	Thu, 26 Jun 2025 07:21:14 -0400 (EDT)
+Received: from phl-imap-04 ([10.202.2.82])
+  by phl-compute-05.internal (MEProxy); Thu, 26 Jun 2025 07:21:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	arunraghavan.net; h=cc:cc:content-transfer-encoding:content-type
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to; s=fm1; t=1750936874; x=1751023274; bh=/SW6QnMa4UOsnOldpJxTY
+	j4HpI4vmk6QAX148MJm4ns=; b=aUx+u+PzXKbeDI132DZ2ONFxkdH6gfjSsGmKw
+	LhkbkptfdDlCPANSyk+2Bkd+kDEcbxzb94N9Up+FzxNO4+6gDc8rlXByLp00xhbE
+	xId5r/ZQ0P5ONQOs86lo5KjzNkUJzaFJpWxea6IjuMPt/uKlQN4uNMRJY33A6/58
+	IB/lmcovDFjeXZXP90xWOnv6FZYINgPt3B6HxjzTc2TSbnCGYq/hx4G/KgXCV/yu
+	sL4ku2txNt+7CjT7v57M1wiicMJatqqn+53cXSXFzTnn4WxRCfZfvSieyQQUiDhh
+	g1k3mqmfAQ9QgxFflG/9CV1bETx1SXU6MNuB45ps7GYL+W7FQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1750936874; x=
+	1751023274; bh=/SW6QnMa4UOsnOldpJxTYj4HpI4vmk6QAX148MJm4ns=; b=N
+	RG2LYb7lyvgK66RNHxMP2CVf/66oR/HvesiSg0o/yRNAbM1flPJb1uZcbmULKLKB
+	zuk1/OeXJORMEb8g2ypKnmHTGueztzegfzD9AFeu8ontPClhD6vlt85/5EtGWEmJ
+	VtHvRY5FUXshcJ6DhowbC0OTlBk2MzeGL2PjdSlS+AxFpn5oel23s2xUxpvHM8qS
+	Q8hW+oLjNqO9iNtNIv3MMtizKYmzl7W87J7lA+nshKFiEQSwoZG9AxPt48VDVZF9
+	HE470lpbdFbP2u8XsRtGYTQFRXqcTHjhoa/3e6HbeIqBtyCH+0Pmrp1LZNvURvPJ
+	vYl8+V+2WalbQ3ZgTQKeQ==
+X-ME-Sender: <xms:KS1daAv6z_zNa4zVJuOP1jePfcoHBnxuZ8msBrtdBQw3QdWss4XOtA>
+    <xme:KS1daNd0TdMOzbquTdW5r9iKZwFDDBNm0CD51EuhLtg6nGduyUAz4D0tlbX15B8Yl
+    YI31YMyLAGkAQ-3Fg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddthecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegrihhl
+    ohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpe
+    foggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhunhcutfgr
+    ghhhrghvrghnfdcuoegrrhhunhesrghruhhnrhgrghhhrghvrghnrdhnvghtqeenucggtf
+    frrghtthgvrhhnpeegheetffehudfhiedvkefgheelfeetueeutdetudeutdeiveejvdet
+    jedtjeekveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrrhhunhesrghruhhnrhgrghhhrghvrghnrdhnvghtpdhnsggprhgtphhtthhopedu
+    fedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghruhhnsegrshihmhhpthhoth
+    hitgdrihhopdhrtghpthhtohepgihiuhgsohdrlhgvvgesghhmrghilhdrtghomhdprhgt
+    phhtthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomhdprhgtphhtthhopehlghhirh
+    gufihoohgusehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhitgholhgvohhtshhukhgr
+    sehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhhvghnghhjihhurdifrghnghesghhmrg
+    hilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehlihhnuhigphhptgdquggvvheslhhishhtshdrohiilhgrsghsrdhorhhgpd
+    hrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgii
+X-ME-Proxy: <xmx:KS1daLxBiK4O07CHZKKWp79mrEvtOfzkrr84FPRq6FXIWGYG-3VYvA>
+    <xmx:KS1daDNRRqFdRtx8zQ0LijpBD5UyM8CFXcV9zkL1drh0GM7_llrd9Q>
+    <xmx:KS1daA8pLCnUZgXi_PRFVvohuApAJmExpSNgGTswvPZSACSOa-4czg>
+    <xmx:KS1daLWRa5GH67FAqb10ebX73zqVeyNxb6xZ0ZBp02ft4JauvjCOKg>
+    <xmx:Ki1daC5yvRr1RyhXBx-MjzS9t-gLeycqPGOAGqmjG7BDVXGLAvkQ6VIW>
+Feedback-ID: i42c0435e:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 8C444B60069; Thu, 26 Jun 2025 07:21:13 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Jun 2025 12:08:56 +0100
-Message-Id: <DAWF24I1XW5Q.3FDHE6CS3DZBB@linaro.org>
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>,
- <devicetree@vger.kernel.org>, "Jaroslav Kysela" <perex@perex.cz>,
- <linux-arm-msm@vger.kernel.org>, "Srinivas Kandagatla" <srini@kernel.org>,
- "Takashi Iwai" <tiwai@suse.com>, "Mark Brown" <broonie@kernel.org>,
- <linux-kernel@vger.kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Stephen Boyd" <sboyd@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Lee Jones" <lee@kernel.org>, <linux-sound@vger.kernel.org>, "Liam
- Girdwood" <lgirdwood@gmail.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH 1/3] dt-bindings: sound: add bindings for pm4125 audio
- codec
-X-Mailer: aerc 0.20.0
-References: <20250626-pm4125_audio_codec_v1-v1-0-e52933c429a0@linaro.org>
- <20250626-pm4125_audio_codec_v1-v1-1-e52933c429a0@linaro.org>
- <175090145961.2702141.17071553013552846812.robh@kernel.org>
-In-Reply-To: <175090145961.2702141.17071553013552846812.robh@kernel.org>
+MIME-Version: 1.0
+X-ThreadId: Tbce6b10f0faf42d7
+Date: Thu, 26 Jun 2025 07:20:53 -0400
+From: "Arun Raghavan" <arun@arunraghavan.net>
+To: "Mark Brown" <broonie@kernel.org>
+Cc: "Shengjiu Wang" <shengjiu.wang@gmail.com>,
+ "Xiubo Li" <Xiubo.Lee@gmail.com>, "Fabio Estevam" <festevam@gmail.com>,
+ "Nicolin Chen" <nicoleotsuka@gmail.com>,
+ "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>,
+ "Pieterjan Camerlynck" <p.camerlynck@televic.com>,
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, "Arun Raghavan" <arun@asymptotic.io>
+Message-Id: <4d4d15dd-3f2e-421a-be5d-005d6422385f@app.fastmail.com>
+In-Reply-To: <aF0qMiPiNfDBXZld@finisterre.sirena.org.uk>
+References: <20250625130648.201331-1-arun@arunraghavan.net>
+ <20250625235757.68058-3-arun@arunraghavan.net>
+ <aF0qMiPiNfDBXZld@finisterre.sirena.org.uk>
+Subject: Re: [PATCH v2] ASoC: fsl_sai: Force a software reset when starting in consumer
+ mode
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu Jun 26, 2025 at 2:30 AM BST, Rob Herring (Arm) wrote:
+On Thu, 26 Jun 2025, at 7:08 AM, Mark Brown wrote:
+> On Wed, Jun 25, 2025 at 07:56:16PM -0400, Arun Raghavan wrote:
+>> From: Arun Raghavan <arun@asymptotic.io>
+>> 
+>> In a setup with an external clock provider, when running the receiver
+>> (arecord) and triggering an xrun with xrun_injection, we see a channel
+>> swap/offset. This happens sometimes when running only the receiver, but
+>> occurs reliably if a transmitter (aplay) is also concurrently running.
 >
-> On Thu, 26 Jun 2025 00:50:29 +0100, Alexey Klimov wrote:
->> The audio codec IC is found on Qualcomm PM4125/PM2250 PMIC.
->> It has TX and RX soundwire slave devices hence two files
->> are added.
->>=20
->> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
->> ---
->>  .../bindings/sound/qcom,pm4125-codec.yaml          | 147 ++++++++++++++=
-+++++++
->>  .../devicetree/bindings/sound/qcom,pm4125-sdw.yaml |  86 ++++++++++++
->>  2 files changed, 233 insertions(+)
->>=20
->
-> My bot found errors running 'make dt_binding_check' on your patch:
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/s=
-ound/qcom,pm4125-codec.example.dtb: pmic@0 (qcom,pm8916): audio-codec@f000:=
- 'qcom,micbias1-microvolt', 'qcom,micbias2-microvolt', 'qcom,micbias3-micro=
-volt', 'qcom,rx-device', 'qcom,tx-device', 'vdd-cp-supply', 'vdd-io-supply'=
-, 'vdd-mic-bias-supply', 'vdd-pa-vpos-supply' do not match any of the regex=
-es: '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/s=
-ound/qcom,pm4125-codec.example.dtb: pmic@0 (qcom,pm8916): audio-codec@f000:=
-compatible:0: 'qcom,pm8916-wcd-analog-codec' was expected
-> 	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
->
-> doc reference errors (make refcheckdocs):
->
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202506=
-26-pm4125_audio_codec_v1-v1-1-e52933c429a0@linaro.org
+> Please don't send new patches or versions in reply to old threads, it
+> makes it harder to follow what's going on.
 
-The second patch in the series deals with that. Reordering these two patche=
-s
-doesn't seem to make a lot of sense so I guess squashing it in here is
-a way to go.
+Ack, sorry about that!
 
-Thanks,
-Alexey
-
+-- Arun
