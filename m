@@ -1,143 +1,94 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486FC214A6A;
-	Thu, 26 Jun 2025 12:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F4E21CA18;
+	Thu, 26 Jun 2025 12:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750940903; cv=none; b=OwX5Dh10j1TkHI7veL842vaqloa3cbavuf6A3gYVIu2o/HvB3T1QvcMfZaq8lJPUatmyy7roYHwDJDzbEmVH6AqjZVdgR9dxWEhfV9i6ug6+NGv8nM8r5BO42mW2XPjjjsAOLXDizIW/SlUGOaAc4DMYcTIEfZLajtTlRdsZVKk=
+	t=1750942286; cv=none; b=qQqZ/olr+5DHpOmna6Tf/mm/QCb1dFvfCvlAixK5IxLjlobtg1OIK+7CNmNw071aaeIztpE9LcCXSjqT+XF/6IeUf4S/nnA2F3aLTkEMVcd9jIPFu6aqFHQtmGDFd/zBs3QecPTKsfvjgH1JLnhA0zuEHkv+ew47CBWrwDXjVmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750940903; c=relaxed/simple;
-	bh=yhvCapA+CzAoCFu5PttVIJhSrWZvvCFVrtw0oQI/xk4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=eBkGYhEHNliOE4ibUgpiJsAxAB97krpnCQMb6FvwOL82fqMd4H7oWnEOr6Yv4MiLSgCDLQyV6QGCaRy5YNjPtm1YmDlBZLnMVe3P6Ns6jOGphkkgUsELCVi2MDehUYZJ+eTsee42nQAdF2IzSYNOQKMIaFlfS06TKUH+/QZdDVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arunraghavan.net; spf=pass smtp.mailfrom=arunraghavan.net; dkim=pass (2048-bit key) header.d=arunraghavan.net header.i=@arunraghavan.net header.b=TbbJ1xVu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gxcBYFUP; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arunraghavan.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arunraghavan.net
+	s=arc-20240116; t=1750942286; c=relaxed/simple;
+	bh=jBOE1VMy3aiNmMAuqSezLi2vpU4eQvqAQi8D31wgqI0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I56mkh0d+xSB4d9tq/mOaTKB+XN264DppY4/fTj0d1D8nf/RXTEH2yvAoQK5Fu5vKeURB54RJrz7SEdw7UUu7HvU1W/7KKlY7vtBgbtO6GGwpJE+sNj0paOIT6CtkhVDLhpFoMDDeSJymM0rgg5lRPc611VzK8uv4lfP+MDxW4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b+FsOS0H; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arunraghavan.net header.i=@arunraghavan.net header.b="TbbJ1xVu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gxcBYFUP"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 47B94140008E;
-	Thu, 26 Jun 2025 08:28:20 -0400 (EDT)
-Received: from phl-imap-04 ([10.202.2.82])
-  by phl-compute-05.internal (MEProxy); Thu, 26 Jun 2025 08:28:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	arunraghavan.net; h=cc:cc:content-transfer-encoding:content-type
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to; s=fm1; t=1750940900; x=1751027300; bh=yhvCapA+CzAoCFu5PttVI
-	JhSrWZvvCFVrtw0oQI/xk4=; b=TbbJ1xVuOel5NBzm4nPMYSOuThjpyG2gbSPJy
-	ROVsIUOlZ7tyCu4ZnCXGXSY6bmNlbRtyeW2SFzyp9GLPKnKip1a8JHEyT8MAXvGv
-	05FVqwj+ly3gfnFi+bEQPzc1Yi/ceJ0zlzJkJtoktOSYUBYcWi8AogJoHJpAObx/
-	H21gnwgQOJGPaW9zt3jvI0hAhv9Fv4rFZVzUA8aQGil201ustbWN+JsaS3ibUEBI
-	lC/yU92g0PpQw9lJIeZBRkOkjGNdgPssm1eQAz4/RKAo8NkCblatKlkd65NtlrGF
-	Fa+fCJJWHUp2Kybbrg1Ocn8m9FogNULKOju8G6NIuLymkj4hA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1750940900; x=
-	1751027300; bh=yhvCapA+CzAoCFu5PttVIJhSrWZvvCFVrtw0oQI/xk4=; b=g
-	xcBYFUPBVr90AAVrd33kClnU5uge/cKZ/GnL2tO2EYN9prKe2+vh/FeAfo3xmLRO
-	UO/dFRBeNtzSQFxBxnjXdTg0YpUSUYnBEo+9K449DRuxFtIz2bI+FzvtNSvkmtZS
-	K1X8gcpSMna++Rtm6jNcfmC51lxhdOJBKVh/gjXkZJwlv0Ze9d9teKltOqiMRn1R
-	6+3NBj0rF1T/zjwTsrqexKIXAugzKCEWN8Z+EKIy2+I5kKiNNSk3JsscN4bMzr3a
-	ERbBBkcCflYTlX1GqCm2HtxOPGZdXNOzyMUVJijE8egjWqBFc9ETSiQQbcBJLYwm
-	ifgyCx1TFaza2qoBJfcTA==
-X-ME-Sender: <xms:4zxdaJKldw4msyA2lykWx7cybRCgvuNal9hOIX0RJADW6t8MvgdQwQ>
-    <xme:4zxdaFLHQC4Pt8glC_tcFMyor7ePCBYNPzhxQ74H39k6Ld1F7GY9eGFIknWoptpQR
-    v9hSEUpgaXyp_YLBw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegrihhl
-    ohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpe
-    foggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdetrhhunhcutfgr
-    ghhhrghvrghnfdcuoegrrhhunhesrghruhhnrhgrghhhrghvrghnrdhnvghtqeenucggtf
-    frrghtthgvrhhnpeevkeehvdetudfhlefhkeffvdeihfegffdvffdtheekvefhuddugfei
-    gedtiefgleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpegrrhhunhesrghruhhnrhgrghhhrghvrghnrdhnvghtpdhnsggprhgtphhtthhopedu
-    fedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghruhhnsegrshihmhhpthhoth
-    hitgdrihhopdhrtghpthhtohepgihiuhgsohdrlhgvvgesghhmrghilhdrtghomhdprhgt
-    phhtthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomhdprhgtphhtthhopehlghhirh
-    gufihoohgusehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhitgholhgvohhtshhukhgr
-    sehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhhvghnghhjihhurdifrghnghesghhmrg
-    hilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehlihhnuhigphhptgdquggvvheslhhishhtshdrohiilhgrsghsrdhorhhgpd
-    hrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgii
-X-ME-Proxy: <xmx:4zxdaBvioLcHnJGPpA2p8Dxwhf7ZHV2nttdCgTTfKUhYnEehvRem0Q>
-    <xmx:4zxdaKbza9p51z2E_JEPr29dT0w0LsdjfVZqiGcZyKVcKjmCn_UCLw>
-    <xmx:4zxdaAamKcq8otUpRvuUhOw2f7NnUylhuwgHGcahzj2bN0WGTrqRnQ>
-    <xmx:4zxdaOCwU0H_Bs3aRQrILB8OU6tQ8WC44co-ZqhqlYerCsXdv4oqMA>
-    <xmx:5DxdaIFLZ4RAkBVav2vgksjqVV2YQuIcbPpDUD4fv1pkrqzy36ajz68E>
-Feedback-ID: i42c0435e:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 2BE93B60069; Thu, 26 Jun 2025 08:28:19 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+FsOS0H"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-32b3b250621so8632491fa.2;
+        Thu, 26 Jun 2025 05:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750942282; x=1751547082; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jBOE1VMy3aiNmMAuqSezLi2vpU4eQvqAQi8D31wgqI0=;
+        b=b+FsOS0HMSuxyAbvboVb0TLyhOhwhNrNMozy9ejtMG/7FyxNsKOGxxWrkvqNrGS7zw
+         EtT3OxjfVSSfh2tcDd/TiY7qSuPlZIwCOS2ZsW2oRB97SgWiutoG0M/TuNOfeS87HqPQ
+         Af1bVVPpOLlqkJALo1F1lKnxnczYOpQoS4dtInFvOETzZS4VyztmmbPq2mX6KBRKHHdF
+         kX/wrp9SJiMt9IAvxDWqJazWJeeNwPh0tbyU4jrQ/XvJZ7rfRoCS4u9oQMq/7E6wRxyE
+         m7BJC/ZpzhrjDDzY0JAyeJqdSrhd1G9eM8LjTUlsmfcrVdB/8XpVoPesl9Kksc7rHe6M
+         Ct7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750942282; x=1751547082;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jBOE1VMy3aiNmMAuqSezLi2vpU4eQvqAQi8D31wgqI0=;
+        b=kexbRQ3tSaSL+lvLJwpjGSowEVGw/RAanLFVGaxH5kJyVOq8eXUExAIw/r32U7k8y3
+         UOLwe/i+m7sbQJXsraN+gQM5We34cefNEuie8gaLRGkqKXZoPRhXtewIyffBcgF4OOn4
+         Dt6tpO/YLs8kGcvwFBqNC+tuTcy9UeJZDkWRjY++CG66tL2dWZd7Nr1zR/lO6koSz2ld
+         /9JjKiWP1qEkBMjp1pan/SNwiAfDCLN5Hh+uxCPgfy8eEwrJhWkrsPyo8hfEDWvs89sg
+         /T6UYEv8rOT+JVaLrm50grjtm4wZNwTFxCCJSUnDyUxkkkJpm97XbiIww8XQ+kYZiBA4
+         Ngcw==
+X-Forwarded-Encrypted: i=1; AJvYcCUdfFfHCh5vKbsJ0va5z95ML0VQ5c4RR7k+gztDLLG1+uG6lGS+D1VbaW+4LlY/JSk/ZXUgZVIJe5Ev2i4=@vger.kernel.org, AJvYcCUhyaoWF0ad3oJGvatAEaVmPyv7BQsUcjeYJMcb0aoIF7mv7YsfDxKkPOK9b14fp8pHFbEbNgWgsn/xvKM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCE9ng1fq1qmossTmZu0xB6xXjEfAjV5Yn6yxGfBQmAj0zu3ZD
+	xQZSroGsXR2WvJosJyBlx25bfqu1mQ1twie6V8CWX8KgwpYgwFbXHsYnB9jXX13W+XfbePjSIvJ
+	ZLA68jfu+B9DuDz7KtasDcHfr8v4Nd8Y=
+X-Gm-Gg: ASbGncs52b66RhDj32aI4pb9A9rCrrb3PGGUDPltIFt0m6mJr2lb97jTnblp3clM7SK
+	ZpTquYfxQmp3n0Yzn/B3ypL5hu6dBDlmFFLqrCQ2TGjqcA9BrRtcezINX6eSN+s1qs7ZGcOewmp
+	16fnShmn6xj8q9r21vKZHAMqS+IX1cEGa47K/UY7trJPzElHjtE+N3kQSiONcOVZPmjiDPsl2NE
+	mQ=
+X-Google-Smtp-Source: AGHT+IFZWx1CExsFcYzkKgRSn6PT1OrKOu0ar4lCr3LZ6482v+JvAxgEUxMROKMeUYASoC6jLk7aMuv0twPWR9b66d4=
+X-Received: by 2002:a05:6512:6c2:b0:553:ad28:210a with SMTP id
+ 2adb3069b0e04-554fdfba1a4mr2378510e87.51.1750942282202; Thu, 26 Jun 2025
+ 05:51:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T475c73c73170c175
-Date: Thu, 26 Jun 2025 08:27:58 -0400
-From: "Arun Raghavan" <arun@arunraghavan.net>
-To: "Fabio Estevam" <festevam@gmail.com>
-Cc: "Shengjiu Wang" <shengjiu.wang@gmail.com>,
- "Xiubo Li" <Xiubo.Lee@gmail.com>, "Nicolin Chen" <nicoleotsuka@gmail.com>,
- "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Pieterjan Camerlynck" <p.camerlynck@televic.com>,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, "Arun Raghavan" <arun@asymptotic.io>
-Message-Id: <fe9956b2-4d71-4a57-ab70-6ff64c4525cf@app.fastmail.com>
-In-Reply-To: 
- <CAOMZO5BgsU0ijdoaZs5e=qwb2PYZsEnx_RxfgQ+dosL8hPRKyA@mail.gmail.com>
 References: <20250626115218.141874-1-arun@arunraghavan.net>
- <CAOMZO5BgsU0ijdoaZs5e=qwb2PYZsEnx_RxfgQ+dosL8hPRKyA@mail.gmail.com>
-Subject: Re: [PATCH v3] ASoC: fsl_sai: Force a software reset when starting in consumer
- mode
-Content-Type: text/plain; charset=utf-8
+ <CAOMZO5BgsU0ijdoaZs5e=qwb2PYZsEnx_RxfgQ+dosL8hPRKyA@mail.gmail.com> <fe9956b2-4d71-4a57-ab70-6ff64c4525cf@app.fastmail.com>
+In-Reply-To: <fe9956b2-4d71-4a57-ab70-6ff64c4525cf@app.fastmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Thu, 26 Jun 2025 09:51:10 -0300
+X-Gm-Features: Ac12FXwpQlqZH1FACB-cLvSeHDIWlKkvSrVU00W6rjN53m_7T8RNmlcxPGqQphA
+Message-ID: <CAOMZO5AN1gH398AFS_F2G_nwR2-hJjJx-x0_Zy_VtmK3uet_uA@mail.gmail.com>
+Subject: Re: [PATCH v3] ASoC: fsl_sai: Force a software reset when starting in
+ consumer mode
+To: Arun Raghavan <arun@arunraghavan.net>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Pieterjan Camerlynck <p.camerlynck@televic.com>, linux-sound@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	Arun Raghavan <arun@asymptotic.io>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 26 Jun 2025, at 7:58 AM, Fabio Estevam wrote:
-> Hi Arun,
+On Thu, Jun 26, 2025 at 9:28=E2=80=AFAM Arun Raghavan <arun@arunraghavan.ne=
+t> wrote:
+
+> Sure! Will send in a v4 with both of these.
 >
-> On Thu, Jun 26, 2025 at 8:52=E2=80=AFAM Arun Raghavan
-> <arun@arunraghavan.net> wrote:
->>
->> From: Arun Raghavan <arun@asymptotic.io>
->>
->> On an imx8mm platform with an external clock provider, when running
->> the receiver (arecord) and triggering an xrun with xrun_injection, we
->> see a channel swap/offset. This happens sometimes when running only
->> the receiver, but occurs reliably if a transmitter (aplay) is also
->> concurrently running.
->>
->> It seems that the SAI loses track of frame sync during the trigger
->> stop -> trigger start cycle that occurs during an xrun. Doing just a
->> FIFO reset in this case does not suffice, and only a software reset
->> seems to get it back on track.
->>
->> This looks like the same h/w bug that is already handled for the
->> producer case, so we now do the reset unconditionally on config
->> disable.
->>
->> Signed-off-by: Arun Raghavan <arun@asymptotic.io> Reported-by:
->> Pieterjan Camerlynck <p.camerlynck@televic.com>
+> The commit that added the initial fix (3e3f8bd56955 ("ASoC: fsl_sai: fix
+> no frame clk in master mode")) refers to an errata, but I could find
+> anything in a couple of imx8* errata I checked.
 >
-> What about adding a Fixes tag and Cc stable so that it gets backported
-> to the stable trees?
+> I was wondering if there's any public documentation of this that I can
+> refer (and link) to?
 
-Sure! Will send in a v4 with both of these.
-
-The commit that added the initial fix (3e3f8bd56955 ("ASoC: fsl_sai: fix
-no frame clk in master mode")) refers to an errata, but I could find
-anything in a couple of imx8* errata I checked.
-
-I was wondering if there's any public documentation of this that I can
-refer (and link) to?
-
-Cheers,
-Arun
+I'm not aware of any public errata for this issue.
