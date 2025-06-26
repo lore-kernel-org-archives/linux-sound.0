@@ -1,127 +1,165 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF73442C;
-	Thu, 26 Jun 2025 21:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D01A1DF980;
+	Thu, 26 Jun 2025 21:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750973800; cv=none; b=YOSML8d/oZotMAE8MwuxbAtlRnkA59sUsnS/gNLPlxcfgOdLzhu+wUSJaVQV8QkpMCh2eqEPoU/XxTAyMDZIvkPlTfjntqXQqwMTtM9EgpsReHiYOi/8xTf4MpyqG+SlfGUXDxv7NFWEt6dtRIvw10gjcCE/OJ+1zl4zkvBWoQE=
+	t=1750974443; cv=none; b=f1BDn3b+XdWWLZTBBD2IhwTs+FjCDElAXhtGw0+Eyomb0GAEH1W9XDFHK+DjfP/uTBi82sB+RdJfmYfwnOW92qrMNq+5VeSDW73OG4nJdFnd+h20K2Z+OCAaqsKBiq4nQLl0VRmhxQcGEoGqFxjncfXtgCYeYXJlPH3P3DtmWYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750973800; c=relaxed/simple;
-	bh=qKsu2noZU/EIGAmtGzAdXhRFiQccwtgUcV+JBtHihDM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KJvlQLwKh/OoKmS2aZktaSKes0kaXaK6JmuM5ScMFp0WNudvneYdpqj/T7p1Sd3jlhC4mqTadn6Jqs2TgPcJ/rJ0RsZ7665XM7HGLFxOofYDMQY1B61mx4HGaFrhI/u1IeUR0uJAIc3AxWuEsPy1COQlDs0FnkssfTUOOI+rMlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tx2yrzbm; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750974443; c=relaxed/simple;
+	bh=hxQVzBMNwyC88HTo8GzVCXXrinORweyOG/ceTNc1kGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=vABZW1PEqBJwo8pbdEzIQXuxNat1PhMRB+YTWpNonAflQvV/Di1wfzi6SG13S4lnKU80A+fgbXi79ZZpW8WW2AdgvA32wP/8Fl9ay2ud6VWcbzAuhvYLsK2ec7SBExzpNe5yoUathTCBBWCXATlaA7QJNn608FN7zgEYtDt/NvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UgXmVwi2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tx2yrzbm"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-749068b9b63so1140093b3a.0;
-        Thu, 26 Jun 2025 14:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750973796; x=1751578596; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W+j37i1fQJjEw0H1aSmJvBx2p5eupo53+UaTsk0vY6U=;
-        b=Tx2yrzbm9N44snxQDUN1nf54tVQZj9QHogqlKZg7oGVoaghaBnNEPXPHNjzzxXh80O
-         LgSlhYIM7CEnYHBB/xbag6t6ZFkzpbpRdc8AsDofZGc1G/DQE320/V5lB7Jie4ohMcYy
-         youp/YDDTLhi1wfFiXT90cyix9B5W8rPey3hWBr8963Fb2RQeCZ/IPQY/XYkGrI3ePyu
-         VBm8qdu/tBHsvMziqvoX43iwXJJZbScv23ojF1s7nnda4qSUoCHZpD7xt8cMETHrN7pA
-         CCpGiixy1rISAAW0aZ5/jfkQCauS53oxVO+3pdATQcy18YS8AwIHjPd/+SS0S6KGcJXI
-         7zaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750973796; x=1751578596;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W+j37i1fQJjEw0H1aSmJvBx2p5eupo53+UaTsk0vY6U=;
-        b=HVY+2Q5DMDsaDjM3KODMmabuwC//EtyYyYU8+j2oAUseac7Yuk2cCKd8KgOTyYKF2J
-         jX5K31ZD2fxq5Jr06CxSAkmOBPzdz9Ulp4y16GgdhqxTxU0IpsNCOmSvy20FKZrFp5ZO
-         w+LgXsHG737UdkDBtAJ5gb7LZRAuw6ScysRKPemPbcZPpe8a6z2SGHB9kJGvu82dBkTi
-         5Y37XEvDJeNBJVZ0GYVVfTh7Nb2VMOukGuHEbqMQUBlu6392oEhq79MPlDTaOLuwmIJC
-         M8jxIypylnI+X8qO06iD34uuS8Bvpr7snGGMqGTGiWyx+J1GtpQfNX1oz4KHUFfKUOmU
-         17fg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9CJjWZX3AZuiW23uF63w7emWgs8lzES/r5Kqsu54LWCt/qddbgBFJTZdu8zgu1MikJxotcfXDzOPXpcQ=@vger.kernel.org, AJvYcCVxttK8b4OO1PfivWAyP4ynw4IpTBWsGDDMpuR6P33CtFAumGLwgqclWaUamzi7COYsFWpmMN4aIrI1OYw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykOBLtuP9TPVCVK2axA2kAmhJQCkgiAISMLNd8mLS5g8nnaosU
-	2Kv4toRHfMNKhG/a7PPe7M4ryLbxag1LuIp+oGQxxZrY0k48MAx3IaEWgFkSOj5LFVo=
-X-Gm-Gg: ASbGnctvl8SGpFrdv9yqDvuo5Jft65AeXY4vINug6nyTE72bCuQCkLDVaA0NPx49JVa
-	CBPTsw9e0WACXrWidFixQE9RCGmM4rDFm/+WCZFNR0XimYLa0UeO7o5jw+ZZ2/1wQ5l7+23OB7X
-	U2T5WYojV+de3J9XIPmE5FkXYo78RNN0bm4IwWXMjYklzURuW4SBPVD0C13If8ZyiD8GNV5WzwS
-	WKwdC6wAF3XT6h9p2DRL6lL1FvbDlY3Mu5KQ+dVjsjKvm7ehpoIyKAAwotDY+D3DqNF1VzSBUhC
-	oBCLAa7Nda6HBcuFrQzyIu/LhPGTi2tS4MBbKmtFliffUdJVmXWQYVX7SLkBmqgIcQW6HbjJCWv
-	Rru+R8aFUTi992YYD6iw=
-X-Google-Smtp-Source: AGHT+IFPc79JkbG4o0IdxkbE02KBcKRJMbsd81LuOuehcXEKd0pKWVQWLlvKM5he1p0S/1+1IZmNKg==
-X-Received: by 2002:a05:6a00:1a8f:b0:748:f6a0:7731 with SMTP id d2e1a72fcca58-74af6fcd495mr946707b3a.23.1750973795702;
-        Thu, 26 Jun 2025 14:36:35 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:4c64:81ec:4ff:1626:32b1:712a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af57ee760sm535661b3a.155.2025.06.26.14.36.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jun 2025 14:36:35 -0700 (PDT)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	sanyog.r.kale@intel.com
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] soundwire: debugfs: move debug statement outside of error handling
-Date: Thu, 26 Jun 2025 18:33:14 -0300
-Message-ID: <20250626213628.9575-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UgXmVwi2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB0A8C4CEEB;
+	Thu, 26 Jun 2025 21:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750974443;
+	bh=hxQVzBMNwyC88HTo8GzVCXXrinORweyOG/ceTNc1kGM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=UgXmVwi2rCspNSmYuTGBVBB5eZtbt0N8aMBn19wXnNbJDBpzVoKGeEI8qzxdZLWqu
+	 1Ynn3B8WPGbXQbmkMpuWmrRzpEElcnoGHQv5OXP6j66CtEr6Szwb0G6kWjDE4+0Evp
+	 SmfOa6ipBqiY8TMUW12WOhwBER/p7n3saqwFiWmdHO2ALllJtX+QP5pMHySRCHR3tp
+	 H4oLzTFK4nmOUf5SnEGTBdjkW2Dt+Xcp+K4Q+NqVYSq3VRAzx4piP5uFPMlrHovCye
+	 uZ7KbYkkIQJeAit/jV3So7jOqhyet5n5U6Gaxdth/dF0Qy0yGwwqF8o/ZYJuUeUUUX
+	 3at8xacc2T1Zw==
+Date: Thu, 26 Jun 2025 16:47:21 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+	"open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+	"open list:SOUND" <linux-sound@vger.kernel.org>,
+	Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v5 9/9] PCI: Add a new 'boot_display' attribute
+Message-ID: <20250626214721.GA1642412@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <58625a35-4a3e-4c91-939d-9f0d6635f8c0@kernel.org>
 
-The start_t and finish_t variables are not properly initialized
-if errors happens over request_firmware actions.
-This was also detected by smatch:
+On Thu, Jun 26, 2025 at 04:12:21PM -0500, Mario Limonciello wrote:
+> On 6/26/2025 3:45 PM, Bjorn Helgaas wrote:
+> > On Tue, Jun 24, 2025 at 03:30:42PM -0500, Mario Limonciello wrote:
+> > > From: Mario Limonciello <mario.limonciello@amd.com>
+> > > 
+> > > On systems with multiple GPUs there can be uncertainty which GPU is the
+> > > primary one used to drive the display at bootup. In order to disambiguate
+> > > this add a new sysfs attribute 'boot_display' that uses the output of
+> > > video_is_primary_device() to populate whether a PCI device was used for
+> > > driving the display.
+> > > 
+> > > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> > 
+> > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> > 
+> > Question below.
+> > 
+> > > ---
+> > > v4:
+> > >   * new patch
+> > > ---
+> > >   Documentation/ABI/testing/sysfs-bus-pci |  9 +++++++++
+> > >   drivers/pci/pci-sysfs.c                 | 14 ++++++++++++++
+> > >   2 files changed, 23 insertions(+)
+> > > 
+> > > diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
+> > > index 69f952fffec72..897cfc1b0de0f 100644
+> > > --- a/Documentation/ABI/testing/sysfs-bus-pci
+> > > +++ b/Documentation/ABI/testing/sysfs-bus-pci
+> > > @@ -612,3 +612,12 @@ Description:
+> > >   		  # ls doe_features
+> > >   		  0001:01        0001:02        doe_discovery
+> > > +
+> > > +What:		/sys/bus/pci/devices/.../boot_display
+> > > +Date:		October 2025
+> > > +Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
+> > > +Description:
+> > > +		This file indicates whether the device was used as a boot
+> > > +		display. If the device was used as the boot display, the file
+> > > +		will contain "1". If the device is a display device but wasn't
+> > > +		used as a boot display, the file will contain "0".
+> > 
+> > Is there a reason to expose this file if it wasn't a boot display
+> > device?  Maybe it doesn't need to exist at all unless it contains "1"?
+> 
+> I was mostly thinking that it's a handy way for userspace to know whether
+> the kernel even supports this feature.  If userspace sees that file on any
+> GPU as it walks a list then it knows it can use that for a hint.
+> 
+> But if you would rather it only shows up for the boot display yes it's
+> possible to do I think.  It's just more complexity to the visibility lookup
+> to also call video_is_primary_device().
 
-drivers/soundwire/debugfs.c:301 cmd_go() error: uninitialized symbol 'finish_t'.
-drivers/soundwire/debugfs.c:301 cmd_go() error: uninitialized symbol 'start_t'.
+I think for a singleton situation like this it makes more sense to
+only expose the file for one device, not several files where only one
+of them contains "1".
 
-Move the debug statement outside of firmware error handling.
-
-Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/linux-sound/0db6d0bf-7bac-43a7-b624-a00d3d2bf829@stanley.mountain/
-Fixes: bb5cb09eedce ("soundwire: debugfs: add interface for BPT/BRA transfers")
----
-Changelog:
-v3: removed superfluous initialization of ktime_t vars
-v2: https://lore.kernel.org/linux-sound/aF2Em76RGWVpJfg-@vaman/T/#mb875b96a6dc1bd18a939caf1d3288b3b3b5e78c3
-v1: https://lore.kernel.org/linux-sound/20250617015230.54981-1-rodrigo.gobbi.7@gmail.com/#t
----
- drivers/soundwire/debugfs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
-index 3099ea074f10..230a51489486 100644
---- a/drivers/soundwire/debugfs.c
-+++ b/drivers/soundwire/debugfs.c
-@@ -291,6 +291,9 @@ static int cmd_go(void *data, u64 value)
- 
- 	finish_t = ktime_get();
- 
-+	dev_dbg(&slave->dev, "command completed, num_byte %zu status %d, time %lld ms\n",
-+		num_bytes, ret, div_u64(finish_t - start_t, NSEC_PER_MSEC));
-+
- out:
- 	if (fw)
- 		release_firmware(fw);
-@@ -298,9 +301,6 @@ static int cmd_go(void *data, u64 value)
- 	pm_runtime_mark_last_busy(&slave->dev);
- 	pm_runtime_put(&slave->dev);
- 
--	dev_dbg(&slave->dev, "command completed, num_byte %zu status %d, time %lld ms\n",
--		num_bytes, ret, div_u64(finish_t - start_t, NSEC_PER_MSEC));
--
- 	return ret;
- }
- DEFINE_DEBUGFS_ATTRIBUTE(cmd_go_fops, NULL,
--- 
-2.49.0
-
+> > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> > > index 268c69daa4d57..5bbf79b1b953d 100644
+> > > --- a/drivers/pci/pci-sysfs.c
+> > > +++ b/drivers/pci/pci-sysfs.c
+> > > @@ -30,6 +30,7 @@
+> > >   #include <linux/msi.h>
+> > >   #include <linux/of.h>
+> > >   #include <linux/aperture.h>
+> > > +#include <asm/video.h>
+> > >   #include "pci.h"
+> > >   #ifndef ARCH_PCI_DEV_GROUPS
+> > > @@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
+> > >   	NULL,
+> > >   };
+> > > +static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
+> > > +				 char *buf)
+> > > +{
+> > > +	return sysfs_emit(buf, "%u\n", video_is_primary_device(dev));
+> > > +}
+> > > +static DEVICE_ATTR_RO(boot_display);
+> > > +
+> > >   static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
+> > >   			     char *buf)
+> > >   {
+> > > @@ -1698,6 +1706,7 @@ late_initcall(pci_sysfs_init);
+> > >   static struct attribute *pci_dev_dev_attrs[] = {
+> > >   	&dev_attr_boot_vga.attr,
+> > > +	&dev_attr_boot_display.attr,
+> > >   	NULL,
+> > >   };
+> > > @@ -1710,6 +1719,11 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
+> > >   	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
+> > >   		return a->mode;
+> > > +#ifdef CONFIG_VIDEO
+> > > +	if (a == &dev_attr_boot_display.attr && pci_is_display(pdev))
+> > > +		return a->mode;
+> > > +#endif
+> > > +
+> > >   	return 0;
+> > >   }
+> > > -- 
+> > > 2.43.0
+> > > 
+> 
