@@ -1,113 +1,143 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8C6214A6A
-	for <linux-sound@vger.kernel.org>; Thu, 26 Jun 2025 12:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486FC214A6A;
+	Thu, 26 Jun 2025 12:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750940430; cv=none; b=PViV5EXbminb1WjfKgnPxHSTaM+azQ3tMcyKSvvJO/CftMZPATGZaYqUEQTkK8BpaXTQiFFnQzqX6x7JkTk/EoInZYT0Vn4dx9D7pPIBXtF6TJI6/LFYRIib64vQZcaMDLFCdARuxpcb3ZFKkcb1q5WbiGuvkIVZP6uzqOqoxaQ=
+	t=1750940903; cv=none; b=OwX5Dh10j1TkHI7veL842vaqloa3cbavuf6A3gYVIu2o/HvB3T1QvcMfZaq8lJPUatmyy7roYHwDJDzbEmVH6AqjZVdgR9dxWEhfV9i6ug6+NGv8nM8r5BO42mW2XPjjjsAOLXDizIW/SlUGOaAc4DMYcTIEfZLajtTlRdsZVKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750940430; c=relaxed/simple;
-	bh=qkXCd+Bbs8QNW+Fx/2Wzm1gDcAzwRQw/k1gMr+d9PHg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s4J2RfWw2G1mjCBHiaALCwgyDTI8FMaCMp32batmkIRdqGKAq2ZzK2nT8dvjHh8ofpLzothrLYItp+N9HHmfY8tg+kDMjTLQKf6+cBp0tOO42x4Bvf6ao7wh6p3eW/tz6/F01W07x8foufSc8Z7rHJSQHMWOgTPt5u3Oa2AM73M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jBu51d0W; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1750940903; c=relaxed/simple;
+	bh=yhvCapA+CzAoCFu5PttVIJhSrWZvvCFVrtw0oQI/xk4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=eBkGYhEHNliOE4ibUgpiJsAxAB97krpnCQMb6FvwOL82fqMd4H7oWnEOr6Yv4MiLSgCDLQyV6QGCaRy5YNjPtm1YmDlBZLnMVe3P6Ns6jOGphkkgUsELCVi2MDehUYZJ+eTsee42nQAdF2IzSYNOQKMIaFlfS06TKUH+/QZdDVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arunraghavan.net; spf=pass smtp.mailfrom=arunraghavan.net; dkim=pass (2048-bit key) header.d=arunraghavan.net header.i=@arunraghavan.net header.b=TbbJ1xVu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gxcBYFUP; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=arunraghavan.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arunraghavan.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jBu51d0W"
-Message-ID: <f95f6777-7445-46dc-be53-b3ae5594bf39@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1750940426;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9sABBcbcL1qfYZGfdc7T7gO/5yx4mDv09tlOoXIb1QU=;
-	b=jBu51d0WSApZ0RPmF9+mPKKzznqbNDKG0kwcAOOaoQs5nhl99f/cLxLukllRjP0zH2gyLV
-	3038LhaqIgRmGXdzHS1QqbEyPeFBPRzIrJIdyVG0tH481mJBrb88wTdKrUR0mVKCF/VcO8
-	cZmmYNAqrpoCIk9gBN155n96upldt54=
-Date: Thu, 26 Jun 2025 14:19:18 +0200
+	dkim=pass (2048-bit key) header.d=arunraghavan.net header.i=@arunraghavan.net header.b="TbbJ1xVu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gxcBYFUP"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 47B94140008E;
+	Thu, 26 Jun 2025 08:28:20 -0400 (EDT)
+Received: from phl-imap-04 ([10.202.2.82])
+  by phl-compute-05.internal (MEProxy); Thu, 26 Jun 2025 08:28:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	arunraghavan.net; h=cc:cc:content-transfer-encoding:content-type
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to; s=fm1; t=1750940900; x=1751027300; bh=yhvCapA+CzAoCFu5PttVI
+	JhSrWZvvCFVrtw0oQI/xk4=; b=TbbJ1xVuOel5NBzm4nPMYSOuThjpyG2gbSPJy
+	ROVsIUOlZ7tyCu4ZnCXGXSY6bmNlbRtyeW2SFzyp9GLPKnKip1a8JHEyT8MAXvGv
+	05FVqwj+ly3gfnFi+bEQPzc1Yi/ceJ0zlzJkJtoktOSYUBYcWi8AogJoHJpAObx/
+	H21gnwgQOJGPaW9zt3jvI0hAhv9Fv4rFZVzUA8aQGil201ustbWN+JsaS3ibUEBI
+	lC/yU92g0PpQw9lJIeZBRkOkjGNdgPssm1eQAz4/RKAo8NkCblatKlkd65NtlrGF
+	Fa+fCJJWHUp2Kybbrg1Ocn8m9FogNULKOju8G6NIuLymkj4hA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1750940900; x=
+	1751027300; bh=yhvCapA+CzAoCFu5PttVIJhSrWZvvCFVrtw0oQI/xk4=; b=g
+	xcBYFUPBVr90AAVrd33kClnU5uge/cKZ/GnL2tO2EYN9prKe2+vh/FeAfo3xmLRO
+	UO/dFRBeNtzSQFxBxnjXdTg0YpUSUYnBEo+9K449DRuxFtIz2bI+FzvtNSvkmtZS
+	K1X8gcpSMna++Rtm6jNcfmC51lxhdOJBKVh/gjXkZJwlv0Ze9d9teKltOqiMRn1R
+	6+3NBj0rF1T/zjwTsrqexKIXAugzKCEWN8Z+EKIy2+I5kKiNNSk3JsscN4bMzr3a
+	ERbBBkcCflYTlX1GqCm2HtxOPGZdXNOzyMUVJijE8egjWqBFc9ETSiQQbcBJLYwm
+	ifgyCx1TFaza2qoBJfcTA==
+X-ME-Sender: <xms:4zxdaJKldw4msyA2lykWx7cybRCgvuNal9hOIX0RJADW6t8MvgdQwQ>
+    <xme:4zxdaFLHQC4Pt8glC_tcFMyor7ePCBYNPzhxQ74H39k6Ld1F7GY9eGFIknWoptpQR
+    v9hSEUpgaXyp_YLBw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegrihhl
+    ohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpe
+    foggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdetrhhunhcutfgr
+    ghhhrghvrghnfdcuoegrrhhunhesrghruhhnrhgrghhhrghvrghnrdhnvghtqeenucggtf
+    frrghtthgvrhhnpeevkeehvdetudfhlefhkeffvdeihfegffdvffdtheekvefhuddugfei
+    gedtiefgleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrrhhunhesrghruhhnrhgrghhhrghvrghnrdhnvghtpdhnsggprhgtphhtthhopedu
+    fedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprghruhhnsegrshihmhhpthhoth
+    hitgdrihhopdhrtghpthhtohepgihiuhgsohdrlhgvvgesghhmrghilhdrtghomhdprhgt
+    phhtthhopehfvghsthgvvhgrmhesghhmrghilhdrtghomhdprhgtphhtthhopehlghhirh
+    gufihoohgusehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhitgholhgvohhtshhukhgr
+    sehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhhvghnghhjihhurdifrghnghesghhmrg
+    hilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehlihhnuhigphhptgdquggvvheslhhishhtshdrohiilhgrsghsrdhorhhgpd
+    hrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgii
+X-ME-Proxy: <xmx:4zxdaBvioLcHnJGPpA2p8Dxwhf7ZHV2nttdCgTTfKUhYnEehvRem0Q>
+    <xmx:4zxdaKbza9p51z2E_JEPr29dT0w0LsdjfVZqiGcZyKVcKjmCn_UCLw>
+    <xmx:4zxdaAamKcq8otUpRvuUhOw2f7NnUylhuwgHGcahzj2bN0WGTrqRnQ>
+    <xmx:4zxdaOCwU0H_Bs3aRQrILB8OU6tQ8WC44co-ZqhqlYerCsXdv4oqMA>
+    <xmx:5DxdaIFLZ4RAkBVav2vgksjqVV2YQuIcbPpDUD4fv1pkrqzy36ajz68E>
+Feedback-ID: i42c0435e:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 2BE93B60069; Thu, 26 Jun 2025 08:28:19 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 00/15] ASoC/soundwire: Realtek codecs: wait codec init in
- hw_params
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, broonie@kernel.org,
- tiwai@suse.de, linux-sound@vger.kernel.org, vkoul@kernel.org
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, bard.liao@intel.com
-References: <20250626115625.536423-1-yung-chuan.liao@linux.intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20250626115625.536423-1-yung-chuan.liao@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-ThreadId: T475c73c73170c175
+Date: Thu, 26 Jun 2025 08:27:58 -0400
+From: "Arun Raghavan" <arun@arunraghavan.net>
+To: "Fabio Estevam" <festevam@gmail.com>
+Cc: "Shengjiu Wang" <shengjiu.wang@gmail.com>,
+ "Xiubo Li" <Xiubo.Lee@gmail.com>, "Nicolin Chen" <nicoleotsuka@gmail.com>,
+ "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Pieterjan Camerlynck" <p.camerlynck@televic.com>,
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, "Arun Raghavan" <arun@asymptotic.io>
+Message-Id: <fe9956b2-4d71-4a57-ab70-6ff64c4525cf@app.fastmail.com>
+In-Reply-To: 
+ <CAOMZO5BgsU0ijdoaZs5e=qwb2PYZsEnx_RxfgQ+dosL8hPRKyA@mail.gmail.com>
+References: <20250626115218.141874-1-arun@arunraghavan.net>
+ <CAOMZO5BgsU0ijdoaZs5e=qwb2PYZsEnx_RxfgQ+dosL8hPRKyA@mail.gmail.com>
+Subject: Re: [PATCH v3] ASoC: fsl_sai: Force a software reset when starting in consumer
+ mode
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bard,
+On Thu, 26 Jun 2025, at 7:58 AM, Fabio Estevam wrote:
+> Hi Arun,
+>
+> On Thu, Jun 26, 2025 at 8:52=E2=80=AFAM Arun Raghavan
+> <arun@arunraghavan.net> wrote:
+>>
+>> From: Arun Raghavan <arun@asymptotic.io>
+>>
+>> On an imx8mm platform with an external clock provider, when running
+>> the receiver (arecord) and triggering an xrun with xrun_injection, we
+>> see a channel swap/offset. This happens sometimes when running only
+>> the receiver, but occurs reliably if a transmitter (aplay) is also
+>> concurrently running.
+>>
+>> It seems that the SAI loses track of frame sync during the trigger
+>> stop -> trigger start cycle that occurs during an xrun. Doing just a
+>> FIFO reset in this case does not suffice, and only a software reset
+>> seems to get it back on track.
+>>
+>> This looks like the same h/w bug that is already handled for the
+>> producer case, so we now do the reset unconditionally on config
+>> disable.
+>>
+>> Signed-off-by: Arun Raghavan <arun@asymptotic.io> Reported-by:
+>> Pieterjan Camerlynck <p.camerlynck@televic.com>
+>
+> What about adding a Fixes tag and Cc stable so that it gets backported
+> to the stable trees?
 
-> The current code waits for the codec initialization in the resume
-> callback. It could cause the resume takes a long time while waiting for
-> the codec being attached and initialized. Move the waiting to the
-> hw_params callback when the driver really needs it and shorten the
-> resume time.
-> The change is mainly on the ASoC tree. Let's go through the ASoC tree.
+Sure! Will send in a v4 with both of these.
 
-While I certainly understand the desire to make the resume time lower, is this approach desirable in all cases?
+The commit that added the initial fix (3e3f8bd56955 ("ASoC: fsl_sai: fix
+no frame clk in master mode")) refers to an errata, but I could find
+anything in a couple of imx8* errata I checked.
 
-My main worry is this: not all functionality in a codec is related to the hw_params. One counter example would be register settings related to jack detection. You would want the regmap settings to be correctly applied in hardware registers even in the absence of any streaming request, no?
+I was wondering if there's any public documentation of this that I can
+refer (and link) to?
 
-The other weird thing is that historically the codec initialization was never on the critical path, it was several orders of magnitude faster than the controller. It wouldn't hurt to provide broad-brush information on what a 'long' time means for a codec resume, so that we can really see the pros/cons of moving all the regmap initialization.
-
-Another open is that SDCA defines the notion of 'blind writes' which would typically be done during a resume if context was lost. If we start moving some parts of the initialization to the hw_params and others remain in the resume flow, that will quickly lead to complexity in managing configuration.
-
-The last point is that this is a change for Realtek codecs only, would other drivers for other vendors require this change? And if I may ask is there any merit in speeding-up resume times even for 'legacy' non-sdca parts?
-
-> Bard Liao (15):
->   soundwire: add sdw_slave_wait_for_initialization helper
->   ASoC: rt722: wait codec init in hw_params
->   ASoC: rt712: wait codec init in hw_params
->   ASoC: rt1320: wait codec init in hw_params
->   ASoC: rt721: wait codec init in hw_params
->   ASoC: rt715-sdca: wait codec init in hw_params
->   ASoC: rt711-sdca: wait codec init in hw_params
->   ASoC: rt711: wait codec init in hw_params
->   ASoC: rt715: wait codec init in hw_params
->   ASoC: rt700: wait codec init in hw_params
->   ASoC: rt1316: wait codec init in hw_params
->   ASoC: rt1318: wait codec init in hw_params
->   ASoC: rt1308: wait codec init in hw_params
->   ASoC: rt5682: wait codec init in hw_params
->   ASoC: rt1017: wait codec init in hw_params
-> 
->  drivers/soundwire/slave.c          | 17 ++++++++++++++
->  include/linux/soundwire/sdw.h      |  1 +
->  sound/soc/codecs/rt1017-sdca-sdw.c | 32 ++++++++++++++++----------
->  sound/soc/codecs/rt1308-sdw.c      | 32 ++++++++++++++++----------
->  sound/soc/codecs/rt1316-sdw.c      | 32 ++++++++++++++++----------
->  sound/soc/codecs/rt1318-sdw.c      | 30 ++++++++++++++++--------
->  sound/soc/codecs/rt1320-sdw.c      | 32 ++++++++++++++++++--------
->  sound/soc/codecs/rt5682-sdw.c      | 29 +++++++++++++++--------
->  sound/soc/codecs/rt700-sdw.c       | 27 ++++++++++++----------
->  sound/soc/codecs/rt700.c           |  6 +++++
->  sound/soc/codecs/rt711-sdca-sdw.c  | 28 ++++++++++++----------
->  sound/soc/codecs/rt711-sdca.c      |  6 +++++
->  sound/soc/codecs/rt711-sdw.c       | 26 +++++++++++++--------
->  sound/soc/codecs/rt711.c           |  6 +++++
->  sound/soc/codecs/rt712-sdca-sdw.c  | 28 ++++++++++++----------
->  sound/soc/codecs/rt712-sdca.c      |  6 +++++
->  sound/soc/codecs/rt715-sdca-sdw.c  | 37 ++++++++++++++++++++----------
->  sound/soc/codecs/rt715-sdca.c      |  6 +++++
->  sound/soc/codecs/rt715-sdw.c       | 27 ++++++++++++----------
->  sound/soc/codecs/rt715.c           |  6 +++++
->  sound/soc/codecs/rt721-sdca-sdw.c  | 29 ++++++++++++-----------
->  sound/soc/codecs/rt721-sdca.c      |  6 +++++
->  sound/soc/codecs/rt722-sdca-sdw.c  | 26 +++++++++++----------
->  sound/soc/codecs/rt722-sdca.c      |  6 +++++
->  24 files changed, 320 insertions(+), 161 deletions(-)
-> 
-
+Cheers,
+Arun
