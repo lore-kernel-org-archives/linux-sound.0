@@ -1,121 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from e3i282.smtp2go.com (e3i282.smtp2go.com [158.120.85.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05FC38DF9;
-	Fri, 27 Jun 2025 17:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EF12EA72F
+	for <linux-sound@vger.kernel.org>; Fri, 27 Jun 2025 20:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751046419; cv=none; b=f6Clcbt5sjFnuJ8g9UqCRpq1ZZVb4GnEYafNcZ2LqTLCdTEvS3GqzGJWfsQVhyrXSEFUKaSVgHXE/SyeVzjl911/jruaFXctPG/JqofUZVRHh82ec42TGkD6wrA2JMEAOWjXIR9nRBJEqbjQDvutVD1y00Knv3G0rbVh0rvMii4=
+	t=1751057516; cv=none; b=iU83QL4lyQwWXzU/6cInZWHymWW2dTHLFzCuVIn6ODJCDLbF+ovEdZvoTvF/y6MS4UecCXE/Yo+EoQDyhNrIPYGgLAHo2tfIjzw8ER2Xa3cZIoZPEtn8DUuKPsOykaGUrI4NWUdbx29cO2XzO1ljezrISbtR1xuYMyVWSrbNQmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751046419; c=relaxed/simple;
-	bh=834LtEDDKmSJjQzk82TMIFq6V2flBM6uUKKjUnRC5r4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NWmITPnw0ZxraJhRmkaM+itBilPlHKLsjmnN4gk+d44yfsTdL59LZdRArDC0fb2Vs5MuhFL/Fcp9reFYQS8YOwBU1nzVcFqb7QmTya/N9MGmhEKery8N5LdpV4+urEeQuFsV4NoCxh227QxthO54luc1liu4x3UJAPEUW9zU3Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K8WOH50W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751057516; c=relaxed/simple;
+	bh=hnIQiztxMqZWdOo1P+htuYxmTRJegAPaInqW5mKJO1o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rT4BbJeIaWk9dwsz90ls2bAKR6feTCQCSKc9c5D066ukTDDkBBSIXJ21Es+Yb6GaXH3W4u4afWfRsLfPLZ1oaI2UxuJs7mOkGQKNRW8egcMj7U0tWUGQY+J7fMriXYD3rVVPLUNBK//oXfszt35LJrHvct39uKQ570/qDto16SI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev; spf=pass smtp.mailfrom=em1255854.medip.dev; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=mXxTdAyb; dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b=MagLAvTS; arc=none smtp.client-ip=158.120.85.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1255854.medip.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K8WOH50W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B5BDC4CEE3;
-	Fri, 27 Jun 2025 17:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751046419;
-	bh=834LtEDDKmSJjQzk82TMIFq6V2flBM6uUKKjUnRC5r4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K8WOH50W226cAG8yh101MReBaS0kxcmuk6tb3FXa8IGpKPAT8qLaThlDmdgww8Mi1
-	 KKjW/88AdBaQSo933UN9uoLqap1BWIVOFLa+xLbB5OxxXy5jcvi6AtjSrTMLCbyDFf
-	 PLrtWm/rT1ZDbYT2WmQx/LxJmqemJfspgvnn0etju8SNcV8zBbpr4M9cz4pXtzppKO
-	 qEZqe530TgIWsaRmxiBLqWQ9orKqjOq0GxDqZmLX6exil5klt7ozsnPVzWz9iD51iD
-	 OFbyeFdManIJw/jmEri40jKgngZhfEJKTarp+DakNaqGSvv8XFIXFe3fNTtWESqlug
-	 hiUVTxejSJIRg==
-Date: Fri, 27 Jun 2025 10:46:58 -0700
-From: Vinod Koul <vkoul@kernel.org>
-To: srinivas.kandagatla@oss.qualcomm.com
-Cc: broonie@kernel.org, yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, krzysztof.kozlowski@linaro.org,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 1/4] soundwire: bus: add of_sdw_find_device_by_node helper
-Message-ID: <aF7ZEi9qQxshnWed@vaman>
-References: <20250627155103.441547-1-srinivas.kandagatla@oss.qualcomm.com>
- <20250627155103.441547-2-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="mXxTdAyb";
+	dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b="MagLAvTS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
+ i=@smtpservice.net; q=dns/txt; s=a1-4; t=1751056604; h=feedback-id :
+ x-smtpcorp-track : date : message-id : to : subject : from : reply-to
+ : sender : list-unsubscribe : list-unsubscribe-post;
+ bh=TqdWV7/vA1rvF4B46py+BIoi1Rg8y4mycuMpMH6ZDBQ=;
+ b=mXxTdAybXd0nnfUnStIyDY4wZn/usYqKey40sJFKl+Dsm+r+SVJY7IQSdGE7RhxYVMSZb
+ YX+dDjiov0JWuo4Y6cXOW3bX484LE/5T4PObQjKK8PqiHHamQeBlC+YbhaPtap4oPvysujp
+ DA6RHJfCnwxBMQlZXuZbppU96l0Ue0t3xspOEw42Fnpnt0WXDnlZkNfvskTsEkXVQo1l2fg
+ XEXzmAkUgsHcTzn1fLEIuFZqlpqRyrgbNAKeJRgf1qyrwD6o0s36SCrjWuJ5LqAgXZn0HrV
+ XWe8Gi5ASWJz4kxHFSi6TyvJ36w3DjVV6iuwdBMJWNIzn4tGkoycKjX5a21g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=medip.dev;
+ i=@medip.dev; q=dns/txt; s=s1255854; t=1751056604; h=from : subject :
+ to : message-id : date;
+ bh=TqdWV7/vA1rvF4B46py+BIoi1Rg8y4mycuMpMH6ZDBQ=;
+ b=MagLAvTSi3d6th0ylQESSGcTeB1DN9tjBZNpbiqYiuvyIlPLsWdWFEawt5/Abk8faodWI
+ P4zzcN95rInmuFjU8w2eDW/HQ5yNUCtT+7pDrU5UBhVuCqvVow4qY06CMNm+JW9cENwBeJM
+ zQZvKU/PC3Fr3XfIomJjf2AuDzDmk36aXk0EiZE7tPcTEs+NO8nPmItUKRAK7BjXGp5D503
+ terj2DsLu+DgOpeZGbB5bNdL4e9S3rm+wkx5neQCoi3z0I6zBJwAa85MHR5mzZNiYWeIoB1
+ wnGJ3v3BtWhyD6PnlBzbYueX6YnKf2XO30BIhg24fDduL7PmctXqlDiLf76Q==
+Received: from [10.152.250.198] (helo=vilez)
+	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98.1-S2G)
+	(envelope-from <edip@medip.dev>)
+	id 1uVFoO-FnQW0hPsXUs-39tC;
+	Fri, 27 Jun 2025 20:36:41 +0000
+From: edip@medip.dev
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Edip Hazuri <edip@medip.dev>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek - Add mute LED support for HP Victus 15-fb2xxx
+Date: Fri, 27 Jun 2025 23:34:16 +0300
+Message-ID: <20250627203415.56785-2-edip@medip.dev>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250627155103.441547-2-srinivas.kandagatla@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
+Feedback-ID: 1255854m:1255854ay30w_v:1255854sS8hnAP156
+X-smtpcorp-track: -BPQYTnLJ1C7.taiHBTAF2NIQ.NcbG3QT8pXL
 
-On 27-06-25, 16:51, srinivas.kandagatla@oss.qualcomm.com wrote:
-> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> 
-> There has been more than 3 instances of this helper in multiple codec
-> drivers, it does not make sense to keep duplicating this part of code.
-> 
-> Lets add a helper of_sdw_find_device_by_node for codec drivers to use it.
-> 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> ---
->  drivers/soundwire/slave.c     | 6 ++++++
->  include/linux/soundwire/sdw.h | 9 +++++++++
->  2 files changed, 15 insertions(+)
-> 
-> diff --git a/drivers/soundwire/slave.c b/drivers/soundwire/slave.c
-> index d2d99555ec5a..3d4d00188c26 100644
-> --- a/drivers/soundwire/slave.c
-> +++ b/drivers/soundwire/slave.c
-> @@ -273,4 +273,10 @@ int sdw_of_find_slaves(struct sdw_bus *bus)
->  	return 0;
->  }
->  
-> +struct device *of_sdw_find_device_by_node(struct device_node *np)
-> +{
-> +	return bus_find_device_by_of_node(&sdw_bus_type, np);
-> +}
-> +EXPORT_SYMBOL_GPL(of_sdw_find_device_by_node);
+From: Edip Hazuri <edip@medip.dev>
 
-Helper for single code lines?? why!
+The mute led on this laptop is using ALC245 but requires a quirk to work
+This patch enables the existing quirk for the device.
 
-> +
->  MODULE_IMPORT_NS("SND_SOC_SDCA");
-> diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-> index 2362f621d94c..84d1a101b155 100644
-> --- a/include/linux/soundwire/sdw.h
-> +++ b/include/linux/soundwire/sdw.h
-> @@ -18,6 +18,7 @@
->  
->  struct dentry;
->  struct fwnode_handle;
-> +struct device_node;
->  
->  struct sdw_bus;
->  struct sdw_slave;
-> @@ -1080,6 +1081,8 @@ int sdw_stream_add_slave(struct sdw_slave *slave,
->  int sdw_stream_remove_slave(struct sdw_slave *slave,
->  			    struct sdw_stream_runtime *stream);
->  
-> +struct device *of_sdw_find_device_by_node(struct device_node *np);
-> +
->  int sdw_slave_get_scale_index(struct sdw_slave *slave, u8 *base);
->  
->  /* messaging and data APIs */
-> @@ -1113,6 +1116,12 @@ static inline int sdw_stream_remove_slave(struct sdw_slave *slave,
->  	return -EINVAL;
->  }
->  
-> +static inline struct device *of_sdw_find_device_by_node(struct device_node *np)
-> +{
-> +	WARN_ONCE(1, "SoundWire API is disabled");
-> +	return NULL;
-> +}
-> +
->  /* messaging and data APIs */
->  static inline int sdw_read(struct sdw_slave *slave, u32 addr)
->  {
-> -- 
-> 2.49.0
+Tested on my friend's Victus 15-fb2xxx Laptop. The LED behaviour works as intended.
 
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Edip Hazuri <edip@medip.dev>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 5d6d01ecf..a33e8a654 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10881,6 +10881,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8ce0, "HP SnowWhite", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8d01, "HP ZBook Power 14 G12", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8d07, "HP Victus 15-fb2xxx (MB 8D07)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8d18, "HP EliteStudio 8 AIO", ALC274_FIXUP_HP_AIO_BIND_DACS),
+ 	SND_PCI_QUIRK(0x103c, 0x8d84, "HP EliteBook X G1i", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8d85, "HP EliteBook 14 G12", ALC285_FIXUP_HP_GPIO_LED),
 -- 
-~Vinod
+2.50.0
+
