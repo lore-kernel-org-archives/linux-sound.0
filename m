@@ -1,183 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA93312DDA1;
-	Thu, 26 Jun 2025 23:33:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96B32F1FE2;
+	Fri, 27 Jun 2025 04:31:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750980801; cv=none; b=qiSjOj+UiZ7S5Ih7OQgV3nB9/3WPhb8Dwbmpxwvpy5eD7YSRvvSSImfR5J54MV1XvBjkRWLVKkH3B0TYBpWtNVVJgmX1HLFtsAHkK/SY3hJy9wTG4YbmigrbowK5CMlTXIn2k20H0po1TEiFTQ7HKSQaxAXO/eTagV1olSJo3KM=
+	t=1750998675; cv=none; b=InII+qAfocEQZwtJVpc6dZXA1A9ZuzZa313XMsGSB0d3fPIrhse/c1yL8EwclMY/XLiVLt5y96lZ8nrWaQs4mkUayE7o+C26MJPM6iG33PiSJ7Qw0ASCXUXEY86bcqmc1fNwW2xbZPBz92B0GMQia0TDB4SWL6djfq7/mTElOnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750980801; c=relaxed/simple;
-	bh=vbC2GLOPug5kOMvejYkJyMkJ9xu1B3O8gjNYLt5ErVk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=URh/4PPzx8hXdYod+bsNtCjKDl7HcPrb/VT8CRaVsyYbxfmwjIIq+5bR358EHKwH+mjRRsRz7l3b4xd5sWTc4Vjwjx0dTXpiCf3H1OrZf0GFMVBVY3i4k/4WH3w2m+A8+E0baEtSlO68VzddD5+wo/529NNxrQ+cZtmUz+TbzCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DW9xo6/l; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750998675; c=relaxed/simple;
+	bh=0M8ENBUgJpYWdqDPptXBiIAcVDOQpN779919of1Ylao=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bWrf/WRsD+qcttGiuJHxfnc7G1judx+Jweu6Y6MiFwDjo20txTqo/JE7ogcRBV7ItR7GKaYIMlM9LA6S5kLaYj8Qalc4NFoWg+ZRhG2eZNBdB12XIZIj16zdJkMFjdjDJcHD/0FMDZSkluwAqHQI78yPleizdIqM8m5t3RkXzCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HwNMc6br; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DW9xo6/l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CECC4CEEB;
-	Thu, 26 Jun 2025 23:33:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HwNMc6br"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A804C4CEE3;
+	Fri, 27 Jun 2025 04:31:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750980800;
-	bh=vbC2GLOPug5kOMvejYkJyMkJ9xu1B3O8gjNYLt5ErVk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DW9xo6/lYAVQiwgc1gQ50Tgcs4VY4qQJqnlo3+KOkhY4Ig4ItPZ/hQ8pP8sl2717W
-	 LrXTt2n9Tuohuix3Qg8C0pWunv8kympVYEFcI7hS/fGqIaLGL8da1MH/Ar6JXnH6FT
-	 bsDihuEDI4RD0UegoB2QyZiRSa/f1Z02MM1O0jPa3Lzb8tyVCrmjqUTl9oAkewG/CN
-	 dmnglJAANFHsnviXQc7QcSktYcwsm1e3esJTNxIN2QLkbt/mJGFFeOxzccZGLI2gyB
-	 6beMyO8BIt4Elomey3lOqu0ZYg0kygV3LmEtminDytwzgzLC3jZPpeQVbFh8q1ztQG
-	 CjxHW59JgL7RQ==
-Message-ID: <5cc01163-1feb-4a18-8060-27f4da39b2e4@kernel.org>
-Date: Thu, 26 Jun 2025 18:33:15 -0500
+	s=k20201202; t=1750998675;
+	bh=0M8ENBUgJpYWdqDPptXBiIAcVDOQpN779919of1Ylao=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HwNMc6br/86SWTAf2Al9i/DC7sIhdMgBlr/piYuh5A7ga2cP+v2QumzvTssRb8ZJN
+	 o0woLJRiKrqiM+dXvzwt/+gfXV4ku2aXwAzfLvY62rxlWrjCuJ2lH+FJeWkne3rpHn
+	 H7JveObRMVtBrdcP/NbYAE15jX0kO0/PBcnzf6v69O0zSi2x1ozaObNMgcdWTAHyHD
+	 6+Es8DoRDoqWzQk7lcSIVHTIrCV7wyz4slJR1ZeslyFbsBeMaihJUbYVeIj/AVA1BP
+	 Tz2Uiz/wEzjjs4q7V/uBCbOpZgsUtCl3/Ik/kcf/pfRhPXGvzE1kCn9mR47gIwz70o
+	 87JfFd+kufeKQ==
+From: Mario Limonciello <superm1@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
+	linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
+	kvm@vger.kernel.org (open list:VFIO DRIVER),
+	linux-sound@vger.kernel.org (open list:SOUND),
+	Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v6 0/9] Adjust fbcon console device detection
+Date: Thu, 26 Jun 2025 23:30:59 -0500
+Message-ID: <20250627043108.3141206-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 9/9] PCI: Add a new 'boot_display' attribute
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20250626214721.GA1642412@bhelgaas>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250626214721.GA1642412@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Mario Limonciello <mario.limonciello@amd.com>
 
+This series started out as changes to VGA arbiter to try to handle a case
+of a system with 2 GPUs that are not VGA devices [1].  This was discussed
+but decided not to overload the VGA arbiter for non VGA devices.
 
-On 6/26/25 4:47 PM, Bjorn Helgaas wrote:
-> On Thu, Jun 26, 2025 at 04:12:21PM -0500, Mario Limonciello wrote:
->> On 6/26/2025 3:45 PM, Bjorn Helgaas wrote:
->>> On Tue, Jun 24, 2025 at 03:30:42PM -0500, Mario Limonciello wrote:
->>>> From: Mario Limonciello <mario.limonciello@amd.com>
->>>>
->>>> On systems with multiple GPUs there can be uncertainty which GPU is the
->>>> primary one used to drive the display at bootup. In order to disambiguate
->>>> this add a new sysfs attribute 'boot_display' that uses the output of
->>>> video_is_primary_device() to populate whether a PCI device was used for
->>>> driving the display.
->>>>
->>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>
->>> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
->>>
->>> Question below.
->>>
->>>> ---
->>>> v4:
->>>>    * new patch
->>>> ---
->>>>    Documentation/ABI/testing/sysfs-bus-pci |  9 +++++++++
->>>>    drivers/pci/pci-sysfs.c                 | 14 ++++++++++++++
->>>>    2 files changed, 23 insertions(+)
->>>>
->>>> diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
->>>> index 69f952fffec72..897cfc1b0de0f 100644
->>>> --- a/Documentation/ABI/testing/sysfs-bus-pci
->>>> +++ b/Documentation/ABI/testing/sysfs-bus-pci
->>>> @@ -612,3 +612,12 @@ Description:
->>>>    		  # ls doe_features
->>>>    		  0001:01        0001:02        doe_discovery
->>>> +
->>>> +What:		/sys/bus/pci/devices/.../boot_display
->>>> +Date:		October 2025
->>>> +Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
->>>> +Description:
->>>> +		This file indicates whether the device was used as a boot
->>>> +		display. If the device was used as the boot display, the file
->>>> +		will contain "1". If the device is a display device but wasn't
->>>> +		used as a boot display, the file will contain "0".
->>>
->>> Is there a reason to expose this file if it wasn't a boot display
->>> device?  Maybe it doesn't need to exist at all unless it contains "1"?
->>
->> I was mostly thinking that it's a handy way for userspace to know whether
->> the kernel even supports this feature.  If userspace sees that file on any
->> GPU as it walks a list then it knows it can use that for a hint.
->>
->> But if you would rather it only shows up for the boot display yes it's
->> possible to do I think.  It's just more complexity to the visibility lookup
->> to also call video_is_primary_device().
-> 
-> I think for a singleton situation like this it makes more sense to
-> only expose the file for one device, not several files where only one
-> of them contains "1".
+Instead move the x86 specific detection of framebuffer resources into x86
+specific code that the fbcon can use to properly identify the primary
+device. This code is still called from the VGA arbiter, and the logic does
+not change there. To avoid regression default to VGA arbiter and only fall
+back to looking up with x86 specific detection method.
 
-I did an experiment with this but the PCI resources aren't ready at the 
-time visibility is determined.
+In order for userspace to also be able to discover which device was the
+primary video display device create a new sysfs file 'boot_display'.
 
-So either:
-* the sysfs file creation needs to be deferred similar to 
-pci_create_resource_files() does
+A matching userspace implementation for this file is available here:
+https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/39
+https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2038
 
-or
+It is suggested that this series merge entirely through the PCI tree.
 
-* call to sysfs_update_group() is needed to recalculate visibility.
+Mario Limonciello (9):
+  PCI: Add helper for checking if a PCI device is a display controller
+  vfio/pci: Use pci_is_display()
+  vga_switcheroo: Use pci_is_display()
+  iommu/vt-d: Use pci_is_display()
+  ALSA: hda: Use pci_is_display()
+  Fix access to video_is_primary_device() when compiled without
+    CONFIG_VIDEO
+  PCI/VGA: Replace vga_is_firmware_default() with a screen info check
+  fbcon: Use screen info to find primary device
+  PCI: Add a new 'boot_display' attribute
 
-> 
->>>> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
->>>> index 268c69daa4d57..5bbf79b1b953d 100644
->>>> --- a/drivers/pci/pci-sysfs.c
->>>> +++ b/drivers/pci/pci-sysfs.c
->>>> @@ -30,6 +30,7 @@
->>>>    #include <linux/msi.h>
->>>>    #include <linux/of.h>
->>>>    #include <linux/aperture.h>
->>>> +#include <asm/video.h>
->>>>    #include "pci.h"
->>>>    #ifndef ARCH_PCI_DEV_GROUPS
->>>> @@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
->>>>    	NULL,
->>>>    };
->>>> +static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
->>>> +				 char *buf)
->>>> +{
->>>> +	return sysfs_emit(buf, "%u\n", video_is_primary_device(dev));
->>>> +}
->>>> +static DEVICE_ATTR_RO(boot_display);
->>>> +
->>>>    static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
->>>>    			     char *buf)
->>>>    {
->>>> @@ -1698,6 +1706,7 @@ late_initcall(pci_sysfs_init);
->>>>    static struct attribute *pci_dev_dev_attrs[] = {
->>>>    	&dev_attr_boot_vga.attr,
->>>> +	&dev_attr_boot_display.attr,
->>>>    	NULL,
->>>>    };
->>>> @@ -1710,6 +1719,11 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
->>>>    	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
->>>>    		return a->mode;
->>>> +#ifdef CONFIG_VIDEO
->>>> +	if (a == &dev_attr_boot_display.attr && pci_is_display(pdev))
->>>> +		return a->mode;
->>>> +#endif
->>>> +
->>>>    	return 0;
->>>>    }
->>>> -- 
->>>> 2.43.0
->>>>
->>
+ Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
+ arch/parisc/include/asm/video.h         |  2 +-
+ arch/sparc/include/asm/video.h          |  2 ++
+ arch/x86/include/asm/video.h            |  2 ++
+ arch/x86/video/video-common.c           | 13 ++++++-
+ drivers/gpu/vga/vga_switcheroo.c        |  2 +-
+ drivers/iommu/intel/iommu.c             |  2 +-
+ drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
+ drivers/pci/vgaarb.c                    | 31 +++--------------
+ drivers/vfio/pci/vfio_pci_igd.c         |  3 +-
+ include/linux/pci.h                     | 15 ++++++++
+ sound/hda/hdac_i915.c                   |  2 +-
+ sound/pci/hda/hda_intel.c               |  4 +--
+ 13 files changed, 97 insertions(+), 35 deletions(-)
+
+-- 
+2.43.0
 
