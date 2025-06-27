@@ -1,182 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2DD2904;
-	Fri, 27 Jun 2025 16:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD3B1A2541
+	for <linux-sound@vger.kernel.org>; Fri, 27 Jun 2025 16:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751040955; cv=none; b=Zwwcxx6zrJUKlg03/mPVqyl/41zsuEE2wy/X7YdytZhvHk/p4r03PIOmSwtOff6QLSLmtXpkzaUbc3SEDSLYa645qrV64PBfKWKqHq191qRu+7EdVV9/OEI5SgH7ZMiNfQYwxp4TCAvPtGalhDeVAFE45pysE/4FBTDO7Nga9a0=
+	t=1751041222; cv=none; b=qh64mt0CddenycXXxtbLhUZxfTvuXZMtAXWFAy7O/GfhB7mClvnhK+jgwpgt2K2eAJU9qzKEMWOyVmpg3/zfkwwvyaU7Sh5D+RLy/nGTNbL9gk7gArrQF7uL9Mj4fpEVQJ67yBZbFT2cdMS4RutXC6DUFDUT/onYA6otmup84zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751040955; c=relaxed/simple;
-	bh=ngjP2j/mogEBHJHVAdxePa/ZTfx8oWY4hps0ZIisoVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=asE4CWgXbeXpaf6J6rwIPDHuI+KP2V+56GYnnFJHHcw1JozwTIAJ0+4Bo4V63L28HhEmmJxpXgw7JDfCCuvUFfpB0hOomWaLbRO1DB8w1QKNcxg0JyjzhxgyyvPalB2b+cE918I90lIDSWVpCrFHHVVFsu3qOuuoc2JuthUoOHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d3pfO07Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751041222; c=relaxed/simple;
+	bh=XwqHogSSry3M2xOy9mpJfC7RmzJCOdzUYxSsyffvog4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WanktNVNnhEzIWJJu0MHPStzyDSk8ixob0A7njxcwh1fpxg8L/b4fetJrTWdw1gsu+JavP3yl0Yf2tu+qulFS//NLPewwjNaHrsgLCmNHDCbsayhqM9e+w/OAkzM+bH3ntrzQeHWHnknDdW9Dw1+4Xd9Kv6nUu214QxvqTRBb94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XE8jySfi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d3pfO07Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0DEAC4CEE3;
-	Fri, 27 Jun 2025 16:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751040953;
-	bh=ngjP2j/mogEBHJHVAdxePa/ZTfx8oWY4hps0ZIisoVM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=d3pfO07YLCIK1I43m79Ck6t80cQIjU0rIm1HCmhgWy+yeE0cyqsL6+xQ78s/Mn//j
-	 HA//ehNfgC/ue6v0at98gGIDu73K9Tny0zIY9K14a7CUWza29A19uWAsLKtroQ/HN6
-	 7ysGjEs5pDT8rTa0uUg30IBvvS/55l7xkYGo63rew18C3Qgf/yKOuqVaUpv81a2coD
-	 FBv1qJe0+TQvQgR1duQ2iJmAU+hSAYuZpcCB14O6ytfEFOoOCfYKED2M6DvC354U5x
-	 djlnN1/jqbuJeWOXwRgHOZ2Uxv2GL3PzvoSt3fu0nwbSBoVBa/CENboYJGRPOH0b3X
-	 k1lsRpMl0X3eg==
-Date: Fri, 27 Jun 2025 11:15:52 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
-	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
-	"open list:VFIO DRIVER" <kvm@vger.kernel.org>,
-	"open list:SOUND" <linux-sound@vger.kernel.org>,
-	Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v5 9/9] PCI: Add a new 'boot_display' attribute
-Message-ID: <20250627161552.GA1671755@bhelgaas>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XE8jySfi"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55RBVp8h015157
+	for <linux-sound@vger.kernel.org>; Fri, 27 Jun 2025 16:20:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	byTdy4NUp80D6fRVNH608h/H8vnHagA3F7wro8Roi8Q=; b=XE8jySfiUhYk0olX
+	fBwjxLXhjQiipLrhvUz0NEjqA1e6LzZ7Tc+Rr6rK5kSXqXQe0H+WdZ+zNDWDSplp
+	z8rHrl0YsUeH2TJHEcaN21qXwHFiNmC/iemUmcjUp8V+CNEm93aCr07a4fFrIcDX
+	RG6xKoZnVBqcEaL7daXbu3QtYPi1LNUhRjDx+qUNcbrmrlEynagoOdYcaw0GDiP6
+	PQocKc6hLDO+umCTRSDXEztYt2CltF6rRfdks7+uFXod+yBerOSMWYJXSOACkA6/
+	gTOYAshjbzXE5+ma5enEgwk33rZFMvzgeUxHwrbcd3ApBq24w5mtrP2fW87G2TaN
+	UAJtTw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47emcn17re-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 27 Jun 2025 16:20:19 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7d15c975968so393718885a.2
+        for <linux-sound@vger.kernel.org>; Fri, 27 Jun 2025 09:20:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751041218; x=1751646018;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=byTdy4NUp80D6fRVNH608h/H8vnHagA3F7wro8Roi8Q=;
+        b=MMBBvBaCjhQgaD88ftZNdyKSh8Rnw2qPusByF8oVOj6j/YBsEnw+gMxdz6m2kyaRlN
+         XjyOJK12XMOc8CPIKkD1abIzXKJW/RcgA+3psMU2kbxVu9Q61qrk/xPLcUVsmJ8AWKBH
+         O712NgoL53Faaqbt+8wZ4ovsN6Whpdr/mcIs6krRU06GqweZwV/eJmc3t2cSPJrg+g4p
+         bkoJ8hmF2KFq/HEYrQmAdxqWNK2Phq/vZB/4Ce7OpSKUtjBgLexZDyEQfFBddc4EUsMK
+         xqeP8G7H3RePsvtkCGeBC5ycyk8CPmMGT2QK5yDir9G3SG6cW+8vQIIxdemsuzZfiism
+         o+Zw==
+X-Forwarded-Encrypted: i=1; AJvYcCX9JdZb6d2qwGHnjuNZaVgKE861XEtqrjA3170hBBROpYKuaaRsHzyNc/Mob95Er+IZWWqrhGALx8h8qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1oRtUrC+w2w/55SYjEhwT2NJTAfR+qtaCx8oakxbhEhcQsKEZ
+	pWui0JOeUalMdV3gKFuYFEek7/NXlXeP1zWFjnTiCFjM9vfgbManmXEDBOCTgJD0lVI0VZRpzq3
+	I/BdEo19KG/jqxkANNilQjglrolqNDTekLpdU4AVGHprAqcP1xqBbcPTxmiGSnjg1ZA==
+X-Gm-Gg: ASbGncvSYSgzj1OpEA4lPzEWbZBL8evsd6LA3+XP6ZwEbomRYX9+/xjSZiAMyNKTzPr
+	aYs/cVucNZDjPimespCVXtt+E9N+qBSL6Giu3222e+yOMKRsOBRIIMFLXZuNsQbQxmPWMxvIIhz
+	0zi+60e+woo/73VlH8pyw5BnKHMREOmreqdg3RDeBPFJjreqFpHhL/mncY4mMUOO6sJTW+2R7QI
+	CrXFBwFsgol16mzKLYjoj9Jd9u42jp/9vYZIg4azTtXd9Hk5X8X1dey5wjADRj85ocfih98rCaO
+	bwZGqvEWmaNYSi1N2SK8ESsNBt8OHqb0ZBfPlGVwYXLQyE9y
+X-Received: by 2002:a05:620a:1904:b0:7d3:907f:7544 with SMTP id af79cd13be357-7d4439a6584mr581809285a.35.1751041218006;
+        Fri, 27 Jun 2025 09:20:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5YR9jQmlbqJf/b3wtB+gkoIUeP+Io5gvMv3Z8vaeITKKJSuhEBtWn6NwiGA8qRYC/80SaSw==
+X-Received: by 2002:a05:620a:1904:b0:7d3:907f:7544 with SMTP id af79cd13be357-7d4439a6584mr581803785a.35.1751041217536;
+        Fri, 27 Jun 2025 09:20:17 -0700 (PDT)
+Received: from [192.168.68.113] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3a88c7e7524sm3127195f8f.12.2025.06.27.09.20.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jun 2025 09:20:17 -0700 (PDT)
+Message-ID: <c783a7a0-5fb1-4dcc-99df-433352dd9ee5@oss.qualcomm.com>
+Date: Fri, 27 Jun 2025 17:20:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5cc01163-1feb-4a18-8060-27f4da39b2e4@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] soundwire: bus: add sdw_slave_get_current_bank helper
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, vkoul@kernel.org,
+        broonie@kernel.org
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        krzysztof.kozlowski@linaro.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20250627155103.441547-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20250627155103.441547-3-srinivas.kandagatla@oss.qualcomm.com>
+ <68c06500-a776-4f56-8514-c180b23f7715@oss.qualcomm.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <68c06500-a776-4f56-8514-c180b23f7715@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: KN5EucQPXD38TCiMxsBcjZnDvXyJMdvU
+X-Proofpoint-ORIG-GUID: KN5EucQPXD38TCiMxsBcjZnDvXyJMdvU
+X-Authority-Analysis: v=2.4 cv=J+eq7BnS c=1 sm=1 tr=0 ts=685ec4c3 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=yTlN0QwsL3H5k83FOakA:9
+ a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI3MDEzMyBTYWx0ZWRfX1gDIEnp0o1WT
+ 7zslLRlAywo6W9gDW3+Dptr0uwNFIn0KetTevESjnty87T2FwX/jN2p6ETVKcXlBg4IESW7g6Vf
+ sqL1rMZnP/9VctJ820NCRQo1DdIZ71PY/FWYVntzq7if+08YX0NjmTcGDjr0GAAArTtS6dEKX9m
+ 9Lw7Ox2+KnBqFscJW97ik+2CLZByixmGTAcOudTXCVKz1FbN6zbhCg79eN25PUi+kWN7GxbyHuv
+ 9Mjx+3m/XDelL9PUaDonsqDrqS6DMm68KhcsRejbiWir+E3P71CSxWlI0YtNI3q4+q6jFQJqOXM
+ tqSAb7S5cT8c1jY4wBGq1/VFgPwdMWcV2POADX/03g74XxBIe8XmCSO6AtzWoCW4MrwvTe5pVEX
+ Io0tcWGzXHSIagSCj0/54Zg2Yh3lX+qxfQYqGKVsTcS52aOEKlXzjoMZEdj02AAR9Ud+Pqoc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-27_05,2025-06-26_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxlogscore=922 adultscore=0 impostorscore=0 clxscore=1015
+ spamscore=0 malwarescore=0 phishscore=0 priorityscore=1501 suspectscore=0
+ mlxscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506270133
 
-On Thu, Jun 26, 2025 at 06:33:15PM -0500, Mario Limonciello wrote:
-> On 6/26/25 4:47 PM, Bjorn Helgaas wrote:
-> > On Thu, Jun 26, 2025 at 04:12:21PM -0500, Mario Limonciello wrote:
-> > > On 6/26/2025 3:45 PM, Bjorn Helgaas wrote:
-> > > > On Tue, Jun 24, 2025 at 03:30:42PM -0500, Mario Limonciello wrote:
-> > > > > From: Mario Limonciello <mario.limonciello@amd.com>
-> > > > > 
-> > > > > On systems with multiple GPUs there can be uncertainty which GPU is the
-> > > > > primary one used to drive the display at bootup. In order to disambiguate
-> > > > > this add a new sysfs attribute 'boot_display' that uses the output of
-> > > > > video_is_primary_device() to populate whether a PCI device was used for
-> > > > > driving the display.
-> > > > > 
-> > > > > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> > > > 
-> > > > Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> > > > 
-> > > > Question below.
-> > > > 
-> > > > > ---
-> > > > > v4:
-> > > > >    * new patch
-> > > > > ---
-> > > > >    Documentation/ABI/testing/sysfs-bus-pci |  9 +++++++++
-> > > > >    drivers/pci/pci-sysfs.c                 | 14 ++++++++++++++
-> > > > >    2 files changed, 23 insertions(+)
-> > > > > 
-> > > > > diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-> > > > > index 69f952fffec72..897cfc1b0de0f 100644
-> > > > > --- a/Documentation/ABI/testing/sysfs-bus-pci
-> > > > > +++ b/Documentation/ABI/testing/sysfs-bus-pci
-> > > > > @@ -612,3 +612,12 @@ Description:
-> > > > >    		  # ls doe_features
-> > > > >    		  0001:01        0001:02        doe_discovery
-> > > > > +
-> > > > > +What:		/sys/bus/pci/devices/.../boot_display
-> > > > > +Date:		October 2025
-> > > > > +Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
-> > > > > +Description:
-> > > > > +		This file indicates whether the device was used as a boot
-> > > > > +		display. If the device was used as the boot display, the file
-> > > > > +		will contain "1". If the device is a display device but wasn't
-> > > > > +		used as a boot display, the file will contain "0".
-> > > > 
-> > > > Is there a reason to expose this file if it wasn't a boot display
-> > > > device?  Maybe it doesn't need to exist at all unless it contains "1"?
-> > > 
-> > > I was mostly thinking that it's a handy way for userspace to know whether
-> > > the kernel even supports this feature.  If userspace sees that file on any
-> > > GPU as it walks a list then it knows it can use that for a hint.
-> > > 
-> > > But if you would rather it only shows up for the boot display yes it's
-> > > possible to do I think.  It's just more complexity to the visibility lookup
-> > > to also call video_is_primary_device().
-> > 
-> > I think for a singleton situation like this it makes more sense to
-> > only expose the file for one device, not several files where only one
-> > of them contains "1".
+On 6/27/25 4:54 PM, Konrad Dybcio wrote:
+> On 6/27/25 5:51 PM, srinivas.kandagatla@oss.qualcomm.com wrote:
+>> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>
+>> There has been 2 instances of this helper in codec drivers,
+>> it does not make sense to keep duplicating this part of code.
+>>
+>> Lets add a helper sdw_get_current_bank() for codec drivers to use it.
+>>
+>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>> ---
+>>  drivers/soundwire/bus.c       | 7 +++++++
+>>  include/linux/soundwire/sdw.h | 8 ++++++++
+>>  2 files changed, 15 insertions(+)
+>>
+>> diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
+>> index 39aecd34c641..58306c515ccc 100644
+>> --- a/drivers/soundwire/bus.c
+>> +++ b/drivers/soundwire/bus.c
+>> @@ -1363,6 +1363,13 @@ int sdw_slave_get_scale_index(struct sdw_slave *slave, u8 *base)
+>>  }
+>>  EXPORT_SYMBOL(sdw_slave_get_scale_index);
+>>  
+>> +int sdw_slave_get_current_bank(struct sdw_slave *sdev)
+>> +{
+>> +	return FIELD_GET(SDW_SCP_STAT_CURR_BANK,
+>> +			 sdw_read(sdev, SDW_SCP_CTRL));
 > 
-> I did an experiment with this but the PCI resources aren't ready at the time
-> visibility is determined.
-> 
-> So either:
-> * the sysfs file creation needs to be deferred similar to
-> pci_create_resource_files() does
-> 
-> or
-> 
-> * call to sysfs_update_group() is needed to recalculate visibility.
+> sdw_read can fail (miserably)
+I agree, will add check in v2.
 
-Sigh, yeah, that's an old annoying problem.  I think deferring as you
-did is fine.
 
-> > > > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> > > > > index 268c69daa4d57..5bbf79b1b953d 100644
-> > > > > --- a/drivers/pci/pci-sysfs.c
-> > > > > +++ b/drivers/pci/pci-sysfs.c
-> > > > > @@ -30,6 +30,7 @@
-> > > > >    #include <linux/msi.h>
-> > > > >    #include <linux/of.h>
-> > > > >    #include <linux/aperture.h>
-> > > > > +#include <asm/video.h>
-> > > > >    #include "pci.h"
-> > > > >    #ifndef ARCH_PCI_DEV_GROUPS
-> > > > > @@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
-> > > > >    	NULL,
-> > > > >    };
-> > > > > +static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
-> > > > > +				 char *buf)
-> > > > > +{
-> > > > > +	return sysfs_emit(buf, "%u\n", video_is_primary_device(dev));
-> > > > > +}
-> > > > > +static DEVICE_ATTR_RO(boot_display);
-> > > > > +
-> > > > >    static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
-> > > > >    			     char *buf)
-> > > > >    {
-> > > > > @@ -1698,6 +1706,7 @@ late_initcall(pci_sysfs_init);
-> > > > >    static struct attribute *pci_dev_dev_attrs[] = {
-> > > > >    	&dev_attr_boot_vga.attr,
-> > > > > +	&dev_attr_boot_display.attr,
-> > > > >    	NULL,
-> > > > >    };
-> > > > > @@ -1710,6 +1719,11 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
-> > > > >    	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
-> > > > >    		return a->mode;
-> > > > > +#ifdef CONFIG_VIDEO
-> > > > > +	if (a == &dev_attr_boot_display.attr && pci_is_display(pdev))
-> > > > > +		return a->mode;
-> > > > > +#endif
-> > > > > +
-> > > > >    	return 0;
-> > > > >    }
-> > > > > -- 
-> > > > > 2.43.0
-> > > > > 
-> > > 
+--srini
 > 
+> Konrad
+
