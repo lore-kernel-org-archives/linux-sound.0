@@ -1,66 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821A8221FA4;
-	Fri, 27 Jun 2025 07:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E902264C7
+	for <linux-sound@vger.kernel.org>; Fri, 27 Jun 2025 08:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751010558; cv=none; b=b3tX7WYqqvjLcD8UGQszWwjPkvmYofcNsBdt7D4+W+pKs0lK6+IdkWd/9n6k8uU4Ns/WtLPAJoCsODmLfcdRT83RPpd5T4RgBQ/zd9NYw8yrSfP7oyEfeGJYBiBlCc5seHrlF5ps2hUW/InjR0jCorhTDRLmGNi1XEaiCgh1Ax0=
+	t=1751011678; cv=none; b=p51b6q3QeNAiD17HPF1OIqpgafH91gJQwCMnKf6lJiAOL0ivWIUlRM0+sYQwWdUau7FXCwr85KwsO9ICC5p1NmoTJGi1f7c5lqfMt+5CoGwwg58Z1Z3eHppQZcIRcqf3c13DIcozvAM5fPERcldRtI4DTk4lRDP/mJOSL1pOlJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751010558; c=relaxed/simple;
-	bh=FolFMNiWnCqgMjqoIOy1OjdQzcgAecmWXevBqf25Koc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O0q/bSBGQjxg4mD6bL6eDBU3yKEBFNQgX/nqbscMkZg0I75YYetMpYbMHwcz2VnunwDXZZZXzNFvkARVHCJNN0ALp4MyOlrr1Z7fouW6sqM1TRphVAN2bKKWytPV00dJFQZbBV9Fw7UUiLU0UZeY6Ox+aO5Uh47Dj+MMEGtq0sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M9EnCSxT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751011678; c=relaxed/simple;
+	bh=TNnLQEhUfqgFW5GGqcIGj22wIpx9IjiCVQYfYRXw3z8=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=SiriQp5m/4wdayqHIs3RU3yMy3g6Z2ZldycM2pDFAEgQWPgg+RvdQjs2OzT6+uwM3gJGDJLbiS4dHtLSQ/aNH9Mvr8hY3Zx4+n65dVhbQutCNgcRMUuv9YlHnWMJMH6LQpsXbe3xz28Yvw7VNkrc54c0ax3szY3sjfC65SqwEtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ylGHKGOz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wIqNCvLY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ylGHKGOz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wIqNCvLY; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M9EnCSxT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13817C4CEE3;
-	Fri, 27 Jun 2025 07:49:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751010558;
-	bh=FolFMNiWnCqgMjqoIOy1OjdQzcgAecmWXevBqf25Koc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M9EnCSxTuwilq+SYIYM1CCDOE3H0PuOonBpOTtYEhKXfaquQZx52VSOZQCeJJLy40
-	 qsHU7mcCXdJn5qpQYj9S8wXHsZ8KzApTuSGZeqQzSx+wb9RBo5U8KtZgrjtUbBzaCU
-	 6x1+x3C7kFH+U0SpPB0VpEUYVmkeMa45XBwMrpSvSr3VmN8odgLnoR5s6zI+Dvv7nf
-	 JyS37op8wAuqzgS/WCsFw2ER14QAKpTPAloyyxqj1n+GfTPEFbXG/n89TRr96s9RsN
-	 zFxN1pbcfsZBYXaZXjNvlCPri0Wk7cCoYhnQ8i1eJfu/IO4eP5pxow6sMEyxEHHZbl
-	 JoZYuxgDWWP4A==
-Date: Fri, 27 Jun 2025 09:49:14 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Niranjan H Y <niranjan.hy@ti.com>
-Cc: broonie@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	andriy.shevchenko@linux.intel.com, tiwai@suse.de, alsa-devel@alsa-project.org, baojun.xu@ti.com, 
-	shenghao-ding@ti.com, liam.r.girdwood@intel.com, lgirdwood@gmail.com, robh@kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, navada@ti.com, v-hampiholi@ti.com
-Subject: Re: [PATCH v3 1/4] ASoc: tac5x1x: add codec driver tac5x1x family
-Message-ID: <20250627-unyielding-unselfish-hippo-39ce6f@krzk-bin>
-References: <20250626181334.1200-1-niranjan.hy@ti.com>
- <20250626181334.1200-2-niranjan.hy@ti.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ylGHKGOz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wIqNCvLY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ylGHKGOz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wIqNCvLY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 16A4A1F387;
+	Fri, 27 Jun 2025 08:07:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751011675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=+XGSxsmp+fpITZ1AeCPa0Th2Qzu1Sb/brzkLAhI5QQM=;
+	b=ylGHKGOzpt5pcHQOEXt32zLyfX3kG+ivN+gjTeGGlya9G7uQF24Bsozdi6eOIJZJ15wHKi
+	MreGEQr0B7sjmQ+MeugsN/e3oTtlatDxxVVoDtAoefCF3ugL/T4X/5Ol3ERcE0AF5Wdyjd
+	vby5KVNbTqCIbDa/5ibaBdBWgnc1s00=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751011675;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=+XGSxsmp+fpITZ1AeCPa0Th2Qzu1Sb/brzkLAhI5QQM=;
+	b=wIqNCvLY6rWpHGPzLUO2GDn9HYPZBF9oviy7ONR0U/W1Fi1R/ZmyMx2CD8LW1kzInAfzmX
+	kaYgI7HvOG555BCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751011675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=+XGSxsmp+fpITZ1AeCPa0Th2Qzu1Sb/brzkLAhI5QQM=;
+	b=ylGHKGOzpt5pcHQOEXt32zLyfX3kG+ivN+gjTeGGlya9G7uQF24Bsozdi6eOIJZJ15wHKi
+	MreGEQr0B7sjmQ+MeugsN/e3oTtlatDxxVVoDtAoefCF3ugL/T4X/5Ol3ERcE0AF5Wdyjd
+	vby5KVNbTqCIbDa/5ibaBdBWgnc1s00=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751011675;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=+XGSxsmp+fpITZ1AeCPa0Th2Qzu1Sb/brzkLAhI5QQM=;
+	b=wIqNCvLY6rWpHGPzLUO2GDn9HYPZBF9oviy7ONR0U/W1Fi1R/ZmyMx2CD8LW1kzInAfzmX
+	kaYgI7HvOG555BCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E418A13786;
+	Fri, 27 Jun 2025 08:07:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UPyHNlpRXmjIVAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 27 Jun 2025 08:07:54 +0000
+Date: Fri, 27 Jun 2025 10:07:54 +0200
+Message-ID: <87tt41hajp.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.16-rc4
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250626181334.1200-2-niranjan.hy@ti.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-On Thu, Jun 26, 2025 at 11:43:30PM +0530, Niranjan H Y wrote:
-> tac5x1x family are series of low-power and high performance
-> mono/stereo audio codecs consists of ADC and DAC combinations.
-> The patch adds supports for Codecs(DAC & ADC), ADC only and
-> DAC only configurations available in the tac5x1x family.
-> 
-> Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
-> 
-> ---
+Linus,
 
-Organize your patches correctly - you cannot have user of binding before
-that binding is documented.  See submitting patches and writing bindings
-in DT dir.
+please pull sound fixes for v6.16-rc4 from:
 
-Best regards,
-Krzysztof
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.16-rc4
+
+The topmost commit is 7ab6847a03229e73bb7c58ca397630f699e79b53
+
+----------------------------------------------------------------
+
+sound fixes for 6.16-rc4
+
+A collection of small fixes again:
+- A regression fix for hibernation bug in ASoC SoundWire
+- Fixes for the new Qualcomm USB offload stuff
+- A potential OOB access fix in USB-audio
+- A potential memleadk fix in ASoC Intel
+- Quirks for HD-audio and ASoC AMD ACP
+
+----------------------------------------------------------------
+
+Chris Chiu (1):
+      ALSA: hda/realtek: fix mute/micmute LEDs for HP EliteBook 6 G1a
+
+Harshit Mogalapalli (1):
+      ALSA: qc_audio_offload: Fix missing error code in prepare_qmi_response()
+
+Jack Yu (1):
+      ASoC: rt721-sdca: fix boost gain calculation error
+
+Luca Weiss (1):
+      ASoC: qcom: sm8250: Fix possibly undefined reference
+
+Oliver Schramm (1):
+      ASoC: amd: yc: Add DMI quirk for Lenovo IdeaPad Slim 5 15
+
+Pei Xiao (1):
+      ALSA: usb: qcom: fix NULL pointer dereference in qmi_stop_session
+
+Salvatore Bonaccorso (1):
+      ALSA: hda/realtek: Fix built-in mic on ASUS VivoBook X507UAR
+
+Takashi Iwai (1):
+      ALSA: hda/realtek: Add mic-mute LED setup for ASUS UM5606
+
+Tamura Dai (1):
+      ASoC: SOF: Intel: hda: Use devm_kstrdup() to avoid memleak.
+
+Tim Crawford (1):
+      ALSA: hda/realtek: Add quirks for some Clevo laptops
+
+Vijendar Mukunda (1):
+      ASoC: amd: ps: fix for soundwire failures during hibernation exit sequence
+
+Yasmin Fitzgerald (1):
+      ALSA: hda/realtek - Enable mute LED on HP Pavilion Laptop 15-eg100
+
+Youngjun Lee (1):
+      ALSA: usb-audio: Fix out-of-bounds read in snd_usb_get_audioformat_uac3()
+
+Yuzuru10 (1):
+      ASoC: amd: yc: add quirk for Acer Nitro ANV15-41 internal mic
+
+---
+ sound/pci/hda/patch_realtek.c     | 10 ++++++++++
+ sound/soc/amd/ps/acp63.h          |  4 ++++
+ sound/soc/amd/ps/ps-common.c      | 18 ++++++++++++++++++
+ sound/soc/amd/yc/acp6x-mach.c     | 14 ++++++++++++++
+ sound/soc/codecs/rt721-sdca.c     | 23 +++++++++++++++++++----
+ sound/soc/qcom/Kconfig            |  1 +
+ sound/soc/sof/intel/hda.c         |  6 +++---
+ sound/usb/qcom/qc_audio_offload.c | 16 ++++++++--------
+ sound/usb/stream.c                |  2 ++
+ 9 files changed, 79 insertions(+), 15 deletions(-)
 
