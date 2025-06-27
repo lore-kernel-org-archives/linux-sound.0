@@ -1,182 +1,106 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E902264C7
-	for <linux-sound@vger.kernel.org>; Fri, 27 Jun 2025 08:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3BB298CAC;
+	Fri, 27 Jun 2025 10:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751011678; cv=none; b=p51b6q3QeNAiD17HPF1OIqpgafH91gJQwCMnKf6lJiAOL0ivWIUlRM0+sYQwWdUau7FXCwr85KwsO9ICC5p1NmoTJGi1f7c5lqfMt+5CoGwwg58Z1Z3eHppQZcIRcqf3c13DIcozvAM5fPERcldRtI4DTk4lRDP/mJOSL1pOlJU=
+	t=1751021333; cv=none; b=iMRcd2xvAFBcfL8CimpXayr6mPbvbgv+VPrf6S2g/nmIAA3SwFQW3CTqqW/+gADOCt3OBdMJGNrMTsPISzYdYVlJGAyTIStkDtdwrIj3RX73+LwGwpgWfhgrKCQ2iPJux9Aa1SnOefPqlyxFlwxrsCVsiKmWDlkpIR2V/c4r8Hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751011678; c=relaxed/simple;
-	bh=TNnLQEhUfqgFW5GGqcIGj22wIpx9IjiCVQYfYRXw3z8=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=SiriQp5m/4wdayqHIs3RU3yMy3g6Z2ZldycM2pDFAEgQWPgg+RvdQjs2OzT6+uwM3gJGDJLbiS4dHtLSQ/aNH9Mvr8hY3Zx4+n65dVhbQutCNgcRMUuv9YlHnWMJMH6LQpsXbe3xz28Yvw7VNkrc54c0ax3szY3sjfC65SqwEtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ylGHKGOz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wIqNCvLY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ylGHKGOz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wIqNCvLY; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1751021333; c=relaxed/simple;
+	bh=t5zc6fIQTCmGoE8p4c4MC9Y05swYQ+weDqBUHa/JISA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W/eVkMD0zpNa7QIWE5W6uu5d1ext7jTwa/49pNOVXwLU5UMV5jRarbzX8fPtLXnK007IG401j6T7GQGvtNSnttaC0a4l1JpNlw9xZXcyak2T23UDy6wZmhwKucqvOQLkv5+8FgxD4RZ6pBZ56k2w8AciTIltxCbnjhC3KD/J/yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6voMRwB; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ylGHKGOz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wIqNCvLY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ylGHKGOz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wIqNCvLY"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 16A4A1F387;
-	Fri, 27 Jun 2025 08:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751011675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=+XGSxsmp+fpITZ1AeCPa0Th2Qzu1Sb/brzkLAhI5QQM=;
-	b=ylGHKGOzpt5pcHQOEXt32zLyfX3kG+ivN+gjTeGGlya9G7uQF24Bsozdi6eOIJZJ15wHKi
-	MreGEQr0B7sjmQ+MeugsN/e3oTtlatDxxVVoDtAoefCF3ugL/T4X/5Ol3ERcE0AF5Wdyjd
-	vby5KVNbTqCIbDa/5ibaBdBWgnc1s00=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751011675;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=+XGSxsmp+fpITZ1AeCPa0Th2Qzu1Sb/brzkLAhI5QQM=;
-	b=wIqNCvLY6rWpHGPzLUO2GDn9HYPZBF9oviy7ONR0U/W1Fi1R/ZmyMx2CD8LW1kzInAfzmX
-	kaYgI7HvOG555BCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751011675; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=+XGSxsmp+fpITZ1AeCPa0Th2Qzu1Sb/brzkLAhI5QQM=;
-	b=ylGHKGOzpt5pcHQOEXt32zLyfX3kG+ivN+gjTeGGlya9G7uQF24Bsozdi6eOIJZJ15wHKi
-	MreGEQr0B7sjmQ+MeugsN/e3oTtlatDxxVVoDtAoefCF3ugL/T4X/5Ol3ERcE0AF5Wdyjd
-	vby5KVNbTqCIbDa/5ibaBdBWgnc1s00=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751011675;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=+XGSxsmp+fpITZ1AeCPa0Th2Qzu1Sb/brzkLAhI5QQM=;
-	b=wIqNCvLY6rWpHGPzLUO2GDn9HYPZBF9oviy7ONR0U/W1Fi1R/ZmyMx2CD8LW1kzInAfzmX
-	kaYgI7HvOG555BCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E418A13786;
-	Fri, 27 Jun 2025 08:07:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UPyHNlpRXmjIVAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 27 Jun 2025 08:07:54 +0000
-Date: Fri, 27 Jun 2025 10:07:54 +0200
-Message-ID: <87tt41hajp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.16-rc4
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6voMRwB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751021332; x=1782557332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t5zc6fIQTCmGoE8p4c4MC9Y05swYQ+weDqBUHa/JISA=;
+  b=U6voMRwB/2yVpwc5KRGhXM8kLvjA4Nay4c2F2i65mMat1HeasieeL3vm
+   h+er9O0Iev+OGKJlu0acQRZ386E2inCbaR2BRzj3rqcU4gwipVnfewb+P
+   mNjncEP5jMm+Y6pGzcw50nEdSNR8GEwoBwa9pyWaGvhDoDIm6bovyMns6
+   qMYCOFs1lAuDDNRLpUKFuQu5ec53wILdlb4lmXlnrJlGji7ORZvzf3DOO
+   P/HKa0pneKEAb6c1mwubtc1+NDec8svdx9x4U06ih4QMkNwutkggxKT9N
+   P1mgxFbJGYq7PRHkjTr/zr834tU4S9a0pFoLZlmYsHZQq5zEihPXtIA5i
+   w==;
+X-CSE-ConnectionGUID: 7NmbB93TQDqefWHuiAZb8Q==
+X-CSE-MsgGUID: DsxTDiiJRbiJ0j7ser1d0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53274502"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="53274502"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 03:48:51 -0700
+X-CSE-ConnectionGUID: AW3mqA78TgWq4HU9M2HqiQ==
+X-CSE-MsgGUID: rnkN1+BOSDapci4mJ7S4XQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="156819302"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 27 Jun 2025 03:48:48 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uV6dR-000W5i-25;
+	Fri, 27 Jun 2025 10:48:45 +0000
+Date: Fri, 27 Jun 2025 18:48:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Niranjan H Y <niranjan.hy@ti.com>, broonie@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	andriy.shevchenko@linux.intel.com, tiwai@suse.de,
+	alsa-devel@alsa-project.org, baojun.xu@ti.com, shenghao-ding@ti.com,
+	liam.r.girdwood@intel.com, lgirdwood@gmail.com, robh@kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	navada@ti.com, v-hampiholi@ti.com, niranjan.hy@ti.com
+Subject: Re: [PATCH v3 1/4] ASoc: tac5x1x: add codec driver tac5x1x family
+Message-ID: <202506271807.cuEjxbbx-lkp@intel.com>
+References: <20250626181334.1200-2-niranjan.hy@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250626181334.1200-2-niranjan.hy@ti.com>
 
-Linus,
+Hi Niranjan,
 
-please pull sound fixes for v6.16-rc4 from:
+kernel test robot noticed the following build errors:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.16-rc4
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v6.16-rc3 next-20250627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The topmost commit is 7ab6847a03229e73bb7c58ca397630f699e79b53
+url:    https://github.com/intel-lab-lkp/linux/commits/Niranjan-H-Y/ASoc-tac5x1x-add-codec-driver-tac5x1x-family/20250627-021555
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250626181334.1200-2-niranjan.hy%40ti.com
+patch subject: [PATCH v3 1/4] ASoc: tac5x1x: add codec driver tac5x1x family
+config: x86_64-kexec (attached as .config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271807.cuEjxbbx-lkp@intel.com/reproduce)
 
-----------------------------------------------------------------
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506271807.cuEjxbbx-lkp@intel.com/
 
-sound fixes for 6.16-rc4
+All errors (new ones prefixed by >>):
 
-A collection of small fixes again:
-- A regression fix for hibernation bug in ASoC SoundWire
-- Fixes for the new Qualcomm USB offload stuff
-- A potential OOB access fix in USB-audio
-- A potential memleadk fix in ASoC Intel
-- Quirks for HD-audio and ASoC AMD ACP
+>> error: recursive dependency detected!
+   symbol REGMAP_I2C is selected by SND_SOC_TAC5X1X_I2C
+   symbol SND_SOC_TAC5X1X_I2C depends on REGMAP_I2C
+   For a resolution refer to Documentation/kbuild/kconfig-language.rst
+   subsection "Kconfig recursive dependency limitations"
 
-----------------------------------------------------------------
-
-Chris Chiu (1):
-      ALSA: hda/realtek: fix mute/micmute LEDs for HP EliteBook 6 G1a
-
-Harshit Mogalapalli (1):
-      ALSA: qc_audio_offload: Fix missing error code in prepare_qmi_response()
-
-Jack Yu (1):
-      ASoC: rt721-sdca: fix boost gain calculation error
-
-Luca Weiss (1):
-      ASoC: qcom: sm8250: Fix possibly undefined reference
-
-Oliver Schramm (1):
-      ASoC: amd: yc: Add DMI quirk for Lenovo IdeaPad Slim 5 15
-
-Pei Xiao (1):
-      ALSA: usb: qcom: fix NULL pointer dereference in qmi_stop_session
-
-Salvatore Bonaccorso (1):
-      ALSA: hda/realtek: Fix built-in mic on ASUS VivoBook X507UAR
-
-Takashi Iwai (1):
-      ALSA: hda/realtek: Add mic-mute LED setup for ASUS UM5606
-
-Tamura Dai (1):
-      ASoC: SOF: Intel: hda: Use devm_kstrdup() to avoid memleak.
-
-Tim Crawford (1):
-      ALSA: hda/realtek: Add quirks for some Clevo laptops
-
-Vijendar Mukunda (1):
-      ASoC: amd: ps: fix for soundwire failures during hibernation exit sequence
-
-Yasmin Fitzgerald (1):
-      ALSA: hda/realtek - Enable mute LED on HP Pavilion Laptop 15-eg100
-
-Youngjun Lee (1):
-      ALSA: usb-audio: Fix out-of-bounds read in snd_usb_get_audioformat_uac3()
-
-Yuzuru10 (1):
-      ASoC: amd: yc: add quirk for Acer Nitro ANV15-41 internal mic
-
----
- sound/pci/hda/patch_realtek.c     | 10 ++++++++++
- sound/soc/amd/ps/acp63.h          |  4 ++++
- sound/soc/amd/ps/ps-common.c      | 18 ++++++++++++++++++
- sound/soc/amd/yc/acp6x-mach.c     | 14 ++++++++++++++
- sound/soc/codecs/rt721-sdca.c     | 23 +++++++++++++++++++----
- sound/soc/qcom/Kconfig            |  1 +
- sound/soc/sof/intel/hda.c         |  6 +++---
- sound/usb/qcom/qc_audio_offload.c | 16 ++++++++--------
- sound/usb/stream.c                |  2 ++
- 9 files changed, 79 insertions(+), 15 deletions(-)
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
