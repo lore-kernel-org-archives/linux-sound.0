@@ -1,33 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8C04A21;
-	Fri, 27 Jun 2025 05:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EBA215783
+	for <linux-sound@vger.kernel.org>; Fri, 27 Jun 2025 06:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751003453; cv=none; b=MuD8hE+y6UWZ6eZ9xcLfJABwdvCpKpOiesM188jFtu7d/W44DmGYTRCpZkJTZXzNRPq6ditGIxq/ShZ9ahJgB2ORIcsNAfKVpSW1u69DROFDHRDs+EajiwCl9hOWpeitW4UNHN86NkKP+hF/ht85JnZJl2mabKNREsSycZ+oYlA=
+	t=1751007076; cv=none; b=Vj0WzK2/Pw1feP/wcCtKGg/goo1Pte2ORKj4TPZjSHWRAHDM6TeqrgIJYlh8ARME/gEtr34FF7x558/REDZ1dSaSbZ7hq24Gfrwz70iom6/sTAD/TbMORqZLihSDrf7r5HVpYLoTwlZmp74d0/gu1g4loBcbcRsqR7PFBpmXCTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751003453; c=relaxed/simple;
-	bh=U+Swbi9IsD7gbt+s4JbBsN+9uN8M5VaxcB6JLCGWXB4=;
+	s=arc-20240116; t=1751007076; c=relaxed/simple;
+	bh=IsoQY2OF4h28QLFNyHbtWM9Z7+gpRWPjDXcYAxaZTBs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vDBWp76vj7KMLg++Yct+ZNwtFQdEqUm9sdB06NqNyuFyjiyT5u26YYJPPi5Vt6KPnm/cPKQrhUhqIH1gJIlFTslMdDoYWWLzfUn9vMesVNr6Z3HImIuCPTCHGlbSIZ0nd1OWOp/Iw9YqvORIwDHelPfLofdOmsHIFSdvAc62IFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=opKHwvpa; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=nkY9NNHm0bMs2t32TaJuA7Du4qo6PkvHbR5IXoVOViGMMfNvUAJE3P/xT4/RWYZg/X0KdC+0i7jlwLd5t+ztBchJlNxUaGM37bimA5OsNdc9b5DmG/tljk3PMmvzJU0krHfXo1CXnasw7Pj9O9NC9AzIWpiDbU/hrSnJE/vwYR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D+V3PWQS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FWyCg1vt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D+V3PWQS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FWyCg1vt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="opKHwvpa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C65C4CEE3;
-	Fri, 27 Jun 2025 05:50:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751003452;
-	bh=U+Swbi9IsD7gbt+s4JbBsN+9uN8M5VaxcB6JLCGWXB4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=opKHwvpaYFAQ57JQz/AVCSjjKXIhkZUZMeZxAFYDhnfTBexIpwop/BqAx7k6m9SiR
-	 9uky53qyjlqPlPGpNVe/O69iXuxzyy0GO1GLtdmdzkTuNjldYIbyZDcBeRKe6t8Nmy
-	 pd+qLwpyIjzA+ygoe3Q6NhVEfMDBOWAR/t3FovPw2/EjKyrmwKSXPQmwI3voI3NWZh
-	 5DY20GgDL2Te0UjI20qOZ0lNrbj/V7MWLGqwdGckWn7o3Aw2NkdQYwNOiE9JMH5HjN
-	 HfxpK37evVftNENgmZI5u+DRcIu4asM9dTiVAQ3qXupdKKpLqP93K/bw2l35yK1nbX
-	 zVAZs/clRQt/Q==
-Message-ID: <7a3867fa-d69f-4246-87d8-b95860830dcb@kernel.org>
-Date: Fri, 27 Jun 2025 07:50:44 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D+V3PWQS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FWyCg1vt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D+V3PWQS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FWyCg1vt"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0E4DB2116B;
+	Fri, 27 Jun 2025 06:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751007072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=g4LXbAAUippkeeXQUWYXMF4i0Pu0+xEpthWYGcl+dNA=;
+	b=D+V3PWQSry1H18jcwfxT2ZiC7vuADMiqtS3LBL5fccyDDX3LWpz5zqZBYpjf7Mstq+3ads
+	XBH5Uh0u3oHI2WnnomoFelU5Nv9mOoHIpwoeX3EprxRhHwGcdr8JOWx0v0iTuZ92lB7dK3
+	Y01nf/Lu+oIp/Tzkj8pYUUSyUHFAHqg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751007072;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=g4LXbAAUippkeeXQUWYXMF4i0Pu0+xEpthWYGcl+dNA=;
+	b=FWyCg1vtGD9HsNCvw4wXl8haw6ZvFY+CBZ9AGTQ2fCqMKSXFJrz0TwMvk4CaLXnVr2+a+J
+	NeTVy0jZMWs/9vAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751007072; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=g4LXbAAUippkeeXQUWYXMF4i0Pu0+xEpthWYGcl+dNA=;
+	b=D+V3PWQSry1H18jcwfxT2ZiC7vuADMiqtS3LBL5fccyDDX3LWpz5zqZBYpjf7Mstq+3ads
+	XBH5Uh0u3oHI2WnnomoFelU5Nv9mOoHIpwoeX3EprxRhHwGcdr8JOWx0v0iTuZ92lB7dK3
+	Y01nf/Lu+oIp/Tzkj8pYUUSyUHFAHqg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751007072;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=g4LXbAAUippkeeXQUWYXMF4i0Pu0+xEpthWYGcl+dNA=;
+	b=FWyCg1vtGD9HsNCvw4wXl8haw6ZvFY+CBZ9AGTQ2fCqMKSXFJrz0TwMvk4CaLXnVr2+a+J
+	NeTVy0jZMWs/9vAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 69A71138A7;
+	Fri, 27 Jun 2025 06:51:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id s4FiGF8/XmjgPgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 27 Jun 2025 06:51:11 +0000
+Message-ID: <d8ca2ed5-5656-405b-bf30-defcbc20c619@suse.de>
+Date: Fri, 27 Jun 2025 08:51:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,96 +82,159 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] dt-bindings: sound: bindings for tac5x1x family of
- codecs
-To: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: "tiwai@suse.de" <tiwai@suse.de>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
- "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
- "Xu, Baojun" <baojun.xu@ti.com>, "Ding, Shenghao" <shenghao-ding@ti.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "Hampiholi, Vallabha" <v-hampiholi@ti.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "Navada Kanyana, Mukund" <navada@ti.com>
-References: <3c54f7d51e1941cbb8a15147c99d64ee@ti.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v6 8/9] fbcon: Use screen info to find primary device
+To: Mario Limonciello <superm1@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+ "open list:SOUND" <linux-sound@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20250627043108.3141206-1-superm1@kernel.org>
+ <20250627043108.3141206-9-superm1@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <3c54f7d51e1941cbb8a15147c99d64ee@ti.com>
-Content-Type: text/plain; charset=UTF-8
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250627043108.3141206-9-superm1@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,wunner.de,linux.intel.com,kernel.org,infradead.org,8bytes.org,arm.com,redhat.com,perex.cz,suse.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,nvidia.com];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-Spam-Level: 
 
-On 27/06/2025 06:57, Holalu Yogendra, Niranjan wrote:
-> Thanks for quick review.
->> From: Rob Herring (Arm) <robh@kernel.org>
->> Sent: Friday, June 27, 2025 1:09 AM
->> To: Holalu Yogendra, Niranjan <niranjan.hy@ti.com>
->> Subject: Re: [PATCH v3 2/4] dt-bindings: sound: bindings for
->> tac5x1x family of codecs
->> On Thu, 26 Jun 2025 23:43:31 +0530, Niranjan H Y wrote:
->>> Documentation/devicetree/bindings/sound/ti,tac5x1x.yaml
-> ...
->> yamllint warnings/errors:
->>
->> dtschema/dtc warnings/errors:
->> Warning: Duplicate compatible "ti,taa5412" found in schemas matching
->> Warning: Duplicate compatible "ti,taa5212" found in schemas matching
->> Warning: Duplicate compatible "ti,tad5212" found in schemas matching
-> The duplicate compatible are already removed as part of the patch series 
-> in patch [v3,4/4] dt-bindings: sound: device support list for pcm6240 .
-> https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250626181334.1200-5-niranjan.hy@ti.com/
-> Please let me know if still additional action is required. 
+Hi
 
-It's impossible to understand what this email references... but I still
-think you need to fix your patchset. You have warnings here, don't you?
+Am 27.06.25 um 06:31 schrieb Mario Limonciello:
+> From: Mario Limonciello <mario.limonciello@amd.com>
+>
+> On systems with non VGA GPUs fbcon can't find the primary GPU because
+> video_is_primary_device() only checks the VGA arbiter.
+>
+> Add a screen info check to video_is_primary_device() so that callers
+> can get accurate data on such systems.
+>
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 
-Best regards,
-Krzysztof
+Thanks for sticking with it. This patch is also useful without the sysfs 
+interface.
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Best regards
+Thomas
+
+> ---
+> v5:
+>   * Only change video-common.c
+> v4:
+>   * use helper
+> ---
+>   arch/x86/video/video-common.c | 13 ++++++++++++-
+>   1 file changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/x86/video/video-common.c b/arch/x86/video/video-common.c
+> index 81fc97a2a837a..917568e4d7fb1 100644
+> --- a/arch/x86/video/video-common.c
+> +++ b/arch/x86/video/video-common.c
+> @@ -9,6 +9,7 @@
+>   
+>   #include <linux/module.h>
+>   #include <linux/pci.h>
+> +#include <linux/screen_info.h>
+>   #include <linux/vgaarb.h>
+>   
+>   #include <asm/video.h>
+> @@ -27,6 +28,7 @@ EXPORT_SYMBOL(pgprot_framebuffer);
+>   
+>   bool video_is_primary_device(struct device *dev)
+>   {
+> +	struct screen_info *si = &screen_info;
+>   	struct pci_dev *pdev;
+>   
+>   	if (!dev_is_pci(dev))
+> @@ -34,7 +36,16 @@ bool video_is_primary_device(struct device *dev)
+>   
+>   	pdev = to_pci_dev(dev);
+>   
+> -	return (pdev == vga_default_device());
+> +	if (!pci_is_display(pdev))
+> +		return false;
+> +
+> +	if (pdev == vga_default_device())
+> +		return true;
+> +
+> +	if (pdev == screen_info_pci_dev(si))
+> +		return true;
+> +
+> +	return false;
+>   }
+>   EXPORT_SYMBOL(video_is_primary_device);
+>   
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
