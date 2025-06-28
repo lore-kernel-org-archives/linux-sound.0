@@ -1,166 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718CC21C184;
-	Sat, 28 Jun 2025 05:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20E18635D;
+	Sat, 28 Jun 2025 07:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751088513; cv=none; b=rs8JLDdkTPPRWJcS/0hy3GiF+PkUrHmZRK120P8VDIeMIqFRcU1wTnJzGOo5fdUl/hww9WRbB3wEo9fh6GMNdemNdoWaK+JUeIs8Pvaq3z9oxBRoqiSvXQh0rCY0bi+l5SIlKJw30AFRt93FtQVXyKIVhOmIE9/PVI99hvFiU4k=
+	t=1751094900; cv=none; b=KFFQwCL37Spy43bTTY9IlWkuPe4kq20R7dkBkpcoonhK/QHucda6iWgRJ26MbVhFch6XfXDILolDOZEoZvvknzrPWX8zdmxgm05rQ28BlNrMyK3+492nJPkEVhZz91BkSCwWqNJqRfl4ZCVJsyTQZvhI0Kwsmb4XBmLfYF/AKsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751088513; c=relaxed/simple;
-	bh=/PouR7nev/ceIZ/BO1Yk6lP2sUsqB6YlSfWvYBhCwKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxUndVXAYT6nYSDcIRM1S/d61ECAOVfEo2ymcvDclDOKzE4jHboNKhOE04CwP7ma5Y48ZpNfPrCWA5xKCla5zvvavvMMKxptUAYphgDyuiyHqiMFBAEOpvjioRORax4duYDMwEN4reC8cr8dnqNFIo/1jFpS38b2L9KLu8+M8nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WA5PDo7w; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751094900; c=relaxed/simple;
+	bh=r8l+tu5sugQIvxlQ0MnusMGkdx0A7k8EXAmrJyIyqCA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d+GysJ57LQ2zRWPmzPD3xDtcK96L3PGo6dXGoL28b3rzUlSSyLERxn/D6SzDQ126Szk0hkWvrG5YjMqJECeLgz8tkwHM7ppQ0PjKSbsI3lxUoOa8euF9SPuMNmGmRvi4geHhRTJVpupENzwnG5nZsn5iRW3+MrphW3/5JaCeyeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=PHQzhf4k; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WA5PDo7w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751088512; x=1782624512;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/PouR7nev/ceIZ/BO1Yk6lP2sUsqB6YlSfWvYBhCwKg=;
-  b=WA5PDo7wUCqXytIgvUEsvaE+K68/5WPxwBqK3R6xaWdSpk9M7oU6S5wC
-   J0jKtuznVGkkyFT8hpxksA/wtz4CFyvVuRHxFqRul6Zgk03+MPZNNWeu2
-   tE5Xf7F+vjqH+IKZkw0IYRKi4zb9fDWJp2UDg74r0eHvgucHI//YmG4xa
-   psvCy49b70sTVI7f2mPz4+LZDBRBYKwLW5Bhm5U2fp49agjOZs+a60axo
-   xe+ZCGEcKFmFUjcs/f/lLsvHb4IvTQH1wKeL9AF3szJPQKZ1TbcxwyLwu
-   x8fJXos5ZTHoGGacoIFHxzOnj6w+CFE/eZUJWhnR6BHGGiyUKHhy8ja4Y
-   A==;
-X-CSE-ConnectionGUID: 6AdLmHXDQNGH+M/q73yrFQ==
-X-CSE-MsgGUID: 48fuWyC+RFiGA9f1tPqNxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53119934"
-X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="53119934"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 22:28:31 -0700
-X-CSE-ConnectionGUID: rDEavM7eScyJIozOfi5Adg==
-X-CSE-MsgGUID: aGbsD7QwQ4C31I2aKNUKmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="184012419"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Jun 2025 22:28:25 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uVO6w-000WpC-1w;
-	Sat, 28 Jun 2025 05:28:22 +0000
-Date: Sat, 28 Jun 2025 13:28:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
-Message-ID: <202506281332.JQb144bv-lkp@intel.com>
-References: <20250627043108.3141206-10-superm1@kernel.org>
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="PHQzhf4k"
+X-UUID: 9312295653ef11f0b33aeb1e7f16c2b6-20250628
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=V6Z/4K6Yt+prO9BrSpsKqwbnEWAEKzGbOjbsOQhnb3g=;
+	b=PHQzhf4k8O8kDrovyVrSlv5biV2etqm6lqCdEszB+smfwKlrZDsncT46fRvPUXIvMV1LArylq5mFiHz9jrXSnahZqlEZ730OQtk2Dk0WqHCqJEySW9NJFbERR6zbHqhzMRboArcqFeoKRseEvbXlzLslf1EKRYMwx934gve34Ps=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.2,REQID:a15e549e-8ff4-4233-a6ee-148f015c0860,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:9eb4ff7,CLOUDID:200ba714-6a0e-4a76-950f-481909c914a4,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 9312295653ef11f0b33aeb1e7f16c2b6-20250628
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
+	(envelope-from <cyril.chao@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 140594530; Sat, 28 Jun 2025 15:14:47 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Sat, 28 Jun 2025 15:14:43 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Sat, 28 Jun 2025 15:14:44 +0800
+From: Cyril <Cyril.Chao@mediatek.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<cyril.chao@mediatek.com>, Cyril <Cyril.Chao@mediatek.com>
+Subject: [PATCH 00/10] ASoC: mediatek: Add support for MT8189 SoC
+Date: Sat, 28 Jun 2025 15:14:08 +0800
+Message-ID: <20250628071442.31155-1-Cyril.Chao@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250627043108.3141206-10-superm1@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Hi Mario,
+Based on tag: next-20250626, linux-next/master
 
-kernel test robot noticed the following build errors:
+This series of patches adds support for Mediatek AFE of MT8189 SoC.
+Patches are based on broonie tree "for-next" branch.
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc3 next-20250627]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Cyril Chao (10):
+  ASoC: mediatek: mt8189: add common header
+  ASoC: mediatek: mt8189: support audio clock control
+  ASoC: mediatek: mt8189: support ADDA in platform driver
+  ASoC: mediatek: mt8189: support I2S in platform driver
+  ASoC: mediatek: mt8189: support TDM in platform driver
+  ASoC: mediatek: mt8189: support PCM in platform driver
+  ASoC: mediatek: mt8189: add platform driver
+  ASoC: dt-bindings: mediatek,mt8189-afe-pcm: add audio afe document
+  ASoC: mediatek: mt8189: add machine driver with nau8825
+  ASoC: dt-bindings: mediatek,mt8189-nau8825: add mt8189-nau8825
+    document
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250627-123349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250627043108.3141206-10-superm1%40kernel.org
-patch subject: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
-config: arc-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281332.JQb144bv-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281332.JQb144bv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506281332.JQb144bv-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/pci/pci-sysfs.c: In function 'pci_create_sysfs_dev_files':
->> drivers/pci/pci-sysfs.c:1701:11: error: implicit declaration of function 'pci_create_boot_display_file'; did you mean 'pci_create_sysfs_dev_files'? [-Werror=implicit-function-declaration]
-     retval = pci_create_boot_display_file(pdev);
-              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              pci_create_sysfs_dev_files
-   drivers/pci/pci-sysfs.c: In function 'pci_remove_sysfs_dev_files':
->> drivers/pci/pci-sysfs.c:1719:2: error: implicit declaration of function 'pci_remove_boot_display_file'; did you mean 'pci_remove_sysfs_dev_files'? [-Werror=implicit-function-declaration]
-     pci_remove_boot_display_file(pdev);
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     pci_remove_sysfs_dev_files
-   In file included from include/linux/pci.h:37,
-                    from drivers/pci/pci-sysfs.c:19:
-   At top level:
->> include/linux/device.h:199:26: warning: 'dev_attr_boot_display' defined but not used [-Wunused-variable]
-     struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
-                             ^~~~~~~~~
-   drivers/pci/pci-sysfs.c:688:8: note: in expansion of macro 'DEVICE_ATTR_RO'
-    static DEVICE_ATTR_RO(boot_display);
-           ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +1701 drivers/pci/pci-sysfs.c
-
-  1693	
-  1694	int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
-  1695	{
-  1696		int retval;
-  1697	
-  1698		if (!sysfs_initialized)
-  1699			return -EACCES;
-  1700	
-> 1701		retval = pci_create_boot_display_file(pdev);
-  1702		if (retval)
-  1703			return retval;
-  1704	
-  1705		return pci_create_resource_files(pdev);
-  1706	}
-  1707	
-  1708	/**
-  1709	 * pci_remove_sysfs_dev_files - cleanup PCI specific sysfs files
-  1710	 * @pdev: device whose entries we should free
-  1711	 *
-  1712	 * Cleanup when @pdev is removed from sysfs.
-  1713	 */
-  1714	void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
-  1715	{
-  1716		if (!sysfs_initialized)
-  1717			return;
-  1718	
-> 1719		pci_remove_boot_display_file(pdev);
-  1720		pci_remove_resource_files(pdev);
-  1721	}
-  1722	
+ .../sound/mediatek,mt8189-afe-pcm.yaml        |   162 +
+ .../sound/mediatek,mt8189-nau8825.yaml        |   103 +
+ sound/soc/mediatek/Kconfig                    |    28 +
+ sound/soc/mediatek/Makefile                   |     1 +
+ sound/soc/mediatek/mt8189/Makefile            |    18 +
+ sound/soc/mediatek/mt8189/mt8189-afe-clk.c    |   763 ++
+ sound/soc/mediatek/mt8189/mt8189-afe-clk.h    |   109 +
+ sound/soc/mediatek/mt8189/mt8189-afe-common.h |   294 +
+ sound/soc/mediatek/mt8189/mt8189-afe-pcm.c    |  2682 ++++
+ sound/soc/mediatek/mt8189/mt8189-dai-adda.c   |  1327 ++
+ sound/soc/mediatek/mt8189/mt8189-dai-i2s.c    |  1795 +++
+ sound/soc/mediatek/mt8189/mt8189-dai-pcm.c    |   337 +
+ sound/soc/mediatek/mt8189/mt8189-dai-tdm.c    |   828 ++
+ .../mediatek/mt8189/mt8189-interconnection.h  |    97 +
+ sound/soc/mediatek/mt8189/mt8189-nau8825.c    |  1054 ++
+ sound/soc/mediatek/mt8189/mt8189-reg.h        | 10773 ++++++++++++++++
+ 16 files changed, 20371 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8189-afe-pcm.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8189-nau8825.yaml
+ create mode 100644 sound/soc/mediatek/mt8189/Makefile
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-afe-clk.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-afe-clk.h
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-afe-common.h
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-afe-pcm.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-dai-adda.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-dai-i2s.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-dai-pcm.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-dai-tdm.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-interconnection.h
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-nau8825.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-reg.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.46.0
+
