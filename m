@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287AA13B5AE;
-	Sat, 28 Jun 2025 12:39:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712E5218E8B;
+	Sat, 28 Jun 2025 12:42:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751114352; cv=none; b=INswMUvl65pCkNhh11dC7dpLUbcuVxfx6C6DDYlwefu6B+PGQLbE5yZ3YuEiz+M7zzWO2pMJqK4CbFCikH2m3bDAbwOMC5tShUFhiq+8fa+15eyXV0id0WDnwCBqurnZlBQx7P7xPqgqgesMztcJp8EqvABiA9aO09NfI9NH6/Y=
+	t=1751114559; cv=none; b=EYPX4Lym+9usZzlY+uB+gmhiGliuXtQRR1LPULbbFl9DC2AOX6sy6hK78X8uwMmAenVg04zMy59D22hkDKHsveJGYyGRTWtHBAE2l2lTXn1KgNkrG3HKCEG8svaOecntfCQXpPoc98hXvyWr8yFE5m3OJGrJeWhsa0l/g/bDrSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751114352; c=relaxed/simple;
-	bh=dmi0agTyYUOAkBjgP89gMMImE+0G34MTdb2lXfF8kU8=;
+	s=arc-20240116; t=1751114559; c=relaxed/simple;
+	bh=uz0uXr8i25BQ6ZgJ2ilXdK3mcLciGG2O9XOkL9Dq8Es=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dfur9NZxjKvWOCdKqvSA1RcXJhWJ4HtJwhJkHWd9zAY5myGg1vR5kBlth2jgHOWEsZXrKB4Rp4knhKVR0DMCy/79DjkTeASVeK48gRC2GBDYnZx/yZ5s5RTcIjx6PYi4D/NvxI6lq9hnnuHZh5Opjvw+GIY/5bjleF8p4fXt8xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OaJqTQ92; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=JPL1PFEDnItuWe7M4rDU907hvgS6hvyVq4In8qHc5ikDGPijuKQ6YFUlCz5vacg1dtSLsbx0E+FtQgZKyfZuRFbjsdL8gUppDAdbcCFbOSUkS8FkIrxiM/VUUST1NuuhXZPyUB9DdQTJrwAnBdEAFNl6ZynWTP69Ci7Y8R0yWKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aV5PqiLg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OaJqTQ92"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F269C4CEEA;
-	Sat, 28 Jun 2025 12:39:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aV5PqiLg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30241C4CEEA;
+	Sat, 28 Jun 2025 12:42:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751114351;
-	bh=dmi0agTyYUOAkBjgP89gMMImE+0G34MTdb2lXfF8kU8=;
+	s=k20201202; t=1751114559;
+	bh=uz0uXr8i25BQ6ZgJ2ilXdK3mcLciGG2O9XOkL9Dq8Es=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OaJqTQ92Gj+5SrShSbqsEONa39t606yv2diIz+ViKncQV5irAx/y4lc9VJilRUpx6
-	 ugHjdl46nICMfGTt33VnvcM79GmY9osCM9Ij/XFiu6GTT0wzck/IZiQQ7sh2+ROWKd
-	 6A1u9FOk2v0xfeSQ1DyrWHytZlpl0/LgV1hbEcN0VO/ADRllQxzpD0UGM5kgPBCO9D
-	 dCCuq4sKLDtOZYFXDL7MnaM2XilRNMxH8III1cUH5jSvvDcbxvjgwA1JJZ6Pzgzk9+
-	 U8XRjHd4R9Gs0NJFDB7sXPMmcaOxUi7V8uO0aWYYfvr6/3bu0MiubqVBRq1TJAa1pj
-	 lsCdem+Hn3Lrw==
-Message-ID: <a62e0111-e3b7-4772-9467-3a2927972f6f@kernel.org>
-Date: Sat, 28 Jun 2025 14:39:04 +0200
+	b=aV5PqiLg3KRFT61SdFcutDzByClT9xRHUz1D/NzhmFFpUVaxgRIZZe4zKYq7Vkwg+
+	 z+tnXwli0bT7y6VKR0XzwWnOZI0yOaug7fXLH14dVsrByG492htjwhc+mTGZgJ+PAg
+	 RtJHt/davF1rNVSgtvvb1D3AOg7s/SJLjYY8jYKz0YhSCxRMgEAwKlxfxTQV8isnFC
+	 MqdhB5DZVITkpa59IN3ZwvjyFPhOHcZYk/e9jIDIWRZ6KBLL6Bd/o1cH32zyGMIt2j
+	 9TFlprqo8EoPG2CJzmpcR0rOjOnuzVLwGoHOttHZwePA3WDq7PRW61QavHoCw1vzgV
+	 qh1JMmzKWwMTw==
+Message-ID: <43b4c2bb-a1ed-4f6d-9977-512617130337@kernel.org>
+Date: Sat, 28 Jun 2025 14:42:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/10] ASoC: mediatek: mt8189: add machine driver with
- nau8825
+Subject: Re: [PATCH 10/10] ASoC: dt-bindings: mediatek,mt8189-nau8825: add
+ mt8189-nau8825 document
 To: Cyril <Cyril.Chao@mediatek.com>, Liam Girdwood <lgirdwood@gmail.com>,
  Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -48,7 +48,7 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-mediatek@lists.infradead.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com
 References: <20250628071442.31155-1-Cyril.Chao@mediatek.com>
- <20250628071442.31155-10-Cyril.Chao@mediatek.com>
+ <20250628071442.31155-11-Cyril.Chao@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -94,175 +94,54 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250628071442.31155-10-Cyril.Chao@mediatek.com>
+In-Reply-To: <20250628071442.31155-11-Cyril.Chao@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 28/06/2025 09:14, Cyril wrote:
-> +
-> +static int mt8189_nau8825_soc_card_probe(struct mtk_soc_card_data *soc_card_data, bool legacy)
-> +{
-> +	struct snd_soc_card *card = soc_card_data->card_data->card;
-> +	struct snd_soc_dai_link *dai_link;
-> +	bool init_nau8825 = false;
-> +	bool init_rt5682s = false;
-> +	bool init_rt5650 = false;
-> +	bool init_rt5682i = false;
-> +	bool init_dumb = false;
-> +	int i;
-> +
-> +	dev_dbg(card->dev, "%s(), legacy: %d\n", __func__, legacy);
+> From: Cyril Chao <Cyril.Chao@mediatek.com>
+> 
+> Add document for mt8189 board with nau8825.
+> 
+> Signed-off-by: Cyril Chao <Cyril.Chao@mediatek.com>
 
-Drop probe success/start/finish messages. Pretty useless.
+Why does the binding come after user? Follow submitting patches in DT.
 
+> ---
+>  .../sound/mediatek,mt8189-nau8825.yaml        | 103 ++++++++++++++++++
+>  1 file changed, 103 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8189-nau8825.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8189-nau8825.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8189-nau8825.yaml
+> new file mode 100644
+> index 000000000..331c537d3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8189-nau8825.yaml
+> @@ -0,0 +1,103 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/mediatek,mt8189-nau8825.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	for_each_card_prelinks(card, i, dai_link) {
-> +		if (strcmp(dai_link->name, "TDM_DPTX_BE") == 0) {
-> +			if (dai_link->num_codecs &&
-> +			    strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
-> +				dai_link->init = mt8189_dptx_codec_init;
-> +		} else if (strcmp(dai_link->name, "PCM_0_BE") == 0) {
-> +			if (dai_link->num_codecs &&
-> +			    strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
-> +				dai_link->init = mt8189_hdmi_codec_init;
-> +		} else if (strcmp(dai_link->name, "I2SOUT0_BE") == 0 ||
-> +			   strcmp(dai_link->name, "I2SIN0_BE") == 0) {
-> +			if (!strcmp(dai_link->codecs->dai_name, NAU8825_CODEC_DAI)) {
-> +				dai_link->ops = &mt8189_nau8825_ops;
-> +				if (!init_nau8825) {
-> +					dai_link->init = mt8189_headset_codec_init;
-> +					dai_link->exit = mt8189_headset_codec_exit;
-> +					init_nau8825 = true;
-> +				}
-> +			} else if (!strcmp(dai_link->codecs->dai_name, RT5682S_CODEC_DAI)) {
-> +				dai_link->ops = &mt8189_headset_i2s_ops;
-> +				if (!init_rt5682s) {
-> +					dai_link->init = mt8189_headset_codec_init;
-> +					dai_link->exit = mt8189_headset_codec_exit;
-> +					init_rt5682s = true;
-> +				}
-> +			} else if (!strcmp(dai_link->codecs->dai_name, RT5650_CODEC_DAI)) {
-> +				dai_link->ops = &mt8189_headset_i2s_ops;
-> +				if (!init_rt5650) {
-> +					dai_link->init = mt8189_headset_codec_init;
-> +					dai_link->exit = mt8189_headset_codec_exit;
-> +					init_rt5650 = true;
-> +				}
-> +			} else if (!strcmp(dai_link->codecs->dai_name, RT5682I_CODEC_DAI)) {
-> +				dai_link->ops = &mt8189_headset_i2s_ops;
-> +				if (!init_rt5682i) {
-> +					dai_link->init = mt8189_headset_codec_init;
-> +					dai_link->exit = mt8189_headset_codec_exit;
-> +					init_rt5682i = true;
-> +				}
-> +			} else {
-> +				if (strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai")) {
-> +					if (!init_dumb) {
-> +						dai_link->init = mt8189_dumb_amp_init;
-> +						init_dumb = true;
-> +					}
-> +				}
-> +			}
-> +		}
-> +	}
+> +title: MediaTek MT8189 ASoC sound card
 > +
-> +	return 0;
-> +}
+> +maintainers:
+> +  - Darren Ye <darren.ye@mediatek.com>
+> +  - Cyril Chao <cyril.chao@mediatek.com>
 > +
-> +static struct snd_soc_card mt8189_nau8825_soc_card = {
-> +	.owner = THIS_MODULE,
-> +	.dai_link = mt8189_nau8825_dai_links,
-> +	.num_links = ARRAY_SIZE(mt8189_nau8825_dai_links),
-> +	.dapm_widgets = mt8189_nau8825_card_widgets,
-> +	.num_dapm_widgets = ARRAY_SIZE(mt8189_nau8825_card_widgets),
-> +	.dapm_routes = mt8189_nau8825_card_routes,
-> +	.num_dapm_routes = ARRAY_SIZE(mt8189_nau8825_card_routes),
-> +	.controls = mt8189_nau8825_card_controls,
-> +	.num_controls = ARRAY_SIZE(mt8189_nau8825_card_controls),
-> +};
+> +allOf:
+> +  - $ref: sound-card-common.yaml#
 > +
-> +static const struct mtk_soundcard_pdata mt8189_nau8825_card = {
-> +	.card_name = "mt8189_nau8825",
-> +	.card_data = &(struct mtk_platform_card_data) {
-> +		.card = &mt8189_nau8825_soc_card,
-> +		.num_jacks = MT8189_JACK_MAX,
-> +		.flags = NAU8825_HS_PRESENT
-> +	},
-> +	.sof_priv = NULL,
-> +	.soc_probe = mt8189_nau8825_soc_card_probe,
-> +};
-> +
-> +static const struct mtk_soundcard_pdata mt8189_rt5650_card = {
-> +	.card_name = "mt8189_rt5650",
-> +	.card_data = &(struct mtk_platform_card_data) {
-> +		.card = &mt8189_nau8825_soc_card,
-> +		.num_jacks = MT8189_JACK_MAX,
-> +		.flags = RT5650_HS_PRESENT
-> +	},
-> +	.sof_priv = NULL,
-> +	.soc_probe = mt8189_nau8825_soc_card_probe,
-> +};
-> +
-> +static const struct mtk_soundcard_pdata mt8189_rt5682s_card = {
-> +	.card_name = "mt8189_rt5682s",
-> +	.card_data = &(struct mtk_platform_card_data) {
-> +		.card = &mt8189_nau8825_soc_card,
-> +		.num_jacks = MT8189_JACK_MAX,
-> +		.flags = RT5682S_HS_PRESENT
-> +	},
-> +	.sof_priv = NULL,
-> +	.soc_probe = mt8189_nau8825_soc_card_probe,
-> +};
-> +
-> +static const struct mtk_soundcard_pdata mt8189_rt5682i_card = {
-> +	.card_name = "mt8189_rt5682i",
-> +	.card_data = &(struct mtk_platform_card_data) {
-> +		.card = &mt8189_nau8825_soc_card,
-> +		.num_jacks = MT8189_JACK_MAX,
-> +		.flags = RT5682I_HS_PRESENT
-> +	},
-> +	.sof_priv = NULL,
-> +	.soc_probe = mt8189_nau8825_soc_card_probe,
-> +};
-> +
-> +#if IS_ENABLED(CONFIG_OF)
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt8189-nau8825-sound
+> +      - mediatek,mt8189-rt5650-sound
+> +      - mediatek,mt8189-rt5682s-sound
+> +      - mediatek,mt8189-rt5682i-sound
 
-Drop, you have warnings now :/
-
-> +static const struct of_device_id mt8189_nau8825_dt_match[] = {
-> +	{.compatible = "mediatek,mt8189-nau8825-sound", .data = &mt8189_nau8825_card,},
-> +	{.compatible = "mediatek,mt8189-rt5650-sound", .data = &mt8189_rt5650_card,},
-> +	{.compatible = "mediatek,mt8189-rt5682s-sound", .data = &mt8189_rt5682s_card,},
-> +	{.compatible = "mediatek,mt8189-rt5682i-sound", .data = &mt8189_rt5682i_card,},
-> +	{}
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, mt8189_nau8825_dt_match);
-> +#endif
-> +
-> +static struct platform_driver mt8189_nau8825_driver = {
-> +	.driver = {
-> +		.name = "mt8189-nau8825",
-> +#if IS_ENABLED(CONFIG_OF)
-
-Drop all this ifdefry, not helpful.
-
-> +		.of_match_table = mt8189_nau8825_dt_match,
-> +#endif
-> +		.pm = &snd_soc_pm_ops,
-> +	},
-> +	.probe = mtk_soundcard_common_probe,
-> +};
-> +
-> +module_platform_driver(mt8189_nau8825_driver);
-> +
-> +/* Module information */
-> +MODULE_DESCRIPTION("MT8189 NAU8825 ALSA SoC machine driver");
-> +MODULE_AUTHOR("Darren Ye <darren.ye@mediatek.com>");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("mt8189 nau8825 soc card");
-
-That's neither needed nor correct. Look how aliases are created first.
+Sound is redundant. Can it be anything else?
 
 
 Best regards,
