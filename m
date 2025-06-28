@@ -1,118 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA21813957E;
-	Sat, 28 Jun 2025 12:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8511E13B5AE;
+	Sat, 28 Jun 2025 14:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751114808; cv=none; b=Hw5OEUCpzc9dhJ2MtBKWdC6J8QpgZ6T4s4A1e3Kzqij5FnO+SIskmOYYtIV/d9ILaTfLbnNT/cyym6aLV8naq2iPGFg41joFwTy8f1pFuRmLheunl8tlzuYbezJFYNKRW0fO9KatGuX9XWlHXx2XusADn7slzfzD8+c3Iab28yc=
+	t=1751121636; cv=none; b=nNTfdTckHbKvtv3TNWco0LxZq9KMkw7FN+UMt0PDbiUqpBfY5PO+ufz9s8kCMh0KNTc9l6DTlaK6iul30vYbF4QP5NUn3PuAF2rto5vsRqRXI0zTREuKXZAK90ZHDGHY8fdEZlkl5sKkjDGvLsgDr0/jqQ3bYBS9I1yPoySFnW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751114808; c=relaxed/simple;
-	bh=wUe+nVnTTOKVrNaON8elGY7mOedI9kTWmIJ+RKfs+y8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r9LmE8naKNlpWleY3oj2Os/n7s3uY2kCyr4qcKEP57GGR4ESbVwOfcam3S6yeEGPHerXNSKznqSf3HKMrsbDKVxkIFMW99xNffFlcdznup6P7WB3jAqeubRUe6eyWrxLPQYTTrgtbSsGBkoKVqKNWBvQVBGBAfRQ3B4IqARy59E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X9t5+Z1S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751121636; c=relaxed/simple;
+	bh=/Lu5LTfcFXkeWsxjRBcxgn1uQUXHqbZ5PSxmsunseSs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uwqN47StjIfBSF+e2ERv2t2PZiECXQG6U8hkYHH9OKYF1+RPkpTEeZYdfer1jCb2wzZPnSSiFe+rF2h8hiMWhuyGVF1+B+5VtLBrzKmFL50F+A1YzmJH5UDB6SZ/EQY/nsRooLCq9ItdyPs8UJV93NVBlSyRdwLjfOhDyCe9+2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKRFoCeg; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X9t5+Z1S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B34DFC4CEEA;
-	Sat, 28 Jun 2025 12:46:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751114807;
-	bh=wUe+nVnTTOKVrNaON8elGY7mOedI9kTWmIJ+RKfs+y8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=X9t5+Z1SJPG5x6zfns7+4hjoEr/8OvEfvqhcDtKjrSg5sec3j4r3OEhtrQVc8eEi7
-	 y7YNESG3hHz1UqvRY1lQ97U7rwalSWCqbwjrcKQr/IA/DIuTAzwdWHn6hN52QCmxXf
-	 K3M3djoWqHTaqONEYSk48LKMdJuT2ZiOhqMPh7jlQZCqR1dczdsJNkV1u3JsaJ3kxA
-	 PSQOJs3TyYEYpegJzIrH9VpVdy80WGh1lgLa6eFkgsDCmfJMeEtKoM2vLw6JjuJ+6G
-	 zqkriuqSkoeyHSH+EXtheVtmKCzluKvKauLf1+qg6bnTfZJcG0ecanZTTB8sirLVjv
-	 jx9Bx3BG5O/4w==
-Message-ID: <f2a5dc9b-4e3c-4b6c-8a6c-7a54f6af077e@kernel.org>
-Date: Sat, 28 Jun 2025 14:46:39 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKRFoCeg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751121634; x=1782657634;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/Lu5LTfcFXkeWsxjRBcxgn1uQUXHqbZ5PSxmsunseSs=;
+  b=TKRFoCegmOh+79B6+vQN6v4iyFmAW5BBTi1VDqP/EYftz+mn/HaLdjMk
+   3Esc8/I4Ar1fsGUeRvvqA4l8a2f7DCLLlbYGP9UGi/CEge8bw5J+nfT2f
+   XlTI1pP/pM1gCO3BI2BHt5hiOkhQnhPsRZca8Hbx3O4XYTZguHx5Rqwel
+   uxQb7EYwspdcH5dsij2JzqlNk0GanNNqJwXJ9rhd2rVjW/KDgka2wDgOJ
+   iL3YjgoxypzCmdT1+WCmchxGQ5mfV5NtepocoYGos0bbp7/U5IW588KnP
+   GCEnTYRxGMbEkIjpXPYxNul4ZXGKpqysME/ds26GMXD4S9GzZQdrDaUb7
+   A==;
+X-CSE-ConnectionGUID: /bSVtjH4RBuNoy6xSo3AzA==
+X-CSE-MsgGUID: 557hxzOlTFSu4klzasNL9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="57189741"
+X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
+   d="scan'208";a="57189741"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 07:40:32 -0700
+X-CSE-ConnectionGUID: j1rXOS1xRES1LHHDv8h1yw==
+X-CSE-MsgGUID: bzHqMp1BQXeH9Myq/cxsjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
+   d="scan'208";a="176727413"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 28 Jun 2025 07:40:27 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uVWjB-000X7V-05;
+	Sat, 28 Jun 2025 14:40:25 +0000
+Date: Sat, 28 Jun 2025 22:39:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+Message-ID: <202506282240.aqA0j5M3-lkp@intel.com>
+References: <20250627043108.3141206-10-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/10] ASoC: dt-bindings: mediatek,mt8189-afe-pcm: add
- audio afe document
-To: Cyril <Cyril.Chao@mediatek.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20250628071442.31155-1-Cyril.Chao@mediatek.com>
- <20250628071442.31155-9-Cyril.Chao@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250628071442.31155-9-Cyril.Chao@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250627043108.3141206-10-superm1@kernel.org>
 
-On 28/06/2025 09:14, Cyril wrote:
-> From: Cyril Chao <Cyril.Chao@mediatek.com>
-> 
-> Add mt8189 audio afe document.
-> 
-> Signed-off-by: Cyril Chao <Cyril.Chao@mediatek.com>
-> ---
->  .../sound/mediatek,mt8189-afe-pcm.yaml        | 162 ++++++++++++++++++
->  1 file changed, 162 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8189-afe-pcm.yaml
-> 
-All your properties should follow same order as DTS coding style, but...
- meh...
+Hi Mario,
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+kernel test robot noticed the following build warnings:
 
-Best regards,
-Krzysztof
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc3 next-20250627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250627-123349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250627043108.3141206-10-superm1%40kernel.org
+patch subject: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+config: powerpc-bluestone_defconfig (https://download.01.org/0day-ci/archive/20250628/202506282240.aqA0j5M3-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506282240.aqA0j5M3-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506282240.aqA0j5M3-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/pci/pci-sysfs.c:688:8: warning: unused variable 'dev_attr_boot_display' [-Wunused-variable]
+     688 | static DEVICE_ATTR_RO(boot_display);
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:199:26: note: expanded from macro 'DEVICE_ATTR_RO'
+     199 |         struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+         |                                 ^~~~~~~~~~~~~~~~
+   <scratch space>:54:1: note: expanded from here
+      54 | dev_attr_boot_display
+         | ^~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +/dev_attr_boot_display +688 drivers/pci/pci-sysfs.c
+
+   682	
+   683	static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
+   684					 char *buf)
+   685	{
+   686		return sysfs_emit(buf, "1\n");
+   687	}
+ > 688	static DEVICE_ATTR_RO(boot_display);
+   689	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
