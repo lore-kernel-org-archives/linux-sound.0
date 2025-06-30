@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5558E260569
-	for <linux-sound@vger.kernel.org>; Mon, 30 Jun 2025 11:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B600625EFBB;
+	Mon, 30 Jun 2025 11:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751283619; cv=none; b=KBK9ChxVbpsmeH3o6gU8q1sIZ/bP9zoWidrsZgR8xdiID/kLdkKrimJBGd2xp+Z3vKAv3GLoMVVdLmeAJ+B4ZUA46hQZNaBZ1gD0nmpID0tPdHEu2FNVpx1ONCWn36cw+oKRVFgGRTLhvsHHo/GnHjoxoMy8vVxjFwGJae+t2CI=
+	t=1751283621; cv=none; b=MVXWZWPYMfMYPMnDL/fyOZhCmrBtJY1QFSwCCWnKcIN9czSAGzr47itXkGNsOch+oz5NTrC1ZBFhb0DXH1wr7LnL9RbWKGcmyWU9oghXt4PGWLHpRKrCrRC2+gp3JDhN4KqhMvitDwcMKWN9099EIcTip2QMJe5H+1AN8aAX9Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751283619; c=relaxed/simple;
-	bh=XC3ldNKcOxfWyWKwdYSv0rAcJKiaqXOK7eFpNxRJTXY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bFmgXOYQr36jFYld/BxZ/RSJtktREaboIdASz8NnLdxTVdEM8e0FH84sXJXyD6wfvye7E09NAExUwJ+TMYVgQl8IpRnzSdS31sV3b0r4jK+qzDhn5/Z/TCe8IyLhzxf5Kf5lKzm7ODLmvHr5S70a08eDpdE/tn9E0t7MG6KupyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLURDsYP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751283621; c=relaxed/simple;
+	bh=bQbVSfUXa8FwdDpMgxm9+FwRT0/4tpCPWYLfLYdQIQQ=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=QNC5b8Q7u3kScFa+aseDfRGpLibpF5wC7bkcOysb+CexuNXR135y8V4uEjSuR5Yt0ju2vf2BpmX3ShASOfIgPXZc13uEY74jqoxOsq3w5zFcwRwYYP2DMEi6B0qm6IW2wtrKYO79K3NJEH/5/SAEZoJDGTg8eQTCmISBmmXgdCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWN50wCh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLURDsYP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 219EAC4CEE3;
-	Mon, 30 Jun 2025 11:40:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWN50wCh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89A15C4CEE3;
+	Mon, 30 Jun 2025 11:40:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751283619;
-	bh=XC3ldNKcOxfWyWKwdYSv0rAcJKiaqXOK7eFpNxRJTXY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MLURDsYPuayGmKsWgBOiqy8j7cq5N8wbT/Xq/WOTXXBh59NBadYVIdgR7xQNVEhO5
-	 j1XxYYqy4iXz02Dy4wNGVMgP7xO2e98SoZv2CPI2TksiNYrRqvxfSyHpC0pzIYCuQB
-	 8uqb09elQ8bnhMOSIhxlV7+Z8VVNxY+Np5hDlgR9Ex+8kVR2nHA4LIjIOggv/6WCZS
-	 56NxnikIrBcZmyVyW06/wtvdQiJxQnUi9pNVOciSY/aN0ZmGuWe0nTgefjGu9SHLSA
-	 ss/tHSTDyGI34cUYekHsM27S7HJ7oPV2Qci/Wuw9CNIS35La/dk1rxW0A3TXAXQkte
-	 0Hhnz/A29ECkA==
+	s=k20201202; t=1751283621;
+	bh=bQbVSfUXa8FwdDpMgxm9+FwRT0/4tpCPWYLfLYdQIQQ=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=IWN50wChPSxNS3GwdOeqKV91XefthwsnuLmgj0/G5cdOpvzsJcNgs4eieqJWjMicp
+	 QP1b+lE85HqQLBhISlJG5uk6h5gWn1UKiytVkvJesvWB567u3BPTtLzERGNWvy2QNx
+	 F8eTUupCY90chKvhPmIkmDGIhP/QsZ4SP7B//Jhh/6aZyEjlGuHfm4PtZEo+xlAqyr
+	 KTDxe9g8HEva3l7DGaD1qA0DT2AE1bMiYPPm9DqLM2wbEegA2NM5Vzb7FuhKvQVP/2
+	 UYWoDNMq/WQ+3rNdg96MMHEO09YF/vi1rO43vl+xCFGrX8DsTYu4fk+NH9U1jkelj1
+	 vBsJYS9FlofbQ==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20250626064420.450334-1-yung-chuan.liao@linux.intel.com>
-References: <20250626064420.450334-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: SND_SOC_INTEL_SOF_BOARD_HELPERS select
- SND_SOC_ACPI_INTEL_MATCH
-Message-Id: <175128361787.28563.3411011118074157634.b4-ty@kernel.org>
-Date: Mon, 30 Jun 2025 12:40:17 +0100
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20250625020504.2728161-1-shengjiu.wang@nxp.com>
+References: <20250625020504.2728161-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH] ASoC: fsl_asrc: use internal measured ratio for
+ non-ideal ratio mode
+Message-Id: <175128361929.28563.16933348008978781242.b4-ty@kernel.org>
+Date: Mon, 30 Jun 2025 12:40:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,18 +47,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Thu, 26 Jun 2025 14:44:20 +0800, Bard Liao wrote:
-> The helpers that are provided by SND_SOC_ACPI_INTEL_MATCH
-> (soc-acpi-intel-ssp-common) are used in SND_SOC_INTEL_SOF_BOARD_HELPERS
-> (sof_board_helpers).
-> SND_SOC_ACPI_INTEL_MATCH is selected by machine drivers. When
-> skl_hda_dsp_generic uses the board helpers, it select
-> SND_SOC_INTEL_SOF_BOARD_HELPERS only but not SND_SOC_ACPI_INTEL_MATCH
-> which initroduce the undefined symbol errors. However, it makes more
-> sense that SND_SOC_INTEL_SOF_BOARD_HELPERS select
-> SND_SOC_ACPI_INTEL_MATCH itself.
+On Wed, 25 Jun 2025 10:05:04 +0800, Shengjiu Wang wrote:
+> When USRC=0, there is underrun issue for the non-ideal ratio mode;
+> according to the reference mannual, the internal measured ratio can be
+> used with USRC=1 and IDRC=0.
 > 
-> [...]
+> 
 
 Applied to
 
@@ -65,8 +60,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: SND_SOC_INTEL_SOF_BOARD_HELPERS select SND_SOC_ACPI_INTEL_MATCH
-      commit: 960aed31eedbaeb2e47b1bc485b462fd38a53311
+[1/1] ASoC: fsl_asrc: use internal measured ratio for non-ideal ratio mode
+      commit: cbe876121633dadb2b0ce52711985328638e9aab
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
