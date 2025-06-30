@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEBB25FA09
-	for <linux-sound@vger.kernel.org>; Mon, 30 Jun 2025 11:40:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5558E260569
+	for <linux-sound@vger.kernel.org>; Mon, 30 Jun 2025 11:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751283617; cv=none; b=RH/8lbpSTSN6i2KvtFu9x3082AQh2R/2LkyDvUJ2KnWk7RoiA8SF5CEevuGlHtVqemMeL+eKua3gyPRTMbzE/B7gIlZag1Q+36Z2P5HtTWjArYC5h6a7fBNYP4T9WVIXQ23skyUhPUDXiRH9U6EzwiVepwKoRZAIRClFTHnHO3s=
+	t=1751283619; cv=none; b=KBK9ChxVbpsmeH3o6gU8q1sIZ/bP9zoWidrsZgR8xdiID/kLdkKrimJBGd2xp+Z3vKAv3GLoMVVdLmeAJ+B4ZUA46hQZNaBZ1gD0nmpID0tPdHEu2FNVpx1ONCWn36cw+oKRVFgGRTLhvsHHo/GnHjoxoMy8vVxjFwGJae+t2CI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751283617; c=relaxed/simple;
-	bh=tJ/uzbzi9837UPWoXBG7ysmbihwENru7iUHm96fMmyc=;
+	s=arc-20240116; t=1751283619; c=relaxed/simple;
+	bh=XC3ldNKcOxfWyWKwdYSv0rAcJKiaqXOK7eFpNxRJTXY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qv6OPArGaBwAieSumYj3spIxq9LPhAnAAPS7DWIC8PSgedrpJbZl1BdwVIwaAluF0CnQ+bBxjU5nJOGCQILzNln0E48fHHpItc6K6KGSGLJwKNhfzzNKNm2vusJHTw0agFjG3kFXb7eSMjbzkFUhUHOPlQABhte1j303B+ZUMy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFPQN2ID; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=bFmgXOYQr36jFYld/BxZ/RSJtktREaboIdASz8NnLdxTVdEM8e0FH84sXJXyD6wfvye7E09NAExUwJ+TMYVgQl8IpRnzSdS31sV3b0r4jK+qzDhn5/Z/TCe8IyLhzxf5Kf5lKzm7ODLmvHr5S70a08eDpdE/tn9E0t7MG6KupyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLURDsYP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFPQN2ID"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31B5FC4CEF4;
-	Mon, 30 Jun 2025 11:40:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLURDsYP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 219EAC4CEE3;
+	Mon, 30 Jun 2025 11:40:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751283617;
-	bh=tJ/uzbzi9837UPWoXBG7ysmbihwENru7iUHm96fMmyc=;
+	s=k20201202; t=1751283619;
+	bh=XC3ldNKcOxfWyWKwdYSv0rAcJKiaqXOK7eFpNxRJTXY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=lFPQN2ID4RYodOfmYs/v2Lkkd8Jd8iEhBkKAN0Wln6MnfQTCGyS54jUHtoud/beBx
-	 RFGgoHRHuHewHLsJA7QrhQXawS/4wIQ5KlKU/0ThmhbiO+4TaIqFI6tUbzzBS2Ir7O
-	 53u0xjcknC6q3xZRT6F+FISmGM2QYG7Oo63CyMnGgeG/o9FhvMChE/bqtzXcZFHhCN
-	 tFwrOV36JKDQzeF5EIdewOlA12p2dlj9Or4O1+h49NDanCmpgD2gj57AdLHnrXcD8A
-	 bkjG8wHpOx1fiRWI1vniDvW8BG3yzgQCH91K4uO8mkNY8xAy3b8NhdYZFfJc9IhUdo
-	 1QzpA8DClr4kA==
+	b=MLURDsYPuayGmKsWgBOiqy8j7cq5N8wbT/Xq/WOTXXBh59NBadYVIdgR7xQNVEhO5
+	 j1XxYYqy4iXz02Dy4wNGVMgP7xO2e98SoZv2CPI2TksiNYrRqvxfSyHpC0pzIYCuQB
+	 8uqb09elQ8bnhMOSIhxlV7+Z8VVNxY+Np5hDlgR9Ex+8kVR2nHA4LIjIOggv/6WCZS
+	 56NxnikIrBcZmyVyW06/wtvdQiJxQnUi9pNVOciSY/aN0ZmGuWe0nTgefjGu9SHLSA
+	 ss/tHSTDyGI34cUYekHsM27S7HJ7oPV2Qci/Wuw9CNIS35La/dk1rxW0A3TXAXQkte
+	 0Hhnz/A29ECkA==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
- kai.vehmanen@linux.intel.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250626141841.77780-1-ckeepax@opensource.cirrus.com>
-References: <20250626141841.77780-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: Intel: soc-acpi: arl: Correct order of cs42l43
- matches
-Message-Id: <175128361594.28563.7460423087555295941.b4-ty@kernel.org>
-Date: Mon, 30 Jun 2025 12:40:15 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com
+In-Reply-To: <20250626064420.450334-1-yung-chuan.liao@linux.intel.com>
+References: <20250626064420.450334-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: SND_SOC_INTEL_SOF_BOARD_HELPERS select
+ SND_SOC_ACPI_INTEL_MATCH
+Message-Id: <175128361787.28563.3411011118074157634.b4-ty@kernel.org>
+Date: Mon, 30 Jun 2025 12:40:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,11 +46,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Thu, 26 Jun 2025 15:18:41 +0100, Charles Keepax wrote:
-> Matches should go from more specific to less specific, correct the
-> ordering of two cs42l43 entries.
+On Thu, 26 Jun 2025 14:44:20 +0800, Bard Liao wrote:
+> The helpers that are provided by SND_SOC_ACPI_INTEL_MATCH
+> (soc-acpi-intel-ssp-common) are used in SND_SOC_INTEL_SOF_BOARD_HELPERS
+> (sof_board_helpers).
+> SND_SOC_ACPI_INTEL_MATCH is selected by machine drivers. When
+> skl_hda_dsp_generic uses the board helpers, it select
+> SND_SOC_INTEL_SOF_BOARD_HELPERS only but not SND_SOC_ACPI_INTEL_MATCH
+> which initroduce the undefined symbol errors. However, it makes more
+> sense that SND_SOC_INTEL_SOF_BOARD_HELPERS select
+> SND_SOC_ACPI_INTEL_MATCH itself.
 > 
-> 
+> [...]
 
 Applied to
 
@@ -60,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: soc-acpi: arl: Correct order of cs42l43 matches
-      commit: a7528e9beadbddcec21b394ce5fa8dc4e5cdaa24
+[1/1] ASoC: Intel: SND_SOC_INTEL_SOF_BOARD_HELPERS select SND_SOC_ACPI_INTEL_MATCH
+      commit: 960aed31eedbaeb2e47b1bc485b462fd38a53311
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
