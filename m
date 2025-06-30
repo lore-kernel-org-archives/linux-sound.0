@@ -1,248 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539ED1C5D57;
-	Mon, 30 Jun 2025 18:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858FE246348
+	for <linux-sound@vger.kernel.org>; Mon, 30 Jun 2025 21:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751308627; cv=none; b=VagqheQpqhmNFawEU0R2xox5q1dAeRuQ6mOmUb2oYR0LOfgHquLSbNMt9E4j4ruvpStUD7EYUInJ0lYWVFyphBQsCtDXqjA/zJ2SfMaVcm52pjDjCIkHZeWjmif/laKftCB8vvL3FcCP8lcrglkPUpjg5PCSyj9dfZjeY0hanuQ=
+	t=1751320015; cv=none; b=SJADvLa4GDaY2nIlG+JON1M45r1g15fbsYMEdK3PL4PFhxKLo7vLa7kXlT2sjYZAuWYp2Vfojlwpl/j0uhJ5dUKYzN1zEYkDPP0F2Nhf5c/FQNS4JHJznSlFWUlZUg4a2o+CJlOSvciXKp1xDhm279EmaXfCCJr6UrC2nsi/jrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751308627; c=relaxed/simple;
-	bh=c9uAtQKv4NYSwOH3r6TmzxlDwchzoTPDdAumVK3QfAE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j9ljZb2ZkYUtDnBjYW+h4OcgimPKR0kThJqQ1T3bBE953/h1Og7Utq6JIWlipkN4dp6Lrn8JZ67VS2GM40ACvhY/BrhKveg450F98aYK+Qbj94ahfhjNaFqn+9MnCtwganSuEIE2cSsXU58OFBDBAaFW3hGB+kP5j+itMHvvngo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cN0BY4IO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751320015; c=relaxed/simple;
+	bh=u5s6k4Jdz2z8AXFLPplnaz3wYjFvVjXxszMHR4lBcFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LUW1qbAaa8rfGp1mGCgZDGapjK4LFCMsIRO6znRerZb+ZwczRaj5zoOqHRpVJVYIC3G66pL6FVbyvA5BPk7sO1MkohtFkpo7+DMbK5G718yCFyNs4aTUvzvFa9ZcnfZ9B9iEKxE8aUhkOEPKAOsrRfiqrT2BeCtAdS5dF1kY7nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DNl5fFOk; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cN0BY4IO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30071C4CEE3;
-	Mon, 30 Jun 2025 18:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751308626;
-	bh=c9uAtQKv4NYSwOH3r6TmzxlDwchzoTPDdAumVK3QfAE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cN0BY4IOJa5X2g2U3gCon69bn9LJ3stx8QA5hrzXp/BuSkQlIBXr9owVFkfIQTC+i
-	 gbevZsHJPC1WyYnYvdPYEL91IJ2/N6DoxveR04QbFyx6sA2nWsmVNYb+lJgXF96SeX
-	 fTjZxs0DpCyyGxjUuaRuWOYr6/l9sIVsSazrq5LY2WB2f0ldsBh5FxaOJ/LUm5hb/G
-	 f+VS55iyLyYAY0W6MI5CHOqOhkPU+GCAeYMEAit1eh6ZOWaRVokC0AYuKghiH9ePAu
-	 1USlB1R/WPC6UZHa4PM5WQsndNqeQ7z2FC8TedHUsWzGl4QbBpdCr6Ld4RD2WKYpPy
-	 9JTJKfTYMm60g==
-Message-ID: <8f9efe23-c774-477d-97ad-8e22532ad6b2@kernel.org>
-Date: Mon, 30 Jun 2025 14:37:06 -0400
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DNl5fFOk"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1751320001;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=RELCbEFu2DUPB6wgDcJ2J6c7pTcMWEgqSGU5NMKW/pQ=;
+	b=DNl5fFOkj01YlNGt5Gz54+QW0c8ib+XC0OxLuFv87r2xZgE0JXwhRZSEd71XTbBhHSyqF2
+	Tsbjp7c9MSSxsY3hPxfS04kbrQF8i+bfanAlO/xoiJsG6pWU7eRmkesO9C9dI173EJ0HxC
+	E0eG3vpM7wETg33YPFHU+i1N9oHWcg8=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: mips/hal2: Refactor and improve hal2_compute_rate()
+Date: Mon, 30 Jun 2025 23:45:52 +0200
+Message-ID: <20250630214554.182953-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
-To: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Bjorn Helgaas <bhelgaas@google.com>
-References: <20250627043108.3141206-1-superm1@kernel.org>
- <20250627043108.3141206-10-superm1@kernel.org>
- <41587824-4a05-4ead-b24c-4729007cd663@suse.de>
- <8878af70-3eb8-495b-b8df-43a10285c4f5@kernel.org>
- <732aeb75-71e7-49e7-a5f2-2080ee94a273@suse.de>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <732aeb75-71e7-49e7-a5f2-2080ee94a273@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 6/30/2025 2:24 AM, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 27.06.25 um 17:37 schrieb Mario Limonciello:
->> On 6/27/2025 2:07 AM, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 27.06.25 um 06:31 schrieb Mario Limonciello:
->>>> From: Mario Limonciello <mario.limonciello@amd.com>
->>>>
->>>> On systems with multiple GPUs there can be uncertainty which GPU is the
->>>> primary one used to drive the display at bootup. In order to 
->>>> disambiguate
->>>> this add a new sysfs attribute 'boot_display' that uses the output of
->>>> video_is_primary_device() to populate whether a PCI device was used for
->>>> driving the display.
->>>>
->>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>> ---
->>>> v6:
->>>>   * Only show for the device that is boot display
->>>>   * Only create after PCI device sysfs files are initialized to ensure
->>>>     that resources are ready.
->>>> v4:
->>>>   * new patch
->>>> ---
->>>>   Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
->>>>   drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++ 
->>>> ++++
->>>
->>> The code looks good. Just one more question: could this be added 
->>> independently from the PCI bus (at a reasonable cost)? There are 
->>> other busses that can host the boot display. Alternatively, we'd add 
->>> this attribute per bus as needed.
->>
->> It depends upon the underlying hardware implementation.  On x86 it's 
->> always PCI and so I realized there is a requirement that PCI resources 
->> are setup before screen_info event works.
->>
->> That is the v5 version of this patch would have had a potential race 
->> condition with userspace where boot_display didn't always show '1' if 
->> userspace read it too quickly.
->>
->> Other architecture's hardware implementation might have similar problem.
->>
->> So in summary I think it would be better to do it per-bus.  If we 
->> realize there is indeed code duplication we can always move this to a 
->> common helper at that point.
-> 
-> Ok, makes sense. With the kernel test robot's issues fixed:
-> 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Assign 'codec->inc' first and then use it instead of the hardcoded
+value 4 repeatedly.
 
-Thanks, I've got a fix locally for it.
-> 
-> I guess that interface also needs some sort of OK from user-space devs?
-> 
+Replace the if/else statement with a ternary operator and calculate
+'codec->mod' directly. Remove the unnecessary local variable 'mod'.
 
-Who needs to OK it?  I do have MR's for matching userspace 
-implementations mentioned in the cover letter already.
+Return the computed rate directly instead of updating the local variable
+first.
 
-> Best regards
-> Thomas
-> 
->>
->>>
->>> Best regards
->>> Thomas
->>>
->>>>   2 files changed, 54 insertions(+)
->>>>
->>>> diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/ 
->>>> Documentation/ ABI/testing/sysfs-bus-pci
->>>> index 69f952fffec72..8b455b1a58852 100644
->>>> --- a/Documentation/ABI/testing/sysfs-bus-pci
->>>> +++ b/Documentation/ABI/testing/sysfs-bus-pci
->>>> @@ -612,3 +612,11 @@ Description:
->>>>             # ls doe_features
->>>>             0001:01        0001:02        doe_discovery
->>>> +
->>>> +What:        /sys/bus/pci/devices/.../boot_display
->>>> +Date:        October 2025
->>>> +Contact:    Linux PCI developers <linux-pci@vger.kernel.org>
->>>> +Description:
->>>> +        This file indicates the device was used as a boot
->>>> +        display. If the device was used as the boot display, the file
->>>> +        will be present and contain "1".
->>>> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
->>>> index 268c69daa4d57..cc766461de1da 100644
->>>> --- a/drivers/pci/pci-sysfs.c
->>>> +++ b/drivers/pci/pci-sysfs.c
->>>> @@ -30,6 +30,7 @@
->>>>   #include <linux/msi.h>
->>>>   #include <linux/of.h>
->>>>   #include <linux/aperture.h>
->>>> +#include <asm/video.h>
->>>>   #include "pci.h"
->>>>   #ifndef ARCH_PCI_DEV_GROUPS
->>>> @@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
->>>>       NULL,
->>>>   };
->>>> +static ssize_t boot_display_show(struct device *dev, struct 
->>>> device_attribute *attr,
->>>> +                 char *buf)
->>>> +{
->>>> +    return sysfs_emit(buf, "1\n");
->>>> +}
->>>> +static DEVICE_ATTR_RO(boot_display);
->>>> +
->>>>   static ssize_t boot_vga_show(struct device *dev, struct 
->>>> device_attribute *attr,
->>>>                    char *buf)
->>>>   {
->>>> @@ -1246,6 +1254,37 @@ static int pci_create_attr(struct pci_dev 
->>>> *pdev, int num, int write_combine)
->>>>       return 0;
->>>>   }
->>>> +/**
->>>> + * pci_create_boot_display_file - create a file in sysfs for @dev
->>>> + * @pdev: dev in question
->>>> + *
->>>> + * Creates a file `boot_display` in sysfs for the PCI device @pdev
->>>> + * if it is the boot display device.
->>>> + */
->>>> +static int pci_create_boot_display_file(struct pci_dev *pdev)
->>>> +{
->>>> +#ifdef CONFIG_VIDEO
->>>> +    if (video_is_primary_device(&pdev->dev))
->>>> +        return sysfs_create_file(&pdev->dev.kobj, 
->>>> &dev_attr_boot_display.attr);
->>>> +#endif
->>>> +    return 0;
->>>> +}
->>>> +
->>>> +/**
->>>> + * pci_remove_boot_display_file - remove the boot display file for 
->>>> @dev
->>>> + * @pdev: dev in question
->>>> + *
->>>> + * Removes the file `boot_display` in sysfs for the PCI device @pdev
->>>> + * if it is the boot display device.
->>>> + */
->>>> +static void pci_remove_boot_display_file(struct pci_dev *pdev)
->>>> +{
->>>> +#ifdef CONFIG_VIDEO
->>>> +    if (video_is_primary_device(&pdev->dev))
->>>> +        sysfs_remove_file(&pdev->dev.kobj, 
->>>> &dev_attr_boot_display.attr);
->>>> +#endif
->>>> +}
->>>> +
->>>>   /**
->>>>    * pci_create_resource_files - create resource files in sysfs for 
->>>> @dev
->>>>    * @pdev: dev in question
->>>> @@ -1654,9 +1693,15 @@ static const struct attribute_group 
->>>> pci_dev_resource_resize_group = {
->>>>   int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
->>>>   {
->>>> +    int retval;
->>>> +
->>>>       if (!sysfs_initialized)
->>>>           return -EACCES;
->>>> +    retval = pci_create_boot_display_file(pdev);
->>>> +    if (retval)
->>>> +        return retval;
->>>> +
->>>>       return pci_create_resource_files(pdev);
->>>>   }
->>>> @@ -1671,6 +1716,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev 
->>>> *pdev)
->>>>       if (!sysfs_initialized)
->>>>           return;
->>>> +    pci_remove_boot_display_file(pdev);
->>>>       pci_remove_resource_files(pdev);
->>>>   }
->>>
->>
-> 
+No functional changes intended.
+
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/mips/hal2.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
+
+diff --git a/sound/mips/hal2.c b/sound/mips/hal2.c
+index 991793e6bda9..dd74bab531b4 100644
+--- a/sound/mips/hal2.c
++++ b/sound/mips/hal2.c
+@@ -313,21 +313,11 @@ static irqreturn_t hal2_interrupt(int irq, void *dev_id)
+ 
+ static int hal2_compute_rate(struct hal2_codec *codec, unsigned int rate)
+ {
+-	unsigned short mod;
+-
+-	if (44100 % rate < 48000 % rate) {
+-		mod = 4 * 44100 / rate;
+-		codec->master = 44100;
+-	} else {
+-		mod = 4 * 48000 / rate;
+-		codec->master = 48000;
+-	}
+-
+ 	codec->inc = 4;
+-	codec->mod = mod;
+-	rate = 4 * codec->master / mod;
++	codec->master = (44100 % rate < 48000 % rate) ? 44100 : 48000;
++	codec->mod = codec->inc * codec->master / rate;
+ 
+-	return rate;
++	return codec->inc * codec->master / codec->mod;
+ }
+ 
+ static void hal2_set_dac_rate(struct snd_hal2 *hal2)
+-- 
+2.50.0
 
