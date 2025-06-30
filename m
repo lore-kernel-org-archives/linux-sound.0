@@ -1,42 +1,44 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B2F226188
-	for <linux-sound@vger.kernel.org>; Mon, 30 Jun 2025 10:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CD02459D7
+	for <linux-sound@vger.kernel.org>; Mon, 30 Jun 2025 11:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751281078; cv=none; b=TrJKqtxilr2sadl7EpuMKSZvYI7dmM4QXafyZHX7gtaSMuqYW5c0M5T4TkvuxBOl/UxzrSrWeSMcjBksCvfAx+YsIgOgC+EMnm6d6JfhrHteXQj+c7L4AMtRZz3Ps0Wu8oAy4w1LwGScn9tu3PImur83yaxG4MKCVmnIhQWgvJQ=
+	t=1751281880; cv=none; b=aFlGRo6vU4y8XumLMiCv6Bv37QOfxFkB8uypr02zHEAIb7rcWacgzpZ4wBxteJCNUWHCBZr2t0FWNW/rw6Ow7gcjAn3+RDGsp7zhVVbzmN49b8AYAs+CjcWMDftpxxjPY5c8RA346dw8yvgJf8txYF09u5f/J1YabevdmKpMf/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751281078; c=relaxed/simple;
-	bh=MobM1ZbX6aRV9UmkAFxVoFzxstIlyJGielzDULNf7wE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QWL6VbOkSr2KJqVeRgcTRARg7644L8OVMDUHr3v6qHMqH/KEqbKaF+H/rvgNDSY5DR+9TZJbsmi1gax0B+s7P1pvL6jOr3luAWxKebSOQhqpGhE3EtsTiuqDTnswW2zfHTsj2KbJoBfS+HpNzQ5j/Gorsbqjg5/rCivo3blfsu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OVvi0MSz; arc=none smtp.client-ip=95.215.58.177
+	s=arc-20240116; t=1751281880; c=relaxed/simple;
+	bh=unaE4QpmWfFkrwyY6gnapqlQr2pcekqMs5k9DmYNBSE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kSx1u9bLPM8x3hy1PtwBXPjX+8IE15wiCRnugMz3vnw618O9Cxl3Quw0NPIu/Ygif0FuaHoKGkTdBO6I7RkozhPCBsr+GpXRFX3h69EAn9fr6mt2C8av0201DMUzh5lTE5kgFedeN/EMGQvHCMyHFxgaUhtFCHjDQf0k7MVmr+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=b9qC218K; arc=none smtp.client-ip=91.218.175.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OVvi0MSz"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="b9qC218K"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1751281074;
+	t=1751281866;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=9l9T37/bFIK8I1hFZmW5GbvmNO4fMy5s189v6q0GSH8=;
-	b=OVvi0MSztZ4K549FddRFLbfJvIvEwlr+o7uTV7EBfQNt73dow7mGsFiiSNwZGSvNgbwD5i
-	8gnycO7l2rdQ1lrBlZnLulUmuuun/p9LMdQTaMyR2XqGKNZPL4Gbd2qk5P1yjO+GZBIr3x
-	Ts1CtvkKmQVVjD6cn7cHo19obHF8TTU=
+	bh=9EItM8uCcromE1ZWJwY/z7qNiYk/S67kMwkBT3643Mk=;
+	b=b9qC218KF98kBDicl8IHDU683wXWNKjWFj58XVVc9jbkA50VlT/DsR1zpYrc3G4D5CiHNo
+	IQetG5xYbgBLAwVd27l6aRJ+Cst0xujyV+K1OqGo+/xNj7/88Mz7gx6wzZfti0fet8pGMh
+	/GWB8YCPHOPkfO3G28DlpSINMMuTAeA=
 From: Thorsten Blum <thorsten.blum@linux.dev>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Nam Cao <namcao@linutronix.de>,
-	Zack Rusin <zack.rusin@broadcom.com>
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Nam Cao <namcao@linutronix.de>
 Cc: Thorsten Blum <thorsten.blum@linux.dev>,
 	Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hrtimer: Replace deprecated strcpy() with strscpy()
-Date: Mon, 30 Jun 2025 12:57:22 +0200
-Message-ID: <20250630105723.1703-2-thorsten.blum@linux.dev>
+Subject: [PATCH] ALSA: dummy: Replace deprecated strcpy() with strscpy()
+Date: Mon, 30 Jun 2025 13:09:44 +0200
+Message-ID: <20250630110945.2225-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,30 +55,50 @@ No functional changes intended.
 Link: https://github.com/KSPP/linux/issues/88
 Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- sound/core/hrtimer.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/drivers/dummy.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/sound/core/hrtimer.c b/sound/core/hrtimer.c
-index e9c60dce59fb..c364bd126ac8 100644
---- a/sound/core/hrtimer.c
-+++ b/sound/core/hrtimer.c
-@@ -6,6 +6,7 @@
- 
- #include <linux/init.h>
+diff --git a/sound/drivers/dummy.c b/sound/drivers/dummy.c
+index 1d923cbe8cd0..5b7db00f3672 100644
+--- a/sound/drivers/dummy.c
++++ b/sound/drivers/dummy.c
+@@ -9,6 +9,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/jiffies.h>
  #include <linux/slab.h>
 +#include <linux/string.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
+ #include <linux/time.h>
+ #include <linux/wait.h>
  #include <linux/hrtimer.h>
-@@ -138,7 +139,7 @@ static int __init snd_hrtimer_init(void)
- 		return err;
+@@ -684,7 +685,7 @@ static int snd_card_dummy_pcm(struct snd_dummy *dummy, int device,
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, ops);
+ 	pcm->private_data = dummy;
+ 	pcm->info_flags = 0;
+-	strcpy(pcm->name, "Dummy PCM");
++	strscpy(pcm->name, "Dummy PCM");
+ 	if (!fake_buffer) {
+ 		snd_pcm_set_managed_buffer_all(pcm,
+ 			SNDRV_DMA_TYPE_CONTINUOUS,
+@@ -875,7 +876,7 @@ static int snd_card_dummy_new_mixer(struct snd_dummy *dummy)
+ 	int err;
  
- 	timer->module = THIS_MODULE;
--	strcpy(timer->name, "HR timer");
-+	strscpy(timer->name, "HR timer");
- 	timer->hw = hrtimer_hw;
- 	timer->hw.resolution = resolution;
- 	timer->hw.ticks = NANO_SEC / resolution;
+ 	spin_lock_init(&dummy->mixer_lock);
+-	strcpy(card->mixername, "Dummy Mixer");
++	strscpy(card->mixername, "Dummy Mixer");
+ 	dummy->iobox = 1;
+ 
+ 	for (idx = 0; idx < ARRAY_SIZE(snd_dummy_controls); idx++) {
+@@ -1083,8 +1084,8 @@ static int snd_dummy_probe(struct platform_device *devptr)
+ 	err = snd_card_dummy_new_mixer(dummy);
+ 	if (err < 0)
+ 		return err;
+-	strcpy(card->driver, "Dummy");
+-	strcpy(card->shortname, "Dummy");
++	strscpy(card->driver, "Dummy");
++	strscpy(card->shortname, "Dummy");
+ 	sprintf(card->longname, "Dummy %i", dev + 1);
+ 
+ 	dummy_proc_init(dummy);
 -- 
 2.49.0
 
