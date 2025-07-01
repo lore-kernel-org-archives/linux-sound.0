@@ -1,167 +1,167 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511ED26B771
-	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 09:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837E61DF73A
+	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 10:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751361936; cv=none; b=FojDtlS1H+c0T5sL8VfkmTKefmRoMwzocAkB2kiuI1iV3Muobv6DP029ZVXpSWzCoxvJvVMGNcBP3eQyj+luuGxQ+YHq0TfFQalQEaj6nM9LfiwXYB3u4/emxveaJ8M9XJnLAQfl6H1mosy2fRQpgqrK9uijFxvkX4gDFmzQDtA=
+	t=1751364799; cv=none; b=OCi69fqIjDSZ0uO5fMFXxnLgvLzbY7xaG0xBoOtCMk5dXGAHCwExCtwltEEwBa3lJ8VOTElIg/WMkItgrT7aSsXTSDFrgc29x/QFz2Wq9n+ZILFE4r7x9O0/1rJH6BiP+sGZ6fVy76i/cZfz7PlogXEM2CMZXyssrl+otjiM61Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751361936; c=relaxed/simple;
-	bh=ZeXz3hnou5gUJ75yQD8JJ/r5RYPaVcsjVrt5L/rQDqI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sGUXbUPC1q88RZ9D5vehNJcBorG+Ktz6ieSAHd0QaN8L+aDm3lugJ5q8F0oL7RJUBh8u9LzyH3bevUdPmd/XFaHSL6AbvMapvUqVZKhQIlsJUW29mk4To83Tao19m7gmldXJiCZlsuD4mgKwXpe0KTQ3wwwc9DsUM3NeHqR7d98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EAsP1jgj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ONZulrbt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EAsP1jgj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ONZulrbt; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1751364799; c=relaxed/simple;
+	bh=XKJyrMOXRuagXNXyeh+l5NoElX0043tbbtAPNdQByys=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pfZM9S5DRiRTQ3jrt8Li9XNXmVtVkr37OO9oY88M1uUKMFf3WSrANJ35Oy1NujnidhKJiSKRxD+Z3+WBj82jIUCj4BXW1iQd5ycwRnYJZaoNEKP7Nnjm0nUHxntd3Huxpxc9SIZlXjaMga/eFv0v33hQ9+c8/9awsnPHInV8C9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=v9qof302; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EAsP1jgj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ONZulrbt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EAsP1jgj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ONZulrbt"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4C3B41F393;
-	Tue,  1 Jul 2025 09:25:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751361932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="v9qof302"
+Message-ID: <6e9878bc-856c-4319-b535-ab8f565f2460@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1751364784;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QjzDvJSUaHjKvTEfS3xyRuL6ex44DjNlXSXQL7mpsZI=;
-	b=EAsP1jgjbANpw7/5E0jsGTVsLQXmBOhuloxwuQUgvxA4/9wGYIGBgKrV24938W2rOIX2Tl
-	94MofYRR/es43A36Rhxqtc99xMdwoCri+HKz2lSjrIuk5FenDCMHO6ZbutSxBnPpPu/eta
-	SnIYwyQYCf7wKibYXv82m8ysIn/h4+Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751361932;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QjzDvJSUaHjKvTEfS3xyRuL6ex44DjNlXSXQL7mpsZI=;
-	b=ONZulrbtKQmM2QSxcsnIrSzMLSOe++pNHpXJJdxqJTBTG7gAJGHhetM/Z8zhEu66ZFBqJu
-	YR4PQ4ylSFqc2NAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751361932; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QjzDvJSUaHjKvTEfS3xyRuL6ex44DjNlXSXQL7mpsZI=;
-	b=EAsP1jgjbANpw7/5E0jsGTVsLQXmBOhuloxwuQUgvxA4/9wGYIGBgKrV24938W2rOIX2Tl
-	94MofYRR/es43A36Rhxqtc99xMdwoCri+HKz2lSjrIuk5FenDCMHO6ZbutSxBnPpPu/eta
-	SnIYwyQYCf7wKibYXv82m8ysIn/h4+Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751361932;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QjzDvJSUaHjKvTEfS3xyRuL6ex44DjNlXSXQL7mpsZI=;
-	b=ONZulrbtKQmM2QSxcsnIrSzMLSOe++pNHpXJJdxqJTBTG7gAJGHhetM/Z8zhEu66ZFBqJu
-	YR4PQ4ylSFqc2NAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13B2C13890;
-	Tue,  1 Jul 2025 09:25:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5x+PA4ypY2gKKgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 01 Jul 2025 09:25:32 +0000
-Date: Tue, 01 Jul 2025 11:25:31 +0200
-Message-ID: <87wm8sclf8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,	Takashi
- Iwai <tiwai@suse.de>,	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: mips/hal2: Refactor and improve hal2_compute_rate()
-In-Reply-To: <20250630214554.182953-2-thorsten.blum@linux.dev>
-References: <20250630214554.182953-2-thorsten.blum@linux.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	bh=SHxgwfULYqm3aiDalEcyK5ldoUUbN+9vxlVnjrjQsPo=;
+	b=v9qof3028NM5Dw6ka9WO5ZPzWmR18G3M0bXU+kOuRbmKGg5qf39iXdCrPcLgGIsj16KY9N
+	OSwmOSm0et3AHYiC6h0dMJwk8wwG0vJvkzwztOsrnhBE7richi3mt2blor8c+dfFO87pSW
+	LoMr7FuwbeQYPBbvdoRVKcGODlB9FCM=
+Date: Tue, 1 Jul 2025 12:13:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
-
-On Mon, 30 Jun 2025 23:45:52 +0200,
-Thorsten Blum wrote:
-> 
-> Assign 'codec->inc' first and then use it instead of the hardcoded
-> value 4 repeatedly.
-> 
-> Replace the if/else statement with a ternary operator and calculate
-> 'codec->mod' directly. Remove the unnecessary local variable 'mod'.
-> 
-> Return the computed rate directly instead of updating the local variable
-> first.
-> 
-> No functional changes intended.
-> 
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
-> ---
->  sound/mips/hal2.c | 16 +++-------------
->  1 file changed, 3 insertions(+), 13 deletions(-)
-> 
-> diff --git a/sound/mips/hal2.c b/sound/mips/hal2.c
-> index 991793e6bda9..dd74bab531b4 100644
-> --- a/sound/mips/hal2.c
-> +++ b/sound/mips/hal2.c
-> @@ -313,21 +313,11 @@ static irqreturn_t hal2_interrupt(int irq, void *dev_id)
->  
->  static int hal2_compute_rate(struct hal2_codec *codec, unsigned int rate)
->  {
-> -	unsigned short mod;
-> -
-> -	if (44100 % rate < 48000 % rate) {
-> -		mod = 4 * 44100 / rate;
-> -		codec->master = 44100;
-> -	} else {
-> -		mod = 4 * 48000 / rate;
-> -		codec->master = 48000;
-> -	}
-> -
->  	codec->inc = 4;
-> -	codec->mod = mod;
-> -	rate = 4 * codec->master / mod;
-> +	codec->master = (44100 % rate < 48000 % rate) ? 44100 : 48000;
-> +	codec->mod = codec->inc * codec->master / rate;
->  
-> -	return rate;
-> +	return codec->inc * codec->master / codec->mod;
-
-IMHO, this doesn't look improving the code readability than the
-original code.  And the generated code doesn't seem significantly
-better, either.
+MIME-Version: 1.0
+Subject: Re: [PATCH 00/15] ASoC/soundwire: Realtek codecs: wait codec init in
+ hw_params
+To: "Liao, Bard" <bard.liao@intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "vkoul@kernel.org" <vkoul@kernel.org>
+Cc: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20250626115625.536423-1-yung-chuan.liao@linux.intel.com>
+ <f95f6777-7445-46dc-be53-b3ae5594bf39@linux.dev>
+ <SJ2PR11MB842425A1CE631E71E4AF26F0FF45A@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <SJ2PR11MB842425A1CE631E71E4AF26F0FF45A@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
-thanks,
+>>> The current code waits for the codec initialization in the resume
+>>> callback. It could cause the resume takes a long time while waiting for
+>>> the codec being attached and initialized. Move the waiting to the
+>>> hw_params callback when the driver really needs it and shorten the
+>>> resume time.
+>>> The change is mainly on the ASoC tree. Let's go through the ASoC tree.
+>>
+>> While I certainly understand the desire to make the resume time lower, is this
+>> approach desirable in all cases?
+>>
+>> My main worry is this: not all functionality in a codec is related to the
+>> hw_params. One counter example would be register settings related to jack
+>> detection. You would want the regmap settings to be correctly applied in
+>> hardware registers even in the absence of any streaming request, no?
+> 
+> Right, not all functionality is related to the hw_params However, the
+> codec need to be attached first if the functionality needs to access the
+> codec. That's the reason we do io init and regcache_sync in the
+> update_status callback when the codec is attached. Take the jack
+> detection as an example, the codec will be attached first when the JD
+> event happens. At that point, the driver will do io init and regsync and
+> then handle the interrupt.
 
-Takashi
+We agree on that part. The initialization is done from io_init. The disagreement is whether we have to wait in the resume() for the device to be fully initialized, see below.
+
+>> The other weird thing is that historically the codec initialization was never on
+>> the critical path, it was several orders of magnitude faster than the controller.
+>> It wouldn't hurt to provide broad-brush information on what a 'long' time
+>> means for a codec resume, so that we can really see the pros/cons of moving
+>> all the regmap initialization.
+> 
+> The main issue is that the codec could be attached after the codec resume.
+> Sometimes, it could take 100 ms or longer.
+
+I don't really see the problem here. The codec device (in the Linux sense) is trying to resume, and you want to wait until the hardware device is fully configured, no?
+
+Moving the waiting part is asking for trouble: the device will be reported as pm_runtime active, but it may not even be attached on the bus, and thus any register access will lead to invalid read/writes.
+
+For example, starting a register dump via debugfs would fail if the codec is not attached. The machine driver could also set jack status that would fail as well.
+
+>> Another open is that SDCA defines the notion of 'blind writes' which would
+>> typically be done during a resume if context was lost. If we start moving some
+>> parts of the initialization to the hw_params and others remain in the resume
+>> flow, that will quickly lead to complexity in managing configuration.
+> 
+> I am not trying to move the initialization to the hw_params. The
+> initialization is still done in the update_status() callback. Waiting on
+> hw_params is just to make sure the codec is initialized before the
+> audio get started. And currently, Realtek codec drivers do blind writes
+> in the io_init function not resume.
+> 
+>>
+>> The last point is that this is a change for Realtek codecs only, would other
+>> drivers for other vendors require this change? And if I may ask is there any
+>> merit in speeding-up resume times even for 'legacy' non-sdca parts?
+> 
+> IMHO, yes, other drivers for other vendors require this change.
+> I don't see any difference between non-sdca and sdca codecs.
+> They both could be attached after the codec driver resume.
+
+I really don't see the rationale for 'speeding-up' the resume and losing the guaranty that the device is fully operational. The whole point of the wait_for_completion() in the resume part was to avoid any problems between the pm_runtime state machine and the asynchronous nature of the bus attachment at the hardware level.
+
+Unless I am missing something big, it feels like you are playing with fire to speed-up a resume time that was not reported as a problem. You may be right that the SoundWire setup needs to evolve, change is the only constant in this world, but from my perspective it's not clear if the benefits offset the unknowns and potentially racy behavior introduced by this resume change.
+
+>>> Bard Liao (15):
+>>>   soundwire: add sdw_slave_wait_for_initialization helper
+>>>   ASoC: rt722: wait codec init in hw_params
+>>>   ASoC: rt712: wait codec init in hw_params
+>>>   ASoC: rt1320: wait codec init in hw_params
+>>>   ASoC: rt721: wait codec init in hw_params
+>>>   ASoC: rt715-sdca: wait codec init in hw_params
+>>>   ASoC: rt711-sdca: wait codec init in hw_params
+>>>   ASoC: rt711: wait codec init in hw_params
+>>>   ASoC: rt715: wait codec init in hw_params
+>>>   ASoC: rt700: wait codec init in hw_params
+>>>   ASoC: rt1316: wait codec init in hw_params
+>>>   ASoC: rt1318: wait codec init in hw_params
+>>>   ASoC: rt1308: wait codec init in hw_params
+>>>   ASoC: rt5682: wait codec init in hw_params
+>>>   ASoC: rt1017: wait codec init in hw_params
+>>>
+>>>  drivers/soundwire/slave.c          | 17 ++++++++++++++
+>>>  include/linux/soundwire/sdw.h      |  1 +
+>>>  sound/soc/codecs/rt1017-sdca-sdw.c | 32 ++++++++++++++++----------
+>>>  sound/soc/codecs/rt1308-sdw.c      | 32 ++++++++++++++++----------
+>>>  sound/soc/codecs/rt1316-sdw.c      | 32 ++++++++++++++++----------
+>>>  sound/soc/codecs/rt1318-sdw.c      | 30 ++++++++++++++++--------
+>>>  sound/soc/codecs/rt1320-sdw.c      | 32 ++++++++++++++++++--------
+>>>  sound/soc/codecs/rt5682-sdw.c      | 29 +++++++++++++++--------
+>>>  sound/soc/codecs/rt700-sdw.c       | 27 ++++++++++++----------
+>>>  sound/soc/codecs/rt700.c           |  6 +++++
+>>>  sound/soc/codecs/rt711-sdca-sdw.c  | 28 ++++++++++++----------
+>>>  sound/soc/codecs/rt711-sdca.c      |  6 +++++
+>>>  sound/soc/codecs/rt711-sdw.c       | 26 +++++++++++++--------
+>>>  sound/soc/codecs/rt711.c           |  6 +++++
+>>>  sound/soc/codecs/rt712-sdca-sdw.c  | 28 ++++++++++++----------
+>>>  sound/soc/codecs/rt712-sdca.c      |  6 +++++
+>>>  sound/soc/codecs/rt715-sdca-sdw.c  | 37 ++++++++++++++++++++--------
+>> --
+>>>  sound/soc/codecs/rt715-sdca.c      |  6 +++++
+>>>  sound/soc/codecs/rt715-sdw.c       | 27 ++++++++++++----------
+>>>  sound/soc/codecs/rt715.c           |  6 +++++
+>>>  sound/soc/codecs/rt721-sdca-sdw.c  | 29 ++++++++++++-----------
+>>>  sound/soc/codecs/rt721-sdca.c      |  6 +++++
+>>>  sound/soc/codecs/rt722-sdca-sdw.c  | 26 +++++++++++----------
+>>>  sound/soc/codecs/rt722-sdca.c      |  6 +++++
+>>>  24 files changed, 320 insertions(+), 161 deletions(-)
+>>>
+> 
+
