@@ -1,59 +1,59 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010051.outbound.protection.outlook.com [52.101.228.51])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010034.outbound.protection.outlook.com [52.101.228.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEEB79EA
-	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 00:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBC379EA
+	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 00:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.34
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751328650; cv=fail; b=XL4l61DGkJ18WNDxSA2dpuFlGAse5xzG3DTEYO8EuDM6jQZtJkLTNeIN8V5dbz0tmDgjD3SAZ1CNViLCuLBx3cyXMTZtDrZPOS06MQPksBmBclyRa3Fo5XNwX1PIydSr+BspTywZxIqjcFYiPUVat/bWX337/gj3UzfnwQNhlkQ=
+	t=1751328656; cv=fail; b=EhJFI6iIu/h1KYAWMFoD+zUAlVMVpsi9boMc+ty5QK9xq1Lyp/5XwwDdH1TX7qEoBMlzdNlMLvqPxbk+ZSKtJJBmlntNdgaquZje3aRNOA/teNJzDQoSOn8HWvqlSLD2OieO084P86lw1SHYupuCcctz1mtB4QJs+Fyuwqn0V+M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751328650; c=relaxed/simple;
-	bh=LC6BItIrdq+K6rwRz9YolU085Esw9fIkXv813oV4Bhk=;
+	s=arc-20240116; t=1751328656; c=relaxed/simple;
+	bh=V8dEHr0LXg6QC4vEkVup/kwfAPP9uCY0b3NKY6CpO0w=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Hn8gxO8H5S90BgbhHA+/AT4jHTjqfagy0bDHviie/rEJFA3HgLaVDL5y4paHElDj4KwTMABPvXYV3WucGtt7djQUY1YOn3sbvyfWboUJXzGWi513ysBIn/97dv9z5MvKeJffhT0R/HTh1bJzVlVrfkqVlTWHw8Ng7VJ/37YiiSA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=W//fW8ar; arc=fail smtp.client-ip=52.101.228.51
+	 Date:MIME-Version; b=oo2xU2zP8iMjIpmN9XBGD347tiP4OJnpiM54oSSSdG+CGn6OzdDf3x/EzyzAkAfwmj0qidZgSl8oCNFg4SpIIDG7dB9jEsxn0yOQPCixBrThyyDFKSViiVvh0+2UFKJZgAtUGDDtSHXs5kGwU5fYBS+PR3a/a1sIqvFDZRm7Ejc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=eEHZuY6K; arc=fail smtp.client-ip=52.101.228.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="W//fW8ar"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="eEHZuY6K"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gMOnAMiTCnt+bLotYhvvXIaAbGh9o5aeeQBj7JhFSCKsANEsjrKksveIQ7YmEagii46K1aZDsv++0HUIAke6Vm6+Xx/tgkKbuGRWNbjrhpjCTwzL4+YkVe+YwsNX2sAZedGnSD0Cz5INqSnIdr84aJNBUQe9Wfq/v8KgigkbU/FlGYQDg7EH0J/cRbYDc3bhLuv+IyBIK16YLnKlH/k0TovD17ik6AQycVSEuo0Y4PBGP0DAV6lXkE2MoSQga3Me99GKCsCov9JHXaX5zwEBYGr1tq2J+/KgS6Gw3pU/QvWGppTM0v5GYlySC9DGOca0Buz5NNvOnPs8WIGed2FuLA==
+ b=hFUQpVPLXVk0E0Y8rRi8vYeQUs7txtNBzyMZM/LIjckuWpUcag6V0cGp6DQ8mNQSFk6a0m2VFLtBfxjHjFxn3G84XTn5P6+ST9l4rMi7pQnmBFLfUzszmw1+G8LsKX4JnJrRqGaCKtGyaR667Elp4Hl1bw7v9QYrJZUOwNhB9Oy23CmIEQWGLQ/M9QWu2s64odWHSlPHIvezVLhAzxydxEFi8KPmSwNNB3yZGU9eW4Y4J+YCXiuS18+/sqRI14KsPipeVGSSeBcmfHtCJScA86GkzhNFazK+TzcbVNHLf5n6WOhbXn6Ne5uRHPwmSzB+9bR3whFj0Uw8cLfAes1gFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e1JbRK9kYSREw5+2x6/RlCQDlBpvyEBsNXUoHOXtBBw=;
- b=heUCnwaM3xyKCo2WbXduT5/W32IJK641nEQnWB4g2gvwfkspCtQr7nvxpKEpKMvHtvt5N5sdCsZyQdVelQUNDY+f2f3cJjOu+4l1XXTDLZdN5SzLOMS223zV7ErefHlWnAdGLp/nyi/QG7ggoEfc+c5CJN2G2eTbOfDYJNAhXF6A+xHQRtdPfd/JJ+idlteunfxuJaETWkC3FAFTon1iGJcvjdeLvRuPdmzkfPX0DEifBCAf1Wkoit3J6pabDN+g5b5hqfjwAhmGDi+4M4gb15n15fUAYWyeRrqA8yqnKOvZjDbbnaMPKr/prHQcjsVZhb63MuOzvf/738FoOh3w/A==
+ bh=e3Q1tPNaGgAI6OS5CNeDTTgtQeFl1Aw4m6uzmcqT3Io=;
+ b=o0LIzR9DvR4DaW53/eszCohnVsEP8W2DC55SeFCiuLXo0B0+BUV7YvPFIZto4zmPYptG9Xw4xgLCkJNDTigz2YJvoak2sRB6r+5zv02a4RPMik4L0XVgjYiP/IP8C9TM5KZzSFO7mYUfccjiZjTLJhEp+IVXzTiBNpi7hJQuzES1ZgfU1pmViHH7eWYPytzli4RugsU9AKaYRskNfTSyoM8l4NPoTCqQo7vTQ4Z16KnFHofKIWQRvHzixV9mXR3e8WNREWJ8zfKp300wtz0d15XBTj4nNBfWnt0TBznyQEj6cC1VC74FlHrM7X8qvL+YaP0fGypBV6JMs15RRL5P7w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e1JbRK9kYSREw5+2x6/RlCQDlBpvyEBsNXUoHOXtBBw=;
- b=W//fW8arrzAVXegbDkKis7YqmwJ77hVSuGE3dZ+qmmP/vd9TKv136XWj+oEr7FKn44NopTY76JavTzDhzzO2De05t/zZNwzCu14Q3iwT7kWqY5OGISmbB7X3HALErJulbz6g7aSbrnobVzVhwdjRhF8QTzX4gGpTWhlkdSOvRE4=
+ bh=e3Q1tPNaGgAI6OS5CNeDTTgtQeFl1Aw4m6uzmcqT3Io=;
+ b=eEHZuY6KSZS2dEhGYw6OxnD6E6N4ywbqIqcchZKEPwVcj98r1xxaac+bHlHEErOBdvmt6hU9pTwniUOiA58lqvg3vFdfIJMXA7RIl0lx4jVmSxzMMQ//woJWNfJaqbZNHw+GZY4jMjAnNFChD2W+yvWElZG/Yvzln1A+QMcdvQc=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by OS9PR01MB12421.jpnprd01.prod.outlook.com
  (2603:1096:604:2e2::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.32; Tue, 1 Jul
- 2025 00:10:45 +0000
+ 2025 00:10:51 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8880.021; Tue, 1 Jul 2025
- 00:10:45 +0000
-Message-ID: <87qzz0hit6.wl-kuninori.morimoto.gx@renesas.com>
+ 00:10:51 +0000
+Message-ID: <87plekhit0.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 05/11] ASoC: soc-dapm: reordering function definitions
+Subject: [PATCH v2 06/11] ASoC: soc-dapm: reordering header definitions
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
 In-Reply-To: <87y0t8hiue.wl-kuninori.morimoto.gx@renesas.com>
 References: <87y0t8hiue.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 1 Jul 2025 00:10:45 +0000
-X-ClientProxiedBy: TYCP301CA0034.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:380::14) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Tue, 1 Jul 2025 00:10:51 +0000
+X-ClientProxiedBy: TYCP301CA0006.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:386::15) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,869 +63,376 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS9PR01MB12421:EE_
-X-MS-Office365-Filtering-Correlation-Id: e03257f8-79d5-4ac5-34eb-08ddb833b9a6
+X-MS-Office365-Filtering-Correlation-Id: fbb6de61-df43-4d27-fb58-08ddb833bd4c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?JSJG0iZrm2CIneryimkVDt12N18G2aO73uMHOpBANQzAJTmu9QxuYskJQI+q?=
- =?us-ascii?Q?tI5iHclBVFB96Irazu4QZnZ+Lz2e8tvFPY6j7SwQNTgwpV6NS/0hfscP5C7c?=
- =?us-ascii?Q?M5IWR+klolDVfZQpD+Gmb2XfszPckq5rtg/3bMuboM8DgrR9TQE6/pVrK6Kk?=
- =?us-ascii?Q?nZEX/mwrHJyGge1MxyzFz/qeAUYBAy7nZeW+tJ+hgcs0gRDpXPtPtBF8fY65?=
- =?us-ascii?Q?7Wt/f7NdubM9nJmkR/T2IaSLAsgwYdbf4axnha1Oho86KyVBEunycMBDKC45?=
- =?us-ascii?Q?YruZl4yjFoIQuYechrcQ8q6VYdzOCUkc1BUCTmDFJXKAU+imSYlznpICDyP4?=
- =?us-ascii?Q?HooHeusVcZSNdk43j4+ApRH5vfLWSSW0UG5mz6FzlBxTVfRDzIaS/EpT4vVd?=
- =?us-ascii?Q?Y5yNZ+3Oz7xE1SyE2o0Df6Kjf4mh4fTBy0p4uDQDtaOdXfk0C3Q9nR26ePAc?=
- =?us-ascii?Q?EHItNt9pjTfpbtsFHDZrTO/uJbXdn/1du+bUb9D9ou3mkZSWXL9cjiSiL+nk?=
- =?us-ascii?Q?vTCSRCwU8txbvzhY+VLmPb5RCFyN2XKmc7SvfIytpGOk1mVQO69IWR8+yHgP?=
- =?us-ascii?Q?O+DTaBS4PBzKmr7qSXFo572E2qcvG1UdUliMRonFG2jY7aMXsMCuljiTOADM?=
- =?us-ascii?Q?T2pkiHDXAwbxO9IJGzVVHuuBCZ/HL14UUTfdM032zlsufx2apu+jOxQDRoUD?=
- =?us-ascii?Q?ZSpPxDn7YVvJfoR7tZ1EnxOFQkvIJITH1oPE5i42ZdcJjpJ70smtzaUCtBRE?=
- =?us-ascii?Q?AtNrVjc/KxUyyUHTAWZvAs9bVo4/GqvganAjR8NVuSlMnWVwBMwz8hbuKYY9?=
- =?us-ascii?Q?NPAAKFKegDkqC3K1TYcIgDPnMcwdyvgVNWsLOSFhzqv/OBvpC30u/BxyR2fm?=
- =?us-ascii?Q?Pj1i7ALa8m4N0tw6Ys4HCwwZ9TNDeL5p7aOx/QgqJYYKbWEMI6KPJiTjchf1?=
- =?us-ascii?Q?M7lvnqoWp08GPrvTYXrqGHiD00HJce+am+gb/co7eBlX0JahZ9LF+hbnF2Jb?=
- =?us-ascii?Q?/f6fil/pSfR6jsrFus3I7C4/ux2lJQ3Dos4vtRjT4s+DFb5iHHh2cVPwX7B0?=
- =?us-ascii?Q?gRpCVvGX6REWXlytvsWOx2uMsd78YURKS7ZgCt8fQCAr6H8PwazmNXkocnRE?=
- =?us-ascii?Q?If+ORCnAjVgtaEfHUYK80NxKcjJByZ7gSVg9lPT+x3Dthhdhg9JYVSb7Zr/k?=
- =?us-ascii?Q?NLdaX6BGzTpBdbPhFRRa5mfj0kw/Utkm+n43dQU7BCjCnDCNYeUnbGakvwaz?=
- =?us-ascii?Q?3XwfhkYzklX+NAtntRM2hdDax/UFncGAKyBP/ULT0xxghpYNdTsj7ChumgTb?=
- =?us-ascii?Q?uasOzOvuBjZTVBrRyP2Y0q03TAERjl7+JKSgTZnzzr/+2FTOiGiFVSrH0yiV?=
- =?us-ascii?Q?tQW3/Tm4hWzkxJu4OQuQygTEQtXBv0Co1m7HaLP6wnut3hYpFj+XtksvvPg/?=
- =?us-ascii?Q?B7EL87LUTixwLPvtxi846YYVlEcPOGhTXjx6XKucqg/8IkOzbaOGSQ=3D=3D?=
+	=?us-ascii?Q?JIzdFZa9gRalQwN2ku9PFrbHEw3bIk4cAGyghK95kGZI0pvVTk87gxpxx7yy?=
+ =?us-ascii?Q?Ig+/AkMH0DOCh6cvRu0IgA7GsR0Qa1iSZvooogFnmAiB1JmdK9llSrbqgohb?=
+ =?us-ascii?Q?8B7cFLqzImTQXHPyVmDn1dU53pdKd9GC6e6tuSyk1jjbDqEiuraUX3jVQyN0?=
+ =?us-ascii?Q?tZzD4KQCy11j09DpE65/fz/0hjO6CNTG+/Pc9bMeCr91h+4H6XJ4GbO+Fx2F?=
+ =?us-ascii?Q?VndGXkyF2rHFX++ngC8l9Cd7boU75lryLJ8FoxJFKVJaE9FmkmgO+0SwTPS0?=
+ =?us-ascii?Q?PsGoX4P3TVcbWSEONiClEr8sS5fwtUHj63BQ159WwwgWZxrJEgu5/IH2yuGu?=
+ =?us-ascii?Q?xXG6YiptBC4orFnopvDNxULR3ybgN7/YIbtylhZbCuNAIvDE1mZEKfkVnfiw?=
+ =?us-ascii?Q?H2BlDAAhsq4qnP79hDZ2h8f4kKYbKDjdvFuQzi/sYPrW/+hQ3G8IEf8oiM9Y?=
+ =?us-ascii?Q?G4TFmWIqd/uDIqrNPe0Q2RA9dsAgq51pWxNfrn6TxQqrBj6f7BtvWz892CSH?=
+ =?us-ascii?Q?QtI5/bz5ep+9bSC4pQxYDekVOZP9JN8ydlYHenkZgLWD3yaI5UD4pZq73kBy?=
+ =?us-ascii?Q?AEYlnEuu53g0jWumcARvBG0oxbBUOt9nh62DKDqf+ZK4j+VQipZSU5VRSbBw?=
+ =?us-ascii?Q?+xUAwqDZkCQKjdhZ4zaxkAQMCUGMQIljU/neunIIhrOyTohWFScmJxSDK59h?=
+ =?us-ascii?Q?Ba+kPXw42bU+CNX2KUBUk3N7LnwqZmUqUjlIP7RVu8uajrWVcG6rCKn2knTF?=
+ =?us-ascii?Q?gH7gDez11fA8qe3lVH3rOmlg1pr9VuLJNUfpArmfsq9YB/qrRWd+b4u/m1Mv?=
+ =?us-ascii?Q?kN2A7Y8tY/g7JsCp1QmHa17bo/QIBvVDCczMz4KUHHF6HUm/JiWZdPLKUUAZ?=
+ =?us-ascii?Q?Vsx8dcCg6P8+QYvJrZgWxL+gIYRy1dNH0WDZWIFp0LjawTKflJIMr3jG9s0n?=
+ =?us-ascii?Q?ReXKeuKDURq+nFRSm14S7IZnk8Ax1Y1Fr+qOYImdyDuLp7QnHUzxSSemQOr/?=
+ =?us-ascii?Q?sIMCAdUmBuN+KQaEseUFU4S7YE+gVzU7DwCMQNsLoPDovgW1tYWuQlqDjDzQ?=
+ =?us-ascii?Q?Jgb5x7lHGRUDKJlDtbtDTrt2kLE2AynN14VebQiKXV50F6M9bZr4SzGYndo2?=
+ =?us-ascii?Q?KlBQzkcZh1ab3jhpF1+klt3trZK0hMb2juN2jZRKwA/rEPajZeZ9YGxpMt13?=
+ =?us-ascii?Q?g+fTHX6JvKUvxIwb3o213IALOIqxrwb61J2jyjAX8OS3N7xwjiV03+nHt7q+?=
+ =?us-ascii?Q?mVRRZu4HD4GySfKHFPk74GTMSmxnzMU5ZDtQNXQxC9aq5FGnbmqtmZjFJ899?=
+ =?us-ascii?Q?24PSqTZE+K+pCZo4E/teIuoEA0F4Qf3ffYFJ2mw4eGX0R0Vf0ov+ykd/kDDN?=
+ =?us-ascii?Q?wBOO4KwnE+s2MFYLrxrep0sy55o7BXE7Xsj7Zah3zgCmR4O6MEIzOablEpSf?=
+ =?us-ascii?Q?KvtTl3alJ060ULII9+j9sZAUzXqAgVK8npQcewRCp7fTLPnQU+6+Dg=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SQEg/KgHBiMeVY12ZRiujWFt3nPq/pwSfM7/f4OtFNq+8u/quRY/e4AQxVcN?=
- =?us-ascii?Q?QeRxeeqJcFIxs8ydbLuYZzPfxtc0SkF75RBRrdH5IQgSBNGA50u8ND+eoMlL?=
- =?us-ascii?Q?3XXMRv/ZBi9KOvQakpyBwsreFmLvqnI3sM117Pp8EbBuME1yMdffCTXefuo2?=
- =?us-ascii?Q?f4AGfuiWQLyxtVfQaXBdeKdhkIo1cgsn//tFkIElypmdeGhjZa5VF5xoG9b6?=
- =?us-ascii?Q?dVkeEpV0qM4lQNluk/sp1VMqs74VxeM5IainVjUXiiDNYioLflLAsDJx8gXC?=
- =?us-ascii?Q?126UoGzRukR93uZ0PoHMq1plAzgrFzgg/Tqgs9vl4n68ITbu7n9R9Y3uxxKx?=
- =?us-ascii?Q?k2d15wtzQ4Tw9DuCJWc+l0s/UTplOqiz/oHwHuqnRwVLxjb3Su25zep6T/KU?=
- =?us-ascii?Q?bzxMaEtnQkP6dySXWG+3cMeOAAywUVHVy30LPvzcfGWhAPDvlGVPh4Tk1vCr?=
- =?us-ascii?Q?C7OrNQJg04Sllr61KahYxb+7U5MqFpZRM22o4LchlH1XyW8XjwivutPTl2Em?=
- =?us-ascii?Q?IH19FA/gQh+sOL6DnhFaOFm1CnVCna55lB+50dujhlFmaWFgEvtM4//DuEqp?=
- =?us-ascii?Q?uJoF1biJKJ+mp5RdQFcYknfQj9sSTAPM86E8F7vuT7CsnOW09bhTgjRV0qMd?=
- =?us-ascii?Q?n8oi0nzh6Iqm2u3DO3AgFNcNj2EXJewjldixskOuzaX0MIpa0811QmSvVGn7?=
- =?us-ascii?Q?c6L2yDf5+tiwSPdzb5d6pow8LiRt4LRGzeJBy3NWON8rJoo6YRy9fGoXJhkR?=
- =?us-ascii?Q?MODioQzeXfIYVz3yXc6FV2zRJI6NIF3ypVrMmDkxaiaUi3iQF2ZguF92HWzQ?=
- =?us-ascii?Q?kF5rCWP4uRWn20jGt4zZQLLBTtE4MFjUddscDdA0Qr9UJ1rfq62ig6JzlyNZ?=
- =?us-ascii?Q?sSAgEWag7p/XI0Gkz09dcsTaW/SYlOS2B0gx8MOJ/jJ+rcTC/Y9TNmccXkCk?=
- =?us-ascii?Q?d31ydVdujaFjBlSjMUp3IFpCtFX0gNBB6gIQjq/GmpOGCr5XMCNOkxgH3CRx?=
- =?us-ascii?Q?U32ODNk/DR0jZ/yOTtcpJTfkc5yABjWQi2WBbjLWOdJqKU9U5wR/t5ef0zXg?=
- =?us-ascii?Q?kcwTpwVhIHkQ/bg1oCZhYQLd+HEg8XYr8BlKqHcgvGWmYCcpPtMUCr7vCEG6?=
- =?us-ascii?Q?ukz6Jh8aZ6eS+F2mvHHWqWJu8A9gUmqCsXLENhzJmQaMSTHXxXdy/b06Nj3R?=
- =?us-ascii?Q?RwkLtJ2zK+mIjrK6q9VnU6dnKtYRMbdfNKMBr/W/6LvDaGSVtvNri3oijgT3?=
- =?us-ascii?Q?b+o8mQrmVCymUgud95C6XTKvkV1MnI0Lb/GqY7hpLcFteHz23bW2Lp9+WsTT?=
- =?us-ascii?Q?E+ZU9Te4o3dHWUaqdnzJV3rAy6UrgKYu7Ap9Z7KP10jiyQ8qTvipPqS/fGdC?=
- =?us-ascii?Q?GhlMkzgjOUZDDla8bichwxzqpGMcgOmLk1Ls23jPPsgRl1IeR4OgDUC3Pkbv?=
- =?us-ascii?Q?Jr6fynXOS74tWOnVO3PsBKmdsYVejK505oj/n3/nMwtuP/tahStVbMKdIdMM?=
- =?us-ascii?Q?/kKkpO0eBOjIzcO6YThbFuqkf/F2BcpFL8XNTU39qISbvLbuLSbFWa3O4ron?=
- =?us-ascii?Q?aZNnZSXZROg3fvjDaci/4+rEMoYJB/keMHHF8/vuLfI6yaWMe6TfRTIa73Xz?=
- =?us-ascii?Q?KaBygveBYyWyJ+te1x5KMj4=3D?=
+	=?us-ascii?Q?aw4f5xmRzuK//2nHbHLKod4IDOyPRrnO228lPiiTs14om28ccH2DNJ4aQDbp?=
+ =?us-ascii?Q?hyfi6JJGgqvJ5d3GBE8K2DNDn/wDGm0zc4Cmvc/wrNvJRzvXGZYkpqN5fkVb?=
+ =?us-ascii?Q?fNsZ8Dssa6ZpZWpJeYcuTfKr3PQjNtAenCmbHICV8EjVV16h+QX6hGLkHIwE?=
+ =?us-ascii?Q?0+Z3ath6e3J8vGgyu0jopzXGaNE+bA6HgrBf+7H6qOtmrrEyXTkAmhte+PPz?=
+ =?us-ascii?Q?kxsoonT1w8S9CMTegxlmFRCfzo8iYVi2Q7JkxcP8jQck+Po0zNrPgZ6sEN89?=
+ =?us-ascii?Q?DAwXDGofGuFWwp7G8M8wXvl9YYERbsxiUgtpgeK0YW4otyfHYpPaP+X2CL84?=
+ =?us-ascii?Q?Vm3HObc4CFkvbiHq73xj99+LW0LMp2/gNCw1CgETxijWkFHaQrYmwBYZFeq8?=
+ =?us-ascii?Q?9PNy9RLJO9zCWOvzpqpC7PXGnEvHZwJsA38+03dAdsyspTK82Tfkro1PGRWG?=
+ =?us-ascii?Q?TcU+pBk+BiNdblHmbBddc1yQqYD3xnXH/qU29hXqvRRG+RG4nThooDI6HAsl?=
+ =?us-ascii?Q?9xQCB7J7yYyMNSLM0pa/BYJGP3Jl1CEZV6rNG8JfyP300AarH4Ry09rwdBlo?=
+ =?us-ascii?Q?bD8Qy4C6+phG/GHwKJ/Udj1CppS4TsLijdrvITKSdwMbBLQIkzFOy+UB7tlo?=
+ =?us-ascii?Q?os8AjHaTmBgivBM8zFDzF5pwEmq5w58zIphVUq3/GHmfygu4CEc1Fw7O+yP2?=
+ =?us-ascii?Q?X5/FUTDlseG6ZPYdOJLUZ7BoP4192rFRCbRuihHl4VyT4MtL7iD9emWxX0oz?=
+ =?us-ascii?Q?6cX511BBPQrQ7JAJ4Np3nA5vn3XYfLPp9HmApQLhSdEoWhs95DMf+6L26+/g?=
+ =?us-ascii?Q?P7Y7wp4hizZ1LkbUc7gneNt3I0hN8Y3XiJlvKshNPTtcEz795/SZvHsCmlRD?=
+ =?us-ascii?Q?7n7IJniHIWDoRg5npCYTHbCFU1XfF8PzFQlbq3iR3Srix9mDE3IJKiRtoHxt?=
+ =?us-ascii?Q?tM4pUfRd7VrcSsXl1Qv4Hu3HRO5gEuU1Ooti5kEWOuKRPWUKw3c8qmA/OiuZ?=
+ =?us-ascii?Q?6esXYxdl9p+9n2HiQQzoodFmd+7BYqrxKWVuSrGQcq6FEHOLV0+vfhjiAy1n?=
+ =?us-ascii?Q?EpqRRmJ1EcJpdaDTljIhb4CYCbWiWky/EFDwbfqhf5f013MrWPODMiLHgLjo?=
+ =?us-ascii?Q?D6tGcqBeqlzeVy/a2x49kKcL/LFLOANVhbYkO1bcQNmzhAQdjtRFFbWabFtg?=
+ =?us-ascii?Q?eF+2q/q+LnD3NSf2uedJle1FDDk/gego9FeObJJZkLHQx6z/7bUDOyi4kAlF?=
+ =?us-ascii?Q?UFskrYTMpbMGALDV1EDwxl+Vl/G51OG3Qq+SmlmKYAn1oxM3H+o8DMCKzaKd?=
+ =?us-ascii?Q?iAlU2R3zBnQMEtBEt3u63AQHnZcNj2hWaCLz4FhZugplajPMpk62UMB2o0Fd?=
+ =?us-ascii?Q?sT94t5pKDvItvaCzSipLsX0FeIr2n9T8g3KZOSmYTg6boVHm3uPVWKTVhmVX?=
+ =?us-ascii?Q?2TTpEfBgi4TPleE1ie7K4Tl07hebljQCVG3ucatlPravqvODcTEmW0nODweX?=
+ =?us-ascii?Q?VlMAfeVQj//mg+il77gmEgpJQAJB2LM7BEq/FNFdLzDFnAFq5XjS0sbPrnjt?=
+ =?us-ascii?Q?PfJxDkLEfSkEywqVHJc0OywPH4m2MWl0R013DXsAsMfw8u5BHT1qB4ifKhnZ?=
+ =?us-ascii?Q?C5Zl+ipHJsR/7TnM5a10tW4=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e03257f8-79d5-4ac5-34eb-08ddb833b9a6
+X-MS-Exchange-CrossTenant-Network-Message-Id: fbb6de61-df43-4d27-fb58-08ddb833bd4c
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 00:10:45.5976
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 00:10:51.6775
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cJbWJAeRzO50SMWf1om15tdPo66RoU5NgziVf+SgmCid7iKxTjlb7igYNeRuqdx59G4gvtNAT80bFNsvmg+9ig8o4cy6wwXaxTxouAdRNwqfMb6uM5jVDThO5fS2EfOo
+X-MS-Exchange-CrossTenant-UserPrincipalName: K8vrms0EwT0XOl5g4AFLG55OyyvzBUmLMR5ceVwoO/b+VLiKcxct0+A+2eoczrSB9sf+aHCvWAV5dCydHsfduYgBXqUCglq1vceOuTbTdJOY0Und+kJVHApN98ejjnxm
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB12421
 
-Because functions are defined randomly, it needs function name
-definitions on top of soc-dapm.c. it is not needed if functions
-are implemented in correct order.
+Because header defined randomly, it needs name definitions on top of
+soc-dapm.h. it is not needed if definitions are implemented in correct
+order.
 
 This patch has big change from change-line point of view, but is
 just reordering, nothing changed in meaning.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/soc-dapm.c | 733 +++++++++++++++++++++----------------------
- 1 file changed, 364 insertions(+), 369 deletions(-)
+ include/sound/soc-dapm.h | 235 ++++++++++++++++++---------------------
+ 1 file changed, 110 insertions(+), 125 deletions(-)
 
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 79cd3c93a4fd..babb642c9655 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -49,14 +49,6 @@
- 	for ((dir) = SND_SOC_DAPM_DIR_IN; (dir) <= SND_SOC_DAPM_DIR_OUT; \
- 		(dir)++)
+diff --git a/include/sound/soc-dapm.h b/include/sound/soc-dapm.h
+index 6d854c727bca..5aeb0822ce0b 100644
+--- a/include/sound/soc-dapm.h
++++ b/include/sound/soc-dapm.h
+@@ -16,9 +16,10 @@
+ #include <sound/asoc.h>
  
--static int snd_soc_dapm_add_path(struct snd_soc_dapm_context *dapm,
--	struct snd_soc_dapm_widget *wsource, struct snd_soc_dapm_widget *wsink,
--	const char *control,
--	int (*connected)(struct snd_soc_dapm_widget *source,
--			 struct snd_soc_dapm_widget *sink));
+ struct device;
++struct regulator;
++struct soc_enum;
+ struct snd_pcm_substream;
+ struct snd_soc_pcm_runtime;
+-struct soc_enum;
+ 
+ /* widget has no PM register bit */
+ #define SND_SOC_NOPM	-1
+@@ -399,17 +400,6 @@ struct soc_enum;
+ /* regulator widget flags */
+ #define SND_SOC_DAPM_REGULATOR_BYPASS	0x1	/* bypass when disabled */
+ 
+-struct snd_soc_dapm_widget;
+-enum snd_soc_dapm_type;
+-struct snd_soc_dapm_path;
+-struct snd_soc_dapm_pin;
+-struct snd_soc_dapm_route;
+-struct snd_soc_dapm_context;
+-struct regulator;
+-struct snd_soc_dapm_widget_list;
+-struct snd_soc_dapm_update;
+-enum snd_soc_dapm_direction;
 -
--static unsigned int soc_dapm_read(struct snd_soc_dapm_context *dapm, int reg);
--
- /* dapm power sequences - make this per codec in the future */
- static int dapm_up_seq[] = {
- 	[snd_soc_dapm_pre] = 1,
-@@ -346,6 +338,320 @@ struct dapm_kcontrol_data {
- 	struct snd_soc_dapm_widget_list *wlist;
+ /*
+  * Bias levels
+  *
+@@ -428,104 +418,6 @@ enum snd_soc_bias_level {
+ 	SND_SOC_BIAS_ON = 3,
  };
  
-+static unsigned int soc_dapm_read(struct snd_soc_dapm_context *dapm, int reg)
-+{
-+	if (!dapm->component)
-+		return -EIO;
-+	return  snd_soc_component_read(dapm->component, reg);
-+}
+-int dapm_regulator_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol, int event);
+-int dapm_clock_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol, int event);
+-int dapm_pinctrl_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol, int event);
+-
+-/* dapm controls */
+-int snd_soc_dapm_put_volsw(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol);
+-int snd_soc_dapm_get_volsw(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol);
+-int snd_soc_dapm_get_enum_double(struct snd_kcontrol *kcontrol,
+-	struct snd_ctl_elem_value *ucontrol);
+-int snd_soc_dapm_put_enum_double(struct snd_kcontrol *kcontrol,
+-	struct snd_ctl_elem_value *ucontrol);
+-int snd_soc_dapm_info_pin_switch(struct snd_kcontrol *kcontrol,
+-	struct snd_ctl_elem_info *uinfo);
+-int snd_soc_dapm_get_pin_switch(struct snd_kcontrol *kcontrol,
+-	struct snd_ctl_elem_value *uncontrol);
+-int snd_soc_dapm_put_pin_switch(struct snd_kcontrol *kcontrol,
+-	struct snd_ctl_elem_value *uncontrol);
+-int snd_soc_dapm_get_component_pin_switch(struct snd_kcontrol *kcontrol,
+-					  struct snd_ctl_elem_value *uncontrol);
+-int snd_soc_dapm_put_component_pin_switch(struct snd_kcontrol *kcontrol,
+-					  struct snd_ctl_elem_value *uncontrol);
+-int snd_soc_dapm_new_controls(struct snd_soc_dapm_context *dapm,
+-	const struct snd_soc_dapm_widget *widget, unsigned int num);
+-struct snd_soc_dapm_widget *snd_soc_dapm_new_control(struct snd_soc_dapm_context *dapm,
+-		const struct snd_soc_dapm_widget *widget);
+-struct snd_soc_dapm_widget *snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
+-		const struct snd_soc_dapm_widget *widget);
+-int snd_soc_dapm_new_dai_widgets(struct snd_soc_dapm_context *dapm, struct snd_soc_dai *dai);
+-void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w);
+-int snd_soc_dapm_link_dai_widgets(struct snd_soc_card *card);
+-void snd_soc_dapm_connect_dai_link_widgets(struct snd_soc_card *card);
+-
+-int snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
+-			    struct snd_pcm_hw_params *params, struct snd_soc_dai *dai);
+-int snd_soc_dapm_widget_name_cmp(struct snd_soc_dapm_widget *widget, const char *s);
+-
+-/* dapm path setup */
+-int snd_soc_dapm_new_widgets(struct snd_soc_card *card);
+-void snd_soc_dapm_free(struct snd_soc_dapm_context *dapm);
+-void snd_soc_dapm_init(struct snd_soc_dapm_context *dapm,
+-		       struct snd_soc_card *card, struct snd_soc_component *component);
+-int snd_soc_dapm_add_routes(struct snd_soc_dapm_context *dapm,
+-			    const struct snd_soc_dapm_route *route, int num);
+-int snd_soc_dapm_del_routes(struct snd_soc_dapm_context *dapm,
+-			    const struct snd_soc_dapm_route *route, int num);
+-void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w);
+-
+-/* dapm events */
+-void snd_soc_dapm_stream_event(struct snd_soc_pcm_runtime *rtd, int stream, int event);
+-void snd_soc_dapm_stream_stop(struct snd_soc_pcm_runtime *rtd, int stream);
+-void snd_soc_dapm_shutdown(struct snd_soc_card *card);
+-
+-/* external DAPM widget events */
+-int snd_soc_dapm_mixer_update_power(struct snd_soc_dapm_context *dapm,
+-		struct snd_kcontrol *kcontrol, int connect, struct snd_soc_dapm_update *update);
+-int snd_soc_dapm_mux_update_power(struct snd_soc_dapm_context *dapm,
+-		struct snd_kcontrol *kcontrol, int mux, struct soc_enum *e,
+-		struct snd_soc_dapm_update *update);
+-
+-/* dapm sys fs - used by the core */
+-extern struct attribute *soc_dapm_dev_attrs[];
+-void snd_soc_dapm_debugfs_init(struct snd_soc_dapm_context *dapm, struct dentry *parent);
+-
+-/* dapm audio pin control and status */
+-int snd_soc_dapm_enable_pin(struct snd_soc_dapm_context *dapm, const char *pin);
+-int snd_soc_dapm_enable_pin_unlocked(struct snd_soc_dapm_context *dapm, const char *pin);
+-int snd_soc_dapm_disable_pin(struct snd_soc_dapm_context *dapm, const char *pin);
+-int snd_soc_dapm_disable_pin_unlocked(struct snd_soc_dapm_context *dapm, const char *pin);
+-int snd_soc_dapm_get_pin_status(struct snd_soc_dapm_context *dapm, const char *pin);
+-int snd_soc_dapm_sync(struct snd_soc_dapm_context *dapm);
+-int snd_soc_dapm_sync_unlocked(struct snd_soc_dapm_context *dapm);
+-int snd_soc_dapm_force_enable_pin(struct snd_soc_dapm_context *dapm, const char *pin);
+-int snd_soc_dapm_force_enable_pin_unlocked(struct snd_soc_dapm_context *dapm, const char *pin);
+-int snd_soc_dapm_ignore_suspend(struct snd_soc_dapm_context *dapm, const char *pin);
+-unsigned int dapm_kcontrol_get_value(const struct snd_kcontrol *kcontrol);
+-void dapm_mark_endpoints_dirty(struct snd_soc_card *card);
+-
+-/*
+- * Marks the specified pin as being not connected, disabling it along
+- * any parent or child widgets.  At present this is identical to
+- * snd_soc_dapm_disable_pin[_unlocked]() but in future it will be extended to do
+- * additional things such as disabling controls which only affect
+- * paths through the pin.
+- */
+-#define snd_soc_dapm_nc_pin		snd_soc_dapm_disable_pin
+-#define snd_soc_dapm_nc_pin_unlocked	snd_soc_dapm_disable_pin_unlocked
+-
+-/* dapm path query */
+-int snd_soc_dapm_dai_get_connected_widgets(struct snd_soc_dai *dai, int stream,
+-	struct snd_soc_dapm_widget_list **list,
+-	bool (*custom_stop_condition)(struct snd_soc_dapm_widget *, enum snd_soc_dapm_direction));
+-void snd_soc_dapm_dai_free_widgets(struct snd_soc_dapm_widget_list **list);
+-
+-struct snd_soc_dapm_context *snd_soc_dapm_kcontrol_dapm(struct snd_kcontrol *kcontrol);
+-struct snd_soc_dapm_widget *snd_soc_dapm_kcontrol_widget(struct snd_kcontrol *kcontrol);
+-
+-int snd_soc_dapm_force_bias_level(struct snd_soc_dapm_context *dapm, enum snd_soc_bias_level level);
+-
+ /* dapm widget types */
+ enum snd_soc_dapm_type {
+ 	snd_soc_dapm_input = 0,		/* input pin */
+@@ -717,11 +609,6 @@ struct snd_soc_dapm_widget_list {
+ 	struct snd_soc_dapm_widget *widgets[] __counted_by(num_widgets);
+ };
+ 
+-#define for_each_dapm_widgets(list, i, widget)				\
+-	for ((i) = 0;							\
+-	     (i) < list->num_widgets && (widget = list->widgets[i]);	\
+-	     (i)++)
+-
+ struct snd_soc_dapm_stats {
+ 	int power_checks;
+ 	int path_checks;
+@@ -733,6 +620,114 @@ struct snd_soc_dapm_pinctrl_priv {
+ 	const char *sleep_state;
+ };
+ 
++enum snd_soc_dapm_direction {
++	SND_SOC_DAPM_DIR_IN,
++	SND_SOC_DAPM_DIR_OUT
++};
 +
-+/* set up initial codec paths */
-+static void dapm_set_mixer_path_status(struct snd_soc_dapm_path *p, int i,
-+				       int nth_path)
-+{
-+	struct soc_mixer_control *mc = (struct soc_mixer_control *)
-+		p->sink->kcontrol_news[i].private_value;
-+	unsigned int reg = mc->reg;
-+	unsigned int invert = mc->invert;
++#define SND_SOC_DAPM_DIR_TO_EP(x) BIT(x)
 +
-+	if (reg != SND_SOC_NOPM) {
-+		unsigned int shift = mc->shift;
-+		unsigned int max = mc->max;
-+		unsigned int mask = (1 << fls(max)) - 1;
-+		unsigned int val = soc_dapm_read(p->sink->dapm, reg);
++#define SND_SOC_DAPM_EP_SOURCE	SND_SOC_DAPM_DIR_TO_EP(SND_SOC_DAPM_DIR_IN)
++#define SND_SOC_DAPM_EP_SINK	SND_SOC_DAPM_DIR_TO_EP(SND_SOC_DAPM_DIR_OUT)
 +
-+		/*
-+		 * The nth_path argument allows this function to know
-+		 * which path of a kcontrol it is setting the initial
-+		 * status for. Ideally this would support any number
-+		 * of paths and channels. But since kcontrols only come
-+		 * in mono and stereo variants, we are limited to 2
-+		 * channels.
-+		 *
-+		 * The following code assumes for stereo controls the
-+		 * first path is the left channel, and all remaining
-+		 * paths are the right channel.
-+		 */
-+		if (snd_soc_volsw_is_stereo(mc) && nth_path > 0) {
-+			if (reg != mc->rreg)
-+				val = soc_dapm_read(p->sink->dapm, mc->rreg);
-+			val = (val >> mc->rshift) & mask;
-+		} else {
-+			val = (val >> shift) & mask;
-+		}
-+		if (invert)
-+			val = max - val;
-+		p->connect = !!val;
-+	} else {
-+		/* since a virtual mixer has no backing registers to
-+		 * decide which path to connect, it will try to match
-+		 * with initial state.  This is to ensure
-+		 * that the default mixer choice will be
-+		 * correctly powered up during initialization.
-+		 */
-+		p->connect = invert;
-+	}
-+}
++int dapm_regulator_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol, int event);
++int dapm_clock_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol, int event);
++int dapm_pinctrl_event(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol, int event);
 +
-+/* connect mux widget to its interconnecting audio paths */
-+static int dapm_connect_mux(struct snd_soc_dapm_context *dapm,
-+			    struct snd_soc_dapm_path *path, const char *control_name,
-+			    struct snd_soc_dapm_widget *w)
-+{
-+	const struct snd_kcontrol_new *kcontrol = &w->kcontrol_news[0];
-+	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
-+	unsigned int item;
-+	int i;
++/* dapm controls */
++int snd_soc_dapm_put_volsw(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol);
++int snd_soc_dapm_get_volsw(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol);
++int snd_soc_dapm_get_enum_double(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol);
++int snd_soc_dapm_put_enum_double(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol);
++int snd_soc_dapm_info_pin_switch(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info *uinfo);
++int snd_soc_dapm_get_pin_switch(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uncontrol);
++int snd_soc_dapm_put_pin_switch(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uncontrol);
++int snd_soc_dapm_get_component_pin_switch(struct snd_kcontrol *kcontrol,
++					  struct snd_ctl_elem_value *uncontrol);
++int snd_soc_dapm_put_component_pin_switch(struct snd_kcontrol *kcontrol,
++					  struct snd_ctl_elem_value *uncontrol);
++int snd_soc_dapm_new_controls(struct snd_soc_dapm_context *dapm,
++	const struct snd_soc_dapm_widget *widget, unsigned int num);
++struct snd_soc_dapm_widget *snd_soc_dapm_new_control(struct snd_soc_dapm_context *dapm,
++		const struct snd_soc_dapm_widget *widget);
++struct snd_soc_dapm_widget *snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
++		const struct snd_soc_dapm_widget *widget);
++int snd_soc_dapm_new_dai_widgets(struct snd_soc_dapm_context *dapm, struct snd_soc_dai *dai);
++void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w);
++int snd_soc_dapm_link_dai_widgets(struct snd_soc_card *card);
++void snd_soc_dapm_connect_dai_link_widgets(struct snd_soc_card *card);
 +
-+	if (e->reg != SND_SOC_NOPM) {
-+		unsigned int val;
++int snd_soc_dapm_update_dai(struct snd_pcm_substream *substream,
++			    struct snd_pcm_hw_params *params, struct snd_soc_dai *dai);
++int snd_soc_dapm_widget_name_cmp(struct snd_soc_dapm_widget *widget, const char *s);
 +
-+		val = soc_dapm_read(dapm, e->reg);
-+		val = (val >> e->shift_l) & e->mask;
-+		item = snd_soc_enum_val_to_item(e, val);
-+	} else {
-+		/* since a virtual mux has no backing registers to
-+		 * decide which path to connect, it will try to match
-+		 * with the first enumeration.  This is to ensure
-+		 * that the default mux choice (the first) will be
-+		 * correctly powered up during initialization.
-+		 */
-+		item = 0;
-+	}
++/* dapm path setup */
++int snd_soc_dapm_new_widgets(struct snd_soc_card *card);
++void snd_soc_dapm_free(struct snd_soc_dapm_context *dapm);
++void snd_soc_dapm_init(struct snd_soc_dapm_context *dapm,
++		       struct snd_soc_card *card, struct snd_soc_component *component);
++int snd_soc_dapm_add_routes(struct snd_soc_dapm_context *dapm,
++			    const struct snd_soc_dapm_route *route, int num);
++int snd_soc_dapm_del_routes(struct snd_soc_dapm_context *dapm,
++			    const struct snd_soc_dapm_route *route, int num);
++void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w);
 +
-+	i = match_string(e->texts, e->items, control_name);
-+	if (i < 0)
-+		return -ENODEV;
++/* dapm events */
++void snd_soc_dapm_stream_event(struct snd_soc_pcm_runtime *rtd, int stream, int event);
++void snd_soc_dapm_stream_stop(struct snd_soc_pcm_runtime *rtd, int stream);
++void snd_soc_dapm_shutdown(struct snd_soc_card *card);
 +
-+	path->name = e->texts[i];
-+	path->connect = (i == item);
-+	return 0;
++/* external DAPM widget events */
++int snd_soc_dapm_mixer_update_power(struct snd_soc_dapm_context *dapm,
++		struct snd_kcontrol *kcontrol, int connect, struct snd_soc_dapm_update *update);
++int snd_soc_dapm_mux_update_power(struct snd_soc_dapm_context *dapm,
++		struct snd_kcontrol *kcontrol, int mux, struct soc_enum *e,
++		struct snd_soc_dapm_update *update);
 +
-+}
++/* dapm sys fs - used by the core */
++extern struct attribute *soc_dapm_dev_attrs[];
++void snd_soc_dapm_debugfs_init(struct snd_soc_dapm_context *dapm, struct dentry *parent);
 +
-+/* connect mixer widget to its interconnecting audio paths */
-+static int dapm_connect_mixer(struct snd_soc_dapm_context *dapm,
-+			      struct snd_soc_dapm_path *path, const char *control_name)
-+{
-+	int i, nth_path = 0;
-+
-+	/* search for mixer kcontrol */
-+	for (i = 0; i < path->sink->num_kcontrols; i++) {
-+		if (!strcmp(control_name, path->sink->kcontrol_news[i].name)) {
-+			path->name = path->sink->kcontrol_news[i].name;
-+			dapm_set_mixer_path_status(path, i, nth_path++);
-+			return 0;
-+		}
-+	}
-+	return -ENODEV;
-+}
++/* dapm audio pin control and status */
++int snd_soc_dapm_enable_pin(struct snd_soc_dapm_context *dapm, const char *pin);
++int snd_soc_dapm_enable_pin_unlocked(struct snd_soc_dapm_context *dapm, const char *pin);
++int snd_soc_dapm_disable_pin(struct snd_soc_dapm_context *dapm, const char *pin);
++int snd_soc_dapm_disable_pin_unlocked(struct snd_soc_dapm_context *dapm, const char *pin);
++int snd_soc_dapm_get_pin_status(struct snd_soc_dapm_context *dapm, const char *pin);
++int snd_soc_dapm_sync(struct snd_soc_dapm_context *dapm);
++int snd_soc_dapm_sync_unlocked(struct snd_soc_dapm_context *dapm);
++int snd_soc_dapm_force_enable_pin(struct snd_soc_dapm_context *dapm, const char *pin);
++int snd_soc_dapm_force_enable_pin_unlocked(struct snd_soc_dapm_context *dapm, const char *pin);
++int snd_soc_dapm_ignore_suspend(struct snd_soc_dapm_context *dapm, const char *pin);
++unsigned int dapm_kcontrol_get_value(const struct snd_kcontrol *kcontrol);
++void dapm_mark_endpoints_dirty(struct snd_soc_card *card);
 +
 +/*
-+ * dapm_update_widget_flags() - Re-compute widget sink and source flags
-+ * @w: The widget for which to update the flags
-+ *
-+ * Some widgets have a dynamic category which depends on which neighbors they
-+ * are connected to. This function update the category for these widgets.
-+ *
-+ * This function must be called whenever a path is added or removed to a widget.
++ * Marks the specified pin as being not connected, disabling it along
++ * any parent or child widgets.  At present this is identical to
++ * snd_soc_dapm_disable_pin[_unlocked]() but in future it will be extended to do
++ * additional things such as disabling controls which only affect
++ * paths through the pin.
 + */
-+static void dapm_update_widget_flags(struct snd_soc_dapm_widget *w)
-+{
-+	enum snd_soc_dapm_direction dir;
-+	struct snd_soc_dapm_path *p;
-+	unsigned int ep;
++#define snd_soc_dapm_nc_pin		snd_soc_dapm_disable_pin
++#define snd_soc_dapm_nc_pin_unlocked	snd_soc_dapm_disable_pin_unlocked
 +
-+	switch (w->id) {
-+	case snd_soc_dapm_input:
-+		/* On a fully routed card an input is never a source */
-+		if (w->dapm->card->fully_routed)
-+			return;
-+		ep = SND_SOC_DAPM_EP_SOURCE;
-+		snd_soc_dapm_widget_for_each_source_path(w, p) {
-+			if (p->source->id == snd_soc_dapm_micbias ||
-+			    p->source->id == snd_soc_dapm_mic ||
-+			    p->source->id == snd_soc_dapm_line ||
-+			    p->source->id == snd_soc_dapm_output) {
-+				ep = 0;
-+				break;
-+			}
-+		}
-+		break;
-+	case snd_soc_dapm_output:
-+		/* On a fully routed card a output is never a sink */
-+		if (w->dapm->card->fully_routed)
-+			return;
-+		ep = SND_SOC_DAPM_EP_SINK;
-+		snd_soc_dapm_widget_for_each_sink_path(w, p) {
-+			if (p->sink->id == snd_soc_dapm_spk ||
-+			    p->sink->id == snd_soc_dapm_hp ||
-+			    p->sink->id == snd_soc_dapm_line ||
-+			    p->sink->id == snd_soc_dapm_input) {
-+				ep = 0;
-+				break;
-+			}
-+		}
-+		break;
-+	case snd_soc_dapm_line:
-+		ep = 0;
-+		snd_soc_dapm_for_each_direction(dir) {
-+			if (!list_empty(&w->edges[dir]))
-+				ep |= SND_SOC_DAPM_DIR_TO_EP(dir);
-+		}
-+		break;
-+	default:
-+		return;
-+	}
++/* dapm path query */
++int snd_soc_dapm_dai_get_connected_widgets(struct snd_soc_dai *dai, int stream,
++	struct snd_soc_dapm_widget_list **list,
++	bool (*custom_stop_condition)(struct snd_soc_dapm_widget *, enum snd_soc_dapm_direction));
++void snd_soc_dapm_dai_free_widgets(struct snd_soc_dapm_widget_list **list);
 +
-+	w->is_ep = ep;
-+}
++struct snd_soc_dapm_context *snd_soc_dapm_kcontrol_dapm(struct snd_kcontrol *kcontrol);
++struct snd_soc_dapm_widget *snd_soc_dapm_kcontrol_widget(struct snd_kcontrol *kcontrol);
 +
-+static int snd_soc_dapm_check_dynamic_path(
-+	struct snd_soc_dapm_context *dapm,
-+	struct snd_soc_dapm_widget *source, struct snd_soc_dapm_widget *sink,
-+	const char *control)
-+{
-+	bool dynamic_source = false;
-+	bool dynamic_sink = false;
++int snd_soc_dapm_force_bias_level(struct snd_soc_dapm_context *dapm, enum snd_soc_bias_level level);
 +
-+	if (!control)
-+		return 0;
++#define for_each_dapm_widgets(list, i, widget)				\
++	for ((i) = 0;							\
++	     (i) < list->num_widgets && (widget = list->widgets[i]);	\
++	     (i)++)
 +
-+	switch (source->id) {
-+	case snd_soc_dapm_demux:
-+		dynamic_source = true;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	switch (sink->id) {
-+	case snd_soc_dapm_mux:
-+	case snd_soc_dapm_switch:
-+	case snd_soc_dapm_mixer:
-+	case snd_soc_dapm_mixer_named_ctl:
-+		dynamic_sink = true;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	if (dynamic_source && dynamic_sink) {
-+		dev_err(dapm->dev,
-+			"Direct connection between demux and mixer/mux not supported for path %s -> [%s] -> %s\n",
-+			source->name, control, sink->name);
-+		return -EINVAL;
-+	} else if (!dynamic_source && !dynamic_sink) {
-+		dev_err(dapm->dev,
-+			"Control not supported for path %s -> [%s] -> %s\n",
-+			source->name, control, sink->name);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int snd_soc_dapm_add_path(
-+	struct snd_soc_dapm_context *dapm,
-+	struct snd_soc_dapm_widget *wsource, struct snd_soc_dapm_widget *wsink,
-+	const char *control,
-+	int (*connected)(struct snd_soc_dapm_widget *source,
-+			 struct snd_soc_dapm_widget *sink))
-+{
-+	enum snd_soc_dapm_direction dir;
-+	struct snd_soc_dapm_path *path;
-+	int ret;
-+
-+	if (wsink->is_supply && !wsource->is_supply) {
-+		dev_err(dapm->dev,
-+			"Connecting non-supply widget to supply widget is not supported (%s -> %s)\n",
-+			wsource->name, wsink->name);
-+		return -EINVAL;
-+	}
-+
-+	if (connected && !wsource->is_supply) {
-+		dev_err(dapm->dev,
-+			"connected() callback only supported for supply widgets (%s -> %s)\n",
-+			wsource->name, wsink->name);
-+		return -EINVAL;
-+	}
-+
-+	if (wsource->is_supply && control) {
-+		dev_err(dapm->dev,
-+			"Conditional paths are not supported for supply widgets (%s -> [%s] -> %s)\n",
-+			wsource->name, control, wsink->name);
-+		return -EINVAL;
-+	}
-+
-+	ret = snd_soc_dapm_check_dynamic_path(dapm, wsource, wsink, control);
-+	if (ret)
-+		return ret;
-+
-+	path = kzalloc(sizeof(struct snd_soc_dapm_path), GFP_KERNEL);
-+	if (!path)
-+		return -ENOMEM;
-+
-+	path->node[SND_SOC_DAPM_DIR_IN] = wsource;
-+	path->node[SND_SOC_DAPM_DIR_OUT] = wsink;
-+
-+	path->connected = connected;
-+	INIT_LIST_HEAD(&path->list);
-+	INIT_LIST_HEAD(&path->list_kcontrol);
-+
-+	if (wsource->is_supply || wsink->is_supply)
-+		path->is_supply = 1;
-+
-+	/* connect static paths */
-+	if (control == NULL) {
-+		path->connect = 1;
-+	} else {
-+		switch (wsource->id) {
-+		case snd_soc_dapm_demux:
-+			ret = dapm_connect_mux(dapm, path, control, wsource);
-+			if (ret)
-+				goto err;
-+			break;
-+		default:
-+			break;
-+		}
-+
-+		switch (wsink->id) {
-+		case snd_soc_dapm_mux:
-+			ret = dapm_connect_mux(dapm, path, control, wsink);
-+			if (ret != 0)
-+				goto err;
-+			break;
-+		case snd_soc_dapm_switch:
-+		case snd_soc_dapm_mixer:
-+		case snd_soc_dapm_mixer_named_ctl:
-+			ret = dapm_connect_mixer(dapm, path, control);
-+			if (ret != 0)
-+				goto err;
-+			break;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	list_add(&path->list, &dapm->card->paths);
-+
-+	snd_soc_dapm_for_each_direction(dir)
-+		list_add(&path->list_node[dir], &path->node[dir]->edges[dir]);
-+
-+	snd_soc_dapm_for_each_direction(dir) {
-+		dapm_update_widget_flags(path->node[dir]);
-+		dapm_mark_dirty(path->node[dir], "Route added");
-+	}
-+
-+	if (snd_soc_card_is_instantiated(dapm->card) && path->connect)
-+		dapm_path_invalidate(path);
-+
-+	return 0;
-+err:
-+	kfree(path);
-+	return ret;
-+}
-+
- static int dapm_kcontrol_data_alloc(struct snd_soc_dapm_widget *widget,
- 	struct snd_kcontrol *kcontrol, const char *ctrl_name)
- {
-@@ -618,13 +924,6 @@ static const char *soc_dapm_prefix(struct snd_soc_dapm_context *dapm)
- 	return dapm->component->name_prefix;
+ /**
+  * snd_soc_dapm_init_bias_level() - Initialize DAPM bias level
+  * @dapm: The DAPM context to initialize
+@@ -764,16 +759,6 @@ static inline enum snd_soc_bias_level snd_soc_dapm_get_bias_level(
+ 	return dapm->bias_level;
  }
  
--static unsigned int soc_dapm_read(struct snd_soc_dapm_context *dapm, int reg)
--{
--	if (!dapm->component)
--		return -EIO;
--	return  snd_soc_component_read(dapm->component, reg);
--}
+-enum snd_soc_dapm_direction {
+-	SND_SOC_DAPM_DIR_IN,
+-	SND_SOC_DAPM_DIR_OUT
+-};
 -
- static int soc_dapm_update_bits(struct snd_soc_dapm_context *dapm,
- 	int reg, unsigned int mask, unsigned int value)
- {
-@@ -678,160 +977,60 @@ dapm_wcache_lookup(struct snd_soc_dapm_widget *w, const char *name)
-  * the context is already at the same level. Furthermore it will not go through
-  * the normal bias level sequencing, meaning any intermediate states between the
-  * current and the target state will not be entered.
-- *
-- * Note that the change in bias level is only temporary and the next time
-- * snd_soc_dapm_sync() is called the state will be set to the level as
-- * determined by the DAPM core. The function is mainly intended to be used to
-- * used during probe or resume from suspend to power up the device so
-- * initialization can be done, before the DAPM core takes over.
-- */
--int snd_soc_dapm_force_bias_level(struct snd_soc_dapm_context *dapm,
--	enum snd_soc_bias_level level)
--{
--	int ret = 0;
+-#define SND_SOC_DAPM_DIR_TO_EP(x) BIT(x)
 -
--	if (dapm->component)
--		ret = snd_soc_component_set_bias_level(dapm->component, level);
+-#define SND_SOC_DAPM_EP_SOURCE	SND_SOC_DAPM_DIR_TO_EP(SND_SOC_DAPM_DIR_IN)
+-#define SND_SOC_DAPM_EP_SINK	SND_SOC_DAPM_DIR_TO_EP(SND_SOC_DAPM_DIR_OUT)
 -
--	if (ret == 0)
--		dapm->bias_level = level;
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(snd_soc_dapm_force_bias_level);
--
--/**
-- * snd_soc_dapm_set_bias_level - set the bias level for the system
-- * @dapm: DAPM context
-- * @level: level to configure
-- *
-- * Configure the bias (power) levels for the SoC audio device.
-- *
-- * Returns 0 for success else error.
-- */
--static int snd_soc_dapm_set_bias_level(struct snd_soc_dapm_context *dapm,
--				       enum snd_soc_bias_level level)
--{
--	struct snd_soc_card *card = dapm->card;
--	int ret = 0;
--
--	trace_snd_soc_bias_level_start(dapm, level);
--
--	ret = snd_soc_card_set_bias_level(card, dapm, level);
--	if (ret != 0)
--		goto out;
--
--	if (dapm != &card->dapm)
--		ret = snd_soc_dapm_force_bias_level(dapm, level);
--
--	if (ret != 0)
--		goto out;
--
--	ret = snd_soc_card_set_bias_level_post(card, dapm, level);
--out:
--	trace_snd_soc_bias_level_done(dapm, level);
--
--	return ret;
--}
--
--/* connect mux widget to its interconnecting audio paths */
--static int dapm_connect_mux(struct snd_soc_dapm_context *dapm,
--	struct snd_soc_dapm_path *path, const char *control_name,
--	struct snd_soc_dapm_widget *w)
--{
--	const struct snd_kcontrol_new *kcontrol = &w->kcontrol_news[0];
--	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
--	unsigned int item;
--	int i;
--
--	if (e->reg != SND_SOC_NOPM) {
--		unsigned int val;
--		val = soc_dapm_read(dapm, e->reg);
--		val = (val >> e->shift_l) & e->mask;
--		item = snd_soc_enum_val_to_item(e, val);
--	} else {
--		/* since a virtual mux has no backing registers to
--		 * decide which path to connect, it will try to match
--		 * with the first enumeration.  This is to ensure
--		 * that the default mux choice (the first) will be
--		 * correctly powered up during initialization.
--		 */
--		item = 0;
--	}
--
--	i = match_string(e->texts, e->items, control_name);
--	if (i < 0)
--		return -ENODEV;
--
--	path->name = e->texts[i];
--	path->connect = (i == item);
--	return 0;
--
--}
--
--/* set up initial codec paths */
--static void dapm_set_mixer_path_status(struct snd_soc_dapm_path *p, int i,
--				       int nth_path)
--{
--	struct soc_mixer_control *mc = (struct soc_mixer_control *)
--		p->sink->kcontrol_news[i].private_value;
--	unsigned int reg = mc->reg;
--	unsigned int invert = mc->invert;
--
--	if (reg != SND_SOC_NOPM) {
--		unsigned int shift = mc->shift;
--		unsigned int max = mc->max;
--		unsigned int mask = (1 << fls(max)) - 1;
--		unsigned int val = soc_dapm_read(p->sink->dapm, reg);
--
--		/*
--		 * The nth_path argument allows this function to know
--		 * which path of a kcontrol it is setting the initial
--		 * status for. Ideally this would support any number
--		 * of paths and channels. But since kcontrols only come
--		 * in mono and stereo variants, we are limited to 2
--		 * channels.
--		 *
--		 * The following code assumes for stereo controls the
--		 * first path is the left channel, and all remaining
--		 * paths are the right channel.
--		 */
--		if (snd_soc_volsw_is_stereo(mc) && nth_path > 0) {
--			if (reg != mc->rreg)
--				val = soc_dapm_read(p->sink->dapm, mc->rreg);
--			val = (val >> mc->rshift) & mask;
--		} else {
--			val = (val >> shift) & mask;
--		}
--		if (invert)
--			val = max - val;
--		p->connect = !!val;
--	} else {
--		/* since a virtual mixer has no backing registers to
--		 * decide which path to connect, it will try to match
--		 * with initial state.  This is to ensure
--		 * that the default mixer choice will be
--		 * correctly powered up during initialization.
--		 */
--		p->connect = invert;
--	}
-+ *
-+ * Note that the change in bias level is only temporary and the next time
-+ * snd_soc_dapm_sync() is called the state will be set to the level as
-+ * determined by the DAPM core. The function is mainly intended to be used to
-+ * used during probe or resume from suspend to power up the device so
-+ * initialization can be done, before the DAPM core takes over.
-+ */
-+int snd_soc_dapm_force_bias_level(struct snd_soc_dapm_context *dapm,
-+	enum snd_soc_bias_level level)
-+{
-+	int ret = 0;
-+
-+	if (dapm->component)
-+		ret = snd_soc_component_set_bias_level(dapm->component, level);
-+
-+	if (ret == 0)
-+		dapm->bias_level = level;
-+
-+	return ret;
- }
-+EXPORT_SYMBOL_GPL(snd_soc_dapm_force_bias_level);
- 
--/* connect mixer widget to its interconnecting audio paths */
--static int dapm_connect_mixer(struct snd_soc_dapm_context *dapm,
--	struct snd_soc_dapm_path *path, const char *control_name)
-+/**
-+ * snd_soc_dapm_set_bias_level - set the bias level for the system
-+ * @dapm: DAPM context
-+ * @level: level to configure
-+ *
-+ * Configure the bias (power) levels for the SoC audio device.
-+ *
-+ * Returns 0 for success else error.
-+ */
-+static int snd_soc_dapm_set_bias_level(struct snd_soc_dapm_context *dapm,
-+				       enum snd_soc_bias_level level)
- {
--	int i, nth_path = 0;
-+	struct snd_soc_card *card = dapm->card;
-+	int ret = 0;
- 
--	/* search for mixer kcontrol */
--	for (i = 0; i < path->sink->num_kcontrols; i++) {
--		if (!strcmp(control_name, path->sink->kcontrol_news[i].name)) {
--			path->name = path->sink->kcontrol_news[i].name;
--			dapm_set_mixer_path_status(path, i, nth_path++);
--			return 0;
--		}
--	}
--	return -ENODEV;
-+	trace_snd_soc_bias_level_start(dapm, level);
-+
-+	ret = snd_soc_card_set_bias_level(card, dapm, level);
-+	if (ret != 0)
-+		goto out;
-+
-+	if (dapm != &card->dapm)
-+		ret = snd_soc_dapm_force_bias_level(dapm, level);
-+
-+	if (ret != 0)
-+		goto out;
-+
-+	ret = snd_soc_card_set_bias_level_post(card, dapm, level);
-+out:
-+	trace_snd_soc_bias_level_done(dapm, level);
-+
-+	return ret;
- }
- 
- static int dapm_is_shared_kcontrol(struct snd_soc_dapm_context *dapm,
-@@ -2783,210 +2982,6 @@ int snd_soc_dapm_widget_name_cmp(struct snd_soc_dapm_widget *widget, const char
- }
- EXPORT_SYMBOL_GPL(snd_soc_dapm_widget_name_cmp);
- 
--/*
-- * dapm_update_widget_flags() - Re-compute widget sink and source flags
-- * @w: The widget for which to update the flags
-- *
-- * Some widgets have a dynamic category which depends on which neighbors they
-- * are connected to. This function update the category for these widgets.
-- *
-- * This function must be called whenever a path is added or removed to a widget.
-- */
--static void dapm_update_widget_flags(struct snd_soc_dapm_widget *w)
--{
--	enum snd_soc_dapm_direction dir;
--	struct snd_soc_dapm_path *p;
--	unsigned int ep;
--
--	switch (w->id) {
--	case snd_soc_dapm_input:
--		/* On a fully routed card an input is never a source */
--		if (w->dapm->card->fully_routed)
--			return;
--		ep = SND_SOC_DAPM_EP_SOURCE;
--		snd_soc_dapm_widget_for_each_source_path(w, p) {
--			if (p->source->id == snd_soc_dapm_micbias ||
--				p->source->id == snd_soc_dapm_mic ||
--				p->source->id == snd_soc_dapm_line ||
--				p->source->id == snd_soc_dapm_output) {
--					ep = 0;
--					break;
--			}
--		}
--		break;
--	case snd_soc_dapm_output:
--		/* On a fully routed card a output is never a sink */
--		if (w->dapm->card->fully_routed)
--			return;
--		ep = SND_SOC_DAPM_EP_SINK;
--		snd_soc_dapm_widget_for_each_sink_path(w, p) {
--			if (p->sink->id == snd_soc_dapm_spk ||
--				p->sink->id == snd_soc_dapm_hp ||
--				p->sink->id == snd_soc_dapm_line ||
--				p->sink->id == snd_soc_dapm_input) {
--					ep = 0;
--					break;
--			}
--		}
--		break;
--	case snd_soc_dapm_line:
--		ep = 0;
--		snd_soc_dapm_for_each_direction(dir) {
--			if (!list_empty(&w->edges[dir]))
--				ep |= SND_SOC_DAPM_DIR_TO_EP(dir);
--		}
--		break;
--	default:
--		return;
--	}
--
--	w->is_ep = ep;
--}
--
--static int snd_soc_dapm_check_dynamic_path(struct snd_soc_dapm_context *dapm,
--	struct snd_soc_dapm_widget *source, struct snd_soc_dapm_widget *sink,
--	const char *control)
--{
--	bool dynamic_source = false;
--	bool dynamic_sink = false;
--
--	if (!control)
--		return 0;
--
--	switch (source->id) {
--	case snd_soc_dapm_demux:
--		dynamic_source = true;
--		break;
--	default:
--		break;
--	}
--
--	switch (sink->id) {
--	case snd_soc_dapm_mux:
--	case snd_soc_dapm_switch:
--	case snd_soc_dapm_mixer:
--	case snd_soc_dapm_mixer_named_ctl:
--		dynamic_sink = true;
--		break;
--	default:
--		break;
--	}
--
--	if (dynamic_source && dynamic_sink) {
--		dev_err(dapm->dev,
--			"Direct connection between demux and mixer/mux not supported for path %s -> [%s] -> %s\n",
--			source->name, control, sink->name);
--		return -EINVAL;
--	} else if (!dynamic_source && !dynamic_sink) {
--		dev_err(dapm->dev,
--			"Control not supported for path %s -> [%s] -> %s\n",
--			source->name, control, sink->name);
--		return -EINVAL;
--	}
--
--	return 0;
--}
--
--static int snd_soc_dapm_add_path(struct snd_soc_dapm_context *dapm,
--	struct snd_soc_dapm_widget *wsource, struct snd_soc_dapm_widget *wsink,
--	const char *control,
--	int (*connected)(struct snd_soc_dapm_widget *source,
--			 struct snd_soc_dapm_widget *sink))
--{
--	enum snd_soc_dapm_direction dir;
--	struct snd_soc_dapm_path *path;
--	int ret;
--
--	if (wsink->is_supply && !wsource->is_supply) {
--		dev_err(dapm->dev,
--			"Connecting non-supply widget to supply widget is not supported (%s -> %s)\n",
--			wsource->name, wsink->name);
--		return -EINVAL;
--	}
--
--	if (connected && !wsource->is_supply) {
--		dev_err(dapm->dev,
--			"connected() callback only supported for supply widgets (%s -> %s)\n",
--			wsource->name, wsink->name);
--		return -EINVAL;
--	}
--
--	if (wsource->is_supply && control) {
--		dev_err(dapm->dev,
--			"Conditional paths are not supported for supply widgets (%s -> [%s] -> %s)\n",
--			wsource->name, control, wsink->name);
--		return -EINVAL;
--	}
--
--	ret = snd_soc_dapm_check_dynamic_path(dapm, wsource, wsink, control);
--	if (ret)
--		return ret;
--
--	path = kzalloc(sizeof(struct snd_soc_dapm_path), GFP_KERNEL);
--	if (!path)
--		return -ENOMEM;
--
--	path->node[SND_SOC_DAPM_DIR_IN] = wsource;
--	path->node[SND_SOC_DAPM_DIR_OUT] = wsink;
--
--	path->connected = connected;
--	INIT_LIST_HEAD(&path->list);
--	INIT_LIST_HEAD(&path->list_kcontrol);
--
--	if (wsource->is_supply || wsink->is_supply)
--		path->is_supply = 1;
--
--	/* connect static paths */
--	if (control == NULL) {
--		path->connect = 1;
--	} else {
--		switch (wsource->id) {
--		case snd_soc_dapm_demux:
--			ret = dapm_connect_mux(dapm, path, control, wsource);
--			if (ret)
--				goto err;
--			break;
--		default:
--			break;
--		}
--
--		switch (wsink->id) {
--		case snd_soc_dapm_mux:
--			ret = dapm_connect_mux(dapm, path, control, wsink);
--			if (ret != 0)
--				goto err;
--			break;
--		case snd_soc_dapm_switch:
--		case snd_soc_dapm_mixer:
--		case snd_soc_dapm_mixer_named_ctl:
--			ret = dapm_connect_mixer(dapm, path, control);
--			if (ret != 0)
--				goto err;
--			break;
--		default:
--			break;
--		}
--	}
--
--	list_add(&path->list, &dapm->card->paths);
--
--	snd_soc_dapm_for_each_direction(dir)
--		list_add(&path->list_node[dir], &path->node[dir]->edges[dir]);
--
--	snd_soc_dapm_for_each_direction(dir) {
--		dapm_update_widget_flags(path->node[dir]);
--		dapm_mark_dirty(path->node[dir], "Route added");
--	}
--
--	if (snd_soc_card_is_instantiated(dapm->card) && path->connect)
--		dapm_path_invalidate(path);
--
--	return 0;
--err:
--	kfree(path);
--	return ret;
--}
--
- static int snd_soc_dapm_add_route(struct snd_soc_dapm_context *dapm,
- 				  const struct snd_soc_dapm_route *route)
- {
+ /**
+  * snd_soc_dapm_widget_for_each_path - Iterates over all paths in the
+  *   specified direction of a widget
 -- 
 2.43.0
 
