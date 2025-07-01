@@ -1,117 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4353F3D69;
-	Tue,  1 Jul 2025 21:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA1926E701
+	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 23:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751403901; cv=none; b=FT2uc+7YkupsHMooM2/th2vKOtaZap7CuJFjSFHdVIfzd0mUN9Rx6oD/GG4TuYJMqiOBJkSWvHeVBnvIiYBIbA/83v9/YPsfIxJ1wrPMCLbdaw8kzyYxTwjHw3a+0gz/X1FnBcywjXOVopH/zymf+QQqu5rrg2iExAdFf5ixkTs=
+	t=1751412617; cv=none; b=qOWgDTyC0tpKDujUgbDUY9nG2EnQ/qrez98ZWOd0G5fkmYIeT28dRzfZtmK5rHjCRFZsgnrYFnTOVbelzYl+CMzcDcLoBSBMa0mlt/a095E99P80al3eByUqgWQjYK4s0IVD1QuBF6jEie/y7iga1oZz7IrZR44hnN8aokBIBvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751403901; c=relaxed/simple;
-	bh=kqqT3nNWac2NHRYRDy7Rw3GgPGetnOYigSsJ33KJ2Ec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dVnD3jwx3ZMetWd/YaFGm5fX5uZnwOIboS8imG/rlBHRXSTbn66Z2UZTG0xqZVcFeDxIAay3KAf2+LiSFx4KYLWRPEIq3KDQhYzWqBDMZcVgit2lIR0A2mBoigneCA17jqmW4yNNyC/0YUDQvJAA68Mfa3/GBPzt2eUOpukSEbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KlaNoI3U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751412617; c=relaxed/simple;
+	bh=zRVKdNBo3oYtirxhyyChLEgwk1WbbXOs6Ro55DSo9TU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=aDQrGOoSXs6LqaKHH0EXK8WEmi30uCsx0s6N3qcdE6xxBcKElJd5gRVTJUgIZWPXZ8Yn46TrUSe9g8xvwtlkwerq5lXrmBuVHPjlgMHHV8F1rF8OhhUvHIcau53mxo/VoXO15rtkwLt1fH5sHEwbl1MXTLsCEd16VXDGxOWMsV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L6LB1v0F; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KlaNoI3U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB3F6C4CEEB;
-	Tue,  1 Jul 2025 21:04:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751403900;
-	bh=kqqT3nNWac2NHRYRDy7Rw3GgPGetnOYigSsJ33KJ2Ec=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KlaNoI3UAyZ6Eiq5HPz5xInwuyFHvHtvZX4XIRxAangejMShQ9iM8NtR4fnn79d0+
-	 5utNQzSejkQx3ygCNVmPmduW37dvK6BHsCbxpyT5onbFo1xbukpmTYOOKhwB+2JJih
-	 2keFsb3/uxRWL6dVtmPvmy+ozna1Ak6PGzFp99oD8zwUKkPXkYfFOyyDCeM+Glt9Lq
-	 OenNRTKfRB8N5aeTnZ8LilxKMkZV63p/FkDe6FoJ72MWSqiGG3ZM1DmZ8nRVTSkKye
-	 4iwY2cLZBZkZ9X8cwAa/0cC5RXWQMze06qaXwu1KjZcBee15M+D1Fs1Ro5mJ9JzuZL
-	 MzIUTxz5i+S6Q==
-Date: Tue, 1 Jul 2025 22:04:55 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Lee Jones <lee@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH 3/3] ASoC: codecs: add new pm4125 audio codec driver
-Message-ID: <af605c12-74c1-418e-9fe8-c0aa893a62bd@sirena.org.uk>
-References: <20250626-pm4125_audio_codec_v1-v1-0-e52933c429a0@linaro.org>
- <20250626-pm4125_audio_codec_v1-v1-3-e52933c429a0@linaro.org>
- <aF01gRFjsKgy6j4V@finisterre.sirena.org.uk>
- <DB0YYV10UD2Q.M36VAZJOVE7V@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L6LB1v0F"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4537edf2c3cso61697575e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 01 Jul 2025 16:30:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751412614; x=1752017414; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oxkUs9RFusjv08S72yLrh5Wg1MHFO9VcHZyNeP7ykBI=;
+        b=L6LB1v0Fyc0x7c52HaIjxJtK5WyOscysreC0zqmWS2UbMBM7yEPzy5MZDSGRtos00F
+         JekQ3y42bvNfK2GZOgYSz0nwd1oiY6MqrIfuENZP/Q27J49GTXZ20r/fB0fYtKpVwps6
+         7khnldEXzfeBrw1cHW8I1ACewuVCLLACagqTRUBPgATbzIgJjw15iaeeEHyNftoq1+0S
+         nfIO75fZYAryeoXAfSnFrBGzht6XZsWGvWZNVGWy813+FSCbD8trYVq5/pEt59NIYnmf
+         TTy39mSGbbDawZmc3/QLHcW6E24kMlLeeQCUCWEY6bmUzd+VR8gEu0fpMWtI8rAF7OKO
+         WuGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751412614; x=1752017414;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=oxkUs9RFusjv08S72yLrh5Wg1MHFO9VcHZyNeP7ykBI=;
+        b=d5CmTpgamb8AccHGRcLLhhK9194S6MvsBgKNjxqiwnCEApJtBWsmj2nGomtjZdVPpb
+         3FfyoYJqxV+mGwaTcdkfZm3VPWxeSb+d0bykPOtcv32n/2V5p/UUBzDQXc7hY45GkSbJ
+         PqPZ/ywUUq/aVH/38L7uIwpnmiOTwPbJ55mtm1e+X++3D0NWyurra4ALfSD7/pTowp5r
+         WVYO3QHCSMLDaRQFiVDGxY+4sUKcPXbO9cjJraNBQrs96+IonEFyAoGuUYi67XluyRjY
+         qpjCLmu3ZiEvPrCkUs/xlnOvEHu073H/G1YN08LAKAPc5F9y9k9tWwbWv2wH5uz4iKyQ
+         dRyg==
+X-Forwarded-Encrypted: i=1; AJvYcCXGxAilpBmt00VyMZRGympfKxlhDXR3pVdyLuWK7oNuVk5icOyuvVLge/BB+PaQK36eVV5Nlr1n7DS/Pg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQwPgQ//bTQkaDlhs/sCqtkEdU8IwJNP8pvlvRaZrOkLxccIXj
+	MOd69EFEBoJofdPhqVRjeAkKjIkfJMP2SF6aBp2SBs7AXsxRF6fPdxrKv6iA0tI9Mss=
+X-Gm-Gg: ASbGncteIHlKn0Jqs9fQfB5ZfplT7fFlaeA1ePLv4BJV6Q+ClJ/WWx3oq/9H6qisywR
+	E7IhTLyQJnbhp7ixlU16+QbQOLoVK+v/Mmp8QIoKC48dQsjzKaOrS1QvHj/59Kg+T52xGWr7uHc
+	yoG9DdSyRtgozprGw0x/qp70wxbLRP98oQa7/C5JpZFRSo4qfezGY//CTaC60ZYt4fQY4UPyHuJ
+	hTk9jbFbGIcsq6QqA8G7UQIUzf93gZxMDVjdfAoyXeerwMbAjjP5PcQrSobLTGWVVa2/BFdMmaV
+	/f+M1OK6wUn6dvEVNT8wGAiqtEzgWmWmBYsB7oHAit/fpoXF/gf79Awp/PxsrHAvu6nE
+X-Google-Smtp-Source: AGHT+IGWh47dzU/qedhk5q4wmllU/1FOhqD8rZdFeCpoKzh5IjU9RGIxJ/oggHk3EfGT1VRySLysbQ==
+X-Received: by 2002:a05:600c:6205:b0:43c:fc04:6d35 with SMTP id 5b1f17b1804b1-454a36deea0mr9755065e9.4.1751412613725;
+        Tue, 01 Jul 2025 16:30:13 -0700 (PDT)
+Received: from localhost ([2a02:c7c:7213:c700:4dad:b69a:9c81:2e57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453b35349f0sm25469415e9.1.2025.07.01.16.30.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jul 2025 16:30:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NrR+DzVE2uh2nwUd"
-Content-Disposition: inline
-In-Reply-To: <DB0YYV10UD2Q.M36VAZJOVE7V@linaro.org>
-X-Cookie: No shirt, no shoes, no service.
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 02 Jul 2025 00:30:12 +0100
+Message-Id: <DB13YER95DCW.1IBRJ65LED5GX@linaro.org>
+Subject: Re: [PATCH 1/3] dt-bindings: sound: add bindings for pm4125 audio
+ codec
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>
+Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>, "Lee
+ Jones" <lee@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, <linux-arm-msm@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: aerc 0.20.0
+References: <20250626-pm4125_audio_codec_v1-v1-0-e52933c429a0@linaro.org>
+ <20250626-pm4125_audio_codec_v1-v1-1-e52933c429a0@linaro.org>
+ <wcmalvywoginosy5pp7wskgdzjbwbydividmk4dtwguoltiobf@muw5lzkvgu5c>
+ <DAYBDV1I7HH0.1GG9U3LI5NQ97@linaro.org>
+ <d24b2a88-fda7-4a8a-bb5b-73d8a928ff89@kernel.org>
+In-Reply-To: <d24b2a88-fda7-4a8a-bb5b-73d8a928ff89@kernel.org>
 
+On Mon Jun 30, 2025 at 9:21 AM BST, Krzysztof Kozlowski wrote:
+> On 28/06/2025 18:41, Alexey Klimov wrote:
+>>=20
+>>>> +            #address-cells =3D <1>;
+>>>> +            #size-cells =3D <0>;
+>>>> +
+>>>> +            audio-codec@f000 {
+>>>> +                compatible =3D "qcom,pm4125-codec";
+>>>> +                reg =3D <0xf000>;
+>>>> +                vdd-io-supply =3D <&pm4125_l15>;
+>>>> +                vdd-cp-supply =3D <&pm4125_s4>;
+>>>> +                vdd-pa-vpos-supply =3D <&pm4125_s4>;
+>>>> +                vdd-mic-bias-supply =3D <&pm4125_l22>;
+>>>> +                qcom,micbias1-microvolt =3D <1800000>;
+>>>> +                qcom,micbias2-microvolt =3D <1800000>;
+>>>> +                qcom,micbias3-microvolt =3D <1800000>;
+>>>> +                qcom,rx-device =3D <&pm4125_rx>;
+>>>> +                qcom,tx-device =3D <&pm4125_tx>;
+>>>> +                #sound-dai-cells =3D <1>;
+>>>> +            };
+>>>> +        };
+>>>> +    };
+>>>> +
+>>>> +    /* ... */
+>>>> +
+>>>> +    soundwire@a610000 {
+>>>
+>>> Drop this and next one.
+>>=20
+>> The audio-codec node supposed to have qcom,{rx,tx}-device properties.
+>> If I'll drop it then the example doesn't compile well unless I am missin=
+g
+>> something?
+>
+> What did you drop and what did I ask to drop?
+>
+>>=20
+>> For example when I removed soundwire tx node completely and dropped
+>> qcom,tx-device then:
+>
+> I did not ask to drop qcom,tx-device.
 
---NrR+DzVE2uh2nwUd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Dmitry already explained. Ok.
 
-On Tue, Jul 01, 2025 at 08:35:42PM +0100, Alexey Klimov wrote:
-> On Thu Jun 26, 2025 at 12:56 PM BST, Mark Brown wrote:
-> > On Thu, Jun 26, 2025 at 12:50:31AM +0100, Alexey Klimov wrote:
+> ...
+>
+>>=20
+>>>> +  The audio codec IC found on Qualcomm PM4125/PM2250 PMICs.
+>>>> +  It has RX and TX Soundwire slave devices. This bindings is for the
+>>>> +  slave devices.
+>>>
+>>> Last sentence is redundant and makes no sense. Codec has only slave
+>>> devices, so how this can be anything else than for slave devices?
+>>=20
+>> This came from other similar files that describe bindings for child code=
+c nodes
+>> of soundwire nodes. For example from qcom,wcd937x-sdw.yaml.
+>> Should this be rephrased to "This bindings is for the soundwire slave de=
+vices." ?
+>
+> You just pasted the same, so I don't get how you want to rephrase into
+> the same sentence.
 
-> >> +static int pm4125_micbias_control(struct snd_soc_component *component,
-> >> +				  int micb_num, int req, bool is_dapm)
-> >> +{
-> >> +	return 0;
-> >> +}
+Not really.
+Original sentence: "This bindings is for the slave devices."
+Sentence from my email: "This bindings is for the soundwire slave devices."
 
-> > Why have this empty function which is only called from within the
-> > driver?  At best it's making the callers look like they do something.
+The difference is 1 word.
+If it doesn't work, then maybe any suggestions?
 
-> I tried to make a minimal working version that we're going to
-> update with more patches during next submission.
+Maybe "This bindings is for audio codec node that must be a child node of t=
+he
+associated soundwire master node."?
 
-Add the callers when you need them, right now this is just noise.
-Nobody can tell if the callers make sense since the function does
-nothing.
-
-> >> +#if defined(CONFIG_OF)
-> >> +static const struct of_device_id pm4125_of_match[] = {
-> >> +	{ .compatible = "qcom,pm4125-codec" },
-> >> +	{ }
-> >> +};
-> >> +MODULE_DEVICE_TABLE(of, pm4125_of_match);
-> >> +#endif
-
-> > Why does this compatible exist?  If the driver is instantiated from a
-> > as a Linux software contruct it shouldn't appear in the DT.
-
-> Could you please elaborate a bit more? Should it be instantiated
-> as an MFD device or platform device?
-
-Yes, if it's the child of a MFD then it shouldn't need to be described
-separately in the DT.
-
---NrR+DzVE2uh2nwUd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhkTXYACgkQJNaLcl1U
-h9BQzQf/Z0OuWDwT+Dt5fWFdAZ4GS1sdkgYhjrAu/KXXJCOlxBoYpC+qRLsJ6sED
-UQSYjYHW/cO/ikbjFRFNscVtsS7vqXwAUkseHz2hrExRhHar9nNMLKbhUJJTs/fT
-Cfklra0GkKWRjamgMFidePFJjXc+uf7S/6wJyZDmqageMWALWvzVOcp0C4dTEphU
-Fzu8NphJxJQCJPWm7p9ArVVVix17ev96cXGqWC1VtNHXz0rwl+w/Qb9NSQgMgZ3m
-qO2BwAiV/Rz0lodwvzpGNviz6lLa3aGRSXd6pjv6/AoasbrO30rZV+FHc99FvHPp
-H+IALIxAznUvPj7/oAXAZrGJPM5GAA==
-=K5hA
------END PGP SIGNATURE-----
-
---NrR+DzVE2uh2nwUd--
+Best regards,
+Alexey
