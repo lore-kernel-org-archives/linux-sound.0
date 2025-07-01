@@ -1,151 +1,93 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5869272E6E
-	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 11:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3AA1DDC11
+	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 12:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751370568; cv=none; b=KESFJEfJlFwOVo14CqlHlWWvm7/+HKxOd6cTDmWg+hj59gdMIha3mhYDeDPZioxZ6nuUGkA9lJYEb35A9c1V2XWxtlvgwTmqAvS4Y/+xEHjhD7oMspvLwF60B0K2F38XGRfg05uKMj9ZvzSOUYCPnkC6pNdUM2v9etcz6i3674k=
+	t=1751371550; cv=none; b=FQdpShi4zHppGEY47qDXNGDAVcQuSP6u8N+K/AufWXs4r9E/5i2Zx2oThWTOfk1T9tMG7JjkKcYLdwqiYAGy+bIOvfsDsyD6ma9pEFE8soPO5Xa6JeecZ8vrX3jGI5NLZM2eI3B5vZVFdbiDkd2dsjTJvOMPOXXA7Z/V8XLER54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751370568; c=relaxed/simple;
-	bh=ja0w59d5w5KdxtJ81fA0AE9mSPTrzuiQNR6v4rAyjhQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gzcc8UXQAmo/BJPNBlZbkMqnDjMcc3rmt0KX/WWZN16bGf5NIFFLoBidAtqpHpwlL9UuW/DLXEh8v1UMCYr8Skr55FVIFbTOUcotsPCDOJuclzEeDaLGuDewIBqN19m00SA2JJuGapcsqsCGRJYKULMl51n2aVWVC7CCrFvmNzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gUAnZeBS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gGTvwIdG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gUAnZeBS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gGTvwIdG; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1751371550; c=relaxed/simple;
+	bh=7deDd/ZCfoMKf6kJjEI2cAJHBO9rb69uxr6+NvD3rJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bPg3/0csSJ7fjvUDj0RisgX5QvLaISRj+jcxaFTe86XYK2hb32gcL7fnD5Oslpkjrlsd7biiFqRpBnI9MD2OODfEKQtYo4ovoOhscxt1rGwjR/rvHadmXxm9yyNF6SYlsVvFBbD1BttX47BO2aM1B0aP9OQxMGPmCQTCbpDPqpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pI8VOVcE; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gUAnZeBS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gGTvwIdG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gUAnZeBS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gGTvwIdG"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DD38E1F393;
-	Tue,  1 Jul 2025 11:49:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751370564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p8IIu6L6kvOVZcxKe/aD9fSmcasJAdkUr1mZG+3rs8E=;
-	b=gUAnZeBSGoFcJoBIS9CaGAkBKe2tt37t5KMk4rN5iEjo2i7WLZKn9zn9+nS6cUxCii0Qje
-	7qgvoke/IEqSc/Gazf7/iYtMbolOa/NCq38zoDkr6Tgj8vUnWpyEWKSDo69sw0AidJdBA5
-	LPgW4rOYvV9aPQzDrKaj+kvJ12ubUcg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751370564;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p8IIu6L6kvOVZcxKe/aD9fSmcasJAdkUr1mZG+3rs8E=;
-	b=gGTvwIdGVYRLD1TAJKfo6URGSum9vDKjHDRAkivHwijr+yae63OEFomKzvNrp53kHcwvc5
-	5QweWo9yv9xXO0DA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751370564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p8IIu6L6kvOVZcxKe/aD9fSmcasJAdkUr1mZG+3rs8E=;
-	b=gUAnZeBSGoFcJoBIS9CaGAkBKe2tt37t5KMk4rN5iEjo2i7WLZKn9zn9+nS6cUxCii0Qje
-	7qgvoke/IEqSc/Gazf7/iYtMbolOa/NCq38zoDkr6Tgj8vUnWpyEWKSDo69sw0AidJdBA5
-	LPgW4rOYvV9aPQzDrKaj+kvJ12ubUcg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751370564;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p8IIu6L6kvOVZcxKe/aD9fSmcasJAdkUr1mZG+3rs8E=;
-	b=gGTvwIdGVYRLD1TAJKfo6URGSum9vDKjHDRAkivHwijr+yae63OEFomKzvNrp53kHcwvc5
-	5QweWo9yv9xXO0DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E9961364B;
-	Tue,  1 Jul 2025 11:49:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id r9ZjJUTLY2i1WwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 01 Jul 2025 11:49:24 +0000
-Date: Tue, 01 Jul 2025 13:49:24 +0200
-Message-ID: <87sejg6shn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Takashi Iwai <tiwai@suse.de>,	Jaroslav Kysela <perex@perex.cz>,	Takashi
- Iwai <tiwai@suse.com>,	Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <u.kleine-koenig@baylibre.com>,	linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pI8VOVcE"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1751371545;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LIxrt0/rPsw1/RvYlC+bC/HFMwGL1pDNVfdMHrUT7EU=;
+	b=pI8VOVcE1PYTibv9Vb+fi6dGPTt8DdhE7xYOJLA0nDoYfhjjgu2euwln/D/o7wE9RP1rcI
+	iNCoiNKKcDXiD1me1GMGM3QJeWkgZDmESZ4wez/QmFaSGNvYOw6g09UtlEJP0MmUNcUA5o
+	ZEs03iEXoFmnQd/MCgZvuEfi7uxAbbE=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: mips/hal2: Refactor and improve hal2_compute_rate()
-In-Reply-To: <64167092-D0B5-4E78-AC07-62733EEEAD65@linux.dev>
-References: <20250630214554.182953-2-thorsten.blum@linux.dev>
-	<87wm8sclf8.wl-tiwai@suse.de>
-	<64167092-D0B5-4E78-AC07-62733EEEAD65@linux.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Subject: [PATCH] ALSA: pcmtest: Replace deprecated strcpy() with strscpy()
+Date: Tue,  1 Jul 2025 14:05:25 +0200
+Message-ID: <20250701120525.185831-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 01 Jul 2025 12:18:44 +0200,
-Thorsten Blum wrote:
-> 
-> On 1. Jul 2025, at 11:25, Takashi Iwai wrote:
-> > IMHO, this doesn't look improving the code readability than the
-> > original code.  And the generated code doesn't seem significantly
-> > better, either.
-> 
-> I didn't look at the generated code, but I think the patch definitely
-> improves the function (not necessarily its runtime, but its readability
-> and maintainability).
-> 
-> I think the patch primarily improves maintainability by eliminating the
-> magic number '4' that was scattered throughout the function. Now the
-> scaling factor is assigned once to the semantically more meaningful
-> variable 'codec->inc' and used consistently.
-> 
-> It also improves consistency by using 'codec->master' when calculating
-> 'codec->mod' instead of repeating the constants '44100' and '48000'.
-> 
-> Additionally, it removes the unnecessary local variable 'mod' and the
-> 'rate' update, making the function more concise (4 vs 12 lines).
+strcpy() is deprecated; use strscpy() instead.
 
-The line length doesn't matter.  It's a small code.  And it's no
-hot-path, and no common code used by many drivers, either.
-That is, the only question is how better the code is readable.
-And, often a simple if-block can be easier to follow the code flow --
-that's your case, too.
+No functional changes intended.
 
-In anyway, this is really really minor issue and we shouldn't waste
-too much time just for this kind of optimization. 
+Link: https://github.com/KSPP/linux/issues/88
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/drivers/pcmtest.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
+diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
+index 39f1e1fe4c44..19b3f306c564 100644
+--- a/sound/drivers/pcmtest.c
++++ b/sound/drivers/pcmtest.c
+@@ -36,6 +36,7 @@
+ #include <sound/core.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/platform_device.h>
++#include <linux/string.h>
+ #include <linux/timer.h>
+ #include <linux/random.h>
+ #include <linux/debugfs.h>
+@@ -555,7 +556,7 @@ static int snd_pcmtst_new_pcm(struct pcmtst *pcmtst)
+ 	if (err < 0)
+ 		return err;
+ 	pcm->private_data = pcmtst;
+-	strcpy(pcm->name, "PCMTest");
++	strscpy(pcm->name, "PCMTest");
+ 	pcmtst->pcm = pcm;
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_pcmtst_playback_ops);
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &snd_pcmtst_capture_ops);
+@@ -613,9 +614,9 @@ static int pcmtst_probe(struct platform_device *pdev)
+ 	if (err < 0)
+ 		return err;
+ 
+-	strcpy(card->driver, "PCM-TEST Driver");
+-	strcpy(card->shortname, "PCM-Test");
+-	strcpy(card->longname, "PCM-Test virtual driver");
++	strscpy(card->driver, "PCM-TEST Driver");
++	strscpy(card->shortname, "PCM-Test");
++	strscpy(card->longname, "PCM-Test virtual driver");
+ 
+ 	err = snd_card_register(card);
+ 	if (err < 0)
+-- 
+2.50.0
 
-thanks,
-
-Takashi
