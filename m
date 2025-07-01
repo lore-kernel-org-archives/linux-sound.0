@@ -1,159 +1,209 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2792B3596B;
-	Tue,  1 Jul 2025 17:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B7B2777F3
+	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 19:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751392662; cv=none; b=hieCgyydzGkjwPcD8uxGP22c05kiSoDYcvzKBR+6BnA9VJ2goKSQYjkhigzd7raXHIG9mOR96HX5cuMNKinC0oQTYft0fmBHTpnsSV7JCKmllFA4T+NNhCKDTBhys5KNXsSUSzxzUv2Ai2FNGushiQuXS/dKee+d+84raoi61/Q=
+	t=1751398549; cv=none; b=ELHEhuOPdyx5yDoyi1LlfyfysTAIBro76iGdlBqe5y5izkD8vcD+4Qh9WBXokWc6ap22jYhs54gJrpgSiNmmPJmXrEscM/En4zTcp+rgDY8grJw9RvBqRg4UFVH3BR1kqtpu+Qm5fvPA2hfNk7BeI+mLK/wT38coD/cr6u+KdxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751392662; c=relaxed/simple;
-	bh=Xcj3t8dS0FcmInmyKWAR0WJhIMN9tZ31T0nM7EtTJpo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CSXhZya4XURCXoKlKZ2QVG4sUG50x0Ww+OmXOfg7ZBKh8r6EG6kZklDtTW0FsRJNa4Cjk8TcBCwVmpOIDs9KM8w8bAmezXKn7pyvCN0UIdsUlm95N1H2EWBkHWLVdhNg6t51QM/bQfDB6ftINs+mThT6dPW7nHogvlT5g81PwLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iUsIsFLR; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751398549; c=relaxed/simple;
+	bh=+pmAczIoAz20Sgyz7Pn5reSR+IXgzDoQvoDClC/I1fA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=bLlE8Jv2aTBW9bDx0fmBJK3RCWsKtGAlZYuiqyfn4zj4jiG6KAlG2zQ+/X9tYd4s3RBrOp+8YPiYWxG7bZTHUDp7r/YMjmjWvPg1gcIAtb82iLqgUSSkj7Ry8oCL/bmfaeIUAya97i6hL+ZqeF9c6SJY8DbcUAqm6Np0WCVNRkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jjGn1ARo; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iUsIsFLR"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ae360b6249fso750356066b.1;
-        Tue, 01 Jul 2025 10:57:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jjGn1ARo"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a536ecbf6fso3533253f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 01 Jul 2025 12:35:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751392659; x=1751997459; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1751398546; x=1752003346; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pXjfR544OdpbJ9besQg+JvGQxJKjojQewq85hiTyzvw=;
-        b=iUsIsFLRo0peJdxeIvjPC8w2Xj21cg7MZDINLIla+fLfS+v6bxkabM0H5Q0Osishi6
-         UUZ0SIUnGa3fiaE92Kz9bd1QGsNVTiEUW7FC0cJAcQn8H2dWljRcmYm342h5SyAc7WYD
-         KqWdMNgAui9YjsBXz8kWTWXfusZPEsmVJ5W9YOuhJgjNMxn7LBHvK9uwRhHF2HBdkREW
-         JyaWKNDQFmkjUI1gVZGrzA0IRQP8ikXGo0yg/a2ayPKPWvncq08QgBIqPIhK2Vu3qLtd
-         iCvF63w9b454hh9W3pn+da87v1Icl0ZsNiR8NFKteNWoXUJAjGwMih5M48U+TeoxYK20
-         GaDQ==
+        bh=aN3BX1N8+BC+t/ow8nynRNiXWtKajXyZjEmDVu5QSCg=;
+        b=jjGn1ARo1MsU+akd6WRW9IjHuImBmWNFv2vepbSukxS6f12bHEAcumOAAHZkARzqSw
+         9aanTQ5RFELV0iCfIHvbzKj9Ufr/st7tZV9Uf/BO9ugU84DhRG0v4rQzlEdbJ0c/ynzd
+         ngsbtHrFuomWbEqb+X70evJCYMtlj9lPh/QE7MSyfam0q2B96lGLkEXG9Qb3yTekxCZl
+         xRe78oiusTQu95RVrsUIVTUFr4a04IAQRj+kt4dpXaRDk7D5ZsJKaXsF4Ay/FzuSQ94K
+         JTXtoqrX9rvvPaTbCm+vHEZQmyz8LFBBjveKJdNICwtL1+5vmV/mEwXmGHgpksdk3DC1
+         EKoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751392659; x=1751997459;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pXjfR544OdpbJ9besQg+JvGQxJKjojQewq85hiTyzvw=;
-        b=sVQ6LM1uKdTcWsRpvmMhCSfsZwekWzdzyAEGqF8nx/+e43poG2GrBssYpijs4DPwMB
-         QUNakoVVkmn225dhJ2Ah/fFMmeClmzouSEQzrdd1M2NfgHh4z4wniTIb26uWp7HYNR80
-         ypL/jFPrpSJBTaX4+QSggho1PaEY6+PhbjvGuDan5G+d0fG8sUrkV40y3sNQujk6p2LG
-         gLAELKO8H4/wwTSkqtFVN9qjeazgpAza5eA6DHLeS0JDX8JkVgZYLR3eu1KOMdf4BXWN
-         aqK4V1f01Ywyx4jzW6BmXAgYQAc11bgj79buSnm5gZ3SXEEJo+AxxZTRyo1R7amZYLWL
-         yTiw==
-X-Forwarded-Encrypted: i=1; AJvYcCUVy8txv5hM/+hSuI/nBkFn6sciUTOqmrIza6Z4MATGQRkWFZPHh6W7PFNMx62aS6WlENBSrOqzIqeG@vger.kernel.org, AJvYcCUYh/3YBv1eIHq8DRInHDBLAEmFMrOHWEueom13cLFsHpUWSBNjlr7B6a+L6qKXgil2tFStF96/ruPB@vger.kernel.org, AJvYcCUl/4+2LXagdrLUZ4u7f72e6Lw4rnyfO5dvFXvIj5SJV6GO9v66Gmgj5XJCgwld5BaBtigVz4Exz5csvw==@vger.kernel.org, AJvYcCVFajyBuFXmkHXMd12duyPWRVtLNot+iVJQ2/IPuCb0uJa6gCxkp4Xkk/ft5W0fJT69wnudFVsmiKLEeL8=@vger.kernel.org, AJvYcCVMM3qVPM93ghaLpM94wGg5djBKPtTjyghvV1y+wLFBTHwzMfa0QcrZJ3IT7iPcOPzh6XbhrlcJ@vger.kernel.org, AJvYcCVt3PauObtJgxRsytfRrfMRFYs7meOcw+YLXThV5ovyMad35OjbXCTm19HPF2x6XwLMSTY31TeHUin2@vger.kernel.org, AJvYcCWB9zAKg780CCcyghYnGyjDgwjPFyRtwiyVNldF8EJZDybh2g6wAI3sXIXtCCbbxCEM2rc5gx0I9QGd@vger.kernel.org, AJvYcCWTNg+wfy1z8mCD/919h9pxLk1WnuRvq7nQEHVTb+YIQlxIIMMcSaDFEScU+TWli8hRxmyvjL1rnjwj@vger.kernel.org, AJvYcCWTpf8edLOE12O7ljWgLR1PoBD5Q7pOH8XFMSO+qt2/9teyviBV2fMzn7mGHCIuU9DGKvZV4APecTn7DKhO@vger.kernel.org, AJvYcCWzLpehFBsFncirw4f3Yls10idYvrVYh6PTlarYFrlhboAOP9dq940VxmBDv6HlojJ4MnjRJgaw/EojpYg=@vger.kernel.org, AJvYcCX8hXB5mHBGjXE9tjVKBh1TE5C+51yE8VZwpkR2qotdZT0wmSKs2VYLJPSkhtwd3yf5cHdR46Uw8GncsOVa@vger.kernel.org, AJvYcCXDRYSqXJ9Ezu1RLo/SwxjSTIOa/G647ySbDPIqsfabcfI1xpy/1byYgi/ax+deLZwvzjkQxVtJO/8=@vger.kernel.org, AJvYcCXHNeWhtB4b5p5dsm0EflF1uQSI0DCPqiqflvwdZpVNDEoUPUnTeenoQg43EbD3X1JkuCC8J6x9j15Cq04v3L6T4yQ=@vger.kernel.org, AJvYcCXQAeJiMLfoDPN1XJ/5u6UnekWspCCP8LCUjucfOzv6fQofiveJmpcQjqKQVxTofwCIlK2J1vnSUX3y@vger.kernel.org, AJvYcCXrE5T3PSv+5HSh8qBMPdanjt4Q+ZYuWu0sb91nyrb0Nc90DWuATXDPnaGVQL53Hf582iw30kTfkbPqLQ==@vger.kernel.org, AJvYcCXrP5dOej6d3xvPVaf+mLWcS6a71IXhslX1x9UZphNsd6XgtvfbDD5VmpKc16cnh6EgdR7JjSx6YfxCpg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7MPPdXThqK15+abUr6j6KjvMcKc59g+Qv1fDXLHKI7HAX/iUd
-	y++Eq+5rPUGBreX7Jh1RwPNwHTEc+XB0b29HZJbs5/hVVzXp8FYlul82NNbM3MO4aM2ph4eWdXx
-	m50Vhz7xoDL74S+Ri/CTZZaS7IFVIswI=
-X-Gm-Gg: ASbGnctGtb3rAmJjJkxzrhubY3ksEybJjyB+5oLMHM8qciye+1xs+zPjo2zIb48G12U
-	PxQAG7NjFxDPU5bzK7Q3RFur/3s00DJBgthiyETtX3VTvj4o+HYi5OFKE+hDXqdACYbnOXOHVl+
-	hj7YhjckPnuLlO204B0V1gG7mAj5AhXebUfjMnqmXLjHM=
-X-Google-Smtp-Source: AGHT+IFi2mQZLuvuKUJ5Vmbx2bMFhgEtTB1rODdhMnUJkkTAqMfdBOcO66FNReafO5ChqP0c8B6r5Lro21q2uCkd3k4=
-X-Received: by 2002:a17:907:1c18:b0:ae0:4410:47e3 with SMTP id
- a640c23a62f3a-ae3501a58a6mr1915225466b.51.1751392659068; Tue, 01 Jul 2025
- 10:57:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1751398546; x=1752003346;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=aN3BX1N8+BC+t/ow8nynRNiXWtKajXyZjEmDVu5QSCg=;
+        b=UDnZ2ANzJXzzDncI6G3aFrd9BLRS+c/KMUMCW4d5rdOSEIYhebtoBXXfltHCsnP4Ug
+         YasCSdUpRcIxe/eUwWissxMsnnzOkm/GxhxeRPM/+xQaSXc5GZNyl1EH4GWz4wfNh7x/
+         DQ8nAiWrtZ92gmfWD81p4Op5evhbTYN4M9WJMVdkGK1F1dr1lMAvDk1dRHdpQkSxSoll
+         A+SkeSTsfkGoKSOkNiHjOA1SO7sNMpxkS84YRhXQlkzb/as/YDoUJInBiebzGbjHwtPb
+         OY1lUtxvn4tO/PlbcVqv6ylpHcodvshI8G71Al/SFVZXzsP2R7RVLRP4vdv4zKoDNMh6
+         DiGw==
+X-Forwarded-Encrypted: i=1; AJvYcCViYa4LIV7Riwtx7zrme7rtjdFpgQwfZvrH64JPTdzvQrjOxZYmNunn4i49NrMXKLIDMRGX+UUDtcDrGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZdq+zj5vNjHGv/0eBle2YXCMeYbU93KG3g5wXTbiG91O+zstb
+	+OA+Wpw/ZWXN0RSVl/wgDofgNnOfi2Pz9NnJPNdXzaImOBwKUKSNv7oqno2zY6fMO5w=
+X-Gm-Gg: ASbGncs5BFu99UG4pCITZZDoPJTW8WR5uys9CbKOpIGGdtcLY4Xp2SeRYtWi612/Wg5
+	4JARVN6hmg5vxxKOsQeQLz/9yrF7ePHd2YHK7V9MwgVAfR2mVY1eIMQ98ehE6IhvJg63do8tTnD
+	09uuog65pyJDDvAIDlJU5+l7Mz9V4APzgPT1PmPBndvZlIkrx54dElw+e4VKNUI1s7aQ6B9P1wG
+	kyst78787ViXPdo4LyhI8xsdY2uX/XLYjSTjkDNoaIdQ3XiPmhdYP1YtZOupPPOJnNIrswXz6r5
+	nOfS5HYzU2Wz37IbkOILVkmMVdzC9bvi6hUCgdkPGGs59qomTEi3X6nE/U5p4kDGL0/f
+X-Google-Smtp-Source: AGHT+IHKNKmkuKmDbrMhk4D/Fosqh/fvD260/xNJ3I/m+eUhB036LtpCqopLJVCj9MPeocJBMoTfxA==
+X-Received: by 2002:a05:6000:440d:b0:3a4:dcfb:3118 with SMTP id ffacd0b85a97d-3a8fdb2a65fmr11528022f8f.10.1751398545560;
+        Tue, 01 Jul 2025 12:35:45 -0700 (PDT)
+Received: from localhost ([2a02:c7c:7213:c700:4dad:b69a:9c81:2e57])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e61f48sm14258924f8f.93.2025.07.01.12.35.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Jul 2025 12:35:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <pnd7c0s6ji2.fsf@axis.com> <ylr7cuxldwb24ccenen4khtyddzq3owgzzfblbohkdxb7p7eeo@qpuddn6wrz3x>
-In-Reply-To: <ylr7cuxldwb24ccenen4khtyddzq3owgzzfblbohkdxb7p7eeo@qpuddn6wrz3x>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 1 Jul 2025 20:57:02 +0300
-X-Gm-Features: Ac12FXyruF9twzstORuqQqTbcXFq7Oy0k32bhmiSfPFWKw8o7JRMkyPmwEAJIYk
-Message-ID: <CAHp75Ve=Zas8=6YKoPeTRrvjCaTyyRAyJG1gBLripqZgQpfg7g@mail.gmail.com>
-Subject: Re: [PATCH] Remove error prints for devm_add_action_or_reset()
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Waqar Hameed <waqar.hameed@axis.com>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Julien Panis <jpanis@baylibre.com>, William Breathitt Gray <wbg@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Peter Rosin <peda@axentia.se>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Matteo Martelli <matteomartelli3@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Francesco Dolcini <francesco@dolcini.it>, 
-	=?UTF-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?= <jpaulo.silvagoncalves@gmail.com>, 
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>, Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>, 
-	Mudit Sharma <muditsharma.info@gmail.com>, Gerald Loacker <gerald.loacker@wolfvision.net>, 
-	Song Qiang <songqiang1304521@gmail.com>, Crt Mori <cmo@melexis.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Karol Gugala <kgugala@antmicro.com>, Mateusz Holenko <mholenko@antmicro.com>, 
-	Gabriel Somlo <gsomlo@gmail.com>, Joel Stanley <joel@jms.id.au>, 
-	Claudiu Manoil <claudiu.manoil@nxp.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, 
-	Wei Fang <wei.fang@nxp.com>, Clark Wang <xiaoning.wang@nxp.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Sebastian Reichel <sre@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Han Xu <han.xu@nxp.com>, 
-	Haibo Chen <haibo.chen@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Avri Altman <avri.altman@wdc.com>, 
-	Bart Van Assche <bvanassche@acm.org>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, 
-	Souradeep Chowdhury <quic_schowdhu@quicinc.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, kernel@axis.com, linux-iio@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-input@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, imx@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-spi@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, sound-open-firmware@alsa-project.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 01 Jul 2025 20:35:42 +0100
+Message-Id: <DB0YYV10UD2Q.M36VAZJOVE7V@linaro.org>
+Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Lee Jones" <lee@kernel.org>, "Jaroslav
+ Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH 3/3] ASoC: codecs: add new pm4125 audio codec driver
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Mark Brown" <broonie@kernel.org>
+X-Mailer: aerc 0.20.0
+References: <20250626-pm4125_audio_codec_v1-v1-0-e52933c429a0@linaro.org>
+ <20250626-pm4125_audio_codec_v1-v1-3-e52933c429a0@linaro.org>
+ <aF01gRFjsKgy6j4V@finisterre.sirena.org.uk>
+In-Reply-To: <aF01gRFjsKgy6j4V@finisterre.sirena.org.uk>
 
-On Tue, Jul 1, 2025 at 8:44=E2=80=AFPM Uwe Kleine-K=C3=B6nig <ukleinek@kern=
-el.org> wrote:
-> On Tue, Jul 01, 2025 at 05:03:33PM +0200, Waqar Hameed wrote:
-
-...
-
-> With that
+On Thu Jun 26, 2025 at 12:56 PM BST, Mark Brown wrote:
+> On Thu, Jun 26, 2025 at 12:50:31AM +0100, Alexey Klimov wrote:
 >
->         ret =3D devm_add_action_or_reset(dev, meson_pwm_s4_put_clk,
->                                        meson->channels[i].clk);
->         if (ret)
->                 return dev_err_probe(dev, ret,
->                                      "Failed to add clk_put action\n");
+>> --- a/sound/soc/codecs/Kconfig
+>> +++ b/sound/soc/codecs/Kconfig
+>> @@ -297,6 +297,7 @@ config SND_SOC_ALL_CODECS
+>>  	imply SND_SOC_WCD937X_SDW
+>>  	imply SND_SOC_WCD938X_SDW
+>>  	imply SND_SOC_WCD939X_SDW
+>> +	imply SND_SOC_PM4125_SDW
+>>  	imply SND_SOC_LPASS_MACRO_COMMON
+>>  	imply SND_SOC_LPASS_RX_MACRO
+>>  	imply SND_SOC_LPASS_TX_MACRO
 >
-> from drivers/pwm/pwm-meson.c is optimized to
+> Please keep this file sorted, there's obviously been some things missed
+> but please don't make it worse.
 >
->         ret =3D devm_add_action_or_reset(dev, meson_pwm_s4_put_clk,
->                                        meson->channels[i].clk);
->         if (ret)
->                 return ret;
+>> +obj-$(CONFIG_SND_SOC_PM4125_SDW) +=3D snd-soc-pm4125-sdw.o
+>> +obj-$(CONFIG_SND_SOC_PM4125)   +=3D snd-soc-pm4125.o
+>> +ifdef CONFIG_SND_SOC_PM4125_SDW
+>> +# avoid link failure by forcing sdw code built-in when needed
+>> +obj-$(CONFIG_SND_SOC_PM4125) +=3D snd-soc-pm4125-sdw.o
+>> +endif
 >
-> .
->
-> I would prefer this approach, because a) there is no need to drop all
-> dev_err_probe()s after devm_add_action_or_reset() and b) the
-> dev_err_probe()s could stay for consistency in the error paths of a
-> driver.
+> Other drivers sort this out in Kconfig, do as they do.
 
-Why do we need a dev_err_probe() after devm_add_action*()? I would
-expect that the original call (if needed) can spit out a message.
+My bad, thanks for pointing it out. I'll change that.
+
+>> +static int pm4125_micbias_control(struct snd_soc_component *component,
+>> +				  int micb_num, int req, bool is_dapm)
+>> +{
+>> +	return 0;
+>> +}
+>
+> Why have this empty function which is only called from within the
+> driver?  At best it's making the callers look like they do something.
+
+I tried to make a minimal working version that we're going to
+update with more patches during next submission.
+
+Right now there seems to be at least two approaches:
+-- pull in everything and send it in one go. Srini said that it will
+be much more difficult to review due to the volume of code;
+-- provide few patches that iteratively update the initial one and
+add more functionality. The similar way when wcd937x was posted.
+I counted there 5 patches for wcd937x. We probably can do that with
+this audio-codec. In that case I need to figure out the right way
+to split it.
+
+My main issue was MBHC part -- it is needed to avoid IRQ storm
+from pdm watchdog interrupts but MBHC requires more things to be
+added for its support, that's why there are some empty/placeholder
+functions.
+
+What do you think should be the right strategy here?
+
+In theory I can remove MBHC and make much smaller driver but
+it will suffer from IRQ storms with some kernel WARNINGs generated.
+Or maybe I should remove watchdog interrupts from it as well.
+
+>> +static irqreturn_t pm4125_wd_handle_irq(int irq, void *data)
+>> +{
+>> +	return IRQ_HANDLED;
+>> +}
+>
+> Why bother regisering for the interrupt at all if you're just going to
+> ignore it?
+
+This approach seems to be inherited from older wcd-family codec and
+wcd939x.c (wcd939x_wd_handle_irq) provides this comment that I can copy
+and adjust here like this:
+
+/*
+ * HPHR/HPHL Watchdog interrupt threaded handler
+ *
+ * Watchdog interrupts are expected to be enabled when switching on  the HP=
+HL/R
+ * in order to make sure the interrupts are acked by the regmap_irq handler
+ * io allow PDM sync. We could leave those interrupts masked but we would
+ * not haveany valid way to enable/disable them without violating irq layer=
+s.
+ *
+ * The HPHR/HPHL Watchdog interrupts are handled by regmap_irq, so requesti=
+ng
+ * a threaded handler is the safest way to be able to ack those interrupts
+ * without colliding with the regmap_irq setup.
+ */
 
 
---=20
-With Best Regards,
-Andy Shevchenko
+>> +#if defined(CONFIG_OF)
+>> +static const struct of_device_id pm4125_of_match[] =3D {
+>> +	{ .compatible =3D "qcom,pm4125-codec" },
+>> +	{ }
+>> +};
+>> +MODULE_DEVICE_TABLE(of, pm4125_of_match);
+>> +#endif
+>
+> Why does this compatible exist?  If the driver is instantiated from a
+> as a Linux software contruct it shouldn't appear in the DT.
+
+Could you please elaborate a bit more? Should it be instantiated
+as an MFD device or platform device?
+
+As far as I understood we need references to soundwire child nodes
+of the codec (which are in DT) hence this one is described in the DT.
+
+
+>> +const u8 pm4125_reg_access_digital[
+>> +	PM4125_REG(PM4125_DIGITAL_REGISTERS_MAX_SIZE)] =3D {
+>> +		[PM4125_REG(PM4125_DIG_SWR_CHIP_ID0)] =3D RD_REG,
+>> +		[PM4125_REG(PM4125_DIG_SWR_CHIP_ID1)] =3D RD_REG,
+>> +		[PM4125_REG(PM4125_DIG_SWR_CHIP_ID2)] =3D RD_REG,
+>
+> Data tables like this shouldn't be in headers, they should be in C
+> files.  At worst you might end up with duplicate copies in the object
+> code.
+
+Thanks, I pull in a change/patch that fixes-reworks this.
+
+Thank you,
+Alexey Klimov
+
