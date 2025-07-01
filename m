@@ -1,111 +1,72 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4813425BF00;
-	Tue,  1 Jul 2025 10:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D90715E96
+	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 10:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751365789; cv=none; b=uqYbx4vkqTWXiGGaAFj87KMrhx0NxwzgKqAq6qJ8huFzEagN8oFQBiy7VTmteL/4zsz7A+/R4h8CBZbIABwVeZbfP/dORXBlmWjr5c/02/kxiO/goO67qAPq/Pn9gmFuN8iFXDHR8pirAOu6B/r0DVKhneQTRc/Zy0QGyGVWrLc=
+	t=1751365991; cv=none; b=ETciVFyNkxuuXl/cwekDUCaFyYUbbhMK/ercjz9/4TdamU0QUvwvAp9dmd+q+iiwt/Viie6fjwMCb0DsILFeuNnDtjQlmY9x3rhkiFraGxBRo5chnO88uA2NKOrLkTDcQwyWfOpPxRQ+Q3fP93EkWum8ei3ZzAkcsSHVRTNvsyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751365789; c=relaxed/simple;
-	bh=kPFXJCr9D+md/YcVAVbgP4zMlnt8rlaUuwr4oT7O/7Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JhRsob82MM1tksyUro+07GJR03VMlooPvxvARqQ6nW8+yY+CySZ1etZboLjU0GAnsOCiUO01/RMgyQKF3ExY8DuRSFtkpepfpD5Klwu7E8qug/KV9WS/j+RUqQXSOzbI9R3UIjTYFjBJhTYgAuzq8LDJ5vLSdVx3B5zD/ehKi+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TkIcy4rw; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1751365991; c=relaxed/simple;
+	bh=QCSyPRXZTLQan3kdBlQpmruhGIRn/0Th3vInjWm13QI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=LFkLs6LvmJN9ArZoI0PpKjN8LD5JOz8o+8JPKoQV7vRyTg07vIGMj//Rp8+SRTIFjd00138iHCGaj7sHDNkxiWPusNn1mn/xuqlCXs0mhxmbb1niQjBVcJcJfZG5Bh6+THQzUixphJHZbTXvzUpOdjH25t/3BMA+VVQ7Y13gcOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=snV9boYb; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TkIcy4rw"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5619pU3g007048;
-	Tue, 1 Jul 2025 10:29:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=vO7Vr7MxHIfmpgfRREt3nzlagvjPa9eneFB
-	SDbg6Gxc=; b=TkIcy4rwIFkFVW3myIJIA5Uj/hoiNruUXaFNPHSK1PWfuPQq6wT
-	277hJm/MfL436ixW6JqXsPWrYE+XcgysjcNfNQkde/gqIfh5InFbbRyH7z623VQT
-	nDVzfAwfcLXOA9zQqQ5F69B6z7k0B5P0Q8sxJIeLctamcgOtr4yHUAC7izMIPNqy
-	JIcyF6o4rkiWUT+PrBjTAvS9sdRq5xP44Cm25V8dX9l55ep9NyVgtKfIXZgcEVLm
-	x37hiE25XyrdgmXaxOjmxnST9wjUWUE8CnyJI0pCXPfkgTbvUqttmrOC65FlsrkA
-	diBbXSX+U9DcdnCfWQDP6Wk6Tl1folavFug==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47kn5jct8m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Jul 2025 10:29:37 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 561ATWLm030927;
-	Tue, 1 Jul 2025 10:29:32 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 47m1bxafd5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Jul 2025 10:29:32 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 561ATWR2030912;
-	Tue, 1 Jul 2025 10:29:32 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 561ATWd0030907
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Jul 2025 10:29:32 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id 40D2A5BE; Tue,  1 Jul 2025 15:59:31 +0530 (+0530)
-From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_pkumpatl@quicinc.com, kernel@oss.qualcomm.com
-Subject: [PATCH v1 0/2] Add sound card support for QCS8275
-Date: Tue,  1 Jul 2025 15:59:13 +0530
-Message-Id: <20250701102915.4016108-1-quic_pkumpatl@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="snV9boYb"
+Message-ID: <fa12aacd-a8ef-4f3f-9d1f-3ae42c25b7e0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1751365984;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BvP7MP7Eeq9pLNYV7/bXnNgVnW43ucGjY5DRm2gNQ7E=;
+	b=snV9boYbmS891wKCRR/wG8+dP7EBPEKJu7A/lZ/a1jI6ZsbM8HXqvRuI4Xbj3TU3PjmwwP
+	RLXXKrV1gLZtke04dSIX29jsyoUsZvhnwGo3VHmfx1FoorWgKlag70PTjuc2ZeuQxOumk4
+	mq6jQ2sb7u8AWUUl0RKkCxFnsC6z6S4=
+Date: Tue, 1 Jul 2025 12:33:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=KtJN2XWN c=1 sm=1 tr=0 ts=6863b891 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=Wb1JkmetP80A:10 a=FlgLVNPGBAFpXXl924kA:9 a=zgiPjhLxNE0A:10
-X-Proofpoint-ORIG-GUID: 8ZCXsYrzddB2B6GF-WyjzxDwcqsQ_8DC
-X-Proofpoint-GUID: 8ZCXsYrzddB2B6GF-WyjzxDwcqsQ_8DC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDA2MyBTYWx0ZWRfX03V9vNUgwcqf
- rrrmOHFxowaNzfunXKFY7Abuvm38y8j8NlxJft3zf5jdGqRIpauz37gq52InkVUKbhzD3ZZWrxE
- +QL+Sz3hqwTTG8mRlmqtIA1br4NjEyBLqgSJ7wl9GLNiUyYQ5odZE4bQhYAzlTEQDdGpdLSBBQ9
- walx0xGfgf5RBjiL4DrVPn13dN6OJFVfPXU1eKHCfBi6Kv2VdTLsJRsMfiuMvmSm1Qn/DJ1+OZo
- XfV7gd6L9wOAvBV+4mWDGHQVZKzbkZAF0JU8+CZAgdQH8+VPVXkLYqETCjLx9YMth9C+ua67iuo
- lpphlmAvUBISd6rHiMGjTnKVhgahMg6h+C3wS4TEWQqdc11Pj9fwFpINk7lbjG3pKVKW92dNR+k
- YMVUWAQdSlzwhg5QkUPvMf8Z6PAHl/NCZNy2O/w8y729aVoxvnTrgMP5ESYdkpbVUS1jQteO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
- mlxscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- clxscore=1011 mlxlogscore=720 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507010063
-
-This patchset adds support for sound card on Qualcomm QCS8275 boards.
-
-Prasad Kumpatla (2):
-  ASoC: dt-bindings: qcom,qcs8275-snd: Add QCS8275 sound card
-  ASoC: qcom: sc8280xp: Add support for QCS8275
-
- Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
- sound/soc/qcom/sc8280xp.c                                | 1 +
- 2 files changed, 2 insertions(+)
+Subject: Re: [PATCH 00/15] ASoC/soundwire: Realtek codecs: wait codec init in
+ hw_params
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+To: "Liao, Bard" <bard.liao@intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "vkoul@kernel.org" <vkoul@kernel.org>
+Cc: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20250626115625.536423-1-yung-chuan.liao@linux.intel.com>
+ <f95f6777-7445-46dc-be53-b3ae5594bf39@linux.dev>
+ <SJ2PR11MB842425A1CE631E71E4AF26F0FF45A@SJ2PR11MB8424.namprd11.prod.outlook.com>
+ <6e9878bc-856c-4319-b535-ab8f565f2460@linux.dev>
+Content-Language: en-US
+In-Reply-To: <6e9878bc-856c-4319-b535-ab8f565f2460@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
-base-commit: 2b53f08bc950fe271c6adde86f3b3332b48d2077
--- 
-2.34.1
+>> The main issue is that the codec could be attached after the codec resume.
+>> Sometimes, it could take 100 ms or longer.
+> 
+> I don't really see the problem here. The codec device (in the Linux sense) is trying to resume, and you want to wait until the hardware device is fully configured, no?
+> 
+> Moving the waiting part is asking for trouble: the device will be reported as pm_runtime active, but it may not even be attached on the bus, and thus any register access will lead to invalid read/writes.
+> 
+> For example, starting a register dump via debugfs would fail if the codec is not attached. The machine driver could also set jack status that would fail as well.
 
+exhibit A for the last part: see rt700_set_jack_detect(). We absolutely want to make sure the device is attached *before* configuring the jack, that means waiting until pm_runtime_resume_and_get() is done.
+
+So at at minimum, you would need to keep a wait_for_completion() in the resume method, but it could be demoted to a wait for the enumeration only. We do have to complete() for end of enumeration and end of initialization. 
+
+If it's the initialization that takes time, it could indeed be handled in a more asynchronous way, but I don't think you want to even think of a case where the codec finishes successfully its resume routine before the device is enumerated and can be used for register read/writes.
