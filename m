@@ -1,70 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10ED274FDA;
-	Tue,  1 Jul 2025 13:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FB6270551
+	for <linux-sound@vger.kernel.org>; Tue,  1 Jul 2025 13:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751376465; cv=none; b=mUV7SkakFGPPX2OBpGOLmhSwS7H8QJl/k+zmwMsDo6QC49rL2I11MtLQnmlaH74U6JtoraWsMchccvptLHKP+2lGpmSh7fOrn1V5MKJ0dGKevR2nwfAMYRvD7WWQbYqPar2osV8ndQqyupvPun/qgz4p8yPTJrnHFfhRFSoZ97I=
+	t=1751376844; cv=none; b=O62xhWchzcNZZxTtrtxHNPqsEqYzO4LSSaBo5WrfS9Erw5T6sNb05rbSQa/APkl0Y52pqI5+MvieFYrLD2nn2FZ0eyajd4PB+TxYn5pl3jFQ8dZK2uM4E06Q1UnYqwMGx0cW8IpBqxvwNT5rKBWq3j9rESDU1IaurT7VxSvTGnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751376465; c=relaxed/simple;
-	bh=nVZIcfUr8Mb/dtNYc+Fdyt+jgVN5nRav5S+gh2OWH7k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iNadVUw/J0Y9JC0gsshAeemSNBDzZ3//ZaB7gKzOCXW4k7Ea0Jb9x8lZJPGFRKo9/XVd7MeiuB8cj79ttG2N4iAFzmDzsXL9YC8iSralcinVtIwXyV87CYWgDRRRwx7N/KzbW7NROZeCcqU7hywe5xLHy4cRHxMwYf7cMAKrmBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yb9e5Fjk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751376844; c=relaxed/simple;
+	bh=XnCPOpgL+RbqiVcZT3VI/ogEb4n8kyy7+LGcc+G9AWs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=drvhX6/7UlYwOMUPEMbFSwHc0f/NOp+cTjc2XPOb7MJhr72Lov9fgXW7K0COlHBrRABR2vEm7cz5lTuN7Z4oQ45B8jisrHy+d2PNWVw1h30SGCC1f32lUaS/ipXQXugpFE2MDIkERTwngFZLiBq3P1QrxmVQiT3fy/4FApsC7Y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=avwmcFIR; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yb9e5Fjk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C8DFC4CEEB;
-	Tue,  1 Jul 2025 13:27:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751376465;
-	bh=nVZIcfUr8Mb/dtNYc+Fdyt+jgVN5nRav5S+gh2OWH7k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Yb9e5Fjk0FBz/lZV6rNQD/fD1YrAz5TLPflwLYQKlMx6aRR62d4rcahQEuDT3yx6D
-	 e5he0iMMF0zBqdOH8oyhyXReu0Iz6Azw/0cJifb62LFyKpnkVGV6dRr5OTHvyKtaRP
-	 qr4cjNhHaqtfIF/NE/VTcC6j2uAxEHfgVYOZo9pIVovIf4+ojroy69GasTOHOw1K0z
-	 z7a5FClGOXrPNy/3I1yWbgi2wUloJQatt6atAJuD25ciukeFmCJekmScs7clfUDruG
-	 vuieVnkZyDRsucHKyi5g5IcBveUkFKp8NI71PgPYOVtH0oDYEjD8q3/9//47m3Orxm
-	 bMhfpnlyqTv6A==
-From: Lee Jones <lee@kernel.org>
-To: arnd@arndb.de, lee@kernel.org, mchehab@kernel.org, lgirdwood@gmail.com, 
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com, linux@treblig.org
-Cc: linux-media@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250625133258.78133-1-linux@treblig.org>
-References: <20250625133258.78133-1-linux@treblig.org>
-Subject: Re: (subset) [PATCH 0/4] Remove the wl1273 FM Radio
-Message-Id: <175137646300.2319882.12045106011003909576.b4-ty@kernel.org>
-Date: Tue, 01 Jul 2025 14:27:43 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avwmcFIR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751376843; x=1782912843;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XnCPOpgL+RbqiVcZT3VI/ogEb4n8kyy7+LGcc+G9AWs=;
+  b=avwmcFIRmklEjVvhBTiFjmtihlEPEvirn+/RYz3IdZ5FYLLwPTO09vJr
+   g35rl7TAM162AFQB+dfVVTCOzsw7matQS3Ukj6uuiEJi2GQqItqoZtE0R
+   d5E+cXnJfO4/efzpcMcSKVWL4U3pnyGTGxfLXbeLaumU1iT4DX5qWV5vF
+   gLbSNGZJlN7xwPASRRne/e/v3sHZ9To2/v9j9rOrrNkMzuqu8G/H1k7Vn
+   pKRkrrmfhs9X4qOjIOl0hsz6hRWkoInnpp7LmdLVIebtyd2ATSKuC+Isw
+   IcnLey/ZtMPgs8LBLEM3DL1OkJbMXogo0yNSVJtiD5oEvIZpzzypz9dVb
+   A==;
+X-CSE-ConnectionGUID: FU2JBpR9SDShF9RhcgidKQ==
+X-CSE-MsgGUID: uDXrO0pyRyySdY9LuDZK2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="56269409"
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
+   d="scan'208";a="56269409"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 06:34:02 -0700
+X-CSE-ConnectionGUID: Fj5nuxLdS0uUvtyecw2e1A==
+X-CSE-MsgGUID: 1OYp+aEwQ2OQoh5FowqXGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
+   d="scan'208";a="159284687"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.240])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 06:34:01 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: kailang@realtek.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for ASUS ExpertBook B9403CVAR
+Date: Tue,  1 Jul 2025 16:34:11 +0300
+Message-ID: <20250701133411.25275-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-c81fc
 
-On Wed, 25 Jun 2025 14:32:54 +0100, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> I noticed that the wl1273 radio had an unused symbol, but then noticed
-> it is on Arnd's unused driver list:
->   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
-> 
-> So, delete it.
-> The components seem pretty separable, except for Kconfig dependencies.
-> 
-> [...]
+ASUS ExpertBook B9403CVAR needs the ALC294_FIXUP_ASUS_HPE for the
+headphones to work.
 
-Applied, thanks!
+Closes: https://github.com/thesofproject/linux/issues/5472
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-[3/4] mfd: wl1273-core: Remove
-      commit: efddd98938400a570bde5bc69b5ecc7e76cacbe1
-[4/4] mfd: wl1273-core: Remove the header
-      commit: d356033e7b1e94e0187bb0651f4a066a4646fbb9
-
---
-Lee Jones [李琼斯]
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 614306db2cb6..acb121ac96d3 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -11064,6 +11064,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W", ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1),
+ 	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W", ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1),
+ 	SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA401),
++	SND_PCI_QUIRK(0x1043, 0x1e93, "ASUS ExpertBook B9403CVAR", ALC294_FIXUP_ASUS_HPE),
+ 	SND_PCI_QUIRK(0x1043, 0x1eb3, "ASUS Ally RCLA72", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x1043, 0x1ed3, "ASUS HN7306W", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_I2C_2),
+-- 
+2.50.0
 
