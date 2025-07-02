@@ -1,1216 +1,374 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023073.outbound.protection.outlook.com [40.107.44.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF7B14A62B
-	for <linux-sound@vger.kernel.org>; Wed,  2 Jul 2025 01:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751420587; cv=none; b=gtTmGMQ0WY2P6K+j7X61n5/k6wNAtA1AL6C9EShY7SWvNhm3owvBdcBU81BpmiQPDJgDj4/H+Bq+VUgrQQNTdm7rSwTKbasFupz52+DozgLPH0ceQdkb3S/xx2/QO05bcQOuHb7lThtD9qWX8pro8NThQ5TxRI3NRUVNJxX8u1Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751420587; c=relaxed/simple;
-	bh=ocwGYZtPkKI+Sb9WeLe4q/1JO4zzPRQfZ/xglgL1odQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=BPtsLL853yBBn8CX5qSAe6vpIjKqs1XQMarXT9yBd5hQg7qO4eg7en7570IZxJoGSlMUlAbr19016yO/KylZlTzuNp6aCBnDuOPobUqNXsu1WtTk1OtFCc5h0MSYzPJu2dFQAvOEGGbu5LVz4lPHFH5lmu+83DAzrpTYLjMpOcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R6AjMW9U; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R6AjMW9U"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-453643020bdso54336515e9.1
-        for <linux-sound@vger.kernel.org>; Tue, 01 Jul 2025 18:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751420583; x=1752025383; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cYFu8d/VkRqk1KL+H0JAP0NaVCgAHnwy7aILnhThZZI=;
-        b=R6AjMW9U0GQZjBjQhLVgIWssZA8r/IWWCtGHWeweFOSgsdPeb3Ot7gCBRNmu+N6W+4
-         nZONXxJM1JyQfXCujxM4xM7tahQyM1VFO8noAZ9q0fgWLc3H49s+RAnCnqR+Bcgjr723
-         JWKJNDowKwLv3Er4WLYqlx5/Wk47zc7oU8ZGG1WeR29Eh+3P+j0gdCYW7snz2O/RmDeX
-         Xj6s/6rgbcDFYgbXFqastRBdk9jITYeMTaCi/YrEIjcaCgQYtTWYCTnUVtF39UMJYGxU
-         79bV0CD34gcO9vPM8mB06HAFReCIb7wP58Mq1/xeh6oAFAvivWzcGJff+aLw8xXf3arD
-         Z8EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751420583; x=1752025383;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cYFu8d/VkRqk1KL+H0JAP0NaVCgAHnwy7aILnhThZZI=;
-        b=UQ6XOk1miStHxlMALv0OZwRuAShaYnzZTkNKPrkw4n4og58r9fM/lA9JpxkMhKbVA7
-         i/IdbKihsK5VdNtRDEgDOVTuRSrkSowhXv9Obx7InZuFtRxxvc0VJFU9fu/JWZcynQzw
-         Wl7AzqoilhPzebS6s826ray80WK9cJ+oulvvWD4uGGM1/BrX3qNKW6sWZ62FZ02AI6Z5
-         99ro8Nj2UYQCXl2hpt6LJPgK7+CGsoPQyr6dl6NR48YoQDYO5jWh+wfhk1surCISX5NK
-         plmbvkGYGqkbVVzVcusH+KrXtzsLXTzcyw+Yp/9Aih2VPMgmxlIou84NBIpu2GjEWEKq
-         9fCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVz7n2EBVfBNpBvgPscLcfabQ8g6j87w7R9IDOYxDwF5vntPh/gMvEo1H13/YfU/hf+U9Xc4z0nX9P42w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrReCqsknkZtobQ0ZV++qnvMbEfX4zVzAqFNV0Jx3z8enreDSL
-	kw3puYV751aSlUjG2WOmuVN2tHFhdJZ9ZqivAHQOzX0lnYmUnRNtMrJAfRJX37PqOMg=
-X-Gm-Gg: ASbGncvhO7uBV1Zrnefya0ov7bGStRmH3OWpRPFv6S6UAjRBeeNe6PtgitzYyEedes1
-	/ln6CCwIvN42m5HL+IxM5CVNeUkMBLLoiHF0Hz2RUNVM3fOhIvCgpFxcguFyDeLdn/4yX72wo4s
-	dUzRFxVXVtmtCOqsM0DB6MvpnZ/gsW4SaLqE7nOMDlgKY98Dyit5lrDrnIudQDSzvOzR0+vgDvF
-	h//X5Dt+d9plh91cMGJ+yDsRmMZ90IyeNnA1OquO132ykDIFewpppmxrSkVPrQxWJKsxn0WDcjd
-	/lnIG4F414UnEnPQXpq4sPsLVtV2Q6x6PBBULzJ+duI+dFICtrm9sAiS7whQ7oMFKhMn
-X-Google-Smtp-Source: AGHT+IE6uofbuX/+t3i3C+jz76Xz8CuUT3eNKEyaEjrdiymIoO7j8WqxmPpnxf+6NTO/tlotw5vfkg==
-X-Received: by 2002:a05:600c:64cd:b0:451:edc8:7806 with SMTP id 5b1f17b1804b1-454a3737bb9mr8447665e9.32.1751420582558;
-        Tue, 01 Jul 2025 18:43:02 -0700 (PDT)
-Received: from localhost ([2a02:c7c:7213:c700:4dad:b69a:9c81:2e57])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a3fdfa6sm186193775e9.22.2025.07.01.18.43.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Jul 2025 18:43:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C60D8F77
+	for <linux-sound@vger.kernel.org>; Wed,  2 Jul 2025 01:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.73
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751421602; cv=fail; b=sTWIm6WU3ew0wBR7q7WoxQ+AOmd0ClzrDp/vjF2weVY1uP5ll0jX7ft7/VRuHCQ8ad65MJ6iupx6+MSW6M2vBDFrtMVirOhVa1/lghI85VKpjD/0HmSmINgrc+GKeBl3iUZAtouFp8Rwfpz/5VWvjnk9HwuZupsbwxgvz+8BFC0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751421602; c=relaxed/simple;
+	bh=uGu2ZVmG3HFTPgKwpg7wUMzYlVT1fJDzXB8HqyOQFiQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=L7ITlJL8ORFPTHr+1W6QCFpnWA2YazxvXL8KjAg/aMIM8qJTMjZv1fD9zI50KmQKIR7bIUiAGnM1WzfP/nPGfJBmFk+wNDAUwvL8yG8roOv+SWgqrroRUMKUU3aZBuUjfoWDMjo66P/RJCu6X/D82ivmKEYPA4j0Z1E4yPlS6b0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.44.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lS3wH9avWFoowkK34A2J/j7NYiWmWSRGutaaNza8J44a3FzQ9L2NOCyvpdYZTpaPfYd4xsplPfzGAQDK2U8YlYA1YHu/wiYj3qZnn2R+KBhnJTfqsplAfTmuF1rhgWBICeowPJOZ5n21ZOMi8B5EBSU7mAA+yX86ZsWtpqHLWMAEYs9VjkNIpGc9UNCzOOcG8OFpN3G/f7wmRdMiJq8mYRf6CuRwcqgmPYEkkpqSfUo98Rra/pwi1toiUDHvRarlgxbJwESGoxTSOszSr0Yj1p0ViZzOUye5JG2ixFrQgrTKk3iZbj13YeiWWjfInd2s+QEVNAIj6A443G1+VSEqsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a+3eIHiBrECYD5Li+A4V2SNXmMvh5KUfo944dNGv3Gk=;
+ b=C16BoQ0gwyJ34CrZIWH9rhUcatPZAN1Y1Byi+98xS51gagPWJCAfUNyQEzjucSJJ3ci0YVrfDOiFdkiPOvcjCPcEVHXX+LYVQPTLYfEPgUFWT8pSCxZ6oap1CI1Krf4gy0zJZjENQfVyvgXboKBtXSVwnEL9jZ/nAJJtqT5CjknGvsFPs6prd0m5TVvMN1bXSp1nVtKAJDKsC/TVrPWH3k+FgsEe6g8pMfCLdN8IWvjaGNqfIVgTF0A1RBd5eu+HUQaEajcNMfTl1x4PQHYveoBdb50Mc+opBedSG+al/4P8lWMTtoKNdcpyabcOVJtUdCQ/wGlNzr9CB1zEI19oFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cixtech.com; dmarc=pass action=none header.from=cixtech.com;
+ dkim=pass header.d=cixtech.com; arc=none
+Received: from SEYPR06MB6278.apcprd06.prod.outlook.com (2603:1096:101:143::5)
+ by SEYPR06MB6107.apcprd06.prod.outlook.com (2603:1096:101:c4::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.32; Wed, 2 Jul
+ 2025 01:59:54 +0000
+Received: from SEYPR06MB6278.apcprd06.prod.outlook.com
+ ([fe80::637b:524b:8f70:e636]) by SEYPR06MB6278.apcprd06.prod.outlook.com
+ ([fe80::637b:524b:8f70:e636%6]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
+ 01:59:54 +0000
+From: "Joakim  Zhang" <joakim.zhang@cixtech.com>
+To: Takashi Iwai <tiwai@suse.de>
+CC: Kailang <kailang@realtek.com>, "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "chris.chiu@canonical.com"
+	<chris.chiu@canonical.com>, Geans_chen <geans_chen@realsil.com.cn>
+Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on
+ alc256
+Thread-Topic: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on
+ alc256
+Thread-Index:
+ AQHb4L8rxhSHQ+JAvEa55JNlDRN3XLQL9+CAgAWmt4CAAA8EsIAAMEeAgAE/zaCAABzZAIABmbuQgAAnGgCAB7AeMIAAK3iAgAAHvGCAAAaLgIAAAOtAgAABUgCAAB1NwIAACu6AgAATzaCAABVWgIAA6+cg
+Date: Wed, 2 Jul 2025 01:59:54 +0000
+Message-ID:
+ <SEYPR06MB627805243BFA48D81FD58B158240A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
+	<20250619020844.2974160-5-joakim.zhang@cixtech.com>
+	<87a562wqzu.wl-tiwai@suse.de>	<431c41bd52224eb5ac341c9c24d52af1@realtek.com>
+	<SEYPR06MB6278B03237E451616AC060E38278A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<abb90ebd8dab4cedbb831d4ad943bd56@realtek.com>
+	<SEYPR06MB6278C26C6B0479C920FEB364827BA@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<5f2431ca8ef2453daa9da2034798e682@realtek.com>
+	<SEYPR06MB62788CE70E017CB5FD7F5317827AA@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<a0d71d7f93a94800881c8c67c9e715f8@realtek.com>
+	<SEYPR06MB62789527920A36FC01B665988241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<87cyake9w0.wl-tiwai@suse.de>
+	<SEYPR06MB6278B60285176A9B98ECB65F8241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<877c0se7iu.wl-tiwai@suse.de>
+	<SEYPR06MB6278B9C65FA98E18C87EDC1A8241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<874ivwe75h.wl-tiwai@suse.de>
+	<SEYPR06MB62781EDBF735E177B909053B8241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<87y0t8clx2.wl-tiwai@suse.de>
+	<SEYPR06MB6278A4E87874B8B894A1DAD48241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+ <87tt3w6stw.wl-tiwai@suse.de>
+In-Reply-To: <87tt3w6stw.wl-tiwai@suse.de>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cixtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR06MB6278:EE_|SEYPR06MB6107:EE_
+x-ms-office365-filtering-correlation-id: 5df36093-7b35-4ab2-1b67-08ddb90c2382
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|38070700018|7053199007;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?5PLjvu/QuYrMKY6bZK6OLfo1gpLe8Kr+a0Aei83tzTXS/EwsTiDxPQIFIlAh?=
+ =?us-ascii?Q?5Pe+hv5p4Zk4z6MwuQ7Qos5HdxrgoTUHSWRV/lyGQ4wdk+4519/b0jFr4zKG?=
+ =?us-ascii?Q?YdLr4nvAabhnNCv6FE5nBJE5ZiHM/YetMRV3y4PeDDUnEyL5BqbfTXkji1XV?=
+ =?us-ascii?Q?ZH3q3AeX+//dOzxR69Ve49yJk4l8/3AOgeF4x1IyYKDfhwTBi2uM+DLNE2t3?=
+ =?us-ascii?Q?VLaj3b5QLGSGdPeJDtUTs2jI7qst5WY0wZMWFDqr/jTmR5wL05OzLqB1aX31?=
+ =?us-ascii?Q?Hs7ng/Z+RIUbRv5iaIskD8qV8hRYQTdWp1jAesWXpzLQdg7LOte8kWbb7cGW?=
+ =?us-ascii?Q?dB5DsqiyIi/ZM1dd0IED15Z8bwBG2YbDUpSpoSuuOXRRuTa9A6ZbFqZ1EKM7?=
+ =?us-ascii?Q?sFrqnhcc+k5pt8tj9U2GglXxYjil9/aKooJS6v6Kk7aaqKaNHW0fzMRxtYCy?=
+ =?us-ascii?Q?2DghuReRzUi8lDtUtPubof5hhnYpNjQRYOWqPdWI99b8cOBBj0biND0uWCwt?=
+ =?us-ascii?Q?6VYsaodKWcL473BhXmTmPbpgOEVQOT5OoYtRdTTLdrcpOWXg2iOMn1PzKy5m?=
+ =?us-ascii?Q?perTFS6rhs1qthKVwjm7wr0YCewecHJPRdzgyvOCiQdF1lJB1cSxk/L99lSO?=
+ =?us-ascii?Q?JZYXz1LhI881tAYra1Dop2l4Sd44Al6/eS5Bg1A2kWreqXkaQEm0nVf3ZZ3e?=
+ =?us-ascii?Q?EBOu3GtJXVRDf/hb2w5TrmYVeBSiYGKEKNnH6OBsddLPM2OBRWtihMdLU7Zn?=
+ =?us-ascii?Q?t/6ljC569MNGQNehMvtiHuF4px144EwJEYSNXdlWH9UVtqPl9X5BJRj13OG7?=
+ =?us-ascii?Q?j68lajGfPqKspzB3oFd3e3Hk8zG/aYSPvE22dLdOFOO8GP4CIGYbPUYiFRYm?=
+ =?us-ascii?Q?bcOjAp+uP92D+avXsmdjuWEb9F1GMWn2iv6sjNcQ25/ahKxZ4mib1lx0WqDo?=
+ =?us-ascii?Q?6kn4mIfYKoGcyh3/w5SXktBptO7INT4nTaYtTzpbNFLqE6THWurCbGOs0DAV?=
+ =?us-ascii?Q?WKdU56UK8Snyz2tIU3kU4j7Yb4OqNtiygXtdK7CU7DeaeoH7GcgWq12gqDWP?=
+ =?us-ascii?Q?t1TWzhTD2ClaxiWpSBDryihzaPh2HpW/aumMjsd7gcLSFNF2BRIv96JJm3cK?=
+ =?us-ascii?Q?7Xt/2EVXR8HZ5Q8nBkyggPknL3jWgr9EZBMIUC7M0UgvuwiNtDbT+TC8+NLH?=
+ =?us-ascii?Q?tCiZSi5JxdHo4X/JszQ60rK+mpKKviRvsK0x3wNmk1iwLkez1GJYLDHvl+Zm?=
+ =?us-ascii?Q?aTdR55f10zlGzjoSHyrHzgYuUvfnhhi0qJEDLuPPDi0NC0VynQWR+V6p5p7G?=
+ =?us-ascii?Q?MVj7d9JARdr3oZps4fNSR+Rqw7Z8sM0XFpdU2PGBVkVzJv4ilkppQuJDvU4F?=
+ =?us-ascii?Q?q7RHK5qXKjJFgU0gJTUtL8DFq4K84pSuZTvSPBL7JN99tYJ3HcqBwq6pf5hV?=
+ =?us-ascii?Q?EeKw2dOL4nDtfSAxn0I+wQeBzhx8R5t997LopGiXL7Bj1RW2kgsYaQ=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB6278.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018)(7053199007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?pn5a9VWM6OAufuMhquuzidN12vh+B+rjUodR4rMmsG/h79eBSxYmW2ws+9y9?=
+ =?us-ascii?Q?D8wev3oRLhFI2jMSIa/W4L7s82UwrovpPoYQzbLQo7VMJmr60MnOYlYUDDVZ?=
+ =?us-ascii?Q?9m8P1AvAt8Iwq3f4BzSuuehPipX5pAZt5sDfmOL8TTcFAwFf1bT9s3EOqDJZ?=
+ =?us-ascii?Q?s2gMolDTbjlEDV8RQukvrobqq8Xw5WUXPcqPQy7xIxj7W6yC5bcedbenuulT?=
+ =?us-ascii?Q?CkuBkrrr4BevjzjQLcto0p/fHoOBh6L8eqzAlIhHK/QwS+ny8S+kE/Wm6UaU?=
+ =?us-ascii?Q?OsAV1y/AwV3vq999sFCsw9ARpBhLqQdPl+5XL2mYw6Ht8T6pGEg8nRASQsVJ?=
+ =?us-ascii?Q?Hv53nUduj07ey4T3sSDGZEzYRbWPq2b2jRYnGTkPUHNdTFVS94hhrEoYuKG0?=
+ =?us-ascii?Q?IU1cqcfuvoenOS/iMSyAf4jfoS2uRg3BG+6Z/fzfktG88X6+LXKLp4flCNBQ?=
+ =?us-ascii?Q?SODxg6Jkf83tjvC2YVAmOJqJUFa5qyWkE+gWzw/znw3O7I+l328IY2w+SJSG?=
+ =?us-ascii?Q?wW9VbzMEkWZKRctgGkmzNcAH8i0p8KowcP58EY9Ft8RXgaFpH4oOT9FLqgKD?=
+ =?us-ascii?Q?LFBI11QpeWHmsZyPiuaUDAzvEJebywHrZZPdiH8bAb8DGfbXxXSQXyFzsYGk?=
+ =?us-ascii?Q?5v/+IYvkC2RrRdlRAib5hBHYqNBhvc+vfnu7g2gB0dIVO3q78tkgJ2VwgpCA?=
+ =?us-ascii?Q?pdfYXB5U/roLfGFJwAs+wSPN634eV4aYmaViuAcJtomQCSIntAglHe3brWVH?=
+ =?us-ascii?Q?DYeKkSPuF0KJH1fpfrUaeh5gB1c0VghKudEFuVzB8mukFov2MarpgyYfPgEG?=
+ =?us-ascii?Q?jPoZFEE9uxCkaX4wtjXPerajEI5VJ9eWi3f6WpCvkKpSJBu/z+t2FvRixp+C?=
+ =?us-ascii?Q?hDNKB6oyvivwXKAVzMNfsbrBdc9uTGp5R/+tcFhQ8+ex/r1cglGEJnF2v4YV?=
+ =?us-ascii?Q?V6L7AmaNdZZJX1SbksZUKAucIbC8paX5vCKT02uXV/V7sD6jCGLWUPtoxb29?=
+ =?us-ascii?Q?UrpBpbesvL7N5gQavpp+LdpXQuU7UJ9CDVIn8yHfW/5rbKXw2ohAYGn3DbQs?=
+ =?us-ascii?Q?e3gMTSWnB9OVP5hK6jiGuo/j6+x6zvgms7J24qZw8xqzVaOC6fH1N2LPMKzF?=
+ =?us-ascii?Q?AwO7TVN6pcqZ3zZqVzDsT6YtEvoSW2+zpmNBL9ntrFaJUcMRN/eB4RJauI7q?=
+ =?us-ascii?Q?jkT4vw5X0nZY/E/XonLKMmpBlrfFsNpE8OS8UuHFRzfEc1oUrkURHgjMRQ9h?=
+ =?us-ascii?Q?qwoGhPXb72xCHe6xepxcowUXBQi3DVmizL5In9+/0kSm7BrGIKawM+3wMoW2?=
+ =?us-ascii?Q?vLeWVXDoJ/+L/6RQxYNOfhhNAoHLrVqxErOk/yBI/CYhuYLIwfH2ROhKIreg?=
+ =?us-ascii?Q?W+KQmD37YNhU07WWJ0yxMt4J2OiD+iU83vWlvPsNiASqgwzQfB1GxlhBgC8C?=
+ =?us-ascii?Q?/iNmwUPHKa8IgaMB2Gp7K/RgA0r++WWzfzLnis6i3DX2Gc94m3y+/HthP4t+?=
+ =?us-ascii?Q?5QyMeMu3h+mwlUx1FMjH4tWTct4Elx18LgG4lsWowd0kZy6/L7mSuPKb8LMP?=
+ =?us-ascii?Q?XwFvswgrKqAL486/Mu90+eXalf+7e0MLIiNEafFf?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 02 Jul 2025 02:43:01 +0100
-Message-Id: <DB16S3FI8AXX.1LA99XCPAW1UF@linaro.org>
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Srinivas
- Kandagatla" <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, <linux-arm-msm@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH 3/3] ASoC: codecs: add new pm4125 audio codec driver
-X-Mailer: aerc 0.20.0
-References: <20250626-pm4125_audio_codec_v1-v1-0-e52933c429a0@linaro.org>
- <20250626-pm4125_audio_codec_v1-v1-3-e52933c429a0@linaro.org>
- <00b63483-8012-4a04-9486-536a7b236497@oss.qualcomm.com>
-In-Reply-To: <00b63483-8012-4a04-9486-536a7b236497@oss.qualcomm.com>
-
-On Sat Jun 28, 2025 at 9:24 PM BST, Srinivas Kandagatla wrote:
-> On 6/26/25 12:50 AM, Alexey Klimov wrote:
->> The audio codec is found in Qualcomm PM2250/PM4125 PMICs and is used on
->> platforms like Qualcomm QCM2290. It has soundwire interface and
->> corresponding RX and TX slave devices.
->>=20
->> It has only two input channels: HPH left and right. The line output (LO)
->> is linked to HPHL so the hardware has some limitations regarding concurr=
-ent
->> playback via HPH and LO for instance.
->>=20
->> Not all functionality is implemented and there are some number of
->> placeholders. Mostly output functionality like analog and digital mics i=
-s
->> missing at this point and implemented in a possible minimal way.
->> The codec driver also uses WCD MBCH framework. The MBHC functionality is
->> also implemented in a minimalistic way to enable IRQs.
->
-> Lets try to fill these gaps in next version, I have tested Headset,
-> Lineout  and MIC on my side with additional changes to this.
-
-Yep.
-
-
->> Despite all limitations in its current state the line out and HPH playba=
-ck
->> work.
->
-> Thanks Alexey for all the work porting the driver from downstream audio
-> kernel.
->
-> my comments below.
-
-It is a bit difficult to follow comments so if I miss smth please let me kn=
-ow.
-
->> Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
->> ---
->>  sound/soc/codecs/Kconfig      |   19 +
->>  sound/soc/codecs/Makefile     |    8 +
->>  sound/soc/codecs/pm4125-sdw.c |  485 +++++++++++
->>  sound/soc/codecs/pm4125.c     | 1848 ++++++++++++++++++++++++++++++++++=
-+++++++
->>  sound/soc/codecs/pm4125.h     |  375 +++++++++
->>  5 files changed, 2735 insertions(+)
->>=20
->> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
->> index 6d7e4725d89cd33647770e4f2c4e81445b8335ce..69b08021d165f83f4a7ca18e=
-476cfc7e2473f490 100644
->> --- a/sound/soc/codecs/Kconfig
->> +++ b/sound/soc/codecs/Kconfig
->> @@ -297,6 +297,7 @@ config SND_SOC_ALL_CODECS
->>  	imply SND_SOC_WCD937X_SDW
->>  	imply SND_SOC_WCD938X_SDW
->>  	imply SND_SOC_WCD939X_SDW
->> +	imply SND_SOC_PM4125_SDW
->>  	imply SND_SOC_LPASS_MACRO_COMMON
->>  	imply SND_SOC_LPASS_RX_MACRO
->>  	imply SND_SOC_LPASS_TX_MACRO
->> @@ -2316,6 +2317,24 @@ config SND_SOC_WCD939X_SDW
->>  	  The WCD9390/9395 is a audio codec IC Integrated in
->>  	  Qualcomm SoCs like SM8650.
->> =20
->> +config SND_SOC_PM4125
->> +	depends on SND_SOC_PM4125_SDW
->> +	tristate
->> +	depends on SOUNDWIRE || !SOUNDWIRE
->> +	select SND_SOC_WCD_CLASSH
->> +
->> +config SND_SOC_PM4125_SDW
->> +	tristate "PM4125 audio codec - SDW"
->> +	select SND_SOC_PM4125
->> +	select SND_SOC_WCD_MBHC
->> +	select REGMAP_IRQ
->> +	depends on SOUNDWIRE
->> +	select REGMAP_SOUNDWIRE
->> +	help
->> +	  The PMIC PM4125 has an in-built audio codec IC used with SoCs
->> +	  like QCM2290, and it is connected via soundwire and SPMI.
->> +	  To compile this codec driver say Y or m.
->> +
->>  config SND_SOC_WL1273
->>  	tristate
->> =20
->> diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
->> index a68c3d192a1b6ccec513c6bc447c29be532ea70c..e993cc9803c4da60daf230a8=
-181673b45c06aa5b 100644
->> --- a/sound/soc/codecs/Makefile
->> +++ b/sound/soc/codecs/Makefile
->> @@ -348,6 +348,8 @@ snd-soc-wcd938x-y :=3D wcd938x.o
->>  snd-soc-wcd938x-sdw-y :=3D wcd938x-sdw.o
->>  snd-soc-wcd939x-y :=3D wcd939x.o
->>  snd-soc-wcd939x-sdw-y :=3D wcd939x-sdw.o
->> +snd-soc-pm4125-y :=3D pm4125.o
->> +snd-soc-pm4125-sdw-y :=3D pm4125-sdw.o
->>  snd-soc-wl1273-y :=3D wl1273.o
->>  snd-soc-wm-adsp-y :=3D wm_adsp.o
->>  snd-soc-wm0010-y :=3D wm0010.o
->> @@ -779,6 +781,12 @@ ifdef CONFIG_SND_SOC_WCD939X_SDW
->>  # avoid link failure by forcing sdw code built-in when needed
->>  obj-$(CONFIG_SND_SOC_WCD939X) +=3D snd-soc-wcd939x-sdw.o
->>  endif
->> +obj-$(CONFIG_SND_SOC_PM4125_SDW) +=3D snd-soc-pm4125-sdw.o
->> +obj-$(CONFIG_SND_SOC_PM4125)   +=3D snd-soc-pm4125.o
->> +ifdef CONFIG_SND_SOC_PM4125_SDW
->> +# avoid link failure by forcing sdw code built-in when needed
->> +obj-$(CONFIG_SND_SOC_PM4125) +=3D snd-soc-pm4125-sdw.o
->> +endif
->>  obj-$(CONFIG_SND_SOC_WL1273)	+=3D snd-soc-wl1273.o
->>  obj-$(CONFIG_SND_SOC_WM0010)	+=3D snd-soc-wm0010.o
->>  obj-$(CONFIG_SND_SOC_WM1250_EV1) +=3D snd-soc-wm1250-ev1.o
->> diff --git a/sound/soc/codecs/pm4125-sdw.c b/sound/soc/codecs/pm4125-sdw=
-.c
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..d09c4f5fb3b7b7918a1a0c25=
-750046b212f1063f
->> --- /dev/null
->> +++ b/sound/soc/codecs/pm4125-sdw.c
->> @@ -0,0 +1,485 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +// Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights =
-reserved.
->> +// Copyright, 2025 Linaro Ltd
->> +
->> +#include <linux/component.h>
->> +#include <linux/device.h>
->> +#include <linux/irq.h>
->> +#include <linux/irqdomain.h>
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/of.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/pm_runtime.h>
->> +#include <linux/regmap.h>
->> +#include <linux/slab.h>
->> +#include <linux/soundwire/sdw.h>
->> +#include <linux/soundwire/sdw_registers.h>
->> +#include <linux/soundwire/sdw_type.h>
->> +#include <sound/soc-dapm.h>
->> +#include <sound/soc.h>
->> +#include "pm4125.h"
->> +
->> +static struct pm4125_sdw_ch_info pm4125_sdw_rx_ch_info[] =3D {
->> +	WCD_SDW_CH(PM4125_HPH_L, PM4125_HPH_PORT, BIT(0)),
->> +	WCD_SDW_CH(PM4125_HPH_R, PM4125_HPH_PORT, BIT(1)),
->> +	WCD_SDW_CH(PM4125_COMP_L, PM4125_COMP_PORT, BIT(0)),
->> +	WCD_SDW_CH(PM4125_COMP_R, PM4125_COMP_PORT, BIT(1)),
->> +};
->> +
->> +static struct pm4125_sdw_ch_info pm4125_sdw_tx_ch_info[] =3D {
->> +	WCD_SDW_CH(PM4125_ADC1, PM4125_ADC_1_PORT, BIT(0)),
->> +	WCD_SDW_CH(PM4125_DMIC0, PM4125_DMIC_0_3_MBHC_PORT, BIT(0)),
->> +	WCD_SDW_CH(PM4125_DMIC1, PM4125_DMIC_0_3_MBHC_PORT, BIT(1)),
->> +	WCD_SDW_CH(PM4125_DMIC2, PM4125_DMIC_0_3_MBHC_PORT, BIT(2)),
-> these does not look correct. there are 2 ADCs .
-
-Ok, this needs to be fixed.
-
-
-[...]
-
-
->> +static bool pm4125_rdwr_register(struct device *dev, unsigned int reg)
->> +{
->> +	if (reg > PM4125_ANA_BASE_ADDR &&
->> +	    reg < PM4125_ANALOG_REGISTERS_MAX_SIZE)
->> +		return pm4125_reg_access_analog[PM4125_REG(reg)] & WR_REG;
-> Lets not bring in some additional layer here from downstream, pl use the
-> registers directly here as we do for other codecs.
-
-Ok, let's fix this.
-
-
-[...]
-
->> +static int pm4125_probe(struct sdw_slave *pdev,
->> +			const struct sdw_device_id *id)
->> +{
->> +	struct device *dev =3D &pdev->dev;
->> +	struct pm4125_sdw_priv *priv;
->> +	u8 master_ch_mask[PM4125_MAX_SWR_CH_IDS];
->> +	int master_ch_mask_size =3D 0;
->> +	int ret, i;
->> +
->> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->> +	if (!priv)
->> +		return -ENOMEM;
->> +
->> +	/*
->> +	 * Port map index starts at 0,
->> +	 * however the data port for this codec start at index 1
->> +	 */
->> +	if (of_property_present(dev->of_node, "qcom,tx-port-mapping")) {
->> +		priv->is_tx =3D true;
->> +		ret =3D of_property_read_u32_array(dev->of_node,
->> +						 "qcom,tx-port-mapping",
->> +						 &pdev->m_port_map[1],
->> +						 PM4125_MAX_TX_SWR_PORTS);
->> +	} else {
->> +		ret =3D of_property_read_u32_array(dev->of_node,
->> +						 "qcom,rx-port-mapping",
->> +						 &pdev->m_port_map[1],
->> +						 PM4125_MAX_SWR_PORTS);
->> +	}
->> +	if (ret < 0)
->> +		dev_info(dev, "Error getting static port mapping for %s (%d)\n",
->> +			 priv->is_tx ? "TX" : "RX", ret);
->> +
->> +	priv->sdev =3D pdev;
->> +	dev_set_drvdata(dev, priv);
->> +
->> +	pdev->prop.scp_int1_mask =3D SDW_SCP_INT1_IMPL_DEF |
->> +				   SDW_SCP_INT1_BUS_CLASH |
->> +				   SDW_SCP_INT1_PARITY;
->> +	pdev->prop.lane_control_support =3D true;
->> +	pdev->prop.simple_clk_stop_capable =3D true;
->> +
->> +	memset(master_ch_mask, 0, PM4125_MAX_SWR_CH_IDS);
->> +
->> +	if (priv->is_tx) {
->> +		master_ch_mask_size =3D
->> +			of_property_count_u8_elems(dev->of_node,
->> +						   "qcom,tx-channel-mapping");
->> +
->> +		if (master_ch_mask_size)
->> +			ret =3D of_property_read_u8_array(dev->of_node,
->> +						"qcom,tx-channel-mapping",
->> +						master_ch_mask,
->> +						master_ch_mask_size);
->> +	} else {
->> +		master_ch_mask_size =3D
->> +			of_property_count_u8_elems(dev->of_node,
->> +						   "qcom,rx-channel-mapping");
->> +
->> +		if (master_ch_mask_size)
->> +			ret =3D of_property_read_u8_array(dev->of_node,
->> +						"qcom,rx-channel-mapping",
->> +						master_ch_mask,
->> +						master_ch_mask_size);
->> +	}
->> +
->> +	if (ret < 0)
->> +		dev_info(dev, "Static channel mapping not specified using device chan=
-nel maps\n");
->> +
->> +	if (priv->is_tx) {
->> +		pdev->prop.source_ports =3D GENMASK(PM4125_MAX_TX_SWR_PORTS, 0);
->> +		pdev->prop.src_dpn_prop =3D pm4125_dpn_prop;
->> +		priv->ch_info =3D &pm4125_sdw_tx_ch_info[0];
->> +
->> +		for (i =3D 0; i < master_ch_mask_size; i++)
->> +			priv->ch_info[i].master_ch_mask =3D
->> +					PM4125_SWRM_CH_MASK(master_ch_mask[i]);
->> +
->> +		pdev->prop.wake_capable =3D true;
->> +
->> +		priv->regmap =3D devm_regmap_init_sdw(pdev,
->> +						    &pm4125_regmap_config);
-> we do have 100 chars per line, do not split the lines unless required.
-
-Heh, I see, thanks. Checkpatch seems to check for 100 chars now.
-
-
-[..]
-
->> diff --git a/sound/soc/codecs/pm4125.c b/sound/soc/codecs/pm4125.c
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..58435b9c75865b06b344c6d7=
-9800aa9b4bac3abd
->> --- /dev/null
->> +++ b/sound/soc/codecs/pm4125.c
->> @@ -0,0 +1,1848 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +// Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights =
-reserved.
->> +// Copyright (c) 2025, Linaro Ltd
->> +
->> +#include <linux/component.h>
->> +#include <linux/delay.h>
->> +#include <linux/device.h>
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/of.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/pm_runtime.h>
->> +#include <linux/regmap.h>
->> +#include <linux/regulator/consumer.h>
->> +#include <linux/slab.h>
->> +#include <sound/jack.h>
->> +#include <sound/pcm_params.h>
->> +#include <sound/pcm.h>
->> +#include <sound/soc-dapm.h>
->> +#include <sound/soc.h>
->> +#include <sound/tlv.h>
->> +
->> +#include "wcd-mbhc-v2.h"
->> +#include "pm4125.h"
->> +
->> +#define WCD_MBHC_HS_V_MAX		1600
->> +#define PM4125_MBHC_MAX_BUTTONS		8
->> +
->> +#define PM4125_RATES (SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |\
->> +		      SNDRV_PCM_RATE_32000 | SNDRV_PCM_RATE_48000 |\
->> +		      SNDRV_PCM_RATE_96000 | SNDRV_PCM_RATE_192000 |\
->> +		      SNDRV_PCM_RATE_384000)
->> +
->> +/* Fractional Rates */
->> +#define PM4125_FRAC_RATES (SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_88200 =
-|\
->> +			   SNDRV_PCM_RATE_176400 | SNDRV_PCM_RATE_352800)
->> +
->> +#define PM4125_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_=
-LE |\
->> +			SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S32_LE)
->> +
->> +/* Registers in SPMI addr space */
->> +#define PM4125_CODEC_RESET_REG		0xF3DB
->> +#define PM4125_CODEC_OFF		0x1
->> +#define PM4125_CODEC_ON			0x0
->> +#define PM4125_CODEC_FOUNDRY_ID_REG	0x7
->> +
->> +enum {
->> +	HPH_COMP_DELAY,
->> +	HPH_PA_DELAY,
->> +};
->> +
->> +enum {
->> +	AIF1_PB =3D 0,
->> +	AIF1_CAP,
->> +	NUM_CODEC_DAIS,
->> +};
->> +
->> +struct pm4125_priv {
->> +	struct sdw_slave *tx_sdw_dev;
->> +	struct pm4125_sdw_priv *sdw_priv[NUM_CODEC_DAIS];
->> +	struct device *txdev;
->> +	struct device *rxdev;
->> +	struct device_node *rxnode;
->> +	struct device_node *txnode;
->> +	struct regmap *regmap;
->> +	struct regmap *spmi_regmap;
->> +	/* mbhc module */
->> +	struct wcd_mbhc *wcd_mbhc;
->> +	struct wcd_mbhc_config mbhc_cfg;
->> +	struct wcd_mbhc_intr intr_ids;
->> +	struct irq_domain *virq;
->> +	const struct regmap_irq_chip *pm4125_regmap_irq_chip;
->> +	struct regmap_irq_chip_data *irq_chip;
->> +	struct regulator_bulk_data supplies[PM4125_MAX_BULK_SUPPLY];
->> +	struct regulator *buck_supply;
->
-> unused.
-
-Needs to be removed, yep.
-
->> +	struct snd_soc_jack *jack;
->> +	unsigned long status_mask;
->> +	s32 micb_ref[PM4125_MAX_MICBIAS];
->> +	s32 pullup_ref[PM4125_MAX_MICBIAS];
->> +	u32 hph_mode;
->> +	int ear_rx_path;
->> +	u32 micb1_mv;
->> +	u32 micb2_mv;
->> +	u32 micb3_mv;
->> +
->> +	int hphr_pdm_wd_int;
->> +	int hphl_pdm_wd_int;
->> +	bool comp1_enable;
->> +	bool comp2_enable;
->> +
->> +	atomic_t rx_clk_cnt;
->> +	atomic_t ana_clk_count;
-> unused
-
-Ok.
-
-
-[..]
-
->> +static int pm4125_handle_post_irq(void *data)
->> +{
->> +	struct pm4125_priv *pm4125;
->> +
->> +	if (data)
->> +		pm4125 =3D (struct pm4125_priv *)data;
->> +	else
->> +		return IRQ_HANDLED;
-> This will result in interrupt storm, as you are not clearning the source.
->
->> +
->> +	regmap_write(pm4125->regmap, PM4125_DIG_SWR_INTR_CLEAR_0, 0);
->> +	regmap_write(pm4125->regmap, PM4125_DIG_SWR_INTR_CLEAR_1, 0);
->> +	regmap_write(pm4125->regmap, PM4125_DIG_SWR_INTR_CLEAR_2, 0);
->> +
->> +	return IRQ_HANDLED;
->> +}
-
-Do you mean that it should be:
-
-static int pm4125_handle_post_irq(void *data)
-{
-	struct pm4125_priv *pm4125 =3D (struct pm4125_priv *)data;
-
-	regmap_write(pm4125->regmap, PM4125_DIG_SWR_INTR_CLEAR_0, 0);
-	regmap_write(pm4125->regmap, PM4125_DIG_SWR_INTR_CLEAR_1, 0);
-	regmap_write(pm4125->regmap, PM4125_DIG_SWR_INTR_CLEAR_2, 0);
-
-	return IRQ_HANDLED;
-} =20
-
-I need to fix irq_drv_data =3D NULL in pm4125_regmap_irq_chip then.
-IIRC it is always NULL.
-The same behaviour as in wcd937x.c
-
->> +static const u32 pm4125_config_regs[] =3D {
->> +	PM4125_DIG_SWR_INTR_LEVEL_0,
->> +};
->> +
->> +static const struct regmap_irq_chip pm4125_regmap_irq_chip =3D {
->> +	.name =3D "pm4125",
->> +	.irqs =3D pm4125_irqs,
->> +	.num_irqs =3D ARRAY_SIZE(pm4125_irqs),
->> +	.num_regs =3D 3,
->> +	.status_base =3D PM4125_DIG_SWR_INTR_STATUS_0,
->> +	.mask_base =3D PM4125_DIG_SWR_INTR_MASK_0,
->> +	.ack_base =3D PM4125_DIG_SWR_INTR_CLEAR_0,
->> +	.use_ack =3D 1,
->> +	.clear_ack =3D 1,
->> +	.config_base =3D pm4125_config_regs,
->> +	.num_config_bases =3D ARRAY_SIZE(pm4125_config_regs),
->> +	.num_config_regs =3D 1,
->> +	.runtime_pm =3D true,
->> +	.handle_post_irq =3D pm4125_handle_post_irq,
->> +	.irq_drv_data =3D NULL,
->> +};
->> +
->> +static void pm4125_reset(struct pm4125_priv *pm4125)
->> +{
->> +	regmap_write(pm4125->spmi_regmap,
->> +		     PM4125_CODEC_RESET_REG, PM4125_CODEC_OFF);
->> +	usleep_range(20, 30);
->> +
->> +	regmap_write(pm4125->spmi_regmap,
->> +		     PM4125_CODEC_RESET_REG, PM4125_CODEC_ON);
->> +	usleep_range(5000, 5010);
->> +}
->> +
->> +static void pm4125_io_init(struct regmap *regmap)
->> +{
->> +	/* Disable HPH OCP */
->> +	regmap_update_bits(regmap, PM4125_ANA_HPHPA_CNP_CTL_2, 0x03, 0x00);
-> pl use defines instead of using magic values.
-> applies to most part of the driver.
-> also pl take a look at
-> snd_soc_component_read/write_field() functions which are handy
-
-
-Ok, this will be some rework in order to do this.
-
-
->> +	/* Enable surge protection */
->> +	regmap_update_bits(regmap, PM4125_ANA_SURGE_EN, 0xC0, 0xC0);
->> +
->> +	/* Disable mic bias pull down */
->> +	regmap_update_bits(regmap, PM4125_ANA_MICBIAS_MICB_1_2_EN, 0x01, 0x00)=
-;
->> +}
->> +
->> +static int pm4125_global_mbias_disable(struct snd_soc_component *compon=
-ent)
->> +{
->> +	snd_soc_component_update_bits(component, PM4125_ANA_MBIAS_EN,
->> +				      0x10, 0x00);
->> +	snd_soc_component_update_bits(component, PM4125_ANA_MBIAS_EN,
->> +				      0x20, 0x00);
->> +	return 0;
->> +}
->> +
->> +static int pm4125_global_mbias_enable(struct snd_soc_component *compone=
-nt)
->> +{
->> +	snd_soc_component_update_bits(component, PM4125_ANA_MBIAS_EN,
->> +				      0x20, 0x20);
->> +	snd_soc_component_update_bits(component, PM4125_ANA_MBIAS_EN,
->> +				      0x10, 0x10);
->> +	usleep_range(1000, 1100);
->> +	return 0;
->> +}
->> +
->> +static int pm4125_rx_clk_enable(struct snd_soc_component *component)
->
-> looks like the rxclk can be converted into a proper dapm supply widget.
-
-I'll check that. Thank you.
-
-
-[..]
-
->> +static int pm4125_codec_hphl_dac_event(struct snd_soc_dapm_widget *w,
->> +				       struct snd_kcontrol *kcontrol, int event)
->> +{
->> +	struct snd_soc_component *component =3D
->> +					snd_soc_dapm_to_component(w->dapm);
->> +	struct pm4125_priv *pm4125 =3D snd_soc_component_get_drvdata(component=
-);
->> +
->> +	switch (event) {
->> +	case SND_SOC_DAPM_PRE_PMU:
->> +		pm4125_rx_clk_enable(component);
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_ANA_HPHPA_CNP_CTL_1,
->> +					      0x02, 0x02);
->> +
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_SWR_HPHPA_HD2,
->> +					      0x38, 0x38);
->> +
->> +		set_bit(HPH_COMP_DELAY, &pm4125->status_mask);
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMU:
->> +
-> drop space.
-
-Ok.
-
->> +		if (pm4125->comp1_enable) {
->> +			snd_soc_component_update_bits(component,
->> +						PM4125_DIG_SWR_CDC_COMP_CTL_0,
->> +						0x02, 0x02);
->> +
->> +			if (pm4125->comp2_enable)
->> +				snd_soc_component_update_bits(component,
->> +						PM4125_DIG_SWR_CDC_COMP_CTL_0,
->> +						0x01, 0x01);
->> +			/*
->> +			 * 5ms sleep is required after COMP is enabled as per
->> +			 * HW requirement
->> +			 */
->> +			if (test_bit(HPH_COMP_DELAY, &pm4125->status_mask)) {
->> +				usleep_range(5000, 5100);
->> +				clear_bit(HPH_COMP_DELAY, &pm4125->status_mask);
->> +			}
->> +		} else {
->> +			snd_soc_component_update_bits(component,
->> +						PM4125_DIG_SWR_CDC_COMP_CTL_0,
->> +						0x02, 0x00);
->> +		}
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_CDC_RX0_CTL,
->> +					      0x80, 0x00);
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_CDC_RX_GAIN_CTL,
->> +					      0x04, 0x04);
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_CDC_RX_CLK_CTL,
->> +					      0x01, 0x01);
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMD:
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_CDC_RX_CLK_CTL,
->> +					      0x01, 0x00);
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_CDC_RX_GAIN_CTL,
->> +					      0x04, 0x00);
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_CDC_RX0_CTL,
->> +					      0x80, 0x80);
->> +		if (pm4125->comp1_enable)
->> +			snd_soc_component_update_bits(component,
->> +						PM4125_DIG_SWR_CDC_COMP_CTL_0,
->> +						0x02, 0x00);
->> +		break;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int pm4125_codec_hphr_dac_event(struct snd_soc_dapm_widget *w,
->> +				       struct snd_kcontrol *kcontrol, int event)
->> +{
->> +	struct snd_soc_component *component =3D
->> +					snd_soc_dapm_to_component(w->dapm);
-> this can fit in 100 chars.
-
-Ok.
-
-[...]
-
->> +static int pm4125_codec_enable_hphl_pa(struct snd_soc_dapm_widget *w,
->> +				       struct snd_kcontrol *kcontrol, int event)
->> +{
->> +	struct snd_soc_component *component =3D
->> +					snd_soc_dapm_to_component(w->dapm);
->> +	struct pm4125_priv *pm4125 =3D snd_soc_component_get_drvdata(component=
-);
->> +
->> +	switch (event) {
->> +	case SND_SOC_DAPM_PRE_PMU:
->> +		usleep_range(200, 210);
->> +		set_bit(HPH_PA_DELAY, &pm4125->status_mask);
-> Am really not following the logic here, we set the bit here and check
-> the bit in POST_PMU and then we set BIT in PRE_PMD and clear it int
-> POST_PMD.
->
-> So this bit will be set in all the cases.
->
-> why do we even need this bit to be set, can we not use the dealy by defau=
-lt?
-
-I guess it makes a lot of sense to remove it.
-
-
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_PDM_WD_CTL0,
->> +					      0x03, 0x03);
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMU:
->> +		if (test_bit(HPH_PA_DELAY, &pm4125->status_mask)) {
->> +			usleep_range(5000, 5100);
->> +			clear_bit(HPH_PA_DELAY, &pm4125->status_mask);
->> +		}
->> +
->> +		enable_irq(pm4125->hphl_pdm_wd_int);
->> +		break;
->> +	case SND_SOC_DAPM_PRE_PMD:
->> +		disable_irq_nosync(pm4125->hphl_pdm_wd_int);
->> +		set_bit(HPH_PA_DELAY, &pm4125->status_mask);
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMD:
->> +		if (test_bit(HPH_PA_DELAY, &pm4125->status_mask)) {
->> +			usleep_range(5000, 5100);
->> +			clear_bit(HPH_PA_DELAY, &pm4125->status_mask);
->> +		}
->> +
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_PDM_WD_CTL0,
->> +					      0x03, 0x00);
->> +		break;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int pm4125_codec_enable_lo_pa(struct snd_soc_dapm_widget *w,
->> +				     struct snd_kcontrol *kcontrol, int event)
->> +{
->> +	struct snd_soc_component *component =3D
->> +					snd_soc_dapm_to_component(w->dapm);
->> +	struct pm4125_priv *pm4125 =3D snd_soc_component_get_drvdata(component=
-);
->> +
->> +	switch (event) {
->> +	case SND_SOC_DAPM_PRE_PMU:
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_ANA_COMBOPA_CTL_5,
->> +					      0x04, 0x00);
->> +		usleep_range(1000, 1010);
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_ANA_COMBOPA_CTL_4,
->> +					      0x0F, 0x0F);
->> +		usleep_range(1000, 1010);
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_ANA_COMBOPA_CTL,
->> +					      0x40, 0x40);
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_PDM_WD_CTL0,
->> +					      0x03, 0x03);
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMU:
->> +		usleep_range(5000, 5010);
->> +
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_ANA_COMBOPA_CTL_4,
->> +					      0x0F, 0x04);
->> +		enable_irq(pm4125->hphl_pdm_wd_int);
->> +		break;
->> +	case SND_SOC_DAPM_PRE_PMD:
->> +		disable_irq_nosync(pm4125->hphl_pdm_wd_int);
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMD:
->> +		usleep_range(2000, 2010);
->> +
-> Empty lining is really not consistent across the code, either use it
-> consistently or not use it at all.
-
-Ok.
-
-
-[...]
-
->> +static int pm4125_enable_rx1(struct snd_soc_dapm_widget *w,
->> +			     struct snd_kcontrol *kcontrol, int event)
->> +{
->> +	struct snd_soc_component *component =3D
->> +					snd_soc_dapm_to_component(w->dapm);
->> +
->> +	if (event =3D=3D SND_SOC_DAPM_POST_PMD)
->> +		pm4125_rx_clk_disable(component);
->
-> if we convert the rx clk into dapm, then things will be inplace
-> automatically and you do not do this kinda handling.
-
-Thanks. I need to check this.
-
->> +
->> +	return 0;
->> +}
->> +
->> +static int pm4125_enable_rx2(struct snd_soc_dapm_widget *w,
->> +			     struct snd_kcontrol *kcontrol, int event)
->> +{
->> +	struct snd_soc_component *component =3D
->> +					snd_soc_dapm_to_component(w->dapm);
->> +
->> +	if (event =3D=3D SND_SOC_DAPM_POST_PMD)
->> +		pm4125_rx_clk_disable(component);
->> +
->> +	return 0;
->> +}
->
-> This function is duplicate of pm4125_enable_rx1()...
-
-Heh. Ok.
-
->> +static int pm4125_get_micb_vout_ctl_val(u32 micb_mv)
->> +{
->> +	if (micb_mv < 1600 || micb_mv > 2850) {
->> +		pr_err("Unsupported micbias voltage (%u mV)\n", micb_mv);
->> +		return -EINVAL;
->> +	}
->> +
->> +	return (micb_mv - 1600) / 50;
->> +}
->> +
->> +static int pm4125_codec_enable_adc(struct snd_soc_dapm_widget *w,
->> +				   struct snd_kcontrol *kcontrol, int event)
->> +{
-> Lets add the code needed for ADC in next spin.
-
-Yes.
-
-
->> +static int pm4125_codec_enable_dmic(struct snd_soc_dapm_widget *w,
->> +				    struct snd_kcontrol *kcontrol, int event)
->> +{
->> +	struct snd_soc_component *component =3D
->> +					snd_soc_dapm_to_component(w->dapm);
->> +	u16 dmic_clk_reg;
->> +
->> +	switch (w->shift) {
->> +	case 0:
->> +	case 1:
-> Can we use proper names here, instead of 1 and 0, can we use
-> PM4125_DMIC0, PM4125_DMIC1 ?
-
-
-Okay.
-
-
->> +		dmic_clk_reg =3D PM4125_DIG_SWR_CDC_DMIC1_CTL;
-> Also why can not we pass this as reg to the widget? then you can avoid
-> all this switch caseing.
-
-
-No idea. Let me check if I'll be able to fix that.
-
-
->> +		break;
->> +	default:
->> +		dev_err(component->dev, "Invalid DMIC selection\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	switch (event) {
->> +	case SND_SOC_DAPM_PRE_PMU:
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_CDC_AMIC_CTL,
->> +					      0x02, 0x00);
->> +		snd_soc_component_update_bits(component,
->> +					      dmic_clk_reg,
->> +					      0x08, 0x08);
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMD:
->> +		snd_soc_component_update_bits(component,
->> +					      dmic_clk_reg,
->> +					      0x08, 0x00);
->> +		snd_soc_component_update_bits(component,
->> +					      PM4125_DIG_SWR_CDC_AMIC_CTL,
->> +					      0x02, 0x02);
->> +		break;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int pm4125_micbias_control(struct snd_soc_component *component,
->> +				  int micb_num, int req, bool is_dapm)
->> +{
-> Lets implement this in v2.
-
-
-Yes, agree.
-
-
->> +static int __pm4125_codec_enable_micbias(struct snd_soc_dapm_widget *w,
->> +					 int event)
->> +{
->> +	struct snd_soc_component *component =3D snd_soc_dapm_to_component(w->d=
-apm);
->> +	int micb_num =3D w->shift;
->> +
->> +	switch (event) {
->> +	case SND_SOC_DAPM_PRE_PMU:
->> +		pm4125_micbias_control(component, micb_num,
->> +				       MICB_ENABLE, true);
-> MICBIAS 3 needs internal LDO pull up, as we can not connect it to
-> vairable voltage.
-
-
-Are we missing some code here? Maybe let's see if we can add it then?
-
-
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMU:
->> +		usleep_range(1000, 1100);
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMD:
->> +		pm4125_micbias_control(component, micb_num,
->> +					MICB_DISABLE, true);
->> +		break;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int pm4125_codec_enable_micbias(struct snd_soc_dapm_widget *w,
->> +				       struct snd_kcontrol *kcontrol, int event)
->> +{
->> +	return __pm4125_codec_enable_micbias(w, event);
-> Why do we need this boiler plate, same comment applies to other parts of
-> the code too.
-
-I tried to make a minimal working version (that doesn't horribly fail) that
-we're going to update with more patches during next submission.
-
-
-[..]
-
->> +static const struct snd_kcontrol_new hph_type_detect_controls[] =3D {
->> +	SOC_SINGLE_EXT("HPH Type", 0, 0, WCD_MBHC_HPH_STEREO, 0, NULL, NULL),
->> +};
->> +
->> +static const struct snd_kcontrol_new impedance_detect_controls[] =3D {
->> +	SOC_SINGLE_EXT("HPHL Impedance", 0, 0, INT_MAX, 0, NULL, NULL),
->> +	SOC_SINGLE_EXT("HPHR Impedance", 0, 1, INT_MAX, 0, NULL, NULL),
->
-> What are these supposed to read?
-
-
-Erm, nothing at this point? It is a stub for future changes.
-
-
->> +static void pm4125_mbhc_mbhc_bias_control(struct snd_soc_component *com=
-ponent,
->> +					  bool enable)
->> +{
->> +	snd_soc_component_update_bits(component, PM4125_ANA_MBHC_ELECT, 0x01,
->> +				      enable ? 0x01 : 0x00);
->> +}
->> +
->> +static void pm4125_mbhc_program_btn_thr(struct snd_soc_component *compo=
-nent,
->> +					int *btn_low, int *btn_high,
->> +					int num_btn, bool is_micbias)
->> +{
->> +	int i, vth;
->> +
->> +	if (num_btn > WCD_MBHC_DEF_BUTTONS) {
->> +		dev_err(component->dev, "%s: invalid number of buttons: %d\n",
->> +			__func__, num_btn);
->> +		return;
->> +	}
->> +
->> +	for (i =3D 0; i < num_btn; i++) {
->> +		vth =3D ((btn_high[i] * 2) / 25) & 0x3F;
->> +		snd_soc_component_write_field(component,
->> +					PM4125_ANA_MBHC_BTN0_ZDET_VREF1 + i,
->> +					0xfc, vth << 2);
->> +	}
->> +}
->> +
->> +static const struct wcd_mbhc_cb mbhc_cb =3D {
->> +	.clk_setup =3D NULL,
->> +	.mbhc_bias =3D pm4125_mbhc_mbhc_bias_control,
->> +	.set_btn_thr =3D pm4125_mbhc_program_btn_thr,
->> +	.micbias_enable_status =3D NULL,
->> +	.hph_pull_up_control_v2 =3D NULL,
->> +	.mbhc_micbias_control =3D NULL,
->> +	.mbhc_micb_ramp_control =3D NULL,
->> +	.mbhc_micb_ctrl_thr_mic =3D NULL,
->> +	.compute_impedance =3D NULL,
->> +	.mbhc_gnd_det_ctrl =3D NULL,
->> +	.hph_pull_down_ctrl =3D NULL,
->> +	.mbhc_moisture_config =3D NULL,
->> +	.mbhc_get_moisture_status =3D NULL,
->> +	.mbhc_moisture_polling_ctrl =3D NULL,
->> +	.mbhc_moisture_detect_en =3D NULL,
-> Either we add mbhc or not, having these dummy functions is not really
-> helping.
-
-
-Okay, then I can remove it then.
-
-
-[...]
-
-
->> +static bool pm4125_swap_gnd_mic(struct snd_soc_component *component)
->> +{
->> +	return true;
->
-> why true all the time? Isn't this suppose to control a mux or a gpio?
-
-
-I can see if I can remove it or let me know if you have code that implement=
-s
-this. It was supposed to be a stub.
-
-
-[...]
-
->> diff --git a/sound/soc/codecs/pm4125.h b/sound/soc/codecs/pm4125.h
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..2c5e8218202d92a0adc49341=
-3368991a406471b0
->> --- /dev/null
->> +++ b/sound/soc/codecs/pm4125.h
->> @@ -0,0 +1,375 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only
->> + * Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights =
-reserved.
->> + */
->> +
->> +#ifndef _PM4125_REGISTERS_H
->> +#define _PM4125_REGISTERS_H
->> +
->> +#include <linux/soundwire/sdw.h>
->> +#include <linux/soundwire/sdw_type.h>
->> +
->> +#define PM4125_ANA_BASE_ADDR	0x3000
->> +#define PM4125_DIG_BASE_ADDR	0x3400
->> +
->> +#define PM4125_REG(reg)	((reg > PM4125_DIG_BASE_ADDR) ? \
->> +			 (reg - PM4125_DIG_BASE_ADDR) : \
->> +			 (reg - PM4125_ANA_BASE_ADDR))
->> +
->> +enum {
->> +	REG_NO_ACCESS,
->> +	RD_REG,
->> +	WR_REG,
->> +	RD_WR_REG
->> +};
->> +
-> Both PM4125_REG(), and RD/WR_REG does not make sense, please use the
-> registers directly in the regmap config callbacks.
-
-
-Yes, okay.
-
-
-> ...
->> +#define PM4125_MAX_MICBIAS			3
->> +#define PM4125_MAX_BULK_SUPPLY			4
->> +#define PM4125_MAX_SWR_CH_IDS			15
->> +#define PM4125_SWRM_CH_MASK(ch_idx)		BIT(ch_idx - 1)
->> +
->> +enum pm4125_tx_sdw_ports {
->> +	PM4125_ADC_1_PORT =3D 1,
->> +	PM4125_DMIC_0_3_MBHC_PORT,
->> +	PM4125_MAX_TX_SWR_PORTS =3D PM4125_DMIC_0_3_MBHC_PORT,
->> +};
->> +
->> +enum pm4125_rx_sdw_ports {
->> +	PM4125_HPH_PORT =3D 1,
->> +	PM4125_COMP_PORT,
->> +	PM4125_MAX_SWR_PORTS =3D PM4125_COMP_PORT,
->> +};
->> +
->> +struct pm4125_sdw_ch_info {
->> +	int port_num;
->> +	unsigned int ch_mask;
->> +	unsigned int master_ch_mask;
->> +};
->> +
->> +#define WCD_SDW_CH(id, pn, cmask)	\
->> +	[id] =3D {			\
->> +		.port_num =3D pn,		\
->> +		.ch_mask =3D cmask,	\
->> +		.master_ch_mask =3D cmask,	\
->> +	}
->> +
->> +struct pm4125_priv;
->> +struct pm4125_sdw_priv {
->> +	struct sdw_slave *sdev;
->> +	struct sdw_stream_config sconfig;
->> +	struct sdw_stream_runtime *sruntime;
->> +	struct sdw_port_config port_config[PM4125_MAX_SWR_PORTS];
->> +	struct pm4125_sdw_ch_info *ch_info;
->> +	bool port_enable[PM4125_MAX_SWR_CH_IDS];
->> +	unsigned int master_channel_map[SDW_MAX_PORTS];
->> +	int active_ports;
->> +	int num_ports;
->> +	bool is_tx;
->> +	struct pm4125_priv *pm4125;
->> +	struct irq_domain *slave_irq;
->> +	struct regmap *regmap;
->> +};
->> +
->> +#if IS_ENABLED(CONFIG_SND_SOC_PM4125_SDW)
->> +int pm4125_sdw_free(struct pm4125_sdw_priv *pm4125,
->> +		    struct snd_pcm_substream *substream,
->> +		    struct snd_soc_dai *dai);
->> +int pm4125_sdw_set_sdw_stream(struct pm4125_sdw_priv *pm4125,
->> +			      struct snd_soc_dai *dai,
->> +			      void *stream, int direction);
->> +int pm4125_sdw_hw_params(struct pm4125_sdw_priv *pm4125,
->> +			 struct snd_pcm_substream *substream,
->> +			 struct snd_pcm_hw_params *params,
->> +			 struct snd_soc_dai *dai);
->> +
->> +struct device *pm4125_sdw_device_get(struct device_node *np);
->> +
->> +#else
->> +int pm4125_sdw_free(struct pm4125_sdw_priv *pm4125,
-> Should this be static inline, if not you will endup with multiple
-> defination of the function.
-> same for other stubs too.
-
-Thanks, I'll check that.
-
-
->> +		    struct snd_pcm_substream *substream,
->> +		    struct snd_soc_dai *dai)
->> +{
->> +	return -EOPNOTSUPP;
->> +}
->> +
->> +int pm4125_sdw_set_sdw_stream(struct pm4125_sdw_priv *pm4125,
->> +			      struct snd_soc_dai *dai,
->> +			      void *stream, int direction)
->> +{
->> +	return -EOPNOTSUPP;
->> +}
->> +
->> +int pm4125_sdw_hw_params(struct pm4125_sdw_priv *pm4125,
->> +			 struct snd_pcm_substream *substream,
->> +			 struct snd_pcm_hw_params *params,
->> +			 struct snd_soc_dai *dai)
->> +{
->> +	return -EOPNOTSUPP;
->> +}
->> +#endif
->> +
->> +enum {
->> +	/* INTR_CTRL_INT_MASK_0 */
->> +	PM4125_IRQ_MBHC_BUTTON_PRESS_DET =3D 0,
->> +	PM4125_IRQ_MBHC_BUTTON_RELEASE_DET,
->> +	PM4125_IRQ_MBHC_ELECT_INS_REM_DET,
->> +	PM4125_IRQ_MBHC_ELECT_INS_REM_LEG_DET,
->> +	PM4125_IRQ_MBHC_SW_DET,
->> +	PM4125_IRQ_HPHR_OCP_INT,
->> +	PM4125_IRQ_HPHR_CNP_INT,
->> +	PM4125_IRQ_HPHL_OCP_INT,
->> +
->> +	/* INTR_CTRL_INT_MASK_1 */
->> +	PM4125_IRQ_HPHL_CNP_INT,
->> +	PM4125_IRQ_EAR_CNP_INT,
->> +	PM4125_IRQ_EAR_SCD_INT,
->> +	PM4125_IRQ_AUX_CNP_INT,
->> +	PM4125_IRQ_AUX_SCD_INT,
->> +	PM4125_IRQ_HPHL_PDM_WD_INT,
->> +	PM4125_IRQ_HPHR_PDM_WD_INT,
->> +	PM4125_IRQ_AUX_PDM_WD_INT,
->> +
->> +	/* INTR_CTRL_INT_MASK_2 */
->> +	PM4125_IRQ_LDORT_SCD_INT,
->> +	PM4125_IRQ_MBHC_MOISTURE_INT,
->> +	PM4125_IRQ_HPHL_SURGE_DET_INT,
->> +	PM4125_IRQ_HPHR_SURGE_DET_INT,
->> +	PM4125_NUM_IRQS,
->> +};
->> +
->> +enum pm4125_tx_sdw_channels {
->> +	PM4125_ADC1,
->> +	PM4125_ADC2,
->> +	PM4125_ADC3,
->> +	PM4125_DMIC0,
->> +	PM4125_DMIC1,
->> +	PM4125_MBHC,
->> +	PM4125_DMIC2,
->> +	PM4125_DMIC3,
->> +	PM4125_DMIC4,
->> +	PM4125_DMIC5,
->> +	PM4125_DMIC6,
-> do we really have so many channels on TX, AFAIU, its only 2 channels and
-> two lanes.
->> +};
->> +
->> +enum pm4125_rx_sdw_channels {
->> +	PM4125_HPH_L,
->> +	PM4125_HPH_R,
->> +	PM4125_CLSH,
->> +	PM4125_COMP_L,
->> +	PM4125_COMP_R,
->> +	PM4125_LO,
->> +	PM4125_DSD_R,
->> +	PM4125_DSD_L,
-> Do we have so many channes? AFAIU, this is only 4 channels and 1 lane.
-
-I thought it is 2 or 4 channels and 2 lanes for rx.
-But for tx it is 2 channels and 1 lane.
-
-Anyways, this needs to be fixed.
-
-Thank you for your comments.
-
-Best regards,
-Alexey
+MIME-Version: 1.0
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6278.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5df36093-7b35-4ab2-1b67-08ddb90c2382
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2025 01:59:54.2854
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +kT2JcOlu+rnVOVewmStkxK47lxcqnSt9suKEE9gmt2pdwM0JhC+M8dsI/lHi4TN0vWrzSOCJymOi3XJgVUDwTYy4DhEfnAGWzy14fqPDXY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6107
+
+
+Hello,
+
+> > > -----Original Message-----
+> > > From: Takashi Iwai <tiwai@suse.de>
+> > > Sent: Tuesday, July 1, 2025 5:15 PM
+> > > To: Joakim Zhang <joakim.zhang@cixtech.com>
+> > > Cc: Takashi Iwai <tiwai@suse.de>; Kailang <kailang@realtek.com>;
+> > > perex@perex.cz; tiwai@suse.com; linux-sound@vger.kernel.org;
+> > > chris.chiu@canonical.com; Geans_chen <geans_chen@realsil.com.cn>
+> > > Subject: Re: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect
+> > > failed on
+> > > alc256
+> > >
+> > > EXTERNAL EMAIL
+> > >
+> > > CAUTION: Suspicious Email from unusual domain.
+> > >
+> > > On Tue, 01 Jul 2025 10:40:51 +0200,
+> > > Joakim  Zhang wrote:
+> > > >
+> > > >
+> > > > Hello,
+> > > >
+> > > > > > > -----Original Message-----
+> > > > > > > From: Takashi Iwai <tiwai@suse.de>
+> > > > > > > Sent: Tuesday, July 1, 2025 2:43 PM
+> > > > > > > To: Joakim Zhang <joakim.zhang@cixtech.com>
+> > > > > > > Cc: Takashi Iwai <tiwai@suse.de>; Kailang
+> > > > > > > <kailang@realtek.com>; perex@perex.cz; tiwai@suse.com;
+> > > > > > > linux-sound@vger.kernel.org; chris.chiu@canonical.com;
+> > > > > > > Geans_chen <geans_chen@realsil.com.cn>
+> > > > > > > Subject: Re: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack
+> > > > > > > detect failed on
+> > > > > > > alc256
+> > > > > > >
+> > > > > > > EXTERNAL EMAIL
+> > > > > > >
+> > > > > > > CAUTION: Suspicious Email from unusual domain.
+> > > > > > >
+> > > > > > > On Tue, 01 Jul 2025 08:35:05 +0200, Joakim  Zhang wrote:
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > Hello Takashi,
+> > > > > > > >
+> > > > > > > > Thanks a lot for your help.
+> > > > > > > >
+> > > > > > > > > > Hello Kailang,
+> > > > > > > > > >
+> > > > > > > > > > I'd like to insert another question through this. That
+> > > > > > > > > > would be appreciated if
+> > > > > > > > > you could have a look.
+> > > > > > > > > >
+> > > > > > > > > > After system boot, we can see the default mixer status =
+as
+> below:
+> > > > > > > > > >
+> > > > > > > > > > root@cix-localhost:~# amixer -c 0 contents
+> > > > > > > > > > numid=3D14,iface=3DCARD,name=3D'Headphone Jack'
+> > > > > > > > > >   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
+> > > > > > > > > >   : values=3Don
+> > > > > > > > > > numid=3D12,iface=3DCARD,name=3D'Internal Mic Phantom Ja=
+ck'
+> > > > > > > > > >   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
+> > > > > > > > > >   : values=3Don
+> > > > > > > > > > numid=3D13,iface=3DCARD,name=3D'Mic Jack'
+> > > > > > > > > >   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
+> > > > > > > > > >   : values=3Don
+> > > > > > > > > > numid=3D15,iface=3DCARD,name=3D'Speaker Phantom Jack'
+> > > > > > > > > >   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
+> > > > > > > > > >   : values=3Don
+> > > > > > > > > > numid=3D11,iface=3DMIXER,name=3D'Master Playback Switch=
+'
+> > > > > > > > > >   ; type=3DBOOLEAN,access=3Drw------,values=3D1
+> > > > > > > > > >   : values=3Don
+> > > > > > > > > > numid=3D10,iface=3DMIXER,name=3D'Master Playback Volume=
+'
+> > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
+> ,values=3D1,min=3D0,max=3D87,step=3D0
+> > > > > > > > > >   : values=3D60
+> > > > > > > > > >   | dBscale-min=3D-65.25dB,step=3D0.75dB,mute=3D0
+> > > > > > > > > > numid=3D2,iface=3DMIXER,name=3D'Headphone Playback Swit=
+ch'
+> > > > > > > > > >   ; type=3DBOOLEAN,access=3Drw------,values=3D2
+> > > > > > > > > >   : values=3Don,on
+> > > > > > > > > > numid=3D1,iface=3DMIXER,name=3D'Headphone Playback Volu=
+me'
+> > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
+> ,values=3D2,min=3D0,max=3D87,step=3D0
+> > > > > > > > > >   : values=3D87,87
+> > > > > > > > > >   | dBscale-min=3D-65.25dB,step=3D0.75dB,mute=3D0
+> > > > > > > > > > numid=3D9,iface=3DMIXER,name=3D'Mic Boost Volume'
+> > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
+> ,values=3D2,min=3D0,max=3D3,step=3D0
+> > > > > > > > > >   : values=3D0,0
+> > > > > > > > > >   | dBscale-min=3D0.00dB,step=3D10.00dB,mute=3D0
+> > > > > > > > > > numid=3D7,iface=3DMIXER,name=3D'Capture Switch'
+> > > > > > > > > >   ; type=3DBOOLEAN,access=3Drw------,values=3D2
+> > > > > > > > > >   : values=3Don,on
+> > > > > > > > > > numid=3D6,iface=3DMIXER,name=3D'Capture Volume'
+> > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
+> ,values=3D2,min=3D0,max=3D63,step=3D0
+> > > > > > > > > >   : values=3D39,39
+> > > > > > > > > >   | dBscale-min=3D-17.25dB,step=3D0.75dB,mute=3D0
+> > > > > > > > > > numid=3D5,iface=3DMIXER,name=3D'Auto-Mute Mode'
+> > > > > > > > > >   ; type=3DENUMERATED,access=3Drw------,values=3D1,item=
+s=3D2
+> > > > > > > > > >   ; Item #0 'Disabled'
+> > > > > > > > > >   ; Item #1 'Enabled'
+> > > > > > > > > >   : values=3D1
+> > > > > > > > > > numid=3D8,iface=3DMIXER,name=3D'Internal Mic Boost Volu=
+me'
+> > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
+> ,values=3D2,min=3D0,max=3D3,step=3D0
+> > > > > > > > > >   : values=3D0,0
+> > > > > > > > > >   | dBscale-min=3D0.00dB,step=3D10.00dB,mute=3D0
+> > > > > > > > > > numid=3D4,iface=3DMIXER,name=3D'Speaker Playback Switch=
+'
+> > > > > > > > > >   ; type=3DBOOLEAN,access=3Drw------,values=3D2
+> > > > > > > > > >   : values=3Doff,off
+> > > > > > > > > > numid=3D3,iface=3DMIXER,name=3D'Speaker Playback Volume=
+'
+> > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
+> ,values=3D2,min=3D0,max=3D87,step=3D0
+> > > > > > > > > >   : values=3D0,0
+> > > > > > > > > >   | dBscale-min=3D-65.25dB,step=3D0.75dB,mute=3D0
+> > > > > > > > > > numid=3D17,iface=3DPCM,name=3D'Capture Channel Map'
+> > > > > > > > > >   ; type=3DINTEGER,access=3Dr----R--
+> ,values=3D2,min=3D0,max=3D36,step=3D0
+> > > > > > > > > >   : values=3D0,0
+> > > > > > > > > >   | container
+> > > > > > > > > >     | chmap-fixed=3DFL,FR
+> > > > > > > > > > numid=3D16,iface=3DPCM,name=3D'Playback Channel Map'
+> > > > > > > > > >   ; type=3DINTEGER,access=3Dr----R--
+> ,values=3D2,min=3D0,max=3D36,step=3D0
+> > > > > > > > > >   : values=3D0,0
+> > > > > > > > > >   | container
+> > > > > > > > > >     | chmap-fixed=3DFL,FR
+> > > > > > > > > >
+> > > > > > > > > > It can auto switch 'Headphone Playback
+> > > > > > > > > > Switch'/'Headphone Playback Volume' and 'Speaker
+> > > > > > > > > > Playback Switch'/'Speaker Playback Volume', when I
+> > > > > > > > > > plugin the headset or not, but I have not found the
+> > > > > > > > > > related logic, could you
+> > > > > > > > > please help clarify a bit?
+> > > > > > > > >
+> > > > > > > > > Isn't it "Auto-Mute Mode"?  If it's set, the speaker is
+> > > > > > > > > muted automatically when the headphone/headset jack is
+> > > > > > > > > plugged by the kernel
+> > > > > > > driver itself.
+> > > > > > > >
+> > > > > > > > What strange is 'Auto-Mute Mode' would be disabled after
+> > > > > > > > headset
+> > > > > > > plugin/out several times, don' t know the reason....
+> > > > > > >
+> > > > > > > "Auto-Mute Mode" is a software switch, and it means some
+> > > > > > > program must have turned it off explicitly.  e.g. the sound
+> > > > > > > server like pulseaudio or pipewire disables it.
+> > > > > > >
+> > > > > > > > However, it seems that speaker and headphone/headset still
+> > > > > > > > can auto
+> > > > > > > switch. Please see below mixer status.
+> > > > > > >
+> > > > > > > Usually pulseaudio/pipewire takes over and does the switching=
+.
+> > > > > >
+> > > > > > OK, I see, I will dig into it, could you please tell me is
+> > > > > > there any other software
+> > > > > switches in the mixers?
+> > > > >
+> > > > > Any mixer program can change...  But basically the auto-mute is
+> > > > > a task of the sound daemon.
+> > > >
+> > > > I disable both pulseaudio and pipewire from the Debian, and enable
+> > > > the
+> > > auto-mute, when the headset plugin but the switch not set correctly.
+> > > > 'Headphone Playback Switch'/'Headphone Playback Volume' not set,
+> > > > but
+> > > 'Speaker Playback Switch'/'Speaker Playback Volume' enabled.
+> > > > Are there any other possible reasons?
+> > >
+> > > The auto-mute doesn't change the mixer state.  It switches
+> > > internally, either by adjusting the pin control or the amp.
+> >
+> > OK, is that means all mixers setting should done by users based on Jack
+> status?
+>=20
+> The mixer settings are exposed to user-space and user-space programs can
+> read or change them, sure.  But it's not clear what is your exact purpose=
+ or
+> goal, so I can't answer much better than that.
+>=20
+> The auto-mute feature is implemented in the kernel driver level, so that =
+the
+> automatic muting via jack plug can work without the sound daemon.  The
+> auto-muted state isn't exposed to user-space via ALSA control API (mixer
+> elements), and it looks as  if it were muted by the hardware.  Actually t=
+here are
+> hardware that do the auto-muting in the hardware level, too.
+
+Takashi, thanks for your details, I think what I want to know is what did i=
+n the kernel driver level for hp automute and mic autoswitch.
+
+I am looking the code, it seems only update the pins and not update the mix=
+er, right? So when the headset plugin, it will auto mute hp and auto switch=
+ to mic at the hardware level, users still need to update the mixer manuall=
+y.
+
+Further, is there any place in the hda codec driver level to update the mix=
+ers? AFAIK, for the ASoC driver, codec driver level would update some mixer=
+s dynamically based on the routing.
+
+Thanks,
+Joakim
