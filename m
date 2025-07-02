@@ -1,192 +1,177 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC9F23816C;
-	Wed,  2 Jul 2025 09:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751450318; cv=none; b=rvj7JB1YJBp49RF0a2pAoCmSsj/N4LPN8xmXKv9WCgEFzS9XYz5KNrQv8zyXci6qsVpmHUarVfndexxe4XEIY5uK1/fJqvXfivG7cO33xFwj9VkM/PY7ivIBoxEGUJL30ds3wdJQXwLCiCzGsMDwrFJDYAxzSY2RxPKn9185fCg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751450318; c=relaxed/simple;
-	bh=ac1WHXY9uU6sg9VG9LlQUm/TQKiiff0h5oFc/3+SBzY=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D1o5FWMQg66xzNOBz0Px8/T9GIoyqwDXuFCMmW5HS6VoLme9tUfqt3x1dgIbpPhF8tmangdHgyES6Uy87w/C6qLLiPxAGGH+qPbWonAXVjZZHDXxu3EaHHbHBQWvZ9y8345y/6hx5JBHjjecvQAPWEgegBbZn1OrLDzc98PQgxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bXFdQ6LTjz6L55h;
-	Wed,  2 Jul 2025 17:55:38 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id B5DAB1404FD;
-	Wed,  2 Jul 2025 17:58:31 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 2 Jul
- 2025 11:58:28 +0200
-Date: Wed, 2 Jul 2025 10:58:26 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
-CC: Jonathan Cameron <jic23@kernel.org>, Waqar Hameed <waqar.hameed@axis.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>, "Julien Panis" <jpanis@baylibre.com>,
-	William Breathitt Gray <wbg@kernel.org>, "Linus Walleij"
-	<linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Peter Rosin
-	<peda@axentia.se>, David Lechner <dlechner@baylibre.com>, Nuno
- =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Andy Shevchenko
-	<andy@kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>, "Lars-Peter
- Clausen" <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Matteo Martelli
-	<matteomartelli3@gmail.com>, Heiko Stuebner <heiko@sntech.de>, Francesco
- Dolcini <francesco@dolcini.it>, =?ISO-8859-1?Q?Jo=E3o?= Paulo
- =?ISO-8859-1?Q?Gon=E7alves?= <jpaulo.silvagoncalves@gmail.com>, Hugo
- Villeneuve <hvilleneuve@dimonoff.com>, Subhajit Ghosh
-	<subhajit.ghosh@tweaklogic.com>, Mudit Sharma <muditsharma.info@gmail.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>, Song Qiang
-	<songqiang1304521@gmail.com>, Crt Mori <cmo@melexis.com>, Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, Karol
- Gugala <kgugala@antmicro.com>, Mateusz Holenko <mholenko@antmicro.com>,
-	Gabriel Somlo <gsomlo@gmail.com>, Joel Stanley <joel@jms.id.au>, Claudiu
- Manoil <claudiu.manoil@nxp.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Wei Fang <wei.fang@nxp.com>, Clark Wang <xiaoning.wang@nxp.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
-	<kishon@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
-	<alim.akhtar@samsung.com>, Sebastian Reichel <sre@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
-	<martin.blumenstingl@googlemail.com>, Han Xu <han.xu@nxp.com>, Haibo Chen
-	<haibo.chen@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, Mark Brown
-	<broonie@kernel.org>, Avri Altman <avri.altman@wdc.com>, Bart Van Assche
-	<bvanassche@acm.org>, "James E.J. Bottomley"
-	<James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
-	<martin.petersen@oracle.com>, Souradeep Chowdhury
-	<quic_schowdhu@quicinc.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, "Peter Ujfalusi"
-	<peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Jaroslav Kysela <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, <kernel@axis.com>,
-	<linux-iio@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-	<linux-i2c@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-input@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-	<imx@lists.linux.dev>, <netdev@vger.kernel.org>,
-	<linux-phy@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-	<linux-amlogic@lists.infradead.org>, <linux-spi@vger.kernel.org>,
-	<linux-scsi@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <sound-open-firmware@alsa-project.org>,
-	<linux-sound@vger.kernel.org>, "Joe Perches" <joe@perches.com>, Andy
- Whitcroft <apw@canonical.com>, "Dwaipayan Ray" <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH] Remove error prints for devm_add_action_or_reset()
-Message-ID: <20250702105826.0000315e@huawei.com>
-In-Reply-To: <jeajjewfbg5qo736imozpghnpxln2pux74aegtqsi57qsbpug2@opndel6zc3m3>
-References: <pnd7c0s6ji2.fsf@axis.com>
-	<ylr7cuxldwb24ccenen4khtyddzq3owgzzfblbohkdxb7p7eeo@qpuddn6wrz3x>
-	<20250701185519.1410e831@jic23-huawei>
-	<jeajjewfbg5qo736imozpghnpxln2pux74aegtqsi57qsbpug2@opndel6zc3m3>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4564225EFB6;
+	Wed,  2 Jul 2025 11:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751455390; cv=fail; b=umPb0VjKnXLZ4bi8EIr14RGVqIQ8apT7aVwMnV2mU+w9YPuaOJQ3qP17vxUdbcxpIulSbfjTwoOKl4xvssv3r8MIfW3VjBFLWbh9ewZiCYQv/XcIrtmMv89EjQOOR2APOVbedQDOpNgq3WxbtAjN+40WSmur2kJbnl1IKjMmzlc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751455390; c=relaxed/simple;
+	bh=mge9SmX7ez9YEml77zLZqZ8GNy+CeWdeeK9wgV4ERW4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cWjbp7XEwGPXR7ka59+DYPjbpoePaTW1nXCwAd7jd7mweQw2IhfJum40AbbueXRZSwwwlI2kGUBfSdLmLMIoVEZIrwz0xu83lAy1dAFFyZkdcv//XUfv8xwkmU8AMEnap2R8bys9nMMLMtT/yq0JTWPhZgOWpkKesfYwV3JNEvs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=g1WoYpsb; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=ea2H3Cts; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="g1WoYpsb";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="ea2H3Cts"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 562AIpQ9026460;
+	Wed, 2 Jul 2025 06:22:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=ubGOZqiEvmYcGLHv
+	sfcvb+ltkiaMtvhS2Wj3MMxAeNA=; b=g1WoYpsbMEstlZQbwjtp0G7dTAXLN2iq
+	1DkcwhnOoJKbFoVJh00tz+bHS05xcT4G35sKeId9A+mPrHZKAIFyRnFyxwxMr8Bn
+	qiUvT3MRFy7Gt1nqYqKAk6SlmcjdRDSHnlA7HvE5oDSu26VQpzLbfVdfWp1WzDGT
+	EB/GwRrj8YzkPB+CVv3wcsjZnjlySygX13XSzesxnoTLowKLLOJWQGNHP5qOVS0M
+	EEmLTzMywPJttE/PuGHlrCWEjMFpwy8q8NyaB8pgJl9zwrftKW/2myOuJkD9yA05
+	/e7HZrkVK3+IQo2hUMWyugWGwqUt/qEGxqE6ohYPGrMKpWPO0Fa14A==
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2101.outbound.protection.outlook.com [40.107.237.101])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 47jcth5ew8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Jul 2025 06:22:51 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aEQeM+Edo0Df40F0FIycPE6UAbyFDh4iJcagBcNs5Q8DzEF2WCgAjU3OW47vsxM3xBJzUK/AT5d+KK2xQSJ/+agnNko2apk+t04SL8bMJdSvS6ak1KZoLaG35BUaOBVgsMHQRTW20IB700BoaNQSHw55xdVq6RJVxddzWPAMtV6JFXfYNju++Wtg9MtTfScng/gO9vqaA+F70LxV6LckriFDZlniWv3AscLGq3CpYGy4nLdvXqfmrU+1qkao64xziBxArpkDMGMgQJwx8kn8dnpSi6ZSEpV4GOEtKBkckKd+zQKP2Mb08duNpO2jYq7IwWEFFpI4+A7d4VNLMDxAIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ubGOZqiEvmYcGLHvsfcvb+ltkiaMtvhS2Wj3MMxAeNA=;
+ b=jZ4wws9Fw89+AaM4XikJMlTTcxjJjACoJ6CJHBVos+pc/fvsf33pyfcptP9MLo+9V3qE5O7/ssV+ASVFb+9jF2YvqeLJEo3fIyhV/z2aWfF0PnY6iyqtYcLQqQcn0hb57R6i5mHnI4xMHWY7poBeCM7FxqC1kJ3mqijVnEILjuQp0pDZDcZs6OAzJ69Sxs2K1nlR+HeQUSInLrm5ZQbMmkciVTANkWpuLjf0Qy0v8RgZbwIV7E2a/r2NfSwv370qol6MwBLfdzShCXZLIB7zW/q8gFN4S585d6gzwkb7dl03HRBAtqoJcqHQuVa9cgJtLA0KwtkhiCpHR1mDPaNUiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ubGOZqiEvmYcGLHvsfcvb+ltkiaMtvhS2Wj3MMxAeNA=;
+ b=ea2H3CtsByUnLIpurm9iRz0H3KzKV1FSsOGk3mEiLFHcUBSAJWFXxxOIyqbicFt8VwBkeDUH99OYoOmrfksY7MupacYoxrWZc5NdiZDH2DHeU0ZRRQmH6WXJjSuYRXMwitEFvJIbGvcl0LodC7aCU02DwuU4QWsyYeh+Rzs0vgE=
+Received: from SJ0PR05CA0048.namprd05.prod.outlook.com (2603:10b6:a03:33f::23)
+ by BY5PR19MB3811.namprd19.prod.outlook.com (2603:10b6:a03:22d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Wed, 2 Jul
+ 2025 11:22:47 +0000
+Received: from SJ1PEPF00001CE3.namprd05.prod.outlook.com
+ (2603:10b6:a03:33f:cafe::bc) by SJ0PR05CA0048.outlook.office365.com
+ (2603:10b6:a03:33f::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.11 via Frontend Transport; Wed,
+ 2 Jul 2025 11:22:47 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SJ1PEPF00001CE3.mail.protection.outlook.com (10.167.242.11) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.15
+ via Frontend Transport; Wed, 2 Jul 2025 11:22:47 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 51B63406542;
+	Wed,  2 Jul 2025 11:22:45 +0000 (UTC)
+Received: from lonswws01.ad.cirrus.com (lonswws01.ad.cirrus.com [198.90.188.26])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 1456C82024B;
+	Wed,  2 Jul 2025 11:22:45 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com, yung-chuan.liao@linux.intel.com,
+        Simon Trimmer <simont@opensource.cirrus.com>
+Subject: [PATCH] ASoC: Intel: sof_sdw: Add quirks for Lenovo P1 and P16
+Date: Wed,  2 Jul 2025 11:22:35 +0000
+Message-ID: <20250702112235.377479-1-simont@opensource.cirrus.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE3:EE_|BY5PR19MB3811:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 5bb09ce2-45a1-4513-ce92-08ddb95ac5db
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|61400799027|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?oTiTiVvI5IFXEQqIpjubNU/Jur9meq7BqVQKYH2yUpqnn1IR1aYhzK2oMIkn?=
+ =?us-ascii?Q?1fmnV3IiWaOY/VvhBZravEkS+0z10+ap4I3OAnJC01gS7LC2EV3ZhaSlvry9?=
+ =?us-ascii?Q?PliMWyWM8M/xlAIWKVAMu8ys8se5JjDtHKyaMqE1ANJ7TvhKU08FKLkXiMNG?=
+ =?us-ascii?Q?xuV7ne3g4sFDfnWqU8zwvGcFrJtiIVJYiqtUCnzP6QurgXVce3eaOVsj2aKv?=
+ =?us-ascii?Q?AK+GKEoAtCHSc4KdMsCcP/JDjTkD47d5UqmoO1FZgCKS5RPDO76gKKLVIZMi?=
+ =?us-ascii?Q?I3YecJViYrTjKiBFgDZFClyj2mcYg4K+nmLNDJkYBbnY6k5ohau0nvRDcGOt?=
+ =?us-ascii?Q?tUSDZi5fmEaGQqN8GP4NFI8+ZQOSJycNXBJXMOBkWM9XOUonVWYMOr6S6C3h?=
+ =?us-ascii?Q?/FxKaibr6CRm5PDjABf69eyKVraLdfM/Db9kpe69GwRhW0ix8I5dLYJ0jKp+?=
+ =?us-ascii?Q?QR2yKhUzhWCT5U/U7GUZlqJNS58OkQGrr2HoGHMvgqB/T10MxdJote/CwQCZ?=
+ =?us-ascii?Q?W4Vfd8twwavT1K1kaULGsebatdAl2ERoXZmMq3S/gvrBddGikHSdnPkVZN1S?=
+ =?us-ascii?Q?+0zS13BAQtLHsjfFZcfGEeTqRbPCIkAxzAZLma25oqSF5VZpbjftTIlm8VBM?=
+ =?us-ascii?Q?Z7XjNs02VCo+a7X+/JQ+XwqykTpXcYBreLkaaxaU/fIyyKxpsbFCcwOo6qPw?=
+ =?us-ascii?Q?s9OzRRLLF3I+wYiPIbQo9kXNPsqOfnxG+3bIaBHQjFp8rj35njW5Aj+S0UCr?=
+ =?us-ascii?Q?yyoQpe/hQsdH/KbIeurBaIfwTL4k6H/1SLT+2E1MjA/IDEf+MQA18SnaC95u?=
+ =?us-ascii?Q?Bu+G0Dz2JJhlDeEb6oXleDlhLMqcqtRqyv2gsdxJ+3Ea4LOYaB1to/utrESC?=
+ =?us-ascii?Q?FGAO/dY+TJD+GApbGfflrKcOSanQH/G9jIABLXPBMJ7RAbmLtuoOHr6FN2/Y?=
+ =?us-ascii?Q?glpQ18O0XP+wtN1buKIbLxKsNnpafcf0NIYSP2Ib/htc0+0qMX4rssCOEX/3?=
+ =?us-ascii?Q?zassvviR9oqfRWSh6Gr4BXB0MmsuaQw2B6amoa0ye4+SlCf5Ho/u4Wf78Dy4?=
+ =?us-ascii?Q?ZfnBYNxuV4XsjMhCG2HwvyoXmYSSK06eZXk9T+NawuPVpjTkKL7eOrNg/AVv?=
+ =?us-ascii?Q?ab6Kz00tDaC2LsVWQ4F8DXOFvr6vX0DJpdmD1MgaguGr/IeyzL/jGLp1o4TZ?=
+ =?us-ascii?Q?seiwk8MwgT12f0dZiSYoVXjgfLyt1a6P05W8LuHmPQzcKZ7D4kwOay9jCjmU?=
+ =?us-ascii?Q?E29TlfRBmDrHE/icQqf5uGpxf5+DILs8CtmrMO5sc8f7ygEMff/ALca9HKGc?=
+ =?us-ascii?Q?80LTqxnnIQ9yWyPdeyRh9MnlTTS6HaVTZWBKAGCIkSTGNFsVfDY9UcxRU3s+?=
+ =?us-ascii?Q?uMR7bC5fgiFaX2IiqOgToLHVyrYWaXlgvYf3/myjL4PFh6H3sszIM29aRfKx?=
+ =?us-ascii?Q?/zSYLlkPlZUOWZoEQqIPYiswedkOwS8C18IxrMH2Qhbj0gdLn24PiPqYu5Nf?=
+ =?us-ascii?Q?dm0qwy94guXNod80BVO2fDWvcrUD1/dHb1sr?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(376014)(36860700013);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 11:22:47.0794
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bb09ce2-45a1-4513-ce92-08ddb95ac5db
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CE3.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR19MB3811
+X-Proofpoint-GUID: 3-wSzN-Y4zlxUjFZ2NmNsmpPSxByIJWY
+X-Authority-Analysis: v=2.4 cv=Qste3Uyd c=1 sm=1 tr=0 ts=6865168b cx=c_pps a=VwMy6949QmfyZ88rPZqQKg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=Wb1JkmetP80A:10
+ a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=B3KfDADGxY1k0BY96H0A:9
+X-Proofpoint-ORIG-GUID: 3-wSzN-Y4zlxUjFZ2NmNsmpPSxByIJWY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAyMDA5MiBTYWx0ZWRfXyh1VAec2jaAG IUDTvEi2BqGkUWlOrV8zMcPI1sMI+Fn3fj6aqelGJiAjRPSU5kQUD/3Pl2o6kBhRwbsvU+ES13n LlIdJ8Cer6pqM7ZSFyq4EG4lv5vxmxJ6xhXkD4huSDRMdjaKE+0/7GAwcOv/iAPxnfNcCi/Y9Lz
+ flXcECz5mb4ixQvn5DDsqMDaGYQOH4Apho5FWszVixM49J9PW5pqYmba5qxF6648Q2+Ecm75RSg d6Rw5OTgnm23AuJRaSxGj8ozHxGm38+MsatirBApH8ivKw5vMpSIZ+VAOysuHwFABsUyCbMdVqZ 9WrQ/BktCrijFqFEa1+F0TrhQdOkyQv2iZ43Vv6CMgUX8Pnbrdhbl+0q6Ga+tw5s7aTexLrfIVH
+ RkN1ovBjtaDma31biC9bnLBzU8WFoWnq7NjByhpuG86N3ioBK751DbVBWW2rZHORX1e41KcM
+X-Proofpoint-Spam-Reason: safe
 
-On Wed, 2 Jul 2025 08:54:48 +0200
-Uwe Kleine-K=F6nig <ukleinek@kernel.org> wrote:
+These Lenovo Laptops have the DMICs connected to the host instead of the
+CS42L43 and so need the SOC_SDW_CODEC_MIC quirk.
 
-> Hello Jonathan,
->=20
-> On Tue, Jul 01, 2025 at 06:55:19PM +0100, Jonathan Cameron wrote:
-> > On Tue, 1 Jul 2025 19:44:17 +0200
-> > Uwe Kleine-K=F6nig <ukleinek@kernel.org> wrote:
-> >  =20
-> > > On Tue, Jul 01, 2025 at 05:03:33PM +0200, Waqar Hameed wrote: =20
-> > > >  drivers/pwm/pwm-meson.c                          | 3 +--   =20
-> > >=20
-> > > Looking at this driver I tried the following: =20
-> >=20
-> > I'm not sure what we actually want here.
-> >=20
-> > My thought when suggesting removing instances of this
-> > particular combination wasn't saving on code size, but rather just
-> > general removal of pointless code that was getting cut and
-> > paste into new drivers and wasting a tiny bit of review bandwidth.
-> > I'd consider it bad practice to have patterns like
-> >=20
-> > void *something =3D kmalloc();
-> > if  (!something)
-> > 	return dev_err_probe(dev, -ENOMEM, ..);
-> >=20
-> > and my assumption was people would take a similar view with
-> > devm_add_action_or_reset().
-> >
-> > It is a bit nuanced to have some cases where we think prints
-> > are reasonable and others where they aren't so I get your
-> > point about consistency. =20
->=20
-> The problem I see is that there are two classes of functions: a) Those
-> that require an error message and b) those that don't. Class b) consists
-> of the functions that can only return success or -ENOMEM and the
-> functions that emit an error message themselves. (And another problem I
-> see is that for the latter the error message is usually non-optimal
-> because the function doesn't know the all details of the request. See my
-> reply to Andy for more details about that rant.)
->=20
-> IMHO what takes away the review bandwidth is that the reviewer has to
-> check which class the failing function is part of. If this effort
-> results in more driver authors not adding an error message after
-> devm_add_action_or_reset() that's nice, but in two months I have
-> forgotten the details of this discussion and I have to recheck if
-> devm_add_action_or_reset() is part of a) or b) and so the burden is
-> still on me.
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+---
+ sound/soc/intel/boards/sof_sdw.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Maybe this is a job for checkpatch, at least for the common cases.
-
-There is already a check for kmalloc etc.
-https://elixir.bootlin.com/linux/v6.16-rc4/source/scripts/checkpatch.pl#L64=
-42
-
-+CC Joe (who wrote the allocation functions test years ago) and other check=
-patch
-folk.
-
-
->=20
-> So to give my answer on your question "What do we actually want here?":
-> Please let us get rid of the need to care for a) or b).
->=20
-> > The code size reduction is nice so I'd not be against it as an extra
-> > if the reduction across a kernel builds is significant and enough
-> > people want to keep these non printing prints. =20
->=20
-> To complete implementing my wish all API functions would need to stop to
-> emit an error message. Unfortunately that isn't without downsides
-> because the result is that there are more error strings and so the
-> kernel size is increased. So you have to weight if you prefer individual
-> error messages and easier review/maintenance at the cost of a bigger
-> binary size and more dev_err_probe() calls in drivers eating vertical
-> space in your editor.
->=20
-> I know on which side I am, but I bet we won't find agreement about that
-> in the kernel community ...
-
-
->=20
-> Best regards
-> Uwe
->=20
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 05d13bacf88a..c639df2cacdd 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -783,6 +783,9 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ static const struct snd_pci_quirk sof_sdw_ssid_quirk_table[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1e13, "ASUS Zenbook S14", SOC_SDW_CODEC_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1f43, "ASUS Zenbook S16", SOC_SDW_CODEC_MIC),
++	SND_PCI_QUIRK(0x17aa, 0x2347, "Lenovo P16", SOC_SDW_CODEC_MIC),
++	SND_PCI_QUIRK(0x17aa, 0x2348, "Lenovo P16", SOC_SDW_CODEC_MIC),
++	SND_PCI_QUIRK(0x17aa, 0x2349, "Lenovo P1", SOC_SDW_CODEC_MIC),
+ 	{}
+ };
+ 
+-- 
+2.43.0
 
