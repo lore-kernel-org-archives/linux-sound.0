@@ -1,177 +1,358 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4564225EFB6;
-	Wed,  2 Jul 2025 11:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751455390; cv=fail; b=umPb0VjKnXLZ4bi8EIr14RGVqIQ8apT7aVwMnV2mU+w9YPuaOJQ3qP17vxUdbcxpIulSbfjTwoOKl4xvssv3r8MIfW3VjBFLWbh9ewZiCYQv/XcIrtmMv89EjQOOR2APOVbedQDOpNgq3WxbtAjN+40WSmur2kJbnl1IKjMmzlc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751455390; c=relaxed/simple;
-	bh=mge9SmX7ez9YEml77zLZqZ8GNy+CeWdeeK9wgV4ERW4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cWjbp7XEwGPXR7ka59+DYPjbpoePaTW1nXCwAd7jd7mweQw2IhfJum40AbbueXRZSwwwlI2kGUBfSdLmLMIoVEZIrwz0xu83lAy1dAFFyZkdcv//XUfv8xwkmU8AMEnap2R8bys9nMMLMtT/yq0JTWPhZgOWpkKesfYwV3JNEvs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=g1WoYpsb; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=ea2H3Cts; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA8270810
+	for <linux-sound@vger.kernel.org>; Wed,  2 Jul 2025 14:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751466436; cv=none; b=uUZkbA0aSlwt/Vpz88B/QDBnWX+0Qiz2kWUxQKru2a965IqI5KO19fXhM5rEpXbaIfIehWlU3zl2C0xrhOAIcbwrjbSnvxVEgpKNscGUNN9UB+ajD5q2Clk/4GcMebT+wlXESl7lKNiQIgaNVFeKSV8KsKhjwn+DNdf9KRvzEhc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751466436; c=relaxed/simple;
+	bh=nZLppcfa80TXZcd+/fgAIA1G9nKf1YgAhrykhQ1De8s=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OQUtZVvQdZls1azkao8KHoDdmDEJ/njUEa/1bd/oUmHnPVcrBF/v94MvqxcjbwFOU8bON/cJWzKSSkqt4ElhMcZQ61Sbj2vdcqPCzrH2R1lzFtMuyasWn4rQ6d+j7A01JyjyBBJxh6pcrXLGRNuyUUCiSifgIk0VTcgcceW4xRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Uir5kiWQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PkTnkMdV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WDyEW+yg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KGb4TWHu; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="g1WoYpsb";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="ea2H3Cts"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 562AIpQ9026460;
-	Wed, 2 Jul 2025 06:22:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=ubGOZqiEvmYcGLHv
-	sfcvb+ltkiaMtvhS2Wj3MMxAeNA=; b=g1WoYpsbMEstlZQbwjtp0G7dTAXLN2iq
-	1DkcwhnOoJKbFoVJh00tz+bHS05xcT4G35sKeId9A+mPrHZKAIFyRnFyxwxMr8Bn
-	qiUvT3MRFy7Gt1nqYqKAk6SlmcjdRDSHnlA7HvE5oDSu26VQpzLbfVdfWp1WzDGT
-	EB/GwRrj8YzkPB+CVv3wcsjZnjlySygX13XSzesxnoTLowKLLOJWQGNHP5qOVS0M
-	EEmLTzMywPJttE/PuGHlrCWEjMFpwy8q8NyaB8pgJl9zwrftKW/2myOuJkD9yA05
-	/e7HZrkVK3+IQo2hUMWyugWGwqUt/qEGxqE6ohYPGrMKpWPO0Fa14A==
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2101.outbound.protection.outlook.com [40.107.237.101])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 47jcth5ew8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Jul 2025 06:22:51 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aEQeM+Edo0Df40F0FIycPE6UAbyFDh4iJcagBcNs5Q8DzEF2WCgAjU3OW47vsxM3xBJzUK/AT5d+KK2xQSJ/+agnNko2apk+t04SL8bMJdSvS6ak1KZoLaG35BUaOBVgsMHQRTW20IB700BoaNQSHw55xdVq6RJVxddzWPAMtV6JFXfYNju++Wtg9MtTfScng/gO9vqaA+F70LxV6LckriFDZlniWv3AscLGq3CpYGy4nLdvXqfmrU+1qkao64xziBxArpkDMGMgQJwx8kn8dnpSi6ZSEpV4GOEtKBkckKd+zQKP2Mb08duNpO2jYq7IwWEFFpI4+A7d4VNLMDxAIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ubGOZqiEvmYcGLHvsfcvb+ltkiaMtvhS2Wj3MMxAeNA=;
- b=jZ4wws9Fw89+AaM4XikJMlTTcxjJjACoJ6CJHBVos+pc/fvsf33pyfcptP9MLo+9V3qE5O7/ssV+ASVFb+9jF2YvqeLJEo3fIyhV/z2aWfF0PnY6iyqtYcLQqQcn0hb57R6i5mHnI4xMHWY7poBeCM7FxqC1kJ3mqijVnEILjuQp0pDZDcZs6OAzJ69Sxs2K1nlR+HeQUSInLrm5ZQbMmkciVTANkWpuLjf0Qy0v8RgZbwIV7E2a/r2NfSwv370qol6MwBLfdzShCXZLIB7zW/q8gFN4S585d6gzwkb7dl03HRBAtqoJcqHQuVa9cgJtLA0KwtkhiCpHR1mDPaNUiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ubGOZqiEvmYcGLHvsfcvb+ltkiaMtvhS2Wj3MMxAeNA=;
- b=ea2H3CtsByUnLIpurm9iRz0H3KzKV1FSsOGk3mEiLFHcUBSAJWFXxxOIyqbicFt8VwBkeDUH99OYoOmrfksY7MupacYoxrWZc5NdiZDH2DHeU0ZRRQmH6WXJjSuYRXMwitEFvJIbGvcl0LodC7aCU02DwuU4QWsyYeh+Rzs0vgE=
-Received: from SJ0PR05CA0048.namprd05.prod.outlook.com (2603:10b6:a03:33f::23)
- by BY5PR19MB3811.namprd19.prod.outlook.com (2603:10b6:a03:22d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Wed, 2 Jul
- 2025 11:22:47 +0000
-Received: from SJ1PEPF00001CE3.namprd05.prod.outlook.com
- (2603:10b6:a03:33f:cafe::bc) by SJ0PR05CA0048.outlook.office365.com
- (2603:10b6:a03:33f::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.11 via Frontend Transport; Wed,
- 2 Jul 2025 11:22:47 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SJ1PEPF00001CE3.mail.protection.outlook.com (10.167.242.11) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.15
- via Frontend Transport; Wed, 2 Jul 2025 11:22:47 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 51B63406542;
-	Wed,  2 Jul 2025 11:22:45 +0000 (UTC)
-Received: from lonswws01.ad.cirrus.com (lonswws01.ad.cirrus.com [198.90.188.26])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 1456C82024B;
-	Wed,  2 Jul 2025 11:22:45 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com, yung-chuan.liao@linux.intel.com,
-        Simon Trimmer <simont@opensource.cirrus.com>
-Subject: [PATCH] ASoC: Intel: sof_sdw: Add quirks for Lenovo P1 and P16
-Date: Wed,  2 Jul 2025 11:22:35 +0000
-Message-ID: <20250702112235.377479-1-simont@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Uir5kiWQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PkTnkMdV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WDyEW+yg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KGb4TWHu"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B54BD21191;
+	Wed,  2 Jul 2025 14:27:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751466432; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zWcqR4Tz/0u2hoA6Atwb2r1pNk6oCZOGFi3VQevMeyk=;
+	b=Uir5kiWQqIydgU7Ud6ecveFid90a6XlMfgNQSomBsykVQxgB9dVpa8YT/GUm8B0zRKoXKb
+	I8xrYFUtIXPV5H49IR2A9QRBN3+DqvaDHyW/EK8JscQ/AlzxhRV7OQAqpE9PsUzkKrAtEG
+	ZAkRUTvtxVmEHy+OOhfcIoXrrcG9Uck=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751466432;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zWcqR4Tz/0u2hoA6Atwb2r1pNk6oCZOGFi3VQevMeyk=;
+	b=PkTnkMdVwCJXe38KdRpPMQuVmloNCJ8sfj/zhQ24wNq6pzkhnbnpx/bV8x3WIZod93/Z6A
+	s7x8f0hpiQqL3IDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WDyEW+yg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KGb4TWHu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751466430; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zWcqR4Tz/0u2hoA6Atwb2r1pNk6oCZOGFi3VQevMeyk=;
+	b=WDyEW+ygau4YTcMv3oqEQREvUxdKckkMZQqXEQ0Gdo5nDGcITyw/1GazoTe19E2t8iOrTe
+	rby/a+cGMEkg0WtN0pVflqUcUGjBdlsisSXEm7zBzYUDWO6nX+soZJLD/LeN+GEljCVFK7
+	Uaso2ikIr4XnYyVz5uiWtuIWrjwc/Rc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751466430;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zWcqR4Tz/0u2hoA6Atwb2r1pNk6oCZOGFi3VQevMeyk=;
+	b=KGb4TWHudWAIMyZdBjJj35Vvs0L2iuZQK51u6CgYuxLTIxW3zY7tY3nAtjL3yghFQ0MrQb
+	UmBA0E48wDMJ4KDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C7B913A54;
+	Wed,  2 Jul 2025 14:27:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id tM86Hb5BZWgtRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 02 Jul 2025 14:27:10 +0000
+Date: Wed, 02 Jul 2025 16:27:10 +0200
+Message-ID: <87pleivfb5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Joakim  Zhang" <joakim.zhang@cixtech.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Kailang <kailang@realtek.com>,
+	"perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>,
+	"chris.chiu@canonical.com"
+	<chris.chiu@canonical.com>,
+	Geans_chen <geans_chen@realsil.com.cn>
+Subject: Re: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on alc256
+In-Reply-To: <SEYPR06MB627805243BFA48D81FD58B158240A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
+	<20250619020844.2974160-5-joakim.zhang@cixtech.com>
+	<87a562wqzu.wl-tiwai@suse.de>
+	<431c41bd52224eb5ac341c9c24d52af1@realtek.com>
+	<SEYPR06MB6278B03237E451616AC060E38278A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<abb90ebd8dab4cedbb831d4ad943bd56@realtek.com>
+	<SEYPR06MB6278C26C6B0479C920FEB364827BA@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<5f2431ca8ef2453daa9da2034798e682@realtek.com>
+	<SEYPR06MB62788CE70E017CB5FD7F5317827AA@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<a0d71d7f93a94800881c8c67c9e715f8@realtek.com>
+	<SEYPR06MB62789527920A36FC01B665988241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<87cyake9w0.wl-tiwai@suse.de>
+	<SEYPR06MB6278B60285176A9B98ECB65F8241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<877c0se7iu.wl-tiwai@suse.de>
+	<SEYPR06MB6278B9C65FA98E18C87EDC1A8241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<874ivwe75h.wl-tiwai@suse.de>
+	<SEYPR06MB62781EDBF735E177B909053B8241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<87y0t8clx2.wl-tiwai@suse.de>
+	<SEYPR06MB6278A4E87874B8B894A1DAD48241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+	<87tt3w6stw.wl-tiwai@suse.de>
+	<SEYPR06MB627805243BFA48D81FD58B158240A@SEYPR06MB6278.apcprd06.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE3:EE_|BY5PR19MB3811:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 5bb09ce2-45a1-4513-ce92-08ddb95ac5db
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|61400799027|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?oTiTiVvI5IFXEQqIpjubNU/Jur9meq7BqVQKYH2yUpqnn1IR1aYhzK2oMIkn?=
- =?us-ascii?Q?1fmnV3IiWaOY/VvhBZravEkS+0z10+ap4I3OAnJC01gS7LC2EV3ZhaSlvry9?=
- =?us-ascii?Q?PliMWyWM8M/xlAIWKVAMu8ys8se5JjDtHKyaMqE1ANJ7TvhKU08FKLkXiMNG?=
- =?us-ascii?Q?xuV7ne3g4sFDfnWqU8zwvGcFrJtiIVJYiqtUCnzP6QurgXVce3eaOVsj2aKv?=
- =?us-ascii?Q?AK+GKEoAtCHSc4KdMsCcP/JDjTkD47d5UqmoO1FZgCKS5RPDO76gKKLVIZMi?=
- =?us-ascii?Q?I3YecJViYrTjKiBFgDZFClyj2mcYg4K+nmLNDJkYBbnY6k5ohau0nvRDcGOt?=
- =?us-ascii?Q?tUSDZi5fmEaGQqN8GP4NFI8+ZQOSJycNXBJXMOBkWM9XOUonVWYMOr6S6C3h?=
- =?us-ascii?Q?/FxKaibr6CRm5PDjABf69eyKVraLdfM/Db9kpe69GwRhW0ix8I5dLYJ0jKp+?=
- =?us-ascii?Q?QR2yKhUzhWCT5U/U7GUZlqJNS58OkQGrr2HoGHMvgqB/T10MxdJote/CwQCZ?=
- =?us-ascii?Q?W4Vfd8twwavT1K1kaULGsebatdAl2ERoXZmMq3S/gvrBddGikHSdnPkVZN1S?=
- =?us-ascii?Q?+0zS13BAQtLHsjfFZcfGEeTqRbPCIkAxzAZLma25oqSF5VZpbjftTIlm8VBM?=
- =?us-ascii?Q?Z7XjNs02VCo+a7X+/JQ+XwqykTpXcYBreLkaaxaU/fIyyKxpsbFCcwOo6qPw?=
- =?us-ascii?Q?s9OzRRLLF3I+wYiPIbQo9kXNPsqOfnxG+3bIaBHQjFp8rj35njW5Aj+S0UCr?=
- =?us-ascii?Q?yyoQpe/hQsdH/KbIeurBaIfwTL4k6H/1SLT+2E1MjA/IDEf+MQA18SnaC95u?=
- =?us-ascii?Q?Bu+G0Dz2JJhlDeEb6oXleDlhLMqcqtRqyv2gsdxJ+3Ea4LOYaB1to/utrESC?=
- =?us-ascii?Q?FGAO/dY+TJD+GApbGfflrKcOSanQH/G9jIABLXPBMJ7RAbmLtuoOHr6FN2/Y?=
- =?us-ascii?Q?glpQ18O0XP+wtN1buKIbLxKsNnpafcf0NIYSP2Ib/htc0+0qMX4rssCOEX/3?=
- =?us-ascii?Q?zassvviR9oqfRWSh6Gr4BXB0MmsuaQw2B6amoa0ye4+SlCf5Ho/u4Wf78Dy4?=
- =?us-ascii?Q?ZfnBYNxuV4XsjMhCG2HwvyoXmYSSK06eZXk9T+NawuPVpjTkKL7eOrNg/AVv?=
- =?us-ascii?Q?ab6Kz00tDaC2LsVWQ4F8DXOFvr6vX0DJpdmD1MgaguGr/IeyzL/jGLp1o4TZ?=
- =?us-ascii?Q?seiwk8MwgT12f0dZiSYoVXjgfLyt1a6P05W8LuHmPQzcKZ7D4kwOay9jCjmU?=
- =?us-ascii?Q?E29TlfRBmDrHE/icQqf5uGpxf5+DILs8CtmrMO5sc8f7ygEMff/ALca9HKGc?=
- =?us-ascii?Q?80LTqxnnIQ9yWyPdeyRh9MnlTTS6HaVTZWBKAGCIkSTGNFsVfDY9UcxRU3s+?=
- =?us-ascii?Q?uMR7bC5fgiFaX2IiqOgToLHVyrYWaXlgvYf3/myjL4PFh6H3sszIM29aRfKx?=
- =?us-ascii?Q?/zSYLlkPlZUOWZoEQqIPYiswedkOwS8C18IxrMH2Qhbj0gdLn24PiPqYu5Nf?=
- =?us-ascii?Q?dm0qwy94guXNod80BVO2fDWvcrUD1/dHb1sr?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(376014)(36860700013);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 11:22:47.0794
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bb09ce2-45a1-4513-ce92-08ddb95ac5db
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CE3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR19MB3811
-X-Proofpoint-GUID: 3-wSzN-Y4zlxUjFZ2NmNsmpPSxByIJWY
-X-Authority-Analysis: v=2.4 cv=Qste3Uyd c=1 sm=1 tr=0 ts=6865168b cx=c_pps a=VwMy6949QmfyZ88rPZqQKg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=Wb1JkmetP80A:10
- a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=B3KfDADGxY1k0BY96H0A:9
-X-Proofpoint-ORIG-GUID: 3-wSzN-Y4zlxUjFZ2NmNsmpPSxByIJWY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAyMDA5MiBTYWx0ZWRfXyh1VAec2jaAG IUDTvEi2BqGkUWlOrV8zMcPI1sMI+Fn3fj6aqelGJiAjRPSU5kQUD/3Pl2o6kBhRwbsvU+ES13n LlIdJ8Cer6pqM7ZSFyq4EG4lv5vxmxJ6xhXkD4huSDRMdjaKE+0/7GAwcOv/iAPxnfNcCi/Y9Lz
- flXcECz5mb4ixQvn5DDsqMDaGYQOH4Apho5FWszVixM49J9PW5pqYmba5qxF6648Q2+Ecm75RSg d6Rw5OTgnm23AuJRaSxGj8ozHxGm38+MsatirBApH8ivKw5vMpSIZ+VAOysuHwFABsUyCbMdVqZ 9WrQ/BktCrijFqFEa1+F0TrhQdOkyQv2iZ43Vv6CMgUX8Pnbrdhbl+0q6Ga+tw5s7aTexLrfIVH
- RkN1ovBjtaDma31biC9bnLBzU8WFoWnq7NjByhpuG86N3ioBK751DbVBWW2rZHORX1e41KcM
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[realsil.com.cn:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: B54BD21191
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -3.51
 
-These Lenovo Laptops have the DMICs connected to the host instead of the
-CS42L43 and so need the SOC_SDW_CODEC_MIC quirk.
+On Wed, 02 Jul 2025 03:59:54 +0200,
+Joakim  Zhang wrote:
+> 
+> 
+> Hello,
+> 
+> > > > -----Original Message-----
+> > > > From: Takashi Iwai <tiwai@suse.de>
+> > > > Sent: Tuesday, July 1, 2025 5:15 PM
+> > > > To: Joakim Zhang <joakim.zhang@cixtech.com>
+> > > > Cc: Takashi Iwai <tiwai@suse.de>; Kailang <kailang@realtek.com>;
+> > > > perex@perex.cz; tiwai@suse.com; linux-sound@vger.kernel.org;
+> > > > chris.chiu@canonical.com; Geans_chen <geans_chen@realsil.com.cn>
+> > > > Subject: Re: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect
+> > > > failed on
+> > > > alc256
+> > > >
+> > > > EXTERNAL EMAIL
+> > > >
+> > > > CAUTION: Suspicious Email from unusual domain.
+> > > >
+> > > > On Tue, 01 Jul 2025 10:40:51 +0200,
+> > > > Joakim  Zhang wrote:
+> > > > >
+> > > > >
+> > > > > Hello,
+> > > > >
+> > > > > > > > -----Original Message-----
+> > > > > > > > From: Takashi Iwai <tiwai@suse.de>
+> > > > > > > > Sent: Tuesday, July 1, 2025 2:43 PM
+> > > > > > > > To: Joakim Zhang <joakim.zhang@cixtech.com>
+> > > > > > > > Cc: Takashi Iwai <tiwai@suse.de>; Kailang
+> > > > > > > > <kailang@realtek.com>; perex@perex.cz; tiwai@suse.com;
+> > > > > > > > linux-sound@vger.kernel.org; chris.chiu@canonical.com;
+> > > > > > > > Geans_chen <geans_chen@realsil.com.cn>
+> > > > > > > > Subject: Re: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack
+> > > > > > > > detect failed on
+> > > > > > > > alc256
+> > > > > > > >
+> > > > > > > > EXTERNAL EMAIL
+> > > > > > > >
+> > > > > > > > CAUTION: Suspicious Email from unusual domain.
+> > > > > > > >
+> > > > > > > > On Tue, 01 Jul 2025 08:35:05 +0200, Joakim  Zhang wrote:
+> > > > > > > > >
+> > > > > > > > >
+> > > > > > > > > Hello Takashi,
+> > > > > > > > >
+> > > > > > > > > Thanks a lot for your help.
+> > > > > > > > >
+> > > > > > > > > > > Hello Kailang,
+> > > > > > > > > > >
+> > > > > > > > > > > I'd like to insert another question through this. That
+> > > > > > > > > > > would be appreciated if
+> > > > > > > > > > you could have a look.
+> > > > > > > > > > >
+> > > > > > > > > > > After system boot, we can see the default mixer status as
+> > below:
+> > > > > > > > > > >
+> > > > > > > > > > > root@cix-localhost:~# amixer -c 0 contents
+> > > > > > > > > > > numid=14,iface=CARD,name='Headphone Jack'
+> > > > > > > > > > >   ; type=BOOLEAN,access=r-------,values=1
+> > > > > > > > > > >   : values=on
+> > > > > > > > > > > numid=12,iface=CARD,name='Internal Mic Phantom Jack'
+> > > > > > > > > > >   ; type=BOOLEAN,access=r-------,values=1
+> > > > > > > > > > >   : values=on
+> > > > > > > > > > > numid=13,iface=CARD,name='Mic Jack'
+> > > > > > > > > > >   ; type=BOOLEAN,access=r-------,values=1
+> > > > > > > > > > >   : values=on
+> > > > > > > > > > > numid=15,iface=CARD,name='Speaker Phantom Jack'
+> > > > > > > > > > >   ; type=BOOLEAN,access=r-------,values=1
+> > > > > > > > > > >   : values=on
+> > > > > > > > > > > numid=11,iface=MIXER,name='Master Playback Switch'
+> > > > > > > > > > >   ; type=BOOLEAN,access=rw------,values=1
+> > > > > > > > > > >   : values=on
+> > > > > > > > > > > numid=10,iface=MIXER,name='Master Playback Volume'
+> > > > > > > > > > >   ; type=INTEGER,access=rw---R--
+> > ,values=1,min=0,max=87,step=0
+> > > > > > > > > > >   : values=60
+> > > > > > > > > > >   | dBscale-min=-65.25dB,step=0.75dB,mute=0
+> > > > > > > > > > > numid=2,iface=MIXER,name='Headphone Playback Switch'
+> > > > > > > > > > >   ; type=BOOLEAN,access=rw------,values=2
+> > > > > > > > > > >   : values=on,on
+> > > > > > > > > > > numid=1,iface=MIXER,name='Headphone Playback Volume'
+> > > > > > > > > > >   ; type=INTEGER,access=rw---R--
+> > ,values=2,min=0,max=87,step=0
+> > > > > > > > > > >   : values=87,87
+> > > > > > > > > > >   | dBscale-min=-65.25dB,step=0.75dB,mute=0
+> > > > > > > > > > > numid=9,iface=MIXER,name='Mic Boost Volume'
+> > > > > > > > > > >   ; type=INTEGER,access=rw---R--
+> > ,values=2,min=0,max=3,step=0
+> > > > > > > > > > >   : values=0,0
+> > > > > > > > > > >   | dBscale-min=0.00dB,step=10.00dB,mute=0
+> > > > > > > > > > > numid=7,iface=MIXER,name='Capture Switch'
+> > > > > > > > > > >   ; type=BOOLEAN,access=rw------,values=2
+> > > > > > > > > > >   : values=on,on
+> > > > > > > > > > > numid=6,iface=MIXER,name='Capture Volume'
+> > > > > > > > > > >   ; type=INTEGER,access=rw---R--
+> > ,values=2,min=0,max=63,step=0
+> > > > > > > > > > >   : values=39,39
+> > > > > > > > > > >   | dBscale-min=-17.25dB,step=0.75dB,mute=0
+> > > > > > > > > > > numid=5,iface=MIXER,name='Auto-Mute Mode'
+> > > > > > > > > > >   ; type=ENUMERATED,access=rw------,values=1,items=2
+> > > > > > > > > > >   ; Item #0 'Disabled'
+> > > > > > > > > > >   ; Item #1 'Enabled'
+> > > > > > > > > > >   : values=1
+> > > > > > > > > > > numid=8,iface=MIXER,name='Internal Mic Boost Volume'
+> > > > > > > > > > >   ; type=INTEGER,access=rw---R--
+> > ,values=2,min=0,max=3,step=0
+> > > > > > > > > > >   : values=0,0
+> > > > > > > > > > >   | dBscale-min=0.00dB,step=10.00dB,mute=0
+> > > > > > > > > > > numid=4,iface=MIXER,name='Speaker Playback Switch'
+> > > > > > > > > > >   ; type=BOOLEAN,access=rw------,values=2
+> > > > > > > > > > >   : values=off,off
+> > > > > > > > > > > numid=3,iface=MIXER,name='Speaker Playback Volume'
+> > > > > > > > > > >   ; type=INTEGER,access=rw---R--
+> > ,values=2,min=0,max=87,step=0
+> > > > > > > > > > >   : values=0,0
+> > > > > > > > > > >   | dBscale-min=-65.25dB,step=0.75dB,mute=0
+> > > > > > > > > > > numid=17,iface=PCM,name='Capture Channel Map'
+> > > > > > > > > > >   ; type=INTEGER,access=r----R--
+> > ,values=2,min=0,max=36,step=0
+> > > > > > > > > > >   : values=0,0
+> > > > > > > > > > >   | container
+> > > > > > > > > > >     | chmap-fixed=FL,FR
+> > > > > > > > > > > numid=16,iface=PCM,name='Playback Channel Map'
+> > > > > > > > > > >   ; type=INTEGER,access=r----R--
+> > ,values=2,min=0,max=36,step=0
+> > > > > > > > > > >   : values=0,0
+> > > > > > > > > > >   | container
+> > > > > > > > > > >     | chmap-fixed=FL,FR
+> > > > > > > > > > >
+> > > > > > > > > > > It can auto switch 'Headphone Playback
+> > > > > > > > > > > Switch'/'Headphone Playback Volume' and 'Speaker
+> > > > > > > > > > > Playback Switch'/'Speaker Playback Volume', when I
+> > > > > > > > > > > plugin the headset or not, but I have not found the
+> > > > > > > > > > > related logic, could you
+> > > > > > > > > > please help clarify a bit?
+> > > > > > > > > >
+> > > > > > > > > > Isn't it "Auto-Mute Mode"?  If it's set, the speaker is
+> > > > > > > > > > muted automatically when the headphone/headset jack is
+> > > > > > > > > > plugged by the kernel
+> > > > > > > > driver itself.
+> > > > > > > > >
+> > > > > > > > > What strange is 'Auto-Mute Mode' would be disabled after
+> > > > > > > > > headset
+> > > > > > > > plugin/out several times, don' t know the reason....
+> > > > > > > >
+> > > > > > > > "Auto-Mute Mode" is a software switch, and it means some
+> > > > > > > > program must have turned it off explicitly.  e.g. the sound
+> > > > > > > > server like pulseaudio or pipewire disables it.
+> > > > > > > >
+> > > > > > > > > However, it seems that speaker and headphone/headset still
+> > > > > > > > > can auto
+> > > > > > > > switch. Please see below mixer status.
+> > > > > > > >
+> > > > > > > > Usually pulseaudio/pipewire takes over and does the switching.
+> > > > > > >
+> > > > > > > OK, I see, I will dig into it, could you please tell me is
+> > > > > > > there any other software
+> > > > > > switches in the mixers?
+> > > > > >
+> > > > > > Any mixer program can change...  But basically the auto-mute is
+> > > > > > a task of the sound daemon.
+> > > > >
+> > > > > I disable both pulseaudio and pipewire from the Debian, and enable
+> > > > > the
+> > > > auto-mute, when the headset plugin but the switch not set correctly.
+> > > > > 'Headphone Playback Switch'/'Headphone Playback Volume' not set,
+> > > > > but
+> > > > 'Speaker Playback Switch'/'Speaker Playback Volume' enabled.
+> > > > > Are there any other possible reasons?
+> > > >
+> > > > The auto-mute doesn't change the mixer state.  It switches
+> > > > internally, either by adjusting the pin control or the amp.
+> > >
+> > > OK, is that means all mixers setting should done by users based on Jack
+> > status?
+> >
+> > The mixer settings are exposed to user-space and user-space programs can
+> > read or change them, sure.  But it's not clear what is your exact purpose or
+> > goal, so I can't answer much better than that.
+> >
+> > The auto-mute feature is implemented in the kernel driver level, so that the
+> > automatic muting via jack plug can work without the sound daemon.  The
+> > auto-muted state isn't exposed to user-space via ALSA control API (mixer
+> > elements), and it looks as  if it were muted by the hardware.  Actually there are
+> > hardware that do the auto-muting in the hardware level, too.
+> 
+> Takashi, thanks for your details, I think what I want to know is what did in the kernel driver level for hp automute and mic autoswitch.
+> 
+> I am looking the code, it seems only update the pins and not update the mixer, right? So when the headset plugin, it will auto mute hp and auto switch to mic at the hardware level, users still need to update the mixer manually.
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
----
- sound/soc/intel/boards/sof_sdw.c | 3 +++
- 1 file changed, 3 insertions(+)
+Users don't need to update the mixer -- that's the whole point of the
+driver auto-mute stuff.  When plugged, the speaker gets muted, and the
+output is routed to the headphone jack with the formerly set headphone
+volume and switch.  Even if you change the speaker volume/switch, it
+has no effect as long as the jack is plugged.  When unplugged, the
+headphone volume/switch can change but without any effect, too.
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 05d13bacf88a..c639df2cacdd 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -783,6 +783,9 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- static const struct snd_pci_quirk sof_sdw_ssid_quirk_table[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1e13, "ASUS Zenbook S14", SOC_SDW_CODEC_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x1f43, "ASUS Zenbook S16", SOC_SDW_CODEC_MIC),
-+	SND_PCI_QUIRK(0x17aa, 0x2347, "Lenovo P16", SOC_SDW_CODEC_MIC),
-+	SND_PCI_QUIRK(0x17aa, 0x2348, "Lenovo P16", SOC_SDW_CODEC_MIC),
-+	SND_PCI_QUIRK(0x17aa, 0x2349, "Lenovo P1", SOC_SDW_CODEC_MIC),
- 	{}
- };
- 
--- 
-2.43.0
+> Further, is there any place in the hda codec driver level to update the mixers? AFAIK, for the ASoC driver, codec driver level would update some mixers dynamically based on the routing.
 
+The codec driver creates the mixer elements and handle them, yes.
+Also, the virtual-master control influences on the volume of each
+assigned output, too.
+
+
+Takashi
