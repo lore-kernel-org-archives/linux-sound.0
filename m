@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993252D0C9E;
-	Wed,  2 Jul 2025 15:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778DB2FF486;
+	Wed,  2 Jul 2025 15:27:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751468718; cv=none; b=e0Vqk9GyrXG7tzYZ/XHHik4Rue67pj2nYwxTX++kkzn8d+bmneL6mADl/Jd/NYzsOW1GIqFQiBomRbAhG7j+n97zP41pao4tshpFGXD/Hjsg4zo+uC4hZU954bGdOoYZx0+CwzpKCT8o1bipuW2u4JLbWw7Ze3zolPXyCsOWNdw=
+	t=1751470061; cv=none; b=IqYZ1TZnM5QLhX1YqcGvavvaUlEQu9dFYUd6lvi16KjCdTepVwb1Qh2KOdJcyu/SewqXHkyS+NuErt2rpgPPzLBmhPxr2vy6Jl+npVsN+g5EXqz31B+BVVQyUICHhcA4M2CRJ4EPLOE+YdxyXGdv0PI5gKnbPNFYCpTiHOkRbqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751468718; c=relaxed/simple;
-	bh=tq0Rh/QY6ica1HYtb2UzsNAcD3Lbr2WEa4FFEzsm9ws=;
+	s=arc-20240116; t=1751470061; c=relaxed/simple;
+	bh=6KvIge49r5snh7gndMfZcMfLJSzGS4Dc2J/eMqnXO68=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=die1Ms2T7Aup0858CAMrxId+TLXKvYIYFE40qTBY2Hj8ZxF46WvnYY76HhrSrAuK9OHgRcMwkynHSAxHRo/TGCbN0zIoB9E3fYqSBoE/eVLv3BxQS3k1WOB0WzBfdxSUPDWMiRxRfbd0SBsCEtpIH1v072XrsV4u8AT1LPc3WJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OOc1tZvi; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=NcT8hYu09y5hNVML/LOMWtrVAzVwrtyLwzsb1rO/lYZF4v8tzT8tNl2mguLgILSYx+kDEV91Z8y7i7TqjJIoJ2dT1Aw0cdQE4Pm1b/TxNnQ6aamic388VzbGXlrmJcQq2k9qweO2G5u0V7RN1HTl5vzmduHQE/oc5IKNuuN//rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WUIUlGKP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OOc1tZvi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C8EAC4CEED;
-	Wed,  2 Jul 2025 15:05:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WUIUlGKP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E97FC4CEFE;
+	Wed,  2 Jul 2025 15:27:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751468717;
-	bh=tq0Rh/QY6ica1HYtb2UzsNAcD3Lbr2WEa4FFEzsm9ws=;
+	s=k20201202; t=1751470060;
+	bh=6KvIge49r5snh7gndMfZcMfLJSzGS4Dc2J/eMqnXO68=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=OOc1tZvirUtPfVZhDgVqnM03d03DsfKwNQyxeCA8MHeTH2zBg0ugon+5Du9DBmzQG
-	 whEsUaRbpxIfBx/WkWEB8Vmjb3v43D68X2qcc6ZlcAi5QarvrHANNDom/pijp0CXhq
-	 UHZ5atv3qEx4uu+GXe6mruqPdU1FmZrRv1sgM+pPoq0t1R52F/FBTBu4K+BesQGbpF
-	 3bpi+upgpXmyyPWK/3qnufP6G4mWXxUeVxgsXbOPbqyWpqlEky/r9Z3uBYXkgvmab6
-	 Z16j1ZXb6yKF2fptDE8/VfSKQa4DJXKC8DEZf6D7ldhxKcUikKm7ZtY4fpBlZzRojD
-	 HIRgyrS9jAFWw==
-From: Mark Brown <broonie@kernel.org>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com, yung-chuan.liao@linux.intel.com
-In-Reply-To: <20250702112235.377479-1-simont@opensource.cirrus.com>
-References: <20250702112235.377479-1-simont@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: Intel: sof_sdw: Add quirks for Lenovo P1 and P16
-Message-Id: <175146871598.208290.6934550893206477494.b4-ty@kernel.org>
-Date: Wed, 02 Jul 2025 16:05:15 +0100
+	b=WUIUlGKPDC1UYK1RMFmzRc3I6dMek19QJdLNgr/yI8JIoTn41uu9LPDdN1NNeYDZR
+	 274GxD6TzO4JzCgD4gkMh9p5rpCpb6svsUwpA/WLScclrm1zBHGVnT7wOoxnS2m5hA
+	 c+j8hNJrgzEjT2YuVPIsfVrhnnd0SljdpBQM1Jtb9ycgqHpDPywStVPYxfHm9hvbJh
+	 tCX7Vz4MZcWlAPoujopEN877dkg1T138HOAUMzT8FZXtfjdjh5if14CIfrInggDEgF
+	 XUrR3CUljULhEvdYWds4QsWrEUjnreNR+w5F4LpLD/r/VyUfCaxh0wGSANNR21PAWs
+	 KpTLHDcDF2Ikw==
+From: Lee Jones <lee@kernel.org>
+To: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, Lee Jones <lee@kernel.org>
+In-Reply-To: <20250626154544.324724-1-andriy.shevchenko@linux.intel.com>
+References: <20250626154544.324724-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: (subset) [PATCH v1 1/1] mfd: madera: Don't use "proxy" headers
+Message-Id: <175147005917.3041856.2074175436473048155.b4-ty@kernel.org>
+Date: Wed, 02 Jul 2025 16:27:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,40 +44,24 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-c81fc
 
-On Wed, 02 Jul 2025 11:22:35 +0000, Simon Trimmer wrote:
-> These Lenovo Laptops have the DMICs connected to the host instead of the
-> CS42L43 and so need the SOC_SDW_CODEC_MIC quirk.
+On Thu, 26 Jun 2025 18:45:44 +0300, Andy Shevchenko wrote:
+> Update header inclusions to follow IWYU (Include What You Use)
+> principle.
+> 
+> Note that kernel.h is discouraged to be included as it's written
+> at the top of that file.
 > 
 > 
+> [...]
 
-Applied to
+Applied, thanks!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[1/1] mfd: madera: Don't use "proxy" headers
+      commit: dfac47877802c8bd8e0e802648b7151421139204
 
-Thanks!
-
-[1/1] ASoC: Intel: sof_sdw: Add quirks for Lenovo P1 and P16
-      commit: f7690d058170dbc1520b0bfbc3d9daf046b59326
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+--
+Lee Jones [李琼斯]
 
