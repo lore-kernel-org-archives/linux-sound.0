@@ -1,158 +1,192 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2074.outbound.protection.outlook.com [40.107.101.74])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56F0253956;
-	Wed,  2 Jul 2025 09:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751449498; cv=fail; b=NPUpRw8PwNSrAinZjKJpoq99TRegXfnF8NATCoW+bhCrmdsBm9mp3DT5w5z/M09RNJxS3oh+JIIVdOVPYkPXqlCPzK8AwR3uLGYAEy75GFLOFnQfcMC1+8sKIGd57Mgm4Lfqr0xztZJIke6rfprvO6rwMhIcV4xlzmpOymxPXvM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751449498; c=relaxed/simple;
-	bh=k8rUujp8cB9v9m4AjwQrqyUSbM+Qie/d0PY91a+hKAk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DJk5HLgbakl54+pZKc7CrtFM5d4txCoIzDO/zDgB7zHQeiWBWjNDy8HgE2F6EE8qUzXtUJq4B2mJoevMImHdtjzWxjboWFUSS6aSAhLPxOXM68CzhvjJJmAPFoCs2L+YzylYQ5sG7m6QHnZoKUxahzLvyYlSS8KAgbEzFU3HwkQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=FK+RJaBS; arc=fail smtp.client-ip=40.107.101.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="FK+RJaBS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aM5dp6KZP07sn6bzjD/IKFTvTFoVu3MxNIamQr5vaYXGgm9wKXG6LUpbLYvryQYoiEAq9MBbMFVsSsDIpi7FsQ/KNaqAulzM3KizPac2Li57c5uJ8gN8Ymz++bIGmJ1N47w1VjMQJKp2nMoxtqVGR6pUM77eZsdpyXcqxzkapNDryTOk3vl8/I3KfTxBR9dj+k2RdFH1mUVLsC9XsU27G88QLyRPqCdwyd2wl9YBbTLefgWzFYbhafav9lwhj1OkG419brzmCWSuxMHCcPLGzhZq/0Mlc9anqnoPZHDCawQPu9kOLKDDOtxGWT1coNdgJGXCrbnRbF2ftMBWc7WOhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jrQsf5wH9yMMgg0Wa9EckcpAt6+rxU0wuykLiKmtZpc=;
- b=v3J4KzUQrne6U4aM7PO9h/QuQlIrnWDOub+2gShrY99BqIH/8Q+YpD4PIJwXCXxXt4nG/MUfq+J/b+cVXNfcu3Vbxxxl4Gtm9hw4MuW8wALjAx4joqs6xKyD3ZBqvT0BO+emtOlueDJPgjdBdbBuMn964FE49p6kDKzHaC9yJcS1GxOKOYh5s9nrPUgfiCstDxZbnfs62++xhkf0RVAu4hbURAP1ZaFcYoSRInnKivLhk2e4rdyaAtJXXG0fq2UuZiKAZhqe9djEiCCpF1/zJyGsMWfuoznhSuBQFxkx97AoFlphF3rJ+OmbtAfJbtE0tZj27r5qdjet+WQ3NCNUTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jrQsf5wH9yMMgg0Wa9EckcpAt6+rxU0wuykLiKmtZpc=;
- b=FK+RJaBSF5ZBP23pFcKmj9Pf7EgSpNiFDnQOCOAJWycfU6v/HzeRjk1t3qgRPBjn2AY9EYLQRH5xrTuMlqkWM2/fFgk1oNseGlMTUR5anoOhmP3plj1V3XXNP0fq/ekTF9atgFow4ZLPhWSFmzt+Lii8Z0Ek4bZvl1/xtepJS2g=
-Received: from BN9PR03CA0205.namprd03.prod.outlook.com (2603:10b6:408:f9::30)
- by LV8PR12MB9714.namprd12.prod.outlook.com (2603:10b6:408:2a0::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.34; Wed, 2 Jul
- 2025 09:44:52 +0000
-Received: from BN2PEPF00004FBF.namprd04.prod.outlook.com
- (2603:10b6:408:f9:cafe::a4) by BN9PR03CA0205.outlook.office365.com
- (2603:10b6:408:f9::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.19 via Frontend Transport; Wed,
- 2 Jul 2025 09:44:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN2PEPF00004FBF.mail.protection.outlook.com (10.167.243.185) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8901.15 via Frontend Transport; Wed, 2 Jul 2025 09:44:52 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 2 Jul
- 2025 04:44:52 -0500
-Received: from r9-mach.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 2 Jul 2025 04:44:48 -0500
-From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, "Venkata Prasad
- Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>,
-	Mario Limonciello <mario.limonciello@amd.com>, Peter Zijlstra
-	<peterz@infradead.org>, "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER
- MANAGEM..." <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/3] ASoC: amd: acp: Enable acp7.2 platform based DMIC support in machine driver
-Date: Wed, 2 Jul 2025 15:14:12 +0530
-Message-ID: <20250702094425.155185-4-venkataprasad.potturu@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250702094425.155185-1-venkataprasad.potturu@amd.com>
-References: <20250702094425.155185-1-venkataprasad.potturu@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC9F23816C;
+	Wed,  2 Jul 2025 09:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751450318; cv=none; b=rvj7JB1YJBp49RF0a2pAoCmSsj/N4LPN8xmXKv9WCgEFzS9XYz5KNrQv8zyXci6qsVpmHUarVfndexxe4XEIY5uK1/fJqvXfivG7cO33xFwj9VkM/PY7ivIBoxEGUJL30ds3wdJQXwLCiCzGsMDwrFJDYAxzSY2RxPKn9185fCg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751450318; c=relaxed/simple;
+	bh=ac1WHXY9uU6sg9VG9LlQUm/TQKiiff0h5oFc/3+SBzY=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D1o5FWMQg66xzNOBz0Px8/T9GIoyqwDXuFCMmW5HS6VoLme9tUfqt3x1dgIbpPhF8tmangdHgyES6Uy87w/C6qLLiPxAGGH+qPbWonAXVjZZHDXxu3EaHHbHBQWvZ9y8345y/6hx5JBHjjecvQAPWEgegBbZn1OrLDzc98PQgxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bXFdQ6LTjz6L55h;
+	Wed,  2 Jul 2025 17:55:38 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id B5DAB1404FD;
+	Wed,  2 Jul 2025 17:58:31 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 2 Jul
+ 2025 11:58:28 +0200
+Date: Wed, 2 Jul 2025 10:58:26 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
+CC: Jonathan Cameron <jic23@kernel.org>, Waqar Hameed <waqar.hameed@axis.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>, "Julien Panis" <jpanis@baylibre.com>,
+	William Breathitt Gray <wbg@kernel.org>, "Linus Walleij"
+	<linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Peter Rosin
+	<peda@axentia.se>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Andy Shevchenko
+	<andy@kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>, "Lars-Peter
+ Clausen" <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Matteo Martelli
+	<matteomartelli3@gmail.com>, Heiko Stuebner <heiko@sntech.de>, Francesco
+ Dolcini <francesco@dolcini.it>, =?ISO-8859-1?Q?Jo=E3o?= Paulo
+ =?ISO-8859-1?Q?Gon=E7alves?= <jpaulo.silvagoncalves@gmail.com>, Hugo
+ Villeneuve <hvilleneuve@dimonoff.com>, Subhajit Ghosh
+	<subhajit.ghosh@tweaklogic.com>, Mudit Sharma <muditsharma.info@gmail.com>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>, Song Qiang
+	<songqiang1304521@gmail.com>, Crt Mori <cmo@melexis.com>, Dmitry Torokhov
+	<dmitry.torokhov@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, Karol
+ Gugala <kgugala@antmicro.com>, Mateusz Holenko <mholenko@antmicro.com>,
+	Gabriel Somlo <gsomlo@gmail.com>, Joel Stanley <joel@jms.id.au>, Claudiu
+ Manoil <claudiu.manoil@nxp.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Wei Fang <wei.fang@nxp.com>, Clark Wang <xiaoning.wang@nxp.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+	<kishon@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+	<alim.akhtar@samsung.com>, Sebastian Reichel <sre@kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+	<martin.blumenstingl@googlemail.com>, Han Xu <han.xu@nxp.com>, Haibo Chen
+	<haibo.chen@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Avri Altman <avri.altman@wdc.com>, Bart Van Assche
+	<bvanassche@acm.org>, "James E.J. Bottomley"
+	<James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
+	<martin.petersen@oracle.com>, Souradeep Chowdhury
+	<quic_schowdhu@quicinc.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, "Peter Ujfalusi"
+	<peter.ujfalusi@linux.intel.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, <kernel@axis.com>,
+	<linux-iio@vger.kernel.org>, <linux-omap@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+	<linux-i2c@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
+	<linux-input@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+	<imx@lists.linux.dev>, <netdev@vger.kernel.org>,
+	<linux-phy@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>,
+	<linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+	<linux-amlogic@lists.infradead.org>, <linux-spi@vger.kernel.org>,
+	<linux-scsi@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-usb@vger.kernel.org>, <sound-open-firmware@alsa-project.org>,
+	<linux-sound@vger.kernel.org>, "Joe Perches" <joe@perches.com>, Andy
+ Whitcroft <apw@canonical.com>, "Dwaipayan Ray" <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH] Remove error prints for devm_add_action_or_reset()
+Message-ID: <20250702105826.0000315e@huawei.com>
+In-Reply-To: <jeajjewfbg5qo736imozpghnpxln2pux74aegtqsi57qsbpug2@opndel6zc3m3>
+References: <pnd7c0s6ji2.fsf@axis.com>
+	<ylr7cuxldwb24ccenen4khtyddzq3owgzzfblbohkdxb7p7eeo@qpuddn6wrz3x>
+	<20250701185519.1410e831@jic23-huawei>
+	<jeajjewfbg5qo736imozpghnpxln2pux74aegtqsi57qsbpug2@opndel6zc3m3>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: venkataprasad.potturu@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBF:EE_|LV8PR12MB9714:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf06ed9e-2f39-4dc4-f550-08ddb94d184e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?AMaenZdG2KcwhdbLErYKZ7oSfHVnZxzp7JM73umF+muUWV5871cw4Xi9oHvj?=
- =?us-ascii?Q?CJVhYHOiMnht33wIkijxaW7JuBeXgzxnqBXh+2CAqzPbIFZj790BLnQ1qMiy?=
- =?us-ascii?Q?69OmE5LD2ZHcMrCvxwteltJtgJCNRheyqqDcslKua3zXrAbiGNFisxWyurQM?=
- =?us-ascii?Q?nfeqWjZ75hgLLBduuRP9z1P+XBLnPZFJL3eT/mKPxgJarlOi6KFfdQ96VNBL?=
- =?us-ascii?Q?JKgM1dlqCY0I4r6Iv9eHGiB3wVNaptBdPCPBMcb0PeDBTRoPmSi3BGMnck+V?=
- =?us-ascii?Q?mZ9lVTexaE49Sbgo2n7ibwO3PgXpJJIVp5AqF7zcYtp3BFJyAhHNGFYd72Pv?=
- =?us-ascii?Q?jpmjaE4WqEBF0/YzTHqurxey7KWl3bZScNZTd4TClnfpVcSYT5lCBdv7edS4?=
- =?us-ascii?Q?8epVBNy3k8hoXw7/RVP4hxTz5kfNAh3yttCmo+SHPvdS0hqYy9nsywAaEt0P?=
- =?us-ascii?Q?f8HfN9zuN4SKsbpHy+Y/x85hUV0ZbiU8kCNpYMRFRPNiP+stFUgM8KcMbhKF?=
- =?us-ascii?Q?ATcfrQd8S6QbUeXxg13LrFSHNe6fH6+RdjbWnEQ3WPfWaCNhye6H3/W4IxbW?=
- =?us-ascii?Q?CLjNs/kvG5k580leymGFv0RvI82PqlYKMxPMo56Fypi7W6mvefxa4S88Xuwd?=
- =?us-ascii?Q?xa3SZ932fkiDGjuFTN13fw4bBRPwK2K6PnrKWbIUFWmQD4jsEKg5Yv/6GatO?=
- =?us-ascii?Q?Bz86ilxGaE9EzqHt1syZoAtS7f/VeFznUQrPmfxTkQlWSKm3JBVMoBhaKgKx?=
- =?us-ascii?Q?xU4egyrsnrOt8vqYimMeZnTbBxdVguDm2Hlfmh8OyftXo1fNIbsY/ETyTYa5?=
- =?us-ascii?Q?ci+fP8TZgTbVc9rJjHC+2jDPXE918I5hNHUCz8BiBoreCXYDtAhZPZAvXnAh?=
- =?us-ascii?Q?Swp1lBeChQ2MoU2YeXkR1vDX/Dtp478GBn4CZCazQu8YVUZ0GVtvkUI9QQ1l?=
- =?us-ascii?Q?v/gUlMpccvRnRilMaeDzvE8xOrFlrQaEw3IQo5lVlndNbf0sbw1Ts9/O26p1?=
- =?us-ascii?Q?qH0BL1++rZRh7iYWwjtiNeO//lyrSL0Xjx9TKMNbfJdi83EAaZvisQaj+Ah6?=
- =?us-ascii?Q?yem4hQzXtgVbTeZ38vG049naGdLiyENqoyiF3BY63oX47bdeso20Jm99apeZ?=
- =?us-ascii?Q?MQqftSDG6LeTlavMaykYhyLlRD4vzSa6OQsFH+56rjO7+v1rlnCJhC+Flzky?=
- =?us-ascii?Q?qd+yJ5R4a83ikBPIKqoNnT7dCljqf4LxmBiqEmO4RUhqe8P0zUDwg3ut7aM3?=
- =?us-ascii?Q?y2dbxcBE5B2niGntMzkHQwwQK1wYmDyKZ7klDHsdR+wcYcWG+5bjHQvAu4Sw?=
- =?us-ascii?Q?Qs22dH9XL8TX60W0N7/u6jC8tbi6SZO5ZHvWmz4O7oHAjBKOSm9C9WPhL9SJ?=
- =?us-ascii?Q?bSDSQSHu9pHYT0fiO5W/KtepfMlJMdl/o5Pj7+fgGS1cMNSPS23eHGrpci87?=
- =?us-ascii?Q?cDdaRJEQ8XXMO3uaX2j5VygvSqfzG1AWwV09NxlO8LgIM4B4hKlqF7bU8tB1?=
- =?us-ascii?Q?ueGXG6y7ShF8JmLEv9jv2xfyf2ubF3QUtJoa?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 09:44:52.7491
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf06ed9e-2f39-4dc4-f550-08ddb94d184e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF00004FBF.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9714
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Enable acp7.2 platform based DMIC support in machine driver.
+On Wed, 2 Jul 2025 08:54:48 +0200
+Uwe Kleine-K=F6nig <ukleinek@kernel.org> wrote:
 
-Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
----
- sound/soc/amd/acp/acp-mach-common.c | 1 +
- 1 file changed, 1 insertion(+)
+> Hello Jonathan,
+>=20
+> On Tue, Jul 01, 2025 at 06:55:19PM +0100, Jonathan Cameron wrote:
+> > On Tue, 1 Jul 2025 19:44:17 +0200
+> > Uwe Kleine-K=F6nig <ukleinek@kernel.org> wrote:
+> >  =20
+> > > On Tue, Jul 01, 2025 at 05:03:33PM +0200, Waqar Hameed wrote: =20
+> > > >  drivers/pwm/pwm-meson.c                          | 3 +--   =20
+> > >=20
+> > > Looking at this driver I tried the following: =20
+> >=20
+> > I'm not sure what we actually want here.
+> >=20
+> > My thought when suggesting removing instances of this
+> > particular combination wasn't saving on code size, but rather just
+> > general removal of pointless code that was getting cut and
+> > paste into new drivers and wasting a tiny bit of review bandwidth.
+> > I'd consider it bad practice to have patterns like
+> >=20
+> > void *something =3D kmalloc();
+> > if  (!something)
+> > 	return dev_err_probe(dev, -ENOMEM, ..);
+> >=20
+> > and my assumption was people would take a similar view with
+> > devm_add_action_or_reset().
+> >
+> > It is a bit nuanced to have some cases where we think prints
+> > are reasonable and others where they aren't so I get your
+> > point about consistency. =20
+>=20
+> The problem I see is that there are two classes of functions: a) Those
+> that require an error message and b) those that don't. Class b) consists
+> of the functions that can only return success or -ENOMEM and the
+> functions that emit an error message themselves. (And another problem I
+> see is that for the latter the error message is usually non-optimal
+> because the function doesn't know the all details of the request. See my
+> reply to Andy for more details about that rant.)
+>=20
+> IMHO what takes away the review bandwidth is that the reviewer has to
+> check which class the failing function is part of. If this effort
+> results in more driver authors not adding an error message after
+> devm_add_action_or_reset() that's nice, but in two months I have
+> forgotten the details of this discussion and I have to recheck if
+> devm_add_action_or_reset() is part of a) or b) and so the burden is
+> still on me.
 
-diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
-index a0dab85088ec..c4bc8e849284 100644
---- a/sound/soc/amd/acp/acp-mach-common.c
-+++ b/sound/soc/amd/acp/acp-mach-common.c
-@@ -1772,6 +1772,7 @@ int acp_legacy_dai_links_create(struct snd_soc_card *card)
- 			break;
- 		case ACP70_PCI_ID:
- 		case ACP71_PCI_ID:
-+		case ACP72_PCI_ID:
- 			links[i].platforms = platform_acp70_component;
- 			links[i].num_platforms = ARRAY_SIZE(platform_acp70_component);
- 			break;
--- 
-2.43.0
+Maybe this is a job for checkpatch, at least for the common cases.
+
+There is already a check for kmalloc etc.
+https://elixir.bootlin.com/linux/v6.16-rc4/source/scripts/checkpatch.pl#L64=
+42
+
++CC Joe (who wrote the allocation functions test years ago) and other check=
+patch
+folk.
+
+
+>=20
+> So to give my answer on your question "What do we actually want here?":
+> Please let us get rid of the need to care for a) or b).
+>=20
+> > The code size reduction is nice so I'd not be against it as an extra
+> > if the reduction across a kernel builds is significant and enough
+> > people want to keep these non printing prints. =20
+>=20
+> To complete implementing my wish all API functions would need to stop to
+> emit an error message. Unfortunately that isn't without downsides
+> because the result is that there are more error strings and so the
+> kernel size is increased. So you have to weight if you prefer individual
+> error messages and easier review/maintenance at the cost of a bigger
+> binary size and more dev_err_probe() calls in drivers eating vertical
+> space in your editor.
+>=20
+> I know on which side I am, but I bet we won't find agreement about that
+> in the kernel community ...
+
+
+>=20
+> Best regards
+> Uwe
+>=20
 
