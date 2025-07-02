@@ -1,219 +1,228 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2051.outbound.protection.outlook.com [40.107.243.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFF1200BA1;
-	Wed,  2 Jul 2025 07:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751442862; cv=none; b=dB1c7XXXCXgl0UerEa1O3+p3bKMCDMvJNXZRSYqH/Ct4sAz1jYnPW2YdC01FYVxtJI3/1tfYRLqweQQl+vIM1nvK44xG9Hhi2s7Z7rtScjOQRVMj/gH4pA3aC1+1Ak/f4Z78EvUZE6O/kVxvZ32bS+pgga/rW9vFyWb0DAMh4+I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751442862; c=relaxed/simple;
-	bh=rUwUc12CwDq37/2slGik7dRlGZeOaTXSpDsb9W6K1i0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=seWro7qJbYup7GFHmBryUyfZyi21bjRG0TQ+CZ8891D2I9JMrh4nutDvxHDeSGNPrMSsQ+CmWda+BZKloUyPnBbpVUY8UdreAnrSj0KlCxoUkF7kJAqGUyO4dxrMY1LcI5h8kwPyXtaNGAJqyDGt8Uci5l6yvS078UflmaX12Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFmlGPHc; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E89246BD6;
+	Wed,  2 Jul 2025 09:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751449488; cv=fail; b=aKvoF+d6M/Y7+FVMo9xo7pDPr1DEax0F0DNEXNX9+hGpprV7DgTqS+6HJ731WUqiVwrLRrWeVebFUQRnv1JQ7wtNCb0BkvPLyiG8DcDIPjvKs2BYzqQLkauNQ5n5xKpgVy9JKoL+9onCSU8OQ21Z00TNh1oKpGFD9bFMcr/J40E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751449488; c=relaxed/simple;
+	bh=UG55emeSW6j2yG5Tz3CNIlVodC2TuECMDlC7B44Hp44=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QscGsaNOZ3T5PasKjxtdLlbXuLjWzK+QjmwAJH/8oTDIBQe20eTo4j0/yLbG2U7KJfDv3JSqzfBJXZOwlSURGpKqsrTxKdsVDnA1Ld4CF8+dabT/85PwII31p1ISQ9ZPzsEBFVJVqVvWb51rClTUSIbYB6bIfvRcVj/Woz+kz98=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xcQjb0hW; arc=fail smtp.client-ip=40.107.243.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFmlGPHc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751442861; x=1782978861;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=rUwUc12CwDq37/2slGik7dRlGZeOaTXSpDsb9W6K1i0=;
-  b=WFmlGPHcxwX2SUVmyW4anhqDN0rNuxfRwK7E9iwtDHAcNG7n7mt90SIG
-   mK78cNLxHgzP3jnCF5zBRVkB5QsRJEhrlhQmctWpLYDy9hcKUJP6osqIO
-   ITXwPhqMBGIlBPD2tkZ/cmVS0tyfS6Wjljwn5b5AqfAW4+OULwBzvS6Ia
-   VNXeQvB+I9uTDKycbHdAlqDbmLW72LHH0o8b0E1KLE3EpPwUTagjbcNkJ
-   sD5Z8b8zH7l+nmdMuJGYuhw04CIvNLIjNCFTwTpaY5NQuObmC41d0/3rr
-   aJEMHOiMdpkSl/NH+LB91PDo5gtbLJgp6Ar6+xQVimIwHzbUkEPsv6fmh
-   w==;
-X-CSE-ConnectionGUID: erfliI1MQcScn6KMnows+g==
-X-CSE-MsgGUID: 824dVOprSDmNoKTkDgl55Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="64326060"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="64326060"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 00:54:18 -0700
-X-CSE-ConnectionGUID: 98SccRJrQ5yvJqszW1ShBA==
-X-CSE-MsgGUID: 52dATgF7Sy6tK3S06PLKug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="153636445"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 00:53:58 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uWsHv-0000000BrCM-1jUQ;
-	Wed, 02 Jul 2025 10:53:51 +0300
-Date: Wed, 2 Jul 2025 10:53:50 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Waqar Hameed <waqar.hameed@axis.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Julien Panis <jpanis@baylibre.com>,
-	William Breathitt Gray <wbg@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Peter Rosin <peda@axentia.se>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Matteo Martelli <matteomartelli3@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	=?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <jpaulo.silvagoncalves@gmail.com>,
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>,
-	Subhajit Ghosh <subhajit.ghosh@tweaklogic.com>,
-	Mudit Sharma <muditsharma.info@gmail.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	Song Qiang <songqiang1304521@gmail.com>, Crt Mori <cmo@melexis.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Karol Gugala <kgugala@antmicro.com>,
-	Mateusz Holenko <mholenko@antmicro.com>,
-	Gabriel Somlo <gsomlo@gmail.com>, Joel Stanley <joel@jms.id.au>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Wei Fang <wei.fang@nxp.com>, Clark Wang <xiaoning.wang@nxp.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Han Xu <han.xu@nxp.com>, Haibo Chen <haibo.chen@nxp.com>,
-	Yogesh Gaur <yogeshgaur.83@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, kernel@axis.com,
-	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-input@vger.kernel.org,
-	linux-mmc@vger.kernel.org, imx@lists.linux.dev,
-	netdev@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-spi@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] Remove error prints for devm_add_action_or_reset()
-Message-ID: <aGTljgePpiPJq2xj@smile.fi.intel.com>
-References: <pnd7c0s6ji2.fsf@axis.com>
- <ylr7cuxldwb24ccenen4khtyddzq3owgzzfblbohkdxb7p7eeo@qpuddn6wrz3x>
- <CAHp75Ve=Zas8=6YKoPeTRrvjCaTyyRAyJG1gBLripqZgQpfg7g@mail.gmail.com>
- <zxtyk4vly2salnoy3lng2ni7pzu3wg6qnmucadnclfigrd2m2m@i6xcrmvh34r5>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xcQjb0hW"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YAr6naHk8Yo1buygGfSSs4Hdm8hplDbwEQ8Lgi2OAGgspp9LxJ0clGtmwE+cD0sj5ZmydcmQsAoGg0smCTIt1NjoYTCByahF+ahzQey5HYEt8r2xRbHdVCqqsYbsXc8Yl1Gxm1AM4ydvlkOCnmR4z4w2mWPUw4H+HP59/EcjaNY0W7s4eX0EmTbeWfdkDnkNI/BESVdFrZzOFaeCxKtT/mj+gWKML6KYNgDBwbRFvbSXlSDbuc3Yy8dFVxbLVf5yqOXh8SjXbyFWlFGW5PAhXOi+XXlJ0MN3orhzJfQFf6q/LhTY9FV4UMP/XtZNPxr93c9a4qLxtNmD1qfrmqkqsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KUIRH36XdQmbvzQf400K8mzog/y4CdqcB4Ytg5yxHWA=;
+ b=uTJkQJKYjeluLx57gx85hXgtlM4kz+cS2vawcqLncSs23y9Qzf5r0RSfFd2UW+Zrv/jTZ2i/bunLd42pwvrC22J/wydCykmr4x8PmUh455LAkDJjSvM0WVnTwCc1vQX7RyexBhOkTKdceufvEhn9e8E9/Ju5M7vh5Sd5ueCyUSxLOdKzrtmud/yCNrUi9DgAi2xS7OblatcD/gciuHJ9JTGVvSDQfhFT0SodhMeIRhJGaCUB9stxGnZMLzAMulC3Am9FIqvd4LF3gIGvVtF9V38MRXGyXoNjFUtHimljweQH/SP2xq8mLFbx+rocfXsdYOd1yyX9HmMUF0eqZbGOXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KUIRH36XdQmbvzQf400K8mzog/y4CdqcB4Ytg5yxHWA=;
+ b=xcQjb0hWbQnWTC/qiP5ZF+ogK42shyDZkt0uXK6NVTHJTObIT9O1n3sVR9y7sHYlIaukiAQKDV9UoEe1mWhST41c6/gWpw5TIOxE7GdT9RU3sjAW+LNcxmUKYaRUkvpoJ2B5XfHKqDmuKG7uSvhlDXNydW7ufGAsuFjx9AjIxc0=
+Received: from MN2PR20CA0056.namprd20.prod.outlook.com (2603:10b6:208:235::25)
+ by MN2PR12MB4256.namprd12.prod.outlook.com (2603:10b6:208:1d2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.37; Wed, 2 Jul
+ 2025 09:44:43 +0000
+Received: from BN2PEPF00004FC1.namprd04.prod.outlook.com
+ (2603:10b6:208:235:cafe::57) by MN2PR20CA0056.outlook.office365.com
+ (2603:10b6:208:235::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.19 via Frontend Transport; Wed,
+ 2 Jul 2025 09:44:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN2PEPF00004FC1.mail.protection.outlook.com (10.167.243.187) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8901.15 via Frontend Transport; Wed, 2 Jul 2025 09:44:42 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 2 Jul
+ 2025 04:44:42 -0500
+Received: from r9-mach.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Wed, 2 Jul 2025 04:44:37 -0500
+From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, "Venkata Prasad
+ Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Greg KH <gregkh@linuxfoundation.org>, Peter Zijlstra
+	<peterz@infradead.org>, "Mario Limonciello" <mario.limonciello@amd.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Dan Carpenter
+	<dan.carpenter@linaro.org>, Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Murad Masimov <m.masimov@maxima.ru>, Thorsten Blum <thorsten.blum@linux.dev>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/3] ASoC: amd: acp: Add legacy driver support acp7.2 based platforms
+Date: Wed, 2 Jul 2025 15:14:10 +0530
+Message-ID: <20250702094425.155185-2-venkataprasad.potturu@amd.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250702094425.155185-1-venkataprasad.potturu@amd.com>
+References: <20250702094425.155185-1-venkataprasad.potturu@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <zxtyk4vly2salnoy3lng2ni7pzu3wg6qnmucadnclfigrd2m2m@i6xcrmvh34r5>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB03.amd.com: venkataprasad.potturu@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FC1:EE_|MN2PR12MB4256:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2325f9e1-ce9e-405e-db5a-08ddb94d127c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Irph6XfCOdCC+2GVxyriPjx4+BHsKzEOfWdE4T00l6GayiIXVQ3KUO4yk55z?=
+ =?us-ascii?Q?WCoBDbcoTgONJZEn/ZpLlw0AtbSQIDGiXeuPXu1Reoxxk0mHQ63+ZXsfqfII?=
+ =?us-ascii?Q?xsNyTWe0/Cv1n1Qg7k0/ZtuetcoWSajBz7ywEBEMkTfKcGPlsyaXcsbhJVid?=
+ =?us-ascii?Q?sHVF5ocrbGioqGzkLJQWGGSCbJCdo2tkuvW+/bSUvabk0lgWO1Y7ditjm/EF?=
+ =?us-ascii?Q?PpoKgSFeHzRR6LAogcvY+Sox6iN7S9V6noskdPR33BAy0HSII8vjay5bdI4O?=
+ =?us-ascii?Q?7vzmcIREWq8RNYgGWobWVckzzzJ0hEblU4cW526RwGWS5rO49b3jK0lGOJqg?=
+ =?us-ascii?Q?2w4GxJZEc1nBkzzxbo9tesOxJZxVZCIblk/k+WY4aumkCRZgnodvk9KBBNkj?=
+ =?us-ascii?Q?FfzZb45T42AqkEgD77wq8OZTuIHIWyPu/CGghwI8F/7bLagcwaqhD4QA0zy1?=
+ =?us-ascii?Q?E51wGI9UHp6ia7LhrgN25twP4i4u3K+skGybIeM0ioA6e5cqhHG0e0x0740a?=
+ =?us-ascii?Q?b5hNQ9nNxMXgHy99zUbyPHcNR9zrjAojfI/6IlGMi8RSeoh6GY9Pzvk02XPK?=
+ =?us-ascii?Q?6LvRASXxFYjDOdA01w0KLJUFiqTw/gk7/cFYh357LIw/enlrP8kRDXAO+yQC?=
+ =?us-ascii?Q?sDGCTMt5U/fDNgjq2qcWQQ6yG8TjoyHbxnTtWvx02VAu+0RREpTJH8UVhBX/?=
+ =?us-ascii?Q?JS7g1ZSat3d5hqsgzteksGd6XGkr7/puPRS3ql0usEUN2H5yzSwKtXeWms2Z?=
+ =?us-ascii?Q?Mm1K1NwXK3/VfFez9+7W+f8Y94+jNUI7/mhh79T3euU8UIN8D44H728/UYzq?=
+ =?us-ascii?Q?j35gO7A3FL2rUZDYOCXmVWxibPcXYfBPxYZH8JXnDFyzVT1sMsSoJ3Epdt/g?=
+ =?us-ascii?Q?UymDIwHoGiBvUrZjR9FnpCJmoqAXgkzAgsGWqTyLJcdC11VAyDbStby+ojRW?=
+ =?us-ascii?Q?69lful933+RHis32vq2cy4Zsos+kKTsKbWiEetHDe0h5n+f0G768WXy3+Wqc?=
+ =?us-ascii?Q?uMH9mY5WdV2jKVgyX44gFhjk/zcbSCO6pNhRj/zRcH8XbZJB/yE9E+mcXCc0?=
+ =?us-ascii?Q?2jXE5IhzyN7vXLYtzSlv+T6AlooP7nMP1/NyRaKrFfX0XTAuorsvOFluthG+?=
+ =?us-ascii?Q?CHEXispB4xhlTmlwuXGJessbCmmDS+KeCLzNzEkfp5z4gfT6xP77Z4pUgvpK?=
+ =?us-ascii?Q?B48sGANKhLHw+hx4MUYLLoa32BaCEWXAXDOnv4cM39ARZNRy7JD8t+SxN7Rc?=
+ =?us-ascii?Q?iwJehuuedvQn63JGYcFAOWOiuQ3Zu/eDKQ9gP+uFzHjRMqftIqPxmhM8InE1?=
+ =?us-ascii?Q?Dek/OVhKQHBV5gJnZ8TQzPu9szRluxp5m1hrcRBevejt6TYxsegC2i/Aguwt?=
+ =?us-ascii?Q?JH2YZacTzUNPt7U+5Qw5K4p5dO3jnIhmaxX5KXjcFMfMCmq9BqgsLFG7ZoHJ?=
+ =?us-ascii?Q?ukwoPoSyLkZ88yG5jeyPOdbkKKkYHf4E1G8z+sTIW2XYTDZwYogqbCa0Mk7w?=
+ =?us-ascii?Q?4oSyJzBrNQPUtIPb8DGQ9hPWo2haC0cue5CQ?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 09:44:42.9836
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2325f9e1-ce9e-405e-db5a-08ddb94d127c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF00004FC1.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4256
 
-On Wed, Jul 02, 2025 at 08:10:28AM +0200, Uwe Kleine-König wrote:
-> On Tue, Jul 01, 2025 at 08:57:02PM +0300, Andy Shevchenko wrote:
-> > On Tue, Jul 1, 2025 at 8:44 PM Uwe Kleine-König <ukleinek@kernel.org> wrote:
-> > > On Tue, Jul 01, 2025 at 05:03:33PM +0200, Waqar Hameed wrote:
+Add pci revision id 0x72 in pci and platform driver to support
+acp7.2 based platforms.
 
-...
+Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+---
+ sound/soc/amd/acp/acp-legacy-common.c | 2 ++
+ sound/soc/amd/acp/acp-pci.c           | 1 +
+ sound/soc/amd/acp/acp-platform.c      | 2 ++
+ sound/soc/amd/acp/acp70.c             | 1 +
+ sound/soc/amd/acp/acp_common.h        | 1 +
+ 5 files changed, 7 insertions(+)
 
-> > > With that
-> > >
-> > >         ret = devm_add_action_or_reset(dev, meson_pwm_s4_put_clk,
-> > >                                        meson->channels[i].clk);
-> > >         if (ret)
-> > >                 return dev_err_probe(dev, ret,
-> > >                                      "Failed to add clk_put action\n");
-> > >
-> > > from drivers/pwm/pwm-meson.c is optimized to
-> > >
-> > >         ret = devm_add_action_or_reset(dev, meson_pwm_s4_put_clk,
-> > >                                        meson->channels[i].clk);
-> > >         if (ret)
-> > >                 return ret;
-> > >
-> > > .
-> > >
-> > > I would prefer this approach, because a) there is no need to drop all
-> > > dev_err_probe()s after devm_add_action_or_reset() and b) the
-> > > dev_err_probe()s could stay for consistency in the error paths of a
-> > > driver.
-> > 
-> > Why do we need a dev_err_probe() after devm_add_action*()? I would
-> > expect that the original call (if needed) can spit out a message.
-> 
-> I'm not a big fan of API functions that emit an error message.
-
-We do have that in devm_ioremap*() family. Just saying...
-
-> In general the caller knows better what went wrong (here:
-> devm_add_action_or_reset() doesn't know this to be about the clk_put
-> action), so the error message can be more expressive.
-
-I'm not sure I was clear about my suggestion. What I argued is something like
-this
-
-devm_foo_alloc()
-{
-	ret = foo_alloc();
-	if (ret)
-		return dev_err_probe();
-
-	return devm_add_action_or_reset();
-}
-
-foo_alloc() in my example is left untouched.
-
-> Also in general an API function doesn't know if a failure is fatal or if
-> the consumer handles the failure just well and if the call is part of a
-> driver's .probe() so it's unclear if dev_err_probe() can/should be used.
-> (I admit that the last two probably don't apply to
-> devm_add_action_or_reset() but that's not a good enough reason to
-> make this function special. Every special case is a maintanance burden.)
-
-devm_*() are only supposed to be called in the probe phase. So using
-dev_err_probe() there (implementations) is natural thing to do, if required.
-And see above, we have such cases already.
-
+diff --git a/sound/soc/amd/acp/acp-legacy-common.c b/sound/soc/amd/acp/acp-legacy-common.c
+index 4e0bbccd1e93..57982d057c3a 100644
+--- a/sound/soc/amd/acp/acp-legacy-common.c
++++ b/sound/soc/amd/acp/acp-legacy-common.c
+@@ -372,6 +372,7 @@ static int acp_power_on(struct acp_chip_info *chip)
+ 		break;
+ 	case ACP70_PCI_ID:
+ 	case ACP71_PCI_ID:
++	case ACP72_PCI_ID:
+ 		acp_pgfsm_stat_reg = ACP70_PGFSM_STATUS;
+ 		acp_pgfsm_ctrl_reg = ACP70_PGFSM_CONTROL;
+ 		break;
+@@ -573,6 +574,7 @@ void check_acp_config(struct pci_dev *pci, struct acp_chip_info *chip)
+ 		break;
+ 	case ACP70_PCI_ID:
+ 	case ACP71_PCI_ID:
++	case ACP72_PCI_ID:
+ 		pdm_addr = ACP70_PDM_ADDR;
+ 		check_acp70_config(chip);
+ 		break;
+diff --git a/sound/soc/amd/acp/acp-pci.c b/sound/soc/amd/acp/acp-pci.c
+index 2591b1a1c5e0..f83708755ed1 100644
+--- a/sound/soc/amd/acp/acp-pci.c
++++ b/sound/soc/amd/acp/acp-pci.c
+@@ -153,6 +153,7 @@ static int acp_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id
+ 		break;
+ 	case 0x70:
+ 	case 0x71:
++	case 0x72:
+ 		chip->name = "acp_asoc_acp70";
+ 		chip->rsrc = &acp70_rsrc;
+ 		chip->acp_hw_ops_init = acp70_hw_ops_init;
+diff --git a/sound/soc/amd/acp/acp-platform.c b/sound/soc/amd/acp/acp-platform.c
+index b3eddf76aaa4..b25ac5612808 100644
+--- a/sound/soc/amd/acp/acp-platform.c
++++ b/sound/soc/amd/acp/acp-platform.c
+@@ -140,6 +140,7 @@ void config_acp_dma(struct acp_chip_info *chip, struct acp_stream *stream, int s
+ 	switch (chip->acp_rev) {
+ 	case ACP70_PCI_ID:
+ 	case ACP71_PCI_ID:
++	case ACP72_PCI_ID:
+ 		switch (stream->dai_id) {
+ 		case I2S_SP_INSTANCE:
+ 			if (stream->dir == SNDRV_PCM_STREAM_PLAYBACK)
+@@ -205,6 +206,7 @@ static int acp_dma_open(struct snd_soc_component *component, struct snd_pcm_subs
+ 	case ACP63_PCI_ID:
+ 	case ACP70_PCI_ID:
+ 	case ACP71_PCI_ID:
++	case ACP72_PCI_ID:
+ 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+ 			runtime->hw = acp6x_pcm_hardware_playback;
+ 		else
+diff --git a/sound/soc/amd/acp/acp70.c b/sound/soc/amd/acp/acp70.c
+index b95e3949e70b..bca311c88139 100644
+--- a/sound/soc/amd/acp/acp70.c
++++ b/sound/soc/amd/acp/acp70.c
+@@ -136,6 +136,7 @@ static int acp_acp70_audio_probe(struct platform_device *pdev)
+ 	switch (chip->acp_rev) {
+ 	case ACP70_PCI_ID:
+ 	case ACP71_PCI_ID:
++	case ACP72_PCI_ID:
+ 		break;
+ 	default:
+ 		dev_err(&pdev->dev, "Un-supported ACP Revision %d\n", chip->acp_rev);
+diff --git a/sound/soc/amd/acp/acp_common.h b/sound/soc/amd/acp/acp_common.h
+index f1ae88013f62..984685602e3d 100644
+--- a/sound/soc/amd/acp/acp_common.h
++++ b/sound/soc/amd/acp/acp_common.h
+@@ -15,5 +15,6 @@
+ #define ACP63_PCI_ID		0x63
+ #define ACP70_PCI_ID		0x70
+ #define ACP71_PCI_ID		0x71
++#define ACP72_PCI_ID		0x72
+ 
+ #endif
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
