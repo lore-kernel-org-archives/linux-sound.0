@@ -1,158 +1,109 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DDA23C4ED
-	for <linux-sound@vger.kernel.org>; Thu,  3 Jul 2025 09:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009B32D46D0;
+	Thu,  3 Jul 2025 10:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751535710; cv=none; b=D51cQCsblQSbMuHN55npaWVXpnv9njKiWVhUmTEonXWh9Jc7A/rS9oiXR06DE7ewSN21RsBYYJ1zJBnlMG8JT1Ujreyn5SxRx2p+UUgJKuL8wDuqj3ifb29gT+o64N7YJM2iHI+GlxbuUeSt0PvkqfOQD2F/iApKvg91uFwB42M=
+	t=1751537973; cv=none; b=ZMezxbURErTM/rvG7qTDaW8NVAwNVygRlUpzH0bM1PjfWAVsfDDs07emlsx87Wz9DvzZw0Q5lQpyaHmSGi4l66gKSHAl3TazaUP5wKEXzN+D+pPAxGXPL5HVaQjLKjrGU11oSO3Eg5bZ1bCMFed5YMieuDxD5y25Aj6KV1Uh9Rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751535710; c=relaxed/simple;
-	bh=Tc2He9V2+ZoVsyDk3MmEaYuE00B50p9kj605W0HSn8Y=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oU+RAEK2qvUKmD2UKmHqi05iug/VEsNXOu+yDoHdBzH/BTtv4ftf+RwvMu1kgi9cN5AVTT66MFjyeHTEGOTrsGOn/PSqX4NrRZeyar3ztNEntIJ5/mTyYax1OKYX8vtPVlww2T6VbIuv1QAiXic/cnDVH9DVcPk04MLV1elPh5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LdIdNOok; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=u0rqKlmL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LdIdNOok; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=u0rqKlmL; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1751537973; c=relaxed/simple;
+	bh=6r+LqpL6KA2efSJCVmUCNNxEdOtaWMQouGC4z+YYw4E=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=BM/Sa6dlhNrQVjCCVwMXVvBZai7MzASvQfCwiO3Us8bWUOWO/FjpF3c1FnG9UBmSJZ7R54ov976a1NdAoRXWzPr8bK4XC2Q+TjK/REp7nzF2Ad1wmKYLAgYq5ciNxqo9CV2Cus0UJlQzMs+SfiBKfVf7Zl6wcmes3uR3xZP0n4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YNFLo32U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LdIdNOok";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u0rqKlmL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LdIdNOok";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u0rqKlmL"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 47A0921186;
-	Thu,  3 Jul 2025 09:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751535705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ct7clN4OxfFrYElHSUpU60EmEGUOutONp382V/+9FTE=;
-	b=LdIdNOokx4dTZWcu1BTdWSjZ6JD2CcreM/v1VrQLAu9nBQq5wSkJz7NCeB6kXhGbpWo1IG
-	c3vUBDy8PNAibHF+ECkNXKNV+lZVhmfl0X0QHV0K3u2YDbOrarzxOpOsvUzfzMrLEkBeTq
-	ll1kyf+hz8RtyazD7C5kuaccd5fjv1Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751535705;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ct7clN4OxfFrYElHSUpU60EmEGUOutONp382V/+9FTE=;
-	b=u0rqKlmLjvEQIKu0KjVmwam2DswknUub1nVgqSpZJEZijzd38XrlYLa8CqNZSXVNNfYzQM
-	riMuMwUWtJRifmDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751535705; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ct7clN4OxfFrYElHSUpU60EmEGUOutONp382V/+9FTE=;
-	b=LdIdNOokx4dTZWcu1BTdWSjZ6JD2CcreM/v1VrQLAu9nBQq5wSkJz7NCeB6kXhGbpWo1IG
-	c3vUBDy8PNAibHF+ECkNXKNV+lZVhmfl0X0QHV0K3u2YDbOrarzxOpOsvUzfzMrLEkBeTq
-	ll1kyf+hz8RtyazD7C5kuaccd5fjv1Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751535705;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ct7clN4OxfFrYElHSUpU60EmEGUOutONp382V/+9FTE=;
-	b=u0rqKlmLjvEQIKu0KjVmwam2DswknUub1nVgqSpZJEZijzd38XrlYLa8CqNZSXVNNfYzQM
-	riMuMwUWtJRifmDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 23FD813721;
-	Thu,  3 Jul 2025 09:41:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9a8hCFlQZmjPBQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 03 Jul 2025 09:41:45 +0000
-Date: Thu, 03 Jul 2025 11:41:44 +0200
-Message-ID: <875xg9obl3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: <broonie@kernel.org>,
-	<andriy.shevchenko@linux.intel.com>,
-	<alsa-devel@alsa-project.org>,
-	<shenghao-ding@ti.com>,
-	<navada@ti.com>,
-	<13916275206@139.com>,
-	<v-hampiholi@ti.com>,
-	<v-po@ti.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] ALSA: hda/tas2781: Add bus name in device name check
-In-Reply-To: <20250703000608.20815-1-baojun.xu@ti.com>
-References: <20250703000608.20815-1-baojun.xu@ti.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YNFLo32U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C5F3C4CEE3;
+	Thu,  3 Jul 2025 10:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751537972;
+	bh=6r+LqpL6KA2efSJCVmUCNNxEdOtaWMQouGC4z+YYw4E=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=YNFLo32UcazxUvoPjazKAKec3zRIhjcZjy9aZW5xIpR7iyYaXGfJEgFQ4qSKLj9s7
+	 Hh33md7sT92kyDqWEutMGiywsTixGcMRLcYIshnSFZ+6pdD/FT2+y5mJQIziwtEVCL
+	 ztnxPL+RQza6KXSwqUCAyEDm5djhFVYJS9Fsv3wXIRkzE/vC/pkDnApbju1QnsHXyv
+	 VWDIVzggWvxBRs7JfRi/aV0SSfbWbjujR0kYoFv+N5rgQBu+ypzm51e4xjfVqte15f
+	 xH6pBYioIQQGFtNQfjnCtLy+x51KBUezJ6vrnUOwZHT+XAiNhbm9aczLaLqfohTfNM
+	 UD32VD/x8dD4w==
+Date: Thu, 03 Jul 2025 05:19:31 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[139.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,alsa-project.org,ti.com,139.com,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ linux-kernel@vger.kernel.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: "hailong.fan" <hailong.fan@mediatek.com>
+In-Reply-To: <20250703075632.20758-2-hailong.fan@mediatek.com>
+References: <20250703075632.20758-1-hailong.fan@mediatek.com>
+ <20250703075632.20758-2-hailong.fan@mediatek.com>
+Message-Id: <175153797140.484478.11959606684592113866.robh@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: dsp: mediatek: add mt8196 dsp
+ document
 
-On Thu, 03 Jul 2025 02:06:08 +0200,
-Baojun Xu wrote:
+
+On Thu, 03 Jul 2025 15:56:23 +0800, hailong.fan wrote:
+> From: Hailong Fan <hailong.fan@mediatek.com>
 > 
-> Device name start from bus name, as we use strstarts()
-> to do compare, need add it for TXNW2781 device.
+> This patch adds mt8196 dsp document. The dsp is used for Sound Open
+> Firmware driver node. It includes registers,  clocks, memory regions,
+> and mailbox for dsp.
 > 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-
-Could you give the proper Fixes tag if it's a fix of the previous
-changes?
-
-
-thanks,
-
-Takashi
-
-
+> Signed-off-by: Hailong Fan <hailong.fan@mediatek.com>
 > ---
->  sound/pci/hda/tas2781_hda_i2c.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../bindings/sound/mediatek,mt8196-dsp.yaml   | 95 +++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8196-dsp.yaml
 > 
-> diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-> index b9cdbca95..530c2266a 100644
-> --- a/sound/pci/hda/tas2781_hda_i2c.c
-> +++ b/sound/pci/hda/tas2781_hda_i2c.c
-> @@ -588,7 +588,7 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
->  		hda_priv->save_calibration = tas2781_save_calibration;
->  		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
->  	} else if (strstarts(dev_name(&clt->dev),
-> -			     "TXNW2781:00-tas2781-hda.0")) {
-> +			     "i2c-TXNW2781:00-tas2781-hda.0")) {
->  		device_name = "TXNW2781";
->  		hda_priv->save_calibration = tas2781_save_calibration;
->  		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
-> -- 
-> 2.43.0
-> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/sound/mediatek,mt8196-dsp.example.dts:18:18: fatal error: dt-bindings/clock/mt8196-clk.h: No such file or directory
+   18 |         #include <dt-bindings/clock/mt8196-clk.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/sound/mediatek,mt8196-dsp.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1525: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250703075632.20758-2-hailong.fan@mediatek.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
