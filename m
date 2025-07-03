@@ -1,94 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from tarta.nabijaczleweli.xyz (tarta.nabijaczleweli.xyz [139.28.40.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122E5134CB;
-	Thu,  3 Jul 2025 17:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F442F2C4C;
+	Thu,  3 Jul 2025 18:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.28.40.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751562631; cv=none; b=hCSbQOIlcBZ5yTRJwnQ2YZrjoGespQ1fnVmLJsgUUVpzbQvdEwEEfuKQaEaET+s2toEnni4Cm31e/ag5n84M//SHNGeRQqolRvqOZQwRrxRyxpXXB7AtkYBNlpxChPjg1LSQdGtMZl2ED5vrK49IxWFyFePSnwUFROP6GXeEF7M=
+	t=1751566893; cv=none; b=CDsTIZko7rES2Sk/tqHpMhdfIrkuPQl3/zzLDpqIeB9zY3ZZyv7kcCKGdKWfRQaPm72GRHS5srz8V0s+uRlcOsMUr6jD/TkcSOfSTnQRbiYSE8U7jPoou+7q17mw6djyiiRaW4GKKorLwbRobKhu+kbKpF+twR0VnnA51SUadgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751562631; c=relaxed/simple;
-	bh=VBNBTHMTAZlDZfjt9bZrrU4QHStDFo99Vh/bJIt/n/s=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bNREYcxXecK+qZ6ADvZpdglAkfe51rRkwFwFV/qnqt74jC18oWO0yEhEkEDSM9QF7z4w27jEPqPsjEX9ceX6O3pA54Umq/seTVDOqosu2JSPY9CokIu4BvQv3K/IfsvQv8tG7rshgkmxR4hryYuNHWg/gY85eFhFszsivsupAwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fkVZJJm1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751566893; c=relaxed/simple;
+	bh=12KSMMjnVg8dZvbPiKPjh2oNz1KNvtRf9nY3iXHMh1M=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PvsYvoossh038Muq3yQqe9l4HOedN2FpmusNHtIVnnSe1R3U1NbE7sNXLrIHaXQ0Bis3farOTRocz2hceggMmU/5rNxEJeRUUkqPvL1CNpX3VvSSc94OzG3DWWiXU9nI2MyraPEtG5TjDiP/CQcuyrJxWsfY0jNSHYaOWf7Ea6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nabijaczleweli.xyz; spf=pass smtp.mailfrom=nabijaczleweli.xyz; dkim=pass (2048-bit key) header.d=nabijaczleweli.xyz header.i=@nabijaczleweli.xyz header.b=IAFx/PJz; arc=none smtp.client-ip=139.28.40.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nabijaczleweli.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nabijaczleweli.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fkVZJJm1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEDDBC4CEED;
-	Thu,  3 Jul 2025 17:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751562630;
-	bh=VBNBTHMTAZlDZfjt9bZrrU4QHStDFo99Vh/bJIt/n/s=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=fkVZJJm1iGyGdp1Ja5Tu7Hch65JO16hxP0lASxwcxLGUwtJQu5KhA+/rbghPX8WOd
-	 n7HF7bEC35BDP86O+2jDjpro7I1wSGc0l8/kzK2wy2Wp8jyIWDFDNTZHSw9b5iLNcW
-	 Yyir5cL8JKJnM6WonM33j4aBQh/yJEW2ZiQV2ybl8LxoLn4vYm2mXZQYHT6Z0vMhsZ
-	 BxiIZSdLAnLWt1XC8t/lQzg1aQOHbpv0mR8aP0/jNKauYtj3QPVvTzy1p2CGCjqp74
-	 PRciY3DOiw0Lw2YQ0dr8aEsMBosEPslC8LW/bMSi26BkNmP4UeWl3j7o/KyDf+Wffj
-	 NsheR+fjLrhCw==
-From: Mark Brown <broonie@kernel.org>
-To: shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- festevam@gmail.com, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- cristian.marussi@arm.com, peng.fan@nxp.com, sudeep.holla@arm.com, 
- arnd@arndb.de, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20250620055229.965942-1-shengjiu.wang@nxp.com>
-References: <20250620055229.965942-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH 0/2] ASoC: fsl_mqs: support MQS2 on i.MX94 platform
-Message-Id: <175156262671.651944.3516186569995786227.b4-ty@kernel.org>
-Date: Thu, 03 Jul 2025 18:10:26 +0100
+	dkim=pass (2048-bit key) header.d=nabijaczleweli.xyz header.i=@nabijaczleweli.xyz header.b="IAFx/PJz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nabijaczleweli.xyz;
+	s=202505; t=1751566890;
+	bh=12KSMMjnVg8dZvbPiKPjh2oNz1KNvtRf9nY3iXHMh1M=;
+	h=Date:From:Cc:Subject:From;
+	b=IAFx/PJzatiLKsMBsVvhCpDqsCv6tbypAvtet7DcoPvoSjReZxsQaEvzEJ4B0O+de
+	 IeJtfdcqFsYQKhLpPlY2V2pPMm4zOSctxVmKKBU8kwn8ighFcFrzpZZWptOfTF+oG/
+	 feuehYbeS0TQia4+Q7oQX6IeEdS7Hj0dAXxZnwgzTm5TRzOxy9ewWYaA/FHsiRA8At
+	 HZb2JtgtWhNRA9rN3vkiqDkDuFDDKwx6NxuUKXafAINmB1NH+KNzv6ooAYpP4obBhU
+	 Jn/5nK9sNccbfceDAkpr0a5c7Otxf2cGa7ekiGy9QGsYCRK52X3OMnAbzYxvooC7Cq
+	 WUKnsGo6gpNig==
+Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
+	by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 1E18794A;
+	Thu,  3 Jul 2025 20:21:30 +0200 (CEST)
+Date: Thu, 3 Jul 2025 20:21:29 +0200
+From: 
+	Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= <nabijaczleweli@nabijaczleweli.xyz>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ALSA: emu10k1: fix "for/take a while" typos
+Message-ID: <e4owjda3hf5vjc2237m3ctokey4qglfrciga6ho24bd4os5awk@tarta.nabijaczleweli.xyz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zwrmjaa7eaqstaih"
+Content-Disposition: inline
+User-Agent: NeoMutt/20231221-2-4202cf-dirty
 
-On Fri, 20 Jun 2025 13:52:27 +0800, Shengjiu Wang wrote:
-> ASoC: fsl_mqs: support MQS2 on i.MX94 platform
-> 
-> Shengjiu Wang (2):
->   ASoC: fsl_mqs: Distinguish different modules by system manager indices
->   ASoC: fsl_mqs: rename system manager indices for i.MX95
-> 
-> include/linux/firmware/imx/sm.h | 20 ++++++++++++++------
->  sound/soc/fsl/fsl_mqs.c         | 11 ++++++++---
->  2 files changed, 22 insertions(+), 9 deletions(-)
-> 
-> [...]
 
-Applied to
+--zwrmjaa7eaqstaih
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
+---
+v1: https://lore.kernel.org/lkml/h2ieddqja5jfrnuh3mvlxt6njrvp352t5rfzp2cvnr=
+ufop6tch@tarta.nabijaczleweli.xyz/t/#u
 
-Thanks!
+ sound/pci/emu10k1/emu10k1_main.c | 2 +-
+ sound/pci/emu10k1/emupcm.c       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-[1/2] ASoC: fsl_mqs: Distinguish different modules by system manager indices
-      commit: 9931d2899eec3737f4e4fa9fc900be7329816e94
-[2/2] ASoC: fsl_mqs: rename system manager indices for i.MX95
-      commit: baee26a9d6cd3d3c6c3c03c56270aa647a67e4bd
+diff --git a/sound/pci/emu10k1/emu10k1_main.c b/sound/pci/emu10k1/emu10k1_m=
+ain.c
+index bbe252b8916c..6050201851b1 100644
+--- a/sound/pci/emu10k1/emu10k1_main.c
++++ b/sound/pci/emu10k1/emu10k1_main.c
+@@ -606,7 +606,7 @@ static int snd_emu10k1_ecard_init(struct snd_emu10k1 *e=
+mu)
+ 	/* Step 2: Calibrate the ADC and DAC */
+ 	snd_emu10k1_ecard_write(emu, EC_DACCAL | EC_LEDN | EC_TRIM_CSN);
+=20
+-	/* Step 3: Wait for awhile;   XXX We can't get away with this
++	/* Step 3: Wait for a while;   XXX We can't get away with this
+ 	 * under a real operating system; we'll need to block and wait that
+ 	 * way. */
+ 	snd_emu10k1_wait(emu, 48000);
+diff --git a/sound/pci/emu10k1/emupcm.c b/sound/pci/emu10k1/emupcm.c
+index 1bf6e3d652f8..ca4b03317539 100644
+--- a/sound/pci/emu10k1/emupcm.c
++++ b/sound/pci/emu10k1/emupcm.c
+@@ -991,7 +991,7 @@ static snd_pcm_uframes_t snd_emu10k1_capture_pointer(st=
+ruct snd_pcm_substream *s
+ 	if (!epcm->running)
+ 		return 0;
+ 	if (epcm->first_ptr) {
+-		udelay(50);	/* hack, it takes awhile until capture is started */
++		udelay(50);	/* hack, it takes a while until capture is started */
+ 		epcm->first_ptr =3D 0;
+ 	}
+ 	ptr =3D snd_emu10k1_ptr_read(emu, epcm->capture_idx_reg, 0) & 0x0000ffff;
+--=20
+2.39.5
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--zwrmjaa7eaqstaih
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmhmyikACgkQvP0LAY0m
+WPH8xBAAoNuyqLH78miufJfAkns2RlNbqsLjqKqk667b7niJq1b5EWQF8cC8rLV/
+Hl71N1u3spjs8ktbzfvEMvW3bpXRyYQhExQ/ocz+gXenC8yaBOXvlhIQIP0wof0d
+ni5az83x/Qwdpu/kv3pNumpMTGfjWz1V6B/urTe8hf1HoHiE88TyaEKP61xRVsuw
+ACjic+uKV1/jqdS9EVzUpgRPj7dXELxIvDXMyKQjMN7volFRis4Tin588Ewp8WSy
+joIXRY5/u5GWynXzeabcBFuRlxHlk5KG/gdCYz+DDBZjvh1jTyqYaG61qodlz1h0
+G9wk6UwTu6SqjLXdvpa607UCleISax74Hsw/b1JrTUdAlJG7R6k7lfPLQq+JkgTd
+k9F06sCuyDzfYvs5sNoFnpjfzzeuJwzuiTMAypIJqtXPI7pejM+BosybubDD9ABU
+S+rViQ6C+ftFvgwOZ0Y3b4y1+Vq8j+ZoOouZj/GKQ3grE98CnjNPT9q9rjMxR+wE
+9+2E67f1KzF9J9yLfFw76CWLFHZkTbw+EZQSCQfkDBIMUSOphtJsBf7IuJoevUqX
+GpEv5QMWZwfDjEo8ZFfdNTEM3HKBCEesvOXziHqEAYqkWxA0XPVCdBLkyvf+0TnI
+844FwF1saFR3TLtdP/yKKRZSxZc70artOwV37d65J4GVhCI0iek=
+=nYRO
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--zwrmjaa7eaqstaih--
