@@ -1,401 +1,561 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022100.outbound.protection.outlook.com [40.107.75.100])
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D34C3594A
-	for <linux-sound@vger.kernel.org>; Thu,  3 Jul 2025 01:39:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.100
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751506773; cv=fail; b=lO2PdYwYB30SUdPjrOsuHR4up9bNiD30VccZ3+Yha8DbeBveHSkOOl79NGSg4MoevNFCmm9i3onJ+vRoEo2sH6OryOnNMOOyTPOi+coyNG+KxydX0jwS9OozaO2siPNbpXgypXUZe+AiCKoIr9F8NfG2snZrJdTgRJK1zweXC8s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751506773; c=relaxed/simple;
-	bh=PjNJQ8w5J722BDe7lUtAya4Or4jjSCN8btlpshu4pJQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=iyTqOyZkh6luMAcZJDdQLuGf+jrl603NBrOaTRS49QRt1qPer2BBR0jhchCs85Ca7RCsCl7U0k+9EbQNFADOlcNZ7OCVXd4UWdF/X0OXK4FGJnt4cFapQT396p9ztD5yCrTytUVl8rC9PGeItD7ybIDycJGkyPySEsKSAHJ9zI4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.75.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g03y7EFQqZaW3hqgHW2Z8vs12VyC5AykhUCMrKsTYAjnFUa6854TSQRt3Hf151zRfbtWz9kijfGFRLvJu6kaJVt0/FTGBagN8SzrQrjsepm76S3m7NnKlxpERiSJn+1W2PmG0krZzStzqct0msGlTQitLbtP1w4YQI/H6yhRQC+6TgQ2Mfc5LbFpaZox/sySwlnVnqr/3slVjFqj4HpD7tgwfp20ekBX7yT+aN6wQFOF5gQM4YbZEs9VbO8AOInny8e9u2+Gj7qbWDa98EzGqY93+onaB/qNSg06s//uyA+55BwlEI70Tz1YUBdk7ZAygNfOBtcZcfUg6hrdakN4rA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4kOMAwTFWN/9yw6fCEG9GIRt/y1bCP/R+1cSsv/hEiE=;
- b=MMRvqarV8V3SgPJ52Oef1lN6hzljvTn3cyl/x8QQoW8ddKp79jtGj9LnJTGfI+6Ql8IJ5S7+js9eijCvfKJux5S6NMhy9WhrVIa5gSznHsc7cyKoE7O4JXaFpvRopkTG3zaUrYnujLx2saBGt8jytLkaY04ffaCMypuk1D4ZyYeoLIb1gKlT0xLmW5Zj1rCG+GHx1dN8qGUUBsl8ejsMYUAPGVi5mTzc2nXkpv0JNzBiANaDMLqrcOi1qlZckT853qoNor98G2X2mkmwD9/mL+hGezOVF5kSb/retH5kpG0TmsunXwMOdCVOhAOp+is2CtmJ5HsVbfeurzea68hItQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cixtech.com; dmarc=pass action=none header.from=cixtech.com;
- dkim=pass header.d=cixtech.com; arc=none
-Received: from SEYPR06MB6278.apcprd06.prod.outlook.com (2603:1096:101:143::5)
- by SI2PR06MB4995.apcprd06.prod.outlook.com (2603:1096:4:1a2::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.21; Thu, 3 Jul
- 2025 01:39:25 +0000
-Received: from SEYPR06MB6278.apcprd06.prod.outlook.com
- ([fe80::637b:524b:8f70:e636]) by SEYPR06MB6278.apcprd06.prod.outlook.com
- ([fe80::637b:524b:8f70:e636%6]) with mapi id 15.20.8901.018; Thu, 3 Jul 2025
- 01:39:25 +0000
-From: "Joakim  Zhang" <joakim.zhang@cixtech.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: Kailang <kailang@realtek.com>, "perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "chris.chiu@canonical.com"
-	<chris.chiu@canonical.com>, Geans_chen <geans_chen@realsil.com.cn>
-Subject: RE: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on
- alc256
-Thread-Topic: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack detect failed on
- alc256
-Thread-Index:
- AQHb4L8rxhSHQ+JAvEa55JNlDRN3XLQL9+CAgAWmt4CAAA8EsIAAMEeAgAE/zaCAABzZAIABmbuQgAAnGgCAB7AeMIAAK3iAgAAHvGCAAAaLgIAAAOtAgAABUgCAAB1NwIAACu6AgAATzaCAABVWgIAA6+cggADUkACAALgOYA==
-Date: Thu, 3 Jul 2025 01:39:25 +0000
-Message-ID:
- <SEYPR06MB62787987F06AC544F98D39A68243A@SEYPR06MB6278.apcprd06.prod.outlook.com>
-References: <20250619020844.2974160-1-joakim.zhang@cixtech.com>
-	<20250619020844.2974160-5-joakim.zhang@cixtech.com>
-	<87a562wqzu.wl-tiwai@suse.de>	<431c41bd52224eb5ac341c9c24d52af1@realtek.com>
-	<SEYPR06MB6278B03237E451616AC060E38278A@SEYPR06MB6278.apcprd06.prod.outlook.com>
-	<abb90ebd8dab4cedbb831d4ad943bd56@realtek.com>
-	<SEYPR06MB6278C26C6B0479C920FEB364827BA@SEYPR06MB6278.apcprd06.prod.outlook.com>
-	<5f2431ca8ef2453daa9da2034798e682@realtek.com>
-	<SEYPR06MB62788CE70E017CB5FD7F5317827AA@SEYPR06MB6278.apcprd06.prod.outlook.com>
-	<a0d71d7f93a94800881c8c67c9e715f8@realtek.com>
-	<SEYPR06MB62789527920A36FC01B665988241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
-	<87cyake9w0.wl-tiwai@suse.de>
-	<SEYPR06MB6278B60285176A9B98ECB65F8241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
-	<877c0se7iu.wl-tiwai@suse.de>
-	<SEYPR06MB6278B9C65FA98E18C87EDC1A8241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
-	<874ivwe75h.wl-tiwai@suse.de>
-	<SEYPR06MB62781EDBF735E177B909053B8241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
-	<87y0t8clx2.wl-tiwai@suse.de>
-	<SEYPR06MB6278A4E87874B8B894A1DAD48241A@SEYPR06MB6278.apcprd06.prod.outlook.com>
-	<87tt3w6stw.wl-tiwai@suse.de>
-	<SEYPR06MB627805243BFA48D81FD58B158240A@SEYPR06MB6278.apcprd06.prod.outlook.com>
- <87pleivfb5.wl-tiwai@suse.de>
-In-Reply-To: <87pleivfb5.wl-tiwai@suse.de>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cixtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR06MB6278:EE_|SI2PR06MB4995:EE_
-x-ms-office365-filtering-correlation-id: 80cadcbe-76fe-4fed-7a9c-08ddb9d2715d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|38070700018|7053199007;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?CIfL85bda5k9Xfti6QLJDxg48XJRZdrBziCK0ddK7fZTXdmRwZ+i8KNSMUgG?=
- =?us-ascii?Q?Uxe8Xr+JUyy76vwbg6fr88Cp5yjgngeHjReiencNafalF5cDCV8TWn5JIy1C?=
- =?us-ascii?Q?FY6PoNMqZt2jB7T3HQvC2I8SZxvMxGfpUX1YNJ4CYmmvS0LhQqo8Htc6LFlh?=
- =?us-ascii?Q?L5sr09TpcULdRqg8sfrtzUVE7jjkEioPD2OZSKOUc467TtVmgLrF21ft8cAx?=
- =?us-ascii?Q?gAg7IGm4Pt5npYhll/yOyzYJ/U0ACbVUhF8EFUcp0IrxSwAed/folUiWfB3q?=
- =?us-ascii?Q?cRrR+UfmKnoEnrU5hNAA5G+bg8rI+cxju61DUoZhABtd3uFjsf2ovzcjDhNT?=
- =?us-ascii?Q?l8xGVfKFdgubtEjhbZUYREsFkqJZfm71bXZdvzqaH9KPu9XDTWnBEseKgsCh?=
- =?us-ascii?Q?SKiKJ4PcQi3/df3EnkhDtr0mndp9fzjqxEn6iJbPBIcB5+34nkH3StZP0oXB?=
- =?us-ascii?Q?vBJtqPSUPQU0IMQYxf9QSd1ZbE9qzr5KsrDYVtlZVNsTnmkh+vLXNRmg/AUG?=
- =?us-ascii?Q?NIWWel6S7sa0NAqAqxkzIDmei24zAio8n/e5F67aOHz1/T7RK/UoBBJDcNml?=
- =?us-ascii?Q?dsvtzBfd2reNBNgEnv8+bcCYPW+8FSSEl3dQisVSEVQM9kKHJskh/ZQHQcG1?=
- =?us-ascii?Q?1mg7R0KNyMEdWZ2li95LMIM4h5mb30UmbbItpZ2ZmSvwWdX4HA8YnBEai6OT?=
- =?us-ascii?Q?uqQQ4lyg6G59PszbKFHrYOePLzrWSBoSw6vhwjygOfeTPqkgGEGoMkcnSftn?=
- =?us-ascii?Q?98t3tFICVrxBlwf2WSSRMTDKdNl8DcPxiB3RBIyFro8uEXdLp0poQzECZGxM?=
- =?us-ascii?Q?ySb+2KCJNZvyl+LkP4fLO8WqroW0S4r6flB7aruYBXqGpYZZdL3v18ZMPXfW?=
- =?us-ascii?Q?6fsntOAoeuZYFQa++EM1BBPi4InnZkCl3kIvN6XB26rWd+W4zYCWX5ZtdT4y?=
- =?us-ascii?Q?q9psSLymy4xB2O4uWkQmMPG+0nSNfJ70p/rE4BZyrEDkTkrrQn+RbyhqVrhv?=
- =?us-ascii?Q?Vb5nIIQQMRFDbXBntGFsi8RpLYB/yTdrq2ztvNIKgqpoV0Dzu4HLaSFcDTG4?=
- =?us-ascii?Q?BNOvR62fecS25Nbo+GsV/7l+ffUL/dp/81geuueMSB1I42Vjzl8nhpgqLNBR?=
- =?us-ascii?Q?uUNjKLThmbwgN6ivCQVKCRa6t8hrHKJYqP48MNeIp8PLnd/e1KuSmRsNE3Es?=
- =?us-ascii?Q?PmmjISqoucm6E+r9LHkdB7hBGXTrNs3HQKuQNnu9nIuwHjwDgybzoHCQJJAR?=
- =?us-ascii?Q?jNpDlTezZM+IxW1nRA8gqrJhTGDPmOYvwADT/N9HX8NNZ5dyIdWj6EdHLuKn?=
- =?us-ascii?Q?E/T95Tkcj90hC4tBouRZbq9tUNEo89GAd9RfMVMipezzrwDOsQDWBqX1nMz0?=
- =?us-ascii?Q?1NISlvMCTYVyZddcEibzomA3U0Ns55cgx9JCWZj5HHcX4rofu0f+7t61WtNw?=
- =?us-ascii?Q?aYrIXA0zAnkfaPlhik4uI3B1v5v6w0Pn4Us1VyOorR63RgZZ/IRq1w=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB6278.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018)(7053199007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?DOTrfbohUYmaAG+0vWkkcvM+WVcPpVaJwjao/4rF9NBuprylTUscJ2iUhn88?=
- =?us-ascii?Q?NNDDZxh9A6CbrE3ayoWM/BAHZ9Zbbrp7PSK+TjLWX36SlTtITJUKkFVmho7a?=
- =?us-ascii?Q?0FzIkIw5+fIcoUfkdQJ218+NvZu1FVBcUPEX0zf36ZC+7C3Bee3U3Au2J3NZ?=
- =?us-ascii?Q?ZM8T9g8TRIIHiffCz67yxrrHjYsB4ZIa2FW82P/JB1hAaLIVVRmqE/xm/0w5?=
- =?us-ascii?Q?q4ZRv1rXDixghvl4fbZwxwDMZEiwGRLmObL+vzgOqO+bSQlrAy7AK338P4R6?=
- =?us-ascii?Q?c2n2e1IcnaC7YJezfJx8dCQsh2LbubkSEQi0sPKptzIXKCKQm/iMr8jOXjVW?=
- =?us-ascii?Q?80PslxUVllDBMzhbkKHMdz4QiRrfBgPQC3uSpwkXYHCbuJCc7B61y52Not5z?=
- =?us-ascii?Q?w9Rd258v4Itgfq44cJynNgW8v06cvCYVTMSEbujDDdq9CHx2lx5982820H+i?=
- =?us-ascii?Q?AxSmHqBTq+/9wbxE5nWNfNAoHOC8+PoRlYxbEz8oY+U0QDSI2SE6f0SgKiPF?=
- =?us-ascii?Q?og4FkdeNd5qEftSrLZkSraFWqq/C/+HkCDJt+06y398AzsPl2CqDoXXlmMPR?=
- =?us-ascii?Q?NTJHgz4ajvssGufa41vTwT2nCZYOqsuvb6Q6QsvDcC+J3lVdhegC3JfwN86Y?=
- =?us-ascii?Q?vNMvdvRvjZkaYREcGs1Vy6rC8giPQpWZPGUI4eqS7fu91f360/0ruqjkcKqt?=
- =?us-ascii?Q?vyOJbnUpneBlO6p4JvMwt3e6Xple3sTj4bDDS0pwCCqmaZMlEvaSlWWGgn+i?=
- =?us-ascii?Q?280ORSpNAOlVT5bu6fTDrcfyPlMHr61mwFhXM3rCA6zPDQ8fCZs6yu/KfNms?=
- =?us-ascii?Q?lMukC00X00uC4R6ZshHztudzbRb59UOm0m6lh84eeku7hd6pgBzfdH+5Kip0?=
- =?us-ascii?Q?t5Fc5xJXdaKnCXB78cd24A6i6UV1oGkXvtjG7CIL8XypiPa2PCK172mQRk+q?=
- =?us-ascii?Q?ScXG2tCJS3olLM4peQUWT8oPmnAbWpgEXmN8//OCV19akvTFShOBnkCVgYMz?=
- =?us-ascii?Q?RbFFAbo3BpYinkUqFkPK3iHNh/7sM9AYH+WOXNpWjZ7e+mnn07wgR83hwz/h?=
- =?us-ascii?Q?vkJkqtOc2A5pv5Wiblllyuo4mhftfZVsg0Ya0LIe5vpfYTo2kCkuJSDZ09SI?=
- =?us-ascii?Q?4eTrtuKT4ubF9k/KcLFabKIAd97UZ0nZ8obvj+x8b0BVE4x5Ygo/ohwoqVjc?=
- =?us-ascii?Q?4yYnLGpuFgLHOY6e55q/AwjZKszyxEsd5Dja4ELQskB3xSGHQD64tR4vJO9P?=
- =?us-ascii?Q?r+XF21qIx2BW19DVVkTafZPt2Gj2LAEzC2Mum7bGYbwlyI4sDt9+/B0l60lT?=
- =?us-ascii?Q?FhZLGz3kNRcpu+c4dINkcTzIgg+WalZGFwq1m359hkB4iUx5n8CTeWwwptkG?=
- =?us-ascii?Q?R/4IxBpATyqsvHY1V3LByNTdXIPSE4WGgCRQNhCSqc0nvm9jQ2lUX8KrKNwU?=
- =?us-ascii?Q?YNy6+nvOyA4uqzdMxzVoKjGUBmcK9X2UC7HstqrP6iORPycmR+EYqNLg2tx5?=
- =?us-ascii?Q?C8Gvds3vfBETmQ51wkY0VrFZfnLkJU0ho0pitmRAfBKjJLKOQS8cqK9DVsrX?=
- =?us-ascii?Q?K9dSHF6s8mfExrKoYl3ybf2g6Fm+lLDZC50hNjxk?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376161E7C1C
+	for <linux-sound@vger.kernel.org>; Thu,  3 Jul 2025 03:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751515016; cv=none; b=opmjCHSnTJkuURVbv7zVNUIZxoDQn67pO2wG4P9csBNYYmdqGerX8jUSQXofSpDiDU576Cau/oYnVUNT8+7/2XC0kkcZ3h/gSYT1dqdb0x7CdA5aIczmvsfThOd72iqqkR/p8bZNPtZQ9yxGskY8pRrtbaNrNpT24z0PG+b9efc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751515016; c=relaxed/simple;
+	bh=Jl1m/HsX/hUWNvsH/8yeYoQeZFFGMD3abr3R+NX4qZY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BMZZG92Zf6Y7zMgncIlsWq0FUZMdYu9vOISD68DyO7WPCTm7oXhqAb27/OJKy7TFFXcQTg/japDj3B6ywZiNfmbx2Doz4Bf8jeRXPfAhHGnhjV9KntQ+YwMPBShZ2gMOpmQGYOMLW/vL+PB609HBIL+Afpx4b/gCmDn1W+/3S+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foursemi.com; spf=none smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=18.132.163.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foursemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foursemi.com
+X-QQ-mid: zesmtpsz3t1751515005t094ea62f
+X-QQ-Originating-IP: X6u8RQxXY5/ZAVooWqAOToO0Qz2YsMDAirnQ1iHsqow=
+Received: from localhost.localdomain ( [183.17.231.150])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 03 Jul 2025 11:56:44 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 15827583615564394399
+EX-QQ-RecipientCnt: 14
+From: Nick <nick.li@foursemi.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	nick.li@foursemi.com
+Cc: like.sin@gmail.com,
+	xiaoming.yang@foursemi.com,
+	danyang.zheng@foursemi.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 1/4] ASoC: codecs: Add library for FourSemi audio amplifiers
+Date: Thu,  3 Jul 2025 11:56:36 +0800
+Message-Id: <20250703035639.7252-2-nick.li@foursemi.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250703035639.7252-1-nick.li@foursemi.com>
+References: <20250703035639.7252-1-nick.li@foursemi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6278.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80cadcbe-76fe-4fed-7a9c-08ddb9d2715d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2025 01:39:25.2094
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BDkhqIGl9SbxxituvlBqu3M4t+0F1KBspFbZlkyVk1kj3FhdkrAqhdPT5+jusFryjZohVR091tkz6qzOoL87k2VgtfCyjGR9GTUd7ooLRk8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4995
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: NPR7uEA6bBhoBndD4/1V7RlDWe3zgFrKijwWvvMqDDyHlPlpu1CtiYni
+	Cc0AKSiesz3o4GSmzjc7TbiX65bpReB3stTsUrX/DMCne8dl12Jz7kFuJqUnAGpGcxVLlU7
+	Q5WtKzsfR3dhlmkVdKPI/+Tj7Jg/98CkpgXTcSwoSSYKQmL/ExzPIB3Oo4lHnQoEAcbm+m0
+	3LIO9osdkHgdoZN9v+KBMcI42mnFVHvs4SAPvGuq5RmorUmfJ6JFgN6+KXv6fendxX4NMSx
+	+g+F8TMITCjp3kriBR9z4cxfRzLz4zPXa1ziWdmcJYkuBPVAgg46DBVLgqHtJ4kMAFeHXBH
+	5PN/yU2jlEecG3Sv/CqC/1o35iZxGpwhnPiQ2EcfBElZBeSVWFfAb5uVvY03rbYgVbCeRdu
+	IZ8PmKcUP5WNOPsfCKQUZZ50fw1VSR3p61ZBylXkF9dGTU8qcbwvYk3QqOnMVQXhTyeLD3K
+	4MrqfO3nz7Jth+gQL6yx47M//cHakbmlRgi/f5GLCI+yyimVUG6F6VfqgZwHOoWWUuSdJ9H
+	4ohh9P3GOCaCi3dOpp3PM9L4D+ufbHpmVtxrF8bgsnOk92xrIYwp78+IMWEO97uncTdIg4c
+	W9eYAE6Gq6zt9Rj2bdA3wuTXZgpp3RKwDmcV3KTFht9E5rhnW2t26IBFwvSkLi82j7DGFIa
+	fPrwx5tmR+AveEXVMnMakqHlmgu3Z8yQJqb1IXgwWI99grQ2NKXCvUqN5vw5te5e1ktLkS4
+	mZKtG+5kLZ7OFdqnCm8k+2i9oV5byWsDdz5utKhvUVFVgUWkgQQF/5uQeNpsSulXdL3qwtO
+	ZnImrEnDQzjhNUigOPuwfac9UoLcGwPScRS277fBl3yuiQYZ4b7HvRzFUrjOCQKD37o4Piq
+	a51KGrwAg1hdUsGpjFw+A5ZeJ9njQhs0NGjbPbEeu4asw3HChV5adfSanHtmrSXsSyyMDdn
+	6c05ta1FMRQe47KMZ2ZK8DG3J5SkpjUmM0x8wVWyghb1T5NzjgcDblm4TjN0Vxh4jeEB8lk
+	uJlgO+3G1AlC77MSqE3LZqATsCZdPnsE3xLO6xklUCcOmNO5WZ
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
+
+From: Nick Li <nick.li@foursemi.com>
+
+This patch adds firmware loading and parsing support for FourSemi audio
+amplifiers. The library handles firmware file (*.bin) generated by the
+FourSemi tuning tool, which contains:
+- Register initialization settings
+- DSP effect parameters
+- Multi-scene sound effect switching configurations(optional)
+
+The firmware is required for proper initialization and configuration
+of FourSemi amplifier devices.
+
+Signed-off-by: Nick Li <nick.li@foursemi.com>
+---
+ sound/soc/codecs/Kconfig      |   3 +
+ sound/soc/codecs/Makefile     |   2 +
+ sound/soc/codecs/fs-amp-lib.c | 265 ++++++++++++++++++++++++++++++++++
+ sound/soc/codecs/fs-amp-lib.h | 150 +++++++++++++++++++
+ 4 files changed, 420 insertions(+)
+ create mode 100644 sound/soc/codecs/fs-amp-lib.c
+ create mode 100644 sound/soc/codecs/fs-amp-lib.h
+
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 4494e7cd6..6265cc897 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -1238,6 +1238,9 @@ config SND_SOC_FRAMER
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called snd-soc-framer.
+ 
++config SND_SOC_FS_AMP_LIB
++	select CRC16
++	tristate
+ 
+ config SND_SOC_GTM601
+ 	tristate 'GTM601 UMTS modem audio codec'
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index c497d343d..9afce9aa6 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -137,6 +137,7 @@ snd-soc-es8328-spi-y := es8328-spi.o
+ snd-soc-es8375-y := es8375.o
+ snd-soc-es8389-y := es8389.o
+ snd-soc-framer-y := framer-codec.o
++snd-soc-fs-amp-lib-y := fs-amp-lib.o
+ snd-soc-gtm601-y := gtm601.o
+ snd-soc-hdac-hdmi-y := hdac_hdmi.o
+ snd-soc-hdac-hda-y := hdac_hda.o
+@@ -561,6 +562,7 @@ obj-$(CONFIG_SND_SOC_ES8328_SPI)+= snd-soc-es8328-spi.o
+ obj-$(CONFIG_SND_SOC_ES8375)    += snd-soc-es8375.o
+ obj-$(CONFIG_SND_SOC_ES8389)    += snd-soc-es8389.o
+ obj-$(CONFIG_SND_SOC_FRAMER)	+= snd-soc-framer.o
++obj-$(CONFIG_SND_SOC_FS_AMP_LIB)+= snd-soc-fs-amp-lib.o
+ obj-$(CONFIG_SND_SOC_GTM601)    += snd-soc-gtm601.o
+ obj-$(CONFIG_SND_SOC_HDAC_HDMI) += snd-soc-hdac-hdmi.o
+ obj-$(CONFIG_SND_SOC_HDAC_HDA) += snd-soc-hdac-hda.o
+diff --git a/sound/soc/codecs/fs-amp-lib.c b/sound/soc/codecs/fs-amp-lib.c
+new file mode 100644
+index 000000000..e1b42c51a
+--- /dev/null
++++ b/sound/soc/codecs/fs-amp-lib.c
+@@ -0,0 +1,265 @@
++// SPDX-License-Identifier: GPL-2.0+
++//
++// fs-amp-lib.c --- Common library for FourSemi Audio Amplifiers
++//
++// Copyright (C) 2016-2025 Shanghai FourSemi Semiconductor Co.,Ltd.
++
++#include <linux/crc16.h>
++#include <linux/device.h>
++#include <linux/firmware.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++
++#include "fs-amp-lib.h"
++
++static int fs_get_scene_count(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_fwm_table *table;
++	int count;
++
++	if (!amp_lib || !amp_lib->dev)
++		return -EINVAL;
++
++	table = amp_lib->table[FS_INDEX_SCENE];
++	if (!table)
++		return -EFAULT;
++
++	count = table->size / sizeof(struct fs_scene_index);
++	if (count < 1 || count > FS_SCENE_COUNT_MAX) {
++		dev_err(amp_lib->dev, "Invalid scene count: %d\n", count);
++		return -ERANGE;
++	}
++
++	return count;
++}
++
++static void fs_get_fwm_string(struct fs_amp_lib *amp_lib,
++			      int offset, const char **pstr)
++{
++	const struct fs_fwm_table *table;
++
++	if (!amp_lib || !amp_lib->dev || !pstr)
++		return;
++
++	table = amp_lib->table[FS_INDEX_STRING];
++	if (table && offset > 0 && offset < table->size + sizeof(*table))
++		*pstr = (char *)table + offset;
++	else
++		*pstr = NULL;
++}
++
++static void fs_get_scene_reg(struct fs_amp_lib *amp_lib,
++			     int offset, struct fs_amp_scene *scene)
++{
++	const struct fs_fwm_table *table;
++
++	if (!amp_lib || !amp_lib->dev || !scene)
++		return;
++
++	table = amp_lib->table[FS_INDEX_REG];
++	if (table && offset > 0 && offset < table->size + sizeof(*table))
++		scene->reg = (struct fs_reg_table *)((char *)table + offset);
++	else
++		scene->reg = NULL;
++}
++
++static void fs_get_scene_model(struct fs_amp_lib *amp_lib,
++			       int offset, struct fs_amp_scene *scene)
++{
++	const struct fs_fwm_table *table;
++	const char *ptr;
++
++	if (!amp_lib || !amp_lib->dev || !scene)
++		return;
++
++	table = amp_lib->table[FS_INDEX_MODEL];
++	ptr = (char *)table;
++	if (table && offset > 0 && offset < table->size + sizeof(*table))
++		scene->model = (struct fs_file_table *)(ptr + offset);
++	else
++		scene->model = NULL;
++}
++
++static void fs_get_scene_effect(struct fs_amp_lib *amp_lib,
++				int offset, struct fs_amp_scene *scene)
++{
++	const struct fs_fwm_table *table;
++	const char *ptr;
++
++	if (!amp_lib || !amp_lib->dev || !scene)
++		return;
++
++	table = amp_lib->table[FS_INDEX_EFFECT];
++	ptr = (char *)table;
++	if (table && offset > 0 && offset < table->size + sizeof(*table))
++		scene->effect = (struct fs_file_table *)(ptr + offset);
++	else
++		scene->effect = NULL;
++}
++
++static int fs_parse_scene_tables(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_scene_index *scene_index;
++	const struct fs_fwm_table *table;
++	struct fs_amp_scene *scene;
++	int idx, count;
++
++	if (!amp_lib || !amp_lib->dev)
++		return -EINVAL;
++
++	count = fs_get_scene_count(amp_lib);
++	if (count <= 0)
++		return -EFAULT;
++
++	scene = devm_kzalloc(amp_lib->dev, count * sizeof(*scene), GFP_KERNEL);
++	if (!scene)
++		return -ENOMEM;
++
++	amp_lib->scene_count = count;
++	amp_lib->scene = scene;
++
++	table = amp_lib->table[FS_INDEX_SCENE];
++	scene_index = (struct fs_scene_index *)table->buf;
++
++	for (idx = 0; idx < count; idx++) {
++		fs_get_fwm_string(amp_lib, scene_index->name, &scene->name);
++		if (!scene->name)
++			scene->name = devm_kasprintf(amp_lib->dev,
++						     GFP_KERNEL, "S%d", idx);
++		dev_dbg(amp_lib->dev, "scene.%d name: %s\n", idx, scene->name);
++		fs_get_scene_reg(amp_lib, scene_index->reg, scene);
++		fs_get_scene_model(amp_lib, scene_index->model, scene);
++		fs_get_scene_effect(amp_lib, scene_index->effect, scene);
++		scene++;
++		scene_index++;
++	}
++
++	return 0;
++}
++
++static int fs_parse_all_tables(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_fwm_table *table;
++	const struct fs_fwm_index *index;
++	const char *ptr;
++	int idx, count;
++	int ret;
++
++	if (!amp_lib || !amp_lib->dev || !amp_lib->hdr)
++		return -EINVAL;
++
++	/* Parse all fwm tables */
++	table = (struct fs_fwm_table *)amp_lib->hdr->params;
++	index = (struct fs_fwm_index *)table->buf;
++	count = table->size / sizeof(*index);
++
++	for (idx = 0; idx < count; idx++, index++) {
++		if (index->type >= FS_INDEX_MAX)
++			return -ERANGE;
++		ptr = (char *)table + (int)index->offset;
++		amp_lib->table[index->type] = (struct fs_fwm_table *)ptr;
++	}
++
++	/* Parse all scene tables */
++	ret = fs_parse_scene_tables(amp_lib);
++	if (ret)
++		dev_err(amp_lib->dev, "Failed to parse scene: %d\n", ret);
++
++	return ret;
++}
++
++static int fs_verify_firmware(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_fwm_header *hdr;
++	int crcsum;
++
++	if (!amp_lib || !amp_lib->dev || !amp_lib->hdr)
++		return -EINVAL;
++
++	hdr = amp_lib->hdr;
++
++	/* Verify the crcsum code */
++	crcsum = crc16(0x0000, (const char *)&hdr->crc_size, hdr->crc_size);
++	if (crcsum != hdr->crc16) {
++		dev_err(amp_lib->dev, "Failed to checksum: %x-%x\n",
++			crcsum, hdr->crc16);
++		return -EFAULT;
++	}
++
++	/* Verify the devid(chip_type) */
++	if (amp_lib->devid != LO_U16(hdr->chip_type)) {
++		dev_err(amp_lib->dev, "DEVID dismatch: %04X#%04X\n",
++			amp_lib->devid, hdr->chip_type);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void fs_print_firmware_info(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_fwm_header *hdr;
++	const char *pro_name = NULL;
++	const char *dev_name = NULL;
++
++	if (!amp_lib || !amp_lib->dev || !amp_lib->hdr)
++		return;
++
++	hdr = amp_lib->hdr;
++
++	fs_get_fwm_string(amp_lib, hdr->project, &pro_name);
++	fs_get_fwm_string(amp_lib, hdr->device, &dev_name);
++
++	dev_info(amp_lib->dev, "Project: %s Device: %s\n",
++		 pro_name ? pro_name : "null",
++		 dev_name ? dev_name : "null");
++
++	dev_info(amp_lib->dev, "Date: %04d%02d%02d-%02d%02d\n",
++		 hdr->date.year, hdr->date.month, hdr->date.day,
++		 hdr->date.hour, hdr->date.minute);
++}
++
++int fs_amp_load_firmware(struct fs_amp_lib *amp_lib, const char *name)
++{
++	const struct firmware *cont;
++	struct fs_fwm_header *hdr;
++	int ret;
++
++	if (!amp_lib || !amp_lib->dev || !name)
++		return -EINVAL;
++
++	ret = request_firmware(&cont, name, amp_lib->dev);
++	if (ret) {
++		dev_err(amp_lib->dev, "Failed to request %s: %d\n", name, ret);
++		return ret;
++	}
++
++	dev_info(amp_lib->dev, "Loading %s - size: %zu\n", name, cont->size);
++
++	hdr = devm_kmemdup(amp_lib->dev, cont->data, cont->size, GFP_KERNEL);
++	release_firmware(cont);
++	if (!hdr)
++		return -ENOMEM;
++
++	amp_lib->hdr = hdr;
++	ret = fs_verify_firmware(amp_lib);
++	if (ret) {
++		amp_lib->hdr = NULL;
++		return ret;
++	}
++
++	ret = fs_parse_all_tables(amp_lib);
++	if (ret) {
++		amp_lib->hdr = NULL;
++		return ret;
++	}
++
++	fs_print_firmware_info(amp_lib);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(fs_amp_load_firmware);
++
++MODULE_AUTHOR("Nick Li <nick.li@foursemi.com>");
++MODULE_DESCRIPTION("FourSemi audio amplifier library");
++MODULE_LICENSE("GPL v2");
+diff --git a/sound/soc/codecs/fs-amp-lib.h b/sound/soc/codecs/fs-amp-lib.h
+new file mode 100644
+index 000000000..4a77c7b38
+--- /dev/null
++++ b/sound/soc/codecs/fs-amp-lib.h
+@@ -0,0 +1,150 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * fs-amp-lib.h --- Common library for FourSemi Audio Amplifiers
++ *
++ * Copyright (C) 2016-2025 Shanghai FourSemi Semiconductor Co.,Ltd.
++ */
++
++#ifndef __FS_AMP_LIB_H__
++#define __FS_AMP_LIB_H__
++
++#define HI_U16(a)		(((a) >> 8) & 0xFF)
++#define LO_U16(a)		((a) & 0xFF)
++#define FS_TABLE_NAME_LEN	(4)
++#define FS_SCENE_COUNT_MAX	(16)
++#define FS_CMD_DELAY_MS_MAX	(100) /* 100ms */
++
++#define FS_CMD_DELAY		(0xFF)
++#define FS_CMD_BURST		(0xFE)
++#define FS_CMD_UPDATE		(0xFD)
++
++#define FS_SOC_ENUM_EXT(xname, xhandler_info, xhandler_get, xhandler_put) \
++{	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
++	.info = xhandler_info, \
++	.get = xhandler_get, .put = xhandler_put \
++}
++
++enum fs_index_type {
++	FS_INDEX_INFO = 0,
++	FS_INDEX_STCOEF,
++	FS_INDEX_SCENE,
++	FS_INDEX_MODEL,
++	FS_INDEX_REG,
++	FS_INDEX_EFFECT,
++	FS_INDEX_STRING,
++	FS_INDEX_WOOFER,
++	FS_INDEX_MAX,
++};
++
++#pragma pack(push, 1)
++
++struct fs_reg_val {
++	u8 reg;
++	u16 val;
++};
++
++struct fs_reg_bits {
++	u8 cmd; /* FS_CMD_UPDATE */
++	u8 reg;
++	u16 val;
++	u16 mask;
++};
++
++struct fs_cmd_pkg {
++	union {
++		u8 cmd;
++		struct fs_reg_val regv;
++		struct fs_reg_bits regb;
++	};
++};
++
++struct fs_fwm_index {
++	/* Index type */
++	u16 type;
++	/* Offset address starting from the end of header */
++	u16 offset;
++};
++
++struct fs_fwm_table {
++	char name[FS_TABLE_NAME_LEN];
++	u16 size; /* size of buf */
++	u8 buf[];
++};
++
++struct fs_scene_index {
++	/* Offset address(scene name) in string table */
++	u16 name;
++	/* Offset address(scene reg) in register table */
++	u16 reg;
++	/* Offset address(scene model) in model table */
++	u16 model;
++	/* Offset address(scene effect) in effect table */
++	u16 effect;
++};
++
++struct fs_reg_table {
++	u16 size; /* size of buf */
++	u8 buf[];
++};
++
++struct fs_file_table {
++	u16 name;
++	u16 size; /* size of buf */
++	u8 buf[];
++};
++
++struct fs_fwm_date {
++	u32 year:12;
++	u32 month:4;
++	u32 day:5;
++	u32 hour:5;
++	u32 minute:6;
++};
++
++struct fs_fwm_header {
++	u16 version;
++	u16 project; /* Offset address(project name) in string table */
++	u16 device; /* Offset address(device name) in string table */
++	struct fs_fwm_date date;
++	u16 crc16;
++	u16 crc_size; /* Starting position for CRC checking */
++	u16 chip_type;
++	u16 addr; /* 7-bit i2c address */
++	u16 spkid;
++	u16 rsvd[6];
++	u8 params[];
++};
++
++#pragma pack(pop)
++
++struct fs_i2s_srate {
++	u32 srate; /* Sample rate */
++	u16 i2ssr; /* Value of Bit field[I2SSR] */
++};
++
++struct fs_pll_div {
++	unsigned int bclk; /* Rate of bit clock */
++	u16 pll1;
++	u16 pll2;
++	u16 pll3;
++};
++
++struct fs_amp_scene {
++	const char *name;
++	const struct fs_reg_table  *reg;
++	const struct fs_file_table *model;
++	const struct fs_file_table *effect;
++};
++
++struct fs_amp_lib {
++	const struct fs_fwm_header *hdr;
++	const struct fs_fwm_table *table[FS_INDEX_MAX];
++	struct fs_amp_scene *scene;
++	struct device *dev;
++	int scene_count;
++	u16 devid;
++};
++
++int fs_amp_load_firmware(struct fs_amp_lib *amp_lib, const char *name);
++
++#endif // __FS_AMP_LIB_H__
+-- 
+2.39.5
 
 
-Hello,
-=20
-> On Wed, 02 Jul 2025 03:59:54 +0200,
-> Joakim  Zhang wrote:
-> >
-> >
-> > Hello,
-> >
-> > > > > -----Original Message-----
-> > > > > From: Takashi Iwai <tiwai@suse.de>
-> > > > > Sent: Tuesday, July 1, 2025 5:15 PM
-> > > > > To: Joakim Zhang <joakim.zhang@cixtech.com>
-> > > > > Cc: Takashi Iwai <tiwai@suse.de>; Kailang <kailang@realtek.com>;
-> > > > > perex@perex.cz; tiwai@suse.com; linux-sound@vger.kernel.org;
-> > > > > chris.chiu@canonical.com; Geans_chen <geans_chen@realsil.com.cn>
-> > > > > Subject: Re: [PATCH V1 4/4] ALSA: hda/realtek: fix mic jack
-> > > > > detect failed on
-> > > > > alc256
-> > > > >
-> > > > > EXTERNAL EMAIL
-> > > > >
-> > > > > CAUTION: Suspicious Email from unusual domain.
-> > > > >
-> > > > > On Tue, 01 Jul 2025 10:40:51 +0200, Joakim  Zhang wrote:
-> > > > > >
-> > > > > >
-> > > > > > Hello,
-> > > > > >
-> > > > > > > > > -----Original Message-----
-> > > > > > > > > From: Takashi Iwai <tiwai@suse.de>
-> > > > > > > > > Sent: Tuesday, July 1, 2025 2:43 PM
-> > > > > > > > > To: Joakim Zhang <joakim.zhang@cixtech.com>
-> > > > > > > > > Cc: Takashi Iwai <tiwai@suse.de>; Kailang
-> > > > > > > > > <kailang@realtek.com>; perex@perex.cz; tiwai@suse.com;
-> > > > > > > > > linux-sound@vger.kernel.org; chris.chiu@canonical.com;
-> > > > > > > > > Geans_chen <geans_chen@realsil.com.cn>
-> > > > > > > > > Subject: Re: [PATCH V1 4/4] ALSA: hda/realtek: fix mic
-> > > > > > > > > jack detect failed on
-> > > > > > > > > alc256
-> > > > > > > > >
-> > > > > > > > > EXTERNAL EMAIL
-> > > > > > > > >
-> > > > > > > > > CAUTION: Suspicious Email from unusual domain.
-> > > > > > > > >
-> > > > > > > > > On Tue, 01 Jul 2025 08:35:05 +0200, Joakim  Zhang wrote:
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > Hello Takashi,
-> > > > > > > > > >
-> > > > > > > > > > Thanks a lot for your help.
-> > > > > > > > > >
-> > > > > > > > > > > > Hello Kailang,
-> > > > > > > > > > > >
-> > > > > > > > > > > > I'd like to insert another question through this.
-> > > > > > > > > > > > That would be appreciated if
-> > > > > > > > > > > you could have a look.
-> > > > > > > > > > > >
-> > > > > > > > > > > > After system boot, we can see the default mixer
-> > > > > > > > > > > > status as
-> > > below:
-> > > > > > > > > > > >
-> > > > > > > > > > > > root@cix-localhost:~# amixer -c 0 contents
-> > > > > > > > > > > > numid=3D14,iface=3DCARD,name=3D'Headphone Jack'
-> > > > > > > > > > > >   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
-> > > > > > > > > > > >   : values=3Don
-> > > > > > > > > > > > numid=3D12,iface=3DCARD,name=3D'Internal Mic Phanto=
-m Jack'
-> > > > > > > > > > > >   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
-> > > > > > > > > > > >   : values=3Don
-> > > > > > > > > > > > numid=3D13,iface=3DCARD,name=3D'Mic Jack'
-> > > > > > > > > > > >   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
-> > > > > > > > > > > >   : values=3Don
-> > > > > > > > > > > > numid=3D15,iface=3DCARD,name=3D'Speaker Phantom Jac=
-k'
-> > > > > > > > > > > >   ; type=3DBOOLEAN,access=3Dr-------,values=3D1
-> > > > > > > > > > > >   : values=3Don
-> > > > > > > > > > > > numid=3D11,iface=3DMIXER,name=3D'Master Playback Sw=
-itch'
-> > > > > > > > > > > >   ; type=3DBOOLEAN,access=3Drw------,values=3D1
-> > > > > > > > > > > >   : values=3Don
-> > > > > > > > > > > > numid=3D10,iface=3DMIXER,name=3D'Master Playback Vo=
-lume'
-> > > > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
-> > > ,values=3D1,min=3D0,max=3D87,step=3D0
-> > > > > > > > > > > >   : values=3D60
-> > > > > > > > > > > >   | dBscale-min=3D-65.25dB,step=3D0.75dB,mute=3D0
-> > > > > > > > > > > > numid=3D2,iface=3DMIXER,name=3D'Headphone Playback =
-Switch'
-> > > > > > > > > > > >   ; type=3DBOOLEAN,access=3Drw------,values=3D2
-> > > > > > > > > > > >   : values=3Don,on
-> > > > > > > > > > > > numid=3D1,iface=3DMIXER,name=3D'Headphone Playback =
-Volume'
-> > > > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
-> > > ,values=3D2,min=3D0,max=3D87,step=3D0
-> > > > > > > > > > > >   : values=3D87,87
-> > > > > > > > > > > >   | dBscale-min=3D-65.25dB,step=3D0.75dB,mute=3D0
-> > > > > > > > > > > > numid=3D9,iface=3DMIXER,name=3D'Mic Boost Volume'
-> > > > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
-> > > ,values=3D2,min=3D0,max=3D3,step=3D0
-> > > > > > > > > > > >   : values=3D0,0
-> > > > > > > > > > > >   | dBscale-min=3D0.00dB,step=3D10.00dB,mute=3D0
-> > > > > > > > > > > > numid=3D7,iface=3DMIXER,name=3D'Capture Switch'
-> > > > > > > > > > > >   ; type=3DBOOLEAN,access=3Drw------,values=3D2
-> > > > > > > > > > > >   : values=3Don,on
-> > > > > > > > > > > > numid=3D6,iface=3DMIXER,name=3D'Capture Volume'
-> > > > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
-> > > ,values=3D2,min=3D0,max=3D63,step=3D0
-> > > > > > > > > > > >   : values=3D39,39
-> > > > > > > > > > > >   | dBscale-min=3D-17.25dB,step=3D0.75dB,mute=3D0
-> > > > > > > > > > > > numid=3D5,iface=3DMIXER,name=3D'Auto-Mute Mode'
-> > > > > > > > > > > >   ; type=3DENUMERATED,access=3Drw------,values=3D1,=
-items=3D2
-> > > > > > > > > > > >   ; Item #0 'Disabled'
-> > > > > > > > > > > >   ; Item #1 'Enabled'
-> > > > > > > > > > > >   : values=3D1
-> > > > > > > > > > > > numid=3D8,iface=3DMIXER,name=3D'Internal Mic Boost =
-Volume'
-> > > > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
-> > > ,values=3D2,min=3D0,max=3D3,step=3D0
-> > > > > > > > > > > >   : values=3D0,0
-> > > > > > > > > > > >   | dBscale-min=3D0.00dB,step=3D10.00dB,mute=3D0
-> > > > > > > > > > > > numid=3D4,iface=3DMIXER,name=3D'Speaker Playback Sw=
-itch'
-> > > > > > > > > > > >   ; type=3DBOOLEAN,access=3Drw------,values=3D2
-> > > > > > > > > > > >   : values=3Doff,off
-> > > > > > > > > > > > numid=3D3,iface=3DMIXER,name=3D'Speaker Playback Vo=
-lume'
-> > > > > > > > > > > >   ; type=3DINTEGER,access=3Drw---R--
-> > > ,values=3D2,min=3D0,max=3D87,step=3D0
-> > > > > > > > > > > >   : values=3D0,0
-> > > > > > > > > > > >   | dBscale-min=3D-65.25dB,step=3D0.75dB,mute=3D0
-> > > > > > > > > > > > numid=3D17,iface=3DPCM,name=3D'Capture Channel Map'
-> > > > > > > > > > > >   ; type=3DINTEGER,access=3Dr----R--
-> > > ,values=3D2,min=3D0,max=3D36,step=3D0
-> > > > > > > > > > > >   : values=3D0,0
-> > > > > > > > > > > >   | container
-> > > > > > > > > > > >     | chmap-fixed=3DFL,FR
-> > > > > > > > > > > > numid=3D16,iface=3DPCM,name=3D'Playback Channel Map=
-'
-> > > > > > > > > > > >   ; type=3DINTEGER,access=3Dr----R--
-> > > ,values=3D2,min=3D0,max=3D36,step=3D0
-> > > > > > > > > > > >   : values=3D0,0
-> > > > > > > > > > > >   | container
-> > > > > > > > > > > >     | chmap-fixed=3DFL,FR
-> > > > > > > > > > > >
-> > > > > > > > > > > > It can auto switch 'Headphone Playback
-> > > > > > > > > > > > Switch'/'Headphone Playback Volume' and 'Speaker
-> > > > > > > > > > > > Playback Switch'/'Speaker Playback Volume', when I
-> > > > > > > > > > > > plugin the headset or not, but I have not found
-> > > > > > > > > > > > the related logic, could you
-> > > > > > > > > > > please help clarify a bit?
-> > > > > > > > > > >
-> > > > > > > > > > > Isn't it "Auto-Mute Mode"?  If it's set, the speaker
-> > > > > > > > > > > is muted automatically when the headphone/headset
-> > > > > > > > > > > jack is plugged by the kernel
-> > > > > > > > > driver itself.
-> > > > > > > > > >
-> > > > > > > > > > What strange is 'Auto-Mute Mode' would be disabled
-> > > > > > > > > > after headset
-> > > > > > > > > plugin/out several times, don' t know the reason....
-> > > > > > > > >
-> > > > > > > > > "Auto-Mute Mode" is a software switch, and it means some
-> > > > > > > > > program must have turned it off explicitly.  e.g. the
-> > > > > > > > > sound server like pulseaudio or pipewire disables it.
-> > > > > > > > >
-> > > > > > > > > > However, it seems that speaker and headphone/headset
-> > > > > > > > > > still can auto
-> > > > > > > > > switch. Please see below mixer status.
-> > > > > > > > >
-> > > > > > > > > Usually pulseaudio/pipewire takes over and does the switc=
-hing.
-> > > > > > > >
-> > > > > > > > OK, I see, I will dig into it, could you please tell me is
-> > > > > > > > there any other software
-> > > > > > > switches in the mixers?
-> > > > > > >
-> > > > > > > Any mixer program can change...  But basically the auto-mute
-> > > > > > > is a task of the sound daemon.
-> > > > > >
-> > > > > > I disable both pulseaudio and pipewire from the Debian, and
-> > > > > > enable the
-> > > > > auto-mute, when the headset plugin but the switch not set correct=
-ly.
-> > > > > > 'Headphone Playback Switch'/'Headphone Playback Volume' not
-> > > > > > set, but
-> > > > > 'Speaker Playback Switch'/'Speaker Playback Volume' enabled.
-> > > > > > Are there any other possible reasons?
-> > > > >
-> > > > > The auto-mute doesn't change the mixer state.  It switches
-> > > > > internally, either by adjusting the pin control or the amp.
-> > > >
-> > > > OK, is that means all mixers setting should done by users based on
-> > > > Jack
-> > > status?
-> > >
-> > > The mixer settings are exposed to user-space and user-space programs
-> > > can read or change them, sure.  But it's not clear what is your
-> > > exact purpose or goal, so I can't answer much better than that.
-> > >
-> > > The auto-mute feature is implemented in the kernel driver level, so
-> > > that the automatic muting via jack plug can work without the sound
-> > > daemon.  The auto-muted state isn't exposed to user-space via ALSA
-> > > control API (mixer elements), and it looks as  if it were muted by
-> > > the hardware.  Actually there are hardware that do the auto-muting in=
- the
-> hardware level, too.
-> >
-> > Takashi, thanks for your details, I think what I want to know is what d=
-id in
-> the kernel driver level for hp automute and mic autoswitch.
-> >
-> > I am looking the code, it seems only update the pins and not update the
-> mixer, right? So when the headset plugin, it will auto mute hp and auto s=
-witch
-> to mic at the hardware level, users still need to update the mixer manual=
-ly.
->=20
-> Users don't need to update the mixer -- that's the whole point of the dri=
-ver
-> auto-mute stuff.  When plugged, the speaker gets muted, and the output is
-> routed to the headphone jack with the formerly set headphone volume and
-> switch.  Even if you change the speaker volume/switch, it has no effect a=
-s long
-> as the jack is plugged.  When unplugged, the headphone volume/switch can
-> change but without any effect, too.
-
-I have fully understood the auto-mute feature, one point you pointed out is=
- very crucial,
-" When plugged, the speaker gets muted, and the output is routed to the hea=
-dphone jack with the **formerly** set headphone volume and switch."
-
-So, the volume and switch of the both headphone and switch should be **form=
-erly** set by user via ALSA API when auto-mute enabled, I tested and work n=
-ormally.
-
-The problem that is bothering me now is, I cannot find which thread try to =
-control the mixers(switch/volume of headphone/speaker, auto-mute mode etc) =
-via ALSA API, running with debian os.=20
