@@ -1,320 +1,248 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162452ECE95
-	for <linux-sound@vger.kernel.org>; Thu,  3 Jul 2025 14:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E792ECE86
+	for <linux-sound@vger.kernel.org>; Thu,  3 Jul 2025 14:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751553175; cv=none; b=dvZFoTFB5e2ItwpJk6Pg/fmKr1x4xc69BbxJxI9wku7ZZn+HjU5Ukc0CoO/dDnz4Pc4Z7NecACCyAw9Lw5y/dOedIVNrija9adoAkyM1fA5M+VjU7CyhgEYdFF4CsOrH9l6fFhpD2i6kQGOQa/O7sp2zEUORUINSLQPUhSlqRhc=
+	t=1751553242; cv=none; b=HRvHSEMQ21z0f9zZ4hyacOEoLA8t6vPHwmhDGln9frKH4gXiiqt9QoX+Ctu8E2pb3hJK2BH1pWAAAW/fRfMm+vTjUMT6lWJLq5OcUyx5KCE1/HLYncJ2yVFZIKiwmWjL4h+XqPJ0uTXCGvGVpbN71gZoEWyxKM1TxTAglE7NC64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751553175; c=relaxed/simple;
-	bh=OIyo1ndyGBIbsnPRV6e3dbF0yB+H0eoeAVItVJ0DLzw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fjr4V5iwoO52OttsjH/kxtCS0ANytiKWspSw8htLCXFJLpUKbAKVOAPTsE8cRFuokboPZgYpRdV57unXoZl0AdJxTkDfauygv7ivgpy4wBChfgONfS6tEeN1z47FLCNkEVdgoQQL5SX3cLJI5T5wsShcJFNmegAySpx8K8ObI/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y7Wcuo+x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FBvDM1ic; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y7Wcuo+x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FBvDM1ic; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1751553242; c=relaxed/simple;
+	bh=03kyA0pVb6l52SRNG9MBMJOKQPrJGBz6gkjmYtj8OjE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=VBVRLw/hWG8ZnZjvcxLPvDGAWKl49wnF7e7hS4aY9aJgx+Wl1l6e6ZFEhqMXp7MjahTILZ2unX2fVUE89RYY7d7KNYYu3RF8OX80nB+UKLUM9z2lXpI+5ALwVXQ5rIS/+6sozfEuWiLmTIkunYwBiU8VaAhfo200n0Jfxh98D+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VKMgwNzh; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y7Wcuo+x";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FBvDM1ic";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y7Wcuo+x";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FBvDM1ic"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 31319211A6;
-	Thu,  3 Jul 2025 14:32:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751553172; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dpoX67ZIpN9cGUo+3nSrgf/NIhqeRejJe3A9jZHB4t4=;
-	b=Y7Wcuo+xBSrOQef1Xlx9k0kHXkDOPbfLPB3DbL3Mg2awYGr1ouOs4weGiXGWJ4Lheqnju7
-	vVjl7ktBgWSLRvKOyVm6aqZgDvvyxW4g1wCvrdlFefcjmxs5uORrt6kN2rv3PYHN/VC2N8
-	lBTQPFAcLIm7dOxrNz7jZ1Plwiuk2l0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751553172;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dpoX67ZIpN9cGUo+3nSrgf/NIhqeRejJe3A9jZHB4t4=;
-	b=FBvDM1icntwbfplVC8yXsRKhDrc08lUAx9+5BFkqIKYGlOCCXzrELMMoilwOtT83NTrhQO
-	1V6uHuJHYcI5x+Cw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Y7Wcuo+x;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FBvDM1ic
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751553172; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dpoX67ZIpN9cGUo+3nSrgf/NIhqeRejJe3A9jZHB4t4=;
-	b=Y7Wcuo+xBSrOQef1Xlx9k0kHXkDOPbfLPB3DbL3Mg2awYGr1ouOs4weGiXGWJ4Lheqnju7
-	vVjl7ktBgWSLRvKOyVm6aqZgDvvyxW4g1wCvrdlFefcjmxs5uORrt6kN2rv3PYHN/VC2N8
-	lBTQPFAcLIm7dOxrNz7jZ1Plwiuk2l0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751553172;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dpoX67ZIpN9cGUo+3nSrgf/NIhqeRejJe3A9jZHB4t4=;
-	b=FBvDM1icntwbfplVC8yXsRKhDrc08lUAx9+5BFkqIKYGlOCCXzrELMMoilwOtT83NTrhQO
-	1V6uHuJHYcI5x+Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 168061368E;
-	Thu,  3 Jul 2025 14:32:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vbv+BJSUZmijZQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 03 Jul 2025 14:32:52 +0000
-Date: Thu, 03 Jul 2025 16:32:51 +0200
-Message-ID: <8734bdqr8s.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	Richard Fitzgerald
- <rf@opensource.cirrus.com>,
-	Kailang <kailang@realtek.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: Re: [RFC] Reorganizing HD-audio driver code?
-In-Reply-To: <3b69bdd6-9531-4101-985e-b03629e00967@linux.intel.com>
-References: <87ldpdgzle.wl-tiwai@suse.de>
-	<e6451c29-2ade-4b73-bfd7-f48bafccfa98@opensource.cirrus.com>
-	<87h5zygawe.wl-tiwai@suse.de>
-	<87ikkave2o.wl-tiwai@suse.de>
-	<d7836c81-79d5-4920-8d8a-31ac6bd39fc1@linux.intel.com>
-	<875xg9qtqn.wl-tiwai@suse.de>
-	<3b69bdd6-9531-4101-985e-b03629e00967@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VKMgwNzh"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a548a73ff2so7500617f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 03 Jul 2025 07:33:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751553238; x=1752158038; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GjXQySvNbQPDNTo3lF28HF3pubSLkhOBNLbNwgZuqGk=;
+        b=VKMgwNzhDRPBNnmqoH24w9mTSsrWnr3tR4hW9KEk+A2a6L+PKMGIDXsVcSUS8KyqH8
+         7iBwsBxB9yINkjW1V6WwcC7KvZBP3Yd0BgRGQdMfrwnxo5L9KCnsmEdaH27I+ceDyWQd
+         GfmE2PwyWcIuDWsm/3DdpAZ+NgK451pEK6JRutbiStbUHL3OBdQfY9ujiAPRMfw4vMOU
+         8BqXAydD/Ve+HT6HDHRy7VD7W/1/+oDw4RSn4pXrfMp7HO7lqQRoVQEMtcTMS7MDE6fZ
+         G2OLxAEDh8DD445HxOAkOM4RDo5oxZrwC5hWKJ/lC27KxkhYvCAAJ9Yx7pNZNc1isfno
+         dUZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751553238; x=1752158038;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GjXQySvNbQPDNTo3lF28HF3pubSLkhOBNLbNwgZuqGk=;
+        b=rn+625flcuwx9qwOGKt8lZNmziL0UHLPSsLz1ijxtmesm9O8Mt+TRG6fUJg1hgOLMp
+         H9CpU/FR6n3ozLgkM87knWLtYbHnL1JvRLbIPrkIjcPk4gM0surLjOtVG7rM/1Cc5RSX
+         fwuBIjV5UGHjkF4c7rUK1huDFilngurTnTQaEV+j+7GFxBWha0QftZk4ayI54QNpNfrd
+         fqcUYtXgoMs+On9+U+BHmj1ZxTfZSGqouAGwH7T8250uuoEhe1deDlxnxIiLN5py8WZB
+         pnkR7cNm/3r7kei9WRBPDty3vKIExQSDjh6ZraDLLRrWfVouSJ3gQiv6/yOEkmL46lbu
+         oTcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUb/jROxugcX+H2LN+TT6yiQMPxYzxwP5pvOgtI4KtAz2fSwooDkjw4jfiGwj9UTYf9ozbGNGVsHWb8VQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDsclZ7yGDT/UaLaF797VVCBefIlGJVwI3c1JmU1ZkEGIO5sIj
+	b+D80IVvKW6K+dtUxLDMJ22uIy7IQxETIAi2n3V69yZdWOZjjPoLLwcjD62wv4gvhf8=
+X-Gm-Gg: ASbGnctYXU3/v6HjobWWaloqtBBEgGlNyBJqzvxKgMJdtVG7d4sK5dYpSbt5DUxDIYh
+	r+jyJRc00jpLdqzIi7S092ZpumU3obOopAIawj/BnvQId2BCScS4FTlBtWfSjdGXtB/xIIok6Re
+	Kljop+d/B095/zwrc0mHfZ1X0cBwvoRecnHhIbrHJxHXjUfh7cuNncxD/NU3C0RbGocF5Q5fQ3K
+	ZLFxWrjrhe0cf4jt8HdHuD8Nxsc1OKbJwxSBjh7XeWbxvFWQ1ZQ+qFLMcRGBboyO0L38cRnHBfR
+	CZfT0ojhxVqbAgG2LRpxNPI1DxS0vgmoTBbzbExJx66docQoSkb2nulnBAxyCCLPnQA5YCw6l0t
+	LjWo=
+X-Google-Smtp-Source: AGHT+IEkKmPmraOjVA+Ipj4FdiIRIhAgsdjmHzAubQC1QTQXyyuQ9VSuovzCK3xLPt4hDBF2X9Urnw==
+X-Received: by 2002:a05:6000:2887:b0:3a5:52cc:5e29 with SMTP id ffacd0b85a97d-3b1fd74c457mr6177782f8f.7.1751553238375;
+        Thu, 03 Jul 2025 07:33:58 -0700 (PDT)
+Received: from localhost ([2a02:c7c:7213:c700:1b28:72bc:31d9:dffd])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7fab6esm19167508f8f.31.2025.07.03.07.33.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jul 2025 07:33:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 31319211A6
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -2.51
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 03 Jul 2025 15:33:57 +0100
+Message-Id: <DB2HSWQRGFZM.JVPTBYXCOTKS@linaro.org>
+Cc: "Patrick Lai" <plai@qti.qualcomm.com>, "Annemarie Porter"
+ <annemari@quicinc.com>, <linux-sound@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski@linaro.org>, <kernel@oss.qualcomm.com>,
+ "Ekansh Gupta" <ekansh.gupta@oss.qualcomm.com>, "Pierre-Louis Bossart"
+ <pierre-louis.bossart@linux.dev>
+Subject: Re: [PATCH RFC 2/2] ASoC: qcom: qdsp6/audioreach: add support for
+ offloading raw opus playback
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Vinod
+ Koul" <vkoul@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, "Srinivas Kandagatla" <srini@kernel.org>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>
+X-Mailer: aerc 0.20.0
+References: <20250616-opus_codec_rfc_v1-v1-0-1f70b0a41a70@linaro.org>
+ <20250616-opus_codec_rfc_v1-v1-2-1f70b0a41a70@linaro.org>
+ <c4d934c1-0218-4147-882f-279795bcd1f4@oss.qualcomm.com>
+In-Reply-To: <c4d934c1-0218-4147-882f-279795bcd1f4@oss.qualcomm.com>
 
-On Thu, 03 Jul 2025 15:57:48 +0200,
-Amadeusz S³awiñski wrote:
-> 
-> 
-> 
-> On 2025-07-03 15:38, Takashi Iwai wrote:
-> > On Thu, 03 Jul 2025 15:29:56 +0200,
-> > Amadeusz S³awiñski wrote:
-> >> 
-> >> 
-> >> 
-> >> On 2025-07-02 16:53, Takashi Iwai wrote:
-> >>> On Sun, 29 Jun 2025 11:22:25 +0200,
-> >>> Takashi Iwai wrote:
-> >>>> 
-> >>>> On Fri, 27 Jun 2025 15:22:20 +0200,
-> >>>> Richard Fitzgerald wrote:
-> >>>>> 
-> >>>>> On 27/06/2025 1:04 pm, Takashi Iwai wrote:
-> >>>>>> Hi,
-> >>>>>> 
-> >>>>>> HD-audio driver is known to be quite messy in both file structures and
-> >>>>>> its design, but until now I haven't touched its files paths so much
-> >>>>>> because I set a higher priority for the easiness of backport to stable
-> >>>>>> kernels.  But, you can't leave garbages forever, it's been already
-> >>>>>> high time for a large clean up.
-> >>>>>> 
-> >>>>>> So I tried a quick code reorganization, and put the result in
-> >>>>>> test/hda-reorg branch of sound.git tree.
-> >>>>>>      https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/log/?h=test/hda-reorg
-> >>>>>> 
-> >>>>>> The basic idea is to move the code from sound/pci/hda/* into different
-> >>>>>> subdirectories in sound/hda/ per functionality, as most of the stuff
-> >>>>>> are independent from PCI, but rather HD-audio bus specific.
-> >>>>>> 
-> >>>>> 
-> >>>>> This all seems reasonable to me. I always thought it strange that there
-> >>>>> is a sound/hda directory but most of the HDA support isn't in that
-> >>>>> directory.
-> >>>> 
-> >>>> Thanks for your review!
-> >>>> 
-> >>>> It's a long story: at the time of ASoC Intel HD-audio support, we
-> >>>> thought to implement more ASoC-friendly way of HD-audio controller and
-> >>>> codec drivers, e.g. adapting DAPM and others.  So we began with the
-> >>>> factoring out the HD-audio basic core stuff to the common directory
-> >>>> sound/hda/*, while keeping the rest legacy stuff almost as is.  But
-> >>>> ASoC implementation didn't fly in the end from various reasons, and
-> >>>> the legacy HD-audio stuff was good enough for the actual use cases;
-> >>>> it's too bit to fail, after all.
-> >>>> 
-> >>>>>> The Realtek codec is split further to smaller pieces (which was really
-> >>>>>> huge).
-> >>>>> 
-> >>>>> Yes, that file was very confusing having support and quirks for so many
-> >>>>> Realtek parts all in one file.
-> >>>>> 
-> >>>>>> The Cirrus and TI sub-codec drivers are moved to codecs/side-codecs
-> >>>>>> subdirectory:
-> >>>>> 
-> >>>>> That's ok
-> >>>>> 
-> >>>>>> They can be put to each own directory and drop the file name prefix,
-> >>>>>> if we want, too.  Let me know if Cirrus and TI people would like to
-> >>>>>> split to more subdirectories.
-> >>>>> 
-> >>>>> I don't mind either way.
-> >>>>> The hda_component* files are common to the amps and the realtek driver
-> >>>>> so I wonder whether they belong in helpers. They are only utility
-> >>>>> wrappers around the kernel component-binding APIs.
-> >>>> 
-> >>>> Right.  So far, just because it's basically only binding with
-> >>>> side-codecs, I put into side-codecs subdirectory.
-> >>>> 
-> >>>>>> *HOWEVER* the biggest question is: whether it's worth?
-> >>>>>> 
-> >>>>>> Essentially, this makes almost impossible to make a patch for stable
-> >>>>>> trees from the original commit as is; one has to translate the file
-> >>>>>> paths and adjust manually in each patch.
-> >>>>> 
-> >>>>> Depends which file you are patching and how much it has changed.
-> >>>>> Git can figure out file renames (and changing directory is a rename).
-> >>>> 
-> >>>> I'm afraid that the Realtek codec changes might be hard to track
-> >>>> automatically.  Maybe the Cirrus side-codecs stuff would work.
-> >>>> 
-> >>>>>> Also, of course, if anyone is working on HD-audio stuff right now, the
-> >>>>>> work had to be adjusted to the new file path.  It'd be one-off action,
-> >>>>>> though.
-> >>>>> 
-> >>>>> Speaking only for Cirrus, I don't think this makes much extra effort
-> >>>>> for us. Our amp drivers have only changed location, so that should be
-> >>>>> trivial. The other file we change is patch_realtek.c but that typically
-> >>>>> is only 1-line quirk entries.
-> >>>> 
-> >>>> OK, thanks for confirmation!
-> >>> 
-> >>> ... and now I worked further on this, resulting in larger set of
-> >>> changes.  It's not only the file location changes but also the
-> >>> HD-audio codec driver binding changes.  So I put more people to Cc for
-> >>> catch their cautions.
-> >>> 
-> >>> To recap:
-> >>> 
-> >>> - The all HD-audio driver code are moved under sound/hda.
-> >>> 
-> >>>     % ls sound/hda
-> >>>     codecs/  common/  controllers/  core/  Kconfig  Makefile
-> >>> 
-> >>>     * The former hda core code is found in sound/hda/core.
-> >>>     * The former snd-hda-codec code is found in sound/hda/common.
-> >>>     * The former snd-hda-intel, tegra and acpi are put in
-> >>>       sound/hda/controllers.
-> >>>     * The former patch_* and co are put to sound/hda/codecs.
-> >>>     * Realtek codec driver is split to several modules as
-> >>>       sound/hda/codecs/realtek/alc*.
-> >>>     * Cirrus codec driver is split to cs420x and cs421x, put under
-> >>>       sound/hda/codecs/cirrus together with cs8409.
-> >>>     * HDMI codec driver is split to several modules under
-> >>>       sound/hda/codecs/hdmi
-> >>>     * Cirrus and TI sub-codecs are put under
-> >>>       sound/hda/codecs/side-codecs
-> >>> 
-> >>> - The HD-audio codec driver binding is changed from the embedded
-> >>>     hda_codec.patch_ops to hda_codec_driver.ops.
-> >>>     (As of now, hda_codec_driver.ops is a pointer, but it can be
-> >>>      embedded later, too.)
-> >>> 
-> >>>     This change required some code to be modified without the dynamic
-> >>>     override of callbacks.
-> >>> 
-> >>> - In future, we may convert the runtime PM handling to use the
-> >>>     standard pm_ops, too.  This was raised some time ago during the
-> >>>     discussion with Realtek devs.
-> >>> 
-> >>> The current patches are found in test/hda-reorg branch of sound git
-> >>> tree:
-> >>>     https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/log/?h=test/hda-reorg
-> >>> 
-> >>> It's based on master branch for taking all changes of for-linus and
-> >>> for-next, hence the branch may be still frequently rebased.
-> >>> 
-> >>> So, please let me know if you see any issues or suggestions for this
-> >>> conversion.  I have no concrete plan for merging, but if everything
-> >>> looks fine, it can be even on the next 6.17, too.
-> >>> 
-> >> 
-> >> I've built it and put it on one of our machines and hit KASAN during
-> >> HDMI initialization, when I go back to master branch it works, so it
-> >> is something on test/hda-reorg.
-> > 
-> > Yes, there was bug in my branch that I fixed in this morning.
-> > Could you try the latest test/hda-reorg branch, commit
-> > 6491d5b2e256a678b3a138500bf601c916d3913e
-> > ?
-> > 
-> 
-> Still broken :(
+On Wed Jun 18, 2025 at 1:34 PM BST, Srinivas Kandagatla wrote:
+>
+>
+> On 6/16/25 4:26 PM, Alexey Klimov wrote:
+>> Add support for OPUS module, OPUS format ID, media format payload struct
+>> and make it all recognizable by audioreach compress playback path.
+>>=20
+>> At this moment this only supports raw or plain OPUS packets not
+>> encapsulated in container (for instance OGG container). For this usecase
+>> each OPUS packet needs to be prepended with 4-bytes long length field
+>> which is expected to be done by userspace applications. This is
+>> Qualcomm DSP specific requirement.
+>> > This patch is based on earlier work done by
+>> Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>
+> Thanks for picking this up Alexey,
+>
+> Same, co-dev by should be good attribute for such things.
 
-OK, thanks for confirmation.
+I need your Signed-off-by then and/or permission to use your Sign off.
 
-I guess it's a power up code path that happens just before the codec
-driver initialization.
+>> Cc: Annemarie Porter <annemari@quicinc.com>
+>> Cc: Srinivas Kandagatla <srini@kernel.org>
+>> Cc: Vinod Koul <vkoul@kernel.org>
+>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+>> ---
+>>  sound/soc/qcom/qdsp6/audioreach.c | 33 ++++++++++++++++++++++++++++++++=
++
+>>  sound/soc/qcom/qdsp6/audioreach.h | 17 +++++++++++++++++
+>>  sound/soc/qcom/qdsp6/q6apm-dai.c  |  3 ++-
+>>  sound/soc/qcom/qdsp6/q6apm.c      |  3 +++
+>>  4 files changed, 55 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/au=
+dioreach.c
+>> index 4ebaaf736fb98a5a8a58d06416b3ace2504856e1..09e3a4da945d61b6915bf8b6=
+f382c25ae94c5888 100644
+>> --- a/sound/soc/qcom/qdsp6/audioreach.c
+>> +++ b/sound/soc/qcom/qdsp6/audioreach.c
+>> @@ -859,6 +859,7 @@ static int audioreach_set_compr_media_format(struct =
+media_format *media_fmt_hdr,
+>>  	struct payload_media_fmt_aac_t *aac_cfg;
+>>  	struct payload_media_fmt_pcm *mp3_cfg;
+>>  	struct payload_media_fmt_flac_t *flac_cfg;
+>> +	struct payload_media_fmt_opus_t *opus_cfg;
+>> =20
+>>  	switch (mcfg->fmt) {
+>>  	case SND_AUDIOCODEC_MP3:
+>> @@ -901,6 +902,38 @@ static int audioreach_set_compr_media_format(struct=
+ media_format *media_fmt_hdr,
+>>  		flac_cfg->min_frame_size =3D mcfg->codec.options.flac_d.min_frame_siz=
+e;
+>>  		flac_cfg->max_frame_size =3D mcfg->codec.options.flac_d.max_frame_siz=
+e;
+>>  		break;
+>> +	case SND_AUDIOCODEC_OPUS_RAW:
+>> +		media_fmt_hdr->data_format =3D DATA_FORMAT_RAW_COMPRESSED;
+>> +		media_fmt_hdr->fmt_id =3D MEDIA_FMT_ID_OPUS;
+>> +		media_fmt_hdr->payload_size =3D sizeof(struct payload_media_fmt_opus_=
+t);
+>
+> maybe sizeof(*opus_cfg)?
 
-Could you check whether the patch below covers it?
+Yes, I can update that.
 
+>> +		p =3D p + sizeof(*media_fmt_hdr);
+>> +		opus_cfg =3D p;
+>> +		/* raw opus packets prepended with 4 bytes of length */
+>> +		opus_cfg->bitstream_format =3D 1;
+>> +		/*
+>> +		 * payload_type:
+>> +		 * 0 -- read metadata from opus stream;
+>> +		 * 1 -- metadata is provided by filling in the struct here.
+>> +		 */
+>> +		opus_cfg->payload_type =3D 1;
+>> +		opus_cfg->version =3D mcfg->codec.options.opus_d.version;
+>> +		opus_cfg->num_channels =3D mcfg->codec.options.opus_d.num_channels;
+>> +		opus_cfg->pre_skip =3D mcfg->codec.options.opus_d.pre_skip;
+>> +		opus_cfg->sample_rate =3D mcfg->codec.options.opus_d.sample_rate;
+>> +		opus_cfg->output_gain =3D mcfg->codec.options.opus_d.output_gain;
+>> +		opus_cfg->mapping_family =3D mcfg->codec.options.opus_d.mapping_famil=
+y;
+>> +		opus_cfg->stream_count =3D mcfg->codec.options.opus_d.stream_count;
+>> +		opus_cfg->coupled_count =3D mcfg->codec.options.opus_d.coupled_count;
+>> +
+>> +		if (mcfg->codec.options.opus_d.num_channels =3D=3D 1) {
+>> +			opus_cfg->channel_mapping[0] =3D PCM_CHANNEL_FL;
+>> +		} else if (mcfg->codec.options.opus_d.num_channels =3D=3D 2) {
+>> +			opus_cfg->channel_mapping[0] =3D PCM_CHANNEL_FL;
+>> +			opus_cfg->channel_mapping[1] =3D PCM_CHANNEL_FR;
+>> +		}
+>
+> Pl use audioreach_set_default_channel_mapping() to fill in the channel
+> mapping data.
+>
+> Why are we not using channel mapping info from the snd_dec_opus struct he=
+re?
 
-Takashi
+Okay, I was re-reading RFC and can't really get my head around this.
 
---- a/sound/hda/codecs/hdmi/intelhdmi.c
-+++ b/sound/hda/codecs/hdmi/intelhdmi.c
-@@ -77,7 +77,7 @@ static void intel_haswell_fixup_enable_dp12(struct hda_codec *codec)
- static void haswell_set_power_state(struct hda_codec *codec, hda_nid_t fg,
- 				unsigned int power_state)
- {
--	if (power_state == AC_PWRST_D0) {
-+	if (codec->spec && power_state == AC_PWRST_D0) {
- 		intel_haswell_enable_all_pins(codec, false);
- 		intel_haswell_fixup_enable_dp12(codec);
- 	}
+So first I came up with something like this:
+
+	switch (opus_cfg->mapping_family) {
+	case 0:
+		if (num_chan =3D=3D 1 || num_chan =3D=3D 2)
+			audioreach_set_default_channel_mapping(ch_map, num_chan);
+		else
+			/* mapping family 0 allows only 1 or 2 channels */
+			return -EINVAL;
+			break;
+		case 1:
+			if (num_chan > 8)
+				return -EINVAL;
+			if (mcfg->codec.options.opus_d.coupled_count > mcfg->codec.options.opus_=
+d.stream_count)
+				return -EINVAL;
+
+			memcpy(ch_map, mcfg->codec.options.opus_d.channel_map, sizeof(mcfg->code=
+c.options.opus_d.channel_map));
+			break;
+		default:
+			/* mapping family 2..255 shouldn't be allowed to playback */
+			return -EOPNOTSUPP;
+		}
+
+but I don't think above is correct at all.
+
+After re-reading the RFC few more times. It looks that channel_mapping in
+opus struct has nothing to do with channel mapping that we need to provide
+to DSP here. The channel mapping maps "decoded" channels to output channels
+and seems to be needed by opus decoder logic and in some sense is internal
+thingy to correctly construct sound for output channel from opus stream(s).
+In other words if output channel is present and valid then channel_mapping
+describes how and which decoded stream or streams (coupled or uncoupled)
+to use for producing sound output for that output channel.
+This is described in https://www.rfc-editor.org/rfc/rfc7845#section-5.1.1
+
+The number of output channels here actually matters for us. We can construc=
+t
+mapping for channels that we pass to DSP based just only on the number of
+output channels here and let DSP to figure out how to scatter or downmix or
+upmix them to its own output channels.
+
+Conclusion from my understanding:
+-- we shouldn't mess with opus_cfg->channel_mapping here, it is needed for
+the correct operation of decoder, we shouldn't call
+audioreach_set_default_channel_mapping() on it;
+-- mapping output channels to provide the mapping to DSP might require some
+rework or I need to look into this.
+
+Or something else that didn't came up in my mind yet.
+
+Also, I don't have any test files to test mapping_family 1 and some tricky
+cases here. As far as I understand, it works just fine right now with
+mapping_family 0.
+
+Best regards,
+Alexey
+
