@@ -1,323 +1,203 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-io1-f78.google.com (mail-io1-f78.google.com [209.85.166.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC222F2375
-	for <linux-sound@vger.kernel.org>; Thu,  3 Jul 2025 15:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60B0258CE9
+	for <linux-sound@vger.kernel.org>; Thu,  3 Jul 2025 16:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751555534; cv=none; b=GBjBm27GsByek+cchF3WbNbWSQ5K0JBIuK/vvniVOXMR3yXUGGnGBgFJ73sCl3Iy6XK/JpiCYtTEeWMuDhFK2P0r6znkFZ7PmcjtYmh86TybMbEBEIeU0YhRMzqECZFgr17iQOR/O5Xd2zYRmriIXcUufIGmd7s+OXSUvIUmDRE=
+	t=1751561013; cv=none; b=uu8jsjSAJWzt7N0aTRJCc6OxT7DhJalFG+QRf8rmYWKYuGsHb4BEE/6CsKEIC//VXl4wu4Spt4S7kOtYH8Qmkcr2SBz60eB6FlVtMpPzFQwiBaZQa2epnU4voFXUAC08SB9yOCJGehx46hzyYy9X3IHe8LOQ4Ma/DrRk9UZsdI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751555534; c=relaxed/simple;
-	bh=PpdUmQT7Y/WHWJjNcFaa1+I+NqiSYRoMwelOkoWWcWg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S9ty/M9Ir8YO4xVjhohXtof7NCDX2oJ9ysIORKT2Y582tNAb1eLclskqFwt8nRbfRsJjIEcDlBd8UTc2DBPmfR0924a2GFT5cjHLgJDjWMWw/oUfKd05z8rFbNotUICj5c3Jouf0dO6cC84t8bqVgLGkEmslh+4kEF5nsPVCz6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rk5WWiUv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4K8XfVj5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T8ZWnj4o; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3OYZIdC3; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rk5WWiUv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4K8XfVj5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T8ZWnj4o";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3OYZIdC3"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7FF601F38E;
-	Thu,  3 Jul 2025 15:12:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751555530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FmSetN1QdQuvqZTdRBFu6rWYGJTLY78ndJ3tjpNu2hg=;
-	b=rk5WWiUviqIKKK9vmcDLw6DFZrb0mOzL6XQdRB1u7jYE6qoGhjkXbflwBRGkRAX3hSh3fY
-	f0HHLXh8bsaHwplsTF++EPeeAIXX6SnhCsAbRjKCd0L1iewVZdITjrvmgM9TK6aVTWqB43
-	786pPE1F+HZbAh6qRHyxQ/WItvNXEBE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751555530;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FmSetN1QdQuvqZTdRBFu6rWYGJTLY78ndJ3tjpNu2hg=;
-	b=4K8XfVj5Vt08GWusa3yrNzdPJKjJauVcVAERDYvw6Kcod3GlHV2sucQx/NTyz20QogsTFl
-	IEUcSvsuS3Vw/PDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751555528; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FmSetN1QdQuvqZTdRBFu6rWYGJTLY78ndJ3tjpNu2hg=;
-	b=T8ZWnj4oEHjN/GY546Qxju+hTPVYAKckoEYNPSA0SVpM4o5wwQvqelz/3ti+x7dB0reIFW
-	VyZqqamUhw1W2WxP9yMoO7Mq8RT28l3ZrCS+T4vlzjj0FcK8Dic5QQ0iokQQ0KB/DvLdIl
-	CTB5M7D4sAkqyOrg0Gf0ok5PpvuoNKQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751555528;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FmSetN1QdQuvqZTdRBFu6rWYGJTLY78ndJ3tjpNu2hg=;
-	b=3OYZIdC3YeCNGjppyosSfsC5LoFm9OjU9iZ8459SlDinwksLXN50/tY8hN5b+lf0pBpOaj
-	J9461yRj6MnpU9Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AF6C13721;
-	Thu,  3 Jul 2025 15:12:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6nSnFcidZmhJcgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 03 Jul 2025 15:12:08 +0000
-Date: Thu, 03 Jul 2025 17:12:08 +0200
-Message-ID: <87sejdpauv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	Richard Fitzgerald
- <rf@opensource.cirrus.com>,
-	Kailang <kailang@realtek.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: Re: [RFC] Reorganizing HD-audio driver code?
-In-Reply-To: <5da4cf47-2d2a-4911-bb55-d1e5a91618e0@linux.intel.com>
-References: <87ldpdgzle.wl-tiwai@suse.de>
-	<e6451c29-2ade-4b73-bfd7-f48bafccfa98@opensource.cirrus.com>
-	<87h5zygawe.wl-tiwai@suse.de>
-	<87ikkave2o.wl-tiwai@suse.de>
-	<d7836c81-79d5-4920-8d8a-31ac6bd39fc1@linux.intel.com>
-	<875xg9qtqn.wl-tiwai@suse.de>
-	<3b69bdd6-9531-4101-985e-b03629e00967@linux.intel.com>
-	<8734bdqr8s.wl-tiwai@suse.de>
-	<87y0t5pc77.wl-tiwai@suse.de>
-	<5da4cf47-2d2a-4911-bb55-d1e5a91618e0@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1751561013; c=relaxed/simple;
+	bh=qqLwuG36XKIZ+ISEBk5qt/u9PfQhtsR58/63CbLYsx0=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=D/5E8Ay+cNKISu/LBVttM1HpvBgDp2lWZBweqdUp+HSlKGXpqXoOMXL1qJ67uXet99zMB/Xza76meHLAb+T9TYgu6YyTnwwZUvmYBXANKS6E9+kBbnvJWKaAMfeiV38ES5Si4Vsh6M9e2SnPjZa60rO5eeO9TywZTFUNPl4DH/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f78.google.com with SMTP id ca18e2360f4ac-8649be94fa1so11760939f.0
+        for <linux-sound@vger.kernel.org>; Thu, 03 Jul 2025 09:43:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751561011; x=1752165811;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CRivCoXpqz5APGeo+CUhogEc126A/jC/qpsb4nTA31Q=;
+        b=p4xXWuba0YcMtqLpmII2LETqeQprl1LKG8nHCu7wTS7GOtEvm17G4Gs+oTSNpOCf2S
+         +qmrw7R/h3+P2+IJoQSCVPTHxpHqrR2M11oS1AyFbVRvwRK4ZuK7MKdojmiSKkPw4dJU
+         Gk7XDMc3chjmJVPbQ0mxHkH3W1YFJCKnnljn5LDM728TTASNEonRyJNGTgsEF27xxj6e
+         X1DwHfni/8BQfYifikGXje63SdqMSXBe0ghGG5fBKRlKI9CY3ZKyz47xVThzxnkGImGl
+         BhjsJZWlMp3qHvcKSdHZ/4PzdwUYlzerDXkhIbrPqkx0BPQ2S7GNBfMQf49/8G0FOJre
+         7iug==
+X-Forwarded-Encrypted: i=1; AJvYcCUHePnFSRPWyQqj2AB8X4VmtUkBYVGguM5TyGaLUW9G0aMBcEL7GVmIV5KIyv80k1HrfxMTcHmj0X4T2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8yQkWsY3vRjVOc1zTRdniF5iAen3Qi+NagFaxgmclgjXL+0XS
+	bB0+k9jKQBT3lDnXqTZzbsJRUb4FGayBAiKuMpe4Nc2SF0ku6aQsGwFqnen3KWGLbxGIkfuUOn+
+	ff9LYFMQJcdGe9Ku/HaE2YQr/Inrcvq+4hmlZOk1AP63CKhrHDoPvd3RoWRM=
+X-Google-Smtp-Source: AGHT+IFtpt2JvQchlYUejpzQ03zikgdol/KIQsIwuuYC9HL9CdGp6KKa9JCa8Io7/zBMNQEL8GoxnHLIBnBHGXgB6uBhJsnI93iD
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -2.30
+MIME-Version: 1.0
+X-Received: by 2002:a05:6602:a002:b0:875:bc13:3c26 with SMTP id
+ ca18e2360f4ac-876c6a03d0cmr954061139f.4.1751561010737; Thu, 03 Jul 2025
+ 09:43:30 -0700 (PDT)
+Date: Thu, 03 Jul 2025 09:43:30 -0700
+In-Reply-To: <684ffc59.a00a0220.279073.0037.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6866b332.a00a0220.c7b3.0005.GAE@google.com>
+Subject: Re: [syzbot] [net?] kernel BUG in filemap_fault (2)
+From: syzbot <syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com>
+To: davem@davemloft.net, edumazet@google.com, horms@kernel.org, 
+	kuba@kernel.org, kuniyu@google.com, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, 
+	perex@perex.cz, syzkaller-bugs@googlegroups.com, tiwai@suse.com, 
+	willemb@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 03 Jul 2025 16:52:10 +0200,
-Amadeusz S³awiñski wrote:
-> 
-> 
-> 
-> On 2025-07-03 16:43, Takashi Iwai wrote:
-> > On Thu, 03 Jul 2025 16:32:51 +0200,
-> > Takashi Iwai wrote:
-> >> 
-> >> On Thu, 03 Jul 2025 15:57:48 +0200,
-> >> Amadeusz S³awiñski wrote:
-> >>> 
-> >>> 
-> >>> 
-> >>> On 2025-07-03 15:38, Takashi Iwai wrote:
-> >>>> On Thu, 03 Jul 2025 15:29:56 +0200,
-> >>>> Amadeusz S³awiñski wrote:
-> >>>>> 
-> >>>>> 
-> >>>>> 
-> >>>>> On 2025-07-02 16:53, Takashi Iwai wrote:
-> >>>>>> On Sun, 29 Jun 2025 11:22:25 +0200,
-> >>>>>> Takashi Iwai wrote:
-> >>>>>>> 
-> >>>>>>> On Fri, 27 Jun 2025 15:22:20 +0200,
-> >>>>>>> Richard Fitzgerald wrote:
-> >>>>>>>> 
-> >>>>>>>> On 27/06/2025 1:04 pm, Takashi Iwai wrote:
-> >>>>>>>>> Hi,
-> >>>>>>>>> 
-> >>>>>>>>> HD-audio driver is known to be quite messy in both file structures and
-> >>>>>>>>> its design, but until now I haven't touched its files paths so much
-> >>>>>>>>> because I set a higher priority for the easiness of backport to stable
-> >>>>>>>>> kernels.  But, you can't leave garbages forever, it's been already
-> >>>>>>>>> high time for a large clean up.
-> >>>>>>>>> 
-> >>>>>>>>> So I tried a quick code reorganization, and put the result in
-> >>>>>>>>> test/hda-reorg branch of sound.git tree.
-> >>>>>>>>>       https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/log/?h=test/hda-reorg
-> >>>>>>>>> 
-> >>>>>>>>> The basic idea is to move the code from sound/pci/hda/* into different
-> >>>>>>>>> subdirectories in sound/hda/ per functionality, as most of the stuff
-> >>>>>>>>> are independent from PCI, but rather HD-audio bus specific.
-> >>>>>>>>> 
-> >>>>>>>> 
-> >>>>>>>> This all seems reasonable to me. I always thought it strange that there
-> >>>>>>>> is a sound/hda directory but most of the HDA support isn't in that
-> >>>>>>>> directory.
-> >>>>>>> 
-> >>>>>>> Thanks for your review!
-> >>>>>>> 
-> >>>>>>> It's a long story: at the time of ASoC Intel HD-audio support, we
-> >>>>>>> thought to implement more ASoC-friendly way of HD-audio controller and
-> >>>>>>> codec drivers, e.g. adapting DAPM and others.  So we began with the
-> >>>>>>> factoring out the HD-audio basic core stuff to the common directory
-> >>>>>>> sound/hda/*, while keeping the rest legacy stuff almost as is.  But
-> >>>>>>> ASoC implementation didn't fly in the end from various reasons, and
-> >>>>>>> the legacy HD-audio stuff was good enough for the actual use cases;
-> >>>>>>> it's too bit to fail, after all.
-> >>>>>>> 
-> >>>>>>>>> The Realtek codec is split further to smaller pieces (which was really
-> >>>>>>>>> huge).
-> >>>>>>>> 
-> >>>>>>>> Yes, that file was very confusing having support and quirks for so many
-> >>>>>>>> Realtek parts all in one file.
-> >>>>>>>> 
-> >>>>>>>>> The Cirrus and TI sub-codec drivers are moved to codecs/side-codecs
-> >>>>>>>>> subdirectory:
-> >>>>>>>> 
-> >>>>>>>> That's ok
-> >>>>>>>> 
-> >>>>>>>>> They can be put to each own directory and drop the file name prefix,
-> >>>>>>>>> if we want, too.  Let me know if Cirrus and TI people would like to
-> >>>>>>>>> split to more subdirectories.
-> >>>>>>>> 
-> >>>>>>>> I don't mind either way.
-> >>>>>>>> The hda_component* files are common to the amps and the realtek driver
-> >>>>>>>> so I wonder whether they belong in helpers. They are only utility
-> >>>>>>>> wrappers around the kernel component-binding APIs.
-> >>>>>>> 
-> >>>>>>> Right.  So far, just because it's basically only binding with
-> >>>>>>> side-codecs, I put into side-codecs subdirectory.
-> >>>>>>> 
-> >>>>>>>>> *HOWEVER* the biggest question is: whether it's worth?
-> >>>>>>>>> 
-> >>>>>>>>> Essentially, this makes almost impossible to make a patch for stable
-> >>>>>>>>> trees from the original commit as is; one has to translate the file
-> >>>>>>>>> paths and adjust manually in each patch.
-> >>>>>>>> 
-> >>>>>>>> Depends which file you are patching and how much it has changed.
-> >>>>>>>> Git can figure out file renames (and changing directory is a rename).
-> >>>>>>> 
-> >>>>>>> I'm afraid that the Realtek codec changes might be hard to track
-> >>>>>>> automatically.  Maybe the Cirrus side-codecs stuff would work.
-> >>>>>>> 
-> >>>>>>>>> Also, of course, if anyone is working on HD-audio stuff right now, the
-> >>>>>>>>> work had to be adjusted to the new file path.  It'd be one-off action,
-> >>>>>>>>> though.
-> >>>>>>>> 
-> >>>>>>>> Speaking only for Cirrus, I don't think this makes much extra effort
-> >>>>>>>> for us. Our amp drivers have only changed location, so that should be
-> >>>>>>>> trivial. The other file we change is patch_realtek.c but that typically
-> >>>>>>>> is only 1-line quirk entries.
-> >>>>>>> 
-> >>>>>>> OK, thanks for confirmation!
-> >>>>>> 
-> >>>>>> ... and now I worked further on this, resulting in larger set of
-> >>>>>> changes.  It's not only the file location changes but also the
-> >>>>>> HD-audio codec driver binding changes.  So I put more people to Cc for
-> >>>>>> catch their cautions.
-> >>>>>> 
-> >>>>>> To recap:
-> >>>>>> 
-> >>>>>> - The all HD-audio driver code are moved under sound/hda.
-> >>>>>> 
-> >>>>>>      % ls sound/hda
-> >>>>>>      codecs/  common/  controllers/  core/  Kconfig  Makefile
-> >>>>>> 
-> >>>>>>      * The former hda core code is found in sound/hda/core.
-> >>>>>>      * The former snd-hda-codec code is found in sound/hda/common.
-> >>>>>>      * The former snd-hda-intel, tegra and acpi are put in
-> >>>>>>        sound/hda/controllers.
-> >>>>>>      * The former patch_* and co are put to sound/hda/codecs.
-> >>>>>>      * Realtek codec driver is split to several modules as
-> >>>>>>        sound/hda/codecs/realtek/alc*.
-> >>>>>>      * Cirrus codec driver is split to cs420x and cs421x, put under
-> >>>>>>        sound/hda/codecs/cirrus together with cs8409.
-> >>>>>>      * HDMI codec driver is split to several modules under
-> >>>>>>        sound/hda/codecs/hdmi
-> >>>>>>      * Cirrus and TI sub-codecs are put under
-> >>>>>>        sound/hda/codecs/side-codecs
-> >>>>>> 
-> >>>>>> - The HD-audio codec driver binding is changed from the embedded
-> >>>>>>      hda_codec.patch_ops to hda_codec_driver.ops.
-> >>>>>>      (As of now, hda_codec_driver.ops is a pointer, but it can be
-> >>>>>>       embedded later, too.)
-> >>>>>> 
-> >>>>>>      This change required some code to be modified without the dynamic
-> >>>>>>      override of callbacks.
-> >>>>>> 
-> >>>>>> - In future, we may convert the runtime PM handling to use the
-> >>>>>>      standard pm_ops, too.  This was raised some time ago during the
-> >>>>>>      discussion with Realtek devs.
-> >>>>>> 
-> >>>>>> The current patches are found in test/hda-reorg branch of sound git
-> >>>>>> tree:
-> >>>>>>      https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/log/?h=test/hda-reorg
-> >>>>>> 
-> >>>>>> It's based on master branch for taking all changes of for-linus and
-> >>>>>> for-next, hence the branch may be still frequently rebased.
-> >>>>>> 
-> >>>>>> So, please let me know if you see any issues or suggestions for this
-> >>>>>> conversion.  I have no concrete plan for merging, but if everything
-> >>>>>> looks fine, it can be even on the next 6.17, too.
-> >>>>>> 
-> >>>>> 
-> >>>>> I've built it and put it on one of our machines and hit KASAN during
-> >>>>> HDMI initialization, when I go back to master branch it works, so it
-> >>>>> is something on test/hda-reorg.
-> >>>> 
-> >>>> Yes, there was bug in my branch that I fixed in this morning.
-> >>>> Could you try the latest test/hda-reorg branch, commit
-> >>>> 6491d5b2e256a678b3a138500bf601c916d3913e
-> >>>> ?
-> >>>> 
-> >>> 
-> >>> Still broken :(
-> >> 
-> >> OK, thanks for confirmation.
-> >> 
-> >> I guess it's a power up code path that happens just before the codec
-> >> driver initialization.
-> >> 
-> >> Could you check whether the patch below covers it?
-> This one works.
-> 
-> > A possible alternative is like below.  This one might be safer.
-> > Let me know if either of them can work for you.
-> 
-> This one doesn't.
+syzbot has found a reproducer for the following issue on:
 
-Interesting.  So the device_is_bound() returns true if it's called
-during the binding operation.
+HEAD commit:    b4911fb0b060 Merge tag 'mmc-v6.16-rc1' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16568c8c580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3f6ddf055b5c86f8
+dashboard link: https://syzkaller.appspot.com/bug?extid=263f159eb37a1c4c67a4
+compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=157cf48c580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=146a948c580000
 
-> I will run more tests on the working one tomorrow, unless you want to
-> try something else.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/5828d857f454/disk-b4911fb0.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ecf6b7e29d2b/vmlinux-b4911fb0.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/cc43b227e03d/bzImage-b4911fb0.xz
 
-Thanks!
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com
+
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:329
+ kasan_slab_alloc include/linux/kasan.h:250 [inline]
+ slab_post_alloc_hook mm/slub.c:4148 [inline]
+ slab_alloc_node mm/slub.c:4197 [inline]
+ kmem_cache_alloc_node_noprof+0x1bb/0x3c0 mm/slub.c:4249
+ __alloc_skb+0x112/0x2d0 net/core/skbuff.c:660
+ alloc_skb include/linux/skbuff.h:1336 [inline]
+ __ip6_append_data+0x2b8c/0x3de0 net/ipv6/ip6_output.c:1668
+ ip6_append_data+0x1c4/0x380 net/ipv6/ip6_output.c:1858
+ rawv6_sendmsg+0x124b/0x17f0 net/ipv6/raw.c:911
+ sock_sendmsg_nosec net/socket.c:712 [inline]
+ __sock_sendmsg+0x19c/0x270 net/socket.c:727
+ ____sys_sendmsg+0x52d/0x830 net/socket.c:2566
+ ___sys_sendmsg+0x21f/0x2a0 net/socket.c:2620
+ __sys_sendmmsg+0x227/0x430 net/socket.c:2709
+------------[ cut here ]------------
+kernel BUG at mm/filemap.c:3442!
+Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
+CPU: 1 UID: 0 PID: 9236 Comm: syz.3.1035 Not tainted 6.16.0-rc4-syzkaller-00049-gb4911fb0b060 #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/07/2025
+RIP: 0010:filemap_fault+0x117d/0x1200 mm/filemap.c:3442
+Code: 38 c1 0f 8c 8e fc ff ff 4c 89 e7 e8 8d 6b 29 00 e9 81 fc ff ff e8 a3 13 c8 ff 48 89 df 48 c7 c6 a0 30 94 8b e8 d4 ae 0d 00 90 <0f> 0b e8 8c 13 c8 ff 48 8b 3c 24 48 c7 c6 20 37 94 8b e8 bc ae 0d
+RSP: 0018:ffffc900030976e0 EFLAGS: 00010246
+RAX: 864bab26a5780700 RBX: ffffea0001e53880 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8d96e815 RDI: 00000000ffffffff
+RBP: ffffc90003097818 R08: ffffffff8f9fdbf7 R09: 1ffffffff1f3fb7e
+R10: dffffc0000000000 R11: fffffbfff1f3fb7f R12: dffffc0000000000
+R13: 1ffffd40003ca711 R14: ffffea0001e53898 R15: ffffea0001e53888
+FS:  00007f9550ed76c0(0000) GS:ffff888125d84000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000002000 CR3: 0000000059b4a000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ __do_fault+0x135/0x390 mm/memory.c:5169
+ do_shared_fault mm/memory.c:5654 [inline]
+ do_fault mm/memory.c:5728 [inline]
+ do_pte_missing mm/memory.c:4251 [inline]
+ handle_pte_fault mm/memory.c:6069 [inline]
+ __handle_mm_fault+0x198b/0x5620 mm/memory.c:6212
+ handle_mm_fault+0x2d5/0x7f0 mm/memory.c:6381
+ do_user_addr_fault+0x764/0x1390 arch/x86/mm/fault.c:1387
+ handle_page_fault arch/x86/mm/fault.c:1476 [inline]
+ exc_page_fault+0x76/0xf0 arch/x86/mm/fault.c:1532
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0010:__put_user_4+0xd/0x20 arch/x86/lib/putuser.S:94
+Code: 66 89 01 31 c9 0f 01 ca e9 00 3b 03 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 48 89 cb 48 c1 fb 3f 48 09 d9 0f 01 cb <89> 01 31 c9 0f 01 ca e9 d7 3a 03 00 90 90 90 90 90 90 90 90 90 90
+RSP: 0018:ffffc90003097c98 EFLAGS: 00050206
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00002000000015b8
+RDX: 0000000000000000 RSI: ffffffff8db5a681 RDI: ffffffff8be1b940
+RBP: ffffc90003097eb0 R08: 0000000000000000 R09: ffffffff820a3bc0
+R10: dffffc0000000000 R11: ffffed100b371081 R12: 0000200000001580
+R13: 0000000000040000 R14: 0000200000000480 R15: 0000000000000044
+ __sys_sendmmsg+0x25f/0x430 net/socket.c:2714
+ __do_sys_sendmmsg net/socket.c:2736 [inline]
+ __se_sys_sendmmsg net/socket.c:2733 [inline]
+ __x64_sys_sendmmsg+0xa0/0xc0 net/socket.c:2733
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f954ff8e929
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9550ed7038 EFLAGS: 00000246 ORIG_RAX: 0000000000000133
+RAX: ffffffffffffffda RBX: 00007f95501b5fa0 RCX: 00007f954ff8e929
+RDX: 00000000000002e9 RSI: 0000200000000480 RDI: 0000000000000004
+RBP: 00007f9550010b39 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 00007f95501b5fa0 R15: 00007ffcd704c578
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:filemap_fault+0x117d/0x1200 mm/filemap.c:3442
+Code: 38 c1 0f 8c 8e fc ff ff 4c 89 e7 e8 8d 6b 29 00 e9 81 fc ff ff e8 a3 13 c8 ff 48 89 df 48 c7 c6 a0 30 94 8b e8 d4 ae 0d 00 90 <0f> 0b e8 8c 13 c8 ff 48 8b 3c 24 48 c7 c6 20 37 94 8b e8 bc ae 0d
+RSP: 0018:ffffc900030976e0 EFLAGS: 00010246
+RAX: 864bab26a5780700 RBX: ffffea0001e53880 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8d96e815 RDI: 00000000ffffffff
+RBP: ffffc90003097818 R08: ffffffff8f9fdbf7 R09: 1ffffffff1f3fb7e
+R10: dffffc0000000000 R11: fffffbfff1f3fb7f R12: dffffc0000000000
+R13: 1ffffd40003ca711 R14: ffffea0001e53898 R15: ffffea0001e53888
+FS:  00007f9550ed76c0(0000) GS:ffff888125d84000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000002000 CR3: 0000000059b4a000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	66 89 01             	mov    %ax,(%rcx)
+   3:	31 c9                	xor    %ecx,%ecx
+   5:	0f 01 ca             	clac
+   8:	e9 00 3b 03 00       	jmp    0x33b0d
+   d:	90                   	nop
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	90                   	nop
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	90                   	nop
+  16:	90                   	nop
+  17:	90                   	nop
+  18:	90                   	nop
+  19:	90                   	nop
+  1a:	90                   	nop
+  1b:	90                   	nop
+  1c:	90                   	nop
+  1d:	48 89 cb             	mov    %rcx,%rbx
+  20:	48 c1 fb 3f          	sar    $0x3f,%rbx
+  24:	48 09 d9             	or     %rbx,%rcx
+  27:	0f 01 cb             	stac
+* 2a:	89 01                	mov    %eax,(%rcx) <-- trapping instruction
+  2c:	31 c9                	xor    %ecx,%ecx
+  2e:	0f 01 ca             	clac
+  31:	e9 d7 3a 03 00       	jmp    0x33b0d
+  36:	90                   	nop
+  37:	90                   	nop
+  38:	90                   	nop
+  39:	90                   	nop
+  3a:	90                   	nop
+  3b:	90                   	nop
+  3c:	90                   	nop
+  3d:	90                   	nop
+  3e:	90                   	nop
+  3f:	90                   	nop
 
 
-Takashi
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
