@@ -1,159 +1,177 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0CC23C4EA
-	for <linux-sound@vger.kernel.org>; Fri,  4 Jul 2025 11:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42882BEC2E
+	for <linux-sound@vger.kernel.org>; Fri,  4 Jul 2025 11:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751627771; cv=none; b=kFd6fGEPkaAuC49FIyr37pNVVeb5eyltcVJ8ziLfoy0hqqjcVsyrnJnVv4n+55W1fDrtIXeyhwLJhM9GPvwWWRg/6VrSItCqzqhYTKmG+gjU/XaWwg5aKuHErki5ZG59BWo555NzgJPzI0twP9q38Hy5uranOBDHZF375f3tloI=
+	t=1751629518; cv=none; b=sqW1wByi+c25ezSXDHeF8Xu5aBqbEEcbqYMdWWCLCx1LMRQkgYTJTZLVZrDiSbthUR833+N+3ZMZlBMUpGsNNgs3qIVLWHH0WD1kNSpvMbcq4kGSPpZVIKla8NkLMUDW43UiDjIQR25pq/ooVEK5o6T2HgFxT5OCtx1tRdkHXNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751627771; c=relaxed/simple;
-	bh=b9rtoKDrBAYC3BaF1M9Ck1YA+omLHf3ebvKNPvZnx2s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NR4ENMTvqlwkZut4jnLOcndA2uxC+cdL2zNL354REAjZIvu/2sd89c0c2WVlNtmbllsOtggWQMUthPAN2ZaeziULmGkqDAuiwal2+OWzvzv9iGUuSWvikZzT0SqxRoG2JnrAwWC7EAHlappEGf4vNTBP9ZDRBIEUI3p67FW8Cns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tQyS3S4B; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1751629518; c=relaxed/simple;
+	bh=WHtk3sag/jmUNWuOCiIhUds/ncp5s9Ef7qsxvCBXj0c=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WUnWlVEv7bhtMiuevt6bxQet80n/7v73eXGSv//zyU06UorZiWV1VwnIeC6rD1vZNBgHTCjiGgPd49mcImJvsAz2jdb36uWXCFtnKjEkPFwp1jlSASABtk44aNMW9joKgBP+EbAcb/7nqQzG+BvVB48xOiv17zIeTIPnuyNOkEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M5Pm4HhN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=elpCad+T; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M5Pm4HhN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=elpCad+T; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tQyS3S4B"
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e81cf6103a6so739033276.3
-        for <linux-sound@vger.kernel.org>; Fri, 04 Jul 2025 04:16:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751627767; x=1752232567; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PjpGYVa/Cr3/NCJD8CT9IY6HzXhXvTQMbsQZwOON6l4=;
-        b=tQyS3S4B2wbGP1Dqsu7JNrBtVdj91LQh2w8veoQ7h0MrGDi1p7vqMTB2KnEfYSxOYT
-         nCeOIdg0bzfoUS9fknPL6U/uxlkZoBZmwNkMV4zBDt1GmAfbMkwVeKutU2q2RNlrQDpR
-         6prf8vynMeEeFXAOcHn0YsENBARqw9mHcSL6Sq/8ElrEo3wIGrX7fqJWQ1wie3U8xryT
-         7IezF6IwbQ86ZUR+nRM3Q2oweyf2+uWHTZWLmUmL7uDSz65WecELfxdVUzs3c92fAZIL
-         AGmaOLE0mGwpaUqqqNHdyNAHU9oKyisiMgEfGXhUHqOvRVJrQrtdTvhr+8krET00XqJ5
-         CoMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751627767; x=1752232567;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PjpGYVa/Cr3/NCJD8CT9IY6HzXhXvTQMbsQZwOON6l4=;
-        b=IBm1MyFE6YH5NzcqlSRimDUXC78sO+YNVTVbyeZchByvp7EAOhIzveI5XKhscXjGe8
-         C35yh02nJX2/f92tor/vmQgLWwIVPTlaoW56iTwyp+1/TOcLCh09FO7f4JXrVNVAG5L6
-         Sr3ZfrX15wPsgFrVouxbm8PV05Fp2Sb6uB/4KghhCZCwpIpc8WUirkC9ZOfYD8TElnE0
-         pi2DZZTTgTMHa0f4ND2e/inJIt20bph+W8HWvtPkeCAu9D/LtOMt9lAHsSeF3n6Fq4VI
-         7t07wk+Wfhbtex9rpPiG2eSx002BYkc9hQf86m2g2SYglM3Te25K7klyUOT/KBZTxWMB
-         kalw==
-X-Forwarded-Encrypted: i=1; AJvYcCUV53XCDofVFHsOan5veco6z0g8y2aUX8LAA2S38cXrAygGrXuPqPzMZeHWJRCDxUmo8rOD31WIT6ZpoA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpgS0jA/TRvkgiVIotLx8FUFQb8oKydnJZJk5dspl5vDafXRZA
-	v2X/R5ZFzohtwF+CnVNeQ62Eq+NQ+jyA4K4PpAI+DK2IPuaKy1Xr44ELTuAJMiZOTVUYULdq0GO
-	ulRgfMlCUVRVtB1G0F+fX07fDsr0/nmIPiVtsKk7/Gw==
-X-Gm-Gg: ASbGncs6fJqjUe1ALhxSOdtojsHZ4B9uKYNq1XKQQEoBtn+/8IkMo2sjk3dgVwiTYFx
-	7NMPjSlzvevQ7TrRNZDdtnGu11ApeNvi+2rcK5asZCQ8lTsk5vEV7ie+8QGv6NS++Uu5ltqct1o
-	Ss7tUWwRqN3h9kpmo/fPFinB6H/A+V8xvqyE4eIaGu9+jb
-X-Google-Smtp-Source: AGHT+IHAW8UyCQ9W+pvHvcTvef9aFULLZGbhQe98R4X9+6EEdiQxhHHKyUMUuOYP0+BDeQPC3PK4UvgN4CdOsI4nxiQ=
-X-Received: by 2002:a05:690c:9c09:b0:70f:9fcd:2075 with SMTP id
- 00721157ae682-71668c0e0ddmr26398687b3.3.1751627767124; Fri, 04 Jul 2025
- 04:16:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M5Pm4HhN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="elpCad+T";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M5Pm4HhN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="elpCad+T"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5E14D21193;
+	Fri,  4 Jul 2025 11:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751629514; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kxTd+L1PywZxAAcgvHW1FZ54CTZk37zes5hyIjxPw0E=;
+	b=M5Pm4HhNIDCb8KFuRGr2KgM1ri1uCbbzNbUK+qvZJj1xdtJQIktAh9t4jPS6j9mHheGt8s
+	7sNIzsbNPxqkNpSu4HMATHsTg5N0MyDsHPnn5JWVAsxfP+t0Cvxed0DB25VFR6cxnKN/ws
+	awy+msOzDUHbPmghOCNWbIPVJ/ULFho=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751629514;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kxTd+L1PywZxAAcgvHW1FZ54CTZk37zes5hyIjxPw0E=;
+	b=elpCad+TikYpLXGqcIlAbcrqpKwMc/2EJYjZI8bb1EWk9yj4KCCx4NVKYRaubxVC9tyNmo
+	evxqhp9IjJ3zaeAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751629514; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kxTd+L1PywZxAAcgvHW1FZ54CTZk37zes5hyIjxPw0E=;
+	b=M5Pm4HhNIDCb8KFuRGr2KgM1ri1uCbbzNbUK+qvZJj1xdtJQIktAh9t4jPS6j9mHheGt8s
+	7sNIzsbNPxqkNpSu4HMATHsTg5N0MyDsHPnn5JWVAsxfP+t0Cvxed0DB25VFR6cxnKN/ws
+	awy+msOzDUHbPmghOCNWbIPVJ/ULFho=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751629514;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kxTd+L1PywZxAAcgvHW1FZ54CTZk37zes5hyIjxPw0E=;
+	b=elpCad+TikYpLXGqcIlAbcrqpKwMc/2EJYjZI8bb1EWk9yj4KCCx4NVKYRaubxVC9tyNmo
+	evxqhp9IjJ3zaeAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20A3613757;
+	Fri,  4 Jul 2025 11:45:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GJucBsq+Z2gCSQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 04 Jul 2025 11:45:14 +0000
+Date: Fri, 04 Jul 2025 13:45:13 +0200
+Message-ID: <87v7o8nprq.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 75/80] ALSA: intel_hdmi: Remove redundant pm_runtime_mark_last_busy() calls
+In-Reply-To: <20250704075500.3222950-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+	<20250704075500.3222950-1-sakari.ailus@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250703112708.1621607-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20250703112708.1621607-1-claudiu.beznea.uj@bp.renesas.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 4 Jul 2025 13:15:31 +0200
-X-Gm-Features: Ac12FXwfheYVCqCiLAFVR27m9ptp6dfE-AwljIFg4O16ch_FdabejHZIDOFh5ww
-Message-ID: <CAPDyKFoznqfdX7Dvu3VPa5Me10VHGphnRRHrU17w-fie7HrQ5g@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] PM: domains: Detach on device_unbind_cleanup()
-To: Claudiu <claudiu.beznea@tuxon.dev>, rafael@kernel.org
-Cc: linux@armlinux.org.uk, gregkh@linuxfoundation.org, 
-	david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org, 
-	dakr@kernel.org, len.brown@intel.com, pavel@kernel.org, andersson@kernel.org, 
-	mturquette@baylibre.com, sboyd@kernel.org, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	wsa+renesas@sang-engineering.com, mathieu.poirier@linaro.org, 
-	vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
-	pierre-louis.bossart@linux.dev, broonie@kernel.org, robh@kernel.org, 
-	jirislaby@kernel.org, saravanak@google.com, jic23@kernel.org, 
-	dmitry.torokhov@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-serial@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org, 
-	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	fabrizio.castro.jz@renesas.com, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,intel.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-On Thu, 3 Jul 2025 at 13:27, Claudiu <claudiu.beznea@tuxon.dev> wrote:
->
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Hi,
->
-> Series drops the dev_pm_domain_detach() from platform bus remove and
-> adds it in device_unbind_cleanup() to avoid runtime resumming the device
-> after it was detached from its PM domain.
->
-> Please provide your feedback.
->
-> Thank you,
-> Claudiu
->
-> Changes in v5:
-> - added PD_FLAG_ATTACH_POWER_ON, PD_FLAG_DETACH_POWER_OFF;
->   due to this a new patch was introduced
->   "PM: domains: Add flags to specify power on attach/detach"
->
-> Changes in v4:
-> - added a flag in dev_pm_info that is saved in dev_pm_domain_attach()
->   and used in device_unbind_cleanup()
->
-> Changes in v3:
-> - add devm_pm_domain_attach()
->
-> Changes in v2:
-> - dropped the devres group open/close approach and use
->   devm_pm_domain_attach()
-> - adjusted patch description to reflect the new approach
->
->
-> Claudiu Beznea (3):
->   PM: domains: Add flags to specify power on attach/detach
->   PM: domains: Detach on device_unbind_cleanup()
->   driver core: platform: Drop dev_pm_domain_detach() call
->
->  drivers/amba/bus.c                       |  4 ++--
->  drivers/base/auxiliary.c                 |  2 +-
->  drivers/base/dd.c                        |  2 ++
->  drivers/base/platform.c                  |  9 +++------
->  drivers/base/power/common.c              |  9 ++++++---
->  drivers/clk/qcom/apcs-sdx55.c            |  2 +-
->  drivers/gpu/drm/display/drm_dp_aux_bus.c |  2 +-
->  drivers/i2c/i2c-core-base.c              |  2 +-
->  drivers/mmc/core/sdio_bus.c              |  2 +-
->  drivers/rpmsg/rpmsg_core.c               |  2 +-
->  drivers/soundwire/bus_type.c             |  2 +-
->  drivers/spi/spi.c                        |  2 +-
->  drivers/tty/serdev/core.c                |  2 +-
->  include/linux/pm.h                       |  1 +
->  include/linux/pm_domain.h                | 10 ++++++++--
->  15 files changed, 31 insertions(+), 22 deletions(-)
->
-> --
-> 2.43.0
->
+On Fri, 04 Jul 2025 09:55:00 +0200,
+Sakari Ailus wrote:
+> 
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-The series looks good to me, please add:
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Acked-by: Takashi Iwai <tiwai@suse.de>
 
-Rafael, do you intend to pick this via your tree?
 
-Another note, the similar thing that is being done in patch3 from the
-platform bus, is needed for other buses too (at least the amba bus for
-sure). Claudiu, are you planning to do that as a step on top - or are
-you expecting others to help out?
+thanks,
 
-Kind regards
-Uffe
+Takashi
+
+> ---
+> The cover letter of the set can be found here
+> <URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
+> 
+> In brief, this patch depends on PM runtime patches adding marking the last
+> busy timestamp in autosuspend related functions. The patches are here, on
+> rc2:
+> 
+>         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+>                 pm-runtime-6.17-rc1
+> 
+>  sound/x86/intel_hdmi_audio.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/sound/x86/intel_hdmi_audio.c b/sound/x86/intel_hdmi_audio.c
+> index fe5cb4139088..cc54539c6030 100644
+> --- a/sound/x86/intel_hdmi_audio.c
+> +++ b/sound/x86/intel_hdmi_audio.c
+> @@ -1102,7 +1102,6 @@ static int had_pcm_open(struct snd_pcm_substream *substream)
+>  
+>  	return retval;
+>   error:
+> -	pm_runtime_mark_last_busy(intelhaddata->dev);
+>  	pm_runtime_put_autosuspend(intelhaddata->dev);
+>  	return retval;
+>  }
+> @@ -1127,7 +1126,6 @@ static int had_pcm_close(struct snd_pcm_substream *substream)
+>  	}
+>  	spin_unlock_irq(&intelhaddata->had_spinlock);
+>  
+> -	pm_runtime_mark_last_busy(intelhaddata->dev);
+>  	pm_runtime_put_autosuspend(intelhaddata->dev);
+>  	return 0;
+>  }
+> @@ -1589,7 +1587,6 @@ static void had_audio_wq(struct work_struct *work)
+>  	}
+>  
+>  	mutex_unlock(&ctx->mutex);
+> -	pm_runtime_mark_last_busy(ctx->dev);
+>  	pm_runtime_put_autosuspend(ctx->dev);
+>  }
+>  
+> -- 
+> 2.39.5
+> 
