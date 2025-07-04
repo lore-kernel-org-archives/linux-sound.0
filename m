@@ -1,43 +1,54 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FED82D3A77
-	for <linux-sound@vger.kernel.org>; Thu,  3 Jul 2025 22:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9E01DEFF3
+	for <linux-sound@vger.kernel.org>; Fri,  4 Jul 2025 02:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751583219; cv=none; b=dLq9t9HJL+yWtLi8GS2nnrvtA+2fSNa8H6a484VF0xG2HtvQDbD9f12vZt0trLaKehNfr5jzh9kclm6ryYkEXARUzQCwkGwp+PM9qr/glnPyzUOtj6FrUEbo9SfBYZ4qkgFsrZd+L9AmGNO6+pMl0t+ey9jHlDVnx3v6E0lCkek=
+	t=1751596787; cv=none; b=OBElrTs9yMfGW2kmwNjGHhkpvWBIU3nTsHz8D3Eo0wlu0ndtUkM4l2mr+xyqwBt5Lb+8Zbaz677AnLzN2e4w1y+WmwNGMhjEvqnn7s/2zevfn5wI/pp6SfSXx/5a49FeumTxia3Hum8YwzubKouwX7AIpnraT/6DXudUMLuUoWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751583219; c=relaxed/simple;
-	bh=ULQqKoYh2RjDI9TSKSxCqwj9ka7ofVBZbeuB6/CEVgU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qhcMJJiR5jt2irAKLRKm+eS0+WF2DMD/nr05rT0WnBHcg0KeL9umF4sWU5qswVQLiJKIzMStv4PG1ja+yMLwmE4ozsfsMJvC/yqRmXpJyyT7cVZCQIJUaFbiEgRReSzDCh4ZCuWjtKOxpf1R4NlI8cilX8ZX/wXx5mrS0Sidr9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=urFHdEeZ; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1751596787; c=relaxed/simple;
+	bh=R3QcPQzvhbe6iv6zrk867vT/8DETTHJhtvzdTGThP7k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z4Fv/VpXNEXVfY6qo2idL8m2PABEg+PoGnle4BCBzVX9Ma4xdrKhgJU656caazvC2fVgyR5cCFv1daH+hwnxp9x7zXFXwHXUK7biSaI6I9LVDDuOAgw7lvTPFRqPCzm2mR4qcR7DNyN7Xwd8A9Lv4I/Q+wg3UmKWYgYvPVqI23E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NVTEpEHa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="urFHdEeZ"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1751583213;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NVTEpEHa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751596782;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=oIRglgn/9ldYHUc7IhNCSY6KbnwH4OkGlYmr7LfN2B8=;
-	b=urFHdEeZN0hDQWUseEy8s44kzzllwidfjnHyb36vx5P+MKIsquEq9KFnGgf4vuudfvv1Bv
-	Xmx5kX6L9mSIhuNLS/MuIWwQu/JaeIBVRjA5CeRiUHmTF095dqBHlYnA/eYhOFJ55cTanu
-	dPSjDQvyUIUL7E95JipuXeoxUE1qhb4=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Wentao Liang <vulab@iscas.ac.cn>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Remove old commented out sanity check
-Date: Fri,  4 Jul 2025 00:52:36 +0200
-Message-ID: <20250703225238.308359-2-thorsten.blum@linux.dev>
+	bh=3UJMoMK9R/4PS68csbcacMXYsDFPJBCUqlmZgu7NIHw=;
+	b=NVTEpEHaYlyDJc1JoYA8e3Z462BwJE3k2RlhwR9H1vcad9897UWKenS0RHfRyPCkyf+UFm
+	ZRkYaMKanMYDNnKsQteff0UZFnbqYjP2AeHNo1TEMG1Gf1Ezv+t0WSlPYApwQYnnvoIofC
+	meHub6ZElZQAZHBzTVApt3vWdmlsPxY=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-196-3DP3HIs1NSe3yc1Yk-RI6Q-1; Thu,
+ 03 Jul 2025 22:39:39 -0400
+X-MC-Unique: 3DP3HIs1NSe3yc1Yk-RI6Q-1
+X-Mimecast-MFC-AGG-ID: 3DP3HIs1NSe3yc1Yk-RI6Q_1751596778
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4842C1944A8D;
+	Fri,  4 Jul 2025 02:39:38 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.22.64.120])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 103A119560AB;
+	Fri,  4 Jul 2025 02:39:35 +0000 (UTC)
+From: Seiji Nishikawa <snishika@redhat.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	snishika@redhat.com
+Subject: [PATCH] ALSA: hda/realtek: Add support for ASUS NUC14LNK system which uses Realtek ALC245 codec and CS35L41 amplifier over SPI. Without this quirk, the amp probe fails with -EINVAL and no sound is initialized.
+Date: Fri,  4 Jul 2025 11:39:30 +0900
+Message-ID: <20250704023930.1492232-1-snishika@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,37 +56,25 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-The sanity check has been commented out for more than 12 years since
-commit d5657ec9f4ad ("ALSA: hda - Disable the sanity check in
-snd_hda_add_pincfg()") - remove it.
-
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+Signed-off-by: Seiji Nishikawa <snishika@redhat.com>
 ---
- sound/pci/hda/hda_codec.c | 9 ---------
- 1 file changed, 9 deletions(-)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/pci/hda/hda_codec.c b/sound/pci/hda/hda_codec.c
-index 5508381a1833..cb72e9655c8a 100644
---- a/sound/pci/hda/hda_codec.c
-+++ b/sound/pci/hda/hda_codec.c
-@@ -479,15 +479,6 @@ int snd_hda_add_pincfg(struct hda_codec *codec, struct snd_array *list,
- {
- 	struct hda_pincfg *pin;
- 
--	/* the check below may be invalid when pins are added by a fixup
--	 * dynamically (e.g. via snd_hda_codec_update_widgets()), so disabled
--	 * for now
--	 */
--	/*
--	if (get_wcaps_type(get_wcaps(codec, nid)) != AC_WID_PIN)
--		return -EINVAL;
--	*/
--
- 	pin = look_up_pincfg(codec, list, nid);
- 	if (!pin) {
- 		pin = snd_array_new(list);
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 5d6d01ecfee2..7ce54db56354 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -11084,6 +11084,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x8398, "ASUS P1005", ALC269_FIXUP_STEREO_DMIC),
+ 	SND_PCI_QUIRK(0x1043, 0x83ce, "ASUS P1005", ALC269_FIXUP_STEREO_DMIC),
+ 	SND_PCI_QUIRK(0x1043, 0x8516, "ASUS X101CH", ALC269_FIXUP_ASUS_X101),
++	SND_PCI_QUIRK(0x1043, 0x88f4, "ASUS NUC14LNK", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x104d, 0x9073, "Sony VAIO", ALC275_FIXUP_SONY_VAIO_GPIO2),
+ 	SND_PCI_QUIRK(0x104d, 0x907b, "Sony VAIO", ALC275_FIXUP_SONY_HWEQ),
+ 	SND_PCI_QUIRK(0x104d, 0x9084, "Sony VAIO", ALC275_FIXUP_SONY_HWEQ),
 -- 
 2.50.0
 
