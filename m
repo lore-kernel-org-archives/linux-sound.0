@@ -1,122 +1,134 @@
-Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85656283FE7
-	for <linux-sound@vger.kernel.org>; Fri,  4 Jul 2025 07:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD2D2E1C6F;
+	Fri,  4 Jul 2025 07:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751614001; cv=none; b=G7k3Hu7rEbyTDMyB7zq1wIR2yxmMy9Xgj8dU2pC1WtZ6IIuRWo4/Km31WVCbudmUqxVNIDjF8qE45nsduwovR3g49frGfD13Yr6Fu71ybGG+3UavkycoKmsCEQE3yWgtgpZS+riYOn/sXAsJU4T3xZ0JjeF5+uq0kOFn4dapMus=
+	t=1751615682; cv=none; b=OYTTEW81m/cMGGMwl11GI1QrH3UCTPkLGFDA9fz+/5otsQs727rTFxHZ9PyXj5oWiK+Rxqk/KXnnOUyKE1BZiXsrkgYQvAIqCTbGR41FF8lyTwxUM9KBbwrdbU6gA1RJd2tn2l6Ps1gpop4uWRPu+Pq2bovOKvxkLNru/ORGmqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751614001; c=relaxed/simple;
-	bh=APlujz3QqBIHliCa5cLij1ddIwxT5n25Q5hISvN8bJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pr/RlXpwyJJH1A5CK6PuhBf2ZRuLyiSdjAI07mF59CgmhaCnbB3s/6A0k4auNnQEym0aaBeIM5Qfk61Kwf/ivaS5lwJElqU12sSiPII9zvbfl7qi5cfTQvyjRcviKVXc3xm3nBO9Mwb5sBHSFyHRRGLqGZ581SNAY6wHIBvKltg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foursemi.com; spf=none smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=18.194.254.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foursemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foursemi.com
-X-QQ-mid: zesmtpgz9t1751613992t6c49a589
-X-QQ-Originating-IP: NKnTRTQqlnTiWFdThzYKqoMVdamEtqPW1awdNrhl788=
-Received: from localhost ( [183.17.231.150])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 04 Jul 2025 15:26:30 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2485475499401928861
-EX-QQ-RecipientCnt: 13
-Date: Fri, 4 Jul 2025 15:26:30 +0800
-From: Nick Li <nick.li@foursemi.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
-	tiwai@suse.com, xiaoming.yang@foursemi.com,
-	danyang.zheng@foursemi.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/4] ASoC: dt-bindings: Add dt bindings for FS2104/5S
- audio amplifiers
-Message-ID: <021E47BD8882DB2D+aGeCJvwdYAs8pny9@foursemi.com>
-References: <20250703035639.7252-1-nick.li@foursemi.com>
- <20250703035639.7252-4-nick.li@foursemi.com>
- <20250703-primitive-puzzling-toucanet-2c4870@krzk-bin>
- <6e209f3c-1d24-4669-8a51-3b651a28420c@kernel.org>
+	s=arc-20240116; t=1751615682; c=relaxed/simple;
+	bh=ygYb2C6/ZqATeJsBP/wXtZvBgqy/5CPElmXHxYKwYuY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AuLK1m3JHrzwIZU+LoqcUjWfkvQHn0HkaQisKxWucxCBNIXI7EEkiT+Qev+1xfFCWdachgVFxUSKACt3NYgewXNRL7Fqxn9SM6KtxgKdQH0JNtM6RIHmBY4CVU+1maOkBqeTpFqi3j1pmr0FEM/pNae5Mwj2Z1oJq+7fm6EZLu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FHzcRjXf; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FHzcRjXf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751615681; x=1783151681;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ygYb2C6/ZqATeJsBP/wXtZvBgqy/5CPElmXHxYKwYuY=;
+  b=FHzcRjXf8Y2XI/NvlLX80+DhXe+RsVFEQQ4z3v1sdS7mylEhv65cfYVN
+   2sEBuk9Qs2Tl1Hk1SVYFKUVE9o8WYaOzLizbWxfkv6Cy5s5xeDYm9Sldl
+   oyaT3NesEkMZTAYD61WT7seaPU9n20btJAlF9VW3SRh18brs/e/7IvTHb
+   qWMCQ3kg9JLw2h6wgY5wu7uzMZAht+EePkgkh+Bi58NQ4/90zIX+05Rab
+   /9sj9953dNhdudbxq9s146dUeZII5TU/ogsFT/HbBPa32uaeAwK3fW0mZ
+   7RIGHlSQMmYZNtLJgsxY8qoRku9cxi/9spbHWtGBbgIrt+hbXPE7YvgzO
+   Q==;
+X-CSE-ConnectionGUID: 4ILEyjmHQ5qeVTbBQX7rWg==
+X-CSE-MsgGUID: Yc0Qk4coTUOm15P3baPhoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64194108"
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="64194108"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:37 -0700
+X-CSE-ConnectionGUID: W13V4ShFR1exPlMYQThahQ==
+X-CSE-MsgGUID: +kgQWxw6TLS1TQNnKQeflA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="158616557"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.244])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:34 -0700
+Received: from svinhufvud.lan (localhost [IPv6:::1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 7595E44433;
+	Fri,  4 Jul 2025 10:54:32 +0300 (EEST)
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Lee Jones <lee@kernel.org>,
+	James Ogletree <jogletre@opensource.cirrus.com>,
+	Fred Treven <fred.treven@cirrus.com>,
+	Ben Bright <ben.bright@cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 42/80] mfd: Remove redundant pm_runtime_mark_last_busy() calls
+Date: Fri,  4 Jul 2025 10:54:32 +0300
+Message-Id: <20250704075432.3220321-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6e209f3c-1d24-4669-8a51-3b651a28420c@kernel.org>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: N+fE1vV13phxkowNfXZi+r2Gy6mcLoj5UqbV1FxQpaQH/5HJ3rPlamg1
-	miYAlC/4WQcWFe+GX91lVy0kjDQDioZQ4lwLgd01b4vLT6wxB4h+OuM5hGdD/v1gGN5T0+J
-	xuxuxbRJc8r2yZZqtDxUnzgdPgZoXUGg2iytl1adr6xRu/fymESwin7zkZslLrAAf6CrsSr
-	BCxfVOzN5BBe8NL6Ihv54rHZnInT1giGaspwhdY165L+TtfDc20Jm7xqBgcig+r3WYB8SCp
-	mq0MlF5iYUf0LnW/sQGqQGpso2k/qIKusMW5+JgIBcfanbLI+6FtbIPSZZkg/nnzo3wDuYa
-	YpuDBmAl4LgFpjbwM5KwSmScaBko2rXwz4BbfrBpdp58WKzmDJk5A1kMHQPEb2COIHTbMkV
-	hQCjtjb4nTvdgbXjLZ7ZLnRimf6ATPOwm6ElEd79WvPLy1JgGXZzjy11WrOQy+2sW50OH52
-	0V7bHMbXmEp07UGY1w2GztPysT4hnCBsyLxzGEy6Ijo46T7pE1nKatXvt8mXrY0hPJHpbEl
-	vh93Z7FcNdwQxzFwb2JqvGOOnzvX32BeozUBBUvW+R99+bzdxPmyTYg3LQncmHS7oOfy2wV
-	S4WpqEjH51saBZ2fGFYVPSdefr1Vsenb/SH+CbZProjTK+of/BhmE71Gn4MMn5hv1u/W4br
-	yswknyR0KWrYiW/KQYNphwpl288GflzBhiNzZ4yhVGIPaLQFMZqvFa3uebKLf3J7b052zOh
-	JCH4oU9j2LbImL2GOaKbOx+SoRf0ByPs0NT1+jV3lQcg4R/0Xari5+ATvqpdLipGmkCgeCb
-	7PQfZRP9w41QZ2PjjAcrIwzpGX2TFnRG+3ipcusW91pA0rXu9gVCgQMgicXqqXSxCGJ7HDy
-	kFUOv2g/6JinniOOR1qXtBh/BhYEpaPUOtmS/8k2opxOW2CYMVfuOHoASJu8a7dciWrxeXv
-	GXuIvL3k9bBC8gAee0OU23FKzXAwRSBvdZEcDPzV2MenD0TOE7sWxTuXAQfYgjwvINjA+L+
-	NplVVcFZQPcGRXyelKFDbtqp003lRx7fwEug2HdxpELrAEl1WUZKsfMegTww/WKDbi+ppoF
-	FI0VqCpf82QeYj7oXjXf/2xdzdzFIDV+CBEvg4XQEAa4VtgIWoiXi2vAIxeUxv22pTONVoE
-	RVBDTJO7wONu9QwEEK90VOeKIVZiElu7nwYW
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 03, 2025 at 09:15:36AM +0200, Krzysztof Kozlowski wrote:
-> On 03/07/2025 09:10, Krzysztof Kozlowski wrote:
-> > On Thu, Jul 03, 2025 at 11:56:38AM +0800, Nick wrote:
-> >> From: Nick Li <nick.li@foursemi.com>
-> >>
-> >> This patch adds bindings for FourSemi FS2104/5S audio amplifiers
-> >> which can support both I2S and I2C interface.
-> >>
-> >> Signed-off-by: Nick Li <nick.li@foursemi.com>
-> >> ---
-> >>  .../bindings/sound/foursemi,fs210x.yaml       | 95 +++++++++++++++++++
-> >>  1 file changed, 95 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/sound/foursemi,fs210x.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/sound/foursemi,fs210x.yaml b/Documentation/devicetree/bindings/sound/foursemi,fs210x.yaml
-> >> new file mode 100644
-> >> index 000000000..3a1aba9b8
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/sound/foursemi,fs210x.yaml
-> >> @@ -0,0 +1,95 @@
-> >> +# SPDX-License-Identifier: GPL-2.0-only
-> > 
-> > Please run scripts/checkpatch.pl on the patches and fix reported
-> > warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
-> > patches and (probably) fix more warnings. Some warnings can be ignored,
-> > especially from --strict run, but the code here looks like it needs a
-> > fix. Feel free to get in touch if the warning is not clear.
-> 
-> 
-> One more thing: Drop "dt-bindings for" from subject.
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+pm_runtime_mark_last_busy().
 
-OK, update it in next version.
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+The cover letter of the set can be found here
+<URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
 
-> 
-> 
-> ... and that was my third email today... I apologize I did not send
-> these as one review email, that's not really professional from my side
-> but somehow coffee did not work good this morning.
-> 
+In brief, this patch depends on PM runtime patches adding marking the last
+busy timestamp in autosuspend related functions. The patches are here, on
+rc2:
 
-Thank you for taking your valuable time to review the code.
+        git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+                pm-runtime-6.17-rc1
 
-Best regards,
-Nick
+ drivers/mfd/arizona-irq.c  | 1 -
+ drivers/mfd/cs40l50-core.c | 1 -
+ drivers/mfd/cs42l43.c      | 1 -
+ 3 files changed, 3 deletions(-)
 
-> Best regards,
-> Krzysztof
-> 
+diff --git a/drivers/mfd/arizona-irq.c b/drivers/mfd/arizona-irq.c
+index ac2139597fab..3f8622ee0e59 100644
+--- a/drivers/mfd/arizona-irq.c
++++ b/drivers/mfd/arizona-irq.c
+@@ -152,7 +152,6 @@ static irqreturn_t arizona_irq_thread(int irq, void *data)
+ 		}
+ 	} while (poll);
+ 
+-	pm_runtime_mark_last_busy(arizona->dev);
+ 	pm_runtime_put_autosuspend(arizona->dev);
+ 
+ 	return IRQ_HANDLED;
+diff --git a/drivers/mfd/cs40l50-core.c b/drivers/mfd/cs40l50-core.c
+index c91bccda0858..662d987b650b 100644
+--- a/drivers/mfd/cs40l50-core.c
++++ b/drivers/mfd/cs40l50-core.c
+@@ -531,7 +531,6 @@ int cs40l50_probe(struct cs40l50 *cs40l50)
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Failed to request %s\n", CS40L50_FW);
+ 
+-	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
+ 
+ 	return 0;
+diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
+index 103787f37443..07c8f1b8183e 100644
+--- a/drivers/mfd/cs42l43.c
++++ b/drivers/mfd/cs42l43.c
+@@ -962,7 +962,6 @@ static void cs42l43_boot_work(struct work_struct *work)
+ 		goto err;
+ 	}
+ 
+-	pm_runtime_mark_last_busy(cs42l43->dev);
+ 	pm_runtime_put_autosuspend(cs42l43->dev);
+ 
+ 	return;
+-- 
+2.39.5
+
