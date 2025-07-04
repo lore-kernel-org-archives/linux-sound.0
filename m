@@ -1,91 +1,97 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82AB1FC8
-	for <linux-sound@vger.kernel.org>; Fri,  4 Jul 2025 03:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE6727454
+	for <linux-sound@vger.kernel.org>; Fri,  4 Jul 2025 03:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751598193; cv=none; b=Aqwi7fPP0DfJqIfCPiNoQ33CazEXIucNvfFgfaSKtZ5RosBUjO4DriPzTsgom+87KEdPj0v5jMmvmzzm+MmFX6jTmiFUpnAZeAJK6j38c7l3Mfg1mOvlZWxSFOlrlZPWE0MOoI+OsaJAwmNPNNE05n+9s2YkIxZFRiIoosiqc7o=
+	t=1751600375; cv=none; b=nkZKl0vDB0l/N5rVNivff6YHTrl9Fk3e8wXVSOdmfQGcyf4OIC+LwSrq0iyXji2fpzkvZd2pjFxdRgNBIwwwUPenWPmQW+h8j7K8yvSs+Sp7Og/bKkrTVaT+XIeV8E5G0LRc/wKCoO1BxKzspLq1aXh2g2Cz0s1Gxw+gar2zz3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751598193; c=relaxed/simple;
-	bh=Cht98qCDEr34tjWOyoeQT5oQk/0EC6hZi6vOCH6lbCg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QquGFJcjy/uIKNui1iSC3y5gi3RP9NroJa508PmjEuGu83t0YlK3eISVI1lZfA0ueMoK9fAWNPXys4qNwOSp5hW++yx8Fp5jGmNdapChWhh7Nuz4X3a0Fj/na4sa3COYI/TDkDuLlfUsIibC3WmPQOpyxgshmUOb4egj9jn/BP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fp4jeJaA; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751600375; c=relaxed/simple;
+	bh=FDt34RbEYo0vqpY00U9ijTPtHhHk6iMis9c9F4GmtsA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dyePeA7M5gdf6vlqdUuK54WE7zcCKKCqpMkY24Bv8YkOXkeWj1NmuUyI+/euIFeM0SUw6uFoDWQ0mQ0qCRF9CevlMCP7oJ62EikX5o7nSmjQP1xVPGIX3V5TMUVXVVYC6XpO03PblniUgUnZteauzCaBDNonAhFplCxsB4D1tH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OLuVguGL; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fp4jeJaA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751598190;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IgUqdYxBQTZlOw6DSwEk1Ly2z/RL4ZtAN9t9nZ4wSSE=;
-	b=Fp4jeJaAwXyyyrk08MkXyUXvrI+9Ncy7s4yXY1pSPa6IZ5+unuajRtX/0mlgrB8o/h2Wad
-	JfOYluSK07pICT5KB1KUSbBKz7IYeetqPsQw58JpdXB5TKmVl4gy+ti05Iz0kMgtl7y7Wk
-	RpbI96mbaH+wuqAMMJg3qzJHLHrOzKk=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-37-u_wzOsKtMQy1s7tetkDQJA-1; Thu,
- 03 Jul 2025 23:03:09 -0400
-X-MC-Unique: u_wzOsKtMQy1s7tetkDQJA-1
-X-Mimecast-MFC-AGG-ID: u_wzOsKtMQy1s7tetkDQJA_1751598188
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BA608180047F;
-	Fri,  4 Jul 2025 03:03:07 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.22.64.120])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3A4FE180045B;
-	Fri,  4 Jul 2025 03:03:04 +0000 (UTC)
-From: Seiji Nishikawa <snishika@redhat.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	snishika@redhat.com
-Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for ASUS NUC14LNK with CS35L41
-Date: Fri,  4 Jul 2025 12:02:32 +0900
-Message-ID: <20250704030301.1495639-1-snishika@redhat.com>
-In-Reply-To: <20250704023930.1492232-1-snishika@redhat.com>
-References: <20250704023930.1492232-1-snishika@redhat.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OLuVguGL"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-70e3e0415a7so5740707b3.0
+        for <linux-sound@vger.kernel.org>; Thu, 03 Jul 2025 20:39:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1751600372; x=1752205172; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FDt34RbEYo0vqpY00U9ijTPtHhHk6iMis9c9F4GmtsA=;
+        b=OLuVguGLapU1DVOBXQr9TBFMHhyCcKPUQgw3gVNYXZZwmf1ze0ywI4wVFzzcEKA/5G
+         M+nNeJbTY2CaeiFKXBTiGvtf2XdTOmx/FWz5zZZiTZeHt5TFiceJiVebT8HCilKamrJ6
+         Oec30N+6wTY9iZucF63UK1VorYhFPa2ytYzp8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751600372; x=1752205172;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FDt34RbEYo0vqpY00U9ijTPtHhHk6iMis9c9F4GmtsA=;
+        b=YgaH1kfk6S6iOpJd8mrsoQq76XYRg+2sUxkPTAlc0xcdgtzFUY5ROKy66X6Gu+qqcF
+         SMtNo9tezpQgjyASSZl5LVlUHKBikgtMFf8nAEUsuNKGFckzWKwcg+t8ZtFLBauKpOYF
+         HV+dZoWhdOpXei5l/KpSKzYDzBoKunF0VmzPQy9ntxA4ojVEVdezh3DuJxCO9ilH4C2I
+         m+kPUEhdea25JSzOhk+OyrqcdkBDJzlcF4Xg/WJ5sy+En9dpK649NDByQfPWlrkWAd9J
+         OU2CZ/WBbrdGAf5d/WwvXkA2btni5OyYu7wz/fjtprtNnwJdds70Yz8gqAP+q31y04+P
+         ZOeA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+6iERgM5FNhVQ6lc9Z0ZAv/+YUL17CTjR/1txgdL9nX16bg5WMKtRJuVRtc2Eb5M74XQk9ulu+Fswsw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGYvry6Td/3XLel1FlBZirMegUKPLzdIWhCtCk+bd8Xmow5oDI
+	XXEBgHXldp5rd67lj3S0p1v8tXXArgFvxRRUOXrngAO48w6rPMs9DFmLmlmClYvJJ9S/7f4tlO8
+	I902sueZVR9OZhOvKNHl5Ye8ANo84Niac1tYgeIgC
+X-Gm-Gg: ASbGnculM5qb8DYrbU7TuQ5OyTtIlXkgpxHmvbOVEKeLxFnjoNu+4RNa+yqRwuIHtyD
+	1JawuPGHiROjsUvwyqPO/s9JoFQtxxx/g0pyuXDfmwuX3F38AXGkSoMoRIalset3FYXFte0T/n3
+	DOROvZe5fqERBc3kmRllYvrAzgeqV1dt9u8CkkCeWFn5aD
+X-Google-Smtp-Source: AGHT+IEpv4/ABsyEPWBaSbnhDaxcTMMoASH0qOMAb1EUBzfvoB9Rs9KL0TsrqeATirMWAbb6GqIiVFu78+U/gU30DoM=
+X-Received: by 2002:a05:690c:46c5:b0:712:cc11:aff with SMTP id
+ 00721157ae682-716672d3d02mr24980587b3.11.1751600372350; Thu, 03 Jul 2025
+ 20:39:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+References: <20250703183523.2075276-1-robh@kernel.org> <aGdAmGGPDA71rDE3@google.com>
+In-Reply-To: <aGdAmGGPDA71rDE3@google.com>
+From: Cheng-yi Chiang <cychiang@chromium.org>
+Date: Fri, 4 Jul 2025 11:39:05 +0800
+X-Gm-Features: Ac12FXx1clDJs40GrPtAnmhl7h9XO9sxxgXTs_ThD6wPGcXtPD9F4XTO-6ZiN-s
+Message-ID: <CAFv8NwJcwD0wqJAoe99M+dQYA383n0g9U+5+Z77uuQ2d=Ac5pA@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: Use of_reserved_mem_region_to_resource() for "memory-region"
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Benson Leung <bleung@chromium.org>, 
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, chrome-platform@lists.linux.dev, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	sound-open-firmware@alsa-project.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add support for ASUS NUC14LNK system which uses Realtek ALC245 codec
-and CS35L41 amplifier over SPI. Without this quirk, the amp probe fails
-with -EINVAL and no sound is initialized.
+On Fri, Jul 4, 2025 at 10:46=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> On Thu, Jul 03, 2025 at 01:35:21PM -0500, Rob Herring (Arm) wrote:
+> > Use the newly added of_reserved_mem_region_to_resource() function to
+> > handle "memory-region" properties.
+> >
+> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+>
+> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-Signed-off-by: Seiji Nishikawa <snishika@redhat.com>
+Thanks for the patch!
 
-v2: fixed unintentional formatting issue in subject line and commit message
-
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 5d6d01ecfee2..7ce54db56354 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -11084,6 +11084,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x8398, "ASUS P1005", ALC269_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x1043, 0x83ce, "ASUS P1005", ALC269_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x1043, 0x8516, "ASUS X101CH", ALC269_FIXUP_ASUS_X101),
-+	SND_PCI_QUIRK(0x1043, 0x88f4, "ASUS NUC14LNK", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x104d, 0x9073, "Sony VAIO", ALC275_FIXUP_SONY_VAIO_GPIO2),
- 	SND_PCI_QUIRK(0x104d, 0x907b, "Sony VAIO", ALC275_FIXUP_SONY_HWEQ),
- 	SND_PCI_QUIRK(0x104d, 0x9084, "Sony VAIO", ALC275_FIXUP_SONY_HWEQ),
--- 
-2.50.0
-
+Reviewed-by: Cheng-Yi Chiang <cychiang@chromium.org>
