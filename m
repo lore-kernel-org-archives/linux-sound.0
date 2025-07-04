@@ -1,112 +1,85 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B29520F08C
-	for <linux-sound@vger.kernel.org>; Fri,  4 Jul 2025 20:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4999A2E36F1;
+	Fri,  4 Jul 2025 21:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751659250; cv=none; b=sPi4fBU7tOIYSACA65VUlGPFtYjeX30MX6iOolJhOGxcsiijq9olDwXhMx/83SapX1gJcITNJZ2XW5lKiE/FPfKtzPZI4C2cGtHqU2MGs4Gic2sBh6rEJL505MHiJk3LX8FBsuNzZIzrQ2u6rVjEhswIhv/32zhqNKpMsH5UiAw=
+	t=1751665343; cv=none; b=IosySC5d1M/ho0ev+DEdjb84C7aUpc84mffirdAaaHb7GI9zy2r4Gy+eLiYculQ5lpafFUI+W9eDbMS29G3y1YWHI8bU8BsJLMuaX3n7FaoKcoubguPuGFTPRFpLH0dbw9JXSADiGgyPoaX3l8xLAfBBihmeLCxfyyBSjHKXvI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751659250; c=relaxed/simple;
-	bh=aeB4oXRcQ8OAUIyfIF7uQHmd/L4CEVP+RnGStMaB3x8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQR3D5V47PMECiqha3gnm0RY9JrUXM1GERAN8OsvTRqhW15wccpRCpkdH6m/ca94zN83uSoKWWKoOLqfAlKSrwOvq9GyWhwtiXnjLrnlysFQXBnynDErX+viBmqIcsFaXzvWBxhscIBh3wJ8AX2AMzod0wlXBEynrkhsyjRTuCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hTjESYOR; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1751665343; c=relaxed/simple;
+	bh=6yn4rMYivw3/KIBDGpK476SEiUbXY5TLmhWSBFNrfuE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MoHS741vRbRW+NA4eKmhv0sI1G+O6DEOJ5PyL/meAGX7/S7FZ6820ZPK5z3hzUsk1qUaartfhTjoiAUX5FgVJJUtuClJC37WIIeGYpQq9HqY9mSrymsvQU27Q7SMnTVAr1WMnzkGqsUHj5deBkHkk2tMNnXdCiTHy7Q4fnFfNr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XM0YJq5c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hTjESYOR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=p07v
-	3z9Zd86AhBvzQSDg2PZ0BEIdAQ9soxmB8U1OvxM=; b=hTjESYORW3CClSzVaoMJ
-	7ba5ISXy/Q3Qdmn5qy+3jnBk6PwLi5iNc6mnTg5Qe99AkLHzzTLDqLxli5cWmhZY
-	r+JHJEWVSq/oJ2jTf+TaJb7Rf6yOo7D7KsVRHgYQVSfSCp9s3PWa3cO2pKXqomzB
-	KtWVu4qcWIu4o7EB3hoa+dk0wfqBQIQ5p/Me236pZl1DOQUQdrKbzi2ihcmT6lHa
-	WiIDjJnVQJ0Ba1F59d81uxmbOpW84gbO1qmQ+zIOPZbD+K9HqmiM12wsU34TZzYs
-	PhH1zCBhtuGVPVZ8WXP1FNU60gLlbU57JtZCU+Bc4sDcpVa/ypUjI/WfLhtR8LTU
-	rg==
-Received: (qmail 255534 invoked from network); 4 Jul 2025 22:00:38 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Jul 2025 22:00:38 +0200
-X-UD-Smtp-Session: l3s3148p1@sOOn8h85+okujnsj
-Date: Fri, 4 Jul 2025 22:00:37 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
-	Claudiu <claudiu.beznea@tuxon.dev>, linux@armlinux.org.uk,
-	gregkh@linuxfoundation.org, david.m.ertman@intel.com,
-	ira.weiny@intel.com, leon@kernel.org, dakr@kernel.org,
-	len.brown@intel.com, pavel@kernel.org, andersson@kernel.org,
-	mturquette@baylibre.com, sboyd@kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	mathieu.poirier@linaro.org, vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
-	broonie@kernel.org, robh@kernel.org, jirislaby@kernel.org,
-	saravanak@google.com, jic23@kernel.org, dmitry.torokhov@gmail.com,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
-	bhelgaas@google.com, geert@linux-m68k.org,
-	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	fabrizio.castro.jz@renesas.com,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v5 0/3] PM: domains: Detach on device_unbind_cleanup()
-Message-ID: <aGgy5cLWiGcYaEYp@shikoro>
-References: <20250703112708.1621607-1-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFoznqfdX7Dvu3VPa5Me10VHGphnRRHrU17w-fie7HrQ5g@mail.gmail.com>
- <CAJZ5v0gH9ZAK9br58KB0VEtG+4VdwO7vEKtrKbpcYOKnZPf7bg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XM0YJq5c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E48C4CEE3;
+	Fri,  4 Jul 2025 21:42:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751665342;
+	bh=6yn4rMYivw3/KIBDGpK476SEiUbXY5TLmhWSBFNrfuE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XM0YJq5cnTC5wgCVzcz7ybjl9cDO99a5Y/IaR/r+mzhuujwQ+auUqC9+YjdZxU52r
+	 sQwj+fWy449ni/DgMFpqesdt7Ts8ksrcg8PaCXQ6X8T96UbZ/SHMWqxSTgvSYWPdTl
+	 NO/LVxPA6PhBgoJuPVoIGnIoACVF+e9LvT5gvo1dzYqv9VWNZS8C7zN8bpRuyHJag6
+	 RKVfNBYORdblAAiUq2iyhyaMZDcib2cUv1mpSpB/CwRaPuPlVaCKNX8Il86/k2l30b
+	 fF8KtrkFQPiauAN+By2oECOr8BEfHwAy47CMfP+r1jnwWpNa9JTFxTqe/1HoS48m93
+	 aCcJQRgDu8ZDw==
+From: Mark Brown <broonie@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Peng Fan <peng.fan@nxp.com>
+Cc: linus.walleij@linaro.org, brgl@bgdev.pl
+In-Reply-To: <20250704130906.1207134-1-peng.fan@nxp.com>
+References: <20250704130906.1207134-1-peng.fan@nxp.com>
+Subject: Re: [PATCH] ASoC: codec: rockchip_sai: Remove including of_gpio.h
+Message-Id: <175166533831.206730.2590873270491527384.b4-ty@kernel.org>
+Date: Fri, 04 Jul 2025 22:42:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fH5YvR5XnWRLoSCZ"
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0gH9ZAK9br58KB0VEtG+4VdwO7vEKtrKbpcYOKnZPf7bg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
+On Fri, 04 Jul 2025 21:09:06 +0800, Peng Fan wrote:
+> of_gpio.h is deprecated. And there is no user in this driver
+> using API in of_gpio.h, so remove it.
+> 
+> 
 
---fH5YvR5XnWRLoSCZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > The series looks good to me, please add:
-> > Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> >
-> > Rafael, do you intend to pick this via your tree?
->=20
-> I do in general, but I haven't looked at this version yet.  I'll get
-> to it early next week.
+Thanks!
 
-For the I2C part:
+[1/1] ASoC: codec: rockchip_sai: Remove including of_gpio.h
+      commit: 571defe0dff3f1e4180bd0db79283d3d5bf74a71
 
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---fH5YvR5XnWRLoSCZ
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmhoMuEACgkQFA3kzBSg
-KbaGFBAAm10gs13N1AdPHST1j6hXR+tNypeS5BKbZ+zmyASGICTNP4lWWXPPeQSe
-DTyN4qJTJbTF4AgWp7EMST8L7TsxVTgx1Od6gb85sgGujMuKQ+veduuh7jLPl8Mm
-bwaP6BdkuodLNT9jNSGxG+2R2Z9jbKKL450e7VO8AXSiF3/H2CsGY9Awatdc0Msw
-i6cfmK0BXy7gyumKnAjISaGGIQxALwdbwAH0QeclCsHCtnjxB8u83FAMx/R22WDT
-Mn60COq6xMPYmZNCeCy2BxxoBo2skLpLw7ksgBp+cSsJBNIRq+G4iiux1RtTPKqT
-Db3aGgAdWyYy0Fxbd8avkZzQ2+Khtp18vKvSQYCxSCPxeZz/xyatLwYUUFO/kfzX
-5iUk0hrrQ4VRUfTAewY0/7NDtwp042Lfo2pWclyXW43UqNl93xwSXfYCQg7aKA9s
-B2iL0H8OAJIWTQhw9b7M4fXCgUaGlXrSzD8Ro8iuEKe6zyDWHBF1PufExTYq7w62
-GUgYeaLYg4Cg58h23Ar0iLvjvZ6eEcieHHd5VNFH4l3mDVrrjZnVI65YBjIsveXf
-7EBpNBKXISI6B94Rzcaz/dUin3ghl0tPkix/xFbweInSRxgajfnGiKk4RZ+3UtaL
-WO7fI/30J3na+ki82GylH26E4ftVwez5QXv103slsdXZRwY/DdA=
-=f5Md
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---fH5YvR5XnWRLoSCZ--
