@@ -1,135 +1,215 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954E419F115
-	for <linux-sound@vger.kernel.org>; Fri,  4 Jul 2025 14:18:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A9542A83;
+	Fri,  4 Jul 2025 14:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751638724; cv=none; b=OnH2E4w/WvEjEV6KBLxfnJMtkclrOFfeLvBks98zXQBueQWhN/ZMupn5DtcwZumlE8+g/YRF9UL7OCDjkbkk3EnlBYXlPK0YCxsVeGGXLJCbaziqt8u3u77XZgbvxMeXZZ/FjmCLFgzzYKvkOz+NfSlDEmK8KcKTL3iI7Z0JKk0=
+	t=1751639860; cv=none; b=JfrJkeKOQMfHJwL3/JHw7N8eYcK7i20bfc5UNnlyMj570U50tD+TLA+5ZHuyTIFNACvEfmNbo2ox77xyHPe+8sPTbfCylMDZrvtNItSLtxREqloBJ/E53C9bAOKMktKgTOTqzsEdLRpPXAaAeavUQ05AbXOn6K5PMwwGnKqz2Fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751638724; c=relaxed/simple;
-	bh=yKb5SrhL6MrA+CsE4Jh/Jd1VRcCRTY2ajGhaIxgCk1g=;
+	s=arc-20240116; t=1751639860; c=relaxed/simple;
+	bh=b/7DF43NShQz0jj5KS0cUtXQl9ATq8leuWFS9jBryPs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J7F/ehB6xjuLKLPTQJUDm2JDpxF2e2Hn1xhXIXvCQT1UBRGLPY+IUM1k/1a5KvkEB5EjIu7pDsltax6FuXCpTE4qnIL4tvuoonN5sG6Fr5/tzl/wYk8D2154ikm63NQyn6s3qRgCt1TOVcKMd8OcpLuYALfIjW39i6ayyG2hF3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pNsLn6uq; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=lIEcGIWactYokUnjussMurq7xCVRLgA9rntV2hTJg2RntuweFlpGLNLWAfdi1ADftPDnL5hebx4gRqrb2cfB4tCqJHMzVfoAwtL3YODwMyKLK5bOWWS7+tvsIGZPjbG2G71Jrck89ES0ylxNZRxR5HJlhLKw05z/QnoX0tFpf04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azEE4WES; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pNsLn6uq"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 564BP99w010767
-	for <linux-sound@vger.kernel.org>; Fri, 4 Jul 2025 14:18:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=xREkybw2FDzvYMizFF8rWZ1X
-	RUqOCyiP8R0mJaXN15M=; b=pNsLn6uq4RZ3H8Q+RCuMq1AJRZwDznFhrdfcmATY
-	gVY30zS68KDJfwKvCDEDfRmOZyThi7JVmemTaMliFF7SQ9xhDy7/opU2X+/ClkTQ
-	tAF0Q6v95JKP28JtR2SIdTGyMLIF5srt+Rb78aKx0B+E9J/87uXAuuAf/2eJQhaj
-	aVs4DO9cPT+g1EZl4vw7VojK6i9B8TfjSQsIgzRYdm9uzl6clfl3+VNdBhJhZ0oV
-	B1Eeue3cbvuM7M9Bti+gMhlBnooRtIZnMqEf4vig9NyfiJw1Vpg6mBznD5I/Wah6
-	nIqf4jHApFVzOToP5D/zKVJyvKdmibkMA4Ipb0OROIUSCA==
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47mw30hax3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 04 Jul 2025 14:18:41 +0000 (GMT)
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4066ff1aab8so1096289b6e.2
-        for <linux-sound@vger.kernel.org>; Fri, 04 Jul 2025 07:18:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751638720; x=1752243520;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xREkybw2FDzvYMizFF8rWZ1XRUqOCyiP8R0mJaXN15M=;
-        b=jZJbumClgf/UHhzovfNqfqYuxREgGv8D57jUSBaQ/6D3suBmF56kCUwysKqhZ23GUB
-         T3+4hd588oKYTBNMFJ+GxPi0Ci46gvzmeCnplQd5Y3UUW0sotcMxZaEofp2d9Fl4vhJM
-         0fa25uvfwfcezrccyfeQw4o+3ZTADnxFAmlDJWl3KQBaBkI8p78Idg9cQdMKwsD2CUQl
-         8Ox6hOxoYgRBtOr9yaNfD6f0VnpQdjCZFJp9+Mb6660VYGC4q0f7qOUcMjHG5iPiKR5X
-         TRdOhGsIHZQefcfA8p7pnvhFsqr+6FJImpj04xXkUxpy0fgSY3HBvlycAVpdDSTJKFBr
-         UWkg==
-X-Forwarded-Encrypted: i=1; AJvYcCWqH76GdfeplIxj//l70wbENIlqFgVf4HNdaKhM0IQrxBlb91EDnfJu7Lg5Lv3QVE3HKZ2lP9aJxVNR6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxa30pX3mgTwCYc54WLTxaTCVh6/y3Quv+IP/yBxeA/DnRYHPAQ
-	xgV7CyQoazuv581pYVQwwxVntTYzL+VY7hCqIQJ0yTwQRsrEhdKhswSaO0VTzSW33EN7RDmNcp/
-	vV4m/Ilu2GPgxJKSr/FLKvVe3raGTSaz9bNs69P+vEGBW4c6h2Ggj3/2iyKAFUffJ6E6y/QL18e
-	V0
-X-Gm-Gg: ASbGncuXgT40z2TS2+L0yjQSrNGBmb725ds421vwHm4+mLxzLV534tvCk80cELBVmau
-	OsdeM8qUCFuurfroCtQ0Sm+RqBk+Z5lGE+hbXwfOQ/99bnjMcscG+j12X00wCR0LXqNa6VHUzpf
-	n9WvHP+/HWjp8azyhkj2R+G+ELffJyNtxYb1mioBF4PkqqqLDfFYFZzl7lFzyLGNe8Q2K6JBrJe
-	BpfX3vlziAzD14tkAXuWWLkF5a4bM53njVjdXgOOBW58nZ47RyASYJ2bFBCfOqB03m+Obb6sv8e
-	7bpEAFuV/6qo3VHCnd8SQCPR7Mh2EwyFHCY1+qiu0O8VyEnbQggfHvrZzIC+AqIYrb8v88U1xb8
-	/ti2vqOOx31dp+cYc0plwnei9ydmGjth2WVE=
-X-Received: by 2002:a05:6808:16a4:b0:40a:b141:8f57 with SMTP id 5614622812f47-40d0408094fmr1926840b6e.3.1751638720169;
-        Fri, 04 Jul 2025 07:18:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE55trtrcvfMvQ50U1in5p4/u5VIdRpePmzlTLLMw+K1L0TgUF2JLfaCgovy4RVVDL8Gwf5PQ==
-X-Received: by 2002:a05:620a:8014:b0:7d5:dbdc:ceef with SMTP id af79cd13be357-7d5dcc9a32cmr410173085a.18.1751638708650;
-        Fri, 04 Jul 2025 07:18:28 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55638494e29sm262902e87.102.2025.07.04.07.18.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 07:18:27 -0700 (PDT)
-Date: Fri, 4 Jul 2025 17:18:26 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: srinivas.kandagatla@oss.qualcomm.com
-Cc: vkoul@kernel.org, broonie@kernel.org, yung-chuan.liao@linux.intel.com,
-        pierre-louis.bossart@linux.dev, lgirdwood@gmail.com, perex@perex.cz,
-        tiwai@suse.com, krzysztof.kozlowski@linaro.org,
-        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] ASoC: codecs: wcdxxxx: use
- sdw_slave_get_current_bank helper
-Message-ID: <xglngdprknerf3uoeixiocagoml26kw4zcwrnmb7c25m3zt3ol@2vnglqifcb2e>
-References: <20250704121218.1225806-1-srinivas.kandagatla@oss.qualcomm.com>
- <20250704121218.1225806-5-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azEE4WES"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2C2C4CEE3;
+	Fri,  4 Jul 2025 14:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751639857;
+	bh=b/7DF43NShQz0jj5KS0cUtXQl9ATq8leuWFS9jBryPs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=azEE4WES2NQXRB3qc3wkHQA+59XdtsTY4YediiX1ZhgNgF8rDwMXtNJQZPHUIJhwR
+	 +BzLaYJiyauOFizJ0BhQCC3ulf5qXYNjU81+TOvK2uRpD226/8/Fp7BZ9a45Lgoltu
+	 3NOqFTyEx5SjuR8+mhYVGivgP1T7jsTZw9tN8gD/Asr8DexTezm3vuPlZy0Tcs+R33
+	 m5QwB1lXQU2Di3zBD1kfzeVgmZmyj+CDjY9ircZ/QCFadZT0iXHJoZUY7+6Kdd7D4O
+	 tPn59BD38gC5405lrdPVgMBKH3Y45DAb9TGRb4W11tEGNK/QrUldRyUAqSWMhgHuSJ
+	 2Sd3UvoeWeY1Q==
+Date: Fri, 4 Jul 2025 15:37:32 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Nick Li <nick.li@foursemi.com>
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
+	xiaoming.yang@foursemi.com, danyang.zheng@foursemi.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] ASoC: codecs: Add FourSemi FS2104/5S audio
+ amplifier driver
+Message-ID: <0370941d-63eb-4676-8a74-b8afef524376@sirena.org.uk>
+References: <20250703035639.7252-1-nick.li@foursemi.com>
+ <20250703035639.7252-3-nick.li@foursemi.com>
+ <b1ad15d1-bf9f-4b94-abb8-1e9c6d512987@sirena.org.uk>
+ <1C4720AC50797830+aGe3L70OToh6txmC@foursemi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/dy0sp4doMeEvLCg"
+Content-Disposition: inline
+In-Reply-To: <1C4720AC50797830+aGe3L70OToh6txmC@foursemi.com>
+X-Cookie: VMS must die!
+
+
+--/dy0sp4doMeEvLCg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250704121218.1225806-5-srinivas.kandagatla@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=CY4I5Krl c=1 sm=1 tr=0 ts=6867e2c1 cx=c_pps
- a=WJcna6AvsNCxL/DJwPP1KA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=XXM5SuZbuiGnn3J7RH4A:9 a=CjuIK1q_8ugA:10
- a=_Y9Zt4tPzoBS9L09Snn2:22
-X-Proofpoint-ORIG-GUID: -mnGzMW47S1urz1WF_G3zudzl1m_ydi3
-X-Proofpoint-GUID: -mnGzMW47S1urz1WF_G3zudzl1m_ydi3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA0MDEwOCBTYWx0ZWRfXy3LOV6i/9dsq
- TY9QHRa+peegqwtUzOCbDL9HMH4sX2cAQ1B36Zmgxb41Yu5qD3D2EL8pl1tunAo/yFwxTkSKJ4H
- 3Vi8+yLEuHvAwFir7P8+uUX0M+M9GUQUASBGCFUa3lDClTwoGqdR2b2qPM48WHz3N6fuOKwTKMB
- 0cs6mypYVyr6y4Ewdv9LCiQNwRYGNASjQZthmvS9+sJxeOu9C4EvH4JcXNRBNpvsv0jy7RTLi5j
- WwKdLm3mDsby0JNSy1B/u7RGUmBmw95J3iQ6aRL4lw9E7u8k/k7ll2gblNt2RUlv4qAw9TODiTG
- Yoi3HaP0w7m/GVFqgtFfevsS28ep0z/6XprI0rUclz4EYpv9WLiFVh6bE/3M6hNusTdmIKAjQWy
- KnvQQ0vxuEtogoeaPva9/3pdg6x/Z/jhPf4XynISMFMQ4wOg8HUCocP0Sm6IIxJnJ0fgA+aV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-04_05,2025-07-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=517 priorityscore=1501 clxscore=1015
- lowpriorityscore=0 mlxscore=0 phishscore=0 suspectscore=0 bulkscore=0
- malwarescore=0 impostorscore=0 spamscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507040108
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 04, 2025 at 01:12:18PM +0100, srinivas.kandagatla@oss.qualcomm.com wrote:
-> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> 
-> use sdw_slave_get_current_bank() helper function, rather than duplicating
-> this function in every codec driver.
-> 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> ---
->  sound/soc/codecs/wcd938x-sdw.c | 10 ----------
->  sound/soc/codecs/wcd938x.c     |  3 +--
->  sound/soc/codecs/wcd938x.h     |  7 -------
->  sound/soc/codecs/wcd939x-sdw.c |  7 -------
->  sound/soc/codecs/wcd939x.c     |  2 +-
->  sound/soc/codecs/wcd939x.h     |  7 -------
->  6 files changed, 2 insertions(+), 34 deletions(-)
+On Fri, Jul 04, 2025 at 07:12:47PM +0800, Nick Li wrote:
+> On Thu, Jul 03, 2025 at 03:59:34PM +0100, Mark Brown wrote:
+> > On Thu, Jul 03, 2025 at 11:56:37AM +0800, Nick wrote:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > > +static int fs210x_set_pcm_volume(struct fs210x_priv *fs210x)
 
+> > > +	ret  =3D fs210x_reg_write(fs210x, FS210X_39H_LVOLCTRL, vol[0]);
+> > > +	ret |=3D fs210x_reg_write(fs210x, FS210X_3AH_RVOLCTRL, vol[1]);
 
--- 
-With best wishes
-Dmitry
+> > This looks pretty generic, why is it not using a standard control type?
+
+> 1. We use regmap as REGMAP_NONE, because most of the registers settings
+>    are in the firmware, if we use a standard control,the driver shouldn't
+>    cache the registers after suspending the device(it will be reset).
+
+You can exclude registers from a cache, including excluding most of
+them, or manually handle registers over suspend/resume.  It's generally
+better to share the userspace facing interfaces.
+
+> 2. The volume registers of FS2104 and FS2105S are different,
+>    if we us a stardard control, we need two controls,
+>    and register it by checking the device type.
+> so we customize the volume control.
+
+If the different devices have different controls you should just
+register different controls.
+
+> > > +	ret =3D fs210x_set_pcm_volume(fs210x);
+
+> > The driver should use the device defaults rather than having to=20
+
+> The volume contorl can be used to set different volumes,
+> the volume will be masked in fs210x->vol[2],
+> we restore the volume when the driver resumes(reinitializes) the deivce.
+
+You're not just restoring the values on resume, you're also overwriting
+them on probe.
+
+> > > +static void fs210x_sdz_pin_set(struct fs210x_priv *fs210x, bool acti=
+ve)
+> > > +{
+> > > +	if (!fs210x || !fs210x->gpio_sdz)
+> > > +		return;
+
+> > Shouldn't this be integrated with the chip init/reset?
+
+> 1. We implement this function(reset and wait times) to clarify that
+>    pulling up/down the SDZ/reset pin must to wait enougth delay time.
+
+That doesn't really answer the question?
+
+> > > +	 * According to the power up/down sequence of FS210x,
+> > > +	 * the FS210x requests the I2S clock has been present
+> > > +	 * and stable(>=3D 2ms) before it playing.
+> > > +	 */
+> > > +	if (fs210x->clk_bclk) {
+> > > +		mutex_lock(&fs210x_mutex);
+> > > +		ret =3D fs210x_dev_play(fs210x);
+> > > +		mutex_unlock(&fs210x_mutex);
+> > > +	} else {
+
+> > This is definitely not appropriate for mute, it should be in the power
+> > management flow - either set_bias_level() or a DAPM widget.
+
+> 1. Because the device uses BCLK clock as the clock source,
+>    we need to start the device in the life cycle of the clock,
+>    also we need to start device after the PLL setting(set in dai->hw_para=
+ms)
+>    so we start the device in here: dai->mute_stream(unmute)
+
+All the power management happens after hw_params(), this isn't an issue.
+
+> 2. If the SOC(s) doesn't have the clock(bclk) for us to configure,
+>    It meams no clock bclk defined in the DTS,
+>    and the clock is activated in dai->trigger start usually,
+>    so we will use a delay work to start the device in here.
+
+> Any good ideas about satisfying this power up/down sequence?
+
+There's not great options here, and you're going to loose the start of
+playback especially with devices that don't start clocking until audio
+starts.  You really need the CPU vendors you're working with to
+implement SND_SOC_DAIFMT_CONT or expose their clocks via the clock API
+but not all hardware is able to do this.  I think given how limited your
+hardware is here you really need something in trigger() or some new
+callback that runs later than that, the delayed work you've got there is
+trying to fudge things to run after trigger.
+
+> > > +	if (!(status & FS210X_05H_AMPS_MASK))
+> > > +		dev_err(fs210x->dev, "Amplifier unready\n");
+
+> > Does this get triggered during the normal start/stop flow?
+
+> It will get triggered when:
+> 1. BCLK clock is closed before stoping device
+> 2. BCLK clock is opened after starting device
+> We should avoid these power up/down sequence, it may cause pop noise,
+> If they happens, it should be reported and fixed?
+
+If they don't happen in normal operation it's fine to have them, the
+concern was that this would be triggered during normal operation as part
+of the startup or shutdown sequence.
+
+> > > +	schedule_delayed_work(&fs210x->fault_check_work,
+> > > +			      msecs_to_jiffies(FS210X_FAULT_CHECK_INTERVAL_MS));
+
+> > Might be good to have this tunable from sysfs.
+
+> Good idea, or set the interval times by the DTS property.
+> We are considering adding a DTS property:
+> foursemi,monitor-period-ms
+
+I suspect the DT people won't like that since it's more of a tuning
+thing.
+
+> > > +static int fs210x_suspend(struct snd_soc_component *cmpnt)
+> > > +{
+> > > +	struct fs210x_priv *fs210x;
+> > > +	int ret;
+> > > +
+> > > +	fs210x =3D snd_soc_component_get_drvdata(cmpnt);
+> > > +	if (!fs210x || !fs210x->dev)
+> > > +		return -EINVAL;
+
+> > > +	cancel_delayed_work_sync(&fs210x->start_work);
+> > > +	cancel_delayed_work_sync(&fs210x->fault_check_work);
+
+> > > +	mutex_lock(&fs210x_mutex);
+
+> > We don't need to prevent new work being scheduled?
+
+> Could you please explain more details to help me understand and test this=
+ case?
+
+What if for example playback is starting up at the same time as the
+system enters suspend - the CODEC startup might get run after the
+delayed work is cancelled but before the lock is taken.
+
+--/dy0sp4doMeEvLCg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhn5ysACgkQJNaLcl1U
+h9DiFAf6A7muddYRG3lx+NR9agOvs68qIJX5nnNGk/wPu/lrWK1Ud+xoyySqmb5S
+6BI3TiGzt4bJxqrA3uhmPo+NnFEqy1SolCfrjknTIfnvn8MKGU6Hs+weFpSnPtHz
+RZ/JBUYIwQDfcjGD0KxnM7AF68WV0sCyWObJ7JdiTjGsOHzkf6sSFau4vKzjPrpC
+S3n0FXXOFDUqOThjb0l0pYo2cKZ5K0kcK258EKNMi/BXu4VH/xSfx09sdAkSBxL+
+sqxD/PKjfMCQwUs+ekOzJOd1R1KNz0lBSIHS+pJxxelKibZLwcbe0x3jFVPQiEmb
+Fteu2kGgWHh4nsj4peVrymTQkIpSTg==
+=kaxR
+-----END PGP SIGNATURE-----
+
+--/dy0sp4doMeEvLCg--
