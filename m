@@ -1,65 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD2D2E1C6F;
-	Fri,  4 Jul 2025 07:54:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2BF2F19BB;
+	Fri,  4 Jul 2025 07:54:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751615682; cv=none; b=OYTTEW81m/cMGGMwl11GI1QrH3UCTPkLGFDA9fz+/5otsQs727rTFxHZ9PyXj5oWiK+Rxqk/KXnnOUyKE1BZiXsrkgYQvAIqCTbGR41FF8lyTwxUM9KBbwrdbU6gA1RJd2tn2l6Ps1gpop4uWRPu+Pq2bovOKvxkLNru/ORGmqA=
+	t=1751615701; cv=none; b=ENPo1VKlZtKDGnmsw1COBpcUwFYYjzEumFm6ulvdUadHOJvl7HUU0AJT+2DMg4331lWKjJlnUM0fqhL7Cb32gwBRsUyPMQ40n3rhsQdfoMEQhyEURrXjG//QvGexFj2+7ScFBx95PjAS8cOb/7m9MGERrgKTL/FI3SblHInt8Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751615682; c=relaxed/simple;
-	bh=ygYb2C6/ZqATeJsBP/wXtZvBgqy/5CPElmXHxYKwYuY=;
+	s=arc-20240116; t=1751615701; c=relaxed/simple;
+	bh=CD/eY4E5aftpOmkmkmfmacRDuiFp5Va8bVZ1es2dJX8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AuLK1m3JHrzwIZU+LoqcUjWfkvQHn0HkaQisKxWucxCBNIXI7EEkiT+Qev+1xfFCWdachgVFxUSKACt3NYgewXNRL7Fqxn9SM6KtxgKdQH0JNtM6RIHmBY4CVU+1maOkBqeTpFqi3j1pmr0FEM/pNae5Mwj2Z1oJq+7fm6EZLu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FHzcRjXf; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=L8AYlLdD8TvP+0N5qtAZnwPTa09Cy6UtCA4JGng2+d29B9CNTzyRYJ7Pt9oitvyv5DCYa+++F5UrUW9mAd09j1WIAPHqla5mL9PYg8fVfRiMJY3NC+qkymT+tqkuMZYnA+gCfVW/kAylYcgB4B2o0FL7M2H9a6d92lIpgcE04Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g425f3NY; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FHzcRjXf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g425f3NY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751615681; x=1783151681;
+  t=1751615699; x=1783151699;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ygYb2C6/ZqATeJsBP/wXtZvBgqy/5CPElmXHxYKwYuY=;
-  b=FHzcRjXf8Y2XI/NvlLX80+DhXe+RsVFEQQ4z3v1sdS7mylEhv65cfYVN
-   2sEBuk9Qs2Tl1Hk1SVYFKUVE9o8WYaOzLizbWxfkv6Cy5s5xeDYm9Sldl
-   oyaT3NesEkMZTAYD61WT7seaPU9n20btJAlF9VW3SRh18brs/e/7IvTHb
-   qWMCQ3kg9JLw2h6wgY5wu7uzMZAht+EePkgkh+Bi58NQ4/90zIX+05Rab
-   /9sj9953dNhdudbxq9s146dUeZII5TU/ogsFT/HbBPa32uaeAwK3fW0mZ
-   7RIGHlSQMmYZNtLJgsxY8qoRku9cxi/9spbHWtGBbgIrt+hbXPE7YvgzO
+  bh=CD/eY4E5aftpOmkmkmfmacRDuiFp5Va8bVZ1es2dJX8=;
+  b=g425f3NY/I9nlhPezZAYC5Kqr1wSnto+YMyTg4KRmBsSFHzF4eI6hQ8+
+   4mZmll21NB6KpJqMo3tTzkUremB4A6NXCyWkcj4I44pzrq+t1N0FE+Yxh
+   5ZD28esGkc+muNw2QRpTMRAKRzlIo4xB/+AxUAG7XY87wtvpUr0wyLUY+
+   X3JUlEfmxnZGDm7/uqfOKdEeSluQ9YpGxu6CR05lJwgmRZL/0IM90WI1P
+   08CqRr2o9n91h8QMctgUPwaY1FfK203dRaqfOrONPiAmX+QmT5l1svocV
+   5TXIYuUYEWLPmjnHDGsqHWf+KdIMVsYB1jMFxD0JfDaG3LR1g7lpqSVxR
    Q==;
-X-CSE-ConnectionGUID: 4ILEyjmHQ5qeVTbBQX7rWg==
-X-CSE-MsgGUID: Yc0Qk4coTUOm15P3baPhoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64194108"
+X-CSE-ConnectionGUID: c24hsJkPTkajhvFpjScvAw==
+X-CSE-MsgGUID: Icc5SMMJQMOqTxyyN0NZdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64194245"
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="64194108"
+   d="scan'208";a="64194245"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:37 -0700
-X-CSE-ConnectionGUID: W13V4ShFR1exPlMYQThahQ==
-X-CSE-MsgGUID: +kgQWxw6TLS1TQNnKQeflA==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:50 -0700
+X-CSE-ConnectionGUID: 2OeTsEVeSxeGNOpmXS1ImQ==
+X-CSE-MsgGUID: Mz3xh9kTRweGeBXlGPGjBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="158616557"
+   d="scan'208";a="158616635"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.244])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:34 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:48 -0700
 Received: from svinhufvud.lan (localhost [IPv6:::1])
-	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 7595E44433;
-	Fri,  4 Jul 2025 10:54:32 +0300 (EEST)
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 492AC44394;
+	Fri,  4 Jul 2025 10:54:46 +0300 (EEST)
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Lee Jones <lee@kernel.org>,
-	James Ogletree <jogletre@opensource.cirrus.com>,
-	Fred Treven <fred.treven@cirrus.com>,
-	Ben Bright <ben.bright@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: patches@opensource.cirrus.com,
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 42/80] mfd: Remove redundant pm_runtime_mark_last_busy() calls
-Date: Fri,  4 Jul 2025 10:54:32 +0300
-Message-Id: <20250704075432.3220321-1-sakari.ailus@linux.intel.com>
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH 59/80] slimbus: Remove redundant pm_runtime_mark_last_busy() calls
+Date: Fri,  4 Jul 2025 10:54:46 +0300
+Message-Id: <20250704075446.3221540-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
 References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
@@ -88,47 +83,55 @@ rc2:
         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
                 pm-runtime-6.17-rc1
 
- drivers/mfd/arizona-irq.c  | 1 -
- drivers/mfd/cs40l50-core.c | 1 -
- drivers/mfd/cs42l43.c      | 1 -
- 3 files changed, 3 deletions(-)
+ drivers/slimbus/core.c      | 1 -
+ drivers/slimbus/messaging.c | 2 --
+ drivers/slimbus/qcom-ctrl.c | 1 -
+ 3 files changed, 4 deletions(-)
 
-diff --git a/drivers/mfd/arizona-irq.c b/drivers/mfd/arizona-irq.c
-index ac2139597fab..3f8622ee0e59 100644
---- a/drivers/mfd/arizona-irq.c
-+++ b/drivers/mfd/arizona-irq.c
-@@ -152,7 +152,6 @@ static irqreturn_t arizona_irq_thread(int irq, void *data)
- 		}
- 	} while (poll);
+diff --git a/drivers/slimbus/core.c b/drivers/slimbus/core.c
+index 005fa2ef100f..31751ee4e400 100644
+--- a/drivers/slimbus/core.c
++++ b/drivers/slimbus/core.c
+@@ -504,7 +504,6 @@ int slim_device_report_present(struct slim_controller *ctrl,
+ 	ret = slim_device_alloc_laddr(sbdev, true);
  
--	pm_runtime_mark_last_busy(arizona->dev);
- 	pm_runtime_put_autosuspend(arizona->dev);
+ slimbus_not_active:
+-	pm_runtime_mark_last_busy(ctrl->dev);
+ 	pm_runtime_put_autosuspend(ctrl->dev);
+ 	return ret;
+ }
+diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
+index 6f01d944f9c6..44197493010e 100644
+--- a/drivers/slimbus/messaging.c
++++ b/drivers/slimbus/messaging.c
+@@ -47,7 +47,6 @@ void slim_msg_response(struct slim_controller *ctrl, u8 *reply, u8 tid, u8 len)
+ 		complete(txn->comp);
  
- 	return IRQ_HANDLED;
-diff --git a/drivers/mfd/cs40l50-core.c b/drivers/mfd/cs40l50-core.c
-index c91bccda0858..662d987b650b 100644
---- a/drivers/mfd/cs40l50-core.c
-+++ b/drivers/mfd/cs40l50-core.c
-@@ -531,7 +531,6 @@ int cs40l50_probe(struct cs40l50 *cs40l50)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to request %s\n", CS40L50_FW);
- 
--	pm_runtime_mark_last_busy(dev);
- 	pm_runtime_put_autosuspend(dev);
- 
- 	return 0;
-diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
-index 103787f37443..07c8f1b8183e 100644
---- a/drivers/mfd/cs42l43.c
-+++ b/drivers/mfd/cs42l43.c
-@@ -962,7 +962,6 @@ static void cs42l43_boot_work(struct work_struct *work)
- 		goto err;
+ 	/* Remove runtime-pm vote now that response was received for TID txn */
+-	pm_runtime_mark_last_busy(ctrl->dev);
+ 	pm_runtime_put_autosuspend(ctrl->dev);
+ }
+ EXPORT_SYMBOL_GPL(slim_msg_response);
+@@ -171,7 +170,6 @@ int slim_do_transfer(struct slim_controller *ctrl, struct slim_msg_txn *txn)
+ 		 * remove runtime-pm vote if this was TX only, or
+ 		 * if there was error during this transaction
+ 		 */
+-		pm_runtime_mark_last_busy(ctrl->dev);
+ 		pm_runtime_put_autosuspend(ctrl->dev);
  	}
- 
--	pm_runtime_mark_last_busy(cs42l43->dev);
- 	pm_runtime_put_autosuspend(cs42l43->dev);
- 
- 	return;
+ 	return ret;
+diff --git a/drivers/slimbus/qcom-ctrl.c b/drivers/slimbus/qcom-ctrl.c
+index ab344f7472f2..880cf3081a20 100644
+--- a/drivers/slimbus/qcom-ctrl.c
++++ b/drivers/slimbus/qcom-ctrl.c
+@@ -695,7 +695,6 @@ static int qcom_slim_resume(struct device *dev)
+ 		dev_dbg(dev, "system resume");
+ 		ret = qcom_slim_runtime_resume(dev);
+ 		if (!ret) {
+-			pm_runtime_mark_last_busy(dev);
+ 			pm_request_autosuspend(dev);
+ 		}
+ 		return ret;
 -- 
 2.39.5
 
