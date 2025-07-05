@@ -1,109 +1,163 @@
-Received: from smtp.smtpout.orange.fr (smtp-65.smtpout.orange.fr [80.12.242.65])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942BA2E3708;
-	Sat,  5 Jul 2025 08:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B011824BD02;
+	Sat,  5 Jul 2025 12:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.199.32.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751703222; cv=none; b=I31Tol6fTKowdoj1stAGCdYz2pN+XWnHcNynO8DaQqOTAaa4HvWysW60RRmm4bCIBEZEqKtNnwRAvrUPlXjZDHOyj8DPkcjMmt/GwYR/XL0RHnWzPzRI+i8Bm8Odt1jN2da15KXq7FSeaovzbxsyDXXoP5QbV7D1lVh5yMmHhhM=
+	t=1751717313; cv=none; b=oSrTyFQbrgZsmkbhGkl4FoH913+Mkk53CObzSttun17WE2mz8kMvFp8fY3Q5rdTy2BvJM5m75JMyCh4Fi1dnZuQxGFnEAIllcq4sHcYh5iNSoku1g5f4J72wSMzwaNCa6rF4v3DMv9L5wDn/3+5fDv2KRU9qMtAjMfj7PWuutTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751703222; c=relaxed/simple;
-	bh=Diwz3sxzI9NChf/k2ekgjgSqB6LvFdPzKu2q9jD75Jk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rfvUANrUNFQvRk5ce7/gki196eCq+TYHcbcf407nXkZh9ZCvhncxyN25FiH4RAYs40Z4157Uhuy12fV4xR6pLV6Le8R6Mf5ukoHInNn9wgKvqMaZXdQqtAm/W86lFbXPy64Afl8EmGWfFtzfja1PWmWqSM71GLToLvayz5JqOiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=nJU+SYzM; arc=none smtp.client-ip=80.12.242.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1751717313; c=relaxed/simple;
+	bh=A5J52sFRgcKLNS5QZzA4CrA9ofZsvR818bxqKCmdmeA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=F6ASi1qKFU6bhmYMahkyHnJafaThgUB3cFeLreriA5AEXsKbsmY/qUUspPP/486RmQa+C2ljJSM3uuOafe6sLEszZadgDIrxyNXHrdAQ8yq0PXhjQ0708N/QUf8zyllyZK6GA/3W9kGxmI+TDToG3XbD7yLYlQ/Lr4nCdiAfz2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu; spf=pass smtp.mailfrom=lucaweiss.eu; dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b=gHawPyyt; arc=none smtp.client-ip=128.199.32.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucaweiss.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="nJU+SYzM"
-Received: from fedora.home ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPA
-	id Xy0au5r9q2WitXy0buPMeJ; Sat, 05 Jul 2025 10:12:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1751703150;
-	bh=IDZp6l5xw/oHRf5S1uAFtP428wpChGCpPW/ucIcbiWs=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=nJU+SYzM4HD/XrQLZ3iaT+Do+WWVzHyaksrtjIcFamUweVgAbklZsIJX29MUp+ZXG
-	 vSMj+/j1dL8JH4u2DbwValvwhKc2foovJqlgGhoMa2BxSY52K525AvoKuLO5L5jERR
-	 Wdvu39PWdIQ8eYL1FkrScaT7BRCcird9eAhogiYw7FkfYa3en7vekPN0ag448k54Pt
-	 mRP6x3xoh06OR7I2bGIhnjScyIR25AQfjsBEEA53ITsZa1cFA29RlaNm+VYe+dJVgl
-	 ndQboLgQ2CS3xzYjcr46ILayBI8fv1Y/KPkAOqmS8mxF/mowuddgUzoAOCzjxxeAIK
-	 1jjoEQfn/JbEw==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 05 Jul 2025 10:12:30 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2] ASoC: qcom: qdsp6: Add an error handling path in q6usb_component_probe()
-Date: Sat,  5 Jul 2025 10:12:25 +0200
-Message-ID: <1a3bf0ee02f880919190944e581bef2b428ca864.1751703113.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.50.0
+	dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="gHawPyyt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
+	t=1751716994; bh=A5J52sFRgcKLNS5QZzA4CrA9ofZsvR818bxqKCmdmeA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=gHawPyythyxiVvoTG6lpG12bZAsJxLZ5kyDEN4cN95sk0AfZ/mhCxCyRuhfliPn0L
+	 jWeA1sidC+SchqYBCvIB8bI7CdOXQUSE5pwqgGFfrLXM5odm5Obv9WGirDXbh1L912
+	 bFn7hYqWm4izM3ZG2EozoBK3joprGh2pynVssMPE=
+From: Luca Weiss <luca@lucaweiss.eu>
+Date: Sat, 05 Jul 2025 14:03:05 +0200
+Subject: [PATCH v2 1/3] ASoC: dt-bindings: Document Awinic AW8898 amplifier
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250705-aw8898-v2-1-9c3adb1fc1a2@lucaweiss.eu>
+References: <20250705-aw8898-v2-0-9c3adb1fc1a2@lucaweiss.eu>
+In-Reply-To: <20250705-aw8898-v2-0-9c3adb1fc1a2@lucaweiss.eu>
+To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Weidong Wang <wangweidong.a@awinic.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Luca Weiss <luca@lucaweiss.eu>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2397; i=luca@lucaweiss.eu;
+ h=from:subject:message-id; bh=A5J52sFRgcKLNS5QZzA4CrA9ofZsvR818bxqKCmdmeA=;
+ b=owEBbQKS/ZANAwAKAXLYQ7idTddWAcsmYgBoaRR/2kEQvxH8g3e8MdSMQTR0bAyhfHjK2YbZo
+ ad5dUvPhFiJAjMEAAEKAB0WIQQ5utIvCCzakboVj/py2EO4nU3XVgUCaGkUfwAKCRBy2EO4nU3X
+ Vvo0EADRfS09Is7VfHDbonsCmCU9DJwFZkSwZKnF/Ssk4NLfDY08PQ8yRJuj0dhBPQdLHDPzCp3
+ 4pomdPO+KMw6ABw/hkSdlRhf+6XUhzyVD14w9J6pz0Bsjb5YyYrtjVmIQ0tWAXWJSBCSGtbs8kO
+ U7MupektRi+OEAsqWzavyR6+jI2sYSluF1DkTJk22uJeV9JK2NK3QG9Fpw1/TsiLwGwvhZNU35u
+ 0m4d936SCABy41QdrFspR/nAbJ/nfIRq+UKoiOJ2VwExGU8d1P63gIaZVWXuretaF4y0JZ4wcTf
+ ZjydF5d4oPDzlodqCv6uBLHzv1JkuvgRZ+TikK2Ohe3SePnQYhJ2cEOQtT6eU1IhlAQ9+pu2dsU
+ dScCBojbPmHz9wyM1yelVwx+GHLqllSLKb5E+EH57eatyQjYxBwth1qQqVOiLSIu8bnQUzSLE5f
+ IY89nxIltDIcX7ZLH/uoXYZzA1rJ++X8CSO35ryjXKijdBCVPQLoNpnbY4MYr2dEd2YkMUKNBwn
+ VNiJm7L0XlpDKqMhXvtSeMlnv6eyDaFowZwOheNIgTkWAEFRf/TWr4A821xaCZzGQrXDIaPWnLn
+ AIOnskOCmKHLLznN8FbEmnlbIWPTALU0Q2KWKxPpfbcVe9aFAUpW428rWPfmzPz6j6tjzkkTrlH
+ 1afCJTmmlp2IOCg==
+X-Developer-Key: i=luca@lucaweiss.eu; a=openpgp;
+ fpr=BD04DA24C971B8D587B2B8D7FAF69CF6CD2D02CD
 
-If an error occurs after a successful q6usb_dai_add_aux_device() call,
-some resources should be released as already done in the remove function.
+Add the bindings for the Awinic AW8898 amplifier.
 
-Add an error handling path in the probe and the missing clean-up.
-
-Fixes: 72b0b8b29980 ("ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
 ---
-Changes in v2:
-  - Propagate the error code returned by snd_soc_usb_allocate_port()
-    instead of an explicit -ENOMEM.   [Dan Carpenter]
+ .../devicetree/bindings/sound/awinic,aw8898.yaml   | 78 ++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
-v1: https://lore.kernel.org/all/7338875b20cb41693f803c6b9673cf7f3e5f089a.1746781775.git.christophe.jaillet@wanadoo.fr/
----
- sound/soc/qcom/qdsp6/q6usb.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+diff --git a/Documentation/devicetree/bindings/sound/awinic,aw8898.yaml b/Documentation/devicetree/bindings/sound/awinic,aw8898.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..38eb0ba506527ed9e4420f3dfa13283580e56d27
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/awinic,aw8898.yaml
+@@ -0,0 +1,78 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/awinic,aw8898.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Awinic AW8898 Audio Amplifier
++
++maintainers:
++  - Luca Weiss <luca@lucaweiss.eu>
++
++description:
++  The AW8898 is an I2S/TDM input, high efficiency digital Smart K audio
++  amplifier with an integrated 9.5V smart boost converter, sound quality
++  enhancement algorithms and speaker protection.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: awinic,aw8898
++
++  reg:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  dvdd-supply:
++    description:
++      Digital power supply
++
++  vddio-supply:
++    description:
++      Digital IO power supply
++
++  vdd-supply:
++    description:
++      Battery power supply
++
++  "#sound-dai-cells":
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - reset-gpios
++  - dvdd-supply
++  - vddio-supply
++  - vdd-supply
++  - "#sound-dai-cells"
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        audio-codec@34 {
++            compatible = "awinic,aw8898";
++            reg = <0x34>;
++            reset-gpios = <&tlmm 21 GPIO_ACTIVE_LOW>;
++            interrupts-extended = <&tlmm 20 IRQ_TYPE_LEVEL_HIGH>;
++            dvdd-supply = <&pm8953_l5>;
++            vddio-supply = <&pm8953_l5>;
++            vdd-supply = <&vph_pwr>;
++            #sound-dai-cells = <0>;
++        };
++    };
 
-diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
-index ebe0c2425927..0d998e872e82 100644
---- a/sound/soc/qcom/qdsp6/q6usb.c
-+++ b/sound/soc/qcom/qdsp6/q6usb.c
-@@ -327,8 +327,10 @@ static int q6usb_component_probe(struct snd_soc_component *component)
- 		return ret;
- 
- 	usb = snd_soc_usb_allocate_port(component, &data->priv);
--	if (IS_ERR(usb))
--		return -ENOMEM;
-+	if (IS_ERR(usb)) {
-+		ret = PTR_ERR(usb);
-+		goto free_aux_devices;
-+	}
- 
- 	usb->connection_status_cb = q6usb_alsa_connection_cb;
- 	usb->update_offload_route_info = q6usb_update_offload_route;
-@@ -337,6 +339,12 @@ static int q6usb_component_probe(struct snd_soc_component *component)
- 	data->usb = usb;
- 
- 	return 0;
-+
-+free_aux_devices:
-+	auxiliary_device_delete(&data->uauxdev);
-+	auxiliary_device_uninit(&data->uauxdev);
-+
-+	return ret;
- }
- 
- static void q6usb_component_remove(struct snd_soc_component *component)
 -- 
 2.50.0
 
