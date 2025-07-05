@@ -1,85 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4999A2E36F1;
-	Fri,  4 Jul 2025 21:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2F533993;
+	Sat,  5 Jul 2025 02:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751665343; cv=none; b=IosySC5d1M/ho0ev+DEdjb84C7aUpc84mffirdAaaHb7GI9zy2r4Gy+eLiYculQ5lpafFUI+W9eDbMS29G3y1YWHI8bU8BsJLMuaX3n7FaoKcoubguPuGFTPRFpLH0dbw9JXSADiGgyPoaX3l8xLAfBBihmeLCxfyyBSjHKXvI0=
+	t=1751684065; cv=none; b=qlBvvuEKP8gu6JwZNOOrhYMFx9nsHk4hhzzMW5nquBq55wqRXVOAh6EGncWfxFKLYJ0K8/swp+uWYBkkSjVRL0de/qFqx+tPbCf6li5wJFSWCj8DljFyiqnfjCZTYxKQh5t3vWS7JpKMSMWJo2pZ/VAb0vzOj+YWT9s+jfmzhcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751665343; c=relaxed/simple;
-	bh=6yn4rMYivw3/KIBDGpK476SEiUbXY5TLmhWSBFNrfuE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MoHS741vRbRW+NA4eKmhv0sI1G+O6DEOJ5PyL/meAGX7/S7FZ6820ZPK5z3hzUsk1qUaartfhTjoiAUX5FgVJJUtuClJC37WIIeGYpQq9HqY9mSrymsvQU27Q7SMnTVAr1WMnzkGqsUHj5deBkHkk2tMNnXdCiTHy7Q4fnFfNr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XM0YJq5c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751684065; c=relaxed/simple;
+	bh=fuV+f3p68eVNJtrMd5iPj26dCWv88/YV5dLdtehWBsI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gL0yupLDy1uDdsa+aQR2TdZlm3BmrNR7BasWSPoGf8/Sqa3KiKv5QqzFx6HxaN302mvr9ZaKXlZhA5WOP3oAOGF56chjzyajY7zpRBbuA2MjzU/xKWQ14uieML9QiDy6iazjWAlPxNtGgTMDRRSqnp6PcGStvBBNuq3Az6INPss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=H/N106NL; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XM0YJq5c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E48C4CEE3;
-	Fri,  4 Jul 2025 21:42:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751665342;
-	bh=6yn4rMYivw3/KIBDGpK476SEiUbXY5TLmhWSBFNrfuE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XM0YJq5cnTC5wgCVzcz7ybjl9cDO99a5Y/IaR/r+mzhuujwQ+auUqC9+YjdZxU52r
-	 sQwj+fWy449ni/DgMFpqesdt7Ts8ksrcg8PaCXQ6X8T96UbZ/SHMWqxSTgvSYWPdTl
-	 NO/LVxPA6PhBgoJuPVoIGnIoACVF+e9LvT5gvo1dzYqv9VWNZS8C7zN8bpRuyHJag6
-	 RKVfNBYORdblAAiUq2iyhyaMZDcib2cUv1mpSpB/CwRaPuPlVaCKNX8Il86/k2l30b
-	 fF8KtrkFQPiauAN+By2oECOr8BEfHwAy47CMfP+r1jnwWpNa9JTFxTqe/1HoS48m93
-	 aCcJQRgDu8ZDw==
-From: Mark Brown <broonie@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
- linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Peng Fan <peng.fan@nxp.com>
-Cc: linus.walleij@linaro.org, brgl@bgdev.pl
-In-Reply-To: <20250704130906.1207134-1-peng.fan@nxp.com>
-References: <20250704130906.1207134-1-peng.fan@nxp.com>
-Subject: Re: [PATCH] ASoC: codec: rockchip_sai: Remove including of_gpio.h
-Message-Id: <175166533831.206730.2590873270491527384.b4-ty@kernel.org>
-Date: Fri, 04 Jul 2025 22:42:18 +0100
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="H/N106NL"
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5652s4M23947785;
+	Fri, 4 Jul 2025 21:54:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1751684044;
+	bh=b8BA+LiOkFB87eg4JOa5d7p9svdb3m3qLq/OtPj0Dy4=;
+	h=From:To:CC:Subject:Date;
+	b=H/N106NL3BEderp8KVLUEH7m77o5gBT6uolPYrLPna2CF0AZ2Bikv/QXThYDjk6Mv
+	 qpYgowVOY/XfgjSdaUFnzHYqCC0XuJI4hf6BN0eWAnATV2jseVoNFuQ/I7dCIURj71
+	 p3H6r9o35iggsqY20/c8ebY/GO8Q/cIfgxRaOr5U=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5652s3mB3984965
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Fri, 4 Jul 2025 21:54:04 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 4
+ Jul 2025 21:54:02 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Fri, 4 Jul 2025 21:54:03 -0500
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5652rvIb3841032;
+	Fri, 4 Jul 2025 21:53:58 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>
+CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>, <navada@ti.com>,
+        <13916275206@139.com>, <v-hampiholi@ti.com>, <v-po@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <baojun.xu@ti.com>
+Subject: [PATCH v1] ALSA: hda/tas2781: Add bus name in device name check
+Date: Sat, 5 Jul 2025 10:53:33 +0800
+Message-ID: <20250705025333.24346-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Fri, 04 Jul 2025 21:09:06 +0800, Peng Fan wrote:
-> of_gpio.h is deprecated. And there is no user in this driver
-> using API in of_gpio.h, so remove it.
-> 
-> 
+Device name start from bus name, as we use strstarts()
+to do compare, need add it for TXNW2781 device.
 
-Applied to
+Fixes: b2904df0a347 ("ALSA: hda/tas2781: Add compatible for hardware id TIAS2781 and TXNW2781")
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ sound/pci/hda/tas2781_hda_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks!
-
-[1/1] ASoC: codec: rockchip_sai: Remove including of_gpio.h
-      commit: 571defe0dff3f1e4180bd0db79283d3d5bf74a71
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index b9cdbca951e4..530c2266ab3b 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -588,7 +588,7 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
+ 		hda_priv->save_calibration = tas2781_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
+ 	} else if (strstarts(dev_name(&clt->dev),
+-			     "TXNW2781:00-tas2781-hda.0")) {
++			     "i2c-TXNW2781:00-tas2781-hda.0")) {
+ 		device_name = "TXNW2781";
+ 		hda_priv->save_calibration = tas2781_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
+-- 
+2.43.0
 
