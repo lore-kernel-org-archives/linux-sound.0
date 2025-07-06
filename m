@@ -1,216 +1,129 @@
-Received: from smtp.smtpout.orange.fr (smtp-23.smtpout.orange.fr [80.12.242.23])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F37135972;
-	Sun,  6 Jul 2025 08:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960C5249E5;
+	Sun,  6 Jul 2025 14:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751790936; cv=none; b=hH5WfDeiL/+NdVYN67zwx2VyBedyOOlN4pMtF+ne9JAcZS996fo6GE76cmRv/9Fn5EahAEE+Dv+Y8e7J+PrM68W9x/owR2m8cmMGMFYklbyVeBKI9mod6IgAYCyA58eTaO7RrfM/pCq4eZP18Tvn+BgTVgGFJHj+lOsNqtr26n4=
+	t=1751812585; cv=none; b=Mj34goKXISx7z0kcLc2y3EvVytTGSiNie6XrYMtOsxzLf+f4YQ+vqGhoRfbJX05a3EA0BJXbBMpsL87RGbvWfBZGF6R0tTRKyTa7vR1ng1pMHAeDz3oXC3BlYIHJmwlYaoWiaKB12TwjZPn/FfwpmTpQGLQvi7HbxRYKRl4rWFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751790936; c=relaxed/simple;
-	bh=zZBUK8UI3llPineO/aa9x7oBS9wgghT1PNTWtF3og3M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=epuyRKdVZgirVzsuRu17sIDbNQg88/bdrvdZcW/eHphRlRfwnGT9T+gqR3tDLA/a+90EwukbllvcpW6m1NYYLNa327um/jW9/7uMGcFCWkv2yb4JEJqJBUsVjfFVuDLsR2ZesERVLdmCNGh0qlrtmzf+IzTLOBXQ8pQmjkR+M1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Pbhg67sX; arc=none smtp.client-ip=80.12.242.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1751812585; c=relaxed/simple;
+	bh=ekByHfhCU5YFqk89HOWrsMr+RRd71IlBqB2XanDxxo0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tFSyDmMP3anZt1pHytH9Yf4Mqzn5KKPMQOq90zrv8o9QQkx/4cza9jEB/gzKYO7zv9MvsHOYNxl/KlsLIH6wYcr5ChMdtchciH2k5v6WOdcwx5WahNF1HLcOIz4weMKuX9GmcUiCWDNOrNB4K47PBGBpQr6ilKxclDrQeOWfzVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ll4o4Sol; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Pbhg67sX"
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPA
-	id YKqHuLICcZ4iTYKqHu4AIl; Sun, 06 Jul 2025 10:35:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1751790924;
-	bh=MDB5p/WAC2P7Gszd897B3IA9qciUHzVqAJvFbhA+Lk0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=Pbhg67sX+6R6NST17kTPvzXRRIuZTve8csYNJfaBBXyUC6DzontwufivbY2GkUXlq
-	 fU607R+bT7Js4Z+hx8oyXDK26yY6M1Yc5pwwInThh8qqCacfvPWJj42J92IJGH/Rkn
-	 2PwQdjmyPF4ku/J1x/bIKiq0bSNgwOY3GzDhZO6tMVa8pv/oeP/LUWRV/MagN8X048
-	 SHVWwK8dbsEyZODw76WHRwQ4Lc3GAr1AEMZcZ5SlYAQ/2DvgV4Mx+yLh9VLsA1PAfa
-	 PW249lU8AK1EtKcAr6kTkIxyOLhJRzRmb+P6GUGXzDF1HFnKa0L2wy4c1xDOLA498d
-	 4ouFGntQlECOw==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sun, 06 Jul 2025 10:35:24 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <225692dd-c41b-4e9d-a20b-551f9bfb5051@wanadoo.fr>
-Date: Sun, 6 Jul 2025 10:35:20 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ll4o4Sol"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6AFC4CEED;
+	Sun,  6 Jul 2025 14:36:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751812585;
+	bh=ekByHfhCU5YFqk89HOWrsMr+RRd71IlBqB2XanDxxo0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Ll4o4Sol1xB9CHvaGKW/406YEBaUdZrTWq6lLV1dFJM2KaUURPnzXKOKi4uTgdkBT
+	 1ARmrnpLtOY7KMVDB1gDHAyrmr+XQkK70EWXKhVUZTeRpMdo/Te6dPK1XIjfMDqk2F
+	 JNs1d4BtRaLfWKAppA6dwapoZGigjAsBXAI15chD5JjzbpP/CbfnqPMJBmp90fFLDj
+	 EHmkjyr7KRKy+owRH85kLyWUqRUpvY0QS8x+4o2UU6BdcNMgrQEf7O3k+wuUb6uyo7
+	 mitoySK8mt5KCmY4x8lFrjn65/4yysdrxaisXKCB964z8BXN/NQ+lJ6TdguYwgTZoQ
+	 TtD7bp2k/QZEQ==
+From: Mario Limonciello <superm1@kernel.org>
+To: David Airlie <airlied@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
+	linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
+	kvm@vger.kernel.org (open list:VFIO DRIVER),
+	linux-sound@vger.kernel.org (open list:SOUND),
+	Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v7 0/9] Adjust fbcon console device detection
+Date: Sun,  6 Jul 2025 09:36:04 -0500
+Message-ID: <20250706143613.1972252-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] ASoC: codecs: Add Awinic AW8898 amplifier driver
-To: Luca Weiss <luca@lucaweiss.eu>, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Weidong Wang <wangweidong.a@awinic.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20250705-aw8898-v2-0-9c3adb1fc1a2@lucaweiss.eu>
- <20250705-aw8898-v2-2-9c3adb1fc1a2@lucaweiss.eu>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20250705-aw8898-v2-2-9c3adb1fc1a2@lucaweiss.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 05/07/2025 à 14:03, Luca Weiss a écrit :
-> Add a driver for the AW8898 Audio Amplifier.
-> 
-> Signed-off-by: Luca Weiss <luca@lucaweiss.eu>
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-Hi,
+This series started out as changes to VGA arbiter to try to handle a case
+of a system with 2 GPUs that are not VGA devices.  This was discussed
+but decided not to overload the VGA arbiter for non VGA devices.
 
-...
+Instead move the x86 specific detection of framebuffer resources into x86
+specific code that the fbcon can use to properly identify the primary
+device. This code is still called from the VGA arbiter, and the logic does
+not change there. To avoid regression default to VGA arbiter and only fall
+back to looking up with x86 specific detection method.
 
-> +#define AW8898_CFG_NAME				"aw8898_cfg.bin"
-> +
-> +#define AW8898_NUM_SUPPLIES	3
+In order for userspace to also be able to discover which device was the
+primary video display device create a new sysfs file 'boot_display'.
 
-See the probe below, but if simplified, AW8898_NUM_SUPPLIES would be 
-useless and could be removed.
+A matching userspace implementation for this file is available here:
+Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/39
+Link: https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2038
 
-> +static const char *aw8898_supply_names[AW8898_NUM_SUPPLIES] = {
+Dave Airlie has been pinged for a comment on this approach.
+Dave had suggested in the past [1]:
 
-static const char * const ?
+"
+ But yes if that doesn't work, then maybe we need to make the boot_vga
+ flag mean boot_display_gpu, and fix it in the kernel
+"
 
-> +	"vdd",		/* Battery power */
-> +	"vddio",	/* Digital IO power */
-> +	"dvdd",		/* Digital power */
-> +};
-> +
-> +static const char * const aw8898_dev_mode_text[] = {
-> +	"Speaker",
-> +	"Receiver",
-> +};
+This was one of the approached tried in earlier revisions and it was
+rejected in favor of creating a new sysfs file (which is what this
+version does).
 
-...
+It is suggested that this series merge entirely through the PCI tree.
 
-> +static int aw8898_drv_event(struct snd_soc_dapm_widget *w,
-> +				struct snd_kcontrol *kcontrol, int event)
-> +{
-> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-> +	struct aw8898 *aw8898 = snd_soc_component_get_drvdata(component);
-> +	int ret;
+Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/37#note_2938602 [1]
+Mario Limonciello (9):
+  PCI: Add helper for checking if a PCI device is a display controller
+  vfio/pci: Use pci_is_display()
+  vga_switcheroo: Use pci_is_display()
+  iommu/vt-d: Use pci_is_display()
+  ALSA: hda: Use pci_is_display()
+  Fix access to video_is_primary_device() when compiled without
+    CONFIG_VIDEO
+  PCI/VGA: Replace vga_is_firmware_default() with a screen info check
+  fbcon: Use screen info to find primary device
+  PCI: Add a new 'boot_display' attribute
 
-Maybe ret = 0; to simplify the code below?
+ Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
+ arch/parisc/include/asm/video.h         |  2 +-
+ arch/sparc/include/asm/video.h          |  2 ++
+ arch/x86/include/asm/video.h            |  2 ++
+ arch/x86/video/video-common.c           | 13 ++++++-
+ drivers/gpu/vga/vga_switcheroo.c        |  2 +-
+ drivers/iommu/intel/iommu.c             |  2 +-
+ drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
+ drivers/pci/vgaarb.c                    | 31 +++--------------
+ drivers/vfio/pci/vfio_pci_igd.c         |  3 +-
+ include/linux/pci.h                     | 15 ++++++++
+ sound/hda/hdac_i915.c                   |  2 +-
+ sound/pci/hda/hda_intel.c               |  4 +--
+ 13 files changed, 97 insertions(+), 35 deletions(-)
 
-Or, as done in aw8898_hw_params(), return -EINVAL; in the default case, 
-and a plain return 0; at the end of the function?
+-- 
+2.43.0
 
-> +
-> +	switch (event) {
-> +	case SND_SOC_DAPM_PRE_PMU:
-> +		aw8898_set_power(aw8898, true);
-> +
-> +		if (!aw8898->cfg_loaded)
-> +			aw8898_cold_start(aw8898);
-> +
-> +		ret = 0;
-> +		break;
-> +	case SND_SOC_DAPM_POST_PMD:
-> +		aw8898_set_power(aw8898, false);
-> +		ret = 0;
-> +		break;
-> +	default:
-> +		dev_err(component->dev, "%s: invalid event %d\n", __func__, event);
-> +		ret = -EINVAL;
-
-Even if useless, having a break is more standard.
-
-> +	}
-> +
-> +	return ret;
-> +}
-
-...
-
-> +static int aw8898_check_chipid(struct aw8898 *aw8898)
-> +{
-> +	unsigned int reg;
-> +	int ret;
-> +
-> +	ret = regmap_read(aw8898->regmap, AW8898_ID, &reg);
-> +	if (ret < 0) {
-> +		dev_err(&aw8898->client->dev,
-> +			"Failed to read register AW8898_ID: %d\n", ret);
-
-aw8898_check_chipid() is only called from the probe, so using return 
-dev_err_probe() should be fine.
-
-> +		return ret;
-> +	}
-> +
-> +	dev_dbg(&aw8898->client->dev, "Read chip ID 0x%x\n", reg);
-> +
-> +	if (reg != AW8898_CHIP_ID) {
-> +		dev_err(&aw8898->client->dev, "Unexpected chip ID: 0x%x\n",
-> +			reg);
-
-Same.
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int aw8898_probe(struct i2c_client *client)
-> +{
-> +	struct aw8898 *aw8898;
-> +	int ret;
-> +
-> +	aw8898 = devm_kzalloc(&client->dev, sizeof(*aw8898), GFP_KERNEL);
-> +	if (!aw8898)
-> +		return -ENOMEM;
-> +
-> +	i2c_set_clientdata(client, aw8898);
-> +	aw8898->client = client;
-> +
-> +	aw8898->regmap = devm_regmap_init_i2c(client, &aw8898_regmap);
-> +	if (IS_ERR(aw8898->regmap))
-> +		return dev_err_probe(&client->dev, PTR_ERR(aw8898->regmap),
-> +				     "Failed to allocate register map\n");
-> +
-> +	for (int i = 0; i < ARRAY_SIZE(aw8898->supplies); i++)
-> +		aw8898->supplies[i].supply = aw8898_supply_names[i];
-> +
-> +	ret = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(aw8898->supplies),
-> +				      aw8898->supplies);
-
-devm_regulator_bulk_get_enable() would simplify the code and 'struct 
-aw8898'.
-
-> +	if (ret)
-> +		return dev_err_probe(&client->dev, ret,
-> +				     "Failed to get regulators\n");
-> +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(aw8898->supplies),
-> +				    aw8898->supplies);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Failed to enable supplies: %d\n",
-> +			ret);
-
-If dev_err_probe() to be consistent with the code below and above.
-But this would be removed if devm_regulator_bulk_get_enable() is used.
-
-> +		return ret;
-> +	}
-> +
-> +	aw8898->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(aw8898->reset))
-> +		return dev_err_probe(&client->dev, PTR_ERR(aw8898->reset),
-> +				     "Failed to get reset GPIO\n");
->
-
-...
-
-CJ
