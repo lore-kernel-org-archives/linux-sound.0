@@ -1,77 +1,77 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8113F1A314D
-	for <linux-sound@vger.kernel.org>; Sun,  6 Jul 2025 08:08:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1ED72E3711
+	for <linux-sound@vger.kernel.org>; Sun,  6 Jul 2025 08:24:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751789320; cv=none; b=P7YbqU/2uNLQWCVTx6w1y2AT1RQMItl97gJ5153znW04qCoV+UPj98Wxk081CqR7yJ/Qcd2IOlEY/TZrH2J3oTkAl5z+fkPtgJztrqNu+ZyuKOPcJJCH26BQRFbfX3hwq+nGDl3Bzd9iwpdQHN5mwR/yQnH09952nRUPwlwX8Q0=
+	t=1751790299; cv=none; b=NaNXMxPTd1pLgUmiIg/XkGA2ebN1tbUt6WF4xK+DXv8VQv7eq44gTQEk/UBsPxJHJaUVhwQRawSxphTd7nTpiWqpqd85Pl1uAGfnVh0KhdDvEVUyIcR4CQ52zZAJqDzKlInrB1hLcxTvm06TCjAwCP7cnbuXQd8fSN+0eWN90/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751789320; c=relaxed/simple;
-	bh=VpbUf6O5SNTZuNfM6oLLsUo5l5NIjkYdE9EoWhqYBKc=;
+	s=arc-20240116; t=1751790299; c=relaxed/simple;
+	bh=yKHTUzkMRD/ZbcIS6Da8x1PhdCbAr9s1IP9CUSF7XL4=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NPG/YYcVGWRUOZJ+UyzmaCCBCxJlrZ6uYGqW9/H0uTAq5Bwac/WwMmN0lTClDvzyTycuCoaP18frcG7MCTjbEHBpFNpbNP2nZkromNmcJrk42rzhX2zxF/EJKy/xX9VBdiJqyVy6BAd1E2TH45u1LQnzzE8uWJypRE2SN3nUYCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tFsVxnRw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MpAkRBmb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tFsVxnRw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MpAkRBmb; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=XnlqTUrjMETrqa3CkV+/KfaoZqkazfFHFT+b5Iutx0EsRTFuFXBlbm0cH5NqdM5X1+9jLOPHMA1M3l8M9EwdXCxkir2z/gcpI13NcnuV4XFo5ptbG655GjPUX1uJDNiEA41L18p6gToTQPEwNS611SL1giTWe5VYWlfdxQWtGd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wEanTL1T; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YLI61KKj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wEanTL1T; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YLI61KKj; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tFsVxnRw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MpAkRBmb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tFsVxnRw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MpAkRBmb"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wEanTL1T";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YLI61KKj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wEanTL1T";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YLI61KKj"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 197421F38A;
-	Sun,  6 Jul 2025 08:08:10 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4ADCE1F388;
+	Sun,  6 Jul 2025 08:22:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751789290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1751790129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3BzKPvjoDEpfOl3bBUxy7yxLXT2uY2JY1YGIcua8HXQ=;
-	b=tFsVxnRwXHEmfrRpKnw5mUDt/LHcSGW9D54vR8IbBWZDmk/ctHOUq9cT2RbyCOtqnuaOz+
-	ZifdGLoFrCCwzm6nI7EWylzLClnjowThNwO21fCM/X7YnTyeSPFYkWm0hLRfHAUhgYxfX3
-	6yxSAaNiisBU8wKW1xIyOT86V4s1qUc=
+	bh=r8S0lBmASZZL78tqk4ub0Y7rTMGUKgNcqPQuidlP1Pk=;
+	b=wEanTL1TtydfJPW95pNjRNSzJ0B3ox/Sm9r4RREO89KhESP/r2oVGWl0BAVBGXNLQFffXo
+	vbdcgvtrZyhnyoVJ+qsTPnoXA68xhqZJn5Wewtb5QCZwitKARYrzqXuNjDQl6dXBLuXnj1
+	alZ+FVn//WvfXuV8qRCB0Rw6v6gt6PQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751789290;
+	s=susede2_ed25519; t=1751790129;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3BzKPvjoDEpfOl3bBUxy7yxLXT2uY2JY1YGIcua8HXQ=;
-	b=MpAkRBmbN1KVqlvCvrcsWEtCXO4tNkg2CWYUQvgbA7Tsa7z/Zppm6RjJAzZpLt/LZjmiZn
-	yxS2fm+SrMydrKBA==
+	bh=r8S0lBmASZZL78tqk4ub0Y7rTMGUKgNcqPQuidlP1Pk=;
+	b=YLI61KKjtO4Q49pvSXAmOYMS6+ZJET+LSqBtUKSWxpLtG5g4CqLv2vX7JCjLrCLIWW/BUF
+	mTwNYaymG0cLMxAg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tFsVxnRw;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MpAkRBmb
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wEanTL1T;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YLI61KKj
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751789290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1751790129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3BzKPvjoDEpfOl3bBUxy7yxLXT2uY2JY1YGIcua8HXQ=;
-	b=tFsVxnRwXHEmfrRpKnw5mUDt/LHcSGW9D54vR8IbBWZDmk/ctHOUq9cT2RbyCOtqnuaOz+
-	ZifdGLoFrCCwzm6nI7EWylzLClnjowThNwO21fCM/X7YnTyeSPFYkWm0hLRfHAUhgYxfX3
-	6yxSAaNiisBU8wKW1xIyOT86V4s1qUc=
+	bh=r8S0lBmASZZL78tqk4ub0Y7rTMGUKgNcqPQuidlP1Pk=;
+	b=wEanTL1TtydfJPW95pNjRNSzJ0B3ox/Sm9r4RREO89KhESP/r2oVGWl0BAVBGXNLQFffXo
+	vbdcgvtrZyhnyoVJ+qsTPnoXA68xhqZJn5Wewtb5QCZwitKARYrzqXuNjDQl6dXBLuXnj1
+	alZ+FVn//WvfXuV8qRCB0Rw6v6gt6PQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751789290;
+	s=susede2_ed25519; t=1751790129;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3BzKPvjoDEpfOl3bBUxy7yxLXT2uY2JY1YGIcua8HXQ=;
-	b=MpAkRBmbN1KVqlvCvrcsWEtCXO4tNkg2CWYUQvgbA7Tsa7z/Zppm6RjJAzZpLt/LZjmiZn
-	yxS2fm+SrMydrKBA==
+	bh=r8S0lBmASZZL78tqk4ub0Y7rTMGUKgNcqPQuidlP1Pk=;
+	b=YLI61KKjtO4Q49pvSXAmOYMS6+ZJET+LSqBtUKSWxpLtG5g4CqLv2vX7JCjLrCLIWW/BUF
+	mTwNYaymG0cLMxAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 989D813A29;
-	Sun,  6 Jul 2025 08:08:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE70913A29;
+	Sun,  6 Jul 2025 08:22:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iehTI+kuamj/VwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 06 Jul 2025 08:08:09 +0000
-Date: Sun, 06 Jul 2025 10:08:09 +0200
-Message-ID: <8734b9oi6u.wl-tiwai@suse.de>
+	id VruUNDAyamhnWwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 06 Jul 2025 08:22:08 +0000
+Date: Sun, 06 Jul 2025 10:22:08 +0200
+Message-ID: <87zfdhn2z3.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Baojun Xu <baojun.xu@ti.com>
 Cc: <broonie@kernel.org>,
@@ -84,9 +84,9 @@ Cc: <broonie@kernel.org>,
 	<v-po@ti.com>,
 	<linux-sound@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] ALSA: hda/tas2781: Fix calibration data parser issue
-In-Reply-To: <20250705130908.26248-1-baojun.xu@ti.com>
-References: <20250705130908.26248-1-baojun.xu@ti.com>
+Subject: Re: [PATCH v1] ALSA: hda/tas2781: Add bus name in device name check
+In-Reply-To: <20250705025333.24346-1-baojun.xu@ti.com>
+References: <20250705025333.24346-1-baojun.xu@ti.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -97,11 +97,11 @@ MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 197421F38A
+X-Rspamd-Queue-Id: 4ADCE1F388
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -110,8 +110,8 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	ARC_NA(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[139.com];
@@ -121,7 +121,7 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,alsa-project.org,ti.com,139.com,vger.kernel.org];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	DKIM_TRACE(0.00)[suse.de:+];
@@ -129,61 +129,17 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
 X-Spam-Score: -3.51
 
-On Sat, 05 Jul 2025 15:09:08 +0200,
+On Sat, 05 Jul 2025 04:53:33 +0200,
 Baojun Xu wrote:
 > 
-> Calibration data was overwritten during parser, it cause issue.
-
-It'd be helpful if you can write a bit more clearly what's the issue
-and what you've done here.
-
-
-thanks,
-
-Takashi
-
-> Fixes: 4fe238513407 ("ALSA: hda/tas2781: Move and unified the calibrated-data getting function for SPI and I2C into the tas2781_hda lib")
+> Device name start from bus name, as we use strstarts()
+> to do compare, need add it for TXNW2781 device.
+> 
+> Fixes: b2904df0a347 ("ALSA: hda/tas2781: Add compatible for hardware id TIAS2781 and TXNW2781")
 > 
 > Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-> ---
->  sound/pci/hda/tas2781_hda.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/sound/pci/hda/tas2781_hda.c b/sound/pci/hda/tas2781_hda.c
-> index 5f1d4b3e9688..34217ce9f28e 100644
-> --- a/sound/pci/hda/tas2781_hda.c
-> +++ b/sound/pci/hda/tas2781_hda.c
-> @@ -44,7 +44,7 @@ static void tas2781_apply_calib(struct tasdevice_priv *p)
->  		TASDEVICE_REG(0, 0x13, 0x70),
->  		TASDEVICE_REG(0, 0x18, 0x7c),
->  	};
-> -	unsigned int crc, oft;
-> +	unsigned int crc, oft, node_num;
->  	unsigned char *buf;
->  	int i, j, k, l;
->  
-> @@ -80,8 +80,9 @@ static void tas2781_apply_calib(struct tasdevice_priv *p)
->  			dev_err(p->dev, "%s: CRC error\n", __func__);
->  			return;
->  		}
-> +		node_num = tmp_val[1];
->  
-> -		for (j = 0, k = 0; j < tmp_val[1]; j++) {
-> +		for (j = 0, k = 0; j < node_num; j++) {
->  			oft = j * 6 + 3;
->  			if (tmp_val[oft] == TASDEV_UEFI_CALI_REG_ADDR_FLG) {
->  				for (i = 0; i < TASDEV_CALIB_N; i++) {
-> @@ -99,8 +100,9 @@ static void tas2781_apply_calib(struct tasdevice_priv *p)
->  				}
->  
->  				data[l] = k;
-> +				oft++;
->  				for (i = 0; i < TASDEV_CALIB_N * 4; i++)
-> -					data[l + i] = data[4 * oft + i];
-> +					data[l + i + 1] = data[4 * oft + i];
->  				k++;
->  			}
->  		}
-> -- 
-> 2.43.0
-> 
+
+Applied now.  Thanks.
+
+
+Takashi
