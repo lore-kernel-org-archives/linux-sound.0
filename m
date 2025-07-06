@@ -1,63 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE7128C2DC;
-	Sun,  6 Jul 2025 14:36:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4417C28851D
+	for <linux-sound@vger.kernel.org>; Sun,  6 Jul 2025 16:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751812607; cv=none; b=kFNLa8c0KMm4fDcvPES1CozCYZuwtwRfM3RlI01J4FH4e0em82wFoLtGdo3EdSGNbww7Mn6BLUsweLCFD6Ym/oappIDeceegKrzoBRf3lxAUhX9Bo//NF05OKquhpkhxa0jm7IRmZKa+hM4Vd+AF+xt5S6f2jblPBM7SvYkd5SU=
+	t=1751818182; cv=none; b=su6pVSCmklRNUMB0inUtWwqOzeJQGm6DVgJYjMmFOsiWl1VPcLvtg+egZHR2htyzC6weNWG0Q3ysJ5j6L5AyVsyV/NVRS0+cj/PzB4D44hrMxowNQ+Q0brDUuilk+SPn9Fen2jzRlqAinJL3UncDAawH93xWgwQjbHV/HH+jAw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751812607; c=relaxed/simple;
-	bh=mA7SFMfHy8OinIxgtmu9yWbldbYt6k6q8NSeQegNnJA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rjwmW3d+zmb44h1qe9P7JWlotp93BpNvVkho1kl7iXDCgP5ksNWONugjnP2XiV73FO86YxyIqBQJhkNWNsx2vgFNCOagQMN4aUMkaqFDtQqIdcHHiaYRaO7UvwE5imtn54z8FbIcWEhyzLX84y8RcEWkUCyXD8rfkRYtV4Q4Z8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sYVYeC+6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751818182; c=relaxed/simple;
+	bh=dluMG5TwwdUhJImwnbyIw4PVkx2mgF/2C48hpLjNHs4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AyIvaH/uMOBwBBlQC+goipdLKIri5EROEjuQVxYbTptTI89PgPaMtmuDQtW8+z2euVFGO9mIzgUn8YHmjbX5/vEO2UXgvmGfVyEZ5uInpzlz9TUY7PM4ih0BpFmY6M55ilWBp7VrZSk0peOFKXEu9zRqHDqfGa9IEf96uTFkQec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SHLyWrSg; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sYVYeC+6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BA94C4CEF4;
-	Sun,  6 Jul 2025 14:36:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751812606;
-	bh=mA7SFMfHy8OinIxgtmu9yWbldbYt6k6q8NSeQegNnJA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sYVYeC+6e5OzGIchOu7GvaySxrAMZ+Bls0YeuisZup4XCUIRLsoBGtO+yoGMLuEbz
-	 BWzz0dfPhCzA6rCFKmi8QdDoeOhV3mmLqLskqGGhMFiVKHcEBvAvYWfBgNlI8N+fdI
-	 lpPH3flaG6PJJbHwr5ae62YYTCuxr5XkC2nLmfi0BP+InVH4+f3b9ETwE4p91f5LtX
-	 NXL01QEjUR0etWMbpJqif9KssgNkjfwwUywJYxEd6XRvZKTeMewbJbFfifB9L2wE1a
-	 IxlMW4hX3ZO+lWVzAAsGmTojyQt4cE9AOSC39/BlHNEPVXvwresJ6XINXMYLST9anZ
-	 6cS53xc8Tkymg==
-From: Mario Limonciello <superm1@kernel.org>
-To: David Airlie <airlied@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SHLyWrSg"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1751818168;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=GCVdB7erSf5MrQ7MsULHMTx9BYT2MXfK/PWg2XLJn78=;
+	b=SHLyWrSgVjMTH1jt7nyh98k5cyutOKCHjRVA6VD5KUT1buWJrZlJL84C4g+fGhM198RSJY
+	FKNOYMdAaY6I1r400D/d2r/NB9lG6vN/qZzC9kuWI4a1TMXF3RTxGFy6/RWgy8wbgr3vN6
+	GLVi4wiwAgVVi3hdi0gxNuzJsH1/Bhw=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
-	linux-kernel@vger.kernel.org (open list),
-	iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
-	linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
-	kvm@vger.kernel.org (open list:VFIO DRIVER),
-	linux-sound@vger.kernel.org (open list:SOUND),
-	Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v7 9/9] PCI: Add a new 'boot_display' attribute
-Date: Sun,  6 Jul 2025 09:36:13 -0500
-Message-ID: <20250706143613.1972252-10-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250706143613.1972252-1-superm1@kernel.org>
-References: <20250706143613.1972252-1-superm1@kernel.org>
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: mts64: Replace deprecated strcpy() with strscpy()
+Date: Sun,  6 Jul 2025 18:09:03 +0200
+Message-ID: <20250706160906.416270-1-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,136 +43,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+strcpy() is deprecated; use strscpy() instead.
 
-On systems with multiple GPUs there can be uncertainty which GPU is the
-primary one used to drive the display at bootup. In order to disambiguate
-this add a new sysfs attribute 'boot_display' that uses the output of
-video_is_primary_device() to populate whether a PCI device was used for
-driving the display.
+No functional changes intended.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Link: https://github.com/KSPP/linux/issues/88
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
-v7:
- * fix lkp failure
- * Add tag
-v6:
- * Only show for the device that is boot display
- * Only create after PCI device sysfs files are initialized to ensure
-   that resources are ready.
-v4:
- * new patch
----
- Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
- drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
+ sound/drivers/mts64.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-index 69f952fffec72..8b455b1a58852 100644
---- a/Documentation/ABI/testing/sysfs-bus-pci
-+++ b/Documentation/ABI/testing/sysfs-bus-pci
-@@ -612,3 +612,11 @@ Description:
+diff --git a/sound/drivers/mts64.c b/sound/drivers/mts64.c
+index 17f215bad0ec..bbeebbe467ea 100644
+--- a/sound/drivers/mts64.c
++++ b/sound/drivers/mts64.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/delay.h>
+ #include <linux/slab.h>
++#include <linux/string.h>
+ #include <sound/core.h>
+ #include <sound/initval.h>
+ #include <sound/rawmidi.h>
+@@ -763,7 +764,7 @@ static int snd_mts64_rawmidi_create(struct snd_card *card)
+ 		return err;
  
- 		  # ls doe_features
- 		  0001:01        0001:02        doe_discovery
-+
-+What:		/sys/bus/pci/devices/.../boot_display
-+Date:		October 2025
-+Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
-+Description:
-+		This file indicates the device was used as a boot
-+		display. If the device was used as the boot display, the file
-+		will be present and contain "1".
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 268c69daa4d57..6b1a0ae254d3a 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -30,6 +30,7 @@
- #include <linux/msi.h>
- #include <linux/of.h>
- #include <linux/aperture.h>
-+#include <asm/video.h>
- #include "pci.h"
- 
- #ifndef ARCH_PCI_DEV_GROUPS
-@@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
- 	NULL,
- };
- 
-+static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
-+				 char *buf)
-+{
-+	return sysfs_emit(buf, "1\n");
-+}
-+static DEVICE_ATTR_RO(boot_display);
-+
- static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
- 			     char *buf)
- {
-@@ -1051,6 +1059,37 @@ void pci_remove_legacy_files(struct pci_bus *b)
- }
- #endif /* HAVE_PCI_LEGACY */
- 
-+/**
-+ * pci_create_boot_display_file - create a file in sysfs for @dev
-+ * @pdev: dev in question
-+ *
-+ * Creates a file `boot_display` in sysfs for the PCI device @pdev
-+ * if it is the boot display device.
-+ */
-+static int pci_create_boot_display_file(struct pci_dev *pdev)
-+{
-+#ifdef CONFIG_VIDEO
-+	if (video_is_primary_device(&pdev->dev))
-+		return sysfs_create_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-+#endif
-+	return 0;
-+}
-+
-+/**
-+ * pci_remove_boot_display_file - remove the boot display file for @dev
-+ * @pdev: dev in question
-+ *
-+ * Removes the file `boot_display` in sysfs for the PCI device @pdev
-+ * if it is the boot display device.
-+ */
-+static void pci_remove_boot_display_file(struct pci_dev *pdev)
-+{
-+#ifdef CONFIG_VIDEO
-+	if (video_is_primary_device(&pdev->dev))
-+		sysfs_remove_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-+#endif
-+}
-+
- #if defined(HAVE_PCI_MMAP) || defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
- /**
-  * pci_mmap_resource - map a PCI resource into user memory space
-@@ -1654,9 +1693,15 @@ static const struct attribute_group pci_dev_resource_resize_group = {
- 
- int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
- {
-+	int retval;
-+
- 	if (!sysfs_initialized)
- 		return -EACCES;
- 
-+	retval = pci_create_boot_display_file(pdev);
-+	if (retval)
-+		return retval;
-+
- 	return pci_create_resource_files(pdev);
- }
- 
-@@ -1671,6 +1716,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
- 	if (!sysfs_initialized)
- 		return;
- 
-+	pci_remove_boot_display_file(pdev);
- 	pci_remove_resource_files(pdev);
- }
+ 	rmidi->private_data = mts;
+-	strcpy(rmidi->name, CARD_NAME);
++	strscpy(rmidi->name, CARD_NAME);
+ 	rmidi->info_flags = SNDRV_RAWMIDI_INFO_OUTPUT |
+ 		            SNDRV_RAWMIDI_INFO_INPUT |
+                             SNDRV_RAWMIDI_INFO_DUPLEX;
+@@ -791,7 +792,7 @@ static int snd_mts64_rawmidi_create(struct snd_card *card)
+ 		mts->midi_input_substream[substream->number] = substream;
+ 		switch(substream->number) {
+ 		case MTS64_SMPTE_SUBSTREAM:
+-			strcpy(substream->name, "Miditerminal SMPTE");
++			strscpy(substream->name, "Miditerminal SMPTE");
+ 			break;
+ 		default:
+ 			sprintf(substream->name,
+@@ -929,8 +930,8 @@ static int snd_mts64_probe(struct platform_device *pdev)
+ 		dev_dbg(&pdev->dev, "Cannot create card\n");
+ 		return err;
+ 	}
+-	strcpy(card->driver, DRIVER_NAME);
+-	strcpy(card->shortname, "ESI " CARD_NAME);
++	strscpy(card->driver, DRIVER_NAME);
++	strscpy(card->shortname, "ESI " CARD_NAME);
+ 	sprintf(card->longname,  "%s at 0x%lx, irq %i", 
+ 		card->shortname, p->base, p->irq);
  
 -- 
-2.43.0
+2.50.0
 
