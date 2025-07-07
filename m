@@ -1,150 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD67F262FF0;
-	Mon,  7 Jul 2025 18:43:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAA31FBE8B;
+	Mon,  7 Jul 2025 20:42:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751913812; cv=none; b=FE+1iLnT6ekWPO/MEBUcl766mMJmVnWSvPQ6at5tOpjK2FPSN+LU65xnlfeQcGvZOoaj5nGAoMvA1+nlfwCHBFnq5KKlA2elJm7iuvOHZTjc03cTPWKjhy9FVDPcE1xhjjvJnsoqIFiktu6Ru1T6Vo2NiO794rzao3bvL96/0Ew=
+	t=1751920935; cv=none; b=MIhg2DGINko4NJkiRP7D9CnsyWJGBEdkG2d9BpTKyGQMWQry5XtDKL9sIsB22DQQUxX72KYLigz5UAM2Ewwr1/vKBvLQwdJnrlVZbsk8x4GV3EyLAX2MIh44hd1MRWiohpbxYousIQR/53SYyHesf86j5BnvacMZt266Wo1EW3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751913812; c=relaxed/simple;
-	bh=hrM7TAUwUzWNU7f4k4yx1Gu9ZxX5m6dymI/e327xOKY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UdH406kFvGLfVRdgv9sRdiXwFre76j8Cm1g9IwyPPjVSqlT1gM35Dxa62cG4UwQ6gjWUs9kJJuXwHVJ7Ch8+RYQANshLK/2aQYXGGEcBb7GidrjKeUfE1l3eX/c6C3wmPbyzcJa3pofG8yRVmUD+hcKrGcd6uWwJA0k9bQzhUvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1Gc354h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751920935; c=relaxed/simple;
+	bh=TFwuCdZGPMLUWkDUlk7xc4pd4TWR/hWivyhMGdCjHvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HYWQwrTsfKDQX0kOGuoReavsspxqeLZUmU7jEpMxWhzXT7KWXlnlNLo0A2EJqQO8go9AM55OxQRtzMJyI9i+bfcvO9Zh9BPjg7tRrYIjTerwh/+6kjuOSP97M2eTwhs+AfOPpJKL2MMn97oZIGDFqWT3xUClA7658VrOaJQ13F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=snCrH+3n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1Gc354h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77161C4AF0F;
-	Mon,  7 Jul 2025 18:43:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="snCrH+3n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E221BC4CEE3;
+	Mon,  7 Jul 2025 20:42:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751913811;
-	bh=hrM7TAUwUzWNU7f4k4yx1Gu9ZxX5m6dymI/e327xOKY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=I1Gc354hwbuJzz57xuHU0adjTwd//JV0gPzmskPDKzgFi0rUipml8X0O2V6LITrXo
-	 3E8TyhoiOVpRorL5Je7NJYQJm7wFgMsRyX73rzrAPpeRq5Y6mKZ/snvPp9NZnIQljo
-	 EJ/Yb7UdKN5WtGgio8YxdoU+yw6/C05cM08V0Q4zjByYzRZFUAg7rdN4loP5CZ0m7N
-	 DSAIL4wUpN9lWI2/2fezfjt8ic6poJ7CHum+6NsaPgJsidjfva1nIMP/bhQLou0fTs
-	 z74T2zsEVCgOebD+jix36p0L6MdL6vdi5pf9RYqMHBP7hnTRoskg4TuCI+hiEinqgi
-	 MQud3uX4AQx2g==
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-61390809a36so956977eaf.1;
-        Mon, 07 Jul 2025 11:43:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHutvs2AN81vZ6J6Q44DnFjKkFGsfTsMHcGCDetQlgfAE+a3iARkRtgaHwExh0oQKXOXqInpwmGaIa@vger.kernel.org, AJvYcCUo0ZaWXpF053kafWae7MwisDyQ0QlbMGyIEojlRqTWsH/zzJUeuZlDZMDfrevYJcfdo2TjWKJ5CQbL@vger.kernel.org, AJvYcCUwOqRHYxAO9vvknUtTXYhqSAWbZaurZJgn+NEYh+zHE2kW38f5gR3qywEvit0301JGgO9OPe5ce/AEDIjF05AVfA==@vger.kernel.org, AJvYcCV3+1Z22IW6zQmqMbl8WjcjY4zpbRxmlnnsWu0AMqaN4wbXtvSPjJJzFnxyPExWJZytA2r8tkWUJepuONNk@vger.kernel.org, AJvYcCV8JgaoCGEwfMiHrZI9nSaZ6n60BzWuf0DRBxy6tTFSkW7l11jFrnR34rCf/f1Sm72JCA8Y4t6ut8nG@vger.kernel.org, AJvYcCVAjpxXZce9ThTnKCtLFdNDBQJ6dFkbn4E1lYjAjfDgOhxZnbF/BdocT3/7/Xx72aeJrrLnR8FzoqmWAIJ6@vger.kernel.org, AJvYcCVgSUnObPlYLwb1yKcxjJ6OtcDsOYjJv8GIJNvHCYWyU9NYVqL0+ibanlbx80WuXgNgecQz/KhWc8qq@vger.kernel.org, AJvYcCVwzyL4hvT+Ci/bldHrMMZ9+H09l9AT17O5r31rmOXV15IztHMs8HrgsQVTID8q/ieBVikSVCnE2l55gEOZSN9dlYo=@vger.kernel.org, AJvYcCWlv+YsG3nt98nHkqFtTTWakByeRqg32/XeY6IA7Pu5cuU4C6uGVF3b4zLWtJtp74SU7eXQcPIOBuVSfiE=@vger.kernel.org, AJvYcCWtB2OrmkOSbK0Vu1CHes+E3pkuD5poesbhjL3HEtVYLVtu4+yn+eOawr5CY21GsbnY2mjbZM5xGzBb@vger.kernel.org, AJvYcCWxW6EtxI1dpYAYx59v5ff2MrnQUsU3u2e+GCDu/FYhc1sWB3lIXnJC2r5lNGqTCeFGSvrgYrVIJkg=@vger.kernel.org, AJvYcCXfL4M0d21XFlYxz9O0xXWGcCpQVj0YtD7X5IBJ7DcmnSDnjD7zrrcwBqRJgWJ992l2yxT/RJNTZmcuOb6i@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4hAwDnHt3HYo7wiMB+zRmQf8Sg4F2mN7dks+B1034Qjsfrx5G
-	1LZ/VxRskxHsyYVoNLwEdExgiATxzrjleqOwKFoUxo6WcMLXhIuIXgLVmlYYohmWqlJFUla1Smw
-	lZT7gDMfj47W4I/CtgAVjjATrj+5zIW0=
-X-Google-Smtp-Source: AGHT+IGWFo0UcD4MojnRdJcVhqk/giYu4pxqlIjmLkAJEnDd4MWXJ9qI/qzV8bVwGlXxOpEoErWIuer/la1NZ2vHba8=
-X-Received: by 2002:a05:6820:c8d:b0:611:e30a:f9c7 with SMTP id
- 006d021491bc7-613c0292e6amr496213eaf.7.1751913810559; Mon, 07 Jul 2025
- 11:43:30 -0700 (PDT)
+	s=k20201202; t=1751920934;
+	bh=TFwuCdZGPMLUWkDUlk7xc4pd4TWR/hWivyhMGdCjHvc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=snCrH+3n8WvC2YHtpwm12rKOgMBbsXOQTBPqas3wvKn/0BFXm2hxqaA7yKKCWxf3c
+	 NoVQcmD3pEwW7bzk6Ul2sTXoK9T8g72Et4EuUAwdw5dG3i0JQ/ds3QHORR3Hv12E1o
+	 OTZTRgH1MhERnuMWloeA/Q3CNgdhJnis94FPatSBZoi3XVXc6O3TSSyMv1hQEMij3Q
+	 YFncjgr40t66854TLRjKZ9Lr8atSm3AH4q/DkzTx8N3MHQT7ZxjYzUWEmxd6kmg4hn
+	 ehxiYqERfkHSS25plVukikQSCuU60gK6+zLa4D5cvvo4VMAsuJ/V4crT9D6kTUIzd1
+	 bqgxKEiwkv6JA==
+Date: Mon, 7 Jul 2025 21:42:07 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Nick Li <nick.li@foursemi.com>
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
+	xiaoming.yang@foursemi.com, danyang.zheng@foursemi.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] ASoC: codecs: Add FourSemi FS2104/5S audio
+ amplifier driver
+Message-ID: <f2055d69-af5a-46a9-8bb7-46ec3175b790@sirena.org.uk>
+References: <20250703035639.7252-1-nick.li@foursemi.com>
+ <20250703035639.7252-3-nick.li@foursemi.com>
+ <b1ad15d1-bf9f-4b94-abb8-1e9c6d512987@sirena.org.uk>
+ <1C4720AC50797830+aGe3L70OToh6txmC@foursemi.com>
+ <0370941d-63eb-4676-8a74-b8afef524376@sirena.org.uk>
+ <88CC983A5550253C+aGuGe7pQvIBPclfz@foursemi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250703112708.1621607-1-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFoznqfdX7Dvu3VPa5Me10VHGphnRRHrU17w-fie7HrQ5g@mail.gmail.com> <CAJZ5v0gH9ZAK9br58KB0VEtG+4VdwO7vEKtrKbpcYOKnZPf7bg@mail.gmail.com>
-In-Reply-To: <CAJZ5v0gH9ZAK9br58KB0VEtG+4VdwO7vEKtrKbpcYOKnZPf7bg@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 7 Jul 2025 20:43:18 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gZK_JYgXYdbJ9pOBgrMO9sBa=VWP8HGOVV4C2mCOSSWg@mail.gmail.com>
-X-Gm-Features: Ac12FXx21d9hRiF0Pqe_4V96M5MioxLeGCoj8OSAh6lGgwSlfReCuBO8e1tghsQ
-Message-ID: <CAJZ5v0gZK_JYgXYdbJ9pOBgrMO9sBa=VWP8HGOVV4C2mCOSSWg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] PM: domains: Detach on device_unbind_cleanup()
-To: Ulf Hansson <ulf.hansson@linaro.org>, Claudiu <claudiu.beznea@tuxon.dev>
-Cc: linux@armlinux.org.uk, gregkh@linuxfoundation.org, 
-	david.m.ertman@intel.com, ira.weiny@intel.com, leon@kernel.org, 
-	dakr@kernel.org, len.brown@intel.com, pavel@kernel.org, andersson@kernel.org, 
-	mturquette@baylibre.com, sboyd@kernel.org, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	wsa+renesas@sang-engineering.com, mathieu.poirier@linaro.org, 
-	vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
-	pierre-louis.bossart@linux.dev, broonie@kernel.org, robh@kernel.org, 
-	jirislaby@kernel.org, saravanak@google.com, jic23@kernel.org, 
-	dmitry.torokhov@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-serial@vger.kernel.org, bhelgaas@google.com, geert@linux-m68k.org, 
-	linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	fabrizio.castro.jz@renesas.com, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2q2hNUYdsLxioORi"
+Content-Disposition: inline
+In-Reply-To: <88CC983A5550253C+aGuGe7pQvIBPclfz@foursemi.com>
+X-Cookie: We are what we are.
 
-On Fri, Jul 4, 2025 at 9:53=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.org=
-> wrote:
->
-> On Fri, Jul 4, 2025 at 1:16=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.or=
-g> wrote:
-> >
-> > On Thu, 3 Jul 2025 at 13:27, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> > >
-> > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > >
-> > > Hi,
-> > >
-> > > Series drops the dev_pm_domain_detach() from platform bus remove and
-> > > adds it in device_unbind_cleanup() to avoid runtime resumming the dev=
-ice
-> > > after it was detached from its PM domain.
-> > >
-> > > Please provide your feedback.
-> > >
-> > > Thank you,
-> > > Claudiu
-> > >
-> > > Changes in v5:
-> > > - added PD_FLAG_ATTACH_POWER_ON, PD_FLAG_DETACH_POWER_OFF;
-> > >   due to this a new patch was introduced
-> > >   "PM: domains: Add flags to specify power on attach/detach"
-> > >
-> > > Changes in v4:
-> > > - added a flag in dev_pm_info that is saved in dev_pm_domain_attach()
-> > >   and used in device_unbind_cleanup()
-> > >
-> > > Changes in v3:
-> > > - add devm_pm_domain_attach()
-> > >
-> > > Changes in v2:
-> > > - dropped the devres group open/close approach and use
-> > >   devm_pm_domain_attach()
-> > > - adjusted patch description to reflect the new approach
-> > >
-> > >
-> > > Claudiu Beznea (3):
-> > >   PM: domains: Add flags to specify power on attach/detach
-> > >   PM: domains: Detach on device_unbind_cleanup()
-> > >   driver core: platform: Drop dev_pm_domain_detach() call
-> > >
-> > >  drivers/amba/bus.c                       |  4 ++--
-> > >  drivers/base/auxiliary.c                 |  2 +-
-> > >  drivers/base/dd.c                        |  2 ++
-> > >  drivers/base/platform.c                  |  9 +++------
-> > >  drivers/base/power/common.c              |  9 ++++++---
-> > >  drivers/clk/qcom/apcs-sdx55.c            |  2 +-
-> > >  drivers/gpu/drm/display/drm_dp_aux_bus.c |  2 +-
-> > >  drivers/i2c/i2c-core-base.c              |  2 +-
-> > >  drivers/mmc/core/sdio_bus.c              |  2 +-
-> > >  drivers/rpmsg/rpmsg_core.c               |  2 +-
-> > >  drivers/soundwire/bus_type.c             |  2 +-
-> > >  drivers/spi/spi.c                        |  2 +-
-> > >  drivers/tty/serdev/core.c                |  2 +-
-> > >  include/linux/pm.h                       |  1 +
-> > >  include/linux/pm_domain.h                | 10 ++++++++--
-> > >  15 files changed, 31 insertions(+), 22 deletions(-)
-> > >
-> > > --
-> > > 2.43.0
-> > >
-> >
-> > The series looks good to me, please add:
-> > Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> >
-> > Rafael, do you intend to pick this via your tree?
->
-> I do in general, but I haven't looked at this version yet.  I'll get
-> to it early next week.
 
-Now applied as 6.17 material, thanks!
+--2q2hNUYdsLxioORi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Jul 07, 2025 at 04:34:03PM +0800, Nick Li wrote:
+> On Fri, Jul 04, 2025 at 03:37:32PM +0100, Mark Brown wrote:
+> > On Fri, Jul 04, 2025 at 07:12:47PM +0800, Nick Li wrote:
+> > > On Thu, Jul 03, 2025 at 03:59:34PM +0100, Mark Brown wrote:
+> > > > On Thu, Jul 03, 2025 at 11:56:37AM +0800, Nick wrote:
+
+> > > the volume will be masked in fs210x->vol[2],
+> > > we restore the volume when the driver resumes(reinitializes) the deivce.
+
+> > You're not just restoring the values on resume, you're also overwriting
+> > them on probe.
+
+> Yes, the volume will be set to the default value at the first time of initialization on probe,
+> and it may be updated by volume control later.
+> It's a good way to use the regmap cache(REGCACHE_RBTREE) to cache the volumes.
+
+Great.  Note that for new things you should generally use _MAPLE
+instead, it's a more modern data structure - _RBTREE can still make
+sense for some specialist use cases but this is unlikely to be one of
+them.
+
+> > There's not great options here, and you're going to loose the start of
+> > playback especially with devices that don't start clocking until audio
+> > starts.  You really need the CPU vendors you're working with to
+> > implement SND_SOC_DAIFMT_CONT or expose their clocks via the clock API
+> > but not all hardware is able to do this.  I think given how limited your
+> > hardware is here you really need something in trigger() or some new
+> > callback that runs later than that, the delayed work you've got there is
+> > trying to fudge things to run after trigger.
+
+> We will start the start_work in dai->trigger if there is no clock bclk
+> for us to control, and disable fading in/out in firmware to reduce
+> the time consumption if it is needed(As a backup plan).
+
+Great.  You could also make the fade in/out user selectable so the
+application can trade off between pops/clicks and cut off audio.
+
+--2q2hNUYdsLxioORi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhsMR4ACgkQJNaLcl1U
+h9DXjgf/eR8r8mxqzf9OIJmirwEwrZZshozNp2kzXNehBqVpfmktmHfHwNvO3dQb
+MWtqyl54nwZmR7AYLS6Bsb33Qd5EdDxzZWYkJF9WnrTwkzsS5YyNeBjQ2Yad70/h
+1r11szUlBFLhg8DC4g1ERUGm1+QYrHHbiTv2UDTub+hktMViUNrHJ6hAIfgeCu49
+6MjcRy20ycMhZsxEXSEyHa/PaMuIqPP6HydelwDOKaas6V3+L1aejjiApLH6xOFn
+7GNR4OlC4W7yImsahefryZU149mY6tgxuaf/DWk9JKSxSfneQNzTe2M4g586EqkH
+TGl5VwCSKnrqzrPuqZ2YJ8Q+rPyb6g==
+=A+bV
+-----END PGP SIGNATURE-----
+
+--2q2hNUYdsLxioORi--
