@@ -1,46 +1,46 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBCA1F9F51
-	for <linux-sound@vger.kernel.org>; Mon,  7 Jul 2025 12:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80DB28FFE2
+	for <linux-sound@vger.kernel.org>; Mon,  7 Jul 2025 12:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751892144; cv=fail; b=QxLKpNR4zYdHOGiRjtSPUlWn/dGj/CNSSC+86Wfz5QEWTRmWmx+laKaxTPpRt1/fppDdy+lKI8YGHmmFRmr6c3tLhhC2LcBBaIpceqbeetxXbpGS0FzU/W+YQcK16PZzsTIEpmHbNJ2P3+iiP1/MQX/OSbn2WYpwk8d1aSyEMvg=
+	t=1751892154; cv=fail; b=GOJb2CMXgCLyRkRoMheC6FZ/Wzo9VmmOnjuLEae1gJPXU11LnrozaWy7JxYBszUeLAkwK5JEJsWCZgx8DA5MCH0amnqvClqD2LjNls91AptEPXbrjXWM0dev3B0BSK/u9eD/9T+QTsfeRbjxhtYUv9/iExyY9Sq7o2CA7qbwAgE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751892144; c=relaxed/simple;
-	bh=vYMy03HzULAB6M5VXvOnk6oafTRxVQsz499+//iSEKc=;
+	s=arc-20240116; t=1751892154; c=relaxed/simple;
+	bh=lbTv0DJUa80KOQNa2Hw9e0j0bqsEgwAdCYhEFCSWdRk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jWMJJyMWxj+t+5r8F14Qx06E/BAYccYhMXfdsfSydQAHkFuicbY1VQJ3ob1fpduwZZ8YnYUIL27NPp2/PSbvN9YSZK4eXmh5VMj+v9owBMw2Zs+9JCiKYCZPWYbiB9YybNAgcgltxKrr1cW/tORB+V/tCjaUNNOQbd9cJ6Sz8gQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=bW3FNQDD; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=HdKe8UCf; arc=fail smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=KC9bEn573NdpWMa0Ogb7iyn6g+cwJFg2AJuq6PEaSBt0Oh6dtJLI0gLZD976e3FKy8oWPf7mUsnImuScy+O4V1CxaHSpTRWqhEbuuT1EDx5Ll2acX5wPWwhhXcoe9tLq6wnboa5dzJDgPD8xnlNHRR/GSQqod+Ya6Ok0F6O6XEE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=o2umXtz7; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=E9xPHuMY; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="bW3FNQDD";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="HdKe8UCf"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5674lxEC022144;
-	Mon, 7 Jul 2025 07:42:06 -0500
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="o2umXtz7";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="E9xPHuMY"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5674p081022947;
+	Mon, 7 Jul 2025 07:42:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=kIo0R1U0vtyuch+518m4KiMsCwp4fucuj0Xiw77yLIA=; b=
-	bW3FNQDDviAaPhQn9mXvo+Y4+cGf7DNEoupAluO2Pe6XszNlcy4V0/HzpXI7v2Dg
-	qyB0iPPJRwKP2+JVdMPkvR3W32C59XawgP/7JgNDSkznrBycmQbIGAU05rYe7Va/
-	v2ARmZbdd04xXmVhVD1q0O77YIShPItNbnJjgHxWLpoj7i40BQ7H2fVIrMvUUFm+
-	g6dKM1rxu8DVyvb+zHNYVUH/Ko7T8Q5p5xw5CrT/BC3DNaCzUPRQsDCWMGvopz08
-	TPMKvHDtJF5w7jLVVd8BRpxAA/jDl9NLZpnk70hO6eHmFU4KXSBRd2yoXvpgGhl4
-	e6TTeImQriD5HqvfPa2TDg==
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10on2103.outbound.protection.outlook.com [40.107.94.103])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 47q1f3j6u9-1
+	PODMain02222019; bh=Y2TbtTvshs7zUaM9ixcr8IXksJdNXcVkFS5EL5F3DqI=; b=
+	o2umXtz7kjMcUbVO8Hlrh6JMCBJ4tTAVZhbWGjPKvZJtfxyoj7fe1XCWOXF1GEAr
+	LmMMhLBEvTDMrgllM9LHQiyVhFU7g87UGrnJSkdFZ5gGoWW0eggPhGi4rDyYpAMZ
+	WEujBsVXp1RqpawDPEQHMHhfcfbUF66ZEorZu3UY3Pis47cnZUexw2Z/EQmf5Kfv
+	LCNLeV3g1FobbXx/3FHna9GrtdZnqpz6XCuIuD1gmzTeIcoRy7vC6UJjDmg8UgNt
+	W1NSFgDttF16JM4EkFp8074SHL1NuuDc5JPfenQ9CxCmw7D8A9p1x3ApRmMZXKoD
+	4Zc26qO94X1uS2b3xR70YQ==
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10on2114.outbound.protection.outlook.com [40.107.92.114])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 47r0pjrrx6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 07 Jul 2025 07:42:06 -0500 (CDT)
+	Mon, 07 Jul 2025 07:42:07 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HgVJWu6nrll5oCZo5CbfmDo9JUKJqlRR+Amsgfio3Hc5X7KSEg9ywCSuAXkdRTM7s6qx9buZIeNJjekJNAZW1sRQxZ1rNwLRydnaaYupG0ewM+2fMNDtTW0a13FyDFfhji/wAS90xFH05Yic157y3QQRnQ/ASx2Rqd5LYxytw4mpTHPWgJlFHtDWLbchC98Z+wvZx65DAt2eoITyPbHKo2P8WgPNrnz+e4pMMNbDjC99xRhOXddz0XGhi5xv3vQVvQ83p+fD/f5+WtqPtmEP1t9BwkDA8Yo/5CQotKwYNNbh1bU0IqQqkRnzSf3bxmRG2OayvCJEuB1GaeqhQ0cDvQ==
+ b=hmmhl8Ww9duHXoVAl3HnMr9plEY0BigWNMx2qbHjbaQE77uaN7kE9MKwJSBfk8aOx4VqCvDT3dP26Jag9g1Mp5MMO/z500AcgPn0aUJ6UIpUY5oDlL6wKp4EE3uKNit3CVZf+a7NoXtPJDMhhHlve6R+GFxrEFkiQqo3HOAMmLIwlblYidXUx8sMlP9XNr3pGHsbRhW43JMfby39XrvNwYqvSdl0IEfjaW1rPHYJC9+1Y6SU5QPnOtPu7z0oKTXZKqqY5mF5eCiTSQEMRbxxA67C8X83o3UY9zvOcItul2BV6SgosRE7K67t1IEFsK0KoJIDNDkYX1e9tEnghwig8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kIo0R1U0vtyuch+518m4KiMsCwp4fucuj0Xiw77yLIA=;
- b=zR8OBkQcLkpz3dmAHZxYPykVfDUNrF1ZbI73W+MtvE9MImHYCQqt7HMerucz3+DoUt3gJvqoueaR0HzoXeNPDbNrcl3vj7ZpT/3ohwihuoWAP2CNuuiMV0BUH3S4v0M/+p3wTbtGtlsJf27sEIMR10UbvmsWjk+cwaBE5QVWiQAWvyRgM7FZAjZbwVZuzAjUSIKv7134U8vEwG0gJawm1JDBMXbq2aDpH83HLhjhOBYoyAAARkHNCUPHGxSTjp/kw+K+gQ/A1yfIsSSTcOFbFMqie9kCnlvyZ+D3zISHHYtwerW80GXk3LrVBUD+ly3r4nGaVjNNFwtAyKiimGVzcw==
+ bh=Y2TbtTvshs7zUaM9ixcr8IXksJdNXcVkFS5EL5F3DqI=;
+ b=ew7bN3tRQHurFETZnygmzuC2givuJOBqXlMUwxflK1YhNz4y0YcWiRJlh+3UXqVBX9KDZI7dTkZ49IXvB1SDW75bQRyevkT0C9rIghoz53JuPyvcjNvApnRaZ8WGM0/+l9susAFx2KJOt1f/mKfZpnD/qujCvXuLthSP8PpFw86wtmOPt4CiT8eI0tCA6V1fm95RbJSK/x1Zub/1eCoq/rgQGUlxzIyfE3+obu17sT+4gXTbvvTkfWgu2Cq8cmW7TjO6NKJAEzX8UazswOog4rypAKIcg3DCxrq/E5y2s53SAtpRECfEeksPEetztwtzAq2/Kt+Q9CS0P0+ed4uytg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,18 +49,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kIo0R1U0vtyuch+518m4KiMsCwp4fucuj0Xiw77yLIA=;
- b=HdKe8UCfWRodpvY3FwvyqaXxe92hHLzrVcVQlRLxFo8Q6RRMz8CddTkivkLuM4nkWHpePKzJA/yW/7DXbCD6xVwIfB2pgL+0m/v/ON9wBgOnBl9IAsBGDmMEvTHUJkwtLMorlDRqIzJzKtO3Fa4j6OnOlOsx8jrZgt6Xx9TeT7c=
-Received: from BN8PR07CA0036.namprd07.prod.outlook.com (2603:10b6:408:ac::49)
- by IA0PPF94AC58BD3.namprd19.prod.outlook.com (2603:10b6:20f:fc04::cb9) with
+ bh=Y2TbtTvshs7zUaM9ixcr8IXksJdNXcVkFS5EL5F3DqI=;
+ b=E9xPHuMYbIT5FmBcTaETb7ACw7z7pw8hPynjgOYRIRzmZ21q88sirKmUOSHngG5oBl2EDczWdTh+AYCFsxlnObc9qSvtdvf7txk1Jrlhk2lCdPFaa0/uM1i6yb1gRGxrcsAsUKo8J4jUwH7Uk6gacvXrVem5EdsExo+k2vO5ld4=
+Received: from BN8PR07CA0028.namprd07.prod.outlook.com (2603:10b6:408:ac::41)
+ by IA1PR19MB7877.namprd19.prod.outlook.com (2603:10b6:208:446::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.13; Mon, 7 Jul
- 2025 12:42:01 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Mon, 7 Jul
+ 2025 12:42:03 +0000
 Received: from BN3PEPF0000B06E.namprd21.prod.outlook.com
- (2603:10b6:408:ac:cafe::f8) by BN8PR07CA0036.outlook.office365.com
- (2603:10b6:408:ac::49) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:408:ac:cafe::70) by BN8PR07CA0028.outlook.office365.com
+ (2603:10b6:408:ac::41) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.26 via Frontend Transport; Mon,
- 7 Jul 2025 12:42:01 +0000
+ 7 Jul 2025 12:42:02 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
@@ -73,19 +73,19 @@ Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.1
  via Frontend Transport; Mon, 7 Jul 2025 12:42:00 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 96C97406547;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 84364406542;
 	Mon,  7 Jul 2025 12:41:59 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 7A53582026B;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 68DAF82024D;
 	Mon,  7 Jul 2025 12:41:59 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
 Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
         pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
         patches@opensource.cirrus.com, linux-sound@vger.kernel.org
-Subject: [PATCH 3/7] ASoC: SDCA: Move SDCA search functions and export
-Date: Mon,  7 Jul 2025 13:41:51 +0100
-Message-Id: <20250707124155.2596744-4-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 1/7] ASoC: SDCA: Allow read-only controls to be deferrable
+Date: Mon,  7 Jul 2025 13:41:49 +0100
+Message-Id: <20250707124155.2596744-2-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250707124155.2596744-1-ckeepax@opensource.cirrus.com>
 References: <20250707124155.2596744-1-ckeepax@opensource.cirrus.com>
@@ -98,310 +98,87 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06E:EE_|IA0PPF94AC58BD3:EE_
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06E:EE_|IA1PR19MB7877:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: b7848173-6d6f-49bf-8254-08ddbd53ab59
+X-MS-Office365-Filtering-Correlation-Id: db7355fe-eff2-498c-094a-08ddbd53ab5f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|82310400026|61400799027;
+	BCL:0;ARA:13230040|82310400026|376014|61400799027|36860700013;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3gSSUG0rcNTw9nDZ7Tw/T3uHsmMpCdViIo/cXKLElC1Q2O+xWWZRc538BDqP?=
- =?us-ascii?Q?uqjldLveGb3CNHIKQpGyvtVakDSCkHawQfKh3mayQPtyyiHnHfbZykgYeMcx?=
- =?us-ascii?Q?LTatTTu8iUCryZ+twx1I7jEMd3KkF8drS3zij0Dc0cxiqJdBBlwtqSExg8Ef?=
- =?us-ascii?Q?OUroV4jooXSqtDkUkTvkJywjR9RTw+Ui68MDuC38KPNzq0TU9evk3SOs7t+E?=
- =?us-ascii?Q?BdssWLkmBdQWQX4NoIZSAtwtK4ozzagNhJZDxVdgO9utP0+Js0/kDy8gboAC?=
- =?us-ascii?Q?WvEJPqLT4o93Ix8Hgw2VyhUmmucV5sA+1EiKk/EGnrU1YtbuE+CVUZn3R4B5?=
- =?us-ascii?Q?m+7ivC68FjNZ6Esn0IYMSzqus/HXGsK70j/7eICclhWWrqibTMJSVgUTgk3i?=
- =?us-ascii?Q?e2QjymhQJRR3DHdauqtfzaGcbm5u3/6Gcut0PAefLSrGGErn4lniqHj1TutO?=
- =?us-ascii?Q?xJ6fVoi+6thpE853twuB911c5QQgI22DkgX6xAOqAca0amCbLJw+YerlxakG?=
- =?us-ascii?Q?/Y0BM7nmH4zG75tTKQGP5E3lOcQV2TEYB2XgtqxQVXCL5JWdrah65tsSrPyH?=
- =?us-ascii?Q?6WuUV2SOkmaXIbFK/zHWk4TIdHwajC8P7EcqiL3eOT2mGZ+o9FD8V5djeO4V?=
- =?us-ascii?Q?ZG3PuqYEhogyNaMno39+wLrO5OvF6JxHsVSDHrgNPCswQb1gHBpBWU4oNfee?=
- =?us-ascii?Q?6d3TnvUqGScUaZ1OaHp7kshfepyVgE8zydwvxAcxZTPb+COUXa/kgee38dS1?=
- =?us-ascii?Q?FudeKJRQBulIBJ3CHie/nsZTVIWmaOWJKjSSJcOiG5wLInMy9dO6561ExSTt?=
- =?us-ascii?Q?dF7d9ig6SWtiiEqBG/gVmLcRMN0b3IJ1+nTqY6+4LxmvE/79jGnSxAhLuV1O?=
- =?us-ascii?Q?2qW1AkkbIEVHcnCgiuguYE01G254qIMIHVIkZ7XBHHzbwu3MD16LPLVsjw+t?=
- =?us-ascii?Q?0oq6PN1n/TMHuoEbw1Jam11l77wq8nk7PZVhtEfiyiLDOFXgrhRigAVtIQR3?=
- =?us-ascii?Q?Qn5+1onnXTLWocLIONmG0AZECfWOX9zsxEBxTUIVstHD59Y3PstJvi5ENyyD?=
- =?us-ascii?Q?ilqqLtt7C0pWQLjzuoLENP6i0RHQCCj5V7EZXqJ8QCeS6eBvibQ+Khe3cRvF?=
- =?us-ascii?Q?e/EsRFfMIKn1ZeaacDSAd/Two2FU3fALNTY3MVmT4UIOCzaYIf5+B9fD50Qv?=
- =?us-ascii?Q?Ua54P6qksYBMO839IVpO08mwj6aiVcsEzIPjKFgkFZeSKKF9Xn2+O0qlAU5e?=
- =?us-ascii?Q?Bc0p4eyskPHB3QB8XggtZSBo1oTDylbv1YIWIHV6my7CXyCjfawjdtVdRsmo?=
- =?us-ascii?Q?PIvN3TJFvVyjqyffwk4/AasD9/RfqfRgo3jJgkyUTNUe6dQRds5p9TuDrj9X?=
- =?us-ascii?Q?X23YRc8Xd0F4Rj7D5Azx+p5czUEygGgZoOT8yG1H4oE2mmOuf1V38yrIRyzJ?=
- =?us-ascii?Q?FChVzNZdhQsh0oXGSO8HUF+2PZrSJ+UMFrXmGjcJFTnb+QYtdmvP8zDD9/hG?=
- =?us-ascii?Q?pUYTJZ/AjMYyipNxmvZo8MucOpcwhLzgpSZf?=
+	=?us-ascii?Q?IwViWKFt705Hkp+fN1iWfpZZue7i66Mi/SPR0I/+8fXZIl2DDr3aRJAl35n2?=
+ =?us-ascii?Q?VINy+5jRTSfLhHqBsr+1piNrZRTKgIBew+NpBg/VA8wbKLsGvPff4OCS58lv?=
+ =?us-ascii?Q?GOlF3mJh6t9E4j1cWpGrkH48VYy+oRvyJQJV6sdQc3jjP19QPlSvBBUwDrvR?=
+ =?us-ascii?Q?bvZHiU/Y/BUUGJK+1LYd/YL1tenG5L+O3EADM0aLSVjROJyC2BN/Exzvd5hI?=
+ =?us-ascii?Q?10QvXN3n0JJUP3zM5jYDiuhHZbGRZU/u7uBucYmIPt4P0PToiPtqP+5eCIRk?=
+ =?us-ascii?Q?vCh7fAOcAg7zWmG5PQOw2v+hdVL2+e4FhqE9QRcPOKn51zXhh2V2LqyE4p/y?=
+ =?us-ascii?Q?woUW1YTBCT3/hk3wlqSiO06Z+X6AX6cV4g6bH8ZDutbA563HahAZJ1Sh0sL2?=
+ =?us-ascii?Q?iEaT8xg/5/+agCmdq3paWnpY0tSDgRAI+6BRv6QDGmrXonmhUtKVU5QH6pt0?=
+ =?us-ascii?Q?wWc9PnwIQOttZbDK7lwDxTKpmB3kTOOno53/Rydch0RuRJfMKDR55WsF6/G9?=
+ =?us-ascii?Q?yq/b07rIVVmen98kvWFNH1uKy6KY70LJqbE1BGnNT0RuHTl5/Q8Lo6SkIyd9?=
+ =?us-ascii?Q?P8J5NnFwdIQ53SW0lA8YcbiLc/4Vz6GRw1IDHYihX44wjIRXURTmblKPrgKi?=
+ =?us-ascii?Q?yWWgL1NSQMxoQJEVLPRT6IN/SI3bBjQBP6FBqqHLyWSlT6EzcjqO/3kLreZn?=
+ =?us-ascii?Q?Ubn6QNZvKmQh4PGY897MR3MDeTS74t2EzxZwv6QA7US7Yt37ohAH/lu1xDTp?=
+ =?us-ascii?Q?mWO4XDszWNWb75HOnL43NxlYs13jPvcYu/rcKDW75Rl+oMO2ChbkbltbYlWK?=
+ =?us-ascii?Q?Lyby+0+l4suIDUBirNKBi5CWPj6l7U6Fltp96t/fMnbDIkVw3Z8+7k85mEo4?=
+ =?us-ascii?Q?ki7Lnwg69cc68HGCN5/EXss4Xx4YYn7kBpJkAV3VeRhllULbHOua35t47G0K?=
+ =?us-ascii?Q?v3M3OXO7HjmzKiPuKs83DbblvQLtlo49sHNK6fXF2oak8s9PLnE+jfanDo4u?=
+ =?us-ascii?Q?AgBxUYHdPAVtJdIq0OUAiDq0ZiZvP3zAx24o+YqxBejOyeJ5KcxbRxCilIIy?=
+ =?us-ascii?Q?1HlvCWcZouFG3cAS3IWsR5TQc/fH9uCSIkXXhUvXfR8Dl1WLembKFFdYA7Ir?=
+ =?us-ascii?Q?8uDGHMhUgUXyEb/M17AoTQfMc70a4ydMvuhZ9pWY0omqOmY6+h41sBIm8wRG?=
+ =?us-ascii?Q?0kh65FvmY+jr9g5fbdy9nokRrE14S9DZvf+sbzkf2QZA0WyFHX++05xs2byM?=
+ =?us-ascii?Q?ZnRVb+Hbxpttv82qNSgvebFk8tSlcopXIMSLdKxBzyE/YVpztSsnAZwLeVan?=
+ =?us-ascii?Q?j2eFiZEmCny4C/mhwOrz5f9jASVxmakKpEZjuKbXWXPWmZSf/iM/WAqlSqkg?=
+ =?us-ascii?Q?lrVwpLA2jbsf8hHdWtwlczUwCGwwaer8C9f6xCoAPr6hOmVKrjNMN0Z5R54p?=
+ =?us-ascii?Q?Pwvnq4U2bg29ODO0lueawr2eJu8wit0m0NVj0jBLgHJadrJnZZPiSzsXJPly?=
+ =?us-ascii?Q?V60mB9olRZLzOx5c+blyEecKVcTvVGMm/L3j?=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(61400799027);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(61400799027)(36860700013);DIR:OUT;SFP:1102;
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 12:42:00.8984
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 12:42:00.9351
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7848173-6d6f-49bf-8254-08ddbd53ab59
+X-MS-Exchange-CrossTenant-Network-Message-Id: db7355fe-eff2-498c-094a-08ddbd53ab5f
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	BN3PEPF0000B06E.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF94AC58BD3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA3MDA3NCBTYWx0ZWRfX4qDgZpQYt9B7 B6N71UuuXuNwOBaNDAH7UgcdIXai7agFZDpISCZxZ8m42so0//ViQuiCpEclIcPj++nN3sxsus1 qe7Y8118mqEIVk5jJZA6G3HI2NMjIIxPtEK1kmB9R6YTnM+wx6UV8AOYxFrACuPvTdxDg7+N0Q2
- gdH37eEDxnO+iMtJkFihZxSM2rLbalwIPZuHvQzcVh4aaZyV2gSGeCcSdcGrouSW5985fjyqdr1 8yFJ34XCEdpiagEnAB//dUc+S7yGotqtIhNWIO5Ik8nKOwyG1YABNAs1fVqBzOHuO42cNrq85TP Afxk6Lm9B1h9GCSGN+wM5YwKLTb/CcQTZSA33alWeDmmUmq75zoEoJz1iTUvyM3OzAV5F4kg/HR
- 2Ijj0yLloktZqyynIGiKexXbZlswEPg1KpexxSv82bx5p5yjDHXmlwxeJRNiRZINATraoR/7
-X-Proofpoint-GUID: DhhK5RrVTT5r8eB6uuaDnxAV8y1X4otf
-X-Proofpoint-ORIG-GUID: DhhK5RrVTT5r8eB6uuaDnxAV8y1X4otf
-X-Authority-Analysis: v=2.4 cv=YNafyQGx c=1 sm=1 tr=0 ts=686bc09e cx=c_pps a=F0+d6aSsnXJg5hNSnXykjw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=Wb1JkmetP80A:10
- a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=DtomTKx68tNhjr8evqwA:9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR19MB7877
+X-Proofpoint-ORIG-GUID: TEUVIqt2o12pk3j1RL9mw9ZAvW1yad7S
+X-Authority-Analysis: v=2.4 cv=dtDbC0g4 c=1 sm=1 tr=0 ts=686bc09f cx=c_pps a=1agHWDAk2Ff3ek/eqE8klw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=Wb1JkmetP80A:10
+ a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=Tvb5laxKVx1xcNVSzZEA:9
+X-Proofpoint-GUID: TEUVIqt2o12pk3j1RL9mw9ZAvW1yad7S
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA3MDA3NCBTYWx0ZWRfX1SWrolVv8MdM LQCRmuxteyOifM0Ww1OnUL+YD0jU3DzFw4VKRuIAiTvTdOsA5NTB/v4GKEp9VU4sfMQfHDRT8sk lSK2zaj7Y1FKqyfZ07v6+VgvooBWMd+zkP3lf4o89lLzWYabiicg43qbzO77N6pG3B5N5+2WH/L
+ HwiV413r9om8GCE4a8sge9O7+EmGu2z+H7EC4k4ATYH3m2IRygS6dJxZe+4LqaxINS59B5k5iwi nFJZjP4LlAfMf6PoRsvVa/47Qim5pRlf5SISrwZnXPN172u3kG1WtY9fMWl/eWIV+ZKwDZt6jB+ rmJyBefrOq2pcF3yKCQwGe1zOtT46cDwn4dROBSmfqgpeEZtF4YjdPNovDB9GGNWyfmj3OQGunr
+ sW3F502gqPEJ7JRheKxWHT4rTjQ89kC9EdagrDZUeYxrbfIy5vRq/aGTm3DIJZa4IXU8+0p3
 X-Proofpoint-Spam-Reason: safe
 
-The ASoC code for SDCA contains several helper functions that search for
-controls/ranges/etc. As the code evolves these helpers are likely to be
-useful to anything interacting with the stored DisCo data. Move the
-helpers into sdca_function.c and export them so other modules can also
-use them.
+The current SDCA Control parsing only checks the deferrable flag for
+Read/Write and Dual Ranked controls. However, reads can defer as well as
+writes so Read Only controls should also check for the deferrable flag.
+Add the handling for this into find_sdca_entity_control().
 
+Fixes: 42b144cb6a2d ("ASoC: SDCA: Add SDCA Control parsing")
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- include/sound/sdca_function.h   | 11 +++++
- sound/soc/sdca/sdca_asoc.c      | 73 ++++++---------------------------
- sound/soc/sdca/sdca_functions.c | 50 ++++++++++++++++++++++
- 3 files changed, 74 insertions(+), 60 deletions(-)
+ sound/soc/sdca/sdca_functions.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-index b4a97ff08729..543c09e99ab1 100644
---- a/include/sound/sdca_function.h
-+++ b/include/sound/sdca_function.h
-@@ -1316,4 +1316,15 @@ int sdca_parse_function(struct device *dev,
- 			struct sdca_function_desc *desc,
- 			struct sdca_function_data *function);
- 
-+struct sdca_control *sdca_selector_find_control(struct device *dev,
-+						struct sdca_entity *entity,
-+						const int sel);
-+struct sdca_control_range *sdca_control_find_range(struct device *dev,
-+						   struct sdca_entity *entity,
-+						   struct sdca_control *control,
-+						   int cols, int rows);
-+struct sdca_control_range *sdca_selector_find_range(struct device *dev,
-+						    struct sdca_entity *entity,
-+						    int sel, int cols, int rows);
-+
- #endif
-diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
-index dd7b19083c85..11c9b3b935fc 100644
---- a/sound/soc/sdca/sdca_asoc.c
-+++ b/sound/soc/sdca/sdca_asoc.c
-@@ -26,53 +26,6 @@
- #include <sound/soc-dapm.h>
- #include <sound/tlv.h>
- 
--static struct sdca_control *selector_find_control(struct device *dev,
--						  struct sdca_entity *entity,
--						  const int sel)
--{
--	int i;
--
--	for (i = 0; i < entity->num_controls; i++) {
--		struct sdca_control *control = &entity->controls[i];
--
--		if (control->sel == sel)
--			return control;
--	}
--
--	dev_err(dev, "%s: control %#x: missing\n", entity->label, sel);
--	return NULL;
--}
--
--static struct sdca_control_range *control_find_range(struct device *dev,
--						     struct sdca_entity *entity,
--						     struct sdca_control *control,
--						     int cols, int rows)
--{
--	struct sdca_control_range *range = &control->range;
--
--	if ((cols && range->cols != cols) || (rows && range->rows != rows) ||
--	    !range->data) {
--		dev_err(dev, "%s: control %#x: ranges invalid (%d,%d)\n",
--			entity->label, control->sel, range->cols, range->rows);
--		return NULL;
--	}
--
--	return range;
--}
--
--static struct sdca_control_range *selector_find_range(struct device *dev,
--						      struct sdca_entity *entity,
--						      int sel, int cols, int rows)
--{
--	struct sdca_control *control;
--
--	control = selector_find_control(dev, entity, sel);
--	if (!control)
--		return NULL;
--
--	return control_find_range(dev, entity, control, cols, rows);
--}
--
- static bool exported_control(struct sdca_entity *entity, struct sdca_control *control)
- {
- 	switch (SDCA_CTL_TYPE(entity->type, control->sel)) {
-@@ -213,7 +166,7 @@ static int entity_early_parse_ge(struct device *dev,
- 	const char **texts;
- 	int i;
- 
--	control = selector_find_control(dev, entity, SDCA_CTL_GE_SELECTED_MODE);
-+	control = sdca_selector_find_control(dev, entity, SDCA_CTL_GE_SELECTED_MODE);
- 	if (!control)
- 		return -EINVAL;
- 
-@@ -221,7 +174,7 @@ static int entity_early_parse_ge(struct device *dev,
- 		dev_warn(dev, "%s: unexpected access layer: %x\n",
- 			 entity->label, control->layers);
- 
--	range = control_find_range(dev, entity, control, SDCA_SELECTED_MODE_NCOLS, 0);
-+	range = sdca_control_find_range(dev, entity, control, SDCA_SELECTED_MODE_NCOLS, 0);
- 	if (!range)
- 		return -EINVAL;
- 
-@@ -443,7 +396,7 @@ static int entity_parse_pde(struct device *dev,
- 	unsigned int mask = 0;
- 	int i;
- 
--	control = selector_find_control(dev, entity, SDCA_CTL_PDE_REQUESTED_PS);
-+	control = sdca_selector_find_control(dev, entity, SDCA_CTL_PDE_REQUESTED_PS);
- 	if (!control)
- 		return -EINVAL;
- 
-@@ -452,7 +405,7 @@ static int entity_parse_pde(struct device *dev,
- 		dev_warn(dev, "%s: unexpected access layer: %x\n",
- 			 entity->label, control->layers);
- 
--	range = control_find_range(dev, entity, control, SDCA_REQUESTED_PS_NCOLS, 0);
-+	range = sdca_control_find_range(dev, entity, control, SDCA_REQUESTED_PS_NCOLS, 0);
- 	if (!range)
- 		return -EINVAL;
- 
-@@ -499,8 +452,8 @@ static int entity_parse_su_device(struct device *dev,
- 		return -EINVAL;
- 	}
- 
--	range = selector_find_range(dev, entity->group, SDCA_CTL_GE_SELECTED_MODE,
--				    SDCA_SELECTED_MODE_NCOLS, 0);
-+	range = sdca_selector_find_range(dev, entity->group, SDCA_CTL_GE_SELECTED_MODE,
-+					 SDCA_SELECTED_MODE_NCOLS, 0);
- 	if (!range)
- 		return -EINVAL;
- 
-@@ -613,7 +566,7 @@ static int entity_parse_su(struct device *dev,
- 		return -EINVAL;
- 	}
- 
--	control = selector_find_control(dev, entity, SDCA_CTL_SU_SELECTOR);
-+	control = sdca_selector_find_control(dev, entity, SDCA_CTL_SU_SELECTOR);
- 	if (!control)
- 		return -EINVAL;
- 
-@@ -643,7 +596,7 @@ static int entity_parse_mu(struct device *dev,
- 		return -EINVAL;
- 	}
- 
--	control = selector_find_control(dev, entity, SDCA_CTL_MU_MIXER);
-+	control = sdca_selector_find_control(dev, entity, SDCA_CTL_MU_MIXER);
- 	if (!control)
- 		return -EINVAL;
- 
-@@ -853,7 +806,7 @@ static int control_limit_kctl(struct device *dev,
- 	/*
- 	 * FIXME: For now only handle the simple case of a single linear range
- 	 */
--	range = control_find_range(dev, entity, control, SDCA_VOLUME_LINEAR_NCOLS, 1);
-+	range = sdca_control_find_range(dev, entity, control, SDCA_VOLUME_LINEAR_NCOLS, 1);
- 	if (!range)
- 		return -EINVAL;
- 
-@@ -1140,9 +1093,9 @@ static int populate_rate_format(struct device *dev,
- 	}
- 
- 	if (entity->iot.clock) {
--		range = selector_find_range(dev, entity->iot.clock,
--					    SDCA_CTL_CS_SAMPLERATEINDEX,
--					    SDCA_SAMPLERATEINDEX_NCOLS, 0);
-+		range = sdca_selector_find_range(dev, entity->iot.clock,
-+						 SDCA_CTL_CS_SAMPLERATEINDEX,
-+						 SDCA_SAMPLERATEINDEX_NCOLS, 0);
- 		if (!range)
- 			return -EINVAL;
- 
-@@ -1154,7 +1107,7 @@ static int populate_rate_format(struct device *dev,
- 		clock_rates = UINT_MAX;
- 	}
- 
--	range = selector_find_range(dev, entity, sel, SDCA_USAGE_NCOLS, 0);
-+	range = sdca_selector_find_range(dev, entity, sel, SDCA_USAGE_NCOLS, 0);
- 	if (!range)
- 		return -EINVAL;
- 
 diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 1113f8d91b3a..ca965e8a4c46 100644
+index c34f3bf62983..164dc0e16a31 100644
 --- a/sound/soc/sdca/sdca_functions.c
 +++ b/sound/soc/sdca/sdca_functions.c
-@@ -1941,6 +1941,56 @@ int sdca_parse_function(struct device *dev,
- }
- EXPORT_SYMBOL_NS(sdca_parse_function, "SND_SOC_SDCA");
- 
-+struct sdca_control *sdca_selector_find_control(struct device *dev,
-+						struct sdca_entity *entity,
-+						const int sel)
-+{
-+	int i;
-+
-+	for (i = 0; i < entity->num_controls; i++) {
-+		struct sdca_control *control = &entity->controls[i];
-+
-+		if (control->sel == sel)
-+			return control;
-+	}
-+
-+	dev_err(dev, "%s: control %#x: missing\n", entity->label, sel);
-+	return NULL;
-+}
-+EXPORT_SYMBOL_NS(sdca_selector_find_control, "SND_SOC_SDCA");
-+
-+struct sdca_control_range *sdca_control_find_range(struct device *dev,
-+						   struct sdca_entity *entity,
-+						   struct sdca_control *control,
-+						   int cols, int rows)
-+{
-+	struct sdca_control_range *range = &control->range;
-+
-+	if ((cols && range->cols != cols) || (rows && range->rows != rows) ||
-+	    !range->data) {
-+		dev_err(dev, "%s: control %#x: ranges invalid (%d,%d)\n",
-+			entity->label, control->sel, range->cols, range->rows);
-+		return NULL;
-+	}
-+
-+	return range;
-+}
-+EXPORT_SYMBOL_NS(sdca_control_find_range, "SND_SOC_SDCA");
-+
-+struct sdca_control_range *sdca_selector_find_range(struct device *dev,
-+						    struct sdca_entity *entity,
-+						    int sel, int cols, int rows)
-+{
-+	struct sdca_control *control;
-+
-+	control = sdca_selector_find_control(dev, entity, sel);
-+	if (!control)
-+		return NULL;
-+
-+	return sdca_control_find_range(dev, entity, control, cols, rows);
-+}
-+EXPORT_SYMBOL_NS(sdca_selector_find_range, "SND_SOC_SDCA");
-+
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_DESCRIPTION("SDCA library");
- MODULE_IMPORT_NS("SND_SOC_SDCA_HID");
+@@ -881,7 +881,8 @@ static int find_sdca_entity_control(struct device *dev, struct sdca_entity *enti
+ 			control->value = tmp;
+ 			control->has_fixed = true;
+ 		}
+-
++		fallthrough;
++	case SDCA_ACCESS_MODE_RO:
+ 		control->deferrable = fwnode_property_read_bool(control_node,
+ 								"mipi-sdca-control-deferrable");
+ 		break;
 -- 
 2.39.5
 
