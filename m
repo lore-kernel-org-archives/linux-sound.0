@@ -1,115 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAA31FBE8B;
-	Mon,  7 Jul 2025 20:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4332123D282
+	for <linux-sound@vger.kernel.org>; Mon,  7 Jul 2025 22:08:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751920935; cv=none; b=MIhg2DGINko4NJkiRP7D9CnsyWJGBEdkG2d9BpTKyGQMWQry5XtDKL9sIsB22DQQUxX72KYLigz5UAM2Ewwr1/vKBvLQwdJnrlVZbsk8x4GV3EyLAX2MIh44hd1MRWiohpbxYousIQR/53SYyHesf86j5BnvacMZt266Wo1EW3c=
+	t=1751926113; cv=none; b=r4Wj9K572L97//eBU6evB4pgAUQ68j60fw6uIWznDbHKf0kGXmLNISwMIvB/gdR2QgMr+KBPN55VLfLjQV4H2S6jWyZtVQFfiYKRhfLZFHDbTaRePh9tUBkZ71ZEGjK/dNF9KBASZvppYfmw8da2v1+Le+pjADMLPeB2XX18uUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751920935; c=relaxed/simple;
-	bh=TFwuCdZGPMLUWkDUlk7xc4pd4TWR/hWivyhMGdCjHvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HYWQwrTsfKDQX0kOGuoReavsspxqeLZUmU7jEpMxWhzXT7KWXlnlNLo0A2EJqQO8go9AM55OxQRtzMJyI9i+bfcvO9Zh9BPjg7tRrYIjTerwh/+6kjuOSP97M2eTwhs+AfOPpJKL2MMn97oZIGDFqWT3xUClA7658VrOaJQ13F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=snCrH+3n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751926113; c=relaxed/simple;
+	bh=5GMucsTHhiHN7CPe8GeQujx+8ZarZaieU+6wbFvGPU0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Z8AJ+lBmEaeZ6r+LJGmDkAyLHudTGhTE5j+UY6iNb4LQZxInEQ6QJ2UL5UpnKmIfIWYTKsXwF3zZX0A9mfqpqNqP2KTLqvF1fwoq0wexYeA+usuROGh+k218LfU//7mkBSVKjm95DrL6S5XFO+hrFtsufx0F1B8pqydr7Pq+Pc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUPaV9/d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="snCrH+3n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E221BC4CEE3;
-	Mon,  7 Jul 2025 20:42:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUPaV9/d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E225C4CEE3;
+	Mon,  7 Jul 2025 22:08:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751920934;
-	bh=TFwuCdZGPMLUWkDUlk7xc4pd4TWR/hWivyhMGdCjHvc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=snCrH+3n8WvC2YHtpwm12rKOgMBbsXOQTBPqas3wvKn/0BFXm2hxqaA7yKKCWxf3c
-	 NoVQcmD3pEwW7bzk6Ul2sTXoK9T8g72Et4EuUAwdw5dG3i0JQ/ds3QHORR3Hv12E1o
-	 OTZTRgH1MhERnuMWloeA/Q3CNgdhJnis94FPatSBZoi3XVXc6O3TSSyMv1hQEMij3Q
-	 YFncjgr40t66854TLRjKZ9Lr8atSm3AH4q/DkzTx8N3MHQT7ZxjYzUWEmxd6kmg4hn
-	 ehxiYqERfkHSS25plVukikQSCuU60gK6+zLa4D5cvvo4VMAsuJ/V4crT9D6kTUIzd1
-	 bqgxKEiwkv6JA==
-Date: Mon, 7 Jul 2025 21:42:07 +0100
+	s=k20201202; t=1751926111;
+	bh=5GMucsTHhiHN7CPe8GeQujx+8ZarZaieU+6wbFvGPU0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mUPaV9/dqz+xMk3iNyuEC9a7YQdsT4F1xpk4z/X5eu35MHGH9GQRTJpXQomqG3jIJ
+	 yt06xsH0BMRfzLuCnbFKW879yffycEPjqBtgu6NlEMqlqdY1HDbUtqIk03Rsv+NbCz
+	 Qw+AXPJDJzRbNL1RL7GTYPUTZivNQzCWuDzTznkzf/vNFaBBlOyZQc18geezK5z9cB
+	 WIhnnIQaLSvWcPc4Ff/UiXA1qIiyVFjF2dkfyrj3lFWjbsNLjnRQgdXoN1JjGOQHLs
+	 ZdPGF3YLhjj5U9uEWxEqmh0u6KkFZRorZheeFQqgcSNi96ZwIru/77s9PQnCt3MKU7
+	 Qct6jSRyQsACw==
 From: Mark Brown <broonie@kernel.org>
-To: Nick Li <nick.li@foursemi.com>
-Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
-	xiaoming.yang@foursemi.com, danyang.zheng@foursemi.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/4] ASoC: codecs: Add FourSemi FS2104/5S audio
- amplifier driver
-Message-ID: <f2055d69-af5a-46a9-8bb7-46ec3175b790@sirena.org.uk>
-References: <20250703035639.7252-1-nick.li@foursemi.com>
- <20250703035639.7252-3-nick.li@foursemi.com>
- <b1ad15d1-bf9f-4b94-abb8-1e9c6d512987@sirena.org.uk>
- <1C4720AC50797830+aGe3L70OToh6txmC@foursemi.com>
- <0370941d-63eb-4676-8a74-b8afef524376@sirena.org.uk>
- <88CC983A5550253C+aGuGe7pQvIBPclfz@foursemi.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87y0t8hiue.wl-kuninori.morimoto.gx@renesas.com>
+References: <87y0t8hiue.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2 00/11] ASoC: soc-dapm: cleanups
+Message-Id: <175192611111.127974.13793228646182356992.b4-ty@kernel.org>
+Date: Mon, 07 Jul 2025 23:08:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2q2hNUYdsLxioORi"
-Content-Disposition: inline
-In-Reply-To: <88CC983A5550253C+aGuGe7pQvIBPclfz@foursemi.com>
-X-Cookie: We are what we are.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
+On Tue, 01 Jul 2025 00:10:02 +0000, Kuninori Morimoto wrote:
+> These are v2 of cleanup patches for soc-dapm.
+> This is prepare to hiding snd_soc_dapm_context inside soc-dapm.c
+> 
+> v1 -> v2
+> 	- remove EXPORT_SYMBOL_GPL() from snd_soc_dapm_free() only [02/11]
+> 	- remove weak [04/11]
+> 
+> [...]
 
---2q2hNUYdsLxioORi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Jul 07, 2025 at 04:34:03PM +0800, Nick Li wrote:
-> On Fri, Jul 04, 2025 at 03:37:32PM +0100, Mark Brown wrote:
-> > On Fri, Jul 04, 2025 at 07:12:47PM +0800, Nick Li wrote:
-> > > On Thu, Jul 03, 2025 at 03:59:34PM +0100, Mark Brown wrote:
-> > > > On Thu, Jul 03, 2025 at 11:56:37AM +0800, Nick wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > > the volume will be masked in fs210x->vol[2],
-> > > we restore the volume when the driver resumes(reinitializes) the deivce.
+Thanks!
 
-> > You're not just restoring the values on resume, you're also overwriting
-> > them on probe.
+[01/11] ASoC: soc-dapm: remove unnecessary definition
+        commit: e199e85556bd83806baf4689cbecfa31c41a6cfa
+[02/11] ASoC: soc-dapm: remove EXPORT_SYMBOL_GPL() for snd_soc_dapm_free()
+        commit: 58baaea26659ab24ba396afd592c2423aefc067c
+[03/11] ASoC: soc-dapm: remove snd_soc_dapm_nc_pin[_unlocked]()
+        commit: 2ec1067d1e5acb9e7aeb1fe6d5178424fc3107ab
+[04/11] ASoC: soc-dapm: remove snd_soc_dapm_weak_routes()
+        commit: d6f240031afbd780431ef289357373e2bbf2f793
+[05/11] ASoC: soc-dapm: reordering function definitions
+        commit: 0d516af948536c3fdefadd465a516e1f1317f696
+[06/11] ASoC: soc-dapm: reordering header definitions
+        commit: f02ccc8c0b99382807bac0065918a90ba974e9ab
+[07/11] ASoC: soc-dapm: use component instead of cmpnt
+        commit: fbd09117a38e5ff477040629f7b5fc442883746a
+[08/11] ASoC: soc-dapm: use common name for dapm
+        commit: 1ac23653840f784d0f5846ac253d04ecef9a26f6
+[09/11] ASoC: soc-dapm: add prefix on dapm_mark_endpoints_dirty()
+        commit: 805c019fbb94795e391974f673c5b3e57b825f6d
+[10/11] ASoC: soc-dapm: add prefix on dapm_xxx_event()
+        commit: 9d33f9ca4404e532453a0305ce11bf76a9945c5d
+[11/11] ASoC: soc-dapm: add prefix on soc_dapm_dev_attrs
+        commit: 08dc0f5cc26a203e8008c38d9b436c079e7dbb45
 
-> Yes, the volume will be set to the default value at the first time of initialization on probe,
-> and it may be updated by volume control later.
-> It's a good way to use the regmap cache(REGCACHE_RBTREE) to cache the volumes.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Great.  Note that for new things you should generally use _MAPLE
-instead, it's a more modern data structure - _RBTREE can still make
-sense for some specialist use cases but this is unlikely to be one of
-them.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> > There's not great options here, and you're going to loose the start of
-> > playback especially with devices that don't start clocking until audio
-> > starts.  You really need the CPU vendors you're working with to
-> > implement SND_SOC_DAIFMT_CONT or expose their clocks via the clock API
-> > but not all hardware is able to do this.  I think given how limited your
-> > hardware is here you really need something in trigger() or some new
-> > callback that runs later than that, the delayed work you've got there is
-> > trying to fudge things to run after trigger.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-> We will start the start_work in dai->trigger if there is no clock bclk
-> for us to control, and disable fading in/out in firmware to reduce
-> the time consumption if it is needed(As a backup plan).
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Great.  You could also make the fade in/out user selectable so the
-application can trade off between pops/clicks and cut off audio.
+Thanks,
+Mark
 
---2q2hNUYdsLxioORi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhsMR4ACgkQJNaLcl1U
-h9DXjgf/eR8r8mxqzf9OIJmirwEwrZZshozNp2kzXNehBqVpfmktmHfHwNvO3dQb
-MWtqyl54nwZmR7AYLS6Bsb33Qd5EdDxzZWYkJF9WnrTwkzsS5YyNeBjQ2Yad70/h
-1r11szUlBFLhg8DC4g1ERUGm1+QYrHHbiTv2UDTub+hktMViUNrHJ6hAIfgeCu49
-6MjcRy20ycMhZsxEXSEyHa/PaMuIqPP6HydelwDOKaas6V3+L1aejjiApLH6xOFn
-7GNR4OlC4W7yImsahefryZU149mY6tgxuaf/DWk9JKSxSfneQNzTe2M4g586EqkH
-TGl5VwCSKnrqzrPuqZ2YJ8Q+rPyb6g==
-=A+bV
------END PGP SIGNATURE-----
-
---2q2hNUYdsLxioORi--
