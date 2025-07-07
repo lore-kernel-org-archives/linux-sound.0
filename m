@@ -1,146 +1,82 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1700A28B516
-	for <linux-sound@vger.kernel.org>; Mon,  7 Jul 2025 09:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826B3261595;
+	Mon,  7 Jul 2025 09:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751880595; cv=none; b=tCtcdEnsnkvgHP4WB0npnPWfAUlog2xK9mGWqmZKSxGGD7bgFvVRCCTRMPWIcZYcgXTx0HWYgF9t8WUbwc83/M0IPkIDIZaN8Q0aenf1xlpYbLnsfv3Jpx1h/2+49y7tqhS0SJvKNIxx81gKdo0mpw3jvGrzzJui4gLwgRe3UTs=
+	t=1751881046; cv=none; b=XC0CY3jL/NmMX7anWmjGsHn9w9LvuD2YBn0pHIvHQ6O9Ousaz+45j1MlAkF8tDOiZr8almVosJYsqKeqCGG0YYTJsCY5KljUXtNq6wklZb8TEIamXg0bSjel5LHu6kJipp78fTu4V8DKo3wpSSerELFuwwekGjqcu7eWCCEZ6M0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751880595; c=relaxed/simple;
-	bh=UsGNeftounXhkbUe+5yOIq3FSti9y3K1tTSifx6MZAc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y1qdgXcIxQnDaVkigCh4AjOOZdHvwM7Ap3NDc9FqKkfwpWrIFHRAcOJ8pIG+y2Dxz/4v2WHbhdm0PjCpWI9DQYugq7kBTRHBaMLA1PuqFoPI1msfWWsDrEicqVwo1j3S5ekYIQsme67gl+duJzGTXvuotoujfRdZuCdUPdSkDGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GjkOdYZm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ooT1C0WG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GjkOdYZm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ooT1C0WG; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1751881046; c=relaxed/simple;
+	bh=+HST+oI1csepHuidMdAGM1zRVBg04v+JMM5to57Ig68=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=POzPOhWDe7Rw+GMIK2IbIv/g8VdeECLWJt0uZtjx/yAJNJEwMrjBAgy/rIq56onTaKr8pHISb2vWGNKnnfAWmE9O0Mrj1XEUVXM1R299bjVDkvmm4IY+MiXbgSsOUwur4Cj5XMhWD01JlCdOkBK0Adn7q9i2UdZfTtDNPKUKLPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Z1P6IgIo; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GjkOdYZm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ooT1C0WG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GjkOdYZm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ooT1C0WG"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z1P6IgIo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1751881042;
+	bh=+HST+oI1csepHuidMdAGM1zRVBg04v+JMM5to57Ig68=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Z1P6IgIo/+1evlnaLwfZqWS+jqcAJed+atKLO6Ei1hkuFdreiBTqnfQ1dAIlnIJst
+	 IYMc6ANZ7W7EWKqOh2xRv+HpkoqDDLKRNQN6lT68oFAwnVIsDf415vVBe6S/FIhyrs
+	 lBD4CbtluH+YkKDhmnTNiI7mOepa+PCKysVGEYsjli5quGyQ4mgFvel4pR14jKOGxy
+	 ot0v8H8oUlb8NwwFvtPGjKKtGlzlF3DxhqdyJYla/0NFsVSMOPKazgRgoaBUqX7fZB
+	 AuxKOCS6NE7+e9qBwIcaDU8YgaDe10YOndP0u9KML9TyNIdfyh9Jc8+LZu8uSfF/Dd
+	 Cpdyd1E97ArjQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3A2AF21170;
-	Mon,  7 Jul 2025 09:29:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751880592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DE+nzHmTe/W5DTzuY77SnXTWP102InHxz+4dQ7YSFPI=;
-	b=GjkOdYZmoyOfqaX2oWHgliNhg+pIa0byAHBvTnZvU3zPST5zLI009OYyak39ydBYC14IqQ
-	7j0uZ+bmbwOlJ7Bv7BSzl50njfgGpIrDYR1//7Pq5/u/ffiV0ngIvq73+8oHVmKjRUDkkj
-	Fdllk7RYBYVIClRlVWGw5gR8SFirWFE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751880592;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DE+nzHmTe/W5DTzuY77SnXTWP102InHxz+4dQ7YSFPI=;
-	b=ooT1C0WGP7I4vBb79uWeDq4ZC2nDh2w9xS3GoyHvANIG6fNZjMUXThR9X8RjVXqDRUzpNQ
-	+ckpPvZz+fSq9qCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751880592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DE+nzHmTe/W5DTzuY77SnXTWP102InHxz+4dQ7YSFPI=;
-	b=GjkOdYZmoyOfqaX2oWHgliNhg+pIa0byAHBvTnZvU3zPST5zLI009OYyak39ydBYC14IqQ
-	7j0uZ+bmbwOlJ7Bv7BSzl50njfgGpIrDYR1//7Pq5/u/ffiV0ngIvq73+8oHVmKjRUDkkj
-	Fdllk7RYBYVIClRlVWGw5gR8SFirWFE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751880592;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DE+nzHmTe/W5DTzuY77SnXTWP102InHxz+4dQ7YSFPI=;
-	b=ooT1C0WGP7I4vBb79uWeDq4ZC2nDh2w9xS3GoyHvANIG6fNZjMUXThR9X8RjVXqDRUzpNQ
-	+ckpPvZz+fSq9qCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE25913A5E;
-	Mon,  7 Jul 2025 09:29:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YYeFNI+Ta2jPSQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 07 Jul 2025 09:29:51 +0000
-Date: Mon, 07 Jul 2025 11:29:51 +0200
-Message-ID: <87cyacnyb4.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: <broonie@kernel.org>,
-	<andriy.shevchenko@linux.intel.com>,
-	<alsa-devel@alsa-project.org>,
-	<shenghao-ding@ti.com>,
-	<navada@ti.com>,
-	<13916275206@139.com>,
-	<v-hampiholi@ti.com>,
-	<v-po@ti.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] ALSA: hda/tas2781: Fix calibration data parser issue
-In-Reply-To: <20250707090513.1462-1-baojun.xu@ti.com>
-References: <20250707090513.1462-1-baojun.xu@ti.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5E45717E07C9;
+	Mon,  7 Jul 2025 11:37:21 +0200 (CEST)
+Message-ID: <d79e0e46-87ae-4d9d-ba67-41e3055c809c@collabora.com>
+Date: Mon, 7 Jul 2025 11:37:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[139.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,alsa-project.org,ti.com,139.com,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: Use of_reserved_mem_region_to_resource() for
+ "memory-region"
+To: "Rob Herring (Arm)" <robh@kernel.org>,
+ Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Benson Leung <bleung@chromium.org>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>
+Cc: chrome-platform@lists.linux.dev, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <20250703183523.2075276-1-robh@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250703183523.2075276-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 07 Jul 2025 11:05:13 +0200,
-Baojun Xu wrote:
+Il 03/07/25 20:35, Rob Herring (Arm) ha scritto:
+> Use the newly added of_reserved_mem_region_to_resource() function to
+> handle "memory-region" properties.
 > 
-> We will copy calibration data from position behind to front.
-> We has created a variable (tmp_val) point on top of calibration data
-> buffer, and tmp_val[1] is max of node number in original calibration
-> data structure, it will be overwritten after first data copy,
-> so can't be used as max node number check in for loop.
-> So we create a new variable to save max of node number (tmp_val[1]),
-> used to check if max node number was reached in for loop.
-> And a point need to be increased to point at calibration data in node.
-> Data saved position also need to be increased one byte.
-> 
-> Fixes: 4fe238513407 ("ALSA: hda/tas2781: Move and unified the calibrated-data getting function for SPI and I2C into the tas2781_hda lib")
-> 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-> 
-> ---
-> Change in v2:
->  - Add more description about this fix.
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-Applied now.  Thanks.
+For MediaTek:
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 
-Takashi
