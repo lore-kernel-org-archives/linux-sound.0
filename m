@@ -1,63 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827E32E0B58;
-	Tue,  8 Jul 2025 15:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F498F5E;
+	Tue,  8 Jul 2025 16:49:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751990367; cv=none; b=qcGPh7eUL1M+zbzd3KcsSNFRdh/eb1POgySmqz5X/DCgeyzdQ2RGxm6qFnEXl+aLtIDTHjIsdfXreOZDl7DzwzSRahxxGf4FSJgs4FeNKf6/7enHqUL2UfXjwQ+R4iSzeEMnW5nCVB1qs+a23nmV3isofVlxZ4otkeieMes2VXg=
+	t=1751993342; cv=none; b=YZbCVAX7CD+60k57fii/VtiossAfhSuv30nbbGAvGoFL5fOSQF5H6mo6vgA+G8nvw0ZI8PicREWugl7YFsOO6k3/K75x4MXfwpqz8FdrGSbkUre05meL20BzPb9kExGkuA6aU7aNAKg92WLlLSQ/uGnWA1WYLpSLcItF490Oz5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751990367; c=relaxed/simple;
-	bh=N34lnhiqy8ABKGsgqRX4jg55+TzDKW985TYW2VHj+Vc=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Zdy3N32TMOX0nWb3oBKgG6SCQxMVOCwupgwWl78Yoe7lyHeDOqrl/U4tjprDiOlQkImsm2cGJsgVZkIEA77qh97FNz4dcXN7Dgc+qM8ZSyj8TzorURoJ3r85atCA5XZ2FItn8bNyvw1KRnyWKfqNcv9+m77XBy19yU6N0UK34YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcF3agZi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751993342; c=relaxed/simple;
+	bh=1gNumA3r3GWXNuef/Bq7M1ZrVMdzEyVC3hw1XVZeZDY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=STN71nru13MMF66O9hdyMp+s5Z43SiaRC7wYddqXE/5ufnkc6+iP2xzA+OGqNBp/Ja9dQ2uudW2gMW9xXVjco76mu9u3w5fwp2qsQg+qvP8CNUgF/cEtZyQB+2f+J3/odbZh8XP7ulgPSd/ggUhnm9bcCdSxEgnRJlwhE9Glo4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kpIElFVS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcF3agZi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BA18C4CEED;
-	Tue,  8 Jul 2025 15:59:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kpIElFVS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B982C4CEED;
+	Tue,  8 Jul 2025 16:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751990367;
-	bh=N34lnhiqy8ABKGsgqRX4jg55+TzDKW985TYW2VHj+Vc=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=rcF3agZiPSCTONKUdD3oMAgub6sXfpo8ZCqi5yjyT5gmdQZB1Qxyka7qxhDYSVuY8
-	 CIgHpuXFH0Wy2aSTlAjOcQ04j1JwBKMtfj46Gd7Mrs+whd1bZ2G+hZofQX9zay+JlB
-	 p2oPsMbduMsjZXiqjhnocFC2q9zBuWdNRk1i2iM+6XveJHBmvDjhQFL+U385qr4hxb
-	 Jhgl29fWmZBrjn3mLk9G1I7DnlAEaoVTw9t2R0LzhqKSst3OZPFA4iHa7M83uaBVjs
-	 lYh4JY2Ix7L2Bwelo7RyuduEq1y8PwOtnHHb3xz5z7U0EpLR/hrFM/cH4ebGdvRy5Z
-	 eyqraqBGnx4XA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7125D380DBEE;
-	Tue,  8 Jul 2025 15:59:51 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.16-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <871pqq3j4z.wl-tiwai@suse.de>
-References: <871pqq3j4z.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <871pqq3j4z.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.16-rc6
-X-PR-Tracked-Commit-Id: d78f76457d70d30e80b5d2e067d45de7a0505fc0
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d006330be3f782ff3fb7c3ed51e617e01f29a465
-Message-Id: <175199038994.4117500.2166913626285404590.pr-tracker-bot@kernel.org>
-Date: Tue, 08 Jul 2025 15:59:49 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1751993341;
+	bh=1gNumA3r3GWXNuef/Bq7M1ZrVMdzEyVC3hw1XVZeZDY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kpIElFVScs7kdDepXVzX8Hv6HhgXfSaeW3ul7jauZjH0wFpF4ISjYG2QO629h5ORD
+	 u05aagrOPyeQEv0Mx+0fc2b9smbT77zHZt6pya4otJmfAASAqq0GyowWAchlgvmwg3
+	 h+pkeyXKTSTzxrlrBmozXOZmpJIJC8llzDkyLKK7KSLZ2YbfTbaZoAmttKehDfGROD
+	 ivDQtLfH1MtnTIlZR7j7THSCQHLtI1j87+SAwTdYrw/J5hcobS4Ifo93c87mJy2O9J
+	 Qc684oKClGQ5bG/NRHcgkKLy/6Ko9O9adnR1cyR+xKPP/K3ziQyuPrCNKnBDemhGZR
+	 mSkJ/yl1yOomQ==
+From: Conor Dooley <conor@kernel.org>
+To: Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Hal Feng <hal.feng@starfivetech.com>,
+	Xingyu Wu <xingyu.wu@starfivetech.com>,
+	Walker Chen <walker.chen@starfivetech.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: conor@kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	linux-riscv@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] riscv: defconfig: Remove CONFIG_SND_SOC_STARFIVE=m
+Date: Tue,  8 Jul 2025 17:48:27 +0100
+Message-ID: <20250708-jubilant-abruptly-8ff77f7986ca@spud>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To:  <0886d3eb81bffbc1d48e701cae21c42cad29fefe.1751988704.git.geert+renesas@glider.be>
+References:  <0886d3eb81bffbc1d48e701cae21c42cad29fefe.1751988704.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=473; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=SWq9xtGH8SUIy+j6CnVjw/RxXXaBxMRnkvI45y+m/oM=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDBm53rd1q5g8P3e4H25a/HPH/fVnG59f5uvZfnjxvLgfn x89keSu7ihlYRDjYJAVU2RJvN3XIrX+j8sO5563MHNYmUCGMHBxCsBEZq1h+CvutHh5+jY+DaG3 rzxOz/rm/+KU3bNT3uFW7LtubT35LEmakeG4Z07R3rWncmXj4yaLlar/vXZu9/qIE1++Hvm63O8 1y34GAA==
+X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Tue, 08 Jul 2025 15:30:04 +0200:
+From: Conor Dooley <conor.dooley@microchip.com>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.16-rc6
+On Tue, 08 Jul 2025 17:36:48 +0200, Geert Uytterhoeven wrote:
+> The SND_SOC_STARFIVE Kconfig symbol was removed, but it is still enabled
+> in the RISC-V defconfig.  Just remove it, as it is no longer needed.
+> 
+> 
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d006330be3f782ff3fb7c3ed51e617e01f29a465
+As I mentioned to Palmer a few mins ago, I'll grab this along with a
+couple other soc-related defconfig patches I have. (Apologies if this
+goes out twice, I got a warning last time about a timeout, so ending again)
 
-Thank you!
+[1/1] riscv: defconfig: Remove CONFIG_SND_SOC_STARFIVE=m
+      https://git.kernel.org/conor/c/493e9b085299
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks,
+Conor.
