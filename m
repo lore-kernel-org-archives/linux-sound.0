@@ -1,190 +1,82 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084A62DEA75
-	for <linux-sound@vger.kernel.org>; Tue,  8 Jul 2025 13:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FFF881E;
+	Tue,  8 Jul 2025 13:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751981408; cv=none; b=Wyj/m6I8RvjcWoeTXcgFy/qDYm5LiUX0zt04a8AK/y5+6GgjGV2eXmg315PmCYH9H5L0/79H804R6oOdqliySQJ1pQNvHMRzUQinaySr7Tjt1WXtBHVbDZps6s/ZxhJtoGJyv3f+ragsvsxcxJKqV+9pR4RVlQT5EAzhwbU9DsQ=
+	t=1751982836; cv=none; b=PsaddTMGv0QDOGqhZlqfBiE/czBeSbKyluHYUNzveqZYGBdmcIWDajYqYEuhyOrr2GmCG+6sLlu886/7mgqtikJN9AgB4PXVNk/UIEWJ4/c8+aNxubQ8BFCQnN01NkBgJDfNWOS/pTpJRbgVG9lDh7DP8Jkrz1F27aZs6Vlunq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751981408; c=relaxed/simple;
-	bh=NVZvl7WHp/9NIMoUnSDfC/VS+77NPSF3zzdlEXkoEn8=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=lYoBbWs2E0boHzXIaVq3MRSsDRosFDdTQRD7BElZcLBUKgYu5Hk5nuPBQfkt4QTqbRf1JwXvdfZYvOxNjG/OXkDfIkoRuiaNVQRgLGbRwmOWYHUCBrtxim+BTV7xbKzwFCr/VaaYS7eI+JvP9/PWwGmpl6hvJIIHRD/41MUCrxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ySDIL6M+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WRnJ9kUd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ySDIL6M+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WRnJ9kUd; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1751982836; c=relaxed/simple;
+	bh=s8zGXRtoBEZEGtRRHAm1Fk9mZLoYQ2DIEw5RhibAvv0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=b6RrS+mO5MMcQzyRiDDLuAtV3lbcRRR4KNS+EAke1+wIhW4rcmRnhBjf0c4jew/FDrRrf8q1GPd+Ej4L5sWD4nCPkeqocpN3xEchAKW2JnFOCIPoWcwVTt2zvefOvvQEPSAdD4vefiECYr6QLGBpEE4nzji6zFZj6CUN6elg+gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfJ/KJEM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ySDIL6M+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WRnJ9kUd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ySDIL6M+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WRnJ9kUd"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 219861F45E;
-	Tue,  8 Jul 2025 13:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751981405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=6kxLe6D5dx1SFFBze2VbjxGktZNC8moKxEYM93616JY=;
-	b=ySDIL6M+xOft3uqoSdX7rlKKib1fOhg2okXyNbaS7ZhVJPGeqsh2PBsLbroZ9wWp+YaU/y
-	vqQ9tgvA8agS7vf0t9mvtpxFy5H4cSOhupWDCcSVlupvzjQx2/NxZzcbR/a94PmOt1QJs/
-	FfRiSWGRfLWufAwwKqcZhMlp4vBzVKM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751981405;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=6kxLe6D5dx1SFFBze2VbjxGktZNC8moKxEYM93616JY=;
-	b=WRnJ9kUdKHmyqwEzEoPbV7PZYRXCr8IkRq+s+BaUb1VrUgAAzzNw2ggZICagwvksUtlWcm
-	oPKZWI8CFLkAQ3Ag==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ySDIL6M+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WRnJ9kUd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751981405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=6kxLe6D5dx1SFFBze2VbjxGktZNC8moKxEYM93616JY=;
-	b=ySDIL6M+xOft3uqoSdX7rlKKib1fOhg2okXyNbaS7ZhVJPGeqsh2PBsLbroZ9wWp+YaU/y
-	vqQ9tgvA8agS7vf0t9mvtpxFy5H4cSOhupWDCcSVlupvzjQx2/NxZzcbR/a94PmOt1QJs/
-	FfRiSWGRfLWufAwwKqcZhMlp4vBzVKM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751981405;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=6kxLe6D5dx1SFFBze2VbjxGktZNC8moKxEYM93616JY=;
-	b=WRnJ9kUdKHmyqwEzEoPbV7PZYRXCr8IkRq+s+BaUb1VrUgAAzzNw2ggZICagwvksUtlWcm
-	oPKZWI8CFLkAQ3Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B89813A54;
-	Tue,  8 Jul 2025 13:30:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QBJnAV0dbWhkNwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 08 Jul 2025 13:30:05 +0000
-Date: Tue, 08 Jul 2025 15:30:04 +0200
-Message-ID: <871pqq3j4z.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.16-rc6
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfJ/KJEM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09C5FC4CEED;
+	Tue,  8 Jul 2025 13:53:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751982835;
+	bh=s8zGXRtoBEZEGtRRHAm1Fk9mZLoYQ2DIEw5RhibAvv0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=JfJ/KJEMxCgTWeIlHr3Fk9+DxKKVX9+xRHM2GxxSEdIAPryf7qgi5GL9lw3SkUWnz
+	 cHbukwqIYdMQAWE+ULrMJbSMD/YHXlGxFYEKw+4bohP1tKoFkEAVVYteMLWhqSvQYZ
+	 jJjcgAUyK3JDMVmwQDZwr5KysSu+ehB7pVZAyolLcIg93Y+Pqbif2eqRvHC0H2YFxh
+	 Vy7NYy3fWcgwY5O7j2PnmcRtXWm27c/pNgh59/F3NtFtGZVewtNyhJwfa3qfxsytK5
+	 Z076vbXmdE856mPufqjet0kKf9ek8kAl3MlO5XC6XnbIas13iuFl/0psWz3i28FDAr
+	 urpSBVYcVpdPQ==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Alexandru Andries <alex.andries.aa@gmail.com>
+Cc: perex@perex.cz, tiwai@suse.com, mario.limonciello@amd.com, 
+ venkataprasad.potturu@amd.com, talhah.peerbhai@gmail.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250707220730.361290-1-alex.andries.aa@gmail.com>
+References: <20250707220730.361290-1-alex.andries.aa@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: add DMI quirk for ASUS M6501RM
+Message-Id: <175198283268.435679.12131000199300350752.b4-ty@kernel.org>
+Date: Tue, 08 Jul 2025 14:53:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 219861F45E
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	TO_DN_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-07fe9
 
-Linus,
+On Tue, 08 Jul 2025 01:07:30 +0300, Alexandru Andries wrote:
+> add DMI entry for ASUS Vivobook PRO 15X (M6501RM)
+> to make the internal microphone function
+> 
+> 
 
-please pull sound fixes for v6.16-rc6 from:
+Applied to
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.16-rc6
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-The topmost commit is d78f76457d70d30e80b5d2e067d45de7a0505fc0
+Thanks!
 
-----------------------------------------------------------------
+[1/1] ASoC: amd: yc: add DMI quirk for ASUS M6501RM
+      commit: 6f80be548588429100eb1f5e25dc2a714d583ffe
 
-sound fixes for 6.16-rc6
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Here are device-specific small fixes, including HD-audio, USB-audio
-and ASoC Intel quirks, as well as ASoC fsl, Cirrus codec and the
-legacy AD driver fixes.  All look safe and easy.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-----------------------------------------------------------------
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Alexander Tsoy (1):
-      ALSA: usb-audio: Improve filtering of sample rates on Focusrite devices
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Arun Raghavan (1):
-      ASoC: fsl_sai: Force a software reset when starting in consumer mode
-
-Baojun Xu (1):
-      ALSA: hda/tas2781: Fix calibration data parser issue
-
-Bard Liao (1):
-      ASoC: Intel: SND_SOC_INTEL_SOF_BOARD_HELPERS select SND_SOC_ACPI_INTEL_MATCH
-
-Charles Keepax (1):
-      ASoC: Intel: soc-acpi: arl: Correct order of cs42l43 matches
-
-Daniel Dadap (1):
-      ALSA: hda: Add missing NVIDIA HDA codec IDs
-
-Edip Hazuri (1):
-      ALSA: hda/realtek - Add mute LED support for HP Victus 15-fb2xxx
-
-Edson Juliano Drosdeck (1):
-      ALSA: hda/realtek: Enable headset Mic on Positivo K116J
-
-Peter Ujfalusi (1):
-      ALSA: hda/realtek: Add quirk for ASUS ExpertBook B9403CVAR
-
-Richard Fitzgerald (1):
-      ASoC: cs35l56: probe() should fail if the device ID is not recognized
-
-Shengjiu Wang (1):
-      ASoC: fsl_asrc: use internal measured ratio for non-ideal ratio mode
-
-Simon Trimmer (1):
-      ASoC: Intel: sof_sdw: Add quirks for Lenovo P1 and P16
-
-Srinivas Kandagatla (1):
-      MAINTAINERS: update Qualcomm audio codec drivers list
-
-Thorsten Blum (1):
-      ALSA: ad1816a: Fix potential NULL pointer deref in snd_card_ad1816a_pnp()
-
----
- MAINTAINERS                                       | 16 +++++-----------
- sound/isa/ad1816a/ad1816a.c                       |  2 +-
- sound/pci/hda/patch_hdmi.c                        | 19 +++++++++++++++++++
- sound/pci/hda/patch_realtek.c                     |  3 +++
- sound/pci/hda/tas2781_hda.c                       |  8 +++++---
- sound/soc/codecs/cs35l56-shared.c                 |  2 +-
- sound/soc/fsl/fsl_asrc.c                          |  3 ++-
- sound/soc/fsl/fsl_sai.c                           | 14 ++++++++------
- sound/soc/intel/boards/Kconfig                    |  1 +
- sound/soc/intel/boards/sof_sdw.c                  |  3 +++
- sound/soc/intel/common/soc-acpi-intel-arl-match.c | 14 +++++++-------
- sound/usb/format.c                                | 22 ++++++++++------------
- 12 files changed, 65 insertions(+), 42 deletions(-)
+Thanks,
+Mark
 
