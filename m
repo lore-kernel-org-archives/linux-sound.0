@@ -1,82 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FFF881E;
-	Tue,  8 Jul 2025 13:53:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6757E0FF
+	for <linux-sound@vger.kernel.org>; Tue,  8 Jul 2025 14:11:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751982836; cv=none; b=PsaddTMGv0QDOGqhZlqfBiE/czBeSbKyluHYUNzveqZYGBdmcIWDajYqYEuhyOrr2GmCG+6sLlu886/7mgqtikJN9AgB4PXVNk/UIEWJ4/c8+aNxubQ8BFCQnN01NkBgJDfNWOS/pTpJRbgVG9lDh7DP8Jkrz1F27aZs6Vlunq8=
+	t=1751983908; cv=none; b=hZNRU5PTBVtvxXOxcVd4fLpnlVeAdmaNxidwLndInolwtkFeTiHgQOfaf6PU6wBbj9PWuSnUMXbfm7oWfDYJkyCbYJRD+RApk1E4aUgjF/Pdo07IX96XtRmV91z59kRRa9hGobiz3fh+/xD1UHpfW+FFn8CkRcwvoUBd00rLD+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751982836; c=relaxed/simple;
-	bh=s8zGXRtoBEZEGtRRHAm1Fk9mZLoYQ2DIEw5RhibAvv0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=b6RrS+mO5MMcQzyRiDDLuAtV3lbcRRR4KNS+EAke1+wIhW4rcmRnhBjf0c4jew/FDrRrf8q1GPd+Ej4L5sWD4nCPkeqocpN3xEchAKW2JnFOCIPoWcwVTt2zvefOvvQEPSAdD4vefiECYr6QLGBpEE4nzji6zFZj6CUN6elg+gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfJ/KJEM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751983908; c=relaxed/simple;
+	bh=/QDOgzYXzxDzBxnPOgUAwFpi12MVVHTqyiUCUgkJfdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=khSewaIL09YaY9ety7bj/TF8Ceeqs8uevL/TWUe3+y2QR6tbSphUORsQ9jph8G1JoRbI4h9VemF3ytYc24IiO1yvO3hDJCxD/PfWVkxiWRdgZtXyLy/ZarGo/5QY5WJ3VHAuBGcbbTj/jflnqdOqOZNLAjV0vYILt9ytdOSb8+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cqShu1z8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfJ/KJEM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09C5FC4CEED;
-	Tue,  8 Jul 2025 13:53:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cqShu1z8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79612C4CEED;
+	Tue,  8 Jul 2025 14:11:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751982835;
-	bh=s8zGXRtoBEZEGtRRHAm1Fk9mZLoYQ2DIEw5RhibAvv0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JfJ/KJEMxCgTWeIlHr3Fk9+DxKKVX9+xRHM2GxxSEdIAPryf7qgi5GL9lw3SkUWnz
-	 cHbukwqIYdMQAWE+ULrMJbSMD/YHXlGxFYEKw+4bohP1tKoFkEAVVYteMLWhqSvQYZ
-	 jJjcgAUyK3JDMVmwQDZwr5KysSu+ehB7pVZAyolLcIg93Y+Pqbif2eqRvHC0H2YFxh
-	 Vy7NYy3fWcgwY5O7j2PnmcRtXWm27c/pNgh59/F3NtFtGZVewtNyhJwfa3qfxsytK5
-	 Z076vbXmdE856mPufqjet0kKf9ek8kAl3MlO5XC6XnbIas13iuFl/0psWz3i28FDAr
-	 urpSBVYcVpdPQ==
+	s=k20201202; t=1751983907;
+	bh=/QDOgzYXzxDzBxnPOgUAwFpi12MVVHTqyiUCUgkJfdE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cqShu1z8y/umTRtwbjsTyCw4pVz2PKjsZqSgpNr6JW2WDdYU/TRdJR7miaGd57nCv
+	 4m7haI+xz7PdtjHxSzAXRmUcJV2wYuL3SxlaKW2Rpxn5YzpwmMAI+udt1D6tal729N
+	 UaQhQN3hM4vUYxBL5Fa9bo2UqDsIIrkYb5oC8iNOLL6UpFIymnZ9sxJ0JJ6LwfWFUa
+	 Y19G7gzuKgKHXRuecUxTFqLLnlE/qfOMpiAT1nOf+6zCXWWE9/gxPz03n67X3qtQcZ
+	 VLD9nLa4AgYcK6PQgieL3KF3vSdLeKRJpNqqzavkZsQ5xPdbYO12REfWRsp13AWlWU
+	 URsWe9MwX790g==
+Date: Tue, 8 Jul 2025 15:11:43 +0100
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Alexandru Andries <alex.andries.aa@gmail.com>
-Cc: perex@perex.cz, tiwai@suse.com, mario.limonciello@amd.com, 
- venkataprasad.potturu@amd.com, talhah.peerbhai@gmail.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250707220730.361290-1-alex.andries.aa@gmail.com>
-References: <20250707220730.361290-1-alex.andries.aa@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: add DMI quirk for ASUS M6501RM
-Message-Id: <175198283268.435679.12131000199300350752.b4-ty@kernel.org>
-Date: Tue, 08 Jul 2025 14:53:52 +0100
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: Question: how dapm should looks like ?
+Message-ID: <aG0la8cJJ3mEVUXX@finisterre.sirena.org.uk>
+References: <87tt3nmork.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-07fe9
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ho1JUzufOdJAgegg"
+Content-Disposition: inline
+In-Reply-To: <87tt3nmork.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Do not cut switchbacks.
 
-On Tue, 08 Jul 2025 01:07:30 +0300, Alexandru Andries wrote:
-> add DMI entry for ASUS Vivobook PRO 15X (M6501RM)
-> to make the internal microphone function
-> 
-> 
 
-Applied to
+--ho1JUzufOdJAgegg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Tue, Jul 08, 2025 at 01:53:35AM +0000, Kuninori Morimoto wrote:
 
-Thanks!
+> "dapm" itself is hidden into soc-dapm, non-dapm can't directly access to =
+it,
+> but it provides access functions anyway. Should it be accessed from Card
+> and Component only ? or can user driver access to it ?
 
-[1/1] ASoC: amd: yc: add DMI quirk for ASUS M6501RM
-      commit: 6f80be548588429100eb1f5e25dc2a714d583ffe
+It should just be cards and components I think, I can't think of an
+example where you'd want a DAPM independently of those.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> Pattern-A:
+> 	User driver should care about existence of "dapm".
+> 	This means user driver can use snd_soc_dapm_xxx() functions directly.
+>=20
+> 	-- user driver --
+> 	dapm =3D snd_soc_component_to_dapm(component);
+>=20
+> 	snd_soc_dapm_xxx(dapm, xxx);
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+I think we've got cases where you want to do things directly, the most
+common is updating pin states based on something and then needing to
+trigger a resync based on the new states.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+> Pattern-C:
+> 	User driver should *not* care about existence of "dapm",
+> 	but can use snd_soc_dapm_xxx() functions.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+It's probably easier to use A than to have two sets of identical wrapper
+functions I think, less effort and a bit more direct.
 
-Thanks,
-Mark
+--ho1JUzufOdJAgegg
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhtJxYACgkQJNaLcl1U
+h9CDkAf9GVAPBGb5lPDnMoLnGHfduumCMAGkurFUVTtaQUziDJR+WnPmlqn0k2yH
+/tQhUIkEiKaXF8yw5zJtFb9dHhD+zoLkyIuu0u1phDK+KoLRfQ06q9kNBKmRKRdf
+SUrEmSX4VS10L2kwSNLGR39yfac7zYgk/JuF/q9IGh1BOsanCxDY+66iyQHYrIBk
+l4gvEYNqESHVu3LmCWaJD0292FsXdhPgCQ4z62sd3zm4onjy4h5CcGSMsPc+sK2l
+WLA7W0Kf4huCWM/whXGRJpQgPCo/fI2Dl6I53ohZ9qdu1wL6y52nTDCFFRk/mEnM
+afcadLHgJhSydMRKRtxv+MnSkk/4Pw==
+=DvED
+-----END PGP SIGNATURE-----
+
+--ho1JUzufOdJAgegg--
