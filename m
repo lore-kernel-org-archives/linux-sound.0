@@ -1,78 +1,78 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19F52E8E1C
-	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:04:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83ADA1F4E57
+	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:05:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752077091; cv=none; b=pZJFhA4V7rpiyHTaPwU51dCzwM3Ef8mL01DYNpJ+xsIDJ52ffxuzR0hXIrsWaZHNXstoRc0qeIdbDVclVAhNbaQNFEEvLH7q3Lp/WU9wWfiA4sq28HFfRFIdtRLN8P2xMxuvmzUn8Z/tI3nZlyxOv8u+sKqO31uA7UQMAQzbsnQ=
+	t=1752077133; cv=none; b=pbsPnBK74AVW/nj8nLMZZ/AW47Sfh7zm3Vu2AEbMHjxZK/+eiufDzLh0maVptBx9OxV+cknIwWvVHPNqTxb8ToBmJvGzY5LOpdMaBmjUdkzW3n6IsQvxWREs8YYuDFQH9qAwsSz+BBsQmCH1XdSnvV4mfZ9vR7D6F0HmJmdthjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752077091; c=relaxed/simple;
-	bh=BpvV0txRU1g5qWinJdf8orBSMngo0ZDJbuoisJVbjmA=;
+	s=arc-20240116; t=1752077133; c=relaxed/simple;
+	bh=J91jjBpdHgFX/Jg2K58rwsp1fws22wfvVa2r2y/kMZQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AhD2WPovqJwfmk/7hJ0lJXEdRJE4WyRasJmQftAfrBMps2o8RBOwLJZaeVMafJ3RNiIrkyjrWzc/e8RTc+NxVXSqgT+fLsADrnsHp+BDRg119Wx/xiVQgIRC1FUGVggK9U1jV/YJg6584CrkMseuNZe7Heeh2+dW9JHbjxU/Djc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lEcPjmWb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VO2FiAK7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lEcPjmWb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VO2FiAK7; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=Kut0RSJgS9/GtWQwZn2p83kT+4ILV6P3Vw1PAP01x4NxDds2gHB4nTsaapNAyhybAxfX1jJ9QSP4Iu++Gc/4daowNd8uZNRYm2t/rLwZ1mIFPS9Ffg7UVk0uRsl3eW7eKyqqv3khgiqrfrOL5gzDxj07XOA1lBi7GTy0+n9/CF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ux+61QFW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m04fhSXT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ux+61QFW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m04fhSXT; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lEcPjmWb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VO2FiAK7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lEcPjmWb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VO2FiAK7"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ux+61QFW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m04fhSXT";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ux+61QFW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m04fhSXT"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1BCEE1F443;
-	Wed,  9 Jul 2025 16:04:42 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0B0EB1F44F;
+	Wed,  9 Jul 2025 16:04:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752077086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZFxUkwifJif7qIC/ANmGLqfNWfmM46ZCDxSoChR4pro=;
-	b=lEcPjmWbyoeXLd0lomnVovhlNtTswVgxWQrbZ7SCeRi/OZJPHHaj57IQt2PtnlhlDbNL9D
-	RPQWv3z64xulQjJfzmylm4VBgR7y+cpzSgRiOtegM7/fHYv0eF9ml0pdRkOkJUJz40UIcj
-	vRqiiw0owZIcJ5zT5856WkON5gIDyPo=
+	bh=4tl/XTxrIzti7AUTNnF1lk+0+K/GYQOdcY3QR7a7shE=;
+	b=ux+61QFW6D+x/OQRslZmM1N5kcOQ7ulHPMjExEXmz8APd0Dfgi9hYsGA5ri5OU+ogNt3+h
+	7bDhIjgUy8bZWR75qt3xiIMZcJ3kcjqJejhuMwhtUtw252T+P+YKbkachpXcj3rgvyd6gX
+	0PAgXaqh4BfE09uOXsx9q+PIIx1QnvY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077082;
+	s=susede2_ed25519; t=1752077086;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZFxUkwifJif7qIC/ANmGLqfNWfmM46ZCDxSoChR4pro=;
-	b=VO2FiAK77lt5dyZ/T2EVI8sIm3Pi9jKj7a7bO8m3AYZuFGKCHTk3BXeRdyaLA+48HCEigp
-	aPZoUoJJ93VS1ADQ==
+	bh=4tl/XTxrIzti7AUTNnF1lk+0+K/GYQOdcY3QR7a7shE=;
+	b=m04fhSXT0viyghq9D3mUYiNYvkhqRKUBi4x2esPc7LDd50i/t+k7o+qD1GuaYvQhuZzZYA
+	DkfbYMINbvu5RnBA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752077086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZFxUkwifJif7qIC/ANmGLqfNWfmM46ZCDxSoChR4pro=;
-	b=lEcPjmWbyoeXLd0lomnVovhlNtTswVgxWQrbZ7SCeRi/OZJPHHaj57IQt2PtnlhlDbNL9D
-	RPQWv3z64xulQjJfzmylm4VBgR7y+cpzSgRiOtegM7/fHYv0eF9ml0pdRkOkJUJz40UIcj
-	vRqiiw0owZIcJ5zT5856WkON5gIDyPo=
+	bh=4tl/XTxrIzti7AUTNnF1lk+0+K/GYQOdcY3QR7a7shE=;
+	b=ux+61QFW6D+x/OQRslZmM1N5kcOQ7ulHPMjExEXmz8APd0Dfgi9hYsGA5ri5OU+ogNt3+h
+	7bDhIjgUy8bZWR75qt3xiIMZcJ3kcjqJejhuMwhtUtw252T+P+YKbkachpXcj3rgvyd6gX
+	0PAgXaqh4BfE09uOXsx9q+PIIx1QnvY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077082;
+	s=susede2_ed25519; t=1752077086;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZFxUkwifJif7qIC/ANmGLqfNWfmM46ZCDxSoChR4pro=;
-	b=VO2FiAK77lt5dyZ/T2EVI8sIm3Pi9jKj7a7bO8m3AYZuFGKCHTk3BXeRdyaLA+48HCEigp
-	aPZoUoJJ93VS1ADQ==
+	bh=4tl/XTxrIzti7AUTNnF1lk+0+K/GYQOdcY3QR7a7shE=;
+	b=m04fhSXT0viyghq9D3mUYiNYvkhqRKUBi4x2esPc7LDd50i/t+k7o+qD1GuaYvQhuZzZYA
+	DkfbYMINbvu5RnBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C8497136DC;
-	Wed,  9 Jul 2025 16:04:41 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA81A136DC;
+	Wed,  9 Jul 2025 16:04:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aBS4LxmTbmhDEAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:04:41 +0000
+	id 6KtTLB2TbmhDEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:04:45 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
@@ -83,9 +83,9 @@ Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	patches@opensource.cirrus.com,
 	Baojun Xu <baojun.xu@ti.com>,
 	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH 01/27] ALSA: hda: Move widget capability macros into hdaudio.h
-Date: Wed,  9 Jul 2025 18:04:04 +0200
-Message-ID: <20250709160434.1859-2-tiwai@suse.de>
+Subject: [PATCH 03/27] ALSA: hda: Move common codec driver into sound/hda/common directory
+Date: Wed,  9 Jul 2025 18:04:06 +0200
+Message-ID: <20250709160434.1859-4-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250709160434.1859-1-tiwai@suse.de>
 References: <20250709160434.1859-1-tiwai@suse.de>
@@ -99,290 +99,429 @@ Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	R_RATELIMIT(0.00)[to_ip_from(RL7bz5f8woybp4997xe1n6ecoy)];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
 X-Spam-Score: -2.80
 
-The get_wcaps() and co are used not only by HD-audio core but also
-other driver code, hence it'd be better to put into the common header
-instead of local.h.
+The snd-hda-codec module contains the most of common code used by both
+HD-audio controller and codec drivers, and it's basically independent
+from PCI.  Let's move the code to sound/hda/common directory as a part
+of code reorganization.
 
-OTOH, there are macros of the same name like get_wcaps() that are
-still used in sound/pci/hda/* locally, and those conflict with each
-other.  So we need to rename get_wcaps() (to be moved from hda-core)
-with the proper snd_hdac prefix for avoiding name conflicts, and
-define in the common hdaudio.h.
+The hda_ prefix is dropped from the most of file names as it's rather
+superfluous.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- include/sound/hdaudio.h      | 24 ++++++++++++++++++++++++
- sound/hda/hdac_device.c      |  8 ++++----
- sound/hda/hdac_sysfs.c       | 14 +++++++-------
- sound/hda/local.h            | 21 ---------------------
- sound/soc/codecs/hdac_hdmi.c | 21 ++++++++++-----------
- 5 files changed, 45 insertions(+), 43 deletions(-)
+ sound/hda/Kconfig                             |  5 ++
+ sound/hda/Makefile                            |  1 +
+ sound/hda/common/Kconfig                      | 80 +++++++++++++++++++
+ sound/hda/common/Makefile                     | 13 +++
+ .../common/auto_parser.c}                     |  0
+ .../{pci/hda/hda_beep.c => hda/common/beep.c} |  0
+ .../{pci/hda/hda_bind.c => hda/common/bind.c} |  0
+ .../hda/hda_codec.c => hda/common/codec.c}    |  0
+ .../common/controller.c}                      |  2 +-
+ .../common/controller_trace.h}                |  2 +-
+ .../{pci/hda => hda/common}/hda_auto_parser.h |  0
+ sound/{pci/hda => hda/common}/hda_beep.h      |  0
+ .../{pci/hda => hda/common}/hda_controller.h  |  0
+ sound/{pci/hda => hda/common}/hda_jack.h      |  0
+ sound/{pci/hda => hda/common}/hda_local.h     |  0
+ .../hda/hda_hwdep.c => hda/common/hwdep.c}    |  0
+ .../{pci/hda/hda_jack.c => hda/common/jack.c} |  0
+ .../{pci/hda/hda_proc.c => hda/common/proc.c} |  0
+ .../hda/hda_sysfs.c => hda/common/sysfs.c}    |  0
+ sound/pci/hda/Kconfig                         | 76 ------------------
+ sound/pci/hda/Makefile                        | 13 +--
+ 21 files changed, 103 insertions(+), 89 deletions(-)
+ create mode 100644 sound/hda/common/Kconfig
+ create mode 100644 sound/hda/common/Makefile
+ rename sound/{pci/hda/hda_auto_parser.c => hda/common/auto_parser.c} (100%)
+ rename sound/{pci/hda/hda_beep.c => hda/common/beep.c} (100%)
+ rename sound/{pci/hda/hda_bind.c => hda/common/bind.c} (100%)
+ rename sound/{pci/hda/hda_codec.c => hda/common/codec.c} (100%)
+ rename sound/{pci/hda/hda_controller.c => hda/common/controller.c} (99%)
+ rename sound/{pci/hda/hda_controller_trace.h => hda/common/controller_trace.h} (97%)
+ rename sound/{pci/hda => hda/common}/hda_auto_parser.h (100%)
+ rename sound/{pci/hda => hda/common}/hda_beep.h (100%)
+ rename sound/{pci/hda => hda/common}/hda_controller.h (100%)
+ rename sound/{pci/hda => hda/common}/hda_jack.h (100%)
+ rename sound/{pci/hda => hda/common}/hda_local.h (100%)
+ rename sound/{pci/hda/hda_hwdep.c => hda/common/hwdep.c} (100%)
+ rename sound/{pci/hda/hda_jack.c => hda/common/jack.c} (100%)
+ rename sound/{pci/hda/hda_proc.c => hda/common/proc.c} (100%)
+ rename sound/{pci/hda/hda_sysfs.c => hda/common/sysfs.c} (100%)
 
-diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-index 25668eee65cf..d38234f8fe44 100644
---- a/include/sound/hdaudio.h
-+++ b/include/sound/hdaudio.h
-@@ -680,6 +680,30 @@ static inline void snd_hdac_dsp_cleanup(struct hdac_stream *azx_dev,
- }
- #endif /* CONFIG_SND_HDA_DSP_LOADER */
- 
-+/*
-+ * Easy macros for widget capabilities
-+ */
-+#define snd_hdac_get_wcaps(codec, nid) \
-+	snd_hdac_read_parm(codec, nid, AC_PAR_AUDIO_WIDGET_CAP)
+diff --git a/sound/hda/Kconfig b/sound/hda/Kconfig
+index e38014656077..2928cb570ec6 100644
+--- a/sound/hda/Kconfig
++++ b/sound/hda/Kconfig
+@@ -1,2 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
++menu "HD-Audio"
 +
-+/* get the widget type from widget capability bits */
-+static inline int snd_hdac_get_wcaps_type(unsigned int wcaps)
-+{
-+	if (!wcaps)
-+		return -1; /* invalid type */
-+	return (wcaps & AC_WCAP_TYPE) >> AC_WCAP_TYPE_SHIFT;
-+}
++source "sound/hda/common/Kconfig"
+ source "sound/hda/core/Kconfig"
 +
-+/* get the number of supported channels */
-+static inline unsigned int snd_hdac_get_wcaps_channels(u32 wcaps)
-+{
-+	unsigned int chans;
++endmenu
+diff --git a/sound/hda/Makefile b/sound/hda/Makefile
+index 3fdbc22b1530..e7596bf736a4 100644
+--- a/sound/hda/Makefile
++++ b/sound/hda/Makefile
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-y += core/
++obj-$(CONFIG_SND_HDA) += common/
+diff --git a/sound/hda/common/Kconfig b/sound/hda/common/Kconfig
+new file mode 100644
+index 000000000000..d1e2bfd24c11
+--- /dev/null
++++ b/sound/hda/common/Kconfig
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: GPL-2.0-only
 +
-+	chans = (wcaps & AC_WCAP_CHAN_CNT_EXT) >> 13;
-+	chans = (chans + 1) * 2;
++config SND_HDA
++	tristate
++	select SND_PCM
++	select SND_VMASTER
++	select SND_JACK
++	select SND_HDA_CORE
 +
-+	return chans;
-+}
++if SND_HDA
++
++config SND_HDA_HWDEP
++	bool "Build hwdep interface for HD-audio driver"
++	select SND_HWDEP
++	help
++	  Say Y here to build a hwdep interface for HD-audio driver.
++	  This interface can be used for out-of-band communication
++	  with codecs for debugging purposes.
++
++config SND_HDA_RECONFIG
++	bool "Allow dynamic codec reconfiguration"
++	help
++	  Say Y here to enable the HD-audio codec re-configuration feature.
++	  It allows user to clear the whole codec configuration, change the
++	  codec setup, add extra verbs, and re-configure the codec dynamically.
++
++	  Note that this item alone doesn't provide the sysfs interface, but
++	  enables the feature just for the patch loader below.
++	  If you need the traditional sysfs entries for the manual interaction,
++	  turn on CONFIG_SND_HDA_HWDEP as well.
++
++config SND_HDA_INPUT_BEEP
++	bool "Support digital beep via input layer"
++	depends on INPUT=y || INPUT=SND_HDA
++	help
++	  Say Y here to build a digital beep interface for HD-audio
++	  driver. This interface is used to generate digital beeps.
++
++config SND_HDA_INPUT_BEEP_MODE
++	int "Digital beep registration mode (0=off, 1=on)"
++	depends on SND_HDA_INPUT_BEEP=y
++	default "1"
++	range 0 1
++	help
++	  Set 0 to disable the digital beep interface for HD-audio by default.
++	  Set 1 to always enable the digital beep interface for HD-audio by
++	  default.
++
++config SND_HDA_PATCH_LOADER
++	bool "Support initialization patch loading for HD-audio"
++	select FW_LOADER
++	select SND_HDA_RECONFIG
++	help
++	  Say Y here to allow the HD-audio driver to load a pseudo
++	  firmware file ("patch") for overriding the BIOS setup at
++	  start up.  The "patch" file can be specified via patch module
++	  option, such as patch=hda-init.
++
++config SND_HDA_POWER_SAVE_DEFAULT
++	int "Default time-out for HD-audio power-save mode"
++	depends on PM
++	default 0
++	help
++	  The default time-out value in seconds for HD-audio automatic
++	  power-save mode.  0 means to disable the power-save mode.
++
++config SND_HDA_CTL_DEV_ID
++	bool "Use the device identifier field for controls"
++	depends on SND_HDA_INTEL
++	help
++	  Say Y to use the device identifier field for (mixer)
++	  controls (old behaviour until this option is available).
++
++	  When enabled, the multiple HDA codecs may set the device
++	  field in control (mixer) element identifiers. The use
++	  of this field is not recommended and defined for mixer controls.
++
++	  The old behaviour (Y) is obsolete and will be removed. Consider
++	  to not enable this option.
++endif
+diff --git a/sound/hda/common/Makefile b/sound/hda/common/Makefile
+new file mode 100644
+index 000000000000..3344fa0efe75
+--- /dev/null
++++ b/sound/hda/common/Makefile
+@@ -0,0 +1,13 @@
++# SPDX-License-Identifier: GPL-2.0
++snd-hda-codec-y := bind.o codec.o jack.o auto_parser.o sysfs.o
++snd-hda-codec-y += controller.o
++snd-hda-codec-$(CONFIG_SND_PROC_FS) += proc.o
++
++snd-hda-codec-$(CONFIG_SND_HDA_HWDEP) += hwdep.o
++snd-hda-codec-$(CONFIG_SND_HDA_INPUT_BEEP) += beep.o
++
++# for trace-points
++CFLAGS_controller.o := -I$(src)
++
++# common driver
++obj-$(CONFIG_SND_HDA) := snd-hda-codec.o
+diff --git a/sound/pci/hda/hda_auto_parser.c b/sound/hda/common/auto_parser.c
+similarity index 100%
+rename from sound/pci/hda/hda_auto_parser.c
+rename to sound/hda/common/auto_parser.c
+diff --git a/sound/pci/hda/hda_beep.c b/sound/hda/common/beep.c
+similarity index 100%
+rename from sound/pci/hda/hda_beep.c
+rename to sound/hda/common/beep.c
+diff --git a/sound/pci/hda/hda_bind.c b/sound/hda/common/bind.c
+similarity index 100%
+rename from sound/pci/hda/hda_bind.c
+rename to sound/hda/common/bind.c
+diff --git a/sound/pci/hda/hda_codec.c b/sound/hda/common/codec.c
+similarity index 100%
+rename from sound/pci/hda/hda_codec.c
+rename to sound/hda/common/codec.c
+diff --git a/sound/pci/hda/hda_controller.c b/sound/hda/common/controller.c
+similarity index 99%
+rename from sound/pci/hda/hda_controller.c
+rename to sound/hda/common/controller.c
+index f3330b7e0fcf..84387ed761be 100644
+--- a/sound/pci/hda/hda_controller.c
++++ b/sound/hda/common/controller.c
+@@ -29,7 +29,7 @@
+ #include "hda_local.h"
  
- /*
-  * generic array helpers
-diff --git a/sound/hda/hdac_device.c b/sound/hda/hdac_device.c
-index a02dce5f6a88..018f9e176b1b 100644
---- a/sound/hda/hdac_device.c
-+++ b/sound/hda/hdac_device.c
-@@ -436,11 +436,11 @@ EXPORT_SYMBOL_GPL(snd_hdac_refresh_widgets);
- /* return CONNLIST_LEN parameter of the given widget */
- static unsigned int get_num_conns(struct hdac_device *codec, hda_nid_t nid)
- {
--	unsigned int wcaps = get_wcaps(codec, nid);
-+	unsigned int wcaps = snd_hdac_get_wcaps(codec, nid);
- 	unsigned int parm;
+ #define CREATE_TRACE_POINTS
+-#include "hda_controller_trace.h"
++#include "controller_trace.h"
  
- 	if (!(wcaps & AC_WCAP_CONN_LIST) &&
--	    get_wcaps_type(wcaps) != AC_WID_VOL_KNB)
-+	    snd_hdac_get_wcaps_type(wcaps) != AC_WID_VOL_KNB)
- 		return 0;
+ /* DSP lock helpers */
+ #define dsp_lock(dev)		snd_hdac_dsp_lock(azx_stream(dev))
+diff --git a/sound/pci/hda/hda_controller_trace.h b/sound/hda/common/controller_trace.h
+similarity index 97%
+rename from sound/pci/hda/hda_controller_trace.h
+rename to sound/hda/common/controller_trace.h
+index bf48304e230a..7f5841f8919e 100644
+--- a/sound/pci/hda/hda_controller_trace.h
++++ b/sound/hda/common/controller_trace.h
+@@ -1,7 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ #undef TRACE_SYSTEM
+ #define TRACE_SYSTEM hda_controller
+-#define TRACE_INCLUDE_FILE hda_controller_trace
++#define TRACE_INCLUDE_FILE controller_trace
  
- 	parm = snd_hdac_read_parm(codec, nid, AC_PAR_CONNLIST_LEN);
-@@ -854,7 +854,7 @@ static unsigned int query_pcm_param(struct hdac_device *codec, hda_nid_t nid)
- 	unsigned int val = 0;
+ #if !defined(_TRACE_HDA_CONTROLLER_H) || defined(TRACE_HEADER_MULTI_READ)
+ #define _TRACE_HDA_CONTROLLER_H
+diff --git a/sound/pci/hda/hda_auto_parser.h b/sound/hda/common/hda_auto_parser.h
+similarity index 100%
+rename from sound/pci/hda/hda_auto_parser.h
+rename to sound/hda/common/hda_auto_parser.h
+diff --git a/sound/pci/hda/hda_beep.h b/sound/hda/common/hda_beep.h
+similarity index 100%
+rename from sound/pci/hda/hda_beep.h
+rename to sound/hda/common/hda_beep.h
+diff --git a/sound/pci/hda/hda_controller.h b/sound/hda/common/hda_controller.h
+similarity index 100%
+rename from sound/pci/hda/hda_controller.h
+rename to sound/hda/common/hda_controller.h
+diff --git a/sound/pci/hda/hda_jack.h b/sound/hda/common/hda_jack.h
+similarity index 100%
+rename from sound/pci/hda/hda_jack.h
+rename to sound/hda/common/hda_jack.h
+diff --git a/sound/pci/hda/hda_local.h b/sound/hda/common/hda_local.h
+similarity index 100%
+rename from sound/pci/hda/hda_local.h
+rename to sound/hda/common/hda_local.h
+diff --git a/sound/pci/hda/hda_hwdep.c b/sound/hda/common/hwdep.c
+similarity index 100%
+rename from sound/pci/hda/hda_hwdep.c
+rename to sound/hda/common/hwdep.c
+diff --git a/sound/pci/hda/hda_jack.c b/sound/hda/common/jack.c
+similarity index 100%
+rename from sound/pci/hda/hda_jack.c
+rename to sound/hda/common/jack.c
+diff --git a/sound/pci/hda/hda_proc.c b/sound/hda/common/proc.c
+similarity index 100%
+rename from sound/pci/hda/hda_proc.c
+rename to sound/hda/common/proc.c
+diff --git a/sound/pci/hda/hda_sysfs.c b/sound/hda/common/sysfs.c
+similarity index 100%
+rename from sound/pci/hda/hda_sysfs.c
+rename to sound/hda/common/sysfs.c
+diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
+index 745f120a5cee..1dfd56493d39 100644
+--- a/sound/pci/hda/Kconfig
++++ b/sound/pci/hda/Kconfig
+@@ -1,13 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ menu "HD-Audio"
  
- 	if (nid != codec->afg &&
--	    (get_wcaps(codec, nid) & AC_WCAP_FORMAT_OVRD))
-+	    (snd_hdac_get_wcaps(codec, nid) & AC_WCAP_FORMAT_OVRD))
- 		val = snd_hdac_read_parm(codec, nid, AC_PAR_PCM);
- 	if (!val || val == -1)
- 		val = snd_hdac_read_parm(codec, codec->afg, AC_PAR_PCM);
-@@ -894,7 +894,7 @@ int snd_hdac_query_supported_pcm(struct hdac_device *codec, hda_nid_t nid,
- {
- 	unsigned int i, val, wcaps;
- 
--	wcaps = get_wcaps(codec, nid);
-+	wcaps = snd_hdac_get_wcaps(codec, nid);
- 	val = query_pcm_param(codec, nid);
- 
- 	if (ratesp) {
-diff --git a/sound/hda/hdac_sysfs.c b/sound/hda/hdac_sysfs.c
-index 60b0a70428d5..bffe52859dba 100644
---- a/sound/hda/hdac_sysfs.c
-+++ b/sound/hda/hdac_sysfs.c
-@@ -161,13 +161,13 @@ static const struct kobj_type widget_ktype = {
- static ssize_t caps_show(struct hdac_device *codec, hda_nid_t nid,
- 			struct widget_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "0x%08x\n", get_wcaps(codec, nid));
-+	return sysfs_emit(buf, "0x%08x\n", snd_hdac_get_wcaps(codec, nid));
- }
- 
- static ssize_t pin_caps_show(struct hdac_device *codec, hda_nid_t nid,
- 			     struct widget_attribute *attr, char *buf)
- {
--	if (get_wcaps_type(get_wcaps(codec, nid)) != AC_WID_PIN)
-+	if (snd_hdac_get_wcaps_type(snd_hdac_get_wcaps(codec, nid)) != AC_WID_PIN)
- 		return 0;
- 	return sysfs_emit(buf, "0x%08x\n",
- 			  snd_hdac_read_parm(codec, nid, AC_PAR_PIN_CAP));
-@@ -178,7 +178,7 @@ static ssize_t pin_cfg_show(struct hdac_device *codec, hda_nid_t nid,
- {
- 	unsigned int val;
- 
--	if (get_wcaps_type(get_wcaps(codec, nid)) != AC_WID_PIN)
-+	if (snd_hdac_get_wcaps_type(snd_hdac_get_wcaps(codec, nid)) != AC_WID_PIN)
- 		return 0;
- 	if (snd_hdac_read(codec, nid, AC_VERB_GET_CONFIG_DEFAULT, 0, &val))
- 		return 0;
-@@ -189,7 +189,7 @@ static bool has_pcm_cap(struct hdac_device *codec, hda_nid_t nid)
- {
- 	if (nid == codec->afg || nid == codec->mfg)
- 		return true;
--	switch (get_wcaps_type(get_wcaps(codec, nid))) {
-+	switch (snd_hdac_get_wcaps_type(snd_hdac_get_wcaps(codec, nid))) {
- 	case AC_WID_AUD_OUT:
- 	case AC_WID_AUD_IN:
- 		return true;
-@@ -219,7 +219,7 @@ static ssize_t pcm_formats_show(struct hdac_device *codec, hda_nid_t nid,
- static ssize_t amp_in_caps_show(struct hdac_device *codec, hda_nid_t nid,
- 				struct widget_attribute *attr, char *buf)
- {
--	if (nid != codec->afg && !(get_wcaps(codec, nid) & AC_WCAP_IN_AMP))
-+	if (nid != codec->afg && !(snd_hdac_get_wcaps(codec, nid) & AC_WCAP_IN_AMP))
- 		return 0;
- 	return sysfs_emit(buf, "0x%08x\n",
- 			  snd_hdac_read_parm(codec, nid, AC_PAR_AMP_IN_CAP));
-@@ -228,7 +228,7 @@ static ssize_t amp_in_caps_show(struct hdac_device *codec, hda_nid_t nid,
- static ssize_t amp_out_caps_show(struct hdac_device *codec, hda_nid_t nid,
- 				 struct widget_attribute *attr, char *buf)
- {
--	if (nid != codec->afg && !(get_wcaps(codec, nid) & AC_WCAP_OUT_AMP))
-+	if (nid != codec->afg && !(snd_hdac_get_wcaps(codec, nid) & AC_WCAP_OUT_AMP))
- 		return 0;
- 	return sysfs_emit(buf, "0x%08x\n",
- 			  snd_hdac_read_parm(codec, nid, AC_PAR_AMP_OUT_CAP));
-@@ -237,7 +237,7 @@ static ssize_t amp_out_caps_show(struct hdac_device *codec, hda_nid_t nid,
- static ssize_t power_caps_show(struct hdac_device *codec, hda_nid_t nid,
- 			       struct widget_attribute *attr, char *buf)
- {
--	if (nid != codec->afg && !(get_wcaps(codec, nid) & AC_WCAP_POWER))
-+	if (nid != codec->afg && !(snd_hdac_get_wcaps(codec, nid) & AC_WCAP_POWER))
- 		return 0;
- 	return sysfs_emit(buf, "0x%08x\n",
- 			  snd_hdac_read_parm(codec, nid, AC_PAR_POWER_STATE));
-diff --git a/sound/hda/local.h b/sound/hda/local.h
-index 896ba142e8bc..5f03b203c416 100644
---- a/sound/hda/local.h
-+++ b/sound/hda/local.h
-@@ -6,27 +6,6 @@
- #ifndef __HDAC_LOCAL_H
- #define __HDAC_LOCAL_H
- 
--#define get_wcaps(codec, nid) \
--	snd_hdac_read_parm(codec, nid, AC_PAR_AUDIO_WIDGET_CAP)
+-config SND_HDA
+-	tristate
+-	select SND_PCM
+-	select SND_VMASTER
+-	select SND_JACK
+-	select SND_HDA_CORE
 -
--/* get the widget type from widget capability bits */
--static inline int get_wcaps_type(unsigned int wcaps)
--{
--	if (!wcaps)
--		return -1; /* invalid type */
--	return (wcaps & AC_WCAP_TYPE) >> AC_WCAP_TYPE_SHIFT;
--}
+ config SND_HDA_GENERIC_LEDS
+        bool
+ 
+@@ -55,53 +48,6 @@ config SND_HDA_ACPI
+ 
+ if SND_HDA
+ 
+-config SND_HDA_HWDEP
+-	bool "Build hwdep interface for HD-audio driver"
+-	select SND_HWDEP
+-	help
+-	  Say Y here to build a hwdep interface for HD-audio driver.
+-	  This interface can be used for out-of-band communication
+-	  with codecs for debugging purposes.
 -
--static inline unsigned int get_wcaps_channels(u32 wcaps)
--{
--	unsigned int chans;
+-config SND_HDA_RECONFIG
+-	bool "Allow dynamic codec reconfiguration"
+-	help
+-	  Say Y here to enable the HD-audio codec re-configuration feature.
+-	  It allows user to clear the whole codec configuration, change the
+-	  codec setup, add extra verbs, and re-configure the codec dynamically.
 -
--	chans = (wcaps & AC_WCAP_CHAN_CNT_EXT) >> 13;
--	chans = (chans + 1) * 2;
+-	  Note that this item alone doesn't provide the sysfs interface, but
+-	  enables the feature just for the patch loader below.
+-	  If you need the traditional sysfs entries for the manual interaction,
+-	  turn on CONFIG_SND_HDA_HWDEP as well.
 -
--	return chans;
--}
+-config SND_HDA_INPUT_BEEP
+-	bool "Support digital beep via input layer"
+-	depends on INPUT=y || INPUT=SND_HDA
+-	help
+-	  Say Y here to build a digital beep interface for HD-audio
+-	  driver. This interface is used to generate digital beeps.
 -
- extern const struct attribute_group *hdac_dev_attr_groups[];
- int hda_widget_sysfs_init(struct hdac_device *codec);
- int hda_widget_sysfs_reinit(struct hdac_device *codec, hda_nid_t start_nid,
-diff --git a/sound/soc/codecs/hdac_hdmi.c b/sound/soc/codecs/hdac_hdmi.c
-index 1139a2754ca3..b33cd5178008 100644
---- a/sound/soc/codecs/hdac_hdmi.c
-+++ b/sound/soc/codecs/hdac_hdmi.c
-@@ -24,7 +24,6 @@
- #include <sound/hda_i915.h>
- #include <sound/pcm_drm_eld.h>
- #include <sound/hda_chmap.h>
--#include "../../hda/local.h"
- #include "hdac_hdmi.h"
+-config SND_HDA_INPUT_BEEP_MODE
+-	int "Digital beep registration mode (0=off, 1=on)"
+-	depends on SND_HDA_INPUT_BEEP=y
+-	default "1"
+-	range 0 1
+-	help
+-	  Set 0 to disable the digital beep interface for HD-audio by default.
+-	  Set 1 to always enable the digital beep interface for HD-audio by
+-	  default.
+-
+-config SND_HDA_PATCH_LOADER
+-	bool "Support initialization patch loading for HD-audio"
+-	select FW_LOADER
+-	select SND_HDA_RECONFIG
+-	help
+-	  Say Y here to allow the HD-audio driver to load a pseudo
+-	  firmware file ("patch") for overriding the BIOS setup at
+-	  start up.  The "patch" file can be specified via patch module
+-	  option, such as patch=hda-init.
+-
+ config SND_HDA_CIRRUS_SCODEC
+ 	tristate
  
- #define NAME_SIZE	32
-@@ -221,8 +220,8 @@ static int hdac_hdmi_get_port_len(struct hdac_device *hdev, hda_nid_t nid)
- 	unsigned int caps;
- 	unsigned int type, param;
+@@ -394,14 +340,6 @@ config SND_HDA_GENERIC
+ comment "Set to Y if you want auto-loading the codec driver"
+ 	depends on SND_HDA=y && SND_HDA_GENERIC=m
  
--	caps = get_wcaps(hdev, nid);
--	type = get_wcaps_type(caps);
-+	caps = snd_hdac_get_wcaps(hdev, nid);
-+	type = snd_hdac_get_wcaps_type(caps);
+-config SND_HDA_POWER_SAVE_DEFAULT
+-	int "Default time-out for HD-audio power-save mode"
+-	depends on PM
+-	default 0
+-	help
+-	  The default time-out value in seconds for HD-audio automatic
+-	  power-save mode.  0 means to disable the power-save mode.
+-
+ config SND_HDA_INTEL_HDMI_SILENT_STREAM
+ 	bool "Enable Silent Stream always for HDMI"
+ 	depends on SND_HDA_INTEL
+@@ -417,20 +355,6 @@ config SND_HDA_INTEL_HDMI_SILENT_STREAM
+ 	  This feature can impact power consumption as resources
+ 	  are kept reserved both at transmitter and receiver.
  
- 	if (!(caps & AC_WCAP_DIGITAL) || (type != AC_WID_PIN))
- 		return 0;
-@@ -492,10 +491,10 @@ static int hdac_hdmi_query_port_connlist(struct hdac_device *hdev,
- 					struct hdac_hdmi_pin *pin,
- 					struct hdac_hdmi_port *port)
- {
--	if (!(get_wcaps(hdev, pin->nid) & AC_WCAP_CONN_LIST)) {
-+	if (!(snd_hdac_get_wcaps(hdev, pin->nid) & AC_WCAP_CONN_LIST)) {
- 		dev_warn(&hdev->dev,
- 			"HDMI: pin %d wcaps %#x does not support connection list\n",
--			pin->nid, get_wcaps(hdev, pin->nid));
-+			pin->nid, snd_hdac_get_wcaps(hdev, pin->nid));
- 		return -EINVAL;
- 	}
+-config SND_HDA_CTL_DEV_ID
+-	bool "Use the device identifier field for controls"
+-	depends on SND_HDA_INTEL
+-	help
+-	  Say Y to use the device identifier field for (mixer)
+-	  controls (old behaviour until this option is available).
+-
+-	  When enabled, the multiple HDA codecs may set the device
+-	  field in control (mixer) element identifiers. The use
+-	  of this field is not recommended and defined for mixer controls.
+-
+-	  The old behaviour (Y) is obsolete and will be removed. Consider
+-	  to not enable this option.
+-
+ endif
  
-@@ -660,8 +659,8 @@ hdac_hdmi_query_cvt_params(struct hdac_device *hdev, struct hdac_hdmi_cvt *cvt)
- 	struct hdac_hdmi_priv *hdmi = hdev_to_hdmi_priv(hdev);
- 	int err;
+ endmenu
+diff --git a/sound/pci/hda/Makefile b/sound/pci/hda/Makefile
+index a5ab8ee2d7f9..920011bb1b06 100644
+--- a/sound/pci/hda/Makefile
++++ b/sound/pci/hda/Makefile
+@@ -3,17 +3,11 @@ snd-hda-intel-y := hda_intel.o
+ snd-hda-tegra-y := hda_tegra.o
+ snd-hda-acpi-y := hda_acpi.o
  
--	chans = get_wcaps(hdev, cvt->nid);
--	chans = get_wcaps_channels(chans);
-+	chans = snd_hdac_get_wcaps(hdev, cvt->nid);
-+	chans = snd_hdac_get_wcaps_channels(chans);
+-snd-hda-codec-y := hda_bind.o hda_codec.o hda_jack.o hda_auto_parser.o hda_sysfs.o
+-snd-hda-codec-y += hda_controller.o
+-snd-hda-codec-$(CONFIG_SND_PROC_FS) += hda_proc.o
+-
+-snd-hda-codec-$(CONFIG_SND_HDA_HWDEP) += hda_hwdep.o
+-snd-hda-codec-$(CONFIG_SND_HDA_INPUT_BEEP) += hda_beep.o
+-
+ # for trace-points
+-CFLAGS_hda_controller.o := -I$(src)
+ CFLAGS_hda_intel.o := -I$(src)
  
- 	cvt->params.channels_min = 2;
++subdir-ccflags-y += -I$(src)/../../hda/common
++
+ snd-hda-codec-generic-y :=	hda_generic.o
+ snd-hda-codec-realtek-y :=	patch_realtek.o
+ snd-hda-codec-cmedia-y :=	patch_cmedia.o
+@@ -43,9 +37,6 @@ snd-hda-scodec-tas2781-y :=	tas2781_hda.o
+ snd-hda-scodec-tas2781-i2c-y :=	tas2781_hda_i2c.o
+ snd-hda-scodec-tas2781-spi-y :=	tas2781_hda_spi.o
  
-@@ -743,7 +742,7 @@ static void hdac_hdmi_set_power_state(struct hdac_device *hdev,
- 	int count;
- 	unsigned int state;
- 
--	if (get_wcaps(hdev, nid) & AC_WCAP_POWER) {
-+	if (snd_hdac_get_wcaps(hdev, nid) & AC_WCAP_POWER) {
- 		if (!snd_hdac_check_power_state(hdev, nid, pwr_state)) {
- 			for (count = 0; count < 10; count++) {
- 				snd_hdac_codec_read(hdev, nid, 0,
-@@ -761,7 +760,7 @@ static void hdac_hdmi_set_power_state(struct hdac_device *hdev,
- static void hdac_hdmi_set_amp(struct hdac_device *hdev,
- 				   hda_nid_t nid, int val)
- {
--	if (get_wcaps(hdev, nid) & AC_WCAP_OUT_AMP)
-+	if (snd_hdac_get_wcaps(hdev, nid) & AC_WCAP_OUT_AMP)
- 		snd_hdac_codec_write(hdev, nid, 0,
- 					AC_VERB_SET_AMP_GAIN_MUTE, val);
- }
-@@ -1648,8 +1647,8 @@ static int hdac_hdmi_parse_and_map_nid(struct hdac_device *hdev,
- 		unsigned int caps;
- 		unsigned int type;
- 
--		caps = get_wcaps(hdev, nid);
--		type = get_wcaps_type(caps);
-+		caps = snd_hdac_get_wcaps(hdev, nid);
-+		type = snd_hdac_get_wcaps_type(caps);
- 
- 		if (!(caps & AC_WCAP_DIGITAL))
- 			continue;
+-# common driver
+-obj-$(CONFIG_SND_HDA) := snd-hda-codec.o
+-
+ # codec drivers
+ obj-$(CONFIG_SND_HDA_GENERIC) += snd-hda-codec-generic.o
+ obj-$(CONFIG_SND_HDA_CODEC_REALTEK) += snd-hda-codec-realtek.o
 -- 
 2.50.0
 
