@@ -1,139 +1,112 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145CD2E11B5
-	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 14:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3292E5B3E;
+	Wed,  9 Jul 2025 14:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752069916; cv=none; b=Ys9ofTCDsP+BVeJr/Y6HRwRQ+lMtnf7EmWDR/SllVTkEUXxQLS/msi+YkEMks5hJ3Y8VbmO82zeK9a5Q/IdS5I/kC5MnBKMUAMsqpHf+a+op4uniGSwE1E8NIw4GBE69Ug33TRCyyPS4fVHYx1JeaeJcMOPSKV0KH0qhZr0kl6g=
+	t=1752072994; cv=none; b=qNzVfTjmGLYsZpo3tJdrCWJg2KZ/Tnu1/FtAlTVcbOagSzPeWWi5K1s755L6PRuBoTw3MTeEvJZCA8TJn/24kZSSddyG1N0VK20O+id7cTz38lryxHn5Fue5qetLxTv8RtmlVlWjCvMh1iRFk7l1WzZgoawTaBHN9eEK9zvQEpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752069916; c=relaxed/simple;
-	bh=KGfAJ6S8DkYLAgFRf6mFgbIsxJFtjm/pPjbrTp+6KWk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MaEfPl7t6aQhrlKM+TugICLgcaN4ByY4Ww9vQBTz+Ytlx1Kj4TFbXSgENCw+6ScrLLRmm04IPxYQFaN1M25ZnqvFFKiDG7IHDo18zthoHF0h5ayGBKiZNgz7g9tkntez+XTTOJOULWLYH2txwnFTfjfHrhi+3R8WbMj81Jv+yFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Rp7Zp+wv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aVb+cPFe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Rp7Zp+wv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aVb+cPFe; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1752072994; c=relaxed/simple;
+	bh=yNzG22T7Kt3gRzgf5HUAN78MIWBlmd8cxkO76zyRr8k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dLN/IJMwJccKPIxgVVuqzCYz1mPXmsVGFQchVXvuQliJQFXx6NjuNn8nxcZKpm0JBTJs9pu92EpAjWSH/UKSJdvwgiTrmP7w255nA37L6/FwYBCrnvvdX6JNsiGsWWbzkhy6Sy6hd3NcSxcDiwG2+zLSIsgtqrH0U1e8Dsg3xkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6wdJKNC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Rp7Zp+wv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aVb+cPFe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Rp7Zp+wv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aVb+cPFe"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4B0D421180;
-	Wed,  9 Jul 2025 14:05:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752069913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YFCuDeXH9gcgXKY5utV2N3tM4+McLOz1DbiaNH9BzMk=;
-	b=Rp7Zp+wvMsijbHfQWt68vw+I5GpAFty4/x++jee4BV/H4KGTOGqbSHTKayPfeyIjRuVZHH
-	58yFJcK19Di4OuUw6ECiPh7EKaRlQrDf9+hAg2nH8TjEL66EmgWvoE65wIMD7V/AMhtzLp
-	KpaMAQtI7TASb9x3OJ5P2zeFxzKrleI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752069913;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YFCuDeXH9gcgXKY5utV2N3tM4+McLOz1DbiaNH9BzMk=;
-	b=aVb+cPFeXa13ZWyDs511JdDNy4M+m8jQmbGqXqgNchhkdLYOe2jkUdEXg80XqX3HrYENnj
-	oOP+zrqMZGfLMcDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752069913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YFCuDeXH9gcgXKY5utV2N3tM4+McLOz1DbiaNH9BzMk=;
-	b=Rp7Zp+wvMsijbHfQWt68vw+I5GpAFty4/x++jee4BV/H4KGTOGqbSHTKayPfeyIjRuVZHH
-	58yFJcK19Di4OuUw6ECiPh7EKaRlQrDf9+hAg2nH8TjEL66EmgWvoE65wIMD7V/AMhtzLp
-	KpaMAQtI7TASb9x3OJ5P2zeFxzKrleI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752069913;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YFCuDeXH9gcgXKY5utV2N3tM4+McLOz1DbiaNH9BzMk=;
-	b=aVb+cPFeXa13ZWyDs511JdDNy4M+m8jQmbGqXqgNchhkdLYOe2jkUdEXg80XqX3HrYENnj
-	oOP+zrqMZGfLMcDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0CA68136DC;
-	Wed,  9 Jul 2025 14:05:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RqjOARl3bmgPZwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 14:05:13 +0000
-Date: Wed, 09 Jul 2025 16:05:12 +0200
-Message-ID: <87bjptzch3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6wdJKNC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD3DAC4CEEF;
+	Wed,  9 Jul 2025 14:56:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752072993;
+	bh=yNzG22T7Kt3gRzgf5HUAN78MIWBlmd8cxkO76zyRr8k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=S6wdJKNCMKbnfOx+0Lk74iJixCb9zxotU9KjCEufyNdGO82huIWlKT/3U4Jh8GqE3
+	 QjswoZh6a+BhcyXEIO5ENfBaApkSL9SdwmX1r20+d9qXStt+xmV5aqaSGTjtY0tPBx
+	 VzbnM7kKpOjpM+W0U9GYTlqERd8dCeO9M1wZTbJTt4SdenC2orbf4S+K8FVYE1wpb/
+	 Uz85jvMJfHSqMTaLrc8o/cqPLGOuIHd4jFntyF1EBCS3pvFeoQ3Yx8KZJZXTt6qArm
+	 4BrnadE2LIfc3Awic83eu2X1fxlBSqt3hCe5TX+YQMg4MEELEDD7zUgOwU34PUb95y
+	 3TgUfxSIeSD4Q==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Andres Urian Florez <andres.emb.sys@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+	Brent Lu <brent.lu@intel.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Jack Yu <jack.yu@realtek.com>,
+	Helen Koike <koike@igalia.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: echoaudio: Replace deprecated strcpy() with strscpy()
-In-Reply-To: <20250709124655.1195-1-thorsten.blum@linux.dev>
-References: <20250709124655.1195-1-thorsten.blum@linux.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Subject: [PATCH] ASoC: Intel: fix SND_SOC_SOF dependencies
+Date: Wed,  9 Jul 2025 16:56:07 +0200
+Message-Id: <20250709145626.64125-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,linux.intel.com,kernel.org,gmail.com,suse.de,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,linux.dev:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -1.80
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 09 Jul 2025 14:46:52 +0200,
-Thorsten Blum wrote:
-> 
-> strcpy() is deprecated; use strscpy() instead.
-> 
-> No functional changes intended.
-> 
-> Link: https://github.com/KSPP/linux/issues/88
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+From: Arnd Bergmann <arnd@arndb.de>
 
-Thanks, applied now.
+It is currently possible to configure a kernel with all Intel SoC
+configs as loadable modules, but the board config as built-in. This
+causes a link failure in the reference to the snd_soc_sof.ko module:
 
-And now I'm going to convert all the rest of such trivial stuff
-(strcpy() with card->driver, shortname, mixername, longname, as well
-as pcm->name, and else) in sound/* for 6.17.
+x86_64-linux-ld: sound/soc/intel/boards/sof_rt5682.o: in function `sof_rt5682_hw_params':
+sof_rt5682.c:(.text+0x1f9): undefined reference to `sof_dai_get_mclk'
+x86_64-linux-ld: sof_rt5682.c:(.text+0x234): undefined reference to `sof_dai_get_bclk'
+x86_64-linux-ld: sound/soc/intel/boards/sof_rt5682.o: in function `sof_rt5682_codec_init':
+sof_rt5682.c:(.text+0x3e0): undefined reference to `sof_dai_get_mclk'
+x86_64-linux-ld: sound/soc/intel/boards/sof_cs42l42.o: in function `sof_cs42l42_hw_params':
+sof_cs42l42.c:(.text+0x2a): undefined reference to `sof_dai_get_bclk'
+x86_64-linux-ld: sound/soc/intel/boards/sof_nau8825.o: in function `sof_nau8825_hw_params':
+sof_nau8825.c:(.text+0x7f): undefined reference to `sof_dai_get_bclk'
+x86_64-linux-ld: sound/soc/intel/boards/sof_da7219.o: in function `da7219_codec_init':
+sof_da7219.c:(.text+0xbf): undefined reference to `sof_dai_get_mclk'
+x86_64-linux-ld: sound/soc/intel/boards/sof_maxim_common.o: in function `max_98373_hw_params':
+sof_maxim_common.c:(.text+0x6f9): undefined reference to `sof_dai_get_tdm_slots'
+x86_64-linux-ld: sound/soc/intel/boards/sof_realtek_common.o: in function `rt1015_hw_params':
+sof_realtek_common.c:(.text+0x54c): undefined reference to `sof_dai_get_bclk'
+x86_64-linux-ld: sound/soc/intel/boards/sof_realtek_common.o: in function `rt1308_hw_params':
+sof_realtek_common.c:(.text+0x702): undefined reference to `sof_dai_get_mclk'
+x86_64-linux-ld: sound/soc/intel/boards/sof_cirrus_common.o: in function `cs35l41_hw_params':
+sof_cirrus_common.c:(.text+0x2f): undefined reference to `sof_dai_get_bclk'
 
+Add an optional dependency on SND_SOC_SOF_INTEL_COMMON, to ensure that whenever
+the SOF support is in a loadable module, none of the board code can be built-in.
 
-Takashi
+This may be be a little heavy-handed, but I also don't see a reason why one would
+want the boards to be built-in but not the SoC, so it shouldn't actually cause
+any usability problems.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ sound/soc/intel/boards/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index 128b6876af83..c23fdb6aad4c 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -11,7 +11,7 @@ menuconfig SND_SOC_INTEL_MACH
+ 	 kernel: saying N will just cause the configurator to skip all
+ 	 the questions about Intel ASoC machine drivers.
+ 
+-if SND_SOC_INTEL_MACH
++if SND_SOC_INTEL_MACH && (SND_SOC_SOF_INTEL_COMMON || !SND_SOC_SOF_INTEL_COMMON)
+ 
+ config SND_SOC_INTEL_USER_FRIENDLY_LONG_NAMES
+ 	bool "Use more user friendly long card names"
+-- 
+2.39.5
+
