@@ -1,200 +1,157 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99B378F36;
-	Wed,  9 Jul 2025 06:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFDE280CD0;
+	Wed,  9 Jul 2025 08:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752044379; cv=none; b=XljwSP6bmFOu3c8Qfgk4VlcHga1bVAmUiireYZD+tb8lbbQscQP2B6HseglSGl9nkb1Hw+5cCFw9UToWmoukrmsn4Vfh7DuWf3GvgaXX7RQLd5wZOa6jRfWXJOzwgRWoZABGRFNSsF3rwhchF066JM9Mk0bfwGyXKXSvTwZ2+jU=
+	t=1752050803; cv=none; b=aZc4gYE52dDIgovP6FpObUq+slFM3OtzeDjpg6MiZD5017rJ2VGOy/CUMUosiFqwR2LoZ3wUoQDcLEbOHASG+mLZ1PB3BVgIv0Lg63XKbIpnp+2+SD+D+DVNPzyniLWvMo/cpdWgWy9x9zzmuNYD6dLzLYO7IwRHykOZBch2+G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752044379; c=relaxed/simple;
-	bh=YlqJmXdkohNFHXYMBpBaX+PVFLgGz8jmw+qFDTmc/nM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r5ITyxSRUF5RsCFdHTWplxpcRf4xfqSzlKlIJz7baeApAq3dA7JpMj/Ncws83pfeCIis4TaS3qLPhr11dMCy0qNbnKKTAzJOKhlC8mT+88b+IowVwE34KHVdjr6rYeE1MtfghTo//QbzrWcwDSAaELLZKf3YFkNICN0EiWepW2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpIWlexs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752050803; c=relaxed/simple;
+	bh=uQxOYRvhs1dO9YSJnNB7tHiB35UHAz6K7hOo9VmXY+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CCotWXlMREBpeoUXUf5hoj2C3zPJN7ZIcmVjw+DVQYwes2UGaPhtQZi/frVY45drTbmLA2nV8+R+RVNJtKWlg7UDKlF5f7tQEls54C4JHyEpykGoAI9PdaCD3Uml85ReNJd7Wx1eH/tAgLmA+as+KQef7vSJrEOcxGNBNVtnvWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AoP987Dk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpIWlexs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BB3EC4CEF0;
-	Wed,  9 Jul 2025 06:59:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AoP987Dk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97906C4CEF0;
+	Wed,  9 Jul 2025 08:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752044379;
-	bh=YlqJmXdkohNFHXYMBpBaX+PVFLgGz8jmw+qFDTmc/nM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bpIWlexsjygi5fpwUefLkBJCyw8+pGqTQavsSu3PUnNkQ7DAAkww/DXagNBPRSvCX
-	 EmSylVEJpycqIGB34dJJGmpoU2deRhRAC/PmTVSgAt14BiZ0K88IfviaX0U0vOaEb3
-	 4hD9Fsuk7lTnZCjOgsmf4UgcZRRkZoDW5l7kO2Qyir1Afxjvp2Lb1D68hotDPW9181
-	 uFxlULKicrO+nlngPaQL1A8h0upF9Ndzwzbglv2zUzInxDfEOdX6Hrk/X6ZLieMrbl
-	 hPeSlF2Y0gU6l6jWySsmKr9Wq2/Dxh+8KpxwgZUhuX5HIb46bkdo0jJn4+W4IIT4P9
-	 SNQvHFzTB8Vjg==
-Message-ID: <fa1b8e02-deee-44e5-a6c6-52394fc071a4@kernel.org>
-Date: Wed, 9 Jul 2025 08:59:32 +0200
+	s=k20201202; t=1752050803;
+	bh=uQxOYRvhs1dO9YSJnNB7tHiB35UHAz6K7hOo9VmXY+Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AoP987DkYwFOKbEqSX8RyTKu8GJlh5CiIxRpF6Xo3fdNBZ8oluAKLufGQEXBJnc12
+	 kTui6Na/YflqX+Wz3zCy5ix+G8CVRq/x57MxP2Ta+dK6u+IiQ8aLxEjojHOPTf/hOG
+	 H7vaWKdknaaqGTvzb7QlUTS20chEVqKr9k0jJmMT1DocofDWwtbb9PJka75IOWtSi7
+	 538DV8dOkTa6CaB8/EnEtsYY+NRCHVndVilOLu9PkqbmYcpyZexH7zUFjVPQ7En5dF
+	 9xParte1oEOiLqWDHYyR2R4U6VbBWGW7l7gW2Pstw+fE89J0n8hjUtT2uLVp8zS54C
+	 oHrf8nDhLcZeA==
+Date: Wed, 9 Jul 2025 09:46:39 +0100
+From: Mark Brown <broonie@kernel.org>
+To: ew.kim@samsung.com
+Cc: s.nawrocki@samsung.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: samsung: Implement abox generic structure
+Message-ID: <aG4sb7UcqvHz_Z5r@finisterre.sirena.org.uk>
+References: <CGME20250709002150epcas2p467416bdbc16754726599a0cacb1feecc@epcas2p4.samsung.com>
+ <20250709001002.378246-1-ew.kim@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: dsp: mediatek: add mt8196 dsp
- document
-To: =?UTF-8?B?SGFpbG9uZyBGYW4gKOiMg+a1t+m+mSk=?= <Hailong.Fan@mediatek.com>,
- "perex@perex.cz" <perex@perex.cz>,
- "pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>,
- "kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>, "tiwai@suse.com"
- <tiwai@suse.com>, "robh@kernel.org" <robh@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "daniel.baluta@nxp.com" <daniel.baluta@nxp.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>
-Cc: "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "sound-open-firmware@alsa-project.org"
- <sound-open-firmware@alsa-project.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-References: <20250703075632.20758-1-hailong.fan@mediatek.com>
- <20250703075632.20758-2-hailong.fan@mediatek.com>
- <defd70cb-4351-4b0b-b4d0-dd1ff831615c@kernel.org>
- <61784658-c71d-458b-8934-5f5db2330bc0@collabora.com>
- <85ca4ceb29caec9acbe77a3d67e3bc57b0b0aeb5.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <85ca4ceb29caec9acbe77a3d67e3bc57b0b0aeb5.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-On 09/07/2025 08:34, Hailong Fan (范海龙) wrote:
-> On Thu, 2025-07-03 at 11:05 +0200, AngeloGioacchino Del Regno wrote:
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>
->>
->> Il 03/07/25 10:08, Krzysztof Kozlowski ha scritto:
->>> On 03/07/2025 09:56, hailong.fan wrote:
->>>> From: Hailong Fan <hailong.fan@mediatek.com>
->>>>
->>>> This patch adds mt8196 dsp document. The dsp is used for Sound
->>>> Open
->>>
->>> Please do not use "This commit/patch/change", but imperative mood.
->>> See
->>> longer explanation here:
->>>
-> https://urldefense.com/v3/__https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst*L95__;Iw!!CTRNKA9wMg0ARbw!g39q48fUCsDJ5PETUtQ0PK0Bkwf0Ce1F_ZzJiEiWMzuybWQ0dSPzblvLlJ-4saWTSoJWuS5imsXbpdgLBvUy4wxw9C5w7B4m$
->>>
-
-Fix your email client not to produce such junk like above ^.
-
->>>> Firmware driver node. It includes registers,  clocks, memory
->>>> regions,
->>>> and mailbox for dsp.
->>>>
->>>> Signed-off-by: Hailong Fan <hailong.fan@mediatek.com>
->>>> ---
->>>>   .../bindings/sound/mediatek,mt8196-dsp.yaml   | 95
->>>> +++++++++++++++++++
->>>>   1 file changed, 95 insertions(+)
->>>>   create mode 100644
->>>> Documentation/devicetree/bindings/sound/mediatek,mt8196-dsp.yaml
->>>>
->>>> diff --git
->>>> a/Documentation/devicetree/bindings/sound/mediatek,mt8196-
->>>> dsp.yaml
->>>> b/Documentation/devicetree/bindings/sound/mediatek,mt8196-
->>>> dsp.yaml
->>>> new file mode 100644
->>>> index 000000000000..68f594f476e8
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8196-
->>>> dsp.yaml
->>
->> Wrong folder; this should go to dsp/mediatek,mt8196-dsp.yaml ....
->>
->> ...but then I don't get why MT8196 wasn't simply added to
->> mediatek,mt8186-dsp.yaml.
->>
-> Yes, the first version was written this way, but the maintainer
-> suggested the following, so I'm not sure which approach is more
-> appropriate. Could you please provide a final recommendation?
->  
-> v1 link: 
-> https://lore.kernel.org/all/a72988212d0d95bfe76eb9c53bbdb8c57c989377.camel@mediatek.com/
-
-You linked to your reply. What does it prove? You are the maintainer and
-you gave this recommendation for your own patch?
-
->  
-> comment:
->>
->>> ---
->>>  .../bindings/dsp/mediatek,mt8196-dsp.yaml     | 96
->>> +++++++++++++++++++
->>
->> Don't grow dsp directory. Either this is remoteproc or some sound
->> component, so place it accordingly.
-> This is a reference to the approach used in a previous MediaTek
-> project:
->  
-> 
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/dsp
-> Do we need to move all the files under the DSP directory to the sound
-> directory?
-
-No.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DxAKD3zsp1okH161"
+Content-Disposition: inline
+In-Reply-To: <20250709001002.378246-1-ew.kim@samsung.com>
+X-Cookie: Do not cut switchbacks.
 
 
-Best regards,
-Krzysztof
+--DxAKD3zsp1okH161
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jul 09, 2025 at 09:10:02AM +0900, ew.kim@samsung.com wrote:
+> From: ew kim <ew.kim@samsung.com>
+>=20
+> Implemet basic abox generic drivers.
+> This driver is a management driver for the generic drivers used in
+> Automotive Abox, connecting them to SOC drivers.
+> It supports various Exynos Automotive SOCs.
+
+I can't really tell what the driver is supposed to do from this - what
+is abox?  Looking at the code I'm not really much clearer, to a large
+extent because it doesn't seem to integrate with the subsystem (or other
+kernel subsystems) at all.  It looks like this might be intended to
+control a DSP offload system, but it's not 100% clear, and it seems like
+there's an ioctl() interface which it looks like it's exposing internal
+abstractions to userspace.  This needs to be some combination of much
+more clearly explained and better integrated with the existing kernel
+subsystems, right now I can't really review it effectively because it's
+hard for me to tell what the code is trying to do.
+
+I've got a few very supreficial comments below but really there's a
+structural problem that needs to be addressed first.
+
+> +++ b/sound/soc/samsung/auto_abox/generic/abox_generic.c
+> @@ -0,0 +1,568 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2020 Samsung Electronics Co., Ltd.
+> + *        http://www.samsung.com/
+
+It's now 2025...
+
+Please also make the entire comment a C++ one so things look more
+intentional.
+
+> +//#define DEBUG
+
+Just delete this, it can be added if needed.
+
+> +#include <linux/clk.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_address.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/delay.h>
+> +#include <linux/suspend.h>
+> +#include <sound/soc.h>
+> +#include <sound/soc-dapm.h>
+> +#include <sound/pcm_params.h>
+> +#include <linux/of_reserved_mem.h>
+> +#include <linux/types.h>
+> +#include <linux/kernel.h>
+> +#include <linux/init.h>
+> +#include <linux/sched/clock.h>
+> +#include <linux/ktime.h>
+> +#include <linux/iommu.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/kmod.h>
+> +#include <linux/umh.h>
+> +#include <linux/string.h>
+
+Do you really need all these headers?
+
+> +static struct abox_generic_data *g_abox_generic_data;
+
+This isn't really the kernel style - neither the g_ naming, nor the
+concept of having a global for a driver.
+
+> +/**
+> + * @cnotice
+> + * @prdcode
+> + * @Sub_SW_Component{abox_generic}
+> + * @ALM_Link {work item url}
+> + * @purpose "get value from virtual address"
+> + * @logic "return global abox_generic_data"
+> + * \image html
+> + * @params
+> + * @param{in, -, -, -}
+> + * @endparam
+> + * @retval {-, struct *abox_generic_data, !NULL, NULL}
+> + */
+
+This is not the style for kernel comments, and doesn't seem to make
+terribly much sense.
+
+--DxAKD3zsp1okH161
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhuLGwACgkQJNaLcl1U
+h9D+wQgAg6ZiLWn6Tov6pqpgGSvOVCG4bO1wv+lii8kju0nn5wslEp0AFE4uumGf
+j2XuTXW1grfaywB4hCwouLmd/7kkB6AyrQlrftw9I50TrN3AViIU/hvYQwXMI5wf
+v+T8Hz90rmxvWHi7A2OkMK4jBAJtUxyBayxx3o9vnV55bb0yYQKSaoZUYwTWIx5a
+mFlgnzsS6ZdNG3FFp6AOEDOmypiJBZSpVTS37VifxCEa2bO/qCsgboXMC/8Jwz0U
+1Um1xoTMu1gJarD6+b012HGTvLp5eV7srl9LNwROFxXmhRG1p+IJAbFybBHJaNxs
+ILL9EhWyeBZt5EaOzlUpLVgFOtxJBA==
+=1drM
+-----END PGP SIGNATURE-----
+
+--DxAKD3zsp1okH161--
