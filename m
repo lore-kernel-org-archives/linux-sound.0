@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E743DEEA8
-	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 15:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF621EEA8
+	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 15:36:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752075358; cv=none; b=EM56OpKCjttMJCQe17VIlZEoAfU9QJNBhAcGyNrJ8RViu+MVFWBRjNubDSUEIQOaa+Q6Ha1ewYDMjIT5NN21YEoGvBrXERgxVVIbvuiScBsXdsvL7Q1zJXR/jWhwE87W9LsQ7ZmFtCiok+XoeTwHkmyxZjkLRkAMm8q6QPPdIV8=
+	t=1752075360; cv=none; b=OP6zb4w9ZNSRjXMkXJKKzUb3pzoAR9EfqU9g7Aw0qgTWwbWyY5LNgRCXq2SiooOzMVf5F44jbDfVjCbcYK5oamQdm8WhNHz89wA2DvHM1Z3D+s48MbXzOJQkig0MvOArnS9fLYh94bThti3XhAVk3+lOxEf/yc8UekVbiwNGGOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752075358; c=relaxed/simple;
-	bh=TXox3h5T+uF7bTIwe+wBFFLGTlWZA3JJYq1E2cQdV5M=;
+	s=arc-20240116; t=1752075360; c=relaxed/simple;
+	bh=b4QFl55waDSkbGuY8X4DaxrQxFXzbN3RsCt2XuTM9l8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gwvFukUlJMJxUulZRGi36E+uyucSu4srsIby9Ytlejtc7Gx/+/00aGF/U+sgzb5+RF2eSIEELHtA+MrHCjMgauhYhh7tYnqCgWQwbfq2j/dYe0EaJbZ3wquygKJck0yINqsSnwQL2JW5dEvQtP1sUgsBs3Fw2i1WSf968M5gYJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bl45Uym5; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=stL2N1sgK9s0e0qtpvKX2Vfkhi5Za+IKgSz1q5YwrzOjJoX987Q6B2bGNxbG/igGMU22bKzXEGSRyVbIn27szoS/wnN6mE8D09rWt/AQM63klKBCeTtMYopmIpknyneaZCZG51XXeaTO6T9mioulYZp6kxwOYU/9i67hFgYqPgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PqKgu18b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bl45Uym5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C64C4C4CEF1;
-	Wed,  9 Jul 2025 15:35:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PqKgu18b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86945C4CEEF;
+	Wed,  9 Jul 2025 15:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752075357;
-	bh=TXox3h5T+uF7bTIwe+wBFFLGTlWZA3JJYq1E2cQdV5M=;
+	s=k20201202; t=1752075360;
+	bh=b4QFl55waDSkbGuY8X4DaxrQxFXzbN3RsCt2XuTM9l8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Bl45Uym5fuM0O7ZDs9MDi+zThI32FjmXFfkiK7jJk8Isuf2xhZWq0Uh4eIoIMgepB
-	 PK9YR5hVcKR1bxZesJYgAdWdOQCoBlG7AymMq31c9SzOh3a0DZb6cQzlmpvnpb6pr2
-	 rmpts8z73UEVeXrYQWTmoKKnPT1wg2Lpp+vCrdO2gHLD0JSe+USNgLF5xXTZsLT3OE
-	 1I2z3Ej8D5fjJNLESGEbr21Urc6foL7VdS7T+BiQ0D9zFl81xEiTP/LHiO862NfPKl
-	 +uDMAGjXAidzTbM7VNARgJSAxPRVgwqzr3VTR89mp4h2R8nBAHqar3dCq2vHW71JQX
-	 VmOWxOOqFscVw==
+	b=PqKgu18bHCb3JT0GrRFzeiA76oWHOqCAWRdlrP8+A6ZSfd7ZmHOyfkOJXE2g6ZgZz
+	 BIS6KQSWstWOt8Lw+4zrRgwHaZimA/mPp5OErNpF8M5JJLt+DW3F+L6CG4PwtosHO4
+	 iJxe2DFKTmJrDnXe6qFe2KSZSpiXr5ZGc0mN9me1Yo4IwHy93oPR4GkGVFjg9Bnjbh
+	 +iCvee6greHsRopnds30hi1/y8Ji44mvoXlufnpA8l0q2etFQ/DpR9qcAfIMyeK45s
+	 ijo3kvW2BKwTp1G0175GQrXmGVJbjh/70JsDrLA9Wbi7+QTmWl/WOYkBBuETdcTGeE
+	 B60Qb0Hyrs1Kw==
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250708105009.1883627-1-amadeuszx.slawinski@linux.intel.com>
-References: <20250708105009.1883627-1-amadeuszx.slawinski@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: avs: Fix NULL ptr deref on rmmod
-Message-Id: <175207535511.695799.7803207392167455990.b4-ty@kernel.org>
-Date: Wed, 09 Jul 2025 16:35:55 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com, peter.ujfalusi@linux.intel.com
+In-Reply-To: <20250709025745.1285788-1-yung-chuan.liao@linux.intel.com>
+References: <20250709025745.1285788-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: sdw_utils: Add missed component_name strings for
+ speaker amps
+Message-Id: <175207535775.695799.5945746805854795779.b4-ty@kernel.org>
+Date: Wed, 09 Jul 2025 16:35:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,13 +43,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-07fe9
 
-On Tue, 08 Jul 2025 12:50:09 +0200, Amadeusz Sławiński wrote:
-> When uloading snd_soc_avs module there is NULL pointer dereference.
-> It happens, because codec was moved into pdata and
-> avs_component_hda_unregister_dais() was not updated.
+On Wed, 09 Jul 2025 10:57:45 +0800, Bard Liao wrote:
+> Several speaker amp was missed when the compoennt_name was added, which
+> results missing " spk:" from the components string, confusing UCM.
 > 
 > 
 
@@ -59,8 +58,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: avs: Fix NULL ptr deref on rmmod
-      commit: a609bd74b8680dba62c44f7e6d00d381ddb2d3c0
+[1/1] ASoC: sdw_utils: Add missed component_name strings for speaker amps
+      commit: c61da55412a08268ea0cdef99dea11f7ade934ee
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
