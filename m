@@ -1,152 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715FA270554;
-	Wed,  9 Jul 2025 11:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD12528DB7B;
+	Wed,  9 Jul 2025 11:36:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752060574; cv=none; b=HjWObw+kKH33jJxeKL1eFt5FSCSS7JTgVDrJc48QQuxuDPDpcpKiqk3ZG4R/4jahkyyPie/X5iI0fX4Q2Xy99yhHVIG0cxaoY6O50kDpI2PMj8ItrL7RTNqjfsM06oOddJHuYlDPncSeNsD3EhDnsUyvoDSxH+wREP8p5ZvdFGk=
+	t=1752060986; cv=none; b=JBJrJgtbkvkKdw8/I68TgQj1OTzpF3QNcZYHMmP7yxf6f5UX6TRkhQJLkNVqAP2lIQ7/OT8lXNZ3j6EGjTBq0DIAx9oBLeWBNWS/JREx0qh84Ls8/QJBbl4hcKF3YNNkQoKqfYT5YFG3Sf3uIoc4b/fB4Ak4lWxwGwgxkrBy+e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752060574; c=relaxed/simple;
-	bh=OvhnqrXG7felB/7evYF13YaImsTGT+SXEAkJLH2cWFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ikxQOgHcBTaxQqL9BCTGbkIBu5xw0Q/mrjJBDt9kKlmawUCRogoK385gQ4Ni92dBcFXNsX5wUQeBtfVMl3Lj8eATPlRr2KV+PVSTazSFhmn4Zwj1NiywiZto6D52+9Xr0/un3jxZp/M9Kx52IIzQ0RmHBYaohDVYyRb3Yc5LAng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NQjFI9RG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752060986; c=relaxed/simple;
+	bh=rnrcKNFDvtzE1G7HLcjWDoj9d1wK6tddqGGd8H1wIVc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ccu4P+IWYdz0NIIbBU43QPPgqsYAiqD/wey2mL0KlwP8JyM8Q/CTxWETlh1F802byMGf5/SYb+uGreGQLLbI6wbBWGuBx+ZznLj9MyNC3dJX432PO/2qOZM+0+vunBU1HUWbJ75XqDeocSpaWP4KQLHQV3U/baCQJBqsdyHRtao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+8o9/H9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NQjFI9RG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53421C4CEEF;
-	Wed,  9 Jul 2025 11:29:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+8o9/H9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57450C4CEF5;
+	Wed,  9 Jul 2025 11:36:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752060574;
-	bh=OvhnqrXG7felB/7evYF13YaImsTGT+SXEAkJLH2cWFk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NQjFI9RG5VtojKBKzLtxzNM7kTdKu42vagKeKDt3EneU73kG8mW6RlSHpG07stIJz
-	 ugPrBmsNf32iGqmLk/zouRZ0JPP30nViumSaupUQWZOivS4djDOOhrcpnN1HbdUaS6
-	 CuJ6ZS0IC0pGY6YPVVkJyffaKTBxYc5Q6rIDooy1ix/6lSLhAzxu7TvVzpOLtJfE8/
-	 NGaVSlGy81lxVfdK9sPeY//UtjFptE8ebYTgaBJyReMRYni2hreKx3CJKco9son9i+
-	 iDmLCW2XAMPzgUM1bj0Em6njSN1/2hhATCgTYuJBVd9pqIUp8htEuY4a3eplhe9+DI
-	 j/toref9Erdig==
-Date: Wed, 9 Jul 2025 12:29:30 +0100
+	s=k20201202; t=1752060986;
+	bh=rnrcKNFDvtzE1G7HLcjWDoj9d1wK6tddqGGd8H1wIVc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=g+8o9/H9nux7mnifj3cg/4hXWjUlCYOROAxqeBI9sNKWoIIw/hP+LjBUh2QY10PfH
+	 KSBFyTn7yKgszc34+sBIC6PE3JLzrSLsGuco4AAfE8HDPFfMyWC+gp0JPF1bwAu25O
+	 H21Dwnv/XbO9MddF+S3qeZzEmOxkgWihsG5k6qWrrmwTcOVOkT/x6tCoFEEmPZZWHE
+	 Mgd5Bkte6LEPYZRRbEzIdoRjhJmAzALSP75K5av1JhIwtMNngq+Cr9WLMQ8xzv2NrF
+	 X+ILBo5z9HYm4n/5CEmXtIGTiePq6wLbPtFsBHd1t7XHHLtlGCKKuxLXHSZLWkDBGK
+	 MhiIXQhz2Jr/w==
 From: Mark Brown <broonie@kernel.org>
-To: Nick Li <nick.li@foursemi.com>
-Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
-	xiaoming.yang@foursemi.com, danyang.zheng@foursemi.com,
-	like.xy@foxmail.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] ASoC: codecs: Add FourSemi FS2104/5S audio
- amplifier driver
-Message-ID: <aG5Smt_DErSq5WjE@finisterre.sirena.org.uk>
-References: <20250703035639.7252-1-nick.li@foursemi.com>
- <20250708112901.25228-1-nick.li@foursemi.com>
- <20250708112901.25228-5-nick.li@foursemi.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Rahul Bedarkar <rahulbedarkar89@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-sound@vger.kernel.org, linux-mips@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <242832f225ae68018111648ea9934dc059741567.1751989463.git.geert+renesas@glider.be>
+References: <242832f225ae68018111648ea9934dc059741567.1751989463.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] ASoC: img: Imagination Technologies sound should
+ depend on MIPS
+Message-Id: <175206098407.674109.10318726327489121881.b4-ty@kernel.org>
+Date: Wed, 09 Jul 2025 12:36:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FEYXvC00dM6TQVjr"
-Content-Disposition: inline
-In-Reply-To: <20250708112901.25228-5-nick.li@foursemi.com>
-X-Cookie: Do not cut switchbacks.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-07fe9
 
+On Tue, 08 Jul 2025 17:47:29 +0200, Geert Uytterhoeven wrote:
+> Before, all Imagination sound symbols were gated by the SND_SOC_IMG
+> symbol, offering the user a simple option to hide them all.  After the
+> removal of this gate symbol, all symbols are exposed to the user, even
+> when configuring a kernel for a non-Imagination platform.
+> Fix this by adding a dependency on MIPS, to prevent asking the user
+> about these drivers when configuring a kernel for a different
+> architecture.
+> 
+> [...]
 
---FEYXvC00dM6TQVjr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Tue, Jul 08, 2025 at 07:29:01PM +0800, Nick Li wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> The FS2104/5S are FourSemi digital audio amplifiers
-> with I2C control. They are Inductor-Less, Stereo, Closed-Loop,
-> Digital Input Class-D Power Amplifiers with Enhanced Signal Processing.
+Thanks!
 
-This looks broadly OK - there's a few more fairly small issues below in
-addition to those that Krzysztof flagged.
+[1/1] ASoC: img: Imagination Technologies sound should depend on MIPS
+      commit: 68e4dadacb7faa393b532b41bbf99a2dbfec3b1b
 
-> +static int fs210x_set_pcm_volume(struct fs210x_priv *fs210x)
-> +{
-> +	u16 vol[2];
-> +	int ret;
-> +
-> +	if (fs210x->devid == FS2105S_DEVICE_ID) {
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-A swtich statement is better style here, it makes it easier to add more
-variants.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> +	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-_CLOCK_PROVIDER_MASK
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-> +	case SND_SOC_DAIFMT_CBC_CFC:
-> +		/* Only supports slave mode */
+Thanks,
+Mark
 
-consumer mode.
-
-> +		dev_err(fs210x->dev, "Only supports slave mode\n");
-
-consumer mode.
-
-> +static int fs210x_dai_hw_params(struct snd_pcm_substream *substream,
-> +				struct snd_pcm_hw_params *params,
-> +				struct snd_soc_dai *dai)
-> +{
-> +	struct fs210x_priv *fs210x;
-> +	int chn_num;
-> +	int ret;
-> +
-> +	if (substream->stream != SNDRV_PCM_STREAM_PLAYBACK)
-> +		return 0;
-
-There's no configuration for capture?  Should the driver be setting
-symmetric_rates and then not reconfiguring if active instead, it looks a
-lot like the driver is relying on userspace starting playback before
-capture to configure?
-
-> +static int fs210x_pcm_volume_put(struct snd_kcontrol *kcontrol,
-> +				 struct snd_ctl_elem_value *ucontrol)
-> +{
-
-> +	fs210x->vol[0] = (u16)*pval;
-> +	fs210x->vol[1] = (u16)*(pval + 1);
-> +	dev_dbg(fs210x->dev, "Set volume: %d-%d\n",
-> +		fs210x->vol[0], fs210x->vol[1]);
-> +
-
-The driver should return 1 if there's a change in the values and 0
-otherwise (plus it can skip a bunch of work if there's nothing to do).
-
-The mixer-test test will spot this for you.
-
-> +static int fs210x_effect_scene_put(struct snd_kcontrol *kcontrol,
-> +				   struct snd_ctl_elem_value *ucontrol)
-> +{
-
-> +	ret = fs210x_set_scene(fs210x, scene_id);
-> +	if (ret)
-> +		dev_err(fs210x->dev, "Failed to set scene: %d\n", ret);
-> +
-> +	mutex_unlock(&fs210x_mutex);
-> +
-> +	return ret;
-
-Same issue with flagging changes.
-
---FEYXvC00dM6TQVjr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhuUpkACgkQJNaLcl1U
-h9AH5wf8CfGM+wPWLvoAvI4SK6c29T1yyg+WVNu0ac8V/TYd35XuBXxRnuJwRklP
-SJM/KhZTagfF1muBeKQPLArEJISEszVlVjYsttPtp9ibuMSJCZ7qAxjKuOVnO5gj
-6IRLsdTM8Ofi2o0A50nU/ekZzSLzwzAqhHoXQAkuuX0TQfTbioq1bKWKd4cYnZTz
-XDKuX+vHTT7y9chNbDM9nbZzcm0ZcdoC+ZDf98wne89neTiIIwwc2ZIiPccp2PU+
-Uz6dS9iNZbDkKZZ2eSstavQy7Z1X+esIoYvmwkoXApg4wqRGHnR4B+O1zUQOPsw8
-ZdhTLZg4H2t2TnL4+Z0y+PMLjZ2ocg==
-=Nu39
------END PGP SIGNATURE-----
-
---FEYXvC00dM6TQVjr--
