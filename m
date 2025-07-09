@@ -1,820 +1,282 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F28111A8
-	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 00:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752020517; cv=none; b=sG8rPj8em9l0zIFE1B4T3xzpLfh1C1rZhprGlYypOzVZ0sfUvwYY3RZcbZRa5NkGMhilMZhzYxXuccipYs/Wie/kAOnzC/i9+Coi3zYpLRVLwBe7afJ+bz59XyKVgcrUp3vik9khCnMptfauonfxyVAsp916XT7pcVuWs3iJTjs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752020517; c=relaxed/simple;
-	bh=xb+WjUz+lEEdvuqmh9rXRLz2uGGnmWbIOOnVKo/Xtgk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=q7JRQJZir+EkSCWd5DEVPxbGPyRA2vX3pERM6wbUXJKe0i1k3N04hLQt/21RndwaMakZuvpMNzSuqWQFfABDcHAvcVtynnfRTrqKAkBf8OhqTTV/67GptRG6zRwVQQGdHBDbRpiL+pxq5jefcuPo752OGNcuLQcXg8k6B0xnuuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=efs/NAjg; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE42B3208;
+	Wed,  9 Jul 2025 02:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=210.61.82.184
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752029544; cv=fail; b=l/IuOu8TW0jcIInHN4oK9pHTSXF4g9odjWmSJTpgaEw6IZQtbeV/PBEcVqCQ+gwGwuZkTzc7+xTfpePUssgogImtQXN7H9xPKFyZA8A4uLfCffCPDLhZOiFer9PBw69evQ+FrTSh6kqYcl2JWXNXqAv9+cvRjkeW6nKpRq9kTcU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752029544; c=relaxed/simple;
+	bh=kbEeOGY8/7KHGJKe4Pjzf7nrR5P8FxCvN2V7dSlmfb0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=r5baZt4O+qJBnXXV0AEXoKGk70pe1QkbSY4I4OTYOVnTjJ6OnGqSh+JB5/IclCpqpmYE6QtIz4k0vhz5EDuSti0lm97olozNo4LcW8RVDOk5vzaj3VsPS58Dk21LmNBU2Wrnild5Js+6THW+yfngZHkb1kkPlubAxxRS5BSgSAA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=huYt1uZY; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=HiYsvTf2; arc=fail smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="efs/NAjg"
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250709002152epoutp046039bc55027fb87efc982616ff181f4c~QbV_Nh3YE3179331793epoutp04t
-	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 00:21:52 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250709002152epoutp046039bc55027fb87efc982616ff181f4c~QbV_Nh3YE3179331793epoutp04t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1752020512;
-	bh=F6OYWVPAwdzfoNMORMWcRQkwJY9pihVX6JYS/KO/YSo=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=efs/NAjg5y5Bn131tVxPuYkyl5La99HWAGS4kOb/4nIW54ddMe7fmUPyAQQjLh2ou
-	 KuOT2m/Wr2WS14fBuvfvDZUDTT+yrha9VSDDadrVA/tAY/YP3S2fGfx3ns2iMWMI1R
-	 8pnozXoKv840HbgdyVNyyeMeuuMmtjPYtrau5Lio=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
-	20250709002151epcas2p3d16e2fa3daddbc27ec0ca5cb52c151eb~QbV9pPffb0865008650epcas2p3w;
-	Wed,  9 Jul 2025 00:21:51 +0000 (GMT)
-Received: from epcas2p4.samsung.com (unknown [182.195.36.101]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4bcJZ659c0z2SSKZ; Wed,  9 Jul
-	2025 00:21:50 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-	20250709002150epcas2p467416bdbc16754726599a0cacb1feecc~QbV8S1R_a1045510455epcas2p4E;
-	Wed,  9 Jul 2025 00:21:50 +0000 (GMT)
-Received: from AProject.dsn.sec.samsung.com (unknown [10.229.9.52]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250709002150epsmtip1065851fc540dddf908051e2e773133e6~QbV8Nnik_3069530695epsmtip1W;
-	Wed,  9 Jul 2025 00:21:50 +0000 (GMT)
-From: ew.kim@samsung.com
-To: s.nawrocki@samsung.com, lgirdwood@gmail.com, broonie@kernel.org,
-	perex@perex.cz, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, ew kim <ew.kim@samsung.com>
-Subject: [PATCH] ASoC: samsung: Implement abox generic structure
-Date: Wed,  9 Jul 2025 09:10:02 +0900
-Message-Id: <20250709001002.378246-1-ew.kim@samsung.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="huYt1uZY";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="HiYsvTf2"
+X-UUID: b4010cc65c6f11f0b33aeb1e7f16c2b6-20250709
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=kbEeOGY8/7KHGJKe4Pjzf7nrR5P8FxCvN2V7dSlmfb0=;
+	b=huYt1uZYRIZgv+3uLxH2KklwSfareRi8uB67+Lout1mAc9HA8yxKV9sAnHfQerrhCuGxqxxO3gvt00Dg1la2tHx5gq8eKkRvgB+LAFtwuXIJwJnfptR5P09LW/xYTqfp2jtOx9F42NvfJSgl6hLFAClARlVHe9qygMY63TmQzSY=;
+X-CID-CACHE: Type:Local,Time:202507091052+08,HitQuantity:1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.2,REQID:ae75a5da-2ada-4133-a91f-0c618620a04c,IP:0,UR
+	L:12,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:12
+X-CID-META: VersionHash:9eb4ff7,CLOUDID:3e88f5de-2070-40bb-9c24-dfabef7c07f4,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111,TC:nil,Conte
+	nt:0|50,EDM:-3,IP:nil,URL:11|97|83|106|99|80|1,File:nil,RT:nil,Bulk:nil,QS
+	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
+	RC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: b4010cc65c6f11f0b33aeb1e7f16c2b6-20250709
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+	(envelope-from <hailong.fan@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 227739982; Wed, 09 Jul 2025 10:52:07 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Wed, 9 Jul 2025 10:52:05 +0800
+Received: from TYDPR03CU002.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Wed, 9 Jul 2025 10:52:01 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JkAEsNlfAskt4st5hRlDesHmCr6yD9v5JKQJWHu+3zNCs/8Gx+JV6JhurlQgsWbJusDgCw+Bbwy0CqkHKd8IURm5hQuI/+vj1ps8AnGMhMZqONLhd9+0a+/mWDRDOQN8MkqH7WXMYa37Q72n4756TNsG5Nevj+sYD7e6RiouTwAu2oXX3M64TymNFi2a6Qbq0pGu6SANNeYku1fjpU09wcb95dOzmC8oOD6v1VqjPIoF4c9/ZVnfdNVF/tdQqU+oJJeSCuulSD4fvbNjYZG8Hlskj53+ZzuzWWBVtyLCl495uGOXM6R/hZHi4L1kyVExUhXeulJdo0xWxmg80C2d+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kbEeOGY8/7KHGJKe4Pjzf7nrR5P8FxCvN2V7dSlmfb0=;
+ b=JpvS6xaX/8At3uNIX9ch9nJyy5xvEXomLFsNm3JwUpt9IFDpIFEUS0ZcrAh5mLXx+CzSMp1dZU+CSQkuRwTziIPpE708xJSrizWbUs/fkeEvt+an0HRl0UF90juK4wF2CKD9trWM6UqU6/iQmrFOxTtt7GOoiw/WMiGR2i3uFxdp2VOsNbn2yK1jqggjkDZ/p9Xv7dg4JBehBaRsVlQY4txW9fwa86d23wYf50PXsXnLyq2x98xDTStvwTMHsTfdkZQPIjpbmMmuQ8isFdOjpWQK6H80QLNMlJhC5uIHzgnmRI5eA/EX/0/Cmo6AgPkis99CEIIlISO32Mn9eBXylA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kbEeOGY8/7KHGJKe4Pjzf7nrR5P8FxCvN2V7dSlmfb0=;
+ b=HiYsvTf2nvXZlErnyhTQOkEVdUOEJNJMGeDPxAAG5whndNNDfCIpnkxS1vHIVBaT7Ex7bZoE3dQ3Rvm15ZdmaPfEsMaJrwbNt5Qh6MstLQp9xCL65/CkNBGExwzfkUqh32x1guxbZpy8TdkktS2f8wqQaWypJAg0i/OqIt3x/A4=
+Received: from KL1PR03MB6002.apcprd03.prod.outlook.com (2603:1096:820:8f::5)
+ by KUXPR03MB9440.apcprd03.prod.outlook.com (2603:1096:d10:50::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Wed, 9 Jul
+ 2025 02:52:04 +0000
+Received: from KL1PR03MB6002.apcprd03.prod.outlook.com
+ ([fe80::f1f:1fbf:e323:1c3d]) by KL1PR03MB6002.apcprd03.prod.outlook.com
+ ([fe80::f1f:1fbf:e323:1c3d%4]) with mapi id 15.20.8901.024; Wed, 9 Jul 2025
+ 02:52:04 +0000
+From: =?utf-8?B?SGFpbG9uZyBGYW4gKOiMg+a1t+m+mSk=?= <Hailong.Fan@mediatek.com>
+To: "perex@perex.cz" <perex@perex.cz>, "krzk@kernel.org" <krzk@kernel.org>,
+	"pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>,
+	"kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
+	"broonie@kernel.org" <broonie@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "tiwai@suse.com" <tiwai@suse.com>, "robh@kernel.org"
+	<robh@kernel.org>, "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+	"yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "daniel.baluta@nxp.com"
+	<daniel.baluta@nxp.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>,
+	"ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>
+CC: "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "sound-open-firmware@alsa-project.org"
+	<sound-open-firmware@alsa-project.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, Project_Global_Chrome_Upstream_Group
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: dsp: mediatek: add mt8196 dsp
+ document
+Thread-Topic: [PATCH v2 1/2] dt-bindings: dsp: mediatek: add mt8196 dsp
+ document
+Thread-Index: AQHb6/AjDLqCeVaT/UOLwUvdRPs5orQgC4SAgAkVMoA=
+Date: Wed, 9 Jul 2025 02:52:03 +0000
+Message-ID: <a72ff8bbd8205698948bf5be2c71d93f41a20ec1.camel@mediatek.com>
+References: <20250703075632.20758-1-hailong.fan@mediatek.com>
+	 <20250703075632.20758-2-hailong.fan@mediatek.com>
+	 <defd70cb-4351-4b0b-b4d0-dd1ff831615c@kernel.org>
+In-Reply-To: <defd70cb-4351-4b0b-b4d0-dd1ff831615c@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: KL1PR03MB6002:EE_|KUXPR03MB9440:EE_
+x-ms-office365-filtering-correlation-id: 6ef4f6f9-3326-4e9d-f9d1-08ddbe9395da
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|921020|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?WHRNN25pdGZzdlZIWCs0eTNPSjVBc294MkczbC9EREFkdlhOOHRmeVpQQktw?=
+ =?utf-8?B?S3kwbjkzMkZ5MEQyQUR0RUtLanRFcW13M2IzZlg2ZjZ1SHRSRk9uWFVlSlNB?=
+ =?utf-8?B?enE4M01jKzdIYnlEQjVhTlgwNU8rU3FvQTR5aFdlUGJjYkVpLzI0SHMvZ2ls?=
+ =?utf-8?B?NFJCQUNCSThyRDBZT1I4emxURWcxNU45YzFudmc4dTRmL0JKeXV5S3B2MGJY?=
+ =?utf-8?B?Z0JFdmJVRTA5dmVSTytaY01JVlpZVmpqbW1RdmNpQjRodFVWa0RBQk84Rm1o?=
+ =?utf-8?B?WFlwNkZHNHBVK3EzS3NWMFUzVkNlejIrVHFYQytFRlZ5ejlKYk82LzRMSklT?=
+ =?utf-8?B?ZDVJMWdacVlpdVc0V1I5Tk4wUUUwb0NVZTBjUGNuVm5JcjVJbFg1UzRNVUNO?=
+ =?utf-8?B?Wm1uZmYwM2c0K2ZUeSs4dng2QkJDUXoyc1FxUy83SWZiVlR1RFcwczY1eU1t?=
+ =?utf-8?B?QkE2RlhKRjQ3ZFlGeURsanF2TWdDaW5DTm5OcVpRVyt6QjRTZ1BaajlpV2Iy?=
+ =?utf-8?B?YmNuZmFOYmN1RVo3RWlsSWV2QThDU0thVE8vaE9iclhBayttbWozbGJXMytu?=
+ =?utf-8?B?RU5iSWlYWHpLeXB4NjBlbElYSExNT1hPbFlwRUJLOStrRENpdG50dXlkT1lK?=
+ =?utf-8?B?N3dpSHMxRkhDWGFvYjlHMEtFWmdzVVBrNmF5SmRxV3lNSzhueEJxV2gydHhH?=
+ =?utf-8?B?UDFHczFaRVo0QTNiSzVJemNwL3JTYWxBc0tmTFBDcWQ5SW90VWE0OWQwMlFD?=
+ =?utf-8?B?OXdvQUxuL3h1Y2FMUEsyOWd1NjdFNjJ1WWRsb1J2ZFJXQVFmbmp6M3hPekt2?=
+ =?utf-8?B?UFl0VVhaRWR6UFFhYW43aDZUZzcvdFR0R0c0TjNsaE5mU3BxZHNaa3lMelpP?=
+ =?utf-8?B?N2VlV2NLRXdESDEveDF5VEQwMzBMWEtWdy9rK2FxaldhUFFJUW1BbzZKKzdG?=
+ =?utf-8?B?bytPMWI3b1YxN2tlOHpOa3F6Rm1GYUFkYUd0NXpVNHoyWUIxeUxkSld5d3Jn?=
+ =?utf-8?B?VWZnUmw2blZqWUVDSXMwRkNWQlRycGpyM2dhN2RZYnB6a2tXVGc0aWpLdHBM?=
+ =?utf-8?B?aU1DZ083ZUtSVVpjdGh1dFVpUDV5bDlVWXhSUjdPcXBOM2hDcEdvNE1EcTJ0?=
+ =?utf-8?B?RGxUaU5jRDhzcmIxcXpYbDB3SS9mTmU1NlQ3QjVuZmFkMWlRVVlFT2lQSXFI?=
+ =?utf-8?B?TzdmdnIwUmZtc2VQaXZIU0FGSm5OcXFoaVFkQ0FVdldoUG5nQTZSV0tRNVJL?=
+ =?utf-8?B?U0lTRkVNdmI1OHJoN2ZNZk01NzJnZUdFOHRUVUtzdFZQSkZDWjlPdTJrT0VT?=
+ =?utf-8?B?bkR0eDhqQWlpYmlCVjVmbFIrZlVYUEpGMTZpVzBNR3RUL2ROM3NVdGVMNHV1?=
+ =?utf-8?B?Y05saFJXUkdSa2lmRjduQ2xQK1Q0aVF3K3VRZlJIVDJlVy9WVHlBMHp4Wmtx?=
+ =?utf-8?B?S1VpMXlvSnljT0hNTDJoNWlFaGhJRndHZ3BzUUJjMDJQVWRTa1JxKzRhajE0?=
+ =?utf-8?B?bkxTWFNBVmdzRE5XVks3ekpjN2NwNHh3STYxMlk4V09YRnlpN1BnaHJ5ejNJ?=
+ =?utf-8?B?MnNpNk9aMEJNTnoxczBWT0gyNFlpRjdvMkVBaXFSemRPdGhic3FXYnNvWHRV?=
+ =?utf-8?B?NHBqbkJTRmQrME4wdlFDbGdjbDNVNGhXZHZSc1BKdEhhVWlEWVlUNS9FWlZz?=
+ =?utf-8?B?aEZCenJsdUtRd1VvQmw2QURoY0JIaUN0NER3ZlQzcVZZZ1RYN3hFaDZSanBa?=
+ =?utf-8?B?alJnMzdSWTdJTzlIWXJCYUFKaUdtL3FOMG53OHBRNkd6ODRhTWxzS2NNS0Vq?=
+ =?utf-8?B?b1JsdEJnb2xzNVJ6ZnczZTMwaTdhSmtWM1IzeGR1N0RjdWVRVStTSEdCSHdF?=
+ =?utf-8?B?MHkzNk5UZmFVMXp2L0xGcjM0VHFweUlOSUVCekU4WnJ1N0JMQzZXYXZIUGZI?=
+ =?utf-8?Q?DkcE4dlCPZ17EBJ7XuJTviOzTxRb8KGB?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR03MB6002.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T3N0WUFIWVl4MEdmeForSnRncjhvMUtxZE45L2NkRy93VkNFNEdUeXl1aUVQ?=
+ =?utf-8?B?c1dsWVdjMTNrYy9iOS9Nc3pTN2x3VTdUZ3hnM2ZJNjNZR09zYWFFT3FoN1pN?=
+ =?utf-8?B?OFNHdCtHbW5ySDE2cVQ3S1NqZE56Wk9tQ0lrUi9rTnVJNlBTUUdGYjQrZmMy?=
+ =?utf-8?B?UG8rNjZjVVJTR1UwTGoyV0hLd3VWdThiVTVURzJPOVp0dFVvajd2bnVpV2xX?=
+ =?utf-8?B?YVZ0dUxtbjFZOTlOZmNyQnU3ZlFiSXpuTGZlaW54cDF5bnJqUEc2L1J0VUln?=
+ =?utf-8?B?ZUdqR2RDV2ZJTFZCaTZ5eFJFUzgvMkRWNXlXbDY3bUhBV3FRMkxsay9acWJh?=
+ =?utf-8?B?aloyQzk5ZGs4TER2YmFrL1QrY0c3UzZHSEZwMVVsQXFId29TU2wwa0NBbVAz?=
+ =?utf-8?B?amN4YW5RV0R2RzhCdlZsMHFWUjV1ZkRxTjlWdnhTTHdvVXNPU3NIU3VPN0JH?=
+ =?utf-8?B?czNJWlRhaVR1dVRZUE5mS1JTc2hBREFKdW4zVTk5WGxabk5ZNEZYejYxditB?=
+ =?utf-8?B?Snl0dUFKOHNjeWtNQ1JhYjI5Mkh5N294dzI2T3VLMnZubjZKcFc2QTJlZnNI?=
+ =?utf-8?B?UVVraWUvMUlVSmJaSVIzbENHMGx3bkhsdUZRQlhUWTFoWWR2VmJPNmlnSEty?=
+ =?utf-8?B?RmNJdGZUT3ZzSjBHYjNqME95Z1poVEMrQlRCTWpKNWdLYkpab01FRnlzdHVk?=
+ =?utf-8?B?dnFUdUxNM3F5S3krQi9DTUMyQWFieHJNbWdJZ2xtbUxJSk1QOGNjck94ZG9O?=
+ =?utf-8?B?aWsxclR4ajJSNDd5cXY1b1cvRVY0UGlqcUxoK0VRRGtuN09DYmhYbXBiNUlp?=
+ =?utf-8?B?bGJ4ckhGQmRtL2VnMk1FR0xsWXlRSWpYZ1BVbTRuS1I1a0FFcGNTUTdhYzNO?=
+ =?utf-8?B?V2I5MytMVFpmdy9HUDZ4aXAydWVTQWI1Tjd4clkrZU1PQTVFL0J0MkFTa0FO?=
+ =?utf-8?B?cWo5amdsUnV2UHMzZUlrU0V0Y014RGdaNmUreGYzSWtjYVdDWHFpYnRVWnFP?=
+ =?utf-8?B?a1lvNytoUUF0aVlqMHlQMnM1Yy9MUGs5emFLeC9HSTJsNVlZZlFsWEpMcDVI?=
+ =?utf-8?B?NVpSSzdHd3F4NGx3bXRDWXp2WDZQS0tSRzhsZXpsMFdtOGxoUDNnMDZpbGY3?=
+ =?utf-8?B?OEo4RC9JUVYvSHp0VVRsMi9NMS85eE9WOTlzeHFJc245a3BRaHJNNUVCZ2xo?=
+ =?utf-8?B?NlB4blpJK2R1NnFNaHFUVWNRQjZwNmZjOHRJdnNabGRYVkFlelk3b0RiazNC?=
+ =?utf-8?B?cDErOWlYYlN3aGxsVnZ4NDVsNTNzeDE2R2Vob1NiQlBGWjFRK2JKbVF6dTh6?=
+ =?utf-8?B?ajQ2RWZGakxPWTBSc1NoWWlZNlVrdHVxR3pRSjE3RE53RTFmSlJoMHpzWW9Q?=
+ =?utf-8?B?Wnh2dC9iQk1VRkx3RDdEVFBod1NXZVlyM3NGaXcxV3BXSU1NNmVZK1VzTnFP?=
+ =?utf-8?B?em1OMzNiNTVhTDFNbkJGd1FMZUM3UkFQUjFvUGdtTE1OK2JhaWpya05WbEla?=
+ =?utf-8?B?YVFjOHE4Yy9JTmJtZVdVczk3dGhObGR1WTZEcEZzd2FFcXFjTks0WUpsSHdP?=
+ =?utf-8?B?Ukx5U3o5Qm9WTFFnT1pFUEZnQk5vNVdNQnFGcEdzL2dBUTBWVGE4R3I0cC9F?=
+ =?utf-8?B?T2p1NGV4STNXbTZncU5lalZsSG9pMlRFeTE2bTl6NTZkcTMrU25Wb1JFdFFD?=
+ =?utf-8?B?OXF5YVJyV202ejJTeW9hZVdOYWhzVEpSck5JL2htbi9MejlvZHVmaXBaQ1Qx?=
+ =?utf-8?B?SVI2OVZPa1VnMEdxTmhySll0UUQvbEl0UVlTWjRiRUhkMzZoMmN6bGYxV2xZ?=
+ =?utf-8?B?UnpmajJJd21VcTladzBJTzIvSkJuN0RkTDJzWitrWVQ3TjZtb1RxbFhNaWhu?=
+ =?utf-8?B?R0cxK3RLNmJQZ2JEU3ZTVmpWbXBDOU9kcjlOK3pnL0srTGZhVERlN2xyZ2kx?=
+ =?utf-8?B?NEk3ZUZEcWh1c3ROb3ZnQlY3bkY1ZlRlb1FHcXU3QTVHTlRTbUM3dFRqWmo2?=
+ =?utf-8?B?VldxdVBsWnowNnZxTFlJVjNteXZTYWdZRmdjdVNmU1VROHpra2pqeHhyV1d3?=
+ =?utf-8?B?NldtRXFPYWU1cC94UjRtTlloWjBFb1o3WnlML1g2NnBkOXVFcEJNdXJuVG1V?=
+ =?utf-8?B?Y1FvdXBrWmlhbmRtMUZ1V20xblhlWGNka09zNFZhY0ZFaHJmZitGU2JkN2xw?=
+ =?utf-8?B?NUE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B836DDD0ADD1984AB8009A76FBCAA01D@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250709002150epcas2p467416bdbc16754726599a0cacb1feecc
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-cpgsPolicy: CPGSC10-234,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250709002150epcas2p467416bdbc16754726599a0cacb1feecc
-References: <CGME20250709002150epcas2p467416bdbc16754726599a0cacb1feecc@epcas2p4.samsung.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR03MB6002.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ef4f6f9-3326-4e9d-f9d1-08ddbe9395da
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2025 02:52:03.9940
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: h2afaAAIEKV8xGGoUVfrLLt1xSDh2/6jei6296hMQPMGZxXuAKdEJawcNWLQAtAKVctOeGUe74B9xnF73gq1i77flZj9owUqKJKHblzDwcw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUXPR03MB9440
 
-From: ew kim <ew.kim@samsung.com>
-
-Implemet basic abox generic drivers.
-This driver is a management driver for the generic drivers used in
-Automotive Abox, connecting them to SOC drivers.
-It supports various Exynos Automotive SOCs.
-
-Signed-off-by: ew kim <ew.kim@samsung.com>
----
- sound/soc/samsung/Kconfig                     |   2 +
- sound/soc/samsung/Makefile                    |   1 +
- sound/soc/samsung/auto_abox/Kconfig           |  14 +
- sound/soc/samsung/auto_abox/generic/Kbuild    |  12 +
- .../samsung/auto_abox/generic/abox_generic.c  | 568 ++++++++++++++++++
- .../auto_abox/generic/include/abox_generic.h  |  87 +++
- 6 files changed, 684 insertions(+)
- create mode 100644 sound/soc/samsung/auto_abox/Kconfig
- create mode 100644 sound/soc/samsung/auto_abox/generic/Kbuild
- create mode 100644 sound/soc/samsung/auto_abox/generic/abox_generic.c
- create mode 100644 sound/soc/samsung/auto_abox/generic/include/abox_generic.h
-
-diff --git a/sound/soc/samsung/Kconfig b/sound/soc/samsung/Kconfig
-index 60b4b7b75215..359aa67f49db 100644
---- a/sound/soc/samsung/Kconfig
-+++ b/sound/soc/samsung/Kconfig
-@@ -148,4 +148,6 @@ config SND_SOC_SAMSUNG_MIDAS_WM1811
- 	help
- 	  Say Y if you want to add support for SoC audio on the Midas boards.
- 
-+source "sound/soc/samsung/auto_abox/Kconfig"
-+
- endif #SND_SOC_SAMSUNG
-diff --git a/sound/soc/samsung/Makefile b/sound/soc/samsung/Makefile
-index 8d5f09147900..5d99cfbfa71c 100644
---- a/sound/soc/samsung/Makefile
-+++ b/sound/soc/samsung/Makefile
-@@ -42,3 +42,4 @@ obj-$(CONFIG_SND_SOC_ARNDALE) += snd-soc-arndale.o
- obj-$(CONFIG_SND_SOC_SAMSUNG_TM2_WM5110) += snd-soc-tm2-wm5110.o
- obj-$(CONFIG_SND_SOC_SAMSUNG_ARIES_WM8994) += snd-soc-aries-wm8994.o
- obj-$(CONFIG_SND_SOC_SAMSUNG_MIDAS_WM1811) += snd-soc-midas-wm1811.o
-+obj-$(CONFIG_SND_SOC_SAMSUNG_AUTO_ABOX) += auto_abox/generic/
-\ No newline at end of file
-diff --git a/sound/soc/samsung/auto_abox/Kconfig b/sound/soc/samsung/auto_abox/Kconfig
-new file mode 100644
-index 000000000000..d5f565d3d9c2
---- /dev/null
-+++ b/sound/soc/samsung/auto_abox/Kconfig
-@@ -0,0 +1,14 @@
-+#: SPDX-License-Identifier: GPL-2.0-only
-+
-+menu "Exynosauto Automotive Abox Modules Options"
-+
-+config SND_SOC_SAMSUNG_AUTO_ABOX
-+	tristate "ASoC support for Samsung Exynosauto Automotive ABOX Audio"
-+	select SND_SOC_COMPRESS
-+	help
-+		Say Y or M if you want to add support for codecs attached to
-+		the Samsung SoC Auto ABOX interface. You will also need to
-+		select the audio interfaces to support below.
-+
-+endmenu
-+
-diff --git a/sound/soc/samsung/auto_abox/generic/Kbuild b/sound/soc/samsung/auto_abox/generic/Kbuild
-new file mode 100644
-index 000000000000..fa6ba7091730
---- /dev/null
-+++ b/sound/soc/samsung/auto_abox/generic/Kbuild
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Exynosauto Automotive Abox Driver Support
-+
-+snd-soc-samsung-abox-generic-$(CONFIG_SND_SOC_SAMSUNG_AUTO_ABOX) := \
-+	abox_generic.o
-+
-+ccflags-y += -I./include
-+
-+obj-$(CONFIG_SND_SOC_SAMSUNG_AUTO_ABOX) += \
-+	snd-soc-samsung-abox-generic.o
-+
-+
-diff --git a/sound/soc/samsung/auto_abox/generic/abox_generic.c b/sound/soc/samsung/auto_abox/generic/abox_generic.c
-new file mode 100644
-index 000000000000..c4588e0a6a60
---- /dev/null
-+++ b/sound/soc/samsung/auto_abox/generic/abox_generic.c
-@@ -0,0 +1,568 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2020 Samsung Electronics Co., Ltd.
-+ *        http://www.samsung.com/
-+ *
-+ * EXYNOS - sound/soc/samsung/auto_abox/generic/abox_generic.c
-+ */
-+
-+//#define DEBUG
-+#include <linux/clk.h>
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_address.h>
-+#include <linux/of_platform.h>
-+#include <linux/delay.h>
-+#include <linux/suspend.h>
-+#include <sound/soc.h>
-+#include <sound/soc-dapm.h>
-+#include <sound/pcm_params.h>
-+#include <linux/of_reserved_mem.h>
-+#include <linux/types.h>
-+#include <linux/kernel.h>
-+#include <linux/init.h>
-+#include <linux/sched/clock.h>
-+#include <linux/ktime.h>
-+#include <linux/iommu.h>
-+#include <linux/clk-provider.h>
-+#include <linux/kmod.h>
-+#include <linux/umh.h>
-+#include <linux/string.h>
-+
-+#include "include/abox_generic.h"
-+
-+static struct abox_generic_data *g_abox_generic_data;
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox_generic}
-+ * @ALM_Link {work item url}
-+ * @purpose "get value from virtual address"
-+ * @logic "return global abox_generic_data"
-+ * \image html
-+ * @params
-+ * @param{in, -, -, -}
-+ * @endparam
-+ * @retval {-, struct *abox_generic_data, !NULL, NULL}
-+ */
-+struct abox_generic_data *abox_generic_get_abox_generic_data(void)
-+{
-+	return g_abox_generic_data;
-+}
-+
-+static struct abox_generic_data *abox_generic_get_generic_data_from_child(struct device *child_dev)
-+{
-+	struct device *generic_dev = child_dev->parent;
-+	struct abox_generic_data *generic_data = NULL;
-+
-+	if (!generic_dev) {
-+		pr_err("%s Failed to get generic device\n", __func__);
-+		return NULL;
-+	}
-+	generic_data = dev_get_drvdata(generic_dev);
-+	if (!generic_data) {
-+		dev_err(generic_dev, "%s Failed to get generic data\n", __func__);
-+		return NULL;
-+	}
-+	return generic_data;
-+}
-+
-+int abox_generic_set_dma_buffer(struct device *pcm_dev)
-+{
-+	struct abox_generic_data *generic_data = abox_generic_get_generic_data_from_child(pcm_dev);
-+	int ret = 0;
-+
-+	if (!generic_data) {
-+		dev_err(pcm_dev, "%s Failed to get generic data\n", __func__);
-+		return 0;
-+	}
-+
-+	if (!generic_data->soc_ioctl) {
-+		dev_err(pcm_dev, "%s Failed to get soc_ioctl\n", __func__);
-+		return 0;
-+	}
-+	ret = generic_data->soc_ioctl(generic_data->soc_dev, ABOX_SOC_IOCTL_SET_DMA_BUFFER, pcm_dev);
-+
-+	return ret;
-+}
-+
-+int abox_generic_set_pp_pointer(struct device *pcm_dev)
-+{
-+	struct abox_generic_data *generic_data = abox_generic_get_generic_data_from_child(pcm_dev);
-+	int ret = 0;
-+
-+	if (!generic_data) {
-+		dev_err(pcm_dev, "%s Failed to get generic data\n", __func__);
-+		return 0;
-+	}
-+	if (!generic_data->soc_ioctl) {
-+		dev_err(pcm_dev, "%s Failed to get soc_ioctl\n", __func__);
-+		return 0;
-+	}
-+	ret = generic_data->soc_ioctl(generic_data->soc_dev, ABOX_SOC_IOCTL_SET_PP_POINTER, pcm_dev);
-+
-+	return ret;
-+}
-+
-+int abox_generic_attach_soc_callback(struct device *soc_dev,
-+	SOC_IOCTL soc_ioctl)
-+{
-+	struct abox_generic_data *generic_data = ABOX_GENERIC_DATA;
-+
-+	dev_info(soc_dev, "%s(%d) Attach SoC IOCTL\n", __func__, __LINE__);
-+	if (!generic_data) {
-+		dev_err(soc_dev, "%s Generic Drv is not ready\n", __func__);
-+		return -ENODATA;
-+	}
-+	generic_data->soc_dev = soc_dev;
-+	generic_data->soc_ioctl = soc_ioctl;
-+
-+	generic_data->num_of_rdma = generic_data->soc_ioctl(generic_data->soc_dev,
-+		ABOX_SOC_IOCTL_GET_NUM_OF_RDMA, NULL);
-+	generic_data->num_of_wdma = generic_data->soc_ioctl(generic_data->soc_dev,
-+		ABOX_SOC_IOCTL_GET_NUM_OF_WDMA, NULL);
-+	generic_data->num_of_uaif = generic_data->soc_ioctl(generic_data->soc_dev,
-+		ABOX_SOC_IOCTL_GET_NUM_OF_UAIF, NULL);
-+	dev_info(soc_dev, "%s(%d) num_of_rdma:%d\n", __func__, __LINE__, generic_data->num_of_rdma);
-+	dev_info(soc_dev, "%s(%d) num_of_wdma:%d\n", __func__, __LINE__, generic_data->num_of_wdma);
-+	dev_info(soc_dev, "%s(%d) num_of_uaif:%d\n", __func__, __LINE__, generic_data->num_of_uaif);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(abox_generic_attach_soc_callback);
-+
-+struct platform_device *abox_generic_get_pcm_platform_dev(int pcm_id, int stream_type)
-+{
-+	struct abox_generic_data *generic_data = ABOX_GENERIC_DATA;
-+	struct platform_device **pdev_pcm = NULL;
-+
-+	if (stream_type == SNDRV_PCM_STREAM_PLAYBACK)
-+		pdev_pcm = generic_data->pdev_pcm_playback;
-+	else
-+		pdev_pcm = generic_data->pdev_pcm_capture;
-+
-+	return pdev_pcm[pcm_id];
-+}
-+EXPORT_SYMBOL(abox_generic_get_pcm_platform_dev);
-+
-+int abox_generic_get_num_of_pcm(int stream_type)
-+{
-+	struct abox_generic_data *generic_data = ABOX_GENERIC_DATA;
-+
-+	if (!generic_data) {
-+		pr_err("%s Failed to get abox_generic_data\n", __func__);
-+		return -ENODATA;
-+	}
-+
-+	return (stream_type == SNDRV_PCM_STREAM_PLAYBACK) ? generic_data->num_of_pcm_playback :
-+		generic_data->num_of_pcm_capture;
-+}
-+EXPORT_SYMBOL(abox_generic_get_num_of_pcm);
-+
-+int abox_generic_get_num_of_i2s_dummy(void)
-+{
-+	struct abox_generic_data *generic_data = ABOX_GENERIC_DATA;
-+
-+	if (!generic_data) {
-+		pr_err("%s Failed to get abox_generic_data\n", __func__);
-+		return -ENODATA;
-+	}
-+
-+	return generic_data->num_of_i2s_dummy;
-+}
-+EXPORT_SYMBOL(abox_generic_get_num_of_i2s_dummy);
-+
-+int abox_generic_get_num_of_dma(struct device *pcm_dev, int stream_type)
-+{
-+	struct abox_generic_data *generic_data = abox_generic_get_generic_data_from_child(pcm_dev);
-+
-+	return (stream_type == SNDRV_PCM_STREAM_PLAYBACK) ?
-+		generic_data->num_of_rdma : generic_data->num_of_wdma;
-+}
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox generic}
-+ * @ALM_Link {work item url}
-+ * @purpose "Registering the pcm_playback/pcm_capture pdev to abox driver"
-+ * @logic "Get the pcm playback instance and update the pcm playback/capture id and
-+ * increament the pcm playback/capture count"
-+ * \image html
-+ * @params
-+ * @param{in, pdev_pcm_dev, struct platform_device *, !NULL}
-+ * @param{in, id, unsigned int, 0 ~ 32}
-+ * @param{in, stream_type, int, 0 ~ 1}
-+ * @endparam
-+ * @retval{ret, int, Undefined, 0, <0}
-+ */
-+int abox_generic_register_pcm_dev(struct platform_device *pdev_pcm,
-+	unsigned int id, int stream_type)
-+{
-+	struct device *pcm_dev = &pdev_pcm->dev;
-+	struct abox_generic_data *generic_data = abox_generic_get_generic_data_from_child(pcm_dev);
-+	int num_of_pcm_dev = 0;
-+
-+	dev_dbg(pcm_dev, "[%s] PCM%d Attached Stream_type:%d\n", __func__, id, stream_type);
-+	num_of_pcm_dev = (stream_type == SNDRV_PCM_STREAM_PLAYBACK) ?
-+		generic_data->num_of_pcm_playback : generic_data->num_of_pcm_capture;
-+	if (id >= num_of_pcm_dev) {
-+		dev_err(pcm_dev, "%s: invalid id(%u) : Stream Type:%d\n", __func__, id, stream_type);
-+		return -EINVAL;
-+	}
-+
-+	if (stream_type == SNDRV_PCM_STREAM_PLAYBACK)
-+		generic_data->pdev_pcm_playback[id] = pdev_pcm;
-+	else
-+		generic_data->pdev_pcm_capture[id] = pdev_pcm;
-+
-+	return 0;
-+}
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox}
-+ * @ALM_Link {work item url}
-+ * @purpose "finding struct device of frontend from backend"
-+ * @logic "get device of backend using component and alsa macro"
-+ * \image html audio-interface_abox_abox_find_fe_dev_from_rtd.png
-+ * @params
-+ * @param{in, be, struct snd_soc_pcm_runtime *, -}
-+ * @endparam
-+ * @retval {-, struct device *, !NULL, NULL}
-+ */
-+struct device *abox_generic_find_fe_dev_from_rtd(struct snd_soc_pcm_runtime *be)
-+{
-+	struct abox_generic_data *generic_data = ABOX_GENERIC_DATA;
-+	struct snd_soc_dpcm *dpcm = NULL;
-+	struct snd_soc_pcm_runtime *fe = NULL;
-+	int stream_type = 0;
-+
-+	if (!generic_data)
-+		return NULL;
-+
-+	for (stream_type = 0; stream_type <= SNDRV_PCM_STREAM_LAST; stream_type++) {
-+		int cmpnt_index = 0;
-+		struct snd_soc_component *component = NULL;
-+
-+		for_each_dpcm_fe(be, stream_type, dpcm) {
-+			fe = dpcm->fe;
-+			if (fe)
-+				break;
-+		}
-+		if (!fe)
-+			continue;
-+
-+		for_each_rtd_components(fe, cmpnt_index, component) {
-+			struct platform_device **pdev = NULL;
-+			int num_of_pcm_dev = 0;
-+			int i = 0;
-+
-+			if (stream_type == SNDRV_PCM_STREAM_PLAYBACK) {
-+				num_of_pcm_dev = generic_data->num_of_pcm_playback;
-+				pdev = generic_data->pdev_pcm_playback;
-+			} else {
-+				num_of_pcm_dev = generic_data->num_of_pcm_capture;
-+				pdev = generic_data->pdev_pcm_capture;
-+			}
-+			for (i = 0; i < num_of_pcm_dev; i++)
-+				if (pdev[i] && component->dev == &pdev[i]->dev)
-+					return component->dev;
-+		}
-+	}
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(abox_generic_find_fe_dev_from_rtd);
-+
-+int abox_generic_request_soc_ioctl(struct device *generic_dev, enum abox_soc_ioctl_cmd cmd,
-+	void *data)
-+{
-+	struct abox_generic_data *generic_data = dev_get_drvdata(generic_dev);
-+	struct device *soc_dev = generic_data->soc_dev;
-+
-+	if (IS_ERR_OR_NULL(soc_dev)) {
-+		dev_err(generic_dev, "%s SoC Device is not ready\n", __func__);
-+		return -ENODATA;
-+	}
-+	return generic_data->soc_ioctl(soc_dev, cmd, data);
-+}
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox generic}
-+ * @ALM_Link
-+ * @purpose "suspend of the abox generic to be called by S2R"
-+ * @logic
-+ * \image html
-+ * @params
-+ * @param{in, dev, struct device *, !NULL}
-+ * @endparam
-+ * @retval{ret, int, Undefined, 0, <0}
-+ */
-+static int abox_generic_suspend(struct device *dev)
-+{
-+	struct abox_generic_data *data = dev_get_drvdata(dev);
-+	int ret = 0;
-+
-+	dev_info(dev, "%s start\n", __func__);
-+	if (!data) {
-+		dev_err(dev, "%s: Invalid abox generic data\n", __func__);
-+		return -ENODATA;
-+	}
-+
-+	dev_info(dev, "%s end\n", __func__);
-+
-+	return ret;
-+}
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox generic}
-+ * @ALM_Link
-+ * @purpose "Resume the abox generic during S2R operation"
-+ * @logic
-+ * \image html
-+ * @params
-+ * @param{in, dev, struct device *, !NULL}
-+ * @endparam
-+ * @retval{ret, int, Undefined, 0, <0}
-+ */
-+static int abox_generic_resume(struct device *dev)
-+{
-+	struct abox_generic_data *data = dev_get_drvdata(dev);
-+	int ret = 0;
-+
-+	dev_info(dev, "%s start\n", __func__);
-+	if (!data) {
-+		dev_err(dev, "%s: Invalid abox generic data\n", __func__);
-+		return -ENODATA;
-+	}
-+
-+	dev_info(dev, "%s end\n", __func__);
-+	return ret;
-+}
-+
-+static struct platform_driver *abox_generic_sub_drivers[] = {
-+};
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox}
-+ * @ALM_Link {work item url}
-+ * @purpose "Read property from device tree node"
-+ * @logic
-+ * \image html
-+ * @params
-+ * @param{in, dev, struct:: device *, !NULL}
-+ * @param{in, dev->of_node, struct:: device_node, !NULL}
-+ * @param{out, data->num_of_pcm_playback, unsigned int, 0}
-+ * @param{out, data->num_of_pcm_capture, unsigned int, 0}
-+ * @param{out, data->num_of_i2s_dummy, unsigned int, 0}
-+ * @param{out, abox_sfr_set, int, 0}
-+ * @endparam
-+ * @retval{ret, int, 0, 0, > 0}
-+ */
-+static int abox_generic_read_property_from_dt(struct device *dev, struct abox_generic_data *data)
-+{
-+	struct device_node *np = dev->of_node;
-+	int ret = 0;
-+
-+	ret = of_property_read_u32(np, "samsung,num-of-pcm_playback", &data->num_of_pcm_playback);
-+	if (ret < 0) {
-+		dev_err(dev, "%s property reading fail\n", "samsung,num-of-pcm_playback");
-+		return ret;
-+	}
-+	ret = of_property_read_u32(np, "samsung,num-of-pcm_capture", &data->num_of_pcm_capture);
-+	if (ret < 0) {
-+		dev_err(dev, "%s property reading fail\n", "samsung,num-of-pcm_capture");
-+		return ret;
-+	}
-+	ret = of_property_read_u32(np, "samsung,num-of-i2s-dummy-backend", &data->num_of_i2s_dummy);
-+	if (ret < 0) {
-+		dev_err(dev, "%s property reading fail\n", "samsung,num-of-i2s-dummy-backend");
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox generic}
-+ * @ALM_Link {work item url}
-+ * @purpose "Allocate memory for abox generic"
-+ * @logic
-+ * \image html
-+ * @params
-+ * @param{in, dev, struct:: device *, !NULL}
-+ * @param{in, data, struct:: abox_gneric_data, !NULL}
-+ * @param{out, data->pdev_pcm_playback, struct:: platform_device, !NULL}
-+ * @param{out, data->pdev_pcm_capture, struct:: platform_device, !NULL}
-+ * @endparam
-+ * @retval{ret, int, 0, 0, > 0}
-+ */
-+static int abox_generic_allocate_memory(struct device *dev, struct abox_generic_data *data)
-+{
-+	int ret = 0;
-+
-+	data->pdev_pcm_playback = devm_kzalloc(dev,
-+		sizeof(struct platform_device *) * data->num_of_pcm_playback, GFP_KERNEL);
-+	if (!data->pdev_pcm_playback) {
-+		dev_err(dev, "%s Can't allocate memory for pdev_pcm_playback\n", __func__);
-+		ret = -ENOMEM;
-+		return ret;
-+	}
-+	data->pdev_pcm_capture = devm_kzalloc(dev,
-+		sizeof(struct platform_device *) * data->num_of_pcm_capture, GFP_KERNEL);
-+	if (!data->pdev_pcm_capture) {
-+		dev_err(dev, "%s Can't allocate memory for pdev_pcm_capture\n", __func__);
-+		ret = -ENOMEM;
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox generic}
-+ * @ALM_Link {work item url}
-+ * @purpose "Probing the abox generic"
-+ * @logic
-+ * \image html
-+ * @params
-+ * @param{in, pdev, struct platform_device *, !NULL}
-+ * @param{in, pdev->dev, struct:: device, !NULL}
-+ * @endparam
-+ * @retval{ret, int, 0, 0, > 0}
-+ */
-+static int samsung_abox_generic_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
-+	struct abox_generic_data *data;
-+	int ret = 0;
-+
-+	dev_info(dev, "%s\n", __func__);
-+	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-+	if (!data) {
-+		return -ENOMEM;
-+	}
-+
-+	data->pdev = pdev;
-+	ret = abox_generic_read_property_from_dt(dev, data);
-+	if (ret < 0) {
-+		dev_err(dev, "%s Failed to read property. ret:%d\n", __func__, ret);
-+		return ret;
-+	}
-+	ret = abox_generic_allocate_memory(dev, data);
-+	if (ret < 0) {
-+		dev_err(dev, "%s Failed to allocate memory. ret:%d\n", __func__, ret);
-+		return ret;
-+	}
-+	g_abox_generic_data = data;
-+	platform_set_drvdata(pdev, data);
-+
-+	platform_register_drivers(abox_generic_sub_drivers, ARRAY_SIZE(abox_generic_sub_drivers));
-+	ret = of_platform_populate(np, NULL, NULL, dev);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to populate sub-platform_devices. ret:%d\n", ret);
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox generic}
-+ * @ALM_Link {work item url}
-+ * @purpose "Disbaling the abox generic"
-+ * @logic "Disbale the abox generic"
-+ * \image html
-+ * @params
-+ * @param{in, pdev->dev, struct::device, !NULL}
-+ * @endparam
-+ * @noret
-+ */
-+static void samsung_abox_generic_remove(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct abox_generic_data *data = dev_get_drvdata(dev);
-+
-+	dev_info(dev, "%s\n", __func__);
-+
-+	if (!data) {
-+		dev_err(dev, "%s: Invalid abox generic data\n", __func__);
-+		return;
-+	}
-+	return;
-+}
-+
-+/**
-+ * @cnotice
-+ * @prdcode
-+ * @Sub_SW_Component{abox generic}
-+ * @ALM_Link {work item url}
-+ * @purpose "shutdown of the abox generic"
-+ * @logic "Disbale the abox hardware by calling the following function
-+ * pm_runtime_disable(dev)"
-+ * \image html
-+ * @params
-+ * @param{in, pdev->dev, struct:: device, !NULL}
-+ * @endparam
-+ * @noret
-+ */
-+static void samsung_abox_generic_shutdown(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct abox_generic_data *data = dev_get_drvdata(dev);
-+
-+	if (!data) {
-+		dev_err(dev, "%s: Invalid abox generic data\n", __func__);
-+		return;
-+	}
-+	return;
-+}
-+
-+static const struct of_device_id samsung_abox_generic_match[] = {
-+	{
-+		.compatible = "samsung,abox_generic",
-+	},
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, samsung_abox_generic_match);
-+
-+static const struct dev_pm_ops samsung_abox_generic_pm = {
-+	SET_SYSTEM_SLEEP_PM_OPS(abox_generic_suspend, abox_generic_resume)
-+};
-+
-+struct platform_driver samsung_abox_generic_driver = {
-+	.probe  = samsung_abox_generic_probe,
-+	.remove = samsung_abox_generic_remove,
-+	.shutdown = samsung_abox_generic_shutdown,
-+	.driver = {
-+		.name = "samsung-abox-generic",
-+		.owner = THIS_MODULE,
-+		.of_match_table = of_match_ptr(samsung_abox_generic_match),
-+		.pm = &samsung_abox_generic_pm,
-+	},
-+};
-+
-+module_platform_driver(samsung_abox_generic_driver);
-+/* Module information */
-+MODULE_AUTHOR("Eunwoo Kim, <ew.kim@samsung.com>");
-+MODULE_DESCRIPTION("Samsung ASoC A-Box Generic Driver");
-+MODULE_ALIAS("platform:samsung-abox-generic");
-+MODULE_LICENSE("GPL v2");
-+
-diff --git a/sound/soc/samsung/auto_abox/generic/include/abox_generic.h b/sound/soc/samsung/auto_abox/generic/include/abox_generic.h
-new file mode 100644
-index 000000000000..1c954272e2b5
---- /dev/null
-+++ b/sound/soc/samsung/auto_abox/generic/include/abox_generic.h
-@@ -0,0 +1,87 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * ALSA SoC - Samsung ABOX Share Function and Data structure
-+ * for Exynos specific extensions
-+ *
-+ * Copyright (C) 2013-2020 Samsung Electronics Co., Ltd.
-+ *
-+ * EXYNOS - sound/soc/samsung/abox/include/abox_generic.h
-+ */
-+
-+#ifndef __SND_SOC_ABOX_GENERIC_BASE_H
-+#define __SND_SOC_ABOX_GENERIC_BASE_H
-+
-+#define ABOX_GENERIC_DATA		abox_generic_get_abox_generic_data();
-+
-+struct snd_soc_pcm_runtime;
-+
-+enum abox_soc_ioctl_cmd {
-+	ABOX_SOC_IOCTL_GET_NUM_OF_RDMA,
-+	ABOX_SOC_IOCTL_GET_NUM_OF_WDMA,
-+	ABOX_SOC_IOCTL_GET_NUM_OF_UAIF,
-+	ABOX_SOC_IOCTL_GET_SOC_TIMER,
-+	ABOX_SOC_IOCTL_SET_DMA_BUFFER,
-+	ABOX_SOC_IOCTL_SET_PP_POINTER,
-+	ABOX_SOC_IOCTL_SET_PERF_PERIOD,
-+	ABOX_SOC_IOCTL_CHECK_TIME_MUTEX,
-+	ABOX_SOC_IOCTL_CHECK_TIME_NO_MUTEX,
-+	ABOX_SOC_IOCTL_PCM_DUMP_INTR,
-+	ABOX_SOC_IOCTL_PCM_DUMP_CLOSE,
-+	ABOX_SOC_IOCTL_PCM_DUMP_ADD_CONTROL,
-+	ABOX_SOC_IOCTL_MAX
-+};
-+
-+typedef int (*SOC_IOCTL)(struct device *soc_dev, enum abox_soc_ioctl_cmd cmd, void *data);
-+
-+struct abox_generic_data {
-+	struct platform_device *pdev;
-+	struct platform_device **pdev_pcm_playback;
-+	struct platform_device **pdev_pcm_capture;
-+	unsigned int num_of_pcm_playback;
-+	unsigned int num_of_pcm_capture;
-+	unsigned int num_of_i2s_dummy;
-+	unsigned int num_of_rdma;
-+	unsigned int num_of_wdma;
-+	unsigned int num_of_uaif;
-+	struct device *soc_dev;
-+	SOC_IOCTL soc_ioctl;
-+};
-+
-+
-+/************ Internal API ************/
-+
-+struct abox_generic_data *abox_generic_get_abox_generic_data(void);
-+
-+int abox_generic_set_dma_buffer(struct device *pcm_dev);
-+
-+int abox_generic_request_soc_ioctl(struct device *generic_dev, enum abox_soc_ioctl_cmd cmd,
-+	void *data);
-+
-+int abox_generic_set_pp_pointer(struct device *pcm_dev);
-+
-+
-+
-+
-+/************ External API ************/
-+
-+extern struct device *abox_generic_find_fe_dev_from_rtd(struct snd_soc_pcm_runtime *be);
-+
-+extern struct platform_device *abox_generic_get_pcm_platform_dev(int pcm_id,
-+	int stream_type);
-+
-+extern int abox_generic_get_num_of_pcm(int stream_type);
-+
-+extern int abox_generic_get_num_of_i2s_dummy(void);
-+
-+extern int abox_generic_get_num_of_dma(struct device *pcm_dev,
-+	int stream_type);
-+
-+extern int abox_generic_attach_soc_callback(struct device *soc_dev,
-+	SOC_IOCTL soc_ioctl);
-+
-+extern int abox_generic_register_pcm_dev(struct platform_device *pdev_pcm_dev,
-+	unsigned int id, int stream_type);
-+
-+
-+#endif //__SND_SOC_ABOX_GENERIC_BASE_H
-+
--- 
-2.25.1
-
+T24gVGh1LCAyMDI1LTA3LTAzIGF0IDEwOjA4ICswMjAwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
+b3RlOg0KPiBFeHRlcm5hbCBlbWFpbCA6IFBsZWFzZSBkbyBub3QgY2xpY2sgbGlua3Mgb3Igb3Bl
+biBhdHRhY2htZW50cyB1bnRpbA0KPiB5b3UgaGF2ZSB2ZXJpZmllZCB0aGUgc2VuZGVyIG9yIHRo
+ZSBjb250ZW50Lg0KPiANCj4gDQo+IE9uIDAzLzA3LzIwMjUgMDk6NTYsIGhhaWxvbmcuZmFuIHdy
+b3RlOg0KPiA+IEZyb206IEhhaWxvbmcgRmFuIDxoYWlsb25nLmZhbkBtZWRpYXRlay5jb20+DQo+
+ID4gDQo+ID4gVGhpcyBwYXRjaCBhZGRzIG10ODE5NiBkc3AgZG9jdW1lbnQuIFRoZSBkc3AgaXMg
+dXNlZCBmb3IgU291bmQgT3Blbg0KPiANCj4gUGxlYXNlIGRvIG5vdCB1c2UgIlRoaXMgY29tbWl0
+L3BhdGNoL2NoYW5nZSIsIGJ1dCBpbXBlcmF0aXZlIG1vb2QuDQo+IFNlZQ0KPiBsb25nZXIgZXhw
+bGFuYXRpb24gaGVyZToNCj4gDQpodHRwczovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9l
+bGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUuMTcuMS9zb3VyY2UvRG9jdW1lbnRhdGlvbi9wcm9j
+ZXNzL3N1Ym1pdHRpbmctcGF0Y2hlcy5yc3QqTDk1X187SXchIUNUUk5LQTl3TWcwQVJidyFtaENC
+OGNROU5ZNEF6dGRFckpXYXkzVnRGTkhTZTg5aTAwVGdHZVRkNjJXNm0tSW9zNDZYZURhWXFNMFFR
+N200U0hqbE53NjlQdlU3VDlNJA0KPiANCk9rYXksIHdpbGwgYmUgdXBkYXRlZCB0bzoNCkFkZCBk
+ZXZpY2UgdHJlZSBiaW5kaW5nIGRvY3VtZW50YXRpb24gZm9yIHRoZQ0KTWVkaWFUZWsgTVQ4MTk2
+IERTUC4gVGhlIERTUCBpcyB1c2VkIGJ5IHRoZSBTb3VuZCBPcGVuIEZpcm13YXJlIGRyaXZlcg0K
+bm9kZSBhbmQgaW5jbHVkZXMgcmVnaXN0ZXJzLCBjbG9ja3MsIG1lbW9yeSByZWdpb25zLCBhbmQg
+YSBtYWlsYm94IGZvcg0KRFNQIGNvbW11bmljYXRpb24uDQogDQpUaGFua3MuDQoNCj4gPiBGaXJt
+d2FyZSBkcml2ZXIgbm9kZS4gSXQgaW5jbHVkZXMgcmVnaXN0ZXJzLCAgY2xvY2tzLCBtZW1vcnkN
+Cj4gPiByZWdpb25zLA0KPiA+IGFuZCBtYWlsYm94IGZvciBkc3AuDQo+ID4gDQo+ID4gU2lnbmVk
+LW9mZi1ieTogSGFpbG9uZyBGYW4gPGhhaWxvbmcuZmFuQG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0N
+Cj4gPiAgLi4uL2JpbmRpbmdzL3NvdW5kL21lZGlhdGVrLG10ODE5Ni1kc3AueWFtbCAgIHwgOTUN
+Cj4gPiArKysrKysrKysrKysrKysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA5NSBpbnNlcnRp
+b25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+IERvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9zb3VuZC9tZWRpYXRlayxtdDgxOTYtZHNwLnlhbWwNCj4gPiANCj4gPiBk
+aWZmIC0tZ2l0DQo+ID4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mvc291bmQv
+bWVkaWF0ZWssbXQ4MTk2LWRzcC55YW1sDQo+ID4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3Mvc291bmQvbWVkaWF0ZWssbXQ4MTk2LWRzcC55YW1sDQo+ID4gbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLjY4ZjU5NGY0NzZlOA0KPiA+IC0tLSAv
+ZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mvc291
+bmQvbWVkaWF0ZWssbXQ4MTk2LQ0KPiA+IGRzcC55YW1sDQo+ID4gQEAgLTAsMCArMSw5NSBAQA0K
+PiA+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiAoR1BMLTIuMCBPUiBCU0QtMi1DbGF1c2Up
+DQo+ID4gKyVZQU1MIDEuMg0KPiA+ICstLS0NCj4gPiArJGlkOiANCj4gPiBodHRwczovL3VybGRl
+ZmVuc2UuY29tL3YzL19faHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvc291bmQvbWVkaWF0
+ZWssbXQ4MTk2LWRzcC55YW1sKl9fO0l3ISFDVFJOS0E5d01nMEFSYnchbWhDQjhjUTlOWTRBenRk
+RXJKV2F5M1Z0Rk5IU2U4OWkwMFRnR2VUZDYyVzZtLUlvczQ2WGVEYVlxTTBRUTdtNFNIamxOdzY5
+N3FIMXQ2QSQNCj4gPiArJHNjaGVtYTogDQo+ID4gaHR0cHM6Ly91cmxkZWZlbnNlLmNvbS92My9f
+X2h0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55YW1sKl9fO0l3ISFDVFJO
+S0E5d01nMEFSYnchbWhDQjhjUTlOWTRBenRkRXJKV2F5M1Z0Rk5IU2U4OWkwMFRnR2VUZDYyVzZt
+LUlvczQ2WGVEYVlxTTBRUTdtNFNIamxOdzY5RWRESGdOWSQNCj4gPiArDQo+ID4gK3RpdGxlOiBN
+ZWRpYVRlayBtdDgxOTYgRFNQIGNvcmUNCj4gPiArDQo+ID4gK21haW50YWluZXJzOg0KPiA+ICsg
+IC0gSGFpbG9uZyBGYW4gPGhhaWxvbmcuZmFuQG1lZGlhdGVrLmNvbT4NCj4gPiArDQo+ID4gK2Rl
+c2NyaXB0aW9uOiBUaGUgTWVkaWFUZWsgbXQ4MTk2IFNvQyBtdDgxOTYgY29udGFpbiBhIERTUCBj
+b3JlDQo+ID4gdXNlZCBmb3IgYWR2YW5jZWQNCj4gDQo+IE1pc3NpbmcgYmxhbmsgbGluZS4gTG9v
+ayBhdCBvdGhlciBiaW5kaW5ncy4gQWxzbyBkb2VzIG5vdCBsb29rDQo+IHdyYXBwZWQNCj4gYXQg
+ODAgKHNlZSBMaW51eCBjb2Rpbmcgc3R5bGUgZG9jKS4NCj4gDQo+IA0KT2theSwgd2lsbCBiZSB1
+cGRhdGUgdG86DQpkZXNjcmlwdGlvbjogfA0KVGhlIE1lZGlhVGVrIG10ODE5NiBTb0MgY29udGFp
+bnMNCmEgRFNQIGNvcmUgdXNlZCBmb3IgYWR2YW5jZWQgcHJlLSBhbmQNCiAgcG9zdC1hdWRpbyBw
+cm9jZXNzaW5nLiBUaGlzIERTUA0KaXMgdHlwaWNhbGx5IHVzZWQgYnkgdGhlIFNvdW5kIE9wZW4g
+RmlybXdhcmUNCiAgKFNPRikgZHJpdmVyIGFuZCByZXF1aXJlcw0KcmVnaXN0ZXJzLCBjbG9ja3Ms
+IG1lbW9yeSByZWdpb25zLCBhbmQgYSBtYWlsYm94DQogIGZvciBjb21tdW5pY2F0aW9uLg0KIA0K
+VGgNCmFua3MuDQo+ID4gKyAgcHJlLSBhbmQgcG9zdC0gYXVkaW8gcHJvY2Vzc2luZy4NCj4gPiAr
+DQo+ID4gK3Byb3BlcnRpZXM6DQo+ID4gKyAgY29tcGF0aWJsZToNCj4gPiArICAgIGNvbnN0OiBt
+ZWRpYXRlayxtdDgxOTYtZHNwDQo+ID4gKw0KPiA+ICsgIHJlZzoNCj4gPiArICAgIGl0ZW1zOg0K
+PiA+ICsgICAgICAtIGRlc2NyaXB0aW9uOiBEU1AgY29uZmlndXJhdGlvbiByZWdpc3RlcnMNCj4g
+PiArICAgICAgLSBkZXNjcmlwdGlvbjogRFNQIFNSQU0NCj4gPiArICAgICAgLSBkZXNjcmlwdGlv
+bjogRFNQIHNlY3VyZSByZWdpc3RlcnMNCj4gPiArICAgICAgLSBkZXNjcmlwdGlvbjogRFNQIGJ1
+cyByZWdpc3RlcnMNCj4gPiArDQo+ID4gKyAgcmVnLW5hbWVzOg0KPiA+ICsgICAgaXRlbXM6DQo+
+ID4gKyAgICAgIC0gY29uc3Q6IGNmZw0KPiA+ICsgICAgICAtIGNvbnN0OiBzcmFtDQo+ID4gKyAg
+ICAgIC0gY29uc3Q6IHNlYw0KPiA+ICsgICAgICAtIGNvbnN0OiBidXMNCj4gPiArDQo+ID4gKyAg
+Y2xvY2tzOg0KPiA+ICsgICAgaXRlbXM6DQo+ID4gKyAgICAgIC0gZGVzY3JpcHRpb246IG11eCBm
+b3IgZHNwIGNsb2NrDQo+ID4gKyAgICAgIC0gZGVzY3JpcHRpb246IDI2TSBjbG9jaw0KPiA+ICsg
+ICAgICAtIGRlc2NyaXB0aW9uOiBBRFNQIFBMTCBjbG9jaw0KPiA+ICsNCj4gPiArICBjbG9jay1u
+YW1lczoNCj4gPiArICAgIGl0ZW1zOg0KPiA+ICsgICAgICAtIGNvbnN0OiBhZHNwX3NlbA0KPiAN
+Cj4gSXNuJ3QgdGhpcyBjYWxsZWQgYXVkaW9kc3AgaW4gb3RoZXIgYmluZGluZ3M/DQo+IA0KWWVz
+LCBidXQgZXNzZW50aWFsbHkgaXQgaXMgdGhlIG11eCBzZWxlY3Rpb24gb2YgdGhlIEFEU1AgY2xv
+Y2suDQpTbywgd291bGQgdXNpbmcgImFkc3Bfc2VsIiBtYWtlIGl0IGNsZWFyZXI/DQoNCj4gPiAr
+ICAgICAgLSBjb25zdDogY2xrMjZtDQo+IA0KPiBEb24ndCB1c2UgZnJlcXVlbmNpZXMuIEhvdyBp
+cyB0aGUgcGluIG9yIGlucHV0IGNhbGxlZCBpbiBkYXRhc2hlZXQ/DQo+IEhvdw0KPiBvdGhlciBk
+ZXZpY2VzIGNhbGwgaXQ/DQo+IA0KPiA+ICsgICAgICAtIGNvbnN0OiBhZHNwcGxsDQo+ID4gKw0K
+PiA+ICsgIHBvd2VyLWRvbWFpbnM6DQo+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+ICsNCj4gDQo+
+IEJlc3QgcmVnYXJkcywNCj4gS3J6eXN6dG9mDQo=
