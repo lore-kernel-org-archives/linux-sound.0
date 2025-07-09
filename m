@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B091920E6E2;
-	Wed,  9 Jul 2025 06:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA651C84D5;
+	Wed,  9 Jul 2025 06:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752043304; cv=none; b=d1ftSW1WUzlmT2wLID8mdl3EDgJZPVfYOHWSTBQKPlWsw50bk9zyM3bnnZsxfdYmkeKUXMaXXcFI0iWtxEr0VEj7TFGbgfASvEjtT/a95qWHVfFlBwp5SnrGBO0dNZV/BQRoXrZhxnJE4iqBXbkV0n3oOwd0s3eJzC+2PNdNT/s=
+	t=1752044164; cv=none; b=Q4Q1Bt9RvwtNfRkCoXzpOymGihPhWQVQbWvUQMEyRTb+8tMUD92zu70GWFwlOXBZPK6M/flkBAfL6/nRVSPFwsTVyuj0a6wpFBMasNzjQwdrSB20VKo/22AlrXv1RfereuFQfwRqj7DUjwZSp6X2eh7Nj9ygxi8jeuGuxzvfcRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752043304; c=relaxed/simple;
-	bh=zyzZMgx23uk5HwLoXW6RXKUbWJN4sQWUFZEs4KPqiJE=;
+	s=arc-20240116; t=1752044164; c=relaxed/simple;
+	bh=qSylAEef+3XBtW+QsXWnOj2sVPSL5ZwmvH9BTdLETWg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iLORa9r3k2mmmHe8xokjdMJ8Q/Q+I0uNw7XPcE7kakwJV7cBX8Tmh9WSWJBXBc3yLCnOWCb2I68czYN0mqf6YJkyuObp/+yMqugxTzyxVZ5ZsCRO0neAeVQAb9Q7a+NiF1C1JVqsaUoEadronU3+zBJKPY+tbgVjFC00+vll5Eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jlv33VyU; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=HFwumXfcli2JVJmOlEw/Wa/RC+8x/fvrgmjYMPwh+PavEOjDQvquSUeVlNrklSMMtjRC8ZZWjJJThkMtWHX2LX9PprY4NBnuO9kA65z6sUnm8VL8Ozz2v+O+smV/IHJlrorhrvkhn84FSyyqlc2xL+MUhKHGFUf170ioKBs9meQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FhTidQSg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jlv33VyU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E9CAC4CEF0;
-	Wed,  9 Jul 2025 06:41:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FhTidQSg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE87FC4CEF0;
+	Wed,  9 Jul 2025 06:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752043304;
-	bh=zyzZMgx23uk5HwLoXW6RXKUbWJN4sQWUFZEs4KPqiJE=;
+	s=k20201202; t=1752044163;
+	bh=qSylAEef+3XBtW+QsXWnOj2sVPSL5ZwmvH9BTdLETWg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Jlv33VyU/i4RW79fPwJMVO724xvMAp7dP5iSpmJX332FfTQyPIpse/fIu1cK2DChf
-	 gB/0w4JidWlXmYUeRzqu3txt+tOPDZaV8vip1PMfHFiUNnCwnHn6lk2v9c078EEhgY
-	 zZenI9TZAKMIQKSaJ2SPG8mB08UwxQWFeKM2nHj4kvntWIKrX6Z+AJmewtw7S9hNnq
-	 3mDSwV7DYP/J0ZnE6b/AP6lh0/si9F1RQvyxUsHjchu+CVD78D19lc3Veepl00mmRK
-	 0vl+Vo/x1uN9lYrxcYMhWHsfSo3Ur4/qVNvgQ+qgRGIhg4koQcYmcSDqk85LGTVlto
-	 VEChxhDJHfM0Q==
-Message-ID: <7fc97dc4-fe5a-4f4c-bd43-df89c7dbc178@kernel.org>
-Date: Wed, 9 Jul 2025 07:41:41 +0100
+	b=FhTidQSgFyLxqAxY+J0jNvvhZfgKzKKUc9LZtMwoM9BOJV/riwmJFkV8vS8y6Hkqn
+	 Yj1eQJDZPHWhwtTnGJUu5cZjZzqyu8Cv88VaFgkoUM+oXZ0xYrbBSMP/4bwe550OgR
+	 Yp0gIzMttYIQthSk1nfZRTAYlY8L6kn90cOnpcZPQLibrLNd2Cynk0hbfBLTiKTlrR
+	 581UUf5Saf0onAjtN+M7vz7zCJi1zwQ0eGcp96adi4cpTUzTqQHclkgItVBOgcwp3d
+	 hUTV3ReqhADjchj+8754qhEJZU7M1VlK74IOIn3eLVB1IVzaZzDrdeMsXooGf2pkqv
+	 prZ2iZ+BdyeAQ==
+Message-ID: <61270ce3-8172-482f-80c7-e1c6d031cbe2@kernel.org>
+Date: Wed, 9 Jul 2025 08:55:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,92 +35,104 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 59/80] slimbus: Remove redundant
- pm_runtime_mark_last_busy() calls
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Srinivas Kandagatla <srini@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
- <20250704075446.3221540-1-sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: dsp: mediatek: add mt8196 dsp
+ document
+To: =?UTF-8?B?SGFpbG9uZyBGYW4gKOiMg+a1t+m+mSk=?= <Hailong.Fan@mediatek.com>,
+ "perex@perex.cz" <perex@perex.cz>,
+ "pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>,
+ "kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
+ "broonie@kernel.org" <broonie@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>, "tiwai@suse.com"
+ <tiwai@suse.com>, "robh@kernel.org" <robh@kernel.org>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "daniel.baluta@nxp.com" <daniel.baluta@nxp.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>
+Cc: "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "sound-open-firmware@alsa-project.org"
+ <sound-open-firmware@alsa-project.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+References: <20250703075632.20758-1-hailong.fan@mediatek.com>
+ <20250703075632.20758-2-hailong.fan@mediatek.com>
+ <defd70cb-4351-4b0b-b4d0-dd1ff831615c@kernel.org>
+ <a72ff8bbd8205698948bf5be2c71d93f41a20ec1.camel@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20250704075446.3221540-1-sakari.ailus@linux.intel.com>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <a72ff8bbd8205698948bf5be2c71d93f41a20ec1.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
-
-On 7/4/25 8:54 AM, Sakari Ailus wrote:
-> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
-> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
-> pm_runtime_mark_last_busy().
+On 09/07/2025 04:52, Hailong Fan (范海龙) wrote:
+>>> +  clocks:
+>>> +    items:
+>>> +      - description: mux for dsp clock
+>>> +      - description: 26M clock
+>>> +      - description: ADSP PLL clock
+>>> +
+>>> +  clock-names:
+>>> +    items:
+>>> +      - const: adsp_sel
+>>
+>> Isn't this called audiodsp in other bindings?
+>>
+> Yes, but essentially it is the mux selection of the ADSP clock.
+> So, would using "adsp_sel" make it clearer?
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
+So every new binding will come with new name? Stick to the same name if
+this is the same clock.
 
-Acked-by: Srinivas Kandagatla <srini@kernel.org>
-
---srini
-
-> The cover letter of the set can be found here
-> <URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
-> 
-> In brief, this patch depends on PM runtime patches adding marking the last
-> busy timestamp in autosuspend related functions. The patches are here, on
-> rc2:
-> 
->         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
->                 pm-runtime-6.17-rc1
-> 
->  drivers/slimbus/core.c      | 1 -
->  drivers/slimbus/messaging.c | 2 --
->  drivers/slimbus/qcom-ctrl.c | 1 -
->  3 files changed, 4 deletions(-)
-> 
-> diff --git a/drivers/slimbus/core.c b/drivers/slimbus/core.c
-> index 005fa2ef100f..31751ee4e400 100644
-> --- a/drivers/slimbus/core.c
-> +++ b/drivers/slimbus/core.c
-> @@ -504,7 +504,6 @@ int slim_device_report_present(struct slim_controller *ctrl,
->  	ret = slim_device_alloc_laddr(sbdev, true);
->  
->  slimbus_not_active:
-> -	pm_runtime_mark_last_busy(ctrl->dev);
->  	pm_runtime_put_autosuspend(ctrl->dev);
->  	return ret;
->  }
-> diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
-> index 6f01d944f9c6..44197493010e 100644
-> --- a/drivers/slimbus/messaging.c
-> +++ b/drivers/slimbus/messaging.c
-> @@ -47,7 +47,6 @@ void slim_msg_response(struct slim_controller *ctrl, u8 *reply, u8 tid, u8 len)
->  		complete(txn->comp);
->  
->  	/* Remove runtime-pm vote now that response was received for TID txn */
-> -	pm_runtime_mark_last_busy(ctrl->dev);
->  	pm_runtime_put_autosuspend(ctrl->dev);
->  }
->  EXPORT_SYMBOL_GPL(slim_msg_response);
-> @@ -171,7 +170,6 @@ int slim_do_transfer(struct slim_controller *ctrl, struct slim_msg_txn *txn)
->  		 * remove runtime-pm vote if this was TX only, or
->  		 * if there was error during this transaction
->  		 */
-> -		pm_runtime_mark_last_busy(ctrl->dev);
->  		pm_runtime_put_autosuspend(ctrl->dev);
->  	}
->  	return ret;
-> diff --git a/drivers/slimbus/qcom-ctrl.c b/drivers/slimbus/qcom-ctrl.c
-> index ab344f7472f2..880cf3081a20 100644
-> --- a/drivers/slimbus/qcom-ctrl.c
-> +++ b/drivers/slimbus/qcom-ctrl.c
-> @@ -695,7 +695,6 @@ static int qcom_slim_resume(struct device *dev)
->  		dev_dbg(dev, "system resume");
->  		ret = qcom_slim_runtime_resume(dev);
->  		if (!ret) {
-> -			pm_runtime_mark_last_busy(dev);
->  			pm_request_autosuspend(dev);
->  		}
->  		return ret;
-
+Best regards,
+Krzysztof
