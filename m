@@ -1,109 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5A81E521A;
-	Wed,  9 Jul 2025 15:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB785EEA8
+	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 15:35:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752074677; cv=none; b=Va6YSmilEIyyucr3Q5PbFMerH8Vqfs4JzhwD18ox0bZ2d7eQL/wed0ZC3aFPlvONney1giJa+D823VHh0Ec9ZA1Hr68Z0xs6pWVffXqTxhY1TMROCHla+h41Xw4prMZnBa4ozC4BB5GHGyHWnkDl1HJ3YVnqQBtoieSGM+qKhxw=
+	t=1752075355; cv=none; b=qGGBKtuarhy0XmHjAOE+G45XSvh29CnuXpRh0A+WKUanNjCC7aa2fVl77tpaYEe+n+lFc/vQKOEzl+/+I5RdIj4O9BvNNZAJ4liTPbRfG3pCV9PSRnlTUjuf4bkr4QwUwIuDpZ7Kd3Bg/00LtVNLcRdECdIx6WKuOF5OuDi7bI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752074677; c=relaxed/simple;
-	bh=wMH1EIntjFee94D4nTY6RgYze7w69rlY7R0wWT9VB90=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RU8eyjVlFes6Zj4FE8gAJ+Ot2uRdbm0mlnbwaZLEB1jaEWEL/9EtQqc9vuXFg4/jkp6CLMtfLGJ5r48n7gDUeEMikSKMC8f80zydklE6F1RoTcvy4cCZ3SSP/tMxFhWTHjWCWOMzQKrlswiBFy25bNzRA24oXa9Y8VrD6o9opX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FxmToEa3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752075355; c=relaxed/simple;
+	bh=byobXKnYiY1xH59Pq4WOEvE/L7VVSU3x7jnvl+tAXbo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pvEaUznINyCMlMNKpQzyCHeSd5s9cTUMlNSN1Wuj1ELrlzUGMiqhduEcBUeHVzIIiIjuwI2IiZTZCLxLR21OFgFbvT3sZj1TrpdlT7aCuaZ5Ns5JBxprv88E4/VeRz4UjjXoqiHXDR6uLkDUjf6be/4jSuzdifC6dXIaAlgVvtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jGz2/9g0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FxmToEa3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE55C4CEEF;
-	Wed,  9 Jul 2025 15:24:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jGz2/9g0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0AB8C4CEEF;
+	Wed,  9 Jul 2025 15:35:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752074675;
-	bh=wMH1EIntjFee94D4nTY6RgYze7w69rlY7R0wWT9VB90=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FxmToEa34iJWO2EVV6XuPVUybg+S5mXY54jM856l1ta6PyGdh5rgXbEH0/O0Ukyek
-	 X3YHtIYZe0psWVHSeerNFd3fedXcuwkSM9IxYylgpVLLHT4hLbQixW1x1+DrTI7Cvj
-	 /1O0lfNGZ1Z2NhuEbyj37MvWc9UCGPhVE/BRoXlganJkS58gbqDACNmQq5z+NyMnwA
-	 gHOB0ju6NmaOpcvyA2osPC6WDuzpO+xkHnu0YDApAWa8nFi/ui7cwTPcfSZJTnROJI
-	 /edqoWV/Q0Rq1YVcwRMqejYekMh/I/uVNi1B+OnejkY/bgylBY2TE4hIAiwnBtoyb6
-	 yl19DlcAzYxYA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Shuming Fan <shumingf@realtek.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] ASoC: SDCA: fix HID dependency
-Date: Wed,  9 Jul 2025 17:24:17 +0200
-Message-Id: <20250709152430.1498427-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	s=k20201202; t=1752075355;
+	bh=byobXKnYiY1xH59Pq4WOEvE/L7VVSU3x7jnvl+tAXbo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=jGz2/9g0nastLi+fUeB0+kvYToyvyTqhuL8DYIIKvAEFufn6O2zNVtBC7cOJz0Qta
+	 LA8wDtEHr3T6UYIAUYGXZ9XD4gcpQHP41K+HK/+dhlF6U+Fika63VKxT398QY1AMpa
+	 0z/EwIg/4J/Bwnm8P9hArrplQybIaq/DPkQlzKcwARAr3U0XLep2WjqL5wfR5NTL2Y
+	 l8bfUsGDhXWBiw5S7DQ3x9PjjgWrl2tu2uWvYgpePgrE8IZkBJNxR50fEmm3Hl0Wfg
+	 A4hfrj03KI+TizrblOnkOP2uIuol+mU4c960ksLz+FojEe2XdDofBtLp0zISsXEuFj
+	 xVWHZP5xj3kZg==
+From: Mark Brown <broonie@kernel.org>
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com
+In-Reply-To: <20250708080030.1257790-1-yung-chuan.liao@linux.intel.com>
+References: <20250708080030.1257790-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/4] ASoC: Intel: add support for new devices
+Message-Id: <175207535307.695799.3047474583652207034.b4-ty@kernel.org>
+Date: Wed, 09 Jul 2025 16:35:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-07fe9
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Tue, 08 Jul 2025 16:00:25 +0800, Bard Liao wrote:
+> Add support for new devices on Intel platforms.
+> 
+> Balamurugan C (2):
+>   ASoC: Intel: soc-acpi: Add entry for sof_es8336 in PTL match table.
+>   ASoC: Intel: soc-acpi: Add entry for HDMI_In capture support in PTL
+>     match table
+> 
+> [...]
 
-It is not possible to enable SND_SOC_SDCA_HID when SND_SOC_SDCA is built-in
-but HID is in a loadable module, as that results in a link failure:
+Applied to
 
-x86_64-linux-ld: sound/soc/sdca/sdca_functions.o: in function `find_sdca_entity_hide':
-sdca_functions.c:(.text+0x25b): undefined reference to `sdca_add_hid_device'
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Change SND_SOC_SDCA_HID into a 'bool' option that can only be enabled
-if this results in a working build, and change the Makefile so this driver
-is a loadable module if possible.
+Thanks!
 
-Fixes: ac558015dfd8 ("ASoC: SDCA: add a HID device for HIDE entity")
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-v2: small simplification suggested by Charles
----
- sound/soc/sdca/Kconfig  | 5 +++--
- sound/soc/sdca/Makefile | 4 +++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+[1/4] ASoC: Intel: soc-acpi: Add entry for sof_es8336 in PTL match table.
+      commit: 2813f535b5847771d9e56df678c523a7e64f860e
+[2/4] ASoC: Intel: soc-acpi: Add entry for HDMI_In capture support in PTL match table
+      commit: fb00ab1f39369e49d25c74f0d41e4c1ec2f12576
+[3/4] ASoC: Intel: soc-acpi-intel-ptl-match: add support ptl-rt721-l0
+      commit: e149d870687a5cfd702b700d81ae75ec6f41dd57
+[4/4] ASoC: Intel: soc-acpi-intel-lnl-match: add rt1320_l12_rt714_l0 support
+      commit: 86ccd4d3e8bc9eeb5dde4080fcc67e0505d1d2c6
 
-diff --git a/sound/soc/sdca/Kconfig b/sound/soc/sdca/Kconfig
-index 53f6926255ae..2253a300dcc3 100644
---- a/sound/soc/sdca/Kconfig
-+++ b/sound/soc/sdca/Kconfig
-@@ -12,8 +12,9 @@ config SND_SOC_SDCA_OPTIONAL
- 	def_tristate SND_SOC_SDCA || !SND_SOC_SDCA
- 
- config SND_SOC_SDCA_HID
--	tristate "SDCA HID support"
--	depends on SND_SOC_SDCA && HID
-+	bool "SDCA HID support"
-+	depends on SND_SOC_SDCA
-+	depends on HID=y || HID=SND_SOC_SDCA
- 
- config SND_SOC_SDCA_IRQ
- 	tristate
-diff --git a/sound/soc/sdca/Makefile b/sound/soc/sdca/Makefile
-index 2a3938d11ca9..1efc869c6cbc 100644
---- a/sound/soc/sdca/Makefile
-+++ b/sound/soc/sdca/Makefile
-@@ -5,5 +5,7 @@ snd-soc-sdca-hid-y := sdca_hid.o
- snd-soc-sdca-irq-y := sdca_interrupts.o
- 
- obj-$(CONFIG_SND_SOC_SDCA)	+= snd-soc-sdca.o
--obj-$(CONFIG_SND_SOC_SDCA_HID)	+= snd-soc-sdca-hid.o
-+ifdef CONFIG_SND_SOC_SDCA_HID
-+obj-$(CONFIG_SND_SOC_SDCA)	+= snd-soc-sdca-hid.o
-+endif
- obj-$(CONFIG_SND_SOC_SDCA_IRQ)	+= snd-soc-sdca-irq.o
--- 
-2.39.5
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
