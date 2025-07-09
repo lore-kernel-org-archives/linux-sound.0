@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA651C84D5;
-	Wed,  9 Jul 2025 06:56:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1945326B750;
+	Wed,  9 Jul 2025 06:57:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752044164; cv=none; b=Q4Q1Bt9RvwtNfRkCoXzpOymGihPhWQVQbWvUQMEyRTb+8tMUD92zu70GWFwlOXBZPK6M/flkBAfL6/nRVSPFwsTVyuj0a6wpFBMasNzjQwdrSB20VKo/22AlrXv1RfereuFQfwRqj7DUjwZSp6X2eh7Nj9ygxi8jeuGuxzvfcRk=
+	t=1752044253; cv=none; b=u8DARMv9e7BfAr4s6vPBPPnWoJOeFaKWE9eJ8IRMQ7sCmf00AXf92AgeB4h3We/2P1GuKBT8qjLhZVF29QrlsxpG8qI1fQ6ekNby5gdi/aL4RbM+BNzwn1RCfdwnXPxPTmIf5ULpR3Cy8DaDBp8sAIStLXXfqcSjydxpRU9C7LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752044164; c=relaxed/simple;
-	bh=qSylAEef+3XBtW+QsXWnOj2sVPSL5ZwmvH9BTdLETWg=;
+	s=arc-20240116; t=1752044253; c=relaxed/simple;
+	bh=rtYRw+LTgfTwBVULhsU7xwpSnhKJzHyXcNVWLIZtrmU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HFwumXfcli2JVJmOlEw/Wa/RC+8x/fvrgmjYMPwh+PavEOjDQvquSUeVlNrklSMMtjRC8ZZWjJJThkMtWHX2LX9PprY4NBnuO9kA65z6sUnm8VL8Ozz2v+O+smV/IHJlrorhrvkhn84FSyyqlc2xL+MUhKHGFUf170ioKBs9meQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FhTidQSg; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=dwBb12OIP9llRwS3oI3mk41NtaY07TtBIM1B6ePY5Vaci3mQFplb37BrHEn/QMlRbfmD88S71krTQ8A8T7r1LCsZDdNP5fhy/thZNOQOa9lyXpXyTTZQ0Rfr/Zr1klJYAi2UbjfHJpdprEf3U+UVg6vrd2SnnorCt+TcYSOKYkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pUR2g5Ak; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FhTidQSg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE87FC4CEF0;
-	Wed,  9 Jul 2025 06:55:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pUR2g5Ak"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08D7C4CEF0;
+	Wed,  9 Jul 2025 06:57:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752044163;
-	bh=qSylAEef+3XBtW+QsXWnOj2sVPSL5ZwmvH9BTdLETWg=;
+	s=k20201202; t=1752044252;
+	bh=rtYRw+LTgfTwBVULhsU7xwpSnhKJzHyXcNVWLIZtrmU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FhTidQSgFyLxqAxY+J0jNvvhZfgKzKKUc9LZtMwoM9BOJV/riwmJFkV8vS8y6Hkqn
-	 Yj1eQJDZPHWhwtTnGJUu5cZjZzqyu8Cv88VaFgkoUM+oXZ0xYrbBSMP/4bwe550OgR
-	 Yp0gIzMttYIQthSk1nfZRTAYlY8L6kn90cOnpcZPQLibrLNd2Cynk0hbfBLTiKTlrR
-	 581UUf5Saf0onAjtN+M7vz7zCJi1zwQ0eGcp96adi4cpTUzTqQHclkgItVBOgcwp3d
-	 hUTV3ReqhADjchj+8754qhEJZU7M1VlK74IOIn3eLVB1IVzaZzDrdeMsXooGf2pkqv
-	 prZ2iZ+BdyeAQ==
-Message-ID: <61270ce3-8172-482f-80c7-e1c6d031cbe2@kernel.org>
-Date: Wed, 9 Jul 2025 08:55:56 +0200
+	b=pUR2g5AkzJwUSMAEYZF+t+qEIU17RWnTIFcNOnRVSaWdF4EaAsafrtQ36Vc2AV0bx
+	 TioOSo2xa/1NuJWIjoilvtYw4HDyIYr8F8CXrYVpMOQlgAWg6jMSA3UA/xL3pVwDK9
+	 VKGi882MfVzRCwVXWbqHFvqf2vWsMypk1nH3c7VqAk5uvN6SgckPu2DcRjzUl3RL1x
+	 FljHl9lz/RyWZcmP+XVbr4b6rc6PqzEf3cI5KkRQi3Yx8EZewsbXtRYtbz8ofv7OMD
+	 0CebwbpsFDSvx7zf+c4lSCcC71OxMgEmmTkP7UmDWtg/7U+lpb5AJHE3D0GtKTkJAS
+	 XZ6hf0x9SiJaA==
+Message-ID: <738c1951-afbc-4cda-a16e-54a5055ca7c8@kernel.org>
+Date: Wed, 9 Jul 2025 08:57:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,7 +65,9 @@ Cc: "linux-arm-kernel@lists.infradead.org"
 References: <20250703075632.20758-1-hailong.fan@mediatek.com>
  <20250703075632.20758-2-hailong.fan@mediatek.com>
  <defd70cb-4351-4b0b-b4d0-dd1ff831615c@kernel.org>
- <a72ff8bbd8205698948bf5be2c71d93f41a20ec1.camel@mediatek.com>
+ <61784658-c71d-458b-8934-5f5db2330bc0@collabora.com>
+ <8b8a58f0-9e18-47d6-8382-1d16d630ea15@kernel.org>
+ <dff1a4d6d97d7d3d55c4bd409780d2857ae070ca.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,28 +113,55 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <a72ff8bbd8205698948bf5be2c71d93f41a20ec1.camel@mediatek.com>
+In-Reply-To: <dff1a4d6d97d7d3d55c4bd409780d2857ae070ca.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 09/07/2025 04:52, Hailong Fan (范海龙) wrote:
->>> +  clocks:
->>> +    items:
->>> +      - description: mux for dsp clock
->>> +      - description: 26M clock
->>> +      - description: ADSP PLL clock
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: adsp_sel
+On 09/07/2025 08:05, Hailong Fan (范海龙) wrote:
 >>
->> Isn't this called audiodsp in other bindings?
+>> OK, this is a valid argument, however we still try to unify the
+>> inputs
+>> so bindings can share such pieces. It is discouraged to have similar
+>> devices with different bindings in only one place: clk26m -> clk27m
+>> or
+>> whatever other number.
 >>
-> Yes, but essentially it is the mux selection of the ADSP clock.
-> So, would using "adsp_sel" make it clearer?
+>> Common is also to name the clock input based on the purpose (like
+>> bus, ref).
+>>
+>>
+>> Best regards,
+>> Krzysztof
 > 
-So every new binding will come with new name? Stick to the same name if
-this is the same clock.
+> On the MediaTek platform, the main SoC clock sources are typically 32K,
+> 13M, and 26M. This is why the terms clk32k, clk13m, and clk26m are
+> used.
+> Specifically, clk26m refers to the system’s 26 MHz clock source.
+> The clkxxx naming convention is intended to indicate that these are SoC
+
+But it should nnot.
+
+> clock sources, while also distinguishing between different clock
+> frequencies.
+>  
+> Therefore, using other terms could potentially cause confusion.
+
+No, you don't understand. This device receives some main PLL or ref
+clock. That's the only important information in the name, not its
+frequency..
+
+>  
+> For example, the ADSP clock sources are ADSPPLL(800MHz) and
+> clk26m(26MHz).
+> On other platforms, the definition of clk26m in the Device Tree Source
+> (DTS) is as follows:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/mediatek/mt8188.dtsi#n328
+> The mt8196 platform uses the same design.
+
+So you add poor code, because previously Mediatek added more poor code?
+What sort of argument is that?
+
 
 Best regards,
 Krzysztof
