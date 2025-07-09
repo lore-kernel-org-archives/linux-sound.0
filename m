@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF2028D849;
-	Wed,  9 Jul 2025 10:36:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3159A258CC9;
+	Wed,  9 Jul 2025 10:40:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752057390; cv=none; b=SoEdeWq8lFAb5QEB5DGsF9kH4s6k/nC86vzticCt7Q+Yx3jZvhFYxFZE7Ny0PC6JEE7dqzw5ck+qa2VWZEK/Xvb7lwZdSeNJQeNBkNg3vcj8D2iO573F7orHy/8drjjErapTZXR/MFiZxMC5KMxF9XdQR6Rp+VB6h2ElrhrGWiE=
+	t=1752057636; cv=none; b=tGQPkmkZp5KSoLwSsU/ILRKB7o/Is+em0vRpFZGLPPSRESP/DkLg9nuBNsMmCDXjFNsu6DJFPsMpg4XcYwTfaJO96ZB+mgUNK8wIabbWo/QMvIqUW4f6B98TonKKhqm87RliZ2XJRHcel6D7JNOTvzBcJdR8+CqOpBgbPu/h9T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752057390; c=relaxed/simple;
-	bh=gi+5G+pLYD4q0Q8BI4jG3meGArBJd7O2WnKjN/ZV8sI=;
+	s=arc-20240116; t=1752057636; c=relaxed/simple;
+	bh=5BXnFhOaIajj0YD05OOXe4uI6r5QquIlIbMJFoR86RQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CzWxEUSskigvkohXFA3vbbUK9hnTMOE3N3MRZBYHzyo1BWapth97ape9Asv3RWmmyG3+WR8lstQQyC/QlbNMJsnIBHprfh6Ws5VwPYSW8yupBRgmlyYoSQy1sSA59sU0MBpYWq1AdIxJqla53Pkt0Zw7pE+s3Jl/3KQoYuBThSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X2o4xD1V; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=LmqlVAlOKKbTrcV80EX/OoBBaKctIyKHXFcau1j6T5fyc+WNv3lz97eroy3zlTt+OnhZ86kxgUuW11Kdi9iF/iuUmEztsZ2Ym5KZImqr1bWUSvKsazqpsZeXu/O8UGEgS8brDJZXMYbKcXSH9y9//qpLFd/3X4aRD+HdmDHscf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eENXxyfq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X2o4xD1V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8F4BC4CEEF;
-	Wed,  9 Jul 2025 10:36:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eENXxyfq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6F95C4CEF6;
+	Wed,  9 Jul 2025 10:40:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752057389;
-	bh=gi+5G+pLYD4q0Q8BI4jG3meGArBJd7O2WnKjN/ZV8sI=;
+	s=k20201202; t=1752057636;
+	bh=5BXnFhOaIajj0YD05OOXe4uI6r5QquIlIbMJFoR86RQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X2o4xD1VWSfuVJLjRg/prdM12vZTaIJwpxwaHJrtPdSN0pRFr8Bbz33sYLng+U22O
-	 ux9783l5EEX7MonC/fEodHyZ00mAHdC8CIeN59IO80Y7wpyE0OIwi1diDXFxbZsYjc
-	 2oNy/x1cvZA3RHoId+k43HZti9GT5c7+651HrUYbC4EyQCAurx9ruqWjxJPW1Of6XQ
-	 8dMlkP2lnhpj9SI3qufhYthq/qlTXqTk9QLjrRfxqbdcWwJg+MtGHHfJVub10STIDK
-	 DzStVImS2mg9/wbKTQxGFPwc0qC0mMUiXTAREaMPZwEOLz+gRfdRt/5s5cpw8ivlek
-	 EKnMvBuQXTSuQ==
-Date: Wed, 9 Jul 2025 12:36:27 +0200
+	b=eENXxyfqWG1t5TdEGUqbMerZAeSV9TIzGJozZBdIWWne0ST58kJDEoNYf/T0KpD57
+	 RlMpjgCvMy2FPVwftG9KkRReV3QD0gCbAnC2duYDMqXamR59shzy3ufCJa32j9SgNJ
+	 RPaUEgfUPXR9Wfukqz/SArshMUr03Jd2am4rQys35wxnifhHH669qgqkEMQle0lPMU
+	 1G6Fxy8UrExSWQ5+jCYlMCTRriqdrhcqmchqq0lE1+Z1UjmQr7ccPjXw8cXEZN0+jh
+	 uMVs0MArWFf6dHDuO2t4Wu4I7+V68az2Qazib2iHtwSSC23SUJ8ZHf9y+gPaztr3Ue
+	 /Lqa5pPfWjJpw==
+Date: Wed, 9 Jul 2025 12:40:33 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Nick Li <nick.li@foursemi.com>
 Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
 	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com, 
 	xiaoming.yang@foursemi.com, danyang.zheng@foursemi.com, like.xy@foxmail.com, 
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: vendor-prefixes: Add Shanghai
- FourSemi Semiconductor Co.,Ltd
-Message-ID: <20250709-dramatic-poodle-from-tartarus-23ee12@krzk-bin>
+Subject: Re: [PATCH v2 2/4] ASoC: dt-bindings: Add schema for FS2104/5S audio
+ amplifiers
+Message-ID: <20250709-invisible-frigatebird-of-felicity-7e87c4@krzk-bin>
 References: <20250703035639.7252-1-nick.li@foursemi.com>
  <20250708112901.25228-1-nick.li@foursemi.com>
- <20250708112901.25228-2-nick.li@foursemi.com>
+ <20250708112901.25228-3-nick.li@foursemi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,19 +47,88 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250708112901.25228-2-nick.li@foursemi.com>
+In-Reply-To: <20250708112901.25228-3-nick.li@foursemi.com>
 
-On Tue, Jul 08, 2025 at 07:28:58PM +0800, Nick Li wrote:
-> Add vendor prefix for Shanghai FourSemi Semiconductor Co.,Ltd
-> Link: https://en.foursemi.com/
->
+On Tue, Jul 08, 2025 at 07:28:59PM +0800, Nick Li wrote:
+> +description:
+> +  The FS2104 is a 15W Inductor-Less, Stereo, Closed-Loop,
+> +  Digital Input Class-D Power Amplifier with Enhanced Signal Processing.
+> +  The FS2105S is a 30W Inductor-Less, Stereo, Closed-Loop,
+> +  Digital Input Class-D Power Amplifier with Enhanced Signal Processing.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - foursemi,fs2104
+> +          - const: foursemi,fs2105s
+> +      - enum:
+> +          - foursemi,fs2105s
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description:
+> +      I2C address of the device. Refer to datasheet for possible values
 
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets. See also:
-https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/process/submitting-patches.rst#L830
+Now the description is entirely redundant, brings no value. Drop.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> +
+> +  clocks:
+> +    description: The clock of I2S BCLK
+
+This was different... Previous code was correct, this is not correct.
+And nothing in changelog explains this. Do not make random changes after
+review.
+
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bclk
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+> +  pvdd-supply:
+> +    description:
+> +      Regulator for power supply(PVDD in datasheet).
+> +
+> +  dvdd-supply:
+> +    description:
+> +      Regulator for digital supply(DVDD in datasheet).
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      It's the SDZ pin in datasheet, the pin is active low,
+> +      it will power down and reset the chip to shut down state.
+> +
+> +  firmware-name:
+> +    maxItems: 1
+> +    description: |
+> +      The firmware(*.bin) contains:
+> +      a. Register initialization settings
+> +      b. DSP effect parameters
+> +      c. Multi-scene sound effect configurations(optional)
+> +      It's gernerated by FourSemi's tuning tool.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reset-gpios
+> +  - firmware-name
+> +  - '#sound-dai-cells'
+
+Keep the same order as in list of properties. OTOH, missing supplies.
+
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +unevaluatedProperties: false
 
 Best regards,
 Krzysztof
