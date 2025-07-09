@@ -1,69 +1,79 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980151E5B78
-	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CDE1F3BA4
+	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752077085; cv=none; b=db1SCThEQ8n4iufchChsDQg6ZpOgmgcwMSRvDbMtVXW9rppl97y1u7r8FvrrggTvdQvPYCjCbMN+FEOYtc0A76s48WsGlyLaOED0KBwavUBivDqVJe6sIieJGy/wKixqxDDeYQbAk9f0EW7gkPj67UqHTjSgHz8Iv3J5gYXt9+8=
+	t=1752077089; cv=none; b=QHZFg14zuLFZfNVBdpKtw6TcyNYt29ThZCvJMcMKSBBjJ03ONWg6IyoGb13Pv4hZb5ZzqdZ5GkqWoMGGt5PclcKg2sbhL8+4cpbqOgsG+XUKQVNYLsiTF+8/wPwuqR9prchHJVCT/a9NtIcSufmiz0ck6x4y3B/54hnJrH3jSE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752077085; c=relaxed/simple;
-	bh=OdosZQZxY37ZEQwtwct34hChzlb0M7TWfRONs1JlRHo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gDLMTX2ls2lpfuYBKGqcGkZ72A2PZ9I3UBLDCokk02HclR6T4nxC4OR9LVberb2hgcLXGA/YNnQOAVXu89t5Fvp3boaKC8Dv5sClk9lTBQid/GVdZnvRCQ2KfLEq76lhx/S22cYXt216Gug1om3dlqvG2wbv6oUgICR0Cc3OLRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c32QBxIe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QPEEYate; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c32QBxIe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QPEEYate; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1752077089; c=relaxed/simple;
+	bh=Jvo+OSdtTZw18tPwCcl1mbAZx4DlAfi2kQGuvcwlnW8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EzBlGBrMKDIFnwJpTAvKYUNEWKdlgsB1Yz1GCEg66BoZ4/CBjAHjupOV/Way7+iPTkDgjs3o9u4dTt/YozRPz8cy+kFhx2mycCPooJLPRK7gfxPnSDJct7n9PV6qcyP6k0UCMqUkn2UVPj1d1MbWexosptyfH7JuvPgXlVg2LLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r5WV0Hom; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F/1qJac9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r5WV0Hom; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F/1qJac9; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c32QBxIe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QPEEYate";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c32QBxIe";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QPEEYate"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r5WV0Hom";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F/1qJac9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r5WV0Hom";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F/1qJac9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C22ED1F385;
-	Wed,  9 Jul 2025 16:04:40 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F38BC21169;
+	Wed,  9 Jul 2025 16:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ym2NbO1+MxxdiLwYdw1gGLmZXh92aZPVR0a2fy1uefs=;
-	b=c32QBxIe3Bdam0kC/ZnXfegPSIiJZpyRMgtFcOBl90zteSugFE0ZrVw7ugw1lPn7EE03Mn
-	sjKSjbki5t2U596EP8zM3zUlQKi6iV7aHaM4WotN4fTBXe42zpzs7ZqxcITr3Bh0TmbxNK
-	LERLrJRlXyEZzbmghqPlTpRBMrVCx48=
+	t=1752077085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=60vieq96PKkuQPVz9rAJOKWgwBBUIIqTjbo+pIjUgwQ=;
+	b=r5WV0Homa/ivj4SSZArsZqnHde5Xj6H366iTI0tQlB6T4umqwWP9czHadIT94hZ0rwyjcm
+	wYeS/Dv+r7/moLTjegOE5Z1bhL+nOi/fxD/7UEnTHg3pZYWkBL9t2CMnB5ECtURlLW8Rm9
+	LerEGE1FXXuX8TZEWRIHGKuQeKXJKcQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077080;
+	s=susede2_ed25519; t=1752077085;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ym2NbO1+MxxdiLwYdw1gGLmZXh92aZPVR0a2fy1uefs=;
-	b=QPEEYate3fdY0QUAQmQf18J2MCsieUKVb93EQgsuYZzN/2ex/Pqnj73WaUSY69vEovpdzF
-	2ymSMeTHFqJubNCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=60vieq96PKkuQPVz9rAJOKWgwBBUIIqTjbo+pIjUgwQ=;
+	b=F/1qJac9LLjyUWXWGcyeh0rLMxZMYKXzwKBqiJMEMxer4EAgXesmbFYllCXJaLjLyFdl5X
+	ZYgcmidsM03RiWCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=r5WV0Hom;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="F/1qJac9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077080; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ym2NbO1+MxxdiLwYdw1gGLmZXh92aZPVR0a2fy1uefs=;
-	b=c32QBxIe3Bdam0kC/ZnXfegPSIiJZpyRMgtFcOBl90zteSugFE0ZrVw7ugw1lPn7EE03Mn
-	sjKSjbki5t2U596EP8zM3zUlQKi6iV7aHaM4WotN4fTBXe42zpzs7ZqxcITr3Bh0TmbxNK
-	LERLrJRlXyEZzbmghqPlTpRBMrVCx48=
+	t=1752077085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=60vieq96PKkuQPVz9rAJOKWgwBBUIIqTjbo+pIjUgwQ=;
+	b=r5WV0Homa/ivj4SSZArsZqnHde5Xj6H366iTI0tQlB6T4umqwWP9czHadIT94hZ0rwyjcm
+	wYeS/Dv+r7/moLTjegOE5Z1bhL+nOi/fxD/7UEnTHg3pZYWkBL9t2CMnB5ECtURlLW8Rm9
+	LerEGE1FXXuX8TZEWRIHGKuQeKXJKcQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077080;
+	s=susede2_ed25519; t=1752077085;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=ym2NbO1+MxxdiLwYdw1gGLmZXh92aZPVR0a2fy1uefs=;
-	b=QPEEYate3fdY0QUAQmQf18J2MCsieUKVb93EQgsuYZzN/2ex/Pqnj73WaUSY69vEovpdzF
-	2ymSMeTHFqJubNCw==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=60vieq96PKkuQPVz9rAJOKWgwBBUIIqTjbo+pIjUgwQ=;
+	b=F/1qJac9LLjyUWXWGcyeh0rLMxZMYKXzwKBqiJMEMxer4EAgXesmbFYllCXJaLjLyFdl5X
+	ZYgcmidsM03RiWCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 717CD136DC;
-	Wed,  9 Jul 2025 16:04:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AEC64136DC;
+	Wed,  9 Jul 2025 16:04:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8S9rGhiTbmhDEAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:04:40 +0000
+	id kHcBKRyTbmhDEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:04:44 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
@@ -74,10 +84,12 @@ Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	patches@opensource.cirrus.com,
 	Baojun Xu <baojun.xu@ti.com>,
 	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH 00/27] ALSA: Reorganize HD-audio driver code
-Date: Wed,  9 Jul 2025 18:04:03 +0200
-Message-ID: <20250709160434.1859-1-tiwai@suse.de>
+Subject: [PATCH 02/27] ALSA: hda: Move HD-audio core stuff into sound/hda/core
+Date: Wed,  9 Jul 2025 18:04:05 +0200
+Message-ID: <20250709160434.1859-3-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250709160434.1859-1-tiwai@suse.de>
+References: <20250709160434.1859-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -85,346 +97,80 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
+	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Spam-Score: -2.80
+X-Rspamd-Queue-Id: F38BC21169
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 
-HD-audio driver is known to be quite messy in both file structures and
-its design, but until now I haven't touched its files paths so much
-because I set a higher priority for the easiness of backport to stable
-kernels.  But, you can't leave garbages forever, it's been already
-high time for a large clean up -- so here it is.
+This is a part of HD-audio code restructuring.
+Simply move the current code of sound/hda/* into the subdirectory
+sound/hda/core, so that more stuff can be moved into sound/hda cleanly
+later.
 
-The basic idea is to move the code from sound/pci/hda/* into different
-subdirectories in sound/hda/ per functionality, as most of the stuff
-are independent from PCI, but rather HD-audio bus specific.
+Most of file names with hdac_ and hdac_ext_ prefix are renamed without
+the prefix, since they can be identified well in the directory name
+and superfluous.
 
-So, now the all HD-audio driver code are moved under sound/hda:
-
-  % ls sound/hda 
-  codecs/  common/  controllers/  core/  Kconfig  Makefile
-
-* The former hda core code is found in sound/hda/core.
-* The former snd-hda-codec code is found in sound/hda/common.
-* The former snd-hda-intel, tegra and acpi are put in
-  sound/hda/controllers.
-* The former patch_* and co are put to sound/hda/codecs.
-* Realtek codec driver is split to several modules as
-  sound/hda/codecs/realtek/alc*.
-* Cirrus codec driver is split to cs420x and cs421x, put under
-  sound/hda/codecs/cirrus together with cs8409.
-* HDMI codec driver is split to several modules under
-  sound/hda/codecs/hdmi
-* Cirrus and TI sub-codecs are put under sound/hda/codecs/side-codecs
-
-Also, the probe of the HD-audio codec driver is moved into the
-driver's ops instead of the ugly patch_ops embedded in hda_codec
-object. (As of now, hda_codec_driver.ops is a pointer, but it can be
-embedded later, too.)
-
-This change required some code to be modified without the dynamic
-override of callbacks.
-
-In future, we may convert the runtime PM handling to use the standard
-pm_ops, too.  This was raised some time ago during the discussion with
-Realtek devs.
-
-The tree applying those patches is found in topic/hda-reorg branch of
-sound git tree:
-  https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/log/?h=topic/hda-reorg
-
-
-Takashi
-
-===
-
-Takashi Iwai (27):
-  ALSA: hda: Move widget capability macros into hdaudio.h
-  ALSA: hda: Move HD-audio core stuff into sound/hda/core
-  ALSA: hda: Move common codec driver into sound/hda/common directory
-  ALSA: hda: Move CONFIG_SND_HDA_PREALLOC_SIZE into sound/hda/common
-  ALSA: hda: Move controller drivers into sound/hda/controllers
-    directory
-  ALSA: hda: Move codec drivers into sound/hda/codecs directory
-  ALSA: hda: Split Realtek HD-audio codec driver
-  ALSA: hda/hdmi: Split vendor codec drivers
-  ALSA: hda: Introduce hda_codec_driver ops
-  ALSA: hda/generic: Rewrite to new probe method
-  ALSA: hda/realtek: Rewrite to new probe method
-  ALSA: hda/cmedia: Rewrite to new probe method
-  ALSA: hda/analog: Rewrite to new probe method
-  ALSA: hda/ca0110: Rewrite to new probe method
-  ALSA: hda/cirrus: Split to cs420x and cs421x drivers
-  ALSA: hda/cs8409: Rewrite to new probe method
-  ALSA: hda/conexant: Rewrite to new probe method
-  ALSA: hda/senary: Rewrite to new probe method
-  ALSA: hda/si3054: Rewrite to new probe method
-  ALSA: hda/via: Rewrite to new probe method
-  ALSA: hda/sigmatel: Rewrite to new probe method
-  ALSA: hda/ca0132: Rewrite to new probe method
-  ALSA: hda/hdmi: Rewrite to new probe method
-  ALSA: hda: Drop old codec binding method
-  ALSA: hda: Drop superfluous driver->ops NULL checks
-  MAINTAINERS: Adjust to the new HD-audio driver paths
-  ALSA: hda: Return the codec init error properly at
-    snd_hda_codec_build_controls()
-
- MAINTAINERS                                   |   10 +-
- include/sound/hda_codec.h                     |   40 +-
- include/sound/hdaudio.h                       |   24 +
- sound/hda/Kconfig                             |   70 +-
- sound/hda/Makefile                            |   28 +-
- sound/hda/codecs/Kconfig                      |  137 +
- sound/hda/codecs/Makefile                     |   34 +
- .../patch_analog.c => hda/codecs/analog.c}    |  223 +-
- .../patch_ca0110.c => hda/codecs/ca0110.c}    |   37 +-
- .../patch_ca0132.c => hda/codecs/ca0132.c}    |  105 +-
- sound/{pci/hda => hda/codecs}/ca0132_regs.h   |    2 +-
- sound/hda/codecs/cirrus/Kconfig               |   31 +
- sound/hda/codecs/cirrus/Makefile              |   10 +
- .../codecs/cirrus/cs420x.c}                   |  528 +-
- sound/hda/codecs/cirrus/cs421x.c              |  590 ++
- .../codecs/cirrus/cs8409-tables.c}            |    4 +-
- .../codecs/cirrus/cs8409.c}                   |   57 +-
- .../codecs/cirrus/cs8409.h}                   |    6 +-
- .../patch_cmedia.c => hda/codecs/cm9825.c}    |  140 +-
- sound/hda/codecs/cmedia.c                     |  106 +
- .../codecs/conexant.c}                        |  110 +-
- .../hda_generic.c => hda/codecs/generic.c}    |   57 +-
- .../hda_generic.h => hda/codecs/generic.h}    |    2 +-
- sound/hda/codecs/hdmi/Kconfig                 |   68 +
- sound/hda/codecs/hdmi/Makefile                |   18 +
- sound/hda/codecs/hdmi/atihdmi.c               |  615 ++
- .../hda/hda_eld.c => hda/codecs/hdmi/eld.c}   |  172 -
- sound/hda/codecs/hdmi/hdmi.c                  | 2416 +++++++
- sound/hda/codecs/hdmi/hdmi_local.h            |  302 +
- sound/hda/codecs/hdmi/intelhdmi.c             |  811 +++
- sound/hda/codecs/hdmi/nvhdmi-mcp.c            |  384 ++
- sound/hda/codecs/hdmi/nvhdmi.c                |  223 +
- sound/hda/codecs/hdmi/simplehdmi.c            |  251 +
- sound/hda/codecs/hdmi/tegrahdmi.c             |  316 +
- .../codecs/helpers/hp_x360.c}                 |    0
- .../codecs/helpers/ideapad_hotkey_led.c}      |    0
- .../codecs/helpers/ideapad_s740.c}            |    0
- .../codecs/helpers/thinkpad.c}                |    0
- sound/hda/codecs/realtek/Kconfig              |   90 +
- sound/hda/codecs/realtek/Makefile             |   26 +
- sound/hda/codecs/realtek/alc260.c             |  290 +
- sound/hda/codecs/realtek/alc262.c             |  213 +
- sound/hda/codecs/realtek/alc268.c             |  190 +
- .../codecs/realtek/alc269.c}                  | 5828 +----------------
- sound/hda/codecs/realtek/alc662.c             | 1116 ++++
- sound/hda/codecs/realtek/alc680.c             |   67 +
- sound/hda/codecs/realtek/alc861.c             |  163 +
- sound/hda/codecs/realtek/alc861vd.c           |  137 +
- sound/hda/codecs/realtek/alc880.c             |  509 ++
- sound/hda/codecs/realtek/alc882.c             |  861 +++
- sound/hda/codecs/realtek/realtek.c            | 2299 +++++++
- sound/hda/codecs/realtek/realtek.h            |  298 +
- .../codecs/senarytech.c}                      |   50 +-
- .../patch_si3054.c => hda/codecs/si3054.c}    |   53 +-
- sound/hda/codecs/side-codecs/Kconfig          |  128 +
- sound/hda/codecs/side-codecs/Makefile         |   28 +
- .../codecs/side-codecs}/cirrus_scodec.c       |    0
- .../codecs/side-codecs}/cirrus_scodec.h       |    0
- .../codecs/side-codecs}/cirrus_scodec_test.c  |    0
- .../codecs/side-codecs}/cs35l41_hda.c         |    2 +-
- .../codecs/side-codecs}/cs35l41_hda.h         |    0
- .../codecs/side-codecs}/cs35l41_hda_i2c.c     |    0
- .../side-codecs}/cs35l41_hda_property.c       |    0
- .../side-codecs}/cs35l41_hda_property.h       |    0
- .../codecs/side-codecs}/cs35l41_hda_spi.c     |    0
- .../codecs/side-codecs}/cs35l56_hda.c         |    2 +-
- .../codecs/side-codecs}/cs35l56_hda.h         |    0
- .../codecs/side-codecs}/cs35l56_hda_i2c.c     |    0
- .../codecs/side-codecs}/cs35l56_hda_spi.c     |    0
- .../codecs/side-codecs}/hda_component.c       |    0
- .../codecs/side-codecs}/hda_component.h       |    0
- .../codecs/side-codecs}/tas2781_hda.c         |    0
- .../codecs/side-codecs}/tas2781_hda.h         |    0
- .../codecs/side-codecs}/tas2781_hda_i2c.c     |    2 +-
- .../codecs/side-codecs}/tas2781_hda_spi.c     |    2 +-
- .../codecs/sigmatel.c}                        |  402 +-
- .../{pci/hda/patch_via.c => hda/codecs/via.c} |  447 +-
- sound/hda/common/Kconfig                      |   97 +
- sound/hda/common/Makefile                     |   13 +
- .../common/auto_parser.c}                     |    0
- .../{pci/hda/hda_beep.c => hda/common/beep.c} |    0
- .../{pci/hda/hda_bind.c => hda/common/bind.c} |   29 +-
- .../hda/hda_codec.c => hda/common/codec.c}    |   57 +-
- .../common/controller.c}                      |    2 +-
- .../common/controller_trace.h}                |    2 +-
- .../{pci/hda => hda/common}/hda_auto_parser.h |    0
- sound/{pci/hda => hda/common}/hda_beep.h      |    0
- .../{pci/hda => hda/common}/hda_controller.h  |    0
- sound/{pci/hda => hda/common}/hda_jack.h      |    0
- sound/{pci/hda => hda/common}/hda_local.h     |   13 +-
- .../hda/hda_hwdep.c => hda/common/hwdep.c}    |    0
- .../{pci/hda/hda_jack.c => hda/common/jack.c} |    0
- .../{pci/hda/hda_proc.c => hda/common/proc.c} |    0
- .../hda/hda_sysfs.c => hda/common/sysfs.c}    |    0
- sound/hda/controllers/Kconfig                 |   42 +
- sound/hda/controllers/Makefile                |   13 +
- .../hda/hda_acpi.c => hda/controllers/acpi.c} |    0
- .../hda_intel.c => hda/controllers/intel.c}   |    5 +-
- .../hda_intel.h => hda/controllers/intel.h}   |    0
- .../controllers/intel_trace.h}                |    2 +-
- .../hda_tegra.c => hda/controllers/tegra.c}   |    0
- sound/hda/core/Kconfig                        |   51 +
- sound/hda/core/Makefile                       |   22 +
- sound/hda/{ => core}/array.c                  |    0
- sound/hda/{hdac_bus.c => core/bus.c}          |    0
- .../{hdac_component.c => core/component.c}    |    0
- .../{hdac_controller.c => core/controller.c}  |    0
- sound/hda/{hdac_device.c => core/device.c}    |    8 +-
- sound/hda/{ => core}/ext/Makefile             |    2 +-
- .../{ext/hdac_ext_bus.c => core/ext/bus.c}    |    0
- .../ext/controller.c}                         |    0
- .../hdac_ext_stream.c => core/ext/stream.c}   |    0
- sound/hda/{ => core}/hda_bus_type.c           |    0
- sound/hda/{ => core}/hdmi_chmap.c             |    0
- sound/hda/{hdac_i915.c => core/i915.c}        |    0
- sound/hda/{ => core}/intel-dsp-config.c       |    0
- sound/hda/{ => core}/intel-nhlt.c             |    0
- sound/hda/{ => core}/intel-sdw-acpi.c         |    0
- sound/hda/{ => core}/local.h                  |   21 -
- sound/hda/{hdac_regmap.c => core/regmap.c}    |    0
- sound/hda/{hdac_stream.c => core/stream.c}    |    0
- sound/hda/{hdac_sysfs.c => core/sysfs.c}      |   14 +-
- sound/hda/{ => core}/trace.c                  |    0
- sound/hda/{ => core}/trace.h                  |    0
- sound/pci/Kconfig                             |    2 -
- sound/pci/Makefile                            |    1 -
- sound/pci/hda/Kconfig                         |  436 --
- sound/pci/hda/Makefile                        |   84 -
- sound/pci/hda/patch_hdmi.c                    | 4695 -------------
- sound/soc/codecs/hda.c                        |   17 +-
- sound/soc/codecs/hdac_hda.c                   |   29 +-
- sound/soc/codecs/hdac_hdmi.c                  |   21 +-
- 132 files changed, 14057 insertions(+), 12751 deletions(-)
- create mode 100644 sound/hda/codecs/Kconfig
- create mode 100644 sound/hda/codecs/Makefile
- rename sound/{pci/hda/patch_analog.c => hda/codecs/analog.c} (90%)
- rename sound/{pci/hda/patch_ca0110.c => hda/codecs/ca0110.c} (75%)
- rename sound/{pci/hda/patch_ca0132.c => hda/codecs/ca0132.c} (99%)
- rename sound/{pci/hda => hda/codecs}/ca0132_regs.h (99%)
- create mode 100644 sound/hda/codecs/cirrus/Kconfig
- create mode 100644 sound/hda/codecs/cirrus/Makefile
- rename sound/{pci/hda/patch_cirrus.c => hda/codecs/cirrus/cs420x.c} (61%)
- create mode 100644 sound/hda/codecs/cirrus/cs421x.c
- rename sound/{pci/hda/patch_cs8409-tables.c => hda/codecs/cirrus/cs8409-tables.c} (99%)
- rename sound/{pci/hda/patch_cs8409.c => hda/codecs/cirrus/cs8409.c} (98%)
- rename sound/{pci/hda/patch_cs8409.h => hda/codecs/cirrus/cs8409.h} (98%)
- rename sound/{pci/hda/patch_cmedia.c => hda/codecs/cm9825.c} (73%)
- create mode 100644 sound/hda/codecs/cmedia.c
- rename sound/{pci/hda/patch_conexant.c => hda/codecs/conexant.c} (93%)
- rename sound/{pci/hda/hda_generic.c => hda/codecs/generic.c} (99%)
- rename sound/{pci/hda/hda_generic.h => hda/codecs/generic.h} (99%)
- create mode 100644 sound/hda/codecs/hdmi/Kconfig
- create mode 100644 sound/hda/codecs/hdmi/Makefile
- create mode 100644 sound/hda/codecs/hdmi/atihdmi.c
- rename sound/{pci/hda/hda_eld.c => hda/codecs/hdmi/eld.c} (51%)
- create mode 100644 sound/hda/codecs/hdmi/hdmi.c
- create mode 100644 sound/hda/codecs/hdmi/hdmi_local.h
- create mode 100644 sound/hda/codecs/hdmi/intelhdmi.c
- create mode 100644 sound/hda/codecs/hdmi/nvhdmi-mcp.c
- create mode 100644 sound/hda/codecs/hdmi/nvhdmi.c
- create mode 100644 sound/hda/codecs/hdmi/simplehdmi.c
- create mode 100644 sound/hda/codecs/hdmi/tegrahdmi.c
- rename sound/{pci/hda/hp_x360_helper.c => hda/codecs/helpers/hp_x360.c} (100%)
- rename sound/{pci/hda/ideapad_hotkey_led_helper.c => hda/codecs/helpers/ideapad_hotkey_led.c} (100%)
- rename sound/{pci/hda/ideapad_s740_helper.c => hda/codecs/helpers/ideapad_s740.c} (100%)
- rename sound/{pci/hda/thinkpad_helper.c => hda/codecs/helpers/thinkpad.c} (100%)
- create mode 100644 sound/hda/codecs/realtek/Kconfig
- create mode 100644 sound/hda/codecs/realtek/Makefile
- create mode 100644 sound/hda/codecs/realtek/alc260.c
- create mode 100644 sound/hda/codecs/realtek/alc262.c
- create mode 100644 sound/hda/codecs/realtek/alc268.c
- rename sound/{pci/hda/patch_realtek.c => hda/codecs/realtek/alc269.c} (63%)
- create mode 100644 sound/hda/codecs/realtek/alc662.c
- create mode 100644 sound/hda/codecs/realtek/alc680.c
- create mode 100644 sound/hda/codecs/realtek/alc861.c
- create mode 100644 sound/hda/codecs/realtek/alc861vd.c
- create mode 100644 sound/hda/codecs/realtek/alc880.c
- create mode 100644 sound/hda/codecs/realtek/alc882.c
- create mode 100644 sound/hda/codecs/realtek/realtek.c
- create mode 100644 sound/hda/codecs/realtek/realtek.h
- rename sound/{pci/hda/patch_senarytech.c => hda/codecs/senarytech.c} (87%)
- rename sound/{pci/hda/patch_si3054.c => hda/codecs/si3054.c} (88%)
- create mode 100644 sound/hda/codecs/side-codecs/Kconfig
- create mode 100644 sound/hda/codecs/side-codecs/Makefile
- rename sound/{pci/hda => hda/codecs/side-codecs}/cirrus_scodec.c (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cirrus_scodec.h (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cirrus_scodec_test.c (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l41_hda.c (99%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l41_hda.h (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l41_hda_i2c.c (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l41_hda_property.c (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l41_hda_property.h (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l41_hda_spi.c (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l56_hda.c (99%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l56_hda.h (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l56_hda_i2c.c (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/cs35l56_hda_spi.c (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/hda_component.c (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/hda_component.h (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/tas2781_hda.c (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/tas2781_hda.h (100%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/tas2781_hda_i2c.c (99%)
- rename sound/{pci/hda => hda/codecs/side-codecs}/tas2781_hda_spi.c (99%)
- rename sound/{pci/hda/patch_sigmatel.c => hda/codecs/sigmatel.c} (94%)
- rename sound/{pci/hda/patch_via.c => hda/codecs/via.c} (78%)
- create mode 100644 sound/hda/common/Kconfig
- create mode 100644 sound/hda/common/Makefile
- rename sound/{pci/hda/hda_auto_parser.c => hda/common/auto_parser.c} (100%)
- rename sound/{pci/hda/hda_beep.c => hda/common/beep.c} (100%)
- rename sound/{pci/hda/hda_bind.c => hda/common/bind.c} (93%)
- rename sound/{pci/hda/hda_codec.c => hda/common/codec.c} (98%)
- rename sound/{pci/hda/hda_controller.c => hda/common/controller.c} (99%)
- rename sound/{pci/hda/hda_controller_trace.h => hda/common/controller_trace.h} (97%)
- rename sound/{pci/hda => hda/common}/hda_auto_parser.h (100%)
- rename sound/{pci/hda => hda/common}/hda_beep.h (100%)
- rename sound/{pci/hda => hda/common}/hda_controller.h (100%)
- rename sound/{pci/hda => hda/common}/hda_jack.h (100%)
- rename sound/{pci/hda => hda/common}/hda_local.h (99%)
- rename sound/{pci/hda/hda_hwdep.c => hda/common/hwdep.c} (100%)
- rename sound/{pci/hda/hda_jack.c => hda/common/jack.c} (100%)
- rename sound/{pci/hda/hda_proc.c => hda/common/proc.c} (100%)
- rename sound/{pci/hda/hda_sysfs.c => hda/common/sysfs.c} (100%)
- create mode 100644 sound/hda/controllers/Kconfig
- create mode 100644 sound/hda/controllers/Makefile
- rename sound/{pci/hda/hda_acpi.c => hda/controllers/acpi.c} (100%)
- rename sound/{pci/hda/hda_intel.c => hda/controllers/intel.c} (99%)
- rename sound/{pci/hda/hda_intel.h => hda/controllers/intel.h} (100%)
- rename sound/{pci/hda/hda_intel_trace.h => hda/controllers/intel_trace.h} (95%)
- rename sound/{pci/hda/hda_tegra.c => hda/controllers/tegra.c} (100%)
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/hda/Kconfig                             | 67 +------------------
+ sound/hda/Makefile                            | 22 +-----
+ sound/hda/core/Kconfig                        | 67 +++++++++++++++++++
+ sound/hda/core/Makefile                       | 22 ++++++
+ sound/hda/{ => core}/array.c                  |  0
+ sound/hda/{hdac_bus.c => core/bus.c}          |  0
+ .../{hdac_component.c => core/component.c}    |  0
+ .../{hdac_controller.c => core/controller.c}  |  0
+ sound/hda/{hdac_device.c => core/device.c}    |  0
+ sound/hda/{ => core}/ext/Makefile             |  2 +-
+ .../{ext/hdac_ext_bus.c => core/ext/bus.c}    |  0
+ .../ext/controller.c}                         |  0
+ .../hdac_ext_stream.c => core/ext/stream.c}   |  0
+ sound/hda/{ => core}/hda_bus_type.c           |  0
+ sound/hda/{ => core}/hdmi_chmap.c             |  0
+ sound/hda/{hdac_i915.c => core/i915.c}        |  0
+ sound/hda/{ => core}/intel-dsp-config.c       |  0
+ sound/hda/{ => core}/intel-nhlt.c             |  0
+ sound/hda/{ => core}/intel-sdw-acpi.c         |  0
+ sound/hda/{ => core}/local.h                  |  0
+ sound/hda/{hdac_regmap.c => core/regmap.c}    |  0
+ sound/hda/{hdac_stream.c => core/stream.c}    |  0
+ sound/hda/{hdac_sysfs.c => core/sysfs.c}      |  0
+ sound/hda/{ => core}/trace.c                  |  0
+ sound/hda/{ => core}/trace.h                  |  0
+ 25 files changed, 92 insertions(+), 88 deletions(-)
  create mode 100644 sound/hda/core/Kconfig
  create mode 100644 sound/hda/core/Makefile
  rename sound/hda/{ => core}/array.c (100%)
  rename sound/hda/{hdac_bus.c => core/bus.c} (100%)
  rename sound/hda/{hdac_component.c => core/component.c} (100%)
  rename sound/hda/{hdac_controller.c => core/controller.c} (100%)
- rename sound/hda/{hdac_device.c => core/device.c} (99%)
+ rename sound/hda/{hdac_device.c => core/device.c} (100%)
  rename sound/hda/{ => core}/ext/Makefile (54%)
  rename sound/hda/{ext/hdac_ext_bus.c => core/ext/bus.c} (100%)
  rename sound/hda/{ext/hdac_ext_controller.c => core/ext/controller.c} (100%)
@@ -435,16 +181,308 @@ Takashi Iwai (27):
  rename sound/hda/{ => core}/intel-dsp-config.c (100%)
  rename sound/hda/{ => core}/intel-nhlt.c (100%)
  rename sound/hda/{ => core}/intel-sdw-acpi.c (100%)
- rename sound/hda/{ => core}/local.h (66%)
+ rename sound/hda/{ => core}/local.h (100%)
  rename sound/hda/{hdac_regmap.c => core/regmap.c} (100%)
  rename sound/hda/{hdac_stream.c => core/stream.c} (100%)
- rename sound/hda/{hdac_sysfs.c => core/sysfs.c} (95%)
+ rename sound/hda/{hdac_sysfs.c => core/sysfs.c} (100%)
  rename sound/hda/{ => core}/trace.c (100%)
  rename sound/hda/{ => core}/trace.h (100%)
- delete mode 100644 sound/pci/hda/Kconfig
- delete mode 100644 sound/pci/hda/Makefile
- delete mode 100644 sound/pci/hda/patch_hdmi.c
 
+diff --git a/sound/hda/Kconfig b/sound/hda/Kconfig
+index eb488a522572..e38014656077 100644
+--- a/sound/hda/Kconfig
++++ b/sound/hda/Kconfig
+@@ -1,67 +1,2 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-config SND_HDA_CORE
+-	tristate
+-	select REGMAP
+-
+-config SND_HDA_DSP_LOADER
+-	bool
+-
+-config SND_HDA_ALIGNED_MMIO
+-	bool
+-
+-config SND_HDA_COMPONENT
+-	bool
+-
+-config SND_HDA_I915
+-	bool
+-	select SND_HDA_COMPONENT
+-
+-config SND_HDA_EXT_CORE
+-       tristate
+-       select SND_HDA_CORE
+-
+-config SND_HDA_PREALLOC_SIZE
+-	int "Pre-allocated buffer size for HD-audio driver"
+-	range 0 32768
+-	default 0 if SND_DMA_SGBUF
+-	default 64 if !SND_DMA_SGBUF
+-	help
+-	  Specifies the default pre-allocated buffer-size in kB for the
+-	  HD-audio driver.  A larger buffer (e.g. 2048) is preferred
+-	  for systems using PulseAudio.  The default 64 is chosen just
+-	  for compatibility reasons.
+-	  On x86 systems, the default is zero as S/G allocation works
+-	  and no preallocation is needed in most cases.
+-
+-	  Note that the pre-allocation size can be changed dynamically
+-	  via a proc file (/proc/asound/card*/pcm*/sub*/prealloc), too.
+-
+-config SND_INTEL_NHLT
+-	bool
+-	# this config should be selected only for Intel ACPI platforms.
+-	# A fallback is provided so that the code compiles in all cases.
+-
+-config SND_INTEL_DSP_CONFIG
+-	tristate
+-	select ACPI_NHLT if ACPI
+-	select SND_INTEL_NHLT if ACPI
+-	select SND_INTEL_SOUNDWIRE_ACPI if ACPI
+-	# this config should be selected only for Intel DSP platforms.
+-	# A fallback is provided so that the code compiles in all cases.
+-
+-config SND_INTEL_SOUNDWIRE_ACPI
+-	tristate
+-
+-config SND_INTEL_BYT_PREFER_SOF
+-	bool "Prefer SOF driver over SST on BY/CHT platforms"
+-	depends on SND_SST_ATOM_HIFI2_PLATFORM_ACPI && SND_SOC_SOF_BAYTRAIL
+-	default n
+-	help
+-	  The kernel has 2 drivers for the Low Power Engine audio-block on
+-	  Bay- and Cherry-Trail SoCs. The old SST driver and the new SOF
+-	  driver. If both drivers are enabled then the kernel will default
+-	  to using the old SST driver, unless told otherwise through the
+-	  snd_intel_dspcfg.dsp_driver module-parameter.
+-
+-	  Set this option to Y to make the kernel default to the new SOF
+-	  driver instead.
++source "sound/hda/core/Kconfig"
+diff --git a/sound/hda/Makefile b/sound/hda/Makefile
+index 83cceafe0d4c..3fdbc22b1530 100644
+--- a/sound/hda/Makefile
++++ b/sound/hda/Makefile
+@@ -1,22 +1,2 @@
+ # SPDX-License-Identifier: GPL-2.0
+-snd-hda-core-y := hda_bus_type.o hdac_bus.o hdac_device.o hdac_sysfs.o \
+-	hdac_regmap.o hdac_controller.o hdac_stream.o array.o hdmi_chmap.o
+-
+-snd-hda-core-y += trace.o
+-CFLAGS_trace.o := -I$(src)
+-
+-# for sync with i915 gfx driver
+-snd-hda-core-$(CONFIG_SND_HDA_COMPONENT) += hdac_component.o
+-snd-hda-core-$(CONFIG_SND_HDA_I915) += hdac_i915.o
+-
+-obj-$(CONFIG_SND_HDA_CORE) += snd-hda-core.o
+-
+-#extended hda
+-obj-$(CONFIG_SND_HDA_EXT_CORE) += ext/
+-
+-snd-intel-dspcfg-y := intel-dsp-config.o
+-snd-intel-dspcfg-$(CONFIG_SND_INTEL_NHLT) += intel-nhlt.o
+-obj-$(CONFIG_SND_INTEL_DSP_CONFIG) += snd-intel-dspcfg.o
+-
+-snd-intel-sdw-acpi-y := intel-sdw-acpi.o
+-obj-$(CONFIG_SND_INTEL_SOUNDWIRE_ACPI) += snd-intel-sdw-acpi.o
++obj-y += core/
+diff --git a/sound/hda/core/Kconfig b/sound/hda/core/Kconfig
+new file mode 100644
+index 000000000000..eb488a522572
+--- /dev/null
++++ b/sound/hda/core/Kconfig
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: GPL-2.0-only
++config SND_HDA_CORE
++	tristate
++	select REGMAP
++
++config SND_HDA_DSP_LOADER
++	bool
++
++config SND_HDA_ALIGNED_MMIO
++	bool
++
++config SND_HDA_COMPONENT
++	bool
++
++config SND_HDA_I915
++	bool
++	select SND_HDA_COMPONENT
++
++config SND_HDA_EXT_CORE
++       tristate
++       select SND_HDA_CORE
++
++config SND_HDA_PREALLOC_SIZE
++	int "Pre-allocated buffer size for HD-audio driver"
++	range 0 32768
++	default 0 if SND_DMA_SGBUF
++	default 64 if !SND_DMA_SGBUF
++	help
++	  Specifies the default pre-allocated buffer-size in kB for the
++	  HD-audio driver.  A larger buffer (e.g. 2048) is preferred
++	  for systems using PulseAudio.  The default 64 is chosen just
++	  for compatibility reasons.
++	  On x86 systems, the default is zero as S/G allocation works
++	  and no preallocation is needed in most cases.
++
++	  Note that the pre-allocation size can be changed dynamically
++	  via a proc file (/proc/asound/card*/pcm*/sub*/prealloc), too.
++
++config SND_INTEL_NHLT
++	bool
++	# this config should be selected only for Intel ACPI platforms.
++	# A fallback is provided so that the code compiles in all cases.
++
++config SND_INTEL_DSP_CONFIG
++	tristate
++	select ACPI_NHLT if ACPI
++	select SND_INTEL_NHLT if ACPI
++	select SND_INTEL_SOUNDWIRE_ACPI if ACPI
++	# this config should be selected only for Intel DSP platforms.
++	# A fallback is provided so that the code compiles in all cases.
++
++config SND_INTEL_SOUNDWIRE_ACPI
++	tristate
++
++config SND_INTEL_BYT_PREFER_SOF
++	bool "Prefer SOF driver over SST on BY/CHT platforms"
++	depends on SND_SST_ATOM_HIFI2_PLATFORM_ACPI && SND_SOC_SOF_BAYTRAIL
++	default n
++	help
++	  The kernel has 2 drivers for the Low Power Engine audio-block on
++	  Bay- and Cherry-Trail SoCs. The old SST driver and the new SOF
++	  driver. If both drivers are enabled then the kernel will default
++	  to using the old SST driver, unless told otherwise through the
++	  snd_intel_dspcfg.dsp_driver module-parameter.
++
++	  Set this option to Y to make the kernel default to the new SOF
++	  driver instead.
+diff --git a/sound/hda/core/Makefile b/sound/hda/core/Makefile
+new file mode 100644
+index 000000000000..89cb46143050
+--- /dev/null
++++ b/sound/hda/core/Makefile
+@@ -0,0 +1,22 @@
++# SPDX-License-Identifier: GPL-2.0
++snd-hda-core-y := hda_bus_type.o bus.o device.o sysfs.o \
++	regmap.o controller.o stream.o array.o hdmi_chmap.o
++
++snd-hda-core-y += trace.o
++CFLAGS_trace.o := -I$(src)
++
++# for sync with i915 gfx driver
++snd-hda-core-$(CONFIG_SND_HDA_COMPONENT) += component.o
++snd-hda-core-$(CONFIG_SND_HDA_I915) += i915.o
++
++obj-$(CONFIG_SND_HDA_CORE) += snd-hda-core.o
++
++#extended hda
++obj-$(CONFIG_SND_HDA_EXT_CORE) += ext/
++
++snd-intel-dspcfg-y := intel-dsp-config.o
++snd-intel-dspcfg-$(CONFIG_SND_INTEL_NHLT) += intel-nhlt.o
++obj-$(CONFIG_SND_INTEL_DSP_CONFIG) += snd-intel-dspcfg.o
++
++snd-intel-sdw-acpi-y := intel-sdw-acpi.o
++obj-$(CONFIG_SND_INTEL_SOUNDWIRE_ACPI) += snd-intel-sdw-acpi.o
+diff --git a/sound/hda/array.c b/sound/hda/core/array.c
+similarity index 100%
+rename from sound/hda/array.c
+rename to sound/hda/core/array.c
+diff --git a/sound/hda/hdac_bus.c b/sound/hda/core/bus.c
+similarity index 100%
+rename from sound/hda/hdac_bus.c
+rename to sound/hda/core/bus.c
+diff --git a/sound/hda/hdac_component.c b/sound/hda/core/component.c
+similarity index 100%
+rename from sound/hda/hdac_component.c
+rename to sound/hda/core/component.c
+diff --git a/sound/hda/hdac_controller.c b/sound/hda/core/controller.c
+similarity index 100%
+rename from sound/hda/hdac_controller.c
+rename to sound/hda/core/controller.c
+diff --git a/sound/hda/hdac_device.c b/sound/hda/core/device.c
+similarity index 100%
+rename from sound/hda/hdac_device.c
+rename to sound/hda/core/device.c
+diff --git a/sound/hda/ext/Makefile b/sound/hda/core/ext/Makefile
+similarity index 54%
+rename from sound/hda/ext/Makefile
+rename to sound/hda/core/ext/Makefile
+index 05883fb28d28..85190a7eb5de 100644
+--- a/sound/hda/ext/Makefile
++++ b/sound/hda/core/ext/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-snd-hda-ext-core-y := hdac_ext_bus.o hdac_ext_controller.o hdac_ext_stream.o
++snd-hda-ext-core-y := bus.o controller.o stream.o
+ 
+ obj-$(CONFIG_SND_HDA_EXT_CORE) += snd-hda-ext-core.o
+diff --git a/sound/hda/ext/hdac_ext_bus.c b/sound/hda/core/ext/bus.c
+similarity index 100%
+rename from sound/hda/ext/hdac_ext_bus.c
+rename to sound/hda/core/ext/bus.c
+diff --git a/sound/hda/ext/hdac_ext_controller.c b/sound/hda/core/ext/controller.c
+similarity index 100%
+rename from sound/hda/ext/hdac_ext_controller.c
+rename to sound/hda/core/ext/controller.c
+diff --git a/sound/hda/ext/hdac_ext_stream.c b/sound/hda/core/ext/stream.c
+similarity index 100%
+rename from sound/hda/ext/hdac_ext_stream.c
+rename to sound/hda/core/ext/stream.c
+diff --git a/sound/hda/hda_bus_type.c b/sound/hda/core/hda_bus_type.c
+similarity index 100%
+rename from sound/hda/hda_bus_type.c
+rename to sound/hda/core/hda_bus_type.c
+diff --git a/sound/hda/hdmi_chmap.c b/sound/hda/core/hdmi_chmap.c
+similarity index 100%
+rename from sound/hda/hdmi_chmap.c
+rename to sound/hda/core/hdmi_chmap.c
+diff --git a/sound/hda/hdac_i915.c b/sound/hda/core/i915.c
+similarity index 100%
+rename from sound/hda/hdac_i915.c
+rename to sound/hda/core/i915.c
+diff --git a/sound/hda/intel-dsp-config.c b/sound/hda/core/intel-dsp-config.c
+similarity index 100%
+rename from sound/hda/intel-dsp-config.c
+rename to sound/hda/core/intel-dsp-config.c
+diff --git a/sound/hda/intel-nhlt.c b/sound/hda/core/intel-nhlt.c
+similarity index 100%
+rename from sound/hda/intel-nhlt.c
+rename to sound/hda/core/intel-nhlt.c
+diff --git a/sound/hda/intel-sdw-acpi.c b/sound/hda/core/intel-sdw-acpi.c
+similarity index 100%
+rename from sound/hda/intel-sdw-acpi.c
+rename to sound/hda/core/intel-sdw-acpi.c
+diff --git a/sound/hda/local.h b/sound/hda/core/local.h
+similarity index 100%
+rename from sound/hda/local.h
+rename to sound/hda/core/local.h
+diff --git a/sound/hda/hdac_regmap.c b/sound/hda/core/regmap.c
+similarity index 100%
+rename from sound/hda/hdac_regmap.c
+rename to sound/hda/core/regmap.c
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/core/stream.c
+similarity index 100%
+rename from sound/hda/hdac_stream.c
+rename to sound/hda/core/stream.c
+diff --git a/sound/hda/hdac_sysfs.c b/sound/hda/core/sysfs.c
+similarity index 100%
+rename from sound/hda/hdac_sysfs.c
+rename to sound/hda/core/sysfs.c
+diff --git a/sound/hda/trace.c b/sound/hda/core/trace.c
+similarity index 100%
+rename from sound/hda/trace.c
+rename to sound/hda/core/trace.c
+diff --git a/sound/hda/trace.h b/sound/hda/core/trace.h
+similarity index 100%
+rename from sound/hda/trace.h
+rename to sound/hda/core/trace.h
 -- 
 2.50.0
 
