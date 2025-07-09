@@ -1,106 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F26A2E8E09;
-	Wed,  9 Jul 2025 16:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9E82E54A1
+	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752077560; cv=none; b=jcBqNfSxw6OqJJ2CRRdxDiwvoVlIRDpjiSBlmu4eKnIRzl/5+M5hc5SzwZGPf5DQKehrbwt09RghAFy9OhfmWlfkiQPWZHxEwTQ0zj87ecqtIjxuLZCeeEsT8CzJhlw1udTaR/njnNIxPM9rup5IuX2N7ueCu+Fg8dGu1Z1642Y=
+	t=1752077563; cv=none; b=uwhLJFccVFCx+NBZSBZc/G9l/woNQquswN8NNQ9DLE0YZtgo+aorh9iFhswAAIyYkUWSIg+Rf6yFJ+Bhe2uXsJkMBMXamg/YUi1gLrcWzGpw/zf3rrz5aKAHHcb1jg+VqPpxmmxo+EauG0w40Ju1AITCdDxL8x1f78VBx5/3wMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752077560; c=relaxed/simple;
-	bh=RQy318+GkhVafNHZ5cXKCP2xo0jeEsfQNsJHtJFqqSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SNirwb3/WaRmTRYx514Ybyfs7tSwSwYOUA+dOW4FtM4DU4hjhTisBFVwWKk0p1sCNzFQ26zV1bTlOky0DcjcD9CcIadIKHgrbjmvtE3YIJe7n+EsR1ugcuvugKzhNd4+u6xnBNVmPzyCEtKC+6G5Gcwo8JAT16rv2A8PpiJpbOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLPgCOdi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752077563; c=relaxed/simple;
+	bh=u2k8KeJUo/ukmnNg9cSQrosDdqAbiMW/G2ljvJpcC9A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=M2AymR/3xB3Pl5K0dpHKbagg6w+e7Pr771txceYIZ5mS07P7iUU+nBV8DdDhQiu020zCsiy6OwrV6VbapT8hhcWBWCaK5aaqIidB9+H2BaVmQFdEJ6fNnSY+7vo3jFPR7NHSihnH6VssTyAqM9+JtTTjl3YDvy8kZd8ge4j77mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qcb+Rr/s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZDf4vfdJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qcb+Rr/s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZDf4vfdJ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLPgCOdi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69AEC4CEEF;
-	Wed,  9 Jul 2025 16:12:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752077560;
-	bh=RQy318+GkhVafNHZ5cXKCP2xo0jeEsfQNsJHtJFqqSg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dLPgCOdiC1mkJx3nzdAXPX9Fgp1Xt9kBsYqXxkqqsu1z1u2gld1UtjwQwbAvLx/Ts
-	 cD2qGqYuJKvHlCaJ3IJ6YdcHhSSLCYiw3/T19jyeOzb+gQ68uAhGG6wqIMUmO0F5I6
-	 qoz6BuqStT1aa59IE+M0fi2PdYiYRQeDSnfCsDaFvCuHMmXJFVs0HEcu1c1+ZoNgwt
-	 jjzdP+CoTzjVma1Bb0Otz4Erv3GmlwmwDr8VVWonsEsbyDta+VzFDGCEI9XD/kJLGG
-	 aSuiA9eJnMZzGkiqoB8pAPH8R6sMGCyKWmyOCmGTHTiZ1ekxcD/4aDgX4Em8xc3e5B
-	 Ep8u77r+A5kmA==
-Date: Wed, 9 Jul 2025 17:12:34 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Mark Brown <broonie@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Hal Feng <hal.feng@starfivetech.com>,
-	Xingyu Wu <xingyu.wu@starfivetech.com>,
-	Walker Chen <walker.chen@starfivetech.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	linux-riscv@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] riscv: defconfig: Remove CONFIG_SND_SOC_STARFIVE=m
-Message-ID: <20250709-gem-disparity-185256a670f0@spud>
-References: <0886d3eb81bffbc1d48e701cae21c42cad29fefe.1751988704.git.geert+renesas@glider.be>
- <20250708-jubilant-abruptly-8ff77f7986ca@spud>
- <CAMuHMdVwbHoEbjC2y4kpJuhx7CYsRxO9Y+eCUhJkKogk=zDs8w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qcb+Rr/s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZDf4vfdJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qcb+Rr/s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZDf4vfdJ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DF5F32117D;
+	Wed,  9 Jul 2025 16:04:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752077086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RqVFtCosL/UcovoJrYuP/P2XT3mhJ3verX2TXN3sJXQ=;
+	b=qcb+Rr/sDDVtv2KcLT5b4t1YC5pOE9U+yQGKz8fSBdk1KDzpke8jvX7CSvbizL5NnVDLZY
+	dtc+spNk0fSzLZkaH3CsS872F2V6gn93vBLJQksGw6hcabP6PQNkr9hwAGGMwmslwyjHgw
+	zHjqS4WC46zzJmuUMoyqGPh2ip7jmEE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752077086;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RqVFtCosL/UcovoJrYuP/P2XT3mhJ3verX2TXN3sJXQ=;
+	b=ZDf4vfdJ6MFh9RxO+sjaYbb4WYm3Dr0GOl9GVFCSbQ7VnlLaUHjaSCP/v3f8orAf0SOe/y
+	ciwesfNUdvJ8rvAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="qcb+Rr/s";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZDf4vfdJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752077086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RqVFtCosL/UcovoJrYuP/P2XT3mhJ3verX2TXN3sJXQ=;
+	b=qcb+Rr/sDDVtv2KcLT5b4t1YC5pOE9U+yQGKz8fSBdk1KDzpke8jvX7CSvbizL5NnVDLZY
+	dtc+spNk0fSzLZkaH3CsS872F2V6gn93vBLJQksGw6hcabP6PQNkr9hwAGGMwmslwyjHgw
+	zHjqS4WC46zzJmuUMoyqGPh2ip7jmEE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752077086;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RqVFtCosL/UcovoJrYuP/P2XT3mhJ3verX2TXN3sJXQ=;
+	b=ZDf4vfdJ6MFh9RxO+sjaYbb4WYm3Dr0GOl9GVFCSbQ7VnlLaUHjaSCP/v3f8orAf0SOe/y
+	ciwesfNUdvJ8rvAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95CF1136DC;
+	Wed,  9 Jul 2025 16:04:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6D1IIx6TbmhDEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:04:46 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Kailang <kailang@realtek.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	patches@opensource.cirrus.com,
+	Baojun Xu <baojun.xu@ti.com>,
+	bo liu <bo.liu@senarytech.com>
+Subject: [PATCH 04/27] ALSA: hda: Move CONFIG_SND_HDA_PREALLOC_SIZE into sound/hda/common
+Date: Wed,  9 Jul 2025 18:04:07 +0200
+Message-ID: <20250709160434.1859-5-tiwai@suse.de>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250709160434.1859-1-tiwai@suse.de>
+References: <20250709160434.1859-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="BE3zxSWO0KkYnQpY"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVwbHoEbjC2y4kpJuhx7CYsRxO9Y+eCUhJkKogk=zDs8w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: DF5F32117D
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 
+CONFIG_SND_HDA_PREALLOC_SIZE is used only by controller.c in
+sound/hda/common, hence it depends on CONFIG_SND_HDA.
 
---BE3zxSWO0KkYnQpY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Move the definition to the right place inside SND_HDA if/endif block
+in sound/hda/common/Kconfig.
 
-On Wed, Jul 09, 2025 at 11:29:24AM +0200, Geert Uytterhoeven wrote:
-> Hi Conor,
->=20
-> On Tue, 8 Jul 2025 at 18:49, Conor Dooley <conor@kernel.org> wrote:
-> > From: Conor Dooley <conor.dooley@microchip.com>
-> >
-> > On Tue, 08 Jul 2025 17:36:48 +0200, Geert Uytterhoeven wrote:
-> > > The SND_SOC_STARFIVE Kconfig symbol was removed, but it is still enab=
-led
-> > > in the RISC-V defconfig.  Just remove it, as it is no longer needed.
-> >
-> > As I mentioned to Palmer a few mins ago, I'll grab this along with a
-> > couple other soc-related defconfig patches I have. (Apologies if this
-> > goes out twice, I got a warning last time about a timeout, so ending ag=
-ain)
-> >
-> > [1/1] riscv: defconfig: Remove CONFIG_SND_SOC_STARFIVE=3Dm
-> >       https://git.kernel.org/conor/c/493e9b085299
->=20
-> Sorry, I forgot to mention that the commit my patch fixes is only in
-> the sound tree.  One other patch in the original series did include a
-> defconfig update for a  MIPS platform, so it may be more appropriate
-> for Mark to include it. Or just wait for v6.17 ;-)
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/hda/common/Kconfig | 17 +++++++++++++++++
+ sound/hda/core/Kconfig   | 16 ----------------
+ 2 files changed, 17 insertions(+), 16 deletions(-)
 
-I was going to include it in 6.17 material, with the other soc-related
-defconfig bits. I'll drop it if it's problematic of course.
+diff --git a/sound/hda/common/Kconfig b/sound/hda/common/Kconfig
+index d1e2bfd24c11..f38e1947fb3e 100644
+--- a/sound/hda/common/Kconfig
++++ b/sound/hda/common/Kconfig
+@@ -77,4 +77,21 @@ config SND_HDA_CTL_DEV_ID
+ 
+ 	  The old behaviour (Y) is obsolete and will be removed. Consider
+ 	  to not enable this option.
++
++config SND_HDA_PREALLOC_SIZE
++	int "Pre-allocated buffer size for HD-audio driver"
++	range 0 32768
++	default 0 if SND_DMA_SGBUF
++	default 64 if !SND_DMA_SGBUF
++	help
++	  Specifies the default pre-allocated buffer-size in kB for the
++	  HD-audio driver.  A larger buffer (e.g. 2048) is preferred
++	  for systems using PulseAudio.  The default 64 is chosen just
++	  for compatibility reasons.
++	  On x86 systems, the default is zero as S/G allocation works
++	  and no preallocation is needed in most cases.
++
++	  Note that the pre-allocation size can be changed dynamically
++	  via a proc file (/proc/asound/card*/pcm*/sub*/prealloc), too.
++
+ endif
+diff --git a/sound/hda/core/Kconfig b/sound/hda/core/Kconfig
+index eb488a522572..bfdcf6384c52 100644
+--- a/sound/hda/core/Kconfig
++++ b/sound/hda/core/Kconfig
+@@ -20,22 +20,6 @@ config SND_HDA_EXT_CORE
+        tristate
+        select SND_HDA_CORE
+ 
+-config SND_HDA_PREALLOC_SIZE
+-	int "Pre-allocated buffer size for HD-audio driver"
+-	range 0 32768
+-	default 0 if SND_DMA_SGBUF
+-	default 64 if !SND_DMA_SGBUF
+-	help
+-	  Specifies the default pre-allocated buffer-size in kB for the
+-	  HD-audio driver.  A larger buffer (e.g. 2048) is preferred
+-	  for systems using PulseAudio.  The default 64 is chosen just
+-	  for compatibility reasons.
+-	  On x86 systems, the default is zero as S/G allocation works
+-	  and no preallocation is needed in most cases.
+-
+-	  Note that the pre-allocation size can be changed dynamically
+-	  via a proc file (/proc/asound/card*/pcm*/sub*/prealloc), too.
+-
+ config SND_INTEL_NHLT
+ 	bool
+ 	# this config should be selected only for Intel ACPI platforms.
+-- 
+2.50.0
 
---BE3zxSWO0KkYnQpY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaG6U8gAKCRB4tDGHoIJi
-0k0pAQCnoUW0gyPpDqXAOul9agDPGo1zmZs9j0vD8cAxkbR1lQD/dbVDHZXfmYol
-Ug0NjgL1HfHh9vUa4uvSYpbE4Ay2/Qk=
-=4vJ/
------END PGP SIGNATURE-----
-
---BE3zxSWO0KkYnQpY--
