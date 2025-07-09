@@ -1,78 +1,79 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0902C21CA02
-	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:06:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2CC2E92C4
+	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:06:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752077210; cv=none; b=OxVN7IXaSK6BeFIcfsP7hwQFMjKMDBT+KKR8cIWy1euTDaUHxpCMcHGvm2UgZw+nQPAxLCqMQC1FNnnw1IbaCtjd9X+HqIvq3uyQEz8su0NHMTmPk+aDJjsyeuQ3UdOToOUuTV9poAEablhRI3OceIJpxkB1+HrYhNl2FGgg0OM=
+	t=1752077217; cv=none; b=iWN7DH8Cy2GpwW/R3KVG8WKBScfnHhdl8mG5KRp7SKGcknlP0aT2JUiP89r147nukT2BtQY/36MAl1565Vzr79hTbS//TOxRFWA8OM5BydCknHm1ICcGbHrEpHloAfN1YtfXEqlWdeDm2+cJNx8kfBM9RxJGs8PWtJMB7tmhlM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752077210; c=relaxed/simple;
-	bh=qTzT7aE3/7w3gc6CevV3+RLstb+JGiyljGwwMF1lutY=;
+	s=arc-20240116; t=1752077217; c=relaxed/simple;
+	bh=8wyw+MrqsPWVVym0mBIHTPvoPfDEJ1DZjmlAheGX1fI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X3kKeKOAbYcOxBVIKnuO/ZhNSbS4FerK0EjKkLEmErdSyVMu0A2WCgU3zWcCGQFcoFY5wOUeSfvb4daiaZ+Ok17dk9r/9f1aMmr9AP54kskHBTO/yAGp254TbehEo8yH/e+uuUV1Eqbn3z0y15FoCXK9gMhCE7G69yaJz4EcfQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AK/ZMmDx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Xm8mp6qI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AK/ZMmDx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Xm8mp6qI; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=HbannoncwasI05Kpb4Is5GYqPtDsPAHlW406fRbZ9Iq7re8IeXd3mQ9bvrIPgumGNc91/c//46D0SpNnnuhd7E1n4PuhULoNtQ2qwvTYvyvjPkzUNRRhpxqR6kVV+kJNRSbNm8wA1CKHgo8S3E6Mwfmg7xzO6ATfydEfaN+3pns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nf9jAops; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C0bsgpnL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nf9jAops; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C0bsgpnL; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AK/ZMmDx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xm8mp6qI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AK/ZMmDx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xm8mp6qI"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nf9jAops";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C0bsgpnL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nf9jAops";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C0bsgpnL"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C6E171F457;
-	Wed,  9 Jul 2025 16:04:59 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 577551F458;
+	Wed,  9 Jul 2025 16:05:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752077101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cUO0R9fdUDJNN/kHwBXqOvTzX3c0ABusp22bz0EH71U=;
-	b=AK/ZMmDxhS8mSO/TbPQUiDRI8c1Knr3pG/T6jgI2PSOZAkYE91/vWl2RGtzfnxn/qzNuDm
-	txEdMPPDLK0/sBjuw05hgsYgR8D64Nd2sa/EQFbIsnx8CtfVpkcxBXS20y6+wpVjNEoxhX
-	+XwzfMpHH06H7gn2pI7As6bWwHp8iyw=
+	bh=XPmdRYrseQXfOLnfcARU2Jq0atT4RWTpnrpRVJb8fE4=;
+	b=Nf9jAopsH7WrpnC9YMVj0l085b7CPM4eMDTDf8mqfJJYDrpNH+cCErWzApsvWuU0ieUycY
+	apxondXnCZsfFNAaMy8Q3F/sCCJTUzO3RDfxITG/3xwmj0Gl6n6T7DaviRF2fDzM5lGQV5
+	tqaWmlj/9Di+o0ERis8zTI3dB68IE9Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077099;
+	s=susede2_ed25519; t=1752077101;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cUO0R9fdUDJNN/kHwBXqOvTzX3c0ABusp22bz0EH71U=;
-	b=Xm8mp6qI7IXsDwPmTdEkT87xuCo6JpWMf0WRamj9dqmi+MJatvZVPUH7ohyfqe7MuK0Pci
-	M/wx+Sfv6vHwhRCQ==
+	bh=XPmdRYrseQXfOLnfcARU2Jq0atT4RWTpnrpRVJb8fE4=;
+	b=C0bsgpnL2sD2eU2yixadUrplx5Sjks2Vfm6JsOobUsd4cerg2oq4qyww+gxMcVPwooScxy
+	6jM1BJ5xWDaPCECg==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Nf9jAops;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=C0bsgpnL
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077099; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752077101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cUO0R9fdUDJNN/kHwBXqOvTzX3c0ABusp22bz0EH71U=;
-	b=AK/ZMmDxhS8mSO/TbPQUiDRI8c1Knr3pG/T6jgI2PSOZAkYE91/vWl2RGtzfnxn/qzNuDm
-	txEdMPPDLK0/sBjuw05hgsYgR8D64Nd2sa/EQFbIsnx8CtfVpkcxBXS20y6+wpVjNEoxhX
-	+XwzfMpHH06H7gn2pI7As6bWwHp8iyw=
+	bh=XPmdRYrseQXfOLnfcARU2Jq0atT4RWTpnrpRVJb8fE4=;
+	b=Nf9jAopsH7WrpnC9YMVj0l085b7CPM4eMDTDf8mqfJJYDrpNH+cCErWzApsvWuU0ieUycY
+	apxondXnCZsfFNAaMy8Q3F/sCCJTUzO3RDfxITG/3xwmj0Gl6n6T7DaviRF2fDzM5lGQV5
+	tqaWmlj/9Di+o0ERis8zTI3dB68IE9Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077099;
+	s=susede2_ed25519; t=1752077101;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cUO0R9fdUDJNN/kHwBXqOvTzX3c0ABusp22bz0EH71U=;
-	b=Xm8mp6qI7IXsDwPmTdEkT87xuCo6JpWMf0WRamj9dqmi+MJatvZVPUH7ohyfqe7MuK0Pci
-	M/wx+Sfv6vHwhRCQ==
+	bh=XPmdRYrseQXfOLnfcARU2Jq0atT4RWTpnrpRVJb8fE4=;
+	b=C0bsgpnL2sD2eU2yixadUrplx5Sjks2Vfm6JsOobUsd4cerg2oq4qyww+gxMcVPwooScxy
+	6jM1BJ5xWDaPCECg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8258F13998;
-	Wed,  9 Jul 2025 16:04:59 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 16958136DC;
+	Wed,  9 Jul 2025 16:05:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2GKDHiuTbmhDEAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:04:59 +0000
+	id KLNNBC2TbmhDEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:05:01 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
@@ -83,9 +84,9 @@ Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	patches@opensource.cirrus.com,
 	Baojun Xu <baojun.xu@ti.com>,
 	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH 22/27] ALSA: hda/ca0132: Rewrite to new probe method
-Date: Wed,  9 Jul 2025 18:04:25 +0200
-Message-ID: <20250709160434.1859-23-tiwai@suse.de>
+Subject: [PATCH 24/27] ALSA: hda: Drop old codec binding method
+Date: Wed,  9 Jul 2025 18:04:27 +0200
+Message-ID: <20250709160434.1859-25-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250709160434.1859-1-tiwai@suse.de>
 References: <20250709160434.1859-1-tiwai@suse.de>
@@ -96,217 +97,501 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_RATELIMIT(0.00)[to_ip_from(RL7bz5f8woybp4997xe1n6ecoy)];
-	RCVD_TLS_ALL(0.00)[]
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL53w3f6h5bdz1qypc3i64rty7)];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Spam-Score: -2.80
+X-Rspamd-Queue-Id: 577551F458
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 
-Convert the CA0132 codec driver to use the new hda_codec_ops probe.
-No functional changes.
+Now that all patch_ops usage have been converted to the new
+hda_codec_ops probe, we can drop patch_ops from the hda_codec,
+together with the calls of patch_ops callbacks.
+
+The hda_codec_ops.free callback is removed as all have been replaced
+with the new remove callback.
+
+Also, correct comments mentioning "patch"; it's replaced with "codec
+driver".
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/ca0132.c      | 103 +++++++++++++++++++++------------
- sound/hda/codecs/ca0132_regs.h |   2 +-
- 2 files changed, 68 insertions(+), 37 deletions(-)
+ include/sound/hda_codec.h          | 22 ++-------------------
+ sound/hda/Makefile                 |  2 +-
+ sound/hda/codecs/generic.c         | 12 ------------
+ sound/hda/codecs/generic.h         |  1 -
+ sound/hda/codecs/hdmi/hdmi_local.h |  2 +-
+ sound/hda/common/bind.c            | 26 +++++++------------------
+ sound/hda/common/codec.c           | 20 ++-----------------
+ sound/hda/common/hda_local.h       |  2 --
+ sound/soc/codecs/hda.c             | 20 ++++---------------
+ sound/soc/codecs/hdac_hda.c        | 31 +++++++++---------------------
+ 10 files changed, 26 insertions(+), 112 deletions(-)
 
-diff --git a/sound/hda/codecs/ca0132.c b/sound/hda/codecs/ca0132.c
-index 35a979465c75..6ab59c336ed4 100644
---- a/sound/hda/codecs/ca0132.c
-+++ b/sound/hda/codecs/ca0132.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index a725ac48c20c..ddc9c392f93f 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -70,12 +70,8 @@ struct hda_bus {
+ 
  /*
-- * HD audio interface patch for Creative CA0132 chip
-+ * HD audio codec driver for Creative CA0132 chip
-  *
-  * Copyright (c) 2011, Creative Technology Ltd.
-  *
-@@ -9118,7 +9118,7 @@ static void sbz_dsp_startup_check(struct hda_codec *codec)
- 		codec_info(codec, "Reloading... Tries left: %d", reload);
- 		sbz_exit_chip(codec);
- 		spec->dsp_state = DSP_DOWNLOAD_INIT;
--		codec->patch_ops.init(codec);
-+		snd_hda_codec_init(codec);
- 		failure = 0;
- 		for (i = 0; i < 4; i++) {
- 			chipio_read(codec, cur_address, &dsp_data_check[i]);
-@@ -9694,30 +9694,6 @@ static void dbpro_free(struct hda_codec *codec)
- 	kfree(codec->spec);
+  * codec preset
+- *
+- * Known codecs have the patch to build and set up the controls/PCMs
+- * better than the generic parser.
+  */
+-typedef int (*hda_codec_patch_t)(struct hda_codec *);
+-	
++
+ #define HDA_CODEC_ID_SKIP_PROBE		0x00000001
+ #define HDA_CODEC_ID_GENERIC_HDMI	0x00000101
+ #define HDA_CODEC_ID_GENERIC		0x00000201
+@@ -90,14 +86,6 @@ typedef int (*hda_codec_patch_t)(struct hda_codec *);
+ #define HDA_CODEC_ID(_vid, _name) \
+ 	HDA_CODEC_ID_REV(_vid, 0, _name)
+ 
+-/* old macros for patch_ops -- to be deprecated */
+-#define HDA_CODEC_REV_ENTRY(_vid, _rev, _name, _patch) \
+-	{ .vendor_id = (_vid), .rev_id = (_rev), .name = (_name), \
+-	  .api_version = HDA_DEV_LEGACY, \
+-	  .driver_data = (unsigned long)(_patch) }
+-#define HDA_CODEC_ENTRY(_vid, _name, _patch) \
+-	HDA_CODEC_REV_ENTRY(_vid, 0, _name, _patch)
+-
+ struct hda_codec_driver {
+ 	struct hdac_driver core;
+ 	const struct hda_device_id *id;
+@@ -116,14 +104,13 @@ void hda_codec_driver_unregister(struct hda_codec_driver *drv);
+ 	module_driver(drv, hda_codec_driver_register, \
+ 		      hda_codec_driver_unregister)
+ 
+-/* ops set by the preset patch */
++/* ops for hda codec driver */
+ struct hda_codec_ops {
+ 	int (*probe)(struct hda_codec *codec, const struct hda_device_id *id);
+ 	void (*remove)(struct hda_codec *codec);
+ 	int (*build_controls)(struct hda_codec *codec);
+ 	int (*build_pcms)(struct hda_codec *codec);
+ 	int (*init)(struct hda_codec *codec);
+-	void (*free)(struct hda_codec *codec);
+ 	void (*unsol_event)(struct hda_codec *codec, unsigned int res);
+ 	void (*set_power_state)(struct hda_codec *codec, hda_nid_t fg,
+ 				unsigned int power_state);
+@@ -199,9 +186,6 @@ struct hda_codec {
+ 	const struct hda_device_id *preset;
+ 	const char *modelname;	/* model name for preset */
+ 
+-	/* set by patch */
+-	struct hda_codec_ops patch_ops;
+-
+ 	/* PCM to create, set by hda_codec_ops.build_pcms callback */
+ 	struct list_head pcm_list_head;
+ 	refcount_t pcm_ref;
+@@ -500,8 +484,6 @@ int hda_call_check_power_status(struct hda_codec *codec, hda_nid_t nid)
+ 
+ 	if (driver->ops && driver->ops->check_power_status)
+ 		return driver->ops->check_power_status(codec, nid);
+-	else if (codec->patch_ops.check_power_status)
+-		return codec->patch_ops.check_power_status(codec, nid);
+ 	return 0;
  }
  
--static int ca0132_suspend(struct hda_codec *codec)
--{
--	struct ca0132_spec *spec = codec->spec;
--
--	cancel_delayed_work_sync(&spec->unsol_hp_work);
--	return 0;
--}
--
--static const struct hda_codec_ops ca0132_patch_ops = {
--	.build_controls = ca0132_build_controls,
--	.build_pcms = ca0132_build_pcms,
--	.init = ca0132_init,
--	.free = ca0132_free,
--	.unsol_event = snd_hda_jack_unsol_event,
--	.suspend = ca0132_suspend,
--};
--
--static const struct hda_codec_ops dbpro_patch_ops = {
--	.build_controls = dbpro_build_controls,
--	.build_pcms = dbpro_build_pcms,
--	.init = dbpro_init,
--	.free = dbpro_free,
--};
--
- static void ca0132_config(struct hda_codec *codec)
- {
- 	struct ca0132_spec *spec = codec->spec;
-@@ -9982,12 +9958,23 @@ static void sbz_detect_quirk(struct hda_codec *codec)
+diff --git a/sound/hda/Makefile b/sound/hda/Makefile
+index 31b9fbedaa77..d9a6def582ef 100644
+--- a/sound/hda/Makefile
++++ b/sound/hda/Makefile
+@@ -3,6 +3,6 @@ obj-y += core/
+ obj-$(CONFIG_SND_HDA) += common/
+ obj-$(CONFIG_SND_HDA) += codecs/
+ # this must be the last entry after codec drivers;
+-# otherwise the codec patches won't be hooked before the PCI probe
++# otherwise the codec drivers won't be hooked before the PCI probe
+ # when built in kernel
+ obj-$(CONFIG_SND_HDA) += controllers/
+diff --git a/sound/hda/codecs/generic.c b/sound/hda/codecs/generic.c
+index 82c31b93424c..044f1d0aeaea 100644
+--- a/sound/hda/codecs/generic.c
++++ b/sound/hda/codecs/generic.c
+@@ -5190,8 +5190,6 @@ int snd_hda_gen_parse_auto_config(struct hda_codec *codec,
+ 	if (spec->power_down_unused || codec->power_save_node) {
+ 		if (!codec->power_filter)
+ 			codec->power_filter = snd_hda_gen_path_power_filter;
+-		if (!codec->patch_ops.stream_pm)
+-			codec->patch_ops.stream_pm = snd_hda_gen_stream_pm;
  	}
- }
  
--static int patch_ca0132(struct hda_codec *codec)
-+static void ca0132_codec_remove(struct hda_codec *codec)
-+{
-+	struct ca0132_spec *spec = codec->spec;
-+
-+	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
-+		return dbpro_free(codec);
-+	else
-+		return ca0132_free(codec);
-+}
-+
-+static int ca0132_codec_probe(struct hda_codec *codec,
-+			      const struct hda_device_id *id)
- {
- 	struct ca0132_spec *spec;
- 	int err;
+ 	if (!spec->no_analog && spec->beep_nid) {
+@@ -6103,15 +6101,6 @@ EXPORT_SYMBOL_GPL(snd_hda_gen_check_power_status);
+  * the generic codec support
+  */
  
--	codec_dbg(codec, "patch_ca0132\n");
-+	codec_dbg(codec, "%s\n", __func__);
- 
- 	spec = kzalloc(sizeof(*spec), GFP_KERNEL);
- 	if (!spec)
-@@ -10000,11 +9987,6 @@ static int patch_ca0132(struct hda_codec *codec)
- 	if (ca0132_quirk(spec) == QUIRK_SBZ)
- 		sbz_detect_quirk(codec);
- 
--	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
--		codec->patch_ops = dbpro_patch_ops;
--	else
--		codec->patch_ops = ca0132_patch_ops;
+-static const struct hda_codec_ops generic_patch_ops = {
+-	.build_controls = snd_hda_gen_build_controls,
+-	.build_pcms = snd_hda_gen_build_pcms,
+-	.init = snd_hda_gen_init,
+-	.free = snd_hda_gen_free,
+-	.unsol_event = snd_hda_jack_unsol_event,
+-	.check_power_status = snd_hda_gen_check_power_status,
+-};
 -
- 	codec->pcm_format_first = 1;
- 	codec->no_sticky_stream = 1;
+ static int snd_hda_gen_probe(struct hda_codec *codec,
+ 			     const struct hda_device_id *id)
+ {
+@@ -6132,7 +6121,6 @@ static int snd_hda_gen_probe(struct hda_codec *codec,
+ 	if (err < 0)
+ 		goto error;
  
-@@ -10100,15 +10082,63 @@ static int patch_ca0132(struct hda_codec *codec)
+-	codec->patch_ops = generic_patch_ops;
  	return 0;
  
-  error:
--	ca0132_free(codec);
-+	ca0132_codec_remove(codec);
- 	return err;
+ error:
+diff --git a/sound/hda/codecs/generic.h b/sound/hda/codecs/generic.h
+index 00a92fc55846..524591821f8c 100644
+--- a/sound/hda/codecs/generic.h
++++ b/sound/hda/codecs/generic.h
+@@ -312,7 +312,6 @@ int snd_hda_gen_spec_init(struct hda_gen_spec *spec);
+ 
+ int snd_hda_gen_init(struct hda_codec *codec);
+ void snd_hda_gen_remove(struct hda_codec *codec);
+-#define snd_hda_gen_free	snd_hda_gen_remove
+ 
+ int snd_hda_get_path_idx(struct hda_codec *codec, struct nid_path *path);
+ struct nid_path *snd_hda_get_path_from_idx(struct hda_codec *codec, int idx);
+diff --git a/sound/hda/codecs/hdmi/hdmi_local.h b/sound/hda/codecs/hdmi/hdmi_local.h
+index 0654013f1fda..548241ad3fa9 100644
+--- a/sound/hda/codecs/hdmi/hdmi_local.h
++++ b/sound/hda/codecs/hdmi/hdmi_local.h
+@@ -57,7 +57,7 @@ struct hdmi_spec_per_pin {
+ #endif
+ };
+ 
+-/* operations used by generic code that can be overridden by patches */
++/* operations used by generic code that can be overridden by codec drivers */
+ struct hdmi_ops {
+ 	int (*pin_get_eld)(struct hda_codec *codec, hda_nid_t pin_nid,
+ 			   int dev_id, unsigned char *buf, int *eld_size);
+diff --git a/sound/hda/common/bind.c b/sound/hda/common/bind.c
+index 56975178f533..f85c640dd54f 100644
+--- a/sound/hda/common/bind.c
++++ b/sound/hda/common/bind.c
+@@ -54,8 +54,6 @@ static void hda_codec_unsol_event(struct hdac_device *dev, unsigned int ev)
+ 
+ 	if (driver->ops && driver->ops->unsol_event)
+ 		driver->ops->unsol_event(codec, ev);
+-	else if (codec->patch_ops.unsol_event)
+-		codec->patch_ops.unsol_event(codec, ev);
  }
  
-+static int ca0132_codec_build_controls(struct hda_codec *codec)
-+{
-+	struct ca0132_spec *spec = codec->spec;
-+
-+	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
-+		return dbpro_build_controls(codec);
-+	else
-+		return ca0132_build_controls(codec);
-+}
-+
-+static int ca0132_codec_build_pcms(struct hda_codec *codec)
-+{
-+	struct ca0132_spec *spec = codec->spec;
-+
-+	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
-+		return dbpro_build_pcms(codec);
-+	else
-+		return ca0132_build_pcms(codec);
-+}
-+
-+static int ca0132_codec_init(struct hda_codec *codec)
-+{
-+	struct ca0132_spec *spec = codec->spec;
-+
-+	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
-+		return dbpro_init(codec);
-+	else
-+		return ca0132_init(codec);
-+}
-+
-+static int ca0132_codec_suspend(struct hda_codec *codec)
-+{
-+	struct ca0132_spec *spec = codec->spec;
-+
-+	cancel_delayed_work_sync(&spec->unsol_hp_work);
-+	return 0;
-+}
-+
-+static const struct hda_codec_ops ca0132_codec_ops = {
-+	.probe = ca0132_codec_probe,
-+	.remove = ca0132_codec_remove,
-+	.build_controls = ca0132_codec_build_controls,
-+	.build_pcms = ca0132_codec_build_pcms,
-+	.init = ca0132_codec_init,
-+	.unsol_event = snd_hda_jack_unsol_event,
-+	.suspend = ca0132_codec_suspend,
-+};
-+
- /*
-- * patch entries
-+ * driver entries
-  */
- static const struct hda_device_id snd_hda_id_ca0132[] = {
--	HDA_CODEC_ENTRY(0x11020011, "CA0132", patch_ca0132),
-+	HDA_CODEC_ID(0x11020011, "CA0132"),
- 	{} /* terminator */
- };
- MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_ca0132);
-@@ -10118,6 +10148,7 @@ MODULE_DESCRIPTION("Creative Sound Core3D codec");
+ /**
+@@ -91,7 +89,6 @@ static int hda_codec_driver_probe(struct device *dev)
+ 	struct hda_codec *codec = dev_to_hda_codec(dev);
+ 	struct module *owner = dev->driver->owner;
+ 	struct hda_codec_driver *driver = hda_codec_to_driver(codec);
+-	hda_codec_patch_t patch;
+ 	int err;
  
- static struct hda_codec_driver ca0132_driver = {
- 	.id = snd_hda_id_ca0132,
-+	.ops = &ca0132_codec_ops,
- };
+ 	if (codec->bus->core.ext_ops) {
+@@ -115,19 +112,14 @@ static int hda_codec_driver_probe(struct device *dev)
+ 		goto error;
+ 	}
  
- module_hda_codec_driver(ca0132_driver);
-diff --git a/sound/hda/codecs/ca0132_regs.h b/sound/hda/codecs/ca0132_regs.h
-index 0ead571fb447..dc0153df3d5c 100644
---- a/sound/hda/codecs/ca0132_regs.h
-+++ b/sound/hda/codecs/ca0132_regs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-or-later */
- /*
-- * HD audio interface patch for Creative CA0132 chip.
-+ * HD audio codec driver for Creative CA0132 chip.
-  * CA0132 registers defines.
+-	if (driver->ops && driver->ops->probe) {
+-		err = driver->ops->probe(codec, codec->preset);
+-		if (err < 0)
+-			goto error_module_put;
+-	} else {
+-		patch = (hda_codec_patch_t)codec->preset->driver_data;
+-		if (patch) {
+-			err = patch(codec);
+-			if (err < 0)
+-				goto error_module_put;
+-		}
++	if (WARN_ON(!(driver->ops && driver->ops->probe))) {
++		err = -EINVAL;
++		goto error_module_put;
+ 	}
+ 
++	err = driver->ops->probe(codec, codec->preset);
++	if (err < 0)
++		goto error_module_put;
+ 	err = snd_hda_codec_build_pcms(codec);
+ 	if (err < 0)
+ 		goto error_module;
+@@ -148,8 +140,6 @@ static int hda_codec_driver_probe(struct device *dev)
+  error_module:
+ 	if (driver->ops && driver->ops->remove)
+ 		driver->ops->remove(codec);
+-	else if (codec->patch_ops.free)
+-		codec->patch_ops.free(codec);
+  error_module_put:
+ 	module_put(owner);
+ 
+@@ -178,8 +168,6 @@ static int hda_codec_driver_remove(struct device *dev)
+ 
+ 	if (driver->ops && driver->ops->remove)
+ 		driver->ops->remove(codec);
+-	else if (codec->patch_ops.free)
+-		codec->patch_ops.free(codec);
+ 	snd_hda_codec_cleanup_for_unbind(codec);
+ 	codec->preset = NULL;
+ 	module_put(dev->driver->owner);
+@@ -320,7 +308,7 @@ static int codec_bind_generic(struct hda_codec *codec)
+  * @codec: the HDA codec
   *
-  * Copyright (c) 2011, Creative Technology Ltd.
+  * Start parsing of the given codec tree and (re-)initialize the whole
+- * patch instance.
++ * codec driver binding.
+  *
+  * Returns 0 if successful or a negative error code.
+  */
+diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
+index 8899be764d68..33121d002087 100644
+--- a/sound/hda/common/codec.c
++++ b/sound/hda/common/codec.c
+@@ -766,7 +766,6 @@ void snd_hda_codec_cleanup_for_unbind(struct hda_codec *codec)
+ 		snd_hda_ctls_clear(codec);
+ 	codec_release_pcms(codec);
+ 	snd_hda_detach_beep_device(codec);
+-	memset(&codec->patch_ops, 0, sizeof(codec->patch_ops));
+ 	snd_hda_jack_tbl_clear(codec);
+ 	codec->proc_widget_hook = NULL;
+ 	codec->spec = NULL;
+@@ -1132,8 +1131,6 @@ void snd_hda_codec_setup_stream(struct hda_codec *codec, hda_nid_t nid,
+ 
+ 	if (driver->ops && driver->ops->stream_pm)
+ 		driver->ops->stream_pm(codec, nid, true);
+-	else if (codec->patch_ops.stream_pm)
+-		codec->patch_ops.stream_pm(codec, nid, true);
+ 	if (codec->pcm_format_first)
+ 		update_pcm_format(codec, p, nid, format);
+ 	update_pcm_stream_id(codec, p, nid, stream_tag, channel_id);
+@@ -1205,8 +1202,6 @@ static void really_cleanup_stream(struct hda_codec *codec,
+ 	q->nid = nid;
+ 	if (driver->ops && driver->ops->stream_pm)
+ 		driver->ops->stream_pm(codec, nid, false);
+-	else if (codec->patch_ops.stream_pm)
+-		codec->patch_ops.stream_pm(codec, nid, false);
+ }
+ 
+ /* clean up the all conflicting obsolete streams */
+@@ -2397,7 +2392,7 @@ static const struct snd_kcontrol_new dig_mixes[] = {
+  * @cvt_nid: converter NID
+  * @type: HDA_PCM_TYPE_*
+  * Creates controls related with the digital output.
+- * Called from each patch supporting the digital out.
++ * Called from each codec driver supporting the digital out.
+  *
+  * Returns 0 if successful, or a negative error code.
+  */
+@@ -2656,7 +2651,7 @@ static const struct snd_kcontrol_new dig_in_ctls[] = {
+  * @nid: audio in widget NID
+  *
+  * Creates controls related with the SPDIF input.
+- * Called from each patch supporting the SPDIF in.
++ * Called from each codec driver supporting the SPDIF in.
+  *
+  * Returns 0 if successful, or a negative error code.
+  */
+@@ -2773,9 +2768,6 @@ static unsigned int hda_set_power_state(struct hda_codec *codec,
+ 		/* might be called before binding to driver, too */
+ 		if (driver && driver->ops && driver->ops->set_power_state)
+ 			driver->ops->set_power_state(codec, fg, power_state);
+-		else if (codec->patch_ops.set_power_state)
+-			codec->patch_ops.set_power_state(codec, fg,
+-							 power_state);
+ 		else {
+ 			state = power_state;
+ 			if (codec->power_filter)
+@@ -2859,8 +2851,6 @@ static unsigned int hda_call_codec_suspend(struct hda_codec *codec)
+ 	snd_hdac_enter_pm(&codec->core);
+ 	if (driver->ops && driver->ops->suspend)
+ 		driver->ops->suspend(codec);
+-	else if (codec->patch_ops.suspend)
+-		codec->patch_ops.suspend(codec);
+ 	if (!codec->no_stream_clean_at_suspend)
+ 		hda_cleanup_all_streams(codec);
+ 	state = hda_set_power_state(codec, AC_PWRST_D3);
+@@ -2888,8 +2878,6 @@ static void hda_call_codec_resume(struct hda_codec *codec)
+ 	snd_hda_jack_set_dirty_all(codec);
+ 	if (driver->ops && driver->ops->resume)
+ 		driver->ops->resume(codec);
+-	else if (codec->patch_ops.resume)
+-		codec->patch_ops.resume(codec);
+ 	else {
+ 		snd_hda_codec_init(codec);
+ 		snd_hda_regmap_sync(codec);
+@@ -3085,8 +3073,6 @@ int snd_hda_codec_build_controls(struct hda_codec *codec)
+ 	if (!err) {
+ 		if (driver->ops && driver->ops->build_controls)
+ 			err = driver->ops->build_controls(codec);
+-		else if (codec->patch_ops.build_controls)
+-			err = codec->patch_ops.build_controls(codec);
+ 		if (err < 0)
+ 			return err;
+ 	}
+@@ -3284,8 +3270,6 @@ int snd_hda_codec_parse_pcms(struct hda_codec *codec)
+ 
+ 	if (driver->ops && driver->ops->build_pcms)
+ 		err = driver->ops->build_pcms(codec);
+-	else if (codec->patch_ops.build_pcms)
+-		err = codec->patch_ops.build_pcms(codec);
+ 	else
+ 		return 0;
+ 
+diff --git a/sound/hda/common/hda_local.h b/sound/hda/common/hda_local.h
+index 654fe1156d56..e56bea4c9357 100644
+--- a/sound/hda/common/hda_local.h
++++ b/sound/hda/common/hda_local.h
+@@ -658,8 +658,6 @@ static inline int snd_hda_codec_init(struct hda_codec *codec)
+ 
+ 	if (driver->ops && driver->ops->init)
+ 		return driver->ops->init(codec);
+-	else if (codec->patch_ops.init)
+-		return codec->patch_ops.init(codec);
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/codecs/hda.c b/sound/soc/codecs/hda.c
+index ddb31001657e..126270ffd418 100644
+--- a/sound/soc/codecs/hda.c
++++ b/sound/soc/codecs/hda.c
+@@ -177,7 +177,6 @@ static int hda_codec_probe(struct snd_soc_component *component)
+ 	struct hdac_device *hdev = &codec->core;
+ 	struct hdac_bus *bus = hdev->bus;
+ 	struct hdac_ext_link *hlink;
+-	hda_codec_patch_t patch;
+ 	int ret;
+ 
+ #ifdef CONFIG_PM
+@@ -215,19 +214,12 @@ static int hda_codec_probe(struct snd_soc_component *component)
+ 		goto err;
+ 	}
+ 
+-	if (driver->ops && driver->ops->probe) {
+-		ret = driver->ops->probe(codec, codec->preset);
+-	} else {
+-		patch = (hda_codec_patch_t)codec->preset->driver_data;
+-		if (!patch) {
+-			dev_err(&hdev->dev, "no patch specified\n");
+-			ret = -EINVAL;
+-			goto err;
+-		}
+-
+-		ret = patch(codec);
++	if (WARN_ON(!(driver->ops && driver->ops->probe))) {
++		ret = -EINVAL;
++		goto err;
+ 	}
+ 
++	ret = driver->ops->probe(codec, codec->preset);
+ 	if (ret < 0) {
+ 		dev_err(&hdev->dev, "codec init failed: %d\n", ret);
+ 		goto err;
+@@ -260,8 +252,6 @@ static int hda_codec_probe(struct snd_soc_component *component)
+ parse_pcms_err:
+ 	if (driver->ops && driver->ops->remove)
+ 		driver->ops->remove(codec);
+-	else if (codec->patch_ops.free)
+-		codec->patch_ops.free(codec);
+ err:
+ 	snd_hda_codec_cleanup_for_unbind(codec);
+ device_new_err:
+@@ -292,8 +282,6 @@ static void hda_codec_remove(struct snd_soc_component *component)
+ 
+ 	if (driver->ops && driver->ops->remove)
+ 		driver->ops->remove(codec);
+-	else if (codec->patch_ops.free)
+-		codec->patch_ops.free(codec);
+ 
+ 	snd_hda_codec_cleanup_for_unbind(codec);
+ 	pm_runtime_put_noidle(&hdev->dev);
+diff --git a/sound/soc/codecs/hdac_hda.c b/sound/soc/codecs/hdac_hda.c
+index 7bb7845d5e43..191cb8427664 100644
+--- a/sound/soc/codecs/hdac_hda.c
++++ b/sound/soc/codecs/hdac_hda.c
+@@ -411,7 +411,6 @@ static int hdac_hda_codec_probe(struct snd_soc_component *component)
+ 	struct hda_codec *hcodec = hda_pvt->codec;
+ 	struct hda_codec_driver *driver = hda_codec_to_driver(hcodec);
+ 	struct hdac_ext_link *hlink;
+-	hda_codec_patch_t patch;
+ 	int ret;
+ 
+ 	hlink = snd_hdac_ext_bus_get_hlink_by_name(hdev->bus, dev_name(&hdev->dev));
+@@ -485,23 +484,15 @@ static int hdac_hda_codec_probe(struct snd_soc_component *component)
+ 		goto error_pm;
+ 	}
+ 
+-	if (driver->ops && driver->ops->probe) {
+-		ret = driver->ops->probe(hcodec, hcodec->preset);
+-		if (ret < 0) {
+-			dev_err(&hdev->dev, "%s: probe failed %d\n", __func__, ret);
+-			goto error_regmap;
+-		}
+-	} else {
+-		patch = (hda_codec_patch_t)hcodec->preset->driver_data;
+-		if (patch) {
+-			ret = patch(hcodec);
+-			if (ret < 0) {
+-				dev_err(&hdev->dev, "%s: patch failed %d\n", __func__, ret);
+-				goto error_regmap;
+-			}
+-		} else {
+-			dev_dbg(&hdev->dev, "%s: no patch file found\n", __func__);
+-		}
++	if (WARN_ON(!(driver->ops && driver->ops->probe))) {
++		ret = -EINVAL;
++		goto error_regmap;
++	}
++
++	ret = driver->ops->probe(hcodec, hcodec->preset);
++	if (ret < 0) {
++		dev_err(&hdev->dev, "%s: probe failed %d\n", __func__, ret);
++		goto error_regmap;
+ 	}
+ 
+ 	ret = snd_hda_codec_parse_pcms(hcodec);
+@@ -542,8 +533,6 @@ static int hdac_hda_codec_probe(struct snd_soc_component *component)
+ error_patch:
+ 	if (driver->ops && driver->ops->remove)
+ 		driver->ops->remove(hcodec);
+-	else if (hcodec->patch_ops.free)
+-		hcodec->patch_ops.free(hcodec);
+ error_regmap:
+ 	snd_hdac_regmap_exit(hdev);
+ error_pm:
+@@ -573,8 +562,6 @@ static void hdac_hda_codec_remove(struct snd_soc_component *component)
+ 
+ 	if (driver->ops && driver->ops->remove)
+ 		driver->ops->remove(codec);
+-	else if (codec->patch_ops.free)
+-		codec->patch_ops.free(codec);
+ 
+ 	snd_hda_codec_cleanup_for_unbind(codec);
+ }
 -- 
 2.50.0
 
