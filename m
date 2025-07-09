@@ -1,78 +1,79 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B062E763D
-	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:11:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219AF2DA743
+	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:11:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752077468; cv=none; b=D83tZa6Ef5TRRINu2GXFFqBrp9BWQmSp9e0CUNwaODN/MuzL4hx4JiupW55HUnaRK5cnOYHWUp9K2EImWU9G5a3QLgh4sjOJdb8fWDeiM6hFAIdroG1JimEC2h6Tpi20WO6bsGkwv/CMEpKY4ge/IQL9lnCeULH4ZNlgY3iVkqU=
+	t=1752077475; cv=none; b=iwjbRwz5ig/kuUj9eB0NJfoHybE9B/USESYVIt97VQAUgWL8eM95JQMJeP1tPQVB4ZX9IuspQEreClXUUasYW0SRonsau7Jc78F0Cb2JKqeQThGy6b4LwKKOpP30RXjW6qXxOebizEjhBdJZ3hWM7Gizd5scAiGLGnEM1cyBGgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752077468; c=relaxed/simple;
-	bh=Th2AoS9HyoaREC9pJ2Zum9W7m9UfxGR8F/PBBWvJGXk=;
+	s=arc-20240116; t=1752077475; c=relaxed/simple;
+	bh=ZnWafTkoOeFXiwYstiOPme/zI9Y+Qxn7szS15SmWA54=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GRwfPyNwnqlddo/f2CfSGmp22XjIaVRH2jcVvVfJbGAOfAJs62cOcfGLUcl02DK0wXfdevL7oGnQhAsBV59EHmvz6/XHa/2uJr8TYm3lI6tGWLpyzMCJvsH4A2czI9LBQE2vAk7CAFjqWoPxTTcVEWhS05alw7csMhBG7mTm2Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G3FKiWzk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PvrkmKMv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=G3FKiWzk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PvrkmKMv; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=dCHKK7PFTQ5zzKjaWiduw+bPJKtifCQ5SrUAnMDKUyH5O5yYYyh31AtAv4vzXYiWlsRSnlAzeBwzLPcvBlfjLMrcstuG0R/RadggRS5/VKEnm7NS1+ARKNQnAfD7OPm2nMeDeRQGWQ9Rm3ZV+sqCG0E7KYHSXnDig5CG5HPhbog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0QrHq6wY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Yx3TjwGY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fT4234yI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rhsC91Ab; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G3FKiWzk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PvrkmKMv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="G3FKiWzk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PvrkmKMv"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0QrHq6wY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Yx3TjwGY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fT4234yI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rhsC91Ab"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C55EF2117A;
-	Wed,  9 Jul 2025 16:05:00 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C104B2118C;
+	Wed,  9 Jul 2025 16:04:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752077098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9yxcXH+U8bofr3MkBwB4L+37JiBbomKNdziLJsZaO1Q=;
-	b=G3FKiWzkVcTxWpQydbuuDIhAdKIqeoA40Il1sS/sa+YS6mb4EKCvYEiwdhXQqu2cFGztSf
-	KLHdAcLXgL/rRe3tZglYLv0BCixfB+vXW5D0Kp+Khbs6k+YqN44tqIEHUSeviky118dvUc
-	Usj8yuEdQEJBVhuEgCxOaqaCXUHx0IE=
+	bh=4DJ3rUVlLGAV9KTRqvUr28EizqyhH9l2RoPsA8dj0Dk=;
+	b=0QrHq6wYC9XHnpa0E9YfUtRJu25giOYGBMIrH9peoT8AOSxGwxtxqRjeMHGveWvNbSqK+4
+	qKm3D+ATeSi4+XBop/vo2GGY5GgITRV+TWN4gFB8nMRfgdE7TKv4CtOjEsUJu5JJTIY+OP
+	/4oIHKtutEHauidM7OuWi/11/2CCeFY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077100;
+	s=susede2_ed25519; t=1752077098;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9yxcXH+U8bofr3MkBwB4L+37JiBbomKNdziLJsZaO1Q=;
-	b=PvrkmKMvX5ydoAeHdzLm5Qlx+wggvd8ydTNkaqKbmO1p5UwHcOzOgR/nU7fxAis660b635
-	q4bsSFzWYXpUy1Bw==
+	bh=4DJ3rUVlLGAV9KTRqvUr28EizqyhH9l2RoPsA8dj0Dk=;
+	b=Yx3TjwGYQQbHriWyJxougvVN/0vYYeDh9HE9GObWrt0T2r3YdKezLZCuY82/K49Y0oJVMD
+	bV78n9qWvS1oUaCw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fT4234yI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rhsC91Ab
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752077097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9yxcXH+U8bofr3MkBwB4L+37JiBbomKNdziLJsZaO1Q=;
-	b=G3FKiWzkVcTxWpQydbuuDIhAdKIqeoA40Il1sS/sa+YS6mb4EKCvYEiwdhXQqu2cFGztSf
-	KLHdAcLXgL/rRe3tZglYLv0BCixfB+vXW5D0Kp+Khbs6k+YqN44tqIEHUSeviky118dvUc
-	Usj8yuEdQEJBVhuEgCxOaqaCXUHx0IE=
+	bh=4DJ3rUVlLGAV9KTRqvUr28EizqyhH9l2RoPsA8dj0Dk=;
+	b=fT4234yIxTrAZrNJ+9tBA3jweNKcftPhQDK48z3SmDF96FnIlaxSiipW2mmxLTW94dJSrQ
+	1ASyyTPhnlY4/YoDnzs7T8eblJP3wXP8FwGdYhC02QMWQoJSRKfdBKJ+qTKUNgTOAVfOpa
+	9rXNRM6i0BatL50j+0RZfUItE6B9vZw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077100;
+	s=susede2_ed25519; t=1752077097;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9yxcXH+U8bofr3MkBwB4L+37JiBbomKNdziLJsZaO1Q=;
-	b=PvrkmKMvX5ydoAeHdzLm5Qlx+wggvd8ydTNkaqKbmO1p5UwHcOzOgR/nU7fxAis660b635
-	q4bsSFzWYXpUy1Bw==
+	bh=4DJ3rUVlLGAV9KTRqvUr28EizqyhH9l2RoPsA8dj0Dk=;
+	b=rhsC91Ab0m/5MhEU3na9doEQaniUBEet/oKJ/iceQs2nnAwlGNRr4VvE3l7y7B3BYaBh4x
+	Jps3w/AHR+WLyBDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7666C136DC;
-	Wed,  9 Jul 2025 16:05:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A553136DC;
+	Wed,  9 Jul 2025 16:04:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oFi0GyyTbmhDEAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:05:00 +0000
+	id ONuiHCmTbmhDEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:04:57 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
@@ -83,9 +84,9 @@ Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	patches@opensource.cirrus.com,
 	Baojun Xu <baojun.xu@ti.com>,
 	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH 23/27] ALSA: hda/hdmi: Rewrite to new probe method
-Date: Wed,  9 Jul 2025 18:04:26 +0200
-Message-ID: <20250709160434.1859-24-tiwai@suse.de>
+Subject: [PATCH 19/27] ALSA: hda/si3054: Rewrite to new probe method
+Date: Wed,  9 Jul 2025 18:04:22 +0200
+Message-ID: <20250709160434.1859-20-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250709160434.1859-1-tiwai@suse.de>
 References: <20250709160434.1859-1-tiwai@suse.de>
@@ -96,1312 +97,141 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
 	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_RATELIMIT(0.00)[to_ip_from(RL7bz5f8woybp4997xe1n6ecoy)];
-	RCVD_TLS_ALL(0.00)[]
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL53w3f6h5bdz1qypc3i64rty7)];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C104B2118C
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 
-Convert the HDMI codec drivers to use the new hda_codec_ops probe.
-
-The Intel and Nvidia-MCP HDMI drivers needed slightly more changes to
-deal with the unified callbacks among all models.
-
-Also another non-trivial change is Intel driver's set_power_state
-callback.  An additional NULL check of codec->spec is needed there
-since the set_power_state() may be called before the probe gets called
-(e.g. in ASoC hda codec hda_codec_probe()).
-
-Other than that, no functional changes.
+Convert the SI3054 codec driver to use the new hda_codec_ops probe.
+No functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/hdmi/atihdmi.c    |  31 +++--
- sound/hda/codecs/hdmi/hdmi.c       | 130 ++++++++++----------
- sound/hda/codecs/hdmi/hdmi_local.h |  10 +-
- sound/hda/codecs/hdmi/intelhdmi.c  | 185 ++++++++++++++++++-----------
- sound/hda/codecs/hdmi/nvhdmi-mcp.c |  96 +++++++--------
- sound/hda/codecs/hdmi/nvhdmi.c     | 183 ++++++++++++++--------------
- sound/hda/codecs/hdmi/simplehdmi.c |  58 +++++----
- sound/hda/codecs/hdmi/tegrahdmi.c  |  69 ++++++-----
- 8 files changed, 424 insertions(+), 338 deletions(-)
+ sound/hda/codecs/si3054.c | 53 +++++++++++++++++++--------------------
+ 1 file changed, 26 insertions(+), 27 deletions(-)
 
-diff --git a/sound/hda/codecs/hdmi/atihdmi.c b/sound/hda/codecs/hdmi/atihdmi.c
-index e23995cc1b8c..44366f75de33 100644
---- a/sound/hda/codecs/hdmi/atihdmi.c
-+++ b/sound/hda/codecs/hdmi/atihdmi.c
-@@ -528,19 +528,16 @@ static const struct drm_audio_component_audio_ops atihdmi_audio_ops = {
- 	.master_unbind = snd_hda_hdmi_acomp_master_unbind,
- };
- 
--static int patch_atihdmi(struct hda_codec *codec)
-+static int atihdmi_probe(struct hda_codec *codec, const struct hda_device_id *id)
- {
- 	struct hdmi_spec *spec;
- 	struct hdmi_spec_per_cvt *per_cvt;
- 	int err, cvt_idx;
- 
--	err = patch_generic_hdmi(codec);
--
-+	err = snd_hda_hdmi_generic_probe(codec);
- 	if (err)
- 		return err;
- 
--	codec->patch_ops.init = atihdmi_init;
--
- 	spec = codec->spec;
- 
- 	spec->static_pcm_mapping = true;
-@@ -583,15 +580,26 @@ static int patch_atihdmi(struct hda_codec *codec)
+diff --git a/sound/hda/codecs/si3054.c b/sound/hda/codecs/si3054.c
+index 763eae80a148..87cf9da9f3bf 100644
+--- a/sound/hda/codecs/si3054.c
++++ b/sound/hda/codecs/si3054.c
+@@ -2,7 +2,7 @@
+ /*
+  * Universal Interface for Intel High Definition Audio Codec
+  *
+- * HD audio interface patch for Silicon Labs 3054/5 modem codec
++ * HD audio codec driver for Silicon Labs 3054/5 modem codec
+  *
+  * Copyright (c) 2005 Sasha Khapyorsky <sashak@alsa-project.org>
+  *                    Takashi Iwai <tiwai@suse.de>
+@@ -246,50 +246,48 @@ static int si3054_init(struct hda_codec *codec)
  	return 0;
  }
  
-+static const struct hda_codec_ops atihdmi_codec_ops = {
-+	.probe = atihdmi_probe,
-+	.remove = snd_hda_hdmi_generic_remove,
-+	.init = atihdmi_init,
-+	.build_pcms = snd_hda_hdmi_generic_build_pcms,
-+	.build_controls = snd_hda_hdmi_generic_build_controls,
-+	.unsol_event = snd_hda_hdmi_generic_unsol_event,
-+	.suspend = snd_hda_hdmi_generic_suspend,
-+	.resume	 = snd_hda_hdmi_generic_resume,
-+};
-+
+-static void si3054_free(struct hda_codec *codec)
++static void si3054_remove(struct hda_codec *codec)
+ {
+ 	kfree(codec->spec);
+ }
+ 
+-
  /*
-- * patch entries
-+ * driver entries
   */
- static const struct hda_device_id snd_hda_id_atihdmi[] = {
--HDA_CODEC_ENTRY(0x1002793c, "RS600 HDMI",	patch_atihdmi),
--HDA_CODEC_ENTRY(0x10027919, "RS600 HDMI",	patch_atihdmi),
--HDA_CODEC_ENTRY(0x1002791a, "RS690/780 HDMI",	patch_atihdmi),
--HDA_CODEC_ENTRY(0x1002aa01, "R6xx HDMI",	patch_atihdmi),
--{} /* terminator */
-+	HDA_CODEC_ID(0x1002793c, "RS600 HDMI"),
-+	HDA_CODEC_ID(0x10027919, "RS600 HDMI"),
-+	HDA_CODEC_ID(0x1002791a, "RS690/780 HDMI"),
-+	HDA_CODEC_ID(0x1002aa01, "R6xx HDMI"),
-+	{} /* terminator */
- };
- MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_atihdmi);
  
-@@ -601,6 +609,7 @@ MODULE_IMPORT_NS("SND_HDA_CODEC_HDMI");
- 
- static struct hda_codec_driver atihdmi_driver = {
- 	.id = snd_hda_id_atihdmi,
-+	.ops = &atihdmi_codec_ops,
- };
- 
- module_hda_codec_driver(atihdmi_driver);
-diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
-index 85aaa454072f..b5d840d9892b 100644
---- a/sound/hda/codecs/hdmi/hdmi.c
-+++ b/sound/hda/codecs/hdmi/hdmi.c
-@@ -2087,7 +2087,7 @@ void snd_hda_hdmi_generic_spec_free(struct hda_codec *codec)
- }
- EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_generic_spec_free, "SND_HDA_CODEC_HDMI");
- 
--void snd_hda_hdmi_generic_free(struct hda_codec *codec)
-+void snd_hda_hdmi_generic_remove(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec = codec->spec;
- 	int pin_idx, pcm_idx;
-@@ -2113,7 +2113,7 @@ void snd_hda_hdmi_generic_free(struct hda_codec *codec)
- 
- 	snd_hda_hdmi_generic_spec_free(codec);
- }
--EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_generic_free, "SND_HDA_CODEC_HDMI");
-+EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_generic_remove, "SND_HDA_CODEC_HDMI");
- 
- int snd_hda_hdmi_generic_suspend(struct hda_codec *codec)
- {
-@@ -2133,7 +2133,7 @@ int snd_hda_hdmi_generic_resume(struct hda_codec *codec)
- 	struct hdmi_spec *spec = codec->spec;
- 	int pin_idx;
- 
--	codec->patch_ops.init(codec);
-+	snd_hda_codec_init(codec);
- 	snd_hda_regmap_sync(codec);
- 
- 	for (pin_idx = 0; pin_idx < spec->num_pins; pin_idx++) {
-@@ -2144,16 +2144,6 @@ int snd_hda_hdmi_generic_resume(struct hda_codec *codec)
- }
- EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_generic_resume, "SND_HDA_CODEC_HDMI");
- 
--static const struct hda_codec_ops generic_hdmi_patch_ops = {
--	.init			= snd_hda_hdmi_generic_init,
--	.free			= snd_hda_hdmi_generic_free,
--	.build_pcms		= snd_hda_hdmi_generic_build_pcms,
--	.build_controls		= snd_hda_hdmi_generic_build_controls,
--	.unsol_event		= snd_hda_hdmi_generic_unsol_event,
--	.suspend		= snd_hda_hdmi_generic_suspend,
--	.resume			= snd_hda_hdmi_generic_resume,
+-static const struct hda_codec_ops si3054_patch_ops = {
+-	.build_controls = si3054_build_controls,
+-	.build_pcms = si3054_build_pcms,
+-	.init = si3054_init,
+-	.free = si3054_free,
 -};
 -
- static const struct hdmi_ops generic_standard_hdmi_ops = {
- 	.pin_get_eld				= hdmi_pin_get_eld,
- 	.pin_setup_infoframe			= hdmi_pin_setup_infoframe,
-@@ -2185,14 +2175,12 @@ int snd_hda_hdmi_generic_alloc(struct hda_codec *codec)
- 	codec->spec = spec;
- 	hdmi_array_init(spec, 4);
- 
--	codec->patch_ops = generic_hdmi_patch_ops;
--
- 	return 0;
- }
- EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_generic_alloc, "SND_HDA_CODEC_HDMI");
- 
- /* generic HDMI parser */
--int patch_generic_hdmi(struct hda_codec *codec)
-+int snd_hda_hdmi_generic_probe(struct hda_codec *codec)
+-static int patch_si3054(struct hda_codec *codec)
++static int si3054_probe(struct hda_codec *codec, const struct hda_device_id *id)
  {
- 	int err;
- 
-@@ -2209,7 +2197,7 @@ int patch_generic_hdmi(struct hda_codec *codec)
- 	snd_hda_hdmi_generic_init_per_pins(codec);
- 	return 0;
- }
--EXPORT_SYMBOL_NS_GPL(patch_generic_hdmi, "SND_HDA_CODEC_HDMI");
-+EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_generic_probe, "SND_HDA_CODEC_HDMI");
- 
- /*
-  * generic audio component binding
-@@ -2346,65 +2334,83 @@ EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_acomp_init, "SND_HDA_CODEC_HDMI");
- /*
-  */
- 
--static int patch_gf_hdmi(struct hda_codec *codec)
-+enum {
-+	MODEL_GENERIC,
-+	MODEL_GF,
-+};
-+
-+static int generichdmi_probe(struct hda_codec *codec,
-+			     const struct hda_device_id *id)
- {
- 	int err;
- 
--	err = patch_generic_hdmi(codec);
--	if (err)
-+	err = snd_hda_hdmi_generic_probe(codec);
-+	if (err < 0)
- 		return err;
--
- 	/*
- 	 * Glenfly GPUs have two codecs, stream switches from one codec to
- 	 * another, need to do actual clean-ups in codec_cleanup_stream
- 	 */
--	codec->no_sticky_stream = 1;
-+	if (id->driver_data == MODEL_GF)
-+		codec->no_sticky_stream = 1;
-+
- 	return 0;
- }
- 
--/*
-- * patch entries
-- */
--static const struct hda_device_id snd_hda_id_hdmi[] = {
--HDA_CODEC_ENTRY(0x00147a47, "Loongson HDMI",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x10951390, "SiI1390 HDMI",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x10951392, "SiI1392 HDMI",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x17e80047, "Chrontel HDMI",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x67663d82, "Arise 82 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x67663d83, "Arise 83 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x67663d84, "Arise 84 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x67663d85, "Arise 85 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x67663d86, "Arise 86 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x67663d87, "Arise 87 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x11069f84, "VX11 HDMI/DP",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x11069f85, "VX11 HDMI/DP",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x1d179f86, "ZX-100S HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f87, "ZX-100S HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f88, "KX-5000 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f89, "KX-5000 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f8a, "KX-6000 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f8b, "KX-6000 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f8c, "KX-6000G HDMI/DP", patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f8d, "KX-6000G HDMI/DP", patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f8e, "KX-7000 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f8f, "KX-7000 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x1d179f90, "KX-7000 HDMI/DP",	patch_gf_hdmi),
--HDA_CODEC_ENTRY(0x80862801, "Bearlake HDMI",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x80862802, "Cantiga HDMI",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x80862803, "Eaglelake HDMI",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x80862880, "CedarTrail HDMI",	patch_generic_hdmi),
--HDA_CODEC_ENTRY(0x808629fb, "Crestline HDMI",	patch_generic_hdmi),
--/* special ID for generic HDMI */
--HDA_CODEC_ENTRY(HDA_CODEC_ID_GENERIC_HDMI, "Generic HDMI", patch_generic_hdmi),
--{} /* terminator */
-+static const struct hda_codec_ops generichdmi_codec_ops = {
-+	.probe = generichdmi_probe,
-+	.remove = snd_hda_hdmi_generic_remove,
-+	.init = snd_hda_hdmi_generic_init,
-+	.build_pcms = snd_hda_hdmi_generic_build_pcms,
-+	.build_controls = snd_hda_hdmi_generic_build_controls,
-+	.unsol_event = snd_hda_hdmi_generic_unsol_event,
-+	.suspend = snd_hda_hdmi_generic_suspend,
-+	.resume	 = snd_hda_hdmi_generic_resume,
- };
--MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_hdmi);
-+
-+/*
-+ */
-+static const struct hda_device_id snd_hda_id_generichdmi[] = {
-+	HDA_CODEC_ID_MODEL(0x00147a47, "Loongson HDMI",		MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10951390, "SiI1390 HDMI",		MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10951392, "SiI1392 HDMI",		MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x11069f84, "VX11 HDMI/DP",		MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x11069f85, "VX11 HDMI/DP",		MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x17e80047, "Chrontel HDMI",		MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x1d179f86, "ZX-100S HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f87, "ZX-100S HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f88, "KX-5000 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f89, "KX-5000 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f8a, "KX-6000 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f8b, "KX-6000 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f8c, "KX-6000G HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f8d, "KX-6000G HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f8e, "KX-7000 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f8f, "KX-7000 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x1d179f90, "KX-7000 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x67663d82, "Arise 82 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x67663d83, "Arise 83 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x67663d84, "Arise 84 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x67663d85, "Arise 85 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x67663d86, "Arise 86 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x67663d87, "Arise 87 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x80862801, "Bearlake HDMI",		MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x80862802, "Cantiga HDMI",		MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x80862803, "Eaglelake HDMI",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x80862880, "CedarTrail HDMI",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x808629fb, "Crestline HDMI",	MODEL_GENERIC),
-+	/* special ID for generic HDMI */
-+	HDA_CODEC_ID_MODEL(HDA_CODEC_ID_GENERIC_HDMI, "Generic HDMI", MODEL_GENERIC),
-+	{} /* terminator */
-+};
-+MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_generichdmi);
- 
- MODULE_LICENSE("GPL");
--MODULE_DESCRIPTION("HDMI HD-audio codec");
-+MODULE_DESCRIPTION("Generic HDMI HD-audio codec");
- 
--static struct hda_codec_driver hdmi_driver = {
--	.id = snd_hda_id_hdmi,
-+static struct hda_codec_driver generichdmi_driver = {
-+	.id = snd_hda_id_generichdmi,
-+	.ops = &generichdmi_codec_ops,
- };
- 
--module_hda_codec_driver(hdmi_driver);
-+module_hda_codec_driver(generichdmi_driver);
-diff --git a/sound/hda/codecs/hdmi/hdmi_local.h b/sound/hda/codecs/hdmi/hdmi_local.h
-index 96351bebbc1b..0654013f1fda 100644
---- a/sound/hda/codecs/hdmi/hdmi_local.h
-+++ b/sound/hda/codecs/hdmi/hdmi_local.h
-@@ -237,8 +237,8 @@ union audio_infoframe {
- /* Generic HDMI codec support */
- int snd_hda_hdmi_generic_alloc(struct hda_codec *codec);
- int snd_hda_hdmi_parse_codec(struct hda_codec *codec);
--int patch_generic_hdmi(struct hda_codec *codec);
--void snd_hda_hdmi_generic_free(struct hda_codec *codec);
-+int snd_hda_hdmi_generic_probe(struct hda_codec *codec);
-+void snd_hda_hdmi_generic_remove(struct hda_codec *codec);
- 
- int snd_hda_hdmi_generic_build_pcms(struct hda_codec *codec);
- int snd_hda_hdmi_generic_build_controls(struct hda_codec *codec);
-@@ -286,9 +286,9 @@ void snd_hda_hdmi_acomp_master_unbind(struct device *dev,
- 				      struct drm_audio_component *acomp);
- 
- /* Simple / legacy HDMI codec support */
--int patch_simple_hdmi(struct hda_codec *codec,
--		      hda_nid_t cvt_nid, hda_nid_t pin_nid);
--void snd_hda_hdmi_simple_free(struct hda_codec *codec);
-+int snd_hda_hdmi_simple_probe(struct hda_codec *codec,
-+			      hda_nid_t cvt_nid, hda_nid_t pin_nid);
-+void snd_hda_hdmi_simple_remove(struct hda_codec *codec);
- 
- int snd_hda_hdmi_simple_build_pcms(struct hda_codec *codec);
- int snd_hda_hdmi_simple_build_controls(struct hda_codec *codec);
-diff --git a/sound/hda/codecs/hdmi/intelhdmi.c b/sound/hda/codecs/hdmi/intelhdmi.c
-index a88ac1f80db6..23237d527430 100644
---- a/sound/hda/codecs/hdmi/intelhdmi.c
-+++ b/sound/hda/codecs/hdmi/intelhdmi.c
-@@ -18,6 +18,16 @@ IS_ENABLED(CONFIG_SND_HDA_INTEL_HDMI_SILENT_STREAM);
- module_param(enable_silent_stream, bool, 0644);
- MODULE_PARM_DESC(enable_silent_stream, "Enable Silent Stream for HDMI devices");
- 
-+enum {
-+	MODEL_HSW,
-+	MODEL_GLK,
-+	MODEL_ICL,
-+	MODEL_TGL,
-+	MODEL_ADLP,
-+	MODEL_BYT,
-+	MODEL_CPT,
-+};
-+
- #define INTEL_GET_VENDOR_VERB	0xf81
- #define INTEL_SET_VENDOR_VERB	0x781
- #define INTEL_EN_DP12		0x02	/* enable DP 1.2 features */
-@@ -67,9 +77,12 @@ static void intel_haswell_fixup_enable_dp12(struct hda_codec *codec)
- static void haswell_set_power_state(struct hda_codec *codec, hda_nid_t fg,
- 				unsigned int power_state)
- {
--	if (power_state == AC_PWRST_D0) {
--		intel_haswell_enable_all_pins(codec, false);
--		intel_haswell_fixup_enable_dp12(codec);
-+	/* check codec->spec: it can be called before the probe gets called */
-+	if (codec->spec) {
-+		if (power_state == AC_PWRST_D0) {
-+			intel_haswell_enable_all_pins(codec, false);
-+			intel_haswell_fixup_enable_dp12(codec);
-+		}
- 	}
- 
- 	snd_hda_codec_read(codec, fg, 0, AC_VERB_SET_POWER_STATE, power_state);
-@@ -456,13 +469,15 @@ static void i915_pin_cvt_fixup(struct hda_codec *codec,
- 	}
- }
- 
--static int i915_adlp_hdmi_suspend(struct hda_codec *codec)
-+static int i915_hdmi_suspend(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec = codec->spec;
- 	bool silent_streams = false;
- 	int pin_idx, res;
- 
- 	res = snd_hda_hdmi_generic_suspend(codec);
-+	if (spec->silent_stream_type != SILENT_STREAM_KAE)
-+		return res;
- 
- 	for (pin_idx = 0; pin_idx < spec->num_pins; pin_idx++) {
- 		struct hdmi_spec_per_pin *per_pin = get_pin(spec, pin_idx);
-@@ -495,12 +510,14 @@ static int i915_adlp_hdmi_suspend(struct hda_codec *codec)
- 	return res;
- }
- 
--static int i915_adlp_hdmi_resume(struct hda_codec *codec)
-+static int i915_hdmi_resume(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec = codec->spec;
- 	int pin_idx, res;
- 
- 	res = snd_hda_hdmi_generic_resume(codec);
-+	if (spec->silent_stream_type != SILENT_STREAM_KAE)
-+		return res;
- 
- 	/* KAE not programmed at suspend, nothing to do here */
- 	if (!codec->no_stream_clean_at_suspend)
-@@ -539,8 +556,6 @@ static int i915_adlp_hdmi_resume(struct hda_codec *codec)
- /* precondition and allocation for Intel codecs */
- static int alloc_intel_hdmi(struct hda_codec *codec)
- {
--	int err;
--
- 	/* requires i915 binding */
- 	if (!codec->bus->core.audio_component) {
- 		codec_info(codec, "No i915 binding for Intel HDMI/DP codec\n");
-@@ -549,12 +564,7 @@ static int alloc_intel_hdmi(struct hda_codec *codec)
- 		return -ENODEV;
- 	}
- 
--	err = snd_hda_hdmi_generic_alloc(codec);
--	if (err < 0)
--		return err;
--	/* no need to handle unsol events */
--	codec->patch_ops.unsol_event = NULL;
--	return 0;
-+	return snd_hda_hdmi_generic_alloc(codec);
- }
- 
- /* parse and post-process for Intel codecs */
-@@ -580,11 +590,7 @@ static int intel_hsw_common_init(struct hda_codec *codec, hda_nid_t vendor_nid,
- 				 bool send_silent_stream)
- {
- 	struct hdmi_spec *spec;
--	int err;
- 
--	err = alloc_intel_hdmi(codec);
--	if (err < 0)
--		return err;
- 	spec = codec->spec;
- 	codec->dp_mst = true;
- 	spec->vendor_nid = vendor_nid;
-@@ -598,7 +604,6 @@ static int intel_hsw_common_init(struct hda_codec *codec, hda_nid_t vendor_nid,
- 
- 	codec->display_power_control = 1;
- 
--	codec->patch_ops.set_power_state = haswell_set_power_state;
- 	codec->depop_delay = 0;
- 	codec->auto_runtime_pm = 1;
- 
-@@ -616,13 +621,13 @@ static int intel_hsw_common_init(struct hda_codec *codec, hda_nid_t vendor_nid,
- 	return parse_intel_hdmi(codec);
- }
- 
--static int patch_i915_hsw_hdmi(struct hda_codec *codec)
-+static int probe_i915_hsw_hdmi(struct hda_codec *codec)
- {
- 	return intel_hsw_common_init(codec, 0x08, NULL, 0, 3,
- 				     enable_silent_stream);
- }
- 
--static int patch_i915_glk_hdmi(struct hda_codec *codec)
-+static int probe_i915_glk_hdmi(struct hda_codec *codec)
- {
- 	/*
- 	 * Silent stream calls audio component .get_power() from
-@@ -632,7 +637,7 @@ static int patch_i915_glk_hdmi(struct hda_codec *codec)
- 	return intel_hsw_common_init(codec, 0x0b, NULL, 0, 3, false);
- }
- 
--static int patch_i915_icl_hdmi(struct hda_codec *codec)
-+static int probe_i915_icl_hdmi(struct hda_codec *codec)
- {
- 	/*
- 	 * pin to port mapping table where the value indicate the pin number and
-@@ -644,7 +649,7 @@ static int patch_i915_icl_hdmi(struct hda_codec *codec)
- 				     enable_silent_stream);
- }
- 
--static int patch_i915_tgl_hdmi(struct hda_codec *codec)
-+static int probe_i915_tgl_hdmi(struct hda_codec *codec)
- {
- 	/*
- 	 * pin to port mapping table where the value indicate the pin number and
-@@ -656,35 +661,27 @@ static int patch_i915_tgl_hdmi(struct hda_codec *codec)
- 				     enable_silent_stream);
- }
- 
--static int patch_i915_adlp_hdmi(struct hda_codec *codec)
-+static int probe_i915_adlp_hdmi(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec;
- 	int res;
- 
--	res = patch_i915_tgl_hdmi(codec);
-+	res = probe_i915_tgl_hdmi(codec);
- 	if (!res) {
- 		spec = codec->spec;
- 
--		if (spec->silent_stream_type) {
-+		if (spec->silent_stream_type)
- 			spec->silent_stream_type = SILENT_STREAM_KAE;
--
--			codec->patch_ops.resume = i915_adlp_hdmi_resume;
--			codec->patch_ops.suspend = i915_adlp_hdmi_suspend;
--		}
- 	}
- 
- 	return res;
- }
- 
- /* Intel Baytrail and Braswell; with eld notifier */
--static int patch_i915_byt_hdmi(struct hda_codec *codec)
-+static int probe_i915_byt_hdmi(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec;
--	int err;
- 
--	err = alloc_intel_hdmi(codec);
--	if (err < 0)
--		return err;
- 	spec = codec->spec;
- 
- 	/* For Valleyview/Cherryview, only the display codec is in the display
-@@ -701,51 +698,104 @@ static int patch_i915_byt_hdmi(struct hda_codec *codec)
- }
- 
- /* Intel IronLake, SandyBridge and IvyBridge; with eld notifier */
--static int patch_i915_cpt_hdmi(struct hda_codec *codec)
-+static int probe_i915_cpt_hdmi(struct hda_codec *codec)
-+{
-+	return parse_intel_hdmi(codec);
-+}
-+
-+/*
-+ * common driver probe
-+ */
-+static int intelhdmi_probe(struct hda_codec *codec, const struct hda_device_id *id)
- {
- 	int err;
- 
- 	err = alloc_intel_hdmi(codec);
- 	if (err < 0)
- 		return err;
--	return parse_intel_hdmi(codec);
-+
-+	switch (id->driver_data) {
-+	case MODEL_HSW:
-+		err = probe_i915_hsw_hdmi(codec);
-+		break;
-+	case MODEL_GLK:
-+		err = probe_i915_glk_hdmi(codec);
-+		break;
-+	case MODEL_ICL:
-+		err = probe_i915_icl_hdmi(codec);
-+		break;
-+	case MODEL_TGL:
-+		err = probe_i915_tgl_hdmi(codec);
-+		break;
-+	case MODEL_ADLP:
-+		err = probe_i915_adlp_hdmi(codec);
-+		break;
-+	case MODEL_BYT:
-+		err = probe_i915_byt_hdmi(codec);
-+		break;
-+	case MODEL_CPT:
-+		err = probe_i915_cpt_hdmi(codec);
-+		break;
-+	default:
-+		err = -EINVAL;
-+		break;
-+	}
-+
-+	if (err < 0) {
-+		snd_hda_hdmi_generic_spec_free(codec);
-+		return err;
-+	}
-+
-+	return 0;
- }
- 
-+static const struct hda_codec_ops intelhdmi_codec_ops = {
-+	.probe = intelhdmi_probe,
-+	.remove = snd_hda_hdmi_generic_remove,
-+	.init = snd_hda_hdmi_generic_init,
-+	.build_pcms = snd_hda_hdmi_generic_build_pcms,
-+	.build_controls = snd_hda_hdmi_generic_build_controls,
-+	.unsol_event = snd_hda_hdmi_generic_unsol_event,
-+	.suspend = i915_hdmi_suspend,
-+	.resume = i915_hdmi_resume,
-+	.set_power_state = haswell_set_power_state,
-+};
-+
- /*
-  * driver entries
-  */
- static const struct hda_device_id snd_hda_id_intelhdmi[] = {
--HDA_CODEC_ENTRY(0x80860054, "IbexPeak HDMI",	patch_i915_cpt_hdmi),
--HDA_CODEC_ENTRY(0x80862800, "Geminilake HDMI",	patch_i915_glk_hdmi),
--HDA_CODEC_ENTRY(0x80862804, "IbexPeak HDMI",	patch_i915_cpt_hdmi),
--HDA_CODEC_ENTRY(0x80862805, "CougarPoint HDMI",	patch_i915_cpt_hdmi),
--HDA_CODEC_ENTRY(0x80862806, "PantherPoint HDMI", patch_i915_cpt_hdmi),
--HDA_CODEC_ENTRY(0x80862807, "Haswell HDMI",	patch_i915_hsw_hdmi),
--HDA_CODEC_ENTRY(0x80862808, "Broadwell HDMI",	patch_i915_hsw_hdmi),
--HDA_CODEC_ENTRY(0x80862809, "Skylake HDMI",	patch_i915_hsw_hdmi),
--HDA_CODEC_ENTRY(0x8086280a, "Broxton HDMI",	patch_i915_hsw_hdmi),
--HDA_CODEC_ENTRY(0x8086280b, "Kabylake HDMI",	patch_i915_hsw_hdmi),
--HDA_CODEC_ENTRY(0x8086280c, "Cannonlake HDMI",	patch_i915_glk_hdmi),
--HDA_CODEC_ENTRY(0x8086280d, "Geminilake HDMI",	patch_i915_glk_hdmi),
--HDA_CODEC_ENTRY(0x8086280f, "Icelake HDMI",	patch_i915_icl_hdmi),
--HDA_CODEC_ENTRY(0x80862812, "Tigerlake HDMI",	patch_i915_tgl_hdmi),
--HDA_CODEC_ENTRY(0x80862814, "DG1 HDMI",	patch_i915_tgl_hdmi),
--HDA_CODEC_ENTRY(0x80862815, "Alderlake HDMI",	patch_i915_tgl_hdmi),
--HDA_CODEC_ENTRY(0x80862816, "Rocketlake HDMI",	patch_i915_tgl_hdmi),
--HDA_CODEC_ENTRY(0x80862818, "Raptorlake HDMI",	patch_i915_tgl_hdmi),
--HDA_CODEC_ENTRY(0x80862819, "DG2 HDMI",	patch_i915_tgl_hdmi),
--HDA_CODEC_ENTRY(0x8086281a, "Jasperlake HDMI",	patch_i915_icl_hdmi),
--HDA_CODEC_ENTRY(0x8086281b, "Elkhartlake HDMI",	patch_i915_icl_hdmi),
--HDA_CODEC_ENTRY(0x8086281c, "Alderlake-P HDMI", patch_i915_adlp_hdmi),
--HDA_CODEC_ENTRY(0x8086281d, "Meteor Lake HDMI",	patch_i915_adlp_hdmi),
--HDA_CODEC_ENTRY(0x8086281e, "Battlemage HDMI",	patch_i915_adlp_hdmi),
--HDA_CODEC_ENTRY(0x8086281f, "Raptor Lake P HDMI",	patch_i915_adlp_hdmi),
--HDA_CODEC_ENTRY(0x80862820, "Lunar Lake HDMI",	patch_i915_adlp_hdmi),
--HDA_CODEC_ENTRY(0x80862822, "Panther Lake HDMI",	patch_i915_adlp_hdmi),
--HDA_CODEC_ENTRY(0x80862823, "Wildcat Lake HDMI",	patch_i915_adlp_hdmi),
--HDA_CODEC_ENTRY(0x80862882, "Valleyview2 HDMI",	patch_i915_byt_hdmi),
--HDA_CODEC_ENTRY(0x80862883, "Braswell HDMI",	patch_i915_byt_hdmi),
--{} /* terminator */
-+	HDA_CODEC_ID_MODEL(0x80860054, "IbexPeak HDMI",		MODEL_CPT),
-+	HDA_CODEC_ID_MODEL(0x80862800, "Geminilake HDMI",	MODEL_GLK),
-+	HDA_CODEC_ID_MODEL(0x80862804, "IbexPeak HDMI",		MODEL_CPT),
-+	HDA_CODEC_ID_MODEL(0x80862805, "CougarPoint HDMI",	MODEL_CPT),
-+	HDA_CODEC_ID_MODEL(0x80862806, "PantherPoint HDMI",	MODEL_CPT),
-+	HDA_CODEC_ID_MODEL(0x80862807, "Haswell HDMI",		MODEL_HSW),
-+	HDA_CODEC_ID_MODEL(0x80862808, "Broadwell HDMI",	MODEL_HSW),
-+	HDA_CODEC_ID_MODEL(0x80862809, "Skylake HDMI",		MODEL_HSW),
-+	HDA_CODEC_ID_MODEL(0x8086280a, "Broxton HDMI",		MODEL_HSW),
-+	HDA_CODEC_ID_MODEL(0x8086280b, "Kabylake HDMI",		MODEL_HSW),
-+	HDA_CODEC_ID_MODEL(0x8086280c, "Cannonlake HDMI",	MODEL_GLK),
-+	HDA_CODEC_ID_MODEL(0x8086280d, "Geminilake HDMI",	MODEL_GLK),
-+	HDA_CODEC_ID_MODEL(0x8086280f, "Icelake HDMI",		MODEL_ICL),
-+	HDA_CODEC_ID_MODEL(0x80862812, "Tigerlake HDMI",	MODEL_TGL),
-+	HDA_CODEC_ID_MODEL(0x80862814, "DG1 HDMI",		MODEL_TGL),
-+	HDA_CODEC_ID_MODEL(0x80862815, "Alderlake HDMI",	MODEL_TGL),
-+	HDA_CODEC_ID_MODEL(0x80862816, "Rocketlake HDMI",	MODEL_TGL),
-+	HDA_CODEC_ID_MODEL(0x80862818, "Raptorlake HDMI",	MODEL_TGL),
-+	HDA_CODEC_ID_MODEL(0x80862819, "DG2 HDMI",		MODEL_TGL),
-+	HDA_CODEC_ID_MODEL(0x8086281a, "Jasperlake HDMI",	MODEL_ICL),
-+	HDA_CODEC_ID_MODEL(0x8086281b, "Elkhartlake HDMI",	MODEL_ICL),
-+	HDA_CODEC_ID_MODEL(0x8086281c, "Alderlake-P HDMI",	MODEL_ADLP),
-+	HDA_CODEC_ID_MODEL(0x8086281d, "Meteor Lake HDMI",	MODEL_ADLP),
-+	HDA_CODEC_ID_MODEL(0x8086281e, "Battlemage HDMI",	MODEL_ADLP),
-+	HDA_CODEC_ID_MODEL(0x8086281f, "Raptor Lake P HDMI",	MODEL_ADLP),
-+	HDA_CODEC_ID_MODEL(0x80862820, "Lunar Lake HDMI",	MODEL_ADLP),
-+	HDA_CODEC_ID_MODEL(0x80862822, "Panther Lake HDMI",	MODEL_ADLP),
-+	HDA_CODEC_ID_MODEL(0x80862823, "Wildcat Lake HDMI",	MODEL_ADLP),
-+	HDA_CODEC_ID_MODEL(0x80862882, "Valleyview2 HDMI",	MODEL_BYT),
-+	HDA_CODEC_ID_MODEL(0x80862883, "Braswell HDMI",		MODEL_BYT),
-+	{} /* terminator */
- };
- MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_intelhdmi);
- 
-@@ -755,6 +805,7 @@ MODULE_IMPORT_NS("SND_HDA_CODEC_HDMI");
- 
- static struct hda_codec_driver intelhdmi_driver = {
- 	.id = snd_hda_id_intelhdmi,
-+	.ops = &intelhdmi_codec_ops,
- };
- 
- module_hda_codec_driver(intelhdmi_driver);
-diff --git a/sound/hda/codecs/hdmi/nvhdmi-mcp.c b/sound/hda/codecs/hdmi/nvhdmi-mcp.c
-index 67e187a351d7..fbcea6d1850e 100644
---- a/sound/hda/codecs/hdmi/nvhdmi-mcp.c
-+++ b/sound/hda/codecs/hdmi/nvhdmi-mcp.c
-@@ -12,6 +12,8 @@
- #include "hda_local.h"
- #include "hdmi_local.h"
- 
-+enum { MODEL_2CH, MODEL_8CH };
-+
- #define Nv_VERB_SET_Channel_Allocation          0xF79
- #define Nv_VERB_SET_Info_Frame_Checksum         0xF7A
- #define Nv_VERB_SET_Audio_Protection_On         0xF98
-@@ -45,15 +47,14 @@ static const struct hda_verb nvhdmi_basic_init_7x_8ch[] = {
- 	{} /* terminator */
- };
- 
--static int nvhdmi_7x_init_2ch(struct hda_codec *codec)
-+static int nvhdmi_mcp_init(struct hda_codec *codec)
- {
--	snd_hda_sequence_write(codec, nvhdmi_basic_init_7x_2ch);
--	return 0;
--}
-+	struct hdmi_spec *spec = codec->spec;
- 
--static int nvhdmi_7x_init_8ch(struct hda_codec *codec)
--{
--	snd_hda_sequence_write(codec, nvhdmi_basic_init_7x_8ch);
-+	if (spec->multiout.max_channels == 2)
-+		snd_hda_sequence_write(codec, nvhdmi_basic_init_7x_2ch);
-+	else
-+		snd_hda_sequence_write(codec, nvhdmi_basic_init_7x_8ch);
- 	return 0;
- }
- 
-@@ -233,31 +234,13 @@ static const struct hda_pcm_stream nvhdmi_pcm_playback_8ch_7x = {
- 	},
- };
- 
--static int patch_nvhdmi_2ch(struct hda_codec *codec)
--{
--	struct hdmi_spec *spec;
--	int err = patch_simple_hdmi(codec, nvhdmi_master_con_nid_7x,
--				    nvhdmi_master_pin_nid_7x);
--	if (err < 0)
--		return err;
--
--	codec->patch_ops.init = nvhdmi_7x_init_2ch;
--	/* override the PCM rates, etc, as the codec doesn't give full list */
--	spec = codec->spec;
--	spec->pcm_playback.rates = SUPPORTED_RATES;
--	spec->pcm_playback.maxbps = SUPPORTED_MAXBPS;
--	spec->pcm_playback.formats = SUPPORTED_FORMATS;
--	spec->nv_dp_workaround = true;
--	return 0;
--}
--
--static int nvhdmi_7x_8ch_build_pcms(struct hda_codec *codec)
-+static int nvhdmi_mcp_build_pcms(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec = codec->spec;
- 	int err;
- 
- 	err = snd_hda_hdmi_simple_build_pcms(codec);
--	if (!err) {
-+	if (!err && spec->multiout.max_channels == 8) {
- 		struct hda_pcm *info = get_pcm_rec(spec, 0);
- 
- 		info->own_chmap = true;
-@@ -265,7 +248,7 @@ static int nvhdmi_7x_8ch_build_pcms(struct hda_codec *codec)
- 	return err;
- }
- 
--static int nvhdmi_7x_8ch_build_controls(struct hda_codec *codec)
-+static int nvhdmi_mcp_build_controls(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec = codec->spec;
- 	struct hda_pcm *info;
-@@ -276,6 +259,9 @@ static int nvhdmi_7x_8ch_build_controls(struct hda_codec *codec)
- 	if (err < 0)
- 		return err;
- 
-+	if (spec->multiout.max_channels != 8)
-+		return 0;
-+
- 	/* add channel maps */
- 	info = get_pcm_rec(spec, 0);
- 	err = snd_pcm_add_chmap_ctls(info->pcm,
-@@ -316,20 +302,29 @@ static const struct snd_pcm_hw_constraint_list hw_constraints_2_8_channels = {
- 	.mask = 0,
- };
- 
--static int patch_nvhdmi_8ch_7x(struct hda_codec *codec)
-+static int nvhdmi_mcp_probe(struct hda_codec *codec,
-+			    const struct hda_device_id *id)
- {
- 	struct hdmi_spec *spec;
- 	int err;
- 
--	err = patch_nvhdmi_2ch(codec);
-+	err = snd_hda_hdmi_simple_probe(codec, nvhdmi_master_con_nid_7x,
-+					nvhdmi_master_pin_nid_7x);
- 	if (err < 0)
- 		return err;
-+
-+	/* override the PCM rates, etc, as the codec doesn't give full list */
- 	spec = codec->spec;
-+	spec->pcm_playback.rates = SUPPORTED_RATES;
-+	spec->pcm_playback.maxbps = SUPPORTED_MAXBPS;
-+	spec->pcm_playback.formats = SUPPORTED_FORMATS;
-+	spec->nv_dp_workaround = true;
-+
-+	if (id->driver_data == MODEL_2CH)
-+		return 0;
-+
- 	spec->multiout.max_channels = 8;
- 	spec->pcm_playback = nvhdmi_pcm_playback_8ch_7x;
--	codec->patch_ops.init = nvhdmi_7x_init_8ch;
--	codec->patch_ops.build_pcms = nvhdmi_7x_8ch_build_pcms;
--	codec->patch_ops.build_controls = nvhdmi_7x_8ch_build_controls;
- 
- 	switch (codec->preset->vendor_id) {
- 	case 0x10de0002:
-@@ -353,21 +348,27 @@ static int patch_nvhdmi_8ch_7x(struct hda_codec *codec)
- 	return 0;
- }
- 
--/*
-- * patch entries
-- */
-+static const struct hda_codec_ops nvhdmi_mcp_codec_ops = {
-+	.probe = nvhdmi_mcp_probe,
-+	.remove = snd_hda_hdmi_simple_remove,
-+	.build_controls = nvhdmi_mcp_build_pcms,
-+	.build_pcms = nvhdmi_mcp_build_controls,
-+	.init = nvhdmi_mcp_init,
-+	.unsol_event = snd_hda_hdmi_simple_unsol_event,
-+};
-+
- static const struct hda_device_id snd_hda_id_nvhdmi_mcp[] = {
--HDA_CODEC_ENTRY(0x10de0001, "MCP73 HDMI",	patch_nvhdmi_2ch),
--HDA_CODEC_ENTRY(0x10de0002, "MCP77/78 HDMI",	patch_nvhdmi_8ch_7x),
--HDA_CODEC_ENTRY(0x10de0003, "MCP77/78 HDMI",	patch_nvhdmi_8ch_7x),
--HDA_CODEC_ENTRY(0x10de0004, "GPU 04 HDMI",	patch_nvhdmi_8ch_7x),
--HDA_CODEC_ENTRY(0x10de0005, "MCP77/78 HDMI",	patch_nvhdmi_8ch_7x),
--HDA_CODEC_ENTRY(0x10de0006, "MCP77/78 HDMI",	patch_nvhdmi_8ch_7x),
--HDA_CODEC_ENTRY(0x10de0007, "MCP79/7A HDMI",	patch_nvhdmi_8ch_7x),
--HDA_CODEC_ENTRY(0x10de0067, "MCP67 HDMI",	patch_nvhdmi_2ch),
--HDA_CODEC_ENTRY(0x10de8001, "MCP73 HDMI",	patch_nvhdmi_2ch),
--HDA_CODEC_ENTRY(0x10de8067, "MCP67/68 HDMI",	patch_nvhdmi_2ch),
--{} /* terminator */
-+	HDA_CODEC_ID_MODEL(0x10de0001, "MCP73 HDMI",	MODEL_2CH),
-+	HDA_CODEC_ID_MODEL(0x10de0002, "MCP77/78 HDMI",	MODEL_8CH),
-+	HDA_CODEC_ID_MODEL(0x10de0003, "MCP77/78 HDMI",	MODEL_8CH),
-+	HDA_CODEC_ID_MODEL(0x10de0004, "GPU 04 HDMI",	MODEL_8CH),
-+	HDA_CODEC_ID_MODEL(0x10de0005, "MCP77/78 HDMI",	MODEL_8CH),
-+	HDA_CODEC_ID_MODEL(0x10de0006, "MCP77/78 HDMI",	MODEL_8CH),
-+	HDA_CODEC_ID_MODEL(0x10de0007, "MCP79/7A HDMI",	MODEL_8CH),
-+	HDA_CODEC_ID_MODEL(0x10de0067, "MCP67 HDMI",	MODEL_2CH),
-+	HDA_CODEC_ID_MODEL(0x10de8001, "MCP73 HDMI",	MODEL_2CH),
-+	HDA_CODEC_ID_MODEL(0x10de8067, "MCP67/68 HDMI",	MODEL_2CH),
-+	{} /* terminator */
- };
- MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_nvhdmi_mcp);
- 
-@@ -377,6 +378,7 @@ MODULE_IMPORT_NS("SND_HDA_CODEC_HDMI");
- 
- static struct hda_codec_driver nvhdmi_mcp_driver = {
- 	.id = snd_hda_id_nvhdmi_mcp,
-+	.ops = &nvhdmi_mcp_codec_ops,
- };
- 
- module_hda_codec_driver(nvhdmi_mcp_driver);
-diff --git a/sound/hda/codecs/hdmi/nvhdmi.c b/sound/hda/codecs/hdmi/nvhdmi.c
-index 2add5f59daf5..b513253b1101 100644
---- a/sound/hda/codecs/hdmi/nvhdmi.c
-+++ b/sound/hda/codecs/hdmi/nvhdmi.c
-@@ -13,6 +13,11 @@
- #include "hda_local.h"
- #include "hdmi_local.h"
- 
-+enum {
-+	MODEL_GENERIC,
-+	MODEL_LEGACY,
-+};
-+
- /*
-  * NVIDIA codecs ignore ASP mapping for 2ch - confirmed on:
-  * - 0x10de0015
-@@ -61,7 +66,7 @@ static const struct drm_audio_component_audio_ops nvhdmi_audio_ops = {
- 	.master_unbind = snd_hda_hdmi_acomp_master_unbind,
- };
- 
--static int patch_nvhdmi(struct hda_codec *codec)
-+static int probe_generic(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec;
- 	int err;
-@@ -95,12 +100,12 @@ static int patch_nvhdmi(struct hda_codec *codec)
- 	return 0;
- }
- 
--static int patch_nvhdmi_legacy(struct hda_codec *codec)
-+static int probe_legacy(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec;
- 	int err;
- 
--	err = patch_generic_hdmi(codec);
-+	err = snd_hda_hdmi_generic_probe(codec);
- 	if (err)
- 		return err;
- 
-@@ -117,93 +122,92 @@ static int patch_nvhdmi_legacy(struct hda_codec *codec)
- 	return 0;
- }
- 
--/*
-- * patch entries
-- */
-+static int nvhdmi_probe(struct hda_codec *codec, const struct hda_device_id *id)
-+{
-+	if (id->driver_data == MODEL_LEGACY)
-+		return probe_legacy(codec);
-+	else
-+		return probe_generic(codec);
-+}
-+
-+static const struct hda_codec_ops nvhdmi_codec_ops = {
-+	.probe = nvhdmi_probe,
-+	.remove = snd_hda_hdmi_generic_remove,
-+	.init = snd_hda_hdmi_generic_init,
-+	.build_pcms = snd_hda_hdmi_generic_build_pcms,
-+	.build_controls = snd_hda_hdmi_generic_build_controls,
-+	.unsol_event = snd_hda_hdmi_generic_unsol_event,
-+	.suspend = snd_hda_hdmi_generic_suspend,
-+	.resume	 = snd_hda_hdmi_generic_resume,
-+};
-+
- static const struct hda_device_id snd_hda_id_nvhdmi[] = {
--HDA_CODEC_ENTRY(0x10de0008, "GPU 08 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0009, "GPU 09 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de000a, "GPU 0a HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de000b, "GPU 0b HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de000c, "MCP89 HDMI",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de000d, "GPU 0d HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0010, "GPU 10 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0011, "GPU 11 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0012, "GPU 12 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0013, "GPU 13 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0014, "GPU 14 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0015, "GPU 15 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0016, "GPU 16 HDMI/DP",	patch_nvhdmi_legacy),
--/* 17 is known to be absent */
--HDA_CODEC_ENTRY(0x10de0018, "GPU 18 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0019, "GPU 19 HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de001a, "GPU 1a HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de001b, "GPU 1b HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de001c, "GPU 1c HDMI/DP",	patch_nvhdmi_legacy),
--HDA_CODEC_ENTRY(0x10de0040, "GPU 40 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0041, "GPU 41 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0042, "GPU 42 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0043, "GPU 43 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0044, "GPU 44 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0045, "GPU 45 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0050, "GPU 50 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0051, "GPU 51 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0052, "GPU 52 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0060, "GPU 60 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0061, "GPU 61 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0062, "GPU 62 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0070, "GPU 70 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0071, "GPU 71 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0072, "GPU 72 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0073, "GPU 73 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0074, "GPU 74 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0076, "GPU 76 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de007b, "GPU 7b HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de007c, "GPU 7c HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de007d, "GPU 7d HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de007e, "GPU 7e HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0080, "GPU 80 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0081, "GPU 81 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0082, "GPU 82 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0083, "GPU 83 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0084, "GPU 84 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0090, "GPU 90 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0091, "GPU 91 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0092, "GPU 92 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0093, "GPU 93 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0094, "GPU 94 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0095, "GPU 95 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0097, "GPU 97 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0098, "GPU 98 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de0099, "GPU 99 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de009a, "GPU 9a HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de009b, "GPU 9b HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de009c, "GPU 9c HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de009d, "GPU 9d HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de009e, "GPU 9e HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de009f, "GPU 9f HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00a0, "GPU a0 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00a1, "GPU a1 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00a3, "GPU a3 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00a4, "GPU a4 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00a5, "GPU a5 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00a6, "GPU a6 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00a7, "GPU a7 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00a8, "GPU a8 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00a9, "GPU a9 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00aa, "GPU aa HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00ab, "GPU ab HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00ad, "GPU ad HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00ae, "GPU ae HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00af, "GPU af HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00b0, "GPU b0 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00b1, "GPU b1 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00c0, "GPU c0 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00c1, "GPU c1 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00c3, "GPU c3 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00c4, "GPU c4 HDMI/DP",	patch_nvhdmi),
--HDA_CODEC_ENTRY(0x10de00c5, "GPU c5 HDMI/DP",	patch_nvhdmi),
--{} /* terminator */
-+	HDA_CODEC_ID_MODEL(0x10de0008, "GPU 08 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0009, "GPU 09 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de000a, "GPU 0a HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de000b, "GPU 0b HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de000c, "MCP89 HDMI",		MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de000d, "GPU 0d HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0010, "GPU 10 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0011, "GPU 11 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0012, "GPU 12 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0013, "GPU 13 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0014, "GPU 14 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0015, "GPU 15 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0016, "GPU 16 HDMI/DP",	MODEL_LEGACY),
-+	/* 17 is known to be absent */
-+	HDA_CODEC_ID_MODEL(0x10de0018, "GPU 18 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0019, "GPU 19 HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de001a, "GPU 1a HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de001b, "GPU 1b HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de001c, "GPU 1c HDMI/DP",	MODEL_LEGACY),
-+	HDA_CODEC_ID_MODEL(0x10de0040, "GPU 40 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0041, "GPU 41 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0042, "GPU 42 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0043, "GPU 43 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0044, "GPU 44 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0045, "GPU 45 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0050, "GPU 50 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0051, "GPU 51 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0052, "GPU 52 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0060, "GPU 60 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0061, "GPU 61 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0062, "GPU 62 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0070, "GPU 70 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0071, "GPU 71 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0072, "GPU 72 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0073, "GPU 73 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0074, "GPU 74 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0076, "GPU 76 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de007b, "GPU 7b HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de007c, "GPU 7c HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de007d, "GPU 7d HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de007e, "GPU 7e HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0080, "GPU 80 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0081, "GPU 81 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0082, "GPU 82 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0083, "GPU 83 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0084, "GPU 84 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0090, "GPU 90 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0091, "GPU 91 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0092, "GPU 92 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0093, "GPU 93 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0094, "GPU 94 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0095, "GPU 95 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0097, "GPU 97 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0098, "GPU 98 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de0099, "GPU 99 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de009a, "GPU 9a HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de009d, "GPU 9d HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de009e, "GPU 9e HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de009f, "GPU 9f HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de00a0, "GPU a0 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de00a3, "GPU a3 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de00a4, "GPU a4 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de00a5, "GPU a5 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de00a6, "GPU a6 HDMI/DP",	MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x10de00a7, "GPU a7 HDMI/DP",	MODEL_GENERIC),
-+	{} /* terminator */
- };
- MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_nvhdmi);
- 
-@@ -213,6 +217,7 @@ MODULE_IMPORT_NS("SND_HDA_CODEC_HDMI");
- 
- static struct hda_codec_driver nvhdmi_driver = {
- 	.id = snd_hda_id_nvhdmi,
-+	.ops = &nvhdmi_codec_ops,
- };
- 
- module_hda_codec_driver(nvhdmi_driver);
-diff --git a/sound/hda/codecs/hdmi/simplehdmi.c b/sound/hda/codecs/hdmi/simplehdmi.c
-index 87ea997a6d3b..193c8dc882af 100644
---- a/sound/hda/codecs/hdmi/simplehdmi.c
-+++ b/sound/hda/codecs/hdmi/simplehdmi.c
-@@ -107,7 +107,7 @@ int snd_hda_hdmi_simple_init(struct hda_codec *codec)
- }
- EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_simple_init, "SND_HDA_CODEC_HDMI");
- 
--void snd_hda_hdmi_simple_free(struct hda_codec *codec)
-+void snd_hda_hdmi_simple_remove(struct hda_codec *codec)
- {
- 	struct hdmi_spec *spec = codec->spec;
- 
-@@ -115,7 +115,7 @@ void snd_hda_hdmi_simple_free(struct hda_codec *codec)
- 	snd_array_free(&spec->cvts);
- 	kfree(spec);
- }
--EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_simple_free, "SND_HDA_CODEC_HDMI");
-+EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_simple_remove, "SND_HDA_CODEC_HDMI");
- 
- int snd_hda_hdmi_simple_pcm_open(struct hda_pcm_stream *hinfo,
- 				 struct hda_codec *codec,
-@@ -168,16 +168,8 @@ static const struct hda_pcm_stream simple_pcm_playback = {
- 	},
- };
- 
--static const struct hda_codec_ops simple_hdmi_patch_ops = {
--	.build_controls = snd_hda_hdmi_simple_build_controls,
--	.build_pcms = snd_hda_hdmi_simple_build_pcms,
--	.init = snd_hda_hdmi_simple_init,
--	.free = snd_hda_hdmi_simple_free,
--	.unsol_event = snd_hda_hdmi_simple_unsol_event,
--};
--
--int patch_simple_hdmi(struct hda_codec *codec,
--		      hda_nid_t cvt_nid, hda_nid_t pin_nid)
-+int snd_hda_hdmi_simple_probe(struct hda_codec *codec,
-+			      hda_nid_t cvt_nid, hda_nid_t pin_nid)
- {
- 	struct hdmi_spec *spec;
- 	struct hdmi_spec_per_cvt *per_cvt;
-@@ -200,35 +192,52 @@ int patch_simple_hdmi(struct hda_codec *codec,
- 	per_pin = snd_array_new(&spec->pins);
- 	per_cvt = snd_array_new(&spec->cvts);
- 	if (!per_pin || !per_cvt) {
--		snd_hda_hdmi_simple_free(codec);
-+		snd_hda_hdmi_simple_remove(codec);
+-	struct si3054_spec *spec = kzalloc(sizeof(*spec), GFP_KERNEL);
+-	if (spec == NULL)
++	codec->spec = kzalloc(sizeof(struct si3054_spec), GFP_KERNEL);
++	if (!codec->spec)
  		return -ENOMEM;
- 	}
- 	per_cvt->cvt_nid = cvt_nid;
- 	per_pin->pin_nid = pin_nid;
- 	spec->pcm_playback = simple_pcm_playback;
- 
--	codec->patch_ops = simple_hdmi_patch_ops;
--
+-	codec->spec = spec;
+-	codec->patch_ops = si3054_patch_ops;
  	return 0;
  }
--EXPORT_SYMBOL_NS_GPL(patch_simple_hdmi, "SND_HDA_CODEC_HDMI");
-+EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_simple_probe, "SND_HDA_CODEC_HDMI");
-+
-+/*
-+ * driver entries
-+ */
-+
-+enum { MODEL_VIA };
  
- /* VIA HDMI Implementation */
- #define VIAHDMI_CVT_NID	0x02	/* audio converter1 */
- #define VIAHDMI_PIN_NID	0x03	/* HDMI output pin1 */
- 
--static int patch_via_hdmi(struct hda_codec *codec)
-+static int simplehdmi_probe(struct hda_codec *codec,
-+			    const struct hda_device_id *id)
- {
--	return patch_simple_hdmi(codec, VIAHDMI_CVT_NID, VIAHDMI_PIN_NID);
-+	switch (id->driver_data) {
-+	case MODEL_VIA:
-+		return snd_hda_hdmi_simple_probe(codec, VIAHDMI_CVT_NID,
-+						 VIAHDMI_PIN_NID);
-+	default:
-+		return -EINVAL;
-+	}
- }
- 
--/*
-- * patch entries
-- */
-+static const struct hda_codec_ops simplehdmi_codec_ops = {
-+	.probe = simplehdmi_probe,
-+	.remove = snd_hda_hdmi_simple_remove,
-+	.build_controls = snd_hda_hdmi_simple_build_controls,
-+	.build_pcms = snd_hda_hdmi_simple_build_pcms,
-+	.init = snd_hda_hdmi_simple_init,
-+	.unsol_event = snd_hda_hdmi_simple_unsol_event,
-+};
-+
- static const struct hda_device_id snd_hda_id_simplehdmi[] = {
--HDA_CODEC_ENTRY(0x11069f80, "VX900 HDMI/DP",	patch_via_hdmi),
--HDA_CODEC_ENTRY(0x11069f81, "VX900 HDMI/DP",	patch_via_hdmi),
--{} /* terminator */
-+	HDA_CODEC_ID_MODEL(0x11069f80, "VX900 HDMI/DP",	MODEL_VIA),
-+	HDA_CODEC_ID_MODEL(0x11069f81, "VX900 HDMI/DP",	MODEL_VIA),
-+	{} /* terminator */
- };
- 
- MODULE_LICENSE("GPL");
-@@ -236,6 +245,7 @@ MODULE_DESCRIPTION("Simple HDMI HD-audio codec support");
- 
- static struct hda_codec_driver simplehdmi_driver = {
- 	.id = snd_hda_id_simplehdmi,
-+	.ops = &simplehdmi_codec_ops,
- };
- 
- module_hda_codec_driver(simplehdmi_driver);
-diff --git a/sound/hda/codecs/hdmi/tegrahdmi.c b/sound/hda/codecs/hdmi/tegrahdmi.c
-index c13a63788799..f1f745187f68 100644
---- a/sound/hda/codecs/hdmi/tegrahdmi.c
-+++ b/sound/hda/codecs/hdmi/tegrahdmi.c
-@@ -13,6 +13,11 @@
- #include "hda_local.h"
- #include "hdmi_local.h"
- 
-+enum {
-+	MODEL_TEGRA,
-+	MODEL_TEGRA234,
++static const struct hda_codec_ops si3054_codec_ops = {
++	.probe = si3054_probe,
++	.remove = si3054_remove,
++	.build_controls = si3054_build_controls,
++	.build_pcms = si3054_build_pcms,
++	.init = si3054_init,
 +};
 +
  /*
-  * The HDA codec on NVIDIA Tegra contains two scratch registers that are
-  * accessed using vendor-defined verbs. These registers can be used for
-@@ -241,7 +246,6 @@ static int tegra_hdmi_init(struct hda_codec *codec)
- 	snd_hda_hdmi_generic_init_per_pins(codec);
- 
- 	codec->depop_delay = 10;
--	codec->patch_ops.build_pcms = tegra_hdmi_build_pcms;
- 	spec->chmap.ops.chmap_cea_alloc_validate_get_type =
- 		nvhdmi_chmap_cea_alloc_validate_get_type;
- 	spec->chmap.ops.chmap_validate = nvhdmi_chmap_validate;
-@@ -254,18 +258,8 @@ static int tegra_hdmi_init(struct hda_codec *codec)
- 	return 0;
- }
- 
--static int patch_tegra_hdmi(struct hda_codec *codec)
--{
--	int err;
--
--	err = snd_hda_hdmi_generic_alloc(codec);
--	if (err < 0)
--		return err;
--
--	return tegra_hdmi_init(codec);
--}
--
--static int patch_tegra234_hdmi(struct hda_codec *codec)
-+static int tegrahdmi_probe(struct hda_codec *codec,
-+			   const struct hda_device_id *id)
- {
- 	struct hdmi_spec *spec;
- 	int err;
-@@ -274,31 +268,39 @@ static int patch_tegra234_hdmi(struct hda_codec *codec)
- 	if (err < 0)
- 		return err;
- 
--	codec->dp_mst = true;
--	spec = codec->spec;
--	spec->dyn_pin_out = true;
--	spec->hdmi_intr_trig_ctrl = true;
-+	if (id->driver_data == MODEL_TEGRA234) {
-+		codec->dp_mst = true;
-+		spec = codec->spec;
-+		spec->dyn_pin_out = true;
-+		spec->hdmi_intr_trig_ctrl = true;
-+	}
- 
- 	return tegra_hdmi_init(codec);
- }
- 
--/*
 - * patch entries
-- */
-+static const struct hda_codec_ops tegrahdmi_codec_ops = {
-+	.probe = tegrahdmi_probe,
-+	.remove = snd_hda_hdmi_generic_remove,
-+	.init = snd_hda_hdmi_generic_init,
-+	.build_pcms = tegra_hdmi_build_pcms,
-+	.build_controls = snd_hda_hdmi_generic_build_controls,
-+	.unsol_event = snd_hda_hdmi_generic_unsol_event,
-+	.suspend = snd_hda_hdmi_generic_suspend,
-+	.resume = snd_hda_hdmi_generic_resume,
-+};
-+
- static const struct hda_device_id snd_hda_id_tegrahdmi[] = {
--HDA_CODEC_ENTRY(0x10de0020, "Tegra30 HDMI",	patch_tegra_hdmi),
--HDA_CODEC_ENTRY(0x10de0022, "Tegra114 HDMI",	patch_tegra_hdmi),
--HDA_CODEC_ENTRY(0x10de0028, "Tegra124 HDMI",	patch_tegra_hdmi),
--HDA_CODEC_ENTRY(0x10de0029, "Tegra210 HDMI/DP",	patch_tegra_hdmi),
--HDA_CODEC_ENTRY(0x10de002d, "Tegra186 HDMI/DP0", patch_tegra_hdmi),
--HDA_CODEC_ENTRY(0x10de002e, "Tegra186 HDMI/DP1", patch_tegra_hdmi),
--HDA_CODEC_ENTRY(0x10de002f, "Tegra194 HDMI/DP2", patch_tegra_hdmi),
--HDA_CODEC_ENTRY(0x10de0030, "Tegra194 HDMI/DP3", patch_tegra_hdmi),
--HDA_CODEC_ENTRY(0x10de0031, "Tegra234 HDMI/DP", patch_tegra234_hdmi),
--HDA_CODEC_ENTRY(0x10de0033, "SoC 33 HDMI/DP",	patch_tegra234_hdmi),
--HDA_CODEC_ENTRY(0x10de0034, "Tegra264 HDMI/DP",	patch_tegra234_hdmi),
--HDA_CODEC_ENTRY(0x10de0035, "SoC 35 HDMI/DP",	patch_tegra234_hdmi),
--{} /* terminator */
-+	HDA_CODEC_ID_MODEL(0x10de0020, "Tegra30 HDMI",		MODEL_TEGRA),
-+	HDA_CODEC_ID_MODEL(0x10de0022, "Tegra114 HDMI",		MODEL_TEGRA),
-+	HDA_CODEC_ID_MODEL(0x10de0028, "Tegra124 HDMI",		MODEL_TEGRA),
-+	HDA_CODEC_ID_MODEL(0x10de0029, "Tegra210 HDMI/DP",	MODEL_TEGRA),
-+	HDA_CODEC_ID_MODEL(0x10de002d, "Tegra186 HDMI/DP0",	MODEL_TEGRA),
-+	HDA_CODEC_ID_MODEL(0x10de002e, "Tegra186 HDMI/DP1",	MODEL_TEGRA),
-+	HDA_CODEC_ID_MODEL(0x10de002f, "Tegra194 HDMI/DP2",	MODEL_TEGRA),
-+	HDA_CODEC_ID_MODEL(0x10de0030, "Tegra194 HDMI/DP3",	MODEL_TEGRA),
-+	HDA_CODEC_ID_MODEL(0x10de0031, "Tegra234 HDMI/DP",	MODEL_TEGRA234),
-+	HDA_CODEC_ID_MODEL(0x10de0034, "Tegra264 HDMI/DP",	MODEL_TEGRA234),
-+	{} /* terminator */
++ * driver entries
+  */
+ static const struct hda_device_id snd_hda_id_si3054[] = {
+-	HDA_CODEC_ENTRY(0x163c3055, "Si3054", patch_si3054),
+-	HDA_CODEC_ENTRY(0x163c3155, "Si3054", patch_si3054),
+-	HDA_CODEC_ENTRY(0x11c13026, "Si3054", patch_si3054),
+-	HDA_CODEC_ENTRY(0x11c13055, "Si3054", patch_si3054),
+-	HDA_CODEC_ENTRY(0x11c13155, "Si3054", patch_si3054),
+-	HDA_CODEC_ENTRY(0x10573055, "Si3054", patch_si3054),
+-	HDA_CODEC_ENTRY(0x10573057, "Si3054", patch_si3054),
+-	HDA_CODEC_ENTRY(0x10573155, "Si3054", patch_si3054),
++	HDA_CODEC_ID(0x163c3055, "Si3054"),
++	HDA_CODEC_ID(0x163c3155, "Si3054"),
++	HDA_CODEC_ID(0x11c13026, "Si3054"),
++	HDA_CODEC_ID(0x11c13055, "Si3054"),
++	HDA_CODEC_ID(0x11c13155, "Si3054"),
++	HDA_CODEC_ID(0x10573055, "Si3054"),
++	HDA_CODEC_ID(0x10573057, "Si3054"),
++	HDA_CODEC_ID(0x10573155, "Si3054"),
+ 	/* VIA HDA on Clevo m540 */
+-	HDA_CODEC_ENTRY(0x11063288, "Si3054", patch_si3054),
++	HDA_CODEC_ID(0x11063288, "Si3054"),
+ 	/* Asus A8J Modem (SM56) */
+-	HDA_CODEC_ENTRY(0x15433155, "Si3054", patch_si3054),
++	HDA_CODEC_ID(0x15433155, "Si3054"),
+ 	/* LG LW20 modem */
+-	HDA_CODEC_ENTRY(0x18540018, "Si3054", patch_si3054),
++	HDA_CODEC_ID(0x18540018, "Si3054"),
+ 	{}
  };
- MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_tegrahdmi);
+ MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_si3054);
+@@ -299,6 +297,7 @@ MODULE_DESCRIPTION("Si3054 HD-audio modem codec");
  
-@@ -308,6 +310,7 @@ MODULE_IMPORT_NS("SND_HDA_CODEC_HDMI");
- 
- static struct hda_codec_driver tegrahdmi_driver = {
- 	.id = snd_hda_id_tegrahdmi,
-+	.ops = &tegrahdmi_codec_ops,
+ static struct hda_codec_driver si3054_driver = {
+ 	.id = snd_hda_id_si3054,
++	.ops = &si3054_codec_ops,
  };
  
- module_hda_codec_driver(tegrahdmi_driver);
+ module_hda_codec_driver(si3054_driver);
 -- 
 2.50.0
 
