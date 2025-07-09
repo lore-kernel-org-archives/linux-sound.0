@@ -1,79 +1,78 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C162DA743
-	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5412C0327
+	for <linux-sound@vger.kernel.org>; Wed,  9 Jul 2025 16:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752077550; cv=none; b=FtWqH1d2kPwTJTBG6wxcp/1jMGerN6+f4175/HJn6BYqjccDvIAsE2ISgkJ8hswms9O8DedekcvC4y6Qtnh60zB5dTc50mJigpGqx+PDYHqqRWg/VqMBxIIfqj6u+dHFT0HyCicDRKUiSOvN2fHdY4H9EtsX7rVweJnXqJR6mGQ=
+	t=1752077557; cv=none; b=u89Ukku1jqB6eMLczzI/5hYpDQFTEgUcAv6WF3SFp4uGgslGfirRD6BJlBWlk/Iq9GfsIoBJCZsdmX1sb62DfzEAemr5H6Pmkwe5hWWvfaswhGENc1srYR+GjJF7ASfMPdMfKz4gvPPMAmgpgJ+o6eTweLH3TgIAUXVcXzpZ0Pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752077550; c=relaxed/simple;
-	bh=uHCOjtbQRgW6MoBhswoMrfg/u+cBSqj96Y1fRGpyvoc=;
+	s=arc-20240116; t=1752077557; c=relaxed/simple;
+	bh=/IQE+EE1W9MAfeu2dDsAiigQR2WQzBs3TtFdju5e8ek=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tQEqjq65fYVNZBkHmNpDpfWmRmAN8v7n1+ymURX953g5NW0iHHfhI9AGTEHvfTojgjOOU4azcFmdIPnOm9pWJoW5Q1OXAKghG0GP9OaXszCSecSHB4/5LM31KeG64UNMj9EhCHVLv2k7I6mkEHP+VgKo8VuOIVk5duhLl2e20tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CJYyaO+y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6RXZXTH3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CJYyaO+y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6RXZXTH3; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=dBV2+uPnMAB91f8miqE03g19V1NAKfNxv/9EEtxzpYmfN93iT7hifjyl4Q3gw0jRdamOMCOacAsIY3DA/p40HjcabsYRhrS+vnD9+IWWlwwgXlRP2vt2P2kSxich7CL7X9srFyyRKOVhyvPIIaII7g5ZRf47JFz43NngfB0ZXLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a3nxTJJI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JoPfiPoc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a3nxTJJI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JoPfiPoc; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CJYyaO+y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6RXZXTH3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CJYyaO+y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6RXZXTH3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a3nxTJJI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JoPfiPoc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a3nxTJJI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JoPfiPoc"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5D41521180;
-	Wed,  9 Jul 2025 16:04:54 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BAE5621185;
+	Wed,  9 Jul 2025 16:04:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752077095; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cWQEeP8rjSxgAMhVpWVlUdIiOg5XKDFV0kPGSayIoNc=;
-	b=CJYyaO+ytDHk/vGmIVn0fA0gTSr5NXd18crexWSZA0gzswm5Z2otvLau7MoaS8BVYr3DRJ
-	JMr8q9y9f6zqrhTWzn0pmQWPVClxen9t9QcJ3PaWbecRfBiknp+rpuP2mPvWVqZrmvXSO4
-	9iMtHgpuGYxrS2oPY1YKhI6dzVvQiZA=
+	bh=lFJjNVWvWvDtamKU4xxN67+0rzZHtBQisZlSUsn3Nac=;
+	b=a3nxTJJIwS/oeRsuzy9nIDUbDcYSg8vwurATOT/88WtcYSCaIfpZyNnynz8C2JNMVgFBtv
+	Yd7Bpw+poTuq61eUSmCN3yXmZ7Zt9yRgwi+JK/7BeoEciIZ/tAL0y0LI5AruGBwJkOApQ9
+	u9HXumyH2IoHw0z4HpdW4/fjYqMZO8o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077094;
+	s=susede2_ed25519; t=1752077095;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cWQEeP8rjSxgAMhVpWVlUdIiOg5XKDFV0kPGSayIoNc=;
-	b=6RXZXTH3Hu4mBetry1gzlx0kbSZP8NxYQ7WDttM8onsFSkk0bP3nlYAcWLNwor6FN/Fu3q
-	Ye7qO1LEab+4wJDQ==
+	bh=lFJjNVWvWvDtamKU4xxN67+0rzZHtBQisZlSUsn3Nac=;
+	b=JoPfiPocSH6xhs+sw7f9Hv5zUN3vXKrfQN7uhgl2/SJ327hNKxhQyUP7Kx+9MvT0TOtNdn
+	uewVoqOYDUgJD6Aw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CJYyaO+y;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6RXZXTH3
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752077094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752077095; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cWQEeP8rjSxgAMhVpWVlUdIiOg5XKDFV0kPGSayIoNc=;
-	b=CJYyaO+ytDHk/vGmIVn0fA0gTSr5NXd18crexWSZA0gzswm5Z2otvLau7MoaS8BVYr3DRJ
-	JMr8q9y9f6zqrhTWzn0pmQWPVClxen9t9QcJ3PaWbecRfBiknp+rpuP2mPvWVqZrmvXSO4
-	9iMtHgpuGYxrS2oPY1YKhI6dzVvQiZA=
+	bh=lFJjNVWvWvDtamKU4xxN67+0rzZHtBQisZlSUsn3Nac=;
+	b=a3nxTJJIwS/oeRsuzy9nIDUbDcYSg8vwurATOT/88WtcYSCaIfpZyNnynz8C2JNMVgFBtv
+	Yd7Bpw+poTuq61eUSmCN3yXmZ7Zt9yRgwi+JK/7BeoEciIZ/tAL0y0LI5AruGBwJkOApQ9
+	u9HXumyH2IoHw0z4HpdW4/fjYqMZO8o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752077094;
+	s=susede2_ed25519; t=1752077095;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cWQEeP8rjSxgAMhVpWVlUdIiOg5XKDFV0kPGSayIoNc=;
-	b=6RXZXTH3Hu4mBetry1gzlx0kbSZP8NxYQ7WDttM8onsFSkk0bP3nlYAcWLNwor6FN/Fu3q
-	Ye7qO1LEab+4wJDQ==
+	bh=lFJjNVWvWvDtamKU4xxN67+0rzZHtBQisZlSUsn3Nac=;
+	b=JoPfiPocSH6xhs+sw7f9Hv5zUN3vXKrfQN7uhgl2/SJ327hNKxhQyUP7Kx+9MvT0TOtNdn
+	uewVoqOYDUgJD6Aw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 181C3136DC;
-	Wed,  9 Jul 2025 16:04:54 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 799CD136DC;
+	Wed,  9 Jul 2025 16:04:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gMO3BCaTbmhDEAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:04:54 +0000
+	id +LyNHCeTbmhDEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 09 Jul 2025 16:04:55 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
@@ -84,9 +83,9 @@ Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	patches@opensource.cirrus.com,
 	Baojun Xu <baojun.xu@ti.com>,
 	bo liu <bo.liu@senarytech.com>
-Subject: [PATCH 14/27] ALSA: hda/ca0110: Rewrite to new probe method
-Date: Wed,  9 Jul 2025 18:04:17 +0200
-Message-ID: <20250709160434.1859-15-tiwai@suse.de>
+Subject: [PATCH 16/27] ALSA: hda/cs8409: Rewrite to new probe method
+Date: Wed,  9 Jul 2025 18:04:19 +0200
+Message-ID: <20250709160434.1859-17-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250709160434.1859-1-tiwai@suse.de>
 References: <20250709160434.1859-1-tiwai@suse.de>
@@ -97,132 +96,219 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	R_RATELIMIT(0.00)[to_ip_from(RL7bz5f8woybp4997xe1n6ecoy)];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	R_RATELIMIT(0.00)[to_ip_from(RL53w3f6h5bdz1qypc3i64rty7)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 5D41521180
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 
-Convert the CA0110 codec driver to use the new hda_codec_ops probe.
-No functional changes.
+Convert the CS8409 codec driver to use the new hda_codec_ops probe.
+The Dolphin support needs an override of unsol_event callback, and
+redirect via spec->unsol_event function pointer for now.
+
+Other than that, no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/ca0110.c | 35 +++++++++++++++++------------------
- 1 file changed, 17 insertions(+), 18 deletions(-)
+ sound/hda/codecs/cirrus/cs8409-tables.c |  2 +-
+ sound/hda/codecs/cirrus/cs8409.c        | 55 +++++++++++++------------
+ sound/hda/codecs/cirrus/cs8409.h        |  4 +-
+ 3 files changed, 33 insertions(+), 28 deletions(-)
 
-diff --git a/sound/hda/codecs/ca0110.c b/sound/hda/codecs/ca0110.c
-index 0353544435b9..c75a9ff9460d 100644
---- a/sound/hda/codecs/ca0110.c
-+++ b/sound/hda/codecs/ca0110.c
+diff --git a/sound/hda/codecs/cirrus/cs8409-tables.c b/sound/hda/codecs/cirrus/cs8409-tables.c
+index 5fe49f13c0da..8c703b714a71 100644
+--- a/sound/hda/codecs/cirrus/cs8409-tables.c
++++ b/sound/hda/codecs/cirrus/cs8409-tables.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * cs8409-tables.c  --  HD audio interface patch for Cirrus Logic CS8409 HDA bridge chip
++ * cs8409-tables.c  --  HD audio codec driver for Cirrus Logic CS8409 HDA bridge chip
+  *
+  * Copyright (C) 2021 Cirrus Logic, Inc. and
+  *                    Cirrus Logic International Semiconductor Ltd.
+diff --git a/sound/hda/codecs/cirrus/cs8409.c b/sound/hda/codecs/cirrus/cs8409.c
+index 5ec1126b2a55..e32b462cdc5e 100644
+--- a/sound/hda/codecs/cirrus/cs8409.c
++++ b/sound/hda/codecs/cirrus/cs8409.c
 @@ -1,6 +1,6 @@
  // SPDX-License-Identifier: GPL-2.0-or-later
  /*
-- * HD audio interface patch for Creative X-Fi CA0110-IBG chip
-+ * HD audio codec driver for Creative X-Fi CA0110-IBG chip
+- * HD audio interface patch for Cirrus Logic CS8409 HDA bridge chip
++ * HD audio codec driver for Cirrus Logic CS8409 HDA bridge chip
   *
-  * Copyright (c) 2008 Takashi Iwai <tiwai@suse.de>
-  */
-@@ -15,15 +15,6 @@
- #include "hda_jack.h"
- #include "generic.h"
- 
--
--static const struct hda_codec_ops ca0110_patch_ops = {
--	.build_controls = snd_hda_gen_build_controls,
--	.build_pcms = snd_hda_gen_build_pcms,
--	.init = snd_hda_gen_init,
--	.free = snd_hda_gen_free,
--	.unsol_event = snd_hda_jack_unsol_event,
--};
--
- static int ca0110_parse_auto_config(struct hda_codec *codec)
- {
- 	struct hda_gen_spec *spec = codec->spec;
-@@ -39,8 +30,7 @@ static int ca0110_parse_auto_config(struct hda_codec *codec)
- 	return 0;
+  * Copyright (C) 2021 Cirrus Logic, Inc. and
+  *                    Cirrus Logic International Semiconductor Ltd.
+@@ -954,7 +954,7 @@ static void cs42l42_suspend(struct sub_codec *cs42l42)
+ 	snd_hda_codec_write(codec, CS8409_PIN_AFG, 0, AC_VERB_SET_GPIO_DATA, spec->gpio_data);
  }
  
--
--static int patch_ca0110(struct hda_codec *codec)
-+static int ca0110_probe(struct hda_codec *codec, const struct hda_device_id *id)
+-static void cs8409_free(struct hda_codec *codec)
++static void cs8409_remove(struct hda_codec *codec)
  {
- 	struct hda_gen_spec *spec;
- 	int err;
-@@ -50,7 +40,6 @@ static int patch_ca0110(struct hda_codec *codec)
- 		return -ENOMEM;
- 	snd_hda_gen_spec_init(spec);
- 	codec->spec = spec;
--	codec->patch_ops = ca0110_patch_ops;
+ 	struct cs8409_spec *spec = codec->spec;
  
- 	spec->multi_cap_vol = 1;
- 	codec->bus->core.needs_damn_long_delay = 1;
-@@ -62,18 +51,27 @@ static int patch_ca0110(struct hda_codec *codec)
- 	return 0;
+@@ -962,7 +962,7 @@ static void cs8409_free(struct hda_codec *codec)
+ 	cancel_delayed_work_sync(&spec->i2c_clk_work);
+ 	cs8409_disable_i2c_clock(codec);
  
-  error:
 -	snd_hda_gen_free(codec);
 +	snd_hda_gen_remove(codec);
- 	return err;
  }
  
+ /******************************************************************************
+@@ -1007,6 +1007,16 @@ static void cs8409_cs42l42_jack_unsol_event(struct hda_codec *codec, unsigned in
+ 	}
+ }
  
-+static const struct hda_codec_ops ca0110_codec_ops = {
-+	.probe = ca0110_probe,
-+	.remove = snd_hda_gen_remove,
-+	.build_controls = snd_hda_gen_build_controls,
++static void cs8409_unsol_event(struct hda_codec *codec, unsigned int res)
++{
++	struct cs8409_spec *spec = codec->spec;
++
++	if (spec->unsol_event)
++		spec->unsol_event(codec, res);
++	else
++		cs8409_cs42l42_jack_unsol_event(codec, res);
++}
++
+ /* Manage PDREF, when transition to D3hot */
+ static int cs8409_cs42l42_suspend(struct hda_codec *codec)
+ {
+@@ -1076,15 +1086,6 @@ static void cs8409_cs42l42_hw_init(struct hda_codec *codec)
+ 	cs8409_enable_ur(codec, 1);
+ }
+ 
+-static const struct hda_codec_ops cs8409_cs42l42_patch_ops = {
+-	.build_controls = cs8409_build_controls,
+-	.build_pcms = snd_hda_gen_build_pcms,
+-	.init = cs8409_init,
+-	.free = cs8409_free,
+-	.unsol_event = cs8409_cs42l42_jack_unsol_event,
+-	.suspend = cs8409_cs42l42_suspend,
+-};
+-
+ static int cs8409_cs42l42_exec_verb(struct hdac_device *dev, unsigned int cmd, unsigned int flags,
+ 				    unsigned int *res)
+ {
+@@ -1134,7 +1135,6 @@ void cs8409_cs42l42_fixups(struct hda_codec *codec, const struct hda_fixup *fix,
+ 		spec->scodecs[CS8409_CODEC0] = &cs8409_cs42l42_codec;
+ 		spec->num_scodecs = 1;
+ 		spec->scodecs[CS8409_CODEC0]->codec = codec;
+-		codec->patch_ops = cs8409_cs42l42_patch_ops;
+ 
+ 		spec->gen.suppress_auto_mute = 1;
+ 		spec->gen.no_primary_hp = 1;
+@@ -1304,15 +1304,6 @@ static void dolphin_hw_init(struct hda_codec *codec)
+ 	cs8409_enable_ur(codec, 1);
+ }
+ 
+-static const struct hda_codec_ops cs8409_dolphin_patch_ops = {
+-	.build_controls = cs8409_build_controls,
+-	.build_pcms = snd_hda_gen_build_pcms,
+-	.init = cs8409_init,
+-	.free = cs8409_free,
+-	.unsol_event = dolphin_jack_unsol_event,
+-	.suspend = cs8409_cs42l42_suspend,
+-};
+-
+ static int dolphin_exec_verb(struct hdac_device *dev, unsigned int cmd, unsigned int flags,
+ 			     unsigned int *res)
+ {
+@@ -1371,7 +1362,7 @@ void dolphin_fixups(struct hda_codec *codec, const struct hda_fixup *fix, int ac
+ 		spec->num_scodecs = 2;
+ 		spec->gen.suppress_vmaster = 1;
+ 
+-		codec->patch_ops = cs8409_dolphin_patch_ops;
++		spec->unsol_event = dolphin_jack_unsol_event;
+ 
+ 		/* GPIO 1,5 out, 0,4 in */
+ 		spec->gpio_dir = spec->scodecs[CS8409_CODEC0]->reset_gpio |
+@@ -1444,7 +1435,7 @@ void dolphin_fixups(struct hda_codec *codec, const struct hda_fixup *fix, int ac
+ 	}
+ }
+ 
+-static int patch_cs8409(struct hda_codec *codec)
++static int cs8409_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ {
+ 	int err;
+ 
+@@ -1461,7 +1452,7 @@ static int patch_cs8409(struct hda_codec *codec)
+ 
+ 	err = cs8409_parse_auto_config(codec);
+ 	if (err < 0) {
+-		cs8409_free(codec);
++		cs8409_remove(codec);
+ 		return err;
+ 	}
+ 
+@@ -1469,14 +1460,26 @@ static int patch_cs8409(struct hda_codec *codec)
+ 	return 0;
+ }
+ 
++static const struct hda_codec_ops cs8409_codec_ops = {
++	.probe = cs8409_probe,
++	.remove = cs8409_remove,
++	.build_controls = cs8409_build_controls,
 +	.build_pcms = snd_hda_gen_build_pcms,
-+	.init = snd_hda_gen_init,
-+	.unsol_event = snd_hda_jack_unsol_event,
++	.init = cs8409_init,
++	.unsol_event = cs8409_unsol_event,
++	.suspend = cs8409_cs42l42_suspend,
++	.stream_pm = snd_hda_gen_stream_pm,
 +};
 +
- /*
-- * patch entries
-+ * driver entries
-  */
- static const struct hda_device_id snd_hda_id_ca0110[] = {
--	HDA_CODEC_ENTRY(0x1102000a, "CA0110-IBG", patch_ca0110),
--	HDA_CODEC_ENTRY(0x1102000b, "CA0110-IBG", patch_ca0110),
--	HDA_CODEC_ENTRY(0x1102000d, "SB0880 X-Fi", patch_ca0110),
-+	HDA_CODEC_ID(0x1102000a, "CA0110-IBG"),
-+	HDA_CODEC_ID(0x1102000b, "CA0110-IBG"),
-+	HDA_CODEC_ID(0x1102000d, "SB0880 X-Fi"),
+ static const struct hda_device_id snd_hda_id_cs8409[] = {
+-	HDA_CODEC_ENTRY(0x10138409, "CS8409", patch_cs8409),
++	HDA_CODEC_ID(0x10138409, "CS8409"),
  	{} /* terminator */
  };
- MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_ca0110);
-@@ -83,6 +81,7 @@ MODULE_DESCRIPTION("Creative CA0110-IBG HD-audio codec");
+ MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_cs8409);
  
- static struct hda_codec_driver ca0110_driver = {
- 	.id = snd_hda_id_ca0110,
-+	.ops = &ca0110_codec_ops,
+ static struct hda_codec_driver cs8409_driver = {
+ 	.id = snd_hda_id_cs8409,
++	.ops = &cs8409_codec_ops,
+ };
+ module_hda_codec_driver(cs8409_driver);
+ 
+diff --git a/sound/hda/codecs/cirrus/cs8409.h b/sound/hda/codecs/cirrus/cs8409.h
+index 35072cd009dc..7fe56f4a73bc 100644
+--- a/sound/hda/codecs/cirrus/cs8409.h
++++ b/sound/hda/codecs/cirrus/cs8409.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+ /*
+- * HD audio interface patch for Cirrus Logic CS8409 HDA bridge chip
++ * HD audio codec driver for Cirrus Logic CS8409 HDA bridge chip
+  *
+  * Copyright (C) 2021 Cirrus Logic, Inc. and
+  *                    Cirrus Logic International Semiconductor Ltd.
+@@ -345,6 +345,8 @@ struct cs8409_spec {
+ 	/* verb exec op override */
+ 	int (*exec_verb)(struct hdac_device *dev, unsigned int cmd, unsigned int flags,
+ 			 unsigned int *res);
++	/* unsol_event op override */
++	void (*unsol_event)(struct hda_codec *codec, unsigned int res);
  };
  
- module_hda_codec_driver(ca0110_driver);
+ extern const struct snd_kcontrol_new cs42l42_dac_volume_mixer;
 -- 
 2.50.0
 
