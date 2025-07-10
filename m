@@ -1,94 +1,153 @@
-Received: from e3i282.smtp2go.com (e3i282.smtp2go.com [158.120.85.26])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD6882899
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 13:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E0925D8E8;
+	Thu, 10 Jul 2025 13:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752154428; cv=none; b=oGi4Sk4XLf8pQy2El6QJ09smmPNh9qA5o5Eumh4qk7lLTlo4VJV4iPtXLJtJtsJSgQ7+jUBeaE88zj/2iwFZt8/hjezI/D/ulX09IIUvQjVnueS3m7cix/FFFDqEoW8eXdeFOeJ2w/maJKy3aA15RNzPgMHqQpXqdwrstYFiNik=
+	t=1752154914; cv=none; b=Nc2EQ1AGPDJfSakGx78HdjqVtsOO+QyXLniGTUy9IZI3J7RlctzbVl634qM9/6BJFi/O/eHWqoImWgo1ekMmduYKUZq67+fiLWQA4lUEQ037CHn1xKtJEhig0jMQjl8xfzo0NQhntDvUV21ydW+TAeTEiRGzKshbAQE3p+vHVRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752154428; c=relaxed/simple;
-	bh=M7l6/QLIPUoglGrfdye4yiQdtH9sXmYpR0Yv55tKrto=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z0DJ7mrtv4IJoNUPDJe/gqhfHaoPuzUBeDRICbuDe22LJiKghSDaVE13oVzgOIi4tei+tgKUwZ37XU19c3kS318OuMnvn7x2KDnypJO8aEwRUTHw+1LuhvHHRl3d0RiUMLe6Rydc81yqMTk2ep8Y2nzwz88jFIAf6ROnOJZIKgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev; spf=pass smtp.mailfrom=em1255854.medip.dev; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=vX9zkgm3; dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b=EKPqW4IA; arc=none smtp.client-ip=158.120.85.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1255854.medip.dev
+	s=arc-20240116; t=1752154914; c=relaxed/simple;
+	bh=fiVg+72fLvemxCPHUpPGQOk+oG7zrpHnGkly3RQGnwY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uO5DRVnuMmEY0mEgiO660OwPjqqQPhaAFQq1sGV9VLcBlNH2pGsxWA7LUj1Zb59wy28HYzWzkcJBUuzAzd+/9R3RziscMm7P4cgZZvDcFW3xQaqnsEeNLfhmlhCb04HYKaU0yQlYq/hNX7dcqawg87P6rc3m7EVpM31jJjLKvdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=IOXmIKMT; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=M3CIyWOX reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="vX9zkgm3";
-	dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b="EKPqW4IA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
- i=@smtpservice.net; q=dns/txt; s=a1-4; t=1752153513; h=feedback-id :
- x-smtpcorp-track : date : message-id : to : subject : from : reply-to
- : sender : list-unsubscribe : list-unsubscribe-post;
- bh=vsPjCCPZRDftl844wyMwpzELOqTezWUQYA1LB69ZyMk=;
- b=vX9zkgm3nSRYKFX2DkmbqR+4D5VC0hdnK32WjwMKmsLNdS0vZG3mo+4JvN4P+61UBPujT
- zk6G5Kw8nJiQLDP/XRg0i7rIXUtesuaTbe0w/IKajwozklENQp9gDgsXgI5UtrW/6IH0aPX
- QxfWzBvHice9e6SiLDTvtg/IyBDVLyy3/Vuegn7TXQJj924Vad3FobyqegeslTvKDRXNKmk
- +xK9PxaYiAdn1x8KED3VZtBnGWuzdtVFN9BqgwZdooLd/C8j6JPDPJEIlK+I7FNmbW4nqus
- XzLeCjpZUEErrAbvZJEUBAaGGqNq1Xzk2X1iWFOzzlP4xIFK/MCg1/7FcZoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=medip.dev;
- i=@medip.dev; q=dns/txt; s=s1255854; t=1752153513; h=from : subject :
- to : message-id : date;
- bh=vsPjCCPZRDftl844wyMwpzELOqTezWUQYA1LB69ZyMk=;
- b=EKPqW4IA8Nk4qh/caKqUAeOgDMZ6mJXa0uRxLFWB3TaDTfqhZrE/aGaNkt/mhzOgfR2aq
- hRF2OYvXaaPRtDQsvz9IIJBUvd/Rr3JvqjK/R1A8oKfMcRNaZqtYuespoxBhp6hzjqcpSJP
- gVzzkgMksBAWr9kJ45Mo/QqTfY0u+Z/1ofbh3bj6Cjj1g1p74RavDZymH6Kin1SddQD6L6d
- ETcTQuqQ03Uemx36dTARxM543fpb6G6Z86NXGbKuOxp2AgJpneowJwfzI3SxMIL5bgNNfeB
- lPGmnQbhrZDUuVhCsEreiwINtZlUAL1CpaoxMhkwBXGxdPiyRXSyXpfyEpXg==
-Received: from [10.152.250.198] (helo=vilez)
-	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.1-S2G)
-	(envelope-from <edip@medip.dev>)
-	id 1uZrAQ-4o5NDgrsm8D-h6lg;
-	Thu, 10 Jul 2025 13:18:26 +0000
-From: edip@medip.dev
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Edip Hazuri <edip@medip.dev>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek - Fix mute LED for HP Victus 16-r0xxx
-Date: Thu, 10 Jul 2025 16:18:12 +0300
-Message-ID: <20250710131812.27509-1-edip@medip.dev>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="IOXmIKMT";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="M3CIyWOX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1752154911; x=1783690911;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=cgY4ObICxti90QDKA4AoLGPXipEYMCZjHk4tIC3LNhk=;
+  b=IOXmIKMTKAkqUqmzJSBFU7pFTpvfMpgqknutDcrOrn/NyHCStYqfeMne
+   zDrkHTWCYThm+2cfFdC3/HzMgIB+Xov24FROrScKyCZLC1pvd9e50xRb2
+   SBF5+4OhCoE/5zSw+v1JV+GrEs2Bh4zKWf6vPlfBtbcLoarX3fC0uy7zJ
+   wuWXVSk+0lDRriHD7+jF5MtmNR9tKiALEN85+6YIuC21KbX3r8MbBHFDI
+   j6KtuEPyuHEt5dCMgL04CKrAhqxtOhaBaWyZW0Uu80Bh29FCXKgUzab38
+   HF9kTmRNMpb5e4ahPm3IMx0X8MxtiG8oiRPI+adfCFgINWdkQc2yhQwiX
+   w==;
+X-CSE-ConnectionGUID: 6/prk9DBRbmbxhA9ebIkHQ==
+X-CSE-MsgGUID: pgb9Z9voTxiPD2qLrJAQ4g==
+X-IronPort-AV: E=Sophos;i="6.16,300,1744063200"; 
+   d="scan'208";a="45140033"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 10 Jul 2025 15:41:47 +0200
+X-CheckPoint: {686FC31B-1B-A38CADE4-FD2ABC4A}
+X-MAIL-CPID: 46A584DB90C25432DE46F580D8592692_3
+X-Control-Analysis: str=0001.0A00639F.686FC331.0024,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 001E21687B0;
+	Thu, 10 Jul 2025 15:41:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1752154903;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cgY4ObICxti90QDKA4AoLGPXipEYMCZjHk4tIC3LNhk=;
+	b=M3CIyWOXs/7KwOqxN/gMCPuCtMa7MZTdLjOvZx32RZ1AQObLLfeqiP6kSmu0OAnLIggIUS
+	EMnbHD4eT5x8okAOpF4DnmtDARLo2K28fPDXwomumVLnT9scXlziFUCdcN6RCJMjhA+ITl
+	9eP5NqSITSOD+Gk3z/WSXDrDJ/aJYSVngzfoUPFFZPIFmn1UttjRiLgaL7o50x+dvf1XSm
+	4feHJocqOFoCuPwhA4DY5Eo+nbKRrIXVJbzlPRYiQyQy5vBpXPSpTBzUvkYSFLQ+W4dqAU
+	ZkQ2ct823GlpW/73r/NbMLeY8fdIOJnlbRMRcN5yeF1DQ2Ig7Ww2BCGlqvWdeQ==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Peng Fan <peng.fan@nxp.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Peng Fan <peng.fan@nxp.com>
+Subject:
+ Re: [PATCH v2 2/3] ASoC: codec: tlv320aic32x4: Sort headers alphabetically
+Date: Thu, 10 Jul 2025 15:41:41 +0200
+Message-ID: <8598872.NyiUUSuA9g@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20250710-asoc-gpio-1-v2-2-2233b272a1a6@nxp.com>
+References:
+ <20250710-asoc-gpio-1-v2-0-2233b272a1a6@nxp.com>
+ <20250710-asoc-gpio-1-v2-2-2233b272a1a6@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 1255854m:1255854ay30w_v:1255854sasdnPZ66u
-X-smtpcorp-track: 18seFyqgR4bu.FNCTlmgIFF-B.13gS-Q0bpgh
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Edip Hazuri <edip@medip.dev>
+Hi,
 
-The mute led on this laptop is using ALC245 but requires a quirk to work
-This patch enables the existing quirk for the device.
+thanks for the update.
 
-Tested on Victus 16-r0xxx Laptop. The LED behaviour works
-as intended.
+Am Donnerstag, 10. Juli 2025, 14:40:02 CEST schrieb Peng Fan:
+> Sort headers alphabetically to easily insert new ones
+> and drop unused ones.
+>=20
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
 
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Edip Hazuri <edip@medip.dev>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 060db37ea..132cef8fa 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10814,6 +10814,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8b97, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8bb3, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8bb4, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8bbe, "HP Victus 16-r0xxx (MB 8BBE)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8bc8, "HP Victus 15-fa1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8bcd, "HP Omen 16-xd0xxx", ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8bdd, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.50.1
+> ---
+>  sound/soc/codecs/tlv320aic32x4.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/sound/soc/codecs/tlv320aic32x4.c b/sound/soc/codecs/tlv320ai=
+c32x4.c
+> index 7dbcf7f7130b04a27f58f20beb83eb3676c79c3d..2f4147387c4f802bdac983c81=
+b104c000b1fd6ed 100644
+> --- a/sound/soc/codecs/tlv320aic32x4.c
+> +++ b/sound/soc/codecs/tlv320aic32x4.c
+> @@ -9,27 +9,27 @@
+>   * Based on sound/soc/codecs/wm8974 and TI driver for kernel 2.6.27.
+>   */
+> =20
+> -#include <linux/module.h>
+> -#include <linux/moduleparam.h>
+> -#include <linux/init.h>
+> -#include <linux/delay.h>
+> -#include <linux/pm.h>
+> -#include <linux/gpio.h>
+> -#include <linux/of_gpio.h>
+>  #include <linux/cdev.h>
+> -#include <linux/slab.h>
+>  #include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio.h>
+> +#include <linux/init.h>
+> +#include <linux/module.h>
+> +#include <linux/moduleparam.h>
+>  #include <linux/of_clk.h>
+> +#include <linux/of_gpio.h>
+> +#include <linux/pm.h>
+>  #include <linux/regulator/consumer.h>
+> +#include <linux/slab.h>
+> =20
+> -#include <sound/tlv320aic32x4.h>
+>  #include <sound/core.h>
+> +#include <sound/initval.h>
+>  #include <sound/pcm.h>
+>  #include <sound/pcm_params.h>
+>  #include <sound/soc.h>
+>  #include <sound/soc-dapm.h>
+> -#include <sound/initval.h>
+>  #include <sound/tlv.h>
+> +#include <sound/tlv320aic32x4.h>
+> =20
+>  #include "tlv320aic32x4.h"
+> =20
+>=20
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
