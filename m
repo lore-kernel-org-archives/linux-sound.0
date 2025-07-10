@@ -1,84 +1,83 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503712D9796
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 10:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB7A2DECB4
+	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 10:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752142371; cv=none; b=G/veVe70/Loe9v1oQtLR5efh9QIGCtRiBhWDAy+SajL3Qk72Pu+vvvZ8OLNFhpEPc0Clw4Dl5WE8cef7UbnaJr5FoiM+3fBRhU7ltT+kXCM7pNyniUvs+WffqYUITYg0sMgx7eE3wJfW1fCp/bGC3hxA0AVah0k8EMkhrHVmb3c=
+	t=1752142377; cv=none; b=TpyjJeIXJ2CTOMh0YwKj7MohU/E/DPBuu//ojEszU25g9sh9lBwiMn9jJ8DJsfjT0uBS+mC8BEHfQZj/Hlc+ULzQSb58UHLsARgjNtALnmxdiVBSftHAt//CKBTkiLG5X8qIyQLZ8xvtgg5yBZwoFQdYfBG2354ZRkUq54j+tJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752142371; c=relaxed/simple;
-	bh=QRsu5lzQ1EhnkXrTVlvlI1lv53/WfBjKDKf0+DQyLq8=;
+	s=arc-20240116; t=1752142377; c=relaxed/simple;
+	bh=HN6foJvz5+zod8q1bHEu9r4r8Fr7UihDNFaP3N7u19A=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LF5j53OknpdefexqlA2p+LxknExtkTcKk40bPECciHRgpmDzJkRiRJsb0h80ZLfspNCJD4ZnBMyvh5BUeQry5ikOYU2l37Gr8f1SAt+BpO77G6Q59xdeGHtQN3gQkabKFmp8BEW9BdKJXsJ33N+ycn8q9y6fZ+Wxy5xT5BSCDLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YRRnU1fj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ElyBIsDh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YRRnU1fj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ElyBIsDh; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=bCG8dWvb3SYFArS9GDgRGopHMnxPnHkEFAd/eAa/K5n2t4E2o3YlEdtriOhu1ld9tGGvZtIA/uMZ4eqvWqCbN8QyNy8bmtWKpVUiAcT0Tc/laSDa4g19KW1E4nr4AVsDYM3h3GtCADATYeUdCeZa71iMhfhrpgb2B5/MZtdGcKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gyPLhr+9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Rx/L+WLJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gyPLhr+9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Rx/L+WLJ; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YRRnU1fj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ElyBIsDh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YRRnU1fj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ElyBIsDh"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gyPLhr+9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Rx/L+WLJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gyPLhr+9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Rx/L+WLJ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 51E4C211B8;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6FB34211BF;
 	Thu, 10 Jul 2025 10:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1752142068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ldj1l35LnO8z4/hW5nRqynVT2HamuwSfFakv1M3sPZE=;
-	b=YRRnU1fjAPWU/VDbTxGK9Ciz/RMPm3bVusBVLlweDYsDX2WSec5V3nqEz8D2YEj42I9Jyh
-	sdYBFF8fYtT40G72BssIFIa7qxEFRdpSXcGOsgaMqYHv5QOCr1nAl5bCIMo5GRH5ojXmjz
-	q4+jxk491lmcS9I4rpf8WDqJ7pAFPZg=
+	bh=eqih4YIRmgE1LiJ1eFrhCIbQeZTm69wyyB7+/brClfg=;
+	b=gyPLhr+9A1jcUX83s/IlAUKjLaz2I/SxSNJ4aKT3ciaAWesr53Dm0uwS9Y/qlH8w36Nc6P
+	1IkqNlB6/hi+TBhRT3GT9w0sNxN/BjXD/ipHWakQbgAJTc/ldtBY5XCxZDxyzVg0rqSicd
+	CufCW1DMP1mRpZ/C+KRiXSli+OAWOII=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1752142068;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ldj1l35LnO8z4/hW5nRqynVT2HamuwSfFakv1M3sPZE=;
-	b=ElyBIsDhk8qrVDP13uZTL5E0zmJNKLTNhOT8wbznMmEni/QnB2UUIvzZLM/59dn9L0l4ng
-	x7bnIlXqossAE1CA==
+	bh=eqih4YIRmgE1LiJ1eFrhCIbQeZTm69wyyB7+/brClfg=;
+	b=Rx/L+WLJ8O3c4ynvPonQ/Zwry+qa+sicSjsCjIFdnc5hRzr0qYm+4ubkjrOf6SInoBDK7u
+	w4gya/aFqD6gb2AA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YRRnU1fj;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ElyBIsDh
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1752142068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ldj1l35LnO8z4/hW5nRqynVT2HamuwSfFakv1M3sPZE=;
-	b=YRRnU1fjAPWU/VDbTxGK9Ciz/RMPm3bVusBVLlweDYsDX2WSec5V3nqEz8D2YEj42I9Jyh
-	sdYBFF8fYtT40G72BssIFIa7qxEFRdpSXcGOsgaMqYHv5QOCr1nAl5bCIMo5GRH5ojXmjz
-	q4+jxk491lmcS9I4rpf8WDqJ7pAFPZg=
+	bh=eqih4YIRmgE1LiJ1eFrhCIbQeZTm69wyyB7+/brClfg=;
+	b=gyPLhr+9A1jcUX83s/IlAUKjLaz2I/SxSNJ4aKT3ciaAWesr53Dm0uwS9Y/qlH8w36Nc6P
+	1IkqNlB6/hi+TBhRT3GT9w0sNxN/BjXD/ipHWakQbgAJTc/ldtBY5XCxZDxyzVg0rqSicd
+	CufCW1DMP1mRpZ/C+KRiXSli+OAWOII=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1752142068;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ldj1l35LnO8z4/hW5nRqynVT2HamuwSfFakv1M3sPZE=;
-	b=ElyBIsDhk8qrVDP13uZTL5E0zmJNKLTNhOT8wbznMmEni/QnB2UUIvzZLM/59dn9L0l4ng
-	x7bnIlXqossAE1CA==
+	bh=eqih4YIRmgE1LiJ1eFrhCIbQeZTm69wyyB7+/brClfg=;
+	b=Rx/L+WLJ8O3c4ynvPonQ/Zwry+qa+sicSjsCjIFdnc5hRzr0qYm+4ubkjrOf6SInoBDK7u
+	w4gya/aFqD6gb2AA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3825C13A70;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57181136DC;
 	Thu, 10 Jul 2025 10:07:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4PBoDPSQb2jZWQAAD6G6ig
+	id uP4bFPSQb2jZWQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Thu, 10 Jul 2025 10:07:48 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 085/103] ALSA: trident: Use safer strscpy() instead of strcpy()
-Date: Thu, 10 Jul 2025 12:07:07 +0200
-Message-ID: <20250710100727.22653-86-tiwai@suse.de>
+Subject: [PATCH 086/103] ALSA: via82xx: Use safer strscpy() instead of strcpy()
+Date: Thu, 10 Jul 2025 12:07:08 +0200
+Message-ID: <20250710100727.22653-87-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250710100727.22653-1-tiwai@suse.de>
 References: <20250710100727.22653-1-tiwai@suse.de>
@@ -89,38 +88,30 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	RCPT_COUNT_ONE(0.00)[1];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
+	R_RATELIMIT(0.00)[to_ip_from(RLsqo7dymd5dgmoaprf5rep8is)];
+	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLe1mc1hwayk397878n5a1j337)];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 51E4C211B8
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 
 Use a safer function strscpy() instead of strcpy() for copying to
 arrays.
@@ -129,73 +120,114 @@ Only idiomatic code replacement, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/trident/trident.c      |  6 +++---
- sound/pci/trident/trident_main.c | 14 +++++++-------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ sound/pci/via82xx.c       | 20 ++++++++++----------
+ sound/pci/via82xx_modem.c |  4 ++--
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/sound/pci/trident/trident.c b/sound/pci/trident/trident.c
-index 9922ab40798c..ddb6ccc72e44 100644
---- a/sound/pci/trident/trident.c
-+++ b/sound/pci/trident/trident.c
-@@ -88,11 +88,11 @@ static int snd_trident_probe(struct pci_dev *pci,
+diff --git a/sound/pci/via82xx.c b/sound/pci/via82xx.c
+index a04dbc0a420f..0753c0c73f51 100644
+--- a/sound/pci/via82xx.c
++++ b/sound/pci/via82xx.c
+@@ -1436,7 +1436,7 @@ static int snd_via8233_pcm_new(struct via82xx *chip)
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_via8233_playback_ops);
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &snd_via8233_capture_ops);
+ 	pcm->private_data = chip;
+-	strcpy(pcm->name, chip->card->shortname);
++	strscpy(pcm->name, chip->card->shortname);
+ 	chip->pcms[0] = pcm;
+ 	/* set up playbacks */
+ 	for (i = 0; i < 4; i++)
+@@ -1461,7 +1461,7 @@ static int snd_via8233_pcm_new(struct via82xx *chip)
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_via8233_multi_ops);
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &snd_via8233_capture_ops);
+ 	pcm->private_data = chip;
+-	strcpy(pcm->name, chip->card->shortname);
++	strscpy(pcm->name, chip->card->shortname);
+ 	chip->pcms[1] = pcm;
+ 	/* set up playback */
+ 	init_viadev(chip, chip->multi_devno, VIA_REG_MULTPLAY_STATUS, 4, 0);
+@@ -1504,7 +1504,7 @@ static int snd_via8233a_pcm_new(struct via82xx *chip)
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_via8233_multi_ops);
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &snd_via8233_capture_ops);
+ 	pcm->private_data = chip;
+-	strcpy(pcm->name, chip->card->shortname);
++	strscpy(pcm->name, chip->card->shortname);
+ 	chip->pcms[0] = pcm;
+ 	/* set up playback */
+ 	init_viadev(chip, chip->multi_devno, VIA_REG_MULTPLAY_STATUS, 4, 0);
+@@ -1532,7 +1532,7 @@ static int snd_via8233a_pcm_new(struct via82xx *chip)
+ 		return err;
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_via8233_playback_ops);
+ 	pcm->private_data = chip;
+-	strcpy(pcm->name, chip->card->shortname);
++	strscpy(pcm->name, chip->card->shortname);
+ 	chip->pcms[1] = pcm;
+ 	/* set up playback */
+ 	init_viadev(chip, chip->playback_devno, 0x30, 3, 0);
+@@ -1562,7 +1562,7 @@ static int snd_via686_pcm_new(struct via82xx *chip)
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_via686_playback_ops);
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &snd_via686_capture_ops);
+ 	pcm->private_data = chip;
+-	strcpy(pcm->name, chip->card->shortname);
++	strscpy(pcm->name, chip->card->shortname);
+ 	chip->pcms[0] = pcm;
+ 	init_viadev(chip, 0, VIA_REG_PLAYBACK_STATUS, 0, 0);
+ 	init_viadev(chip, 1, VIA_REG_CAPTURE_STATUS, 0, 1);
+@@ -2461,7 +2461,7 @@ static int __snd_via82xx_probe(struct pci_dev *pci,
+ 	card_type = pci_id->driver_data;
+ 	switch (card_type) {
+ 	case TYPE_CARD_VIA686:
+-		strcpy(card->driver, "VIA686A");
++		strscpy(card->driver, "VIA686A");
+ 		sprintf(card->shortname, "VIA 82C686A/B rev%x", pci->revision);
+ 		chip_type = TYPE_VIA686;
+ 		break;
+@@ -2471,7 +2471,7 @@ static int __snd_via82xx_probe(struct pci_dev *pci,
+ 		for (i = 0; i < ARRAY_SIZE(via823x_cards); i++) {
+ 			if (pci->revision == via823x_cards[i].revision) {
+ 				chip_type = via823x_cards[i].type;
+-				strcpy(card->shortname, via823x_cards[i].name);
++				strscpy(card->shortname, via823x_cards[i].name);
+ 				break;
+ 			}
+ 		}
+@@ -2487,11 +2487,11 @@ static int __snd_via82xx_probe(struct pci_dev *pci,
+ 				chip_type = TYPE_VIA8233;
+ 		}
+ 		if (chip_type == TYPE_VIA8233A)
+-			strcpy(card->driver, "VIA8233A");
++			strscpy(card->driver, "VIA8233A");
+ 		else if (pci->revision >= VIA_REV_8237)
+-			strcpy(card->driver, "VIA8237"); /* no slog assignment */
++			strscpy(card->driver, "VIA8237"); /* no slog assignment */
+ 		else
+-			strcpy(card->driver, "VIA8233");
++			strscpy(card->driver, "VIA8233");
+ 		break;
  	default:
- 		str = "Unknown";
- 	}
--	strcpy(card->driver, str);
-+	strscpy(card->driver, str);
- 	if (trident->device == TRIDENT_DEVICE_ID_SI7018) {
--		strcpy(card->shortname, "SiS ");
-+		strscpy(card->shortname, "SiS ");
- 	} else {
--		strcpy(card->shortname, "Trident ");
-+		strscpy(card->shortname, "Trident ");
- 	}
- 	strcat(card->shortname, str);
- 	sprintf(card->longname, "%s PCI Audio at 0x%lx, irq %d",
-diff --git a/sound/pci/trident/trident_main.c b/sound/pci/trident/trident_main.c
-index 4e16b79d6584..39ed52bf8631 100644
---- a/sound/pci/trident/trident_main.c
-+++ b/sound/pci/trident/trident_main.c
-@@ -2137,7 +2137,7 @@ int snd_trident_pcm(struct snd_trident *trident, int device)
- 
- 	pcm->info_flags = 0;
- 	pcm->dev_subclass = SNDRV_PCM_SUBCLASS_GENERIC_MIX;
--	strcpy(pcm->name, "Trident 4DWave");
-+	strscpy(pcm->name, "Trident 4DWave");
- 	trident->pcm = pcm;
- 
- 	if (trident->tlb.entries) {
-@@ -2189,16 +2189,16 @@ int snd_trident_foldback_pcm(struct snd_trident *trident, int device)
- 	else
- 		snd_pcm_set_ops(foldback, SNDRV_PCM_STREAM_CAPTURE, &snd_trident_foldback_ops);
- 	foldback->info_flags = 0;
--	strcpy(foldback->name, "Trident 4DWave");
-+	strscpy(foldback->name, "Trident 4DWave");
- 	substream = foldback->streams[SNDRV_PCM_STREAM_CAPTURE].substream;
--	strcpy(substream->name, "Front Mixer");
-+	strscpy(substream->name, "Front Mixer");
- 	substream = substream->next;
--	strcpy(substream->name, "Reverb Mixer");
-+	strscpy(substream->name, "Reverb Mixer");
- 	substream = substream->next;
--	strcpy(substream->name, "Chorus Mixer");
-+	strscpy(substream->name, "Chorus Mixer");
- 	if (num_chan == 4) {
- 		substream = substream->next;
--		strcpy(substream->name, "Second AC'97 ADC");
-+		strscpy(substream->name, "Second AC'97 ADC");
- 	}
- 	trident->foldback = foldback;
- 
-@@ -2241,7 +2241,7 @@ int snd_trident_spdif_pcm(struct snd_trident *trident, int device)
- 		snd_pcm_set_ops(spdif, SNDRV_PCM_STREAM_PLAYBACK, &snd_trident_spdif_7018_ops);
- 	}
- 	spdif->info_flags = 0;
--	strcpy(spdif->name, "Trident 4DWave IEC958");
-+	strscpy(spdif->name, "Trident 4DWave IEC958");
- 	trident->spdif = spdif;
- 
- 	snd_pcm_set_managed_buffer_all(spdif, SNDRV_DMA_TYPE_DEV,
+ 		dev_err(card->dev, "invalid card type %d\n", card_type);
+diff --git a/sound/pci/via82xx_modem.c b/sound/pci/via82xx_modem.c
+index eef0f9ddaae0..12a8c620724d 100644
+--- a/sound/pci/via82xx_modem.c
++++ b/sound/pci/via82xx_modem.c
+@@ -842,7 +842,7 @@ static int snd_via686_pcm_new(struct via82xx_modem *chip)
+ 	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE, &snd_via686_capture_ops);
+ 	pcm->dev_class = SNDRV_PCM_CLASS_MODEM;
+ 	pcm->private_data = chip;
+-	strcpy(pcm->name, chip->card->shortname);
++	strscpy(pcm->name, chip->card->shortname);
+ 	chip->pcms[0] = pcm;
+ 	init_viadev(chip, 0, VIA_REG_MO_STATUS, 0);
+ 	init_viadev(chip, 1, VIA_REG_MI_STATUS, 1);
+@@ -1116,7 +1116,7 @@ static int __snd_via82xx_probe(struct pci_dev *pci,
+ 	card_type = pci_id->driver_data;
+ 	switch (card_type) {
+ 	case TYPE_CARD_VIA82XX_MODEM:
+-		strcpy(card->driver, "VIA82XX-MODEM");
++		strscpy(card->driver, "VIA82XX-MODEM");
+ 		sprintf(card->shortname, "VIA 82XX modem");
+ 		break;
+ 	default:
 -- 
 2.50.0
 
