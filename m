@@ -1,83 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1172D59F7
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 10:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7C92D59FA
+	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 10:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752142131; cv=none; b=hypf1sShRDypYBk6af20oSSHHRlngPI/6/GIcjf9lu7B7L5L/Wxq27dxYK3Jw+QE38z86SNlMtgatq01zrY5ck8gSKJZJAn4QDvJHbVfBcTRI5xJViobeYM/ksXvWxK7+bXeXClAMj3HZ565eXDOfO1/DoYhAqTX/qx8KkoJvRo=
+	t=1752142137; cv=none; b=HuJXumSb6+tpvZfLYVstpcBYiTUyL01p/jjUZrsM6J8y9YTyALPDWLZhvueW/T4jUIfn2k9TkWSBGHPt9dXMXo0krfA6kJ+cfX0oUVqvBq9A/xOMMBAu8nndRYQSOGunWRpmVwPuRrZU+5y45I2rACadTVFPvzhhCrT3toy3Ecc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752142131; c=relaxed/simple;
-	bh=5dddD7jTYp5NdfV6MFaiI1r7k9cLHcZYd5/NbUqZzOo=;
+	s=arc-20240116; t=1752142137; c=relaxed/simple;
+	bh=jpDC8ZCCWkdqbMZ9HB6tZRz7hCP6K/Uswf21sBdYp00=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G70FuS2L5bFuPOeCenIeYVitL4Ll+qsGTq8OT57Yli7C5/c2OEACuJ8gFSPXfyBsWbtOfSbmY4hnuOLnjsR0PPMxeJwd9euJdYRm3gIvs5sAbCldCCUtpBEdNNMy/h/ftjFia7zCQSvT3t/+Jeo/eMaBWsivJqx0nyAlhqagve0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iJ75m+Z7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9645AXay; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iJ75m+Z7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9645AXay; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=RO2zLWFRrJ2jZJ4PFUuZOSoMNJkeTjqUDApulihFwvsvNyurWQeuI6N4EaO6NUeUHM9ugub63oeqKwI/+/zLhscfH/oRm0bQWV++R1ya1/7X03HTn2TS6c/zy/rhBEshLn7HuGOGEMLLBFxLzFuTwF+ES2NebALPsKzH8VfjMVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C1TvzSY9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CdVZhomu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C1TvzSY9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CdVZhomu; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iJ75m+Z7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9645AXay";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iJ75m+Z7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9645AXay"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C1TvzSY9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CdVZhomu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C1TvzSY9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CdVZhomu"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2230D21188;
-	Thu, 10 Jul 2025 10:07:39 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D115C1F38E;
+	Thu, 10 Jul 2025 10:07:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752142059; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1752142061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BNyYR6yingE46mVjREB7eltWwPwZwcCbAzrK7Jx3Oo0=;
-	b=iJ75m+Z7Hy1z2/EmWMUbF2ZJCIJz0DOwhcHpm88XAwKL2FxHr8YcRvTT20N8I94r1lnGxD
-	Fjt2JoSjfkvCmpkv0VQpAtxd5UcEC/GeHjVIANGf1B261dzVWtOEwbo+/+EkRogcKuglrD
-	yk6Ti9E53g0/70b/eIeHUX7RW8DzGnM=
+	bh=ZMq+2uZYqWh/HHrKPAcpwuU3X5gmuBINeH4Uxqv8d1I=;
+	b=C1TvzSY9KKwXQi8lMRq1CidiSNc2j3glaK8WXyl+ByDPnMe6vQAPfyRhbzteRe2mEhsOee
+	J9MkofI8XjR6EnBWq3YcxSESEcg96ZYXQq9Nal+V6WTyhRGmfULd6udOsISkpkan3vPhdk
+	+UYv5O+vNNMKSwkqz5TgTid45z+YocI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752142059;
+	s=susede2_ed25519; t=1752142061;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BNyYR6yingE46mVjREB7eltWwPwZwcCbAzrK7Jx3Oo0=;
-	b=9645AXayD0jTxLe0FX24HJkxplYraErCIJI7uhkuZp9crcV7btOtSA1NwUN3vcQL21xNh+
-	mHE5ZbtZcA4khlAA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=ZMq+2uZYqWh/HHrKPAcpwuU3X5gmuBINeH4Uxqv8d1I=;
+	b=CdVZhomuXSAom3r15Xbu5l2sAM3p2AOqLixLptkHw42vCSAFNvm1hCb04I+nqVjV3mcQMt
+	lC6EnoWI5dniJ1Cw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752142059; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1752142061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BNyYR6yingE46mVjREB7eltWwPwZwcCbAzrK7Jx3Oo0=;
-	b=iJ75m+Z7Hy1z2/EmWMUbF2ZJCIJz0DOwhcHpm88XAwKL2FxHr8YcRvTT20N8I94r1lnGxD
-	Fjt2JoSjfkvCmpkv0VQpAtxd5UcEC/GeHjVIANGf1B261dzVWtOEwbo+/+EkRogcKuglrD
-	yk6Ti9E53g0/70b/eIeHUX7RW8DzGnM=
+	bh=ZMq+2uZYqWh/HHrKPAcpwuU3X5gmuBINeH4Uxqv8d1I=;
+	b=C1TvzSY9KKwXQi8lMRq1CidiSNc2j3glaK8WXyl+ByDPnMe6vQAPfyRhbzteRe2mEhsOee
+	J9MkofI8XjR6EnBWq3YcxSESEcg96ZYXQq9Nal+V6WTyhRGmfULd6udOsISkpkan3vPhdk
+	+UYv5O+vNNMKSwkqz5TgTid45z+YocI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752142059;
+	s=susede2_ed25519; t=1752142061;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BNyYR6yingE46mVjREB7eltWwPwZwcCbAzrK7Jx3Oo0=;
-	b=9645AXayD0jTxLe0FX24HJkxplYraErCIJI7uhkuZp9crcV7btOtSA1NwUN3vcQL21xNh+
-	mHE5ZbtZcA4khlAA==
+	bh=ZMq+2uZYqWh/HHrKPAcpwuU3X5gmuBINeH4Uxqv8d1I=;
+	b=CdVZhomuXSAom3r15Xbu5l2sAM3p2AOqLixLptkHw42vCSAFNvm1hCb04I+nqVjV3mcQMt
+	lC6EnoWI5dniJ1Cw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EEA5D13A70;
-	Thu, 10 Jul 2025 10:07:38 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7CDD136DC;
+	Thu, 10 Jul 2025 10:07:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sFbyOOqQb2jZWQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 10 Jul 2025 10:07:38 +0000
+	id kEyOK+2Qb2jZWQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 10 Jul 2025 10:07:41 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 017/103] ALSA: firewire: fireworks: Use safer strscpy() instead of strcpy()
-Date: Thu, 10 Jul 2025 12:05:59 +0200
-Message-ID: <20250710100727.22653-18-tiwai@suse.de>
+Subject: [PATCH 038/103] ALSA: wss: Use safer strscpy() instead of strcpy()
+Date: Thu, 10 Jul 2025 12:06:20 +0200
+Message-ID: <20250710100727.22653-39-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250710100727.22653-1-tiwai@suse.de>
 References: <20250710100727.22653-1-tiwai@suse.de>
@@ -90,20 +90,21 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLsqo7dymd5dgmoaprf5rep8is)];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
@@ -119,40 +120,40 @@ Only idiomatic code replacement, and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/firewire/fireworks/fireworks.c       | 6 +++---
- sound/firewire/fireworks/fireworks_hwdep.c | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ sound/isa/wss/wss_lib.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/firewire/fireworks/fireworks.c b/sound/firewire/fireworks/fireworks.c
-index e3ed4e094ccd..69f722244362 100644
---- a/sound/firewire/fireworks/fireworks.c
-+++ b/sound/firewire/fireworks/fireworks.c
-@@ -90,9 +90,9 @@ get_hardware_info(struct snd_efw *efw)
- 		 (hwinfo->arm_version >> 16) & 0xff);
- 	efw->firmware_version = hwinfo->arm_version;
+diff --git a/sound/isa/wss/wss_lib.c b/sound/isa/wss/wss_lib.c
+index 9c655789574d..1b6a80021d18 100644
+--- a/sound/isa/wss/wss_lib.c
++++ b/sound/isa/wss/wss_lib.c
+@@ -1865,7 +1865,7 @@ int snd_wss_pcm(struct snd_wss *chip, int device)
+ 		pcm->info_flags |= SNDRV_PCM_INFO_HALF_DUPLEX;
+ 	if (chip->hardware != WSS_HW_INTERWAVE)
+ 		pcm->info_flags |= SNDRV_PCM_INFO_JOINT_DUPLEX;
+-	strcpy(pcm->name, snd_wss_chip_id(chip));
++	strscpy(pcm->name, snd_wss_chip_id(chip));
  
--	strcpy(efw->card->driver, "Fireworks");
--	strcpy(efw->card->shortname, hwinfo->model_name);
--	strcpy(efw->card->mixername, hwinfo->model_name);
-+	strscpy(efw->card->driver, "Fireworks");
-+	strscpy(efw->card->shortname, hwinfo->model_name);
-+	strscpy(efw->card->mixername, hwinfo->model_name);
- 	scnprintf(efw->card->longname, sizeof(efw->card->longname),
- 		  "%s %s v%s, GUID %08x%08x at %s, S%d",
- 		  hwinfo->vendor_name, hwinfo->model_name, version,
-diff --git a/sound/firewire/fireworks/fireworks_hwdep.c b/sound/firewire/fireworks/fireworks_hwdep.c
-index 3a53914277d3..037833cd066e 100644
---- a/sound/firewire/fireworks/fireworks_hwdep.c
-+++ b/sound/firewire/fireworks/fireworks_hwdep.c
-@@ -319,7 +319,7 @@ int snd_efw_create_hwdep_device(struct snd_efw *efw)
- 	err = snd_hwdep_new(efw->card, "Fireworks", 0, &hwdep);
+ 	snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_DEV, chip->card->dev,
+ 				       64*1024, chip->dma1 > 3 || chip->dma2 > 3 ? 128*1024 : 64*1024);
+@@ -1896,7 +1896,7 @@ int snd_wss_timer(struct snd_wss *chip, int device)
+ 	err = snd_timer_new(chip->card, "CS4231", &tid, &timer);
  	if (err < 0)
- 		goto end;
--	strcpy(hwdep->name, "Fireworks");
-+	strscpy(hwdep->name, "Fireworks");
- 	hwdep->iface = SNDRV_HWDEP_IFACE_FW_FIREWORKS;
- 	hwdep->ops = ops;
- 	hwdep->private_data = efw;
+ 		return err;
+-	strcpy(timer->name, snd_wss_chip_id(chip));
++	strscpy(timer->name, snd_wss_chip_id(chip));
+ 	timer->private_data = chip;
+ 	timer->private_free = snd_wss_timer_free;
+ 	timer->hw = snd_wss_timer_table;
+@@ -2176,7 +2176,7 @@ int snd_wss_mixer(struct snd_wss *chip)
+ 
+ 	card = chip->card;
+ 
+-	strcpy(card->mixername, chip->pcm->name);
++	strscpy(card->mixername, chip->pcm->name);
+ 
+ 	/* Use only the first 11 entries on AD1848 */
+ 	if (chip->hardware & WSS_HW_AD1848_MASK)
 -- 
 2.50.0
 
