@@ -1,123 +1,526 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B231DE8B5
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 11:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AB92BE053
+	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 11:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752145384; cv=none; b=TDjnJ4BzTPGPasv0vR0U+KDO0m6InwnOLkTnqo8H1WR3M8k4NPCN8HIO4UeKMmTSUkMK1KlGdy5rYrJgaUtoD0Nb0CuOuAVBztp6oSpvOx+s2mPXcIpDV4Byndpqx5TICAbXkfnCpGt8NfGlBagM4COEgCm9b862U3qEyT308lY=
+	t=1752146452; cv=none; b=phSdx3t6SozOodmUGrt9/WtzDvNKMqZO1V3e44CvXo1A/GqF63b0ozajGyQq+TFN9uRip25Ur4GVkUhjXNT6gfAOwHmfSC08iFu6D4NpwUz3C2qgYhxMgrPEUgRpaQ3Syy1e3eM5jc/ejglG8AZ34Del2Gv9R+btBfwnTvgPwcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752145384; c=relaxed/simple;
-	bh=8Ui3NFISKh41ifZ5NSsbM2TkRazd2B/pQ09PgNqnpRo=;
+	s=arc-20240116; t=1752146452; c=relaxed/simple;
+	bh=b9FivpI1UGCg9Rmq77/Nsdn33Ko8LIsYCvikZSBCy5s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=htRapExmflMpF2hoPBDF1CdQdP/qtwVKIuKvMbQ5qC9uqkpTmsgRLSVpL+YVF4xLq19UbPfMIcjU+sh56iGJFmktZkXcKPVbzwuucAsp+amcyv9rHScqrGsjlMcoUXM0ErOxfyQrywmtkcWC/KPQQKGq0DYny1uJz6+TC7jSvNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UG5CScbV; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UG5CScbV"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-237e6963f63so5000715ad.2
-        for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 04:03:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752145382; x=1752750182; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sR6dfzdO+Sj8YIwogNSzYknRxjJlas0hZQUfhGRjCgY=;
-        b=UG5CScbVu8RMqurYR1OME8R/lK8RwoEJyFWKKsIE3CcT8xQHG0GMJCJ7rw4MNy3krk
-         7uc95l3DZdXwdUAHuaDtt1K+mE7iuLrq0fD/8xF/3nseBAMdreoBHQh8A8F8Zz1ByCKa
-         GyWI5texd+6KAMPGn3l/7vI/GrKuCcSO3dMJ9X18L/ej7sq5VheenU1nQX0tdm7RLTOp
-         F4oduYonyGajUj3sJVm+aP7MLdMCdK6G17T/tjwgLIf3/w1rB3VkQm8qWNutQS3zR10l
-         1U0rR+g7mVdCzp8V5JTp8ovbOkb7TW9vJIEdWDQhkMTsB87/0ci6KceknWKIAEqvOj/J
-         t3sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752145382; x=1752750182;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sR6dfzdO+Sj8YIwogNSzYknRxjJlas0hZQUfhGRjCgY=;
-        b=xLxmq8dXROMVcYxS15uC5fJ8j1Qh05aj1fRz20ZxCp6HUWpPe529TPIPyLu8xmOEHL
-         gOLtXkT0d2vzaF+uJWUl5i/sjsonnGdkQIktKFhmOg4GCV1TN7OdjzMOfP5mwceY4ziM
-         PQzdei6I/uhMzRFvkH6doGPXytJ1mB0tuvM1u4FvjeNI2u5XQHZ/Ydw5moU3AfqH/WFH
-         GABuJXuX9mNEgkoj5xS7ExrDhAd//jIMzXlhFnopzIHs/hdjVYuMGf4Uzirvv9pctGk7
-         IjN5sJ515cpfqLwEJFVBzqLfaLSW/jaqnj0P0W9Ra2wmlDee+t48hgwpzlkSPN47KXqz
-         vfdA==
-X-Gm-Message-State: AOJu0YyXAdwrq0A2IotbTsnnkCN8uyoKPA5+mD5jf3iHevgynYYijNii
-	DXEG4Pwt0KWL2v8O5k2ZryO939q/lbjFzO5A7PZ8/YEJMmETPeddqoj+
-X-Gm-Gg: ASbGncsjQcS+VsM2sn1gUnCU2CLJ28qOVIwRwewlicFjKDeqx/Ilsi8K2JZlXPlYn3D
-	k+HUmNBoccgYul/lLKc4arqt5ZdEB5REpNMqUxEF2D+zHvqgkVcBc6fzNOulaJea/Ek8SRA4MDF
-	kCrJBGARasjED0HMiB6H/zzsSjdqLFeI5D+5pfjFl/54BMSyE56aFWaHNV05vQtfqdAcw9aWBV3
-	n6ThPKxEFpZAGZI5hi6L17sHuatbS4Mp43QnRjW3Iq20D40ToBagQqZ2Ii2ZCqaw85CbOsUBPBF
-	3qm14dcQVmfKIvxElXHB91Rc1LEPovHxEctqS2ZFT1fjGRS5qg==
-X-Google-Smtp-Source: AGHT+IGJC5fWy6eVka3K7AfLbKb32fsHnfuhAkH38jNYIMN0F+j8+6dNy9xSUr1hV88HRz4ih3SPnQ==
-X-Received: by 2002:a17:903:3b85:b0:235:f70:fd44 with SMTP id d9443c01a7336-23de481bdefmr32881835ad.21.1752145381968;
-        Thu, 10 Jul 2025 04:03:01 -0700 (PDT)
-Received: from geday ([2804:7f2:800b:ccd4::dead:c001])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4359b6fsm16513215ad.212.2025.07.10.04.03.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jul 2025 04:03:01 -0700 (PDT)
-Date: Thu, 10 Jul 2025 08:02:57 -0300
-From: Geraldo Nascimento <geraldogabriel@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH 083/103] ALSA: Use safer strscpy() instead of strcpy()
-Message-ID: <aG-d4bys9tt1jfIl@geday>
-References: <20250710100727.22653-1-tiwai@suse.de>
- <20250710100727.22653-84-tiwai@suse.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qww7wa+mzB9uqc8vnpwBQsOS0B883qmJZAnp6DBkSmlieUZKfU1S+f/MW1W9Azm/thvE0hHL8oOQ56z7e87E/SE15ALsaANUR1iLBzkLI3qV2RfvjJynUg2WPbSH+Scnz+bpfCYGyo/y8CErpiCRxwpBL0OuHZCX3Oa5fCIiu20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
+X-QQ-mid: esmtpsz20t1752146437t84630f89
+X-QQ-Originating-IP: GkDp17EAXMk4h+M1iVkVMkM0FrkYYXQHAiVyItn9/QM=
+Received: from localhost ( [183.17.231.23])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 10 Jul 2025 19:20:35 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 14652591898918451816
+EX-QQ-RecipientCnt: 14
+Date: Thu, 10 Jul 2025 19:20:35 +0800
+From: Nick Li <nick.li@foursemi.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
+	tiwai@suse.com, xiaoming.yang@foursemi.com,
+	danyang.zheng@foursemi.com, like.xy@foxmail.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] ASoC: codecs: Add FourSemi FS2104/5S audio
+ amplifier driver
+Message-ID: <C772CBD8D1BD5ED2+aG-iAyDd9qj8Di3g@foursemi.com>
+References: <20250703035639.7252-1-nick.li@foursemi.com>
+ <20250708112901.25228-1-nick.li@foursemi.com>
+ <20250708112901.25228-5-nick.li@foursemi.com>
+ <20250709-elated-cat-of-variation-2d0bd1@krzk-bin>
+ <DD9901EBC735C56D+aG9yEl9LItzYJVDB@foursemi.com>
+ <142742f6-14a4-4a82-9197-7a4a02027b84@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250710100727.22653-84-tiwai@suse.de>
+In-Reply-To: <142742f6-14a4-4a82-9197-7a4a02027b84@kernel.org>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: Mjs987rvZJ1SjYfEEXY86dhDPOnM7WmgVfele37Op6Mpxxl5sKFqTZnz
+	46+GKSZRU8dvRsvfOBNQZo6dixEHZQp6716qWN4SBu6IbbA4JoHNSj8H0Rr2Yeq+hjzx216
+	G/dgDN++CiaZWIQDvVLVox7VIX4drS72lmS5OFKpALbPaET0dOifFSHfS+1QgGPiNG4b1+F
+	TDk+TH16edYUdMxOQuZDbgbD5S4x3IRIHmZOuCwiZDfBIlw6Y1XZw1VbH7l7nSVX/dxmqKm
+	sVxrzHYhYYVowheVoy8/Ff88zcwk2P+ukvQ1lV2rqw7bVnSE/YavjsgTANnzQlGS5nIjJXk
+	o0HmQnAGv48VeG8Fw/bIExHFwOxim3gDomU1kvdxkkQYrVmodqP4dRmXoFWn657x6yi0w8q
+	YL3bz7MN6eG1Iq36U5SWj9aSmWFn6FcHsgZpz3dhwYhRt7NNggPjWlwMszT7K4LPYHEC4By
+	XK3R/VmvxhM/o6y35cYb44j5ubscFktvTKbD5wJH/NUwyvNNKqPJg4xnnUYNaABHBw4e9wc
+	pkivDtXMs0qguhXlp2lu+zwcPaUT1og25yJhXw0B88OSxUkCB0tmvvVCGj/jvsO22mISuq5
+	+sIFHRRb/gPiWHeEBFG7MGTV+PaWy8JGyQEgdE7dPOFdnzncntr5N5U4YgihbjkW8nj5k/j
+	lZ+qJ2Snnz28N/9fith08pKgzv4/MtV7eiv50yLQV13y7SFvCAOD4StPNAz101erdbhHYZ1
+	+VQGHlzekyKiL0Rlub9tsqZ9m90m8J+4iNloeDjWLo2D1vX0i282d5RTTZYKtgHuaWXJENF
+	Fa5AHJ1HRlGc/6unJYzbua9d+uPXOKUrHSSzbMNEBWRW+akAa58yjgXIUeeQRLkVCxqyWo2
+	JtgzV3BbEIS/T4Wpp1cJ/KBkdpzOsNPRWa/7F9SsrJ+oBVPrrL65OguNYzgHs11lBBK2E5K
+	lftqlQ5Cpltf1KImxX/FD2PcURQhupZZX+DWksHjc7UEMiKqa9rq0Yqfn5nbPElt7PmK2sz
+	T/oAVK3SuIHE9XFr6mobtKPGuKP8Amid8zKueNOMrEPGJCCMk9
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+X-QQ-RECHKSPAM: 0
 
-On Thu, Jul 10, 2025 at 12:07:05PM +0200, Takashi Iwai wrote:
-> Use a safer function strscpy() instead of strcpy() for copying to
-> arrays.
+On Thu, Jul 10, 2025 at 10:27:15AM +0200, Krzysztof Kozlowski wrote:
+> On 10/07/2025 09:56, Nick Li wrote:
+> >>> +};
+> >>> +
+> >>> +static DEFINE_MUTEX(fs210x_mutex);
+> >>
+> >> Why is this file-scope? Why two independent codecs cannot work in parallel?
+> > 
+> > The driver module may be loaded asynchronously,
+> > if the reset pin/supplies are shared by the devices,
+> > we should protect the process of detecting devices.
 > 
-> Only idiomatic code replacement, and no functional changes.
+> No, that's not the job of this driver. Your driver must not protect from
+> imaginary resource conflicts, because it will not even solve it
+> properly. It is impossible. What if foo,AS9911 codec also shares these
+> pins supplies?
 > 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  sound/pci/sis7019.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> And supplies needs synchronization? About pins you got point, but here
+> clearly you are wrong.
 > 
-> diff --git a/sound/pci/sis7019.c b/sound/pci/sis7019.c
+> So no, drop all this global mutex, move it to device state container and
+> DOCUMENT what it exactly protects (see checkpatch).
 
-Hi Takashi,
+OK, we will use a private lock for mutual exclusion with work queues/mixers/...
 
-I think you've missed the "sis7019: " after "ALSA: " on the subject line
-for this one.
-
-Regards,
-Geraldo Nascimento
-
-> index 42b22f123fa7..3d7abcb31679 100644
-> --- a/sound/pci/sis7019.c
-> +++ b/sound/pci/sis7019.c
-> @@ -868,7 +868,7 @@ static int sis_pcm_create(struct sis7019 *sis)
->  		return rc;
->  
->  	pcm->private_data = sis;
-> -	strcpy(pcm->name, "SiS7019");
-> +	strscpy(pcm->name, "SiS7019");
->  	sis->pcm = pcm;
->  
->  	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &sis_playback_ops);
-> @@ -1348,8 +1348,8 @@ static int __snd_sis7019_probe(struct pci_dev *pci,
->  	if (rc < 0)
->  		return rc;
->  
-> -	strcpy(card->driver, "SiS7019");
-> -	strcpy(card->shortname, "SiS7019");
-> +	strscpy(card->driver, "SiS7019");
-> +	strscpy(card->shortname, "SiS7019");
->  	rc = sis_chip_create(card, pci);
->  	if (rc)
->  		return rc;
-> -- 
-> 2.50.0
 > 
+> 
+> > We tend to have each device is configured in a continuous manner.
+> 
+> No. That's wrong assumption and wrong idea. We want the async.
+
+OK.
+
+> 
+> > 
+> >>
+> >>> +
+> >>> +static const struct fs_pll_div fs210x_pll_div[] = {
+> >>> +	/*    bclk,   pll1,   pll2,   pll3 */
+> >>> +	{   512000, 0x006C, 0x0120, 0x0001 },
+> >>> +	{   768000, 0x016C, 0x00C0, 0x0001 },
+> >>> +	{  1024000, 0x016C, 0x0090, 0x0001 },
+> >>> +	{  1536000, 0x016C, 0x0060, 0x0001 },
+> >>> +	{  2048000, 0x016C, 0x0090, 0x0002 },
+> >>> +	{  2304000, 0x016C, 0x0080, 0x0002 },
+> >>> +	{  3072000, 0x016C, 0x0090, 0x0003 },
+> >>> +	{  4096000, 0x016C, 0x0090, 0x0004 },
+> >>> +	{  4608000, 0x016C, 0x0080, 0x0004 },
+> >>> +	{  6144000, 0x016C, 0x0090, 0x0006 },
+> >>> +	{  8192000, 0x016C, 0x0090, 0x0008 },
+> >>> +	{  9216000, 0x016C, 0x0090, 0x0009 },
+> >>> +	{ 12288000, 0x016C, 0x0090, 0x000C },
+> >>> +	{ 16384000, 0x016C, 0x0090, 0x0010 },
+> >>> +	{ 18432000, 0x016C, 0x0090, 0x0012 },
+> >>> +	{ 24576000, 0x016C, 0x0090, 0x0018 },
+> >>> +	{  1411200, 0x016C, 0x0060, 0x0001 },
+> >>> +	{  2116800, 0x016C, 0x0080, 0x0002 },
+> >>> +	{  2822400, 0x016C, 0x0090, 0x0003 },
+> >>> +	{  4233600, 0x016C, 0x0080, 0x0004 },
+> >>> +	{  5644800, 0x016C, 0x0090, 0x0006 },
+> >>> +	{  8467200, 0x016C, 0x0090, 0x0009 },
+> >>> +	{ 11289600, 0x016C, 0x0090, 0x000C },
+> >>> +	{ 16934400, 0x016C, 0x0090, 0x0012 },
+> >>> +	{ 22579200, 0x016C, 0x0090, 0x0018 },
+> >>> +	{  2000000, 0x017C, 0x0093, 0x0002 },
+> >>> +};
+> >>> +
+> 
+> 
+> ...
+> 
+> >>> +
+> >>> +	/*
+> >>> +	 * If the firmware has no scene or only init scene,
+> >>> +	 * we skip adding this mixer control.
+> >>> +	 */
+> >>> +	if (fs210x->amp_lib.scene_count < 2)
+> >>> +		return 0;
+> >>> +
+> >>> +	count = ARRAY_SIZE(fs210x_scene_control);
+> >>> +
+> >>> +	return snd_soc_add_component_controls(cmpnt,
+> >>> +					      fs210x_scene_control,
+> >>> +					      count);
+> >>> +}
+> >>> +
+> >>> +static int fs210x_get_bclk(struct fs210x_priv *fs210x,
+> >>> +			   struct snd_soc_component *cmpnt)
+> >>> +{
+> >>> +	struct clk *bclk;
+> >>> +	int ret;
+> >>> +
+> >>> +	bclk = devm_clk_get(fs210x->dev, "bclk");
+> >>> +	if (IS_ERR_OR_NULL(bclk)) {
+> >>> +		ret = bclk ? PTR_ERR(bclk) : -ENODATA;
+> >>
+> >> Same pattern as regulators, eh...
+> > 
+> > Ok, we will update it.
+> > 
+> >>
+> >>> +		if (ret == -EPROBE_DEFER)
+> >>
+> >> No. Stop handling own probe deferrals. Look how other drivers do it.
+> > 
+> > Broonie recommanded to get clock in bus probe before,
+> > and we will call it in i2c probe,
+> > is it possible the clock isn't ready when we get it in bus probe?
+> > we found some drivers do the probe deferral after getting clock.
+> 
+> Look how others drivers do it. You should not handle it differently -
+> you always return. The core handles deferred probe.
+
+OK, the core will handle it, we don't need to do. 
+
+> 
+> > 
+> >>
+> >>> +			return ret;
+> >>> +		/*
+> >>> +		 * If the SOC doesn't have the bclk clock source,
+> >>> +		 * we skip setting the bclk clock.
+> >>> +		 */
+> >>> +		return 0;
+> >>
+> >> What is the point of this entire code? You got NULL, so assign NULL. Can
+> >> clk API handle NULLs? Answer this to yourself and write obvious, simple
+> >> code.
+> > 
+> > Before we calling clk API in fs210x_bclk_set, we check the clk_bclk is NULL or not firstly,
+> 
+> But it makes no sense. Clock core does it.
+> 
+> > In clk_set_rate/clk_prepare_enable/clk_disable_prepare, they will check it:
+> > if (!clk) or if (IS_ERR_OR_NULL(clk))
+> 
+> ? What does it mean?
+
+Uh, I got it.
+The clock core does the checking.
+
+> 
+> ...
+> 
+> >>> +
+> >>> +static int fs210x_parse_dts(struct fs210x_priv *fs210x,
+> >>> +			    struct fs210x_platform_data *pdata)
+> >>> +{
+> >>> +	struct device_node *node = fs210x->dev->of_node;
+> >>> +	int i, ret;
+> >>> +
+> >>> +	if (!node)
+> >>> +		return 0;
+> >>> +
+> >>> +	ret = of_property_read_string(node, "firmware-name", &pdata->fwm_name);
+> >>> +	if (ret)
+> >>> +		pdata->fwm_name = FS210X_DEFAULT_FWM_NAME;
+> >>> +
+> >>> +	fs210x->gpio_sdz = devm_gpiod_get_optional(fs210x->dev,
+> >>> +						   "reset", GPIOD_OUT_HIGH);
+> >>> +	if (IS_ERR_OR_NULL(fs210x->gpio_sdz)) {
+> >>> +		ret = fs210x->gpio_sdz ? PTR_ERR(fs210x->gpio_sdz) : -ENODATA;
+> >>
+> >>
+> >> Weird dance. Why assigning to ret enodata?
+> > 
+> > If we get the gpio_sdz and it's NULL, we assume it's unused.
+> > If the error code is unbefitting, which one should we use?
+> 
+> No error code. You requested optional for a reason.
+
+OK, just assign the PTR_ERR(xxx) to ret
+
+> 
+> > 
+> >>
+> >>> +		fs210x->gpio_sdz = NULL;
+> >>> +		if (ret == -EPROBE_DEFER)
+> >>> +			return ret;
+> >>> +		dev_dbg(fs210x->dev, "Assuming reset-gpios is unused\n");
+> >>> +	} else {
+> >>> +		dev_dbg(fs210x->dev, "reset-gpios: %d\n",
+> >>> +			desc_to_gpio(fs210x->gpio_sdz));
+> >>> +	}
+> >>
+> >> This is over-complicated way of getting simple optional gpio.
+> > 
+> > We want to cover the following possibilities:
+> > 1. The reset gpio is unused
+> 
+> And simple optional call is all you need.
+
+OK.
+
+> 
+> > 2. The reset pin is shared by multiple deivces
+> 
+> You cannot. They cannot be shared, try by yourself. It is not a
+> supported setup.
+
+It will report -EBUSY when we request the same gpio.
+
+> 
+> You can switch to reset gpio driver, see my slides from last year OSSNA.
+
+OK, I have the honour to read it.
+
+> 
+> > 3. The reset pins are independent
+> 
+> I don't understand that.
+
+Each device has its own reset pin, it's a general case.
+
+> 
+> > 4. The gpio pin is unready
+> 
+> There is no such thing.
+
+OK.
+
+> 
+> The only thing you need to do is devm_gpiod_get_optional(), if IS_ERR()
+> return dev_err_probe.
+> 
+> ONLY.
+
+OK.
+
+> 
+> For shared GPIOs, you cannot use it at all, see reset gpios driver
+> usecases in some Qcom WSA codecs.
+
+OK, I have found the driver and will learn about it later.
+
+> 
+> > 
+> >>
+> >>> +
+> >>> +	for (i = 0; i < FS210X_NUM_SUPPLIES; i++)
+> >>> +		fs210x->supplies[i].supply = fs210x_supply_names[i];
+> >>> +
+> >>> +	ret = devm_regulator_bulk_get(fs210x->dev,
+> >>> +				      ARRAY_SIZE(fs210x->supplies),
+> >>> +				      fs210x->supplies);
+> >>> +	if (ret) {
+> >>> +		dev_err(fs210x->dev, "Failed to get supplies: %d\n", ret);
+> >>
+> >> Syntax is return dev_err_probe.
+> > 
+> > We can port the driver into older kernel easily without dev_err_probe,
+> 
+> But we don't want that. We work only on upstream.
+
+OK.
+
+> 
+> > the older kernel may not have this API.
+> 
+> No, we must not accept poor code because you have customer who wants to
+> work on obsolete and buggy and vulnerable kernel.
+
+OK.
+
+> 
+> > If it is recommended, we will update it.
+> 
+> It is really, really a strong requirement. Actually, it is beneficial
+> that it won't be possible to port to ancient kernels, because you won't
+> be tempted to use some 10 year old patterns in other places.
+
+OK.
+
+> 
+> > 
+> >>
+> >>> +		return ret;
+> >>> +	}
+> >>> +
+> >>> +	return 0;
+> >>> +}
+> >>> +
+> >>> +static int fs210x_parse_platdata(struct fs210x_priv *fs210x)
+> >>
+> >> I do not understand why you have so many functions doing simple OF
+> >> parsing. fs210x_init, fs210x_parse_platdata, fs210x_parse_dts... and
+> >> this one here does nothing.
+> > 
+> > We parsed the acpi table in parse_platdata before v1,
+> > but we didn't have the environment to check, then we removed the code.
+> > If it's possible, we will add it in the future.
+> > Also we tend to implment the functions shortly to reduce the complexity.
+> > 
+> >>
+> >>> +{
+> >>> +	struct fs210x_platform_data *pdata;
+> >>> +	int ret;
+> >>> +
+> >>> +	pdata = &fs210x->pdata;
+> >>> +	ret = fs210x_parse_dts(fs210x, pdata);
+> >>> +	if (ret) {
+> >>> +		dev_err(fs210x->dev, "Failed to parse dts: %d\n", ret);
+> >>> +		return ret;
+> >>> +	}
+> >>> +
+> >>> +	return 0;
+> >>> +}
+> >>> +
+> >>> +static void fs210x_deinit(struct fs210x_priv *fs210x)
+> >>> +{
+> >>> +	fs210x_sdz_pin_set(fs210x, true);
+> >>> +	regulator_bulk_disable(FS210X_NUM_SUPPLIES, fs210x->supplies);
+> >>> +}
+> >>> +
+> >>> +static int fs210x_init(struct fs210x_priv *fs210x)
+> >>> +{
+> >>> +	int ret;
+> >>> +
+> >>> +	ret = fs210x_parse_platdata(fs210x);
+> >>> +	if (ret) {
+> >>> +		dev_err(fs210x->dev, "Failed to parse platdata: %d\n", ret);
+> >>
+> >> So you print SAME ERROR three times?
+> > 
+> > We will check and reduce the logs when the api has logs.
+> > 
+> >>
+> >>> +		return ret;
+> >>> +	}
+> >>> +
+> >>> +	ret = regulator_bulk_enable(FS210X_NUM_SUPPLIES, fs210x->supplies);
+> >>> +	if (ret) {
+> >>> +		dev_err(fs210x->dev, "Failed to enable supplies: %d\n", ret);
+> >>> +		return ret;
+> >>> +	}
+> >>> +
+> >>> +	/* Make sure the SDZ pin is pulled down enough time. */
+> >>> +	usleep_range(10000, 10050); /* >= 10ms */
+> >>> +	fs210x_sdz_pin_set(fs210x, false);
+> >>> +
+> >>> +	ret = fs210x_detect_device(fs210x);
+> >>> +	if (ret) {
+> >>> +		fs210x_deinit(fs210x);
+> >>> +		return ret;
+> >>> +	}
+> >>> +
+> >>> +	fs210x->scene_id     = -1; /* Invalid scene */
+> >>> +	fs210x->cur_scene    = NULL;
+> >>> +	fs210x->is_playing   = false;
+> >>> +	fs210x->is_inited    = false;
+> >>> +	fs210x->is_suspended = false;
+> >>> +	fs210x->vol[0]       = FS210X_VOLUME_MAX;
+> >>> +	fs210x->vol[1]       = FS210X_VOLUME_MAX;
+> >>> +
+> >>> +	return 0;
+> >>> +}
+> >>> +
+> >>> +static int fs210x_register_snd_component(struct fs210x_priv *fs210x)
+> >>> +{
+> >>> +	struct snd_soc_dai_driver *dai_drv;
+> >>> +	int ret;
+> >>> +
+> >>> +	dai_drv = devm_kmemdup(fs210x->dev, &fs210x_dai,
+> >>> +			       sizeof(fs210x_dai), GFP_KERNEL);
+> >>> +	if (!dai_drv)
+> >>> +		return -ENOMEM;
+> >>> +
+> >>> +	if (fs210x->devid == FS2105S_DEVICE_ID) {
+> >>> +		dai_drv->playback.rates = FS2105S_RATES;
+> >>> +		dai_drv->capture.rates  = FS2105S_RATES;
+> >>> +	}
+> >>> +
+> >>> +	ret = snd_soc_register_component(fs210x->dev,
+> >>> +					 &fs210x_soc_component_dev,
+> >>> +					 dai_drv, 1);
+> >>> +	return ret;
+> >>> +}
+> >>> +
+> >>> +static int fs210x_i2c_probe(struct i2c_client *client)
+> >>> +{
+> >>> +	struct fs210x_priv *fs210x;
+> >>> +	int ret;
+> >>> +
+> >>> +	dev_info(&client->dev, "version: %s\n", FS210X_DRV_VERSION);
+> >>> +
+> >>> +	fs210x = devm_kzalloc(&client->dev, sizeof(*fs210x), GFP_KERNEL);
+> >>> +	if (!fs210x)
+> >>> +		return -ENOMEM;
+> >>> +
+> >>> +	fs210x->i2c = client;
+> >>> +	fs210x->dev = &client->dev;
+> >>> +	i2c_set_clientdata(client, fs210x);
+> >>> +
+> >>> +	fs210x->regmap = devm_regmap_init_i2c(client, &fs210x_regmap);
+> >>> +	if (IS_ERR_OR_NULL(fs210x->regmap)) {
+> >>
+> >> Can devm_regmap_init_i2c() return NULL? No, it cannot.
+> > 
+> > OK, we will remove the judgment of NULL pointor
+> > 
+> >>
+> >>> +		dev_err(fs210x->dev, "Failed to get regmap\n");
+> >>> +		ret = fs210x->regmap ? PTR_ERR(fs210x->regmap) : -ENODATA;
+> >>
+> >> Syntax is return dev_err_probe and drop NULL check.
+> > 
+> > Refer to the reply in regulator get.
+> > 
+> >>
+> >>> +		return ret;
+> >>> +	}
+> >>> +
+> >>> +	mutex_lock(&fs210x_mutex);
+> >>> +	ret = fs210x_init(fs210x);
+> >>> +	mutex_unlock(&fs210x_mutex);
+> >>
+> >> Why do you need to lock it? Who and how can access device at this point?
+> > 
+> > If the system has more than 1 devices:
+> > the module may be loaded asynchronously, if the gpio/supplies are shared,
+> 
+> What? No. It's just cannot happen. Core handles it.
+
+OK.
+
+> 
+> > it's better to protect the detection with lock?
+> 
+> You protected here nothing.
+> 1. Concurrent SHARED GPIO reset: you replaced concurrent into
+> step-by-step-breaking-your-device-because-other-just-probed-and-reset-you
+> 2. supplies: core handles it.
+> 
+> Do you see such needs anywhere in other recent codecs who share pins? I
+> understand it might be tricky to find it... but trust me, there is no
+> except legacy poor choices...
+
+Hardware engineer wants all the reset(or irq) pins are shared,
+they explain the soc has not enough gpio pins to be used,
+especially when we use 4~8 audio amplifiers in a system,
+if we use the separate reset & interrupt pins, they're too much pins.
+
+We try to drop the related logic of shared pins.
+
+Thank you very much.
+
+Best regards,
+Nick
+
+> 
+> Best regards,
+> Krzysztof
 > 
