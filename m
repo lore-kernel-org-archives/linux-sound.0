@@ -1,62 +1,62 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD7F270EB3
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 14:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6B823ABA6
+	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 15:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752158721; cv=none; b=EufESqD73T/ycJkBmks3csybZjEHzRVWEqQ5c/cQAVFUpZhAT2tsT2aR2cAilRowVFGQjFAq3h0i8RJzX+H/XPxL88aVzZCcoT5TW1IwML08O0qAeRtFsWVquG394NqPdCiY05vtP+0R1sNAQv6cG9M2gvuBD69V8eaTQbz+gug=
+	t=1752161864; cv=none; b=QaMayDxw++N8Y0U0C91Baq+z5xe3p2ALvBtPMgfaIIACztE3OrRXmy9ScshNMeM1dh1mfsXGpMZZyvu38U5GKOMMLui16Gs1JSl1Q1TsjfgpUS8u5oh+udnZ5hbUK5w3tInfe/pplxmsNdczbAMqQ9nmRLLeYuKFyDvqAA32yIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752158721; c=relaxed/simple;
-	bh=GuuXNEIIHpc+OomKipbBSS2eHjtAi/KmN/JAHDNUxyc=;
+	s=arc-20240116; t=1752161864; c=relaxed/simple;
+	bh=QwOQObB2pctndAzOHsW+e0d5hzIcqwrg+o1Xv3mv1Ck=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=WCzqFfI/AkLdLLqecEZ0cmA8DiCbxV65E7ALJVHCLNORhPuee3h9/Ru/Kwm4lgHVxMco2xDoaVU+3z48N9HS72tQKqZNDlgDWwOAuWwnqFhIBoOAgNxCifp/oG6weH+bhE71fBzGK+yAansTL/gUSit68NTST6Zoows74GZRQIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oCIn/on9; arc=none smtp.client-ip=209.85.221.46
+	 References:In-Reply-To; b=qIB7SnwTD/BsfWfm8rpPbDhrwj1enWDOlH6kocVxj8qU4h5R+1RXjxFrmxho0GuQgVMnPIPhxDpdBSj29c92t+HS0cfRRVXzqSbxiuY62+0JLYy2ks7PlshhEdYmuwlu9iC8oUOnqEsCaxeJTrOeuDt3umvC53bP04cMZQUqO08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cFfR0/cm; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oCIn/on9"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a6e2d85705so754616f8f.0
-        for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 07:45:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cFfR0/cm"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-451d41e1ad1so7574135e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 08:37:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752158717; x=1752763517; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1752161861; x=1752766661; darn=vger.kernel.org;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uzpztVBg8Kr6uCTVYsLaqFYuf7mdKz1OXaJIFB3Ydtk=;
-        b=oCIn/on9utF4YPok+p2VGklKSBD403Ij+BG8HfSHqMNQJYLJD76XgMAToTA4bJPDj1
-         EfG4LoatNTE335CrCfp3k3IhIqD+jiVOdwmtrEOZojho6Q9KgfmE5Pk4wPQqg2xLmook
-         VkPK4zu82itBzZJxoP5ZH9ZUXewXdd+FFWSnOL2JpRI4BoXfdLsy/N5puNhZdZJ3XEPu
-         rYm/1dQv8k1CdJIBvnGYR5PSQFXvRSpFASIm3OQhw4Qq1W93RpXxq+O5hs//OWKtklhF
-         qYdwToupp8/a+/OS4XcZnzcLTtSlwoCW5Dlbx3LzIe+sZBtoygoNEgOSR/DQi1BXDr13
-         tPow==
+        bh=1GCMYIRIYYP0/PAurGhaaMN0CHgGvBkGkwVspybvVpo=;
+        b=cFfR0/cmJ5FwwMV4LCTX/c9A3wp/L+ANymfqAaVa8X0oyur3NMbaXYG2hNOlccUbQ3
+         nC88DrR6wGIOqZrqONe9VBhS7mdtlKrnnDY1uIOTRPD2GyfJaQdR19DpZD0YZ8gRBDIM
+         JXu6HmvoTUrO1CdA2hW113LWh39mZgwGkbYHPHn6GOQzB53DexyJc6oEEzD6O3B6opyw
+         AqCiL7N0OcgL09zMfdeU/ailbFvl7o+px+hNCnAnUMxL945CzST2FrxT+BqhBhnRuwra
+         1V2hopI13ukDL/b+yPgX7n2HM82BVMHdvDUqry489jf3Zmy3b+AdU8JT+2mmuhIYJEe/
+         Lo/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752158717; x=1752763517;
+        d=1e100.net; s=20230601; t=1752161861; x=1752766661;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=uzpztVBg8Kr6uCTVYsLaqFYuf7mdKz1OXaJIFB3Ydtk=;
-        b=Urq0eLXd54qdT9k4cACGEA1IDckcQvu5tlmPfNgr8jINxxAWwJ5Q6siGpguRuu82Lz
-         fNw1dVgzM46CH/dpwnlzvaq821a8ECjzeqBvUmsI9c3569FUU+Pxfa6uyFwhwq29gDWq
-         tXmylFYMn+EEFbfv91ZEEvharDZQYmaoJ8SclY32r8FVysVDW+OogYsJEFg+n8FyhRsr
-         3gi31E3t+CtnulR/q0VSrUnfatVqzkNAKuu0shynl4DgqFtrEIS6khys9SHwhFFFN6Lc
-         0zPIlCm3jDRQ3ACaAFVltNmJ89FCrP2i1jvSVtFpxeB08nHpJYNZDrDM4FAoFZeH1ipV
-         2+Ew==
-X-Forwarded-Encrypted: i=1; AJvYcCXqNmqPC6EhFq7exwmqvGgQDXfsvgO2zvzGfgwZxwBpt0eQCuwgl40UfcLtifejDLZhI/d3t5KiqXfItQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLmJeOPdvu5GKoUvioCCjutYMXjNcScoPG/Xbws2mq+Inb5QWv
-	Y5hNQBhpcmYcQJI9xl/1S8z3OoEtP7H4MQ/HN+v0UOkKiRpb6aApTMHwcg0zPVNc3LQ=
-X-Gm-Gg: ASbGncu1rrkyV3uJ+ztgOkRQ837OXaF3tT+sVNNXCTLrCwBg9h6R1ZW8fLQdVVH4gl9
-	ThsjDn2KFoP6SBX6kMOg5ycpl0UbUB9p7frpHuwMTRymrvCoVZXURfneKHug7jkZTIbcI7PtYRZ
-	HqhxfSYZ30+UvtZCqiXPHUKOA7976fW/8lrQLLv3XsOghmf9O8G8LGzPxq5E6sTCjkttIQ7l7Jd
-	T8V5lC4yLN/U0lyklgbI/8gDQCc26NtCcBqC53a1+heewsQxn83SOxRZ+mfWVvz1do2/JEATQ7D
-	T54xogSeeJZUON42K17d1W60H4LvpmPUsSblNtZCuGav9So2eXTqQinilAkVmy9d29o=
-X-Google-Smtp-Source: AGHT+IF9BLMRIl1cpwDsXcnH1f3gWfggPdcwbBjL9LEkWjPoKOu+RvwtjCs5eMcSNOOmyzdBY+cr/g==
-X-Received: by 2002:a05:6000:250d:b0:3a4:df80:7284 with SMTP id ffacd0b85a97d-3b5e44e1fefmr6408642f8f.1.1752158717358;
-        Thu, 10 Jul 2025 07:45:17 -0700 (PDT)
+        bh=1GCMYIRIYYP0/PAurGhaaMN0CHgGvBkGkwVspybvVpo=;
+        b=L2Rzc45HcYyIu6kFcqqZ84tlKARjDEqb/bZEjIcFw64jGxt33GZWxX7HbOATd1/zyZ
+         NI816GXIzRSSAVla4bA9bd2tFVih0ZXjLhvW1gVSNMeuK8XgnL4exFuSDT12Vn81orNq
+         nv/ey30wIKT2qv0F7SwEbjHqAAnNj2ckOHDfJWd7tebMQHpcUgvLzq94oyPd+kp94Vx4
+         Av0mrLJRfWTu0PmRcDD8PuFTLS/12jTd19q7688zIxnlA6zsR2De6MnZNZk4h3J3Mwlj
+         AHIn4apaOEOOUhR+goOqfBlqEWV0sXDCECmnqYb3oUChmnaqw8jZgxHAf0ZyxbElW7V8
+         DnrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVql2tTt2cZwWB8Dhz0/oY+GF1pW4Kg2aMhLBrGudCmXXjI3fQFGWuAhGm45OBgZ/HvE6I6veultGdJ/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyt06PxLUAiMQO3Qp47hIJLpz5ediSeXaGuGkb36Pp0xXmXw4ZH
+	RhfAzPFQ/OhkKtwcfRx7P7hA9Z/AUEPqJWEVqBzypXIWGcOrJMi2re9jIYBCLzQXMUE=
+X-Gm-Gg: ASbGncuv/qd78ne+0JhP6SCoTZi2nOr6Bo+BOL16AagssyaTyXSH7GW7BnsKmylWI+v
+	h8EY4DuBrpV3olngNDZeIoqbdTbC4khmeI2CFtm//7Mxs71F03cmf5RQa95dLQVjLEFy8gsTtUb
+	FGCVBKSwF/lzhfN4keVSBzUICGk8GtTsTLw7pw/kk7+s+WNjsUyxJfHmgAoB2pRynGPqeI2S1IF
+	9SbEV8TXjqzKA/KCJfYn5srFU1U5eLEPY/rZvD1Sg0Riq/c1en4gQtYCumK5/z5M8819fx39Fjv
+	7ijxVtzvWsyAIE7WXuYOszNgOEO0FB+Btht3T8Y/R7NcP0O69vh+1dDzuRJEsEZvqK8=
+X-Google-Smtp-Source: AGHT+IGw7DVfZ3GZxj+qHwr1y0PJneaT93zpwe7OGfPSm+0CYQeA+WTJUdUF6Ib1mvex15f2hc3lew==
+X-Received: by 2002:a05:6000:400e:b0:3aa:34f4:d437 with SMTP id ffacd0b85a97d-3b5e4529684mr5959353f8f.37.1752161861054;
+        Thu, 10 Jul 2025 08:37:41 -0700 (PDT)
 Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e1e135sm2085810f8f.72.2025.07.10.07.45.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454cdb549absm65784495e9.1.2025.07.10.08.37.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Jul 2025 07:45:16 -0700 (PDT)
+        Thu, 10 Jul 2025 08:37:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,82 +65,184 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 10 Jul 2025 15:45:15 +0100
-Message-Id: <DB8GFDXKQ6V1.BXX5KGBJP6YS@linaro.org>
+Date: Thu, 10 Jul 2025 16:37:39 +0100
+Message-Id: <DB8HJI3YCZ9X.282HCM2QSGY0D@linaro.org>
 Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
- <lgirdwood@gmail.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Stephen Boyd" <sboyd@kernel.org>, "Lee Jones" <lee@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Dmitry
- Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>, "Lee
+ Jones" <lee@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, <linux-arm-msm@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>, "Srinivas Kandagatla"
  <srinivas.kandagatla@oss.qualcomm.com>
 Subject: Re: [PATCH 3/3] ASoC: codecs: add new pm4125 audio codec driver
 From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Mark Brown" <broonie@kernel.org>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>
 X-Mailer: aerc 0.20.0
 References: <20250626-pm4125_audio_codec_v1-v1-0-e52933c429a0@linaro.org>
  <20250626-pm4125_audio_codec_v1-v1-3-e52933c429a0@linaro.org>
- <aF01gRFjsKgy6j4V@finisterre.sirena.org.uk>
- <DB0YYV10UD2Q.M36VAZJOVE7V@linaro.org>
- <af605c12-74c1-418e-9fe8-c0aa893a62bd@sirena.org.uk>
-In-Reply-To: <af605c12-74c1-418e-9fe8-c0aa893a62bd@sirena.org.uk>
+ <rr2qf7hw7lkwqozguz3cv4tg7eewzk4jkxx5bieydukemjko2h@pwtrakslklvn>
+In-Reply-To: <rr2qf7hw7lkwqozguz3cv4tg7eewzk4jkxx5bieydukemjko2h@pwtrakslklvn>
 
-On Tue Jul 1, 2025 at 10:04 PM BST, Mark Brown wrote:
-> On Tue, Jul 01, 2025 at 08:35:42PM +0100, Alexey Klimov wrote:
->> On Thu Jun 26, 2025 at 12:56 PM BST, Mark Brown wrote:
->> > On Thu, Jun 26, 2025 at 12:50:31AM +0100, Alexey Klimov wrote:
+On Thu Jun 26, 2025 at 7:19 AM BST, Krzysztof Kozlowski wrote:
+> On Thu, Jun 26, 2025 at 12:50:31AM +0100, Alexey Klimov wrote:
+>> +
+>> +static int pm4125_add_slave_components(struct pm4125_priv *pm4125,
+>> +				       struct device *dev,
+>> +				       struct component_match **matchptr)
+>> +{
+>> +	struct device_node *np =3D dev->of_node;
+>> +
+>> +	pm4125->rxnode =3D of_parse_phandle(np, "qcom,rx-device", 0);
+>> +	if (!pm4125->rxnode) {
+>> +		dev_err(dev, "Couldn't parse phandle to qcom,rx-device!\n");
+>> +		return -ENODEV;
+>> +	}
+>> +	of_node_get(pm4125->rxnode);
 >
->> >> +static int pm4125_micbias_control(struct snd_soc_component *componen=
-t,
->> >> +				  int micb_num, int req, bool is_dapm)
->> >> +{
->> >> +	return 0;
->> >> +}
->
->> > Why have this empty function which is only called from within the
->> > driver?  At best it's making the callers look like they do something.
->
->> I tried to make a minimal working version that we're going to
->> update with more patches during next submission.
->
-> Add the callers when you need them, right now this is just noise.
-> Nobody can tell if the callers make sense since the function does
-> nothing.
+> Where  do you clean this up?
 
-Ok, I cleaned it for the next version. Thanks.
+Please don't tell me that this is a bug that being copied from driver
+to driver.
 
->> >> +#if defined(CONFIG_OF)
->> >> +static const struct of_device_id pm4125_of_match[] =3D {
->> >> +	{ .compatible =3D "qcom,pm4125-codec" },
->> >> +	{ }
->> >> +};
->> >> +MODULE_DEVICE_TABLE(of, pm4125_of_match);
->> >> +#endif
+I changed it to such flow for the next version since it seems that referenc=
+e
+should be decremented after of_parse_phandle() returns with it incremented:
+
+rxnode =3D of_parse_phandle();
+if (!rxnode)
+	return dev_err_probe(...);
+
+component_match_add_release(..., rxnode);
+of_node_put(rxnode);
+
+
+>> +	component_match_add_release(dev, matchptr, component_release_of,
+>> +				    component_compare_of, pm4125->rxnode);
+>> +
+>> +	pm4125->txnode =3D of_parse_phandle(np, "qcom,tx-device", 0);
+>> +	if (!pm4125->txnode) {
+>> +		dev_err(dev, "Couldn't parse phandle to qcom,tx-device\n");
+>> +			return -ENODEV;
 >
->> > Why does this compatible exist?  If the driver is instantiated from a
->> > as a Linux software contruct it shouldn't appear in the DT.
+> Messed indent. This should be anyway just one line as always - return
+> dev_err_probe.
+
+I changed it for the next version as you suggested. Thanks.
+
+>> +	}
+>> +	of_node_get(pm4125->txnode);
 >
->> Could you please elaborate a bit more? Should it be instantiated
->> as an MFD device or platform device?
+> And this?
 >
-> Yes, if it's the child of a MFD then it shouldn't need to be described
-> separately in the DT.
+>> +	component_match_add_release(dev, matchptr, component_release_of,
+>> +				    component_compare_of, pm4125->txnode);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int pm4125_probe(struct platform_device *pdev)
+>> +{
+>> +	struct component_match *match =3D NULL;
+>> +	struct device *dev =3D &pdev->dev;
+>> +	struct pm4125_priv *pm4125;
+>> +	struct wcd_mbhc_config *cfg;
+>> +	int ret;
+>> +
+>> +	pm4125 =3D devm_kzalloc(dev, sizeof(*pm4125), GFP_KERNEL);
+>> +	if (!pm4125)
+>> +		return -ENOMEM;
+>> +
+>> +	dev_set_drvdata(dev, pm4125);
+>> +
+>> +	cfg =3D &pm4125->mbhc_cfg;
+>> +	cfg->swap_gnd_mic =3D pm4125_swap_gnd_mic;
+>> +
+>> +	pm4125->supplies[0].supply =3D "vdd-io";
+>> +	pm4125->supplies[1].supply =3D "vdd-cp";
+>> +	pm4125->supplies[2].supply =3D "vdd-mic-bias";
+>> +	pm4125->supplies[3].supply =3D "vdd-pa-vpos";
+>> +
+>> +	ret =3D devm_regulator_bulk_get(dev, PM4125_MAX_BULK_SUPPLY, pm4125->s=
+upplies);
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "Failed to get supplies\n");
+>> +
+>> +	ret =3D regulator_bulk_enable(PM4125_MAX_BULK_SUPPLY, pm4125->supplies=
+);
+>> +	if (ret) {
+>> +		regulator_bulk_free(PM4125_MAX_BULK_SUPPLY, pm4125->supplies);
+>
+> Double free.
 
-Currently, it is going to be described as child/slave device:
+Thanks.
 
-spmi_bus {
-	pmic@0 {
-		pmic4125_codec: codec {
-			...
-		}
-and will go probably in pm4125.dtsi which lists all child nodes with
-compatibles. Not sure if it is because each PMIC is customazable or because
-of better maintainability.
-Also, might need specific description of regulators which may vary from
-board to board. Not sure how is that supposed to be done without device
-tree description at this point.
+>> +		return dev_err_probe(dev, ret, "Failed to enable supplies\n");
+>> +	}
+>> +
+>> +	pm4125_dt_parse_micbias_info(dev, pm4125);
+>> +
+>> +	cfg->mbhc_micbias =3D MIC_BIAS_2;
+>> +	cfg->anc_micbias =3D MIC_BIAS_2;
+>> +	cfg->v_hs_max =3D WCD_MBHC_HS_V_MAX;
+>> +	cfg->num_btn =3D PM4125_MBHC_MAX_BUTTONS;
+>> +	cfg->micb_mv =3D pm4125->micb2_mv;
+>> +	cfg->linein_th =3D 5000;
+>> +	cfg->hs_thr =3D 1700;
+>> +	cfg->hph_thr =3D 50;
 
-Thanks,
+[..]
+
+>> +#if defined(CONFIG_OF)
+>> +static const struct of_device_id pm4125_of_match[] =3D {
+>> +	{ .compatible =3D "qcom,pm4125-codec" },
+>> +	{ }
+>> +};
+>> +MODULE_DEVICE_TABLE(of, pm4125_of_match);
+>> +#endif
+>> +
+>> +static struct platform_driver pm4125_codec_driver =3D {
+>> +	.probe =3D pm4125_probe,
+>> +	.remove =3D pm4125_remove,
+>> +	.driver =3D {
+>> +		.name =3D "pm4125_codec",
+>> +		.of_match_table =3D of_match_ptr(pm4125_of_match),
+>
+> Drop of_match_ptr and #if. We just removed it (or trying to )
+> everywhere, so why re-introducing it...
+
+Will remove it. Thanks.
+
+>> +		.suppress_bind_attrs =3D true,
+>> +	},
+>> +};
+>> +
+>> +module_platform_driver(pm4125_codec_driver);
+>> +MODULE_DESCRIPTION("PM4125 audio codec driver");
+>> +MODULE_LICENSE("GPL");
+>> diff --git a/sound/soc/codecs/pm4125.h b/sound/soc/codecs/pm4125.h
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..2c5e8218202d92a0adc49341=
+3368991a406471b0
+>> --- /dev/null
+>> +++ b/sound/soc/codecs/pm4125.h
+
+[...]
+
+>> +const u8 pm4125_reg_access_analog[
+>
+> No, you cannot have data defined in the header. This is neither style of
+> C, nor Linux kernel, nor makes any sense. What if this will be included
+> by some other unit? This is some terrible downstream style.
+>
+> Heh... you actually do include it twice, so you would see all the
+> duplicated data for no reason at all.
+
+I pulled in the change that fixes this for the next version.
+Thank you.
+
+Best regards,
 Alexey
+
