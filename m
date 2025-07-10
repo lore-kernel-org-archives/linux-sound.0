@@ -1,117 +1,162 @@
-Received: from smtp-relay-canonical-1.canonical.com (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013031.outbound.protection.outlook.com [40.107.162.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F76AA95C;
-	Thu, 10 Jul 2025 01:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.121
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752110300; cv=none; b=QWWvpOAkUuBoEvQxeGNnevPW4C4yNn9ds2zueWeg6kHDDm1d/2Fgzz0njQdotHR1RLweyaCii3xLON0UsXonNyQ857vl/pNEwgilnemsYZL9fmkXHCfSAgI36sy8Zi5S3El7K5MJthFnyEJSmI8F76MDYhZkyHgMlJ7X5JXxrWQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752110300; c=relaxed/simple;
-	bh=bhHpyxyAGVbF0NSiWpz6PTn5WY5ZCe9QNc46RU3MHis=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=U2N8n8sq5ow4TLgW7VzTKKPX/86ht6TmRw5MZ2NOgCZYL3XYB9Y57SLy96WaOTwmcgZ1gCuaseLPuNbsaATd8wrtXoelt77f9wA3jRe66ZqQiNy6tKABo2s1P0XuNzwvom7fIGv1qYac8GGvv86JAXgdTskSIKVJUbC27l1S3Nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=Ri8SbPqW; arc=none smtp.client-ip=185.125.188.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F23A2236F4;
+	Thu, 10 Jul 2025 03:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752116771; cv=fail; b=pizr1KFkoYUoFNJ57tNuuoprV4ENY5z8Z0qXQKj5R1ApMAARRb+9/KRHW7BhQUnvAfRi1QC0FQA5N2I++WNwUhYl06PAnp6jjSFDbr66TjTIEzKW0z3HENPD30T0/tPAzqyPE9whL65rO/xUJxx7RDOvpZuFx2R87jfy0hYITnU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752116771; c=relaxed/simple;
+	bh=Kdm7IUd/kZLoXhnchTrmafIcr5KUABSP/K7NARprCEg=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Msrikkj2CCLRVRSmW5ODGCm06gBaaf3DQSPIZ3hu7BSJDRgrBvEO0IkdDHLjU2o8SpqKdMsMSwhOanOxe8aRzyghxEvV6G1NKn6TbsXGOTX0gmJZWi8L2vxpb0SfIui2xmc9pC+6xhcfZeCC2p6ZzzO89+oK6K2WGnZnTT9Qa64=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=eL+w5Dx0; arc=fail smtp.client-ip=40.107.162.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="Ri8SbPqW"
-Received: from laptop.lan (unknown [123.123.45.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 299183F6D4;
-	Thu, 10 Jul 2025 01:18:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1752110295;
-	bh=wvXX3+98b9csWyA6dkKmj1aJ7aZiKSOMpW9t77vrV88=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=Ri8SbPqWN+8sNA2eSG1ZrBs8nnTbhVJj4L/h1Ei8ODqA7rl5uMPibgt/t2ApkOVZs
-	 1thpTWO7rPzv3GviGAubZHFsrDQv3UHwvBWskn43uyITe/1Yk+e29OI+GFpgmOCEhy
-	 +GligoP3K6XD99BV8G6DluC9bgxkivdvTDk2gN5Ev5qrcneCTeJHbmE99C+fYV9AxI
-	 AoWGuMfKQbJ+r61jxDMnvtSaqIzPrhH4MCDB5lMrj2adlej0CAX49k4VVITKAGGaBf
-	 DhBYgVW2VLSq870ENxViVrSoZ0nI+024t2Za8NtyhrsZ5JJHSCM4CkX/c/aGhL8WKA
-	 Wwwet6O9hW1iw==
-From: Guoqing Jiang <guoqing.jiang@canonical.com>
-To: lgirdwood@gmail.com,
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="eL+w5Dx0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yYBp2j3EuVzHto2UPs5/D8/nTMU+OEauM9SFwe9bu1yiCJIPNcl3YyhC5BxlV/nw2wZwNQMSWHZjLx9xs/dGILwq1xWvFGBfg8o7XuJE1yidOEKPvecjiqVZ+5KBqWKNcdDMFVBcYRvBSbRVW0Pod8FTPuGZSc4DMapNtvvhoCV+/J+d9AuvLZchEVfXEfqXvyt5wTfksdhaohz0Tb6dzE0J7EpF3XR0qnIAWjePpELggJndW+MVVulFA59Q62/Y2or7GFfGKSqHd7WfdxZEMmsHXz2WshJ0gJdNMrMQ1Ya9dWym7Uvec4fuLauQ+3FMTxFju3HR3BXEuESse4j/qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SFCGFh5OssziJ5mNUSH0thPYwgNQhSkNJZRfY7yRSvU=;
+ b=n8XtLazO6qcX7mXibwkTu4DdKReVmCb1HXisWvmyMWp4V0hfOoozeUu9xEpN0KwFfC2F0qZO/SyGP2ynTN76yx4s/ty9ZcbMzFV2BBfFcMn95MedeMyXK8tS2pRTjVGAopUkhM6k2hHK9235HcEjlpY6xm71lNYeY3xZFcNIuDkFpIDUnyuJht5xV3NFBy8rMP4oAPAKU6ukXOSoDvk83op0g5fdX+R96KN8qJwl6AcWxjytAauYliMCqIaHBk+fDU6ZYYudi38OrFWV1nq0kr7wE/Gs8dPjs4Wo9E+Kne8P7Qjw+WrQKcgh6o2YyvviIeBuRxf87uvPgJbKun9R/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SFCGFh5OssziJ5mNUSH0thPYwgNQhSkNJZRfY7yRSvU=;
+ b=eL+w5Dx0PK94d1bWeuwXZpm/DB5VeJuTuLBDD03G9KPSY4tfvAFZpL7j4fbItvMnu+KkP3OeGl+ZouU0MLJ6hWMbnX79p7O3UndxXPXHvJgn9hkSrwRWFU8NY4xVH6/7rJyn44vBJl9KvP7fReCgNua1M/k3JvgWJF2Rj7iMUh1prmpwbfI0wjTtyN143wPe6YxeygnG541w0NtO//hhwNiMQO2ls8kS8cOBM+G9qFOeVkakATIigcPwzTWBc98v3tyh/qixFT/7q5TvSn3zzH5An5OLnOapJVLQdKWpoLDh168JkOI46pMnp6AG3TEEN5WvHji1nNltZo6B9HKkZw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by FRWPR04MB11221.eurprd04.prod.outlook.com (2603:10a6:d10:171::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.25; Thu, 10 Jul
+ 2025 03:06:06 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891%5]) with mapi id 15.20.8901.024; Thu, 10 Jul 2025
+ 03:06:06 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
 	broonie@kernel.org,
 	perex@perex.cz,
 	tiwai@suse.com,
-	angelogioacchino.delregno@collabora.com,
-	amergnat@baylibre.com
-Cc: zoran.zhan@mediatek.com,
-	guoqing.jiang@canonical.com,
 	linux-sound@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH V2] ASoC: mediatek: mt8365-dai-i2s: pass correct size to mt8365_dai_set_priv
-Date: Thu, 10 Jul 2025 09:18:06 +0800
-Message-Id: <20250710011806.134507-1-guoqing.jiang@canonical.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH 0/2] ASoC: fsl_xcvr: get channel status data in two cases
+Date: Thu, 10 Jul 2025 11:04:03 +0800
+Message-Id: <20250710030405.3370671-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MA0PR01CA0052.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ac::13) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|FRWPR04MB11221:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d597c89-22d4-4f4d-e3da-08ddbf5eb645
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|376014|7416014|366016|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3zgEFXbqPBKmTuFEgPZMBgAaCKflIeiZlgdhq4vy5eZx5f2XNZFwwMxpuvmp?=
+ =?us-ascii?Q?R22TKGpeXal6pKUdn2Ug9aaNmIt2jdl9OqGUs5QdgIJdYrXMGdXB/TG5MdeT?=
+ =?us-ascii?Q?InYh/Ve52YgcnpvKBgyup1jW4H38SPQE53Az9+iT84oo0xZVvcxMFZNUNpih?=
+ =?us-ascii?Q?LhUfz08mWUjKf0OGfnzWQ2+3NuBlY8w+60T8brkPtt+fJB6AVjyAxdFOIGjF?=
+ =?us-ascii?Q?m7dK4zmCK8rRQUudV+fTLCIwne9LqqJzhak9cvwbzP0nKWWOda8RYDU15Hk2?=
+ =?us-ascii?Q?nTSl1a2N+gmXGn7WZoGyV4rYERsu7qKR7p3/QeDRbZd2n4+5vFiDOag+9JWr?=
+ =?us-ascii?Q?4mPBbCjlwWgHJxt1gFSiecL4pYKkQKq1zNkjJegA27LkRU4p/iQS3EGjvAik?=
+ =?us-ascii?Q?LMeHk8G1B9Lgnpb9GkRMNH4v1wHVOfPV99Dq3Lh36jRSH8SZUYqkahD0e5Yk?=
+ =?us-ascii?Q?UPVM6fFhuss3b1ctZG+vPqrr7+EcHrwj7t2+g1zgNlAgBX+ZkxPpiaolVVlQ?=
+ =?us-ascii?Q?qTeHtBHsA5TKTfhODZMCGZ+2AHt+6DzaaEeMik3iilz4BMJq0p/y9q5LyXKc?=
+ =?us-ascii?Q?wTBCM3mNSYD+G/dbEEfUtGloVb18q6zyYk+DPckEzikzOQUdmcv6R4Bb7tDO?=
+ =?us-ascii?Q?2CFtvp5t0gR3gp0v1JpfD6WmzYCGHwJVM5MxWd4E0xNsXBv4x+wn/SDGlsOd?=
+ =?us-ascii?Q?7RrlEfbLkT27+JfX0FJ97FH6OTMDlNdGIvHkeT+w6YlmWwbXQ2HLwTUicEQ3?=
+ =?us-ascii?Q?R/AHaqRFFRFreKPcampOCmSHdPpSFGsY4T4/VX+PBJo3+QfojhxUD2zznz4X?=
+ =?us-ascii?Q?LHls4bfgCwvXMbNWbWKzZRUdjXRjn5Qnl5IPr52+8Z5oF3cIn06kNgB6yKQd?=
+ =?us-ascii?Q?4PP9Nf9hrPzThUoKh/VpAgOrvG3K8wBxoEhC7YsmyowGJGt3l/gMVHps6u0w?=
+ =?us-ascii?Q?9nnXhFXVrSSmSYwI+OR+8SmeEczDb+MIkraZ7SEYMJ0MRRZl4NHZsKi840tY?=
+ =?us-ascii?Q?Q6XPMLHtnwODhKVGqpuH5w5KQE651FN5/n+OTcH0nf66JNlzDVvl23Dq9yoF?=
+ =?us-ascii?Q?4lG/ch6u+i4SxzI2URzH0Skb7vGqlXLs6JyAboRdvbfmtYf4DpukOKBSbCLe?=
+ =?us-ascii?Q?HckxFWv91n+p62tbE4WJF/jZ9oSiChhktBjVYQ8bpJfcu1b6D8Femv7zmLs1?=
+ =?us-ascii?Q?s5ENr3HEcBPbnR6nfYYxyhYQCJxGDSfO2qkWwTeedeJIcNiQUmlly2BFZTFV?=
+ =?us-ascii?Q?P2HPtTLSkHofQ1KHcGNBHF9Swph/MgKnFIs7gBnz01bJb6Sl44nAEMhuowgq?=
+ =?us-ascii?Q?44lAv1HFOR66M+atrsTVd8DmjbWeADzA4xxCdJh+mur1Vtja5NKf3s+qe4PA?=
+ =?us-ascii?Q?iHamEx8l0itp7BsihnEICQOIg8eNU+gr1eBWFUPS/iWTgfrPVBdKvSHGac9v?=
+ =?us-ascii?Q?P8W159yOqnauEWlfQeVp93g0RgthNSgSjMx52//6iqsNpsezT4/2ryZq4vnh?=
+ =?us-ascii?Q?yG4G/e2HEGAC4xk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(7416014)(366016)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?FA5n3BdvfnyYivrFPbXJAbs6MjeiCK9sH5ZwsMgA/4qD3EgMrIp/8IvR16z7?=
+ =?us-ascii?Q?MpPcyyywyQmSYTnF/At+EZJi9rcND5HAhjK9hm17dTXTNPNW2ws+w5ELjaUq?=
+ =?us-ascii?Q?q2v2FzZZV/BRmo31agtPlFtUmGgA9lfCBH5ZAG11pVloKaZIrDfpOyeTwyEw?=
+ =?us-ascii?Q?DFJ3hlLB+oYNrBMj+XMIeX4iMszbbJJW6XTVDwWcNQj3imgdUWsY+rkuGYDT?=
+ =?us-ascii?Q?WCm8DH/+iXUqjCX/K1uVwTR7dQaJaSraMP7xdyIG87vimgBTP0QtjsqwTCub?=
+ =?us-ascii?Q?T3ij10VZNvm/ieUAh9t6eaQ0fhYf2swwrXbraMS8opatIW1h/B7BWWbnhnUJ?=
+ =?us-ascii?Q?1CS/z6WExn9x02UjIhtsJ4raQfxiGx5j5QnuTHX08qo/SqlWhhbUngQNR7mw?=
+ =?us-ascii?Q?g/EZgaPfkGL2MTCLXBa4QPExgAdDnNxwzflgFHS07DIPUk3O3/xfEzsiZpbd?=
+ =?us-ascii?Q?df3t5gAHc2peCUpoykPY6riMZ8UKI7dYsvLTU4TCQSoRUAx0P/OyxPSDphLb?=
+ =?us-ascii?Q?xS/S883uofPLFnO/MA29+r9378Qy3prXsnQ5zYNq/0A3wTuN0TCZvLxxAh1y?=
+ =?us-ascii?Q?VEVIz6LtZrZ4myv+020ZbKuPuc/5nbUoyQu/Np1MKgd8v6GDjunY92CktszK?=
+ =?us-ascii?Q?OcXTFKREUCgv/auD8VEzIsMGuHWWrkoD/u9Q+OGgjCd1/dT+Dqm+Dp06CsES?=
+ =?us-ascii?Q?e9MBKwa8Xr9JIV00fyZp69upsi2bVf29xkp3J1TvdQa3695UByQiud5j1EPn?=
+ =?us-ascii?Q?k4eQ+JG8hN4hWjJYQ9/X7AXANPKORiXDAaHmpbf4IudB90Wf4o5T3P/upTy8?=
+ =?us-ascii?Q?HwhkdfviR73Yt5OBCvQToN1lOQli1jUFSFy02Cdos7DJZOOsXrGxJPsYjvmN?=
+ =?us-ascii?Q?hj5uI4+KItgOiHioR/bimvwOfffWSKGvN5aESbAv1Uqq7LFNVsClsY+H+6I9?=
+ =?us-ascii?Q?OOL8TlNCe5g/9U2ZH7eInsnjUcDdHQI8Q4/8sj+sUAV1BzQSrV8nqH3zNQeG?=
+ =?us-ascii?Q?toR+O2sj8aqGqdr62j/4wmRi5MGgLxz15jZPufcYEJW041gLOJLn+d4kI9Nj?=
+ =?us-ascii?Q?glx/2GBbZMlyzSI3PPt760NUfPVu2tMd5W/jL269i5/7vbx2wOcYA0hkby2J?=
+ =?us-ascii?Q?QBI/c7YjX86U9f+Ig1YgKT8/8/xi5rl3FBJUG/NkPSwFfA78cWOozbWTTJZ/?=
+ =?us-ascii?Q?ZN+/I9ijns7hBzkPkdvNai5vxTXt+ok6DJN32N+5aY2UIUqv0w0IlwH9ujFo?=
+ =?us-ascii?Q?7RYp5oEYhD07XSjpGqP+OsQ7glYYihdpkCzj2W4F87QbyQy9jffrUDNZkVZc?=
+ =?us-ascii?Q?pA/rOWrCk7cKMGHbENi/mqRSfKF0VwTePZfgOKIuEDfz6NHBmdfwI8fb8u7y?=
+ =?us-ascii?Q?LZ9TiAlIyRBrQFTISbt7RePtbnESIRsSEc1FCxpjIhmppPuTkDAcHXfL5HYm?=
+ =?us-ascii?Q?Mno5KWNzO3h7+i2Imc5uhKu8Jr+obDDq1Is9uA/V6evUnxFHnb3ErcvSbqWi?=
+ =?us-ascii?Q?LJx8rW92vJRirk2MV+dLI5/Sgj2POWkuV66w9mUwQj6w6tEiY13StC/F25ok?=
+ =?us-ascii?Q?OCy8qCWA083Lgzr11pjP+QBxJ4E5jFJN5CJ6C+Ql?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d597c89-22d4-4f4d-e3da-08ddbf5eb645
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 03:06:06.5174
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eik9Wldhq0z1ka3hV1OraEJDyEb54dV2SgZVce36tYdaeqbXAuV1xDzpf0bu1rO1dx70ECBO4nGV6BAuMMt21Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRWPR04MB11221
 
-Given mt8365_dai_set_priv allocate priv_size space to copy priv_data which
-means we should pass mt8365_i2s_priv[i] or "struct mtk_afe_i2s_priv"
-instead of afe_priv which has the size of "struct mt8365_afe_private".
+There is two different cases for getting channel status data:
+1. With PHY exists, there is firmware running on M core, the firmware
+should fill the channel status to RAM space, driver need to read them
+from RAM.
+2. Without PHY, the channel status need to be obtained from registers.
 
-Otherwise the KASAN complains about.
+Shengjiu Wang (2):
+  ASoC: fsl_xcvr: get channel status data when PHY is not exists
+  ASoC: fsl_xcvr: get channel status data with firmware exists
 
-[   59.389765] BUG: KASAN: global-out-of-bounds in mt8365_dai_set_priv+0xc8/0x168 [snd_soc_mt8365_pcm]
-...
-[   59.394789] Call trace:
-[   59.395167]  dump_backtrace+0xa0/0x128
-[   59.395733]  show_stack+0x20/0x38
-[   59.396238]  dump_stack_lvl+0xe8/0x148
-[   59.396806]  print_report+0x37c/0x5e0
-[   59.397358]  kasan_report+0xac/0xf8
-[   59.397885]  kasan_check_range+0xe8/0x190
-[   59.398485]  asan_memcpy+0x3c/0x98
-[   59.399022]  mt8365_dai_set_priv+0xc8/0x168 [snd_soc_mt8365_pcm]
-[   59.399928]  mt8365_dai_i2s_register+0x1e8/0x2b0 [snd_soc_mt8365_pcm]
-[   59.400893]  mt8365_afe_pcm_dev_probe+0x4d0/0xdf0 [snd_soc_mt8365_pcm]
-[   59.401873]  platform_probe+0xcc/0x228
-[   59.402442]  really_probe+0x340/0x9e8
-[   59.402992]  driver_probe_device+0x16c/0x3f8
-[   59.403638]  driver_probe_device+0x64/0x1d8
-[   59.404256]  driver_attach+0x1dc/0x4c8
-[   59.404840]  bus_for_each_dev+0x100/0x190
-[   59.405442]  driver_attach+0x44/0x68
-[   59.405980]  bus_add_driver+0x23c/0x500
-[   59.406550]  driver_register+0xf8/0x3d0
-[   59.407122]  platform_driver_register+0x68/0x98
-[   59.407810]  mt8365_afe_pcm_driver_init+0x2c/0xff8 [snd_soc_mt8365_pcm]
+ sound/soc/fsl/fsl_xcvr.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
-Fixes: 402bbb13a195 ("ASoC: mediatek: mt8365: Add I2S DAI support")
-Signed-off-by: Guoqing Jiang <guoqing.jiang@canonical.com>
----
-V2:
-1. fix issue reported by lkp, thanks.
-
- sound/soc/mediatek/mt8365/mt8365-dai-i2s.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-index cae51756cead..cb9beb172ed5 100644
---- a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-+++ b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-@@ -812,11 +812,10 @@ static const struct snd_soc_dapm_route mtk_dai_i2s_routes[] = {
- static int mt8365_dai_i2s_set_priv(struct mtk_base_afe *afe)
- {
- 	int i, ret;
--	struct mt8365_afe_private *afe_priv = afe->platform_priv;
- 
- 	for (i = 0; i < DAI_I2S_NUM; i++) {
- 		ret = mt8365_dai_set_priv(afe, mt8365_i2s_priv[i].id,
--					  sizeof(*afe_priv),
-+					  sizeof(mt8365_i2s_priv[i]),
- 					  &mt8365_i2s_priv[i]);
- 		if (ret)
- 			return ret;
 -- 
 2.34.1
 
