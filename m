@@ -1,83 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519B72D781F
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 10:13:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7D82D781F
+	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 10:13:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752142421; cv=none; b=Q0MRb64/CUN2XWVbz1QFh1pQt5Um0PhiozVK4Jf06l+fH/BHlK/xZb/x6xTcY2JEOSqqUWYRRFsD8ASAkpUkxrsgSODMCzDS8R4p/sOYkLbxA2yJg8zrNstRNgGtBpst3qnpz24+3oPr/ghw37iynESd5Z7mHcUrYkOj04yM+ZE=
+	t=1752142428; cv=none; b=Ukylzm1tjwX7sLEVud6PSM4zn4gXl4iy3/6WsdqUcPhGhBKBNDs7/ql6e/sOiIIk8p6Yj6BQ7FVKWDeiJkLs+8BYOv/eJJOjXBaTGJOBqU2pyY8gJOEr/0Z8cothHiFlTKC5MPNjSCiBZ6lbzVUzebF4ToSbWN852AZZSFZLhOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752142421; c=relaxed/simple;
-	bh=FR79kg2OyBRyks6WyAiQ6ZBE/CdkWMNc7yEsk+AjZLk=;
+	s=arc-20240116; t=1752142428; c=relaxed/simple;
+	bh=uFsp9Dd1ogPPd99lgw9/lY0e5KHzmyWVrmdJQN+oEQI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qzd6ZI4wfMb/uAVbS1CmsNAsDugcIhRjIHADISPy+Fg6X3myB8aUHvFEEy0IzPVGycpm/atZ8pc015gwf/pdUd2zs4dRiMzer5qDmAP+YLXzJ0mOkgTR1TQTRcu+SItuMyxAmcsPmjkWwcP9bMNs7WmR67abGUA5ARkdyua01Tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y6VjWgvw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HDERx8t4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y6VjWgvw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HDERx8t4; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=HFD5ZoBNnPpEPo2tpjnf5uVhRKT5BlzP5KAe3KKXMyIASFGw/9rW5rZ/W77VLUr1hCc6qNfiEsyS3EV2N6FEiPjq+O9CvVWLdYqluXCvQ5c9q6N1ME97LstW0yA3MEQc6sVCY8KMmWSRL0lABMVCcSvwNfujZ21ocs+juMePD5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Sr996lRw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KhL8VMSO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Sr996lRw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KhL8VMSO; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y6VjWgvw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HDERx8t4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y6VjWgvw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HDERx8t4"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Sr996lRw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KhL8VMSO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Sr996lRw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KhL8VMSO"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 35710211C9;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5AEE1211CA;
 	Thu, 10 Jul 2025 10:07:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1752142070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GLmAMSQZim01dk7PPUogepksP/GjoEWp/TMvt79YvVA=;
-	b=y6VjWgvwUrCVAcipH2bo12ufq2AnlZH+0MYyl4sku8vCLhvSwkaDdjpdtrWiaLHo0XX5EJ
-	iJc0LOKH2DvJ/Kphu1q4YOYHVia2Pn/GZ0dwv2p36KLneaLy6OaTtq7PKUNcGkPyJ6Zo5O
-	JXhRa4ORElsfD7GrCFUr2ZGJ31BOdOQ=
+	bh=XiuSaot/REHdMxRG/RfgPmcKojU+kAjKFFbWipKAXHA=;
+	b=Sr996lRwLkDYcwccFi2c+LaG7it1ROScI+USKv3vuSZ3jNYU2G7TnHZX/TieJZSn62VixE
+	gn92MUpxOuFIhzAaDghQWCABvTGZ7NM/SjPdYnziWnfi1Yftlbl2Lv/9Io4F0T8jZ1MVfL
+	yG2qNxuCn6Ly4mjyj7Ss9xrurelCR64=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1752142070;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GLmAMSQZim01dk7PPUogepksP/GjoEWp/TMvt79YvVA=;
-	b=HDERx8t4kcdx0JQvwnUVbi6cOL7sGXjANvnXpKvz1XndlQpYrasolV3CxOD+7RE+MX/4Ja
-	FZkXhUCJEZycZvCg==
+	bh=XiuSaot/REHdMxRG/RfgPmcKojU+kAjKFFbWipKAXHA=;
+	b=KhL8VMSOv68mEYgANefT13X5Gscw2RapHFzceZprG2PCm6/7tJGvyu/kEqcp4L6ioZZJ9H
+	pW+n9EB1+RJarCDw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Sr996lRw;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KhL8VMSO
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1752142070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GLmAMSQZim01dk7PPUogepksP/GjoEWp/TMvt79YvVA=;
-	b=y6VjWgvwUrCVAcipH2bo12ufq2AnlZH+0MYyl4sku8vCLhvSwkaDdjpdtrWiaLHo0XX5EJ
-	iJc0LOKH2DvJ/Kphu1q4YOYHVia2Pn/GZ0dwv2p36KLneaLy6OaTtq7PKUNcGkPyJ6Zo5O
-	JXhRa4ORElsfD7GrCFUr2ZGJ31BOdOQ=
+	bh=XiuSaot/REHdMxRG/RfgPmcKojU+kAjKFFbWipKAXHA=;
+	b=Sr996lRwLkDYcwccFi2c+LaG7it1ROScI+USKv3vuSZ3jNYU2G7TnHZX/TieJZSn62VixE
+	gn92MUpxOuFIhzAaDghQWCABvTGZ7NM/SjPdYnziWnfi1Yftlbl2Lv/9Io4F0T8jZ1MVfL
+	yG2qNxuCn6Ly4mjyj7Ss9xrurelCR64=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1752142070;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GLmAMSQZim01dk7PPUogepksP/GjoEWp/TMvt79YvVA=;
-	b=HDERx8t4kcdx0JQvwnUVbi6cOL7sGXjANvnXpKvz1XndlQpYrasolV3CxOD+7RE+MX/4Ja
-	FZkXhUCJEZycZvCg==
+	bh=XiuSaot/REHdMxRG/RfgPmcKojU+kAjKFFbWipKAXHA=;
+	b=KhL8VMSOv68mEYgANefT13X5Gscw2RapHFzceZprG2PCm6/7tJGvyu/kEqcp4L6ioZZJ9H
+	pW+n9EB1+RJarCDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1BC7613A70;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3BD02136DC;
 	Thu, 10 Jul 2025 10:07:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qM+gBfaQb2jZWQAAD6G6ig
+	id eMxdDfaQb2jZWQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Thu, 10 Jul 2025 10:07:50 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 099/103] ALSA: usb-audio: Use safer strscpy() instead of strcpy()
-Date: Thu, 10 Jul 2025 12:07:21 +0200
-Message-ID: <20250710100727.22653-100-tiwai@suse.de>
+Subject: [PATCH 100/103] ALSA: ac97: Copy string more safely
+Date: Thu, 10 Jul 2025 12:07:22 +0200
+Message-ID: <20250710100727.22653-101-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250710100727.22653-1-tiwai@suse.de>
 References: <20250710100727.22653-1-tiwai@suse.de>
@@ -88,96 +89,136 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 5AEE1211CA
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLsqo7dymd5dgmoaprf5rep8is)];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_ONE(0.00)[1];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -2.80
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLe1mc1hwayk397878n5a1j337)];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 
-Use a safer function strscpy() instead of strcpy() for copying to
-arrays.
+snd_ac97_get_name() blindly assumes that the name buffer is large
+enough, but we should be more careful.  Pass the max buffer length and
+allow trimming to the size.
 
-Only idiomatic code replacement, and no functional changes.
+Only a cosmetic safety matter, no functional changes intended.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/card.c   | 2 +-
- sound/usb/midi.c   | 2 +-
- sound/usb/mixer.c  | 2 +-
- sound/usb/stream.c | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ sound/pci/ac97/ac97_codec.c | 19 +++++++++++--------
+ sound/pci/ac97/ac97_local.h |  2 +-
+ sound/pci/ac97/ac97_proc.c  |  2 +-
+ 3 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 9fb8726a6c93..630ce40ed2c9 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -756,7 +756,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
+diff --git a/sound/pci/ac97/ac97_codec.c b/sound/pci/ac97/ac97_codec.c
+index 588c094080be..cd60c856a92e 100644
+--- a/sound/pci/ac97/ac97_codec.c
++++ b/sound/pci/ac97/ac97_codec.c
+@@ -1840,7 +1840,8 @@ static const struct ac97_codec_id *look_for_codec_id(const struct ac97_codec_id
+ 	return NULL;
+ }
  
- 	card->private_free = snd_usb_audio_free;
+-void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name, int modem)
++void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name,
++		       size_t maxlen, int modem)
+ {
+ 	const struct ac97_codec_id *pid;
  
--	strcpy(card->driver, "USB-Audio");
-+	strscpy(card->driver, "USB-Audio");
- 	sprintf(component, "USB%04x:%04x",
- 		USB_ID_VENDOR(chip->usb_id), USB_ID_PRODUCT(chip->usb_id));
- 	snd_component_add(card, component);
-diff --git a/sound/usb/midi.c b/sound/usb/midi.c
-index 866e613fee4f..acb3bf92857c 100644
---- a/sound/usb/midi.c
-+++ b/sound/usb/midi.c
-@@ -2407,7 +2407,7 @@ static int snd_usbmidi_create_rawmidi(struct snd_usb_midi *umidi,
- 			      out_ports, in_ports, &rmidi);
- 	if (err < 0)
- 		return err;
--	strcpy(rmidi->name, umidi->card->shortname);
-+	strscpy(rmidi->name, umidi->card->shortname);
- 	rmidi->info_flags = SNDRV_RAWMIDI_INFO_OUTPUT |
- 			    SNDRV_RAWMIDI_INFO_INPUT |
- 			    SNDRV_RAWMIDI_INFO_DUPLEX;
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 11be79af26db..a7cd7d51e66b 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -3569,7 +3569,7 @@ int snd_usb_create_mixer(struct snd_usb_audio *chip, int ctrlif)
- 	struct usb_mixer_interface *mixer;
- 	int err;
+@@ -1852,7 +1853,7 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name, int m
+ 	if (! pid)
+ 		return;
  
--	strcpy(chip->card->mixername, "USB Mixer");
-+	strscpy(chip->card->mixername, "USB Mixer");
+-	strcpy(name, pid->name);
++	strscpy(name, pid->name, maxlen);
+ 	if (ac97 && pid->patch) {
+ 		if ((modem && (pid->flags & AC97_MODEM_PATCH)) ||
+ 		    (! modem && ! (pid->flags & AC97_MODEM_PATCH)))
+@@ -1861,8 +1862,8 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name, int m
  
- 	mixer = kzalloc(sizeof(*mixer), GFP_KERNEL);
- 	if (!mixer)
-diff --git a/sound/usb/stream.c b/sound/usb/stream.c
-index aa91d63749f2..749498fbf9cb 100644
---- a/sound/usb/stream.c
-+++ b/sound/usb/stream.c
-@@ -538,7 +538,7 @@ static int __snd_usb_add_audio_stream(struct snd_usb_audio *chip,
- 	if (chip->pcm_devs > 0)
- 		sprintf(pcm->name, "USB Audio #%d", chip->pcm_devs);
- 	else
--		strcpy(pcm->name, "USB Audio");
-+		strscpy(pcm->name, "USB Audio");
+ 	pid = look_for_codec_id(snd_ac97_codec_ids, id);
+ 	if (pid) {
+-		strcat(name, " ");
+-		strcat(name, pid->name);
++		strlcat(name, " ", maxlen);
++		strlcat(name, pid->name, maxlen);
+ 		if (pid->mask != 0xffffffff)
+ 			sprintf(name + strlen(name), " rev %u", id & ~pid->mask);
+ 		if (ac97 && pid->patch) {
+@@ -1870,8 +1871,10 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name, int m
+ 			    (! modem && ! (pid->flags & AC97_MODEM_PATCH)))
+ 				pid->patch(ac97);
+ 		}
+-	} else
+-		sprintf(name + strlen(name), " id %x", id & 0xff);
++	} else {
++		int l = strlen(name);
++		snprintf(name + l, maxlen - l, " id %x", id & 0xff);
++	}
+ }
  
- 	snd_usb_init_substream(as, stream, fp, pd);
+ /**
+@@ -2295,8 +2298,8 @@ int snd_ac97_mixer(struct snd_ac97_bus *bus, struct snd_ac97_template *template,
+ 	/* additional initializations */
+ 	if (bus->ops->init)
+ 		bus->ops->init(ac97);
+-	snd_ac97_get_name(ac97, ac97->id, name, !ac97_is_audio(ac97));
+-	snd_ac97_get_name(NULL, ac97->id, name, !ac97_is_audio(ac97));  // ac97->id might be changed in the special setup code
++	snd_ac97_get_name(ac97, ac97->id, name, sizeof(name), !ac97_is_audio(ac97));
++	snd_ac97_get_name(NULL, ac97->id, name, sizeof(name), !ac97_is_audio(ac97));  // ac97->id might be changed in the special setup code
+ 	if (! ac97->build_ops)
+ 		ac97->build_ops = &null_build_ops;
  
+diff --git a/sound/pci/ac97/ac97_local.h b/sound/pci/ac97/ac97_local.h
+index 8eeae2dec552..965284eb4b33 100644
+--- a/sound/pci/ac97/ac97_local.h
++++ b/sound/pci/ac97/ac97_local.h
+@@ -8,7 +8,7 @@
+  */
+ 
+ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name,
+-		       int modem);
++		       size_t maxlen, int modem);
+ int snd_ac97_update_bits_nolock(struct snd_ac97 *ac97, unsigned short reg,
+ 				unsigned short mask, unsigned short value);
+ 
+diff --git a/sound/pci/ac97/ac97_proc.c b/sound/pci/ac97/ac97_proc.c
+index 518834964b7b..2df3ba9a08dc 100644
+--- a/sound/pci/ac97/ac97_proc.c
++++ b/sound/pci/ac97/ac97_proc.c
+@@ -98,7 +98,7 @@ static void snd_ac97_proc_read_main(struct snd_ac97 *ac97, struct snd_info_buffe
+ 	static const char *spdif_rates_cs4205[4] = { " Rate=48kHz", " Rate=44.1kHz", " Rate=res", " Rate=res" };
+ 	static const char *double_rate_slots[4] = { "10/11", "7/8", "reserved", "reserved" };
+ 
+-	snd_ac97_get_name(NULL, ac97->id, name, 0);
++	snd_ac97_get_name(NULL, ac97->id, name, sizeof(name), 0);
+ 	snd_iprintf(buffer, "%d-%d/%d: %s\n\n", ac97->addr, ac97->num, subidx, name);
+ 
+ 	if ((ac97->scaps & AC97_SCAP_AUDIO) == 0)
 -- 
 2.50.0
 
