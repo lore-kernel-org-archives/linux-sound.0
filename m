@@ -1,67 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66979156F4A
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 08:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71202900AD
+	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 08:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752137593; cv=none; b=Q+mbEfV32FytmN6blQzhO5xD4RlQuhK93wCq805WHN1AjMji68JZ/IwietRkMIM/n10x58oXOzDjfPPrR0J/+4izIJsllcULONQUCHCOOFfIHX6/wiHazeKU8KLkbsRe91lsNIxD7jidy9G8O1umkVijwWX8xDfKM5QGqM+ajx0=
+	t=1752137850; cv=none; b=dfnBDbRCd8Ob7FzZEKfhM6FV1SWgCjQ6Hm7J8wDL2UPQOhxIxzDeQyWrj6lxSJogsl+NpXiW7WMxrJiW4Ij4MKZR+VXNYwvC86ZDTYBMJ2jwI0C6KBOlRkv8ZdNK3+RuMtJQle5qV/SZsuvsNLYXHVfpxin1eyWA0AszJnLEZPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752137593; c=relaxed/simple;
-	bh=DW8ZX5jR8T9jfhyWJl3ToBeKvu6TzfqYWQoW2sx+CB8=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=mKIFfv481kqeAQ5QL2zF2h/bzRPDkh7uYHoo0aRGvVQkX9KOpAIIVRD+fz7P8jxhNaj5Z9QikveYJ1WHvKAzXU+6ezrBo+saZ4vgZfYVmPxvc3eJzGMZNJdv8ZxLp/yQaruK+8UQD6pYNHhtUgsm8FCPnSEjEdGCRB4yPCPcVvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q8xVEPup; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752137850; c=relaxed/simple;
+	bh=x2qnWy/jisF+XYZi200qSmXbNr7ZhNRXkIecCvKhBZ4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=EH/L1wUHEQqyZ9jAHQcBdStZGPnnFmSqJnC/9Hn786C/eHKs9fAo9qpsuMk51joJud9SUtRm53DDmPEkjN7MR9k3MoPsj5Q19aGkn1gJsBrcRBXQHsyWoz/UWUdJyiNdF2lQh7MZk6QwWHeHNUW1EEUMQf+eVu4iY5wvQOaNfJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=unmouviC; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q8xVEPup"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99EFCC4CEE3;
-	Thu, 10 Jul 2025 08:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752137593;
-	bh=DW8ZX5jR8T9jfhyWJl3ToBeKvu6TzfqYWQoW2sx+CB8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Q8xVEPupMMnVo84wFHlQX92i+oNXrfLOr0pYQobPI+g1Epx98aCN/FnyoMuI7EAs4
-	 Usik2iu1R19Ff7uuVSVxTuQgVmiWGHvrNTfzjCFv9wtgS6LGjpU7p4xNMo1ulEe27Z
-	 2XiOBARUIOIKDE3qz48U6tl45sjf3WHys1cem1vEAJD3QvEhZVULfRtydpB8oBcjrr
-	 hXhKng1grdTUvcRJbw/ceLrN8CRhEsAi7QaGBRJ/0wHUgH4Jy/cAfPyHUOZDgLG8JD
-	 VPDzEX1YBfX3e/Jtb+6GPklU3K5+wzJBFxlFq0dNRQXSkD2t+o9cHp7sb/tQGaIdw4
-	 SMkXS8JhvOBMA==
-Message-ID: <cb13b10edfb1dac2bb7bee3d2f50f44c.broonie@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v6.16-rc5
-Date: Thu, 10 Jul 2025 09:53:07 +0100
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="unmouviC"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4538a2fc7ffso13103965e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 01:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1752137845; x=1752742645; darn=vger.kernel.org;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pEnfT6FkztCf1NEW9XiU9AdGyzA1VPDKN8Lo+OyIA2Q=;
+        b=unmouviCrWPBsjVSvaRbua7ABA6tZ2NpL8OP6R+LfShRvFLMYDV/HqDpf4V8JlrZJc
+         BmzhBcJz/CPbw4CXs1NH7ZQYFrhRX+8HfIxouKBewRBNcgzce6c+YTM4Gaixss8ODlPX
+         SHlBr+y3tnEiFB3lH2T38DaE8f2RTt5Facb7B2ZaADpGPnVqwPqfDAi/m2s/9jy18crm
+         6arRFDOGIB6YQ3dHnKnp9SMQuAI9SumyBPoMTaUJiNkiAETtuOaMoFms1tthrEA6FCsY
+         uM9yNn/pQilkulDIRMtPRi0uxnIvvV+J/xe/wiETgP7Rm2FhBuyiuN182RdtzrSIO6qM
+         TzRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752137845; x=1752742645;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pEnfT6FkztCf1NEW9XiU9AdGyzA1VPDKN8Lo+OyIA2Q=;
+        b=vKeenU1r38d2zntd/OVfx6HT4+D1X1hYGcmbznQYTdb51LcLQExsvZ/vJSHK634NHs
+         MMd7BuYeDMIoqNQHN6mGsjge148rERdOQ0egTT+tTlV0I3MllhM88/XhYKxnwBgWPUZu
+         7idRxvHDjBEP3lVDEuR3rMpRc7w5mxwoR0qaqblw5h7biU9z5Pws0vP5RNoCKa0NvNDX
+         57YW5rJJCCVXFFICzO9w2Cnve69ybaKV7VGIeW3KLmxoxPyh4Kg4aiIQ3NaTk6RdOqUK
+         XUJ5CTmkVcQpcwsElujqoUZQAVyioyLQ1m3Dd7jmJYWBLvvDfcUqJSSijWGJUo9Gb2pW
+         E3VQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWfgxTZfWgxt7BKbPfTHMCb4RKZQGgLb4DiqMv5WZlEuDTXMtxK1BJQgmQ28LxeXShgTnOmrn9VtdB71g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkIudKrbmKq8Jvbvhq1BhfF747IN0hG9QHjx356jBwka2CVTbk
+	T7GujweaxsU74uDQgN1mYqHHVxUGsgyCS4hTZ/2/Zfk5oLtdO1m2Wn4Z8YDAxdzYBeg=
+X-Gm-Gg: ASbGncsGpdx/27BpkWZymAOtwcm+bDm2XDObegNsQNbpGn/U2+ypmIGoLDeBqkA0hfr
+	huW+zC7EofeLdjTjhjQkUsRxdkHTXcGXwosq4KU4qkIUMO+EfhznLMJ/FbqHr+yQgHgzr9rkv44
+	VOYdgbRhsUTVipg8l84BcoXuVL6HrrjdwPw8K6Ca/m9XGKfSIrj0JvmnEuPsr5O7a7fQUm/Z+5P
+	dcE0joM0NgeV0D0MNdHw/PrlgHoAq7FBnvDtXWgg+CtQV8QyNlxB3HU185SDNy9QfnkP0L1wrlA
+	v2nDRknNo7p2JRfVEcLQ7JIh4ioUA5ZS/J0G4Jb0rSska2c4FrP3H39SJN7mRg==
+X-Google-Smtp-Source: AGHT+IGWtPkM7wNN2WAZ9ZBqWQxhQQPFiCu8f4+86eF186o2AjTuMIqbAyWP77bRc2dyw5l64yP3Qg==
+X-Received: by 2002:a05:6000:2087:b0:3a4:f70e:bc25 with SMTP id ffacd0b85a97d-3b5e7f29674mr2434317f8f.27.1752137844837;
+        Thu, 10 Jul 2025 01:57:24 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:9fcc:5953:3d1a:6b41])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b5e8e14cfcsm1284032f8f.67.2025.07.10.01.57.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 01:57:24 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>,  Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
+ <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,  Michael Turquette
+ <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,
+  jiebing.chen@amlogic.com,  linux-sound@vger.kernel.org,
+  devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-amlogic@lists.infradead.org,
+  linux-clk@vger.kernel.org,  jian.xu@amlogic.com,  shuai.li@amlogic.com,
+  zhe.wang@amlogic.com
+Subject: Re: [PATCH v5 1/6] dt-bindings: clock: meson: Add audio power
+ domain for s4 soc
+In-Reply-To: <20250710-audio_drvier-v5-1-d4155f1e7464@amlogic.com> (jiebing
+	chen via's message of "Thu, 10 Jul 2025 11:35:37 +0800")
+References: <20250710-audio_drvier-v5-0-d4155f1e7464@amlogic.com>
+	<20250710-audio_drvier-v5-1-d4155f1e7464@amlogic.com>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Thu, 10 Jul 2025 10:57:23 +0200
+Message-ID: <1jbjpsqv7w.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-The following changes since commit 3b3312f28ee2d9c386602f8521e419cfc69f4823:
+On Thu 10 Jul 2025 at 11:35, jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org> wrote:
 
-  ASoC: cs35l56: probe() should fail if the device ID is not recognized (2025-07-03 12:22:27 +0100)
+> From: jiebing chen <jiebing.chen@amlogic.com>
+>
+> The audio power domain has been detected on S4 device.
 
-are available in the Git repository at:
+detected ?
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.16-rc5
+> It must be enabled prior to audio operations.
+>
+> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
+> ---
+>  .../bindings/clock/amlogic,axg-audio-clkc.yaml     | 55 +++++++++++++++++++++-
+>  1 file changed, 54 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+> index fd7982dd4ceab82389167079c2258a9acff51a76..c3f0bb9b2ff050394828ba339a7be0c9c48e9a76 100644
+> --- a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+> +++ b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+> @@ -21,6 +21,8 @@ properties:
+>        - amlogic,axg-audio-clkc
+>        - amlogic,g12a-audio-clkc
+>        - amlogic,sm1-audio-clkc
+> +      - amlogic,s4-audio-clkc
+> +      - amlogic,clock-pads-clkc
+>  
+>    '#clock-cells':
+>      const: 1
+> @@ -100,13 +102,15 @@ properties:
+>    resets:
+>      description: internal reset line
+>  
+> +  power-domains:
+> +    maxItems: 1
+> +
+>  required:
+>    - compatible
+>    - '#clock-cells'
+>    - reg
+>    - clocks
+>    - clock-names
+> -  - resets
 
-for you to fetch changes up to a609bd74b8680dba62c44f7e6d00d381ddb2d3c0:
+Not related to the decription ... and fishy ...
 
-  ASoC: Intel: avs: Fix NULL ptr deref on rmmod (2025-07-08 14:54:40 +0100)
+>  
+>  allOf:
+>    - if:
+> @@ -116,12 +120,37 @@ allOf:
+>              enum:
+>                - amlogic,g12a-audio-clkc
+>                - amlogic,sm1-audio-clkc
+> +              - amlogic,s4-audio-clkc
+>      then:
+>        required:
+>          - '#reset-cells'
+>      else:
+>        properties:
+>          '#reset-cells': false
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - amlogic,s4-audio-clkc
+> +    then:
+> +      required:
+> +        - power-domains
+> +    else:
+> +      properties:
+> +        power-domains: false
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - amlogic,clock-pads-clkc
+> +    then:
+> +      properties:
+> +        resets: false
+> +    else:
+> +      required:
+> +        - resets
+>  
+>  additionalProperties: false
+>  
+> @@ -129,6 +158,7 @@ examples:
+>    - |
+>      #include <dt-bindings/clock/axg-clkc.h>
+>      #include <dt-bindings/reset/amlogic,meson-axg-reset.h>
+> +    #include <dt-bindings/power/meson-s4-power.h>
+>      apb {
+>          #address-cells = <2>;
+>          #size-cells = <2>;
+> @@ -198,4 +228,27 @@ examples:
+>                            "slv_lrclk9";
+>              resets = <&reset RESET_AUDIO>;
+>          };
+> +      clk_pad: clock-controller@330e80 {
+> +        compatible = "amlogic,clock-pads-clkc";
+> +        reg = <0x0 0x330e80 0x0 0x10>;
+> +        #clock-cells = <1>;
+> +        clocks = <&clkc_periphs CLKID_AUDIO>,
+> +                 <&clkc_pll CLKID_MPLL0>,
+> +                 <&clkc_pll CLKID_MPLL1>,
+> +                 <&clkc_pll CLKID_MPLL2>,
+> +                 <&clkc_pll CLKID_MPLL3>,
+> +                 <&clkc_pll CLKID_HIFI_PLL>,
+> +                 <&clkc_pll CLKID_FCLK_DIV3>,
+> +                 <&clkc_pll CLKID_FCLK_DIV4>,
+> +                 <&clkc_pll CLKID_FCLK_DIV5>;
+> +        clock-names = "pclk",
+> +                      "mst_in0",
+> +                      "mst_in1",
+> +                      "mst_in2",
+> +                      "mst_in3",
+> +                      "mst_in4",
+> +                      "mst_in5",
+> +                      "mst_in6",
+> +                      "mst_in7";
+> +      };
+>      };
 
-----------------------------------------------------------------
-ASoC: Fixes for v6.16
-
-Two patches here, one quirk for an AMD system and a fix for an issue on
-remove of the AVS driver.
-
-----------------------------------------------------------------
-Alexandru Andries (1):
-      ASoC: amd: yc: add DMI quirk for ASUS M6501RM
-
-Amadeusz Sławiński (1):
-      ASoC: Intel: avs: Fix NULL ptr deref on rmmod
-
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- sound/soc/intel/avs/pcm.c     | 4 +++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+-- 
+Jerome
