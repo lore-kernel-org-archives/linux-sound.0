@@ -1,100 +1,89 @@
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.62.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D51526B2D5
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 08:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.62.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2035F28B7C9
+	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 08:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752134574; cv=none; b=fbXjt0XNEmJLDpRHqyssIFYHg8N0rTf3pr8HlarA4KpmpEJjl+4tylfWdYpTWZOStH/5DjUwDvM06XqjEmyR4SavItCyerVmfw4057Dm1ONZ60nWY1/wdqYt4xfUIM3qN+Cnh32tVIsxCVA6SZYfxSQKb4f3QiT0CIBTnTZ/ghg=
+	t=1752134964; cv=none; b=o3Xbqfba+EUjA0HZEfzWH7ezDfD93+1MDnw0rc5r1tENzOegSMUKQ+TrQiPmk9S0FRI51rBXODA6IC1wKbRF1DO4wfk0bkw9T8jH/ZLj3LddG3HybtQkz1fK3vHgHlWHHwltneQnv1+O82PwZi7M1cyDdwj+UUxvpKfpFfU5naQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752134574; c=relaxed/simple;
-	bh=vwkFwjpE+Upplw8PdIDh5qpFIDC+P4YWqyGX/LC2JuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hyxb5F3tGlsqqtbhHny86KHokWv73HJBsdiD++5wrw/uGKXmjh9gCvNeiD8cHK6iLxRJH384Ipi7fbItQmqfNo3Qi4zh21V9j4VEohzwWhXftUT4O4zvIBveiyOu2t7DFzcrXXTZ+Rf04+Sde5+mhcDFK7dSGidooNDSd7XcNQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=114.132.62.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
-X-QQ-mid: esmtpgz15t1752134553t6f595ebe
-X-QQ-Originating-IP: TMeCWw3VhbtL055KbbMrtfQNlR6MVhF9cJq+MR8ibLs=
-Received: from localhost ( [183.17.231.23])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 10 Jul 2025 16:02:32 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7094107306005909391
-EX-QQ-RecipientCnt: 14
-Date: Thu, 10 Jul 2025 16:02:31 +0800
-From: Nick Li <nick.li@foursemi.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
-	tiwai@suse.com, xiaoming.yang@foursemi.com,
-	danyang.zheng@foursemi.com, like.xy@foxmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] ASoC: dt-bindings: Add schema for FS2104/5S audio
- amplifiers
-Message-ID: <1817574C54F0A79C+aG9zl_ERp5hbxwer@foursemi.com>
-References: <20250703035639.7252-1-nick.li@foursemi.com>
- <20250708112901.25228-1-nick.li@foursemi.com>
- <20250708112901.25228-3-nick.li@foursemi.com>
- <20250709-hypersonic-piculet-of-fertility-7c4a82@krzk-bin>
+	s=arc-20240116; t=1752134964; c=relaxed/simple;
+	bh=7Ns27rSAsHSLotF8jdlMtToKFxKiTueUB35ioPC9hiA=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=D/raJG6k0/Y88qmnDamZHpBkGLyg+AWuM46/E+PjpPSYWlFDmpLemTPCidRq3pxCraP8c+kHopE9eVYN9qUIFiC/DRG90GeeN6trwnLQEy4cyasVPzE2v9gSPV5MhBrD5L6ZzhCW+Zxg4gMjho/LbJr/mvjmHr4HB0l742F7SSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p1PZR+wo; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p1PZR+wo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26FBBC4CEE3;
+	Thu, 10 Jul 2025 08:09:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752134963;
+	bh=7Ns27rSAsHSLotF8jdlMtToKFxKiTueUB35ioPC9hiA=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=p1PZR+woCf8BH3R66gDgHzHIFfpiT5no7wyeLGrdvkxjirF8HhpMf+a5esK66HqIM
+	 Vwis/AXaAjim4TeAxEQ7QhaLCEARS14hYHMYBZGFZLhmqyS6dXVc7bPT1s6Eg7wR/0
+	 7IQ4rT/HbHJCKvq5nXViOnXvK/xieNV87inMV0meyoBA6BYKn3EuwRUffMu8b1jEpz
+	 WUcgQrqtjAIBJ+a64cER7sPBarMu0hJJZF1iI46+K8I1Xm1J5cJoEYefC6coS54CLx
+	 7o1W9UVnaAfu+TO5zWuJEsEF6eh2dAr2Hq4gGpDT+dqjHCbRi7/b1WZlqMfD5+uAlX
+	 OaDoo4NHykYSA==
+From: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Oder Chiou <oder_chiou@realtek.com>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87sej7mmbo.wl-kuninori.morimoto.gx@renesas.com>
+References: <87sej7mmbo.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/2] ASoC: don't set dapm->bias_level directly
+Message-Id: <175213496155.702408.11519434898385946511.b4-ty@kernel.org>
+Date: Thu, 10 Jul 2025 09:09:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250709-hypersonic-piculet-of-fertility-7c4a82@krzk-bin>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: M5aCtjAndv5OYA9hdyvTi53Y4twhpkmZzIiDWj9gh7b94i000AQONuMN
-	BIDuuDIX0JkstXJetfoW0NZY0eMZCf3x1GOZtM7mw+CHlQ9RoX9Ivkmna4VD0wpKLBD2AlN
-	gw2roniSqlJy880uxwXTaz+3e8DForeHqdZcNzHb+43Wj91MAQ/WDBAU7LhGLqKFN4r/t9I
-	Wop7VvJNkr22p6h2Ptgwd/uLNaGk2gO/YK9/+4tuNkJQ1WeH+iVxQZrzq3RJOYhq1H/vgoQ
-	N/YVbXJM5IoPfj64QZZhD0U55tz/IT5eQd0wH4/6uEafIbcyXn1cza3BRjrnm/7saR6LxN2
-	j8BNP7QdXxn8Z2av5THCkzS42iTd6jJzISXnAbg3M4PoNswxNuuSFd3bCpxw42t8s6svM6u
-	9KR5KNGR71CVPkBKIKXlcuNmvaXUMjNa/nlZZScu8uK/zikAyMOQFk6BaDl9RvBE/01HsDX
-	AEf4os8tcHJqwrl2tKa1X1iu8IVDK5io1ID9qUEqN/Ev4kysMju9tHSPwVKCMEU0JBA36Xc
-	y3zuAuAJ4XjNdvxDMkURpj9KasNWLvfmq5ggTGEzs6Df2fixzo1Pjijg39SNxaxT4EXB81D
-	1TBopdiboQjOBthUbaYI5fIySo5FIW7gB2ZBXBm3iD+raA4gmA6ShzEnFrF6EnStllwfwlw
-	49YomPL8vSywWLLjZIU8ceHiTkvhguOk1NaqmNl9AC6f+czJ5zZ6Q7U8kXjn4NMaFgVAcu6
-	KyKRCUGV1gf7/eDdhof/wLrA3AXsohVr26+qShrDP72+mhkH0y2elaNyMFU+wcuLL+KEWr5
-	6pvdffJ3PIbuF7xbWpjKN8IkcdyfBN8qEK+nJJn58h9Q1MnwWNgxO/JY2I5zTRt0qs3Spnc
-	Dx9XVcv+UY18MT/B5KnfgTq8GsTXH9f8x711dFYEFN5d2VUoT7PrW5drCRwICVpA382/X6F
-	KA38bOBdjKmVUVW7tokqEURu3UzqUaK1GAFbFT3EArH6OMz5kfsGXlmrbwG/ET7SQzmS11X
-	jBp6sDKSELMLIzC2mKb6WOzVk642YYQiNvrr0cVS5QJSkQVe0q
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-07fe9
 
-On Wed, Jul 09, 2025 at 12:42:35PM +0200, Krzysztof Kozlowski wrote:
-> On Tue, Jul 08, 2025 at 07:28:59PM +0800, Nick Li wrote:
-> > Add a DT schema for describing FourSemi FS2104/5S
-> > audio amplifiers which support both I2S and I2C interface.
-> > 
+On Tue, 08 Jul 2025 02:46:19 +0000, Kuninori Morimoto wrote:
+> We have many set_bias_level functions, thus dapm->bias_level should be
+> handled by owner function, not by its callback functions.
+> This is Step1 patch-set.
 > 
-> Another unexpected change from v1: subject: why did you add "schema"?
+> Kuninori Morimoto (2):
+>   ASoC: rt700: don't set dapm->bias_level
+>   ASoC: rt715: don't set dapm->bias_level
 > 
-> I asked to drop it and gave you reference explaining this. Did you read
-> it?
-> 
-> So again, same template:
-> 
-> A nit, subject: drop second/last, redundant "schema for". The
-> "dt-bindings" prefix is already stating that these are bindings in
-> schema format, because they cannot be anything else.
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-> 
+> [...]
 
-Sorry, I misunderstood, I will fix it by dropping "schema for ".
+Applied to
 
-Best regards,
-Nick
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> Best regards,
-> Krzysztof
-> 
-> 
+Thanks!
+
+[1/2] ASoC: rt700: don't set dapm->bias_level
+      commit: a3c3e84fc495dd983374f041e145e13df3525a15
+[2/2] ASoC: rt715: don't set dapm->bias_level
+      commit: 67bdd67aedcec8c63e3158c3c82991fbde0c4d22
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
