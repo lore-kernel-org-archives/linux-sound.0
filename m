@@ -1,87 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B1F2AE90
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 08:15:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8093A28C2CE;
+	Thu, 10 Jul 2025 08:20:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752135342; cv=none; b=Rj2TU+uNgNkl2HKJ9AXrMueNU/ETyKv39LzMda+B89JyTXvuu7hxHCeyFh2TZXjXPN8LV/hkBUQmDi6bGJeVpz60x0vIBqLBVwaLuOmg9rDrHTdG99FoTFO+wfCJaNQ8aJXzlxncdAy1tGfYTtqjOM5F/IJbMryMHWH2fBJ0TFs=
+	t=1752135630; cv=none; b=ueoG7BDjwFRv8/14/1wgheaG76BIVvLQai6ZGo12GxGkxHL7B32Wln+XwKuf9LOMHYp0KIFpzmBcMZyfXvdihq3j24JIjlRJ8PwpjpPoqUzfx07+13yqaSP07qub9f3GxNIS7yCXqJYmHleI20vpB8xcgFpcD28WYgiNx7U5fNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752135342; c=relaxed/simple;
-	bh=kS2HsRQdlTqP2HLk5X1XbLJJ6aT0UfqEfCtvUDkEKr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EavZCgGPsVctvVOzYGqJsrWRcm9i7WecaRzbiLcZFgb8YCBuXLWNXQm2sYeFhcSceWrNJuEmwcOcxgZ+S/a5UJwVFanttU6sTBiScGYFPiTlHbk/afuKB7vW48s8eYubL9+3Og6INlNjaUopXtaximqik13th+lk79d3QBVeYrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BvJmla0K; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752135630; c=relaxed/simple;
+	bh=SckAq/8ZglkacbCo8M+wv0IWE/KtktVB3KLwWlZPwas=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=sB6avsoUr5fRTmdK4n23M9cUaGiufjqdR6tHAOJneHVVs+rAIRIzmqrrwGCTPyB/HlY2PAjT2SQDOuYxV6quq37S7NaqOZpXUnZYqhwOvhHVATfWa8AdNV1YWPDG+ovpnYvYI1ODhi/pAVaIHfDxIir/u+CfdzjG3i/oZY0klMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4FY+TLE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BvJmla0K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B90FC4CEF4;
-	Thu, 10 Jul 2025 08:15:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4FY+TLE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7076C4CEF1;
+	Thu, 10 Jul 2025 08:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752135341;
-	bh=kS2HsRQdlTqP2HLk5X1XbLJJ6aT0UfqEfCtvUDkEKr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BvJmla0KF2YRB5OLnr77hcG3nS6zNCkptVnD7rScXNg61LJK0N7J/uBFx3/9u0aIj
-	 wDYTKPZzSPgQC6AinX974XoMnl0+TGe0KWa5j+OAz4iRrcIe4FHq+AYMparDME8WjY
-	 6/7lPCea6/VPbQNicYg+/6It5R0Et2oS7Pk3Dr5vrm0ORq+k5k7CR0cHMDUN5NMnkK
-	 zBFeRkccZhJZ9w7GOyo6gAD5O3Khl5ZkPnHZwVQ5jMSa3M43IusKb5POtRzHRZR3BU
-	 9xbpkhAMhyP9U3rNXaeY9SSUlEQr93HjoyvaR+e7et0WjBepCSUGrmkj23K901iwo9
-	 2GHOe8i8lGGEA==
-Date: Thu, 10 Jul 2025 09:15:38 +0100
+	s=k20201202; t=1752135630;
+	bh=SckAq/8ZglkacbCo8M+wv0IWE/KtktVB3KLwWlZPwas=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=E4FY+TLEWIFoEaGzwjpECluLSQHL2YPWu645O2oI2OUSosnp5a8qs5JgUouQRWIgO
+	 VmzrOv4ufLRoftNmDfWULJjpqCncmXr15nGqPnHg+98fkA9yQCOPOZy3+6luiatJU6
+	 ODVteh5wadsSGXBncHoSo2HHZy/RH5O9QkzfulHn9I11uJSSsa5SyLGHQn14dy7sfj
+	 e2Vv/KLgUowgsyeJ0OFuKc+lXyFWkG/kUxboyqjI9ViOtoKy94/jBJw93C3xchjkQ0
+	 qjWXNRWsUY6aStFpZ4cP00kR6SM4n/xEKvxlujd96tIbnR4cQJxRAE37xo6CJncfK+
+	 azen7rLJ6zr9g==
 From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, tiwai@suse.de,
-	linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: Re: [PATCH] ASoC: sdw_utils: Add missed component_name strings for
- speaker amps
-Message-ID: <aG92qly54Xx2j82I@finisterre.sirena.org.uk>
-References: <20250709025745.1285788-1-yung-chuan.liao@linux.intel.com>
- <aG5vmbWvHyKllpdQ@finisterre.sirena.org.uk>
- <831a87a8-1244-4f21-83d1-29d7dd8ea9cc@linux.intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shuming Fan <shumingf@realtek.com>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250708184618.3585473-1-arnd@kernel.org>
+References: <20250708184618.3585473-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: SDCA: fix HID dependency
+Message-Id: <175213562507.707140.12664573653794440974.b4-ty@kernel.org>
+Date: Thu, 10 Jul 2025 09:20:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6rTibncybc0n+Z61"
-Content-Disposition: inline
-In-Reply-To: <831a87a8-1244-4f21-83d1-29d7dd8ea9cc@linux.intel.com>
-X-Cookie: Do not cut switchbacks.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-07fe9
 
+On Tue, 08 Jul 2025 20:46:06 +0200, Arnd Bergmann wrote:
+> It is not possible to enable SND_SOC_SDCA_HID when SND_SOC_SDCA is built-in
+> but HID is in a loadable module, as that results in a link failure:
+> 
+> x86_64-linux-ld: sound/soc/sdca/sdca_functions.o: in function `find_sdca_entity_hide':
+> sdca_functions.c:(.text+0x25b): undefined reference to `sdca_add_hid_device'
+> 
+> Change SND_SOC_SDCA_HID into a 'bool' option that can only be enabled
+> if this results in a working build, and change the Makefile so this driver
+> is a loadable module if possible.
+> 
+> [...]
 
---6rTibncybc0n+Z61
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Wed, Jul 09, 2025 at 07:22:42PM +0300, P=E9ter Ujfalusi wrote:
-> On 09/07/2025 16:33, Mark Brown wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> > Why is this tagged as a stable fix when the fixed commit is in for-6.17
-> > rather than Linus' tree?
+Thanks!
 
-> Sorry, my bad, I assumed that the original patch is already for 6.16 and
-> forgot to confirm this.
+[1/1] ASoC: SDCA: fix HID dependency
+      commit: ad4655653a6c463026ed3c300e5fb34f39abff48
 
-> Should we re-send w/o the Fixes tag?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-No, it's fine.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---6rTibncybc0n+Z61
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhvdqkACgkQJNaLcl1U
-h9B7jgf9HU/IsippzodNJbx/JeU+hvFfe9sG/3aXsQftf3Jol/ldzsq6S55MByTK
-SLO4Lo7WMQtt2kPIXmDLGLZ7D0Ok2Q1eKKqbMhNgivuffafwulqOd2BV0Lz/gONc
-Nd3V1TD94xyWj88He8EQTLG+KK5K5muSc0+DZxcqCFG0L1QnGkCTK/aB7SssSuDr
-JN4F1PCodQHZCKaTvb3Vg9ZULcMMVhilE5rpGvEW0hhsiYLggRADBW8eFZbO3x3L
-eDIfViVb8zxXCeYneSj+m1k3YWTLWuhb5hvOQu3hPYayp4yMbWGIJe5Tmiix8gE0
-KI41J+D4JE/f5yzQpCHr5fYlJymkfA==
-=FPVG
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---6rTibncybc0n+Z61--
