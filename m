@@ -1,174 +1,146 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064FD273D81
-	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 14:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD7F270EB3
+	for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 14:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752157684; cv=none; b=dNOndVYyKFDoMKw0ZjOz3htUyjVroJtbFmoS5ooF/dlWRYd3ulp/KBH1lATrsj+79Dvwk5ZIE3a5AS24lz0PoHtWLaLjuqXbUvUuSZsObjmcivUc3mG0pVB9ztANjIrseoxPAEBLJ1cAgR6Jnth0c2vTK4ApFtq3QfpH67V07wQ=
+	t=1752158721; cv=none; b=EufESqD73T/ycJkBmks3csybZjEHzRVWEqQ5c/cQAVFUpZhAT2tsT2aR2cAilRowVFGQjFAq3h0i8RJzX+H/XPxL88aVzZCcoT5TW1IwML08O0qAeRtFsWVquG394NqPdCiY05vtP+0R1sNAQv6cG9M2gvuBD69V8eaTQbz+gug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752157684; c=relaxed/simple;
-	bh=kOGsh3fkrbz0BzYbYQ6lOODvQ0YEI7n6IjLBLsXp5xM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cMyY9CQvI+RD/AmBfYzX2npKw70BdM0CO/7+2DUfr8CIfrUVXhzuGvD9PoaQGwkfoqjLfQuDe/Y/wrf6TsARw/8OPHqT9wLUM5i2yGCpDFkFRT6u8LuZxogfOHIX54RBpUeg9jodJM8q/eQiZkjQSziJUVYPKfNjaMzjqVXk0q0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hg0/mGFV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=REXiblts; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hg0/mGFV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=REXiblts; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1752158721; c=relaxed/simple;
+	bh=GuuXNEIIHpc+OomKipbBSS2eHjtAi/KmN/JAHDNUxyc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=WCzqFfI/AkLdLLqecEZ0cmA8DiCbxV65E7ALJVHCLNORhPuee3h9/Ru/Kwm4lgHVxMco2xDoaVU+3z48N9HS72tQKqZNDlgDWwOAuWwnqFhIBoOAgNxCifp/oG6weH+bhE71fBzGK+yAansTL/gUSit68NTST6Zoows74GZRQIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oCIn/on9; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hg0/mGFV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="REXiblts";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hg0/mGFV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="REXiblts"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 218482174D;
-	Thu, 10 Jul 2025 14:28:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752157681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Iu+1RY9GxNNi2MLgALISTgh4+czoUf0Xk8OUPLnLugw=;
-	b=hg0/mGFVfCvogWsJH3maUlB8YTstKR8oPjFnB+k3v2G3CgzKYw6PqB0JojsMrVE7yXUhDt
-	IH9d7FQ3rrMX8QukXDnClOzpPd5Qj+QmeUnhNftx6Sz/9ujrghJvrOqN+bOCoTC9laMA04
-	OdulQbuteOHL84DhAEQFMDOPTfGouWA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752157681;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Iu+1RY9GxNNi2MLgALISTgh4+czoUf0Xk8OUPLnLugw=;
-	b=REXibltsevF5BeSDvJm5fBUm5s1BAJNQ74OmTX2hPP02PotyVJ9X0dLnQZqdgw+7IMGIPP
-	5RbavPW0QS9kFvDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="hg0/mGFV";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=REXiblts
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752157681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Iu+1RY9GxNNi2MLgALISTgh4+czoUf0Xk8OUPLnLugw=;
-	b=hg0/mGFVfCvogWsJH3maUlB8YTstKR8oPjFnB+k3v2G3CgzKYw6PqB0JojsMrVE7yXUhDt
-	IH9d7FQ3rrMX8QukXDnClOzpPd5Qj+QmeUnhNftx6Sz/9ujrghJvrOqN+bOCoTC9laMA04
-	OdulQbuteOHL84DhAEQFMDOPTfGouWA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752157681;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Iu+1RY9GxNNi2MLgALISTgh4+czoUf0Xk8OUPLnLugw=;
-	b=REXibltsevF5BeSDvJm5fBUm5s1BAJNQ74OmTX2hPP02PotyVJ9X0dLnQZqdgw+7IMGIPP
-	5RbavPW0QS9kFvDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECE9A136DC;
-	Thu, 10 Jul 2025 14:28:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zESbOPDNb2i3NAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 10 Jul 2025 14:28:00 +0000
-Date: Thu, 10 Jul 2025 16:28:00 +0200
-Message-ID: <87tt3kw26n.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ahelenia =?ISO-8859-2?Q?Ziemia=F1ska?=
- <nabijaczleweli@nabijaczleweli.xyz>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: emu10k1: fix "for/take a while" typos
-In-Reply-To: <e4owjda3hf5vjc2237m3ctokey4qglfrciga6ho24bd4os5awk@tarta.nabijaczleweli.xyz>
-References: <e4owjda3hf5vjc2237m3ctokey4qglfrciga6ho24bd4os5awk@tarta.nabijaczleweli.xyz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oCIn/on9"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a6e2d85705so754616f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 10 Jul 2025 07:45:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752158717; x=1752763517; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uzpztVBg8Kr6uCTVYsLaqFYuf7mdKz1OXaJIFB3Ydtk=;
+        b=oCIn/on9utF4YPok+p2VGklKSBD403Ij+BG8HfSHqMNQJYLJD76XgMAToTA4bJPDj1
+         EfG4LoatNTE335CrCfp3k3IhIqD+jiVOdwmtrEOZojho6Q9KgfmE5Pk4wPQqg2xLmook
+         VkPK4zu82itBzZJxoP5ZH9ZUXewXdd+FFWSnOL2JpRI4BoXfdLsy/N5puNhZdZJ3XEPu
+         rYm/1dQv8k1CdJIBvnGYR5PSQFXvRSpFASIm3OQhw4Qq1W93RpXxq+O5hs//OWKtklhF
+         qYdwToupp8/a+/OS4XcZnzcLTtSlwoCW5Dlbx3LzIe+sZBtoygoNEgOSR/DQi1BXDr13
+         tPow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752158717; x=1752763517;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uzpztVBg8Kr6uCTVYsLaqFYuf7mdKz1OXaJIFB3Ydtk=;
+        b=Urq0eLXd54qdT9k4cACGEA1IDckcQvu5tlmPfNgr8jINxxAWwJ5Q6siGpguRuu82Lz
+         fNw1dVgzM46CH/dpwnlzvaq821a8ECjzeqBvUmsI9c3569FUU+Pxfa6uyFwhwq29gDWq
+         tXmylFYMn+EEFbfv91ZEEvharDZQYmaoJ8SclY32r8FVysVDW+OogYsJEFg+n8FyhRsr
+         3gi31E3t+CtnulR/q0VSrUnfatVqzkNAKuu0shynl4DgqFtrEIS6khys9SHwhFFFN6Lc
+         0zPIlCm3jDRQ3ACaAFVltNmJ89FCrP2i1jvSVtFpxeB08nHpJYNZDrDM4FAoFZeH1ipV
+         2+Ew==
+X-Forwarded-Encrypted: i=1; AJvYcCXqNmqPC6EhFq7exwmqvGgQDXfsvgO2zvzGfgwZxwBpt0eQCuwgl40UfcLtifejDLZhI/d3t5KiqXfItQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLmJeOPdvu5GKoUvioCCjutYMXjNcScoPG/Xbws2mq+Inb5QWv
+	Y5hNQBhpcmYcQJI9xl/1S8z3OoEtP7H4MQ/HN+v0UOkKiRpb6aApTMHwcg0zPVNc3LQ=
+X-Gm-Gg: ASbGncu1rrkyV3uJ+ztgOkRQ837OXaF3tT+sVNNXCTLrCwBg9h6R1ZW8fLQdVVH4gl9
+	ThsjDn2KFoP6SBX6kMOg5ycpl0UbUB9p7frpHuwMTRymrvCoVZXURfneKHug7jkZTIbcI7PtYRZ
+	HqhxfSYZ30+UvtZCqiXPHUKOA7976fW/8lrQLLv3XsOghmf9O8G8LGzPxq5E6sTCjkttIQ7l7Jd
+	T8V5lC4yLN/U0lyklgbI/8gDQCc26NtCcBqC53a1+heewsQxn83SOxRZ+mfWVvz1do2/JEATQ7D
+	T54xogSeeJZUON42K17d1W60H4LvpmPUsSblNtZCuGav9So2eXTqQinilAkVmy9d29o=
+X-Google-Smtp-Source: AGHT+IF9BLMRIl1cpwDsXcnH1f3gWfggPdcwbBjL9LEkWjPoKOu+RvwtjCs5eMcSNOOmyzdBY+cr/g==
+X-Received: by 2002:a05:6000:250d:b0:3a4:df80:7284 with SMTP id ffacd0b85a97d-3b5e44e1fefmr6408642f8f.1.1752158717358;
+        Thu, 10 Jul 2025 07:45:17 -0700 (PDT)
+Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e1e135sm2085810f8f.72.2025.07.10.07.45.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Jul 2025 07:45:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 218482174D
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 10 Jul 2025 15:45:15 +0100
+Message-Id: <DB8GFDXKQ6V1.BXX5KGBJP6YS@linaro.org>
+Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Lee Jones" <lee@kernel.org>, "Jaroslav
+ Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH 3/3] ASoC: codecs: add new pm4125 audio codec driver
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Mark Brown" <broonie@kernel.org>
+X-Mailer: aerc 0.20.0
+References: <20250626-pm4125_audio_codec_v1-v1-0-e52933c429a0@linaro.org>
+ <20250626-pm4125_audio_codec_v1-v1-3-e52933c429a0@linaro.org>
+ <aF01gRFjsKgy6j4V@finisterre.sirena.org.uk>
+ <DB0YYV10UD2Q.M36VAZJOVE7V@linaro.org>
+ <af605c12-74c1-418e-9fe8-c0aa893a62bd@sirena.org.uk>
+In-Reply-To: <af605c12-74c1-418e-9fe8-c0aa893a62bd@sirena.org.uk>
 
-On Thu, 03 Jul 2025 20:21:29 +0200,
-Ahelenia Ziemiañska wrote:
-> 
-> Signed-off-by: Ahelenia Ziemiañska <nabijaczleweli@nabijaczleweli.xyz>
-> ---
-> v1: https://lore.kernel.org/lkml/h2ieddqja5jfrnuh3mvlxt6njrvp352t5rfzp2cvnrufop6tch@tarta.nabijaczleweli.xyz/t/#u
+On Tue Jul 1, 2025 at 10:04 PM BST, Mark Brown wrote:
+> On Tue, Jul 01, 2025 at 08:35:42PM +0100, Alexey Klimov wrote:
+>> On Thu Jun 26, 2025 at 12:56 PM BST, Mark Brown wrote:
+>> > On Thu, Jun 26, 2025 at 12:50:31AM +0100, Alexey Klimov wrote:
+>
+>> >> +static int pm4125_micbias_control(struct snd_soc_component *componen=
+t,
+>> >> +				  int micb_num, int req, bool is_dapm)
+>> >> +{
+>> >> +	return 0;
+>> >> +}
+>
+>> > Why have this empty function which is only called from within the
+>> > driver?  At best it's making the callers look like they do something.
+>
+>> I tried to make a minimal working version that we're going to
+>> update with more patches during next submission.
+>
+> Add the callers when you need them, right now this is just noise.
+> Nobody can tell if the callers make sense since the function does
+> nothing.
 
-Well, "awhile" is a proper word, AFAIK.
+Ok, I cleaned it for the next version. Thanks.
 
+>> >> +#if defined(CONFIG_OF)
+>> >> +static const struct of_device_id pm4125_of_match[] =3D {
+>> >> +	{ .compatible =3D "qcom,pm4125-codec" },
+>> >> +	{ }
+>> >> +};
+>> >> +MODULE_DEVICE_TABLE(of, pm4125_of_match);
+>> >> +#endif
+>
+>> > Why does this compatible exist?  If the driver is instantiated from a
+>> > as a Linux software contruct it shouldn't appear in the DT.
+>
+>> Could you please elaborate a bit more? Should it be instantiated
+>> as an MFD device or platform device?
+>
+> Yes, if it's the child of a MFD then it shouldn't need to be described
+> separately in the DT.
 
-thanks,
+Currently, it is going to be described as child/slave device:
 
-Takashi
+spmi_bus {
+	pmic@0 {
+		pmic4125_codec: codec {
+			...
+		}
+and will go probably in pm4125.dtsi which lists all child nodes with
+compatibles. Not sure if it is because each PMIC is customazable or because
+of better maintainability.
+Also, might need specific description of regulators which may vary from
+board to board. Not sure how is that supposed to be done without device
+tree description at this point.
 
-> 
->  sound/pci/emu10k1/emu10k1_main.c | 2 +-
->  sound/pci/emu10k1/emupcm.c       | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/pci/emu10k1/emu10k1_main.c b/sound/pci/emu10k1/emu10k1_main.c
-> index bbe252b8916c..6050201851b1 100644
-> --- a/sound/pci/emu10k1/emu10k1_main.c
-> +++ b/sound/pci/emu10k1/emu10k1_main.c
-> @@ -606,7 +606,7 @@ static int snd_emu10k1_ecard_init(struct snd_emu10k1 *emu)
->  	/* Step 2: Calibrate the ADC and DAC */
->  	snd_emu10k1_ecard_write(emu, EC_DACCAL | EC_LEDN | EC_TRIM_CSN);
->  
-> -	/* Step 3: Wait for awhile;   XXX We can't get away with this
-> +	/* Step 3: Wait for a while;   XXX We can't get away with this
->  	 * under a real operating system; we'll need to block and wait that
->  	 * way. */
->  	snd_emu10k1_wait(emu, 48000);
-> diff --git a/sound/pci/emu10k1/emupcm.c b/sound/pci/emu10k1/emupcm.c
-> index 1bf6e3d652f8..ca4b03317539 100644
-> --- a/sound/pci/emu10k1/emupcm.c
-> +++ b/sound/pci/emu10k1/emupcm.c
-> @@ -991,7 +991,7 @@ static snd_pcm_uframes_t snd_emu10k1_capture_pointer(struct snd_pcm_substream *s
->  	if (!epcm->running)
->  		return 0;
->  	if (epcm->first_ptr) {
-> -		udelay(50);	/* hack, it takes awhile until capture is started */
-> +		udelay(50);	/* hack, it takes a while until capture is started */
->  		epcm->first_ptr = 0;
->  	}
->  	ptr = snd_emu10k1_ptr_read(emu, epcm->capture_idx_reg, 0) & 0x0000ffff;
-> -- 
-> 2.39.5
-> Verifying...
+Thanks,
+Alexey
