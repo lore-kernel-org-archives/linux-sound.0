@@ -1,84 +1,85 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FDC2C08BF
-	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 12:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817532C0323
+	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 12:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752237673; cv=none; b=fIyIAatohcF1yDiptW7ynwKdCnw11MbXQdN4VPNGrGDxFVRSTe6pRXJiuHXavtHUzffhgyMeZZ2BgLY85jRtrMEtvEdIEoZbs+5mlwfd8Ex9BWHSQwisT6S6g4raOMcJyuPVa3PVT3V6ncLVr49J1m0656jhyQbRqPBhXbueZQk=
+	t=1752237931; cv=none; b=KSAy1UegU+rKhknCf89HVfJYSCw8Z0WZ7iILq6/KoDQ1OO7F1vVNFlhvvk1CGcOhCWjM5mf8BXmMzGgX7H99mbUO7y4jfFpM/iOy+0qgXY3vKFD2RR0I04B7ibE6EdtgEJJm91SHKc2XHBwvTo0hodjc76jEloAlg5sDqPZEnvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752237673; c=relaxed/simple;
-	bh=DXWkRDZnfNAPWBTgta9/chuCA5DEdyqeL7jssvuQzIU=;
+	s=arc-20240116; t=1752237931; c=relaxed/simple;
+	bh=vd9WR7WWBbqlPNnmBRhUW1rAtE74lYWoM2tmVWAGvms=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IIA7uRAosz/QlW2g+JQAeJNK5xApAClJLCv3GJs73tFoXamZv3rPOYJMAgMTnF8rRHEQiUEB+XUTzv3X6trs2tcejVFthM2KiBohXqDKsMGHz3iH08nOPuz7rvXD5TFy0xvffPiPGBGDqgJPVt/if0egVSQayR71BTrCDbX5U3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mvvfA2Gj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OyyJRv9S; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i+T+nIxW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ijim6fxu; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=Pou4ZnPoeZ1+jpYmh3zxc4m4v+VpxwMTPveQfAE1I+TkbbZl4Q2a5IKfs2+i3DPRMGXlniOdhEVF0tLlRgWCRnb3iVWlrbzBEFuF6UyRa2TpEGy3FEoMqfU4H/P1AtlGsXYFshKOgNH6Q2E2x+q6823ZhJVbxcH1pVag5IMT3y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jssuio6t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5hO5/8BT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jssuio6t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5hO5/8BT; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mvvfA2Gj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OyyJRv9S";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i+T+nIxW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ijim6fxu"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jssuio6t";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5hO5/8BT";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jssuio6t";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5hO5/8BT"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 12995211D0;
-	Fri, 11 Jul 2025 12:41:07 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8EFE31F453;
+	Fri, 11 Jul 2025 12:45:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752237668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752237927; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xSm+1q6uhZZEdjKVMT8Uenl84wjsiNI8TM2FeGexcvg=;
-	b=mvvfA2GjUK9B5BoVIq0LkOjcQ66Q8ndM3eE5q9FhZERXsNh+uBeAR3egTRXJaLCCrYgZud
-	CDQ+iW59hpZD4yk6rJILnbPxXbK6Y/ZmQTCFqmlcxTxvKPvB4MJGNMqQzJmCvjy567vYZw
-	AKx+hcJ+PqZu4YlDCrTuGRY+qiqBG8Y=
+	bh=n9QOyGddPPJaljr4xCRagD2vcJ3JwZH0mhLiORQ5XOc=;
+	b=jssuio6tNgnHVwlkEa6FIRhudj+VYwsOB2xhNIUngKVRemgyuasRAezhLMVKKgg4KEicEl
+	e7EufgO1rDD/VmEbl3kViWVX1iaj1DTccNOx0jtTG4yuMW0lHjbXGTyNPr7FJirbHF4wSZ
+	FXKmVWY2ge4Dk+Ehqmmo5RefxHyvV5Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752237668;
+	s=susede2_ed25519; t=1752237927;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xSm+1q6uhZZEdjKVMT8Uenl84wjsiNI8TM2FeGexcvg=;
-	b=OyyJRv9SNDM3TMyOwzYIV9u5M66jR7evWwzoL7zLsOSFsdxPeJFP9yoGRE/R8iPVmYSp7y
-	uH/z6Zmq2vlxDHBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=n9QOyGddPPJaljr4xCRagD2vcJ3JwZH0mhLiORQ5XOc=;
+	b=5hO5/8BTOzWzxv/ng54VblrIVwaJktTYgbmLt0I+OgfxMKn3/JSDq8JpV+cvXDyDItnui+
+	eAYDrxls6v70B8DA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jssuio6t;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="5hO5/8BT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752237667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752237927; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xSm+1q6uhZZEdjKVMT8Uenl84wjsiNI8TM2FeGexcvg=;
-	b=i+T+nIxWWlwfEqZ1zj/27kzojyXmRkFkc5UzKFURsZf3ZfV2jaHfoSw2n8SLTAAkmWB9yj
-	YuKAoXj9d4jy3O+A3kJ6ELVOMBBUuKHvav5GFfVvMJR1hwBU/IJxEQgPbrVMZ91ywhi9QV
-	5kNcq3gRNH/PlqRfA+fEHMQsEzSK7nI=
+	bh=n9QOyGddPPJaljr4xCRagD2vcJ3JwZH0mhLiORQ5XOc=;
+	b=jssuio6tNgnHVwlkEa6FIRhudj+VYwsOB2xhNIUngKVRemgyuasRAezhLMVKKgg4KEicEl
+	e7EufgO1rDD/VmEbl3kViWVX1iaj1DTccNOx0jtTG4yuMW0lHjbXGTyNPr7FJirbHF4wSZ
+	FXKmVWY2ge4Dk+Ehqmmo5RefxHyvV5Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752237667;
+	s=susede2_ed25519; t=1752237927;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xSm+1q6uhZZEdjKVMT8Uenl84wjsiNI8TM2FeGexcvg=;
-	b=ijim6fxusABPnaEAUSVIPHXj/xFyeRSa0F5mqZStfhhSLPFzektelsyjUANZkrAvu6xgiw
-	5haTlLR5mfeImrCQ==
+	bh=n9QOyGddPPJaljr4xCRagD2vcJ3JwZH0mhLiORQ5XOc=;
+	b=5hO5/8BTOzWzxv/ng54VblrIVwaJktTYgbmLt0I+OgfxMKn3/JSDq8JpV+cvXDyDItnui+
+	eAYDrxls6v70B8DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4ADB9138A5;
-	Fri, 11 Jul 2025 12:41:06 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C5979138A5;
+	Fri, 11 Jul 2025 12:45:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Ku3rEGIGcWh4MAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 11 Jul 2025 12:41:06 +0000
-Date: Fri, 11 Jul 2025 14:41:05 +0200
-Message-ID: <8734b2hpcu.wl-tiwai@suse.de>
+	id Bsr+LmYHcWj0MQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 11 Jul 2025 12:45:26 +0000
+Date: Fri, 11 Jul 2025 14:45:26 +0200
+Message-ID: <871pqmhp5l.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Joris Verhaegen <verhaegen@google.com>,
-	Vinod Koul <vkoul@kernel.org>,
+To: Joris Verhaegen <verhaegen@google.com>
+Cc: Vinod Koul <vkoul@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	David Rhodes <david.rhodes@cirrus.com>,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
@@ -100,11 +101,13 @@ Cc: Joris Verhaegen <verhaegen@google.com>,
 	patches@opensource.cirrus.com,
 	linux-arm-msm@vger.kernel.org,
 	sound-open-firmware@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 0/4] ALSA: compress_offload: Add 64-bit safe timestamp API
-In-Reply-To: <aHD7/9MZbcOmn+08@opensource.cirrus.com>
+	linux-arm-kernel@lists.infradead.org,
+	David Li <dvdli@google.com>,
+	Miller Liang <millerliang@google.com>
+Subject: Re: [PATCH v2 2/4] ALSA: compress_offload: Add SNDRV_COMPRESS_TSTAMP64 ioctl
+In-Reply-To: <20250711093636.28204-3-verhaegen@google.com>
 References: <20250711093636.28204-1-verhaegen@google.com>
-	<aHD7/9MZbcOmn+08@opensource.cirrus.com>
+	<20250711093636.28204-3-verhaegen@google.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -113,88 +116,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
+X-Spamd-Result: default: False [-2.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[31];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,gmail.com,opensource.cirrus.com,cirrus.com,intel.com,linux.intel.com,linux.dev,nxp.com,linux.alibaba.com,socionext.com,android.com,vger.kernel.org,alsa-project.org,lists.infradead.org,google.com];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[google.com,kernel.org,perex.cz,suse.com,gmail.com,opensource.cirrus.com,cirrus.com,intel.com,linux.intel.com,linux.dev,nxp.com,linux.alibaba.com,socionext.com,android.com,vger.kernel.org,alsa-project.org,lists.infradead.org];
-	R_RATELIMIT(0.00)[to_ip_from(RLtwg9tyn6faipwn1aqsxq4m86)];
-	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLzj6aswpe58r68z1acwzd13oz)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 X-Spam-Flag: NO
-X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 8EFE31F453
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
 
-On Fri, 11 Jul 2025 13:56:47 +0200,
-Charles Keepax wrote:
-> 
-> On Fri, Jul 11, 2025 at 10:36:26AM +0100, Joris Verhaegen wrote:
-> > The current compress offload timestamping API relies on
-> > struct snd_compr_tstamp, whose cumulative counters like
-> > copied_total are defined as __u32. On long-running high-resolution
-> > audio streams, these 32-bit counters can overflow,
-> > causing incorrect availability calculations.
-> > 
-> > This patch series introduces a parallel, 64-bit safe API to solve
-> > this problem while maintaining perfect backward compatibility with the
-> > existing UAPI. A new pointer64 operation and corresponding ioctls
-> > are added to allow the kernel to track counters using u64 and expose
-> > these full-width values to user-space.
-> > 
-> > The series is structured as follows:
-> > 
-> > Patch 1: Introduces the new internal pointer64 op, refactors the
-> > core logic to use it, and defines the new UAPI structs.
-> > 
-> > Patch 2: Exposes the SNDRV_COMPRESS_TSTAMP64 ioctl.
-> > 
-> > Patch 3: Exposes the corresponding SNDRV_COMPRESS_AVAIL64 ioctl.
-> > 
-> > Patch 4: Implements the new .pointer64 operation in various ASoC
-> > drivers that support compress offload.
-> > 
-> > This series has been tested on a Pixel 9 device. All compress offload
-> > use cases, including long-running playback, were verified to work
-> > correctly with the new 64-bit API, and no regressions were observed
-> > when using the legacy API.
-> > 
-> > Thanks,
-> > Joris (George) Verhaegen
-> > 
-> > Signed-off-by: Joris Verhaegen <verhaegen@google.com>
-> > 
-> > ---
-> 
-> Would it not be slightly simpler to just update all the in kernel
-> bits to use 64-bit and then only convert to 32-bit for the
-> existing 32-bit IOCTLs? Why do we need 32-bit callbacks into the
-> drivers for example?
+On Fri, 11 Jul 2025 11:36:28 +0200,
+Joris Verhaegen wrote:
+> @@ -1355,7 +1389,9 @@ static long snd_compr_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+>  
+>  	switch (_IOC_NR(cmd)) {
+>  	case _IOC_NR(SNDRV_COMPRESS_TSTAMP):
+> -		return snd_compr_tstamp(stream, arg);
+> +		return snd_compr_tstamp32(stream, arg);
+> +	case _IOC_NR(SNDRV_COMPRESS_TSTAMP64):
+> +		return snd_compr_tstamp64(stream, arg);
+>  	case _IOC_NR(SNDRV_COMPRESS_AVAIL):
+>  		return snd_compr_ioctl_avail(stream, arg);
+>  	case _IOC_NR(SNDRV_COMPRESS_PAUSE):
 
-Right, it's a usual pattern to have only the 64bit ops in the kernel
-driver side while providing the 32bit stuff converted in the core
-layer.  Having two different ops are rather confusing and
-superfluous after conversions.
+This function was recently updated to evaluate the ioctl cmd value as
+is, as found in commit 19c4096ccdd809c6213e2e62b0d4f57c880138cd
+    ALSA: compress_offload: tighten ioctl command number checks
+in sound git tree (likely included in 6.16-rc7).
 
-If there are tons of users for this API, it'd be needed to convert
-gradually, and eventually drop the 32bit ops at the end.  But in this
-case, there doesn't seem so many relevant drivers, hence the
-conversion can be done in a shot as done in your patch 4.
+Please adjust your patch accordingly.
 
 
 thanks,
