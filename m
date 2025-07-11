@@ -1,165 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010021.outbound.protection.outlook.com [52.101.228.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F072FCFFD;
-	Thu, 10 Jul 2025 19:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752174333; cv=none; b=PLgYcOQhUKt6eJnMJJMaADDFhN9K/d6VzEE31ZFSNMrTveP1Qoksffyh3ldziZBLLb07iNCi3nnv31yWKm54cOGXEVHJKTyNsBFOoAboT2ftVTImJjovTo/zm5KLyVxJzcw7bDyYMSYujttsg34tIISg5uuo/rnbeBFL6U7wc1w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752174333; c=relaxed/simple;
-	bh=WTdySniEXJwh9zm+X3t0eM0XdacPv4vH2YSk2MMBsKM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=UbxNO71Hip5L92cLR+jwadKvLwKPCNBVkSvngdaHSM0BBY3FlR7f+F+dawbm6kTVRe4ZAEFWI3JjiZYL3jLrZOjWIq4WOwOMkk06/19mpcP+3Q6u7gj7McHYNJnXWNue/2yl9WQQu7nQI3bFIQJd9V9Qht47KBbCdXxt9RHl1k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VdtcAp87; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC83BA33
+	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 02:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752200772; cv=fail; b=FHF9LRDb03gAdf+x3WttsqNrP8ALZI3jYMHz5nMIEmUVVx/lraih2BHgksGYbBjRnZXoyVtIEu00+zA3tWkoadNhArwpyriBIXb89HxTZwjMSS/dgfk9j+Gm9p6PHzvtzZxYkAVSaGUiX65HKZ8RyPv3akC6SaVq0olOEF+oEF8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752200772; c=relaxed/simple;
+	bh=e/dKfUX1KHJi5wvnc92R3qgSlRuPA/huibSgaMKTPG8=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=ahsmt88WZv+L86mwS2vQOfIaaVG0B34ko22UAci+sdvMJwLkz4G84kZ9csqml7uOc0EDrkInGt03F2FHFqmuZ8l7gf8xJ8//Ruj/xGFr9r58Qmsr4ugKq7VRIjuFj1yyclp9nQdw4BndRUekvYH+NOHLCczWSQ6nlll7j5IITNg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=lRXTKkJf; arc=fail smtp.client-ip=52.101.228.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VdtcAp87"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E1CEC4CEF1;
-	Thu, 10 Jul 2025 19:05:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752174333;
-	bh=WTdySniEXJwh9zm+X3t0eM0XdacPv4vH2YSk2MMBsKM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=VdtcAp87DeTeG/zCy8Rcl8gCkk2Nu7vLr7M5VtJBWzktPQVdGQ/+fESZpbPew56kV
-	 TQiPcuDIEEBjy1opZeVlHqZIN4KR0iSZeS61tcOqGR0A1/aXSwzn6z4mRy079YeC/C
-	 OKw4mY2bVzuUX3oGv4cyV3w+e4YpsLWJdm+JCpaqhP34ufbdY3mqw68Klmp/wB3Och
-	 uE9wqx/nlC6aWFILKNz4gD+OzgRvmgsvTAFuIpKkMAPGXnfqBLju1Sy2P43jW3N2Ua
-	 fqaCF1pXxTWzArM5h3d2QByz72ZSOKsiXtjYCQ05BGGDVzniVYPH1o31/AL7tZ+uLZ
-	 91c2jWD80GYfg==
-Date: Thu, 10 Jul 2025 14:05:32 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="lRXTKkJf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sV68BzUAo5EZrGFHfbsZlEDUiAbS8mLo0iZE59SKc2p9wKwuw64VNZawGNM9EftwxobJr7gAJAa6hHlek/InPJZEpHPl0e5Kt+2FIVmdtwWdP5E5jdtOQkIiMVUfCbwZe66WHY6gZMF77RS6pQVg8zvZQTR85UHDuALXbUAwBBPNN3Gl0Kqbt2LtpbS40enx+biWyNwxE7tWI5FQ0Ju/acK3e+LzwG1gA1RR3mQY4luSR/y3jlMCq6ofdwOyaOYL+F7bdQ0zWJc+QPaH6YwsCzqKE4xO2BP4watYaZ4Mq+g+fr7K13/cft73PJ2eyQma0UX0qaVlahHOjm8vTqsjDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V4b+Rjc+1tV9V+WVw5wHPxKLvUTb4SuVHLrrJjdYJ1Y=;
+ b=ueaXb+4aZ/pzSmg2LmERlXU2Rcrw0xjmW9vXik1oFRGJXqPc6MyjN7fzPxLeocAje+pPcnU6wCj2SB4OcPgsdYj8A57+O3K+l1kDI/zBKXhcBqWQa0OEGpWKDkTV5uW2FP2VuaRBFVzwsTUdNueI2ZWxDOPem5jqPxpYvmhcyMnjQl50d+yREGsjmby9WrSEB9Piv73tAN0B9Fza+5+nQbrTRQcqAasTKBm1P8ZBxJRz8vft9q1ic9idPzY4Sk0APhbfvRmnqKpd91/M+ay+NhJLJ7o4LUCoAnew0tpSzu2pLOfWlWsQqVyV+WmMQtSftiJw1iamolQL8TbZbrdh5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V4b+Rjc+1tV9V+WVw5wHPxKLvUTb4SuVHLrrJjdYJ1Y=;
+ b=lRXTKkJfu4y7HYzi+XDZNBJms9+UGoXGYGF6bjrHRwNzh05y7exi/XvisMYOW9yTTRNIF1V66XklPGZoyd6XXiFwePPO++7YGFu3I4e7vmiPXGoaCPhd52hW6yZ7CeJFg0PLF+bOeaGgiIfIKdD2bR55MZDBR5T0shQty/GuRgA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OSCPR01MB14933.jpnprd01.prod.outlook.com
+ (2603:1096:604:3af::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.28; Fri, 11 Jul
+ 2025 02:26:07 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8922.023; Fri, 11 Jul 2025
+ 02:26:07 +0000
+Message-ID: <87sej34g5d.wl-kuninori.morimoto.gx@renesas.com>
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [RFC][PATCH 0/5] ASoC: set bias_level at if snd_soc_dapm_set_bias_level()
+Content-Type: text/plain; charset=US-ASCII
+Date: Fri, 11 Jul 2025 02:26:06 +0000
+X-ClientProxiedBy: TYCP301CA0055.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:384::6) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
- jian.xu@amlogic.com, Mark Brown <broonie@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, zhe.wang@amlogic.com, 
- Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- linux-amlogic@lists.infradead.org, Jaroslav Kysela <perex@perex.cz>, 
- shuai.li@amlogic.com, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
- linux-arm-kernel@lists.infradead.org
-To: jiebing chen <jiebing.chen@amlogic.com>
-In-Reply-To: <20250710-audio_drvier-v5-0-d4155f1e7464@amlogic.com>
-References: <20250710-audio_drvier-v5-0-d4155f1e7464@amlogic.com>
-Message-Id: <175217427132.3135674.349171933373202278.robh@kernel.org>
-Subject: Re: [PATCH v5 0/6] Add support for S4 audio
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSCPR01MB14933:EE_
+X-MS-Office365-Filtering-Correlation-Id: b694c411-aae4-43b5-462a-08ddc0224a86
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?B27CVGhry/phJDRN/19O2cNnMu0Fyn7GUmSNLtE6B5l85OfCZuwz3djirj/N?=
+ =?us-ascii?Q?jPvbXf3SUrs01Y086Vg9WNh/1iNR9YEdcHPuPc+6yy5+Ep9DMZk36+/SYEdC?=
+ =?us-ascii?Q?cEaURh5MiKpOE3Fa1f3QrfA0GFfbejhPYxWgJciDY4oGvH0Kky2TmzBWskjQ?=
+ =?us-ascii?Q?FahKSBBjBtSwU2zJ4sHk+sOS1RMFFB6Bo2ICma9RhEALm6MxxVwb5ho50v4q?=
+ =?us-ascii?Q?jftwLXyIClrtwIxvd1TmjAa6/QLvXOYgR7PUAON7mNmVPtGHkdGFuPOVWCXe?=
+ =?us-ascii?Q?ImUOYX8ZdTFpJBkXqR4zBQqP5XokzoNMhkU1KgNjzeHMEPmjqiJQSkn7bO/C?=
+ =?us-ascii?Q?0bJdj2+BpStEb50wATnd1DrXLMHR95NgBe0M4rzt1FybOJViPDIOZSp4X7c+?=
+ =?us-ascii?Q?n8dYDz5d5+N2429hZGnwj6h1nfFR9GnXiLzLw4HegX2hJEHr7ylJ+NBTET3Z?=
+ =?us-ascii?Q?kAWw8v/kGgQodaz2J2pEhgObjwoQ/bkNkXN/LOZtugn/df5NKrr70x7meMGI?=
+ =?us-ascii?Q?4w03PZrLaIps88ytaiW6H28wwJYfMpYyFVXFHB+xeJZqA26JkneixtCpx6PZ?=
+ =?us-ascii?Q?sFukLCvRTSK6PphqMDWRRWV/73/X9zam8aV6ULQIld6CA4SbSchgvtaN61Xx?=
+ =?us-ascii?Q?jFOyCOKIuxTda8DkGgW1mq0YmxyZethoieulNL8iS7tDgWseqpSQ00Sf1Fws?=
+ =?us-ascii?Q?4RFa4u9qWP2gzD5lU2r0NWs1ZSH6GNjakj6G4xcrNop1pGNguU3GIs37WxGt?=
+ =?us-ascii?Q?KTu2fapEegGIE/elRSaSc0o9aWD3Usp/hMqxU+xXWK/T+62sEJ/neHxgfxgZ?=
+ =?us-ascii?Q?qj+zYvX5rBsuhQq7PWU+XSjgCtSG27jVevZN81Otty813keWR2DWHujoLfLQ?=
+ =?us-ascii?Q?dJoKlNxyMpAilvDOVOv7nzTKVQZV6WjQ9ftM1w3RsYEigUaHvr0c/2Q/U6W4?=
+ =?us-ascii?Q?5buCb+AcRJBjdw5QgwiDWRD9kgPUI7AA3+ft8DlZQrpP6WCEE/0UBWnKpD2Q?=
+ =?us-ascii?Q?ELfTvdri8t7DUqzJeJIqRodZVE1DTydq+IF7O9Q1KflZ8At4aLreudVwVhNo?=
+ =?us-ascii?Q?O0am4YbD9MY36ifEsYOArMiC3AMlSDUHVgDaMwsTHWWEZsRyN2QIdbdyAx2w?=
+ =?us-ascii?Q?Aalch2ToKMpx7yqgafdqTKQSFEiu7o2L/cFEhQQh3e6T8pHqm25Odg+vLf91?=
+ =?us-ascii?Q?UuKlRiOAREy49YxD2X0Jo2UElOjLbwUXI8frBFvLE8hEp2cqB0vFKxMYUTnA?=
+ =?us-ascii?Q?8ntr4AyqHFaM89pwOMklHqugcZEhWUUKA6JwNZBcFLW124kRNGwBzniQDTJy?=
+ =?us-ascii?Q?DFn6mT6X+h+E22jmteJ15zggCWr4jlHiMOG9MsILvp/HQQ40J2XjWSy0ClNU?=
+ =?us-ascii?Q?5qqiLgFOk0Ln/g57TPhx2fksE6gcPIHStVr89v1yo5O9XOGNYgjuTHPuL6V0?=
+ =?us-ascii?Q?vw1dbca3CQRAzX2C5iGjZR3JUpo+4fxcAv7hgCVQaObm4gFipIywOg=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?pM/2jFgQXaN5rhrVLo8r1VbYz/Ysx9d/mbkAa2Z1t5kSGIWzWAtYEuB8KuZU?=
+ =?us-ascii?Q?0oSc7A1pdaejRSeNxQN+nm6x+UGlAeQrZlxu1zo4qM1jeSjAzq3T0N41A8g+?=
+ =?us-ascii?Q?Ze3k2ti2w/yLPuuZcnFXXnaXLPO0e2ctamnjucc/WX7cYEKZ3sajWZv+vQVO?=
+ =?us-ascii?Q?wSMwvURKxDmmsSoFXYTd9mDu1Z4vnTdXbFT6HNfwWkc6kNKEjol/RB+HD+v5?=
+ =?us-ascii?Q?vdHQlt1O0ahb4Me9gnhvGeyqvcsCqTAwdx14OtG6tH8y3qBf/U7q7nLR+3i8?=
+ =?us-ascii?Q?dQD6mXXn+TNxaiH/amxGpjoBLh0qPQobdu9IUmyfOhapQKw5y29l5P+/nRYQ?=
+ =?us-ascii?Q?WS0IMez4YhZMaqvFE0UAAzrkH/f/17AQVFcTjaNoOx3BEVe0wSJuVmvAbWml?=
+ =?us-ascii?Q?1+0nmvl84hl3+qHulEv2o7+0vwJx8pRAD4+G/a3eMmQQlHlGTLaXGp6V0a29?=
+ =?us-ascii?Q?KaauJIaB3a2ikqGRj7lMbHD/DLnxI4V2Sr25517l51bVxvR8my3U3sYnzfQc?=
+ =?us-ascii?Q?n2ANkryZ6FFq36Ue85ZV48bNyzZYTh5yz0TVSvzDWfhshIzwsKVQUtFQwpU1?=
+ =?us-ascii?Q?kCh4l06EFog5QmNoDV0I/xdUmw8uSoR/hWak/jZl49uKKDMlt0yBHO9w4HIg?=
+ =?us-ascii?Q?2Blp2+EE7vvEI5F8jOXA7EySh6+s0hs8FxK5mNvIBw2F1IX/gYxEmhm24F33?=
+ =?us-ascii?Q?0P+Ze+/+Mzp0HLREet1ecDByptnBBwjLBCV5nVkc8h2a0CpVkkTA+Sth62yd?=
+ =?us-ascii?Q?drRFhIPHC/jHOnMdumW+arh0dwiSI2xShQczeF/MiOxcGzIgokx+lTYjj+ZD?=
+ =?us-ascii?Q?XttALnUmsJCMR0QAoQODZ0Ortbfyx5J1oZP7tou7hiI2ClBv8B6kEVWU+/Te?=
+ =?us-ascii?Q?uVu/7zsDpOI98RB5AloUEObkOYpMWxY+ocP9BipWcl/upA2/ozFh/sC9SXzO?=
+ =?us-ascii?Q?fo/pmkHlG5C3QYjFEom9SPQwaOxtfEKoyr50KBatgg2npHUGYZ9aI5VoodTK?=
+ =?us-ascii?Q?qJvQxjmPFSxPuLvk2/7poq60jli64gV9p6pruf1WAjju/cVLvYmPUAqihrud?=
+ =?us-ascii?Q?B/UZddmM4HxFl6JrKOjTSGrjnttxN5XbvOg9MqOZEdjclmYV42E8Xuljhz4W?=
+ =?us-ascii?Q?+7/395/v9dOVU++VuSCXDi8hSV/7M4/fJoPiAdkq1kE1L5DswENlyUtSapY3?=
+ =?us-ascii?Q?q0beGnlkObzCoYMv+YsxSLpDSJ+2rjvfMHZZVEfFzDBMkXBP4y16TzMJHS1p?=
+ =?us-ascii?Q?VW6q1rrv1QFJjgX6EpBjez0T7FDrHwsgDNxs1gX5D+TgFjQdTbo+E8b+hHby?=
+ =?us-ascii?Q?n2yKEFdqaEgCdP1xCFDZR2c4dEtEv8ZsGkN3NidHjlTTrVnNQXbKUq5ZSbr4?=
+ =?us-ascii?Q?/0GTYfdX4yOcEOHeupQmtp8nNBb/bHtTHq+oxxrFfm07IihcW3QB2pXGrX3P?=
+ =?us-ascii?Q?eenxUH4Zs7znc12Uf6c6CYkzQ1217HE+p1k57RhTc9scl2NMZ3JTmXWqb69d?=
+ =?us-ascii?Q?04Max6X4mTwDoKo+sX4WDhLRNqkc9+0Q/yoS2igR93E6XRVOUNnQD5qI+T7v?=
+ =?us-ascii?Q?YLcEkHQBMagPtPp4+B+5/aUhSklVReyIGXcLkOcc3FU9qCRyOm6ZEdEV3yM1?=
+ =?us-ascii?Q?wy2K/QdtQlGqVsw2Xb9c2/8=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b694c411-aae4-43b5-462a-08ddc0224a86
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 02:26:06.9727
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UryOy/bp5HHnwh8HNF20Mi3odgBQgi9sCSjZYVrrmTyt4sUYGn4Y3QcAxhijuixhJoGA38/RXVkMNUHLfLu61Z+2C2NDq3QVrmUiF0ntCQSEjNsNpJlzFyiEUTOs4zhe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB14933
 
 
-On Thu, 10 Jul 2025 11:35:36 +0800, jiebing chen wrote:
-> This series completes the end-to-end audio support
-> for S4 SoC from hardware bindings to driver implementation
-> and system integration.
-> 
-> 1 Device Tree Bindings Updates
-> Added audio power domain support for S4 SoC.Defined mclk/sclk pad clock IDs in AXG audio bindings.
-> Add S4 audio tocodec binding support.
-> 
-> 2 Driver Implementation
-> Implemented S4 tocodec driver for G12A architecture.
-> Add mclk pad divider support for S4 in AXG audio clock.
-> 
-> 3 Device Tree Integration
-> Add Amlogic S4 audio subsystem support in arm64 DTS.
-> 
-> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
-> ---
-> Changes in v5:
-> - Fix warning Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yam when make dt_binding_check
-> - The audio reg is mounted below the APB bus in dts file.
-> - Deal with pad clock in a distinct controller.
-> - Fix warning for sound/soc/meson/g12a-toacodec.c
-> - Link to v4: https://lore.kernel.org/r/20250319-audio_drvier-v4-0-686867fad719@amlogic.com
-> 
-> Changes in v4:
-> - fix dtb check warning
-> - add maxItems of power domain for dt-bindings
-> - fixed audio clock pads regmap base and reg offset
-> - use dapm widget to control tocodec bclk and mclk enable
-> - Link to v3: https://lore.kernel.org/r/20250228-audio_drvier-v3-0-dbfd30507e4c@amlogic.com
-> 
-> Changes in v3:
-> - remove g12a tocodec switch event
-> - Modify the incorrect title for dt-bindings
-> - Link to v2: https://lore.kernel.org/r/20250214-audio_drvier-v2-0-37881fa37c9e@amlogic.com
-> 
-> Changes in v2:
-> - remove tdm pad control and change tocodec base on g12a
-> - change hifipll rate to support 24bit
-> - add s4 audio clock
-> - Link to v1: https://lore.kernel.org/r/20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com
-> 
-> ---
-> jiebing chen (6):
->       dt-bindings: clock: meson: Add audio power domain for s4 soc
->       dt-bindings: clock: axg-audio: Add mclk and sclk pad clock ids
->       dt-bindings: Asoc: axg-audio: Add s4 audio tocodec
->       ASoC: meson: g12a-toacodec: Add s4 tocodec driver
->       clk: meson: axg-audio: Add the mclk pad div for s4 chip
->       arm64: dts: amlogic: Add Amlogic S4 Audio
-> 
->  .../bindings/clock/amlogic,axg-audio-clkc.yaml     |  55 ++-
->  .../bindings/sound/amlogic,g12a-toacodec.yaml      |   1 +
->  .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts     | 218 +++++++++++
->  arch/arm64/boot/dts/amlogic/meson-s4.dtsi          | 387 ++++++++++++++++++
->  drivers/clk/meson/axg-audio.c                      | 435 ++++++++++++++++++++-
->  drivers/clk/meson/axg-audio.h                      |   6 +
->  include/dt-bindings/clock/axg-audio-clkc.h         |  11 +
->  sound/soc/meson/g12a-toacodec.c                    |  42 ++
->  8 files changed, 1152 insertions(+), 3 deletions(-)
-> ---
-> base-commit: 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
-> change-id: 20250110-audio_drvier-07a5381c494b
-> 
-> Best regards,
-> --
-> Jiebing Chen <jiebing.chen@amlogic.com>
-> 
-> 
-> 
+Hi Mark
 
+ASoC has 2 functions to set bias level.
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+	(A) snd_soc_dapm_force_bias_level()
+	(B) snd_soc_dapm_set_bias_level()
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+(A) sets dapm->bias_level, but (B) is not.
+I think we should set it on both (A) and (B).
+I think it is miss or bug, but Samsung is the only vendor that feels a
+problem about this.
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+I think this patch (= [1/5]) is correct approach, but some non-samsung
+vendor might get affect from this patch-set, so I added [RFC] on this
+patch-set.
 
-  pip3 install dtschema --upgrade
+Furthermore, (B) cares both Card and Component, (A) cares Component only.
+I guess it is the reason why it is called as "force" bias_level function.
+(A) is used from each drivers, (B) is used from soc-dapm only.
+I'm not 100% sure though, except special cases, each driver should use (B),
+I guess ?
 
+Kuninori Morimoto (5):
+  ASoC: soc-dapm: set bias_level if snd_soc_dapm_set_bias_level() was successed
+  ASoC: samsung: bell: don't set dapm->bias_level directly
+  ASoC: samsung: speyside: don't set dapm->bias_level directly
+  ASoC: samsung: tobermory: don't set dapm->bias_level directly
+  ASoC: samsung: littlemill: don't set dapm->bias_level directly
 
-This patch series was applied (using b4) to base:
- Base: using specified base-commit 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
+ sound/soc/samsung/bells.c      | 2 --
+ sound/soc/samsung/littlemill.c | 2 --
+ sound/soc/samsung/speyside.c   | 2 --
+ sound/soc/samsung/tobermory.c  | 2 --
+ sound/soc/soc-dapm.c           | 4 ++++
+ 5 files changed, 4 insertions(+), 8 deletions(-)
 
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/amlogic/' for 20250710-audio_drvier-v5-0-d4155f1e7464@amlogic.com:
-
-arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: clock-controller@330000 (amlogic,s4-audio-clkc): reg: [[0, 3342336, 0, 216], [0, 3346048, 0, 16]] is too long
-	from schema $id: http://devicetree.org/schemas/clock/amlogic,axg-audio-clkc.yaml#
-arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: clock-controller@330e80 (amlogic,clock-pads-clkc): power-domains: False schema does not allow [[14, 7]]
-	from schema $id: http://devicetree.org/schemas/clock/amlogic,axg-audio-clkc.yaml#
-arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dtb: sound (amlogic,axg-sound-card): 'anyOf' conditional failed, one must be fixed:
-	'clocks' is a required property
-	'#clock-cells' is a required property
-	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-
-
-
-
+-- 
+2.43.0
 
