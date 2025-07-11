@@ -1,90 +1,164 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BC5A92E;
-	Fri, 11 Jul 2025 06:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2068B197A6C
+	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 07:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752215004; cv=none; b=Vw1j8xiHUMjDa52I041JmuiVqwKHTV4LK/SS8GiFXef1QwKRy2Cb9CBFsBJRzsPGmE5lESGPSpgWPsh7bl3cqM45cIXLCx/GksBwxn0qQU673yKj+YgopgSTjSnd6THaddvEu3uG4hPL7BBsw4VmcNg4Dgi7B099pEHRv0kG47E=
+	t=1752219267; cv=none; b=nOM2wWiOYOs2aiNEH8Nx7oNa2BzgkRGF1Z3QQZMZ0IOrB1LPwVhCVr8MQnqQmAwBgx/ZLxP3lbgEa27Nkftqr+u+wOyFAQ90jSh91GamywhEb59qzzRgKjy4zWzTs5+eKyCP11Pfu+3kYjwLM1SKCQDg0+Ip/JDggTTfJaG0Grw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752215004; c=relaxed/simple;
-	bh=szAjdjboQ5FwGSMhN8orxJJF4cMCxbolT75MC3iNp5k=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=sBQoMH6q8Ab6tRdtJM+cVuJyTHO667299nuPzduHvnpw4YUDlDi4cWyGDEcimwl7lVN/93XHNPycLfyd6aG5OH7ETKwdtA8PCbkqDxBN9IBhLWEnzffZv8YWUTf3KKqsym2HlIpUP9/jL4Ngj0kmyslOvZyPEHNcG4Q5pEMrc5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BZytUhUt; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752219267; c=relaxed/simple;
+	bh=3oXcY7Bj3JfUZWL0WQZywcpkLheBt/vaxkQw0bhq348=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FzlPNeX6HJhN+JJ/BBUYlPL+b2JZiQf0nEedjO62GRv8qr0q8jpIpbFd/f99JWpBGLjMiN3/A/EugZB9NP5Gy6az36adfoO8rNgOiFsHOwMgcOsHO+X3jeSOFrlcJNp4Jf3xka/uAXL7OZ3P423SzqNhnnetsAfrX4BLyr3X8ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n7/INw+P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mFMKR57x; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=n7/INw+P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mFMKR57x; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BZytUhUt"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-553d2eb03a0so3272065e87.1;
-        Thu, 10 Jul 2025 23:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752215000; x=1752819800; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=73xlXjihTyB3gi8nwM7Cu3RHQ4fBs8QJHOkXmIfesdQ=;
-        b=BZytUhUtnXqFcusbYukIMFyp/xBfn5L/ypHEz/gUpH2zZojg/gA5oE74ymwRht9tAO
-         jnB9s2CrNbzB4GJEuQ6MCvSMNzZxi25nsjlt4C4JDJ7KyU6E1nv31xc9PuM49hx+bzpE
-         2nEKdCpjgnWmYk6bJ7u27iThg8Nfq4zdnUyx+QDo0AdedMSpICWKDqxHdJKpW3S036CD
-         lErjxXl3+TzIhRi1DUS+Gpv/SXCfOj9fPIC3+wkrPiSS/nCx/BcBlhlte0h3TC4V7d6b
-         Lg3KESYVbwNnl2Ya02ajj1FdGkqFtYHdTOCn2uO9nqgw4Ed4kPEgeB+2au4fTojnBQc7
-         gulw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752215000; x=1752819800;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=73xlXjihTyB3gi8nwM7Cu3RHQ4fBs8QJHOkXmIfesdQ=;
-        b=CEQtCvVWPxeqeDImCcTEW2YQ/H6LB3yUtNBZVF+BicHlGXoyR2g6xZ3v2Jdwag9rbj
-         cHoIJWT2w4RGGSRzwQL8sc6qXbhifJTug5pisnwU1d3z2MzNdfUhEsiDrsiAdbfuBtzK
-         M1J5TRs6BCPmJVoFSRHZzDuLBYwgGaj/mpIwUXjSHkJaQLGFDXtlec5FEVPofs/MlpbO
-         OprER5l82YREqq2bkubnL92CWDYuTpiBTyjU9cGYwxZScEw2RItlyIjGQHHpbIGFmIkQ
-         IJELvbfJEPAwThxYBUYz4AP+ulAJzcuZqbPUKl4RR4hMWbCDSzfAJT8fq+WLkg6h3Msk
-         Nulg==
-X-Forwarded-Encrypted: i=1; AJvYcCWxAmmdf+XH6/n3WniIbby/MO8XYNBSn9DUn40fHzOdA5MHorEmkxUtZDSY5qf+MTkzsmCTzpCZ0FD/cXU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFqFBJFy6osRJYcWqF1FGhGhfv3u0VynWfz9OQK8iHcUjdUHfI
-	oQSKKlJR0k8uu9lwmqOcnUhmbXcME1q9QWm2+KrI4v2tzpiZcqaCKSCF/v5AViHJ7Z/RICUpTUT
-	fGnXLejKs/6poWEKEwzsk064xCOKQ4jnfBRXy
-X-Gm-Gg: ASbGncu0+H2i2P+hH4wI3wzxJxaSB5MrnTf0E2YF30E775nPLh6D5CXv9n58s/ZPbJ9
-	9sZ8HkHhJFwxsbQUp03M8sW85rwCOjrHBehE5zhpRzuT2rbdxZSuC9VpPLXHY+7vRFkmVPL1ADb
-	SbqQdG3us/wdYE5uEv2PdsWawY1pEMt1aue2mgxwPPiYXmNTQgqVpy6PTclKtfJGLjLbb1HKNSJ
-	sBCq7Qes8VXtUKT7KQ=
-X-Google-Smtp-Source: AGHT+IF0Fa/eG1jKsN+7I1rnUtH4sziIRMdckfTOC3v5CP/wNmUpQQkJ6m0PQWnh0hliPOF/KzfH4WwOFkSAG78pyu0=
-X-Received: by 2002:a05:6512:3f11:b0:554:e7ce:97f8 with SMTP id
- 2adb3069b0e04-55a039bf0f5mr734133e87.15.1752215000073; Thu, 10 Jul 2025
- 23:23:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n7/INw+P";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mFMKR57x";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="n7/INw+P";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mFMKR57x"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 33CAE1F451;
+	Fri, 11 Jul 2025 07:34:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752219264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9bTafDq8cSF/N3g5v9eGanZVqTC2LdNrQ0wFaEVhlLs=;
+	b=n7/INw+PUN44EbIwoZWieIKzMdA9ek1qB4gMEKneJf+k/n3gQj9NFeZrgGzrB8LkGVqgoo
+	4GUpwqj40m2VQjX8JlyJA2uolAfxLepf2VEgez/eXLqQpM8AoooYamFaRRsxiw+FzQliJX
+	Jy/Vozwf7d3BsL/KWXOJExJHVYW7bRw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752219264;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9bTafDq8cSF/N3g5v9eGanZVqTC2LdNrQ0wFaEVhlLs=;
+	b=mFMKR57xv/jATjxGVGRgq58LnD5TwSBnh0c2Q4cLyVPa/b4744QLNo8Ms2eJkVie9Ay1Po
+	ZPPYpKT2l0M8b7Ag==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="n7/INw+P";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mFMKR57x
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752219264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9bTafDq8cSF/N3g5v9eGanZVqTC2LdNrQ0wFaEVhlLs=;
+	b=n7/INw+PUN44EbIwoZWieIKzMdA9ek1qB4gMEKneJf+k/n3gQj9NFeZrgGzrB8LkGVqgoo
+	4GUpwqj40m2VQjX8JlyJA2uolAfxLepf2VEgez/eXLqQpM8AoooYamFaRRsxiw+FzQliJX
+	Jy/Vozwf7d3BsL/KWXOJExJHVYW7bRw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752219264;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9bTafDq8cSF/N3g5v9eGanZVqTC2LdNrQ0wFaEVhlLs=;
+	b=mFMKR57xv/jATjxGVGRgq58LnD5TwSBnh0c2Q4cLyVPa/b4744QLNo8Ms2eJkVie9Ay1Po
+	ZPPYpKT2l0M8b7Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F38F513918;
+	Fri, 11 Jul 2025 07:34:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +W8vOn++cGh4RAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 11 Jul 2025 07:34:23 +0000
+Date: Fri, 11 Jul 2025 09:34:23 +0200
+Message-ID: <87frf3gozk.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sharan Kumar Muthu Saravanan <sharweshraajan@gmail.com>
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP OMEN 16 Laptop xd000xx
+In-Reply-To: <CAGo=CcKZOz=HHWQtM+GQEeyqGVEo+4EgWSET5FJzKTMEMtJDew@mail.gmail.com>
+References: <CAGo=CcKZOz=HHWQtM+GQEeyqGVEo+4EgWSET5FJzKTMEMtJDew@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Sharan Kumar Muthu Saravanan <sharweshraajan@gmail.com>
-Date: Fri, 11 Jul 2025 11:53:09 +0530
-X-Gm-Features: Ac12FXytmDmkt6r0R3muScu3mvNULbCCdsKttqblHJ4F1VYpWmRd08uE-bZMTUI
-Message-ID: <CAGo=CcKZOz=HHWQtM+GQEeyqGVEo+4EgWSET5FJzKTMEMtJDew@mail.gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP OMEN 16 Laptop xd000xx
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 33CAE1F451
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+X-Spam-Score: -3.51
 
-this patch makes the mute led brighter since the previous patch i
-submitted was dim
+On Fri, 11 Jul 2025 08:23:09 +0200,
+Sharan Kumar Muthu Saravanan wrote:
+> 
+> this patch makes the mute led brighter since the previous patch i
+> submitted was dim
+> 
+> Tested on 6.15.5-arch1-1
+> 
+> Signed-off-by: Sharan Kumar M <sharweshraajan@gmail.com>
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index 060db37eab83..062d439e753d 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -4753,7 +4753,7 @@ static void
+> alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
+>         if (action == HDA_FIXUP_ACT_PRE_PROBE) {
+>                 spec->mute_led_polarity = 0;
+>                 spec->mute_led_coef.idx = 0x0b;
+> -               spec->mute_led_coef.mask = 1 << 3;
+> +               spec->mute_led_coef.mask = 3 << 2;
+>                 spec->mute_led_coef.on = 1 << 3;
+>                 spec->mute_led_coef.off = 0;
+>                 snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
+> ---
 
-Tested on 6.15.5-arch1-1
+The patch isn't applicable cleanly at all.
+Please try to submit in a proper format.  At best, test by yourself
+whether you can apply the patch locally before the next submission.
 
-Signed-off-by: Sharan Kumar M <sharweshraajan@gmail.com>
+Also, the patch description is too ambiguous.  Please describe more
+exactly what was wrong and what you changed.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 060db37eab83..062d439e753d 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -4753,7 +4753,7 @@ static void
-alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
-        if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-                spec->mute_led_polarity = 0;
-                spec->mute_led_coef.idx = 0x0b;
--               spec->mute_led_coef.mask = 1 << 3;
-+               spec->mute_led_coef.mask = 3 << 2;
-                spec->mute_led_coef.on = 1 << 3;
-                spec->mute_led_coef.off = 0;
-                snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
----
+Last but not least, please add Fixes tag pointing to your previous fix
+mentioned in the patch.
+
+
+thanks,
+
+Takashi
