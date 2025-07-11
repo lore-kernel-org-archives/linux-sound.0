@@ -1,106 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BB08F7D
-	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 05:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BC5A92E;
+	Fri, 11 Jul 2025 06:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752213537; cv=none; b=sF0DBCiqMTrjnkP4YY0fFqygpCGfdcs6ogaAmXfb7TWBcYdW4YlCdl7V3Phj52SGB9p76FDnEDsyDlKKXiG5PQEtA+vAB/QI9uz/qguirX+zSRwpGE2TIPOeLyIRC8tNurP7Z+3w25WTpHT60ODD7oJUyMMoTMbGKk1wZQ9udJQ=
+	t=1752215004; cv=none; b=Vw1j8xiHUMjDa52I041JmuiVqwKHTV4LK/SS8GiFXef1QwKRy2Cb9CBFsBJRzsPGmE5lESGPSpgWPsh7bl3cqM45cIXLCx/GksBwxn0qQU673yKj+YgopgSTjSnd6THaddvEu3uG4hPL7BBsw4VmcNg4Dgi7B099pEHRv0kG47E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752213537; c=relaxed/simple;
-	bh=4C70yF9NF1WXjT8ErvVC6pQQxcdewOcEBuZM1zJOkm0=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=AgbesZ/73x2u9plFQDSpYX2JlqL4O34Mhg0hZgM+mCWqOq7LIRSEReuWHpMvJkB1rOAyVtT/5RSqrVkLiXslwkgqEN614qxUsWti05mF/QluuUFUWvW/CRopV/UDUUWJfEksPUu0Qv0FFYHyGwLS/IQ5s7ExV+nbU1xirhL4jIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T4lgGwrh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752215004; c=relaxed/simple;
+	bh=szAjdjboQ5FwGSMhN8orxJJF4cMCxbolT75MC3iNp5k=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=sBQoMH6q8Ab6tRdtJM+cVuJyTHO667299nuPzduHvnpw4YUDlDi4cWyGDEcimwl7lVN/93XHNPycLfyd6aG5OH7ETKwdtA8PCbkqDxBN9IBhLWEnzffZv8YWUTf3KKqsym2HlIpUP9/jL4Ngj0kmyslOvZyPEHNcG4Q5pEMrc5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BZytUhUt; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T4lgGwrh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08A25C4CEED
-	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 05:58:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752213537;
-	bh=4C70yF9NF1WXjT8ErvVC6pQQxcdewOcEBuZM1zJOkm0=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=T4lgGwrhgFCfQwyfN/fqTb0nddKmunyPSnppWCwCkQcyRKqLi37XlEtEtA6Q6Y3In
-	 GhNOKEGsTVmaXiaj2lWG0HQcBosvA5qcgJ+bnIFw9GhhCfN1IlSqK8c+QKrOk6P2DV
-	 CnZMwGA8S8yclBVOnF+LNaVdTX4lMznLrQ+Rzc3DxVuK2QXPbQkWaOYJVKajrImqOW
-	 lpkllfREl8H35+x3WYkWiknM7QJWs4wrcuPpbY0HfKHfQTXPDT2cUPi9ZAIlfnJORd
-	 l2yP25FwSvkiKTw7H2oNlYnjcxQn0brYdwMAF3+AVzgKLrsfHTo4gzv79XAuGCiHZ6
-	 gl9BQGU4fyBkg==
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 2EE64F40066;
-	Fri, 11 Jul 2025 01:58:56 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Fri, 11 Jul 2025 01:58:56 -0400
-X-ME-Sender: <xms:IKhwaDnNzP7SKqriV7X-Q52nRrG1KCWapd8uU8QFLSbsjMHTx43plQ>
-    <xme:IKhwaG2zFmSqYyz7H3i5nuK6mgwBXRy4d-taFU_LCCoAOOCaqL6bRnznJz3Vo4HdZ
-    rLF3azCfqXEvbzJGh8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdegvdehfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugeskhgvrhhnvghlrdhorhhgqeenucggtffrrghtth
-    gvrhhnpeejjeffteetfeetkeeijedugeeuvdfgfeefiedtudeikeeggeefkefhudfhlefh
-    veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidquddvkeehudejtddvgedq
-    vdekjedttddvieegqdgrrhhnugeppehkvghrnhgvlhdrohhrghesrghrnhgusgdruggvpd
-    hnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlghhi
-    rhgufihoohgusehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrohhonhhivgeskhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtohepphhivghrrhgvqdhlohhuihhsrdgsohhsshgrrhht
-    sehlihhnuhigrdguvghvpdhrtghpthhtohepphgvthgvrhdruhhjfhgrlhhushhisehlih
-    hnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohephihunhhgqdgthhhurghnrdhlihgr
-    oheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopegtkhgvvghprgigsehoph
-    gvnhhsohhurhgtvgdrtghirhhruhhsrdgtohhmpdhrtghpthhtohepphgrthgthhgvshes
-    ohhpvghnshhouhhrtggvrdgtihhrrhhushdrtghomhdprhgtphhtthhopehlihhnuhigqd
-    hsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:IKhwaNdA8wajwzjVsWiP2T6U3oKI4jDQGuZ_ZU9oR63G1HA_XBVgYQ>
-    <xmx:IKhwaMzBDoO_86lvZmjfgL_kWaS5GoYlXtqnVeRHTt1D4W2-WVY0cA>
-    <xmx:IKhwaM2yQRfqHwCp0QvNeX3vMKkj3mxECQ3Y7u1EvTp1kQZliigA0g>
-    <xmx:IKhwaCyIP_xlUfVQDZYust7qWIfzNXynj4DtEz1o0ihmZJ1q7i0Z_g>
-    <xmx:IKhwaBWEaVwdO8sFO1cXTzEF4Vb_NgdGU_luvnz2OYYg8FTl4CsHctzT>
-Feedback-ID: i36794607:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id F2AAD700065; Fri, 11 Jul 2025 01:58:55 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BZytUhUt"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-553d2eb03a0so3272065e87.1;
+        Thu, 10 Jul 2025 23:23:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752215000; x=1752819800; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=73xlXjihTyB3gi8nwM7Cu3RHQ4fBs8QJHOkXmIfesdQ=;
+        b=BZytUhUtnXqFcusbYukIMFyp/xBfn5L/ypHEz/gUpH2zZojg/gA5oE74ymwRht9tAO
+         jnB9s2CrNbzB4GJEuQ6MCvSMNzZxi25nsjlt4C4JDJ7KyU6E1nv31xc9PuM49hx+bzpE
+         2nEKdCpjgnWmYk6bJ7u27iThg8Nfq4zdnUyx+QDo0AdedMSpICWKDqxHdJKpW3S036CD
+         lErjxXl3+TzIhRi1DUS+Gpv/SXCfOj9fPIC3+wkrPiSS/nCx/BcBlhlte0h3TC4V7d6b
+         Lg3KESYVbwNnl2Ya02ajj1FdGkqFtYHdTOCn2uO9nqgw4Ed4kPEgeB+2au4fTojnBQc7
+         gulw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752215000; x=1752819800;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=73xlXjihTyB3gi8nwM7Cu3RHQ4fBs8QJHOkXmIfesdQ=;
+        b=CEQtCvVWPxeqeDImCcTEW2YQ/H6LB3yUtNBZVF+BicHlGXoyR2g6xZ3v2Jdwag9rbj
+         cHoIJWT2w4RGGSRzwQL8sc6qXbhifJTug5pisnwU1d3z2MzNdfUhEsiDrsiAdbfuBtzK
+         M1J5TRs6BCPmJVoFSRHZzDuLBYwgGaj/mpIwUXjSHkJaQLGFDXtlec5FEVPofs/MlpbO
+         OprER5l82YREqq2bkubnL92CWDYuTpiBTyjU9cGYwxZScEw2RItlyIjGQHHpbIGFmIkQ
+         IJELvbfJEPAwThxYBUYz4AP+ulAJzcuZqbPUKl4RR4hMWbCDSzfAJT8fq+WLkg6h3Msk
+         Nulg==
+X-Forwarded-Encrypted: i=1; AJvYcCWxAmmdf+XH6/n3WniIbby/MO8XYNBSn9DUn40fHzOdA5MHorEmkxUtZDSY5qf+MTkzsmCTzpCZ0FD/cXU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFqFBJFy6osRJYcWqF1FGhGhfv3u0VynWfz9OQK8iHcUjdUHfI
+	oQSKKlJR0k8uu9lwmqOcnUhmbXcME1q9QWm2+KrI4v2tzpiZcqaCKSCF/v5AViHJ7Z/RICUpTUT
+	fGnXLejKs/6poWEKEwzsk064xCOKQ4jnfBRXy
+X-Gm-Gg: ASbGncu0+H2i2P+hH4wI3wzxJxaSB5MrnTf0E2YF30E775nPLh6D5CXv9n58s/ZPbJ9
+	9sZ8HkHhJFwxsbQUp03M8sW85rwCOjrHBehE5zhpRzuT2rbdxZSuC9VpPLXHY+7vRFkmVPL1ADb
+	SbqQdG3us/wdYE5uEv2PdsWawY1pEMt1aue2mgxwPPiYXmNTQgqVpy6PTclKtfJGLjLbb1HKNSJ
+	sBCq7Qes8VXtUKT7KQ=
+X-Google-Smtp-Source: AGHT+IF0Fa/eG1jKsN+7I1rnUtH4sziIRMdckfTOC3v5CP/wNmUpQQkJ6m0PQWnh0hliPOF/KzfH4WwOFkSAG78pyu0=
+X-Received: by 2002:a05:6512:3f11:b0:554:e7ce:97f8 with SMTP id
+ 2adb3069b0e04-55a039bf0f5mr734133e87.15.1752215000073; Thu, 10 Jul 2025
+ 23:23:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T8ab29551fc8590cf
-Date: Fri, 11 Jul 2025 07:58:14 +0200
-From: "Arnd Bergmann" <arnd@kernel.org>
-To: "Charles Keepax" <ckeepax@opensource.cirrus.com>,
- "Mark Brown" <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, "Bard Liao" <yung-chuan.liao@linux.intel.com>,
- "Pierre-Louis Bossart" <pierre-louis.bossart@linux.dev>,
- "Peter Ujfalusi" <peter.ujfalusi@linux.intel.com>,
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org
-Message-Id: <a52b2d56-d9eb-4adb-84aa-8bafc81d8c35@app.fastmail.com>
-In-Reply-To: <20250710163424.1158958-2-ckeepax@opensource.cirrus.com>
-References: <20250710163424.1158958-1-ckeepax@opensource.cirrus.com>
- <20250710163424.1158958-2-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 1/2] ASoC: SDCA: Kconfig/Makefile fixups
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+From: Sharan Kumar Muthu Saravanan <sharweshraajan@gmail.com>
+Date: Fri, 11 Jul 2025 11:53:09 +0530
+X-Gm-Features: Ac12FXytmDmkt6r0R3muScu3mvNULbCCdsKttqblHJ4F1VYpWmRd08uE-bZMTUI
+Message-ID: <CAGo=CcKZOz=HHWQtM+GQEeyqGVEo+4EgWSET5FJzKTMEMtJDew@mail.gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP OMEN 16 Laptop xd000xx
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 10, 2025, at 18:34, Charles Keepax wrote:
-> Tidy up a few bits of the SDCA Kconfig. Make the primary SDCA
-> symbol visible again, whilst this is selected directly in current
-> Intel systems it is not a given that is how other systems will use
-> the subsystem and a user can not directly disable the symbol if it
-> is being selected anyway.
+this patch makes the mute led brighter since the previous patch i
+submitted was dim
 
-I'm not sure that making this one visible is a good idea even
-if I don't see any immediate bug as a result.
-In general, I think symbols should be either user-visible or
-get selected by other drivers, mixing the two tends to cause
-additional problems.
+Tested on 6.15.5-arch1-1
 
-Would it be possible to just not select SND_SOC_SDCA from
-drivers that can use it and require users to enable it
-manually, or does that not work? I assume there would be
-a link failure with SND_SOC_ACPI_INTEL_SDCA_QUIRKS=y
-and SND_SOC_SDCA=m?
+Signed-off-by: Sharan Kumar M <sharweshraajan@gmail.com>
 
-     Arnd
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 060db37eab83..062d439e753d 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -4753,7 +4753,7 @@ static void
+alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
+        if (action == HDA_FIXUP_ACT_PRE_PROBE) {
+                spec->mute_led_polarity = 0;
+                spec->mute_led_coef.idx = 0x0b;
+-               spec->mute_led_coef.mask = 1 << 3;
++               spec->mute_led_coef.mask = 3 << 2;
+                spec->mute_led_coef.on = 1 << 3;
+                spec->mute_led_coef.off = 0;
+                snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
+---
