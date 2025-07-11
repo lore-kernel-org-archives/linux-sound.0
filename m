@@ -1,284 +1,183 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FA121C9FD
-	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 08:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752222657; cv=none; b=Iy8xv88WLsJeh+gp7Fu+TXB1TMGxxESY4JIsfXyYKiB9kzWFjevC/Sca+p0iCAy3kNFrZby7zb6UWb1AGotR5xgIqQAWcbQRvyb2AqJi7ikuEE5wzClLIBwl/UUZl051izdDF/V3kLBqbGzKnhXrlqAw94gXg/ASl86O2ro6Xak=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752222657; c=relaxed/simple;
-	bh=1pWVRjjUswItFQzTm8dfIUNuLugs3oqpnPU5jsijyTc=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Vx4pDkfegH1ncpDdOpbm/JK7XoOmVxQlRkmpltUm+PiC8ZaKLWDuCm1XEriGIuvgrMp9DF3HoRU4WkmAXjrJ/UWfyZMzmAwfPoIZZIAqlkiQcIaMYqPpnbO7rIS5LuN99FkxsYEV6XWx3u5TG3Z50rclXa132iePdRwcO+b44VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cgkTR7BK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DGgIArbX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cgkTR7BK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DGgIArbX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897E1202F8B
+	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 08:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752222869; cv=fail; b=SN96QfGzG9KAvoUnR+gkoqx0p4s8KBKX5/F2q+1YTfIj6Hu1CpmErc/1yJlgQeOm1dNZvm0/7reXCbAv0FwPDDviY2mkFsWVziqiyyxd+6NqkBQVeV30twDkAw+R/4lxz8t3EgcVxFuaHZ5ZsHkQKA09j6rBVD/8HC90Ie8p0ZE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752222869; c=relaxed/simple;
+	bh=12HeMRVGKJE0Xz1CYmkkm5GCCDA/Au+Y/mprY7wgKRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KijV3ixM5mt1m47E1TXZXSXPWTwYAxd8fDwoz1XDSZ664eywrXKkfQcYCNTU3BvaIREXOdsZvVi0LKeHnpN1nag6ZWPCEILjCLG/A5PTLI/y5vdeCTfOPElxQXUGoFMnogJerhgYQP4ytc9n1L7drfltXkassfyuU9ZOICzadhU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=LAoY6s+L; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=iKxjmTyy; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cgkTR7BK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DGgIArbX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cgkTR7BK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DGgIArbX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6D9A61F7C9;
-	Fri, 11 Jul 2025 08:30:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752222653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wlUYTlX8ABhtJGzKB0wJLKb+ZXmVRQgpGb+hoXnVFbw=;
-	b=cgkTR7BKDsUYS3l2ZBhvb8aEX5iwLHbwnaai67NTyyoET96sjh0s24shfWDPkq9X4qkFm6
-	ttl33PxvlpZWd4lFqJ15ebO8UiQ0+tOqU1JgPjPBPZkbN5Xidpj4oEg/ClBS3lPDfjvBpB
-	k/bBzSNtvXNyy8GCXJuAtWwuZmKcXvc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752222653;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wlUYTlX8ABhtJGzKB0wJLKb+ZXmVRQgpGb+hoXnVFbw=;
-	b=DGgIArbX5yoiyynjgYbvaws5ELDCejfZHFOiS3fG+QBGQTpOm7DT+HtPxLqmyFsLxI61Vh
-	toaN/HsK9+WYwpCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752222653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wlUYTlX8ABhtJGzKB0wJLKb+ZXmVRQgpGb+hoXnVFbw=;
-	b=cgkTR7BKDsUYS3l2ZBhvb8aEX5iwLHbwnaai67NTyyoET96sjh0s24shfWDPkq9X4qkFm6
-	ttl33PxvlpZWd4lFqJ15ebO8UiQ0+tOqU1JgPjPBPZkbN5Xidpj4oEg/ClBS3lPDfjvBpB
-	k/bBzSNtvXNyy8GCXJuAtWwuZmKcXvc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752222653;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wlUYTlX8ABhtJGzKB0wJLKb+ZXmVRQgpGb+hoXnVFbw=;
-	b=DGgIArbX5yoiyynjgYbvaws5ELDCejfZHFOiS3fG+QBGQTpOm7DT+HtPxLqmyFsLxI61Vh
-	toaN/HsK9+WYwpCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 42C5C138A5;
-	Fri, 11 Jul 2025 08:30:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tOeNDr3LcGhVWQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 11 Jul 2025 08:30:53 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Use safer strscpy() instead of strcpy()
-Date: Fri, 11 Jul 2025 10:30:50 +0200
-Message-ID: <20250711083051.18759-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="LAoY6s+L";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="iKxjmTyy"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56B5ww6R014521;
+	Fri, 11 Jul 2025 03:34:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=NyRh0VvbhquNNROmbP
+	vTXOoPkBb35NMMVKheoJPS23I=; b=LAoY6s+LefcExRaK9u9OYwdK1ThyVsbpxv
+	+Z0UoImZknEdJzDceUWL2NMKhNBg+yWIva8xrpQvWAoE56e6KFqnjQouaD7jqjF8
+	91hhLvTAqczO4tdeQVfo4iS4nQZ2Mdtt4Rb3Yp5O8XtaHeHgJY/Dn1ZF6P+EpAq3
+	1RBhacNv4cwbNXXOuUViUwlazAfvJclCy9oVMYyaFDQqe5Ebtxe3nDW/oZNKvOvj
+	0P4q6CqCE5sSftW+FzvUK/uBUTFKE2TqpXHtG1dKOpE2P/xyBrorGygn/wvwWYaz
+	gFtBfsUvOCDmK4+XEZQ2vvQ/NTOXG5ERD/6qtxJXIxhhpuO/5eBQ==
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11on2106.outbound.protection.outlook.com [40.107.220.106])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 47sev6drwj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Jul 2025 03:34:17 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IAe2NqVRZF2uKnHrTZn5pCKoAuM36XTq37scxZkNxNcXSzkLE3VlOoHVVe/WwM29Vumyohf+vpUOWwST1Pf8qPIk5ne84oKAWvTGK0fq5ZeFn9FdTkHh2C38r2IxxsPZrEEZRikrucN+MTu+zgx8pI3Obqc/K3EQULqgCrd5WgQyDzYETt5ZHJT5klyMM+PnTXHJMLWEJNcoHEi07+zvQ6vX7ry9+MHa9A8+Uh/UcT8Jqc30aNY0ohuXUd7Rgv/ySVKRiyHG8eUDjNWq7wnj2Blv1RhUsRo2DCsQMnXGLSiQ7EcAa98chcSY9WHNcdRIASRoJfM9yRW/PGce1zqnMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NyRh0VvbhquNNROmbPvTXOoPkBb35NMMVKheoJPS23I=;
+ b=jPOS4KZF0UbeyIk4LdE6dwvqpeP05827//u67s1J5/NNg4u75M1UTwjb83hJxqvs1au19ggBMt3AasNDQ4oG+pKThuZVXZTz8PpFiC1DfirzbFKG4iWfrZgeJSAmV6CmlnvxwcPplMQlnLN4KJ4B2r90+YIfg1xjjYLezYOTJye1kC5LUUi7+GkbFQTXwMayrgNR4YEWAbfjzSndNbt/JxACTrEt7OKeY6e8SubHB5YWoo4iX9yRMgEiyeh0NIaJGLOboEZsFlKSswzlh2TASLQp15YjFYq5ukUtSsP7rTzg774z8Sj7C0QCn2XhtVcdBGlLhj3NgGkV3y8KdHlMfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NyRh0VvbhquNNROmbPvTXOoPkBb35NMMVKheoJPS23I=;
+ b=iKxjmTyywi9I2jJ/gKwx9E4Tam76hwZQgXt444cBcQq6E8jxVr/NAXjGBZ5ONPkNLdUVR4cWMxHjA0iDzRbJDNmey2x9QL1En/HrB0AFlrgA/SkG85wTWf8kGvJKuQJVODV0CgIeiEurdaEwHROITEk/mVq7imPFAewqJlfLCOA=
+Received: from MN2PR03CA0026.namprd03.prod.outlook.com (2603:10b6:208:23a::31)
+ by CH2PR19MB8996.namprd19.prod.outlook.com (2603:10b6:610:27c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.20; Fri, 11 Jul
+ 2025 08:34:13 +0000
+Received: from BL6PEPF0001AB75.namprd02.prod.outlook.com
+ (2603:10b6:208:23a:cafe::4a) by MN2PR03CA0026.outlook.office365.com
+ (2603:10b6:208:23a::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.23 via Frontend Transport; Fri,
+ 11 Jul 2025 08:34:12 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BL6PEPF0001AB75.mail.protection.outlook.com (10.167.242.168) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.22
+ via Frontend Transport; Fri, 11 Jul 2025 08:34:12 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 103D2406545;
+	Fri, 11 Jul 2025 08:34:11 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id EE622820249;
+	Fri, 11 Jul 2025 08:34:10 +0000 (UTC)
+Date: Fri, 11 Jul 2025 09:34:09 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, lgirdwood@gmail.com,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        patches@opensource.cirrus.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: SDCA: Kconfig/Makefile fixups
+Message-ID: <aHDMgRqhl7Z+ZLCO@opensource.cirrus.com>
+References: <20250710163424.1158958-1-ckeepax@opensource.cirrus.com>
+ <20250710163424.1158958-2-ckeepax@opensource.cirrus.com>
+ <a52b2d56-d9eb-4adb-84aa-8bafc81d8c35@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a52b2d56-d9eb-4adb-84aa-8bafc81d8c35@app.fastmail.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB75:EE_|CH2PR19MB8996:EE_
+X-MS-Office365-Filtering-Correlation-Id: c8563fb9-dde5-43ae-a23e-08ddc055b6a0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ogFwg+Ox4WLBwIR8l7nN7VVGp51jLVMWp0XgrS9S3RlTm1B/Nn+eGSOFXdMD?=
+ =?us-ascii?Q?+A8NE+CZG0ZPax4L4stND57xpV6dxhYmFyshR24+CpehocF8MhCQI2z4oiYH?=
+ =?us-ascii?Q?E8BGJxZoCVF7WGztEsiW94wpKshkt1lskaZdenUOz5OeRo1q1dk0GgDkL8V1?=
+ =?us-ascii?Q?d81JBRKm/pDK5DwZ22/kORbxICK9UeEh7IJ8VcGzAr8Cem1iyTwnkfaSUvP8?=
+ =?us-ascii?Q?suGZjliT79pmkh022GFI03Lcdr4z8qMpRs8oX+cmuiqBKVeKvwV/ruJDiihk?=
+ =?us-ascii?Q?/3Bqhv24om4AWOSdhIsKkP9forsXfcOnzVS85vSAmBUtKg6DkmQUcYRHbyT2?=
+ =?us-ascii?Q?6gP873bgkFwSC4H/cGKW1+3xCkoru8BcOFCAC+7wDo6zj//j6eFeYN29aKBv?=
+ =?us-ascii?Q?IB9cZZgFiA18USMLYJbXsNqO9hYjpx78B4cAdM/xIoCAU71jspdrBIIvSEJ0?=
+ =?us-ascii?Q?ibqM/aJWssrnjQIERWQsIDxSsHMysR3FUiJNGzIYbmrGVWqK9G/ZTfoQ7MII?=
+ =?us-ascii?Q?J9WIGFXnbiDXPWGGr123Rv6GzxahVoRJNLmnMm0ai9ab4mDZ06/BLct2lA85?=
+ =?us-ascii?Q?ePHf3/QCmxrSnvGrn6rxwHIQxeuS96IlLx+OwdMjxKGQ6vSrgQ0RHOnYTTmk?=
+ =?us-ascii?Q?Oz5l96cxClxdyPlVLgLteUDuUu3KWDMjLvJKjf0HrPE4r33QOmO/EoATYt4y?=
+ =?us-ascii?Q?vFHyhHWmeAjpF3YU9zenCcXu7OU+wP8d39Y+rIhtujOoMjJzOz8nWY5046Bj?=
+ =?us-ascii?Q?ufEr0+O2BIzsMkgF0Pu5p0n08z7Y/JXOgew4eKlMdC0smpxw4FuhWjJAYa54?=
+ =?us-ascii?Q?KDIywHcGhHfoqUxXc89rFAR3w9IRIvyf6GhnJi2i1h60IomFo4OwX+stSpgD?=
+ =?us-ascii?Q?waJWn6KlGBScyvvgsgu5UEsncfXLWXdV8in10C9DhtdKEVeUFJOwattDuWpO?=
+ =?us-ascii?Q?sdzV2sJhAo+/QZIBIaxV3SGbpbsPj84Wnv/R//naU4SZnxurvqN2lIA8g6Kv?=
+ =?us-ascii?Q?wyYOzoQ3Nmr7psDWsjwYmCvLwq3dxr8gmU3XTDww5eLqNVciBZoQixqSsCzm?=
+ =?us-ascii?Q?Y80ZgcapIuiIhghJppfnBIFnL4GVd749cn8o7qNLnBL39+570W45kaMmvu6x?=
+ =?us-ascii?Q?2LjHzs7fNVO7q8SBjK2JffjaRVStb5a7YFdKzOS38baYLX0scOa0PMqxp8bs?=
+ =?us-ascii?Q?17NVC+N2Pv3OWSXorZPr67LAFPkVJD9zXzAFTlOV2RcIIK1PizihiCBH01Xf?=
+ =?us-ascii?Q?dp+QRHz6B5ZSV82H/sX4TtpTS1C5fcd7QE7Bf7hzU++14lpbMFIMCe5jEH+P?=
+ =?us-ascii?Q?oUWrcTSDGv+SqYMqzaVyZInpOMoiWuOPQTFywV/5nKNvx6NzGOtXXD8gbSR8?=
+ =?us-ascii?Q?uMWWNFu9Sp10J262C39uoVYRH98rKasuugpWrqlrolZYOOdw3qR/0Gf/T6oS?=
+ =?us-ascii?Q?3p4YOF7UdtY+yyKG4bvRlpuS7NMZOzOcSksjs08l3x1SywL0m2IcYbIx/WM8?=
+ =?us-ascii?Q?CEz83xogF00wHtv9cXSTMQMYxmflDzta/6je?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 08:34:12.3122
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8563fb9-dde5-43ae-a23e-08ddc055b6a0
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0001AB75.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR19MB8996
+X-Authority-Analysis: v=2.4 cv=Zb8dNtVA c=1 sm=1 tr=0 ts=6870cc89 cx=c_pps a=gY8LtSt0YPldneAH2Nvzqw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=KNAzoNOrUzHZSbwSqqAA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzExMDA1OSBTYWx0ZWRfX7N+adje34EoU Q/O+8iN8fGD6QoX5jWnooXsfei/zRAnQtg2Mz7LkPMIvkEmlbaSXgTv+eLIvxSaTfyx8OpYZPeU SOFd93LQCYhbDsvUqPKy6kifb9/f+d3X3T74Rg/UZirhx42/QLdww1pH1FS0gzqvqGo6mgDR1Md
+ ps6f0GSsD6VR8+ONF2+GDtKbDEcm9VYo3yHS8XVKL3y/dj3qZwee42uECa2K3i92V2QrtJfvPGC cPpxjo+NLXOQt5YZpQI885Le+YlRVm/rdOGhU917HBMxr2n65hitVHlrDxgg780SKhWCxXnsFNI I2cl+EIlt1qidYmwmHNfkzxtrhCkl0J+nEM6/XPmW94ACZ+o3OHG8TYibYWJjJJry7lk0FpMX+/
+ DRb6mRqmNaDMdGKmWG0i1W6bbY0DVRlNEQ8VCNqSS5Hys5uUhVHcy3f3+avFyK21PSZ9UGbl
+X-Proofpoint-ORIG-GUID: OKqlJRcWWXqBisKyWwFxS66CAo1zsBK_
+X-Proofpoint-GUID: OKqlJRcWWXqBisKyWwFxS66CAo1zsBK_
+X-Proofpoint-Spam-Reason: safe
 
-Use a safer function strscpy() instead of strcpy() for copying to
-arrays.
+On Fri, Jul 11, 2025 at 07:58:14AM +0200, Arnd Bergmann wrote:
+> On Thu, Jul 10, 2025, at 18:34, Charles Keepax wrote:
+> > Tidy up a few bits of the SDCA Kconfig. Make the primary SDCA
+> > symbol visible again, whilst this is selected directly in current
+> > Intel systems it is not a given that is how other systems will use
+> > the subsystem and a user can not directly disable the symbol if it
+> > is being selected anyway.
+> 
+> I'm not sure that making this one visible is a good idea even
+> if I don't see any immediate bug as a result.
+> In general, I think symbols should be either user-visible or
+> get selected by other drivers, mixing the two tends to cause
+> additional problems.
+> 
+> Would it be possible to just not select SND_SOC_SDCA from
+> drivers that can use it and require users to enable it
+> manually, or does that not work? I assume there would be
+> a link failure with SND_SOC_ACPI_INTEL_SDCA_QUIRKS=y
+> and SND_SOC_SDCA=m?
 
-Only idiomatic code replacement, and no functional changes.
+Certainly nothing needs it right now, so I will drop that part of
+the patch for v2.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/hda/codecs/ca0132.c          | 18 +++++++++---------
- sound/hda/codecs/generic.c         |  4 ++--
- sound/hda/codecs/realtek/realtek.c |  4 ++--
- sound/hda/common/codec.c           |  4 ++--
- sound/hda/controllers/intel.c      |  2 +-
- 5 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/sound/hda/codecs/ca0132.c b/sound/hda/codecs/ca0132.c
-index 6ab59c336ed4..b716f721f25d 100644
---- a/sound/hda/codecs/ca0132.c
-+++ b/sound/hda/codecs/ca0132.c
-@@ -5796,7 +5796,7 @@ static int ca0132_alt_mic_boost_info(struct snd_kcontrol *kcontrol,
- 	if (uinfo->value.enumerated.item >= MIC_BOOST_NUM_OF_STEPS)
- 		uinfo->value.enumerated.item = MIC_BOOST_NUM_OF_STEPS - 1;
- 	sprintf(namestr, "%d %s", (uinfo->value.enumerated.item * 10), sfx);
--	strcpy(uinfo->value.enumerated.name, namestr);
-+	strscpy(uinfo->value.enumerated.name, namestr);
- 	return 0;
- }
- 
-@@ -5850,7 +5850,7 @@ static int ae5_headphone_gain_info(struct snd_kcontrol *kcontrol,
- 	sprintf(namestr, "%s %s",
- 		ae5_headphone_gain_presets[uinfo->value.enumerated.item].name,
- 		sfx);
--	strcpy(uinfo->value.enumerated.name, namestr);
-+	strscpy(uinfo->value.enumerated.name, namestr);
- 	return 0;
- }
- 
-@@ -5903,7 +5903,7 @@ static int ae5_sound_filter_info(struct snd_kcontrol *kcontrol,
- 		uinfo->value.enumerated.item = AE5_SOUND_FILTER_MAX - 1;
- 	sprintf(namestr, "%s",
- 			ae5_filter_presets[uinfo->value.enumerated.item].name);
--	strcpy(uinfo->value.enumerated.name, namestr);
-+	strscpy(uinfo->value.enumerated.name, namestr);
- 	return 0;
- }
- 
-@@ -5952,7 +5952,7 @@ static int ca0132_alt_input_source_info(struct snd_kcontrol *kcontrol,
- 	uinfo->value.enumerated.items = IN_SRC_NUM_OF_INPUTS;
- 	if (uinfo->value.enumerated.item >= IN_SRC_NUM_OF_INPUTS)
- 		uinfo->value.enumerated.item = IN_SRC_NUM_OF_INPUTS - 1;
--	strcpy(uinfo->value.enumerated.name,
-+	strscpy(uinfo->value.enumerated.name,
- 			in_src_str[uinfo->value.enumerated.item]);
- 	return 0;
- }
-@@ -6004,7 +6004,7 @@ static int ca0132_alt_output_select_get_info(struct snd_kcontrol *kcontrol,
- 	uinfo->value.enumerated.items = NUM_OF_OUTPUTS;
- 	if (uinfo->value.enumerated.item >= NUM_OF_OUTPUTS)
- 		uinfo->value.enumerated.item = NUM_OF_OUTPUTS - 1;
--	strcpy(uinfo->value.enumerated.name,
-+	strscpy(uinfo->value.enumerated.name,
- 			out_type_str[uinfo->value.enumerated.item]);
- 	return 0;
- }
-@@ -6055,7 +6055,7 @@ static int ca0132_alt_speaker_channel_cfg_get_info(struct snd_kcontrol *kcontrol
- 	uinfo->value.enumerated.items = items;
- 	if (uinfo->value.enumerated.item >= items)
- 		uinfo->value.enumerated.item = items - 1;
--	strcpy(uinfo->value.enumerated.name,
-+	strscpy(uinfo->value.enumerated.name,
- 			speaker_channel_cfgs[uinfo->value.enumerated.item].name);
- 	return 0;
- }
-@@ -6108,7 +6108,7 @@ static int ca0132_alt_svm_setting_info(struct snd_kcontrol *kcontrol,
- 	uinfo->value.enumerated.items = NUM_OF_SVM_SETTINGS;
- 	if (uinfo->value.enumerated.item >= NUM_OF_SVM_SETTINGS)
- 		uinfo->value.enumerated.item = NUM_OF_SVM_SETTINGS - 1;
--	strcpy(uinfo->value.enumerated.name,
-+	strscpy(uinfo->value.enumerated.name,
- 			out_svm_set_enum_str[uinfo->value.enumerated.item]);
- 	return 0;
- }
-@@ -6172,7 +6172,7 @@ static int ca0132_alt_eq_preset_info(struct snd_kcontrol *kcontrol,
- 	uinfo->value.enumerated.items = items;
- 	if (uinfo->value.enumerated.item >= items)
- 		uinfo->value.enumerated.item = items - 1;
--	strcpy(uinfo->value.enumerated.name,
-+	strscpy(uinfo->value.enumerated.name,
- 		ca0132_alt_eq_presets[uinfo->value.enumerated.item].name);
- 	return 0;
- }
-@@ -6229,7 +6229,7 @@ static int ca0132_voicefx_info(struct snd_kcontrol *kcontrol,
- 	uinfo->value.enumerated.items = items;
- 	if (uinfo->value.enumerated.item >= items)
- 		uinfo->value.enumerated.item = items - 1;
--	strcpy(uinfo->value.enumerated.name,
-+	strscpy(uinfo->value.enumerated.name,
- 	       ca0132_voicefx_presets[uinfo->value.enumerated.item].name);
- 	return 0;
- }
-diff --git a/sound/hda/codecs/generic.c b/sound/hda/codecs/generic.c
-index 044f1d0aeaea..a44beefe3e97 100644
---- a/sound/hda/codecs/generic.c
-+++ b/sound/hda/codecs/generic.c
-@@ -2828,7 +2828,7 @@ static int in_jack_mode_info(struct snd_kcontrol *kcontrol,
- 	snd_hda_enum_helper_info(kcontrol, uinfo, hweight32(vref_caps),
- 				 vref_texts);
- 	/* set the right text */
--	strcpy(uinfo->value.enumerated.name,
-+	strscpy(uinfo->value.enumerated.name,
- 	       vref_texts[get_vref_idx(vref_caps, uinfo->value.enumerated.item)]);
- 	return 0;
- }
-@@ -2941,7 +2941,7 @@ static int hp_mic_jack_mode_info(struct snd_kcontrol *kcontrol,
- 			text = "Mic In";
- 	}
- 
--	strcpy(uinfo->value.enumerated.name, text);
-+	strscpy(uinfo->value.enumerated.name, text);
- 	return 0;
- }
- 
-diff --git a/sound/hda/codecs/realtek/realtek.c b/sound/hda/codecs/realtek/realtek.c
-index 66b2efb9acb3..b6feccfd45a9 100644
---- a/sound/hda/codecs/realtek/realtek.c
-+++ b/sound/hda/codecs/realtek/realtek.c
-@@ -1130,7 +1130,7 @@ void alc1220_fixup_gb_dual_codecs(struct hda_codec *codec,
- 	switch (action) {
- 	case HDA_FIXUP_ACT_PRE_PROBE:
- 		/* override card longname to provide a unique UCM profile */
--		strcpy(codec->card->longname, "HDAudio-Gigabyte-ALC1220DualCodecs");
-+		strscpy(codec->card->longname, "HDAudio-Gigabyte-ALC1220DualCodecs");
- 		break;
- 	case HDA_FIXUP_ACT_BUILD:
- 		/* rename Capture controls depending on the codec */
-@@ -1155,7 +1155,7 @@ void alc233_alc662_fixup_lenovo_dual_codecs(struct hda_codec *codec,
- 	switch (action) {
- 	case HDA_FIXUP_ACT_PRE_PROBE:
- 		/* override card longname to provide a unique UCM profile */
--		strcpy(codec->card->longname, "HDAudio-Lenovo-DualCodecs");
-+		strscpy(codec->card->longname, "HDAudio-Lenovo-DualCodecs");
- 		break;
- 	case HDA_FIXUP_ACT_BUILD:
- 		/* rename Capture controls depending on the codec */
-diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
-index 8e47769ef0ce..eb268d442201 100644
---- a/sound/hda/common/codec.c
-+++ b/sound/hda/common/codec.c
-@@ -1638,7 +1638,7 @@ find_mixer_ctl(struct hda_codec *codec, const char *name, int dev, int idx)
- 	id.index = idx;
- 	if (snd_BUG_ON(strlen(name) >= sizeof(id.name)))
- 		return NULL;
--	strcpy(id.name, name);
-+	strscpy(id.name, name);
- 	return snd_ctl_find_id(codec->card, &id);
- }
- 
-@@ -3508,7 +3508,7 @@ int snd_hda_input_mux_info(const struct hda_input_mux *imux,
- 	index = uinfo->value.enumerated.item;
- 	if (index >= imux->num_items)
- 		index = imux->num_items - 1;
--	strcpy(uinfo->value.enumerated.name, imux->items[index].label);
-+	strscpy(uinfo->value.enumerated.name, imux->items[index].label);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_hda_input_mux_info);
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index ebfc999156f4..32bfd92d817f 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -2024,7 +2024,7 @@ static int azx_first_init(struct azx *chip)
- 	if (azx_acquire_irq(chip, 0) < 0)
- 		return -EBUSY;
- 
--	strcpy(card->driver, "HDA-Intel");
-+	strscpy(card->driver, "HDA-Intel");
- 	strscpy(card->shortname, driver_short_names[chip->driver_type],
- 		sizeof(card->shortname));
- 	snprintf(card->longname, sizeof(card->longname),
--- 
-2.50.1
-
+Thanks,
+Charles
