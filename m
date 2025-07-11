@@ -1,38 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8328C28A1C5;
-	Fri, 11 Jul 2025 12:34:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FDC2C08BF
+	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 12:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752237247; cv=none; b=RyNL4hW0m6TUWiXggvJf0OubyqsCxOZpFT4T1ExoN4Cbs/haz8hYKmAJ4WVEUO2DLg7LuFSX7bGuChBJyQrcBPO5+Bug5QsgmrC8BJsizrvX5VlcWQk2hDFCp6Mk3lTcWIKa5Ry2SKxmbBDIxoomkCCVUMBoq+OmBjCjeA2OHzU=
+	t=1752237673; cv=none; b=fIyIAatohcF1yDiptW7ynwKdCnw11MbXQdN4VPNGrGDxFVRSTe6pRXJiuHXavtHUzffhgyMeZZ2BgLY85jRtrMEtvEdIEoZbs+5mlwfd8Ex9BWHSQwisT6S6g4raOMcJyuPVa3PVT3V6ncLVr49J1m0656jhyQbRqPBhXbueZQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752237247; c=relaxed/simple;
-	bh=OaM04B/jvmRCFs9Pga6hG/UcJ4uI5yYpfmWIbmK2Zyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O3bHI4lN8RyGcCxvsxc+7tnQCPgprisi3sw32ytD8DbZUNcdH51UGhK49Ytam8YnE9i8mZ2VSKFJ/ijGjVJbEQoVMRJ4tQDBGvi2CjJyc+NzxtpaqvuPT6RHY9G146t1UrjMqtFcrWqdo5+AK0tNqUVzhs3YClzwnPiBQshYyic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dTLAhLTC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752237673; c=relaxed/simple;
+	bh=DXWkRDZnfNAPWBTgta9/chuCA5DEdyqeL7jssvuQzIU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IIA7uRAosz/QlW2g+JQAeJNK5xApAClJLCv3GJs73tFoXamZv3rPOYJMAgMTnF8rRHEQiUEB+XUTzv3X6trs2tcejVFthM2KiBohXqDKsMGHz3iH08nOPuz7rvXD5TFy0xvffPiPGBGDqgJPVt/if0egVSQayR71BTrCDbX5U3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mvvfA2Gj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OyyJRv9S; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i+T+nIxW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ijim6fxu; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dTLAhLTC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50D88C4CEED;
-	Fri, 11 Jul 2025 12:34:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752237247;
-	bh=OaM04B/jvmRCFs9Pga6hG/UcJ4uI5yYpfmWIbmK2Zyc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dTLAhLTCRZXAC4B/2QKacwHAUGAi6WddnWYmmBZEgz/U07KVHiwt0PANdevA2fmRW
-	 gWM2pmMus+RFmABeOsW5pGonIvo+KiacmI3KBi8rnrjRN94re/ZOvPYIzGBYXeRvzT
-	 3269c/hfw6YgxKqV/Awqvy4tCE9NZwhyGtcY82Ee5wUEIiRFf63Vw4UcSpGevnYBeF
-	 RuN1yBG0+m2E2XfP+2Nnf3S5jG/ZJpo0fFxVK8AIi6RgJiIbBHP41De+ubmZGo0oVx
-	 br3pXXJLxUgerpY8f1BoD4YWU63zHnTMWLq4RxQi9r2mnnkoUlVHMRRlKd/PT1wHO8
-	 sYlGlN6t2JKdQ==
-Date: Fri, 11 Jul 2025 18:04:03 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: George Verhaegen <verhaegen@google.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mvvfA2Gj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OyyJRv9S";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i+T+nIxW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ijim6fxu"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 12995211D0;
+	Fri, 11 Jul 2025 12:41:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752237668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xSm+1q6uhZZEdjKVMT8Uenl84wjsiNI8TM2FeGexcvg=;
+	b=mvvfA2GjUK9B5BoVIq0LkOjcQ66Q8ndM3eE5q9FhZERXsNh+uBeAR3egTRXJaLCCrYgZud
+	CDQ+iW59hpZD4yk6rJILnbPxXbK6Y/ZmQTCFqmlcxTxvKPvB4MJGNMqQzJmCvjy567vYZw
+	AKx+hcJ+PqZu4YlDCrTuGRY+qiqBG8Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752237668;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xSm+1q6uhZZEdjKVMT8Uenl84wjsiNI8TM2FeGexcvg=;
+	b=OyyJRv9SNDM3TMyOwzYIV9u5M66jR7evWwzoL7zLsOSFsdxPeJFP9yoGRE/R8iPVmYSp7y
+	uH/z6Zmq2vlxDHBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752237667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xSm+1q6uhZZEdjKVMT8Uenl84wjsiNI8TM2FeGexcvg=;
+	b=i+T+nIxWWlwfEqZ1zj/27kzojyXmRkFkc5UzKFURsZf3ZfV2jaHfoSw2n8SLTAAkmWB9yj
+	YuKAoXj9d4jy3O+A3kJ6ELVOMBBUuKHvav5GFfVvMJR1hwBU/IJxEQgPbrVMZ91ywhi9QV
+	5kNcq3gRNH/PlqRfA+fEHMQsEzSK7nI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752237667;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xSm+1q6uhZZEdjKVMT8Uenl84wjsiNI8TM2FeGexcvg=;
+	b=ijim6fxusABPnaEAUSVIPHXj/xFyeRSa0F5mqZStfhhSLPFzektelsyjUANZkrAvu6xgiw
+	5haTlLR5mfeImrCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4ADB9138A5;
+	Fri, 11 Jul 2025 12:41:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ku3rEGIGcWh4MAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 11 Jul 2025 12:41:06 +0000
+Date: Fri, 11 Jul 2025 14:41:05 +0200
+Message-ID: <8734b2hpcu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Joris Verhaegen <verhaegen@google.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	David Rhodes <david.rhodes@cirrus.com>,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
@@ -47,105 +93,110 @@ Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	Chunyan Zhang <zhang.lyra@gmail.com>,
 	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>, kernel-team@android.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-arm-msm@vger.kernel.org,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	kernel-team@android.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-arm-msm@vger.kernel.org,
 	sound-open-firmware@alsa-project.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v1 0/4] ALSA: compress_offload: Add 64-bit safe timestamp
- API
-Message-ID: <aHEEu1eSSGRhITmW@vaman>
-References: <20250711082441.4193295-1-verhaegen@google.com>
+Subject: Re: [PATCH v2 0/4] ALSA: compress_offload: Add 64-bit safe timestamp API
+In-Reply-To: <aHD7/9MZbcOmn+08@opensource.cirrus.com>
+References: <20250711093636.28204-1-verhaegen@google.com>
+	<aHD7/9MZbcOmn+08@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250711082441.4193295-1-verhaegen@google.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,perex.cz,suse.com,gmail.com,opensource.cirrus.com,cirrus.com,intel.com,linux.intel.com,linux.dev,nxp.com,linux.alibaba.com,socionext.com,android.com,vger.kernel.org,alsa-project.org,lists.infradead.org];
+	R_RATELIMIT(0.00)[to_ip_from(RLtwg9tyn6faipwn1aqsxq4m86)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
 
-On 11-07-25, 09:24, George Verhaegen wrote:
-> From: Joris Verhaegen <verhaegen@google.com>
+On Fri, 11 Jul 2025 13:56:47 +0200,
+Charles Keepax wrote:
 > 
-> The current compress offload timestamping API relies on
-> struct snd_compr_tstamp, whose cumulative counters like
-> copied_total are defined as __u32. On long-running high-resolution
-> audio streams, these 32-bit counters can overflow,
-> causing incorrect availability calculations.
+> On Fri, Jul 11, 2025 at 10:36:26AM +0100, Joris Verhaegen wrote:
+> > The current compress offload timestamping API relies on
+> > struct snd_compr_tstamp, whose cumulative counters like
+> > copied_total are defined as __u32. On long-running high-resolution
+> > audio streams, these 32-bit counters can overflow,
+> > causing incorrect availability calculations.
+> > 
+> > This patch series introduces a parallel, 64-bit safe API to solve
+> > this problem while maintaining perfect backward compatibility with the
+> > existing UAPI. A new pointer64 operation and corresponding ioctls
+> > are added to allow the kernel to track counters using u64 and expose
+> > these full-width values to user-space.
+> > 
+> > The series is structured as follows:
+> > 
+> > Patch 1: Introduces the new internal pointer64 op, refactors the
+> > core logic to use it, and defines the new UAPI structs.
+> > 
+> > Patch 2: Exposes the SNDRV_COMPRESS_TSTAMP64 ioctl.
+> > 
+> > Patch 3: Exposes the corresponding SNDRV_COMPRESS_AVAIL64 ioctl.
+> > 
+> > Patch 4: Implements the new .pointer64 operation in various ASoC
+> > drivers that support compress offload.
+> > 
+> > This series has been tested on a Pixel 9 device. All compress offload
+> > use cases, including long-running playback, were verified to work
+> > correctly with the new 64-bit API, and no regressions were observed
+> > when using the legacy API.
+> > 
+> > Thanks,
+> > Joris (George) Verhaegen
+> > 
+> > Signed-off-by: Joris Verhaegen <verhaegen@google.com>
+> > 
+> > ---
+> 
+> Would it not be slightly simpler to just update all the in kernel
+> bits to use 64-bit and then only convert to 32-bit for the
+> existing 32-bit IOCTLs? Why do we need 32-bit callbacks into the
+> drivers for example?
 
-In your testing when did you observe the overflow condition?
+Right, it's a usual pattern to have only the 64bit ops in the kernel
+driver side while providing the 32bit stuff converted in the core
+layer.  Having two different ops are rather confusing and
+superfluous after conversions.
 
-> This patch series introduces a parallel, 64-bit safe API to solve
-> this problem while maintaining perfect backward compatibility with the
-> existing UAPI. A new pointer64 operation and corresponding ioctls
-> are added to allow the kernel to track counters using u64 and expose
-> these full-width values to user-space.
+If there are tons of users for this API, it'd be needed to convert
+gradually, and eventually drop the 32bit ops at the end.  But in this
+case, there doesn't seem so many relevant drivers, hence the
+conversion can be done in a shot as done in your patch 4.
 
-Please share patches for tinycompress support too, we need those to test
-this
 
-> The series is structured as follows:
-> 
-> Patch 1: Introduces the new internal pointer64 op, refactors the
-> core logic to use it, and defines the new UAPI structs.
-> 
-> Patch 2: Exposes the SNDRV_COMPRESS_TSTAMP64 ioctl.
-> 
-> Patch 3: Exposes the corresponding SNDRV_COMPRESS_AVAIL64 ioctl.
-> 
-> Patch 4: Implements the new .pointer64 operation in various ASoC
-> drivers that support compress offload.
-> 
-> This series has been tested on a Pixel 9 device. All compress offload
-> use cases, including long-running playback, were verified to work
-> correctly with the new 64-bit API, and no regressions were observed
-> when using the legacy API.
-> 
-> Thanks,
-> George (Joris) Verhaegen
-> 
-> Signed-off-by: Joris Verhaegen <verhaegen@google.com>
-> 
-> ---
-> 
-> Joris Verhaegen (4):
->   ALSA: compress_offload: Add 64-bit safe timestamp infrastructure
->   ALSA: compress_offload: Add SNDRV_COMPRESS_TSTAMP64 ioctl
->   ALSA: compress_offload: Add SNDRV_COMPRESS_AVAIL64 ioctl
->   ASoC: codecs: Implement 64-bit pointer operation
-> 
->  include/sound/compress_driver.h               |   3 +
->  include/sound/soc-component.h                 |   5 +
->  include/sound/soc-dai.h                       |   6 +
->  include/uapi/sound/compress_offload.h         |  32 +++
->  sound/core/compress_offload.c                 | 210 ++++++++++++++----
->  sound/soc/codecs/cs47l15.c                    |   1 +
->  sound/soc/codecs/cs47l24.c                    |   1 +
->  sound/soc/codecs/cs47l35.c                    |   1 +
->  sound/soc/codecs/cs47l85.c                    |   1 +
->  sound/soc/codecs/cs47l90.c                    |   1 +
->  sound/soc/codecs/cs47l92.c                    |   1 +
->  sound/soc/codecs/wm5102.c                     |   1 +
->  sound/soc/codecs/wm5110.c                     |   1 +
->  sound/soc/codecs/wm_adsp.c                    |  53 ++++-
->  sound/soc/codecs/wm_adsp.h                    |   3 +
->  .../intel/atom/sst-mfld-platform-compress.c   |  17 +-
->  sound/soc/intel/atom/sst-mfld-platform.h      |   2 +
->  sound/soc/intel/atom/sst/sst_drv_interface.c  |  43 +++-
->  sound/soc/qcom/qdsp6/q6asm-dai.c              |  41 +++-
->  sound/soc/soc-component.c                     |  20 ++
->  sound/soc/soc-compress.c                      |  21 ++
->  sound/soc/soc-dai.c                           |  14 ++
->  sound/soc/sof/compress.c                      |  44 +++-
->  sound/soc/sprd/sprd-pcm-compress.c            |  28 ++-
->  sound/soc/sprd/sprd-pcm-dma.h                 |   2 +-
->  sound/soc/uniphier/aio-compress.c             |  40 +++-
->  26 files changed, 503 insertions(+), 89 deletions(-)
-> 
-> -- 
-> 2.50.0.727.gbf7dc18ff4-goog
+thanks,
 
--- 
-~Vinod
+Takashi
