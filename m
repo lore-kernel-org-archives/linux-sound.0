@@ -1,88 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819952D0C90
-	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 12:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772142D3233
+	for <linux-sound@vger.kernel.org>; Fri, 11 Jul 2025 13:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752238562; cv=none; b=NZvPBuCbUnx9WYAD0MjIOWHNq6bsrYPVBIAgyodCkGEXODQklxrTTh/EF7+e3iowvl68klCcGrolUGIub53jehiPwCQrtZDT/hloXIeMOzAHOm94inOCryDgkuZF24KCdQDoG4JA4EZU8F4P+Bj7bYTqfG95baWk/TDdd9pzdBQ=
+	t=1752238862; cv=none; b=hJfbZ+iD5jnvmUsNE+QMVHCWP1j1MaIwfJSnwhpF3pMRObcl7POEwn5H1rkxKf8fynt8fqr9GVhQAnBewjMlU/WTGzQX+hwCNpCiQ/HyBZTisl+tXuRmdBeEd2piNkt6N9g8aFuh91H6ii7XmPDPTiPDHvyjboDYe3ct7NEVju8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752238562; c=relaxed/simple;
-	bh=EQu7wBySxG7+/WhUk22wQXBlvljYdtiqGSAUds5+BOw=;
+	s=arc-20240116; t=1752238862; c=relaxed/simple;
+	bh=iBer7s0qVLn8GqkLLJOd0rCYF9C7SMkm/SF3DGMKN7Q=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZXSQG2nswqUoEe28z3LHRula2/bcIonr1/+jiBb2PzKbmLpf+go6Fe6+gzxXaUWITVhXd69Vbf0vLXPsuCgIVK0HIe+ujUh/19Trr7q/9Zv28iDsvlkFsGfrmZxVeZnTjv+bQQ3WWiFVpRJjP1TDwCnixNmCyDKh1BBPobavyrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h6Jo4FTa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S+m8ymD+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=da1cCZ4N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=osNoLcFE; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=JFOvlMSPsA8zde/q3MTEUIcg6aw96VlraTpOr4sqJ/jqnH9vBHxTkTIcqGUOc2hx+S8SCXooUy4+hjA5Sn3UYlukxVx1Sx3/XmNxDjIFzSJcFTGj4elt1tWWfg2A7z+uLdYGvlBVBozx3KKCpfnIq+oAQNPE/SO0oaML9dZEyvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EIabZncs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UfGei8LT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EIabZncs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UfGei8LT; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h6Jo4FTa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S+m8ymD+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="da1cCZ4N";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="osNoLcFE"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EIabZncs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UfGei8LT";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EIabZncs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UfGei8LT"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 713531F38C;
-	Fri, 11 Jul 2025 12:55:57 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8E277211A1;
+	Fri, 11 Jul 2025 13:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752238558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752238858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ImmXCYAyFtg1uigJ3uDAA8K2DxJgcAvhj/LLi4GRz7A=;
-	b=h6Jo4FTaMuClPwQPcIAn+unEYUVc2Wib6gIgRFhy6YXwEeZsq6HG3pqcl1gWH6pznGsZQd
-	3govxCv/x/hsuengupaF5CUspuV6jgpMqUVDY2AVZ9XbesobKNSr7WDV+tbyH2J7Eb3nHs
-	9WZczKMgSTIk+6P+9rpQhfb0SVpMxgo=
+	bh=99/nrZ3jMvnnDXT1EtGRSVK6t1HpEMJ2yRrbZ2a36ss=;
+	b=EIabZncsmdgObTpqbVT7iazVG+CJVs8CfHJkhkXVBdUNKSNxb2qpFnFsxczCd6mJHRJipR
+	K5ZWX0c1IV83fRF5+ACDnDYOPwQJLLKYktLx9PIZW2/B4cGFPW29JD0vZSTCR8ofzNgvXp
+	dztMQ2eWHdEW8GHQqwo2xDxePWV9Ed8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752238558;
+	s=susede2_ed25519; t=1752238858;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ImmXCYAyFtg1uigJ3uDAA8K2DxJgcAvhj/LLi4GRz7A=;
-	b=S+m8ymD+3ItcyNz5BHte89mNs3BdUUFdGXLyx5lNB3337OiMJywqjGJpoXQy0qtqzzatRt
-	vmjHb3yd1B3uCVCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=da1cCZ4N;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=osNoLcFE
+	bh=99/nrZ3jMvnnDXT1EtGRSVK6t1HpEMJ2yRrbZ2a36ss=;
+	b=UfGei8LTKPLOBPN2mXLGtctqnYSsqbb/d3+1+IFV5osq3wVnWWCXEf7ARCmOywavObR0cP
+	4axW4ATOf+VF0EBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EIabZncs;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UfGei8LT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752238557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1752238858; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ImmXCYAyFtg1uigJ3uDAA8K2DxJgcAvhj/LLi4GRz7A=;
-	b=da1cCZ4NKWQCCdC63yPYwmCqWCfgJk0UuLOlfq6DHfbZA0Mar/ujUjpf8vzkDuz9xFdolT
-	Fz2PRX7kD41uBMHMRk52Gz8OjnlheyInJGHV16LflX3phtmhpnAZe5ane11zEyhEKfu8PF
-	/T4kplioTM8e57PMGm7bXc+90KzLkBM=
+	bh=99/nrZ3jMvnnDXT1EtGRSVK6t1HpEMJ2yRrbZ2a36ss=;
+	b=EIabZncsmdgObTpqbVT7iazVG+CJVs8CfHJkhkXVBdUNKSNxb2qpFnFsxczCd6mJHRJipR
+	K5ZWX0c1IV83fRF5+ACDnDYOPwQJLLKYktLx9PIZW2/B4cGFPW29JD0vZSTCR8ofzNgvXp
+	dztMQ2eWHdEW8GHQqwo2xDxePWV9Ed8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752238557;
+	s=susede2_ed25519; t=1752238858;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ImmXCYAyFtg1uigJ3uDAA8K2DxJgcAvhj/LLi4GRz7A=;
-	b=osNoLcFE2BXCj2Hme9aClfol1g8mRIpmtWCDA3L1tuEJg+AdK99RnGeb93TaZgmkm+r+jN
-	4D6ppZVfO0zQi9Ag==
+	bh=99/nrZ3jMvnnDXT1EtGRSVK6t1HpEMJ2yRrbZ2a36ss=;
+	b=UfGei8LTKPLOBPN2mXLGtctqnYSsqbb/d3+1+IFV5osq3wVnWWCXEf7ARCmOywavObR0cP
+	4axW4ATOf+VF0EBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2CBE0138A5;
-	Fri, 11 Jul 2025 12:55:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E2EC413918;
+	Fri, 11 Jul 2025 13:00:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OBqnCd0JcWg+NQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 11 Jul 2025 12:55:57 +0000
-Date: Fri, 11 Jul 2025 14:55:56 +0200
-Message-ID: <87zfdaga3n.wl-tiwai@suse.de>
+	id i29HNgkLcWj7NgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 11 Jul 2025 13:00:57 +0000
+Date: Fri, 11 Jul 2025 15:00:53 +0200
+Message-ID: <87wm8eg9ve.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,	Richard Fitzgerald
- <rf@opensource.cirrus.com>,	Kailang <kailang@realtek.com>,	Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,	Cezary Rojewski
- <cezary.rojewski@intel.com>,	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	patches@opensource.cirrus.com,
-	Baojun Xu <baojun.xu@ti.com>,	bo liu <bo.liu@senarytech.com>
-Subject: Re: [PATCH 00/27] ALSA: Reorganize HD-audio driver code
-In-Reply-To: <20250709160434.1859-1-tiwai@suse.de>
-References: <20250709160434.1859-1-tiwai@suse.de>
+To: Joris Verhaegen <verhaegen@google.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	kernel-team@android.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-arm-msm@vger.kernel.org,
+	sound-open-firmware@alsa-project.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 0/4] ALSA: compress_offload: Add 64-bit safe timestamp API
+In-Reply-To: <8734b2hpcu.wl-tiwai@suse.de>
+References: <20250711093636.28204-1-verhaegen@google.com>
+	<aHD7/9MZbcOmn+08@opensource.cirrus.com>
+	<8734b2hpcu.wl-tiwai@suse.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -91,89 +115,101 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spamd-Result: default: False [-2.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	ARC_NA(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[29];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[opensource.cirrus.com,kernel.org,perex.cz,suse.com,gmail.com,cirrus.com,intel.com,linux.intel.com,linux.dev,nxp.com,linux.alibaba.com,socionext.com,android.com,vger.kernel.org,alsa-project.org,lists.infradead.org];
 	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLzj6aswpe58r68z1acwzd13oz)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 713531F38C
+X-Rspamd-Queue-Id: 8E277211A1
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+X-Spam-Score: -2.01
 
-On Wed, 09 Jul 2025 18:04:03 +0200,
+On Fri, 11 Jul 2025 14:41:05 +0200,
 Takashi Iwai wrote:
 > 
-> HD-audio driver is known to be quite messy in both file structures and
-> its design, but until now I haven't touched its files paths so much
-> because I set a higher priority for the easiness of backport to stable
-> kernels.  But, you can't leave garbages forever, it's been already
-> high time for a large clean up -- so here it is.
+> On Fri, 11 Jul 2025 13:56:47 +0200,
+> Charles Keepax wrote:
+> > 
+> > On Fri, Jul 11, 2025 at 10:36:26AM +0100, Joris Verhaegen wrote:
+> > > The current compress offload timestamping API relies on
+> > > struct snd_compr_tstamp, whose cumulative counters like
+> > > copied_total are defined as __u32. On long-running high-resolution
+> > > audio streams, these 32-bit counters can overflow,
+> > > causing incorrect availability calculations.
+> > > 
+> > > This patch series introduces a parallel, 64-bit safe API to solve
+> > > this problem while maintaining perfect backward compatibility with the
+> > > existing UAPI. A new pointer64 operation and corresponding ioctls
+> > > are added to allow the kernel to track counters using u64 and expose
+> > > these full-width values to user-space.
+> > > 
+> > > The series is structured as follows:
+> > > 
+> > > Patch 1: Introduces the new internal pointer64 op, refactors the
+> > > core logic to use it, and defines the new UAPI structs.
+> > > 
+> > > Patch 2: Exposes the SNDRV_COMPRESS_TSTAMP64 ioctl.
+> > > 
+> > > Patch 3: Exposes the corresponding SNDRV_COMPRESS_AVAIL64 ioctl.
+> > > 
+> > > Patch 4: Implements the new .pointer64 operation in various ASoC
+> > > drivers that support compress offload.
+> > > 
+> > > This series has been tested on a Pixel 9 device. All compress offload
+> > > use cases, including long-running playback, were verified to work
+> > > correctly with the new 64-bit API, and no regressions were observed
+> > > when using the legacy API.
+> > > 
+> > > Thanks,
+> > > Joris (George) Verhaegen
+> > > 
+> > > Signed-off-by: Joris Verhaegen <verhaegen@google.com>
+> > > 
+> > > ---
+> > 
+> > Would it not be slightly simpler to just update all the in kernel
+> > bits to use 64-bit and then only convert to 32-bit for the
+> > existing 32-bit IOCTLs? Why do we need 32-bit callbacks into the
+> > drivers for example?
 > 
-> The basic idea is to move the code from sound/pci/hda/* into different
-> subdirectories in sound/hda/ per functionality, as most of the stuff
-> are independent from PCI, but rather HD-audio bus specific.
+> Right, it's a usual pattern to have only the 64bit ops in the kernel
+> driver side while providing the 32bit stuff converted in the core
+> layer.  Having two different ops are rather confusing and
+> superfluous after conversions.
 > 
-> So, now the all HD-audio driver code are moved under sound/hda:
-> 
->   % ls sound/hda 
->   codecs/  common/  controllers/  core/  Kconfig  Makefile
-> 
-> * The former hda core code is found in sound/hda/core.
-> * The former snd-hda-codec code is found in sound/hda/common.
-> * The former snd-hda-intel, tegra and acpi are put in
->   sound/hda/controllers.
-> * The former patch_* and co are put to sound/hda/codecs.
-> * Realtek codec driver is split to several modules as
->   sound/hda/codecs/realtek/alc*.
-> * Cirrus codec driver is split to cs420x and cs421x, put under
->   sound/hda/codecs/cirrus together with cs8409.
-> * HDMI codec driver is split to several modules under
->   sound/hda/codecs/hdmi
-> * Cirrus and TI sub-codecs are put under sound/hda/codecs/side-codecs
-> 
-> Also, the probe of the HD-audio codec driver is moved into the
-> driver's ops instead of the ugly patch_ops embedded in hda_codec
-> object. (As of now, hda_codec_driver.ops is a pointer, but it can be
-> embedded later, too.)
-> 
-> This change required some code to be modified without the dynamic
-> override of callbacks.
-> 
-> In future, we may convert the runtime PM handling to use the standard
-> pm_ops, too.  This was raised some time ago during the discussion with
-> Realtek devs.
-> 
-> The tree applying those patches is found in topic/hda-reorg branch of
-> sound git tree:
->   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/log/?h=topic/hda-reorg
+> If there are tons of users for this API, it'd be needed to convert
+> gradually, and eventually drop the 32bit ops at the end.  But in this
+> case, there doesn't seem so many relevant drivers, hence the
+> conversion can be done in a shot as done in your patch 4.
 
-I merged this change to for-next branch now, destined for 6.17.
-
-It means that there may be some merge conflict in future in linux-next
-because of many file renames from sound/pci/hda/* -> sound/hda/*.
-So adding Stephen to Cc.  The conflict resolution should be relatively
-easy, though.
+Also, don't forget to increase the protocol version if you change the
+ABI.
 
 
 thanks,
