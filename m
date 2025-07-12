@@ -1,75 +1,56 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30E41F418B;
-	Sat, 12 Jul 2025 04:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79AC4A11;
+	Sat, 12 Jul 2025 08:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752295407; cv=none; b=BOE14wha4uucH8qNOySCAz9FeVBeCakOpOewW7Hdp9P3+PdvTBQhifVvGKrsjZj+rblPguHrRIP1NO6NWAnUFJvOFfSxp8xLDu+lOxhJNncgYrYb/mU63oIxNC/FK8pbA6MdKQeGD4YYRETxhetqEYPWBilDHhoQrctLDBES4+Q=
+	t=1752308313; cv=none; b=VTkcuFxUmG+onQR1i5wa7Edz25pTX5y1ZTHSuPPYKK7Ge2de3W+ZjOTtIjJ8BAvpT7spm1VsA1LmSPX9M9EEJjg85zSDQ81xGo1wtzVBnUo+ALcrSUfNpnw5000DEOty64iSlxvq5q3cDikd0mS9udsRFJtwoAD9btpU4XYNHFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752295407; c=relaxed/simple;
-	bh=YX1tTIv7h97r6dYWf4jCPFMrqE3ihA1uQrM5xBqYQqw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kI5tG23i4FJp3EI0E2uOFdKzNNkMY0B/BJSeP0SGgESdx3W5j4CJ/kYt6qLnXa4lZRsGP+MrUwqPz+q9Px12I+OPnucgq9wtoePhATnEe6B6kks6BOWDes302fe9NtPjukE/u/HwMtJmBIzpxKMSs9vt7U9KEmvdkqGkcYmHV/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TBRfS+bO; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752308313; c=relaxed/simple;
+	bh=5QmlZdq9lk3oD+l/SlfTydozUqEL/49FswAFukZBz1Q=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FpX5Q3cL4aeoazbl9jyZbZWee9xVBtUpsUTD/+LZ0/F/YBoWv+kaHVAEHM1NzBQHDUWJnGHSqwEUj4Q79+MaHaPLNIgcGt/AjpQRjvfSdswPpMvVv8BT2f0ORVj37cJimUVKxaPiCKFPwXsWnSAohnkqdnl0xyAPxzqQKtPYNAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=dUe/skNM; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TBRfS+bO"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2350b1b9129so20452025ad.0;
-        Fri, 11 Jul 2025 21:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752295395; x=1752900195; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=389ubXDWjSsBgW6cSsbIZL+y0UMtvyOFSOtKGJNoZUg=;
-        b=TBRfS+bOLLVHmVK/kTReZhIyZQhvfe6QU038isQ+kA3ORSmbJNM1iHuFtwEzzZ8YTN
-         aBj0QMUU/XtjwlDFXtpuKHDShQqCSQQM0gDGtuuYBeOGG+n6IU+8N1n2wWbXtrzOe4rF
-         VCI8vGgN0M5PPzGq+0S14JvWsGJVNSYp+5cuB+4YjLZnUN/l1XjW1nsghhrU0iQSMvoV
-         z68COgPROwyoKE8JOabOLVXBcagom2mNQZXQ1mqul5GAK3hV58p4101WTgaonUcHqYZ9
-         PjLtIsC0K/PZc+hxmYHAd3S4BLse1LamUOSZ601ZpsSUtQt2dxpXa50F3zKI2OjBuSOP
-         44Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752295395; x=1752900195;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=389ubXDWjSsBgW6cSsbIZL+y0UMtvyOFSOtKGJNoZUg=;
-        b=lLgZHqXMHPYI+oRWNNVlpjkWW2L52buzU5wbGvP4+sQ1vaX/2kZgQmQB6hLpuHfs88
-         eAVNz5CjyIIZ7Bfil9jSi3O8MGDxDTAqE+mNf+ijwZEsv4s1J1NHmzpMLuSTnafpyt+7
-         fHAXoRZyj7FkYTiyA1HS6Ialu37MmTc0OT9U6hG9K1FrzS6/0k6RgrE5fCQMvvO2ewAc
-         QC0LtK6+dpEssRrYV9eU9As1mxW1QKE6xFxuU2fVvp5e9KSvKMygse9MvX1TnsbtH2gS
-         KZ3R3XTStgG5MC3RteCg2CC9RgXirPZ1cg1tGSI3RWCCg6jlrD8x6K71fl5E90AdckXr
-         pwMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUp69h+gBhDGvi3/jpf9MGns0CJCeiqadoLm8qxiwtJ3yrD5HatBzxAoXQvn1OAhJitDexBtdeORttlIOs=@vger.kernel.org, AJvYcCVCH42UQSUWEHrt5Vp7DvfrJ3uCaWY8YzmwuQ2zzbnzXoV6dR/2MPTwMXmGwuTCQYu1q0WVfm8s4ZcnJOc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztaTv7y3fgW+6CJIrjCfXk08Y7lR/gOz43UC7p4fpXVbOGWhgO
-	WK8fcBTpOKt8XCg0YNLImtE859Y/0fH8slTFrIjHRKAEdLfnxQCfFbs+5h11pS2Q
-X-Gm-Gg: ASbGncvqIX4baMcnf//r0kqMvepCjy9CWghTNNtuZ7ipIdnLVGJxQ3bzQB/1+SM4u/3
-	6dGxIAB+Y+IB+fX5U2tfJ5YqNanBlHFvcjRbohvDaBU6LuwTrpzoTVby4/8Cn01Hxro1YpJCTBn
-	zUm3OQi8cfZmO3AzUqUvcGwsmQ0uHX34x15YyrSVRPREGcoSHJFgtcnrgLBWmU3YCrx+ZS0npdz
-	rgXHAZF/CLSmGoyjn+6FtHdSGzGZybHF3E1MQnesXNvkFHXnjfjSzMJxNb8Cbocq6OsX+TRcrDP
-	pYjc178L5pLo0PvynRmj7gvQ6uXFmvfsOkUDjy/y4EwT95MDbAnsxsgxhe70WOvBykZ2jXEYhkF
-	Pm3pem3J0PdKvjZcwcMcuK6g=
-X-Google-Smtp-Source: AGHT+IEiH8GsTJYPn3mNQMbGTw2Cokc7ryrlujn1TJFFFF0pOvrulOmd16qE0gZzSYQy54IXmzYoCg==
-X-Received: by 2002:a17:903:4511:b0:235:ed02:288b with SMTP id d9443c01a7336-23dee0b4b31mr64088955ad.30.1752295394197;
-        Fri, 11 Jul 2025 21:43:14 -0700 (PDT)
-Received: from skc-Dell-Pro-16-Plus-PB16250.. ([132.237.156.254])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4286b4asm62256365ad.46.2025.07.11.21.43.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jul 2025 21:43:13 -0700 (PDT)
-From: Suresh K C <suresh.k.chandrappa@gmail.com>
-X-Google-Original-From: Suresh K C
-To: vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	sanyog.r.kale@intel.com
-Cc: shuah@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Suresh K C <suresh.k.chandrappa@gmail.com>
-Subject: [PATCH] soundwire: replace scnprintf() with sysfs_emit() for sysfs consistency
-Date: Sat, 12 Jul 2025 10:13:02 +0530
-Message-ID: <20250712044302.6952-1-suresh.k.chandrappa@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="dUe/skNM"
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56C8I37x2213549;
+	Sat, 12 Jul 2025 03:18:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1752308283;
+	bh=nhjS0HucAZWDT2G9PZFl8rKVFR+c+E/KvSR61Qe4jNg=;
+	h=From:To:CC:Subject:Date;
+	b=dUe/skNMVztVVwCshv/M2DFqAXUTwUNcElrWVN6HQTmuNUvWl93QlxvrWlsxp/eD5
+	 mkRQdjA+eWpf26sufU1U27YTBwT6+wZWDQHaHiZhtYE0a5XXxccGX3d730OLfVmLXl
+	 yk8546WzXLhbtptKX6ZyAa/GY6WSjKh0e4dBK2Vc=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56C8I2wl2036460
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Sat, 12 Jul 2025 03:18:02 -0500
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Sat, 12
+ Jul 2025 03:18:02 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Sat, 12 Jul 2025 03:18:02 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56C8Hvt1557207;
+	Sat, 12 Jul 2025 03:17:58 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>
+CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>, <navada@ti.com>,
+        <13916275206@139.com>, <v-hampiholi@ti.com>, <v-po@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <baojun.xu@ti.com>
+Subject: [PATCH v1] ALSA: hda/tas2781: Add TAS2770 support
+Date: Sat, 12 Jul 2025 16:17:33 +0800
+Message-ID: <20250712081733.12881-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,300 +58,199 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-From: Suresh K C <suresh.k.chandrappa@gmail.com>
+Add TAS2770 support in HDA.
+Create a header file include/sound/tas2770-tlv.h,
+Set chip_id in i2c probe, check it while sound control is created,
+and the DSP firmware binary file parser.
 
-Replace scnprintf() with sysfs_emit() or sysfs_emit_at() in SoundWire driver files
-to align with the guidelines outlined in Documentation/filesystems/sysfs.rst.
-
-This change improves the safety and correctness of sysfs attribute handling,
-ensures consistency across the kernel codebase, and simplifies future maintenance.
-
-Tested by enabling CONFIG_DEBUG_FS and confirming that /sys/kernel/debug/soundwire is correctly populated
-
-Signed-off-by: Suresh K C <suresh.k.chandrappa@gmail.com>
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 ---
- drivers/soundwire/cadence_master.c      | 23 +++++++++++------------
- drivers/soundwire/debugfs.c             | 22 +++++++++++-----------
- drivers/soundwire/intel.c               | 17 ++++++++---------
- drivers/soundwire/intel_ace2x_debugfs.c | 14 +++++++-------
- 4 files changed, 37 insertions(+), 39 deletions(-)
+ include/sound/tas2770-tlv.h     | 20 ++++++++++++
+ include/sound/tas2781.h         |  4 +++
+ sound/pci/hda/tas2781_hda_i2c.c | 58 +++++++++++++++++++++++++--------
+ 3 files changed, 69 insertions(+), 13 deletions(-)
+ create mode 100644 include/sound/tas2770-tlv.h
 
-diff --git a/drivers/soundwire/cadence_master.c b/drivers/soundwire/cadence_master.c
-index 21bb491d026b..668a111c66c8 100644
---- a/drivers/soundwire/cadence_master.c
-+++ b/drivers/soundwire/cadence_master.c
-@@ -319,8 +319,7 @@ EXPORT_SYMBOL(sdw_cdns_config_update_set_wait);
- static ssize_t cdns_sprintf(struct sdw_cdns *cdns,
- 			    char *buf, size_t pos, unsigned int reg)
- {
--	return scnprintf(buf + pos, RD_BUF - pos,
--			 "%4x\t%8x\n", reg, cdns_readl(cdns, reg));
-+	return sysfs_emit_at(buf, pos,"%4x\t%8x\n", reg, cdns_readl(cdns, reg));
+diff --git a/include/sound/tas2770-tlv.h b/include/sound/tas2770-tlv.h
+new file mode 100644
+index 000000000000..2a2a74372366
+--- /dev/null
++++ b/include/sound/tas2770-tlv.h
+@@ -0,0 +1,20 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++//
++// ALSA SoC Texas Instruments TAS2770 Audio Smart Amplifier
++//
++// Copyright (C) 2025 Texas Instruments Incorporated
++// https://www.ti.com
++//
++// The TAS2770 hda driver implements for one, two, or even multiple
++// TAS2770 chips.
++//
++// Author: Baojun Xu <baojun.xu@ti.com>
++//
++
++#ifndef __TAS2770_TLV_H__
++#define __TAS2770_TLV_H__
++
++static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_dvc_tlv, 1650, 50, 0);
++static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_amp_tlv, 1100, 50, 0);
++
++#endif
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index 3875e92f1ec5..f3d9c80fad36 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -63,6 +63,9 @@
+ 
+ /* Volume control */
+ #define TAS2563_DVC_LVL			TASDEVICE_REG(0x00, 0x02, 0x0c)
++#define TAS2770_DVC_LVL			TASDEVICE_REG(0x0, 0x0, 0x17)
++#define TAS2770_AMP_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x03)
++
+ #define TAS2781_DVC_LVL			TASDEVICE_REG(0x0, 0x0, 0x1a)
+ #define TAS2781_AMP_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x03)
+ #define TAS2781_AMP_LEVEL_MASK		GENMASK(5, 1)
+@@ -111,6 +114,7 @@
+ 
+ enum audio_device {
+ 	TAS2563,
++	TAS2770,
+ 	TAS2781,
+ };
+ 
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index b7ee22840d78..39f00e33e49d 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -24,6 +24,7 @@
+ #include <sound/tas2781.h>
+ #include <sound/tas2781-comlib-i2c.h>
+ #include <sound/tlv.h>
++#include <sound/tas2770-tlv.h>
+ #include <sound/tas2781-tlv.h>
+ 
+ #include "hda_local.h"
+@@ -245,6 +246,12 @@ static int tas2781_force_fwload_put(struct snd_kcontrol *kcontrol,
+ 	return change;
  }
  
- static int cdns_reg_show(struct seq_file *s, void *data)
-@@ -334,42 +333,42 @@ static int cdns_reg_show(struct seq_file *s, void *data)
- 	if (!buf)
- 		return -ENOMEM;
++static const struct snd_kcontrol_new tas2770_snd_controls[] = {
++	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS2770_AMP_LEVEL,
++		0, 0, 20, 0, tas2781_amp_getvol,
++		tas2781_amp_putvol, tas2770_amp_tlv),
++};
++
+ static const struct snd_kcontrol_new tas2781_snd_controls[] = {
+ 	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
+ 		1, 0, 20, 0, tas2781_amp_getvol,
+@@ -253,7 +260,7 @@ static const struct snd_kcontrol_new tas2781_snd_controls[] = {
+ 		tas2781_force_fwload_get, tas2781_force_fwload_put),
+ };
  
--	ret = scnprintf(buf, RD_BUF, "Register  Value\n");
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nMCP Registers\n");
-+	ret = sysfs_emit(buf, "Register  Value\n");
-+	ret += sysfs_emit_at(buf, ret,"\nMCP Registers\n");
- 	/* 8 MCP registers */
- 	for (i = CDNS_MCP_CONFIG; i <= CDNS_MCP_PHYCTRL; i += sizeof(u32))
- 		ret += cdns_sprintf(cdns, buf, ret, i);
+-static const struct snd_kcontrol_new tas2781_prof_ctrl = {
++static const struct snd_kcontrol_new tas27xx_prof_ctrl = {
+ 	.name = "Speaker Profile Id",
+ 	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+ 	.info = tasdevice_info_profile,
+@@ -393,26 +400,45 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
+ 	if (ret)
+ 		goto out;
  
--	ret += scnprintf(buf + ret, RD_BUF - ret,
-+	ret += sysfs_emit_at(buf, ret,
- 			 "\nStatus & Intr Registers\n");
- 	/* 13 Status & Intr registers (offsets 0x70 and 0x74 not defined) */
- 	for (i = CDNS_MCP_STAT; i <=  CDNS_MCP_FIFOSTAT; i += sizeof(u32))
- 		ret += cdns_sprintf(cdns, buf, ret, i);
- 
--	ret += scnprintf(buf + ret, RD_BUF - ret,
-+	ret += sysfs_emit_at(buf, ret,
- 			 "\nSSP & Clk ctrl Registers\n");
- 	ret += cdns_sprintf(cdns, buf, ret, CDNS_MCP_SSP_CTRL0);
- 	ret += cdns_sprintf(cdns, buf, ret, CDNS_MCP_SSP_CTRL1);
- 	ret += cdns_sprintf(cdns, buf, ret, CDNS_MCP_CLK_CTRL0);
- 	ret += cdns_sprintf(cdns, buf, ret, CDNS_MCP_CLK_CTRL1);
- 
--	ret += scnprintf(buf + ret, RD_BUF - ret,
-+	ret += sysfs_emit_at(buf, ret,
- 			 "\nDPn B0 Registers\n");
- 
- 	num_ports = cdns->num_ports;
- 
- 	for (i = 0; i < num_ports; i++) {
--		ret += scnprintf(buf + ret, RD_BUF - ret,
-+		ret += sysfs_emit_at(buf, ret,
- 				 "\nDP-%d\n", i);
- 		for (j = CDNS_DPN_B0_CONFIG(i);
- 		     j < CDNS_DPN_B0_ASYNC_CTRL(i); j += sizeof(u32))
- 			ret += cdns_sprintf(cdns, buf, ret, j);
+-	tas_hda->prof_ctl = snd_ctl_new1(&tas2781_prof_ctrl, tas_priv);
++	tas_hda->prof_ctl = snd_ctl_new1(&tas27xx_prof_ctrl, tas_priv);
+ 	ret = snd_ctl_add(codec->card, tas_hda->prof_ctl);
+ 	if (ret) {
+ 		dev_err(tas_priv->dev,
+ 			"Failed to add KControl %s = %d\n",
+-			tas2781_prof_ctrl.name, ret);
++			tas27xx_prof_ctrl.name, ret);
+ 		goto out;
  	}
  
--	ret += scnprintf(buf + ret, RD_BUF - ret,
-+	ret += sysfs_emit_at(buf, ret,
- 			 "\nDPn B1 Registers\n");
- 	for (i = 0; i < num_ports; i++) {
--		ret += scnprintf(buf + ret, RD_BUF - ret,
-+		ret += sysfs_emit_at(buf, ret,
- 				 "\nDP-%d\n", i);
- 
- 		for (j = CDNS_DPN_B1_CONFIG(i);
-@@ -377,13 +376,13 @@ static int cdns_reg_show(struct seq_file *s, void *data)
- 			ret += cdns_sprintf(cdns, buf, ret, j);
- 	}
- 
--	ret += scnprintf(buf + ret, RD_BUF - ret,
-+	ret += sysfs_emit_at(buf, ret,
- 			 "\nDPn Control Registers\n");
- 	for (i = 0; i < num_ports; i++)
- 		ret += cdns_sprintf(cdns, buf, ret,
- 				CDNS_PORTCTRL + i * CDNS_PORT_OFFSET);
- 
--	ret += scnprintf(buf + ret, RD_BUF - ret,
-+	ret += sysfs_emit_at(buf, ret,
- 			 "\nPDIn Config Registers\n");
- 
- 	/* number of PDI and ports is interchangeable */
-diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
-index 3099ea074f10..ccc98f449658 100644
---- a/drivers/soundwire/debugfs.c
-+++ b/drivers/soundwire/debugfs.c
-@@ -42,9 +42,9 @@ static ssize_t sdw_sprintf(struct sdw_slave *slave,
- 	value = sdw_read_no_pm(slave, reg);
- 
- 	if (value < 0)
--		return scnprintf(buf + pos, RD_BUF - pos, "%3x\tXX\n", reg);
-+		return sysfs_emit_at(buf , pos, "%3x\tXX\n", reg);
- 	else
--		return scnprintf(buf + pos, RD_BUF - pos,
-+		return sysfs_emit_at(buf , pos,
- 				"%3x\t%2x\n", reg, value);
- }
- 
-@@ -64,21 +64,21 @@ static int sdw_slave_reg_show(struct seq_file *s_file, void *data)
- 		return ret;
- 	}
- 
--	ret = scnprintf(buf, RD_BUF, "Register  Value\n");
-+	ret = sysfs_emit(buf, "Register  Value\n");
- 
- 	/* DP0 non-banked registers */
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nDP0\n");
-+	ret += sysfs_emit_at(buf , ret, "\nDP0\n");
- 	for (i = SDW_DP0_INT; i <= SDW_DP0_PREPARECTRL; i++)
- 		ret += sdw_sprintf(slave, buf, ret, i);
- 
- 	/* DP0 Bank 0 registers */
--	ret += scnprintf(buf + ret, RD_BUF - ret, "Bank0\n");
-+	ret += sysfs_emit_at(buf, ret, "Bank0\n");
- 	ret += sdw_sprintf(slave, buf, ret, SDW_DP0_CHANNELEN);
- 	for (i = SDW_DP0_SAMPLECTRL1; i <= SDW_DP0_LANECTRL; i++)
- 		ret += sdw_sprintf(slave, buf, ret, i);
- 
- 	/* DP0 Bank 1 registers */
--	ret += scnprintf(buf + ret, RD_BUF - ret, "Bank1\n");
-+	ret += sysfs_emit_at(buf, ret, "Bank1\n");
- 	ret += sdw_sprintf(slave, buf, ret,
- 			SDW_DP0_CHANNELEN + SDW_BANK1_OFFSET);
- 	for (i = SDW_DP0_SAMPLECTRL1 + SDW_BANK1_OFFSET;
-@@ -86,7 +86,7 @@ static int sdw_slave_reg_show(struct seq_file *s_file, void *data)
- 		ret += sdw_sprintf(slave, buf, ret, i);
- 
- 	/* SCP registers */
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nSCP\n");
-+	ret += sysfs_emit_at(buf, ret, "\nSCP\n");
- 	for (i = SDW_SCP_INT1; i <= SDW_SCP_BUS_CLOCK_BASE; i++)
- 		ret += sdw_sprintf(slave, buf, ret, i);
- 	for (i = SDW_SCP_DEVID_0; i <= SDW_SCP_DEVID_5; i++)
-@@ -110,18 +110,18 @@ static int sdw_slave_reg_show(struct seq_file *s_file, void *data)
- 	for (i = 1; SDW_VALID_PORT_RANGE(i); i++) {
- 
- 		/* DPi registers */
--		ret += scnprintf(buf + ret, RD_BUF - ret, "\nDP%d\n", i);
-+		ret += sysfs_emit_at(buf , ret, "\nDP%d\n", i);
- 		for (j = SDW_DPN_INT(i); j <= SDW_DPN_PREPARECTRL(i); j++)
- 			ret += sdw_sprintf(slave, buf, ret, j);
- 
- 		/* DPi Bank0 registers */
--		ret += scnprintf(buf + ret, RD_BUF - ret, "Bank0\n");
-+		ret += sysfs_emit_at(buf , ret, "Bank0\n");
- 		for (j = SDW_DPN_CHANNELEN_B0(i);
- 		     j <= SDW_DPN_LANECTRL_B0(i); j++)
- 			ret += sdw_sprintf(slave, buf, ret, j);
- 
- 		/* DPi Bank1 registers */
--		ret += scnprintf(buf + ret, RD_BUF - ret, "Bank1\n");
-+		ret += sysfs_emit_at(buf , ret, "Bank1\n");
- 		for (j = SDW_DPN_CHANNELEN_B1(i);
- 		     j <= SDW_DPN_LANECTRL_B1(i); j++)
- 			ret += sdw_sprintf(slave, buf, ret, j);
-@@ -317,7 +317,7 @@ static int read_buffer_show(struct seq_file *s_file, void *data)
- 		return -EINVAL;
- 
- 	for (i = 0; i < num_bytes; i++) {
--		scnprintf(buf, MAX_LINE_LEN, "address %#x val 0x%02x\n",
-+		sysfs_emit(buf, "address %#x val 0x%02x\n",
- 			  start_addr + i, read_buffer[i]);
- 		seq_printf(s_file, "%s", buf);
- 	}
-diff --git a/drivers/soundwire/intel.c b/drivers/soundwire/intel.c
-index 9db78f3d7615..aa7aa7126c47 100644
---- a/drivers/soundwire/intel.c
-+++ b/drivers/soundwire/intel.c
-@@ -65,8 +65,7 @@ static ssize_t intel_sprintf(void __iomem *mem, bool l,
- 		value = intel_readl(mem, reg);
- 	else
- 		value = intel_readw(mem, reg);
--
--	return scnprintf(buf + pos, RD_BUF - pos, "%4x\t%4x\n", reg, value);
-+	return sysfs_emit_at(buf, pos, "%4x\t%4x\n", reg, value);; 
- }
- 
- static int intel_reg_show(struct seq_file *s_file, void *data)
-@@ -84,8 +83,8 @@ static int intel_reg_show(struct seq_file *s_file, void *data)
- 
- 	links = intel_readl(s, SDW_SHIM_LCAP) & SDW_SHIM_LCAP_LCOUNT_MASK;
- 
--	ret = scnprintf(buf, RD_BUF, "Register  Value\n");
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nShim\n");
-+	ret = sysfs_emit(buf, "Register  Value\n");
-+	ret += sysfs_emit_at(buf, ret, "\nShim\n");
- 
- 	for (i = 0; i < links; i++) {
- 		reg = SDW_SHIM_LCAP + i * 4;
-@@ -93,7 +92,7 @@ static int intel_reg_show(struct seq_file *s_file, void *data)
- 	}
- 
- 	for (i = 0; i < links; i++) {
--		ret += scnprintf(buf + ret, RD_BUF - ret, "\nLink%d\n", i);
-+		ret += sysfs_emit_at(buf, ret, "\nLink%d\n", i);
- 		ret += intel_sprintf(s, false, buf, ret, SDW_SHIM_CTLSCAP(i));
- 		ret += intel_sprintf(s, false, buf, ret, SDW_SHIM_CTLS0CM(i));
- 		ret += intel_sprintf(s, false, buf, ret, SDW_SHIM_CTLS1CM(i));
-@@ -101,7 +100,7 @@ static int intel_reg_show(struct seq_file *s_file, void *data)
- 		ret += intel_sprintf(s, false, buf, ret, SDW_SHIM_CTLS3CM(i));
- 		ret += intel_sprintf(s, false, buf, ret, SDW_SHIM_PCMSCAP(i));
- 
--		ret += scnprintf(buf + ret, RD_BUF - ret, "\n PCMSyCH registers\n");
-+		ret += sysfs_emit_at(buf, ret, "\n PCMSyCH registers\n");
- 
- 		/*
- 		 * the value 10 is the number of PDIs. We will need a
-@@ -114,17 +113,17 @@ static int intel_reg_show(struct seq_file *s_file, void *data)
- 			ret += intel_sprintf(s, false, buf, ret,
- 					SDW_SHIM_PCMSYCHC(i, j));
+-	for (i = 0; i < ARRAY_SIZE(tas2781_snd_controls); i++) {
+-		hda_priv->snd_ctls[i] = snd_ctl_new1(&tas2781_snd_controls[i],
+-			tas_priv);
+-		ret = snd_ctl_add(codec->card, hda_priv->snd_ctls[i]);
+-		if (ret) {
+-			dev_err(tas_priv->dev,
+-				"Failed to add KControl %s = %d\n",
+-				tas2781_snd_controls[i].name, ret);
+-			goto out;
++	if (tas_priv->chip_id == TAS2770) {
++		for (i = 0; i < ARRAY_SIZE(tas2770_snd_controls); i++) {
++			hda_priv->snd_ctls[i] = snd_ctl_new1(
++				&tas2770_snd_controls[i], tas_priv);
++			ret = snd_ctl_add(codec->card, hda_priv->snd_ctls[i]);
++			if (ret) {
++				dev_err(tas_priv->dev,
++					"Failed to add KControl %s = %d\n",
++					tas2770_snd_controls[i].name, ret);
++				goto out;
++			}
++		}
++	} else if (tas_priv->chip_id == TAS2781) {
++		for (i = 0; i < ARRAY_SIZE(tas2781_snd_controls); i++) {
++			hda_priv->snd_ctls[i] = snd_ctl_new1(
++				&tas2781_snd_controls[i], tas_priv);
++			ret = snd_ctl_add(codec->card, hda_priv->snd_ctls[i]);
++			if (ret) {
++				dev_err(tas_priv->dev,
++					"Failed to add KControl %s = %d\n",
++					tas2781_snd_controls[i].name, ret);
++				goto out;
++			}
  		}
--		ret += scnprintf(buf + ret, RD_BUF - ret, "\n IOCTL, CTMCTL\n");
-+		ret += sysfs_emit_at(buf, ret, "\n IOCTL, CTMCTL\n");
- 
- 		ret += intel_sprintf(s, false, buf, ret, SDW_SHIM_IOCTL(i));
- 		ret += intel_sprintf(s, false, buf, ret, SDW_SHIM_CTMCTL(i));
  	}
++	// No dsp supported in TAS2770.
++	if (tas_priv->chip_id == TAS2770) {
++		tas_hda->priv->playback_started = true;
++		goto out;
++	}
  
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nWake registers\n");
-+	ret += sysfs_emit_at(buf, ret, "\nWake registers\n");
- 	ret += intel_sprintf(s, false, buf, ret, SDW_SHIM_WAKEEN);
- 	ret += intel_sprintf(s, false, buf, ret, SDW_SHIM_WAKESTS);
+ 	tasdevice_dsp_remove(tas_priv);
  
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nALH STRMzCFG\n");
-+	ret += sysfs_emit_at(buf, ret, "\nALH STRMzCFG\n");
- 	for (i = 0; i < SDW_ALH_NUM_STREAMS; i++)
- 		ret += intel_sprintf(a, true, buf, ret, SDW_ALH_STRMZCFG(i));
- 
-diff --git a/drivers/soundwire/intel_ace2x_debugfs.c b/drivers/soundwire/intel_ace2x_debugfs.c
-index fda8f0daaa96..c733d455af6c 100644
---- a/drivers/soundwire/intel_ace2x_debugfs.c
-+++ b/drivers/soundwire/intel_ace2x_debugfs.c
-@@ -31,7 +31,7 @@ static ssize_t intel_sprintf(void __iomem *mem, bool l,
- 	else
- 		value = intel_readw(mem, reg);
- 
--	return scnprintf(buf + pos, RD_BUF - pos, "%4x\t%4x\n", reg, value);
-+	return sysfs_emit_at(buf, pos, "%4x\t%4x\n", reg, value);
- }
- 
- static int intel_reg_show(struct seq_file *s_file, void *data)
-@@ -49,8 +49,8 @@ static int intel_reg_show(struct seq_file *s_file, void *data)
- 	if (!buf)
- 		return -ENOMEM;
- 
--	ret = scnprintf(buf, RD_BUF, "Register  Value\n");
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nShim\n");
-+	ret = sysfs_emit(buf, "Register  Value\n");
-+	ret += sysfs_emit_at(buf, ret, "\nShim\n");
- 
- 	ret += intel_sprintf(s, true, buf, ret, SDW_SHIM2_LECAP);
- 	ret += intel_sprintf(s, false, buf, ret, SDW_SHIM2_PCMSCAP);
-@@ -65,19 +65,19 @@ static int intel_reg_show(struct seq_file *s_file, void *data)
- 				SDW_SHIM2_PCMSYCHC(j));
+@@ -453,7 +479,6 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
+ 			tas2781_dsp_prog_ctrl.name, ret);
+ 		goto out;
  	}
+-
+ 	tas_hda->dsp_conf_ctl = snd_ctl_new1(&tas2781_dsp_conf_ctrl,
+ 		tas_priv);
+ 	ret = snd_ctl_add(codec->card, tas_hda->dsp_conf_ctl);
+@@ -582,15 +607,21 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
  
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nVS CLK controls\n");
-+	ret += sysfs_emit_at(buf, ret, "\nVS CLK controls\n");
- 	ret += intel_sprintf(vs_s, true, buf, ret, SDW_SHIM2_INTEL_VS_LVSCTL);
- 
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nVS Wake registers\n");
-+	ret += sysfs_emit_at(buf, ret, "\nVS Wake registers\n");
- 	ret += intel_sprintf(vs_s, false, buf, ret, SDW_SHIM2_INTEL_VS_WAKEEN);
- 	ret += intel_sprintf(vs_s, false, buf, ret, SDW_SHIM2_INTEL_VS_WAKESTS);
- 
--	ret += scnprintf(buf + ret, RD_BUF - ret, "\nVS IOCTL, ACTMCTL\n");
-+	ret += sysfs_emit_at(buf, ret, "\nVS IOCTL, ACTMCTL\n");
- 	ret += intel_sprintf(vs_s, false, buf, ret, SDW_SHIM2_INTEL_VS_IOCTL);
- 	ret += intel_sprintf(vs_s, false, buf, ret, SDW_SHIM2_INTEL_VS_ACTMCTL);
- 
- 	if (sdw->link_res->mic_privacy) {
--		ret += scnprintf(buf + ret, RD_BUF - ret, "\nVS PVCCS\n");
-+		ret += sysfs_emit_at(buf, ret, "\nVS PVCCS\n");
- 		ret += intel_sprintf(vs_s, false, buf, ret,
- 				     SDW_SHIM2_INTEL_VS_PVCCS);
- 	}
+ 	if (strstr(dev_name(&clt->dev), "TIAS2781")) {
+ 		device_name = "TIAS2781";
++		tas_hda->priv->chip_id = TAS2781;
+ 		hda_priv->save_calibration = tas2781_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
++	} else if (strstarts(dev_name(&clt->dev), "i2c-TXNW2770")) {
++		device_name = "TXNW2770";
++		tas_hda->priv->chip_id = TAS2770;
+ 	} else if (strstarts(dev_name(&clt->dev),
+ 			     "i2c-TXNW2781:00-tas2781-hda.0")) {
+ 		device_name = "TXNW2781";
++		tas_hda->priv->chip_id = TAS2781;
+ 		hda_priv->save_calibration = tas2781_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
+ 	} else if (strstr(dev_name(&clt->dev), "INT8866")) {
+ 		device_name = "INT8866";
++		tas_hda->priv->chip_id = TAS2563;
+ 		hda_priv->save_calibration = tas2563_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2563_GLOBAL_ADDR;
+ 	} else {
+@@ -727,6 +758,7 @@ static const struct i2c_device_id tas2781_hda_i2c_id[] = {
+ static const struct acpi_device_id tas2781_acpi_hda_match[] = {
+ 	{"INT8866", 0 },
+ 	{"TIAS2781", 0 },
++	{"TXNW2770", 0 },
+ 	{"TXNW2781", 0 },
+ 	{}
+ };
 -- 
 2.43.0
 
