@@ -1,142 +1,184 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2614C1F3D54
-	for <linux-sound@vger.kernel.org>; Sat, 12 Jul 2025 08:29:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7D027874A
+	for <linux-sound@vger.kernel.org>; Sat, 12 Jul 2025 13:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752308951; cv=none; b=l4OOFLwkh69/WORSsH3T2EU3TAtundP+3b3FUUeLI6kFZEzBcClx8LnKa2pzi7gTlGftFXu+hXlSALJt4LeowT8jLNDme4qVz/gWRrNcvF70/xDkEs0PH/PwDAqj1+U3WlUnpZ4NyqpEVztJidzdEyhuFd0zXi30fmuddwxUN5k=
+	t=1752328490; cv=none; b=RcyNAKctiCwcXHc/DcoBzRShh1hjhZvgjF7c9JnrmFjZC8EcYBFeqm+3rDJtMpQkBgaDRb+ZFJNLsExv6zNs0rQupw8owiKNE08wpcp+ycUCPp2fjgBycFByJQUbEa3jyfWTsbBAOjPPb6uwxpJTFhmq9/o0HGZemidpRdiqG6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752308951; c=relaxed/simple;
-	bh=o5OSowyX0g2NZm20gpmAfN8NRzD6c4FUxrFvjquJBdw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aQnBtBo8zcj1S8SILX0Yd2235stRXl71anCJ/N/0AH33Yngu5jr/XGKJaWm08q35gg9wZxThxhKJlCNweR0Xw6mppLECy3CTBlFa9HJUoSxzdHr5pZ8see7RpHo04AKGFExrX9I2CjL7Tkr9iP0Sk6anoAeGdjzmEn0488lBRY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2UQI6HGo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sY3Nf1/k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HhzT0oVm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g8dpR2tz; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1752328490; c=relaxed/simple;
+	bh=3bgcB1TurwhT7L9X2KCmbojs72aEaLZWW2bUy/QsO0Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=RWMIORWAmgBskGXDESRyfwUkkgFIeMHlEaJhss+fJz1vWnpCAF90ozhKHZ5mamWrNxPHC4aJPeJB/V2s6wH+7gw3CHBOOMfMd83kpMLi4PMrCRzJD2d+LuwxvlmXeaBQbOVStcwrIEL29trfq5IC3aBAUqkSMXGJ7LoxlwMraYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xLIuR7Xx; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2UQI6HGo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sY3Nf1/k";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HhzT0oVm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g8dpR2tz"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id F1DC51F388;
-	Sat, 12 Jul 2025 08:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752308948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eBVbV/Lie/jK+I+MUg0l6hv/MvUm9iT369FmLVySVqc=;
-	b=2UQI6HGoRfa+2uWYxrcF77ASgzK4yIF8V/tOK/BvLpu1pZ/pci7AzVDUnDTTqFKuEPiiNd
-	KTfXJAneuCHdoWJtQE9ETeehwam5kguzAHg4P2AXg2iGGnAHl8cSxPeRXaJny68/Rm6h1N
-	ddvYivLf3UbDnDF8iGwsMkzHXyXFH+Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752308948;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eBVbV/Lie/jK+I+MUg0l6hv/MvUm9iT369FmLVySVqc=;
-	b=sY3Nf1/kR84u03nBJvFIYQNAUdvBTtSWv/yzHbAGmk3g6zUO3dGeXSXc+2Hfmd54Fy8TL1
-	GG3edwuurp3LBABw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752308946; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eBVbV/Lie/jK+I+MUg0l6hv/MvUm9iT369FmLVySVqc=;
-	b=HhzT0oVmj+AxKCW0yVg2W+QMtIIwokFrRQrx/ZfCNT3q/idp7lB/LvEuRsPVq2dMV2Pnvl
-	pDveQ8EwOIQk+DeZHrmGq7tSRaIpk7MDE5YZXwMpzsweNpKUbP67Lh+jlF6xYwfBzN8KfK
-	SDAGJhqQM0nvG0apfhlH8+9WiKbHi28=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752308946;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eBVbV/Lie/jK+I+MUg0l6hv/MvUm9iT369FmLVySVqc=;
-	b=g8dpR2tzIkAyQGmyA9V8uTCyh7OnDxN+BncBzKLnDQVhuwtKfx8cp7hUaevvfqaG7+Obkk
-	A4eSA3uHoT5J/HBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A20EA138A1;
-	Sat, 12 Jul 2025 08:29:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id T2KyJdIccmiWcQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 12 Jul 2025 08:29:06 +0000
-Date: Sat, 12 Jul 2025 10:29:06 +0200
-Message-ID: <87ple5olrh.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: <broonie@kernel.org>,
-	<andriy.shevchenko@linux.intel.com>,
-	<alsa-devel@alsa-project.org>,
-	<shenghao-ding@ti.com>,
-	<navada@ti.com>,
-	<13916275206@139.com>,
-	<v-hampiholi@ti.com>,
-	<v-po@ti.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] ALSA: hda/tas2781: Add TAS2770 support
-In-Reply-To: <20250712081733.12881-1-baojun.xu@ti.com>
-References: <20250712081733.12881-1-baojun.xu@ti.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xLIuR7Xx"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1752328484;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kRD9GIGPAcl9+9P+wxlR8UOcfZFBQSucv2vMLbdggbU=;
+	b=xLIuR7XxssCPgWrpAWX6KhdeLgfSZm9ysPUvboMvBIo8LQL8Ap9TdANcGPc/8jgXMKRJMj
+	nlHqr7f5qAtor9nOxYXwezNvzz812lHV+5C1xl1y9qVCiLI4mF+6sOSNsF0YLLIeMqFg2L
+	kCI3TzVhwtdOJlyNU6yq9/WlC9Rr13o=
+From: Troy Mitchell <troy.mitchell@linux.dev>
+Date: Sat, 12 Jul 2025 21:54:35 +0800
+Subject: [PATCH] ASoC: rockchip: i2s: simplify clock handling and error
+ cleanup in probe
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[139.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,alsa-project.org,ti.com,139.com,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,ti.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250712-rockchip-i2s-simplify-clk-v1-1-3b23fd1b3e26@linux.dev>
+X-B4-Tracking: v=1; b=H4sIABppcmgC/x3MQQqDMBBG4avIrDuQRCXQq5Qu2jjRH62GDEgle
+ HeDy2/xXiGVDFF6NoWy7FBsa4V9NBSmzzoKY6gmZ1xvvHWctzCHCYnhlBW/tCAeHJaZxXjT9T4
+ O39ZS7VOWiP/9fr3P8wLSOgSMawAAAA==
+X-Change-ID: 20250712-rockchip-i2s-simplify-clk-e070457fdb31
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Troy Mitchell <troy.mitchell@linux.dev>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752328479; l=4147;
+ i=troy.mitchell@linux.dev; s=20250712; h=from:subject:message-id;
+ bh=3bgcB1TurwhT7L9X2KCmbojs72aEaLZWW2bUy/QsO0Y=;
+ b=p4ygt/SPN0WzYAquOnuf0wpNUMCA+lbmD7jSoi9sBqx1GRoMNauMF41Zbx2G6x+OmQYVZFzsi
+ opM26vamUVkAZG6iJJch82NRs8/tqFdUlNa9fx84WRY72rxTvOpvL7T
+X-Developer-Key: i=troy.mitchell@linux.dev; a=ed25519;
+ pk=zhRP1xE0bftrurqSWI+SzcSdJGIZ0BTTY9Id0ESzqlI=
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, 12 Jul 2025 10:17:33 +0200,
-Baojun Xu wrote:
-> 
-> Add TAS2770 support in HDA.
-> Create a header file include/sound/tas2770-tlv.h,
-> Set chip_id in i2c probe, check it while sound control is created,
-> and the DSP firmware binary file parser.
-> 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-> ---
->  include/sound/tas2770-tlv.h     | 20 ++++++++++++
->  include/sound/tas2781.h         |  4 +++
->  sound/pci/hda/tas2781_hda_i2c.c | 58 +++++++++++++++++++++++++--------
+Replace devm_clk_get + clk_prepare_enable with devm_clk_get_enabled
+to simplify clock acquisition and enabling.
 
-The whole HD-audio stuff has been moved under sound/hda recently.
-Please create a patch based on for-next branch of sound git tree.
+Use dev_err_probe for concise error logging and return handling,
+reducing boilerplate code and improving readability.
 
+Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
+---
+ sound/soc/rockchip/rockchip_i2s.c | 51 +++++++++++----------------------------
+ 1 file changed, 14 insertions(+), 37 deletions(-)
 
-thanks,
+diff --git a/sound/soc/rockchip/rockchip_i2s.c b/sound/soc/rockchip/rockchip_i2s.c
+index 0a0a95b4f5204701b52ca924683d51c29992015d..bd1b5771ae7c6f91e57c0fe3579a3d9974839f8e 100644
+--- a/sound/soc/rockchip/rockchip_i2s.c
++++ b/sound/soc/rockchip/rockchip_i2s.c
+@@ -31,7 +31,6 @@ struct rk_i2s_pins {
+ struct rk_i2s_dev {
+ 	struct device *dev;
+ 
+-	struct clk *hclk;
+ 	struct clk *mclk;
+ 
+ 	struct snd_dmaengine_dai_dma_data capture_dma_data;
+@@ -739,6 +738,7 @@ static int rockchip_i2s_probe(struct platform_device *pdev)
+ 	struct snd_soc_dai_driver *dai;
+ 	struct resource *res;
+ 	void __iomem *regs;
++	struct clk *clk;
+ 	int ret;
+ 
+ 	i2s = devm_kzalloc(&pdev->dev, sizeof(*i2s), GFP_KERNEL);
+@@ -757,38 +757,23 @@ static int rockchip_i2s_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	/* try to prepare related clocks */
+-	i2s->hclk = devm_clk_get(&pdev->dev, "i2s_hclk");
+-	if (IS_ERR(i2s->hclk)) {
+-		dev_err(&pdev->dev, "Can't retrieve i2s bus clock\n");
+-		return PTR_ERR(i2s->hclk);
+-	}
+-	ret = clk_prepare_enable(i2s->hclk);
+-	if (ret) {
+-		dev_err(i2s->dev, "hclock enable failed %d\n", ret);
+-		return ret;
+-	}
++	clk = devm_clk_get_enabled(&pdev->dev, "i2s_hclk");
++	if (IS_ERR(clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(clk), "hclock enable failed");
+ 
+ 	i2s->mclk = devm_clk_get(&pdev->dev, "i2s_clk");
+-	if (IS_ERR(i2s->mclk)) {
+-		dev_err(&pdev->dev, "Can't retrieve i2s master clock\n");
+-		ret = PTR_ERR(i2s->mclk);
+-		goto err_clk;
+-	}
++	if (IS_ERR(i2s->mclk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(i2s->mclk),
++				     "Can't retrieve i2s master clock");
+ 
+ 	regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+-	if (IS_ERR(regs)) {
+-		ret = PTR_ERR(regs);
+-		goto err_clk;
+-	}
++	if (IS_ERR(regs))
++		dev_err_probe(&pdev->dev, PTR_ERR(regs), "Can't ioremap registers");
+ 
+ 	i2s->regmap = devm_regmap_init_mmio(&pdev->dev, regs,
+ 					    &rockchip_i2s_regmap_config);
+-	if (IS_ERR(i2s->regmap)) {
+-		dev_err(&pdev->dev,
+-			"Failed to initialise managed register map\n");
+-		ret = PTR_ERR(i2s->regmap);
+-		goto err_clk;
+-	}
++	if (IS_ERR(i2s->regmap))
++		return dev_err_probe(&pdev->dev, ret, "Failed to initialise managed register map");
+ 
+ 	i2s->bclk_ratio = 64;
+ 	i2s->pinctrl = devm_pinctrl_get(&pdev->dev);
+@@ -796,11 +781,9 @@ static int rockchip_i2s_probe(struct platform_device *pdev)
+ 		i2s->bclk_on = pinctrl_lookup_state(i2s->pinctrl, "bclk_on");
+ 		if (!IS_ERR_OR_NULL(i2s->bclk_on)) {
+ 			i2s->bclk_off = pinctrl_lookup_state(i2s->pinctrl, "bclk_off");
+-			if (IS_ERR_OR_NULL(i2s->bclk_off)) {
+-				dev_err(&pdev->dev, "failed to find i2s bclk_off\n");
+-				ret = -EINVAL;
+-				goto err_clk;
+-			}
++			if (IS_ERR_OR_NULL(i2s->bclk_off))
++				return dev_err_probe(&pdev->dev, -EINVAL,
++						     "failed to find i2s bclk_off");
+ 		}
+ 	} else {
+ 		dev_dbg(&pdev->dev, "failed to find i2s pinctrl\n");
+@@ -843,20 +826,14 @@ static int rockchip_i2s_probe(struct platform_device *pdev)
+ 		i2s_runtime_suspend(&pdev->dev);
+ err_pm_disable:
+ 	pm_runtime_disable(&pdev->dev);
+-err_clk:
+-	clk_disable_unprepare(i2s->hclk);
+ 	return ret;
+ }
+ 
+ static void rockchip_i2s_remove(struct platform_device *pdev)
+ {
+-	struct rk_i2s_dev *i2s = dev_get_drvdata(&pdev->dev);
+-
+ 	pm_runtime_disable(&pdev->dev);
+ 	if (!pm_runtime_status_suspended(&pdev->dev))
+ 		i2s_runtime_suspend(&pdev->dev);
+-
+-	clk_disable_unprepare(i2s->hclk);
+ }
+ 
+ static const struct dev_pm_ops rockchip_i2s_pm_ops = {
 
-Takashi
+---
+base-commit: 733923397fd95405a48f165c9b1fbc8c4b0a4681
+change-id: 20250712-rockchip-i2s-simplify-clk-e070457fdb31
+
+Best regards,
+-- 
+Troy Mitchell <troy.mitchell@linux.dev>
+
