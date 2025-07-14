@@ -1,200 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCF9288CB5;
-	Mon, 14 Jul 2025 21:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0ED244693
+	for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 23:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752528143; cv=none; b=YSEVT8r8+JMaVyah6SE3x6hYipRNQFaFm4NvKSWP+5wv74LpQfAjijsH6v0KLEhiJGXfbVWHUOMlh7aJa1gwsNdlyhNbNEOGo/w03/1q5JviZk2PHjCE+2XJmM5+M16CuhYKtY4xsQLl8JIDnE4ClWro1vYYuIh+0sxAyMHRth4=
+	t=1752536514; cv=none; b=HQOijyLSbh74ZohAE5/yxiKYMm0MNPhzdgqKKA4QFm464NP/UGpFZtOMNd9pfvdwdGVVuPKNoE8rlEE147tivx4jtL3+ILdWQ6VfjYPurCXjDT5zgE2bF6QwKpqR0Qt0Jur1EFajfWqQYTIX3fubKNaSrT6QVQSptN1WlI/jdz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752528143; c=relaxed/simple;
-	bh=mA7SFMfHy8OinIxgtmu9yWbldbYt6k6q8NSeQegNnJA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OCSYecmlY8HzZxLqc4HQvwsIbgm9JmJgohj6c4s55AIhhEgXzowTahaUE6tYtzx5qdlD7VylCHrdhAk//UU5yjNrQ30UZd1SvONsueHynK6RnGL7xhpIs3TeJ+RAIAaQ0aAhOcZBHr6KknEhW6j/VwZ03QQM+ecRMfcLIK+qORY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q60MisbD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752536514; c=relaxed/simple;
+	bh=ey7rY+Bde2mCktXqa3uo8y+vyr6TGOt6Ny2N+VLQwmI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g47FdioPJrcZCGTkaxUzLc8tgJ+RPzF0typ0+Ug2P7aSGW5xYyIaazInTFkN3PP2FOM/R2WyMf2EC0/9G6ndmFQXVXQsc91lvxoYCu50snt3B3wCRIQZ3Z0ZrFnbkeWKCirQOqMD34lURhj9XEefG9e8CQrL/PpaXtx97KZvMnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cOogs6hZ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q60MisbD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EECFC4CEF8;
-	Mon, 14 Jul 2025 21:22:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752528143;
-	bh=mA7SFMfHy8OinIxgtmu9yWbldbYt6k6q8NSeQegNnJA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Q60MisbD95FOBih0G/23vPpGal83ekgZ28SJ47/I5DIL4UoRV88m/T9aZ8dmOHcei
-	 35usRcp9gpNMuI7D6ihW86QYi+XVSRPRYGdyxIwCtDFiQpKqHpKgltuHzKQ0uRoSmE
-	 z1l4hyF1P2U/5OXyyfn84zPyOOT3cNGZTvkejh/bj1N2eLoiXaqDMPeKw9OJTsoIh+
-	 Q8XuewUUT+SMBoeZZadI6UXPxPFzh1BYd6Ey1YZoRM5BfoD3jzblmHSzhRTwarIhRy
-	 wRecydRGnKsvGt9GLPXwt886zRekRUsGdU9KQ5iq4mjItwreKavGRZA0zx2QGnOdpD
-	 ajlVFOtxieMUQ==
-From: Mario Limonciello <superm1@kernel.org>
-To: David Airlie <airlied@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
-	linux-kernel@vger.kernel.org (open list),
-	iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
-	linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
-	kvm@vger.kernel.org (open list:VFIO DRIVER),
-	linux-sound@vger.kernel.org (open list:SOUND),
-	Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v8 9/9] PCI: Add a new 'boot_display' attribute
-Date: Mon, 14 Jul 2025 16:21:46 -0500
-Message-ID: <20250714212147.2248039-10-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250714212147.2248039-1-superm1@kernel.org>
-References: <20250714212147.2248039-1-superm1@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cOogs6hZ"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56EGbTSR006253
+	for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 23:41:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	VeRYeb70rL7zEXLABWVIX1u+Q+tiztEJvNfdb8INwvs=; b=cOogs6hZKzC35kE+
+	Ei4d7dTfIKS+kLdyr+YXzjV1e202w3IiHFk7GE3C9VkxfXBMI0lxvB/6Qpx7IVzt
+	lYV/5Zajz8+aDwtACN2aqgFjv79iTXy5Nxu/bquJKGEClJhaZOWYVqb2EB0npdin
+	KdHoXwtCPj1aKqKs7J7ga6LYjBVCCHop2A5pYCglBzg+HqB8mZlKex0lenxeruFd
+	/BWqWEJc87yXcuDNlXNKmUxFTMywZXgss+ULgcLGVvIufxHpbBeJ5kEHex9k8ltB
+	++86XwX1XNNcDyBgc0ytgON0ZWCLsyQBeUMkpYCxjpDVFh2hjgqPnby6i9SGi8BO
+	QWjg2A==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufxax8ak-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 23:41:51 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6fb030f541bso17286396d6.1
+        for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 16:41:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752536511; x=1753141311;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VeRYeb70rL7zEXLABWVIX1u+Q+tiztEJvNfdb8INwvs=;
+        b=bIzLzIkeB/6Rn4QTZmvLheXH2VJ4lvSa5KiUzbikPg+oqCzEnLgjPQRike3owELOuL
+         BE8m8QBPRtBD6x6v8e9ASjPf3iffDmH9YIkNDn6khOpRuIQeg6EF3lRUbAqD8I+8wfOz
+         mPJGyngwb2a1Dhf11h1DGI5oN9xUtjpGevMCdoDzCEtsRoGuBPzhMWju5AUm2o/PJshf
+         uUn4II8DILxaCL3gZMPc6mVkVOxhCQk3uyc9uTxaf7wX+3ttdCzQXwNvbnKqxkJ8tJW3
+         NvZs12H2B9MOwiQAYcMbUlxw2FD6rvDI5LMsfcL2GuY9/rijxcsBYZmyahGWvzdN8o97
+         ttFw==
+X-Forwarded-Encrypted: i=1; AJvYcCXLr0ohYPWzgGCQugwLVO6X1cRk4HTtaWPDChKHjazVsug58MIXzBK5qbw8uvX3+jBeAoobN39Qebr6aA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqChUZFx2L8CeqiF0BTBolhpXPf9FIAtM1TS279mBAq6dmznlU
+	0jMHmyCdpwyo3aWsX7ZfttAQitxrV+21jqJFQHZhwQBtMs65/PgO0/g3jyZQUOFeokEtwND4oyH
+	fd/SOpwMa7G8PLPWO4s7kOSCzUQa4nRbyjnAv31IK1V7u3zGP69IMMpvKds2jbIUiFw==
+X-Gm-Gg: ASbGncvkiYu/tSPYQ1RetJdhl/Zb62Wo75CUA+Di6AuCg6pdXIFDeVAaFccArUybWyr
+	YBKg/NqBKAVxTaRwY7yyhq2XPrjCD1KEmSPPqarHZO1Mqnacc7Cy/2+hJz1KuwtD28aCjiPw3vp
+	EiQLH0suWgS47JkiXyC6OzBczWDZ/LeKL6fH2lBHbNlMBuPGNEw6m+oTFVtdt3LPb68OF8kcsym
+	jGChLZ4tr2Y/+Avo5v0u9UzCVHtiwGR9kj5ubMFINHgTG9gtwgbNc07BM8wJLWK+t9gL0GOLCH3
+	gX3NJna6XTSARe0MyEkVIJSrMj9YNC3qisZ09Xzp7ZWP1EJGrEUWnXDXggjH4bRZxCSOEdGLjQj
+	gdegCOvQnS2RNRMzbCrhY
+X-Received: by 2002:a05:620a:d86:b0:7d3:f0a1:2f3e with SMTP id af79cd13be357-7dde99530b9mr793405285a.2.1752536510670;
+        Mon, 14 Jul 2025 16:41:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEG7XfqmPDJb/D49KYu7FtbuASdqoalUiWXMFW7Y9kAKQLdst5o2Dt8cMYPxnLj3lAeTolOpQ==
+X-Received: by 2002:a05:620a:d86:b0:7d3:f0a1:2f3e with SMTP id af79cd13be357-7dde99530b9mr793403785a.2.1752536510136;
+        Mon, 14 Jul 2025 16:41:50 -0700 (PDT)
+Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7e91d10sm893953766b.5.2025.07.14.16.41.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Jul 2025 16:41:49 -0700 (PDT)
+Message-ID: <3ae51350-61a8-422c-8e39-32ea6d8b2e9a@oss.qualcomm.com>
+Date: Tue, 15 Jul 2025 01:41:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/6] sound: soc: qcom: qdsp6: q6dsp-lpass-clocks: convert
+ from round_rate() to determine_rate()
+To: Brian Masney <bmasney@redhat.com>
+Cc: Support Opensource <support.opensource@diasemi.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Oder Chiou <oder_chiou@realtek.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Maxime Ripard <mripard@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
+References: <20250710-sound-clk-round-rate-v1-0-4a9c3bb6ff3a@redhat.com>
+ <20250710-sound-clk-round-rate-v1-4-4a9c3bb6ff3a@redhat.com>
+ <c321ed9f-7906-4a92-9202-efb46343ee91@oss.qualcomm.com>
+ <CABx5tqJzEMUXz0Cbo5siCnwKp2MVON_oGgMnGkb_cg1zv8k5nw@mail.gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <CABx5tqJzEMUXz0Cbo5siCnwKp2MVON_oGgMnGkb_cg1zv8k5nw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: PTl6wjIoFXCR8TpnBHG6k6E5JC8TjYHy
+X-Proofpoint-ORIG-GUID: PTl6wjIoFXCR8TpnBHG6k6E5JC8TjYHy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE0MDE2OSBTYWx0ZWRfX+B5BZGQXZXk1
+ Ypd31B8ESvWljkwdcbRBcYU4n0Zv00r57szKdpQOiOCf3GXtZjolNhRtZYcKg74iuzRlhy9Mp5S
+ AQbyIUNDcrvUjNYD+4uCye4QFIoe32DmkZHdydrnX7bU3J0YZa1kCgba8wbopD6mJ415CHlr+Iz
+ 9DBionigLeHjwQDsewtj+Tp06t6jDlCgTh8aJeNkuKuAQmamyirK9YpFWUVaN1jPYcmb+TA6U01
+ 1JgBkvDK9ngfXyzT0tipJ/yYC8rCh7mieg3HY1xLCrZFawKKeJ4J5oldrGlPxpa9YS19udpp0k3
+ 5p2FyZSZ8YNdFAdS1owPt9rVU2FiYzUj9oB49fLCqf6cgdw8AWYay8dfyJAtPHjDPJVK9jtETLS
+ AVJkWrJu0ytjKO9pYZNjKoV9EXeMX2JaSotJtCE39d2AYVNQIufIok20d0ojAZCu+vtWG8t1
+X-Authority-Analysis: v=2.4 cv=Xc2JzJ55 c=1 sm=1 tr=0 ts=687595bf cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=20KFwNOVAAAA:8
+ a=ICpbbQuAY509VL3I2goA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_03,2025-07-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0 priorityscore=1501 adultscore=0 mlxlogscore=798
+ phishscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
+ clxscore=1015 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507140169
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+On 7/14/25 10:39 PM, Brian Masney wrote:
+> Hi Konrad,
+> 
+> On Thu, Jul 10, 2025 at 12:09 PM Konrad Dybcio
+> <konrad.dybcio@oss.qualcomm.com> wrote:
+>> On 7/10/25 5:51 PM, Brian Masney wrote:
+>>> The round_rate() clk ops is deprecated, so migrate this driver from
+>>> round_rate() to determine_rate() using the Coccinelle semantic patch
+>>> on the cover letter of this series.
+>>>
+>>> Signed-off-by: Brian Masney <bmasney@redhat.com>
+>>> ---
+>>
+>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>
+>> come to think of it, there are a lot of drivers that can not
+>> do any rate rounding - perhaps we could introduce a NOP implementation
+>> in the clk core that we could reference, instead of copypasting
+>> int foo(...) { "return 0" }?
+> 
+> I'll look at that for a second round of cleanup once all of the
+> round_rates have been removed from the tree. From what I recall about
+> the ~200 or so round_rate implementations in the kernel tree, there
+> were maybe only 5 or so that cover this noop case. QC seemed to have
+> the most from what I recall.
+> 
+> It wouldn't be hard to make a Coccinelle script to look for the noop
+> determine_rate() implementations.
 
-On systems with multiple GPUs there can be uncertainty which GPU is the
-primary one used to drive the display at bootup. In order to disambiguate
-this add a new sysfs attribute 'boot_display' that uses the output of
-video_is_primary_device() to populate whether a PCI device was used for
-driving the display.
+Thanks!
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v7:
- * fix lkp failure
- * Add tag
-v6:
- * Only show for the device that is boot display
- * Only create after PCI device sysfs files are initialized to ensure
-   that resources are ready.
-v4:
- * new patch
----
- Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
- drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-index 69f952fffec72..8b455b1a58852 100644
---- a/Documentation/ABI/testing/sysfs-bus-pci
-+++ b/Documentation/ABI/testing/sysfs-bus-pci
-@@ -612,3 +612,11 @@ Description:
- 
- 		  # ls doe_features
- 		  0001:01        0001:02        doe_discovery
-+
-+What:		/sys/bus/pci/devices/.../boot_display
-+Date:		October 2025
-+Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
-+Description:
-+		This file indicates the device was used as a boot
-+		display. If the device was used as the boot display, the file
-+		will be present and contain "1".
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 268c69daa4d57..6b1a0ae254d3a 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -30,6 +30,7 @@
- #include <linux/msi.h>
- #include <linux/of.h>
- #include <linux/aperture.h>
-+#include <asm/video.h>
- #include "pci.h"
- 
- #ifndef ARCH_PCI_DEV_GROUPS
-@@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
- 	NULL,
- };
- 
-+static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
-+				 char *buf)
-+{
-+	return sysfs_emit(buf, "1\n");
-+}
-+static DEVICE_ATTR_RO(boot_display);
-+
- static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
- 			     char *buf)
- {
-@@ -1051,6 +1059,37 @@ void pci_remove_legacy_files(struct pci_bus *b)
- }
- #endif /* HAVE_PCI_LEGACY */
- 
-+/**
-+ * pci_create_boot_display_file - create a file in sysfs for @dev
-+ * @pdev: dev in question
-+ *
-+ * Creates a file `boot_display` in sysfs for the PCI device @pdev
-+ * if it is the boot display device.
-+ */
-+static int pci_create_boot_display_file(struct pci_dev *pdev)
-+{
-+#ifdef CONFIG_VIDEO
-+	if (video_is_primary_device(&pdev->dev))
-+		return sysfs_create_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-+#endif
-+	return 0;
-+}
-+
-+/**
-+ * pci_remove_boot_display_file - remove the boot display file for @dev
-+ * @pdev: dev in question
-+ *
-+ * Removes the file `boot_display` in sysfs for the PCI device @pdev
-+ * if it is the boot display device.
-+ */
-+static void pci_remove_boot_display_file(struct pci_dev *pdev)
-+{
-+#ifdef CONFIG_VIDEO
-+	if (video_is_primary_device(&pdev->dev))
-+		sysfs_remove_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-+#endif
-+}
-+
- #if defined(HAVE_PCI_MMAP) || defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
- /**
-  * pci_mmap_resource - map a PCI resource into user memory space
-@@ -1654,9 +1693,15 @@ static const struct attribute_group pci_dev_resource_resize_group = {
- 
- int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
- {
-+	int retval;
-+
- 	if (!sysfs_initialized)
- 		return -EACCES;
- 
-+	retval = pci_create_boot_display_file(pdev);
-+	if (retval)
-+		return retval;
-+
- 	return pci_create_resource_files(pdev);
- }
- 
-@@ -1671,6 +1716,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
- 	if (!sysfs_initialized)
- 		return;
- 
-+	pci_remove_boot_display_file(pdev);
- 	pci_remove_resource_files(pdev);
- }
- 
--- 
-2.43.0
-
+Konrad
