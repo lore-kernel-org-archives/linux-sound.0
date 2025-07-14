@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3201253B7E
-	for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 13:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64818253B52
+	for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 13:42:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752500551; cv=none; b=uxE6F1bshy+nhzYHE1QPmIyMwjZCH/8+kgmuREh0odMw9fRTodOjuqWsyi9uPKdwhtPcJMjLuSfZzzi3I37uuhIPAuZiMNDpbDtDaFPgsfjLlg4/sF7Ee30EO07AHAjKZ82Z3A0ashkrPb1WakbKiAs8vbK4mPry3RYwUL5lF7c=
+	t=1752500554; cv=none; b=cbuYT9Mi225ET8h1jbIHdhBaYW1dFd7DGJJgK1DcHoS64/5ftR4B152mMI40UWOI4Z3mYWjq1UZtJt+o2UXzPd1F1IzaHCWqMj7Ayzaxgi97oZ2BDkJ36sd20seuw7OkMgiHYP/7mmQDarD3UjmVlmHFObwtNh86DXlIT44X7rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752500551; c=relaxed/simple;
-	bh=iUMSPavhVP1lxfPFzCYucX8r8KPCIeazdyqkmrxrnpY=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Jssg5IK7guLAfI12Vp+GKWl03czz41IJEVRfK6LQB+PfzHoQU/oOMrFAu3EKGJpzGLOj+YyN5eSjiJ4SxLkleerUrW3H57s9DS5hMvVpLVyxopj+ea53Op+TDbAi0ptiPhU+lfcmrUYYT9C16FffUjdEbdeTN020OqYRQdieAQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xt0XdZFZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752500554; c=relaxed/simple;
+	bh=ZB7yCb6HOEiELWXcpQjtbpaM8WEGVwDuLP+nfMQgZrY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=UUYtqpR/LhYLgz7MQhlXOkkvsU3SGQnzQdbZdtKMT+p7rG53lWtFSzUIqzONmgmHum3eqZYA1MO46/G74Ph/gd5bwvjMllAbM48XqerucCuegn9xxMFacRVEOv1lK5aTgbJPJpA4eeTSwrbZP54klFR87k4uf9FPxT3yIZhvZjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XRoOsWEB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xt0XdZFZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE712C4CEF0;
-	Mon, 14 Jul 2025 13:42:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XRoOsWEB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE381C4CEF4;
+	Mon, 14 Jul 2025 13:42:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752500551;
-	bh=iUMSPavhVP1lxfPFzCYucX8r8KPCIeazdyqkmrxrnpY=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=Xt0XdZFZd9UGxC00PDWbuQ5yUj/RWUMTwPjQiPKafzx/aWVOcnT9gZOucGhaJW87Z
-	 ijzOX0ueuyLC/Zk751YXNn0NjHzn0hz1Lia28zh4Iy47wX1FDrsD3hr/GcivpjveFl
-	 H4aCSGIRFps39eUwbkJlJGXkRaXYLyGPo+1VMdZUzdWeA3MS0ZcLnN6OAcylD+eJH2
-	 UWBjxvHf22aqN1ht6FIelnr7j9C4xC86ZJdHF9wcNX0RZTWN5Ow20j+EJTYoIWsQHO
-	 SwS71IWNlGJxCC5t0wv2HO/yHRVKZSe2D16Ij5czunZYzIGYRyQS4XrOjkiem93M1p
-	 r3OkiaH/aDGjA==
+	s=k20201202; t=1752500554;
+	bh=ZB7yCb6HOEiELWXcpQjtbpaM8WEGVwDuLP+nfMQgZrY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XRoOsWEBtVKSwER4oH/fGAtS2GM1MBfNZYIGbALFoECQcUJLCUAqKiVUeMoqCL7kS
+	 cfs6vqqkAl5csbTTUy4OcRLvMrEpHgwd1+TPV93qIyjlc1vtvFi0ENuNh4pweLVfr9
+	 VEBd6TALH2ZP5r2lhIR+xnnd96DZnhBC7rY6dD6v0In9e/MTnVf/y4sXvoggUkKCvT
+	 kuNHqbMDCB4c6rLwEohOUNsdYJphUIiwQZEZt1tkJOcCWFAIf+RRtsAymWhnpxRvIu
+	 96Qc43/jDSN+9VSDZhM/tN4Q6pMuMXAAciDGonYr03H1SN61kHj4J/sGh9p/k+bRlJ
+	 2/rAPWLDNYNlg==
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87sej34g5d.wl-kuninori.morimoto.gx@renesas.com>
-References: <87sej34g5d.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [RFC][PATCH 0/5] ASoC: set bias_level at if
- snd_soc_dapm_set_bias_level()
-Message-Id: <175250054953.59912.11034261165939984995.b4-ty@kernel.org>
-Date: Mon, 14 Jul 2025 14:42:29 +0100
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
+ arnd@kernel.org, linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20250711100616.296329-1-ckeepax@opensource.cirrus.com>
+References: <20250711100616.296329-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v2 0/2] Update SDCA Kconfig
+Message-Id: <175250055143.59912.2041339395702027452.b4-ty@kernel.org>
+Date: Mon, 14 Jul 2025 14:42:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,16 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Fri, 11 Jul 2025 02:26:06 +0000, Kuninori Morimoto wrote:
-> ASoC has 2 functions to set bias level.
+On Fri, 11 Jul 2025 11:06:14 +0100, Charles Keepax wrote:
+> Tidy up a bunch of makefile and Kconfig things, and pull the HID and IRQ
+> into the main SDCA module.
 > 
-> 	(A) snd_soc_dapm_force_bias_level()
-> 	(B) snd_soc_dapm_set_bias_level()
-> 
-> (A) sets dapm->bias_level, but (B) is not.
-> I think we should set it on both (A) and (B).
-> I think it is miss or bug, but Samsung is the only vendor that feels a
-> problem about this.
+> Changes since v1:
+>  - Don't expose SND_SOC_SDCA to the user
+>  - Simplify the makefile bits for HID and IRQ
 > 
 > [...]
 
@@ -66,16 +62,10 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: soc-dapm: set bias_level if snd_soc_dapm_set_bias_level() was successed
-      commit: f40ecc2743652c0b0f19935f81baf57c601eb7f0
-[2/5] ASoC: samsung: bell: don't set dapm->bias_level directly
-      commit: 88f60cb4b8c96241d86a68da57dc5b52488240cf
-[3/5] ASoC: samsung: speyside: don't set dapm->bias_level directly
-      commit: d2f423a4f4ecabd852c5ee5076596399488d4b75
-[4/5] ASoC: samsung: tobermory: don't set dapm->bias_level directly
-      commit: 4421e455d2c33a86cdb19f3a0854a59de1542321
-[5/5] ASoC: samsung: littlemill: don't set dapm->bias_level directly
-      commit: f00e06296ba3f0d8440030afe8cc2258758b7af7
+[1/2] ASoC: SDCA: Kconfig/Makefile fixups
+      commit: 6894e49b7b62cdb0edbcaaa23ea0218edb3b02dd
+[2/2] ASoC: SDCA: Pull HID and IRQ into the primary SDCA module
+      commit: 5030abcb0aa3304bf91497844ffa9607a2d4ad5d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
