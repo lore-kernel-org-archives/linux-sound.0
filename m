@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F09C221739;
-	Mon, 14 Jul 2025 06:11:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23183D76;
+	Mon, 14 Jul 2025 07:23:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752473464; cv=none; b=MGM44pW9Jw8SOxyMg3U0uBaSmG3dZGpAANWNp1U1I+kSgPT8RKjdOTl4a4Cx8dj0Jzslnub5LxVF0ZuI99xsN8yu8RxacLXQBIuFyct5SvnUKzuibhxH7KuoAV0z/lQFBtbeQUD3aoMXpUr6rlnk3iCk4KjqhCf330Uozd7ilNs=
+	t=1752477785; cv=none; b=Xxwfnf0GZq8sD2YaYXEF5iGuMfmXgsKpeXipU3sX5vkrh5EIgSpdHCQJI6w8bby/QUzoN88MMdLXpSw9G9J5+S1au5hf3d5UQUzXg++99nBFAaDj6UYiYhNvJ0TWleZ9WngAUctk5HstjVw65gksa52XNoA9espYwOz8l7WrNLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752473464; c=relaxed/simple;
-	bh=cgoFQzidKJiXken5LY/zYRTNKdUK37df3G6JRzGndZs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G3lG+LzJoVUydaFJyPxXaVgV1LhppjOZDNR7REYhNRMlZLIvt28ebzHKN1JnrptzjLq0/N+c4XgxGSEIBqNMNULIgLRslNRsxavDnfs7SJmaHgAFK7BVzSi6mDzuC6aI5eazri9RHBulFE+JYMhEARqtkncc+zeQO3SXPUXcq4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=msSspsSb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752477785; c=relaxed/simple;
+	bh=lA+u2wsudK4biBMNEiNRChT30Crw822XUo7zjFOgD4k=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=lJikwbCbL74D0XEYWPrINrnCXrlsbaTY0LRtY/3GZqX7kR0h/VCVNVwSAMBaLKxujiGi3+4LObNcEQkysVIc71TOvQY1pVHfLdU/8L5EdV5BKLsxKtD3bySFTJ7LTg1Gu6aYLKwWUheNaLfiTyUmI0HAhrPDkZ0W048KeIPqlAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fINE7GdR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="msSspsSb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5589DC4CEF6;
-	Mon, 14 Jul 2025 06:10:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fINE7GdR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C42C4CEED;
+	Mon, 14 Jul 2025 07:22:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752473463;
-	bh=cgoFQzidKJiXken5LY/zYRTNKdUK37df3G6JRzGndZs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=msSspsSbeo0L/K9rS2/HadP4jcVsXuS+yYzRrtqTnDsa6o/3PjXfFdoKBiPrh8ftQ
-	 uEWLJh7K1+Ib5SO9XX+UmifxLTVT18FxJhsfdL7uOyv2oiP9WfrjMbiZj85mhOwEXP
-	 /574fcXBWBEa1QFOR/tnEjrYORVsdVwq2yRzGP4kSoSbdgA2hSIqNtR4KPmSuxLPj8
-	 /dKlgAKebDFZbIzNQuhcl3zcGX0HGuER9hiP/xDaRRx2uM1J72s8TVqdOMpl2OWgQV
-	 n+h0YijhUjbGPu1HSmSdcNQbdNIigAOm7NxOSBPpm2R9uFPldRY6jgY9Ek/E5HgY3R
-	 FMSlhW0nR2+4w==
-Message-ID: <82f1a34f-bfdf-466f-9c44-2e58d172f3fd@kernel.org>
-Date: Mon, 14 Jul 2025 08:10:55 +0200
+	s=k20201202; t=1752477784;
+	bh=lA+u2wsudK4biBMNEiNRChT30Crw822XUo7zjFOgD4k=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=fINE7GdRKWb39l7UaOrkTXkgICvxx2f6Pt5a7ACJPS26f7lMtIa6GTwAm5czXExcl
+	 zhCAMUw+rvLZVc8/6szvDOyCDN30k7yN4UouJ5j4bTYVuy7VYaRMnqMwsO/UJLAJaS
+	 wzKQDlgBnqpFZ+EWaJctcehVkKmx7EzYXJ/67Ag8scbyKsUYYXUyIphkROt0Lo/bX3
+	 dhK/gi+qZuvwBtWJtKavyv0i6s6J/3bzX6Bhch9vKt06T/wfln0ud17vyxPzPjoG9K
+	 yuSExTPz10oAKz35bd9HTJnkK2w5s3MfzyuV6dCN+FBtHqyQnos/U9ghrIwNUF16l4
+	 agIYJR9LROioA==
+Message-ID: <b8d61abb-a6a6-49cd-94c3-f397bb30203e@kernel.org>
+Date: Mon, 14 Jul 2025 09:22:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,6 +36,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v5 3/6] dt-bindings: Asoc: axg-audio: Add s4 audio tocodec
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: jiebing.chen@amlogic.com, Jerome Brunet <jbrunet@baylibre.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -50,7 +51,7 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  jian.xu@amlogic.com, shuai.li@amlogic.com, zhe.wang@amlogic.com
 References: <20250710-audio_drvier-v5-0-d4155f1e7464@amlogic.com>
  <20250710-audio_drvier-v5-3-d4155f1e7464@amlogic.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <82f1a34f-bfdf-466f-9c44-2e58d172f3fd@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -95,37 +96,45 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250710-audio_drvier-v5-3-d4155f1e7464@amlogic.com>
+In-Reply-To: <82f1a34f-bfdf-466f-9c44-2e58d172f3fd@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/07/2025 05:35, jiebing chen via B4 Relay wrote:
-> From: jiebing chen <jiebing.chen@amlogic.com>
+On 14/07/2025 08:10, Krzysztof Kozlowski wrote:
+> On 10/07/2025 05:35, jiebing chen via B4 Relay wrote:
+>> From: jiebing chen <jiebing.chen@amlogic.com>
+>>
+>> Add S4 SoC tocodec compatibility support.
+>>
+>> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+>> Signed-off-by: Jiebing Chen <jiebing.chen@amlogic.com>
+>> ---
 > 
-> Add S4 SoC tocodec compatibility support.
+> Please use subject prefixes matching the subsystem. You can get them for
+> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+> your patch is touching. For bindings, the preferred subjects are
+> explained here:
+> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
 > 
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: Jiebing Chen <jiebing.chen@amlogic.com>
-> ---
+> 
+> <form letter>
+> This is a friendly reminder during the review process.
+> 
+> It seems my or other reviewer's previous comments were not fully
+> addressed. Maybe the feedback got lost between the quotes, maybe you
+> just forgot to apply it. Please go back to the previous discussion and
+> either implement all requested changes or keep discussing them.
+> 
+> Thank you.
+> </form letter>
+> 
+You responded in private, but that's not how we discuss here. Please
+keep all discussions public.
 
-Please use subject prefixes matching the subsystem. You can get them for
-example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+Above form letter means you received feedback at v1 or v2 and you did
+not implement it. You did not respond to it, either.
 
-
-<form letter>
-This is a friendly reminder during the review process.
-
-It seems my or other reviewer's previous comments were not fully
-addressed. Maybe the feedback got lost between the quotes, maybe you
-just forgot to apply it. Please go back to the previous discussion and
-either implement all requested changes or keep discussing them.
-
-Thank you.
-</form letter>
-
+Please go back to v1 or v2 and implement entire feedback.
 
 Best regards,
 Krzysztof
