@@ -1,148 +1,98 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F9C13AD05
-	for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 12:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3A12512D1;
+	Mon, 14 Jul 2025 13:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752496284; cv=none; b=DNkmaEvrLJ1t+Ccz8AhnGYI9B2sB7WLP105S30bC8kHy/oLbNQJQ+oG9eyGEeYoRE97oPfSxmadNS/CJ03/z++NXkDkpI6t5DAyvlZ1YjvFFjiL4b48th3qgquT3luV8SOgYBAEMA4q42VKCpayO7D5MGuXImb/ZcaTYPM1ELmE=
+	t=1752500549; cv=none; b=DQwBMVTqgXwXfl9ufC3YrbQYxVxYx4AEP41nYCAUY+lbVlw5wlBJR/SIsB5tusB/dKv+h6k9uYb8NAR4SzGLYSGogbezWCR7TRvs2C1xMTpJ2+QWkbhAOhcHXxZAgeBi6TfiCWCwyaHPf2glDpjqDUm4Rtg75Sc3CDPJYnaO40g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752496284; c=relaxed/simple;
-	bh=XRSmX4VLJR+0m9mGhIUApkrhXKLLzGJVetsEWb9JH8g=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yt7mWINkXV0ZE/cTXRSvHMFQZpoQ9yVymDL7RVCu2r/rOs1PCrZQT7ZW15zjFkyTJTLrugD2roMDal+jtKb5aAileimk7Eg/fMxRurMz2FNnDO+EzZoQz/qPKz2w35GHrmp9ilTE2KyOX2cocf2gAlfcYg4oOYo13emdVqb81qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vvq/Cvp1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Si+git4y; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d94XsAfo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fd3uENEz; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1752500549; c=relaxed/simple;
+	bh=STZLoAmj4SYRKNUHqnzeOXjvFxcKujs5vEAPDgZQa/k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=EsVBWbm8d/B87vB7KdyBBpQP2mPwFl50drDxNpvlXParpbUNu3C+epTThMH3rrRCRXUUVkhtu2forQba75F4lpJcdgHkt/tb3A9izeGj2MkvrFzmNH+rGcohVqYj31vGZBfQs/Y+axLlrsejbEIARwtv1QmZ851xGDAAgAoxRus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OqzCbmj0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vvq/Cvp1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Si+git4y";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d94XsAfo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fd3uENEz"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0FB121F38D;
-	Mon, 14 Jul 2025 12:31:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752496281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Y5AV10NlnRjD1lOwQsBUOV58WIv1DyM1EzoZg6Z/FQ=;
-	b=Vvq/Cvp1j8xmiwtjSAG9BjywwTQuHSDVo0J0uvdQpjiBNyyF9jqJhN4LaFZBXifqtH6Hjq
-	Wlj/8ZEx36R3pi5hM7lUuZm4pKaYfNxEz/jyAILwE5DQWpg4/vwZZLfEISaump3NsM0TNM
-	x0rMUitR/R0U6V/fUT2Ubqzb4MZLz/A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752496281;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Y5AV10NlnRjD1lOwQsBUOV58WIv1DyM1EzoZg6Z/FQ=;
-	b=Si+git4yQgVtA7UnglxQUsGUvxHizC9aLjnuN24uIS7D7OyX/0xAeWGVkjpt6H4h2yWAw+
-	d+uwp2l/pI0sc1CQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=d94XsAfo;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fd3uENEz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752496279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Y5AV10NlnRjD1lOwQsBUOV58WIv1DyM1EzoZg6Z/FQ=;
-	b=d94XsAfojxqBigP48ndV44UdhnYFTY3BPWhEzmd8pqoqom/UzdCA3F8xzXwjEf5jopXAYi
-	Jw+/LFG8GdU1LDvvIla/FwOxdS3OiWd0FCOSCkQebksMb43Pa0trrPbv3GW+63PBi4i6kO
-	vo3e2EECTeYCrId+a5SAYLVGH1zPhIQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752496279;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Y5AV10NlnRjD1lOwQsBUOV58WIv1DyM1EzoZg6Z/FQ=;
-	b=fd3uENEzThuHUmIN72rCujUkxxY6iMZ0006QqwhxttnaWbCG/DivaN2i9o5J/2WkMcz9zc
-	/07JtV9ki0JwdABg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CD0FE13306;
-	Mon, 14 Jul 2025 12:31:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id njusMJb4dGgtewAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 14 Jul 2025 12:31:18 +0000
-Date: Mon, 14 Jul 2025 14:31:18 +0200
-Message-ID: <877c0b7y3t.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ALSA: hda/cs35l56: Workaround bad dev-index on Lenovo Yoga Book 9i GenX
-In-Reply-To: <20250714110154.204740-1-rf@opensource.cirrus.com>
-References: <20250714110154.204740-1-rf@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OqzCbmj0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1723C4CEED;
+	Mon, 14 Jul 2025 13:42:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752500549;
+	bh=STZLoAmj4SYRKNUHqnzeOXjvFxcKujs5vEAPDgZQa/k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=OqzCbmj0EV+lIv6f+l5P+UyrrSodmXCf/XaHeFMhX1cIs0fQhV9/4Q/LlDiPThaMM
+	 L+qdyiuktS2pXNeV7iBg0bmBsQf+TkCpn7UyQMXQWyTBK4dUTk5vdVCTYSdMDoWEIE
+	 F90RACIG4exp+qLSeAOPHMgIY2WVZAm20YrUuhJ4HY+Ywy+aq3/cZAQWUOzmOzj1Xo
+	 kUHTUYMXDRgwpu9n6GEOk6B6kLogLgOc4XyJWEXWqW5c2URN4m5nxIasBlyxr4zyaX
+	 eYZhOavgUt1kgFmp3gFfGeGza8mh1fEZOxNcxMjsd8SbpNsMUBW2YMu3u7vDrmotW6
+	 /Bi7/dPY3WzsQ==
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Alexander Stein <alexander.stein@ew.tq-group.com>, 
+ Peng Fan <peng.fan@nxp.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, Markus Niebel <Markus.Niebel@ew.tq-group.com>
+In-Reply-To: <20250710-asoc-gpio-1-v2-0-2233b272a1a6@nxp.com>
+References: <20250710-asoc-gpio-1-v2-0-2233b272a1a6@nxp.com>
+Subject: Re: [PATCH v2 0/3] ASoC: codec: Convert to GPIO descriptors for
+ tlv320aic32x4
+Message-Id: <175250054660.59912.16471327472750140555.b4-ty@kernel.org>
+Date: Mon, 14 Jul 2025 14:42:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,cirrus.com:email,suse.de:mid,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 0FB121F38D
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-On Mon, 14 Jul 2025 13:01:54 +0200,
-Richard Fitzgerald wrote:
+On Thu, 10 Jul 2025 20:40:00 +0800, Peng Fan wrote:
+> This patchset is a pick up of patch 1,2 from [1]. And I also collect
+> Linus's R-b for patch 2. After this patchset, there is only one user of
+> of_gpio.h left in sound driver(pxa2xx-ac97).
 > 
-> The Lenovo Yoga Book 9i GenX has the wrong values in the cirrus,dev-index
-> _DSD property. Add a fixup for this model to ignore the property and
-> hardcode the index from the I2C bus address.
+> of_gpio.h is deprecated, update the driver to use GPIO descriptors.
 > 
-> The error in the cirrus,dev-index property would prevent the second amp
-> instance from probing. The component binding would never see all the
-> required instances and so there would not be a binding between
-> patch_realtek.c and the cs35l56 driver.
+> Patch 1 is to drop legacy platform data which in-tree no users are using it
+> Patch 2 is to convert to GPIO descriptors
 > 
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> Reported-by: Brian Howard <blhoward2@gmail.com>
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220228
-> ---
-> This patch is based on 6.16. I have tested that it also applies on the new
-> HDA structure using a 3-way merge.
+> [...]
 
-It's a bit bigger than wished for rc7, but the fix itself looks rather
-simple, so I took for 6.16-rc7 now.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-thanks,
+Thanks!
 
-Takashi
+[1/3] ASoC: codec: tlv320aic32x4: Drop aic32x4_pdata usage
+      commit: 69d5b62c4bded309332add0fac6760239ff47a68
+[2/3] ASoC: codec: tlv320aic32x4: Sort headers alphabetically
+      commit: b709c1aef5e15db3aff5749fc7ed9c61b8d0a322
+[3/3] ASoC: codec: tlv320aic32x4: Convert to GPIO descriptors
+      commit: 790d5f8ee6f2a27686d042abbce16b4e03ac1608
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
