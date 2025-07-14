@@ -1,87 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD40C24061F;
-	Mon, 14 Jul 2025 10:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB779244660
+	for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 10:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752489212; cv=none; b=gd7tbvZG88jnpreYjm54+mx7WiT79wEhxy4Oq5QyjKo/D0jApNTNpaT4wwGe4DlKqt0K5t9xSdQyLtGV7F7bLM+/k0pukRXlWG9UT2u0stdVG+KwSvQfdELSgwbv8li2WCSU8XXNwNjO+3QYo26Igydn4w5JZL/+/EaxwsBAiWs=
+	t=1752489767; cv=none; b=CzGYW4Op/MAq4Q68Wy7gDymoUOT6qLrduQY1U2jJL4WG7mohLPYCfRaKCTzk1zWknjYPWe+DwuW8CnZsKzMMVdxPkZBFe6/Wd6cftkrYWnhSAhMUw1w6cBpo12XYoSDvptHWj2fAmc1O/h0XCvid0bR0lgVcEfsbT/iFGzuujbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752489212; c=relaxed/simple;
-	bh=bMoDE10u69+kJo+CqlUf/1Lk5IoVrtH/MJM88QLo0X8=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tEu/qFJngu3/aclhZx6tMP28hyvZW4UmKLPU7Xu9Zs1S47Yh8M9qrcnoOZzGbVvilYAl2knVfrlDoKtVAaLHkSAoeL9MXdGUEwmGTSXus8aqRKLsN25/aaj7+NkF+qw1npZrcAIvRdovM55M+B2ugaAZDE0jdyXBrA3T0/aeZRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UKQwRRMz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752489767; c=relaxed/simple;
+	bh=y7LQ+RcKRrckIRhoPRjhx0RHCEoPwJTY13ckG/d9Dfc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mOa01ZBkukxRYcnlOMMoKFhiVttkKd583lR133tTm/vQyEUeWjiUTHJnxfw3PBWWS7qIpa9RQ/B7zTaXsrY5UzT7QaFz9GVuqe8IjFj5uGFT4wzn8xginpi3Yb74b4rMip67zXEwwQ9pb65WD2VHRY0OijFjIp+we9CegxTJg9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AOIFIKdU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7IXpsjif; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AOIFIKdU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7IXpsjif; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UKQwRRMz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40B3BC4CEED;
-	Mon, 14 Jul 2025 10:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752489212;
-	bh=bMoDE10u69+kJo+CqlUf/1Lk5IoVrtH/MJM88QLo0X8=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=UKQwRRMzxreim04vlh2nc5bQcynAxieghO6aqhe8IqhE4k9SvCU0yOs0189unXdvY
-	 oV1JTpMwRXs3FXgq9NPSl1GSbHjHO1yZkdSrblfIp60SWoRrWyXyLTjDBChq5O+nKe
-	 mdgfXtxOFQz6X3rtxz9qhR2JIktwzsGlJlSV/6Li8VuTby7na20b7TUC3qnRK95Tc8
-	 ApDsaIpHT6cWzzyxBtUTW3jnpyEvHHAT5hlbWYYbon4IdWkgb+atBSl0kR5eCfJqeT
-	 pgLABcRuKfKuaZDFxOwUw1RtzE8fZDI1fpDrenPtXxs42dvyPjcgPCLZ8+9q2JwILs
-	 WRsjnqCtMhfRQ==
-From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20250708085318.2563521-1-shengjiu.wang@nxp.com>
-References: <20250708085318.2563521-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH] ASoC: fsl-asoc-card: add sysclk_ratio for calculate
- sysclk frequency
-Message-Id: <175248920998.18169.4788818303967179573.b4-ty@kernel.org>
-Date: Mon, 14 Jul 2025 11:33:29 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AOIFIKdU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7IXpsjif";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AOIFIKdU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7IXpsjif"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0B97F211D2;
+	Mon, 14 Jul 2025 10:42:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752489763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BL8NrWSCMmbBzbiRlti2vMpo5naJ9ehy6kfPGtGhR+s=;
+	b=AOIFIKdUJt3kKsEqjyfkG51/0mw//xL9xfNVYrlSXTEYAvCycJmIrZI9HwOVexxj5beqe6
+	yU1tSk+fEEBwlYOWQm3uvJBLCq0xCgPoa43E1QBThHUkR2JvcNfeYvvzOqDO5wcJFPRe+4
+	2HwLJfELx1YSIzruQuuwThIqB8hBla0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752489763;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BL8NrWSCMmbBzbiRlti2vMpo5naJ9ehy6kfPGtGhR+s=;
+	b=7IXpsjifO+Wcv2fwzUqfeZu3pJHdCu8thFw5Jqcz8KlT97qZe+Nf0FxA/Z2VM6uOZgQDgY
+	JP8aRZEll1L6wFAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752489763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BL8NrWSCMmbBzbiRlti2vMpo5naJ9ehy6kfPGtGhR+s=;
+	b=AOIFIKdUJt3kKsEqjyfkG51/0mw//xL9xfNVYrlSXTEYAvCycJmIrZI9HwOVexxj5beqe6
+	yU1tSk+fEEBwlYOWQm3uvJBLCq0xCgPoa43E1QBThHUkR2JvcNfeYvvzOqDO5wcJFPRe+4
+	2HwLJfELx1YSIzruQuuwThIqB8hBla0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752489763;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BL8NrWSCMmbBzbiRlti2vMpo5naJ9ehy6kfPGtGhR+s=;
+	b=7IXpsjifO+Wcv2fwzUqfeZu3pJHdCu8thFw5Jqcz8KlT97qZe+Nf0FxA/Z2VM6uOZgQDgY
+	JP8aRZEll1L6wFAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B72DA13306;
+	Mon, 14 Jul 2025 10:42:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6npzKyLfdGgLWAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 14 Jul 2025 10:42:42 +0000
+Date: Mon, 14 Jul 2025 12:42:42 +0200
+Message-ID: <878qkr834t.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jackie Dong <xy-jackie@139.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	chris.chiu@canonical.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dongeg1@lenovo.com
+Subject: Re: [PATCH] patch_realtek: Support mute LED for Yoga with ALC287
+In-Reply-To: <20250714094655.4657-1-xy-jackie@139.com>
+References: <20250714094655.4657-1-xy-jackie@139.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [0.20 / 50.00];
+	SEM_URIBL(3.50)[139.com:email];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[139.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FREEMAIL_ENVRCPT(0.00)[139.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: 0.20
 
-On Tue, 08 Jul 2025 16:53:17 +0800, Shengjiu Wang wrote:
-> The sysclk frequency can be calculated from sample rate multiply ratio.
-> When sysclk_freq is not configured, but sysclk_ratio is configured, then
-> calculate sysclk frequency according to sysclk_ratio.
+On Mon, 14 Jul 2025 11:46:55 +0200,
+Jackie Dong wrote:
 > 
-> Apply this change for wm8524 codec.
+> Support mute LED on keyboard for Lenovo Yoga series products with 
+> Realtek ALC287 chipset.
 > 
+> Tested on Lenovo Slim Pro 7 14APH8.
 > 
-> [...]
+> Signed-off-by: Jackie Dong <xy-jackie@139.com>
 
-Applied to
+Applied now, thanks.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
-
-[1/1] ASoC: fsl-asoc-card: add sysclk_ratio for calculate sysclk frequency
-      commit: af241e3fa4d823f8af899c92fd50d020816a1860
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
