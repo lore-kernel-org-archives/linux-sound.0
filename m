@@ -1,209 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5E028A1CA;
-	Sat, 12 Jul 2025 17:57:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA9F71367;
+	Mon, 14 Jul 2025 06:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752343032; cv=none; b=SYL3al8YWWXh0auWWKBu4pYrzsAWrsJ8OGRBhnqS0eiEsIXLSlpSraKjpPYl3oPOvGOn+WDALX5ACUVVcB2Ob5xJEpfoUWLCNWmceNI035yuMbeGzYJmL7StPHEheK+kZkofuwz5lgI4OEf7a8JzjeE5amvOV0xmZeU0aTrh8Xs=
+	t=1752473427; cv=none; b=KdSvS4+VcC1iUuO/jcltNY4yyrinMorOoKeESNJqR3XAsXwKuSj1Cpe6VHP31Z6eYYLDSB9SYTZjAu7yoYS/RTydn+kISL9RD4wqvmOaC0p18tYisdxzbrlPK87QkBD0+51v4c58rpjlR0d3x3eHaRr3A/spD+5bANntkGxEb+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752343032; c=relaxed/simple;
-	bh=ZqFuhsGBU+wJcNeFRHN2M3/rUmGdy3TQzFSP8z9fkRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IN955rzbgL6NZHklK5o5PX3j5iVG5A1Uh2n79bbQ64LV/lCcxb6tXXeCwdB6ITbS8gFuKNp8Z0/HF1yA1ABcGwMLKZ19HpadcY0PG67NvqeBIXfXyPe2LJq5osdbDVfKK9loC1V9URAb+uR/U1UqTJSKf/M9cffXajd4GpQQvt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ny+D2KPS; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752473427; c=relaxed/simple;
+	bh=sPVH63ERWuJ0gCU0Toh0EsZGggjk+tM2bvgS8ziKjtY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=pcKlwGLVadFr1gDHZ+cO76UCSa3XkDy7425+O9D6zz3OI6G8wRDaM27Ggnn0qge3c87B+7NGSB+aqUbzLNSiZ5oKj0jOdb7y9x5QrwCBohLzA/7odhEuBw3hA96VJIbVavaFmKNGsxQ04B+Hwxi8wpyFaMljQcgQrBhs7kYl8Is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QaJv8pQ3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ny+D2KPS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752343031; x=1783879031;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZqFuhsGBU+wJcNeFRHN2M3/rUmGdy3TQzFSP8z9fkRE=;
-  b=Ny+D2KPSulgHAFNTsm4bSCqOjVhWY2dvDl2fQq1mCPtJdzOPCYM/wowM
-   OhJ/qHbKf1JY+W+pzw2jmcTidApDC4wwAYJpf3s3wm2s7epREx+hqlqd/
-   3JqhvOYhZFx5qik/Wr8VHKLcAP7wwsaUunsr5COGCEO3iglq/wZnlV32D
-   0X2bmCuIn2KWs1M15KHmsqE1BJcqLlhuukerqsOj8ma6/q7rbNgevSN7w
-   xWf/VpZPe3LI7lR07BgJ9rZSZ/6ogKHNFk77sDzdvcuh1fnC8nDhDHinP
-   qCvhdvfaofL6WzgxlvOGb8ezvWFRAgwvwyjVd+NRpymg2E51dc0orV6eJ
-   w==;
-X-CSE-ConnectionGUID: 6T0JOUKmQYmBbnOPcYL9+A==
-X-CSE-MsgGUID: MRzfJtuKRuiY6/PR3LM2gA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54570793"
-X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="54570793"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 10:57:10 -0700
-X-CSE-ConnectionGUID: 9jkPxG5WSLiUICQXlrvIjA==
-X-CSE-MsgGUID: dApIRtUfTKCNLasfM3x7ZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="160938198"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 Jul 2025 10:57:07 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uaeTB-0007ZR-0h;
-	Sat, 12 Jul 2025 17:57:05 +0000
-Date: Sun, 13 Jul 2025 01:56:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Troy Mitchell <troy.mitchell@linux.dev>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Troy Mitchell <troy.mitchell@linux.dev>
-Subject: Re: [PATCH] ASoC: rockchip: i2s: simplify clock handling and error
- cleanup in probe
-Message-ID: <202507130140.HxI37WQ3-lkp@intel.com>
-References: <20250712-rockchip-i2s-simplify-clk-v1-1-3b23fd1b3e26@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QaJv8pQ3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61FB0C4CEED;
+	Mon, 14 Jul 2025 06:10:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752473426;
+	bh=sPVH63ERWuJ0gCU0Toh0EsZGggjk+tM2bvgS8ziKjtY=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=QaJv8pQ3IEWpuz0ewUYGo/pLTZEU+OYHeFmmUe8KbRMu2Zo3dW1e/YSnwDMO7z4E1
+	 sScneBPFmM0DIfj7dQY0wLLGHnp+a/1FW2p0Px+WF4owvynLz89/rGfzadnXCzG0SP
+	 dw8vikP83U/QAx3k88q0BncJSTNZfA5bcGCUc7llTxAWRjpVdJws3d391Ox9+wwSgv
+	 1jLOaVvasXVitdyWHeaOeAQ0golomnld0CcyUAzwdBloxxTfsS6vMdtxrcbYHj4Tvk
+	 E+B5cQjFqBUINn0eNlAsBYhitlDAj74NMtMC296NY+X2Z9wZWwumSmrgBxSUm+gHg3
+	 PcDF+JLN460PA==
+Message-ID: <88ff3aa4-dfb0-4b65-a061-52544caf46f6@kernel.org>
+Date: Mon, 14 Jul 2025 08:10:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250712-rockchip-i2s-simplify-clk-v1-1-3b23fd1b3e26@linux.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/6] dt-bindings: clock: meson: Add audio power domain
+ for s4 soc
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: jiebing chen <jiebing.chen@amlogic.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
+ jian.xu@amlogic.com, shuai.li@amlogic.com, zhe.wang@amlogic.com
+References: <20250710-audio_drvier-v5-0-d4155f1e7464@amlogic.com>
+ <20250710-audio_drvier-v5-1-d4155f1e7464@amlogic.com>
+ <20250710-polite-cuddly-platypus-5fe9dc@krzk-bin>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250710-polite-cuddly-platypus-5fe9dc@krzk-bin>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Troy,
+On 10/07/2025 11:56, Krzysztof Kozlowski wrote:
+> On Thu, Jul 10, 2025 at 11:35:37AM +0800, jiebing chen wrote:
+>> The audio power domain has been detected on S4 device.
+>> It must be enabled prior to audio operations.
+>>
+>> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
+>> ---
+>>  .../bindings/clock/amlogic,axg-audio-clkc.yaml     | 55 +++++++++++++++++++++-
+>>  1 file changed, 54 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+>> index fd7982dd4ceab82389167079c2258a9acff51a76..c3f0bb9b2ff050394828ba339a7be0c9c48e9a76 100644
+>> --- a/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+>> +++ b/Documentation/devicetree/bindings/clock/amlogic,axg-audio-clkc.yaml
+>> @@ -21,6 +21,8 @@ properties:
+>>        - amlogic,axg-audio-clkc
+>>        - amlogic,g12a-audio-clkc
+>>        - amlogic,sm1-audio-clkc
+>> +      - amlogic,s4-audio-clkc
+>> +      - amlogic,clock-pads-clkc
+> 
+> Keep the list sorted.
+> 
+And now I noticed that I already asked for this at previous versions!
 
-kernel test robot noticed the following build warnings:
+Respond to and implement feedback, not just ignore it.
 
-[auto build test WARNING on 733923397fd95405a48f165c9b1fbc8c4b0a4681]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Troy-Mitchell/ASoC-rockchip-i2s-simplify-clock-handling-and-error-cleanup-in-probe/20250712-215647
-base:   733923397fd95405a48f165c9b1fbc8c4b0a4681
-patch link:    https://lore.kernel.org/r/20250712-rockchip-i2s-simplify-clk-v1-1-3b23fd1b3e26%40linux.dev
-patch subject: [PATCH] ASoC: rockchip: i2s: simplify clock handling and error cleanup in probe
-config: x86_64-buildonly-randconfig-003-20250712 (https://download.01.org/0day-ci/archive/20250713/202507130140.HxI37WQ3-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250713/202507130140.HxI37WQ3-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507130140.HxI37WQ3-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> sound/soc/rockchip/rockchip_i2s.c:776:36: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     776 |                 return dev_err_probe(&pdev->dev, ret, "Failed to initialise managed register map");
-         |                                                  ^~~
-   sound/soc/rockchip/rockchip_i2s.c:742:9: note: initialize the variable 'ret' to silence this warning
-     742 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-
-vim +/ret +776 sound/soc/rockchip/rockchip_i2s.c
-
-   733	
-   734	static int rockchip_i2s_probe(struct platform_device *pdev)
-   735	{
-   736		struct device_node *node = pdev->dev.of_node;
-   737		struct rk_i2s_dev *i2s;
-   738		struct snd_soc_dai_driver *dai;
-   739		struct resource *res;
-   740		void __iomem *regs;
-   741		struct clk *clk;
-   742		int ret;
-   743	
-   744		i2s = devm_kzalloc(&pdev->dev, sizeof(*i2s), GFP_KERNEL);
-   745		if (!i2s)
-   746			return -ENOMEM;
-   747	
-   748		spin_lock_init(&i2s->lock);
-   749		i2s->dev = &pdev->dev;
-   750	
-   751		i2s->grf = syscon_regmap_lookup_by_phandle(node, "rockchip,grf");
-   752		if (!IS_ERR(i2s->grf)) {
-   753			i2s->pins = device_get_match_data(&pdev->dev);
-   754			if (!i2s->pins)
-   755				return -EINVAL;
-   756	
-   757		}
-   758	
-   759		/* try to prepare related clocks */
-   760		clk = devm_clk_get_enabled(&pdev->dev, "i2s_hclk");
-   761		if (IS_ERR(clk))
-   762			return dev_err_probe(&pdev->dev, PTR_ERR(clk), "hclock enable failed");
-   763	
-   764		i2s->mclk = devm_clk_get(&pdev->dev, "i2s_clk");
-   765		if (IS_ERR(i2s->mclk))
-   766			return dev_err_probe(&pdev->dev, PTR_ERR(i2s->mclk),
-   767					     "Can't retrieve i2s master clock");
-   768	
-   769		regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-   770		if (IS_ERR(regs))
-   771			dev_err_probe(&pdev->dev, PTR_ERR(regs), "Can't ioremap registers");
-   772	
-   773		i2s->regmap = devm_regmap_init_mmio(&pdev->dev, regs,
-   774						    &rockchip_i2s_regmap_config);
-   775		if (IS_ERR(i2s->regmap))
- > 776			return dev_err_probe(&pdev->dev, ret, "Failed to initialise managed register map");
-   777	
-   778		i2s->bclk_ratio = 64;
-   779		i2s->pinctrl = devm_pinctrl_get(&pdev->dev);
-   780		if (!IS_ERR(i2s->pinctrl)) {
-   781			i2s->bclk_on = pinctrl_lookup_state(i2s->pinctrl, "bclk_on");
-   782			if (!IS_ERR_OR_NULL(i2s->bclk_on)) {
-   783				i2s->bclk_off = pinctrl_lookup_state(i2s->pinctrl, "bclk_off");
-   784				if (IS_ERR_OR_NULL(i2s->bclk_off))
-   785					return dev_err_probe(&pdev->dev, -EINVAL,
-   786							     "failed to find i2s bclk_off");
-   787			}
-   788		} else {
-   789			dev_dbg(&pdev->dev, "failed to find i2s pinctrl\n");
-   790		}
-   791	
-   792		i2s_pinctrl_select_bclk_off(i2s);
-   793	
-   794		dev_set_drvdata(&pdev->dev, i2s);
-   795	
-   796		pm_runtime_enable(&pdev->dev);
-   797		if (!pm_runtime_enabled(&pdev->dev)) {
-   798			ret = i2s_runtime_resume(&pdev->dev);
-   799			if (ret)
-   800				goto err_pm_disable;
-   801		}
-   802	
-   803		ret = rockchip_i2s_init_dai(i2s, res, &dai);
-   804		if (ret)
-   805			goto err_pm_disable;
-   806	
-   807		ret = devm_snd_soc_register_component(&pdev->dev,
-   808						      &rockchip_i2s_component,
-   809						      dai, 1);
-   810	
-   811		if (ret) {
-   812			dev_err(&pdev->dev, "Could not register DAI\n");
-   813			goto err_suspend;
-   814		}
-   815	
-   816		ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
-   817		if (ret) {
-   818			dev_err(&pdev->dev, "Could not register PCM\n");
-   819			goto err_suspend;
-   820		}
-   821	
-   822		return 0;
-   823	
-   824	err_suspend:
-   825		if (!pm_runtime_status_suspended(&pdev->dev))
-   826			i2s_runtime_suspend(&pdev->dev);
-   827	err_pm_disable:
-   828		pm_runtime_disable(&pdev->dev);
-   829		return ret;
-   830	}
-   831	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
