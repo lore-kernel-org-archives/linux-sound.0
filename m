@@ -1,142 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB1526059F;
-	Mon, 14 Jul 2025 15:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC0F1FDE02
+	for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 20:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752506090; cv=none; b=WpiZUUHk1ZMdQ0pRg9PiMosVMyeP8bgjrot64xHPzgP+XrwdZ4ezn9VQY1yyazoVWcuw/2Q1KHKtejPcEExPV6iw9IcqqejbUYO5cy5T8GQNIgGYVW6bWRQQ4Kpio2BEJGPEVyc1SGdgyRBPpalFTA3757vCtliGR4A2utGWIfc=
+	t=1752525588; cv=none; b=BhwOeKbmgso3sut7hK3b7bH+fbarBzttLADte7GbxYqgYO1jh9EO+oj7qOwQgS2VeAn8no5+wL9PeC4zNY8y4Xtv6yuXF4rGfsr4yPtPvNe4bGQJJD1R8AjL7sX6j2WQMIectRYJRkJ6CfAUWH/354yxBRnelafopezkOiAMSV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752506090; c=relaxed/simple;
-	bh=uhR4oTtyTLRPzkqDzPtiWEgon2j5NRv9mdaGjQ0k3OM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kIi42md/X1hQw9EVtsDkcwrX+I6+uUuLJEYaQdun0ivHZmZcHWKVvNpPc/ccXM9iCNeYpQVj9WTLzhhHnDHakg4Ew1VZ0WRV7Hil3wFHhQFu1Pr5/Gkd8WXcSUZm0kKQu63/j14HpVARPc+msc5wBNN5FrtCuzKART2NrJpmgv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H/FEVB8b; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752525588; c=relaxed/simple;
+	bh=a5y/8SUZq0rdm2xQZuA/Ya2xOqAO/MdvVu8D3Jo9BDM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tJRf5j7GAc1JwNTfi8VPVVFEyNFrVkzZTe+Vxg/krHdY9tOO2jX7OzxaOnU4jIbRRVNKoqNvGqFSeDDqlHsJnm++xddvncchjLMhS9k2SeFuMnlJ1hFJuaxmY+MQqUTUGrz99MwQciPZx9cfhKZPPlhZNtb3GDy6PEsihtQqfek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hdx5CKLj; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H/FEVB8b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752506089; x=1784042089;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uhR4oTtyTLRPzkqDzPtiWEgon2j5NRv9mdaGjQ0k3OM=;
-  b=H/FEVB8b9xRpa7Xc/WVPnq4+ZBj5QLgziPs1Qt6n3UXuQv77Zav+ybhv
-   LFmYXkI0BCutQGtdi6SyX4sBmFS3Zsa6vv+qqYwh5pEVkCOHYF4FJq879
-   5lN6UJv7Vsgt1UPX/tNX8xvv5kkT5OFPTsWfTDAL1Vs021v4LoJkclNxu
-   h8b58djYKF5S3L4VcDSiHHRYMJh46DhUsLjnk6REKvgReLgL8bGM3gar5
-   8FkyfX44Sji9oNd142R1swa2ov50MUN7ucn9Nd/1U2RJCQQ+H+ml/ZXVa
-   Kc+m67YUJ3qeMt6KC2ue1F1xhGda7jZO+qLopcivmIftbZLCBM4P4U5X6
-   A==;
-X-CSE-ConnectionGUID: 983ENTieT7iFwO6PgxQyyw==
-X-CSE-MsgGUID: nCNbLcm9TWKYmV6EoXX5lw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66147844"
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="66147844"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 08:13:30 -0700
-X-CSE-ConnectionGUID: QsmEd6zUTNqnT0GaVeEtLA==
-X-CSE-MsgGUID: 47IN3f/gR+WROpmruZ/DZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="187943702"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Jul 2025 08:13:23 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubKro-00092V-1w;
-	Mon, 14 Jul 2025 15:13:20 +0000
-Date: Mon, 14 Jul 2025 23:12:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v7 8/9] fbcon: Use screen info to find primary device
-Message-ID: <202507142313.iWVTOSVB-lkp@intel.com>
-References: <20250706143613.1972252-9-superm1@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hdx5CKLj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752525585;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a5y/8SUZq0rdm2xQZuA/Ya2xOqAO/MdvVu8D3Jo9BDM=;
+	b=hdx5CKLjjObDkhxfqqEyk+jHihqqe1FXkiYcBMON9SEMFMKDUdcwpPr6+nasye1xoN82d7
+	8WO6JzeO5tRFzhETQx7NXyw7JJgZWrZ2/Gwmm/gYuP/np6lBHfcVJIOpRoiU6DELXY7Zrn
+	8FSrEovlQ3GxdHmXFowCAcF4e52TtUI=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-164-sHnoj5iOPSSzAuoUGKheXw-1; Mon, 14 Jul 2025 16:39:43 -0400
+X-MC-Unique: sHnoj5iOPSSzAuoUGKheXw-1
+X-Mimecast-MFC-AGG-ID: sHnoj5iOPSSzAuoUGKheXw_1752525583
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ae6c9aa2c93so409114266b.1
+        for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 13:39:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752525582; x=1753130382;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a5y/8SUZq0rdm2xQZuA/Ya2xOqAO/MdvVu8D3Jo9BDM=;
+        b=jdYxN/AgP5yjFlqzVjdVtHPVtBk5g93ZdDVAH0Ko1CVA1McQbVzYbqilONZgihpQSq
+         AFfAXWlnIyRm7dhaUQXapTdcu7adyYuxroTtVBB0dQnLBAL4LkD70Bzzuit1r4nrnFwV
+         G+l6tdZp1T0IbX4fZIyCG/93I78CwY1lPYH4njr0i9kP1TTBAHOug5bLehyp2fiBWSBH
+         ZXIML2wLHd5su4aColR7u9klmh9/UbgG/d3YTkjgY/EAof86BEcbQA2I+EVFIAeEDBkL
+         hMMS6wTc5/MKsflxXEnuyTEH1U+sp8zmAVNy2gb2VGXRPJhvABkTmXGhH0DBIV8gwjDK
+         VmhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU+eeydfWryeyF2ixtvi1zctF1+Y4joZxzMrhrR01I6vkmSehHmk4XAEunvx3vkx5wqSjFOb+XsipjSXw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQtnBW7WqE3ZMJqCILOva1MQ4FYVs88ybhgj+XdNxe07kl0wuy
+	GjSGQQIa00hIlTqeedJLxv0Q8n89q6nKm82IK1wweXCEJibHlzjCjvTCG4Z/uEF35pkIXC3lZOz
+	+Sz75O3ovjVupBmF2NpZdqT3RvJVcMxOQYNumQqsGUxFkIKhRUVh8hCPPDarBNMWt4px09DNJAO
+	JKa/S/okw2W79vES0pmSvJ1n/Wy+m/9rA3cMwjV4Y=
+X-Gm-Gg: ASbGncuQt1eGf0fOxGolO2Vt02L6S1DpsoiYfQuQu36KbOvZblpVZqtnyEZZ1fae1NB
+	uh8crtkMztDeG0oBuVO5Bp2xsTzfeLtOmal7qnI6JDTT0tpqpJfDSmQvIWpgo2PkCNbsa3n3h8W
+	DU35zldqzIJ155Q7AZDKAB
+X-Received: by 2002:a17:907:84a:b0:ae3:a240:7ad2 with SMTP id a640c23a62f3a-ae6fc6aa6dcmr1561812466b.2.1752525582629;
+        Mon, 14 Jul 2025 13:39:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGtOtCIDm5iIRXUzH93pKL+mJg2YxukWxSYyuAjAlCNSpCWGK9PKhS/khXgGAJEgay188lilBak/nz6CZiqGvQ=
+X-Received: by 2002:a17:907:84a:b0:ae3:a240:7ad2 with SMTP id
+ a640c23a62f3a-ae6fc6aa6dcmr1561809066b.2.1752525582243; Mon, 14 Jul 2025
+ 13:39:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250706143613.1972252-9-superm1@kernel.org>
+References: <20250710-sound-clk-round-rate-v1-0-4a9c3bb6ff3a@redhat.com>
+ <20250710-sound-clk-round-rate-v1-4-4a9c3bb6ff3a@redhat.com> <c321ed9f-7906-4a92-9202-efb46343ee91@oss.qualcomm.com>
+In-Reply-To: <c321ed9f-7906-4a92-9202-efb46343ee91@oss.qualcomm.com>
+From: Brian Masney <bmasney@redhat.com>
+Date: Mon, 14 Jul 2025 16:39:31 -0400
+X-Gm-Features: Ac12FXxNfqVieUoHNPgnW-EodFqKMjypw83pf906bEoCpdOuQyrxKsmWcymmig0
+Message-ID: <CABx5tqJzEMUXz0Cbo5siCnwKp2MVON_oGgMnGkb_cg1zv8k5nw@mail.gmail.com>
+Subject: Re: [PATCH 4/6] sound: soc: qcom: qdsp6: q6dsp-lpass-clocks: convert
+ from round_rate() to determine_rate()
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Support Opensource <support.opensource@diasemi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Oder Chiou <oder_chiou@realtek.com>, Srinivas Kandagatla <srini@kernel.org>, 
+	Olivier Moysan <olivier.moysan@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Maxime Ripard <mripard@kernel.org>, 
+	Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: zqzdgz9uv-NIooVjTmI3LuF12XwnTAiNPQXUbi3KZGs_1752525583
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mario,
+Hi Konrad,
 
-kernel test robot noticed the following build errors:
+On Thu, Jul 10, 2025 at 12:09=E2=80=AFPM Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+> On 7/10/25 5:51 PM, Brian Masney wrote:
+> > The round_rate() clk ops is deprecated, so migrate this driver from
+> > round_rate() to determine_rate() using the Coccinelle semantic patch
+> > on the cover letter of this series.
+> >
+> > Signed-off-by: Brian Masney <bmasney@redhat.com>
+> > ---
+>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>
+> come to think of it, there are a lot of drivers that can not
+> do any rate rounding - perhaps we could introduce a NOP implementation
+> in the clk core that we could reference, instead of copypasting
+> int foo(...) { "return 0" }?
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc6 next-20250714]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I'll look at that for a second round of cleanup once all of the
+round_rates have been removed from the tree. From what I recall about
+the ~200 or so round_rate implementations in the kernel tree, there
+were maybe only 5 or so that cover this noop case. QC seemed to have
+the most from what I recall.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250706-223745
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250706143613.1972252-9-superm1%40kernel.org
-patch subject: [PATCH v7 8/9] fbcon: Use screen info to find primary device
-config: i386-randconfig-053-20250714 (https://download.01.org/0day-ci/archive/20250714/202507142313.iWVTOSVB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507142313.iWVTOSVB-lkp@intel.com/reproduce)
+It wouldn't be hard to make a Coccinelle script to look for the noop
+determine_rate() implementations.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507142313.iWVTOSVB-lkp@intel.com/
+Brian
 
-All errors (new ones prefixed by >>):
-
-   ld: arch/x86/video/video-common.o: in function `video_is_primary_device':
->> arch/x86/video/video-common.c:45: undefined reference to `screen_info_pci_dev'
-
-
-vim +45 arch/x86/video/video-common.c
-
-    28	
-    29	bool video_is_primary_device(struct device *dev)
-    30	{
-    31		struct screen_info *si = &screen_info;
-    32		struct pci_dev *pdev;
-    33	
-    34		if (!dev_is_pci(dev))
-    35			return false;
-    36	
-    37		pdev = to_pci_dev(dev);
-    38	
-    39		if (!pci_is_display(pdev))
-    40			return false;
-    41	
-    42		if (pdev == vga_default_device())
-    43			return true;
-    44	
-  > 45		if (pdev == screen_info_pci_dev(si))
-    46			return true;
-    47	
-    48		return false;
-    49	}
-    50	EXPORT_SYMBOL(video_is_primary_device);
-    51	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
