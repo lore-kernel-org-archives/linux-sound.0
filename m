@@ -1,129 +1,318 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D6C2609C4
-	for <linux-sound@vger.kernel.org>; Tue, 15 Jul 2025 06:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C88265296
+	for <linux-sound@vger.kernel.org>; Tue, 15 Jul 2025 07:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752560963; cv=none; b=IBAqI38okE4aXkbfK3gsLSrWA9Ph3tTB/DrVMGRLPR21GbYfk92KI972YP6BCMwZ3h8cwieHEdpsEs/nhj1gWDLVyRLIU75sFIwEhmV0KNebClPKjBYTqNwwkMUI+r+PfjatoafuWGFac6iXa7L1Mv86rbYimu56Z0v2DRIO9eg=
+	t=1752564867; cv=none; b=AIQLybUMset98T5YAcT76Nb+yJHcMoYAh0kNvwr06twvGWZGFvX5wHRMHkWk51cCn3j/RgvKOiaEzRM8cNIrf31R8XBAGBpMzMVhg+XOPjuSGEI90OyiOJ1z3E2p6i6C84WzqkZT6fkSXlDpb67UI1b5JtWLJlqfIn+oZfePEdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752560963; c=relaxed/simple;
-	bh=YtDvL44cvURg+Ciyzvw5Ftdgig57WmmfsOMu5etyHuE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=hxyoAJ8zTybHCo0gF0ELppk3n8vkEXjJy/qQjmm37nzUqLwUN/SeAHXDRBhTFhaHxjDgighVhnEreor9+nu2/B/TCHvyMMAJw0hJh3+IgHRWKQyiFY2J/sayjp/MbjjQMk9iEJztx7oQl8R/US+QhdPyWsbgGL/NuBQh68AhbIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ERwKCIoX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=//Fvy9s1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CVHkGhP4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bQv0Xmkw; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1752564867; c=relaxed/simple;
+	bh=t6pg1iBfMU4PcTQly5LrIIzuwKQX0Al2mtxNiFpYb20=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XO8p020e966kJV0qf7KuMnBoAHCqeCbgw1pQhRtPbQPm1pD89VnusF/JPbCxa/e34y22Al1zExKc6alZw+WB4Ke1UDNhH7c/qmwbnRMsrlrlLZXm5aUIyxG6nyFEiadtngarpb9rEO1Ht81vVm6Jpr6FBoGMRj2v4YTEkq1REOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kAujl5YG; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ERwKCIoX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="//Fvy9s1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CVHkGhP4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bQv0Xmkw"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D87231F38F;
-	Tue, 15 Jul 2025 06:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752560950; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=bIAMeM/H7sWyIR1dqskOAlXIwpMxokjAod0noHx8jwk=;
-	b=ERwKCIoXO3F0gcVgnoWc6Y1qVrPByqS+PNt4Z+iPCUmw7L8MSriUCWMoTUjXICI6RKeiD8
-	gUw41ai6EeVpTiPQxu03e3i9lEeLnVkuBce2DAXu7xjIHAP5kbqeWukLLKQ8/kv6EaGpL6
-	Jf2OAMbingSocxHHIPRfbe9AEDgNi60=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752560950;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=bIAMeM/H7sWyIR1dqskOAlXIwpMxokjAod0noHx8jwk=;
-	b=//Fvy9s1MeJrLh2oRSI4YXQbH1LFpdmD+uv7jPFnCYjjKZboNA0NgglGSNWbTV+4M2NMon
-	KQZjSUweUSnAqFBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752560948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=bIAMeM/H7sWyIR1dqskOAlXIwpMxokjAod0noHx8jwk=;
-	b=CVHkGhP4B6rWdlgtT1yp+sh3oCcQ1rCvO5WhSwQ2kdsRa3a5q+i3hZDMRbKwc6XTzux+Uz
-	yM8Ey8X98j40XAtkIJAUAyVX1+oRbUqmea53ilLxONl11rYo/mlH3y/18yupWyaF3t3+wE
-	On/WiFYpX/muQNCDr39hZRaGFrDm1Vw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752560948;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=bIAMeM/H7sWyIR1dqskOAlXIwpMxokjAod0noHx8jwk=;
-	b=bQv0Xmkw6zklopN2xkcH89s+ozg8FiJ+B5+gOD894wamwfKdCjCqcDd/BrHFD2lzcEZmUi
-	Vy0nMW08YId2XPCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BF79F13306;
-	Tue, 15 Jul 2025 06:29:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7M97LTT1dWh9LwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 15 Jul 2025 06:29:08 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for ASUS ROG Strix G712LWS
-Date: Tue, 15 Jul 2025 08:29:04 +0200
-Message-ID: <20250715062906.11857-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kAujl5YG"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-32f1df5703aso40065371fa.3
+        for <linux-sound@vger.kernel.org>; Tue, 15 Jul 2025 00:34:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1752564864; x=1753169664; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gDP9Js2kzVuyXlUZIv8xGDhpQxOjQoCz2hrw5ui3thc=;
+        b=kAujl5YGTnoKx7OzkQCx6Pa05+lmvZdKns507Bk6GKOfEwF899MIGtuD95QKZAG5qm
+         5mmxwDtmqF1ZphZf4HedQMwgvv7H4eZtM8zhC6DqfC/LEiP9UHAVCfk8rQtFNcG54hlv
+         21RBe+POu6rMpuoxKPSWX9fC4HBF4hhhsotuY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752564864; x=1753169664;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gDP9Js2kzVuyXlUZIv8xGDhpQxOjQoCz2hrw5ui3thc=;
+        b=RMWyWR0Nh2W7Z4ZBZMLQHTR59EMiM9bRDV70dNSSl0fVBGuI58Tx5UpqrlwPlEXquX
+         ZKzU3hTHs5bCLiOOLuSHiUfm0v1ICk9sPT4DSOpIJ1sUmfoP5AFC5Z+wxj216g6junwM
+         66o242SsDEa5CIqhk0LSToApI8mZ21vkIU+rkR0fASjjZP1YYEXxe8vs03eHSTtUyeqp
+         FTp1Io+gHqun8b0cZBSGGw9uUuzv0qr+BBtCpknwuA8SaOeX2LOoZEDn8B5vTqiVhmbW
+         r3LxI+Gf6O662GbUM2o1U5yEurqTRHNsOv8IdqlR4gggjjFPKsZ/jiRseIFoA/ofo6cd
+         T/fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVVxhW6+T19sbQj7JzsaV4/guT+TBFUrSakmug9J7g7f8q2OmFaCZG0qX5P21jsWYB5wFkuADn0NYCUXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTDZ8U6yFq68F/SyCcWwUP3NxJSb6nkqtfcBWVg57mGLCKKIbY
+	OXsaxEWue4+aCSQpkIjk/PCPmPobD9Aj8F2PBtNKJxVeoakvH3GKeJuI7E74TiWFUn3NjrACI+t
+	McVA6rfwWXrTisvw4+EdBWn1V9nNeIxWyPEfsAkDC
+X-Gm-Gg: ASbGnctfXvL5BwMbzWKU1sWb449/Lb8+pMoprFWZ6eGt7nUU9YCuPmfDffM6pb0asuE
+	jkz2fN+MsLyLhYtv02LwpmZt22/NWl/slkLJq5jqJ75vX3qAIo1X88K8ABbKRjVJgAC/TTXtj7I
+	H+A1TCXRz4d28ywQ1P/Ax96zq0BmaYMUrywxm258lf9hrrcwl5y2PV+ykgt+G+vbgW6xEBYwU4G
+	6NfqOYLU+GOJPT3ipaIIZ+kfrc/sdMqUhY=
+X-Google-Smtp-Source: AGHT+IGyLQwS9wKi4gblzvO5qXko8LClZQ/7pERQ/cNbp9sboWxoQuuZ+SKFuMvHo+wECT4yBGDlAwSuCXvvVMsXsy8=
+X-Received: by 2002:a05:6512:1041:b0:553:a456:a0c1 with SMTP id
+ 2adb3069b0e04-55a058a4cd2mr4180549e87.43.1752564863458; Tue, 15 Jul 2025
+ 00:34:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -2.80
+References: <20250708111806.3992-1-darren.ye@mediatek.com> <20250708111806.3992-9-darren.ye@mediatek.com>
+ <CAGXv+5EufDuxLMnwMaCqtWFZpVMNMxi-5OwCyO4a+KD2T+2NYA@mail.gmail.com>
+In-Reply-To: <CAGXv+5EufDuxLMnwMaCqtWFZpVMNMxi-5OwCyO4a+KD2T+2NYA@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 15 Jul 2025 15:34:12 +0800
+X-Gm-Features: Ac12FXwLri21evCxtuWTPMRxjTUULLUjQETvR-4GzmqmkL7Am8Zi1o5cvxLE7BY
+Message-ID: <CAGXv+5EMjfrdLX49M9514uwzaTzc2G3kpQNw8BdJaZ4AaexBKg@mail.gmail.com>
+Subject: Re: [PATCH v6 08/10] ASoC: dt-bindings: mediatek,mt8196-afe: add
+ audio AFE
+To: "Darren.Ye" <darren.ye@mediatek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ASUS ROG Strix G712LWS (PCI SSID 1043:1a83) requires the quirk for
-ALC294 headset mode in order to make the speaker and headset I/O
-working properly.
+On Tue, Jul 15, 2025 at 1:09=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> Hi,
+>
+> On Tue, Jul 8, 2025 at 7:35=E2=80=AFPM Darren.Ye <darren.ye@mediatek.com>=
+ wrote:
+> >
+> > From: Darren Ye <darren.ye@mediatek.com>
+> >
+> > Add mt8196 audio AFE.
+> >
+> > Signed-off-by: Darren Ye <darren.ye@mediatek.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > ---
+> >  .../bindings/sound/mediatek,mt8196-afe.yaml   | 157 ++++++++++++++++++
+> >  1 file changed, 157 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt=
+8196-afe.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8196-af=
+e.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
+> > new file mode 100644
+> > index 000000000000..fe147eddf5e7
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
+> > @@ -0,0 +1,157 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/sound/mediatek,mt8196-afe.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: MediaTek Audio Front End PCM controller for MT8196
+> > +
+> > +maintainers:
+> > +  - Darren Ye <darren.ye@mediatek.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: mediatek,mt8196-afe
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  memory-region:
+> > +    maxItems: 1
+> > +
+> > +  mediatek,vlpcksys:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description: To set up the apll12 tuner
+>
+> Looking at the implementation, the configuration is just a fixed value.
+> Can this be moved to the VLP clock driver instead?
+>
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: mux for audio intbus
+> > +      - description: mux for audio engen1
+> > +      - description: mux for audio engen2
+> > +      - description: mux for audio h
+> > +      - description: vlp 26m clock
+> > +      - description: audio apll1 clock
+> > +      - description: audio apll2 clock
+> > +      - description: audio apll1 divide4
+> > +      - description: audio apll2 divide4
+> > +      - description: audio apll12 divide for i2sin0
+> > +      - description: audio apll12 divide for i2sin1
+> > +      - description: audio apll12 divide for fmi2s
+> > +      - description: audio apll12 divide for tdmout mck
+> > +      - description: audio apll12 divide for tdmout bck
+> > +      - description: mux for audio apll1
+> > +      - description: mux for audio apll2
+> > +      - description: mux for i2sin0 mck
+> > +      - description: mux for i2sin1 mck
+> > +      - description: mux for fmi2s mck
+> > +      - description: mux for tdmout mck
+> > +      - description: mux for adsp clock
+> > +      - description: 26m clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: top_aud_intbus
+> > +      - const: top_aud_eng1
+> > +      - const: top_aud_eng2
+> > +      - const: top_aud_h
+> > +      - const: vlp_clk26m
+>
+> > +      - const: apll1
+> > +      - const: apll2
+> > +      - const: apll1_d4
+> > +      - const: apll2_d4
+>
+> These are parents of the top_apll[12]. They do not feed into the
+> hardware directly, so you should not be including them here.
+>
+> > +      - const: apll12_div_i2sin0
+> > +      - const: apll12_div_i2sin1
+> > +      - const: apll12_div_fmi2s
+> > +      - const: apll12_div_tdmout_m
+> > +      - const: apll12_div_tdmout_b
+>
+> In the clock bindings sent by Collabora, these dividers are no longer
+> separately modeled; they have been combined with their respective
+> top_* clocks.
+>
+> > +      - const: top_apll1
+> > +      - const: top_apll2
+>
+> These two are parents to apll12_div_*, do not feed into the hardware
+> directly, so you should not be including them here.
 
-Cc: <stable@vger.kernel.org>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220334
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Slight correction: looking at the submitted AFE clk driver, these two
+feed into some clock gate in the AFE block, so these two are probably
+needed.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 47ceb6f32291..d91aac06adde 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -11010,6 +11010,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1a13, "Asus G73Jw", ALC269_FIXUP_ASUS_G73JW),
- 	SND_PCI_QUIRK(0x1043, 0x1a63, "ASUS UX3405MA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1a83, "ASUS UM5302LA", ALC294_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x1a8e, "ASUS G712LWS", ALC294_FIXUP_LENOVO_MIC_LOCATION),
- 	SND_PCI_QUIRK(0x1043, 0x1a8f, "ASUS UX582ZS", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1b11, "ASUS UX431DA", ALC294_FIXUP_ASUS_COEF_1B),
- 	SND_PCI_QUIRK(0x1043, 0x1b13, "ASUS U41SV/GA403U", ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
--- 
-2.50.1
+ChenYu
 
+> The clock tree for each audio interface clock looks like the following:
+>
+>     apll1 -> apll1_d4 -> top_apll1 --
+>                      /               \
+>               clk26m                  --> top_fmi2s -> apll12_div_fmi2s
+>                      \               /
+>     apll2 -> apll2_d4 -> top_apll2 --
+>
+> Only the final "apll12_div_fmi2s" should be referenced.
+>
+> On the implementation side, it should simply be a matter of setting the
+> required rate (24.576 MHz or 22.5792 MHz, or some multiple) on this leaf
+> clock, and let the clock framework figure out the PLL and dividers to
+> use. Same thing for enabling the clock.
+>
+> > +      - const: top_i2sin0
+> > +      - const: top_i2sin1
+> > +      - const: top_fmi2s
+> > +      - const: top_tdmout
+> > +      - const: top_adsp
+>
+> > +      - const: clk26m
+>
+> Is this one directly needed? It is similar to vlp_clk26m, and I suspect
+> only that one is needed.
+>
+>
+> ChenYu
+>
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - memory-region
+> > +  - mediatek,vlpcksys
+> > +  - power-domains
+> > +  - clocks
+> > +  - clock-names
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    soc {
+> > +        #address-cells =3D <2>;
+> > +        #size-cells =3D <2>;
+> > +
+> > +        afe@1a110000 {
+> > +            compatible =3D "mediatek,mt8196-afe";
+> > +            reg =3D <0 0x1a110000 0 0x9000>;
+> > +            interrupts =3D <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH 0>;
+> > +            memory-region =3D <&afe_dma_mem_reserved>;
+> > +            mediatek,vlpcksys =3D <&vlp_cksys_clk>;
+> > +            power-domains =3D <&scpsys 14>; //MT8196_POWER_DOMAIN_AUDI=
+O
+> > +            clocks =3D <&vlp_cksys_clk 40>, //CLK_VLP_CK_AUD_INTBUS_SE=
+L
+> > +                     <&vlp_cksys_clk 38>, //CLK_VLP_CK_AUD_ENGEN1_SEL
+> > +                     <&vlp_cksys_clk 39>, //CLK_VLP_CK_AUD_ENGEN2_SEL
+> > +                     <&vlp_cksys_clk 37>, //CLK_VLP_CK_AUDIO_H_SEL
+> > +                     <&vlp_cksys_clk 45>, //CLK_VLP_CK_CLKSQ
+> > +                     <&cksys_clk 129>, //CLK_CK_APLL1
+> > +                     <&cksys_clk 132>, //CLK_CK_APLL2
+> > +                     <&cksys_clk 130>, //CLK_CK_APLL1_D4
+> > +                     <&cksys_clk 133>, //CLK_CK_APLL2_D4
+> > +                     <&cksys_clk 80>, //CLK_CK_APLL12_CK_DIV_I2SIN0
+> > +                     <&cksys_clk 81>, //CLK_CK_APLL12_CK_DIV_I2SIN1
+> > +                     <&cksys_clk 92>, //CLK_CK_APLL12_CK_DIV_FMI2S
+> > +                     <&cksys_clk 93>, //CLK_CK_APLL12_CK_DIV_TDMOUT_M
+> > +                     <&cksys_clk 94>, //CLK_CK_APLL12_CK_DIV_TDMOUT_B
+> > +                     <&cksys_clk 43>, //CLK_CK_AUD_1_SEL
+> > +                     <&cksys_clk 44>, //CLK_CK_AUD_2_SEL
+> > +                     <&cksys_clk 66>, //CLK_CK_APLL_I2SIN0_MCK_SEL
+> > +                     <&cksys_clk 67>, //CLK_CK_APLL_I2SIN1_MCK_SEL
+> > +                     <&cksys_clk 78>, //CLK_CK_APLL_FMI2S_MCK_SEL
+> > +                     <&cksys_clk 79>, //CLK_CK_APLL_TDMOUT_MCK_SEL
+> > +                     <&cksys_clk 45>, //CLK_CK_ADSP_SEL
+> > +                     <&cksys_clk 140>; //CLK_CK_TCK_26M_MX9
+> > +            clock-names =3D "top_aud_intbus",
+> > +                          "top_aud_eng1",
+> > +                          "top_aud_eng2",
+> > +                          "top_aud_h",
+> > +                          "vlp_clk26m",
+> > +                          "apll1",
+> > +                          "apll2",
+> > +                          "apll1_d4",
+> > +                          "apll2_d4",
+> > +                          "apll12_div_i2sin0",
+> > +                          "apll12_div_i2sin1",
+> > +                          "apll12_div_fmi2s",
+> > +                          "apll12_div_tdmout_m",
+> > +                          "apll12_div_tdmout_b",
+> > +                          "top_apll1",
+> > +                          "top_apll2",
+> > +                          "top_i2sin0",
+> > +                          "top_i2sin1",
+> > +                          "top_fmi2s",
+> > +                          "top_tdmout",
+> > +                          "top_adsp",
+> > +                          "clk26m";
+> > +        };
+> > +    };
+> > +
+> > +...
+> > --
+> > 2.45.2
+> >
+> >
