@@ -1,318 +1,164 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C88265296
-	for <linux-sound@vger.kernel.org>; Tue, 15 Jul 2025 07:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732E525B66A
+	for <linux-sound@vger.kernel.org>; Tue, 15 Jul 2025 07:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752564867; cv=none; b=AIQLybUMset98T5YAcT76Nb+yJHcMoYAh0kNvwr06twvGWZGFvX5wHRMHkWk51cCn3j/RgvKOiaEzRM8cNIrf31R8XBAGBpMzMVhg+XOPjuSGEI90OyiOJ1z3E2p6i6C84WzqkZT6fkSXlDpb67UI1b5JtWLJlqfIn+oZfePEdw=
+	t=1752565966; cv=none; b=D0CJWkqV4arEpwt9doPTQ1QwXOPwcUx5X0Mw9M8eeaIgmqBsxn/D5NLc065+nVjGmAfK8goTAG+C46w87+K7nKzq77qqlDE0H56tPY1TF7YHoIscJQyqpHTCgCyVVgbVLK28jjDxwln+EcrQUnPrWY4wIZUAwLneSLKhSLPjTZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752564867; c=relaxed/simple;
-	bh=t6pg1iBfMU4PcTQly5LrIIzuwKQX0Al2mtxNiFpYb20=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XO8p020e966kJV0qf7KuMnBoAHCqeCbgw1pQhRtPbQPm1pD89VnusF/JPbCxa/e34y22Al1zExKc6alZw+WB4Ke1UDNhH7c/qmwbnRMsrlrlLZXm5aUIyxG6nyFEiadtngarpb9rEO1Ht81vVm6Jpr6FBoGMRj2v4YTEkq1REOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kAujl5YG; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1752565966; c=relaxed/simple;
+	bh=cEUVdcujAERb/tj9Q8Lft0d+pDMMGvuNI0j0EYVcsso=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Y4oL6QC3h2Dj7XQ65ezf3ynvCZ+tTlECLevYUkByAzJ5jVIa4KS48TWFRN+UONeACpTpIVD+3qI9PU2kOmxB3delipmD4FmHxzFaOceXVPNN4/tIMu8yI3EkIkQUbsxkEn6zxR8x3GRS04YBns5Md8fd98zLMcM2DkqaxbI3Ors=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=taIOEnfv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rtvKuufM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=taIOEnfv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rtvKuufM; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kAujl5YG"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-32f1df5703aso40065371fa.3
-        for <linux-sound@vger.kernel.org>; Tue, 15 Jul 2025 00:34:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1752564864; x=1753169664; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gDP9Js2kzVuyXlUZIv8xGDhpQxOjQoCz2hrw5ui3thc=;
-        b=kAujl5YGTnoKx7OzkQCx6Pa05+lmvZdKns507Bk6GKOfEwF899MIGtuD95QKZAG5qm
-         5mmxwDtmqF1ZphZf4HedQMwgvv7H4eZtM8zhC6DqfC/LEiP9UHAVCfk8rQtFNcG54hlv
-         21RBe+POu6rMpuoxKPSWX9fC4HBF4hhhsotuY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752564864; x=1753169664;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gDP9Js2kzVuyXlUZIv8xGDhpQxOjQoCz2hrw5ui3thc=;
-        b=RMWyWR0Nh2W7Z4ZBZMLQHTR59EMiM9bRDV70dNSSl0fVBGuI58Tx5UpqrlwPlEXquX
-         ZKzU3hTHs5bCLiOOLuSHiUfm0v1ICk9sPT4DSOpIJ1sUmfoP5AFC5Z+wxj216g6junwM
-         66o242SsDEa5CIqhk0LSToApI8mZ21vkIU+rkR0fASjjZP1YYEXxe8vs03eHSTtUyeqp
-         FTp1Io+gHqun8b0cZBSGGw9uUuzv0qr+BBtCpknwuA8SaOeX2LOoZEDn8B5vTqiVhmbW
-         r3LxI+Gf6O662GbUM2o1U5yEurqTRHNsOv8IdqlR4gggjjFPKsZ/jiRseIFoA/ofo6cd
-         T/fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVxhW6+T19sbQj7JzsaV4/guT+TBFUrSakmug9J7g7f8q2OmFaCZG0qX5P21jsWYB5wFkuADn0NYCUXg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTDZ8U6yFq68F/SyCcWwUP3NxJSb6nkqtfcBWVg57mGLCKKIbY
-	OXsaxEWue4+aCSQpkIjk/PCPmPobD9Aj8F2PBtNKJxVeoakvH3GKeJuI7E74TiWFUn3NjrACI+t
-	McVA6rfwWXrTisvw4+EdBWn1V9nNeIxWyPEfsAkDC
-X-Gm-Gg: ASbGnctfXvL5BwMbzWKU1sWb449/Lb8+pMoprFWZ6eGt7nUU9YCuPmfDffM6pb0asuE
-	jkz2fN+MsLyLhYtv02LwpmZt22/NWl/slkLJq5jqJ75vX3qAIo1X88K8ABbKRjVJgAC/TTXtj7I
-	H+A1TCXRz4d28ywQ1P/Ax96zq0BmaYMUrywxm258lf9hrrcwl5y2PV+ykgt+G+vbgW6xEBYwU4G
-	6NfqOYLU+GOJPT3ipaIIZ+kfrc/sdMqUhY=
-X-Google-Smtp-Source: AGHT+IGyLQwS9wKi4gblzvO5qXko8LClZQ/7pERQ/cNbp9sboWxoQuuZ+SKFuMvHo+wECT4yBGDlAwSuCXvvVMsXsy8=
-X-Received: by 2002:a05:6512:1041:b0:553:a456:a0c1 with SMTP id
- 2adb3069b0e04-55a058a4cd2mr4180549e87.43.1752564863458; Tue, 15 Jul 2025
- 00:34:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="taIOEnfv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rtvKuufM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="taIOEnfv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rtvKuufM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8E1331F397;
+	Tue, 15 Jul 2025 07:52:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752565962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bEUMF4eWRlQ8TLOqCX4QecdfnIvcNGC40IXakOIlkYc=;
+	b=taIOEnfv5XpFwUHIq9YmCSWwsuSdzoq+S50lepaNcMy4sS9uoW0/Je1bG9VOQ3oO1rnKUC
+	zoPlwNZHzAPjjisx0JR3eCB4t849ojbRooHaDim+S8EpSZjcwQd/FmzCNefXKxanB3m1xp
+	9zK0sjpFgiERvP40hq21SyhluMkdBfI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752565962;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bEUMF4eWRlQ8TLOqCX4QecdfnIvcNGC40IXakOIlkYc=;
+	b=rtvKuufMAJJodP1eCX4Bnxt+30S918TVo+ahfOuIFInfUC53SjqTwwXuidnkx4HNT5wMRD
+	FJvqCbgEYUB5mPDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=taIOEnfv;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rtvKuufM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752565962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bEUMF4eWRlQ8TLOqCX4QecdfnIvcNGC40IXakOIlkYc=;
+	b=taIOEnfv5XpFwUHIq9YmCSWwsuSdzoq+S50lepaNcMy4sS9uoW0/Je1bG9VOQ3oO1rnKUC
+	zoPlwNZHzAPjjisx0JR3eCB4t849ojbRooHaDim+S8EpSZjcwQd/FmzCNefXKxanB3m1xp
+	9zK0sjpFgiERvP40hq21SyhluMkdBfI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752565962;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bEUMF4eWRlQ8TLOqCX4QecdfnIvcNGC40IXakOIlkYc=;
+	b=rtvKuufMAJJodP1eCX4Bnxt+30S918TVo+ahfOuIFInfUC53SjqTwwXuidnkx4HNT5wMRD
+	FJvqCbgEYUB5mPDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5CF7113A6C;
+	Tue, 15 Jul 2025 07:52:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OOqLFcoIdmjnSAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 15 Jul 2025 07:52:42 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mips@vger.kernel.org,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] arm: multi_v7_defconfig: Update HD-audio configs
+Date: Tue, 15 Jul 2025 09:51:21 +0200
+Message-ID: <20250715075237.28476-2-tiwai@suse.de>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250715075237.28476-1-tiwai@suse.de>
+References: <20250715075237.28476-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250708111806.3992-1-darren.ye@mediatek.com> <20250708111806.3992-9-darren.ye@mediatek.com>
- <CAGXv+5EufDuxLMnwMaCqtWFZpVMNMxi-5OwCyO4a+KD2T+2NYA@mail.gmail.com>
-In-Reply-To: <CAGXv+5EufDuxLMnwMaCqtWFZpVMNMxi-5OwCyO4a+KD2T+2NYA@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 15 Jul 2025 15:34:12 +0800
-X-Gm-Features: Ac12FXwLri21evCxtuWTPMRxjTUULLUjQETvR-4GzmqmkL7Am8Zi1o5cvxLE7BY
-Message-ID: <CAGXv+5EMjfrdLX49M9514uwzaTzc2G3kpQNw8BdJaZ4AaexBKg@mail.gmail.com>
-Subject: Re: [PATCH v6 08/10] ASoC: dt-bindings: mediatek,mt8196-afe: add
- audio AFE
-To: "Darren.Ye" <darren.ye@mediatek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 8E1331F397
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 
-On Tue, Jul 15, 2025 at 1:09=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> Hi,
->
-> On Tue, Jul 8, 2025 at 7:35=E2=80=AFPM Darren.Ye <darren.ye@mediatek.com>=
- wrote:
-> >
-> > From: Darren Ye <darren.ye@mediatek.com>
-> >
-> > Add mt8196 audio AFE.
-> >
-> > Signed-off-by: Darren Ye <darren.ye@mediatek.com>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > ---
-> >  .../bindings/sound/mediatek,mt8196-afe.yaml   | 157 ++++++++++++++++++
-> >  1 file changed, 157 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt=
-8196-afe.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8196-af=
-e.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
-> > new file mode 100644
-> > index 000000000000..fe147eddf5e7
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
-> > @@ -0,0 +1,157 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/sound/mediatek,mt8196-afe.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: MediaTek Audio Front End PCM controller for MT8196
-> > +
-> > +maintainers:
-> > +  - Darren Ye <darren.ye@mediatek.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,mt8196-afe
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  memory-region:
-> > +    maxItems: 1
-> > +
-> > +  mediatek,vlpcksys:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description: To set up the apll12 tuner
->
-> Looking at the implementation, the configuration is just a fixed value.
-> Can this be moved to the VLP clock driver instead?
->
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: mux for audio intbus
-> > +      - description: mux for audio engen1
-> > +      - description: mux for audio engen2
-> > +      - description: mux for audio h
-> > +      - description: vlp 26m clock
-> > +      - description: audio apll1 clock
-> > +      - description: audio apll2 clock
-> > +      - description: audio apll1 divide4
-> > +      - description: audio apll2 divide4
-> > +      - description: audio apll12 divide for i2sin0
-> > +      - description: audio apll12 divide for i2sin1
-> > +      - description: audio apll12 divide for fmi2s
-> > +      - description: audio apll12 divide for tdmout mck
-> > +      - description: audio apll12 divide for tdmout bck
-> > +      - description: mux for audio apll1
-> > +      - description: mux for audio apll2
-> > +      - description: mux for i2sin0 mck
-> > +      - description: mux for i2sin1 mck
-> > +      - description: mux for fmi2s mck
-> > +      - description: mux for tdmout mck
-> > +      - description: mux for adsp clock
-> > +      - description: 26m clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: top_aud_intbus
-> > +      - const: top_aud_eng1
-> > +      - const: top_aud_eng2
-> > +      - const: top_aud_h
-> > +      - const: vlp_clk26m
->
-> > +      - const: apll1
-> > +      - const: apll2
-> > +      - const: apll1_d4
-> > +      - const: apll2_d4
->
-> These are parents of the top_apll[12]. They do not feed into the
-> hardware directly, so you should not be including them here.
->
-> > +      - const: apll12_div_i2sin0
-> > +      - const: apll12_div_i2sin1
-> > +      - const: apll12_div_fmi2s
-> > +      - const: apll12_div_tdmout_m
-> > +      - const: apll12_div_tdmout_b
->
-> In the clock bindings sent by Collabora, these dividers are no longer
-> separately modeled; they have been combined with their respective
-> top_* clocks.
->
-> > +      - const: top_apll1
-> > +      - const: top_apll2
->
-> These two are parents to apll12_div_*, do not feed into the hardware
-> directly, so you should not be including them here.
+Since the reorganization of HD-audio drivers, Realtek and HDMI codec
+drivers have been split.  Update to the new Kconfigs to catch up.
 
-Slight correction: looking at the submitted AFE clk driver, these two
-feed into some clock gate in the AFE block, so these two are probably
-needed.
+Fixes: aeeb85f26c3b ("ALSA: hda: Split Realtek HD-audio codec driver")
+Fixes: 73cd0490819d ("ALSA: hda/hdmi: Split vendor codec drivers")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/20250715170422.5162c666@canb.auug.org.au
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
 
-ChenYu
+I'm going to put to sound git tree if no one objects
 
-> The clock tree for each audio interface clock looks like the following:
->
->     apll1 -> apll1_d4 -> top_apll1 --
->                      /               \
->               clk26m                  --> top_fmi2s -> apll12_div_fmi2s
->                      \               /
->     apll2 -> apll2_d4 -> top_apll2 --
->
-> Only the final "apll12_div_fmi2s" should be referenced.
->
-> On the implementation side, it should simply be a matter of setting the
-> required rate (24.576 MHz or 22.5792 MHz, or some multiple) on this leaf
-> clock, and let the clock framework figure out the PLL and dividers to
-> use. Same thing for enabling the clock.
->
-> > +      - const: top_i2sin0
-> > +      - const: top_i2sin1
-> > +      - const: top_fmi2s
-> > +      - const: top_tdmout
-> > +      - const: top_adsp
->
-> > +      - const: clk26m
->
-> Is this one directly needed? It is similar to vlp_clk26m, and I suspect
-> only that one is needed.
->
->
-> ChenYu
->
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - memory-region
-> > +  - mediatek,vlpcksys
-> > +  - power-domains
-> > +  - clocks
-> > +  - clock-names
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    soc {
-> > +        #address-cells =3D <2>;
-> > +        #size-cells =3D <2>;
-> > +
-> > +        afe@1a110000 {
-> > +            compatible =3D "mediatek,mt8196-afe";
-> > +            reg =3D <0 0x1a110000 0 0x9000>;
-> > +            interrupts =3D <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +            memory-region =3D <&afe_dma_mem_reserved>;
-> > +            mediatek,vlpcksys =3D <&vlp_cksys_clk>;
-> > +            power-domains =3D <&scpsys 14>; //MT8196_POWER_DOMAIN_AUDI=
-O
-> > +            clocks =3D <&vlp_cksys_clk 40>, //CLK_VLP_CK_AUD_INTBUS_SE=
-L
-> > +                     <&vlp_cksys_clk 38>, //CLK_VLP_CK_AUD_ENGEN1_SEL
-> > +                     <&vlp_cksys_clk 39>, //CLK_VLP_CK_AUD_ENGEN2_SEL
-> > +                     <&vlp_cksys_clk 37>, //CLK_VLP_CK_AUDIO_H_SEL
-> > +                     <&vlp_cksys_clk 45>, //CLK_VLP_CK_CLKSQ
-> > +                     <&cksys_clk 129>, //CLK_CK_APLL1
-> > +                     <&cksys_clk 132>, //CLK_CK_APLL2
-> > +                     <&cksys_clk 130>, //CLK_CK_APLL1_D4
-> > +                     <&cksys_clk 133>, //CLK_CK_APLL2_D4
-> > +                     <&cksys_clk 80>, //CLK_CK_APLL12_CK_DIV_I2SIN0
-> > +                     <&cksys_clk 81>, //CLK_CK_APLL12_CK_DIV_I2SIN1
-> > +                     <&cksys_clk 92>, //CLK_CK_APLL12_CK_DIV_FMI2S
-> > +                     <&cksys_clk 93>, //CLK_CK_APLL12_CK_DIV_TDMOUT_M
-> > +                     <&cksys_clk 94>, //CLK_CK_APLL12_CK_DIV_TDMOUT_B
-> > +                     <&cksys_clk 43>, //CLK_CK_AUD_1_SEL
-> > +                     <&cksys_clk 44>, //CLK_CK_AUD_2_SEL
-> > +                     <&cksys_clk 66>, //CLK_CK_APLL_I2SIN0_MCK_SEL
-> > +                     <&cksys_clk 67>, //CLK_CK_APLL_I2SIN1_MCK_SEL
-> > +                     <&cksys_clk 78>, //CLK_CK_APLL_FMI2S_MCK_SEL
-> > +                     <&cksys_clk 79>, //CLK_CK_APLL_TDMOUT_MCK_SEL
-> > +                     <&cksys_clk 45>, //CLK_CK_ADSP_SEL
-> > +                     <&cksys_clk 140>; //CLK_CK_TCK_26M_MX9
-> > +            clock-names =3D "top_aud_intbus",
-> > +                          "top_aud_eng1",
-> > +                          "top_aud_eng2",
-> > +                          "top_aud_h",
-> > +                          "vlp_clk26m",
-> > +                          "apll1",
-> > +                          "apll2",
-> > +                          "apll1_d4",
-> > +                          "apll2_d4",
-> > +                          "apll12_div_i2sin0",
-> > +                          "apll12_div_i2sin1",
-> > +                          "apll12_div_fmi2s",
-> > +                          "apll12_div_tdmout_m",
-> > +                          "apll12_div_tdmout_b",
-> > +                          "top_apll1",
-> > +                          "top_apll2",
-> > +                          "top_i2sin0",
-> > +                          "top_i2sin1",
-> > +                          "top_fmi2s",
-> > +                          "top_tdmout",
-> > +                          "top_adsp",
-> > +                          "clk26m";
-> > +        };
-> > +    };
-> > +
-> > +...
-> > --
-> > 2.45.2
-> >
-> >
+ arch/arm/configs/multi_v7_defconfig | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index 50c170b4619f..02ddd7ce9e3e 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -791,8 +791,11 @@ CONFIG_SND=m
+ CONFIG_SND_HDA_TEGRA=m
+ CONFIG_SND_HDA_INPUT_BEEP=y
+ CONFIG_SND_HDA_PATCH_LOADER=y
+-CONFIG_SND_HDA_CODEC_REALTEK=m
++CONFIG_SND_HDA_CODEC_REALTEK=y
++CONFIG_SND_HDA_CODEC_REALTEK_LIB=m
++CONFIG_SND_HDA_CODEC_ALC269=m
+ CONFIG_SND_HDA_CODEC_HDMI=m
++CONFIG_SND_HDA_CODEC_HDMI_TEGRA=m
+ CONFIG_SND_USB_AUDIO=m
+ CONFIG_SND_SOC=m
+ CONFIG_SND_ATMEL_SOC=m
+-- 
+2.50.1
+
