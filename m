@@ -1,105 +1,306 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E62F28A73E
-	for <linux-sound@vger.kernel.org>; Tue, 15 Jul 2025 03:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2449B8248C
+	for <linux-sound@vger.kernel.org>; Tue, 15 Jul 2025 05:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752549321; cv=none; b=bnqnfS67weNQCRp/pLzi5OuUKXPOKBlNjSczawuDTFTmTGNao6fPEOVD5hfd8oivLYnVlQw6DWSDlaU+lzLrvNX4/uCbSEiX7d/k48QJWFc5mNuJrCLJhNV53AXf5EoxlPHWaQljBuiZRu/Drpkzf6lz2w4jZPJkNdhH8toUgPY=
+	t=1752556211; cv=none; b=mJpPyO9EibaCFroiF9YarwryYmRWg5xM/fMXsHlorHiyfdL9Taaojzu09w3A/sdOakQHJQmV3BIZ1uN4KyL7AQR/7vH/eLGI/JTK2iX3aP4OKR1yM03AzjFayJ/J6ab8iW7UOWb+aRupnaVPLRftB2nZsIJ+O1g+0xFpKqj1IPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752549321; c=relaxed/simple;
-	bh=2+kjE2oKV6b0ccf6sC1r8oE3I4G67M2chO4Zx2w4+tw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fawlXJYLRc2Yuztc8v+1EoSLrlMcmScUplvdJ83pNtw8ivJWSJ0bxr+RoYi1FMhv/5qQaNJT7pKtgvTkKOp7nnu2xF5WCJ3wKMbaXxb6li6Iw2+ogoL8jQOcsRTWudwNb9LW26TJ9EoIAGqOPVuVfkNNKXDdTTRufjDejbNESB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NCkcFz+2; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752556211; c=relaxed/simple;
+	bh=JFRfmXdGaB0bcUaSYrdkTg/VWzKHFSzhdXGsdMjJnYk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NbxFj2mtIr9DPgbDsKoCFt/BReEwQm0bGd9efHI0UdNZt5nPso9217d3CCloPbZ5t3vkkF1k3wIOscwe8Z7oV9pNIsf6iU1hxlTXo4CJbmlssGmHAda/OMhleHKdjQraZxEnOSDI7nz/FBitlhjrRD8zSx23vyfPPEg7HB34sAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lMELulrD; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NCkcFz+2"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7e29616cc4fso179694285a.0
-        for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 20:15:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lMELulrD"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-313cde344d4so5394419a91.0
+        for <linux-sound@vger.kernel.org>; Mon, 14 Jul 2025 22:10:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752549317; x=1753154117; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NgoE9J12jqC2U/BP7qx95wvpwAg4TYzcTRCB06cs8M8=;
-        b=NCkcFz+2SY5/unNrVrUmHxuFZZOWZEik+3pgpcXZk+5RuaWiKikbwZz4P0Dt0UE2hE
-         IBOkjb+vFowYw2q37wKMKm0X3OFul1iUbElh4+GfGJtU+OdVImSe+OqxW04gR26Tg+1E
-         GyrtYQVPeq+USrvPI6EKze6rQsctgrhqkKBSfxSKC0HDR2UXDVhcRuPCvSUroh6uy7Rl
-         LYYZrW9d5JovBwvQaZTqialsvw7Rj4XykHgzSC58Ez1YvzUxvkJE/RNfO9CgiZVE3fII
-         0jdOPZBEngFNdB1gsTvKFcEFSkfmyOKmq2NOjJ++e/mDoq28dPeqf7UwRLrgozR1dCD3
-         L76g==
+        d=chromium.org; s=google; t=1752556209; x=1753161009; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GeGX4xJ5N5ByevcQku8kEm7rK27JtOgdg1gtNXvEUV0=;
+        b=lMELulrDQbM6keuYaBl/NsvCk9cIj5lCgUBP9trchIJQ2N85CRfcVz419aAGZoYBZ6
+         dg/HZsQEfiVmOy4J/yrIMfqMbWPiQKgoJK9im6mkwYTVKlybyCzd7ZF/RdYLQ9gC8MsN
+         sRigalQAYrGZ+okrRbwqwm/CsNs1Tnd3IAFio=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752549317; x=1753154117;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NgoE9J12jqC2U/BP7qx95wvpwAg4TYzcTRCB06cs8M8=;
-        b=wiSVijT2c21p9VwWpsmhLb8TNg38MzHshXrrvj5Ls1NgyikScCEU+GbE3eVROiRCKe
-         Q3WJv/5n4M09/LutBr0a7HDxFo142MpIppZTr0VxMeIV+iMBds/rb0X13FNSwAKNTtfz
-         vo1CXgnnu6pqVOC7qmzstmvee+jKHV12/ulVgPZ2RjT2dYGYx1t1ejCyCgxOiw8I0K75
-         nX7/mR7papEH6vz0CLlPo67AW3Q77cMxkyOZe2x1W7ulliemeTEyVPrpcuD481B3a0+l
-         ftJTAqAuwiyKtrQOkzWNOeqclx5RUmt2315RYRlC81B3/o2FRH3YZP6XgzVKcxPrsrDW
-         GuLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCth1yUX3RCMplO5NWXfaW/uiyYBMjsYC3nJYBq5IrLqWLddpqyTGLqKAkSRwgCX5DxxuD9yR8/DCZsw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyC5XNQ9ieXyolpvvXLBcykDa/LttHJzHyC9o6kTal96LkTHF0h
-	/w6gHWLRwcabLlIvO8zdyQDeOAfS9im6IEPZJAvrcXSWMB+j4n9UToz6
-X-Gm-Gg: ASbGncv+lt9tcMkE+EWZE8aT/WNFFR+AdhJyrVZkfcD5s6xTEOTEbQHLeUcOwyHE4Ze
-	sNvmjgJifnK/Z/bu27l/LlLPnNTXxt48I5JZeGwctpbIblbBLyFHWJvouDMezXI48qt7Onm4E52
-	uIyc8eQPGsg58EZrkDI5IJCzMv1CKRFPbHLTImNxZY0d8jnPA7/OTHrMLDu80YCNDmZXM1iK+yU
-	9yYiZV1+nkD7w7ady8X/ymYlaVYt9CB88/NsFJxy+PQbJzpXgczITFGKB03n3T7e5zgI2A8zVrM
-	/spF9FACfX5RhzRjvx0xE6TLzKdjhVMziIsQOZuwJlgDoGBheengVO2BUflorgJmHUIS8ygil+a
-	PMUHOCUsDfZ9rvHZo4W7PV7HBZNTgsiA9UO9rsAwPskS0sDc=
-X-Google-Smtp-Source: AGHT+IGXkEIoufBM3mY5gtb7olwPU1NtPaqAtKZNMa3OZ9JN4Uly9pmpdfTH1rCSTGMzQWINxeUrRQ==
-X-Received: by 2002:a05:620a:3185:b0:7e2:43d1:1cfb with SMTP id af79cd13be357-7e243d1207cmr1037387485a.47.1752549317138;
-        Mon, 14 Jul 2025 20:15:17 -0700 (PDT)
-Received: from qtMint.mynetworksettings.com ([2600:4040:2489:3200:9d7c:f4d3:2646:868d])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-704a7f23874sm40122326d6.8.2025.07.14.20.15.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 20:15:16 -0700 (PDT)
-From: Adam Queler <queler@gmail.com>
-X-Google-Original-From: Adam Queler <queler+k@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org
-Cc: Adam Queler <queler+k@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: Add DMI entries to support HP 15-fb1xxx
-Date: Mon, 14 Jul 2025 23:14:24 -0400
-Message-ID: <20250715031434.222062-1-queler+k@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1752556209; x=1753161009;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GeGX4xJ5N5ByevcQku8kEm7rK27JtOgdg1gtNXvEUV0=;
+        b=l10bNsPAcMIlux/ICkm9YyBtTgtvptPttNUsP04Cg162PEpWUd+LGDrH0Xs+1d4CZ4
+         0Wll2HJm10/OFtxLXM/e8dqvuPUOqXXrbV52HzxUN9CGRqnKMArbVkhNwEZQpLgfZRgs
+         IZxDzAyocykQVEeb7HHMwkVT1Pvtd68LOxlih94qB/Sm0EpnZamjGRLo1mxJO5r3B4X0
+         ZBLF7gx9lafAP7edOL4nw0jyvmlBQqFsqnm2ApGB7dUp+ppMJD9wB9nFO/0cj7jd40+f
+         1WS2s2hWML0Vi+AmEPXHW/j1CuLB/9M+h2ON0xgeaehqf3anVyIY5qW96P8pkKWV6UTs
+         UtUw==
+X-Forwarded-Encrypted: i=1; AJvYcCULQ/bjY+RaHWvYqJVICy2IpwgStNRjQ4md8hjorQ5MC992Q+lwbONXm6i3SeMPi79h8VB1M+VYLH1/Vw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+k3/KeYwWWF5NFusyfYMTeYQGQhMpp3B7AMSryjbbV9uEScXd
+	hpaqE8w2kQWfuupwFeCehvWwNS9P/nSMdp/t/nvHEVtNBqVdcA1MNIoAlZ5oynKaamaGWyE4h41
+	POrqWHuDCdAksyzHTeOiQNIB6XCvlaKXZo62PxxmG
+X-Gm-Gg: ASbGnct6jbB7ULVtV877i29BA5DnW06QDS/JipoY2fC/ZnB3HT5XNNT05t70tO2Utxd
+	SSg5NeIJjwhEW453M+xNopOOBhTqhe9X1xi5Kz/86PTat3zwLU3p52CxyY2E/9jVMkjGxsd8NHw
+	udQ1qhfN7wlqafeQJuF7WrXG2EN/tGbADuJ47mbrFIgLtLWggQJqNEgSue9iTFkurjXgsAkdC5d
+	X1V7okwZBV6crWoXxBzkXSzrrDq17hBDio=
+X-Google-Smtp-Source: AGHT+IGrIcOwDhM8zFLR2Fqez+cP69AimTGRX9UTuj46iIg3ngozIxMahvLMKAAbIAUfN79z9ia/qiM2tlmpcP9JdRs=
+X-Received: by 2002:a17:90b:3942:b0:311:c1ec:7d12 with SMTP id
+ 98e67ed59e1d1-31c4f591c3amr21704790a91.23.1752556209442; Mon, 14 Jul 2025
+ 22:10:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250708111806.3992-1-darren.ye@mediatek.com> <20250708111806.3992-9-darren.ye@mediatek.com>
+In-Reply-To: <20250708111806.3992-9-darren.ye@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 15 Jul 2025 13:09:55 +0800
+X-Gm-Features: Ac12FXywxlo-FwGCNxuHlfnNYdXpmdX-6gC7L6-g8yB4I0r8fcMqx-Ix866UZAU
+Message-ID: <CAGXv+5EufDuxLMnwMaCqtWFZpVMNMxi-5OwCyO4a+KD2T+2NYA@mail.gmail.com>
+Subject: Re: [PATCH v6 08/10] ASoC: dt-bindings: mediatek,mt8196-afe: add
+ audio AFE
+To: "Darren.Ye" <darren.ye@mediatek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This model requires an additional detection quirk to
-enable the internal microphone.
+Hi,
 
-Signed-off-by: Adam Queler <queler+k@gmail.com>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Tue, Jul 8, 2025 at 7:35=E2=80=AFPM Darren.Ye <darren.ye@mediatek.com> w=
+rote:
+>
+> From: Darren Ye <darren.ye@mediatek.com>
+>
+> Add mt8196 audio AFE.
+>
+> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../bindings/sound/mediatek,mt8196-afe.yaml   | 157 ++++++++++++++++++
+>  1 file changed, 157 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt81=
+96-afe.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.=
+yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
+> new file mode 100644
+> index 000000000000..fe147eddf5e7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
+> @@ -0,0 +1,157 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/mediatek,mt8196-afe.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Audio Front End PCM controller for MT8196
+> +
+> +maintainers:
+> +  - Darren Ye <darren.ye@mediatek.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt8196-afe
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +
+> +  mediatek,vlpcksys:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: To set up the apll12 tuner
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 61fcc30c33537..c572691378d56 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -542,6 +542,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "OMEN by HP Gaming Laptop 16z-n000"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Victus by HP Gaming Laptop 15-fb1xxx"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.43.0
+Looking at the implementation, the configuration is just a fixed value.
+Can this be moved to the VLP clock driver instead?
 
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: mux for audio intbus
+> +      - description: mux for audio engen1
+> +      - description: mux for audio engen2
+> +      - description: mux for audio h
+> +      - description: vlp 26m clock
+> +      - description: audio apll1 clock
+> +      - description: audio apll2 clock
+> +      - description: audio apll1 divide4
+> +      - description: audio apll2 divide4
+> +      - description: audio apll12 divide for i2sin0
+> +      - description: audio apll12 divide for i2sin1
+> +      - description: audio apll12 divide for fmi2s
+> +      - description: audio apll12 divide for tdmout mck
+> +      - description: audio apll12 divide for tdmout bck
+> +      - description: mux for audio apll1
+> +      - description: mux for audio apll2
+> +      - description: mux for i2sin0 mck
+> +      - description: mux for i2sin1 mck
+> +      - description: mux for fmi2s mck
+> +      - description: mux for tdmout mck
+> +      - description: mux for adsp clock
+> +      - description: 26m clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: top_aud_intbus
+> +      - const: top_aud_eng1
+> +      - const: top_aud_eng2
+> +      - const: top_aud_h
+> +      - const: vlp_clk26m
+
+> +      - const: apll1
+> +      - const: apll2
+> +      - const: apll1_d4
+> +      - const: apll2_d4
+
+These are parents of the top_apll[12]. They do not feed into the
+hardware directly, so you should not be including them here.
+
+> +      - const: apll12_div_i2sin0
+> +      - const: apll12_div_i2sin1
+> +      - const: apll12_div_fmi2s
+> +      - const: apll12_div_tdmout_m
+> +      - const: apll12_div_tdmout_b
+
+In the clock bindings sent by Collabora, these dividers are no longer
+separately modeled; they have been combined with their respective
+top_* clocks.
+
+> +      - const: top_apll1
+> +      - const: top_apll2
+
+These two are parents to apll12_div_*, do not feed into the hardware
+directly, so you should not be including them here.
+
+The clock tree for each audio interface clock looks like the following:
+
+    apll1 -> apll1_d4 -> top_apll1 --
+                     /               \
+              clk26m                  --> top_fmi2s -> apll12_div_fmi2s
+                     \               /
+    apll2 -> apll2_d4 -> top_apll2 --
+
+Only the final "apll12_div_fmi2s" should be referenced.
+
+On the implementation side, it should simply be a matter of setting the
+required rate (24.576 MHz or 22.5792 MHz, or some multiple) on this leaf
+clock, and let the clock framework figure out the PLL and dividers to
+use. Same thing for enabling the clock.
+
+> +      - const: top_i2sin0
+> +      - const: top_i2sin1
+> +      - const: top_fmi2s
+> +      - const: top_tdmout
+> +      - const: top_adsp
+
+> +      - const: clk26m
+
+Is this one directly needed? It is similar to vlp_clk26m, and I suspect
+only that one is needed.
+
+
+ChenYu
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - memory-region
+> +  - mediatek,vlpcksys
+> +  - power-domains
+> +  - clocks
+> +  - clock-names
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    soc {
+> +        #address-cells =3D <2>;
+> +        #size-cells =3D <2>;
+> +
+> +        afe@1a110000 {
+> +            compatible =3D "mediatek,mt8196-afe";
+> +            reg =3D <0 0x1a110000 0 0x9000>;
+> +            interrupts =3D <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH 0>;
+> +            memory-region =3D <&afe_dma_mem_reserved>;
+> +            mediatek,vlpcksys =3D <&vlp_cksys_clk>;
+> +            power-domains =3D <&scpsys 14>; //MT8196_POWER_DOMAIN_AUDIO
+> +            clocks =3D <&vlp_cksys_clk 40>, //CLK_VLP_CK_AUD_INTBUS_SEL
+> +                     <&vlp_cksys_clk 38>, //CLK_VLP_CK_AUD_ENGEN1_SEL
+> +                     <&vlp_cksys_clk 39>, //CLK_VLP_CK_AUD_ENGEN2_SEL
+> +                     <&vlp_cksys_clk 37>, //CLK_VLP_CK_AUDIO_H_SEL
+> +                     <&vlp_cksys_clk 45>, //CLK_VLP_CK_CLKSQ
+> +                     <&cksys_clk 129>, //CLK_CK_APLL1
+> +                     <&cksys_clk 132>, //CLK_CK_APLL2
+> +                     <&cksys_clk 130>, //CLK_CK_APLL1_D4
+> +                     <&cksys_clk 133>, //CLK_CK_APLL2_D4
+> +                     <&cksys_clk 80>, //CLK_CK_APLL12_CK_DIV_I2SIN0
+> +                     <&cksys_clk 81>, //CLK_CK_APLL12_CK_DIV_I2SIN1
+> +                     <&cksys_clk 92>, //CLK_CK_APLL12_CK_DIV_FMI2S
+> +                     <&cksys_clk 93>, //CLK_CK_APLL12_CK_DIV_TDMOUT_M
+> +                     <&cksys_clk 94>, //CLK_CK_APLL12_CK_DIV_TDMOUT_B
+> +                     <&cksys_clk 43>, //CLK_CK_AUD_1_SEL
+> +                     <&cksys_clk 44>, //CLK_CK_AUD_2_SEL
+> +                     <&cksys_clk 66>, //CLK_CK_APLL_I2SIN0_MCK_SEL
+> +                     <&cksys_clk 67>, //CLK_CK_APLL_I2SIN1_MCK_SEL
+> +                     <&cksys_clk 78>, //CLK_CK_APLL_FMI2S_MCK_SEL
+> +                     <&cksys_clk 79>, //CLK_CK_APLL_TDMOUT_MCK_SEL
+> +                     <&cksys_clk 45>, //CLK_CK_ADSP_SEL
+> +                     <&cksys_clk 140>; //CLK_CK_TCK_26M_MX9
+> +            clock-names =3D "top_aud_intbus",
+> +                          "top_aud_eng1",
+> +                          "top_aud_eng2",
+> +                          "top_aud_h",
+> +                          "vlp_clk26m",
+> +                          "apll1",
+> +                          "apll2",
+> +                          "apll1_d4",
+> +                          "apll2_d4",
+> +                          "apll12_div_i2sin0",
+> +                          "apll12_div_i2sin1",
+> +                          "apll12_div_fmi2s",
+> +                          "apll12_div_tdmout_m",
+> +                          "apll12_div_tdmout_b",
+> +                          "top_apll1",
+> +                          "top_apll2",
+> +                          "top_i2sin0",
+> +                          "top_i2sin1",
+> +                          "top_fmi2s",
+> +                          "top_tdmout",
+> +                          "top_adsp",
+> +                          "clk26m";
+> +        };
+> +    };
+> +
+> +...
+> --
+> 2.45.2
+>
+>
