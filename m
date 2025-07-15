@@ -1,140 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBC62566;
-	Tue, 15 Jul 2025 13:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C762063F3;
+	Tue, 15 Jul 2025 14:54:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752584902; cv=none; b=szCtKIqs1omWOciZf4YE15qY9abEskvnr7/duq83JjLgZZi0k5rMtgTFz3TI3vzFqLTbIUI2YIbLwjU8j6wHFpVgN9xR4MQJD0qgxbGm63rUFqu7Aq1GDpELwG5VmABUopIc94aYFr7Qrxy9KxW0j5Hcbia0nGrdqe7ccMHSyd8=
+	t=1752591272; cv=none; b=IWTl+ZAlvk+XOLPpG3lgjXWpHPXvTTmSIQ3JpvIZovv5BevBpHNbYyoKvmi1qaDW8SUYOdUriwDw2LTzRhNi5RpG1apUYW6T0WwucIrWFfvD9ERWsWlFrgYHWccP/M56KbYfaIPN0ZYFBjrdgx7iYtTy1zKR/eE3gUo5wVXQ2RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752584902; c=relaxed/simple;
-	bh=ERgqFp3dWEUt6TrdSa/YUzlMBzQe1R/D7z1fcvnBStk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DNK44uo64rqHyF4itq1bvz457/Gv9GSOBkOcRvweMXditZUkCFk6fT45aIZHQHDMsnMxySMa+aPsEL7IrnJP93foxs+smajx6C06Jzxs7gN9zkmtQxMfblMGxKxPgJQF93mBwUuKvArkhCmiNOMZ8FN2JFEVqXCijrZG+QLt9iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Myx2Goh5; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752591272; c=relaxed/simple;
+	bh=MN/yJ7MAHbvlr/l+bA2ZmJcwc9TCpbXzc1yDPL5SQEc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TsaMc28wmGgZh25T7yRbS/G/rzbnO7AChlqXFxKZS53dz7SN7Z6gaH/9Mvslp72jR0J4MMbVkFkPqoW2+VvoKv/MCU12KB6QgHhU6cFH4oJ4VBpEHK6x0OtfLTHCwTawejZEQe3ox+3BejrYgtjRvjClWqz5cDqaHSVYekyjF3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjrROioe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Myx2Goh5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752584899; x=1784120899;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ERgqFp3dWEUt6TrdSa/YUzlMBzQe1R/D7z1fcvnBStk=;
-  b=Myx2Goh5z5ruC3fY8eAkSaSuz/TKc6fdV4VNlO9eikFEw6ndC2LbsaoO
-   UWHIOA3wQGriXCYKezCAr2QWQooFu6mRKDrkdNR5nbXRv6HY+rLbgOHgs
-   gAm+jkRKE2OtqHnjhZk2iKBihridvvStyWxsBhZzteva5Z+E+WjIPkRxM
-   dNrwrSrxsd5GIGeHoiZQszjAkIsDsnL2Y0xCQewnjyK/LWZb7BO63sHiu
-   DCPQYDpu/lNcClsqbKxoUS138kn7zxh87OFjnUNqzVYRQaKMwKrniy1OW
-   O5UXnozFHEYylNjG8bCaKgRZjZgTYWiYmLJgO69iOtaG/+gY6d8Q2Rsdz
-   Q==;
-X-CSE-ConnectionGUID: Br1mH+ceS5qXP6cE+NDHRA==
-X-CSE-MsgGUID: HF/HgTUjQKyIPhGBE9IIsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54740059"
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="54740059"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 06:08:19 -0700
-X-CSE-ConnectionGUID: 1wcdqG34SWqIsJon1ARLKQ==
-X-CSE-MsgGUID: TP7UHK2CRpyZLxyiQtiKnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="157765105"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Jul 2025 06:08:12 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubfOD-000A51-2g;
-	Tue, 15 Jul 2025 13:08:09 +0000
-Date: Tue, 15 Jul 2025 21:07:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joris Verhaegen <verhaegen@google.com>, Vinod Koul <vkoul@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Joris Verhaegen <verhaegen@google.com>,
-	kernel-team@android.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-arm-msm@vger.kernel.org, sound-open-firmware@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org, David Li <dvdli@google.com>
-Subject: Re: [PATCH v2 4/4] ASoC: codecs: Implement 64-bit pointer operation
-Message-ID: <202507152054.EKID8Uop-lkp@intel.com>
-References: <20250711093636.28204-5-verhaegen@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjrROioe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C96E1C4CEF8;
+	Tue, 15 Jul 2025 14:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752591271;
+	bh=MN/yJ7MAHbvlr/l+bA2ZmJcwc9TCpbXzc1yDPL5SQEc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=QjrROioebKQog5Qmy1xuXqSqqA6HwSEQs2YpRHEI7QjJCerihsmRBPNUQqTwF1EvD
+	 y3/8IV4+M9bsJ+Rh7xK/hKYtDVdW/ClP6bTcO9FgZ/Mi7oZF1G2RlcthCo9Xuzoo2x
+	 9vYsb2qJBNnESXl8hiX8rnIHa52wY34qcHw9WoVMTslYelvJedHv9vqT8OXgKO0mMi
+	 cUq3dd3/0mMcJdBThfWhcTDSjqfb5TfvHfEnlBSEXdferx1X4HvKxRpzTzunGmbTH4
+	 jcIgZu2tZoHE/G537KhLuuXowUJAyubFpYK36jEkBE5t7rtwAQDx94wsCVZt3nbv6u
+	 U2DE1OyNcgbhg==
+From: Vinod Koul <vkoul@kernel.org>
+To: Mark Brown <broonie@kernel.org>, 
+ Mohammad Rafi Shaik <quic_mohs@quicinc.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Sanyog Kale <sanyog.r.kale@intel.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, Jie Gan <jie.gan@oss.qualcomm.com>, 
+ Amit Pundir <amit.pundir@linaro.org>
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+ linux-sound <linux-sound@vger.kernel.org>, 
+ lkml <linux-kernel@vger.kernel.org>, stable@vger.kernel.org
+In-Reply-To: <20250709174949.8541-1-amit.pundir@linaro.org>
+References: <20250709174949.8541-1-amit.pundir@linaro.org>
+Subject: Re: [PATCH] Revert "soundwire: qcom: Add set_channel_map api
+ support"
+Message-Id: <175259126744.517280.1761573363863267576.b4-ty@kernel.org>
+Date: Tue, 15 Jul 2025 20:24:27 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250711093636.28204-5-verhaegen@google.com>
-
-Hi Joris,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on vkoul-dmaengine/next linus/master v6.16-rc6]
-[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus next-20250714]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joris-Verhaegen/ALSA-compress_offload-Add-64-bit-safe-timestamp-infrastructure/20250711-174008
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250711093636.28204-5-verhaegen%40google.com
-patch subject: [PATCH v2 4/4] ASoC: codecs: Implement 64-bit pointer operation
-config: i386-randconfig-141-20250714 (https://download.01.org/0day-ci/archive/20250715/202507152054.EKID8Uop-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507152054.EKID8Uop-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507152054.EKID8Uop-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: sound/soc/intel/atom/sst-mfld-platform-compress.o: in function `sst_platform_compr_pointer64':
->> sound/soc/intel/atom/sst-mfld-platform-compress.c:226: undefined reference to `__umoddi3'
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
 
-vim +226 sound/soc/intel/atom/sst-mfld-platform-compress.c
+On Wed, 09 Jul 2025 23:19:49 +0530, Amit Pundir wrote:
+> This reverts commit 7796c97df6b1b2206681a07f3c80f6023a6593d5.
+> 
+> This patch broke Dragonboard 845c (sdm845). I see:
+> 
+>     Unexpected kernel BRK exception at EL1
+>     Internal error: BRK handler: 00000000f20003e8 [#1]  SMP
+>     pc : qcom_swrm_set_channel_map+0x7c/0x80 [soundwire_qcom]
+>     lr : snd_soc_dai_set_channel_map+0x34/0x78
+>     Call trace:
+>      qcom_swrm_set_channel_map+0x7c/0x80 [soundwire_qcom] (P)
+>      sdm845_dai_init+0x18c/0x2e0 [snd_soc_sdm845]
+>      snd_soc_link_init+0x28/0x6c
+>      snd_soc_bind_card+0x5f4/0xb0c
+>      snd_soc_register_card+0x148/0x1a4
+>      devm_snd_soc_register_card+0x50/0xb0
+>      sdm845_snd_platform_probe+0x124/0x148 [snd_soc_sdm845]
+>      platform_probe+0x6c/0xd0
+>      really_probe+0xc0/0x2a4
+>      __driver_probe_device+0x7c/0x130
+>      driver_probe_device+0x40/0x118
+>      __device_attach_driver+0xc4/0x108
+>      bus_for_each_drv+0x8c/0xf0
+>      __device_attach+0xa4/0x198
+>      device_initial_probe+0x18/0x28
+>      bus_probe_device+0xb8/0xbc
+>      deferred_probe_work_func+0xac/0xfc
+>      process_one_work+0x244/0x658
+>      worker_thread+0x1b4/0x360
+>      kthread+0x148/0x228
+>      ret_from_fork+0x10/0x20
+>     Kernel panic - not syncing: BRK handler: Fatal exception
+> 
+> [...]
 
-   216	
-   217	static int sst_platform_compr_pointer64(struct snd_soc_component *component,
-   218						struct snd_compr_stream *cstream,
-   219						struct snd_compr_tstamp64 *tstamp)
-   220	{
-   221		struct sst_runtime_stream *stream;
-   222	
-   223		stream = cstream->runtime->private_data;
-   224		stream->compr_ops->tstamp64(sst->dev, stream->id, tstamp);
-   225		tstamp->byte_offset =
- > 226			tstamp->copied_total % cstream->runtime->buffer_size;
-   227		pr_debug("calc bytes offset/copied bytes as %u\n", tstamp->byte_offset);
-   228		return 0;
-   229	}
-   230	
+Applied, thanks!
 
+[1/1] Revert "soundwire: qcom: Add set_channel_map api support"
+      commit: 834bce6a715ae9a9c4dce7892454a19adf22b013
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Vinod
+
+
