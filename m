@@ -1,107 +1,160 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48C8221FA4;
-	Wed, 16 Jul 2025 06:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66390277028
+	for <linux-sound@vger.kernel.org>; Wed, 16 Jul 2025 07:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752649057; cv=none; b=KkVDD9Uc3dZMky67mCx5ZWOlyppGPUyUCLhra4VsuOpw1LW++ugF8Xlk2iczYMyiVKhpyuaS13RhdwAeJRg5O66ioOetGUQr8EE9mgFjftfCyuH0ZpSNXhUGtF5SEFd1yogIP/3unhPg4R2bHR8Vl7wxcA4o5rr0TQY5RjzxygM=
+	t=1752650402; cv=none; b=WKv6JO4hlbvdeUp0uwPZtpkAWftP0Cs3ihTR1dbkhFXolaKVscUK44LT+iN5B+tgcLr94bwcyIXNL2CSjF1jem0L/+4bHnaxAAntIGqfDKnNtENhOdq2Nf4FwaVRZBnkr/63z3McKTdxITXDAtmI7n4xDESPBdV+B5CIPomdVA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752649057; c=relaxed/simple;
-	bh=jz7Vn1pCsAI9BX8VZ6UKZS7PUpx3cLwCjt7aXe8fQPw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fh4KWP6uuMvZYSoEynUFk7bEvYP/7Vc6drglhCgfLJwA/s+Spq6YnHml3hLCGh8gHLqPxjaJuNEZpRc5mJ++XGjsjOkEOpP6uih7dW6o21JrlIO3GReV0EzfvXbP/OLaBIvIpk6t4XQVuAFF0mLpv6B83o9/TzVfpml5TJp4uS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=ioqrhQSl; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=I8V4MZYG reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1752650402; c=relaxed/simple;
+	bh=sLBjAxUF8f0bVLkAa+0Ov5QiRQzZ9hdeQ4tEfeTn6QY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=j5FOqtLrX4BvvRrTod1Bur/dPTOtgn2lP4mCFsUg0GZ/PF3VndkqdkqKGlIZWI0A1SP+1MXTCfGvJliBv4qf1Pw/HhdsoU3IibcHPgI/8ZbHhDYdOgAqH20QIaWpA9NvgSjWhK4BGAeRHuf02JTcQns2z/W2EFdPahbasr9sSPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=0V5sUMnq; arc=none smtp.client-ip=209.85.208.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="ioqrhQSl";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="I8V4MZYG"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="0V5sUMnq"
+Received: by mail-ed1-f68.google.com with SMTP id 4fb4d7f45d1cf-608acb0a27fso8807960a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 16 Jul 2025 00:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1752649054; x=1784185054;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=A1/Eqm1yng1IpvsXpko7ER/SGIAyeAZDAEM7Mbp7Yf8=;
-  b=ioqrhQSliHYlMBwbM5guPvKY1C/AKiaAaAdbJFuxObUfWxp2CgbWUSYE
-   w/pnnFMFXAjbUcpjNIAJ5LVawWNa9uIsd/Cnoy2znuuAi73Rj1VbFiQeL
-   JesiNeprZ57fx+TRl5UiyKqZud/Eu0GAA1FBy9gF4UBe7e6p7PDXJtRIy
-   pDG79TLYN0n4LcmgDz6cxTKc4NfbzcKtcQDKrzy08Lx0JAEUbG28LTn7N
-   rMnFDY7FfzZzj5nG8cs1VNot8njtMu80ImyvR1u1hbugwpianmybbITI7
-   rF7XcMNz+Aw02tr+A/GeJoluJf7UW2AhysxJBvpYPYbmwNuVMByPDQJrT
-   Q==;
-X-CSE-ConnectionGUID: ZPRIw4eKT0qhAMS04NULCA==
-X-CSE-MsgGUID: P3V5dzO7SLixGUW3IR/j7w==
-X-IronPort-AV: E=Sophos;i="6.16,315,1744063200"; 
-   d="scan'208";a="45231587"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 16 Jul 2025 08:57:25 +0200
-X-CheckPoint: {68774D55-C-D85981A8-D5B36FBD}
-X-MAIL-CPID: 58B03FAC3DF6EB8FCDC8EF7E0D1ED6E6_1
-X-Control-Analysis: str=0001.0A006376.68774D8F.0002,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 96E8E16AB6D;
-	Wed, 16 Jul 2025 08:57:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1752649040;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=A1/Eqm1yng1IpvsXpko7ER/SGIAyeAZDAEM7Mbp7Yf8=;
-	b=I8V4MZYGjVcXGaVTjpyriAnK5ObE67NkDxfytR/mt6SiBLgiDAjdKJ210zeuDQ6p1tss8T
-	Gz9y9EKi8IQO74QFdyb+LYYcqszxvmQVaEXcSbXYD2zb1rpyqMKo2/H07C5olSH82YaBjv
-	IuNRtXCFjWT1t+xbA1r6h9eny8M8/SqZBK7Io1EVQ5KQ+eRPvIL4G1te2/+fZevmYFSLRg
-	DwDCLvvsS5oLlyjABOIvWIkWEHteOhv3fhDfMM84GkAT89rIEeQzXoiXb8SzReviaJ2qaY
-	+YIcXr/BxHCWYKZjlU0+VITyowZkpwdDs7IaG/ANDajjJWzMF3BCmeKqjBUggQ==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] ASoC: codec: tlv320aic32x4: Fix reset GPIO check
-Date: Wed, 16 Jul 2025 08:57:07 +0200
-Message-ID: <20250716065708.4041153-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.43.0
+        d=fairphone.com; s=fair; t=1752650399; x=1753255199; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vpS7uKmXirtt0SzgMZ5d4QPt02O2nNF9SJVnwbn9UkU=;
+        b=0V5sUMnq6XUZ59pl5vKImk9+DasmiDKM+skGK+YgqapvslnmUAp5U3auvJnNo0nNqZ
+         SKDEMEIrZJwv3nufAaO/eSi8+UEpN1RGqa29qtRpdYL4rEi9GOxxMN/SGZxSsfnllwQR
+         d9PXqQ+Ex65ejoCoH5WKIzRehKdOqqA/mAhfsEY5ey93h1e2EAnYPfEFU7q9uduKLUrp
+         BQ1Ai6vFMqD69WumxHe8c6MwikXyKW+2HF1XuApOG7XZ4faB4gK/fz4AseCAFayKIP4M
+         lxHGzwHYP+xLJJiZho2i9gu24NQlo7C2S6MQeD8rS0lcAQ5UImXhgSEsqoQAErP1+JVP
+         1WTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752650399; x=1753255199;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vpS7uKmXirtt0SzgMZ5d4QPt02O2nNF9SJVnwbn9UkU=;
+        b=mXhcdvongZ1MODRJqGr8PSISmVHhg4+76ufKNDfhPxEz3LhtGV9yzajbovtyaQds73
+         qAqgYasTacjMGkPVP1bdj4n/b98Q3X+djTO8C1GVXx0p9hOcIXzCD1gcx/pB8J6nKN05
+         pmv4gIuNX4dypJBNGnAX2D5W+iTMKYny57oZEbhrx0IU2DD6KbgMv+ysui6+Df7e9NBp
+         dTcYdVElrAB5lH3qAJIInWJafFPWhq9XQEtf8nRf8Qzb2wkWlNJZ7w9weAVXOrbIQWbw
+         moYmBxdBW+9h/2j7Og1doTkQlGkxV7HIMc2umx8v6GUTQe152wnd1Z2wfEoLlxuuCTZ6
+         vX3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX2hKy+Kf+d5xKwYzjMBJNngEzi4RW03eQXKtx5t+wo/sOhJ1aTCD69JkZOEb9/O2TV4wLw4t5mNWNZcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlyMqHLhzFdx0WWbrsQankG0dEoOuajhRFWTCRnC8sBixbcArP
+	fR4cDyj7/g3EXsUnFQKNBuQuuXxeKmR6T4coeVbXNMDnfLD/b82sHV0qzeJxKCtE+2k=
+X-Gm-Gg: ASbGncvgSIE38xg4Oati4zoi2lszXMDsj+swHv51rebVke7AMExb7oIfpbI/xpr0wUT
+	pqGbj7keKrxgayyIQCCVxAKfvfRWYJtQPnGthNllvixSJj2C0JIzSCgjtABPfIunBcYsgk4cY5a
+	oVPrySFjjIOtI9KIQ6sNBPrG0DoKkizeyEn0HkJTx9WWcm+sVXjsAEYwqGl9SsgJ1OLEk05x7lP
+	9fRoH3dbnyH85wSc0CzhlzYQwHLkh7OmVZ6jVFxpjygp3LZQ8KfpMPaHFp63ubvB9prP2jIpk8p
+	ux3dhOJu03Nu0CyBxnS4cFSW5Q5VMOGb5afp7tcQfvnM6jFs+/Cu6uD8PrJ9KE5brjaX8KgIHV4
+	7ZQ5jLCRo0K6udomEjLPm0dNxf/o+f2fjFc20uo8hYADCFIBlNB2gSNc=
+X-Google-Smtp-Source: AGHT+IFx3m1lBU1VkWxih9GukzBwademENkA6wKJQrA2d11n7XWBx80BohXOxpWjVJdh9pJ5agT4FA==
+X-Received: by 2002:a17:906:6a25:b0:ae6:b006:1be with SMTP id a640c23a62f3a-ae9cdda3d41mr149340266b.5.1752650398619;
+        Wed, 16 Jul 2025 00:19:58 -0700 (PDT)
+Received: from localhost (212095005088.public.telering.at. [212.95.5.88])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e7ee459asm1162633266b.52.2025.07.16.00.19.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Jul 2025 00:19:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 16 Jul 2025 09:19:56 +0200
+Message-Id: <DBDAPORDD5IM.1BHXPK225E2PP@fairphone.com>
+Subject: Re: [PATCH v2 0/5] Enable USB audio offloading on Fairphone 4
+ smartphone
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Luca Weiss" <luca.weiss@fairphone.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Felipe Balbi" <balbi@kernel.org>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
+ <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konradybcio@kernel.org>, "Wesley Cheng" <quic_wcheng@quicinc.com>,
+ "Stephan Gerhold" <stephan.gerhold@linaro.org>
+Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski@linaro.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
+In-Reply-To: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
 
-rstn_gpio being a GPIO descriptor the check is wrong (inverted) for
-releasing the reset of the codec.
+Hi all,
 
-Fixes: 790d5f8ee6f2 ("ASoC: codec: tlv320aic32x4: Convert to GPIO descriptors")
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
-AFAICT this bug was introduced on v2 of the series which changed the
-validity check
+On Thu May 1, 2025 at 8:48 AM CEST, Luca Weiss wrote:
+> Since the series for the USB sound offloading driver was finally merged,
+> we can add the sm6350 dts and enable it on Fairphone 4.
+>
+> A few devicetree binding bits have also been missing in that series, so
+> there's some extra patches for the basics in this series.
+>
+> Depends on:
+> - For qcom,sm8250.yaml & sm8250.c:
+>   https://lore.kernel.org/linux-arm-msm/20250425-fp5-dp-sound-v3-0-7cb451=
+80091b@fairphone.com/T/
+> - For dts:
+>   https://lore.kernel.org/linux-arm-msm/20250321-sm6350-apr-v1-1-7805ce7b=
+4dcf@fairphone.com/
+>
+> Devicetree patches go through qcom
+>
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+> Changes in v2:
+> - Move num-hc-interrupters prop to sm6350.dtsi (Konrad)
+> - Sort cpu & codec nodes correctly (Konrad)
+> - Remove usb-soc-be prop as it's no longer needed (Wesley)
+> - Pick up tags
+> - Link to v1: https://lore.kernel.org/r/20250425-fp4-usb-audio-offload-v1=
+-0-f90f571636e4@fairphone.com
+>
+> ---
+> Luca Weiss (5):
+>       ASoC: dt-bindings: qcom,q6afe: Document q6usb subnode
+>       ASoC: dt-bindings: qcom,sm8250: Add Fairphone 4 sound card
+>       ASoC: qcom: sm8250: Add Fairphone 4 soundcard compatible
+>       arm64: dts: qcom: sm6350: Add q6usbdai node
+>       arm64: dts: qcom: sm7225-fairphone-fp4: Enable USB audio offload su=
+pport
 
- sound/soc/codecs/tlv320aic32x4.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All dependencies for the patches have been applied already, so this
+series can land as well!
 
-diff --git a/sound/soc/codecs/tlv320aic32x4.c b/sound/soc/codecs/tlv320aic32x4.c
-index 3b89980e9bcf2..7399080f8580c 100644
---- a/sound/soc/codecs/tlv320aic32x4.c
-+++ b/sound/soc/codecs/tlv320aic32x4.c
-@@ -1388,7 +1388,7 @@ int aic32x4_probe(struct device *dev, struct regmap *regmap,
- 		return ret;
- 	}
- 
--	if (!aic32x4->rstn_gpio) {
-+	if (aic32x4->rstn_gpio) {
- 		ndelay(10);
- 		/* deassert reset */
- 		gpiod_set_value_cansleep(aic32x4->rstn_gpio, 0);
--- 
-2.43.0
+Devicetree patches go through qcom, the rest through their trees.
+
+Regards
+Luca
+
+>
+>  .../devicetree/bindings/sound/qcom,q6afe.yaml      | 13 ++++++++
+>  .../devicetree/bindings/sound/qcom,sm8250.yaml     |  1 +
+>  arch/arm64/boot/dts/qcom/sm6350.dtsi               | 11 +++++++
+>  arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts  | 36 ++++++++++++++++=
+++++++
+>  sound/soc/qcom/sm8250.c                            |  1 +
+>  5 files changed, 62 insertions(+)
+> ---
+> base-commit: 393d0c54cae31317deaa9043320c5fd9454deabc
+> change-id: 20250425-fp4-usb-audio-offload-e5d7fb55d283
+> prerequisite-change-id: 20250321-sm6350-apr-15f3e7e4e5ca:v1
+> prerequisite-patch-id: 69859554c94de52068406dab0d2869ca26072c78
+> prerequisite-change-id: 20240809-fp5-dp-sound-b3768f3019bd:v3
+> prerequisite-patch-id: 2d8997a2be02cfddf3a054c79e7eb308a6d06710
+> prerequisite-patch-id: 1b7c8f00ab50ae71c0221868578b9c1dfe939e4d
+> prerequisite-patch-id: 4fd0673c4d35c1fefce63ec5785ff5ea67cc3d3a
+> prerequisite-patch-id: f5ec3a893de19900f62dc691d83986f1104914b0
+> prerequisite-patch-id: fce7573c39e768f7a09c002064b6159b8e91161a
+>
+> Best regards,
 
