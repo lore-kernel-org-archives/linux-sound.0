@@ -1,43 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851A92F530F;
-	Wed, 16 Jul 2025 15:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C65266580
+	for <linux-sound@vger.kernel.org>; Wed, 16 Jul 2025 17:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752681414; cv=none; b=DhfE4GWNasq6vs/6bkU6FF0/tz0jetr05nBHAigqr6sHvZYdY2tW87SJHq85WssszTsnjrsjx5IPSKZo1zyd5WvaQ1lw9IsjPsRRNfMY+V/nLC5ROryzqT5mXL84r6iysC/H/mfZymMTS658kkaNEP10rI1kHEx9DemNewuRfqs=
+	t=1752687185; cv=none; b=E+MuiYS5p+6lLp9JnF3tevZUoW6S9fSX3b+MUh7IrU0P1++IFiHgyvL+KtF83oat9yHfuuOZBQcBDysdQtMk5urzdzKbM7ecuMl89fFpLogC9Nk0hO1Y2vYmb843eRMEeS8bka9le8NntXBMGVOLZS942mRhAfZlPKVQ3X/oq3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752681414; c=relaxed/simple;
-	bh=ZbPIlnCHb3kljSiCjkbaqr4lhfzIekyU+AVe5oNS84s=;
+	s=arc-20240116; t=1752687185; c=relaxed/simple;
+	bh=Ke8Ob/EuHNlQXTLMtuHmZVncmexGDMO20sv8GJCd7NQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VRsEGT6ChqbXMvmr+XWPvCJsp3LU4IfagQnytmvQES5zPF31rFJl0dPIL4nBGUN0EVZ1KmtDV4w56QKginUwUe1JzT1agggDaRs5MRZf4JTZmh2OSVOSpQ2lt8oX+cmlXeHm6EmG6tcIxodbBq7rGxJbMOnqkmPsSRp9ddripkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eV+FeyVg; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=IM9MJhLafEK9OsbmoN+EGvuR922SNDfj0usI0K/2Y0+GYq/116wx8xNCdigQJ2DOOGcX6oyIMRB6J04SujB4kpBeAu0G5knZtLx5EwxKd9LMOGwHbsjdDVAeYRae5V4nESlgBzP3qvZ+nsyVXnQUfO+D7L0J3PDJFSZxg9lAkpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Md5m4NjZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eV+FeyVg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F19FFC4CEF0;
-	Wed, 16 Jul 2025 15:56:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Md5m4NjZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA91C4CEE7;
+	Wed, 16 Jul 2025 17:33:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752681414;
-	bh=ZbPIlnCHb3kljSiCjkbaqr4lhfzIekyU+AVe5oNS84s=;
+	s=k20201202; t=1752687185;
+	bh=Ke8Ob/EuHNlQXTLMtuHmZVncmexGDMO20sv8GJCd7NQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=eV+FeyVg5v2RXXrTPxEhCRsQy2aNMDhlg05iYatMKzjziP5TYcYJ1wL2ZEtcTr8ds
-	 Ht3gAMG7j3woFJgXo5dwdxgms+R6fbMVOVhMQ/8vOAd2MYaUrak2Qy0FOfEh7FcFBn
-	 UB5gpDKyXrIpK4wu/yOKapqvKGVn5cd9hSffnvVpKAcKxfWTyaPrM+Km0xKV2YX9Nf
-	 gA6XJ6xpWiu8Wpsk6tpAlGTqGVKCuKwBCIvEW2FNhCZrdb8FO0VtG/DJfmXHhjYfbi
-	 hq3Z/us+aUzbAEvWc86aqPd0UDtnzc5F/ws/MJ6SWCWpXpL1VIzKpvXRKG2uaE0EXC
-	 49Uc7nhucFmtA==
+	b=Md5m4NjZ0+TDiAimV8+DVnMqXXKN4+WaJKVUXSykTPXbk2rFu1gdfkO/6E33wFSWB
+	 ArGGrMILsIGUS08MJGuSQflMQKqqyFddBtQkng6pf86HWgPt0zaBy4Agcs/U/Z1BJr
+	 HmgFu9Txtq+InTpxEp+ctBITSXByjLV8v/l30xSrzyN7RFx0mz1sbdOFmPjK+zsuwX
+	 4GHoZduf7VeZgWTRPVL8FE70B5o8wm4O8GWG51/IAkOyIrDAhptEWPyoSXJozirV1u
+	 4qbvF/UI2F+AniE16VNsx7fRsH6JSKQl6XpvBIlAMBGJOgi7fai3o0A4WzPezWHiTy
+	 u00rDMx6J/xaQ==
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Peng Fan <peng.fan@nxp.com>, Linus Walleij <linus.walleij@linaro.org>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250716065708.4041153-1-alexander.stein@ew.tq-group.com>
-References: <20250716065708.4041153-1-alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 1/1] ASoC: codec: tlv320aic32x4: Fix reset GPIO check
-Message-Id: <175268141172.726552.8180184869044144609.b4-ty@kernel.org>
-Date: Wed, 16 Jul 2025 16:56:51 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com
+In-Reply-To: <20250716082300.1810352-1-yung-chuan.liao@linux.intel.com>
+References: <20250716082300.1810352-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: sof_rt5682: Add HDMI-In capture with
+ rt5682 support for PTL.
+Message-Id: <175268718380.748601.1365064650654686088.b4-ty@kernel.org>
+Date: Wed, 16 Jul 2025 18:33:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,9 +45,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Wed, 16 Jul 2025 08:57:07 +0200, Alexander Stein wrote:
-> rstn_gpio being a GPIO descriptor the check is wrong (inverted) for
-> releasing the reset of the codec.
+On Wed, 16 Jul 2025 16:23:00 +0800, Bard Liao wrote:
+> Added match table entry on ptl machines to support HDMI-In capture
+> with rt5682 I2S audio codec. also added the respective quirk
+> configuration in rt5682 machine driver.
 > 
 > 
 
@@ -60,8 +58,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codec: tlv320aic32x4: Fix reset GPIO check
-      commit: 8778837f0a5b7c1bc5dbf0cccd7619fec6981588
+[1/1] ASoC: Intel: sof_rt5682: Add HDMI-In capture with rt5682 support for PTL.
+      commit: 03aa2ed9e187e42f25b3871b691d535fc19156c4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
