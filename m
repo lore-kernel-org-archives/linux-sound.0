@@ -1,93 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF5D20E704
-	for <linux-sound@vger.kernel.org>; Wed, 16 Jul 2025 10:14:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFC42F49EA
+	for <linux-sound@vger.kernel.org>; Wed, 16 Jul 2025 12:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752660893; cv=none; b=KCUSh9CXj1RomSddGE0N983JG9O9U8WitbjzSFyGbUD6Uo6dLLdmXFRO4pEvAeCZg4oh3pKSe57z96RZidNzt8BJEYOd/qrPa1sef5L7yIiyGlL/c3U5dybbtMuMc8v7snsL4/D4WivXvYuO724Uyl7GdAkFHsL+rZCnxvhatq8=
+	t=1752667843; cv=none; b=Bm9jc0fATzg6yxYNZ4bYySIp3AAx+U4P59ZKDFZdMuZmslCKtFC70JHWJi8r2OZcPQEzdNz97hkqevqKd3YSnTFgZhHjR6r1Bnyz3uYfe4ep8FDK6VRZo71DLQMLKnlUYo5lN0SqEG9IrtfLrTUMq6ImHbFSg81y6elV/0xIMRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752660893; c=relaxed/simple;
-	bh=cO9vQTqpHVobB2TAK7gdO57gertQY8y3me8rxIn/uRg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gvfjvpJZ5QM/bAdTJqeupzpKYMxVZsLeu2RTAH6CAm4vvyTwmE5Cf9LBGB6p2AeC0QbeLM9Xiy4s8YmTu7n9kgktj3bLMuGiCo34PBoQc5vH2cVDF6KCTn+4nZQHHDYsKlaAADLfZZh03lDMU2x324x60g08eWNoziSCCk5KBMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qGihETtr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752667843; c=relaxed/simple;
+	bh=+DQSWx3yVyCtQC6RXEyoICfnEwzSiuB0gZtQFWEjymo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SzwDmyQqCw3f4POouo6JVnTbpKKztX4p2+HBXu9YlT6j7rjp8dheBStwePHP116ptDKkDts0MQQ3LFkwOaZjIZ9ey7zXS4M/snPZGiMpEwpxzWferSewF4yeoth/4LyVPQk675cwTUkZmrBX/aIhciJd8OCRcTliGL/hfhB05GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hOIZnrXz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HB9OuTQK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hOIZnrXz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HB9OuTQK; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qGihETtr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6593FC4CEF0;
-	Wed, 16 Jul 2025 10:14:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752660893;
-	bh=cO9vQTqpHVobB2TAK7gdO57gertQY8y3me8rxIn/uRg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qGihETtrYV9cCLoplUG/pgR3jkthS24rjMnvturOrQba4ALlSrwz+WxWgZni3lK1X
-	 c4tRT9xf6Kabeh2zvdjtdVE1gXNN1oxedSw9eg/VeeU+Z+2J2h5/tqbBMwNfh0a3jk
-	 r3heJe7+p/wOko/D9/X0B/sFciLvWLeGVQLMvmtxotifxBrUAzqLdmaQZ684YBpndH
-	 tTjRwXgIbeyxU1RfsoSNh5f89jJIz4l8GubgTxv6UaNGJCkYncO7BkPj/KpDlSY5En
-	 PfaxTvd5cjec7auhS62FC76JQWeVOvq5UOtHIUn9WnJXcZlqcmqKHZfPV3ImwIYCrq
-	 RND4fZ39XGKKQ==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
- dan.carpenter@linaro.org, shumingf@realtek.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250715151723.2964336-1-ckeepax@opensource.cirrus.com>
-References: <20250715151723.2964336-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 0/3] SDCA Bug Fixes
-Message-Id: <175266089005.17737.13667592331155056358.b4-ty@kernel.org>
-Date: Wed, 16 Jul 2025 11:14:50 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hOIZnrXz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HB9OuTQK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hOIZnrXz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HB9OuTQK"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 97AB9211D2;
+	Wed, 16 Jul 2025 12:10:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752667838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ILZQ7nnSubmNzfn9RrR/2T0GRSSWHJQ0gQAQvz3WxPE=;
+	b=hOIZnrXz3fPJvoUOEdOhXvyOBQj9YYDzZ97TC4bk+CpiNNUEC8sqaF1OzntBbmWcjz6Lur
+	YmVkTgu8cpBAL02dhudA5bEk7BxzF8FKn6AscazLNutzO/Yx8GbgF6FNQSEwWQig48SpGf
+	RALjRZXlyNPju3VeWcrEqLbAH6Va0Po=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752667838;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ILZQ7nnSubmNzfn9RrR/2T0GRSSWHJQ0gQAQvz3WxPE=;
+	b=HB9OuTQK77wzVWqTa4//BlL9FFNi+Hs4Fu/7B6R+eDYD+KP0tHVpyBwQo8d8EbYm3JpY9n
+	FMcA1G7ztNUWssDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hOIZnrXz;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HB9OuTQK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752667838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ILZQ7nnSubmNzfn9RrR/2T0GRSSWHJQ0gQAQvz3WxPE=;
+	b=hOIZnrXz3fPJvoUOEdOhXvyOBQj9YYDzZ97TC4bk+CpiNNUEC8sqaF1OzntBbmWcjz6Lur
+	YmVkTgu8cpBAL02dhudA5bEk7BxzF8FKn6AscazLNutzO/Yx8GbgF6FNQSEwWQig48SpGf
+	RALjRZXlyNPju3VeWcrEqLbAH6Va0Po=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752667838;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ILZQ7nnSubmNzfn9RrR/2T0GRSSWHJQ0gQAQvz3WxPE=;
+	b=HB9OuTQK77wzVWqTa4//BlL9FFNi+Hs4Fu/7B6R+eDYD+KP0tHVpyBwQo8d8EbYm3JpY9n
+	FMcA1G7ztNUWssDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 69BEA138D2;
+	Wed, 16 Jul 2025 12:10:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UNmMGL6Wd2jaXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 16 Jul 2025 12:10:38 +0000
+Date: Wed, 16 Jul 2025 14:10:38 +0200
+Message-ID: <878qko8hfl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Erick Karanja <karanja99erick@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	julia.lawall@inria.fr
+Subject: Re: [PATCH v2] staging: sound: Adjust mutex unlock order
+In-Reply-To: <20250716081804.727623-1-karanja99erick@gmail.com>
+References: <20250716081804.727623-1-karanja99erick@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 97AB9211D2
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 
-On Tue, 15 Jul 2025 16:17:20 +0100, Charles Keepax wrote:
-> Some small SDCA bug fixes reported from various sources. An array bounds
-> check, an uninitialised variable and some memory allocations that should
-> zero initialise.
+On Wed, 16 Jul 2025 10:18:04 +0200,
+Erick Karanja wrote:
 > 
-> Charles Keepax (3):
->   ASoC: SDCA: Fix off by one error in IRQ bound check
->   ASoC: SDCA: Avoid use of uninitialised local name variable
->   ASoC: SDCA: Update memory allocations to zero initialise
+> The mutexes qdev_mutex and chip->mutex are acquired in that order
+> throughout the driver. To preserve proper lock hierarchy and avoid
+> potential deadlocks, they must be released in the reverse
+> order of acquisition.
 > 
-> [...]
+> This change reorders the unlock sequence to first release chip->mutex
+> followed by qdev_mutex, ensuring consistency with the locking pattern.
+> 
+> changes since v1:
+>    - Applied the unlock reordering in other functions with this pattern.
+> 
+> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
 
-Applied to
+The code change looks good, but could you resubmit with the proper
+subject prefix (e.g. "ALSA: usb: qcom:"), and with a Fixes tag?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
+thanks,
 
-[1/3] ASoC: SDCA: Fix off by one error in IRQ bound check
-      commit: 3f2e4c11925ee24a34853b0d608ab85df2430555
-[2/3] ASoC: SDCA: Avoid use of uninitialised local name variable
-      commit: 71562278a189af2ca202eafa0ab71a9b68469207
-[3/3] ASoC: SDCA: Update memory allocations to zero initialise
-      commit: 15247b5a63f506125360fa45d7aa1fbe8b903b95
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
