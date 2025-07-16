@@ -1,127 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31683292B42;
-	Wed, 16 Jul 2025 07:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33633293B7F;
+	Wed, 16 Jul 2025 08:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752652280; cv=none; b=sAyJnAVoMclbVFieAEgBcLxQQhWJiVmVnaslsh65/+Ge5dbzJjZ8++5D65zUpUmzds6EcjIKZXMRMAED6tIen5DNIZ4V6GHTj+mvKjuve/cNLnMlP/oOaUbwyXYt7qgGpY7xzXxD5Q8+OFPvPZrnFWT51Q9aNubl2gjjP0IZHs0=
+	t=1752653913; cv=none; b=nxZFsaFc5nd+PPJutaGq19x3+tWtWkCTLCMJJUVHEsfjM1pkJBI8QRpr4bztQnGhrcg8/Ics3B5DMvJau/I+/AMEILmo2SHM+x6E4uw/XO6uxpF+JoBT/m2Bjr7VfTvt+Nt4a3GaDnHPbjwF7vfRqJLkfy4Z6wOqGy2sOHRo2pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752652280; c=relaxed/simple;
-	bh=JmE7m3bTLeo9xgxysdSDSxK0t03ujqlDmwZ928eeLqQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QYQzINuO8kjz21hn4VIJ5D3oHFBlUZ/+q6FQ2uejmg7R9K84YAdn+X2P09jYfNRlQn98FPkOOJTmCLGlWSNxmd+XEbfN5CFRFjOCLPEcCLHxXXGsmmwbwV53SX+mIPDVdhdjo1R8DntBRXg1r6TqWrmSwitp0Z44k0763HP4rAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RYCEkmNV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752653913; c=relaxed/simple;
+	bh=Lft2VjhL3Z+RgugXcrOc+U6+4yRTKoSIvkErlX7DsJs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z84vO+JJkom826wYVoukTKwYxCU4WlzhfQsZrSWVZ6mwnzIlWDbFa9vxyj41zbg3oK19lMMQJTliv/uegQeD2AmkG605jgFo8WfOYE4g5ipEGIM52ibZz0ssRWI3wwLnnebci+CSHn6mF5b2nbIFOaCy6uvyvGKoNzmltLx08nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1tDsFby; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RYCEkmNV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3378DC4CEF5;
-	Wed, 16 Jul 2025 07:51:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752652279;
-	bh=JmE7m3bTLeo9xgxysdSDSxK0t03ujqlDmwZ928eeLqQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RYCEkmNV2+4vXXAfDGdpkg9HXHC44jDHTrK7WBRGncG1bD7owC5vAX84WA8xGR80F
-	 aRP/xZ2FDbY7lLyBAs1SKwSxe7fX8igMOvpuxxNfwM920v1Ze0sKCWtUSJ6EWkoyGi
-	 Lwwi0OgJHZ+P6MO2G0poGu/5qOMoMWOrMSTIPmJd07YRbZyqqKBtw82BOCu1vqiffg
-	 EmOkNgfFJjNdeTEtWlR/ypbO7bP6xwSTE7r4/dlAg9BTwP3jYrrBIGIXkPBGqdRBgu
-	 JMTa68W/5QPPXsSYrlJUnZzIuQ7N6Aq1ZANWpS4geOTRpmwdsdibf1jvrKm/8Wvu2w
-	 0DZw+7fwlrS5g==
-Date: Wed, 16 Jul 2025 09:51:17 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	kernel@oss.qualcomm.com, Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: Re: [PATCH v6 3/9] ASoC: dt-bindings: qcom,lpass-va-macro: Update
- bindings for clocks to support ADSP
-Message-ID: <20250716-spirited-sage-ibis-dcfeb1@krzk-bin>
-References: <20250715180050.3920019-1-quic_pkumpatl@quicinc.com>
- <20250715180050.3920019-4-quic_pkumpatl@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1tDsFby"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a4e742dc97so341177f8f.0;
+        Wed, 16 Jul 2025 01:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752653908; x=1753258708; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qNA0n9eSMTU9UccBKIS13e/SkdDO98rlQB7qYVwQ23k=;
+        b=Q1tDsFbyvHfr7nFmWTp4RQkexSTmpkIr2YNShAdNrtKaAHGDAoqVKrfa5S+ju9pLK0
+         7wO5c0HdqaORpYT4wkuj2opwU+TmdfdmbqqBJwb0N8aLgTGy21bV56x6bxfPabplIBcd
+         qUR7vHqj+bqwJjAoiV2CO9JxQ+AD43YnPwikzkECDH21maQmhsKVgriWL2U/HXXEACQT
+         WfFxfyRm9CdBV8eGzFMbvoOk2Q91nc3QJoPOF61Ral5ffQWeeyPnlumuOYC+eNDZWIXc
+         KmGIMVlgNlg0wiZKIMBRWH9gq2wvJseETb8YEO6HDsqRbUKuqZPrFnoLnWHw5dkFtsfP
+         HUSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752653908; x=1753258708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qNA0n9eSMTU9UccBKIS13e/SkdDO98rlQB7qYVwQ23k=;
+        b=EOfvfPvqtPl995i93DEZD7Milh/W0V391AvlA96Udc5c4KoyAzVGUR14gsLE+2Wv19
+         6u8pwmkxvVJ8GSqjPCeXavgxEg/0wUzS9YESEwDRNS7DQ5QZfh0UqUKNt4uq4MuPK2gl
+         U19sR1RAL+aYX9OnHGk2NdJQRMbfIcHv2bzaCAxsAgitEPD+UW3MBAG4lI1cQW8FGnL7
+         /6r0d7n44mJ5TyaJARvDsuXZZxa1vMWmeUyiAYNiVZfV0N6B0jYZJ7WBLpUAP5hnEp20
+         M1T5QyJYiWw+r5HqWTUZnzwAZSCvDAiSd7uuE0IRPrWVXs7o6ZOGTZZxgGYUOAZPNqGw
+         Eu7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXQm0eJTg0RTxhBRq6NPbfvAXCE9lWOlokSTNF31h8zd4c531vTGWC3AqKkS/qwQuYuOvxgbFK8YTAxR60=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAPlWdSEWF9UgHgP2sqU3EjXSXRmS9X34Wk9pwOFZ3PaB9IlLZ
+	ehJ1bba7DeUxviAzNAwDvXJsd/XQxL2LFsBpScjexuMAd1aEdpUqV5zz
+X-Gm-Gg: ASbGnctFZ9rI5qhENj19SflhwgJ2uSHHtcCVgSzgb5mfNPIqjux+ym3cpuvdOxbWq0L
+	7BBNoCL9KrOL1ZCs/uW61sycRvCgnogxMQXNyrPVh9FCnFjUPiDdLH37Y37pA88wWykSMh5LcYv
+	P7GF7dTSgwHDdXo6qvZIC6AvskT0OUcanzlXvaygKQP0P8PMZliPC9lDpGJpYgwpzRoj9tUO1e4
+	s8pEYD5UvOf0dehbLVAlw+nX2syVJsKmRm7MA9wsOrBL5c8Jmi8geYQdopKY0xgdTpVYc4GRrN8
+	1npmnFxJfmyWQhq2b/DGiiSM0cXo4VLl6F9sX60Ih/aT/RTKvanYuWes3h0shlnb39J5yWHob7h
+	RSo8793vHaCGXOYvZP5g=
+X-Google-Smtp-Source: AGHT+IFwAPRR4IOT/bLxwFOqchlFcVDbwbwxP6dToKersdNJBrQoWQTfNJL4K6CWSSLEY7KGVo8F2A==
+X-Received: by 2002:a05:6000:2307:b0:3a5:8934:4959 with SMTP id ffacd0b85a97d-3b609544322mr5393236f8f.27.1752653908127;
+        Wed, 16 Jul 2025 01:18:28 -0700 (PDT)
+Received: from pc.. ([102.208.164.18])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc1de0sm16991700f8f.24.2025.07.16.01.18.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 01:18:27 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	julia.lawall@inria.fr,
+	Erick Karanja <karanja99erick@gmail.com>
+Subject: [PATCH v2] staging: sound: Adjust mutex unlock order
+Date: Wed, 16 Jul 2025 11:18:04 +0300
+Message-ID: <20250716081804.727623-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250715180050.3920019-4-quic_pkumpatl@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 15, 2025 at 11:30:44PM +0530, Prasad Kumpatla wrote:
-> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> 
-> Manage clock settings for ADSP solution. On Existing ADSP bypass
-> solutions, the macro and dcodec GDSCs are enabled using power domains
-> in lpass-va-macro which is not applicable for ADSP based platform.
-> 
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> Co-developed-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-> Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-> ---
->  .../bindings/sound/qcom,lpass-va-macro.yaml   | 29 +++++++++++++++----
->  1 file changed, 23 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-> index f41deaa6f4df..aec654e6567e 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-> @@ -76,12 +76,29 @@ allOf:
->            contains:
->              const: qcom,sc7280-lpass-va-macro
->      then:
-> -      properties:
-> -        clocks:
-> -          maxItems: 1
-> -        clock-names:
-> -          items:
-> -            - const: mclk
-> +      if:
-> +        required:
-> +          - power-domains
-> +      then:
-> +        properties:
-> +          clocks:
-> +            minItems: 1
+The mutexes qdev_mutex and chip->mutex are acquired in that order
+throughout the driver. To preserve proper lock hierarchy and avoid
+potential deadlocks, they must be released in the reverse
+order of acquisition.
 
-Drop minItems
+This change reorders the unlock sequence to first release chip->mutex
+followed by qdev_mutex, ensuring consistency with the locking pattern.
 
-> +            maxItems: 1
-> +          clock-names:
-> +            oneOf:
+changes since v1:
+   - Applied the unlock reordering in other functions with this pattern.
 
-Drop oneOf
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
+ sound/usb/qcom/qc_audio_offload.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> +              - items:  # for ADSP based platforms
-> +                  - const: mclk
-> +      else:
-> +        properties:
-> +          clocks:
-> +            minItems: 1
-
-minItems: 3
-
-> +            maxItems: 3
-> +          clock-names:
-> +            oneOf:
-
-Drop oneOf
-
-...  or rebase on top of my change and make it only min/maxItems:
-
-lore.kernel.org/r/20250716074957.102402-2-krzysztof.kozlowski@linaro.org
-
-(or whatever gets merged first, I can also rebase my patch later).
-
-> +              - items:  # for ADSP bypass based platforms
-> +                  - const: mclk
-> +                  - const: macro
-> +                  - const: dcodec
-
-Best regards,
-Krzysztof
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 3543b5a53592..a25c5a531690 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -825,8 +825,8 @@ static int uaudio_sideband_notifier(struct usb_interface *intf,
+ 		}
+ 	}
+ 
+-	mutex_unlock(&qdev_mutex);
+ 	mutex_unlock(&chip->mutex);
++	mutex_unlock(&qdev_mutex);
+ 
+ 	return 0;
+ }
+@@ -1865,8 +1865,8 @@ static void qc_usb_audio_offload_disconnect(struct snd_usb_audio *chip)
+ 
+ 	/* Device has already been cleaned up, or never populated */
+ 	if (!dev->chip) {
+-		mutex_unlock(&qdev_mutex);
+ 		mutex_unlock(&chip->mutex);
++		mutex_unlock(&qdev_mutex);
+ 		return;
+ 	}
+ 
+@@ -1921,8 +1921,8 @@ static void qc_usb_audio_offload_suspend(struct usb_interface *intf,
+ 
+ 	uaudio_send_disconnect_ind(chip);
+ 
+-	mutex_unlock(&qdev_mutex);
+ 	mutex_unlock(&chip->mutex);
++	mutex_unlock(&qdev_mutex);
+ }
+ 
+ static struct snd_usb_platform_ops offload_ops = {
+-- 
+2.43.0
 
