@@ -1,109 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9313594E;
-	Wed, 16 Jul 2025 03:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B9E171C9;
+	Wed, 16 Jul 2025 06:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752636868; cv=none; b=c4rJEX6kO974TCs7JHddnBIFfFTbLMZEqGv0SuD8yyVDFgkYGAZNRgEmNK8SO6BzRz9oPds6/ilhhLTxY4tU72PXEaywOCEUrrPG0PkHoUx+9EPB7FxbzZnthgeGv0/UorfCVpQqHYmAm+PCSWBDJgGWo5haknicqR4kgaidUOs=
+	t=1752647037; cv=none; b=Gnbbi/Qe0Xda59MKriyEindusikKcgIVoiiuzkaDOIDTxCuC4oT/cPmqE3KEItTIdgNBJuoz31T79GhQTrjUbE6JsDZmVgBNW7vPwXB0SCjHRMvStPvnUNZIYeLpB83QqUYMw4mDJqFWqCMiaXzEOC9R45AmFKkfTUXcJZuvj1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752636868; c=relaxed/simple;
-	bh=JX9lPvW29HuWuNG0xMribnwysoHenlRGseyEaBMLynA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=heqx2Eofdu0/guYuBccRPV2yjRrx1uEg60a2IcMRT5bgIRfs/v1UKzYCihYxkIna1McVFYlNHG7TVE4gUFmP9EJ/nBe5twvUTkhPto3zWXcqaq7J/MwG9y8R629tSgXGdcCJirGy0GyHx3kBDoBe8aDtBoEFan0e+DeF8blFtws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JNn0DBeG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752647037; c=relaxed/simple;
+	bh=lPc/ujMBbkY7GsxfeqrA9n5TEa6uTkdv7TU2NdYla+E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EYu4Z2FD0ryvB5hsbqLaL6koq+SrkdmpZT2/wTc7phw6Gvjc8l6kYWdKTNn/a8GSt/nhDnxCMYsvIpjn/rxOvbanNljDH0WY1XGIqX3apqPD+BawMzN0XFLh8NNWpZb54ex8sbSC/2DRw3ZZQs8ioKGw611o6Wz13tHJhbu9MzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqB+IbtQ; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JNn0DBeG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF4A6C4CEF0;
-	Wed, 16 Jul 2025 03:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752636867;
-	bh=JX9lPvW29HuWuNG0xMribnwysoHenlRGseyEaBMLynA=;
-	h=From:Date:Subject:To:Cc:From;
-	b=JNn0DBeG2jhiv8pTK0H87VAQoIEjSIt+i59xFsck7j531KjD6xtnpADiy8Bl+pa7R
-	 YvWnNhD6AgMh3/uggiDs77HaJfOLzgB8ugNi8n5iEJGV46EWLfUKgjFeOc1j8lMvXN
-	 WGrG3vxtiCxFCpg2xEjvmHk+hTBPTIm/VC17uqKRc/cSq90bEcMsgUe7RVZc6TXKS2
-	 7EdM03dG1WJsz3AgwDF0moBdnPgWsSerkgwkkpfOaO/Pj2GJh+CvNGWpUjMeCpaiex
-	 Q7Slwt5OVRUUZBxJvwOmzq9w7WXDZK+uXtLmy+xT5t/yQlgsySSs5eSU1ElvxyOzUF
-	 8xZ/z1QHXfOjQ==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Tue, 15 Jul 2025 20:34:21 -0700
-Subject: [PATCH] ASoC: SDCA: Fix uninitialized use of name in
- sdca_irq_populate()
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqB+IbtQ"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45611a517a4so1657665e9.1;
+        Tue, 15 Jul 2025 23:23:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752647034; x=1753251834; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bd54qPKhtf5xoLinfnzyD3tXrm9xf5NqVgbA6PNgyHo=;
+        b=jqB+IbtQQBhMCU4PRovuA+TVZT3SWnOAcdC0OG1VEAZ1s3MqBzQmcWy68F5c9HGNMF
+         buzCPVRMiVjchp08slLz426AgY2gl05i16ONDLr2rTzarX9bRlUaA/+Ok6GX8nidOjwT
+         9flbDceqRe9HwdQ447CfWe+S1chU9DzfAArgYQyVgBiVJi/JM3F1HfrJf2Ju3SgiOk2J
+         2KzwGc0szmGjqKxeEWT1CbIOgsVB4neQyy2xFWD4Yo8lUlSZycLTFDui0J6jtRmiaPA5
+         PVcsaBGPPLv1RGNBQTJNv3g35aT5UFBISrBEdjruSHam6YHJ6Fg3BFoq7mTaqK7kFrPE
+         FXyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752647034; x=1753251834;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bd54qPKhtf5xoLinfnzyD3tXrm9xf5NqVgbA6PNgyHo=;
+        b=FvbCwC5RMbnAybrXLP3T4/bjdtvUcMd3Q4FuPvjHnZiGIgBhRbAEu+ETOrJXcIAWMa
+         5yQPB4h5w6Q/PZKK6t3bsGogFWTB+RPH92xQHiUyrrgMEIQSYUxTkoOtedCB5teotc6m
+         v0hZr3moVt+rolVT2HCJe5tyoSL0fnVr+n+MfHG8W9xd0W0g0xSCg/6asktFvL9kIoJY
+         4Js/m2kRmQBf3lZeo75PrqCfNpaw7hWLESnNJDPmGR1zEgHZBQNyDgtmz3PclCKfvUY7
+         VGTjgOhyFQ3VhOsupKL2Sgu+4l7+GXqrCJRiL8PVqlCM6ePWpNe7v46aYtJNZb0juXA5
+         8tqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWcEGLMYkLO3MHpYyyx2yxqHFfF6psED4gXjMLmK6n+rdQJLl/w/ocP6/0cqntmBH4wm/Crmb4MSyX78uA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqYXKk42J4XffgJtUR7ryx+WTdcaSNsDA/mZgS0DGaM3MkJeFh
+	EcGUuwTFp0o42J39mR4d+dWMTQneGGu8VlZHbnLis60knSIYyM3MY+c5
+X-Gm-Gg: ASbGncvzIpPjZWuq0OENgD/KU8J/2JO9UEeEoVd6sHNaPqLS6Up0D6AlqU9Pr4a2bsh
+	cQ9/+vIoVa9bPFOKqJpadadlqBFcM/CSGcFSgEFgzoefCAOhqY9/qF9gCtSPApb+aTzuHGrIASs
+	z0JCENMEveyjILRm6Kpx4Deq7SFnmsriU4tsqxYpW53bPSL3ye83CUCjg7kIIwYvPjSpGhFAMYi
+	BkRu3vhlcJ1hr2No+DNhY1eXW26E7Ojn/VALdOBd1/z8YESCLknyjM5JEfdh8H8zNuLNLXMqYMW
+	cRbxHaJoHDQFHNOuBTfO7pEpJ9B3ncmznc/vxphPuSRODLfT6cpnaYyzECa39S8rsums1XHwM89
+	GPjL6yCoFPno4BvXP87M=
+X-Google-Smtp-Source: AGHT+IHf7i0NZrLbzAC0UiYFgVB1buOpOiVctBkvZdhK0kOWkSWOPjIZfEecQaZg8VVvRDvSTTu3CA==
+X-Received: by 2002:a05:600c:a207:b0:456:23e7:2568 with SMTP id 5b1f17b1804b1-45625e78e2bmr38912645e9.13.1752647033991;
+        Tue, 15 Jul 2025 23:23:53 -0700 (PDT)
+Received: from pc.. ([41.220.242.241])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e7f4294sm10731675e9.3.2025.07.15.23.23.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 23:23:53 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	julia.lawall@inria.fr,
+	Erick Karanja <karanja99erick@gmail.com>
+Subject: [PATCH] staging: sound: Adjust mutex unlock order
+Date: Wed, 16 Jul 2025 09:23:30 +0300
+Message-ID: <20250716062331.375090-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250715-sdca_interrupts-fix-const-uninit-warning-v1-1-cc031c913499@kernel.org>
-X-B4-Tracking: v=1; b=H4sIALwdd2gC/x2NQQrCQAxFr1KyNjBTWkSvIiJxJtZs0pJMVSi9e
- 4O79+Dx/wbOJuxw7TYw/ojLrCH51EF5k06MUsOhT/2YznlEr4Ueoo3N1qU5vuSHZVZvuKqoNPy
- SBUxYhvq8ZE6FEkHMLcbR/q9u930/AJNRFh16AAAA
-X-Change-ID: 20250715-sdca_interrupts-fix-const-uninit-warning-c4db91e0ca0a
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Maciej Strozek <mstrozek@opensource.cirrus.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- llvm@lists.linux.dev, patches@lists.linux.dev, 
- Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1744; i=nathan@kernel.org;
- h=from:subject:message-id; bh=JX9lPvW29HuWuNG0xMribnwysoHenlRGseyEaBMLynA=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDBnlsgfn3Lz8uC34ka9IKu/PJ9zcYQ8lvjk894hasP/o3
- 9WpPrJHOkpZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBEdh9kZNh0fvUkrsrzk7ar
- cUrZ7JM+3X1fc5LOkSrX0LlCbn7Pt15mZOgS+7qyVjFsj4iH0OnHqoIV0ext8wsnP/ba/ysy/GC
- 2CAcA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Transfer-Encoding: 8bit
 
-After a recent change in clang to strengthen uninitialized warnings [1],
-it points out that name is used uninitialized in sdca_irq_populate():
+The mutexes qdev_mutex and chip->mutex are acquired in that order
+throughout the driver. To preserve proper lock hierarchy and avoid
+potential deadlocks, they must be released in the reverse order
+of acquisition.
 
-  sound/soc/sdca/sdca_interrupts.c:388:6: error: variable 'name' is uninitialized when used here [-Werror,-Wuninitialized]
-    388 |                                         name, ret);
-        |                                         ^~~~
+This change reorders the unlock sequence to first release chip->mutex
+followed by qdev_mutex, ensuring consistency with the locking pattern.
 
-Remove name and use the name member in the interrupt variable, as that
-is the proper string to print.
-
-Fixes: b126394d9ec6 ("ASoC: SDCA: Generic interrupt support")
-Link: https://github.com/llvm/llvm-project/commit/2464313eef01c5b1edf0eccf57a32cdee01472c7 [1]
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
 ---
- sound/soc/sdca/sdca_interrupts.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ sound/usb/qcom/qc_audio_offload.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/sdca/sdca_interrupts.c b/sound/soc/sdca/sdca_interrupts.c
-index 2f85fcc6e544..6df3b1a4d599 100644
---- a/sound/soc/sdca/sdca_interrupts.c
-+++ b/sound/soc/sdca/sdca_interrupts.c
-@@ -342,7 +342,6 @@ int sdca_irq_populate(struct sdca_function_data *function,
- 			int irq = control->interrupt_position;
- 			struct sdca_interrupt *interrupt;
- 			irq_handler_t handler;
--			const char *name;
- 			int ret;
- 
- 			if (irq == SDCA_NO_INTERRUPT) {
-@@ -385,7 +384,7 @@ int sdca_irq_populate(struct sdca_function_data *function,
- 						      handler, interrupt);
- 			if (ret) {
- 				dev_err(dev, "failed to request irq %s: %d\n",
--					name, ret);
-+					interrupt->name, ret);
- 				return ret;
- 			}
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 3543b5a53592..ef144d2be7d2 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -825,8 +825,8 @@ static int uaudio_sideband_notifier(struct usb_interface *intf,
  		}
-
----
-base-commit: 6bd62e3ffe865ddcd9866856f7112dd3a7484b65
-change-id: 20250715-sdca_interrupts-fix-const-uninit-warning-c4db91e0ca0a
-
-Best regards,
---  
-Nathan Chancellor <nathan@kernel.org>
+ 	}
+ 
+-	mutex_unlock(&qdev_mutex);
+ 	mutex_unlock(&chip->mutex);
++	mutex_unlock(&qdev_mutex);
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
 
