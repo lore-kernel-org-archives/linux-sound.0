@@ -1,40 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA5B2F273F
-	for <linux-sound@vger.kernel.org>; Wed, 16 Jul 2025 10:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398F120E704;
+	Wed, 16 Jul 2025 10:14:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752660885; cv=none; b=iOAMrRAcV+zXHQ2WCSYj2t3wdA6X4yA3hCoLO4H6Ka7e3GLrY58FnyPmX3ZKa/COkd6dSEd00Fz9aMpYMQc7gRnJrhxiHWjvHrMhEgx43GBI5QdGOpBhVBLY3iJgKDIEsoJP2JBBHjwvs3x6DyLXpN7/SlmZbNSzf2aEDIG7y9A=
+	t=1752660890; cv=none; b=I2mIyj6pN+129lirOt/SErrcaHYuKi5uc+wbBGb5oZbqUQmGM6zpGhLeUFf/pTPV3EYI6HzeTWNIrHCcJ63PXC80aupq6kpD0H6RSuT4zV5j6LesqRaPebCnxChzlt7QQxQEpbewM1yYW+KCmDBEY7tFzWOLYorgBSX10HpSiJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752660885; c=relaxed/simple;
-	bh=O2YCxfpLQZxSYKTTZUVP9+i+n/N0nOZ4Q9r67ntk3b0=;
+	s=arc-20240116; t=1752660890; c=relaxed/simple;
+	bh=ZAJ4hltXuvDrA1GGiGb4i5399iwHMLmhNwupb9CXkxs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uJ2s9DLDQ7tV/X82FdXwMYunUDByoyBOI6mIHtOs/wxI5SKLZ4vCh2VHGuxx3P7hgrD0QZadB7/Z5NJ7B1FxGYj/zVSidlI6KCdKZo0lwoXqwx72GgmhV9Gys+CenlltoYPKXJfXgfujuwVupX3TQBqygczBl3iUkZClqiYqPyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nhb1udAI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Dw7F7Xd++jy7ITZQdyXmRkX6BNfv9A5welbk8ZFoZj+2oxewT7pSj05NzGQbxaumazr1du0kCpNEuAYPEVu2bwTX+HbyXpOvo0c4Vd0EvONXBA7uvRWddPemD/YhD8Fv84z67knfq7gWQETV3ygTckXPZipRimwgR9MlowSe2iE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hOKeeCU/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nhb1udAI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAA42C4CEF0;
-	Wed, 16 Jul 2025 10:14:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hOKeeCU/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8949BC4CEF6;
+	Wed, 16 Jul 2025 10:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752660885;
-	bh=O2YCxfpLQZxSYKTTZUVP9+i+n/N0nOZ4Q9r67ntk3b0=;
+	s=k20201202; t=1752660889;
+	bh=ZAJ4hltXuvDrA1GGiGb4i5399iwHMLmhNwupb9CXkxs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Nhb1udAIxxZDvqNac/aee2ghm+SvUd7+U560G12SHGmkoWD3Bab2/qVkhLesHnohP
-	 aa64qp0pFHpwkrRrAWf0WEIzN+FhE26nFsTfA5Ckou9PFCkODaBkmbQpax6r5yYxxD
-	 8d9WbT2M9bW3lCZv55e8W9bDgI1Mp4QC0M421kADXD4tS5fdsFAfjrlGWNMwDNJb07
-	 QpK57tr6caa2L8QkzhPvHHe+AcOSIO30Y0vKSqs4FY5pIxgS1wL+3bj1BfP9M84lKo
-	 jIYdaGxYg1xZf+UebMRo7hOFayoxryzSCSLr0kbJV6t6NS1C+dizmMaF7BJmwCfO1V
-	 oRbiVRaYpyA0Q==
+	b=hOKeeCU/pjKMC2NPJSWQ8DxIWEIVjScFWz7ziwxLtCmiGmFGtOzcvx0qzFB0gHEwj
+	 y3OAaC7OkmqXklzm5qmGZyMddX5ZvHHv6x+F8EQa/5mf4t3Mz5v5IEQeyFH6uJt1ox
+	 8JIoXzdurcQ2DS5bSHmAiKnPPw2A5jNQca/KpbXj5/OACZlCbUj5ZZ5D78mG3bNOZA
+	 sWqPKHNfcwDb0aWX6xKZge46mh1CzDsLdG5AUcSzkBQQnYVSWO+9DZSBhXDlIqmFIC
+	 GJPGPGNigitGA8Jm2ggCFE+WNxwyG1EwuLnzjfEH4VMMs58WUl3jzo8TV/TU7g1oyn
+	 JYN71CvwLzciQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
- Adam Queler <queler@gmail.com>
-Cc: Adam Queler <queler+k@gmail.com>
-In-Reply-To: <20250715031434.222062-1-queler+k@gmail.com>
-References: <20250715031434.222062-1-queler+k@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI entries to support HP 15-fb1xxx
-Message-Id: <175266088320.17737.3561865903443360061.b4-ty@kernel.org>
-Date: Wed, 16 Jul 2025 11:14:43 +0100
+To: Support Opensource <support.opensource@diasemi.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Oder Chiou <oder_chiou@realtek.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Maxime Ripard <mripard@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Brian Masney <bmasney@redhat.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
+In-Reply-To: <20250710-sound-clk-round-rate-v1-0-4a9c3bb6ff3a@redhat.com>
+References: <20250710-sound-clk-round-rate-v1-0-4a9c3bb6ff3a@redhat.com>
+Subject: Re: [PATCH 0/6] sound: convert from clk round_rate() to
+ determine_rate()
+Message-Id: <175266088527.17737.6588270584150732640.b4-ty@kernel.org>
+Date: Wed, 16 Jul 2025 11:14:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,11 +56,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Mon, 14 Jul 2025 23:14:24 -0400, Adam Queler wrote:
-> This model requires an additional detection quirk to
-> enable the internal microphone.
+On Thu, 10 Jul 2025 11:51:06 -0400, Brian Masney wrote:
+> The round_rate() clk ops is deprecated in the clk framework in favor
+> of the determine_rate() clk ops, so let's go ahead and convert the
+> drivers in the rtc subsystem using the Coccinelle semantic patch
+> posted below. I did a few minor cosmetic cleanups of the code in a
+> few cases.
 > 
+> Coccinelle semantic patch:
 > 
+> [...]
 
 Applied to
 
@@ -57,8 +73,18 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: yc: Add DMI entries to support HP 15-fb1xxx
-      commit: 949ddec3728f3a793a13c1c9003028b9b159aefc
+[1/6] sound: soc: codecs: da7219: convert from round_rate() to determine_rate()
+      commit: 8a4d73121d6bd9a70895e65d6d1014ed6b0a6c8e
+[2/6] sound: soc: codecs: rt5682: convert from round_rate() to determine_rate()
+      commit: 4e15a10f6fb254e33d73a6da3c4d00e3e64d2eb8
+[3/6] sound: soc: codecs: rt5682s: convert from round_rate() to determine_rate()
+      commit: a37d9c8aef1c78876eff0bc8980a889c083de89d
+[4/6] sound: soc: qcom: qdsp6: q6dsp-lpass-clocks: convert from round_rate() to determine_rate()
+      commit: fc62ed665eb2e8fb0f1e12ab9cdb578666704a76
+[5/6] sound: soc: stm: stm32_i2s: convert from round_rate() to determine_rate()
+      commit: afd529d740028a41fa750d4491b106cecbccba3e
+[6/6] sound: soc: stm: stm32_sai_sub: convert from round_rate() to determine_rate()
+      commit: d5f317fd5cd9dfdf5bbe11384001817760c12b75
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
