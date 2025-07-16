@@ -1,158 +1,129 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCECC285CA5
-	for <linux-sound@vger.kernel.org>; Wed, 16 Jul 2025 06:35:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0412310A1E;
+	Wed, 16 Jul 2025 06:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752647725; cv=none; b=QDVO/2BcHhPHme/oHTxgeIWevM3PJ5Sg9+Gb/E3pqyuzF23BwLMFzHMGZ3/vGPaVrVu/NFNkOvKuFgGA9zJaPzfKee7dDzitbo1+/O5ZTnwlfrQKEorJ4lUMfutJ79QCXmVyGPhA2arZKHdyGY6/0bL+KplHsJLMA8NPPw16wKY=
+	t=1752647982; cv=none; b=Zzrv7n4/1uD0gN/Dp5y8pmh5p9duJOAOHU43rmHm9INe8rtM22HMvVM96vr+rJlmDu1/IKXhcxGcgrfO49TJk6qRAqyfzFFq4SQ3yj33AqEyg4+R/jzmqRUWnZgPVGX7rMlnFK92kVXu2m5WJK+SeLih4q1aQw+ttNjfBOYMpEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752647725; c=relaxed/simple;
-	bh=WiihEydFxy7tsIuJydHJky6M+1qWAbvXlZGIPuFpyTQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T9omUPGt6nw/0bAG+IRa1aW9NcdpBuDvnd1/BolXmN1d3Ltawswah5E7rF/B9ZMjghzzCPFpYhQjqVBrH7xRke2XMMdtCuPB6QV1IGJqWcf9l5GX15CRu1WxACDLdw6MR7UCeU1uIIyr6znNny8YJOEDwxdGa56YanLAum7YZPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rtVhAxQ0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qMoNayro; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rtVhAxQ0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qMoNayro; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1752647982; c=relaxed/simple;
+	bh=wVAl89vNB9bQpcPM0aETCscy7sJDvB/jsurR5jm9dw8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZjEJPn4+nqhr3Ir/SOaFrcrr7kwKt9B3mvgxkCVxJCnkSCQHP1/jMqH+lYrU2NtOd7Z+oIrI7Pq0/xeUnXCRJ57eQdpetR6VvonLTQat7UQaB3iAQuCeIc3HwSb21eAD4H/pvf7S1c2OPzAVGILP+HElj0qOfGLpXVDVCwr1apw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kbnvmZBk; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rtVhAxQ0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qMoNayro";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rtVhAxQ0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qMoNayro"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0160921233;
-	Wed, 16 Jul 2025 06:35:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752647722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=alMo+CkPlqJsaxDmO1REexawjtJx6vWckzUN7h2I58M=;
-	b=rtVhAxQ0DDi2A5yzWJJnZcGVbAs5CwPuqaz54/rJh63lc40YBQTkZHOY0aqZVEejoRc1PG
-	1HOefQtzsAqgKdAyfko7M+/3Y+kzehCWyApXlzRj4L3asVDxvckGWYQvlIcb6Li/XzO+AE
-	ZffWGfgJ0FwJkYDyknLKWj17e0qzg5w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752647722;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=alMo+CkPlqJsaxDmO1REexawjtJx6vWckzUN7h2I58M=;
-	b=qMoNayroj4gFIwGbw5LVdbDRHVNbl8B2xNxwLt1XBWoTwX9yvMkJA5dMTAATpN07yVDYPQ
-	9LHpUjeKhOaOdrBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752647722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=alMo+CkPlqJsaxDmO1REexawjtJx6vWckzUN7h2I58M=;
-	b=rtVhAxQ0DDi2A5yzWJJnZcGVbAs5CwPuqaz54/rJh63lc40YBQTkZHOY0aqZVEejoRc1PG
-	1HOefQtzsAqgKdAyfko7M+/3Y+kzehCWyApXlzRj4L3asVDxvckGWYQvlIcb6Li/XzO+AE
-	ZffWGfgJ0FwJkYDyknLKWj17e0qzg5w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752647722;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=alMo+CkPlqJsaxDmO1REexawjtJx6vWckzUN7h2I58M=;
-	b=qMoNayroj4gFIwGbw5LVdbDRHVNbl8B2xNxwLt1XBWoTwX9yvMkJA5dMTAATpN07yVDYPQ
-	9LHpUjeKhOaOdrBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C390B138D2;
-	Wed, 16 Jul 2025 06:35:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LNIGLilId2jYbQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 16 Jul 2025 06:35:21 +0000
-Date: Wed, 16 Jul 2025 08:35:21 +0200
-Message-ID: <87tt3c8wye.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Erick Karanja <karanja99erick@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	julia.lawall@inria.fr
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kbnvmZBk"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-455b00339c8so34465615e9.3;
+        Tue, 15 Jul 2025 23:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752647979; x=1753252779; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vx/AMb1QPIvfX8nuyQWz8qCHUMZ5dzTF0SG+aBrBZnY=;
+        b=kbnvmZBkG2Hj8JPoTn1B8SI950xlLkNSK49l+2cPpNTnIgi5qYaJOuCRm25zyzcxXe
+         48glHuXM4+0FPSYZk1iHQAANkQIzsjfGQIhpycay/REDrHXEja5P0xN/7CeN4yamiT4r
+         KrGL9U3zVuD7qvAOh1mY6K4q05GfR/NHlIUh1c/tF1hV2sm5vdFq02iIj9c/KqkEna5U
+         6UX2ehTM6U6ucT8hGF/n3pbv8H9yvCXqL42pAGf2V6LClrVms4lITV97RRVx767MaecS
+         QJLsVUaRRfXv4Nx8LxBRNrLEY22kubWRiiLuB3jTexKlHtitlrrWjITqXhUMo2xwu2c0
+         2BIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752647979; x=1753252779;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vx/AMb1QPIvfX8nuyQWz8qCHUMZ5dzTF0SG+aBrBZnY=;
+        b=Ltz5oHAp7wn83WWLC7KC0h4QwAHveXxwGt9uEK+ZfLtepdZvBO3d0sZD7T65bJ9Ynd
+         WuxjqrWUeOa7XLDq3htogdMQnlJDj0JMJ1XTsU00FN0hvrI6WHwn1Bd0mBJjfThSDE/K
+         r5EvJIVHE4gN5Iu/pldBeLLX+rzQCsu2iDr6hPNa0vmlCjr/2NJEE4k638GZACqooiaZ
+         2lz5Rvas3RICB2C+M0zuISKTx+ZYVLSOzUJOsN6Ehg2hdu0zZ/bL4Hn17nmgboM1sKe0
+         DON73tOU1tRj9AQuK9eaAB0Efx/5k6rOB/JgFbtD3dNwKD5JjR4nc7Iwy8NgVRuhpsAe
+         7cfg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9bEsjapSUuKAUu3JfM4wSsRKNuv8tKVkSmrWy3Cin3+ghgYoTqDCYhLrjaNo3YRwBmxK1jH/t0URuvXQ=@vger.kernel.org, AJvYcCXLDGfrklS0dzr3jOqNkL2RGZXCqiT0xgtmQygKFSWc9i3VLILqVa/dalbRWQbG8DdzB3WNd2GiXYVYKlg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywj24O6LNclXsFy84zIa2EUNe8zvxDFkXOv1w9U/LYCur2hXglh
+	u3yZBwa5jTiXD4jruqR3G394Dl0IBP89wonYUvC02eI3tpTUJnaCXbmV
+X-Gm-Gg: ASbGncvpQ4sBujVwKmpxFlXChvoB3rhMN4OCDumkvyXsCgxpWWUKxdl8zlX8SPPKrAA
+	t22I5EDzVP0+zJy65fJ8/vSdAFF4YY8MRLNzMqBcWNAtbrOdhnZRGRlekjDOD5RoSK/mDKaDt1Z
+	TanL1i/58kSDYFT5W9HShHg+Tts/v2oKNljX3Gm5YiKEmbnUCbqKQ7W/lfKlW2gJ/J2D9zD0R5+
+	WWYMD9AGghq2vfYS2HApJrhh19wSjEJ9ndQVKc8EsfMNwBVo4UUwijqynKWiM2msxGZprl2EM+9
+	FmB/SCzj1yIL5iiWtp8sSwK/PeN1KM1n5/PDMnFJsG/ii3K+qyn71Wpt2Plk137aVZRrgQLKrRj
+	wwLQi5nnYFdvCGVmnRfACrKPVnS7GSE7+8BIQv8umMrubkw==
+X-Google-Smtp-Source: AGHT+IGUG1jgRIe6VaJNG8sGjMJZU+EMNXNjgLQG0ccDb2MUmEb0DV0HVwBFDTd7jE9GRr1Yw3j7ZA==
+X-Received: by 2002:a05:600c:3f09:b0:456:d25:e416 with SMTP id 5b1f17b1804b1-4562e331640mr11432835e9.6.1752647978922;
+        Tue, 15 Jul 2025 23:39:38 -0700 (PDT)
+Received: from [192.168.100.21] ([41.220.242.241])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4562e832dfbsm11032085e9.29.2025.07.15.23.39.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 23:39:38 -0700 (PDT)
+Message-ID: <4a7f48ff7c3a93afe4ec3847addaedf75f95ac03.camel@gmail.com>
 Subject: Re: [PATCH] staging: sound: Adjust mutex unlock order
-In-Reply-To: <20250716062331.375090-1-karanja99erick@gmail.com>
+From: Erick Karanja <karanja99erick@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, julia.lawall@inria.fr
+Date: Wed, 16 Jul 2025 09:39:34 +0300
+In-Reply-To: <87tt3c8wye.wl-tiwai@suse.de>
 References: <20250716062331.375090-1-karanja99erick@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	 <87tt3c8wye.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+MIME-Version: 1.0
 
-On Wed, 16 Jul 2025 08:23:30 +0200,
-Erick Karanja wrote:
-> 
-> The mutexes qdev_mutex and chip->mutex are acquired in that order
-> throughout the driver. To preserve proper lock hierarchy and avoid
-> potential deadlocks, they must be released in the reverse order
-> of acquisition.
-> 
-> This change reorders the unlock sequence to first release chip->mutex
-> followed by qdev_mutex, ensuring consistency with the locking pattern.
-> 
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> ---
->  sound/usb/qcom/qc_audio_offload.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-> index 3543b5a53592..ef144d2be7d2 100644
-> --- a/sound/usb/qcom/qc_audio_offload.c
-> +++ b/sound/usb/qcom/qc_audio_offload.c
-> @@ -825,8 +825,8 @@ static int uaudio_sideband_notifier(struct usb_interface *intf,
->  		}
->  	}
->  
-> -	mutex_unlock(&qdev_mutex);
->  	mutex_unlock(&chip->mutex);
-> +	mutex_unlock(&qdev_mutex);
->  
->  	return 0;
->  }
+On Wed, 2025-07-16 at 08:35 +0200, Takashi Iwai wrote:
+> On Wed, 16 Jul 2025 08:23:30 +0200,
+> Erick Karanja wrote:
+> >=20
+> > The mutexes qdev_mutex and chip->mutex are acquired in that order
+> > throughout the driver. To preserve proper lock hierarchy and avoid
+> > potential deadlocks, they must be released in the reverse order
+> > of acquisition.
+> >=20
+> > This change reorders the unlock sequence to first release chip-
+> > >mutex
+> > followed by qdev_mutex, ensuring consistency with the locking
+> > pattern.
+> >=20
+> > Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+> > ---
+> > =C2=A0sound/usb/qcom/qc_audio_offload.c | 2 +-
+> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/sound/usb/qcom/qc_audio_offload.c
+> > b/sound/usb/qcom/qc_audio_offload.c
+> > index 3543b5a53592..ef144d2be7d2 100644
+> > --- a/sound/usb/qcom/qc_audio_offload.c
+> > +++ b/sound/usb/qcom/qc_audio_offload.c
+> > @@ -825,8 +825,8 @@ static int uaudio_sideband_notifier(struct
+> > usb_interface *intf,
+> > =C2=A0		}
+> > =C2=A0	}
+> > =C2=A0
+> > -	mutex_unlock(&qdev_mutex);
+> > =C2=A0	mutex_unlock(&chip->mutex);
+> > +	mutex_unlock(&qdev_mutex);
+> > =C2=A0
+> > =C2=A0	return 0;
+> > =C2=A0}
+>=20
+> The same pattern is found in qc_usb_audio_offload_disconnect() and
+> qc_usb_audio_offload_suspend(), too.
+> Care to address there as well?
+Yes, working on it.
+>=20
+> Maybe it's better to replace with guard stuff, but it should be done
+> by another patch in later kernel releases.
+>=20
+>=20
+> thanks,
+>=20
+> Takashi
 
-The same pattern is found in qc_usb_audio_offload_disconnect() and
-qc_usb_audio_offload_suspend(), too.
-Care to address there as well?
-
-Maybe it's better to replace with guard stuff, but it should be done
-by another patch in later kernel releases.
-
-
-thanks,
-
-Takashi
