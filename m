@@ -1,45 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E5F2BE03B;
-	Wed, 16 Jul 2025 20:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FE62EF9A6;
+	Wed, 16 Jul 2025 23:23:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752696176; cv=none; b=N/IKEPNtSrQg8R5jzMVVKKP1hc8qqrAlxA2A+2Jtx1ldzurtrzgzb4gvwwy780yphYsgbmu4hAYevcft2wD81EOcm/cL0snp/9u/1dIcbeJcaQLBe1XyY9IQGEU2SXqVgiuaqMaaZSJCIL27/NDjY395cJoqQMq/OIv/r/Gsb0g=
+	t=1752708181; cv=none; b=HVE9bzKNJd+cjraCmH95dsAFEMCS52NaI/gsO0OzB28e1Qe/WjfQBONbAflqQ2TbgPUj2v2YwMfkiN1mvAp3SvaTxGlQUg69bqJJNLLzk3I8yJlCcYriM7/lbX+ItYgsuzWeUdFW6pJjhBtxzAa1KYd9NojYXKhyM5cRI/+tREU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752696176; c=relaxed/simple;
-	bh=/VIpHxppoSDtA6B/euDaxZupotZfIjwZ2wJ60Z88lrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AsrZ/5bE1lq7jkHmMXJ5rg7pRBl2rhHd/b/OCvT3YFneO+bPjdfMZqpZIpzKCtlHzlh1wCMa7zYnADRnGW8MOrOofvVppQBxTVK8jvCZsqLEtn81fcCO4isrLHwFqRSX8m5FYQH1BuXz2jla8jktaXGR88y2qVWvRNNLpy46XZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UrEI8Q4a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752708181; c=relaxed/simple;
+	bh=kc48KClrflS3QKuEYBrw6FQdfI3+0RKI6uqfLZEJCJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=denpMf69JlYuXVz2obyjn/yYxUcc17ITlk6UnGbWkEMVCZ9ybUBGHK7VlMzVGP4vFRUqth2r4bId/eqIwLoLdN8g0jDYp45eD1ucwfFeV1YWwys6Mg4tgzLkMPpgOQsQuubnj2t+pqxTcRE1mwUdOltTcMIw1iaR+kygiEx/bhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PdRxKix7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UrEI8Q4a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80EEFC4CEE7;
-	Wed, 16 Jul 2025 20:02:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PdRxKix7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48D48C4CEE7;
+	Wed, 16 Jul 2025 23:23:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752696176;
-	bh=/VIpHxppoSDtA6B/euDaxZupotZfIjwZ2wJ60Z88lrw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UrEI8Q4ay4GMr5GqbOQ8Pf3vGwrLWG/tQDGcdcdJSgLH7mNYyDgEmYPjYDzxceabE
-	 l5kHuFMh/wIBcA6PQu64k1mMK53wOUZhbjmgFN0gKOQoJJXQKMTRFVZoRDKDaJeBl1
-	 +AoaidezL8zIfGD3SdWohkUGWLNDCX7hKBsBwtENU3K7ielESD0EndLjgvRjEQZFFl
-	 +dRKrSK3f11T8SlYZUXSd31MKWRVS5UOCoMQp+AAcbb2T1GXX3fnNNXrltTlCY+e5F
-	 RNnxPFHCaXCKxg0A6Ej+aNMagY+t1PNE3eW+5zCn4ImpF1AswODcvh0AGqKpQGXlo7
-	 4jetbT4gvgOYQ==
-Date: Wed, 16 Jul 2025 16:02:51 -0400
-From: Nathan Chancellor <nathan@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, llvm@lists.linux.dev,
-	patches@lists.linux.dev
-Subject: Re: [PATCH] ASoC: SDCA: Fix uninitialized use of name in
- sdca_irq_populate()
-Message-ID: <20250716200251.GB4010969@ax162>
-References: <20250715-sdca_interrupts-fix-const-uninit-warning-v1-1-cc031c913499@kernel.org>
- <aHdh8LOJblKP01rd@opensource.cirrus.com>
+	s=k20201202; t=1752708181;
+	bh=kc48KClrflS3QKuEYBrw6FQdfI3+0RKI6uqfLZEJCJA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=PdRxKix7vIub6Gp83B+TjdRX9RT5n0aOAp+7iLG3sar+bkphz2AxNajgCR6Q5GetF
+	 kvrzzKiqY9/Ez8rJ6UCttQpmr4wbRxRjT7Qp+ad4M+04xdkpKXRHhnOSU+oQrQOcn5
+	 C7Rac+lPveNjLIqMz+krFJGo5a5J8PXunMqjny+Vj4ZhntS3TinZFib/sgkc9go1Dp
+	 Hla+maen/j4qwXWOK1ch0swazxv+ROJglFlI6zOBSc0x1B2QAZ2bX4CNdq8T36GSBG
+	 ZA779cD7dPXejEtlo5ztNScmQxaXBNUcRU28TZGdZxFnb9v9KTENfWg/MbrhXqBOkc
+	 Y1eO4q0QLnhKw==
+Date: Wed, 16 Jul 2025 18:23:00 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+	"open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+	"open list:SOUND" <linux-sound@vger.kernel.org>,
+	Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v8 0/9] Adjust fbcon console device detection
+Message-ID: <20250716232300.GA2565283@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,36 +59,78 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aHdh8LOJblKP01rd@opensource.cirrus.com>
+In-Reply-To: <20250714212147.2248039-1-superm1@kernel.org>
 
-On Wed, Jul 16, 2025 at 09:25:20AM +0100, Charles Keepax wrote:
-> On Tue, Jul 15, 2025 at 08:34:21PM -0700, Nathan Chancellor wrote:
-> > After a recent change in clang to strengthen uninitialized warnings [1],
-> > it points out that name is used uninitialized in sdca_irq_populate():
-> > 
-> >   sound/soc/sdca/sdca_interrupts.c:388:6: error: variable 'name' is uninitialized when used here [-Werror,-Wuninitialized]
-> >     388 |                                         name, ret);
-> >         |                                         ^~~~
-> > 
-> > Remove name and use the name member in the interrupt variable, as that
-> > is the proper string to print.
-> > 
-> > Fixes: b126394d9ec6 ("ASoC: SDCA: Generic interrupt support")
-> > Link: https://github.com/llvm/llvm-project/commit/2464313eef01c5b1edf0eccf57a32cdee01472c7 [1]
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
+On Mon, Jul 14, 2025 at 04:21:37PM -0500, Mario Limonciello wrote:
+> From: Mario Limonciello <mario.limonciello@amd.com>
 > 
-> A fix is already pending for this one:
+> This series started out as changes to VGA arbiter to try to handle a case
+> of a system with 2 GPUs that are not VGA devices.  This was discussed
+> but decided not to overload the VGA arbiter for non VGA devices.
 > 
-> https://lore.kernel.org/linux-sound/20250715151723.2964336-3-ckeepax@opensource.cirrus.com/T/#u
+> Instead move the x86 specific detection of framebuffer resources into x86
+> specific code that the fbcon can use to properly identify the primary
+> device. This code is still called from the VGA arbiter, and the logic does
+> not change there. To avoid regression default to VGA arbiter and only fall
+> back to looking up with x86 specific detection method.
 > 
-> Although they are identical so don't mind which gets merged :-)
+> In order for userspace to also be able to discover which device was the
+> primary video display device create a new sysfs file 'boot_display'.
+> 
+> A matching userspace implementation for this file is available here:
+> Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/39
+> Link: https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2038
+> 
+> Dave Airlie has been pinged for a comment on this approach.
+> Dave had suggested in the past [1]:
+> 
+> "
+>  But yes if that doesn't work, then maybe we need to make the boot_vga
+>  flag mean boot_display_gpu, and fix it in the kernel
+> "
+> 
+> This was one of the approached tried in earlier revisions and it was
+> rejected in favor of creating a new sysfs file (which is what this
+> version does).
+> 
+> It is suggested that this series merge entirely through the PCI tree.
+> 
+> Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/37#note_2938602 [1]
 
-Whoops, I should have checked for duplicates like I usually do...
+There's an underlying bug that we're trying to fix with this series
+and the related libpciaccess and xserver changes, isn't there?  Can we
+include that somewhere to help motivate this?  (I guess it's really
+only the last two or three patches that are strictly related, right?)
 
-I see Mark has merged your change now so we are all good here.
-
-https:///git.kernel.org/broonie/sound/c/71562278a189af2ca202eafa0ab71a9b68469207
-
-Cheers,
-Nathan
+> v8 fixes an LKP robot reported issue
+> 
+> Mario Limonciello (9):
+>   PCI: Add helper for checking if a PCI device is a display controller
+>   vfio/pci: Use pci_is_display()
+>   vga_switcheroo: Use pci_is_display()
+>   iommu/vt-d: Use pci_is_display()
+>   ALSA: hda: Use pci_is_display()
+>   Fix access to video_is_primary_device() when compiled without
+>     CONFIG_VIDEO
+>   PCI/VGA: Replace vga_is_firmware_default() with a screen info check
+>   fbcon: Use screen info to find primary device
+>   PCI: Add a new 'boot_display' attribute
+> 
+>  Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
+>  arch/parisc/include/asm/video.h         |  2 +-
+>  arch/sparc/include/asm/video.h          |  2 ++
+>  arch/x86/include/asm/video.h            |  2 ++
+>  arch/x86/video/video-common.c           | 17 ++++++++-
+>  drivers/gpu/vga/vga_switcheroo.c        |  2 +-
+>  drivers/iommu/intel/iommu.c             |  2 +-
+>  drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
+>  drivers/pci/vgaarb.c                    | 31 +++--------------
+>  drivers/vfio/pci/vfio_pci_igd.c         |  3 +-
+>  include/linux/pci.h                     | 15 ++++++++
+>  sound/hda/hdac_i915.c                   |  2 +-
+>  sound/pci/hda/hda_intel.c               |  4 +--
+>  13 files changed, 101 insertions(+), 35 deletions(-)
+> 
+> -- 
+> 2.43.0
+> 
