@@ -1,100 +1,93 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D47811187;
-	Thu, 17 Jul 2025 03:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CE0202F70;
+	Thu, 17 Jul 2025 04:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752721355; cv=none; b=neINnNa6dgVMGMdOpfOAhDhIrXCHuWlsuiF6/56HleGztP4oDQHH6OfqhldhMscqec8GnuSlCETk8eahhZSM83g7GOTDytZ8pmIQeuHY5c1fCZskuMfBZ3eWHu1sonw3UI3Z1iGJEetiKylxF3PnjYh2ukA1RIz7NEnCJsF/0Vk=
+	t=1752726694; cv=none; b=aye/Ig2eNkozpnYLvctitxJHwr/zIAQ03iK/6jZbupm2kdLjgM1VwT0SPDbywjvf+MZEaTup7mYbhmsNkCGivgGnm6fp0k+t4ZgItGr08AMlP1mov98r+jcisXtH1lokj0HtQANda03pgLwYglsJu1/qWcCoAQYnVLjrVlIUbtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752721355; c=relaxed/simple;
-	bh=UEpzZC9VADx8AvKH0J47c0cuHbkzOYtmuPcF+qTpFLk=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=NIu8rXhzBG7Gw0XGYBh41WitiQykDAdH+EQNVoEq59yZIvPEzA98ENABjol3hofUmkCoGIOn8cchnT5ATYQ203mDUKUyTY9XLSnhHfScu/mk01bbnFc2+xKEUjWBDPR0H1HRKuXH3sQZ+YpMDsr8vG+1vY+hWlc8TY1YdhNaBMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WECOfVE8; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752726694; c=relaxed/simple;
+	bh=pIYH0KO1l0XN0H//I8Ogw8n4JPiT1JUXM0jP0Wxrr5g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TnXsOtQl0ayJuRaMuA4Mq/QQRFlkf4gaOH50TZFG3EwvsWZLmb0x+xG1+j87ZMKEUyatw7TuQpfIVUgsk/QqnFp9M57DEsqnpQA8lExflH8LKiSdcfzHbDS/8sTv/CkyO+EgDin3B1KH71SVBY9Gn53wNoiCurK9i9k8Cmgu69k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=avoZKtDB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WECOfVE8"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-553d771435fso585105e87.3;
-        Wed, 16 Jul 2025 20:02:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752721351; x=1753326151; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eHzOES08CFS1i6HY2KzHC2u6PbLGiIQuDSZPFpe4kew=;
-        b=WECOfVE8oyfgbxfxgAIxdUAbCVZk0b9oyqJECGpUqMVVsrSh0u0odbDxAtwqsNCY72
-         osxyrn+KMegZjEUNpofKe1vypvYtc1GrVMpNf30b+u6ytrbEdLMttMQISOSVRDli+fBc
-         8Nxew5HbIIH8ugXfS5cKNSaeB5v/f93hvSzSIJuAL55uETvNczNVszo7iyYLXfyPm3i1
-         QmgsBLhh3RWT9Tumvo1h4+vysQ9zlnZR4cXjwweTr+2634l/KnUc0bUOcjSxvVUWqB85
-         9zmw7+oSP6BxXSH7hVUHjpibIRG1Ev5VhOFVkw7HGdqii4GHkjVehQ35S2VCb4YlMLB5
-         o2+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752721351; x=1753326151;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eHzOES08CFS1i6HY2KzHC2u6PbLGiIQuDSZPFpe4kew=;
-        b=rf9K6Qwkp8qaGxwiFle6ZmtycCbD82JuK2ljedE53/SSLIqysC7x3TOMxjQRR38O6g
-         IQjVqKNlUnmqde6zHV8Kz7QAXaiJyO5O55m2XyMddYrCTraPWEPxJsuny4D2wRNo40NC
-         rxq/AtLjJC03QGMm9PegY3WSbfcyAkDeUGVBO93uJ2fIycClQqnkdW79Qxx2uQxZSpA0
-         4FzHlvTMHf903wlyx2hOLR9Q9PiNDIIwoF+3uBmYG1gWRT4+7i2gRSyo3PopwMwiBayE
-         0vup4lIRwRPbOJoxFPb8BjJcO4Tiarj1wNb/67AZXkr15U9J2TkGd94PpQRJ2A2fMuen
-         0TZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXrtxeF4Xwx1khYPdMYWtnyVu/E+Tw8ybmnFLWiZ5RSH6aDmJ9MKfy6+JKdJHgL+ENR2cSANGQLQqS2s9M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRW4K9PSqAxzvyNvAGv1/o+U/kfcFVyKAvpytG/oBgi3F5qEzf
-	AXDJKl+F/Y0MZ/B+sCv/BDiK/KZzoINDtLu76ArV/QebaJdnIggRuFN5n0bKSm0iYXRCI+8iURD
-	TC8WRquV2oSF4eW1naGZBieF+IiGh8KzBuGIY
-X-Gm-Gg: ASbGncs00J8vekaMrkcMZI6WCI89wezLuuu0zLbA38cmRfpfdFBx5vCqIJshekySsGb
-	Fk+dprFF1rPm2XPRugDjgHjpUYCXqjAfneymR0AKMpxTH7GP9K9WcpTIbbUVA+GlAZVnGu1S0YU
-	qTZBL9mXOMrDPNc9i0gFNDf0952ADmqE45L+mYzhLan99lWIo5xaw1V1uZg1mRHYY4PCNAtqo1W
-	bMqGqlqCI3axVf0LA==
-X-Google-Smtp-Source: AGHT+IExhmDbi7SwzhDqgYL/YMoffgjLn+7bh1hxnf2EkqE7s+8AoYP2gGa5GaNbaKU9eNhH2pfx+ETriO1sWdTifEM=
-X-Received: by 2002:a05:6512:3042:b0:554:f76a:bab4 with SMTP id
- 2adb3069b0e04-55a233248f6mr1806560e87.15.1752721351038; Wed, 16 Jul 2025
- 20:02:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="avoZKtDB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA93FC4CEE3;
+	Thu, 17 Jul 2025 04:31:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752726694;
+	bh=pIYH0KO1l0XN0H//I8Ogw8n4JPiT1JUXM0jP0Wxrr5g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=avoZKtDBTTOQPkLgZP+ACnVzLFKdHPB26tlizxGveUmmSAtp3Nu+vk4mA1sTIdT7S
+	 EpO3oXpfL4Pu5vBJj5L+Uzjee/0WZW49PYAaPOA5ufPYbXo7cYCsCcVCU7Y24Xu9X0
+	 i/7ds+rsLSBi7pY6FdIKjSDwHEGzhhG4z9b2/mu5bqNydJ/BAahVBnqiRk7lg1Etxm
+	 fZmdnSeK7IYG0qS3ctWWBB69M0G0VvQwieHBL4zj1XPffm3/ikVikR6XooxP67lrwi
+	 i4Vch7qkju6ZmpUzggQusnsBfBEXdFh5GPTkw0n7pS45Wc48DBYFKyHQQo5gEvA3R3
+	 XC1pZMUP3VLqg==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Felipe Balbi <balbi@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Stephan Gerhold <stephan.gerhold@linaro.org>,
+	Luca Weiss <luca.weiss@fairphone.com>
+Cc: ~postmarketos/upstreaming@lists.sr.ht,
+	phone-devel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v2 0/5] Enable USB audio offloading on Fairphone 4 smartphone
+Date: Wed, 16 Jul 2025 23:31:06 -0500
+Message-ID: <175272667125.130869.1491563405757140609.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
+References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Sharan Kumar Muthu Saravanan <sharweshraajan@gmail.com>
-Date: Thu, 17 Jul 2025 08:32:19 +0530
-X-Gm-Features: Ac12FXwBYURCqdmZm8PzstRl4vhuG8SR4XQKrJ1aQsrlmsxcCxczPrR6dFe2JIQ
-Message-ID: <CAGo=CcK+aHAYVv=tS4frM07D8MCar1CHBy3r3eg1An16YCqk6g@mail.gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP OMEN 16 Laptop xd000xx
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-this patch is to fix my previous Commit e518230 i have fixed mute led
-but for by This patch corrects the coefficient mask value introduced
-in commit e518230, which was intended to enable the mute LED
-functionality. During testing, multiple values were evaluated, and an
-incorrect value was mistakenly included in the final commit. This
-update fixes that error by applying the correct mask value for proper
-mute LED behavior.
 
-Tested on 6.15.5-arch1-1
+On Thu, 01 May 2025 08:48:46 +0200, Luca Weiss wrote:
+> Since the series for the USB sound offloading driver was finally merged,
+> we can add the sm6350 dts and enable it on Fairphone 4.
+> 
+> A few devicetree binding bits have also been missing in that series, so
+> there's some extra patches for the basics in this series.
+> 
+> Depends on:
+> - For qcom,sm8250.yaml & sm8250.c:
+>   https://lore.kernel.org/linux-arm-msm/20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com/T/
+> - For dts:
+>   https://lore.kernel.org/linux-arm-msm/20250321-sm6350-apr-v1-1-7805ce7b4dcf@fairphone.com/
+> 
+> [...]
 
-Signed-off-by: M SHARAN KUMAR <sharweshraajan@gmail.com>
+Applied, thanks!
 
----
- sound/pci/hda/patch_realtek.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[4/5] arm64: dts: qcom: sm6350: Add q6usbdai node
+      commit: 30237c2bfda59e3abd7f7e92879e75bc730edfd8
+[5/5] arm64: dts: qcom: sm7225-fairphone-fp4: Enable USB audio offload support
+      commit: ddcc0ad9a9b8488d3ee0b4ca6fd9b092c462491f
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 060db37eab83..062d439e753d 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -4753,7 +4753,7 @@ static void
-alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
-  if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-  spec->mute_led_polarity = 0;
-  spec->mute_led_coef.idx = 0x0b;
-- spec->mute_led_coef.mask = 1 << 3;
-+ spec->mute_led_coef.mask = 3 << 2;
-  spec->mute_led_coef.on = 1 << 3;
-  spec->mute_led_coef.off = 0;
-  snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
+Best regards,
 -- 
-2.50.1
+Bjorn Andersson <andersson@kernel.org>
