@@ -1,141 +1,146 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80161F92A
-	for <linux-sound@vger.kernel.org>; Thu, 17 Jul 2025 12:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B6B1F872D;
+	Thu, 17 Jul 2025 17:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752756905; cv=none; b=AdYXfzoAY8HFROZ0nc2x/Ub5KRDh4LdLHgby+F5it/hwAR3yY3P3IBh2SGECyNsxCdgIYJbqMcBT/67hav6R6SgGdBjSjXsgUv3dXKvoGcA+8hzSLdSGBhUkGcfHWSPVr0bubB3P6XOE0MTHL9fsAcgxOq4vGZ3VxBBRdqUyWIs=
+	t=1752773902; cv=none; b=fbSxQuN4Kjco6LdHR8lmQyH1qZGpY2W6LBaP4ESudj1YJ3KZzCELxQ/4Ceh00usCo70MmAR0Mk8WEugvCIO+m4B/p3CY7rgF/HakOkdqZFU/je3HJXdczv7OAELicEhGnraNNnivoBqr4mdO8pDKUfB0daF7bcwsR2NmoVcYpog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752756905; c=relaxed/simple;
-	bh=7WhetJ5wf4BPVPCgjGiJPfQF02jcOWcQnWrBaoIyiEA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WIr7utKD6btAHsBVtTOSkxBzE+aX+NYjy756Dsymzd49FGlSxt9F7o/57bG7lQzG1U7z1i9IVo28ddnOg0W8C8UGfkNLRyoDYP/8K7NoeLDX6neFs5+Qna1XI8okI5TUcIp/8AFQXeyhF7vzeM5APOhutZFB3XbgnnHI4FAFtzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EF9+IgXX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iMDqvDoy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EF9+IgXX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iMDqvDoy; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1752773902; c=relaxed/simple;
+	bh=HMRVZWEXmaYc2Zc2cFVavR2PqNmonVLbZH+86HyVwiw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gy3ZmFeMpGyPV9f7PCRGQFVceah/8C1DQBzcMsaDhzrrdGMGLl3noa0flP/On/tW4/OYg0tgbRAPQU0hGhvs7ms0aPzE8yYg4uOVjrEV4IiN6oLr/ugu1bj3Zi8uaKabWYtcw4SbLdxnSkX+WSWcx+CadpKZifWNEP+bP34QPPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MfNsPaxj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EF9+IgXX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iMDqvDoy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EF9+IgXX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iMDqvDoy"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B9001F399;
-	Thu, 17 Jul 2025 12:55:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752756902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vTVqjV+8dgnMiClKeXRTNqjNXMqnlcDvCnCG0TjUplg=;
-	b=EF9+IgXXLXLceKyqx92q/baaiNzHq96FZQY4I1FFu+RU78ed1qVZYGOXutcqdRd8oQV/Bp
-	0ZICiOo1ObSs51H3dRZxwH1EPk2CsksQbtUcZExltbk1BV89ZBR0lUG+7sPuntDboP43l8
-	iA/YOZQh8h0R6Edb4EbiQYupmRHKrs0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752756902;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vTVqjV+8dgnMiClKeXRTNqjNXMqnlcDvCnCG0TjUplg=;
-	b=iMDqvDoy6t8Hg/b120z7dOZ+MZ2sSG2pegQW+XLFLkWUGMc8NCtyAPDdwQbmaB3YL6D335
-	tcUSgXoIylycmgDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752756902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vTVqjV+8dgnMiClKeXRTNqjNXMqnlcDvCnCG0TjUplg=;
-	b=EF9+IgXXLXLceKyqx92q/baaiNzHq96FZQY4I1FFu+RU78ed1qVZYGOXutcqdRd8oQV/Bp
-	0ZICiOo1ObSs51H3dRZxwH1EPk2CsksQbtUcZExltbk1BV89ZBR0lUG+7sPuntDboP43l8
-	iA/YOZQh8h0R6Edb4EbiQYupmRHKrs0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752756902;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vTVqjV+8dgnMiClKeXRTNqjNXMqnlcDvCnCG0TjUplg=;
-	b=iMDqvDoy6t8Hg/b120z7dOZ+MZ2sSG2pegQW+XLFLkWUGMc8NCtyAPDdwQbmaB3YL6D335
-	tcUSgXoIylycmgDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E27941392A;
-	Thu, 17 Jul 2025 12:55:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9ooMNqXyeGiJFgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 17 Jul 2025 12:55:01 +0000
-Date: Thu, 17 Jul 2025 14:55:01 +0200
-Message-ID: <8734av9dui.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v6.16-rc6
-In-Reply-To: <1d784c862857c2d2f3870c0e140863da.broonie@kernel.org>
-References: <1d784c862857c2d2f3870c0e140863da.broonie@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MfNsPaxj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAB44C4CEE3;
+	Thu, 17 Jul 2025 17:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752773902;
+	bh=HMRVZWEXmaYc2Zc2cFVavR2PqNmonVLbZH+86HyVwiw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=MfNsPaxjUp1Pjz4H96JqkhZjofo0GdFbLT03skjKKlu5rUqGBZHAwsTcKk5oEotNo
+	 CP90yzu2stYpo71vcRQN03uGiSGoEd40w78wOSb9uikCR7UWyCQe+IWE/xPht2deqe
+	 5eKsGo3uG6EdCJQRsi54cZZNxBZl0YtsM3Fy1lJb6e37vRSZp5DiJjKlOlzVP5MP2l
+	 Ig7eEjBDBg6RGE3vsomuUi08aA3Mv9olx0uZI27u0M/AWR86t9DUdQLPaUh7Dh5SbX
+	 1aUsKIylZL64Fb4oSkNbP2JdnEAj2zA5H0ipWJLg/8L2w9anjQsowu7BeXRzpY3Uww
+	 n4vIsJcaRGHtw==
+From: Mario Limonciello <superm1@kernel.org>
+To: David Airlie <airlied@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
+	linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
+	kvm@vger.kernel.org (open list:VFIO DRIVER),
+	linux-sound@vger.kernel.org (open list:SOUND),
+	Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v9 0/9] Adjust fbcon console device detection
+Date: Thu, 17 Jul 2025 12:38:03 -0500
+Message-ID: <20250717173812.3633478-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 17 Jul 2025 14:32:44 +0200,
-Mark Brown wrote:
-> 
-> The following changes since commit 3b3312f28ee2d9c386602f8521e419cfc69f4823:
-> 
->   ASoC: cs35l56: probe() should fail if the device ID is not recognized (2025-07-03 12:22:27 +0100)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.16-rc6
-> 
-> for you to fetch changes up to 7bab1bd9fdf15b9fa7e6a4b0151deab93df3c80d:
-> 
->   ASoC: amd: yc: Add DMI quirk for HP Laptop 17 cp-2033dx (2025-07-16 11:50:33 +0100)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v6.16
-> 
-> A relatively large set of changes, but most of them are quirk
-> information for various x86 systems.  There is one more substantial fix
-> for a NULL pointer dereference when removing the AVS driver, plus one
-> for Kconfig dependencies.
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-Thanks, pulled now.
+Systems with more than one GPU userspace doesn't know which one to be
+used to treat as primary.  The concept of primary is important to be
+able to decide which GPU is used for display and  which is used for
+rendering.  If it's guessed wrong then both GPUs will be kept awake
+burning a lot of power.
 
+Historically it would use the "boot_vga" attribute but this isn't
+present on modern GPUs.
 
-Takashi
+This series started out as changes to VGA arbiter to try to handle a case
+of a system with 2 GPUs that are not VGA devices and avoid changes to
+userspace.  This was discussed but decided not to overload the VGA arbiter
+for non VGA devices.
+
+Instead move the x86 specific detection of framebuffer resources into x86
+specific code that the fbcon can use to properly identify the primary
+device. This code is still called from the VGA arbiter, and the logic does
+not change there. To avoid regression default to VGA arbiter and only fall
+back to looking up with x86 specific detection method.
+
+In order for userspace to also be able to discover which device was the
+primary video display device create a new sysfs file 'boot_display'.
+
+A matching userspace implementation for this file is available here:
+Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/39
+Link: https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2038
+
+Dave Airlie has been pinged for a comment on this approach.
+Dave had suggested in the past [1]:
+
+"
+ But yes if that doesn't work, then maybe we need to make the boot_vga
+ flag mean boot_display_gpu, and fix it in the kernel
+"
+
+This was one of the approached tried in earlier revisions and it was
+rejected in favor of creating a new sysfs file (which is what this
+version does).
+
+It is suggested that this series merge entirely through the PCI tree.
+
+Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/37#note_2938602 [1]
+
+v9:
+ * Add more to cover letter
+ * Add bug link to last patch
+ * Update commit message for last patch
+ * Update boot_display documentation description
+
+Mario Limonciello (9):
+  PCI: Add helper for checking if a PCI device is a display controller
+  vfio/pci: Use pci_is_display()
+  vga_switcheroo: Use pci_is_display()
+  iommu/vt-d: Use pci_is_display()
+  ALSA: hda: Use pci_is_display()
+  Fix access to video_is_primary_device() when compiled without
+    CONFIG_VIDEO
+  PCI/VGA: Replace vga_is_firmware_default() with a screen info check
+  fbcon: Use screen info to find primary device
+  PCI: Add a new 'boot_display' attribute
+
+ Documentation/ABI/testing/sysfs-bus-pci |  9 +++++
+ arch/parisc/include/asm/video.h         |  2 +-
+ arch/sparc/include/asm/video.h          |  2 ++
+ arch/x86/include/asm/video.h            |  2 ++
+ arch/x86/video/video-common.c           | 17 ++++++++-
+ drivers/gpu/vga/vga_switcheroo.c        |  2 +-
+ drivers/iommu/intel/iommu.c             |  2 +-
+ drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
+ drivers/pci/vgaarb.c                    | 31 +++--------------
+ drivers/vfio/pci/vfio_pci_igd.c         |  3 +-
+ include/linux/pci.h                     | 15 ++++++++
+ sound/hda/hdac_i915.c                   |  2 +-
+ sound/pci/hda/hda_intel.c               |  4 +--
+ 13 files changed, 102 insertions(+), 35 deletions(-)
+
+-- 
+2.43.0
+
