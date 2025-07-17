@@ -1,93 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CE0202F70;
-	Thu, 17 Jul 2025 04:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C16293B4F
+	for <linux-sound@vger.kernel.org>; Thu, 17 Jul 2025 09:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752726694; cv=none; b=aye/Ig2eNkozpnYLvctitxJHwr/zIAQ03iK/6jZbupm2kdLjgM1VwT0SPDbywjvf+MZEaTup7mYbhmsNkCGivgGnm6fp0k+t4ZgItGr08AMlP1mov98r+jcisXtH1lokj0HtQANda03pgLwYglsJu1/qWcCoAQYnVLjrVlIUbtc=
+	t=1752746010; cv=none; b=XSnKMzbp55abogLy6jkFt1p9YJVTF4ayx3byTHw9quESJqCdHLoYCFu2ArK/BZnfM/JiEexoeVAL1qVkRKZ300k2dqWn/U9dUJF+wG0UVzPr6t/lizcqKGeUX9znmMSlO6GEMlT+Fjpo3GIKoX5wTxH+Fn5hs0tfSdGSqunETVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752726694; c=relaxed/simple;
-	bh=pIYH0KO1l0XN0H//I8Ogw8n4JPiT1JUXM0jP0Wxrr5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TnXsOtQl0ayJuRaMuA4Mq/QQRFlkf4gaOH50TZFG3EwvsWZLmb0x+xG1+j87ZMKEUyatw7TuQpfIVUgsk/QqnFp9M57DEsqnpQA8lExflH8LKiSdcfzHbDS/8sTv/CkyO+EgDin3B1KH71SVBY9Gn53wNoiCurK9i9k8Cmgu69k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=avoZKtDB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752746010; c=relaxed/simple;
+	bh=kystHuLsKjmpTUJzMJzJKncP2PljJ3kUCgfQBCHSP0w=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jkVYlUvqpU8XrXpMaGMd+dYg2CCG9m8qew6u/vh4ndlJrgdOvUSF/e55MhR/a8fYu1yw5V6XJ8/H3fkRnIwRBVyz2OL/R6chiYPOLqEawzVRZP2x8UvTXLGNi+B5RfIC0FylfWMYGmEwry2PRbM9vUArb2rDzL0YkOz2AzPWaws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aX4dKohA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/RVYFRGM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aX4dKohA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/RVYFRGM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="avoZKtDB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA93FC4CEE3;
-	Thu, 17 Jul 2025 04:31:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752726694;
-	bh=pIYH0KO1l0XN0H//I8Ogw8n4JPiT1JUXM0jP0Wxrr5g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=avoZKtDBTTOQPkLgZP+ACnVzLFKdHPB26tlizxGveUmmSAtp3Nu+vk4mA1sTIdT7S
-	 EpO3oXpfL4Pu5vBJj5L+Uzjee/0WZW49PYAaPOA5ufPYbXo7cYCsCcVCU7Y24Xu9X0
-	 i/7ds+rsLSBi7pY6FdIKjSDwHEGzhhG4z9b2/mu5bqNydJ/BAahVBnqiRk7lg1Etxm
-	 fZmdnSeK7IYG0qS3ctWWBB69M0G0VvQwieHBL4zj1XPffm3/ikVikR6XooxP67lrwi
-	 i4Vch7qkju6ZmpUzggQusnsBfBEXdFh5GPTkw0n7pS45Wc48DBYFKyHQQo5gEvA3R3
-	 XC1pZMUP3VLqg==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Felipe Balbi <balbi@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	Luca Weiss <luca.weiss@fairphone.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aX4dKohA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/RVYFRGM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aX4dKohA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/RVYFRGM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9187D216EC;
+	Thu, 17 Jul 2025 09:53:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752746006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wu/llPazrUceIkAbknof/ch+BMbjxtDAhyZ2pdmEywc=;
+	b=aX4dKohACPouNOmbvndi3LzHn9id9mFSPDr3jRLRi42OX04F8atPH8Fj0tpp8ZbA7llg1h
+	v6NlyurZs76rC6GA0XuFlwrQ+UVS3NqDt6E2qd9rr0wJuBkt7LjsdYIXQKqBlu+VwxGLfu
+	gqIRCwAgH7S44daO1ttpAaPEarVVpJM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752746006;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wu/llPazrUceIkAbknof/ch+BMbjxtDAhyZ2pdmEywc=;
+	b=/RVYFRGMJn9YsDHU5PBerrM51gUv15RLXgg8mcsMZCJtIjzIVuoY+MVTNLGsIWiBhCoumJ
+	xoyDGfzfOOlRV0AQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aX4dKohA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/RVYFRGM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752746006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wu/llPazrUceIkAbknof/ch+BMbjxtDAhyZ2pdmEywc=;
+	b=aX4dKohACPouNOmbvndi3LzHn9id9mFSPDr3jRLRi42OX04F8atPH8Fj0tpp8ZbA7llg1h
+	v6NlyurZs76rC6GA0XuFlwrQ+UVS3NqDt6E2qd9rr0wJuBkt7LjsdYIXQKqBlu+VwxGLfu
+	gqIRCwAgH7S44daO1ttpAaPEarVVpJM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752746006;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wu/llPazrUceIkAbknof/ch+BMbjxtDAhyZ2pdmEywc=;
+	b=/RVYFRGMJn9YsDHU5PBerrM51gUv15RLXgg8mcsMZCJtIjzIVuoY+MVTNLGsIWiBhCoumJ
+	xoyDGfzfOOlRV0AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5AEB013A6C;
+	Thu, 17 Jul 2025 09:53:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OfvmFBbIeGggXwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 17 Jul 2025 09:53:26 +0000
+Date: Thu, 17 Jul 2025 11:53:25 +0200
+Message-ID: <87jz479m96.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sharan Kumar Muthu Saravanan <sharweshraajan@gmail.com>
+Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v2 0/5] Enable USB audio offloading on Fairphone 4 smartphone
-Date: Wed, 16 Jul 2025 23:31:06 -0500
-Message-ID: <175272667125.130869.1491563405757140609.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
-References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP OMEN 16 Laptop xd000xx
+In-Reply-To: <CAGo=CcK+aHAYVv=tS4frM07D8MCar1CHBy3r3eg1An16YCqk6g@mail.gmail.com>
+References: <CAGo=CcK+aHAYVv=tS4frM07D8MCar1CHBy3r3eg1An16YCqk6g@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 9187D216EC
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.51
 
-
-On Thu, 01 May 2025 08:48:46 +0200, Luca Weiss wrote:
-> Since the series for the USB sound offloading driver was finally merged,
-> we can add the sm6350 dts and enable it on Fairphone 4.
+On Thu, 17 Jul 2025 05:02:19 +0200,
+Sharan Kumar Muthu Saravanan wrote:
 > 
-> A few devicetree binding bits have also been missing in that series, so
-> there's some extra patches for the basics in this series.
+> this patch is to fix my previous Commit e518230 i have fixed mute led
+> but for by This patch corrects the coefficient mask value introduced
+> in commit e518230, which was intended to enable the mute LED
+> functionality. During testing, multiple values were evaluated, and an
+> incorrect value was mistakenly included in the final commit. This
+> update fixes that error by applying the correct mask value for proper
+> mute LED behavior.
 > 
-> Depends on:
-> - For qcom,sm8250.yaml & sm8250.c:
->   https://lore.kernel.org/linux-arm-msm/20250425-fp5-dp-sound-v3-0-7cb45180091b@fairphone.com/T/
-> - For dts:
->   https://lore.kernel.org/linux-arm-msm/20250321-sm6350-apr-v1-1-7805ce7b4dcf@fairphone.com/
+> Tested on 6.15.5-arch1-1
 > 
-> [...]
+> Signed-off-by: M SHARAN KUMAR <sharweshraajan@gmail.com>
 
-Applied, thanks!
+The patch is still not applicable cleanly.
+Please try to fix the mailer setup and resubmit.  At best, test to
+send a patch to yourself, and try to apply the patch by yourself,
+before resubmitting.
 
-[4/5] arm64: dts: qcom: sm6350: Add q6usbdai node
-      commit: 30237c2bfda59e3abd7f7e92879e75bc730edfd8
-[5/5] arm64: dts: qcom: sm7225-fairphone-fp4: Enable USB audio offload support
-      commit: ddcc0ad9a9b8488d3ee0b4ca6fd9b092c462491f
+Also, don't forget to add the proper Fixes tag pointing to the
+commit.  It must be with 12 chars SHA1 ID followed by the commit
+summary.  See Documentation/process/submitting-patches.rst for
+details.
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+
+thanks,
+
+Takashi
+
+> 
+> ---
+>  sound/pci/hda/patch_realtek.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index 060db37eab83..062d439e753d 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -4753,7 +4753,7 @@ static void
+> alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
+>   if (action == HDA_FIXUP_ACT_PRE_PROBE) {
+>   spec->mute_led_polarity = 0;
+>   spec->mute_led_coef.idx = 0x0b;
+> - spec->mute_led_coef.mask = 1 << 3;
+> + spec->mute_led_coef.mask = 3 << 2;
+>   spec->mute_led_coef.on = 1 << 3;
+>   spec->mute_led_coef.off = 0;
+>   snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
+> -- 
+> 2.50.1
