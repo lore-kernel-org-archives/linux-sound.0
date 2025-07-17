@@ -1,37 +1,38 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CA52C18A;
-	Thu, 17 Jul 2025 21:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C084321ABAE;
+	Thu, 17 Jul 2025 21:58:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752789496; cv=none; b=chYJkSbq8DDpBfYcCnWK/7a707tL2AqEdp2zGAYQIXiqXuK5ferqcTVBlV/hhMu5E20Pp/kIHQIr8bInKiBIn8V5d4QqPqqWaf8dWkd9F61U/2expWwl0TmqX/LtgNXIT20fkIc9nEXy3V13VG0kZp0HCxWAmHgohBQXBfyanTA=
+	t=1752789497; cv=none; b=rCfUYn8y/qUCLz05lK4Qy2LzxXdi2iN0fRQgVvsrSUAOHwtoANpJGE27gxe3JEn58mO/LXmSCvcOkO7rsU8J76x/bu+MWgszJcNeQCg17wun/y14gNGJl1wPMPjP24SeFBmnfYcWtuBoNaeJ91AaNjw8FMp+B4G4cumGzT4XinQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752789496; c=relaxed/simple;
-	bh=O/kg8t7MbHfNbrdP/cpMCUGufZfwNutHBitrbX/Jpvw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ij/H5SiP1MrSvLaUPBMOzhppHEn1KS+Cvly+84NB7h5a5fWryiI1vSOfCLJbvCVSLv5nIExJGb61/29bTtd/wXpyzP4IJfJ/TC2abskVJ9t6umsUPY/pSS+PmFXcqN3IxcEnxbM0C2QU8qiLCOBHnwy2Xkvu86fRWNKMZ44HHLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=OphxI+Ei; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1752789497; c=relaxed/simple;
+	bh=l+stcsHBGwL0jJ++yfnXWYCS37dvD6reGe7NiDK7mwg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UqCncZZK5/gciYyW/a+uCa3OEBIjXXUaEaCfAOY7xAMNGeuZnlTLT0CyEUwpUQMF/2YMwyCqDqoBruIHKxgsT6D1wNydoDmKQ9PSj+ZBa0bzAszJRO1LkvR+MgJ2mdu1HadnX6vqAGPuny6mD8UNYn898xiddX6pthVSVq0fHUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ppw6/cyO; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OphxI+Ei"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ppw6/cyO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1752789487;
-	bh=O/kg8t7MbHfNbrdP/cpMCUGufZfwNutHBitrbX/Jpvw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=OphxI+EiEn+9nNY0msGSfG6PqqLFEHg5J7zuWeL+r4TD2cnc1/PEu3GpskO+iYEVK
-	 dx0jMfMQnMGfXCW9OTXooWn0GnfFz/CB+CE3n3ajW6zgW/Xx4RfgG3fKYSJkAbAj9r
-	 cuZfKrYhSeuVQ18ZVMcvMVYmrJvlJRPLOTsj9o3jEiCkiXToIZ9ssoelcjtWnSsoHy
-	 u8wC1vxpmMzPSpMroNiHmB3N2ib9pZWsUq6Y2ffVguvhoZl1g8R0HqWQIRtnx2AZEh
-	 iiJPgCLdHUZK4eGvGsQEaQmqMtSSdv9vYlwmMBItJFPgEuXQRGBwdMVdgrhVpyJVoF
-	 ozgo5u1LhXRhw==
+	s=mail; t=1752789494;
+	bh=l+stcsHBGwL0jJ++yfnXWYCS37dvD6reGe7NiDK7mwg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ppw6/cyOHwtyjfkecEuwRUHjGbPCqIQzqOY+026KiIGMrvwtnd2kXThj1UBAaSCvY
+	 r6Y436f8SDkac3TusYAu5lmrNhfoA//q5+xIIfa8a4pGMhkqh73BBH3+WFyUG2S8lC
+	 MJoF8S6A1nTVxcTjkTyiP8Qm2xbYliVMRY+oTe2yMhlZZcLMQjjW8sEpqR6L7nS9hu
+	 ZubEYvU8trJK39KfqHgcreWS0dZEKE07dz5BfJ7IEwdlLxy7Yf+a6JjZjEmtpBtqfb
+	 FqONR0fKkBe7d9cxTZzrz3TzJBYRf9L8YD8TG7OjK15A9xYlQ+rWf7MscGF7+vFROY
+	 zRq7HzGLytN1A==
 Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id D495D17E1324;
-	Thu, 17 Jul 2025 23:58:03 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E6C0F17E1500;
+	Thu, 17 Jul 2025 23:58:10 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -60,10 +61,12 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-sound@vger.kernel.org,
 	kernel@collabora.com
-Subject: [PATCH 0/3] Clean some logs on rockchip hdmi audio
-Date: Thu, 17 Jul 2025 17:56:17 -0400
-Message-ID: <20250717215620.288651-1-detlev.casanova@collabora.com>
+Subject: [PATCH 2/3] ASoC: hdac_hdmi: Use dev_info on invalid ELD version
+Date: Thu, 17 Jul 2025 17:56:19 -0400
+Message-ID: <20250717215620.288651-3-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250717215620.288651-1-detlev.casanova@collabora.com>
+References: <20250717215620.288651-1-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,21 +75,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-HDMI audio is showing lots of logs, particularly when HDMI is
-disconnected.
+When disconnected, the ELD data cannot be read by the display driver, so
+it just sets the data to 0.
 
-It doubled on RK3588 with the addition of the second HDMI TX port, so
-clean it up to avoid missing important log lines.
+That makes the ELD parsing code read an ELD version of 0, which is
+invalid. In hdac_hdmi, that is logged with dev_err(), but should be
+logged with dev_info() instead as it is done in sound/core/pcm_drm_eld.c
 
-Detlev Casanova (3):
-  drm/bridge: dw-hdmi-qp: Return 0 in audio prepare when disconnected
-  ASoC: hdac_hdmi: Use dev_info on invalid ELD version
-  drm/bridge: synopsys: Do not warn about audio params computation
+This avoids printing multiple messages like:
 
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 5 ++---
- sound/soc/codecs/hdac_hdmi.c                 | 2 +-
- 2 files changed, 3 insertions(+), 4 deletions(-)
+    HDMI: Unknown ELD version 0
 
+in the kernel log when userspace tries to open the sound device.
+
+Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+---
+ sound/soc/codecs/hdac_hdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/hdac_hdmi.c b/sound/soc/codecs/hdac_hdmi.c
+index 1139a2754ca33..4cc3b7a1062bd 100644
+--- a/sound/soc/codecs/hdac_hdmi.c
++++ b/sound/soc/codecs/hdac_hdmi.c
+@@ -1232,7 +1232,7 @@ static int hdac_hdmi_parse_eld(struct hdac_device *hdev,
+ 						>> DRM_ELD_VER_SHIFT;
+ 
+ 	if (ver != ELD_VER_CEA_861D && ver != ELD_VER_PARTIAL) {
+-		dev_err(&hdev->dev, "HDMI: Unknown ELD version %d\n", ver);
++		dev_info(&hdev->dev, "HDMI: Unknown ELD version %d\n", ver);
+ 		return -EINVAL;
+ 	}
+ 
 -- 
 2.50.1
 
