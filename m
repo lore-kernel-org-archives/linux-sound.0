@@ -1,431 +1,100 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C24F9CB
-	for <linux-sound@vger.kernel.org>; Thu, 17 Jul 2025 02:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D47811187;
+	Thu, 17 Jul 2025 03:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752718621; cv=none; b=lJCi6pF6gUtAidpVm3ZioWOvUEmyAbqaOKtVeQCG8Wwy2Z3WlIPnPoMJb9LGhLKoHgot0mRLBhxS8QvMlbWDtl8uDRrw8aFfiTMx7ytcO53/WbouxEOObTxujim+/DwwyeP1FvsHo2sHWZEW9Z8n4bkDZV3Nj6Nbpfy302o4QjQ=
+	t=1752721355; cv=none; b=neINnNa6dgVMGMdOpfOAhDhIrXCHuWlsuiF6/56HleGztP4oDQHH6OfqhldhMscqec8GnuSlCETk8eahhZSM83g7GOTDytZ8pmIQeuHY5c1fCZskuMfBZ3eWHu1sonw3UI3Z1iGJEetiKylxF3PnjYh2ukA1RIz7NEnCJsF/0Vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752718621; c=relaxed/simple;
-	bh=2T5Gg3c9Z9fTpQfaZwIJPDjhqVlhlxuUxGXmKQKdXyA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YDaA4UjEpkFMcfE1OgFvx6EzCZ7LTSGrBRw+JkGcldomLBcWxgAVhoF/e54OeFyX3Ipq8D66dWWaJIja66JsYa7XLMtwLZvkhc50qoEQtsQYwpGv5QNZRNNU0YwmWSxbbmpc0aU/d3btuHWjAnCBkYWOKnkbkZs0NpplJjZq2bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZcAkDnsS; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1752721355; c=relaxed/simple;
+	bh=UEpzZC9VADx8AvKH0J47c0cuHbkzOYtmuPcF+qTpFLk=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=NIu8rXhzBG7Gw0XGYBh41WitiQykDAdH+EQNVoEq59yZIvPEzA98ENABjol3hofUmkCoGIOn8cchnT5ATYQ203mDUKUyTY9XLSnhHfScu/mk01bbnFc2+xKEUjWBDPR0H1HRKuXH3sQZ+YpMDsr8vG+1vY+hWlc8TY1YdhNaBMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WECOfVE8; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZcAkDnsS"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-553b16a0e38so411714e87.1
-        for <linux-sound@vger.kernel.org>; Wed, 16 Jul 2025 19:16:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WECOfVE8"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-553d771435fso585105e87.3;
+        Wed, 16 Jul 2025 20:02:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1752718616; x=1753323416; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vxHiP6wE+44HTiVLcySgvTPCMzauYzsKV7k/Cx73M/Y=;
-        b=ZcAkDnsSUdanjGxrbfVQvN3A+eCasV/rJWM/6sZMePMHaoB1xmg35IPy0yhN50ZtGy
-         12gyH73NjVM2Dfzp9lYGLkOjxoQ8jzULNj1RqMkzsTaDut58bRUKcDiEY0UPfeeX/3H0
-         GhFwSvn6Opn7mNDTnNAfVGnvXgC5UXVur2Ols=
+        d=gmail.com; s=20230601; t=1752721351; x=1753326151; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=eHzOES08CFS1i6HY2KzHC2u6PbLGiIQuDSZPFpe4kew=;
+        b=WECOfVE8oyfgbxfxgAIxdUAbCVZk0b9oyqJECGpUqMVVsrSh0u0odbDxAtwqsNCY72
+         osxyrn+KMegZjEUNpofKe1vypvYtc1GrVMpNf30b+u6ytrbEdLMttMQISOSVRDli+fBc
+         8Nxew5HbIIH8ugXfS5cKNSaeB5v/f93hvSzSIJuAL55uETvNczNVszo7iyYLXfyPm3i1
+         QmgsBLhh3RWT9Tumvo1h4+vysQ9zlnZR4cXjwweTr+2634l/KnUc0bUOcjSxvVUWqB85
+         9zmw7+oSP6BxXSH7hVUHjpibIRG1Ev5VhOFVkw7HGdqii4GHkjVehQ35S2VCb4YlMLB5
+         o2+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752718616; x=1753323416;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vxHiP6wE+44HTiVLcySgvTPCMzauYzsKV7k/Cx73M/Y=;
-        b=TR17xaGEDvJ8RPNNzFe/FE8TlKOz+7a5W3TTbHuenP1wkLTECfKPqaplSbDxfKLu5G
-         /+WL0GMEI8doLLzEc/ZoSJ4I6234n0ixCth54X7YsHzLtUfRBt7KQoxxy+mCkIE3gNH1
-         kQwc3gwsg44004/rUQY2/RuLtyfheMy95BtSjQroiK2u0BcUCn10e2rek9uksin98pSL
-         B2isdKj5OTH5CHVqdsiY2n/uq+mDX3kLjp9RX9h1vvNo8R80PhIhYs2bYu7VU77CDtYW
-         La88cNmGCdnQWw1laJmAVeio6JEQlKEhoTKBZakNzDo8EI8MWpYo9WwShlA+XBeIAylp
-         uL4g==
-X-Forwarded-Encrypted: i=1; AJvYcCVv2+JJPjz/Pt9Rphma2MKgcXQPq/MvIXOLkuDG82G7Yxi63i6idYZRTCFQXEDiUylFP7i2OP2//SCdww==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8q8l6F2VOnLfqj2W1huW/QAaMYqIE4Pc4RQI1orhwOsk4AO93
-	uWTJz4bBJzccafsPQuTyEV7/jkGeahRlBd7Sl9xaU3h1/favJGLINQ5wmrGTcUZhzUNT1cbhYUi
-	gj4kAszr07l1dDH5RITMtsNMt33yJlcfNEn1TpDdm
-X-Gm-Gg: ASbGncsvOYrt3sX8jGRsBwlAGjCBwkZWEw7zggaHmM9O/Vnme0CMnWHpc6w7RkHkIec
-	elHvZ/7wyMTRbLXjYBKSjYTXXMFjJt/OSFSB+dDgXw1C+l+dnDH7qcE8DndsDQ1miduB4oqwcZF
-	OmRC6XcTrgwZ+vKK77fozHEnvoLwMynFYLk5iyXfvsaW/PRddhEsB4ldQTL3LcV2Iy3u3r/YJ/g
-	EOyQtwxJ6ylXzgHnEdMWHwczeQc6LRq/45KPA==
-X-Google-Smtp-Source: AGHT+IHX6+PqYe7ISNqeiqU5iv6yi86yo/gru6nPWgWG5xiS6bt/CCj0f39af9hJfhwpJxYP0qrdsmQwdRgw6Yt/kWQ=
-X-Received: by 2002:a05:6512:3da1:b0:55a:2735:fe6a with SMTP id
- 2adb3069b0e04-55a27360094mr841505e87.0.1752718616192; Wed, 16 Jul 2025
- 19:16:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752721351; x=1753326151;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eHzOES08CFS1i6HY2KzHC2u6PbLGiIQuDSZPFpe4kew=;
+        b=rf9K6Qwkp8qaGxwiFle6ZmtycCbD82JuK2ljedE53/SSLIqysC7x3TOMxjQRR38O6g
+         IQjVqKNlUnmqde6zHV8Kz7QAXaiJyO5O55m2XyMddYrCTraPWEPxJsuny4D2wRNo40NC
+         rxq/AtLjJC03QGMm9PegY3WSbfcyAkDeUGVBO93uJ2fIycClQqnkdW79Qxx2uQxZSpA0
+         4FzHlvTMHf903wlyx2hOLR9Q9PiNDIIwoF+3uBmYG1gWRT4+7i2gRSyo3PopwMwiBayE
+         0vup4lIRwRPbOJoxFPb8BjJcO4Tiarj1wNb/67AZXkr15U9J2TkGd94PpQRJ2A2fMuen
+         0TZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXrtxeF4Xwx1khYPdMYWtnyVu/E+Tw8ybmnFLWiZ5RSH6aDmJ9MKfy6+JKdJHgL+ENR2cSANGQLQqS2s9M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRW4K9PSqAxzvyNvAGv1/o+U/kfcFVyKAvpytG/oBgi3F5qEzf
+	AXDJKl+F/Y0MZ/B+sCv/BDiK/KZzoINDtLu76ArV/QebaJdnIggRuFN5n0bKSm0iYXRCI+8iURD
+	TC8WRquV2oSF4eW1naGZBieF+IiGh8KzBuGIY
+X-Gm-Gg: ASbGncs00J8vekaMrkcMZI6WCI89wezLuuu0zLbA38cmRfpfdFBx5vCqIJshekySsGb
+	Fk+dprFF1rPm2XPRugDjgHjpUYCXqjAfneymR0AKMpxTH7GP9K9WcpTIbbUVA+GlAZVnGu1S0YU
+	qTZBL9mXOMrDPNc9i0gFNDf0952ADmqE45L+mYzhLan99lWIo5xaw1V1uZg1mRHYY4PCNAtqo1W
+	bMqGqlqCI3axVf0LA==
+X-Google-Smtp-Source: AGHT+IExhmDbi7SwzhDqgYL/YMoffgjLn+7bh1hxnf2EkqE7s+8AoYP2gGa5GaNbaKU9eNhH2pfx+ETriO1sWdTifEM=
+X-Received: by 2002:a05:6512:3042:b0:554:f76a:bab4 with SMTP id
+ 2adb3069b0e04-55a233248f6mr1806560e87.15.1752721351038; Wed, 16 Jul 2025
+ 20:02:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250708111806.3992-1-darren.ye@mediatek.com> <20250708111806.3992-9-darren.ye@mediatek.com>
- <CAGXv+5EufDuxLMnwMaCqtWFZpVMNMxi-5OwCyO4a+KD2T+2NYA@mail.gmail.com> <e4e4cf154e9ea1a4f96a50f374e9f88fc27ca670.camel@mediatek.com>
-In-Reply-To: <e4e4cf154e9ea1a4f96a50f374e9f88fc27ca670.camel@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 17 Jul 2025 11:16:45 +0900
-X-Gm-Features: Ac12FXxJARBruEPXsOMEpzqrHcSUpNdXL9sZPsqgXaiJYCISBkZ3KcHBr2s5MUo
-Message-ID: <CAGXv+5HDupifLWN-okQmzbgTV53X9Wwu6r9usFgiJEWc20AK1A@mail.gmail.com>
-Subject: Re: [PATCH v6 08/10] ASoC: dt-bindings: mediatek,mt8196-afe: add
- audio AFE
-To: =?UTF-8?B?RGFycmVuIFllICjlj7bpo54p?= <Darren.Ye@mediatek.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linus.walleij@linaro.org" <linus.walleij@linaro.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
-	"krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>, "broonie@kernel.org" <broonie@kernel.org>, 
-	"brgl@bgdev.pl" <brgl@bgdev.pl>, "conor+dt@kernel.org" <conor+dt@kernel.org>, "tiwai@suse.com" <tiwai@suse.com>, 
-	"robh@kernel.org" <robh@kernel.org>, "lgirdwood@gmail.com" <lgirdwood@gmail.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
-	"perex@perex.cz" <perex@perex.cz>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+From: Sharan Kumar Muthu Saravanan <sharweshraajan@gmail.com>
+Date: Thu, 17 Jul 2025 08:32:19 +0530
+X-Gm-Features: Ac12FXwBYURCqdmZm8PzstRl4vhuG8SR4XQKrJ1aQsrlmsxcCxczPrR6dFe2JIQ
+Message-ID: <CAGo=CcK+aHAYVv=tS4frM07D8MCar1CHBy3r3eg1An16YCqk6g@mail.gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP OMEN 16 Laptop xd000xx
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 16, 2025 at 9:41=E2=80=AFPM Darren Ye (=E5=8F=B6=E9=A3=9E) <Dar=
-ren.Ye@mediatek.com> wrote:
->
-> On Tue, 2025-07-15 at 13:09 +0800, Chen-Yu Tsai wrote:
-> > External email : Please do not click links or open attachments until
-> > you have verified the sender or the content.
-> >
-> >
-> > Hi,
-> >
-> > On Tue, Jul 8, 2025 at 7:35=E2=80=AFPM Darren.Ye <darren.ye@mediatek.co=
-m>
-> > wrote:
-> > >
-> > > From: Darren Ye <darren.ye@mediatek.com>
-> > >
-> > > Add mt8196 audio AFE.
-> > >
-> > > Signed-off-by: Darren Ye <darren.ye@mediatek.com>
-> > > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > ---
-> > >  .../bindings/sound/mediatek,mt8196-afe.yaml   | 157
-> > > ++++++++++++++++++
-> > >  1 file changed, 157 insertions(+)
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
-> > >
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
-> > > b/Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
-> > > new file mode 100644
-> > > index 000000000000..fe147eddf5e7
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8196-
-> > > afe.yaml
-> > > @@ -0,0 +1,157 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id:
-> > > https://urldefense.com/v3/__http://devicetree.org/schemas/sound/media=
-tek,mt8196-afe.yaml*__;Iw!!CTRNKA9wMg0ARbw!iSiBwCYEjWdWSv25XRbl3ky3Niiw3nDp=
-VY-fW1dxyp3eU5YDs0bbZXEgPUQ1_NInbxUIgyz3HJvf-xTH$
-> > > +$schema:
-> > > https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.y=
-aml*__;Iw!!CTRNKA9wMg0ARbw!iSiBwCYEjWdWSv25XRbl3ky3Niiw3nDpVY-fW1dxyp3eU5YD=
-s0bbZXEgPUQ1_NInbxUIgyz3HHUjHsuW$
-> > > +
-> > > +title: MediaTek Audio Front End PCM controller for MT8196
-> > > +
-> > > +maintainers:
-> > > +  - Darren Ye <darren.ye@mediatek.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: mediatek,mt8196-afe
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  memory-region:
-> > > +    maxItems: 1
-> > > +
-> > > +  mediatek,vlpcksys:
-> > > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > > +    description: To set up the apll12 tuner
-> >
-> > Looking at the implementation, the configuration is just a fixed
-> > value.
-> > Can this be moved to the VLP clock driver instead?
-> >
-> I thinks it's not good to put it in the VLP clock kernel driver,
-> because this value needs to be adjusted. Usually, it is set in
-> coreboot, but it is hard to change later. Audio needs to adjust
-> this value, so it's better to put it in the audio driver. What do
-> you think?
+this patch is to fix my previous Commit e518230 i have fixed mute led
+but for by This patch corrects the coefficient mask value introduced
+in commit e518230, which was intended to enable the mute LED
+functionality. During testing, multiple values were evaluated, and an
+incorrect value was mistakenly included in the final commit. This
+update fixes that error by applying the correct mask value for proper
+mute LED behavior.
 
-It looks like just one fixed value, instead of needing to tweak the value
-during operation? If that's the case I think it could be moved to the
-clock driver.
+Tested on 6.15.5-arch1-1
 
-> > > +
-> > > +  power-domains:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: mux for audio intbus
-> > > +      - description: mux for audio engen1
-> > > +      - description: mux for audio engen2
-> > > +      - description: mux for audio h
-> > > +      - description: vlp 26m clock
-> > > +      - description: audio apll1 clock
-> > > +      - description: audio apll2 clock
-> > > +      - description: audio apll1 divide4
-> > > +      - description: audio apll2 divide4
-> > > +      - description: audio apll12 divide for i2sin0
-> > > +      - description: audio apll12 divide for i2sin1
-> > > +      - description: audio apll12 divide for fmi2s
-> > > +      - description: audio apll12 divide for tdmout mck
-> > > +      - description: audio apll12 divide for tdmout bck
-> > > +      - description: mux for audio apll1
-> > > +      - description: mux for audio apll2
-> > > +      - description: mux for i2sin0 mck
-> > > +      - description: mux for i2sin1 mck
-> > > +      - description: mux for fmi2s mck
-> > > +      - description: mux for tdmout mck
-> > > +      - description: mux for adsp clock
-> > > +      - description: 26m clock
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: top_aud_intbus
-> > > +      - const: top_aud_eng1
-> > > +      - const: top_aud_eng2
-> > > +      - const: top_aud_h
-> > > +      - const: vlp_clk26m
-> > > +      - const: apll1
-> > > +      - const: apll2
-> > > +      - const: apll1_d4
-> > > +      - const: apll2_d4
-> >
-> > These are parents of the top_apll[12]. They do not feed into the
-> > hardware directly, so you should not be including them here.
-> >
-> > > +      - const: apll12_div_i2sin0
-> > > +      - const: apll12_div_i2sin1
-> > > +      - const: apll12_div_fmi2s
-> > > +      - const: apll12_div_tdmout_m
-> > > +      - const: apll12_div_tdmout_b
-> >
-> > In the clock bindings sent by Collabora, these dividers are no longer
-> > separately modeled; they have been combined with their respective
-> > top_* clocks.
-> >
-> > > +      - const: top_apll1
-> > > +      - const: top_apll2
-> >
-> > These two are parents to apll12_div_*, do not feed into the hardware
-> > directly, so you should not be including them here.
-> >
-> > The clock tree for each audio interface clock looks like the
-> > following:
-> >
-> >     apll1 -> apll1_d4 -> top_apll1 --
-> >                      /               \
-> >               clk26m                  --> top_fmi2s ->
-> > apll12_div_fmi2s
-> >                      \               /
-> >     apll2 -> apll2_d4 -> top_apll2 --
-> >
-> > Only the final "apll12_div_fmi2s" should be referenced.
-> >
-> > On the implementation side, it should simply be a matter of setting
-> > the
-> > required rate (24.576 MHz or 22.5792 MHz, or some multiple) on this
-> > leaf
-> > clock, and let the clock framework figure out the PLL and dividers to
-> > use. Same thing for enabling the clock.
->
-> I think we have some misunderstandings. I will first draw mtk audio
-> clock topology diagram, and then we can disscuss which parts can be
-> optimized together.
->
-> top_aud_intbus: as read/write reg clock source;
-> top_aud_eng1/top_aud_eng2: as i2s bck clock source;
-> apll12_div_xxx: as mclk clock source;
-> top_audio_h: as afe other ip clock source;
+Signed-off-by: M SHARAN KUMAR <sharweshraajan@gmail.com>
 
-And what about top_i2sin0, top_i2sin1, top_fmi2s, top_tdmout?
+---
+ sound/pci/hda/patch_realtek.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> vlp_clk26m
->         \
-> apll1   --> top_audio_h
-> /
-> apll2
-
-This shows that vlp_clk26m, apll1, apll2 are parents to top_audio_h.
-
->                 vlp_clk26m
->                      \
-> apll1  --> apll1_d4  --> top_aud_eng1
->        \
-> clk26m --> top_apll1
-> \
->  --> top_fmi2s --> apll12_div_fmi2s
-> /
-> clk26m  --> top_apll2
->        /
-> apll2  --> apll2_d4  --> top_aud_eng2
->                      /
->        vlp_clk26m
-
-This shows the parents of top_aud_eng1, top_aud_eng2, top_apll1, top_apll2,
-and apll12_div_fmi2s.
-
-My point is that all these parents should not be referenced unless they
-also directly feed some input to the AFE block.
-
-> vlp_clk26m -> top_aud_intbus
->
->
-> >
-> > > +      - const: top_i2sin0
-> > > +      - const: top_i2sin1
-> > > +      - const: top_fmi2s
-> > > +      - const: top_tdmout
-> > > +      - const: top_adsp
-> > > +      - const: clk26m
-> >
-> > Is this one directly needed? It is similar to vlp_clk26m, and I
-> > suspect
-> > only that one is needed.
-> >
-> vlp_clk26m belongs to the VLP clock domain, and clk26 belongs to the
-> system clock domain;
->
-> top_apll1/top_apll2 can only select system apll1/apll2 or clk26m, they
-> cannot use vlp_clk26m;
-
-Yes. What I mean is that clk26m does not directly feed the AFE block.
-If it does not directly feed the AFE block, it shouldn't be listed.
-
-So please think about the modules in the AFE, and the clock gates in
-the AFE block; think about what "external" clocks feed into them. Those
-are the ones you should list.
-
-
-ChenYu
-
-> BR
-> Darren Ye
->
-> >
-> > ChenYu
-> >
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - interrupts
-> > > +  - memory-region
-> > > +  - mediatek,vlpcksys
-> > > +  - power-domains
-> > > +  - clocks
-> > > +  - clock-names
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > > +
-> > > +    soc {
-> > > +        #address-cells =3D <2>;
-> > > +        #size-cells =3D <2>;
-> > > +
-> > > +        afe@1a110000 {
-> > > +            compatible =3D "mediatek,mt8196-afe";
-> > > +            reg =3D <0 0x1a110000 0 0x9000>;
-> > > +            interrupts =3D <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH 0>;
-> > > +            memory-region =3D <&afe_dma_mem_reserved>;
-> > > +            mediatek,vlpcksys =3D <&vlp_cksys_clk>;
-> > > +            power-domains =3D <&scpsys 14>;
-> > > //MT8196_POWER_DOMAIN_AUDIO
-> > > +            clocks =3D <&vlp_cksys_clk 40>,
-> > > //CLK_VLP_CK_AUD_INTBUS_SEL
-> > > +                     <&vlp_cksys_clk 38>,
-> > > //CLK_VLP_CK_AUD_ENGEN1_SEL
-> > > +                     <&vlp_cksys_clk 39>,
-> > > //CLK_VLP_CK_AUD_ENGEN2_SEL
-> > > +                     <&vlp_cksys_clk 37>, //CLK_VLP_CK_AUDIO_H_SEL
-> > > +                     <&vlp_cksys_clk 45>, //CLK_VLP_CK_CLKSQ
-> > > +                     <&cksys_clk 129>, //CLK_CK_APLL1
-> > > +                     <&cksys_clk 132>, //CLK_CK_APLL2
-> > > +                     <&cksys_clk 130>, //CLK_CK_APLL1_D4
-> > > +                     <&cksys_clk 133>, //CLK_CK_APLL2_D4
-> > > +                     <&cksys_clk 80>,
-> > > //CLK_CK_APLL12_CK_DIV_I2SIN0
-> > > +                     <&cksys_clk 81>,
-> > > //CLK_CK_APLL12_CK_DIV_I2SIN1
-> > > +                     <&cksys_clk 92>, //CLK_CK_APLL12_CK_DIV_FMI2S
-> > > +                     <&cksys_clk 93>,
-> > > //CLK_CK_APLL12_CK_DIV_TDMOUT_M
-> > > +                     <&cksys_clk 94>,
-> > > //CLK_CK_APLL12_CK_DIV_TDMOUT_B
-> > > +                     <&cksys_clk 43>, //CLK_CK_AUD_1_SEL
-> > > +                     <&cksys_clk 44>, //CLK_CK_AUD_2_SEL
-> > > +                     <&cksys_clk 66>, //CLK_CK_APLL_I2SIN0_MCK_SEL
-> > > +                     <&cksys_clk 67>, //CLK_CK_APLL_I2SIN1_MCK_SEL
-> > > +                     <&cksys_clk 78>, //CLK_CK_APLL_FMI2S_MCK_SEL
-> > > +                     <&cksys_clk 79>, //CLK_CK_APLL_TDMOUT_MCK_SEL
-> > > +                     <&cksys_clk 45>, //CLK_CK_ADSP_SEL
-> > > +                     <&cksys_clk 140>; //CLK_CK_TCK_26M_MX9
-> > > +            clock-names =3D "top_aud_intbus",
-> > > +                          "top_aud_eng1",
-> > > +                          "top_aud_eng2",
-> > > +                          "top_aud_h",
-> > > +                          "vlp_clk26m",
-> > > +                          "apll1",
-> > > +                          "apll2",
-> > > +                          "apll1_d4",
-> > > +                          "apll2_d4",
-> > > +                          "apll12_div_i2sin0",
-> > > +                          "apll12_div_i2sin1",
-> > > +                          "apll12_div_fmi2s",
-> > > +                          "apll12_div_tdmout_m",
-> > > +                          "apll12_div_tdmout_b",
-> > > +                          "top_apll1",
-> > > +                          "top_apll2",
-> > > +                          "top_i2sin0",
-> > > +                          "top_i2sin1",
-> > > +                          "top_fmi2s",
-> > > +                          "top_tdmout",
-> > > +                          "top_adsp",
-> > > +                          "clk26m";
-> > > +        };
-> > > +    };
-> > > +
-> > > +...
-> > > --
-> > > 2.45.2
-> > >
-> > >
->
-> ************* MEDIATEK Confidentiality Notice
->  ********************
-> The information contained in this e-mail message (including any
-> attachments) may be confidential, proprietary, privileged, or otherwise
-> exempt from disclosure under applicable laws. It is intended to be
-> conveyed only to the designated recipient(s). Any use, dissemination,
-> distribution, printing, retaining or copying of this e-mail (including it=
-s
-> attachments) by unintended recipient(s) is strictly prohibited and may
-> be unlawful. If you are not an intended recipient of this e-mail, or beli=
-eve
->
-> that you have received this e-mail in error, please notify the sender
-> immediately (by replying to this e-mail), delete any and all copies of
-> this e-mail (including any attachments) from your system, and do not
-> disclose the content of this e-mail to any other person. Thank you!
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 060db37eab83..062d439e753d 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -4753,7 +4753,7 @@ static void
+alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
+  if (action == HDA_FIXUP_ACT_PRE_PROBE) {
+  spec->mute_led_polarity = 0;
+  spec->mute_led_coef.idx = 0x0b;
+- spec->mute_led_coef.mask = 1 << 3;
++ spec->mute_led_coef.mask = 3 << 2;
+  spec->mute_led_coef.on = 1 << 3;
+  spec->mute_led_coef.off = 0;
+  snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
+-- 
+2.50.1
