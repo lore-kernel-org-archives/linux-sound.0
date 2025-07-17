@@ -1,162 +1,190 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A592C1DE8A3
-	for <linux-sound@vger.kernel.org>; Thu, 17 Jul 2025 10:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E386292B3D
+	for <linux-sound@vger.kernel.org>; Thu, 17 Jul 2025 11:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752746870; cv=none; b=L86hYjiOoX15R56cfvgqzJSMozGXO7MPUxRbTskLiU50/vkou6tyJLnnyz7/3UoUsJwOnanhyjAsw5Nyj2NMnj+vVB1ld3JVlXySwTfVE9UcSUbbK50ce6ef6Hvmdm/fBPtXR3BNPlRmxXkcau+wl8s9SM0QV0FqliVAEbjUO0k=
+	t=1752753506; cv=none; b=n6wGwuL9su/BMw7mSFzf10y2hvOOjHeI8zzTlWFkjuYtB4FfyK4QRz4z6H5u0U8WCWltTIV1ICQdzJA8e4XSNy1emzJw2xizyHebG5bvfgh/KCrw4gNDotIxS0NOYFSQ885G/w4jjICNbhRcNqPZFl8NLAbkqcP2N4UvxqtDCDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752746870; c=relaxed/simple;
-	bh=PYw0HZpBcIPMweebRezzW3je0YTx/m+a/d6ydU8kHFc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rVkTQcu+2WErITMHwSNmyuxqOLRuujBu2werQuOe1RBuVcMPHILivujo9WmsxdzzXN32OxsQpbOx0Bt0rme/fg14gSNfmpcl9MRU+Eab+iAta+Xok2TyaszIsXhJBF/KOhh7utL4WOcK66YuWtCFLlisjJv8y8tuu7dvC2Sy26E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JHa0jhA+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zZ6vedIZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JHa0jhA+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zZ6vedIZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1752753506; c=relaxed/simple;
+	bh=5U5+oKM9TS56skKvfyBUuonPmWf8aGSQ+l3JH2CKHPI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Kx88n8+GLUKoTS1HJQa1m8IAAxXrrPulZ9mR4ZIF3mZjHao4468gQ1Jy9gVH5o1I9bi8vObc+s9VNir/YpDTNrePfS5QMl9rZMBsd66K+orAUMnvy5/49FOLDZbGwb2oNcZQU72cLsJtyzx24kPK7ZR6JvxvP+2pJMBrn9am1D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Hp8awFxx; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JHa0jhA+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zZ6vedIZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JHa0jhA+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zZ6vedIZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9F525216F2;
-	Thu, 17 Jul 2025 10:07:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752746866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SDLO0wpm53maWeUC3PwUrjWWwCvxlueHHYDIlsxuH7g=;
-	b=JHa0jhA+6dt4oMmQMTEfWO7fr9LlF9tpz0DcdYdswraYtlFRTWWJo4+kezKlflyhXBGT13
-	QtUg3a55yo6Bnw+XEF0LAr7LiiGiVOLpRaxXJ0qxLkOmTpD1taIthHtWN6JnVBfOSwTUtf
-	cffWlLzjd3S7Z4EeegFky12vyFAZK20=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752746866;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SDLO0wpm53maWeUC3PwUrjWWwCvxlueHHYDIlsxuH7g=;
-	b=zZ6vedIZM8zyC33I3R2gWO7uBUmCsEAwk0INQD9pHCkf/MYP4EbbVAfK8dgAK0eir1fC2c
-	j+PKTa0xwCdwGuCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JHa0jhA+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zZ6vedIZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1752746866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SDLO0wpm53maWeUC3PwUrjWWwCvxlueHHYDIlsxuH7g=;
-	b=JHa0jhA+6dt4oMmQMTEfWO7fr9LlF9tpz0DcdYdswraYtlFRTWWJo4+kezKlflyhXBGT13
-	QtUg3a55yo6Bnw+XEF0LAr7LiiGiVOLpRaxXJ0qxLkOmTpD1taIthHtWN6JnVBfOSwTUtf
-	cffWlLzjd3S7Z4EeegFky12vyFAZK20=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1752746866;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SDLO0wpm53maWeUC3PwUrjWWwCvxlueHHYDIlsxuH7g=;
-	b=zZ6vedIZM8zyC33I3R2gWO7uBUmCsEAwk0INQD9pHCkf/MYP4EbbVAfK8dgAK0eir1fC2c
-	j+PKTa0xwCdwGuCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 793E113A6C;
-	Thu, 17 Jul 2025 10:07:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6wdwHHLLeGhFYwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 17 Jul 2025 10:07:46 +0000
-Date: Thu, 17 Jul 2025 12:07:46 +0200
-Message-ID: <87ecuf9ll9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Sharan Kumar Muthu Saravanan <sharweshraajan@gmail.com>,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable Mute LED on HP OMEN 16 Laptop xd000xx
-In-Reply-To: <87jz479m96.wl-tiwai@suse.de>
-References: <CAGo=CcK+aHAYVv=tS4frM07D8MCar1CHBy3r3eg1An16YCqk6g@mail.gmail.com>
-	<87jz479m96.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Hp8awFxx"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1752753501;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xA00jKif1Xuf/U1rsSjs5Phuq/bmyeN3v9XfSiZkCX0=;
+	b=Hp8awFxxYJS44VzcWpL9s0NNCpc4wJENQzB7wswBrKcAaKncIeFm7UkWaHc97p3N9uB/XL
+	k7X+Pj7r0RD1hY/pyh2D6F+IqsJbFy2WZL6Npyl/tgVjIFK7Y1ab8xrO2ao6IE50B7vtmo
+	qtHcX7uXNdK8x7JjAvwwa/D979GnoMQ=
+From: Troy Mitchell <troy.mitchell@linux.dev>
+Date: Thu, 17 Jul 2025 19:58:01 +0800
+Subject: [PATCH v2] ASoC: rockchip: i2s: simplify clock handling and error
+ cleanup in probe
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,suse.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 9F525216F2
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250717-rockchip-i2s-simplify-clk-v2-1-b697542a7c32@linux.dev>
+X-B4-Tracking: v=1; b=H4sIAEjleGgC/42NQQ6CMBBFr0Jm7Zh2KpK48h6EhbRTmYBAWm0gh
+ LtbOYHL95L//gaRg3CEW7FB4CRRpjEDnQqw3WN8MorLDKSoVJUmDJPtbSczCkWM8poH8SvaoUd
+ WlbqUlXet0ZD3c2Avy9Gum8ydxPcU1uMq6Z/9p5o0ajQtGe90a5iu90HGz3J2nKDZ9/0LrI/EU
+ 8IAAAA=
+X-Change-ID: 20250712-rockchip-i2s-simplify-clk-e070457fdb31
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Troy Mitchell <troy.mitchell@linux.dev>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752753489; l=4356;
+ i=troy.mitchell@linux.dev; s=20250712; h=from:subject:message-id;
+ bh=5U5+oKM9TS56skKvfyBUuonPmWf8aGSQ+l3JH2CKHPI=;
+ b=H3hkHMXg+LJmKavNAJi6r6t4igwPotof77JG4whPYAh5YKQkdHsjFaSDCELs6RIYLtRrQpeke
+ aK/5osgdscRDVYT5GW9fb2mt9rGyqmXcehKlwzBOhMHud0Y+c6hEvEE
+X-Developer-Key: i=troy.mitchell@linux.dev; a=ed25519;
+ pk=zhRP1xE0bftrurqSWI+SzcSdJGIZ0BTTY9Id0ESzqlI=
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 17 Jul 2025 11:53:25 +0200,
-Takashi Iwai wrote:
-> 
-> On Thu, 17 Jul 2025 05:02:19 +0200,
-> Sharan Kumar Muthu Saravanan wrote:
-> > 
-> > this patch is to fix my previous Commit e518230 i have fixed mute led
-> > but for by This patch corrects the coefficient mask value introduced
-> > in commit e518230, which was intended to enable the mute LED
-> > functionality. During testing, multiple values were evaluated, and an
-> > incorrect value was mistakenly included in the final commit. This
-> > update fixes that error by applying the correct mask value for proper
-> > mute LED behavior.
-> > 
-> > Tested on 6.15.5-arch1-1
-> > 
-> > Signed-off-by: M SHARAN KUMAR <sharweshraajan@gmail.com>
-> 
-> The patch is still not applicable cleanly.
-> Please try to fix the mailer setup and resubmit.  At best, test to
-> send a patch to yourself, and try to apply the patch by yourself,
-> before resubmitting.
-> 
-> Also, don't forget to add the proper Fixes tag pointing to the
-> commit.  It must be with 12 chars SHA1 ID followed by the commit
-> summary.  See Documentation/process/submitting-patches.rst for
-> details.
+Replace devm_clk_get + clk_prepare_enable with devm_clk_get_enabled
+to simplify clock acquisition and enabling.
 
-Last but not least: please use the proper subject line.
-The subject of this patch is *exactly* same as the commit you're
-trying to fix.  This patch isn't about enabling the mute LED; it's
-correcting the bug introduced by the previous patch.
+Use dev_err_probe for concise error logging and return handling,
+reducing boilerplate code and improving readability.
 
+Signed-off-by: Troy Mitchell <troy.mitchell@linux.dev>
+---
+Changes in v2:
+- Fix return value of regmap resource(robot's warning)
+- Link to v1: https://lore.kernel.org/r/20250712-rockchip-i2s-simplify-clk-v1-1-3b23fd1b3e26@linux.dev
+---
+ sound/soc/rockchip/rockchip_i2s.c | 52 +++++++++++----------------------------
+ 1 file changed, 15 insertions(+), 37 deletions(-)
 
-Takashi
+diff --git a/sound/soc/rockchip/rockchip_i2s.c b/sound/soc/rockchip/rockchip_i2s.c
+index 0a0a95b4f5204701b52ca924683d51c29992015d..1dba2d9b2241860a9d87dd4319b135dc249d8e17 100644
+--- a/sound/soc/rockchip/rockchip_i2s.c
++++ b/sound/soc/rockchip/rockchip_i2s.c
+@@ -31,7 +31,6 @@ struct rk_i2s_pins {
+ struct rk_i2s_dev {
+ 	struct device *dev;
+ 
+-	struct clk *hclk;
+ 	struct clk *mclk;
+ 
+ 	struct snd_dmaengine_dai_dma_data capture_dma_data;
+@@ -739,6 +738,7 @@ static int rockchip_i2s_probe(struct platform_device *pdev)
+ 	struct snd_soc_dai_driver *dai;
+ 	struct resource *res;
+ 	void __iomem *regs;
++	struct clk *clk;
+ 	int ret;
+ 
+ 	i2s = devm_kzalloc(&pdev->dev, sizeof(*i2s), GFP_KERNEL);
+@@ -757,38 +757,24 @@ static int rockchip_i2s_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	/* try to prepare related clocks */
+-	i2s->hclk = devm_clk_get(&pdev->dev, "i2s_hclk");
+-	if (IS_ERR(i2s->hclk)) {
+-		dev_err(&pdev->dev, "Can't retrieve i2s bus clock\n");
+-		return PTR_ERR(i2s->hclk);
+-	}
+-	ret = clk_prepare_enable(i2s->hclk);
+-	if (ret) {
+-		dev_err(i2s->dev, "hclock enable failed %d\n", ret);
+-		return ret;
+-	}
++	clk = devm_clk_get_enabled(&pdev->dev, "i2s_hclk");
++	if (IS_ERR(clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(clk), "hclock enable failed");
+ 
+ 	i2s->mclk = devm_clk_get(&pdev->dev, "i2s_clk");
+-	if (IS_ERR(i2s->mclk)) {
+-		dev_err(&pdev->dev, "Can't retrieve i2s master clock\n");
+-		ret = PTR_ERR(i2s->mclk);
+-		goto err_clk;
+-	}
++	if (IS_ERR(i2s->mclk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(i2s->mclk),
++				     "Can't retrieve i2s master clock");
+ 
+ 	regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+-	if (IS_ERR(regs)) {
+-		ret = PTR_ERR(regs);
+-		goto err_clk;
+-	}
++	if (IS_ERR(regs))
++		dev_err_probe(&pdev->dev, PTR_ERR(regs), "Can't ioremap registers");
+ 
+ 	i2s->regmap = devm_regmap_init_mmio(&pdev->dev, regs,
+ 					    &rockchip_i2s_regmap_config);
+-	if (IS_ERR(i2s->regmap)) {
+-		dev_err(&pdev->dev,
+-			"Failed to initialise managed register map\n");
+-		ret = PTR_ERR(i2s->regmap);
+-		goto err_clk;
+-	}
++	if (IS_ERR(i2s->regmap))
++		return dev_err_probe(&pdev->dev, PTR_ERR(i2s->regmap),
++				     "Failed to initialise managed register map");
+ 
+ 	i2s->bclk_ratio = 64;
+ 	i2s->pinctrl = devm_pinctrl_get(&pdev->dev);
+@@ -796,11 +782,9 @@ static int rockchip_i2s_probe(struct platform_device *pdev)
+ 		i2s->bclk_on = pinctrl_lookup_state(i2s->pinctrl, "bclk_on");
+ 		if (!IS_ERR_OR_NULL(i2s->bclk_on)) {
+ 			i2s->bclk_off = pinctrl_lookup_state(i2s->pinctrl, "bclk_off");
+-			if (IS_ERR_OR_NULL(i2s->bclk_off)) {
+-				dev_err(&pdev->dev, "failed to find i2s bclk_off\n");
+-				ret = -EINVAL;
+-				goto err_clk;
+-			}
++			if (IS_ERR_OR_NULL(i2s->bclk_off))
++				return dev_err_probe(&pdev->dev, -EINVAL,
++						     "failed to find i2s bclk_off");
+ 		}
+ 	} else {
+ 		dev_dbg(&pdev->dev, "failed to find i2s pinctrl\n");
+@@ -843,20 +827,14 @@ static int rockchip_i2s_probe(struct platform_device *pdev)
+ 		i2s_runtime_suspend(&pdev->dev);
+ err_pm_disable:
+ 	pm_runtime_disable(&pdev->dev);
+-err_clk:
+-	clk_disable_unprepare(i2s->hclk);
+ 	return ret;
+ }
+ 
+ static void rockchip_i2s_remove(struct platform_device *pdev)
+ {
+-	struct rk_i2s_dev *i2s = dev_get_drvdata(&pdev->dev);
+-
+ 	pm_runtime_disable(&pdev->dev);
+ 	if (!pm_runtime_status_suspended(&pdev->dev))
+ 		i2s_runtime_suspend(&pdev->dev);
+-
+-	clk_disable_unprepare(i2s->hclk);
+ }
+ 
+ static const struct dev_pm_ops rockchip_i2s_pm_ops = {
+
+---
+base-commit: 733923397fd95405a48f165c9b1fbc8c4b0a4681
+change-id: 20250712-rockchip-i2s-simplify-clk-e070457fdb31
+
+Best regards,
+-- 
+Troy Mitchell <troy.mitchell@linux.dev>
+
