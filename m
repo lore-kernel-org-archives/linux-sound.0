@@ -1,95 +1,131 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC864689;
-	Fri, 18 Jul 2025 06:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C3B15A85A;
+	Fri, 18 Jul 2025 07:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752821340; cv=none; b=PQbD4vCjR8swZxIk8202CRQFhpmkpVnyjrQ+WiOOp83DgVLVPQBdJtVrS9PuK9kM46OpEietO8BNAukgaASuxCgfudTBcf0nq0deh4GH1TZiQ8c9RBkeoa5jFTxwi+uKtEkVMNSJk6xwhb62VnQImHlbNJOvMEh9Tx/BMD0jlwA=
+	t=1752822203; cv=none; b=QHF1qLJnshn35fAz4LcAQbF8GCJUn7Fn0q6UwC+8oZgDawOrYnZLxUaLZhyyApid1a684SjKBWBLW8OO++9DstGMesTQ2YDPm2q7kSWIYfbRmN7UiHdhqU8TF2+YxAoImAF8kbNB+xcLQHRG00m2NLMGX2VTi1eQYZf3TvfK444=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752821340; c=relaxed/simple;
-	bh=Cam2JCWYE+AhdiTGpp3U6Crx7h/60ZtiTadCn/kFn8s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YBBgeNjN5OM9sf9n6mWrjKG7IV4/vVAbAjeUMZ7TUJWIXuxLVBfDQLGyPJEssH+7lUpfCsIQbfrSBpL1rx0qi96RDxmDdYF1Kb/64hvLZuIZ8iMerqQwmnJ7PBHtHSt3+QuSuHH7YUqLRDKwF7EeTkkYRbN7arwx32bBSvNqf8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KRN/SmZO; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1752822203; c=relaxed/simple;
+	bh=puaKflAZVbVMFD5nBiOHFXZGaU8XlaT+PCBxdLXAzy8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f/jQ4YQGY+HO9lMU9s4cogMqgEVGnIh1oFT41sI3Hh6mmjOUREYMVj/F8Qisw5BLsHJUzwISbwn3vn1Cp2WB8Pnap/WM654Ynlfo3jYrVlSFa3H130h6tDNZaPkgmdO8kswPJu/JBjDaTxaEvtSNBlZjfKe4eDjLNyaZ4Rwn0rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bfcoGcEb; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KRN/SmZO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1752821337;
-	bh=Cam2JCWYE+AhdiTGpp3U6Crx7h/60ZtiTadCn/kFn8s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KRN/SmZOi39TtZ/lXASxxb5Qni6eSNNQPO3baDCiGypeZZJhKjzPGD3xtRQRYUkun
-	 wmh4VOtikVfvOKzZa8FC9iG+lvMNS3Lrnp/HvgyPPyYFaYLNxjCVHmPv3rI7pl5KRm
-	 zsZKoN6TlFNnbw/bpRYtLASV8tSD/xgqi5PLNbntJwJFXtJ57oa2ur18mAUVFdiIyn
-	 S4ywV0fZuVkp8VRYa0Wz4RfWwhOKWY9wvNVyPKxkMDnXVapcsVt+lqZGOsXGuHlw1S
-	 oORvkkFizQq+/g81sLuU9dakw6gUaQr7YulurCn6ynWoXRQYgPc3gurI3R4HTAD6+t
-	 qN7GOGKlKQZdg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E818817E1544;
-	Fri, 18 Jul 2025 08:48:56 +0200 (CEST)
-Message-ID: <e9e60ce4-c8f4-45cf-9ac2-b147eabc3201@collabora.com>
-Date: Fri, 18 Jul 2025 08:48:56 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bfcoGcEb"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-451d54214adso12469835e9.3;
+        Fri, 18 Jul 2025 00:03:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752822200; x=1753427000; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q+AUdL6y+oK1soNQokvN825KQ8l33o9S+dTgZWuTu/I=;
+        b=bfcoGcEbgYj7s35b+fHmblm06FJiB8lhSqdANLpfvPJVZau6avGHVvXa2lTTUwyf/u
+         5ksIRys+xN6iYAVAYJYqm9I+RZByKRSVd6tpD1cAF9AgJz1q44eH0eXHBT0s7PmGkDuy
+         l2jL+9f1Krm4F8k1thMaiAWERjvASmJDycBus31LHUiqQGqnhwlunLVkBDGI8xP1A126
+         7KP+At/gGWk6Gl7Vz+xQoZzAW3fmOOPni1kWj9obITQJWf+BFL3p++ZcoI+JmyDNSpcV
+         UbLev0arEPlD/UdkZNJZ1ust4hhS+FmhaLDMjzvNIaYWNTQv5NzBmiu+CAeXmnXmIaOB
+         ezQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752822200; x=1753427000;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q+AUdL6y+oK1soNQokvN825KQ8l33o9S+dTgZWuTu/I=;
+        b=h7nl8XskKCzd1jcyMu2+56jwllkjoYZ+CSD/WrstNKNDZc1wiFC6ZmrjDZUpIH86Wz
+         bRKE1SbFk02tTfLxyYsXUu/As/sFH8Us4wv70bjI17m8kbTnE6Kz6EypLhnNxyPJ0wR5
+         sB8xcOp6WoXf62mzo0d+PTAWd61EplUCm1CpnT4iNjs2O1iBSHatastCOmVZwdVAU0Ok
+         z8D7wDBK5nzVA8OAlT4vFtTRD3RtDJ+dqIXTzGAEuYzE+L7+Wau3LCA3Qp3nzXvLj4mT
+         10ZX9zkqhY2wPQl8Q3WoBUlyQ57xmCunWGXSzbySyISVzwtJQMw206nq7IXlLp9wFDm7
+         0w1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUzr0SITjvxvMCys+H+rzHS34Drz+iGde9KdTP94Yj619d41ILz1NBRbmAWQfll5T9yD+hASJLHtEo1rq8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeoQq3h3SqwuofUGQM9ZTQVDMWZyw3agp+JVSjNzpFnoY17DgE
+	G2A+Evv49+8lwJEWGMdYufec8aPAmSecEC2XLPTYDNCK2RwSXyctBGBk4ELuFw==
+X-Gm-Gg: ASbGncvXT3BgZ1bKh223HiN0AHtvv+xPpEjHab3jKbVYTSNK4KRDJ+Ju0bjnHcr8wMQ
+	/z2kjAxKqtCHihd2BbxIlMmIdhsw7Qwb/tKB7u0/TKgnHzpLstzaM0wITX+FSEk7GwV3uqPicLf
+	uTVDtMFR8dsfs74eAFcBtV2HovFrKM1JL/+YiobGjmVDC1SWwraFRkyIspOPg6nYCc+FJGTTD/8
+	7KWv+VdqWIID3rswdc9eYzD1eiTsAvZ+sWuNWc5yFQ4lqzo99Qhg/s2S7cj/Qq04sE9pXGxXhRM
+	y6cufjM1VNLaeNWp+ftb6PHdx95tHTAdDDx1XNthjgvJsKUbSiYxHAI6w2hR4eVHn+gmbnDfBub
+	RWGppHMM77ksG7QyAvhs=
+X-Google-Smtp-Source: AGHT+IEK6IijGOqIAA8ZMcPq5fnNjR9guJvf40cs2kjl5V20dmhJxKF5UttQQH9/cJwfNk9EHtKe7Q==
+X-Received: by 2002:a05:600c:3b11:b0:456:11db:2f0f with SMTP id 5b1f17b1804b1-4563532c395mr52415055e9.16.1752822200153;
+        Fri, 18 Jul 2025 00:03:20 -0700 (PDT)
+Received: from pc.. ([102.208.164.18])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca4d786sm979063f8f.72.2025.07.18.00.03.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jul 2025 00:03:19 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Erick Karanja <karanja99erick@gmail.com>
+Subject: [PATCH v3] ALSA: usb: qcom: Adjust mutex unlock order
+Date: Fri, 18 Jul 2025 10:03:08 +0300
+Message-ID: <20250718070309.441282-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2] ASoC: mediatek: mt8365-dai-i2s: pass correct size to
- mt8365_dai_set_priv
-To: Guoqing Jiang <guoqing.jiang@canonical.com>, lgirdwood@gmail.com,
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com, amergnat@baylibre.com
-Cc: zoran.zhan@mediatek.com, linux-sound@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250710011806.134507-1-guoqing.jiang@canonical.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250710011806.134507-1-guoqing.jiang@canonical.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Il 10/07/25 03:18, Guoqing Jiang ha scritto:
-> Given mt8365_dai_set_priv allocate priv_size space to copy priv_data which
-> means we should pass mt8365_i2s_priv[i] or "struct mtk_afe_i2s_priv"
-> instead of afe_priv which has the size of "struct mt8365_afe_private".
-> 
-> Otherwise the KASAN complains about.
-> 
-> [   59.389765] BUG: KASAN: global-out-of-bounds in mt8365_dai_set_priv+0xc8/0x168 [snd_soc_mt8365_pcm]
-> ...
-> [   59.394789] Call trace:
-> [   59.395167]  dump_backtrace+0xa0/0x128
-> [   59.395733]  show_stack+0x20/0x38
-> [   59.396238]  dump_stack_lvl+0xe8/0x148
-> [   59.396806]  print_report+0x37c/0x5e0
-> [   59.397358]  kasan_report+0xac/0xf8
-> [   59.397885]  kasan_check_range+0xe8/0x190
-> [   59.398485]  asan_memcpy+0x3c/0x98
-> [   59.399022]  mt8365_dai_set_priv+0xc8/0x168 [snd_soc_mt8365_pcm]
-> [   59.399928]  mt8365_dai_i2s_register+0x1e8/0x2b0 [snd_soc_mt8365_pcm]
-> [   59.400893]  mt8365_afe_pcm_dev_probe+0x4d0/0xdf0 [snd_soc_mt8365_pcm]
-> [   59.401873]  platform_probe+0xcc/0x228
-> [   59.402442]  really_probe+0x340/0x9e8
-> [   59.402992]  driver_probe_device+0x16c/0x3f8
-> [   59.403638]  driver_probe_device+0x64/0x1d8
-> [   59.404256]  driver_attach+0x1dc/0x4c8
-> [   59.404840]  bus_for_each_dev+0x100/0x190
-> [   59.405442]  driver_attach+0x44/0x68
-> [   59.405980]  bus_add_driver+0x23c/0x500
-> [   59.406550]  driver_register+0xf8/0x3d0
-> [   59.407122]  platform_driver_register+0x68/0x98
-> [   59.407810]  mt8365_afe_pcm_driver_init+0x2c/0xff8 [snd_soc_mt8365_pcm]
-> 
-> Fixes: 402bbb13a195 ("ASoC: mediatek: mt8365: Add I2S DAI support")
-> Signed-off-by: Guoqing Jiang <guoqing.jiang@canonical.com>
+The mutexes qdev_mutex and chip->mutex are acquired in that order
+throughout the driver. To preserve proper lock hierarchy and avoid
+potential deadlocks, they must be released in the reverse
+order of acquisition.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+This change reorders the unlock sequence to first release chip->mutex
+followed by qdev_mutex, ensuring consistency with the locking pattern.
 
+Fixes: e2710ea98124 ("staging: sound: Adjust mutex unlock order")
+
+changes since v2:
+ - Use a proper subject prefix and add the fixes tag.
+
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
+ sound/usb/qcom/qc_audio_offload.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 3543b5a53592..711f5612a83a 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -825,8 +825,8 @@ static int uaudio_sideband_notifier(struct usb_interface *intf,
+ 		}
+ 	}
+ 
+-	mutex_unlock(&qdev_mutex);
+ 	mutex_unlock(&chip->mutex);
++	mutex_unlock(&qdev_mutex);
+ 
+ 	return 0;
+ }
+@@ -1865,8 +1865,8 @@ static void qc_usb_audio_offload_disconnect(struct snd_usb_audio *chip)
+ 
+ 	/* Device has already been cleaned up, or never populated */
+ 	if (!dev->chip) {
+-		mutex_unlock(&qdev_mutex);
+ 		mutex_unlock(&chip->mutex);
++		mutex_unlock(&qdev_mutex);
+ 		return;
+ 	}
+ 
+@@ -1921,8 +1921,8 @@ static void qc_usb_audio_offload_suspend(struct usb_interface *intf,
+ 
+ 	uaudio_send_disconnect_ind(chip);
+ 
++        mutex_unlock(&chip->mutex);
+ 	mutex_unlock(&qdev_mutex);
+-	mutex_unlock(&chip->mutex);
+ }
+ 
+ static struct snd_usb_platform_ops offload_ops = {
+-- 
+2.43.0
 
