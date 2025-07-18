@@ -1,89 +1,49 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8522BDC07
-	for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 10:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393C9A920;
+	Fri, 18 Jul 2025 12:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752835624; cv=none; b=GSHtnqjRoxP0rlT2lWuarzrlsrRxeM/uXk8d1mL7CfVAh24fSMEBfY0PrX8wgqjhKxz17+dvP+UqZloAFWwUs2EI8OijJ9VSFIisnb5l4zFi1Ts290IHNEogLjY6VDDcEx60/7FpPfl9Mlv4fYfEHRvpXL0lw8YglIffpQOFeG8=
+	t=1752840805; cv=none; b=ueKpgHvIxgzq94EEdQWZjKKCDQPoV9iR+2KHWfzx2vRieCC+5Z3liVBKJVFd28JHP3R4vZl6Uax89prYIfcDSCBhOuUXvTpGq5NnW1BS63mJmqpLV0JMb9N05nlGXvFyC0aSx8GdprIoeruu9TEvgYEfV0iMNnS/iAZnz3xkr5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752835624; c=relaxed/simple;
-	bh=07xKJikXxGu1w2IBiBwoPMNnpKvLi5WoDtQv5e+L78c=;
+	s=arc-20240116; t=1752840805; c=relaxed/simple;
+	bh=9aYmhdKBkoYIXl3s7VlejF7/r+ARoRDQGRosO1s/z+8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DeJv6OEaMfLZEvm65ssHJS3efXRnaRemcySb3PR96mzil8s05fJ8lydo2ygWJkSY8M0QP+ge+P0iAmTD+tdgrHyj7nG8mVRiaUO19zqe4egXI7cKS26BGE0CJpYhfje/+K6inWXoh0r6GOEsUfCMARJDgIhB9a2hiYmInS5iD+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cCYYvp6R; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cCYYvp6R"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56I8aDJ6021792
-	for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 10:47:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=9mQquBEnOIM
-	1hitS0Sq3r6vjyWp9aN4ghWgwERH+4ko=; b=cCYYvp6RajTA8TLsMx0HU96crzf
-	YnFxfkM72TcuQJcFOTmBVzxe72WoldYHDS1O1q3PoBJ91dJz5JCtwPu2hjXq24wz
-	NXP/kf7H4hOW4+BAF9P0vUOb/z0JjCoU7s2JWEqlq/8LsPdy6J3V489H8m5qc8KU
-	rZUo1yIAHZbPrq0imyNXcVKWa+LM2YbYG+3lvRXS+A6UrYt9/59vnVwuWXXx4+g8
-	CY2PIcR4FLp3BDil7WP3aH0vSQW05MeK9ZA9VcZrwBoSnSwD79uno5aMR0v3thIW
-	5m8JmXK9LL5Mdo3dUsjwXJx82UOK9DjOdJSLW3EQxK+N/bLiIpcat2rLxtA==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufu8k0wy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 10:47:01 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-7489ac848f3so3100924b3a.1
-        for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 03:47:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752835620; x=1753440420;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9mQquBEnOIM1hitS0Sq3r6vjyWp9aN4ghWgwERH+4ko=;
-        b=bIwycBSgsecUUXTbfuKAvcEcciY1SBxavFxsYkWaPid1zxDkwXgTxZHoFxUtWSo6AM
-         yMK+Z9IiyjB6d66tS/av3hLiKPhFLacBU7iCDN3s12x9zWPqezyTSSlHJ3SxxvKywdiR
-         xZRZ3t44sc35EHNx9CZ9YB7DSENuXk+sxBgJPjr1nOresRBGkfwGUP+0v/rsIXmtssaJ
-         kXaffPK9Beyn/DmGurd0WIXmbV9ayZZat/KReniwZLj+GmNNsli5qL4qT5hXUWGjsMX3
-         +6FCEgECdY5v8DziO41Wgtw7o6EAAiV0GeTa3hs0rNPtBO9Cv90WYcUEmwzewRb6bahI
-         TEhg==
-X-Forwarded-Encrypted: i=1; AJvYcCWX2FFvrs6EaGrQa4dDHshcmj7JIBlmV/cN2RIpa2al67fs8zJceKW9oPOTjJ8KmuszIw4+KBq+o12jXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7AtiKTrjIkiU+h/QX2rnVjrgVKpPw5WjHwg/Nq3qgd65ojYEU
-	3ver8Yt11mUduMAzbgFGyMZSb1upfRPLP2eYQcdg+iHONiPtKozaScb6RNZcqMN0vmE30vx4kGO
-	PrY0G7V7d0gdEwqcY2/f4X9gBd4s0a3jtDDC8gxP/raqBMnGMpGF+9pUOnster6yoCg==
-X-Gm-Gg: ASbGncvjxLwa229+S2oohGdtHnDe4RtZG/OHPOhE/7AikK1rCxsecz6fCjQNP9pyqtL
-	QsuOCETWaVviNGtgaf4QP7S6UW7bSwSRE9Y0OOthWP2Jq9YdYmEpRywHNBknWvoWc6tL4DROcI+
-	ea7Ze8WMCsfXwEM9c0MQzD6w5pwSSKcby25wvkLJFW2THVGLiyvkqcQUsFMSUN+dJlh09M3ymw+
-	HBYFAmXEKIIGGrFpot7FF0YpVBcKiv+kXN8pludF1eAKdjvqEzPCHxJGBsVWtUOdCdptMHpriuN
-	VrUU14XLFuUvZPzwHmOXGmE6yvSrjK/5hnou8CPO3Hz+gjH90lcOhItxbMNPA8FLdishCTl2GvK
-	O
-X-Received: by 2002:a05:6a00:3c8e:b0:742:b3a6:db16 with SMTP id d2e1a72fcca58-7572568553fmr14265463b3a.20.1752835619921;
-        Fri, 18 Jul 2025 03:46:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHCP8U1oTauA1NU8UmQ02YT/Qr/1dew6KPieiLsIUCV2VzGU/buEHCG47Bit1Kl9IaTNIxOzw==
-X-Received: by 2002:a05:6a00:3c8e:b0:742:b3a6:db16 with SMTP id d2e1a72fcca58-7572568553fmr14265410b3a.20.1752835619420;
-        Fri, 18 Jul 2025 03:46:59 -0700 (PDT)
-Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb678cdbsm1028989b3a.108.2025.07.18.03.46.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 03:46:59 -0700 (PDT)
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
-        kernel@oss.qualcomm.com
-Subject: [PATCH v2 2/2] ASoC: codecs: wsa883x: Handle shared reset GPIO for WSA883x speakers
-Date: Fri, 18 Jul 2025 16:16:28 +0530
-Message-Id: <20250718104628.3732645-3-mohammad.rafi.shaik@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250718104628.3732645-1-mohammad.rafi.shaik@oss.qualcomm.com>
-References: <20250718104628.3732645-1-mohammad.rafi.shaik@oss.qualcomm.com>
+	 MIME-Version; b=DTIP+iis1lK1NnLX1TRMRcY6hLND0Wx1LkM1tWbyzIaNcVpKZ9WBYqEvaxqo7H/EiQ8CWPoToFnJ7uP++xP7pOintEZ1VTm1Au4LWTwvl4s8vOhEXJk0Mnn4xi8nxn9lqRgCICJs/wCNGiN7ii6hweSiehXirJeCKqXsmLzTEyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=18.169.211.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
+X-QQ-mid: esmtpsz21t1752840753t751beee9
+X-QQ-Originating-IP: N1JajgXQyO6oNjFk97Ss5IwqYS1VcUt8/PSpJz1MrQU=
+Received: from localhost.localdomain ( [113.89.232.166])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 18 Jul 2025 20:12:32 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 3730004231724635807
+EX-QQ-RecipientCnt: 14
+From: Nick <nick.li@foursemi.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	nick.li@foursemi.com
+Cc: xiaoming.yang@foursemi.com,
+	danyang.zheng@foursemi.com,
+	like.xy@foxmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 3/4] ASoC: codecs: Add library for FourSemi audio amplifiers
+Date: Fri, 18 Jul 2025 20:12:20 +0800
+Message-Id: <20250718121221.76957-4-nick.li@foursemi.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250718121221.76957-1-nick.li@foursemi.com>
+References: <20250718121221.76957-1-nick.li@foursemi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -91,185 +51,511 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDA4NCBTYWx0ZWRfX0A+pAiBPsefG
- hlmIPHuapvxjDaOcss/V+YnhLWXLrbxoht4EEFV5xJjjM0laj2/cLMjJ3MNWJ1MAKtdGynU1WyE
- 7lbSFG5U1scilggel3a3NUY0zAEybI8WWFtlux8jCtpc4SauSzcUHMlojeib0bsBYdq5d1+G84F
- K9O78hSFYK4wM45HgLk5qv+1u+RGVi3Ekgrd7Xv88gY/hrzxGK/Mb5iYv1dYh0qJ+mFYp9OSIlO
- EEkMWerL8kUJK54c/TL64j51jbnvAke7Rcg1SpZldeKWWcAjFVKOvf7JlsoaW1Y5l+WXe9xG8qw
- FFiYJvyErseuIcOAvBbSP7JPoB2jSu1f9tbB0Ll/XDcbw0o2uXeTFkctbwGLMluMq7uab2hMHQu
- Dxo4p0dSlnhvIRVssHwO2lr+saGlY9A9X16P0nNDiAVMH3v3PtrrB1JxfooBM2Uig57LkOZr
-X-Proofpoint-ORIG-GUID: cyB-pEDj-MFQAzh83Z6zQUay8DR1STEr
-X-Proofpoint-GUID: cyB-pEDj-MFQAzh83Z6zQUay8DR1STEr
-X-Authority-Analysis: v=2.4 cv=f59IBPyM c=1 sm=1 tr=0 ts=687a2625 cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=JpXIU2bkfXmfP1Z-X1EA:9
- a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-18_02,2025-07-17_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 malwarescore=0 spamscore=0 mlxscore=0
- bulkscore=0 suspectscore=0 impostorscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=999 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507180084
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: NZm4dNHzd8izXyOxduCInuGuH7Rg0V/KaacqB3DDR4r0oI+YNOf4asAQ
+	3GIRDrjlmWL4yP8x4c9hScfWQlr5ufhuqCFkHwYZLNIook/rwsI/SbDvyyD2v5jhyQcyfUf
+	gBszu6jpzmXl58AbnXfoz+WgDW3yNu0+fc3gqdLgKqWHga65kAIXOxIHOwBFrcf7j1gZ+Wk
+	oKIKzxqOaVMdYqLGz7QzoZaRm/DIfow3WafJ15nCAWXderpkffg/kDCI8KuFOhrjFMof68R
+	zTLm5f69PW/wpF6weMRZ/HbyE27jzfxzc0DB5SXzrYVAJFekS5lsWZ0uxET0aW+SXeNdjiF
+	m3eT0ugxSaZT/LAsqavGuUEfujoygpmK3dokvYhDVi3jMYTxjdmLKQiYNNeFm6PxkA0uMJ8
+	xQS+Zb9xdZ4DWs1qjqddXtmUhqNtWP3okmoza2qSM2dfpc24l1e7G1p+Iomzn+IC+i4G/vd
+	qVzwxgH+RHNojvb8uAZjgInMqBP10HdnzkpOX396C+Ft2Kv988WyGLjLau/94idWk0x0EDF
+	nMX6HVm/8q9zca2IjzeIDUiwARVENJOmbhPwxE4bxDXO2Mk+GK/dTHlNl+FFecy2SRpdguR
+	I/QVGzdOFWxq7RKg7ZAFxhL13PLgXEy43TmKLoJKxRjVBBS98ojdoHPTudjg8nqTeAwl2//
+	aRpGanZryiH2sX1pRcyIJGb7tl4yyciU08ylKLNMMC/UtZkREwlfOu7wlRdBjLqvQc6W4mU
+	oaADoFKkBOlVPURExPOqNwhJX8r8NJiMN+rKEz0Q8n1kkDH9vU9WF2YJrBF1x8VNxl2cFlK
+	WS58SSvI6Or5uxiWjKpuZraTsgrDJA03dZVSLM2NYn8fVoDNugd9qfwLz+a78M8Ar1zJ25W
+	vHB04KHIN+sgVBIBhlW2vv8IxR4D88ubly1ahnBXfAeG4bQ79W0BIYXofeQJH3UbrW4+o1Z
+	sYBHAnbKYkQThFGEIh7E65fWmkF6AKdMHxvjSa84KuAG6E2LjoIXy/rlPtmnrfBbHhNsMh0
+	586EmnhCwbP+ZE5E2QzNVWlyxl2sAFqEjD34TZ7DYEO8+YMJAuovDSlf2gqNho5tAeoXVFJ
+	bo5ELixk1bpVLymHZJDCYpS32ypeF7CgsVnoSaJO+s/d5pLWsSeI/Sve7gtxCecJg==
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 
-On some Qualcomm platforms such as QCS6490-RB3Gen2, the multiple
-WSA8830/WSA8835 speakers share a common reset (shutdown) GPIO.
-To handle such cases, use the reset controller framework along
-with the "reset-gpio" driver.
+From: Nick Li <nick.li@foursemi.com>
 
-Register devm action to safely disable the regulator on device removal
-to prevents a potential release warning from _regulator_put().
+This patch adds firmware loading and parsing support for FourSemi audio
+amplifiers. The library handles firmware file (*.bin) generated by the
+FourSemi tuning tool, which contains:
+- Register initialization settings
+- DSP effect parameters
+- Multi-scene sound effect switching configurations(optional)
 
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+The firmware is required for proper initialization and configuration
+of FourSemi amplifier devices.
+
+Signed-off-by: Nick Li <nick.li@foursemi.com>
 ---
- sound/soc/codecs/wsa883x.c | 93 +++++++++++++++++++++++++++++---------
- 1 file changed, 71 insertions(+), 22 deletions(-)
+ sound/soc/codecs/Kconfig      |   3 +
+ sound/soc/codecs/Makefile     |   2 +
+ sound/soc/codecs/fs-amp-lib.c | 265 ++++++++++++++++++++++++++++++++++
+ sound/soc/codecs/fs-amp-lib.h | 150 +++++++++++++++++++
+ 4 files changed, 420 insertions(+)
+ create mode 100644 sound/soc/codecs/fs-amp-lib.c
+ create mode 100644 sound/soc/codecs/fs-amp-lib.h
 
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index 188363b03b93..eea160a08183 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -14,6 +14,7 @@
- #include <linux/printk.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
- #include <linux/slab.h>
- #include <linux/soundwire/sdw.h>
- #include <linux/soundwire/sdw_registers.h>
-@@ -468,6 +469,7 @@ struct wsa883x_priv {
- 	struct sdw_stream_runtime *sruntime;
- 	struct sdw_port_config port_config[WSA883X_MAX_SWR_PORTS];
- 	struct gpio_desc *sd_n;
-+	struct reset_control *sd_reset;
- 	bool port_prepared[WSA883X_MAX_SWR_PORTS];
- 	bool port_enable[WSA883X_MAX_SWR_PORTS];
- 	int active_ports;
-@@ -1546,6 +1548,53 @@ static const struct hwmon_chip_info wsa883x_hwmon_chip_info = {
- 	.info	= wsa883x_hwmon_info,
- };
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 4494e7cd6..6265cc897 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -1238,6 +1238,9 @@ config SND_SOC_FRAMER
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called snd-soc-framer.
  
-+static void wsa883x_reset_assert(void *data)
-+{
-+	struct wsa883x_priv *wsa883x = data;
++config SND_SOC_FS_AMP_LIB
++	select CRC16
++	tristate
+ 
+ config SND_SOC_GTM601
+ 	tristate 'GTM601 UMTS modem audio codec'
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index c497d343d..9afce9aa6 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -137,6 +137,7 @@ snd-soc-es8328-spi-y := es8328-spi.o
+ snd-soc-es8375-y := es8375.o
+ snd-soc-es8389-y := es8389.o
+ snd-soc-framer-y := framer-codec.o
++snd-soc-fs-amp-lib-y := fs-amp-lib.o
+ snd-soc-gtm601-y := gtm601.o
+ snd-soc-hdac-hdmi-y := hdac_hdmi.o
+ snd-soc-hdac-hda-y := hdac_hda.o
+@@ -561,6 +562,7 @@ obj-$(CONFIG_SND_SOC_ES8328_SPI)+= snd-soc-es8328-spi.o
+ obj-$(CONFIG_SND_SOC_ES8375)    += snd-soc-es8375.o
+ obj-$(CONFIG_SND_SOC_ES8389)    += snd-soc-es8389.o
+ obj-$(CONFIG_SND_SOC_FRAMER)	+= snd-soc-framer.o
++obj-$(CONFIG_SND_SOC_FS_AMP_LIB)+= snd-soc-fs-amp-lib.o
+ obj-$(CONFIG_SND_SOC_GTM601)    += snd-soc-gtm601.o
+ obj-$(CONFIG_SND_SOC_HDAC_HDMI) += snd-soc-hdac-hdmi.o
+ obj-$(CONFIG_SND_SOC_HDAC_HDA) += snd-soc-hdac-hda.o
+diff --git a/sound/soc/codecs/fs-amp-lib.c b/sound/soc/codecs/fs-amp-lib.c
+new file mode 100644
+index 000000000..75d8d5082
+--- /dev/null
++++ b/sound/soc/codecs/fs-amp-lib.c
+@@ -0,0 +1,265 @@
++// SPDX-License-Identifier: GPL-2.0+
++//
++// fs-amp-lib.c --- Common library for FourSemi Audio Amplifiers
++//
++// Copyright (C) 2016-2025 Shanghai FourSemi Semiconductor Co.,Ltd.
 +
-+	if (wsa883x->sd_reset)
-+		reset_control_assert(wsa883x->sd_reset);
++#include <linux/crc16.h>
++#include <linux/device.h>
++#include <linux/firmware.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++
++#include "fs-amp-lib.h"
++
++static int fs_get_scene_count(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_fwm_table *table;
++	int count;
++
++	if (!amp_lib || !amp_lib->dev)
++		return -EINVAL;
++
++	table = amp_lib->table[FS_INDEX_SCENE];
++	if (!table)
++		return -EFAULT;
++
++	count = table->size / sizeof(struct fs_scene_index);
++	if (count < 1 || count > FS_SCENE_COUNT_MAX) {
++		dev_err(amp_lib->dev, "Invalid scene count: %d\n", count);
++		return -ERANGE;
++	}
++
++	return count;
++}
++
++static void fs_get_fwm_string(struct fs_amp_lib *amp_lib,
++			      int offset, const char **pstr)
++{
++	const struct fs_fwm_table *table;
++
++	if (!amp_lib || !amp_lib->dev || !pstr)
++		return;
++
++	table = amp_lib->table[FS_INDEX_STRING];
++	if (table && offset > 0 && offset < table->size + sizeof(*table))
++		*pstr = (char *)table + offset;
 +	else
-+		gpiod_direction_output(wsa883x->sd_n, 1);
++		*pstr = NULL;
 +}
 +
-+static void wsa883x_reset_deassert(struct wsa883x_priv *wsa883x)
++static void fs_get_scene_reg(struct fs_amp_lib *amp_lib,
++			     int offset, struct fs_amp_scene *scene)
 +{
-+	if (wsa883x->sd_reset)
-+		reset_control_deassert(wsa883x->sd_reset);
++	const struct fs_fwm_table *table;
++
++	if (!amp_lib || !amp_lib->dev || !scene)
++		return;
++
++	table = amp_lib->table[FS_INDEX_REG];
++	if (table && offset > 0 && offset < table->size + sizeof(*table))
++		scene->reg = (struct fs_reg_table *)((char *)table + offset);
 +	else
-+		gpiod_direction_output(wsa883x->sd_n, 0);
++		scene->reg = NULL;
 +}
 +
-+static void wsa883x_regulator_disable(void *data)
++static void fs_get_scene_model(struct fs_amp_lib *amp_lib,
++			       int offset, struct fs_amp_scene *scene)
 +{
-+	struct wsa883x_priv *wsa883x = data;
++	const struct fs_fwm_table *table;
++	const char *ptr;
 +
-+	regulator_disable(wsa883x->vdd);
++	if (!amp_lib || !amp_lib->dev || !scene)
++		return;
++
++	table = amp_lib->table[FS_INDEX_MODEL];
++	ptr = (char *)table;
++	if (table && offset > 0 && offset < table->size + sizeof(*table))
++		scene->model = (struct fs_file_table *)(ptr + offset);
++	else
++		scene->model = NULL;
 +}
 +
-+static int wsa883x_get_reset(struct device *dev, struct wsa883x_priv *wsa883x)
++static void fs_get_scene_effect(struct fs_amp_lib *amp_lib,
++				int offset, struct fs_amp_scene *scene)
 +{
-+	wsa883x->sd_reset = devm_reset_control_get_optional_shared_deasserted(dev, NULL);
-+	if (IS_ERR(wsa883x->sd_reset))
-+		return dev_err_probe(dev, PTR_ERR(wsa883x->sd_reset),
-+				     "Failed to get reset\n");
-+	/*
-+	 * if sd_reset: NULL, so use the backwards compatible way for powerdown-gpios,
-+	 * which does not handle sharing GPIO properly.
-+	 */
-+	if (!wsa883x->sd_reset) {
-+		wsa883x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
-+							GPIOD_FLAGS_BIT_NONEXCLUSIVE |
-+							GPIOD_OUT_HIGH);
-+		if (IS_ERR(wsa883x->sd_n))
-+			return dev_err_probe(dev, PTR_ERR(wsa883x->sd_n),
-+					     "Shutdown Control GPIO not found\n");
++	const struct fs_fwm_table *table;
++	const char *ptr;
++
++	if (!amp_lib || !amp_lib->dev || !scene)
++		return;
++
++	table = amp_lib->table[FS_INDEX_EFFECT];
++	ptr = (char *)table;
++	if (table && offset > 0 && offset < table->size + sizeof(*table))
++		scene->effect = (struct fs_file_table *)(ptr + offset);
++	else
++		scene->effect = NULL;
++}
++
++static int fs_parse_scene_tables(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_scene_index *scene_index;
++	const struct fs_fwm_table *table;
++	struct fs_amp_scene *scene;
++	int idx, count;
++
++	if (!amp_lib || !amp_lib->dev)
++		return -EINVAL;
++
++	count = fs_get_scene_count(amp_lib);
++	if (count <= 0)
++		return -EFAULT;
++
++	scene = devm_kzalloc(amp_lib->dev, count * sizeof(*scene), GFP_KERNEL);
++	if (!scene)
++		return -ENOMEM;
++
++	amp_lib->scene_count = count;
++	amp_lib->scene = scene;
++
++	table = amp_lib->table[FS_INDEX_SCENE];
++	scene_index = (struct fs_scene_index *)table->buf;
++
++	for (idx = 0; idx < count; idx++) {
++		fs_get_fwm_string(amp_lib, scene_index->name, &scene->name);
++		if (!scene->name)
++			scene->name = devm_kasprintf(amp_lib->dev,
++						     GFP_KERNEL, "S%d", idx);
++		dev_dbg(amp_lib->dev, "scene.%d name: %s\n", idx, scene->name);
++		fs_get_scene_reg(amp_lib, scene_index->reg, scene);
++		fs_get_scene_model(amp_lib, scene_index->model, scene);
++		fs_get_scene_effect(amp_lib, scene_index->effect, scene);
++		scene++;
++		scene_index++;
 +	}
 +
 +	return 0;
 +}
 +
- static int wsa883x_probe(struct sdw_slave *pdev,
- 			 const struct sdw_device_id *id)
- {
-@@ -1566,13 +1615,18 @@ static int wsa883x_probe(struct sdw_slave *pdev,
- 	if (ret)
- 		return dev_err_probe(dev, ret, "Failed to enable vdd regulator\n");
- 
--	wsa883x->sd_n = devm_gpiod_get_optional(dev, "powerdown",
--						GPIOD_FLAGS_BIT_NONEXCLUSIVE | GPIOD_OUT_HIGH);
--	if (IS_ERR(wsa883x->sd_n)) {
--		ret = dev_err_probe(dev, PTR_ERR(wsa883x->sd_n),
--				    "Shutdown Control GPIO not found\n");
--		goto err;
--	}
-+	ret = wsa883x_get_reset(dev, wsa883x);
-+	if (ret)
-+		return ret;
++static int fs_parse_all_tables(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_fwm_table *table;
++	const struct fs_fwm_index *index;
++	const char *ptr;
++	int idx, count;
++	int ret;
 +
-+	/*
-+	 * Register devm action to safely disable the regulator on device removal.
-+	 * This prevents a potential release warning from _regulator_put().
-+	 */
-+	ret = devm_add_action_or_reset(dev, wsa883x_regulator_disable,
-+				       wsa883x);
-+	if (ret)
-+		return ret;
- 
- 	dev_set_drvdata(dev, wsa883x);
- 	wsa883x->slave = pdev;
-@@ -1595,15 +1649,16 @@ static int wsa883x_probe(struct sdw_slave *pdev,
- 	pdev->prop.simple_clk_stop_capable = true;
- 	pdev->prop.sink_dpn_prop = wsa_sink_dpn_prop;
- 	pdev->prop.scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
--	gpiod_direction_output(wsa883x->sd_n, 0);
++	if (!amp_lib || !amp_lib->dev || !amp_lib->hdr)
++		return -EINVAL;
 +
-+	wsa883x_reset_deassert(wsa883x);
-+	ret = devm_add_action_or_reset(dev, wsa883x_reset_assert, wsa883x);
++	/* Parse all fwm tables */
++	table = (struct fs_fwm_table *)amp_lib->hdr->params;
++	index = (struct fs_fwm_index *)table->buf;
++	count = table->size / sizeof(*index);
++
++	for (idx = 0; idx < count; idx++, index++) {
++		if (index->type >= FS_INDEX_MAX)
++			return -ERANGE;
++		ptr = (char *)table + (int)index->offset;
++		amp_lib->table[index->type] = (struct fs_fwm_table *)ptr;
++	}
++
++	/* Parse all scene tables */
++	ret = fs_parse_scene_tables(amp_lib);
 +	if (ret)
++		dev_err(amp_lib->dev, "Failed to parse scene: %d\n", ret);
++
++	return ret;
++}
++
++static int fs_verify_firmware(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_fwm_header *hdr;
++	int crcsum;
++
++	if (!amp_lib || !amp_lib->dev || !amp_lib->hdr)
++		return -EINVAL;
++
++	hdr = amp_lib->hdr;
++
++	/* Verify the crcsum code */
++	crcsum = crc16(0x0000, (const char *)&hdr->crc_size, hdr->crc_size);
++	if (crcsum != hdr->crc16) {
++		dev_err(amp_lib->dev, "Failed to checksum: %x-%x\n",
++			crcsum, hdr->crc16);
++		return -EFAULT;
++	}
++
++	/* Verify the devid(chip_type) */
++	if (amp_lib->devid != LO_U16(hdr->chip_type)) {
++		dev_err(amp_lib->dev, "DEVID dismatch: %04X#%04X\n",
++			amp_lib->devid, hdr->chip_type);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void fs_print_firmware_info(struct fs_amp_lib *amp_lib)
++{
++	const struct fs_fwm_header *hdr;
++	const char *pro_name = NULL;
++	const char *dev_name = NULL;
++
++	if (!amp_lib || !amp_lib->dev || !amp_lib->hdr)
++		return;
++
++	hdr = amp_lib->hdr;
++
++	fs_get_fwm_string(amp_lib, hdr->project, &pro_name);
++	fs_get_fwm_string(amp_lib, hdr->device, &dev_name);
++
++	dev_info(amp_lib->dev, "Project: %s Device: %s\n",
++		 pro_name ? pro_name : "null",
++		 dev_name ? dev_name : "null");
++
++	dev_info(amp_lib->dev, "Date: %04d%02d%02d-%02d%02d\n",
++		 hdr->date.year, hdr->date.month, hdr->date.day,
++		 hdr->date.hour, hdr->date.minute);
++}
++
++int fs_amp_load_firmware(struct fs_amp_lib *amp_lib, const char *name)
++{
++	const struct firmware *cont;
++	struct fs_fwm_header *hdr;
++	int ret;
++
++	if (!amp_lib || !amp_lib->dev || !name)
++		return -EINVAL;
++
++	ret = request_firmware(&cont, name, amp_lib->dev);
++	if (ret) {
++		dev_err(amp_lib->dev, "Failed to request %s: %d\n", name, ret);
 +		return ret;
- 
- 	wsa883x->regmap = devm_regmap_init_sdw(pdev, &wsa883x_regmap_config);
--	if (IS_ERR(wsa883x->regmap)) {
--		gpiod_direction_output(wsa883x->sd_n, 1);
--		ret = dev_err_probe(dev, PTR_ERR(wsa883x->regmap),
--				    "regmap_init failed\n");
--		goto err;
--	}
-+	if (IS_ERR(wsa883x->regmap))
-+		return dev_err_probe(dev, PTR_ERR(wsa883x->regmap),
-+				     "regmap_init failed\n");
- 
- 	if (IS_REACHABLE(CONFIG_HWMON)) {
- 		struct device *hwmon;
-@@ -1623,16 +1678,10 @@ static int wsa883x_probe(struct sdw_slave *pdev,
- 	pm_runtime_set_active(dev);
- 	pm_runtime_enable(dev);
- 
--	ret = devm_snd_soc_register_component(dev,
--					      &wsa883x_component_drv,
-+	return devm_snd_soc_register_component(dev,
-+					       &wsa883x_component_drv,
- 					       wsa883x_dais,
- 					       ARRAY_SIZE(wsa883x_dais));
--err:
--	if (ret)
--		regulator_disable(wsa883x->vdd);
--
--	return ret;
--
- }
- 
- static int wsa883x_runtime_suspend(struct device *dev)
++	}
++
++	dev_info(amp_lib->dev, "Loading %s - size: %zu\n", name, cont->size);
++
++	hdr = devm_kmemdup(amp_lib->dev, cont->data, cont->size, GFP_KERNEL);
++	release_firmware(cont);
++	if (!hdr)
++		return -ENOMEM;
++
++	amp_lib->hdr = hdr;
++	ret = fs_verify_firmware(amp_lib);
++	if (ret) {
++		amp_lib->hdr = NULL;
++		return ret;
++	}
++
++	ret = fs_parse_all_tables(amp_lib);
++	if (ret) {
++		amp_lib->hdr = NULL;
++		return ret;
++	}
++
++	fs_print_firmware_info(amp_lib);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(fs_amp_load_firmware);
++
++MODULE_AUTHOR("Nick Li <nick.li@foursemi.com>");
++MODULE_DESCRIPTION("FourSemi audio amplifier library");
++MODULE_LICENSE("GPL");
+diff --git a/sound/soc/codecs/fs-amp-lib.h b/sound/soc/codecs/fs-amp-lib.h
+new file mode 100644
+index 000000000..4a77c7b38
+--- /dev/null
++++ b/sound/soc/codecs/fs-amp-lib.h
+@@ -0,0 +1,150 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * fs-amp-lib.h --- Common library for FourSemi Audio Amplifiers
++ *
++ * Copyright (C) 2016-2025 Shanghai FourSemi Semiconductor Co.,Ltd.
++ */
++
++#ifndef __FS_AMP_LIB_H__
++#define __FS_AMP_LIB_H__
++
++#define HI_U16(a)		(((a) >> 8) & 0xFF)
++#define LO_U16(a)		((a) & 0xFF)
++#define FS_TABLE_NAME_LEN	(4)
++#define FS_SCENE_COUNT_MAX	(16)
++#define FS_CMD_DELAY_MS_MAX	(100) /* 100ms */
++
++#define FS_CMD_DELAY		(0xFF)
++#define FS_CMD_BURST		(0xFE)
++#define FS_CMD_UPDATE		(0xFD)
++
++#define FS_SOC_ENUM_EXT(xname, xhandler_info, xhandler_get, xhandler_put) \
++{	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
++	.info = xhandler_info, \
++	.get = xhandler_get, .put = xhandler_put \
++}
++
++enum fs_index_type {
++	FS_INDEX_INFO = 0,
++	FS_INDEX_STCOEF,
++	FS_INDEX_SCENE,
++	FS_INDEX_MODEL,
++	FS_INDEX_REG,
++	FS_INDEX_EFFECT,
++	FS_INDEX_STRING,
++	FS_INDEX_WOOFER,
++	FS_INDEX_MAX,
++};
++
++#pragma pack(push, 1)
++
++struct fs_reg_val {
++	u8 reg;
++	u16 val;
++};
++
++struct fs_reg_bits {
++	u8 cmd; /* FS_CMD_UPDATE */
++	u8 reg;
++	u16 val;
++	u16 mask;
++};
++
++struct fs_cmd_pkg {
++	union {
++		u8 cmd;
++		struct fs_reg_val regv;
++		struct fs_reg_bits regb;
++	};
++};
++
++struct fs_fwm_index {
++	/* Index type */
++	u16 type;
++	/* Offset address starting from the end of header */
++	u16 offset;
++};
++
++struct fs_fwm_table {
++	char name[FS_TABLE_NAME_LEN];
++	u16 size; /* size of buf */
++	u8 buf[];
++};
++
++struct fs_scene_index {
++	/* Offset address(scene name) in string table */
++	u16 name;
++	/* Offset address(scene reg) in register table */
++	u16 reg;
++	/* Offset address(scene model) in model table */
++	u16 model;
++	/* Offset address(scene effect) in effect table */
++	u16 effect;
++};
++
++struct fs_reg_table {
++	u16 size; /* size of buf */
++	u8 buf[];
++};
++
++struct fs_file_table {
++	u16 name;
++	u16 size; /* size of buf */
++	u8 buf[];
++};
++
++struct fs_fwm_date {
++	u32 year:12;
++	u32 month:4;
++	u32 day:5;
++	u32 hour:5;
++	u32 minute:6;
++};
++
++struct fs_fwm_header {
++	u16 version;
++	u16 project; /* Offset address(project name) in string table */
++	u16 device; /* Offset address(device name) in string table */
++	struct fs_fwm_date date;
++	u16 crc16;
++	u16 crc_size; /* Starting position for CRC checking */
++	u16 chip_type;
++	u16 addr; /* 7-bit i2c address */
++	u16 spkid;
++	u16 rsvd[6];
++	u8 params[];
++};
++
++#pragma pack(pop)
++
++struct fs_i2s_srate {
++	u32 srate; /* Sample rate */
++	u16 i2ssr; /* Value of Bit field[I2SSR] */
++};
++
++struct fs_pll_div {
++	unsigned int bclk; /* Rate of bit clock */
++	u16 pll1;
++	u16 pll2;
++	u16 pll3;
++};
++
++struct fs_amp_scene {
++	const char *name;
++	const struct fs_reg_table  *reg;
++	const struct fs_file_table *model;
++	const struct fs_file_table *effect;
++};
++
++struct fs_amp_lib {
++	const struct fs_fwm_header *hdr;
++	const struct fs_fwm_table *table[FS_INDEX_MAX];
++	struct fs_amp_scene *scene;
++	struct device *dev;
++	int scene_count;
++	u16 devid;
++};
++
++int fs_amp_load_firmware(struct fs_amp_lib *amp_lib, const char *name);
++
++#endif // __FS_AMP_LIB_H__
 -- 
-2.34.1
+2.39.5
 
