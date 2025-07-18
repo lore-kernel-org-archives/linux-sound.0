@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748C3298255;
-	Fri, 18 Jul 2025 09:19:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA11298990;
+	Fri, 18 Jul 2025 09:19:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752830343; cv=none; b=iM76owqsIcBn2VbxsPmCPFGvS+anlUhHw7Njm9Qeogp0Ue705ycYs0cgzvbMV0uZAaX1bI5tZk03YNklqjcmr4csbov3hyM/tcLOmarO2652r62gxbBJ7Dp3ym1/quqha/GBElQqjHCkloi5MJN97SGHLlwmeyni83yjY1nTanw=
+	t=1752830399; cv=none; b=mkhWIMaBet1fhqkVRNO1Er4sE2XumXgowtyipk5iq1HKy6tP6IcZwcmNdB1xBTRuM/ohS0RzCVHL+W+HHUSxbNh1dqfxH95eHp07B+3m2wu04+1WiSVZj6zD5GXyZ3juBKr87QEMjCfvJFpFPSnxmxXo7o1GNlpbICM4QVjOttE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752830343; c=relaxed/simple;
-	bh=zc0SCSe5dmWIeZjMz3hpH98kv1/ooid1+C6hklMxXHY=;
+	s=arc-20240116; t=1752830399; c=relaxed/simple;
+	bh=YoSnm5FTvyqLsHCf2n3+CQQzLFUTVfaDrMYlYvfwNcI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o6+ZudnVxtqjdif8VHOZo9tKO0kdtHOQqa6Y3k3ZAOCOvgIe2HIwj2VY0v5CajV6EgFC1tmolXqK+/RaEmPFewdfCvhH4q34SSrNIVoaNH+nAOV+q7CnffwXIWVI3yCKqkxuitepKdZisMl7eBzXsDemCrIJuhqWgk5DajIyhJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=feAxFeI6; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=Rn7fUpPvhFcejNHhDc5v4Khibnfr+rn+q8GHjlHUe16B9ovi9Zd87AW9aLzZHI+eFrdvpZRhLZtONDYPnwc4We4aqPA+HgG5kKCLXEvi0MnQmNQTziR6hHdUwkBLSOQApVAdctpRxkFmnsTLGqUFrGD2t37+TB7yZ3B1YAp1K98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtnLh5ek; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="feAxFeI6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45DA8C4CEED;
-	Fri, 18 Jul 2025 09:18:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtnLh5ek"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B3ACC4CEED;
+	Fri, 18 Jul 2025 09:19:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752830342;
-	bh=zc0SCSe5dmWIeZjMz3hpH98kv1/ooid1+C6hklMxXHY=;
+	s=k20201202; t=1752830398;
+	bh=YoSnm5FTvyqLsHCf2n3+CQQzLFUTVfaDrMYlYvfwNcI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=feAxFeI6s7xbdfD7VqMf9akefxnzKYsmkZ/mH2hde8VOomBy2PEh1fmKvFA3t/TmB
-	 UCC6zLMXP2pm1eh6wvbNL4bQ3VksNVHTunfpA44KDJmjIN6urxINtCCiwRJxvCGs0O
-	 I1C2Tx6HMiN6vlCiLBMoBtgYvjRyXw5BRSb8uHKsNn5TdS9GBiiBeM6FaSe/rNu8Jd
-	 FD69hz3QXn9/9hx2QBHsEmFAEhTcVPbGRJBwvTOP67WZ63Udt2Ch4Mtdv3JMv8bPa0
-	 sBuob2YfAJ7UR18UkiYL4uEa1nl9+en+8GKLYyMRdjbo+LGXsMSih4X9Hc3w4rbOTl
-	 hZCoBy6EEQMGA==
-Message-ID: <9a932904-4aec-4e2d-b00f-519a4ca92e17@kernel.org>
-Date: Fri, 18 Jul 2025 11:18:57 +0200
+	b=dtnLh5ekDgM9NLhmCIjQky2BSOhUvbp2H6R/DZexaZ++J9f6uIf7PNG2BVuzlSZL+
+	 n6/DeZlB5AfjzBOpi6esiaudFRTWlTYhbWA9rqJKYgc0Lv4lYz06JF17DOY0SHO/ct
+	 KNwwucKb+1FcJxyQuYSeqqTEKXNb7pwaBiztPaj18Nlfo3bgEnTZoIFS/PQ+nQT5n3
+	 8TpiwIkSak+zkoPUGbx7cbD9A3baHR/wtBbe6fuCNB62xdMx0xRF2uLJNtqY/dRaX5
+	 D+KFkzqpuTG4KtCNeG8LtYsnzXW8Pj23h7VJ6vodmkzPQrkDaHgtkhKePWzZxipl/n
+	 OxywO1mzuIzfg==
+Message-ID: <586566ca-60f3-460a-8630-0d6bf6345eee@kernel.org>
+Date: Fri, 18 Jul 2025 11:19:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/10] ASoC: mediatek: mt8189: add machine driver with
- nau8825
+Subject: Re: [PATCH 10/10] ASoC: dt-bindings: mediatek,mt8189-nau8825: add
+ mt8189-nau8825 document
 To: =?UTF-8?B?Q3lyaWwgQ2hhbyAo6ZKe5oKmKQ==?= <Cyril.Chao@mediatek.com>,
  "broonie@kernel.org" <broonie@kernel.org>,
  "conor+dt@kernel.org" <conor+dt@kernel.org>, "tiwai@suse.com"
@@ -55,9 +55,9 @@ Cc: "linux-arm-kernel@lists.infradead.org"
  Project_Global_Chrome_Upstream_Group
  <Project_Global_Chrome_Upstream_Group@mediatek.com>
 References: <20250628071442.31155-1-Cyril.Chao@mediatek.com>
- <20250628071442.31155-10-Cyril.Chao@mediatek.com>
- <a62e0111-e3b7-4772-9467-3a2927972f6f@kernel.org>
- <143fb1f0756caeb8287ab02be450ecdb3459c6d8.camel@mediatek.com>
+ <20250628071442.31155-11-Cyril.Chao@mediatek.com>
+ <43b4c2bb-a1ed-4f6d-9977-512617130337@kernel.org>
+ <9f752338a2deda3e3475468ccc881230dc370f88.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -103,36 +103,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <143fb1f0756caeb8287ab02be450ecdb3459c6d8.camel@mediatek.com>
+In-Reply-To: <9f752338a2deda3e3475468ccc881230dc370f88.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 18/07/2025 10:44, Cyril Chao (钞悦) wrote:
-> On Sat, 2025-06-28 at 14:39 +0200, Krzysztof Kozlowski wrote:
->>> +             .of_match_table = mt8189_nau8825_dt_match,
->>> +#endif
->>> +             .pm = &snd_soc_pm_ops,
->>> +     },
->>> +     .probe = mtk_soundcard_common_probe,
->>> +};
->>> +
->>> +module_platform_driver(mt8189_nau8825_driver);
->>> +
->>> +/* Module information */
->>> +MODULE_DESCRIPTION("MT8189 NAU8825 ALSA SoC machine driver");
->>> +MODULE_AUTHOR("Darren Ye <darren.ye@mediatek.com>");
->>> +MODULE_LICENSE("GPL");
->>> +MODULE_ALIAS("mt8189 nau8825 soc card");
+On 18/07/2025 10:48, Cyril Chao (钞悦) wrote:
+> On Sat, 2025-06-28 at 14:42 +0200, Krzysztof Kozlowski wrote:
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
 >>
->> That's neither needed nor correct. Look how aliases are created
->> first.
-> 
-> I reffered to the previous platform(mt8188). Could you help to give an
-> example about MODULE_ALIAS or some doc for me to reffer? Much thanks ~~
+>>
+>> On 28/06/2025 09:14, Cyril wrote:
+>>> From: Cyril Chao <Cyril.Chao@mediatek.com>
+>>>
+>>> Add document for mt8189 board with nau8825.
+>>>
+>>> Signed-off-by: Cyril Chao <Cyril.Chao@mediatek.com>
+>>
+>> Why does the binding come after user? Follow submitting patches in
+>> DT.
+>>
+> Could you help to clarify this? Is it the order in which I submitted
+> the dt-binding patch that's incorrect? Much thanks~~
 
-If you ask for doc, then it feels like you do not know if you need it. I
-think you do not need it and the burden of proving why you need it is on
-you.
+
+Yes, it is incorrect. What does the mentioned doc say? I really hope you
+read the doc before you just responded to me..
 
 Best regards,
 Krzysztof
