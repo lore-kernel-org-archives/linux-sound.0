@@ -1,166 +1,385 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCFC1E98E3
-	for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 09:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752831731; cv=fail; b=c+ibny3xlUwtDXMPiA+158pExrJQD8xYQC0iPjFPjEFHp/rlKqFE+Yroo3KqvMBdR8ALBZWmwAnRPSqji9tU5gZVv/VswO4pRJc+YtDNmhv7r27HizOxt7XxY4eZOd7O47EllFM+Wx5Vdue+iwbpSOzrrTgL7iMYzSFqwCkniaI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752831731; c=relaxed/simple;
-	bh=1kRW1EkSCy9zvbE3ArFbeZ3Cgo/+1vgbLa8Aa1jSlHA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OQ3YpjgxsVNeaHY7iDvyqsTqRwiZCriIUlXI7f0kYT+tDoQrRr94tG90IcUmVcH3se2yYnQ3U1SQ0OdASMECK1ApF8IoFIomyyspo42K77d4xqVcZVxIhspSdM086kNO0sp3jihUvcTS8iG+iCRWzT8TeRxnGw9n+KLIkT3xdPM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=GWZa2FIV; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=kMPQtLwz; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4233C01;
+	Fri, 18 Jul 2025 09:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752831959; cv=none; b=k7HjXcvtRMHeCGhrpM13Y6fwBhCEyrLGm0sQD+ANZJgypyyXu5QL3YBDmgUbFiXdGdv/VaxFkMgVBxBGr1No0ERHfR1yrH5SrhdzlTJhh8G6eo0teVvxF+tVVpPwJZIYKV0/yRx+i7veSAJZ+1eoORUa4GNh6TA3cVs0mqb8m90=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752831959; c=relaxed/simple;
+	bh=pY0MV4mpYdYjPZWc2VFKwAFPw4Xd+79vKStlUueZr5k=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XYm9WsZL+uSEQ9RTYtIYbTgwGoxVVvR7VYIAe/HGoEnqyL1TFs4i41Q+KsPFjqBxzwvyQtsm5voLjZL0fbeA88xl9mZvLHvZCLszi6Q2QgmPxYpDMZPFcb/3WyniaQuZVgGQa0igtfMQZGGfmpYLOAF7b7PebCihHjG+uvBhqVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=xkTl9IOt; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="GWZa2FIV";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="kMPQtLwz"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56I4qjvN020806;
-	Fri, 18 Jul 2025 04:42:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=+DJDCPU82s+UVuUnyJ
-	Wg0fj2C8crQDLJwQlO46AOiLA=; b=GWZa2FIVPlJfEgFVQj6GWmQOgooRCjFW1q
-	qPJksztr54SFfRy4MZy69tXRklsx47Za21Z78Xw3wwdCHSTnsWbiM/OWL2LrwL0t
-	6VJI2FK0BWb7WgDi9boRLIUXq6+gPOumaPh4JTEBUmZNB3I8AoWXti5tU+7WtmoZ
-	k28fgeSaQrTix8w5m7ijKyhP25VCF48m0ZixCSbjgVTzEDBYWOY27z+jAaJPgw2i
-	LNaykvlI5/H+OfdmY/cGuTmbL6ItSExJeyZyYaonaN9gofLnM/RUoILFShsSFeAz
-	5EuqjZ0iv1oRaynDtOlGSDHmxWNnEegk87UcMilQsA8dJYU9eNoQ==
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12on2134.outbound.protection.outlook.com [40.107.237.134])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 47xqstt604-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Jul 2025 04:42:05 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wayvlmWmCnvTzwDKM9Kn9WEhDnYcLogr9al8v13JEfyrrlDnX/0Ci8cGrAtqIS6+QCKwXjyr2aMvgBl75f9okw9bVxntn5zfvkEaACUDD3Bc7tpZv7IfXiSLZ+zXFQPloK+8l+LIZvQObMwy6RxQkn3EybLmm/rny2SSqxgMp/YdfQcTiQCR9/AYX+BU/Sxr7UceM9PoqyoVFG9ghpguv3EXf6ywrsdGxNAO2/nLcTR8ezYlaxYQoMhRdrB4PMUzCUpC+0rytLqR8Paq652vzC6KjPno8MvFzNb3FCz1EHBBeJ2pshaBk2K29UtzExjRQ/cxV94ibIHqMWdQXgupVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+DJDCPU82s+UVuUnyJWg0fj2C8crQDLJwQlO46AOiLA=;
- b=kF53NDi45TuSZ/6PQBhHqsUyofzewSEQhAlnK5qVJyQqsDsGbEFvEmk7O64Vvf9eBTDRZDAtkDTuNI5ZiD6WU4NRO9SP0Zx+yTZOy3fsyZdPfEbSv8r4MVDcYNhHW5byI0UtzQfLRP1pyc1Qu6j7eX8KQNVZFf7tePsIFW06ZKk6WsWzCvJovoDQXM/ffLJYGhBD+SRZFV/iGvpZBQj9RBHJrCYMfhIDd3Tqb6gvYwdRvuedVU7gyhOouBQpET8kGBnQM0Mgw6dRHbC2jB2ZD26U2YpSbjshnPqjnL/48CasAQCBSm3/otX3OlkUlot0AVBHEfWoDB+ZzIeIGxLd9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=suse.de smtp.mailfrom=opensource.cirrus.com;
- dmarc=fail (p=reject sp=reject pct=100) action=oreject
- header.from=opensource.cirrus.com; dkim=none (message not signed); arc=none
- (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+DJDCPU82s+UVuUnyJWg0fj2C8crQDLJwQlO46AOiLA=;
- b=kMPQtLwzUQJPvEQfhQkdbF1rT5BKnIB+36AurvRNEhOdN1vk98YUem5LACcjFx/ZzfmtuH7V3wReFS94ScgdGaEg0t103tUl/H1MvDoY0xaa1VwUoWfih2aGpVrqfXDJJ0gM88IEEweHX2YF9FgF35yYklwz5CPUWE/CjCNHnns=
-Received: from DM6PR02CA0072.namprd02.prod.outlook.com (2603:10b6:5:177::49)
- by SA6PR19MB8802.namprd19.prod.outlook.com (2603:10b6:806:41c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.26; Fri, 18 Jul
- 2025 09:42:01 +0000
-Received: from DS1PEPF00017094.namprd03.prod.outlook.com
- (2603:10b6:5:177:cafe::e7) by DM6PR02CA0072.outlook.office365.com
- (2603:10b6:5:177::49) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.23 via Frontend Transport; Fri,
- 18 Jul 2025 09:42:01 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS1PEPF00017094.mail.protection.outlook.com (10.167.17.137) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.21
- via Frontend Transport; Fri, 18 Jul 2025 09:42:00 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 302B6406541;
-	Fri, 18 Jul 2025 09:41:59 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 182B6820249;
-	Fri, 18 Jul 2025 09:41:59 +0000 (UTC)
-Date: Fri, 18 Jul 2025 10:41:58 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH 058/103] ALSA: cs5535audio: Use safer strscpy() instead
- of strcpy()
-Message-ID: <aHoW5jYuEEZd3Abl@opensource.cirrus.com>
-References: <20250710100727.22653-1-tiwai@suse.de>
- <20250710100727.22653-59-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="xkTl9IOt"
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56I9jSEE226499;
+	Fri, 18 Jul 2025 04:45:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1752831928;
+	bh=J0S1VbKJLH31RiIy3lX0zXmUf3R0ULFs66hqGBDEbTo=;
+	h=From:To:CC:Subject:Date;
+	b=xkTl9IOtCTPKVLfekzPLQh82tamAXKw+mlv+TVDSKT5DHEH/8XtFK84TaIosg3HtN
+	 7Bj1j0GAi50EjTmNDnunu2C4u0Hs7rU3rs4QW18kMWHyXQFGdbqI4HGfbTB5nOg+AT
+	 TAcWt/bMA9hMosLHrPiHNLgXhLmN6NDmswlxty9U=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56I9jSaW3421028
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Fri, 18 Jul 2025 04:45:28 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 18
+ Jul 2025 04:45:27 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Fri, 18 Jul 2025 04:45:27 -0500
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56I9jLCH3643100;
+	Fri, 18 Jul 2025 04:45:22 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>
+CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>, <navada@ti.com>,
+        <13916275206@139.com>, <v-hampiholi@ti.com>, <v-po@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <baojun.xu@ti.com>
+Subject: [PATCH v1] ALSA: hda: Add TAS2770 support
+Date: Fri, 18 Jul 2025 17:44:54 +0800
+Message-ID: <20250718094454.26574-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250710100727.22653-59-tiwai@suse.de>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017094:EE_|SA6PR19MB8802:EE_
-X-MS-Office365-Filtering-Correlation-Id: 418ef913-2fab-40ec-2a8d-08ddc5df5874
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|61400799027|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?SQca5L+NwNJfEb9m+1bFULrGaryq8DuIzxN9TpYMBhaH0sMgloJMieWvAXiL?=
- =?us-ascii?Q?yKKOmJ+VzuMQ5UIeU2akaLwvExC6NzyrGgobSNU89HVh4/qTMzMgHpI4eEuy?=
- =?us-ascii?Q?3NQN0LvIDA6yE91VR/zZY4ynaqH9OC4FijU3mQiqMBW330KLvVCn5UlKRWUn?=
- =?us-ascii?Q?WZDj/NQIZCjr8jg51l9Bpehz++3DZiiH7RQpaZpCKepUDyD6vC3qZgA9S2aI?=
- =?us-ascii?Q?fTHze6/PDkkLG0mkJcPH6MXYXkl4MG+bBg5WAG8EVTd9FSSGVxY8KK1x1Hla?=
- =?us-ascii?Q?A+G+bYeNgyqY54R5EbmWPgs1ynuyqLWn+Gu0LcSozxI03yqIyVoqsmD67r0R?=
- =?us-ascii?Q?0mcHsoKYs2H0+jYPus04wHY4tMj/Wl3mcO9QQNpVlHLmYBEo3uFtOxQ7uOY5?=
- =?us-ascii?Q?qvZjhGXm+HUgB0uPPAvZujW+39dMS05NkOzE0Jus8aoCWIDYN9kY9iDdjNBW?=
- =?us-ascii?Q?2IZT0+wlAODETerL4bKfoTIRBY8/EisE/nZSxNVifT3fyPAnnZGBYL/HwLNB?=
- =?us-ascii?Q?1H9NQoprqsBm6WkCNqdiyIvoBjFpt/19/IL8q2IBhlVnDj16G0algOQMzKZw?=
- =?us-ascii?Q?rP2ZHxzGdlQzqkZR9974Qp7EJtWl4L4YoXVbiPnGm4VSjq7TjfciZOhzIzw6?=
- =?us-ascii?Q?C8AYpbg/BJY3dPf9LFDmSGTSY76+1EDowdQSU1GQW80JZgCr1bgGlzuJphrE?=
- =?us-ascii?Q?gNP7PTymvcYRR1IqwI6EPI3UPQup7PZVlOJePnETDzTAkJG/93AFtHXVfbB6?=
- =?us-ascii?Q?61qH4zNeaEOPfSBvS+i21dBLlDineMcdqCF33T8tiMpgDN257STdEqW8t+Rr?=
- =?us-ascii?Q?c0f6B92uCKrNUl9+MCQsPAZq90UEb8coYO5+33P2TyjEwbzZgtJqZYBslhQ8?=
- =?us-ascii?Q?YWfF6Y1QYrapJxAkbxTi1n+2sxDINrJI1OiW7I1zt7LFB9CzoYw+5qei4KBE?=
- =?us-ascii?Q?GS+fgVahtslRHa3Szb+Syb2jbfHUMRjmRVkLFTFMngbiZLNAc6DdJK7AgJps?=
- =?us-ascii?Q?eaKe8pJu7VFNVx0PGyuR+RuZIyo3mEPH58Q8e+g4/BRUFBSKBr16GGILULWN?=
- =?us-ascii?Q?V6g6BRBjeEJHArTF3ivMRW/x+g37sk83A3jSDUTNYdCdQ0mOYVP300Eu921r?=
- =?us-ascii?Q?FK8qLrhPexutiIhN5S+826cG0LBjob9Y9QqhjfaNhpiysk+Gnz5ll7Wg4Slc?=
- =?us-ascii?Q?jwtJtCBAQepWEeUD+qa3kHm1ulKtoN940lJV5mmlm5FTHpW7VID0Qfu7Lxbi?=
- =?us-ascii?Q?GN4OSAzMnoXnBTzpWPB/As6CblqPmYj0JeLwdK00rH1GG/miqqiuZGFch4tX?=
- =?us-ascii?Q?14DbGGqdC2P/86yXX/1zT06u9rqBs9F8IjgH8MPNttIs1V4QqW9JlB50ljmO?=
- =?us-ascii?Q?VhKNAjmu/ldu+BC6QFu8+I1+vNgyV1Wn41Nwv4Rc74dRA025L+rzQLdYCMEB?=
- =?us-ascii?Q?IPpwCHjaiJ8JRSO1NG0IcHy13UVnV6Q/4M7x6GYDYKOYfTnvp7nwwu8U/K4A?=
- =?us-ascii?Q?WNbIGzTMeQlf3hSc0IWSgfPTDPjTPkCCje1N?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(61400799027)(7053199007);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 09:42:00.6071
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 418ef913-2fab-40ec-2a8d-08ddc5df5874
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF00017094.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR19MB8802
-X-Proofpoint-GUID: X6OAb-99ooXnKkMRhpx979ERo-ncMOzk
-X-Proofpoint-ORIG-GUID: X6OAb-99ooXnKkMRhpx979ERo-ncMOzk
-X-Authority-Analysis: v=2.4 cv=C5vpyRP+ c=1 sm=1 tr=0 ts=687a16ed cx=c_pps a=pY245xTeqmh+jIDTRgos9w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=xpKaoQlV9wSQHpw91qYA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDAxNCBTYWx0ZWRfX0k/yd6Rp6uOn L96VRrhGBOV1f4jA3BROD3tn27YPCDkHoHIsHW7enYTHIrIEdShob+ORD/Zam+54ABtO4lbi1kt +xooM1kDMiJSud/X+jog/NYQP9U/HIJnVC93zPMDDmrMKFo3t46l/5O5K1XMtIwEDa7NBCm++ZL
- G4INyqTiscyHZrYB9PLI77nwC6yys/z00bSvNSqcoj6fg+qmOQWxP5lO/atXb4E6wlCv6Tvhq5O vztOJW/q1mWOh5Txi7ZM1xNGS4xhgzs8oDugwvS1RagL3n3jDdF1KHfqNIofj7HxxTsDwfL7to/ V5aS/q0pFRtqiRwjGPRiBP7a9+5mcDh7VQefDqsE93boYIMPHW2+/vjcCyiUjf4c4mGbXrnFHVY tB9GPrkb
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Thu, Jul 10, 2025 at 12:06:40PM +0200, Takashi Iwai wrote:
-> Use a safer function strscpy() instead of strcpy() for copying to
-> arrays.
-> 
-> Only idiomatic code replacement, and no functional changes.
-> 
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
+Add TAS2770 support in TI's HDA driver.
+And add hda_chip_id for more product support in the future.
+Separated DSP and non-DSP in firmware load function.
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ include/sound/tas2770-tlv.h     |  23 +++++
+ sound/pci/hda/tas2781_hda_i2c.c | 157 ++++++++++++++++++++++----------
+ 2 files changed, 133 insertions(+), 47 deletions(-)
+ create mode 100644 include/sound/tas2770-tlv.h
 
-Thanks,
-Charles
+diff --git a/include/sound/tas2770-tlv.h b/include/sound/tas2770-tlv.h
+new file mode 100644
+index 000000000000..c0bd495b4a07
+--- /dev/null
++++ b/include/sound/tas2770-tlv.h
+@@ -0,0 +1,23 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++//
++// ALSA SoC Texas Instruments TAS2770 Audio Smart Amplifier
++//
++// Copyright (C) 2025 Texas Instruments Incorporated
++// https://www.ti.com
++//
++// The TAS2770 hda driver implements for one, two, or even multiple
++// TAS2770 chips.
++//
++// Author: Baojun Xu <baojun.xu@ti.com>
++//
++
++#ifndef __TAS2770_TLV_H__
++#define __TAS2770_TLV_H__
++
++#define TAS2770_DVC_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x17)
++#define TAS2770_AMP_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x03)
++
++static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_dvc_tlv, 1650, 50, 0);
++static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_amp_tlv, 1100, 50, 0);
++
++#endif
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index d91eed9f7804..2fdff0f88af7 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -24,6 +24,7 @@
+ #include <sound/tas2781.h>
+ #include <sound/tas2781-comlib-i2c.h>
+ #include <sound/tlv.h>
++#include <sound/tas2770-tlv.h>
+ #include <sound/tas2781-tlv.h>
+ 
+ #include "hda_local.h"
+@@ -45,9 +46,18 @@
+ #define TAS2563_CAL_TLIM		TASDEVICE_REG(0, 0x10, 0x14)
+ #define TAS2563_CAL_R0			TASDEVICE_REG(0, 0x0f, 0x34)
+ 
++enum device_chip_id {
++	HDA_TAS2563,
++	HDA_TAS2770,
++	HDA_TAS2781,
++	HDA_OTHERS
++};
++
+ struct tas2781_hda_i2c_priv {
+ 	struct snd_kcontrol *snd_ctls[2];
+ 	int (*save_calibration)(struct tas2781_hda *h);
++
++	int hda_chip_id;
+ };
+ 
+ static int tas2781_get_i2c_res(struct acpi_resource *ares, void *data)
+@@ -246,6 +256,15 @@ static int tas2781_force_fwload_put(struct snd_kcontrol *kcontrol,
+ 	return change;
+ }
+ 
++static const struct snd_kcontrol_new tas2770_snd_controls[] = {
++	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS2770_AMP_LEVEL,
++		0, 0, 20, 0, tas2781_amp_getvol,
++		tas2781_amp_putvol, tas2770_amp_tlv),
++	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Digital Volume", TAS2770_DVC_LEVEL,
++		0, 0, 31, 0, tas2781_amp_getvol,
++		tas2781_amp_putvol, tas2770_dvc_tlv),
++};
++
+ static const struct snd_kcontrol_new tas2781_snd_controls[] = {
+ 	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
+ 		1, 0, 20, 0, tas2781_amp_getvol,
+@@ -254,7 +273,7 @@ static const struct snd_kcontrol_new tas2781_snd_controls[] = {
+ 		tas2781_force_fwload_get, tas2781_force_fwload_put),
+ };
+ 
+-static const struct snd_kcontrol_new tas2781_prof_ctrl = {
++static const struct snd_kcontrol_new tasdevice_prof_ctrl = {
+ 	.name = "Speaker Profile Id",
+ 	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+ 	.info = tasdevice_info_profile,
+@@ -262,7 +281,7 @@ static const struct snd_kcontrol_new tas2781_prof_ctrl = {
+ 	.put = tasdevice_set_profile_id,
+ };
+ 
+-static const struct snd_kcontrol_new tas2781_dsp_prog_ctrl = {
++static const struct snd_kcontrol_new tasdevice_dsp_prog_ctrl = {
+ 	.name = "Speaker Program Id",
+ 	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+ 	.info = tasdevice_info_programs,
+@@ -270,7 +289,7 @@ static const struct snd_kcontrol_new tas2781_dsp_prog_ctrl = {
+ 	.put = tasdevice_program_put,
+ };
+ 
+-static const struct snd_kcontrol_new tas2781_dsp_conf_ctrl = {
++static const struct snd_kcontrol_new tasdevice_dsp_conf_ctrl = {
+ 	.name = "Speaker Config Id",
+ 	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+ 	.info = tasdevice_info_config,
+@@ -379,44 +398,15 @@ static void tas2781_hda_remove_controls(struct tas2781_hda *tas_hda)
+ 	snd_ctl_remove(codec->card, tas_hda->prof_ctl);
+ }
+ 
+-static void tasdev_fw_ready(const struct firmware *fmw, void *context)
++static void tasdevice_dspfw_init(void *context)
+ {
+ 	struct tasdevice_priv *tas_priv = context;
+ 	struct tas2781_hda *tas_hda = dev_get_drvdata(tas_priv->dev);
+ 	struct tas2781_hda_i2c_priv *hda_priv = tas_hda->hda_priv;
+ 	struct hda_codec *codec = tas_priv->codec;
+-	int i, ret, spk_id;
+-
+-	pm_runtime_get_sync(tas_priv->dev);
+-	mutex_lock(&tas_priv->codec_lock);
+-
+-	ret = tasdevice_rca_parser(tas_priv, fmw);
+-	if (ret)
+-		goto out;
+-
+-	tas_hda->prof_ctl = snd_ctl_new1(&tas2781_prof_ctrl, tas_priv);
+-	ret = snd_ctl_add(codec->card, tas_hda->prof_ctl);
+-	if (ret) {
+-		dev_err(tas_priv->dev,
+-			"Failed to add KControl %s = %d\n",
+-			tas2781_prof_ctrl.name, ret);
+-		goto out;
+-	}
+-
+-	for (i = 0; i < ARRAY_SIZE(tas2781_snd_controls); i++) {
+-		hda_priv->snd_ctls[i] = snd_ctl_new1(&tas2781_snd_controls[i],
+-			tas_priv);
+-		ret = snd_ctl_add(codec->card, hda_priv->snd_ctls[i]);
+-		if (ret) {
+-			dev_err(tas_priv->dev,
+-				"Failed to add KControl %s = %d\n",
+-				tas2781_snd_controls[i].name, ret);
+-			goto out;
+-		}
+-	}
++	int ret, spk_id;
+ 
+ 	tasdevice_dsp_remove(tas_priv);
+-
+ 	tas_priv->fw_state = TASDEVICE_DSP_FW_PENDING;
+ 	if (tas_priv->speaker_id != NULL) {
+ 		// Speaker id need to be checked for ASUS only.
+@@ -442,48 +432,101 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
+ 		dev_err(tas_priv->dev, "dspfw load %s error\n",
+ 			tas_priv->coef_binaryname);
+ 		tas_priv->fw_state = TASDEVICE_DSP_FW_FAIL;
+-		goto out;
++		return;
+ 	}
+ 
+-	tas_hda->dsp_prog_ctl = snd_ctl_new1(&tas2781_dsp_prog_ctrl,
++	tas_hda->dsp_prog_ctl = snd_ctl_new1(&tasdevice_dsp_prog_ctrl,
+ 		tas_priv);
+ 	ret = snd_ctl_add(codec->card, tas_hda->dsp_prog_ctl);
+ 	if (ret) {
+ 		dev_err(tas_priv->dev,
+ 			"Failed to add KControl %s = %d\n",
+-			tas2781_dsp_prog_ctrl.name, ret);
+-		goto out;
++			tasdevice_dsp_prog_ctrl.name, ret);
++		return;
+ 	}
+ 
+-	tas_hda->dsp_conf_ctl = snd_ctl_new1(&tas2781_dsp_conf_ctrl,
++	tas_hda->dsp_conf_ctl = snd_ctl_new1(&tasdevice_dsp_conf_ctrl,
+ 		tas_priv);
+ 	ret = snd_ctl_add(codec->card, tas_hda->dsp_conf_ctl);
+ 	if (ret) {
+ 		dev_err(tas_priv->dev,
+ 			"Failed to add KControl %s = %d\n",
+-			tas2781_dsp_conf_ctrl.name, ret);
+-		goto out;
++			tasdevice_dsp_conf_ctrl.name, ret);
++		return;
+ 	}
+-
+ 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
++
+ 	tasdevice_prmg_load(tas_priv, 0);
+ 	if (tas_priv->fmw->nr_programs > 0)
+ 		tas_priv->cur_prog = 0;
+ 	if (tas_priv->fmw->nr_configurations > 0)
+ 		tas_priv->cur_conf = 0;
+-
+ 	/* If calibrated data occurs error, dsp will still works with default
+ 	 * calibrated data inside algo.
+ 	 */
+ 	hda_priv->save_calibration(tas_hda);
++}
++
++static void tasdev_add_kcontrols(struct tasdevice_priv *tas_priv,
++	struct snd_kcontrol **ctls, struct hda_codec *codec,
++	const struct snd_kcontrol_new *tas_snd_ctrls, int num_ctls)
++{
++	int i, ret;
++
++	for (i = 0; i < num_ctls; i++) {
++		ctls[i] = snd_ctl_new1(
++			&tas_snd_ctrls[i], tas_priv);
++		ret = snd_ctl_add(codec->card, ctls[i]);
++		if (ret) {
++			dev_err(tas_priv->dev,
++				"Failed to add KControl %s = %d\n",
++				tas_snd_ctrls[i].name, ret);
++			break;
++		}
++	}
++}
++
++static void tasdev_fw_ready(const struct firmware *fmw, void *context)
++{
++	struct tasdevice_priv *tas_priv = context;
++	struct tas2781_hda *tas_hda = dev_get_drvdata(tas_priv->dev);
++	struct tas2781_hda_i2c_priv *hda_priv = tas_hda->hda_priv;
++	struct hda_codec *codec = tas_priv->codec;
++	int ret;
++
++	pm_runtime_get_sync(tas_priv->dev);
++	mutex_lock(&tas_priv->codec_lock);
+ 
+-	tasdevice_tuning_switch(tas_hda->priv, 0);
+-	tas_hda->priv->playback_started = true;
++	ret = tasdevice_rca_parser(tas_priv, fmw);
++	if (ret)
++		goto out;
++
++	tas_priv->fw_state = TASDEVICE_RCA_FW_OK;
++	tasdev_add_kcontrols(tas_priv, &tas_hda->prof_ctl, codec,
++		&tasdevice_prof_ctrl, 1);
++
++	switch (hda_priv->hda_chip_id) {
++	case HDA_TAS2770:
++		tasdev_add_kcontrols(tas_priv, hda_priv->snd_ctls, codec,
++				     &tas2770_snd_controls[0],
++				     ARRAY_SIZE(tas2770_snd_controls));
++		break;
++	case HDA_TAS2781:
++		tasdev_add_kcontrols(tas_priv, hda_priv->snd_ctls, codec,
++				     &tas2781_snd_controls[0],
++				     ARRAY_SIZE(tas2781_snd_controls));
++		tasdevice_dspfw_init(context);
++		break;
++	case HDA_TAS2563:
++		tasdevice_dspfw_init(context);
++		break;
++	default:
++		break;
++	}
+ 
+ out:
+ 	mutex_unlock(&tas_hda->priv->codec_lock);
+ 	release_firmware(fmw);
+-	pm_runtime_mark_last_busy(tas_hda->dev);
+ 	pm_runtime_put_autosuspend(tas_hda->dev);
+ }
+ 
+@@ -584,15 +627,34 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
+ 		return -ENOMEM;
+ 
+ 	if (strstr(dev_name(&clt->dev), "TIAS2781")) {
++		/*
++		 * TAS2781, integrated on-chip DSP with
++		 * global I2C address supported.
++		 */
+ 		device_name = "TIAS2781";
++		hda_priv->hda_chip_id = HDA_TAS2781;
+ 		hda_priv->save_calibration = tas2781_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
++	} else if (strstarts(dev_name(&clt->dev), "i2c-TXNW2770")) {
++		/*
++		 * TAS2770, has no on-chip DSP, so no calibration data
++		 * required; has no global I2C address supported.
++		 */
++		device_name = "TXNW2770";
++		hda_priv->hda_chip_id = HDA_TAS2770;
+ 	} else if (strstr(dev_name(&clt->dev), "INT8866")) {
++		/*
++		 * TAS2563, integrated on-chip DSP with
++		 * global I2C address supported.
++		 */
+ 		device_name = "INT8866";
++		hda_priv->hda_chip_id = HDA_TAS2563;
+ 		hda_priv->save_calibration = tas2563_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2563_GLOBAL_ADDR;
+-	} else
++	} else {
+ 		return -ENODEV;
++	}
++
+ 
+ 	tas_hda->priv->irq = clt->irq;
+ 	ret = tas2781_read_acpi(tas_hda->priv, device_name);
+@@ -724,6 +786,7 @@ static const struct i2c_device_id tas2781_hda_i2c_id[] = {
+ static const struct acpi_device_id tas2781_acpi_hda_match[] = {
+ 	{"TIAS2781", 0 },
+ 	{"INT8866", 0 },
++	{"TXNW2770", 0 },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(acpi, tas2781_acpi_hda_match);
+-- 
+2.34.1
+
