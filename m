@@ -1,194 +1,186 @@
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.67.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B952D97A6;
-	Fri, 18 Jul 2025 12:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.67.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B72EEBB
+	for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 12:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752840817; cv=none; b=JciF3mc5ClMbX1IvyH55+YARXA/6PsWW8FHpHCufs7LzxfFv7r1py7qxRk6wVSCWNRX44mJkPm15alQAkPknkoF9o9KgGSjolin7cdAETqNRWKRTcu7NohxKk7PG8tHMkdqSUHpHtkTqvYaIHUYirm7t8vof5+EPcFhqLtZriNQ=
+	t=1752841367; cv=none; b=MU/bE88+kSYQ+UjtkMKQcFM4lQU1WMK+EbbdjGfjEuyRgHg6diC42Ec8xi0C658hn2HnMKBiF1ZxEkSKaM9MJ12KudiKMMmWJbE6QBclTRuAguqKnVF0BqrDF9NzBcYd200BGs1EWa0swOwICefsDWbcHSSTGbrznUda/sn3acg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752840817; c=relaxed/simple;
-	bh=6P7takzY4Q8f6ReFyjrw1HfpKgMBdtdrtHw8aaqhOnI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LJn2xHpetmiN1uDVyqbs9uO3wahWSOhPoFaJ4aqxCxAPVR0YeaLUgIitBVSRpttMwPd6pFgm7/BNn2+achqhujaQz3VUXeumQoxQCN9bvBAr9A0kNpRX5+lriabz5E2iZUSMZ/Xdg/kUIVDzdRxwShw1n0u1lU6idaxCAhSQiZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=114.132.67.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
-X-QQ-mid: esmtpsz21t1752840751t6cb0562e
-X-QQ-Originating-IP: 9dRlpqgRyURRDy4xBiYoj8Gt3pAHaU0fiVdyqOcxXOA=
-Received: from localhost.localdomain ( [113.89.232.166])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 18 Jul 2025 20:12:30 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2754424817838708234
-EX-QQ-RecipientCnt: 14
-From: Nick <nick.li@foursemi.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	nick.li@foursemi.com
-Cc: xiaoming.yang@foursemi.com,
-	danyang.zheng@foursemi.com,
-	like.xy@foxmail.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/4] ASoC: dt-bindings: Add FS2104/5S audio amplifiers
-Date: Fri, 18 Jul 2025 20:12:19 +0800
-Message-Id: <20250718121221.76957-3-nick.li@foursemi.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250718121221.76957-1-nick.li@foursemi.com>
-References: <20250718121221.76957-1-nick.li@foursemi.com>
+	s=arc-20240116; t=1752841367; c=relaxed/simple;
+	bh=3iGjbYQQ2GdaJ9EopYYbgLII6tXWKxeHcS6PXNVWj34=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=h3NMVptRyl+M11DK+2B3y6u5K9e1be2bNfIan4apAApRPAoeCAwNC4iWJCy24Nqnrqj9a6MChXVBUkrbebdnlaO5km8zRQnRA9xqu6B+Gvjf/C+yqdJIEJcsfKSmyH5YAsgFCZb0eFu9XMgY7+xaKP6YwnPjsfueMRNTKdD+6bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dy83Tus0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9eoW8PgP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dy83Tus0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9eoW8PgP; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dy83Tus0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9eoW8PgP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dy83Tus0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9eoW8PgP"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8D2511F394;
+	Fri, 18 Jul 2025 12:22:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752841357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qFbShdh+j0OlrhPdEs8y5qlHRPOcyxF1EoUm+Ru5I38=;
+	b=dy83Tus0F2G33s4/eoDM+ouPe+TCkVnRcNincTiR0eiU4n1/ubLijBXNbkffP8ch9ZxIcM
+	C70oRXMpxkwpsZZRNSAdt2st25QxSlozFMQNL3XCyUsdxkI+QE5e8k6Yuvt/nFhEplZFHF
+	V36vQ7c9XFfkv10jGWcU5fpGrux24oI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752841357;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qFbShdh+j0OlrhPdEs8y5qlHRPOcyxF1EoUm+Ru5I38=;
+	b=9eoW8PgPKm0uIAAmsw+JaCT782iAlpAixP9x0Y5nne5o7apSLyPV3kcp/U+g5GocKmI/qJ
+	hdjLYRsIyB7hhTAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dy83Tus0;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9eoW8PgP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1752841357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qFbShdh+j0OlrhPdEs8y5qlHRPOcyxF1EoUm+Ru5I38=;
+	b=dy83Tus0F2G33s4/eoDM+ouPe+TCkVnRcNincTiR0eiU4n1/ubLijBXNbkffP8ch9ZxIcM
+	C70oRXMpxkwpsZZRNSAdt2st25QxSlozFMQNL3XCyUsdxkI+QE5e8k6Yuvt/nFhEplZFHF
+	V36vQ7c9XFfkv10jGWcU5fpGrux24oI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1752841357;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=qFbShdh+j0OlrhPdEs8y5qlHRPOcyxF1EoUm+Ru5I38=;
+	b=9eoW8PgPKm0uIAAmsw+JaCT782iAlpAixP9x0Y5nne5o7apSLyPV3kcp/U+g5GocKmI/qJ
+	hdjLYRsIyB7hhTAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 60FEF13A52;
+	Fri, 18 Jul 2025 12:22:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OPZbFo08emj+EAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 18 Jul 2025 12:22:37 +0000
+Date: Fri, 18 Jul 2025 14:22:36 +0200
+Message-ID: <87seit7koj.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.16-rc7
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: N+fE1vV13phxrCGOlXvji/aOxGzgCzxl0lydCNFyUo9FQbASuubjjUKI
-	w1frHfj8rlTU7meq9z7H2ReaxHoux/4NpGtcIUHN264emmHrNvR0XHuQ/OmlZsEm4XhqX5q
-	t9g6iVEDKF9STjdzJ3Wyv0aeDo/4siWXK3B//in/3kbeb4uGxLmR4++qSKYpkKerelm/e/c
-	XjmKUcFSSyZfywPvia/V7ojwi0uTMZdKqAQGf2pLnN4CULiU9vgJV+mX7Yd7LrK7pAoZLgp
-	g67XoBoxmQ+xG4a/Sp/FQ8slF6TpPzfK4DaagU7AHmST0LI6UaIURvyRGWc/IUSauyNRF2U
-	jLHB4qyb+FnjWI8Ae127sJ4amHOCt0PX706R5xK1nI1SFuAZoL6ds505OVwT/GojH3k6Pg3
-	P1DLF0j7GF6d5KpS09Ltz+sX/zso4EEhuuO8z+dsOJJ1F53AQoLiU5f+GpPt5xJYG3vHIoO
-	6+LEIVMpZNWWF3H9jaAFnW5UV0OoaRuxmKIWZ11IoPs9AOPJlqj0AL2pgDULr1ctZw8keiN
-	wMGhLzI6l5pORCiTlbk+3gNzGYGiJsjTrLAUtWlMDEz0v+T2GtT1ZwMfVHXEr0IHYznfwfZ
-	Xe9jma/wGVPWATeKhOePgTzE1GJTPDYFO7JkNnxc6kvzNp2maZHCeMjwT//b+trjhNhcCCj
-	dI11QP/C9El5zfoI/Q60MqyF1HDhkekOWBXHIPB1hYqEHBMmbHCy/0ly9hzOhCsW2iVRPak
-	SS/h2UIzjGdHsUEMJAywttgv5mc0Q9Fs5IBPHv6zW+NY17MHnJYj99r8f0LoFozoNznab6p
-	tzCIec/rE7z+J2zc6/UAIX8yJ9V4tFa0XtAATQtLU5kyoIIO56ahd/XhAMmXuETZJ02VsMY
-	8jgji7GQ5/Ht7Wj72veMOIUbjq2CxB6FDspQ4XWTRpAEBcSoRjikGVHN0OmAhnzAX3EBwks
-	TCQnh0QQxLxNoukzM5wjfO/MK+qk7cMTzDPilH3LyY8PWXP+Nko0kadBIooW1vfCsAURXBI
-	4EcX3gQoDXoMlmIdlVcNA8hgRuOj6l2lQSR9YNDrw6IGkm6T84BGhqw93IJ9y/7HTmuEev6
-	aGB1ZDwES8zVHvkS3BMpXUo9X0YGbJK9M38vTiUXBMfhaTFtLsDjaIEhG3d0WnWxg==
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 8D2511F394
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.51
 
-From: Nick Li <nick.li@foursemi.com>
+Linus,
 
-Add a DT schema for describing FourSemi FS2104/5S
-audio amplifiers which support both I2S and I2C interface.
+please pull sound fixes for v6.16-rc7 from:
 
-Signed-off-by: Nick Li <nick.li@foursemi.com>
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.16-rc7
+
+The topmost commit is 348954f9b78e1515777708b6764c88f225457c40
+
+----------------------------------------------------------------
+
+sound fixes for 6.16-rc7
+
+A collection of small fixes again.  The only change in the core is
+about the handling of ALSA compress-offload ioctl numbers for avoiding
+potential abusing the API (if any).  Other than that, all changes are
+device-specific small fixes and quirks, which should be safe to apply.
+
+----------------------------------------------------------------
+
+Adam Queler (1):
+      ASoC: amd: yc: Add DMI entries to support HP 15-fb1xxx
+
+Alexandru Andries (1):
+      ASoC: amd: yc: add DMI quirk for ASUS M6501RM
+
+Amadeusz S³awiñski (1):
+      ASoC: Intel: avs: Fix NULL ptr deref on rmmod
+
+Arnd Bergmann (2):
+      ALSA: compress_offload: tighten ioctl command number checks
+      ASoC: Intel: fix SND_SOC_SOF dependencies
+
+Bard Liao (1):
+      ASoC: Intel: soc-acpi: add support for HP Omen14 ARL
+
+Edip Hazuri (1):
+      ALSA: hda/realtek - Fix mute LED for HP Victus 16-r0xxx
+
+Jackie Dong (1):
+      ALSA: hda/realtek: Support mute LED for Yoga with ALC287
+
+Lane Odenbach (1):
+      ASoC: amd: yc: Add DMI quirk for HP Laptop 17 cp-2033dx
+
+Oder Chiou (1):
+      ASoC: rt5660: Fix the dmic data source from GPIO2
+
+Richard Fitzgerald (1):
+      ALSA: hda/cs35l56: Workaround bad dev-index on Lenovo Yoga Book 9i GenX
+
+Takashi Iwai (1):
+      ALSA: hda/realtek: Add quirk for ASUS ROG Strix G712LWS
+
 ---
- .../bindings/sound/foursemi,fs2105s.yaml      | 99 +++++++++++++++++++
- 1 file changed, 99 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/foursemi,fs2105s.yaml
-
-diff --git a/Documentation/devicetree/bindings/sound/foursemi,fs2105s.yaml b/Documentation/devicetree/bindings/sound/foursemi,fs2105s.yaml
-new file mode 100644
-index 000000000..7391c404a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/foursemi,fs2105s.yaml
-@@ -0,0 +1,99 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/foursemi,fs2105s.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: FourSemi FS2104/5S Digital Audio Amplifier
-+
-+maintainers:
-+  - Nick Li <nick.li@foursemi.com>
-+
-+description:
-+  The FS2104 is a 15W Inductor-Less, Stereo, Closed-Loop,
-+  Digital Input Class-D Power Amplifier with Enhanced Signal Processing.
-+  The FS2105S is a 30W Inductor-Less, Stereo, Closed-Loop,
-+  Digital Input Class-D Power Amplifier with Enhanced Signal Processing.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - foursemi,fs2104
-+          - const: foursemi,fs2105s
-+      - enum:
-+          - foursemi,fs2105s
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: The clock of I2S BCLK
-+
-+  clock-names:
-+    items:
-+      - const: bclk
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  '#sound-dai-cells':
-+    const: 0
-+
-+  pvdd-supply:
-+    description:
-+      Regulator for power supply(PVDD in datasheet).
-+
-+  dvdd-supply:
-+    description:
-+      Regulator for digital supply(DVDD in datasheet).
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description:
-+      It's the SDZ pin in datasheet, the pin is active low,
-+      it will power down and reset the chip to shut down state.
-+
-+  firmware-name:
-+    maxItems: 1
-+    description: |
-+      The firmware(*.bin) contains:
-+      a. Register initialization settings
-+      b. DSP effect parameters
-+      c. Multi-scene sound effect configurations(optional)
-+      It's gernerated by FourSemi's tuning tool.
-+
-+required:
-+  - compatible
-+  - reg
-+  - '#sound-dai-cells'
-+  - reset-gpios
-+  - firmware-name
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        audio-codec@68 {
-+            compatible = "foursemi,fs2105s";
-+            reg = <0x68>;
-+            clocks = <&clocks 18>;
-+            clock-names = "bclk";
-+            #sound-dai-cells = <0>;
-+            pvdd-supply = <&pvdd_supply>;
-+            dvdd-supply = <&dvdd_supply>;
-+            reset-gpios = <&gpio 18 GPIO_ACTIVE_LOW>;
-+            firmware-name = "fs2105s-btl-2p0-0s.bin";
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&fs210x_pins_default>;
-+        };
-+    };
--- 
-2.39.5
+ sound/core/compress_offload.c                     |  48 ++++-----
+ sound/pci/hda/cs35l56_hda.c                       | 114 ++++++++++++++++------
+ sound/pci/hda/patch_realtek.c                     |   5 +
+ sound/soc/amd/yc/acp6x-mach.c                     |  21 ++++
+ sound/soc/codecs/rt5660.c                         |   7 +-
+ sound/soc/intel/avs/pcm.c                         |   4 +-
+ sound/soc/intel/boards/Kconfig                    |   2 +-
+ sound/soc/intel/common/soc-acpi-intel-arl-match.c |  29 ++++++
+ 8 files changed, 172 insertions(+), 58 deletions(-)
 
