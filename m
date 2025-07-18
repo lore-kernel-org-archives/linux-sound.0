@@ -1,56 +1,86 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4233C01;
-	Fri, 18 Jul 2025 09:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C142BD00C
+	for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 10:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752831959; cv=none; b=k7HjXcvtRMHeCGhrpM13Y6fwBhCEyrLGm0sQD+ANZJgypyyXu5QL3YBDmgUbFiXdGdv/VaxFkMgVBxBGr1No0ERHfR1yrH5SrhdzlTJhh8G6eo0teVvxF+tVVpPwJZIYKV0/yRx+i7veSAJZ+1eoORUa4GNh6TA3cVs0mqb8m90=
+	t=1752835614; cv=none; b=OMHff/oCdkfxZ2QgtEbrW9tXQpjuAqSvOWzxBvjCrR6H7jzMAUQN3AIMIRZNjK9WmCjedfsI4XS7Po+VplRbC0N49vU/15IaEkERy9SLWIWHoBNNZyl1cjUpfyI/I7KiTiMAnwW6HQKiaNiwaafW8TyTb8a7RUdcCjT2zgCE95k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752831959; c=relaxed/simple;
-	bh=pY0MV4mpYdYjPZWc2VFKwAFPw4Xd+79vKStlUueZr5k=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XYm9WsZL+uSEQ9RTYtIYbTgwGoxVVvR7VYIAe/HGoEnqyL1TFs4i41Q+KsPFjqBxzwvyQtsm5voLjZL0fbeA88xl9mZvLHvZCLszi6Q2QgmPxYpDMZPFcb/3WyniaQuZVgGQa0igtfMQZGGfmpYLOAF7b7PebCihHjG+uvBhqVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=xkTl9IOt; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1752835614; c=relaxed/simple;
+	bh=ZCzgqQ5wClK+CpOspY0xkNzERE+nZ0OAJ4Bui5yuNYE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IEd7VDqxtksFUOqk20eP72XtooSTr3EYWhjK84cM0mD8FpFed62pVcTelOE87L9Rzw9Rwj0SAjRdhQaSZ0ZpwZ5+NYlNSht783MPX6RzBAO2JuDqWOp5Cb8fDKjevnBnJtzqxmfHpNu62Yz9w0+8CcNw8JsHG87fPSz3gXzil5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=N2Km+4oP; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="xkTl9IOt"
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56I9jSEE226499;
-	Fri, 18 Jul 2025 04:45:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1752831928;
-	bh=J0S1VbKJLH31RiIy3lX0zXmUf3R0ULFs66hqGBDEbTo=;
-	h=From:To:CC:Subject:Date;
-	b=xkTl9IOtCTPKVLfekzPLQh82tamAXKw+mlv+TVDSKT5DHEH/8XtFK84TaIosg3HtN
-	 7Bj1j0GAi50EjTmNDnunu2C4u0Hs7rU3rs4QW18kMWHyXQFGdbqI4HGfbTB5nOg+AT
-	 TAcWt/bMA9hMosLHrPiHNLgXhLmN6NDmswlxty9U=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56I9jSaW3421028
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Fri, 18 Jul 2025 04:45:28 -0500
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 18
- Jul 2025 04:45:27 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 18 Jul 2025 04:45:27 -0500
-Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56I9jLCH3643100;
-	Fri, 18 Jul 2025 04:45:22 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <tiwai@suse.de>
-CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>, <navada@ti.com>,
-        <13916275206@139.com>, <v-hampiholi@ti.com>, <v-po@ti.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <baojun.xu@ti.com>
-Subject: [PATCH v1] ALSA: hda: Add TAS2770 support
-Date: Fri, 18 Jul 2025 17:44:54 +0800
-Message-ID: <20250718094454.26574-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="N2Km+4oP"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56I8U4x7025183
+	for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 10:46:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Ii7gkbQDsBKlsIJbbjCqaJyes15tBplO58P
+	17UvUF84=; b=N2Km+4oPwfjpujrdM2mZ5jUpTNJuE0rWP6QSfUbBFuau6XKkLwc
+	nG8KQ16CcGbpEwVptjno9cwKyk40YkDjgQzExwu6MW4qCarwbhABvOOPojVwlZnQ
+	ieuOtDe+98BL78x58lW1NdVexVM8XB/hWzpqfaYt1KWyECZfUPrpXqifqPghOovU
+	8+VER+xCszmMJXwaNR46NW0a9yjc4znlpLnlq0JbjnM1/mXYkn9WyRsRJon32m4W
+	8FvFBfIN08vHnpp9l8LrhaP/oKBmQsJQvdphm6YSvmc7oyae5hkJtXmDiT5F10jU
+	Fr9sChhiYHn5p1S4wSvfZKZ/6nchUY4l1Dg==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47xbsqfck5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 10:46:51 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-74b29ee4f8bso1946938b3a.2
+        for <linux-sound@vger.kernel.org>; Fri, 18 Jul 2025 03:46:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752835610; x=1753440410;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ii7gkbQDsBKlsIJbbjCqaJyes15tBplO58P17UvUF84=;
+        b=GHl+OJ34NwjI9OVuE14bKZIP8bh+37r3grSK84TRwiJn3alJDCxdMu2U4//Tmfg2og
+         nG3Xe4ucvR08BjAQlHGBCcUjfV/dOpZixyvqYraSQBtT5qjq5tiieYaNzVbFgGWBq9V9
+         CIbr/cmPv/nyDXr5nlFjPVv1IjhZoeWJ6UTAdFid0iC/PUuoZjxQxIyEpBr70xMjp8gq
+         8r9g+k8impyGfLahM6mBApDiiQrokYwVwio1hk1MQnSeKtQ8Ex29MByTzFZ2vzWxyPh7
+         QzlD3CwHYs1Ms46q4+N0cCPDbWG+1Rlad0U57l3OHxlaEquGoSuWOVWTc5rXatPgvT38
+         RwKA==
+X-Forwarded-Encrypted: i=1; AJvYcCXPoibUcyW/ALamIc//QmKc1Gv5ERIlgrmLA+r3pVjXIg0mnbWv1DX1ZISpu4RJGXf8CfTUCzK46/YPVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqACd/6Rbf/SBvPFjaTPl7WqxOhhoBE4IVzt+mxk3K8sncU0A1
+	WF9JrDYEyJVsOXXiXKrU/voz5KsFYoeRCk08gPHSpLD7Qa0rHKEci3OPDKr5nDVTfotasn3bh2Q
+	Y9luOyv12IcNMG3dEiME4TK8nZL9gOiMX9OIJfe13JmxbpA5v7rPZcreqbotgv+NADw==
+X-Gm-Gg: ASbGncsdOD1LqkQHEs45GAoVORCwwIeRVXEVjom3jYacJLEIlNZH9ndgD6yD4hqlvAj
+	i5+852Sy3ZcG6eGBaXEmQxn0R7w096r+gMPPyojssgX19tvt5qt5lE1zLeGMk6iUsyf2NGbbusW
+	krAoxWkW/afgIENLMD2lPjn7d5Cn+5PJpzY6ktrWTi7StAiCX7IrTqUjfZXZfMbcLqP0W1IlW6w
+	WjdfuIUKnivduG6OWq/hnGLDT7ihIMj9ud63ExLVNpgcikUhf5B02uV5HafINt0qTKnf/0avRgU
+	GC0ZolXVIcEOkNKEVYFpxnJJAerYg1imYXQZzkwGxsaOSKABWTMZy2J4Gr5Hvrny4Ps9C+jpWC1
+	D
+X-Received: by 2002:a05:6a21:648d:b0:231:6ba:881c with SMTP id adf61e73a8af0-23811d5b72fmr13279534637.6.1752835609903;
+        Fri, 18 Jul 2025 03:46:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE+oIQZv7zeP2XrajyPNGsv0HOcYRrzrBPX4o99YzxCFVD8DkN7dyHzSjoLscfcsLRkcELSfw==
+X-Received: by 2002:a05:6a21:648d:b0:231:6ba:881c with SMTP id adf61e73a8af0-23811d5b72fmr13279503637.6.1752835609468;
+        Fri, 18 Jul 2025 03:46:49 -0700 (PDT)
+Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb678cdbsm1028989b3a.108.2025.07.18.03.46.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jul 2025 03:46:49 -0700 (PDT)
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
+        kernel@oss.qualcomm.com
+Subject: [PATCH v2 0/2] Handle shared reset GPIO for WSA883x speakers
+Date: Fri, 18 Jul 2025 16:16:26 +0530
+Message-Id: <20250718104628.3732645-1-mohammad.rafi.shaik@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,328 +88,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Authority-Analysis: v=2.4 cv=ad1hnQot c=1 sm=1 tr=0 ts=687a261b cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=sKMTf-CTBu6bTl4tlAcA:9
+ a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-ORIG-GUID: 69pJCS-e4Lc2xmwUl5o-yyR96DxhV2jO
+X-Proofpoint-GUID: 69pJCS-e4Lc2xmwUl5o-yyR96DxhV2jO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDA4NCBTYWx0ZWRfX+5cpmQlt/s4i
+ +JVEaOaLZ6D0apfl1LmaaZwlQvWNaQW0NCLMEFVsKrLV5A25Jwaw7oDp1r4krgEoR1opcj4Lg3y
+ ZZHvoVsZk8ZVb6aImmCKL93STaEa4IKw53DUDpMPTT44N/h3138MLcMiUXbEZJBTTSCwFP6lg4Z
+ EcScN7OpAEM928hE+5PrfNcg0OjwfLZcCLHvGnaqLZM+n513nS/ryvxsT95PVlonYbm7UDgM0PI
+ ApyMhXzaM2934+EI5h6VTei0iir/8V3bBaj4xpDOLKlmpS9xS0fKI91MraGvLT+cSI/tPC0viaI
+ emWoURrsCrnYA+SkRsvm0Opf7X6+1ewtYwhSooHFC9ZYk8eOTt265/IoGSdiaxvhpj1wjXkMVHy
+ jeTNDrl+NIAg3V7WMDZ3DQncsqhq7CqMcQV0rcSLqyoS+M7TQCfcyi3tDVVmxGeSO0AW7tMA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-18_02,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 mlxlogscore=894 suspectscore=0 spamscore=0
+ malwarescore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507180084
 
-Add TAS2770 support in TI's HDA driver.
-And add hda_chip_id for more product support in the future.
-Separated DSP and non-DSP in firmware load function.
+On some Qualcomm platforms such as QCS6490-RB3Gen2, the multiple
+WSA8830/WSA8835 speakers share a common reset (shutdown) GPIO.
+To handle such cases, use the reset controller framework along with the
+"reset-gpio" driver.
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
- include/sound/tas2770-tlv.h     |  23 +++++
- sound/pci/hda/tas2781_hda_i2c.c | 157 ++++++++++++++++++++++----------
- 2 files changed, 133 insertions(+), 47 deletions(-)
- create mode 100644 include/sound/tas2770-tlv.h
+Tested on:
+	- QCS6490-RB3Gen2
 
-diff --git a/include/sound/tas2770-tlv.h b/include/sound/tas2770-tlv.h
-new file mode 100644
-index 000000000000..c0bd495b4a07
---- /dev/null
-+++ b/include/sound/tas2770-tlv.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+//
-+// ALSA SoC Texas Instruments TAS2770 Audio Smart Amplifier
-+//
-+// Copyright (C) 2025 Texas Instruments Incorporated
-+// https://www.ti.com
-+//
-+// The TAS2770 hda driver implements for one, two, or even multiple
-+// TAS2770 chips.
-+//
-+// Author: Baojun Xu <baojun.xu@ti.com>
-+//
-+
-+#ifndef __TAS2770_TLV_H__
-+#define __TAS2770_TLV_H__
-+
-+#define TAS2770_DVC_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x17)
-+#define TAS2770_AMP_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x03)
-+
-+static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_dvc_tlv, 1650, 50, 0);
-+static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_amp_tlv, 1100, 50, 0);
-+
-+#endif
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index d91eed9f7804..2fdff0f88af7 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -24,6 +24,7 @@
- #include <sound/tas2781.h>
- #include <sound/tas2781-comlib-i2c.h>
- #include <sound/tlv.h>
-+#include <sound/tas2770-tlv.h>
- #include <sound/tas2781-tlv.h>
- 
- #include "hda_local.h"
-@@ -45,9 +46,18 @@
- #define TAS2563_CAL_TLIM		TASDEVICE_REG(0, 0x10, 0x14)
- #define TAS2563_CAL_R0			TASDEVICE_REG(0, 0x0f, 0x34)
- 
-+enum device_chip_id {
-+	HDA_TAS2563,
-+	HDA_TAS2770,
-+	HDA_TAS2781,
-+	HDA_OTHERS
-+};
-+
- struct tas2781_hda_i2c_priv {
- 	struct snd_kcontrol *snd_ctls[2];
- 	int (*save_calibration)(struct tas2781_hda *h);
-+
-+	int hda_chip_id;
- };
- 
- static int tas2781_get_i2c_res(struct acpi_resource *ares, void *data)
-@@ -246,6 +256,15 @@ static int tas2781_force_fwload_put(struct snd_kcontrol *kcontrol,
- 	return change;
- }
- 
-+static const struct snd_kcontrol_new tas2770_snd_controls[] = {
-+	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS2770_AMP_LEVEL,
-+		0, 0, 20, 0, tas2781_amp_getvol,
-+		tas2781_amp_putvol, tas2770_amp_tlv),
-+	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Digital Volume", TAS2770_DVC_LEVEL,
-+		0, 0, 31, 0, tas2781_amp_getvol,
-+		tas2781_amp_putvol, tas2770_dvc_tlv),
-+};
-+
- static const struct snd_kcontrol_new tas2781_snd_controls[] = {
- 	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
- 		1, 0, 20, 0, tas2781_amp_getvol,
-@@ -254,7 +273,7 @@ static const struct snd_kcontrol_new tas2781_snd_controls[] = {
- 		tas2781_force_fwload_get, tas2781_force_fwload_put),
- };
- 
--static const struct snd_kcontrol_new tas2781_prof_ctrl = {
-+static const struct snd_kcontrol_new tasdevice_prof_ctrl = {
- 	.name = "Speaker Profile Id",
- 	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
- 	.info = tasdevice_info_profile,
-@@ -262,7 +281,7 @@ static const struct snd_kcontrol_new tas2781_prof_ctrl = {
- 	.put = tasdevice_set_profile_id,
- };
- 
--static const struct snd_kcontrol_new tas2781_dsp_prog_ctrl = {
-+static const struct snd_kcontrol_new tasdevice_dsp_prog_ctrl = {
- 	.name = "Speaker Program Id",
- 	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
- 	.info = tasdevice_info_programs,
-@@ -270,7 +289,7 @@ static const struct snd_kcontrol_new tas2781_dsp_prog_ctrl = {
- 	.put = tasdevice_program_put,
- };
- 
--static const struct snd_kcontrol_new tas2781_dsp_conf_ctrl = {
-+static const struct snd_kcontrol_new tasdevice_dsp_conf_ctrl = {
- 	.name = "Speaker Config Id",
- 	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
- 	.info = tasdevice_info_config,
-@@ -379,44 +398,15 @@ static void tas2781_hda_remove_controls(struct tas2781_hda *tas_hda)
- 	snd_ctl_remove(codec->card, tas_hda->prof_ctl);
- }
- 
--static void tasdev_fw_ready(const struct firmware *fmw, void *context)
-+static void tasdevice_dspfw_init(void *context)
- {
- 	struct tasdevice_priv *tas_priv = context;
- 	struct tas2781_hda *tas_hda = dev_get_drvdata(tas_priv->dev);
- 	struct tas2781_hda_i2c_priv *hda_priv = tas_hda->hda_priv;
- 	struct hda_codec *codec = tas_priv->codec;
--	int i, ret, spk_id;
--
--	pm_runtime_get_sync(tas_priv->dev);
--	mutex_lock(&tas_priv->codec_lock);
--
--	ret = tasdevice_rca_parser(tas_priv, fmw);
--	if (ret)
--		goto out;
--
--	tas_hda->prof_ctl = snd_ctl_new1(&tas2781_prof_ctrl, tas_priv);
--	ret = snd_ctl_add(codec->card, tas_hda->prof_ctl);
--	if (ret) {
--		dev_err(tas_priv->dev,
--			"Failed to add KControl %s = %d\n",
--			tas2781_prof_ctrl.name, ret);
--		goto out;
--	}
--
--	for (i = 0; i < ARRAY_SIZE(tas2781_snd_controls); i++) {
--		hda_priv->snd_ctls[i] = snd_ctl_new1(&tas2781_snd_controls[i],
--			tas_priv);
--		ret = snd_ctl_add(codec->card, hda_priv->snd_ctls[i]);
--		if (ret) {
--			dev_err(tas_priv->dev,
--				"Failed to add KControl %s = %d\n",
--				tas2781_snd_controls[i].name, ret);
--			goto out;
--		}
--	}
-+	int ret, spk_id;
- 
- 	tasdevice_dsp_remove(tas_priv);
--
- 	tas_priv->fw_state = TASDEVICE_DSP_FW_PENDING;
- 	if (tas_priv->speaker_id != NULL) {
- 		// Speaker id need to be checked for ASUS only.
-@@ -442,48 +432,101 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
- 		dev_err(tas_priv->dev, "dspfw load %s error\n",
- 			tas_priv->coef_binaryname);
- 		tas_priv->fw_state = TASDEVICE_DSP_FW_FAIL;
--		goto out;
-+		return;
- 	}
- 
--	tas_hda->dsp_prog_ctl = snd_ctl_new1(&tas2781_dsp_prog_ctrl,
-+	tas_hda->dsp_prog_ctl = snd_ctl_new1(&tasdevice_dsp_prog_ctrl,
- 		tas_priv);
- 	ret = snd_ctl_add(codec->card, tas_hda->dsp_prog_ctl);
- 	if (ret) {
- 		dev_err(tas_priv->dev,
- 			"Failed to add KControl %s = %d\n",
--			tas2781_dsp_prog_ctrl.name, ret);
--		goto out;
-+			tasdevice_dsp_prog_ctrl.name, ret);
-+		return;
- 	}
- 
--	tas_hda->dsp_conf_ctl = snd_ctl_new1(&tas2781_dsp_conf_ctrl,
-+	tas_hda->dsp_conf_ctl = snd_ctl_new1(&tasdevice_dsp_conf_ctrl,
- 		tas_priv);
- 	ret = snd_ctl_add(codec->card, tas_hda->dsp_conf_ctl);
- 	if (ret) {
- 		dev_err(tas_priv->dev,
- 			"Failed to add KControl %s = %d\n",
--			tas2781_dsp_conf_ctrl.name, ret);
--		goto out;
-+			tasdevice_dsp_conf_ctrl.name, ret);
-+		return;
- 	}
--
- 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
-+
- 	tasdevice_prmg_load(tas_priv, 0);
- 	if (tas_priv->fmw->nr_programs > 0)
- 		tas_priv->cur_prog = 0;
- 	if (tas_priv->fmw->nr_configurations > 0)
- 		tas_priv->cur_conf = 0;
--
- 	/* If calibrated data occurs error, dsp will still works with default
- 	 * calibrated data inside algo.
- 	 */
- 	hda_priv->save_calibration(tas_hda);
-+}
-+
-+static void tasdev_add_kcontrols(struct tasdevice_priv *tas_priv,
-+	struct snd_kcontrol **ctls, struct hda_codec *codec,
-+	const struct snd_kcontrol_new *tas_snd_ctrls, int num_ctls)
-+{
-+	int i, ret;
-+
-+	for (i = 0; i < num_ctls; i++) {
-+		ctls[i] = snd_ctl_new1(
-+			&tas_snd_ctrls[i], tas_priv);
-+		ret = snd_ctl_add(codec->card, ctls[i]);
-+		if (ret) {
-+			dev_err(tas_priv->dev,
-+				"Failed to add KControl %s = %d\n",
-+				tas_snd_ctrls[i].name, ret);
-+			break;
-+		}
-+	}
-+}
-+
-+static void tasdev_fw_ready(const struct firmware *fmw, void *context)
-+{
-+	struct tasdevice_priv *tas_priv = context;
-+	struct tas2781_hda *tas_hda = dev_get_drvdata(tas_priv->dev);
-+	struct tas2781_hda_i2c_priv *hda_priv = tas_hda->hda_priv;
-+	struct hda_codec *codec = tas_priv->codec;
-+	int ret;
-+
-+	pm_runtime_get_sync(tas_priv->dev);
-+	mutex_lock(&tas_priv->codec_lock);
- 
--	tasdevice_tuning_switch(tas_hda->priv, 0);
--	tas_hda->priv->playback_started = true;
-+	ret = tasdevice_rca_parser(tas_priv, fmw);
-+	if (ret)
-+		goto out;
-+
-+	tas_priv->fw_state = TASDEVICE_RCA_FW_OK;
-+	tasdev_add_kcontrols(tas_priv, &tas_hda->prof_ctl, codec,
-+		&tasdevice_prof_ctrl, 1);
-+
-+	switch (hda_priv->hda_chip_id) {
-+	case HDA_TAS2770:
-+		tasdev_add_kcontrols(tas_priv, hda_priv->snd_ctls, codec,
-+				     &tas2770_snd_controls[0],
-+				     ARRAY_SIZE(tas2770_snd_controls));
-+		break;
-+	case HDA_TAS2781:
-+		tasdev_add_kcontrols(tas_priv, hda_priv->snd_ctls, codec,
-+				     &tas2781_snd_controls[0],
-+				     ARRAY_SIZE(tas2781_snd_controls));
-+		tasdevice_dspfw_init(context);
-+		break;
-+	case HDA_TAS2563:
-+		tasdevice_dspfw_init(context);
-+		break;
-+	default:
-+		break;
-+	}
- 
- out:
- 	mutex_unlock(&tas_hda->priv->codec_lock);
- 	release_firmware(fmw);
--	pm_runtime_mark_last_busy(tas_hda->dev);
- 	pm_runtime_put_autosuspend(tas_hda->dev);
- }
- 
-@@ -584,15 +627,34 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
- 		return -ENOMEM;
- 
- 	if (strstr(dev_name(&clt->dev), "TIAS2781")) {
-+		/*
-+		 * TAS2781, integrated on-chip DSP with
-+		 * global I2C address supported.
-+		 */
- 		device_name = "TIAS2781";
-+		hda_priv->hda_chip_id = HDA_TAS2781;
- 		hda_priv->save_calibration = tas2781_save_calibration;
- 		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
-+	} else if (strstarts(dev_name(&clt->dev), "i2c-TXNW2770")) {
-+		/*
-+		 * TAS2770, has no on-chip DSP, so no calibration data
-+		 * required; has no global I2C address supported.
-+		 */
-+		device_name = "TXNW2770";
-+		hda_priv->hda_chip_id = HDA_TAS2770;
- 	} else if (strstr(dev_name(&clt->dev), "INT8866")) {
-+		/*
-+		 * TAS2563, integrated on-chip DSP with
-+		 * global I2C address supported.
-+		 */
- 		device_name = "INT8866";
-+		hda_priv->hda_chip_id = HDA_TAS2563;
- 		hda_priv->save_calibration = tas2563_save_calibration;
- 		tas_hda->priv->global_addr = TAS2563_GLOBAL_ADDR;
--	} else
-+	} else {
- 		return -ENODEV;
-+	}
-+
- 
- 	tas_hda->priv->irq = clt->irq;
- 	ret = tas2781_read_acpi(tas_hda->priv, device_name);
-@@ -724,6 +786,7 @@ static const struct i2c_device_id tas2781_hda_i2c_id[] = {
- static const struct acpi_device_id tas2781_acpi_hda_match[] = {
- 	{"TIAS2781", 0 },
- 	{"INT8866", 0 },
-+	{"TXNW2770", 0 },
- 	{}
- };
- MODULE_DEVICE_TABLE(acpi, tas2781_acpi_hda_match);
+changes in [v2]:
+	- Addressed the review comments from Krzysztof, Dmitry, Philipp.
+	- Used devm_reset_control_get_optional_shared_deasserted() api.
+	- created deasserts/asserts functions to handle reset gpios.
+	- Register devm action to safely disable the regulator on device removal.
+	- Link to V1: https://lore.kernel.org/linux-sound/20250620103012.360794-1-mohammad.rafi.shaik@oss.qualcomm.com/
+	
+
+Mohammad Rafi Shaik (2):
+  ASoC: dt-bindings: qcom,wsa8830: Add reset-gpios for shared line
+  ASoC: codecs: wsa883x: Handle shared reset GPIO for WSA883x speakers
+
+ .../bindings/sound/qcom,wsa883x.yaml          | 11 ++-
+ sound/soc/codecs/wsa883x.c                    | 93 ++++++++++++++-----
+ 2 files changed, 81 insertions(+), 23 deletions(-)
+
+
+base-commit: e8352908bdcd2d0bcf0aca8c69fae85fd5ea5edb
 -- 
 2.34.1
 
