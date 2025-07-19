@@ -1,113 +1,155 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8586372636;
-	Sat, 19 Jul 2025 04:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D9B235079
+	for <linux-sound@vger.kernel.org>; Sat, 19 Jul 2025 08:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752899412; cv=none; b=XscnhB8cB0pMpToGEToY7+EVaYSGPE1DmXkz8Gm1dcFapOusX65TOC17zJfxhyDxJMJdQ/a+0KWNBQMNk+aW8vuO19frjhE/0YUY4o5YiNKDIeDp+cWq0pyquc7n8JX24aBoVV1f/7Sm1kQxbaa/DypSQB19oSrV17xyTq4sylc=
+	t=1752914333; cv=none; b=qBmENo6H46HNICNZoBB4tJN6gCWksoDybHIJd1OPGjofhUlSstVFRFSD5L1c+noF5kdm288HddcrH7lzcA4WI6hDoYD4LBjHgmnrXmPMWBlfsjKZ4Np48wikza6VKrFGQ4oBZf9M12a2F71Fznj+85x7nLQ5PbkVJzn3v3YdAjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752899412; c=relaxed/simple;
-	bh=oi8FGO1psOx81HUBIRS3QyXQ1ErFNE8ttxyum62km0A=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=VfjKSBbmJJym1ErbWrOl1V++mHHi89VJ7q7+9KXcz+mBKbQMkIAncOtgGVy96dEICHOIUxNFhHJo9Xk2T0bylvHKdFhx+HDlXlT6pL7dTIBS3AQnTpdttm/SZZB7jBWDCVz1Dc5DnAMDGaz/Fz9LpsiLslAS4FvwO4It/aw5vpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Mzo0ccQd; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1752914333; c=relaxed/simple;
+	bh=Ur4VPWnq3uw4FdWmt/9pK+hBwvb6OqyunFEN7NVZwmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NkMz/2l6sPIZ0s7VcAnkCRf14NvY3yVP9hQaTP5E+RbRD9oafsOcB/dIY3ih4Mnv8KebmKTRrm64/UXgJFPpIiIfk5gI3MmeyLvYsH/w00Stygijn3TRt7TqvyKNka8E4X0uc+KfrXl443iJ7VFbsWxkqrUtYcqQ7MfyqcSA8lQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iYluWSHX; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Mzo0ccQd"
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56J4TrFh843181;
-	Fri, 18 Jul 2025 23:29:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1752899393;
-	bh=oi8FGO1psOx81HUBIRS3QyXQ1ErFNE8ttxyum62km0A=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=Mzo0ccQdnrgFWRTnbVSHEuLfw97XBY3/aGE4slT6KqEe9sR3rxHMPAs46RR/8XEbu
-	 A4gqM0nalFznqHX8VH1ovGIlKxnsSBqhpvXgJ5NXxDlOZIY1MVT+zUhTagkFI1yPWE
-	 I8y1JrZPKo5wy2ki7hMKfWyWAqwoaOaZ5zkGLCio=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56J4TqF22837956
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Fri, 18 Jul 2025 23:29:52 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 18
- Jul 2025 23:29:52 -0500
-Received: from DLEE100.ent.ti.com ([fe80::ad4d:c227:3f85:880d]) by
- DLEE100.ent.ti.com ([fe80::ad4d:c227:3f85:880d%17]) with mapi id
- 15.01.2507.055; Fri, 18 Jul 2025 23:29:52 -0500
-From: "Xu, Baojun" <baojun.xu@ti.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: "broonie@kernel.org" <broonie@kernel.org>,
-        "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-        "Ding, Shenghao"
-	<shenghao-ding@ti.com>,
-        "Navada Kanyana, Mukund" <navada@ti.com>,
-        "13916275206@139.com" <13916275206@139.com>,
-        "Hampiholi, Vallabha"
-	<v-hampiholi@ti.com>,
-        "P O, Vijeth" <v-po@ti.com>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [EXTERNAL] Re: [PATCH v1] ALSA: hda: Add TAS2770 support
-Thread-Topic: [EXTERNAL] Re: [PATCH v1] ALSA: hda: Add TAS2770 support
-Thread-Index: AQHb98ixOJRCWPnlVkCBFp4TVnPJVrQ4I18AgAC32RA=
-Date: Sat, 19 Jul 2025 04:29:52 +0000
-Message-ID: <26bbebb22e0046bcb154dcfd5c7094e9@ti.com>
-References: <20250718094454.26574-1-baojun.xu@ti.com>,<87ms917kdl.wl-tiwai@suse.de>
-In-Reply-To: <87ms917kdl.wl-tiwai@suse.de>
-Accept-Language: en-GB, zh-CN, en-US
-Content-Language: en-GB
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iYluWSHX"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56J4nCaf004666
+	for <linux-sound@vger.kernel.org>; Sat, 19 Jul 2025 08:38:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=glsksHZF4qm47GLf5Dr0eBBk
+	p9qudOP0OhFzI5tDeNg=; b=iYluWSHXdy60NCiKDZwACKpvFtNJB7W1ALMHW34Q
+	KWZL1uZi2Xvln8LjANXoqFM14m4qzLWEtgZqHWl4mOiPL9B8PVnVEvV8J+QMHJoP
+	sadZ44Zo8vACLx3zQt52G9RB3H+1VIa3/1n55zFrEoo4kWQuMGoeCNm72HD/RUKg
+	Faod/Mi9FJcnp1VS3D2wTDtmmScXmZWwwbOwC8Ryk+3Z1tnJHcBE0BU3sCCpl9WS
+	kCJMjeCa3CWM+H6bInMXhNGdCNualDhnbp/suXLC9OgdHTGFCDUXV0ysQP/KPIAj
+	E3IQWdDFZU8E2hsOEDUyAVJaXAqte5NIgwn2248M8yIrow==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4804n9r9jc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sat, 19 Jul 2025 08:38:50 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6fb3654112fso42919016d6.3
+        for <linux-sound@vger.kernel.org>; Sat, 19 Jul 2025 01:38:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752914329; x=1753519129;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=glsksHZF4qm47GLf5Dr0eBBkp9qudOP0OhFzI5tDeNg=;
+        b=Po0sXWKRn07NMpCBhjYE+SvxdXmThwiKD06Y3V+8B0PF4qd7IAkFoVjion9u+HbXwG
+         TMjq00TTUP8+uIpE+EhpKL7AVqeNVS7LtDeKvavgRorHCd4U/LVYU5GWCTQEVLMbQcLo
+         3bog0ZyaNHZOvrMXr5XUsNbnH1jwZrgCYR6cK1KxCg3CaS8ZclOd1/99cwpjHiTJ32XC
+         oujUiIK7ZOydmfjeaorPOjaRt+qVaTvBa15dnUrElnVFr86lcWPFOHickO58Rw1hT6lp
+         8ao617SwXydUYPmG04VOaRQNP76Hy++M4RQbdfy3YNv1knbvvl7vxpyYywQwPn91ujan
+         zegA==
+X-Forwarded-Encrypted: i=1; AJvYcCWpA8oUoK9e7lBG/1O6f3oN2J2LReDw+VCHh8bgAQMpnlpAZ8vf+HCjwesvvOS/npyGY9mTrXpJpL86KQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3I9ZkrtziHSzOWK8X43r+YTyQXLag+ZXCzIR1VdIYA3lNNSFD
+	HqG+QmACqQKfnDdHYo7c+A+E3mbcT73+fZtO1+bdeNmiSUEwcVtu+EQCEl3uVebAxaPWF5Jh1IX
+	+3W/UywaSqZeqxV2AOfhDP3ktFm12RfOzpQk1f5IPIn8nVQP/KzPtYtbvpJ35UYxxEw==
+X-Gm-Gg: ASbGncv3OSpQwNRfJvTHfy2qVesrZj3n66r3i+RjxG4ZqnrX9CRpy5xepErxPNEqC/O
+	pAi9yKBzsQ1/TqTfN71mpKTzhuidhHh+4q2hInzDjWLF2P5XKay3xmHfamRFQkSo8zYf5S7jOcS
+	PBUkvSB0jx0YUrcWPOSbRb6aKkKtdwUfVHty+7b5+T4GnQzMwlExfPPHfgpK0nIE+cPRYvHGMQ4
+	iXnvG06WXOum6dJZGSTtdk5KuCSCcpL6gMc5hJo8EEMfJe3b9NrUIl7OdJR5a9u9vydTXSNxXQN
+	j6RbsLdl1MXToTBDTux+12vQX2P24v0CXntwTt1io2Sc90ML+dekwjhN6sasiLGU0DcILVKv4Jn
+	p5g1dmJ60N8vDgLQ6YWD6qVNWp5ydw4xRCjeXlC4AC2QgsZNz1Cla
+X-Received: by 2002:a05:6214:5090:b0:704:8f24:f03d with SMTP id 6a1803df08f44-704f4825428mr238949966d6.16.1752914328904;
+        Sat, 19 Jul 2025 01:38:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFQsvNQe0y0XkePnP7jlgYK0y9weg7ronQqAfB9AOD0zuVM4AIPd7Z2x/hqwuEfSMzAV+Y4bQ==
+X-Received: by 2002:a05:6214:5090:b0:704:8f24:f03d with SMTP id 6a1803df08f44-704f4825428mr238949776d6.16.1752914328437;
+        Sat, 19 Jul 2025 01:38:48 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-330a911b775sm5216151fa.45.2025.07.19.01.38.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Jul 2025 01:38:47 -0700 (PDT)
+Date: Sat, 19 Jul 2025 11:38:45 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+        kernel@oss.qualcomm.com,
+        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v6 7/9] arm64: dts: qcom: qcs6490-rb3gen2: Add sound card
+Message-ID: <iuojvg73siqfxq4ejv4g7o562k7i766bbpg36sxsljq7z7tqrs@ueqfdknfp5zw>
+References: <20250715180050.3920019-1-quic_pkumpatl@quicinc.com>
+ <20250715180050.3920019-8-quic_pkumpatl@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250715180050.3920019-8-quic_pkumpatl@quicinc.com>
+X-Proofpoint-GUID: JPvflgmnmScjigbyw6up4rQcvff7UwkF
+X-Proofpoint-ORIG-GUID: JPvflgmnmScjigbyw6up4rQcvff7UwkF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDA4NCBTYWx0ZWRfX1WkiB9KhCI3a
+ dLEXNpuAoRX0Tm4PEuc23o+8C+Ei3V7lkEdj+qRQGtoyFhKtpM9mpsp7d3Ck8gJLRDLIRKbBLk4
+ DXxl8JOv/j3b/Lh7+2ONsc4i8BfwUMDVZu4aOAacJE1ICGcqt3tcPijBtX4xqQTwWQylSR/yXNR
+ zLZS2BSv81b2KIZnSGpJgCotGZypN4d2/N4OS7zx34Tmp3pE4yjuP+Cjlh+hdTrYfOBpkHW04aQ
+ 62aFN+xtTY6jRcMwAsIcmoxpHSEQsWfiaQyihLP8jtv+FaTd6OvUJus0iulCw4qJetv9z4phTcS
+ KGz+RgGK9hy0xH2ZfwSlPaGyHxyPsys0G4da1ol5plQqTI22/9+k7ZRwl2U2irqFqMUJCbfL4SD
+ ct0DNH20EjlM7p1g8DVFZEjldsHg0tj5nfkm/sWzRp4iABsKZdm1jsuzPjd3f9XZDzeXzRNX
+X-Authority-Analysis: v=2.4 cv=DoFW+H/+ c=1 sm=1 tr=0 ts=687b599a cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=rRvH8sadIMNe52h8dg0A:9
+ a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-19_01,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 clxscore=1015 mlxscore=0 mlxlogscore=999
+ bulkscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507190084
 
-PiANCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiBGcm9tOiBU
-YWthc2hpIEl3YWkgPHRpd2FpQHN1c2UuZGU+DQo+IFNlbnQ6IDE4IEp1bHkgMjAyNSAyMDoyOQ0K
-PiBUbzogWHUsIEJhb2p1bg0KPiBDYzogYnJvb25pZUBrZXJuZWwub3JnOyBhbmRyaXkuc2hldmNo
-ZW5rb0BsaW51eC5pbnRlbC5jb207IGFsc2EtZGV2ZWxAYWxzYS1wcm9qZWN0Lm9yZzsgRGluZywg
-U2hlbmdoYW87IE5hdmFkYSBLYW55YW5hLCBNdWt1bmQ7IDEzOTE2Mjc1MjA2QDEzOS5jb207IEhh
-bXBpaG9saSwgVmFsbGFiaGE7IFAgTywgVmlqZXRoOyBsaW51eC1zb3VuZEB2Z2VyLmtlcm5lbC5v
-cmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogW0VYVEVSTkFMXSBS
-ZTogW1BBVENIIHYxXSBBTFNBOiBoZGE6IEFkZCBUQVMyNzcwIHN1cHBvcnQNCj4gDQo+IE9uIEZy
-aSwgMTggSnVsIDIwMjUgMTE64oCKNDQ64oCKNTQgKzAyMDAsIEJhb2p1biBYdSB3cm90ZTogDQo+
-IA0KPiBBZGQgVEFTMjc3MCBzdXBwb3J0IGluIFRJJ3MgSERBIGRyaXZlci4gDQo+IEFuZCBhZGQg
-aGRhX2NoaXBfaWQgZm9yIG1vcmUgcHJvZHVjdCBzdXBwb3J0IGluIHRoZSBmdXR1cmUuIA0KPiBT
-ZXBhcmF0ZWQgRFNQIGFuZCBub24tRFNQIGluIGZpcm13YXJlIGxvYWQgZnVuY3Rpb24uIA0KPiAN
-Cj4gU2lnbmVkLW9mZi1ieToNCj4gWmpRY21RUllGcGZwdEJhbm5lclN0YXJ0DQo+IFRoaXMgbWVz
-c2FnZSB3YXMgc2VudCBmcm9tIG91dHNpZGUgb2YgVGV4YXMgSW5zdHJ1bWVudHMuDQo+IERvIG5v
-dCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3UgcmVjb2duaXplIHRo
-ZSBzb3VyY2Ugb2YgdGhpcyBlbWFpbCBhbmQga25vdyB0aGUgY29udGVudCBpcyBzYWZlLg0KPiA8
-aHR0cHM6Ly91cy1waGlzaGFsYXJtLWV3dC5wcm9vZnBvaW50LmNvbS9FV1QvdjEvRzN2SyF2eGRy
-SGZ3bkYwMDd3V3p2dnh0b1g2VVNtVmVNQ1lWY2VidE5Uc2FGdzJQR0N6bDJIQzgtNVhFclhsYV9N
-a3c5Mm04eXN3JD4NCj4gUmVwb3J0IFN1c3BpY2lvdXMNCj4gDQo+IFpqUWNtUVJZRnBmcHRCYW5u
-ZXJFbmQNCj4gDQo+IE9uIEZyaSwgMTggSnVsIDIwMjUgMTE6NDQ6NTQgKzAyMDAsDQo+IEJhb2p1
-biBYdSB3cm90ZToNCj4gPg0KPiA+IEFkZCBUQVMyNzcwIHN1cHBvcnQgaW4gVEkncyBIREEgZHJp
-dmVyLg0KPiA+IEFuZCBhZGQgaGRhX2NoaXBfaWQgZm9yIG1vcmUgcHJvZHVjdCBzdXBwb3J0IGlu
-IHRoZSBmdXR1cmUuDQo+ID4gU2VwYXJhdGVkIERTUCBhbmQgbm9uLURTUCBpbiBmaXJtd2FyZSBs
-b2FkIGZ1bmN0aW9uLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQmFvanVuIFh1IDxiYW9qdW4u
-eHVAdGkuY29tPg0KPiANCj4gQW55IHJlYXNvbiBvZiB0aGUgc3VibWlzc2lvbiBvZiB0aGUgdmVy
-eSBzYW1lIHBhdGNoPw0KPiBJdCB3YXMgcmVxdWVzdGVkIHRvIHJlc3VibWl0IGFmdGVyIHJlYmFz
-aW5nIHRvIHRoZSBuZXcgbG9jYXRpb24gZm9yDQo+IEhELWF1ZGlvIChzb3VuZC9oZGEvKikgYXMg
-Zm91bmQgaW4gZm9yLW5leHQgYnJhbmNoIG9mIHNvdW5kLmdpdCB0cmVlLg0KPiANCg0KSSBoYXZl
-IHVwbG9hZGVkIHRvOg0KZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L25l
-eHQvbGludXgtbmV4dC5naXQsDQphbmQgeW91IHNhaWQ6DQoiVGFrYXNoaSBJd2FpIDx0aXdhaUBz
-dXNlLmRlPiwgU2F0IDEyLzA3LzIwMjUgMTY6MjkNCg0KVGhlIHdob2xlIEhELWF1ZGlvIHN0dWZm
-IGhhcyBiZWVuIG1vdmVkIHVuZGVyIHNvdW5kL2hkYSByZWNlbnRseS4NClBsZWFzZSBjcmVhdGUg
-YSBwYXRjaCBiYXNlZCBvbiBmb3ItbmV4dCBicmFuY2ggb2YgdGhlIHNvdW5kIGdpdCB0cmVlLiIN
-Cg0KU28gSSByZS1wYXRjaGVkIGl0IHRvIGZvci1uZXh0Og0KZ2l0Lmtlcm5lbC5vcmcvcHViL3Nj
-bS9saW51eC9rZXJuZWwvZ2l0L2Jyb29uaWUvc291bmQuDQoNCkRvIEkgaGF2ZSBhIG1pc3VuZGVy
-c3RhbmRpbmcgYWJvdXQgaXQ/IERvIEkgc3RpbGwgbmVlZCBwYXRjaCBvbg0KL25leHQvbGludXgt
-bmV4dC5naXQsIGp1c3QgYWZ0ZXIgdGhlIGNvZGUgd2FzIG1vdmVkIHRvIHNvdW5kL2hkYS9jb2Rl
-Y3Mvc2lkZS1jb2RlY3M/DQoNCj4gDQo+IHRoYW5rcywNCj4gDQo+IFRha2FzaGkNCj4gDQoNCkJl
-c3QgUmVnYXJkcw0KSmltDQo=
+On Tue, Jul 15, 2025 at 11:30:48PM +0530, Prasad Kumpatla wrote:
+> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> 
+> Add the sound card node with tested playback over WSA8835 speakers
+> and digital on-board mics.
+> 
+> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> Co-developed-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+> Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts | 45 ++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts
+> index 82aa69d715d9..4ec3501eecdc 100644
+> --- a/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts
+> +++ b/arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts
+> @@ -1048,6 +1048,51 @@ &sdhc_2 {
+>  	status = "okay";
+>  };
+>  
+> +&sound {
+> +	compatible = "qcom,qcs6490-rb3gen2-sndcard";
+> +	model = "qcs6490-rb3gen2-snd-card";
+
+This model name doesn't seem to match established practice. Please use
+'QCS6490-RB3Gen2'.
+
+> +
+
+-- 
+With best wishes
+Dmitry
