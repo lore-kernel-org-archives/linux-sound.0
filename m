@@ -1,96 +1,103 @@
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C788B76034;
-	Sun, 20 Jul 2025 06:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF7E35973;
+	Sun, 20 Jul 2025 15:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752991535; cv=none; b=M0vpUFVN9ZTozj0SpkqQamF4fyh13RLT8b6CxHdiMt7urO21A0k3JG1H1UVcMVzxIjwI3AE60SKbGcXB3xZN7aLQ+LdNKJZ+k0xddezN1eJvFAQ2eOMfoUXM/bX1yY3lIZtcqwgVR1/sqvmsakSarPbK95aXSlqKMfTV6J5++NM=
+	t=1753026597; cv=none; b=tPmurz6bNprqa+3T1XBWStuY4oR6cwmdYY7M7Qz8cRTv0OOHvIof99HskEfpqom2CsA8WWh2LjphFo2sTEXgkqvbxe3ZyV52WbFVGdCZRdLBOttLkXdeksdBGLk9Jot5QnLLUy9mWbj+7EtEr1IMPT+Yqkf75YYlpgmCEkUkCeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752991535; c=relaxed/simple;
-	bh=EF/Qb2UN4gBLnYp6FUujHmxBrvle6XRCikDDgnkVLDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=llGxCx4EubrCpbn+FfQhxay/ULyFHBI6J9dLOCcVoDhhvLWcwWoN26kfrgWEdCXCd6jIse2gQQUAJurm3Tcb7lct3GEdJUcwZgF0LGsSmXiPB3KbxIxRvDZo6/mvvtZviqy5vn1Tjowhnr6oYEBirBdZp7ecVaIH/NpN6ARqYs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.78.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout2.hostsharing.net (Postfix) with ESMTPS id 27A9320091AE;
-	Sun, 20 Jul 2025 08:05:25 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 11943CC674; Sun, 20 Jul 2025 08:05:25 +0200 (CEST)
-Date: Sun, 20 Jul 2025 08:05:25 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, David Airlie <airlied@gmail.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
-	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
-	"open list:VFIO DRIVER" <kvm@vger.kernel.org>,
-	"open list:SOUND" <linux-sound@vger.kernel.org>,
-	Daniel Dadap <ddadap@nvidia.com>
-Subject: Re: [PATCH v9 9/9] PCI: Add a new 'boot_display' attribute
-Message-ID: <aHyHJZwIgEya_yfn@wunner.de>
-References: <20250718173648.GA2704349@bhelgaas>
- <c7c8b0bf-8602-4030-acbe-ac56678b633c@kernel.org>
+	s=arc-20240116; t=1753026597; c=relaxed/simple;
+	bh=WuFSV70CiHFeLwFjmoriru2B6DdN6PfYARb8HsIY09c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q5X5sgO8I3VL+TOO9rOlzZefrYrrn66ZbxxffpoBmbLQa0CG31R+HoPYQfy7e5AjvZlW9aaJ6xy4oWx73cxZV0va22mhlgy6o6CZoQ4L9cPLABZnbl0fa1kqtqMTpxo9A8zaCixUJ3q+o8cnwWPC/PjlqSiPxurlArBBwaFHxEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DD/269yl; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DD/269yl"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ae0b2ead33cso629370766b.0;
+        Sun, 20 Jul 2025 08:49:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753026594; x=1753631394; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=56IimgoFcz06vn4LfjzFPGxXnWUOYp9UN16wymaCQB8=;
+        b=DD/269ylfqAnsjOfp0+EqBwoYpazAvhi1mps1DOvpgsvVvPdI3nNg7jx1p0b1r5l0S
+         Xtk5dDXsajJmj7J/XN0bXNvM9qSvVhTkkVwOeAqQxIiH7nOQEiWquuyy6BzapCkw3UT9
+         R/KlKG3T/sMzk/axG14oh2D1a2gN8kK+sPDK8Qd6jLqWg+CZCFHtwLST/b1aquCHGUgv
+         HPJzaz1t15XwUgGcaV3cQ0aPyHZ/e8kVWRf11dG/pwqghs+Tqym5qyD0HSetoxt93bai
+         TeQUiQAIJZHOAPyEXKwgMTDvOUroHzirom9jeqeCJ+ZcPo7DFFR/3Ou1z6ykmTzAGkZE
+         +sGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753026594; x=1753631394;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=56IimgoFcz06vn4LfjzFPGxXnWUOYp9UN16wymaCQB8=;
+        b=C44AfZYOe8EpN2RiOJqdH//BNfdcGEeOV08KYTKnOKFM9KwzO5h7Ys0+779ar+Xgkk
+         8jfa04Lp7DPwB7Vag/mToZDZy+4qxorYAqXzobRbuokNcuG3Yux8a2e1KFx6k+iCQzEa
+         L++ejsY9vHOSOeXEyOvVGtwBPMFazpUq1mE+7J9huhVcjA5W9FxPTsy8mmvq//YEVLq8
+         fMjqIGAcSxPs1dEaNh0yhI9wrlpz90dnLTrxIY+UZ3DUNjozbyNsn5SOUJe3XgNrb23S
+         gs8cLv7bI7QVLR+z0SbwVitDcc7CwHHuRrQo4by5jBjqqkK90JDa9N3rR28rS0Qz+/DI
+         2icg==
+X-Forwarded-Encrypted: i=1; AJvYcCUbDNDlBW+ef7637TK/iIzT6mkQeZKfqZInRShZcOy7mBZsWJk5TWCmFu0HcRAvWA5D6xS64KHyQ3SZww0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYMs0NMwup7Ztoj4xP4nF4+k/O0UkLqy5hIim9DG/gx17ZMXWU
+	ybaFARPdaaOESfScxkFOLldBubbwL8l9+P/kjwjkIMHX2uSUih6SFeQh
+X-Gm-Gg: ASbGncuK9wg4lbf5gGpOM4luIQ54lsEZ0Z+8pPCq9M7aBFVzbcXgEsLBSUWRIsK8cmw
+	rLVSY4U7xElyMfe1c4tXwJ3CnyZ9yZOjjxUB/ZtTXbHABpLDFFH/qOis0KKWBVgcyjLve98B61+
+	Ur3h0w+cpH3Cq1xqXWH7H040WP1nJXBxjHAelUKJzgo4OfvMjgYYZUUbMRR3KEEHlS7Glb22tiU
+	d11ZFpLwmFcVEFB5u5BGlfn4K4qexaskMcEUwUJt09PTE4mYFVdwBsasNCFfZGVjQ3ylxn9cibw
+	IgmgesJqphMhyY4QpB+Ez+7OzCnt92SYP3PnAcUjqSrkf4097hDGKSoSmUUJFY0Rb0hp2SS3JOh
+	pD4C0DVDRMJai/odznBKqgyld/GEl7HONH3BPMX2wZYSBTTZCchHXGVHof+jD06+UvCESeRCQuQ
+	5RGZiV8Xk=
+X-Google-Smtp-Source: AGHT+IELAKp3pj/E85bGmMDRGjhbN9K2DOlpdV2DUARaJQybqQCf6aHPgdcDIhbNjoJn8DdHntVZyw==
+X-Received: by 2002:a17:907:7f87:b0:ad8:959c:c567 with SMTP id a640c23a62f3a-aec4de005efmr1315169366b.10.1753026593507;
+        Sun, 20 Jul 2025 08:49:53 -0700 (PDT)
+Received: from localhost.localdomain (46.205.192.124.nat.ftth.dynamic.t-mobile.pl. [46.205.192.124])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-612c903fb62sm3915620a12.44.2025.07.20.08.49.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Jul 2025 08:49:52 -0700 (PDT)
+From: Dawid Rezler <dawidrezler.patches@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dawidrezler.patches@gmail.com
+Subject: [PATCH] ALSA: hda/realtek - Add mute LED support for HP Pavilion 15-eg0xxx
+Date: Sun, 20 Jul 2025 17:49:08 +0200
+Message-ID: <20250720154907.80815-2-dawidrezler.patches@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c7c8b0bf-8602-4030-acbe-ac56678b633c@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 18, 2025 at 12:44:11PM -0500, Mario Limonciello wrote:
-> On 7/18/2025 12:36 PM, Bjorn Helgaas wrote:
-> > On Fri, Jul 18, 2025 at 12:29:05PM -0500, Mario Limonciello wrote:
-> > > On 7/18/2025 12:25 PM, Bjorn Helgaas wrote:
-> > > > In addition to Mani's question about whether /sys/bus/pci/ is the
-> > > > right place for this (which is a very good question), it's also been
-> > > > pointed out to me that we've been trying to get rid of
-> > > > pci_create_sysfs_dev_files() for years.
-> > > > 
-> > > > If it's possible to make this a static attribute that would be much,
-> > > > much cleaner.
-> > > 
-> > > Right - I tried to do this, but the problem is at the time the PCI device is
-> > > created the information needed to make the judgement isn't ready.  The
-> > > options end up being:
-> > > * a sysfs file for every display device with 0/1
-> > > * a sysfs file that is not accurate until later in the boot
-> > 
-> > What's missing?  The specifics might be helpful if someone has another
-> > crack at getting rid of pci_create_sysfs_dev_files() in the future.
-> 
-> The underlying SCREEN_INFO code tries to walk through all the PCI devices in
-> a loop, but at the time all the devices are walked the memory regions
-> associated with the device weren't populated.
-> 
-> So my earlier hack was to re-run the screen info check, and it was awful.
+The mute LED on the HP Pavilion Laptop 15-eg0xxx,
+which uses the ALC287 codec, didn't work.
+This patch fixes the issue by enabling the ALC287_FIXUP_HP_GPIO_LED quirk.
 
-Well have you explored the sysfs_update_group() approach you mentioned
-earlier?
+Tested on a physical device, the LED now works as intended.
 
-https://lore.kernel.org/r/5cc01163-1feb-4a18-8060-27f4da39b2e4@kernel.org/
+Signed-off-by: Dawid Rezler <dawidrezler.patches@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index d91aac06a..0118b8c88 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10694,6 +10694,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x87cc, "HP Pavilion 15-eg0xxx", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x87d3, "HP Laptop 15-gw0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x87df, "HP ProBook 430 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x87e5, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+-- 
+2.49.0
 
-Lukas
