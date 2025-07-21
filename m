@@ -1,92 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0812A2D3EE5;
-	Mon, 21 Jul 2025 12:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899B12D0C8C
+	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 12:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753101005; cv=none; b=SFBMuSJ8u0uRPkvXhjR/F16P4Ip7jJenuKV/OjWoKsk1XnTBpPLwVlBMg4MfrN1awQtNZwd4gbaGFFr8B3zg9p5cQgCYzXQaj2wO8z63Vs9U/Nxpk9OoMl0anNqz/4FX+g6/woPs1T6KN3OvCNBT/mB12Rh9TQ3f5abEA+djZcw=
+	t=1753101630; cv=none; b=VJECwmjM8s//WhBKz2y977W7wbxZu8Y+IpCdBxX7AEPRu8qM5ksPhqVfFFGe4Kv2U53yaxWBMiTcyBYE/VAQYGF6ySL2YQneTfz9uXQu7RymaKOxVul7jfLKruIskDh5bbAJAeRVDwWg1dtgmPAIGbshChkTMk9jpSh1P9XbINw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753101005; c=relaxed/simple;
-	bh=3/Mp/bZdiCCi6LZfAbd65m+AvvUXI4xEDl+vBkRyuFQ=;
+	s=arc-20240116; t=1753101630; c=relaxed/simple;
+	bh=HKypV4u1z7AQtKEV8qXfKdvAJq3j2oYfgAV7NWh5XKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f8cAsJvgxr9lxBUCBFQ6A+D/LYT4gOORC/iBEHBzMaLmDJceq4/6jMvTBZK4DURTah3vnCaFT0WRkNJaRgXt0nTn1LhmFOfOlL9dYubN+D09+f7t+MXkvxir6traCG/LnuVhp46xgdypPSrRsDQG6s6RKbUAFFjXXfJ5UMTVw/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q+K9aBxx; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q+K9aBxx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EDC7C4CEED;
-	Mon, 21 Jul 2025 12:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753101004;
-	bh=3/Mp/bZdiCCi6LZfAbd65m+AvvUXI4xEDl+vBkRyuFQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q+K9aBxxeEfe6ql8kvSVGeQuzepLg/wW01yqaxnhUrqbEHylTeF3rN3YJFpy5mWXc
-	 yHewAQBFICtBu6MC/d0NG7d3SsgbCp7nepeKKPGDeTmsBJXdpYiDnC6rm+Ql2iNKbr
-	 HpnaC7P2Npe8SqqdHfWxO3YhLuZjheVIKut7kJesRLls9cr6MBCto+PCJtvhQ6RKyD
-	 at/okL098bmsMVQyuQ3uW6v+b0FdlAsCoA4qEKOoc1MFQ8fxQ8PRNdPtg662ZrSFrk
-	 ZD34bi/nb1qS7d7jfpqFE59LNOcrhU+ILSJWKnuqz3rITsxTfqsDIiJ2rnkhmeRrBb
-	 gjFuIeKo/oGlA==
-Date: Mon, 21 Jul 2025 13:29:58 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	kernel@oss.qualcomm.com,
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: Re: [PATCH v7 3/9] ASoC: dt-bindings: qcom,lpass-va-macro: Update
- bindings for clocks to support ADSP
-Message-ID: <33d963bd-c5a9-4b10-b348-bf713fbab8d5@sirena.org.uk>
-References: <20250720173215.3075576-1-quic_pkumpatl@quicinc.com>
- <20250720173215.3075576-4-quic_pkumpatl@quicinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ndAdp2zva8muw2+NQKsJ5yYXz2IJPzgdHY3qSNWj6wlEmU+eWPAvjmgveeiatx0LPSabAscEbVEzNVJjNhh3YeWYVV6MsWRAZWu6byelxjKBekhPrgGHaQXosGq1c8Y1SE+6FksbIV8gjNxujcjj5H89TC5Y7mRSqYwhXjhYFxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=18.132.163.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
+X-QQ-mid: zesmtpsz2t1753101613t8c8f9366
+X-QQ-Originating-IP: MoVW0Qm5NMBWEz3uPCzh4xqGQRVxpVf/CTDZ4DOFxxU=
+Received: from localhost ( [113.89.235.49])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 21 Jul 2025 20:40:12 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 5610268674547387337
+EX-QQ-RecipientCnt: 14
+Date: Mon, 21 Jul 2025 20:40:02 +0800
+From: Nick Li <nick.li@foursemi.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
+	tiwai@suse.com, xiaoming.yang@foursemi.com,
+	danyang.zheng@foursemi.com, like.xy@foxmail.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] ASoC: dt-bindings: Add FS2104/5S audio amplifiers
+Message-ID: <0D06FAB8CF1A9D4C+aH41IrERxjlsEAPr@foursemi.com>
+References: <20250721103805.531758-1-nick.li@foursemi.com>
+ <20250721103805.531758-3-nick.li@foursemi.com>
+ <83f7c489-7001-49cd-97a5-4280eba95fe0@kernel.org>
+ <F04DD98A69286426+aH4sT_P0GvttoCOq@foursemi.com>
+ <ea2f30ff-b2cf-4b88-9fe8-78950a03d882@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WQCEN1qteZ5BnNy0"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250720173215.3075576-4-quic_pkumpatl@quicinc.com>
-X-Cookie: Falling rock.
+In-Reply-To: <ea2f30ff-b2cf-4b88-9fe8-78950a03d882@kernel.org>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: Ml1iSfLyJEsH6uqGRR3+xP8QHNbfVYXsSnYeBOM/m6w/zcTzaa3nqqti
+	gd0s1GORj2ZlGHcYo7lwpDdXW6p+ZQYJyXIRX1H1TVgePYlM8jJlGeIDii7WGQXheqDv4uG
+	E/kitWCgNgGF86i5QIUfA93x2S1bwV0+ryodBfbQVtz37p+vWHyOXiWq5wA6tLqcS+ly7CR
+	gPJ7yQ/L2sAbdHE7nn1AqSU4X8D2UWSoUinywvqo49Rgc6ZZ6N51m1ahg4GH9zWU1thRDgZ
+	TGNBN8jS5lxCHx54ZxiLH1tFbS4yPvubRk/UqZZbAp74ZwOGgJIIneZxxqSPGzTM2/xeGMx
+	gEF0RAnRW6D1WfYl2jPGvywM81NfUPuw3zUEtHXLVs7wiTQd2VCsKhVMZqlPPKJhmE7mAT1
+	Jcn7RWe6Brxtzc9cJhrC3GB6zQ0fEm+jsN7+a6n4zYRlgkZno1Y5m29nQKEafWcfsgKrWJc
+	DPQp7a0BKraJ7ZQ9t9EOOYLZ/PetIt6meDsRkF7a84djV3qpFdNzX0UaxsWpKpZ91MEHloY
+	yzsNVG5gXNQffgcx13Z9XKG1wpPd90wGy3ZCUgJ6sXGnxipSNHCDMXyPg1gzwL8f3/5/CYo
+	516txO+z8i6wHPGvlH1Yqwaf7OT3TgFeKVJ1rCgtBWvish3CcoxC1UrcqDpFwHbLi/Z4GyN
+	4hdVobQIQw+btPsfR9x88CLPnvpr9Ninpj6++CMvy1PH+xDBjpzKP1J5MJkCUSYg2BW7hTE
+	RKr8svdbWi05O7IzLbghR+CpQwsupQmyhHckEn1d/A42ZBQuUthCl4MHF2ZTGw142OqSyi8
+	u3zkjwD2KxDIdXWCxaU5yf1tyQ6BlNdU0+vHpcY+wI1X0/P8niyp+XSwi3qJscf9pbvYbRl
+	DcrFuPGX6K8tnNq7+73k9d5jLd9U7o6Govv+pGKEZikXV/3QP6c1KoYKaCP8EhOwsU8Vidh
+	BJg5qMmzC2nDGUqJqBHBajSE/gH5/DkmhbAwTEmf2s+8jT7W/bLp0qjYYd3aluiTQdnmlov
+	qHCaLlQT80UJJjE+wqTZ1qyulTiUvbBZWUp0WCj3hI2C1xQmoF
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
+On Mon, Jul 21, 2025 at 02:15:38PM +0200, Krzysztof Kozlowski wrote:
+> On 21/07/2025 14:02, Nick Li wrote:
+> > On Mon, Jul 21, 2025 at 12:48:24PM +0200, Krzysztof Kozlowski wrote:
+> >> On 21/07/2025 12:38, Nick wrote:
+> >>> +  firmware-name:
+> >>> +    maxItems: 1
+> >>> +    description: |
+> >>> +      The firmware(*.bin) contains:
+> >>> +      a. Register initialization settings
+> >>> +      b. DSP effect parameters
+> >>> +      c. Multi-scene sound effect configurations(optional)
+> >>> +      It's gernerated by FourSemi's tuning tool.
+> >>> +
+> >>> +required:
+> >>> +  - compatible
+> >>> +  - reg
+> >>> +  - '#sound-dai-cells'
+> >>> +  - reset-gpios
+> >>> +  - firmware-name
+> >>
+> >>
+> >> I do not see how you resolved my comment from v1 or v2. Nothing in the
+> >> changelog explains that either.
+> > 
+> > Change logs are in the cover letter:
+> 
+> 
+> And as I said I do not see resolution of my comment.
+> 
+> If you reject reviewers comment, usually it should be mentioned in the
+> changelog.
+> 
+> Otherwise you get now the same review as v1 or v2. Devices cannot work
+> without power.
 
---WQCEN1qteZ5BnNy0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I explained it in the previous email:
+The power may be connected to the baterry/adapter directly,
+it may not be under the control of the software,
+in this case, the supplies are use as dummy regulators?
 
-On Sun, Jul 20, 2025 at 11:02:09PM +0530, Prasad Kumpatla wrote:
-> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
->=20
-> Manage clock settings for ADSP solution. On Existing ADSP bypass
-> solutions, the macro and dcodec GDSCs are enabled using power domains
-> in lpass-va-macro which is not applicable for ADSP based platform.
+And we tested the driver without the supplies in DTS,
+so I didn't mark the supplies as the required items.
 
-This doesn't apply against current code, please check and resend.
+Best regards,
+Nick
 
---WQCEN1qteZ5BnNy0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmh+MsUACgkQJNaLcl1U
-h9BWwgf+NWAI0d/I/aIa6eGJwgfNj2DSfG0PWklhpdlVWh3zEes+nP5dCSNDhbVK
-MWKkwY0gF5I4o3GnSUowpdHoXqijOacNQonhwWf2RNYOfHty0725BYt2PV42bsdY
-QBOovExEfFTtHgw2w1LF/Tqtwwx1qxDLrMWD9r4KI2LFHYM2vIlav7NgzYOJ2ECN
-RhXTWEmm57JhZu+Z9uTPy9FtOdBJM+UPWtqt4TCSn7VbWpisle9LLEQQOCXHULlv
-VeKyvkGkjgRO0T0afl77fqyDk7p794L+X3oxhlVKLCbEKffQfhNbuMO7IsHhIh7e
-qnxQ8X9o61wHTSFsxMyF/7cG8tUtWw==
-=rl5U
------END PGP SIGNATURE-----
-
---WQCEN1qteZ5BnNy0--
+> 
+> Best regards,
+> Krzysztof
+> 
