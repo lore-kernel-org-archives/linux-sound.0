@@ -1,46 +1,46 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5729BE6C
-	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 02:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54EE1DB34C
+	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 02:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753065982; cv=none; b=mON55OLbbfStYe+RFtPZOdxIgoAflIKh4gYqYSXIKYYv20beQhS9NDuTzarMa/E1lMKorv9meItqvElHk3bt7KAxe0i0HXRoFBhU+Qzu1CxKnYztRen6HxrkNqKWkfd49eriI/s42FpmdKHl82A8Dpnd0TfX6QYeT+suKAo8JsI=
+	t=1753065984; cv=none; b=au9s8dOgMS+9Qq5z4CM5gYy8MafowRwGLVXfXX5/RQ3ZtD1f4JJ5989e3lq9DayPZdx7XJ3JdfFZ7oBS1JF9U28zsnx/LYGvUdI/QlB8/KwJC5R8oTqg5dMqDCEJnI9+4ZHly/tpK/+gM8MEUCSp7TAT3ORtGvdRaek99JsgEHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753065982; c=relaxed/simple;
-	bh=Rg4Va32fBAbmtBk6RqlKF8YxDutq1GOM3dDeUTb2uEA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=DcxPcKGQn2xDIAvD+R8X68cmr4auTK5BBH9b7KfzylpG4aIHkOLgsGfH79Y9rZUuPRZEM8mZW1A83MOdClJOYvIdtJ+8Uz/tmZwBKWvr9QgQIHyOvCmkeyfbD5K8NmV2Of9r3+rHzfI/+7pikAD8ehPegW3yZLSVjwpoSiwMnlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=DGCAMXaB; arc=none smtp.client-ip=203.254.224.34
+	s=arc-20240116; t=1753065984; c=relaxed/simple;
+	bh=Uo2WQGaaN+jR9/UXZ4x5sB0oA2sKg8f1ZUboKFgPYT8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:MIME-Version:
+	 Content-Type:References; b=avDVRQrEHfGOqiWzLw7XU/lw6pym+ze/ypSkYCnbCVcONt/6yWn59T3lHivNMfIj4CjmbLFofDkA8AmaokM/0fPpiE0GRu7K8P9aJFijtEpH9+3fvcA1YOXtt0MtOAm3yxFMshBq+NcrtMorpcTmggsbZn+B33VT5EJ0OWxlZH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Sb6/mHeu; arc=none smtp.client-ip=203.254.224.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="DGCAMXaB"
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250721024613epoutp04b0cee902d242bbe3578c8d556a42785e~UJDbm4qHd1548815488epoutp04K
-	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 02:46:13 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250721024613epoutp04b0cee902d242bbe3578c8d556a42785e~UJDbm4qHd1548815488epoutp04K
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Sb6/mHeu"
+Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20250721024614epoutp018cea77572f56388e4447bc276dfd3d1c~UJDcbg3Yp1530115301epoutp01S
+	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 02:46:14 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20250721024614epoutp018cea77572f56388e4447bc276dfd3d1c~UJDcbg3Yp1530115301epoutp01S
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1753065973;
-	bh=ZG238iiqL1oF374QqgAnsl4UhN940jn7kxJw1Y5yyCg=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=DGCAMXaBmH8wMXZoYXvCB9eJ0KhjlGitNip8FfYDbAF0LlToCqrg9HjOIyUXXtjr+
-	 kUDoVMk9z9WEc6ziDVA06YAEun0MIQoKHYYjgl2oPmJQdyN2TpCeXFoAn9Ekiwj4kg
-	 DlZunwq50HukKvveoBWjf3id2f6W2nICc0jxXg4E=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
-	20250721024612epcas2p3f4e5b3b426411163c8327e39d09615f8~UJDbJ9J8J2776427764epcas2p3v;
-	Mon, 21 Jul 2025 02:46:12 +0000 (GMT)
-Received: from epcas2p2.samsung.com (unknown [182.195.36.99]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4bllC76Z9wz6B9mF; Mon, 21 Jul
-	2025 02:46:11 +0000 (GMT)
+	s=mail20170921; t=1753065974;
+	bh=FV9YmERdmuLqZLm6cvsLGT2BG/yL0o05Pzwxp3DGL8Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Sb6/mHeuyPNyHddPjefDBdea4wIUYr7eiNTZmSuOj3Fqz3Ikdby1irA6kscb80mfb
+	 PBGatn3TIBC0kQznXcJE9RAmyZxisC5MG50ZxeLIxLMH2qdHeulnlf3NT7uvLoljY7
+	 FKsl6RrFLzA+bR9Lz8i/4BfBphxdQGFxhWQZaUKs=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
+	20250721024613epcas2p2e68dd4f8183805f1a605e43c486b632a~UJDbpll302128221282epcas2p25;
+	Mon, 21 Jul 2025 02:46:13 +0000 (GMT)
+Received: from epcas2p3.samsung.com (unknown [182.195.36.102]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4bllC82SFJz6B9mF; Mon, 21 Jul
+	2025 02:46:12 +0000 (GMT)
 Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-	20250721024611epcas2p43099e043aaa6f48c05eb0237065d31c7~UJDZ3TRM00521705217epcas2p4m;
+	epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
+	20250721024611epcas2p382f3decd51152a5c89c673f222e22da1~UJDaRtkY-2776827768epcas2p3v;
 	Mon, 21 Jul 2025 02:46:11 +0000 (GMT)
 Received: from AProject.dsn.sec.samsung.com (unknown [10.229.9.52]) by
 	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250721024611epsmtip29239d66d3840037030b3fc786333a782~UJDZzOhmh1443514435epsmtip2D;
+	20250721024611epsmtip22bba247cfcfc34030a285b596a0649a3~UJDaNgXcO1443514435epsmtip2G;
 	Mon, 21 Jul 2025 02:46:11 +0000 (GMT)
 From: ew kim <ew.kim@samsung.com>
 To: broonie@kernel.org, s.nawrocki@samsung.com, robh@kernel.org,
@@ -48,11 +48,14 @@ To: broonie@kernel.org, s.nawrocki@samsung.com, robh@kernel.org,
 Cc: lgirdwood@gmail.com, tiwai@suse.com, perex@perex.cz,
 	conor+dt@kernel.org, alim.akhtar@samsung.com, linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Add ExynosAuto ABOX generic platform and PCM support
-Date: Mon, 21 Jul 2025 11:30:43 +0900
-Message-Id: <20250721023052.3586000-1-ew.kim@samsung.com>
+	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, ew kim
+	<ew.kim@samsung.com>
+Subject: [PATCH 6/9] ASoC : dt-bindings: sound: Add binding for ABOX IPC
+ Generic
+Date: Mon, 21 Jul 2025 11:30:49 +0900
+Message-Id: <20250721023052.3586000-7-ew.kim@samsung.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250721023052.3586000-1-ew.kim@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,50 +63,69 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20250721024611epcas2p43099e043aaa6f48c05eb0237065d31c7
+X-CMS-MailID: 20250721024611epcas2p382f3decd51152a5c89c673f222e22da1
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: AUTO_CONFIDENTIAL
 CMS-TYPE: 102P
 cpgsPolicy: CPGSC10-234,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250721024611epcas2p43099e043aaa6f48c05eb0237065d31c7
-References: <CGME20250721024611epcas2p43099e043aaa6f48c05eb0237065d31c7@epcas2p4.samsung.com>
+X-CMS-RootMailID: 20250721024611epcas2p382f3decd51152a5c89c673f222e22da1
+References: <20250721023052.3586000-1-ew.kim@samsung.com>
+	<CGME20250721024611epcas2p382f3decd51152a5c89c673f222e22da1@epcas2p3.samsung.com>
 
-This patch series adds the ABOX Generic audio management driver for
-Samsung ExynosAuto SoCs, along with IPC messaging and PCM frontend
-drivers, including their corresponding device tree bindings.
+This patch updates the existing samsung,exynosauto.yaml schema to
+describe the ABOX IPC Generic child node. This node represents
+a virtual IPC interface used by the ABOX audio subsystem to
+communicate with SoC-specific hardware using shared IRQ channels.
 
-### ABOX Architecture Design: Fixed and Variable Structure
+The schema describes the `samsung,num-irq` property and allows
+integration of the IPC node under `abox_generic`.
 
-The ABOX audio framework is designed with a clear split between:
-- **Fixed part** (common framework): reusable components across SoCs
-  - Generic ABOX platform driver
-  - IPC messaging handler
-  - PCM frontend with ALSA compressed audio support
-  - Solution manager for dynamic control
-- **Variable part** (SoC-specific): defined via device tree
-  - IRQ numbers, stream IDs, buffer sizes, and ADSP allocation
-  - Defined per PCM/IPC device node in DTS
+Signed-off-by: ew kim <ew.kim@samsung.com>
+---
+ .../bindings/sound/samsung,exynosauto.yaml    | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-This separation allows the fixed part to be upstreamed and maintained
-as a reusable framework, while only the DTS and minimal changes are
-needed to adapt to each SoC generation.
-
-### Major Components in This Series
-
-- `abox_generic`: Root platform driver coordinating subcomponents
-- `abox_ipc_generic`: Handles ADSP messaging via IRQ-based IPC
-- `abox_pcm_dev`: PCM frontend with support for solution chain selection
-- `abox_solution_mgr`: Manages software-based audio chains via dynamic
-  kcontrols
-
-### Testing
-
-Tested on ExynosAuto v920 board:
-- Verified ALSA compressed audio playback via DSP
-- Confirmed solution switching via kcontrol
-- Verified DT node parsing and IRQ routing from device tree
-
-
+diff --git a/Documentation/devicetree/bindings/sound/samsung,exynosauto.yaml b/Documentation/devicetree/bindings/sound/samsung,exynosauto.yaml
+index b1e49f38ffe9..3a7b5be627ee 100644
+--- a/Documentation/devicetree/bindings/sound/samsung,exynosauto.yaml
++++ b/Documentation/devicetree/bindings/sound/samsung,exynosauto.yaml
+@@ -48,6 +48,23 @@ properties:
+     description: Required for child nodes that may declare address space.
+     const: 1
+ 
++  abox_ipc_generic:
++    type: object
++    description: ABOX IPC Generic subnode for SoC-level message routing
++    properties:
++      compatible:
++        const: samsung,abox_ipc_generic
++
++      samsung,num-irq:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description: Number of IRQ channels supported for IPC routing.
++
++    required:
++      - compatible
++      - samsung,num-irq
++
++    additionalProperties: false
++
+ required:
+   - compatible
+   - samsung,num-pcm-playback
+@@ -66,4 +83,10 @@ examples:
+       status = "disabled";
+       #address-cells = <2>;
+       #size-cells = <1>;
++
++      abox_ipc_generic {
++        compatible = "samsung,abox_ipc_generic";
++        samsung,num-irq = <64>;
++        status = "disabled";
++      };
+     };
+-- 
+2.25.1
 
