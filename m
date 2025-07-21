@@ -1,132 +1,123 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A343C29E0F5;
-	Mon, 21 Jul 2025 11:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF021D54FE
+	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 12:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753098367; cv=none; b=fVpgaHNZ38rEzLTJ972Wfv/P2A8AsA7BmdJGt9DVbUTkWYuu5eQ3DLAPcpIpuL8MlPGfQO3QzR066Tujkq+8tMmopaYil1A0pHjF9zhsjxIcfACK4p+wwHP8mjIjBjbIYDLmKssHQss0G8VvlGSox60sWUF6a8cir8jZ1oXouSc=
+	t=1753099366; cv=none; b=n+to6xmnLMM1IycMLtgceEo4S8vcUfKVY9QPfqExUaID7lQJL6bsXkPo8nC86KSG0wyMmTrA4HyjogM2H1f0dH9zRYgcm3YoLkLpqqDCel4U5zLlDFtFvyPIn/uGXM/n535+bc4bB+iAsTgZp4CmseRNZ5wzkLoiPCdgwhkgGhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753098367; c=relaxed/simple;
-	bh=h+WkvhX7mj7Sv6trzUp1+E1hzp9XVaQskfPpJnKiZLQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rpnK/v9yPRPUhOG8F4ltr/xWxK/Frw+XkT4qw23Y66+bnuBv+59hvkyF0AJNCdv1xxbVjgbnu9XRz45pKjUiIG63JnWqrTq+g3GQ73YASH3+Dyge2auwSt/2y0jL1fLLx09+hAXMxiPUbMZKy74w4pnDmbogQThxwpCSO1pw9IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kgdajGYf; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kgdajGYf"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a548a73ff2so3973294f8f.0;
-        Mon, 21 Jul 2025 04:46:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753098364; x=1753703164; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cl5e5ZCBq0w9ErRVDKRo2EHmjuxMqpvOpJmVUtccUH4=;
-        b=kgdajGYf0ApDgukgGW2LTHKavuxzy+QHFgBbH9n97d0lpcn5lPs7F/Ul+iFZwbLktR
-         /PJ1d6J+QNgtBoV4Zq9ftQmAlun7KoMivSA3qH0kr0jZwrAEHFyXCXr6qq+cdVjE3FJ6
-         BIo6tv8FPmXLXcdNxYbXqNKXBocPzqmodebLx4QV1EHjyIbv0AQMgFECWrhcu426RlWG
-         vyKqP6O+Ap5gOhWlCT59ufYs1OLhGtu7lfryepxlHeJSO+lSHc8bq5B8bNmCJn/yytt4
-         H/H79EArbvIU/PCVpsHz1QDJBOz+vXhzW7FOd2aFByy6U8x77OJyaRpF/Y7wBk8kdGYb
-         fYlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753098364; x=1753703164;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cl5e5ZCBq0w9ErRVDKRo2EHmjuxMqpvOpJmVUtccUH4=;
-        b=iSJ4XyBun4qE0L9c/+rhBeG8RuN5FDnNWNE3dng5fbSusZBZaxrCEIAv+6c8vZT+sE
-         CRK3/BbwhjSN1Au3cfIkIRhOF04agcX/AgcW8Mhv2vXuKAz+lUPaf9i0GJcbHeZcm3PY
-         SncnthBxYKhL0VQ2+iQgeqH36eu9yusi743Jhc0IPTj9YH9komCweQVg5hr7hFnQ9hVE
-         JeI0Qjr8Q3iBIl5pROUyH30LvaSmKEEdOSOi2AfGwPN8Zd4HXENKSBOyPt/YvFWK4hVz
-         TAk+fggpZ3+KR7gMkgeHIbrMv14bi0EGQxth86liOo68PSGCzSQoiQtmzwRWXNQSMiUu
-         g0/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUyXFE2YOM4MeBHzV2LDQpwvfm0o9Xzc7cm48SCvEi1BCgzCTFNEFX9Fy82nnB12J/C9BrJemj7aB1/YOU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIujBJO/6Wlfw7SuTADtZDt3oIKe52Fh9ICfLf08Ai7k9kFdXZ
-	EgK9o19SLhDtAgquiMk9kT1t3Dtq8AVeyT3K47WASKAZEhlk2ikDxoj5
-X-Gm-Gg: ASbGnctiB6G9RcTZPFEQ0hkqReWbKB3x0UOGxVZMFNHG+P3kCPdj/YIkjc8xyPLiHLV
-	9lLN1u/rpBruI8gEdXZ/DKk2GMFd4YUNqg/vMMy2ESYzYuO4a8T8m22wdpvMmcDvMFAV0dLqbOd
-	nTqMd3ypD2bgSQJptCqqtV5ef2PAtDQe43dHG1cqauCD1+27QbH4N8r9uems9c8DUEORMp3OUII
-	1tU7r3GXrjzAlH353D1ReXStNv72h6njCEacjMPagsRDO2DqOOoWW4qb9MbUjB75MBdIOay3lPL
-	gCREQVwR9CNgFk86gcA3rvZjkd7hlPGeaVFNSTPQNhis1+eCkqXxB4k12tr1p9aDYu47sK2GtnP
-	k9+QDh4CVeF1dlFJ/TyE=
-X-Google-Smtp-Source: AGHT+IFcZ+6n7SdqBjRYGmINgvvXBPcqvkndEW+W86MfsMlIcdspxrnuPUDBPX5U4fbfUUvggLOb1Q==
-X-Received: by 2002:a5d:64e2:0:b0:3b7:5dda:d57 with SMTP id ffacd0b85a97d-3b75dda0d7dmr1653923f8f.50.1753098363641;
-        Mon, 21 Jul 2025 04:46:03 -0700 (PDT)
-Received: from pc.. ([102.208.164.18])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b61ca254e7sm10213133f8f.4.2025.07.21.04.46.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jul 2025 04:46:03 -0700 (PDT)
-From: Erick Karanja <karanja99erick@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Erick Karanja <karanja99erick@gmail.com>
-Subject: [PATCH v4] ALSA: usb-audio: qcom: Adjust mutex unlock order
-Date: Mon, 21 Jul 2025 14:45:53 +0300
-Message-ID: <20250721114554.1666104-1-karanja99erick@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1753099366; c=relaxed/simple;
+	bh=L5qsIxuvHyfcqD23PAauHEBvAc9IlcRhaka9YEdv+lU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QxKP8/QkJS6oyjfkksvhE5zd+C2rOq8mB5UsOBuJAVyiSA1SPxgTlMAFye/D0fk2zmw1jcLBb9CRPltqqZdz/Ornni8ZUsh5k9CCQu7IN52IQppXi1EtepEFd0e3h1Cl5LPrvprJl7UvQbe2/nIhPAKvG3FOZRnApOrkjOANWYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=18.169.211.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
+X-QQ-mid: esmtpsz21t1753099345t7e73bfbf
+X-QQ-Originating-IP: AXZvxwazFJGly/vNa7p+LCy4S+Cfg47Zclcv/a3cTWM=
+Received: from localhost ( [113.89.235.49])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 21 Jul 2025 20:02:24 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 12701394614821551690
+EX-QQ-RecipientCnt: 14
+Date: Mon, 21 Jul 2025 20:02:23 +0800
+From: Nick Li <nick.li@foursemi.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
+	tiwai@suse.com, xiaoming.yang@foursemi.com,
+	danyang.zheng@foursemi.com, like.xy@foxmail.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] ASoC: dt-bindings: Add FS2104/5S audio amplifiers
+Message-ID: <F04DD98A69286426+aH4sT_P0GvttoCOq@foursemi.com>
+References: <20250721103805.531758-1-nick.li@foursemi.com>
+ <20250721103805.531758-3-nick.li@foursemi.com>
+ <83f7c489-7001-49cd-97a5-4280eba95fe0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <83f7c489-7001-49cd-97a5-4280eba95fe0@kernel.org>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: MQqtfF4R/f2xKtcKgY4SDDHMLtkrTNkiroXOvfJw3YOcpLyRSXlFcbA4
+	d2NF0IJaJm3W8sQ+322H67UDvLUIe+9vW9Teq84LLuU0Bj85qX2dy/U9i7IbRHR6uXO0ZTK
+	5C4TVDyXPPOhad+13hX53nblnwThHP2XkQk4XT2tVMB/Sv0cceo9tjdxm9JTAMdqVqQu6vu
+	jFgbgdikqUkG0MGDR3A4GgNsk7+d9WC+8m4n+Rr2Oe4c2fdHR2JcdtXt4/k+GnrT6B6EUP+
+	JDDURWlwEJjx/eG3KTQJy7ZXshen8Mbat6epxDGKjO0JoqNFn36UMKjMLjHoykXftjHnvJX
+	ApFn0RcKxr7Vai3abT01eMsLjHldpW6FPpQnYgqqMphZTNGloszk//CLOcW6nrrd19yh+16
+	icvxJC4HijN4lKp2dG0MkS59zmSD8m8Z+csxOdU0pTUxRy/eDDMUUZqZgwKu/p327TYOuAd
+	4a3MhJv9KOJnv2cLdPnGcmdJlDUnTgm8ewggSmaLO4YFZX/YO6jMQLKyvYzALHR/ecwXvxI
+	WKQrRS4XAuVKplT7CIVmtO9YJGgt9H21du2vdAJDyLVOH8pHJA3D/Jta6HB6xwh42h1wvIH
+	vZskYsazIcYKNMn6CzwitBGWqcSB6AXDzvED08gd1jSXOyQf7FRCOVgS70p84kPDo6rkP2s
+	DrRXjMgMkHXNSDfOLAbIqVUCj5wpHBnlgcH1rdT0P5lXk5noF8rQ26enCxrILqCM7K0T/z4
+	WCDNzTdqhb2Nm0w2AOoTchiXZQ0rVDSmz5NulzqQTC4/5aTIw95Gwaz78kr6Jaw/9wvCDC9
+	vlzqZkaZHM8TT4mVAx5BtT2th6zDMOuPrVh7E4ELOMrkbiVNqJUvfpk0DfoqNqhafNYy88L
+	Tu+koPzf7efhQhf6m1XTiObiGP2MKpwYlNn7j4JuEuEvtTYcCIzce4flldBQYIa4bqWKZTB
+	ToYgCCpXYBc8FSyjxUPDiuKN0TH0DV7ixfIEGz6l2HeU5ZK22BziJNDwFDko3IOnOnsFFub
+	AaK9Ft+TSjxxaBE3j16hG4k4paGxy65uUcI79d+ZJzrm+CT4YH3XFYr2bFN1ll6NqQcWMGq
+	g==
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-RECHKSPAM: 0
 
-The mutexes qdev_mutex and chip->mutex are acquired in that order
-throughout the driver. To preserve proper lock hierarchy and avoid
-potential deadlocks, they must be released in the reverse
-order of acquisition.
+On Mon, Jul 21, 2025 at 12:48:24PM +0200, Krzysztof Kozlowski wrote:
+> On 21/07/2025 12:38, Nick wrote:
+> > +  firmware-name:
+> > +    maxItems: 1
+> > +    description: |
+> > +      The firmware(*.bin) contains:
+> > +      a. Register initialization settings
+> > +      b. DSP effect parameters
+> > +      c. Multi-scene sound effect configurations(optional)
+> > +      It's gernerated by FourSemi's tuning tool.
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - '#sound-dai-cells'
+> > +  - reset-gpios
+> > +  - firmware-name
+> 
+> 
+> I do not see how you resolved my comment from v1 or v2. Nothing in the
+> changelog explains that either.
 
-This change reorders the unlock sequence to first release chip->mutex
-followed by qdev_mutex, ensuring consistency with the locking pattern.
+Change logs are in the cover letter:
+...
+v2 -> v3:
+.../foursemi,fs2105s.yaml(patch 0002)
+- Drop "schema for " in the patch subject
+- Delete the description of the property reg
+- Restore the property clocks to v1
+- Keep the same order as in list of properties
+...
+v1 -> v2:
+- Adjust the order of patches according to the dependency relationship
+- Rename yaml file to foursemi,fs2105s.yaml
+- Fix some properties and error definitions in foursemi,fs2105s.yaml:
+  sdz-gpios -> reset->gpios
+  fs,fwm-name -> firmware-name
+  Delete fs,dai-name
+- Drop "dt-bindings for" from subject
+- Update the driver code according to the update of DT schema
+- Fix warnings/errors reported by running checkpatch.pl --strict
+- Fix warnings/errors reported by running make dt_bindings_check
 
-Fixes: 326bbc348298a ("ALSA: usb-audio: qcom: Introduce QC USB
-                      SND offloading support")
+Thanks.
 
-changes since v3:
- - Add the correct fixes tag.
+Best regards,
+Nick
 
-Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
----
- sound/usb/qcom/qc_audio_offload.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index 3543b5a53592..711f5612a83a 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -825,8 +825,8 @@ static int uaudio_sideband_notifier(struct usb_interface *intf,
- 		}
- 	}
- 
--	mutex_unlock(&qdev_mutex);
- 	mutex_unlock(&chip->mutex);
-+	mutex_unlock(&qdev_mutex);
- 
- 	return 0;
- }
-@@ -1865,8 +1865,8 @@ static void qc_usb_audio_offload_disconnect(struct snd_usb_audio *chip)
- 
- 	/* Device has already been cleaned up, or never populated */
- 	if (!dev->chip) {
--		mutex_unlock(&qdev_mutex);
- 		mutex_unlock(&chip->mutex);
-+		mutex_unlock(&qdev_mutex);
- 		return;
- 	}
- 
-@@ -1921,8 +1921,8 @@ static void qc_usb_audio_offload_suspend(struct usb_interface *intf,
- 
- 	uaudio_send_disconnect_ind(chip);
- 
-+        mutex_unlock(&chip->mutex);
- 	mutex_unlock(&qdev_mutex);
--	mutex_unlock(&chip->mutex);
- }
- 
- static struct snd_usb_platform_ops offload_ops = {
--- 
-2.43.0
-
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
