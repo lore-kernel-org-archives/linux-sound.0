@@ -1,136 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E025D223302;
-	Mon, 21 Jul 2025 06:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A23B224FD
+	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 07:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753080461; cv=none; b=N5ENwM65Md6yP1RSJsBTy4yAyXUq0glfVd4SnPUobOdHCM6pOaErXeJw7uI6rw2ukakkYHRrkhVeIjw4g2QR3q/w2OJpuAfili5rfjBNsT4YoVCp39mIx5U8GxHFnhpct/QqBAL+x/urAIcwUmPHV2ZZn1HK8rjgOpbAbyc8Rgk=
+	t=1753082687; cv=none; b=GpTdbpgH2s9YnvmguA1/ug3t1j0reL2htmL/jp5smW22SxzyGlzDyJvmlZnUEF59Jw851EIs4O8x5EcDm02QTIfaFm7LtbI5soyWsz92Oo1fg9ONNv2mOX4Gma0H9vuLCaWztgBVTmCROmjbUrymDTP9Yf1a4OcNEZnhmidiUEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753080461; c=relaxed/simple;
-	bh=ZjVTcKbsRevDk/Oaru45By4rM0QU89TkvkSHMwWvxxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VVIALukgMjSkLLmGgdCoMueMjcA+T8j36AcO3c40KeGXvXhHVayf3yP8Tw6n9J58KkvqS5Yca7OMuWSb5hOEAhKDh0NKpTkLixmwQ/ITNyv/55804cV/6W/iU3dkV6yp+kW7iauqDCdw+2kldVWBRpP3fmD7FCQWC4drIFUB6lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DHD8hyGf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753082687; c=relaxed/simple;
+	bh=PaGk3h625+x/13cV4FfN0b3wVFTm8eyIgp2uR1qODnY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f/m2/LrDE/wadWxUnG2WTqe3BUnWEscxRIDFxTFX6TOB0BgKzs38H9tTB2rXGBp0Tz7iTXXVrOoP6EEECP2BIvAJgHpxPACXy1BqcQaRDGpEnh1fJtBH3uOWpRwrytvpaIPgv1LsL7o1zrBXo2fnSIK09OxGo6vAKT5okicRrg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YFbp2Nei; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=68fM6nDr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YFbp2Nei; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=68fM6nDr; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DHD8hyGf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E94BBC4CEED;
-	Mon, 21 Jul 2025 06:47:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753080460;
-	bh=ZjVTcKbsRevDk/Oaru45By4rM0QU89TkvkSHMwWvxxw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DHD8hyGfljx5ywckYjCud4sf1NSOvkJJzeSwoh63ofX0BinD6/Is+W3UNNQyT0IH6
-	 J20S2JoL/VRTsKFF/kfrU9rn1B5NmVqiSm5FCush5ffiuUfr7kexOtIEG6Z1riU4n8
-	 4jLmkIQCy+YAjEGCdsmxN9EmGKiPqwXWZetMMZpzhxkIHoRd3+2iBWQOF2WzF8seRg
-	 Xf8reRoJOv4nMNmJhsh8CRi0RNzGKo4iBNdBNF+JNiWj356CCQsLw7fuzH60gTjktT
-	 Xa+m0o/ogOiteifEirY7u3iWm2OmsVgmF0+E9OtH+iafG68f0AU5A92IF6pkvLNEeT
-	 ot2NqjjqqMlsQ==
-Message-ID: <2b6481e8-9a70-4676-bca4-da3ee00e73ba@kernel.org>
-Date: Mon, 21 Jul 2025 08:47:35 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YFbp2Nei";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="68fM6nDr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YFbp2Nei";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="68fM6nDr"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C1C581F453;
+	Mon, 21 Jul 2025 07:24:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753082677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=glnE2PpY1lMHyHLtzV2WYcGDdz+bQLmmEGM8dshSHXM=;
+	b=YFbp2NeiaDSu+I4KXHbF2zpKg/KlnTjQesmxY+4Wa4rnNyd6T9yeacQULz7oHbYfvdQYJy
+	2dCWDm6tcMEXfmom7SsVXcDarwa6HOhT3XQIJO+BwXK9N+14fXvkwWzB7S835RExjeT5NI
+	A5g02/H/kUUWUD7ZIBs4RQIfSLneX3I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753082677;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=glnE2PpY1lMHyHLtzV2WYcGDdz+bQLmmEGM8dshSHXM=;
+	b=68fM6nDr0DaiWzYfj44TDhWqcnk6u4bxqa9yiEr0uim2WS26akERDOoNCAspMpLdaAkKPz
+	V1swFwyDrFOKA9Cw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YFbp2Nei;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=68fM6nDr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753082677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=glnE2PpY1lMHyHLtzV2WYcGDdz+bQLmmEGM8dshSHXM=;
+	b=YFbp2NeiaDSu+I4KXHbF2zpKg/KlnTjQesmxY+4Wa4rnNyd6T9yeacQULz7oHbYfvdQYJy
+	2dCWDm6tcMEXfmom7SsVXcDarwa6HOhT3XQIJO+BwXK9N+14fXvkwWzB7S835RExjeT5NI
+	A5g02/H/kUUWUD7ZIBs4RQIfSLneX3I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753082677;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=glnE2PpY1lMHyHLtzV2WYcGDdz+bQLmmEGM8dshSHXM=;
+	b=68fM6nDr0DaiWzYfj44TDhWqcnk6u4bxqa9yiEr0uim2WS26akERDOoNCAspMpLdaAkKPz
+	V1swFwyDrFOKA9Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 980C2136A8;
+	Mon, 21 Jul 2025 07:24:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WsDwIzXrfWh9XQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 21 Jul 2025 07:24:37 +0000
+Date: Mon, 21 Jul 2025 09:24:37 +0200
+Message-ID: <878qki57m2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dawid Rezler <dawidrezler.patches@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek - Add mute LED support for HP Pavilion 15-eg0xxx
+In-Reply-To: <20250720154907.80815-2-dawidrezler.patches@gmail.com>
+References: <20250720154907.80815-2-dawidrezler.patches@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] ASoC: dt-bindings: sound: exynosauto: add PCM
- frontend nodes for ABOX generic
-To: ew kim <ew.kim@samsung.com>, broonie@kernel.org, s.nawrocki@samsung.com,
- robh@kernel.org, krzk+dt@kernel.org
-Cc: lgirdwood@gmail.com, tiwai@suse.com, perex@perex.cz, conor+dt@kernel.org,
- alim.akhtar@samsung.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250721023052.3586000-1-ew.kim@samsung.com>
- <CGME20250721024612epcas2p122d627cfb90eac508b6ed3667acd9b9b@epcas2p1.samsung.com>
- <20250721023052.3586000-10-ew.kim@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250721023052.3586000-10-ew.kim@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C1C581F453
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
 
-On 21/07/2025 04:30, ew kim wrote:
-> This patch extends the Exynos Automotive ABOX generic device tree bindings
-> to support PCM playback and capture frontend nodes.
+On Sun, 20 Jul 2025 17:49:08 +0200,
+Dawid Rezler wrote:
 > 
-> Each PCM device node describes an audio stream interface handled by the
-> ABOX DSP. These nodes include properties for stream ID, IRQ, ADSP core
-> assignment, buffer limits, and stream category (deep_buffer or compress).
+> The mute LED on the HP Pavilion Laptop 15-eg0xxx,
+> which uses the ALC287 codec, didn't work.
+> This patch fixes the issue by enabling the ALC287_FIXUP_HP_GPIO_LED quirk.
 > 
-> The bindings use patternProperties to match playback and capture nodes
-> as children of the abox_generic controller.
-
-This split of one device into three makes no sense. Adding new binding
-is one commit.
-
+> Tested on a physical device, the LED now works as intended.
 > 
-> Signed-off-by: ew kim <ew.kim@samsung.com>
-> ---
->  .../bindings/sound/samsung,exynosauto.yaml    | 126 +++++++++++++++++-
->  1 file changed, 123 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/samsung,exynosauto.yaml b/Documentation/devicetree/bindings/sound/samsung,exynosauto.yaml
-> index 3a7b5be627ee..e477550afc7c 100644
-> --- a/Documentation/devicetree/bindings/sound/samsung,exynosauto.yaml
-> +++ b/Documentation/devicetree/bindings/sound/samsung,exynosauto.yaml
-> @@ -28,6 +28,14 @@ properties:
->    compatible:
->      const: samsung,abox_generic
->  
-> +  status:
-> +    enum: [ okay, disabled ]
-> +    description: DTS node enablement state
+> Signed-off-by: Dawid Rezler <dawidrezler.patches@gmail.com>
+
+Applied now.  Thanks.
 
 
-Sorry, but why are you writing something entirely different than every
-other binding?
-
-
-Best regards,
-Krzysztof
+Takashi
