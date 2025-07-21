@@ -1,130 +1,86 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EC621C165
-	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 09:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7B1487A5
+	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 09:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753089443; cv=none; b=hZszHeYlg1rrjxOGh/pQJZvrEwe6cZpAjswaYRbzis0HDYjzeEHKMw/cGlCnKMsbpxdjoVZS4MCQZ2UwwZsWDlwou7aTJLsIub/aTVHBa8BGYo0LwvHd1CdS3iPlja6GAMET/MQmjF8JW3259gidBl8Iurx7YQ/Yj0RUlTnhq/M=
+	t=1753091922; cv=none; b=VshB5XCrSKDrLJngyzf9VLvs2NLvBTKTfoGSxIdfR7dV2rVYLJrXdsmq0bbPpYh9UQNgZf4qKlpi8ofxZNeNzIFZgoB6OamPK62Pn61ih80lEb7kVzYyu0T77MKVC/Z1xEsEVeEnYdagyU7p1CAIi23l+xwBUbwGJgTcnHFQneI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753089443; c=relaxed/simple;
-	bh=kj29subgrE/eDkxVaS3sAeDGcWMe/EOQ6QopPsIdDK4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=olMbz0Jan+XCxswBscueWpJoI1FdFvuBDaHvjTF3drdE1+T5ctFn8z3zrQdcBJU5ffhHNm69SsRHeaYHTXYXiOeKWKXCNaUd/CcSjpQyXt4V6iRZwLYZaVgmVjN/NEe5ow//ezAqa6l6f/yWiknJY7s8+LfPuc1RDYu+TymjHtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FkqW9KPQ; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1753091922; c=relaxed/simple;
+	bh=poqM3vgJ4qOdQuRnSZORhrkM+IFzaW9zZvgOiAlWIhE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p0AFN/wdTI6aiWLxX1xO4xdp9FhBTKhICtRPxb82MolsCnBezK3mVYQQ6x4gwtg8eYdgYbL8YV6Pvnv4MpPH1SaGU5TG8JNxrAIE7myAqlGrCzwYrEBaWMRC7OGa6EyODQTlkDl+kq3rNIZVniInE21ygLtZ4h3RUx2C/jfAh0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=P4iCZfUX; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FkqW9KPQ"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-33097e1133fso36969341fa.1
-        for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 02:17:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753089439; x=1753694239; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BzO5P3P0FJijMBbxPLzt3Ej11oxHKuZJ0djP07BY1sA=;
-        b=FkqW9KPQi5uv0J70k1yZMExnIkJbRQIcTtGHp6JBJwGk3UGvHieL+PsgYlr2VVTiP4
-         gtVO+t1p5MaPF3Ko3df8eGkZbb4xf2KfT1BuCh+s1KIGJOx2zfySjSfXImlU7LdmMA/X
-         r5dDbXsVwMHxi9hEXo3vqKh3gMemr2aQsWUss=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753089439; x=1753694239;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BzO5P3P0FJijMBbxPLzt3Ej11oxHKuZJ0djP07BY1sA=;
-        b=kTVT875vlnBzy7p4sXSrHuKBt5ZtrTIRBPcsDbK52dXM79EbeQyOHrKgQ5//bzKGjC
-         4wfggmI235X0oe23wb/rkqyUWz57avOht/3gRN1R4BuRYLZ2ICCP82RhSeqwvaavcTds
-         /RTRfPDr6l2QyuWcjSA6BW8ZeaCivwqCn3LjAj3Tyq+HcZQkq3hFY+AISlwy5m78RIWJ
-         GSM8i6XucunIyyjH8pndXdvAmYPaRYSrGHpraffb4bpiR2m3g4UQKy9PG91fzL9nNXHe
-         x41m6hZz3c3lgG1uqeqzVyDKoL9TY/T/K2eoNJiUWv15ojsabvTNWr5CyNuMzjD2HQHW
-         Vmqw==
-X-Forwarded-Encrypted: i=1; AJvYcCXtHxgafF3YuD6Tdi7mw6n3aG+Qpid8PqJyOVHjkU9BUU8Ds7TSzXfW4kzMX/5twPBFFZHFrzxMpp7uyg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrfuMn1aTiPMnGtdAzgQJA2k9TDtF3va//Myw1No64Eul1YpD6
-	cMf9mxKzdy/U4Ih1UWRAH5eo4TwJpNQvEU5k7HJxy8xM1y0/atvmCCcbBQzY0l2iiaJzVs/5PTc
-	G3BKMaZ7tp9MFLwlUFGjtKnX4u6PCNsfh+oNF/QQD
-X-Gm-Gg: ASbGncvDOascVmofpdzEU07J/MP95Wsd7U53IVn4H3LoO0lUpEFQn+O3SsLxeP+69B0
-	gxqXKm/22szdsdPHOzBblb3uvHikCAZwQwwchhxeicQ5Ogs/bVtzlMSOU7bV47UnR66EDGlYwh8
-	kOYJyBl/DTbiLdsS3tC2Epib2x8gh2dYjs/fy3SL2rW+j3YI4bFQnJQZE412AAgmlMgK5xclW13
-	TxOtRGXHX1Mn91yzUfe3pldscODqk+jjdU=
-X-Google-Smtp-Source: AGHT+IGsTM4OZon7DAn21K+VOTkANCYpUhk6AdXBSwKBuRY92Lz2AQqBi0+KAt5b4wzJCvI/4APHAfCqNcgrazzwXHU=
-X-Received: by 2002:a05:651c:b0e:b0:32c:bc69:e921 with SMTP id
- 38308e7fff4ca-330a7b12523mr35293861fa.9.1753089439395; Mon, 21 Jul 2025
- 02:17:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="P4iCZfUX"
+Message-ID: <33031451-9aef-4c72-ba63-b2cc76877c95@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753091917;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J2RjrMMV8jinO1nOdGIPwlCYZPGbn7mkl69AXGofTbM=;
+	b=P4iCZfUXSgdlFWzt+nPvmU8VoZ0WofY80VyU6mtgHyiQ2L2VYzi3ydWucFLe8jRTlnttzw
+	Uyj7W+t7drGtLEu2B8NTe+xrQXHYqHgm/fnj/zHyFi63AENNL9jp8A/irMiBmZI1GHJLlC
+	6Yh60I0VfivZ/fTamBPT0ysh5KClILw=
+Date: Mon, 21 Jul 2025 11:55:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250708111806.3992-1-darren.ye@mediatek.com> <20250708111806.3992-10-darren.ye@mediatek.com>
-In-Reply-To: <20250708111806.3992-10-darren.ye@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 21 Jul 2025 17:17:06 +0800
-X-Gm-Features: Ac12FXyXAg_vtqZYAclMGVQ9H6ITi5IQnXn8iXFc86cirJi3aOdALAQn-Ge1VQw
-Message-ID: <CAGXv+5FcW2ds9zS_n0SG8BDXV8pz=Hg2R-9sznV_TqsX0KdnuQ@mail.gmail.com>
-Subject: Re: [PATCH v6 09/10] ASoC: mediatek: mt8196: add machine driver with nau8825
-To: "Darren.Ye" <darren.ye@mediatek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/7] Add SDCA DAI ops helpers
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org
+References: <20250707124155.2596744-1-ckeepax@opensource.cirrus.com>
+ <4336e9c1-e05c-46d6-939a-53fefb8f9a14@linux.dev>
+ <aHdinBnBvSsfx/nA@opensource.cirrus.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <aHdinBnBvSsfx/nA@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
+On 7/16/25 10:28, Charles Keepax wrote:
+> On Tue, Jul 15, 2025 at 07:58:32PM +0200, Pierre-Louis Bossart wrote:
+>> On 7/7/25 14:41, Charles Keepax wrote:
+>>> First, a couple of minor code fixups to already submitted code. Then
+>>> some patches to add new DAI ops helpers for the SDCA stuff, these allow
+>>> configuring things like the sample rate and finding out which SoundWire
+>>> port should be used for a specific SDCA streaming input/output terminal.
+>>> Still a few bits of outstanding work here (propogation of Cluster
+>>> information particularly) but his should be good enough to get some
+>>> basic use-cases working.
+>>
+>> For the patchset:
+>>
+>> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+>>
+>>> Hopefully we are getting fairly close to completing a first version of
+>>> the SDCA work now. Should be one more series to add FDL (firmware
+>>> downloading), then we should be able to send a first version of the
+>>> actual SDCA class driver itself.
+>>
+>> FDL is a very desirable feature, but shouldn't there be an UMP
+>> (Universal Message Passing) layer first? HID and FDL rely on UMP.
+>> I would have expected the ownership changes to be handled in
+>> a shared UMP library or set of helpers, no?
+> 
+> Yeah we are still working through the last iterations internally
+> on the FDL stuff. I think it probably does make sense to pull
+> out some UMP helpers (indeed I was have a look at it yesterday)
+> although they should be pretty simple so I imagine we will just
+> send them as part of the FDL set (subject to change as we work
+> through it).
 
-On Tue, Jul 8, 2025 at 7:35=E2=80=AFPM Darren.Ye <darren.ye@mediatek.com> w=
-rote:
->
-> From: Darren Ye <darren.ye@mediatek.com>
->
-> Add support for mt8196 board with nau8825.
->
-> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
-> ---
->  sound/soc/mediatek/Kconfig                 |  20 +
->  sound/soc/mediatek/mt8196/Makefile         |   2 +
->  sound/soc/mediatek/mt8196/mt8196-nau8825.c | 869 +++++++++++++++++++++
-
-[...]
-
-> +static const struct snd_soc_dapm_widget mt8196_nau8825_card_widgets[] =
-=3D {
-> +       /* dynamic pinctrl */
-> +       SND_SOC_DAPM_PINCTRL("ETDMIN_SPK_PIN", "aud-gpio-i2sin4-on", "aud=
--gpio-i2sin4-off"),
-> +       SND_SOC_DAPM_PINCTRL("ETDMOUT_SPK_PIN", "aud-gpio-i2sout4-on", "a=
-ud-gpio-i2sout4-off"),
-> +       SND_SOC_DAPM_PINCTRL("ETDMIN_HP_PIN", "aud-gpio-i2sin6-on", "aud-=
-gpio-i2sin6-off"),
-> +       SND_SOC_DAPM_PINCTRL("ETDMOUT_HP_PIN", "aud-gpio-i2sout6-on", "au=
-d-gpio-i2sout6-off"),
-> +       SND_SOC_DAPM_PINCTRL("ETDMIN_HDMI_PIN", "aud-gpio-i2sin3-on", "au=
-d-gpio-i2sin3-off"),
-> +       SND_SOC_DAPM_PINCTRL("ETDMOUT_HDMI_PIN", "aud-gpio-i2sout3-on", "=
-aud-gpio-i2sout3-off"),
-> +       SND_SOC_DAPM_PINCTRL("AP_DMIC0_PIN", "aud-gpio-ap-dmic-on", "aud-=
-gpio-ap-dmic-off"),
-> +       SND_SOC_DAPM_PINCTRL("AP_DMIC1_PIN", "aud-gpio-ap-dmic1-on", "aud=
--gpio-ap-dmic1-off"),
-
-These are pins for the AFE block, not specific to any machine, so:
-
-1. They should be moved to the AFE driver.
-2. Their names should match the underlying interface (I2SOUT4), instead
-   of the intended use case (ETDMOUT_SPK).
-3. Their related routes should be set statically in the AFE driver.
-
-Also, for the I2S interfaces, since there are input and output pins, but
-also common clock pins, you should either split out the common clock pins
-as a separate pinctrl entry, or just combine them so that you have one
-entry for each interface.
-
-Last, you need to document the pinctrl names as required in the binding.
-
-ChenYu
+Indeed UMP is pretty simple on paper, but as usual there will be corner cases of the ownership change never happening. I vaguely remember there was a sequence required for the HID used by Realtek.
+FDL is another order of magnitude in terms of error handling, the state machine is rather complicated and it'll fun to see how implementations map to the spec :-)
