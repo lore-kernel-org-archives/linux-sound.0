@@ -1,86 +1,103 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7B1487A5
-	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 09:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37EA28F937
+	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 10:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753091922; cv=none; b=VshB5XCrSKDrLJngyzf9VLvs2NLvBTKTfoGSxIdfR7dV2rVYLJrXdsmq0bbPpYh9UQNgZf4qKlpi8ofxZNeNzIFZgoB6OamPK62Pn61ih80lEb7kVzYyu0T77MKVC/Z1xEsEVeEnYdagyU7p1CAIi23l+xwBUbwGJgTcnHFQneI=
+	t=1753094368; cv=none; b=nQqOuZb13j/xGok+gQyXuFmzY1xGP4VXhobjQIT4Req6EgOx4hStqdP8zUMeOsWan4jTlL6ZS08RD77+Mn7cEEl67EQOfSg3jRodOR6/0tr1mKSiDdM9PWnfZMABPDGKF6xkLYUWMzuP0+U/oifHz3Zqj88rqw0iccwtGG+JRXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753091922; c=relaxed/simple;
-	bh=poqM3vgJ4qOdQuRnSZORhrkM+IFzaW9zZvgOiAlWIhE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p0AFN/wdTI6aiWLxX1xO4xdp9FhBTKhICtRPxb82MolsCnBezK3mVYQQ6x4gwtg8eYdgYbL8YV6Pvnv4MpPH1SaGU5TG8JNxrAIE7myAqlGrCzwYrEBaWMRC7OGa6EyODQTlkDl+kq3rNIZVniInE21ygLtZ4h3RUx2C/jfAh0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=P4iCZfUX; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="P4iCZfUX"
-Message-ID: <33031451-9aef-4c72-ba63-b2cc76877c95@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1753091917;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=J2RjrMMV8jinO1nOdGIPwlCYZPGbn7mkl69AXGofTbM=;
-	b=P4iCZfUXSgdlFWzt+nPvmU8VoZ0WofY80VyU6mtgHyiQ2L2VYzi3ydWucFLe8jRTlnttzw
-	Uyj7W+t7drGtLEu2B8NTe+xrQXHYqHgm/fnj/zHyFi63AENNL9jp8A/irMiBmZI1GHJLlC
-	6Yh60I0VfivZ/fTamBPT0ysh5KClILw=
-Date: Mon, 21 Jul 2025 11:55:36 +0200
+	s=arc-20240116; t=1753094368; c=relaxed/simple;
+	bh=PM1VPsrdjO0YYhZC6Dej1QyKtXiLbfGG2zKsH8vSHdQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=loFl2/EXVYE/NCxvR2QrESCQ5oHSPKp16aYKtY+yMx+C3++pepv7kz2ENJRhYJy5/r/wQietYB8Sa9KIW/iwbkNK/uqK3+4oaNSuGhX0FDmxBtMFSlJBtMg38Aa2LYvu3/MdqHnvsX4i5KR7jWpMjsoA+rKude/AMz8GfdJK5/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
+X-QQ-mid: zesmtpgz7t1753094351t4cd420b2
+X-QQ-Originating-IP: O5GI00GzIPKUFNV7bY3KUhaypjVvPaBFabvA01mdUxo=
+Received: from localhost.localdomain ( [113.89.235.49])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 21 Jul 2025 18:39:10 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 12390014289647281348
+EX-QQ-RecipientCnt: 15
+From: Nick <nick.li@foursemi.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	nick.li@foursemi.com
+Cc: xiaoming.yang@foursemi.com,
+	danyang.zheng@foursemi.com,
+	like.xy@foxmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v4 1/4] dt-bindings: vendor-prefixes: Add Shanghai FourSemi Semiconductor Co.,Ltd
+Date: Mon, 21 Jul 2025 18:38:02 +0800
+Message-Id: <20250721103805.531758-2-nick.li@foursemi.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250721103805.531758-1-nick.li@foursemi.com>
+References: <20250721103805.531758-1-nick.li@foursemi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/7] Add SDCA DAI ops helpers
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org
-References: <20250707124155.2596744-1-ckeepax@opensource.cirrus.com>
- <4336e9c1-e05c-46d6-939a-53fefb8f9a14@linux.dev>
- <aHdinBnBvSsfx/nA@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <aHdinBnBvSsfx/nA@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: MdTuaOGnZwiPp7SPi5sij3fE2yU3QT+P4g2KboDeK3gpAz8zjfBwInHh
+	2E0U4iB+zG9iwNMXRmCPU1whDkRB98e2ef9758OkbAtWsr+nuDWWqK+5IoZBPjY+p/StFcj
+	t2aILjfjL1WJqS1RnPpWQLLW7v5XAWcWbURIlLZ5DcYCY2O+Q6didHKPf1m6E5gNJ/yy5xV
+	ljKROQjf0AwRRZtqGLb08Myp1UdwmxfKtj8MXEYkSV/H5moFWkRzNe8q1b1lX2F1dfZ9pMT
+	RNVjokKTXoMdKTOtN7Wd1zGE2Y/3BgeIQ5tbcJmFCSWRpv6VGwbpVn85UxCKPSE5mQKWQwk
+	PZINUjGOpjb8J/H9q9jypY5XHA+GUoj3d8qxVQW2Xe6dS34RbD5EDai6GLCx/4YKIH51cqD
+	GIJVuVpPZnv0i+oJZvyEIV1KJZNe8FQ18oXLtyb0DDiQbIXJlYYkPUiNAKjpksUe1LLudWT
+	sMF7jSU0/nnJ6hsuXSO6Y0ad10tpnfRvLjW8CklAw7LQpj2VTXMnBIgz4zLXPtkiJDrPcMO
+	FPJL3zB4aJI0VvfdHivW1m3g73AP1GhF7kvbZrSPsczu+8K4JrSV3+siobi2FF9GCtgXvFu
+	pk3oE5o9TOqkihOaF06LLlXnBFMBhFQwAbC9FViZy3Z+/Pgu2wy5ELeeq/uaOORKcvTUCb5
+	CA9idlDZY90My6oNXCMNV9+N4uy9TyprLtWBNP8bDyv55uYSAS4bR5XPvJAnOGt3gX1byEM
+	go7aMtcYms/SCpiQilN9PQfVv/HpIkxgZg5NvFMln6F/Te+5v5fFvjM0QN53E43VqyvddpR
+	zJkldeHD59YUxo9sotfhvoM+BmLK5W/MVrrqqJ9aRlZNkP7Y7S5Z9WVkR001Q8hcCXaIco+
+	m1m36OEQkl8prsbRaOgjxCx6MNIi6R+Kuh8WQwkIyGo9oSLT/UL3ZirSz/uqx2a89TOXd+y
+	rRxAt3ggYEThRLByDiCZnxHP82tfQWL1taQEY0bCONJoh1O9+3bBligsTLBeKQ1ZAoOz6jG
+	FasIgUn0+cI3vP9JeIhC/SF/tNFlAjh3jYQHauyBqIBkAiSMhcl0VIH90mk6RuqNDara7Ku
+	5VKwNOmLkLJ
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-RECHKSPAM: 0
 
-On 7/16/25 10:28, Charles Keepax wrote:
-> On Tue, Jul 15, 2025 at 07:58:32PM +0200, Pierre-Louis Bossart wrote:
->> On 7/7/25 14:41, Charles Keepax wrote:
->>> First, a couple of minor code fixups to already submitted code. Then
->>> some patches to add new DAI ops helpers for the SDCA stuff, these allow
->>> configuring things like the sample rate and finding out which SoundWire
->>> port should be used for a specific SDCA streaming input/output terminal.
->>> Still a few bits of outstanding work here (propogation of Cluster
->>> information particularly) but his should be good enough to get some
->>> basic use-cases working.
->>
->> For the patchset:
->>
->> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
->>
->>> Hopefully we are getting fairly close to completing a first version of
->>> the SDCA work now. Should be one more series to add FDL (firmware
->>> downloading), then we should be able to send a first version of the
->>> actual SDCA class driver itself.
->>
->> FDL is a very desirable feature, but shouldn't there be an UMP
->> (Universal Message Passing) layer first? HID and FDL rely on UMP.
->> I would have expected the ownership changes to be handled in
->> a shared UMP library or set of helpers, no?
-> 
-> Yeah we are still working through the last iterations internally
-> on the FDL stuff. I think it probably does make sense to pull
-> out some UMP helpers (indeed I was have a look at it yesterday)
-> although they should be pretty simple so I imagine we will just
-> send them as part of the FDL set (subject to change as we work
-> through it).
+From: Nick Li <nick.li@foursemi.com>
 
-Indeed UMP is pretty simple on paper, but as usual there will be corner cases of the ownership change never happening. I vaguely remember there was a sequence required for the HID used by Realtek.
-FDL is another order of magnitude in terms of error handling, the state machine is rather complicated and it'll fun to see how implementations map to the spec :-)
+Add vendor prefix for Shanghai FourSemi Semiconductor Co.,Ltd
+Link: https://en.foursemi.com/
+
+Signed-off-by: Nick Li <nick.li@foursemi.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 99e86271c..f692e3b29 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -547,6 +547,8 @@ patternProperties:
+     description: FocalTech Systems Co.,Ltd
+   "^forlinx,.*":
+     description: Baoding Forlinx Embedded Technology Co., Ltd.
++  "^foursemi,.*":
++    description: Shanghai FourSemi Semiconductor Co.,Ltd.
+   "^freebox,.*":
+     description: Freebox SAS
+   "^freecom,.*":
+-- 
+2.39.5
+
