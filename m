@@ -1,123 +1,133 @@
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF021D54FE
-	for <linux-sound@vger.kernel.org>; Mon, 21 Jul 2025 12:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7BA2A1CA;
+	Mon, 21 Jul 2025 12:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753099366; cv=none; b=n+to6xmnLMM1IycMLtgceEo4S8vcUfKVY9QPfqExUaID7lQJL6bsXkPo8nC86KSG0wyMmTrA4HyjogM2H1f0dH9zRYgcm3YoLkLpqqDCel4U5zLlDFtFvyPIn/uGXM/n535+bc4bB+iAsTgZp4CmseRNZ5wzkLoiPCdgwhkgGhM=
+	t=1753100144; cv=none; b=FAxp+WcSijY/5iP4sr433oZIPMRPAbsWgyMoTJGHxa7CCyU3WGHGF7pQtejaxTDD9LtrNET00wd1AA7hUlYx1GLWOfbKlhtE3XZWOUUeBKba+QCcZsFuhYjXheGSJ6lQABKUZFD8Wmttfyu/iNTjs31WOVaZTBvoHdUjBf1OB+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753099366; c=relaxed/simple;
-	bh=L5qsIxuvHyfcqD23PAauHEBvAc9IlcRhaka9YEdv+lU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QxKP8/QkJS6oyjfkksvhE5zd+C2rOq8mB5UsOBuJAVyiSA1SPxgTlMAFye/D0fk2zmw1jcLBb9CRPltqqZdz/Ornni8ZUsh5k9CCQu7IN52IQppXi1EtepEFd0e3h1Cl5LPrvprJl7UvQbe2/nIhPAKvG3FOZRnApOrkjOANWYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=18.169.211.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
-X-QQ-mid: esmtpsz21t1753099345t7e73bfbf
-X-QQ-Originating-IP: AXZvxwazFJGly/vNa7p+LCy4S+Cfg47Zclcv/a3cTWM=
-Received: from localhost ( [113.89.235.49])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 21 Jul 2025 20:02:24 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12701394614821551690
-EX-QQ-RecipientCnt: 14
-Date: Mon, 21 Jul 2025 20:02:23 +0800
-From: Nick Li <nick.li@foursemi.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
-	tiwai@suse.com, xiaoming.yang@foursemi.com,
-	danyang.zheng@foursemi.com, like.xy@foxmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ASoC: dt-bindings: Add FS2104/5S audio amplifiers
-Message-ID: <F04DD98A69286426+aH4sT_P0GvttoCOq@foursemi.com>
-References: <20250721103805.531758-1-nick.li@foursemi.com>
- <20250721103805.531758-3-nick.li@foursemi.com>
- <83f7c489-7001-49cd-97a5-4280eba95fe0@kernel.org>
+	s=arc-20240116; t=1753100144; c=relaxed/simple;
+	bh=ZPCvJFyfzlKb2X9uQJZaVJhpVk1gNVTr6MGbXoppWmQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nkXLBHai8pkZ7wpQ6ruEut5bIbWppfW9fKkou8i7vnxoOrAkbCVNVF0vWfwOQDaQtdwmn5vKI1+1LLwK36fqxulQ/AeIyIdSR5681itoh5BH8yTBLtRDp453I30Xn9g/AdEe1Sli9kani8CFlwQa0PB4RqsNLJRc2KOaO3dakuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QQ43a/ZX; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QQ43a/ZX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F56FC4CEED;
+	Mon, 21 Jul 2025 12:15:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753100143;
+	bh=ZPCvJFyfzlKb2X9uQJZaVJhpVk1gNVTr6MGbXoppWmQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QQ43a/ZXhqUCAYP/ip3UxqAHsw0tgCzsGg7lsNQaJWEGm5gwNkSY6uGVbLW8U1UUn
+	 43IgXMNcKZWhdQrqAZPXl+ZEhAtDERTbtC3hLe+Lwffbp02RQKFz9b4W78TbeQRQfC
+	 zdup83+C55n6GT/ROpsrWeYkR6YLQoUQXVXvLU3v0mTI44fIy3J3aeBrwHSAb2kk/O
+	 XbIkm7pnxjBOSeRpUAf/2O/TU/PA2+whDZdHEEREAoKxPKrp05Kw1khZo3IG+JV6aJ
+	 KnaloYhnp0xQi9EJgEh++GN6h8g63I7p7ptaivb95FTCOf7Q/CXGi/fiR479k4hod6
+	 sDrNysCsfzKYw==
+Message-ID: <ea2f30ff-b2cf-4b88-9fe8-78950a03d882@kernel.org>
+Date: Mon, 21 Jul 2025 14:15:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <83f7c489-7001-49cd-97a5-4280eba95fe0@kernel.org>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: MQqtfF4R/f2xKtcKgY4SDDHMLtkrTNkiroXOvfJw3YOcpLyRSXlFcbA4
-	d2NF0IJaJm3W8sQ+322H67UDvLUIe+9vW9Teq84LLuU0Bj85qX2dy/U9i7IbRHR6uXO0ZTK
-	5C4TVDyXPPOhad+13hX53nblnwThHP2XkQk4XT2tVMB/Sv0cceo9tjdxm9JTAMdqVqQu6vu
-	jFgbgdikqUkG0MGDR3A4GgNsk7+d9WC+8m4n+Rr2Oe4c2fdHR2JcdtXt4/k+GnrT6B6EUP+
-	JDDURWlwEJjx/eG3KTQJy7ZXshen8Mbat6epxDGKjO0JoqNFn36UMKjMLjHoykXftjHnvJX
-	ApFn0RcKxr7Vai3abT01eMsLjHldpW6FPpQnYgqqMphZTNGloszk//CLOcW6nrrd19yh+16
-	icvxJC4HijN4lKp2dG0MkS59zmSD8m8Z+csxOdU0pTUxRy/eDDMUUZqZgwKu/p327TYOuAd
-	4a3MhJv9KOJnv2cLdPnGcmdJlDUnTgm8ewggSmaLO4YFZX/YO6jMQLKyvYzALHR/ecwXvxI
-	WKQrRS4XAuVKplT7CIVmtO9YJGgt9H21du2vdAJDyLVOH8pHJA3D/Jta6HB6xwh42h1wvIH
-	vZskYsazIcYKNMn6CzwitBGWqcSB6AXDzvED08gd1jSXOyQf7FRCOVgS70p84kPDo6rkP2s
-	DrRXjMgMkHXNSDfOLAbIqVUCj5wpHBnlgcH1rdT0P5lXk5noF8rQ26enCxrILqCM7K0T/z4
-	WCDNzTdqhb2Nm0w2AOoTchiXZQ0rVDSmz5NulzqQTC4/5aTIw95Gwaz78kr6Jaw/9wvCDC9
-	vlzqZkaZHM8TT4mVAx5BtT2th6zDMOuPrVh7E4ELOMrkbiVNqJUvfpk0DfoqNqhafNYy88L
-	Tu+koPzf7efhQhf6m1XTiObiGP2MKpwYlNn7j4JuEuEvtTYcCIzce4flldBQYIa4bqWKZTB
-	ToYgCCpXYBc8FSyjxUPDiuKN0TH0DV7ixfIEGz6l2HeU5ZK22BziJNDwFDko3IOnOnsFFub
-	AaK9Ft+TSjxxaBE3j16hG4k4paGxy65uUcI79d+ZJzrm+CT4YH3XFYr2bFN1ll6NqQcWMGq
-	g==
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] ASoC: dt-bindings: Add FS2104/5S audio amplifiers
+To: Nick Li <nick.li@foursemi.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
+ xiaoming.yang@foursemi.com, danyang.zheng@foursemi.com, like.xy@foxmail.com,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250721103805.531758-1-nick.li@foursemi.com>
+ <20250721103805.531758-3-nick.li@foursemi.com>
+ <83f7c489-7001-49cd-97a5-4280eba95fe0@kernel.org>
+ <F04DD98A69286426+aH4sT_P0GvttoCOq@foursemi.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <F04DD98A69286426+aH4sT_P0GvttoCOq@foursemi.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 21, 2025 at 12:48:24PM +0200, Krzysztof Kozlowski wrote:
-> On 21/07/2025 12:38, Nick wrote:
-> > +  firmware-name:
-> > +    maxItems: 1
-> > +    description: |
-> > +      The firmware(*.bin) contains:
-> > +      a. Register initialization settings
-> > +      b. DSP effect parameters
-> > +      c. Multi-scene sound effect configurations(optional)
-> > +      It's gernerated by FourSemi's tuning tool.
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - '#sound-dai-cells'
-> > +  - reset-gpios
-> > +  - firmware-name
+On 21/07/2025 14:02, Nick Li wrote:
+> On Mon, Jul 21, 2025 at 12:48:24PM +0200, Krzysztof Kozlowski wrote:
+>> On 21/07/2025 12:38, Nick wrote:
+>>> +  firmware-name:
+>>> +    maxItems: 1
+>>> +    description: |
+>>> +      The firmware(*.bin) contains:
+>>> +      a. Register initialization settings
+>>> +      b. DSP effect parameters
+>>> +      c. Multi-scene sound effect configurations(optional)
+>>> +      It's gernerated by FourSemi's tuning tool.
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - reg
+>>> +  - '#sound-dai-cells'
+>>> +  - reset-gpios
+>>> +  - firmware-name
+>>
+>>
+>> I do not see how you resolved my comment from v1 or v2. Nothing in the
+>> changelog explains that either.
 > 
-> 
-> I do not see how you resolved my comment from v1 or v2. Nothing in the
-> changelog explains that either.
+> Change logs are in the cover letter:
 
-Change logs are in the cover letter:
-...
-v2 -> v3:
-.../foursemi,fs2105s.yaml(patch 0002)
-- Drop "schema for " in the patch subject
-- Delete the description of the property reg
-- Restore the property clocks to v1
-- Keep the same order as in list of properties
-...
-v1 -> v2:
-- Adjust the order of patches according to the dependency relationship
-- Rename yaml file to foursemi,fs2105s.yaml
-- Fix some properties and error definitions in foursemi,fs2105s.yaml:
-  sdz-gpios -> reset->gpios
-  fs,fwm-name -> firmware-name
-  Delete fs,dai-name
-- Drop "dt-bindings for" from subject
-- Update the driver code according to the update of DT schema
-- Fix warnings/errors reported by running checkpatch.pl --strict
-- Fix warnings/errors reported by running make dt_bindings_check
 
-Thanks.
+And as I said I do not see resolution of my comment.
+
+If you reject reviewers comment, usually it should be mentioned in the
+changelog.
+
+Otherwise you get now the same review as v1 or v2. Devices cannot work
+without power.
 
 Best regards,
-Nick
-
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+Krzysztof
