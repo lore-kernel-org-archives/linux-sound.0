@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8021C2836B4;
-	Mon, 21 Jul 2025 07:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D67285068;
+	Mon, 21 Jul 2025 08:19:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753083186; cv=none; b=okJ4BYliiaAEONJe5PxoUmRZlXHxPJ3vbdjgGODnl5f1j/PG4Lz9upMWwubLUFKeHJeNPw5ebuam/e9eP2hyNOpjPmwDF7GwZeZCsZ2aq4HuLoxEMWQzd2hF3EIBb7V1x4SRRwZJh28ljrnnCzTrZlss1Untq8+CoqyxXSEJrd4=
+	t=1753085966; cv=none; b=gwrJQqyGGY13HYaNhZDv6dsIKCyLIU4PlyYU7K1xeU7jo+fUdg53TL0+HRjDraDky4RS3PtjFWCpQuJAfdT1wf5QfVWpsHHSHK3u5UpzBhnfDvkum33yh6dSnavvTXlfCgFtTgCBguiFHRaSsTPwNqj+0Zd5MeFghkCgfBUfwKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753083186; c=relaxed/simple;
-	bh=mdw1CJUvpPFP7q0+Tbu+h7FrEywRakCiECzX+/r2WGE=;
+	s=arc-20240116; t=1753085966; c=relaxed/simple;
+	bh=uEB0HtD55uZd7rEhL/zvPezmMEb4PcqPNChda79sX/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gr9Q/cCP9PL5/vg4ZU7ahlHlm9P7/rPJgL8qYX7sjfiQwuH0Of60uFuVtNcfIspI+Mjw0hvs8FFtdlopdIcjIU4QtNkhlFnb0EDDC95m90JBYVtWaBVej7Cx5JTAk/2807mOgBr3kUQbEoBsUrVd3Ggo++GjKgRN44mfcW0OrWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQVMx82I; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GKycc6buwRVAu7YSjHgctKQY4iA2KgoZTT4dp2745y4+XVhxHVjnki9WNuMzsX5Z8GjSnGWaJCJIeMyaqlwdA8/NCQpmQYhl7S5h8bE+l2LEzr56/Pb1jTpadzmBzFgZa3caVgdwKnjM3rBLITtrJFc8EkOawrm5tA3+l4Znb+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NcihLUuN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQVMx82I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E6E1C4CEED;
-	Mon, 21 Jul 2025 07:33:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NcihLUuN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D588C4CEF1;
+	Mon, 21 Jul 2025 08:19:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753083186;
-	bh=mdw1CJUvpPFP7q0+Tbu+h7FrEywRakCiECzX+/r2WGE=;
+	s=k20201202; t=1753085965;
+	bh=uEB0HtD55uZd7rEhL/zvPezmMEb4PcqPNChda79sX/s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WQVMx82I8bVkS4iAB/XBcHjAZN+OhmUhogG2a6aPNGFZLGTIRUdJ+WBnlccVGR+8P
-	 LfxhMHXvqI8vOZ7ABVpKYeYoFLtLKhtW9T5yvCVp46/OM/CfrGPH1urmhIOAEWZSvX
-	 W2KZwAUGG/oTmXoaUgQ07oYeT+0gubuEN3FBGwfZWsmBQGS4vU8e2Jo1VAqehDPfqH
-	 J0e660hGsA067rNtYNL6MoNdw9AvRanwG93tWFmsX9hyJAI7qsg+74XlsaHZutiMVA
-	 ds9o1mVOzxHqahjQ2F2L5BBU+e0CuLzCqHO8O3IFZNypfMuE1lVKAPGq/v7Z8bnMYS
-	 BhZDW8+x+8IxA==
-Date: Mon, 21 Jul 2025 09:33:03 +0200
+	b=NcihLUuNxprB7aVI87hJ70Aq89aNIFkCBA5Xod+cxuVDOeA5BT1DMmlVmg44Mt0D7
+	 iNx95HJ121pWyOUpiDH/nn0baxboJIxpnnFTSKiv/R5tiW8BOSdidC5qdw2lmmpK9x
+	 5mx3GlZmm1boMS/N4pcHkZ/Fe01krAXdzqugtHtWZtuX0LlVfdgPIk/02lVvTPpGNZ
+	 fwWBCZTXCA2opGSlY2+5DsuJcIE8UsqH5hc3tbgTn618iOS+Rv2dujqztZvuDrpDsi
+	 GOi7UkOfFkux++E6spsVkyIR94Z+TmZD2zduV+fkw8IfSVSMSBrFc0bvRRee+t6c39
+	 ljhZaj4WJC6ug==
+Date: Mon, 21 Jul 2025 10:19:23 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	kernel@oss.qualcomm.com, Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: Re: [PATCH v7 3/9] ASoC: dt-bindings: qcom,lpass-va-macro: Update
- bindings for clocks to support ADSP
-Message-ID: <20250721-fervent-panda-of-effort-f962b5@kuoka>
-References: <20250720173215.3075576-1-quic_pkumpatl@quicinc.com>
- <20250720173215.3075576-4-quic_pkumpatl@quicinc.com>
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	quic_pkumpatl@quicinc.com, kernel@oss.qualcomm.com
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: qcom,wsa8830: Add reset-gpios
+ for shared line
+Message-ID: <20250721-teal-vole-of-finesse-82debf@kuoka>
+References: <20250718104628.3732645-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20250718104628.3732645-2-mohammad.rafi.shaik@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,21 +50,19 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250720173215.3075576-4-quic_pkumpatl@quicinc.com>
+In-Reply-To: <20250718104628.3732645-2-mohammad.rafi.shaik@oss.qualcomm.com>
 
-On Sun, Jul 20, 2025 at 11:02:09PM +0530, Prasad Kumpatla wrote:
-> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> 
-> Manage clock settings for ADSP solution. On Existing ADSP bypass
-> solutions, the macro and dcodec GDSCs are enabled using power domains
-> in lpass-va-macro which is not applicable for ADSP based platform.
+On Fri, Jul 18, 2025 at 04:16:27PM +0530, Mohammad Rafi Shaik wrote:
+> On Qualcomm platforms such as QCS6490-RB3Gen2, the WSA883x speaker
+> amplifiers share the SD_N GPIO line between two speakers, thus
+> requires coordinated control when asserting the GPIO. Linux supports
+> shared GPIO handling via the "reset-gpios" property, which can be
+> used to specify either the powerdown or reset GPIOs.
 > 
 > Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> Co-developed-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-> Signed-off-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
 > ---
->  .../bindings/sound/qcom,lpass-va-macro.yaml   | 23 +++++++++++++++----
->  1 file changed, 18 insertions(+), 5 deletions(-)
+>  .../devicetree/bindings/sound/qcom,wsa883x.yaml       | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
