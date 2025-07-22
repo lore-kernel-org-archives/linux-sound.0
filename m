@@ -1,337 +1,179 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D592E2660
-	for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 11:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753182708; cv=none; b=pbxzJZlx+Ni8o1CGF+WqteMA6dJuVPZp3JG1HCpsRE60vmcGNnaYrmFy2tKOUH6I2CtNXK8EcAxpX4ngQ3qUvFuXSvJn+jvLYM4xN23sh3ccOEUE+kjLZObkoueWHCb3JgNnno9Ibxlvu59p3Rav7ICSO1DIEBG5QtgGUM1G8CE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753182708; c=relaxed/simple;
-	bh=7b1qh/dSogZFvxoYSJwQTetAmceccBgx4t1nS6JueJo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C+fnScLmHyqAIVea2M7GwvTpGQO11TPfDKL7ITWsMQ3icn69hengbezUEFVweLTqQw7nqAA2uc56C46q59p4qMf1YsMGhsDHE992SGgROumLQ7AZF6fdDB+bh9nzpirpz9X1FDASUiCfNxaiTfoXswIJewTzBvfVWWlqP7lDiyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VN1GIgCe; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2167D23C4F6
+	for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 11:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753184851; cv=fail; b=bai0VzcaBJ6cOrcKiJsEcoZ4Aq9/W3Ter0DhqqIdtbiGSXOoQCzxVGa5FU7+XBlwJh/dKlyH3Oq7Y1CQ7vNzYBcveu7/AHKDukkIpkDHKeRiSQ0ssqxppgB2RlyaDuXnSXP3z5Ei6c6gYiCcPH3lcEg7ckRoZOJ2qK1sc3VIhCY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753184851; c=relaxed/simple;
+	bh=eMeJF1zF16zuAB9SFE43CU8eyNQt4YHg22XufjIfrBE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=WfEufBN6/latu/wrrdQSRULPS/hcEmOyvH6Wi0n2cQTQGnj5tKHkAh6WaOBndBU9TyqlN0ydsYVBpzvsXKGIP864WVO7IQnQztuzz2Vwdwz22NblqezKPVtpKLkGxpl8Ao+V3YkRYtAZn4a8h/rEu15D8E8Eo2d3gr3b0A6IYz0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=FtQfLx2C; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=TVYjo9aA; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VN1GIgCe"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56M7cZMa010840
-	for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 11:11:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Oi53JRV3Vx8pK1+2DIKrj/tvup2GlNnWQRcDHigNxvk=; b=VN1GIgCeEgOMNW7R
-	rl90UYWSjqYLzpZJst5i/oNnzS2+YJm4hxij3KFwC1rs4uVnJ2kvevDtylePTc3t
-	2MibDyIbck2LKYEo38AHuqEicubnowr7Rtb1ajOD72iXX4uUZMolughWTplSTMe7
-	rxVhv7dJqD8ZcXi7gKh4u53Y9Nn7jewsmZq9rlJoh4A2DGu/dTFSYYb/RljPf34Z
-	xqH3SNp78F/IZzhjF0MQn/STwypElO8PQqE6M41mNKUP8YWgpnvHL2jibxfBer7E
-	WKgOF7UrB13XfAohrGiIXAKdtZzkuMi7ykuvNHnnWlphqgnpS1/JnbSMRGYxBD2X
-	s8QzWg==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48045vyj00-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 11:11:40 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-756a4884dfcso5211486b3a.3
-        for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 04:11:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753182699; x=1753787499;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oi53JRV3Vx8pK1+2DIKrj/tvup2GlNnWQRcDHigNxvk=;
-        b=BKJq9yr+23zBCPpxpvhb6tKbuV+O/LctKZ0UWOa0WmSyimzPB0tCn/czkYByYNiQdT
-         JBjHxv24g75V2BHKMG2RlBTJqcDQtl+hxvTp1A1HyU6mgW6aiu1ohz+g0lsP7gEzythz
-         qGYj5TRHeqxuGGdXexbKliY1Y4tDaLkStLzb7FQTywRo46czh9Isr7BZ7bAYFksTVdCj
-         b66N+PYqstAc8cC83OZpcGZ45qTDWZNENo9EM2I+aLiQ+HFmlVrzxfRAiyCxlYJOe3SF
-         I2JID/8JubG6BPzJAlA5B7rnTbGLJ5aOIZeGyNIq3qtK0yYY/ZWBD4d7HLv03XynV+by
-         LWKg==
-X-Forwarded-Encrypted: i=1; AJvYcCV3Zn1ANqsrg3jsAVbLxzFi0wgd2CSUSD+NX4j5KIu9fhNe0bb8+muYhqTnSWTIF0+EKwP+e14k0yW1Bg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDzvSXdWyv1yKEP57pCqetN2lkzcJZVz87pTkch0znF6p8/gkJ
-	LUW8oJ2qhoUQcZOlKaHWuMVm9nRfpKiLlogvvt1S1VlyGLZZMoHbaPtslgr9F/X0f5xa77izugy
-	6ybF8hdGpcEVbWf4oKSyT/PtIZcL3hzQBc6gKdAaJt2sBcPRQN3N0srzcMit7lCh3Pg==
-X-Gm-Gg: ASbGncuQRH4X/jZyp/zyWsbNXvjf64JNVUf+O1S2bNo64M8zhvaftjTAheWVkTCOFPI
-	/WtzuhCxP9WRJC8n4hUtQySZ4lc13CU3sLbmy4S8bb1dVHHsfg6rNilhaFHpu7djhftssrSj9Qw
-	mLJYMnxjNFoP7Wvq6gppAxMw15oN29izw28xA3nc9m2EbUx2FwfSkFCIo00htjt445EcDTxWxmO
-	XRsO9ilrIHvx7wyMdwKnZa7LWmLQQUafyBdGyZd6sbdV6oz9wFSZ3HQ5/cvEj7PqI01ZrkPUTeM
-	FObGLp7xRNXo6Djz276b3lTwR+QySvJqXghfZ2jFdik5ZY2m4e0NRqKMjmJmfs4ooLzHoLgu8Bw
-	JURg=
-X-Received: by 2002:a05:6a21:e85:b0:21f:ee3f:8ad5 with SMTP id adf61e73a8af0-23812c48c36mr39345049637.20.1753182699048;
-        Tue, 22 Jul 2025 04:11:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGzvWUcEPNXtNIE/BBj0biFMIcwHJBPX8MO6tw2I2eYccmF/S3eY5ug3RzJMiSa80xvG6s1rw==
-X-Received: by 2002:a05:6a21:e85:b0:21f:ee3f:8ad5 with SMTP id adf61e73a8af0-23812c48c36mr39344983637.20.1753182698520;
-        Tue, 22 Jul 2025 04:11:38 -0700 (PDT)
-Received: from [10.219.49.237] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-759cb678d9bsm7465223b3a.109.2025.07.22.04.11.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Jul 2025 04:11:38 -0700 (PDT)
-Message-ID: <8d488066-6f29-4ef8-8f09-26328b5213f1@oss.qualcomm.com>
-Date: Tue, 22 Jul 2025 16:41:31 +0530
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="FtQfLx2C";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="TVYjo9aA"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56M6hqsm012369;
+	Tue, 22 Jul 2025 06:47:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=5ySY+KHG0NurghKl
+	VJpHksGXJM+RJAaPDViLU29MPpU=; b=FtQfLx2CXtvzqjmGZTm/b9DJ2V6fUUaK
+	ZHsu9LWDElWHE68ZRrVAg0Faea8CFCKfMAiybbXh5U1fvhA/7NNIavLCEPnNKhDB
+	BVS+tZY+Pqom3MFSW3ek/jg0CzEIZ+dEOQQWNFd6SznwhwMJb87j7HCr0nAe0uJj
+	swjlycQIxhF3TBZqrc4OGqYaaEjw67yDRljpKNctRAHGVYSdYSUUk9tE2ZAKhdEs
+	PniE5jIR9LzsWb4wKp45j87/r9yel127S0DBozBjQZz0SYWEUhe+F8imnrOIM5Ed
+	8e7ZeocTRExjogXaCnMGs3dX4f+IxCDvabB4WEHm1T2S6oRHgrS9Rg==
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04on2122.outbound.protection.outlook.com [40.107.100.122])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4807sg35dp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 22 Jul 2025 06:47:17 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=loLut/BWO6PfKveSFSL4JwGnHEQjuSKF6tBTWzAlb/4sk1uDiGbLwbiChRRZMSABjtVcHHmM4Be20x11flhzSMTkBtK1htOhk7esO+epqJVK702hSM4AwDzccEPTtCMW6cczuRI0HONq5q//zatMccDgJvOK2+YmZkbcpC644Qu6/shoi+uEEPXx88Bi7ZViFxkfu2+zb1bofRiIJheoaXFc6ReR8RTucEUmZQDNUSUGwv7yuziLKVReOjIe8a5SbbIT71FmZ+apJCUaBL3zLU/HFeQ+juuoP1IoQex9V5hmNn5DQVWfFmknp3aufEhYWAvO2a5ACE9lslUp7Q/brQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5ySY+KHG0NurghKlVJpHksGXJM+RJAaPDViLU29MPpU=;
+ b=RKl/1fJnBGKUZ2uncepWL0OaCRvHClmeN/VyrZD91qkdVAkUzEfnADum11/s1TXjhpNQi0n/jJTBeoj1iD+krCeiYSlwRaZKZzvguzR6cx1OlnNu1tCrn6GGy4zbq1myEF3rTRPJ5Q/64SG3iZWJcODCevVOBSFxwUAYTBf158IHwajt9Uh6pcqH8REbczHRp0HXWay4YOP+/XYUGG3tIrs1GO88f9X5IRXo3Rdu9mFzqi7T+w5XNu/s6UGv+G3j1UlMIugK+rF5ZxhdxRYcOtKK/66Kn240tGggQywlMjpWJd0HbPZ/pi3H13uVFf7fCoyizuevE279Ioznl+oCWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5ySY+KHG0NurghKlVJpHksGXJM+RJAaPDViLU29MPpU=;
+ b=TVYjo9aAxzZ0rwAgT/CI6NYoGzYEjWsxFS4iin6W0Nrp7heYwJHnnySPx1LDsefaMLaln3yd5HSoWLf82F4h64saiW6Mlob1ArmV/wtSqw5LE5HvnfMPg40KYd3LAfMh5+QhKCRVTnkhVjYGykMs9F+Lf5j5qVcaJx6S3qZqUTA=
+Received: from CH0PR03CA0267.namprd03.prod.outlook.com (2603:10b6:610:e5::32)
+ by MW3PR19MB4217.namprd19.prod.outlook.com (2603:10b6:303:40::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.21; Tue, 22 Jul
+ 2025 11:47:12 +0000
+Received: from CH3PEPF00000016.namprd21.prod.outlook.com
+ (2603:10b6:610:e5:cafe::db) by CH0PR03CA0267.outlook.office365.com
+ (2603:10b6:610:e5::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.30 via Frontend Transport; Tue,
+ 22 Jul 2025 11:47:12 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH3PEPF00000016.mail.protection.outlook.com (10.167.244.121) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8989.1
+ via Frontend Transport; Tue, 22 Jul 2025 11:47:10 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id CCEE6406540;
+	Tue, 22 Jul 2025 11:47:08 +0000 (UTC)
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id BD9CB820249;
+	Tue, 22 Jul 2025 11:47:08 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+        pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
+        shumingf@realtek.com, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: [PATCH] ASoC: SDCA: Fix implicit cast from le16
+Date: Tue, 22 Jul 2025 12:47:05 +0100
+Message-Id: <20250722114705.2816910-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] ASoC: codecs: wsa883x: Handle shared reset GPIO
- for WSA883x speakers
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski
- <brgl@bgdev.pl>, linux-arm-msm@vger.kernel.org,
-        linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        quic_pkumpatl@quicinc.com, kernel@oss.qualcomm.com
-References: <20250718104628.3732645-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20250718104628.3732645-3-mohammad.rafi.shaik@oss.qualcomm.com>
- <20250721-hairy-aardwolf-of-enterprise-bbc99f@kuoka>
- <d614d8e3-963d-4d34-9b15-1544c7a22cf0@oss.qualcomm.com>
- <a006f099-578f-45aa-b165-64e28b8f930e@kernel.org>
-Content-Language: en-US
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-In-Reply-To: <a006f099-578f-45aa-b165-64e28b8f930e@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=LL1mQIW9 c=1 sm=1 tr=0 ts=687f71ec cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=yfeqtnweelXl-nV2tnwA:9
- a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-GUID: C-mcL79HdJMF7bwm12PTMaHRuMzvAzoh
-X-Proofpoint-ORIG-GUID: C-mcL79HdJMF7bwm12PTMaHRuMzvAzoh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIyMDA5MSBTYWx0ZWRfXxrx60yyVyZyB
- gROZrGohYS6NADmfn5CB3ORa7F+rLF17PF0zqYhUe0JYJuNf360VBD+C8f4JQSzCZK/dsjLynvw
- XqmZje51ok9PzQLacxusE6DLiMxE2+IqFA4ol8hAvkQzSInfomsVjqf1hQqcPa6hIcZnV/lq85Y
- vCOfrTj8MsTUk0y/UM4Xu9Cj2HeP8CUc9NjY+Yj7fHQRZMk9IzdDuVADeRZigfktf/AbtBvm580
- tXZvxblvK9GrdxJOv8z2hL1cL56p8JbChruzZsDSMn7nSi0vncbVb98djq99dAxfUlsdyIr7Wve
- zY2IXQD8tjSjhF/VC8Ea3htcABvLK+yoUQXh6+1GE45tR2chPNnR6ygMmn7A9lCLZSQ2G35ylR+
- jn9X6V2D7shl4jONX3vioES331gAzJrrmi4pwPAlRAGETWL63Q54KZc/xPuggw7ynyCALJew
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-22_02,2025-07-21_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxlogscore=999 clxscore=1015 mlxscore=0 adultscore=0
- suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507220091
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000016:EE_|MW3PR19MB4217:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 2dd3a02c-60b4-4f6b-d639-08ddc9157e24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|61400799027|376014|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?BlSMaauiR8UFqNxUbLRKqjWWkuMfawDHAFhJ1cVTud8RAA/BEui2X/KbEMw3?=
+ =?us-ascii?Q?CRQucaHlBEWa4uUbg/HYKivXfqyonAmcKmL5+VRErITy+AG6y8w2RhcHtE05?=
+ =?us-ascii?Q?eKAvKlMZc3O01coAs5mmSndpwtQxAvSCwXP7qacmwbu7TYWkFQ+da/Wo8liT?=
+ =?us-ascii?Q?4rT4JL9bchQhefWlCJymY5AcxRZT1N0CiLCzvMR5uRn3NBr5paQVV5ymAdaV?=
+ =?us-ascii?Q?4Q0s8SpSOO9JKJDw4bY6RJfYzm6+WSJyd04+0XbTCKAwc2adEpgMxg+8mmj8?=
+ =?us-ascii?Q?Qi1ZXD+J0C8TQemo9w7xUfjk6Crjl5uK+nvAuUUia8WoX/k/+GrCFxZ/EtTF?=
+ =?us-ascii?Q?1pSprpM8kvmtbSlWH9Eoqc+mPkPkyxriGpNIT7UjnbL1c8aBYjX+LDJu5hPe?=
+ =?us-ascii?Q?iDBWcLt2L/6zc5vPYWPG0U6Ga39iAYeEYlguSyLTnJzBpBKf6NFNl8pVRIQM?=
+ =?us-ascii?Q?t71jyrzZgQK+hAEasuGE11ek0mxoaHAoRsqXxm5KYVuT9ziW5oNockBS8D36?=
+ =?us-ascii?Q?JHtIQ+LnFFzrWkq9/x7d0/RliCXbZcDQLd1ohtChezO/KhK5lgvIYjUeBOvM?=
+ =?us-ascii?Q?YF31WF8YDXI+ThkNaarc2h8URJuCfXXjNr1gXdnO+09EprK+5L9d8eKiJRPZ?=
+ =?us-ascii?Q?eW9k/HUkX/H43aWF/WQaTwEtxQ4OgdZ7m9A9tmtN+KdjALwt4U87sO9Q1owj?=
+ =?us-ascii?Q?gY1zbqinESCF98KWI/qiurZJ/JvfDmqe2PR9bomw1RRuBGQzGZc0SKiF52z9?=
+ =?us-ascii?Q?PYmIm9CKWO6H2T1IoUpZRz8BNyJp2IEUm8fVaedJhc+p2pMih6sxpohdJQXl?=
+ =?us-ascii?Q?RC/Mp+NwcV4HpGW7PK8v81KYf4etRzWZcZ3X4ybBiYPHOmVM8jEOzdbIQuM4?=
+ =?us-ascii?Q?3Ft6ztWqPaP7GGxi6mJJNi9mV3hIXqm3ylDKbd+KiI0Nlbb2SdCTk9fTsnb4?=
+ =?us-ascii?Q?ONf3eG9kDMNKDD/fKNbxtkr8gkc5oZxBHjxrDLc81dGfrigo28dezJ53nwIO?=
+ =?us-ascii?Q?+mkl1h47tiAjF4zPXECwOSZrJ7+dKsO7mtv1GNOjd6j+SO+OTMsJqtivC5Fc?=
+ =?us-ascii?Q?9Sy0hl+3qKd6ROlz09nnxSsFn/H5WfU1mm50pDZnfwoA2zBB4gD/swgHyenO?=
+ =?us-ascii?Q?EYlGNT515BamUydRqN3o2PkHytEKf7a3MvLLDQS052B3ZfjkAlwW2cbXkLuU?=
+ =?us-ascii?Q?hZu9SkSFFzrLk91bDgtWN6APb1QASiDFJNIdmJNcOOrHTyIja2Wrbs2PNMoV?=
+ =?us-ascii?Q?TzOqgwC0pARZlKLK17nCC8X7il0j2Pl158KDpzZZkkGHsLD2w/2usETdJkKE?=
+ =?us-ascii?Q?cBJtF31b+gcTZNJfvYpBiiOwJAl8sCy1DtRTOtFI9SZb4zOSbDhvcSElKNIl?=
+ =?us-ascii?Q?NBS/i+WdQ44fofcs9HXzcKHqxHgTvr7vbPVwBQpXdDEaB9wZvqMMCDKaC6Qu?=
+ =?us-ascii?Q?Fho/n5kd0GDgGX94W07GVOBlsS6Efgo0uru6UKRqZ7CRx4fR4w55ZbaYnmHO?=
+ =?us-ascii?Q?qsSF8ub0K4C2rSrWYqrEyZfuKK+kXjq2gFIz?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(61400799027)(376014)(13003099007);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2025 11:47:10.1954
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dd3a02c-60b4-4f6b-d639-08ddc9157e24
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH3PEPF00000016.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR19MB4217
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDA4MSBTYWx0ZWRfX/rCfKo0KWOrG qGzFFGjY5Bk57LM2kY/ulCCCdpekC5Tq1S0Tjg4WZqEECkI8TSnxVuLeuoKPO9eZ53gcVGBicNF fLmwLO7wibZXedg7zp4ZJ2vYxsld1q/oCKbxhDVWLFSeUdjE5wzIatjNODAvxZAWlhGE4Jnhr+S
+ MtJpfM2pnCRO+n3kYAJjSY22jHl5XXuX3FAgu50ZRu0aFJLI+80lU0XSbcNQp364UdE3XHQoo5y XVYsOG8jMD62XMTOe3IxsICoXqBO6BaoKHUBCqsnCipYz8KJmZvkbcf/wuOHtbosxiSV4lz8g3c hFiL3n8VBsFH4QL1Qo/VeMLj8Z0jwGuYb7gIqvIOuwe9z68JlV8c+RZPM+Qi+744J0tvbn2pw1R g+kQouUd
+X-Proofpoint-GUID: lyMXEc5y3KDQBBj3zFW6rI2IuMYUfH51
+X-Authority-Analysis: v=2.4 cv=O/85vA9W c=1 sm=1 tr=0 ts=687f7a45 cx=c_pps a=Jj+W1aIpjiaze2h10yINYg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=Wb1JkmetP80A:10
+ a=RWc_ulEos4gA:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=w1d2syhTAAAA:8 a=NIMBU5Jw2qunLYlcQB0A:9
+X-Proofpoint-ORIG-GUID: lyMXEc5y3KDQBBj3zFW6rI2IuMYUfH51
+X-Proofpoint-Spam-Reason: safe
 
+As the HID wDescriptorLength is explicitly marked as little endian it
+should be converted to host endian before being used.
 
+Fixes: ac558015dfd8 ("ASoC: SDCA: add a HID device for HIDE entity")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202507221024.M18hWD6q-lkp@intel.com/
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ sound/soc/sdca/sdca_hid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 7/22/2025 4:36 PM, Krzysztof Kozlowski wrote:
-> On 22/07/2025 12:56, Mohammad Rafi Shaik wrote:
->>
->>
->> On 7/21/2025 1:53 PM, Krzysztof Kozlowski wrote:
->>> On Fri, Jul 18, 2025 at 04:16:28PM +0530, Mohammad Rafi Shaik wrote:
->>>> On some Qualcomm platforms such as QCS6490-RB3Gen2, the multiple
->>>> WSA8830/WSA8835 speakers share a common reset (shutdown) GPIO.
->>>> To handle such cases, use the reset controller framework along
->>>> with the "reset-gpio" driver.
->>>>
->>>> Register devm action to safely disable the regulator on device removal
->>>> to prevents a potential release warning from _regulator_put().
->>>
->>> It is not possible to remove the device - suppress bind attrs. How did
->>> you trigger that?
->>>
->> Ack,
->>
->> I encountered the warning as regulator was being released unexpectedly,
->> triggering _regulator_put() warnings. While the device itself isn't
->> removed, Registering the devm action ensures safe cleanup without
->> triggering warnings.
-> 
-> Logs are cut - you do not see the most important part, who puts the
-> regulator?
-> 
-> How unregistering regulator solves the incomplete get/put paths? It
-> feels like you are hiding real problem instead of fixing it.
-> 
->>
->> Please check the below logs.
->>
->> I could use some suggestions for this issue. please help with some
->> suggestions how i can approve this design.
->>
->> Thanks,
->> Rafi.
-> 
-> 
-> ...
-> 
->> [   10.679294][   T90] ------------[ cut here ]------------
->> [   10.684772][   T90] WARNING: CPU: 1 PID: 90 at
->> /drivers/regulator/core.c:2450 _regulator_put+0x50/0x60
->> [   10.694344][   T90] Modules linked in: snd_soc_hdmi_codec
->> phy_qcom_edp venus_dec venus_enc videobuf2_dma_contig rpmsg_ctrl
->> qrtr_smd fastrpc rpmsg_char videobuf2_memops qcom_pd_mapper nb7vpq904m
->> msm lontium_lt9611uxc ucsi_glink typec_ucsi pmic_glink_altmode
->> qcom_battmgr aux_hpd_bridge ath11k_ahb ath11k hci_uart rtc_pm8xxx btqca
->> coresight_stm bluetooth qcom_pon stm_core venus_core pwrseq_qcom_wcn
->> drm_exec mac80211 ocmem v4l2_mem2mem gpu_sched videobuf2_v4l2 videodev
->> nvmem_qcom_spmi_sdam qcom_spmi_adc_tm5 snd_soc_sc8280xp
->> drm_display_helper qcom_vadc_common snd_soc_qcom_sdw coresight_tmc
->> snd_soc_qcom_common videobuf2_common qcom_stats coresight_etm4x
->> qcom_q6v5_pas phy_qcom_qmp_combo usb_f_qdss mc drm_dp_aux_bus
->> ecdh_generic qcom_pil_info qcom_q6v5 ecc coresight_replicator aux_bridge
->> coresight_csr qcom_sysmon coresight_funnel pwrseq_core gpi typec
->> i2c_qcom_geni qcom_common coresight icc_bwmon llcc_qcom qcom_glink_smem
->> qcrypto pinctrl_sc7280_lpass_lpi mdt_loader snd_soc_lpass_wsa_macro
->> sha256_generic pinctrl_lpass_lpi
->> [   10.694524][   T90]  snd_soc_lpass_va_macro display_connector
->> snd_soc_lpass_macro_common authenc drm_kms_helper libdes qrtr libarc4
->> icc_osm_l3 qcom_rng pmic_glink cfg80211 rfkill drm fuse ipv6
->> [   10.804083][   T90] CPU: 1 UID: 0 PID: 90 Comm: kworker/u32:4 Not
->> tainted 6.14.0 #1
->> [   10.811959][   T90] Hardware name: Qualcomm Technologies, Inc.
->> Robotics RB3gen2 (DT)
->> [   10.819920][   T90] Workqueue: events_unbound deferred_probe_work_func
->> [   10.826643][   T90] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT
->> -SSBS BTYPE=--)
->> [   10.834510][   T90] pc : _regulator_put+0x50/0x60
->> [   10.839362][   T90] lr : regulator_put+0x30/0x48
->> [   10.844118][   T90] sp : ffff8000809e3670
->> [   10.848244][   T90] x29: ffff8000809e3670 x28: 0000000000000000 x27:
->> ffff70941a04a080
->> [   10.856300][   T90] x26: 0000000000000000 x25: ffffbfa860a9bee8 x24:
->> ffffbfa860e79cb0
->> [   10.864354][   T90] x23: ffff709406e62640 x22: ffff709418668808 x21:
->> ffff8000809e3710
->> [   10.872409][   T90] x20: ffff709415e81840 x19: ffffbfa86119b680 x18:
->> 00000000ffffffff
->> [   10.880462][   T90] x17: ffffbfa86013d058 x16: ffffbfa8601cbac4 x15:
->> ffff709419a70b48
->> [   10.888517][   T90] x14: 0000000000000000 x13: ffff709400032b10 x12:
->> 0000000000000000
->> [   10.896573][   T90] x11: 0000000000000000 x10: ffffbfa85fdbcc60 x9 :
->> ffffbfa85fdbc7e0
->> [   10.904627][   T90] x8 : ffff709418668ab0 x7 : ffff709418668ab0 x6 :
->> ffff709418668ab0
->> [   10.912676][   T90] x5 : ffff709418668ab0 x4 : ffff709418668ab0 x3 :
->> ffff709415e807c0
->> [   10.920727][   T90] x2 : ffff709406e62640 x1 : 0000000000000001 x0 :
-> 
-> Everything above is irrelevant.
-> 
->> ffff709415e81840
->> [   10.928781][   T90] Call trace:
->> [   10.932024][   T90]  _regulator_put+0x50/0x60 (P)
->> [   10.936877][   T90]  regulator_put+0x30/0x48
->> -----------
-> 
-> And this is only relevant information which tells nothing. Are you sure
-> you pasted FULL log?
-> 
-
-sharing the full crash logs
----------------------------
-[   10.679294][   T90] ------------[ cut here ]------------
-[   10.684772][   T90] WARNING: CPU: 1 PID: 90 at 
-/drivers/regulator/core.c:2450 _regulator_put+0x50/0x60
-[   10.694344][   T90] Modules linked in: snd_soc_hdmi_codec 
-phy_qcom_edp venus_dec venus_enc videobuf2_dma_contig rpmsg_ctrl 
-qrtr_smd fastrpc rpmsg_char videobuf2_memops qcom_pd_mapper nb7vpq904m 
-msm lontium_lt9611uxc ucsi_glink typec_ucsi pmic_glink_altmode 
-qcom_battmgr aux_hpd_bridge ath11k_ahb ath11k hci_uart rtc_pm8xxx btqca 
-coresight_stm bluetooth qcom_pon stm_core venus_core pwrseq_qcom_wcn 
-drm_exec mac80211 ocmem v4l2_mem2mem gpu_sched videobuf2_v4l2 videodev 
-nvmem_qcom_spmi_sdam qcom_spmi_adc_tm5 snd_soc_sc8280xp 
-drm_display_helper qcom_vadc_common snd_soc_qcom_sdw coresight_tmc 
-snd_soc_qcom_common videobuf2_common qcom_stats coresight_etm4x 
-qcom_q6v5_pas phy_qcom_qmp_combo usb_f_qdss mc drm_dp_aux_bus 
-ecdh_generic qcom_pil_info qcom_q6v5 ecc coresight_replicator aux_bridge 
-coresight_csr qcom_sysmon coresight_funnel pwrseq_core gpi typec 
-i2c_qcom_geni qcom_common coresight icc_bwmon llcc_qcom qcom_glink_smem 
-qcrypto pinctrl_sc7280_lpass_lpi mdt_loader snd_soc_lpass_wsa_macro 
-sha256_generic pinctrl_lpass_lpi
-[   10.694524][   T90]  snd_soc_lpass_va_macro display_connector 
-snd_soc_lpass_macro_common authenc drm_kms_helper libdes qrtr libarc4 
-icc_osm_l3 qcom_rng pmic_glink cfg80211 rfkill drm fuse ipv6
-[   10.804083][   T90] CPU: 1 UID: 0 PID: 90 Comm: kworker/u32:4 Not 
-tainted 6.14.0 #1
-[   10.811959][   T90] Hardware name: Qualcomm Technologies, Inc. 
-Robotics RB3gen2 (DT)
-[   10.819920][   T90] Workqueue: events_unbound deferred_probe_work_func
-[   10.826643][   T90] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT 
--SSBS BTYPE=--)
-[   10.834510][   T90] pc : _regulator_put+0x50/0x60
-[   10.839362][   T90] lr : regulator_put+0x30/0x48
-[   10.844118][   T90] sp : ffff8000809e3670
-[   10.848244][   T90] x29: ffff8000809e3670 x28: 0000000000000000 x27: 
-ffff70941a04a080
-[   10.856300][   T90] x26: 0000000000000000 x25: ffffbfa860a9bee8 x24: 
-ffffbfa860e79cb0
-[   10.864354][   T90] x23: ffff709406e62640 x22: ffff709418668808 x21: 
-ffff8000809e3710
-[   10.872409][   T90] x20: ffff709415e81840 x19: ffffbfa86119b680 x18: 
-00000000ffffffff
-[   10.880462][   T90] x17: ffffbfa86013d058 x16: ffffbfa8601cbac4 x15: 
-ffff709419a70b48
-[   10.888517][   T90] x14: 0000000000000000 x13: ffff709400032b10 x12: 
-0000000000000000
-[   10.896573][   T90] x11: 0000000000000000 x10: ffffbfa85fdbcc60 x9 : 
-ffffbfa85fdbc7e0
-[   10.904627][   T90] x8 : ffff709418668ab0 x7 : ffff709418668ab0 x6 : 
-ffff709418668ab0
-[   10.912676][   T90] x5 : ffff709418668ab0 x4 : ffff709418668ab0 x3 : 
-ffff709415e807c0
-[   10.920727][   T90] x2 : ffff709406e62640 x1 : 0000000000000001 x0 : 
-ffff709415e81840
-[   10.928781][   T90] Call trace:
-[   10.932024][   T90]  _regulator_put+0x50/0x60 (P)
-[   10.936877][   T90]  regulator_put+0x30/0x48
-[   10.941276][   T90]  devm_regulator_release+0x14/0x20
-[   10.946486][   T90]  release_nodes+0x60/0xfc
-[   10.950886][   T90]  devres_release_all+0x90/0xe0
-[   10.955737][   T90]  device_unbind_cleanup+0x18/0x60
-[   10.960846][   T90]  really_probe+0x210/0x2c0
-[   10.965341][   T90]  __driver_probe_device+0x78/0x120
-[   10.970539][   T90]  driver_probe_device+0x3c/0x154
-[   10.975561][   T90]  __device_attach_driver+0xb8/0x140
-[   10.980854][   T90]  bus_for_each_drv+0x88/0xe8
-[   10.985520][   T90]  __device_attach+0xa0/0x190
-[   10.990185][   T90]  device_initial_probe+0x14/0x20
-[   10.995209][   T90]  bus_probe_device+0xb4/0xc0
-[   10.999876][   T90]  device_add+0x5a4/0x780
-[   11.004187][   T90]  device_register+0x20/0x30
-[   11.008767][   T90]  sdw_slave_add+0x1a4/0x244
-[   11.013352][   T90]  sdw_of_find_slaves+0x100/0x198
-[   11.018377][   T90]  sdw_bus_master_add+0x1c0/0x310
-[   11.023401][   T90]  qcom_swrm_probe+0x2a0/0x5a4
-[   11.028158][   T90]  platform_probe+0x68/0xdc
-[   11.032654][   T90]  really_probe+0xbc/0x2c0
-[   11.037052][   T90]  __driver_probe_device+0x78/0x120
-[   11.042249][   T90]  driver_probe_device+0x3c/0x154
-[   11.047273][   T90]  __device_attach_driver+0xb8/0x140
-[   11.052568][   T90]  bus_for_each_drv+0x88/0xe8
-[   11.057235][   T90]  __device_attach+0xa0/0x190
-[   11.061903][   T90]  device_initial_probe+0x14/0x20
-[   11.066926][   T90]  bus_probe_device+0xb4/0xc0
-[   11.071595][   T90]  deferred_probe_work_func+0x90/0xc8
-[   11.076974][   T90]  process_one_work+0x16c/0x3f4
-[   11.081828][   T90]  worker_thread+0x2c8/0x3e4
-[   11.086410][   T90]  kthread+0x12c/0x210
-[   11.090455][   T90]  ret_from_fork+0x10/0x20
-[   11.094857][   T90] ---[ end trace 0000000000000000 ]---
---------------------------
->>
->> Thanks & Regards,
->> Rafi.
->>
->>> Best regards,
->>> Krzysztof
->>>
->>
-> 
-> 
-> Best regards,
-> Krzysztof
+diff --git a/sound/soc/sdca/sdca_hid.c b/sound/soc/sdca/sdca_hid.c
+index 2224ade59aff..967f7ec6fb79 100644
+--- a/sound/soc/sdca/sdca_hid.c
++++ b/sound/soc/sdca/sdca_hid.c
+@@ -24,7 +24,7 @@ static int sdwhid_parse(struct hid_device *hid)
+ 	unsigned int rsize;
+ 	int ret;
+ 
+-	rsize = entity->hide.hid_desc.rpt_desc.wDescriptorLength;
++	rsize = le16_to_cpu(entity->hide.hid_desc.rpt_desc.wDescriptorLength);
+ 
+ 	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
+ 		dev_err(&hid->dev, "invalid size of report descriptor (%u)\n", rsize);
+-- 
+2.39.5
 
