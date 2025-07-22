@@ -1,121 +1,218 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2854502F
-	for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 06:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879D92E6122
+	for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 07:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753164425; cv=none; b=Wm2Cu6DyQNZFoAl3dBvmM/gOGQ+HDMxQl9d5L/2nM/7Vyn+K6QNRM073aPDZMCuiYz4OojwVguBdMeF00zxMuhiPcceeQYHoYnmlDdKWNyeKSNN9cJHtA20LpiIrddD3ozHOTaO9USEWul84No5c/TfGxgB37WNewf2QSQealQE=
+	t=1753169901; cv=none; b=NeuVM5kgankL/As+ZQ9pG2p3YpwYZccXfS44yfmdQezh6VlOefoXgJ15KhnK2tmfnrHWf3vo9cGALBhQe4W6m0AVOT2fd2yqTNVDDskW8J+F4MP+Ilh0EW1AdyKJoMU1liCLu25tQl8XMd1JyaKPtspD+meak+H0sjxA2Szvdrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753164425; c=relaxed/simple;
-	bh=Ox3IhCjiBYh+MX6ejpkv6y1uIpwAtiQwJ7amkOxMuBg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evuHci4jozRlBUHh1TF6KtkAPELhjsDBVeDf/G+wc7d7vfKfmLZsMKueC/35T8KFxt7RwOgfP/dUXWUBhmZVXK4liMfUZTTcDWsGNVFfLHuXp2uwlMecHIyQJZyhw46ceo1EYJKjRJNdLlXVwoAjBeBZNWSGnZeHRmpisRk22+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=54.204.34.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
-X-QQ-mid: zesmtpgz7t1753164408tad5392af
-X-QQ-Originating-IP: lRVZxkrx6pC3u9vYhC9bQPmaTVYkQx9JA3OJjBKNKT4=
-Received: from localhost ( [113.89.235.49])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 22 Jul 2025 14:06:46 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 11910796611481900965
-EX-QQ-RecipientCnt: 14
-Date: Tue, 22 Jul 2025 14:06:46 +0800
-From: Nick Li <nick.li@foursemi.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
-	tiwai@suse.com, xiaoming.yang@foursemi.com,
-	danyang.zheng@foursemi.com, like.xy@foxmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] ASoC: dt-bindings: Add FS2104/5S audio amplifiers
-Message-ID: <F429DD8B86709040+aH8qdpV2gn2Xk_4J@foursemi.com>
-References: <20250721103805.531758-1-nick.li@foursemi.com>
- <20250721103805.531758-3-nick.li@foursemi.com>
- <83f7c489-7001-49cd-97a5-4280eba95fe0@kernel.org>
- <F04DD98A69286426+aH4sT_P0GvttoCOq@foursemi.com>
- <ea2f30ff-b2cf-4b88-9fe8-78950a03d882@kernel.org>
+	s=arc-20240116; t=1753169901; c=relaxed/simple;
+	bh=GCED/hlCsBSaeWbx6CONP03k4BitQzfwd38u+tep5bs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o/+/TC0WePQty/99AMMWZOKZS/rI1LmY9C2ztfMN491RER7e5ViryEQT9jTYdRs0iN9626sQaFXHluZxraz4HkyayDYi+4xjbM3zZoNec8IHYuE4JWw00sp5YXHTnP9C6T5jCRia655XZH+Mv4gcWL1rh9tOZqkMH2BEROl7cHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=B79FXuzW; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="B79FXuzW"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-32f144d0db8so26937811fa.0
+        for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 00:38:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753169897; x=1753774697; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p1N+wgj9qJtb+bRk0/YzXSA+bhNFySP+cY66IIckDgM=;
+        b=B79FXuzWRFyukO7ROF0wuBa1bIfITECa+33OFDXA8OdaAlIDbHvLn1mhnWGIzRBOni
+         FDx3gqAa5fQtiUd8gi3blCz+PECxLQd4dxIOQ3CSMQoj1jo5GUsAnd8kcUOBvY6bzvA6
+         ePEE6EJMm6orGKU4XXVGMkmcQIHZmGWRN8yro=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753169897; x=1753774697;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p1N+wgj9qJtb+bRk0/YzXSA+bhNFySP+cY66IIckDgM=;
+        b=xRNvXMxvas8QTWqgZ/LzHi5nYle+9r5NoELzkehDFjkIbS0CBXIqg+J8VEdXBjSAwR
+         Bq/8k/gNmIVHigt7bqgOUkIJyEDqincem/Nia48YFjXZ2otjFVat4XfYcTEmiVM5xrO0
+         ZjHS1xlsbw8VwcjVvX+bcHZV5K+Y4tDWBOhUi6hBQP+O1zocCeFmOejzangYm+IgzaLS
+         qUh7/4xedCZ88oeDGhIUfeOZYXLfLpudB3IR4T/MOzWc10cp5IPP1MsFxnS4AFdeGOGm
+         9KCvv6fY8UIyKkllGL2agtCfA/1Dahg0R99KoEOJk9l8j6DqZMi4OBJjpFHy1qb3CdUZ
+         YKUg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEW0JjJ3Cte490Y67N8udSkp6fKhCQ8nhVBT0zqhjywb4TgKLIlRKvTD8aPaQ6tDdvNRRAu0/pqgAlTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxP3CcXRBCpz57LVx5GNdmomrwsgIRc1jamx+JSU8usvIK5sUX5
+	3ewOI+uR4SoM2z5cJ8rFL9F4DC+EtrPbXKMWfcIJuwAi0Q/hTDBLTsliEx1GU+pEGqneZPAYK1Z
+	ZkUaX5JX1IaGpUMygduPeEllJezCAI/HOyXHyP0c0
+X-Gm-Gg: ASbGncsFLcFgELcI654cVKth7vmLfBDeAD6if4dE1tG9M47BKRur4TUXZ9DIFHGveyB
+	vlNlcCZEzhHmcjxg4aS5+YIJB+noUOXzGLXoP1miBB9Y78yDhG6qXsg/zgHot5w7tAQZpnkTSwU
+	9xTbNWF7adWAwoQycOe5sYzgLCi/UDuqsGuNC6O35TtPaliPpLHBFFTh5K5gWWSicvI09iV+ZFh
+	eyjmmPilKE7YO69JMfNwNMxohswi3E2Tzc=
+X-Google-Smtp-Source: AGHT+IHIEXGhSQKNLTR3joj0qjwcB1T77Dp8iSOMV7/+3N11OuF7i8eFvD4xY1tQQW+z6w+ni2WlHZTcDNTAtH00llM=
+X-Received: by 2002:a2e:b8d1:0:b0:32a:e7b9:1dc9 with SMTP id
+ 38308e7fff4ca-330d24f7ef4mr6438751fa.3.1753169896490; Tue, 22 Jul 2025
+ 00:38:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ea2f30ff-b2cf-4b88-9fe8-78950a03d882@kernel.org>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: N0mS+7D7RQfjAzvrADPlJWmbDwgi+0oZ0BEuKCkMQKpUJJmNvZ0ejjZi
-	omr4ptXc3OfjL1Dlf9QjkhQfWzIBTb8UA7jbSXKmF4Rgi+HwcoJby4rCsynec6FGxOJLNaA
-	NpT9sS7QnuAV70QC93fRM/d6n7omKuitjzoj526o9pu6JIKTFE1C/QP780fvYHxOCh7FaPp
-	c7xkk+QxUc+TQD9oNCZCGSLntX8bEHoOFolRfNq2sGlSkyJE4QLXOvYctygkw5SlsncIwcb
-	xmL2zl6HXZqc+tDgpKya+DjjcjP9zG4wdHtxXf9juF8ks2MLSjzu9rPzfwlAzu+HWza+ydu
-	4wlkaUtTkWuCBIjlEkG84VrxBG70OyYYDlI5rvszwkmtycg3b7LyU/AXztow74tvQsvRpRX
-	P3EEq1WbhgTm5FsiKy9duCp+5iikHmZY1OdJxrIZ5KXufvltUar8G/wYxDf3YP+5RbBrMS5
-	uTVk9SLADaCmDMZ+FJ8LdibGWWU17jCVNYQpkowwz9Xz1Nwm3rQpxdJaA1ymA0KauOTDveB
-	z79QyKK3+8be0bZhTXEHOnzsNUmQZYPoI/wYw+u1DH4oIbmPVLDXTQ/nx0hYcUBZRzEE3R0
-	3RO7HJoVUpFHPexC/tbCq4th63QVy2RBaqEOe++Q8aZKgRJO4Ub+maid1AkOFeyiCcQ2Yk+
-	Ntb/euEYQ3YCarhn1EannJ/cwTzaw4bCuchYdWVGwO+jL9j0KIuRnkb4iN4bzJbvO3obz67
-	xysJQaMAk6SzkDfZCsEc2jilEhIkROLSGzu4ceuS0UFhJO+UAP1W+Li9OzskHI7ic1TH7WQ
-	U5jwtNc4U5385fhVFGl7enuBuIkxddf/b8XrJEAMpd5ZTfMWcLsLEI0KteMydAhrT4W+uyA
-	CAO7HzMeAWyC5mthzUuAOEyF8941ZRuexyPZzmL/evbAiz1miuGSE4NOa62ORg4dxFsvhqA
-	0j6tX5xCEFnG7WwPZR/J0Uf3D0716gnwCgwvfwW5i7kPn4MyiDYy0auTQCE4ajZQXXnFFJC
-	8LSn+SIE60p+vvL11NGpcTWH8+tf4=
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+References: <20250708111806.3992-1-darren.ye@mediatek.com> <20250708111806.3992-2-darren.ye@mediatek.com>
+In-Reply-To: <20250708111806.3992-2-darren.ye@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 22 Jul 2025 15:38:05 +0800
+X-Gm-Features: Ac12FXx-ybyxFVMO-dZm2uMvhIKao-9eybKP9nlbQtMW_02h967WNikXB-wqqjk
+Message-ID: <CAGXv+5HQcGiUnsaOxHz86Y8JxUHh6e0ypusFEBLKchNx3fqKBA@mail.gmail.com>
+Subject: Re: [PATCH v6 01/10] ASoC: mediatek: common: modify mtk afe platform
+ driver for mt8196
+To: "Darren.Ye" <darren.ye@mediatek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 21, 2025 at 02:15:38PM +0200, Krzysztof Kozlowski wrote:
-> On 21/07/2025 14:02, Nick Li wrote:
-> > On Mon, Jul 21, 2025 at 12:48:24PM +0200, Krzysztof Kozlowski wrote:
-> >> On 21/07/2025 12:38, Nick wrote:
-> >>> +  firmware-name:
-> >>> +    maxItems: 1
-> >>> +    description: |
-> >>> +      The firmware(*.bin) contains:
-> >>> +      a. Register initialization settings
-> >>> +      b. DSP effect parameters
-> >>> +      c. Multi-scene sound effect configurations(optional)
-> >>> +      It's gernerated by FourSemi's tuning tool.
-> >>> +
-> >>> +required:
-> >>> +  - compatible
-> >>> +  - reg
-> >>> +  - '#sound-dai-cells'
-> >>> +  - reset-gpios
-> >>> +  - firmware-name
-> >>
-> >>
-> >> I do not see how you resolved my comment from v1 or v2. Nothing in the
-> >> changelog explains that either.
-> > 
-> > Change logs are in the cover letter:
-> 
-> 
-> And as I said I do not see resolution of my comment.
-> 
-> If you reject reviewers comment, usually it should be mentioned in the
-> changelog.
+Hi,
 
-Understood.
+On Tue, Jul 8, 2025 at 7:33=E2=80=AFPM Darren.Ye <darren.ye@mediatek.com> w=
+rote:
+>
+> From: Darren Ye <darren.ye@mediatek.com>
+>
+> Mofify the pcm pointer interface to support 64-bit address access.
 
-> 
-> Otherwise you get now the same review as v1 or v2. Devices cannot work
-> without power.
+  ^ Modify
 
-OK.
-We will add the supplies into section[required] for the solution.
+And the subject should say the same, or shorter:
 
-Thanks.
+    Support 64-bit addresses in PCM pointer callback
 
-Best regards,
-Nick
+> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> Tested-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+> ---
+>  .../mediatek/common/mtk-afe-platform-driver.c | 47 ++++++++++++-------
+>  .../mediatek/common/mtk-afe-platform-driver.h |  2 +
+>  2 files changed, 33 insertions(+), 16 deletions(-)
+>
+> diff --git a/sound/soc/mediatek/common/mtk-afe-platform-driver.c b/sound/=
+soc/mediatek/common/mtk-afe-platform-driver.c
+> index 70fd05d5ff48..cab4ef035199 100644
+> --- a/sound/soc/mediatek/common/mtk-afe-platform-driver.c
+> +++ b/sound/soc/mediatek/common/mtk-afe-platform-driver.c
+> @@ -86,29 +86,44 @@ snd_pcm_uframes_t mtk_afe_pcm_pointer(struct snd_soc_=
+component *component,
+>         const struct mtk_base_memif_data *memif_data =3D memif->data;
+>         struct regmap *regmap =3D afe->regmap;
+>         struct device *dev =3D afe->dev;
+> -       int reg_ofs_base =3D memif_data->reg_ofs_base;
+> -       int reg_ofs_cur =3D memif_data->reg_ofs_cur;
+> -       unsigned int hw_ptr =3D 0, hw_base =3D 0;
+> -       int ret, pcm_ptr_bytes;
+> -
+> -       ret =3D regmap_read(regmap, reg_ofs_cur, &hw_ptr);
+> -       if (ret || hw_ptr =3D=3D 0) {
+> -               dev_err(dev, "%s hw_ptr err\n", __func__);
+> -               pcm_ptr_bytes =3D 0;
+> +       unsigned int hw_ptr_lower32 =3D 0, hw_ptr_upper32 =3D 0;
+> +       unsigned int hw_base_lower32 =3D 0, hw_base_upper32 =3D 0;
+> +       unsigned long long hw_ptr =3D 0, hw_base =3D 0;
+> +       int ret;
+> +       unsigned long long pcm_ptr_bytes =3D 0;
+> +
+> +       ret =3D regmap_read(regmap, memif_data->reg_ofs_cur, &hw_ptr_lowe=
+r32);
+> +       if (ret || hw_ptr_lower32 =3D=3D 0) {
 
-> 
-> Best regards,
-> Krzysztof
-> 
+I'm not sure how the hardware is, but I think hw_ptr_lower32 =3D=3D 0
+should no longer be a failure, since it could be 0x100000000 or
+some other address with the lower 32-bits all zero. Instead the
+check should be done once the addresses are put together.
+
+> +               dev_err(dev, "%s hw_ptr_lower32 err\n", __func__);
+>                 goto POINTER_RETURN_FRAMES;
+
+This is out of scope, but maybe this should just return zero directly
+to simplify reading.
+
+>         }
+>
+> -       ret =3D regmap_read(regmap, reg_ofs_base, &hw_base);
+> -       if (ret || hw_base =3D=3D 0) {
+> -               dev_err(dev, "%s hw_ptr err\n", __func__);
+> -               pcm_ptr_bytes =3D 0;
+> -               goto POINTER_RETURN_FRAMES;
+> +       if (memif_data->reg_ofs_cur_msb) {
+> +               ret =3D regmap_read(regmap, memif_data->reg_ofs_cur_msb, =
+&hw_ptr_upper32);
+> +               if (ret) {
+> +                       dev_err(dev, "%s hw_ptr_upper32 err\n", __func__)=
+;
+> +                       goto POINTER_RETURN_FRAMES;
+> +               }
+>         }
+>
+> -       pcm_ptr_bytes =3D hw_ptr - hw_base;
+> +       ret =3D regmap_read(regmap, memif_data->reg_ofs_base, &hw_base_lo=
+wer32);
+> +       if (ret || hw_base_lower32 =3D=3D 0) {
+
+Same here.
+
+> +               dev_err(dev, "%s hw_base_lower32 err\n", __func__);
+> +               goto POINTER_RETURN_FRAMES;
+> +       }
+> +       if (memif_data->reg_ofs_base_msb) {
+> +               ret =3D regmap_read(regmap, memif_data->reg_ofs_base_msb,=
+ &hw_base_upper32);
+> +               if (ret) {
+> +                       dev_err(dev, "%s hw_base_upper32 err\n", __func__=
+);
+> +                       goto POINTER_RETURN_FRAMES;
+> +               }
+> +       }
+> +       hw_ptr =3D ((unsigned long long)hw_ptr_upper32 << 32) + hw_ptr_lo=
+wer32;
+> +       hw_base =3D ((unsigned long long)hw_base_upper32 << 32) + hw_base=
+_lower32;
+
+Instead the check should be here. And to follow the original logic,
+if either pointer value is zero, the function should return zero here
+directly.
+
+
+ChenYu
+
+>  POINTER_RETURN_FRAMES:
+> -       return bytes_to_frames(substream->runtime, pcm_ptr_bytes);
+> +       pcm_ptr_bytes =3D MTK_ALIGN_16BYTES(hw_ptr - hw_base);
+> +       return bytes_to_frames(substream->runtime, (ssize_t)pcm_ptr_bytes=
+);
+>  }
+>  EXPORT_SYMBOL_GPL(mtk_afe_pcm_pointer);
+>
+> diff --git a/sound/soc/mediatek/common/mtk-afe-platform-driver.h b/sound/=
+soc/mediatek/common/mtk-afe-platform-driver.h
+> index fcc923b88f12..71070b26f8f8 100644
+> --- a/sound/soc/mediatek/common/mtk-afe-platform-driver.h
+> +++ b/sound/soc/mediatek/common/mtk-afe-platform-driver.h
+> @@ -12,6 +12,8 @@
+>  #define AFE_PCM_NAME "mtk-afe-pcm"
+>  extern const struct snd_soc_component_driver mtk_afe_pcm_platform;
+>
+> +#define MTK_ALIGN_16BYTES(x) ((x) & GENMASK_ULL(39, 4))
+> +
+>  struct mtk_base_afe;
+>  struct snd_pcm;
+>  struct snd_soc_component;
+> --
+> 2.45.2
+>
+>
