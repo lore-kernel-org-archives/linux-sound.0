@@ -1,38 +1,38 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C282857EA;
-	Tue, 22 Jul 2025 19:54:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638BA285CA4;
+	Tue, 22 Jul 2025 19:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753214095; cv=none; b=tTxolB+sLlpGnXtE33icoKGLIl1jN8Jylu3qfwB/zH7MRf8TwyWVa91NBPDlA0ClCJCK3DciAFEP2hHxO2MOAEYTa0WaFMH04PDpR91Qxe2Jxw0HsoXPbC0AqY7w7J6PJaCF1eQB3FjwPl/rsfOPIr0N3Vdbzh6vCUon8JMkQS4=
+	t=1753214099; cv=none; b=sRDlmWzhLDCSWW5AcfMml9dHxxMiw2MNG9OVViHu0T1blwNTZVoN0vIdGWC595BvAbHumVgSJTGQg3J6pEzhjQTeV5pjSsSN+w36B98puFf0WsY9zZern+3oRqCxKjJuNHTdUivewMLXSnmsXgkBQ5f6+MO/5xZ+/MGlyAbrg8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753214095; c=relaxed/simple;
-	bh=l+stcsHBGwL0jJ++yfnXWYCS37dvD6reGe7NiDK7mwg=;
+	s=arc-20240116; t=1753214099; c=relaxed/simple;
+	bh=I7PZbKqL4kwtVAmBKVfDZdnaU2GuujBflmjQGhxXSaQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jbGgBCtNDPHDzfBbNvfLoWSgxVaJyghnfKLhU/ErAmQTQ9mbYGWPAXMPd1U84oUUNQ6pFbf5QqNToEycm7TfO8YsutPuQElm/DC262dBYyxkQ9nbruttINpmhqJfKJZtz87SCDXsBpKctOG08gruEsx062Wi/RoghjxXbP7KdEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CXagd3SU; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=DLx2PiPf6kJ1Jnmni9IDD8waFz2uQzzoVmPqul1zC1sXEq772magYIGI4tG6C/VCxjA3pN3Ie1XooTPP52xQxs/QY7JxsFJpT5p0+WDrqFZ9a190xlqn1zou8eUEWuIzngO9WtxfVXoRTUZaxdFghn34Hr19yqcGD/9c72DDaDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Kepk5EVG; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CXagd3SU"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Kepk5EVG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1753214092;
-	bh=l+stcsHBGwL0jJ++yfnXWYCS37dvD6reGe7NiDK7mwg=;
+	s=mail; t=1753214095;
+	bh=I7PZbKqL4kwtVAmBKVfDZdnaU2GuujBflmjQGhxXSaQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CXagd3SU8NnYh65BqliaQQMO13OAjn5SLRegEVTNEKGlc8C5uXVgUmQ1Gp9aNF6Q1
-	 G2wAJPiKjMyb8MeLyhVM3xyt9dTQ5l6GN8g2JSCpKNNFM7Cnqu2qEKSt8vaHHa2Urj
-	 iZNOgKCvBucMus3YCmyMFBtPdEywiJjtnH7blGqe0VBSu/Abik3H18MLVRpUnCrdMw
-	 JfSMDstGlnpnY9KuDvn9it/IYMENlNSakz2puiKOjgs3mnCCwxJRR+tjL3Ao9eetuX
-	 cQZAs2OaAFW+0bJ5h7ctVWEfOA6OsKUPiwb/HhnQppvEAr5zdGIRtN5q4G3TX8i94F
-	 nzwhHADYjCJrA==
+	b=Kepk5EVGVHqu4n9LHGOJrKdeNWiJUdTRWXGWtrruzydHc9+vlx8TzNmMg5gxZoJ32
+	 kUDf6aOe6gNvzbppm9qDFamWSxUvo/loiqxgGP5vsBbdx46oVsOFdzwqsyzJBtvTVr
+	 Uc1zLxe/D39R/uUv+O1fNbrFtkV6puB7AY9VARApdxr8RCDc1pW0zOAuJzWx46qT6l
+	 D20UjQs1HFM1Jt2RPlXQXXxVVxZ953lFPBTN9O+8kGmHFqninrKBbL+NgmK6TRh/08
+	 ptMph/fD3acESRN1HQwqM5rCpiR0jtLdpPdlrTDAsLE5Li24aiORyr1N3QKn53VQjf
+	 m0ag2VHwh1iAg==
 Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A093B17E09F0;
-	Tue, 22 Jul 2025 21:54:48 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 59E1D17E0497;
+	Tue, 22 Jul 2025 21:54:52 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -61,9 +61,9 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-sound@vger.kernel.org,
 	kernel@collabora.com
-Subject: [PATCH v2 2/3] ASoC: hdac_hdmi: Use dev_info on invalid ELD version
-Date: Tue, 22 Jul 2025 15:54:36 -0400
-Message-ID: <20250722195437.1347865-3-detlev.casanova@collabora.com>
+Subject: [PATCH v2 3/3] drm/bridge: synopsys: Do not warn about audio params computation
+Date: Tue, 22 Jul 2025 15:54:37 -0400
+Message-ID: <20250722195437.1347865-4-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250722195437.1347865-1-detlev.casanova@collabora.com>
 References: <20250722195437.1347865-1-detlev.casanova@collabora.com>
@@ -75,37 +75,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When disconnected, the ELD data cannot be read by the display driver, so
-it just sets the data to 0.
+There is no need to warn about non pre-computed values, just change it to
+dbg.
 
-That makes the ELD parsing code read an ELD version of 0, which is
-invalid. In hdac_hdmi, that is logged with dev_err(), but should be
-logged with dev_info() instead as it is done in sound/core/pcm_drm_eld.c
-
-This avoids printing multiple messages like:
-
-    HDMI: Unknown ELD version 0
-
-in the kernel log when userspace tries to open the sound device.
-
+Fixes: fd0141d1a8a2 ("drm/bridge: synopsys: Add audio support for dw-hdmi-qp")
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- sound/soc/codecs/hdac_hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/hdac_hdmi.c b/sound/soc/codecs/hdac_hdmi.c
-index 1139a2754ca33..4cc3b7a1062bd 100644
---- a/sound/soc/codecs/hdac_hdmi.c
-+++ b/sound/soc/codecs/hdac_hdmi.c
-@@ -1232,7 +1232,7 @@ static int hdac_hdmi_parse_eld(struct hdac_device *hdev,
- 						>> DRM_ELD_VER_SHIFT;
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+index 9b9d43c02e3a5..d974bcad8f94a 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+@@ -276,8 +276,7 @@ static unsigned int dw_hdmi_qp_find_n(struct dw_hdmi_qp *hdmi, unsigned long pix
+ 	if (n > 0)
+ 		return n;
  
- 	if (ver != ELD_VER_CEA_861D && ver != ELD_VER_PARTIAL) {
--		dev_err(&hdev->dev, "HDMI: Unknown ELD version %d\n", ver);
-+		dev_info(&hdev->dev, "HDMI: Unknown ELD version %d\n", ver);
- 		return -EINVAL;
- 	}
+-	dev_warn(hdmi->dev, "Rate %lu missing; compute N dynamically\n",
+-		 pixel_clk);
++	dev_dbg(hdmi->dev, "Rate %lu missing; compute N dynamically\n", pixel_clk);
  
+ 	return dw_hdmi_qp_compute_n(hdmi, pixel_clk, sample_rate);
+ }
 -- 
 2.50.1
 
