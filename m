@@ -1,105 +1,135 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23A027A90A
-	for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 17:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BF027D770
+	for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 18:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753204964; cv=none; b=uyKV7e8DfEe1YN926G6MfpnzlkXNaK7kWno94x++FrVfBf9OV1jV8NQWsMBeMN0YfmSZF/WXva6URce0GMsEsDHHB1PsdWOtAL/LRZh2YkxB72KpQcY3hawgpY6w3xoZ8Rq/JBpw6Qihl4RnOX/LKUbJepqdci2yfHhgnGBJt8s=
+	t=1753207233; cv=none; b=q0podTSvguBiyNCe5IzTOvH5AEDqsh/sTJ3ANUKXl8RAlE6JcxhB/Vt6OixDDabRsqmpXq6cwpSrGjz47tJ6eM2nQpEbXKfPUiC6IzMMw0ajgmemR909y5lX+X73MF/UK7E/VP+kwHsaCPlMe7Uz+wQ6kZPo6ynaIw3R9cLKEb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753204964; c=relaxed/simple;
-	bh=wcT4BTXCVy+gImjxhQAPJYxIv6AHHeRgWxcuzOb7Spc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hB0QJnkflJMKPXUvPYG6ruBliTxfTivbu4E7BjnVFj21TcTWap2nmi5nnUPV79VVINnm+PsLYS16rtLqZIJQmZLtl7St3ht+wLrNwGBWUM6UraGwVzGeWecHO2xwIb/ccRH5zJLXMvdZC0GYerBVJZvzhDibdpLCpIxEa+RIrPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nGzPsvAt; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753207233; c=relaxed/simple;
+	bh=JiEtdmWuQ8qWiib41zMCxorKXqE1zjhNvNfPqishaYE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QM6+W9irISiG2ZNtqR8OIT/DbFOYTQOTQ1EfeZXD+Torb2o7lZMwGA5BGsWwIKZDC0+aGYXjkOYySC3PJ29Xc/cyK3MIgB/EMTWvMj2t0aZwSTwnUwNrMyge/nnUel2X8ix1X1UessBLGtcmMRBiLWUre0MjWihoc9XhHmC64Vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ywpXR5RW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PMRb2Tvu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ywpXR5RW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PMRb2Tvu; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nGzPsvAt"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-235f9ea8d08so49645375ad.1
-        for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 10:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753204962; x=1753809762; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sUjIqOjL4jMQyoaVNA+gO8Rm4wSu8uvVux01Qe2Mv1c=;
-        b=nGzPsvAty2Odf2dfXnn+xaWUsDxl9mnyakrnadqTnfD4woYZnslcFFXFHgYk7g0qjo
-         jfIsEh/XT0BR+26H90JZWSbqU0ljtGGn3Hp/akz5gzVpxXbSmnPfcpAvNQUnrVAcmHyc
-         BHVafmq5P0RyG4J+fVvsF5FRgzmZtaoscq2UZVhvcf5Z1kYJ5VNTJWgdIZdb6iiEtaHC
-         eSVCcCRT/RNSgRjhgHHPSaC7zz/Df8TTQ7ZyC2ub894mZAH5ATNL5cU5NE29b7I1nxl6
-         k3ZL1D33xgtSJ2l57brLej0f3WAYazeyUnRBgVkRjRw6nIzU6g04uzEyV7xdlF36JGKa
-         b/TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753204962; x=1753809762;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sUjIqOjL4jMQyoaVNA+gO8Rm4wSu8uvVux01Qe2Mv1c=;
-        b=WG7pAwY9+K20wnV26GI0jWCAtDiLO6yB2S/SGbr5GFZzuL76QylcY+pqa9ucXSzlTS
-         ktqWztsaZiK1LPj74pzf+pwwDcQEkQU53B8eF7+lxe40Jr6PdKYy+qHlrbYaOloW+GMt
-         W56uj3aKuOpPL7GpZHI52BUW005Tyo2xhxg9P6IX8HSSg4zQqLdBla4HkugbFW8LhhNq
-         kofLFdhWs/PlJDKy/6Pn3yJfkzGKtO4xqyR7Nff6UXzVYENzMOo6iqPm9jYJ3M1FsmsO
-         XtPlcWdLnvx01JdcpTLxZdPGIVLj7YRVEbanu6CQla1L/lZ6p0QJN2uDZuYpCHF9RXJK
-         BBPA==
-X-Gm-Message-State: AOJu0YzCsNeQwoZaBYK3dzKFZSP2BNfAptgQrEQYWKkV+wsK/3QjDsG0
-	t7WA2Ug/flCeInhWqptEVk4ZPDc8ydWgeNuCgmvyd1UQmNbZrZg4sZrs
-X-Gm-Gg: ASbGncuTjetOvHdBMY4ZivImINftPopv+cW7FH6WdhGTqbvGf8uTZQj902aJzQo2+3S
-	7LQbo/vax2Du5RwNAhKP6WmQBqSm94HJwABZdGCfT0WdL1OvA/KGmatBtuXS6Rq5nt2SsiEImct
-	cXgmkOHEJkAe+NTfjIWsIphS4YAN5PebB7++AgEINwbNVhDhUMLxq7nY7kxdaHUAsUZhjL0Y/HV
-	tAVUDsL5cEUMG2CiHrxnoQ0W+YeKC6kd0EpVKSc8DDsV21q+cdy0Hc5ho1DLMwqBN7CQPIArtQc
-	4wmIWR56+wQWMDZPAHnZpipKsdKlDUKiD3MySybG13bPlFnKUPeCOx08p1sbbMcPs6DL2T/PQ2H
-	+Sfdq3xOMmQtx44UZHMje+qxC5dpe
-X-Google-Smtp-Source: AGHT+IEUwvYHADS4hz3QCzG2QCJ0ZxuETiJYfXZkPaqmlX57+QN4R0bUXX7kUDbuiajplxZRVw8Vrg==
-X-Received: by 2002:a17:903:19e7:b0:234:ed31:fc94 with SMTP id d9443c01a7336-23e24f4af16mr367002275ad.26.1753204962171;
-        Tue, 22 Jul 2025 10:22:42 -0700 (PDT)
-Received: from localhost ([2401:4900:628c:e664:976:aaa8:96f6:1864])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-23e3b5e2d06sm80035745ad.43.2025.07.22.10.22.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jul 2025 10:22:41 -0700 (PDT)
-From: SHARAN KUMAR M <sharweshraajan@gmail.com>
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	sharweshraajan@gmail.com
-Subject: [PATCH] ALSA: hda/realtek: Fix mute LED mask on HP OMEN 16 laptop
-Date: Tue, 22 Jul 2025 22:52:24 +0530
-Message-ID: <20250722172224.15359-1-sharweshraajan@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ywpXR5RW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PMRb2Tvu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ywpXR5RW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PMRb2Tvu"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C877521244;
+	Tue, 22 Jul 2025 18:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753207229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q5KLnc3qAyjxhiYZ6EUL4sniPLS3yktzqO9hZagvRak=;
+	b=ywpXR5RWhBcl2M+NuVy+cUhDxeKeyHsuCATRMBrK7ETVH8V0DS66ioJA/tqScx+QiAYgse
+	KAG4uJ62DrRnUxTS72aS/y95Eq5AY4XfUgmMx6UJbW7Pz9WTJHvPYxfbWVvKeQEqDeDjcf
+	Hs8/igtht4t98WcQlni+jfDqDIwu1WA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753207229;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q5KLnc3qAyjxhiYZ6EUL4sniPLS3yktzqO9hZagvRak=;
+	b=PMRb2Tvuxy8zzbt74sVnzEL3/4WU1UrzzxjwaBnNA4I3P0K0jb/9+ZVkBajJG/zPIeuK3E
+	6YtvnosyQ5qAI0AA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753207229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q5KLnc3qAyjxhiYZ6EUL4sniPLS3yktzqO9hZagvRak=;
+	b=ywpXR5RWhBcl2M+NuVy+cUhDxeKeyHsuCATRMBrK7ETVH8V0DS66ioJA/tqScx+QiAYgse
+	KAG4uJ62DrRnUxTS72aS/y95Eq5AY4XfUgmMx6UJbW7Pz9WTJHvPYxfbWVvKeQEqDeDjcf
+	Hs8/igtht4t98WcQlni+jfDqDIwu1WA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753207229;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q5KLnc3qAyjxhiYZ6EUL4sniPLS3yktzqO9hZagvRak=;
+	b=PMRb2Tvuxy8zzbt74sVnzEL3/4WU1UrzzxjwaBnNA4I3P0K0jb/9+ZVkBajJG/zPIeuK3E
+	6YtvnosyQ5qAI0AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95ED213A32;
+	Tue, 22 Jul 2025 18:00:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MZFYIr3Rf2g6YwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 22 Jul 2025 18:00:29 +0000
+Date: Tue, 22 Jul 2025 20:00:29 +0200
+Message-ID: <87wm80m7gi.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: SHARAN KUMAR M <sharweshraajan@gmail.com>
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix mute LED mask on HP OMEN 16 laptop
+In-Reply-To: <20250722172224.15359-1-sharweshraajan@gmail.com>
+References: <20250722172224.15359-1-sharweshraajan@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-this patch is to fix my previous Commit <e5182305a519> i have fixed mute 
-led but for by This patch corrects the coefficient mask value introduced
-in commit <e5182305a519>, which was intended to enable the mute LED 
-functionality. During testing, multiple values were evaluated, and 
-an incorrect value was mistakenly included in the final commit. 
-This update fixes that error by applying the correct 
-mask value for proper mute LED behavior.
+On Tue, 22 Jul 2025 19:22:24 +0200,
+SHARAN KUMAR M wrote:
+> 
+> this patch is to fix my previous Commit <e5182305a519> i have fixed mute 
+> led but for by This patch corrects the coefficient mask value introduced
+> in commit <e5182305a519>, which was intended to enable the mute LED 
+> functionality. During testing, multiple values were evaluated, and 
+> an incorrect value was mistakenly included in the final commit. 
+> This update fixes that error by applying the correct 
+> mask value for proper mute LED behavior.
+> 
+> Tested on 6.15.5-arch1-1
+> 
+> Signed-off-by: SHARAN KUMAR M<sharweshraajan@gmail.com>
 
-Tested on 6.15.5-arch1-1
+The Fixes tag was forgotten here, and I added it manually.
+Applied to for-linus branch now.
 
-Signed-off-by: SHARAN KUMAR M<sharweshraajan@gmail.com>
 
----
- sound/pci/hda/patch_realtek.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+thanks,
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index d91aac06adde..82eae89f579f 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -4753,7 +4753,7 @@ static void alc245_fixup_hp_mute_led_v1_coefbit(struct hda_codec *codec,
- 	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
- 		spec->mute_led_polarity = 0;
- 		spec->mute_led_coef.idx = 0x0b;
--		spec->mute_led_coef.mask = 1 << 3;
-+		spec->mute_led_coef.mask = 3 << 2;
- 		spec->mute_led_coef.on = 1 << 3;
- 		spec->mute_led_coef.off = 0;
- 		snd_hda_gen_add_mute_led_cdev(codec, coef_mute_led_set);
--- 
-2.50.1
-
+Takashi
