@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BE51ADC7E
-	for <linux-sound@vger.kernel.org>; Tue, 22 Jul 2025 14:33:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826732EB5A1;
+	Tue, 22 Jul 2025 14:33:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753194834; cv=none; b=DYot5z9IrTSGbDPE1pLFuv3pEpT5T/losO1iB5DyLP9x8Fi5Z1RXxVruOd9NosWTnlmjndvk6cTENaF5N/1pcNLOpNoLAceGGnniqclQhedV4+tQ5zqkQGpy4QyAfO+q+8+SSEmE0e/BWP2mdKRkLmB9hwqo7jV4GzlxTq93V40=
+	t=1753194837; cv=none; b=U4p67MVmEGTf9q8CT+0GIsGPDGOfw9oHdONPfL31/JUFxRyX1zucUf5doiDaeu8V3pKg1w3saHZKjC9743ZA6kpFQiDrq9QO7DACWqTExeqkavV08cIBb8Ecm7d/z51cqUFtC0SPdlID9jhk0QnoNHO1hs2XBYxHPiwycOK+Tpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753194834; c=relaxed/simple;
-	bh=lSY9VYZCtYMQ2Hvr2Q414T1Uypl+dV0N4CQJBrjgpuc=;
+	s=arc-20240116; t=1753194837; c=relaxed/simple;
+	bh=K192NpMj7rcBD1vebJP5mJu6UpyCRmqyL45mPGrycI8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ti5IybybXF+oyx282tM5IPBJwokaAKWlaH+AUtI8H2YUU3sT2UTE1hbqonubXIRExNfoQJNw7vxrsLLkRs7+7sz6YDyeL0Cp5W0U++Fvs5BUbJXZvK5wslcg965dWVar77rdOAZA7FQoGwAl7cZSUBghLxjE2UXFKI7gPaGxXpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ls6rQYAB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=iPPc/Zny3OUj30PIt+qsknaaPJbbKRQPrl3mnJ0QjPdH0B1qQg3qsVr8gTLR4lIzLFdtPBxy8XK70BKOpQnyi/T4BpJ/h1j7gc5UajxClQiLOG/Nj5N4yfljjKJCmQFAIOMYmiJRwEhFxl59oAmRNFEB49zwDKYxrgRFzJATQTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BbRijO5S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ls6rQYAB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB67C4CEF5;
-	Tue, 22 Jul 2025 14:33:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BbRijO5S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F0E5C4CEEB;
+	Tue, 22 Jul 2025 14:33:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753194833;
-	bh=lSY9VYZCtYMQ2Hvr2Q414T1Uypl+dV0N4CQJBrjgpuc=;
+	s=k20201202; t=1753194836;
+	bh=K192NpMj7rcBD1vebJP5mJu6UpyCRmqyL45mPGrycI8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ls6rQYABnuQkeiZf501YwBN258mQDAsJ+bgNsXUjoqv05T783UaLfd5M4v727LRU6
-	 cz70a8GPARrtL+V1E7XwiBBzjj1U7US1pqGkVJkHC0s68rYaFJpw24S3lZKRIbVN5y
-	 cscvHdGCdxJ4HzpCyXKO1Ut8u/RlNpslnpVhF8fT00vWM/CB6STbsMfGpMQClTbYFp
-	 rHmpWIk2IK54b2cFcDMnQ8aQZehSG1hjsXYu3CKSyXoMaKfCJPxdPGtS/hJiQgheEj
-	 ELQpclfxSrJ4AHBCylCwDf0YzJeVExQWWDjXSEdtcF1iPRFi5Ps9n2JJVWmUsFk/GX
-	 lvVZcOsMC17sA==
+	b=BbRijO5SKvXPpof3AfLHhoV+ISe42MvbLaOxncfc8nFyVk7qks+ZQISptRynYKxoi
+	 yH6xyLpVp4Slw3xx9xjpOk8oG3iS0BKWTs1FIXqgH5efbdRXI8EfBa+BzEzyyUkKJk
+	 L8emOZyGK59rAk+H79hipCgmIYW5tgzUmpSjn/ucl6S/jarEy8WBjqxTA472f5VOqm
+	 mzfK0G1TGUU/VARXsdePzs9iYl08GS6TsIeVMR06ZJUMPa+g0Q6FbesAkUKCcaLh6W
+	 tYcgVpOGH+W7Ik7KIukIVhfvjkgjH909lkz/cX1m2guO9RIW6ZPIHps4MUPJLuUeXC
+	 gWs/P5uXqhc2A==
 From: Mark Brown <broonie@kernel.org>
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
  pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
- arnd@arndb.de, linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20250722102305.2513755-1-ckeepax@opensource.cirrus.com>
-References: <20250722102305.2513755-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: SDCA: Shrink detected_mode_handler() stack frame
-Message-Id: <175319483211.46177.10845599800458227937.b4-ty@kernel.org>
-Date: Tue, 22 Jul 2025 15:33:52 +0100
+ sfr@canb.auug.org.au, boqun.feng@gmail.com, linux-next@vger.kernel.org, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20250722102754.2514351-1-ckeepax@opensource.cirrus.com>
+References: <20250722102754.2514351-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: SDCA: Check devm_mutex_init() return value
+Message-Id: <175319483403.46177.1552499643444873384.b4-ty@kernel.org>
+Date: Tue, 22 Jul 2025 15:33:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,12 +47,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Tue, 22 Jul 2025 11:23:05 +0100, Charles Keepax wrote:
-> The stack frame for detected_mode_handler() is a bit large. Dynamically
-> allocate the control value struct, which is most of the size, to avoid
-> this.
+On Tue, 22 Jul 2025 11:27:54 +0100, Charles Keepax wrote:
+> Fix interaction with commit daec29dcc873 ("locking/mutex: Mark
+> devm_mutex_init() as __must_check"), add return value check. There is no
+> need for additional complex error handling here, failure to init the
+> mutex means the code can't progress, so the failure just needs to be passed
+> up to the caller.
 > 
 > 
+> [...]
 
 Applied to
 
@@ -59,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SDCA: Shrink detected_mode_handler() stack frame
-      commit: 59c5dbd585a0bee70e51fcdf36185f7602b9c285
+[1/1] ASoC: SDCA: Check devm_mutex_init() return value
+      commit: 5b838a24e9942d8b8da208f924701d0f989778cf
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
