@@ -1,95 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6AC91FE444;
-	Wed, 23 Jul 2025 16:48:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E8A2222AA
+	for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 17:20:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753289338; cv=none; b=Z0vi6hY3rMoAKI+oXWtEwEZtUrlDa6xxkp5ENK7qtGY98reNStAPQ49GWRRe7TJbmLajPNvZlHuWvbSDBi0MsH+G90/SvbDjfrjLg5dttmyuiwPS2hNKxXqFycfufMHVMDJAFM81/Sm9dLpXmlpRKFhqkUZwmVyanggw/xrkFWI=
+	t=1753291222; cv=none; b=rFni62Ol6BWTXU3vlB2t4omJpFU1okCulie26zFYsfUVCYpCClenfsBDpMyPMEwcHKFX07fsJdL7oRKRyr2fLriWRyWNYN5OQNXPPuWzfPnFOYhZ7pEz8rzeQSoJVLa1dGfKWbMFmDHH1Wh0KZVcowlzIV7eaXUBNx2QGNcwlGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753289338; c=relaxed/simple;
-	bh=w0B+2dVvjZ6/2JfehL/19FZ9dstC51Jmz5fKFmGhhSs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CalSDY7VngWs1/fsGuU9jWY//lr9av/Liuh1K2lAPY3XWyZUU5GpUkASUm9oh/peVoZISLm2cUZwxdst7anMxwqzYdTqqFsXhv55nbEPorY2ChOKUQEAmuwyBAolzNNDlYx1j6JA1V6zviBcRmeel6fI1GNBKw/SYVtNMK78Nss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Awaqrjy4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753291222; c=relaxed/simple;
+	bh=UI/81IiG3CPmX3FTZGJmco5ZdU4RhdKMOvL3QjjyAQI=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=AvWc4JFV+Z63bNEF6JbnbYFOYCSUn2Jfts2AZfl1vk5URjBToEWqoApfumm849m7kKyK604C2buw/JdG1HcNmbyqO3IYkPDvHtS6NtsWRz++Or0fb1ESOH2ephNoTj+Kg8GWq+lJAAplGFC3Ip2seO36ShIFCLameFzBtKp4OkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpUCirDY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Awaqrjy4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F3BCC4CEF8;
-	Wed, 23 Jul 2025 16:48:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpUCirDY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D08EC4CEF4;
+	Wed, 23 Jul 2025 17:20:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753289337;
-	bh=w0B+2dVvjZ6/2JfehL/19FZ9dstC51Jmz5fKFmGhhSs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Awaqrjy4HmOhGMjBtMnOXF3kJJtR3x4CjxlSc6olYDKKC/Go/8pnhGB619XmInTcd
-	 xeMXlxkYl/V8XuuK5B8drGIltikcvnI1WN29nn9RUwYJ9ZvvAxuX1Z3p0VA9sl9f13
-	 dnqJKHoQQF7fx32LEXccsw+dYhOkxmufPCQRgAdJ/SPYpZdUBs/do2h+IEmajcyDHM
-	 Kvo8CBnsQ1mYmIOK9jX6Zc+pkxYZx+me3xgvvle4WS48MClhDGxJZcc+mXsH4XlvdE
-	 /TaAH0pclLVfPxIapeWKAmqI70RCkzMPLipbunnf5pqIR0u5iCWZGMZd8VBHKksk4e
-	 hUtyhTQa5ULUA==
+	s=k20201202; t=1753291222;
+	bh=UI/81IiG3CPmX3FTZGJmco5ZdU4RhdKMOvL3QjjyAQI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fpUCirDYplzPUr9ji7rEGtTobMpbIavX8NfSLfKrNfh/+hTDpApb9oJz23bYtJ0be
+	 cQCew3KqhlXspziOzTJSr4odGL6aQCXs2jZ/PW8tc5389N9FzV5YttOuYeUG+am/EV
+	 nQwxaJ5By1B4fEhspgEwt0vEao/ujE7q3uryP7iKQNB9+xAdLVnfA5o9flq2K6GLzx
+	 /mITVBRIA8NRL7yGY9tM4HE1sju0w30z3I1RWlxVV9KSGrxFmkHD5wFtWYeqpUXspb
+	 IMrgjCFXkEFaPA/n3Kx8BFLUFFe62T25/ITUL4D/ADNaNubJc7YsD+0frXSSLcznIy
+	 xipr300KPlY3Q==
+Message-ID: <bcb82e4ad25ee3af0e561906a507efa3.broonie@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Luca Weiss <luca.weiss@fairphone.com>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Wesley Cheng <quic_wcheng@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20250723-fp4-usb-audio-offload-v3-0-6be84ed4fc39@fairphone.com>
-References: <20250723-fp4-usb-audio-offload-v3-0-6be84ed4fc39@fairphone.com>
-Subject: Re: [PATCH v3 0/3] Enable USB audio offloading on Fairphone 4
- smartphone
-Message-Id: <175328933413.84720.17376811405962157319.b4-ty@kernel.org>
-Date: Wed, 23 Jul 2025 17:48:54 +0100
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.16-rc7
+Date: Wed, 23 Jul 2025 18:20:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
 
-On Wed, 23 Jul 2025 16:03:37 +0200, Luca Weiss wrote:
-> Updated description for v3:
-> Add the missing bits for the sound subsystem to enable USB audio
-> offloading on the Fairphone 4. This is mostly sndcard enablement now.
-> 
-> 
+The following changes since commit 7bab1bd9fdf15b9fa7e6a4b0151deab93df3c80d:
 
-Applied to
+  ASoC: amd: yc: Add DMI quirk for HP Laptop 17 cp-2033dx (2025-07-16 11:50:33 +0100)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+are available in the Git repository at:
 
-Thanks!
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.16-rc7
 
-[1/3] ASoC: dt-bindings: qcom,q6afe: Document q6usb subnode
-      commit: b102c9d89fecd72be83eaab9b384285e2d0dc940
-[2/3] ASoC: dt-bindings: qcom,sm8250: Add Fairphone 4 sound card
-      commit: d664e75317e19bb79b6d207f7729e35eca504a6a
-[3/3] ASoC: qcom: sm8250: Add Fairphone 4 soundcard compatible
-      commit: c58c35ef6ae62e36927f506a5afc66610b7261d9
+for you to fetch changes up to 696e123aa36bf0bc72bda98df96dd8f379a6e854:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+  ASoC: mediatek: common: fix device and OF node leak (2025-07-23 13:03:57 +0100)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+----------------------------------------------------------------
+ASoC: Fixes for v6.16
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+A few device specific fixes, none especially remarkable though all
+useful.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+----------------------------------------------------------------
+Derek Fang (1):
+      ASoC: rt5650: Eliminate the high frequency glitch
 
-Thanks,
-Mark
+Guoqing Jiang (1):
+      ASoC: mediatek: mt8365-dai-i2s: pass correct size to mt8365_dai_set_priv
 
+Johan Hovold (1):
+      ASoC: mediatek: common: fix device and OF node leak
+
+Ranjani Sridharan (1):
+      ASoC: SOF: Intel: PTL: Add the sdw_process_wakeen op
+
+Shuming Fan (1):
+      ASoC: SDCA: correct the calculation of the maximum init table size
+
+ sound/soc/codecs/rt5645.c                        | 1 +
+ sound/soc/mediatek/common/mtk-soundcard-driver.c | 4 ++++
+ sound/soc/mediatek/mt8365/mt8365-dai-i2s.c       | 3 +--
+ sound/soc/sdca/sdca_functions.c                  | 2 +-
+ sound/soc/sof/intel/ptl.c                        | 1 +
+ 5 files changed, 8 insertions(+), 3 deletions(-)
