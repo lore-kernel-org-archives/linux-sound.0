@@ -1,28 +1,28 @@
 Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4193223C51B
-	for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 09:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16127283128;
+	Wed, 23 Jul 2025 09:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753261793; cv=none; b=B/Y0SAy2UMSyjfazubDUKP7B7tYnZA3uK7y587MuDCUAp+N2GsswIhtiK6dRAJPdRaAqWeQs7zILenU06ykbpWKEUIwbZfichLPMRpSkvElNeE007IjAh9jFoiApnaUiHYaknxEu7cBD3ievBFXIWDziue2xzAjkspaKA4ib9pg=
+	t=1753261828; cv=none; b=V7gRYM/6CaZHF1d/pgXDZXAlAIdBr61/tkkRRV6dzU58CmpvGVZnbJOSGr9Qqm6KH7l9BGMs46B9sG5+FQ8jduVQ4fRBnMo7ge4MlrlEhQXvUUUPKB+jOubqIWpdyOiqTP0G+vz2jY9MgdrH3ajs2Zcz7GncK9xFZ854HUdn0v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753261793; c=relaxed/simple;
-	bh=PM1VPsrdjO0YYhZC6Dej1QyKtXiLbfGG2zKsH8vSHdQ=;
+	s=arc-20240116; t=1753261828; c=relaxed/simple;
+	bh=lT8blcXXw77g1cz/yAibCd665WXhnf7GvHfYU93BKsc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZSSh1kJRplYCOaI7fSdfOrc/Aky7RxaYRzf5F0e6YJ/3AM10tPh9rQmKT7zkUfFrJMEerehIBk6RD+deyfq6xvf3iEm+1uOJ4c8/24xzmxzcEajHVbFuYk0SpK3nUo71xShGR7K7Q7b8sgsE9qmV1sj+nhBVikMk+TqN2AqWRdM=
+	 MIME-Version; b=VKXas3DPrfnnrgDhAHkHhJuPekH/nipCEIQHTA61OVmmvHWLmLzowyYBUoj9qCRt4D/tFkXqvmHTsDifqkC5TVqFlqbz4QPu3Qxy/1D18VtUcL6mMx09Sp6uULFYKlahYZBStm0gj5kwxXo+8VmhJORPsZAqcUhVyiAj5YZAU94=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=54.206.16.166
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
-X-QQ-mid: zesmtpsz5t1753261782t33bb06d1
-X-QQ-Originating-IP: 87V1k3nUNlWghQC7T6XSvNSIAYjIn2dp964L5xBjvjI=
+X-QQ-mid: zesmtpsz5t1753261790tb48b40c0
+X-QQ-Originating-IP: WbNs+T0/ecBHX5fdSFEE2bEr651tUYnehK6KHcKsIX0=
 Received: from localhost.localdomain ( [183.17.231.145])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 23 Jul 2025 17:09:41 +0800 (CST)
+	id ; Wed, 23 Jul 2025 17:09:49 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2544636101494092667
-EX-QQ-RecipientCnt: 15
+X-BIZMAIL-ID: 14805174978877968786
+EX-QQ-RecipientCnt: 14
 From: Nick <nick.li@foursemi.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -37,11 +37,10 @@ Cc: xiaoming.yang@foursemi.com,
 	like.xy@foxmail.com,
 	linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v5 1/5] dt-bindings: vendor-prefixes: Add Shanghai FourSemi Semiconductor Co.,Ltd
-Date: Wed, 23 Jul 2025 17:09:30 +0800
-Message-Id: <20250723090934.480055-2-nick.li@foursemi.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 5/5] MAINTAINERS: Add entry for FourSemi audio amplifiers
+Date: Wed, 23 Jul 2025 17:09:34 +0800
+Message-Id: <20250723090934.480055-6-nick.li@foursemi.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250723090934.480055-1-nick.li@foursemi.com>
 References: <20250723090934.480055-1-nick.li@foursemi.com>
@@ -54,50 +53,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: MSxnj+21UW7cjDYFa2FEK3XXOVgIk9f1CaikOzF0M1380imTKqKqsbiz
-	VsNq2E48udJOldmgiGU6Ag2VcKNPDrPjKmuYDL2fXNEjJlz6tIvzjA3veKRbJcXPqeMMTEg
-	EP1tZ3ryyAgywkpdpFgZBBeqyFRyxeWqyUKECh3T6zRRatEckX2NOgnQGLFyA51fZEIo3HT
-	bUznLPYH44KrWQuNF9CSMR5zVi7NmKd09zjCBwDXNL/XP8chqFzWfQPAWEJjZsj7bLGqkst
-	x7TvvFUvLMFy7UnwJ1CHY3OZNWZJZ3ZoFRIWCCwAh54m6hAerpN2Wf59AkMEapeiX0F/U3a
-	Z1HYx/s2HvIqeewIgWxSOr9iF+5iBbytPejJe+Zgih4NKpWewN1VtYRv0fu+SfSB+JyWcbT
-	Arh7jfnFsbKu4OIcAFZyVA733TTQgX1pK8izTJ8AxyLpPCOv6DzG5ECHCbH284jFAao7k+1
-	7Sl9tqNHI8uvY7w4mz9fO0bRkDB2+q1jzYvk1syenNoWCHmMfvuIfWrCyWV1CPrp0gOKtRZ
-	l71mJljpaQHl7TOVLqBlkutAFIFH66U7uyvzWGwD/67qOcMYfnOq3Kcs/f2nKkjVfImMgxa
-	CuiFIKa9wsNuqK3SOxZK1eAkywKKGEbtXJMm+6R9aGwXuBzNPRFvhiZkIlnu8vdFssgD/Sf
-	LMbghsjYlmJkdzE4N3xJATIVmsRhSEYW6B24IClc//9Si13xe3yWyXi0HK3QSV0hVCR7w23
-	kVwlW7V7UIV2RoMdmQJVlOUg96yg79IXnihN3e8EPfNEnbF9/zF15YOrrdzAAtvlIqA6YuL
-	6K12w1m+E3bW0cX7ynodN/Yyb/vxOKWEQ/HgUlBXC5aj3YHQNgRw/9hAWRqkGyqnX0LV57H
-	oYHb9e6Ay/tYAqbII+ArLrEFQhNuBeFmKogU7f9EPhavnEuZQgbdUidyjNo9uxWtrbGsTBE
-	5B0Z5rcD7DVdr0cjGEBL6KeQ2hSuhw5n8zf6hqy9r83mM0zZNKhy2e7n6ZqMcG+vxcOH/RU
-	FWK56IrY34MV0eHzUXBejac0oDnesjemKOOHENrP6J+LwZuyT3gCMdNgGfkRlIEdwnlfe/X
-	g==
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
+X-QQ-XMAILINFO: M172b+tX+pVLtKkZBISweVia8o1tDcE7QmtqmW0XskSxO7sqEoP/jxOo
+	9Dt79HTYFwjyWHZuVCYuPdd6TB1OBdBi/9PNKJC6ppnkVLQtuNs0btgPv+CfkvcLF1k8RQ3
+	AkctHVmHsBROoE+YfniIqs0fPnJwwsMC65P6SaKZMWAH+JDN3SqS+fDG8C+1f5wiQPkWhHd
+	u8W9fhapYe4/JomCf4ABcpyezTU8SE75EPo/COlTe/vtpKLzBOflaG9l9bq4FmT2sWhzz0q
+	NQjBYNkdQYOuEhw6PKJdr6MX+rwxhTjy+kXaSZywtL9zrYlArRFXD3ToZwEdQCdW112zqt3
+	O9ow0Gxi2LNCDcol/slNnfKri2Pn2HLJ/NSXhymadWtiPASKjWD1CP/PKhZd+L+gIN9nh6+
+	JwHz7ATzP2IPr649KWEDHW0Zy3dgK9R3HtiGaxwdWD8AmdFUkL1m3G3Z5z/OxvPQ6DN0g6P
+	nTkkqrIk/UkOum+iIV2JLtkj/kyHVKoA6ISzwb3i82dFmy79pK0c51l/pzyM4H5NBQN8xAH
+	Hyq6wcZoIS+D24yMIBF0iaix49nn5iTroMkITsPhf4wo1uFoh2PeqAzIrj+2V0VakCfrNUq
+	/Iz7mQxiSUJjQNVgRp33NX7boCvMMWUueecDNLYQQGiJb4MtBNzdhkcAT+VcZ3ZNWGXJ7xk
+	X5j0jD5xZRCnxeKWnicyOl96qU6Q8jh9OSiTWs3twJ66icsjqsslZjHZW6Ss+agPDux/t6R
+	+rmjvbKo+nm6Ahm7hTCIM+0igQWDdvFe94AZSSsHExDyaba7b+wHkIxfHonmisctiNdBewV
+	73Aj9dUXWorfnZZ7ub43OMiSzkBHM47Wjw7T/0dxUR7tiyMoNLbkyLy1dIJgrW7jcy4cCA2
+	EOMD9vUIe4AAIxtGYJCd63pLZzFS6C+F1q1p/cMjUDsOvlD6dtgmzljeCbjs3nbSlhJTeqv
+	pn77kbulhArDSA6vHKJe+sXeiaUOS8r6nTOoUeLk9P+tr9OxQ2hDFTOViMMWwTTauR+u3Gs
+	yTH8PMByQr6VLkRZXUBkDNEDETE4j8QWphYJuYIFvgwur2dbHoM9rN2iGWkFnIf/eaE15Da
+	fRZWjG6NuAW
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
 X-QQ-RECHKSPAM: 0
 
-From: Nick Li <nick.li@foursemi.com>
+Add entry for FourSemi maintainer and related files
 
-Add vendor prefix for Shanghai FourSemi Semiconductor Co.,Ltd
-Link: https://en.foursemi.com/
-
-Signed-off-by: Nick Li <nick.li@foursemi.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Nick <nick.li@foursemi.com>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 99e86271c..f692e3b29 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -547,6 +547,8 @@ patternProperties:
-     description: FocalTech Systems Co.,Ltd
-   "^forlinx,.*":
-     description: Baoding Forlinx Embedded Technology Co., Ltd.
-+  "^foursemi,.*":
-+    description: Shanghai FourSemi Semiconductor Co.,Ltd.
-   "^freebox,.*":
-     description: Freebox SAS
-   "^freecom,.*":
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 62d51c5a0..88354cd80 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9455,6 +9455,14 @@ F:	lib/tests/memcpy_kunit.c
+ K:	\bunsafe_memcpy\b
+ K:	\b__NO_FORTIFY\b
+ 
++FOURSEMI AUDIO AMPLIFIER DRIVER
++M:	Nick Li <nick.li@foursemi.com>
++L:	linux-sound@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/sound/foursemi,fs2105s.yaml
++F:	sound/soc/codecs/fs-amp-lib.*
++F:	sound/soc/codecs/fs210x.*
++
+ FPGA DFL DRIVERS
+ M:	Wu Hao <hao.wu@intel.com>
+ R:	Tom Rix <trix@redhat.com>
 -- 
 2.39.5
 
