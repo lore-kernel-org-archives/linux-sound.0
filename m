@@ -1,277 +1,267 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013061.outbound.protection.outlook.com [40.107.159.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B8E156CA;
-	Wed, 23 Jul 2025 00:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753232300; cv=none; b=agNrFD9oCDCJLuXSH2R8cvoqLsW1itho/DrBsHAlB68HUloWTDI0Tma/BIiZb004Z1ebdNujNumC0M5EaaiWwAaRjMrcEVv1baUWQiVXIeHO6pC/+b+fOF84UsOIZtbaXT9VSIVB+Um2l8jaVxTB623l7W2/svZFRux/DVV3BWo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753232300; c=relaxed/simple;
-	bh=vOHOgokDtL3IhjlFG4dnU+SlLuPvdFfFn7MASvPJpPE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VzxY3R2hnPwpbHrg2oozgRTB50aZcMgOm7mX3ACLcURyoz2L7t2EisTg9FRQMw+c8nBP/ugCWQevWyVg31kKKc3NFyroQ/h2iQ9WY67yZ4Xo2utGouyMuR+2Z/zvE74/pCijjEfWdsMt7gng/7EPh5L/FAO/VLV2wXxAFqDehcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cD7ikT63; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3CC1E32B7;
+	Wed, 23 Jul 2025 07:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753256273; cv=fail; b=aAZRVieN1ljFcqENzs6Ab7RB62YtS+bEkUY0PlXQqS+UU16AJzuhmiP7Vd5Z1eSgnQk3y8Fxz+RJtqGtJMiP1powtkWEYVICydLgw+cV2UjLxS7+d5/lGokyk+j32yby6LEj7iu2iI0NKF6ckTaDlIytD2qFhl7XsSp+hSDTDKU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753256273; c=relaxed/simple;
+	bh=Mo8ASEpyAdLqS2VXTahlCHfborMhLVcswmlluuENerE=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=GgCawt+UbyMXzTPnNaskZ57yOMP2bYR/fjdEfrn6rZoJBXPKqJsVNTsr87amvHiBYLY2M2Nytyh9ErSI/Pbwe3x4bABXYTEzFjLZtJHed1bPeXEoqKK2k54ljJt/mHQ3tMW3+mJ1BWhQoQDFXGugPPK3bM4ev7ZLNDvMQBhXUEQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=U013ZNhA; arc=fail smtp.client-ip=40.107.159.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cD7ikT63"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7AD5C4CEEB;
-	Wed, 23 Jul 2025 00:58:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753232300;
-	bh=vOHOgokDtL3IhjlFG4dnU+SlLuPvdFfFn7MASvPJpPE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cD7ikT63JFz959L6u6WL9PxotSbjLgrD8KpIon5eo+ZfHQ64Ize0NsJ27kp4waUEt
-	 CK32ImE6cpM7bYs2fGuy6+1A+r/G6riDNXK3Eq16v3yaguXBTh0Ia5NR81+pDyAtVq
-	 /SKa41PCcynsoHTto07jXMzAWv5OC1aOWuCAXFwvaFdh8dxHKi1zzcpBGo0VHtAA/o
-	 JfFxhotal02EZ1YWI7i0ybTbgZoTDfHRpewFVcdVsMhfJ1eBM15PjT8I4Q6l2e4Bmv
-	 Xt71RZhG/fhz0vTZGJGIy7WfAF3OMUTy8MkWiUh0oh36W5FvrclXfq79UiuWx2Ulsd
-	 6cPn2NqsNB4xw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Brian Howard <blhoward2@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	david.rhodes@cirrus.com,
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="U013ZNhA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LNpHtKftrX2vQuurBuQjx3IUuKAHoHIHGSsyxwosAsoiPOKShCaK5TdaY5P7IsAYKo6Zsje6VfeBGxapyvuYQ5M9RVY71YOiPV69EERjL5Kc0fzf2MnCbkV4z0h/T4gYtMaq33bshwLjETvB3vO8rdORYQ+GzwHJA2j49JewuR/RpCUAheUkIsWrSHB8YR1jSK2+hRg9MC+YiRglMxtL2yK8IVGl9BRVJyh5UxVTt0pkZqWfCT+55NJFBRWRYGdCIFUHYnH8NpjD02HMTGUrTGBb6ZVdTCJ2iXO+d+puhojZ766Hwi+pkPdrHOHrSP+8zGt7PWCCqock+kk+YrUhAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zUCyTsJO+X3OhpTIN+eoyeRZuPBHJqWqrQz6V1iDPMc=;
+ b=W2mu2xTuq3jnbN2zIG3dlEE191RGOougUH7Fi8qJboXA0mRvjMwaelKKpw4LJluIKQYdnKJBkGLxnx6/l6Uuq1zQGeYfBMwKTlqEw24BjFc3v7GWPGKJxYm3RrxX+x0I99JrNOmNXeXDtTw6+XJvDurpfPzZEaKyeseVAQvbmcuMmpu9NWOO+0R5/L7qZZ7SAr6ZwlrpOMb61QCVVX5s7+Ht2os1PtGhIDcbBphqJkP2mknotb+6nq+s5OsthX/2ZBNX68ZPgl4e/uAS8hTvRGx6UqtcK2R/GBzbtNCiov8GornaqijPDdS2Ad8QEy/NiDk54/NSqtEmod9Tjl9xzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zUCyTsJO+X3OhpTIN+eoyeRZuPBHJqWqrQz6V1iDPMc=;
+ b=U013ZNhAj/DFKmtqpC1u3pzHiPnekvPp0H6uRbXqibist34YcpTm2DnnOiZRrPBLXldCb/lqL8FXC5GBnudhCFg+tsxop1QDyi9Tc3GWZHyizJFlL7GOQh1bYjjPOx2S2ZrP/9jAY0Blmr4a+ALk4S02Evi2G6pEjhVhLml/tYOZCGQJJzL0f5hLHHTL8TONre5awkWTPIh0amE0DCNKQ7kEVpWJkXtTa1UCW4A4EerSojAJqfloHaSehObihhNsOG2NL886KWPBSiFYN9o1uSTkU9dJ8rkI842vyGTj6e0qcAyrRAGYrQf603B/7M5P5zCAbiA+0JZajI4Fu0fXbw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
+ by GV2PR04MB11094.eurprd04.prod.outlook.com (2603:10a6:150:279::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Wed, 23 Jul
+ 2025 07:37:46 +0000
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc%4]) with mapi id 15.20.8943.029; Wed, 23 Jul 2025
+ 07:37:46 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	shawnguo@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: [PATCH AUTOSEL 6.12 4/6] ALSA: hda/cs35l56: Workaround bad dev-index on Lenovo Yoga Book 9i GenX
-Date: Tue, 22 Jul 2025 20:58:00 -0400
-Message-Id: <20250723005805.1023184-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250723005805.1023184-1-sashal@kernel.org>
-References: <20250723005805.1023184-1-sashal@kernel.org>
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2] ASoC: imx-card: Add WM8524 support
+Date: Wed, 23 Jul 2025 16:37:25 +0900
+Message-ID: <20250723073725.787844-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.47.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MAXPR01CA0098.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:5d::16) To AM9PR04MB8353.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3ef::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.39
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8353:EE_|GV2PR04MB11094:EE_
+X-MS-Office365-Filtering-Correlation-Id: 79b4291b-2d8a-467c-949f-08ddc9bbd142
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|7416014|376014|1800799024|366016|19092799006|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?cNZlxdBGcvR6TRGmAUBnjp3nUVh8BTifEtgovdkqvUkUXIfHvBQk/JQz9MYi?=
+ =?us-ascii?Q?oKZ2f/FMVBObTDpIOiHwAZsGnWJJvJk3HsGl5M8f12aXGDo4SZjoEUl8F4zt?=
+ =?us-ascii?Q?4/k0BfE1mm+uBLD+1l1COQhAhTrmwL+0xTCyBc2q9thxj/ATnftgUBzlLRZs?=
+ =?us-ascii?Q?y3zm0ADo1Z5SpQfzjQEp9NmRd+Pz43Tlq5gh+Ne5E92NwDT1+qENLgcGJvsJ?=
+ =?us-ascii?Q?C1cpJ2884I1xTchXt+zvIj33XdCkWmW43/ZRpnnAdh3M+brIUKlG1oMMiOZs?=
+ =?us-ascii?Q?oGeWNBqptgE/zPRR3sjQPiKrYkRMEaNIFI5icMBxYWstLU3PeOa3EdYkoj45?=
+ =?us-ascii?Q?hqvetuKaWdPw5a0EnmzFrUVM1PP0bYI0JFImNm98gu96ROc3Ne9+3XtwahJG?=
+ =?us-ascii?Q?TibGyx3ZvtuoWqtm/Pc6F89mHHhBvscZTj+9GP8qD4GB4j1GCR55R1NfMu1+?=
+ =?us-ascii?Q?dG4BT00pV9hCH69rqLEmol1Dq1ShCJutIlXaIhqVYdEPJhF55/d7ya8KwknY?=
+ =?us-ascii?Q?3ezAHZ3966coXnh/q6rw8vSjN21px5xe/e3NFASbfUNkse3fd8XvYe2rc1g7?=
+ =?us-ascii?Q?IWKrbu4dYZ4YB0xFysyRJwhsc2cVs6XHLfdsHjuXqlnD2G3NNSCIWbFkOsPT?=
+ =?us-ascii?Q?yy4y0Af95XVY7jNAiNagshcGUwzhm2wGExGCRpENZ3dKFFz5yNXg7UzkgDLK?=
+ =?us-ascii?Q?bO9DONBWQNI6LaTGtTQ0EH1Eyo01DPsDrv8G6vpOM2U0K0CaJnj2PrE77j8N?=
+ =?us-ascii?Q?aEyI64BHJn3/Wi3N7reTjDAi7Q30LgnWp2CwlqRor+/iK7qZGotM38XDfLVs?=
+ =?us-ascii?Q?PdQf4vVFTClB6/uPbMrLkhBNETfDlRKrP61HxNwhEd3gO7XexDq3nmJWOd7s?=
+ =?us-ascii?Q?3s7BZ5ZCUDyUKPtS0TTp7894A/x9AEXT+KNj5SWdurQjOG8IZ+b8r+Q1Mh2j?=
+ =?us-ascii?Q?XOcaARAjIS1v/lbltFifpmvIBd6nU7dCzM/HEqbcipEejJQ82tyocEGorvB2?=
+ =?us-ascii?Q?8oUYdXwmhmo3cRbm7/Dxfig4W0f5fMklVVuJ14nE9WISoeYEGzVsJ+xn5ubo?=
+ =?us-ascii?Q?BqE++j5DIwRKqwH1w2/3bOOG/b/ItHEiFssgXm9Lf6Nv94e/fn9s6DZxpXqn?=
+ =?us-ascii?Q?OjlgvAzf8q2OoUyJNGC8PNOXqPw1JNqxs3VuXQFxx4ha7ND47CWNZI6NfIq/?=
+ =?us-ascii?Q?DYDB2NHwPlBXJHdVO+bflzN5bVZeIilXRXy9+LLwvfdoLwaJ/EbP5Vfid3S6?=
+ =?us-ascii?Q?bplYlTObqzpVSbSmcnSd2+7vZnlKFA5aBF5ueKT5HalWANNOnfLvgy8pMGW/?=
+ =?us-ascii?Q?YEz3KvOtcnCB7NnETvRpdGnEc1B3U3kcOcuHljkWLij1nQTEnBvZgiwMeRTA?=
+ =?us-ascii?Q?iHy+dR479i/HbVIoPerUtNvl3AUbpnshTxEI4wB2JmWTf1FzlVRlEYpQmOe+?=
+ =?us-ascii?Q?LcDGfemB5ZvPcxfXJA2qOWlIygq+xONWk+iAL/dYdxoeeCDvofyH4JxaVGvt?=
+ =?us-ascii?Q?IgxLEqdHmjCY83c=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(1800799024)(366016)(19092799006)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?lLMZuuWS38XMwf4jt7+oX5QEh5k5UekoqqQgiVyxR1ODSwdKrSOG+EjY17Fi?=
+ =?us-ascii?Q?baD5nkOu7utWVmW2f5clhY4gYrENW3NWcTFBhyx8hf86krriWJsFO3nefGUV?=
+ =?us-ascii?Q?ItGN8bRLEd9p4D46alsL+9Si/RQNBRWrDwkk4UAcGQmqn3FH+Wh5T1JTEHw1?=
+ =?us-ascii?Q?0vaoGAViFzCsTR26aVaZC0UYqSrUGdEOUZN/68xqgG7o71+08IYuPDOPkTK8?=
+ =?us-ascii?Q?+Vc0XsY5UY2pZ6PPN0clwrq6mxKtvd/P3NzwoWtUdlgILVfcPN6hLsrMqVWm?=
+ =?us-ascii?Q?Pem1G0VkKIDC/CcPqfDZptCXSlv8ampKNRxpw8gr0Q5x35nlcz8wp6NN/Rwa?=
+ =?us-ascii?Q?ezg/qaMa2qRbnzhOzAIG2qezGezEEQjC277zKTUoMDQJgqf8+/jNoWgkfxO6?=
+ =?us-ascii?Q?AHYcVQYwPzjRo+MHwzwAFpgjPq6oVFapo7Jhr24k8Rj4w1UQg3SAhMc0kA5W?=
+ =?us-ascii?Q?HW4MrgB9hEK1hdObkDTtCultM66N1AewMO704tTBZRFxKNjjsfLCc2ypeRGw?=
+ =?us-ascii?Q?2WHk1+xbuaJHT0XukPkU1G7ZJXPinBUmIsrxu48GWR0sF16mFqDb+ueyStJT?=
+ =?us-ascii?Q?YFitgf9aCGD7jxefOK1qhZmjJc1qUHTFbWoOcTiqgFA+BM+WGQ8TVGUM3lCV?=
+ =?us-ascii?Q?wiDagEbHtOnlmZqh0Zciz5SIHaU4QTU2FJybUAxqyrLvlB4enlfBu1SI9GyB?=
+ =?us-ascii?Q?JeFpKzfpToyHx/aPc+cOFzasBEX3lYisXSzcZSmgl4wYQcrsRTmoJIeyx300?=
+ =?us-ascii?Q?bdJv9hGn7i8jtAYiHGFeZASuMmNYXNX0ZloWbuIUkSMc0k628qIDk1gGt4tY?=
+ =?us-ascii?Q?tJGWeaWGQfKvfzaFamvQR9mJnHCDVOaXJuN1TSMdVhDKnNZzmO22125l/b9w?=
+ =?us-ascii?Q?C56+8S0eaShyKzHlpxW3sOrWAcEzUIG2Bw1Mr/suS2EvzLC3ITTCZqlWMCQK?=
+ =?us-ascii?Q?NtvJUMS5UaURnFba2elQDKnOcwBUXQchztrBCYjJOjeu9LN9b/hcfqBfhq+j?=
+ =?us-ascii?Q?qDG8jpA51WwXTEk4NFf7VlJEOmj5kHifs/0CBrE+SCDeDaJWlKYW+iCKVcCx?=
+ =?us-ascii?Q?H5SxWc2jWk/k3WYKRNyxbkwzvBBUI2tJ/90aT8XZYUvbL0tpmyrCsq5TC/5T?=
+ =?us-ascii?Q?fDEREZryiFb94jTLdXqFjNL1BdkB5u8UxgUcIYHADLbI8Tq7MkSafVKmfG3V?=
+ =?us-ascii?Q?qVTnPkm09shY51m38JZP7X57lwTCd5q6oRAOGWHRD3b9LeJdUESU0nAh7GNW?=
+ =?us-ascii?Q?GdufwDp5UgScI2H57mFKJwGrI+AXC6bnGnGMGF/skNV0zHWGgW7JeHBYpuz1?=
+ =?us-ascii?Q?E4yOgAmJIRUNBcXXe1mhQeLlaU/IctmE6zHg3Nifsi033bG6qktywqSZJXFo?=
+ =?us-ascii?Q?1rc1kKboOvWkvqY4NEme7pP1z4R8kXqy+GeL3Hc6/oOJs6hL8Un9h+J1pGtV?=
+ =?us-ascii?Q?Un34h2A1/CBYkndHdyKT/Q3qSOXDkq8NJtHp5rFKyRjItHwvTuZOKv8Lpuzz?=
+ =?us-ascii?Q?sU0GNVhgCO+htT22yVTtyN0ttU74RcWP4SQvBntqTAzyi7dljxYEaDqE1wHE?=
+ =?us-ascii?Q?IZAwEcMoeuZYt/PY9SFvuamhglqDmQg6CIEE7pKH?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79b4291b-2d8a-467c-949f-08ddc9bbd142
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 07:37:46.7291
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i7+r7CeKlo0s69TaBqdPvSfZYEu0zbxUzS4knc0x1xxDvJEFvIGT3hUleL6mAMsFWFGKlmHQQ7n6smMbQeBEtA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11094
 
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
+WM8524 is a stereo DAC. Add support for this codec in imx-card ASoC
+machine driver.
 
-[ Upstream commit 40b1c2f9b299295ed0482e1fee6f46521e6e79e5 ]
-
-The Lenovo Yoga Book 9i GenX has the wrong values in the cirrus,dev-index
-_DSD property. Add a fixup for this model to ignore the property and
-hardcode the index from the I2C bus address.
-
-The error in the cirrus,dev-index property would prevent the second amp
-instance from probing. The component binding would never see all the
-required instances and so there would not be a binding between
-patch_realtek.c and the cs35l56 driver.
-
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Reported-by: Brian Howard <blhoward2@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=220228
-Link: https://patch.msgid.link/20250714110154.204740-1-rf@opensource.cirrus.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 ---
+changes in v2
+- fix build warnings reported by kernel test robot
+- add imx_aif_shutdown callback in which setting sysclk to 0
 
-LLM Generated explanations, may be completely bogus:
+ sound/soc/fsl/imx-card.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-Now let me analyze the actual changes in the current commit more
-carefully. The commit adds:
-
-1. A fixup function for the Yoga Book 9i GenX that hardcodes the device
-   index based on I2C address
-2. A fixup table mechanism to apply platform-specific workarounds
-3. Modified the cs35l56_hda_read_acpi function to apply fixups before
-   reading the device index
-
-**Analysis and Backport Decision: YES**
-
-This commit should be backported to stable kernel trees for the
-following reasons:
-
-1. **Fixes a real bug affecting users**: The commit fixes a hardware
-   initialization failure on the Lenovo Yoga Book 9i GenX laptop where
-   the second amplifier would fail to probe due to incorrect cirrus,dev-
-   index values in the ACPI _DSD property. This prevents audio from
-   working properly on this device.
-
-2. **Small and contained fix**: The changes are minimal and localized
-   to:
-   - Adding a platform-specific fixup function that maps I2C addresses
-     to correct device indices
-   - Adding infrastructure to apply platform fixups
-   - Modifying the initialization flow to check for fixups before
-     reading ACPI properties
-
-3. **Low regression risk**:
-   - The fixup only applies to one specific laptop model (17AA390B)
-   - The fixup infrastructure is designed to be non-invasive - it only
-     activates for specific subsystem IDs
-   - The changes don't affect the behavior for any other devices
-
-4. **Follows stable kernel criteria**:
-   - Fixes a real bug that bothers people (audio not working on a
-     consumer laptop)
-   - The fix is obviously correct and tested (reported by a user and has
-     a bug report)
-   - Small change (adds ~60 lines, mostly the fixup infrastructure)
-   - No new features, just a workaround for broken firmware
-
-5. **Similar to previously backported commits**: Looking at the
-   historical commits, we see that:
-   - Commit 91191a6e50a2 ("ALSA: hda: cs35l56: Don't use the device
-     index as a calibration index") was marked as backport-worthy (YES)
-     and addressed a similar issue with device index handling
-   - Multiple commits adding quirks for Lenovo devices with
-     CS35L41/CS35L56 have been backported (marked YES)
-
-6. **Hardware enablement**: This falls into the category of hardware
-   enablement fixes which are generally considered appropriate for
-   stable kernels when they fix broken hardware without risking existing
-   functionality.
-
-The commit message clearly indicates this is fixing a specific hardware
-issue where "The error in the cirrus,dev-index property would prevent
-the second amp instance from probing" which would result in no audio
-binding and broken audio on this laptop model.
-
- sound/pci/hda/cs35l56_hda.c | 110 +++++++++++++++++++++++++++---------
- 1 file changed, 82 insertions(+), 28 deletions(-)
-
-diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-index 7baf3b506eefe..7823f71012a8a 100644
---- a/sound/pci/hda/cs35l56_hda.c
-+++ b/sound/pci/hda/cs35l56_hda.c
-@@ -876,6 +876,52 @@ static int cs35l56_hda_system_resume(struct device *dev)
- 	return 0;
- }
+diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
+index ea5dbb54b584..28699d7b75ca 100644
+--- a/sound/soc/fsl/imx-card.c
++++ b/sound/soc/fsl/imx-card.c
+@@ -26,6 +26,7 @@ enum codec_type {
+ 	CODEC_AK4497,
+ 	CODEC_AK5552,
+ 	CODEC_CS42888,
++	CODEC_WM8524,
+ };
  
-+static int cs35l56_hda_fixup_yoga9(struct cs35l56_hda *cs35l56, int *bus_addr)
-+{
-+	/* The cirrus,dev-index property has the wrong values */
-+	switch (*bus_addr) {
-+	case 0x30:
-+		cs35l56->index = 1;
-+		return 0;
-+	case 0x31:
-+		cs35l56->index = 0;
-+		return 0;
-+	default:
-+		/* There is a pseudo-address for broadcast to both amps - ignore it */
-+		dev_dbg(cs35l56->base.dev, "Ignoring I2C address %#x\n", *bus_addr);
-+		return 0;
-+	}
-+}
-+
-+static const struct {
-+	const char *sub;
-+	int (*fixup_fn)(struct cs35l56_hda *cs35l56, int *bus_addr);
-+} cs35l56_hda_fixups[] = {
-+	{
-+		.sub = "17AA390B", /* Lenovo Yoga Book 9i GenX */
-+		.fixup_fn = cs35l56_hda_fixup_yoga9,
-+	},
+ /*
+@@ -196,6 +197,13 @@ static struct imx_akcodec_tdm_fs_mul cs42888_tdm_fs_mul[] = {
+ 	{ .min = 256,	.max = 256,	.mul = 256 },
+ };
+ 
++static struct imx_akcodec_fs_mul wm8524_fs_mul[] = {
++	{ .rmin = 8000,   .rmax = 32000,  .wmin = 256,  .wmax = 1152, },
++	{ .rmin = 44100,  .rmax = 48000,  .wmin = 256,  .wmax = 768, },
++	{ .rmin = 88200,  .rmax = 96000,  .wmin = 128,  .wmax = 384, },
++	{ .rmin = 176400, .rmax = 192000, .wmin = 128,  .wmax = 192, },
 +};
 +
-+static int cs35l56_hda_apply_platform_fixups(struct cs35l56_hda *cs35l56, const char *sub,
-+					     int *bus_addr)
+ static const u32 akcodec_rates[] = {
+ 	8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200,
+ 	96000, 176400, 192000, 352800, 384000, 705600, 768000,
+@@ -229,6 +237,10 @@ static const u32 cs42888_tdm_channels[] = {
+ 	1, 2, 3, 4, 5, 6, 7, 8,
+ };
+ 
++static const u32 wm8524_channels[] = {
++	2,
++};
++
+ static bool format_is_dsd(struct snd_pcm_hw_params *params)
+ {
+ 	snd_pcm_format_t format = params_format(params);
+@@ -261,6 +273,7 @@ static bool codec_is_akcodec(unsigned int type)
+ 	case CODEC_AK5558:
+ 	case CODEC_AK5552:
+ 	case CODEC_CS42888:
++	case CODEC_WM8524:
+ 		return true;
+ 	default:
+ 		break;
+@@ -477,9 +490,24 @@ static int imx_aif_startup(struct snd_pcm_substream *substream)
+ 	return ret;
+ }
+ 
++static void imx_aif_shutdown(struct snd_pcm_substream *substream)
 +{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	struct snd_soc_dai *cpu_dai;
++	struct snd_soc_dai *codec_dai;
 +	int i;
 +
-+	if (IS_ERR(sub))
-+		return 0;
++	for_each_rtd_cpu_dais(rtd, i, cpu_dai)
++		snd_soc_dai_set_sysclk(cpu_dai, 0, 0, SND_SOC_CLOCK_OUT);
 +
-+	for (i = 0; i < ARRAY_SIZE(cs35l56_hda_fixups); i++) {
-+		if (strcasecmp(cs35l56_hda_fixups[i].sub, sub) == 0) {
-+			dev_dbg(cs35l56->base.dev, "Applying fixup for %s\n",
-+				cs35l56_hda_fixups[i].sub);
-+			return (cs35l56_hda_fixups[i].fixup_fn)(cs35l56, bus_addr);
-+		}
-+	}
-+
-+	return 0;
++	for_each_rtd_codec_dais(rtd, i, codec_dai)
++		snd_soc_dai_set_sysclk(codec_dai, 0, 0, SND_SOC_CLOCK_IN);
 +}
 +
- static int cs35l56_hda_read_acpi(struct cs35l56_hda *cs35l56, int hid, int id)
- {
- 	u32 values[HDA_MAX_COMPONENTS];
-@@ -900,39 +946,47 @@ static int cs35l56_hda_read_acpi(struct cs35l56_hda *cs35l56, int hid, int id)
- 		ACPI_COMPANION_SET(cs35l56->base.dev, adev);
+ static const struct snd_soc_ops imx_aif_ops = {
+ 	.hw_params = imx_aif_hw_params,
+ 	.startup = imx_aif_startup,
++	.shutdown = imx_aif_shutdown,
+ };
+ 
+ static const struct snd_soc_ops imx_aif_ops_be = {
+@@ -632,6 +660,8 @@ static int imx_card_parse_of(struct imx_card_data *data)
+ 				plat_data->type = CODEC_AK5552;
+ 			else if (!strcmp(link->codecs->dai_name, "cs42888"))
+ 				plat_data->type = CODEC_CS42888;
++			else if (!strcmp(link->codecs->dai_name, "wm8524-hifi"))
++				plat_data->type = CODEC_WM8524;
+ 
+ 		} else {
+ 			link->codecs	 = &snd_soc_dummy_dlc;
+@@ -805,6 +835,10 @@ static int imx_card_probe(struct platform_device *pdev)
+ 		data->dapm_routes[1].sink = "CPU-Capture";
+ 		data->dapm_routes[1].source = "Capture";
+ 		break;
++	case CODEC_WM8524:
++		data->dapm_routes[0].sink = "Playback";
++		data->dapm_routes[0].source = "CPU-Playback";
++		break;
+ 	default:
+ 		break;
  	}
- 
--	property = "cirrus,dev-index";
--	ret = device_property_count_u32(cs35l56->base.dev, property);
--	if (ret <= 0)
--		goto err;
--
--	if (ret > ARRAY_SIZE(values)) {
--		ret = -EINVAL;
--		goto err;
--	}
--	nval = ret;
-+	/* Initialize things that could be overwritten by a fixup */
-+	cs35l56->index = -1;
- 
--	ret = device_property_read_u32_array(cs35l56->base.dev, property, values, nval);
-+	sub = acpi_get_subsystem_id(ACPI_HANDLE(cs35l56->base.dev));
-+	ret = cs35l56_hda_apply_platform_fixups(cs35l56, sub, &id);
- 	if (ret)
--		goto err;
-+		return ret;
- 
--	cs35l56->index = -1;
--	for (i = 0; i < nval; i++) {
--		if (values[i] == id) {
--			cs35l56->index = i;
--			break;
--		}
--	}
--	/*
--	 * It's not an error for the ID to be missing: for I2C there can be
--	 * an alias address that is not a real device. So reject silently.
--	 */
- 	if (cs35l56->index == -1) {
--		dev_dbg(cs35l56->base.dev, "No index found in %s\n", property);
--		ret = -ENODEV;
--		goto err;
--	}
-+		property = "cirrus,dev-index";
-+		ret = device_property_count_u32(cs35l56->base.dev, property);
-+		if (ret <= 0)
-+			goto err;
- 
--	sub = acpi_get_subsystem_id(ACPI_HANDLE(cs35l56->base.dev));
-+		if (ret > ARRAY_SIZE(values)) {
-+			ret = -EINVAL;
-+			goto err;
-+		}
-+		nval = ret;
-+
-+		ret = device_property_read_u32_array(cs35l56->base.dev, property, values, nval);
-+		if (ret)
-+			goto err;
-+
-+		for (i = 0; i < nval; i++) {
-+			if (values[i] == id) {
-+				cs35l56->index = i;
-+				break;
-+			}
-+		}
-+
-+		/*
-+		 * It's not an error for the ID to be missing: for I2C there can be
-+		 * an alias address that is not a real device. So reject silently.
-+		 */
-+		if (cs35l56->index == -1) {
-+			dev_dbg(cs35l56->base.dev, "No index found in %s\n", property);
-+			ret = -ENODEV;
-+			goto err;
-+		}
-+	}
- 
- 	if (IS_ERR(sub)) {
- 		dev_info(cs35l56->base.dev,
+@@ -854,6 +888,12 @@ static int imx_card_probe(struct platform_device *pdev)
+ 			plat_data->support_tdm_channels = cs42888_tdm_channels;
+ 			plat_data->num_tdm_channels = ARRAY_SIZE(cs42888_tdm_channels);
+ 			break;
++		case CODEC_WM8524:
++			plat_data->fs_mul = wm8524_fs_mul;
++			plat_data->num_fs_mul = ARRAY_SIZE(wm8524_fs_mul);
++			plat_data->support_channels = wm8524_channels;
++			plat_data->num_channels = ARRAY_SIZE(wm8524_channels);
++			break;
+ 		default:
+ 			break;
+ 		}
 -- 
-2.39.5
+2.47.1
 
