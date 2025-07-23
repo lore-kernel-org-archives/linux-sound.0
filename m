@@ -1,27 +1,26 @@
-Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A3F283128;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5722C284B59;
 	Wed, 23 Jul 2025 09:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753261834; cv=none; b=iPibbTcb4jBEQykM3ImlY5jVXhyqyNnhnq57MH04sCRZYAEs9oM6qM0NdTCBake4WtdrKg04CZPH+bEHuSRYNZvTT0P9gJ6ibhVkmghCLbx3KnclmLQA9u1C4wsza6DvJmkpMxC99uIFqcDlpZW9Oam4kRpfdvkb3FhPzk7e774=
+	t=1753261836; cv=none; b=ilygEQtikE8KpD8gJY/fLdT5M8cjjyUrHgyhtcd3wjuypTGDCPPvKiuTAZIlgXefR7y1whgigNzusQCl8X2+LdtMtJU4KDW7SpPU43ZYfKbTuwX8hQ9Uv3uqEpofNn1riWb6BGPIqovHLr4MA5oCtYHiuRhURR2YiQRarKWb8LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753261834; c=relaxed/simple;
-	bh=9aYmhdKBkoYIXl3s7VlejF7/r+ARoRDQGRosO1s/z+8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=e5muCG6sWL+TAgvHc5h9brVKUnWZjXBUBGvkdNamyqTvH9EwK7iF2F/scdXu+KDemCEzLtRq1OQ53qh1u/ORClpP5x4lW9b0i5FQeZbIno8zQMJS0OIILkHuRU+CvDZ7ynw7bBgaaNGOgh5+G0yqp4QzRIglW1DYixsy0Z3czyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=54.206.16.166
+	s=arc-20240116; t=1753261836; c=relaxed/simple;
+	bh=Hrbi2C+hTff4G+83NVvHms4IBIh/TN74PB4fHmkevs4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hgJhxQgditvF/e1UnpN/8rGzWom7pjN/3C+DUPpYM/Gid17L9Aa+iLKm++idPP/Bw1jN3Pp1/spX/qGgCj4TYgEraAZUbs5sV4sJWNV0JzcvuxMHp6O+VBZVDRa3t+KgfBhlBSayAJXe/pnFbj3MXzPaNT8kQL0mw4x8LMuPMbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=54.207.19.206
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
-X-QQ-mid: zesmtpsz5t1753261786t2c106067
-X-QQ-Originating-IP: b5Ttty4yDYlOH0a0/RsElOs1A86MrF/H71QBXTMY7nE=
+X-QQ-mid: zesmtpsz5t1753261780tbeaa28bf
+X-QQ-Originating-IP: awkAxcCUL62rHzR5gGKIYUznmEvNu7djrobXMgCqJlI=
 Received: from localhost.localdomain ( [183.17.231.145])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 23 Jul 2025 17:09:45 +0800 (CST)
+	id ; Wed, 23 Jul 2025 17:09:38 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10706294629445370735
+X-BIZMAIL-ID: 12639370633705829095
 EX-QQ-RecipientCnt: 14
 From: Nick <nick.li@foursemi.com>
 To: lgirdwood@gmail.com,
@@ -38,12 +37,10 @@ Cc: xiaoming.yang@foursemi.com,
 	linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 3/5] ASoC: codecs: Add library for FourSemi audio amplifiers
-Date: Wed, 23 Jul 2025 17:09:32 +0800
-Message-Id: <20250723090934.480055-4-nick.li@foursemi.com>
+Subject: [PATCH v5 0/5] ASoC: codecs: Add support for FourSemi FS2104/5S
+Date: Wed, 23 Jul 2025 17:09:29 +0800
+Message-Id: <20250723090934.480055-1-nick.li@foursemi.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250723090934.480055-1-nick.li@foursemi.com>
-References: <20250723090934.480055-1-nick.li@foursemi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,508 +50,140 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: NLAuDu2sci7QTELsxqJeSDnNH3Q+qQGAjOQGJ6+NxLINeP2ai9B6N2qi
-	GrmzYi+GQzm16d2/iiS6NS6YDpoSdUAAvsEHgKzfrqHKDxDLdnghEnXhbG+f/dxcSDAzwUZ
-	e+iJeGn/kNmvgKoTVgU+LVmaIhB/NIroY1gSkI6kc4BgJnDvc3Vy+KBXF5eOE6tBfNNya8t
-	qcwpDpNlW94xS15gIGX4qetKgsg6Ao6/SVrMi3Sn0OkqDZ+DX71ASIeqEf2mt8fEIqhsvKD
-	IYPCN7w1Dhwh7YEz15LgW7tLfPLQRxAv339MdtReYqMyisJD6Yv1nw+htlJICCojIP/mTTf
-	8Qf07OgRgZZ2CJ7qKjn4pv736aX6/6KoWJHqC35J8GOHB/LgyYXKW3QLXQirkvdXDrCJT13
-	Uca0ZGi1a5EjIV8AmqgUjKF9s3fGdV1XTC0R9EJlvzd/JolEZudLcgPKy99DWBVpCo5Bjdv
-	VxguTE6Q6IVNwQwuhb2fSzagHFbaB6oOCo9UwiN8+40zlaiuT0Wybqa/yz1/fJQdR0EQbBS
-	J+MqzDAzbIgmk5tNd6i65QOKdegn7QmW63MxyXUkvf5T7enT347Inc/75HeMYUrY7FHFcKH
-	PSpDYQmg3RApsO//9jAa0ksl8LoQ8lP2qfbd8cEwQJDMpylISmSkLtoMom22pky62oYZr3O
-	Sykea+mtCbSzJNa/oLoc90qdPvM4ZDw2JFVQ0t8d4zmSR6Kanq2MWh7yd0TNtYxhEn9BQhf
-	1BUtuXTYi/9xfSs3gwgGy5BMEU46toEiICAVP74TOrKd9cuGLEOO4EE0BTLDf+tvynI5S2O
-	HkEl8MT6gc/4QNGjvutNu5qGP7Rrz6ZnDNSwI29uDRhb60jr9Ulr/+oMcObZit29a+0tb0e
-	BxatpnA2xBXJY6NczPCdVU5+J4/0FTEMpwPTEMXrfsypmtl2QGX5IKa4eeYIe1vmlVB9rGb
-	H2c8ZkE0EM2WFODSAIVZE6n5WwZUml4k3PvJshhqnEdjpNL3a81uByqVvyp6odd2rRSBZrx
-	TTMfQSHazh1fYF0zNj6trFfCU+akAUfaOvDFWhkQFUIRuvzZk+Mo7G3ZgRfx4=
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+X-QQ-XMAILINFO: MWUTOgANNX2v5REthzLHOJvFnArKB3OrCalxwUeegP1ZLQk83bmao/ha
+	EYctkYMATN+9gxB3u6AEjThItm/MlSXX8QmOEv5DQt4GF9WrArfBo7osYq+rnfCWd7NVp2R
+	JoUCJkuQncAFp2Pmn/n9iDnHK1l7M7Bi1gUdOq+qtoOf4cw29kD3M2drz6y5v/iA9UVGMQj
+	bfACODo6rZ7R8MoFTli+thMhAcJSRSj6M38khbKOaW+O3DlpJ/srOAOoX3Rb0X8xcTk3EVa
+	WC11KHiOIiHDAYBp+RZ9wBJqsilL33itNc/lO56FmoipFJ7w/9wjWcGsVOrhIDyaDPLoiMW
+	JE3TiyenHcqV0vudJnShAY/N8wZynQ2a6ch2/QE8o9NQXUEN00KAAVmleXbX8kslMIUHuXU
+	EWQ4dvczWttf/dC1Z3CRqoZPMmEmtgYMImYIYxoGRwYI+JiIIirm0goN3bn8VZQlOoN+dZy
+	aHOwtspXcyeKNVrEbwmhQoMIqVuBl+66p+2ggguCPlCiCj0RX1lWgroRjPTlHZPbXYGhfRq
+	mpUVKND3SuGSbhVqezMjZ2kYvBHDZvBSYNbQ0VLwrJVvlP3FaC+tGGHgTuTaUfV1gK330jl
+	EBLIDEtkGkas2Y4fjTbV4AAOm/o+q+w1NJpwwPibGwsWVDiyUQ/S0sZM13D5AqEGKiXh1fa
+	z8M8fynaObHnzIrnMjwtIJkVR0q5vUb83YMS9VosMKV9Bq0/NOENoS1rCwulcucMa5qiMzL
+	D3ZK0skq4/zK7SC2fWWN5rbgLwPaRsPx3p1qLyMpwRf4ZyCYay+u6c3ILf74mYcN7Y2j96I
+	dJwkul3OrJHCrCrq2moRTqtgB034/HwbjyJR+uc9r/v30MKrMiJkXq1d+5wOYSBiuj5EFOg
+	N5fnOzxqsbTH3fpUqR4afS43dntovm3vlzNVtdXjx4JBctDFG4Wqsx4tZmBBE+Uzm7vIhda
+	6ZXFmbOixKeSwgrwGOv4xI6G1fDMCBMtjcvolP2EZ4AzhjdOwvgLjTusCFBac8t77imzL4o
+	FNgRJGVvCTkOILATcGTcpOhdPAzn+Tiy/Y7KgQAMBsQe2uT93CwWn1j/R3c+vqSz6ZvcaW1
+	iV6ctsVP/SWoxriHb4VG3s=
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
 X-QQ-RECHKSPAM: 0
 
-From: Nick Li <nick.li@foursemi.com>
+The FS2104/5S are Inductor-Less, Stereo, Closed-Loop,
+Digital Input Class-D Power Amplifiers with Enhanced Signal Processing
+FS2104 can deliver 2x15W into 4ohm BTL speaker loads,
+FS2105S can deliver 2x30W into 8ohm BTL speaker loads.
 
-This patch adds firmware loading and parsing support for FourSemi audio
-amplifiers. The library handles firmware file (*.bin) generated by the
-FourSemi tuning tool, which contains:
-- Register initialization settings
-- DSP effect parameters
-- Multi-scene sound effect switching configurations(optional)
+Most functions have been built and tested on EVB boards:
+ARMv8-A, Linux version 6.16.0-rc6-v8
 
-The firmware is required for proper initialization and configuration
-of FourSemi amplifier devices.
+v4 -> v5:
+* patch#0
+  - Update change logs of the cover letter
+    Add the related reviewers after the change items
+* patch#2
+  - Add supplies(pvdd&dvdd) to section: required (Krzysztof)
+* patch#5
+  - Update MAINTAINERS for new files
 
-Signed-off-by: Nick Li <nick.li@foursemi.com>
----
- sound/soc/codecs/Kconfig      |   3 +
- sound/soc/codecs/Makefile     |   2 +
- sound/soc/codecs/fs-amp-lib.c | 265 ++++++++++++++++++++++++++++++++++
- sound/soc/codecs/fs-amp-lib.h | 150 +++++++++++++++++++
- 4 files changed, 420 insertions(+)
+v3 -> v4:
+* patch#1
+  - add reviewed-by Krzysztof
+* patch#2
+  - add reviewed-by Rob Herring
+* patch#4
+  - Fix warnings reported by clang-20(W=1): (kernel test robot)
+    warnings: variable 'ret' is used uninitialized
+
+v2 -> v3:
+.../foursemi,fs2105s.yaml(patch 0002)
+- Drop "schema for " in the patch subject (Krzysztof)
+- Delete the description of the property reg (Krzysztof)
+- Restore the property clocks to v1 (Krzysztof)
+- Keep the same order as in list of properties (Krzysztof)
+
+.../Kconfig(patch 0004)
+- Fix warning reported by running checkpatch.pl (Krzysztof)
+  Write the help of config symbol with at least 4 lines
+
+.../fs210x.c/h(patch 0004)
+- Update entries comment to C++ style (Mark Brown)
+- Use linux/gpio/consumer.h instead of linux/of_gpio.h (Krzysztof)
+- Use a private lock instead of a global one (Krzysztof)
+- Delete driver version and log (Mark Brown)
+- Drop checking of pval in fs210x_reg_read (Mark Brown)
+- Drop most of the debug logs and unused codes (Mark Brown&Krzysztof)
+- Drop registers dumping in monitor (Mark Brown)
+- Use fsleep instead of usleep_range (Mark Brown)
+- Update mixer to a standard control: (Mark Brown)
+  PCM Playback Volume
+- Add 2 new standard controls: (Mark Brown)
+  DAC Mute Switch: Mute/Unmute
+  DAC Fade Switch: Fade enable/disable
+- Fix errors reported by mixer-test in mixer: (Mark Brown)
+  Effect Scene
+- Integrate the operation of reset(sdz) pin into chip init/reset (Mark Brown)
+- Add DAPM event for playback: (Mark Brown)
+  Start/stop device in DAPM instead of mute_stream
+  Start/stop delay works in mute_stream only
+- Drop use_pmdown_time in component driver for DAPM event
+- Add dai ops startup: (Mark Brown)
+  Report format&sample rates in constraints
+- Add dai ops trigger: (Mark Brown)
+  Start device in trigger when we can't obtain/control the bclk clock
+- Use description words: PROVIDER, consumer (Mark Brown)
+- Add a sysfs node for monitor period(fs210x->check_interval_ms) (Mark Brown)
+- Do the initialisations of delayed works and clock in i2c probe (Mark Brown)
+- Prevent new work after the device is suspended (Mark Brown)
+- Update regmap cache type to MAPLE (Mark Brown)
+  Define volatile registers
+- Simplify the logic of getting and setting clock (Krzysztof)
+- Simplify the logic of getting and setting reset gpio (Krzysztof)
+- Use dev_err_probe for error logs (Krzysztof)
+- Drop fs210x_parse_platdata and use fs210x_parse_dts in fs210x_init (Krzysztof)
+- Drop null checking for regmap in i2c probe (Krzysztof)
+- Drop the lock in i2c probe (Krzysztof)
+- Add a suffix(instances id) to dai name
+- Drop compatible of "foursemi,fs2104" (Krzysztof)
+- Drop ifdef CONFIG_OF and of_match_ptr (Krzysztof)
+
+v1 -> v2:
+- Adjust the order of patches according to the dependency relationship (Krzysztof)
+- Rename yaml file to foursemi,fs2105s.yaml (Krzysztof)
+- Fix some properties and wrong definitions in foursemi,fs2105s.yaml: (Krzysztof)
+  sdz-gpios -> reset->gpios
+  fs,fwm-name -> firmware-name
+  Delete fs,dai-name
+- Drop "dt-bindings for" from subject (Krzysztof)
+- Update the driver code according to the update of DT schema (Krzysztof)
+- Fix warnings/errors reported by running checkpatch.pl --strict (Krzysztof)
+- Fix warnings/errors reported by running make dt_bindings_check (Rob Herring)
+
+Nick Li (4):
+  dt-bindings: vendor-prefixes: Add Shanghai FourSemi Semiconductor
+    Co.,Ltd
+  ASoC: dt-bindings: Add FS2104/5S audio amplifiers
+  ASoC: codecs: Add library for FourSemi audio amplifiers
+  ASoC: codecs: Add FourSemi FS2104/5S audio amplifier driver
+
+ .../bindings/sound/foursemi,fs2105s.yaml      |   99 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ sound/soc/codecs/Kconfig                      |   16 +
+ sound/soc/codecs/Makefile                     |    4 +
+ sound/soc/codecs/fs-amp-lib.c                 |  265 +++
+ sound/soc/codecs/fs-amp-lib.h                 |  150 ++
+ sound/soc/codecs/fs210x.c                     | 1583 +++++++++++++++++
+ sound/soc/codecs/fs210x.h                     |   75 +
+ 8 files changed, 2194 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/foursemi,fs2105s.yaml
  create mode 100644 sound/soc/codecs/fs-amp-lib.c
  create mode 100644 sound/soc/codecs/fs-amp-lib.h
+ create mode 100644 sound/soc/codecs/fs210x.c
+ create mode 100644 sound/soc/codecs/fs210x.h
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 4494e7cd6..6265cc897 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -1238,6 +1238,9 @@ config SND_SOC_FRAMER
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called snd-soc-framer.
- 
-+config SND_SOC_FS_AMP_LIB
-+	select CRC16
-+	tristate
- 
- config SND_SOC_GTM601
- 	tristate 'GTM601 UMTS modem audio codec'
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index c497d343d..9afce9aa6 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -137,6 +137,7 @@ snd-soc-es8328-spi-y := es8328-spi.o
- snd-soc-es8375-y := es8375.o
- snd-soc-es8389-y := es8389.o
- snd-soc-framer-y := framer-codec.o
-+snd-soc-fs-amp-lib-y := fs-amp-lib.o
- snd-soc-gtm601-y := gtm601.o
- snd-soc-hdac-hdmi-y := hdac_hdmi.o
- snd-soc-hdac-hda-y := hdac_hda.o
-@@ -561,6 +562,7 @@ obj-$(CONFIG_SND_SOC_ES8328_SPI)+= snd-soc-es8328-spi.o
- obj-$(CONFIG_SND_SOC_ES8375)    += snd-soc-es8375.o
- obj-$(CONFIG_SND_SOC_ES8389)    += snd-soc-es8389.o
- obj-$(CONFIG_SND_SOC_FRAMER)	+= snd-soc-framer.o
-+obj-$(CONFIG_SND_SOC_FS_AMP_LIB)+= snd-soc-fs-amp-lib.o
- obj-$(CONFIG_SND_SOC_GTM601)    += snd-soc-gtm601.o
- obj-$(CONFIG_SND_SOC_HDAC_HDMI) += snd-soc-hdac-hdmi.o
- obj-$(CONFIG_SND_SOC_HDAC_HDA) += snd-soc-hdac-hda.o
-diff --git a/sound/soc/codecs/fs-amp-lib.c b/sound/soc/codecs/fs-amp-lib.c
-new file mode 100644
-index 000000000..75d8d5082
---- /dev/null
-+++ b/sound/soc/codecs/fs-amp-lib.c
-@@ -0,0 +1,265 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+//
-+// fs-amp-lib.c --- Common library for FourSemi Audio Amplifiers
-+//
-+// Copyright (C) 2016-2025 Shanghai FourSemi Semiconductor Co.,Ltd.
-+
-+#include <linux/crc16.h>
-+#include <linux/device.h>
-+#include <linux/firmware.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+
-+#include "fs-amp-lib.h"
-+
-+static int fs_get_scene_count(struct fs_amp_lib *amp_lib)
-+{
-+	const struct fs_fwm_table *table;
-+	int count;
-+
-+	if (!amp_lib || !amp_lib->dev)
-+		return -EINVAL;
-+
-+	table = amp_lib->table[FS_INDEX_SCENE];
-+	if (!table)
-+		return -EFAULT;
-+
-+	count = table->size / sizeof(struct fs_scene_index);
-+	if (count < 1 || count > FS_SCENE_COUNT_MAX) {
-+		dev_err(amp_lib->dev, "Invalid scene count: %d\n", count);
-+		return -ERANGE;
-+	}
-+
-+	return count;
-+}
-+
-+static void fs_get_fwm_string(struct fs_amp_lib *amp_lib,
-+			      int offset, const char **pstr)
-+{
-+	const struct fs_fwm_table *table;
-+
-+	if (!amp_lib || !amp_lib->dev || !pstr)
-+		return;
-+
-+	table = amp_lib->table[FS_INDEX_STRING];
-+	if (table && offset > 0 && offset < table->size + sizeof(*table))
-+		*pstr = (char *)table + offset;
-+	else
-+		*pstr = NULL;
-+}
-+
-+static void fs_get_scene_reg(struct fs_amp_lib *amp_lib,
-+			     int offset, struct fs_amp_scene *scene)
-+{
-+	const struct fs_fwm_table *table;
-+
-+	if (!amp_lib || !amp_lib->dev || !scene)
-+		return;
-+
-+	table = amp_lib->table[FS_INDEX_REG];
-+	if (table && offset > 0 && offset < table->size + sizeof(*table))
-+		scene->reg = (struct fs_reg_table *)((char *)table + offset);
-+	else
-+		scene->reg = NULL;
-+}
-+
-+static void fs_get_scene_model(struct fs_amp_lib *amp_lib,
-+			       int offset, struct fs_amp_scene *scene)
-+{
-+	const struct fs_fwm_table *table;
-+	const char *ptr;
-+
-+	if (!amp_lib || !amp_lib->dev || !scene)
-+		return;
-+
-+	table = amp_lib->table[FS_INDEX_MODEL];
-+	ptr = (char *)table;
-+	if (table && offset > 0 && offset < table->size + sizeof(*table))
-+		scene->model = (struct fs_file_table *)(ptr + offset);
-+	else
-+		scene->model = NULL;
-+}
-+
-+static void fs_get_scene_effect(struct fs_amp_lib *amp_lib,
-+				int offset, struct fs_amp_scene *scene)
-+{
-+	const struct fs_fwm_table *table;
-+	const char *ptr;
-+
-+	if (!amp_lib || !amp_lib->dev || !scene)
-+		return;
-+
-+	table = amp_lib->table[FS_INDEX_EFFECT];
-+	ptr = (char *)table;
-+	if (table && offset > 0 && offset < table->size + sizeof(*table))
-+		scene->effect = (struct fs_file_table *)(ptr + offset);
-+	else
-+		scene->effect = NULL;
-+}
-+
-+static int fs_parse_scene_tables(struct fs_amp_lib *amp_lib)
-+{
-+	const struct fs_scene_index *scene_index;
-+	const struct fs_fwm_table *table;
-+	struct fs_amp_scene *scene;
-+	int idx, count;
-+
-+	if (!amp_lib || !amp_lib->dev)
-+		return -EINVAL;
-+
-+	count = fs_get_scene_count(amp_lib);
-+	if (count <= 0)
-+		return -EFAULT;
-+
-+	scene = devm_kzalloc(amp_lib->dev, count * sizeof(*scene), GFP_KERNEL);
-+	if (!scene)
-+		return -ENOMEM;
-+
-+	amp_lib->scene_count = count;
-+	amp_lib->scene = scene;
-+
-+	table = amp_lib->table[FS_INDEX_SCENE];
-+	scene_index = (struct fs_scene_index *)table->buf;
-+
-+	for (idx = 0; idx < count; idx++) {
-+		fs_get_fwm_string(amp_lib, scene_index->name, &scene->name);
-+		if (!scene->name)
-+			scene->name = devm_kasprintf(amp_lib->dev,
-+						     GFP_KERNEL, "S%d", idx);
-+		dev_dbg(amp_lib->dev, "scene.%d name: %s\n", idx, scene->name);
-+		fs_get_scene_reg(amp_lib, scene_index->reg, scene);
-+		fs_get_scene_model(amp_lib, scene_index->model, scene);
-+		fs_get_scene_effect(amp_lib, scene_index->effect, scene);
-+		scene++;
-+		scene_index++;
-+	}
-+
-+	return 0;
-+}
-+
-+static int fs_parse_all_tables(struct fs_amp_lib *amp_lib)
-+{
-+	const struct fs_fwm_table *table;
-+	const struct fs_fwm_index *index;
-+	const char *ptr;
-+	int idx, count;
-+	int ret;
-+
-+	if (!amp_lib || !amp_lib->dev || !amp_lib->hdr)
-+		return -EINVAL;
-+
-+	/* Parse all fwm tables */
-+	table = (struct fs_fwm_table *)amp_lib->hdr->params;
-+	index = (struct fs_fwm_index *)table->buf;
-+	count = table->size / sizeof(*index);
-+
-+	for (idx = 0; idx < count; idx++, index++) {
-+		if (index->type >= FS_INDEX_MAX)
-+			return -ERANGE;
-+		ptr = (char *)table + (int)index->offset;
-+		amp_lib->table[index->type] = (struct fs_fwm_table *)ptr;
-+	}
-+
-+	/* Parse all scene tables */
-+	ret = fs_parse_scene_tables(amp_lib);
-+	if (ret)
-+		dev_err(amp_lib->dev, "Failed to parse scene: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int fs_verify_firmware(struct fs_amp_lib *amp_lib)
-+{
-+	const struct fs_fwm_header *hdr;
-+	int crcsum;
-+
-+	if (!amp_lib || !amp_lib->dev || !amp_lib->hdr)
-+		return -EINVAL;
-+
-+	hdr = amp_lib->hdr;
-+
-+	/* Verify the crcsum code */
-+	crcsum = crc16(0x0000, (const char *)&hdr->crc_size, hdr->crc_size);
-+	if (crcsum != hdr->crc16) {
-+		dev_err(amp_lib->dev, "Failed to checksum: %x-%x\n",
-+			crcsum, hdr->crc16);
-+		return -EFAULT;
-+	}
-+
-+	/* Verify the devid(chip_type) */
-+	if (amp_lib->devid != LO_U16(hdr->chip_type)) {
-+		dev_err(amp_lib->dev, "DEVID dismatch: %04X#%04X\n",
-+			amp_lib->devid, hdr->chip_type);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static void fs_print_firmware_info(struct fs_amp_lib *amp_lib)
-+{
-+	const struct fs_fwm_header *hdr;
-+	const char *pro_name = NULL;
-+	const char *dev_name = NULL;
-+
-+	if (!amp_lib || !amp_lib->dev || !amp_lib->hdr)
-+		return;
-+
-+	hdr = amp_lib->hdr;
-+
-+	fs_get_fwm_string(amp_lib, hdr->project, &pro_name);
-+	fs_get_fwm_string(amp_lib, hdr->device, &dev_name);
-+
-+	dev_info(amp_lib->dev, "Project: %s Device: %s\n",
-+		 pro_name ? pro_name : "null",
-+		 dev_name ? dev_name : "null");
-+
-+	dev_info(amp_lib->dev, "Date: %04d%02d%02d-%02d%02d\n",
-+		 hdr->date.year, hdr->date.month, hdr->date.day,
-+		 hdr->date.hour, hdr->date.minute);
-+}
-+
-+int fs_amp_load_firmware(struct fs_amp_lib *amp_lib, const char *name)
-+{
-+	const struct firmware *cont;
-+	struct fs_fwm_header *hdr;
-+	int ret;
-+
-+	if (!amp_lib || !amp_lib->dev || !name)
-+		return -EINVAL;
-+
-+	ret = request_firmware(&cont, name, amp_lib->dev);
-+	if (ret) {
-+		dev_err(amp_lib->dev, "Failed to request %s: %d\n", name, ret);
-+		return ret;
-+	}
-+
-+	dev_info(amp_lib->dev, "Loading %s - size: %zu\n", name, cont->size);
-+
-+	hdr = devm_kmemdup(amp_lib->dev, cont->data, cont->size, GFP_KERNEL);
-+	release_firmware(cont);
-+	if (!hdr)
-+		return -ENOMEM;
-+
-+	amp_lib->hdr = hdr;
-+	ret = fs_verify_firmware(amp_lib);
-+	if (ret) {
-+		amp_lib->hdr = NULL;
-+		return ret;
-+	}
-+
-+	ret = fs_parse_all_tables(amp_lib);
-+	if (ret) {
-+		amp_lib->hdr = NULL;
-+		return ret;
-+	}
-+
-+	fs_print_firmware_info(amp_lib);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(fs_amp_load_firmware);
-+
-+MODULE_AUTHOR("Nick Li <nick.li@foursemi.com>");
-+MODULE_DESCRIPTION("FourSemi audio amplifier library");
-+MODULE_LICENSE("GPL");
-diff --git a/sound/soc/codecs/fs-amp-lib.h b/sound/soc/codecs/fs-amp-lib.h
-new file mode 100644
-index 000000000..4a77c7b38
---- /dev/null
-+++ b/sound/soc/codecs/fs-amp-lib.h
-@@ -0,0 +1,150 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * fs-amp-lib.h --- Common library for FourSemi Audio Amplifiers
-+ *
-+ * Copyright (C) 2016-2025 Shanghai FourSemi Semiconductor Co.,Ltd.
-+ */
-+
-+#ifndef __FS_AMP_LIB_H__
-+#define __FS_AMP_LIB_H__
-+
-+#define HI_U16(a)		(((a) >> 8) & 0xFF)
-+#define LO_U16(a)		((a) & 0xFF)
-+#define FS_TABLE_NAME_LEN	(4)
-+#define FS_SCENE_COUNT_MAX	(16)
-+#define FS_CMD_DELAY_MS_MAX	(100) /* 100ms */
-+
-+#define FS_CMD_DELAY		(0xFF)
-+#define FS_CMD_BURST		(0xFE)
-+#define FS_CMD_UPDATE		(0xFD)
-+
-+#define FS_SOC_ENUM_EXT(xname, xhandler_info, xhandler_get, xhandler_put) \
-+{	.iface = SNDRV_CTL_ELEM_IFACE_MIXER, .name = xname, \
-+	.info = xhandler_info, \
-+	.get = xhandler_get, .put = xhandler_put \
-+}
-+
-+enum fs_index_type {
-+	FS_INDEX_INFO = 0,
-+	FS_INDEX_STCOEF,
-+	FS_INDEX_SCENE,
-+	FS_INDEX_MODEL,
-+	FS_INDEX_REG,
-+	FS_INDEX_EFFECT,
-+	FS_INDEX_STRING,
-+	FS_INDEX_WOOFER,
-+	FS_INDEX_MAX,
-+};
-+
-+#pragma pack(push, 1)
-+
-+struct fs_reg_val {
-+	u8 reg;
-+	u16 val;
-+};
-+
-+struct fs_reg_bits {
-+	u8 cmd; /* FS_CMD_UPDATE */
-+	u8 reg;
-+	u16 val;
-+	u16 mask;
-+};
-+
-+struct fs_cmd_pkg {
-+	union {
-+		u8 cmd;
-+		struct fs_reg_val regv;
-+		struct fs_reg_bits regb;
-+	};
-+};
-+
-+struct fs_fwm_index {
-+	/* Index type */
-+	u16 type;
-+	/* Offset address starting from the end of header */
-+	u16 offset;
-+};
-+
-+struct fs_fwm_table {
-+	char name[FS_TABLE_NAME_LEN];
-+	u16 size; /* size of buf */
-+	u8 buf[];
-+};
-+
-+struct fs_scene_index {
-+	/* Offset address(scene name) in string table */
-+	u16 name;
-+	/* Offset address(scene reg) in register table */
-+	u16 reg;
-+	/* Offset address(scene model) in model table */
-+	u16 model;
-+	/* Offset address(scene effect) in effect table */
-+	u16 effect;
-+};
-+
-+struct fs_reg_table {
-+	u16 size; /* size of buf */
-+	u8 buf[];
-+};
-+
-+struct fs_file_table {
-+	u16 name;
-+	u16 size; /* size of buf */
-+	u8 buf[];
-+};
-+
-+struct fs_fwm_date {
-+	u32 year:12;
-+	u32 month:4;
-+	u32 day:5;
-+	u32 hour:5;
-+	u32 minute:6;
-+};
-+
-+struct fs_fwm_header {
-+	u16 version;
-+	u16 project; /* Offset address(project name) in string table */
-+	u16 device; /* Offset address(device name) in string table */
-+	struct fs_fwm_date date;
-+	u16 crc16;
-+	u16 crc_size; /* Starting position for CRC checking */
-+	u16 chip_type;
-+	u16 addr; /* 7-bit i2c address */
-+	u16 spkid;
-+	u16 rsvd[6];
-+	u8 params[];
-+};
-+
-+#pragma pack(pop)
-+
-+struct fs_i2s_srate {
-+	u32 srate; /* Sample rate */
-+	u16 i2ssr; /* Value of Bit field[I2SSR] */
-+};
-+
-+struct fs_pll_div {
-+	unsigned int bclk; /* Rate of bit clock */
-+	u16 pll1;
-+	u16 pll2;
-+	u16 pll3;
-+};
-+
-+struct fs_amp_scene {
-+	const char *name;
-+	const struct fs_reg_table  *reg;
-+	const struct fs_file_table *model;
-+	const struct fs_file_table *effect;
-+};
-+
-+struct fs_amp_lib {
-+	const struct fs_fwm_header *hdr;
-+	const struct fs_fwm_table *table[FS_INDEX_MAX];
-+	struct fs_amp_scene *scene;
-+	struct device *dev;
-+	int scene_count;
-+	u16 devid;
-+};
-+
-+int fs_amp_load_firmware(struct fs_amp_lib *amp_lib, const char *name);
-+
-+#endif // __FS_AMP_LIB_H__
--- 
+
+base-commit: ed73a24357531e1747a6e140c329015da6429629
+--
 2.39.5
 
