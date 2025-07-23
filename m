@@ -1,111 +1,87 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6072EF2A7;
-	Wed, 23 Jul 2025 15:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753284597; cv=pass; b=FbtSuvOSw9NtMS/I0tSh8+xhxNkIEtxBGY51B5bPbqNT1udVNS5baEaMOO/bd8ykrIKOu4N/xjgmhOH2ux1s6ETi7M1WsuSOROGi9Dik9+4kR6oIdzcp5wZHnqhkFalEJSUzGIYaZtmt/t+YP/jR+RReR7dFRb+SSGZZfA86Ldo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753284597; c=relaxed/simple;
-	bh=Uc7VdifhLPjOrJXBESlgXL5i2ILIKqQAfCzoqTjF9bE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sM513jO5YKiA04/JaIKG4fnWlcbKNhd20LqdbrbtjVN7jGekytAYVbgEnt2x1ucdrMP7Pk2oYbKZ3A+KEk0niLql22Ss0pSWYwxL8CFT8WQ083/kGW0tmpMPcysNSOmCtFGaKLB2ufrHSpMct5AcP5Q/JNHutZrKSikRir9v8/8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=Qu6aQ8jd; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06AF17A2E8;
+	Wed, 23 Jul 2025 16:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753289329; cv=none; b=f7h5tL0z/X5p+jn6PNI7Gr6tQeq+LwJwmDvVPyPnLJTHdGxxD8m2XkqXjUiL4U16QC7v+FiDzrHmRs+W6Hd6MOd+S6VPUtUGa4jbPjZDufS2wU5R8zmwFMCs05GLl9Zf2vy9bA3VFVj7SfXquCdkL/vxTrbMxJMv7hYjhB126qs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753289329; c=relaxed/simple;
+	bh=ByZ5PYiT1ej+cqdbA286xENhWOW5ZOiRkfXl/Z6pp5k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=erM41t9q5nRKr4Slxert4p0gm4p0BbZs2aGjsDn3MdoLPioUrpT62wxs/PfjQGAlGgVSgQ6vvSoWpfCWsqEyvryS8GvP/xs7bIrsajmj3QB7dUiQbH/X77UhVRTB7MZDZHmeB03sTDUk9z9a8AqR/yfH8gIjyIk3sDoqWs70YvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qkCKKoJp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="Qu6aQ8jd"
-ARC-Seal: i=1; a=rsa-sha256; t=1753284551; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=XRtulgxgQtjCSgT8DD64R1R0tydqvcpKjitZFNrZaE7SiTelJybBZ8+mq47N7MsBpzeLQvEJAVMU4+PPSW8HdbkN8Sd4TaXMAisblYbxndPRGvhMW3o5PzcpkLW0M8zJNqxNCQPM/+GFgu2tFSNLJbLazenHRQNgodNPcANEdX4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1753284551; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=p1mGR8RrETsRU+pbOh6xvnBmADrKnol8mLncWhNqDJQ=; 
-	b=jKBUZyW67QgODDAqPhyEbkag/COEC4vUmGJcJ9vQny4fea7GdZ3colZc2jyS9VLh/xuznbeu4IDXsknEWRuIiikepXMBjMXI4BldpF1cg0BxLOD5Z0OuJkuDR2sWAhrATBMhalwo0EA5wT/L3sZlZmO128bdHdb3EcaprYTVyvs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
-	dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753284551;
-	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=p1mGR8RrETsRU+pbOh6xvnBmADrKnol8mLncWhNqDJQ=;
-	b=Qu6aQ8jdjF8N8nxtXSZMDjdtk5wkI6HZkXVap3gYJWE99ERRUx7eyXgm1a7Ugp8v
-	56KOyX1KqBr9BR+46aQQ+2rSEpIwIeZFDNRqErIkW2FGqM3HnVxXqX+6Tlj9RU41Ahp
-	NpHkxMKiddIAhGknPdVcQ+2MWBZYaJI8OkKOUVw0=
-Received: by mx.zohomail.com with SMTPS id 1753284550006678.199939611792;
-	Wed, 23 Jul 2025 08:29:10 -0700 (PDT)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Douglas Anderson <dianders@chromium.org>, Heiko Stuebner <heiko@sntech.de>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Raag Jadav <raag.jadav@intel.com>, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org, kernel@collabora.com
-Subject:
- Re: [PATCH v2 2/3] ASoC: hdac_hdmi: Use dev_info on invalid ELD version
-Date: Wed, 23 Jul 2025 11:29:07 -0400
-Message-ID: <1927750.tdWV9SEqCh@earth>
-In-Reply-To: <b209b185-8caa-41d4-8f8d-95aefec1d785@sirena.org.uk>
-References:
- <20250722195437.1347865-1-detlev.casanova@collabora.com>
- <20250722195437.1347865-3-detlev.casanova@collabora.com>
- <b209b185-8caa-41d4-8f8d-95aefec1d785@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qkCKKoJp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19083C4CEF1;
+	Wed, 23 Jul 2025 16:48:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753289329;
+	bh=ByZ5PYiT1ej+cqdbA286xENhWOW5ZOiRkfXl/Z6pp5k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=qkCKKoJpiV3pjA5YQVloF7LV8OaRYMBeLagUW5Y/gW+dNmwN7EB6t4bO2ioLkhezt
+	 LfGuaeU0iqmjIEf8AmdYMCk9HoGYNrste+KO/xv2ve4KWHgG+YvExLWH23XaTU8TVV
+	 DGasaE7zWgz2EjIQ4msU54PJ2zQLsZApWmALQVuHN/3w4l46KCHvL4muZGfhTgEeJs
+	 TkGcyvwQcFsDUC7gf/UOpViD4YbZzI3OxB2PQjkZlSbqj0I4uAn2vcgxDoEGif5zwk
+	 40jX+6vApy/i3EeA3AknaV6RqV/p6InircNGYtQyXW9pY7k+PPVgyaNv75af6NUga7
+	 ABF6eng/66Adw==
+From: Mark Brown <broonie@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+In-Reply-To: <20250722092542.32754-1-johan@kernel.org>
+References: <20250722092542.32754-1-johan@kernel.org>
+Subject: Re: [PATCH] ASoC: mediatek: common: fix device and OF node leak
+Message-Id: <175328932684.84720.16626909941095412727.b4-ty@kernel.org>
+Date: Wed, 23 Jul 2025 17:48:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-Hi Mark,
-On Wednesday, 23 July 2025 06:40:13 EDT Mark Brown wrote:
-> On Tue, Jul 22, 2025 at 03:54:36PM -0400, Detlev Casanova wrote:
-> > When disconnected, the ELD data cannot be read by the display driver, so
-> > it just sets the data to 0.
+On Tue, 22 Jul 2025 11:25:42 +0200, Johan Hovold wrote:
+> Make sure to drop the references to the accdet OF node and platform
+> device taken by of_parse_phandle() and of_find_device_by_node() after
+> looking up the sound component during probe.
 > 
-> Please don't put patches for different subsystems into the same series
-> if there's no dependencies, it just makes dependencies less obvious and
-> creates hassle merging things.
-
-Yes, sorry, I'll send v3 of this patch separately.
-
-> > That makes the ELD parsing code read an ELD version of 0, which is
-> > invalid. In hdac_hdmi, that is logged with dev_err(), but should be
-> > logged with dev_info() instead as it is done in sound/core/pcm_drm_eld.c
-> > 
-> > This avoids printing multiple messages like:
-> >     HDMI: Unknown ELD version 0
-> > 
-> > in the kernel log when userspace tries to open the sound device.
 > 
-> It doesn't, it just lowers the severity of the logs that are printed.
-> If the goal is to lower the number of messages printed you need to use
-> a ratelimited print.
 
-I see, ratelimited would be good, but it still prints a message about 
-something that is normal behaviour. Maybe this should go further to a 
-dev_dbg(), or is there a specific reason to show this message ?
+Applied to
 
-This could also be a special case:
- - version == 0 -> dev_dbg()
- - version !=0 && != known_versions -> dev_err()
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Detlev.
+Thanks!
 
+[1/1] ASoC: mediatek: common: fix device and OF node leak
+      commit: 696e123aa36bf0bc72bda98df96dd8f379a6e854
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
