@@ -1,69 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CE028000C;
-	Wed, 23 Jul 2025 08:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4193223C51B
+	for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 09:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753260159; cv=none; b=H15VNhkuHbn27FhIvzT/qfWqdL0vu8kZnqtC+jmrg7Xg/EKQyspzMk3QO31z9hGNi2aLN1zsOm7XsLw24+KJ245RMzMq66vGOGV2mm44jnRlinlOX9JMd2fsxOMgEjPPCo+T5G8ivWaO8HFVmh9uZoNVSR8BUdIenKNHOVdoIA8=
+	t=1753261793; cv=none; b=B/Y0SAy2UMSyjfazubDUKP7B7tYnZA3uK7y587MuDCUAp+N2GsswIhtiK6dRAJPdRaAqWeQs7zILenU06ykbpWKEUIwbZfichLPMRpSkvElNeE007IjAh9jFoiApnaUiHYaknxEu7cBD3ievBFXIWDziue2xzAjkspaKA4ib9pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753260159; c=relaxed/simple;
-	bh=zesvY2UHB327gOL9bPZ8+RX/SQpLbvcNuuV8lRMuRu8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=P3LxFj8s8vNfWe0W+DN9ZqjEXhyxGiYH9/216DWuXKRvFvinQJp06rDZGVtv+QSVXkdhMkLimsu5FHOAPwCDUKEb9xLCxLcPiKMLKEIRgeqfLFUlwdGrOc+/bmGMU4IUVygWF8Q+taLqMOy9j2sXb1xLQueoFWLGJ1p02vUZ8mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pZyzWRxl; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZyzWRxl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3A2DC4CEE7;
-	Wed, 23 Jul 2025 08:42:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753260158;
-	bh=zesvY2UHB327gOL9bPZ8+RX/SQpLbvcNuuV8lRMuRu8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pZyzWRxlE69DQYA74H2ItpaPLPv6EZxOyE8MRQ5Qqrl/DbDJtnNZQk+Bc1IVfgo+F
-	 AJk5IEHPegaTIwlrep4Jym55c2jtcR6MJnZl5m3Y/El0qBF3o+hxZFaCxO5B9VftbF
-	 NXrvn8QM6rVijlwxoHktPhhaDMEGJHI8pkuUR5BTv4OqgYi+3rzaqeuJTFmII11N/B
-	 a27CinAVLSpfLNFtKnLf4SY3vqOQKHtiS2w9XN6JjMIWjio71w4f8Emx/OJAZBpx7D
-	 gNM2OTg91wpY8I60XcXIzMZRo3dBww8GXRpRX5aJjMyS/CZ0vtvxYplZYzsG15e4Dx
-	 YVoAVOz1CYfBw==
-From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, 
- James Ogletree <jogletre@opensource.cirrus.com>, 
- Fred Treven <fred.treven@cirrus.com>, Ben Bright <ben.bright@cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250704075432.3220321-1-sakari.ailus@linux.intel.com>
-References: <20250704075432.3220321-1-sakari.ailus@linux.intel.com>
-Subject: Re: (subset) [PATCH 42/80] mfd: Remove redundant
- pm_runtime_mark_last_busy() calls
-Message-Id: <175326015646.1698147.17317699287040369294.b4-ty@kernel.org>
-Date: Wed, 23 Jul 2025 09:42:36 +0100
+	s=arc-20240116; t=1753261793; c=relaxed/simple;
+	bh=PM1VPsrdjO0YYhZC6Dej1QyKtXiLbfGG2zKsH8vSHdQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ZSSh1kJRplYCOaI7fSdfOrc/Aky7RxaYRzf5F0e6YJ/3AM10tPh9rQmKT7zkUfFrJMEerehIBk6RD+deyfq6xvf3iEm+1uOJ4c8/24xzmxzcEajHVbFuYk0SpK3nUo71xShGR7K7Q7b8sgsE9qmV1sj+nhBVikMk+TqN2AqWRdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com; spf=pass smtp.mailfrom=foursemi.com; arc=none smtp.client-ip=54.206.16.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foursemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foursemi.com
+X-QQ-mid: zesmtpsz5t1753261782t33bb06d1
+X-QQ-Originating-IP: 87V1k3nUNlWghQC7T6XSvNSIAYjIn2dp964L5xBjvjI=
+Received: from localhost.localdomain ( [183.17.231.145])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 23 Jul 2025 17:09:41 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 2544636101494092667
+EX-QQ-RecipientCnt: 15
+From: Nick <nick.li@foursemi.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	nick.li@foursemi.com
+Cc: xiaoming.yang@foursemi.com,
+	danyang.zheng@foursemi.com,
+	like.xy@foxmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v5 1/5] dt-bindings: vendor-prefixes: Add Shanghai FourSemi Semiconductor Co.,Ltd
+Date: Wed, 23 Jul 2025 17:09:30 +0800
+Message-Id: <20250723090934.480055-2-nick.li@foursemi.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250723090934.480055-1-nick.li@foursemi.com>
+References: <20250723090934.480055-1-nick.li@foursemi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-c81fc
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:foursemi.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: MSxnj+21UW7cjDYFa2FEK3XXOVgIk9f1CaikOzF0M1380imTKqKqsbiz
+	VsNq2E48udJOldmgiGU6Ag2VcKNPDrPjKmuYDL2fXNEjJlz6tIvzjA3veKRbJcXPqeMMTEg
+	EP1tZ3ryyAgywkpdpFgZBBeqyFRyxeWqyUKECh3T6zRRatEckX2NOgnQGLFyA51fZEIo3HT
+	bUznLPYH44KrWQuNF9CSMR5zVi7NmKd09zjCBwDXNL/XP8chqFzWfQPAWEJjZsj7bLGqkst
+	x7TvvFUvLMFy7UnwJ1CHY3OZNWZJZ3ZoFRIWCCwAh54m6hAerpN2Wf59AkMEapeiX0F/U3a
+	Z1HYx/s2HvIqeewIgWxSOr9iF+5iBbytPejJe+Zgih4NKpWewN1VtYRv0fu+SfSB+JyWcbT
+	Arh7jfnFsbKu4OIcAFZyVA733TTQgX1pK8izTJ8AxyLpPCOv6DzG5ECHCbH284jFAao7k+1
+	7Sl9tqNHI8uvY7w4mz9fO0bRkDB2+q1jzYvk1syenNoWCHmMfvuIfWrCyWV1CPrp0gOKtRZ
+	l71mJljpaQHl7TOVLqBlkutAFIFH66U7uyvzWGwD/67qOcMYfnOq3Kcs/f2nKkjVfImMgxa
+	CuiFIKa9wsNuqK3SOxZK1eAkywKKGEbtXJMm+6R9aGwXuBzNPRFvhiZkIlnu8vdFssgD/Sf
+	LMbghsjYlmJkdzE4N3xJATIVmsRhSEYW6B24IClc//9Si13xe3yWyXi0HK3QSV0hVCR7w23
+	kVwlW7V7UIV2RoMdmQJVlOUg96yg79IXnihN3e8EPfNEnbF9/zF15YOrrdzAAtvlIqA6YuL
+	6K12w1m+E3bW0cX7ynodN/Yyb/vxOKWEQ/HgUlBXC5aj3YHQNgRw/9hAWRqkGyqnX0LV57H
+	oYHb9e6Ay/tYAqbII+ArLrEFQhNuBeFmKogU7f9EPhavnEuZQgbdUidyjNo9uxWtrbGsTBE
+	5B0Z5rcD7DVdr0cjGEBL6KeQ2hSuhw5n8zf6hqy9r83mM0zZNKhy2e7n6ZqMcG+vxcOH/RU
+	FWK56IrY34MV0eHzUXBejac0oDnesjemKOOHENrP6J+LwZuyT3gCMdNgGfkRlIEdwnlfe/X
+	g==
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
+X-QQ-RECHKSPAM: 0
 
-On Fri, 04 Jul 2025 10:54:32 +0300, Sakari Ailus wrote:
-> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
-> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
-> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
-> pm_runtime_mark_last_busy().
-> 
-> 
+From: Nick Li <nick.li@foursemi.com>
 
-Applied, thanks!
+Add vendor prefix for Shanghai FourSemi Semiconductor Co.,Ltd
+Link: https://en.foursemi.com/
 
-[42/80] mfd: Remove redundant pm_runtime_mark_last_busy() calls
-        commit: 324db89e720150e9592d26f1c8da84685f68996b
+Signed-off-by: Nick Li <nick.li@foursemi.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
---
-Lee Jones [李琼斯]
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 99e86271c..f692e3b29 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -547,6 +547,8 @@ patternProperties:
+     description: FocalTech Systems Co.,Ltd
+   "^forlinx,.*":
+     description: Baoding Forlinx Embedded Technology Co., Ltd.
++  "^foursemi,.*":
++    description: Shanghai FourSemi Semiconductor Co.,Ltd.
+   "^freebox,.*":
+     description: Freebox SAS
+   "^freecom,.*":
+-- 
+2.39.5
 
