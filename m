@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAED178F26;
-	Wed, 23 Jul 2025 00:57:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B8E156CA;
+	Wed, 23 Jul 2025 00:58:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753232264; cv=none; b=NEZmGC4hNEO9cKMTe+jexqs2BwHIew5e8wV6Z4vx8m7z51lGwy62Z8XkyHjyAPbfJja7g9lUSh/EuZD6sGlAhi4T2niz3p/biqSdpji6d0y/Z7O9+HZjpSBpF3vEVeKimVYwGrw8bMZ1wGzmjbHfE4w6SAdT+36W7kuuQmuCHU0=
+	t=1753232300; cv=none; b=agNrFD9oCDCJLuXSH2R8cvoqLsW1itho/DrBsHAlB68HUloWTDI0Tma/BIiZb004Z1ebdNujNumC0M5EaaiWwAaRjMrcEVv1baUWQiVXIeHO6pC/+b+fOF84UsOIZtbaXT9VSIVB+Um2l8jaVxTB623l7W2/svZFRux/DVV3BWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753232264; c=relaxed/simple;
-	bh=k3CMljQ2mykncZuKDRm2hT0gPzESHMZKjKuB+Q47uOg=;
+	s=arc-20240116; t=1753232300; c=relaxed/simple;
+	bh=vOHOgokDtL3IhjlFG4dnU+SlLuPvdFfFn7MASvPJpPE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=A8WH8130U16pNOknC53MaUaFCPropgVL4O2SpPFVNDgjWMglr7GTd0vbZ7XSY1VIOT0ue9knm1iKRwSr9woQmLxqhlG2MkrT5X+y1UD7O3pJt94CY4bRjLNjtHDyaDRuLDquR9NzjMqdwCT03DFZtxSIS68rJ4iCIL6G6HSnspg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mRhWNkRj; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=VzxY3R2hnPwpbHrg2oozgRTB50aZcMgOm7mX3ACLcURyoz2L7t2EisTg9FRQMw+c8nBP/ugCWQevWyVg31kKKc3NFyroQ/h2iQ9WY67yZ4Xo2utGouyMuR+2Z/zvE74/pCijjEfWdsMt7gng/7EPh5L/FAO/VLV2wXxAFqDehcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cD7ikT63; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mRhWNkRj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85777C4CEEB;
-	Wed, 23 Jul 2025 00:57:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cD7ikT63"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7AD5C4CEEB;
+	Wed, 23 Jul 2025 00:58:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753232264;
-	bh=k3CMljQ2mykncZuKDRm2hT0gPzESHMZKjKuB+Q47uOg=;
+	s=k20201202; t=1753232300;
+	bh=vOHOgokDtL3IhjlFG4dnU+SlLuPvdFfFn7MASvPJpPE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mRhWNkRj2PJwqjteo/qsRx6GCBh0VBjhgRMjrvXy0NT31traCoQUqFr1aE1A3SMzI
-	 GADUcQFUQSEEOZJZyFKSOMDKGo3Iq48JUzGBs/eaAP/xEyyODrI1gHHFJaHv+Yhity
-	 3pBsPRt8U3Ng9scTEng7uSQc6fBeoj0ztCRUxt6Kf8Ps7Q0I/rBlCDWP+dyWEMGRWu
-	 CZyYNNRsneo0MypPy/Nf+3w3R/SRtp80flbPf6QfcHgt9pcFN8IyLqEHb8OvkKXm/U
-	 KGNo/6wamPsGUW9EgcsvzE+TlBeuOaapaH+4jmzhY/Xjkj9otWCCs6BA4eysoAMrR6
-	 PASLCUMmAYVfg==
+	b=cD7ikT63JFz959L6u6WL9PxotSbjLgrD8KpIon5eo+ZfHQ64Ize0NsJ27kp4waUEt
+	 CK32ImE6cpM7bYs2fGuy6+1A+r/G6riDNXK3Eq16v3yaguXBTh0Ia5NR81+pDyAtVq
+	 /SKa41PCcynsoHTto07jXMzAWv5OC1aOWuCAXFwvaFdh8dxHKi1zzcpBGo0VHtAA/o
+	 JfFxhotal02EZ1YWI7i0ybTbgZoTDfHRpewFVcdVsMhfJ1eBM15PjT8I4Q6l2e4Bmv
+	 Xt71RZhG/fhz0vTZGJGIy7WfAF3OMUTy8MkWiUh0oh36W5FvrclXfq79UiuWx2Ulsd
+	 6cPn2NqsNB4xw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -36,12 +36,12 @@ Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	david.rhodes@cirrus.com,
 	linux-sound@vger.kernel.org,
 	patches@opensource.cirrus.com
-Subject: [PATCH AUTOSEL 6.15 5/8] ALSA: hda/cs35l56: Workaround bad dev-index on Lenovo Yoga Book 9i GenX
-Date: Tue, 22 Jul 2025 20:57:18 -0400
-Message-Id: <20250723005722.1022962-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 4/6] ALSA: hda/cs35l56: Workaround bad dev-index on Lenovo Yoga Book 9i GenX
+Date: Tue, 22 Jul 2025 20:58:00 -0400
+Message-Id: <20250723005805.1023184-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250723005722.1022962-1-sashal@kernel.org>
-References: <20250723005722.1022962-1-sashal@kernel.org>
+In-Reply-To: <20250723005805.1023184-1-sashal@kernel.org>
+References: <20250723005805.1023184-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.15.7
+X-stable-base: Linux 6.12.39
 Content-Transfer-Encoding: 8bit
 
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
@@ -140,10 +140,10 @@ binding and broken audio on this laptop model.
  1 file changed, 82 insertions(+), 28 deletions(-)
 
 diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
-index 235d22049aa9f..c9c8ec8d2474d 100644
+index 7baf3b506eefe..7823f71012a8a 100644
 --- a/sound/pci/hda/cs35l56_hda.c
 +++ b/sound/pci/hda/cs35l56_hda.c
-@@ -874,6 +874,52 @@ static int cs35l56_hda_system_resume(struct device *dev)
+@@ -876,6 +876,52 @@ static int cs35l56_hda_system_resume(struct device *dev)
  	return 0;
  }
  
@@ -196,7 +196,7 @@ index 235d22049aa9f..c9c8ec8d2474d 100644
  static int cs35l56_hda_read_acpi(struct cs35l56_hda *cs35l56, int hid, int id)
  {
  	u32 values[HDA_MAX_COMPONENTS];
-@@ -898,39 +944,47 @@ static int cs35l56_hda_read_acpi(struct cs35l56_hda *cs35l56, int hid, int id)
+@@ -900,39 +946,47 @@ static int cs35l56_hda_read_acpi(struct cs35l56_hda *cs35l56, int hid, int id)
  		ACPI_COMPANION_SET(cs35l56->base.dev, adev);
  	}
  
