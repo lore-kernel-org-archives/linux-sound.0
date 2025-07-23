@@ -1,191 +1,119 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87C12E425F
-	for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 11:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E60289E3D;
+	Wed, 23 Jul 2025 12:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753270911; cv=none; b=Ms8LBVp58hV9wGzb2dDrHVgwsT93n4irC1CQaLZi4UddEL22A2roRgFYGWyPEE7gJlPRPLxExD0MvgCK6DtHVdzcrjZ2H2YnGZLId2qWYSIT1X3LnKQETHv5OLlOpfNeQtBJKOHariu4jRs2PszKeb6AskXeLyqttge+5yd8ceE=
+	t=1753273157; cv=none; b=g67mA9JMb+5G5o/L5VlfWhJ/cCufOEN+Gbuocd261CrORw6+g5BGAuqXb0o3fv+14QxJRPlabXiDDQxiDiTIbSgCoKbYkiWG2BoKHQ+FDg73euLZSj1N4NJzA4mvCcH4GQuQLmoFnhFY6CFJ7pQl9uGK8GhmoJg1rpitN6RQsw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753270911; c=relaxed/simple;
-	bh=9p4yvzcPbUOJXzzna7U2xP3Hk9ZhWbAEUJYLFo7n8ko=;
+	s=arc-20240116; t=1753273157; c=relaxed/simple;
+	bh=POuTDoQ9PpSydluEqziXn2gVwFFvN6mDSjaJOEBnvUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lPFvefu7vmXSrDs3mSf2ifIC3Incc0Io9OpgwTLav382zmVHkykyqDWI48LqZ3qz7TpAPS8B2GrSJirBsdg7CohN1mgeW0ZFRvKvXYygMHSr3O0z8Ctpm83I/YvmmsKX3k2QuqI8unRnjasj7ovTd5W/Epo6y8Sa09fQhArawQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=X/RBf5x7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=TtBe2mNt67vWBRI5gqVJUMyc7kzuBpupaL2kBF9cj84UvSJBfbTYhwv6QQjalXrPqQxpdI2Oz2puEyQswTYC/kXbs9M2jn6meTzOq+xHBISsjJSclLwWR0l0w754Ql3r9iwHBhoGirBJLkDxTIAukVoHvGAjdO5srSh1Wg8/Zdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OR6+JZHd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="X/RBf5x7"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56N9aEfo001761
-	for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 11:41:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=5JgycBmaJtS6jwA2vObmBGMO
-	3gBaJOi2buVdHi6WlBE=; b=X/RBf5x7Zb0y5FRNHMzI70jYsu2GnthGo+/1E8fe
-	aC3PYHH6dO/iNq9UDcK+tIhbS62cM/WAOniEpc/gUmlEvJYTWK89fB1AcASMJtDP
-	oXO3R+B28Tsi8rRV/gmOeomtScQebzr0ZBllrSij5EdfRld2wVTGHa7DVuWPC+4H
-	xj0KVxGk0nSlEcVr7h75pOqOc0K5ri/qCeiq4EpdufmoSzj2iJFI25DFFtJNAPpB
-	493mRomaUovaTpXyc0wAlHHysPBGoMxjuIeiBJ1fcOJdhkjoNfqt6h8BI6dOfiJr
-	QBA57Rq7gVi95k5+R0JsXbjen64XyDvqUkZI94CFKLLjgw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 481t6w64s1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 11:41:48 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6fad9167e4cso137268066d6.1
-        for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 04:41:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753270907; x=1753875707;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5JgycBmaJtS6jwA2vObmBGMO3gBaJOi2buVdHi6WlBE=;
-        b=b8rJMzEeCD6vgMj2SZejYvhmWmMUanaO4BH8FMN3N77TAeKPrESrzTXwCT1lLM3LW2
-         7rIUJlrkLkHOQ/9L0m92dk7S8lTrAs5DMYJ7NRFuV2Eukph5nhXvZw06/+MCbQQn/E5K
-         JkA13w6CJdAVVOvnuY+M1pVfyIDEynQUnqZIat3U60igawUqxfbd3lWOwkcjow2mF9oM
-         C9VmAo9qpj7e2Fb1ecN+PH/2L/taUpc6TxotCq8ktr8JS/0Zk6vIfUU0JBD4ZPOy7Ebx
-         1upK/0LY8m+p60SXNCy7I80qA9f6SWMb6Vm9jIUSemPMoXK1OIGvSAQpdb2q+uSzlFKp
-         JqVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMJnmZxvejhjQrskRdSqTxXMXVdd7dG3tv/lK7biVhceT1n9QYENLxZtRapyDMZk/yd73RVSHFnjLJKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywm3gMyfYSBm2nAcFOqNONexIbvSs0WQklNLXEKSFnzfXgFlo9H
-	+XalSHxxzhFWe1i5ThAlHpHv9w6ZgX3ALwnR/K5ZiM9tqmX9cz/xHb5UqPitPocrH0FzfZ/kBQr
-	z+3oFfFu3dTtjV3PyIiy5hi4p73QbAcKDY6on2T8Rl01ivW4uHIaPp2fmrrpXzhnQYw==
-X-Gm-Gg: ASbGncuV99mTfAOJETCZDL8+WrvCYEGijJrEIeMf8SejMDf9MG8TzbaTihKge9l14d/
-	kyDSA+zNY/s1VvwLnqqACcVGFUHhG03X8Rr/3wmDvP/Bw1PC29J1JYPQ9fSjMvZgDdjyh5MaIDZ
-	0bLNuajl74FBse+58RbYeeTTpxNy9Qu7tqStkmM8KvBujXTf/8mywJ0cpgelZOCbGaau5C8nYUS
-	fjUGZ63UoByAlQHfKHWLDFQrKYUA4ndEHcQlEYa/A3YrL9ZBhdQpyXbaEnK6HxDFYqpyJi5R+ip
-	C8pjj44u4Wn1a/fB3HwqrXLxj3dxvIRx0QJzmOPAS5CUIDH76Ko0Ner2Y4DOrjX8FashBndQyeo
-	jXjV8XXcPCfyziiEqRqpbeAEOif/oCBykMI1V4FkG7P7isYHZQ1Hr
-X-Received: by 2002:a05:6214:2022:b0:705:227d:a511 with SMTP id 6a1803df08f44-707006663edmr31545946d6.32.1753270907050;
-        Wed, 23 Jul 2025 04:41:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG2d/uJDyGfd7UjhAFgz6WbKdA/P9xAYFLyZl/3beSYNXfadb2NkoYb+5O8+3feDQebbwy+Cw==
-X-Received: by 2002:a05:6214:2022:b0:705:227d:a511 with SMTP id 6a1803df08f44-707006663edmr31545426d6.32.1753270906513;
-        Wed, 23 Jul 2025 04:41:46 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55a31a9b672sm2257705e87.27.2025.07.23.04.41.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 04:41:45 -0700 (PDT)
-Date: Wed, 23 Jul 2025 14:41:43 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Sugar Zhang <sugar.zhang@rock-chips.com>,
-        Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Raag Jadav <raag.jadav@intel.com>, dri-devel@lists.freedesktop.org,
-        linux-sound@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v2 1/3] drm/bridge: dw-hdmi-qp: Return 0 in audio prepare
- when disconnected
-Message-ID: <hw5grsaqfef4l55pu7ypsgojnltcynl22l4jqb7w2t6vlo3yxo@d5yhtxcmtroq>
-References: <20250722195437.1347865-1-detlev.casanova@collabora.com>
- <20250722195437.1347865-2-detlev.casanova@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OR6+JZHd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00DB4C4CEE7;
+	Wed, 23 Jul 2025 12:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753273155;
+	bh=POuTDoQ9PpSydluEqziXn2gVwFFvN6mDSjaJOEBnvUY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OR6+JZHdfGfBB+GjdRuPEkv2fUmvV3Ihf86Qs1cb/Z2FB/mmmnxMuw1YFMmB5a2h0
+	 2H6dDlD51Jglq3WSNPep/Ejjoyx6PxIdM8B0OFienVPR46GBB0MsV/9eN29M0Jw/vK
+	 fPAkga3FScth/T8fyiZLSl276bRhWpFYq/hoU9N4gmtqT6qqPTeMwlGhWV6O0e74Rl
+	 lh8312qzlCEJRCXLtKZrl+ywkQ74zVBuHKoXHD0/JG4DIaFZlHnR+c8NXNd066Z96d
+	 nCeyO0DkJPuxvZXtlkg1hhGz0+mYQYA0B1DTXSJyohf+bitKllSbVONZBpdY7FLy94
+	 BgaEPHKAfq2nA==
+Date: Wed, 23 Jul 2025 13:19:08 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Luca Weiss <luca.weiss@fairphone.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Stephan Gerhold <stephan.gerhold@linaro.org>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/5] Enable USB audio offloading on Fairphone 4
+ smartphone
+Message-ID: <00c2ac7c-763f-467f-8199-76de9f5d71b0@sirena.org.uk>
+References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
+ <DBDAPORDD5IM.1BHXPK225E2PP@fairphone.com>
+ <DBHIM4SA3OIK.PXX6HMDE93B8@fairphone.com>
+ <ac3f1eb2-5830-4bda-bc57-c4d29c22aba0@sirena.org.uk>
+ <DBJDZBYHR94V.1QGVALCL60M1X@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="s26ZamLLlGnPk0Qb"
+Content-Disposition: inline
+In-Reply-To: <DBJDZBYHR94V.1QGVALCL60M1X@fairphone.com>
+X-Cookie: List was current at time of printing.
+
+
+--s26ZamLLlGnPk0Qb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250722195437.1347865-2-detlev.casanova@collabora.com>
-X-Authority-Analysis: v=2.4 cv=SPpCVPvH c=1 sm=1 tr=0 ts=6880ca7c cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=QX4gbG5DAAAA:8 a=nOY6ST1na_5B9o45XBQA:9 a=CjuIK1q_8ugA:10
- a=1HOtulTD9v-eNWfpl4qZ:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDA5OSBTYWx0ZWRfXyY1PCcb0u1Pv
- TlY62QuX1B+bwsuOwy5AQ/56caGvu+xwIDqUb2IMFvQhatbxg2kraKVmulcMykG/Q5fxD2dvDQE
- xc+hEhj30l1G9YbK1UK2qn8lRxJkgfaW01qN8PHYcRViAqnM04UeFgxwbqjNvabvzh2Se1GGEGS
- d1ph0Yu1I4UnhEb7xHPeo2zracYIz++y+wXftG4eGTSFF+m2puyK36qa7g4q0AC4alzcviK6kIO
- 1MoKlKqSFQ0O9pC2q6kBKH4PP0LeScMLhedYufb8JQ87CfD9oDHK50fR9S9S4WBgpuB4cjWxX7j
- 45B0bU1UF57VUZuOWik10TjoFlEGN179xw8azmOIOST4CvcJNlEfuKX+Fr2Pra2uVxROoWMp306
- MkahAUSX54Lxr1SlTSnno32uerlqTyjXKc43Xvd5E/YDd3EkBY3I19WHJ18a9E9IVdc+Bdv3
-X-Proofpoint-ORIG-GUID: 9gqptx-vw_Ke60iTdTN6rekBqSH1h5zl
-X-Proofpoint-GUID: 9gqptx-vw_Ke60iTdTN6rekBqSH1h5zl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-23_02,2025-07-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 adultscore=0 phishscore=0 malwarescore=0
- mlxscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507230099
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 22, 2025 at 03:54:35PM -0400, Detlev Casanova wrote:
-> To configure audio registers, the clock of the video port in use must be
-> enabled.
-> As those clocks are managed by the VOP driver, they can't be enabled here
-> to write the registers even when the HDMI cable is disconnected.
-> 
-> Furthermore, the registers values are computed from the TMDS char rate,
-> which is not available when disconnected.
-> 
-> Returning -ENODEV seemed reasonable at first, but ASoC will log an error
-> multiple times if dw_hdmi_qp_audio_prepare() return an error.
-> Userspace might also retry multiple times, filling the kernel log with:
-> 
-> hdmi-audio-codec hdmi-audio-codec.0.auto: ASoC error (-19): at snd_soc_dai_prepare() on i2s-hifi
-> 
-> This has become even worse with the support of the second HDMI TX port.
-> 
-> Activating the clocks to write fake data (fake because the TMDS char
-> rate is unavailable) would require API changes to communicate between
-> VOP and HDMI, which doesn't really make sense.
-> 
-> Using a cached regmap to be dumped when a cable is connected won't work
-> because writing order is important and some data needs to be retrieved
-> from registers to write others.
-> 
-> Returning 0 to silently fail sounds like the best and simplest solution.
-> 
-> Fixes: fd0141d1a8a2 ("drm/bridge: synopsys: Add audio support for dw-hdmi-qp")
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> index 5e5f8c2f95be1..9b9d43c02e3a5 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> @@ -458,8 +458,16 @@ static int dw_hdmi_qp_audio_prepare(struct drm_connector *connector,
->  	struct dw_hdmi_qp *hdmi = dw_hdmi_qp_from_bridge(bridge);
->  	bool ref2stream = false;
->  
-> +	/*
-> +	 * Silently return if tmds_char_rate is not set.
-> +	 *
-> +	 * Writing audio registers requires that the clock of the Video Port currently in
-> +	 * use by the VOP (dclk_vp<id>) is enabled.
-> +	 * That clock is guaranteed to be enabled when hdmi->tmds_char_rate is set, so we
-> +	 * only configure audio when it is set.
-> +	 */
->  	if (!hdmi->tmds_char_rate)
-> -		return -ENODEV;
-> +		return 0;
+On Wed, Jul 23, 2025 at 01:09:35PM +0200, Luca Weiss wrote:
+> On Wed Jul 23, 2025 at 12:57 PM CEST, Mark Brown wrote:
 
-What if the cable gets diconnected _while_ this function is running?
+> > As previously discussed they won't apply until after the merge window.
 
->  
->  	if (fmt->bit_clk_provider | fmt->frame_clk_provider) {
->  		dev_err(hdmi->dev, "unsupported clock settings\n");
-> -- 
-> 2.50.1
-> 
+> Sorry about that, I thought the conflict was for the 6.16 merge window,
+> not 6.17?
 
--- 
-With best wishes
-Dmitry
+There is a conflict.  You could check this yourself...
+
+> So I'm not aware of another conflict, that's why I was asking in the
+> first place.
+
+You were sending a content free ping:
+
+> > Please don't send content free pings and please allow a reasonable time
+> > for review.  People get busy, go on holiday, attend conferences and so=
+=20
+> > on so unless there is some reason for urgency (like critical bug fixes)
+> > please allow at least a couple of weeks for review.  If there have been
+> > review comments then people may be waiting for those to be addressed.
+> >
+> > Sending content free pings adds to the mail volume (if they are seen at
+> > all) which is often the problem and since they can't be reviewed
+> > directly if something has gone wrong you'll have to resend the patches
+> > anyway, so sending again is generally a better approach though there are
+> > some other maintainers who like them - if in doubt look at how patches
+> > for the subsystem are normally handled.
+
+--s26ZamLLlGnPk0Qb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiA0zsACgkQJNaLcl1U
+h9AH6wf9ELo4l0meQaRhE0Vx8YMY2nfByC9Ukip/Q3TFsZ5P/t2r7WBg6LpGuB6G
+eCQe8Ij3e4NeK/gM1DOpSm4hAq9psN/hQJJ4TuTeIpXnHYj9xHWI7f6BD7Shl8TL
+rUdsxAdhmqFtks04vjgVBFI9ZzCKVrVgCgllgkv3qJFv24jPU89FED508O4v923I
+sh/95oHEe1SIsylpxWabv/qiV85mGyjzAwua1880+N4cTQb4+qpfPOJ5sF4Y26uv
+HePGs4rN7eQcf2EtrQTqIYkN3yjJwZ1FWSdmflPEgVh7jAEgy2/TPKwGV0hCvadt
+q9LG+Te7yykwpR31TYO4CecQNXSFJw==
+=FMQf
+-----END PGP SIGNATURE-----
+
+--s26ZamLLlGnPk0Qb--
