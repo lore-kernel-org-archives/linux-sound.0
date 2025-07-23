@@ -1,119 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E60289E3D;
-	Wed, 23 Jul 2025 12:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A3E2E54B3
+	for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 12:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753273157; cv=none; b=g67mA9JMb+5G5o/L5VlfWhJ/cCufOEN+Gbuocd261CrORw6+g5BGAuqXb0o3fv+14QxJRPlabXiDDQxiDiTIbSgCoKbYkiWG2BoKHQ+FDg73euLZSj1N4NJzA4mvCcH4GQuQLmoFnhFY6CFJ7pQl9uGK8GhmoJg1rpitN6RQsw4=
+	t=1753274140; cv=none; b=oQ1a/c2oSSCXk26AewiE7aMrC7KDrDSmZLkGrkbFJsN1YV7XAWRl2uGQ9IT98vgOTKr39YD9IEGt1utfcY0XClUYUzuisTN1QgI8hPClxVHzzqnwvJNO562VNcQ5u3SUMn0C0fAwK6tnd0ymCFufdL6Qqa5aONCK+RKkt7zQUaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753273157; c=relaxed/simple;
-	bh=POuTDoQ9PpSydluEqziXn2gVwFFvN6mDSjaJOEBnvUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TtBe2mNt67vWBRI5gqVJUMyc7kzuBpupaL2kBF9cj84UvSJBfbTYhwv6QQjalXrPqQxpdI2Oz2puEyQswTYC/kXbs9M2jn6meTzOq+xHBISsjJSclLwWR0l0w754Ql3r9iwHBhoGirBJLkDxTIAukVoHvGAjdO5srSh1Wg8/Zdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OR6+JZHd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753274140; c=relaxed/simple;
+	bh=0EFY2t7da13tTNsn0kil1sRIUFA9tzt2B90v+UiI8vw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=ESV7J3fCI5fV82lST521HvF6RZumytQg9Ja9UmsKYaRCS6s3xgb9kW0S+Le9aUkAiqcgAoJkcnNhq3itcGY1LkNF7652nDXwi6SnOgU5Czq6N8X2LaHpHQ3rLx4AQvJYibv+JTos2iGRAl3w9Wusdbe1sD7wFhfXYvt8O+2KexQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=Q46Jvvlp; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OR6+JZHd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00DB4C4CEE7;
-	Wed, 23 Jul 2025 12:19:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753273155;
-	bh=POuTDoQ9PpSydluEqziXn2gVwFFvN6mDSjaJOEBnvUY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OR6+JZHdfGfBB+GjdRuPEkv2fUmvV3Ihf86Qs1cb/Z2FB/mmmnxMuw1YFMmB5a2h0
-	 2H6dDlD51Jglq3WSNPep/Ejjoyx6PxIdM8B0OFienVPR46GBB0MsV/9eN29M0Jw/vK
-	 fPAkga3FScth/T8fyiZLSl276bRhWpFYq/hoU9N4gmtqT6qqPTeMwlGhWV6O0e74Rl
-	 lh8312qzlCEJRCXLtKZrl+ywkQ74zVBuHKoXHD0/JG4DIaFZlHnR+c8NXNd066Z96d
-	 nCeyO0DkJPuxvZXtlkg1hhGz0+mYQYA0B1DTXSJyohf+bitKllSbVONZBpdY7FLy94
-	 BgaEPHKAfq2nA==
-Date: Wed, 23 Jul 2025 13:19:08 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/5] Enable USB audio offloading on Fairphone 4
- smartphone
-Message-ID: <00c2ac7c-763f-467f-8199-76de9f5d71b0@sirena.org.uk>
-References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
- <DBDAPORDD5IM.1BHXPK225E2PP@fairphone.com>
- <DBHIM4SA3OIK.PXX6HMDE93B8@fairphone.com>
- <ac3f1eb2-5830-4bda-bc57-c4d29c22aba0@sirena.org.uk>
- <DBJDZBYHR94V.1QGVALCL60M1X@fairphone.com>
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="Q46Jvvlp"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6077dea37easo10276604a12.3
+        for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 05:35:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1753274137; x=1753878937; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z+L8u4oiexjWpNgCligb/vTUSVa660rSwO8FUFGgqs0=;
+        b=Q46JvvlphqQ3wb249gRqcxWSAE5qFicgBvNrgzFqq8cWqrqvmhLJVqITQf74A/I91K
+         001QS+vxKAkNmjGOhTHzBrF+jTsnClICVLkoPQU6jmkp+TDIQIIHdT20Uj2LWFSefGT6
+         sV87Tf6ZU36xpQ37iXH7HxmWAnvKFMaFs1Kbrxoy8/VUIs/09PkiVOk9r6vnWBmIez0G
+         KY4WCQzWW9cg3Q731ZYzI5aRC3HfYD0sBwdv7aYkCo/m9BnNL6cRVNfUTP01mhqzfY5o
+         YsDp2KS8dJd5dK1zzpxpp7oIb4omo+VHvZDHvGGFucHuThdmjqsIIeQfqcyE6EFZ6XAB
+         HNIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753274137; x=1753878937;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=z+L8u4oiexjWpNgCligb/vTUSVa660rSwO8FUFGgqs0=;
+        b=V9YBvM0aWp/QwpuGV6xPK26BZKpIpRqC7qCGWtO7KrE50P3heGciidcOFSNeKAOvqz
+         /MBrd34tQZSOgzhvO0yGtMtq821V2HMh1vIw0n6MjQ+VcF07SX1KalOZxsx9LIH6114I
+         pNpaNhv485HEcM3DDqzqQMIr/OWerNLlGtm5xh9MdWK2wCTqQhhOE4PAQrCC3F4nYrXE
+         SwlhDXc/WiLMsA14MmDqo+um+PgKj0FN/hvDHieYVCJGSq8zCpmcOx8ilV0XphpARqg9
+         M8KVeDqFV8Fr5qkk0mFMoJrtXCJSOtsOwTh/onoJh3wsg/6hYI3iFTQZ5TUSOI6QXEZw
+         zf9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXYvguh9sxHrc/GjLHfkKCbdewlYu3UgQFs5aDeC3MIhLvMJDTa6qBZfo4EvhjbcCEVcVFSNIZfOaNvBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFibguDtr31tDZeH69UZd1S8SzNWP7RBsI86mXVgpFuGoxHRB/
+	ZKf5SOON62LT+H2HXTcPLzljOmHXuAerJNhgiFSgONlI7cQwFb2IlW+qJbHHf1Xa4Cs=
+X-Gm-Gg: ASbGncsWaSO3fsGAJRF6tALRCQPuKffNO+Y57hoHmJ/ceCMXxk62dqdFbobFJi0OkHq
+	hjoeIBNnKdi1OoKKTenqx/NH7ex9hd+kdHOlNTSwclwko29nGBbsXy0xABbAzIKeP999R2DRnYq
+	tbeebIGJ0v0+5e4ziDnx84wgBsjluS5FH09qOjpetXgkIglYYMQswu2UIE7sFOttAIPrfvF+Hfu
+	ZR0nme1YM6LpbY5WpsElaxf3/SKnmbudoGNapiwyGJT9XGUeCNDa6HY3hlRP3/Q3F32ePhSiKsa
+	8HCV+vYE927h3Q7mTl85AhI2EMN5pm5sRjZmqAdYtfZfE6yb134PFWruA7sO7FiLrJPQeC93YOM
+	q5pf9czX9vpBYPEY9YB/QfWowp9du+Egdnvq7cJR+Om0ullyhg3PJ0txkgk1+QH/QOKY=
+X-Google-Smtp-Source: AGHT+IHiFY0lG9mRPneADgyis/AcrbOpYfn7ovZrGfkcXUWNCou+f8RDQqROv1F9QSh2mViYt+ozOQ==
+X-Received: by 2002:a17:906:9fc6:b0:ae3:4f99:a5aa with SMTP id a640c23a62f3a-af2f64bcdf5mr272122666b.4.1753274137382;
+        Wed, 23 Jul 2025 05:35:37 -0700 (PDT)
+Received: from localhost (144-178-202-139.static.ef-service.nl. [144.178.202.139])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca817b7sm1038885766b.135.2025.07.23.05.35.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jul 2025 05:35:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="s26ZamLLlGnPk0Qb"
-Content-Disposition: inline
-In-Reply-To: <DBJDZBYHR94V.1QGVALCL60M1X@fairphone.com>
-X-Cookie: List was current at time of printing.
-
-
---s26ZamLLlGnPk0Qb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 23 Jul 2025 14:35:36 +0200
+Message-Id: <DBJFT72B59MC.RIRP9YSHOX98@fairphone.com>
+To: "Mark Brown" <broonie@kernel.org>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Felipe Balbi" <balbi@kernel.org>, "Srinivas
+ Kandagatla" <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Bjorn
+ Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konradybcio@kernel.org>, "Wesley Cheng" <quic_wcheng@quicinc.com>,
+ "Stephan Gerhold" <stephan.gerhold@linaro.org>,
+ <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski@linaro.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/5] Enable USB audio offloading on Fairphone 4
+ smartphone
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250501-fp4-usb-audio-offload-v2-0-30f4596281cd@fairphone.com>
+ <DBDAPORDD5IM.1BHXPK225E2PP@fairphone.com>
+ <DBHIM4SA3OIK.PXX6HMDE93B8@fairphone.com>
+ <ac3f1eb2-5830-4bda-bc57-c4d29c22aba0@sirena.org.uk>
+ <DBJDZBYHR94V.1QGVALCL60M1X@fairphone.com>
+ <00c2ac7c-763f-467f-8199-76de9f5d71b0@sirena.org.uk>
+In-Reply-To: <00c2ac7c-763f-467f-8199-76de9f5d71b0@sirena.org.uk>
 
-On Wed, Jul 23, 2025 at 01:09:35PM +0200, Luca Weiss wrote:
-> On Wed Jul 23, 2025 at 12:57 PM CEST, Mark Brown wrote:
+On Wed Jul 23, 2025 at 2:19 PM CEST, Mark Brown wrote:
+> On Wed, Jul 23, 2025 at 01:09:35PM +0200, Luca Weiss wrote:
+>> On Wed Jul 23, 2025 at 12:57 PM CEST, Mark Brown wrote:
+>
+>> > As previously discussed they won't apply until after the merge window.
+>
+>> Sorry about that, I thought the conflict was for the 6.16 merge window,
+>> not 6.17?
+>
+> There is a conflict.  You could check this yourself...
 
-> > As previously discussed they won't apply until after the merge window.
+I see now where the conflict is, due to an updated previous patch.
 
-> Sorry about that, I thought the conflict was for the 6.16 merge window,
-> not 6.17?
+I will send a v3 shortly with that resolved. Then it applies on your
+for-next branch cleanly.
 
-There is a conflict.  You could check this yourself...
-
-> So I'm not aware of another conflict, that's why I was asking in the
-> first place.
-
-You were sending a content free ping:
-
-> > Please don't send content free pings and please allow a reasonable time
-> > for review.  People get busy, go on holiday, attend conferences and so=
-=20
-> > on so unless there is some reason for urgency (like critical bug fixes)
-> > please allow at least a couple of weeks for review.  If there have been
-> > review comments then people may be waiting for those to be addressed.
-> >
-> > Sending content free pings adds to the mail volume (if they are seen at
-> > all) which is often the problem and since they can't be reviewed
-> > directly if something has gone wrong you'll have to resend the patches
-> > anyway, so sending again is generally a better approach though there are
-> > some other maintainers who like them - if in doubt look at how patches
-> > for the subsystem are normally handled.
-
---s26ZamLLlGnPk0Qb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiA0zsACgkQJNaLcl1U
-h9AH6wf9ELo4l0meQaRhE0Vx8YMY2nfByC9Ukip/Q3TFsZ5P/t2r7WBg6LpGuB6G
-eCQe8Ij3e4NeK/gM1DOpSm4hAq9psN/hQJJ4TuTeIpXnHYj9xHWI7f6BD7Shl8TL
-rUdsxAdhmqFtks04vjgVBFI9ZzCKVrVgCgllgkv3qJFv24jPU89FED508O4v923I
-sh/95oHEe1SIsylpxWabv/qiV85mGyjzAwua1880+N4cTQb4+qpfPOJ5sF4Y26uv
-HePGs4rN7eQcf2EtrQTqIYkN3yjJwZ1FWSdmflPEgVh7jAEgy2/TPKwGV0hCvadt
-q9LG+Te7yykwpR31TYO4CecQNXSFJw==
-=FMQf
------END PGP SIGNATURE-----
-
---s26ZamLLlGnPk0Qb--
+Regards
+Luca
