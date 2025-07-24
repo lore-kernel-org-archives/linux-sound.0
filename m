@@ -1,94 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89858256C60;
-	Thu, 24 Jul 2025 09:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7794025A62E
+	for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 09:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753350762; cv=none; b=k7J/0Rpeu1/+dEw/cseZmd6H+i0haB248oGJoB6c4hRwvRzthLGTslQ1PLx6mtVg2E7q0f4Z01xiN61C/I8GVuoqbMj0sZblO81JRbTeRNnzzirEnn+uo1xObF/ZyYd3OJEW1tyCiRp9ZlMnvbjBcDUTqMa4RL6ICuz3ctNjLPQ=
+	t=1753351140; cv=none; b=LFn8Q5nmzgqyo65TRh23LWrlHHRj+odcd4OP+1jnvM/QNsS5qtrlxOUH3Y8jY8xgy8GMFNN+7As/KNM9WFKs5PFdgofkpi4hGmnyT2J2wOTaHMiAGIyYrrMvUAPDlyo/cmoyMO9RcByqPitWj+YSxE0sOaIa0Ltc0fxWLXtPr34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753350762; c=relaxed/simple;
-	bh=Da9kJ9HlXZb6IhZHKni7Vr+93AneHuYm1kyDSU+Yxss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QOLGgXTCghmxkcCFNzyQwBXHdBk9/fGuTn/s1/qEDFJYjIe3GFgyhfR0S3JwqdsRSrSGOCRX6wdFghhj4C+D7q+yogWyxemFmYp3AK+e3Z8AJr2jiEuee1GLgfbCCXl8U3YGQOzWrpJKc0ZUgdUKRJn86TIQ/r1bJ5Lagi2B3tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fmbaoJo1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753351140; c=relaxed/simple;
+	bh=3lDH5ARB26e8DbHF4MxQq93Rk0WGstJeVZQEGstfRkg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DvTzR0HkvPdtqs7HbV1sVItGsOt4GLti+cJ3TXdmSzGmwmuMz3qhkgZpeUBqjLQmnAy+wMVKRW/HpYZvm1Ijfweh9Zln3KN6smMDrdNO4xpLBN6IM/jECjXsT3TPIRUtB+ZvGzBt20z2c7cMGDQjzyrelPTYZjqn+jqDAQwvzjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MJDwGuzd; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fmbaoJo1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86DAAC4CEF5;
-	Thu, 24 Jul 2025 09:52:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753350762;
-	bh=Da9kJ9HlXZb6IhZHKni7Vr+93AneHuYm1kyDSU+Yxss=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fmbaoJo1kIHyhIOCrZndtdMSWBuTj+XcEDb+EdmRAzGwySSYbX0S3wpH5I6Y7vEys
-	 bnor/Pk3zm376mHndsyXiKG5R7/HL5V8aBpCyNPF+8FY0+FN9U+zjV4MXZapYuobDZ
-	 /QiakAnOzAKittWVyNnj4fFOKZT+0dMx+2OIeocxwtGWbPLOGPFDATLoUs0iJKrAHI
-	 yZRM5k3AZyrwMKdsdmDG8j+iAhd8ITNuEbRR2tIcfwc7ehJABRckW5i+wh/jWu6Hhs
-	 0qz7/8S9D0DSzKUvE8KwOG4ReVCa2vxLJKqf5Dfeg3PaVKdlkuCeSgy4im/0w5cLr/
-	 hNioqKzzLmqLA==
-Date: Thu, 24 Jul 2025 15:22:38 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Sergio Perez Gonzalez <sperezglz@gmail.com>,
-	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soundwire: sysfs_emit() expects a buffer of size
- PAGE_SIZE
-Message-ID: <aIICZmB5-7gj1M6W@vaman>
-References: <20250723230927.109534-1-sperezglz@gmail.com>
- <87o6takqd3.wl-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MJDwGuzd"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-555163cd09aso671640e87.3
+        for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 02:58:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753351137; x=1753955937; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3lDH5ARB26e8DbHF4MxQq93Rk0WGstJeVZQEGstfRkg=;
+        b=MJDwGuzdBt8lJEfC5oMMVj5dgKxNuAi/xNdia9i31OCMslYNVG2vNAeRuO0iAUKzgL
+         b3J0gGVCbd+ivE/0w+/xSCJxTUi4kkSbE8IACHtpmhVNDZha5m/d5G9FgrsP2qlowuyk
+         yYWXslIJQsZ71G6vkM06Te+OZ+/L6ZQjzl508=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753351137; x=1753955937;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3lDH5ARB26e8DbHF4MxQq93Rk0WGstJeVZQEGstfRkg=;
+        b=XFRwUaYkMbCAatzGlqkAismpJh0zXXxggMJKXSPsvlvCXorzbEDM/Zgen4nfgFG2Bo
+         Q9vbHPmpqTYUeZ2MLljiGrLH6qavlmNq2yUWXxLg0C3tkq2De0UZfHLvwLeKZPzQD8ay
+         7YUwnMfn66GoGPyY4LFDRIh/wDW0mmaQXSvtuvGfvkSbx/wBJ/xUerJmO/7FM8jiRePc
+         70r1JhvhZSeA7H7MmYyjwrV8VPH8tfxTxIoHi9t3lkM8dAb6L9f2wenwKkZa5Gm0DZct
+         hvLkYHc39dLURRTBT7GoY5DVqiz+CYvZV6ruR3DaBH+Z+shMVLKc+ad2kAmE1PIMHO1t
+         iBMg==
+X-Forwarded-Encrypted: i=1; AJvYcCX49LW64W9VtxGC5txun+jsa/GvNDKwFm8mJY4hjuRlkl64oyhuzNWO0jEY56yCGElRE2Lgq2wTkcQsGQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNh4NMH9/RZ9VsHxYuxe4LeQTsGhbUuOpWZp00p45ag5EQKxxT
+	B5Pg+DdCa0oiwMEYYnHEVtHhiHatYH2NXvwEgK5X3Px2uiNojrqGMAcK0qc+WB74zx/jTCmYtPb
+	i/JldIpmPQ8yixwCr+Ceinnj/S7CZW2NSP5rlRw7V
+X-Gm-Gg: ASbGncv3ju4+F63FLQhRdALFJ6wqZbb2cC/Vhb02ZHyg+VQMOfT//YLS79r618sT06V
+	dEyTZBsppMgQrP+Joawk3W/zglvtsoyeaL8ygbfuAUntxFETwCQOFd1JPiNgr7K5gqvLuMTfWln
+	nHxTP38+945c5Tc+1gmEkMVvmGsxKqZhJGr3PBtESjrx6d4ghEHhAPD5rcp+oa2dPepbU4pWTch
+	fqUXJEZpwdaHDmsT91YLn3Ju79tNQzwUhE=
+X-Google-Smtp-Source: AGHT+IFbWpnNaQRMkmMGCWJwKWLSFPCgKrpUVJhkWhmCg8wuzEAglTGmiTQG4cugbeqoeX5uFAZWT86WnfNSaUywLGk=
+X-Received: by 2002:a05:6512:60d:20b0:554:f7ec:3b23 with SMTP id
+ 2adb3069b0e04-55a51359f3dmr1559012e87.15.1753351136563; Thu, 24 Jul 2025
+ 02:58:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87o6takqd3.wl-tiwai@suse.de>
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com> <20250724083914.61351-37-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-37-angelogioacchino.delregno@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 24 Jul 2025 17:58:45 +0800
+X-Gm-Features: Ac12FXwhroXh9igzrCvp17h0_fa0JxIrUDzrCtprSHzHickYMU-wGcIvqxYBtBo
+Message-ID: <CAGXv+5G3kbSzs99mogy57mh+LUdi_87zBmFH8GQFWvROhLFbDg@mail.gmail.com>
+Subject: Re: [PATCH 36/38] arm64: dts: mediatek: mt8195-cherry: Add missing
+ regulators to rt5682
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
+	herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
+	airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com, 
+	mchehab@kernel.org, matthias.bgg@gmail.com, chunfeng.yun@mediatek.com, 
+	vkoul@kernel.org, kishon@kernel.org, sean.wang@kernel.org, 
+	linus.walleij@linaro.org, lgirdwood@gmail.com, broonie@kernel.org, 
+	andersson@kernel.org, mathieu.poirier@linaro.org, daniel.lezcano@linaro.org, 
+	tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com, 
+	ck.hu@mediatek.com, houlong.wei@mediatek.com, 
+	kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com, 
+	tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com, shane.chien@mediatek.com, 
+	olivia.wen@mediatek.com, granquet@baylibre.com, eugen.hristev@linaro.org, 
+	arnd@arndb.de, sam.shih@mediatek.com, jieyy.yang@mediatek.com, 
+	frank-w@public-files.de, mwalle@kernel.org, fparent@baylibre.com, 
+	linux-crypto@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 24-07-25, 09:19, Takashi Iwai wrote:
-> On Thu, 24 Jul 2025 01:09:25 +0200,
-> Sergio Perez Gonzalez wrote:
-> > 
-> > In read_buffer_show(), allocate sufficient memory to pass on to
-> > sysfs_emit(), which expects a buffer of size PAGE_SIZE.
-> > 
-> > Link: https://scan7.scan.coverity.com/#/project-view/53936/11354?selectedIssue=1648019
-> > Fixes: 35323d8ab811 ("soundwire: replace scnprintf() with sysfs_emit() for sysfs consistency")
-> > Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-> > ---
-> >  drivers/soundwire/debugfs.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
-> > index 825f7abbad32..08fb1e29026e 100644
-> > --- a/drivers/soundwire/debugfs.c
-> > +++ b/drivers/soundwire/debugfs.c
-> > @@ -306,12 +306,12 @@ static int cmd_go(void *data, u64 value)
-> >  DEFINE_DEBUGFS_ATTRIBUTE(cmd_go_fops, NULL,
-> >  			 cmd_go, "%llu\n");
-> >  
-> > -#define MAX_LINE_LEN 128
-> > -
-> >  static int read_buffer_show(struct seq_file *s_file, void *data)
-> >  {
-> > -	char buf[MAX_LINE_LEN];
-> >  	int i;
-> > +	char *buf __free(kfree) = kzalloc(PAGE_SIZE, GFP_KERNEL);
-> > +	if (!buf)
-> > +		return -ENOMEM;
-> 
-> IMO, it's better to scratch the whole previous change.
-> It makes little sense to allocate a large buffer here just for the
-> temporary formatting.
-> 
-> Moreover, *_show() functions there take seq_file pointer, and you can
-> just use seq_printf() directly.  The sysfs/kobject show callback is
-> with the a fixed PAGE_SIZE buffer, hence sysfs_emit() is useful, but
-> in this case, it's a completely different story.
+On Thu, Jul 24, 2025 at 4:41=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Add the missing DBVDD and LDO1-IN power supplies to the codec
+> node as both RT5682i and RT5682s require those.
+>
+> This commit only fixes a dtbs_check warning but doesn't produce
+> any functional changes because the VIO18 LDO is already powered
+> on because it's assigned as AVDD supply anyway.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
 
-Agree, dropped now!
+Confirmed this matches the schematic.
 
--- 
-~Vinod
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
