@@ -1,137 +1,142 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A98421E08A
-	for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 06:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76236F9E8
+	for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 06:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753339570; cv=none; b=WK8IGLxPa0KeKolHL27mSoQaK1wz0j1cu2kD+ihM15qnAbDMmbU9JjFbixgo1LxrsmfTAITSV3xBfCJRDRN69XTyq6AVgWGtXoqxg+zZiUhqkmAKCkPTD4g/umbHbzMpKS0x4BCAflUrbBpJyil6bw2//5L437RBmhWHuse5ARw=
+	t=1753340022; cv=none; b=g/z0kNozApM0a+GvUmHaPwt9FGAOFdu6Yb7QXk8IJKiVf8CIZyjEYPUcdmP3BDfTsg5K3IcU6KagEgwpUcxbntBV8UlSrhLGakCOPFOIp2rj3wHrDIxgIRnSAF5ntBhQY7wZXi9OAdJzcXK1/imtwlpixdAt9AaI1ZuRN1zczHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753339570; c=relaxed/simple;
-	bh=E8K92WFLqixwgt8J2cex/loEksjjno4gWYC7Q3w7a8g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=bs7H61luxeqfwAZqwHXsjRC0QGJJf0iDK+NAJkQMMnKASFNARFRlBt6aJdu6cqR9xWHDGWNclBQ9Nen2TkYcaN9m+qztj+NMWEovnXoUz+bh0ko9PwdzN+dSYyAYrsBpRadanHXGMpwNIXjn0D8JlYGymma4sbnD8hUPfacsZec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=a797IIi8; arc=none smtp.client-ip=209.85.218.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1753340022; c=relaxed/simple;
+	bh=sOYGlnsr86wyXKLIZBm6Knyy+tUuHaMgCsTwkHZQJkM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qfHJ0N7mpqQSXEYf2IolNTOXBmIhSD24QM9HB+Vid6qQfdL40KWROGudkrTuIpLOeMsEXaF35dQ/l6mwzz103zJvGhIQrAO7TK97FIN442Zy0ZgkTIaS7IbAZlkgRfqGc6bwffkAWt6qGKuThTLTziSF47FRZmNwWqs9QJOC5xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Y16QpRX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bjolLTaA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Y16QpRX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bjolLTaA; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="a797IIi8"
-Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-aec46b50f33so99029166b.3
-        for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 23:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1753339565; x=1753944365; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O05wjEScA4kxCQO8+MTTv2LGUA2bVFgF29zptnElwW8=;
-        b=a797IIi8N3j5cNCflbBeedwgZ+4BEGPc8ZuLFQqDrJpHsBvRjT7it5c6GWTTCe6M9+
-         CSeoAAh9CsyUGQwpEemgRnaA0BuWG9r0VVnrsvVqwqi5T+hHGRgt0h62ZkelpnWRibIP
-         WQastMIl/Mpmb1JH9gdkd2P1QCkoyn6/RXW2BKs6vY6QF5ayAxsFTtF+P8RWbXWx/tWa
-         iwkncC9uhXG2BKuomXFXO5O0T2Pbg1ZM7gHA32+pC4h80xtWIl5Y74XCCBAZLfKVtusi
-         L/V7vA01Lb10Lr4yurpoBKIZ2QUkE5C9cp8ga8+wAWi/W0VHoECKVjJMa3rMkVuISVxp
-         0xFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753339565; x=1753944365;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=O05wjEScA4kxCQO8+MTTv2LGUA2bVFgF29zptnElwW8=;
-        b=eu0IANFQ0y+FwFrolVwmxmkGS1kdAOfpdibUwCBIIKPR7+pWbLicFL9uW2vjBScKUt
-         sgx2+CGEhCzNt7qI7tcgAIFKVEMTB8PQCouQYe1/e+Dybe5MbRiEzKPiIxX3cc3uIRvw
-         mWYa44FcWVvNXJ1X5Q3E5HivPF9+/uPcIVIUyXWUcCLu10J8YAD8ZrdcJ2dayWd3hvZO
-         u65gcDuIWAWhrxqycjnkuCNZuxZILFSZg2Fxud94mpIpKWjLpTURw0sl4GLxmRdEhRuz
-         Nvy2cKXZorNnemsvvnbqJ2krqqmzCHNdF03n30jQnfhWj11sONoMUwCMxNFG1DIlrn5Z
-         OYXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXWE5u5jb3Co6DzOFOlvaHdXFprPR+Onk3mKNW1CpQZKaOcTAVCrC1jKErxfqpq1VOhJ4CVPDkG/mJVcQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEr6xLCD6ZNkAEUyzovaBMouYdcUjibN8UtfZwp8LTytY3/GE4
-	HJ6njSwPgU7rwU4vDmL3Ba2w9VnI47jxZx+jDH/uG/Is6hny5PwXdCLQ3Y+ZYR25Y3w=
-X-Gm-Gg: ASbGncviWGHdZTEp7OjQCuL+tJMMS0HHYZijau6sCBULKAdZPtqPBpTNVxgpvajRZ4v
-	oKxAuA/LykGfo1dcYMp/dT5W9s9clvC62qmjjMuCqGJslh0opd7AXu7pBEiPp57LwEFGTRoTPfL
-	hsqHoTzbJm+jeHZKyqVJidLHaVeCl9EtnBSwlY6tbN/EOFcT5W1nfVmnfv1USjaJ9s4QZ0gA/4X
-	YpTarqjMqYQl0eHoqeYUKyoaAoXsoERfFsYwd4C0n3t0yTpWUs/DB1dp2mUuCy2FvoyKBGys3Mj
-	xPvPdEDCC/271juHFhBMLkc3DMwq+MXxUj0h6kgLnQ4z5TFF7U0QEIeoswdk4gZjbqTihhip+h9
-	93mmCbIjFr5qrtESMkYrlylNmgskN5mJ4MGQgCoUMglKujRM1x2jto1bbNlBTPkO6RVnhE5ZZqN
-	+jBw==
-X-Google-Smtp-Source: AGHT+IHOJhHzF3e38nSkhr/JtaCTAW1NS3tTTx4AD/Gh7AcSikLRvVdo/lBTRPnndwMlCRIqVf21aw==
-X-Received: by 2002:a17:906:f585:b0:ae9:bf1c:50a4 with SMTP id a640c23a62f3a-af2f866213bmr566893066b.36.1753339564518;
-        Wed, 23 Jul 2025 23:46:04 -0700 (PDT)
-Received: from localhost (144-178-202-139.static.ef-service.nl. [144.178.202.139])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af47ff42cc4sm63770166b.139.2025.07.23.23.46.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Jul 2025 23:46:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Y16QpRX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bjolLTaA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Y16QpRX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bjolLTaA"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BC4B91F78C;
+	Thu, 24 Jul 2025 06:53:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753340018; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k3Wn2OILX87yyiFnk2cI7Y8AMoiZ8Dadj+9UmZsJtJg=;
+	b=1Y16QpRXWT7MwPugX+W56tizMM+qxLnXE9lgIdS4iDlY4bgehqtnIRoNjmtRT+hk1X/lju
+	cFx5GsRvP5g6T/71FVYs9J7HHVOX/T3TXBlaPLYNtziNe2U8QOls/taiosoDZN8antdSCE
+	ezTNdcL/ch1sxLO57f3FCBIeJfIeEI4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753340018;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k3Wn2OILX87yyiFnk2cI7Y8AMoiZ8Dadj+9UmZsJtJg=;
+	b=bjolLTaApdGGrl7piNQAtRMRXlDQAP/Xo/rb7y1vtbr6mSCH4J7sGNKTGWAklHrZapbjG1
+	gYqi1maRLNy95sDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753340018; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k3Wn2OILX87yyiFnk2cI7Y8AMoiZ8Dadj+9UmZsJtJg=;
+	b=1Y16QpRXWT7MwPugX+W56tizMM+qxLnXE9lgIdS4iDlY4bgehqtnIRoNjmtRT+hk1X/lju
+	cFx5GsRvP5g6T/71FVYs9J7HHVOX/T3TXBlaPLYNtziNe2U8QOls/taiosoDZN8antdSCE
+	ezTNdcL/ch1sxLO57f3FCBIeJfIeEI4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753340018;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k3Wn2OILX87yyiFnk2cI7Y8AMoiZ8Dadj+9UmZsJtJg=;
+	b=bjolLTaApdGGrl7piNQAtRMRXlDQAP/Xo/rb7y1vtbr6mSCH4J7sGNKTGWAklHrZapbjG1
+	gYqi1maRLNy95sDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96C06136DC;
+	Thu, 24 Jul 2025 06:53:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mcmGI3LYgWhAJgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 24 Jul 2025 06:53:38 +0000
+Date: Thu, 24 Jul 2025 08:53:38 +0200
+Message-ID: <87seimkrkd.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC updates for v6.18
+In-Reply-To: <825d264e217d34ea34b790c646b1f257.broonie@kernel.org>
+References: <825d264e217d34ea34b790c646b1f257.broonie@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 24 Jul 2025 08:46:03 +0200
-Message-Id: <DBK303WXZ3OB.8SX718AMMYH8@fairphone.com>
-Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
- <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Wesley
- Cheng" <quic_wcheng@quicinc.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v3 0/3] Enable USB audio offloading on Fairphone 4
- smartphone
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Mark Brown" <broonie@kernel.org>, "Srinivas Kandagatla"
- <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250723-fp4-usb-audio-offload-v3-0-6be84ed4fc39@fairphone.com>
- <175328933413.84720.17376811405962157319.b4-ty@kernel.org>
-In-Reply-To: <175328933413.84720.17376811405962157319.b4-ty@kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
 
-On Wed Jul 23, 2025 at 6:48 PM CEST, Mark Brown wrote:
-> On Wed, 23 Jul 2025 16:03:37 +0200, Luca Weiss wrote:
->> Updated description for v3:
->> Add the missing bits for the sound subsystem to enable USB audio
->> offloading on the Fairphone 4. This is mostly sndcard enablement now.
->>=20
->>=20
->
-> Applied to
->
->    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-=
-next
->
-> Thanks!
->
-> [1/3] ASoC: dt-bindings: qcom,q6afe: Document q6usb subnode
->       commit: b102c9d89fecd72be83eaab9b384285e2d0dc940
-> [2/3] ASoC: dt-bindings: qcom,sm8250: Add Fairphone 4 sound card
->       commit: d664e75317e19bb79b6d207f7729e35eca504a6a
-> [3/3] ASoC: qcom: sm8250: Add Fairphone 4 soundcard compatible
->       commit: c58c35ef6ae62e36927f506a5afc66610b7261d9
+On Wed, 23 Jul 2025 19:21:25 +0200,
+Mark Brown wrote:
+> 
+> The following changes since commit 347e9f5043c89695b01e66b3ed111755afcf1911:
+> 
+>   Linux 6.16-rc6 (2025-07-13 14:25:58 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-v6.18
+> 
+> for you to fetch changes up to c58c35ef6ae62e36927f506a5afc66610b7261d9:
+> 
+>   ASoC: qcom: sm8250: Add Fairphone 4 soundcard compatible (2025-07-23 15:09:30 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Updates for v6.18
 
-Thanks, appreciate it!
+A typo of 6.17?
 
-Regards
-Luca
+As the tag name is also wrong, maybe it'd be better to scratch and
+resend for avoiding confusion in future?  Let me know if you'd
+resubmit.
 
->
-> All being well this means that it will be integrated into the linux-next
-> tree (usually sometime in the next 24 hours) and sent to Linus during
-> the next merge window (or sooner if it is a bug fix), however if
-> problems are discovered then the patch may be dropped or reverted.
->
-> You may get further e-mails resulting from automated or manual testing
-> and review of the tree, please engage with people reporting problems and
-> send followup patches addressing any issues that are reported if needed.
->
-> If any updates are required or you are submitting further changes they
-> should be sent as incremental updates against current git, existing
-> patches will not be replaced.
->
-> Please add any relevant lists and maintainers to the CCs when replying
-> to this mail.
->
-> Thanks,
-> Mark
 
+thanks,
+
+Takashi
