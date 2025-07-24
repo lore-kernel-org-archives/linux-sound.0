@@ -1,70 +1,70 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6592C1585
-	for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 09:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8470F248F66
+	for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 09:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753349422; cv=none; b=Cg564ofyCr5lo4zYa8yYa1syR+MjQUqjuUePVEjRMrpN4ArckR0dG5EyDSfh2eZ3Kr19kh87zpZZ30Fxn3aChcnzxcXcWshM4LCgQpwE3JbmRXrkzl2XKORvkss4inwtHSfqxjScGP++1qCmtGgXByss8b7tTRNvQjujAwRqbko=
+	t=1753349672; cv=none; b=S8qXfnGIhl6mIaigzV+DlXnVGkVPdHMzjCXrTC4yfNkmnT5rL+xMRHDHurVUbwJ6Afv02z2poinEVLA7k5viUN5cexSeN8Ip37frn8gJgkO2/3RSGg4n6J8I0PAOj9eVTDFhpC7YCmcuIzPUViKn0t+cDVKXZBdI3xJqSdzjnHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753349422; c=relaxed/simple;
-	bh=MR4+0IGmwIsK+cxrpY4XhQYneMzF86b9Vmoxzw5wyjU=;
+	s=arc-20240116; t=1753349672; c=relaxed/simple;
+	bh=5fM4O5mlIBXMh+83kGnKKJzdndRtAsTin43siUV5gCo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P77XtrrDCJD2a6gwJC8PwKDENny8LllGhHB4WfeELMgPK0IhgHEWfqPJ0bbB3bqSMiQAyLOoJsqx/cFlKxceyhYxNU9v2GpdCB3m6uvoUjC+NT7ZgB79efDdBGfGpPA3ce+2Y6DNuGGP25qyD7LYoj1dQRWqG+T/bA1fpCL2vTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=He2ePwaN; arc=none smtp.client-ip=209.85.167.50
+	 To:Cc:Content-Type; b=Rd2mzq5mVsM+YCmsmfB8Pi5++1/BJFe7td5yH+Kf9sv+WQ6Bo7Jyu+cRBJGd12lHhWJaLHzDdpwyBAJmbViEPf3F1gZEtE8NSZDyhCHSFXIeCvsx1D8BnHik7swVaQ6ySV0oIWo5msAMrMANAC9tksnhxoCcJu45dvnRcijMSeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=a5jCpCSl; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="He2ePwaN"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-553d52cb80dso893173e87.1
-        for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 02:30:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="a5jCpCSl"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-556373661aaso685072e87.2
+        for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 02:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753349418; x=1753954218; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1753349668; x=1753954468; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UomwMYm6V80ZuZPrz7YKXe0vLuxIpqX7vRa+Pl5FCU8=;
-        b=He2ePwaNVcTjtMzHlJ0bZqq5qOjHan24UlRTTDm+fFIxVG8y1t7/BYitio1cI7p8qN
-         AQG+HDugO6tpjFiTLb9H9E6I+Lf0/Rzpu7M1EA9HtK63tNsICyEshlRaiBmlCdAT/Lvk
-         beQjO3h4ETQl4MgbP0fV4LjHNpvSK05ePjcMI=
+        bh=4BiDDqrD6a5pZkcMdx9/g3Y4QyPCSLekJ/xiBVz6j3w=;
+        b=a5jCpCSlmj87IOOm+0wkKsdl8ZdzFGIkwdEt9M6maV6Brhd9xM8iP4qUNktBupWN5L
+         Dqa0Bog/Jqd7oxNAPsjpWOSA6swlrkeBk1jhb9iJE07kWSTlERXrapw0nRGST5YdT/uY
+         X3hiy7tm57mI8ZXiOHw8ISXcLho2A0b91Agiw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753349418; x=1753954218;
+        d=1e100.net; s=20230601; t=1753349668; x=1753954468;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UomwMYm6V80ZuZPrz7YKXe0vLuxIpqX7vRa+Pl5FCU8=;
-        b=ozr1bWlRrCP5TUdbJvdRv70CqzRFIQTloRz7Zdn0395J0tbsuK0OrcMFks7fWQ1blY
-         pjTKEGuu75XshSOaiJm4ajUXlV6r/8lox+AVXuVlVwKXk9v9jdQ6GigJGX2MBASabkAm
-         NM7dyvDXGSXHbthAZqT7JhsxJKP3ljJaCP9l3bfeVxtYfLJpHjT4xmyxFOZaP+Y/1OcT
-         fDLfEHE1xrPDOiwPuPi8+ehyzrdldWddz5TSkc2pVvPH0KsYZbbZQgcS60MyLBoVHSY6
-         I85KKN8x/FAByo6iJQ2lilHcW+Y58OkFE3FhwtBjwjup42BjRZG34ynsUMgfPiPIM/4u
-         Zn2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWAQJkTT5XtxZtNw/YZTm4vLXD/wveuHJh8dodabuRmr0hOrJLVh7Zvy5AF0VrxacWrgZHH1hnD4rq4Rw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLcGfrIhSTQG09F0X+ADxYM8BtK1VEQCe5UEDpbK9+V0Sy8qNp
-	rAKyjIJM2rxs3lH/VIqHEKyBsUUpqrfNdx5ZmrY9Vg2DrycUE/0BjgQ7LEIQGECmd4Y6WDcuVwt
-	x1sY3j8+2mN5IUVVVhPA0aoDfuik14nsPv0ZNUaD8
-X-Gm-Gg: ASbGncuZ2QIsZCOkz4taZPslGTRFZ8WMP0H2BJJTNQpVBkJcmRCKXUS9HVCmG5iED6p
-	/eUsmkV8nRpR+xb8TChqxfgA+LgQKCYm6RyXvpQqWUudPmE5uZ+BSOCynYv/l2Y2bPW3q7JBtLH
-	maYWMo302tlZWr3y9fHfnsRyiG9iTwUsQiSX1x5tArUk9x6LtkL2LnJ4OifFSyoseyxFlpM/02N
-	hIWc2RWRMPnxNLa8Y9zV0S5ThpfABrcBct2ZMoMMvE9Bg==
-X-Google-Smtp-Source: AGHT+IH1lXhOoKFIGLzswAaXQ/xdrKCcLg4Bs+hSUU/wAe3mRs3pt6lfFpYUUkDOjisZO/3IZcyl3MPX+Jll/FYr+/8=
-X-Received: by 2002:a05:6512:2c87:b0:55a:4e67:7cdb with SMTP id
- 2adb3069b0e04-55b5589a412mr400418e87.18.1753349417507; Thu, 24 Jul 2025
- 02:30:17 -0700 (PDT)
+        bh=4BiDDqrD6a5pZkcMdx9/g3Y4QyPCSLekJ/xiBVz6j3w=;
+        b=NwIbCtS0SONt7MfCGmZNZHBLV8dxelmL1vthpy5SdjGjBj12cHj9mFtUAqCIQTdFiX
+         qypglkVaM0WgcV0WIdsvyfSkAjIu8o9erbfQs3KDe5N5dgAeJvo+LDt13H34QSLyq/En
+         FjaSOasLS9ju7+qzE9tu1LY0Bp9bw+3MFZ36yYDEFm+meimolAjt7IdpPmSlDT/UrqY3
+         IgZoix0hGln035b6taAI49CjXNDEudoTbKu1XdwDMPynf9PUIJ4nTptnUFirWK86Tzbv
+         +vHff9nsjOocTbUUb84vtBMVwMHzphSbq7y8NA3K9nxk/X36I0hl0WGXObKJu6noqaGA
+         tMFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVoT5n9DCOniOUsfBgtvzcBKN/Vzu+Wuf9V2fSprokVu/ywoP1Q9PkY3vKZyE7sZp8fxkNyui994RtrOg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQkCnD7lEx9obOUNLDyqvkaW17gHMUGO0vHKy7QfIoIfGKUGCa
+	GXrAAmEb94IJs/IyMe7KSbx43AXiptxrMiwNOYiWkY2LaQl1RsuNXQxCYq1mAl5lB+/6D6JzmQ6
+	CE1lmP597a/ddraVh5hwz7S5cpoWiSU0h+5x04dwV
+X-Gm-Gg: ASbGncuAa19IK+kWYOi1Gl7RviCT1FntPD/eli0HViBsYPPR5bHCX8i3E8SfmybtpZd
+	1S+MTC+2+yw1YPytz6t5H/ie0LnxW3IunJuNf/8SEfS5qfgjphKWlRDT6T9MchJlxO92fEbHQu7
+	0DEB45+m+P+FK8y26QnPQCO+kKX+0V6cPPmQ26Tu10dOV8gLWf2ubcgRE+3u2xGt8uPF5Go6YCT
+	znC60IfPJJ7VPUMlZdMlsEFpf95PQqOols=
+X-Google-Smtp-Source: AGHT+IGbQGAzYrZuGKb7ZyVDVB2IA3/m7/1T14ShQ1gB/s052YEW14kETsBT1/6F7qIVfTgZAU3RoBMdAKdnokA3DJc=
+X-Received: by 2002:a05:6512:2391:b0:553:65bc:4232 with SMTP id
+ 2adb3069b0e04-55a513bf799mr2287118e87.31.1753349667560; Thu, 24 Jul 2025
+ 02:34:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com> <20250724083914.61351-23-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20250724083914.61351-23-angelogioacchino.delregno@collabora.com>
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com> <20250724083914.61351-34-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-34-angelogioacchino.delregno@collabora.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 24 Jul 2025 17:30:06 +0800
-X-Gm-Features: Ac12FXxWUOXitKh1quEjvg3RMxamDaOT0bnXe7uMSX2DfmXQwXv_3I70hIvhN2Q
-Message-ID: <CAGXv+5GBq5CqHAHWLMsZLU=NYVurAQZBgknsvOZoK_XhyUfxew@mail.gmail.com>
-Subject: Re: [PATCH 22/38] arm64: dts: mediatek: Fix node name for SYSIRQ
- controller on all SoCs
+Date: Thu, 24 Jul 2025 17:34:15 +0800
+X-Gm-Features: Ac12FXx-dC7GqsweL9em8IYbzr7gdu7h7TRc-hJouMaDYtIUw_U2Osb1ZV53HA8
+Message-ID: <CAGXv+5ECM53Q4ndZ49Xa71mamy=GhGqdOMQYXydH6cEeT=0EgA@mail.gmail.com>
+Subject: Re: [PATCH 33/38] arm64: dts: mediatek: mt8183-kukui: Move DSI panel
+ node to machine dtsis
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
 	herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org, 
@@ -93,82 +93,208 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Jul 24, 2025 at 4:40=E2=80=AFPM AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >
-> The sysirq has "intpol-controller" as node name, but being this an
-> interrupt controller, it needs to be named "interrupt-controller"
-> as per what the bindings (correctly) expect.
+> Not all of the kukui machines have got a real DSI panel, infact,
+> some of those have got a DSI to eDP bridge instead: this means
+> that the address and size cells are necessary in the first case
+> but unnecessary in the latter.
 >
-> This commit brings no functional changes, but fixes a dtbs_check
-> warning.
->
+> Instead of adding a bunch of /delete-node/ which would impact on
+> human readability, move the entire panel node declaration to each
+> of the relevant Kukui machine dtsi: even though this introduces
+> some duplication, the advantages in readability surclass that.
+
+This is just an artifact of the lineage. Kukui the original design
+was a tablet with MIPI DSI panels. Then the Jacuzzi clamshell design
+with eDP panels was derived from that.
+
+If we really don't like the duplication, maybe we could introduce
+a `mt8183-kukui-tablet.dtsi` file for the bits that are specific
+to the tablet design.
+
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
 abora.com>
 
 Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
 > ---
->  arch/arm64/boot/dts/mediatek/mt6755.dtsi | 2 +-
->  arch/arm64/boot/dts/mediatek/mt6779.dtsi | 2 +-
->  arch/arm64/boot/dts/mediatek/mt6795.dtsi | 2 +-
->  arch/arm64/boot/dts/mediatek/mt6797.dtsi | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+>  .../dts/mediatek/mt8183-kukui-jacuzzi.dtsi    |  5 ----
+>  .../dts/mediatek/mt8183-kukui-kakadu.dtsi     | 27 ++++++++++++++++++
+>  .../dts/mediatek/mt8183-kukui-kodama.dtsi     | 28 +++++++++++++++++++
+>  .../boot/dts/mediatek/mt8183-kukui-krane.dtsi | 28 +++++++++++++++++++
+>  .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 23 ---------------
+>  5 files changed, 83 insertions(+), 28 deletions(-)
 >
-> diff --git a/arch/arm64/boot/dts/mediatek/mt6755.dtsi b/arch/arm64/boot/d=
-ts/mediatek/mt6755.dtsi
-> index b55d3fac9bd4..8da5c0a56a02 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt6755.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt6755.dtsi
-> @@ -98,7 +98,7 @@ timer {
->                              (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW=
-)>;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi b/arc=
+h/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> index f2afca63c75a..1b74ec171c10 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi.dtsi
+> @@ -93,11 +93,6 @@ cros_ec_pwm: pwm {
 >         };
+>  };
 >
-> -       sysirq: intpol-controller@10200620 {
-> +       sysirq: interrupt-controller@10200620 {
->                 compatible =3D "mediatek,mt6755-sysirq",
->                              "mediatek,mt6577-sysirq";
->                 interrupt-controller;
-> diff --git a/arch/arm64/boot/dts/mediatek/mt6779.dtsi b/arch/arm64/boot/d=
-ts/mediatek/mt6779.dtsi
-> index 5c579e88e749..70f3375916e8 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt6779.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt6779.dtsi
-> @@ -138,7 +138,7 @@ ppi_cluster1: interrupt-partition-1 {
+> -&dsi0 {
+> -       status =3D "okay";
+> -       /delete-node/panel@0;
+> -};
+> -
+>  &dsi_out {
+>         remote-endpoint =3D <&anx7625_in>;
+>  };
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi b/arch=
+/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+> index 472d4987615a..d71972c94e42 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi
+> @@ -61,6 +61,33 @@ &bluetooth {
+>         firmware-name =3D "nvm_00440302_i2s_eu.bin";
+>  };
 >
->                 };
->
-> -               sysirq: intpol-controller@c53a650 {
-> +               sysirq: interrupt-controller@c53a650 {
->                         compatible =3D "mediatek,mt6779-sysirq",
->                                      "mediatek,mt6577-sysirq";
->                         interrupt-controller;
-> diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi b/arch/arm64/boot/d=
-ts/mediatek/mt6795.dtsi
-> index 38f65aad2802..58833e5135c8 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
-> @@ -404,7 +404,7 @@ pwrap: pwrap@1000d000 {
->                         clock-names =3D "spi", "wrap";
->                 };
->
-> -               sysirq: intpol-controller@10200620 {
-> +               sysirq: interrupt-controller@10200620 {
->                         compatible =3D "mediatek,mt6795-sysirq",
->                                      "mediatek,mt6577-sysirq";
->                         interrupt-controller;
-> diff --git a/arch/arm64/boot/dts/mediatek/mt6797.dtsi b/arch/arm64/boot/d=
-ts/mediatek/mt6797.dtsi
-> index f2d93bf6a055..8ac98a378fd6 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-> @@ -228,7 +228,7 @@ apmixedsys: apmixed@1000c000 {
->                 #clock-cells =3D <1>;
+> +&dsi0 {
+> +       #address-cells =3D <1>;
+> +       #size-cells =3D <0>;
+> +
+> +       panel: panel@0 {
+> +               /* compatible will be set in board dts */
+> +               reg =3D <0>;
+> +               enable-gpios =3D <&pio 45 0>;
+> +               pinctrl-names =3D "default";
+> +               pinctrl-0 =3D <&panel_pins_default>;
+> +               avdd-supply =3D <&ppvarn_lcd>;
+> +               avee-supply =3D <&ppvarp_lcd>;
+> +               pp1800-supply =3D <&pp1800_lcd>;
+> +               backlight =3D <&backlight_lcd0>;
+> +               rotation =3D <270>;
+> +               port {
+> +                       panel_in: endpoint {
+> +                               remote-endpoint =3D <&dsi_out>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&dsi_out {
+> +       remote-endpoint =3D <&panel_in>;
+> +};
+> +
+>  &i2c0 {
+>         status =3D "okay";
+>  };
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi b/arch=
+/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+> index 1b21e3958061..b702ff066636 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-kodama.dtsi
+> @@ -42,6 +42,34 @@ pp1800_lcd: pp1800-lcd {
 >         };
+>  };
 >
-> -       sysirq: intpol-controller@10200620 {
-> +       sysirq: interrupt-controller@10200620 {
->                 compatible =3D "mediatek,mt6797-sysirq",
->                              "mediatek,mt6577-sysirq";
->                 interrupt-controller;
+> +&dsi0 {
+> +       #address-cells =3D <1>;
+> +       #size-cells =3D <0>;
+> +       status =3D "okay";
+> +
+> +       panel: panel@0 {
+> +               /* compatible will be set in board dts */
+> +               reg =3D <0>;
+> +               enable-gpios =3D <&pio 45 0>;
+> +               pinctrl-names =3D "default";
+> +               pinctrl-0 =3D <&panel_pins_default>;
+> +               avdd-supply =3D <&ppvarn_lcd>;
+> +               avee-supply =3D <&ppvarp_lcd>;
+> +               pp1800-supply =3D <&pp1800_lcd>;
+> +               backlight =3D <&backlight_lcd0>;
+> +               rotation =3D <270>;
+> +               port {
+> +                       panel_in: endpoint {
+> +                               remote-endpoint =3D <&dsi_out>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&dsi_out {
+> +       remote-endpoint =3D <&panel_in>;
+> +};
+> +
+>  &i2c0 {
+>         status =3D "okay";
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi b/arch/=
+arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+> index a85c73b43195..b6cfcafd8b06 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui-krane.dtsi
+> @@ -45,6 +45,34 @@ &bluetooth {
+>         firmware-name =3D "nvm_00440302_i2s_eu.bin";
+>  };
+>
+> +&dsi0 {
+> +       #address-cells =3D <1>;
+> +       #size-cells =3D <0>;
+> +       status =3D "okay";
+> +
+> +       panel: panel@0 {
+> +               /* compatible will be set in board dts */
+> +               reg =3D <0>;
+> +               enable-gpios =3D <&pio 45 0>;
+> +               pinctrl-names =3D "default";
+> +               pinctrl-0 =3D <&panel_pins_default>;
+> +               avdd-supply =3D <&ppvarn_lcd>;
+> +               avee-supply =3D <&ppvarp_lcd>;
+> +               pp1800-supply =3D <&pp1800_lcd>;
+> +               backlight =3D <&backlight_lcd0>;
+> +               rotation =3D <270>;
+> +               port {
+> +                       panel_in: endpoint {
+> +                               remote-endpoint =3D <&dsi_out>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&dsi_out {
+> +       remote-endpoint =3D <&panel_in>;
+> +};
+> +
+>  &i2c0 {
+>         status =3D "okay";
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/=
+boot/dts/mediatek/mt8183-kukui.dtsi
+> index 8f3a0e85b4ed..4ac0a60fdd24 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> @@ -252,29 +252,6 @@ &cpu7 {
+>
+>  &dsi0 {
+>         status =3D "okay";
+> -       #address-cells =3D <1>;
+> -       #size-cells =3D <0>;
+> -       panel: panel@0 {
+> -               /* compatible will be set in board dts */
+> -               reg =3D <0>;
+> -               enable-gpios =3D <&pio 45 0>;
+> -               pinctrl-names =3D "default";
+> -               pinctrl-0 =3D <&panel_pins_default>;
+> -               avdd-supply =3D <&ppvarn_lcd>;
+> -               avee-supply =3D <&ppvarp_lcd>;
+> -               pp1800-supply =3D <&pp1800_lcd>;
+> -               backlight =3D <&backlight_lcd0>;
+> -               rotation =3D <270>;
+> -               port {
+> -                       panel_in: endpoint {
+> -                               remote-endpoint =3D <&dsi_out>;
+> -                       };
+> -               };
+> -       };
+> -};
+> -
+> -&dsi_out {
+> -       remote-endpoint =3D <&panel_in>;
+>  };
+>
+>  &gic {
 > --
 > 2.50.1
 >
