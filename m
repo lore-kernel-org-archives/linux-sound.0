@@ -1,146 +1,213 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547F3266568
-	for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 07:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B74274B46;
+	Thu, 24 Jul 2025 08:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753342890; cv=none; b=DiC4HJp3Qcy8vZ0zgUWAmjLF8AtRbitw0LaFVlBfsc20F0Ld0AdnJV6Cf4oQ6+CVUYod5rXIkVdC637TkcEge0d78+wpWY7mFuacoTUIcyBrCgKYqLTqzGW0jOCoTYLpO4F0Oy16+kiwFs02uPflFfRkSxLTQ2qTnZR/i9eADxM=
+	t=1753346369; cv=none; b=grUP/HrZ0h5Igs4NpkAMYSo9WrOsPD4dUd9faxE8zOLqOqCX/flK/Cd+lJN+7qPp1Qh2YVL0a2JAOLqoSNfpWdhw/OpONfPXTLp6AcfED4B0foQOu+16Cfu8sjN9H8KlEfVYqVhjPkITQrX5gvE8Gb1Ahx/w+EWdL7oSoOQRsI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753342890; c=relaxed/simple;
-	bh=Q/2NW7sSfTz9KcB7mML04f45vFgLMXJOtnTmM4OcWvs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ViC8jiIKPDG5F81+u6i/T7rjuk9yFsjv42dbupU15mNbF1Fb36smNN5RD/5mxGxrHx/g9PIAkAt21Mqz0qz3giOFGEbxSVqIZ2e2Zrob/Bag5X7Nc2y2G8U3FXfLTOiUN9eQGGe0m1jeVCcb60GT88WBe8RZPWH+oP0udXSKlHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1ueqZC-0004mm-Cq; Thu, 24 Jul 2025 09:40:38 +0200
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1ueqZ9-00A1Dn-32;
-	Thu, 24 Jul 2025 09:40:35 +0200
-Received: from pengutronix.de (p5b1645f7.dip0.t-ipconnect.de [91.22.69.247])
+	s=arc-20240116; t=1753346369; c=relaxed/simple;
+	bh=4NBMeskJJYDnenHlSqSeWLJKYF+YSmg93IfAieUBW9w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FR6p4leeOGnGY4soGXHJzOI5gsf1kwmGHeijHArQw3/dhkZCzLsQvfgjvGi8QxWgfSRRYmM9jF0CK4j/JheT/XX6IwDuw+LbpM/IMHb5jOOn/16r5c3Fi7pMNDe7fqHZFGYOav/u/bckj3zRIOubye1rfGPCZPCDZ5JrLAcAVR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SFfgW1X8; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SFfgW1X8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1753346365;
+	bh=4NBMeskJJYDnenHlSqSeWLJKYF+YSmg93IfAieUBW9w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SFfgW1X8GoYI4sLbMqsbPp0GVsh2Cpeh5In9VC6Zz3n05nZQDpl6q6RkZlvlfyq64
+	 NdLQadh6AdBs0l+SzJZIr5lnSg5ndZjvvPA3eAheT+9xiSWOuxTYvphf4jpzQJpfwv
+	 SVNm6JaH5Xn+0PRwm/w3sGIrNgy7R/LDuBsE/WPf+vfYprQuEhjvP30VnFa3bTrXmW
+	 gyB30ejOXqbTeR4IIjC7vY4L5DzCNjWyUI41+lY3MnyBTIcJYHy00hNx3A2QAPOV/W
+	 +mGT71Oa1FEHEbaDpdvGDbR+iHqM/ezow8Mj56sUt84sQepXREM13OFjolgFO0tYym
+	 oa6SoAoo78OUw==
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 5B108447D62;
-	Thu, 24 Jul 2025 07:40:35 +0000 (UTC)
-Date: Thu, 24 Jul 2025 09:40:34 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, imx@lists.linux.dev, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Laurent.pinchart@ideasonboard.com, 
-	andrzej.hajda@intel.com, festevam@gmail.com, simona@ffwll.ch, robh@kernel.org, 
-	shengjiu.wang@gmail.com, rfoss@kernel.org, airlied@gmail.com, tiwai@suse.com, 
-	jernej.skrabec@gmail.com, p.zabel@pengutronix.de, luca.ceresoli@bootlin.com, 
-	devicetree@vger.kernel.org, conor+dt@kernel.org, tzimmermann@suse.de, jonas@kwiboo.se, 
-	victor.liu@nxp.com, s.hauer@pengutronix.de, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	linux-arm-kernel@lists.infradead.org, neil.armstrong@linaro.org, lumag@kernel.org, 
-	dianders@chromium.org, kernel@pengutronix.de, cristian.ciocaltea@collabora.com, 
-	krzk+dt@kernel.org, shawnguo@kernel.org, l.stach@pengutronix.de
-Subject: Re: [PATCH v2 2/6] ALSA: Add definitions for the bits in IEC958
- subframe
-Message-ID: <20250724-fair-sheep-of-success-e02586-mkl@pengutronix.de>
-References: <20250724072248.1517569-1-shengjiu.wang@nxp.com>
- <20250724072248.1517569-3-shengjiu.wang@nxp.com>
- <87jz3ykpju.wl-tiwai@suse.de>
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0509D17E0FC2;
+	Thu, 24 Jul 2025 10:39:22 +0200 (CEST)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: linux-mediatek@lists.infradead.org,
+	robh@kernel.org
+Cc: herbert@gondor.apana.org.au,
+	davem@davemloft.net,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	chunkuang.hu@kernel.org,
+	p.zabel@pengutronix.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	jassisinghbrar@gmail.com,
+	mchehab@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	chunfeng.yun@mediatek.com,
+	vkoul@kernel.org,
+	kishon@kernel.org,
+	sean.wang@kernel.org,
+	linus.walleij@linaro.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	andersson@kernel.org,
+	mathieu.poirier@linaro.org,
+	daniel.lezcano@linaro.org,
+	tglx@linutronix.de,
+	atenart@kernel.org,
+	jitao.shi@mediatek.com,
+	ck.hu@mediatek.com,
+	houlong.wei@mediatek.com,
+	kyrie.wu@mediatek.corp-partner.google.com,
+	andy.teng@mediatek.com,
+	tinghan.shen@mediatek.com,
+	jiaxin.yu@mediatek.com,
+	shane.chien@mediatek.com,
+	olivia.wen@mediatek.com,
+	granquet@baylibre.com,
+	eugen.hristev@linaro.org,
+	arnd@arndb.de,
+	sam.shih@mediatek.com,
+	jieyy.yang@mediatek.com,
+	frank-w@public-files.de,
+	mwalle@kernel.org,
+	fparent@baylibre.com,
+	linux-crypto@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-phy@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 00/38] MediaTek devicetree/bindings warnings sanitization
+Date: Thu, 24 Jul 2025 10:38:36 +0200
+Message-ID: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vpabkhcgtahxjd2o"
-Content-Disposition: inline
-In-Reply-To: <87jz3ykpju.wl-tiwai@suse.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
+As Rob pointed out, MediaTek devicetrees are *poor* in the dtbs_check
+tests, and got an infinite load of warnings.
 
---vpabkhcgtahxjd2o
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 2/6] ALSA: Add definitions for the bits in IEC958
- subframe
-MIME-Version: 1.0
+This series starts attacking this situation.
 
-On 24.07.2025 09:37:09, Takashi Iwai wrote:
-> On Thu, 24 Jul 2025 09:22:44 +0200,
-> Shengjiu Wang wrote:
-> >=20
-> > The IEC958 subframe format SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE are used
-> > in HDMI and DisplayPort to describe the audio stream, but hardware devi=
-ce
-> > may need to reorder the IEC958 bits for internal transmission, so need
-> > these standard bits definitions for IEC958 subframe format.
-> >=20
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> >  include/sound/asoundef.h | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >=20
-> > diff --git a/include/sound/asoundef.h b/include/sound/asoundef.h
-> > index 09b2c3dffb30..7efd61568636 100644
-> > --- a/include/sound/asoundef.h
-> > +++ b/include/sound/asoundef.h
-> > @@ -12,6 +12,15 @@
-> >   *        Digital audio interface					    *
-> >   *                                                                    =
-      *
-> >   *********************************************************************=
-*******/
-> > +/* IEC958 subframe format */
-> > +#define IEC958_SUBFRAME_PREAMBLE_MASK	(0xf)
-> > +#define IEC958_SUBFRAME_AUXILIARY_MASK	(0xf<<4)
-> > +#define IEC958_SUBFRAME_SAMPLE_24_MASK	(0xffffff<<4)
-> > +#define IEC958_SUBFRAME_SAMPLE_20_MASK	(0xfffff<<8)
-> > +#define IEC958_SUBFRAME_VALIDITY	(0x1<<28)
-> > +#define IEC958_SUBFRAME_USER_DATA	(0x1<<29)
-> > +#define IEC958_SUBFRAME_CHANNEL_STATUS	(0x1<<30)
-> > +#define IEC958_SUBFRAME_PARITY		(0x1<<31)
->=20
-> I'd use "U" suffix as it can reach to the MSB.
-> Also, you can put spaces around the operators to align with the
-> standard format, too.  I guess you followed to the other code there,
-> but following to the standard coding style would be better.
->=20
-> With those addressed, feel free to take my ack for this patch:
+I didn't really count how many warnings I have resolved - it's a lot
+of them anyway - and I think that this is a good start in any case.
 
-Or make use of the BIT() and GEN_MASK() helpers.
+More will come, but I'll be on a long holiday soon, so not from me
+(or anyway not before I come back anyway), but most probably from
+someone else (in August...!).
 
-Marc
+Cheers!
+Angelo
 
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+AngeloGioacchino Del Regno (38):
+  dt-bindings: display: mediatek: dpi: Allow specifying resets
+  dt-bindings: display: mediatek,dp: Allow DisplayPort AUX bus
+  dt-bindings: mailbox: mediatek,gce-mailbox: Make clock-names optional
+  ASoC: dt-bindings: mt8192-afe-pcm: Fix clocks and clock-names
+  dt-bindings: crypto: inside-secure,safexcel: Mandate only ring IRQs
+  dt-bindings: timer: mediatek: Add compatible for MT6795 GP Timer
+  dt-bindings: pinctrl: mediatek,mt7622-pinctrl: Add missing pwm_ch7_2
+  dt-bindings: pinctrl: mediatek,mt7622-pinctrl: Add missing base reg
+  dt-bindings: pinctrl: mt6779: Allow common MediaTek pinctrl node names
+  dt-bindings: regulator: mediatek,mt6332-regulator: Add missing
+    compatible
+  dt-bindings: regulator: mediatek,mt6331: Fix various regulator names
+  dt-bindings: regulator: mediatek,mt6331: Add missing compatible
+  dt-bindings: remoteproc: mediatek: Remove l1tcm MMIO from MT8188 dual
+  dt-bindings: media: mediatek,mt8195-jpeg: Allow range number in node
+    address
+  dt-bindings: phy: mediatek,hdmi-phy: Fix clock output names for MT8195
+  arm64: dts: mediatek: mt6331: Fix pmic, regulators, rtc, keys node
+    names
+  arm64: dts: mediatek: mt6797: Fix pinctrl node names
+  arm64: dts: mediatek: mt6797: Remove bogus id property in i2c nodes
+  arm64: dts: mediatek: mt6795: Add mediatek,infracfg to iommu node
+  arm64: dts: mediatek: mt6795-xperia-m5: Fix mmc0 latch-ck value
+  arm64: dts: mediatek: mt6795-sony-xperia-m5: Add pinctrl for mmc1/mmc2
+  arm64: dts: mediatek: Fix node name for SYSIRQ controller on all SoCs
+  arm64: dts: mediatek: mt7986a: Fix PCI-Express T-PHY node address
+  arm64: dts: mediatek: mt7986a-bpi-r3: Fix SFP I2C node names
+  arm64: dts: mediatek: mt7986a-bpi-r3: Set interrupt-parent to mdio
+    switch
+  arm64: dts: mediatek: acelink-ew-7886cax: Remove unnecessary cells in
+    spi-nand
+  arm64: dts: mediatek: mt7988a: Fix PCI-Express T-PHY node address
+  arm64: dts: mediatek: mt8173: Fix pinctrl node names and cleanup
+  arm64: dts: mediatek: mt8183: Fix pinctrl node names
+  arm64: dts: mediatek: pumpkin-common: Fix pinctrl node names
+  arm64: dts: mediatek: mt8183-pumpkin: Add power supply for CCI
+  arm64: dts: mediatek: mt8183: Migrate to display controller OF graph
+  arm64: dts: mediatek: mt8183-kukui: Move DSI panel node to machine
+    dtsis
+  arm64: dts: mediatek: mt8195: Fix ranges for jpeg enc/decoder nodes
+  arm64: dts: mediatek: mt8195-cherry: Move VBAT-supply to Tomato R1/R2
+  arm64: dts: mediatek: mt8195-cherry: Add missing regulators to rt5682
+  arm64: dts: mediatek: mt8395-kontron-i1200: Fix MT6360 regulator nodes
+  arm64: dts: mediatek: mt8516-pumpkin: Fix machine compatible
 
---vpabkhcgtahxjd2o
-Content-Type: application/pgp-signature; name="signature.asc"
+ .../crypto/inside-secure,safexcel.yaml        |   2 +
+ .../display/mediatek/mediatek,dp.yaml         |   3 +
+ .../display/mediatek/mediatek,dpi.yaml        |   7 +
+ .../mailbox/mediatek,gce-mailbox.yaml         |  11 -
+ .../media/mediatek,mt8195-jpegdec.yaml        |   2 +-
+ .../media/mediatek,mt8195-jpegenc.yaml        |   2 +-
+ .../bindings/phy/mediatek,hdmi-phy.yaml       |  25 +-
+ .../pinctrl/mediatek,mt6779-pinctrl.yaml      |   4 +-
+ .../pinctrl/mediatek,mt7622-pinctrl.yaml      |   5 +-
+ .../regulator/mediatek,mt6331-regulator.yaml  |  19 +-
+ .../regulator/mediatek,mt6332-regulator.yaml  |   7 +
+ .../bindings/remoteproc/mtk,scp.yaml          |  23 +-
+ .../bindings/sound/mt8192-afe-pcm.yaml        | 106 +++++++-
+ .../bindings/timer/mediatek,timer.yaml        |   1 +
+ arch/arm64/boot/dts/mediatek/mt6331.dtsi      |  10 +-
+ arch/arm64/boot/dts/mediatek/mt6755.dtsi      |   2 +-
+ arch/arm64/boot/dts/mediatek/mt6779.dtsi      |   2 +-
+ .../dts/mediatek/mt6795-sony-xperia-m5.dts    |  40 ++-
+ arch/arm64/boot/dts/mediatek/mt6795.dtsi      |   3 +-
+ arch/arm64/boot/dts/mediatek/mt6797.dtsi      |  52 ++--
+ .../mediatek/mt7986a-acelink-ew-7886cax.dts   |   2 -
+ .../dts/mediatek/mt7986a-bananapi-bpi-r3.dts  |  11 +-
+ arch/arm64/boot/dts/mediatek/mt7986a.dtsi     |  12 +-
+ arch/arm64/boot/dts/mediatek/mt7988a.dtsi     |  28 +-
+ .../boot/dts/mediatek/mt8173-elm-hana.dtsi    |  34 ++-
+ arch/arm64/boot/dts/mediatek/mt8173-elm.dtsi  | 138 +++++-----
+ arch/arm64/boot/dts/mediatek/mt8173-evb.dts   |  60 +++--
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      |  28 +-
+ .../mediatek/mt8183-kukui-audio-da7219.dtsi   |   4 +-
+ .../mediatek/mt8183-kukui-audio-ts3a227e.dtsi |   2 +-
+ .../dts/mediatek/mt8183-kukui-jacuzzi.dtsi    |  27 +-
+ .../dts/mediatek/mt8183-kukui-kakadu.dtsi     |  43 +++-
+ .../dts/mediatek/mt8183-kukui-kodama.dtsi     |  40 ++-
+ .../boot/dts/mediatek/mt8183-kukui-krane.dtsi |  40 ++-
+ .../arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 101 +++-----
+ .../boot/dts/mediatek/mt8183-pumpkin.dts      |  12 +-
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 239 +++++++++++++++++-
+ .../dts/mediatek/mt8195-cherry-tomato-r1.dts  |   1 +
+ .../dts/mediatek/mt8195-cherry-tomato-r2.dts  |   1 +
+ .../boot/dts/mediatek/mt8195-cherry.dtsi      |   3 +-
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      |  30 ++-
+ .../mediatek/mt8395-kontron-3-5-sbc-i1200.dts |  16 +-
+ .../boot/dts/mediatek/mt8516-pumpkin.dts      |   2 +-
+ .../boot/dts/mediatek/pumpkin-common.dtsi     |  18 +-
+ 44 files changed, 843 insertions(+), 375 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.50.1
 
-iQEzBAABCgAdFiEEn/sM2K9nqF/8FWzzDHRl3/mQkZwFAmiB428ACgkQDHRl3/mQ
-kZw/twgArxwtsVQVLCtwTC1hTu1XO6jfEwAQpaPieSPwdzfilkYMvr5Y9dRXex55
-jD6ZICtiqq+5U58pzhF7kpFQn1zBXU35xuvqu4H7EmC8yNPcgPr3gZd7FZOyFv+M
-dehm4FgajYh4JhZBpfLNISc5DSTLiKiWA1fMQUPmfsyaHcikhRBPntgFqRp7Qz6Q
-rnjazptVZ4MOkFgCL/Gnuzjs+0go1y4H6rLEcDdvFqGx9id/GJiQ+DHUWXEHnmr4
-12scaPJb4fWgbwJ3/YtzCDHPUG6wVyoaQ3oek6NRQaXZ8T3Zic0IGem1++odVGZM
-b7VK73jGSrhTMmTWcU3DIsNHR5b8mw==
-=My/c
------END PGP SIGNATURE-----
-
---vpabkhcgtahxjd2o--
