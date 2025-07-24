@@ -1,132 +1,156 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D89E2DE70B;
-	Thu, 24 Jul 2025 08:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8D22080C1;
+	Thu, 24 Jul 2025 08:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753346469; cv=none; b=YeNbM80p716k/hjJ0vTRRq6EsXRBRJvpqMLtAHo6JQ76UW9Su9H2ijgdJDMDj9DwznRh00amUqVpG6u2E1/S99hOJIfurrLgJ9KJ3Dyx1Tq2qioAgcBoYBCBqM8MMJPAZPPWwa9VnsJBm7IaxMQTdDzhJGqA/F1+mhLMd2DBYz0=
+	t=1753347159; cv=none; b=Zo0HaRiYmIVVtESRXKV+V4r5FR72D8zctzoVZp5ENFQ22os93z93JZ730oo8q3EpYX/opmoPy2PS5kKsiGxki0kNHgP/6sPA+ZOdKgPsqOK6ylSXyuLyoJ3KbnOWGtQlfX4a7psh775p7YF+z0YiYVu//u03QSwkydIpnxQQSMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753346469; c=relaxed/simple;
-	bh=B3CsW3fupLeNYb98MufEHqQnnbS1JREMQP80NpqoAvM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LaVSKfB1dAmQHoa85UCe9ZKh1j8qpO1L3RMUYn38Weqe2Zub/YDwGMneNRxWACKgmsRkRBjts1WQet//Xz0Hi6NNpeIebp+5Ki/pi39mFOMkF7483nvA946Qff1jQAknNwrzjNFO2VKHFF0fkKh6f5pWMKq61EIK5cVETTIM2kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=k4uXIOfO; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1753347159; c=relaxed/simple;
+	bh=lEUiukjpItIZOMLZybq8zVOV0E1VI31HPjpcqCCRXw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=krP5CRQ3eiT8AFuwvwbrIia1BqP/wT805O2GfXwu++jXYqH+KGAoRk/GJj9Cre6G+OeC06TLpfgPidx1YOPy1wKXtk6wfPZxvqlVRU1J5JaqEHWxP7Cwl50rLhKPWsh+knn/j0n741ZD8kU8s376m74fLca2v8Qp+KeZIsqiaRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zfjmgph9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="k4uXIOfO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1753346466;
-	bh=B3CsW3fupLeNYb98MufEHqQnnbS1JREMQP80NpqoAvM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k4uXIOfOiJfGvxbxd9tJwlQiHQnrACaUK133JcQoARmvOPlPu554K4W+kHlQPKNNz
-	 kU+iq3w5H8p62xWT+s2irE1YpD+Q45oSLpwIiuKBwAVRYVJetS89P3dFgOIfd97+qi
-	 UgZXxN3ee11t+obnIZ8ta0nJVNGPHGkSoyh/hMJCDbhBaXhZ3WGg/BQfzwpjycYYf9
-	 1Lt9KjIQIlbF92Qw8H+tWVP+YQ5gkpdhczsQxg+kBX+ouldOFXzOpZLg93nW6OHu1Q
-	 9pa2jozQDo6g+wQcPEMCMsDxTfqXzmXO+7cMGuW9NV97Nb1RpfQiv+sMGtypvfMpnu
-	 6QDan0Kv1YnFQ==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 92AD217E0FC2;
-	Thu, 24 Jul 2025 10:41:03 +0200 (CEST)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: linux-mediatek@lists.infradead.org,
-	robh@kernel.org
-Cc: herbert@gondor.apana.org.au,
-	davem@davemloft.net,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	chunkuang.hu@kernel.org,
-	p.zabel@pengutronix.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	jassisinghbrar@gmail.com,
-	mchehab@kernel.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	chunfeng.yun@mediatek.com,
-	vkoul@kernel.org,
-	kishon@kernel.org,
-	sean.wang@kernel.org,
-	linus.walleij@linaro.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	andersson@kernel.org,
-	mathieu.poirier@linaro.org,
-	daniel.lezcano@linaro.org,
-	tglx@linutronix.de,
-	atenart@kernel.org,
-	jitao.shi@mediatek.com,
-	ck.hu@mediatek.com,
-	houlong.wei@mediatek.com,
-	kyrie.wu@mediatek.corp-partner.google.com,
-	andy.teng@mediatek.com,
-	tinghan.shen@mediatek.com,
-	jiaxin.yu@mediatek.com,
-	shane.chien@mediatek.com,
-	olivia.wen@mediatek.com,
-	granquet@baylibre.com,
-	eugen.hristev@linaro.org,
-	arnd@arndb.de,
-	sam.shih@mediatek.com,
-	jieyy.yang@mediatek.com,
-	frank-w@public-files.de,
-	mwalle@kernel.org,
-	fparent@baylibre.com,
-	linux-crypto@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-phy@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 38/38] arm64: dts: mediatek: mt8516-pumpkin: Fix machine compatible
-Date: Thu, 24 Jul 2025 10:39:14 +0200
-Message-ID: <20250724083914.61351-39-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zfjmgph9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6FCDC4CEED;
+	Thu, 24 Jul 2025 08:52:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753347156;
+	bh=lEUiukjpItIZOMLZybq8zVOV0E1VI31HPjpcqCCRXw0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zfjmgph9vyQJ1Z52UaLvbtnXWS2GVe1JpGrut3ak0bCBBZw1wZjVZ//VT4dmUdI/2
+	 QoR2MDn1JkBNI121S3rhq4WChb5c/yoECIBnvhmPNxchnBFyOduvyiuUfaOr7BeCWb
+	 VXclpmlMokvspHjFgJBGkIMDxcpDqccxZY8BHMRBOidJpTAEGAJd/TjOQJoqTQDH9V
+	 8rjK97IQM5/zJ+lFH87y9FNJHqKKs93eG9to7basm5n/ECtEawU4o2JAxDERNzUDSa
+	 nW5V6aiTXZ/s2/89kJp6Trv+Cf+xHdyulQGLn/d6Je+d8oscg1CiDmqoM+oKXuGgLb
+	 J65mC6IVet3wA==
+Date: Thu, 24 Jul 2025 10:52:34 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, 
+	simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org, 
+	cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	p.zabel@pengutronix.de, devicetree@vger.kernel.org, l.stach@pengutronix.de, 
+	shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] dt-bindings: display: imx: add HDMI PAI for
+ i.MX8MP
+Message-ID: <20250724-straight-lorikeet-of-novelty-9124f8@kuoka>
+References: <20250724072248.1517569-1-shengjiu.wang@nxp.com>
+ <20250724072248.1517569-2-shengjiu.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250724072248.1517569-2-shengjiu.wang@nxp.com>
 
-This devicetree contained only the SoC compatible but lacked the
-machine specific one: add a "mediatek,mt8516-pumpkin" compatible
-to the list to fix dtbs_check warnings.
+On Thu, Jul 24, 2025 at 03:22:43PM +0800, Shengjiu Wang wrote:
+> Add binding for the i.MX8MP HDMI parallel Audio interface block.
+> 
+> In fsl,imx8mp-hdmi-tx.yaml, add port@2 that linked to pai_to_hdmi_tx.
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    | 12 ++++
+>  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      | 69 +++++++++++++++++++
+>  2 files changed, 81 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> index 05442d437755..6211ab8bbb0e 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,imx8mp-hdmi-tx.yaml
+> @@ -49,6 +49,10 @@ properties:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description: HDMI output port
+>  
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Parallel audio input port
 
-Fixes: 9983822c8cf9 ("arm64: dts: mediatek: add pumpkin board dts")
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Which data path this represents? Feels like you are duplicating ASoC
+dai-links/cells...
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts b/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts
-index cce642c53812..3d3db33a64dc 100644
---- a/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts
-@@ -11,7 +11,7 @@
- 
- / {
- 	model = "Pumpkin MT8516";
--	compatible = "mediatek,mt8516";
-+	compatible = "mediatek,mt8516-pumpkin", "mediatek,mt8516";
- 
- 	memory@40000000 {
- 		device_type = "memory";
--- 
-2.50.1
+
+> +
+>      required:
+>        - port@0
+>        - port@1
+> @@ -98,5 +102,13 @@ examples:
+>                      remote-endpoint = <&hdmi0_con>;
+>                  };
+>              };
+> +
+> +            port@2 {
+> +                reg = <2>;
+> +
+> +                endpoint {
+> +                    remote-endpoint = <&pai_to_hdmi_tx>;
+> +                };
+> +            };
+>          };
+>      };
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+> new file mode 100644
+> index 000000000000..4f99682a308d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pai.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi-pai.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8MP HDMI Parallel Audio Interface
+> +
+> +maintainers:
+> +  - Shengjiu Wang <shengjiu.wang@nxp.com>
+> +
+> +description:
+> +  The HDMI TX Parallel Audio Interface (HTX_PAI) is a bridge between the
+> +  Audio Subsystem to the HDMI TX Controller.
+
+What is Audio Subsystem? Like Linux Audio or some name matching actual
+hardware?
+
+
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx8mp-hdmi-pai
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: apb
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description: Output to the HDMI TX controller.
+
+And how do you plug it into sound card? Where are any DAI links?
+
+Best regards,
+Krzysztof
 
