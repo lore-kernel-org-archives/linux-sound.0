@@ -1,110 +1,137 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16553282F5;
-	Wed, 23 Jul 2025 23:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A98421E08A
+	for <linux-sound@vger.kernel.org>; Thu, 24 Jul 2025 06:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753312219; cv=none; b=IDCSuhtvm/a2FNrtS/gmoT0sZW/tS4k14AFWjuC1iluAyFzRf8avXuaCgiao69xACQUvAkGo8Uw+2FrzCLFvZ66q+ZRm4TPq6j0EdvMf27Po0ZuGU2B2Dmen1obXOjoFvkNrZr4o4oUShOfiwovbmwCHz666SciAP6eAwAK6VW0=
+	t=1753339570; cv=none; b=WK8IGLxPa0KeKolHL27mSoQaK1wz0j1cu2kD+ihM15qnAbDMmbU9JjFbixgo1LxrsmfTAITSV3xBfCJRDRN69XTyq6AVgWGtXoqxg+zZiUhqkmAKCkPTD4g/umbHbzMpKS0x4BCAflUrbBpJyil6bw2//5L437RBmhWHuse5ARw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753312219; c=relaxed/simple;
-	bh=4ZK2/FIJUsENpZnMQJIx1UGaoqt/Ntxoh+tRpcxt6I0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mbI8XRxxH+8tw1s3ZqmVQeckxT8M6L1vgnAUdj7Dnc+1dSdi43JN+LyAnmiiAhrg7hQdIM6+aAXVrOamoUaLjtv3Z75pVmkeVSWYh3/yr8OkMc4IDA8cC9BB0aMVOAXjoyEjXJEUrVPO8HhzisHCO8pwKRQw6WTIdLqEeqKpe4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GjaOEy2H; arc=none smtp.client-ip=209.85.161.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753339570; c=relaxed/simple;
+	bh=E8K92WFLqixwgt8J2cex/loEksjjno4gWYC7Q3w7a8g=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=bs7H61luxeqfwAZqwHXsjRC0QGJJf0iDK+NAJkQMMnKASFNARFRlBt6aJdu6cqR9xWHDGWNclBQ9Nen2TkYcaN9m+qztj+NMWEovnXoUz+bh0ko9PwdzN+dSYyAYrsBpRadanHXGMpwNIXjn0D8JlYGymma4sbnD8hUPfacsZec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=a797IIi8; arc=none smtp.client-ip=209.85.218.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GjaOEy2H"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6159466e80aso220009eaf.1;
-        Wed, 23 Jul 2025 16:10:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="a797IIi8"
+Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-aec46b50f33so99029166b.3
+        for <linux-sound@vger.kernel.org>; Wed, 23 Jul 2025 23:46:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753312216; x=1753917016; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s/sMOKl1qPfDYFP5H9BSR9iy68hZaSmVV02bYi57AUw=;
-        b=GjaOEy2HXeIGvGmPESInM+WwCYhTqimpyXLzFjnTW622j7ogCzPphIUThMmETRZ51d
-         HZ9qJ9d8aaxlwSGN5SNIRCGDSeJJaP1q4zoWdVEH9PoTAJ52StG2GLQuNjEeDjb9asOG
-         kz6SiPV5VPQGUm1pGvVGXHQYbjowpuvdxApSyyKgfQ085FYup+XdrJbwIcZV84ugmdoQ
-         +JU/b8mWaEwBSvjZkHu3fJR9140i+rz+pX/nzUrz/gdZzZBVYtNgVc86yYJmRinPQVus
-         O4Wl/l1UP8fFB7dxpJhGMs1LgVBfF7Hls8H7Oxyt3nfbJWA/VBU88709h+VOPhoZBtHI
-         eTHw==
+        d=fairphone.com; s=fair; t=1753339565; x=1753944365; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O05wjEScA4kxCQO8+MTTv2LGUA2bVFgF29zptnElwW8=;
+        b=a797IIi8N3j5cNCflbBeedwgZ+4BEGPc8ZuLFQqDrJpHsBvRjT7it5c6GWTTCe6M9+
+         CSeoAAh9CsyUGQwpEemgRnaA0BuWG9r0VVnrsvVqwqi5T+hHGRgt0h62ZkelpnWRibIP
+         WQastMIl/Mpmb1JH9gdkd2P1QCkoyn6/RXW2BKs6vY6QF5ayAxsFTtF+P8RWbXWx/tWa
+         iwkncC9uhXG2BKuomXFXO5O0T2Pbg1ZM7gHA32+pC4h80xtWIl5Y74XCCBAZLfKVtusi
+         L/V7vA01Lb10Lr4yurpoBKIZ2QUkE5C9cp8ga8+wAWi/W0VHoECKVjJMa3rMkVuISVxp
+         0xFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753312216; x=1753917016;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s/sMOKl1qPfDYFP5H9BSR9iy68hZaSmVV02bYi57AUw=;
-        b=FOWR3PLSwLmFDGPozs/hFrxFLwN1Nh8xf3MygDQuz1+TR2zFX3gk39euYvxo1I8oU/
-         q08SgCNIYxmmvYGznkPc4fbD5E+PJ0rDAtNnXIG7ZEQw5WDHGQPby/AQtJXWe/jiLoyT
-         ADMInFI0I+EGHBv0F+wp/r7n74jPlTAvQ/L8FJAenvNDH2FNjjh6loG0EJ2KQHajeP/8
-         /cLWsPbDEBOtPfXAkp6M9kZ8gT7uKNO5dRh4psTJ2IB1PDOvs3bb9V45SJbtW27onX2e
-         AH0o+DQsVKHB6M/QDBKADbcEhV9KiHbFo1v6GYwbVy3vSK1GGpEQbyMv3ibClLDg6lNk
-         X5Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCWq8xyjAFd0eV1ei48XeIaJ2UYnmSUw7zMWuTPP2LG4xbC6EUBADnPOV5VFy9XKJgCLRjxtHbk3UUsI7gw=@vger.kernel.org, AJvYcCXTn7wzR95o+VrIPeB4Blh1/kgybafjknDv/0mCw863cwtv+ez9AuItvhr4MUJresBGRz8LzPEYW29ZBko=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7nyVRxR6VBkHGgR/HN9sZtt+WwGh4Pk5o/HX2kEdPOizOePOL
-	FZ0I6grFwYYSCsaYRS4CZX4Osl+1JDqlyOa7CUM7Yzm1mLWky6CtoP+3
-X-Gm-Gg: ASbGncuGGxK4OZeY2UQqaLqOfPIk2r5z1sWhR4NWUYdWBkq4M7X1QQimpUXbXBgxg6F
-	rweLlDBVI08cOtHbmsV96E1V0BZSaL75QhIHgjOtrTkRwYyVVFkhPi1pZpuj6XVCkSwkt5lTeZi
-	2HGaAhRj53wDMO7xYH+8TL1V6oLk4u2/ZNP4lPUoMHHr+HGrszFKVHgvqDmoo/7iJJsI98rjTii
-	65YAMVPI7Qp2Hsn6Xy0zLaDXlGU7qZ/K/PAW/azCJ6ywdSXdSwkFyON8h7VGaCek2SDwJMSglSm
-	3CpRbCl85rz8F5Rp5gsEcANDbvu/SQp1ELeCS+3k9MiBdrswwMKPV5bYvyYj7WhpP7wwLo6NCKc
-	veg/fTzKsFKhXWodf2e9/WXcP
-X-Google-Smtp-Source: AGHT+IGKJeIrU99unpGmeSOC4hD5uT4FVQkH3W5TmmXgmCbqAp5O23lQehpbjHWeFPXPhyI/ngwJkw==
-X-Received: by 2002:a05:6820:a0a:b0:612:c547:7984 with SMTP id 006d021491bc7-6186e7a1b84mr2657715eaf.1.1753312215922;
-        Wed, 23 Jul 2025 16:10:15 -0700 (PDT)
-Received: from s-machine2.. ([2806:2f0:5501:d07c:9462:4ab2:1882:2baa])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-618fb42942esm71092eaf.3.2025.07.23.16.10.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 16:10:15 -0700 (PDT)
-From: Sergio Perez Gonzalez <sperezglz@gmail.com>
-To: vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com
-Cc: Sergio Perez Gonzalez <sperezglz@gmail.com>,
-	pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] soundwire: sysfs_emit() expects a buffer of size PAGE_SIZE
-Date: Wed, 23 Jul 2025 17:09:25 -0600
-Message-ID: <20250723230927.109534-1-sperezglz@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1753339565; x=1753944365;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=O05wjEScA4kxCQO8+MTTv2LGUA2bVFgF29zptnElwW8=;
+        b=eu0IANFQ0y+FwFrolVwmxmkGS1kdAOfpdibUwCBIIKPR7+pWbLicFL9uW2vjBScKUt
+         sgx2+CGEhCzNt7qI7tcgAIFKVEMTB8PQCouQYe1/e+Dybe5MbRiEzKPiIxX3cc3uIRvw
+         mWYa44FcWVvNXJ1X5Q3E5HivPF9+/uPcIVIUyXWUcCLu10J8YAD8ZrdcJ2dayWd3hvZO
+         u65gcDuIWAWhrxqycjnkuCNZuxZILFSZg2Fxud94mpIpKWjLpTURw0sl4GLxmRdEhRuz
+         Nvy2cKXZorNnemsvvnbqJ2krqqmzCHNdF03n30jQnfhWj11sONoMUwCMxNFG1DIlrn5Z
+         OYXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWE5u5jb3Co6DzOFOlvaHdXFprPR+Onk3mKNW1CpQZKaOcTAVCrC1jKErxfqpq1VOhJ4CVPDkG/mJVcQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEr6xLCD6ZNkAEUyzovaBMouYdcUjibN8UtfZwp8LTytY3/GE4
+	HJ6njSwPgU7rwU4vDmL3Ba2w9VnI47jxZx+jDH/uG/Is6hny5PwXdCLQ3Y+ZYR25Y3w=
+X-Gm-Gg: ASbGncviWGHdZTEp7OjQCuL+tJMMS0HHYZijau6sCBULKAdZPtqPBpTNVxgpvajRZ4v
+	oKxAuA/LykGfo1dcYMp/dT5W9s9clvC62qmjjMuCqGJslh0opd7AXu7pBEiPp57LwEFGTRoTPfL
+	hsqHoTzbJm+jeHZKyqVJidLHaVeCl9EtnBSwlY6tbN/EOFcT5W1nfVmnfv1USjaJ9s4QZ0gA/4X
+	YpTarqjMqYQl0eHoqeYUKyoaAoXsoERfFsYwd4C0n3t0yTpWUs/DB1dp2mUuCy2FvoyKBGys3Mj
+	xPvPdEDCC/271juHFhBMLkc3DMwq+MXxUj0h6kgLnQ4z5TFF7U0QEIeoswdk4gZjbqTihhip+h9
+	93mmCbIjFr5qrtESMkYrlylNmgskN5mJ4MGQgCoUMglKujRM1x2jto1bbNlBTPkO6RVnhE5ZZqN
+	+jBw==
+X-Google-Smtp-Source: AGHT+IHOJhHzF3e38nSkhr/JtaCTAW1NS3tTTx4AD/Gh7AcSikLRvVdo/lBTRPnndwMlCRIqVf21aw==
+X-Received: by 2002:a17:906:f585:b0:ae9:bf1c:50a4 with SMTP id a640c23a62f3a-af2f866213bmr566893066b.36.1753339564518;
+        Wed, 23 Jul 2025 23:46:04 -0700 (PDT)
+Received: from localhost (144-178-202-139.static.ef-service.nl. [144.178.202.139])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af47ff42cc4sm63770166b.139.2025.07.23.23.46.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jul 2025 23:46:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 24 Jul 2025 08:46:03 +0200
+Message-Id: <DBK303WXZ3OB.8SX718AMMYH8@fairphone.com>
+Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Wesley
+ Cheng" <quic_wcheng@quicinc.com>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v3 0/3] Enable USB audio offloading on Fairphone 4
+ smartphone
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Mark Brown" <broonie@kernel.org>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250723-fp4-usb-audio-offload-v3-0-6be84ed4fc39@fairphone.com>
+ <175328933413.84720.17376811405962157319.b4-ty@kernel.org>
+In-Reply-To: <175328933413.84720.17376811405962157319.b4-ty@kernel.org>
 
-In read_buffer_show(), allocate sufficient memory to pass on to
-sysfs_emit(), which expects a buffer of size PAGE_SIZE.
+On Wed Jul 23, 2025 at 6:48 PM CEST, Mark Brown wrote:
+> On Wed, 23 Jul 2025 16:03:37 +0200, Luca Weiss wrote:
+>> Updated description for v3:
+>> Add the missing bits for the sound subsystem to enable USB audio
+>> offloading on the Fairphone 4. This is mostly sndcard enablement now.
+>>=20
+>>=20
+>
+> Applied to
+>
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-=
+next
+>
+> Thanks!
+>
+> [1/3] ASoC: dt-bindings: qcom,q6afe: Document q6usb subnode
+>       commit: b102c9d89fecd72be83eaab9b384285e2d0dc940
+> [2/3] ASoC: dt-bindings: qcom,sm8250: Add Fairphone 4 sound card
+>       commit: d664e75317e19bb79b6d207f7729e35eca504a6a
+> [3/3] ASoC: qcom: sm8250: Add Fairphone 4 soundcard compatible
+>       commit: c58c35ef6ae62e36927f506a5afc66610b7261d9
 
-Link: https://scan7.scan.coverity.com/#/project-view/53936/11354?selectedIssue=1648019
-Fixes: 35323d8ab811 ("soundwire: replace scnprintf() with sysfs_emit() for sysfs consistency")
-Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
----
- drivers/soundwire/debugfs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks, appreciate it!
 
-diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
-index 825f7abbad32..08fb1e29026e 100644
---- a/drivers/soundwire/debugfs.c
-+++ b/drivers/soundwire/debugfs.c
-@@ -306,12 +306,12 @@ static int cmd_go(void *data, u64 value)
- DEFINE_DEBUGFS_ATTRIBUTE(cmd_go_fops, NULL,
- 			 cmd_go, "%llu\n");
- 
--#define MAX_LINE_LEN 128
--
- static int read_buffer_show(struct seq_file *s_file, void *data)
- {
--	char buf[MAX_LINE_LEN];
- 	int i;
-+	char *buf __free(kfree) = kzalloc(PAGE_SIZE, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
- 
- 	if (num_bytes == 0 || num_bytes > MAX_CMD_BYTES)
- 		return -EINVAL;
--- 
-2.43.0
+Regards
+Luca
+
+>
+> All being well this means that it will be integrated into the linux-next
+> tree (usually sometime in the next 24 hours) and sent to Linus during
+> the next merge window (or sooner if it is a bug fix), however if
+> problems are discovered then the patch may be dropped or reverted.
+>
+> You may get further e-mails resulting from automated or manual testing
+> and review of the tree, please engage with people reporting problems and
+> send followup patches addressing any issues that are reported if needed.
+>
+> If any updates are required or you are submitting further changes they
+> should be sent as incremental updates against current git, existing
+> patches will not be replaced.
+>
+> Please add any relevant lists and maintainers to the CCs when replying
+> to this mail.
+>
+> Thanks,
+> Mark
 
