@@ -1,63 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F4D4501A;
-	Fri, 25 Jul 2025 20:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188E640856;
+	Fri, 25 Jul 2025 23:23:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753475428; cv=none; b=D25ZMGuZbXZOspgEUyjavzXX50BS62MH4CNfKERfWXjuolTp1ttJ8tfZ+RTPE1Yv3RcYR+RoP8qne8BnTy74ByoOBfnYPqtu8ITU77N7SXhFEEdmrYlIIurLGoYcrwb+DB/+wb2+hWdyikzqv2Pq9EZSMsMENyzEnt7h/YgfSoY=
+	t=1753485816; cv=none; b=Wh0cdtPL5BdokROOkFIHb0y//Ij+c50hVMQ+DaS7KHMEEGgdplG/v1PV06D4BbB9H9Hcfl2tOrJcCSbb/rr0J9NOe1Z14TKfXPXwy00aV6INcQgrDOhjw9sp7D1SG5Ni1DOA8NVrh/MQFEhrfyW0DbfVEGzYuwP8QPwmEUXFLS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753475428; c=relaxed/simple;
-	bh=ba7r3CQWnc9Pg59zckBMYOhewHfZtzF4js8BFZ+0f9c=;
+	s=arc-20240116; t=1753485816; c=relaxed/simple;
+	bh=PN/tSm4QrSvwt43cns0rNqj0r+MrbUldO6LQeQ9iGGY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lzhtPT0sbaWZxRe8SArobNPOQEcfwKcMUS1ITQMH/S5t7o0ne4APmgZHL7lz0dGN0HloMt+j99Ht2jc2ssWuOAcXo7x3pH33hWdhzA4AC05KH91G6FeDUS+VhbiRVYa8k+5Rhspt353oLTK6WAtQfN9MzHGxCtwDzz2+0p+RK8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dbW8S110; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GLlQ7+fCdyvvNHwQegyZzm4aH+3JZij6FPvYx5AJsPJjoDWnmTfJNIeBSlCYWQcnx5sO7zER6pgAAN4POppkE4T8/ATkhTcR65aZ/aPR71VXZhnHjegnyA02qCwOpVtz+grLFjEkE9oabSg3HCGfy4uCyenerPfUqSU1sJg84HE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mghQNf4H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dbW8S110"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3FC8C4CEE7;
-	Fri, 25 Jul 2025 20:30:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mghQNf4H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BEC9C4CEE7;
+	Fri, 25 Jul 2025 23:23:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753475428;
-	bh=ba7r3CQWnc9Pg59zckBMYOhewHfZtzF4js8BFZ+0f9c=;
+	s=k20201202; t=1753485815;
+	bh=PN/tSm4QrSvwt43cns0rNqj0r+MrbUldO6LQeQ9iGGY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dbW8S110p3NBmLaJdPOPH54qeqD00XyhjoRdv89Oc/9seV5Gebju3lz+V2fFMuB/Q
-	 ZG8upnvyRHMVpuySek1hBhmyctGYtzAQ6cXCXKjp1lQQHSzkE4iUJER7UN+9bgbZVA
-	 QD1lVSbKRyDW0ZEe0/EMwhfbQ3E0gDpivtn/VhyvaLE9BDL80GMlVu3pdeb2Z5HYzH
-	 TunHOOTBpQ6fbovuC8fjR2Xisgued54rZ+8BjIfP0ES1hs+vhy0arR1Uy65Q8BhfC2
-	 L9k/9/uQq129XN7CqmqHgViTcChBd1BD0wYRt70Q9poeuLwbSEYOWmAUrgkw/tMMZW
-	 DvOdLKPmgYbZg==
-Date: Fri, 25 Jul 2025 15:30:27 -0500
+	b=mghQNf4HuKgekXgZ+Nd7145X9O2PoaNk0p3NrZMwI/PVHMmVSv9tPDX384VsHM1v6
+	 b0nm8Xd5nT52oBGxCjurmTFPltcK0njPbgRQJF0ldRCRwvIINyy1Bt1Iub/AVLVgZX
+	 0egZUxLTl6yaSsheek7xGSb/yXr7vHwvPU4g+Et5YXo4+bEU6Ojt2vapBtr78kfh1U
+	 mAZ+g2PgFKh7qPA1sRXduX/xZAwebiazdMyd8ScabU4rtLa8C1Cf5Ch7bWiB+nlrk7
+	 xchitZidT0oz74EUUAcd7zIRTCZUWmY/esBcGV2sudlCpJq+BYbslG0Ux3f/OkwXxM
+	 Q76wbWqnfALJg==
+Date: Fri, 25 Jul 2025 18:23:34 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: andersson@kernel.org, devicetree@vger.kernel.org, ck.hu@mediatek.com,
-	olivia.wen@mediatek.com, linus.walleij@linaro.org,
-	tglx@linutronix.de, mathieu.poirier@linaro.org,
-	sean.wang@kernel.org, andy.teng@mediatek.com,
-	jiaxin.yu@mediatek.com, kishon@kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jieyy.yang@mediatek.com, simona@ffwll.ch,
-	linux-mediatek@lists.infradead.org, krzk+dt@kernel.org,
-	linux-remoteproc@vger.kernel.org, mwalle@kernel.org,
-	davem@davemloft.net, airlied@gmail.com, chunfeng.yun@mediatek.com,
-	linux-crypto@vger.kernel.org, tinghan.shen@mediatek.com,
-	arnd@arndb.de, chunkuang.hu@kernel.org, atenart@kernel.org,
-	linux-phy@lists.infradead.org, frank-w@public-files.de,
-	linux-media@vger.kernel.org, sam.shih@mediatek.com,
-	mripard@kernel.org, lgirdwood@gmail.com, daniel.lezcano@linaro.org,
-	maarten.lankhorst@linux.intel.com, houlong.wei@mediatek.com,
-	dri-devel@lists.freedesktop.org, herbert@gondor.apana.org.au,
-	matthias.bgg@gmail.com, jassisinghbrar@gmail.com, vkoul@kernel.org,
-	mchehab@kernel.org, linux-gpio@vger.kernel.org,
-	kyrie.wu@mediatek.corp-partner.google.com,
-	linux-arm-kernel@lists.infradead.org, shane.chien@mediatek.com,
-	conor+dt@kernel.org, p.zabel@pengutronix.de, granquet@baylibre.com,
-	jitao.shi@mediatek.com, fparent@baylibre.com, tzimmermann@suse.de,
-	eugen.hristev@linaro.org, broonie@kernel.org
-Subject: Re: [PATCH 12/38] dt-bindings: regulator: mediatek,mt6331: Add
- missing compatible
-Message-ID: <175347542615.1838505.12887834541571951617.robh@kernel.org>
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-13-angelogioacchino.delregno@collabora.com>
+To: srinivas.kandagatla@oss.qualcomm.com
+Cc: srini@kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Subject: Re: [PATCH] slimbus: qcom: remove unused qcom controller driver
+Message-ID: <175348581438.2022551.9381678152141796362.robh@kernel.org>
+References: <20250724132808.101351-1-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,19 +44,26 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724083914.61351-13-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724132808.101351-1-srinivas.kandagatla@oss.qualcomm.com>
 
 
-On Thu, 24 Jul 2025 10:38:48 +0200, AngeloGioacchino Del Regno wrote:
-> This binding had no compatible and for this reason would not be
-> applied to anything: add the missing "mediatek,mt6331-regulator"
-> comaptible.
+On Thu, 24 Jul 2025 14:28:08 +0100, srinivas.kandagatla@oss.qualcomm.com wrote:
+> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 > 
-> Fixes: 6385e21692bb ("regulator: Add bindings for MT6331 regulator")
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Qcom Slimbus controller driver is totally unused and dead code, there is
+> no point in keeping this driver in the kernel without users.
+> 
+> This patch removes the driver along with device tree bindings.
+> 
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 > ---
->  .../bindings/regulator/mediatek,mt6331-regulator.yaml      | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  .../bindings/slimbus/qcom,slim.yaml           |  86 --
+>  drivers/slimbus/Kconfig                       |   7 -
+>  drivers/slimbus/Makefile                      |   3 -
+>  drivers/slimbus/qcom-ctrl.c                   | 735 ------------------
+>  4 files changed, 831 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/slimbus/qcom,slim.yaml
+>  delete mode 100644 drivers/slimbus/qcom-ctrl.c
 > 
 
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
