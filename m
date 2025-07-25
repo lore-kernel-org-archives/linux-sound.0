@@ -1,133 +1,123 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617858F6E;
-	Fri, 25 Jul 2025 18:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753467749; cv=none; b=M/fBGujy4pgLojnHRX+u+OiFWVSTjFZp3qypZnA7Y2+sNvdaFwvlK2WzeI21kk80Z7ocLpCn5SC218XQ6IjKrKvJuDvtHOltVbXVe71+mN2pHo2j0hJgPt0SiwJnFZ37M7WSESNO9K+BcMmXnc2KboFn1ek2JiafApuzp6biPQ0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753467749; c=relaxed/simple;
-	bh=mav+SN8G51+FKZ172ZyrH23tzjpXQF7aNwFTGdrDGa4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OxPOxUwx/CKIGiSizoQ4REQNX1QAJw5bPGayLZyWWXAzWGkbeX/vKX9j9cYoZHvRbc7JgL17vKrSg2U6U+LQOmBsWN+zPgQY5kZyAWvqw55UPdQG6U48d24wqlNer+nHn1Xj+PX8+53/FLauTxJ65OMQeZDTr8RjPwHxDpCyNL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3URGN9S; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6C1256C9C;
+	Fri, 25 Jul 2025 19:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753470227; cv=pass; b=nMjwCneDByMlZj8lvPZkdE20Ho+MP4//8GUGcDziOycpJuA2VxEkIX9e2s3RaIs/NY1TP4lKmmVG93/+V2g1Cl12i9Xv6C/v19paOBSUVAzdOseuUrZSArej1/osOUnK2QI6NPj0JiQMoSnjZmVoq2qr7TA33JYHmzUw3YI7kF4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753470227; c=relaxed/simple;
+	bh=aB9liRnEWbRaScDDjLWWeM+YCj0fmMh/RTBXyLpRoik=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pdcyTW3IDX3kgBOcYXI95Z+DCBX48UW/GK0rwUV7Bj/tpBNErexmd29niV99NITo9jfCyJtTeORGbZDApy4z0Flb/GSbDrs8h9VzhZFFyiboTTwF6g9Lootwc04/ufobDKbm5XT8JurntVsNZu0mDTAqi9zAJLheGZ6PkDaxaYo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b=jg8zYEHL; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3URGN9S"
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4e80d19c7ebso1565411137.3;
-        Fri, 25 Jul 2025 11:22:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753467747; x=1754072547; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bDdrXU0H5darvHsz+EX2SqTmuwLmazQOdrWR9KxJ/3I=;
-        b=Z3URGN9SXaUSNilekgWsHJfk8wJl+e5iewIxZQ55lw7Ltq6XbHR/GKb9csrREXRaiE
-         hSwCstv3N51h8MeaERpoVkSIA4ScF1uxPFT8rivZsNw1AJ7CBPi+9HLQraF5hWj+pjfS
-         4wLwbB2k3CbiRN9VzQAyPr6J7brW54dHQp9F1JApaXxeZ9aP2CNE2JxiRJG7g7W2AYvW
-         KqY6xFDvS0/nf4jTeYxjMsRslUgrLJ4xYBZldwhY1+lnPyDZu95kDBx/s84JZPeJ0hCv
-         51h3MHFFPec2mXE5H/4ymlPaVCt5pYLVdmrbOauMlVE93rZYCgI4PKoSB0FQOGm3IYv4
-         8E1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753467747; x=1754072547;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bDdrXU0H5darvHsz+EX2SqTmuwLmazQOdrWR9KxJ/3I=;
-        b=NyNLKsWc3dkQBDXY5QxuvYlcni2etxWYDXiALOEtlgYjkwJzCSCXqlUGLKAbYHIrYD
-         fR48wshyPl3wMjz3Zo0c75ItzYFgQ23Opd2DQwWZoIhMbjpnwA6om6MJ6Syg+oP57ikS
-         BO+51EKdrjZpAfmXWAho0Uj6Ab2VCeRVakOzSXzbJCrn/rdI7XsOkVz+Mwp+cCNw7Dvk
-         AJL6UaC7M/uR0C75DQcHynMF12vCQDOrARaFbAdM5A0GMF40lHQLp7UXf/fVSujbn8p4
-         +2r9qCogZSQzECTnNfPHuM0SlI5NyKg8wDxBFeyJpHeQzDShjFl6k3aPmjVv0LWvLHl0
-         PdcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMDtTEho0BnMAOKCdTb4BRoBITu6VsjdRvfptipigHA1cgnrNX3RLSmvFIBr6cHb821oOcGbMC0jJ8aos=@vger.kernel.org, AJvYcCXxRdnp0ZMJvmqehVq5KmfFJGbajeIPSPmpkcMmnzluy/2dlsuGK2QQzwgjCWqfapzyoS1KCZ011NMPN8A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyO5ZG9E6bLR7EOgd4J7HuGR/YcY9Xia8ILULPdhJih/4VicYOw
-	RMiJRKV4uA1aArszJ+1aKfIbq4jJMtjbaddJG+8Gp5noxTybSAugDt4DayP4n29c5Q9giPB3Wo9
-	1IEjAdx7fTeq4YGKF0eiA64qqWToe3vs=
-X-Gm-Gg: ASbGncv3PZPiDuQ2qhY2NWC5lonSUTS1otuuNgyA748JEeip07v2trB4e12Yz4Efy9K
-	7wYwt+XahqEHtyayXPobgyw8z03jpE2jNuZV18cyhHbo0221zqWdMTVJxQOKvLGOS8WD/lvVKb2
-	57Xffs//e9IXD4w53PmQLrAWBJMwt4lsOBQ8kaAkdJ3SaV29ijvnxonuGMWl9GSDLh60znCFEVD
-	rERKVXimI54MTjhAoTIY4lSYfvwrDfgzkohPh0=
-X-Google-Smtp-Source: AGHT+IGVL44bVMfh/XTRvXgIEQR9AztKLyaZJXURVCJhhoUvvp6/9jZx5/Fg9QIlXvemUbw3WOW4FaC6NumapJjWIyA=
-X-Received: by 2002:a05:6102:6cf:b0:4e9:b60a:441 with SMTP id
- ada2fe7eead31-4fa3fd91775mr1534186137.13.1753467747115; Fri, 25 Jul 2025
- 11:22:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=usama.anjum@collabora.com header.b="jg8zYEHL"
+ARC-Seal: i=1; a=rsa-sha256; t=1753470187; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=O4IFeTTOiaFqK2VNmNfeSU5crlAy2NzPYDdtzx3GX4/oaJN8/8HlEsMfEWE0RlgzU90aViXzbe87FIyXoOOvyydIIUtCf5kTi0qYZI3rHB3yI1T9Ev3jjxiIkaRC17RjUZlSPmvZ1rkk7SMer2M1eG5qe9eFTIs1FS4F20qk9S4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1753470187; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=0gUl65a8tci3xttZczxCT9K4PQpIDEGmqHk6r8P++JM=; 
+	b=IBGBaD8cMl7XyrKws0AbHtctNmTlNtzNIvXtAtVe4CGcU16iNITKiyddGEn75SUfEKt3fvVLScL7xunpcfQhPewnzCKJS9FUvqkQg25xY3U7bUJQYckKQI7rOMbm0E8sf/9k4eYEqr6bWt9FEj68MjQu4goFgnW9bK9MBxQVSU8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=usama.anjum@collabora.com;
+	dmarc=pass header.from=<usama.anjum@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753470187;
+	s=zohomail; d=collabora.com; i=usama.anjum@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=0gUl65a8tci3xttZczxCT9K4PQpIDEGmqHk6r8P++JM=;
+	b=jg8zYEHLGb8ALcZ/DLz/ZMwogEENlaKG9A0/o3fCsXfRWMS+qG0FeziZ7ETa+3aB
+	GVumitXAt70xu7xW+bqFTTYErCNvnskvf3Ev+m4ZYVwiOiaMhOXBmWeayxS7jaTSMuv
+	HMvznPqHPzcK4lAomcyZ9zLvQyzH5nWHvVDwNlSA=
+Received: by mx.zohomail.com with SMTPS id 1753470186171650.5564365863407;
+	Fri, 25 Jul 2025 12:03:06 -0700 (PDT)
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>
+Cc: kernel@collabora.com,
+	stable@vger.kernel.org,
+	Bard Liao <bard.liao@intel.com>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] ASoC: SOF: amd: acp-loader: Use GFP_KERNEL for DMA allocations in resume context
+Date: Sat, 26 Jul 2025 00:02:54 +0500
+Message-Id: <20250725190254.1081184-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250723230927.109534-1-sperezglz@gmail.com> <87o6takqd3.wl-tiwai@suse.de>
- <aIICZmB5-7gj1M6W@vaman>
-In-Reply-To: <aIICZmB5-7gj1M6W@vaman>
-From: =?UTF-8?Q?Sergio_P=C3=A9rez?= <sperezglz@gmail.com>
-Date: Fri, 25 Jul 2025 12:22:16 -0600
-X-Gm-Features: Ac12FXwNXnWPJjUUGZtf0PogYHGSrWtcK1NvRZlNPLdVDy5GL33fmT2YmaY-a7M
-Message-ID: <CAMCbnuYVELzWU0jZm8LcSEVRigOz+P1Fmk9suunr63asFjMFiQ@mail.gmail.com>
-Subject: Re: [PATCH] soundwire: sysfs_emit() expects a buffer of size PAGE_SIZE
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>, yung-chuan.liao@linux.intel.com, 
-	pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-All right, then, this will be handled with a different approach.
+Replace GFP_ATOMIC with GFP_KERNEL for dma_alloc_coherent() calls. This
+change improves memory allocation reliability during firmware loading,
+particularly during system resume when memory pressure is high. Because
+of using GFP_KERNEL, reclaim can happen which can reduce the probability
+of failure.
 
-Thanks,
-Sergio
+Fixes memory allocation failures observed during system resume with
+fragmented memory conditions.
 
-El jue, 24 jul 2025 a la(s) 3:52=E2=80=AFa.m., Vinod Koul (vkoul@kernel.org=
-) escribi=C3=B3:
->
-> On 24-07-25, 09:19, Takashi Iwai wrote:
-> > On Thu, 24 Jul 2025 01:09:25 +0200,
-> > Sergio Perez Gonzalez wrote:
-> > >
-> > > In read_buffer_show(), allocate sufficient memory to pass on to
-> > > sysfs_emit(), which expects a buffer of size PAGE_SIZE.
-> > >
-> > > Link: https://scan7.scan.coverity.com/#/project-view/53936/11354?sele=
-ctedIssue=3D1648019
-> > > Fixes: 35323d8ab811 ("soundwire: replace scnprintf() with sysfs_emit(=
-) for sysfs consistency")
-> > > Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-> > > ---
-> > >  drivers/soundwire/debugfs.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.=
-c
-> > > index 825f7abbad32..08fb1e29026e 100644
-> > > --- a/drivers/soundwire/debugfs.c
-> > > +++ b/drivers/soundwire/debugfs.c
-> > > @@ -306,12 +306,12 @@ static int cmd_go(void *data, u64 value)
-> > >  DEFINE_DEBUGFS_ATTRIBUTE(cmd_go_fops, NULL,
-> > >                      cmd_go, "%llu\n");
-> > >
-> > > -#define MAX_LINE_LEN 128
-> > > -
-> > >  static int read_buffer_show(struct seq_file *s_file, void *data)
-> > >  {
-> > > -   char buf[MAX_LINE_LEN];
-> > >     int i;
-> > > +   char *buf __free(kfree) =3D kzalloc(PAGE_SIZE, GFP_KERNEL);
-> > > +   if (!buf)
-> > > +           return -ENOMEM;
-> >
-> > IMO, it's better to scratch the whole previous change.
-> > It makes little sense to allocate a large buffer here just for the
-> > temporary formatting.
-> >
-> > Moreover, *_show() functions there take seq_file pointer, and you can
-> > just use seq_printf() directly.  The sysfs/kobject show callback is
-> > with the a fixed PAGE_SIZE buffer, hence sysfs_emit() is useful, but
-> > in this case, it's a completely different story.
->
-> Agree, dropped now!
->
-> --
-> ~Vinod
+	snd_sof_amd_vangogh 0000:04:00.5: error: failed to load DSP firmware after resume -12
+
+Fixes: 145d7e5ae8f4e ("ASoC: SOF: amd: add option to use sram for data bin loading")
+Fixes: 7e51a9e38ab20 ("ASoC: SOF: amd: Add fw loader and renoir dsp ops to load firmware")
+Cc: stable@vger.kernel.org
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+ sound/soc/sof/amd/acp-loader.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/sound/soc/sof/amd/acp-loader.c b/sound/soc/sof/amd/acp-loader.c
+index 2d5e58846499..5b5d6db74c10 100644
+--- a/sound/soc/sof/amd/acp-loader.c
++++ b/sound/soc/sof/amd/acp-loader.c
+@@ -65,7 +65,7 @@ int acp_dsp_block_write(struct snd_sof_dev *sdev, enum snd_sof_fw_blk_type blk_t
+ 			dma_size = page_count * ACP_PAGE_SIZE;
+ 			adata->bin_buf = dma_alloc_coherent(&pci->dev, dma_size,
+ 							    &adata->sha_dma_addr,
+-							    GFP_ATOMIC);
++							    GFP_KERNEL);
+ 			if (!adata->bin_buf)
+ 				return -ENOMEM;
+ 		}
+@@ -77,7 +77,7 @@ int acp_dsp_block_write(struct snd_sof_dev *sdev, enum snd_sof_fw_blk_type blk_t
+ 			adata->data_buf = dma_alloc_coherent(&pci->dev,
+ 							     ACP_DEFAULT_DRAM_LENGTH,
+ 							     &adata->dma_addr,
+-							     GFP_ATOMIC);
++							     GFP_KERNEL);
+ 			if (!adata->data_buf)
+ 				return -ENOMEM;
+ 		}
+@@ -90,7 +90,7 @@ int acp_dsp_block_write(struct snd_sof_dev *sdev, enum snd_sof_fw_blk_type blk_t
+ 			adata->sram_data_buf = dma_alloc_coherent(&pci->dev,
+ 								  ACP_DEFAULT_SRAM_LENGTH,
+ 								  &adata->sram_dma_addr,
+-								  GFP_ATOMIC);
++								  GFP_KERNEL);
+ 			if (!adata->sram_data_buf)
+ 				return -ENOMEM;
+ 		}
+-- 
+2.39.5
+
