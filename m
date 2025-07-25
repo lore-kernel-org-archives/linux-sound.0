@@ -1,37 +1,52 @@
-Received: from out198-23.us.a.mail.aliyun.com (out198-23.us.a.mail.aliyun.com [47.90.198.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCBB242909;
-	Fri, 25 Jul 2025 09:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDEE2D4B57;
+	Fri, 25 Jul 2025 10:11:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753436803; cv=none; b=iUj9EJ5wy/4MckY98X5u9IYUZ8sPlYE04wB6yNqxxDMID4F5XeQEwZhIy0TOHcDO8yE7rWAGzagIMcEtTWDmHbAiDUF1AEMugSar28fihbqyrw5kYwKq/pJFIiICS7yhZGeu3Xzt7dKxFXbldb5L2yc8y+gajHn1NbRJL3IaHmk=
+	t=1753438286; cv=none; b=N9F4Gkta7oAZ4/VTGMWTyjcA8JeaA1j4enbqDHn3o1hwroJeGt86zs3U4hTQxtTxn63X6YPiXqZI5sYqvPVd/m/4fWPnK5dzMbkMkYddxh7jxVS1R/EAkibJD86jid7dtThLc4xEXdXm7qC6f4P3rLC3kXLe6SbKOsGe0DyR9m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753436803; c=relaxed/simple;
-	bh=4wnJjAo2Le0HqaN2yjtxk+3ltfijy3eh6GPwj2j0Ns4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b3Xmi0W3T7U6pdFO7hspASlo1d0sZps6HV+X/Gtgeop8weCIHE58FBrVhX1iFv5AgF+XZ3dIYOmu1eE0XL1q6clxUYH9/jRrrE/pnx2Yc5pYh0h9LqyobCyFDGJDnK0dnGTE0+JLw+TS9w+3tlaHlh0g7nyM5LQnuT22TRTpltY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=47.90.198.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.dyCry-a_1753436764 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Fri, 25 Jul 2025 17:46:06 +0800
-From: wangweidong.a@awinic.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	zhujun2@cmss.chinamobile.com,
-	wangweidong.a@awinic.com,
-	thorsten.blum@linux.dev,
-	colin.i.king@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: yijiangtao@awinic.com
-Subject: [PATCH next v1] ASoC: codecs: Add acpi_match_table for aw88399 driver
-Date: Fri, 25 Jul 2025 17:46:02 +0800
-Message-ID: <20250725094602.10017-1-wangweidong.a@awinic.com>
-X-Mailer: git-send-email 2.47.0
+	s=arc-20240116; t=1753438286; c=relaxed/simple;
+	bh=Y0NGzviS//zgPCetOZDyVSnAQYlAnfiWPQZqqEoQwaA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d49FtzWQ7NQTS9OUarued2ueDMAnc87+HO99PNNvnVqqaGd2RhdBW+Ef4F/nTmSePhUsglKCzxGgW4WcNrSILL74w1IqqUCQJhYYsqTY/TygmdMe+fSm5FSVzUunDcMM2pToHSij2XuYyvi8P2KmVsl8bfRw0GNz3UYrWPK/ksM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ErFCgoW+; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ErFCgoW+"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 56PAB6MV02155828, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1753438266; bh=u32WEzkrMgsZujZ4agV5ma6Y2EJblAQoh+w0amwLue4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=ErFCgoW+UYR2GTlQSeBsi8PEW1XC7+Y2enAVtCEfqmtebakEI2K81gpCPlleF7yIJ
+	 CQhDCtaOXDkFrzip21eaVcUJsuhGW45KjhqZGdIeBXiC2+W8t4z6QVKkuX/9Y9IuLB
+	 uvpSwGJj2d5oBKYocw/vWvrgSzfJU6Uf4wgJEkozJtFe0SqX3xIbarF3mj4/8HyM9L
+	 sxZ9kbYmvAm+khQJXLRebAHfB7kxIJPO6bglXaLEyD+nBBmM2vcrP0KDPrheBzGwBe
+	 iWHIe3Sy8VApkhdCy+tl2xEwI5ypB8awKfi7MnF0lfe1lHQawawmZ1bid7N20Iiz+d
+	 p1182CYAXXb6w==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 56PAB6MV02155828
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 25 Jul 2025 18:11:06 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 25 Jul 2025 18:11:07 +0800
+Received: from sw-server.localdomain (172.22.102.1) by
+ RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 25 Jul 2025 18:11:06 +0800
+From: <shumingf@realtek.com>
+To: <vkoul@kernel.org>, <vinod.koul@linaro.org>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <flove@realtek.com>, <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH] soundwire: debugfs: add SCP_SDCA_IntStatX and SCP_SDCA_IntMaskX registers
+Date: Fri, 25 Jul 2025 18:11:00 +0800
+Message-ID: <20250725101100.1106673-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,42 +54,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
+ RTEXMBS01.realtek.com.tw (172.21.6.94)
+X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-From: Weidong Wang <wangweidong.a@awinic.com>
+From: Shuming Fan <shumingf@realtek.com>
 
-Add acpi_match_table to the aw88399 driver so that
-it can be used on more platforms.
+This patch added SCP_SDCA_IntStatX and SCP_SDCA_IntMaskX registers.
 
-Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
 ---
- sound/soc/codecs/aw88399.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/soundwire/debugfs.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
-index bad3ad6b8c0e..c23e70d64d0c 100644
---- a/sound/soc/codecs/aw88399.c
-+++ b/sound/soc/codecs/aw88399.c
-@@ -2330,9 +2330,18 @@ static const struct i2c_device_id aw88399_i2c_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, aw88399_i2c_id);
- 
-+#ifdef CONFIG_ACPI
-+static const struct acpi_device_id aw88399_acpi_match[] = {
-+	{ "AWDZ8399", 0 },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(acpi, aw88399_acpi_match);
-+#endif
-+
- static struct i2c_driver aw88399_i2c_driver = {
- 	.driver = {
- 		.name = AW88399_I2C_NAME,
-+		.acpi_match_table = ACPI_PTR(aw88399_acpi_match),
- 	},
- 	.probe = aw88399_i2c_probe,
- 	.id_table = aw88399_i2c_id,
-
-base-commit: d7af19298454ed155f5cf67201a70f5cf836c842
+diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
+index 3099ea074f10..b07f4127e464 100644
+--- a/drivers/soundwire/debugfs.c
++++ b/drivers/soundwire/debugfs.c
+@@ -91,6 +91,8 @@ static int sdw_slave_reg_show(struct seq_file *s_file, void *data)
+ 		ret += sdw_sprintf(slave, buf, ret, i);
+ 	for (i = SDW_SCP_DEVID_0; i <= SDW_SCP_DEVID_5; i++)
+ 		ret += sdw_sprintf(slave, buf, ret, i);
++	for (i = SDW_SCP_SDCA_INT1; i <= SDW_SCP_SDCA_INTMASK4; i++)
++		ret += sdw_sprintf(slave, buf, ret, i);
+ 	for (i = SDW_SCP_FRAMECTRL_B0; i <= SDW_SCP_BUSCLOCK_SCALE_B0; i++)
+ 		ret += sdw_sprintf(slave, buf, ret, i);
+ 	for (i = SDW_SCP_FRAMECTRL_B1; i <= SDW_SCP_BUSCLOCK_SCALE_B1; i++)
 -- 
-2.47.0
+2.34.1
 
