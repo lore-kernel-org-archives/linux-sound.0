@@ -1,89 +1,185 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDEE2D4B57;
-	Fri, 25 Jul 2025 10:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529FE2D8783
+	for <linux-sound@vger.kernel.org>; Fri, 25 Jul 2025 10:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753438286; cv=none; b=N9F4Gkta7oAZ4/VTGMWTyjcA8JeaA1j4enbqDHn3o1hwroJeGt86zs3U4hTQxtTxn63X6YPiXqZI5sYqvPVd/m/4fWPnK5dzMbkMkYddxh7jxVS1R/EAkibJD86jid7dtThLc4xEXdXm7qC6f4P3rLC3kXLe6SbKOsGe0DyR9m8=
+	t=1753439046; cv=none; b=hGNWOEtAEf+cPhRpobH+z8CzydNCLCLK1SFNdZU9gnQc3IzscCkxWfpewdyOvoTMYQOXlb3iTU2l3pFjiBsjKhsPrQmlvg/VwektF1Y4DuIZwjKm/4qAzjy/K8tvWdjscy/FTG2wM2YATEvtFpgrPzoZ+7Eng3ISitzjqujnsqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753438286; c=relaxed/simple;
-	bh=Y0NGzviS//zgPCetOZDyVSnAQYlAnfiWPQZqqEoQwaA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d49FtzWQ7NQTS9OUarued2ueDMAnc87+HO99PNNvnVqqaGd2RhdBW+Ef4F/nTmSePhUsglKCzxGgW4WcNrSILL74w1IqqUCQJhYYsqTY/TygmdMe+fSm5FSVzUunDcMM2pToHSij2XuYyvi8P2KmVsl8bfRw0GNz3UYrWPK/ksM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ErFCgoW+; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1753439046; c=relaxed/simple;
+	bh=2XXVnmKfKOuWrZjQTjDdYxCXEPvU5YjHEeLez+QHVDs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LrPnleGojPgxrddRG8MYeSwg7y1GzwtZRWOR+y+EFrHT4KQseOC27HICzVqZp/K+g4dt3gimVMQ/N5ElA1lWa+o4aC0NHtNrfGQ2gkD6FQnXAaPioxWQny8zGgow8XPujWqCRa9X9oV/G84KTTdjTiTJ/G9zQpsyABUeNtigwo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cthHpa8k; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ErFCgoW+"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 56PAB6MV02155828, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1753438266; bh=u32WEzkrMgsZujZ4agV5ma6Y2EJblAQoh+w0amwLue4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=ErFCgoW+UYR2GTlQSeBsi8PEW1XC7+Y2enAVtCEfqmtebakEI2K81gpCPlleF7yIJ
-	 CQhDCtaOXDkFrzip21eaVcUJsuhGW45KjhqZGdIeBXiC2+W8t4z6QVKkuX/9Y9IuLB
-	 uvpSwGJj2d5oBKYocw/vWvrgSzfJU6Uf4wgJEkozJtFe0SqX3xIbarF3mj4/8HyM9L
-	 sxZ9kbYmvAm+khQJXLRebAHfB7kxIJPO6bglXaLEyD+nBBmM2vcrP0KDPrheBzGwBe
-	 iWHIe3Sy8VApkhdCy+tl2xEwI5ypB8awKfi7MnF0lfe1lHQawawmZ1bid7N20Iiz+d
-	 p1182CYAXXb6w==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 56PAB6MV02155828
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 25 Jul 2025 18:11:06 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 25 Jul 2025 18:11:07 +0800
-Received: from sw-server.localdomain (172.22.102.1) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 25 Jul 2025 18:11:06 +0800
-From: <shumingf@realtek.com>
-To: <vkoul@kernel.org>, <vinod.koul@linaro.org>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <flove@realtek.com>, <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] soundwire: debugfs: add SCP_SDCA_IntStatX and SCP_SDCA_IntMaskX registers
-Date: Fri, 25 Jul 2025 18:11:00 +0800
-Message-ID: <20250725101100.1106673-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cthHpa8k"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-73ff32d8b87so1160608a34.1
+        for <linux-sound@vger.kernel.org>; Fri, 25 Jul 2025 03:24:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753439044; x=1754043844; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s9CPe4n6W7cHa+GL0hIjIVMWtvIyx6LwWGjspV/N2Ok=;
+        b=cthHpa8kfYDBbRt8rGmQl9ly9gIJCXQ9kZGAKozJ7mBH/Td+piYini5xwWV83E06cL
+         H+VfNLeQTQ79LfV3g1yIoQZoKqbT5gt7QKj+w6OpbprY0n9p1FkKxkoj6Zo2v1ibN2Jo
+         fGb9CwOnz0YT7wPug6mIZDJKR3HOTq6bhojFg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753439044; x=1754043844;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s9CPe4n6W7cHa+GL0hIjIVMWtvIyx6LwWGjspV/N2Ok=;
+        b=RfTseM/RZbEERJRopu0SqqiWNZvBPzr/cmNHJ/noCoUk7XpdXALIbiqOFYu2VjvBp9
+         ryj+aSIWW1cnqZQ1SJrub0Yn+yxAamKde1h5yeWFP0mEt+GIOjE1s4GMI9h/ILG2eyag
+         NCpwsTTbRUnQ7M/SC+b2uPQ2CawNX5NUNz4rjXI10rJOBXNeQq0f6FhYGmR1qLzFQ0V/
+         m3IZ/LrxPdrhP4u2ChCHIxzyYuakMqL42Oz4Ulr4wwYAqJTUpDvE3Y326aeqKH4JW+8d
+         m9on8mccZWfZxPOht3gNoqhEnBMkNs6e/fxYbLREUqS0A9RZfEPQ/uSpDcyVa4N/rZky
+         qfEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUgW+pHtanCGEsWCtLgUMc9GDinvVSppFtVVR+Uf7KsdPJf9PVQDwrg2G5VqUg0cIjCYCga6GMA9crdkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfDn3ifWmwRw4p5q0Hq4w/apKq3yiP1CNTOQPEkhvETR8mZFmD
+	BqCTcjIHC7L28+SmLjR1OPkFhVpAePgh5dGeasCgo94LStV5sKLtTIsnE3flc5Cp/pEVwOOOYG9
+	6Jqo=
+X-Gm-Gg: ASbGnculqhm/5iFSgVDoVkrJm3TvLCvCa8PpQQ3xMuXMVl2sQge0h4T2g41sCV2UN7l
+	VeDmMrfUK8hrZgxNH4Kem4BP3PKZvSPhGsM6g8nY1RecHSZH/R1ACfpZrqNjufKjFZlCR1bDSHH
+	YwkrtKHal8yA4+4c/fJ1oLkWC/fXD2gxb6Ev5PBDHgys9e45XRcaGFb5jEGihDI3HJWKgWu4cHZ
+	VxEA+DLCusYq5VxvAy5E6Z9YvBoAORLTKHCR6+ZcyNLmt2SqFJ1SVrR+r/QmdAWK+SnTiPFvrLw
+	/rt5sBvHyA3/6sim4mQGSadRTE7ZneqldWfhTVXOCwF1Vaycf0qd1omROPWx7LLzuvfIFJjlvXW
+	ejffF3p6WdXMVaIebFSbiEx9RD1TPd1GDfU+pv5OrBhiF/iKFZyJoTgHpmQ==
+X-Google-Smtp-Source: AGHT+IEPxUHz+z/PunNw6UW4MsBcl5GDjXWSqt5L1M8N0EVof2CV5Jpjo5nKMKlNyQwac5OhIiGI3A==
+X-Received: by 2002:a05:6830:6c83:b0:735:a61d:5764 with SMTP id 46e09a7af769-7412fda6fdemr2554393a34.9.1753439044025;
+        Fri, 25 Jul 2025 03:24:04 -0700 (PDT)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com. [209.85.210.43])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7412d2ad564sm622446a34.39.2025.07.25.03.24.03
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Jul 2025 03:24:03 -0700 (PDT)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-73e8cc38e80so1470220a34.1
+        for <linux-sound@vger.kernel.org>; Fri, 25 Jul 2025 03:24:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWwTQad6p4FwO5jnzZcseO9KU8ov+6FpX7eDJMs3bKb7Zd76/fFz0h0v3GX3oNJlEmdoqfCtkhu4fHDIg==@vger.kernel.org
+X-Received: by 2002:a05:6102:1623:b0:4fa:dd4:6877 with SMTP id
+ ada2fe7eead31-4fa2eb0ce5dmr2502816137.4.1753438693359; Fri, 25 Jul 2025
+ 03:18:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
- RTEXMBS01.realtek.com.tw (172.21.6.94)
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com> <20250724083914.61351-31-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-31-angelogioacchino.delregno@collabora.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Fri, 25 Jul 2025 18:17:35 +0800
+X-Gmail-Original-Message-ID: <CAC=S1niM4ddPSaOM9uMRQuUS8HwPw+gtxe9kGUggWQx6uio5eA@mail.gmail.com>
+X-Gm-Features: Ac12FXzF0-E5XCOaIf5MFeMvqjYMvWSzSdwqzh1uEwhsUpfXPcd-rqBecXNopmU
+Message-ID: <CAC=S1niM4ddPSaOM9uMRQuUS8HwPw+gtxe9kGUggWQx6uio5eA@mail.gmail.com>
+Subject: Re: [PATCH 30/38] arm64: dts: mediatek: pumpkin-common: Fix pinctrl
+ node names
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
+	daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org, 
+	linus.walleij@linaro.org, linux-remoteproc@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	olivia.wen@mediatek.com, shane.chien@mediatek.com, linux-gpio@vger.kernel.org, 
+	linux-phy@lists.infradead.org, airlied@gmail.com, simona@ffwll.ch, 
+	herbert@gondor.apana.org.au, jassisinghbrar@gmail.com, jiaxin.yu@mediatek.com, 
+	andy.teng@mediatek.com, chunfeng.yun@mediatek.com, jieyy.yang@mediatek.com, 
+	chunkuang.hu@kernel.org, conor+dt@kernel.org, jitao.shi@mediatek.com, 
+	p.zabel@pengutronix.de, arnd@arndb.de, kishon@kernel.org, 
+	kyrie.wu@mediatek.corp-partner.google.com, maarten.lankhorst@linux.intel.com, 
+	tinghan.shen@mediatek.com, mripard@kernel.org, ck.hu@mediatek.com, 
+	broonie@kernel.org, eugen.hristev@linaro.org, houlong.wei@mediatek.com, 
+	matthias.bgg@gmail.com, tglx@linutronix.de, mchehab@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, granquet@baylibre.com, 
+	sam.shih@mediatek.com, mathieu.poirier@linaro.org, fparent@baylibre.com, 
+	andersson@kernel.org, sean.wang@kernel.org, linux-sound@vger.kernel.org, 
+	lgirdwood@gmail.com, vkoul@kernel.org, linux-crypto@vger.kernel.org, 
+	tzimmermann@suse.de, atenart@kernel.org, krzk+dt@kernel.org, 
+	linux-media@vger.kernel.org, davem@davemloft.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Shuming Fan <shumingf@realtek.com>
+On Thu, Jul 24, 2025 at 5:50=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Fix the pinctrl node names to adhere to the bindings, as the main
+> pin node is supposed to be named like "uart0-pins" and the pinmux
+> node named like "pins-bus".
+>
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
 
-This patch added SCP_SDCA_IntStatX and SCP_SDCA_IntMaskX registers.
+Reviewed-by: Fei Shao <fshao@chromium.org>
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- drivers/soundwire/debugfs.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
-index 3099ea074f10..b07f4127e464 100644
---- a/drivers/soundwire/debugfs.c
-+++ b/drivers/soundwire/debugfs.c
-@@ -91,6 +91,8 @@ static int sdw_slave_reg_show(struct seq_file *s_file, void *data)
- 		ret += sdw_sprintf(slave, buf, ret, i);
- 	for (i = SDW_SCP_DEVID_0; i <= SDW_SCP_DEVID_5; i++)
- 		ret += sdw_sprintf(slave, buf, ret, i);
-+	for (i = SDW_SCP_SDCA_INT1; i <= SDW_SCP_SDCA_INTMASK4; i++)
-+		ret += sdw_sprintf(slave, buf, ret, i);
- 	for (i = SDW_SCP_FRAMECTRL_B0; i <= SDW_SCP_BUSCLOCK_SCALE_B0; i++)
- 		ret += sdw_sprintf(slave, buf, ret, i);
- 	for (i = SDW_SCP_FRAMECTRL_B1; i <= SDW_SCP_BUSCLOCK_SCALE_B1; i++)
--- 
-2.34.1
-
+> ---
+>  .../boot/dts/mediatek/pumpkin-common.dtsi      | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi b/arch/arm6=
+4/boot/dts/mediatek/pumpkin-common.dtsi
+> index a356db5fcc5f..805fb82138a8 100644
+> --- a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
+> @@ -198,8 +198,8 @@ &usb_phy {
+>  };
+>
+>  &pio {
+> -       gpio_keys_default: gpiodefault {
+> -               pins_cmd_dat {
+> +       gpio_keys_default: gpio-keys-pins {
+> +               pins-cmd-dat {
+>                         pinmux =3D <MT8516_PIN_42_KPCOL0__FUNC_GPIO42>,
+>                                  <MT8516_PIN_43_KPCOL1__FUNC_GPIO43>;
+>                         bias-pull-up;
+> @@ -207,7 +207,7 @@ pins_cmd_dat {
+>                 };
+>         };
+>
+> -       i2c0_pins_a: i2c0 {
+> +       i2c0_pins_a: i2c0-pins {
+>                 pins1 {
+>                         pinmux =3D <MT8516_PIN_58_SDA0__FUNC_SDA0_0>,
+>                                  <MT8516_PIN_59_SCL0__FUNC_SCL0_0>;
+> @@ -215,7 +215,7 @@ pins1 {
+>                 };
+>         };
+>
+> -       i2c2_pins_a: i2c2 {
+> +       i2c2_pins_a: i2c2-pins {
+>                 pins1 {
+>                         pinmux =3D <MT8516_PIN_60_SDA2__FUNC_SDA2_0>,
+>                                  <MT8516_PIN_61_SCL2__FUNC_SCL2_0>;
+> @@ -223,21 +223,21 @@ pins1 {
+>                 };
+>         };
+>
+> -       tca6416_pins: pinmux_tca6416_pins {
+> -               gpio_mux_rst_n_pin {
+> +       tca6416_pins: tca6416-pins {
+> +               pins-mux-rstn {
+>                         pinmux =3D <MT8516_PIN_65_UTXD1__FUNC_GPIO65>;
+>                         output-high;
+>                 };
+>
+> -               gpio_mux_int_n_pin {
+> +               pins-mux-intn {
+>                         pinmux =3D <MT8516_PIN_64_URXD1__FUNC_GPIO64>;
+>                         input-enable;
+>                         bias-pull-up;
+>                 };
+>         };
+>
+> -       ethernet_pins_default: ethernet {
+> -               pins_ethernet {
+> +       ethernet_pins_default: ethernet-pins {
+> +               pins-eth {
+>                         pinmux =3D <MT8516_PIN_0_EINT0__FUNC_EXT_TXD0>,
+>                                  <MT8516_PIN_1_EINT1__FUNC_EXT_TXD1>,
+>                                  <MT8516_PIN_5_EINT5__FUNC_EXT_RXER>,
+> --
+> 2.50.1
+>
+>
