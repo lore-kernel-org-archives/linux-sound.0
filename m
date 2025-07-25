@@ -1,98 +1,84 @@
-Received: from e3i314.smtp2go.com (e3i314.smtp2go.com [158.120.85.58])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9841C700D
-	for <linux-sound@vger.kernel.org>; Fri, 25 Jul 2025 15:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6389C19E83C;
+	Fri, 25 Jul 2025 16:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753456675; cv=none; b=C+ybecLg07gs2QSesuGuCAN9ayoIjRbNOfSRGMgz5zoKMsDPBfj2A3fF5aNRA95ZEW6LXaDMuf+PE2V8edZofPxrgtpBn8KbMjBPjsaxCmkcnAdpZYHJu3ILu1dwwnGn2OyEqGNBDGbSYgxXOk2GrwF0p8PGdYUu91kM+OpV/hA=
+	t=1753461387; cv=none; b=po6wUnsJ3L8f9/jgQfEK7IISmyugts5lYUbNfE2hA5SvVRSvzoN2KQEh0toXwqsCpft3H/eXQcg9L6KKsYF0CXatE+3vZ9thinw+5zV/k+8p5KNBAt9xKwIJ5l4hnIGIVg69IMj0aHiuLbMWwBE52Dd6gb3AJ9clUvAo1jRK/XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753456675; c=relaxed/simple;
-	bh=woIP6dtlEzDY0l3M0VQ4FGnewBR2yOUwHMm735zXzLE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ut9deuB8wnWa6c/8Hh2+82x4bXR6xJW9IjCASGn0y0jeiqcaLwWFWhZjDOG5hqy9Q2OYpl2MBEvU8gK2xl2L/BqHi7W42dO+xM6E+gMZotosC2UvMSg1mo64ubmeN1olWr87/DCzcz2CDA/XvDkgwPK0iwfumZkxc9NvZxXyjpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev; spf=pass smtp.mailfrom=em1255854.medip.dev; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=bzqhLI/3; dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b=Xg1owPYJ; arc=none smtp.client-ip=158.120.85.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1255854.medip.dev
+	s=arc-20240116; t=1753461387; c=relaxed/simple;
+	bh=68PGpsj8IBEIaD9t411zbBjvKONR3sSiUZwE+hcOFMU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Y6b+cCxI3oP2YUr5xjNle4yp+PVJw6k4z0Hgba9GbLgKI9rN5a0QvlnrYk/y5CgewqPwfVD2dCCmA8ELUIPCHrm+PAFUzHTCYM/pdcjE94MKl+oqpDbej3rNS0eIh7GFnIbPuzL8e4Wh2sg/SFEuaViCN04tWTPn3cBSUrJ7QM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7n8Lob4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="bzqhLI/3";
-	dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b="Xg1owPYJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
- i=@smtpservice.net; q=dns/txt; s=a1-4; t=1753456671; h=feedback-id :
- x-smtpcorp-track : date : message-id : to : subject : from : reply-to
- : sender : list-unsubscribe : list-unsubscribe-post;
- bh=1GYi97gw+l8m43s+LjoRWyK8qB47vHIEsv3nJylYdBM=;
- b=bzqhLI/3CTX4Xjd+TCnKEvNe2KrkkXR10hLBAVhLwZPQOaLgdY5en5Rdq+lSGoGR8/ikZ
- VOC0xL0ka77XW5OgrSoBsDIN81zVw5qkVh+YuGvBbtBYwT/BdLyg3acJlVNaUjBoxukoHsi
- itpSqVWUP9//RdhkJ9K/fJ34ntR5UyJpLhJbCpGCa4QtzBTH7J8nrvrqPgauAYxAA8qQt81
- gaDlfNud91JJLzNHwFPcB5EIlO5SnMcuPWr5tbHO6Dz93O/2l8cO8+Ugd0BCs3jkuWiZbZK
- orx7hjrMAgUjc++QoVgI8RE+zHxPGuE4fx7WQxrndLayjpIZOpQIsD0gEiBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=medip.dev;
- i=@medip.dev; q=dns/txt; s=s1255854; t=1753456671; h=from : subject :
- to : message-id : date;
- bh=1GYi97gw+l8m43s+LjoRWyK8qB47vHIEsv3nJylYdBM=;
- b=Xg1owPYJV30yWQdBpXy59nYQdk4bl3XdvZbrKmmUQpExrGu7dD72mgFud7/AqdvHwYvlv
- C0CoHt/XbVkIEbSdSrQDn1mO9o2NStm1C4+qpQi/ApHr2sd5wkM5GiSombUOgT9XEa8MPQi
- Ztm5YkKkeWgr3tHFz/jhduHXDyrq4bGcI6A/ZHetZVF8dDSmWL/giSA9Jg8qmeK9teS3icT
- a+GdW83tQCe+jCdc9O6hH9a/M+CiTlErZ0hOs1FtFXvn5PgrUFNq36+ZdJo0SJZemA3EAh5
- dzBTcTQ7qepVQp6dq9Jun7gtyRSkXz9hZ0mkheVXEVcGfwJ7c45RlltN7gsg==
-Received: from [10.152.250.198] (helo=vilez)
-	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.1-S2G)
-	(envelope-from <edip@medip.dev>)
-	id 1ufKB7-FnQW0hPr5lr-h1v1;
-	Fri, 25 Jul 2025 15:17:46 +0000
-From: edip@medip.dev
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Edip Hazuri <edip@medip.dev>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda/realtek - Fix mute LED for HP Victus 16-r1xxx
-Date: Fri, 25 Jul 2025 18:14:37 +0300
-Message-ID: <20250725151436.51543-2-edip@medip.dev>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7n8Lob4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B50FCC4CEE7;
+	Fri, 25 Jul 2025 16:36:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753461386;
+	bh=68PGpsj8IBEIaD9t411zbBjvKONR3sSiUZwE+hcOFMU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=B7n8Lob4UaouthKw8LI16Xl5vmrvrF3iw+Y0RGWmPiDWj2LTEeDrJ2EP+YmGl1+xX
+	 TxFmAgCVxIOug4+91iq2VMDQPxb6hLdqfwXPx9kU+Nqo2naDwTaVcg1WHtljenO44L
+	 1D6tfyoxn4kIS6ATWH5G0Pv9sPCNGON8hn8XURAF7NgV+GnFRRr03F3owzoVNF6lp1
+	 DbZ55mjlLWNVK7OV4ZGRO+yqE6ylwPJ+EYPVBxTQZIdtJTzP4NHottBbGjeXTkSPNg
+	 aDmWXpULkPcr+94ElHWMgdA+6ZyaDl5n2nwN2cbaHB0PsCt6Nf3BPXmK9uxGJnXI3J
+	 I9mlVucZAZqDA==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ zhujun2@cmss.chinamobile.com, thorsten.blum@linux.dev, 
+ colin.i.king@gmail.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, wangweidong.a@awinic.com
+Cc: yijiangtao@awinic.com
+In-Reply-To: <20250725094602.10017-1-wangweidong.a@awinic.com>
+References: <20250725094602.10017-1-wangweidong.a@awinic.com>
+Subject: Re: [PATCH next v1] ASoC: codecs: Add acpi_match_table for aw88399
+ driver
+Message-Id: <175346138441.1147425.11453205352684074445.b4-ty@kernel.org>
+Date: Fri, 25 Jul 2025 17:36:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 1255854m:1255854ay30w_v:1255854s7LIr8FS_w
-X-smtpcorp-track: VIEx4yskT9TE.6QxtTrHyMukk.tfbveAM5o0A
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-a9b2a
 
-From: Edip Hazuri <edip@medip.dev>
+On Fri, 25 Jul 2025 17:46:02 +0800, wangweidong.a@awinic.com wrote:
+> Add acpi_match_table to the aw88399 driver so that
+> it can be used on more platforms.
+> 
+> 
 
-The mute led on this laptop is using ALC245 but requires a quirk to work
-This patch enables the existing quirk for the device.
+Applied to
 
-Tested on Victus 16-r1xxx Laptop. The LED behaviour works
-as intended.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-v2:
-- adapt the HD-audio code changes and rebase on for-next branch of tiwai/sound.git
-- link to v1: https://lore.kernel.org/linux-sound/20250724210756.61453-2-edip@medip.dev/
+Thanks!
 
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Edip Hazuri <edip@medip.dev>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+[1/1] ASoC: codecs: Add acpi_match_table for aw88399 driver
+      commit: e95122a32e777309412e30dc638dbc88b9036811
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 05019fa73..33ef08d25 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6580,6 +6580,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8c91, "HP EliteBook 660", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8c96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8c97, "HP ZBook", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x8c99, "HP Victus 16-r1xxx (MB 8C99)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8c9c, "HP Victus 16-s1xxx (MB 8C9C)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8ca1, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ca2, "HP ZBook Power", ALC236_FIXUP_HP_GPIO_LED),
--- 
-2.50.1
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
