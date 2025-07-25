@@ -1,226 +1,158 @@
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9988C2E6D12
-	for <linux-sound@vger.kernel.org>; Fri, 25 Jul 2025 11:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A6F2D374E
+	for <linux-sound@vger.kernel.org>; Fri, 25 Jul 2025 11:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753443805; cv=none; b=YdW3al+1MnmzBWGGKdldJk3nCbVxH2b2uO4DZNvu8a17HsuqTw0qVBTWarp0FxnzU2eK/2II2Z0necXIQM0D0OeNxaE6wwGQWrvWGgOAju1wnDfJqX87hwiPpmCx9N4XBL9hmdksKVqsGINLmpgWNN2SlkYqBRkBxV61EsvNGDg=
+	t=1753443864; cv=none; b=kTn1wxxy48YAB9XWa84ok8T5t9cviHZrkVZAWm/WyhApCSCdYwUg+ZoHvYhQnT+g4aHadUjit4ehguuqHj0C2CNsQXjDwmj+WZwaFwVh6D0NOE/nf6pi6NN284SWBSuJHX7ABbPcMeQaeB8d4LOIxhWD7KZEdxJIJ7JjLvDKhoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753443805; c=relaxed/simple;
-	bh=k6k/meNtnpI0AbZogIbblDVPY8C9zkYXASXrXZ2KXLo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gVlA53LwC4gdj5y7OETsoZncl3Nczw74whQuCdMKTyqtR323sR7wEyK0eKjZIwDtZWLfxLtkB3RHrkWVJbG7xcyNAuEXwXnc5GVyeT+3R/6Du9EK08u206/TrL9rqXdSREfoG9QWYg8iLPRRYaX1LCggtr8FLKxIVsxa7mwm44E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--verhaegen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xnHYe6wn; arc=none smtp.client-ip=209.85.221.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--verhaegen.bounces.google.com
+	s=arc-20240116; t=1753443864; c=relaxed/simple;
+	bh=KqH01V/ZQOGZhBJpHb3zgphhQB1Sh25Ttt4gkVmURXc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RSwu0W7Vu91voLHvCxnkQ7++Ai4oaQASvXsu/tvgYhDOvxRCEGb3DSNej8b4/+GGfoTpFSjlncnDbCDzT7P7atW3glu5er7PvmIMEiooTVGD3gf1l/wPCvUGgcOQzAAeKqXPO6xc42RA/DYdCKR38yzhdjLxThn/hrQTA5Ij3Hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=k3ildTVq; arc=none smtp.client-ip=209.85.160.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xnHYe6wn"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-3a523ce0bb2so1063054f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 25 Jul 2025 04:43:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="k3ildTVq"
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2ea6dd628a7so1051600fac.1
+        for <linux-sound@vger.kernel.org>; Fri, 25 Jul 2025 04:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1753443802; x=1754048602; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aqRJeB3ZOhOyNMpaxrCuy+vXcmCv+FI9NJwY2DwIw1Q=;
-        b=xnHYe6wnnaCpQ6dKnfd4mamda/mNOIXpa+qaVziuS7QHsxFgRH6Hj+o2LEf9KxrDyl
-         hZlGz7hZsmVzNpAVdFrwzqHRQqUeXstCx+wADh7vX18Hlywm/wy9W1bGhxLV7I8m3R9n
-         TGQ72oVGzWHxhd9os4MEWmWTNUOj+UzkgUsqs0FdFLA+30UB1wl6UP3dQlIeZv6CVbBd
-         KRuoGu+VImCt9Wi3GYfxknM2Q4WiO+g3fDBYZoShra4DlUcSnDnfVFbvIXSBWUUzcEog
-         bvmkRMbufej6Y1frGROvn19DpGmXRWenBOsjRugWgRSbjOhPH94hSrli+nRMG7xcfY6H
-         T80g==
+        d=chromium.org; s=google; t=1753443861; x=1754048661; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YfE909p8Iq119G3J/2SxiBSXlMMdz4SFa3hpgANK2k8=;
+        b=k3ildTVqb3IULjHOyGV9Uw+jhHp784Yhdr03s28T4kYU9v/SVtbux7diiCdmWU7/7Z
+         slOgSTBU5qToCULCT9mAxc8fiDH4Vl8N3ISQPX375mgjf2lCe9y1qmur4PsPNOXe72wk
+         Ctz91TBx8iALwva22FtjSLUdzMgImW9L9qG1A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753443802; x=1754048602;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aqRJeB3ZOhOyNMpaxrCuy+vXcmCv+FI9NJwY2DwIw1Q=;
-        b=r8xUVfILnKvj5GUcd8Xs37pzAvxYbYc0Y4zvxfY+qQkkytMWOilJXXyZ2/SGKiWze9
-         NpINxI0siagpkDSpJZ5ep2NGI5oTy30CBR6yzlceCFpJynORG4V20W6LI+fcAnzqAC7K
-         OOqe/mRhzi77ZwaaExbsAv8l7N2MzYPrhinRcwWi2mrQp3iXU+RcEK/pL3i8SeQw6crP
-         MKeBfUvDXpVVAFgF8Ai6wHXmx9O4frFrHbtoZknn4/FWvHfnATAsE8YuH0qCf7eqJkAk
-         1uRxaAEt04uPKsLsMWz1sirsbp3ZLEufvi1/bqhI2bv9Atokz/ZlbTHdB03qMTHI9Ahu
-         bb9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUS2p5h5Q+wiPudxi2K/QYuVPk4yeA2DEfpNQNg4byuiTOMpiafNRhnu/FCihMgMHc56QxGXT3mgEcDgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuPMioDVA96TucvmLektGBKmWqvs0I7DMXQnkKcCpGXemon1sN
-	qNSJHPjGaasxjQbETmNzIr05iALImUhWpFTDXHr+vm4rzKD0ioliVUZAPIszYZgzsSmATY3hNME
-	N78a/BUpn073p24iusw==
-X-Google-Smtp-Source: AGHT+IHGAUF8Q7Gd9qDiczST6gVfYuJvOxlipqHbB5s/ofwidCkWtf8SPhwLkjVb4BeR2JNZtpLO8MRs4iHGYDE=
-X-Received: from wmbjn21.prod.google.com ([2002:a05:600c:6b15:b0:456:12af:6677])
- (user=verhaegen job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:4022:b0:3a3:7baf:f06a with SMTP id ffacd0b85a97d-3b77675db6amr1168191f8f.37.1753443802095;
- Fri, 25 Jul 2025 04:43:22 -0700 (PDT)
-Date: Fri, 25 Jul 2025 12:42:45 +0100
-In-Reply-To: <20250725114249.2086974-1-verhaegen@google.com>
+        d=1e100.net; s=20230601; t=1753443861; x=1754048661;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YfE909p8Iq119G3J/2SxiBSXlMMdz4SFa3hpgANK2k8=;
+        b=Mbg80Ff9Xo6yMfH4/bLaCFEh8wFclQXbi0hUO3EpPwQ6b6qMJfpnelpJJs2YneugIu
+         LA2XrSJ0lqNG88lwOFPqhnzAL7xV2Ghtah7+dbBcoOib987yzvuadSPYW7bc0yccwdwj
+         /ag1WNkJlXWYVOZtAQjJ1uOi595GdRKET6GjKUGTZ5lyp5Zag2m5jb1GocKFKganyY2D
+         suhqliU8f22RhcuIt8TbvtXAJdOeZ+soQtmmEJI5Sq8CFZ96/hJdY5BHqMJ5jyH6Xvl2
+         /FC7K1bq7pm6wkVLMPtIhgTgelJFtbphqcrSWUQfiPCkMr1d/FQ6X9c1sXoZyG1++ta7
+         URrA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGWmd2F28rzSHVeV1K8gJ4vBZB0jI5SZVe+AwInqIW8+X6nWuOnDEhsUM6bnWs/LKzkVbgBIItbQa3LA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwChG61uCdnsqx7SDyVnj753PkkgtT6dZYTcuS+cEZpK16kt+UH
+	aRQp7FidCzLoYX4rRBMxoyQBFnDlSaJJOHVrH59ZvhyamU+bktvx8KABUNaV2IPUREOYmICdAwu
+	CebtX7w==
+X-Gm-Gg: ASbGnctUKJNPLruw6oUqdPjbR1NsF8qRZ6yqE7OOmHvKFVoddJTlfscMSFh5jhOrN/b
+	7DZIGANAY2eGe8hrijGchhG3RDO2+t1x/qQo6+lzeg7Itc+YBWdzwywENb4jzrl6hZDjNGuRRr0
+	UUhog3tpBtsEQw07yJ+lG53xuzHG8GqzHZk8g2RM7ZabaAW6TRCvxkgUtBIiweTHgGYxCG8XUkC
+	TdnPHiBtFMmgH9ArXjQPrKdUIr9KmlIC6RznlNRySGVovycCExZVgHTAugBF8fauXOuudLzXXTv
+	1Mt8ooTwAk8N+kTWL2wlgikEo7wLZmRr7ViHezvc231F6tNK8quX4TJ8qwKzqSkHIQ0hYYfgnJx
+	V88EVi9eAngysYTBXOcljTq3KA5neWhrUz290hZYVr4/pdSmzrD0m7DKCIZZOVw==
+X-Google-Smtp-Source: AGHT+IGLI9nc3yeTw3HWmenePwOoMbIzX2EOVa9lzot/YgHXvvaWXHx+bwehB0zf4hTSKUWlu1IL0A==
+X-Received: by 2002:a05:6871:39c7:b0:306:c0b8:49f1 with SMTP id 586e51a60fabf-30701f098f0mr932945fac.19.1753443861510;
+        Fri, 25 Jul 2025 04:44:21 -0700 (PDT)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com. [209.85.167.169])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-306e1f7b1b1sm1026176fac.41.2025.07.25.04.44.20
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Jul 2025 04:44:21 -0700 (PDT)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-41b7d124016so1031311b6e.1
+        for <linux-sound@vger.kernel.org>; Fri, 25 Jul 2025 04:44:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVfwXsnNJ9EDO9d1+04Nm6w86hFRcC3SFU5l7/EXWUJcu737sQmdDjjT3AtAVTtgVrnZDJMjmdezyNW0g==@vger.kernel.org
+X-Received: by 2002:a05:6102:3713:b0:4e9:b7e3:bdcd with SMTP id
+ ada2fe7eead31-4fa3fad468amr285963137.12.1753440273293; Fri, 25 Jul 2025
+ 03:44:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250725114249.2086974-1-verhaegen@google.com>
-X-Mailer: git-send-email 2.50.1.470.g6ba607880d-goog
-Message-ID: <20250725114249.2086974-4-verhaegen@google.com>
-Subject: [PATCH v3 3/3] ALSA: compress_offload: Add SNDRV_COMPRESS_AVAIL64 ioctl
-From: Joris Verhaegen <verhaegen@google.com>
-To: Vinod Koul <vkoul@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Srinivas Kandagatla <srini@kernel.org>, 
-	Daniel Baluta <daniel.baluta@nxp.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Joris Verhaegen <verhaegen@google.com>, kernel-team@android.com, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-arm-msm@vger.kernel.org, 
-	sound-open-firmware@alsa-project.org, linux-arm-kernel@lists.infradead.org, 
-	Miller Liang <millerliang@google.com>
+MIME-Version: 1.0
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com> <20250724083914.61351-24-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-24-angelogioacchino.delregno@collabora.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Fri, 25 Jul 2025 18:43:57 +0800
+X-Gmail-Original-Message-ID: <CAC=S1njhu11nHpyMULbK6PE-BLrBMq+d397pDU6gBzgo7xivXg@mail.gmail.com>
+X-Gm-Features: Ac12FXyc7RkTIKa4HnSlf_SM-GYdwIREUn6AcAkOBKhNuekdCdvFzy29o7Ufs68
+Message-ID: <CAC=S1njhu11nHpyMULbK6PE-BLrBMq+d397pDU6gBzgo7xivXg@mail.gmail.com>
+Subject: Re: [PATCH 23/38] arm64: dts: mediatek: mt7986a: Fix PCI-Express
+ T-PHY node address
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, robh@kernel.org, 
+	daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org, 
+	linus.walleij@linaro.org, linux-remoteproc@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	olivia.wen@mediatek.com, shane.chien@mediatek.com, linux-gpio@vger.kernel.org, 
+	linux-phy@lists.infradead.org, airlied@gmail.com, simona@ffwll.ch, 
+	herbert@gondor.apana.org.au, jassisinghbrar@gmail.com, jiaxin.yu@mediatek.com, 
+	andy.teng@mediatek.com, chunfeng.yun@mediatek.com, jieyy.yang@mediatek.com, 
+	chunkuang.hu@kernel.org, conor+dt@kernel.org, jitao.shi@mediatek.com, 
+	p.zabel@pengutronix.de, arnd@arndb.de, kishon@kernel.org, 
+	kyrie.wu@mediatek.corp-partner.google.com, maarten.lankhorst@linux.intel.com, 
+	tinghan.shen@mediatek.com, mripard@kernel.org, ck.hu@mediatek.com, 
+	broonie@kernel.org, eugen.hristev@linaro.org, houlong.wei@mediatek.com, 
+	matthias.bgg@gmail.com, tglx@linutronix.de, mchehab@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, granquet@baylibre.com, 
+	sam.shih@mediatek.com, mathieu.poirier@linaro.org, fparent@baylibre.com, 
+	andersson@kernel.org, sean.wang@kernel.org, linux-sound@vger.kernel.org, 
+	lgirdwood@gmail.com, vkoul@kernel.org, linux-crypto@vger.kernel.org, 
+	tzimmermann@suse.de, atenart@kernel.org, krzk+dt@kernel.org, 
+	linux-media@vger.kernel.org, davem@davemloft.net
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The previous patch introduced a 64-bit timestamp ioctl
-(SNDRV_COMPRESS_TSTAMP64). To provide a consistent API, this patch
-adds a corresponding 64-bit version of the SNDRV_COMPRESS_AVAIL ioctl.
+On Thu, Jul 24, 2025 at 5:49=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> The PCIe TPHY is under the soc bus, which provides MMIO, and all
+> nodes under that must use the bus, otherwise those would clearly
+> be out of place.
+>
+> Add ranges to the PCIe tphy and assign the address to the main
+> node to silence a dtbs_check warning, and fix the children to
+> use the MMIO range of t-phy.
+>
+> Fixes: 963c3b0c47ec ("arm64: dts: mediatek: fix t-phy unit name")
+> Fixes: 918aed7abd2d ("arm64: dts: mt7986: add pcie related device nodes")
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
 
-A new struct snd_compr_avail64 is added to the UAPI, which includes
-the 64-bit timestamp. The existing ioctl implementation is refactored
-to handle both the 32-bit and 64-bit variants.
+Reviewed-by: Fei Shao <fshao@chromium.org>
 
-Reviewed-by: Miller Liang <millerliang@google.com>
-Tested-by: Joris Verhaegen <verhaegen@google.com>
-Signed-off-by: Joris Verhaegen <verhaegen@google.com>
----
- include/uapi/sound/compress_offload.h | 11 +++++++
- sound/core/compress_offload.c         | 45 +++++++++++++++++----------
- 2 files changed, 40 insertions(+), 16 deletions(-)
-
-diff --git a/include/uapi/sound/compress_offload.h b/include/uapi/sound/compress_offload.h
-index 70b8921601f9..26f756cc2e62 100644
---- a/include/uapi/sound/compress_offload.h
-+++ b/include/uapi/sound/compress_offload.h
-@@ -84,6 +84,16 @@ struct snd_compr_avail {
- 	struct snd_compr_tstamp tstamp;
- } __attribute__((packed, aligned(4)));
- 
-+/**
-+ * struct snd_compr_avail64 - avail descriptor with tstamp in 64 bit format
-+ * @avail: Number of bytes available in ring buffer for writing/reading
-+ * @tstamp: timestamp information
-+ */
-+struct snd_compr_avail64 {
-+	__u64 avail;
-+	struct snd_compr_tstamp64 tstamp;
-+} __attribute__((packed, aligned(4)));
-+
- enum snd_compr_direction {
- 	SND_COMPRESS_PLAYBACK = 0,
- 	SND_COMPRESS_CAPTURE,
-@@ -231,6 +241,7 @@ struct snd_compr_task_status {
- #define SNDRV_COMPRESS_TSTAMP		_IOR('C', 0x20, struct snd_compr_tstamp)
- #define SNDRV_COMPRESS_AVAIL		_IOR('C', 0x21, struct snd_compr_avail)
- #define SNDRV_COMPRESS_TSTAMP64		_IOR('C', 0x22, struct snd_compr_tstamp64)
-+#define SNDRV_COMPRESS_AVAIL64		_IOR('C', 0x23, struct snd_compr_avail64)
- #define SNDRV_COMPRESS_PAUSE		_IO('C', 0x30)
- #define SNDRV_COMPRESS_RESUME		_IO('C', 0x31)
- #define SNDRV_COMPRESS_START		_IO('C', 0x32)
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index 445220fdb6a0..4d3cf49c0c47 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -203,13 +203,10 @@ static int snd_compr_update_tstamp(struct snd_compr_stream *stream,
- }
- 
- static size_t snd_compr_calc_avail(struct snd_compr_stream *stream,
--		struct snd_compr_avail *avail)
-+				   struct snd_compr_avail64 *avail)
- {
--	struct snd_compr_tstamp64 tstamp64 = { 0 };
--
- 	memset(avail, 0, sizeof(*avail));
--	snd_compr_update_tstamp(stream, &tstamp64);
--	snd_compr_tstamp32_from_64(&avail->tstamp, &tstamp64);
-+	snd_compr_update_tstamp(stream, &avail->tstamp);
- 	/* Still need to return avail even if tstamp can't be filled in */
- 
- 	if (stream->runtime->total_bytes_available == 0 &&
-@@ -233,32 +230,47 @@ static size_t snd_compr_calc_avail(struct snd_compr_stream *stream,
- 	}
- 
- 	avail->avail = stream->runtime->total_bytes_available -
--			stream->runtime->total_bytes_transferred;
-+		       stream->runtime->total_bytes_transferred;
- 	if (stream->direction == SND_COMPRESS_PLAYBACK)
- 		avail->avail = stream->runtime->buffer_size - avail->avail;
- 
--	pr_debug("ret avail as %llu\n", avail->avail);
-+	pr_debug("ret avail as %zu\n", (size_t)avail->avail);
- 	return avail->avail;
- }
- 
- static inline size_t snd_compr_get_avail(struct snd_compr_stream *stream)
- {
--	struct snd_compr_avail avail;
-+	struct snd_compr_avail64 avail;
- 
- 	return snd_compr_calc_avail(stream, &avail);
- }
- 
--static int
--snd_compr_ioctl_avail(struct snd_compr_stream *stream, unsigned long arg)
-+static void snd_compr_avail32_from_64(struct snd_compr_avail *avail32,
-+				      const struct snd_compr_avail64 *avail64)
- {
--	struct snd_compr_avail ioctl_avail;
-+	avail32->avail = avail64->avail;
-+	snd_compr_tstamp32_from_64(&avail32->tstamp, &avail64->tstamp);
-+}
-+
-+static int snd_compr_ioctl_avail(struct snd_compr_stream *stream,
-+				 unsigned long arg, bool is_32bit)
-+{
-+	struct snd_compr_avail64 ioctl_avail64;
-+	struct snd_compr_avail ioctl_avail32;
- 	size_t avail;
-+	const void *copy_from = &ioctl_avail64;
-+	size_t copy_size = sizeof(ioctl_avail64);
- 
- 	if (stream->direction == SND_COMPRESS_ACCEL)
- 		return -EBADFD;
- 
--	avail = snd_compr_calc_avail(stream, &ioctl_avail);
--	ioctl_avail.avail = avail;
-+	avail = snd_compr_calc_avail(stream, &ioctl_avail64);
-+	ioctl_avail64.avail = avail;
-+	if (is_32bit) {
-+		snd_compr_avail32_from_64(&ioctl_avail32, &ioctl_avail64);
-+		copy_from = &ioctl_avail32;
-+		copy_size = sizeof(ioctl_avail32);
-+	}
- 
- 	switch (stream->runtime->state) {
- 	case SNDRV_PCM_STATE_OPEN:
-@@ -269,8 +281,7 @@ snd_compr_ioctl_avail(struct snd_compr_stream *stream, unsigned long arg)
- 		break;
- 	}
- 
--	if (copy_to_user((__u64 __user *)arg,
--				&ioctl_avail, sizeof(ioctl_avail)))
-+	if (copy_to_user((__u64 __user *)arg, copy_from, copy_size))
- 		return -EFAULT;
- 	return 0;
- }
-@@ -1336,7 +1347,9 @@ static long snd_compr_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
- 	case SNDRV_COMPRESS_TSTAMP64:
- 		return snd_compr_tstamp(stream, arg, false);
- 	case SNDRV_COMPRESS_AVAIL:
--		return snd_compr_ioctl_avail(stream, arg);
-+		return snd_compr_ioctl_avail(stream, arg, true);
-+	case SNDRV_COMPRESS_AVAIL64:
-+		return snd_compr_ioctl_avail(stream, arg, false);
- 	case SNDRV_COMPRESS_PAUSE:
- 		return snd_compr_pause(stream);
- 	case SNDRV_COMPRESS_RESUME:
--- 
-2.50.1.470.g6ba607880d-goog
-
+> ---
+>  arch/arm64/boot/dts/mediatek/mt7986a.dtsi | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi b/arch/arm64/boot/=
+dts/mediatek/mt7986a.dtsi
+> index 559990dcd1d1..3211905b6f86 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt7986a.dtsi
+> @@ -428,16 +428,16 @@ pcie_intc: interrupt-controller {
+>                         };
+>                 };
+>
+> -               pcie_phy: t-phy {
+> +               pcie_phy: t-phy@11c00000 {
+>                         compatible =3D "mediatek,mt7986-tphy",
+>                                      "mediatek,generic-tphy-v2";
+> -                       ranges;
+> -                       #address-cells =3D <2>;
+> -                       #size-cells =3D <2>;
+> +                       ranges =3D <0 0 0x11c00000 0x20000>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <1>;
+>                         status =3D "disabled";
+>
+> -                       pcie_port: pcie-phy@11c00000 {
+> -                               reg =3D <0 0x11c00000 0 0x20000>;
+> +                       pcie_port: pcie-phy@0 {
+> +                               reg =3D <0 0x20000>;
+>                                 clocks =3D <&clk40m>;
+>                                 clock-names =3D "ref";
+>                                 #phy-cells =3D <1>;
+> --
+> 2.50.1
+>
+>
