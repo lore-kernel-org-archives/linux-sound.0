@@ -1,33 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943A19460;
-	Sun, 27 Jul 2025 09:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE861FCF41
+	for <linux-sound@vger.kernel.org>; Sun, 27 Jul 2025 11:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753608619; cv=none; b=OF/FRIvxmc2FDqxzunMZ6arjf9G5LkRLHoBcqTuQFWdqExTslhTWSCjI0+RWab2JcUv0v2V/6xiIMolcQCj0WRQyfZwN+YC5iQjmvEDpdGD7kulAyWJNWtmSyBmOQASZpE65yD2vCA+exgr+pn92aiSAMLTGWD4qBCQHQQMIXno=
+	t=1753615519; cv=none; b=lgEPwzz4QUgpGisxb1Lp/AIYjPQ8YLOKtMLuu3n1B6dM+bTzXKGsV8JSQj6baMznjgYk70sMJZgOA1PY2bUkTuuUOjRa95voGKhz/leemqoszxTKzMg0pfxnmwX6iVXTgG0dMiUu3f366cnV+jqRcFjxHxKwCerLBQ+7AVepOjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753608619; c=relaxed/simple;
-	bh=1G8EBj+mLr6qao5CQ+yXFngGEjwUU5x6p8fIGY11ZQQ=;
+	s=arc-20240116; t=1753615519; c=relaxed/simple;
+	bh=mpicCbPyy9dZQR13RfrXUc9e1M5HBHhRY/bkK7x1vjU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VNt92wn/eKoRnw8W3PiWBhv2/WSZWW2pA50VgdJcgbUXoBUPTnDTcGstHvBhLEmoGo56KHQcpJ0MkViIj9zUS5pEXgyETdswu/bAxeueRPweTuGASMK+/PVzHHM7r0C+w/gTHUXPABHLfpBdpiFfvoeMloBXExa507Mo0rhApdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dCB3pcy2; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=BLLSaUA+yt+xW+4ExhR6mr36hnorY967JVBo9QqM+mKBQgJWUmghrXlOcLzpMaIcFrBVvnsc6Cey4+NwnyS2JAOmE335bkldyw3NrvtI9eCcSrQA+FKIduWCHerl5PllzwZ3uJvd2blmhIEmuIJmV/ArAQlxyI25se9IyFnKaII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Q89WmYfw; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dCB3pcy2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD411C4CEEB;
-	Sun, 27 Jul 2025 09:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753608617;
-	bh=1G8EBj+mLr6qao5CQ+yXFngGEjwUU5x6p8fIGY11ZQQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dCB3pcy2zaJG7lj+TOpcxPdADFKlNfDLfLL0AB8tklII7BnnHxSX7LbhtbFzDrNrC
-	 23/F/ev4yKLXpy3gnLDwcE+J2euOLXdBu1+jIKAH5w7BUL5/9r2jNnrSWQDLAi/Xc5
-	 VjOeaqDJjS1c7QiGuveUf6Fb87X25aJoRP+Xz4y1f8FCyPMFWbgzX1Zn4udJjADXIM
-	 3mfwV5UPEL+1ywzVBfYyyjcbd8Jda1htwZkRt+DInzc+OET7ZGetS58gxRki01J5Vf
-	 PaP/wGoh7odeWGVDqzPQuXfX/0VQliroXA9yS6CCU9utdP9uxVO0McCFSNZjmD92zT
-	 wP7HQ5zMjfs8w==
-Message-ID: <07faf0cc-a8e6-426d-b397-dfc321a7f3df@kernel.org>
-Date: Sun, 27 Jul 2025 11:30:11 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q89WmYfw"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56R4oK6L032132
+	for <linux-sound@vger.kernel.org>; Sun, 27 Jul 2025 11:25:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DfJKZhMSNWDE28vPZNyTvcOOnTgpUT1dF1tLEjH+ZFc=; b=Q89WmYfw4DOBQLol
+	HXZhb830aRzwUa747kEC9YifTj/wkA3q2bIZcgwtVvfdoZZHKXDmxP6bkDv7Z3ZP
+	Rm9/MDUmfHojmgAC0IQ2WT04PVnhLq9TKKm5r249awK4A6PLE2y7Is+Fjdj5hG9h
+	OYsPMsrDRtGAxJ9zi4wvX+rjhgsxfLZj/DteH6LL4+8KFj0GpDmhIOCJkMg++5vv
+	IwxEHkLYGUEB2MkFpXKrrkMaoG5sbsPMaFVZTkE1QfETKUaOe8KydM9/H1hS5l1N
+	E6WU4E/G6wtdzc8uj6i+ZWk41m9hxkGAio3xb4kQHEbLMYHMZFi6kV7iDfFapILK
+	JVaAXA==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484r6qhxr1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 27 Jul 2025 11:25:16 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-70744318bdfso10211676d6.3
+        for <linux-sound@vger.kernel.org>; Sun, 27 Jul 2025 04:25:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753615515; x=1754220315;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DfJKZhMSNWDE28vPZNyTvcOOnTgpUT1dF1tLEjH+ZFc=;
+        b=GaW+AvXU77Q2x5CuJPvFkj9eQapCPW/tX3EwLB8lXvYUR//J1bZ3813F27F5YLhI3Y
+         zvMUapiTifkuJKCeqZ74VTNfwZhFcNlB951oiB6q9IPYXKPBo/ROEZIIVM7mZSPQsNCj
+         N2rf2mnU6pS2mlPt7+8AyQtNT9ke23RaZMl7LdKlzG6VwyV5f0Z0iRD71HmZ4iJy6FaR
+         uA8TJiEdgEhupALmImqzsynyn9bz2+s/2/8sJFu5p+F1X0czqh6Y4tqOrOxC01LsoSzP
+         aRd73DXCssamlRAq9gY38g5gdCFLU1g54cJ0Gqq2cV6zbUO3NAl0pN6Q1U6j3r/88Obu
+         wTcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUnQri2Lzj11AjPQoW82pesVZy3HsVxQRzqbc6P3om96PRjVo0lLZpxYP6wLHB2+DXOuHpoirP27j07A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJ5RxUa36iuibAX+Odlu5cUv6mTjnvVIo+NcXm59pd0hgKaWH/
+	GnUm9C3BG0c1lCKE6hU0cUYSKBz9m9KN6NJZkfIKvSkoh0qaENAifiSH+3rTVyRoq1OBiTyuwiP
+	lySaJrlsmEFhSdD7a+B24uWQ+7VJfhhi4q/c64uEEor8vJj0CX0wSCSEQgLDvLI13Fw==
+X-Gm-Gg: ASbGncvhmtQGQrz0ikXBIQlPhUAsQ8Zsbq/T+YHYjMyCZvBVfCQYTgE3HtVuMn6pMzM
+	3tb+QzaHYTPeZBxOS1hOFD54giiHtodSgzb0krm4s/7k/czkZGQ9cKyW79AAIhyNt6rfQBRJXbW
+	SQYXCOJVmDD5qdK/b1dRngIeElNZa2zD9Ediy0EpFowW8k3ZdarmgCXSaWytQrBKNvL1wAijHQO
+	97kwlEF6nls/sI67d9of9yZoscOyHOOgOAVPcomMmOC/pUccn2t0FPbFI544ERnOlMJKJuYbGyO
+	VXrB8ezVerTsN5cpOxwzOC1IuHH1A9u0l0bH6zcE+PsfPnfyFldiyutetvJFfNd9ygQ=
+X-Received: by 2002:a05:6214:300f:b0:702:bd34:75c8 with SMTP id 6a1803df08f44-7072049f3famr99229096d6.5.1753615515316;
+        Sun, 27 Jul 2025 04:25:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkCofJ/1O0p8bOeiGbSGwSMF+ue6NzNwSlWHo2EXq+Z7g+oFlTe7pN+OBZy9EjswapZE4S/Q==
+X-Received: by 2002:a05:6214:300f:b0:702:bd34:75c8 with SMTP id 6a1803df08f44-7072049f3famr99228736d6.5.1753615514814;
+        Sun, 27 Jul 2025 04:25:14 -0700 (PDT)
+Received: from [192.168.68.118] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-458705c4cacsm114650875e9.24.2025.07.27.04.25.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Jul 2025 04:25:14 -0700 (PDT)
+Message-ID: <8b3abd1a-4246-485c-9f2b-63ee37ef808c@oss.qualcomm.com>
+Date: Sun, 27 Jul 2025 12:25:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,92 +74,67 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] ASoC: codecs: wsa883x: Add devm action to safely
- disable regulator on device removal
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
- kernel@oss.qualcomm.com
-References: <20250727083117.2415725-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20250727083117.2415725-3-mohammad.rafi.shaik@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] slimbus: qcom: remove unused qcom controller driver
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: srini@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250724132808.101351-1-srinivas.kandagatla@oss.qualcomm.com>
+ <276b7977-45d9-4b37-a4f5-1c65802ac267@oss.qualcomm.com>
+ <mwhxikivaxtz5px5e7jkqtuuk2iz457fy5drsnaj32j4o5qqk6@hwkcjso4jpsp>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250727083117.2415725-3-mohammad.rafi.shaik@oss.qualcomm.com>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <mwhxikivaxtz5px5e7jkqtuuk2iz457fy5drsnaj32j4o5qqk6@hwkcjso4jpsp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI3MDEwMSBTYWx0ZWRfXyY9gxPMOCDSW
+ 74BTygCAqZAfoMT/mfaJ1j8pFivYJhq688ZZuvK/S4AbsKz8N1oomA2GDh3L4D8i2htZchCjl4V
+ ZQdaCMJU432t0fZaXPg+QJseVSQ/N+GbvWhEteGgf4nosWqj9EtEJeCwng8ab+vq2an8SYJircK
+ wmNXV1nbxuzwy6KiMw+N2ZSkNvb9Mo2r50vD1dq5f6q0X090G4St6gSRCfEvzgWEYWMNxmciia5
+ Orl7qBXNZlPStmGXkEvydQgX2QOIb9GXKJlroWyqGH61Dlq3vZkMHgXIpov3E5PGXhHjRlRcxs1
+ 2Kb4OSEZDiYzbdqagPIfLED3kiymthpXoVMOlmgvX6alFnkJsSMAP7kog+aqb8j+nRuYmPuNoXm
+ p4SnrHI2I90TMTwv8SR2BDeKCXRDIVO0SG7L/Yx7Mw9+RMydYeYi6agHH7g3wbeouFcs4ff5
+X-Proofpoint-ORIG-GUID: lnrK1phUCLa8XrR4ovzlPEAFUJdAOpwe
+X-Authority-Analysis: v=2.4 cv=ea89f6EH c=1 sm=1 tr=0 ts=68860c9c cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=XE7kxn0J_hhxY9Cja4kA:9
+ a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-GUID: lnrK1phUCLa8XrR4ovzlPEAFUJdAOpwe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-27_04,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0 phishscore=0
+ malwarescore=0 suspectscore=0 bulkscore=0 adultscore=0 clxscore=1015
+ spamscore=0 mlxlogscore=681 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507270101
 
-On 27/07/2025 10:31, Mohammad Rafi Shaik wrote:
-> To prevent potential warnings from _regulator_put() during device
+On 7/24/25 3:24 PM, Dmitry Baryshkov wrote:
+> On Thu, Jul 24, 2025 at 03:31:50PM +0200, Konrad Dybcio wrote:
+>> On 7/24/25 3:28 PM, srinivas.kandagatla@oss.qualcomm.com wrote:
+>>> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>>
+>>> Qcom Slimbus controller driver is totally unused and dead code, there is
+>>> no point in keeping this driver in the kernel without users.
+>>>
+>>> This patch removes the driver along with device tree bindings.
+>>>
+>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>> ---
+>>
+>> I *thiiink* this is apq806x code, with 8974 adopting the new hw.
+>>
+>> +Dmitry, does you computer history museum require this driver?
+> 
+> I never had time to try enabling audio on IFC6410 nor Nexus 7. But if
+> the driver would be actually useable there, I'd prefer to keep it.
+TBH, I have never verified this in full audio use case in any of the
+qcom platforms. This driver has been unused since it was originally
+added in 2017. AFAIU, no one is using this lets remove this now, Am
+happy to take it back if someone has managed to test this.
 
-Warning is either there or not. Either you fix real, specific issue or
-not. The code looks correct at first glance, so please describe exactly
-how these warnings happen or how what is the bug being fixed.
+--srini
+> 
 
-> removal, register a devm-managed cleanup action using
-> devm_add_action_or_reset() to safely disable the regulator
-> associated with the WSA883x codec, ensuring that the regulator
-> is properly disabled when the device is removed, even if the
-
-Device cannot be removed/unloaded, AFAIK, because of suppressed bind.
-Regulator is already disabled during error paths, so that part of above
-sentences is just misleading.
-
-How can one trigger the warnings?
-
-
-> probe fails or the driver is unloaded unexpectedly.
-
-How driver can be unloaded unexpectedly?
-
-Best regards,
-Krzysztof
