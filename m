@@ -1,192 +1,164 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF7121348
-	for <linux-sound@vger.kernel.org>; Sat, 26 Jul 2025 16:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59CE1E5B60
+	for <linux-sound@vger.kernel.org>; Sun, 27 Jul 2025 08:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753548641; cv=none; b=FEDMKAR/ETCF+DaGcEhZqAf5X16SNYL63ozB8T6BVvmaYoQYBb7uhQxn+PrwPOvNP1inDjBmFKmSKaDJeMI+TA6o4T7hzEc0oj1tow5JVB7dpeOyfk52SDa4OwRY4ZMO3rYsRd+DYsvnyf6+FWciwoQito3nUhdD1W6FQvq5zSY=
+	t=1753605113; cv=none; b=X9CW/oyOH1fGD0ZT8boY8SqiBlpe7l6GHaBrwmOuNnckCkLO0AwqGqtsMV0cnquLSI8qpJp+rs+Kw7K/mKNYtuq2jgOFLaPMHayH+cavcnfv2FgKaXDEfZSGbIbuxBgv1zKtfY+F6dJwkLMmTPSMBDGbHn9y1EEm6QsisY4O56s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753548641; c=relaxed/simple;
-	bh=zDpIBHnyHepg3obhHPwbHPZ6/B84BaLrE2pLUyfYpsk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L4lsUPdBJPc5jqybiEKl9cLjm1Cn9X/BCCIIlytMZ3XhA+H05SBGn9AzUL/RE8Q41hpgNe5PZWmWZJY0JFQgezs7RvCSIpFJDj30hUlt/PEehfmByUkYzLqV5Mi+dbsiFXkImVwygsEGjzUPN42znoP8mGHqITa0g1iUv52mTOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OSZVFW+z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YqfEVXTw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OSZVFW+z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YqfEVXTw; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1753605113; c=relaxed/simple;
+	bh=NM5eUwufs9EQvxyH72fi6ouw9HbAH6xIggTFFBsajLc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AYkjqYi5bseI6cdYLPerLhfS3rd3Fzes0giWieDmywGzYPB9S003Nz7VSJniFIXiSmKu4ZabMv5IOxzoUZihkGFTH6oTmMj9oNU2FzqfLHjSva72z8942EqtDDu72xx2LZCJ2s3DhA1N4D9U9JcAuDUG46rZGTGoEVmK4wIz3Xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I13M0/0y; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OSZVFW+z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YqfEVXTw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OSZVFW+z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YqfEVXTw"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 313CA219E9;
-	Sat, 26 Jul 2025 16:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753548632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LEhiDTcKgxemrdqd09WTVsmXruXt1rZDsbRfz6qthKA=;
-	b=OSZVFW+zBE+I3r2yZoP86GujVV5u/COUcUR+8ZMo1UeO2ffnePpHcM7exeH2Vfs8VfeL4D
-	KHwHWA8dfKz0p8EnQgbLJb16ob41yk97IF8ox6Z/3S88QauHykLnSYDxAwyaGpxlmURuWP
-	glOQCmlYmzECtveXISTnM3SYQ/RAbII=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753548632;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LEhiDTcKgxemrdqd09WTVsmXruXt1rZDsbRfz6qthKA=;
-	b=YqfEVXTw6ECEVvYEqCH3SfeTLF8252M6+9bzm8NsOa47EgUbtwe8ezyUUwzG+j16NovVuj
-	iiMymkKVLJLnEjDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OSZVFW+z;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YqfEVXTw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753548632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LEhiDTcKgxemrdqd09WTVsmXruXt1rZDsbRfz6qthKA=;
-	b=OSZVFW+zBE+I3r2yZoP86GujVV5u/COUcUR+8ZMo1UeO2ffnePpHcM7exeH2Vfs8VfeL4D
-	KHwHWA8dfKz0p8EnQgbLJb16ob41yk97IF8ox6Z/3S88QauHykLnSYDxAwyaGpxlmURuWP
-	glOQCmlYmzECtveXISTnM3SYQ/RAbII=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753548632;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LEhiDTcKgxemrdqd09WTVsmXruXt1rZDsbRfz6qthKA=;
-	b=YqfEVXTw6ECEVvYEqCH3SfeTLF8252M6+9bzm8NsOa47EgUbtwe8ezyUUwzG+j16NovVuj
-	iiMymkKVLJLnEjDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E2D381388B;
-	Sat, 26 Jul 2025 16:50:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xcN5NVcHhWgbXgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 26 Jul 2025 16:50:31 +0000
-Date: Sat, 26 Jul 2025 18:50:31 +0200
-Message-ID: <87zfcqvqug.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Xu, Baojun" <baojun.xu@ti.com>
-Cc: "broonie@kernel.org" <broonie@kernel.org>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"Ding, Shenghao"
-	<shenghao-ding@ti.com>,
-	"13916275206@139.com" <13916275206@139.com>,
-	"P O, Vijeth" <v-po@ti.com>,
-	"linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [EXTERNAL] Re: [PATCH v2] ALSA: hda: Add TAS2770 support
-In-Reply-To: <cc99c78e042b47cca92f4a3050f36a9c@ti.com>
-References: <20250723142423.38768-1-baojun.xu@ti.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="I13M0/0y"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56R3MtGc004838
+	for <linux-sound@vger.kernel.org>; Sun, 27 Jul 2025 08:31:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=AcwNi5jqAVS
+	vH8zvGbAgdOcfk3Kkt+F28Tzsi0VVD74=; b=I13M0/0yu7CcEcdijMsbuKAb+Io
+	liLBfBX8mE9pIsxnm7cA0XPlRLmEtJKgEud1LHxD6v62CMdmIsjel1VMYlC+raJ/
+	HhhM016Kns3opK9CfDrb+QcmdV9R/IdwmzAYiZ8rAE/dUEEwawZ9EZ+FpJK5bwLl
+	Xkl1kFuG0sw6Bx0BZV94EmRRaDPdCbcvm2w1kU1NqcKIYUs7vkGyra0MdfouG4lL
+	U5eXLuCM0LMZ3oX1x2isFDRP0yPvDF8x3325aCC0XBpUL3tg31ABHORIsid4nXtF
+	C8imaHfccmHNLePZLJBvFLWLimbARJQMF6fngCwlzHQXh+/QGYrfnQkPxsg==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 484rachspg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 27 Jul 2025 08:31:51 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-23638e1605dso25008475ad.0
+        for <linux-sound@vger.kernel.org>; Sun, 27 Jul 2025 01:31:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753605110; x=1754209910;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AcwNi5jqAVSvH8zvGbAgdOcfk3Kkt+F28Tzsi0VVD74=;
+        b=ibXFg4zk8wbMYMJdlckA/6EH3YLexvc1Mb0KFZ/aRMTb2tGpdBPEshvGr8nw6MfnJv
+         6ZDa60ZRITLe2lm51CZIQcjNVci3CeIE5usP/9l5BuD295oszS6UUnDFrfKSPkr8Rbnc
+         T0ptrkK6jTOgc1ybUcPmPzSt31rbQKmz2dBodQGIuhlYJAJJ7YI3Xwl/aYPE1umYgP04
+         cW7OVZQAeMcU7qgRt1hbbTVuV3tMO7/0lum+sGGnI+pjXT3Q+riHfgIXMMz0KLkVuEBe
+         cyAee+qM18hNKUdVTtDHYji86//y9rTtzbyi96igHwDC9DdvJt2UK1bpuUVlWZEpR4rm
+         dkzg==
+X-Forwarded-Encrypted: i=1; AJvYcCXynmvgiNkCJzpuOeyyQosfL68qCr9jthwxwbNrCynQwutjTdQN59a1s1j4eh0RTRtd53RdDP7C/NPHuQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwZgyqOYkEcPD3NptjxOJgft6Fgung0onzYYO96PnMFAvazHf7
+	3trUh1RTSknZQF1OKCXNOp999KArnO/9MxMdfD0tRz/ex/ntf7NIlZimYT/PHnRWzZul+MwDV4h
+	tYvxD8f2mbtjbl/Mf1mTeEeI+Gkq2EeX/ine0EPVzhtqjJQxEZQMh73wic//u8ZXzAQ==
+X-Gm-Gg: ASbGnct/6agxeWs4tcZz9tutrWj2n2LQD8koVvS2u76rbZaqKx4ZSAYIJEMMnLk9fBn
+	Up5QpQnueLcfTjyglkQbon3KtXbbzWacidDm2cj5wfMee5PMzm0hw2UwtT3aiGOgOP2gXzrjzB/
+	S6StvmVXKWgDJYGlbV9phNQYY4qLorJ9kCbVIGt8wn+8nF9TjYAE7NiEAZxqKhPzmKxO4VmpvR7
+	F6weaDvja6KpPxKGcH4FWF0HC+bqojvNz9ZAhIxvso16LB8UCCF0pmr9q9gBo5ipEOSPOnDzrfi
+	p/3XUGv0yE4+kvjdG+sCtWlLx6yZ3XSlAc+K3EiJ+IeuaE97e3V2T2EjVxpCSqYR++NpiBaIePb
+	T
+X-Received: by 2002:a17:902:c9c4:b0:240:9ff:d546 with SMTP id d9443c01a7336-24009ffd7f9mr10052595ad.6.1753605110197;
+        Sun, 27 Jul 2025 01:31:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IERPCA3gFX6YamqhgdGjO1m2DVjgSysrzz5AvHQkC6e/zWEA9GvZU/sr+aJlTkVRUIhwXmMMg==
+X-Received: by 2002:a17:902:c9c4:b0:240:9ff:d546 with SMTP id d9443c01a7336-24009ffd7f9mr10052185ad.6.1753605109738;
+        Sun, 27 Jul 2025 01:31:49 -0700 (PDT)
+Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2401866c2c3sm2848645ad.30.2025.07.27.01.31.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Jul 2025 01:31:49 -0700 (PDT)
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
+        kernel@oss.qualcomm.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 1/3] ASoC: dt-bindings: qcom,wsa8830: Add reset-gpios for shared line
+Date: Sun, 27 Jul 2025 14:01:15 +0530
+Message-Id: <20250727083117.2415725-2-mohammad.rafi.shaik@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250727083117.2415725-1-mohammad.rafi.shaik@oss.qualcomm.com>
+References: <20250727083117.2415725-1-mohammad.rafi.shaik@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Level: *
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [1.29 / 50.00];
-	SEM_URIBL(3.50)[139.com:email];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	SUSPICIOUS_URL_IN_SUSPICIOUS_MESSAGE(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	BAD_REP_POLICIES(0.10)[];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	R_DKIM_ALLOW(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[139.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,alsa-project.org,ti.com,139.com,vger.kernel.org];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	REDIRECTOR_URL(0.00)[proofpoint.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid,suse.de:dkim,suse.de:email]
-X-Spamd-Bar: +
-X-Rspamd-Queue-Id: 313CA219E9
-X-Spam-Score: 1.29
+X-Authority-Analysis: v=2.4 cv=WqsrMcfv c=1 sm=1 tr=0 ts=6885e3f7 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=Wb1JkmetP80A:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=Jjn-4_SfM33dySwp1_gA:9
+ a=1OuFwYUASf3TG4hYMiVC:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: zdoL7j2843wHTe2He7x6OMMNqAzvjTus
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI3MDA3MyBTYWx0ZWRfX7r+NUDIx5793
+ PCO4K8Gbn/JVlCr/8K4B0iThEKB2bVNXxx9Tr5qzwzepEN1k85KdHGtc73oai3qumMmXpaeZHAX
+ xkXKn1zxYwvzIcN8dGvHlekAs0RO4klpwRlUocGq2x9kVl/81psuI8YY6Px5djD4QPBVS/TBIf7
+ HikyJZ2BvQtRduTrvyk0nc0/T0G9x8rjpe6Wu4QsfK+mccFXsE0Da7fea0ykCgf9SVB0VdihOwb
+ cyS98msAl+93iV6r6vaqsq445MbrKGoz/++apgVagcjfmCgEW1UegKisHOuh+w4W/aeUnKVgZpZ
+ CrP62yUESZdpcj07fd508p4+zfE826QeSWRQvCEXy2NpqSFwmlR9Sp8jTrHAGg54thPytVFWjBq
+ gGUtPGzdnwFD86v6nVy+F1mJyr0VXnl2gxcjOupASpF9OjUQ/1ktG57IdJcn4I8FlZQAAxLO
+X-Proofpoint-ORIG-GUID: zdoL7j2843wHTe2He7x6OMMNqAzvjTus
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-27_03,2025-07-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
+ clxscore=1015 mlxlogscore=999 impostorscore=0 mlxscore=0 malwarescore=0
+ adultscore=0 bulkscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507270073
 
-On Sat, 26 Jul 2025 13:34:28 +0200,
-Xu, Baojun wrote:
-> 
-> > 
-> > ________________________________________
-> > From: Takashi Iwai <tiwai@suse.de>
-> > Sent: 23 July 2025 22:40
-> > To: Xu, Baojun
-> > Cc: broonie@kernel.org; andriy.shevchenko@linux.intel.com; alsa-devel@alsa-project.org; Ding, Shenghao; 13916275206@139.com; P O, Vijeth; linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org
-> > Subject: [EXTERNAL] Re: [PATCH v2] ALSA: hda: Add TAS2770 support
-> > 
-> > On Wed, 23 Jul 2025 16: 24: 23 +0200, Baojun Xu wrote: > > Add TAS2770 support in TI's HDA driver. And add hda_chip_id for > more products. Distinguish DSP and non-DSP in firmware > loading function. > > Signed-off-by: Baojun
-> > ZjQcmQRYFpfptBannerStart
-> > This message was sent from outside of Texas Instruments.
-> > Do not click links or open attachments unless you recognize the source of this email and know the content is safe.
-> > <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK!vxdrHf3EPmdQig3vfxtoX0ga-ZW2grb4pJ-90xEaom-nVsHT8xHY3D2nK8v5mdWlEw0t3Q$>
-> > Report Suspicious
-> > 
-> > ZjQcmQRYFpfptBannerEnd
-> > 
-> > On Wed, 23 Jul 2025 16:24:23 +0200,
-> > Baojun Xu wrote:
-> > >
-> > > Add TAS2770 support in TI's HDA driver. And add hda_chip_id for
-> > > more products. Distinguish DSP and non-DSP in firmware
-> > > loading function.
-> > >
-> > > Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-> > 
-> > Applied now, thanks.
-> > 
-> > 
-> > BTW, is include/sound/tas2770-tlv.h used by any other driver?
-> > (Also include/sound/tas2781-tlv.h).
-> > 
-> > If those are used only by tas2781-hda-i2s/spi drivers, the files can
-> > be moved to sound/hda/codecs/side-codecs as local headers.
-> > 
-> > In general, include/sound is rather for public headers that are read
-> > by multiple drivers in different places.
-> 
-> Thanks for the apply!
-> Yes, include/sound/tasxxxx-tlv.h will also be used by other drivers
-> (for example, sound/soc/codecs/tas2xxx-i2c.c)
+On Qualcomm platforms such as QCS6490-RB3Gen2, the WSA883x speaker
+amplifiers share the SD_N GPIO line between two speakers, thus
+requires coordinated control when asserting the GPIO. Linux supports
+shared GPIO handling via the "reset-gpios" property, which can be
+used to specify either the powerdown or reset GPIOs.
 
-OK, in that case, it's fine.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+---
+ .../devicetree/bindings/sound/qcom,wsa883x.yaml       | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml
+index 14d312f9c345..098f1df62c8c 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,wsa883x.yaml
+@@ -29,6 +29,10 @@ properties:
+     description: GPIO spec for Powerdown/Shutdown line to use (pin SD_N)
+     maxItems: 1
+ 
++  reset-gpios:
++    description: Powerdown/Shutdown line to use (pin SD_N)
++    maxItems: 1
++
+   vdd-supply:
+     description: VDD Supply for the Codec
+ 
+@@ -50,10 +54,15 @@ required:
+   - compatible
+   - reg
+   - vdd-supply
+-  - powerdown-gpios
+   - "#thermal-sensor-cells"
+   - "#sound-dai-cells"
+ 
++oneOf:
++  - required:
++      - powerdown-gpios
++  - required:
++      - reset-gpios
++
+ unevaluatedProperties: false
+ 
+ examples:
+-- 
+2.34.1
 
-thanks,
-
-Takashi
