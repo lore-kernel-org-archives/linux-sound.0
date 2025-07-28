@@ -1,136 +1,119 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F2B202C45
-	for <linux-sound@vger.kernel.org>; Mon, 28 Jul 2025 10:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A4428FD;
+	Mon, 28 Jul 2025 10:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753698309; cv=none; b=fZzxX2RaMAOsL7rwdO7a0fLQu4yRB2EWta5cf/TzOvLdhNcW8fBPwXxYvxWoDkbeJXadK8AeLdqF9DoiWTxyGRJcOUmucx6USEWiTw+Pplv7lLiomsOfgLMPtq2+N9xXHaE9j7Knu04okkBbzlyrXHXSpTIQ/a6DHTS/OeyCtSQ=
+	t=1753698881; cv=none; b=Ezcccfv+i2jNHtG+6AeBHZ+x0uuF9OMvsCGJRMyAvfXn8sntYVCVL6pLDErlHtjy1AWemQHIdGFu3PnE1vKSQmVzTxWDUCoZv66qUw3/Qv7GMaG+G0Tq5cXC9/KXAfQCvyYZ3c1s7OgSOV3P4HT+7JFZNUD5IouG47qr8D2wOvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753698309; c=relaxed/simple;
-	bh=JZu6txtpR+hd0sW/+ZZIMNJBNRzxcWe1AjcLo4LdTA0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f9tXfuwI95ZT4SJ9/FvCaPygiQWdG5459kbTXTr+EOHyoKfQ+mFze7pE5oJvR6CaasSqR3qvTWKRBX5fcP+5cl/9SnzNfQrg9AqYF5ovoOrmo2VyiQYSKUl19CmNrXxurh935Vftc1kRx+I+NicyzATmZvMXy3Aix7I1UfyzCqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BfZuxE12; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YyTl3HPg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BfZuxE12; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YyTl3HPg; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1753698881; c=relaxed/simple;
+	bh=gorbOLRxJT0JdIMGPDRSTq3Ywcr3uu/Euag8Tbd4C2k=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=cKmJ4ljynWQFaRoufPHKMmnvp8g568Aoghy5msWx4a9GeaJlKztz/Kstxwf/h7Ve7uCYDAT1kH9/p83dBd7JDCZhSZlpGe8jccTWvlSCbEJonbUSIrR54YXrCwFP5gk+UtBia9+oZJDcBahlIJB/aMr/gGPB0ZOG1PCW41HuTK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=G/Yk4QfI; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BfZuxE12";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YyTl3HPg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BfZuxE12";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YyTl3HPg"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 258A621242;
-	Mon, 28 Jul 2025 10:25:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753698306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zYbJ0osPSALSx2mutcjpFojQfMHOilLiF3RF5xfCJWE=;
-	b=BfZuxE1201BoYqvxAVO3I3Gxy8jutkBYY313K2aw1BAEBHGgVff/6K8AE03te9W6ckRJSV
-	0niBYO5PdOy22AcT2fetjcApnrcycwaEYdGRzack1oOtO+Gw2eQTXXOI1UWRsH78rF7pSh
-	o9v/6xz7hG7v+Q9AvuYbXICLOL4ls7M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753698306;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zYbJ0osPSALSx2mutcjpFojQfMHOilLiF3RF5xfCJWE=;
-	b=YyTl3HPgcDU8Et0WIS9DOYoZyjnTGVbb39+noZBskwXB6AyTiwkqoYJOeuFgOnUkl57uSL
-	MU/IEF08LNSlgMCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753698306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zYbJ0osPSALSx2mutcjpFojQfMHOilLiF3RF5xfCJWE=;
-	b=BfZuxE1201BoYqvxAVO3I3Gxy8jutkBYY313K2aw1BAEBHGgVff/6K8AE03te9W6ckRJSV
-	0niBYO5PdOy22AcT2fetjcApnrcycwaEYdGRzack1oOtO+Gw2eQTXXOI1UWRsH78rF7pSh
-	o9v/6xz7hG7v+Q9AvuYbXICLOL4ls7M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753698306;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zYbJ0osPSALSx2mutcjpFojQfMHOilLiF3RF5xfCJWE=;
-	b=YyTl3HPgcDU8Et0WIS9DOYoZyjnTGVbb39+noZBskwXB6AyTiwkqoYJOeuFgOnUkl57uSL
-	MU/IEF08LNSlgMCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F138A138A5;
-	Mon, 28 Jul 2025 10:25:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MkCXOQFQh2jWQAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 28 Jul 2025 10:25:05 +0000
-Date: Mon, 28 Jul 2025 12:25:05 +0200
-Message-ID: <87cy9kvchq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: scarlett2: Add retry on -EPROTO from scarlett2_usb_tx()
-In-Reply-To: <aIdDO6ld50WQwNim@m.b4.vu>
-References: <aIdDO6ld50WQwNim@m.b4.vu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="G/Yk4QfI"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56SAML7s2707653;
+	Mon, 28 Jul 2025 05:22:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1753698141;
+	bh=gorbOLRxJT0JdIMGPDRSTq3Ywcr3uu/Euag8Tbd4C2k=;
+	h=From:To:CC:Subject:Date;
+	b=G/Yk4QfIpbL6qJO59zWLztuoM2PbManCyPA85XlE0u4XGWnGRDDPNc9krvZDUu9NI
+	 1e7RsW2XMfthLuiFVE1T0XDCj3Tn6oZSeVSaoieG9tb2b+0w6+HAQU+RhvFpFhwC1O
+	 tRK7mAsGpXpg1/z62BYChW+mDdu1+pDRdgkMNs7E=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56SAMKvq1621296
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Mon, 28 Jul 2025 05:22:20 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 28
+ Jul 2025 05:22:19 -0500
+Received: from DLEE107.ent.ti.com ([fe80::1c91:43d:d71:d7b6]) by
+ DLEE107.ent.ti.com ([fe80::1c91:43d:d71:d7b6%17]) with mapi id
+ 15.01.2507.055; Mon, 28 Jul 2025 05:22:19 -0500
+From: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: "broonie@kernel.org" <broonie@kernel.org>,
+        "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+        "tiwai@suse.de" <tiwai@suse.de>,
+        "alsa-devel@alsa-project.org"
+	<alsa-devel@alsa-project.org>,
+        "Xu, Baojun" <baojun.xu@ti.com>,
+        "Ding,
+ Shenghao" <shenghao-ding@ti.com>,
+        "liam.r.girdwood@intel.com"
+	<liam.r.girdwood@intel.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "robh@kernel.org" <robh@kernel.org>,
+        "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>,
+        "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+        "Navada Kanyana, Mukund" <navada@ti.com>,
+        "Hampiholi, Vallabha" <v-hampiholi@ti.com>
+Subject: Re: [PATCH v3 2/4] dt-bindings: sound: bindings for tac5x1x family of
+ codecs
+Thread-Topic: [PATCH v3 2/4] dt-bindings: sound: bindings for tac5x1x family
+ of codecs
+Thread-Index: Adv/pqCHhQ7Z5pboSlmxx2N4LsHPtw==
+Date: Mon, 28 Jul 2025 10:22:18 +0000
+Message-ID: <a5c23c7928da403fafe24c1de0fc6412@ti.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
 
-On Mon, 28 Jul 2025 11:30:35 +0200,
-Geoffrey D. Bennett wrote:
-> 
-> During communication with Focusrite Scarlett Gen 2/3/4 USB audio
-> interfaces, -EPROTO is sometimes returned from scarlett2_usb_tx(),
-> snd_usb_ctl_msg() which can cause initialisation and control
-> operations to fail intermittently.
-> 
-> This patch adds up to 5 retries in scarlett2_usb(), with a delay
-> starting at 5ms and doubling each time. This follows the same approach
-> as the fix for usb_set_interface() in endpoint.c (commit f406005e162b
-> ("ALSA: usb-audio: Add retry on -EPROTO from usb_set_interface()")),
-> which resolved similar -EPROTO issues during device initialisation,
-> and is the same approach as in fcp.c:fcp_usb().
-> 
-> Fixes: 9e4d5c1be21f ("ALSA: usb-audio: Scarlett Gen 2 mixer interface")
-> Closes: https://github.com/geoffreybennett/linux-fcp/issues/41
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
-
-Thanks, applied now.
-
-
-Takashi
+SGkgS3J6eXN6dG9mLA0KDQpUaGFua3MgZm9yIHRoZSBkZXRhaWxlZCByZXZpZXcgY29tbWVudHMu
+IA0KUmVxdWVzdCB5b3UgdG8gdGFrZSBhIGxvb2sgYXQgY29tbWVudHMgYmVsb3cuIA0KDQpPbiBG
+cmksIEp1biAyNywgMjAyNSBhdCAxOjE4IFBNICswNTMwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
+b3RlOg0KPiBPbiBUaHUsIEp1biAyNiwgMjAyNSBhdCAxMTo0MzozMVBNICswNTMwLCBOaXJhbmph
+biBIIFkgd3JvdGU6DQo+ID4gKyAgdGksdnJlZjoNCj4gPiArICAgIGRlc2NyaXB0aW9uOiBWUkVG
+IHJlcXVpcmVkIHZvbHRhZ2UuIElmIG5vZGUgaXMgb21pdHRlZCB0aGVuIFZSRUYgaXMNCj4gVm9s
+dGFnZSBpcyBpbiBtaWNyb3ZvbHQuIFVzZSBwcm9wZXIgc3VmZml4L3ZhbHVlcy4NCklzIHRoaXMg
+Y29udmVudGlvbiA/IElzIHRoZXJlIGFueSBkb2N1bWVudCBvbiB0aGVzZSBJIGNhbiByZWZlciA/
+DQo+IA0KPiA+ICsgICAgb25lT2Y6DQo+ID4gKyAgICAgIC0gY29uc3Q6IDANCj4gPiArICAgICAg
+ICBkZXNjcmlwdGlvbjogVlJFRiBvdXRwdXQgaXMgcG93ZXJlZCB0byAyLjc1Vi4NCj4gPiArICAg
+ICAgLSBjb25zdDogMQ0KPiA+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBWUkVGIG91dHB1dCBpcyBw
+b3dlcmVkIHRvIDIuNVYuDQo+ID4gKyAgICAgIC0gY29uc3Q6IDINCj4gPiArICAgICAgICBkZXNj
+cmlwdGlvbjogVlJFRiBvdXRwdXQgaXMgcG93ZXJlZCB0byAxLjM3NVYuDQoNCj4gPiArICB0aSxn
+cGlvcy1mdW5jOg0KPiA+ICsgICAgZGVzY3JpcHRpb246IHwNCj4gPiArICAgICAgQXJyYXkgaW5k
+aWNhdGluZyB0aGUgR1BJTzEsIEdQSU8yLCBHUE8xIEZ1bmN0aW9uYWxpdHkgaW4gdGhlIHNhbWUg
+b3JkZXIuDQo+ID4gKyAgICAgIEVhY2ggaW50ZWdlciBlbGVtbmVudCBpbiB0aGUgYXJyYXkgcmVw
+cmVzZW50IHRoZSBmb2xsb3dpbmcNCj4gPiArICAgICAgLSAwICBUQUM1WDFYX0dQSU9fRElTQUJM
+RSAgICAgICAgLSBHUElPIGlzIERpc2FibGVkDQo+ID4gKyAgICAgIC0gMSAgVEFDNVgxWF9HUElP
+X0dQSSAgICAgICAgICAgIC0gR2VuZXJhbCBQdXJwb3NlIElucHV0DQo+ID4gKyAgICAgIC0gMiAg
+QURDM1hYWF9HUElPX0dQTyAgICAgICAgICAgIC0gR2VuZXJhbCBQdXJwb3NlIE91dHB1dA0KPiA+
+ICsgICAgICAtIDMgIFRBQzVYMVhfR1BJT19JUlEgICAgICAgICAgICAtIENoaXAgSW50ZXJydXB0
+DQo+ID4gKyAgICAgIC0gNCAgVEFDNVgxWF9HUElPX1BETUNMSyAgICAgICAgIC0gUERNIENMSyBP
+dXRwdXQNCj4gPiArICAgICAgLSA1ICBUQUM1WDFYX0dQSU9fUF9ET1VUICAgICAgICAgLSBQcmlt
+YXJ5IEFTSSBET1VUDQo+ID4gKyAgICAgIC0gNiAgVEFDNVgxWF9HUElPX1BfRE9VVDIgICAgICAg
+IC0gUHJpbWFyeSBBU0kgRE9VVDINCj4gPiArICAgICAgLSA3ICBUQUM1WDFYX0dQSU9fU19ET1VU
+ICAgICAgICAgLSBTZWNvbmRhcnkgQVNJIERPVVQNCj4gPiArICAgICAgLSA4ICBUQUM1WDFYX0dQ
+SU9fU19ET1VUMiAgICAgICAgLSBTZWNvbmRhcnkgQVNJIERPVVQyDQo+ID4gKyAgICAgIC0gOSAg
+VEFDNVgxWF9HUElPX1NfQkNMSyAgICAgICAgIC0gU2Vjb25kYXJ5IEJDTEsgT3V0cHV0DQo+ID4g
+KyAgICAgIC0gMTAgVEFDNVgxWF9HUElPX1NfRlNZTkMgICAgICAgLSBTZWNvbmRhcnkgRlNZTkMg
+T3V0cHV0DQo+ID4gKyAgICAgIC0gMTEgVEFDNVgxWF9HUElPX0NMS09VVCAgICAgICAgLSBHZW5l
+cmFsIFB1cnBvc2UgT3V0cHV0DQo+ID4gKyAgICAgIC0gMTIgVEFDNVgxWF9HUElPX0RPVVRfTVVY
+DQo+ID4gKyAgICAgIC0gMTMgVEFDNVgxWF9HUElPX0RBSVNZX09VVA0KPiA+ICsgICAgJHJlZjog
+L3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyLWFycmF5DQo+ID4gKyAgICBt
+aW5JdGVtczogMw0KPiA+ICsgICAgbWF4SXRlbXM6IDMNCj4gDQo+IERvbid0IGVuY29kZSBncGlv
+cyBhbmQgcGlucyBhcyBzb21lIGN1c3RvbSBwcm9wZXJ0aWVzLg0KQ291bGQgeW91IHBsZWFzZSBz
+dWdnZXN0IHdoYXQgaXMgdGhlIGFsdGVybmF0aXZlLg0KUGxlYXNlIHN1Z2dlc3Qgc29tZSBleGFt
+cGxlIHdoaWNoIEkgY2FuIHJlZmVyID8gDQoNClJlZ2FyZHMNCk5pcmFuamFuDQoNCg==
