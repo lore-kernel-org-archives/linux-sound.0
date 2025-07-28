@@ -1,119 +1,128 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A4428FD;
-	Mon, 28 Jul 2025 10:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C9C245000;
+	Mon, 28 Jul 2025 10:52:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753698881; cv=none; b=Ezcccfv+i2jNHtG+6AeBHZ+x0uuF9OMvsCGJRMyAvfXn8sntYVCVL6pLDErlHtjy1AWemQHIdGFu3PnE1vKSQmVzTxWDUCoZv66qUw3/Qv7GMaG+G0Tq5cXC9/KXAfQCvyYZ3c1s7OgSOV3P4HT+7JFZNUD5IouG47qr8D2wOvc=
+	t=1753699928; cv=none; b=UfVrXSO7IgUD9XKA1DWe7O32f4Y5I6n6pe1wAq6FEdnCAylhvBuThPBC6jzeS8cpDClb7Q/+6NUfCNCLlS+tDfS7VYHmJIbfnkUUAq3rqTv5CStZxDqTcOeYDMDA+V+ZYfm3wQH8XV0tr9jmUdpv16ZuYqORp41bpCzf9R7IiSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753698881; c=relaxed/simple;
-	bh=gorbOLRxJT0JdIMGPDRSTq3Ywcr3uu/Euag8Tbd4C2k=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=cKmJ4ljynWQFaRoufPHKMmnvp8g568Aoghy5msWx4a9GeaJlKztz/Kstxwf/h7Ve7uCYDAT1kH9/p83dBd7JDCZhSZlpGe8jccTWvlSCbEJonbUSIrR54YXrCwFP5gk+UtBia9+oZJDcBahlIJB/aMr/gGPB0ZOG1PCW41HuTK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=G/Yk4QfI; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1753699928; c=relaxed/simple;
+	bh=5xhS0LgHPXnMNMu7zQCvjpXnRD5j9EtWrqFbAN3k2r4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=amuLWmO/+pT5e+6OEJZsn80cVz6VyD4rUpcUpIpNfXrABRwxUJRXzGTjdNAiizh1HMzCI/EBwJtDzWXN8YMfoetQ9ePTIXfbc5q4R4nJRe6cLH1HslKhK6xn4b+g4EYjqfNDEZbPNgFbgRT6afqEoF8vyQpec1fCgFH/lCz5jEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hYYvaVnw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="G/Yk4QfI"
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56SAML7s2707653;
-	Mon, 28 Jul 2025 05:22:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1753698141;
-	bh=gorbOLRxJT0JdIMGPDRSTq3Ywcr3uu/Euag8Tbd4C2k=;
-	h=From:To:CC:Subject:Date;
-	b=G/Yk4QfIpbL6qJO59zWLztuoM2PbManCyPA85XlE0u4XGWnGRDDPNc9krvZDUu9NI
-	 1e7RsW2XMfthLuiFVE1T0XDCj3Tn6oZSeVSaoieG9tb2b+0w6+HAQU+RhvFpFhwC1O
-	 tRK7mAsGpXpg1/z62BYChW+mDdu1+pDRdgkMNs7E=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56SAMKvq1621296
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Mon, 28 Jul 2025 05:22:20 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 28
- Jul 2025 05:22:19 -0500
-Received: from DLEE107.ent.ti.com ([fe80::1c91:43d:d71:d7b6]) by
- DLEE107.ent.ti.com ([fe80::1c91:43d:d71:d7b6%17]) with mapi id
- 15.01.2507.055; Mon, 28 Jul 2025 05:22:19 -0500
-From: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: "broonie@kernel.org" <broonie@kernel.org>,
-        "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-        "tiwai@suse.de" <tiwai@suse.de>,
-        "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>,
-        "Xu, Baojun" <baojun.xu@ti.com>,
-        "Ding,
- Shenghao" <shenghao-ding@ti.com>,
-        "liam.r.girdwood@intel.com"
-	<liam.r.girdwood@intel.com>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh@kernel.org" <robh@kernel.org>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "Navada Kanyana, Mukund" <navada@ti.com>,
-        "Hampiholi, Vallabha" <v-hampiholi@ti.com>
-Subject: Re: [PATCH v3 2/4] dt-bindings: sound: bindings for tac5x1x family of
- codecs
-Thread-Topic: [PATCH v3 2/4] dt-bindings: sound: bindings for tac5x1x family
- of codecs
-Thread-Index: Adv/pqCHhQ7Z5pboSlmxx2N4LsHPtw==
-Date: Mon, 28 Jul 2025 10:22:18 +0000
-Message-ID: <a5c23c7928da403fafe24c1de0fc6412@ti.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hYYvaVnw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F26C0C4CEE7;
+	Mon, 28 Jul 2025 10:52:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1753699927;
+	bh=5xhS0LgHPXnMNMu7zQCvjpXnRD5j9EtWrqFbAN3k2r4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hYYvaVnw4+raQUimNXSJFUZKhQwO2aCBoJjZvCo7LhOivn7qRo0OXO0PyU9d/Bt2E
+	 OT/JJLVvMYyhKFzkjB7oK1EPkPWdu3uQn9ufqK2+aSteVooWHiaq1xO5vBUF62iX5M
+	 1IgaBC9oM7nBL4RWDNmSRMdAplhFbo7BwC/e7n7w=
+Date: Mon, 28 Jul 2025 12:52:04 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: broonie@kernel.org, alsa-devel@alsa-project.org,
+	Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com,
+	Sunil-kumar.Dommati@amd.com, syed.sabakareem@amd.com,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: amd: acp: Adjust pdm dmic gain using module
+ parameter
+Message-ID: <2025072814-stardom-anointer-0a62@gregkh>
+References: <20250728094243.3824450-1-venkataprasad.potturu@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250728094243.3824450-1-venkataprasad.potturu@amd.com>
 
-SGkgS3J6eXN6dG9mLA0KDQpUaGFua3MgZm9yIHRoZSBkZXRhaWxlZCByZXZpZXcgY29tbWVudHMu
-IA0KUmVxdWVzdCB5b3UgdG8gdGFrZSBhIGxvb2sgYXQgY29tbWVudHMgYmVsb3cuIA0KDQpPbiBG
-cmksIEp1biAyNywgMjAyNSBhdCAxOjE4IFBNICswNTMwLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
-b3RlOg0KPiBPbiBUaHUsIEp1biAyNiwgMjAyNSBhdCAxMTo0MzozMVBNICswNTMwLCBOaXJhbmph
-biBIIFkgd3JvdGU6DQo+ID4gKyAgdGksdnJlZjoNCj4gPiArICAgIGRlc2NyaXB0aW9uOiBWUkVG
-IHJlcXVpcmVkIHZvbHRhZ2UuIElmIG5vZGUgaXMgb21pdHRlZCB0aGVuIFZSRUYgaXMNCj4gVm9s
-dGFnZSBpcyBpbiBtaWNyb3ZvbHQuIFVzZSBwcm9wZXIgc3VmZml4L3ZhbHVlcy4NCklzIHRoaXMg
-Y29udmVudGlvbiA/IElzIHRoZXJlIGFueSBkb2N1bWVudCBvbiB0aGVzZSBJIGNhbiByZWZlciA/
-DQo+IA0KPiA+ICsgICAgb25lT2Y6DQo+ID4gKyAgICAgIC0gY29uc3Q6IDANCj4gPiArICAgICAg
-ICBkZXNjcmlwdGlvbjogVlJFRiBvdXRwdXQgaXMgcG93ZXJlZCB0byAyLjc1Vi4NCj4gPiArICAg
-ICAgLSBjb25zdDogMQ0KPiA+ICsgICAgICAgIGRlc2NyaXB0aW9uOiBWUkVGIG91dHB1dCBpcyBw
-b3dlcmVkIHRvIDIuNVYuDQo+ID4gKyAgICAgIC0gY29uc3Q6IDINCj4gPiArICAgICAgICBkZXNj
-cmlwdGlvbjogVlJFRiBvdXRwdXQgaXMgcG93ZXJlZCB0byAxLjM3NVYuDQoNCj4gPiArICB0aSxn
-cGlvcy1mdW5jOg0KPiA+ICsgICAgZGVzY3JpcHRpb246IHwNCj4gPiArICAgICAgQXJyYXkgaW5k
-aWNhdGluZyB0aGUgR1BJTzEsIEdQSU8yLCBHUE8xIEZ1bmN0aW9uYWxpdHkgaW4gdGhlIHNhbWUg
-b3JkZXIuDQo+ID4gKyAgICAgIEVhY2ggaW50ZWdlciBlbGVtbmVudCBpbiB0aGUgYXJyYXkgcmVw
-cmVzZW50IHRoZSBmb2xsb3dpbmcNCj4gPiArICAgICAgLSAwICBUQUM1WDFYX0dQSU9fRElTQUJM
-RSAgICAgICAgLSBHUElPIGlzIERpc2FibGVkDQo+ID4gKyAgICAgIC0gMSAgVEFDNVgxWF9HUElP
-X0dQSSAgICAgICAgICAgIC0gR2VuZXJhbCBQdXJwb3NlIElucHV0DQo+ID4gKyAgICAgIC0gMiAg
-QURDM1hYWF9HUElPX0dQTyAgICAgICAgICAgIC0gR2VuZXJhbCBQdXJwb3NlIE91dHB1dA0KPiA+
-ICsgICAgICAtIDMgIFRBQzVYMVhfR1BJT19JUlEgICAgICAgICAgICAtIENoaXAgSW50ZXJydXB0
-DQo+ID4gKyAgICAgIC0gNCAgVEFDNVgxWF9HUElPX1BETUNMSyAgICAgICAgIC0gUERNIENMSyBP
-dXRwdXQNCj4gPiArICAgICAgLSA1ICBUQUM1WDFYX0dQSU9fUF9ET1VUICAgICAgICAgLSBQcmlt
-YXJ5IEFTSSBET1VUDQo+ID4gKyAgICAgIC0gNiAgVEFDNVgxWF9HUElPX1BfRE9VVDIgICAgICAg
-IC0gUHJpbWFyeSBBU0kgRE9VVDINCj4gPiArICAgICAgLSA3ICBUQUM1WDFYX0dQSU9fU19ET1VU
-ICAgICAgICAgLSBTZWNvbmRhcnkgQVNJIERPVVQNCj4gPiArICAgICAgLSA4ICBUQUM1WDFYX0dQ
-SU9fU19ET1VUMiAgICAgICAgLSBTZWNvbmRhcnkgQVNJIERPVVQyDQo+ID4gKyAgICAgIC0gOSAg
-VEFDNVgxWF9HUElPX1NfQkNMSyAgICAgICAgIC0gU2Vjb25kYXJ5IEJDTEsgT3V0cHV0DQo+ID4g
-KyAgICAgIC0gMTAgVEFDNVgxWF9HUElPX1NfRlNZTkMgICAgICAgLSBTZWNvbmRhcnkgRlNZTkMg
-T3V0cHV0DQo+ID4gKyAgICAgIC0gMTEgVEFDNVgxWF9HUElPX0NMS09VVCAgICAgICAgLSBHZW5l
-cmFsIFB1cnBvc2UgT3V0cHV0DQo+ID4gKyAgICAgIC0gMTIgVEFDNVgxWF9HUElPX0RPVVRfTVVY
-DQo+ID4gKyAgICAgIC0gMTMgVEFDNVgxWF9HUElPX0RBSVNZX09VVA0KPiA+ICsgICAgJHJlZjog
-L3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyLWFycmF5DQo+ID4gKyAgICBt
-aW5JdGVtczogMw0KPiA+ICsgICAgbWF4SXRlbXM6IDMNCj4gDQo+IERvbid0IGVuY29kZSBncGlv
-cyBhbmQgcGlucyBhcyBzb21lIGN1c3RvbSBwcm9wZXJ0aWVzLg0KQ291bGQgeW91IHBsZWFzZSBz
-dWdnZXN0IHdoYXQgaXMgdGhlIGFsdGVybmF0aXZlLg0KUGxlYXNlIHN1Z2dlc3Qgc29tZSBleGFt
-cGxlIHdoaWNoIEkgY2FuIHJlZmVyID8gDQoNClJlZ2FyZHMNCk5pcmFuamFuDQoNCg==
+On Mon, Jul 28, 2025 at 03:12:27PM +0530, Venkata Prasad Potturu wrote:
+> Adjust pdm dimc gain value using module param.
+> In case of regressions for any users that the new pdm_gain value is
+> too high and for additional debugging, introduce a module parameter
+> that would let them configure it.
+> 
+> This parameter should be removed in the future:
+>  * If it's determined that the parameter is not needed, just hardcode
+>    the correct value as before
+>  * If users do end up using it to debug and report different values
+>    we should introduce a config knob that can have policy set by ucm.
+> 
+> Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+> ---
+>  sound/soc/amd/acp/acp-legacy-common.c | 3 ++-
+>  sound/soc/amd/acp/acp-pdm.c           | 3 ++-
+>  sound/soc/amd/acp/amd.h               | 6 +++++-
+>  3 files changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/amd/acp/acp-legacy-common.c b/sound/soc/amd/acp/acp-legacy-common.c
+> index 57982d057c3a..dd804fb95790 100644
+> --- a/sound/soc/amd/acp/acp-legacy-common.c
+> +++ b/sound/soc/amd/acp/acp-legacy-common.c
+> @@ -173,7 +173,8 @@ static void set_acp_pdm_clk(struct snd_pcm_substream *substream,
+>  	/* Enable default ACP PDM clk */
+>  	writel(PDM_CLK_FREQ_MASK, chip->base + ACP_WOV_CLK_CTRL);
+>  	pdm_ctrl = readl(chip->base + ACP_WOV_MISC_CTRL);
+> -	pdm_ctrl |= PDM_MISC_CTRL_MASK;
+> +	pdm_ctrl &= ~ACP_WOV_GAIN_CONTROL;
+> +	pdm_ctrl |= FIELD_PREP(ACP_WOV_GAIN_CONTROL, clamp(pdm_gain, 0, 3));
+>  	writel(pdm_ctrl, chip->base + ACP_WOV_MISC_CTRL);
+>  	set_acp_pdm_ring_buffer(substream, dai);
+>  }
+> diff --git a/sound/soc/amd/acp/acp-pdm.c b/sound/soc/amd/acp/acp-pdm.c
+> index 1bfc34c2aa53..ffb622a7a69a 100644
+> --- a/sound/soc/amd/acp/acp-pdm.c
+> +++ b/sound/soc/amd/acp/acp-pdm.c
+> @@ -38,7 +38,8 @@ static int acp_dmic_prepare(struct snd_pcm_substream *substream,
+>  	/* Enable default DMIC clk */
+>  	writel(PDM_CLK_FREQ_MASK, chip->base + ACP_WOV_CLK_CTRL);
+>  	dmic_ctrl = readl(chip->base + ACP_WOV_MISC_CTRL);
+> -	dmic_ctrl |= PDM_MISC_CTRL_MASK;
+> +	dmic_ctrl &= ~ACP_WOV_GAIN_CONTROL;
+> +	dmic_ctrl |= FIELD_PREP(ACP_WOV_GAIN_CONTROL, clamp(pdm_gain, 0, 3));
+>  	writel(dmic_ctrl, chip->base + ACP_WOV_MISC_CTRL);
+>  
+>  	period_bytes = frames_to_bytes(substream->runtime,
+> diff --git a/sound/soc/amd/acp/amd.h b/sound/soc/amd/acp/amd.h
+> index cb8d97122f95..f2567e06ccd3 100644
+> --- a/sound/soc/amd/acp/amd.h
+> +++ b/sound/soc/amd/acp/amd.h
+> @@ -130,7 +130,7 @@
+>  #define PDM_DMA_INTR_MASK       0x10000
+>  #define PDM_DEC_64              0x2
+>  #define PDM_CLK_FREQ_MASK       0x07
+> -#define PDM_MISC_CTRL_MASK      0x10
+> +#define ACP_WOV_GAIN_CONTROL	GENMASK(4, 3)
+>  #define PDM_ENABLE              0x01
+>  #define PDM_DISABLE             0x00
+>  #define DMA_EN_MASK             0x02
+> @@ -138,6 +138,10 @@
+>  #define PDM_TIMEOUT             1000
+>  #define ACP_REGION2_OFFSET      0x02000000
+>  
+> +static int pdm_gain = 3;
+> +module_param(pdm_gain, int, 0644);
+> +MODULE_PARM_DESC(pdm_gain, "Gain control (0-3)");
+
+This is not the 1990's, please do not add new module parameters, it will
+not work for modern systems and is a horrible thing to attempt to
+support over time :(
+
+Please do this properly, with a per-device setting.
+
+thanks,
+
+greg k-h
