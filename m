@@ -1,63 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E03264630;
-	Tue, 29 Jul 2025 06:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FA3264A60;
+	Tue, 29 Jul 2025 10:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753771797; cv=none; b=vFzBdxGZLcafARsfNatNrp5ceOKpwZKSbvYOW5qh5w6q9qnq8aqrp5Pyfc97eiDRMm3Njv8AOSnC0VvbH23srkXR7QhxKPnOkxHLMLp8q8dVFLMsKIuURzxeHLLRddYZVkxSEXERKebal0kaOF/po6cLC4nekIDN14GIfzaC9+M=
+	t=1753785372; cv=none; b=uCvHBtp7M7LVf6sMtej1V55rtsfS90d1ReYn9aFNeyvucDmxCE8m3EAng/cd00O3kkucrixbdadDAAPyicnfKlRwNtwEf7tZS2LNjjeXLzX5N+p9ECz+cCzcOarCkaLQ++AHEmHMNmtAUQk0Lo9ySIznDgYOm/XNLgVSqVtFyro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753771797; c=relaxed/simple;
-	bh=ZUZybHL1Bg9QPC7gp7ncK5G2/WkaVW3bZoYjVXzmYms=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=mEHFvlO/lSZFkWz4Jp9I8Y8TmyCIiCyQW6wnT2IlXxc+9drNFFBxB2kalYShTcLM5BJ6UviXMgRIKdcYDWXiX6m44sz696OXU9v12QDQbV/02oF1DIRQv8iTzuBHewzPpODcCjFZ6Sqi1whXRnQ4RJvoEV1ssvDnMdpDP7YEItk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=THFbDso7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753785372; c=relaxed/simple;
+	bh=PAmGFz6fuvJ0+txbapj32eZ4+ppJS2V2a0z1iKAPypQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kTlFGxC6Pkd6DtXiwTNwoF9fWz9vhH4GZAR5K2uhZMOHuVcKJ6eNd1fv1iix844IFqh+aSCeNJ10HmfpAVsAqMXExq5wTqmuU2xb7GixPhC/thBjpAPP/2KnwMWO4zWFbsXoTZUtKCm6WQdOjqdavtl25kmmPmQVC0wnq+GuibA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZRXove43; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="THFbDso7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E7FC4CEF7;
-	Tue, 29 Jul 2025 06:49:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZRXove43"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00D8AC4CEEF;
+	Tue, 29 Jul 2025 10:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753771797;
-	bh=ZUZybHL1Bg9QPC7gp7ncK5G2/WkaVW3bZoYjVXzmYms=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=THFbDso7AQJ0zS/Ej0rttx0MEUZWmPuWtl40CkPfK6zZyXS96CPSVVt8q9W3kdBPC
-	 sNY3dr7B98S+ssB2moLpEiOQkA6qzDhX+71uDfquY5z9XqsQwC0lipkOXmYdrwj8UR
-	 ByqEe7JiWyCUO+C+Kbe7VWB1TK+erkDLAnFy693D8fqD5MDAvg4kkOXVBHxSQq/v2n
-	 9WPFZoSWGZRxe+ZCDn5prUzBrRgT+RIsrVj0hcW8lEJ4AzpL6JxLnGQguzLDnEHGNH
-	 hrxuCrRtytIaK4Gs0DmQ7fWuPnsuOCOFPVKyFtA3m2g1MU2Uh8HFwVC+cTiXEWfifG
-	 yMqdjqfKphePA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 29357383BF60;
-	Tue, 29 Jul 2025 06:50:15 +0000 (UTC)
-Subject: Re: [GIT PULL] sound updates for 6.17-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87ecu4idvc.wl-tiwai@suse.de>
-References: <87ecu4idvc.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87ecu4idvc.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.17-rc1
-X-PR-Tracked-Commit-Id: bca53a176f3d46fdab67f9e2fb1a185e0233d98d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 177bf8620cf4ed290ee170a6c5966adc0924b336
-Message-Id: <175377181401.1356386.7848144941062977251.pr-tracker-bot@kernel.org>
-Date: Tue, 29 Jul 2025 06:50:14 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20201202; t=1753785371;
+	bh=PAmGFz6fuvJ0+txbapj32eZ4+ppJS2V2a0z1iKAPypQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZRXove43Flq4L54vJ/Z175oQc5lr+hBuqUtZvXhosonDQ1jR4OM7hDYnQP2/geo8p
+	 wB5S+sMG+CSMIOsNZwRC15xJm/riWcvFAmRPNSni3JVIotvqOkENlD/g5l1A0Uz4Fk
+	 jLGNtVa8L8GnSDgi+RbpbJYt0I3Py05f3rGbpwkrdbli/dJ31DwEcLQq2YupYb2tJg
+	 fUnPxaSQZio7bEm9ykw02FQxzM/FwH8kQOr9SF5hlQOw5d/m1BBYO+I2IvQMk277gQ
+	 HNdFd93jdnxkYsoIWbOriRUR3QjrfD4p8kNcnj0D11XpxA3urIWCyup0yIb1HfSk0W
+	 ejk7Irz42kf9A==
+Date: Tue, 29 Jul 2025 11:36:05 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	alsa-devel@alsa-project.org, Vijendar.Mukunda@amd.com,
+	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+	syed.sabakareem@amd.com, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: amd: acp: Adjust pdm dmic gain using module
+ parameter
+Message-ID: <d7326f95-13fb-4f3b-86e5-69797b9235f8@sirena.org.uk>
+References: <20250728094243.3824450-1-venkataprasad.potturu@amd.com>
+ <2025072814-stardom-anointer-0a62@gregkh>
+ <7d8c0bbf-2911-4e18-8287-e7c72fab396c@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="THCj9nB3gw2irpsq"
+Content-Disposition: inline
+In-Reply-To: <7d8c0bbf-2911-4e18-8287-e7c72fab396c@amd.com>
+X-Cookie: Short people get rained on last.
 
-The pull request you sent on Fri, 25 Jul 2025 15:44:39 +0200:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.17-rc1
+--THCj9nB3gw2irpsq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/177bf8620cf4ed290ee170a6c5966adc0924b336
+On Tue, Jul 29, 2025 at 11:34:59AM +0530, Mario Limonciello wrote:
+> On 7/28/2025 4:22 PM, Greg KH wrote:
+> > On Mon, Jul 28, 2025 at 03:12:27PM +0530, Venkata Prasad Potturu wrote:
 
-Thank you!
+> > >   * If users do end up using it to debug and report different values
+> > >     we should introduce a config knob that can have policy set by ucm.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> > Please do this properly, with a per-device setting.
+
+> As the main purpose for this parameter is for being able to tune whether the
+> property is correct, how about adding a debugfs file instead?
+
+> AFAICT it should just be a single register write, so debugfs to read current
+> value and write the debugging value seems pretty straightforward.
+
+Or you could just go direct to making it user tunable like a normal gain
+control?
+
+--THCj9nB3gw2irpsq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiIpBQACgkQJNaLcl1U
+h9Af2Af/ZHOIDdRyN8oESG5QLmQLs7d0Oelgs8FwkLMeecheCioZ4xlxslIC7tjW
+AMnSumzY3xrWiRha8JFBiO7jyxN32o27AgNbXa0nVxKmpczL5Pp1UVU62QfpuBJX
+1Lu8BIKYeiT8vTPGfZfhZ/ypGtehBJPiPepn0+nlsTPQkGwtdnbyShpNihbrnhUs
+YpVBANMyEeroYqcDE0P74QSiA8NqWmY7TlIeFnPXbd6PWsLWkV4vmfGK9oyXWKtX
+cv2Q2p512BtnrGv5snTVctWJrJIk2ucLVFDPUrF9+NW6u6vChdEOs10Ix6OXl623
+OGpb2W9g/8YA5ReOLrsz+fSDphNJLQ==
+=pQ9m
+-----END PGP SIGNATURE-----
+
+--THCj9nB3gw2irpsq--
