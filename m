@@ -1,97 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FA3264A60;
-	Tue, 29 Jul 2025 10:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA63D1DE891
+	for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 11:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753785372; cv=none; b=uCvHBtp7M7LVf6sMtej1V55rtsfS90d1ReYn9aFNeyvucDmxCE8m3EAng/cd00O3kkucrixbdadDAAPyicnfKlRwNtwEf7tZS2LNjjeXLzX5N+p9ECz+cCzcOarCkaLQ++AHEmHMNmtAUQk0Lo9ySIznDgYOm/XNLgVSqVtFyro=
+	t=1753788096; cv=none; b=niJml5522bAvhmszmo85T7Xk5799OnYM/3EZco4pCtP8mY7fONVVrwbJ7W0VK7df396j8Gic+5gyqRG7dLeuPasbKP+TrD7FUBTb1ZZ8rrQdV3El5YSPn1P2Qi/+ug8q2EXRFvhGca0gnx3LrWoMIpUX0KOZRaFYtZxGf+5UA6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753785372; c=relaxed/simple;
-	bh=PAmGFz6fuvJ0+txbapj32eZ4+ppJS2V2a0z1iKAPypQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kTlFGxC6Pkd6DtXiwTNwoF9fWz9vhH4GZAR5K2uhZMOHuVcKJ6eNd1fv1iix844IFqh+aSCeNJ10HmfpAVsAqMXExq5wTqmuU2xb7GixPhC/thBjpAPP/2KnwMWO4zWFbsXoTZUtKCm6WQdOjqdavtl25kmmPmQVC0wnq+GuibA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZRXove43; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753788096; c=relaxed/simple;
+	bh=xU/qCTw6PvU569fg20V22yIqQE0VpOf8Xs0vprQRAGI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=kCjaK/MVC4T6s2BJxyIVk3fufSHILM8pbSpk5lNdu0UUWEoFoHEzNlt5CPh9x6VCx0HhYI9qI6XKxo0SJHMbmqgUroastB5yJbMYIC+SkZawyQ4uS+t95zQb4sKGBKzDj4XETasOSQYF5QL+NxhJYhgrnSjmxwPouiTBAqCNEag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RRCS40tW; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZRXove43"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00D8AC4CEEF;
-	Tue, 29 Jul 2025 10:36:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753785371;
-	bh=PAmGFz6fuvJ0+txbapj32eZ4+ppJS2V2a0z1iKAPypQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZRXove43Flq4L54vJ/Z175oQc5lr+hBuqUtZvXhosonDQ1jR4OM7hDYnQP2/geo8p
-	 wB5S+sMG+CSMIOsNZwRC15xJm/riWcvFAmRPNSni3JVIotvqOkENlD/g5l1A0Uz4Fk
-	 jLGNtVa8L8GnSDgi+RbpbJYt0I3Py05f3rGbpwkrdbli/dJ31DwEcLQq2YupYb2tJg
-	 fUnPxaSQZio7bEm9ykw02FQxzM/FwH8kQOr9SF5hlQOw5d/m1BBYO+I2IvQMk277gQ
-	 HNdFd93jdnxkYsoIWbOriRUR3QjrfD4p8kNcnj0D11XpxA3urIWCyup0yIb1HfSk0W
-	 ejk7Irz42kf9A==
-Date: Tue, 29 Jul 2025 11:36:05 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	alsa-devel@alsa-project.org, Vijendar.Mukunda@amd.com,
-	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
-	syed.sabakareem@amd.com, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: amd: acp: Adjust pdm dmic gain using module
- parameter
-Message-ID: <d7326f95-13fb-4f3b-86e5-69797b9235f8@sirena.org.uk>
-References: <20250728094243.3824450-1-venkataprasad.potturu@amd.com>
- <2025072814-stardom-anointer-0a62@gregkh>
- <7d8c0bbf-2911-4e18-8287-e7c72fab396c@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RRCS40tW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753788095; x=1785324095;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xU/qCTw6PvU569fg20V22yIqQE0VpOf8Xs0vprQRAGI=;
+  b=RRCS40tWc4YL6jmf/u4r7FbMndaEY+wDTTclHp5cyXwvWCdHiDE5voDh
+   437aWne1dZCe2mqrYdR2YYj0OvA0WyHtqfC2mC0CTVkvk6YDuHNpcB2TQ
+   KjRROwbXmpcZ4HqQkR+2sYSgd0CVOuwOxls72Ri/XKoi4PVshCxvlpTCY
+   u3MJTn3XTe2TMrobP/Nc1Qdnnbyr0+u1/l/pdGUrou7flaFe78c9ygJ/f
+   sXF4v8fJRiAdS+YZHZXiUsZIKYjcbCwBiw7QPCVsAAmW/FmS1fNaC6pcC
+   BnXDPZ/HGhF5UrKGFx1Diqx4Zwqc3CQ7nONvHX86oLh92/CntXLAjDYig
+   A==;
+X-CSE-ConnectionGUID: hmfp9IqOQ7yLrDvFxn9cxA==
+X-CSE-MsgGUID: 9a+3LBuRRSOGH5fTHLsELw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="67137326"
+X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
+   d="scan'208";a="67137326"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 04:21:35 -0700
+X-CSE-ConnectionGUID: IKZCLs2eSb+bPZFTXTqOxg==
+X-CSE-MsgGUID: tys+vLQFQSGhSzYwgVkD3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
+   d="scan'208";a="161945128"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa006.jf.intel.com with ESMTP; 29 Jul 2025 04:21:33 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/2] ASoC: Intel: avs: Fixes for avs_pci_probe()
+Date: Tue, 29 Jul 2025 13:42:27 +0200
+Message-Id: <20250729114229.309472-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="THCj9nB3gw2irpsq"
-Content-Disposition: inline
-In-Reply-To: <7d8c0bbf-2911-4e18-8287-e7c72fab396c@amd.com>
-X-Cookie: Short people get rained on last.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Two small changes that aim to improve code quality around error-path
+area for the avs_pci_probe() function.
 
---THCj9nB3gw2irpsq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+1) The synchronization-change is here to make sure both happy and error
+paths are streamlines, no functional changes there.
+2) The fix addresses null-ptr-deref and similar problems is
+pcim_request_all_regions() fails.
 
-On Tue, Jul 29, 2025 at 11:34:59AM +0530, Mario Limonciello wrote:
-> On 7/28/2025 4:22 PM, Greg KH wrote:
-> > On Mon, Jul 28, 2025 at 03:12:27PM +0530, Venkata Prasad Potturu wrote:
+Cezary Rojewski (2):
+  ASoC: Intel: avs: Synchronize happy and error paths in PCI probe
+  ASoC: Intel: avs: Fix uninitialized pointer error in probe()
 
-> > >   * If users do end up using it to debug and report different values
-> > >     we should introduce a config knob that can have policy set by ucm.
+ sound/soc/intel/avs/core.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-> > Please do this properly, with a per-device setting.
+-- 
+2.25.1
 
-> As the main purpose for this parameter is for being able to tune whether the
-> property is correct, how about adding a debugfs file instead?
-
-> AFAICT it should just be a single register write, so debugfs to read current
-> value and write the debugging value seems pretty straightforward.
-
-Or you could just go direct to making it user tunable like a normal gain
-control?
-
---THCj9nB3gw2irpsq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiIpBQACgkQJNaLcl1U
-h9Af2Af/ZHOIDdRyN8oESG5QLmQLs7d0Oelgs8FwkLMeecheCioZ4xlxslIC7tjW
-AMnSumzY3xrWiRha8JFBiO7jyxN32o27AgNbXa0nVxKmpczL5Pp1UVU62QfpuBJX
-1Lu8BIKYeiT8vTPGfZfhZ/ypGtehBJPiPepn0+nlsTPQkGwtdnbyShpNihbrnhUs
-YpVBANMyEeroYqcDE0P74QSiA8NqWmY7TlIeFnPXbd6PWsLWkV4vmfGK9oyXWKtX
-cv2Q2p512BtnrGv5snTVctWJrJIk2ucLVFDPUrF9+NW6u6vChdEOs10Ix6OXl623
-OGpb2W9g/8YA5ReOLrsz+fSDphNJLQ==
-=pQ9m
------END PGP SIGNATURE-----
-
---THCj9nB3gw2irpsq--
