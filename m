@@ -1,99 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC96433D9;
-	Tue, 29 Jul 2025 13:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0D12882B8;
+	Tue, 29 Jul 2025 14:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753797506; cv=none; b=EGG90g/9zA6G+sISkGJa4kSNqk52jz6+sD+C2B3uZy9Jpto7P5Yy5gXwIwQsHyMIOawvyz9l/kPiIIjiBoyMsTfRwN8EexhfJnGtxsC8KwgK9wYsgvas1JERlMJuwxIKTQsRoZcdQlRIoPB07kf244L5+s8MM0CzzprexJyKr4g=
+	t=1753801191; cv=none; b=SlHvrMlNMXGy9ETGDUA66vJz3V/zRFS1ZdKNsvm6HrwtLUUbI9vTx/GzQRQY4wFZty+PMxKnuFSOWvTjoTRjuqjvsfA62ms80jKoE9ePff7M6J5Shd7wFNxao6t8fYQeQb6X9vXdJ3iM5Z1indF6KiJGPjcGlu9T6yVAZOW7GVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753797506; c=relaxed/simple;
-	bh=vPvAtP/sZ8lnXkjd3m445006NQb0CN8eBY920jsV5KY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FxcosvmnlFuoxfQ5pVOMDhxySPZZTbF+NNDyo4DC528fb2UrB5NMBCcV1p9nc08aiRdDFMRzL/g2p5DL3VTGvFq/JtqrWRs7rBI6+om17NnjLcOdGT2eIByMASg9QM0+lm4kZlrW5VUlaiMnogCNEoyvojuBf/QyUlPYfvUfXRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bSKgRMIq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753801191; c=relaxed/simple;
+	bh=NvAofT5zbEiIg42/fo5kKEV+hVJkFwbLzEa1TzVctGc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aGq9jvC5puClxm6aLiss/ehIK0d6kZKS3WyQKpYbloJ9JkQ28NIKaLVleF42I4+qqqpGG7D+iD2zkYtQzu1ysPftkZceRCTHMSCCypaBWM69JDmSuZUXU5QFT9/EEspmx1BZy0Bif71HZaRSGpM/wCGCIbel6l+zPLCGRZXjGXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=k+YvA+co; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bSKgRMIq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C175AC4CEF4;
-	Tue, 29 Jul 2025 13:58:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753797506;
-	bh=vPvAtP/sZ8lnXkjd3m445006NQb0CN8eBY920jsV5KY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bSKgRMIqPhZpMa+TAhyEKbmJdGD0Q13iQOyqMDLVyQjVkUqaUlJO6uYI41jHqmNr5
-	 x3j4Wl8r3ymygUJXzbbAIYz4JHcZusIey0IeyA6IA19eJzZREB6ov9cHySRSv1fjbM
-	 WocQF6C2ZlcTnHSvXyOTeA3DqMOh68IR9lSUUOKqck7+7CAjBPN5B2Oysn+LKr+lww
-	 H26qMroub8PwBjn5QHNKvLvRtqfPo/VNMqehD1wa5oSbnbgcis6EeHarZA6FoEXD3J
-	 bQ4GCYhMARlcYh/6+qas/FmHcZqoVKNjfuy4TY3IG7swiJdYYFfiXlNPADO1OcWovI
-	 PKmhCDOB9PEJw==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
- Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: kernel@collabora.com, stable@vger.kernel.org, 
- Bard Liao <bard.liao@intel.com>, sound-open-firmware@alsa-project.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250725190254.1081184-1-usama.anjum@collabora.com>
-References: <20250725190254.1081184-1-usama.anjum@collabora.com>
-Subject: Re: [PATCH v1] ASoC: SOF: amd: acp-loader: Use GFP_KERNEL for DMA
- allocations in resume context
-Message-Id: <175379750250.39357.9621820715781114394.b4-ty@kernel.org>
-Date: Tue, 29 Jul 2025 14:58:22 +0100
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="k+YvA+co"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56TExRgG2988219;
+	Tue, 29 Jul 2025 09:59:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1753801167;
+	bh=Nr6k0opRMmNIsTVpjRSCji0D/6qwAjqm6iJkhWySxFE=;
+	h=From:To:CC:Subject:Date;
+	b=k+YvA+coNPbxmIz5T/gZvIAcZINBtL5VtwDufNsomMTg5b8HgEgGcDXESs+KR1AuK
+	 LKkwmRCn/fhny0MErNgTXE7jZ9T0z39RoH6Hl+FvQwm4F+whCSTY7VfCk1Cr7xT1Z3
+	 kCSOg8OprOdce8GEbpy3vJEfBRulTm9u+HUJhot0=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56TExQKF2526231
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Tue, 29 Jul 2025 09:59:26 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 29
+ Jul 2025 09:59:25 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Tue, 29 Jul 2025 09:59:25 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56TExDiX3600953;
+	Tue, 29 Jul 2025 09:59:15 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>
+CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
+        <13916275206@139.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <baojun.xu@ti.com>
+Subject: [PATCH v2] ALSA: hda: Fix the wrong register was used for DVC of TAS2770
+Date: Tue, 29 Jul 2025 22:58:49 +0800
+Message-ID: <20250729145849.55057-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Sat, 26 Jul 2025 00:02:54 +0500, Muhammad Usama Anjum wrote:
-> Replace GFP_ATOMIC with GFP_KERNEL for dma_alloc_coherent() calls. This
-> change improves memory allocation reliability during firmware loading,
-> particularly during system resume when memory pressure is high. Because
-> of using GFP_KERNEL, reclaim can happen which can reduce the probability
-> of failure.
-> 
-> Fixes memory allocation failures observed during system resume with
-> fragmented memory conditions.
-> 
-> [...]
+The wrong register was used for digital volume control of TAS2770,
+The definition was changed, and usage was also updated.
 
-Applied to
+Fixes: ab29b3460c5c ("ALSA: hda: Add TAS2770 support")
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-Thanks!
+---
+v2
+ - Correct number from -1000 to -10000 for DVC.
+---
+ include/sound/tas2770-tlv.h                    | 4 ++--
+ sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-[1/1] ASoC: SOF: amd: acp-loader: Use GFP_KERNEL for DMA allocations in resume context
-      commit: eb3bb145280b6c857a748731a229698e4a7cf37b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/include/sound/tas2770-tlv.h b/include/sound/tas2770-tlv.h
+index c0bd495b4a07..c7380925417a 100644
+--- a/include/sound/tas2770-tlv.h
++++ b/include/sound/tas2770-tlv.h
+@@ -14,10 +14,10 @@
+ #ifndef __TAS2770_TLV_H__
+ #define __TAS2770_TLV_H__
+ 
+-#define TAS2770_DVC_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x17)
++#define TAS2770_DVC_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x05)
+ #define TAS2770_AMP_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x03)
+ 
+-static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_dvc_tlv, 1650, 50, 0);
++static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_dvc_tlv, -10000, 50, 0);
+ static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_amp_tlv, 1100, 50, 0);
+ 
+ #endif
+diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+index a0b132681804..45ac5e41bd4f 100644
+--- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
++++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+@@ -260,7 +260,7 @@ static const struct snd_kcontrol_new tas2770_snd_controls[] = {
+ 		0, 0, 20, 0, tas2781_amp_getvol,
+ 		tas2781_amp_putvol, tas2770_amp_tlv),
+ 	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Digital Volume", TAS2770_DVC_LEVEL,
+-		0, 0, 31, 0, tas2781_amp_getvol,
++		0, 0, 200, 1, tas2781_amp_getvol,
+ 		tas2781_amp_putvol, tas2770_dvc_tlv),
+ };
+ 
+-- 
+2.43.0
 
