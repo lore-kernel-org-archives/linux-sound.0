@@ -1,106 +1,92 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B73224FA;
-	Tue, 29 Jul 2025 13:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443E78F54
+	for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 13:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753794040; cv=none; b=lLRmSB7F4E0H2oUbTrOn3Uuq9p/skUnWzG9I5781VktCSymTlowTOfWeEKXi62oLyI0u/pSoFURuG7eqksMZsjKRMAsG3Gn97qNODMz72VZrvW/I1855kFJGKzElErp3uBT9CAytpvUuIkdI86DbkVMSEHdhLVSDnp8rIkvBtZ0=
+	t=1753795974; cv=none; b=TN7454+fmuNzzucOBNVERL86KHv4AurMGZu/psOaxcz+U6q/qQulNV8Pq0NavxKY5XxM9A/n+ihAiToXlz2Eox1LaXq5pu06LtwAkIpxQ7kJuN0zf0n+HjABilJq88JahoFCmlsUcIrSO2465/T6zM81JGKR0ccuqZ3ZZ1zkC1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753794040; c=relaxed/simple;
-	bh=cphQ01oXi2gDkQyo0GXS1R2C6OmqmjfzGSY01/UYKQI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ffo+GfZCRZReFfjrWlmjin5oHxkjyDyX/v5tNs1d+jXP7etuYeL0Fq0qnQe8JYDuc96pOHRfNr0KxiXWLe7Tmiq5cOW07YAU8W/8cE4QCNYlHOdw8FMVq3/B9Fip8lFTDSmsLqwWjsdcr33t/EVocbBLyMjIYatRDXV/JUk6JUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=X5wory8M; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1753795974; c=relaxed/simple;
+	bh=kZPp0HYbotHF59jE5UFZlEk1UtzkI4Gr83koThhit5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d8Drqy5mMifqYfjz2I3+097ajuvKimSlwaLrVACemXDu8UhfI0IwDmGUf1merFudccGJuBRhvaZKaK0M5+o5i4w/TWaseVoC0cMjcGata8uaNX5Gfky9m4W2FgEGthGDtDH3rCrlQEr0XDbeZNPMyamOiJ1lSHvlHdR9k7pEYss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ROv7l3eq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="X5wory8M"
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56TD0LpF2967271;
-	Tue, 29 Jul 2025 08:00:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1753794021;
-	bh=QqAobOTYQe6WECehT+kMwZtUBsShs9456vNKAow6d+s=;
-	h=From:To:CC:Subject:Date;
-	b=X5wory8MKkZNlFH5Qz6P0+XNppoYf2fOx4mw5r+FuHwwKXUdgtMptafmZELaooWwY
-	 ZHfDLKjIto0L8UJI6JGjyZX2PRy2JFhdCUO1snsAmWkEJWEOjIMup8ShTJ/lFwXaFj
-	 VMQtLsB8apo2Lgdkso71YNC6ABhwP8K1joi7ctpE=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56TD0KxX2461250
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 29 Jul 2025 08:00:21 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 29
- Jul 2025 08:00:20 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 29 Jul 2025 08:00:20 -0500
-Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56TD0D7t3745895;
-	Tue, 29 Jul 2025 08:00:14 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <tiwai@suse.de>
-CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
-        <13916275206@139.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <baojun.xu@ti.com>
-Subject: [PATCH v1] ALSA: hda: Fix the wrong register was used for DVC of TAS2770
-Date: Tue, 29 Jul 2025 20:59:38 +0800
-Message-ID: <20250729125938.54696-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ROv7l3eq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5877CC4CEEF;
+	Tue, 29 Jul 2025 13:32:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753795973;
+	bh=kZPp0HYbotHF59jE5UFZlEk1UtzkI4Gr83koThhit5Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ROv7l3eqYOJV13/7g4u7yaPzvm8QxD+WM8DLO8ggTV9HYvKRMGXfipWUASA8v9pE2
+	 XSHFUCCiyrhmzV329bbaEyJry36IhrTSQbu+BIR97PGv97KTzsE/AGZpBV//dujP7c
+	 VSRnAwJiTNBy+FcQ5pJv7Z8Ep4+vpyFSMYyk9aBGe+vq8SPPAQrVbhy8SEjtl/8L/l
+	 IGcMC/eUM+fxnzsubur6LwhvRoSWgMOnEJ3MsQxpmWR/QTyf5pgr6LLXRQ8PI8i0R0
+	 VkIi0ud8jOvmlvAXvHxyGJK43SeOOpRa2HXADbLuAE9HcVS0UUdWQCZNfTXCzaIBRZ
+	 Cyfg6penoIATA==
+Date: Tue, 29 Jul 2025 14:32:49 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: Intel: avs: Synchronize happy and error paths
+ in PCI probe
+Message-ID: <23104b50-974c-47e5-a79d-07dadb2bb3ce@sirena.org.uk>
+References: <20250729114229.309472-1-cezary.rojewski@intel.com>
+ <20250729114229.309472-2-cezary.rojewski@intel.com>
+ <9af2c2ca-103f-4f2e-afab-1fea5a2160a5@sirena.org.uk>
+ <179e32a8-b20b-40ab-8663-2a793a96993b@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Lv+yOZHc8hdc2Jjl"
+Content-Disposition: inline
+In-Reply-To: <179e32a8-b20b-40ab-8663-2a793a96993b@intel.com>
+X-Cookie: Short people get rained on last.
 
-The wrong register was used for digital volume control of TAS2770,
-The definition was changed, and usage was also updated.
 
-Fixes: ab29b3460c5c ("ALSA: hda: Add TAS2770 support")
+--Lv+yOZHc8hdc2Jjl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
- include/sound/tas2770-tlv.h                    | 4 ++--
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+On Tue, Jul 29, 2025 at 02:49:18PM +0200, Cezary Rojewski wrote:
 
-diff --git a/include/sound/tas2770-tlv.h b/include/sound/tas2770-tlv.h
-index c0bd495b4a07..5518b34abdde 100644
---- a/include/sound/tas2770-tlv.h
-+++ b/include/sound/tas2770-tlv.h
-@@ -14,10 +14,10 @@
- #ifndef __TAS2770_TLV_H__
- #define __TAS2770_TLV_H__
- 
--#define TAS2770_DVC_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x17)
-+#define TAS2770_DVC_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x05)
- #define TAS2770_AMP_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x03)
- 
--static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_dvc_tlv, 1650, 50, 0);
-+static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_dvc_tlv, -1000, 50, 0);
- static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2770_amp_tlv, 1100, 50, 0);
- 
- #endif
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index a0b132681804..45ac5e41bd4f 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -260,7 +260,7 @@ static const struct snd_kcontrol_new tas2770_snd_controls[] = {
- 		0, 0, 20, 0, tas2781_amp_getvol,
- 		tas2781_amp_putvol, tas2770_amp_tlv),
- 	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Digital Volume", TAS2770_DVC_LEVEL,
--		0, 0, 31, 0, tas2781_amp_getvol,
-+		0, 0, 200, 1, tas2781_amp_getvol,
- 		tas2781_amp_putvol, tas2770_dvc_tlv),
- };
- 
--- 
-2.43.0
+> happy path:
+> 	pci_alloc_irq_vectors();
+> 	pci_request_irq(bus);
+> 	pci_request_irq(adev);
+> 	pci_set_master();
 
+> error path:
+> 	pci_clear_master(pci);
+> 	pci_free_irq(pci, 0, adev);
+> 	pci_free_irq(pci, 0, bus);
+> 	pci_free_irq_vectors(pci);
+
+> Is there anything wrong with the approach before I send v2?
+
+Unless there's some issue with having master disabled but interrupts
+disabled that should be fine.
+
+--Lv+yOZHc8hdc2Jjl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiIzXwACgkQJNaLcl1U
+h9Cvkgf/QOHeiSUYc2iYWDG2DCut4RqoaY02TQdwAHEyIGMzF8ttvYeh5TpCD24S
+1qn69A0BeKkbyDA/zjjc0k0ZbGzHc8Nw3PVbXq005LhiLRzd5tGRC6XfCigiXk3G
+LMX+O/7e8nqXfbiIqdDchoPC13HXPyrPNKcrkG1rO6srIeACWOZZjCzy2uY/SD/L
+yfgukl5LaiTo/w+9+kf4SA7PL5Uq5+6pL03+Ght4BQt1oppD1HUcMMpzvOHeyZaZ
+JiJj45qAckhEdfH2yg+tPkN0ZL42Js9Gf+utJ3K+JbN1wpBeO31r8HO1yM7VcpbX
+oq4DrOIeKvcGeSHwRqzQqGDmqRGAlw==
+=4h7z
+-----END PGP SIGNATURE-----
+
+--Lv+yOZHc8hdc2Jjl--
