@@ -1,188 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6557261C;
-	Mon, 28 Jul 2025 13:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A99635;
+	Tue, 29 Jul 2025 02:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753707770; cv=none; b=cs9YahHlOm0b8Sa7D7hVNvdn1GqXKOEwLoEuZ0qhFhMkytHGsg4EbGuoPyqw8J7tm1TmNEk4ISxA7LQcTFm0yH6G5hfMBPg8oYkGRXqVkodmyejwhvxgMAaD8tddvmEOFyuqDXIQti6Dt/aTdpVhAhaVousvh6b6ky7uMWKuS60=
+	t=1753754532; cv=none; b=abeWWd2JmcID/SmUt6DmORvYH/wTja/vcqMrQLrPizXBXWCB4RKtLOoAQp4qqIvciIsIree8XAt4Z1P5kvCrIDqAvn9S4Y1Z6rNKDtYpd+NdpzbD6tNr1QN926+lQeIDYJ5RZlMm/c0iaCgaeEDhdIyvFtG+5LzdekUHl2oXEew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753707770; c=relaxed/simple;
-	bh=R1fGAE8YOzEwmxRKgWpof//eBo5lBECXbGbbv/3X41g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o0exUCZHZu4oq7VlpOimgDeLojY/EJilxeVKVf3il8FFdxd1kwfC9yfrnsC8cfRg2VUWWexvW8JcabVC5igQ64Pc0JdnG9H/EpPERre67WLrN1UUXnuyLYAyD7XeyoNxtILzzYU8SGP35vEsQvC9gCyX95PhwmhoUowWp76CCG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzfTz7oi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753754532; c=relaxed/simple;
+	bh=1KslsYIC/pYPSmGPEi+/fwRyoMspqFb8uaNEbRRDJEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XKoGBJDxmoy5iUNwp8Grn8uMkzErc7ZpMchhwLzAZBEQj7ogDln5xe6tGcFkvdMAb46S3NWMhCalwfU61wHyNwDFN2dpWZ+3M2szh4ZQzZlWtAHkU+9wLiUICbW6omBzd9EhuRI28D45dFpAjJ4Klaf67D9q3pfeuNTCd8y+BG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SDptUyDB; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzfTz7oi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAAFDC4CEE7;
-	Mon, 28 Jul 2025 13:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753707770;
-	bh=R1fGAE8YOzEwmxRKgWpof//eBo5lBECXbGbbv/3X41g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OzfTz7oiEhQ3Y0e6IV83aeWKIw6PNBAHpG7HEgH7rxrUGF2Cujl6SW8EKMtBpxUaX
-	 9XhExXPihup5v63jBsk29aYaFXAiZnBMdnf7nS/AsACE5yGQ0Pu8Qr/yuch0OobfVV
-	 ptpSQJBrePrmCLUhO/AEH5dYKEypIgq5ai2oLkpUY9t+w7iUlCgBIdZsLagdRQTMMr
-	 MLmMmFQ4tRzQUZRfB+hXQXI6j07zaKI6gwhLyIagb9YpSuUyN9+mbtJgrEBFi0cup0
-	 5uJv30H6hyMP7lEFF/s0W9qiCWqO52YNTOcNj0/uN8+CS3XUZh3UMkr6dX9Ro3I944
-	 cVTBK2VTSf1cA==
-Message-ID: <4bc486cb-9d94-4bad-ae07-e9a7aeed481a@kernel.org>
-Date: Mon, 28 Jul 2025 15:02:44 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SDptUyDB"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-2ffa1b10918so2866729fac.2;
+        Mon, 28 Jul 2025 19:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753754529; x=1754359329; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EEeZXXxE8pXnqG0YImoNpmvGHhhvN/xzySIEmSbgUno=;
+        b=SDptUyDB/ef8jGtWrPKYgKODnNVxDVkhnXBmIZn7vJOpkp7+sKxSxeaTgoWlZgoJ2c
+         63lDfwes01Iu/hrH5HmQpqq3m+gNsh0Aw8DuWgSqJMMnaS2bpZtb84UzdugY4iJhb/cU
+         stUhvesm0BEKJdFSDsW7oHSuINRtH5MCLBuIcYU6gMEgPn+EnfdSiE73oWLxBHQ+31Y3
+         huAWfYRIXOKx7tcODviRzW0DXSRpq+DX07pZUYx92dGngjaSudJnzqNnnEgaDK0Pr37X
+         GfapZtFdFu0Bv36cFFsQkTDhY4lqbqh1HNdPMKJ8VxZI8fnhBoigF8z2fWnxjIotTJRl
+         P/ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753754529; x=1754359329;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EEeZXXxE8pXnqG0YImoNpmvGHhhvN/xzySIEmSbgUno=;
+        b=sjhs7JkOEp3p+Dw+z3RCVLzY2ZmJ2gtcEPsoQVaHKS9kGrqIiXXbMpjx2cLI/fbctl
+         mDt+j1HfaGq4Fe/bQ2ydP/RmTlABQ7CCqcernITZ/PX3KLpMtMU9fdAr6vbxFZpInqqN
+         oeO29oAnwS/22WInMnmtSQbHRxFtBc0SirEXz6pwPv6PAPRNOejIdhV4Y4T57537YpzG
+         cvOfYuiaPl25iYJDhFfKyK59Pq7yT6Dcp4ZITNZG70NE6cyDB8bvvQRGlibARL0WU1mX
+         /VUZrpXJMsOxWSYAALbb6ZfnNFJMPq5si/puWm+pE7EICErRIXrFN3utJOsulbH2TeCk
+         eiUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCojKyd8lSiYvY3iq32jWn7B6t4xu5hb2pTmJ8yty5q0BJesXSR4B5RLC2/ADoNtKImbgq2ZR1nm10ifU=@vger.kernel.org, AJvYcCUoku8QYjAdbvz53bFHCyeJW+DRv90KiEW6to7myPeWYWqH3EcVhYJzVVD1gnlKmv7jG5TPVincAmcM3Ig=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLkEvaxGf5upWxBTZWYRYko4WJb8I3tMG8lbbrcP1qQLqLL8AE
+	PoAteY19uH0dnEAPUEEAaY9mWlkBJK/d75ms1zQEpFO/7ty0LhCYAKkgkmt17yN0qmU=
+X-Gm-Gg: ASbGncvpgqVer71plruzTuhHGbAr3YTf7pfjIMY2wwQg49XvemsDyYPB8/UaYgHNN2b
+	rMI+46bCCI+9VI5caNulgywpkXfDkOgCjf6WV/EsKGTEShglWNLc7QPPNgFIr6LF5LH8khxLJIa
+	eqQFk0otS5mQweTeWWaCrPryJjIAaPBoJ1UvqZ+leR81a4jGm6p7c9eyPTGkHQ0oHnZ3mz2t7+G
+	2Z+2hEPGV1k0HrsWup4w5MRDCdI/V0ii37tbQYUWCFRB3HKNB/NAMN0jL0TKhY+04LwPdPi/9CT
+	jMaCC96gpV1+Fs4ppWf3V56Ux2D7uxJYlbpPpOgJvrLsvk591WXpcXTpFiNN0iAWDWZ4f5dig8D
+	yLLnTgNYG4iiVpG/lel5w0HBs
+X-Google-Smtp-Source: AGHT+IHOw30O5Z7jeXCpP/Gpsx4e0WuD5rBxHCXsw90edV57RFa6IsOd12KYHPXG7J73ZnyfU7myhA==
+X-Received: by 2002:a05:6870:1b83:b0:306:9f8e:6699 with SMTP id 586e51a60fabf-30701faa8b5mr9069467fac.30.1753754529402;
+        Mon, 28 Jul 2025 19:02:09 -0700 (PDT)
+Received: from s-machine2.. ([2806:2f0:5501:d07c:e094:d952:816c:c6a5])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-30713663c67sm2001746fac.31.2025.07.28.19.02.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Jul 2025 19:02:09 -0700 (PDT)
+From: Sergio Perez Gonzalez <sperezglz@gmail.com>
+To: olivier.moysan@foss.st.com,
+	arnaud.pouliquen@foss.st.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com
+Cc: Sergio Perez Gonzalez <sperezglz@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: stm: stm32_i2s: Fix calc_clk_div() error handling in determine_rate()
+Date: Mon, 28 Jul 2025 20:00:49 -0600
+Message-ID: <20250729020052.404617-1-sperezglz@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] ASoC: codecs: wsa883x: Add devm action to safely
- disable regulator on device removal
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
- kernel@oss.qualcomm.com
-References: <20250727083117.2415725-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20250727083117.2415725-3-mohammad.rafi.shaik@oss.qualcomm.com>
- <07faf0cc-a8e6-426d-b397-dfc321a7f3df@kernel.org>
- <aae92260-5169-4af1-97b0-48f364612dca@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aae92260-5169-4af1-97b0-48f364612dca@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 28/07/2025 14:36, Mohammad Rafi Shaik wrote:
-> 
-> 
-> On 7/27/2025 3:00 PM, Krzysztof Kozlowski wrote:
->> On 27/07/2025 10:31, Mohammad Rafi Shaik wrote:
->>> To prevent potential warnings from _regulator_put() during device
->>
->> Warning is either there or not. Either you fix real, specific issue or
->> not. The code looks correct at first glance, so please describe exactly
->> how these warnings happen or how what is the bug being fixed.
->>
-> 
-> The current wsa883x codec driver manually enables and disables 
-> regulators during probe and remove.
-> In patch v3-0003, reset functionality was added using 
-> devm_reset_control_get_optional_shared_deasserted() for shared gpios.
+calc_clk_div() will only return a non-zero value (-EINVAL)
+in case of error. On the other hand, req->rate is an unsigned long.
+It seems quite odd that req->rate would be assigned a negative value,
+which is clearly not a rate, and success would be returned.
 
+Reinstate previous logic, which would just return error.
 
-There is no such code at this point. Each patch is a separate commit and
-must stand on its own. With its own explanation. You cannot say that you
-add bugs later, so you need to fix something now.
+Fixes: afd529d74002 ("ASoC: stm: stm32_i2s: convert from round_rate() to determine_rate()")
+Link: https://scan7.scan.coverity.com/#/project-view/53936/11354?selectedIssue=1647702
 
-Describe actual problem here. If there is no problem here, describe why
-you are doing this.
+Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
+---
+ sound/soc/stm/stm32_i2s.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-> 
-> However, during cleanup, this led to a warning:
-> "WARNING: CPU: 2 PID: 195 at drivers/regulator/core.c:2450 
-> _regulator_put+0x50/0x58"
-> 
-> This occurs because the regulator is still enabled/released when the 
-> devm-managed cleanup path attempts to release it.
+diff --git a/sound/soc/stm/stm32_i2s.c b/sound/soc/stm/stm32_i2s.c
+index 0e489097d9c1..6ca21780f21d 100644
+--- a/sound/soc/stm/stm32_i2s.c
++++ b/sound/soc/stm/stm32_i2s.c
+@@ -469,11 +469,8 @@ static int stm32_i2smclk_determine_rate(struct clk_hw *hw,
+ 	int ret;
+ 
+ 	ret = stm32_i2s_calc_clk_div(i2s, req->best_parent_rate, req->rate);
+-	if (ret) {
+-		req->rate = ret;
+-
+-		return 0;
+-	}
++	if (ret)
++		return ret;
+ 
+ 	mclk->freq = req->best_parent_rate / i2s->divider;
+ 
+-- 
+2.43.0
 
-So that patch was broken? You just did not properly clean up there?
-
-> 
-> To resolve this, remove the manual regulator disable logic and instead 
-> register a devm-managed cleanup action using devm_add_action_or_reset(). 
-> This ensures proper cleanup and avoids regulator misuse warnings.
-> 
-> For reference, the wsa884x codec driver already follows this approach by 
-> using devm actions for regulator management.
-> 
->>> removal, register a devm-managed cleanup action using
->>> devm_add_action_or_reset() to safely disable the regulator
->>> associated with the WSA883x codec, ensuring that the regulator
->>> is properly disabled when the device is removed, even if the
->>
->> Device cannot be removed/unloaded, AFAIK, because of suppressed bind.
->> Regulator is already disabled during error paths, so that part of above
->> sentences is just misleading.
->>
->> How can one trigger the warnings?
->>
-> 
-> The warning in _regulator_put() can be triggered by applying patch 
-> v3-0003, which introduces reset functionality using 
-> devm_reset_control_get_optional_shared_deasserted().
-
-
-There is no such code now. You say "potential warnings" are here.
-
-> 
-> Since the existing driver handles regulator enable/disable manually, the 
-> devm-managed reset cleanup path may attempt to release regulators that 
-> are still enabled, leading to the warning.
-> 
-> This issue highlights the need to replace manual regulator handling with 
-> devm_add_action_or_reset() to ensure proper cleanup and avoid such warnings.
-> 
->>
->>> probe fails or the driver is unloaded unexpectedly.
->>
->> How driver can be unloaded unexpectedly?
->>
-> 
-> "Unloaded" might not be the most accurate term here. What I meant is 
-> that the driver’s probe can fail due to an error—such as missing 
-> resources or improper regulator handling.
-
-
-Use standard Linux terms, e.g. probe failure, probe deferral etc.
-
-Best regards,
-Krzysztof
