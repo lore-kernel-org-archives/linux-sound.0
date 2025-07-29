@@ -1,461 +1,229 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D60DF42
-	for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 12:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753793139; cv=none; b=I8VeY6hW4QIort8yOQCGxumq/Oemoq5MDaL/N+jG0Wyocyd4Ft9bVUBgFFddrVbO532Rcd/dexApvQQnv0Z/R1N1iGgjgGfti+jhhbjc4cgb7Owj6RZtv7fO6x1MbcniixAkSGcYpSqNibeDdAzbo3uTw1zVQY1UKDCYsW/Pe7o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753793139; c=relaxed/simple;
-	bh=qoOxYG0HYCLiNir4OV/hePfmTDVKkNhxKAp4iFZ/uzQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FebiyJ9WpvKI4mgv+3wXIgbRPDwVsqJ+7A+Liytck5+fLQCppr+MRao3ghmWp3HjGNcIbw6jK0nW6H2yXU8/ixUi0cqkgzN7zCAxEHm7HBd1L0jdAmmwgrB/1/FWSmMfVjpLLxV34Ijd1UWK/5deJ8nuK+Etc6/yN62TkwUpzOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NLcwYhvT; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DC61CA84
+	for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 12:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753793383; cv=fail; b=Qg7t+ka0gfO0Y/d0gXtTgpjtPjsUbxiuCVOfZNmcJnUvfHFXV7xZqI0AM0Lbff97TW0q/vPWtkzpIELND0t1zRmW/NjPwcQjY0TmquXfrOF39eURHiUhKTWTYwQdbYZyeZCbtQXvZXx5pW7Tyl8e9hjB27omZLzaXlYa6bEKpOI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753793383; c=relaxed/simple;
+	bh=3ckqmilN7SiKHyNugI2LE6r3OgikIz72iFM5LC31Yus=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=uJ8K3xkbGX/Abk4mx8p69GeLOLN4l2F+rk4U0K5BFc/ROJ1EInvVFWyqSLG1uZsSkABGA3/+Zvml6JHhwiDUQqWxoSNu55RyO9LjVrw7Qd8KHnRQ1PtJIZE3amt2wMaCnkYelvn2yTAC1uFk4I7wFin3EVeulfFLm+TP34phDBg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BqpO5i4W; arc=fail smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLcwYhvT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BqpO5i4W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753793138; x=1785329138;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=qoOxYG0HYCLiNir4OV/hePfmTDVKkNhxKAp4iFZ/uzQ=;
-  b=NLcwYhvT5B2QDJoCN97tPEDKqE+4/zOrbyyjnVEayfK+JAR8GOmab7VK
-   CMSCE3UiJtrw1dNKyoh2gUN/i0ajXuZQEeGqCelSf8dUVQeUa7j4iMsJ5
-   +YOk7w4vEOuvn6RvAyYUQe0Iccf/eLLwyGOAuUCs0jqi8kbjL1HAa+Xh4
-   dHWbxH+47As3Ex9uCcSqaf+vXJO65AZX+ZI+ZsUM9Zpe6rmM9mUk3SqQo
-   9B/ovo4fAeCP5JozHc96ZMb/79vhbz2Uc9APdCz3GSgFze4nPZ+hloL2G
-   gGvjeTOHZV4F5Rzcoz/KWs7HXZjjaMf/nZD1J3vvaGEw4XOXtQyNRPUli
+  t=1753793383; x=1785329383;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=3ckqmilN7SiKHyNugI2LE6r3OgikIz72iFM5LC31Yus=;
+  b=BqpO5i4WKrQQX10ig8TPCNud9IGifHjJqohpYOInGpxC11SgBoYxABkp
+   1MYHOeDOPoOoCKzU+OreYgg5rpO41134+HZAubodTNtmc/5tZX5IXAu5m
+   oQb384Ta2kBIYRCKdprsefKEepDOjyWI5knKKr+cGgXAVHfypoiBEkCk6
+   KE6rW1xY1h+hJxV0jvvLWwaCW88Lc0KToNYZGZ2N2EU3QiA4zUj3g+FGL
+   SyXMJTyc0XlbDEHKl2hr6LJl6BTwVBPXRNaBui/qXvZ61f3fLJSqE3dQK
+   CB5+vZ1EJ2gW0uMg3rd2mv+Gts8V28xnBvfMYU4NG0jsLj1gkArBbNNwr
    A==;
-X-CSE-ConnectionGUID: uQP1fR9MQdWf5yitK+kHaA==
-X-CSE-MsgGUID: 2T8jEsZHTcaEgXIMliwEoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55922879"
+X-CSE-ConnectionGUID: 4TAc39LzREqeQLbAdn5A0A==
+X-CSE-MsgGUID: 7V+fkejgTcqquPszqJUnsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55943940"
 X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="55922879"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 05:45:38 -0700
-X-CSE-ConnectionGUID: 9esYtOnoQo+eQSZiUxG89w==
-X-CSE-MsgGUID: 2a+kS0+PQBaHzojDums59Q==
+   d="scan'208";a="55943940"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 05:49:42 -0700
+X-CSE-ConnectionGUID: OG474IGMQ62D55ltfA/E9A==
+X-CSE-MsgGUID: TVxL0XFxRoOCU4/dFQ3Xmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="193682161"
-Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa002.jf.intel.com with ESMTP; 29 Jul 2025 05:45:35 -0700
+   d="scan'208";a="193529834"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 05:49:42 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Tue, 29 Jul 2025 05:49:41 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Tue, 29 Jul 2025 05:49:41 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.46) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Tue, 29 Jul 2025 05:49:40 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jTCCUtXL3NR1bkW8tJWqF3UlB9SxTfLskzVisUBDcbZ6X6zDiXSZn3AezX9BT/V2u4HdI7s7GOHU+dwLvkGJVC/vt1+3yClwS7DFDpqDiD8bDRHb8PnpYETYOPd75kZvJWIEENTPIPwk3QpRw5ZnJruq+8d9Hg+B0vX5Ou7M3Ohrnyl5siwqha5tARHqxMD8S6RSlty9URHSqq00ltt6P60H6ekjZD4Rq8qEg4RsVqa00iyRZXSRSuG4qrf7sFaIEVjqtTx+13m69PbimpsEXKABT93coXZ4CVEaqmKAA6TxNwukoxPOA4kVNEb0kk3OJ/gdEgbkZKE8Gkjbt61y/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GOoeEn/4f6e4i6Bn7IhGNnkjpK1ddYo9tz1qdTy7wpM=;
+ b=xs5j8pmtP/kOcJzsFBxSvk7VBGH0CNPMt2Yl6pNd6ehNN4X8GY+Y9/OzzvKot7ikP9HxKcp2PjWPBnQ9EhLhCi4Gu/IUoqNVQRcmks8S7BW1wt7ZOPX4Drqn/JaIcDiTpLCltSVdaEl9ZaPD+l7F7DJVkZIpeA2KVoi3xG5Miwxyne6ut0ySYI9SUeamTCcogeU+a0/pBmWkwfVrEqiyFqo5UJ7S3J5itUizY5TQ60ajBhPKSYTVl8JS6eDS4Z4dXBmjnzOKmXJ5lIutFtCyRKLd7qefzh7m7vkOO3d0SfiGyLWBF1kXw+9By8lccoxRfpfXqKWrcSpR4CYlasM+0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
+ by SJ0PR11MB5917.namprd11.prod.outlook.com (2603:10b6:a03:42b::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8964.25; Tue, 29 Jul
+ 2025 12:49:25 +0000
+Received: from SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::3:e0a:87af:d4b6]) by SN7PR11MB8283.namprd11.prod.outlook.com
+ ([fe80::3:e0a:87af:d4b6%6]) with mapi id 15.20.8964.025; Tue, 29 Jul 2025
+ 12:49:25 +0000
+Message-ID: <179e32a8-b20b-40ab-8663-2a793a96993b@intel.com>
+Date: Tue, 29 Jul 2025 14:49:18 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ASoC: Intel: avs: Synchronize happy and error paths
+ in PCI probe
+To: Mark Brown <broonie@kernel.org>
+CC: <tiwai@suse.com>, <perex@perex.cz>, <amadeuszx.slawinski@linux.intel.com>,
+	<linux-sound@vger.kernel.org>
+References: <20250729114229.309472-1-cezary.rojewski@intel.com>
+ <20250729114229.309472-2-cezary.rojewski@intel.com>
+ <9af2c2ca-103f-4f2e-afab-1fea5a2160a5@sirena.org.uk>
+Content-Language: en-US
 From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: broonie@kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
-	linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 2/2] ASoC: Intel: avs: Conditional-path support
-Date: Tue, 29 Jul 2025 15:06:33 +0200
-Message-Id: <20250729130633.310388-3-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250729130633.310388-1-cezary.rojewski@intel.com>
-References: <20250729130633.310388-1-cezary.rojewski@intel.com>
+In-Reply-To: <9af2c2ca-103f-4f2e-afab-1fea5a2160a5@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BE1P281CA0472.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:7f::25) To SJ0PR11MB8294.namprd11.prod.outlook.com
+ (2603:10b6:a03:478::10)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|SJ0PR11MB5917:EE_
+X-MS-Office365-Filtering-Correlation-Id: a20db4b7-47c9-44a1-b58a-08ddce9e5879
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L1l2YWN4eFNER2pLRGFjNGl5VW84Zytya3VNU1IwZ0ZsWlBuYnkyc2w4Tk50?=
+ =?utf-8?B?VzRWTUNoVTF4cUkwMWtVbzR2eXBEK0JMVkJzYlhkWktIZFo4eEMvSWdHTFBx?=
+ =?utf-8?B?V214aDIxMDNCUFpvUzEyNVFGQi9jSmZYYnFDNDFJbUMwbU0wd3FTTFhEQ09Z?=
+ =?utf-8?B?M2VtNFRKMGgrTGFjMHV6dVVHb3dUUVVqZ01vbC9hTlpoZi94MEd6ZUZTeDlU?=
+ =?utf-8?B?N245Yk5tQUc3OFBYSUZnNkhUVlNqdUl1VFFBWHRITjIrakhmY1lZOVBtWEZM?=
+ =?utf-8?B?SEszbWZ0b2NqQzV0c3NSN1REd25JVTVvWDY1azdsMU50aVBiQU5jN3plM3Jk?=
+ =?utf-8?B?VjMwZXdDODk4UExWMVZDKy83VituUGpiNFQyYWExYVVOS2huKzRsVmhBMTEx?=
+ =?utf-8?B?WlAvU3hhdkRvRnJXQjJNQjNUUDVYaXVndjltc0p4N1lvRmEvVmlnR2NyYkVI?=
+ =?utf-8?B?VnVVRk44dmxhMTM4UHkrTHBiS2IwNndwb2hQdnRYLzFpMkZHSG5hUGVVZnlT?=
+ =?utf-8?B?d2FqUkhIZ1R6Z0dZbWVrNjhPNUh2TTQxdmFBYndCSDFYbVJJMUUvdG4yOW1G?=
+ =?utf-8?B?ZDVIN0lpR2xmVzFnZGZhcEpQL2FMMnp4RThvenVDRkJZeEJSTjlMcWxqMGl6?=
+ =?utf-8?B?aW1IRTRPekI0ak5nTlRScGZwbUhzUkxIYytBUzVYdG45Zms3RXdKMU9GVDhw?=
+ =?utf-8?B?V2JySnZSaTJYaHFUdWxzRzVuQkhrSTZRTXRTVzJMNm5oN1lBRGpiajZ1N2wx?=
+ =?utf-8?B?Tmo0ck80U2tTM2pBYlBBRUZwYmZ3ZXdNNlJnemhGd1EwQ05EVHF1S1VzZVJC?=
+ =?utf-8?B?ZnB6UFp1SVJmSGx4NEFBYXlwWThKQms2L0o5eTgyMnZvRVc2L2g4UjFYRGZY?=
+ =?utf-8?B?RUc1RGp1VVRNa1NPZWFjVUVwRlFZR1RWa0pnam1OcVROZ1lkWmk1U3dhT1ht?=
+ =?utf-8?B?QStpYkpYdklwV0s3TUZiVW9NWFZYVHMvNTZzYjVXbXBXOXhXY0QzZWs3Rml0?=
+ =?utf-8?B?dVY3UWpScGNqVVVqRUVic0tWcXZ1VDhaeWU5LzZtaS8xdWg5dlV4dU0wMUg1?=
+ =?utf-8?B?QlZGeWNheW9TbkR5VXFyNE9GZG5rWlNaNVZrVHNMeFlPSHFHUUR0S0pvelRi?=
+ =?utf-8?B?Vm5tc0NieVdrUDZlWk5mSUhNOWh0QlFDcE1raHdhaXdpS2Ixd3JONVlYcXBD?=
+ =?utf-8?B?UDUrZUxnUUFvY0s5eWVHUldmMlpXMUhYd0xJaXFyWHc0RnhhR2FKRU00T1Vw?=
+ =?utf-8?B?YWx0NStoUEptanJYYXBqOVN4cWxMQnN3NitSaTBNbXowSlFwc3FjOXNxK2FU?=
+ =?utf-8?B?d2RvUnJjSmE0cHo5b0p3cmVPWnhqdERicDJhZjJ2UVQ2WVl1QWJFTHJTaWhH?=
+ =?utf-8?B?SCtEUTErOEpXSXczRmxQOW4reFFHRUcrOGZPNVNaNXhCT1BiOUJlbzdFSi9M?=
+ =?utf-8?B?eTlRanUwWlMzOXdvME0vdE9rc1NORmxTdlFjSHhUNmY1aE41ZzNYcmt4WUtl?=
+ =?utf-8?B?K0FKVG16MHNTb20yOURGQWZTQ3ZMeUxWWDhnQmdDZU5RL2M4Q1NlcDg1Ym9j?=
+ =?utf-8?B?elhjcEZMYUdyM20zbkcxNEZJU0Q4K0ExRWpQZ1d3bWdzYUJXZjNBRU02T2dv?=
+ =?utf-8?B?R0FpNU5DRmQycHBsOUlXeXg5bXFDd3pkSzZDVjRLTWpGcjdobVkrZlFIYmty?=
+ =?utf-8?B?MHBUU085RXZoaWp0ZjBRaEo3bXNmNUFsL25uYnptTDk2ZDk0U1hvT3hDajA2?=
+ =?utf-8?B?MWdGWDdMUjBnS1JyUHFibVEzUEQ3YVBuZStpU2JIQlIxOTByeFFXVXkzODNa?=
+ =?utf-8?B?Z3RDZThNbml6VjhRNi91Vy9yMXlJc0lVa0kxMUZxTVFqRGhhOHdOTGNwcFRR?=
+ =?utf-8?B?MU9icnlESG55SnZxWnBIR0RTWFVPSkRLckZ3RGJTdHM5T3c9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDBQcTl5a1Y3VUF2RWlKdkV5dUVMZzBVS2hYUmNmSVFxNVJNamV5NmsyMVhK?=
+ =?utf-8?B?ZlVVYkNDQ0Y5OWxVZnV5S3JWakRoYlVPTXNMWXpoRFQrRUZ3SE44OTlDNjFW?=
+ =?utf-8?B?M25LMU05Y1B2SlNkWUJjNFdWMzBRZlNSby9zYWxFUVZiZVpJM0liVDM3QmZC?=
+ =?utf-8?B?d2lFN2dzK1RKOCtZejA3VWRjbmtHQ0Nsb1g3ZFArU1lleW5jM3Erc0plZldB?=
+ =?utf-8?B?MVlFdjFvdnRHOUVvbXNIMEczOWJaU0c1NFFqc3FVZitOQk5Xems0Um41enlW?=
+ =?utf-8?B?WmNIUXducUpvV1hsVXJpck1ueVJmYVFZUVlpdVl4WHd2blRINTZsOUQ0OHlh?=
+ =?utf-8?B?TElCWEZzc2tadWV0RlZ0d2hWVEJlQzYrOFUwNDZUaTRqNnlnRFpuM2ZnM2xv?=
+ =?utf-8?B?NkpQaXF3U2J2UVplZEdRZXM0ZU90VXNRV3pKSElXNVhqRk9uYmZSclVIZ3V4?=
+ =?utf-8?B?WVJRcTJvRFhicGhtaXFIckI5TXUrSkFBb0w0d1ZHajhBeUVGa3Y1akRiMThH?=
+ =?utf-8?B?TUx1ZVhSUVVUenRNbDRrNjFJc0dBcjRyOURVWkF1QUwzRkpjcHdMUk56QkZu?=
+ =?utf-8?B?aVRmcHphb1J0M2hIb1Q0ak44czAwRkVERzgzOXU0ZmkzVlZzZWJYNy9xQjUv?=
+ =?utf-8?B?MlRSNnJWVlZnSGYxVDA1cXJuZUZzRDNLWmtocXM2alNJTVdlY2Fnckx0VHIz?=
+ =?utf-8?B?ZCsvbTFUK1YwSnp5ZEVnR2JmWVNoaitjM3IwdnpRS296eHBBRHliRzZUbjhz?=
+ =?utf-8?B?V0QwSDVNdjV6cGpDVytXYVRDZHByQU9ieFZ0eTJ1VStXWFVhbnRzQWRDV0hY?=
+ =?utf-8?B?RkRIT1lieVppZWtXa3RqdXhPelNML0djVW11UVcwMnI3MThMWitLK0FaMXdm?=
+ =?utf-8?B?N29rT3pjYTExeVJmQkRnVnRCQVdxdHVrbHBkaVZIZ2dpblJQaEZldFFXeFNq?=
+ =?utf-8?B?TlB2RnNQOWlzWlRSVXZCTE9XMUZndkVYdDJrMUtBUkY2cjY2SDhWR1pYeE9r?=
+ =?utf-8?B?QUJYUVprUkZ2dHhXNkdRUE5GeHpGVlMvUEJDcW5DWTN4WTFZcUxiZUx2cUN2?=
+ =?utf-8?B?SEVMaEFoeUhuUUpBd0pxU1BXQm04cjJzTlc2Mi91VHBCQ1lNRE9XR2FQckFQ?=
+ =?utf-8?B?QkRRb0NuY0FQREhIdFY5N1dCQnQvYnprVlJTTmlvNGRkRVAzMFBuT1JoREdv?=
+ =?utf-8?B?REhGTllyYUVjRUZiK1RabkZkM0lYVm44Y0pVa1JwMkFyOHVod09rZ1BWRDNN?=
+ =?utf-8?B?WXh1djVZemdGWmtNb21QTytZa2pxQk84WTRseUY1cG1kZjczVnJ2ZldZODVW?=
+ =?utf-8?B?dGM1cDZjNVoveWViLzhLbTMvNXBnaWg4TWY5NDZoSHdDU0QyNk9mQm1sQUVI?=
+ =?utf-8?B?ZEtPeEw4SWpCcWpWRnBOVm1WZTZTQTY2YmdwL2xJajlxTklFSjFybTlrSGF2?=
+ =?utf-8?B?M1dXN255Y1RRT2xIek1PUWRqbS9MY01xcGJKbUN4Z1VmYXA5RFpUUzh5N1Bm?=
+ =?utf-8?B?QXRKZGkxd3V6c0dFQzh6cnc2ZzB3WG1MWXpGQmoxQnRYOVJFcWFDQkM0Y3Yv?=
+ =?utf-8?B?WjdocVJkdkJrYkdWeDRIL3NLNE91bVJSd2loZlBXejBCOWZSQUpzMTBhUlNV?=
+ =?utf-8?B?RlUwSGhZRU9vTzBPQWZqSnprWTV1ZEJwNHRDOUNyV0xNc1YvQlBvKzRyVmRF?=
+ =?utf-8?B?THZDOFFyMVZveW1BTnlZTVVDVEd3OGFLdDFwT0lRRnliMUpqTTNQVWxnaGs5?=
+ =?utf-8?B?T2J2Tk9HNkRaMTRmZzdYREw1UWVFWFBEOHFlanMwZTZiNWxwcnBzRHZORjAw?=
+ =?utf-8?B?ZDIrRFRuZkJzWk5FdUlROE9wYXlBT3owK1U5bis0RHBQK2JJUGhQNkVzNnEw?=
+ =?utf-8?B?TFAwNUlJd1AwdHdGbFRmak1BRi9lbVQ2SzNMWWRMckpVV1pWSzBsQnZwUWhP?=
+ =?utf-8?B?U3RTbE1TSSt2SDJPWVpwQUozNlg2OWs2aitZdXlERjhUbFdqeXpQRW1sbG9G?=
+ =?utf-8?B?cjcxLzVoWEJlSkNOSHNENC9PSFhWMGN0WTRFeWY1bFkyNUJqMDY4dHpMbGlR?=
+ =?utf-8?B?RnJLb2JYOVV4cGNiTUplcHRMYlloWWlLdzFhWWhuR21PeDNhRGFMMDM3OEYw?=
+ =?utf-8?B?eVhHa3Jqdm1CTGt1bDdDODlBYUIzU1ZDWDVMOXFFWXVwbEZBRWo0aWdvUWFS?=
+ =?utf-8?B?WkE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a20db4b7-47c9-44a1-b58a-08ddce9e5879
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB8294.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2025 12:49:25.2852
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tO5YabljShF2Sui7M/wPbrjKcZ91XY7Cp8NpWEw4oSj7BIFluGIJazeJvxkL9KuuAo7fyQ+mNyM31tJkgJLL0leweJrDpRmlaaZY3Rb3lUA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5917
+X-OriginatorOrg: intel.com
 
-Compared to standard paths, conditional paths are not invoked by the
-means of FE being opened by userspace and thus their variant selection
-is not FE/BE audio format based. These are a side effect of standard path
-creation if specific criteria are met.
+On 2025-07-29 1:47 PM, Mark Brown wrote:
+> On Tue, Jul 29, 2025 at 01:42:28PM +0200, Cezary Rojewski wrote:
+> 
+>>   err_i915_init:
+>> -	pci_free_irq(pci, 0, adev);
+>> -	pci_free_irq(pci, 0, bus);
+>> -	pci_free_irq_vectors(pci);
+>> -	pci_clear_master(pci);
+>>   	pci_set_drvdata(pci, NULL);
+>> +	pci_clear_master(pci);
+>> +	pci_free_irq(pci, 0, adev);
+>> +	pci_free_irq(pci, 0, bus);
+>> +	pci_free_irq_vectors(pci);
+> 
+> The ordering before clearing the driver data actually looks sensible
+> there, though looking at the interrupt handlers quickly they don't seem
+> to pay attention to driver data.  Really you could just delete the
+> pci_set_drvdata(), it should be redundant (and IIRC the driver core does
+> that anyway).
 
-Algorithm is implemented to walk on all existing runtime paths and match
-them against conditions provided by topology. These conditions are based
-on source and sink path formats, rather than formats provided from
-userspace app or present on the codec. If match is found, new path is
-created and tied to those which brought it into existence: source and
-sink path. If any of its parents perishes, so does the conditional path.
+While I do agree that pci_set_drvdata(NULL) could be skipped, I feel 
+better with having a true reverse order in the error path:
 
-Conditional paths are used to enable any complex, modern audio scenario
-which involves usage of KPB, AEC and WoV modules and more.
+happy path:
+	pci_alloc_irq_vectors();
+	pci_request_irq(bus);
+	pci_request_irq(adev);
+	pci_set_master();
 
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
- sound/soc/intel/avs/path.c | 267 +++++++++++++++++++++++++++++++++++++
- sound/soc/intel/avs/path.h |  13 ++
- 2 files changed, 280 insertions(+)
 
-diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
-index e8e6b1c7fc90..7aa20fcf1a33 100644
---- a/sound/soc/intel/avs/path.c
-+++ b/sound/soc/intel/avs/path.c
-@@ -115,6 +115,55 @@ avs_path_find_variant(struct avs_dev *adev,
- 	return NULL;
- }
- 
-+static struct avs_tplg_path *avs_condpath_find_variant(struct avs_dev *adev,
-+						       struct avs_tplg_path_template *template,
-+						       struct avs_path *source,
-+						       struct avs_path *sink)
-+{
-+	struct avs_tplg_path *variant;
-+
-+	list_for_each_entry(variant, &template->path_list, node) {
-+		if (variant->source_path_id == source->template->id &&
-+		    variant->sink_path_id == sink->template->id)
-+			return variant;
-+	}
-+
-+	return NULL;
-+}
-+
-+static bool avs_tplg_path_template_id_equal(struct avs_tplg_path_template_id *id,
-+					    struct avs_tplg_path_template_id *id2)
-+{
-+	return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
-+}
-+
-+static struct avs_path *avs_condpath_find_match(struct avs_dev *adev,
-+						struct avs_tplg_path_template *template,
-+						struct avs_path *path, int dir)
-+{
-+	struct avs_tplg_path_template_id *id, *id2;
-+
-+	if (dir) {
-+		id = &template->source;
-+		id2 = &template->sink;
-+	} else {
-+		id = &template->sink;
-+		id2 = &template->source;
-+	}
-+
-+	/* Check whether this path is either source or sink of condpath template. */
-+	if (id->id != path->template->owner->id ||
-+	    strcmp(id->tplg_name, path->template->owner->owner->name))
-+		return NULL;
-+
-+	/* Unidirectional condpaths are allowed. */
-+	if (avs_tplg_path_template_id_equal(id, id2))
-+		return path;
-+
-+	/* Now find the counterpart. */
-+	return avs_path_find_path(adev, id2->tplg_name, id2->id);
-+}
-+
- static struct acpi_nhlt_config *
- avs_nhlt_config_or_default(struct avs_dev *adev, struct avs_tplg_module *t);
- 
-@@ -1051,6 +1100,10 @@ static int avs_path_init(struct avs_dev *adev, struct avs_path *path,
- 	path->dma_id = dma_id;
- 	INIT_LIST_HEAD(&path->ppl_list);
- 	INIT_LIST_HEAD(&path->node);
-+	INIT_LIST_HEAD(&path->source_list);
-+	INIT_LIST_HEAD(&path->sink_list);
-+	INIT_LIST_HEAD(&path->source_node);
-+	INIT_LIST_HEAD(&path->sink_node);
- 
- 	/* create all the pipelines */
- 	list_for_each_entry(tppl, &template->ppl_list, node) {
-@@ -1134,12 +1187,129 @@ static struct avs_path *avs_path_create_unlocked(struct avs_dev *adev, u32 dma_i
- 	return ERR_PTR(ret);
- }
- 
-+static void avs_condpath_free(struct avs_dev *adev, struct avs_path *path)
-+{
-+	int ret;
-+
-+	list_del(&path->source_node);
-+	list_del(&path->sink_node);
-+
-+	ret = avs_path_reset(path);
-+	if (ret < 0)
-+		dev_err(adev->dev, "reset condpath failed: %d\n", ret);
-+
-+	ret = avs_path_unbind(path);
-+	if (ret < 0)
-+		dev_err(adev->dev, "unbind condpath failed: %d\n", ret);
-+
-+	avs_path_free_unlocked(path);
-+}
-+
-+static struct avs_path *avs_condpath_create(struct avs_dev *adev,
-+					    struct avs_tplg_path *template,
-+					    struct avs_path *source,
-+					    struct avs_path *sink)
-+{
-+	struct avs_path *path;
-+	int ret;
-+
-+	path = avs_path_create_unlocked(adev, 0, template);
-+	if (IS_ERR(path))
-+		return path;
-+
-+	ret = avs_path_bind(path);
-+	if (ret)
-+		goto err_bind;
-+
-+	ret = avs_path_reset(path);
-+	if (ret)
-+		goto err_reset;
-+
-+	path->source = source;
-+	path->sink = sink;
-+	list_add_tail(&path->source_node, &source->source_list);
-+	list_add_tail(&path->sink_node, &sink->sink_list);
-+
-+	return path;
-+
-+err_reset:
-+	avs_path_unbind(path);
-+err_bind:
-+	avs_path_free_unlocked(path);
-+	return ERR_PTR(ret);
-+}
-+
-+static int avs_condpaths_walk(struct avs_dev *adev, struct avs_path *path, int dir)
-+{
-+	struct avs_soc_component *acomp;
-+	struct avs_path *source, *sink;
-+	struct avs_path **other;
-+
-+	if (dir) {
-+		source = path;
-+		other = &sink;
-+	} else {
-+		sink = path;
-+		other = &source;
-+	}
-+
-+	list_for_each_entry(acomp, &adev->comp_list, node) {
-+		for (int i = 0; i < acomp->tplg->num_condpath_tmpls; i++) {
-+			struct avs_tplg_path_template *template;
-+			struct avs_tplg_path *variant;
-+			struct avs_path *cpath;
-+
-+			template = &acomp->tplg->condpath_tmpls[i];
-+
-+			/* Do not create unidirectional condpaths twice. */
-+			if (avs_tplg_path_template_id_equal(&template->source,
-+							    &template->sink) && dir)
-+				continue;
-+
-+			*other = avs_condpath_find_match(adev, template, path, dir);
-+			if (!*other)
-+				continue;
-+
-+			variant = avs_condpath_find_variant(adev, template, source, sink);
-+			if (!variant)
-+				continue;
-+
-+			cpath = avs_condpath_create(adev, variant, source, sink);
-+			if (IS_ERR(cpath))
-+				return PTR_ERR(cpath);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/* Caller responsible for holding adev->path_mutex. */
-+static int avs_condpaths_walk_all(struct avs_dev *adev, struct avs_path *path)
-+{
-+	int ret;
-+
-+	ret = avs_condpaths_walk(adev, path, SNDRV_PCM_STREAM_CAPTURE);
-+	if (ret)
-+		return ret;
-+
-+	return avs_condpaths_walk(adev, path, SNDRV_PCM_STREAM_PLAYBACK);
-+}
-+
- void avs_path_free(struct avs_path *path)
- {
-+	struct avs_path *cpath, *csave;
- 	struct avs_dev *adev = path->owner;
- 
- 	mutex_lock(&adev->path_mutex);
-+
-+	/* Free all condpaths this path spawned. */
-+	list_for_each_entry_safe(cpath, csave, &path->source_list, source_node)
-+		avs_condpath_free(path->owner, cpath);
-+	list_for_each_entry_safe(cpath, csave, &path->sink_list, sink_node)
-+		avs_condpath_free(path->owner, cpath);
-+
- 	avs_path_free_unlocked(path);
-+
- 	mutex_unlock(&adev->path_mutex);
- }
- 
-@@ -1150,6 +1320,7 @@ struct avs_path *avs_path_create(struct avs_dev *adev, u32 dma_id,
- {
- 	struct avs_tplg_path *variant;
- 	struct avs_path *path;
-+	int ret;
- 
- 	variant = avs_path_find_variant(adev, template, fe_params, be_params);
- 	if (!variant) {
-@@ -1163,7 +1334,16 @@ struct avs_path *avs_path_create(struct avs_dev *adev, u32 dma_id,
- 	mutex_lock(&adev->comp_list_mutex);
- 
- 	path = avs_path_create_unlocked(adev, dma_id, variant);
-+	if (IS_ERR(path))
-+		goto exit;
- 
-+	ret = avs_condpaths_walk_all(adev, path);
-+	if (ret) {
-+		avs_path_free_unlocked(path);
-+		path = ERR_PTR(ret);
-+	}
-+
-+exit:
- 	mutex_unlock(&adev->comp_list_mutex);
- 	mutex_unlock(&adev->path_mutex);
- 
-@@ -1286,6 +1466,42 @@ int avs_path_reset(struct avs_path *path)
- 	return 0;
- }
- 
-+static int avs_condpath_pause(struct avs_dev *adev, struct avs_path *cpath)
-+{
-+	struct avs_path_pipeline *ppl;
-+	int ret;
-+
-+	if (cpath->state == AVS_PPL_STATE_PAUSED)
-+		return 0;
-+
-+	list_for_each_entry_reverse(ppl, &cpath->ppl_list, node) {
-+		ret = avs_ipc_set_pipeline_state(adev, ppl->instance_id, AVS_PPL_STATE_PAUSED);
-+		if (ret) {
-+			dev_err(adev->dev, "pause cpath failed: %d\n", ret);
-+			cpath->state = AVS_PPL_STATE_INVALID;
-+			return AVS_IPC_RET(ret);
-+		}
-+	}
-+
-+	cpath->state = AVS_PPL_STATE_PAUSED;
-+	return 0;
-+}
-+
-+static void avs_condpaths_pause(struct avs_dev *adev, struct avs_path *path)
-+{
-+	struct avs_path *cpath;
-+
-+	mutex_lock(&adev->path_mutex);
-+
-+	/* If either source or sink stops, so do the attached conditional paths. */
-+	list_for_each_entry(cpath, &path->source_list, source_node)
-+		avs_condpath_pause(adev, cpath);
-+	list_for_each_entry(cpath, &path->sink_list, sink_node)
-+		avs_condpath_pause(adev, cpath);
-+
-+	mutex_unlock(&adev->path_mutex);
-+}
-+
- int avs_path_pause(struct avs_path *path)
- {
- 	struct avs_path_pipeline *ppl;
-@@ -1295,6 +1511,8 @@ int avs_path_pause(struct avs_path *path)
- 	if (path->state == AVS_PPL_STATE_PAUSED)
- 		return 0;
- 
-+	avs_condpaths_pause(adev, path);
-+
- 	list_for_each_entry_reverse(ppl, &path->ppl_list, node) {
- 		ret = avs_ipc_set_pipeline_state(adev, ppl->instance_id,
- 						 AVS_PPL_STATE_PAUSED);
-@@ -1309,6 +1527,50 @@ int avs_path_pause(struct avs_path *path)
- 	return 0;
- }
- 
-+static int avs_condpath_run(struct avs_dev *adev, struct avs_path *cpath, int trigger)
-+{
-+	struct avs_path_pipeline *ppl;
-+	int ret;
-+
-+	if (cpath->state == AVS_PPL_STATE_RUNNING)
-+		return 0;
-+
-+	list_for_each_entry(ppl, &cpath->ppl_list, node) {
-+		if (ppl->template->cfg->trigger != trigger)
-+			continue;
-+
-+		ret = avs_ipc_set_pipeline_state(adev, ppl->instance_id, AVS_PPL_STATE_RUNNING);
-+		if (ret) {
-+			dev_err(adev->dev, "run cpath failed: %d\n", ret);
-+			cpath->state = AVS_PPL_STATE_INVALID;
-+			return AVS_IPC_RET(ret);
-+		}
-+	}
-+
-+	cpath->state = AVS_PPL_STATE_RUNNING;
-+	return 0;
-+}
-+
-+static void avs_condpaths_run(struct avs_dev *adev, struct avs_path *path, int trigger)
-+{
-+	struct avs_path *cpath;
-+
-+	mutex_lock(&adev->path_mutex);
-+
-+	/* Run conditional paths only if source and sink are both running. */
-+	list_for_each_entry(cpath, &path->source_list, source_node)
-+		if (cpath->source->state == AVS_PPL_STATE_RUNNING &&
-+		    cpath->sink->state == AVS_PPL_STATE_RUNNING)
-+			avs_condpath_run(adev, cpath, trigger);
-+
-+	list_for_each_entry(cpath, &path->sink_list, sink_node)
-+		if (cpath->source->state == AVS_PPL_STATE_RUNNING &&
-+		    cpath->sink->state == AVS_PPL_STATE_RUNNING)
-+			avs_condpath_run(adev, cpath, trigger);
-+
-+	mutex_unlock(&adev->path_mutex);
-+}
-+
- int avs_path_run(struct avs_path *path, int trigger)
- {
- 	struct avs_path_pipeline *ppl;
-@@ -1332,5 +1594,10 @@ int avs_path_run(struct avs_path *path, int trigger)
- 	}
- 
- 	path->state = AVS_PPL_STATE_RUNNING;
-+
-+	/* Granular pipeline triggering not intended for conditional paths. */
-+	if (trigger == AVS_TPLG_TRIGGER_AUTO)
-+		avs_condpaths_run(adev, path, trigger);
-+
- 	return 0;
- }
-diff --git a/sound/soc/intel/avs/path.h b/sound/soc/intel/avs/path.h
-index c65ed84aa853..ceb89971a902 100644
---- a/sound/soc/intel/avs/path.h
-+++ b/sound/soc/intel/avs/path.h
-@@ -13,11 +13,24 @@
- #include "avs.h"
- #include "topology.h"
- 
-+#define AVS_COND_TYPE_NONE	0
-+#define AVS_COND_TYPE_AECREF	1
-+
- struct avs_path {
- 	u32 dma_id;
- 	struct list_head ppl_list;
- 	u32 state;
- 
-+	/* condpath navigation for standard paths */
-+	struct list_head source_list;
-+	struct list_head sink_list;
-+
-+	/* conditional path fields */
-+	struct avs_path *source;
-+	struct avs_path *sink;
-+	struct list_head source_node;
-+	struct list_head sink_node;
-+
- 	struct avs_tplg_path *template;
- 	struct avs_dev *owner;
- 	/* device path management */
--- 
-2.25.1
+error path:
+	pci_clear_master(pci);
+	pci_free_irq(pci, 0, adev);
+	pci_free_irq(pci, 0, bus);
+	pci_free_irq_vectors(pci);
 
+Is there anything wrong with the approach before I send v2?
