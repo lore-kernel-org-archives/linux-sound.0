@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A1B79CD
-	for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 12:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D60DF42
+	for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 12:45:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753793137; cv=none; b=gWM6huiWh0gH0Swk5Z1AB3OS2oG7+a40WxJJAu1EpQABbroY+C0XblATWnkZOdQPIKE3ydIHJgtGscthZ1ZSs6RROrIW7irBJRtKydNbQVTbnqytNBYry/cGlbfYqUb3N4XOLtCF6DYqFt4rEIaLsdGHaBmGtGiOr2hHMiUmoTE=
+	t=1753793139; cv=none; b=I8VeY6hW4QIort8yOQCGxumq/Oemoq5MDaL/N+jG0Wyocyd4Ft9bVUBgFFddrVbO532Rcd/dexApvQQnv0Z/R1N1iGgjgGfti+jhhbjc4cgb7Owj6RZtv7fO6x1MbcniixAkSGcYpSqNibeDdAzbo3uTw1zVQY1UKDCYsW/Pe7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753793137; c=relaxed/simple;
-	bh=ZOErvGT9D26ZjyX6IO8zIydriqjqGNl6Ka/92uPrmE4=;
+	s=arc-20240116; t=1753793139; c=relaxed/simple;
+	bh=qoOxYG0HYCLiNir4OV/hePfmTDVKkNhxKAp4iFZ/uzQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZllzguGgUO5Na/l7JC8+7UN70imEgxWu6m9tZqYxAzkQCBlVF7jl2WhM01Lpbc9GSAz2/7xOF7cAqtkliShJCpUv8GXKZ7v08LbiG0UgC74BX69UMMyG8JxvzxNfHHkyAzqiCgmJzVlBprYOuEwKhSmIvcv3GpObGy9zvrWe5iI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fp5q7/fj; arc=none smtp.client-ip=198.175.65.19
+	 MIME-Version:Content-Type; b=FebiyJ9WpvKI4mgv+3wXIgbRPDwVsqJ+7A+Liytck5+fLQCppr+MRao3ghmWp3HjGNcIbw6jK0nW6H2yXU8/ixUi0cqkgzN7zCAxEHm7HBd1L0jdAmmwgrB/1/FWSmMfVjpLLxV34Ijd1UWK/5deJ8nuK+Etc6/yN62TkwUpzOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NLcwYhvT; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fp5q7/fj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NLcwYhvT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753793136; x=1785329136;
+  t=1753793138; x=1785329138;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ZOErvGT9D26ZjyX6IO8zIydriqjqGNl6Ka/92uPrmE4=;
-  b=fp5q7/fjmfBTievVVB4WRXP1LLVg1QTS5S7m122ZHh7B9pbXpJ6tPQlc
-   ILBUkMAWF3JVBnNkQ3znK5RJC69sC0afQdJ2xaPbXOWfPAiYDOavSomMJ
-   TB6R9jMHBxdWVvdXsS7IyZLvM3JzQkdAEmk1sNRBQQ5ihzwQ1tQaziS7T
-   1g5gkb5r50saQvof6NVjg5c04kXPQmCKmYVNoNq/ULAOH2vlGOHm9ROeq
-   5/GZVPFddKmK2KemaRrR4scU2rf11lzlbS92c/hE5IacNYB6wmC11fPcj
-   pkHgded/M57U6M8dsPy+/OkvjhkE9yTr3eYVqmgtgDqR4s7Kj+SmOggkd
-   Q==;
-X-CSE-ConnectionGUID: yX36KaBCSIOqIKyTfF5Kaw==
-X-CSE-MsgGUID: QeM0AJTVSiuMH5PrQhF7LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55922865"
+  bh=qoOxYG0HYCLiNir4OV/hePfmTDVKkNhxKAp4iFZ/uzQ=;
+  b=NLcwYhvT5B2QDJoCN97tPEDKqE+4/zOrbyyjnVEayfK+JAR8GOmab7VK
+   CMSCE3UiJtrw1dNKyoh2gUN/i0ajXuZQEeGqCelSf8dUVQeUa7j4iMsJ5
+   +YOk7w4vEOuvn6RvAyYUQe0Iccf/eLLwyGOAuUCs0jqi8kbjL1HAa+Xh4
+   dHWbxH+47As3Ex9uCcSqaf+vXJO65AZX+ZI+ZsUM9Zpe6rmM9mUk3SqQo
+   9B/ovo4fAeCP5JozHc96ZMb/79vhbz2Uc9APdCz3GSgFze4nPZ+hloL2G
+   gGvjeTOHZV4F5Rzcoz/KWs7HXZjjaMf/nZD1J3vvaGEw4XOXtQyNRPUli
+   A==;
+X-CSE-ConnectionGUID: uQP1fR9MQdWf5yitK+kHaA==
+X-CSE-MsgGUID: 2T8jEsZHTcaEgXIMliwEoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55922879"
 X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="55922865"
+   d="scan'208";a="55922879"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 05:45:35 -0700
-X-CSE-ConnectionGUID: cGlCwTeeTPiB0mMmhQXVHg==
-X-CSE-MsgGUID: oCUU14+8R3KUpfIUtjXy9g==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 05:45:38 -0700
+X-CSE-ConnectionGUID: 9esYtOnoQo+eQSZiUxG89w==
+X-CSE-MsgGUID: 2a+kS0+PQBaHzojDums59Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
-   d="scan'208";a="193682143"
+   d="scan'208";a="193682161"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa002.jf.intel.com with ESMTP; 29 Jul 2025 05:45:33 -0700
+  by orviesa002.jf.intel.com with ESMTP; 29 Jul 2025 05:45:35 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amadeuszx.slawinski@linux.intel.com,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 1/2] ASoC: Intel: avs: Parse conditional path tuples
-Date: Tue, 29 Jul 2025 15:06:32 +0200
-Message-Id: <20250729130633.310388-2-cezary.rojewski@intel.com>
+Subject: [PATCH 2/2] ASoC: Intel: avs: Conditional-path support
+Date: Tue, 29 Jul 2025 15:06:33 +0200
+Message-Id: <20250729130633.310388-3-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250729130633.310388-1-cezary.rojewski@intel.com>
 References: <20250729130633.310388-1-cezary.rojewski@intel.com>
@@ -65,220 +65,397 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Conditional paths need information about their source and sink paths to
-be created which is then stored to keep track of who their parents are.
-That information allows to change their state accordingly to what is
-currently happening to their parent paths.
+Compared to standard paths, conditional paths are not invoked by the
+means of FE being opened by userspace and thus their variant selection
+is not FE/BE audio format based. These are a side effect of standard path
+creation if specific criteria are met.
+
+Algorithm is implemented to walk on all existing runtime paths and match
+them against conditions provided by topology. These conditions are based
+on source and sink path formats, rather than formats provided from
+userspace app or present on the codec. If match is found, new path is
+created and tied to those which brought it into existence: source and
+sink path. If any of its parents perishes, so does the conditional path.
+
+Conditional paths are used to enable any complex, modern audio scenario
+which involves usage of KPB, AEC and WoV modules and more.
 
 Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- include/uapi/sound/intel/avs/tokens.h |  15 ++++
- sound/soc/intel/avs/topology.c        | 110 ++++++++++++++++++++++++++
- sound/soc/intel/avs/topology.h        |   8 ++
- 3 files changed, 133 insertions(+)
+ sound/soc/intel/avs/path.c | 267 +++++++++++++++++++++++++++++++++++++
+ sound/soc/intel/avs/path.h |  13 ++
+ 2 files changed, 280 insertions(+)
 
-diff --git a/include/uapi/sound/intel/avs/tokens.h b/include/uapi/sound/intel/avs/tokens.h
-index c9f845b3c523..f3ff6aae09a9 100644
---- a/include/uapi/sound/intel/avs/tokens.h
-+++ b/include/uapi/sound/intel/avs/tokens.h
-@@ -133,6 +133,21 @@ enum avs_tplg_token {
- 	AVS_TKN_PATH_FE_FMT_ID_U32			= 1902,
- 	AVS_TKN_PATH_BE_FMT_ID_U32			= 1903,
- 
-+	/* struct avs_tplg_path_template (conditional) */
-+	AVS_TKN_CONDPATH_TMPL_ID_U32			= 1801,
-+	AVS_TKN_CONDPATH_TMPL_SOURCE_TPLG_NAME_STRING	= 2002,
-+	AVS_TKN_CONDPATH_TMPL_SOURCE_PATH_TMPL_ID_U32	= 2003,
-+	AVS_TKN_CONDPATH_TMPL_SINK_TPLG_NAME_STRING	= 2004,
-+	AVS_TKN_CONDPATH_TMPL_SINK_PATH_TMPL_ID_U32	= 2005,
-+	AVS_TKN_CONDPATH_TMPL_COND_TYPE_U32		= 2006,
-+	AVS_TKN_CONDPATH_TMPL_OVERRIDABLE_BOOL		= 2007,
-+	AVS_TKN_CONDPATH_TMPL_PRIORITY_U8		= 2008,
-+
-+	/* struct avs_tplg_path (conditional) */
-+	AVS_TKN_CONDPATH_ID_U32				= 1901,
-+	AVS_TKN_CONDPATH_SOURCE_PATH_ID_U32		= 2102,
-+	AVS_TKN_CONDPATH_SINK_PATH_ID_U32		= 2103,
-+
- 	/* struct avs_tplg_pin_format */
- 	AVS_TKN_PIN_FMT_INDEX_U32			= 2201,
- 	AVS_TKN_PIN_FMT_IOBS_U32			= 2202,
-diff --git a/sound/soc/intel/avs/topology.c b/sound/soc/intel/avs/topology.c
-index f2e4ad8b8e14..dfe8cf505381 100644
---- a/sound/soc/intel/avs/topology.c
-+++ b/sound/soc/intel/avs/topology.c
-@@ -1387,6 +1387,27 @@ static const struct avs_tplg_token_parser path_parsers[] = {
- 	},
- };
- 
-+static const struct avs_tplg_token_parser condpath_parsers[] = {
-+	{
-+		.token = AVS_TKN_CONDPATH_ID_U32,
-+		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
-+		.offset = offsetof(struct avs_tplg_path, id),
-+		.parse = avs_parse_word_token,
-+	},
-+	{
-+		.token = AVS_TKN_CONDPATH_SOURCE_PATH_ID_U32,
-+		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
-+		.offset = offsetof(struct avs_tplg_path, source_path_id),
-+		.parse = avs_parse_word_token,
-+	},
-+	{
-+		.token = AVS_TKN_CONDPATH_SINK_PATH_ID_U32,
-+		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
-+		.offset = offsetof(struct avs_tplg_path, sink_path_id),
-+		.parse = avs_parse_word_token,
-+	},
-+};
-+
- static struct avs_tplg_path *
- avs_tplg_path_create(struct snd_soc_component *comp, struct avs_tplg_path_template *owner,
- 		     struct snd_soc_tplg_vendor_array *tuples, u32 block_size,
-@@ -1454,6 +1475,39 @@ static const struct avs_tplg_token_parser path_tmpl_parsers[] = {
- 	},
- };
- 
-+static const struct avs_tplg_token_parser condpath_tmpl_parsers[] = {
-+	{
-+		.token = AVS_TKN_CONDPATH_TMPL_ID_U32,
-+		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
-+		.offset = offsetof(struct avs_tplg_path_template, id),
-+		.parse = avs_parse_word_token,
-+	},
-+	{
-+		.token = AVS_TKN_CONDPATH_TMPL_SOURCE_TPLG_NAME_STRING,
-+		.type = SND_SOC_TPLG_TUPLE_TYPE_STRING,
-+		.offset = offsetof(struct avs_tplg_path_template, source.tplg_name),
-+		.parse = avs_parse_string_token,
-+	},
-+	{
-+		.token = AVS_TKN_CONDPATH_TMPL_SOURCE_PATH_TMPL_ID_U32,
-+		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
-+		.offset = offsetof(struct avs_tplg_path_template, source.id),
-+		.parse = avs_parse_word_token,
-+	},
-+	{
-+		.token = AVS_TKN_CONDPATH_TMPL_SINK_TPLG_NAME_STRING,
-+		.type = SND_SOC_TPLG_TUPLE_TYPE_STRING,
-+		.offset = offsetof(struct avs_tplg_path_template, sink.tplg_name),
-+		.parse = avs_parse_string_token,
-+	},
-+	{
-+		.token = AVS_TKN_CONDPATH_TMPL_SINK_PATH_TMPL_ID_U32,
-+		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
-+		.offset = offsetof(struct avs_tplg_path_template, sink.id),
-+		.parse = avs_parse_word_token,
-+	},
-+};
-+
- static int parse_path_template(struct snd_soc_component *comp,
- 			       struct snd_soc_tplg_vendor_array *tuples, u32 block_size,
- 			       struct avs_tplg_path_template *template,
-@@ -1524,6 +1578,56 @@ avs_tplg_path_template_create(struct snd_soc_component *comp, struct avs_tplg *o
- 	return template;
+diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
+index e8e6b1c7fc90..7aa20fcf1a33 100644
+--- a/sound/soc/intel/avs/path.c
++++ b/sound/soc/intel/avs/path.c
+@@ -115,6 +115,55 @@ avs_path_find_variant(struct avs_dev *adev,
+ 	return NULL;
  }
  
-+static int avs_tplg_parse_condpath_templates(struct snd_soc_component *comp,
-+					     struct snd_soc_tplg_vendor_array *tuples,
-+					     u32 block_size)
++static struct avs_tplg_path *avs_condpath_find_variant(struct avs_dev *adev,
++						       struct avs_tplg_path_template *template,
++						       struct avs_path *source,
++						       struct avs_path *sink)
 +{
-+	struct avs_soc_component *acomp = to_avs_soc_component(comp);
-+	struct avs_tplg *tplg = acomp->tplg;
-+	int ret, i;
++	struct avs_tplg_path *variant;
 +
-+	ret = parse_dictionary_header(comp, tuples, (void **)&tplg->condpath_tmpls,
-+				      &tplg->num_condpath_tmpls,
-+				      sizeof(*tplg->condpath_tmpls),
-+				      AVS_TKN_MANIFEST_NUM_CONDPATH_TMPLS_U32);
++	list_for_each_entry(variant, &template->path_list, node) {
++		if (variant->source_path_id == source->template->id &&
++		    variant->sink_path_id == sink->template->id)
++			return variant;
++	}
++
++	return NULL;
++}
++
++static bool avs_tplg_path_template_id_equal(struct avs_tplg_path_template_id *id,
++					    struct avs_tplg_path_template_id *id2)
++{
++	return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
++}
++
++static struct avs_path *avs_condpath_find_match(struct avs_dev *adev,
++						struct avs_tplg_path_template *template,
++						struct avs_path *path, int dir)
++{
++	struct avs_tplg_path_template_id *id, *id2;
++
++	if (dir) {
++		id = &template->source;
++		id2 = &template->sink;
++	} else {
++		id = &template->sink;
++		id2 = &template->source;
++	}
++
++	/* Check whether this path is either source or sink of condpath template. */
++	if (id->id != path->template->owner->id ||
++	    strcmp(id->tplg_name, path->template->owner->owner->name))
++		return NULL;
++
++	/* Unidirectional condpaths are allowed. */
++	if (avs_tplg_path_template_id_equal(id, id2))
++		return path;
++
++	/* Now find the counterpart. */
++	return avs_path_find_path(adev, id2->tplg_name, id2->id);
++}
++
+ static struct acpi_nhlt_config *
+ avs_nhlt_config_or_default(struct avs_dev *adev, struct avs_tplg_module *t);
+ 
+@@ -1051,6 +1100,10 @@ static int avs_path_init(struct avs_dev *adev, struct avs_path *path,
+ 	path->dma_id = dma_id;
+ 	INIT_LIST_HEAD(&path->ppl_list);
+ 	INIT_LIST_HEAD(&path->node);
++	INIT_LIST_HEAD(&path->source_list);
++	INIT_LIST_HEAD(&path->sink_list);
++	INIT_LIST_HEAD(&path->source_node);
++	INIT_LIST_HEAD(&path->sink_node);
+ 
+ 	/* create all the pipelines */
+ 	list_for_each_entry(tppl, &template->ppl_list, node) {
+@@ -1134,12 +1187,129 @@ static struct avs_path *avs_path_create_unlocked(struct avs_dev *adev, u32 dma_i
+ 	return ERR_PTR(ret);
+ }
+ 
++static void avs_condpath_free(struct avs_dev *adev, struct avs_path *path)
++{
++	int ret;
++
++	list_del(&path->source_node);
++	list_del(&path->sink_node);
++
++	ret = avs_path_reset(path);
++	if (ret < 0)
++		dev_err(adev->dev, "reset condpath failed: %d\n", ret);
++
++	ret = avs_path_unbind(path);
++	if (ret < 0)
++		dev_err(adev->dev, "unbind condpath failed: %d\n", ret);
++
++	avs_path_free_unlocked(path);
++}
++
++static struct avs_path *avs_condpath_create(struct avs_dev *adev,
++					    struct avs_tplg_path *template,
++					    struct avs_path *source,
++					    struct avs_path *sink)
++{
++	struct avs_path *path;
++	int ret;
++
++	path = avs_path_create_unlocked(adev, 0, template);
++	if (IS_ERR(path))
++		return path;
++
++	ret = avs_path_bind(path);
 +	if (ret)
-+		return ret;
++		goto err_bind;
 +
-+	block_size -= le32_to_cpu(tuples->size);
-+	/* With header parsed, move on to parsing entries. */
-+	tuples = avs_tplg_vendor_array_next(tuples);
++	ret = avs_path_reset(path);
++	if (ret)
++		goto err_reset;
 +
-+	for (i = 0; i < tplg->num_condpath_tmpls; i++) {
-+		struct avs_tplg_path_template *template;
-+		u32 esize;
++	path->source = source;
++	path->sink = sink;
++	list_add_tail(&path->source_node, &source->source_list);
++	list_add_tail(&path->sink_node, &sink->sink_list);
 +
-+		template = &tplg->condpath_tmpls[i];
-+		template->owner = tplg; /* Used when building sysfs hierarchy. */
-+		INIT_LIST_HEAD(&template->path_list);
-+		INIT_LIST_HEAD(&template->node);
++	return path;
 +
-+		ret = avs_tplg_vendor_entry_size(tuples, block_size,
-+						 AVS_TKN_CONDPATH_TMPL_ID_U32, &esize);
-+		if (ret)
-+			return ret;
++err_reset:
++	avs_path_unbind(path);
++err_bind:
++	avs_path_free_unlocked(path);
++	return ERR_PTR(ret);
++}
 +
-+		ret = parse_path_template(comp, tuples, esize, template,
-+					  condpath_tmpl_parsers,
-+					  ARRAY_SIZE(condpath_tmpl_parsers),
-+					  condpath_parsers,
-+					  ARRAY_SIZE(condpath_parsers));
-+		if (ret < 0) {
-+			dev_err(comp->dev, "parse condpath_tmpl: %d failed: %d\n", i, ret);
-+			return ret;
++static int avs_condpaths_walk(struct avs_dev *adev, struct avs_path *path, int dir)
++{
++	struct avs_soc_component *acomp;
++	struct avs_path *source, *sink;
++	struct avs_path **other;
++
++	if (dir) {
++		source = path;
++		other = &sink;
++	} else {
++		sink = path;
++		other = &source;
++	}
++
++	list_for_each_entry(acomp, &adev->comp_list, node) {
++		for (int i = 0; i < acomp->tplg->num_condpath_tmpls; i++) {
++			struct avs_tplg_path_template *template;
++			struct avs_tplg_path *variant;
++			struct avs_path *cpath;
++
++			template = &acomp->tplg->condpath_tmpls[i];
++
++			/* Do not create unidirectional condpaths twice. */
++			if (avs_tplg_path_template_id_equal(&template->source,
++							    &template->sink) && dir)
++				continue;
++
++			*other = avs_condpath_find_match(adev, template, path, dir);
++			if (!*other)
++				continue;
++
++			variant = avs_condpath_find_variant(adev, template, source, sink);
++			if (!variant)
++				continue;
++
++			cpath = avs_condpath_create(adev, variant, source, sink);
++			if (IS_ERR(cpath))
++				return PTR_ERR(cpath);
 +		}
-+
-+		block_size -= esize;
-+		tuples = avs_tplg_vendor_array_at(tuples, esize);
 +	}
 +
 +	return 0;
 +}
 +
- static const struct avs_tplg_token_parser mod_init_config_parsers[] = {
- 	{
- 		.token = AVS_TKN_INIT_CONFIG_ID_U32,
-@@ -1891,6 +1995,12 @@ static int avs_manifest(struct snd_soc_component *comp, int index,
- 		return ret;
- 	}
- 
-+	/* Condpaths dictionary. */
-+	ret = avs_tplg_parse_condpath_templates(comp, tuples,
-+						has_init_config ? offset : remaining);
-+	if (ret < 0)
++/* Caller responsible for holding adev->path_mutex. */
++static int avs_condpaths_walk_all(struct avs_dev *adev, struct avs_path *path)
++{
++	int ret;
++
++	ret = avs_condpaths_walk(adev, path, SNDRV_PCM_STREAM_CAPTURE);
++	if (ret)
 +		return ret;
 +
- 	if (!has_init_config)
++	return avs_condpaths_walk(adev, path, SNDRV_PCM_STREAM_PLAYBACK);
++}
++
+ void avs_path_free(struct avs_path *path)
+ {
++	struct avs_path *cpath, *csave;
+ 	struct avs_dev *adev = path->owner;
+ 
+ 	mutex_lock(&adev->path_mutex);
++
++	/* Free all condpaths this path spawned. */
++	list_for_each_entry_safe(cpath, csave, &path->source_list, source_node)
++		avs_condpath_free(path->owner, cpath);
++	list_for_each_entry_safe(cpath, csave, &path->sink_list, sink_node)
++		avs_condpath_free(path->owner, cpath);
++
+ 	avs_path_free_unlocked(path);
++
+ 	mutex_unlock(&adev->path_mutex);
+ }
+ 
+@@ -1150,6 +1320,7 @@ struct avs_path *avs_path_create(struct avs_dev *adev, u32 dma_id,
+ {
+ 	struct avs_tplg_path *variant;
+ 	struct avs_path *path;
++	int ret;
+ 
+ 	variant = avs_path_find_variant(adev, template, fe_params, be_params);
+ 	if (!variant) {
+@@ -1163,7 +1334,16 @@ struct avs_path *avs_path_create(struct avs_dev *adev, u32 dma_id,
+ 	mutex_lock(&adev->comp_list_mutex);
+ 
+ 	path = avs_path_create_unlocked(adev, dma_id, variant);
++	if (IS_ERR(path))
++		goto exit;
+ 
++	ret = avs_condpaths_walk_all(adev, path);
++	if (ret) {
++		avs_path_free_unlocked(path);
++		path = ERR_PTR(ret);
++	}
++
++exit:
+ 	mutex_unlock(&adev->comp_list_mutex);
+ 	mutex_unlock(&adev->path_mutex);
+ 
+@@ -1286,6 +1466,42 @@ int avs_path_reset(struct avs_path *path)
+ 	return 0;
+ }
+ 
++static int avs_condpath_pause(struct avs_dev *adev, struct avs_path *cpath)
++{
++	struct avs_path_pipeline *ppl;
++	int ret;
++
++	if (cpath->state == AVS_PPL_STATE_PAUSED)
++		return 0;
++
++	list_for_each_entry_reverse(ppl, &cpath->ppl_list, node) {
++		ret = avs_ipc_set_pipeline_state(adev, ppl->instance_id, AVS_PPL_STATE_PAUSED);
++		if (ret) {
++			dev_err(adev->dev, "pause cpath failed: %d\n", ret);
++			cpath->state = AVS_PPL_STATE_INVALID;
++			return AVS_IPC_RET(ret);
++		}
++	}
++
++	cpath->state = AVS_PPL_STATE_PAUSED;
++	return 0;
++}
++
++static void avs_condpaths_pause(struct avs_dev *adev, struct avs_path *path)
++{
++	struct avs_path *cpath;
++
++	mutex_lock(&adev->path_mutex);
++
++	/* If either source or sink stops, so do the attached conditional paths. */
++	list_for_each_entry(cpath, &path->source_list, source_node)
++		avs_condpath_pause(adev, cpath);
++	list_for_each_entry(cpath, &path->sink_list, sink_node)
++		avs_condpath_pause(adev, cpath);
++
++	mutex_unlock(&adev->path_mutex);
++}
++
+ int avs_path_pause(struct avs_path *path)
+ {
+ 	struct avs_path_pipeline *ppl;
+@@ -1295,6 +1511,8 @@ int avs_path_pause(struct avs_path *path)
+ 	if (path->state == AVS_PPL_STATE_PAUSED)
  		return 0;
  
-diff --git a/sound/soc/intel/avs/topology.h b/sound/soc/intel/avs/topology.h
-index f5601a4e3ec8..1e83fccf2ea2 100644
---- a/sound/soc/intel/avs/topology.h
-+++ b/sound/soc/intel/avs/topology.h
-@@ -33,6 +33,7 @@ struct avs_tplg {
- 	u32 num_pplcfgs;
- 	struct avs_tplg_binding *bindings;
- 	u32 num_bindings;
-+	struct avs_tplg_path_template *condpath_tmpls;
- 	u32 num_condpath_tmpls;
- 	struct avs_tplg_init_config *init_configs;
- 	u32 num_init_configs;
-@@ -155,6 +156,10 @@ struct avs_tplg_path_template {
- 
- 	struct snd_soc_dapm_widget *w;
- 
-+	/* Conditional path. */
-+	struct avs_tplg_path_template_id source;
-+	struct avs_tplg_path_template_id sink;
++	avs_condpaths_pause(adev, path);
 +
- 	struct list_head path_list;
+ 	list_for_each_entry_reverse(ppl, &path->ppl_list, node) {
+ 		ret = avs_ipc_set_pipeline_state(adev, ppl->instance_id,
+ 						 AVS_PPL_STATE_PAUSED);
+@@ -1309,6 +1527,50 @@ int avs_path_pause(struct avs_path *path)
+ 	return 0;
+ }
  
- 	struct avs_tplg *owner;
-@@ -176,6 +181,9 @@ struct avs_tplg_path {
- 	/* Path format requirements. */
- 	struct avs_audio_format *fe_fmt;
- 	struct avs_audio_format *be_fmt;
-+	/* Condpath path-variant requirements. */
-+	u32 source_path_id;
-+	u32 sink_path_id;
++static int avs_condpath_run(struct avs_dev *adev, struct avs_path *cpath, int trigger)
++{
++	struct avs_path_pipeline *ppl;
++	int ret;
++
++	if (cpath->state == AVS_PPL_STATE_RUNNING)
++		return 0;
++
++	list_for_each_entry(ppl, &cpath->ppl_list, node) {
++		if (ppl->template->cfg->trigger != trigger)
++			continue;
++
++		ret = avs_ipc_set_pipeline_state(adev, ppl->instance_id, AVS_PPL_STATE_RUNNING);
++		if (ret) {
++			dev_err(adev->dev, "run cpath failed: %d\n", ret);
++			cpath->state = AVS_PPL_STATE_INVALID;
++			return AVS_IPC_RET(ret);
++		}
++	}
++
++	cpath->state = AVS_PPL_STATE_RUNNING;
++	return 0;
++}
++
++static void avs_condpaths_run(struct avs_dev *adev, struct avs_path *path, int trigger)
++{
++	struct avs_path *cpath;
++
++	mutex_lock(&adev->path_mutex);
++
++	/* Run conditional paths only if source and sink are both running. */
++	list_for_each_entry(cpath, &path->source_list, source_node)
++		if (cpath->source->state == AVS_PPL_STATE_RUNNING &&
++		    cpath->sink->state == AVS_PPL_STATE_RUNNING)
++			avs_condpath_run(adev, cpath, trigger);
++
++	list_for_each_entry(cpath, &path->sink_list, sink_node)
++		if (cpath->source->state == AVS_PPL_STATE_RUNNING &&
++		    cpath->sink->state == AVS_PPL_STATE_RUNNING)
++			avs_condpath_run(adev, cpath, trigger);
++
++	mutex_unlock(&adev->path_mutex);
++}
++
+ int avs_path_run(struct avs_path *path, int trigger)
+ {
+ 	struct avs_path_pipeline *ppl;
+@@ -1332,5 +1594,10 @@ int avs_path_run(struct avs_path *path, int trigger)
+ 	}
  
+ 	path->state = AVS_PPL_STATE_RUNNING;
++
++	/* Granular pipeline triggering not intended for conditional paths. */
++	if (trigger == AVS_TPLG_TRIGGER_AUTO)
++		avs_condpaths_run(adev, path, trigger);
++
+ 	return 0;
+ }
+diff --git a/sound/soc/intel/avs/path.h b/sound/soc/intel/avs/path.h
+index c65ed84aa853..ceb89971a902 100644
+--- a/sound/soc/intel/avs/path.h
++++ b/sound/soc/intel/avs/path.h
+@@ -13,11 +13,24 @@
+ #include "avs.h"
+ #include "topology.h"
+ 
++#define AVS_COND_TYPE_NONE	0
++#define AVS_COND_TYPE_AECREF	1
++
+ struct avs_path {
+ 	u32 dma_id;
  	struct list_head ppl_list;
+ 	u32 state;
  
++	/* condpath navigation for standard paths */
++	struct list_head source_list;
++	struct list_head sink_list;
++
++	/* conditional path fields */
++	struct avs_path *source;
++	struct avs_path *sink;
++	struct list_head source_node;
++	struct list_head sink_node;
++
+ 	struct avs_tplg_path *template;
+ 	struct avs_dev *owner;
+ 	/* device path management */
 -- 
 2.25.1
 
