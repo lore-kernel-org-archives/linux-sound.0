@@ -1,78 +1,116 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C26E239E62;
-	Tue, 29 Jul 2025 11:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4916C10E9
+	for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 12:45:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753790118; cv=none; b=C9I1SgXOmxJj0Ep8hxVhqbAyEstQKbjofnAz7Fyy/atTPhigfTbk2HTuubMOtHLzoNNJDbSeAcnrJ4WEnTlTog/OLgUEE41Q2O+Kth067WkJZGu2GsRfcvbCRhtf9NbJN3ZNjWMis22XvgGspYI19OABgIrssqYCMRdC9L42D0I=
+	t=1753793135; cv=none; b=GQXtP1YveGyLbcCwdA3OhveVdmsgYK5aaddnIxb2beuI88/m8xdDWoqdJS+jOre8EbkogwLHMDhifz+gQOTiWzq0caPOP/iodQndnOIziJcxWbualTsB+yc4O+e1CKKGTVVtyouDl+0mGfWzvaRcKpRvRkn1GjPg+QoemzNDeOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753790118; c=relaxed/simple;
-	bh=0dGAnNg2UXVYDpvGLnTKAdA/H53faaIz+tELnHOHvOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tGnbkjCq/HL+73iGX0ZdpZHF3d234pqKC9DYaVDJxWTfjz/BBcHvlhwKYzQTyr1mUJuyA+e2eV3xjpUQiEuLRTUCNOIv/oc7lEXljw7tHqvB+poREhpPUH7VxRJC2XYH46nykfEdhwV+OEpQVRMI2B3lOWmspqAzg+T1hApKyWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=emGrZc00; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+	s=arc-20240116; t=1753793135; c=relaxed/simple;
+	bh=LJ9o2SWARUwuVG+8+fYVauds/RHOdjQjE0e8s84EAss=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=HkBBo3DzVCxN5LtKb91+a9m6wV7VDUrxLxx23AnIC9U+H80hrAjqzxBdgCosLcn8gxjlS2Wtf3/XcBFVqlsYvAaGDVVXwha74oQxxCuP+VzdG9GwxzcTbb+0jjDJSskVMmygsa29ZO+NN64F42YYsU4ipAlNM8aPeDBcTwCN/8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HEBMWdg2; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="emGrZc00"
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 487811C008E; Tue, 29 Jul 2025 13:55:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1753790106;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=37eDtzrvLLDSDFVXQndXsows899L9rLYzxx5sKRYaq8=;
-	b=emGrZc00AWqlPVsCcBuyL0oaNou0bIo63s4od92HeoH2ncTtRWB4nwzvtaep91APEzgfnr
-	SARVhrhu90QbeqiDIJICyrt8idXKl0jNU3niiOZ36WDSBObDULtrQjU6hhAhCJKjjbic9B
-	9WKrurumaa28k8CIG8oC7I3sbl2jAp4=
-Date: Tue, 29 Jul 2025 13:55:05 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Erick Karanja <karanja99erick@gmail.com>
-Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, julia.lawall@inria.fr
-Subject: Re: [PATCH] staging: sound: Adjust mutex unlock order
-Message-ID: <aIi2mfHOksrr5RNB@duo.ucw.cz>
-References: <20250716062331.375090-1-karanja99erick@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HEBMWdg2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753793134; x=1785329134;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=LJ9o2SWARUwuVG+8+fYVauds/RHOdjQjE0e8s84EAss=;
+  b=HEBMWdg2vKRQ/EIlvkntIDOcICQJ77ouZcnTZmnvtU1qZfbvfjYfdlF0
+   D/czw6roPCcUXptbhnhl8vUmcXd+8ylgixa939d2QRCYDjvLTAniXNYkk
+   OjnYxhgtmorkd7Hgi6REBhIgFxWS0AH4jvgVQrVev7STkFAO1LTm4Eww+
+   3K+1ww2nGcNhGgAm6W5rvINyvldAml26lckM87fLhCmUxeAumYskR1J6c
+   gIKsvaYUK4UR/HIbRsv7vKuOsxv6j1BXQkoU2zWGdJK2YLWCiQYTz/tru
+   cIvWP8ncianlz1+8qmCiHN2csvSkdnMUleQv508AFQIJzvK6qz52pKpDD
+   A==;
+X-CSE-ConnectionGUID: diywcM/DRKK62pfbHMp3WQ==
+X-CSE-MsgGUID: kQq1SF4bTmiczNtAd1lW5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55922857"
+X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
+   d="scan'208";a="55922857"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 05:45:33 -0700
+X-CSE-ConnectionGUID: pOvSGrZeReCSQpc59fYz5w==
+X-CSE-MsgGUID: 8npXKN8mQF+w8rvRpBKhzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
+   d="scan'208";a="193682131"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa002.jf.intel.com with ESMTP; 29 Jul 2025 05:45:31 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/2] ASoC: Intel: avs: Conditional path support
+Date: Tue, 29 Jul 2025 15:06:31 +0200
+Message-Id: <20250729130633.310388-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="PZUGyl5t52Dd9iQE"
-Content-Disposition: inline
-In-Reply-To: <20250716062331.375090-1-karanja99erick@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The code presented here is a lighter version of what was initially
+discussed in 2021 [1]. Later, we've had a more general discussion [2]
+"what if the feature was part of the ASoC core instead?". The discussion
+turned towards leaving a simplified version within the avs/, so here is
+the final outcome.
+
+What's removed when compared to the older [1] version?
+- conditional path priorities
+- conditional path overriding
 
 
---PZUGyl5t52Dd9iQE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The background:
 
-On Wed 2025-07-16 09:23:30, Erick Karanja wrote:
-> The mutexes qdev_mutex and chip->mutex are acquired in that order
-> throughout the driver. To preserve proper lock hierarchy and avoid
-> potential deadlocks, they must be released in the reverse order
-> of acquisition.
+Conditional path (condpath) helps facilitate modern audio usecases such
+as Echo Cancellations and Noise Reduction. These are not invoked by the
+means of userspace application opening an endpoint (FrontEnd) but are a
+"side effect" of selected PCMs running simultaneously e.g.: if both
+Speaker (source) and Microphone Array (sink) are running, reference
+data from the Speaker and take it into account when processing capture
+for better voice command detection ratio.
 
-Please explain how the deadlock would happen.
+Which PCMs are needed for given conditional path to be spawned is
+determinated by the driver when registering the condpath.
 
-								Pavel
---=20
-I don't work for Nazis and criminals, and neither should you.
-Boycott Putin, Trump, and Musk!
+Two patches implement the feature:
 
---PZUGyl5t52Dd9iQE
-Content-Type: application/pgp-signature; name="signature.asc"
+1) update the topology parser to acknowledge the new tuples
+2) update the path-creation and functions that participate in the
+   PCM-runtime e.g.: run/pause.
 
------BEGIN PGP SIGNATURE-----
+The runtime update is needed to keep streaming sane - all the path
+operations shall be synchronized when a condpath is being spawned or its
+status is about to change.
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaIi2mQAKCRAw5/Bqldv6
-8rbfAJ0R9dtUL/puuFcny3upcaaUpdYw1QCgnyEc31T76dn0r6CqLmLh9uH25Mg=
-=nK0I
------END PGP SIGNATURE-----
+[1]: https://lore.kernel.org/alsa-devel/20211208111301.1817725-21-cezary.rojewski@intel.com/
+[2]: https://lore.kernel.org/linux-sound/20240821101816.1494541-1-cezary.rojewski@intel.com/
 
---PZUGyl5t52Dd9iQE--
+
+Cezary Rojewski (2):
+  ASoC: Intel: avs: Parse conditional path tuples
+  ASoC: Intel: avs: Conditional-path support
+
+ include/uapi/sound/intel/avs/tokens.h |  15 ++
+ sound/soc/intel/avs/path.c            | 267 ++++++++++++++++++++++++++
+ sound/soc/intel/avs/path.h            |  13 ++
+ sound/soc/intel/avs/topology.c        | 110 +++++++++++
+ sound/soc/intel/avs/topology.h        |   8 +
+ 5 files changed, 413 insertions(+)
+
+-- 
+2.25.1
+
