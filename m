@@ -1,132 +1,189 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E31B199BC
-	for <linux-sound@vger.kernel.org>; Wed, 30 Jul 2025 06:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FDB256C70
+	for <linux-sound@vger.kernel.org>; Wed, 30 Jul 2025 08:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753858331; cv=none; b=q0fMQ1kL+UDEbi9Dtoupbzkj5Xx6Y+HEV3Qq4X+U3f+5kBOxNh9ff9D1/oQNuTYEgnZqlJ2//DvDRIlmleUJ72na18dLwoWewHDlpW30c3OmmFVFHDHYf2PgpkjueNjeANIRfF/yqUMslKxCOLnWMelnfhivu108Y0nuVWvmvug=
+	t=1753863824; cv=none; b=f2iFdEunxQbiZne/I373juvrQZkITVF+lbbZCEcBGqi1YAwe4GItMUd+3zGNKgjlJ0miyqeUbGqoG0rB6+muRif6IFhSTm+n1IGh6VBiaN+lhLGlyEIYwc+oG+G/WxQIJzbzQLPX7hKrpXjfrHgLVmLUI46xHsYBjeRtQtBphoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753858331; c=relaxed/simple;
-	bh=vcomCsS8vGaH9x5JXSKM2sRl5VCMsY+8hq3RZ+ntiLc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jbieXFJF9KFcYubfssbATf52U/KrhIrK9eUIVMufchYMuPWQzy+U7xwVBEcWdwFifzRfgA79dtTg9cH7+cV+PRUfjo2UROiqox+ObL99A3RegsZhLI1m8Rleys7SMKFAMaCtBO5PF+IV7uwJJgjBjBQeosVHvKUTH0snCzIBtV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rFeOaYj1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=suk5mr6m; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rFeOaYj1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=suk5mr6m; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1753863824; c=relaxed/simple;
+	bh=k0n3laGySUj8A81/FGX/9rlSYF4U3v2+KxowMb3vRYk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qErbDfe+R/DJwsfnKQixD9f++tRYKvAhCZgShQAY++h5QCQ2q4rfIrdu0sFxkTep5yg1EtQ27KVdHbLwzOC3MlP0RSrNMAA33Q25nDkSI8emRl+fD5NWN49nFVOj171GVfcf7c4eHKm0+qk9Z5yd5/Hgt7RRprrr9IrpYDX4hW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iAHVEGI5; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rFeOaYj1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="suk5mr6m";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rFeOaYj1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="suk5mr6m"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 548491F45A;
-	Wed, 30 Jul 2025 06:52:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753858326; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6NC/ae93nUOfFJAm7ykrBqKhQrOW+D+LntLOlpAiHbU=;
-	b=rFeOaYj1wmgMANPGjYHQ40elAOTfNuJlbhRVfID+eYznUenDHknS96Qhcmx+QjD4sQxQhb
-	znMnxdXffFfwAgGfTtGjYI0SItM6pkyKEn2vWnsgzz7tQmRB0CGJ1wWp0M7K2gwrjS64pz
-	TxcjxRnKI+AWAxOB0jMwQo0s8A0c17o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753858326;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6NC/ae93nUOfFJAm7ykrBqKhQrOW+D+LntLOlpAiHbU=;
-	b=suk5mr6mUdpg4G2Km101DOwUFKTu+UgIXpz4Uco/pJaa0SG3ydasajEC4wKGNoz0n6eDDa
-	8WUh1Lv56eY2XaBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753858326; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6NC/ae93nUOfFJAm7ykrBqKhQrOW+D+LntLOlpAiHbU=;
-	b=rFeOaYj1wmgMANPGjYHQ40elAOTfNuJlbhRVfID+eYznUenDHknS96Qhcmx+QjD4sQxQhb
-	znMnxdXffFfwAgGfTtGjYI0SItM6pkyKEn2vWnsgzz7tQmRB0CGJ1wWp0M7K2gwrjS64pz
-	TxcjxRnKI+AWAxOB0jMwQo0s8A0c17o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753858326;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6NC/ae93nUOfFJAm7ykrBqKhQrOW+D+LntLOlpAiHbU=;
-	b=suk5mr6mUdpg4G2Km101DOwUFKTu+UgIXpz4Uco/pJaa0SG3ydasajEC4wKGNoz0n6eDDa
-	8WUh1Lv56eY2XaBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 242CD1388B;
-	Wed, 30 Jul 2025 06:52:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sPudBxbBiWhVOgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 30 Jul 2025 06:52:06 +0000
-Date: Wed, 30 Jul 2025 08:52:05 +0200
-Message-ID: <87y0s6rx0q.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: edip@medip.dev
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] ALSA: hda/realtek - Fix mute LED for HP Victus 16-s0xxx
-In-Reply-To: <20250729181848.24432-2-edip@medip.dev>
-References: <20250729181848.24432-2-edip@medip.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iAHVEGI5"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55b73f4ead1so1943783e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 30 Jul 2025 01:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1753863821; x=1754468621; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U1r2R6OONrqy2phTDjM24jkvudNKHdg6QD1pSz1RSbE=;
+        b=iAHVEGI5T+Vg4X9WePWAFyZNJudEsM/U61+3V2HQE4on3oUfPNjXqtP6MGs6lA7Y9S
+         bdaAricCtJ5f7iPXDPNZycAS4SgvaNvSjjgdgVITTBwDjaN6E6xD6myvazovIKFqC9C9
+         h7bq/Kkez3MGYV7GsjOP/Ra/MSyIQXAuFRJG0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753863821; x=1754468621;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U1r2R6OONrqy2phTDjM24jkvudNKHdg6QD1pSz1RSbE=;
+        b=NPnxs+o9feGw9G2Ip/qVLGajs9g8PG8KNqCPqYUHfzMXdxC+fzqpDuIdCAVYaQb9f2
+         czwSalyr5+x5aNN9jnDciQnOQhFCwQVCigxoEzuciZQACuXfXJp5GzQoi42X1QtFeYeM
+         RtKwjYRDTNiwl/B0n4tBCSitnGrdkaOlIFPdz4ok6ITLkDgbh673ZxQZ1ZYdZVWcHU3S
+         0JZQ7DJkVOaslDgmpMJfqwn3+z0jum3+pvWtC1gaDf3EkA5rDWKANQgSbMi/oPi8uET8
+         2MbVvfXutWSvjpMS3poc3g2KRnBSGPacwGz/ajL5KafyShKsOOD0kVxsJ77jvHmx1k84
+         FvQw==
+X-Forwarded-Encrypted: i=1; AJvYcCXvLCqvNBFiarqMbDXDBkBH+18tKDo14ACb0Yzayu+XAfo1s+YWIyjcG3BRPsKIy7Nt7yDFqUEIjKRswg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvD5uGpzaf4qIySFYy0sDtcG/AR3mwn8RdYjXYgNtYcsgxBxAI
+	gEt1+95vl6vOHYjThFRh3N16djdJM6BnJZqkEJm5bnR3i4pt9X98X+A/cFK3YTg/qRFZJySp1J7
+	neadzKM024JWXdy7Bj6ESr5tbi2hffUEfNmwTI0xh
+X-Gm-Gg: ASbGncuhNtamoHaLAiFfNdsrF51VlcMngk0CgoOBCSeN8ubuT1zHa1F7OpkIWXTso7L
+	xORdJSSNKiCxFmpztV2b9KCnrIPxiD+u33KfOw4Hx4vjd9KjeOhsRDoVvRDXrl6DFTv1eG9Fn1w
+	HdZ6+kJWgcXcgs5J6eJtjkksjPzQjX1ACCm4OtZQOEiTvL8MtFf4997sE8VYxxtOECC2Xt6g/Nr
+	IvJMa77XrfDW8o0RJF7QZMibsAoFYUJfjI=
+X-Google-Smtp-Source: AGHT+IFNNgGe2N+Najma2XgK1xBeO1Tq5z4VdOwxsWj1JkHm5nTTq++sDH5npr//Xe7MrxeLpTLuyirVohv+SG9hXog=
+X-Received: by 2002:a05:6512:3a81:b0:553:65bc:4232 with SMTP id
+ 2adb3069b0e04-55b7c06cb83mr858483e87.31.1753863820791; Wed, 30 Jul 2025
+ 01:23:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+References: <20250708111806.3992-1-darren.ye@mediatek.com> <20250708111806.3992-3-darren.ye@mediatek.com>
+In-Reply-To: <20250708111806.3992-3-darren.ye@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 30 Jul 2025 16:23:29 +0800
+X-Gm-Features: Ac12FXziz9m63a9IuaHiHsS0x7hGxpkPqvcMpJ0GxNVtaytZnTnRhyBsZaU2UF8
+Message-ID: <CAGXv+5FiZJqymDfvGO05SNgzSUYAdOwtFCqE0WPGwC5Dwg7OEA@mail.gmail.com>
+Subject: Re: [PATCH v6 02/10] ASoC: mediatek: mt8196: add common header
+To: "Darren.Ye" <darren.ye@mediatek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 29 Jul 2025 20:18:48 +0200,
-edip@medip.dev wrote:
-> 
-> From: Edip Hazuri <edip@medip.dev>
-> 
-> The mute led on this laptop is using ALC245 but requires a quirk to work
-> This patch enables the existing quirk for the device.
-> 
-> Tested on Victus 16-S0063NT Laptop. The LED behaviour works
-> as intended.
-> 
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Edip Hazuri <edip@medip.dev>
+On Tue, Jul 8, 2025 at 7:34=E2=80=AFPM Darren.Ye <darren.ye@mediatek.com> w=
+rote:
+>
+> From: Darren Ye <darren.ye@mediatek.com>
+>
+> Add header files for register definitions and structures.
+>
+> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
+> ---
+>  sound/soc/mediatek/mt8196/mt8196-afe-common.h |   213 +
+>  .../mediatek/mt8196/mt8196-interconnection.h  |   121 +
+>  sound/soc/mediatek/mt8196/mt8196-reg.h        | 12068 ++++++++++++++++
+>  3 files changed, 12402 insertions(+)
+>  create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-common.h
+>  create mode 100644 sound/soc/mediatek/mt8196/mt8196-interconnection.h
+>  create mode 100644 sound/soc/mediatek/mt8196/mt8196-reg.h
+>
+> diff --git a/sound/soc/mediatek/mt8196/mt8196-afe-common.h b/sound/soc/me=
+diatek/mt8196/mt8196-afe-common.h
+> new file mode 100644
+> index 000000000000..574003a8a2e4
+> --- /dev/null
+> +++ b/sound/soc/mediatek/mt8196/mt8196-afe-common.h
+> @@ -0,0 +1,213 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * mt8196-afe-common.h  --  Mediatek 8196 audio driver definitions
+> + *
+> + * Copyright (c) 2024 MediaTek Inc.
+> + *  Author: Darren Ye <darren.ye@mediatek.com>
+> + */
+> +
+> +#ifndef _MT_8196_AFE_COMMON_H_
+> +#define _MT_8196_AFE_COMMON_H_
 
-Applied both patches now.  Thanks.
+Add an empty line here for separation.
+
+> +#include <sound/soc.h>
+> +#include <sound/pcm.h>
+> +#include <linux/clk.h>
+> +#include <linux/list.h>
+> +#include <linux/regmap.h>
+> +#include "mt8196-reg.h"
+> +#include "mtk-base-afe.h"
+
+Please add empty lines between each group of headers. Headers are grouped
+by path prefix.
+
+Moreover, the contents of these header files are not required in this
+header file. Please push these include statements to the files that
+actually need them.
+
+For the pointer to struct types, you can just forward declare the struct
+types instead of including the whole header file:
+
+    struct clk;
+    struct mtk_base_afe;
+
+[...]
+
+> +struct mt8196_afe_private {
+> +       struct clk **clk;
+
+> +       struct clk_lookup **lookup;
+
+This doesn't seem to be used.
+
+> +       struct regmap *vlp_ck;
+
+IIRC this will get removed since the tuner values will be moved to the
+clk driver.
+
+> +       int irq_cnt[MT8196_MEMIF_NUM];
+
+> +       int dram_resource_counter;
+
+This seems unused. Please remove.
+
+> +
+> +       /* xrun assert */
+> +       int xrun_assert[MT8196_MEMIF_NUM];
+
+This doesn't seem to do anything. It is initialized to zero and then
+never used.
+
+> +
+> +       /* dai */
+> +       void *dai_priv[MT8196_DAI_NUM];
+> +
+> +       /* mck */
+> +       int mck_rate[MT8196_MCK_NUM];
+> +
+> +       /* channel merge */
+> +       unsigned int cm_rate[CM_NUM];
+> +       unsigned int cm_channels;
+> +};
+> +
+> +int mt8196_dai_adda_register(struct mtk_base_afe *afe);
+> +int mt8196_dai_i2s_register(struct mtk_base_afe *afe);
+> +int mt8196_dai_tdm_register(struct mtk_base_afe *afe);
+> +int mt8196_dai_set_priv(struct mtk_base_afe *afe, int id,
+> +                       int priv_size, const void *priv_data);
+
+Please add an empty line here.
+
+> +#endif
+
+[...]
 
 
-Takashi
+ChenYu
