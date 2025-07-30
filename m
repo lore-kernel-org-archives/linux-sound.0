@@ -1,146 +1,147 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6A57462;
-	Wed, 30 Jul 2025 05:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F49114F90
+	for <linux-sound@vger.kernel.org>; Wed, 30 Jul 2025 05:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753853606; cv=none; b=UwiZjpb8KTFxFN484YoJjfG+CJByf1F2Ts9eqxityOTA0qRwfuNaMeflVsv2NQyOtMWUa5irU/en3XmkqSyhTvzLXEgMeOMwcTCajc1I3ZRGPimX54vRlciIX/aD3LKwsDXGoeIPfYRhUK6zgCUtbioAh05AOASys+DaYQVHbmQ=
+	t=1753854685; cv=none; b=TE0z2PPcBxQqh03Vm9OLf7QwYx0SCgnsKglYJ4dbgnFJgQmahcmdlFbMtcewhQfaBLEWEXRolZ29aj1gz4d2BpRk7dDoFvhxDK+6IJoCjUQeOUw+AWhj/0SumW1qXEzia1rhrK1qWtpY/9zh2Ldy1wkdoJxtgmdn5T6ANfIA7N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753853606; c=relaxed/simple;
-	bh=FhJYgVdy7uv+pIWPhCaLWgy9qxucMXMybPT+uOiNyDQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SYqbPrr1pYfprdNKQ/8cSCfmtlc9LW2gQbGPOqZuJqH7rF+mzYMd3zv50btBHQpWB6i6ugW/Uh9kE7PILO71n2fa2TI7xD7in/QbTp/8L/fBhaAhYvciiX49NIuu/c6fk2c0KNMaPBBLq1VrV/++TLCZ2vMy76eAqh+VeUgkNqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ohQY84eD; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1753854685; c=relaxed/simple;
+	bh=J4/IkaYaG6stL4lwmzCakG80AjOE/JfKtdTmXLcEmwA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AwRoA5VhQIntDFXT3l/fUtNB6An90S2DwrEr7XXzLxpCxwH2kA14raBOzsdArmMjMQf5WKA/0Ke/TNC7JumZgeB0fLCNsXqiLHop+aIujJ2vMvZLq8dMMToKcGXOgqJDzVVxC7keU7yYc9J9Bcew8sun3X2x+gd3U3kj8vYPFgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NCflYRSD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hpgqwG4O; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NCflYRSD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hpgqwG4O; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ohQY84eD"
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56U5X3892691312;
-	Wed, 30 Jul 2025 00:33:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1753853583;
-	bh=jqs9ri/KCcvlHLen5ccn4YkIZlSKH8zl84oJtQdNKqk=;
-	h=From:To:CC:Subject:Date;
-	b=ohQY84eD1DstEFx8OEonZc8AXlpvx94K8hhenMrrcGVDdHznp+Ve0hEH4M0KOhVyG
-	 +I8mIkeB5qulWmu44ZmaYzVhyfXeOgvx6JzSl3c5vL49RtSHjcL27aKYMc16Y1QjEN
-	 90m4SQtOqx6YL5rDdtmp/X/ZHldjodNFhTZYi/kg=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56U5X2GI3265370
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 30 Jul 2025 00:33:02 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 30
- Jul 2025 00:33:02 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 30 Jul 2025 00:33:02 -0500
-Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56U5WwHI418872;
-	Wed, 30 Jul 2025 00:32:59 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <tiwai@suse.de>
-CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
-        <13916275206@139.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <baojun.xu@ti.com>
-Subject: [PATCH v1] ASoC: tas2781: Normalize the volume kcontrol name
-Date: Wed, 30 Jul 2025 13:32:36 +0800
-Message-ID: <20250730053236.57643-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NCflYRSD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hpgqwG4O";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NCflYRSD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hpgqwG4O"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5363E1F801;
+	Wed, 30 Jul 2025 05:51:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753854681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ftgbdj+tRgnyXeiU8fYwMiTHN5BncScmTxtP5sjAI/Q=;
+	b=NCflYRSD0qDXSqsFZxnm6z0hEAi/1TLgyP/6cboVXShAIIuO6zrOsj6ycHljapBrZr72tp
+	MSl87yAuRKCM56Kjr3tC04fzE5APABUE0TA2jGL7zV7l2F2L8HNuzGBjLPt1zMmC1zIk6A
+	6zA3H+yNDRj1YAmpAfFfvYTavmOH9eE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753854681;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ftgbdj+tRgnyXeiU8fYwMiTHN5BncScmTxtP5sjAI/Q=;
+	b=hpgqwG4OK1fy76OaL9qwITCHHBN5hMSmJcooJu2bK/QwqkxIdoUwnRXqNQSi0HIhVDs6n3
+	deuQf36kNq3Jx3DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753854681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ftgbdj+tRgnyXeiU8fYwMiTHN5BncScmTxtP5sjAI/Q=;
+	b=NCflYRSD0qDXSqsFZxnm6z0hEAi/1TLgyP/6cboVXShAIIuO6zrOsj6ycHljapBrZr72tp
+	MSl87yAuRKCM56Kjr3tC04fzE5APABUE0TA2jGL7zV7l2F2L8HNuzGBjLPt1zMmC1zIk6A
+	6zA3H+yNDRj1YAmpAfFfvYTavmOH9eE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753854681;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ftgbdj+tRgnyXeiU8fYwMiTHN5BncScmTxtP5sjAI/Q=;
+	b=hpgqwG4OK1fy76OaL9qwITCHHBN5hMSmJcooJu2bK/QwqkxIdoUwnRXqNQSi0HIhVDs6n3
+	deuQf36kNq3Jx3DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2797A13479;
+	Wed, 30 Jul 2025 05:51:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id R8KRCNmyiWi4KgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 30 Jul 2025 05:51:21 +0000
+Date: Wed, 30 Jul 2025 07:51:20 +0200
+Message-ID: <8734aeteef.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linux Sound Mailing List <linux-sound@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [GIT PULL] sound updates for 6.17-rc1
+In-Reply-To: <CAHk-=whvoZuw-Cv2Bx2ip8Kq4j9jw0meLBg0xz8GbxzFmQK7QA@mail.gmail.com>
+References: <87ecu4idvc.wl-tiwai@suse.de>
+	<CAHk-=wjj9DvOZtmTkoLtyfHmy5mNKy6q_96d9=4FUEDXre=cww@mail.gmail.com>
+	<CAHk-=whvoZuw-Cv2Bx2ip8Kq4j9jw0meLBg0xz8GbxzFmQK7QA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
 
-As more devices become supported, add "tas2781" as a suffix before the
-TLV name, correct the DVC step, and normalize the volume kcontrol name.
+On Wed, 30 Jul 2025 06:45:35 +0200,
+Linus Torvalds wrote:
+> 
+> On Tue, 29 Jul 2025 at 21:21, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > I think that's realtek, but when I enable it, I get this mess of
+> > "which realtek", which I have no idea because the ALC3271 that the
+> > kernel used to print out is not mentioned.
+> 
+> Enabling them all makes the kernel recognize it as a ALC3271 again,
+> and it appears to have loaded the alc269 one.
+> 
+> But sound is still gone, so there's something else still missing. But
+> I'm heading off for the night now...
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
- include/sound/tas2781-tlv.h                    | 6 ++++--
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 4 ++--
- sound/hda/codecs/side-codecs/tas2781_hda_spi.c | 5 +++--
- sound/soc/codecs/tas2781-i2c.c                 | 8 ++++----
- 4 files changed, 13 insertions(+), 10 deletions(-)
+It's a dilemma of the default kconfig enablement.  In general we want
+to keep the default disabled for leaf drivers.
 
-diff --git a/include/sound/tas2781-tlv.h b/include/sound/tas2781-tlv.h
-index d87263e43fdb..38b8f828a353 100644
---- a/include/sound/tas2781-tlv.h
-+++ b/include/sound/tas2781-tlv.h
-@@ -15,7 +15,9 @@
- #ifndef __TAS2781_TLV_H__
- #define __TAS2781_TLV_H__
- 
--static const __maybe_unused DECLARE_TLV_DB_SCALE(dvc_tlv, -10000, 100, 0);
--static const __maybe_unused DECLARE_TLV_DB_SCALE(amp_vol_tlv, 1100, 50, 0);
-+static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2781_dvc_tlv,
-+	-10000, 50, 0);
-+static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2781_amp_tlv,
-+	1100, 50, 0);
- 
- #endif
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index a0b132681804..6ec93b27aa7f 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -265,9 +265,9 @@ static const struct snd_kcontrol_new tas2770_snd_controls[] = {
- };
- 
- static const struct snd_kcontrol_new tas2781_snd_controls[] = {
--	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
-+	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS2781_AMP_LEVEL,
- 		1, 0, 20, 0, tas2781_amp_getvol,
--		tas2781_amp_putvol, amp_vol_tlv),
-+		tas2781_amp_putvol, tas2781_amp_tlv),
- 	ACARD_SINGLE_BOOL_EXT("Speaker Force Firmware Load", 0,
- 		tas2781_force_fwload_get, tas2781_force_fwload_put),
- };
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-index 09a5d0f131b2..b4664a696bad 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-@@ -494,9 +494,10 @@ static int tas2781_force_fwload_put(struct snd_kcontrol *kcontrol,
- 
- static struct snd_kcontrol_new tas2781_snd_ctls[] = {
- 	ACARD_SINGLE_RANGE_EXT_TLV(NULL, TAS2781_AMP_LEVEL, 1, 0, 20, 0,
--		tas2781_amp_getvol, tas2781_amp_putvol, amp_vol_tlv),
-+		tas2781_amp_getvol, tas2781_amp_putvol, tas2781_amp_tlv),
- 	ACARD_SINGLE_RANGE_EXT_TLV(NULL, TAS2781_DVC_LVL, 0, 0, 200, 1,
--		tas2781_digital_getvol, tas2781_digital_putvol, dvc_tlv),
-+		tas2781_digital_getvol, tas2781_digital_putvol,
-+		tas2781_dvc_tlv),
- 	ACARD_SINGLE_BOOL_EXT(NULL, 0, tas2781_force_fwload_get,
- 		tas2781_force_fwload_put),
- };
-diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
-index 9f4d965a1335..a51f20cd869a 100644
---- a/sound/soc/codecs/tas2781-i2c.c
-+++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -908,12 +908,12 @@ static const struct snd_kcontrol_new tasdevice_cali_controls[] = {
- };
- 
- static const struct snd_kcontrol_new tas2781_snd_controls[] = {
--	SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
-+	SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS2781_AMP_LEVEL,
- 		1, 0, 20, 0, tas2781_amp_getvol,
--		tas2781_amp_putvol, amp_vol_tlv),
--	SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Gain", TAS2781_DVC_LVL,
-+		tas2781_amp_putvol, tas2781_amp_tlv),
-+	SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Volume", TAS2781_DVC_LVL,
- 		0, 0, 200, 1, tas2781_digital_getvol,
--		tas2781_digital_putvol, dvc_tlv),
-+		tas2781_digital_putvol, tas2781_dvc_tlv),
- };
- 
- static const struct snd_kcontrol_new tas2781_cali_controls[] = {
--- 
-2.43.0
+CONFIG_SND_HDA_CODEC_REALTEK is still present but now it's a
+menuconfig, so this is taken over from the previous config.  The
+remaining CONFIG_SND_HDA_CODEC_ALC* are the missing stuff.
+Maybe we should set CONFIG_SND_HDA_CODEC_ALC*=y as default as an
+exception for smooth upgrade?
 
+I guess the same applies to the HDMI audio stuff, too.
+
+
+Takashi
