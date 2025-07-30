@@ -1,102 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE402266B66;
-	Wed, 30 Jul 2025 10:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECF418C928;
+	Wed, 30 Jul 2025 10:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753870772; cv=none; b=L+Ao2YRDUh0xIQWhsuVTcQ4+gynhrpCyBYWoA4Gs6XfvPL5ZPj4AjJP22wnoW3bRCG6c6dJqk7Ug5OudumeeZcw3nCZiuiivaCBL6mlC+MQI8zTT64qxBb/c+zf2//oM0MDUarod+NQIsYThgxl5eeDH9w4Vu09LlKRuDu1ODj8=
+	t=1753872524; cv=none; b=nKC5GEqHKspuMZqbOvBIuIm2Ks6s5PPk0YSo5bfX7iwU1sL+G8yYDgU2SfGdfNeuWeSIXG1CP/uKZyFvgZ5+yptNzgxqOCy+DbyvczW/eQx9VN4U0iDQep0FqE5ug2D+sv6ZgBfC0Kr7mswoljNX/lXoskUPkNoySiUzjeKzYY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753870772; c=relaxed/simple;
-	bh=EAo1JwLwQmSVpdRh6bDezMwGkO6es9S03FxPuaNswug=;
+	s=arc-20240116; t=1753872524; c=relaxed/simple;
+	bh=FwwIBzVLKrN7X/OD68/2tT4gL5lrrwNTMy8C5g55L3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XbeqL9dy2oqF8GDT/+kVUw4S7fGhNSByiN/Qecrzd317OH5tao2u3Xbwq3ixgsFHwvlfFjOt0Fh8nY0UZKzCqtzqNVK9Pin+4DOo/P6joeaqpF+UhDZ/6WMaVk5UyUJtgE+BX2AQzCIh6OkSzR4y57uq44CWjMZPFskyQ1+NAfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eyQOpxcV; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=kjexVePHNylB3BPA35ucwnUQL+H5riCqVm+gdWcn/BBSqcqGOQc/+w1eCYZJhnKMQxSdHuisTf0qteUk6zlKgRZPgb0db39YpFcGKmQZr0Z0HDY81SEnux2zI7b5dJNeOym4TDAZn2wr1eIrCnoynLNGtXz5Yxm7F/QFwN1q4Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hE91/pre; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eyQOpxcV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 582B1C4CEE7;
-	Wed, 30 Jul 2025 10:19:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hE91/pre"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB8B5C4CEE7;
+	Wed, 30 Jul 2025 10:48:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753870771;
-	bh=EAo1JwLwQmSVpdRh6bDezMwGkO6es9S03FxPuaNswug=;
+	s=k20201202; t=1753872522;
+	bh=FwwIBzVLKrN7X/OD68/2tT4gL5lrrwNTMy8C5g55L3M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eyQOpxcVcR1H63+BHWg/CFKigaLqUqMvNvXsUknLdHPeMkodeiZl5MPug/8DsVw/a
-	 giBEQoO6YJfc2IYMup/cB5/tzxUNdpq26OkCCKKEyijv3HeDTvTPB42bZ/LAWWap1W
-	 HSU9KVqt3jnCYHFHTDpwJjFf8xW2jB/JQQE+K88VmHLkDDwagXryM/B6XDesFEu6sE
-	 dSdDZ+j8pNDSjEmeF0IcFGmPg4/QvfL9hUVm6h9WtgU6dBsthpBa+4155dTYEuncfm
-	 LoudalTEKGq6b4IJRJAblOtrJzxaq8mDhKnhvwKxJ1GJAz0exZz3MffWB+GUVgM/Fm
-	 qi3d0rU9EWtOg==
-Date: Wed, 30 Jul 2025 11:19:07 +0100
+	b=hE91/pre5fubNfPuOxM9GkqL55jdYcn9ZxeEKmZPi6GgLwM6f05z/9pN6zsbRb061
+	 DdDfjHg4NIdXCM6/S4NE2rFsIF9/JiT8eCiz08VGeLYqmaUlI3cEs1UtaV6/Vucb1c
+	 CfbabyZwdbuQ6np8tKynHndPVslHQZ7uhey6VwmDiRTxy7Fia3MR/gUe4izFmwmfNJ
+	 ws+Vtoqssbi/Ewvn7Yb7S15IeSK3IThc/6TPCOx1/sozntix4nLnKp3QVGac+c+7tJ
+	 g/dQXRna+k40Qyv5wYvoigqSEMy/VE02oACruWf54+gRR45twTkTza1bB7Gu9xdDe9
+	 bzlclDqbZaQDw==
+Date: Wed, 30 Jul 2025 11:48:38 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
-	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linux-actions@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH RFC 5/6] spi: geni-qcom: Hint GENI protocol ID to GPI DMA
-Message-ID: <490091ee-ba84-4f97-96b4-fe30ed082e17@sirena.org.uk>
-References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
- <20250730-topic-dma_genise_cookie-v1-5-b505c1238f9f@oss.qualcomm.com>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com,
+	alsa-devel@alsa-project.org, shenghao-ding@ti.com,
+	13916275206@139.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] ASoC: tas2781: Normalize the volume kcontrol name
+Message-ID: <05fa81c8-2125-4275-8501-8d7790f0b68b@sirena.org.uk>
+References: <20250730053236.57643-1-baojun.xu@ti.com>
+ <e36cd0bf-fe0f-4edc-841c-83f688a5e75f@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -104,39 +44,43 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bAEzP5efOXdEgXiD"
+	protocol="application/pgp-signature"; boundary="twMYDlwnHUKAd+cL"
 Content-Disposition: inline
-In-Reply-To: <20250730-topic-dma_genise_cookie-v1-5-b505c1238f9f@oss.qualcomm.com>
+In-Reply-To: <e36cd0bf-fe0f-4edc-841c-83f688a5e75f@sirena.org.uk>
 X-Cookie: Linux is obsolete
 
 
---bAEzP5efOXdEgXiD
+--twMYDlwnHUKAd+cL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 30, 2025 at 11:33:32AM +0200, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+On Wed, Jul 30, 2025 at 11:17:49AM +0100, Mark Brown wrote:
+> On Wed, Jul 30, 2025 at 01:32:36PM +0800, Baojun Xu wrote:
+> > As more devices become supported, add "tas2781" as a suffix before the
+> > TLV name, correct the DVC step, and normalize the volume kcontrol name.
 >=20
-> With the API in place, request the correct protocol ID with the GPI DMA
-> to avoid having to hardcode this obvious information in the device
-> tree.
+> I'll apply this but this really should be several different commits, the
+> variable renaming and the user visible renaming should at least be
+> separate commits.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Sorry, actually no - there's also HDA changes mixed in here which should
+be a separate commit as well.  Please split this up into separate
+changes.
 
---bAEzP5efOXdEgXiD
+--twMYDlwnHUKAd+cL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiJ8ZoACgkQJNaLcl1U
-h9DnvAf+LbcTzds/hsfTeLtLPENpavgpdBbC/kj+eo3NQESPHZy9K7kiL8p7Xjbr
-hMSf6upQxsK7NZMFyKsLc0oAEP6LLyDU16ON/R+QDQiNYou0xOm9vYoJwtmhMvDY
-PDJaohO2ZSfEwodlxhodZ0HxhrSaPXLEiJt2tA/ASGUdRtCC15yUoXItcUf+b04C
-/A3TjgtsVE32Xz6HKLh2/Z6WkBWVgqpGswljAu7JkNAvKlp7BTviSUX645kuiQYz
-/o32yfxiCCO5LO/s2/wvMjiCgaKi2Kf8uLjifxymS8nOhqcw/yZjAZ70/lo6j8IO
-EmQkB6uCcv8iOoBmuo/fb2/ULFapvQ==
-=j7vN
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiJ+IUACgkQJNaLcl1U
+h9Axrgf/ekHxn5G90nadHECYU5gsVUPd+Cfy+Zzzizk0ZeeHZGcDLuw7x914Q+Ek
+fF3Bp2mOffP4YtPhgqLaVaQ7IkOxxDWyhvEW3b/KxuE88UnNPwVYXoIBZrn1lfOE
+ujy5wBl3hngasqGVSlqyF6iD3ur74ykzqsYz5jzifeyI16DAKi5+TNFHsjSjbCbl
+muo4HtGjQk/1ftmArb3gbJVvacYr3lC38Bd/pSxZCyOtUL+jVWxJgxQEhKPuyV8c
+YRPBvl6/8BBXspyHxZtA8sLJ45DIGJIneCKfzosbi9TUk7F0HX7/t9IWXzLnHG+4
+5W4u3KNhltBSBbhucAi61/8qfHmaiQ==
+=Mab2
 -----END PGP SIGNATURE-----
 
---bAEzP5efOXdEgXiD--
+--twMYDlwnHUKAd+cL--
