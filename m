@@ -1,942 +1,228 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A5A2698AF
-	for <linux-sound@vger.kernel.org>; Wed, 30 Jul 2025 08:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B9F26D4F9;
+	Wed, 30 Jul 2025 09:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753864985; cv=none; b=VEq6Zv8og4ftpzcLzxkjQoH26aY0UWRUqXaXrXecbARsrukEnwfA3Cprg2+UG9SsKBeKb3OcJFJEaocb5oabS3h6qpTOMYc9nMX6f07QfGjT4H6MVrMFcQhANzBfphJKWTspAwP76fd/OWvflbUiqVBh7UHLCRVheL1BqsU8bRs=
+	t=1753868068; cv=none; b=g2PJORVj1fHCcNah+9TOz1kAPRqVKoYqHBYBsEW+TcPz0c1JMZnc3G8hpG0o1E1F9lEhExKCR+lJhvBSzLMCAQ+GzPT/mkmfGSWSOfhL7xhUR3Qa012PeeU7kmoGETwzyKzPYOb4JNaLoJ1fvDR6ZHU7jAAGwvqifixFRBjvfWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753864985; c=relaxed/simple;
-	bh=tKy/weuZMwFURtolE7S7wtLRpX8fJL/2tRUWkAL2Ddo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z0GLrAcDe8utXJka1zfn7oCM2sWG0lnV2+RFezvUlXye35QZDtbRdmfI52FPof1mcEZXUjw4f7AmYGnMN3J2vcH6yLyYp+nXKoyX+ZtBztdI52QMRKATzJIb0l/qsN+OAo1zGajkLB4PJqiyXiL/Bw5iQNysS1kAGepI4GcPR6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LYxTQhYo; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1753868068; c=relaxed/simple;
+	bh=CIVuQYfavwb/2ra5GsD9SGItvqbBHNthKR9qvQvzOGI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=F3TEofKNqz0g3c03dE9qltvrtdv0Pp5TYf3dvh5xX+vDu5wmpH1RGXACxl7hOGoS9xqxnYZLPx99Ady9hU0iTfc6npreCUfqEq7lTdZFP9gbWE+qsYuRS9gM/gG8V4AKyxTpQ/oghO82xhAlU9WTNO5DNwwwVZfPa3E3cYP1M0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mn3mWr7a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LYxTQhYo"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-553e5df44f8so5796661e87.3
-        for <linux-sound@vger.kernel.org>; Wed, 30 Jul 2025 01:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1753864980; x=1754469780; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RCwMDWtoJ6H58L5kBL4cwqw2CDwhxml2txAA6EJBzFE=;
-        b=LYxTQhYoyVMknZpfw+sYc6clY8YtkFhMK7fADyjwPT8ft+Jb65acp9n2jr7dhsPRCA
-         amlo26TChbu6Y9yh94+oxptSwBLz7CaYNX0UUHQ94GqcXnNWqhl34vfIrgFaEpkoGQR9
-         A8b1oSRcxJPW78qPk6HESBEX/ioYUVvLjclNI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753864980; x=1754469780;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RCwMDWtoJ6H58L5kBL4cwqw2CDwhxml2txAA6EJBzFE=;
-        b=pQ+jxed9Z07h6z0E7srTaMn3J35p8Epxlr2PfFNruuAkKz/SmHFfOVjBoPP29VJTMh
-         hZD8ycGiJLA6c2PoS2KNAqTm4yTWNou59NyXoBOgmnIpLMBE8IEYjHf/vt0Uhgsi5Jwc
-         L/HTO1sWRyu+ppYHmEBpYvGerMuvjFNV4pNgNgmcufoTU2gXGnxd/Mjk7bGHBNw5GJpb
-         KDubr8UVTH+qy8aNIWn33d8DaXB/kxhIFX0OeFNWXAzwR0EAk0zytYJ0P95I+mpZvKae
-         qJTz+dTBlLRnAWW/4icRtSIIe79Fni2XFw5aw2gmoHEAt3fYEOd9+YTncrAYHfCrQ0fT
-         Q0jA==
-X-Forwarded-Encrypted: i=1; AJvYcCXFNybvi/sESwXyIYVN2NOM7qKVEuJmf0RfoDj0gnVQ5ZJMkk7wHM7EXYp4LXIbdvEC87gJVKfIHcKulQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUGMOnOJ3eRe9D4JuwHkHDivENEh5oiW7ptvfXqWJcPowGGkdf
-	d+gPMqkCctd/Yt9uOgI3clYNOBupJJpzaVAqvbToC3F5J0z80vUswej+R92AIJ8khYS/eO2fMb8
-	PUE42s6fSn8oiO1QOfWnzIq2wPB+Im3W1M4TWjMwb
-X-Gm-Gg: ASbGncto0gpRF8BvLcADUE5+wniJ5nyy4NUwRi6jyu1WP009huiDhLdOMnr/C3JK++F
-	g9EFrrIQfz3BX/ivS9mNETNTFgFMv0RTZE53zt4uINPpjevXKz+Lz9w1vrL7fIvyj9t67Rsgnbn
-	s5Zfs/d0ss4DWnLxScIQ9UcMqXyiUgMJTpfzKkGrW+qXaJk02E4cluZ9/0ortMsocquMkXTxKp6
-	XGCHdQlbwB9lflWg8Gp15p/qA+hpgEXVeGgGhfZOG/Y3w==
-X-Google-Smtp-Source: AGHT+IFB/Ct3suqH0gmQXFJmF6MnUkKOGS1aalcnnOjIUVn4PpqF7DlFLlC9o8DP1JFLZSIwsJwu/Elj6xSVQfUrxg0=
-X-Received: by 2002:a05:6512:3d94:b0:551:f0ce:80e3 with SMTP id
- 2adb3069b0e04-55b7c04363dmr699933e87.25.1753864979699; Wed, 30 Jul 2025
- 01:42:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mn3mWr7a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B05A0C4CEE7;
+	Wed, 30 Jul 2025 09:34:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753868067;
+	bh=CIVuQYfavwb/2ra5GsD9SGItvqbBHNthKR9qvQvzOGI=;
+	h=From:Subject:Date:To:Cc:From;
+	b=mn3mWr7aA9V5VQdmoPI1MDwUFqmYcbYou3spQN0mTpS2xY/Q2IAmer8ElcJzAHti+
+	 KDI3Je9i5rYwxmc1Uu6frvKz5aCvEdeIaJV5v0eUbJgOtZmLFLXve2bcmizzIvgMEn
+	 zQqsAseUiBNcc0woER4J692Ev/4bp7WTpJQJ+R/ErEE5f9CVblx7OIN1CZA/zM/LZx
+	 ZgtSmBLu8mJcqqTFok+wdPrjTWQ4KU23lsYRxK+U5FL/RLAIYBgwxmTvJMoFOzaETL
+	 y6mDyNH5gHTpUEo+vdF56kw6vXYSq/gBDMHez4n+nx7iA96Ye8h3ttmX3XshWhq+mw
+	 OFIlGH+1lL8JQ==
+From: Konrad Dybcio <konradybcio@kernel.org>
+Subject: [RFC PATCH 0/6] Allow DMA consumers to pass a cookie to providers'
+ of_xlate
+Date: Wed, 30 Jul 2025 11:33:27 +0200
+Message-Id: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250708111806.3992-1-darren.ye@mediatek.com> <20250708111806.3992-4-darren.ye@mediatek.com>
-In-Reply-To: <20250708111806.3992-4-darren.ye@mediatek.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 30 Jul 2025 16:42:48 +0800
-X-Gm-Features: Ac12FXwg35RUtCHSrQDm77AYEC5EjaDvELreyxlzBmCrHt1OYxQRjmdcvB6QXeE
-Message-ID: <CAGXv+5EZ99i74_pTp2wKR1ni28K9fwbqo_67CFXwwiN13DB71w@mail.gmail.com>
-Subject: Re: [PATCH v6 03/10] ASoC: mediatek: mt8196: support audio clock control
-To: "Darren.Ye" <darren.ye@mediatek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOfmiWgC/x3MTQqAIBBA4avErBO0P6mrRETpaEOkoRFBePek5
+ bd474WIgTDCULwQ8KZI3mWIsgC1Lc4iI50NFa9aLkXDLn+SYvpYZouOIs7K+52QdZ1WK5emNrq
+ HXJ8BDT3/eZxS+gB+aeXZaQAAAA==
+X-Change-ID: 20250714-topic-dma_genise_cookie-66dcb07f3fd9
+To: Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>, 
+ Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Neal Gompa <neal@gompa.dev>, 
+ Ludovic Desroches <ludovic.desroches@microchip.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
+ Viresh Kumar <vireshk@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Taichi Sugaya <sugaya.taichi@socionext.com>, 
+ Takao Orito <orito.takao@socionext.com>, 
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ =?utf-8?q?Am=C3=A9lie_Delaunay?= <amelie.delaunay@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Laxman Dewangan <ldewangan@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, 
+ Viken Dadhaniya <quic_vdadhani@quicinc.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
+ dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+ imx@lists.linux.dev, linux-actions@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ linux-spi@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1753868049; l=5799;
+ i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
+ bh=CIVuQYfavwb/2ra5GsD9SGItvqbBHNthKR9qvQvzOGI=;
+ b=va5fmQm0vcHgbpGnfydpzko+HQU0+0iHNYCXm7WHYjVRwugQO/jlg6FABqOs3xChvtQiLtHfX
+ nwgfqitX8ihAL4cqD4UZZ9Xblo1yiqYPkj39iyy4q4XnXfktK7X59k3
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 
-On Tue, Jul 8, 2025 at 7:34=E2=80=AFPM Darren.Ye <darren.ye@mediatek.com> w=
-rote:
->
-> From: Darren Ye <darren.ye@mediatek.com>
->
-> Add audio clock wrapper and audio tuner control.
->
-> Signed-off-by: Darren Ye <darren.ye@mediatek.com>
-> ---
->  sound/soc/mediatek/mt8196/mt8196-afe-clk.c | 728 +++++++++++++++++++++
->  sound/soc/mediatek/mt8196/mt8196-afe-clk.h |  80 +++
->  2 files changed, 808 insertions(+)
->  create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-clk.c
->  create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-clk.h
->
-> diff --git a/sound/soc/mediatek/mt8196/mt8196-afe-clk.c b/sound/soc/media=
-tek/mt8196/mt8196-afe-clk.c
-> new file mode 100644
-> index 000000000000..00f47b485812
-> --- /dev/null
-> +++ b/sound/soc/mediatek/mt8196/mt8196-afe-clk.c
-> @@ -0,0 +1,728 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + *  mt8196-afe-clk.c  --  Mediatek 8196 afe clock ctrl
-> + *
-> + *  Copyright (c) 2024 MediaTek Inc.
-> + *  Author: Darren Ye <darren.ye@mediatek.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/regmap.h>
-> +#include <linux/mfd/syscon.h>
+The DMA subsystem attempts to make it theoretically possible to pair
+any DMA block with any user. While that's convenient from a
+codebase sanity perspective, some blocks are more intertwined.
 
-Please add an empty line here for separation.
+One such case is the Qualcomm GENI, where each wrapper contains a
+number of Serial Engine instances, each one of which can be programmed
+to support a different protocol (such as I2C, I3C, SPI, UART, etc.).
 
-> +#include "mt8196-afe-common.h"
-> +#include "mt8196-afe-clk.h"
-> +
-> +static const char *aud_clks[MT8196_CLK_NUM] =3D {
-> +       /* vlp clk */
-> +       [MT8196_CLK_VLP_MUX_AUDIOINTBUS] =3D "top_aud_intbus",
-> +       [MT8196_CLK_VLP_MUX_AUD_ENG1] =3D "top_aud_eng1",
-> +       [MT8196_CLK_VLP_MUX_AUD_ENG2] =3D "top_aud_eng2",
-> +       [MT8196_CLK_VLP_MUX_AUDIO_H] =3D "top_aud_h",
-> +       [MT8196_CLK_VLP_CLK26M] =3D "vlp_clk26m",
-> +       /* pll */
-> +       [MT8196_CLK_TOP_APLL1_CK] =3D "apll1",
-> +       [MT8196_CLK_TOP_APLL2_CK] =3D "apll2",
-> +       /* divider */
-> +       [MT8196_CLK_TOP_APLL1_D4] =3D "apll1_d4",
-> +       [MT8196_CLK_TOP_APLL2_D4] =3D "apll2_d4",
-> +       [MT8196_CLK_TOP_APLL12_DIV_I2SIN0] =3D "apll12_div_i2sin0",
-> +       [MT8196_CLK_TOP_APLL12_DIV_I2SIN1] =3D "apll12_div_i2sin1",
-> +       [MT8196_CLK_TOP_APLL12_DIV_FMI2S] =3D "apll12_div_fmi2s",
-> +       [MT8196_CLK_TOP_APLL12_DIV_TDMOUT_M] =3D "apll12_div_tdmout_m",
-> +       [MT8196_CLK_TOP_APLL12_DIV_TDMOUT_B] =3D "apll12_div_tdmout_b",
-> +       /* mux */
-> +       [MT8196_CLK_TOP_MUX_AUD_1] =3D "top_apll1",
-> +       [MT8196_CLK_TOP_MUX_AUD_2] =3D "top_apll2",
-> +       [MT8196_CLK_TOP_I2SIN0_M_SEL] =3D "top_i2sin0",
-> +       [MT8196_CLK_TOP_I2SIN1_M_SEL] =3D "top_i2sin1",
-> +       [MT8196_CLK_TOP_FMI2S_M_SEL] =3D "top_fmi2s",
-> +       [MT8196_CLK_TOP_TDMOUT_M_SEL] =3D "top_dptx",
-> +       [MT8196_CLK_TOP_ADSP_SEL] =3D "top_adsp",
-> +       /* top 26m*/
-> +       [MT8196_CLK_TOP_CLK26M] =3D "clk26m",
-> +};
-> +
-> +int mt8196_afe_enable_clk(struct mtk_base_afe *afe, struct clk *clk)
-> +{
-> +       int ret;
-> +
-> +       if (clk) {
+The GPI DMA it's designed together with, needs to receive the ID of the
+protocol that's in use, to adjust its behavior accordingly. Currently,
+that's done through passing that ID through device tree, with each
+Serial Engine expressed NUM_PROTOCOL times, resulting in terrible
+dt-bindings that are full of useless copypasta.
 
-There's no need to check the validity of the pointer. The clk prepare
-and enable APIs can take NULL pointers and become no-ops.
+Currently, the DT looks like:
 
-> +               ret =3D clk_prepare_enable(clk);
-> +               if (ret) {
-> +                       dev_dbg(afe->dev, "failed to enable clk\n");
+i2c@foobar {
+	compatible = "qcom,geni-i2c";
+	dmas = <&gpi_dma1 0 0 QCOM_GPI_I2C>,
+	       <&gpi_dma1 1 0 QCOM_GPI_I2C>;
+	// actual hw description
+};
 
-This should be a visible error.
+spi@foobar {
+        compatible = "qcom,geni-spi";
+        dmas = <&gpi_dma1 0 1 QCOM_GPI_SPI>,
+               <&gpi_dma1 1 1 QCOM_GPI_SPI>;
+	// actual, identical hw description
+};
 
-> +                       return ret;
-> +               }
-> +       } else {
-> +               dev_dbg(afe->dev, "NULL clk\n");
-> +       }
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(mt8196_afe_enable_clk);
-> +
-> +void mt8196_afe_disable_clk(struct mtk_base_afe *afe, struct clk *clk)
-> +{
-> +       if (clk)
-> +               clk_disable_unprepare(clk);
-> +       else
-> +               dev_dbg(afe->dev, "NULL clk\n");
-> +}
-> +EXPORT_SYMBOL_GPL(mt8196_afe_disable_clk);
-> +
-> +static int mt8196_afe_set_clk_rate(struct mtk_base_afe *afe, struct clk =
-*clk,
-> +                                  unsigned int rate)
-> +{
-> +       int ret;
-> +
-> +       if (clk) {
-> +               ret =3D clk_set_rate(clk, rate);
-> +               if (ret) {
-> +                       dev_dbg(afe->dev, "failed to set clk rate\n");
+Which is manageable when there's two of them. Unfortunately, we're
+in the double digits range nowadays.
 
-This should be a visible error.
+This series attempts to cut down on that through making the last cell
+unnecessary, moving the purely-SW data that the current protocol ID is
+into the driver.
 
-> +                       return ret;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int mt8196_afe_set_clk_parent(struct mtk_base_afe *afe, struct cl=
-k *clk,
-> +                                    struct clk *parent)
-> +{
-> +       int ret;
-> +
-> +       if (clk && parent) {
-> +               ret =3D clk_set_parent(clk, parent);
-> +               if (ret) {
-> +                       dev_dbg(afe->dev, "failed to set clk parent %d\n"=
-, ret);
-> +                       return ret;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
+The mass of_xlate signature change is a little unfortunate, let me know
+if it can be avoided somehow..
 
-Per our offline discussions, explicitly setting clock parents are not
-needed.
+Attaching the relevant dt-bindings change and converting one platform
+over as an example.
 
-> +
-> +static unsigned int get_top_cg_reg(unsigned int cg_type)
-> +{
-> +       switch (cg_type) {
-> +       case MT8196_AUDIO_26M_EN_ON:
-> +       case MT8196_AUDIO_F3P25M_EN_ON:
-> +       case MT8196_AUDIO_APLL1_EN_ON:
-> +       case MT8196_AUDIO_APLL2_EN_ON:
-> +               return AUDIO_ENGEN_CON0;
-> +       case MT8196_CG_AUDIO_HOPPING_CK:
-> +       case MT8196_CG_AUDIO_F26M_CK:
-> +       case MT8196_CG_APLL1_CK:
-> +       case MT8196_CG_APLL2_CK:
-> +       case MT8196_PDN_APLL_TUNER2:
-> +       case MT8196_PDN_APLL_TUNER1:
-> +               return AUDIO_TOP_CON4;
-> +       default:
-> +               return 0;
-> +       }
-> +}
-> +
-> +static unsigned int get_top_cg_mask(unsigned int cg_type)
-> +{
-> +       switch (cg_type) {
-> +       case MT8196_AUDIO_26M_EN_ON:
-> +               return AUDIO_26M_EN_ON_MASK_SFT;
-> +       case MT8196_AUDIO_F3P25M_EN_ON:
-> +               return AUDIO_F3P25M_EN_ON_MASK_SFT;
-> +       case MT8196_AUDIO_APLL1_EN_ON:
-> +               return AUDIO_APLL1_EN_ON_MASK_SFT;
-> +       case MT8196_AUDIO_APLL2_EN_ON:
-> +               return AUDIO_APLL2_EN_ON_MASK_SFT;
-> +       case MT8196_CG_AUDIO_HOPPING_CK:
-> +               return CG_AUDIO_HOPPING_CK_MASK_SFT;
-> +       case MT8196_CG_AUDIO_F26M_CK:
-> +               return CG_AUDIO_F26M_CK_MASK_SFT;
-> +       case MT8196_CG_APLL1_CK:
-> +               return CG_APLL1_CK_MASK_SFT;
-> +       case MT8196_CG_APLL2_CK:
-> +               return CG_APLL2_CK_MASK_SFT;
-> +       case MT8196_PDN_APLL_TUNER2:
-> +               return PDN_APLL_TUNER2_MASK_SFT;
-> +       case MT8196_PDN_APLL_TUNER1:
-> +               return PDN_APLL_TUNER1_MASK_SFT;
-> +       default:
-> +               return 0;
-> +       }
-> +}
-> +
-> +static unsigned int get_top_cg_on_val(unsigned int cg_type)
-> +{
-> +       switch (cg_type) {
-> +       case MT8196_AUDIO_26M_EN_ON:
-> +       case MT8196_AUDIO_F3P25M_EN_ON:
-> +       case MT8196_AUDIO_APLL1_EN_ON:
-> +       case MT8196_AUDIO_APLL2_EN_ON:
-> +               return get_top_cg_mask(cg_type);
-> +       case MT8196_CG_AUDIO_HOPPING_CK:
-> +       case MT8196_CG_AUDIO_F26M_CK:
-> +       case MT8196_CG_APLL1_CK:
-> +       case MT8196_CG_APLL2_CK:
-> +       case MT8196_PDN_APLL_TUNER2:
-> +       case MT8196_PDN_APLL_TUNER1:
-> +               return 0;
-> +       default:
-> +               return 0;
-> +       }
-> +}
-> +
-> +static unsigned int get_top_cg_off_val(unsigned int cg_type)
-> +{
-> +       switch (cg_type) {
-> +       case MT8196_AUDIO_26M_EN_ON:
-> +       case MT8196_AUDIO_F3P25M_EN_ON:
-> +       case MT8196_AUDIO_APLL1_EN_ON:
-> +       case MT8196_AUDIO_APLL2_EN_ON:
-> +               return 0;
-> +       case MT8196_CG_AUDIO_HOPPING_CK:
-> +       case MT8196_CG_AUDIO_F26M_CK:
-> +       case MT8196_CG_APLL1_CK:
-> +       case MT8196_CG_APLL2_CK:
-> +       case MT8196_PDN_APLL_TUNER2:
-> +       case MT8196_PDN_APLL_TUNER1:
-> +               return get_top_cg_mask(cg_type);
-> +       default:
-> +               return get_top_cg_mask(cg_type);
-> +       }
-> +}
-> +
-> +static int mt8196_afe_enable_top_cg(struct mtk_base_afe *afe, unsigned i=
-nt cg_type)
-> +{
-> +       unsigned int reg =3D get_top_cg_reg(cg_type);
-> +       unsigned int mask =3D get_top_cg_mask(cg_type);
-> +       unsigned int val =3D get_top_cg_on_val(cg_type);
-> +
-> +       if (!afe->regmap) {
-> +               dev_warn(afe->dev, "skip regmap\n");
-> +               return 0;
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+---
+Konrad Dybcio (6):
+      dt-bindings: dma: qcom,gpi: Retire passing the protocol ID
+      dmaengine: Make of_dma_request_slave_channel pass a cookie to of_xlate
+      dmaengine: qcom: gpi: Accept protocol ID hints
+      i2c: qcom-geni: Hint GENI protocol ID to GPI DMA
+      spi: geni-qcom: Hint GENI protocol ID to GPI DMA
+      arm64: dts: qcom: x1e80100: Remove GENI protocol ID from DMA cells
 
-This should be a fatal error.
+ .../devicetree/bindings/dma/qcom,gpi.yaml          |   5 +-
+ arch/arm64/boot/dts/qcom/x1e80100.dtsi             | 198 ++++++++++-----------
+ drivers/dma/amba-pl08x.c                           |   3 +-
+ drivers/dma/apple-admac.c                          |   3 +-
+ drivers/dma/at_hdmac.c                             |   6 +-
+ drivers/dma/at_xdmac.c                             |   3 +-
+ drivers/dma/bcm2835-dma.c                          |   3 +-
+ drivers/dma/dma-jz4780.c                           |   3 +-
+ drivers/dma/dmaengine.c                            |  20 ++-
+ drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c     |   3 +-
+ drivers/dma/dw/of.c                                |   3 +-
+ drivers/dma/ep93xx_dma.c                           |   6 +-
+ drivers/dma/fsl-edma-main.c                        |   6 +-
+ drivers/dma/img-mdc-dma.c                          |   3 +-
+ drivers/dma/imx-dma.c                              |   3 +-
+ drivers/dma/imx-sdma.c                             |   3 +-
+ drivers/dma/lgm/lgm-dma.c                          |   3 +-
+ drivers/dma/milbeaut-hdmac.c                       |   4 +-
+ drivers/dma/mmp_pdma.c                             |   3 +-
+ drivers/dma/mmp_tdma.c                             |   3 +-
+ drivers/dma/moxart-dma.c                           |   3 +-
+ drivers/dma/mxs-dma.c                              |   3 +-
+ drivers/dma/nbpfaxi.c                              |   3 +-
+ drivers/dma/of-dma.c                               |  18 +-
+ drivers/dma/owl-dma.c                              |   3 +-
+ drivers/dma/pl330.c                                |   3 +-
+ drivers/dma/pxa_dma.c                              |   3 +-
+ drivers/dma/qcom/bam_dma.c                         |   3 +-
+ drivers/dma/qcom/gpi.c                             |  16 +-
+ drivers/dma/qcom/qcom_adm.c                        |   3 +-
+ drivers/dma/sh/rcar-dmac.c                         |   3 +-
+ drivers/dma/sh/rz-dmac.c                           |   3 +-
+ drivers/dma/sh/usb-dmac.c                          |   3 +-
+ drivers/dma/st_fdma.c                              |   3 +-
+ drivers/dma/ste_dma40.c                            |   3 +-
+ drivers/dma/stm32/stm32-dma.c                      |   3 +-
+ drivers/dma/stm32/stm32-dma3.c                     |   4 +-
+ drivers/dma/stm32/stm32-mdma.c                     |   3 +-
+ drivers/dma/sun4i-dma.c                            |   3 +-
+ drivers/dma/sun6i-dma.c                            |   3 +-
+ drivers/dma/tegra186-gpc-dma.c                     |   3 +-
+ drivers/dma/tegra20-apb-dma.c                      |   3 +-
+ drivers/dma/tegra210-adma.c                        |   3 +-
+ drivers/dma/ti/cppi41.c                            |   3 +-
+ drivers/dma/ti/edma.c                              |   3 +-
+ drivers/dma/ti/k3-udma.c                           |   3 +-
+ drivers/dma/uniphier-xdmac.c                       |   3 +-
+ drivers/dma/xilinx/xilinx_dma.c                    |   3 +-
+ drivers/dma/xilinx/xilinx_dpdma.c                  |   3 +-
+ drivers/dma/xilinx/zynqmp_dma.c                    |   3 +-
+ drivers/i2c/busses/i2c-qcom-geni.c                 |   4 +-
+ drivers/spi/spi-geni-qcom.c                        |   4 +-
+ include/linux/dmaengine.h                          |   7 +
+ include/linux/of_dma.h                             |  16 +-
+ sound/soc/apple/mca.c                              |   2 +-
+ sound/soc/renesas/rcar/dma.c                       |   2 +-
+ 56 files changed, 261 insertions(+), 177 deletions(-)
+---
+base-commit: 79fb37f39b77bbf9a56304e9af843cd93a7a1916
+change-id: 20250714-topic-dma_genise_cookie-66dcb07f3fd9
 
-> +       }
-> +
-> +       dev_dbg(afe->dev, "reg: 0x%x, mask: 0x%x, val: 0x%x\n", reg, mask=
-, val);
-> +       regmap_update_bits(afe->regmap, reg, mask, val);
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Should check the return value, since it could fail because these are set as
-volatile registers and cannot be updated in cache-only state.
-
-> +       return 0;
-> +}
-> +
-> +static int mt8196_afe_disable_top_cg(struct mtk_base_afe *afe, unsigned =
-int cg_type)
-> +{
-> +       unsigned int reg =3D get_top_cg_reg(cg_type);
-> +       unsigned int mask =3D get_top_cg_mask(cg_type);
-> +       unsigned int val =3D get_top_cg_off_val(cg_type);
-> +
-> +       if (!afe->regmap) {
-> +               dev_warn(afe->dev, "skip regmap\n");
-> +               return 0;
-> +       }
-> +
-> +       dev_dbg(afe->dev, "reg: 0x%x, mask: 0x%x, val: 0x%x\n", reg, mask=
-, val);
-> +       regmap_update_bits(afe->regmap, reg, mask, val);
-
-Same here.
-
-> +
-> +       return 0;
-> +}
-> +
-> +static int apll1_mux_setting(struct mtk_base_afe *afe, bool enable)
-> +{
-> +       struct mt8196_afe_private *afe_priv =3D afe->platform_priv;
-> +       int ret =3D 0;
-> +
-> +       dev_dbg(afe->dev, "enable: %d\n", enable);
-> +
-> +       if (enable) {
-> +               ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_C=
-LK_TOP_MUX_AUD_1]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_TOP_MUX_AUD_1],
-> +                                               afe_priv->clk[MT8196_CLK_=
-TOP_APLL1_CK]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               /* 180.6336 / 4 =3D 45.1584MHz */
-> +               ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_C=
-LK_VLP_MUX_AUD_ENG1]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_VLP_MUX_AUD_ENG1],
-> +                                               afe_priv->clk[MT8196_CLK_=
-TOP_APLL1_D4]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_C=
-LK_VLP_MUX_AUDIO_H]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_VLP_MUX_AUDIO_H],
-> +                                               afe_priv->clk[MT8196_CLK_=
-TOP_APLL1_CK]);
-> +               if (ret)
-> +                       return ret;
-> +       } else {
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_VLP_MUX_AUD_ENG1],
-> +                                               afe_priv->clk[MT8196_CLK_=
-VLP_CLK26M]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_=
-MUX_AUD_ENG1]);
-> +
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_TOP_MUX_AUD_1],
-> +                                               afe_priv->clk[MT8196_CLK_=
-TOP_CLK26M]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_=
-MUX_AUD_1]);
-> +               mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_V=
-LP_MUX_AUDIO_H],
-> +                                         afe_priv->clk[MT8196_CLK_VLP_CL=
-K26M]);
-> +               mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_=
-MUX_AUDIO_H]);
-> +       }
-
-We've talked about this offline. FTR there's no need to enable intermediate
-clocks. When the leaf clock is enabled, the CCF also enables all connected
-parents. There's also no need to set parents explicitly. When the clock
-rate of the leaf clock gets set, the CCF will take care to reparent it
-or the sub-tree to the most appropriate clock parent.
-
-> +       return 0;
-> +}
-> +
-> +static int apll2_mux_setting(struct mtk_base_afe *afe, bool enable)
-> +{
-> +       struct mt8196_afe_private *afe_priv =3D afe->platform_priv;
-> +       int ret =3D 0;
-> +
-> +       dev_dbg(afe->dev, "enable: %d\n", enable);
-> +
-> +       if (enable) {
-> +               ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_C=
-LK_TOP_MUX_AUD_2]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_TOP_MUX_AUD_2],
-> +                                               afe_priv->clk[MT8196_CLK_=
-TOP_APLL2_CK]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               /* 196.608 / 4 =3D 49.152MHz */
-> +               ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_C=
-LK_VLP_MUX_AUD_ENG2]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_VLP_MUX_AUD_ENG2],
-> +                                               afe_priv->clk[MT8196_CLK_=
-TOP_APLL2_D4]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_C=
-LK_VLP_MUX_AUDIO_H]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_VLP_MUX_AUDIO_H],
-> +                                               afe_priv->clk[MT8196_CLK_=
-TOP_APLL2_CK]);
-> +               if (ret)
-> +                       return ret;
-> +       } else {
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_VLP_MUX_AUD_ENG2],
-> +                                               afe_priv->clk[MT8196_CLK_=
-VLP_CLK26M]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_=
-MUX_AUD_ENG2]);
-> +
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT81=
-96_CLK_TOP_MUX_AUD_2],
-> +                                               afe_priv->clk[MT8196_CLK_=
-TOP_CLK26M]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_=
-MUX_AUD_2]);
-> +               mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_V=
-LP_MUX_AUDIO_H],
-> +                                         afe_priv->clk[MT8196_CLK_VLP_CL=
-K26M]);
-> +               mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_=
-MUX_AUDIO_H]);
-> +       }
-
-Same for this function.
-
-> +       return 0;
-> +}
-> +
-> +static int mt8196_afe_disable_apll(struct mtk_base_afe *afe)
-> +{
-> +       struct mt8196_afe_private *afe_priv =3D afe->platform_priv;
-> +       int ret =3D 0;
-> +
-> +       ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_M=
-UX_AUDIO_H]);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_M=
-UX_AUD_1]);
-> +       if (ret)
-> +               goto clk_ck_mux_aud1_err;
-> +
-> +       ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_T=
-OP_MUX_AUD_1],
-> +                                       afe_priv->clk[MT8196_CLK_TOP_CLK2=
-6M]);
-> +       if (ret)
-> +               goto clk_ck_mux_aud1_parent_err;
-> +
-> +       ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_M=
-UX_AUD_2]);
-> +       if (ret)
-> +               goto clk_ck_mux_aud2_err;
-> +
-> +       ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_T=
-OP_MUX_AUD_2],
-> +                                       afe_priv->clk[MT8196_CLK_TOP_CLK2=
-6M]);
-> +       if (ret)
-> +               goto clk_ck_mux_aud2_parent_err;
-> +
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_MUX_AUD_=
-1]);
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_MUX_AUD_=
-2]);
-> +       mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_A=
-UDIO_H],
-> +                                 afe_priv->clk[MT8196_CLK_VLP_CLK26M]);
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_AUDI=
-O_H]);
-
-Same here. There's no need to toggle all the intermediate clocks. And since
-everything is getting disabled, what parent is selected shouldn't matter.
-
-> +       return 0;
-> +
-> +clk_ck_mux_aud2_parent_err:
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_MUX_AUD_=
-2]);
-> +clk_ck_mux_aud2_err:
-> +       mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_TOP_MUX_A=
-UD_1],
-> +                                 afe_priv->clk[MT8196_CLK_TOP_APLL1_CK])=
-;
-> +clk_ck_mux_aud1_parent_err:
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_MUX_AUD_=
-1]);
-> +clk_ck_mux_aud1_err:
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_AUDI=
-O_H]);
-> +
-> +       return ret;
-> +}
-> +
-> +static void mt8196_afe_apll_init(struct mtk_base_afe *afe)
-> +{
-> +       struct mt8196_afe_private *afe_priv =3D afe->platform_priv;
-> +
-> +       if (!afe_priv->vlp_ck) {
-> +               dev_warn(afe->dev, "vlp_ck regmap is null ptr\n");
-> +               return;
-> +       }
-> +
-> +       regmap_write(afe_priv->vlp_ck, VLP_APLL1_TUNER_CON0, VLP_APLL1_TU=
-NER_CON0_VALUE);
-> +       regmap_write(afe_priv->vlp_ck, VLP_APLL2_TUNER_CON0, VLP_APLL2_TU=
-NER_CON0_VALUE);
-
-Per offline discussion, this should be moved to the vlp clk driver.
-This was already mentioned to the clk patch owners in a recent review.
-
-> +}
-
-[...]
-
-> +/* mck */
-> +struct mt8196_mck_div {
-> +       int m_sel_id;
-> +       int div_clk_id;
-> +};
-> +
-> +static const struct mt8196_mck_div mck_div[MT8196_MCK_NUM] =3D {
-> +       [MT8196_I2SIN0_MCK] =3D {
-> +               .m_sel_id =3D MT8196_CLK_TOP_I2SIN0_M_SEL,
-> +               .div_clk_id =3D MT8196_CLK_TOP_APLL12_DIV_I2SIN0,
-> +       },
-> +       [MT8196_I2SIN1_MCK] =3D {
-> +               .m_sel_id =3D MT8196_CLK_TOP_I2SIN1_M_SEL,
-> +               .div_clk_id =3D MT8196_CLK_TOP_APLL12_DIV_I2SIN1,
-> +       },
-> +       [MT8196_FMI2S_MCK] =3D {
-> +               .m_sel_id =3D MT8196_CLK_TOP_FMI2S_M_SEL,
-> +               .div_clk_id =3D MT8196_CLK_TOP_APLL12_DIV_FMI2S,
-> +       },
-> +       [MT8196_TDMOUT_MCK] =3D {
-> +               .m_sel_id =3D MT8196_CLK_TOP_TDMOUT_M_SEL,
-> +               .div_clk_id =3D MT8196_CLK_TOP_APLL12_DIV_TDMOUT_M,
-> +       },
-> +       [MT8196_TDMOUT_BCK] =3D {
-> +               .m_sel_id =3D -1,
-> +               .div_clk_id =3D MT8196_CLK_TOP_APLL12_DIV_TDMOUT_B,
-> +       },
-> +};
-
-In the upstream clk patch submission, the mux and divider have been
-combined. So this part could be simplified a bit. Also...
-
-> +int mt8196_mck_enable(struct mtk_base_afe *afe, int mck_id, int rate)
-> +{
-> +       struct mt8196_afe_private *afe_priv =3D afe->platform_priv;
-> +       int apll =3D mt8196_get_apll_by_rate(afe, rate);
-> +       int apll_clk_id =3D apll =3D=3D MT8196_APLL1 ?
-> +                         MT8196_CLK_TOP_MUX_AUD_1 : MT8196_CLK_TOP_MUX_A=
-UD_2;
-> +       int m_sel_id;
-> +       int div_clk_id;
-> +       int ret;
-> +
-> +       dev_dbg(afe->dev, "mck_id: %d, rate: %d\n", mck_id, rate);
-> +
-> +       if (mck_id >=3D MT8196_MCK_NUM || mck_id < 0)
-> +               return -EINVAL;
-> +
-> +       m_sel_id =3D mck_div[mck_id].m_sel_id;
-> +       div_clk_id =3D mck_div[mck_id].div_clk_id;
-> +
-> +       /* select apll */
-> +       if (m_sel_id >=3D 0) {
-> +               ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[m_sel_id=
-]);
-> +               if (ret)
-> +                       return ret;
-> +
-> +               ret =3D mt8196_afe_set_clk_parent(afe, afe_priv->clk[m_se=
-l_id],
-> +                                               afe_priv->clk[apll_clk_id=
-]);
-
-This part would be taken care of by the framework as well. There's no
-need to do it explicitly.
-
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       /* enable div, set rate */
-> +       if (div_clk_id < 0) {
-> +               dev_err(afe->dev, "invalid div_clk_id %d\n", div_clk_id);
-> +               return -EINVAL;
-> +       }
-> +       if (div_clk_id =3D=3D MT8196_CLK_TOP_APLL12_DIV_TDMOUT_B)
-> +               rate =3D rate * 16;
-
-                  rate *=3D 16;
-
-> +
-> +       ret =3D mt8196_afe_enable_clk(afe, afe_priv->clk[div_clk_id]);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret =3D mt8196_afe_set_clk_rate(afe, afe_priv->clk[div_clk_id], r=
-ate);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return 0;
-> +}
-> +
-> +int mt8196_mck_disable(struct mtk_base_afe *afe, int mck_id)
-> +{
-> +       struct mt8196_afe_private *afe_priv =3D afe->platform_priv;
-> +       int m_sel_id;
-> +       int div_clk_id;
-> +
-> +       dev_dbg(afe->dev, "mck_id: %d.\n", mck_id);
-> +
-> +       if (mck_id < 0) {
-> +               dev_err(afe->dev, "mck_id =3D %d < 0\n", mck_id);
-> +               return -EINVAL;
-> +       }
-> +
-> +       m_sel_id =3D mck_div[mck_id].m_sel_id;
-> +       div_clk_id =3D mck_div[mck_id].div_clk_id;
-> +
-> +       if (div_clk_id < 0) {
-> +               dev_err(afe->dev, "div_clk_id =3D %d < 0\n",
-> +                       div_clk_id);
-> +               return -EINVAL;
-> +       }
-> +
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[div_clk_id]);
-> +
-> +       if (m_sel_id >=3D 0)
-> +               mt8196_afe_disable_clk(afe, afe_priv->clk[m_sel_id]);
-> +
-> +       return 0;
-> +}
-> +
-> +int mt8196_afe_enable_reg_rw_clk(struct mtk_base_afe *afe)
-> +{
-> +       struct mt8196_afe_private *afe_priv =3D afe->platform_priv;
-> +
-> +       /* bus clock for AFE external access, like DRAM */
-> +       mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_ADSP_SEL]=
-);
-> +
-> +       /* bus clock for AFE internal access, like AFE SRAM */
-> +       mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_AUDIO=
-INTBUS]);
-> +       mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_A=
-UDIOINTBUS],
-> +                                 afe_priv->clk[MT8196_CLK_VLP_CLK26M]);
-
-If you are setting it to 26M, then it probably doesn't matter what parent
-it uses? I would just drop this.
-
-> +       /* enable audio vlp clock source */
-> +       mt8196_afe_enable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_AUDIO=
-_H]);
-> +       mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_A=
-UDIO_H],
-> +                                 afe_priv->clk[MT8196_CLK_VLP_CLK26M]);
-
-Same here.
-
-> +
-> +       /* AFE hw clock */
-> +       /* IPM2.0: USE HOPPING & 26M */
-> +       /* set in the regmap_register_patch */
-> +       return 0;
-> +}
-> +
-> +int mt8196_afe_disable_reg_rw_clk(struct mtk_base_afe *afe)
-> +{
-> +       struct mt8196_afe_private *afe_priv =3D afe->platform_priv;
-> +
-> +       /* IPM2.0: Use HOPPING & 26M */
-> +       /* set in the regmap_register_patch */
-> +
-> +       mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_A=
-UDIO_H],
-> +                                 afe_priv->clk[MT8196_CLK_VLP_CLK26M]);
-
-There's no point in selecting a parent on a clock that is going to be disab=
-led.
-
-> +
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_AUDI=
-O_H]);
-> +       mt8196_afe_set_clk_parent(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_A=
-UDIOINTBUS],
-> +                                 afe_priv->clk[MT8196_CLK_VLP_CLK26M]);
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_VLP_MUX_AUDI=
-OINTBUS]);
-> +       mt8196_afe_disable_clk(afe, afe_priv->clk[MT8196_CLK_TOP_ADSP_SEL=
-]);
-> +       return 0;
-> +}
-> +
-> +int mt8196_afe_enable_main_clock(struct mtk_base_afe *afe)
-> +{
-> +       mt8196_afe_enable_top_cg(afe, MT8196_AUDIO_26M_EN_ON);
-> +       return 0;
-> +}
-> +
-> +int mt8196_afe_disable_main_clock(struct mtk_base_afe *afe)
-> +{
-> +       mt8196_afe_disable_top_cg(afe, MT8196_AUDIO_26M_EN_ON);
-> +       return 0;
-> +}
-> +
-> +int mt8196_init_clock(struct mtk_base_afe *afe)
-> +{
-> +       struct mt8196_afe_private *afe_priv =3D afe->platform_priv;
-> +       int ret =3D 0;
-> +       int i =3D 0;
-> +
-> +       afe_priv->clk =3D devm_kcalloc(afe->dev, MT8196_CLK_NUM, sizeof(*=
-afe_priv->clk),
-> +                                    GFP_KERNEL);
-> +       if (!afe_priv->clk)
-> +               return -ENOMEM;
-> +
-> +       for (i =3D 0; i < MT8196_CLK_NUM; i++) {
-> +               afe_priv->clk[i] =3D devm_clk_get(afe->dev, aud_clks[i]);
-> +               if (IS_ERR(afe_priv->clk[i])) {
-> +                       dev_err(afe->dev, "devm_clk_get %s fail\n", aud_c=
-lks[i]);
-> +                       return PTR_ERR(afe_priv->clk[i]);
-> +               }
-> +       }
-> +
-
-> +       afe_priv->vlp_ck =3D syscon_regmap_lookup_by_phandle(afe->dev->of=
-_node,
-> +                                                          "vlpcksys");
-> +       if (IS_ERR(afe_priv->vlp_ck)) {
-> +               dev_err(afe->dev, "Cannot find vlpcksys\n");
-> +               return PTR_ERR(afe_priv->vlp_ck);
-> +       }
-
-As mentioned, the tuner bits will be moved to the clk driver, so this
-bit is no longer needed.
-
-> +
-> +       mt8196_afe_apll_init(afe);
-> +
-> +       ret =3D mt8196_afe_disable_apll(afe);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return 0;
-> +}
-> +
-> diff --git a/sound/soc/mediatek/mt8196/mt8196-afe-clk.h b/sound/soc/media=
-tek/mt8196/mt8196-afe-clk.h
-> new file mode 100644
-> index 000000000000..854da3844104
-> --- /dev/null
-> +++ b/sound/soc/mediatek/mt8196/mt8196-afe-clk.h
-> @@ -0,0 +1,80 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * mt8196-afe-clk.h  --  Mediatek MT8196 AFE Clock Control definitions
-> + *
-> + * Copyright (c) 2024 MediaTek Inc.
-> + *  Author: Darren Ye <darren.ye@mediatek.com>
-> + */
-> +
-> +#ifndef _MT8196_AFE_CLOCK_CTRL_H_
-> +#define _MT8196_AFE_CLOCK_CTRL_H_
-> +
-> +/* vlp_cksys_clk: 0x1c016000 */
-> +#define VLP_APLL1_TUNER_CON0 0x02a4
-> +#define VLP_APLL2_TUNER_CON0 0x02a8
-> +
-> +/* vlp apll1 tuner default value*/
-> +#define VLP_APLL1_TUNER_CON0_VALUE 0x6f28bd4d
-> +/* vlp apll2 tuner default value + 1*/
-> +#define VLP_APLL2_TUNER_CON0_VALUE 0x78fd5265
-> +
-> +/* APLL */
-> +#define APLL1_W_NAME "APLL1"
-> +#define APLL2_W_NAME "APLL2"
-> +
-> +enum {
-> +       MT8196_APLL1 =3D 0,
-> +       MT8196_APLL2,
-> +};
-> +
-> +enum {
-> +       /* vlp clk */
-> +       MT8196_CLK_VLP_MUX_AUDIOINTBUS,
-> +       MT8196_CLK_VLP_MUX_AUD_ENG1,
-> +       MT8196_CLK_VLP_MUX_AUD_ENG2,
-> +       MT8196_CLK_VLP_MUX_AUDIO_H,
-> +       MT8196_CLK_VLP_CLK26M,
-> +       /* pll */
-> +       MT8196_CLK_TOP_APLL1_CK,
-> +       MT8196_CLK_TOP_APLL2_CK,
-> +       /* divider */
-> +       MT8196_CLK_TOP_APLL1_D4,
-> +       MT8196_CLK_TOP_APLL2_D4,
-> +       MT8196_CLK_TOP_APLL12_DIV_I2SIN0,
-> +       MT8196_CLK_TOP_APLL12_DIV_I2SIN1,
-> +       MT8196_CLK_TOP_APLL12_DIV_FMI2S,
-> +       MT8196_CLK_TOP_APLL12_DIV_TDMOUT_M,
-> +       MT8196_CLK_TOP_APLL12_DIV_TDMOUT_B,
-> +       /* mux */
-> +       MT8196_CLK_TOP_MUX_AUD_1,
-> +       MT8196_CLK_TOP_MUX_AUD_2,
-> +       MT8196_CLK_TOP_I2SIN0_M_SEL,
-> +       MT8196_CLK_TOP_I2SIN1_M_SEL,
-> +       MT8196_CLK_TOP_FMI2S_M_SEL,
-> +       MT8196_CLK_TOP_TDMOUT_M_SEL,
-> +       MT8196_CLK_TOP_ADSP_SEL,
-> +       /* top 26m */
-> +       MT8196_CLK_TOP_CLK26M,
-> +       MT8196_CLK_NUM,
-
-The list should be reworked based on review comments to the DT bindings
-and our offline discussions. Basically only clocks that directly feed
-into the hardware, or otherwise have a reason to be referenced should
-be listed.
-
-
-ChenYu
-
-> +};
-> +
-> +struct mtk_base_afe;
-> +
-> +int mt8196_mck_enable(struct mtk_base_afe *afe, int mck_id, int rate);
-> +int mt8196_mck_disable(struct mtk_base_afe *afe, int mck_id);
-> +int mt8196_get_apll_rate(struct mtk_base_afe *afe, int apll);
-> +int mt8196_get_apll_by_rate(struct mtk_base_afe *afe, int rate);
-> +int mt8196_get_apll_by_name(struct mtk_base_afe *afe, const char *name);
-> +int mt8196_init_clock(struct mtk_base_afe *afe);
-> +int mt8196_afe_enable_clk(struct mtk_base_afe *afe, struct clk *clk);
-> +void mt8196_afe_disable_clk(struct mtk_base_afe *afe, struct clk *clk);
-> +int mt8196_apll1_enable(struct mtk_base_afe *afe);
-> +void mt8196_apll1_disable(struct mtk_base_afe *afe);
-> +int mt8196_apll2_enable(struct mtk_base_afe *afe);
-> +void mt8196_apll2_disable(struct mtk_base_afe *afe);
-> +int mt8196_afe_enable_main_clock(struct mtk_base_afe *afe);
-> +int mt8196_afe_disable_main_clock(struct mtk_base_afe *afe);
-> +int mt8196_afe_enable_reg_rw_clk(struct mtk_base_afe *afe);
-> +int mt8196_afe_disable_reg_rw_clk(struct mtk_base_afe *afe);
-> +
-> +#endif
-> --
-> 2.45.2
->
->
