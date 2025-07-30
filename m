@@ -1,97 +1,128 @@
-Received: from e3i331.smtp2go.com (e3i331.smtp2go.com [158.120.85.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAF9238152
-	for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 18:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.85.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B371C5F2C
+	for <linux-sound@vger.kernel.org>; Wed, 30 Jul 2025 04:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753813199; cv=none; b=q3pb5ASJUoJPKJPoF+XkeJlH5fu2SvpEJIh50oFU/ijHfV3oJKTt78nZ5vFw1iAoWugOfCiGUAk/TJOgfP/6Fw8Opizw58BQX61OwTbt+fxNjrLxUzMqpGrEBvD1rsmgkvIk+PhEjDWmQO3WkInF84n/ydbCJuowHBqsjWghWi8=
+	t=1753849302; cv=none; b=Olnp1unfQVoEIjYNX2JE5Xl49hgXZsBguU9OJJCvXONKGBMpqgVp3ZwD6IUptE48PTFOeGBHVYLN13Y7I2wH7PT89C7vGqEw/2q3I3mRMsIBpcOS9uSdVlp//Q8EFd9lHzht3dkUqrzP1PhGkCh5nHD2PZlmRz6Mlbjfb3IipL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753813199; c=relaxed/simple;
-	bh=8cZ8iZ8qtV7gGNyVIsY/ItajFVHqRLfZExe/pKoKmuU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=t1zQETBNuhx72JQBO76hAp9VZMtaoufZQpIhV/wBn9SCEsOJwMVf46SFqwp4IUVrEMSRlsTKJROOK7JvK0qtYwokhrqnFXBXwmKrSN/ng82ZRBhIZspj5Kd4JQHlmhsCN5dYgOyfOZ6bV2RTGpsFPXQqAs50sPLu/PlRY6nK820=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev; spf=pass smtp.mailfrom=em1255854.medip.dev; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=yZ0z/yOK; dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b=AJI3FRAo; arc=none smtp.client-ip=158.120.85.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=medip.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1255854.medip.dev
+	s=arc-20240116; t=1753849302; c=relaxed/simple;
+	bh=+yVIEwWI/pytYe+qFiWwkZsx+4eYlSH05Mm/XDATRc4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SWX0C+C6p9eI/HtEAURGvMxmNzzx0wu7OgNwdxjxfC/K2K7odtgASQM6Az0A1dp7jvCd9F2lmUF+Pcn/F5hXw6kjSXNJwvmwAiVeV6IDvtHIJNiLMorg1B6el9gGhWEkT4I75K7BHFEFSqm867T/t963m3ccDPEs3kVXUc2vLH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PW4ffQOA; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="yZ0z/yOK";
-	dkim=pass (2048-bit key) header.d=medip.dev header.i=@medip.dev header.b="AJI3FRAo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
- i=@smtpservice.net; q=dns/txt; s=a1-4; t=1753813195; h=feedback-id :
- x-smtpcorp-track : date : message-id : to : subject : from : reply-to
- : sender : list-unsubscribe : list-unsubscribe-post;
- bh=W62LCwnhZ9/NUInAK1TZuyBIe4Xaetrqj46TOlKwxq0=;
- b=yZ0z/yOKAz3mX96fwhM8RKBbFgiNINjXl0MVA+RDsPomV8lUc0iv/zTyUysLfhialPlp9
- khOvcK7GmPqm1oiq5KvI0gZEpDlpAr1+yjSWyeE0iSboz2NGFAXCvbGxsU3fbRCLprWVt7+
- fKkiE5ZcTlpoe/xbMnvVWBvpWRW9OQke9PnkwL1kwZ/m2Hh4ZGtJWgW5jgQLzEOp+j30s9Z
- 7GUnaosdJ78uGyLYYUqoT0+uVIpCJ3IJoNzZmBGP5LPhCDds+K4z8uJLYXkMWwPKNuOLNN7
- wHl+L1RpSPapwb+9eqCkDf2qhuDnsgng5zy/HlLSwm75K2Q6u4YhjjU8V/TQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=medip.dev;
- i=@medip.dev; q=dns/txt; s=s1255854; t=1753813195; h=from : subject :
- to : message-id : date;
- bh=W62LCwnhZ9/NUInAK1TZuyBIe4Xaetrqj46TOlKwxq0=;
- b=AJI3FRAodUpOAPstQzmAqujyEowsK3foHxnhz8LrvcBDHh0G16K1RqQYwTgwDMaNbICRw
- TkllPuOlTDKLBWtVHyGF768M8ZhcdKXKP0y45MPw/H5iTdyguYi6PwadvghK4atyXb6w6je
- oeb+a1LhH1vN4grsDqAs5nkac2MRgH6QQ5sK+vxt2gZ171Jo2BWw+1zps5fa7aXn8pFeEk+
- 33zfcz+Zu7u44ZAWK9ITCoYQ3FRTdVvzda9b7wWyl2+r2ShsHyLPIYhL2md2xs8H1n/1QOF
- I+Efx3wwBhjODuN2Kh9D8UN3hetFxswy/TO5itk1/gNB1S55weuHJKr2x+wQ==
-Received: from [10.152.250.198] (helo=vilez)
-	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98.1-S2G)
-	(envelope-from <edip@medip.dev>)
-	id 1ugovR-FnQW0hPr2KU-OeZJ;
-	Tue, 29 Jul 2025 18:19:47 +0000
-From: edip@medip.dev
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Edip Hazuri <edip@medip.dev>,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: hda/realtek - Fix mute LED for HP Victus 16-d1xxx (MB 8A26)
-Date: Tue, 29 Jul 2025 21:18:50 +0300
-Message-ID: <20250729181848.24432-4-edip@medip.dev>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250729181848.24432-2-edip@medip.dev>
-References: <20250729181848.24432-2-edip@medip.dev>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PW4ffQOA"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-615460d9897so3560872a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 21:21:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1753849298; x=1754454098; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q6M9EqKm5huN0PkmwCjBhaBvdR1Q+MeBLJNqjDIEMaY=;
+        b=PW4ffQOA31E41A1bTvqoVopQdHlQXuCj3j+jvy+lKrKX8LTdLKVYMxnhANqxZegi7g
+         RUbNUDnAgl6lDnaBlW49qQxtKYu+TEJ4r6nbLlkfXHSd+7OCElG3zCjfa151NrkHYyG2
+         8yk562dTkHtMvJiH0+9NoMcep/Ek8NufeyDg4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753849298; x=1754454098;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q6M9EqKm5huN0PkmwCjBhaBvdR1Q+MeBLJNqjDIEMaY=;
+        b=nyDg2VveqNYieVSZKSx8oV4S14QkcN0p3ud4biApvnDUMv8AjXyCUrI/P8jrEaTdp9
+         iM/l7PwpqAQrtC7aD4bCkn0vzJRxD4ejbwEf2XVWea4DYPlL4Fcek+a5eYbL5BBHvc1N
+         zYhAs6EMy/N7jUszDdFZv4SLZJLOQFx69f4y4ziLZz2JUt8Lz9FVDXEfoNjMQn3DXJXI
+         DfUN7tfZIdSGU8CQSX+J7mrIxCQgM6aRXy6LkdrARk6VbtyER8yqTOJKPe7OPfZB1LgC
+         ncEI3hcJ5VUvJH+D/bzEZcrtnE0EA33wFgFTB8AYX2Qo26WP/01lXk6NdGyW9FFvDVfb
+         ix0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWoR7HU9hcvavFX9u8CJL+6uhuzjEzGXrZN16wKIdbJNQgQdCCgXfl2tc4DuTf+KruAervU0+iu1Bfydg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyte+F/0jQrBwuakDhYXfW32UIjhN7EiyNkNM7XfJ/6OesKXTX8
+	IqyeDNioUuqJQd24rpGdS+ARs+R3NmQDrSJ7UEQASnebph3k0cX5SsB1hDT3tRizevFcMqOrK/e
+	5+8kY1oU=
+X-Gm-Gg: ASbGncsjFS0ShKfWIe99r00nG01Z7Hhk5tSBPBiK38vF8e1ruN8Y9HQMnQwkmW2vz1U
+	AE2OcrznscXWxdiElJUTykA+xI4phs/HIw0bNL9REq2C5V1rrw3LFN9Wwbdhu+u3MkWzcV29Fh+
+	2pydZ86JSXq8hBpn2J267XxGX1aRpZ+w9p6/Y2GDbqRoVOKho5FS5auEAnal26xLBy1eA5R9juY
+	biTACGe/g4F2tWhFiT5N2DGEq7SzTds1lMq7k7FMbhRsFW9LF+0gZz12e6EM+Hhs7QSHPrrZGsi
+	Prvv/MFjzLGHqSBoS+fnRYpJracmfmb4g+X+5ITTJvuAcQj6lV1NNX75PnasTmpYWvo/HQ+1avk
+	MgF6b7Kp60ao7iwVJOT1/VoyuhtHRFvvy910ySpsFvfgMDTsc6aLJYN1gxnjVgLFA7VGynbvI
+X-Google-Smtp-Source: AGHT+IHrxkY49r/KjIgjKcOqeVrlB/TY4QQKQFOOFAmfNS0yPs5uqd0tLd0xYdW9AIcskM4lX+Xe6w==
+X-Received: by 2002:a17:907:7ba1:b0:ae9:c849:fae0 with SMTP id a640c23a62f3a-af8fda6b1a7mr225653466b.58.1753849298372;
+        Tue, 29 Jul 2025 21:21:38 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af635a6314asm687866166b.91.2025.07.29.21.21.37
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Jul 2025 21:21:37 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-615460d9897so3560867a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 29 Jul 2025 21:21:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX0jyea72mwoJ2yUXQ7LNc+3s0IR9QIbAXfgHgsnofwSSrA26f2he1gBin8pDrJxU2DZW7qRnWcTu67sg==@vger.kernel.org
+X-Received: by 2002:a05:6402:1e92:b0:615:4c9f:f7cd with SMTP id
+ 4fb4d7f45d1cf-61586ec8aa9mr2125416a12.7.1753849297125; Tue, 29 Jul 2025
+ 21:21:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 1255854m:1255854ay30w_v:1255854sDUZirJ3h6
-X-smtpcorp-track: BhIW7NfjkIDH.wYmRbTfmXfjy.YoguswAo6Mx
+References: <87ecu4idvc.wl-tiwai@suse.de>
+In-Reply-To: <87ecu4idvc.wl-tiwai@suse.de>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 29 Jul 2025 21:21:20 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjj9DvOZtmTkoLtyfHmy5mNKy6q_96d9=4FUEDXre=cww@mail.gmail.com>
+X-Gm-Features: Ac12FXzaCg0v1L18IAkSLioNqM5JZfdRDn7g4517txlEqP3wNFRnIiRiJ4NzmgM
+Message-ID: <CAHk-=wjj9DvOZtmTkoLtyfHmy5mNKy6q_96d9=4FUEDXre=cww@mail.gmail.com>
+Subject: Re: [GIT PULL] sound updates for 6.17-rc1
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Linux Sound Mailing List <linux-sound@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Edip Hazuri <edip@medip.dev>
+On Fri, 25 Jul 2025 at 06:44, Takashi Iwai <tiwai@suse.de> wrote:
+>
+> This includes lots of file shuffling due to HD-audio code
+> reorganization and many trivial changes, but otherwise there shouldn't
+> be much surprise from the functionality POV.
 
-My friend have Victus 16-d1xxx with board ID 8A26, the existing quirk
-for Victus 16-d1xxx wasn't working because of different board ID
+Hmm. I suspect I have been bitten by this on my laptop. I no longer have sound.
 
-Tested on Victus 16-d1015nt Laptop. The LED behaviour works
-as intended.
+I also suspect that it's purely because "make oldconfig" doesn't work,
+and probably turned off my old Intel HDA settings. Or something.
 
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Edip Hazuri <edip@medip.dev>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+Renaming config parameters is *bad*. I've harped on the Kconfig phase
+of the kernel build probably being our nastiest point, and a real pain
+point to people getting involved with development simply because
+building your own kernel can be so daunting with hundreds of fairly
+esoteric questions.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 77322ff8a6..d0f1d01bfa 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6470,6 +6470,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
-+	SND_PCI_QUIRK(0x103c, 0x8a26, "HP Victus 16-d1xxx (MB 8A26)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8a28, "HP Envy 13", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8a29, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8a2a, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.50.1
+And it looks like this pull has basically made it all worse, by making
+previous answers to those esoteric questions null and void.
 
+Now, it could be something else - like a real actual bug in the code -
+but it does smell a bit like just silly Kconfig noise.
+
+My laptop seems to think I have headphones attached, and there is no
+sound. I think it's some generic HDA setup (the kernel messages do say
+"autoconfig for Generic").
+
+This is my bog-standard Intel laptop from many years ago (Dell xps13).
+I am seeing snd_hda_intel and hda_codec_hdmi, but it *used* to pick
+out ALC3271 and apparently that just magically went away
+
+I think that's realtek, but when I enable it, I get this mess of
+"which realtek", which I have no idea because the ALC3271 that the
+kernel used to print out is not mentioned.
+
+This was _singularly_ unhelpful. If the answer is "just enable
+everything because you can't know which codec you have", then why have
+the question in the first place?
+
+This whole "ask people questions that they cannot know the answer to"
+is a disease. And then the questions then randomly change, that's
+*worse*.
+
+             Linus
