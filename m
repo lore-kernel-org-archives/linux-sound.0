@@ -1,683 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE700275861;
-	Wed, 30 Jul 2025 09:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADE3273D95;
+	Wed, 30 Jul 2025 09:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753868173; cv=none; b=Eeulju9TaBm6ehnI4VhPHCCWyUwf1ryjX5dZqaunseb1B/HdIFb0JjZyuGTCrwiirLhtjzIFBxP8AqUJdR7qIoulATlCr7YJzxBo3zmLVYCkHAxMkyNa6sXV64Lh8oRaAJ7cgcsFtsDAobibWAiTqPZ2zRwSRzdc//IJULBhAOM=
+	t=1753868243; cv=none; b=rGNvbXugYgdTVyALkBYGEFIy5aV5uVeb7aD0foK3YY6hnuKDxUyTpu0mh3hMeXJ7Pfp5vSe60ivGV82qYHuSPCO/M8Ls2MOwaS/X8YqJkFQYB44XfdsdKh4W8cbC37ra4p8INgUOKby07eDZgbhAzp/2qQK07p306QPa4vVDP0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753868173; c=relaxed/simple;
-	bh=U7eQoDwMZXfDwuwVea0w+jYJ1TMWNsXv/5d12PtqCK4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ubiH8ej7ul88+8CzDevhwZXDjOnzPYcv4m8+6+11+9TM3fo36D2cQe2GMX6LdVm+rKbaW3BGTKImsieJh668T8yRiwZFdc5BUkxDFMHn10Gwq8u3fuN8kbdY+3diuqzMbY8CJxG5Jc33kYhJMIYDu2jS8WHxqlIssakksdoK5HU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P3Cze1Sx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753868243; c=relaxed/simple;
+	bh=6QTZt0b1cPPLNSSULV2L1y0naUCZF/1EHqcd3FtSxbA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eO2y9HEFB9mTT2HONLIlqmq7aVex5IAL7zF89xB7D5VfIPXAnOhuv+Lcv14JuzA5WKs/gAgE4ELIixXy5uqYTE4ny0VsCDDol5M08eZjMcCyne8Ifl5JaLwKA9OLhVe3fjZb9QeyX6B+peRMCF+pJz2ZCgSDv7zgBdQ/mvE9UBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KFkkwXjf; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P3Cze1Sx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77134C4CEFB;
-	Wed, 30 Jul 2025 09:35:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753868172;
-	bh=U7eQoDwMZXfDwuwVea0w+jYJ1TMWNsXv/5d12PtqCK4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=P3Cze1SxwkLKbJLG1vfxsWJMSu7uughnp8h8z/jfcLSusC7y2lNnWpwXYSYKof/RI
-	 pgw5X2hvPr3vpshyjAg/8KUszmUzrSDqQyU2nzBL0pa8fd1NyQmM2vLnJDW0aiL+6+
-	 bGecyZDOoFtJ2sP0ZoYIV2SZYn5HV1MGiLAdUvBFgrO4m5dcRjK613/Cw+nWCimvDx
-	 FL44Q4jW691/RrI0rcDoXytLvMAiIpuARGWDUePZM4GKk2w3vu0gZLKGX4ko774PIW
-	 AhQJCP+JzuaiFfueMW+88Y5kZM0abgIUeY26ug1ZfW+RCf6O8hXTEnChataQmCOT3F
-	 UHPFgP1QhJTmg==
-From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Wed, 30 Jul 2025 11:33:33 +0200
-Subject: [PATCH RFC 6/6] arm64: dts: qcom: x1e80100: Remove GENI protocol
- ID from DMA cells
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KFkkwXjf"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ae3cd8fdd77so1365413566b.1;
+        Wed, 30 Jul 2025 02:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753868239; x=1754473039; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i6YOO0TzbEQfaaf8W4aY2z1q9/mDeUmckMbIor0Gmtc=;
+        b=KFkkwXjf24bockVc6E0cJdfZHvY6yA4dYmspGNKa/1iZDaI8J5hJk8DSQPGoSa3VxO
+         m7AjfmUUFSq+qzObMrNYVMANY333HGnAFLdOYwGL0SQqhxoIFReAnFVSmfFlrLapy3vA
+         itmIi00qBqWjYwADiT4hFCL3ovtJTXdd+1s1+q8K+WN7KJyj3udsQ7SZer/jkYB5f5St
+         xDwjfq7L5i6n/Iyi9lPiz8Jct7DdmwEt7JRWXOwD9VUOzjRm9sikP+6nAIVXrXSFNp0L
+         0/unk6Pa+FfOg9VmEDs2+iyxLrOKFvD2gw5rwuvE3luRdF3ZaUouXY6du7uwpM879Blk
+         5v/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753868239; x=1754473039;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i6YOO0TzbEQfaaf8W4aY2z1q9/mDeUmckMbIor0Gmtc=;
+        b=plNP3K98qUvF8oNKoKujtcaYkAhF00Yr2aMCbRAJujG71GwF/iqReqpmVT1FeMqA0G
+         uMq+LsrNyn6CRViRbiyzkPHDX2bmgZw+B/AD4NxkNYZ9OnhEDZzP3ZeZRZ0FNNrc6h17
+         S/nPOp4ovUbOK4LDgewONFdybcrL33qwzPYppENZoZawPRGNExOJGtZyslrZqRsE277G
+         NL5IrvSotCHa1MBKTEqi01BcmEAgIOu9CPNdIP5Uvz+qsgo8GSKrk2J2JaRnvLyFFzkD
+         lg4qt1lnEfeQmJZwDu13Ce8g7UauSDtfW5kywM+eEFxw+vXTXZM1wNikD6UFk/W+OU08
+         rQzw==
+X-Forwarded-Encrypted: i=1; AJvYcCW3hzqLiw6JSqi61U8Xoy5/Yukghv0S11cA/hLa3586I/wjUip79Ai4IXijaAngpKgDpXRDUwksWmml62Q=@vger.kernel.org, AJvYcCX5MgEPwrMWdCuNpe65j6XDh/6GL5+EgvwXipXPgaxPg0Iw4nJWzh+9M6s+N66ZtiSEvwNI3g9iBgQBa70=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKS0z5CY7e4NB+RC5dPTTwaGLNGTAPsj4G24tVZrlpRKume8Jr
+	Rsk9bgR0w9tUwa+5ncyJMvDo9zT+jnYHQL6ZBFcBoXUOVASJsBN+K3jCOOJvmlyqyRQTHg==
+X-Gm-Gg: ASbGncvgQ0g4xE1AXVGWo5xrFiLuWvSz0esyu+k5z7gb2IMfqqlOjrOg/QfJe5VxmM4
+	ePYZF2+unzwX88uPV03w81GADBs2j2GrO/hbCjF8t5SwKbt5qld1Tw54u6qALXCnfI9BEG+874V
+	PDQCmZpfZgC4fmuNJv0Q3pGIFodwowjxD5rtzH0NQR8mClWYj5w4Uiw17o4vc7+fpNLRFRalvda
+	SCf7KIWksuc5KjBGv9CQ9hBcj3Iys0F0I5IpfngULLi6T0+1xHhhL0G4U5dGDHXhRFUCn5E6UNX
+	+7VXZPS5xMqVrnhNuBMeX8gJUrbU1FXKcJIogI3dUngjLSwPsnD9JOwa3WagjKc4ZPl8LYv149I
+	CstCYvNir34G8
+X-Google-Smtp-Source: AGHT+IFVrjm/Gel7dBd1tQUVbUu9FUqdxDRDLKGo/ZG7N4mrpESqaZbBEBDPGVM6BhDW1FhkEaYKVw==
+X-Received: by 2002:a17:907:3d16:b0:ae8:e6f9:7cf with SMTP id a640c23a62f3a-af8fd73d200mr302379666b.23.1753868238850;
+        Wed, 30 Jul 2025 02:37:18 -0700 (PDT)
+Received: from mmk-tp ([139.179.215.86])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af6358d1abasm729312766b.63.2025.07.30.02.37.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Jul 2025 02:37:18 -0700 (PDT)
+From: Mahdi Khosravi <mmk1776@gmail.com>
+To: devicetree@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mahdi Khosravi <mmk1776@gmail.com>
+Subject: [PATCH] convert sound: realtek: alc5623 from txt to yaml
+Date: Wed, 30 Jul 2025 12:37:13 +0300
+Message-ID: <20250730093713.104003-1-mmk1776@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250730-topic-dma_genise_cookie-v1-6-b505c1238f9f@oss.qualcomm.com>
-References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
-In-Reply-To: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
-To: Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>, 
- Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Neal Gompa <neal@gompa.dev>, 
- Ludovic Desroches <ludovic.desroches@microchip.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Paul Cercueil <paul@crapouillou.net>, 
- Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
- Viresh Kumar <vireshk@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Frank Li <Frank.Li@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Taichi Sugaya <sugaya.taichi@socionext.com>, 
- Takao Orito <orito.takao@socionext.com>, 
- =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
- Manivannan Sadhasivam <mani@kernel.org>, Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Patrice Chotard <patrice.chotard@foss.st.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- =?utf-8?q?Am=C3=A9lie_Delaunay?= <amelie.delaunay@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Laxman Dewangan <ldewangan@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, 
- Viken Dadhaniya <quic_vdadhani@quicinc.com>, 
- Andi Shyti <andi.shyti@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
- dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
- imx@lists.linux.dev, linux-actions@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
- linux-tegra@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org, 
- linux-spi@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1753868049; l=18562;
- i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=eDOVFQ3sSBau28xDU0M0uPPUVN4g8jr8B0d8rvg5egs=;
- b=xH4jh5rJF8B145J7w0kFZHTYYTom25yvk5j1qw11KTCOGB0+ZcbC18dRuZ105iOgHDfhfDxBn
- cEAuRlJPY88DvQulmsLTFg0yEf8bqDuTx1ByVsle1gQfPH4q1Ggpi4H
-X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
+Content-Transfer-Encoding: 8bit
 
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+I converted the alc5623 audio codec binding from text to DT schema.
+This is my first try and I used make dt_binding_check & make dtbs_check to verify
+without getting any errors.
 
-In preparation for coalescing the duplicate nodes referring to the same
-GENI serial engines running different protocol firmware, remove the no
-longer necessary protocol IDs from each of the GPI DMA consumers.
-
-Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Signed-off-by: Mahdi Khosravi <mmk1776@gmail.com>
 ---
- arch/arm64/boot/dts/qcom/x1e80100.dtsi | 198 ++++++++++++++++-----------------
- 1 file changed, 99 insertions(+), 99 deletions(-)
+ .../devicetree/bindings/sound/alc5623.txt     | 25 ----------
+ .../bindings/sound/realtek,alc5623.yaml       | 49 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 25 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/alc5623.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-index 5e9a8fa3cf96468b12775f91192cbd779d5ce946..0dc055c9660501f3e5e3ba87e1560125eba67730 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-@@ -844,7 +844,7 @@ gpi_dma2: dma-controller@800000 {
- 
- 			dma-channels = <12>;
- 			dma-channel-mask = <0x3e>;
--			#dma-cells = <3>;
-+			#dma-cells = <2>;
- 
- 			iommus = <&apps_smmu 0x436 0x0>;
- 
-@@ -890,8 +890,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 0 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 0 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 0>,
-+				       <&gpi_dma2 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -926,8 +926,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma2 0 0 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 0 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 0>,
-+				       <&gpi_dma2 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -962,8 +962,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 1 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 1 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 1>,
-+				       <&gpi_dma2 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -998,8 +998,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma2 0 1 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 1 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 1>,
-+				       <&gpi_dma2 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1034,8 +1034,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 2 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 2 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 2>,
-+				       <&gpi_dma2 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1070,8 +1070,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 2 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 2 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 2>,
-+				       <&gpi_dma2 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1106,8 +1106,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 3 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 3 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 3>,
-+				       <&gpi_dma2 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1142,8 +1142,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 3 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 3 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 3>,
-+				       <&gpi_dma2 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1178,8 +1178,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 4 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 4 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 4>,
-+				       <&gpi_dma2 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1214,8 +1214,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 4 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 4 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 4>,
-+				       <&gpi_dma2 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1250,8 +1250,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 5 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 5 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 5>,
-+				       <&gpi_dma2 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1286,8 +1286,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 5 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 5 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 5>,
-+				       <&gpi_dma2 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1347,8 +1347,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 6 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 6 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 6>,
-+				       <&gpi_dma2 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1383,8 +1383,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 6 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 6 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 6>,
-+				       <&gpi_dma2 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1419,8 +1419,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma2 0 7 QCOM_GPI_I2C>,
--				       <&gpi_dma2 1 7 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma2 0 7>,
-+				       <&gpi_dma2 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1455,8 +1455,8 @@ &config_noc SLAVE_QUP_2 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma2 0 7 QCOM_GPI_SPI>,
--				       <&gpi_dma2 1 7 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma2 0 7>,
-+				       <&gpi_dma2 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1489,7 +1489,7 @@ gpi_dma1: dma-controller@a00000 {
- 
- 			dma-channels = <12>;
- 			dma-channel-mask = <0x3e>;
--			#dma-cells = <3>;
-+			#dma-cells = <2>;
- 
- 			iommus = <&apps_smmu 0x136 0x0>;
- 
-@@ -1535,8 +1535,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 0 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 0 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 0>,
-+				       <&gpi_dma1 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1571,8 +1571,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma1 0 0 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 0 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 0>,
-+				       <&gpi_dma1 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1607,8 +1607,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 1 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 1 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 1>,
-+				       <&gpi_dma1 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1643,8 +1643,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma1 0 1 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 1 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 1>,
-+				       <&gpi_dma1 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1679,8 +1679,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 2 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 2 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 2>,
-+				       <&gpi_dma1 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1715,8 +1715,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 2 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 2 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 2>,
-+				       <&gpi_dma1 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1751,8 +1751,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 3 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 3 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 3>,
-+				       <&gpi_dma1 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1787,8 +1787,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 3 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 3 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 3>,
-+				       <&gpi_dma1 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1823,8 +1823,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 4 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 4 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 4>,
-+				       <&gpi_dma1 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1859,8 +1859,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 4 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 4 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 4>,
-+				       <&gpi_dma1 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1895,8 +1895,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 5 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 5 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 5>,
-+				       <&gpi_dma1 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1931,8 +1931,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 5 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 5 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 5>,
-+				       <&gpi_dma1 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -1967,8 +1967,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 6 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 6 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 6>,
-+				       <&gpi_dma1 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2003,8 +2003,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 6 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 6 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 6>,
-+				       <&gpi_dma1 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2064,8 +2064,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma1 0 7 QCOM_GPI_I2C>,
--				       <&gpi_dma1 1 7 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma1 0 7>,
-+				       <&gpi_dma1 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2100,8 +2100,8 @@ &config_noc SLAVE_QUP_1 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma1 0 7 QCOM_GPI_SPI>,
--				       <&gpi_dma1 1 7 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma1 0 7>,
-+				       <&gpi_dma1 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2134,7 +2134,7 @@ gpi_dma0: dma-controller@b00000  {
- 
- 			dma-channels = <12>;
- 			dma-channel-mask = <0x3e>;
--			#dma-cells = <3>;
-+			#dma-cells = <2>;
- 
- 			iommus = <&apps_smmu 0x456 0x0>;
- 
-@@ -2179,8 +2179,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 0 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 0 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 0>,
-+				       <&gpi_dma0 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2215,8 +2215,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma0 0 0 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 0 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 0>,
-+				       <&gpi_dma0 1 0>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2251,8 +2251,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 1 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 1 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 1>,
-+				       <&gpi_dma0 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2287,8 +2287,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_120mhz>;
- 
--				dmas = <&gpi_dma0 0 1 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 1 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 1>,
-+				       <&gpi_dma0 1 1>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2323,8 +2323,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 2 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 2 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 2>,
-+				       <&gpi_dma0 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2384,8 +2384,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 2 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 2 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 2>,
-+				       <&gpi_dma0 1 2>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2420,8 +2420,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 3 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 3 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 3>,
-+				       <&gpi_dma0 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2456,8 +2456,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 3 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 3 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 3>,
-+				       <&gpi_dma0 1 3>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2492,8 +2492,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 4 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 4 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 4>,
-+				       <&gpi_dma0 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2528,8 +2528,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 4 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 4 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 4>,
-+				       <&gpi_dma0 1 4>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2564,8 +2564,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 5 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 5 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 5>,
-+				       <&gpi_dma0 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2600,8 +2600,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 5 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 5 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 5>,
-+				       <&gpi_dma0 1 5>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2636,8 +2636,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 6 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 6 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 6>,
-+				       <&gpi_dma0 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2672,8 +2672,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 6 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 6 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 6>,
-+				       <&gpi_dma0 1 6>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2708,8 +2708,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				required-opps = <&rpmhpd_opp_low_svs>;
- 
--				dmas = <&gpi_dma0 0 7 QCOM_GPI_I2C>,
--				       <&gpi_dma0 1 7 QCOM_GPI_I2C>;
-+				dmas = <&gpi_dma0 0 7>,
-+				       <&gpi_dma0 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-@@ -2744,8 +2744,8 @@ &config_noc SLAVE_QUP_0 QCOM_ICC_TAG_ACTIVE_ONLY>,
- 				power-domains = <&rpmhpd RPMHPD_CX>;
- 				operating-points-v2 = <&qup_opp_table_100mhz>;
- 
--				dmas = <&gpi_dma0 0 7 QCOM_GPI_SPI>,
--				       <&gpi_dma0 1 7 QCOM_GPI_SPI>;
-+				dmas = <&gpi_dma0 0 7>,
-+				       <&gpi_dma0 1 7>;
- 				dma-names = "tx",
- 					    "rx";
- 
-
+diff --git a/Documentation/devicetree/bindings/sound/alc5623.txt b/Documentation/devicetree/bindings/sound/alc5623.txt
+deleted file mode 100644
+index 26c86c98d671..000000000000
+--- a/Documentation/devicetree/bindings/sound/alc5623.txt
++++ /dev/null
+@@ -1,25 +0,0 @@
+-ALC5621/ALC5622/ALC5623 audio Codec
+-
+-Required properties:
+-
+- - compatible:	"realtek,alc5623"
+- - reg:		the I2C address of the device.
+-
+-Optional properties:
+-
+- - add-ctrl:	  Default register value for Reg-40h, Additional Control
+-		  Register. If absent or has the value of 0, the
+-		  register is untouched.
+-
+- - jack-det-ctrl: Default register value for Reg-5Ah, Jack Detect
+-		  Control Register. If absent or has value 0, the
+-		  register is untouched.
+-
+-Example:
+-
+-	alc5621: alc5621@1a {
+-		compatible = "alc5621";
+-		reg = <0x1a>;
+-		add-ctrl = <0x3700>;
+-		jack-det-ctrl = <0x4810>;
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
+new file mode 100644
+index 000000000000..98524d06458c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
+@@ -0,0 +1,49 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/realtek,alc5623.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ALC5621/ALC5622/ALC5623 audio Codec
++
++maintainers:
++  - Mahdi Khosravi <mmk1776@gmail.com>
++
++properties:
++  compatible:
++    const: realtek,alc5623
++
++  reg:
++    maxItems: 1
++
++  add-ctrl:
++    description:
++      Default register value for Reg-40h, Additional Control Register. If absent
++      or has the value of 0, the register is untouched.
++    type: object
++
++  jack-det-ctrl:
++    description:
++      Default register value for Reg-5Ah, Jack Detect Control Register. If absent
++      or has value 0, the register is untouched.
++    type: object
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            compatible = "realtek,alc5632";
++            reg = <0x1a>;
++            add-ctrl = <0x3700>;
++            jack-det-ctrl = <0x4810>;
++        };
++    };
 -- 
 2.50.1
 
