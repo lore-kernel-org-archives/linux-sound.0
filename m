@@ -1,92 +1,92 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF19A1DA60D
-	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 15:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B07CEAC6
+	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 15:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753974078; cv=none; b=Mf16h2EMMN2y6lju28jdpgiLklpkV/ldRMVohUmTTMzWqfm9i0D/cGWASj1hM5La2+6fb8bZhCiv/k+WppzSDboqUk6zG47H6wIUvkyE9GQI4Za1DPwk8gclP/p56UxjPMtuEvGdqu4fqCO6jGSnNid8pVKPUi/HdruYqH1nlN4=
+	t=1753974175; cv=none; b=p1R9+13E9OIdIE7PSBvxCK7CNvlkMxSB/cXP/7XZjDsdT6qIO2PzeyNs8W1JBTru9Qh1utnL2XwKtl1caB0f9KFphPB3La3uo8CtLk9G/kM/RPXo0qOfYlPMfPgynpC2I/mJjv/IyOCKeqcWnLE1KufCXlF1qyRlmBuUSa/CP7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753974078; c=relaxed/simple;
-	bh=tX0sLmZ4usnOl0vNommFRZXu6h5rRawTfuBmrTDBT3A=;
+	s=arc-20240116; t=1753974175; c=relaxed/simple;
+	bh=u4Pi+O6lI3yHDxb4aitwkcmubgdC5V4iIugleQEtQFw=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XpSATsbuqd/WgUvCyZFpq2wD0qpyvz955BI0/KiXsHe8s2T3PTTqwdtbbaEQJXQbQmoKi0nZyV3CuoU93CrbzEfHKU980IpR1lcP88WFyJEby7ER7b8u8UKKXh1qOc6hyI/DMBu0c2j9gMdJJ4xfDLd5I3j8/KZUM80wOplUyFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=obvIInBR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uG0wPfh9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=t6N4CZeK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mUAfWiPs; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=VXgPM2jWEuwfgM4dBF55YgdJOnm9JrwNNi2qtbKt81sKpxs2V9a0rlH1wQzZVbBLOt3aZlnDkDOb+UkusqmsHtklMZUTRyfNwdC6U8r1UbCp+X5a82LnTaeoBB6j/rpkgPwzTpiykYuICVgtZEzyauGy/8JRqHE0tZqU9pX5HrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NiX9QtKc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lYBpol9o; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mmXKQ5t/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XgyjxJvh; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="obvIInBR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uG0wPfh9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t6N4CZeK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mUAfWiPs"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NiX9QtKc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lYBpol9o";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mmXKQ5t/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XgyjxJvh"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B5DE21B1F;
-	Thu, 31 Jul 2025 15:01:06 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6F2B41F80C;
+	Thu, 31 Jul 2025 15:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753974071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1753974167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QmhA9IC2ENmhsJp5JcAl0jJa35akCc0R8z+TgcMb6oY=;
-	b=obvIInBRkLngks1+lEPKK6tcqFQMbmt/isOteDxTsgUu/yzrjvH+FbLzbtPSaNhRCAP7aI
-	am6zqndEXyOyOabw4i4mPI1nOB80o/ddWvEuf176AZ9jaMvWv8VdKLl6Df1fhnavzf0m0Y
-	JbR5rN1PEfNIEsW/lT5R2FyPmESqook=
+	bh=JhMZ2WGYNcjGe2YN1a1sOTxLRB2mHVM2V8K9nUJHQ04=;
+	b=NiX9QtKcoPsCtfrCOp23lOHvu/cpnJCLWpTrqMKYAmmdcoZyv35I4iMKf7cM1H8wEAKUSI
+	lobQysWv6e3w15g8blEcvhMZoUCzkUYwU8lQe3n3mOfntq3bN4D1nsvvVwypzj9FmlW+8R
+	/8oUmjPiK7LBzN34FzV+68jzX4hV1EE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753974071;
+	s=susede2_ed25519; t=1753974167;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QmhA9IC2ENmhsJp5JcAl0jJa35akCc0R8z+TgcMb6oY=;
-	b=uG0wPfh9O/M0FhgV3ogl9Tzn98tbIVzyo2pivgqT58OF5XPMQA5NDEu9aQ1eQIZ7ZIrdH5
-	uMyvnsnYuT+FcaBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=t6N4CZeK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mUAfWiPs
+	bh=JhMZ2WGYNcjGe2YN1a1sOTxLRB2mHVM2V8K9nUJHQ04=;
+	b=lYBpol9oRbrX2ahWC7W67rbLQG3J2rwxfpMH7Gc3fSQ9gC6OX72e6A8AoCNlflKCwHf5Gc
+	yidAJ0ANdySq4aCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="mmXKQ5t/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XgyjxJvh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753974066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1753974162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QmhA9IC2ENmhsJp5JcAl0jJa35akCc0R8z+TgcMb6oY=;
-	b=t6N4CZeKLkwRdJcyvy3K+9dBopfyb/51bs3HIRfahWpKwxdlVSBIAWvCQKZBecak+N+w+o
-	uLDI5N4ilMMffa+d3nFe7gLUhuxrdJqXhk3grI63WZtkwt+9YOP7+VBaudSYGgltlJ8B25
-	aVx6Nd6xNk1DbH05h2sna9Cg+FFsRPU=
+	bh=JhMZ2WGYNcjGe2YN1a1sOTxLRB2mHVM2V8K9nUJHQ04=;
+	b=mmXKQ5t/BEtkFPkXM5vl4iHVOXRW2Qc0H0HPAmQDZZzSLTXSpt1UyH7NARfeNBJyyDpJB4
+	Trxfa5PTJfc89b43DihRhuAGacFMLlqZbEiJL0cK56Rz7uQGL5nHHJZOxeYDbHuu7dYS/3
+	fWMqSQjVUs5BsDX7vaxnOUcj7kCRfzE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753974066;
+	s=susede2_ed25519; t=1753974162;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QmhA9IC2ENmhsJp5JcAl0jJa35akCc0R8z+TgcMb6oY=;
-	b=mUAfWiPslKRnTd3CoMRNjeDyIz/yLdepkmZqSNRZLvhycbJHdJBvC0RJw//DZh9Gbbbzex
-	H6e7ZWLP4ZP0ffBg==
+	bh=JhMZ2WGYNcjGe2YN1a1sOTxLRB2mHVM2V8K9nUJHQ04=;
+	b=XgyjxJvhNzF8fJHnW9vGVoN3v8XyPtoG0NfdXJCVmtJusTuCtCHm7b8a9GkkH1802symqG
+	rsutd0a0CcAVZnCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E758113876;
-	Thu, 31 Jul 2025 15:01:05 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A42913876;
+	Thu, 31 Jul 2025 15:02:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NJtENzGFi2gnDAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 31 Jul 2025 15:01:05 +0000
-Date: Thu, 31 Jul 2025 17:01:05 +0200
-Message-ID: <87h5ysqua6.wl-tiwai@suse.de>
+	id cFUjCZKFi2ifDAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 31 Jul 2025 15:02:42 +0000
+Date: Thu, 31 Jul 2025 17:02:41 +0200
+Message-ID: <87frecqu7i.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: noble228@gmail.com
-Cc: tiwai@suse.com,
+To: WangYuli <wangyuli@uniontech.com>
+Cc: broonie@kernel.org,
 	perex@perex.cz,
-	hulianqin@vivo.com,
-	lina+kernel@asahilina.net,
-	cyan.vtb@gmail.com,
-	dan.carpenter@linaro.org,
-	bsevens@google.com,
+	tiwai@suse.com,
+	shuah@kernel.org,
 	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	"noble.yang" <noble.yang@comtrue-inc.com>
-Subject: Re: [PATCH] ALSA: usb-audio: Add DSD support for Comtrue USB Audio device
-In-Reply-To: <20250731110614.4070-1-noble228@gmail.com>
-References: <20250731110614.4070-1-noble228@gmail.com>
+	niecheng1@uniontech.com,
+	guanwentao@uniontech.com,
+	Jun Zhan <zhanjun@uniontech.com>
+Subject: Re: [PATCH] selftests: ALSA: fix memory leak in utimer test
+In-Reply-To: <DE4D931FCF54F3DB+20250731100222.65748-1-wangyuli@uniontech.com>
+References: <DE4D931FCF54F3DB+20250731100222.65748-1-wangyuli@uniontech.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -97,61 +97,67 @@ MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 3B5DE21B1F
+X-Rspamd-Queue-Id: 6F2B41F80C
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	RSPAMD_URIBL_FAIL(0.00)[uniontech.com:query timed out];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.com,perex.cz,vivo.com,asahilina.net,gmail.com,linaro.org,google.com,vger.kernel.org,comtrue-inc.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[kernel];
-	RCVD_TLS_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[comtrue-inc.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
-X-Spam-Score: -2.01
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+X-Spam-Score: -3.51
 
-On Thu, 31 Jul 2025 13:06:14 +0200,
-noble228@gmail.com wrote:
+On Thu, 31 Jul 2025 12:02:22 +0200,
+WangYuli wrote:
 > 
-> From: "noble.yang" <noble.yang@comtrue-inc.com>
+> Free the malloc'd buffer in TEST_F(timer_f, utimer) to prevent
+> memory leak.
 > 
-> The vendor Comtrue Inc. (0x2fc6) produces USB audio chipsets like
-> the CT7601 which are capable of Native DSD playback.
-> 
-> This patch adds QUIRK_FLAG_DSD_RAW for Comtrue (VID 0x2fc6), which enables
-> native DSD playback (DSD_U32_LE) on their USB Audio device. This has been
-> verified under Ubuntu 25.04 with JRiver.
-> 
-> 
-> Signed-off-by: noble.yang <noble.yang@comtrue-inc.com>
+> Reported-by: Jun Zhan <zhanjun@uniontech.com>
+> Signed-off-by: WangYuli <wangyuli@uniontech.com>
 
-Thanks, applied now.
-
-There were still a bit of white-space issues and I fixed in my side.
-At the next time, please try to run scripts/checkpatch.pl before
-submission.
+Thanks, applied now.  I added Fixes tag in my side.
 
 
 Takashi
+
+> ---
+>  tools/testing/selftests/alsa/utimer-test.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tools/testing/selftests/alsa/utimer-test.c b/tools/testing/selftests/alsa/utimer-test.c
+> index 32ee3ce57721..37964f311a33 100644
+> --- a/tools/testing/selftests/alsa/utimer-test.c
+> +++ b/tools/testing/selftests/alsa/utimer-test.c
+> @@ -135,6 +135,7 @@ TEST_F(timer_f, utimer) {
+>  	pthread_join(ticking_thread, NULL);
+>  	ASSERT_EQ(total_ticks, TICKS_COUNT);
+>  	pclose(rfp);
+> +	free(buf);
+>  }
+>  
+>  TEST(wrong_timers_test) {
+> -- 
+> 2.50.1
+> 
