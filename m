@@ -1,187 +1,101 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63DB275844
-	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 09:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9FE2745E;
+	Thu, 31 Jul 2025 10:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753954817; cv=none; b=lhYPpefxC2Y0cqxQrwt7kVBoEmDvBroQU2sGFOwmorsw/xrUssJq+zODS2n1ws7ojl00V8SZhWsOV8AJNGj2e25ADeE9nEmn2Axenl6GWdVfb3TMnB8XWMWQMKzvEJb0CTTPMmP92MWN2wiIXhIdpAEXRqOP7tl9Y+f3uKsR3WI=
+	t=1753956229; cv=none; b=d1w1dayfr+PJlzsizUGz7n6/j/Lm33neqJp3hRcGys4sRoCCcB5Is0Urz8QvU21c96crfU+qqWPcdmB4I1Bu+gSxDTWsSCZhxMeO1J5MXi1kwDH2CzUZuWYaNprNF9kGmcFvpmedjYW3Tstnf9qTlATapo7q7nS1K7lKVM0JHoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753954817; c=relaxed/simple;
-	bh=sLifnOl/GbOVPT4IF6hza70g8xjhqjbIx2M8RCtZK04=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z2gjueB1c9j6IOWErLgzKuzYcvzFFDo9eywWDtp28xb2qo9yZTVGAQlBNBIoAWzT6hmIYeSYYJGMPiolhOJQKOzotHCZwDDEqEBnXRtqW/rPPB9OwsczKgd9kCROY8mC6WvVuDn/8JyF2tU+fvXpA5B4pVMrQYTIgC/VkRavYAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LRVzrQor; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2MWOH+UT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LRVzrQor; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2MWOH+UT; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1753956229; c=relaxed/simple;
+	bh=NYyUk0BfoxJSHgtRZxMOL66q4WnmVTwmsB+hSch+B8E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OZ6ksSuPiMZXxPeSbpMTdfgx3J7w8uDERxkoAm2+qDaUNQuYLp1BYSDRMN6A2aq5OlCwvSDzcmuIAQwn9Y3icQTLL6H6AFw+fOWe0o/Lae0fIS2vLkasJ18550A2As9bQORxtrLxx653qWFQ7QWVNoQrv82uxIMB2QJNGOiRAlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=NvdMJhJV; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LRVzrQor";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2MWOH+UT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LRVzrQor";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2MWOH+UT"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3BAC21F399;
-	Thu, 31 Jul 2025 09:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753954808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZF49dnsCt4KAlTrf6s5AmrYnfBm9cKAIsmwUN0yhEK8=;
-	b=LRVzrQorMve0cj9i1RvaWc5Pz9VIAhklv851soMaRQeYTcPWEq+6dDBky8Ux/MwLq9Qpdf
-	Ao97X3Yr8/zAXKv9Eujiuv7roT3hSrvF+3PjPlRllWjj/8hau0CzCR8qKZWloI1yLioKMk
-	JVeFDNXW/yATwa86xOrH4XPiL6AFH0g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753954808;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZF49dnsCt4KAlTrf6s5AmrYnfBm9cKAIsmwUN0yhEK8=;
-	b=2MWOH+UTMO70oSYZjf6Z2iMjYOJG1O4C64XzeG2X474SsCPUW+2Chf+nePiFTtKH0WpHhE
-	Zq9C1kUQBlrmCsCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753954808; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZF49dnsCt4KAlTrf6s5AmrYnfBm9cKAIsmwUN0yhEK8=;
-	b=LRVzrQorMve0cj9i1RvaWc5Pz9VIAhklv851soMaRQeYTcPWEq+6dDBky8Ux/MwLq9Qpdf
-	Ao97X3Yr8/zAXKv9Eujiuv7roT3hSrvF+3PjPlRllWjj/8hau0CzCR8qKZWloI1yLioKMk
-	JVeFDNXW/yATwa86xOrH4XPiL6AFH0g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753954808;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZF49dnsCt4KAlTrf6s5AmrYnfBm9cKAIsmwUN0yhEK8=;
-	b=2MWOH+UTMO70oSYZjf6Z2iMjYOJG1O4C64XzeG2X474SsCPUW+2Chf+nePiFTtKH0WpHhE
-	Zq9C1kUQBlrmCsCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1395013A43;
-	Thu, 31 Jul 2025 09:40:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1bJwA/g5i2hnIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 31 Jul 2025 09:40:08 +0000
-Date: Thu, 31 Jul 2025 11:40:07 +0200
-Message-ID: <878qk4snpk.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="NvdMJhJV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1753956168;
+	bh=rjKuTPuvn/0L3fRxtEWaPjXi65f2W4SFl25Z6EWsa9w=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=NvdMJhJVEZA3BkeEmxiy/vk2Zgp+fln9XT34EfpZaKM4Pdfg0frx8ETWUMmX0Grfx
+	 ecfRv0LsRvaNfh3/WZYXF2mD+LK4d1orTLnOCfSfiZgTRzNRYXGFuBuzoEYW74lgs6
+	 AoLI9F8f6LtlJ1pyKaCeQMrjd7PfLWgnEZm0dxdc=
+X-QQ-mid: zesmtpip3t1753956155ta94c3d12
+X-QQ-Originating-IP: lFlTdFOtv/vQ4PDmfG4jxZM+QUOL3f0Kjketi0kav9A=
+Received: from avenger-e500 ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 31 Jul 2025 18:02:33 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 11522875294285116563
+EX-QQ-RecipientCnt: 11
+From: WangYuli <wangyuli@uniontech.com>
+To: broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	shuah@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] LoongArch: Update HD-audio codec configs
-In-Reply-To: <CAAhV-H6uDytXrsWv43uxNic9PH=ed1M3=29LTqCoYxzNdESkfw@mail.gmail.com>
-References: <20250731091109.16901-1-tiwai@suse.de>
-	<20250731091109.16901-3-tiwai@suse.de>
-	<CAAhV-H6uDytXrsWv43uxNic9PH=ed1M3=29LTqCoYxzNdESkfw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	niecheng1@uniontech.com,
+	guanwentao@uniontech.com,
+	WangYuli <wangyuli@uniontech.com>,
+	Jun Zhan <zhanjun@uniontech.com>
+Subject: [PATCH] selftests: ALSA: fix memory leak in utimer test
+Date: Thu, 31 Jul 2025 18:02:22 +0800
+Message-ID: <DE4D931FCF54F3DB+20250731100222.65748-1-wangyuli@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,linux.dev:email]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: NE5ka7lUpzLLneh95ioFD3VaxWF0GXWLqZk+7lJBUb14pvtdzJD4jQRh
+	IICcyN9E0JOU4TdGvLyLSj4L1faAxhmIW9znn9Ku96Y1fG1eICSyr1Xib7S0J+4R4uMnfNe
+	KZ639Cz08d3etYugVyzXiNcULXnDE5+vXmoWaB0PQVNaowSxrWKL/mAAQX+NZLJdUxMIZxy
+	pSAP86B5+005eh0LPVGNK+gTWCgpw4pOmuRgOO3/iTk+dEsojER+9zXvEHLJnNX7KUVdSCW
+	WeEpVsA42HAV0ifEI7sFb+Qtq8Sjq8x54fNgn7eK0lf6Jo+EJVCI18DebFxhFWv9nufdPPK
+	8M348hzx8vm5bRiiO/FAm14vKV5lGuIqNCTyn1r4dMcVWdfMhJbiZrD9yUHaPcbfTWQQ4GE
+	BuJ/RV5WRVbp76R8+HWSX/ztqEftV94rBDxlTc9bJJJOhkVFZkqhN3kACYCaBcBTLMlD58D
+	OqIKpU4k0Ul3J4yOKme5RZKDb2BR4A4Wbp0pqQfHvxxcoIJLE+cSS8whEkoSmX5K1OpjroA
+	joZ+6tgvnmzCmsIDEVQ7ftrw2X0fRB6rDuJbc9g3jXR0i5OpxLQvRmuVO15D3ogzTm9Q3a6
+	CUOVGks2C1gZevz/N4+rNHEz5OkiQ/xroD/IW9kkq466csGyFhkW7olkP6Fw+1YW41Tq/ci
+	bnAti+UGUGIJhaw1TiFkri7ZtaSjF54xpkyQp9amDPvRdefvF490XheoNsM8WwWdUollyRa
+	65cbxmjFfAHiP8ZEO0UO4L2LOSos3yFUSHxBqL9U+5lu4cw9zY8Zee4u972GCqJ4wyXmay0
+	52fMUAR4EtQh/40exJdnGS/uT3U7ceZ3gDUCjUnHAfk6WcVno8xk83lTcuypFr9nt5bm5UM
+	i0ZYlazgtE8N2b4WQdr+Wy0uEObxESXcjhv7nr9raTqyolcTegrKZRzAHI9zN0SmltUV03O
+	+lUxr4N2R8t3/t3/jHuD6wgxNC0Kk7hqQmhvRtjBU7PmgJE0F9aD8SPuWYsc32ZFFfEMfUn
+	ec07qMTVaeXEM69UCd2Zc50saWswRCQK4SCVl3Vd5hSRy0ght6
+X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+X-QQ-RECHKSPAM: 0
 
-On Thu, 31 Jul 2025 11:33:38 +0200,
-Huacai Chen wrote:
-> 
-> On Thu, Jul 31, 2025 at 5:11 PM Takashi Iwai <tiwai@suse.de> wrote:
-> >
-> > The HD-audio codec driver configs have been updated again the drivers
-> > got split with different kconfigs.
-> I'm sorry for making noise, but is SND_HDA_INTEL_HDMI_SILENT_STREAM
-> needed for common use? If yes, I also prefer it be enabled.
+Free the malloc'd buffer in TEST_F(timer_f, utimer) to prevent
+memory leak.
 
-It's better to be disabled, IMO.
-(And this config hasn't been changed at all.) 
+Reported-by: Jun Zhan <zhanjun@uniontech.com>
+Signed-off-by: WangYuli <wangyuli@uniontech.com>
+---
+ tools/testing/selftests/alsa/utimer-test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/tools/testing/selftests/alsa/utimer-test.c b/tools/testing/selftests/alsa/utimer-test.c
+index 32ee3ce57721..37964f311a33 100644
+--- a/tools/testing/selftests/alsa/utimer-test.c
++++ b/tools/testing/selftests/alsa/utimer-test.c
+@@ -135,6 +135,7 @@ TEST_F(timer_f, utimer) {
+ 	pthread_join(ticking_thread, NULL);
+ 	ASSERT_EQ(total_ticks, TICKS_COUNT);
+ 	pclose(rfp);
++	free(buf);
+ }
+ 
+ TEST(wrong_timers_test) {
+-- 
+2.50.1
 
-Takashi
-
-> 
-> Huacai
-> 
-> >
-> > Enable all Realtek HD-audio codecs and HDMI codecs (except for
-> > NVIDIA_MCP and TEGRA) per request.
-> >
-> > Fixes: 1d8dd982c409 ("ALSA: hda/realtek: Enable drivers as default")
-> > Fixes: 81231ad173d8 ("ALSA: hda/hdmi: Enable drivers as default")
-> > Cc: loongarch@lists.linux.dev
-> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> > ---
-> > v1->v2: enable all Realtek codecs and most of HDMI codecs
-> >
-> > The changes are only in sound.git tree, so I'll pick up this there, too
-> >
-> >  arch/loongarch/configs/loongson3_defconfig | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> >
-> > diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/configs/loongson3_defconfig
-> > index 0d59af6007b7..7993020ffebb 100644
-> > --- a/arch/loongarch/configs/loongson3_defconfig
-> > +++ b/arch/loongarch/configs/loongson3_defconfig
-> > @@ -784,8 +784,23 @@ CONFIG_SND_HDA_HWDEP=y
-> >  CONFIG_SND_HDA_INPUT_BEEP=y
-> >  CONFIG_SND_HDA_PATCH_LOADER=y
-> >  CONFIG_SND_HDA_CODEC_REALTEK=y
-> > +CONFIG_SND_HDA_CODEC_REALTEK_LIB=y
-> > +CONFIG_SND_HDA_CODEC_ALC260=y
-> > +CONFIG_SND_HDA_CODEC_ALC262=y
-> > +CONFIG_SND_HDA_CODEC_ALC268=y
-> > +CONFIG_SND_HDA_CODEC_ALC269=y
-> > +CONFIG_SND_HDA_CODEC_ALC662=y
-> > +CONFIG_SND_HDA_CODEC_ALC680=y
-> > +CONFIG_SND_HDA_CODEC_ALC861=y
-> > +CONFIG_SND_HDA_CODEC_ALC861VD=y
-> > +CONFIG_SND_HDA_CODEC_ALC880=y
-> > +CONFIG_SND_HDA_CODEC_ALC882=y
-> >  CONFIG_SND_HDA_CODEC_SIGMATEL=y
-> >  CONFIG_SND_HDA_CODEC_HDMI=y
-> > +CONFIG_SND_HDA_CODEC_HDMI_GENERIC=y
-> > +CONFIG_SND_HDA_CODEC_HDMI_INTEL=y
-> > +CONFIG_SND_HDA_CODEC_HDMI_ATI=y
-> > +CONFIG_SND_HDA_CODEC_HDMI_NVIDIA=y
-> >  CONFIG_SND_HDA_CODEC_CONEXANT=y
-> >  CONFIG_SND_USB_AUDIO=m
-> >  CONFIG_SND_SOC=m
-> > --
-> > 2.50.1
-> >
-> >
