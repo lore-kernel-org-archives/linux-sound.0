@@ -1,43 +1,43 @@
-Received: from omr001.pc5.atmailcloud.com (omr001.pc5.atmailcloud.com [103.150.252.1])
+Received: from omr012.pc5.atmailcloud.com (omr012.pc5.atmailcloud.com [103.150.252.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB31F22F740
-	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 13:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE374A94A
+	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 13:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753966921; cv=none; b=f2ZxeoJ2nb3vTkxyNELuqMIgqHPk+zsYc5t38IU2RosLMeAtxogqfboylNhToQC2ZFCYGX9rB+GrdHUjq6doLkNUZ1u8XrVci95cs6DA5IJ4G9v+0EG+duU2k/u3GUlyfss516UkyElFErsW4uoDsHwIO8ZURmrdZTHPNATuAS8=
+	t=1753967846; cv=none; b=b6J71pqXg4/O1EOHd0wS9aFNonAOrVaEqMIvBAUosPt9GfP8Ty5UzJVGGG5ejYuVFpXYY561OTUiXkxqQ1x6shAcGOZFPOC7hL59vSTTojOo4vtOl9moeEZ72ONpnj8S0MW7BP6rukebtldw6p+cvMjkV7ke1hJmE4z7DdTXq34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753966921; c=relaxed/simple;
-	bh=V8KyIbusFmQYd3WfmMM2Xz69gWaxCJmzyr3wGnIoJ9o=;
+	s=arc-20240116; t=1753967846; c=relaxed/simple;
+	bh=iiwvIA7xXD0nMz4oqfatTVzhZqJN6RQWoTqm5O7GxCs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c0KLAQdb8nxjLUuiI5X5tKtDwhwIuRdJVYN+tjKy64dU/asldDxutbENmCb3bL9NV7pjQP5cCrUuz6psd65A6LvcG7lUaBLFETHXJp88stUPG4nNn/ELuP8fZzYsAJ1mySjuA19lKPsK9ygVUlt3TAChFHsApM/o1BaiKtAO5X8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=internode.on.net; spf=pass smtp.mailfrom=internode.on.net; dkim=pass (2048-bit key) header.d=internode.on.net header.i=@internode.on.net header.b=mpFS72wq; arc=none smtp.client-ip=103.150.252.1
+	 MIME-Version; b=i0dkKlFeu4zGZOA/bdD7+2Wn80kgct9jUZ2MBvNAj8bw37ciq9xzSr6i3Tv/NuloOaePxAoz+qK/YLXNizqbvkqyBQTS0v2cPdqWgtV4HzjVkzxbXQtRYIHu1DH0Vlj9o6q2+1iOKvCvv4vh+AuTXwwc8fPzyx/KUfZNbSFVNkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=internode.on.net; spf=pass smtp.mailfrom=internode.on.net; dkim=pass (2048-bit key) header.d=internode.on.net header.i=@internode.on.net header.b=ipnUUHSp; arc=none smtp.client-ip=103.150.252.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=internode.on.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=internode.on.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=internode.on.net header.i=@internode.on.net header.b="mpFS72wq"
+	dkim=pass (2048-bit key) header.d=internode.on.net header.i=@internode.on.net header.b="ipnUUHSp"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=internode.on.net; s=202309; h=MIME-Version:Message-ID:Date:Subject:To:From:
-	content-type; bh=V8KyIbusFmQYd3WfmMM2Xz69gWaxCJmzyr3wGnIoJ9o=; b=mpFS72wqlWWk
-	YZtqBw7lLT80S6bAnxqeLHRscsRvTHma90HXmKPGc0ZJe+rwaB9+uRHBK0rHQb2mfzs4WIEWRViN6
-	SstTce/x93OpzLdgV5WLen47iG1NC+s02gXkHeS2Y/FN801ivwvX1qDon8nXOkllCei2l4IVxU2SY
-	3EJQy6BxzyLJGBjSoX3rgFy8Ruuc2dj2htGK9iigWs1VX9S6u30juZDYht7cRR3bMweoULEqhgoiO
-	ybZ5P5kVJA8MYCMeS+gxp3rhLhzZWOjx6neBDMPw84UqsKnZlpfiVuKVFgWifFELzJFKXhr/JEQV6
-	FBS5clI8keWQkEIeFMwpNg==;
+	content-type; bh=8fobJJ745fPcKBo+BWZt+4ffDA54aCmGV/3N6MXOlro=; b=ipnUUHSp4TAJ
+	ap6QnsN7S3vDooFcruQ3hHgaFTbvh8KmBtkKSl9oYuEPTRXEauZ7WGFz9gQerjKwq3d2qdysvodwK
+	AOI9RDjwss+MBSLi2MiufjmgyM+trWhAnM0GAi/tGkWU+oKvG8xPVm9Gat3KQEia3JmlvF/dPf++u
+	V6x1w822101NklrUuNGg7sAZJ974TFuRNuj2S5+cgNfxGaRpARaXS6xOkeZBzrqZPrU36eJVrb2wE
+	lozkW9ejo7Hu9FeEeEAaahce4kcKEJh3D6JC7g6i+A5Mq1mCsqDByrRp0WQ5WLXfcQ6j5slFDAOlj
+	n5m5v6VcOvpLumrby8xPbw==;
 Received: from cmr-kakadu01.internal.pc5.atmailcloud.com (cmr-kakadu01.internal.pc5.atmailcloud.com [192.168.1.3]) 
-	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu01.i-094bd7ff39e9a1d20) with ESMTPS
+	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu01.i-00ed5f122635adb7d) with ESMTPS
 	(envelope-from <arthur.marsh@internode.on.net>)
-	id 1uhSuv-000000005iI-1jHX ;
-	Thu, 31 Jul 2025 13:01:53 +0000
+	id 1uhSS8-000000002V6-2WnV ;
+	Thu, 31 Jul 2025 12:32:08 +0000
 Received: from  (localhost [14.2.105.157]) 
 	by cmr-kakadu01.internal.pc5.atmailcloud.com (Exim/localhost) with ESMTPSA
 	(envelope-from <arthur.marsh@internode.on.net>)
-	id 1uhSuu-000000002DI-2RZf ;
-	Thu, 31 Jul 2025 13:01:52 +0000
+	id 1uhSS7-000000002gt-3g08 ;
+	Thu, 31 Jul 2025 12:32:08 +0000
 Received: from amarsh04 by localhost with local (Exim 4.98.2)
 	(envelope-from <arthur.marsh@internode.on.net>)
-	id 1uhSup-000000001oK-2C6F;
-	Thu, 31 Jul 2025 22:31:47 +0930
+	id 1uhSS2-000000001cS-0hJa;
+	Thu, 31 Jul 2025 22:02:02 +0930
 From: Arthur Marsh <arthur.marsh@internode.on.net>
 To: tiwai@suse.de
 Cc: amadeuszx.slawinski@linux.intel.com,
@@ -51,11 +51,11 @@ Cc: amadeuszx.slawinski@linux.intel.com,
 	patches@opensource.cirrus.com,
 	rf@opensource.cirrus.com
 Subject: ALC887-VD line-in not visible
-Date: Thu, 31 Jul 2025 22:31:47 +0930
-Message-ID: <20250731130147.6956-1-user@am64>
+Date: Thu, 31 Jul 2025 22:02:01 +0930
+Message-ID: <20250731123201.6220-1-user@am64>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <87v7n8r0xa.wl-tiwai@suse.de>
-References: <87v7n8r0xa.wl-tiwai@suse.de>
+In-Reply-To: <877bzoudpk.wl-tiwai@suse.de>
+References: <877bzoudpk.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,20 +65,24 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Atmail-Id: arthur.marsh@internode.on.net
 X-atmailcloud-spam-action: no action
-X-Cm-Analysis: v=2.4 cv=R6sFG8RX c=1 sm=1 tr=0 ts=688b6940 a=OuAXCDeWEIhuZeJxW2dRvw==:117 a=OuAXCDeWEIhuZeJxW2dRvw==:17 a=Wb1JkmetP80A:10 a=x7bEGLp0ZPQA:10 a=ZWTVfbmrPR8A:10 a=0l96_rDUOEdFxrnl8sIA:9
-X-Cm-Envelope: MS4xfCcLuGH8ubZlc9ezSlQCqNAh6YZD+VLiWDqf6D0TjGXIVaBs/0Ic25qnbQpivS3fLNWX0PRy87XSBYUvhx2xUqHwSq/NgAU/KdWd4kiBmBnjmELCGQfS tq5jCxR5BLPdlhVVdw1Pr1vpDcu6tZBbSCFQ5GKVmBTRFDHBVUG7msSEeqdFHaeSWnOSbsd2gaHAUw==
+X-Cm-Analysis: v=2.4 cv=XIU2SxhE c=1 sm=1 tr=0 ts=688b6247 a=OuAXCDeWEIhuZeJxW2dRvw==:117 a=OuAXCDeWEIhuZeJxW2dRvw==:17 a=Wb1JkmetP80A:10 a=x7bEGLp0ZPQA:10 a=ZWTVfbmrPR8A:10 a=k1gCqWAUogLJDQ4uarAA:9
+X-Cm-Envelope: MS4xfA9ElECTx1+vGL6lyQHw8JPJqPX5afdQAw56krGbCbvHJMFJ4sje8zbELmTeCuV5hsNPVAu9LEkDx/HgYBET7/mEDd44O6gpj9QbcEfqa6QSzEOI5Kqw rtqCJ5AktR6bTt/95WVJey2oCSisRhNQ2ZI8SdljX1GLPwyXKA5jQ6R10G3N+ersdrEeXSQcPOFBhA==
 X-atmailcloud-route: unknown
 
-> I also enabled:
+Thanks, I found the discussion with Linus about options and enabled:
 
-> CONFIG_SND_HDA_CODEC_ALC882
+CONFIG_SND_HDA_CODEC_ALC882
 
-> even though I generally don't use HDMI out on this machine.
+It still gets confusing that 
 
-Oops, I meant that I also enabled:
+CONFIG_SND_HDA_CODEC_ALC882
 
-CONFIG_SND_HDA_CODEC_HDMI_INTEL
+also applies to other ALC88* codecs.
 
-Regards,
+I also enabled:
+
+CONFIG_SND_HDA_CODEC_ALC882
+
+even though I generally don't use HDMI out on this machine.
 
 Arthur.
