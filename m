@@ -1,89 +1,77 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C9843151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D60B28D8C9
 	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 06:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753944540; cv=none; b=W00LdA2MDUg3KK7E3R866GFyp/3Tf+r3AdcCGSFoq/K3NT02oRfOS9UtLnD9SHzrnGQ1soNGqTIgZLJqEJBXJPKiKV1uXgyblyhgLcAXNsT6aCSDcB46XfqiGyxU/5FGtbITKIiVpCYC9H/3228DLFwTKao0te7+GdMHImTIjgs=
+	t=1753944541; cv=none; b=qg7815EVzsGqLzbuy22GmR9kfQL/6b7YX6DmLzMD1T2r9H3oNwqG48UD9/sPHrJwBp9OjQYMGLSXsqLAEGJtCDNB43Ph5nDJq7V7CajuWuU1JQZjvOHvYVw2FlLGSqN9YG02qf3HZLWWlaNf735Eaf1X4Io6mSJ8cXZL+3GiktI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753944540; c=relaxed/simple;
-	bh=GwSP7Wn/Z1dpeCdFruWUCIV1DZzxh4VvTnqHvttlJys=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XMAur7PgGbEmi2h65u07wY7TiH+K1f32zPmLqVTJmWQgT+AWxTV8KVTor7hUcqvG71UYdHIuqJzZYFo64JvHvbzEEWrlCfM0fQyjBmtoAkdneXVSSywxCW8PL+MHEk/eYvOOPTzvmr/peaQScwEACkevBn0HscsaQrZeK58rLt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wtCuthpI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ISzverYE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=is43YfsT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XLUrPoQ7; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1753944541; c=relaxed/simple;
+	bh=jm0KKfW+UkMMixI1j6i1ae23s39cnb66Rd/wkQa4kJs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ltm3WBnDnTEi8YwRubpHuSAj8hTlV2Y67YsLhAUyWwJEo7xi9NnzaQsjkgRUsQuP/0bNSZE/7IvBCWW37RWWL5UgxwLdv40ocyg8MHJhydZx1wQ/NmjLf5RuJZHp+x1j5de1bS4KP9hr0g9v9VEsRDOhc1T4HDkML7nR9+ri3b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aernMr5V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8DxuG+UY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ril3fGY9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qp5cWG4n; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wtCuthpI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ISzverYE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="is43YfsT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XLUrPoQ7"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aernMr5V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8DxuG+UY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ril3fGY9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qp5cWG4n"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5846E1FB87;
-	Thu, 31 Jul 2025 06:48:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E3DC321B55;
+	Thu, 31 Jul 2025 06:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1753944537; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U1MDLbtDdHr7IDr7gwYAL6nI4k657u0+xxok1YsY9e4=;
-	b=wtCuthpI9Pd1MwUyTR+E+DxKWpnL2DBn76Pz67UGciWTDVTPT8BuVTnru+bl49xvtFwPMu
-	CF5EnMEFigCeWEJoDUBGFYI1yZcU6h51Oqp9P9iTzElOLwP1UlM/9vqqk/0kQlfCLxc1vG
-	g7mbwOmuxqJdZHqz0nZznS/A8gnqmmc=
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=UM4z7F7h/IlTuxpRAMwKu0fT5sp1WYVUct/vZOg9cHE=;
+	b=aernMr5VwGDOZE4LQ1oletydP1szxtFKp9M7sbMnxiTfa2aiYtAD91Vbrg7mp4qfJUdK98
+	fGQXKEJ7mIkJUqGNwgzUURat1lO4LwLfLa56yiwarM36eaBiURAMKTHL4Lyb0vMDUHMFzc
+	jS53o5qOJQuDhrSs8wckXqP+b1TWy6M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1753944537;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U1MDLbtDdHr7IDr7gwYAL6nI4k657u0+xxok1YsY9e4=;
-	b=ISzverYEzpXdgR3EQPrBBhw/1z3r+nutGWmyPa6Q9Y+LmA3iSYnWA8w8kQ09xfbFEs1Ytu
-	4drFQZVYGvkhSXCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=is43YfsT;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XLUrPoQ7
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=UM4z7F7h/IlTuxpRAMwKu0fT5sp1WYVUct/vZOg9cHE=;
+	b=8DxuG+UYDlpMnOrtjzgEP16yLxgXN/IyN8d+uWJarw0rf1mk64Kxf+XVGyS95wy6qKLKur
+	Fs+N9YipX5hEHtBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ril3fGY9;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Qp5cWG4n
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753944536; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U1MDLbtDdHr7IDr7gwYAL6nI4k657u0+xxok1YsY9e4=;
-	b=is43YfsTSigRGtQFW7EovF22a5xhIIVMjNtaLDlaqTzFIafPOqlA2Vmcjc8R2Uxgnxt6LC
-	+yaqediWA1r5v2EOF0nxUbMTOZruc7GZbjYqZBmiWquoInNJZjAohn6MahPTCY/g0UucFF
-	iJtkQqtS6dNhJOpdmxsOPlFhw96yhIw=
+	t=1753944535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=UM4z7F7h/IlTuxpRAMwKu0fT5sp1WYVUct/vZOg9cHE=;
+	b=ril3fGY9JqFgdzqcQ82DwhV0JFebqsxAKnDXt7q06GsYeOXKKPNmrlhMMP1H6mcqiQoaAS
+	xN/5fgt0Xx6FuFnl8Xm+ZyuZGbOTowrOLIcbUpLBJyfAt23EHGSbSnx1hQifRHzlffkint
+	l3DdO4mZeiQEGx5zKK81SQ47hAPd33o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753944536;
+	s=susede2_ed25519; t=1753944535;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U1MDLbtDdHr7IDr7gwYAL6nI4k657u0+xxok1YsY9e4=;
-	b=XLUrPoQ76IlT3m+vbfE9ylslbQ55YpaCO7kE5zJLZsvqKM6qYIuGPmYN6ToKcjPAbGRnrQ
-	gQVUmSKxOdyvu9Dw==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=UM4z7F7h/IlTuxpRAMwKu0fT5sp1WYVUct/vZOg9cHE=;
+	b=Qp5cWG4nJxi8utjMrWMeGGPgdDdWACmn4/Bxlay+J8rFvRM+EN7Xi+HkBNYD1KbZtPA7q/
+	KpFU6hY1SbHQftDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E10B13AA9;
-	Thu, 31 Jul 2025 06:48:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C41CD13876;
+	Thu, 31 Jul 2025 06:48:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4Fv7CdgRi2hnZAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 31 Jul 2025 06:48:56 +0000
+	id Iv91LtcRi2hnZAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 31 Jul 2025 06:48:55 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev
-Subject: [PATCH 2/3] LoongArch: Update HD-audio codec configs
-Date: Thu, 31 Jul 2025 08:48:08 +0200
-Message-ID: <20250731064813.1622-3-tiwai@suse.de>
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] ALSA: hda: Fix arch defconfigs
+Date: Thu, 31 Jul 2025 08:48:06 +0200
+Message-ID: <20250731064813.1622-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250731064813.1622-1-tiwai@suse.de>
-References: <20250731064813.1622-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -91,6 +79,11 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: E3DC321B55
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -100,58 +93,52 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 5846E1FB87
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 X-Spam-Score: -3.01
 
-The HD-audio codec driver configs have been updated again the drivers
-got split with different kconfigs.  Add the missing items.
+The recent HD-audio kconfig updates require the adaption of arch
+defconfig changes, too.
 
-Fixes: 1d8dd982c409 ("ALSA: hda/realtek: Enable drivers as default")
-Fixes: 81231ad173d8 ("ALSA: hda/hdmi: Enable drivers as default")
-Cc: loongarch@lists.linux.dev
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
+This is a resent of changes I posted shortly [*] ago but split to each
+arch change instead.  Since the updates are only in sound git tree as
+of now, I'm going to pick those in sound git tree as well.
 
-The changes are only in sound.git tree, so I'll pick up this there, too
 
+thanks,
+
+Takashi
+
+[*] https://lore.kernel.org/20250731053031.27121-1-tiwai@suse.de
+
+===
+
+Takashi Iwai (3):
+  arm: Update HD-audio configs again
+  LoongArch: Update HD-audio codec configs
+  mips: Update HD-audio configs again
+
+ arch/arm/configs/multi_v7_defconfig        | 3 ++-
+ arch/arm/configs/tegra_defconfig           | 3 +++
  arch/loongarch/configs/loongson3_defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/mips/configs/loongson2k_defconfig     | 1 +
+ arch/mips/configs/loongson3_defconfig      | 3 ++-
+ 5 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/configs/loongson3_defconfig
-index 0d59af6007b7..ac00d815b478 100644
---- a/arch/loongarch/configs/loongson3_defconfig
-+++ b/arch/loongarch/configs/loongson3_defconfig
-@@ -784,8 +784,10 @@ CONFIG_SND_HDA_HWDEP=y
- CONFIG_SND_HDA_INPUT_BEEP=y
- CONFIG_SND_HDA_PATCH_LOADER=y
- CONFIG_SND_HDA_CODEC_REALTEK=y
-+CONFIG_SND_HDA_CODEC_ALC269=y
- CONFIG_SND_HDA_CODEC_SIGMATEL=y
- CONFIG_SND_HDA_CODEC_HDMI=y
-+CONFIG_SND_HDA_CODEC_HDMI_GENERIC=y
- CONFIG_SND_HDA_CODEC_CONEXANT=y
- CONFIG_SND_USB_AUDIO=m
- CONFIG_SND_SOC=m
 -- 
 2.50.1
 
