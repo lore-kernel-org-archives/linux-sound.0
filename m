@@ -1,112 +1,134 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6432BE636;
-	Thu, 31 Jul 2025 11:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330BB2C08A8;
+	Thu, 31 Jul 2025 11:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753959985; cv=none; b=OI6Ri3onxf0X5wC5UxuGhxMdzlgi9ocgo7How1E6p46psX/PFy69bw99PZYHM+OKdLHqxx50eQbxRZzX8qBI0boQjQzDeFAQ7lNsOh6+rOMP3HI5tMDtTf+TPLQ0G9atvJ2ZIE/GpPWPNTH3QzhuTnwhmW/Ppjog1I1pTdi+bBI=
+	t=1753960670; cv=none; b=llSic3FJ2CJ6jmnfx1eMvPTJttUYIyH14GSu0OIcvoeq4vZslXmL92UrOPUFSQIycSsf/lLjLY7cdAnTGVY3+93bcIEjEQTdxjtU5GmnG4XscgywCFmupYtnD/5bf/JRddpqc7cCg5TLyjpd7L5HTrmdEvs1EaGiLLrdFHBoQKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753959985; c=relaxed/simple;
-	bh=fqZO1JNYBXlDxIlfB5OZUFz0ouoQTRtapMQE2pFFdVk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=alVJ1yGk0MJr5CSyVzxyqwwZa6bFRU+0yimF5IfRxAiJPoUS9n9zOKa6AZWTbPqIMOFoST1OCky6UkSSEUbwnoAeZHWYp6moYXNbWO4J6BbKNnuwheE8ZDZibsaZXtZXXe90pczYCIZ9Bi0Zrrfc8RrpuuyACpQdGvljei8IIgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mmfn/D91; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753960670; c=relaxed/simple;
+	bh=YWu/J1z9qSPzIdGl7WaiOwtxEhLqY1keFDoxQ7nsjR8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l5GMtlym+EPvcizKlN2n+U6rTNrxMQPRw1Nivn06GYjHLvi6UlGSWdZJdLL8Wutv+FNsvAvusaCugwiXHTYEj88CzV1cj8oSNozdcV/na2KQJnEnvJJkQVrmNwZ8DpWJ/OTXsHOtZ5iFYzGhDWDvdg7+bz72jbWsuk/zPmdhe0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MkJriubR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mmfn/D91"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-76bd7676e60so45894b3a.0;
-        Thu, 31 Jul 2025 04:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753959983; x=1754564783; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QFhfvC5VEfE8AKIEeum3f69cJVMRVPgE7qZ5KXrKlXU=;
-        b=Mmfn/D91JvUfO0ZgYm3UcZxNVi/QQa55Tz7ZUplOq0pk42iAkCIP5LW3Pi9JmuWV6c
-         aIef85XT06GzfN6pK2AkCigZa00IClwkAB4RFMmztXupuw4Eyee9dt6JhULuM4V8XunY
-         LAWmtZ52iQ6qEd+sDiiIWUl9rnY2hrETKW8x9bdgI47hw3+e7hLorebjDf4Wjaui1E67
-         ulTG3l0YyfKLN/fNZaOYGq25giOtQ9yb9rJxWrr25jqELWoCk745WyRKVkwDU68vgffw
-         Nl1PPsjpIFOK8O0WbQ+5YCwfPhweFT4Z+x+RwdAhDIcHkhU6Vuvuh/sOzeQzPzSY08KY
-         Tvow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753959983; x=1754564783;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QFhfvC5VEfE8AKIEeum3f69cJVMRVPgE7qZ5KXrKlXU=;
-        b=Z8Yv6lgKCbb3kW/vLqC060o+iuCmFK1eWLDk/FTOTjbpBMknFjHJIsGG+6d+vd162/
-         a3K3LzeIhC0D6G7bNo/qVom6Oadpi9xqWWEpF4oO55QAHiFJUM1H+q3aeJKUOdLnP7+N
-         6Lnf7ew0elCk4jh5+eG3SBROm8SP2nu8RxVH82m+e+p7M+rf+ijNZ53Aa1De8h+j2EXY
-         E2RMC+Xiy7LNYgnIeHELyhLD27te/d0c+h4xRip4DQiU4NY2RcZ/07JYGLhWi8XQDh8k
-         vZe0bqFW/7xTucblZ31ixLK9yP2tRIWbjN0kj4vFB2N5IaGL+Sg5bj05dF9EjnznYFLy
-         wDRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZYrGewjQa7b0IORj41bdUUrgRtzPvD6DmvC46dsF2K8DW7VpHocJp2kHzffroV9UlM/vz2Xd+6nRCCU8=@vger.kernel.org, AJvYcCXoUlF6Kyb3bT1eiqVSNfbzfd+Iu8iI6eLgInTz+gUTLHxPGznD/hJHDvN3Db5JcGLCSv68POvWZQumeX0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHFwWcIIIblTbenFCgBCEWHQKv8ECkOIZX30UWqEiHsXRxMIVD
-	RAU/kJwxf7+O++OAcNvJYOPj9DExv0b9ivARbBo3FkEmbdbc3fSaMga4
-X-Gm-Gg: ASbGncuR6+xxQNOhS89eZm5vVFEpW7fAyo0jo7ko1wBdMESZetiB8T7PzG6idiG85em
-	aeInASmiwAVhgLz3C8rlzd1NO+RiGKpzTB3B3jEXPL9Psgtd7xg12LeG4nFStrKDm8K80m+k2VU
-	3IUt5nH1VwwiqvscCbDJvO6sT/OgZMu3C0Z+24M/lma1JUtH0NboO4LGYKYUHNLTWxrk+uSM3cH
-	Ja7JWwRJ4IzEZc4aho8HnWx42tOZJBcFqNSnWY7TBOVQA+jTn7hSrK4dCFHsZjUIMSPbBd1o5c6
-	dGa59rWlaLhpVtIGyBoausrvvEA3etSrZOA3OXpjWVMoD977tRqWSn5bf/7uWuJhcudeFEUY3+b
-	RWhgP0TVob22/8cXe60JohBzrBbRdT1jLKZZrNQ==
-X-Google-Smtp-Source: AGHT+IEIMZOrahipWmGwDgqKoQgiQCaY1fhIOBZ8C/XEanpUSyQbjFeefUNr6KabzotB/ub5wu7vWA==
-X-Received: by 2002:a05:6a21:33a7:b0:220:ace9:193c with SMTP id adf61e73a8af0-23dc0eb9e63mr11290547637.38.1753959982904;
-        Thu, 31 Jul 2025 04:06:22 -0700 (PDT)
-Received: from 25.04 (1-34-7-240.hinet-ip.hinet.net. [1.34.7.240])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b422bb0db0fsm1250492a12.61.2025.07.31.04.06.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 04:06:22 -0700 (PDT)
-From: noble228@gmail.com
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	hulianqin@vivo.com,
-	lina+kernel@asahilina.net,
-	cyan.vtb@gmail.com,
-	dan.carpenter@linaro.org,
-	bsevens@google.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"noble.yang" <noble.yang@comtrue-inc.com>
-Subject: [PATCH] ALSA: usb-audio: Add DSD support for Comtrue USB Audio device
-Date: Thu, 31 Jul 2025 19:06:14 +0800
-Message-ID: <20250731110614.4070-1-noble228@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MkJriubR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB9CFC4CEF7;
+	Thu, 31 Jul 2025 11:17:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753960669;
+	bh=YWu/J1z9qSPzIdGl7WaiOwtxEhLqY1keFDoxQ7nsjR8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=MkJriubRuCPKQUv+FKFPxsSVndYbGpCI7v3xZsL4YAuuEythF4YUJWkQepa71VuyQ
+	 D4vgGKmEmnW2NyLqjbX2uCMCRs6cF/kPpwaDUg2wIYyOa+Yin+85Oc1kZVFU6eOKRG
+	 vy2C+hAmk7Q+YDD1avMfD8QW9XAJBVaIX4gOiG/So59qtW3TKTujSVoh9y8C55ZdlH
+	 xH2EFV30oIlkw7cKB0ems/12X/vY+3f3zM0M1DsfQuOXQfA4xbcFF91X/W74KuEaGx
+	 N6aeSuzU9cX9y78KNqxuRsVW7Ryx3JXBk67V3FX+9xKPpXArAGuJpsyJHUZsYH3Wq5
+	 E4iJLJPB9dIkg==
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6152faff57eso1106633a12.1;
+        Thu, 31 Jul 2025 04:17:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWtfROVzrjjzCA2A1ekN2jAx9xu9gL4ie6eCPaRfe9hDEDmG31+38D69ZXRwiSoOyPQ1hUNFZYYjEPsp1Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8Fv2ONu3gnbbfhPyrDUGsVnABUU3OBNeHGzg6cErjDUPFScuO
+	Cp0nyjHpJF1Y2BszJuoMjlDN9tDLhoAxcuzGdrhQ1KAunVhmN49kQb7pKiGRJh8ss0Uy4qwGX3K
+	jqRQ3g+s47VLToLjupLpfs26bykm6WYk=
+X-Google-Smtp-Source: AGHT+IEvztrvw0d6qmKf0xUerykCRVZo6PrnLWfPxQoZmA2VWnhPTMPLGX2eIvduq+3yFR5DyHb2R4kk2GarE+6kEdE=
+X-Received: by 2002:a05:6402:24c3:b0:5fc:9979:78f7 with SMTP id
+ 4fb4d7f45d1cf-61586ee81ccmr6795038a12.14.1753960668331; Thu, 31 Jul 2025
+ 04:17:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250731091109.16901-1-tiwai@suse.de> <20250731091109.16901-3-tiwai@suse.de>
+ <CAAhV-H6uDytXrsWv43uxNic9PH=ed1M3=29LTqCoYxzNdESkfw@mail.gmail.com> <878qk4snpk.wl-tiwai@suse.de>
+In-Reply-To: <878qk4snpk.wl-tiwai@suse.de>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Thu, 31 Jul 2025 19:17:36 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4qUDrjnOE059vH_+4Rxj85vwAadqGHDwH8tTbhiD+FNA@mail.gmail.com>
+X-Gm-Features: Ac12FXwSCo2_9pBjrOhlio-SRoCtC_xxyQEm9XhUPWLdimEgCwezg8-JxwzBWCg
+Message-ID: <CAAhV-H4qUDrjnOE059vH_+4Rxj85vwAadqGHDwH8tTbhiD+FNA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] LoongArch: Update HD-audio codec configs
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: "noble.yang" <noble.yang@comtrue-inc.com>
+On Thu, Jul 31, 2025 at 5:40=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Thu, 31 Jul 2025 11:33:38 +0200,
+> Huacai Chen wrote:
+> >
+> > On Thu, Jul 31, 2025 at 5:11=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wr=
+ote:
+> > >
+> > > The HD-audio codec driver configs have been updated again the drivers
+> > > got split with different kconfigs.
+> > I'm sorry for making noise, but is SND_HDA_INTEL_HDMI_SILENT_STREAM
+> > needed for common use? If yes, I also prefer it be enabled.
+>
+> It's better to be disabled, IMO.
+> (And this config hasn't been changed at all.)
+OK.
 
-The vendor Comtrue Inc. (0x2fc6) produces USB audio chipsets like
-the CT7601 which are capable of Native DSD playback.
-
-This patch adds QUIRK_FLAG_DSD_RAW for Comtrue (VID 0x2fc6), which enables
-native DSD playback (DSD_U32_LE) on their USB Audio device. This has been
-verified under Ubuntu 25.04 with JRiver.
-
-
-Signed-off-by: noble.yang <noble.yang@comtrue-inc.com>
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index bd24f3a78ea9..cbb66125f839 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2408,6 +2408,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_DSD_RAW),
- 	VENDOR_FLG(0x2d87, /* Cayin device */
- 		   QUIRK_FLAG_DSD_RAW),
-+ 	VENDOR_FLG(0x2fc6, /* Comture-inc devices */
-+		   QUIRK_FLAG_DSD_RAW),	   
- 	VENDOR_FLG(0x3336, /* HEM devices */
- 		   QUIRK_FLAG_DSD_RAW),
- 	VENDOR_FLG(0x3353, /* Khadas devices */
--- 
-2.48.1
-
+Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+>
+>
+> Takashi
+>
+> >
+> > Huacai
+> >
+> > >
+> > > Enable all Realtek HD-audio codecs and HDMI codecs (except for
+> > > NVIDIA_MCP and TEGRA) per request.
+> > >
+> > > Fixes: 1d8dd982c409 ("ALSA: hda/realtek: Enable drivers as default")
+> > > Fixes: 81231ad173d8 ("ALSA: hda/hdmi: Enable drivers as default")
+> > > Cc: loongarch@lists.linux.dev
+> > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > > ---
+> > > v1->v2: enable all Realtek codecs and most of HDMI codecs
+> > >
+> > > The changes are only in sound.git tree, so I'll pick up this there, t=
+oo
+> > >
+> > >  arch/loongarch/configs/loongson3_defconfig | 15 +++++++++++++++
+> > >  1 file changed, 15 insertions(+)
+> > >
+> > > diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loonga=
+rch/configs/loongson3_defconfig
+> > > index 0d59af6007b7..7993020ffebb 100644
+> > > --- a/arch/loongarch/configs/loongson3_defconfig
+> > > +++ b/arch/loongarch/configs/loongson3_defconfig
+> > > @@ -784,8 +784,23 @@ CONFIG_SND_HDA_HWDEP=3Dy
+> > >  CONFIG_SND_HDA_INPUT_BEEP=3Dy
+> > >  CONFIG_SND_HDA_PATCH_LOADER=3Dy
+> > >  CONFIG_SND_HDA_CODEC_REALTEK=3Dy
+> > > +CONFIG_SND_HDA_CODEC_REALTEK_LIB=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC260=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC262=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC268=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC269=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC662=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC680=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC861=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC861VD=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC880=3Dy
+> > > +CONFIG_SND_HDA_CODEC_ALC882=3Dy
+> > >  CONFIG_SND_HDA_CODEC_SIGMATEL=3Dy
+> > >  CONFIG_SND_HDA_CODEC_HDMI=3Dy
+> > > +CONFIG_SND_HDA_CODEC_HDMI_GENERIC=3Dy
+> > > +CONFIG_SND_HDA_CODEC_HDMI_INTEL=3Dy
+> > > +CONFIG_SND_HDA_CODEC_HDMI_ATI=3Dy
+> > > +CONFIG_SND_HDA_CODEC_HDMI_NVIDIA=3Dy
+> > >  CONFIG_SND_HDA_CODEC_CONEXANT=3Dy
+> > >  CONFIG_SND_USB_AUDIO=3Dm
+> > >  CONFIG_SND_SOC=3Dm
+> > > --
+> > > 2.50.1
+> > >
+> > >
