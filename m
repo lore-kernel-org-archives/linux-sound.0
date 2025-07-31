@@ -1,52 +1,76 @@
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9FE2745E;
-	Thu, 31 Jul 2025 10:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6432BE636;
+	Thu, 31 Jul 2025 11:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753956229; cv=none; b=d1w1dayfr+PJlzsizUGz7n6/j/Lm33neqJp3hRcGys4sRoCCcB5Is0Urz8QvU21c96crfU+qqWPcdmB4I1Bu+gSxDTWsSCZhxMeO1J5MXi1kwDH2CzUZuWYaNprNF9kGmcFvpmedjYW3Tstnf9qTlATapo7q7nS1K7lKVM0JHoY=
+	t=1753959985; cv=none; b=OI6Ri3onxf0X5wC5UxuGhxMdzlgi9ocgo7How1E6p46psX/PFy69bw99PZYHM+OKdLHqxx50eQbxRZzX8qBI0boQjQzDeFAQ7lNsOh6+rOMP3HI5tMDtTf+TPLQ0G9atvJ2ZIE/GpPWPNTH3QzhuTnwhmW/Ppjog1I1pTdi+bBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753956229; c=relaxed/simple;
-	bh=NYyUk0BfoxJSHgtRZxMOL66q4WnmVTwmsB+hSch+B8E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OZ6ksSuPiMZXxPeSbpMTdfgx3J7w8uDERxkoAm2+qDaUNQuYLp1BYSDRMN6A2aq5OlCwvSDzcmuIAQwn9Y3icQTLL6H6AFw+fOWe0o/Lae0fIS2vLkasJ18550A2As9bQORxtrLxx653qWFQ7QWVNoQrv82uxIMB2QJNGOiRAlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=NvdMJhJV; arc=none smtp.client-ip=54.92.39.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1753959985; c=relaxed/simple;
+	bh=fqZO1JNYBXlDxIlfB5OZUFz0ouoQTRtapMQE2pFFdVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=alVJ1yGk0MJr5CSyVzxyqwwZa6bFRU+0yimF5IfRxAiJPoUS9n9zOKa6AZWTbPqIMOFoST1OCky6UkSSEUbwnoAeZHWYp6moYXNbWO4J6BbKNnuwheE8ZDZibsaZXtZXXe90pczYCIZ9Bi0Zrrfc8RrpuuyACpQdGvljei8IIgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mmfn/D91; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="NvdMJhJV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1753956168;
-	bh=rjKuTPuvn/0L3fRxtEWaPjXi65f2W4SFl25Z6EWsa9w=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=NvdMJhJVEZA3BkeEmxiy/vk2Zgp+fln9XT34EfpZaKM4Pdfg0frx8ETWUMmX0Grfx
-	 ecfRv0LsRvaNfh3/WZYXF2mD+LK4d1orTLnOCfSfiZgTRzNRYXGFuBuzoEYW74lgs6
-	 AoLI9F8f6LtlJ1pyKaCeQMrjd7PfLWgnEZm0dxdc=
-X-QQ-mid: zesmtpip3t1753956155ta94c3d12
-X-QQ-Originating-IP: lFlTdFOtv/vQ4PDmfG4jxZM+QUOL3f0Kjketi0kav9A=
-Received: from avenger-e500 ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 31 Jul 2025 18:02:33 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 11522875294285116563
-EX-QQ-RecipientCnt: 11
-From: WangYuli <wangyuli@uniontech.com>
-To: broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	shuah@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mmfn/D91"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-76bd7676e60so45894b3a.0;
+        Thu, 31 Jul 2025 04:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753959983; x=1754564783; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QFhfvC5VEfE8AKIEeum3f69cJVMRVPgE7qZ5KXrKlXU=;
+        b=Mmfn/D91JvUfO0ZgYm3UcZxNVi/QQa55Tz7ZUplOq0pk42iAkCIP5LW3Pi9JmuWV6c
+         aIef85XT06GzfN6pK2AkCigZa00IClwkAB4RFMmztXupuw4Eyee9dt6JhULuM4V8XunY
+         LAWmtZ52iQ6qEd+sDiiIWUl9rnY2hrETKW8x9bdgI47hw3+e7hLorebjDf4Wjaui1E67
+         ulTG3l0YyfKLN/fNZaOYGq25giOtQ9yb9rJxWrr25jqELWoCk745WyRKVkwDU68vgffw
+         Nl1PPsjpIFOK8O0WbQ+5YCwfPhweFT4Z+x+RwdAhDIcHkhU6Vuvuh/sOzeQzPzSY08KY
+         Tvow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753959983; x=1754564783;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QFhfvC5VEfE8AKIEeum3f69cJVMRVPgE7qZ5KXrKlXU=;
+        b=Z8Yv6lgKCbb3kW/vLqC060o+iuCmFK1eWLDk/FTOTjbpBMknFjHJIsGG+6d+vd162/
+         a3K3LzeIhC0D6G7bNo/qVom6Oadpi9xqWWEpF4oO55QAHiFJUM1H+q3aeJKUOdLnP7+N
+         6Lnf7ew0elCk4jh5+eG3SBROm8SP2nu8RxVH82m+e+p7M+rf+ijNZ53Aa1De8h+j2EXY
+         E2RMC+Xiy7LNYgnIeHELyhLD27te/d0c+h4xRip4DQiU4NY2RcZ/07JYGLhWi8XQDh8k
+         vZe0bqFW/7xTucblZ31ixLK9yP2tRIWbjN0kj4vFB2N5IaGL+Sg5bj05dF9EjnznYFLy
+         wDRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZYrGewjQa7b0IORj41bdUUrgRtzPvD6DmvC46dsF2K8DW7VpHocJp2kHzffroV9UlM/vz2Xd+6nRCCU8=@vger.kernel.org, AJvYcCXoUlF6Kyb3bT1eiqVSNfbzfd+Iu8iI6eLgInTz+gUTLHxPGznD/hJHDvN3Db5JcGLCSv68POvWZQumeX0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHFwWcIIIblTbenFCgBCEWHQKv8ECkOIZX30UWqEiHsXRxMIVD
+	RAU/kJwxf7+O++OAcNvJYOPj9DExv0b9ivARbBo3FkEmbdbc3fSaMga4
+X-Gm-Gg: ASbGncuR6+xxQNOhS89eZm5vVFEpW7fAyo0jo7ko1wBdMESZetiB8T7PzG6idiG85em
+	aeInASmiwAVhgLz3C8rlzd1NO+RiGKpzTB3B3jEXPL9Psgtd7xg12LeG4nFStrKDm8K80m+k2VU
+	3IUt5nH1VwwiqvscCbDJvO6sT/OgZMu3C0Z+24M/lma1JUtH0NboO4LGYKYUHNLTWxrk+uSM3cH
+	Ja7JWwRJ4IzEZc4aho8HnWx42tOZJBcFqNSnWY7TBOVQA+jTn7hSrK4dCFHsZjUIMSPbBd1o5c6
+	dGa59rWlaLhpVtIGyBoausrvvEA3etSrZOA3OXpjWVMoD977tRqWSn5bf/7uWuJhcudeFEUY3+b
+	RWhgP0TVob22/8cXe60JohBzrBbRdT1jLKZZrNQ==
+X-Google-Smtp-Source: AGHT+IEIMZOrahipWmGwDgqKoQgiQCaY1fhIOBZ8C/XEanpUSyQbjFeefUNr6KabzotB/ub5wu7vWA==
+X-Received: by 2002:a05:6a21:33a7:b0:220:ace9:193c with SMTP id adf61e73a8af0-23dc0eb9e63mr11290547637.38.1753959982904;
+        Thu, 31 Jul 2025 04:06:22 -0700 (PDT)
+Received: from 25.04 (1-34-7-240.hinet-ip.hinet.net. [1.34.7.240])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b422bb0db0fsm1250492a12.61.2025.07.31.04.06.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Jul 2025 04:06:22 -0700 (PDT)
+From: noble228@gmail.com
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	hulianqin@vivo.com,
+	lina+kernel@asahilina.net,
+	cyan.vtb@gmail.com,
+	dan.carpenter@linaro.org,
+	bsevens@google.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	niecheng1@uniontech.com,
-	guanwentao@uniontech.com,
-	WangYuli <wangyuli@uniontech.com>,
-	Jun Zhan <zhanjun@uniontech.com>
-Subject: [PATCH] selftests: ALSA: fix memory leak in utimer test
-Date: Thu, 31 Jul 2025 18:02:22 +0800
-Message-ID: <DE4D931FCF54F3DB+20250731100222.65748-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	"noble.yang" <noble.yang@comtrue-inc.com>
+Subject: [PATCH] ALSA: usb-audio: Add DSD support for Comtrue USB Audio device
+Date: Thu, 31 Jul 2025 19:06:14 +0800
+Message-ID: <20250731110614.4070-1-noble228@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,48 +78,35 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NE5ka7lUpzLLneh95ioFD3VaxWF0GXWLqZk+7lJBUb14pvtdzJD4jQRh
-	IICcyN9E0JOU4TdGvLyLSj4L1faAxhmIW9znn9Ku96Y1fG1eICSyr1Xib7S0J+4R4uMnfNe
-	KZ639Cz08d3etYugVyzXiNcULXnDE5+vXmoWaB0PQVNaowSxrWKL/mAAQX+NZLJdUxMIZxy
-	pSAP86B5+005eh0LPVGNK+gTWCgpw4pOmuRgOO3/iTk+dEsojER+9zXvEHLJnNX7KUVdSCW
-	WeEpVsA42HAV0ifEI7sFb+Qtq8Sjq8x54fNgn7eK0lf6Jo+EJVCI18DebFxhFWv9nufdPPK
-	8M348hzx8vm5bRiiO/FAm14vKV5lGuIqNCTyn1r4dMcVWdfMhJbiZrD9yUHaPcbfTWQQ4GE
-	BuJ/RV5WRVbp76R8+HWSX/ztqEftV94rBDxlTc9bJJJOhkVFZkqhN3kACYCaBcBTLMlD58D
-	OqIKpU4k0Ul3J4yOKme5RZKDb2BR4A4Wbp0pqQfHvxxcoIJLE+cSS8whEkoSmX5K1OpjroA
-	joZ+6tgvnmzCmsIDEVQ7ftrw2X0fRB6rDuJbc9g3jXR0i5OpxLQvRmuVO15D3ogzTm9Q3a6
-	CUOVGks2C1gZevz/N4+rNHEz5OkiQ/xroD/IW9kkq466csGyFhkW7olkP6Fw+1YW41Tq/ci
-	bnAti+UGUGIJhaw1TiFkri7ZtaSjF54xpkyQp9amDPvRdefvF490XheoNsM8WwWdUollyRa
-	65cbxmjFfAHiP8ZEO0UO4L2LOSos3yFUSHxBqL9U+5lu4cw9zY8Zee4u972GCqJ4wyXmay0
-	52fMUAR4EtQh/40exJdnGS/uT3U7ceZ3gDUCjUnHAfk6WcVno8xk83lTcuypFr9nt5bm5UM
-	i0ZYlazgtE8N2b4WQdr+Wy0uEObxESXcjhv7nr9raTqyolcTegrKZRzAHI9zN0SmltUV03O
-	+lUxr4N2R8t3/t3/jHuD6wgxNC0Kk7hqQmhvRtjBU7PmgJE0F9aD8SPuWYsc32ZFFfEMfUn
-	ec07qMTVaeXEM69UCd2Zc50saWswRCQK4SCVl3Vd5hSRy0ght6
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-X-QQ-RECHKSPAM: 0
 
-Free the malloc'd buffer in TEST_F(timer_f, utimer) to prevent
-memory leak.
+From: "noble.yang" <noble.yang@comtrue-inc.com>
 
-Reported-by: Jun Zhan <zhanjun@uniontech.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
+The vendor Comtrue Inc. (0x2fc6) produces USB audio chipsets like
+the CT7601 which are capable of Native DSD playback.
+
+This patch adds QUIRK_FLAG_DSD_RAW for Comtrue (VID 0x2fc6), which enables
+native DSD playback (DSD_U32_LE) on their USB Audio device. This has been
+verified under Ubuntu 25.04 with JRiver.
+
+
+Signed-off-by: noble.yang <noble.yang@comtrue-inc.com>
 ---
- tools/testing/selftests/alsa/utimer-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tools/testing/selftests/alsa/utimer-test.c b/tools/testing/selftests/alsa/utimer-test.c
-index 32ee3ce57721..37964f311a33 100644
---- a/tools/testing/selftests/alsa/utimer-test.c
-+++ b/tools/testing/selftests/alsa/utimer-test.c
-@@ -135,6 +135,7 @@ TEST_F(timer_f, utimer) {
- 	pthread_join(ticking_thread, NULL);
- 	ASSERT_EQ(total_ticks, TICKS_COUNT);
- 	pclose(rfp);
-+	free(buf);
- }
- 
- TEST(wrong_timers_test) {
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index bd24f3a78ea9..cbb66125f839 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2408,6 +2408,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_DSD_RAW),
+ 	VENDOR_FLG(0x2d87, /* Cayin device */
+ 		   QUIRK_FLAG_DSD_RAW),
++ 	VENDOR_FLG(0x2fc6, /* Comture-inc devices */
++		   QUIRK_FLAG_DSD_RAW),	   
+ 	VENDOR_FLG(0x3336, /* HEM devices */
+ 		   QUIRK_FLAG_DSD_RAW),
+ 	VENDOR_FLG(0x3353, /* Khadas devices */
 -- 
-2.50.1
+2.48.1
 
