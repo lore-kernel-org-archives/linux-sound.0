@@ -1,147 +1,116 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0A420CCCC
-	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 09:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6957523FC49;
+	Thu, 31 Jul 2025 09:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753953355; cv=none; b=LeDSOSp8AGwD+CAnO88tppD6rhNdaJRSbVWpqyoie89NRQEHjMjVw66oKgkfjIolHINkltlTi0RENyskix71ZRWKDRLu2KdYHJllJklcS3USr0wVRA1bLX+LCGy0wPB61Nw+x53TVNt91Xdn3N9pUuhW+Gu5Y8S+9t4W7hcRr4M=
+	t=1753954431; cv=none; b=oJP4IAW7SUcIIF70hKu+94ld+IpsvRwOkzoeP2Sd2xGbsQkTYd7z+A7r9RoSruso5kLWlfGWEaCgPHfMgZdA0h5S+fvvdzTAfT8SVGz8wjpMvW6tguKsAtFvBBAhydEl51SwRtXgTWeJ84DDiEdAD/sOC3S85ZkMW+/Tl8An+R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753953355; c=relaxed/simple;
-	bh=aEcQB/Jc4SBPMbMZcq5iyveSi2+v29OSIGGyYIE7CsY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fDIHr6CrDlHtBQjIZlRe3HMG7rotsJVWPNOFeEr+YzLwBxVJLa7MAp2hvR7jhjff22aCCCvCQtCVwl/x3GgsnDzJ8yusVXIW1ePaUqg1BLj3Knefx+yuj4u7FbTWaM7zKPtQJhMODwuzz3brhIGJI8JKQX+2oXgqPRhgHLFwo6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=138KwVsK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EKmsLEw+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=138KwVsK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EKmsLEw+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1753954431; c=relaxed/simple;
+	bh=3Po5tHY8wyiv0YK9aucd+EfDUJHpZK5a1SS7q68vnLg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HJA4aId04sLJEqJH5yTqYNsA1+nVWp/nXnPhYGJQEWIHVnQ8LhXnqYShN95QR/GTBZSEwTJgLH13stoTeCawkB4NnlWJhpAzdd3NO+hcQmx8s+7wIzYsPsK9s+mzUUjbuixY7S2pHtjaIkgmMUQ9luNRGHIR+PhJ6o5T57Yr59w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OfUYCM0D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="138KwVsK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EKmsLEw+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="138KwVsK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EKmsLEw+"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B950F21207;
-	Thu, 31 Jul 2025 09:15:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753953351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hqt/14zHFN/2dJkoQfIcLfzi/Yt2gslHinKrfpwzWV0=;
-	b=138KwVsKfJiZwZ8s2zsNO2fdXVXfuAjhGe2ArtY1quaCHwhI9W8nNleY9aZOjjXikhvQ8J
-	/rOscRzvpqPkYQo4L2xoGkgnuK5JOBERZxIRY7F4r2euuY4iOiivDDv23tva+gKvn92klo
-	R5zrFN3fMxRcrCHIN46bqO33yRt5cYk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753953351;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hqt/14zHFN/2dJkoQfIcLfzi/Yt2gslHinKrfpwzWV0=;
-	b=EKmsLEw+AI5qxQSIzw96SDQU56Qrb2YB6z8ZjYIZBUQ2MIc+JrJqjOHXesxWRE9cEEjwuA
-	vj2aDS4wrvubv1BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753953351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hqt/14zHFN/2dJkoQfIcLfzi/Yt2gslHinKrfpwzWV0=;
-	b=138KwVsKfJiZwZ8s2zsNO2fdXVXfuAjhGe2ArtY1quaCHwhI9W8nNleY9aZOjjXikhvQ8J
-	/rOscRzvpqPkYQo4L2xoGkgnuK5JOBERZxIRY7F4r2euuY4iOiivDDv23tva+gKvn92klo
-	R5zrFN3fMxRcrCHIN46bqO33yRt5cYk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753953351;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hqt/14zHFN/2dJkoQfIcLfzi/Yt2gslHinKrfpwzWV0=;
-	b=EKmsLEw+AI5qxQSIzw96SDQU56Qrb2YB6z8ZjYIZBUQ2MIc+JrJqjOHXesxWRE9cEEjwuA
-	vj2aDS4wrvubv1BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6FD9313876;
-	Thu, 31 Jul 2025 09:15:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id d6sXGkc0i2icFwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 31 Jul 2025 09:15:51 +0000
-Date: Thu, 31 Jul 2025 11:15:51 +0200
-Message-ID: <87cy9gsou0.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: noble228@gmail.com
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	hulianqin@vivo.com,
-	lina+kernel@asahilina.net,
-	cyan.vtb@gmail.com,
-	dan.carpenter@linaro.org,
-	bsevens@google.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"noble.yang" <noble.yang@comtrue-inc.com>
-Subject: Re: [PATCH] ALSA: usb-audio: Add DSD support for Comtrue USB Audio device
-In-Reply-To: <20250731081559.10842-1-noble228@gmail.com>
-References: <20250731081559.10842-1-noble228@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OfUYCM0D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13F71C4CEF5;
+	Thu, 31 Jul 2025 09:33:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753954431;
+	bh=3Po5tHY8wyiv0YK9aucd+EfDUJHpZK5a1SS7q68vnLg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=OfUYCM0DSsszsG3g9EODqft28MhI0bNcO4hBZR5UPovhaBWN0DJRFjpJb3L02S5Im
+	 PWdY8c8rDe3NMv36Nw+gglz16AAEt2VtukfVgCC0enSlrCCuzoFuvxo+R+B/8WThiE
+	 kx4MIMXDaDZM05vgKWs3txq7dHUdRtan7q5+JLyhgNbxkyiRbzB2vqz4LOenhjen4Y
+	 QbC/vrBNcIBR2A6UHcY5igncji24fMMFWijGnwtgc/soZQgFfwkbLcaExCkX+ICyI1
+	 l4NBzK6KjpFxG6zoZ0NdtbjhVdiLsT1ovu4CM9oatIRGIyRuhY3C9zMLfPL5i7f+dA
+	 nvy+ByP0nnuew==
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-615460d9897so246033a12.0;
+        Thu, 31 Jul 2025 02:33:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVJM+MHP5CTXQiDomIU2Lf3V+CBY1swU3HO9kWddlgxQw/ZvXiFhDFkpoGkRWvabLdbjUPK9Lg3GcoX1oI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7mZJVE3Wo/BBmbH7O6JDCBugJbYUXQCFh95O29UZwzGnGFfJX
+	BlArR3rDNqkTskPvOeUdl1L0NrNKN5Rn5j67gQaqo5+NcUn8oMdkdRp8qbb+qUmnTmDA8aEIHFZ
+	JupNMGzCDJmvcF9APx/xw6Xl/ZNtkUxM=
+X-Google-Smtp-Source: AGHT+IFpmRkfc0sDZTQd2YRkLR11vNPRxlOCCU/3GXiQpX362B+CoYeol5yvnHniEzFD98M+WuD53WHNgOFZc330ozo=
+X-Received: by 2002:aa7:d9cc:0:b0:615:4d3a:9330 with SMTP id
+ 4fb4d7f45d1cf-61586f1e61amr5714287a12.14.1753954429645; Thu, 31 Jul 2025
+ 02:33:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.com,perex.cz,vivo.com,asahilina.net,gmail.com,linaro.org,google.com,vger.kernel.org,comtrue-inc.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[kernel];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -1.80
+MIME-Version: 1.0
+References: <20250731091109.16901-1-tiwai@suse.de> <20250731091109.16901-3-tiwai@suse.de>
+In-Reply-To: <20250731091109.16901-3-tiwai@suse.de>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Thu, 31 Jul 2025 17:33:38 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6uDytXrsWv43uxNic9PH=ed1M3=29LTqCoYxzNdESkfw@mail.gmail.com>
+X-Gm-Features: Ac12FXxenkxSHPDvVtvVV3LnqeNQPfWYDzIG90vtnWDotY17M1HmFmclI8OUeBA
+Message-ID: <CAAhV-H6uDytXrsWv43uxNic9PH=ed1M3=29LTqCoYxzNdESkfw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] LoongArch: Update HD-audio codec configs
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 31 Jul 2025 10:15:59 +0200,
-noble228@gmail.com wrote:
-> 
-> From: "noble.yang" <noble.yang@comtrue-inc.com>
-> 
+On Thu, Jul 31, 2025 at 5:11=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> The HD-audio codec driver configs have been updated again the drivers
+> got split with different kconfigs.
+I'm sorry for making noise, but is SND_HDA_INTEL_HDMI_SILENT_STREAM
+needed for common use? If yes, I also prefer it be enabled.
 
-Could you fill the patch description?  You already wrote enough
-information in the original post, and put the text here.
+Huacai
 
-> --- a/sound/usb/quirks.c
-> +++ b/sound/usb/quirks.c
-> @@ -2408,6 +2408,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
->  		   QUIRK_FLAG_DSD_RAW),
->  	VENDOR_FLG(0x2d87, /* Cayin device */
->  		   QUIRK_FLAG_DSD_RAW),
-> +        VENDOR_FLG(0x2fc6, /* Comture-inc devices */
-
-The indentation doesn't look right.  Try to use tabs.
-
-
-thanks,
-
-Takashi
+>
+> Enable all Realtek HD-audio codecs and HDMI codecs (except for
+> NVIDIA_MCP and TEGRA) per request.
+>
+> Fixes: 1d8dd982c409 ("ALSA: hda/realtek: Enable drivers as default")
+> Fixes: 81231ad173d8 ("ALSA: hda/hdmi: Enable drivers as default")
+> Cc: loongarch@lists.linux.dev
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+> v1->v2: enable all Realtek codecs and most of HDMI codecs
+>
+> The changes are only in sound.git tree, so I'll pick up this there, too
+>
+>  arch/loongarch/configs/loongson3_defconfig | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>
+> diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/=
+configs/loongson3_defconfig
+> index 0d59af6007b7..7993020ffebb 100644
+> --- a/arch/loongarch/configs/loongson3_defconfig
+> +++ b/arch/loongarch/configs/loongson3_defconfig
+> @@ -784,8 +784,23 @@ CONFIG_SND_HDA_HWDEP=3Dy
+>  CONFIG_SND_HDA_INPUT_BEEP=3Dy
+>  CONFIG_SND_HDA_PATCH_LOADER=3Dy
+>  CONFIG_SND_HDA_CODEC_REALTEK=3Dy
+> +CONFIG_SND_HDA_CODEC_REALTEK_LIB=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC260=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC262=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC268=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC269=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC662=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC680=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC861=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC861VD=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC880=3Dy
+> +CONFIG_SND_HDA_CODEC_ALC882=3Dy
+>  CONFIG_SND_HDA_CODEC_SIGMATEL=3Dy
+>  CONFIG_SND_HDA_CODEC_HDMI=3Dy
+> +CONFIG_SND_HDA_CODEC_HDMI_GENERIC=3Dy
+> +CONFIG_SND_HDA_CODEC_HDMI_INTEL=3Dy
+> +CONFIG_SND_HDA_CODEC_HDMI_ATI=3Dy
+> +CONFIG_SND_HDA_CODEC_HDMI_NVIDIA=3Dy
+>  CONFIG_SND_HDA_CODEC_CONEXANT=3Dy
+>  CONFIG_SND_USB_AUDIO=3Dm
+>  CONFIG_SND_SOC=3Dm
+> --
+> 2.50.1
+>
+>
