@@ -1,431 +1,111 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3C5323D
-	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 05:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662DA248F60;
+	Thu, 31 Jul 2025 06:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753941120; cv=none; b=fnCo59IPS/rNWCXW/dd8OhXdkzR1LBbCPlygx0Vi6lvqnJYOLsNZfsBA+fxG/5SNzAp22fBlC8bKvSfgmSV0MPw+Vi1wlIiZSjBJlJTqu2gsheScVupd53wYmsDEfFjTibYIBTVFJR/j2bPReuXJFrlLgFXGnfzaBDVTnPMyFek=
+	t=1753942509; cv=none; b=XJEkrYtTyb2QD29Gkdn9f57M/qwZL12tvWhBbUvvRpJb5bshJ14WTiy+iK9PoUyGcJQViCXm+T1S0KHRJPVFNwFKoCWvAUpAyFCArE+QPn7lYFawhuVnYMIIHMHp0AMgsKFmRJfBgqAh0i69KzUUGSrvT+S4OI/Pki/Bf64khS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753941120; c=relaxed/simple;
-	bh=4iyxCJOMq/7oxqfWM+bR7G8f3KyhI8WcJu0xJy7MwZ0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GucHcVpj+dOjpXRGPOMzmLb/1/jD40sTb08ULgLtuTKAB0ThJ+jJanQEkDbdtaXg8TgkMFGGO+JBOqPoVjpukpluvAQm4GC8FKwP4lDtYr2iJbZc2jN7JqjV/vl3T799Qri4J0tsrSB7YCZmu1KBX02j77S/W4wevFzcYTsnnXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=b2MtUQZb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PnjynPx3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=b2MtUQZb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PnjynPx3; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1753942509; c=relaxed/simple;
+	bh=IHLvN+bSRL5qsAC8AZSEoz9lgePwb/RVVil4oXLXbes=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BettXJXoA7qaDC79RzmWyHYLM/nIoMEQbzew29DLbqa4RSAcCaC3bDmOgKIAJ8UZtDAX3U4hLKCWHoCaq4G8ORqZoWWHIOJLrh3nA309Rs7VDWF/nm17rNAkyhgTnD8NlmK0qZcNPh74mzjNmCDEUdlu/ehK531JJVHiu6eS/H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XpVwwhlX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="b2MtUQZb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PnjynPx3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="b2MtUQZb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PnjynPx3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 77D0C21A8C;
-	Thu, 31 Jul 2025 05:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753941116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z3dC4+b7eC/gHDHk2DCGYpJtzTewrOWV0zoEmeC25tk=;
-	b=b2MtUQZbO3OACBzhw98scwhJwYTJB5t1OgbY8+BVHd9l0aLz4dCIOzG+cnXhBjg3aPOrxN
-	t6WCMCuuA9pEdxSLTSdG6/sq2PNOtj5Qo/bTb4B+KcEeMippUOBZS1vcWgyBegldoKJ8Yy
-	mbe97M7hC7Bw4IUzZSxph5YfEACiT+M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753941116;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z3dC4+b7eC/gHDHk2DCGYpJtzTewrOWV0zoEmeC25tk=;
-	b=PnjynPx3dLd6v42wHzLrWHols521g6KHt/Fibmsvv2Bdd9QPjvAoYpeHAQsIztEf7n3AaV
-	As96Jwukym4N3WBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=b2MtUQZb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PnjynPx3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1753941116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z3dC4+b7eC/gHDHk2DCGYpJtzTewrOWV0zoEmeC25tk=;
-	b=b2MtUQZbO3OACBzhw98scwhJwYTJB5t1OgbY8+BVHd9l0aLz4dCIOzG+cnXhBjg3aPOrxN
-	t6WCMCuuA9pEdxSLTSdG6/sq2PNOtj5Qo/bTb4B+KcEeMippUOBZS1vcWgyBegldoKJ8Yy
-	mbe97M7hC7Bw4IUzZSxph5YfEACiT+M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1753941116;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z3dC4+b7eC/gHDHk2DCGYpJtzTewrOWV0zoEmeC25tk=;
-	b=PnjynPx3dLd6v42wHzLrWHols521g6KHt/Fibmsvv2Bdd9QPjvAoYpeHAQsIztEf7n3AaV
-	As96Jwukym4N3WBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E81E1378C;
-	Thu, 31 Jul 2025 05:51:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IB/UBXwEi2hgUwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 31 Jul 2025 05:51:56 +0000
-Date: Thu, 31 Jul 2025 07:51:55 +0200
-Message-ID: <874iusucuc.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: <noble.yang@comtrue-inc.com>
-Cc: "'Takashi Iwai'" <tiwai@suse.de>,
-	<tiwai@suse.com>,
-	<perex@perex.cz>,
-	<hulianqin@vivo.com>,
-	<lina+kernel@asahilina.net>,
-	<cyan.vtb@gmail.com>,
-	<dan.carpenter@linaro.org>,
-	<bsevens@google.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: usb-audio: Add DSD support for Comtrue USB Audio device
-In-Reply-To: <002601dc01de$fc127db0$f4377910$@comtrue-inc.com>
-References: <001e01dc01d6$cc4c64e0$64e52ea0$@comtrue-inc.com>
-	<875xf8udel.wl-tiwai@suse.de>
-	<002601dc01de$fc127db0$f4377910$@comtrue-inc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XpVwwhlX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2249C4CEEF;
+	Thu, 31 Jul 2025 06:15:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753942508;
+	bh=IHLvN+bSRL5qsAC8AZSEoz9lgePwb/RVVil4oXLXbes=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XpVwwhlXhJR92x9pYwcE6WoBoY4agNtbc07pOGbr5OYP3tsztgqvLP33zFK78TR9B
+	 /xrhSTouj30lLJjoplHvS+Jb5R6TQHUV5PrnY3/mLKpi5hiUcE7iimiLmXu+3OjCmj
+	 0kDRrfTYsov9GlKv7GwUZ74wcwowSVheHgGh2f1RVguy8R3xlgFSXPKA+SSkU5oTd+
+	 vp5850Te8ekgWsSw3TN+JTl2GjDPa6Doul9y+C6tD5mMnOtfBd07jZ+FfiXe2mxis4
+	 lgp9cC7RRMxNE6dBzTMFyiMqqzYM168/M2+gs62xkLFK7xDt1Cqofnh++ek0qs5LuF
+	 0OKruxgnpQKWg==
+Message-ID: <d143e454-1994-4dbb-a7f2-bbb693405376@kernel.org>
+Date: Thu, 31 Jul 2025 08:15:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=BIG5
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.de,suse.com,perex.cz,vivo.com,asahilina.net,gmail.com,linaro.org,google.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[kernel];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[perex.cz:email,reurl.cc:url,comtrue-inc.com:url,comtrue-inc.com:email,asahilina.net:email,suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,vivo.com:email,suse.com:email,linaro.org:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 77D0C21A8C
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -2.01
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: Fix arch defconfigs
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <20250731053031.27121-1-tiwai@suse.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250731053031.27121-1-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 31 Jul 2025 07:50:13 +0200,
-<noble.yang@comtrue-inc.com> wrote:
+On 31/07/2025 07:30, Takashi Iwai wrote:
+> The Realtek and HDMI HD-audio codec configs have been slightly updated
+> again since the previous change.  Follow the new kconfig changes for
+> arch defconfigs that contain CONFIG_SND_HDA_* items.
 > 
-> Hello Takashi
-> 
-> Please try download it as below link
-> https://reurl.cc/8951Ro
+> Fixes: 1d8dd982c409 ("ALSA: hda/realtek: Enable drivers as default")
+> Fixes: 81231ad173d8 ("ALSA: hda/hdmi: Enable drivers as default")
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>  arch/arm/configs/multi_v7_defconfig        | 3 ++-
+>  arch/arm/configs/tegra_defconfig           | 3 +++
+>  arch/loongarch/configs/loongson3_defconfig | 2 ++
+>  arch/mips/configs/loongson2k_defconfig     | 1 +
+>  arch/mips/configs/loongson3_defconfig      | 3 ++-
 
-You can't submit like this style.  Please try to submit in the proper
-format embedded in the email.
 
+This is not ALSA change at all. Please use correct subject prefixes
+after splitting the patch per subsystem.
 
-thanks,
-
-Takashi
-
-> 
-> Thanks
-> Noble
-> 
-> -----Original Message-----
-> From: Takashi Iwai <tiwai@suse.de> 
-> Sent: Thursday, July 31, 2025 1:40 PM
-> To: noble.yang@comtrue-inc.com
-> Cc: tiwai@suse.com; perex@perex.cz; hulianqin@vivo.com;
-> lina+kernel@asahilina.net; cyan.vtb@gmail.com; dan.carpenter@linaro.org;
-> bsevens@google.com; linux-sound@vger.kernel.org;
-> linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH] ALSA: usb-audio: Add DSD support for Comtrue USB Audio
-> device
-> 
-> On Thu, 31 Jul 2025 06:51:37 +0200,
-> <noble.yang@comtrue-inc.com> wrote:
-> > 
-> > 
-> > The vendor Comtrue Inc. (0x2fc6) produces USB audio chipsets like
-> > 
-> > the CT7601 which are capable of Native DSD playback.
-> > 
-> > This patch adds QUIRK_FLAG_DSD_RAW for Comtrue (VID 0x2fc6), which 
-> > enables
-> > 
-> > native DSD playback (DSD_U32_LE) on their USB Audio device. This has 
-> > been
-> > 
-> > verified under Ubuntu 25.04 with JRiver.
-> > 
-> > Best Regards !
-> 
-> I see no patch in the mail.  Could you try to send via git-send-email?
-> 
-> 
-> thanks,
-> 
-> Takashi
-> 
-> > 
-> > ===========================
-> > 
-> > Noble Yang
-> > 
-> > Cell : +886-955-347822
-> > 
-> > 晨臻股份有限公司
-> > 
-> > Comtrue Inc.
-> > 
-> > www.comtrue-inc.com
-> > 
-> > 新地址 : 新竹縣竹北市縣政十街10號2F之1
-> > 
-> > 2F.-1, No. 10, Xianzheng 10th St., Zhubei City, Hsinchu County 302, 
-> > Taiwan
-> > (R.O.C.)
-> > 
-> > The information included in this email is privileged and confidential 
-> > and just for the exclusive use of the addressee.
-> > 
-> > For people other than the addressee the use, disclosure and 
-> > reproduction is strictly prohibited.
-> > 
-> > If this message has been received in error, please contact the sender 
-> > and delete all copies.
-> > 
-> > 
-> > cat /proc/asound/card*/stream0
-> > Comtrue-inc Comtrue-inc UAC2 Device EVM-GB at usb-0000:00:14.0-5, high 
-> > speed : USB Audio
-> > 
-> > Playback:
-> >   Status: Stop
-> >   Interface 1
-> >     Altset 1
-> >     Format: S16_LE
-> >     Channels: 2
-> >     Endpoint: 0x01 (1 OUT) (ASYNC)
-> >     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000,
-> 705600, 768000
-> >     Data packet interval: 125 us
-> >     Bits: 16
-> >     Channel map: FL FR
-> >     Sync Endpoint: 0x81 (1 IN)
-> >     Sync EP Interface: 1
-> >     Sync EP Altset: 1
-> >     Implicit Feedback Mode: No
-> >   Interface 1
-> >     Altset 2
-> >     Format: S24_3LE
-> >     Channels: 2
-> >     Endpoint: 0x01 (1 OUT) (ASYNC)
-> >     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000,
-> 705600, 768000
-> >     Data packet interval: 125 us
-> >     Bits: 24
-> >     Channel map: FL FR
-> >     Sync Endpoint: 0x81 (1 IN)
-> >     Sync EP Interface: 1
-> >     Sync EP Altset: 2
-> >     Implicit Feedback Mode: No
-> >   Interface 1
-> >     Altset 3
-> >     Format: S32_LE
-> >     Channels: 2
-> >     Endpoint: 0x01 (1 OUT) (ASYNC)
-> >     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000,
-> 705600, 768000
-> >     Data packet interval: 125 us
-> >     Bits: 32
-> >     Channel map: FL FR
-> >     Sync Endpoint: 0x81 (1 IN)
-> >     Sync EP Interface: 1
-> >     Sync EP Altset: 3
-> >     Implicit Feedback Mode: No
-> >   Interface 1
-> >     Altset 4
-> >     Format: SPECIAL DSD_U32_BE
-> >     Channels: 2
-> >     Endpoint: 0x01 (1 OUT) (ASYNC)
-> >     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000,
-> 705600, 768000
-> >     Data packet interval: 125 us
-> >     Bits: 32
-> >     DSD raw: DOP=0, bitrev=0
-> >     Channel map: FL FR
-> >     Sync Endpoint: 0x81 (1 IN)
-> >     Sync EP Interface: 1
-> >     Sync EP Altset: 4
-> >     Implicit Feedback Mode: No
-> > 
-> > Capture:
-> >   Status: Stop
-> >   Interface 2
-> >     Altset 1
-> >     Format: S16_LE
-> >     Channels: 2
-> >     Endpoint: 0x82 (2 IN) (ASYNC)
-> >     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000,
-> 705600, 768000
-> >     Data packet interval: 125 us
-> >     Bits: 16
-> >     Channel map: FL FR
-> >   Interface 2
-> >     Altset 2
-> >     Format: S24_3LE
-> >     Channels: 2
-> >     Endpoint: 0x82 (2 IN) (ASYNC)
-> >     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000,
-> 705600, 768000
-> >     Data packet interval: 125 us
-> >     Bits: 24
-> >     Channel map: FL FR
-> >   Interface 2
-> >     Altset 3
-> >     Format: S32_LE
-> >     Channels: 2
-> >     Endpoint: 0x82 (2 IN) (ASYNC)
-> >     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000,
-> 705600, 768000
-> >     Data packet interval: 125 us
-> >     Bits: 32
-> >     Channel map: FL FR
-> >   Interface 2
-> >     Altset 4
-> >     Format: SPECIAL DSD_U32_BE
-> >     Channels: 2
-> >     Endpoint: 0x82 (2 IN) (ASYNC)
-> >     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000,
-> 705600, 768000
-> >     Data packet interval: 125 us
-> >     Bits: 32
-> >     DSD raw: DOP=0, bitrev=0
-> >     Channel map: FL FR
-> > 
-> 
-> cat /proc/asound/card*/stream0
-> Comtrue-inc Comtrue-inc UAC2 Device EVM-GB at usb-0000:00:14.0-5, high speed : USB Audio
-> 
-> Playback:
->   Status: Stop
->   Interface 1
->     Altset 1
->     Format: S16_LE
->     Channels: 2
->     Endpoint: 0x01 (1 OUT) (ASYNC)
->     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
->     Data packet interval: 125 us
->     Bits: 16
->     Channel map: FL FR
->     Sync Endpoint: 0x81 (1 IN)
->     Sync EP Interface: 1
->     Sync EP Altset: 1
->     Implicit Feedback Mode: No
->   Interface 1
->     Altset 2
->     Format: S24_3LE
->     Channels: 2
->     Endpoint: 0x01 (1 OUT) (ASYNC)
->     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
->     Data packet interval: 125 us
->     Bits: 24
->     Channel map: FL FR
->     Sync Endpoint: 0x81 (1 IN)
->     Sync EP Interface: 1
->     Sync EP Altset: 2
->     Implicit Feedback Mode: No
->   Interface 1
->     Altset 3
->     Format: S32_LE
->     Channels: 2
->     Endpoint: 0x01 (1 OUT) (ASYNC)
->     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
->     Data packet interval: 125 us
->     Bits: 32
->     Channel map: FL FR
->     Sync Endpoint: 0x81 (1 IN)
->     Sync EP Interface: 1
->     Sync EP Altset: 3
->     Implicit Feedback Mode: No
->   Interface 1
->     Altset 4
->     Format: SPECIAL DSD_U32_BE
->     Channels: 2
->     Endpoint: 0x01 (1 OUT) (ASYNC)
->     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
->     Data packet interval: 125 us
->     Bits: 32
->     DSD raw: DOP=0, bitrev=0
->     Channel map: FL FR
->     Sync Endpoint: 0x81 (1 IN)
->     Sync EP Interface: 1
->     Sync EP Altset: 4
->     Implicit Feedback Mode: No
-> 
-> Capture:
->   Status: Stop
->   Interface 2
->     Altset 1
->     Format: S16_LE
->     Channels: 2
->     Endpoint: 0x82 (2 IN) (ASYNC)
->     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
->     Data packet interval: 125 us
->     Bits: 16
->     Channel map: FL FR
->   Interface 2
->     Altset 2
->     Format: S24_3LE
->     Channels: 2
->     Endpoint: 0x82 (2 IN) (ASYNC)
->     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
->     Data packet interval: 125 us
->     Bits: 24
->     Channel map: FL FR
->   Interface 2
->     Altset 3
->     Format: S32_LE
->     Channels: 2
->     Endpoint: 0x82 (2 IN) (ASYNC)
->     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
->     Data packet interval: 125 us
->     Bits: 32
->     Channel map: FL FR
->   Interface 2
->     Altset 4
->     Format: SPECIAL DSD_U32_BE
->     Channels: 2
->     Endpoint: 0x82 (2 IN) (ASYNC)
->     Rates: 44100, 48000, 88200, 96000, 176400, 192000, 352800, 384000, 705600, 768000
->     Data packet interval: 125 us
->     Bits: 32
->     DSD raw: DOP=0, bitrev=0
->     Channel map: FL FR
-> 
+Best regards,
+Krzysztof
