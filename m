@@ -1,137 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EFD2BF00B;
-	Thu, 31 Jul 2025 11:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4403C2BFC8F
+	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 12:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753960726; cv=none; b=mUCk1hgkO0TzGORPYJg80Vd/Kk+FWnugcBNlOe7AmyEBcRHsKGv5Jad8f9PbdXpMz9mcSFkzdHYM1vL9RuSNA8nu03PUDcwy8vEF6T+nFfTizGgXcydt2itek+FPdUnf5J3xAYTHAiredy6coIbbNu6frrJZZizvbe6Y9A+nups=
+	t=1753965463; cv=none; b=Ya4HfQChp2yp0O9ClLFO9WgXILh5uqbUIq3KQWG2WCGe74JEeuds46Nun+vCYMYhPiVMSeNzKcdCQedORmbQZH6t69TWXH4G6T1VZGUO8GJWA14xZYJ0hk65X+uAL6vzRe/6UxyqeaZzc5Qv75TwKrJTKO5je5SOZa07ZhhUuP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753960726; c=relaxed/simple;
-	bh=rswEmbzAbnRa2dgcdTCzb6hzHnfprvlr8wLY/EDWe28=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=upob/SgoDjLxP2G8mNx1eh/E3Wq329/HZom/RTJb/qzErcHr0VhBWhY3iRNQqdawVQf/rEHumwexvHiXNKDhV23d3sGmWpg8S3pmFszkjJBalaU8btIGAV7dKg60ox3iklhBPP7ixY7WF9fstBZhxR9VC/S5wO7f5137bK0V1Xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rlrGQIWa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753965463; c=relaxed/simple;
+	bh=QSThmTv2cL/cUkSTo88u0nGKHczgV+5JqxDSU6mNKcw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rpq0CpNSqVY4EU8AGNXedDh4ZSj8y9yfdbrfHXyK9Pnl2nTqtkiHzPOITtJIdzHmOSrXjFimxBuv2fj8Brwy4euevogn/lnYe1MoTZ5G6aPT7qAYsTcvJAsRaq6fWDZe4uWRUpHcqYdEg/DGbjq+yzZvgd2kvXoN7QwUHgar3PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UClNw5DM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q2fYeiXL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UClNw5DM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q2fYeiXL; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rlrGQIWa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC196C4CEEF;
-	Thu, 31 Jul 2025 11:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753960725;
-	bh=rswEmbzAbnRa2dgcdTCzb6hzHnfprvlr8wLY/EDWe28=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=rlrGQIWa23plGopbto7j2HRa8jRdZ1zJRui8whhL8/foCBFcDnmxXeEtvqjfl02aa
-	 w1y4vhhSS2hc+4znf9i+X9EQ8fojOxLl+pVlcgBjpIU6a8begku4B1AzaLphj0013g
-	 tPqsQE7Z23u7YvvrjdHuDse7JukLmYSaPjjX6vlFGeQMnxySN3yAWTa39MVFYoijf9
-	 2LfskJLl2Y5C47Np0EHCAQMn4NEBvHgsnBsslHo2DZYuU7U3qXFA/pZ7v5EoT4HlZX
-	 u3LGLpUhlzXqqs6NwYPGmrmiHaJ5lcvAFipJRA8tAh26bRAFUEUPVoW+KzQDorIJIt
-	 KGcqazTykIgag==
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-615378b42ecso1338129a12.0;
-        Thu, 31 Jul 2025 04:18:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWGaC2grd6/q4o6xHFpXtqD2YB+eEMIASKx88ffsavYhwJpfe5TnaR5kv6aCCCOfuGsBoQToybbmm4D+A==@vger.kernel.org, AJvYcCWt9bdTJchZ0y5IPRERjGT+esCOGF2+3jd9/U3vFdkXlLTTFNS2FxZuKKNgz+wcENe3vkRyas67AN0flPU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyrz4iZkhj+4lYmTAbUryPVNFo77MtBOYwcL2CF8kqPbux9fp6t
-	qkYwXJSr8eOqeqMoQ6M1j6OK74WGpQa2fXckHsmkjyDqXzXmQsePLwvcFakxF6CIvWMMQQyDoQn
-	CU+Dtplisbds95M0b8TJ0u1igMzpUQvk=
-X-Google-Smtp-Source: AGHT+IEJqhQ3w8H3+lFjy46dU1ytMowLPop/riplOTIN2fGGdvVE989ka5RInCaPlew98qpmqod3UawUDnmI2K4pIok=
-X-Received: by 2002:aa7:d5d5:0:b0:615:481c:7e03 with SMTP id
- 4fb4d7f45d1cf-615871e685cmr5773649a12.21.1753960724238; Thu, 31 Jul 2025
- 04:18:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UClNw5DM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q2fYeiXL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UClNw5DM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q2fYeiXL"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 287E11FC83;
+	Thu, 31 Jul 2025 12:37:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753965458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6aDI3BXAXkguIYp1CGsSWtykjtTqLj55lZ41VA8Ch0Q=;
+	b=UClNw5DMC7ZdBfPexR9FQEAjfT/y/X/Ejj4sV3+7dLiBzFbJiz7C6ljLvPkqo+re88yLAT
+	5oQctRJzgjWEZBFIyY+8nQ4wX9s4alRlzOnniSMuWmKkL1dbE4eYVr6ZtJxUFEDgd9jWsi
+	RsT6QSyI/JDNHbUq+GJqOuzmIu88CvY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753965458;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6aDI3BXAXkguIYp1CGsSWtykjtTqLj55lZ41VA8Ch0Q=;
+	b=Q2fYeiXLUk3YX11Fs9AX7hUM1QxKqeGTu022p7Ei/RjeH1nfQxA7VnzrIMCpNjEQZ6wKk+
+	U55nPAn13Cz8lCDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=UClNw5DM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Q2fYeiXL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753965458; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6aDI3BXAXkguIYp1CGsSWtykjtTqLj55lZ41VA8Ch0Q=;
+	b=UClNw5DMC7ZdBfPexR9FQEAjfT/y/X/Ejj4sV3+7dLiBzFbJiz7C6ljLvPkqo+re88yLAT
+	5oQctRJzgjWEZBFIyY+8nQ4wX9s4alRlzOnniSMuWmKkL1dbE4eYVr6ZtJxUFEDgd9jWsi
+	RsT6QSyI/JDNHbUq+GJqOuzmIu88CvY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753965458;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6aDI3BXAXkguIYp1CGsSWtykjtTqLj55lZ41VA8Ch0Q=;
+	b=Q2fYeiXLUk3YX11Fs9AX7hUM1QxKqeGTu022p7Ei/RjeH1nfQxA7VnzrIMCpNjEQZ6wKk+
+	U55nPAn13Cz8lCDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D206713876;
+	Thu, 31 Jul 2025 12:37:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Z9wDMpFji2jWWwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 31 Jul 2025 12:37:37 +0000
+Date: Thu, 31 Jul 2025 14:37:37 +0200
+Message-ID: <87v7n8r0xa.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Arthur Marsh <arthur.marsh@internode.on.net>
+Cc: tiwai@suse.de,
+	amadeuszx.slawinski@linux.intel.com,
+	baojun.xu@ti.com,
+	bo.liu@senarytech.com,
+	cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,
+	kailang@realtek.com,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	rf@opensource.cirrus.com
+Subject: Re: ALC887-VD line-in not visible
+In-Reply-To: <20250731123201.6220-1-user@am64>
+References: <877bzoudpk.wl-tiwai@suse.de>
+	<20250731123201.6220-1-user@am64>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250731091109.16901-1-tiwai@suse.de> <20250731091109.16901-4-tiwai@suse.de>
-In-Reply-To: <20250731091109.16901-4-tiwai@suse.de>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Thu, 31 Jul 2025 19:18:31 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4YX22_p_H3M8SD6ap4W4pbRnOBw16L_7GchZh7W50TQA@mail.gmail.com>
-X-Gm-Features: Ac12FXwakZb0YubvZH4vlqOzWkpBuNqNoMFC67ysNaFv3Pns3YculL_KzXserkM
-Message-ID: <CAAhV-H4YX22_p_H3M8SD6ap4W4pbRnOBw16L_7GchZh7W50TQA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] mips: Update HD-audio configs again
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mips@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 287E11FC83
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[internode.on.net];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[internode.on.net];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.51
 
-On Thu, Jul 31, 2025 at 5:11=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
->
-> The HD-audio codec driver configs have been updated again since the
-> previous change.  Correct the types and enable all Realtek HD-audio
-> codecs for loongson, per request.
->
-> Fixes: 1d8dd982c409 ("ALSA: hda/realtek: Enable drivers as default")
-> Fixes: 81231ad173d8 ("ALSA: hda/hdmi: Enable drivers as default")
-> Cc: linux-mips@vger.kernel.org
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+On Thu, 31 Jul 2025 14:32:01 +0200,
+Arthur Marsh wrote:
+> 
+> Thanks, I found the discussion with Linus about options and enabled:
+> 
+> CONFIG_SND_HDA_CODEC_ALC882
+> 
+> It still gets confusing that 
+> 
+> CONFIG_SND_HDA_CODEC_ALC882
+> 
+> also applies to other ALC88* codecs.
 
-> ---
-> v1->v2: enable all Realtek codecs and most of HDMI codecs
->
-> The changes are only in sound.git tree, so I'll pick up this there, too
->
->  arch/mips/configs/loongson2k_defconfig | 11 +++++++++++
->  arch/mips/configs/loongson3_defconfig  | 15 ++++++++++++++-
->  2 files changed, 25 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/mips/configs/loongson2k_defconfig b/arch/mips/configs/l=
-oongson2k_defconfig
-> index 4b7f914d01d0..7a86632b87e9 100644
-> --- a/arch/mips/configs/loongson2k_defconfig
-> +++ b/arch/mips/configs/loongson2k_defconfig
-> @@ -257,6 +257,17 @@ CONFIG_SND_HDA_INTEL=3Dy
->  CONFIG_SND_HDA_HWDEP=3Dy
->  CONFIG_SND_HDA_PATCH_LOADER=3Dy
->  CONFIG_SND_HDA_CODEC_REALTEK=3Dy
-> +CONFIG_SND_HDA_CODEC_REALTEK_LIB=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC260=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC262=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC268=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC269=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC662=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC680=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC861=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC861VD=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC880=3Dy
-> +CONFIG_SND_HDA_CODEC_ALC882=3Dy
->  CONFIG_SND_HDA_CODEC_ANALOG=3Dy
->  CONFIG_SND_HDA_CODEC_SIGMATEL=3Dy
->  CONFIG_SND_HDA_CODEC_VIA=3Dy
-> diff --git a/arch/mips/configs/loongson3_defconfig b/arch/mips/configs/lo=
-ongson3_defconfig
-> index 5ff0c1554168..315ab7ec17b6 100644
-> --- a/arch/mips/configs/loongson3_defconfig
-> +++ b/arch/mips/configs/loongson3_defconfig
-> @@ -292,11 +292,24 @@ CONFIG_SND_SEQ_DUMMY=3Dm
->  # CONFIG_SND_ISA is not set
->  CONFIG_SND_HDA_INTEL=3Dm
->  CONFIG_SND_HDA_PATCH_LOADER=3Dy
-> -CONFIG_SND_HDA_CODEC_REALTEK=3Dy
-> +CONFIG_SND_HDA_CODEC_REALTEK=3Dm
->  CONFIG_SND_HDA_CODEC_REALTEK_LIB=3Dm
-> +CONFIG_SND_HDA_CODEC_ALC260=3Dm
-> +CONFIG_SND_HDA_CODEC_ALC262=3Dm
-> +CONFIG_SND_HDA_CODEC_ALC268=3Dm
->  CONFIG_SND_HDA_CODEC_ALC269=3Dm
-> +CONFIG_SND_HDA_CODEC_ALC662=3Dm
-> +CONFIG_SND_HDA_CODEC_ALC680=3Dm
-> +CONFIG_SND_HDA_CODEC_ALC861=3Dm
-> +CONFIG_SND_HDA_CODEC_ALC861VD=3Dm
-> +CONFIG_SND_HDA_CODEC_ALC880=3Dm
-> +CONFIG_SND_HDA_CODEC_ALC882=3Dm
->  CONFIG_SND_HDA_CODEC_SIGMATEL=3Dm
->  CONFIG_SND_HDA_CODEC_HDMI=3Dm
-> +CONFIG_SND_HDA_CODEC_HDMI_GENERIC=3Dm
-> +CONFIG_SND_HDA_CODEC_HDMI_INTEL=3Dm
-> +CONFIG_SND_HDA_CODEC_HDMI_ATI=3Dm
-> +CONFIG_SND_HDA_CODEC_HDMI_NVIDIA=3Dm
->  CONFIG_SND_HDA_CODEC_CONEXANT=3Dm
->  # CONFIG_SND_USB is not set
->  CONFIG_HIDRAW=3Dy
-> --
-> 2.50.1
->
->
+There are hundreds of different Realtek HD-audio codecs and we can't
+put all in the driver names :)  Basically the driver is for ALC882 and
+its compatible codecs.
+
+> I also enabled:
+> 
+> CONFIG_SND_HDA_CODEC_ALC882
+> 
+> even though I generally don't use HDMI out on this machine.
+
+Your problem is rather specific to Realtek codec, so it's only about
+CONFIG_SND_HDA_CODEC_ALC882.  I'm not sure what made Linus' system
+broken, but my wild guess is that the lack of specific HDMI codec
+support caused the user-space side configuration mismatched somehow.
+
+
+Takashi
