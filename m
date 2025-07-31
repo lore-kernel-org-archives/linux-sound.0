@@ -1,60 +1,76 @@
-Received: from omr001.pc5.atmailcloud.com (omr001.pc5.atmailcloud.com [103.150.252.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F022198E81
-	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 05:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55E2A94A
+	for <linux-sound@vger.kernel.org>; Thu, 31 Jul 2025 05:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753938601; cv=none; b=Sxkd9g9bzAxbYnufMVcW9G3H062loCECmwo0O56qibyWW0wRIAhzhOT9hr8k0Exe6f6Ko5yTD8Dhj+fNxc37mkRN7YvRqToUB1+wCdx51VFcVQZ6q1oLF2G/aVv27ReZ4htmhhkJRGdo1DOrhnKTBHd2zPPR2xWidpukNHvC5l8=
+	t=1753939838; cv=none; b=ATtghGW88aKHoxe0SxqASc0rrfxtQRJwHQf2qW3z6RMC3whISo+ZgnhNJ80Q1YEHQ6M8wEUcn5g0bgZEwbtT+pNfPPwfPWt4w5GKnDK5Tq2rQeXNS3rIlD2XlSTNCUoSYyyp8wTio5WnwpGb08ypXIIuHXqKdknX1oOf/x6WYO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753938601; c=relaxed/simple;
-	bh=dw3L9ISB+wRsA6egIAjTyW4eMPPePqsCydCTJXRRdkM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QCYKWUOCtZiCUKrr9dMnNxNMNyCaZaPWcPbOz5B7HoVnAg2EPz9G124E/BqdIDMeoAONSyVnNP2lDxZIrQ8vj+ZrlOOCLF26lsuG0kzyuzBClz2nXhCxxPcomKGwBLNgePHgvY99BAD47LBAQiM9hwwegW+n+z31Iwonzje59NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=internode.on.net; spf=pass smtp.mailfrom=internode.on.net; dkim=pass (2048-bit key) header.d=internode.on.net header.i=@internode.on.net header.b=DwHPGCzF; arc=none smtp.client-ip=103.150.252.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=internode.on.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=internode.on.net
+	s=arc-20240116; t=1753939838; c=relaxed/simple;
+	bh=Cu5t6YZcZk5lAf+VgfszA5pX1dHFJSG+P7TJVPUldzg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YUW1rZylxYAbuEcveTtF2Qprs9PS6oSIz4M/w6ySkh4tpLchyYr/aPUmJ1ax6SlqB07J4ezxovzFnKyEWTxoCBATgAShdkPXQLC0/WXF9e5JQ93th+vTYC7gL1AIbiRX458iVw5DcgHI9J2dcvH/RR0qigvdxrRsSl1VcXk0+t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vh062AEK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=phv4Ttde; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vh062AEK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=phv4Ttde; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=internode.on.net header.i=@internode.on.net header.b="DwHPGCzF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=internode.on.net; s=202309; h=MIME-Version:Message-ID:Date:Subject:To:From:
-	content-type; bh=Gm1zpNJRfleidMS1QWionmV5CGLfyHsYJUslDSMfaPI=; b=DwHPGCzFQVuY
-	pM5Y1W7sKg0aapUC7bh0e4aup9UfN1XdGilYveKfOEVJZjY1AcQsDSYVthq8ptPCNPtc3SVsvfozv
-	nGm41FwilcFCnAwMPNayISHOBdV0bWrk70WupGlRCyiEyHBIJOAGzMoYT/wE64mgkg6NV0TRPElXl
-	JtGJQLy0XtPVzmDbJQ6iqO+9otmAyIvKsPGKn1MnN0OktBFkh6y9X6QEG2rWPW1QxthcLll3wcHDI
-	Bea6kvGiElwT7p3A0h4JTjrwgGD+oovf1j5F7cU9ME8HGL0A/ilwrEUrR4jQr47RGeHFUudB4myDd
-	AfXbi5K8VDgDy0PvOoj3BQ==;
-Received: from cmr-kakadu01.internal.pc5.atmailcloud.com (cmr-kakadu01.internal.pc5.atmailcloud.com [192.168.1.3]) 
-	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu01.i-0e63219b9832690f5) with ESMTPS
-	(envelope-from <arthur.marsh@internode.on.net>)
-	id 1uhJqu-0000000086j-44r0 ;
-	Thu, 31 Jul 2025 03:21:08 +0000
-Received: from  (localhost [14.2.105.157]) 
-	by cmr-kakadu01.internal.pc5.atmailcloud.com (Exim/localhost) with ESMTPSA
-	(envelope-from <arthur.marsh@internode.on.net>)
-	id 1uhJqr-0000000007F-3WH8 ;
-	Thu, 31 Jul 2025 03:21:08 +0000
-Received: from amarsh04 by localhost with local (Exim 4.98.2)
-	(envelope-from <arthur.marsh@internode.on.net>)
-	id 1uhJql-000000001Es-2t0W;
-	Thu, 31 Jul 2025 12:50:59 +0930
-From: Arthur Marsh <arthur.marsh@internode.on.net>
-To: tiwai@suse.de
-Cc: amadeuszx.slawinski@linux.intel.com,
-	baojun.xu@ti.com,
-	bo.liu@senarytech.com,
-	cezary.rojewski@intel.com,
-	kai.vehmanen@linux.intel.com,
-	kailang@realtek.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	rf@opensource.cirrus.com
-Subject: ALC887-VD line-in not visible
-Date: Thu, 31 Jul 2025 12:50:57 +0930
-Message-ID: <20250731032059.4750-1-user@am64>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250709160434.1859-12-tiwai@suse.de>
-References: <20250709160434.1859-12-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vh062AEK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="phv4Ttde";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vh062AEK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="phv4Ttde"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B4FB31F893;
+	Thu, 31 Jul 2025 05:30:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753939834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XXKHNIrDQ0CBoy0GqEZiamPh7M3IIt41WJXt06H2vrc=;
+	b=vh062AEK12FoWQvMpiCA2uasJ0rP0Ib870SzzVPBCeCeiDFuWMwon935Ez+vDJ6anTmbPU
+	rSuV2Y4GZE8AwkNlBcatD/mMENWOmJvZt8tFVo6gRNs+PUZr7/xf3IkP5nPqwQDB0wNUQ3
+	YMWmkzI7DxfbHviteQ81m/63kkmy/mo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753939834;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XXKHNIrDQ0CBoy0GqEZiamPh7M3IIt41WJXt06H2vrc=;
+	b=phv4TtdeYRIvUJ6faEy+gJZl5UB7jR77ouuNvInDj43rDQCx9nsEUtvF5VmfxBW6/35nPs
+	E1T9kmY15CTeWIAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1753939834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XXKHNIrDQ0CBoy0GqEZiamPh7M3IIt41WJXt06H2vrc=;
+	b=vh062AEK12FoWQvMpiCA2uasJ0rP0Ib870SzzVPBCeCeiDFuWMwon935Ez+vDJ6anTmbPU
+	rSuV2Y4GZE8AwkNlBcatD/mMENWOmJvZt8tFVo6gRNs+PUZr7/xf3IkP5nPqwQDB0wNUQ3
+	YMWmkzI7DxfbHviteQ81m/63kkmy/mo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1753939834;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XXKHNIrDQ0CBoy0GqEZiamPh7M3IIt41WJXt06H2vrc=;
+	b=phv4TtdeYRIvUJ6faEy+gJZl5UB7jR77ouuNvInDj43rDQCx9nsEUtvF5VmfxBW6/35nPs
+	E1T9kmY15CTeWIAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 922971378C;
+	Thu, 31 Jul 2025 05:30:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 45aBInr/imhmTQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 31 Jul 2025 05:30:34 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda: Fix arch defconfigs
+Date: Thu, 31 Jul 2025 07:30:30 +0200
+Message-ID: <20250731053031.27121-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,83 +78,122 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Atmail-Id: arthur.marsh@internode.on.net
-X-atmailcloud-spam-action: no action
-X-Cm-Analysis: v=2.4 cv=B8K/0vtM c=1 sm=1 tr=0 ts=688ae124 a=OuAXCDeWEIhuZeJxW2dRvw==:117 a=OuAXCDeWEIhuZeJxW2dRvw==:17 a=Wb1JkmetP80A:10 a=x7bEGLp0ZPQA:10 a=ZWTVfbmrPR8A:10 a=fjHK62D-1Rs3iuvkDZMA:9
-X-Cm-Envelope: MS4xfKHrzuq/ET/42vlXLzLyU3br56B3imP5FvY9eTTzpb/YC3Qvbv9MG7TA9B7/cMPfFuurVoDNLIJ52aCxxJzzixe6FWjkXkHyehXFk1whaEyDCJzn7y/Q ehdKd6/MdoBka1E73CYKNwUeZQkP0Op5rrPP9R/3q+L+Bg4BtPswAKDKiQqxB6rfzPItWlCY8QSSvw==
-X-atmailcloud-route: unknown
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 
-Earlier this year I could use line-in on an Asus PRIME B350M-A motherboard,
-with dmesg reporting:
+The Realtek and HDMI HD-audio codec configs have been slightly updated
+again since the previous change.  Follow the new kconfig changes for
+arch defconfigs that contain CONFIG_SND_HDA_* items.
 
- snd_hda_codec_realtek hdaudioC0D0: autoconfig for ALC887-VD: line_outs=1 (0x14/
-0x0/0x0/0x0/0x0) type:line
- snd_hda_codec_realtek hdaudioC0D0:    speaker_outs=0 (0x0/0x0/0x0/0x0/0x0)
- snd_hda_codec_realtek hdaudioC0D0:    hp_outs=1 (0x1b/0x0/0x0/0x0/0x0)
- snd_hda_codec_realtek hdaudioC0D0:    mono: mono_out=0x0
- snd_hda_codec_realtek hdaudioC0D0:    dig-out=0x11/0x0
- snd_hda_codec_realtek hdaudioC0D0:    inputs:
- snd_hda_codec_realtek hdaudioC0D0:      Rear Mic=0x18
- snd_hda_codec_realtek hdaudioC0D0:      Front Mic=0x19
- snd_hda_codec_realtek hdaudioC0D0:      Line=0x1a
- input: HD-Audio Generic Rear Mic as /devices/pci0000:00/0000:00:08.1/0000:08:00
-.6/sound/card0/input6
- input: HD-Audio Generic Front Mic as /devices/pci0000:00/0000:00:08.1/0000:08:0
-0.6/sound/card0/input7
- input: HD-Audio Generic Line as /devices/pci0000:00/0000:00:08.1/0000:08:00.6/s
-ound/card0/input8
- input: HD-Audio Generic Line Out as /devices/pci0000:00/0000:00:08.1/0000:08:00
-.6/sound/card0/input9
- input: HD-Audio Generic Front Headphone as /devices/pci0000:00/0000:00:08.1/000
-0:08:00.6/sound/card0/input10
+Fixes: 1d8dd982c409 ("ALSA: hda/realtek: Enable drivers as default")
+Fixes: 81231ad173d8 ("ALSA: hda/hdmi: Enable drivers as default")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ arch/arm/configs/multi_v7_defconfig        | 3 ++-
+ arch/arm/configs/tegra_defconfig           | 3 +++
+ arch/loongarch/configs/loongson3_defconfig | 2 ++
+ arch/mips/configs/loongson2k_defconfig     | 1 +
+ arch/mips/configs/loongson3_defconfig      | 3 ++-
+ 5 files changed, 10 insertions(+), 2 deletions(-)
 
-After the post-6.16 updates, I now get:
-
- snd_hda_codec_generic hdaudioC0D0: autoconfig for Generic: line_o
-uts=1 (0x14/0x0/0x0/0x0/0x0) type:line
- snd_hda_codec_generic hdaudioC0D0:    speaker_outs=0 (0x0/0x0/0x0
-/0x0/0x0)
- snd_hda_codec_generic hdaudioC0D0:    hp_outs=1 (0x1b/0x0/0x0/0x0
-/0x0)
- snd_hda_codec_generic hdaudioC0D0:    mono: mono_out=0x0
- snd_hda_codec_generic hdaudioC0D0:    dig-out=0x11/0x0
- snd_hda_codec_generic hdaudioC0D0:    inputs:
- snd_hda_codec_generic hdaudioC0D0:      Rear Mic=0x18
- snd_hda_codec_generic hdaudioC0D0:      Front Mic=0x19
- snd_hda_codec_generic hdaudioC0D0:      Line=0x1a
- input: HD-Audio Generic Rear Mic as /devices/pci0000:00/0000:00:0
-8.1/0000:08:00.6/sound/card0/input6
- input: HD-Audio Generic Front Mic as /devices/pci0000:00/0000:00:
-08.1/0000:08:00.6/sound/card0/input7
- input: HD-Audio Generic Line as /devices/pci0000:00/0000:00:08.1/
-0000:08:00.6/sound/card0/input8
- input: HD-Audio Generic Line Out as /devices/pci0000:00/0000:00:0
-8.1/0000:08:00.6/sound/card0/input9
- input: HD-Audio Generic Front Headphone as /devices/pci0000:00/00
-00:00:08.1/0000:08:00.6/sound/card0/input10
-
-lspci reports:
-
-  lspci -v -s 0000:08:00.1
-08:00.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] Renoir Radeon High Definition Audio Controller
-        Subsystem: ASUSTeK Computer Inc. Device 8809
-        Flags: bus master, fast devsel, latency 0, IRQ 87, IOMMU group 11
-        Memory at fca88000 (32-bit, non-prefetchable) [size=16K]
-        Capabilities: [48] Vendor Specific Information: Len=08 <?>
-        Capabilities: [50] Power Management version 3
-        Capabilities: [64] Express Legacy Endpoint, IntMsgNum 0
-        Capabilities: [a0] MSI: Enable+ Count=1/1 Maskable- 64bit+
-        Capabilities: [100] Vendor Specific Information: ID=0001 Rev=1 Len=010 <?>
-        Capabilities: [2a0] Access Control Services
-        Kernel driver in use: snd_hda_intel
-        Kernel modules: snd_hda_intel
-
-
-When using alsamixer, in the former case, I would get a "loopback" device, 
-which when un-muted would enable line-in to work.
-
-With the current git head kernel, I get no such loopback device and have been
-unable to get audio via line input.
-
-Any suggestions welcome.
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index 02ddd7ce9e3e..7fb1f7dc8139 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -791,10 +791,11 @@ CONFIG_SND=m
+ CONFIG_SND_HDA_TEGRA=m
+ CONFIG_SND_HDA_INPUT_BEEP=y
+ CONFIG_SND_HDA_PATCH_LOADER=y
+-CONFIG_SND_HDA_CODEC_REALTEK=y
++CONFIG_SND_HDA_CODEC_REALTEK=m
+ CONFIG_SND_HDA_CODEC_REALTEK_LIB=m
+ CONFIG_SND_HDA_CODEC_ALC269=m
+ CONFIG_SND_HDA_CODEC_HDMI=m
++CONFIG_SND_HDA_CODEC_HDMI_GENERIC=m
+ CONFIG_SND_HDA_CODEC_HDMI_TEGRA=m
+ CONFIG_SND_USB_AUDIO=m
+ CONFIG_SND_SOC=m
+diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
+index 3a9bda2bf422..63bd824e84a8 100644
+--- a/arch/arm/configs/tegra_defconfig
++++ b/arch/arm/configs/tegra_defconfig
+@@ -225,7 +225,10 @@ CONFIG_SND_HDA_TEGRA=y
+ CONFIG_SND_HDA_INPUT_BEEP=y
+ CONFIG_SND_HDA_PATCH_LOADER=y
+ CONFIG_SND_HDA_CODEC_REALTEK=y
++CONFIG_SND_HDA_CODEC_ALC269=y
+ CONFIG_SND_HDA_CODEC_HDMI=y
++CONFIG_SND_HDA_CODEC_HDMI_GENERIC=y
++CONFIG_SND_HDA_CODEC_HDMI_TEGRA=y
+ # CONFIG_SND_ARM is not set
+ # CONFIG_SND_SPI is not set
+ # CONFIG_SND_USB is not set
+diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/configs/loongson3_defconfig
+index 0d59af6007b7..ac00d815b478 100644
+--- a/arch/loongarch/configs/loongson3_defconfig
++++ b/arch/loongarch/configs/loongson3_defconfig
+@@ -784,8 +784,10 @@ CONFIG_SND_HDA_HWDEP=y
+ CONFIG_SND_HDA_INPUT_BEEP=y
+ CONFIG_SND_HDA_PATCH_LOADER=y
+ CONFIG_SND_HDA_CODEC_REALTEK=y
++CONFIG_SND_HDA_CODEC_ALC269=y
+ CONFIG_SND_HDA_CODEC_SIGMATEL=y
+ CONFIG_SND_HDA_CODEC_HDMI=y
++CONFIG_SND_HDA_CODEC_HDMI_GENERIC=y
+ CONFIG_SND_HDA_CODEC_CONEXANT=y
+ CONFIG_SND_USB_AUDIO=m
+ CONFIG_SND_SOC=m
+diff --git a/arch/mips/configs/loongson2k_defconfig b/arch/mips/configs/loongson2k_defconfig
+index 4b7f914d01d0..b1b370a227dc 100644
+--- a/arch/mips/configs/loongson2k_defconfig
++++ b/arch/mips/configs/loongson2k_defconfig
+@@ -257,6 +257,7 @@ CONFIG_SND_HDA_INTEL=y
+ CONFIG_SND_HDA_HWDEP=y
+ CONFIG_SND_HDA_PATCH_LOADER=y
+ CONFIG_SND_HDA_CODEC_REALTEK=y
++CONFIG_SND_HDA_CODEC_ALC269=y
+ CONFIG_SND_HDA_CODEC_ANALOG=y
+ CONFIG_SND_HDA_CODEC_SIGMATEL=y
+ CONFIG_SND_HDA_CODEC_VIA=y
+diff --git a/arch/mips/configs/loongson3_defconfig b/arch/mips/configs/loongson3_defconfig
+index 5ff0c1554168..b5c18d847908 100644
+--- a/arch/mips/configs/loongson3_defconfig
++++ b/arch/mips/configs/loongson3_defconfig
+@@ -292,11 +292,12 @@ CONFIG_SND_SEQ_DUMMY=m
+ # CONFIG_SND_ISA is not set
+ CONFIG_SND_HDA_INTEL=m
+ CONFIG_SND_HDA_PATCH_LOADER=y
+-CONFIG_SND_HDA_CODEC_REALTEK=y
++CONFIG_SND_HDA_CODEC_REALTEK=m
+ CONFIG_SND_HDA_CODEC_REALTEK_LIB=m
+ CONFIG_SND_HDA_CODEC_ALC269=m
+ CONFIG_SND_HDA_CODEC_SIGMATEL=m
+ CONFIG_SND_HDA_CODEC_HDMI=m
++CONFIG_SND_HDA_CODEC_HDMI_GENERIC=m
+ CONFIG_SND_HDA_CODEC_CONEXANT=m
+ # CONFIG_SND_USB is not set
+ CONFIG_HIDRAW=y
+-- 
+2.50.1
 
