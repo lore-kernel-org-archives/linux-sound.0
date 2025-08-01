@@ -1,87 +1,79 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3505F1422DD
-	for <linux-sound@vger.kernel.org>; Fri,  1 Aug 2025 15:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5358919C546;
+	Fri,  1 Aug 2025 17:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754063283; cv=none; b=X6cbfbirjxIQlJQN3F6/DVFZgwodFE+baETFuSshgdwAi1XOwftw3m0w90hBhdQ10upjp/bFWUFgpNkkVBMmEUi32EsBPhkqxa2+AMnArqQp0OBRz/F2x21r4fvZ3VGg8dWcWp8V//e92YSGLin8xAQGq2wVFGe4c+anpdDd8p0=
+	t=1754068790; cv=none; b=pngulXqNyt2D8qmltouax5J6kJov6KBi1DpNFwQMWqqj4ETTeJ9mSm90z3DbTH0dGCx8NN7XsYJ4G8fssv7YVqfYckC5aIrGMg5FkGWtWDJqLTyds41pv+jCGVXau87E+7IWobpDsjcKC+FN7oytaM7ELsepDOsqcAjsnRMZJ0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754063283; c=relaxed/simple;
-	bh=J8kNE3M4KMnaGiwJc0Y0DX8xCE63Cunt0nVNLh+91GE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KpVcCuQn0cGb8RV43eGH+3UUEbN5Jav3Cz/4ApEdWX6aiN+b4/1DIHi3ITQEBt4zerXTOKnd6MoUaj8YUMrakxLSIlB1JyEPv6c28/BRAWTMVK3X3PsYbjSSoZO4x3V0jwUVDDl622MEuGK9P7L/akY2o405RqXUgT6MH7epR3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dZICWx0g; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1754068790; c=relaxed/simple;
+	bh=1QG/YY4VsuAP8+Akf6wF4d+CfQtLKEQkwrhF47hA3wM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AOXzsqDj5xDrIx9A4JbdcLD+hRWp07H2U7CRqljMXlBBONpyMbHMOmxx6smXnmroy47YlrvqOCIdtKr1NqlxpWQPm+5BjRNnY3/bChbWwBQ/pEwii1k+ZbiphwT8rHWcgZCVxyqNm1Onu5Q23nVAdOtTxU6JK9odet3XQ6kyBIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2dMCxii; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dZICWx0g"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1754063279;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JsFp9eC4npbziHlk8jxpTi0iJRPCG0xnW8Hvy7cexHg=;
-	b=dZICWx0g57n7gei9IiQOT+IyrFqPGaTVPlySQmfsoZsrp3t39qnyu28hmIUmp/2Lt53xtf
-	Ec7AGnrg0JzdMr2FC4xOjVTI8apT/IX8WEMmna2dLIuZDX2AJmv86RBwLjKRrqC2hW2Z1H
-	QVgUer3ilzVQN9qTMOkO5OvpR9ARHFI=
-From: Sean Anderson <sean.anderson@linux.dev>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Sean Anderson <sean.anderson@linux.dev>
-Subject: [PATCH] ALSA: usb-audio: Don't use printk_ratelimit for debug prints
-Date: Fri,  1 Aug 2025 11:47:10 -0400
-Message-Id: <20250801154710.739464-1-sean.anderson@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2dMCxii"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE16DC4CEE7;
+	Fri,  1 Aug 2025 17:19:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754068789;
+	bh=1QG/YY4VsuAP8+Akf6wF4d+CfQtLKEQkwrhF47hA3wM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U2dMCxiimBSUE/8WTlPRDbvOBBZCznp3sp60fZU+araGvGgnr/MYRFcTDn2LQEJba
+	 Wh1bhzUZCVX83V1V50KV6aqulpcALSH2jz1f7GgHw//sTRi4gdpM/EzB9qjdZDXf2j
+	 SJb0n2quFKyx0JhNsbcFmL2QzwD9hTq1zw8RKpCYVLmn+1ofpMVFxS38DKIWbwGpz6
+	 t0dGbHfDjQXh9ekZcHU0Mcjrwqdsnyb0INgjnG9/v7YmChD7a1mHuO0AmxHpr/8nYR
+	 5/pH1dvh9f94ywi9s2SLGvELGBViUkl5vRSQ7psjMZuqK8WKZyWbL9PKvV1nAJ3wwx
+	 MeBHHeF8YnBNQ==
+Date: Fri, 1 Aug 2025 12:19:49 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: Ikjoon Jang <ikjn@chromium.org>, linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	linux-gpio@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Julien Massot <jmassot@collabora.com>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Weiyi Lu <weiyi.lu@mediatek.com>, Sean Wang <sean.wang@kernel.org>,
+	devicetree@vger.kernel.org, kernel@collabora.com,
+	linux-sound@vger.kernel.org,
+	Michael Turquette <mturquette@baylibre.com>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Enric Balletbo i Serra <eballetbo@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH 1/9] dt-bindings: clock: mediatek: Add power-domains
+ property
+Message-ID: <175406878860.3104776.852136364391160797.robh@kernel.org>
+References: <20250801-mtk-dtb-warnings-v1-0-6ba4e432427b@collabora.com>
+ <20250801-mtk-dtb-warnings-v1-1-6ba4e432427b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250801-mtk-dtb-warnings-v1-1-6ba4e432427b@collabora.com>
 
-printk_ratelimit is deprecated, since it shares state with all other
-printk sites. Additionally, the suppression message is printed at
-warning level even though the actual messages are printed at debug and
-are (usually) invisible! This can result in thousands of messages like
 
-retire_capture_urb: 4992 callbacks suppressed
+On Fri, 01 Aug 2025 13:18:03 +0200, Julien Massot wrote:
+> The mt8183-mfgcfg node uses a power domain in its device tree node.
+> To prevent schema validation warnings, add the optional `power-domains`
+> property to the binding schema for mediatek syscon clocks.
+> 
+> Fixes: 1781f2c46180 ("arm64: dts: mediatek: mt8183: Add power-domains property to mfgcfg")
+> Signed-off-by: Julien Massot <julien.massot@collabora.com>
+> ---
+>  Documentation/devicetree/bindings/clock/mediatek,syscon.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-in the console, and can inhibit debugging since it is unclear what the
-source of the suppressed callbacks is.
-
-Switch to dev_dbg_ratelimited which doesn't print anything unless debug
-is enabled.
-
-Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
----
-
- sound/usb/pcm.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
-index 08bf535ed163..96339594dfd5 100644
---- a/sound/usb/pcm.c
-+++ b/sound/usb/pcm.c
-@@ -1280,11 +1280,10 @@ static void retire_capture_urb(struct snd_usb_substream *subs,
- 
- 	for (i = 0; i < urb->number_of_packets; i++) {
- 		cp = (unsigned char *)urb->transfer_buffer + urb->iso_frame_desc[i].offset + subs->pkt_offset_adj;
--		if (urb->iso_frame_desc[i].status && printk_ratelimit()) {
--			dev_dbg(&subs->dev->dev, "frame %d active: %d\n",
--				i, urb->iso_frame_desc[i].status);
--			// continue;
--		}
-+		if (urb->iso_frame_desc[i].status)
-+			dev_dbg_ratelimited(&subs->dev->dev,
-+					    "frame %d active: %d\n", i,
-+					    urb->iso_frame_desc[i].status);
- 		bytes = urb->iso_frame_desc[i].actual_length;
- 		if (subs->stream_offset_adj > 0) {
- 			unsigned int adj = min(subs->stream_offset_adj, bytes);
--- 
-2.35.1.1320.gc452695387.dirty
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
