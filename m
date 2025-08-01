@@ -1,226 +1,211 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B53225762
-	for <linux-sound@vger.kernel.org>; Fri,  1 Aug 2025 09:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754040501; cv=none; b=HMXoBU0oYuyomSr4mhq9iNzoXJWl4vV/GS3tk+DkvY8O3OGHxsJperoFbbS9ws1Ox8U4LJPF2Tcl9OWK2D+ETvr6N6fYEp168ZEcYCmQv9OMlHmfcE+JHXRmAXjmWFJ6qU7atFCHloHmTFO+e/yVT216clL2AlMYed00I2y+p4A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754040501; c=relaxed/simple;
-	bh=gk2nf5/MPwZnRVOVR7/JwKNQsjmgQi916LQ5DollH1k=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=r6xkd1Y3khxUNCO1hzkyn1Y7ZwfYmLHhWj47eed2TzpEPD0KBJbnqzyrBXRFt4sLPLJXTIrXt+5bRaaQFFt1yGJOcfRwYXAUMbiJ5BFqPjEavHIf37BAUfosGXa1bOji08wlRc8IthelIghTzCYbg4qQQYY2iy/xgTlLgcMRM74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--verhaegen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=smkrr9v8; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--verhaegen.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF382E36FF;
+	Fri,  1 Aug 2025 10:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754042421; cv=fail; b=CaJcKa3EPx3gw8nulaD6l86e5Lha5LjDSn6EXnhUgFRRCB8R+Wjq6GsOqLAdfqJ5M/evIkwuHP14VHId9Or8Ct2byWyERM3rbacM0Ff2bR5porqr99Y66voRr33qFkk5d3shjdad9ykeZx4o3eIZ7jzFKSl+DBdXyFevG/2CPbs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754042421; c=relaxed/simple;
+	bh=CNmU3IF9j74zzMuv2FSGXXarTkZt+Sxp1giJEPj6wzQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y7k8O3gYjSQOES8KFsWAVpw/ijnrWUVldyXczZ+KSylrOyjSxBFqOD6HVVydgCCV4jLuXgchZFl+HdVRsSNiQ8k10Y45G6e9O8hgEx4XJvvDGDc2eufom70kuhVYkE2hkBGMoA5vH1ydZr2qxOrN5TajChhs0SEblVkobvvQ2gk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BD4tFKOc; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=oG/IeJu+; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="smkrr9v8"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-3b78b88ecfeso9388f8f.3
-        for <linux-sound@vger.kernel.org>; Fri, 01 Aug 2025 02:28:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BD4tFKOc";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="oG/IeJu+"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5719Q2tU028955;
+	Fri, 1 Aug 2025 04:59:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=sTARMsS32SGlplJ4Kf
+	i/hZPQa+yM1yt/K3K4gvXkwO0=; b=BD4tFKOc1umoDpZDaoBLL1jz7+PY0kKqNr
+	U1HBgZh+SgIrgKD7cOmy70oySrUQnSOaHY3hKfEKXJD4B1ixjAIoeYYtcZG4B3k0
+	rePiaytFf6AoKSE9nQ7gFjSAmU30SOOTd29xqmF26NYKDwjgQK4MHyGey4r+7mzO
+	3uI1nB1ypjE3q4DFptFtNbfQ8XRbiHyc8XKz1BdZlPWGJ9NXQbx5jsqKLH34ueIJ
+	ZFfX6I7oCT73oXrK1RU5T55OsLkyqTpV01daF/VHatK8DCSDfUfRkYnHXpZ/OyX/
+	YPvL2XtejCdJOjUm5C59jklqwdxRJ8Z+6/KXjLdyAe/PAUKxAHug==
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10on2120.outbound.protection.outlook.com [40.107.94.120])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 484ueg07jt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 01 Aug 2025 04:59:26 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wJtMKgKoNBiubrd3ccLVn7N3iCPysExp+jGeUwC2IEVn3Q2QHOd0kXTz12SNafeALIpiHFXmVz+WzOoCMCsi9E+chzienVbV2AhoR9zcqP9f8iyhhOh6k4mD51TmePpezOrZmw11cRo27S3C4okFquxcvmGVdVC53e9w//SKcrirjXI001dsZX4Ep/FjqTBqp9EuQKnmlOlHTiQYJ5W9LB+v2RPItTlAp+fY7DyyqmlEAB8OvecDqVAnyUXHgMSUAEd3N/8j5ZCq7lm83wtIEVpNJxTeHmaVONeWW2n3QAVN1LgxB2AnHpdsKypqYCgi4z6paa9xaZbNObQaNZzHhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sTARMsS32SGlplJ4Kfi/hZPQa+yM1yt/K3K4gvXkwO0=;
+ b=TsChNq5khiabV5nBEDVanRhqpdsqz+B0SrQCIIseqzlPhFGH+zTjGSFr7z3tCeLkDH8VCok0a/EFp5cY7/rHQvhpPgIXlIDrPCviptFyxeRGIiL8mdrxtMMO6+HBEjkGHeeCGo+grUW1FjVPqSFA4WMgm6cRmDEpQJzQy+jPy1VfDbKV353dipI//yjrfaR/qU6g1cjr3uoMI+D9AZE7mmEAzp83HV9BkggotBnbmXpVGy0knzshgLXzcWLbILjObn4lhcw4gRDfrVWp0n/HtQOGo9QfbTgCWXln+RCgh/26X0d93lqfzktz5BerpfS6AaHy6Zg4n5n34wBd1RPzUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=alsa-project.org
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1754040498; x=1754645298; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sGqJwcIIXGX6gPFmMrFyOlEh3bYkZD3CtGlIUbK7Bvs=;
-        b=smkrr9v8Sko9RF0p6/j681o9u2bDA7DnsG2rxIDUIR0PUmcsKIv4qN2jdVkpmbjn2q
-         CyX564xaHhQ70we3Ypi0jGAfDCZG5qUi3Wje2o6CTzMH/J3lo3FQf+e02/wSsKIfRVSU
-         cIwjF3nyq/4tryrprHblfTzBbodVxFlhD7gXqkKTZ8UQrSdVljY9kkYr13aKRyeAwGkD
-         K+mIml5nZPr4EppqQ3rqozwXaN8peWji2Y7eHjGx2eZ2h8wG+dJYoUsQjMVh5CsD9NfI
-         aVJaZQ8eVF9D+fd4DThickvYds53suJh42GdRsLaAHuoNxN2ng3nQM9ULhxQxX26pmVP
-         opaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754040498; x=1754645298;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sGqJwcIIXGX6gPFmMrFyOlEh3bYkZD3CtGlIUbK7Bvs=;
-        b=VxRQZtr2yx2M3A8f/ooFHZfEZPIxMNqUxOAocmXRAp/GyiV/hM40U/WgBjDe+M8xJK
-         6oMzdzI4JlZHtlEk0L4yz4cZ6F9oA9eNIfIJ/ck1b2iQ7+InmA+6sI6OehIfHQDNMOqH
-         H8qBtWHGo3ocZWvziXYnvUIxlfBsS8i88n9hfw8yMQmCYMWn2JN9IkGLkhzveFrozbK2
-         0kuH4PmqZyI52CVrHNo+8zIvb7PUIItuXCHl96rl6vDzJEXw6ycBvggueU67LWXb1ySW
-         ZA2SfgSOLxE55JoZFHR0NlB1t3Sa6OSBcQvZyp4Nx8m+enzL0ivfnyhLz7FCKFHg2IUN
-         aqVw==
-X-Forwarded-Encrypted: i=1; AJvYcCXGO5tu9CRqOMB8LitZRKXp7jjDk6yUNy+lpVbPPaZBRvSJDcRfcBoHQyYNSGqaNtgbSAqcpgGXt4/dNg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPd9bIKlfV0tfAlUeqo+rb+28NZsM6v52e1/DaGv5EooZKcOAn
-	I8rK4eTLAY/2jnUH29q0kOoZYjIS/0eV0qVfU31cktxwDdaFgdP5ipSpA1TWtJ02o2VaftA/feP
-	5ytKWZiNKLxPtR6a8bw==
-X-Google-Smtp-Source: AGHT+IGuGJWlXT1GgrSFR5jnLb7A8Xwc1RjU3pAVlVHHLd9Rq5DVeyg7S8YW7qeBp1u7A9f0qGgaXcOFCxNv/1A=
-X-Received: from wmsp28.prod.google.com ([2002:a05:600c:1d9c:b0:456:1518:6d6e])
- (user=verhaegen job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:40df:b0:3b8:d5cb:ae1c with SMTP id ffacd0b85a97d-3b8d5cbb0dfmr948024f8f.28.1754040497655;
- Fri, 01 Aug 2025 02:28:17 -0700 (PDT)
-Date: Fri,  1 Aug 2025 10:27:16 +0100
-In-Reply-To: <20250801092720.1845282-1-verhaegen@google.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sTARMsS32SGlplJ4Kfi/hZPQa+yM1yt/K3K4gvXkwO0=;
+ b=oG/IeJu+OGw4kYLEmT3NgBZ0qZXdmIZfRnG7KYU2ib82jwjtYn3eqRBZ6aAu2b8ygRoGfPsv3l1bt09oKEd109z1NUGv3gjCYfyfsP8tpaaFHyGYAIifebmF8e0UdJiKdBhSr8nLve8hWhx+4EcZVzRBcLTqW8gbdIVjtPtZRX4=
+Received: from BYAPR02CA0055.namprd02.prod.outlook.com (2603:10b6:a03:54::32)
+ by DS7PR19MB4455.namprd19.prod.outlook.com (2603:10b6:5:2c4::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.5; Fri, 1 Aug
+ 2025 09:59:22 +0000
+Received: from CO1PEPF000044F7.namprd21.prod.outlook.com
+ (2603:10b6:a03:54:cafe::3b) by BYAPR02CA0055.outlook.office365.com
+ (2603:10b6:a03:54::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8989.16 via Frontend Transport; Fri,
+ 1 Aug 2025 09:59:22 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CO1PEPF000044F7.mail.protection.outlook.com (10.167.241.197) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9009.0
+ via Frontend Transport; Fri, 1 Aug 2025 09:59:21 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id A51A8406547;
+	Fri,  1 Aug 2025 09:59:19 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 80A0C820244;
+	Fri,  1 Aug 2025 09:59:19 +0000 (UTC)
+Date: Fri, 1 Aug 2025 10:59:18 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Joris Verhaegen <verhaegen@google.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>, kernel-team@android.com,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-arm-msm@vger.kernel.org,
+        sound-open-firmware@alsa-project.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 0/3] ALSA: compress_offload: Add 64-bit safe timestamp
+ API
+Message-ID: <aIyP9u0ASJUUPToB@opensource.cirrus.com>
+References: <20250801092720.1845282-1-verhaegen@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250801092720.1845282-1-verhaegen@google.com>
-X-Mailer: git-send-email 2.50.1.565.gc32cd1483b-goog
-Message-ID: <20250801092720.1845282-4-verhaegen@google.com>
-Subject: [PATCH v4 3/3] ALSA: compress_offload: Add SNDRV_COMPRESS_AVAIL64 ioctl
-From: Joris Verhaegen <verhaegen@google.com>
-To: Vinod Koul <vkoul@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Srinivas Kandagatla <srini@kernel.org>, 
-	Daniel Baluta <daniel.baluta@nxp.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Joris Verhaegen <verhaegen@google.com>, kernel-team@android.com, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-arm-msm@vger.kernel.org, 
-	sound-open-firmware@alsa-project.org, linux-arm-kernel@lists.infradead.org, 
-	Miller Liang <millerliang@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250801092720.1845282-1-verhaegen@google.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F7:EE_|DS7PR19MB4455:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7934eb85-ee21-4b63-8e2f-08ddd0e21668
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|61400799027|36860700013|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?+i+WSdGZ445H2BC681HLW+SIe1ZLOGmRLZhHsGv+G0uLJ1APolE1tlxW+iQq?=
+ =?us-ascii?Q?yzqIojJakgrcnPRxa+pdUZvTEV3VHoIpQus30V4L56FDWTbUwx5UK58MmSKI?=
+ =?us-ascii?Q?9JnmqlC4F8R8dMIYlS4VPHYlJvpjnXOhaXN13akr1fhHgsKLFH6KR1oSkkr2?=
+ =?us-ascii?Q?Y19fDmVDgckZKzF15zGVFzwjsNcIeYj6eQ1e2tnk0huEKtypCG9cwZb+E2cU?=
+ =?us-ascii?Q?Uktz16SOfFx4aoKD/Pg2aph8fREFkX+2MlSBhYLj0sI5UL72+243N4UmkOTu?=
+ =?us-ascii?Q?D65FM/CbvXEKQ1JpTAV1wjXmHyDzh8pwhG/vEUq6sIzv06xh5LXP9ePP3fxi?=
+ =?us-ascii?Q?ZCt6hX596ocULU5sy/HZPaGV66HBqK1f7fzifcE+5z/GgJFqONt4AF8SKChg?=
+ =?us-ascii?Q?ucEZtoRxjbJrRAxKFJ4BM1n4PpF5y5JIskYUPmL9I00N6K0LWZ0XWG1dgu24?=
+ =?us-ascii?Q?3x5s+OfK77dSCBU9nh7TnrCcyE19ehygeJFgPHXQJE3OMmMT+XFQSsiwbxSc?=
+ =?us-ascii?Q?Sjjy7PtNnAfTvYKbw/qrVYD8zacJPxZ+dZ1SeHzamoeSL1A+Gc12cNdEYmXZ?=
+ =?us-ascii?Q?Ikr8RUNRojWLV5dla9NPAKabXeMJGXEO9hYPGXBzFEkMMbccBPzGIV+FkqId?=
+ =?us-ascii?Q?1QQUsH6wmGkzQ1ELQbC5k5we5yhGgmC9ASltLVQRUoK/VMI/n4wLfscrGyPJ?=
+ =?us-ascii?Q?R4fH3iiCdBVEADeU7kd378pp1nj/qOMUbt4/FaGlS+2+BgxRM16MaLR3L0Dq?=
+ =?us-ascii?Q?X+vPeZNWet0zahUwE5L+nifpc5p0HiuuQl3TU7I1lKMMOQKePilvMUI4iqGM?=
+ =?us-ascii?Q?WlTPhhqeqtickVPYcKVxvrSXiYzRl+nwmFXgdMPJjXY5I3F4sG5RwBaY369T?=
+ =?us-ascii?Q?ANMxGgoDyBwuMvKpo3sShjWKGgcxHNQedD73jhDFgQA67WuC2sEzn0vVplzT?=
+ =?us-ascii?Q?hsjuH5Pt0kzkdrVuoGA+L7w7YH0vVERpT/JBbW7rsDBVsj4n0ED0QZOlrs+X?=
+ =?us-ascii?Q?O56IkSrWuSaN6bEMV55ZjhMdsjzUiwiaCdU86E38FVeT5T0lb8+q4d3W5TIT?=
+ =?us-ascii?Q?Y5A7tQq6iRTLMUozrwcLIQgzQIAE4V5ScCXrc9QHuGE1PuZeDMyktCKXLRdU?=
+ =?us-ascii?Q?h+G7icpnTY7unsq6YG0HclCLbCqdlWmxA+46qGUDv7sZaAMx/WTYK0cYp9Tz?=
+ =?us-ascii?Q?ZBOgz7F8Uhc1HtJAkFqW+WXaBfbZu6FAPm25KbFbvE26vy7emH4gItHnxI3M?=
+ =?us-ascii?Q?uaPpk32NZIIBLfnC/YZw+idDNsYx4Nn3PjYLj4CsXEiZyJncyHvC1mTIBPrr?=
+ =?us-ascii?Q?GTxKNK5WLf1bkG0Kq5Fdpl0SrT6FAilpxCggzQMpMjKxox5jrqBjTtGiEXhy?=
+ =?us-ascii?Q?6gSGq8ns69FCRMlJBykffTezlqreji0vCfoc0CdKItUA3b2tqZsA0FY57n6j?=
+ =?us-ascii?Q?xcm0EfJBvyYhr4ftqXFx2CbhFUTMiUNH2WznAFzsPNZ++n3JRi8KGOG+8KV1?=
+ =?us-ascii?Q?H9V0B8XIZR6eTIkcoS8OX/66YNE3kA2yVIuI?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(36860700013)(376014)(7416014);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2025 09:59:21.0343
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7934eb85-ee21-4b63-8e2f-08ddd0e21668
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000044F7.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB4455
+X-Proofpoint-GUID: bHUUuEHv2JsDMk3VJGlSzySdC7P3tO0w
+X-Proofpoint-ORIG-GUID: bHUUuEHv2JsDMk3VJGlSzySdC7P3tO0w
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzI2MDA3MSBTYWx0ZWRfX0sF6zQhJZlVg F/WMsV2RPy4H6aV8+JSJb90l1NjD16NOw/SFHZvtd7oFyn9v1fQhmbr00zeRCl3CZ3tuFIKzI5q yrzjUIYYAWefREbXAJn0h7nTuD+XmHuNJZMjjdXk0ITGjGsbNN4C1KosnREkdv+ng6oonb9Tq6i
+ yid+Khsq5xRZP3qsmwjGpFqzzxgcU9rh95bUny2GaFDFEzeH75UdzrRs4sMX/XtI3rIW7fEn+cr 9f4q08H0YbbFW7OiAphbY6jMcrXmQaK8Go5feRZYUzUtMpO2/qSNiHdriblIzUOtRfx4U5EAj7x LxZ22FsJ3nuzi0puQ7Gjbc13Tftx2tqHUCn+inMiOkLn3mzn74tLwBrNUmzZesHWT/Z//uqrHn2 N/2pvNdO
+X-Authority-Analysis: v=2.4 cv=OdKYDgTY c=1 sm=1 tr=0 ts=688c8ffe cx=c_pps a=sEwf21bbMNMW6iOsV/dM2g==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=1XWaLZrsAAAA:8 a=w1d2syhTAAAA:8 a=KwO0Y2ZaRY3UfMHnQbAA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Reason: safe
 
-The previous patch introduced a 64-bit timestamp ioctl
-(SNDRV_COMPRESS_TSTAMP64). To provide a consistent API, this patch
-adds a corresponding 64-bit version of the SNDRV_COMPRESS_AVAIL ioctl.
+On Fri, Aug 01, 2025 at 10:27:13AM +0100, Joris Verhaegen wrote:
+> The current compress offload timestamping API relies on struct
+> snd_compr_tstamp, whose cumulative counters like copied_total are
+> defined as __u32. On long-running high-resolution audio streams, these
+> 32-bit counters can overflow, causing incorrect availability
+> calculations.
+> 
+> This patch series transitions to a 64-bit safe API to solve the problem
+> while maintaining perfect backward compatibility with the existing UAPI.
+> The pointer operation is reworked to use a new timestamp struct with
+> 64-bit fields for the cumulative counters, named snd_compr_tstamp64.
+> ASoC drivers are updated to use the 64-bit structures. Corresponding
+> ioctls are added to expose them to user-space.
+> 
+> The series is structured as follows:
+> 
+> Patch 1: Updates the pointer op, refactors the core logic and ASoC
+> drivers to use it, and defines the new UAPI structs.
+> 
+> Patch 2: Exposes the SNDRV_COMPRESS_TSTAMP64 ioctl.
+> 
+> Patch 3: Exposes the corresponding SNDRV_COMPRESS_AVAIL64 ioctl.
+> 
+> This series has been tested on a Pixel 9 device. All compress offload
+> use cases, including long-running playback, were verified to work
+> correctly with the new 64-bit API.
+> 
+> Thanks,
+> Joris (George) Verhaegen
+> 
+> Signed-off-by: Joris Verhaegen <verhaegen@google.com>
+> 
+> ---
 
-A new struct snd_compr_avail64 is added to the UAPI, which includes
-the 64-bit timestamp. The existing ioctl implementation is refactored
-to handle both the 32-bit and 64-bit variants.
+Think it all looks good to me:
 
-Reviewed-by: Miller Liang <millerliang@google.com>
-Tested-by: Joris Verhaegen <verhaegen@google.com>
-Signed-off-by: Joris Verhaegen <verhaegen@google.com>
----
- include/uapi/sound/compress_offload.h | 11 +++++++
- sound/core/compress_offload.c         | 45 +++++++++++++++++----------
- 2 files changed, 40 insertions(+), 16 deletions(-)
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-diff --git a/include/uapi/sound/compress_offload.h b/include/uapi/sound/compress_offload.h
-index 70b8921601f9..26f756cc2e62 100644
---- a/include/uapi/sound/compress_offload.h
-+++ b/include/uapi/sound/compress_offload.h
-@@ -84,6 +84,16 @@ struct snd_compr_avail {
- 	struct snd_compr_tstamp tstamp;
- } __attribute__((packed, aligned(4)));
- 
-+/**
-+ * struct snd_compr_avail64 - avail descriptor with tstamp in 64 bit format
-+ * @avail: Number of bytes available in ring buffer for writing/reading
-+ * @tstamp: timestamp information
-+ */
-+struct snd_compr_avail64 {
-+	__u64 avail;
-+	struct snd_compr_tstamp64 tstamp;
-+} __attribute__((packed, aligned(4)));
-+
- enum snd_compr_direction {
- 	SND_COMPRESS_PLAYBACK = 0,
- 	SND_COMPRESS_CAPTURE,
-@@ -231,6 +241,7 @@ struct snd_compr_task_status {
- #define SNDRV_COMPRESS_TSTAMP		_IOR('C', 0x20, struct snd_compr_tstamp)
- #define SNDRV_COMPRESS_AVAIL		_IOR('C', 0x21, struct snd_compr_avail)
- #define SNDRV_COMPRESS_TSTAMP64		_IOR('C', 0x22, struct snd_compr_tstamp64)
-+#define SNDRV_COMPRESS_AVAIL64		_IOR('C', 0x23, struct snd_compr_avail64)
- #define SNDRV_COMPRESS_PAUSE		_IO('C', 0x30)
- #define SNDRV_COMPRESS_RESUME		_IO('C', 0x31)
- #define SNDRV_COMPRESS_START		_IO('C', 0x32)
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index 445220fdb6a0..4d3cf49c0c47 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -203,13 +203,10 @@ static int snd_compr_update_tstamp(struct snd_compr_stream *stream,
- }
- 
- static size_t snd_compr_calc_avail(struct snd_compr_stream *stream,
--		struct snd_compr_avail *avail)
-+				   struct snd_compr_avail64 *avail)
- {
--	struct snd_compr_tstamp64 tstamp64 = { 0 };
--
- 	memset(avail, 0, sizeof(*avail));
--	snd_compr_update_tstamp(stream, &tstamp64);
--	snd_compr_tstamp32_from_64(&avail->tstamp, &tstamp64);
-+	snd_compr_update_tstamp(stream, &avail->tstamp);
- 	/* Still need to return avail even if tstamp can't be filled in */
- 
- 	if (stream->runtime->total_bytes_available == 0 &&
-@@ -233,32 +230,47 @@ static size_t snd_compr_calc_avail(struct snd_compr_stream *stream,
- 	}
- 
- 	avail->avail = stream->runtime->total_bytes_available -
--			stream->runtime->total_bytes_transferred;
-+		       stream->runtime->total_bytes_transferred;
- 	if (stream->direction == SND_COMPRESS_PLAYBACK)
- 		avail->avail = stream->runtime->buffer_size - avail->avail;
- 
--	pr_debug("ret avail as %llu\n", avail->avail);
-+	pr_debug("ret avail as %zu\n", (size_t)avail->avail);
- 	return avail->avail;
- }
- 
- static inline size_t snd_compr_get_avail(struct snd_compr_stream *stream)
- {
--	struct snd_compr_avail avail;
-+	struct snd_compr_avail64 avail;
- 
- 	return snd_compr_calc_avail(stream, &avail);
- }
- 
--static int
--snd_compr_ioctl_avail(struct snd_compr_stream *stream, unsigned long arg)
-+static void snd_compr_avail32_from_64(struct snd_compr_avail *avail32,
-+				      const struct snd_compr_avail64 *avail64)
- {
--	struct snd_compr_avail ioctl_avail;
-+	avail32->avail = avail64->avail;
-+	snd_compr_tstamp32_from_64(&avail32->tstamp, &avail64->tstamp);
-+}
-+
-+static int snd_compr_ioctl_avail(struct snd_compr_stream *stream,
-+				 unsigned long arg, bool is_32bit)
-+{
-+	struct snd_compr_avail64 ioctl_avail64;
-+	struct snd_compr_avail ioctl_avail32;
- 	size_t avail;
-+	const void *copy_from = &ioctl_avail64;
-+	size_t copy_size = sizeof(ioctl_avail64);
- 
- 	if (stream->direction == SND_COMPRESS_ACCEL)
- 		return -EBADFD;
- 
--	avail = snd_compr_calc_avail(stream, &ioctl_avail);
--	ioctl_avail.avail = avail;
-+	avail = snd_compr_calc_avail(stream, &ioctl_avail64);
-+	ioctl_avail64.avail = avail;
-+	if (is_32bit) {
-+		snd_compr_avail32_from_64(&ioctl_avail32, &ioctl_avail64);
-+		copy_from = &ioctl_avail32;
-+		copy_size = sizeof(ioctl_avail32);
-+	}
- 
- 	switch (stream->runtime->state) {
- 	case SNDRV_PCM_STATE_OPEN:
-@@ -269,8 +281,7 @@ snd_compr_ioctl_avail(struct snd_compr_stream *stream, unsigned long arg)
- 		break;
- 	}
- 
--	if (copy_to_user((__u64 __user *)arg,
--				&ioctl_avail, sizeof(ioctl_avail)))
-+	if (copy_to_user((__u64 __user *)arg, copy_from, copy_size))
- 		return -EFAULT;
- 	return 0;
- }
-@@ -1336,7 +1347,9 @@ static long snd_compr_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
- 	case SNDRV_COMPRESS_TSTAMP64:
- 		return snd_compr_tstamp(stream, arg, false);
- 	case SNDRV_COMPRESS_AVAIL:
--		return snd_compr_ioctl_avail(stream, arg);
-+		return snd_compr_ioctl_avail(stream, arg, true);
-+	case SNDRV_COMPRESS_AVAIL64:
-+		return snd_compr_ioctl_avail(stream, arg, false);
- 	case SNDRV_COMPRESS_PAUSE:
- 		return snd_compr_pause(stream);
- 	case SNDRV_COMPRESS_RESUME:
--- 
-2.50.1.565.gc32cd1483b-goog
-
+Thanks,
+Charles
