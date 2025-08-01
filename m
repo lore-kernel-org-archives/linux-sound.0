@@ -1,80 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4801221D3F8;
-	Fri,  1 Aug 2025 17:30:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7013441C62;
+	Fri,  1 Aug 2025 18:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754069420; cv=none; b=j1ythgd2itXFUz26Zp6h6uGbFgB10CRRU+qYUcU8/4JvLapzCZQN8K8Jq0MZS/9V0RPPun4ICjtWnM1qbibnaSElPy9w7jUKhGaGVUA1C0UR1TmpiFiC2IxOMlHdFvV6w10RlifHnWHCZV3I3HfbMFwE5rbkI2iT57en/wAXmRM=
+	t=1754072040; cv=none; b=i9lOy0vZh6W4oeK954vPpc4GbuRX3taTeUNl4ct5SWrNRXcbVOO2mSP9hMehIrIybVRfxvWa7dw0p6kuPJt0eqaUJB9REykH+lkksZZD1xK695GplHjh3SObxLmaH56wr4ARxO819LA6TSMfWsDegDPmEUZmNvDdeXO5fM7aTv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754069420; c=relaxed/simple;
-	bh=lPzXpIa795/UAYucbxhQ/lqbSXcKmzSge/LIrsTQc54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=twQgoYFthksj+YtQKeVu5hpRgutTJS0Gtw8KQyE4GaapggFs5Qwwvk5XBLJV6uXyIzJr1EZQNV7Ufjy4T/MRbrYsFq9CXu3YfGiwJtYOVXg3yrng+7Iw0gp7jZS8h0D0/ho6NTyC33C/uJ1EmrfEvlljM/HebKlIgqOXFuzwBDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ezHZJ7uc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754072040; c=relaxed/simple;
+	bh=6Z7i5YajHNTIkkMs+weIqxL2dvnDzhrWWIA+qiSFCgc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=LDmavNgBAtqCwMGIfkZSBH+TGHgsjbj1wauzNDpRrH9dozkgdcjUAMpGbmcy7zzQdn4wMxE+qXdFmeXdzNTx7tZM6Vj7ma2fETOt4xyQ8U+2ZLEEnTHI88sTGih6D/c1LoMZC5EdZhHp3ZE5HWPfAWaR2J9mNfs3nb7IHMklGEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vF7ndXBb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ezHZJ7uc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1A6BC4CEE7;
-	Fri,  1 Aug 2025 17:30:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vF7ndXBb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F033AC4CEE7;
+	Fri,  1 Aug 2025 18:13:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754069418;
-	bh=lPzXpIa795/UAYucbxhQ/lqbSXcKmzSge/LIrsTQc54=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ezHZJ7ucJnfPB4oUWD7FF4veHqBSUYQO2rfX/4jx70xPeYunQKDZVqndyemghEcFp
-	 wH72RD4J/7gVUSywdQYJcrYLSkwp/ssF096SBbwlDhv6WYZacp3jkTl8KTJFIkFfz6
-	 7rmu4tRICpaEqH2QyycjnjQY/mbfeQ8rZn6JbsOtlY9n4AYXAkTmGWRNgtTd2qtd0S
-	 XLHwEBbWmDbQzJtWu1Gcqv++nwwKSyOSpenznLrG4iN3Fgf7axEOl+0HOLsLftmQw9
-	 /Px4kVZLiq4qV57VJDVMFwLtznFe7mVTOktcyyiM5owy9f3YZMhX4sSW6CF24ufleb
-	 2bvuniSyGEjCg==
-Date: Fri, 1 Aug 2025 12:30:18 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: kernel@collabora.com, Linus Walleij <linus.walleij@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Enric Balletbo i Serra <eballetbo@kernel.org>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-mediatek@lists.infradead.org,
-	Weiyi Lu <weiyi.lu@mediatek.com>, Chen-Yu Tsai <wenst@chromium.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Julien Massot <jmassot@collabora.com>, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, Sean Wang <sean.wang@kernel.org>,
-	Ikjoon Jang <ikjn@chromium.org>, linux-clk@vger.kernel.org,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 7/9] dt-bindings: pinctrl: mediatek: mt8183: Allow
- gpio-line-names
-Message-ID: <175406941584.3116245.5714988449223130745.robh@kernel.org>
-References: <20250801-mtk-dtb-warnings-v1-0-6ba4e432427b@collabora.com>
- <20250801-mtk-dtb-warnings-v1-7-6ba4e432427b@collabora.com>
+	s=k20201202; t=1754072040;
+	bh=6Z7i5YajHNTIkkMs+weIqxL2dvnDzhrWWIA+qiSFCgc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=vF7ndXBbrJEWlueEh/oFS5irY7lyj2JePvxLctiKBLKgivFTbQ3ArdL6o7dXHcl9v
+	 dxcfcl5OwykClkWeyEMZGad7KiU+k2x4WGa9NxTwN2hgyVPtE4zG/khiOsyrb7pWng
+	 XubgHS/7+K0eVCiC64fuzar3vOxdIT3TlTneEDi1xchT4ezG03z2aM8OFYvBA9ee7d
+	 4yI3eLzxhPUXCOyw7SD4ScHaKT+/kBVnrL+iW1fkCSgMbTwLra5jydS1RtcGvCprin
+	 gtD+0G1waVwcv0AytYE2mKd+dBSrUV6o7j7fhxCPpKN1XJx9an08cIR/DqrQL7Ojgl
+	 WUjMK1/hVwx9A==
+From: Mark Brown <broonie@kernel.org>
+To: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: linux-spi@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20250731160109.1547131-1-simont@opensource.cirrus.com>
+References: <20250731160109.1547131-1-simont@opensource.cirrus.com>
+Subject: Re: [PATCH] spi: cs42l43: Property entry should be a
+ null-terminated array
+Message-Id: <175407203870.139709.8000597693697838500.b4-ty@kernel.org>
+Date: Fri, 01 Aug 2025 19:13:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250801-mtk-dtb-warnings-v1-7-6ba4e432427b@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-
-On Fri, 01 Aug 2025 13:18:09 +0200, Julien Massot wrote:
-> Add support for the 'gpio-line-names' property in the MT8183 pinctrl
-> binding.
-> This allows naming the GPIOs, which is already done in several
-> device trees (e.g. mt8183-kukui-jacuzzi.dtsi, mt8183-kukui-kakadu.dtsi,
-> mt8183-kukui-krane.dtsi), but was previously generating DT schema
-> warnings.
+On Thu, 31 Jul 2025 16:01:09 +0000, Simon Trimmer wrote:
+> The software node does not specify a count of property entries, so the
+> array must be null-terminated.
 > 
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
->  Documentation/devicetree/bindings/pinctrl/mediatek,mt8183-pinctrl.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> When unterminated, this can lead to a fault in the downstream cs35l56
+> amplifier driver, because the node parse walks off the end of the
+> array into unknown memory.
 > 
+> [...]
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] spi: cs42l43: Property entry should be a null-terminated array
+      commit: a735ee58c0d673d630a10ac2939dccb54df0622a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
