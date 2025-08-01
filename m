@@ -1,86 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E0C19ABAC;
-	Thu, 31 Jul 2025 20:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2842E23A6;
+	Fri,  1 Aug 2025 02:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753993878; cv=none; b=iWm2e3H3IjZ16uYDQ2xFeiyxlOCBHl2x7cYrAUEXGd+IWbo2CoTOVVbb3JNdt1ovIm+A3jJ0QkcX26xGdyfZsEpdsZgcKoRtBhnKvgveSoH23XFnq3VAmLurQOOuuwmHYXMGCFiIu/AQDzYcLWF1Ww8G7Ln81NJmpucJqX7citw=
+	t=1754014703; cv=none; b=rKSkoHMnFKjVRyMcaMDp3zyTh5jzhmC9tbKvqoeip7wtzeNtjXKgufsVJdKA3bzDR5xPtVhSR1pEGHRJaMjo7FihIhwXDLlNeISIbVSTE+7yAXOu09D94hw+OdQQsX6pUUkIRLU8EBCaqDWn+smMRA/e9n1UdkTiZR7iG5UczXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753993878; c=relaxed/simple;
-	bh=6Z7i5YajHNTIkkMs+weIqxL2dvnDzhrWWIA+qiSFCgc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=I1LTqN56OY9fq/Nbr1Jdg9mxI44KPnLGUzgcyHjexRNR8fDZctHzFKTmmLpUlJ9VfB4foFwd8ZL7vnLHeh/6qtFTW0plqOxNck8XiaheiTbPCbmJCJMTOMEYDD97ycKqY/XksPiYPNqFArsmIZXyYajx2RLfaB2YuSudhzYwIks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iuGphA9r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754014703; c=relaxed/simple;
+	bh=Md2cpuXgZrKfMPSfIpHczNo6pyyNcUXjBUarsS6o3rM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=o/Nd3gj8rglrxThayQeHFZr9vVCSN6DcxglnRMiuuGeTqe/0cnMcZM8twMpMAJmTQQ//q/jCSJ74NesCYZiHcZoOofRM9GkooFwnlvV5WYcyR4TEXhL2vTDvxZVtTOuq0T9qGCnsFMHZzApFXT66t2vf643yl4fb5hYOJPMhvhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=BLlEkbJP; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iuGphA9r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBB9C4CEF4;
-	Thu, 31 Jul 2025 20:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753993876;
-	bh=6Z7i5YajHNTIkkMs+weIqxL2dvnDzhrWWIA+qiSFCgc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=iuGphA9rS3S7mKH6ysy2QJya1DG1fUPcHpIE2kds1BOd/w5drscSXcIwv2k/9eSAE
-	 kcvM+Z+xgQDVWcy91MLg0CrcC319I1pSxb0YrYrqLBLqLOdXLfQoLSZ+0RODT2dRpN
-	 i4+6S7/zjeBraQ/uaglXYL/psy5Q/CcedK5LqHxQEqreHumOhattZ7F++xQS/0417t
-	 DYq9lsxxa/q7GRorWUnATAZH+ePWxCcM5U2bMAgfJAWmCW0QkuhXJrq/coSkL9HCVJ
-	 bEFGEDgl/BLL97HN8gIaezIuCRIWJVFH0c5QpkOi/frFKHsDhxBRfP5NtDWHXwLcPP
-	 ny67fa1/XbJLg==
-From: Mark Brown <broonie@kernel.org>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: linux-spi@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20250731160109.1547131-1-simont@opensource.cirrus.com>
-References: <20250731160109.1547131-1-simont@opensource.cirrus.com>
-Subject: Re: [PATCH] spi: cs42l43: Property entry should be a
- null-terminated array
-Message-Id: <175399387554.235090.10856142124114737348.b4-ty@kernel.org>
-Date: Thu, 31 Jul 2025 21:31:15 +0100
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="BLlEkbJP"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5712GngA3167522;
+	Thu, 31 Jul 2025 21:16:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1754014609;
+	bh=NEf6+Wn7npPE6ubolcnCVOLm0CSG0zu38AOL8OQ/FiI=;
+	h=From:To:CC:Subject:Date;
+	b=BLlEkbJPqZUI7sQMqOAqciu1LyOSpGVaL8tKjdaefFgCMfsZvSMVgZa3bOBrOHTiT
+	 j1ulcX/nZGaFetgVFg2F2nzeennkW4jGbl6BLtuNBj7YMaQRunKKf5IjEd7IUW+sxY
+	 /4mKJV2vJZ+t0ASnpsDNoZZkjveN6O2J1ZcFIV3g=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5712GniP204466
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 31 Jul 2025 21:16:49 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 31
+ Jul 2025 21:16:48 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Thu, 31 Jul 2025 21:16:48 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5712Gi6b3551650;
+	Thu, 31 Jul 2025 21:16:45 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
+        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1] ASoC: tas2781: Fix the wrong step for TLV on tas2781
+Date: Fri, 1 Aug 2025 10:16:18 +0800
+Message-ID: <20250801021618.64627-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Thu, 31 Jul 2025 16:01:09 +0000, Simon Trimmer wrote:
-> The software node does not specify a count of property entries, so the
-> array must be null-terminated.
-> 
-> When unterminated, this can lead to a fault in the downstream cs35l56
-> amplifier driver, because the node parse walks off the end of the
-> array into unknown memory.
-> 
-> [...]
+The step for TLV on tas2781, should be 50 (-0.5dB).
 
-Applied to
+Fixes: 678f38eba1f2 ("ASoC: tas2781: Add Header file for tas2781 driver")
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ include/sound/tas2781-tlv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] spi: cs42l43: Property entry should be a null-terminated array
-      commit: a735ee58c0d673d630a10ac2939dccb54df0622a
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/include/sound/tas2781-tlv.h b/include/sound/tas2781-tlv.h
+index d87263e43fdb..ef9b9f19d212 100644
+--- a/include/sound/tas2781-tlv.h
++++ b/include/sound/tas2781-tlv.h
+@@ -15,7 +15,7 @@
+ #ifndef __TAS2781_TLV_H__
+ #define __TAS2781_TLV_H__
+ 
+-static const __maybe_unused DECLARE_TLV_DB_SCALE(dvc_tlv, -10000, 100, 0);
++static const __maybe_unused DECLARE_TLV_DB_SCALE(dvc_tlv, -10000, 50, 0);
+ static const __maybe_unused DECLARE_TLV_DB_SCALE(amp_vol_tlv, 1100, 50, 0);
+ 
+ #endif
+-- 
+2.43.0
 
