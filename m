@@ -1,141 +1,107 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EF2230BC9
-	for <linux-sound@vger.kernel.org>; Sat,  2 Aug 2025 14:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175D31C862F;
+	Sat,  2 Aug 2025 18:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754144354; cv=none; b=lJTLtOXFBDtOcX81wkNF/fotLW5HnrkKZ2ae7XgWjlFIOewLJGuB5gquUSTJpvho+wUkzGeWCDSBeEFcw1PTNqvV+iS659yPAzaNhDwwBElMqxMJoMi5ygLO9rR1Hc1vuqO+eRsU+jAxqSNYjT+/qcBcx0eS/aF6rldIFGxDC8g=
+	t=1754160563; cv=none; b=ZSBiEshLpBjrhWx6WCkCzZYYuZnfboVDyzEMqMANHbmVVOMMxrswY828PW6ckNO6HRM+DBH1/vZy4ZmlI76nJAvxXYqgD6FCEc+TPkVIY3tw7kZc3bYqaWNRKtDABEyjuRexSX6nqRx1kbX4Cwt/JjFLGu5HFPnoDQM+PwJEo7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754144354; c=relaxed/simple;
-	bh=BQjb71q+zfnm04yFC5weB4fBKVIHZCChEcZ1WWpqUeU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TL5hKBhmy2iZ3aezi0bmatL5pY9iBH+MF3F1kF9Wdn8mVtaZCHAR8AnmKhjJe5L0HceEU7YB660MKHoXSRcFHoBE/7jKHkZVf1ESJ7ioAlU4nDdRm5VwxC/QGjqIOqWaIePgd8QBXhDhN8UV4evwsMa0nUnLWH/ldY+8mvonXyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RDbAiEEu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RmFVcowo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RDbAiEEu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RmFVcowo; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1754160563; c=relaxed/simple;
+	bh=s0P5berMYelse87mDB/+lNi/1mHj8tllHqAs82sGYaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M9aNnsAuf/k0b0l1w1KI9xKiMtH6OM5ziHrp/8QN+GwAGEvehSs4BIYgrfZNLucIHd9ppaJU62EzQWDYrl9tTNdF0VMThkq/dC00k4pclzgWEklvKXRO3Tmc7WBdFwikH6R3u41maljMh1ZOUvu2WVlbYiIuLNF+1i11mdVDBXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=huqXeC5n; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RDbAiEEu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RmFVcowo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RDbAiEEu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RmFVcowo"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E83521B5A;
-	Sat,  2 Aug 2025 14:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754144344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IG0z51HXDcoIRTR9senNIliQSNaEd9Bk3IsJrBf4kVY=;
-	b=RDbAiEEuOV1xpVaGZm7E8UkAFfMHlpUDVh451DsrD/32QDUKwGl2RvvJdLveYK/73n98fx
-	HTpx43zGEKktOxEvtoetBe1fvDj42JqdugUv9P8oPgTT5kgzzf6Di0mJ3TtdUtCEn1PLuD
-	tdGVnuyTZ7JgnCQg6xlpV0C4e3QfHFk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754144344;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IG0z51HXDcoIRTR9senNIliQSNaEd9Bk3IsJrBf4kVY=;
-	b=RmFVcowo+d2MeFBYcF/hjr5gVO9eSqOUFSJ9L5/sVoLRLvtuHqXDk6TeCkojdYFR8t6p40
-	tZRi+WotCr3OCmCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RDbAiEEu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RmFVcowo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754144344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IG0z51HXDcoIRTR9senNIliQSNaEd9Bk3IsJrBf4kVY=;
-	b=RDbAiEEuOV1xpVaGZm7E8UkAFfMHlpUDVh451DsrD/32QDUKwGl2RvvJdLveYK/73n98fx
-	HTpx43zGEKktOxEvtoetBe1fvDj42JqdugUv9P8oPgTT5kgzzf6Di0mJ3TtdUtCEn1PLuD
-	tdGVnuyTZ7JgnCQg6xlpV0C4e3QfHFk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754144344;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IG0z51HXDcoIRTR9senNIliQSNaEd9Bk3IsJrBf4kVY=;
-	b=RmFVcowo+d2MeFBYcF/hjr5gVO9eSqOUFSJ9L5/sVoLRLvtuHqXDk6TeCkojdYFR8t6p40
-	tZRi+WotCr3OCmCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 02850133D1;
-	Sat,  2 Aug 2025 14:19:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qz7eOVcejmhABwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 02 Aug 2025 14:19:03 +0000
-Date: Sat, 02 Aug 2025 16:19:03 +0200
-Message-ID: <87wm7l24dk.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="huqXeC5n"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-31f3b54da19so2169361a91.1;
+        Sat, 02 Aug 2025 11:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754160561; x=1754765361; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V76fjzPkvskv9qgsCSdkH8mO4HTCNhu/mdlmUxAEPMU=;
+        b=huqXeC5n82+cmCmKzooX9qnkXwmhMFmIDMlHttglHb7ruRh0c3+NWPGgvWQyxE9ctU
+         f/gEAcbqhT2Su7wjpuN/ngnZfopEbATss5FpmMAfH+3A5IuiEG02stYzZGmFu6jCdAA7
+         +uk1BHCuyvWxomZ4JYB6/mJRZZp58F9CJgV4lrb77VxLIjYjlbUHuqcWyVUPLjWLz0gR
+         99aTpovCxAfPfnFmWvOh/efqAzSKd/kEeJzerryA7iKvHLu0ES0rZHh3H4tmm170AY8s
+         WWsM3ALOowRD+JrnQOSx9AWb693p3e5qaEskXNsbfFCaBefGkA7ZDgA4m5NStZiCjSPR
+         UWCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754160561; x=1754765361;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V76fjzPkvskv9qgsCSdkH8mO4HTCNhu/mdlmUxAEPMU=;
+        b=AtYUjC0FtekF8BsRRpHYg6dByfTsahUAfYJ7morD2DtzzQLdMHLgdPWvzmPHKshdf9
+         vY52sP8495YaEOI+LZCB409S4VsKBqc9qJoVO5X+ARam/BWQP5L4jpQ/Lg0Q0TD9Eo9J
+         i3YR5SAZ61ymGE5wTc3BvEKd5YsRmfkIErmXi+QVVmIh9HV0Gq0X02fN7uKN79fC9v/8
+         B50iRMwrDqd1juV4MkJQg/1bXdQC0szi3jLZ93xDj+XyGyG70smPIeW7iE8g3baCZ5Q8
+         53tUqQoq/DN5PD/huy0PIu0ivCfeklrd9XnoIRhN4q4Jl9uwZMI44YBI+zXgl61GO4ej
+         NORQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW/1FHnQJxAhbY9Kgq63bEn64tHJodLUj0h3mzGJOxgTAhGCp4dHgm+ZZno9JJLQd3VMSVIRgl9RoHGpEY=@vger.kernel.org, AJvYcCXSKMW09jKJcvuZG9zSV048b6SHjDc9oPyE+9QOM77KSp448VF1eIERl4spfAYtvV/CI5mhB+nqp81VN30=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2Vg4t59yj9UW4/I0bMS+tm/OVTD9BxCnN2rsdm1zbn7rNig4U
+	z+O8k5OXZLYWedzobFM9eQ/k/RNnXmELxlsxgw0O9GKrB7WYPbEpmssyfdfuVQ==
+X-Gm-Gg: ASbGncuD1HsqIclT8X8lT1gUtKSfhbWiPwSTqFf1fFm/oAwe8KRSujTT8dLfLY3BAtj
+	0Ht0uKvmTEaK2V6Lpepx0gWdIJfyprL8HZe9oSCigKC1GuWLWL+aBmNVjM3ARpwWWYyiFbp1EMw
+	+g2gBgKyy1BM0ParclZYretdLiVNmuv4/J0wy9Ix8FDFZYVdSozji/obe4/Xqjp4JgXnjgefeZN
+	ML3yd9QoDQO6tOz+Kl/sS7EoaSWvSkiLSWSZ67XtzTwjqRXUDx/MnA//r+9KA6TkjX7bXdemMRR
+	ZmQrVICcm0qgsjTjHwQhuT9xWmRdcs+c46nkAA8I9rFSHMqTXVd3ZbN7NGde9ooc1vov/9yH3vm
+	JgW+Wunth
+X-Google-Smtp-Source: AGHT+IHsNTv41yiCcwCpvkhJkRvK7GeMk+K4cCcYzLiIvzdGKOgIQvT/VlFZ5LRxJncQU7BNzttsgA==
+X-Received: by 2002:a17:90b:1b0f:b0:321:2160:bf74 with SMTP id 98e67ed59e1d1-3212160c1e4mr2065372a91.1.1754160561231;
+        Sat, 02 Aug 2025 11:49:21 -0700 (PDT)
+Received: from geday ([2804:7f2:800b:2bd::dead:c001])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3209a84df4csm7690659a91.37.2025.08.02.11.49.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Aug 2025 11:49:20 -0700 (PDT)
+Date: Sat, 2 Aug 2025 15:49:14 -0300
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+To: serifpersia <ramiserifpersia@gmail.com>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Don't use printk_ratelimit for debug prints
-In-Reply-To: <20250801154710.739464-1-sean.anderson@linux.dev>
-References: <20250801154710.739464-1-sean.anderson@linux.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Subject: Re: [RSC PATCH] ALSA: usb-audio: Add support for TASCAM US-144MKII
+Message-ID: <aI5dqrXk5C-JEQ9v@geday>
+References: <CAF1NMdC2QouNLdgCFXmFhu5V4UVttGxF9VjL2KkkMeSthC_zJA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 2E83521B5A
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAF1NMdC2QouNLdgCFXmFhu5V4UVttGxF9VjL2KkkMeSthC_zJA@mail.gmail.com>
 
-On Fri, 01 Aug 2025 17:47:10 +0200,
-Sean Anderson wrote:
+On Sat, Aug 02, 2025 at 02:44:06PM +0200, serifpersia wrote:
+> Hi there,
 > 
-> printk_ratelimit is deprecated, since it shares state with all other
-> printk sites. Additionally, the suppression message is printed at
-> warning level even though the actual messages are printed at debug and
-> are (usually) invisible! This can result in thousands of messages like
+>  This patch adds support for the TASCAM US-144MKII audio interface.
+>  It also removes the current US-144MKII support from the us122l driver.
 > 
-> retire_capture_urb: 4992 callbacks suppressed
-> 
-> in the console, and can inhibit debugging since it is unclear what the
-> source of the suppressed callbacks is.
-> 
-> Switch to dev_dbg_ratelimited which doesn't print anything unless debug
-> is enabled.
-> 
-> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+>  I'm looking for feedback on this patch. This new driver supports USB
+> 2 mode of operation - functional ALSA compatible interface,
+> playback/capture and proprietary MIDI protocol implementation. In
+> terms of performance the device does seem to function well enough with
+> low latency parameters in JACK and ALSA.
+> As for stability the latest version of the driver seems to be stable
+> but further testing is needed to check paths of potential failure.
 
-Applied now.  Thanks.
+Hi Serif,
 
+The first advice I would give you is fixing your MUA to not convert TABs
+to Spaces.
 
-Takashi
+> 
+> Any type of feedback is appreciated even if its not merge material I
+> would appreciate potential improvements that could be made even as an
+> out of tree module.
+
+Please just don't.
+
+Make it out of tree I mean.
+
+Thanks,
+Geraldo Nascimento
