@@ -1,94 +1,293 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D2F1DEFE6
-	for <linux-sound@vger.kernel.org>; Sat,  2 Aug 2025 10:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91625E55B
+	for <linux-sound@vger.kernel.org>; Sat,  2 Aug 2025 12:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754131582; cv=none; b=ANgcFnxdjm9W/zjsIxDcvhbq1jyQpT5D3gdsOsYpV8Je7GsV+DPsbIH5yOM6Gd0x+53VMY3u8tdckiOTxgOmBAWzM8fbHZBvMzkcj9M7tUTy+xXWO67B0iaqXL4jCFcqK5DOh2X0BarTnFyDTRP4epYNwvuQk91b1OthmI0Sxpk=
+	t=1754138289; cv=none; b=ShRmlG/CxFrJMfnFyl7k7GF9R0WccqXyETFig2UkzZaErmcO+4WpFC3AASfGeAyoCg2ArnUYlN3DGiLnMNb+YFjCV/ADwOcdqInhl38xijsQ2tG6qTJg/sTJVL6IPOYtlPHd8GW8/i1pOBbIRqKZYY1auBdHOf+fuDabVayiCVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754131582; c=relaxed/simple;
-	bh=GjC27LUcG3dn5srVyYuXU1hib0j8skFeguiq7xLh0n4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Tp3jxrIyD7x/yxThKRa3vyU0qYm0kP18WhFDbXfVRa/Xeby9lvjqAliuXzKgViB7rxVtIR3260vzQ2cj+P6v0AQbvf9Mh8CIoB6u0pEbFaDe2vATOq5euA7ctZT9tDp49VvOzWgsBCdRvU/pqca/lUrC/UehtUTzO7/xeLqeR9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=riscv-rocks.de; spf=pass smtp.mailfrom=tometzki.de; dkim=pass (2048-bit key) header.d=riscv-rocks.de header.i=@riscv-rocks.de header.b=lbZ4l0E8; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=riscv-rocks.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tometzki.de
+	s=arc-20240116; t=1754138289; c=relaxed/simple;
+	bh=kjNMGi0IvuVGXF8RnqYfZcDE+z5GAU+wzdFjcp7iLnM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ndi3mqlOryeIx/iZlyU3TI8BWqEKuaQEr9DDEeXNwojY+XE5JRVIDTYFeFsSeD9w6KnXx5XPwKk/DC3cW1Eix9eB8CiYfdptuR8M4Wlyj99qLEdOW8vAkcgK3DsIII3SCyNZCMToaFImq4TKj1+qmzbKAye5LYb8hkzPvbG23YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iLj+yzbI; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscv-rocks.de header.i=@riscv-rocks.de header.b="lbZ4l0E8"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4fce686dd78so535779137.3
-        for <linux-sound@vger.kernel.org>; Sat, 02 Aug 2025 03:46:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscv-rocks.de; s=google; t=1754131578; x=1754736378; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AshJ86qbLOcrlRovTGnUwx2kL8dbcNk45DlyMc1ddH4=;
-        b=lbZ4l0E8dBCLmI+M49z4V99jLK/jOGrnUXPnOdNpsvInZbs39VH0ksXmeIHo4o4atm
-         uOtq4Fe7ihum+cdoU+UNYfElWGljMSsCsT57JzSjJfVwfJqmuK3OkTy7XH7UuXsSERIy
-         hpHre50sVU6Qho7GIoDgCMlOrtjhbBMJGnDmRwEeSF5EeiO2i+DwwTzodY2WWSICmIL1
-         L9hFDTMChWb/u3DqMg6WirtRehNqcQ9jhidRemphJF2Yrb48pZPg65UoD6dZsvteyuI8
-         vKbqv5Qq1ZKTL1qB45J+XdpnLq2fkFOekYRRlTIWb6zrkHWRUjEbuhD5IwWV+cs6rakK
-         OPPw==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iLj+yzbI"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 572BCarr001802
+	for <linux-sound@vger.kernel.org>; Sat, 2 Aug 2025 12:38:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	yY+5Vc4wWCp8Q+lqkXgyh1f1Eka3dbE6PZDRDj30axM=; b=iLj+yzbIUQdJmpPE
+	HSCMNc/WukNLpBT4WQTMuU2Elh3jlNsbdJ3wd7gziWpdQ65t+tBxIrNYtMU+MFuJ
+	HkIflk49HRXLBE2e9aKmEFEMADiJXGpyVkCfWqzZ2oRbpsC/Is+DUfmvIOCD1CL7
+	+su5CJLM5ymQuGWntuLQlXV8emoqlaA1Boot08Xzssob33f1R3HI/ecNvYw7Rexb
+	A0P7DlMACxYME3GtSMcdlQDuCabxpvlQxkQpGykwEkKpz6XKqy0U5VviVBINJlk4
+	vqmrWlp/XyTcfHt6AsjKW9089optU/83B4pIoedJbH9vwu6CHrl90A4PA/AyXS0L
+	8x2ZGA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4899pa8w3v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sat, 02 Aug 2025 12:38:06 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4aefe21386fso2620921cf.2
+        for <linux-sound@vger.kernel.org>; Sat, 02 Aug 2025 05:38:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754131578; x=1754736378;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AshJ86qbLOcrlRovTGnUwx2kL8dbcNk45DlyMc1ddH4=;
-        b=DItUCsdMTJaLIcPwE9p6OvxFK8pafa8r3krIjr8oaDp92JGCUlBfAz7Q2pQO1vE/YF
-         hodYMF+Nbd/nXsoFNaO0XMyMFGfNEqTwCN1XZNjq0bzlgKVxiSIjTOYDx5BKRebd/Lx8
-         51hX0b7yP15KCQHL1knFN04pKo0spvStLBGdvgiwZi9mrSiNeon2eFLeTnRDqBgKzzCG
-         JvUtRWBIfDIGXZSMFoRSo6EYdht/1UdkIx3CuXVf/+GRP2b9K3TbcDLVdI0f4Z7oyhZr
-         j/t9C9RGZUBypBWiZgyJ/WwrWg7szxVqegOsdksxDzq89SQ/YXNkXL9BJ24roeNb391Q
-         3+fA==
-X-Gm-Message-State: AOJu0Yx0d2dwA6fD/Cb4aONSOtE7acczqFP3VvR2BB1rb1dQmLkOIRug
-	a9c+QKsxUdf+QlxDg4he4OHx4uGFLPV1HXs4UK9yBcujQZ9ZeXrFw0s49fmFjbAuGs0dL5thHHk
-	9jepYoa3zGOx/Ql9CXXrA4ybbBdkG5KlLZ80X6BtejtM56rv8aYpxza+yovRp/tA=
-X-Gm-Gg: ASbGnctkIW+bhrGRG1jTBsPZpYUAE0uxyoM0Do0ZTJycFAILkIKkUtpTpmqf+KK2rSU
-	YtTx47+a6fle15xhGgYP9AG7JaavSXnvP90hU3WlAwOANQH2DWHHvmUR+1eEUOcDiowlI3HzTHK
-	xiW79k5GT7JTyfzfq+wale8sBGwRilu0BNT4M9frN3xks9w/XZdjpemToAm33mXil5ozDSzbBhM
-	oHScake
-X-Google-Smtp-Source: AGHT+IFNMQJlun1qhxFHABWfxEe4KXtT3gNasKqMjDslvq9o8yprzFRDSd2OfmO/KqUVhWtkOIuixDQkpA+9Ab8xO2E=
-X-Received: by 2002:a67:e7c8:0:b0:4fd:b392:c500 with SMTP id
- ada2fe7eead31-4fdc3c23228mr1068821137.24.1754131577856; Sat, 02 Aug 2025
- 03:46:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754138285; x=1754743085;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yY+5Vc4wWCp8Q+lqkXgyh1f1Eka3dbE6PZDRDj30axM=;
+        b=Y1z+JNf+wQtlwz7I4dESSvK9T3tgcw1NrDMpk8FKL2xIC4MjR5OWedmXDmlpm+ER0n
+         5DFz9IUMne3bxSCZSVwQ0A3pum+aPlseSYGRkUGAxBbhfLTGhkD+vUwQXfuC4wMbU6Sy
+         03c8ZoaoDcYuaV3oS0y3KzuYoQVbZYVeUYXzPsXvbS18KNwj1aoBQ1XOUgFaA8Z4MVjA
+         80aNdcJh6olFQV/1CL0me5BHlya5MRprONKI6Uta4hobeTVt1KVprjwP7rYk0Z9ycHmw
+         Bpq8kWIea04lNkSp7WKz6zyPvm92TUGRhHQbaRLzpIau6EInAO3S83CXCZVBvg7qehUw
+         99ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCXjwE3ViNFb8907yx/ukhjKL5bbKu7NczddGvxkqQbRFhSlxrNmv9HBHpGu1JO33HZqnXm+Ik2MAU8SVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuqQpx6Q1HYAmjaGUPZ5vA+WuQa6wqMAqY11FUs+Epy7Et+Tr3
+	ZbOnQhMDftiZ9EMGnIPBxF9hJZH9f3LKv1FKHXYA98VOXs5PEi2b++vmkszTyCYJCAT/RXejhmQ
+	fi+SRiasEF0u0I9rb0v24lnrhx4JR2510jNMBBcX5DBnmdA5Um5wS/4GNz7ZL78afTg==
+X-Gm-Gg: ASbGncsud919Oeevt+E1dSV8aczRyF1rgFGSheV4BcvKAudw34N0oNYoqCeIEeC/NVZ
+	VESiREkcBnTu7p4epvDsnb9ChoT2kvnVKJxnEt4jA0GTZmVZ5fqtvuWwrjUmrxjHIp+lPV2PaHn
+	wamgzaYswUwHA3k3PyPWHOFsbJuk12Rz/B1YLSPF2beQFkPggA4lOODplo/XXZLGmRwp3yt9C0y
+	LFJFOVgO5UYyr6ZPMJvW8L90bu9ZsNfBxucGhD9idi8YZDsH3CytWXlFkjhwqrfYVe+yqAOUVtD
+	LumyvRouICFzrdZjp4j8qsTQPbKPiOmk2dQtN3rSp9TD8/PlTXSmc4B1NWBt5H9FQowYhkhk6nh
+	TYneBsms/pjMdKl/N3w==
+X-Received: by 2002:a05:622a:54e:b0:4ab:67a3:ec09 with SMTP id d75a77b69052e-4af1094cd78mr22382301cf.6.1754138285256;
+        Sat, 02 Aug 2025 05:38:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGFPF9qOzJpGO98jPyAvuhk/RML1vSf6VMcwdOoFpMcr/LQVR1VYdVHuTAn5xus4wthkO0plg==
+X-Received: by 2002:a05:622a:54e:b0:4ab:67a3:ec09 with SMTP id d75a77b69052e-4af1094cd78mr22381721cf.6.1754138284551;
+        Sat, 02 Aug 2025 05:38:04 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0761f2sm434931766b.11.2025.08.02.05.37.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Aug 2025 05:38:03 -0700 (PDT)
+Message-ID: <0c2cc631-21fd-41fd-9293-fd86dd09a2d2@oss.qualcomm.com>
+Date: Sat, 2 Aug 2025 14:37:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Damian Tometzki <damian@riscv-rocks.de>
-Date: Sat, 2 Aug 2025 12:46:07 +0200
-X-Gm-Features: Ac12FXw3uVxz8cdzoSLE1B6V0R4dpw0ngfLhuQZars8kAjQDrE7g_cZeOxT1qlU
-Message-ID: <CAL=B37=-_dBswNrQHc4dgfgZhoyjmaYQxE5dGZhQeB0ZGf0GtA@mail.gmail.com>
-Subject: ASoC HDMI errors with sof-hda-dsp on Intel platform (no PCM for intel-hdmi-hifiX)
-To: linux-sound@vger.kernel.org
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 2/6] dmaengine: Make of_dma_request_slave_channel pass
+ a cookie to of_xlate
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Frank Li <Frank.li@nxp.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Taichi Sugaya <sugaya.taichi@socionext.com>,
+        Takao Orito <orito.takao@socionext.com>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?=
+ <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Am=C3=A9lie_Delaunay?= <amelie.delaunay@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai
+ <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Laxman Dewangan
+ <ldewangan@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@google.com>,
+        =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        imx@lists.linux.dev, linux-actions@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-spi@vger.kernel.org
+References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
+ <20250730-topic-dma_genise_cookie-v1-2-b505c1238f9f@oss.qualcomm.com>
+ <aIpKz495WI1SJTeB@lizhi-Precision-Tower-5810>
+ <20250730180417.GC21430@pendragon.ideasonboard.com>
+ <aIpmgpXME1BmThxU@lizhi-Precision-Tower-5810>
+ <20250801120007.GB4906@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250801120007.GB4906@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODAyMDEwNSBTYWx0ZWRfX+XkKPgnfo/BF
+ FHXUBGNdThVCYXs9+ZjRBk21Xo5tnaLsTvGFBYbAdJY28WYyf/dFEFvCepXlISPKXmPPD2ATUN5
+ +7ChL+5lZl1zFb7Mnqr6Ys5b8VEtEShFitXZ9LdeFjd0J16IVxcVL0Tx3Lnzft731rsrMw9QT26
+ 6rh2ymqej68UX+WSdzgFyp9xUQSjqdyK16uF+uUXO8sjvMhuNx8rxBsCSJXfh9STAWChlhNTtVr
+ 00Yy6lelghbrJvtuxJnB3pxUwK7jCGRZR5ePz5+DnfFZt2wQ53zmLW2AQ7oCubftQQ3VDeXY2wq
+ TMpwIrUcJrrMTyZ/tIxHN8hpHsIdzvri9ixw4ksltTPlKpi1VmU8TGYSAfYL4h8Na2EhMNCBIZI
+ OXpYL8EGMHf+BPO2LTjs4Rb+1tZlXXLe+jEiYbw7mmodxa+jGS+OzVV+muV342ANA9KuLBrG
+X-Proofpoint-GUID: OGY9G1UqaCVJxgRojN2RzdaXZo9QA1o7
+X-Authority-Analysis: v=2.4 cv=N88pF39B c=1 sm=1 tr=0 ts=688e06ae cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=Hh3C_mqfd76DgmRPW0UA:9
+ a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-ORIG-GUID: OGY9G1UqaCVJxgRojN2RzdaXZo9QA1o7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-01_08,2025-08-01_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 mlxlogscore=999 spamscore=0 phishscore=0
+ bulkscore=0 adultscore=0 suspectscore=0 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2508020105
 
-Hi all,
+On 8/1/25 2:00 PM, Laurent Pinchart wrote:
+> Hi Frank,
+> 
+> On Wed, Jul 30, 2025 at 02:37:54PM -0400, Frank Li wrote:
+>> On Wed, Jul 30, 2025 at 09:04:17PM +0300, Laurent Pinchart wrote:
+>>> On Wed, Jul 30, 2025 at 12:39:43PM -0400, Frank Li wrote:
+>>>> On Wed, Jul 30, 2025 at 11:33:29AM +0200, Konrad Dybcio wrote:
+>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>>
+>>>>> The DMA subsystem attempts to make it theoretically possible to pair
+>>>>> any DMA block with any user. While that's convenient from a
+>>>>> codebase sanity perspective, some blocks are more intertwined.
+>>>>>
+>>>>> One such case is the Qualcomm GENI, where each wrapper contains a
+>>>>> number of Serial Engine instances, each one of which can be programmed
+>>>>> to support a different protocol (such as I2C, I3C, SPI, UART, etc.).
+>>>>>
+>>>>> The GPI DMA it's designed together with, needs to receive the ID of the
+>>>>> protocol that's in use, to adjust its behavior accordingly. Currently,
+>>>>> that's done through passing that ID through device tree, with each
+>>>>> Serial Engine expressed NUM_PROTOCOL times, resulting in terrible
+>>>>> dt-bindings that are full of useless copypasta.
+>>>>>
+>>>>> In a step to cut down on that, let the DMA user give the engine driver
+>>>>> a hint at request time.
+>>>>>
+>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>> ---
 
-I'm experiencing ASoC errors on an Intel-based system using the
-`sof-hda-dsp` driver. After boot, the kernel logs repeated errors
-related to HDMI outputs:
+[...]
 
-[   90.933290] snd_hda_codec_generic ehdaudio0D2:
-snd_soc_find_pcm_from_dai: didn't find PCM for DAI intel-hdmi-hifi1
-[   90.933295] snd_hda_codec_generic ehdaudio0D2: ASoC error (-22): at
-snd_soc_dai_startup() on intel-hdmi-hifi1
-...
-[   91.016259] HDMI3: ASoC error (-22): at dpcm_fe_dai_startup() on HDMI3
+>>>>> diff --git a/include/linux/of_dma.h b/include/linux/of_dma.h
+>>>>> index fd706cdf255c61c82ce30ef9a2c44930bef34bc8..9f9bc4207b85d48d73c25aad4b362e7c84c01756 100644
+>>>>> --- a/include/linux/of_dma.h
+>>>>> +++ b/include/linux/of_dma.h
+>>>>> @@ -19,7 +19,7 @@ struct of_dma {
+>>>>>  	struct list_head	of_dma_controllers;
+>>>>>  	struct device_node	*of_node;
+>>>>>  	struct dma_chan		*(*of_dma_xlate)
+>>>>> -				(struct of_phandle_args *, struct of_dma *);
+>>>>> +				(struct of_phandle_args *, struct of_dma *, void *);
+>>>>
+>>>> I suggest pass down more informaiton, like client's dev point. So we can
+>>>> auto create device link between client's dev and dma chan's device.
+>>>
+>>> Is .of_dma_xlate() really the right place to do that ? If you want to
+>>> create a device link for PM reasons, isn't it better created when the
+>>> channel is requested ? It should also be removed when the channel is
+>>> freed.
+>>
+>> I remember just need record client device pointer here.
+>>
+>>>>
+>>>> DMA Engineer device
+>>>>    DMA chan device
+>>>>        consumer clients' device.
+>>>>
+>>>> If consumer device runtime pm suspend can auto trigger DMA chan's device's
+>>>> runtime pm function.
+>>>>
+>>>> It will simplifly DMA engine's run time pm manage. Currently many DMA run
+>>>> time pm implement as, runtime_pm_get() when alloc and runtime_pm_put() at
+>>>> free channel.  But many devices request dma channel at probe, which make
+>>>> dma engine work at always 'on' state.
+>>>>
+>>>> But ideally, dma chan should be resume only when it is used to transfer.
+>>>
+>>> This is exactly what I was going to mention after reading the last
+>>> paragraph. Is there anything that prevents a DMA engine driver to
+>>> perform a rutime PM get() when a transfer is submitted
+>>
+>> DMA description is a queue, It is hard to track each descriptor submit and
+>> finished. espcially cycle buffer case.
+>>
+>> And according to dma engine API defination, submit a descriptor not
+>> neccessary to turn on clock, maybe just pure software operation, such as
+>> enqueue it to a software list.
+>>
+>> Many driver call dmaengine_submit() in irq context,  submit new descriptor
+>> when previous descriptor finished. runtime_pm_get() can NOT be called in
+>> atomic context.
+>>
+>> And some driver submit many descripor advance. Only issue_transfer() is
+>> actually trigger hardware to start transfer.
+>>
+>> Some client use cycle descripor, such audio devices.  Some audio devices
+>> have not free descriptor at their run time suspend function, just disable
+>> audio devices's clocks.  Audio devices run time suspend, which means no
+>> one use this dma channel, dma channel can auto suspend if built device link
+>> between audio device and dma chan devices.
+>>
+>> Some DMA client have not devices, such as memory to memory. for this kind
+>> case, it need keep chan always on.
+>>
+>> issue_transfer() can be call in atomic context. but trigger hardware transfer
+>> need clock and runtime_pm_get() can't be called in atomic context.
+>>
+>> Most case issue_transfer() is call in irq handle, which means device should
+>> already be in runtime resume statue.  DMA engine can safely access their
+>> register if using device link.
+> 
+> You have good points there, in particular the fact the issue_transfer()
+> can be called in interrupt context.
+> 
+> For me this calls for new DMA engine operations to "start/stop" the DMA
+> engine (better names are likely needed) from a client perspective.
+> 
+>>> and a put() when
+>>> it completes ? (Logically speaking, the actual implementation would
+>>> likely be a bit different in drivers, but the result would be similar.)
 
-These errors are repeated for HDMI1, HDMI2, and HDMI3. It appears that
-`snd_soc_find_pcm_from_dai()` fails to resolve the DAI to a PCM, and
-this breaks HDMI audio initialization.
+So.. do you folks want me to alter the patch in any way?
 
-**System info:**
-- Kernel: current Linus build 2938ae2fa7cd
-- Distro: Fedora 42
-- HDMI monitor with audio capability isn=C2=B4t connected
-
-Is there a known fix or workaround?
-Thanks in advance,
-Damian
+Konrad
