@@ -1,91 +1,84 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C97273F9;
-	Sat,  2 Aug 2025 12:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E79218AA0;
+	Sat,  2 Aug 2025 13:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754138665; cv=none; b=nB8S5NPyd9YBzS+yFI3EIQWBGx3lhO5+hXc3lLh6qZspvBa5IWRvy+dWDQSavBV7z7PTcbVpIE2gsMDfZlY06EDlz6OpAq4GdihIE1dRSub+mSSokg8AvMRi1/B7JC2cGPTKLMpV9nyl9e6F1iOXd0U5AkVHkB3TuvcDB57+c38=
+	t=1754140198; cv=none; b=J4Xb5o50444Yrw4sv3/XktKjZ0uKZThZPjcL87jyS6J/k5a4di/YXZLeTGFSpG40lrmU70M4dtna0ynoj/rDxzqD5x5OBzltAehko9xxffF0pvhgFpnEks+tq4yWMkQxzVKKELN+P29xMm5OiqIEwsrVtDW1WRHZGSKFf9A1QJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754138665; c=relaxed/simple;
-	bh=Hh4ZeD1R26LwE2kXZppr84Qzd/uao0W9YBRdJzHKrl4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=b1Sh4gL9AZjaQ1Rlno4L+2I4U7GLBzIo92bj6csD7Y1gCnbdjzja3g5xmWj4jXHEfBSkWZEDagzNVbSbTRik4TJ3Ock6qb4rMIPRDb5atXkPAhLAEdS1FJZfp3oauKvjUiuuJy8NI/nMd1sfT+Qiizs+nrCYi156uflezixaL4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mUzf3U/o; arc=none smtp.client-ip=209.85.160.51
+	s=arc-20240116; t=1754140198; c=relaxed/simple;
+	bh=+fjEitTWUqymG1AswjZlKY18yA+zriS2DkP+mvQ+Fls=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eUGkASF3V9TrmiiojtTJFTuEJoYkdsdQ2YBaVtXKYClzPmHcOQaBzkPj1nqc9qLxw8obdxa9xvkghxB2O2cjX7nWTHTVbBX1A0RYDRG7sxMPAxloasG24w7TZsgVDrYrX9WjhhrCaGt5X5O33slX1S47kISKxaE/C5yxapkvvcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IpYda5UX; arc=none smtp.client-ip=209.85.166.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mUzf3U/o"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2ff8d43619cso1603891fac.1;
-        Sat, 02 Aug 2025 05:44:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IpYda5UX"
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-87c46159b24so78354239f.0;
+        Sat, 02 Aug 2025 06:09:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754138659; x=1754743459; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1754140192; x=1754744992; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=f1uEhdzAjFrFylj2HA512cnmEwi60DKApQQAp+f45tU=;
-        b=mUzf3U/oTQ5Ppc2gAQJr666UOSd0BwUCCgtrtOX5VqSIE2ImGYZSaT7jaA2vgAbHTg
-         HzKhHN/e/rrZ+m3lKQt7+Xb4l1n4W1Pddf+9IGmXqNxi8EAAB+W1F4tvlmdzAB3/t4kD
-         qj2q7iVHI2whpADmuhuXguSyEuIajZgikfVKQ/uoXriz3PYulILwW02PmgIiEKXYamkY
-         6K6YcdeeLmEuLMHkOBCFbqdREzoqNaYSoq/U7BUVQ7t7JANf0VUs8BZ16QMEQ1jkGWr3
-         s4GK4BKbD/CtY4GZ5q+ntM8mGYWQOWbHmBPkD9AHxWs2C80b3aG/TzF0J5rwnEBfoAi4
-         vnBA==
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RzSwzCGUW7kjtHwD6H4ENTzR/mob9U3zvPELdRMVvi8=;
+        b=IpYda5UX0Kr8r3JEwIDlsYMrjoMMe4geHiHgRhSP5qQHux1nEJlvRw7EwwRCnsCVLN
+         AJnwl6y7U7yuu9XQcrhfQ7Gh4wagUrt+D/M6vHSLYhDHhbrmW0ST8GTmzWYy/Rm6irK5
+         sMK9Yf+fBWjNW2J3glhq3Ig7eZWoJPBmlrptt/xdD4GSs41V7sfx7U3zQGfTSpzeKSg/
+         hpP4kQa0GatA2ROfsQy1OOOwED59Ex1GEDG8aPQ+wK3+Cv20E8JiVm2avRKmwfZMHvv1
+         7e0KfxYp00Zu3z4a613H8hGAwhtyy09LmTlflq4y1vTtmdp+TJh1M0stSG0QBvDInopI
+         GtNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754138659; x=1754743459;
+        d=1e100.net; s=20230601; t=1754140192; x=1754744992;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f1uEhdzAjFrFylj2HA512cnmEwi60DKApQQAp+f45tU=;
-        b=bUym2M6TFdLU1u7ZeMzVKGIY2qCfnbJxa0f42vDGbKaao3lYqzmABdrGQPydH19W/k
-         XjfrwDYEfZLAX0L/ix6fnV5tXqsnPQtSJkuADfFGlY3Ja5uYxwJQXpx/occdMnM3xtb3
-         nYAidtw3PbxEaR4s6NhoUu56a7mBomjsnLXCTqIHY3OMw3DNk7OtAhiu5j8sp5SvheIf
-         OmbxmqVZ+AYi68L8YhavHluBeLP60PLtO/T1DdVWug07PyBNU/dAk9RKliGpBWfhsi78
-         +flIH7TsGIzITeyYjAGNCq6JY++H/tGYi28ClkpMTmWkUDoDF4vnc2nZAPfFEDsm8fj1
-         O9gQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUmSttCXHGMa1dxkdEp88WjuwVbSgarWBbtoSwlnZbZwKxcncLwHKRdMNOAlvoMlR3KKsFCq/vILHScDc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCR4g4PO+zoBOxuOhO1tTD2BbO+lY8Iw5Stg3J69TRLx63tkI+
-	IlpMNr3Tymu2yMsUb3gj+b2yS8Of3hBvZ132vG9lCg/8D5E3LGpBti7CbnKXZ+t3CcqhvU9H3FB
-	VLQeB0saAU36LXlWgPTF2ptzBLx6/pCI=
-X-Gm-Gg: ASbGncvnZDq2u15gNpMaP8NJnWDmcFvKseZJ2/V0f/lh8JaJRlOxnFc7/v39PXXsxwE
-	qzyNHCQdGZuonu/HcO/6ZLaU3sABI1dkhoa58BKvnVGsru+Oo4PNKb8wc72vqq1kvKpjVId6OHi
-	AltBt5Ht80qiNOnpsMrmuefucRGhqyw7GVOzWzk5mOb9aeD8KafTttpy7nEM6eWInrRbBwf5hw9
-	CbW1ws=
-X-Google-Smtp-Source: AGHT+IFEMyLW+LNrfiTUwty5wkDP5pHdHwtYXSLWMge8tFsXWyB/Ci4J9cUjtNLYFRRm08In+x0DnteKMRJxZeiq9QU=
-X-Received: by 2002:a05:6808:680a:b0:41c:4ea9:f293 with SMTP id
- 5614622812f47-433f020cf50mr1787466b6e.2.1754138657507; Sat, 02 Aug 2025
- 05:44:17 -0700 (PDT)
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RzSwzCGUW7kjtHwD6H4ENTzR/mob9U3zvPELdRMVvi8=;
+        b=VmYZhVEB8En+bF7iX7aevsVZyDtIwAaDNBkR+78ORSQcT3tXB0oRItibN8mIOz8yK2
+         iw/Clb0qThbNia0AzUArRz4M0WccuSbkwPwZ8EfRvXERNLbt2j53qc5UlQMWeAnPMhGY
+         uIibo+G/R1FIt+itTPRqmOgM+w8wiYzbCGX9SR9O1n2COua/Z/K8cG5wOjaqREhsRpBG
+         Foe+M6U+OmYlg18uNkenxCkRbj0ERK69BDN8dIJG4b4n61ugNis8ug+Ne6mc4188jM/v
+         BOKCSCnpe6WVmIM0/cEYEsP5d1hAUnrdrNsHpmDIM1m5SF4mjq6xzR7GsjNQE7/hh+uh
+         xRfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPtWH55E9DoaaeOpZcNn88AsZdvo2L67zFthwoPAbtImSJUOczZBF16Xo5iSYnYQA+wurpseZEKpwvXNc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDpP8bECneZNJ4dUCOPGNDfsIBeq4JBkXFdk1SIkDgi4nnhG2i
+	RnrkeaaIR2TmaDkVAH/inkhqD37uqb8+vFT1kXRmVhhKi67V57KcbEZPqD9s4Np9Z7m0hSr1hDm
+	YFAeW0D5wRGjXQ8OufhSLz/zjMAek5NwiyRO77xQ=
+X-Gm-Gg: ASbGnctFBLyK/JbrCq+YlUzHwKKs8VC3E/e3uzHTpdBqHH2vBSRAP4xeQgMjrl+Zb7G
+	ylHuFOkBNOavjYHT7id8UanPPT4MzUFpPK9fqnGRrX/VQaNiL4Goz+GAHRvRbbr6oIeIJ20zAmo
+	sg7SEH2t4iOIYeShd6U3QZS2hbb4NdD0mCm62nA0RuuNoYiuphHfM8knE6x71XEgh+SBkgycSO0
+	QHvqWaa7TYTj2pJPA==
+X-Google-Smtp-Source: AGHT+IGxb6uYeFBc10r7YvDKnpGQbmf/OgRHMtmupoAZXFXbYHHhVyuGNnJbR339A3yfnQzuJiCYJoeAjIMwKHI4Kas=
+X-Received: by 2002:a05:6e02:2194:b0:3e3:fc32:3178 with SMTP id
+ e9e14a558f8ab-3e4162d3021mr51339765ab.8.1754140190402; Sat, 02 Aug 2025
+ 06:09:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <CAF1NMdC2QouNLdgCFXmFhu5V4UVttGxF9VjL2KkkMeSthC_zJA@mail.gmail.com>
+In-Reply-To: <CAF1NMdC2QouNLdgCFXmFhu5V4UVttGxF9VjL2KkkMeSthC_zJA@mail.gmail.com>
 From: serifpersia <ramiserifpersia@gmail.com>
-Date: Sat, 2 Aug 2025 14:44:06 +0200
-X-Gm-Features: Ac12FXzCAp5IjoxTPHk565r1iC_tQm_FmEjryMOaXBMGIMdiHI0JNAb6l0WQ-4E
-Message-ID: <CAF1NMdC2QouNLdgCFXmFhu5V4UVttGxF9VjL2KkkMeSthC_zJA@mail.gmail.com>
-Subject: [RSC PATCH] ALSA: usb-audio: Add support for TASCAM US-144MKII
+Date: Sat, 2 Aug 2025 15:09:38 +0200
+X-Gm-Features: Ac12FXzzoxZYIYSZObRXzjgK46GPyTwfmiWwlrn1kRZKDwUIYbhg761FvZzZ88w
+Message-ID: <CAF1NMdC11QKXmg_XU=Wb3VUcd3XgW4DsjVi10j-TaS_fXsYeHA@mail.gmail.com>
+Subject: Re: [RSC PATCH v2] ALSA: usb-audio: Add support for TASCAM US-144MKII
 To: perex@perex.cz, tiwai@suse.com
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi there,
+Hi there again,
 
- This patch adds support for the TASCAM US-144MKII audio interface.
- It also removes the current US-144MKII support from the us122l driver.
+My initial patch had a compile error due to code style changes. This
+patch should work without any hiccups.
+Hopefully this isn't an issue.
 
- I'm looking for feedback on this patch. This new driver supports USB
-2 mode of operation - functional ALSA compatible interface,
-playback/capture and proprietary MIDI protocol implementation. In
-terms of performance the device does seem to function well enough with
-low latency parameters in JACK and ALSA.
-As for stability the latest version of the driver seems to be stable
-but further testing is needed to check paths of potential failure.
-
-Any type of feedback is appreciated even if its not merge material I
-would appreciate potential improvements that could be made even as an
-out of tree module.
-
- Thanks,
+Thanks,
 ---
 diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
 index 41c47301b..ef6be7c06 100644
@@ -194,10 +187,10 @@ snd_us122l_usb_id_table[] =3D {
  MODULE_DEVICE_TABLE(usb, snd_us122l_usb_id_table);
 diff --git a/sound/usb/usx2y/us144mkii.c b/sound/usb/usx2y/us144mkii.c
 new file mode 100644
-index 000000000..3db11db4d
+index 000000000..e5e863531
 --- /dev/null
 +++ b/sound/usb/usx2y/us144mkii.c
-@@ -0,0 +1,611 @@
+@@ -0,0 +1,610 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +// Copyright (c) 2025 =C5=A0erif Rami <ramiserifpersia@gmail.com>
 +/*
@@ -677,10 +670,9 @@ usb_device_id *usb_id)
 +    int err;
 +    char *handshake_buf;
 +
-+    if (dev->speed !=3D USB_SPEED_HIGH) {
++    if (dev->speed !=3D USB_SPEED_HIGH)
 +        dev_info(&dev->dev, "Device is connected to a USB 1.1 port,
 this is not supported.\n");
-+    }
 +
 +    if (intf->cur_altsetting->desc.bInterfaceNumber =3D=3D 1) {
 +
@@ -1236,7 +1228,7 @@ for the device.
 diff --git a/sound/usb/usx2y/us144mkii_capture.c
 b/sound/usb/usx2y/us144mkii_capture.c
 new file mode 100644
-index 000000000..2aa15b9b2
+index 000000000..4759a8683
 --- /dev/null
 +++ b/sound/usb/usx2y/us144mkii_capture.c
 @@ -0,0 +1,277 @@
@@ -1343,7 +1335,7 @@ ions,
 re,
 + * trigger, and pointer.
 + */
-+struct snd_pcm_ops tascam_capture_ops =3D {
++const struct snd_pcm_ops tascam_capture_ops =3D {
 +    .open =3D tascam_capture_open,
 +    .close =3D tascam_capture_close,
 +    .ioctl =3D snd_pcm_lib_ioctl,
@@ -2038,7 +2030,7 @@ snd_ctl_new1(&tascam_samplerate_control, tascam));
 diff --git a/sound/usb/usx2y/us144mkii_midi.c b/sound/usb/usx2y/us144mkii_m=
 idi.c
 new file mode 100644
-index 000000000..c51f23423
+index 000000000..f6a7eda27
 --- /dev/null
 +++ b/sound/usb/usx2y/us144mkii_midi.c
 @@ -0,0 +1,401 @@
@@ -2223,7 +2215,7 @@ IN URB %d: %d\n", i, err);
 stream operations,
 + * including open, close, and trigger.
 + */
-+static struct snd_rawmidi_ops tascam_midi_in_ops =3D {
++static const struct snd_rawmidi_ops tascam_midi_in_ops =3D {
 +    .open =3D tascam_midi_in_open,
 +    .close =3D tascam_midi_in_close,
 +    .trigger =3D tascam_midi_in_trigger,
@@ -2434,7 +2426,7 @@ completion handler */
 stream operations,
 + * including open, close, trigger, and drain.
 + */
-+static struct snd_rawmidi_ops tascam_midi_out_ops =3D {
++static const struct snd_rawmidi_ops tascam_midi_out_ops =3D {
 +    .open =3D tascam_midi_out_open,
 +    .close =3D tascam_midi_out_close,
 +    .trigger =3D tascam_midi_out_trigger,
@@ -2942,7 +2934,7 @@ stream: %d\n", err);
 diff --git a/sound/usb/usx2y/us144mkii_pcm.h b/sound/usb/usx2y/us144mkii_pc=
 m.h
 new file mode 100644
-index 000000000..d41ffe606
+index 000000000..5082d90fd
 --- /dev/null
 +++ b/sound/usb/usx2y/us144mkii_pcm.h
 @@ -0,0 +1,157 @@
@@ -2972,7 +2964,7 @@ operations,
 re,
 + * trigger, and pointer.
 + */
-+extern struct snd_pcm_ops tascam_playback_ops;
++extern const struct snd_pcm_ops tascam_playback_ops;
 +
 +/**
 + * tascam_capture_ops - ALSA PCM operations for capture.
@@ -2983,7 +2975,7 @@ ions,
 re,
 + * trigger, and pointer.
 + */
-+extern struct snd_pcm_ops tascam_capture_ops;
++extern const struct snd_pcm_ops tascam_capture_ops;
 +
 +/**
 + * playback_urb_complete() - Completion handler for playback isochronous U=
@@ -3134,7 +3126,7 @@ completion handlers.
 diff --git a/sound/usb/usx2y/us144mkii_playback.c
 b/sound/usb/usx2y/us144mkii_playback.c
 new file mode 100644
-index 000000000..4ee6bcada
+index 000000000..9608b0e4a
 --- /dev/null
 +++ b/sound/usb/usx2y/us144mkii_playback.c
 @@ -0,0 +1,399 @@
@@ -3291,7 +3283,7 @@ operations,
 re,
 + * trigger, and pointer.
 + */
-+struct snd_pcm_ops tascam_playback_ops =3D {
++const struct snd_pcm_ops tascam_playback_ops =3D {
 +    .open =3D tascam_playback_open,
 +    .close =3D tascam_playback_close,
 +    .ioctl =3D snd_pcm_lib_ioctl,
