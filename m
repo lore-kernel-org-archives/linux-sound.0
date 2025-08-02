@@ -1,63 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B1228ECDF;
-	Fri,  1 Aug 2025 21:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D2F1DEFE6
+	for <linux-sound@vger.kernel.org>; Sat,  2 Aug 2025 10:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754084227; cv=none; b=sdoRwjpBKZzNn5YQF6Js1lgArnwt8nUBjTEim5K+0ojUoe7m6DOVB5R/k332s7t6lA6eX4vd2n6OCUk5p+wHMUoKfJEpybswMbyOD7sWdCzaASOj8h76dOlGTqWuADpI6uCdAkQZKxFOOCZh3xP/UfVy+3VedJ+XRaWuKfABipw=
+	t=1754131582; cv=none; b=ANgcFnxdjm9W/zjsIxDcvhbq1jyQpT5D3gdsOsYpV8Je7GsV+DPsbIH5yOM6Gd0x+53VMY3u8tdckiOTxgOmBAWzM8fbHZBvMzkcj9M7tUTy+xXWO67B0iaqXL4jCFcqK5DOh2X0BarTnFyDTRP4epYNwvuQk91b1OthmI0Sxpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754084227; c=relaxed/simple;
-	bh=8t52XgXD6VVUixH33PTUlVuKXYILCXgzbeaDcJ3qd64=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=iEUZX9Apmcxvd7kPIoE7N/oD0s9gGv91I8dN8RUm7IhJ8CGBOG/5pjuwdcVhnnKgQJFWC9dIz7ck2FmrwKLU+KmXbsQzTRmj8FsR2j3Fbg9M47pnRVW31PcaCRTy263qjx8BA/tW8Qy9inQLo9l/opRad33VmVNqYS9RdX+5cCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VZkJS0zS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754131582; c=relaxed/simple;
+	bh=GjC27LUcG3dn5srVyYuXU1hib0j8skFeguiq7xLh0n4=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Tp3jxrIyD7x/yxThKRa3vyU0qYm0kP18WhFDbXfVRa/Xeby9lvjqAliuXzKgViB7rxVtIR3260vzQ2cj+P6v0AQbvf9Mh8CIoB6u0pEbFaDe2vATOq5euA7ctZT9tDp49VvOzWgsBCdRvU/pqca/lUrC/UehtUTzO7/xeLqeR9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=riscv-rocks.de; spf=pass smtp.mailfrom=tometzki.de; dkim=pass (2048-bit key) header.d=riscv-rocks.de header.i=@riscv-rocks.de header.b=lbZ4l0E8; arc=none smtp.client-ip=209.85.217.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=riscv-rocks.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tometzki.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VZkJS0zS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 271F7C4CEE7;
-	Fri,  1 Aug 2025 21:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754084227;
-	bh=8t52XgXD6VVUixH33PTUlVuKXYILCXgzbeaDcJ3qd64=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=VZkJS0zSKdsErEWHpXCEl9V+f8OULXysBpIz1tE9Z/RLxBAez83Mo4CgiXtaSEidI
-	 1XjyhS4sIKWhiU4jHJ9nh0cYrc9u+8LKVgtU4YSWv1cKfDSfvSsGUk1loIPI3stENl
-	 zgAQGCBLx5wOc0aBB2gR4pzz0lcBLHWnMeuN2H22l7jKwQCFob4aLF3QyRA3I/QNl4
-	 aHS00ixVdD5FANI6WsZq93NE33GRl5FFQAQ9lL6BJ33ujuacDVeAC1FMZPgbGwGUKp
-	 bWVhSHSMx4s5+/EEsuBPZB756IAfi4IGNJfbXistBS/ad+mCpyjOJjiJ6Vm8HXyLGY
-	 6snE4RQS4JicA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADEF3383BF56;
-	Fri,  1 Aug 2025 21:37:23 +0000 (UTC)
-Subject: Re: [GIT PULL] sound updates #2 for 6.17-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87qzxv2p97.wl-tiwai@suse.de>
-References: <87qzxv2p97.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87qzxv2p97.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.17-rc1-2
-X-PR-Tracked-Commit-Id: df485a4b2b3ee5b35c80f990beb554e38a8a5fb1
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 7a64bdfaf3e641862e8088a19205692b8b229753
-Message-Id: <175408424220.4088284.13258779399118456338.pr-tracker-bot@kernel.org>
-Date: Fri, 01 Aug 2025 21:37:22 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=riscv-rocks.de header.i=@riscv-rocks.de header.b="lbZ4l0E8"
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4fce686dd78so535779137.3
+        for <linux-sound@vger.kernel.org>; Sat, 02 Aug 2025 03:46:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=riscv-rocks.de; s=google; t=1754131578; x=1754736378; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AshJ86qbLOcrlRovTGnUwx2kL8dbcNk45DlyMc1ddH4=;
+        b=lbZ4l0E8dBCLmI+M49z4V99jLK/jOGrnUXPnOdNpsvInZbs39VH0ksXmeIHo4o4atm
+         uOtq4Fe7ihum+cdoU+UNYfElWGljMSsCsT57JzSjJfVwfJqmuK3OkTy7XH7UuXsSERIy
+         hpHre50sVU6Qho7GIoDgCMlOrtjhbBMJGnDmRwEeSF5EeiO2i+DwwTzodY2WWSICmIL1
+         L9hFDTMChWb/u3DqMg6WirtRehNqcQ9jhidRemphJF2Yrb48pZPg65UoD6dZsvteyuI8
+         vKbqv5Qq1ZKTL1qB45J+XdpnLq2fkFOekYRRlTIWb6zrkHWRUjEbuhD5IwWV+cs6rakK
+         OPPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754131578; x=1754736378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AshJ86qbLOcrlRovTGnUwx2kL8dbcNk45DlyMc1ddH4=;
+        b=DItUCsdMTJaLIcPwE9p6OvxFK8pafa8r3krIjr8oaDp92JGCUlBfAz7Q2pQO1vE/YF
+         hodYMF+Nbd/nXsoFNaO0XMyMFGfNEqTwCN1XZNjq0bzlgKVxiSIjTOYDx5BKRebd/Lx8
+         51hX0b7yP15KCQHL1knFN04pKo0spvStLBGdvgiwZi9mrSiNeon2eFLeTnRDqBgKzzCG
+         JvUtRWBIfDIGXZSMFoRSo6EYdht/1UdkIx3CuXVf/+GRP2b9K3TbcDLVdI0f4Z7oyhZr
+         j/t9C9RGZUBypBWiZgyJ/WwrWg7szxVqegOsdksxDzq89SQ/YXNkXL9BJ24roeNb391Q
+         3+fA==
+X-Gm-Message-State: AOJu0Yx0d2dwA6fD/Cb4aONSOtE7acczqFP3VvR2BB1rb1dQmLkOIRug
+	a9c+QKsxUdf+QlxDg4he4OHx4uGFLPV1HXs4UK9yBcujQZ9ZeXrFw0s49fmFjbAuGs0dL5thHHk
+	9jepYoa3zGOx/Ql9CXXrA4ybbBdkG5KlLZ80X6BtejtM56rv8aYpxza+yovRp/tA=
+X-Gm-Gg: ASbGnctkIW+bhrGRG1jTBsPZpYUAE0uxyoM0Do0ZTJycFAILkIKkUtpTpmqf+KK2rSU
+	YtTx47+a6fle15xhGgYP9AG7JaavSXnvP90hU3WlAwOANQH2DWHHvmUR+1eEUOcDiowlI3HzTHK
+	xiW79k5GT7JTyfzfq+wale8sBGwRilu0BNT4M9frN3xks9w/XZdjpemToAm33mXil5ozDSzbBhM
+	oHScake
+X-Google-Smtp-Source: AGHT+IFNMQJlun1qhxFHABWfxEe4KXtT3gNasKqMjDslvq9o8yprzFRDSd2OfmO/KqUVhWtkOIuixDQkpA+9Ab8xO2E=
+X-Received: by 2002:a67:e7c8:0:b0:4fd:b392:c500 with SMTP id
+ ada2fe7eead31-4fdc3c23228mr1068821137.24.1754131577856; Sat, 02 Aug 2025
+ 03:46:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+From: Damian Tometzki <damian@riscv-rocks.de>
+Date: Sat, 2 Aug 2025 12:46:07 +0200
+X-Gm-Features: Ac12FXw3uVxz8cdzoSLE1B6V0R4dpw0ngfLhuQZars8kAjQDrE7g_cZeOxT1qlU
+Message-ID: <CAL=B37=-_dBswNrQHc4dgfgZhoyjmaYQxE5dGZhQeB0ZGf0GtA@mail.gmail.com>
+Subject: ASoC HDMI errors with sof-hda-dsp on Intel platform (no PCM for intel-hdmi-hifiX)
+To: linux-sound@vger.kernel.org
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Fri, 01 Aug 2025 14:35:48 +0200:
+Hi all,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.17-rc1-2
+I'm experiencing ASoC errors on an Intel-based system using the
+`sof-hda-dsp` driver. After boot, the kernel logs repeated errors
+related to HDMI outputs:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/7a64bdfaf3e641862e8088a19205692b8b229753
+[   90.933290] snd_hda_codec_generic ehdaudio0D2:
+snd_soc_find_pcm_from_dai: didn't find PCM for DAI intel-hdmi-hifi1
+[   90.933295] snd_hda_codec_generic ehdaudio0D2: ASoC error (-22): at
+snd_soc_dai_startup() on intel-hdmi-hifi1
+...
+[   91.016259] HDMI3: ASoC error (-22): at dpcm_fe_dai_startup() on HDMI3
 
-Thank you!
+These errors are repeated for HDMI1, HDMI2, and HDMI3. It appears that
+`snd_soc_find_pcm_from_dai()` fails to resolve the DAI to a PCM, and
+this breaks HDMI audio initialization.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+**System info:**
+- Kernel: current Linus build 2938ae2fa7cd
+- Distro: Fedora 42
+- HDMI monitor with audio capability isn=C2=B4t connected
+
+Is there a known fix or workaround?
+Thanks in advance,
+Damian
