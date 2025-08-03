@@ -1,80 +1,73 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C421FE455
-	for <linux-sound@vger.kernel.org>; Sun,  3 Aug 2025 20:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4321C12BF24;
+	Sun,  3 Aug 2025 20:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754253610; cv=none; b=EQl7yjdh58pms5mKz28BMld9JrhTGb/khMmiJ1kVJb/cZyb4vYM1FRJ/Nz319S4XtTkvylDmjrnNoTfo9nV2u4L+fK7sXT2OlX6CH2t2k8R110jW2j3PsO7KFuunIAK8ouDo9zjqYmMevZ137bLzMtSvGlb+MtwmF5ytZ6jyaE0=
+	t=1754254193; cv=none; b=T1LBRFM94zoLXTMOPU2+lqO4DapJFYjuemTZqoBPnYa117cAUQF4lQKMqC0MmjIN/uohfzZS8vvdCeVcsyADPGejWXXAHyiqII4JhFhEQxA6GHL09Pev2246PeXkqDs/AoQ0EUf9XVQ52y6osX2vXcpyIWs0b92kwhUgv2NVHjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754253610; c=relaxed/simple;
-	bh=tzLH/YUExqTegN4sI56xlZ8maB8KzJUjpOhBuVYG1JA=;
+	s=arc-20240116; t=1754254193; c=relaxed/simple;
+	bh=+/0qRS6aQg0KQWft8omUpj97CimdWnULi88QIwZXViA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IB8Xr7mAj/eXim/5AQZNr+fhqVjVzsrRp4GEoXVqviq3FI5Fc8AU62PNm81vktEHzFPzCLyIKIilvDExzsXvTfc59KTqNRJmzN5y4G+KMDtbRLC+NSwUn0o7d7snUBuvn6sF4TYGSKl9CUBLAlD5ut4jX8BcQY8aGYMa6cyCkWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=KKRVs//S; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gVQXaSwMqKdvF2Onv/8vHcdhHN8xzj62HFgp9KZwUQJtJqYg/QMnZBpjb7UYW5sJY6Ikgbwxef/uOlGZrXyIFM0ezEKz0HAckU5xI6HTOO+XwISD71sZ1F3Kb5aBGVBSMqMoIvjbj9llsHzvSsh/lfKrrDgipgA76AQLJHQo15M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FbeipkHs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="KKRVs//S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=5vm0
-	SxJu7Lne/9TVu7ssZXea18OLLC2K5dYsygJBt9M=; b=KKRVs//S+sQ92DcZ4KMq
-	u8nsdEZ9MfJ8tF9+2mIEnMKa16OXkFhageH6Q3dusOQHzpClzDFxFhQ6DqxKIqyK
-	Uf3NBHVB0NKgalwxkup9TG+R7v+ahB5EFSvjt8WEnHBdbEx3SmTO6JltOg3rUBQV
-	kx30VnagDoDnl085prpZDQkQPhnx3BeetweZr9+itITcepP1ErvhOlEutMUVlCMu
-	oG5ZgggbyNfeSyrs5j7AHZYstpvrNGAfHGIR7jUIcMYCfycsPBiiImpXM45eWsM9
-	un0A3l69l+xmhVFCkT05XjGxeQNA+OXeTC4vAwJOBCeZl7ifxDL/zHPzY62FsRnj
-	qA==
-Received: (qmail 1644961 invoked from network); 3 Aug 2025 22:40:01 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Aug 2025 22:40:01 +0200
-X-UD-Smtp-Session: l3s3148p1@0xPE/ns7QIoujntd
-Date: Sun, 3 Aug 2025 22:40:01 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-input@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 05/11] i2c: apple: Drop default ARCH_APPLE in Kconfig
-Message-ID: <aI_JIZhHGg9GcD-D@shikoro>
-References: <20250612-apple-kconfig-defconfig-v1-0-0e6f9cb512c1@kernel.org>
- <20250612-apple-kconfig-defconfig-v1-5-0e6f9cb512c1@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FbeipkHs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6065FC4CEEB;
+	Sun,  3 Aug 2025 20:49:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1754254191;
+	bh=+/0qRS6aQg0KQWft8omUpj97CimdWnULi88QIwZXViA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FbeipkHs8FzsaH5S735GzA+S78xnf1b+AV2LhK55zxwV2vDtXhJDcWAycKwN9Eo4K
+	 bFr9/Fz4FrlC4+zRsXNne4eAG2iVgD9y5K9k7py3eWXii4rEfy51jFL8akfY4nxJjy
+	 0BKefzHDZFzrEkyTuCDSuuWhLa6LdBKD4AbAp0Gs=
+Date: Sun, 3 Aug 2025 21:49:48 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: =?utf-8?B?xaBlcmlm?= Rami <ramiserifpersia@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: Re: [RFC PATCH v3] ALSA: usb-audio: Add support for TASCAM US-144MKII
+Message-ID: <2025080341-usher-tastiness-0507@gregkh>
+References: <20250803203409.17005-1-ramiserifpersia@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250612-apple-kconfig-defconfig-v1-5-0e6f9cb512c1@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250803203409.17005-1-ramiserifpersia@gmail.com>
 
-On Thu, Jun 12, 2025 at 09:11:29PM +0000, Sven Peter wrote:
-> When the first driver for Apple Silicon was upstreamed we accidentally
-> included `default ARCH_APPLE` in its Kconfig which then spread to almost
-> every subsequent driver. As soon as ARCH_APPLE is set to y this will
-> pull in many drivers as built-ins which is not what we want.
-> Thus, drop `default ARCH_APPLE` from Kconfig.
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
+On Sun, Aug 03, 2025 at 10:34:09PM +0200, Šerif Rami wrote:
+> +/**
+> + * driver_version_show() - Sysfs attribute to display the driver version.
+> + * @dev: Pointer to the device structure.
+> + * @attr: Pointer to the device attribute structure.
+> + * @buf: Buffer to write the version string into.
+> + *
+> + * This function is a sysfs callback that provides the current driver version
+> + * string to user-space when the 'driver_version' attribute is read.
+> + *
+> + * Return: The number of bytes written to the buffer.
+> + */
+> +static ssize_t driver_version_show(struct device *dev,
+> +				   struct device_attribute *attr, char *buf)
+> +{
+> +	return sysfs_emit(buf, "%s\n", DRIVER_VERSION);
+> +}
+> +static DEVICE_ATTR_RO(driver_version);
 
-Applied to for-next (for 6.17 mergewindow), thanks!
+The driver version makes no sense when it is in the kernel tree, so this
+can be removed.
 
+Also, all sysfs files need to be documented in Documentation/ABI/
+
+thanks,
+
+greg k-h
