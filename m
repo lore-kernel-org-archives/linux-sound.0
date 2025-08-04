@@ -1,46 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A426A20EB;
-	Mon,  4 Aug 2025 00:31:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EA61C8FBA;
+	Mon,  4 Aug 2025 00:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754267476; cv=none; b=I+dHeEQroYkPSnL67/3W+Nqko4Ji8hrganKQMVzHXinGKYEadNauTmca4pGBIvFG4Y86xSUORc5dwkBb/wQXIUKhtAOXhkjxo8sdPDvKQTJWcZVvkLbibCobpPsMhJPxq+kgUDWZGtntGEFFE98gmQYvfpR0iCpJps2GjJtnhU8=
+	t=1754267536; cv=none; b=sRRYr9AZIsU6dCOYRzhH3NDXCko9pVWQV0prVrnbxkcce2LSIAffounxVmx+4t1H4KmPXpkQIgn5CiSf/JDGuEGDBvrdExX3zUt2uKvhJfgphwOUGkHRA5Oj+NezoAf4ZaBxgjcXZopaExf98OWLH92z8QMCSRSBxzPm0ReU1Z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754267476; c=relaxed/simple;
-	bh=pkj9jXsedV3+eTmu8VaaY/DUPNtmzIg9MJ/ISzjv740=;
+	s=arc-20240116; t=1754267536; c=relaxed/simple;
+	bh=nnHTG0Tyy5n6w4kW8vw/I2acG/3iFeRG1VMz9unKe2M=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oQ+PO/twjEWJhNsLoybH4FyP9cdqwbg1582ihC1CJ2NlpmIidwl8wL9+IPCrEF68oz0JsG5NsWM0mMDRNTUvNyoiyNS9wkckfWsaUf0xZdBkR8/4em1H+isgLmRp0IafyxRKGpBhimHuq+G4oH5ZfWNRVb2PNbD1ETq8bhW/ioY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b8dSv9tP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=gy+gGxxjSN+8UJaSNxUEHG1V88gaCWEBuL0zreTl52UCcUjway+GVPszZcmixZVFLG/rB2SyGyB1oGoc8/I/oR9adGtmnJxlMRoJqtCkx+fYpxFdCNVhIF6uLdlbhjZf7ScRMSjaOYq+3pKw6oZUMMYUwe0i7jncm71ApdJp+IE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iMSd0A62; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b8dSv9tP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C53CC4CEEB;
-	Mon,  4 Aug 2025 00:31:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iMSd0A62"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33CC7C4CEEB;
+	Mon,  4 Aug 2025 00:32:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754267476;
-	bh=pkj9jXsedV3+eTmu8VaaY/DUPNtmzIg9MJ/ISzjv740=;
+	s=k20201202; t=1754267536;
+	bh=nnHTG0Tyy5n6w4kW8vw/I2acG/3iFeRG1VMz9unKe2M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b8dSv9tPsRMpyuNRzuybL1dmDGZTk3+3ddPo5W/hE4EFkdp8q3szj7flWYxuo73h/
-	 /AQ4w2oIB23Mbq3xJMnyAlTpJO8HQSP7J2i92Q5F4zXr/OleVYPxLimbs23uvnOXYK
-	 tnztrpmxaiPb2FKKl3APN+vRZ7kGoogoN3ehMbjAHz10GXHsbqtJSleT2X0y6qUEzC
-	 Xq/4mak0I5KCptQnzhe9QmuKHjVQQ/zwSFItUDWRzd6u4Y7Z6GSoinhHjhwYMkC2zY
-	 G7xxIj8wqgA4Rdw/SGOW2Z+FTGuxQm2PqZdY3l5XNBwVoI5mbNI/qxTzBf49NMAX5R
-	 Bl+xtjyTO6MqA==
+	b=iMSd0A62CaQmbUAqeCYC0ib/aNJMZTDMTddmVl6nxaMJFNCoiWqEbSLC26MTdajuf
+	 EcYxPitxSjoDccklRcnZuV0XT25BeCP8xnMrWe2+e8aOeEIRHqWk3cw4/yT5tRGcj0
+	 yWKgj+G0mQ90ptU0eddKWpQkxj8HrObCvFpHylLGy0FnJ/7+q6w2iLcjYR66nwfe19
+	 kCZ/NKL2JZ+2czvl+dth+nwhGhbFmfHjrW2PrladmlF2lJuLOhPQ1FQKSHb5jYKcfj
+	 tNu3U/4Ro4qrQJvyNkCLstsEjZ3P7ssMXwQ22Zyb3DLXyDhXIycuL0cf6uc3oYet3l
+	 Wv1OwRJTo0Qig==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.15 80/80] ASoC: qcom: use drvdata instead of component to keep id
-Date: Sun,  3 Aug 2025 20:27:47 -0400
-Message-Id: <20250804002747.3617039-80-sashal@kernel.org>
+	lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 22/69] ASoC: soc-dapm: set bias_level if snd_soc_dapm_set_bias_level() was successed
+Date: Sun,  3 Aug 2025 20:30:32 -0400
+Message-Id: <20250804003119.3620476-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250804002747.3617039-1-sashal@kernel.org>
-References: <20250804002747.3617039-1-sashal@kernel.org>
+In-Reply-To: <20250804003119.3620476-1-sashal@kernel.org>
+References: <20250804003119.3620476-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,190 +48,126 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.15.9
+X-stable-base: Linux 6.12.41
 Content-Transfer-Encoding: 8bit
 
-From: Srinivas Kandagatla <srini@kernel.org>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-[ Upstream commit 8167f4f42572818fa8153be2b03e4c2120846603 ]
+[ Upstream commit f40ecc2743652c0b0f19935f81baf57c601eb7f0 ]
 
-Qcom lpass is using component->id to keep DAI ID (A).
+ASoC has 2 functions to set bias level.
+	(A) snd_soc_dapm_force_bias_level()
+	(B) snd_soc_dapm_set_bias_level()
 
-(S)	static int lpass_platform_pcmops_open(
-				sruct snd_soc_component *component,
-				struct snd_pcm_substream *substream)
-	{			                          ^^^^^^^^^(B0)
-		...
-(B1)		struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-(B2)		struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-		...
-(B3)		unsigned int dai_id = cpu_dai->driver->id;
+snd_soc_dapm_force_bias_level() (A) will set dapm->bias_level (a) if
+successed.
 
-(A)		component->id = dai_id;
-		...
-	}
-
-This driver can get dai_id from substream (B0 - B3).
-In this driver, below functions get dai_id from component->id (A).
-
-(X)	lpass_platform_pcmops_suspend()
-(Y)	lpass_platform_pcmops_resume()
-(Z)	lpass_platform_copy()
-
-Here, (Z) can get it from substream (B0 - B3), don't need to use
-component->id (A). On suspend/resume (X)(Y), dai_id can only be obtained
-from component->id (A), because there is no substream (B0) in function
-parameter.
-
-But, component->id (A) itself should not be used for such purpose.
-It is intilialized at snd_soc_component_initialize(), and parsed its ID
-(= component->id) from device name (a).
-
-	int snd_soc_component_initialize(...)
+(A)	int snd_soc_dapm_force_bias_level(...)
 	{
 		...
-		if (!component->name) {
-(a)			component->name = fmt_single_name(dev, &component->id);
-			...                                     ^^^^^^^^^^^^^
-		}
+		if (ret == 0)
+(a)			dapm->bias_level = level;
 		...
 	}
 
-Unfortunately, current code is broken to start with.
+snd_soc_dapm_set_bias_level() (B) is also a function that sets bias_level.
+It will call snd_soc_dapm_force_bias_level() (A) inside, but doesn't
+set dapm->bias_level by itself. One note is that (A) might not be called.
 
-There are many regmaps that the driver cares about, however its only
-managing one (either dp or i2s) in component suspend/resume path.
+(B)	static int snd_soc_dapm_set_bias_level(...)
+	{
+		...
+		ret = snd_soc_card_set_bias_level(...);
+		...
+		if (dapm != &card->dapm)
+(A)			ret = snd_soc_dapm_force_bias_level(...);
+		...
+		ret = snd_soc_card_set_bias_level_post(...);
+		...
+	}
 
-I2S regmap is mandatory however other regmaps are setup based on flags
-like "hdmi_port_enable" and "codec_dma_enable".
+dapm->bias_level will be set if (A) was called, but might not be set
+if (B) was called, even though it calles set_bias_level() function.
 
-Correct thing for suspend/resume path to handle is by checking these
-flags, instead of using component->id.
+We should set dapm->bias_level if we calls
+snd_soc_dapm_set_bias_level() (B), too.
 
-Signed-off-by: Srinivas Kandagatla <srini@kernel.org>
-Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://patch.msgid.link/87a56ouuob.wl-kuninori.morimoto.gx@renesas.com
+Link: https://patch.msgid.link/87qzyn4g4h.wl-kuninori.morimoto.gx@renesas.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-**YES**
+Based on my analysis, here's my assessment:
+
+**Backport Status: YES**
 
 This commit should be backported to stable kernel trees for the
 following reasons:
 
-**1. Fixes a Real Bug with User Impact:**
-- The driver was misusing `component->id` to store DAI ID information,
-  overwriting the ASoC framework's intended use of this field
-- This caused incomplete suspend/resume handling - only one regmap
-  (either HDMI or I2S) was being handled instead of both when needed
-- Users would experience audio failures after suspend/resume cycles,
-  especially on systems with both HDMI and I2S audio interfaces
+1. **Bug Fix**: This is a clear bug fix that addresses an inconsistency
+   in bias level management. The commit message clearly explains that
+   `snd_soc_dapm_set_bias_level()` doesn't always update
+   `dapm->bias_level`, particularly when dealing with card-level DAPM
+   contexts where `snd_soc_dapm_force_bias_level()` is not called.
 
-**2. Clear Architectural Violation Being Fixed:**
-The commit message and code analysis show that `component->id` is
-initialized by the ASoC framework during
-`snd_soc_component_initialize()` based on device name parsing. The
-driver was incorrectly overwriting this value with DAI ID, breaking the
-abstraction layer between driver and framework.
+2. **Small and Contained**: The fix is minimal - it only adds 4 lines of
+   code:
+  ```c
+  /* success */
+  if (ret == 0)
+  snd_soc_dapm_init_bias_level(dapm, level);
+  ```
+  This ensures that `dapm->bias_level` is always updated when the bias
+  level change succeeds.
 
-**3. Limited Scope and Low Risk:**
-- Changes are confined to 3 functions in a single file (`lpass-
-  platform.c`)
-- The fix replaces the problematic `component->id` usage with proper
-  flag checking (`drvdata->hdmi_port_enable`)
-- No API changes or new features added
-- The author (Srinivas Kandagatla) is an experienced ASoC maintainer
+3. **Important Correctness Issue**: The inconsistency could lead to
+   incorrect bias level tracking, which affects power management
+   decisions in the ASoC subsystem. Code that checks `dapm->bias_level`
+   (as shown in lines like `if (dapm->bias_level == SND_SOC_BIAS_ON)`)
+   may make wrong decisions if the bias level isn't properly tracked.
 
-**4. Improves Suspend/Resume Reliability:**
-The fix ensures both HDMI and I2S regmaps are properly handled during
-suspend/resume based on actual driver capabilities rather than an
-incorrectly stored ID. This makes power management more robust and
-predictable.
+4. **No Architectural Changes**: This is a straightforward fix that
+   doesn't introduce new features or change the architecture. It simply
+   ensures consistent behavior between the two bias level setting
+   functions.
 
-**5. Long-Standing Issue:**
-The problematic code has existed since late 2020 (commits b1824968221c
-and 8d1bfc04c974), affecting multiple kernel versions and potentially
-many Qualcomm-based devices in the field.
+5. **Low Risk**: The change only affects the success path (when `ret ==
+   0`) and uses an existing inline function
+   `snd_soc_dapm_init_bias_level()` that simply sets `dapm->bias_level =
+   level`. This is the same operation that
+   `snd_soc_dapm_force_bias_level()` performs on success.
 
-**Backport Recommendation:**
-Should be backported to all stable kernels from 5.10 onwards that
-contain the original problematic commits. This is a medium-high priority
-fix that improves audio subsystem reliability without introducing new
-risks.
+6. **Affects User-Facing Functionality**: Incorrect bias level tracking
+   can lead to power management issues, potentially causing audio
+   devices to not power up/down correctly, which directly impacts users.
 
- sound/soc/qcom/lpass-platform.c | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+The commit fixes a real bug where the DAPM bias level state could become
+out of sync with the actual hardware state, particularly for card-level
+DAPM contexts. This is exactly the type of bug fix that stable kernels
+should include - it's small, targeted, fixes a real issue, and has
+minimal risk of introducing regressions.
 
-diff --git a/sound/soc/qcom/lpass-platform.c b/sound/soc/qcom/lpass-platform.c
-index 9946f12254b3..b456e096f138 100644
---- a/sound/soc/qcom/lpass-platform.c
-+++ b/sound/soc/qcom/lpass-platform.c
-@@ -202,7 +202,6 @@ static int lpass_platform_pcmops_open(struct snd_soc_component *component,
- 	struct regmap *map;
- 	unsigned int dai_id = cpu_dai->driver->id;
+ sound/soc/soc-dapm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+index 99521c784a9b..196799b2fe24 100644
+--- a/sound/soc/soc-dapm.c
++++ b/sound/soc/soc-dapm.c
+@@ -740,6 +740,10 @@ static int snd_soc_dapm_set_bias_level(struct snd_soc_dapm_context *dapm,
+ out:
+ 	trace_snd_soc_bias_level_done(dapm, level);
  
--	component->id = dai_id;
- 	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
-@@ -1190,13 +1189,14 @@ static int lpass_platform_pcmops_suspend(struct snd_soc_component *component)
- {
- 	struct lpass_data *drvdata = snd_soc_component_get_drvdata(component);
- 	struct regmap *map;
--	unsigned int dai_id = component->id;
- 
--	if (dai_id == LPASS_DP_RX)
-+	if (drvdata->hdmi_port_enable) {
- 		map = drvdata->hdmiif_map;
--	else
--		map = drvdata->lpaif_map;
-+		regcache_cache_only(map, true);
-+		regcache_mark_dirty(map);
-+	}
- 
-+	map = drvdata->lpaif_map;
- 	regcache_cache_only(map, true);
- 	regcache_mark_dirty(map);
- 
-@@ -1207,14 +1207,19 @@ static int lpass_platform_pcmops_resume(struct snd_soc_component *component)
- {
- 	struct lpass_data *drvdata = snd_soc_component_get_drvdata(component);
- 	struct regmap *map;
--	unsigned int dai_id = component->id;
-+	int ret;
- 
--	if (dai_id == LPASS_DP_RX)
-+	if (drvdata->hdmi_port_enable) {
- 		map = drvdata->hdmiif_map;
--	else
--		map = drvdata->lpaif_map;
-+		regcache_cache_only(map, false);
-+		ret = regcache_sync(map);
-+		if (ret)
-+			return ret;
-+	}
- 
-+	map = drvdata->lpaif_map;
- 	regcache_cache_only(map, false);
++	/* success */
++	if (ret == 0)
++		snd_soc_dapm_init_bias_level(dapm, level);
 +
- 	return regcache_sync(map);
+ 	return ret;
  }
  
-@@ -1224,7 +1229,9 @@ static int lpass_platform_copy(struct snd_soc_component *component,
- 			       unsigned long bytes)
- {
- 	struct snd_pcm_runtime *rt = substream->runtime;
--	unsigned int dai_id = component->id;
-+	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-+	unsigned int dai_id = cpu_dai->driver->id;
- 	int ret = 0;
- 
- 	void __iomem *dma_buf = (void __iomem *) (rt->dma_area + pos +
 -- 
 2.39.5
 
