@@ -1,47 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEB112FF69;
-	Mon,  4 Aug 2025 00:26:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCA31459EA;
+	Mon,  4 Aug 2025 00:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754267168; cv=none; b=gh0BkaMdLyMqdK4vpWyW40IqEtRAY8dxNSMuI0dbIRGF9PTQgYSSGZfmuKo6GepPlziNb3hyroJ00ff1XRTaaIbAGAevq2BA5lswFCV8osHgSaQAiSQwH8onuJxIrNP5Nf9sBIjKZl0DeO2MnyXXpPCIxKo0lXsqpgg256iaG7M=
+	t=1754267225; cv=none; b=jSYzAYbJPj6ssrJHLw6rMFC/mRZvH9CmWjgJurjlj8JS+SF8eW7r1ghGcWf/1qc3lfxkb0M4fqJEJphIAEVSHUl+euj/IC96MrHGn/h/iGRR7MYm+Kqp4jZ1JrFwIFwVEoSNyFpfvEJKN2yBmDrTHCS9Vx14blbBqeyiV6X9w6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754267168; c=relaxed/simple;
-	bh=swTZ1CegOsW3PbwQOV/KPcDl8K6aCmADC2VNGJgX7XY=;
+	s=arc-20240116; t=1754267225; c=relaxed/simple;
+	bh=zZd/zCbMDxBP3oR7TmMY31/4Dc5wlwHNMFM61bmlQUI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tTq7xzT0hR+2uiLa/Lg7ayIIEKasI+wCEafN0ANEHqbxb8OjWRWV2npT71DsuZ3S9ijB6kWliLtPBtDDhkzF9Pux8WpdD1D9Rs4zQ4c+Db9TW9Y8n+1DzaXVZEs/okZ6scHncDrSU39aufAY6aARfrv/RRalgJUHFUIv47Xk6rY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=babcwdvy; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=d0UxB0Zf0GztbRX8xZMHnXwHSrNrvVu/fMeKG3NgdprVfr5FASim9E2JOm+iWhXN1X76BRE9ROZDKdPqmDIikvWNlTGZt6Jr+dLPXG7ZP8FMlvQZU2VVaEdzVVHtbz2q31xd2n3RvU2vctFemEZWTBbIn2k9cog1idXPnXMjcFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hS80PsF8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="babcwdvy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E6CCC4CEEB;
-	Mon,  4 Aug 2025 00:26:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hS80PsF8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A89F8C4CEEB;
+	Mon,  4 Aug 2025 00:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754267168;
-	bh=swTZ1CegOsW3PbwQOV/KPcDl8K6aCmADC2VNGJgX7XY=;
+	s=k20201202; t=1754267225;
+	bh=zZd/zCbMDxBP3oR7TmMY31/4Dc5wlwHNMFM61bmlQUI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=babcwdvyL0nAPlM45wENBAUz71i+bQSoT9AVmFYhwdtKNUgHWN5oo11eU+Nk4RbVa
-	 qbRICy+HAq4dX3FZuCxuYmtKAZLQzp85ikJEwZ5/JNoV+K/xqfxX/u6K7GkVx/UQ1g
-	 /q7f1oeNxwkWqJFhkloTwfSIX8SVrrB6DaFb71md25+nkzHve9+T3hdODkkXhIa40M
-	 ZxP6ylsyhYETgA04aY2MDCMTCMPUExIP+y9lTE0r3GXYtoc3Z+YEgr0LXfa0Qq0or+
-	 nFkXHweZrhfaAsTkHejb5W0UyhnWXVFMGJ55+inojAPHpFsO5ukQ8AxRQUWzft2Wsr
-	 vlTgq52IOfp5Q==
+	b=hS80PsF8OEO+6BaI23kV+NNqAIFqEJsPB9xIFpQ9nrwpG+tO7n37IuaP348nWFfxz
+	 qd7OiVlSy97vbEtC1It1DwP953XfT/KL1MG4BpiOYblSPJFr1DWIhicSjnY/4zS1UQ
+	 jEM3EYROhdZwLaYdBEDPDOHJNpZK+SG2sypMv6hyjXMc0igHHSz3GSi24sgnklZefv
+	 XCTZP1hbRCtsjAN8Ol7tIZXfyiAIFI9vz3oQ3h23dqPTYZz+kWFFtLhN3VRVTT1y8a
+	 HcAfRADK7aSe9jfcfoUMixTGG4IOz4xc39ltx+Ypx/ocekiUBPjKEYfjdJXK45rUji
+	 BD1v6gBJWwakQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	mstrozek@opensource.cirrus.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: [PATCH AUTOSEL 6.16 53/85] ASoC: SDCA: Add flag for unused IRQs
-Date: Sun,  3 Aug 2025 20:23:02 -0400
-Message-Id: <20250804002335.3613254-53-sashal@kernel.org>
+	lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.16 70/85] ASoC: core: Check for rtd == NULL in snd_soc_remove_pcm_runtime()
+Date: Sun,  3 Aug 2025 20:23:19 -0400
+Message-Id: <20250804002335.3613254-70-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250804002335.3613254-1-sashal@kernel.org>
 References: <20250804002335.3613254-1-sashal@kernel.org>
@@ -56,112 +55,86 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.16
 Content-Transfer-Encoding: 8bit
 
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-[ Upstream commit 775f5729b47d8737f4f98e0141f61b3358245398 ]
+[ Upstream commit 2d91cb261cac6d885954b8f5da28b5c176c18131 ]
 
-Zero is a valid SDCA IRQ interrupt position so add a special value to
-indicate that the IRQ is not used.
+snd_soc_remove_pcm_runtime() might be called with rtd == NULL which will
+leads to null pointer dereference.
+This was reproduced with topology loading and marking a link as ignore
+due to missing hardware component on the system.
+On module removal the soc_tplg_remove_link() would call
+snd_soc_remove_pcm_runtime() with rtd == NULL since the link was ignored,
+no runtime was created.
 
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Link: https://patch.msgid.link/20250624122844.2761627-6-ckeepax@opensource.cirrus.com
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Link: https://patch.msgid.link/20250619084222.559-3-peter.ujfalusi@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have a complete picture of the issue. Let me provide my analysis:
+**YES**
 
-**Backport Status: YES**
+This commit should be backported to stable kernel trees. The analysis
+reveals this is a critical NULL pointer dereference fix that prevents
+kernel crashes.
 
-This commit fixes a subtle but important bug in the SDCA (Smart Digital
-Class-D Amplifier) subsystem's interrupt handling. Here's why this
-should be backported:
+**Key reasons for backporting:**
 
-1. **It fixes a real bug**: Without this change, when the `mipi-sdca-
-   control-interrupt-position` property is missing from the device
-   tree/ACPI, the `control->interrupt_position` field remains
-   uninitialized (even though memory is zero-initialized with
-   `devm_kcalloc`, it's still 0). Since 0 is a valid interrupt position
-   in SDCA, this causes the code to incorrectly treat controls without
-   interrupts as having interrupt position 0.
+1. **Fixes a Real Crash**: The commit adds a NULL check to prevent a
+   kernel panic that occurs when `snd_soc_remove_pcm_runtime()` is
+   called with `rtd == NULL`. The code change shows this clearly:
+```c
++   if (!rtd)
++       return;
+```
+Without this check, the subsequent line
+`snd_soc_card_remove_dai_link(card, rtd->dai_link)` would dereference
+NULL.
 
-2. **The bug has functional impact**: Looking at the interrupt handling
-   code in `sdca_irq_populate()` (added in commit b126394d9ec6), it
-   checks:
-  ```c
-  if (irq == SDCA_NO_INTERRUPT) {
-  continue;
-  }
-  ```
-  Without this fix, controls that should have no interrupt (property
-  missing) would be incorrectly processed as having interrupt position
-  0, potentially causing:
-   - Incorrect interrupt registration
-   - Conflicts with legitimate interrupt position 0 handlers
-   - Runtime errors when the interrupt framework tries to handle non-
-     existent interrupts
+2. **Minimal and Safe Fix**: The change is extremely small (3 lines) and
+   defensive - it simply adds a NULL check with early return. This
+   follows the stable kernel rule of minimal, contained fixes.
 
-3. **The fix is minimal and safe**: The change simply adds:
-  ```c
-  else
-  control->interrupt_position = SDCA_NO_INTERRUPT;
-  ```
-  This ensures that when the interrupt position property is missing, the
-  field is explicitly set to -1 (SDCA_NO_INTERRUPT) instead of remaining
-  0.
+3. **Affects Production Systems**: The commit message indicates this
+   occurs during topology loading when hardware components are missing -
+   a real-world scenario. The issue manifests on module removal when
+   `soc_tplg_remove_link()` calls the function with NULL.
 
-4. **It follows stable tree rules**:
-   - Fixes a clear bug (uninitialized/incorrectly initialized field)
-   - Small, contained change (2 lines added)
-   - No architectural changes or new features
-   - Low risk of regression
-   - Only affects SDCA subsystem
+4. **Well-Reviewed**: The commit has 5 Reviewed-by tags from Intel ASoC
+   maintainers, indicating thorough review and consensus on the fix.
 
-5. **The bug exists in stable kernels**: The interrupt handling code
-   that depends on this distinction was added in commit b126394d9ec6
-   ("ASoC: SDCA: Generic interrupt support"), so any stable kernel that
-   includes that commit needs this fix.
+5. **No Side Effects**: The fix has no architectural changes or new
+   features - it purely adds defensive programming to prevent crashes.
+   The function already had EXPORT_SYMBOL_GPL, indicating it's part of
+   the kernel API that could be called from various contexts.
 
-The commit message clearly states the problem: "Zero is a valid SDCA IRQ
-interrupt position so add a special value to indicate that the IRQ is
-not used." This is a classic initialization bug where the absence of a
-value (property not present) needs to be distinguished from a valid zero
-value.
+This is exactly the type of commit stable trees want: a small, obvious
+fix for a real crash scenario with no risk of regression.
 
- include/sound/sdca_function.h   | 2 ++
- sound/soc/sdca/sdca_functions.c | 2 ++
- 2 files changed, 4 insertions(+)
+ sound/soc/soc-core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-index eaedb54a8322..b43bda42eeca 100644
---- a/include/sound/sdca_function.h
-+++ b/include/sound/sdca_function.h
-@@ -16,6 +16,8 @@ struct device;
- struct sdca_entity;
- struct sdca_function_desc;
- 
-+#define SDCA_NO_INTERRUPT -1
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 67bebc339148..16bbc074dc5f 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -1139,6 +1139,9 @@ static int snd_soc_compensate_channel_connection_map(struct snd_soc_card *card,
+ void snd_soc_remove_pcm_runtime(struct snd_soc_card *card,
+ 				struct snd_soc_pcm_runtime *rtd)
+ {
++	if (!rtd)
++		return;
 +
- /*
-  * The addressing space for SDCA relies on 7 bits for Entities, so a
-  * maximum of 128 Entities per function can be represented.
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index de213a69e0da..dd503acc0c77 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -911,6 +911,8 @@ static int find_sdca_entity_control(struct device *dev, struct sdca_entity *enti
- 				       &tmp);
- 	if (!ret)
- 		control->interrupt_position = tmp;
-+	else
-+		control->interrupt_position = SDCA_NO_INTERRUPT;
+ 	lockdep_assert_held(&client_mutex);
  
- 	control->label = find_sdca_control_label(dev, entity, control);
- 	if (!control->label)
+ 	/*
 -- 
 2.39.5
 
