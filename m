@@ -1,160 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54BE2472B7;
-	Tue,  5 Aug 2025 13:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A3C26CE2C
+	for <linux-sound@vger.kernel.org>; Tue,  5 Aug 2025 14:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754399517; cv=none; b=GUrSxl6tMnkPcCN7yAeeAEe06/l/x14pzG6H9CKRsoqFbj9LDFb+7vkmjku31E9RMzejLcTyS5Ge0eKiYosZtjL41qQg3hZPf4voHClosAzm4/aMT4zI9ylxHdfeV6w5pw/ZnTJ76H4cU75fsNEHXgxJ+6N7M14bGs1bAi4iWqQ=
+	t=1754402713; cv=none; b=MGbi88mVgCEUZA3rF+tTGaIgTQ/N7zxF7OFEvatkSHskH4vszwmmeyGUzs9NSdCXKEBS4NwmqmmATwykPs/cCuESnVTAO7D36rnUlE+0AvIZ8T2f8t8um5yFR2EtMbF3JYLYgPraNp+ojVTYL6UYq8dOxx0LIgigNGUGlxSnpRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754399517; c=relaxed/simple;
-	bh=uCGVy5vRCBk3vj4eapHNW2dgJlB7TzlfE0TWQs3S208=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SWgP48H6dwhNhptMlSUf6c0vUFvlRz1i92O9fwBPn65LyRxzGGifxtC44wwHBBC/JoYtZoWqCRM2g3mM0URtl+MPCpjegSegjkfetXN/AmvTJTG8P34mJgYSkBdR89f6PJ4bBwpZ8i1JgHFjQzAdVK4LAAM1B3zo4o19CvI+Br8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bf5sbeBO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754402713; c=relaxed/simple;
+	bh=VwwDGPh3ds9A+awGPqwqcnNh6Gh4WFl0HqGJuWyvkkU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bGkkhO1Jg0S9CuhbSPJHyfAbFg21oBWk0Na5ypLCRhapEYhXlYueJUnpjibja1rEUbpNRE6+DhpT+b9NIK4xlJOWIQp1UxPtzicdwrvIdY3/7e3RohYgLtnLvkwsK7yTI8KPqoJUmITDWjotuEsFLCyrZ0B2b4R7UshecvCrZeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JswbVhN9; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bf5sbeBO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 902A9C4CEF4;
-	Tue,  5 Aug 2025 13:11:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754399517;
-	bh=uCGVy5vRCBk3vj4eapHNW2dgJlB7TzlfE0TWQs3S208=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bf5sbeBO1OXNZkQsqRlq48Aex+3bDco8L19FGPMpID2n892K/DJXi2JfZv/A8a4pv
-	 dPU/IVK9ILEyw3kd2ZXvzNqXWA3ptgYbsBPefun7vfATO1dnqq1aig6D8oXHECfZZ+
-	 K0oeA/IGJGE668pnu8Vi0R8umbEKrJyn+KkshuRmv8NPpTfKT4ke1x1DDtdD3Eaxjq
-	 BxgC3ST7yScQXBAVECepDJglv2BB+a/v2vvfvJmSBjdHBxIZJYg/mi6M2SmIw+NXl5
-	 Zkvuwtu4hnfTtpvaLhPikOBLZtoWEQckdJ2/1iZ9J7ww07UW5V2sCwIZkoijhvTVWe
-	 I8edkxv/KoCWQ==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	yung-chuan.liao@linux.intel.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.16-6.12] soundwire: amd: cancel pending slave status handling workqueue during remove sequence
-Date: Tue,  5 Aug 2025 09:09:33 -0400
-Message-Id: <20250805130945.471732-58-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250805130945.471732-1-sashal@kernel.org>
-References: <20250805130945.471732-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JswbVhN9"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 575AX95b015822
+	for <linux-sound@vger.kernel.org>; Tue, 5 Aug 2025 14:05:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FUcLnureUr1s/7YsNTnvW5Csv2CIZeOY1lQ56p5/Cj8=; b=JswbVhN9EiO/3bXB
+	KFFT2FK5zmrdDsAM9Z4O6z5zh7QsngVwmJQyJVPLIRQZy9tXuLlXFzx5q8QeK24Z
+	UuASYCo8lC5r5kPQilhktpk99gMDFXxhv/dT55dfFGKBCQXaaStS6SqslNBHs+Pk
+	6lpCnGjbmxM9hWGEUq1bYfANmhL1k2BCrodCT2z4jODPS9GZvl5Ka+gigTeBZa4j
+	hrLEdMvf9GRA+didrRj1V7EI/VkbiYXs7SbD328oyEfQp3RkEeUY0iTi8A1CYyOi
+	HGtkEWfS1GX9/TR+jdWzEglaT9vngedtZgPPmRClZ0L8g80N1lRCZfR6JAq2vIX7
+	73cJtw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48aqyv4y8a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 05 Aug 2025 14:05:09 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7e80acb8a6fso11220185a.2
+        for <linux-sound@vger.kernel.org>; Tue, 05 Aug 2025 07:05:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754402707; x=1755007507;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FUcLnureUr1s/7YsNTnvW5Csv2CIZeOY1lQ56p5/Cj8=;
+        b=LGiYrWkv4pBIpJ348G9HF3/FcV2lADYZMI0oxSWq2fkIenEWrUCo4cTASLdBzwh3FV
+         TRMniuSBpVoofSxtY3R78lnbooBFbWGlzb2H1oYSKnySck4aGy6i2rpc/DNUjvWb5V4r
+         awR97gT2oCo6Ks7msLhjJBDnMWqy/EQXdT7o+TU+AQql/ZOILgLeux7bAgsi4qskumK8
+         nOFCp2Q/TgWFuqlsvrOC3sodZXXCzPF1sy7AOuCQM8jiFJjblYOzbr9F4a7z8ygR2qNI
+         zaPYDmm/eJHhDucdgVR3T+Eu+Ee8olNce5m2fBK9hsZI7H/gEXIUXZrPdUgsz1+Ogz9K
+         Ghhw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQi+5+wxUPFtmVsYR11HG2XaGx/nbjp8LOEsjdfEv3+nCurjOPZfli5qLPeJgBYTl4PI81DxSwb4hL5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVj2js4pU1G56//UzWbM1K2APcp7BGZFaBWY1owtD6lZzCoL7C
+	RBPzF8k9J8YAeT366Gq4ev1gv6VBHB19CFbi+V30ifPNJadRnbq8G4we0JXabSapOIXZta4lwt/
+	fc798X/48gW3ADCEVKjbraVTBXQkTKMWGdtUjz2xZiiR5l/XLbgp8usK14YeYpDTsfw==
+X-Gm-Gg: ASbGncvi2kM6OD3bvNFd9u01EcYnmgmwcmoDCSTdycEOiMeMdhfZeGMgKiJJ5/VvJ7g
+	njkaFyHGGWTtsc09M/l14LxB1AqpIWB9vZsEAOkECkmeeVc/WJhOmjEHy+zyrzxVjl8fcr4JmhG
+	jm/iYcs45EpPpOi90042btoqGRTIRKHymcw2EYAbgNqGkUiT1FIMjJFUfVsvVcba00q6sqrhZod
+	/xFi/6yniK1bHNqL7Iep2lMwlWaaSUifAWsLMQ/YblqzXXYFVroRVzsum6taw1wv/mJLHC98YFi
+	X0jS8QNrrQp347gNyTcQq4A1jwuCJNHkYSORXU/hq9o0pMge1sG0vl+uJku1XsMErRcpu68cXyO
+	pyhQcKfbWTWg4zT3Djw==
+X-Received: by 2002:a05:620a:2a14:b0:7e7:fbbe:a193 with SMTP id af79cd13be357-7e7fbbea796mr612196485a.3.1754402706915;
+        Tue, 05 Aug 2025 07:05:06 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGu0CtTCnSeovH7oZZIpOsR6SihrS+IeJBeYEWKx2ZbtzZuol650T7aTGGDwlvwPzoxkQZS7A==
+X-Received: by 2002:a05:620a:2a14:b0:7e7:fbbe:a193 with SMTP id af79cd13be357-7e7fbbea796mr612187885a.3.1754402706081;
+        Tue, 05 Aug 2025 07:05:06 -0700 (PDT)
+Received: from [192.168.43.16] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8f17829sm8316020a12.19.2025.08.05.07.04.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Aug 2025 07:05:05 -0700 (PDT)
+Message-ID: <96cf6022-ef69-4749-88b0-e18a07bb8427@oss.qualcomm.com>
+Date: Tue, 5 Aug 2025 16:04:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.16
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 2/6] dmaengine: Make of_dma_request_slave_channel pass
+ a cookie to of_xlate
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Frank Li <Frank.li@nxp.com>, Konrad Dybcio <konradybcio@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>,
+        Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Neal Gompa <neal@gompa.dev>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Taichi Sugaya <sugaya.taichi@socionext.com>,
+        Takao Orito <orito.takao@socionext.com>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?=
+ <afaerber@suse.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Am=C3=A9lie_Delaunay?= <amelie.delaunay@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai
+ <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Laxman Dewangan
+ <ldewangan@nvidia.com>,
+        Jon Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@google.com>,
+        =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        imx@lists.linux.dev, linux-actions@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-spi@vger.kernel.org
+References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
+ <20250730-topic-dma_genise_cookie-v1-2-b505c1238f9f@oss.qualcomm.com>
+ <aIpKz495WI1SJTeB@lizhi-Precision-Tower-5810>
+ <20250730180417.GC21430@pendragon.ideasonboard.com>
+ <aIpmgpXME1BmThxU@lizhi-Precision-Tower-5810>
+ <20250801120007.GB4906@pendragon.ideasonboard.com>
+ <0c2cc631-21fd-41fd-9293-fd86dd09a2d2@oss.qualcomm.com>
+ <20250804235140.GB12087@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250804235140.GB12087@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 2-JLAA-Opf3Q_B_4gzItayw1jh_DOlXD
+X-Authority-Analysis: v=2.4 cv=F/xXdrhN c=1 sm=1 tr=0 ts=68920f95 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=IUwAV-ZVHCOG9dU_XxAA:9
+ a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: 2-JLAA-Opf3Q_B_4gzItayw1jh_DOlXD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA1MDEwMiBTYWx0ZWRfX60LiCR8697Xm
+ 1af5pdvjDb+sV749TpZA9ueZwtKUfJzx020z1qDdjKmwZxQ/TapybyzmhnIp640CNeo/hi/Zukl
+ qj5HrpLD/4yYdTcUVwg8QF/oko+tMRX/GH2ovde9bPvtUjGiAifqQNBFWihRWwUC5KlxFZkysOX
+ 9dgjjHgzcxbYsr6jEkmMiTlPK6EHeeXnwv27DlAOd1vnS21zqHGmrH5/mCvcKQbTh1HxzWLfrNL
+ hvZnjGkSYkVTJhMemTiVxElJy5vtVIahlrMZuD1mG1t9x1RpL1bbzIpsrnWK/4JdGBEmwUGOTqX
+ V3padKWbtuLW5NH1pOM4ECH2jG04p+3W7WAguSvYgeL5mcoXtx6yLlmLlxOc1Mcm0iBDBgg5aTP
+ CsbvxL+txTzHQOyiqueGrWh4SsjJyrXjkoEh8iI7gLiEL/+od5M1AeJW53uqUfe8vpvVAw9R
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-05_04,2025-08-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 mlxscore=0 phishscore=0 bulkscore=0 adultscore=0
+ clxscore=1015 mlxlogscore=999 priorityscore=1501 impostorscore=0
+ malwarescore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2508050102
 
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+On 8/5/25 1:51 AM, Laurent Pinchart wrote:
+> On Sat, Aug 02, 2025 at 02:37:54PM +0200, Konrad Dybcio wrote:
+>> On 8/1/25 2:00 PM, Laurent Pinchart wrote:
+>>> On Wed, Jul 30, 2025 at 02:37:54PM -0400, Frank Li wrote:
+>>>> On Wed, Jul 30, 2025 at 09:04:17PM +0300, Laurent Pinchart wrote:
+>>>>> On Wed, Jul 30, 2025 at 12:39:43PM -0400, Frank Li wrote:
+>>>>>> On Wed, Jul 30, 2025 at 11:33:29AM +0200, Konrad Dybcio wrote:
+>>>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>>>>
+>>>>>>> The DMA subsystem attempts to make it theoretically possible to pair
+>>>>>>> any DMA block with any user. While that's convenient from a
+>>>>>>> codebase sanity perspective, some blocks are more intertwined.
+>>>>>>>
+>>>>>>> One such case is the Qualcomm GENI, where each wrapper contains a
+>>>>>>> number of Serial Engine instances, each one of which can be programmed
+>>>>>>> to support a different protocol (such as I2C, I3C, SPI, UART, etc.).
+>>>>>>>
+>>>>>>> The GPI DMA it's designed together with, needs to receive the ID of the
+>>>>>>> protocol that's in use, to adjust its behavior accordingly. Currently,
+>>>>>>> that's done through passing that ID through device tree, with each
+>>>>>>> Serial Engine expressed NUM_PROTOCOL times, resulting in terrible
+>>>>>>> dt-bindings that are full of useless copypasta.
+>>>>>>>
+>>>>>>> In a step to cut down on that, let the DMA user give the engine driver
+>>>>>>> a hint at request time.
+>>>>>>>
+>>>>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>>>>> ---
 
-[ Upstream commit f93b697ed98e3c85d1973ea170d4f4e7a6b2b45d ]
+[...]
 
-During remove sequence, cancel the pending slave status update workqueue.
+>> So.. do you folks want me to alter the patch in any way?
+> 
+> I think the runtime PM issue is orthogonal to the problem this series
+> addresses. It can be addressed separately.
+> 
+> That being said, I'm not a big fan of passing a void pointer to
+> .of_xlate() to carry device-specific information, in a device-specific
+> format. This seems prone to mismatch between clients and DMA engines.
+> .of_xlate() also seems the wrong place to do this. It would be cleaner
+> if we could use another operation, such as dmaengine_slave_config() for
+> instance.
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Link: https://lore.kernel.org/r/20250530054447.1645807-4-Vijendar.Mukunda@amd.com
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+Right, I noticed that the drivers in question already apparently do the
+very same thing (passing data through a voidptr), inside slave_config
+(via the peripheral_config/_size fields)..
+But that doesn't solve the issue this series is trying to tackle, since
+every DMA consumer driver passes its own structure (or NULL).
 
-LLM Generated explanations, may be completely bogus:
+My immediate idea is to add yet another field, but that's lame. The other
+immediate idea would be to put an `u8 variant` at the start of all of 
+these structs ("we have tagged enums at home"), but that's lame *and*
+dangerous.
 
-## Backport Status: YES
+Ideas?
 
-This commit should be backported to stable kernel trees. Here's the
-extensive analysis:
-
-### 1. **Bug Fix Nature**
-This commit fixes a potential **use-after-free (UAF)** vulnerability
-during driver removal. The workqueue `amd_sdw_work` (initialized at line
-1074 in `amd_sdw_manager_probe()`) can be scheduled by interrupts (line
-946 in the interrupt handler). Without cancelling this work during
-removal, the following race condition can occur:
-
-- **CPU 0**: Driver removal begins, calls `amd_sdw_manager_remove()`
-- **CPU 1**: Interrupt arrives, schedules `amd_sdw_work`
-- **CPU 0**: Continues removal, frees the `amd_sdw_manager` structure
-  via `sdw_bus_master_delete()`
-- **CPU 1**: Work handler executes, accesses freed memory → **UAF**
-
-### 2. **Small and Contained Fix**
-The fix is minimal - just one line adding
-`cancel_work_sync(&amd_manager->amd_sdw_work)` at the right place in the
-removal sequence. This is placed:
-- After `pm_runtime_disable()` (ensures no new runtime PM operations)
-- Before `amd_disable_sdw_interrupts()` (ensures work can complete if
-  running)
-- Before any cleanup/freeing operations
-
-### 3. **Common Pattern in Driver Code**
-This follows an established pattern seen across the kernel. The recent
-commit 984836621aad ("spi: mpc52xx: Add cancel_work_sync before module
-remove") fixed an identical issue. The soundwire cadence driver also
-uses `cancel_work_sync()` in similar contexts (line 1259 in
-cadence_master.c).
-
-### 4. **Part of a Broader Fix Series**
-This commit is part of a series addressing multiple issues in the AMD
-soundwire driver:
-- Commit 86a4371b7697 fixed slave alert handling after link down
-  (already includes `cancel_work_sync()` in suspend paths)
-- This commit extends the fix to the removal path, ensuring complete
-  coverage
-
-### 5. **Real-World Impact**
-The commit message from the related fix (86a4371b7697) shows actual
-error logs from systems experiencing issues:
-```
-soundwire sdw-master-0-0: trf on Slave 1 failed:-110 read addr 0 count 1
-rt722-sdca sdw:0:0:025d:0722:01: SDW_DP0_INT recheck read failed:-110
-```
-These errors occur when the workqueue tries to access hardware after
-it's been disabled/freed.
-
-### 6. **No Architectural Changes**
-This is a pure bug fix with no feature additions or architectural
-changes. It simply ensures proper cleanup ordering during driver
-removal.
-
-### 7. **Minimal Risk**
-The `cancel_work_sync()` call is safe and standard practice. It waits
-for any pending work to complete and prevents new work from being
-scheduled. There's no risk of introducing new bugs or changing behavior
-- it only prevents a race condition.
-
-### 8. **Critical for System Stability**
-Use-after-free bugs can lead to:
-- Kernel crashes/panics
-- Security vulnerabilities (potential for exploitation)
-- System instability during module unload/reload
-- Issues during system shutdown/reboot
-
-The fix prevents these issues in production systems using AMD soundwire
-hardware, particularly important for laptops and systems with audio
-peripherals that may be dynamically loaded/unloaded.
-
- drivers/soundwire/amd_manager.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index 3b335d6eaa94..7ed9c8c0b4c8 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -1074,6 +1074,7 @@ static void amd_sdw_manager_remove(struct platform_device *pdev)
- 	int ret;
- 
- 	pm_runtime_disable(&pdev->dev);
-+	cancel_work_sync(&amd_manager->amd_sdw_work);
- 	amd_disable_sdw_interrupts(amd_manager);
- 	sdw_bus_master_delete(&amd_manager->bus);
- 	ret = amd_disable_sdw_manager(amd_manager);
--- 
-2.39.5
-
+Konrad
