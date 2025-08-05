@@ -1,82 +1,87 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2441F29A33E
-	for <linux-sound@vger.kernel.org>; Tue,  5 Aug 2025 19:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3108519258E;
+	Tue,  5 Aug 2025 21:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754420915; cv=none; b=GeLu7ICKcgCtoS1GMKOCZwC2hM2AKWwRD6SJYuvZRbOhdrsB2enJ3e2L/jOyg4OFef9esFlm1onCrQApXPJvGzR6+pIWgZjuHIaLCOrnQwzM0OCSPRut/TtPd+O26e4TzjPk9Nu0rrceA2wGkuDSIEEUD9pKZUeVd2XqMCYhrug=
+	t=1754429785; cv=none; b=AVFh4ylAfQL96SPvyfc1cWxkLFT2YyjNahqhdt85n0KwwNEHIy0OhTLbBvLHQ1LdxIJmabWCf05pt/k7u/Cwb2va8r5EUfN0rCs2PmFhuNUc8w2lEJ8G8V4j2PSPkSV5XedfzJ3piwwCBN2NPSjAglMt+S9X8OJCvB7yJokbTGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754420915; c=relaxed/simple;
-	bh=1G/p2V5tlFGL5QUKvVznyqDeicxAg5ho7UcilI4OmCk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oQA/DMbJf7hWqgUvtAUDH5rxQzX8c842lLFek6FxyZyG7W8cJML31j27c7I8z8SBcKJnzAHr+lv9vlWAIVnXZ8v53mgA5Mkhgg4pTvYMdmkzomIV72LOe3WL9HGCUDTLZ1sSOCX7ujGw3pe4VPdrhryyxAv67bjhJqRW9yyev7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uZ2D7Eb6; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1754429785; c=relaxed/simple;
+	bh=bvg20eZHbAjBzTXGeTHpnNdERiU2rFxDpliw0tBwoPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OxYvqrHJNEvWbwma5tQ7msgmRjVpacB/pKDrDNCBHutffpJJ+NN2Nb5r2d4i1sl1WcNGRldXaWvuQ1tI988RuAZFQ0tHJZlnEYTDxZ7ayRlZMkzxV4FooZwz4qOdsWl6TYu9WGQczwTd0zTB0RDzjJJ4swuJV0wzomMJLbShppg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YH7U1HzL; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uZ2D7Eb6"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1754420909;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iww/0GG+VqqZokX+rrsjlR73+9XBUylwsVCP+JJtueM=;
-	b=uZ2D7Eb6ZxbWTNfwVI3hckDaobrI5N5eO1Kq5PzhcaT+i36jC24RUAi6oHStuh5BujOe5t
-	5YKxa0dV9RIlVo3LzFES3KSZ+0vQFMaYIEM2YhO8AuM1gICLF2I4OnrIyDDF73S2Xono66
-	cfxZIJ54wwaRwK2igMQxP1kfdHqwiQ8=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Joe Perches <joe@perches.com>
-Cc: stable@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: intel_hdmi: Fix off-by-one error in __hdmi_lpe_audio_probe()
-Date: Tue,  5 Aug 2025 21:08:06 +0200
-Message-ID: <20250805190809.31150-1-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YH7U1HzL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1754429785; x=1785965785;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bvg20eZHbAjBzTXGeTHpnNdERiU2rFxDpliw0tBwoPE=;
+  b=YH7U1HzLrZpPFecm222IIjw1ooCz88aW86RF7Ma0M/w1bBsnyVdqeaka
+   8KrGNxteAh1TNINgRQBG0hgblsExwO91zz5W+ViY2CGIzOM1Whl1FkgBO
+   Gd1z9vZDPBYbbXpL8HZPqXCByIEzXAB3CNhSVeeLAXoBGufz+so4EQbb8
+   QkXKBbQgCFXoJQfmmMwYtt/fxH6NCgY2FMTfuFkKnCt1C6ExEFSiD++Ww
+   i7p6PGNi/4qRsCGgiZ2jLhqv+iD4uGV1zM4eZue4t5SmQA2+7471m9uhg
+   VsWKgVc5fxluj/UX1bNz3DeWrGYi23mHS/tyccfbY7J1QtrLqkD5jszdB
+   Q==;
+X-CSE-ConnectionGUID: 6PpLwjjqQL+bx3EsdOrnNQ==
+X-CSE-MsgGUID: yaNwdG6FSECB4Hpw3d3WZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11513"; a="56701688"
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
+   d="scan'208";a="56701688"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 14:36:24 -0700
+X-CSE-ConnectionGUID: nOC0iUIlSl+MAHietDD5yg==
+X-CSE-MsgGUID: 9PWR2VPuRp2nQ5Sw9S/twg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,268,1747724400"; 
+   d="scan'208";a="169870691"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2025 14:36:21 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ujPKU-00000003rKU-1KDk;
+	Wed, 06 Aug 2025 00:36:18 +0300
+Date: Wed, 6 Aug 2025 00:36:18 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: tiwai@suse.de, broonie@kernel.org, alsa-devel@alsa-project.org,
+	shenghao-ding@ti.com, 13916275206@139.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] ALSA: hda: Fix the wrong register was used for DVC of
+ TAS2770
+Message-ID: <aJJ5UgpSw8A5IqeG@smile.fi.intel.com>
+References: <20250729125938.54696-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250729125938.54696-1-baojun.xu@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-In __hdmi_lpe_audio_probe(), strscpy() is incorrectly called with the
-length of the source string (excluding the NUL terminator) rather than
-the size of the destination buffer. This results in one character less
-being copied from 'card->shortname' to 'pcm->name'.
+On Tue, Jul 29, 2025 at 08:59:38PM +0800, Baojun Xu wrote:
+> The wrong register was used for digital volume control of TAS2770,
+> The definition was changed, and usage was also updated.
 
-Since 'pcm->name' is a fixed-size buffer, we can safely omit the size
-argument and let strscpy() infer it using sizeof(). This ensures the
-card name is copied correctly.
+> Fixes: ab29b3460c5c ("ALSA: hda: Add TAS2770 support")
+> 
 
-Cc: stable@vger.kernel.org
-Fixes: 75b1a8f9d62e ("ALSA: Convert strlcpy to strscpy when return value is unused")
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
----
- sound/x86/intel_hdmi_audio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+To make Fixes to be a tag, remove this blank line.
 
-diff --git a/sound/x86/intel_hdmi_audio.c b/sound/x86/intel_hdmi_audio.c
-index cc54539c6030..fbef0cbe8f1a 100644
---- a/sound/x86/intel_hdmi_audio.c
-+++ b/sound/x86/intel_hdmi_audio.c
-@@ -1765,7 +1765,7 @@ static int __hdmi_lpe_audio_probe(struct platform_device *pdev)
- 		/* setup private data which can be retrieved when required */
- 		pcm->private_data = ctx;
- 		pcm->info_flags = 0;
--		strscpy(pcm->name, card->shortname, strlen(card->shortname));
-+		strscpy(pcm->name, card->shortname);
- 		/* setup the ops for playback */
- 		snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &had_pcm_ops);
- 
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+
 -- 
-2.50.1
+With Best Regards,
+Andy Shevchenko
+
 
