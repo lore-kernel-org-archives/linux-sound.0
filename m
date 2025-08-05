@@ -1,240 +1,173 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3279291C01;
-	Mon,  4 Aug 2025 23:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D584201269;
+	Tue,  5 Aug 2025 04:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754351522; cv=none; b=OnJXwmtOqTd+dJ0dqDtlPebSAeMkY6VYBo0fsQqysokb/anL8/eWlDz9aM7p9LNYpW+gGQ72XlMs9q/p8GsbAxVpLPPPub4ezkGsT5oWBHdU1NUlsyI2/Txvkh7weZdGcRPupZA4kf6ceGqZ2MGvgEHzuYCbe4phr7HI7hQ11g4=
+	t=1754369284; cv=none; b=eUGk6mZaxWx4ryhXs0oTmXVvQJx5XyHF4pv/tyMmvU80+aln4s3nigegKE9s/kxeImeUMhX7EE5AHSykkeNzyPaSFi9MMlx2XUMDhClcplZ3tuNCl/ZwAF8q98dwlRT+swm//ze7PHv9eaE494UK0LXw+euBsbMKzT4TPwquRng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754351522; c=relaxed/simple;
-	bh=zrpGKuWeQK0S9TRd2/Kg7CrpjpN0Af6Bc1LVC3rkfJw=;
+	s=arc-20240116; t=1754369284; c=relaxed/simple;
+	bh=LoCncB0T59vM/YkkVlcIhEh0yb/IFkNXHSj+2ArsmPw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XFrh+IN3JghX9kPYFrP1+LkoPyPKrhNvnjmVl235OWbW+fp0KIThv3YrgWpHueGO6oGUIDVP8WhqmbVzjIXAZytl5+QuLK4hon5+1oPmg93bMBaotI2lWOwpE+7uh1SPuLf6nCNVsGg9CqIIiGRRwjFu8NiMhpmpfy3QCM5oPnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jKLfG1lq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bJsiwjyrrQSWbNkAWFmx1qNbEfZAqYQzgMVX3YzWC0FNsLc5IPftWNV9/KnVAihKBDnystW2lZItXOqe9J3esJOGG/9f3OrsVqdFP939bkzSzNmoq6YA+LS+S01zDiup5ZwI8UjDOUAjZtl64yrHDsfw6iRK/IscFY2+CQ8hMWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NJMyP2nV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jKLfG1lq"
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2B72432FD;
-	Tue,  5 Aug 2025 01:51:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754351467;
-	bh=zrpGKuWeQK0S9TRd2/Kg7CrpjpN0Af6Bc1LVC3rkfJw=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NJMyP2nV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D26AC4CEF4;
+	Tue,  5 Aug 2025 04:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754369283;
+	bh=LoCncB0T59vM/YkkVlcIhEh0yb/IFkNXHSj+2ArsmPw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jKLfG1lqK2PPXLjLJhZ/Wty2yVy9+P3BkRh+DykETDA4LCFTUf911rSaO6qT+QKO7
-	 wRdg/H2eRsEY6wy4MGWg5U57U5+Jrerp7zplL0nB707kdVUDUTwWAHa4Hphoow2+vz
-	 YoO9D6fRkIKHNccFuia9pEsNbAUn8jx2Kons6sjM=
-Date: Tue, 5 Aug 2025 02:51:40 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Frank Li <Frank.li@nxp.com>, Konrad Dybcio <konradybcio@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Taichi Sugaya <sugaya.taichi@socionext.com>,
-	Takao Orito <orito.takao@socionext.com>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	=?utf-8?Q?Am=C3=A9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	b=NJMyP2nVjI/Ojpw0jHVvM/d0xQcdh27oI035+1DsLhGY/TKIo32vUwNMs4ckKFHc4
+	 axcsxLeAv1bXze6etwdJ4n1hWERU64YNBZjPSK4RjpRLHi8snQOIaUITjlfPWWTYbr
+	 p4TicsKIwuOPmfSsgbcCioAdOEVvzDjKREzufyx7LRuaBbczue4ZMejrKlnmJkyL2a
+	 v2SFWE/b8yvpjsSqQNzz2/gA/ArQxTIL+cD2nutLf/7cHWWJm5u1v1Gfg25SMyYpQA
+	 qfE/TbBlQmYuEd5VmJSDV9BN9vfFctr+aV4yq5XpbisNCX59O06ylNJFbt4DRHhYEz
+	 uSKUrKmO2twSw==
+Date: Tue, 5 Aug 2025 10:17:59 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Joris Verhaegen <verhaegen@google.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
-	Viken Dadhaniya <quic_vdadhani@quicinc.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linux-actions@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH RFC 2/6] dmaengine: Make of_dma_request_slave_channel
- pass a cookie to of_xlate
-Message-ID: <20250804235140.GB12087@pendragon.ideasonboard.com>
-References: <20250730-topic-dma_genise_cookie-v1-0-b505c1238f9f@oss.qualcomm.com>
- <20250730-topic-dma_genise_cookie-v1-2-b505c1238f9f@oss.qualcomm.com>
- <aIpKz495WI1SJTeB@lizhi-Precision-Tower-5810>
- <20250730180417.GC21430@pendragon.ideasonboard.com>
- <aIpmgpXME1BmThxU@lizhi-Precision-Tower-5810>
- <20250801120007.GB4906@pendragon.ideasonboard.com>
- <0c2cc631-21fd-41fd-9293-fd86dd09a2d2@oss.qualcomm.com>
+	Mark Brown <broonie@kernel.org>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>, kernel-team@android.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-arm-msm@vger.kernel.org,
+	sound-open-firmware@alsa-project.org,
+	linux-arm-kernel@lists.infradead.org,
+	Miller Liang <millerliang@google.com>
+Subject: Re: [PATCH v4 2/3] ALSA: compress_offload: Add
+ SNDRV_COMPRESS_TSTAMP64 ioctl
+Message-ID: <aJGM2zXS6hOLDFm1@vaman>
+References: <20250801092720.1845282-1-verhaegen@google.com>
+ <20250801092720.1845282-3-verhaegen@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0c2cc631-21fd-41fd-9293-fd86dd09a2d2@oss.qualcomm.com>
+In-Reply-To: <20250801092720.1845282-3-verhaegen@google.com>
 
-On Sat, Aug 02, 2025 at 02:37:54PM +0200, Konrad Dybcio wrote:
-> On 8/1/25 2:00 PM, Laurent Pinchart wrote:
-> > On Wed, Jul 30, 2025 at 02:37:54PM -0400, Frank Li wrote:
-> >> On Wed, Jul 30, 2025 at 09:04:17PM +0300, Laurent Pinchart wrote:
-> >>> On Wed, Jul 30, 2025 at 12:39:43PM -0400, Frank Li wrote:
-> >>>> On Wed, Jul 30, 2025 at 11:33:29AM +0200, Konrad Dybcio wrote:
-> >>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >>>>>
-> >>>>> The DMA subsystem attempts to make it theoretically possible to pair
-> >>>>> any DMA block with any user. While that's convenient from a
-> >>>>> codebase sanity perspective, some blocks are more intertwined.
-> >>>>>
-> >>>>> One such case is the Qualcomm GENI, where each wrapper contains a
-> >>>>> number of Serial Engine instances, each one of which can be programmed
-> >>>>> to support a different protocol (such as I2C, I3C, SPI, UART, etc.).
-> >>>>>
-> >>>>> The GPI DMA it's designed together with, needs to receive the ID of the
-> >>>>> protocol that's in use, to adjust its behavior accordingly. Currently,
-> >>>>> that's done through passing that ID through device tree, with each
-> >>>>> Serial Engine expressed NUM_PROTOCOL times, resulting in terrible
-> >>>>> dt-bindings that are full of useless copypasta.
-> >>>>>
-> >>>>> In a step to cut down on that, let the DMA user give the engine driver
-> >>>>> a hint at request time.
-> >>>>>
-> >>>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >>>>> ---
+On 01-08-25, 10:27, Joris Verhaegen wrote:
+> The previous patch introduced the internal infrastructure for handling
+> 64-bit timestamps. This patch exposes this capability to user-space.
 > 
-> [...]
+> Define the new ioctl command SNDRV_COMPRESS_TSTAMP64, which allows
+> applications to fetch the overflow-safe struct snd_compr_tstamp64.
 > 
-> >>>>> diff --git a/include/linux/of_dma.h b/include/linux/of_dma.h
-> >>>>> index fd706cdf255c61c82ce30ef9a2c44930bef34bc8..9f9bc4207b85d48d73c25aad4b362e7c84c01756 100644
-> >>>>> --- a/include/linux/of_dma.h
-> >>>>> +++ b/include/linux/of_dma.h
-> >>>>> @@ -19,7 +19,7 @@ struct of_dma {
-> >>>>>  	struct list_head	of_dma_controllers;
-> >>>>>  	struct device_node	*of_node;
-> >>>>>  	struct dma_chan		*(*of_dma_xlate)
-> >>>>> -				(struct of_phandle_args *, struct of_dma *);
-> >>>>> +				(struct of_phandle_args *, struct of_dma *, void *);
-> >>>>
-> >>>> I suggest pass down more informaiton, like client's dev point. So we can
-> >>>> auto create device link between client's dev and dma chan's device.
-> >>>
-> >>> Is .of_dma_xlate() really the right place to do that ? If you want to
-> >>> create a device link for PM reasons, isn't it better created when the
-> >>> channel is requested ? It should also be removed when the channel is
-> >>> freed.
-> >>
-> >> I remember just need record client device pointer here.
-> >>
-> >>>>
-> >>>> DMA Engineer device
-> >>>>    DMA chan device
-> >>>>        consumer clients' device.
-> >>>>
-> >>>> If consumer device runtime pm suspend can auto trigger DMA chan's device's
-> >>>> runtime pm function.
-> >>>>
-> >>>> It will simplifly DMA engine's run time pm manage. Currently many DMA run
-> >>>> time pm implement as, runtime_pm_get() when alloc and runtime_pm_put() at
-> >>>> free channel.  But many devices request dma channel at probe, which make
-> >>>> dma engine work at always 'on' state.
-> >>>>
-> >>>> But ideally, dma chan should be resume only when it is used to transfer.
-> >>>
-> >>> This is exactly what I was going to mention after reading the last
-> >>> paragraph. Is there anything that prevents a DMA engine driver to
-> >>> perform a rutime PM get() when a transfer is submitted
-> >>
-> >> DMA description is a queue, It is hard to track each descriptor submit and
-> >> finished. espcially cycle buffer case.
-> >>
-> >> And according to dma engine API defination, submit a descriptor not
-> >> neccessary to turn on clock, maybe just pure software operation, such as
-> >> enqueue it to a software list.
-> >>
-> >> Many driver call dmaengine_submit() in irq context,  submit new descriptor
-> >> when previous descriptor finished. runtime_pm_get() can NOT be called in
-> >> atomic context.
-> >>
-> >> And some driver submit many descripor advance. Only issue_transfer() is
-> >> actually trigger hardware to start transfer.
-> >>
-> >> Some client use cycle descripor, such audio devices.  Some audio devices
-> >> have not free descriptor at their run time suspend function, just disable
-> >> audio devices's clocks.  Audio devices run time suspend, which means no
-> >> one use this dma channel, dma channel can auto suspend if built device link
-> >> between audio device and dma chan devices.
-> >>
-> >> Some DMA client have not devices, such as memory to memory. for this kind
-> >> case, it need keep chan always on.
-> >>
-> >> issue_transfer() can be call in atomic context. but trigger hardware transfer
-> >> need clock and runtime_pm_get() can't be called in atomic context.
-> >>
-> >> Most case issue_transfer() is call in irq handle, which means device should
-> >> already be in runtime resume statue.  DMA engine can safely access their
-> >> register if using device link.
-> > 
-> > You have good points there, in particular the fact the issue_transfer()
-> > can be called in interrupt context.
-> > 
-> > For me this calls for new DMA engine operations to "start/stop" the DMA
-> > engine (better names are likely needed) from a client perspective.
-> > 
-> >>> and a put() when
-> >>> it completes ? (Logically speaking, the actual implementation would
-> >>> likely be a bit different in drivers, but the result would be similar.)
+> The ioctl dispatch table is updated to handle the new command by
+> calling a new snd_compr_tstamp64 handler, while the legacy path is
+> renamed to snd_compr_tstamp32 for clarity.
 > 
-> So.. do you folks want me to alter the patch in any way?
+> This patch bumps the SNDRV_COMPRESS_VERSION to 0.4.0.
+> 
+> Reviewed-by: Miller Liang <millerliang@google.com>
+> Tested-by: Joris Verhaegen <verhaegen@google.com>
+> Signed-off-by: Joris Verhaegen <verhaegen@google.com>
+> ---
+>  include/uapi/sound/compress_offload.h |  5 +++--
+>  sound/core/compress_offload.c         | 19 +++++++++++++------
+>  2 files changed, 16 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/uapi/sound/compress_offload.h b/include/uapi/sound/compress_offload.h
+> index abd0ea3f86ee..70b8921601f9 100644
+> --- a/include/uapi/sound/compress_offload.h
+> +++ b/include/uapi/sound/compress_offload.h
+> @@ -13,8 +13,7 @@
+>  #include <sound/asound.h>
+>  #include <sound/compress_params.h>
+>  
+> -
+> -#define SNDRV_COMPRESS_VERSION SNDRV_PROTOCOL_VERSION(0, 3, 0)
+> +#define SNDRV_COMPRESS_VERSION SNDRV_PROTOCOL_VERSION(0, 4, 0)
+>  /**
+>   * struct snd_compressed_buffer - compressed buffer
+>   * @fragment_size: size of buffer fragment in bytes
+> @@ -208,6 +207,7 @@ struct snd_compr_task_status {
+>   * Note: only codec params can be changed runtime and stream params cant be
+>   * SNDRV_COMPRESS_GET_PARAMS: Query codec params
+>   * SNDRV_COMPRESS_TSTAMP: get the current timestamp value
+> + * SNDRV_COMPRESS_TSTAMP64: get the current timestamp value in 64 bit format
+>   * SNDRV_COMPRESS_AVAIL: get the current buffer avail value.
+>   * This also queries the tstamp properties
+>   * SNDRV_COMPRESS_PAUSE: Pause the running stream
+> @@ -230,6 +230,7 @@ struct snd_compr_task_status {
+>  						 struct snd_compr_metadata)
+>  #define SNDRV_COMPRESS_TSTAMP		_IOR('C', 0x20, struct snd_compr_tstamp)
+>  #define SNDRV_COMPRESS_AVAIL		_IOR('C', 0x21, struct snd_compr_avail)
+> +#define SNDRV_COMPRESS_TSTAMP64		_IOR('C', 0x22, struct snd_compr_tstamp64)
+>  #define SNDRV_COMPRESS_PAUSE		_IO('C', 0x30)
+>  #define SNDRV_COMPRESS_RESUME		_IO('C', 0x31)
+>  #define SNDRV_COMPRESS_START		_IO('C', 0x32)
+> diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
+> index d3164aa07158..445220fdb6a0 100644
+> --- a/sound/core/compress_offload.c
+> +++ b/sound/core/compress_offload.c
+> @@ -736,18 +736,23 @@ snd_compr_set_metadata(struct snd_compr_stream *stream, unsigned long arg)
+>  	return retval;
+>  }
+>  
+> -static inline int
+> -snd_compr_tstamp(struct snd_compr_stream *stream, unsigned long arg)
+> +static inline int snd_compr_tstamp(struct snd_compr_stream *stream,
+> +				   unsigned long arg, bool is_32bit)
+>  {
+>  	struct snd_compr_tstamp64 tstamp64 = { 0 };
+>  	struct snd_compr_tstamp tstamp32 = { 0 };
+> +	const void *copy_from = &tstamp64;
+> +	size_t copy_size = sizeof(tstamp64);
+>  	int ret;
+>  
+>  	ret = snd_compr_update_tstamp(stream, &tstamp64);
+>  	if (ret == 0) {
+> -		snd_compr_tstamp32_from_64(&tstamp32, &tstamp64);
+> -		ret = copy_to_user((struct snd_compr_tstamp __user *)arg,
+> -				   &tstamp32, sizeof(tstamp32)) ?
+> +		if (is_32bit) {
+> +			snd_compr_tstamp32_from_64(&tstamp32, &tstamp64);
+> +			copy_from = &tstamp32;
+> +			copy_size = sizeof(tstamp32);
+> +		}
 
-I think the runtime PM issue is orthogonal to the problem this series
-addresses. It can be addressed separately.
+Most of the applications and people would be 32bit right now and we
+expect this to progressively change, but then this imposes a penalty as
+default path is 64 bit, since we expect this ioctl to be called very
+frequently, should we do this optimization for 64bit here?
 
-That being said, I'm not a big fan of passing a void pointer to
-.of_xlate() to carry device-specific information, in a device-specific
-format. This seems prone to mismatch between clients and DMA engines.
-.of_xlate() also seems the wrong place to do this. It would be cleaner
-if we could use another operation, such as dmaengine_slave_config() for
-instance.
+> +		ret = copy_to_user((void __user *)arg, copy_from, copy_size) ?
+>  			      -EFAULT :
+>  			      0;
+>  	}
+> @@ -1327,7 +1332,9 @@ static long snd_compr_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+>  
+>  	switch (cmd) {
+>  	case SNDRV_COMPRESS_TSTAMP:
+> -		return snd_compr_tstamp(stream, arg);
+> +		return snd_compr_tstamp(stream, arg, true);
+> +	case SNDRV_COMPRESS_TSTAMP64:
+> +		return snd_compr_tstamp(stream, arg, false);
+>  	case SNDRV_COMPRESS_AVAIL:
+>  		return snd_compr_ioctl_avail(stream, arg);
+>  	case SNDRV_COMPRESS_PAUSE:
+> -- 
+> 2.50.1.565.gc32cd1483b-goog
 
 -- 
-Regards,
-
-Laurent Pinchart
+~Vinod
