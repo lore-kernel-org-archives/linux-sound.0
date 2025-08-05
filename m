@@ -1,50 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C70291C0C;
-	Tue,  5 Aug 2025 16:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2441F29A33E
+	for <linux-sound@vger.kernel.org>; Tue,  5 Aug 2025 19:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754409897; cv=none; b=OU/D6zjxMu0hyknxpGPoOo5afYlaWpBrYnYW7Hb5V4ZNgO9iT3oILSe57koucFNoCVSlPOCOTIC7QdSbHH08t8IeTAds3nUe8N9PJyoXey6N2aLkyUdSyRSHGPQssd9lYlpdBZh0+PdvRw3w5pa0u5z6PqNYuw/1gUsZBNqao20=
+	t=1754420915; cv=none; b=GeLu7ICKcgCtoS1GMKOCZwC2hM2AKWwRD6SJYuvZRbOhdrsB2enJ3e2L/jOyg4OFef9esFlm1onCrQApXPJvGzR6+pIWgZjuHIaLCOrnQwzM0OCSPRut/TtPd+O26e4TzjPk9Nu0rrceA2wGkuDSIEEUD9pKZUeVd2XqMCYhrug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754409897; c=relaxed/simple;
-	bh=b3TbRMOZkj60Xb55rqh/NSOwa/A1AQIbjAYgyH1pTw4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nr5Bsga9y60KNpuwery+SIzn8xPxcoM4fdYXVqY6JqM58+b23OKTTOq2ZcuDFGnqq9Zv63ue1TpiMdtWSFFpYUUKNcHzlqHehmrpRiqfJta1VzETA+2W+F3KN8f/u02w5Otp0eKqdQ1MfAln0g/STpDxaEV2JcgegoTfqtzltng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XcqeZjdK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754420915; c=relaxed/simple;
+	bh=1G/p2V5tlFGL5QUKvVznyqDeicxAg5ho7UcilI4OmCk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oQA/DMbJf7hWqgUvtAUDH5rxQzX8c842lLFek6FxyZyG7W8cJML31j27c7I8z8SBcKJnzAHr+lv9vlWAIVnXZ8v53mgA5Mkhgg4pTvYMdmkzomIV72LOe3WL9HGCUDTLZ1sSOCX7ujGw3pe4VPdrhryyxAv67bjhJqRW9yyev7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uZ2D7Eb6; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XcqeZjdK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BA03C4CEF0;
-	Tue,  5 Aug 2025 16:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754409897;
-	bh=b3TbRMOZkj60Xb55rqh/NSOwa/A1AQIbjAYgyH1pTw4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=XcqeZjdKb6T/qnppDyyPFTF4PPr3XwFfCH4663tfxFJUPjbapXJhaZ9qP3qZgtY74
-	 F58o1q0tE5kRb9pf0aOUQfYV6A8GSMRglN01dGeP96I2tKm+qVVbQ2thfGc24fOard
-	 5IlZtL4oda2iC5KOsl2c0AL622jon2+82ORHHvgEnvvnIf+pum7XYytU/S7icOWHCG
-	 WlBs4/s1BQKcilh05rCf6vkyrB/mrdk+bglLEwQMEEvR47T2DRaHU3WzWYJaUzE0n/
-	 mDXk/9tlIkOztsrP2W10vPAmSUp5xzL+cEk9kwiaPUm4f+1vQO9TL5iKO95/keo5U+
-	 oRCrKLfHrzW4A==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uZ2D7Eb6"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1754420909;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iww/0GG+VqqZokX+rrsjlR73+9XBUylwsVCP+JJtueM=;
+	b=uZ2D7Eb6ZxbWTNfwVI3hckDaobrI5N5eO1Kq5PzhcaT+i36jC24RUAi6oHStuh5BujOe5t
+	5YKxa0dV9RIlVo3LzFES3KSZ+0vQFMaYIEM2YhO8AuM1gICLF2I4OnrIyDDF73S2Xono66
+	cfxZIJ54wwaRwK2igMQxP1kfdHqwiQ8=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	sound-open-firmware@alsa-project.org,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Joe Perches <joe@perches.com>
+Cc: stable@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: Intel: hda-sdw-bpt: fix SND_SOF_SOF_HDA_SDW_BPT dependencies
-Date: Tue,  5 Aug 2025 18:04:25 +0200
-Message-Id: <20250805160451.4004602-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+Subject: [PATCH] ALSA: intel_hdmi: Fix off-by-one error in __hdmi_lpe_audio_probe()
+Date: Tue,  5 Aug 2025 21:08:06 +0200
+Message-ID: <20250805190809.31150-1-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,51 +46,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: Arnd Bergmann <arnd@arndb.de>
+In __hdmi_lpe_audio_probe(), strscpy() is incorrectly called with the
+length of the source string (excluding the NUL terminator) rather than
+the size of the destination buffer. This results in one character less
+being copied from 'card->shortname' to 'pcm->name'.
 
-The hda-sdw-bpt code links against the soundwire driver, but that fails when
-trying to link from built-in code into loadable module:
+Since 'pcm->name' is a fixed-size buffer, we can safely omit the size
+argument and let strscpy() infer it using sizeof(). This ensures the
+card name is copied correctly.
 
-x86_64-linux-ld: vmlinux.o: in function `intel_ace2x_bpt_close_stream.isra.0':
-intel_ace2x.c:(.text+0x137a531): undefined reference to `hda_sdw_bpt_close'
-x86_64-linux-ld: vmlinux.o: in function `intel_ace2x_bpt_send_async':
-intel_ace2x.c:(.text+0x137aa45): undefined reference to `hda_sdw_bpt_open'
-x86_64-linux-ld: intel_ace2x.c:(.text+0x137ab67): undefined reference to `hda_sdw_bpt_close'
-x86_64-linux-ld: intel_ace2x.c:(.text+0x137ac30): undefined reference to `hda_sdw_bpt_send_async'
-x86_64-linux-ld: vmlinux.o: in function `intel_ace2x_bpt_wait':
-intel_ace2x.c:(.text+0x137aced): undefined reference to `hda_sdw_bpt_wait'
-
-Ensure that both SOUNDWIRE_INTEL and SND_SOF_SOF_HDA_SDW_BPT are selected
-at the same time by SND_SOC_SOF_INTEL_LNL, and that this happens even if
-SND_SOC_SOF_INTEL_SOUNDWIRE is a loadable module but SND_SOC_SOF_INTEL_LNL
-is built-in.
-
-This follows the same logic as commit c5a61db9bf89 ("ASoC: SOF: fix
-intel-soundwire link failure").
-
-Fixes: 5d5cb86fb46e ("ASoC: SOF: Intel: hda-sdw-bpt: add helpers for SoundWire BPT DMA")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Cc: stable@vger.kernel.org
+Fixes: 75b1a8f9d62e ("ALSA: Convert strlcpy to strscpy when return value is unused")
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- sound/soc/sof/intel/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/x86/intel_hdmi_audio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/intel/Kconfig b/sound/soc/sof/intel/Kconfig
-index 7e92aa2f7e39..9722ae43e87c 100644
---- a/sound/soc/sof/intel/Kconfig
-+++ b/sound/soc/sof/intel/Kconfig
-@@ -272,9 +272,10 @@ config SND_SOC_SOF_METEORLAKE
- 
- config SND_SOC_SOF_INTEL_LNL
- 	tristate
-+	select SOUNDWIRE_INTEL if SND_SOC_SOF_INTEL_SOUNDWIRE != n
- 	select SND_SOC_SOF_HDA_GENERIC
- 	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
--	select SND_SOF_SOF_HDA_SDW_BPT if SND_SOC_SOF_INTEL_SOUNDWIRE
-+	select SND_SOF_SOF_HDA_SDW_BPT if SND_SOC_SOF_INTEL_SOUNDWIRE != n
- 	select SND_SOC_SOF_IPC4
- 	select SND_SOC_SOF_INTEL_MTL
+diff --git a/sound/x86/intel_hdmi_audio.c b/sound/x86/intel_hdmi_audio.c
+index cc54539c6030..fbef0cbe8f1a 100644
+--- a/sound/x86/intel_hdmi_audio.c
++++ b/sound/x86/intel_hdmi_audio.c
+@@ -1765,7 +1765,7 @@ static int __hdmi_lpe_audio_probe(struct platform_device *pdev)
+ 		/* setup private data which can be retrieved when required */
+ 		pcm->private_data = ctx;
+ 		pcm->info_flags = 0;
+-		strscpy(pcm->name, card->shortname, strlen(card->shortname));
++		strscpy(pcm->name, card->shortname);
+ 		/* setup the ops for playback */
+ 		snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &had_pcm_ops);
  
 -- 
-2.39.5
+2.50.1
 
