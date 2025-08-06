@@ -1,236 +1,302 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013F3243951
-	for <linux-sound@vger.kernel.org>; Wed,  6 Aug 2025 14:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31D3215F4A
+	for <linux-sound@vger.kernel.org>; Wed,  6 Aug 2025 14:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754490951; cv=none; b=o1L7twQqNR65CjVKxz/daUMNNNT04Cnm83RNTA0vx1e2hShLVX/cXEnyj0zAUAcc8w+S0Tes6E1nBAvprC/QX3YP9y7I7oHqhjwT/A5RT873Ww8plnaVER9wnt2uHW9bXXOJQugNLlciJ3YJbeC8YhjEyoS3fmievZRv/Mk4Rh8=
+	t=1754491366; cv=none; b=avNdlFWMJSSbXJtYRQnbWaxLzwR6LQXMxwxpCAEV7t2OULBYovBHZSiQhdSiH8Co9P2Kj7qIkNscXs+w7CtwV8UeLskL6j8hH+bAyjLg519dRtD+fJXHdRM6MkGq59eyUYwePlpI8COl3Lr+D3FRkTEqCCYVDO88RiyaUHS/c5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754490951; c=relaxed/simple;
-	bh=IzAyAJfpY0pHbWneABeVrlnmE6GZCoVRzfOeZKBvWZw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lITkaxsG3naXCLimpF10Zncs0FKzkFHXHBK3Q15LncLLuOUbpwH7FO3v6PB0OwEru9XhrZV5pEXMrJDqIHzBHnnhaJ7xL0iXvK9Krcj589wAb5pIxWK0xtkoopXfAhL7CPcJoPXnHDjAMRvpOKDWOu2F5pgAy3NN1pCvLiLv5MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ncGQH0HZ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1754491366; c=relaxed/simple;
+	bh=Qo7BrP+QJs/7YtrmKiccrZTPEKx+rKpb3cAVy/j+VVI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JKNlgk0H07YAIGDq91+nRnorw+bvFgtsDX9//Xjk8t5ZU2Vc3/SjB+ieahGDNQstg9Al6g1YOU0DzXcO5NH0f+QyQsbOkDAeO9NtAymzpeqcJTsmGjyTKNZqu/m4mDhdWMXTjsrwVwplmBtTIAczpMYSZLBZSJrbNbcaY9H4Kxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rMc8XSDT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=haxs/KOv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rMc8XSDT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=haxs/KOv; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ncGQH0HZ"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 576AMvjv017733
-	for <linux-sound@vger.kernel.org>; Wed, 6 Aug 2025 14:35:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TwlR+oMZlALuIJKmyusyfjuF4+MmPOO9KSk2h10iAKA=; b=ncGQH0HZlicVhpPT
-	+V8slmxae8bXQI5IjyQAeE4LbwHJ3NsovDM3FpX2x2G+flTtwLNqS2UG97JVK3y2
-	xKPS71sxRvd8CxnU9Q3lC1IUOqDYwCKpSus6RHPE/Gxp6Zglh1/mOi/yzF8xO2M7
-	t4OPUd7qW4vS7v7mSKenSHB1vFq93Z0d1d1FRIqC8PWzniK/EMqoMiWLYKDE/dfz
-	z2uIqjBt+SIouVtAGCJAsBHYDL3Zfa13N/BlDrIbsM39Z31aXmUXgZ54eLZtUgUQ
-	QUdbpPMJmh3OOEtTJFJ7lk7HdCWQakskfICL8KpW3XbfrAt6RyBELfF6CfJBpnnk
-	cdjUPg==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48c5868m2x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 06 Aug 2025 14:35:48 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-23ff7d61fb7so9052905ad.1
-        for <linux-sound@vger.kernel.org>; Wed, 06 Aug 2025 07:35:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754490947; x=1755095747;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TwlR+oMZlALuIJKmyusyfjuF4+MmPOO9KSk2h10iAKA=;
-        b=ivWN+afZqTU65AUnav1vbH0rInWgW0TrkWL0QM2NGRzQzY+nIxEzN45sW48X1qzJPH
-         A1bISUzZzOb8kobUg5rmk7u025gEgEkvY9NzQBXqsE+heOogpPheoxKR/8YfVuzqIS1x
-         LSr/LYjC1PLaSqIZXYVKprb/k/eCpJr1caE1gTNCI4ZUQOgqWn1cPoHtPAdotVCBfa0u
-         vflMvpfs5FJtqWIENUjfzhZa5O7oS8tGveTme7TW3HWic7RU6ms0sP4RzkZ9tKSzLv5Y
-         ArLlm9lBpeFRm9anVzjeyl6h++rbJIkqYERl/g2NeOvNPBtFFpK7N2retoEgvMkYj83Y
-         DerA==
-X-Forwarded-Encrypted: i=1; AJvYcCV/Y4IhKrvdHOip1+bZJT3v3qsbswb+8SDiKHGUXCBcP8AH4UL9+oL9JQx66ccvfUiLNJcLMRHZoyuVqQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwF8nEtTyoa9kHom8sM3yo41xqFunAgJ4QY0O/maS7A8VadXeyD
-	g5r/wO0+rqoLLEUgwIGftX96ZsXT31xOTPLHNIiTS1R0Wo9mnd069b3gu3P29LXs59v++uICZ72
-	Aq8K9FL3qcS6tVok7kLLEDL9PlxFLSpDsdC96oKRd3gtTcdzAgYUQcGss20EtWq02WQ==
-X-Gm-Gg: ASbGnctOCGUWhW7VP9saRgaRlWJ1iTzz+nnwIRPvNy5whrEVB9Ytdp6l+Q2BzXY+pzg
-	iZ4OyZUXINVgUbYudpTjUs5KHZQrVWDczNUreC4nPHeKyKoYeAq9R/9jzRvySpTdyIA2QEeta0Y
-	gAivi+TFwC+ZWCSGPxkzilqS/rkfw+9PCtml8gexUFn1EiZPEnhHlI6j/ZUtRyX26m59K9YSlVJ
-	2J88wzR93cXGNOsOcuP3HKEpzncFRiH597aF/3YHCtzTxvQpBh79MkuZdvCg6tjIOlEa8foxPKz
-	VeI753E82Cb7kuMtnHlv3gIMNhug8QC9isyno4skJnZOFkzCO58MH//BiGULqfUOdoLK+nmc/tz
-	UcPo=
-X-Received: by 2002:a17:903:1250:b0:240:3cab:a57a with SMTP id d9443c01a7336-2429f9869cbmr43861645ad.12.1754490947328;
-        Wed, 06 Aug 2025 07:35:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH+NPjGR/ioIEs8rIKpi433E6HkfZN/NsX24RQq9faA59sT+8283L0e/mv+qkQqKGbp1uO9ww==
-X-Received: by 2002:a17:903:1250:b0:240:3cab:a57a with SMTP id d9443c01a7336-2429f9869cbmr43861085ad.12.1754490946675;
-        Wed, 06 Aug 2025 07:35:46 -0700 (PDT)
-Received: from [192.168.1.4] ([110.227.163.12])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1ef75bdsm160361515ad.11.2025.08.06.07.35.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Aug 2025 07:35:46 -0700 (PDT)
-Message-ID: <6d2f71a5-72a6-4ba6-956d-19f053d73c2e@oss.qualcomm.com>
-Date: Wed, 6 Aug 2025 20:05:37 +0530
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rMc8XSDT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="haxs/KOv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rMc8XSDT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="haxs/KOv"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F355322427;
+	Wed,  6 Aug 2025 14:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1754491363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gqbG/YCR19NI2zT9wOkHk37JPhmFV0SG5jF/B9vj3yg=;
+	b=rMc8XSDTCXgfPxF0cKVxOt8PCY94RxWdBIP72Tf5qRFCeyhrC3e4UtmdWGaZpV0dt5V4VV
+	d4YmAjU1WO2vWzneDH1feW552T2KuuGQ4Mtora+8L32mJxt3MTm5o7k/UfX+1mF0uw/ITq
+	p9cXq6Ln3yOIfXUuPUA63MLYNCh0ex4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1754491363;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gqbG/YCR19NI2zT9wOkHk37JPhmFV0SG5jF/B9vj3yg=;
+	b=haxs/KOveZd7cW/k3mtArGDM5I6rnxzUHXm9XcfKStioanMHqqv2khzcnEshYzjp2mmHAg
+	/2h/Qgp8XSZDthBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rMc8XSDT;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="haxs/KOv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1754491363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gqbG/YCR19NI2zT9wOkHk37JPhmFV0SG5jF/B9vj3yg=;
+	b=rMc8XSDTCXgfPxF0cKVxOt8PCY94RxWdBIP72Tf5qRFCeyhrC3e4UtmdWGaZpV0dt5V4VV
+	d4YmAjU1WO2vWzneDH1feW552T2KuuGQ4Mtora+8L32mJxt3MTm5o7k/UfX+1mF0uw/ITq
+	p9cXq6Ln3yOIfXUuPUA63MLYNCh0ex4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1754491363;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gqbG/YCR19NI2zT9wOkHk37JPhmFV0SG5jF/B9vj3yg=;
+	b=haxs/KOveZd7cW/k3mtArGDM5I6rnxzUHXm9XcfKStioanMHqqv2khzcnEshYzjp2mmHAg
+	/2h/Qgp8XSZDthBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D14CE13ABE;
+	Wed,  6 Aug 2025 14:42:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Sc2GMuJpk2ivAwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 06 Aug 2025 14:42:42 +0000
+Date: Wed, 06 Aug 2025 16:42:42 +0200
+Message-ID: <87h5ykqzod.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: Quiet crackling noise at boot and after stopping music
+In-Reply-To: <b70db707-457d-4c0c-85be-19f4340dcc7b@molgen.mpg.de>
+References: <10172c80-daec-4e20-ab57-a483cf1afc02@molgen.mpg.de>
+	<871pposvy9.wl-tiwai@suse.de>
+	<d542d223-fc6e-4be7-b581-8a390ce2f6be@molgen.mpg.de>
+	<87sei4rg67.wl-tiwai@suse.de>
+	<b70db707-457d-4c0c-85be-19f4340dcc7b@molgen.mpg.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] ASoC: codecs: wsa883x: Add devm action to safely
- disable regulator on device removal
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
-        kernel@oss.qualcomm.com
-References: <20250727083117.2415725-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20250727083117.2415725-3-mohammad.rafi.shaik@oss.qualcomm.com>
- <07faf0cc-a8e6-426d-b397-dfc321a7f3df@kernel.org>
- <aae92260-5169-4af1-97b0-48f364612dca@oss.qualcomm.com>
- <4bc486cb-9d94-4bad-ae07-e9a7aeed481a@kernel.org>
-Content-Language: en-US
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-In-Reply-To: <4bc486cb-9d94-4bad-ae07-e9a7aeed481a@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 9nejGYuZmZ8i7WMIBnL7NvIK3PpZTY5W
-X-Authority-Analysis: v=2.4 cv=MZpsu4/f c=1 sm=1 tr=0 ts=68936844 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=Q/58bkKydBp6VmYC+FnXRg==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=usrlyX-CWiNRApQyylIA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-ORIG-GUID: 9nejGYuZmZ8i7WMIBnL7NvIK3PpZTY5W
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDA2NCBTYWx0ZWRfX2D8juC4HmD9f
- zAsWboRVTIqOSyd8m6frMEfQ1eWDZmdBUovdzTFehw0I0PuvV7p61Uvh8IZ5ni9LlLbieKjRWkv
- L2d7XoslsFTAg3ff1cuUP2JYykRLZ2XyAFstJDinogpdiVT+rSk2UVd40rG7Ma1J2ZSEWhYgmyN
- q7xrCo9C4Fa/yNdhwuxqlDxyOW5N/dQLtiXlSmnUM2Bq6xMWEI/D1Mp5cvYXlgmF5YUojkPRCR9
- z31gUP5bSaOxbzGakPmxX+klfytjoWOjZiNf2fPUoVZyTtd6RlMC69os4cTIY2wJ1xQtwjGR+KZ
- wW8IbTMZm4hRtz/QwVGTPLViaO5zGKUZ0bl95FmY0y7lQCJVml7gONHCUehARvuaUhCXIuVhuGN
- C3c23nvW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-06_04,2025-08-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 spamscore=0 clxscore=1011 bulkscore=0
- adultscore=0 suspectscore=0 phishscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508060064
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: F355322427
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
 
-
-
-On 7/28/2025 6:32 PM, Krzysztof Kozlowski wrote:
-> On 28/07/2025 14:36, Mohammad Rafi Shaik wrote:
->>
->>
->> On 7/27/2025 3:00 PM, Krzysztof Kozlowski wrote:
->>> On 27/07/2025 10:31, Mohammad Rafi Shaik wrote:
->>>> To prevent potential warnings from _regulator_put() during device
->>>
->>> Warning is either there or not. Either you fix real, specific issue or
->>> not. The code looks correct at first glance, so please describe exactly
->>> how these warnings happen or how what is the bug being fixed.
->>>
->>
->> The current wsa883x codec driver manually enables and disables
->> regulators during probe and remove.
->> In patch v3-0003, reset functionality was added using
->> devm_reset_control_get_optional_shared_deasserted() for shared gpios.
+On Wed, 06 Aug 2025 15:57:51 +0200,
+Paul Menzel wrote:
+> 
+> Dear Takashi,
 > 
 > 
-> There is no such code at this point. Each patch is a separate commit and
-> must stand on its own. With its own explanation. You cannot say that you
-> add bugs later, so you need to fix something now.
+> Thank you for your reply.
 > 
-> Describe actual problem here. If there is no problem here, describe why
-> you are doing this.
+> Am 06.08.25 um 10:46 schrieb Takashi Iwai:
+> > On Wed, 06 Aug 2025 10:34:57 +0200, Paul Menzel wrote:
 > 
-
-Identified the actual root cause of the issue observed in the reset changes.
-
-The failure condition was not properly handled in the reset patch.
-
-I will update the patch to include error handling for failure scenarios 
-and ensure regulators are disabled appropriately.
-
-will Drop this patch for next version, only will keep the reset changes.
-
-Thanks & Regards,
-Rafi.
-
->>
->> However, during cleanup, this led to a warning:
->> "WARNING: CPU: 2 PID: 195 at drivers/regulator/core.c:2450
->> _regulator_put+0x50/0x58"
->>
->> This occurs because the regulator is still enabled/released when the
->> devm-managed cleanup path attempts to release it.
+> >> Am 06.08.25 um 10:20 schrieb Takashi Iwai:
+> >>> On Wed, 06 Aug 2025 10:15:08 +0200, Paul Menzel wrote:
+> >> 
+> >>>> I believe the Realtek refactoring caused a regression on my Intel Kaby
+> >>>> Lake laptop Dell XPS 13 9360. There is quiet crackling noise during
+> >>>> boot, when GDM is started, and also after playing music is
+> >>>> stopped. It¢s reproducible with 6.16.0-04055-g14bed9bc81ba, that
+> >>>> contains the sound subsystem pull request.
+> >>>> 
+> >>>> 177bf8620cf4 Merge tag 'sound-6.17-rc1' of
+> >>>> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
+> >>>> 
+> >>>> I uploaded the run of alsa-info [1]. I try to verify with plain 6.16 later.
+> >>> 
+> >>> It's likely because of the missing CONFIG_SND_HDA_CODEC_* selections.
+> >>> Please set CONFIG_SND_HDA_CODEC_ALC269=m and
+> >> 
+> >> Indeed, I didn¢t select this.
+> >> 
+> >>> CONFIG_SND_HDA_CODEC_HDMI_INTEL=m if not done yet.
+> >> 
+> >> I had selected this.
+> >> 
+> >>> Those were already set to default=y in the later PR for avoiding such
+> >>> a pitfall.
+> >> 
+> >> I remember I tried to check which to select, and I ran `alsa-info` to
+> >> find the codecs, but only found:
+> >> 
+> >>      Codec: Realtek ALC3246
+> >> 
+> >> As this didn¢t match to any of the offerings, I didn¢t select
+> >> it. May I suggest to extend the Kconfig help texts with notes how to
+> >> determine the correct module?
+> > 
+> > There are quite lots of different codec names, so we can't put all
+> > them, unfortunately...
 > 
-> So that patch was broken? You just did not properly clean up there?
+> Understood. Then maybe just the command how to find the id, that
+> people can use to grep the correct module for? From the script
+> `alsa-info.sh`, maybe, I found:
 > 
->>
->> To resolve this, remove the manual regulator disable logic and instead
->> register a devm-managed cleanup action using devm_add_action_or_reset().
->> This ensures proper cleanup and avoids regulator misuse warnings.
->>
->> For reference, the wsa884x codec driver already follows this approach by
->> using devm actions for regulator management.
->>
->>>> removal, register a devm-managed cleanup action using
->>>> devm_add_action_or_reset() to safely disable the regulator
->>>> associated with the WSA883x codec, ensuring that the regulator
->>>> is properly disabled when the device is removed, even if the
->>>
->>> Device cannot be removed/unloaded, AFAIK, because of suppressed bind.
->>> Regulator is already disabled during error paths, so that part of above
->>> sentences is just misleading.
->>>
->>> How can one trigger the warnings?
->>>
->>
->> The warning in _regulator_put() can be triggered by applying patch
->> v3-0003, which introduces reset functionality using
->> devm_reset_control_get_optional_shared_deasserted().
+>     $ grep -e Codec -e "Vendor Id" /proc/asound/card*/codec#*
+>     /proc/asound/card0/codec#0:Codec: Realtek ALC3246
+>     /proc/asound/card0/codec#0:Vendor Id: 0x10ec0256
+>     /proc/asound/card0/codec#2:Codec: Intel Kabylake HDMI
+>     /proc/asound/card0/codec#2:Vendor Id: 0x8086280b
 > 
-> 
-> There is no such code now. You say "potential warnings" are here.
-> 
->>
->> Since the existing driver handles regulator enable/disable manually, the
->> devm-managed reset cleanup path may attempt to release regulators that
->> are still enabled, leading to the warning.
->>
->> This issue highlights the need to replace manual regulator handling with
->> devm_add_action_or_reset() to ensure proper cleanup and avoid such warnings.
->>
->>>
->>>> probe fails or the driver is unloaded unexpectedly.
->>>
->>> How driver can be unloaded unexpectedly?
->>>
->>
->> "Unloaded" might not be the most accurate term here. What I meant is
->> that the driverâ€™s probe can fail due to an errorâ€”such as missing
->> resources or improper regulator handling.
-> 
-> 
-> Use standard Linux terms, e.g. probe failure, probe deferral etc.
+> So mention `/proc/asound/card*/codec#*`?
 
-Ack,
+Honestly speaking, I don't want that; it won't scale, and new codecs
+may appear at any moment.  Then we'd have to manage multiple places
+for adding or removing ids.
 
-will ensure all upcoming changes are managed effectively.
-
-Thanks & Regards,
-Rafi.
+Maybe an alternative option would be to mark prompt of each Realtek
+codec driver with EXPERT, so that all Realtek drivers will be enabled
+(when CONFIG_SND_HDA_CODEC_REALTEK is set) unless you say you're an
+expert :)
 
 
-> 
-> Best regards,
-> Krzysztof
+thanks,
 
+Takashi
+
+-- 8< --
+--- a/sound/hda/codecs/realtek/Kconfig
++++ b/sound/hda/codecs/realtek/Kconfig
+@@ -12,7 +12,7 @@ config SND_HDA_CODEC_REALTEK_LIB
+ 	select SND_HDA_SCODEC_COMPONENT
+ 
+ config SND_HDA_CODEC_ALC260
+-	tristate "Build Realtek ALC260 HD-audio codec support"
++	tristate "Build Realtek ALC260 HD-audio codec support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
+@@ -20,7 +20,7 @@ config SND_HDA_CODEC_ALC260
+ 	  Say Y or M here to include Realtek ALC260 HD-audio codec support
+ 
+ config SND_HDA_CODEC_ALC262
+-	tristate "Build Realtek ALC262 HD-audio codec support"
++	tristate "Build Realtek ALC262 HD-audio codec support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
+@@ -28,7 +28,7 @@ config SND_HDA_CODEC_ALC262
+ 	  Say Y or M here to include Realtek ALC262 HD-audio codec support
+ 
+ config SND_HDA_CODEC_ALC268
+-	tristate "Build Realtek ALC268 HD-audio codec support"
++	tristate "Build Realtek ALC268 HD-audio codec support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
+@@ -37,7 +37,7 @@ config SND_HDA_CODEC_ALC268
+ 	  codec support
+ 
+ config SND_HDA_CODEC_ALC269
+-	tristate "Build Realtek ALC269 HD-audio codecs support"
++	tristate "Build Realtek ALC269 HD-audio codecs support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
+@@ -46,7 +46,7 @@ config SND_HDA_CODEC_ALC269
+ 	  codec support
+ 
+ config SND_HDA_CODEC_ALC662
+-	tristate "Build Realtek ALC662 HD-audio codecs support"
++	tristate "Build Realtek ALC662 HD-audio codecs support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
+@@ -55,7 +55,7 @@ config SND_HDA_CODEC_ALC662
+ 	  codec support
+ 
+ config SND_HDA_CODEC_ALC680
+-	tristate "Build Realtek ALC680 HD-audio codecs support"
++	tristate "Build Realtek ALC680 HD-audio codecs support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
+@@ -63,7 +63,7 @@ config SND_HDA_CODEC_ALC680
+ 	  Say Y or M here to include Realtek ALC680 HD-audio codec support
+ 
+ config SND_HDA_CODEC_ALC861
+-	tristate "Build Realtek ALC861 HD-audio codecs support"
++	tristate "Build Realtek ALC861 HD-audio codecs support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
+@@ -71,7 +71,7 @@ config SND_HDA_CODEC_ALC861
+ 	  Say Y or M here to include Realtek ALC861 HD-audio codec support
+ 
+ config SND_HDA_CODEC_ALC861VD
+-	tristate "Build Realtek ALC861-VD HD-audio codecs support"
++	tristate "Build Realtek ALC861-VD HD-audio codecs support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
+@@ -79,7 +79,7 @@ config SND_HDA_CODEC_ALC861VD
+ 	  Say Y or M here to include Realtek ALC861-VD HD-audio codec support
+ 
+ config SND_HDA_CODEC_ALC880
+-	tristate "Build Realtek ALC880 HD-audio codecs support"
++	tristate "Build Realtek ALC880 HD-audio codecs support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
+@@ -87,7 +87,7 @@ config SND_HDA_CODEC_ALC880
+ 	  Say Y or M here to include Realtek ALC880 HD-audio codec support
+ 
+ config SND_HDA_CODEC_ALC882
+-	tristate "Build Realtek ALC882 HD-audio codecs support"
++	tristate "Build Realtek ALC882 HD-audio codecs support" if EXPERT
+ 	depends on INPUT
+ 	select SND_HDA_CODEC_REALTEK_LIB
+ 	default y
