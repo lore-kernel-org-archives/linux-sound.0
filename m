@@ -1,186 +1,196 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F626221299
-	for <linux-sound@vger.kernel.org>; Wed,  6 Aug 2025 08:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E880E28A1EA;
+	Wed,  6 Aug 2025 09:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754469989; cv=none; b=fJ7Rgr597FeMPwcu/FAkRohn2OaKrWHQrKZ8XLA/1y2x6pDsQuRG0qErPN55qRRqmFJ8TOA3fsAbWpKoEx6Pe9J3cpuoJLNe2kiAAJHxJW7ZAWpkColSeqPEB2fNrNjRQYXyQfwVyTiAwVQHbYlWHUr7FamemW0RaLgzaJFPq2Y=
+	t=1754471168; cv=none; b=TiChFK4TUKccgaHDo8MbpC0/EeHA0JGX2Qz+UI8v0LCHT/3Al9zyGE0ph0I4n/NJtpOvMFOy/qhipurzlm3U6TyEez0H7Iogj7dGidnXFQsahhirRJx1fOIZoFDd8zrywupieADzsPyy4Zry8ewX4/WBAOb+I7YD52qqgxpgXcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754469989; c=relaxed/simple;
-	bh=5bKuBrHkhx+/32ZXuFomkNfMLZF7jf03wRUCswKBOmM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=azHUbiPhG6P/QIF0oZkTk4yXpSXuCoF+CkNEurhwdI9zW8n67xWDMU/IzHN3YNCoKGuUp+WjfakLAfW7SINF4KXaW3czjmcqHEhZJHrWSSBKaTJhDKRtgYv+0TKDJtiUfoqrLlJHuR1l91RLW370adYpy7aYpy49loCad1a3psY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kBHLV+ic; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tQZxV+mF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kBHLV+ic; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tQZxV+mF; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1754471168; c=relaxed/simple;
+	bh=Ql6ugviBMrRn2Jki9AiqpQUa8C9VR1NQomKZHOWqAio=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IfcwiOmHnb/zvQOyEXy0FLIaUNY3OO3WLmyBl60eo/KA2AY8NH2eeo7T40dz2x6s8TkS9/aYdme3f6SuIvx72hIEaS8QocIxUEqNLN3lY9A5m9kirJmTvIiXCG2NiOmklp4XQrikfIlAsHrC86yYrsk6yBFFbgOSqby6zlAdLJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1zSpn3k; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kBHLV+ic";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tQZxV+mF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kBHLV+ic";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tQZxV+mF"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4E9F71F452;
-	Wed,  6 Aug 2025 08:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754469985; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tCjkzVMeKyc986uSlVDKqEOhgGRWj96nKH0A6nGgInE=;
-	b=kBHLV+icqXfj/J1pra31aCEKc2/IWneErEFjXo9lyj1vEJ/zohww6YRnnRfTt34NC+D26n
-	iq1vq+odpRUmExAdMPnk396dlbUdxhgbuph86E6+6uPQUe6eGmK5NHhxUsa1s3QNFLIRwL
-	Ltq40xQT27r5K54ecSO1IMB5Uz4sSNI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754469985;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tCjkzVMeKyc986uSlVDKqEOhgGRWj96nKH0A6nGgInE=;
-	b=tQZxV+mFPZ5jaBsRxx2db3+gSf20RGjPj3UaEo9VCUgh/Ca3LYDEjHI+SDinZTGSLSLO2d
-	2EA0VhRRG5kD1kAA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kBHLV+ic;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tQZxV+mF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754469985; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tCjkzVMeKyc986uSlVDKqEOhgGRWj96nKH0A6nGgInE=;
-	b=kBHLV+icqXfj/J1pra31aCEKc2/IWneErEFjXo9lyj1vEJ/zohww6YRnnRfTt34NC+D26n
-	iq1vq+odpRUmExAdMPnk396dlbUdxhgbuph86E6+6uPQUe6eGmK5NHhxUsa1s3QNFLIRwL
-	Ltq40xQT27r5K54ecSO1IMB5Uz4sSNI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754469985;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tCjkzVMeKyc986uSlVDKqEOhgGRWj96nKH0A6nGgInE=;
-	b=tQZxV+mFPZ5jaBsRxx2db3+gSf20RGjPj3UaEo9VCUgh/Ca3LYDEjHI+SDinZTGSLSLO2d
-	2EA0VhRRG5kD1kAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2307A13AA8;
-	Wed,  6 Aug 2025 08:46:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HjFlB2EWk2j1EgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 06 Aug 2025 08:46:25 +0000
-Date: Wed, 06 Aug 2025 10:46:24 +0200
-Message-ID: <87sei4rg67.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1zSpn3k"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3325cb38a78so31162251fa.3;
+        Wed, 06 Aug 2025 02:06:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754471165; x=1755075965; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+Qkylg8c+Vm8Og/kqbuMD24rtUr9muU2ntVmVz7XAj0=;
+        b=P1zSpn3kJ63c+10R296zZNd8HDOfSdFUd6rgNGyUaO9Aln4ni+DziqE7qrmuF7PK4H
+         u7MuSwuLLBvk3hTSX/guYsb42HT1NTawo2OX4JLwZb5IJgr5BpaFUrONDm5T+rmLATEq
+         xrPI/XaOcGpwIBk9J8mtRUiSFKYgw/YWGJNxWvewcAD4JSG2DTx72q0u/VSBUWun+emm
+         fLlbgFEWGlWA6TsnCmvX+o4D+u8M9DcPCt9WPv7mnbrLlpslimo3Atfqg4W9EkFedao8
+         g5XJJrqIwJdv2iZUuALGzoVa91nJzJ6RQyP2Y+WZR5/tzKaTofnPa08Wtl86LQiFWxEV
+         iXqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754471165; x=1755075965;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+Qkylg8c+Vm8Og/kqbuMD24rtUr9muU2ntVmVz7XAj0=;
+        b=U6p3viSspL12aNBscqYYPO1FuZXO4bAma45GhTEcyAPwACat3ygZ/nsOAlmvExmdjw
+         yfGCfD4CUhCh2bvDqRWwW0p5fAafWIoH7oaOj9DIil19QNjZzIRe84HUd3eBAspQAbp2
+         EsFvfC7OG0G+C4LIeTvM5muKYwCnzVsf/8i0MO5lwS0Rfo0TSL137NIiiwX89daXr5KZ
+         MCn86IsalmEOWCwPssTX+ORTnTwZgBBz5bi3xCvokw2VA1rifTVi98+xl+oAMxJUKW5q
+         2NF4xD3VtZTr3JGLDwa+rKEj4FItn00TmYnGDCHRNRV8A1sVsdez1U3cDQXHdLmSmdQV
+         7+Og==
+X-Forwarded-Encrypted: i=1; AJvYcCVeS2l6H75gaus9lN9a+T9fiQECy/Q8SSYN79rxiw75g4PALEXa4OkevQUJfHnzahON1l3i7vtt0skWSzA=@vger.kernel.org, AJvYcCWYu0IxBszCwd8knKcKNa3Oz1N6Ku3Ia7GHkvRsCQVzHZHkxGDuwp0DugzuJn8vOijH/2fwXnsUAs+UZVs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7kFj+L3iFpmCD4Q9bcPKAPq1YpAfpLg0v9zxoj16VJ+njWdaO
+	E4oCcc8vYwGz2VdtdtGS8wJv1qqUf/cCK+SEh3QhZMtroCH8RPQUXEsM5vH+Kr7auaxzrw==
+X-Gm-Gg: ASbGncukkVHzRIDt1GaYnmfhgaLkS0EaBQBeG0FdjSGKg4gCHh62HlV8l7cDzLkG6Kh
+	v0h4JekdE//xjWRK2+nYByCBwccy3uNbHwyZllyGq/XfOI0vDR+zpyK6JdwamsbMcuspzt9EWEJ
+	2J6iMP/l13XlBQIyG+gpx0tFvCmwBlV2GPlTSCbgpleHsHuvZy9TxCvzU75u4oTqp7eBgsc/vLi
+	wxyjk7n9Ybesjgvx/429MHntrH6PPxb3GsSeeNUBR1wBwhAPkXHhnlFvB0HAbBwkMTb7S/101ZE
+	vi7TzgWvcnBuWu6fOAnLE1Q0Nzb9u0mWaLrghxAslDaIpyarEA8+ALAhFIp09QBvAoos4Drr2ac
+	pkjyH+lDr1jhJ
+X-Google-Smtp-Source: AGHT+IGl5k22XEtZ0k33mu0NCbb4izNeDFKhn4yf7lsjV+I4es/iwHtGOxVjAGcmXSs3Rk+NQ8Er+Q==
+X-Received: by 2002:a2e:a00f:0:b0:32b:7811:d48d with SMTP id 38308e7fff4ca-33381231618mr3734311fa.4.1754471164415;
+        Wed, 06 Aug 2025 02:06:04 -0700 (PDT)
+Received: from mmk-tp ([139.179.215.86])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-33238272e3asm22512691fa.2.2025.08.06.02.06.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Aug 2025 02:06:03 -0700 (PDT)
+From: Mahdi Khosravi <mmk1776@gmail.com>
+To: devicetree@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	linux-sound@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: Quiet crackling noise at boot and after stopping music
-In-Reply-To: <d542d223-fc6e-4be7-b581-8a390ce2f6be@molgen.mpg.de>
-References: <10172c80-daec-4e20-ab57-a483cf1afc02@molgen.mpg.de>
-	<871pposvy9.wl-tiwai@suse.de>
-	<d542d223-fc6e-4be7-b581-8a390ce2f6be@molgen.mpg.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	linux-kernel@vger.kernel.org,
+	Mahdi Khosravi <mmk1776@gmail.com>
+Subject: [PATCH v2] ASoC: dt-bindings: realtek,alc5623: convert binding to YAML
+Date: Wed,  6 Aug 2025 12:05:10 +0300
+Message-ID: <20250806090510.105731-1-mmk1776@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250730093713.104003-1-mmk1776@gmail.com>
+References: <20250730093713.104003-1-mmk1776@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-7
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 4E9F71F452
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
-X-Spam-Score: -3.51
 
-On Wed, 06 Aug 2025 10:34:57 +0200,
-Paul Menzel wrote:
-> 
-> Dear Takashi,
-> 
-> 
-> Thank you so much for your instant reply with the solution.
-> 
-> 
-> Am 06.08.25 um 10:20 schrieb Takashi Iwai:
-> > On Wed, 06 Aug 2025 10:15:08 +0200, Paul Menzel wrote:
-> 
-> >> I believe the Realtek refactoring caused a regression on my Intel Kaby
-> >> Lake laptop Dell XPS 13 9360. There is quiet crackling noise during
-> >> boot, when GDM is started, and also after playing music is
-> >> stopped. It¢s reproducible with 6.16.0-04055-g14bed9bc81ba, that
-> >> contains the sound subsystem pull request.
-> >> 
-> >> 177bf8620cf4 Merge tag 'sound-6.17-rc1' of
-> >> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
-> >> 
-> >> I uploaded the run of alsa-info [1]. I try to verify with plain 6.16 later.
-> > 
-> > It's likely because of the missing CONFIG_SND_HDA_CODEC_* selections.
-> > Please set CONFIG_SND_HDA_CODEC_ALC269=m and
-> 
-> Indeed, I didn¢t select this.
-> 
-> > CONFIG_SND_HDA_CODEC_HDMI_INTEL=m if not done yet.
-> 
-> I had selected this.
-> 
-> > Those were already set to default=y in the later PR for avoiding such
-> > a pitfall.
-> 
-> I remember I tried to check which to select, and I ran `alsa-info` to
-> find the codecs, but only found:
-> 
->     Codec: Realtek ALC3246
-> 
-> As this didn¢t match to any of the offerings, I didn¢t select
-> it. May I suggest to extend the Kconfig help texts with notes how to
-> determine the correct module?
+I converted the alc5623 audio codec binding from text to DT schema.
+This is my first try and I used make dt_binding_check & make dtbs_check to verify
+without getting any errors.
 
-There are quite lots of different codec names, so we can't put all
-them, unfortunately...
+Changes since v1:
+- Add dai-common ref
+- switch add-ctrl/jack-det-ctrl to allOf uint32
+- use unevaluatedProperties
+- fix example compatible
 
-> Also, would the driver be able to detect, if no codec modules are
-> selected and log a warning?
+Signed-off-by: Mahdi Khosravi <mmk1776@gmail.com>
+---
+ .../devicetree/bindings/sound/alc5623.txt     | 25 ---------
+ .../bindings/sound/realtek,alc5623.yaml       | 54 +++++++++++++++++++
+ 2 files changed, 54 insertions(+), 25 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/alc5623.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
 
-It still "works" with the generic HD-audio codec, as you already
-noticed.
+diff --git a/Documentation/devicetree/bindings/sound/alc5623.txt b/Documentation/devicetree/bindings/sound/alc5623.txt
+deleted file mode 100644
+index 26c86c98d671..000000000000
+--- a/Documentation/devicetree/bindings/sound/alc5623.txt
++++ /dev/null
+@@ -1,25 +0,0 @@
+-ALC5621/ALC5622/ALC5623 audio Codec
+-
+-Required properties:
+-
+- - compatible:	"realtek,alc5623"
+- - reg:		the I2C address of the device.
+-
+-Optional properties:
+-
+- - add-ctrl:	  Default register value for Reg-40h, Additional Control
+-		  Register. If absent or has the value of 0, the
+-		  register is untouched.
+-
+- - jack-det-ctrl: Default register value for Reg-5Ah, Jack Detect
+-		  Control Register. If absent or has value 0, the
+-		  register is untouched.
+-
+-Example:
+-
+-	alc5621: alc5621@1a {
+-		compatible = "alc5621";
+-		reg = <0x1a>;
+-		add-ctrl = <0x3700>;
+-		jack-det-ctrl = <0x4810>;
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
+new file mode 100644
+index 000000000000..0b9dc324f04d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/realtek,alc5623.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ALC5621/ALC5622/ALC5623 Audio Codec
++
++maintainers:
++  - Mahdi Khosravi <mmk1776@gmail.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: realtek,alc5623
++
++  reg:
++    maxItems: 1
++
++  add-ctrl:
++    description: >
++      Default register value for Reg-40h, Additional Control Register.
++      If absent or zero, the register is left untouched.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++
++  jack-det-ctrl:
++    description: >
++      Default register value for Reg-5Ah, Jack Detect Control Register.
++      If absent or zero, the register is left untouched.
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            compatible = "realtek,alc5623";
++            reg = <0x1a>;
++            add-ctrl = <0x3700>;
++            jack-det-ctrl = <0x4810>;
++        };
++    };
+-- 
+2.50.1
 
-
-Takashi
