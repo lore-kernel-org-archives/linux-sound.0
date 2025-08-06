@@ -1,104 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A560227FB1B
-	for <linux-sound@vger.kernel.org>; Wed,  6 Aug 2025 17:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E0617A2F6
+	for <linux-sound@vger.kernel.org>; Wed,  6 Aug 2025 18:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754500490; cv=none; b=PfWfr7FSxGRVI4kXyOalODFal4R/XDfLRPbOULD0at+hT8zCd/XnNsMNoS/cTlre6Yki5fV/g3QUulkvdAIGOIB132FPqsR8bdn7iW+mug3I57zyMRucWOKLMtpo2IzfBHxB5KsYPac/WBPXOAbJK3Bpjii9u+03+7TW3RggeMM=
+	t=1754504334; cv=none; b=infLUUuUP1Qidfkmc/1WNyi/Ck+uioH1LyQGg/4/NYgIdyH5wqVSUsUyUPl8n7PRyzSrH7dMhPzh4MbgAZNZ0cyyDf0W21IRUOIhoWUqeWVEaMdazXQp6OmZ+LxkAXVRwNvptPJFSkhw0Re0SaP7r5R2O8Lnz064u6DXaGBBE1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754500490; c=relaxed/simple;
-	bh=72AVAJ87rVtXseew9hAgk98phf0ztd1QJ80ILDYTB4Q=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=ues5AXmQiDZvQULL/k1eVICudnM+nUiCx6G9zOuksku133cG7wNL3wWsKSPwCzvZm8nISh65u+DmDl2P3WDf2QlXTncg5kWHymdJcfAkWqfLxGhZXcuPCnZMWtc5WxQ0OEk+qL2thpUKCQshuRHNJoonUoUwy7ab9lGd7sZgG0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AE5iPxkS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754504334; c=relaxed/simple;
+	bh=gltay6gHOTujsw+u6lXUTehNXIZtIgzLPCEbcmXqR7U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cVRSr8AWEjsXyOkcAkeNWAxbprRelz5ntcWsh1vy5XK7L/2JnsxAiuQY3BNhu/94dNiEak9lfDQZCZH/rW46kFX4cNbrV4BmCy0EYP460Y2+F5I8b+NaVLDKjB4orE2cONJGG3xv1Pfpcn+4Xci5bjSCSVMGosuzzQkIHrZbXDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Yz6GLYbS; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AE5iPxkS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E36C1C4CEE7;
-	Wed,  6 Aug 2025 17:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754500490;
-	bh=72AVAJ87rVtXseew9hAgk98phf0ztd1QJ80ILDYTB4Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AE5iPxkSwCPkPGCYLseEkh5RJxNxyCZAi6wt+xx6hyF1wiGFUK/4meiOCBeRzV3Yh
-	 oYzQevZcR8KwT7rOtU2PzigMsZnr9oFaa8cHv8NSRj+B4r36qmw1rdNDIykOt4v4E0
-	 L8yDEyxAvNTCnMufgXat9vjGs/cWAT1AFSRrrM2xhnqypYlGuXindiXk/W31owl0ri
-	 CIUWui+cgtfw5l8Ij0mCHxl/d8Uhjr69Zfxe2XF305IJZ8fxNk+Psm30v6TUm8JgX5
-	 SCrsOCWY/sZdyQyufktVRMZpAqhRhgb/o+9jkk+UCZiYcnoq93ssk/OornPwUBVOkm
-	 zunjuiiRIj+jA==
-Message-ID: <97abce5e5d42120dc07961f73b548c7d.broonie@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v6.17-merge-window
-Date: Wed, 06 Aug 2025 18:14:43 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Yz6GLYbS"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 576ICKie032544
+	for <linux-sound@vger.kernel.org>; Wed, 6 Aug 2025 18:18:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=7EtcQneqFbay0S3BezmpHKQD8tPt2h3nFwN
+	SuVeutIs=; b=Yz6GLYbShmltUGe3PZGOUeYoPiUFeaJqCKQq0FVjMA2B1+yMoJZ
+	feQ1pfYJoFA4UW+2pCea7u9H8DBx3NmE0rVchA6iRHXM7EEZjdNgdMSx8Fu/k/oq
+	xxy+P/gYIiwtgi0XYGkqTEaPmsMQyQJTxDrs25zrg0OAD7yQnikWvGvlAQk5rJkY
+	aJ8OEXrjp1PQavenczvXk4NUY+A3saRLqYFjDtvIjNYdzsRCAK7hfJfVBgfYz+o3
+	9i4yC9x4W+uwiJOl5fqDy/QuG9sZyPvmfeYYrSSIuWX2pchNTvERwzVOUTBukZq0
+	6Ex8NsxZf0PRp1m0umihCXPbWBX0mXxQ0Jg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpw2ur7q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 06 Aug 2025 18:18:51 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-24283069a1cso1146825ad.1
+        for <linux-sound@vger.kernel.org>; Wed, 06 Aug 2025 11:18:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754504330; x=1755109130;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7EtcQneqFbay0S3BezmpHKQD8tPt2h3nFwNSuVeutIs=;
+        b=kM1fMgjYQUo9fPMWxr70v6KjNXcp/00rcWrqFYpPgRGcNF0dricnefKIINk5EZ4Ad1
+         EDA/4gIvUBSElKICP2YWOHSwLuguT5mfz8/dVM1Nw2TPDDyg05TqpxvEXnkT+61hS5Ro
+         ZIzL910L6frPDjShzWpNQw5elII7B7vaJ486kLpjIp/xhd90NZRH180ILWKgYOh2RGnN
+         BUw9201H1vYoANrE8lecLqLqbG9AZnc5nYCV254RzbPa8lWug1eaJTtub+D8D2LQPFyG
+         65uzY1NV9dGves7zUe/a0ynd40DFa72fy1lLU0M8Wkde75o3jv7ZwQwQctJphxHHT7kj
+         CvPg==
+X-Gm-Message-State: AOJu0Yy8Ch2v10kuz2MCeh4kvRDgwFHkAOaGNnNCR2UQJxGDIzr9k5Zp
+	NoeZsBSvGweaOk2mkpZWKVl6Eu8rGT98NAMqxUvxQdFNr74h8Etjsddik2ot/vgOEGSse+64LJU
+	6JLlR6pljl1jto9TfzAwv2PknrZ33Uj00oTmCIbD+e/mwXRnKgTUC1hKBUkEM7W2nIQ==
+X-Gm-Gg: ASbGncveELLbxq8hWMj2buY5iik7Fa9urqcUP3VnDPg3iE+OzlzbL+Cdm4yCyxchQGU
+	uJBGCc4YxcV5utP0W/FJEIvDsG/gPb40vWakfpUTXVfjbxvbQiqA3v9cHe5MmiKe1ni3TqZ6Eyh
+	C8tBI+m0EkUNAjZmxkSH++bTptratNLbP1j4UoegVk5q8Ca5imDcNX5LUFWLm/S319ccwYs0XH3
+	O6Rjonc+6lPiFpZGbxpLSbdSr3cbra/2REbPcD3mYw//gxF9H/vJGv9HPPppD/WUcqwCcv8RJJN
+	v2pTuoh+dpnOMc8da9ZFhTrRLDim/FkEGWSPRA1X4sSMio+/3KSrcFAIxcxrFj1/lxD0Wmk9Wx5
+	w
+X-Received: by 2002:a17:903:2f81:b0:234:ef42:5d65 with SMTP id d9443c01a7336-242a0bfe495mr48029085ad.52.1754504330355;
+        Wed, 06 Aug 2025 11:18:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG1Jjp74fSOAUZPkCo24NljY5UCf/PFKkDfQbKzSbRPxCaZMFEt+QxieBL3ATAUpTk1S+I4mg==
+X-Received: by 2002:a17:903:2f81:b0:234:ef42:5d65 with SMTP id d9443c01a7336-242a0bfe495mr48028645ad.52.1754504329772;
+        Wed, 06 Aug 2025 11:18:49 -0700 (PDT)
+Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31f63f36311sm20235186a91.34.2025.08.06.11.18.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Aug 2025 11:18:49 -0700 (PDT)
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, quic_pkumpatl@quicinc.com,
+        kernel@oss.qualcomm.com
+Subject: [PATCH v4 0/2] Handle shared reset GPIO for WSA883x speakers
+Date: Wed,  6 Aug 2025 23:48:16 +0530
+Message-Id: <20250806181818.2817356-1-mohammad.rafi.shaik@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=Vbz3PEp9 c=1 sm=1 tr=0 ts=68939c8b cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=PJR2aAOtTfpWL2UOpAQA:9
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-ORIG-GUID: Pua3LDbHt-QEmAIKRq7ZglLwfaTZ4HKw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOCBTYWx0ZWRfX+yubS48vB5QX
+ vS6gj3ccnReynLNJRLkg1N+4kjc7tkf2JOdSVv9876MOCwmc3XXt33C0Y7nTVhE8j4/C9Hksp7Y
+ 06ueom/AqmlzXbUhqt/pRdHCpstrZWNK1RAYTMbFXKRsRSwlLh9rZCyEqaObDqJfRs3UTJHxh8D
+ FWElX9eEcIRayHrFXeR5V/QtUlzMqtWRL6kEZC62t0ePH7fDP2ib5X+r7AthkJDzOvTyBCq5mCv
+ XCPsoAS1KcqIp8IKOMI+T7Nudeq+lUKpxTRJRL+ol1onxF6rchj/hL7ZNX98KDuelzQzUCLndck
+ dBUHywGrQ+1QSymT/o1DkpjewslEt6/zJMK8p1R02q6OIErQGPrbyKvBvCP9SkcPYn3I+FlGvAH
+ LgAcRLFB
+X-Proofpoint-GUID: Pua3LDbHt-QEmAIKRq7ZglLwfaTZ4HKw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-06_04,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 adultscore=0 suspectscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508060008
 
-The following changes since commit e95122a32e777309412e30dc638dbc88b9036811:
+On some Qualcomm platforms such as QCS6490-RB3Gen2, the multiple
+WSA8830/WSA8835 speakers share a common reset (shutdown) GPIO.
+To handle such cases, use the reset controller framework along with the
+"reset-gpio" driver.
 
-  ASoC: codecs: Add acpi_match_table for aw88399 driver (2025-07-25 13:44:29 +0100)
+Tested on:
+	- QCS6490-RB3Gen2
 
-are available in the Git repository at:
+changes in [v4]:
+	- Dropped v3-0002 patch, which is not required.
+	  Fixed with proper error handling for failure cases.
+	- Link to V3: https://lore.kernel.org/linux-arm-msm/20250727083117.2415725-1-mohammad.rafi.shaik@oss.qualcomm.com/
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-merge-window
+changes in [v3]:
+	- Created separate patch for devm action to safely disable
+	  regulator.
+	- cleanup the v2-0002 patch.
+	- Link to V2: https://lore.kernel.org/linux-sound/20250718104628.3732645-1-mohammad.rafi.shaik@oss.qualcomm.com/
 
-for you to fetch changes up to 614d416dd8aee2675fb591c598308a901a660db8:
+changes in [v2]:
+	- Addressed the review comments from Krzysztof, Dmitry, Philipp.
+	- Used devm_reset_control_get_optional_shared_deasserted() api.
+	- created deasserts/asserts functions to handle reset gpios.
+	- Register devm action to safely disable the regulator on device removal.
+	- Link to V1: https://lore.kernel.org/linux-sound/20250620103012.360794-1-mohammad.rafi.shaik@oss.qualcomm.com/	
 
-  ASoC: SOF: Intel: hda-sdw-bpt: fix SND_SOF_SOF_HDA_SDW_BPT dependencies (2025-08-06 12:02:32 +0100)
+Mohammad Rafi Shaik (2):
+  ASoC: dt-bindings: qcom,wsa8830: Add reset-gpios for shared line
+  ASoC: codecs: wsa883x: Handle shared reset GPIO for WSA883x speakers
 
-----------------------------------------------------------------
-ASoC: Fixes for v6.17
+ .../bindings/sound/qcom,wsa883x.yaml          | 11 +++-
+ sound/soc/codecs/wsa883x.c                    | 57 ++++++++++++++++---
+ 2 files changed, 60 insertions(+), 8 deletions(-)
 
-This is a relatively small set of fixes and device quirks that came in
-during the merge window, the AMD changes adding support for ACP 7.2
-systems are all just adding IDs for the devices rather than any
-substantial code - the actual code is the same as for prior versions of
-the platform.
 
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      ASoC: SOF: Intel: hda-sdw-bpt: fix SND_SOF_SOF_HDA_SDW_BPT dependencies
+base-commit: b7d4e259682caccb51a25283655f2c8f02e32d23
+-- 
+2.34.1
 
-Baojun Xu (1):
-      ASoC: tas2781: Fix the wrong step for TLV on tas2781
-
-Cezary Rojewski (1):
-      ASoC: Intel: avs: Fix uninitialized pointer error in probe()
-
-Mark Brown (1):
-      Add audio support for acp7.2 platform
-
-Muhammad Usama Anjum (1):
-      ASoC: SOF: amd: acp-loader: Use GFP_KERNEL for DMA allocations in resume context
-
-Peter Jakubek (1):
-      ASoC: Intel: sof_sdw: Add quirk for Alienware Area 51 (2025) 0CCC SKU
-
-Shengjiu Wang (1):
-      ASoC: wm8962: Clear master mode when enter runtime suspend
-
-Venkata Prasad Potturu (4):
-      ASoC: SOF: amd: Add sof audio support for acp7.2 platform
-      ASoC: amd: ps: Add SoundWire pci and dma driver support for acp7.2 platform
-      ASoC: amd: acp: Add SoundWire legacy machine driver support for acp7.2 platform
-      ASoC: amd: acp: Add SoundWire SOF machine driver support for acp7.2 platform
-
- include/sound/tas2781-tlv.h             |  2 +-
- sound/soc/amd/acp/acp-sdw-legacy-mach.c |  3 +++
- sound/soc/amd/acp/acp-sdw-sof-mach.c    |  1 +
- sound/soc/amd/acp/soc_amd_sdw_common.h  |  2 ++
- sound/soc/amd/ps/acp63.h                |  1 +
- sound/soc/amd/ps/pci-ps.c               |  4 ++++
- sound/soc/amd/ps/ps-sdw-dma.c           |  5 +++++
- sound/soc/codecs/wm8962.c               | 11 +++++++++++
- sound/soc/intel/avs/core.c              |  3 ++-
- sound/soc/intel/boards/sof_sdw.c        |  8 ++++++++
- sound/soc/sof/amd/acp-loader.c          |  6 +++---
- sound/soc/sof/amd/acp.c                 |  8 ++++++++
- sound/soc/sof/amd/acp.h                 |  1 +
- sound/soc/sof/amd/pci-acp70.c           |  1 +
- sound/soc/sof/intel/Kconfig             |  3 ++-
- 15 files changed, 53 insertions(+), 6 deletions(-)
