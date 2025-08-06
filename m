@@ -1,48 +1,48 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013045.outbound.protection.outlook.com [40.107.162.45])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013062.outbound.protection.outlook.com [52.101.72.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E514431;
-	Wed,  6 Aug 2025 06:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9AE202997;
+	Wed,  6 Aug 2025 07:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.62
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754463167; cv=fail; b=JQf4OfIQaV+RiQfsKnWWmh5lWK8R+8TnWSVK4xGAw36RbnZ8PPkMJ5aY8XCBf46G6t1xb9ggYpPstuZLUhnB1r5lS3RnOfNFlUtMO/1VqoQ79cxAdBF5ww+f6fKvt8mXeB5Cr41sn4qw96tcoD6VL7TztW6AJHTXD56Mp77WmnA=
+	t=1754466799; cv=fail; b=cr7d6AnmHAoo4Z82Ed9qr1wCSt/s3TjgsCwuuE8NF8Hs68LDJHywYtMn4HqP0jCk00IKmI+soX5DZZ39w0ApsbKo5vcu5FMpHVa9qsirtggKS3ntVPlr7Ltq+8sqkDy4yYU81Ig78vLw3gFzwUb8qMswrBTtEDjh56Pv7ThX1UM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754463167; c=relaxed/simple;
-	bh=JXuqp2TneYB1FnWWcSLyLOVYP8EXJng5I2OmkRgB1XQ=;
+	s=arc-20240116; t=1754466799; c=relaxed/simple;
+	bh=Ww08lnkwDA5UJpIUQMUuuLo9URX0kXDFWLPQ8mPPVLQ=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=c8K3wpqEPH4+EEUraXkkxlMZFu/yJ/rlMgSCjK5eRlP+sCn3roCeXi5vca6SdkdU4ur8abDcx/awswHyjeOI6OtEPxfvpTMSKv3dn9n4faSLzvWwo6WKP9t7T7W2ixjZGKmy+FXxp4O88UGTAubllaVnnNPTB+AqvrGmQ+gijVs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=lZOW0coX; arc=fail smtp.client-ip=40.107.162.45
+	 Content-Type:MIME-Version; b=WIUr5a9NKapNkuCnpZVxSfqYRR+YeZGg1BBRQDuGD32Wj62hc4XN+stFXZ7n1RMzJuQQIc3TcyoA5PJ0FpLmANqkWyeESta5Sr1FuuDtyUrAjneW76rdWFRkC2xLgHSnmM34yEwoaEFSIXcC8L/bMk6T6Orr0kpJmgdtXm6RUSc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=RpvNc+26; arc=fail smtp.client-ip=52.101.72.62
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="lZOW0coX"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="RpvNc+26"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cslO+NjbmjJgdpbQSeNZYcYdwmyH1vn51Lac1G9L3+i8HH8JU1BuJtH2iC4w1zLShQRECGNBdPFtoxGtKpzQ95VJ7xcqLigBdmZt2xug7pcXSnpYbA9jJyJ4lNSOrgCmJok+50mMoBcYvmLSFY3rhKBvNBWOV5Zzs9LlbxE5QEp+JJTrAmCjNTcI6JZes5rbzhTILg965YpqhDQ4rx9ryXNcnEKcWpsayVuRUYFBekJ+VGpJkR59cJU4mfgxHao7cmz3LwdE5C2UGxUNTPGkmAbab7oJP64X41Y6ITJolBsMqPP4M8wfNQUU9l9OWvAR1WUoymyPXFHKAGdksSYw9Q==
+ b=Q2CCSWFVXAucFFN+4tz7MgnlIE2ZrYHlfpsnhgb39QkaS+kXLTIA+4DtppUrCrtiI9PbAGnxBcMgqVJ/GV7q3iRamVw+AC+Tt/TvZ6VLIEmRX/7GnRtTYleR1+2GokQaHmfdygf0uvr7X19zcNDb94+4qbFSP9E+ufPyx1IvRowKWvecQpAdcGMaua1kzne5vhUdCFHtMlsSLx1sQkUja5tQX05uFnxIbnCnwLGyPgsltQk2z7prSYfi6Bn4gQmldKqk15zEEh5cqAzVTVeX9CNCYzCsBEzxxla2QPkOLZYEPm+Ikw3JBZ1wiggn4A13gu1EYhS/40zhqW2+DwqwTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DxUYqBMxAGPoqz8bJZ0xhZPpw/h2AXBdi0YPZ52rdEo=;
- b=YL7GQlcYqhIfx3dduary4sWWH4JJJs/TjwyZ4EU9OPzuW9nQkd40BY0oyuG9TH9QPnDmVerPlj8WZXqH5+C2jwszwilsqx8D1+LHcB346+8k4HA+vcIOk3waVcPAU6KAQL5dToSMvzjd2SgEdELh8lglIv1C5L8Zt6jVFMBQM0KzatWaYC9E/mdwiRUFepj7Qge1AVPjNCpk4LOFhqFLx0Idgi/GQs9gijt3sMBmn0/Lyjet4bBFitxQismJ9TlO5TzoMAdvb9n5WoYlTERZz8t23t93VXHALQ6IJeKMdBRJjxCr2ugny9+/bAmow05f1IYxk89WcPESiVgEsUoVww==
+ bh=L98w897Uddsx+6rSkLlxpur2QSYXDNDLcQYgUoyrKbg=;
+ b=SMn1hLzo3zI9idJ7C8YDNvOTVMHTre1PeHTrwJYfSL7++E7kS3oAzEAr1nrimBf3djkfCNzHpXZphpe6jeTyuOP8KMDRNXbUrx8ArVwooBgDhSsoDGgfydhvro4p1TKJ0EnuY5JY8zvT5cxMK13gHzWrubh9mUdNxH2JwBe9VtPvrJzadTWMsw9dFRMxuI9H48uu6pKVFqR03NFiNm1xAaoKhshSYJ6LUYhukCStBTBYXhEdxQFp5AIYYB06kXegEs7Y0hr6drWj4zZaD1S2jRNhJ2qtjckzOKc30VW68/zE8upK0txQOWYViwiFiO9jltRMMJKDDGMDH/wMqKQAgQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DxUYqBMxAGPoqz8bJZ0xhZPpw/h2AXBdi0YPZ52rdEo=;
- b=lZOW0coXxOMDmmC+/1TzMJY1RmPRpqshY/o9I+KujaRbvFQr/5kcrqGW+LoXJN+WaTTqExf/S8b6RfVF1OwxAjahldkUZ7ZxCjxAl5ZxLNsFOo2VycZyp3tIWz/0o1vuGMtsgBXIxidOewnSmtcBHqIPIWvJxHPUKjMI3xwSu7RG9VuSAg4BDhAdWkZEDuXCmrrejyILN60nlloFXOc07hUYm+OnQljKtDP/3oKe7FN/jlMVUI0/nhMgA5eStS89kKywolNoYzTC2ZDj+7DOAc75RhUZtJksbpjvo1ClAOxSWWdD0ZqklMx9gDYXcd27MHRydz9D8LLBjScJJeiMXQ==
+ bh=L98w897Uddsx+6rSkLlxpur2QSYXDNDLcQYgUoyrKbg=;
+ b=RpvNc+26XJ7IOc2mmPUKFMLxytk3jhxZnMhB59SZ918eF4lkYNLx4jXa2OtLgejS7QeLI/0TeR4wTRzLfJQ13s40fHeUguiBUw+NFvPGbcBzSPq4JWP3TYXPtfwZxZKTyRL78f8rBv8KVeUTFcfTKvsqa/TRjO/RMDeTHgHSYGsihbrnIZfRIwuXCCCwSZXyuU8eCt71vrUsDsvxF0k4c293CtmPU0lAVakOQKCI9ZpPLTKYGLtTiZjtdlSSdABBw2F/qqMnc1Wll/dMRr5xsT1TeXyPydgqBbMbuwTz+S9DUYfOZzK/vcB9nnPRKssYDxpChmjteembW9naImTIzg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by DB8PR04MB7065.eurprd04.prod.outlook.com (2603:10a6:10:127::9) with
+ by OSMPR04MB11294.eurprd04.prod.outlook.com (2603:10a6:e10:93::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.14; Wed, 6 Aug
- 2025 06:52:41 +0000
+ 2025 07:53:13 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%5]) with mapi id 15.20.9009.013; Wed, 6 Aug 2025
- 06:52:40 +0000
-Message-ID: <ba02693b-8ad2-4297-ab89-5b39d5c4315f@nxp.com>
-Date: Wed, 6 Aug 2025 14:54:08 +0800
+ 07:53:12 +0000
+Message-ID: <54095f77-89d1-4d91-ada3-e3c04ac49967@nxp.com>
+Date: Wed, 6 Aug 2025 15:54:37 +0800
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 5/6] drm/bridge: imx: add driver for HDMI TX Parallel
  Audio Interface
@@ -63,14 +63,14 @@ Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
 References: <20250804104722.601440-1-shengjiu.wang@nxp.com>
  <20250804104722.601440-6-shengjiu.wang@nxp.com>
  <fa455148-a071-4433-8c9c-26add3872604@nxp.com>
- <CAA+D8AN4n0H6M_0EqX4z_37ViSCyThKbmtMgqPmipintJ8Wtwg@mail.gmail.com>
+ <CAA+D8AN9Ay8jnSS=h3G_Kepc_5WYQRAUrWmtu5N056GsnvGrTA@mail.gmail.com>
 From: Liu Ying <victor.liu@nxp.com>
 Content-Language: en-US
-In-Reply-To: <CAA+D8AN4n0H6M_0EqX4z_37ViSCyThKbmtMgqPmipintJ8Wtwg@mail.gmail.com>
+In-Reply-To: <CAA+D8AN9Ay8jnSS=h3G_Kepc_5WYQRAUrWmtu5N056GsnvGrTA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0003.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:176::12) To AM7PR04MB7046.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SI2PR01CA0047.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::10) To AM7PR04MB7046.eurprd04.prod.outlook.com
  (2603:10a6:20b:113::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -79,98 +79,97 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DB8PR04MB7065:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1ca7cf6-6d93-4b80-e05d-08ddd4b5d5ff
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|OSMPR04MB11294:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9a6f422-fb52-4481-5132-08ddd4be4aff
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|19092799006|1800799024|366016|376014|7416014;
+ BCL:0;ARA:13230040|366016|1800799024|19092799006|376014|7416014;
 X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?L1lpOWprOUNXdTU5bDRjWTllRm1XcTJuT3VyakN3TW5YYUNaNlJiUVl1bFZp?=
- =?utf-8?B?UE1aZVJGcFNBa0dCbkNPUGQrZTNPSnVJT2dHTTBxWVYrVkk4YURuUGdTTXEv?=
- =?utf-8?B?ZXZaNVRhU0ZRMHhsbWNVMlc5bnZUSlVwM05jUCt5NlBLUm5tTS95Z2xJZEJ4?=
- =?utf-8?B?bWQxRmwveG9rWHJGcUltRlNKSXcxZngrSmFUdDhaK1J0QU11NXNEeTMxblZE?=
- =?utf-8?B?Z0RtMUZxa0ZFdGpkVWZEdm5EVWxocEN6UzBjcDlPcmtWTSs4ang3RUM1TzNZ?=
- =?utf-8?B?ME9KMlZHd21qbk11Nlo3MllvUFUzWUg5cHJYNHNUY3hzdUMvZHVvM2RFUFBJ?=
- =?utf-8?B?YSt6VHZaWlVUVElqbFp4MGhJbnpPYkpIdTNLblpmZXJvS2VtQXBJbU5tN01N?=
- =?utf-8?B?K2lsRDFncU5ON09nU3p3OHlDZWxReEpwbXBWUjNsRzVRMU5JWndkVkVkMjhW?=
- =?utf-8?B?Q3lqczVWMGNzT0dZd0ZuV05CdDg0TUZpaHZMcWxyZGNDdnZRQStWczQzNSti?=
- =?utf-8?B?L3hrOEE4RENDV0RMTTkzSHBDNDlRbmxpSDl4K2FPeWFkckp5b2RsZVE2RkhP?=
- =?utf-8?B?c21uQ1VwWW4xc1pBdWVpVW1ZV1dZSWJ0NnFlRkswazF2SlNhR1F6NjJZQllo?=
- =?utf-8?B?K1hqR3J4RnR3Y1J1MnNQL2NNdWNZVUhpWC9Kd2ZXYlJKQ2srMG5QZE16L0p1?=
- =?utf-8?B?T0NsM0xvUlZnUXRodDJPbk9OU3JDdzRHNzJvK1pFaENRZkl2UXN0OU1Jc0xv?=
- =?utf-8?B?dmZZdytCMUVrYytJOTQ1YXppcS9tT2NRSkxPM1dRNStITEdhUXo2YlhMSlFq?=
- =?utf-8?B?TU9rYmYyVFc3ZitpVUVxUkVnc2JTOUxQd1pDelZNbnMvbWYxbU1RRTRwMDJX?=
- =?utf-8?B?UHpEcm9HL3BUaHc3dUFhV3A3V28zdWtaY3MwNW85bUxqbGZFWXJsU0VZbURm?=
- =?utf-8?B?bTh2eDFuM0VzRHBZVWVJTzltTTg1LzFuQTdIdFRqRXp5YW5Xblp5QWNzdUxZ?=
- =?utf-8?B?UkJQVWhTMkFpeWdMOUtCYWhDQmRyRm43OVgwckdGdFovVmtwNENCUzc2b0VH?=
- =?utf-8?B?eTV1MktKUHMxN2tJdEc2VWxvWkJmSXpONER2dXEyeUxXeWZkNFV1MUEwN3Zz?=
- =?utf-8?B?VEp2YUVvVzdkN2wrYk1CaUtPUFprWDcwWUp2NnRMeGk5MVl5RlhUOTFuSGs1?=
- =?utf-8?B?eWtJbVNpNXpLZ1lVOVZ4S2F6RXJ4ZW9QVEhXS0c5K05DMzlHK2pIRVZZN3ov?=
- =?utf-8?B?MGRZSHZSZTRkQVdGeklmUVMxNVBnYWI1YTN4WnNvQnZjMFl2OWdxam1CZTlZ?=
- =?utf-8?B?MWsyOHJjMC9OZDQxdWVzU2ZPUlpZK1lwTjdXS0Zwc21tY0lUU09rTWNEbEpC?=
- =?utf-8?B?ajhsL3JtaURiQ3owT2FWVWorWEZ0QzNad1RjWnl3NGIzUWVjMnVlTEEvdDFz?=
- =?utf-8?B?VHRGcFJsTXNNWWp1UGdSa1ZsZ0RWQTM0dDRNOFc3Tnorb3JhbnhncGd1N3ha?=
- =?utf-8?B?aytuWmRlTFNYVTVFb1Vwc0lvV1hBUVpVWXA0K0pTamt0L3l5N0xqSk5DNGl6?=
- =?utf-8?B?N01xNlFqTlpUU1ZYbVVRUWUvZ3c0Zm1Jayt4YldESVVtcFJ5aFFDaW1PRERV?=
- =?utf-8?B?ZldydFRyWmVqTCtNR1RLL3JMdzVKUkN4TE11Qzd3SDFnREo5QTcyQWgzNHI1?=
- =?utf-8?B?QUhWRzlPOWpFSXhrSjA4U2dnL214dXN0UVUxblRwZUtIOEFNUTBURFRsOVBC?=
- =?utf-8?B?QjJBcjBUOGpyc01JU2hEY0cvQ3NSZmRCZVdLbEVSSitueXAxc1RvdEd3cjhy?=
- =?utf-8?B?bmNoS2dkUmNvaTlhUU4ycWE3SXZzeStHdXVmUGRsYnhZMm9hUGdsQnpHU0xB?=
- =?utf-8?B?c0ZjSnVDUkVZVFNLc0FtdStVdDg2b1FHTXQ1QitsaEk0ampTN2dnVllzOGt6?=
- =?utf-8?Q?lpLzy0+0IoE=3D?=
+ =?utf-8?B?a2tzM1h1U3hNZWhWQXFQYkZERlpEYjZ4Zmpkd09JWE90d1FQWXdJQnFMdTRL?=
+ =?utf-8?B?Y2RBMzNyZm1hV3hVV1ZPTmplbEl4Ni9Wa1JTTGFvUUhaNlViaXB6eTBvMzhQ?=
+ =?utf-8?B?ZmNtMHVnK0FGVXpSUnZBNG92UnVHNWZIbUU1bUtiZ05wRDQyMGN2Y2JLRTd0?=
+ =?utf-8?B?NjlzNE9hYU14ZTlLNTM4VVBBZWRueVk1VDg4VHF4dC9McE5XZy9FVVdvYWd3?=
+ =?utf-8?B?M0xQYitTZTlpcW4xTWhHTXltN2VjNXZiN0JVMkR3MEZGOEg3ODZ3V2Q0cldU?=
+ =?utf-8?B?dmp0d2UwOTFnVUk0LzBVQXgrcUVSVktqRXcxUHhDaTVlc0M3dkYxaWJxTkRJ?=
+ =?utf-8?B?Z3U0b1ZxbVc1MTl4Z1NDUkc0c2dqQzlOTGczaGxkVlRzWUJVUzd0M2dOU2lZ?=
+ =?utf-8?B?ZUpReWtPVlZ2cW9MUzhYVFJNVWpmWDgwRU9HNXRzQUYrWjNNeUYvSFByWnBX?=
+ =?utf-8?B?UGsvYTNQaTRCbjFCamRqSG9BM0ROMnFFQWxIbFZUKzlENGZ1d0FjdnRwZTFl?=
+ =?utf-8?B?aEdUSnBnT3oxOC9EVjFNSjZudGRueU9IcE5rM1hkZlJNTUNWMnlsQXl5SnRK?=
+ =?utf-8?B?eWdwTXJFTzd6Myt6eFVjVWtnaWF0RjA1N1BoTm1GQy9pUExQbldNeU83U1NU?=
+ =?utf-8?B?akV1SHg1NlM0aFV0WUxGVmQrSTJLd0Q3ZU8wdG81TTE2ak5QdC80OGdhNW1V?=
+ =?utf-8?B?NW92QmNROWZveDJEcTNBMnpGdExRU0kwM01meEVMMlBiYTk4VEd3NEpyd2xO?=
+ =?utf-8?B?T3hXRzgzOUdYZVU2aGQwL0p3NHRTWEM1STBueEZqRS9BSUZ3NFNXK1ZwVDhh?=
+ =?utf-8?B?UVNqRnRxRGFQTy8vb2ZoK3VZZHY0QlNPVDg5VDgrNXRQdzZESWhIRm4zazRM?=
+ =?utf-8?B?ZmdYTkJEbkx6eEtWVy9wbzU5Y2JuQ0ZrMlh1Qk92emtaMnV5QVMvaEs5d3BL?=
+ =?utf-8?B?TWFnVkNsOUYrbjk4bHRySTlYVWFKbG9zSHpUbTJMaVVJb1UrUFJML0FsMjlB?=
+ =?utf-8?B?OUVidUtpZ1lzNktSMkVyOGpLcnJoUUtZUkhmeTZmSFhjSjMwbGZYSTVzU1pC?=
+ =?utf-8?B?bmdjZ0xaWnZSVkRqcFJHQ1lNekpvS1kzblEyaHFBd2l5d3ZlK0Y3MFdwTUs0?=
+ =?utf-8?B?Sy9OblpIU2RlbkRHL0lWb0pmU3dOcG10TEpuVTMxU2UyYVlVbEpiQWtkSWcz?=
+ =?utf-8?B?ejhwVmpIZXpPTnVMTlp0Z3JheW5rOFJzZndMNElFZTBFMG9nMTdXZ25kT1BW?=
+ =?utf-8?B?b3RFSm10QjFDeVY0dGErTHY5Y09YUGgxcFh4Q0J0Z3lqRThMckFqajROSnNJ?=
+ =?utf-8?B?TmhQQjdxcytTd09OUTliU3oreFZNdmd5UisxdEsram5PNHpJM1ljSG83enlN?=
+ =?utf-8?B?VGZyb3V0eEZSbHc2SytSUjhIc0hvdDFqMHNELzQvUDFsK2ozMTJlNXYrQXZn?=
+ =?utf-8?B?ZDFkdmZKTjNhdTYyYW9oRmx6LzRIOENFOWVDS2c2MlBSRzU4a1JLZXlPUnVw?=
+ =?utf-8?B?dlMvNVFlMjhJM0VmdnZPV0VTdVlMczlPTUdnUFhOQjV1ZU1NRy9OeFBhTi8y?=
+ =?utf-8?B?ZmMrUHVuemRBM3NSajc3R1ZBdjNpWUxDQy9KQVRER0ZqNCt4b3BKOWR0VG5l?=
+ =?utf-8?B?SVJsZ3d6eHgrWVVHNjhOWko5d3FhT2ZEVkZnalRUMFJVNU1GeVkzSHRaekx1?=
+ =?utf-8?B?ZUNnbTZZdjdJWnZTR01EelNqK3pObm5hbVl1QW9GZENZSWVONEtZMXJhcWhK?=
+ =?utf-8?B?aFRUU1RCUFFPNis3VllsMmFiakJSbXRMUGtwM0lFdnZDakdjN2FSVm1KVXdv?=
+ =?utf-8?B?MExzVFB6WEtWYURzNjlpYXg1WVRuQVhJU3pYaE9oRERGbXZKVTA5cHh2WHF4?=
+ =?utf-8?B?V1ZieHlrOVJ1eXUrMDRWSjdWT1R5TCtiT3hadXAwbDVEWXc9PQ==?=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR04MB7046.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(376014)(7416014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?Z1hrc3hTTXNyKzhPVy9Ub3l1bkZ6LzhyK2ZLeDVtR3hUZStQRlZkSzRtZE9x?=
- =?utf-8?B?em1pOHRyTkNRdzZXK1EzL0dlTysxa3MxdHZjeUxuQlMxYjdjY0NZMERJOGJr?=
- =?utf-8?B?Tld3eXROM0NveEhGS0kyUWJTbjJ5Mm9WQmNJcGJucTJuK3BaamNYWDg0WWpw?=
- =?utf-8?B?L3pVM2FySUFpcnlsak5yTmV1ZGhYTU8vdURLZ0Vlb1ZQWnF4TjRNVEVTZXFl?=
- =?utf-8?B?aUVoME1NMGlOYzVGbzUySmZ5U1AvR1ZrYVVaUFJDUlpLYktKM01lKzFja20x?=
- =?utf-8?B?Yi9vdTYwVkxDMDMzSXU5cmI0VUtxSlpKcnlMenVKbStVR3Y1dllzajlsSWwy?=
- =?utf-8?B?cnNFNXFGWDcwZ3hKVkRQMUtaTjlyWTBOaStxM2trVDZoV0ZCTUwrUFZkUmZo?=
- =?utf-8?B?UCszZHpVNFJseGc4ZWdiTTZvY1JlZytuNVNrSFZGZkxvSEJ5aHBhYWhNa090?=
- =?utf-8?B?bVdHYjAxWnk4TFB3eGZUYkNSdmJTVWVPVllXaG9tK2Z2MzUwK1B6M2RDWVZY?=
- =?utf-8?B?R3JWeUl3SzQwN0VVVkt2bmRJMFFYRG43UkNraUxpdTdKSzNTdGIzaWJlY1ZC?=
- =?utf-8?B?d3RQZEJQTVFPZDhnNStMS0pZVzVwRXFtMmpmcFpjc1RyendKOS9lL3A5VEFl?=
- =?utf-8?B?QkZ4UWZhaVR3MDFteWNNSStMVTZ4SG9peUx3Wi9kaEcraVZhZXEvRlRWZ1RH?=
- =?utf-8?B?azlFR1hCUUNwSkNGd3NtY1hMZVptamtmVEZqd01aUksrZlUwU1NEczVQeHBS?=
- =?utf-8?B?ckFNVVhDc2Z2d0RWMXpScFA1TllOM2RzYTc1UHNpT1lqWmJxTUFWQkVyTER4?=
- =?utf-8?B?SmN2WUZXK3Bsa1oyTmwzQXBXdEI0c1NTK0tnUFV1Zmt5SkJpWWN0Tk9uYkx2?=
- =?utf-8?B?NjZ2ZjJnTXAvS3NJUy9keEoxcUpQUzNhd0x3MU9nbzJ5WkdMZWZZQ2xseGZz?=
- =?utf-8?B?WW1nbkkxU3o2OUp3ME82bDJvNkR6ZDdmNXZ3K0taZUcxekptS0VpdU5hNGps?=
- =?utf-8?B?bkNtajFOcmtnZjF4Ri9iakMrQXliZVk2eDh4Y0N4bjFjbjZSVWVON0hoMCtK?=
- =?utf-8?B?RkRRTXI3NGZ6TllGQXpHeGxCYTZpUXdTSG9MdTg3QWs3RWNGM0xrOHZadzVw?=
- =?utf-8?B?Y1A5QnIxc0tKYkhNSWZZUk40TkdVWGdUM2M2ak5aL3ZLT0EwRzNSL2N5Lzdy?=
- =?utf-8?B?WTJDa3UwQmZlVlp1VlNyckJJbTgyelJwbHhmTktRcVpPSDNNeVplWjZ0c3FC?=
- =?utf-8?B?MEw5M1Y3bDhkSHVYTjZleDY3TlBzaDA1K3VzU2Z5ZEU4SVQzVnJnTUNrRllp?=
- =?utf-8?B?TlA0TW9NSlFSVnFrMUdLTXZaZHN1VnpLR2NHQUcxeGk1WHc5ZGVpRjMrMWo1?=
- =?utf-8?B?WUk2eU0rNTlOK2dsNkVZaDhBc2Yxcnk5VTBuM0N5ZG1ySFR5dVk1MXM0dE1j?=
- =?utf-8?B?SjZHTVZCNWR1bjBoQ1JLbUJuTkFONDRpMG9ZM1RZY0dRYVJsSnB5SlVQNGd6?=
- =?utf-8?B?OWd4NTJzdFNFWW45cDdyS2tiS2ZqdUpGaVpDZ2JvOU9GK0lFQzBJVFJJdVRX?=
- =?utf-8?B?VUNkOXl2MEdpWU1mcGRrSmxOR2MzUlNxWWZ4SUhzZ1o3VzNVR0RtUVlWc2wx?=
- =?utf-8?B?b0lZdVFIWFR6R3YwdEczdGtWcUNsTlh5ZTJSd3d1UUxZSUIyMEE5bW4yNCti?=
- =?utf-8?B?bFhUMGY2V3cvclgzYnBXNTR3SEQzRXljL05PSlpaWVFhbnBMalBaSm53dU4x?=
- =?utf-8?B?ejdzcjQwdlJST3JLMzBCSEhJV0pxdHI1bnd2bVBtSVNpajNGeGFMQ0d3YjZJ?=
- =?utf-8?B?WWN3UWdhOGhCQUtsTGllaC9oUHJ5SXRJZE1jRG90aTdLTlBWa01rVGpuOWZM?=
- =?utf-8?B?ZEJjUGJLTWVjcy9RY3RQejc2UUcwZm8zc1N0NVhBWVgvb2pQbDJqS2RJS0tN?=
- =?utf-8?B?RmlzdWpYeFZ4TkNtU0V2VmlJU3g4N1VuQmFra3pUMmVFQ2p3Myt5ekdSalQ2?=
- =?utf-8?B?cDB5VE5hUURKOWdDNkdCMjJFbHhVY05JVHRaRDZ6TkdILzREZVlQNFhicDls?=
- =?utf-8?B?d2NYR3ZsTWRGWkRYNm94RXZmRjRMV0laakg4R1RzVVRTYVFaMXU3aVlhazJG?=
- =?utf-8?Q?ORXEXfpU5pRDn9Lay0eXnk6uc?=
+ =?utf-8?B?d0FRTVNLNmdPeW1hN3NIRFNMUXhLVlhSdGk5VUhRTkIxUzRQMEFybE4vSDFt?=
+ =?utf-8?B?V0xjdUNUT0NIZXNRT0xrd1ZMdUVTbFVCVFpCSkVPUFBUY0FKRWlOVDJPeEhK?=
+ =?utf-8?B?R1dQc1B1NUJmR0l0dlhIaWtnQmkxdVZlSjdQcGFoLzZoc2lYNFNrQld1VG1s?=
+ =?utf-8?B?d2hSOW9jNXhQOVR6TTNKR2ErejEzbDFBeWFHZnRUczlpdmtIRlRRaFUxdWhN?=
+ =?utf-8?B?RXpKTWg1RDFEWDdYNCtKVEVNYzhLZTE2V2VwemQ2K2VQa3JwQnNSNVJxdndI?=
+ =?utf-8?B?TDgyamcrSnNUc0FqdzExMElxY3JPb0J0VkwzQUdLdUJUV2YyeFJPVm9UUXBi?=
+ =?utf-8?B?WU8rekxyNXIybStKdE9BMVdyL1dMSk9WV055aUFORTlQa2JuckFNNlY5eVVz?=
+ =?utf-8?B?eVh4ckVGbXlNZmJsTmkwL0ZTWUVXd0lYRlZpbVFEbUJzdEtsdnkxTWppaWkx?=
+ =?utf-8?B?SEV5bVBmN0RubGwyaHd6YXBlSmVFV0czK3A0SFRycWlwa20xYk1FcVRBSXln?=
+ =?utf-8?B?SzdIMlRVanJGcTlyME9tekZwUEdBaE9RSGNKWjVwZmFOK3hPVjV6SzB3amxE?=
+ =?utf-8?B?bXl5cmJvbUJFZjRYb2VaUGtadHVxemV1YndWQmlJWlR0OGlEQlhxak9iQXZ6?=
+ =?utf-8?B?V0lCZ2t2NUltMHU3UFFidTFvQXdtTVhoQkpwTnpnbDVaYjhsTTZPQ21zMGVV?=
+ =?utf-8?B?THlLUGdXRjJHclkyRy85blMwZktKTmZyMElxZTVtZnhJZE1IVFZ6bU84d2J6?=
+ =?utf-8?B?U1VlbDFiUm1xUDdscld5Vk9CRmgzWXhJeGJTajVmMGxHUWpvd2tNNmZlYmZ3?=
+ =?utf-8?B?UDZzNlJoNUlwdTVadUlwTTZMQUViSE9Ucm9ZMnpFaVFUT0R2ZEd0STRvcjFI?=
+ =?utf-8?B?NnMrZ3lNVXIwald1SXVGU2EzcEpkclRUSTdzTGw4WUpMMkVVY2l2NndMQ1pQ?=
+ =?utf-8?B?bGN6emNabHNOWWpTeUV3SzZwcVB6Q3J6M1VTUjYyQzBzWlhuZkxtaFcyTmQ2?=
+ =?utf-8?B?QW1yTm0xcDU0OEJPajk0Y3Q3blhyZTk3MzBJbW1qanA2VjkrTngzN28yb0RD?=
+ =?utf-8?B?c0lqU2c2dlJHTU5waEJWM3E0U3V2bjRtellMT3Z0NjNhRndVOVU0Z0VsUDRI?=
+ =?utf-8?B?YzZockpIWW56QXdNYlpIbXhxQ3QwZjhwdW94Q0RMOTRmdGdweXBIR280QndQ?=
+ =?utf-8?B?eWxydkZabm82QXJWTTcvMUplS2pFSStmU0x6T2pKN29FWVRkdlc3ckJUK1Q2?=
+ =?utf-8?B?cno2NE52VzA3UW9PNk9Ba2JxNE8yUEViSjhLL2xabDk0Z1A3a2JtbjdFQlBO?=
+ =?utf-8?B?Wkd2bFR2eHhHUE8wSVJRTXJIQjNaQmVVaFZJbm0wQnltWVkzN2FqdmxMQ0Y0?=
+ =?utf-8?B?WVppYnpPK0wxWE8wZkw4REVjNWc3d0hpc0FvdEJESmVVWWNYL01rZGJoMW1a?=
+ =?utf-8?B?bG9oRFdHeTBKR2grQUpPOStJb1NMa1NDT3RXTmx2NWx5R0NndTdoUkRDdm9r?=
+ =?utf-8?B?R1VPb3hRbE1mLytTT3VjL0NFeDBWNVJWWWVrdmRPSytXZ080aHlmSWJsSEhE?=
+ =?utf-8?B?eW5La3M1aEdRcnpFaklmNEJuMllzQlVTdnl6WlNHejBKMDVTNzkzUVpmQTFy?=
+ =?utf-8?B?RWJPdHhBVkpWNThmSE5KSGIxQjlzOWdmUS9wejhSZ1h3T0lXVjlZR2ppQVE2?=
+ =?utf-8?B?RmtGbkNBRnVyMjQyeVViblYvbVRUZlhTRGdGWlJtQ3dlOWdQSFQyakJMc2ZZ?=
+ =?utf-8?B?My9PMW9MbDBoSTJ3WlFLUzJ2Ykd3TWZOaHpoWDEvYVVCZmk3ZEsxV0Nna1dC?=
+ =?utf-8?B?UHBPbWRlazU3cXZWUGQwdm9xS3p0U0p2emJoaGcySmRaU0Y5Ump0S2dsMHFV?=
+ =?utf-8?B?SWNnZmJxUHd5cExQRjYzRUpYNmF6ZHAyallnMDFqWUgxNUJIVXNSaExFbEVk?=
+ =?utf-8?B?M3oxU3d2U1VFUUREVTlBb0J3UU1pbDZ3M2hHRFMwL0lFTEMraWZDNVpRVStm?=
+ =?utf-8?B?WTF1cGwwbDFiMFE1QmFHbHRib1NNTEtidUhVZ0lvNmJSMEg5R3VIc0JDdVpT?=
+ =?utf-8?B?ZUZtc0FyYXVGRStDcGdOYTcvTitsNzdBV2o1YXBwN3o3WEZrN2c3YU9wd1ZW?=
+ =?utf-8?Q?5Cag1YM7c0TZyQmFHTeXGeJdB?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1ca7cf6-6d93-4b80-e05d-08ddd4b5d5ff
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9a6f422-fb52-4481-5132-08ddd4be4aff
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2025 06:52:40.8176
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2025 07:53:12.6970
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CHNYW6JFkybwGLjlveh1zY1jCHaqvxMXMjyrTQHzf8MSiSbCz8Qc6fpdmxTD5rWHpTOCVhlQC5WwnbCiEkmqgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7065
+X-MS-Exchange-CrossTenant-UserPrincipalName: YX1/xmvHVJ0SWQ3T6iKCW+Jq2qjKssUqWRMu5AtFmGqIe2tF7SEJvyXuDPtHqHi2soeN5GvKfuep1g6F99xuhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSMPR04MB11294
 
 On 08/06/2025, Shengjiu Wang wrote:
 > On Tue, Aug 5, 2025 at 4:55 PM Liu Ying <victor.liu@nxp.com> wrote:
@@ -179,229 +178,35 @@ On 08/06/2025, Shengjiu Wang wrote:
 
 [...]
 
->>> +static int imx8mp_hdmi_pai_bind(struct device *dev, struct device *master, void *data)
->>> +{
->>> +     struct dw_hdmi_plat_data *plat_data = (struct dw_hdmi_plat_data *)data;
->>> +     struct imx8mp_hdmi_pai *hdmi_pai;
->>> +
->>> +     hdmi_pai = dev_get_drvdata(dev);
->>> +
->>> +     plat_data->enable_audio = imx8mp_hdmi_pai_enable;
->>> +     plat_data->disable_audio = imx8mp_hdmi_pai_disable;
->>> +     plat_data->priv_audio = hdmi_pai;
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +static void imx8mp_hdmi_pai_unbind(struct device *dev, struct device *master, void *data)
->>> +{
->>> +     struct dw_hdmi_plat_data *plat_data = (struct dw_hdmi_plat_data *)data;
->>> +
->>> +     plat_data->enable_audio = NULL;
->>> +     plat_data->disable_audio = NULL;
->>> +     plat_data->priv_audio = NULL;
+>>> +#define HTX_PAI_STAT                 0x0c
+>>> +#define HTX_PAI_IRQ_NOMASK           0x10
+>>> +#define HTX_PAI_IRQ_MASKED           0x14
+>>> +#define HTX_PAI_IRQ_MASK             0x18
 >>
->> Do you really need to set these ptrs to NULL?
+>> The above 4 registers are not pratically used.  Drop.
 > 
-> yes.  below code in dw-hdmi.c use the pdata->enable_audio as condition.
+> They are used by regmap to make a full definition.
 
-Note that this is all about tearing down components.
-If this is done properly as the below snippet of pseudo-code, then
-hdmi->{enable,disable}_audio() and pdata->{enable,disable}_audio() won't be
-called after audio device is removed by dw_hdmi_remove().  So, it's unnecessary
-to set these pointers to NULL here.
-
-imx8mp_dw_hdmi_unbind()
-{
-   dw_hdmi_remove(); // platform_device_unregister(hdmi->audio);
-   component_unbind_all(); //imx8mp_hdmi_pai_unbind()
-}
-
-BTW, I suggest the below snippet[1] to bind components.
-
-imx8mp_dw_hdmi_bind()
-{
-   component_bind_all(); // imx8mp_hdmi_pai_bind()
-                         //   set pdata->{enable,disable}_audio
-   dw_hdmi_probe(); // hdmi->audio = platform_device_register_full(&pdevinfo);
-}
-
-> 
->         if (pdata->enable_audio)
->                 pdata->enable_audio(hdmi,
->                                     hdmi->channels,
->                                     hdmi->sample_width,
->                                     hdmi->sample_rate,
->                                     hdmi->sample_non_pcm,
->                                     hdmi->sample_iec958);
-> 
-> 
->>
+Yes, but they are not pratically used for interrupt support.
+Once you add interrupt support in this driver, you may add these registers.
 
 [...]
 
->>> +     return component_add(dev, &imx8mp_hdmi_pai_ops);
+>>> +             /* PCM choose 24bit*/
+>>> +             val = FIELD_PREP(D_SEL, width - 24);
 >>
->> Imagine that users could enable this driver without enabling imx8mp-hdmi-tx
->> driver, you may add the component in this probe() callback only and move all
->> the other stuff to bind() callback to avoid unnecessary things being done here.
+>> Why 'width - 24'?  Can it be expressed by a helper or macro?
 > 
-> component helper functions don't have such dependency that the aggregate
-> driver or component driver must be probed or not.  if imx8mp-hdmi-tx is not
-> enabled, there is no problem, just the bind() callback is not called.
+>                 /*
+>                  * The allowed width are 24bit and 32bit, as they are
+> supported by
+>                  * aud2htx module.
+>                  * for 24bit, D_SEL = 0, select all the bits.
+>                  * for 32bit, D_SEL = 8, select the MSB.
+>                  */
+> will add such comments.
 
-I meant I'd write imx8mp_hdmi_pai_probe() as below snippet and do all the
-other stuff in imx8mp_hdmi_pai_bind().  This ensures minimum things are done
-in imx8mp_hdmi_pai_probe() if imx8mp-hdmi-tx doesn't probe.
-
-static int imx8mp_hdmi_pai_probe(struct platform_device *pdev)
-{
-        return component_add(&pdev->dev, &imx8mp_hdmi_pai_ops);
-}
-
-> 
->>
->>> +}
->>> +
->>> +static void imx8mp_hdmi_pai_remove(struct platform_device *pdev)
->>> +{
->>> +     component_del(&pdev->dev, &imx8mp_hdmi_pai_ops);
->>> +}
->>> +
->>> +static const struct of_device_id imx8mp_hdmi_pai_of_table[] = {
->>> +     { .compatible = "fsl,imx8mp-hdmi-pai" },
->>> +     { /* Sentinel */ }
->>> +};
->>> +MODULE_DEVICE_TABLE(of, imx8mp_hdmi_pai_of_table);
->>> +
->>> +static struct platform_driver imx8mp_hdmi_pai_platform_driver = {
->>> +     .probe          = imx8mp_hdmi_pai_probe,
->>> +     .remove         = imx8mp_hdmi_pai_remove,
->>> +     .driver         = {
->>> +             .name   = "imx8mp-hdmi-pai",
->>> +             .of_match_table = imx8mp_hdmi_pai_of_table,
->>> +     },
->>> +};
->>> +module_platform_driver(imx8mp_hdmi_pai_platform_driver);
->>> +
->>> +MODULE_DESCRIPTION("i.MX8MP HDMI PAI driver");
->>> +MODULE_LICENSE("GPL");
->>> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
->>> index 1e7a789ec289..ee08084d2394 100644
->>> --- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
->>> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
->>> @@ -5,11 +5,13 @@
->>>   */
->>>
->>>  #include <linux/clk.h>
->>> +#include <linux/component.h>
->>>  #include <linux/mod_devicetable.h>
->>>  #include <linux/module.h>
->>>  #include <linux/platform_device.h>
->>>  #include <drm/bridge/dw_hdmi.h>
->>>  #include <drm/drm_modes.h>
->>> +#include <drm/drm_of.h>
->>>
->>>  struct imx8mp_hdmi {
->>>       struct dw_hdmi_plat_data plat_data;
->>> @@ -79,11 +81,46 @@ static const struct dw_hdmi_phy_ops imx8mp_hdmi_phy_ops = {
->>>       .update_hpd     = dw_hdmi_phy_update_hpd,
->>>  };
->>>
->>> +static int imx8mp_dw_hdmi_bind(struct device *dev)
->>> +{
->>> +     struct dw_hdmi_plat_data *plat_data;
->>> +     struct imx8mp_hdmi *hdmi;
->>> +     int ret;
->>> +
->>> +     hdmi = dev_get_drvdata(dev);
->>> +     plat_data = &hdmi->plat_data;
->>> +
->>> +     ret = component_bind_all(dev, plat_data);
->>> +     if (ret)
->>> +             return dev_err_probe(dev, ret, "component_bind_all failed!\n");
->>
->> As component_bind_all() would bind imx8mp-hdmi-pai and hence set
->> {enable,disable}_audio callbacks, you need to call dw_hdmi_probe() after
->> component_bind_all() instead of too early in probe() callback.
-> 
-> There is no such dependency.
-> Maybe you mixed the hdmi->enable_audio() with pdata->enable_audio().
-
-As the above snippet[1] shows, once dw_hdmi_probe() registers audio device,
-the audio device could be functional soon after audio driver probes, hence
-hdmi->enable_audio() would be called and hence pdata->enable_audio() would
-be called. So, you need to set pdata->enable_audio() before dw_hdmi_probe()
-is called, otherwise pdata->enable_audio could be NULL when is called by
-audio driver.
-
-[...]
-
->>> +     remote = of_graph_get_remote_node(pdev->dev.of_node, 2, 0);
->>> +     if (remote && of_device_is_available(remote)) {
->>
->> Doesn't of_graph_get_remote_node() ensure that remote is avaiable?
-> 
-> No.  'remote' is the node,  not the 'device'.
-
-See of_device_is_available() is called by of_graph_get_remote_node():
-
-struct device_node *of_graph_get_remote_node(const struct device_node *node,     
-                                             u32 port, u32 endpoint)             
-{                                                                                
-        struct device_node *endpoint_node, *remote;                              
-                                                                                 
-        endpoint_node = of_graph_get_endpoint_by_regs(node, port, endpoint);     
-        if (!endpoint_node) {                                                    
-                pr_debug("no valid endpoint (%d, %d) for node %pOF\n",           
-                         port, endpoint, node);                                  
-                return NULL;                                                     
-        }                                                                        
-                                                                                 
-        remote = of_graph_get_remote_port_parent(endpoint_node);                 
-        of_node_put(endpoint_node);                                              
-        if (!remote) {                                                           
-                pr_debug("no valid remote node\n");                              
-                return NULL;                                                     
-        }                                                                        
-                                                                                 
-        if (!of_device_is_available(remote)) {                                   
-             ^~~~~~~~~~~~~~~~~~~~~~
-                pr_debug("not available for remote node\n");                     
-                of_node_put(remote);                                             
-                return NULL;                                                     
-        }                                                                        
-                                                                                 
-        return remote;                                                           
-}                                                                                
-EXPORT_SYMBOL(of_graph_get_remote_node);      
-
-> 
->>
->>> +             drm_of_component_match_add(dev, &match, component_compare_of, remote);
->>> +
->>> +             of_node_put(remote);
->>> +
->>> +             ret = component_master_add_with_match(dev, &imx8mp_dw_hdmi_ops, match);
->>> +             if (ret)
->>> +                     dev_warn(dev, "Unable to register aggregate driver\n");
->>> +             /*
->>> +              * This audio function is optional for avoid blocking display.
->>> +              * So just print warning message and no error is returned.
->>
->> No, since PAI node is available here, it has to be bound.  Yet you still need
->> to properly handle the case where PAI node is inavailable.
-> 
-> This is for aggregate driver registration,  not for bind()
-> 
-> The bind() is called after both drivers have been registered.  again there is no
-> dependency for both aggregate driver and component driver should be
-> registered or probed.
-
-Sorry for not being clear about my previous wording.  I meant since PAI node is
-available here, component_master_add_with_match() must be called to register
-the master and if it fails to register it, imx8mp_dw_hdmi_probe() should return
-proper error code, not 0.
+Fine for me(Not an audio guy though).
 
 -- 
 Regards,
