@@ -1,59 +1,59 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF001F0E26;
-	Wed,  6 Aug 2025 05:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A11A1C01;
+	Wed,  6 Aug 2025 06:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754458960; cv=none; b=BVDof2I9pi0LBP7bIlFuHZQuxXz3HkzMIycOPa6fTX9iTd0x8nue4jbGvVHzeqD1EqEUq/Q3KkvXQgyeBJHprssSs62c0prskGDQxAqDhPIdERGpG7Muamx6Qu85rF7IcAoiE5B2fH831dIyATbAtKPm2q9e+nNGcq2Hgr+q51c=
+	t=1754460028; cv=none; b=tEpodSMV+yPzwNnq2l0T82p0i9Qp8WR2VB7PG5+rHENpHFEHA/5XMMPq8Ox9cL2JsbuFs73whiQTVLzaIPZRyL6PyySafK+nJEk1VtV47de8/eaCWq95jKUOEHHcDGjltxX83TZpd2YQ4QeQV6H0k18rWHbM29nZipWvQM/shjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754458960; c=relaxed/simple;
-	bh=XEFDjwxyGn7GRK2szJGynViSzaqmC6nMvkN1KXCrqjw=;
+	s=arc-20240116; t=1754460028; c=relaxed/simple;
+	bh=TyxJGKUYLvDm7A+CsbW7a2gkxaF33iKAsGeXuyBY7/E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hT4NkIpT5+BhdqpLBv/cedTKS0pqGbSOpKipoSI9bO/fIsICjqGFXN6wN95+glMxFgvNulmgRyIxPSvHbaYM9hQYzVyf8DVojuPl5U+NBnaR2hVqxGdTeMI1ieo5b1qdhWN5VvjwhJ4Hp+EJ2Z+2+u+457GI1JZMj7NKCfwLy2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DFBoqon3; arc=none smtp.client-ip=209.85.166.41
+	 To:Cc:Content-Type; b=LW0/z1xbQyz4dyc8rT4BTHH4CvNDzEo3S3YUtsk9i4QmuANWLAzMpHaBaTkTWEoQOgmnwi+Y6hOQxBtV66U9bOGidKAh9gOGy8d+XUy/q3GcUIHBGuSK7Gu7rr3T08CviGaaUM4D3BKA5yOrU271T/cZmI+2kEM+gXSGyZXRHbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2y+cQWX; arc=none smtp.client-ip=209.85.166.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DFBoqon3"
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-86cdb330b48so428326639f.0;
-        Tue, 05 Aug 2025 22:42:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2y+cQWX"
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-87999c368e9so455258539f.0;
+        Tue, 05 Aug 2025 23:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754458956; x=1755063756; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1754460025; x=1755064825; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QHauIS8VslQcBTCDTTdkK4LmnH1Wk0DYHNjYnbBqri4=;
-        b=DFBoqon3YkkZ0dpUw1hUNTad3HOeyT1VVEnfZXvGPagj/mjPicI/tsRd8sGygOYrO7
-         NmxVprTLycY9FHKmlZ4XfHayceclKipmjzmD6t+BmSxPC8qHXf/jkSH7leGBpv2YvNxh
-         9b5IcK2cY47J1LKH8ZjESD4PvHh4Pk4AlF5i+I+BeIAZrdVsOrAIgl9ttCj6bbo3F/H0
-         vvLJhFdiAcKQdGxrAAFQ8v3FoC8PAbYQCFeO3lPh1PLAoPvEpNkNHXSGeLsDtC8++6Uy
-         DST+kFFiwOyvZeUcX2r4r4nzuwXxxIOioH0jFEh5jTMRZt96h/BJpyfaruaSX+qRgslv
-         dHfA==
+        bh=7LOjQGBKez5S1iGyBaU0i1tLauar5otkV86mmIjmqK0=;
+        b=c2y+cQWXTrE4ss4Y9Zirtt57cpmWly4DaL7qpf05O9b80yeEGWXxUx4bywG/rbkbTj
+         fP4Enl/FA5LSiQcMSSZKSpzZvmNGoSLTf4TWtg98g/iePh80aQTw+jjlkAjlv03wB7MX
+         hwozHcm7Q0a/91RejyTMH2MGU1CRz0a22DVepSV8a87BuspnbR0EcvEguzweo8PEtfBC
+         G2C9I7bwkU3cVJMd/jdG/4BGnYqgu+L5ciXsdVv5ZZt8vqkZ/5OJVj+LeOYCekEQQl4b
+         NrvuZxvUOP/u5bmn8njK14WBqf9/4u1JgFGqnSxW+koXOBhHbKjSwElDyYbN+IV85Qh4
+         +LBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754458956; x=1755063756;
+        d=1e100.net; s=20230601; t=1754460025; x=1755064825;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QHauIS8VslQcBTCDTTdkK4LmnH1Wk0DYHNjYnbBqri4=;
-        b=AINLYES3VcO+Iv5iotFwwZ1F117ZzsUd1VseuskiC2ABBWeeSbjF35PZwjhEQD/S6l
-         ByBtMk87xX1tS9lkb2mzzPNzSOObgnrioB9dPD8ZlhrkZlmQq/4Edg7AXwODQcQ/GfIm
-         fnTmgS+GLeksNAcSrzRpy09D3FdOvxdonheaN/kq1iFD9yentuJ/7YbvGjFWSkNLmk/B
-         6TzbP1VZs81DpT7jn7+yK/vknYx8OVXk4RAzt0lnLvyr0QHBk8qudytpIpI4XmEyUBof
-         9r9r2zE9J6H/dcC+vPVYB2pQ+OilmxFsvBM0s5jTi4pzEQP+HYokQaiTYzRwciqyLYLX
-         TIdg==
-X-Forwarded-Encrypted: i=1; AJvYcCVSFl340QKhU43+v7VgU1mVSJITOHu5WCB1gciCLeoh2xGblR7LyMhgyOjx1OYkwJWN8pVRh8D1UR76ZlJN@vger.kernel.org, AJvYcCVy6DymoUJEo1afOWCYdZS0qmwGVhZubqgXfltKrehvRj86/7x0Ia8cMLBVFCeP9aa0KPrnyQUe0CXJ@vger.kernel.org, AJvYcCXz2b+41dFL4zaKPAangVScXMA4xelFQehM60azE1saUbcrXYSBN1VN1Y6TKzzDcJpaQkq5pUEr9u4mmuM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY+sX3DPzblBeGEuRJy3djAvWhpq6BDSUytXMq/BEUFDBLwn+y
-	dG2bEjoIHPW/mef79Kul/zB2l4aYKrfxTNXOaLKlbA3dQuX9xdFAvBriZOau3oRrDgjHjDufeF8
-	S2hSa6N67/6bVG0xNB/yxsHXPpboTBqw=
-X-Gm-Gg: ASbGnctvGe/XdImFCp1qb75GTp05Gi/sd4VcDO3/NLRmS8+f8Rn2IZeRr6by7Su5uzK
-	ajrhIfG7d6X4yChFw6SHChEbs1vL2Gl9JHrtWaR13uN6qOcVd+zO28eQAJJM2/cJnICNjY1o8oC
-	O64ZSmgFF0WHQ7+UKoWl6FUzYfXZMNKxmANrGNnvxWI1VJ96ANg7v0jaiedZ523MyDGLjP0eU8W
-	fkd5x4=
-X-Google-Smtp-Source: AGHT+IECmzK2OYEDadcx1xb2ZQCI3OV3aypgzNJvM+m1QQlytd+LfV9SXOQitTe7El49SPBkrrzfxhGitycgVD/2o3g=
-X-Received: by 2002:a05:6602:3fd3:b0:881:9412:c917 with SMTP id
- ca18e2360f4ac-8819eda4411mr351161239f.0.1754458955859; Tue, 05 Aug 2025
- 22:42:35 -0700 (PDT)
+        bh=7LOjQGBKez5S1iGyBaU0i1tLauar5otkV86mmIjmqK0=;
+        b=B3WceDXmbxvQYVD4gzJpifK+Q/aBwQey8Oqh0k5ndow4znJrIyLfzj2DCBMwWFqF8D
+         ZQlnLJ8QY9jv6GpLXEdsOnWcbgmx+4pWzRDcq9AK3wKDRbx8IwDSNC9dCbhR8FbTeGya
+         VxMNYu12yXHEkP17wLK/Z+eu3U3FCVKf7HUZUMbwICDmruhHhrOT8YmBj8y96WGDe3PO
+         1plbrozZ+vx1Gk0oDRYgWRmSCmcYIEPYAB7FoWytA0yMJQ5yb11moS24RLhkTVd4hiwA
+         R1ifB+bYMWv/fvawSnspYIgC26MhtTQJ0SLhXvHrolPnJPotRfRaMEtua/urXk6n2+gs
+         oJkA==
+X-Forwarded-Encrypted: i=1; AJvYcCUXaror54Zkyt4KgqewkqcZ/6zBMCDY9i0MYlvYUJW0t4W1AcjBUmoZTqWfjdGqFDZGjsflV25sc5X8JIor@vger.kernel.org, AJvYcCVzFCAGgLOEI06VtYdcpFtBDTLQtfyKHZnJJdF3UQpvZatF9dK6Xw4riVF794zkEagBOPoYDxmaeZum@vger.kernel.org, AJvYcCWEbbPw2FmIHF6W+abQojWp4EHOlKreGvprnFbHKopg0WNWPZakvYk25D06pGnWVivWfL1hWDFD2PT7bj0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyM/aNaJ7c/er3vfc4/HQkcedWYB+ZC5mLK4pwrdKep+WRDq+Zo
+	qp7jae/sw/kuXkF7P5DsVcIl7ZOpoIEO2YeI4Q7mknJ6oHHOpDTRGy7PaZ2waqZGAAXVHDERa7d
+	yhNoZ8iJK2Ba6gjob+Ot1aIfkNzmrHhQ=
+X-Gm-Gg: ASbGncurIqWWa5yxyEC9G8WndwriuDVYgorEJpf9K6d6TJ1ALx4gseerFDGGl5xtCbR
+	PtLFeZWbNDiYWwrAK8ZNmX3V14r3mAFQG0CseYhXV+7XeNqqOxo5y5ww/073p0qj3q84DBTOC+z
+	Iow94Up+JMAMph+NZ8aKywt2PaPds/zZR4SwgbmyLwloZ5iCjT71aT3KdIbdAGQ8LsKK9spKRpj
+	ff+/WQ=
+X-Google-Smtp-Source: AGHT+IGXTd343+VF/DxWVcdW2rLvvEJ8x/TFUG5Tpo/FEQ7fHX2BzAtVcAbQoY4hyy1ohYC0jFv/9H1yMpGG0tLM+1M=
+X-Received: by 2002:a05:6602:6c14:b0:87c:30d4:65f2 with SMTP id
+ ca18e2360f4ac-8819f2dc2f6mr259724639f.3.1754460025324; Tue, 05 Aug 2025
+ 23:00:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,9 +64,9 @@ References: <20250804104722.601440-1-shengjiu.wang@nxp.com>
  <20250804104722.601440-6-shengjiu.wang@nxp.com> <fa455148-a071-4433-8c9c-26add3872604@nxp.com>
 In-Reply-To: <fa455148-a071-4433-8c9c-26add3872604@nxp.com>
 From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 6 Aug 2025 13:42:16 +0800
-X-Gm-Features: Ac12FXzE8ELOd9wvaEtNxu_4hqBHJ1GNH1m_A1__IZXWyAfic17tlm42XJMvvFE
-Message-ID: <CAA+D8AN4n0H6M_0EqX4z_37ViSCyThKbmtMgqPmipintJ8Wtwg@mail.gmail.com>
+Date: Wed, 6 Aug 2025 14:00:05 +0800
+X-Gm-Features: Ac12FXw0nnoM3OTdXQVUBKMi5kWO9s__PdvorJUHLc_FVvpTTZTj4ms-phKQiNs
+Message-ID: <CAA+D8AN9Ay8jnSS=h3G_Kepc_5WYQRAUrWmtu5N056GsnvGrTA@mail.gmail.com>
 Subject: Re: [PATCH v3 5/6] drm/bridge: imx: add driver for HDMI TX Parallel
  Audio Interface
 To: Liu Ying <victor.liu@nxp.com>
@@ -140,6 +140,10 @@ nd
 >
 > select REGMAP
 > select REGMAP_MMIO
+
+
+will add them.
+
 >
 > > +     help
 > > +       Choose this to enable support for the internal HDMI TX Parallel
@@ -180,6 +184,8 @@ ge/imx/Makefile
 > > +#include <linux/platform_device.h>
 >
 > #include <linux/regmap.h>
+
+ok,
 >
 > > +#include <drm/bridge/dw_hdmi.h>
 > > +#include <sound/asoundef.h>
@@ -194,6 +200,9 @@ ge/imx/Makefile
 >
 > Add NUM_CH(n) and use it when programming HTX_PAI_CTRL_EXT.
 > #define NUM_CH(n)                       FIELD_PREP(NUM_CH_MASK, (n - 1))
+
+Ok, will add it.
+
 >
 > > +#define   WTMK_HIGH(n)                       FIELD_PREP(WTMK_HIGH_MASK=
 , (n))
@@ -206,6 +215,9 @@ ge/imx/Makefile
 > > +#define   END_SEL                    BIT(29)
 >
 > The above 3 bits are unused.  Drop.
+
+Ok.
+
 >
 > > +#define   PRE_SEL                    GENMASK(28, 24)
 > > +#define   D_SEL                              GENMASK(23, 20)
@@ -220,6 +232,9 @@ ge/imx/Makefile
 > > +#define HTX_PAI_IRQ_MASK             0x18
 >
 > The above 4 registers are not pratically used.  Drop.
+
+They are used by regmap to make a full definition.
+
 >
 > > +
 > > +struct imx8mp_hdmi_pai {
@@ -239,6 +254,8 @@ ata->priv_audio;
 >
 > I don't think you need to convert type explicitly.  Same for the other
 > explicit conversions in this driver.
+
+ok, can be removed.
 >
 > > +     int val;
 > > +
@@ -271,6 +288,18 @@ _MASK));
 > > +             val =3D FIELD_PREP(D_SEL, width - 24);
 >
 > Why 'width - 24'?  Can it be expressed by a helper or macro?
+
+                /*
+                 * The allowed width are 24bit and 32bit, as they are
+supported by
+                 * aud2htx module.
+                 * for 24bit, D_SEL =3D 0, select all the bits.
+                 * for 32bit, D_SEL =3D 8, select the MSB.
+                 */
+will add such comments.
+
+best regards
+Shengjiu wang
 >
 > > +     }
 > > +
@@ -318,18 +347,6 @@ master, void *data)
 > > +     plat_data->priv_audio =3D NULL;
 >
 > Do you really need to set these ptrs to NULL?
-
-yes.  below code in dw-hdmi.c use the pdata->enable_audio as condition.
-
-        if (pdata->enable_audio)
-                pdata->enable_audio(hdmi,
-                                    hdmi->channels,
-                                    hdmi->sample_width,
-                                    hdmi->sample_rate,
-                                    hdmi->sample_non_pcm,
-                                    hdmi->sample_iec958);
-
-
 >
 > > +}
 > > +
@@ -414,11 +431,6 @@ tx
 all
 > the other stuff to bind() callback to avoid unnecessary things being done=
  here.
-
-component helper functions don't have such dependency that the aggregate
-driver or component driver must be probed or not.  if imx8mp-hdmi-tx is not
-enabled, there is no problem, just the bind() callback is not called.
-
 >
 > > +}
 > > +
@@ -486,10 +498,6 @@ _ops =3D {
 > As component_bind_all() would bind imx8mp-hdmi-pai and hence set
 > {enable,disable}_audio callbacks, you need to call dw_hdmi_probe() after
 > component_bind_all() instead of too early in probe() callback.
-
-There is no such dependency.
-Maybe you mixed the hdmi->enable_audio() with pdata->enable_audio().
-
 >
 > > +
 > > +     return 0;
@@ -536,9 +544,6 @@ vice *pdev)
 > > +     if (remote && of_device_is_available(remote)) {
 >
 > Doesn't of_graph_get_remote_node() ensure that remote is avaiable?
-
-No.  'remote' is the node,  not the 'device'.
-
 >
 > > +             drm_of_component_match_add(dev, &match, component_compare=
 _of, remote);
@@ -559,17 +564,6 @@ play.
 > No, since PAI node is available here, it has to be bound.  Yet you still =
 need
 > to properly handle the case where PAI node is inavailable.
-
-This is for aggregate driver registration,  not for bind()
-
-The bind() is called after both drivers have been registered.  again there =
-is no
-dependency for both aggregate driver and component driver should be
-registered or probed.
-
-best regards
-shengjiu wang
-
 >
 > > +              */
 > > +     }
