@@ -1,85 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC1C3C01
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE5929B8DB
 	for <linux-sound@vger.kernel.org>; Wed,  6 Aug 2025 19:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754508355; cv=none; b=FUynPNYcoF4Mxxi7GyVITA+Ut6h1LOyxO3bh1lgQVOFYcYNzXbfl8eHGKBo2S0m3ZQXckXkMBeqjdV2EK4hoOiAxKV0/9aiy21Q95CVwsgCOmj8I1BeqZml9X8+zcdIYMV4Txh7yV92yGX6pf9Y6eAKBf0RtgXcFeUIQpwxaQTw=
+	t=1754508355; cv=none; b=VpAJDh85J3G++YZyzetKLqCwnfqbIvc3/ps2R43z6RgNQUHkBHdJHWop1pSj1obiC94W0mpVxf4DVFZr9OgFXBQ7D0z2VxV8vj5a2fx8VnK1vwuzy6X8nlIBahSmZdxZAP8nhSV64oM45ewTFok5aKrQo8sfFVBc36b0Hcict6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754508355; c=relaxed/simple;
-	bh=AfEDC6Ap1iI1vHs1L6VP5ivywfZ1WqarXRI0NZU3tRA=;
+	bh=mIg5aHa9qqqfj9M/hwrgLELmfdAHWxH1xrTklJuDil0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jvGTFCovzRHO/9040EZffZhmWD56l0wxSugM+99xa5KwTeNb6qcfyhhpWa3J4lPHucBQYyWikY4U1hOJF8kkiEc4znEcXbyEOGkRG9rpXp9A7sblzYlGs9vptQowqY4QkMIqVwTRHhA6LSuxD6f1vmyXCANCKDuClVgjQWfmhoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OHMDv40K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w2UrCRuL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OHMDv40K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w2UrCRuL; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=GaCQgUNopQo8U8vqLIj1oCIpczYZgQ4X2a4Dxwvy0okbvWj+3vh8Q+KszTJNNf/nIZLU03Whlc8fIHwriRTwvZe2hcSSRRLPJX3o33C/kJa1MMpXUNMZOIVYyWR3ov783SjKJT+0BEmp0BVrz4lAzL5jQKEu0JcZJW+lyZamqNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pcbtgc1R; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1nR9J10w; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pcbtgc1R; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1nR9J10w; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OHMDv40K";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w2UrCRuL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OHMDv40K";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w2UrCRuL"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pcbtgc1R";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1nR9J10w";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pcbtgc1R";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1nR9J10w"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8DE70207E2;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D8CC122D1B;
 	Wed,  6 Aug 2025 19:25:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1754508345; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cZtlvirmX9WlYR74RGSCnooP1eODGGjr3GYkfPVkNJg=;
-	b=OHMDv40K+4qtUOwgktrFcr9r6+MSn4MUv1T03wgOoGD60aVLdVs2hClgtLlLX25EP9ieZR
-	yVUDXGPfouE/TQNRzEumCQjCU84YKlWBCmMg05M4YOTW0+LbYIXsC7lsN+/17E3qmY86g5
-	/Yo14dOpZ/Ug1mgr0bPtpeBUlgK6xus=
+	bh=6gkDZ/8X3WUpph98ZaLNacc6s2ZuKE7BZZzTooGNUq4=;
+	b=pcbtgc1RGM6QRJlWEES422jPd0/kEOnXlUkgftzPDLIH1kylvSGx/1wxpI1ts7ljILx0nU
+	Ipg2Sz4Xmvu4egjuqq0Sya7LeKuShUe8OFsTcRvKRrrJBvdBIDx1GOYtRfOk5P0rBFxfrn
+	Q2uJoUZ7FYKbnm4XKPuEGr/q55Fw+54=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1754508345;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cZtlvirmX9WlYR74RGSCnooP1eODGGjr3GYkfPVkNJg=;
-	b=w2UrCRuLW8UhC0yJhwHfnwMkDwOE4+cChADu+fPW52Diqld09nDCfN/O/NtzcUob+dIvXT
-	jPgtyFgfxsnScMCQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=6gkDZ/8X3WUpph98ZaLNacc6s2ZuKE7BZZzTooGNUq4=;
+	b=1nR9J10wwgsYzbuMweaoH+DxyW/PcdNoiuZy1eCc3xM26HhvqESF/SzVgfjMgKTjhOqeTs
+	HO3tIe74L8RQBTCQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1754508345; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cZtlvirmX9WlYR74RGSCnooP1eODGGjr3GYkfPVkNJg=;
-	b=OHMDv40K+4qtUOwgktrFcr9r6+MSn4MUv1T03wgOoGD60aVLdVs2hClgtLlLX25EP9ieZR
-	yVUDXGPfouE/TQNRzEumCQjCU84YKlWBCmMg05M4YOTW0+LbYIXsC7lsN+/17E3qmY86g5
-	/Yo14dOpZ/Ug1mgr0bPtpeBUlgK6xus=
+	bh=6gkDZ/8X3WUpph98ZaLNacc6s2ZuKE7BZZzTooGNUq4=;
+	b=pcbtgc1RGM6QRJlWEES422jPd0/kEOnXlUkgftzPDLIH1kylvSGx/1wxpI1ts7ljILx0nU
+	Ipg2Sz4Xmvu4egjuqq0Sya7LeKuShUe8OFsTcRvKRrrJBvdBIDx1GOYtRfOk5P0rBFxfrn
+	Q2uJoUZ7FYKbnm4XKPuEGr/q55Fw+54=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1754508345;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cZtlvirmX9WlYR74RGSCnooP1eODGGjr3GYkfPVkNJg=;
-	b=w2UrCRuLW8UhC0yJhwHfnwMkDwOE4+cChADu+fPW52Diqld09nDCfN/O/NtzcUob+dIvXT
-	jPgtyFgfxsnScMCQ==
+	bh=6gkDZ/8X3WUpph98ZaLNacc6s2ZuKE7BZZzTooGNUq4=;
+	b=1nR9J10wwgsYzbuMweaoH+DxyW/PcdNoiuZy1eCc3xM26HhvqESF/SzVgfjMgKTjhOqeTs
+	HO3tIe74L8RQBTCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 67E5D13AFB;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B77BE13ABE;
 	Wed,  6 Aug 2025 19:25:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eNcuGDmsk2i0WAAAD6G6ig
+	id EOmoKzmsk2i0WAAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 06 Aug 2025 19:25:45 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
 	Hans de Goede <hansg@kernel.org>
-Subject: [PATCH 1/3] ALSA: hda/realtek: Restrict prompt only for CONFIG_EXPERT
-Date: Wed,  6 Aug 2025 21:25:37 +0200
-Message-ID: <20250806192541.21949-2-tiwai@suse.de>
+Subject: [PATCH 3/3] ALSA: hda/cirrus: Restrict prompt only for CONFIG_EXPERT
+Date: Wed,  6 Aug 2025 21:25:39 +0200
+Message-ID: <20250806192541.21949-4-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250806192541.21949-1-tiwai@suse.de>
 References: <20250806192541.21949-1-tiwai@suse.de>
@@ -114,147 +114,84 @@ X-Spam-Flag: NO
 X-Spam-Level: 
 X-Spam-Score: -2.80
 
-The split of Realtek HD-audio codec driver may cause confusions
-especially when migrating from the previous kernel configurations
-because it's hard to know which driver to be enabled.
-Although we've already set default=y for those codec drivers, it may
-still make people changing the stuff unnecessarily without knowing its
-side effect.
+The split of Cirrus HD-audio codec driver may confuse users when
+migrating from the previous kernel configs and leave the needed
+drivers disabled.  Although we've already set y as default, it's still
+safer to paper over the wrong choices.
 
-This patch is for avoiding such pitfalls by marking the prompt of each
-Realtek codec driver with CONFIG_EXPERT.  For "normal" users (that is,
-unless CONFIG_EXPERT is set), all Realtek HD-audio codecs are enabled
-together with CONFIG_SND_HDA_CODEC_REALTEK; this is the very same
-situation like the previous kernels, after all.
+This patch marks the prompt of split CS420x and CS421x codec drivers
+with CONFIG_EXPERT, so that they are all enabled when the top-level
+CONFIG_SND_HDA_CODEC_CIRRUS is set.
 
 For users who really care about the minimalistic configuration, they
 can turn each driver on/off individually after setting
 CONFIG_EXPERT=y.
 
-The patch also adds the missing help text to the top-level
-CONFIG_SND_HDA_CODEC_REALTEK together with the explanation of
-individual choices, too.
+This patch adds the missing help text to the top-level
+CONFIG_SND_HDA_CIRRUS_CODEC together with the explanation of
+individual choices, and corrects the help texts that don't fit well
+nowadays, too.
 
-Fixes: aeeb85f26c3b ("ALSA: hda: Split Realtek HD-audio codec driver")
+Fixes: 1cb8744a36c7 ("ALSA: hda/cirrus: Split to cs420x and cs421x drivers")
 Link: https://lore.kernel.org/10172c80-daec-4e20-ab57-a483cf1afc02@molgen.mpg.de
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/realtek/Kconfig | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ sound/hda/codecs/cirrus/Kconfig | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/sound/hda/codecs/realtek/Kconfig b/sound/hda/codecs/realtek/Kconfig
-index 20899f3fc051..cdc6d9509a01 100644
---- a/sound/hda/codecs/realtek/Kconfig
-+++ b/sound/hda/codecs/realtek/Kconfig
-@@ -2,6 +2,12 @@
+diff --git a/sound/hda/codecs/cirrus/Kconfig b/sound/hda/codecs/cirrus/Kconfig
+index 33cfe52713bc..ec6cbcaf64f0 100644
+--- a/sound/hda/codecs/cirrus/Kconfig
++++ b/sound/hda/codecs/cirrus/Kconfig
+@@ -2,27 +2,31 @@
  
- menuconfig SND_HDA_CODEC_REALTEK
- 	tristate "Realtek HD-audio codec support"
+ menuconfig SND_HDA_CODEC_CIRRUS
+ 	tristate "Cirrus Logic HD-audio codec support"
 +	help
-+	  Say Y or M here to include Realtek HD-audio codec support.
++	  Say Y or M here to include Cirrus Logic HD-audio codec support.
 +
-+	  This will enable all Realtek HD-audio codec drivers as default,
-+	  but you can enable/disable each codec driver individually, too
-+	  (only when CONFIG_EXPERT is set).
++	  This will enable both CS420x and CS421x HD-audio codec drivers
++	  as default, but you can enable/disable each codec driver
++	  individually, too (only when CONFIG_EXPERT is set).
  
- if SND_HDA_CODEC_REALTEK
+ if SND_HDA_CODEC_CIRRUS
  
-@@ -12,7 +18,7 @@ config SND_HDA_CODEC_REALTEK_LIB
- 	select SND_HDA_SCODEC_COMPONENT
- 
- config SND_HDA_CODEC_ALC260
--	tristate "Build Realtek ALC260 HD-audio codec support"
-+	tristate "Build Realtek ALC260 HD-audio codec support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
+ config SND_HDA_CODEC_CS420X
+-	tristate "Build Cirrus Logic CS420x codec support"
++	tristate "Build Cirrus Logic CS420x codec support" if EXPERT
+ 	select SND_HDA_GENERIC
  	default y
-@@ -20,7 +26,7 @@ config SND_HDA_CODEC_ALC260
- 	  Say Y or M here to include Realtek ALC260 HD-audio codec support
+ 	help
+-	  Say Y or M here to include Cirrus Logic CS420x codec support in
+-	  snd-hda-intel driver
++	  Say Y or M here to include Cirrus Logic CS420x codec support
  
- config SND_HDA_CODEC_ALC262
--	tristate "Build Realtek ALC262 HD-audio codec support"
-+	tristate "Build Realtek ALC262 HD-audio codec support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
+ comment "Set to Y if you want auto-loading the codec driver"
+ 	depends on SND_HDA=y && SND_HDA_CODEC_CS420X=m
+ 
+ config SND_HDA_CODEC_CS421X
+-	tristate "Build Cirrus Logic CS421x codec support"
++	tristate "Build Cirrus Logic CS421x codec support" if EXPERT
+ 	select SND_HDA_GENERIC
  	default y
-@@ -28,7 +34,7 @@ config SND_HDA_CODEC_ALC262
- 	  Say Y or M here to include Realtek ALC262 HD-audio codec support
+ 	help
+-	  Say Y or M here to include Cirrus Logic CS421x codec support in
+-	  snd-hda-intel driver
++	  Say Y or M here to include Cirrus Logic CS421x codec support
  
- config SND_HDA_CODEC_ALC268
--	tristate "Build Realtek ALC268 HD-audio codec support"
-+	tristate "Build Realtek ALC268 HD-audio codec support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
- 	default y
-@@ -37,7 +43,7 @@ config SND_HDA_CODEC_ALC268
- 	  codec support
+ comment "Set to Y if you want auto-loading the codec driver"
+ 	depends on SND_HDA=y && SND_HDA_CODEC_CS421X=m
+@@ -31,8 +35,8 @@ config SND_HDA_CODEC_CS8409
+ 	tristate "Build Cirrus Logic HDA bridge support"
+ 	select SND_HDA_GENERIC
+ 	help
+-	  Say Y or M here to include Cirrus Logic HDA bridge support in
+-	  snd-hda-intel driver, such as CS8409.
++	  Say Y or M here to include Cirrus Logic HDA bridge support
++	  such as CS8409.
  
- config SND_HDA_CODEC_ALC269
--	tristate "Build Realtek ALC269 HD-audio codecs support"
-+	tristate "Build Realtek ALC269 HD-audio codecs support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
- 	default y
-@@ -46,7 +52,7 @@ config SND_HDA_CODEC_ALC269
- 	  codec support
- 
- config SND_HDA_CODEC_ALC662
--	tristate "Build Realtek ALC662 HD-audio codecs support"
-+	tristate "Build Realtek ALC662 HD-audio codecs support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
- 	default y
-@@ -55,7 +61,7 @@ config SND_HDA_CODEC_ALC662
- 	  codec support
- 
- config SND_HDA_CODEC_ALC680
--	tristate "Build Realtek ALC680 HD-audio codecs support"
-+	tristate "Build Realtek ALC680 HD-audio codecs support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
- 	default y
-@@ -63,7 +69,7 @@ config SND_HDA_CODEC_ALC680
- 	  Say Y or M here to include Realtek ALC680 HD-audio codec support
- 
- config SND_HDA_CODEC_ALC861
--	tristate "Build Realtek ALC861 HD-audio codecs support"
-+	tristate "Build Realtek ALC861 HD-audio codecs support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
- 	default y
-@@ -71,7 +77,7 @@ config SND_HDA_CODEC_ALC861
- 	  Say Y or M here to include Realtek ALC861 HD-audio codec support
- 
- config SND_HDA_CODEC_ALC861VD
--	tristate "Build Realtek ALC861-VD HD-audio codecs support"
-+	tristate "Build Realtek ALC861-VD HD-audio codecs support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
- 	default y
-@@ -79,7 +85,7 @@ config SND_HDA_CODEC_ALC861VD
- 	  Say Y or M here to include Realtek ALC861-VD HD-audio codec support
- 
- config SND_HDA_CODEC_ALC880
--	tristate "Build Realtek ALC880 HD-audio codecs support"
-+	tristate "Build Realtek ALC880 HD-audio codecs support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
- 	default y
-@@ -87,7 +93,7 @@ config SND_HDA_CODEC_ALC880
- 	  Say Y or M here to include Realtek ALC880 HD-audio codec support
- 
- config SND_HDA_CODEC_ALC882
--	tristate "Build Realtek ALC882 HD-audio codecs support"
-+	tristate "Build Realtek ALC882 HD-audio codecs support" if EXPERT
- 	depends on INPUT
- 	select SND_HDA_CODEC_REALTEK_LIB
- 	default y
-@@ -96,5 +102,3 @@ config SND_HDA_CODEC_ALC882
- 	  codec support
- 
- endif
--
--
+ comment "Set to Y if you want auto-loading the codec driver"
+ 	depends on SND_HDA=y && SND_HDA_CODEC_CS8409=m
 -- 
 2.50.1
 
