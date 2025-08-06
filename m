@@ -1,84 +1,97 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B7D1A0BFD
-	for <linux-sound@vger.kernel.org>; Wed,  6 Aug 2025 18:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D1129DB9A
+	for <linux-sound@vger.kernel.org>; Wed,  6 Aug 2025 18:58:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754504510; cv=none; b=oV1PJhBRvCfqT359UGuJNi8KfzbMhlYzYzAvOzhfPcAl/X2BrlrIXuIckb+VGu4hQNs5svzzr6YtDQWJv+wmCjuNDH/t8ciII7P99qF8Htx77mbb9CNLUBkwArQ/4V6Y1mC7+CWkoNSMgnPYu4Q1prmJ30yhwBbhVC826Yh8UvA=
+	t=1754506687; cv=none; b=XtY223MiMCjsqcGDijxt+Y4hxMx5eGM/PhUkUvGwn2CpzhQcbLxG8ISK6r1FHVAQ7Pa9B2wukZVfGH8RyDXtJa71HXJ43xXaCI+h4vafuyxRXJGkc/PUaY8kcdjl8seYsSpH9I7ML+MD4Mfd+9+fKsSqbhDhV3sG6JpDk0NRwhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754504510; c=relaxed/simple;
-	bh=Zk2ZtTHqvJTrS+ZkX9n/x+P0MFuQQeD4YV6wwI1iCXY=;
+	s=arc-20240116; t=1754506687; c=relaxed/simple;
+	bh=dOfDXkheIQz0oPV6PBzkzMZnP7ex2IB+FSTayfsY+P8=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aajZroBzUdUjqGwBGhpWY81hZGUhXduLMdDzwVwUCJG2nN+7177wvYmszoqLSAP75SEx0Egf05P/WFCigc48iy51tn3p9p/dVijVZ7ZGXFdUwRaYfTglgnLsPEuuUkxpGmDr1VAZFTO2XAh/mmMdu+J7czbZBYlREHIL3G3P/nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OrvmbIpA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bmmIMUXl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OrvmbIpA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bmmIMUXl; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=opUC0gI3+sQ8x9D9qsKURQ5DHjFECCa5g87wAQ3kam/WCLsVWnEq5cG9QG9Wo4GS+kTqV4qjq41+ohsc02iGBZyoM37JP17BpHjuksTECEJJRlxJO+HZswvTUdLaNjJ1hkI2iaU5Qvn8r/ha4O97CgpcUwjYaE1SrXX/7uJ4WFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gat88dnC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KP24cZ4b; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gat88dnC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KP24cZ4b; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OrvmbIpA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bmmIMUXl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OrvmbIpA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bmmIMUXl"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gat88dnC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KP24cZ4b";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gat88dnC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KP24cZ4b"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3FA912065F;
-	Wed,  6 Aug 2025 18:21:46 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A84020736;
+	Wed,  6 Aug 2025 18:58:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754504506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1754506684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=b0fmjtkAecwqd7+oUf8k4SEcD73eAscErBAtrWqq82g=;
-	b=OrvmbIpA4Ftl3PeYgzNArM4mS7B9KyeFlBd29SLC5X/QDDz8VgU8g8vkKlaEZQ7W7qH9zs
-	vbJ5qRACMQWmTmUJUe3GjrTdLogjDxjXHdO5q3FGEiNNZ2J30QFN69yzLhopYa5ywYi1ss
-	KUlqgwj2oFgH0R8dQe9hTicoF6njBYk=
+	bh=eFIL/GJhJxE4/DlZdH2oqa5UlxcXRNE6q0kcLrF7hLY=;
+	b=Gat88dnCnQZXMpuFvJso2c7uDs1sqO//S30V0+C6P4fBSCDTYKY+8nxpFmf9td7w3/MktK
+	0DuFrI/rjEy1ETutdNOp2mZfoeZIPoSxnKj4sDCnBGqgUevax13KKl51lxrL0KKy2xauDZ
+	4EhnRoimIRHV7IDNAkGGRF9fdrfPiys=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754504506;
+	s=susede2_ed25519; t=1754506684;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=b0fmjtkAecwqd7+oUf8k4SEcD73eAscErBAtrWqq82g=;
-	b=bmmIMUXlkt10Wo6ImTeU0931fjfa38zoUaW08k2gR5lS3k5jxPjRYcgkvNoWCyNDI07OjV
-	iqDCEz7/+r5XiGCw==
+	bh=eFIL/GJhJxE4/DlZdH2oqa5UlxcXRNE6q0kcLrF7hLY=;
+	b=KP24cZ4bLXzUwQ0dziZzUnhFRTxkwKnHuEnB/TTBuY2ekeoZoq+hO9BhkWb7OYfSVB5cSO
+	zoQFiW5qNc53G8AA==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Gat88dnC;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KP24cZ4b
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754504506; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1754506684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=b0fmjtkAecwqd7+oUf8k4SEcD73eAscErBAtrWqq82g=;
-	b=OrvmbIpA4Ftl3PeYgzNArM4mS7B9KyeFlBd29SLC5X/QDDz8VgU8g8vkKlaEZQ7W7qH9zs
-	vbJ5qRACMQWmTmUJUe3GjrTdLogjDxjXHdO5q3FGEiNNZ2J30QFN69yzLhopYa5ywYi1ss
-	KUlqgwj2oFgH0R8dQe9hTicoF6njBYk=
+	bh=eFIL/GJhJxE4/DlZdH2oqa5UlxcXRNE6q0kcLrF7hLY=;
+	b=Gat88dnCnQZXMpuFvJso2c7uDs1sqO//S30V0+C6P4fBSCDTYKY+8nxpFmf9td7w3/MktK
+	0DuFrI/rjEy1ETutdNOp2mZfoeZIPoSxnKj4sDCnBGqgUevax13KKl51lxrL0KKy2xauDZ
+	4EhnRoimIRHV7IDNAkGGRF9fdrfPiys=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754504506;
+	s=susede2_ed25519; t=1754506684;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=b0fmjtkAecwqd7+oUf8k4SEcD73eAscErBAtrWqq82g=;
-	b=bmmIMUXlkt10Wo6ImTeU0931fjfa38zoUaW08k2gR5lS3k5jxPjRYcgkvNoWCyNDI07OjV
-	iqDCEz7/+r5XiGCw==
+	bh=eFIL/GJhJxE4/DlZdH2oqa5UlxcXRNE6q0kcLrF7hLY=;
+	b=KP24cZ4bLXzUwQ0dziZzUnhFRTxkwKnHuEnB/TTBuY2ekeoZoq+hO9BhkWb7OYfSVB5cSO
+	zoQFiW5qNc53G8AA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0CD2413AA8;
-	Wed,  6 Aug 2025 18:21:46 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EA2FC13ABE;
+	Wed,  6 Aug 2025 18:58:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XqwfATqdk2hFRgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 06 Aug 2025 18:21:46 +0000
-Date: Wed, 06 Aug 2025 20:21:45 +0200
-Message-ID: <87pld81fba.wl-tiwai@suse.de>
+	id 8tlKN7ulk2isUAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 06 Aug 2025 18:58:03 +0000
+Date: Wed, 06 Aug 2025 20:58:03 +0200
+Message-ID: <87ldnw1dms.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v6.17-merge-window
-In-Reply-To: <97abce5e5d42120dc07961f73b548c7d.broonie@kernel.org>
-References: <97abce5e5d42120dc07961f73b548c7d.broonie@kernel.org>
+	regressions@lists.linux.dev
+Subject: Re: Quiet crackling noise at boot and after stopping music
+In-Reply-To: <d282d29d-c580-44d1-bef2-f425a744ef50@molgen.mpg.de>
+References: <10172c80-daec-4e20-ab57-a483cf1afc02@molgen.mpg.de>
+	<871pposvy9.wl-tiwai@suse.de>
+	<d542d223-fc6e-4be7-b581-8a390ce2f6be@molgen.mpg.de>
+	<87sei4rg67.wl-tiwai@suse.de>
+	<b70db707-457d-4c0c-85be-19f4340dcc7b@molgen.mpg.de>
+	<87h5ykqzod.wl-tiwai@suse.de>
+	<d282d29d-c580-44d1-bef2-f425a744ef50@molgen.mpg.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -86,57 +99,156 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Spam-Score: -3.30
+X-Rspamd-Queue-Id: 2A84020736
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 
-On Wed, 06 Aug 2025 19:14:43 +0200,
-Mark Brown wrote:
+On Wed, 06 Aug 2025 18:12:20 +0200,
+Paul Menzel wrote:
 > 
-> The following changes since commit e95122a32e777309412e30dc638dbc88b9036811:
+> Dear Takashi,
 > 
->   ASoC: codecs: Add acpi_match_table for aw88399 driver (2025-07-25 13:44:29 +0100)
 > 
-> are available in the Git repository at:
+> Thank you for your reply.
 > 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-merge-window
+> Am 06.08.25 um 16:42 schrieb Takashi Iwai:
+> > On Wed, 06 Aug 2025 15:57:51 +0200, Paul Menzel wrote:
 > 
-> for you to fetch changes up to 614d416dd8aee2675fb591c598308a901a660db8:
+> >> Am 06.08.25 um 10:46 schrieb Takashi Iwai:
+> >>> On Wed, 06 Aug 2025 10:34:57 +0200, Paul Menzel wrote:
+> >> 
+> >>>> Am 06.08.25 um 10:20 schrieb Takashi Iwai:
+> >>>>> On Wed, 06 Aug 2025 10:15:08 +0200, Paul Menzel wrote:
+> >>>> 
+> >>>>>> I believe the Realtek refactoring caused a regression on my Intel Kaby
+> >>>>>> Lake laptop Dell XPS 13 9360. There is quiet crackling noise during
+> >>>>>> boot, when GDM is started, and also after playing music is
+> >>>>>> stopped. It¢s reproducible with 6.16.0-04055-g14bed9bc81ba, that
+> >>>>>> contains the sound subsystem pull request.
+> >>>>>> 
+> >>>>>> 177bf8620cf4 Merge tag 'sound-6.17-rc1' of
+> >>>>>> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
+> >>>>>> 
+> >>>>>> I uploaded the run of alsa-info [1]. I try to verify with plain 6.16 later.
+> >>>>> 
+> >>>>> It's likely because of the missing CONFIG_SND_HDA_CODEC_* selections.
+> >>>>> Please set CONFIG_SND_HDA_CODEC_ALC269=m and
+> >>>> 
+> >>>> Indeed, I didn¢t select this.
+> >>>> 
+> >>>>> CONFIG_SND_HDA_CODEC_HDMI_INTEL=m if not done yet.
+> >>>> 
+> >>>> I had selected this.
+> >>>> 
+> >>>>> Those were already set to default=y in the later PR for avoiding such
+> >>>>> a pitfall.
+> >>>> 
+> >>>> I remember I tried to check which to select, and I ran `alsa-info` to
+> >>>> find the codecs, but only found:
+> >>>> 
+> >>>>       Codec: Realtek ALC3246
+> >>>> 
+> >>>> As this didn¢t match to any of the offerings, I didn¢t select
+> >>>> it. May I suggest to extend the Kconfig help texts with notes how to
+> >>>> determine the correct module?
+> >>> 
+> >>> There are quite lots of different codec names, so we can't put all
+> >>> them, unfortunately...
+> >> 
+> >> Understood. Then maybe just the command how to find the id, that
+> >> people can use to grep the correct module for? From the script
+> >> `alsa-info.sh`, maybe, I found:
+> >> 
+> >>      $ grep -e Codec -e "Vendor Id" /proc/asound/card*/codec#*
+> >>      /proc/asound/card0/codec#0:Codec: Realtek ALC3246
+> >>      /proc/asound/card0/codec#0:Vendor Id: 0x10ec0256
+> >>      /proc/asound/card0/codec#2:Codec: Intel Kabylake HDMI
+> >>      /proc/asound/card0/codec#2:Vendor Id: 0x8086280b
+> >> 
+> >> So mention `/proc/asound/card*/codec#*`?
+> > 
+> > Honestly speaking, I don't want that; it won't scale, and new codecs
+> > may appear at any moment.  Then we'd have to manage multiple places
+> > for adding or removing ids.
 > 
->   ASoC: SOF: Intel: hda-sdw-bpt: fix SND_SOF_SOF_HDA_SDW_BPT dependencies (2025-08-06 12:02:32 +0100)
+> Sorry, I didn¢t mean to add the id¢s to the description, but something like:
 > 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v6.17
-> 
-> This is a relatively small set of fixes and device quirks that came in
-> during the merge window, the AMD changes adding support for ACP 7.2
-> systems are all just adding IDs for the devices rather than any
-> substantial code - the actual code is the same as for prior versions of
-> the platform.
+> You can check the vendor id in `/proc/asound/card*/codec#*`
 
-Pulled now.  Thanks.
+Well, I'm afraid that it's still too cryptic to judge which driver to
+be enabled.
 
+> > Maybe an alternative option would be to mark prompt of each Realtek
+> > codec driver with EXPERT, so that all Realtek drivers will be enabled
+> > (when CONFIG_SND_HDA_CODEC_REALTEK is set) unless you say you're an
+> > expert :)
+> 
+> At least I wouldn¢t have bothered you. ;-) My gut prefers, improving
+> the documentation instead of hiding it, but you are the maintainer.
+> 
+>     $ ls -lh
+> /lib/modules/6.16.0-11852-g479058002c32/kernel/sound/hda/codecs/realtek/
+> insgesamt 464K
+>     -rw-r--r-- 1 root root 300K  6. Aug 10:22 snd-hda-codec-alc269.ko
+>     -rw-r--r-- 1 root root 164K  6. Aug 10:22 snd-hda-codec-realtek-lib.ko
+> 
+> The size is small compared to other drivers, but not nothing.
+
+> 
+> 
+> Kind regards,
+> 
+> Paul
+> 
+> 
+> PS: Despite just building in `CONFIG_SND_HDA_CODEC_ALC269=m`,
+> 6.16.0-11852-g479058002c32 is 172 kB bigger:
+> 
+>     $ du -s /lib/modules/6.16.0/kernel/sound/
+>     10992	/lib/modules/6.16.0/kernel/sound/
+>     $ du -s /lib/modules/6.16.0-11852-g479058002c32/kernel/sound/
+>     11164	/lib/modules/6.16.0-11852-g479058002c32/kernel/sound/
+
+The previous kernels had all Realtek codecs enabled in a single
+driver, so I believe it's safer to enable all again.
+If you really care about the size, you have still choices (with
+CONFIG_EXPERT=y).
+
+Hans also agreed with this approach in this thread, so this looks like
+the way to go, for avoiding further stray sheep after 6.17-rc1.
+
+I'm going to submit a patch set.
+
+
+thanks,
 
 Takashi
