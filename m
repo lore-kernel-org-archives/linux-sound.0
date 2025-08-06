@@ -1,115 +1,100 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09A128C5CC
-	for <linux-sound@vger.kernel.org>; Wed,  6 Aug 2025 14:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977FC28C851;
+	Wed,  6 Aug 2025 14:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754488835; cv=none; b=DFxmbc0As31kRY1MKJZIOxR/LRV7JfGV3snv3zOj0NCub9EvIneM7zMC3L+AilC62IYXQy+l0nOQ5n10dvxNmV3aJ8fceCAU6EoaXROsgYxcF7U89qmKZhxsT0qzhkIc//z9XMGxtNh9IfcuGjWeEkC6Fnki6kFNhT/rv5rJWH0=
+	t=1754489204; cv=none; b=N4SF8d/sLmj6TVJ4NpBKmdH38lY25QDWWi8SCSpeeEO7dzkP/2cizn3s53CPkxs8uNeZcWZ9crVLsw/+pTDTgN7qTepzfWoHY4Hecpc9ANvT1gy8CSaF5piaA6ROBh/5IEMfizL3MLuqtP4i0lQuWHWEaSUVXZd4bST2mmlw+5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754488835; c=relaxed/simple;
-	bh=1e0Vl0DLzBwJ1AEPVtS966+I1J911xIBcPy784b2oeg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kn89zpOGxN2SA9F2DG3ahc+Mm7Lm0witQy9WDg6Zi5erb8jjbuc0kmpZFVEslZQoajMIwz0gllsVS3L+ZedKkwyyowZEGR91YZaHdUx2Rn0W0eI8Cp4jKgjGZzE6rt6IaxkL150kLU0mc5TmQd9vwXNIWzPcZkv3ak1Ht07zI0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TXRsvFVf; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1754489204; c=relaxed/simple;
+	bh=ulEKMQZnLJDVZefzd0iYEJorUHSvCWrtbRyZF7llS2A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VRHnzC89AcdFdjJJw6u/hVmYoIEwnD80uJQjZ9q5F7SsU4Pf/qYk2+InYdMTsX3k6aJzqChgOGcZqn2KiLNLhYeZO+lXRveSIVumPsf+/cYsNeJfcxgZUzCfPPhwmNB4k9pbDADiCfDG0/JeQGXQMZK/d59z9t0Uwd0Lvh3siGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NLj44YtL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TXRsvFVf"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3b78a034f17so4897105f8f.2
-        for <linux-sound@vger.kernel.org>; Wed, 06 Aug 2025 07:00:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754488832; x=1755093632; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S02Ags7WvqYe7LIFO8GxG705rWR0j/aMg3rhghXyds8=;
-        b=TXRsvFVfVY220CPqMlInmShETRQpmZej6tRQe3dMved5lK2YaOpiXmUaooYIoIMsbI
-         7ODb5DsWIMV5skC9U1xsuLoZN5mGkmaVHxsHYjYKm5+TlQbdN0FKXZPUJbRSSg0wpPXR
-         YQ6VOC3jLyQllnaOnPWXfLQJEcM6kNb4rvobZe0k/I/DCE5iIvOkgHjhGCV0L4ORCcQZ
-         u4WrQbMB5g4mojXDZMhtXQ6KFCBauzYGp9kwjwu0rD5K8MhPMjZdcfpybkpmEMduMwuo
-         JVECkspqS8ODh+xCaV6HPCO1O6QblxoEshYp8l3PuJINi4HXKoDrULuB3iSlhhgdFWse
-         Ojxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754488832; x=1755093632;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S02Ags7WvqYe7LIFO8GxG705rWR0j/aMg3rhghXyds8=;
-        b=F/pZmIBVFHoTd+H2v9noamu4O5xAjLnLBpaWIQt9EuzEPgL6NxjyEl52w8N+pYLgP+
-         qktcn+631xYE1ppzwmYj022+HkGyj3ZXvb7JaKpNagnCH243K9wJU3AIoS2mBEOe25nI
-         J3iwhb+i2/bS7VNpM79xahYMEH7t9Vww2LJrFZrUOAB6j+eltCtkEiwqL8cP63PnWHlY
-         tYJq8V6F4SnOOL3gN7EohevrSIstpasyWeM50AjEnuZZS/CCuX3Ini8xy1WegQH5yzxS
-         qTOGd2nG0KuSOtPm8Jgr/U74Le2N5bzsUCYxB9ZhyG6h9JkkLRxfp1cYiOgu9+0rM0FU
-         eHPg==
-X-Gm-Message-State: AOJu0YyTqClToEIopvylmJMRriG5zPlTWwpLAWMcRIDTMD6uWjz1dkVD
-	iGexw5wUf3xfiX9AOW2Kn7SLbpKQ8h8RMsdke98RPnituKYw1UJo3Am8tEBinYGTGZyFLASBuRp
-	+ndwN
-X-Gm-Gg: ASbGncsdHka8S21YXuq/eEwYzkHdZjgqdizSU/q1RgHN+WGbChhu1rkuVF3A01dJw1k
-	um/fUQhi5fceSIt48Z7Oebjbi2+32noV57kCDs1NGowdFlludWpbWmPxq6hqD/v7RMGiLGRZX73
-	beYu6rS2FzZXKE0fcOGf6qmEcO/76Z/8DditBMHXjgyy48N/NmamYgve94tId/1ovXpuDRawYoN
-	5zt56gxjBUIItG+JQzHSB+JECF9Xr8e1ohPvJN31+yKHNJ3eAQIEEiJ6Fiwsqc3uCxUDgOocHP0
-	mOyMumaniZrx//LnTqXVsWmfzfStLvxuYBsKa/8S/a6zINJgxy3O0xBJUjRFiXAc8/SAuoxouW+
-	2eNQJi1yfb4QQ2Z+wKWfZepnNGSRXIDqy2NXNZVZNklo=
-X-Google-Smtp-Source: AGHT+IETmAlWMwJ2qjfxtHRSSLJlNaDSRStt3AyM41fvjsH5fd9IH28npg8xRcL+NtabnZE8k9FKKw==
-X-Received: by 2002:a05:6000:22c7:b0:3b5:f0af:4bb0 with SMTP id ffacd0b85a97d-3b8f48e046emr2027583f8f.23.1754488831620;
-        Wed, 06 Aug 2025 07:00:31 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459c58ed07fsm147276365e9.22.2025.08.06.07.00.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Aug 2025 07:00:31 -0700 (PDT)
-From: Alexey Klimov <alexey.klimov@linaro.org>
-To: linux-sound@vger.kernel.org,
-	srini@kernel.org,
-	broonie@kernel.org,
-	lgirdwood@gmail.com
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	neil.armstrong@linaro.org,
-	linux-arm-msm@vger.kernel.org,
-	krzysztof.kozlowski@linaro.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ASoC: codecs: tx-macro: correct tx_macro_component_drv name
-Date: Wed,  6 Aug 2025 15:00:30 +0100
-Message-ID: <20250806140030.691477-1-alexey.klimov@linaro.org>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NLj44YtL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 802FDC4CEE7;
+	Wed,  6 Aug 2025 14:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754489204;
+	bh=ulEKMQZnLJDVZefzd0iYEJorUHSvCWrtbRyZF7llS2A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=NLj44YtL0KYege590nfwGCQGGeHfaDmRsRYVhCVI5Hqp884GG9bqiVxhsauAgYd8U
+	 OqN5hU3jFcbft0OKxSFNUrneb68tSNfECL7FmUTJvjc/VxgRbeuGBLshmyKzDFtEK5
+	 lkdODMf1l5uM/EqClc//Z41YPxIFY3tt44P924rtoOx/LEaLDONY2X3PHLSlldJNfi
+	 X9mGqLkl4I0tbxvr+AzuM3VNSixCkecbfrtQsrbDT6D626tNocfCGaMyn/9Pi/55g0
+	 Y646j75ZAcL8Qeh9xFdWwVteCME0TI4bnpiSYKcUQ/+/WIggdTadSz1taVYbDJtNY7
+	 6T+PwOLysKuVw==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250805160451.4004602-1-arnd@kernel.org>
+References: <20250805160451.4004602-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: SOF: Intel: hda-sdw-bpt: fix
+ SND_SOF_SOF_HDA_SDW_BPT dependencies
+Message-Id: <175448920126.71792.1743072623238000933.b4-ty@kernel.org>
+Date: Wed, 06 Aug 2025 15:06:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-We already have a component driver named "RX-MACRO", which is
-lpass-rx-macro.c. The tx macro component driver's name should
-be "TX-MACRO" accordingly. Fix it.
+On Tue, 05 Aug 2025 18:04:25 +0200, Arnd Bergmann wrote:
+> The hda-sdw-bpt code links against the soundwire driver, but that fails when
+> trying to link from built-in code into loadable module:
+> 
+> x86_64-linux-ld: vmlinux.o: in function `intel_ace2x_bpt_close_stream.isra.0':
+> intel_ace2x.c:(.text+0x137a531): undefined reference to `hda_sdw_bpt_close'
+> x86_64-linux-ld: vmlinux.o: in function `intel_ace2x_bpt_send_async':
+> intel_ace2x.c:(.text+0x137aa45): undefined reference to `hda_sdw_bpt_open'
+> x86_64-linux-ld: intel_ace2x.c:(.text+0x137ab67): undefined reference to `hda_sdw_bpt_close'
+> x86_64-linux-ld: intel_ace2x.c:(.text+0x137ac30): undefined reference to `hda_sdw_bpt_send_async'
+> x86_64-linux-ld: vmlinux.o: in function `intel_ace2x_bpt_wait':
+> intel_ace2x.c:(.text+0x137aced): undefined reference to `hda_sdw_bpt_wait'
+> 
+> [...]
 
-Cc: Srinivas Kandagatla <srini@kernel.org>
-Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
----
+Applied to
 
-v2:
-  - added tag from Neil, corrected Srini's email;
-  - changed commit description (reworded).
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-First version: https://lore.kernel.org/linux-sound/20241016215930.1144527-1-alexey.klimov@linaro.org/
+Thanks!
 
- sound/soc/codecs/lpass-tx-macro.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1/1] ASoC: SOF: Intel: hda-sdw-bpt: fix SND_SOF_SOF_HDA_SDW_BPT dependencies
+      commit: 614d416dd8aee2675fb591c598308a901a660db8
 
-diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-tx-macro.c
-index 40d79bee4584..1da34cb3505f 100644
---- a/sound/soc/codecs/lpass-tx-macro.c
-+++ b/sound/soc/codecs/lpass-tx-macro.c
-@@ -2229,7 +2229,7 @@ static int tx_macro_register_mclk_output(struct tx_macro *tx)
- }
- 
- static const struct snd_soc_component_driver tx_macro_component_drv = {
--	.name = "RX-MACRO",
-+	.name = "TX-MACRO",
- 	.probe = tx_macro_component_probe,
- 	.controls = tx_macro_snd_controls,
- 	.num_controls = ARRAY_SIZE(tx_macro_snd_controls),
--- 
-2.47.2
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
