@@ -1,178 +1,209 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011003.outbound.protection.outlook.com [52.101.70.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A796B38B;
-	Thu,  7 Aug 2025 00:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754525037; cv=none; b=KI15ta3UKEM/Tiby/QHvJ9EE60QNXgNJ5hEHsRUa25MNrSxKVFJOBB1T1mvZ+Tfa1TJZL+J6+ldY/9Ayk/nxs4TugHFt1yikif8tJbjTb+sNf0Fo6JyESXNfZlTmUhHkFptNXahsmBNa/5atf95UQcoAUXzuI1IdGs/+u3/sApM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754525037; c=relaxed/simple;
-	bh=Mo5zZx6+Ls09o6HSEjQ6aurVFAO/GmKzPOOACnlaro4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=femVmVyVPChfMf3Dv2ioJqMa8XbErCIg47KtPoZUucLR56lCLQUhK7hAi8MKT8Kbu6h5EAqXKlspPlvf4xKtniVnjEAY753piU1F6kwE9KYvHuODzALRcmFMsU9bJoF+VVjXq/BKzWoUxrNcCs+mTBB5Uh7zb1LMM14H7EST87E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XW6Y1ix6; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD091411DE;
+	Thu,  7 Aug 2025 02:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754532246; cv=fail; b=G1Y8lSDmJ5ZWjOJ7dn7EEfX9VJazZcJ5QwLnLH+c699RW4LdCNDJS9tmOZOFBn2xEBwiFmb1gC7Wt+W1Ylkiv6fTuDFyMK3ctyXe44QsyNADQrICioGcwSgmiOERIcdR+6dqgkMPSuGAV8qUWuq3sCfWWuwXwCutHcC7fnwjF8w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754532246; c=relaxed/simple;
+	bh=3H0/KHqIUeicYP0RUynr8XEyJj+mAVzeJuvuR2Ue1bA=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=PrUun/U6v0+SWzdaUrk8m2WHFV1RRYOfdqmoxKTtzJ3vHs3BnyYteqxIyIbKsqXeTjrsFpcgrcrqmdAGnGSEV949rhygJKlIrGIuuXqHOMcPGZB3PAovch9glh6u8/BNoN/3XsJyPvp2TJQXlQkHOKJM29IXNHu2LJrHOwIK7Ic=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=kCNhfHF3; arc=fail smtp.client-ip=52.101.70.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XW6Y1ix6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B110C4CEE7;
-	Thu,  7 Aug 2025 00:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754525037;
-	bh=Mo5zZx6+Ls09o6HSEjQ6aurVFAO/GmKzPOOACnlaro4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XW6Y1ix6oPV0ctapSPBEJFFdUM6EWr6QHnqe10meQ90DcEhnSKyu4lM0rSDMLJwrA
-	 AxJXWiVvHEHxxoRho/xDcchl12cFK/y3kSEvrfROiC2uVgMbzdnBwivClPcX+HtJJx
-	 WYK47ohKJv4IUvoFy4UJmaxsWsRG3cnYxT5v5DzRyBPxXYDdPkDnKF8dWBw+wzefJT
-	 p81ZMy0MlVZqkq5aPbWL6E9ADfUEAiRW9qt8ad1X99W8tm9upYqSwWPa91KqSfFV4i
-	 WAhdSdBppef0yuPr+jj3jMIE/N9ujTk0dTN2oN8fEZwj4/Lpsw1QCcq3u5p4vROp8+
-	 xPptFRmbnVOpw==
-Date: Wed, 6 Aug 2025 19:03:56 -0500
-From: Rob Herring <robh@kernel.org>
-To: Mahdi Khosravi <mmk1776@gmail.com>
-Cc: devicetree@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="kCNhfHF3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yxQQsHRudwnISIAqA/LmDjeZbjFRjA1yWRXMnoXZ4RDkASgNdX7b42P/e7PNya6JLAfopoUf6tmQ3UGTSPu5iknedM6SQBOlcCaXe5WCy3M1j6pdJ62UKuXeSiHIXyZAa6veWwiHEycXDG9qxDF6WavW1YF0vJInj+1GRHth/1HxIFhIj3tiMC+fxgTMXfwVkJV2aDCKyzheqSOJc+OJvpW6uy0Frjx24/HUtu3fVQI6tp9DlIf6PfUgGb+f0UOiPJgstv4Ke/meny925dhn0yRrtJQKZP32t3cNS1+AtLc5lgMmkVWCueJerwM7XMrnmzsyNs9AeYMr9umRBluYig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UFwakxopeZBKciidE5WYKJzKgvtwfuvur2NafbOQWxI=;
+ b=VRz2bQLttzdja/QhlHOPO0UeHAWgLIzaaVtSPoWf2WxRh86RVqQumajYWmJHLfTF+eS36qIU/cST2oLqHkjfAlVL8SgWh1772pnzxNA5l4MU4TgjoNVguaXVOkq82Yl5TmF0xNrTaeewwYmTJrO77ayVIiEyQMS2uFRee4EVxN/cbtZ45PBu20OT0XViW2rLhjFtHVnmgncRdmh/ehsWvMReZbufgKPa79MQBiE0xOF/DHnGQk35aP9Kgep0yq9MDtiuKZHqwUhT/6NSV3vCriOf21BvllA2BhLPqVlFZWN2vL1eGxOHl5Gtg30uGvhNkpIBg/CWR3Z+aW8VH7iZpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UFwakxopeZBKciidE5WYKJzKgvtwfuvur2NafbOQWxI=;
+ b=kCNhfHF33fFSJuAdjdSVT8ecJkeC+klbx1TCvHG8NIkG0dJP0DomcGUoZVILarni4VyrSrmcapU/qkjThhSoaMOYXIWNyRNqE38vQL4RHeZ6PipaRHUqnCcl3H01+9HcM7K24ATttPJEgNQvu+QWWCdHgc4PKkIrN2YzfPiLg5Oo6KLk5vsc4Jqi+/MjnfB+MzWFhsenaHBJOxskGcyOEE20Wtxyrxgwqcf4aJZ/cgoV9ovP75A6zfCoYzwxCSxGNTDrflPSCjUZ25jCD1ULKxCt1F0MzRaU3reH4HvlOa9FB2xDA9NHRxiQqOT4kUSO5y4XbaLMMe3M7Wytm2B8jg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by PAXPR04MB9489.eurprd04.prod.outlook.com (2603:10a6:102:2c1::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.14; Thu, 7 Aug
+ 2025 02:04:01 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891%5]) with mapi id 15.20.9009.013; Thu, 7 Aug 2025
+ 02:04:00 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ASoC: dt-bindings: realtek,alc5623: convert to DT
- schema
-Message-ID: <20250807000356.GA2072715-robh@kernel.org>
-References: <20250806131818.38278-1-mmk1776@gmail.com>
+Subject: [PATCH] ASoC: fsl_sai: replace regmap_write with regmap_update_bits
+Date: Thu,  7 Aug 2025 10:03:18 +0800
+Message-Id: <20250807020318.2143219-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0024.apcprd02.prod.outlook.com
+ (2603:1096:4:195::18) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250806131818.38278-1-mmk1776@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|PAXPR04MB9489:EE_
+X-MS-Office365-Filtering-Correlation-Id: a78c00f3-9882-4588-d1ce-08ddd556ad12
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|19092799006|376014|7416014|52116014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?WQagmX5g8UtnZbvw+NQLzCLpDuKwJZBm8zNqIh4Tpub8P8p8KVNPXfB5XDdi?=
+ =?us-ascii?Q?m3gyA1abLUtbpReZRdknbR7PLrzeIA4z233LWfmhpqGTy2bdBI/b58jEl0gA?=
+ =?us-ascii?Q?9W3Q2O8Ikyj7pm+C6ndp5NnGDsU5P7knuze6i9fuRJFnMe36BF2zVFO7Z8+l?=
+ =?us-ascii?Q?oqyGzcYfZx0E1OdDD4KOnhFxGgZFd91K4Ivb2Uj7P7IJ2AgkB/BusnqLqmM2?=
+ =?us-ascii?Q?1Q0eXFum4jhcaZJ/mVKKrK0K5Y1z8GckZaHOyR1t8aly20DdfDxQVyv9/uTg?=
+ =?us-ascii?Q?+LXtY6rV+L2Wqc+irXLKYAnAqGE+rgofyWwnOa8dOfZmPAEuUtbAhFJ3HPFk?=
+ =?us-ascii?Q?ZbSt3PoWJgjFyXjS+QptEAxizxw9EsNmhZXfS7lG2dWYlHnfAifn/Iy/N3Pr?=
+ =?us-ascii?Q?YYaJSp9AuRLdBE5huqu/CVOsfxKR03PU7ZfpUpEn/RNUA0s1HoO9FySPvunx?=
+ =?us-ascii?Q?cOoeNENFK9U7KZ9dOiqibdk97IPvGTDU0cwoaZkMAdBmnDx87zZNTJh2gue8?=
+ =?us-ascii?Q?4W276bpajJtbP9SoAsUF/mIdI2pyalOMcd+lJJw0AWX41PCVKnZi0O5q/aFF?=
+ =?us-ascii?Q?ien9JhIlPH67iCbujjgtg3mPTwzq6MZmZgzXhQNnlKxTMTQihWAr3zfK17ko?=
+ =?us-ascii?Q?DKtK7Tr9aVNxml7MV3ug3v0GaNMYoOFc3KGg1m1gTQb5iMqwso7S++qWznUd?=
+ =?us-ascii?Q?Qa2iQpSaJIGWOqlqb3+PpeVLAhJUxWHHIdsgScmNhnAgT71/og3MEqw1lYNV?=
+ =?us-ascii?Q?jf+24uSr6h8uL242nbGSdphsqlF2qkmx1VKguh12riOew09XXlfNNSlu+QJi?=
+ =?us-ascii?Q?NNhk+7mEs6egXeOQGpDB/XgE+omEkRkSCNb2WJ4tN8MLY5FkypnWxjhwULSF?=
+ =?us-ascii?Q?QlLiaUb5WukPHcNGVsC0GFkMOVGVSgoiQcu+lDvTfjB4387cid9FV9h7ZM9X?=
+ =?us-ascii?Q?+eJZS9uiA9DOlG+ZR/2LEUjeytQ1lggc3P9xi/TMverw348ks63xJGsr6+aB?=
+ =?us-ascii?Q?dj44/ikOWjv+JMcUAMoY5nLj6CwQd937SI3xbeT25s/xdA7kJeDoytpZRFsH?=
+ =?us-ascii?Q?hxyoD8cZ8eSHdGiT8M4cVrh7hEyzipcgy5e2Xj68pw0Bse9eoU6GcS44d9+6?=
+ =?us-ascii?Q?OgZ7j2BQdktY34aklcDUI0IUeceNX7lP2BVLggi5a1JzTdTyoOhfGvg8A/L7?=
+ =?us-ascii?Q?1P8Wa9vlj9s1aptnCTVy0XPfn1c2c1fNMEEiZjnmJyMMh7TOQ1xD2q9Q2SRo?=
+ =?us-ascii?Q?5LonVMjXH8B8VzmRZCp0IVtoI0GuwFhQqO7LPaXr1wu+jR4xGw1g6ynqcgJh?=
+ =?us-ascii?Q?YEi9bydALP6KGSFOEf29O+5V/JuQBqeXmZTELMjK2FK7cnIO8M72FYs6QHOq?=
+ =?us-ascii?Q?+Vd2x9OtqS7oRiGqilCX7KVmgmNhb7NYnVp+Z+a2jKJ4g0ys60CelQx1soKg?=
+ =?us-ascii?Q?Pp9SSGUtG6N8rNn5yQmmtes8u6hiheIU0f4DNtjgAaMQBHIh+YOQxnzOOJhN?=
+ =?us-ascii?Q?kyI7LATF/04CBSw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(376014)(7416014)(52116014)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ujhJdVJSOH0OJvCr+lkeM/WRMlEqaq1BaAHjBmzk0NWHNojG4n5BuA6Pmwys?=
+ =?us-ascii?Q?M1ZiDSIQuhTEqTMUvu+xAHDqIKHbWT41D89r96aMG/BRsghGd63yY01cp/dL?=
+ =?us-ascii?Q?AbJxoiYyrh3IojhQXAT0YDhdTvN31P4qmM8RftGZ2kQLBWaZ2aGukCZkGCey?=
+ =?us-ascii?Q?WSWxkV+FTS9U2OBCGlJc0c3MfFQ7lMln1kvJBmUFa5ZsuuXECoiNA0lPZX10?=
+ =?us-ascii?Q?6/u5d46l4eKXrtwnC/MAskVUe3PCjoOfj2tZBI5Q9c20XpZDwD1+Ei2jpPVm?=
+ =?us-ascii?Q?SEKG96fqi8gylt3/wt6Wr0jgRFEewcw2n4ym3A/7avq95wMNHe7KFgagOgpu?=
+ =?us-ascii?Q?FjDd+qx2CKYHKJlLb1BRUz8GGdEsNEkB5JE6T7+WACp1X4KnPWEc2SBMvXAj?=
+ =?us-ascii?Q?Wn+LdfXrqJVvRlpszOKJe61hCOfBl6AZDpqDty3Zg/aTXoChgUBUarQiAX1x?=
+ =?us-ascii?Q?mjuXk/OKZq2JbQm8ab4d0Wx8I554TqP+Wb0r/4goEzNxzwu7z3P33mYayFT/?=
+ =?us-ascii?Q?CPXMEm8qz6EOkEo0LnayU7tbIF+u+YlSJBuwaEXgbPKlubJ8uZca4x55CBFJ?=
+ =?us-ascii?Q?p/XuMeQawRIOvXPW0PuSY+W7rrT6eRf/IxVhqS1DIgPV7eMBnWyG5Pp8MN2U?=
+ =?us-ascii?Q?kJddAoWw/UEX++9eDoWhmDZ9BSm7ViofQPh91re4+eciWd/pwviOyMeGKE5X?=
+ =?us-ascii?Q?wZryjrfe3uUpvFwzBJQfhhjnHUpoEYNoFxf1eAnRwWdfp9OvGnANVAuuY5nc?=
+ =?us-ascii?Q?lhXaCh0kP1UAG6PJcapvRwuuGCgqfnf/X00qUt7tZU1M/l/SvUsFF/Z5nX14?=
+ =?us-ascii?Q?TIVCFeK5g3OCw+YxWS/3Xc6C/YqhwbFSXg+Hv0a4ZHzyx6F+WXRDJ13BgV/P?=
+ =?us-ascii?Q?xnVFUBzQNKsKohDP7qgwSNBbHBfBzuU0YhXEtoutWWpDz1DWZtz1nzR2pxVh?=
+ =?us-ascii?Q?bc0AnrFotPMfKJee6eSapR3Zb5tG5L5kqeDph4XncLkn78sbCjDVLbvdRGao?=
+ =?us-ascii?Q?sKXsfIqb0/04G9yzbjiZFYJSFuzdunua/2N2pqv76r+gi7vyrwDb6G3kdXYG?=
+ =?us-ascii?Q?SgF1kB9PgcBq6jVOPVl0Y28ibPsmO7pgfeGvIy7KTlMQiDxvjFq+61wXNhkM?=
+ =?us-ascii?Q?y2snbFbVmBfJjpPDKn5/TYJBK7D9HT0MMzaGu3wTa6TfSUvxsmtI1CE+4EhR?=
+ =?us-ascii?Q?zgs8SFPWAL6wfWOyz98OE3MOnrzr9YSTxZSWYLaWb7xnGVVgDDbhrYjgjjzz?=
+ =?us-ascii?Q?IfQcsS42MAFcZ1ZxBM36Jq85dNMfNCuAuSXwcqPeh5HKgRy4WNyMuebQHMvc?=
+ =?us-ascii?Q?doCFZ2zU0M8ouj6PaorbhyY8FbFW603371VOrTPraQG/SSaVrOdx7bidr5oY?=
+ =?us-ascii?Q?++9UKzCsKm276w++wx0RboYSvuYeFfei6ctRxyyWSlI3lESjgU7O+wSW85aq?=
+ =?us-ascii?Q?7o4r1xxG53x0JhPmTTi9TPiHvEYsQGIq6rfpVDDk57gnGQcmjAVbfE2gJmPN?=
+ =?us-ascii?Q?vJPywgb1DLTI8+colwUmB0mzEhtxKXiyv1FT+AVvxSq81AiSlWxVomm71o2k?=
+ =?us-ascii?Q?ZlAZCxBR9+du+6kSHiOL7Kvqo78htwag5N3+a/uv?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a78c00f3-9882-4588-d1ce-08ddd556ad12
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2025 02:04:00.7945
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wSVpzry5jo/rNOKKEQOdtMIodmZIbzJDMUsyPANpFPmADDRiKqVv2TT3O/0fCmUMFG9TGr4iNngS54WzM8HqVQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9489
 
-On Wed, Aug 06, 2025 at 04:18:18PM +0300, Mahdi Khosravi wrote:
-> I converted the alc5623 audio codec binding from text to DT schema.
+Use the regmap_write() for software reset in fsl_sai_config_disable would
+cause the FSL_SAI_CSR_BCE bit to be cleared. Refer to
+commit 197c53c8ecb34 ("ASoC: fsl_sai: Don't disable bitclock for i.MX8MP")
+FSL_SAI_CSR_BCE should not be cleared. So need to use regmap_update_bits()
+instead of regmap_write() for these bit operations.
 
-Convert the alc5623...
+Fixes: dc78f7e59169d ("ASoC: fsl_sai: Force a software reset when starting in consumer mode")
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+---
+ sound/soc/fsl/fsl_sai.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-> This is my first try and I used make dt_binding_check & make dtbs_check to verify
-> without getting any errors.
+diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+index c313b654236c..d0367b21f775 100644
+--- a/sound/soc/fsl/fsl_sai.c
++++ b/sound/soc/fsl/fsl_sai.c
+@@ -809,9 +809,9 @@ static void fsl_sai_config_disable(struct fsl_sai *sai, int dir)
+ 	 * are running concurrently.
+ 	 */
+ 	/* Software Reset */
+-	regmap_write(sai->regmap, FSL_SAI_xCSR(tx, ofs), FSL_SAI_CSR_SR);
++	regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs), FSL_SAI_CSR_SR, FSL_SAI_CSR_SR);
+ 	/* Clear SR bit to finish the reset */
+-	regmap_write(sai->regmap, FSL_SAI_xCSR(tx, ofs), 0);
++	regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs), FSL_SAI_CSR_SR, 0);
+ }
+ 
+ static int fsl_sai_trigger(struct snd_pcm_substream *substream, int cmd,
+@@ -930,11 +930,11 @@ static int fsl_sai_dai_probe(struct snd_soc_dai *cpu_dai)
+ 	unsigned int ofs = sai->soc_data->reg_offset;
+ 
+ 	/* Software Reset for both Tx and Rx */
+-	regmap_write(sai->regmap, FSL_SAI_TCSR(ofs), FSL_SAI_CSR_SR);
+-	regmap_write(sai->regmap, FSL_SAI_RCSR(ofs), FSL_SAI_CSR_SR);
++	regmap_update_bits(sai->regmap, FSL_SAI_TCSR(ofs), FSL_SAI_CSR_SR, FSL_SAI_CSR_SR);
++	regmap_update_bits(sai->regmap, FSL_SAI_RCSR(ofs), FSL_SAI_CSR_SR, FSL_SAI_CSR_SR);
+ 	/* Clear SR bit to finish the reset */
+-	regmap_write(sai->regmap, FSL_SAI_TCSR(ofs), 0);
+-	regmap_write(sai->regmap, FSL_SAI_RCSR(ofs), 0);
++	regmap_update_bits(sai->regmap, FSL_SAI_TCSR(ofs), FSL_SAI_CSR_SR, 0);
++	regmap_update_bits(sai->regmap, FSL_SAI_RCSR(ofs), FSL_SAI_CSR_SR, 0);
+ 
+ 	regmap_update_bits(sai->regmap, FSL_SAI_TCR1(ofs),
+ 			   FSL_SAI_CR1_RFW_MASK(sai->soc_data->fifo_depth),
+@@ -1824,11 +1824,11 @@ static int fsl_sai_runtime_resume(struct device *dev)
+ 
+ 	regcache_cache_only(sai->regmap, false);
+ 	regcache_mark_dirty(sai->regmap);
+-	regmap_write(sai->regmap, FSL_SAI_TCSR(ofs), FSL_SAI_CSR_SR);
+-	regmap_write(sai->regmap, FSL_SAI_RCSR(ofs), FSL_SAI_CSR_SR);
++	regmap_update_bits(sai->regmap, FSL_SAI_TCSR(ofs), FSL_SAI_CSR_SR, FSL_SAI_CSR_SR);
++	regmap_update_bits(sai->regmap, FSL_SAI_RCSR(ofs), FSL_SAI_CSR_SR, FSL_SAI_CSR_SR);
+ 	usleep_range(1000, 2000);
+-	regmap_write(sai->regmap, FSL_SAI_TCSR(ofs), 0);
+-	regmap_write(sai->regmap, FSL_SAI_RCSR(ofs), 0);
++	regmap_update_bits(sai->regmap, FSL_SAI_TCSR(ofs), FSL_SAI_CSR_SR, 0);
++	regmap_update_bits(sai->regmap, FSL_SAI_RCSR(ofs), FSL_SAI_CSR_SR, 0);
+ 
+ 	ret = regcache_sync(sai->regmap);
+ 	if (ret)
+-- 
+2.34.1
 
-Drop this. Passing is assumed. Actually, 'make dtbs_check' warnings are 
-fine if you think the .dts has a mistake.
-
-> 
-> Signed-off-by: Mahdi Khosravi <mmk1776@gmail.com>
-> ---
-> Changes in v3:
-> - Drop allOf, just use $ref for uint32
-> - Remove stray '>' in descriptions
-> - Fix subject to "to DT schema"
-> 
-> Changes in v2:
-> - Add dai-common ref
-> - Switch add-ctrl/jack-det-ctrl to allOf uint32
-> - Use unevaluatedProperties
-> - Fix example compatible
-> ---
->  .../devicetree/bindings/sound/alc5623.txt     | 25 ---------
->  .../bindings/sound/realtek,alc5623.yaml       | 52 +++++++++++++++++++
->  2 files changed, 52 insertions(+), 25 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/alc5623.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/alc5623.txt b/Documentation/devicetree/bindings/sound/alc5623.txt
-> deleted file mode 100644
-> index 26c86c98d671..000000000000
-> --- a/Documentation/devicetree/bindings/sound/alc5623.txt
-> +++ /dev/null
-> @@ -1,25 +0,0 @@
-> -ALC5621/ALC5622/ALC5623 audio Codec
-> -
-> -Required properties:
-> -
-> - - compatible:	"realtek,alc5623"
-> - - reg:		the I2C address of the device.
-> -
-> -Optional properties:
-> -
-> - - add-ctrl:	  Default register value for Reg-40h, Additional Control
-> -		  Register. If absent or has the value of 0, the
-> -		  register is untouched.
-> -
-> - - jack-det-ctrl: Default register value for Reg-5Ah, Jack Detect
-> -		  Control Register. If absent or has value 0, the
-> -		  register is untouched.
-> -
-> -Example:
-> -
-> -	alc5621: alc5621@1a {
-> -		compatible = "alc5621";
-> -		reg = <0x1a>;
-> -		add-ctrl = <0x3700>;
-> -		jack-det-ctrl = <0x4810>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
-> new file mode 100644
-> index 000000000000..2a389ca95b0d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
-> @@ -0,0 +1,52 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/realtek,alc5623.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ALC5621/ALC5622/ALC5623 Audio Codec
-> +
-> +maintainers:
-> +  - Mahdi Khosravi <mmk1776@gmail.com>
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: realtek,alc5623
-
-What about alc5621/22? At least 21 is in use:
-
-arch/arm/boot/dts/marvell/kirkwood-t5325.dts:                           compatible = "realtek,alc5621";
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  add-ctrl:
-> +    description:
-> +      Default register value for Reg-40h, Additional Control Register.
-> +      If absent or zero, the register is left untouched.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +  jack-det-ctrl:
-> +    description:
-> +      Default register value for Reg-5Ah, Jack Detect Control Register.
-> +      If absent or zero, the register is left untouched.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        codec@1a {
-> +            compatible = "realtek,alc5623";
-> +            reg = <0x1a>;
-> +            add-ctrl = <0x3700>;
-> +            jack-det-ctrl = <0x4810>;
-> +        };
-> +    };
-> -- 
-> 2.50.1
-> 
