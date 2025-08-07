@@ -1,270 +1,102 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A222288CB;
-	Thu,  7 Aug 2025 06:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBA68F48;
+	Thu,  7 Aug 2025 07:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754549347; cv=none; b=W1l1cWjD5eeMAFAcNhoUclQc9G7/fEjkl5ef3q5wntA3YxsgSO28WPL/8Qu8DMbxu8RBVkLlFppYCZ7eVMg2ye3pIHHifc10X5sHLl7U2wM94z76s2BNNCPS1zuHZnhGTzN8S2webFl5PQT/xCtXlwhGgLafRcBl1/i8jqhESUQ=
+	t=1754551181; cv=none; b=QjMYnfnXg4ls03O3LplRo2f/s+YoH0FCOSg/3tOYqrQ7Lp2j7+lnrIp32BAnymY+c5DH4av0ootpTMmeHCZ/fT+7mY5dC5cbyo3TmwcD28/pZ9pTba8GKqhBCL2V3/iPpROai7K1Du+EcBx4ZwF2ucpZieW5HTf8azggq4DZJJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754549347; c=relaxed/simple;
-	bh=jlhYYqseoKELITQ5ATLhE0ZFe5RLa7WX/i7FJKV2WnU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z6S2+XiXE8CaeTdA5lt9FU7CncCoqUWr0umxovQSzg0mzdsK3R6sHn5Edp6RmoFNDllup4QvOfnw3BI7YJ5KOaXBIZYUs9Yh6kXNfG/jOEiUU2m3TYqigwGcxSu5nuNjEL1a2fxMrQTvZlEKGFZ1kJrC3eltpLiyBfzXfOChlPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=JfxBtduO; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=mrGZMwTt reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1754551181; c=relaxed/simple;
+	bh=AdJdBzD8fCrkZiV1XxDiJs2KuaTiavg3+PN4NwbZwyw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=T587aAzx1ZZqkyexiRoWfVQs+0kIgtVhihLy8swsCsrAds3mtHUktp+SUDLd38UAtRQvQRFY6rUy/RKDAXL9pxihPUQBbVftyez97jZKybTkohdzKepImdoOHHmn5QIvMHPwS6o0X8BomIm2bXjIJUucsM4K9P2DHg9HkgQ6L+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BlM+3OLn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="JfxBtduO";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="mrGZMwTt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1754549344; x=1786085344;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7Sx8JUyM3/4H7bRCB9wNV/IluDw2UIz1vKgHRy/QEVw=;
-  b=JfxBtduOBSqtaWoAq/X7VUlwQv4/XoOpcro5wWujYfUQqO/pSM00MBPx
-   iOaxcPuY76/eOpTPwAM0/ZSJ4eU25uiusHnLNxpXebGVYBA7DRfakfBAl
-   cxWUk/K8G+8igr7NrrzOn06t0zkauOTStXlVJi69qF1Ph3g9zmPNkK+1L
-   pSE92AEgbO1jhabA36+/RY1G8cedMCMbf76mybX1hP/vBRBhUA8yUgjcQ
-   AU0DfXHcTykk+2YihXnCQYe+LvILcOLmA18YOXr+gRYaZa6ADnp53M3f3
-   zh5VGVX5Bz57fjUO4jtvYGpe5ZPWVOl5Wf2esCNbOBL25z++vIydSqrt/
-   g==;
-X-CSE-ConnectionGUID: I2PmyxDYScSuTRFw+H5RPw==
-X-CSE-MsgGUID: XDJruS2UTWOZejcJYgaFyQ==
-X-IronPort-AV: E=Sophos;i="6.17,271,1747692000"; 
-   d="scan'208";a="45628058"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 07 Aug 2025 08:48:51 +0200
-X-CheckPoint: {68944C53-3-299FBAB0-EF52EDE7}
-X-MAIL-CPID: 9B87D54F7B707BEEAED780E1C71972C8_5
-X-Control-Analysis: str=0001.0A002116.68944C87.0028,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 509341613DA;
-	Thu,  7 Aug 2025 08:48:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1754549326;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7Sx8JUyM3/4H7bRCB9wNV/IluDw2UIz1vKgHRy/QEVw=;
-	b=mrGZMwTtVtjo5kHwbg35IQX/P5TNnTWBQcIxNa9iUC7uSo7rTQLbuzsOAR0XdkbAgHVYVL
-	jhBCsFQ9GwQKTzxzFPGU93q2evcLKB7X2GV5sLvGVSMBpjyhMaVcnVV/rYGDshvdUVR1aY
-	2Yr7vXdhMvML4A8B1d0fq+SM2JIoHoGGPg5LifurXToqn06YRqsdSb21SAOEInEIwqMk0B
-	FooH5azD929SoI3ZX6geUNC3FRIAAorL18g5SBmBcTIs88LaVBmxpepG81KTLhjPbZWHHe
-	v6eTmkjeBRyGiFoqWRFob27/ZWAQLxM6SzAIhAMo6/mr1j/iTjRKpAZKOAuMnA==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
- l.stach@pengutronix.de, perex@perex.cz, tiwai@suse.com,
- linux-sound@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-Subject:
- Re: [PATCH v3 5/6] drm/bridge: imx: add driver for HDMI TX Parallel Audio
- Interface
-Date: Thu, 07 Aug 2025 08:48:35 +0200
-Message-ID: <3006103.e9J7NaK4W3@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To:
- <CAA+D8AMqBqfRuR7oGLwH4CUrAdY4q1XGmnPXGQYUGndY0eS=yw@mail.gmail.com>
-References:
- <20250804104722.601440-1-shengjiu.wang@nxp.com> <2380862.ElGaqSPkdT@steina-w>
- <CAA+D8AMqBqfRuR7oGLwH4CUrAdY4q1XGmnPXGQYUGndY0eS=yw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BlM+3OLn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19432C4CEEB;
+	Thu,  7 Aug 2025 07:19:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754551177;
+	bh=AdJdBzD8fCrkZiV1XxDiJs2KuaTiavg3+PN4NwbZwyw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BlM+3OLnxJ3U6yt4pjlo9B5jGguBk/5a4iWnw7WsGu/YCMpVhugBCZnHXUXb97NBR
+	 fa2iUyKqUZV+CyVc+H/m1d+SABz3YylWoKn8nbCqk4p41RxVKCCGKzuan9ml/9j5t9
+	 HaLFQKI8yXPzUzf4eSCIv3BKIfT4ATCC8g5g+zIh/Fl4VEb7hqQUtRBAPAlGhIkXlq
+	 Ka1O28AjRGJPutdrB6ZiXUlwccNGMtH3vE7XhA9tFJRZ2JHVA4O/n1x0Xohhz3NxYE
+	 sUo10rUkB0DRGvhGvImbbif/AhfnNN+3AJArwJ2m7Ubt9/K1vzLwISiesO6KP6Kv3Y
+	 oJTcJXtntYVSQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Lee Jones <lee@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] mfd: madera: work around false-positive -Wininitialized warning
+Date: Thu,  7 Aug 2025 09:19:28 +0200
+Message-Id: <20250807071932.4085458-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Arnd Bergmann <arnd@arndb.de>
 
-Am Mittwoch, 6. August 2025, 05:49:13 CEST schrieb Shengjiu Wang:
-> On Tue, Aug 5, 2025 at 3:09=E2=80=AFPM Alexander Stein
-> <alexander.stein@ew.tq-group.com> wrote:
-> [snip]
-> > > +static int imx8mp_dw_hdmi_bind(struct device *dev)
-> > > +{
-> > > +     struct dw_hdmi_plat_data *plat_data;
-> > > +     struct imx8mp_hdmi *hdmi;
-> > > +     int ret;
-> > > +
-> > > +     hdmi =3D dev_get_drvdata(dev);
-> > > +     plat_data =3D &hdmi->plat_data;
-> > > +
-> > > +     ret =3D component_bind_all(dev, plat_data);
-> >
-> > Do you really need plat_data variable?
->=20
-> yes,  it is used in imx8mp_hdmi_pai_bind()
+clang-21 warns about one uninitialized variable getting dereferenced
+in madera_dev_init:
 
-Sorry for not being clear. I'm not talking about struct dw_hdmi_plat_data, =
-but
-the local variable plat_data. You can use
+drivers/mfd/madera-core.c:739:10: error: variable 'mfd_devs' is uninitialized when used here [-Werror,-Wuninitialized]
+  739 |                               mfd_devs, n_devs,
+      |                               ^~~~~~~~
+drivers/mfd/madera-core.c:459:33: note: initialize the variable 'mfd_devs' to silence this warning
+  459 |         const struct mfd_cell *mfd_devs;
+      |                                        ^
+      |                                         = NULL
 
-ret =3D component_bind_all(dev, &hdmi->plat_data);
+The code is actually correct here because n_devs is only nonzero
+when mfd_devs is a valid pointer, but this is impossible for the
+compiler to see reliably.
 
-directly.
+Change the logic to check for the pointer as well, to make this easier
+for the compiler to follow.
 
->=20
-> >
-> > > +     if (ret)
-> > > +             return dev_err_probe(dev, ret, "component_bind_all fail=
-ed!\n");
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static void imx8mp_dw_hdmi_unbind(struct device *dev)
-> > > +{
-> > > +     struct dw_hdmi_plat_data *plat_data;
-> > > +     struct imx8mp_hdmi *hdmi;
-> > > +
-> > > +     hdmi =3D dev_get_drvdata(dev);
-> > > +     plat_data =3D &hdmi->plat_data;
-> > > +
-> > > +     component_unbind_all(dev, plat_data);
-> >
-> > Do you really need plat_data variable?
->=20
-> yes,  it is used by imx8mp_hdmi_pai_unbind()
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/mfd/madera-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Same as above. Call
-
-component_unbind_all(dev, &hdmi->plat_data)
-
-directly. Also consider assigning struct imx8mp_hdmi *hdmi =3D dev_get_drvd=
-ata(dev);
-directly.
-
-Best regards,
-Alexander
-
->=20
-> >
-> > > +}
-> > > +
-> > > +static const struct component_master_ops imx8mp_dw_hdmi_ops =3D {
-> > > +     .bind   =3D imx8mp_dw_hdmi_bind,
-> > > +     .unbind =3D imx8mp_dw_hdmi_unbind,
-> > > +};
-> > > +
-> > >  static int imx8mp_dw_hdmi_probe(struct platform_device *pdev)
-> > >  {
-> > >       struct device *dev =3D &pdev->dev;
-> > >       struct dw_hdmi_plat_data *plat_data;
-> > > +     struct component_match *match;
-> >
-> > Set match =3D NULL for drm_of_component_match_add (and subcalls) to all=
-ocate memory.
->=20
-> Ok.
->=20
-> best regards
-> Shengjiu wang.
-> >
-> > Best regards
-> > Alexander
-> >
-> > > +     struct device_node *remote;
-> > >       struct imx8mp_hdmi *hdmi;
-> > > +     int ret;
-> > >
-> > >       hdmi =3D devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
-> > >       if (!hdmi)
-> > > @@ -108,6 +145,22 @@ static int imx8mp_dw_hdmi_probe(struct platform_=
-device *pdev)
-> > >
-> > >       platform_set_drvdata(pdev, hdmi);
-> > >
-> > > +     /* port@2 is for hdmi_pai device */
-> > > +     remote =3D of_graph_get_remote_node(pdev->dev.of_node, 2, 0);
-> > > +     if (remote && of_device_is_available(remote)) {
-> > > +             drm_of_component_match_add(dev, &match, component_compa=
-re_of, remote);
-> > > +
-> > > +             of_node_put(remote);
-> > > +
-> > > +             ret =3D component_master_add_with_match(dev, &imx8mp_dw=
-_hdmi_ops, match);
-> > > +             if (ret)
-> > > +                     dev_warn(dev, "Unable to register aggregate dri=
-ver\n");
-> > > +             /*
-> > > +              * This audio function is optional for avoid blocking d=
-isplay.
-> > > +              * So just print warning message and no error is return=
-ed.
-> > > +              */
-> > > +     }
-> > > +
-> > >       return 0;
-> > >  }
-> > >
-> > > @@ -115,6 +168,8 @@ static void imx8mp_dw_hdmi_remove(struct platform=
-_device *pdev)
-> > >  {
-> > >       struct imx8mp_hdmi *hdmi =3D platform_get_drvdata(pdev);
-> > >
-> > > +     component_master_del(&pdev->dev, &imx8mp_dw_hdmi_ops);
-> > > +
-> > >       dw_hdmi_remove(hdmi->dw_hdmi);
-> > >  }
-> > >
-> > > diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdm=
-i.h
-> > > index 095cdd9b7424..336f062e1f9d 100644
-> > > --- a/include/drm/bridge/dw_hdmi.h
-> > > +++ b/include/drm/bridge/dw_hdmi.h
-> > > @@ -143,6 +143,12 @@ struct dw_hdmi_plat_data {
-> > >                                          const struct drm_display_inf=
-o *info,
-> > >                                          const struct drm_display_mod=
-e *mode);
-> > >
-> > > +     /*
-> > > +      * priv_audio is specially used for additional audio device to =
-get
-> > > +      * driver data through this dw_hdmi_plat_data.
-> > > +      */
-> > > +     void *priv_audio;
-> > > +
-> > >       /* Platform-specific audio enable/disable (optional) */
-> > >       void (*enable_audio)(struct dw_hdmi *hdmi, int channel,
-> > >                            int width, int rate, int non_pcm, int iec9=
-58);
-> > >
-> >
-> >
-> > --
-> > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, =
-Germany
-> > Amtsgericht M=C3=BCnchen, HRB 105018
-> > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan=
- Schneider
-> > http://www.tq-group.com/
-> >
-> >
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-http://www.tq-group.com/
-
+diff --git a/drivers/mfd/madera-core.c b/drivers/mfd/madera-core.c
+index bdbd5bfc9714..2f74a8c644a3 100644
+--- a/drivers/mfd/madera-core.c
++++ b/drivers/mfd/madera-core.c
+@@ -456,7 +456,7 @@ int madera_dev_init(struct madera *madera)
+ 	struct device *dev = madera->dev;
+ 	unsigned int hwid;
+ 	int (*patch_fn)(struct madera *) = NULL;
+-	const struct mfd_cell *mfd_devs;
++	const struct mfd_cell *mfd_devs = NULL;
+ 	int n_devs = 0;
+ 	int i, ret;
+ 
+@@ -670,7 +670,7 @@ int madera_dev_init(struct madera *madera)
+ 		goto err_reset;
+ 	}
+ 
+-	if (!n_devs) {
++	if (!n_devs || !mfd_devs) {
+ 		dev_err(madera->dev, "Device ID 0x%x not a %s\n", hwid,
+ 			madera->type_name);
+ 		ret = -ENODEV;
+-- 
+2.39.5
 
