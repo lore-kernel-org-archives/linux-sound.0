@@ -1,116 +1,134 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61841361
-	for <linux-sound@vger.kernel.org>; Fri,  8 Aug 2025 05:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8893521FF53;
+	Fri,  8 Aug 2025 06:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754632667; cv=none; b=a9are3k5vDl90HhudcGIZH5cOPHbjame4c6sriAwT5ziL00FnluF4R2v7sJGmG3CqeONQplHWvTX+8j+Y53HrmRym+WL6OJkkl/iqQLe1OIckC3M5FFu2zc5/NnRIw7qms4MBDya9DPUMGVfVp46Z7uCPB2G5zcrS5MbUcEfq/U=
+	t=1754633675; cv=none; b=hIY1dweeWxz2G8X/FuVjn6cynzdYvALt8w2+c3+QJclcDXyjqS/OtEYuxHIHfTxylLo/1ZZ+4voBDsBDy8h0Hz2RhwLgfbgbYRj2/f7vJtJR7sKZEDlo3JSUJtqZ32bCaE5v2Z+lVeRnd4pMjuzNEdXxg+3/a0WtR191sdBhf4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754632667; c=relaxed/simple;
-	bh=9QfsTMWWC0hFGq5OKp/4Qzk09X3J2oKc29t2odNFe9E=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VuWwdYb0XJDsJ8XfKuUfTbI1GF6vIOWDOW0K8Tl9WBKJ27R69gaVg4v8Kb6g12rnVpwnLiBlwpyu0QDRMthcl09g/ZKrK5PlXOP4C0EkBFuiYwOaFsZLoI9fTxkTuEj49pQA3SGa45INroAemOCG/F5jhVXrkW7DAHSPQf8UEzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ruVdcB4r; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1754633675; c=relaxed/simple;
+	bh=Y/W+sje0EboXCDX6Q4bMj+dHKJHYtmhocoOQxyyA9Pc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rvTdMsIdojOCyLEaTxGCiZsmeD9KiYRsDc+p1OXKzc8yMPIimyunfsdyJ0NcCDiJZ6ymRzO6ukygq2BsxBvKIq9kDG51nelUVT8KASiQiqtHqcYPdmQFQ8ksZW1aqK+xYxZEbT3YWmjq03D8HFmhldeowp+n6uTNapw3CApQdI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KbT84UQJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ruVdcB4r"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5785vN6N12762480, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1754632643; bh=3MQBZsWchZ0dwpiibuo1NVeEkf5rvGWoYjD9FBcKXlk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=ruVdcB4rFpZS31sLP/4TpyDnXL7ns1mDmYugF+rF1CEWIGIQ2eg5FxvLxN3N+wtlU
-	 KVkG1zwirejvkc7yt9khtSdNuxrkcaquatWZpcXSXkOGW3UtpWvmSpQ4VSoW5OMDap
-	 MBBiZQxE+wm3ywv9yMsWStB+7XU3U6l/4V85ACzxwDG8OZcXq0GRCERgGvEpgIfYqN
-	 7REl+VZ0zjoPpQgEURbfFx2V23qWNBH5ps6YnqFwpLe6ja4hKJEgvUwUt1Hu6jUdBr
-	 dYTsDAbxsc4kAeLOjTIDFHTvb31OwjAdjGUljsP7J7ysQzs+oFkEa0jXgsk+m5ekOD
-	 GzJp4jqZeZzZg==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 5785vN6N12762480
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 8 Aug 2025 13:57:23 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 8 Aug 2025 13:57:23 +0800
-Received: from sw-server.localdomain (172.24.54.4) by RTEXMBS01.realtek.com.tw
- (172.21.6.94) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Fri, 8 Aug
- 2025 13:57:22 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH 2/2] ASoC: rt721: add some vendor registers
-Date: Fri, 8 Aug 2025 13:57:19 +0800
-Message-ID: <20250808055719.1110808-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KbT84UQJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10357C4CEED;
+	Fri,  8 Aug 2025 06:14:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754633675;
+	bh=Y/W+sje0EboXCDX6Q4bMj+dHKJHYtmhocoOQxyyA9Pc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KbT84UQJHgZo7GwSHXwLy3U6aFaTNupJQy/Kp1aZCNAvC+G+ID/uRR2wWByGWA6/8
+	 JhtVk4p5inYspk1jUGpEuOEySG64iw980qytzKkEel51qpojHDN65Z27riv+L/OnNb
+	 HM5jRMXGhQK812xn9vE+23FowOknc+PSplSApS+NSj3KKhsyUq1y/YT1vY2zMq00dX
+	 02VnTHwe9c1U7d2BrR7Ds473R/asyqvwPgJ8zbuLDSpedGyFdIVaKaXIiPxS04Dj7s
+	 OZL33/ikjaCdnBqYY7phHSCeiseelnEFCtjU5AA2yre6/8gD9dEkybD47kqfnsuSQX
+	 TA40zM+7AzBMQ==
+Message-ID: <14019ad9-0dd3-49f5-948e-5d0330b764c2@kernel.org>
+Date: Fri, 8 Aug 2025 08:14:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
- RTEXMBS01.realtek.com.tw (172.21.6.94)
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] ASoC: dt-bindings: qcom,sm8250: Add lemans-evk and
+ monaco-evk sound card
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel@oss.qualcomm.com
+References: <20250808052939.1130505-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20250808052939.1130505-2-mohammad.rafi.shaik@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250808052939.1130505-2-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Shuming Fan <shumingf@realtek.com>
+On 08/08/2025 07:29, Mohammad Rafi Shaik wrote:
+> Document the bindings for the Qualcomm LEMANS-EVK and MONACO-EVK
+> board specific sound card.
+> 
+> The bindings are the same as for other newer Qualcomm ADSP sound cards,
+> thus keep them in existing qcom,sm8250.yaml file, even though Linux driver
+> is separate.
+> 
+> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+> index 5d3dbb6cb1ae..c63bfe031b57 100644
+> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+> @@ -31,6 +31,8 @@ properties:
+>            - fairphone,fp4-sndcard
+>            - fairphone,fp5-sndcard
+>            - qcom,apq8096-sndcard
+> +          - qcom,lemans-evk-sndcard
 
-This patch added some vendor registers to read for debugging.
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/codecs/rt721-sdca-sdw.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Lemans is already there under one of the QCS cards. I was told it is the
+same, so you do not get a new compatible.
 
-diff --git a/sound/soc/codecs/rt721-sdca-sdw.c b/sound/soc/codecs/rt721-sdca-sdw.c
-index 582b47d69278..4d8a12b13015 100644
---- a/sound/soc/codecs/rt721-sdca-sdw.c
-+++ b/sound/soc/codecs/rt721-sdca-sdw.c
-@@ -63,15 +63,14 @@ static bool rt721_sdca_volatile_register(struct device *dev, unsigned int reg)
- static bool rt721_sdca_mbq_readable_register(struct device *dev, unsigned int reg)
- {
- 	switch (reg) {
--	case 0x0900007:
-+	case 0x0900004 ... 0x0900009:
- 	case 0x0a00005:
- 	case 0x0c00005:
- 	case 0x0d00014:
- 	case 0x0310100:
--	case 0x2000001:
--	case 0x2000002:
--	case 0x2000003:
-+	case 0x2000000 ... 0x2000003:
- 	case 0x2000013:
-+	case 0x200002c:
- 	case 0x200003c:
- 	case 0x2000046:
- 	case 0x5810000:
-@@ -134,6 +133,8 @@ static bool rt721_sdca_mbq_volatile_register(struct device *dev, unsigned int re
- {
- 	switch (reg) {
- 	case 0x0310100:
-+	case 0x0900005:
-+	case 0x0900009:
- 	case 0x0a00005:
- 	case 0x0c00005:
- 	case 0x0d00014:
-@@ -141,6 +142,7 @@ static bool rt721_sdca_mbq_volatile_register(struct device *dev, unsigned int re
- 	case 0x200000d:
- 	case 0x2000019:
- 	case 0x2000020:
-+	case 0x200002c:
- 	case 0x2000030:
- 	case 0x2000046:
- 	case 0x2000067:
--- 
-2.34.1
+Monaco maybe as well.
 
+We also name standard cards per SoC, not per board, so evk should be
+dropped or commit msg should explain why this is different.
+
+
+Best regards,
+Krzysztof
