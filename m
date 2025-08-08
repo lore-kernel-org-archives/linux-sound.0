@@ -1,105 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7573285C91;
-	Fri,  8 Aug 2025 15:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE0E27FD5D;
+	Fri,  8 Aug 2025 15:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754666729; cv=none; b=A/6DYsnsVVsyuIEXxCWkarFAyEHSsmyewxitVtq3a0v2uFNLYbY+asQZJFIQIWpxeoJfzZwYxqEMyHak6FdIjXRBfuds9CEuVvVxFM9sxXyjSDzJJkcxOjuUaqWKBepeP3+mkOU72RbHGeTq7ls9VReslUWQrbQ2ORovyHxl9HM=
+	t=1754668162; cv=none; b=g77DNfOL5zQRYw0RuTiNHtqVjjXlcPG5g8dB2nCYie2tqmPG6dn83P2xULR6Le92sBLqmn0DfzrB25movTfZ6CkUKpNmVhpMkbO3yQ0KZet8nSvUOCqftNY6aKRK7bMvuOzQ3vy4zRucOXqqraKL61LPcSQKFP3k+tH4Q/RvVNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754666729; c=relaxed/simple;
-	bh=ql43Pm5ZVVpFZkt/lmAyISGZXPuox8rw7R6mqwFTem0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qqNKYZHPIiKByXeF+LPTq9pekfEP7cAoDN6t/EoKK4ubGDuHonSTJJPPB0xiVMEdubuBJziWTpfgYftUpJFOoeNuKbxY/zDT/vapnqL2XKlpe1SbUeeKuWgX3SVAN0aZc30y+w3zDIQC/aooeHrm/wfKGAOHeMEEv+TLK10PGLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1o2Rd1n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754668162; c=relaxed/simple;
+	bh=pIQ6vU9w4UeLwbTT6Kv7fzi6LGvzo6PScYYE6GGKNHI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QECY9oIsAg3ju77n2OGufI9ZtagL/SogX7nJa0QrinPjSFCRCjIb5jeNBvGgJN15LNBNOJX57ta69F94KYDIEL7OOSDRBrD1SjtVKSLDbktdi1YvMB0N8I+K8l0I7GAR4Aa5NxCZ9nHpQ5K9u0gF+WecX3Ap8N7li5sQ4U2PgfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JgFSxP5u; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1o2Rd1n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C25C4CEED;
-	Fri,  8 Aug 2025 15:25:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754666729;
-	bh=ql43Pm5ZVVpFZkt/lmAyISGZXPuox8rw7R6mqwFTem0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d1o2Rd1nJHSRYFCzylvP+3x9U8gc1HC0fXIU0YsQVx7xGvfqmXhr0IuqJsRnpv0Tk
-	 nRHkvuOOLCFr8tAX2twv/foDjaDtd5bB3P62pK8RanglCpRoAF3UhTbPGsDquJjVsM
-	 YnhVgSXaPTaY7/NrDnIo9XaYFyC3+e+N+gElNMZin1iMb3Baoweh+Ekj1fYoF7TZwr
-	 M6qYj8IFllGuc/2eFH3faF/K84LpxFhw4YCNb7Us3cKHIOgqBJ7urKJdf1CJulU6aO
-	 YNKq6Fvb4njTbSm7YegOPQmoYDAtj1OpwXd4NDQL0TQf2UrAcffq2kN8kCH1HWJYiV
-	 8szml0eaARUgw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-gpio@vger.kernel.org,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JgFSxP5u"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 735471920;
+	Fri,  8 Aug 2025 17:48:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754668108;
+	bh=pIQ6vU9w4UeLwbTT6Kv7fzi6LGvzo6PScYYE6GGKNHI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JgFSxP5u0D5a7n575+BtZgqmGSG/DS7CroG5hZjniD9UY5xdum3+cwmoKt7/AnutS
+	 51hMn7kk9za5whdbDm2R6wxCcKcQ5W7vbVb+xOonf4tYuYdJAROac2qMx3A+dbHFBJ
+	 zOSj8waUlLUV7Y3hjZy7qULUfEZx+ljUNucDQets=
+Date: Fri, 8 Aug 2025 18:49:03 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux@treblig.org
+Cc: arnd@arndb.de, lee@kernel.org, mchehab@kernel.org, lgirdwood@gmail.com,
+	broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 20/21] ASoC: pxa: add GPIOLIB_LEGACY dependency
-Date: Fri,  8 Aug 2025 17:18:05 +0200
-Message-Id: <20250808151822.536879-21-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
-References: <20250808151822.536879-1-arnd@kernel.org>
+Subject: Re: [PATCH 0/4] Remove the wl1273 FM Radio
+Message-ID: <20250808154903.GB23187@pendragon.ideasonboard.com>
+References: <20250625133258.78133-1-linux@treblig.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250625133258.78133-1-linux@treblig.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, Jun 25, 2025 at 02:32:54PM +0100, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> I noticed that the wl1273 radio had an unused symbol, but then noticed
+> it is on Arnd's unused driver list:
+>   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> 
+> So, delete it.
+> The components seem pretty separable, except for Kconfig dependencies.
+> 
+> That lore URL is over 75 chars, which checkpatch warns about,
+> suggestions welcome.
+> 
+> Dave
+> 
+> Dr. David Alan Gilbert (4):
+>   media: radio-wl1273: Remove
+>   ASoC: wl1273: Remove
+>   mfd: wl1273-core: Remove
+>   mfd: wl1273-core: Remove the header
 
-The pxa27x platform uses the legacy gpiolib interfaces, including
-in its sound drivers:
+Mark, Lee, how would you like this to be merged ? I have a large patch
+series targetting v6.18 that depends on 1/4, and I would like to merge
+it in the media tree as soon as possible after -rc1 gets released.
+Patches 1/4, 2/4 and 3/4 are independent of each other, but patch 4/4
+depends on the first three. Can we merge 1/4 in the media tree and
+provide a stable branch right on top of -rc1 ?
 
-sound/arm/pxa2xx-ac97-lib.c: In function 'pxa2xx_ac97_hw_probe':
-sound/arm/pxa2xx-ac97-lib.c:374:23: error: implicit declaration of function 'gpio_request_one' [-Wimplicit-function-declaration]
-  374 |                 ret = gpio_request_one(reset_gpio, GPIOF_OUT_INIT_HIGH,
+>  .../admin-guide/media/radio-cardlist.rst      |    1 -
+>  drivers/media/radio/Kconfig                   |   17 -
+>  drivers/media/radio/Makefile                  |    1 -
+>  drivers/media/radio/radio-wl1273.c            | 2159 -----------------
+>  drivers/mfd/Kconfig                           |   10 -
+>  drivers/mfd/Makefile                          |    1 -
+>  drivers/mfd/wl1273-core.c                     |  262 --
+>  include/linux/mfd/wl1273-core.h               |  277 ---
+>  sound/soc/codecs/Kconfig                      |    4 -
+>  sound/soc/codecs/Makefile                     |    4 +-
+>  sound/soc/codecs/wl1273.c                     |  500 ----
+>  sound/soc/codecs/wl1273.h                     |   16 -
+>  12 files changed, 1 insertion(+), 3251 deletions(-)
+>  delete mode 100644 drivers/media/radio/radio-wl1273.c
+>  delete mode 100644 drivers/mfd/wl1273-core.c
+>  delete mode 100644 include/linux/mfd/wl1273-core.h
+>  delete mode 100644 sound/soc/codecs/wl1273.c
+>  delete mode 100644 sound/soc/codecs/wl1273.h
 
-Make sure we don't select those drivers for compile-testing unless
-we are building for a pxa27x system, or CONFIG_GPIOLIB_LEGACY is
-already enabled.
-
-The SND_PXA_SOC_SSP driver accidentally used a dependency on PLAT_PXA,
-which includes both ARCH_PXA and ARCH_MMP, but it is only used on
-the former.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- sound/soc/pxa/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/pxa/Kconfig b/sound/soc/pxa/Kconfig
-index e026f9912a6d..e54abcd39f79 100644
---- a/sound/soc/pxa/Kconfig
-+++ b/sound/soc/pxa/Kconfig
-@@ -3,7 +3,7 @@ menu "PXA"
- 
- config SND_PXA2XX_SOC
- 	tristate "SoC Audio for the Intel PXA2xx chip"
--	depends on ARCH_PXA || COMPILE_TEST
-+	depends on ARCH_PXA || (COMPILE_TEST && GPIOLIB_LEGACY)
- 	select SND_PXA2XX_LIB
- 	help
- 	  Say Y or M if you want to add support for codecs attached to
-@@ -26,7 +26,7 @@ config SND_PXA2XX_SOC_I2S
- 
- config SND_PXA_SOC_SSP
- 	tristate "Soc Audio via PXA2xx/PXA3xx SSP ports"
--	depends on PLAT_PXA
-+	depends on ARCH_PXA
- 	select PXA_SSP
- 	select SND_PXA2XX_LIB
- 
 -- 
-2.39.5
+Regards,
 
+Laurent Pinchart
