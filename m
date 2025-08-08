@@ -1,68 +1,69 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DF11FC0F3
-	for <linux-sound@vger.kernel.org>; Fri,  8 Aug 2025 05:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C002120E002
+	for <linux-sound@vger.kernel.org>; Fri,  8 Aug 2025 05:30:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754631024; cv=none; b=TauyX/unybBfeoECj8SZ3uam+yXk+amq2Whmhb3SLQkoXQAEBoCBoYhhAXwqdtToe8QP/80cRScgdaYkxC1fHket2/YX9p8NsCIKzFb9WkJr0sYUbi04EK6o8/lASHkYW2n8EYL9bekxixorekR1KS72lawinoLJU7bnTUYYk/o=
+	t=1754631027; cv=none; b=YOxWCEWu2abyOC6Tavq7IkbUBZ2NORsMjkpETzdVpW5ahzrrk8ndXJqaP5jwlGxuSJr/gK1fhq2oVgbLsBt9OhtdKkKl3LhvXdGe1jBV6NEpOULw7fK5clBEYV0uQyhnP749BCcJWlvFSudChhEXS/zIY+zGnAoZBm0LWefip0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754631024; c=relaxed/simple;
-	bh=Jd76TxLJDO6ktnTVki7hB04b124OqwCvlvXm+sVtsuE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KAWkAC3jUyLsSaRGtlFGpna2kJLXipOVt5bDktdHfw98PQDB1MDXzyTKfS1rYCO1vXrYnpgYFEVSX1EK+jbuAe3GhKicuy2ITjGfgk/MziUw3mRWuvke9Jd6N6UJ04mqCTCJE7SwTNn6GXAOx1TOwc/neI5jYijjZBId+9PI3zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=loOboYIY; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1754631027; c=relaxed/simple;
+	bh=vudh6ChWfb+QAp63DxN/31q2MEqtFSevu7JbiruqA44=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YmttMTNN1c4q/am0OUTmmSRfIviX2hJhRv7Q84kZ+LEgUzCnF2zkKoqJCWUhRuIK/3Z1WWO9IMpJVRg4ValGRKjKgWuIVOezt8wfKFbVnftupUCBL3EgfMH+7tB7kjnujWmD8DPsm6lfUaRNQfspaNqyzd4rdpyxtypKEvykbBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WBn9bP5P; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="loOboYIY"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5781mSaP030293
-	for <linux-sound@vger.kernel.org>; Fri, 8 Aug 2025 05:30:20 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WBn9bP5P"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 577IYaaw025030
+	for <linux-sound@vger.kernel.org>; Fri, 8 Aug 2025 05:30:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=8Car4PvODcLhqhbydD+z1uxMFD8WOqlwfDy
-	1GI1vIzo=; b=loOboYIYcNiY4EYj1NpU+mpoGcaaQntaHilmAFXH2NpeyP9lDbs
-	wqcnd6ZdF14ktVtV7b6kzD/A7KgpwAuCTTVjg07fIKtUF1Mctmq73bF98HG+MIvH
-	3bafSzfLQw7cpH06rzhk/minn4W9fNr5jcCXJVaNcotYNn9TPMSUsFOoa8sgjh4u
-	Kr6Oh3Fx3c7Pw6IUklGU+DNXTkFHoi9e6L4SrkO2sCpPH/yWkzClgKktyUuvUgYm
-	ZVf++isdZEa+VruZaMtMrlh8RJqlm4SaB1UoY5a1HrySCja/YB0cTPg+CL7/t4Eg
-	nBH7/4zOXomkd90rTR793lXZdPi1ePYteWA==
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=j0/NbC6Dz3I
+	Sr1wnPGqDAmCICjCJoiyEDtY+fN1XBu8=; b=WBn9bP5Pv6wjkiTgkiMnxIDcsTK
+	iJFDyvg4NcR5yVnOo7RRjGMl6z5Nlo7nnL7uiLP+6cFhl4QUKqiKYbx1fDSHWZS8
+	dsp6IxyaHZ54eCAHrmAAkyChQIg+vQxPN+LA6HbFwFFs/17OoERFqu9pYer8oDql
+	E/vF0hUYxFYK3VIGDc0ydL4ERlu7X1avjGfy05oOYcVySm2UbFs44/7SNS3f4+7u
+	kV6smLhpOo5kZ0s8RraDxmDs06K3RBfuhXotcV96U6/X28BFc55byHE/2fjzL/4S
+	JEhwPfET5tX8BjkQtZ7sacigyVVkee6aJJgv44A0VKxFoVOru2dqi383W4w==
 Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpw00w8c-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpw1gkm5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 08 Aug 2025 05:30:20 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-76bed3183ecso2093884b3a.3
-        for <linux-sound@vger.kernel.org>; Thu, 07 Aug 2025 22:30:20 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Fri, 08 Aug 2025 05:30:24 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-76bb326ad0bso1982098b3a.0
+        for <linux-sound@vger.kernel.org>; Thu, 07 Aug 2025 22:30:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754631019; x=1755235819;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8Car4PvODcLhqhbydD+z1uxMFD8WOqlwfDy1GI1vIzo=;
-        b=ZhjswSREBwTgccM6WCytZ0nCirPKarMHBYjc2Rxsvzn8FNZtJdV+WdjdOC8asfylSx
-         3oWM3/3C95cqDnthFz9EOp5E2ix+DgUEzhqiqb///y4xHOg4dTmQYf+6h6e6rZKtGhoF
-         0HTi4UFEV2hoNihorCyyV1MD1W8Sbr1R9XFOf9U9R1hp6Bj7QE+K9WdcD7OsbAdBrFIJ
-         kkNU+gxH0N37i2ol9IbfVl0CvGBCURrVTP/hmEMLxtmRd3ViLLWPtUjJ7FZkdyXkt9ez
-         5UKcndiajlDJY3PFrq0+IHEmyqXQHYyDzGq39FVkvKXYcyI8AK4j6bEgt8nbLOaLJvIi
-         cAEg==
-X-Gm-Message-State: AOJu0YzC5Q8300QqaSdN/MeEOJnScBoS/E/ql/v8LSwB4YuLLWYocj8M
-	unvq3HhoZCmcht2GNSG4oG3d6i1CMhx8YdBkwHdnF+qNkWIoIzVpcX+dGFI2+ouolE9GCN9Gxsx
-	KflF0I4jWnhv6/axEkloK+NZDQl06SwNi+8ZWKucwZOnZd9PPuoo06Tk7CZwMHygRsg==
-X-Gm-Gg: ASbGncu4ud2HsvmkvDTCNqph8MZsNSIMk6WR1hj1DiROYS1SZchL6h3x9VhVxiRWMCf
-	TbFPv7gDKAvKbvZ2wMX40SxLFI8rkjBIwY4W3WeGOtWT0i8FyYJogqzcKD5kRCi09p7dexJzqEI
-	Nyg7ZrkVBPhdKXscaq3iGBtit33azkVRka1Y3XhbFTcu3jcQ+dI1nDYpB2jxDMMGb8z4wmfqXDp
-	Ue1wko5lARN+NawG1+PGWpJdNH7BzAOta0j7PsDEkC+ExaPWvIB/+MXzvxLLLLD5QwR0zjKCJfR
-	CnFIvRlMJZZ0SXM4ILERzWFt4EVg+aQYjpj+/ZqvSkT2KtMwJMUPAQ//V/clO1EhA30yG7cGTs+
-	L
-X-Received: by 2002:a05:6a20:7d9f:b0:23f:fc18:77af with SMTP id adf61e73a8af0-2405526b3d4mr2604476637.44.1754631019255;
-        Thu, 07 Aug 2025 22:30:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF2AX1odTQ7pYbDdG+vscDveuCfUt/q/c3s8e8DDzLhI/9qs3snSGEcgCMTUUe5hjWo6pSeVg==
-X-Received: by 2002:a05:6a20:7d9f:b0:23f:fc18:77af with SMTP id adf61e73a8af0-2405526b3d4mr2604436637.44.1754631018849;
-        Thu, 07 Aug 2025 22:30:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754631023; x=1755235823;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j0/NbC6Dz3ISr1wnPGqDAmCICjCJoiyEDtY+fN1XBu8=;
+        b=dWM61NcIbNZwn80qY9XN6KdCustrPPMQ1gFIzA/IW2EUadwxwj1QLNNJnaoYx8yBqc
+         0AgKXIbxCZUclFl4AkNx8GJ7M3I7vZGgnUmM9YTO51bgtFzI5UEnOrSZ3tP6Udz1MIaK
+         z33dweT62kisH6dCLEnGJQ73U744Xn7adJTkNMwI9cDuDud8p6L0EjPj5FnU/G/mGHMb
+         EEiWG2Kwal5tFkXliwBfjomASGp+ExvmmseeSRwHfFMzOlXR6NM4hYTkxJ+CseWPNGNv
+         P/miuGAsa34d6+WJRp9rTuiaChdjPtPy2+ReTmnj6B0c8ZPhqX4FfPX63YibNiDVnZSn
+         cjQQ==
+X-Gm-Message-State: AOJu0Yw/nN1H77bjscCZwA+/uDe6DtHPBtEEcyETmrO/U8UpCkbVLy1j
+	85/0yhARAwJY4GtFOTKe5xUobIfdIBkpsmWnzy/Vq8PzQ0xAh2/B27NZmSc/wVFj/DvtgD9joZ2
+	78YoWF/1JYkQxMEcMhBtjAu4RNQSr7J5eDIJt6IFcFS5uAcB9hhF76AU2F2tFDpRs8g==
+X-Gm-Gg: ASbGnctqj9ale3f/v7L6ewu5oID8TpH6aOo6avDD+xvTWPZjkB4002kCf4E59LN+zIu
+	UNZT2RUWsubUE7EL4nxrujPkRx6zQjZYdgNSSz30DndEcyngGZPyH91dr0VODyLqzX4f2HgkbMp
+	FYD0CKay+RFSgJur0pH3wJCBxqhmV2nAvKEmdH1hCMa+FtlD5pDdOZOiedqMW8EHQ1M4f/RTb8z
+	t8S/DAQHzeNai6np5gMN8fhHOtxjLQMsRKQupxZQldqw9rK8CJ2E94d/4LejsdhvfTt+5ua0jMD
+	/kNls9Zi/HlJ0CA4oZa41x0ww7FbKQi7S0vMknDPQxWNH8P0eoWIsriCQwMA1SzVgLFMeUHCXsJ
+	K
+X-Received: by 2002:a05:6a00:3d4b:b0:76b:f260:8614 with SMTP id d2e1a72fcca58-76c460ded44mr2946496b3a.3.1754631023406;
+        Thu, 07 Aug 2025 22:30:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE322Xtuer1nSvLoooPflfHEOze81sggfs2Qy/lSDwJaYopil6xUbkHvvn+WnhQgau0g52mJQ==
+X-Received: by 2002:a05:6a00:3d4b:b0:76b:f260:8614 with SMTP id d2e1a72fcca58-76c460ded44mr2946439b3a.3.1754631022958;
+        Thu, 07 Aug 2025 22:30:22 -0700 (PDT)
 Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce8f483sm19278662b3a.31.2025.08.07.22.30.15
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce8f483sm19278662b3a.31.2025.08.07.22.30.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Aug 2025 22:30:18 -0700 (PDT)
+        Thu, 07 Aug 2025 22:30:22 -0700 (PDT)
 From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -73,10 +74,12 @@ To: Srinivas Kandagatla <srini@kernel.org>,
 Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         kernel@oss.qualcomm.com
-Subject: [PATCH v1 0/2] Add sound card support for lemans-evk and monaco-evk
-Date: Fri,  8 Aug 2025 10:59:37 +0530
-Message-Id: <20250808052939.1130505-1-mohammad.rafi.shaik@oss.qualcomm.com>
+Subject: [PATCH v1 1/2] ASoC: dt-bindings: qcom,sm8250: Add lemans-evk and monaco-evk sound card
+Date: Fri,  8 Aug 2025 10:59:38 +0530
+Message-Id: <20250808052939.1130505-2-mohammad.rafi.shaik@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250808052939.1130505-1-mohammad.rafi.shaik@oss.qualcomm.com>
+References: <20250808052939.1130505-1-mohammad.rafi.shaik@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,43 +87,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: Mz5ECRzVaUcCxgR1LoB4ELJC1X7bdno7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX3fNVbyAOMgB7
- +wU8oY5Z+uFcSfRu+s673c2SIZMo547nfdW557uASsxO26zqFvY+BYBUAIoRzL/ahGmZjgSB/4U
- kHLOL74QhlmdrW51QqJcGvEGRFt9MydMVbmTdDS+shV/ysSDY+qlEXOOsWUH2XBp5mUC9qBmZVa
- rI6B+Y2dLMAkzhmOt9N/w4iYcKedzXZk9zQFxIBg7vlDLs/cKxgSTVTr1j3LJ0i+gpicrFVOfnl
- OrazB+DKu2ivi9PkB+HteSLqKIc+yxW8dDSSANn3W5AgGT0sMmrzm5y+8GM1jFffMuL97YD+Y/8
- x7a8u2tigJdsKvkcfyqdJBlvDcQi5vYX6jQG5UySXLV5r/gL2aCb8g68UZJptpo2yDXFuw3XxaA
- BPApduMd
-X-Proofpoint-ORIG-GUID: Mz5ECRzVaUcCxgR1LoB4ELJC1X7bdno7
-X-Authority-Analysis: v=2.4 cv=NsLRc9dJ c=1 sm=1 tr=0 ts=68958b6c cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfXwY/TMHKAWqgw
+ NdSMZz/RRK6cUF1u+5VRNB/wBg/FfV9Yl+SXWryjam609ypkdBhr768gIfKW+GlgpbqSdSGmpQW
+ Qdc9kEdLZyGf4OjAlYCeUDjn37ErxJftmpcTVxJyuAQfHmqn965Q52wVDEe2V3GKlnwAXKesUqZ
+ S793UCEWnNJezjkfwtPPg3OcmsCDWAQr8ILGmtM4kii39a2ILYNGQNYFIHzQc7cc7qyM2lmQkq+
+ g0hDBBfQO+4AvzMMZjKEZQ9uk6dhVEelbx6Ang5j9tZM/np9fZUBHksU/hmPCnk9wJdvFTLDz7M
+ f7L6+VYsC0j7d5fcAbZ/Ze0zafjJg7+H4yk7cqXop4+T+evoCxT1rTTHy6JTsxQBY3WtNZIysVR
+ qnveHi+D
+X-Authority-Analysis: v=2.4 cv=Ha4UTjE8 c=1 sm=1 tr=0 ts=68958b70 cx=c_pps
  a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=2OwXVqhp2XgA:10 a=XcHJyV3jQw5NWJaZqmMA:9 a=zgiPjhLxNE0A:10
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=kbphIXzXdx9KadpZM_wA:9
  a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-ORIG-GUID: uWqhuW8goSGc_VHKd-UIDTNv4H10yaUr
+X-Proofpoint-GUID: uWqhuW8goSGc_VHKd-UIDTNv4H10yaUr
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-08_01,2025-08-06_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0
- adultscore=0 malwarescore=0 spamscore=0 suspectscore=0 classifier=typeunknown
+ impostorscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 phishscore=0
+ bulkscore=0 adultscore=0 suspectscore=0 spamscore=0 classifier=typeunknown
  authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
  engine=8.19.0-2507300000 definitions=main-2508060009
 
-This patchset adds support for sound card on Qualcomm LEMANS-EVK and
-MONACO-EVK boards.
+Document the bindings for the Qualcomm LEMANS-EVK and MONACO-EVK
+board specific sound card.
 
-Mohammad Rafi Shaik (2):
-  ASoC: dt-bindings: qcom,sm8250: Add lemans-evk and monaco-evk sound
-    card
-  ASoC: qcom: sc8280xp: Add sound card support for lemans-evk and
-    monaco-evk
+The bindings are the same as for other newer Qualcomm ADSP sound cards,
+thus keep them in existing qcom,sm8250.yaml file, even though Linux driver
+is separate.
 
+Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+---
  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 2 ++
- sound/soc/qcom/sc8280xp.c                                | 2 ++
- 2 files changed, 4 insertions(+)
+ 1 file changed, 2 insertions(+)
 
-
-base-commit: b7d4e259682caccb51a25283655f2c8f02e32d23
+diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+index 5d3dbb6cb1ae..c63bfe031b57 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+@@ -31,6 +31,8 @@ properties:
+           - fairphone,fp4-sndcard
+           - fairphone,fp5-sndcard
+           - qcom,apq8096-sndcard
++          - qcom,lemans-evk-sndcard
++          - qcom,monaco-evk-sndcard
+           - qcom,qcm6490-idp-sndcard
+           - qcom,qcs6490-rb3gen2-sndcard
+           - qcom,qcs8275-sndcard
 -- 
 2.34.1
 
