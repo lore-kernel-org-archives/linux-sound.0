@@ -1,281 +1,186 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012063.outbound.protection.outlook.com [52.101.66.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A012226AD9
-	for <linux-sound@vger.kernel.org>; Fri,  8 Aug 2025 16:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754669800; cv=none; b=azdzH3KY3PiYHI+DL37TYm//wW5QLgwEr59V8wE1epFCy17rHftAh3OsQvSds+5WZbtilVVNnPMKtxi8Vfd7Gpk90UbWZgwzbrdBHrsCYyjtvfck+x1XbEBYv+KNDigDFfvw9xKfvMFBkJ1dnUq+fuLLdEQ+LgWj0O4+E7MOvb0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754669800; c=relaxed/simple;
-	bh=MA6l3h9duMda/gjY/m2A1KtQ9yrELgoJti4codSZP3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WMhDCOHbHyulQgQstNJBK7JIGAW4su+EThP7S5Pjce5AMEt7bnqOTbMKQKzJXsSkO6UtfuVIsc53EKMedrbx6UOfpbIzyeihQSXQwL9m6G2xaQZF1VIko3fT2F+Jw0vbS6IIkcIHmg4Yo2bAfbCg108CXpxNoYgE5fEuKbh9tYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=pFmj1vpm; arc=none smtp.client-ip=195.181.215.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114A8242D75;
+	Fri,  8 Aug 2025 20:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754685699; cv=fail; b=Au/r154UJ+EZQoI1OnslSDy5Y0kHLYiTU88HHeq75apKDFgU6cSRgSkDycJF6ySg12OD49l47ifSghX+VkYKJ/98sWj3NbppPuU84OEFo1L3Z8zoI+sYyj3G6APB2D2GlkZgVd9TJxc3sATlMvcjPIWFcahar3mLLLV4jNXK9Uw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754685699; c=relaxed/simple;
+	bh=T0+j8U23AWjAdgkliwoIIwtOVqbDmw6VFrbQSc8CwC4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=sS2mBpY5/rSCvKR/D+N7R8Pa3+OF0S+4DMEIvpvJxvIwOQ5dF4mb8TPwnP2OXpTZrFLrCjCLPWIml9LzrkYlCcLd0JUxgYil8Y+atFApZpIRYN2bu1MEqaiuC7NVIkc9nub0I6nyTkutNhev3g9gXno0UheLcJK0z/qtosVmw38=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=SDxZUE6D; arc=fail smtp.client-ip=52.101.66.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="pFmj1vpm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
-	t=1754669249; bh=MA6l3h9duMda/gjY/m2A1KtQ9yrELgoJti4codSZP3Q=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=pFmj1vpmq1mu7Bhl9RXs2EmI+KaI7WpeEbAYgNQh4hltHIOlD8FuqNiMvEOmxckYv
-	 G8vjpacmfa11xsS5hI6dvRxTd6vDuKKLlXiqblQAkodX6KTLKaHSriIMp+b9U/3cH9
-	 Rt6Kz86ivLChYQwSoQFCrBLXZpWf3J7A0mQMKoXU=
-Date: Fri, 8 Aug 2025 18:07:29 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ASoC: soc-core: merge snd_soc_unregister_component() and
- snd_soc_unregister_component_by_driver()
-Message-ID: <arxpwzu6nzgjxvsndct65ww2wz4aezb5gjdzlgr24gfx7xvyih@natjg6dg2pj6>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <87h61qy2vn.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="SDxZUE6D"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pu/XRNFf+xNUFdF9ReUSgtqNhfdJrYkUjxTL8KFOtGrCv4kaC3IKYvPkH4Rlxcd+2YM4Sv4xyDHi9Q+alFv5CHGw117Ze8BU4ioz4QAcqgyxXv9B1+WbC7SBTFB6X0urV+wDpckYPT6TNfCHm2ONK5KsB4uVY594kcui+9/yt9/3mzYNUuXpyvO+8vJ7AMvy04s7kis4/ZL1gKCl0vXZJ6Bs/CcH+CmpQVkr8IJHdW+e1mNy6SynGH2b9bbxYzHvXvynuaFi3+UaKAVS6f1X6SIBJKAG27wFnziFXQoVOzfHyp1NHjjDLsQHqKfpLkYzXCxiC5F3JeoI/AYoyH6a3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z6aXklViFEyyuK/Y6bKkf1b/aIKkdTwKONfGHEdeAPo=;
+ b=dSu/Ebqsf/hvBdk36qkdDSaG2bbzCdtAWPYRd6CZ8pGz2xiqaxJFN/CxttuWsynA0VhcYulMDk9WOx2kiKyL8AAN95TSffViQ1lWRIRlzOEMToY24ZYwsU0JyUK5BgcgNpak8o3Racs3Ixwh0hV4NJKerHY3+mJNPthYI79V+F++FsH4rZgJDn9L4/QcARlZKqFIrfCUINM7dXY5mc5yYay/DjVTXbpb+EcKrXIoCP7ZJcvuXIMdasNGnmiA5SUsq+SZbIkfpxWhue8d0tdbmEWb1Sky4AfsIRFEyjH6QrIDU81WhYXU1muf4C9glWE9R0qL/fzcxoYWQiPagdGGpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z6aXklViFEyyuK/Y6bKkf1b/aIKkdTwKONfGHEdeAPo=;
+ b=SDxZUE6DOP6a2bTpBvwWIQHzlIzFKJ/KQ+75zb2TRquaFsaBLB6kg43Ec20K+HsYS7oMHPCvE5GL6Ojv813dV6HRWhL3BS0/FnmyzAosn0tVZjAAjGKlDfqTFHtCQkZehASgy4+WDrcpVotoFf2FeagxuOKSsjd5j6BtGkEiO15DuElrVPJzf8p0YGlxtrXj3s7LuB1ICUW6YI+A16QbMs+4jow9xVaC7FBXhzNcRP5hRCcF2eL/B25oqZ+heotNjFMRZZLdu8CQ1DnHk215AQw8ngEqeijWrB+oUQwgu9es4jD4Iyq9J02rG9iPbfgKu7TPEA8uDbC0RGlUPR4uZg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
+ by GVXPR04MB10537.eurprd04.prod.outlook.com (2603:10a6:150:21b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.21; Fri, 8 Aug
+ 2025 20:41:34 +0000
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::e81:b393:ebc5:bc3d]) by DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::e81:b393:ebc5:bc3d%5]) with mapi id 15.20.9009.013; Fri, 8 Aug 2025
+ 20:41:34 +0000
+Date: Fri, 8 Aug 2025 16:41:21 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+	simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
+	cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
+	devicetree@vger.kernel.org, l.stach@pengutronix.de,
+	shengjiu.wang@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v4 7/7] arm64: dts: imx8mp-evk: enable hdmi_pai device
+Message-ID: <aJZg8Q1mhFVV33yU@lizhi-Precision-Tower-5810>
+References: <20250808080617.2924184-1-shengjiu.wang@nxp.com>
+ <20250808080617.2924184-8-shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250808080617.2924184-8-shengjiu.wang@nxp.com>
+X-ClientProxiedBy: BY3PR05CA0018.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::23) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87h61qy2vn.wl-kuninori.morimoto.gx@renesas.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|GVXPR04MB10537:EE_
+X-MS-Office365-Filtering-Correlation-Id: 342a7047-c25f-4301-81a7-08ddd6bbf64b
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|1800799024|52116014|376014|7416014|19092799006|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?VbuibJEM8RjxevYI096LuordqUaK4GDZGERXkcTu9PviKBH482xexhw7gd2i?=
+ =?us-ascii?Q?RF596QvolKxAWU2p5xKW6q3Xfd46KSoWTICY9RYJdNnraACZvikVTLmhkRGP?=
+ =?us-ascii?Q?Zfi/TLO3txQnF9fH2/UGuFnTWcdpkZCRJYBV4QR62b6XhmhEl/jcKeGFsrgE?=
+ =?us-ascii?Q?yH4j12BPGFm90JKzWRu+7Zcfpk0QptB81ACcmZxs+JSqwGrkQxM1LK3MNPw5?=
+ =?us-ascii?Q?NcBNRvFxXvz6jKQLKunAXyrZOtPFEQ1/fAAlfLlBLhrJDCjIc+FU9v/sFqsU?=
+ =?us-ascii?Q?FJ5Un6rrRpOADPZSErzo40MBCgyS7isIp6Ue7bg1tGy9gWMnN8autxsy9bAt?=
+ =?us-ascii?Q?2IwgsR9s8ml3adn0YjHftLT/iLRBGl6QC4CbrilbOGM0+rXciIG/DvUppesv?=
+ =?us-ascii?Q?kHyqi7kGkBC5jIZCXtv1wOPjJtYupWQISmWOhTKJfIfu5CQXjFijQ92Y5DtO?=
+ =?us-ascii?Q?5erJRrBgIJj0cSHjketLDJEBDehjsV4w0JkaUJ/vbzXUs5d8Pu8GW/e/vEVC?=
+ =?us-ascii?Q?2spriFA4nGh+Y6VDQZuOieImAsQIuu8f+GwCU0EL9ewUROgDxyMpuTKGDErQ?=
+ =?us-ascii?Q?NyvCRD/VaDwqXxrrthTyZ6CnN+HOkRKDpbnZBY+p/VvT2b5n6B5AwPnEjwRF?=
+ =?us-ascii?Q?qtp5WiUnKNm/u4MOtvbr1MCMIn2xpgT59ERdvRDh89/dtFz56epvZ8qGiO9m?=
+ =?us-ascii?Q?H0+UPKvlo2Us6LeRB/pJcDoX6IaxXCY2ZhvldSOwYYK2FEofqUebFqvgll3g?=
+ =?us-ascii?Q?0u2BMT4h4Q8eGIngdbqFxmFj6wxhV04bJRFdKT8cfuwdRheOiY/SCYVhyK2B?=
+ =?us-ascii?Q?67zcfgOVbiWfZd2QStd5NN+ONFvHVlxs8eYRjbr4WGVYiOHJ2iV2dGIZgl8T?=
+ =?us-ascii?Q?hbD2LI4jfQOVxnhcHoDffvKjDDTEtxE+nJET4f1Inb/jElHKcqN4Uw628NwM?=
+ =?us-ascii?Q?A/IE35o3UdIKmZ6e2KwC8++1mOQP6N6XunWgytwWpfNIAaWTiFe4C7yquJJA?=
+ =?us-ascii?Q?/LEK10IBlT0VNHe1d3FvN34oQ1uZIUS5hnT62559I1Z1UaiRyFeQkhHxoDLB?=
+ =?us-ascii?Q?dj7Gc03pMURXBK+DMPRvm2Sj6UWboFlG9CmrUoChjzNGbX6wb1fp3/GyRkch?=
+ =?us-ascii?Q?0U91WiN9333lb0+IShijYVqhKlT/qGuPtPGjxS1KxxI7uEJBOSZsfxna1Z5z?=
+ =?us-ascii?Q?3uV4cmh7DrhUXnsGXM4pL9PXfZH6XI+2j0lklO0lvGbFWxKpcuI95wUSaFt3?=
+ =?us-ascii?Q?Pej/KvTBYqcgRC7XP9RWwnhKUU9uMvuiCeQHzFeo04A/M+iJWwjD9X+VwZr6?=
+ =?us-ascii?Q?agGIeurWc9jdZDnp5962je12RJ7AJVqijYMClHYxZCIHgnJrImWrHdcA9hVj?=
+ =?us-ascii?Q?j66PtGb/2myqMTzZKFz/GTENt2/Cmvnkk/1IaHBxC9I6fxsHw/Jp8+g5/UiX?=
+ =?us-ascii?Q?0IBcVWDHZwvUNRIV54B3R6O7bwB2/iZnm1d2eYnzLBXRviLcVM/Zqg=3D=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(19092799006)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?YzYqz13PmHc+a4zlhUfQmt0D4cwixZGsOLlmbQZq3EKb07Z5fjBL4E3RVHo8?=
+ =?us-ascii?Q?Ho/gkQZDVIKRbzl20XDzT6ntAH19m4Y8L+Vj6qLIWUlIIKZfwGXRLWZtktxm?=
+ =?us-ascii?Q?yMGWw6Lft4oVOrr5kyCtweOilRUfKfaOj7NjD5xAFXDmda85xNZYUkJ6G2Uy?=
+ =?us-ascii?Q?ZHgDBNYgCVhK4rLWBNgak11gVqH5vjmDU53RAWIRW4dwdKn+hCT2gYpeisr2?=
+ =?us-ascii?Q?hFLuSsCbSdoHWbOhgmnbUtGhkY1tU6NtZInbXX4ozlesbINZWsbalwjSxTay?=
+ =?us-ascii?Q?h6EV3uw7yCgcFh3Coo/Rghjw2/evo/Mz/2SqB65tHcCkz7JqdcchbrLByzu9?=
+ =?us-ascii?Q?Aj59lqwtDxiK+RZBiN/cEeOSdPB0PwOigPP+C7zCOxJKSRlNx7IAzjxtMVl9?=
+ =?us-ascii?Q?3C6ef8cRitU0Zt9kVNO/n8LBJIbfZWn93eoC/7dRQ54VEfGnZom4CxtEhs86?=
+ =?us-ascii?Q?KliclCAfcwfACcUxKsDOQz8MrtQpHm4tInc+rEaLRJlv0wfsSM3mytPKQN75?=
+ =?us-ascii?Q?KaR3BPGdvef0+J2p5E8ShGkCnEcvev5B7ZkhnqNgm8L/9UxljUgKUVj7e60z?=
+ =?us-ascii?Q?wKQL8p5zy/Jo2oe3MsFvy+yNVuz/4kdwNahRbGON5iAXvjSrHlMT12/Pv4TP?=
+ =?us-ascii?Q?sn9ZX6Vn/0uy3bvhBLZ4eAPMiIHdqFYyQFFz5sYYD8vS9ZmjfxWGA5fv3Hwk?=
+ =?us-ascii?Q?l5Q5p3tedNmy7br3holJiuZqiULq+saG52FyLqyS70i0CtxH6vP77hZHUq+6?=
+ =?us-ascii?Q?KtvJFag5aVXvFjzqiaEqHSwWfJaWpANgGve1sWbZiWl42x73hKf/7RFor7QQ?=
+ =?us-ascii?Q?9a9tx8BYjGXMbxitGAkT1G6FhcZwmgqjqP8tesbBvzbz8kUTzSR+imxNVH9o?=
+ =?us-ascii?Q?KbrtI1jLyQo01ci3uxXuG2aZtCcs2mbSmy9s+J4akRY+J931Hi20tUc57zcR?=
+ =?us-ascii?Q?6qhdW/4WaQp7MY0kr/kW+/JPivxhrRlAEigeIHbz9t57tydKpPX++T/Um40X?=
+ =?us-ascii?Q?fYyTHrD8xVnVXdKM9T2VWJ1a/Ma8vvTb1wKzndyR5+Ccy8jqYm0PeivKFYVn?=
+ =?us-ascii?Q?vTX7dZDXnG+2xSAVmcRO4FmByQlC4z3iFnGPg14I1k/GvljZnk0PLGb4SKbs?=
+ =?us-ascii?Q?ggGAK0FAOWVwwbNa2g/hnifpxHMaEC1UzKJObYQ9kiq5PHe19bbrg4KSW9t/?=
+ =?us-ascii?Q?XrFnhaUDVKluNP1rHzebArefu2PQL2wY8L44jU1n43OT/1llqMnthssx31R4?=
+ =?us-ascii?Q?vrVOBPVniVsJEYGNcnh48fS6mfDs2qhhbpkxD2JjsfbwxRX48A15WJ7xYdN1?=
+ =?us-ascii?Q?svuA+Pn7dBDpR8Wu3smb6FYbRRMvJu0gKbeNIBSNwVtSze6GVbBmk/m74xvK?=
+ =?us-ascii?Q?hlMG7EY062kjD5aoeem36j60MDo7RTAkUHQuAkhpIZSXdS6YfOL8jRVhYeoU?=
+ =?us-ascii?Q?twAiuLEP8wsyKC/sjSFujbDxG0SPS0/n8HG7SNx6w4YQ7pssMZEt+1L4zkjr?=
+ =?us-ascii?Q?Tv4N4LcZCBrqH+1YQQn8U92L6NGCHB4HTy18LpTKhNVqyEDcKntyk5Ax0Jan?=
+ =?us-ascii?Q?0/cZ/ZwtrXJtLiuc+v8taIwDr29W/VkR/XoMqcsq?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 342a7047-c25f-4301-81a7-08ddd6bbf64b
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2025 20:41:34.0074
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zJHTE5IwEcF+auM00nPIRzszBCJOdVwbYf/z9VL4rEDVsD5TeOGEttuMr3gJgDKHxSS81oY2yrRZhxQZWJK9xQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10537
 
-Hello,
+On Fri, Aug 08, 2025 at 04:06:17PM +0800, Shengjiu Wang wrote:
+> Enable hdmi_pai device.
 
-On Mon, May 12, 2025 at 02:33:16AM +0000, Kuninori Morimoto wrote:
-> We have below 2 functions, but these are very similar
-> 
-> (A)	snd_soc_unregister_component_by_driver()
-> (B)	snd_soc_unregister_component()
-> 
-> (A)	void snd_soc_unregister_component_by_driver(...)
-> 	{
-> 		...
-> 
-> (a)		mutex_lock(&client_mutex);
->  ^ (X)		component = snd_soc_lookup_component_nolocked(dev, component_driver->name);
->  |		if (!component)					   ^^^^^^^^^^^^^^^^^^^^^^
->  |			goto out;
-> (b)
->  |		snd_soc_del_component_unlocked(component);
->  v
-> 	out:
-> (c)		mutex_unlock(&client_mutex);
-> 	}
-> 
-> (B)	void snd_soc_unregister_component_by_driver(...)
-> 	{
-> (a)		mutex_lock(&client_mutex);
->  ^		while (1) {
->  | (X)			struct snd_soc_component *component = snd_soc_lookup_component_nolocked(dev, NULL);
->  |												     ^^^^
-> (b)			if (!component)
->  |				break;
->  |
->  |			snd_soc_del_component_unlocked(component);
->  v		}
-> (c)		mutex_unlock(&client_mutex);
-> 	}
-> 
-> Both are calling lock (a), find component and remove it (b), and
-> unlock (c). The big diff is whether use driver name for lookup() or
-> not (X).
-> 
-> Merge these into snd_soc_unregister_component_by_driver() (B), and
-> snd_soc_unregister_component_by_driver() (A) can be macro.
+nit: need empty line here. betwee two paragraph.
 
-This patch creates a boot failure on Orange Pi PC / Allwinner H3 based board.
-Reverting it fixes the boot failure.
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-At first glance the crash is because the logic in snd_soc_lookup_component_nolocked()
-
-	found_component = NULL;
-	for_each_component(component) {
-		if ((dev == component->dev) &&
-		    (!driver_name ||
-		     (driver_name == component->driver->name) ||
-		     (strcmp(component->driver->name, driver_name) == 0))) {
-			found_component = component;
-			break;
-		}
-	}
-
-Is now called with driver_name != NULL, and this results in crashes when
-component->driver->name is NULL, which it is for a lot of drivers.
-
-I guess maybe the issue is in snd_soc_lookup_component_nolocked() which is
-just revealed by this patch, and that's that it does not deal with a common
-case of component->driver->name being NULL?
-
-Not sure what the fix would be... skip the component if it does not have
-driver->name?
-
-Any ideas?
-
-Kind regards,
-	o.
-
-
-Part of kernel log:
-
-sun8i-ce 1c15000.crypto: Register ecb(des3_ede)
-sun8i-ce 1c15000.crypto: CryptoEngine Die ID 1
-hid: raw HID events driver (C) Jiri Kosina
-usbcore: registered new interface driver usbhid
-usbhid: USB HID core driver
-cedrus 1c0e000.video-codec: Device registered as /dev/video0
-hw perfevents: enabled with armv7_cortex_a7 PMU driver, 5 (8000000f) counters available
-gnss: GNSS driver registered with major 240
-usbcore: registered new interface driver snd-usb-audio
-8<--- cut here ---
-Unable to handle kernel NULL pointer dereference at virtual address 00000000 when read
-[00000000] *pgd=80000040004003, *pmd=00000000
-Internal error: Oops: 206 [#1] SMP ARM
-Modules linked in:
-CPU: 2 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.16.0-00522-ge8999fdab5a6 #9 NONE 
-Hardware name: Allwinner sun8i Family
-PC is at strcmp+0x0/0x34
-LR is at snd_soc_lookup_component_nolocked+0x64/0xa4
-pc : [<c1168ae0>]    lr : [<c0d286ec>]    psr: 00000013
-sp : f0821df8  ip : 00000000  fp : c187928c
-r10: 00000006  r9 : c1862d54  r8 : 0000001b
-r7 : c155fd34  r6 : c20f8410  r5 : c1ae3994  r4 : c3477140
-r3 : c130de1c  r2 : 0000006e  r1 : c155fd34  r0 : 00000000
-Flags: nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment user
-Control: 30c5387d  Table: 40003000  DAC: 91f70c0b
-Register r0 information: NULL pointer
-Register r1 information: non-slab/vmalloc memory
-Register r2 information: non-paged memory
-Register r3 information: non-slab/vmalloc memory
-Register r4 information: slab kmalloc-256 start c3477100 pointer offset 64 size 256
-Register r5 information: non-slab/vmalloc memory
-Register r6 information: slab kmalloc-1k start c20f8400 pointer offset 16 size 1024
-Register r7 information: non-slab/vmalloc memory
-Register r8 information: non-paged memory
-Register r9 information: non-slab/vmalloc memory
-Register r10 information: non-paged memory
-Register r11 information: non-slab/vmalloc memory
-Register r12 information: NULL pointer
-Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
-Stack: (0xf0821df8 to 0xf0822000)
-1de0:                                                       c155fd34 c20f8410
-1e00: c20f8410 f0821e30 0000001b c0d2a578 c347730c c3477300 c20f8410 c0d3d958
-1e20: c3476d00 c3476d80 c20f8410 c0a0081c c2151e40 c3477400 c20f8410 00000205
-1e40: c1ae42a4 00000000 c34764b8 c09faee0 c20f8410 c09fb660 c20f8410 c1ae42a4
-1e60: c20f8410 00000000 c34764b8 c09fb794 60000013 c1862d54 c1b6069c c1ae42a4
-1e80: c20f8410 00000000 c34764b8 c09fb974 c20f8410 c1ae42a4 c20f8454 c2012c00
-1ea0: c34764b8 c09fbbec 00000000 c1ae42a4 c09fbb5c c09f981c c2012c58 c2287fb4
-1ec0: c2012c00 c1ae42a4 c3476480 00000000 c2012c00 c09fa8d8 c156060c c1836dec
-1ee0: c1ae42a4 c2263300 c1836dec c20b0000 00000000 c09fc658 c1af9000 c2263300
-1f00: c1836dec c02111ec c02a2dfc c15f1f7c 00000800 c2263372 00000000 00000000
-1f20: 00000000 c0259b7c f0821f30 000001b7 c1522350 00000000 00000006 00000006
-1f40: c2263372 c2263378 0000001e 000001b7 c2263300 000001b7 c2263300 c1862d34
-1f60: c1af9000 c157ebf0 c1862d54 c1801708 00000006 00000006 00000000 c18004d4
-1f80: c1174088 c1a06500 c1174088 00000000 00000000 00000000 00000000 00000000
-1fa0: 00000000 c11740a0 00000000 c020015c 00000000 00000000 00000000 00000000
-1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
-Call trace: 
- strcmp from snd_soc_lookup_component_nolocked+0x64/0xa4
- snd_soc_lookup_component_nolocked from snd_soc_unregister_component_by_driver+0x2c/0x44
- snd_soc_unregister_component_by_driver from snd_dmaengine_pcm_unregister+0x2c/0x64
- snd_dmaengine_pcm_unregister from devres_release_all+0x88/0xe0
- devres_release_all from device_unbind_cleanup+0xc/0x60
- device_unbind_cleanup from really_probe+0x220/0x2cc
- really_probe from __driver_probe_device+0x88/0x19c
- __driver_probe_device from driver_probe_device+0x30/0x110
- driver_probe_device from __driver_attach+0x90/0x178
- __driver_attach from bus_for_each_dev+0x60/0x94
- bus_for_each_dev from bus_add_driver+0xcc/0x1ec
- bus_add_driver from driver_register+0x80/0x11c
- driver_register from do_one_initcall+0x38/0x204
- do_one_initcall from kernel_init_freeable+0x244/0x2a0
- kernel_init_freeable from kernel_init+0x18/0x138
- kernel_init from ret_from_fork+0x14/0x38
-Exception stack(0xf0821fb0 to 0xf0821ff8)
-1fa0:                                     00000000 00000000 00000000 00000000
-1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-Code: e5e32001 e3520000 1afffffb e12fff1e (e4d03001) 
----[ end trace 0000000000000000 ]---
-Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
-Rebooting in 3 seconds..
-
-
-
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Aud2htx module, hdmi_pai and hdmi controller compose the hdmi audio
+> pipeline.
+>
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 > ---
->  include/sound/soc.h  |  2 +-
->  sound/soc/soc-core.c | 30 +++++-------------------------
->  2 files changed, 6 insertions(+), 26 deletions(-)
-> 
-> diff --git a/include/sound/soc.h b/include/sound/soc.h
-> index 8d113ee8c2bc8..1fffef311c413 100644
-> --- a/include/sound/soc.h
-> +++ b/include/sound/soc.h
-> @@ -444,7 +444,7 @@ int snd_soc_register_component(struct device *dev,
->  int devm_snd_soc_register_component(struct device *dev,
->  			 const struct snd_soc_component_driver *component_driver,
->  			 struct snd_soc_dai_driver *dai_drv, int num_dai);
-> -void snd_soc_unregister_component(struct device *dev);
-> +#define snd_soc_unregister_component(dev) snd_soc_unregister_component_by_driver(dev, NULL)
->  void snd_soc_unregister_component_by_driver(struct device *dev,
->  			 const struct snd_soc_component_driver *component_driver);
->  struct snd_soc_component *snd_soc_lookup_component_nolocked(struct device *dev,
-> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-> index 39ecf0123a444..cfafdabcdc888 100644
-> --- a/sound/soc/soc-core.c
-> +++ b/sound/soc/soc-core.c
-> @@ -2931,34 +2931,14 @@ EXPORT_SYMBOL_GPL(snd_soc_register_component);
->  void snd_soc_unregister_component_by_driver(struct device *dev,
->  					    const struct snd_soc_component_driver *component_driver)
->  {
-> -	struct snd_soc_component *component;
-> +	const char *driver_name = NULL;
->  
-> -	if (!component_driver)
-> -		return;
-> +	if (component_driver)
-> +		driver_name = component_driver->name;
->  
-> -	mutex_lock(&client_mutex);
-> -	component = snd_soc_lookup_component_nolocked(dev, component_driver->name);
-> -	if (!component)
-> -		goto out;
-> -
-> -	snd_soc_del_component_unlocked(component);
-> -
-> -out:
-> -	mutex_unlock(&client_mutex);
-> -}
-> -EXPORT_SYMBOL_GPL(snd_soc_unregister_component_by_driver);
-> -
-> -/**
-> - * snd_soc_unregister_component - Unregister all related component
-> - * from the ASoC core
-> - *
-> - * @dev: The device to unregister
-> - */
-> -void snd_soc_unregister_component(struct device *dev)
-> -{
->  	mutex_lock(&client_mutex);
->  	while (1) {
-> -		struct snd_soc_component *component = snd_soc_lookup_component_nolocked(dev, NULL);
-> +		struct snd_soc_component *component = snd_soc_lookup_component_nolocked(dev, driver_name);
->  
->  		if (!component)
->  			break;
-> @@ -2967,7 +2947,7 @@ void snd_soc_unregister_component(struct device *dev)
->  	}
->  	mutex_unlock(&client_mutex);
->  }
-> -EXPORT_SYMBOL_GPL(snd_soc_unregister_component);
-> +EXPORT_SYMBOL_GPL(snd_soc_unregister_component_by_driver);
->  
->  /* Retrieve a card's name from device tree */
->  int snd_soc_of_parse_card_name(struct snd_soc_card *card,
-> -- 
-> 2.43.0
-> 
+>  arch/arm64/boot/dts/freescale/imx8mp-evk.dts | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
+> index c0cc5611048e..cc9351a5bd65 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
+> @@ -442,6 +442,10 @@ &flexcan2 {
+>  	status = "disabled";/* can2 pin conflict with pdm */
+>  };
+>
+> +&hdmi_pai {
+> +	status = "okay";
+> +};
+> +
+>  &hdmi_pvi {
+>  	status = "okay";
+>  };
+> --
+> 2.34.1
+>
