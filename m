@@ -1,105 +1,260 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BE1191F89;
-	Fri,  8 Aug 2025 13:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68188645;
+	Fri,  8 Aug 2025 15:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754658076; cv=none; b=OqwAqwdGBGfkHpb/q+29SEPWj2SgLOFNh/ZaHBJBIA4i6CXLeJTn3DJxUnkehdGQYh6PzkX9yaK3kPkvQLJ74YLDvAbog7YqLqrd2puoXci8nQYW5+YenNh1XCiSO9q1U4X10OTlaQjXKZUBaJ1hiL28SUUsKaG7M5NdF5NAma4=
+	t=1754666350; cv=none; b=d/qNzJTtFz9c6cgj0aU/25vaDo+9LHMBs4Q0FASsCap1QV/p8zm1fu1w8XEIK7vr0zOEjSqjPdLmFWj7ijEYBmbihd2Ya9yawV2AZyZZ3QjQioGZkN10bHldrUQIuKUmfJSI1PDX6Sbr92Ag4xVvrLOK3MVYB9ZqxiRkTj4pquo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754658076; c=relaxed/simple;
-	bh=NkNApSinva40ZpdLZNaOWsWG0bDK7PPoZPG3hAYn7aw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g8CTOKqgK7EEjhFa0HYWLJzDFCVlPW0Ie5jCrxkuB12uqU3CtR1xvoXFmZLts3I3gzVBKumV0X4Eb4zNNHmRQMW24doRSczpl7jhs2auErDN823PTvKRzQYYV8WYTpphiEsnojW1YV0cJFN46w06wy+W2GkR65Ima//FO2D4l40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PyuPSzDF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754666350; c=relaxed/simple;
+	bh=tsdeCPIPkX+wdlJnsaj55GinnOFi+s4xef6Bgzt4ay4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=AmKyVvIKw95CU5dFGVPeMHqMJKyY00nyqTtIAOLCVgykrovIj/Ls3VRWfv1+EneRS24bLlgFSppVkQQNmUO5p8TERLAbRgK+7EJ+XdS1Twl7/WCpbQUCfbunI+rLlJHLH+niBQinFM61pgSfNHmROLIum4rtVx2Hb4Ch93oqjfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jEKu1+Qa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PyuPSzDF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D97AC4CEED;
-	Fri,  8 Aug 2025 13:01:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jEKu1+Qa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA27C4CEED;
+	Fri,  8 Aug 2025 15:18:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754658076;
-	bh=NkNApSinva40ZpdLZNaOWsWG0bDK7PPoZPG3hAYn7aw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PyuPSzDFZWrHglWkOsaZdrENIMrndnfnmetP60SZHZuNQyLG7LwT18mEc2NIQ90jw
-	 TnsKwCPsqwh1h8FVuGRmkxfg7gZ8XL/12gbEOA/MRNuor7KPRSq1KLDDCN9vjDusI0
-	 KnToMii9xZBsh/6+8N2wNDVnIa9k6mzkrqNwmBAXGIOgJ77NgWmt++Bp3t33kw7gFK
-	 zO1/5VbEKcMcAbhMpEm5IF4qsy0eTZrbnQba5sqcoer/6wm/oE6lyib7DqpcJGaQFz
-	 rXHXQYl3zYW3SMcWWkIOqQbiexFKVfKdDlyyMmE73wr9OChw3H1v5aeRx5XwmPup3T
-	 vs0Sxbb+UDn8A==
-Date: Fri, 8 Aug 2025 14:01:10 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	robh+dt@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	shuah@kernel.org, kuninori.morimoto.gx@renesas.com
-Subject: Re: [Guidance Request] LFX Mentee looking to contribute to ASoC / DT
-Message-ID: <0b89ed97-78d2-47bb-b205-232a20cde624@sirena.org.uk>
-References: <CANBuOYpLNAtLVWBvR9E74Ju4cM1K7H_bS2Z_UhthQFrJaZXmiQ@mail.gmail.com>
- <aIOHm4AOrhHBf6Xv@finisterre.sirena.org.uk>
- <CANBuOYrtmA-UgTo6X87pND9eTfub-R633scTzDef56gVvBVwig@mail.gmail.com>
+	s=k20201202; t=1754666350;
+	bh=tsdeCPIPkX+wdlJnsaj55GinnOFi+s4xef6Bgzt4ay4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jEKu1+QacMpqQYXBXccohR6zFIE5s3psXsmyHRGVtrVZ0pnr1KmEtw/7ur1/cNOIW
+	 7yaC0tT7pE/PEjOsCREluDbIOYElxV91R5zU3GXDduQNPG8iQNtdKgQXXVLW71gXl5
+	 fRmW8W+WmqtOuYX/bt+7acRqoQOvMWs/tb/l9dLqifK5e8D6y8omqS0IUDwTvWnmUF
+	 1F33T1JsWwfXSls+ht4OCwM/ynfr2/txGMl1BZG+D42MTMRH6wjt8FtNVLI5StDKkm
+	 cyfFCwSelTNh5o5BUDnQ68xW+NwKXbG9KE6xPzchGCg1TuE5BEY10KBkXbjn1Yy2DL
+	 MtO6m2yoXCqug==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-gpio@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jeff Johnson <jjohnson@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ath10k@lists.infradead.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 00/21] gpiolib: fence off legacy interfaces
+Date: Fri,  8 Aug 2025 17:17:44 +0200
+Message-Id: <20250808151822.536879-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="24X8Q5J5cCa7Hle3"
-Content-Disposition: inline
-In-Reply-To: <CANBuOYrtmA-UgTo6X87pND9eTfub-R633scTzDef56gVvBVwig@mail.gmail.com>
-X-Cookie: What an artist dies with me!
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: Arnd Bergmann <arnd@arndb.de>
 
---24X8Q5J5cCa7Hle3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Commit 678bae2eaa81 ("gpiolib: make legacy interfaces optional") was
+merged for linux-6.17, so now it is possible to use the legacy interfaces
+conditionally and eventually have the support left out of the kernel
+whenever it is not needed.
 
-On Fri, Aug 08, 2025 at 12:28:16AM +0200, Jihed Chaibi wrote:
+I created six patches to force-enable CONFIG_GPIOLIB_LEGACY on the
+few (mostly ancient) platforms that still require this, plus a set of
+patches to either add the corresponding Kconfig dependencies that make
+the device drivers conditional on that symbol, or change them to no
+longer require it.
 
-> For an immediate contribution that I can start on without specific
-> hardware, I've been digging into the DT bindings and identified a
-> challenge I'd like to help solve.
+The final patch ends up turning the Kconfig symbol off by default,
+which of course depends on everything else getting merged first to avoid
+build errors.
 
-> While learning to configure audio, I found that discovering the valid
-> routing strings (simple-audio-card,routing) for a lot of codecs is
-> kind of difficult. Currently, for most codecs, the only way to find
-> those is to read the ASoC C driver source for the specific codec. This
-> seems problematic for a few reasons:
+I would suggest that patches 1-20 can just get merged through the
+respective maintainer trees independently when they are deemed ready,
+and the final patch can wait another merge window.
 
-The names are supposed to be documented in the bindings FWIW, but yes
-this is an oversight in a bunch of bindings.  The general theory is that
-the pins on the edges of devices should be named after the pins on the
-device so hopefully if you just work from the schematic things will work
-out without ever having to reference the bindings.
+     Arnd
 
-> I believe documenting these strings directly in each codec's DT
-> binding file (.yaml) would be a significant improvement. It would make
-> the binding self-contained and greatly improve the experience for
-> anyone setting up audio on a board.
+Arnd Bergmann (21):
+  ARM: select legacy gpiolib interfaces where used
+  m68k: coldfire: select legacy gpiolib interface for mcfqspi
+  mips: select legacy gpiolib interfaces where used
+  sh: select legacy gpiolib interface
+  x86/platform: select legacy gpiolib interfaces where used
+  x86/olpc: select GPIOLIB_LEGACY
+  mfd: wm8994: remove dead legacy-gpio code
+  ASoC: add GPIOLIB_LEGACY dependency where needed
+  input: gpio-keys: make legacy gpiolib optional
+  leds: gpio: make legacy gpiolib interface optional
+  media: em28xx: add special case for legacy gpiolib interface
+  mfd: arizona: make legacy gpiolib interface optional
+  mfd: si476x: add GPIOLIB_LEGACY dependency
+  mfd: aat2870: add GPIOLIB_LEGACY dependency
+  dsa: b53: hide legacy gpiolib usage on non-mips
+  ath10k: remove gpio number assignment
+  nfc: marvell: convert to gpio descriptors
+  nfc: s3fwrn5: convert to gpio descriptors
+  usb: udc: pxa: remove unused platform_data
+  ASoC: pxa: add GPIOLIB_LEGACY dependency
+  gpiolib: turn off legacy interface by default
 
-> Does this seem like a useful contribution? If you agree, I can get
-> started immediately on preparing a patch for a popular codec to serve
-> as an example.
+ arch/arm/mach-mv78xx0/Kconfig                 |  1 +
+ arch/arm/mach-orion5x/Kconfig                 |  1 +
+ arch/arm/mach-pxa/Kconfig                     |  1 +
+ arch/arm/mach-pxa/devices.c                   |  7 --
+ arch/arm/mach-pxa/gumstix.c                   |  1 -
+ arch/arm/mach-pxa/udc.h                       |  8 --
+ arch/arm/mach-s3c/Kconfig.s3c64xx             |  1 +
+ arch/arm/mach-sa1100/Kconfig                  |  1 +
+ arch/m68k/Kconfig.cpu                         |  1 +
+ arch/mips/Kconfig                             |  5 +
+ arch/mips/alchemy/Kconfig                     |  1 -
+ arch/mips/txx9/Kconfig                        |  1 +
+ arch/sh/Kconfig                               |  1 +
+ arch/sh/boards/Kconfig                        |  8 ++
+ arch/sh/boards/mach-highlander/Kconfig        |  1 +
+ arch/sh/boards/mach-rsk/Kconfig               |  3 +
+ arch/x86/Kconfig                              |  1 +
+ drivers/gpio/Kconfig                          | 11 ++-
+ drivers/input/keyboard/gpio_keys.c            |  5 +-
+ drivers/input/keyboard/gpio_keys_polled.c     |  2 +
+ drivers/input/misc/Kconfig                    |  3 +
+ drivers/leds/leds-gpio.c                      |  8 +-
+ drivers/media/usb/em28xx/Kconfig              |  1 +
+ drivers/media/usb/em28xx/em28xx-dvb.c         |  4 +-
+ drivers/mfd/Kconfig                           |  2 +
+ drivers/mfd/arizona-irq.c                     |  5 +-
+ drivers/mfd/rohm-bd71828.c                    |  2 +
+ drivers/mfd/rohm-bd718x7.c                    |  2 +
+ drivers/mfd/wm8994-irq.c                      | 94 +------------------
+ drivers/net/dsa/b53/b53_common.c              | 17 +---
+ drivers/net/dsa/b53/b53_priv.h                | 24 +++--
+ drivers/net/wireless/ath/ath10k/leds.c        |  3 +-
+ drivers/nfc/nfcmrvl/main.c                    | 47 +++-------
+ drivers/nfc/nfcmrvl/nfcmrvl.h                 |  5 +-
+ drivers/nfc/nfcmrvl/uart.c                    |  5 -
+ drivers/nfc/nfcmrvl/usb.c                     |  1 -
+ drivers/nfc/s3fwrn5/i2c.c                     | 42 +++------
+ drivers/nfc/s3fwrn5/phy_common.c              | 12 +--
+ drivers/nfc/s3fwrn5/phy_common.h              |  4 +-
+ drivers/nfc/s3fwrn5/uart.c                    | 30 ++----
+ drivers/platform/x86/Kconfig                  |  3 +
+ .../platform/x86/x86-android-tablets/Kconfig  |  1 +
+ drivers/usb/gadget/udc/pxa25x_udc.c           | 41 +++-----
+ drivers/usb/gadget/udc/pxa25x_udc.h           |  2 +-
+ drivers/usb/gadget/udc/pxa27x_udc.c           | 35 +------
+ drivers/usb/gadget/udc/pxa27x_udc.h           |  2 -
+ include/linux/gpio_keys.h                     |  2 +
+ include/linux/leds.h                          |  2 +
+ include/linux/mfd/arizona/pdata.h             |  6 ++
+ include/linux/mfd/wm8994/pdata.h              |  5 -
+ include/linux/platform_data/pxa2xx_udc.h      | 15 ---
+ sound/pci/Kconfig                             |  1 +
+ sound/soc/codecs/Kconfig                      |  4 +
+ sound/soc/codecs/arizona-jack.c               | 17 +++-
+ sound/soc/pxa/Kconfig                         |  4 +-
+ 55 files changed, 192 insertions(+), 320 deletions(-)
+ delete mode 100644 arch/arm/mach-pxa/udc.h
 
-Yes, that'd definitely be useful.  There are some bindings that document
-these properties already (eg, wm8731) but it's just a text list rather
-than a property so can't be automatically checked which would be another
-step further.  Just getting information into the binding documents at
-all for CODECs that don't yet have it would be good though.
+-- 
+2.39.5
 
---24X8Q5J5cCa7Hle3
-Content-Type: application/pgp-signature; name="signature.asc"
+Cc: Linus Walleij <linus.walleij@linaro.org> (maintainer:GPIO SUBSYSTEM,commit_signer:1/2=50%)
+Cc: Bartosz Golaszewski <brgl@bgdev.pl> (maintainer:GPIO SUBSYSTEM,commit_signer:1/7=14%,commit_signer:1/2=50%)
+Cc: linux-gpio@vger.kernel.org (open list:GPIO SUBSYSTEM)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiV9RYACgkQJNaLcl1U
-h9CKqgf/d4DUTvjJrvAFcgOU4bqw9w2ehsRAVKdDY6fqAXkNTQUhBlgzozTPmRvd
-K4VcUstqQAraQ/Wi7XAagnxs9aDBjIWJ/XdANeG2l9JFj0YjAGZqpjQ7Qx2ds3kt
-cxOakwheOsXTwRN5P40RMhF6/qKEb6x/LGfiMnUdbqQtWYZXIti1Gpqb4dF7ZSIA
-I/n6FrvlMJlBr+se5eqYXdcWctvS7NqzXe9efxDFBzE9dpPK00ySnuVDrQf7JesB
-MZaCIbhRmyzmEZEUr20PxQfDMwlc+aRZra9JBKsEC3f6KHBknp+yuZjrV5IXG7Bt
-fzhw4M2tJqhx0ToAb8np+guNgXEUsg==
-=DRqH
------END PGP SIGNATURE-----
-
---24X8Q5J5cCa7Hle3--
+Cc: Andrew Lunn <andrew@lunn.ch> (maintainer:ARM/Marvell Dove/MV78xx0/Orion SOC support)
+Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com> (maintainer:ARM/Marvell Dove/MV78xx0/Orion SOC support)
+Cc: Gregory Clement <gregory.clement@bootlin.com> (maintainer:ARM/Marvell Dove/MV78xx0/Orion SOC support)
+Cc: Russell King <linux@armlinux.org.uk> (maintainer:ARM PORT)
+Cc: Daniel Mack <daniel@zonque.org> (maintainer:PXA2xx/PXA3xx SUPPORT)
+Cc: Haojian Zhuang <haojian.zhuang@gmail.com> (maintainer:PXA2xx/PXA3xx SUPPORT)
+Cc: Robert Jarzmik <robert.jarzmik@free.fr> (maintainer:PXA2xx/PXA3xx SUPPORT)
+Cc: Krzysztof Kozlowski <krzk@kernel.org> (maintainer:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES,commit_signer:1/2=50%)
+Cc: Alim Akhtar <alim.akhtar@samsung.com> (reviewer:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES)
+Cc: Geert Uytterhoeven <geert@linux-m68k.org> (maintainer:M68K ARCHITECTURE,commit_signer:1/4=25%,authored:1/4=25%,added_lines:2/13=15%,removed_lines:2/6=33%)
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de> (maintainer:MIPS)
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp> (maintainer:SUPERH)
+Cc: Rich Felker <dalias@libc.org> (maintainer:SUPERH)
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de> (maintainer:SUPERH,commit_signer:2/4=50%)
+Cc: Thomas Gleixner <tglx@linutronix.de> (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT),added_lines:4/36=11%,removed_lines:6/49=12%)
+Cc: Ingo Molnar <mingo@redhat.com> (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: Borislav Petkov <bp@alien8.de> (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: Dave Hansen <dave.hansen@linux.intel.com> (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: "H. Peter Anvin" <hpa@zytor.com> (reviewer:X86 ARCHITECTURE (32-BIT AND 64-BIT))
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com> (maintainer:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...,commit_signer:5/7=71%,authored:1/7=14%,added_lines:17/36=47%,removed_lines:27/49=55%,commit_signer:1/2=50%,commit_signer:3/5=60%)
+Cc: Lee Jones <lee@kernel.org> (maintainer:LED SUBSYSTEM,commit_signer:2/5=40%)
+Cc: Pavel Machek <pavel@kernel.org> (maintainer:LED SUBSYSTEM)
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org> (maintainer:EM28XX VIDEO4LINUX DRIVER)
+Cc: Matti Vaittinen <mazziesaccount@gmail.com> (maintainer:ROHM POWER MANAGEMENT IC DEVICE DRIVERS)
+Cc: Florian Fainelli <florian.fainelli@broadcom.com> (maintainer:BROADCOM B53/SF2 ETHERNET SWITCH DRIVER)
+Cc: Jeff Johnson <jjohnson@kernel.org> (maintainer:QUALCOMM ATHEROS ATH10K WIRELESS DRIVER)
+Cc: Hans de Goede <hansg@kernel.org> (maintainer:X86 PLATFORM DRIVERS,commit_signer:1/7=14%)
+Cc: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com> (maintainer:X86 PLATFORM DRIVERS)
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org> (maintainer:USB SUBSYSTEM)
+Cc: Jaroslav Kysela <perex@perex.cz> (maintainer:SOUND)
+Cc: Takashi Iwai <tiwai@suse.com> (maintainer:SOUND,commit_signer:1/3=33%,authored:1/3=33%,removed_lines:2/2=100%)
+Cc: Liam Girdwood <lgirdwood@gmail.com> (maintainer:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...)
+Cc: Mark Brown <broonie@kernel.org> (maintainer:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...,commit_signer:26/29=90%,commit_signer:1/3=33%)
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com> (authored:1/7=14%,added_lines:4/36=11%,removed_lines:6/49=12%,commit_signer:1/2=50%,authored:1/2=50%,added_lines:5/7=71%,removed_lines:7/7=100%,added_lines:7/7=100%,removed_lines:2/7=29%)
+Cc: "Dr. David Alan Gilbert" <linux@treblig.org> (commit_signer:1/5=20%,authored:1/5=20%,removed_lines:7/10=70%)
+Cc: linux-arm-kernel@lists.infradead.org (moderated list:ARM/Marvell Dove/MV78xx0/Orion SOC support)
+Cc: linux-kernel@vger.kernel.org (open list)
+Cc: linux-samsung-soc@vger.kernel.org (open list:ARM/SAMSUNG S3C, S5P AND EXYNOS ARM ARCHITECTURES)
+Cc: linux-m68k@lists.linux-m68k.org (open list:M68K ARCHITECTURE)
+Cc: linux-mips@vger.kernel.org (open list:MIPS)
+Cc: linux-sh@vger.kernel.org (open list:SUPERH)
+Cc: linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...)
+Cc: linux-leds@vger.kernel.org (open list:LED SUBSYSTEM)
+Cc: linux-media@vger.kernel.org (open list:EM28XX VIDEO4LINUX DRIVER)
+Cc: patches@opensource.cirrus.com (open list:WOLFSON MICROELECTRONICS DRIVERS)
+Cc: netdev@vger.kernel.org (open list:BROADCOM B53/SF2 ETHERNET SWITCH DRIVER)
+Cc: linux-wireless@vger.kernel.org (open list:QUALCOMM ATHEROS ATH10K WIRELESS DRIVER)
+Cc: ath10k@lists.infradead.org (open list:QUALCOMM ATHEROS ATH10K WIRELESS DRIVER)
+Cc: platform-driver-x86@vger.kernel.org (open list:X86 PLATFORM DRIVERS)
+Cc: linux-usb@vger.kernel.org (open list:USB SUBSYSTEM)
+Cc: linux-sound@vger.kernel.org (open list:SOUND)
