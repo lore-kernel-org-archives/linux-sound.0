@@ -1,211 +1,104 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9C521B8E7
-	for <linux-sound@vger.kernel.org>; Fri,  8 Aug 2025 10:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B016D5695;
+	Fri,  8 Aug 2025 10:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754649623; cv=none; b=cYfVewV3EcBu7EHwT8tL+0+c3sMc1jIaMrHi++/xIQyIDlvO9gCSFp2CvkLQjLNhcoWXz+s19qkD7hgXMkkgxS9/HYmVluhUt5AdWhUBLKpuX2M/OKWdZ9y2SuSnTlTl/lnQb8b+RcnjclO08AMFHnWQ0ey/678YtIe6wXXhuFM=
+	t=1754650023; cv=none; b=e/Idt7Zsjt7l04F8EJbwF0Vwein81EXjOeDiAMAY95ddJCbg1NjBqTA20yLsyiOaColNIYeNMCQeI0OiPaE+APdIy8kTKD8OaxjXCY77+jXYbasFbgzsuXWe/1qrJNt8kbCXPTvBGjCSM5iCwNVpoJVSIK1/wXIjhn4D8YoD6zY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754649623; c=relaxed/simple;
-	bh=1drwLTxFsT63IfRrO01m4wtIKzoOH370Yc3Xqdwt4/4=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=fKmh/F3Bgj2AZpVhPnsJa1zQ0NXKJfqRaLN1Smus9VTneVJpHDWUV/JC1JGFCJKHytq72WR+F4j/7VNixbvvRTc01mnhGlpzYOjo5M6GvSNIjoiEeLmFu5QFWTcf4wbjZIMXinzC2//10N0h8ultDFSI1+xFiITgv2wSQrL2LL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lsVUEq9O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iMROzdO0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lsVUEq9O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iMROzdO0; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1754650023; c=relaxed/simple;
+	bh=3ibipzUySSqHmtKXTWb4ha0TMTGI734ck1ABPHtXVpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jo1b8+wE/djh13uav5wv4flcS+DoHJpiAmJsHgOADmplfmNxxp3zQHfbGPNvsu38G2uVBbAwfbp3r0pPNa0jMFjWtKfTO7Od0/rbcrTKvZyOwyaf9BiG6/BFleia3dSL4hlVerUTAbah57Q27RsTA2CJ5+Or5b06gAwp5CSwacI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qsb+8VRk; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lsVUEq9O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iMROzdO0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lsVUEq9O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iMROzdO0"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1BD3033E26;
-	Fri,  8 Aug 2025 10:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754649614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=uoE7MZRNhqz7I2FYlGOff0yqR78rvCLebF29Nou+1ag=;
-	b=lsVUEq9OoUsvwAtjzBU6UTd+VfRnyNFWgGeTzHwco5QGsgJSztXM1L9yiXuMOuZHzhcMAH
-	53gr1C3L4KGJ4RKWMo5DMeoSIqz151h/gCi2KP6Yjm5qatyeJz8VF8e/ZfPgha7Zls5rJp
-	VKbWRWyPN3LmH6giQA2JJra0T376fdo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754649614;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=uoE7MZRNhqz7I2FYlGOff0yqR78rvCLebF29Nou+1ag=;
-	b=iMROzdO0L4leCBBtcM6vshEfIIlFckDqqDCzrHFGLrP6WZ1QqMzrJgMD5zrDoDXE1HA2Iv
-	hCOKWVASX0OqILCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lsVUEq9O;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=iMROzdO0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754649614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=uoE7MZRNhqz7I2FYlGOff0yqR78rvCLebF29Nou+1ag=;
-	b=lsVUEq9OoUsvwAtjzBU6UTd+VfRnyNFWgGeTzHwco5QGsgJSztXM1L9yiXuMOuZHzhcMAH
-	53gr1C3L4KGJ4RKWMo5DMeoSIqz151h/gCi2KP6Yjm5qatyeJz8VF8e/ZfPgha7Zls5rJp
-	VKbWRWyPN3LmH6giQA2JJra0T376fdo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754649614;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=uoE7MZRNhqz7I2FYlGOff0yqR78rvCLebF29Nou+1ag=;
-	b=iMROzdO0L4leCBBtcM6vshEfIIlFckDqqDCzrHFGLrP6WZ1QqMzrJgMD5zrDoDXE1HA2Iv
-	hCOKWVASX0OqILCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E3BDF13A7E;
-	Fri,  8 Aug 2025 10:40:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XsFjNg3UlWgJbAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 08 Aug 2025 10:40:13 +0000
-Date: Fri, 08 Aug 2025 12:40:13 +0200
-Message-ID: <87cy96yu42.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.17-rc1
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qsb+8VRk"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3b8de6f7556so1052541f8f.1;
+        Fri, 08 Aug 2025 03:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754650020; x=1755254820; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9FTG6NMUrOc/WW0podSvrB6jKWxep/Y5whSGifB9nMY=;
+        b=Qsb+8VRkpCNf9AtoVkKdy1FK/V7E3opyx45Cdjbn/heWk+gPU4Hq+6qstNVrmKZFTu
+         cpOAzd+8nPK2Xb2+ek8cAA1u65KcwI2qotpwTlr8uuFy8ztVRdbCGUKbFS6rUg/rKNO7
+         CmBmhJWxLbafy0uBuXvC8QlfbzJmtO1jlDiLyi+B97d46R9OS7C5vtFyd9g9KsqYG3mL
+         rW8PRGR706Hxh+EjDhiXsytrQSUScNkTth3zheXKhJOhXSahxHnLxJm5lJ36oC0+2zYW
+         8hW7Fchxp/2qOdujjBINHbkMzgeZYgZviuUDCG3CJbqrDK2RMDzzLyBu7BR71HBzhBFr
+         cYIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754650020; x=1755254820;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9FTG6NMUrOc/WW0podSvrB6jKWxep/Y5whSGifB9nMY=;
+        b=uYxw4QfigttdQ5YZuwYtl1l8d9LFQjL6P3YNN7qJXoQdvEIMsF8x7DI/63Jm+ZSmrZ
+         XT1Sei4lQAR2Ia7IgBbvIo3jALW4UwzEvKADyNVEHw2q5HbigpYDOt8XrcvQxUTvDYpm
+         YU2yntoLk8ZvKoUi4XJD4ABs07xAYQtSgy3biXwO8JF7f9YBoaoaE+OywUoUapfdR4aV
+         g+8lHkO1aFGlZWLa1OYwGIp/QrKkKkjdgFbrasEpkKEMfEClyFISTR0rTe1ISTqRxOEd
+         2f+WbAac+vZ8SEkffhLit3FrmOU/HDpLBq8dkpjaGtJ48HSH2cZ9wTzwyzCG44FzMORZ
+         6Ecg==
+X-Forwarded-Encrypted: i=1; AJvYcCUtnFWxFWnH93LyKUBrVA9snMLf7kpRmC5O1ZcDYI9Y1luGhyPYDvjfP7JvJvMDZRdBmQHInQ3Eu/ZU2Xw=@vger.kernel.org, AJvYcCWWjtlos3j1O0vRR8F4VAy5zX7Gmnv4M0sirp55NUzzcQ4KyipbnKNDnLWCZ2RuR4GiHaIb8gVmBlNIucM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwgqDAgHgE4TVYWNRScroSXdl1Hfkv1IF/a8hZOwDgE3kSc2qC
+	L2e1w4U8nATc8zKaecDg3SDOqKifOb422KSlb2c6NfNZ7OeJk0XXGKjmYzCK5m0wcDXWmw==
+X-Gm-Gg: ASbGncsrVZgcTb6HYQoSqTLAwGyGLY74EuL+MfN3XqbWaZBkvgDtOeXYqBcpALuJLrD
+	0am3sY5AunRLCTPls6aEe6qm+brz8V7RYAzlx2rSYwqDQ5WZHx2rVOObWLyoOboeNae/GdZQ0Wp
+	Pk87ZCzmK8Wc574O00FuahsULMgURaeJHdJxx+PfMHCMY7XujTTOTFMNMQmlto7ZsFpFw3UAdeb
+	MEOQIFAJeZ6m2pNeQE6NPtI963Nrzxu4sJA5z8x+QyeXIH21nHKPPQWjvyTT3ogE/Y9hQ83sV7U
+	t6YDtCENAwjZDhqJbSpjw/6DcWNB/lJmz/wn4hlPraoa4R2aNPMCMbZb0cwlxjdCKuGP5lQCGcT
+	LOHbaYaI7nBl4VX8I5ssT
+X-Google-Smtp-Source: AGHT+IEYUwqFOg/SdjZy3Bry6MSmnKWOEJY2K+fn9aIueqnuNBAKZ+hlmkh9LLEtXckFUPI6/qyInA==
+X-Received: by 2002:a05:6000:290a:b0:3b8:fa8c:f1b3 with SMTP id ffacd0b85a97d-3b900b55f36mr2067409f8f.53.1754650019887;
+        Fri, 08 Aug 2025 03:46:59 -0700 (PDT)
+Received: from localhost ([87.254.0.133])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c489e81sm30290727f8f.68.2025.08.08.03.46.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Aug 2025 03:46:59 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] ALSA: hda: Fix spelling mistake "dismatch" -> "mismatch"
+Date: Fri,  8 Aug 2025 11:46:21 +0100
+Message-ID: <20250808104621.829448-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 1BD3033E26
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Linus,
+There is a spelling mistake (or neologism of dis and match) in a
+dev_err message. Fix it.
 
-please pull sound fixes for v6.17-rc1 from:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.17-rc1
-
-The topmost commit is e8e4f3c242cc26de9d69bd8b3a678d1e50980abe
-
-----------------------------------------------------------------
-
-sound fixes for 6.17-rc1
-
-A few more small fixes for 6.17-rc1.
-
-- Support for ASoC AMD ACP 7.2 with new IDs
-- ASoC Intel AVS and SOF fixes
-- Yet more kconfig adjustments for HD-audio codecs
-- TAS2781 codec fixes
-- Fixes for longstanding (rather minor) bugs in Intel LPE audio
-  and USB-audio drivers
-
-----------------------------------------------------------------
-
-Arnd Bergmann (1):
-      ASoC: SOF: Intel: hda-sdw-bpt: fix SND_SOF_SOF_HDA_SDW_BPT dependencies
-
-Baojun Xu (1):
-      ASoC: tas2781: Fix the wrong step for TLV on tas2781
-
-Cezary Rojewski (1):
-      ASoC: Intel: avs: Fix uninitialized pointer error in probe()
-
-Muhammad Usama Anjum (1):
-      ASoC: SOF: amd: acp-loader: Use GFP_KERNEL for DMA allocations in resume context
-
-Peter Jakubek (1):
-      ASoC: Intel: sof_sdw: Add quirk for Alienware Area 51 (2025) 0CCC SKU
-
-Sean Anderson (1):
-      ALSA: usb-audio: Don't use printk_ratelimit for debug prints
-
-Shenghao Ding (1):
-      ALSA: hda/tas2781: Support L"SmartAmpCalibrationData" to save calibrated data
-
-Shengjiu Wang (1):
-      ASoC: wm8962: Clear master mode when enter runtime suspend
-
-Takashi Iwai (4):
-      ALSA: hda/ca0132: Fix missing error handling in ca0132_alt_select_out()
-      ALSA: hda/realtek: Restrict prompt only for CONFIG_EXPERT
-      ALSA: hda/hdmi: Restrict prompt only for CONFIG_EXPERT
-      ALSA: hda/cirrus: Restrict prompt only for CONFIG_EXPERT
-
-Thomas Croft (1):
-      ALSA: hda/realtek: add LG gram 16Z90R-A to alc269 fixup table
-
-Thorsten Blum (1):
-      ALSA: intel_hdmi: Fix off-by-one error in __hdmi_lpe_audio_probe()
-
-Venkata Prasad Potturu (4):
-      ASoC: SOF: amd: Add sof audio support for acp7.2 platform
-      ASoC: amd: ps: Add SoundWire pci and dma driver support for acp7.2 platform
-      ASoC: amd: acp: Add SoundWire legacy machine driver support for acp7.2 platform
-      ASoC: amd: acp: Add SoundWire SOF machine driver support for acp7.2 platform
-
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- include/sound/tas2781-tlv.h                |  2 +-
- sound/hda/codecs/ca0132.c                  |  5 +++-
- sound/hda/codecs/cirrus/Kconfig            | 20 ++++++++-----
- sound/hda/codecs/hdmi/Kconfig              | 20 ++++++++-----
- sound/hda/codecs/realtek/Kconfig           | 28 ++++++++++--------
- sound/hda/codecs/realtek/alc269.c          |  1 +
- sound/hda/codecs/side-codecs/tas2781_hda.c | 47 ++++++++++++++++++++----------
- sound/hda/codecs/side-codecs/tas2781_hda.h |  2 +-
- sound/soc/amd/acp/acp-sdw-legacy-mach.c    |  3 ++
- sound/soc/amd/acp/acp-sdw-sof-mach.c       |  1 +
- sound/soc/amd/acp/soc_amd_sdw_common.h     |  2 ++
- sound/soc/amd/ps/acp63.h                   |  1 +
- sound/soc/amd/ps/pci-ps.c                  |  4 +++
- sound/soc/amd/ps/ps-sdw-dma.c              |  5 ++++
- sound/soc/codecs/wm8962.c                  | 11 +++++++
- sound/soc/intel/avs/core.c                 |  3 +-
- sound/soc/intel/boards/sof_sdw.c           |  8 +++++
- sound/soc/sof/amd/acp-loader.c             |  6 ++--
- sound/soc/sof/amd/acp.c                    |  8 +++++
- sound/soc/sof/amd/acp.h                    |  1 +
- sound/soc/sof/amd/pci-acp70.c              |  1 +
- sound/soc/sof/intel/Kconfig                |  3 +-
- sound/usb/pcm.c                            |  9 +++---
- sound/x86/intel_hdmi_audio.c               |  2 +-
- 24 files changed, 137 insertions(+), 56 deletions(-)
+ sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+index 45ac5e41bd4f..e1d60da50897 100644
+--- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
++++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+@@ -356,7 +356,7 @@ static int tas2563_save_calibration(struct tas2781_hda *h)
+ 	}
+ 
+ 	if (cd->total_sz != offset) {
+-		dev_err(p->dev, "%s: tot_size(%lu) and offset(%u) dismatch\n",
++		dev_err(p->dev, "%s: tot_size(%lu) and offset(%u) mismatch\n",
+ 			__func__, cd->total_sz, offset);
+ 		return -EINVAL;
+ 	}
+-- 
+2.50.1
 
