@@ -1,52 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F93B284B33;
-	Fri,  8 Aug 2025 15:23:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7573285C91;
+	Fri,  8 Aug 2025 15:25:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754666601; cv=none; b=TZQ9oym1vsFhlisDGLyJkQHUnhYcPoO1c+MbzRFFR8mQMMDrMyRWziQGcTFWojRw4ZBZJWMkJ6HuF78rJilF3b7JwSZ0Z0jjEcaW/WIa7Ynfz5C/MGB6YRXL8AeKyp+JtuMtSkou18tRO9TT2YKN3GFa6wyNVCqC9QW2XFPc5Y0=
+	t=1754666729; cv=none; b=A/6DYsnsVVsyuIEXxCWkarFAyEHSsmyewxitVtq3a0v2uFNLYbY+asQZJFIQIWpxeoJfzZwYxqEMyHak6FdIjXRBfuds9CEuVvVxFM9sxXyjSDzJJkcxOjuUaqWKBepeP3+mkOU72RbHGeTq7ls9VReslUWQrbQ2ORovyHxl9HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754666601; c=relaxed/simple;
-	bh=V4JmB2szthDEq+aKg+Xa7ToR9O5+5pVOjG/0EWTfRoo=;
+	s=arc-20240116; t=1754666729; c=relaxed/simple;
+	bh=ql43Pm5ZVVpFZkt/lmAyISGZXPuox8rw7R6mqwFTem0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZwUaM9Mi0Lkp/cck+1LQ6UM35wijI+UffNBRBu7fD1Y5PyKrYE0W81wI61bheOCVM8Ayty3RaAuKdhe1OfPeUstvc197PB/GxIl4KLjW9mgQfT1V3td+/r3XiWMFwEU2LvC6Oxlgbyk6plkxUpEiJcB9o6mhwyEQzRfZwPo3L8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JLTcRbPF; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=qqNKYZHPIiKByXeF+LPTq9pekfEP7cAoDN6t/EoKK4ubGDuHonSTJJPPB0xiVMEdubuBJziWTpfgYftUpJFOoeNuKbxY/zDT/vapnqL2XKlpe1SbUeeKuWgX3SVAN0aZc30y+w3zDIQC/aooeHrm/wfKGAOHeMEEv+TLK10PGLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1o2Rd1n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JLTcRbPF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB0FCC4CEED;
-	Fri,  8 Aug 2025 15:23:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1o2Rd1n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C25C4CEED;
+	Fri,  8 Aug 2025 15:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754666601;
-	bh=V4JmB2szthDEq+aKg+Xa7ToR9O5+5pVOjG/0EWTfRoo=;
+	s=k20201202; t=1754666729;
+	bh=ql43Pm5ZVVpFZkt/lmAyISGZXPuox8rw7R6mqwFTem0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JLTcRbPF7331ZBxpI4Gi2vwix+7gV/qIKvuu0Dfq0K50q3gsKbWJX52Emvh2GcWsH
-	 Y3oV4fC99Sxhyb9l+K8Fvj115XSpSxjcB+lI7bve2yUF4UnbyweYaMKq9mjTkkdFv3
-	 r++MoM8BxAa4TZECJWmQ7/aVlKu7UA2VPulozs/zN4nqwWRnA2U6C9kHcIBY624306
-	 h8lrrKo9Cc251MyOrEqd0wUQWP0vsLnJeCcP3shYuEpnA8xMbw7d+H63k8RJ/CLEaE
-	 Fv1aaRQEbQfDnNStAaoSEJSzTU+teWbAGTrTy/G1YqHQuauSQDy/e7esmTZpa0j4Ek
-	 y1fDROLoSs0cQ==
+	b=d1o2Rd1nJHSRYFCzylvP+3x9U8gc1HC0fXIU0YsQVx7xGvfqmXhr0IuqJsRnpv0Tk
+	 nRHkvuOOLCFr8tAX2twv/foDjaDtd5bB3P62pK8RanglCpRoAF3UhTbPGsDquJjVsM
+	 YnhVgSXaPTaY7/NrDnIo9XaYFyC3+e+N+gElNMZin1iMb3Baoweh+Ekj1fYoF7TZwr
+	 M6qYj8IFllGuc/2eFH3faF/K84LpxFhw4YCNb7Us3cKHIOgqBJ7urKJdf1CJulU6aO
+	 YNKq6Fvb4njTbSm7YegOPQmoYDAtj1OpwXd4NDQL0TQf2UrAcffq2kN8kCH1HWJYiV
+	 8szml0eaARUgw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Bartosz Golaszewski <brgl@bgdev.pl>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	linux-gpio@vger.kernel.org,
-	Lee Jones <lee@kernel.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
 Cc: Arnd Bergmann <arnd@arndb.de>,
-	kernel test robot <lkp@intel.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	=?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Thomas Richard <thomas.richard@bootlin.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 13/21] mfd: si476x: add GPIOLIB_LEGACY dependency
-Date: Fri,  8 Aug 2025 17:17:57 +0200
-Message-Id: <20250808151822.536879-14-arnd@kernel.org>
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 20/21] ASoC: pxa: add GPIOLIB_LEGACY dependency
+Date: Fri,  8 Aug 2025 17:18:05 +0200
+Message-Id: <20250808151822.536879-21-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250808151822.536879-1-arnd@kernel.org>
 References: <20250808151822.536879-1-arnd@kernel.org>
@@ -60,55 +58,48 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-This driver uses the legacy gpiolib interfaces to get gpio
-numbers from platform data:
+The pxa27x platform uses the legacy gpiolib interfaces, including
+in its sound drivers:
 
-drivers/mfd/si476x-i2c.c: In function 'si476x_core_start':
-   drivers/mfd/si476x-i2c.c:133:21: error: implicit declaration of function 'gpio_is_valid'; did you mean 'uuid_is_valid'? [-Werror=implicit-function-declaration]
-     133 |                 if (gpio_is_valid(core->gpio_reset))
+sound/arm/pxa2xx-ac97-lib.c: In function 'pxa2xx_ac97_hw_probe':
+sound/arm/pxa2xx-ac97-lib.c:374:23: error: implicit declaration of function 'gpio_request_one' [-Wimplicit-function-declaration]
+  374 |                 ret = gpio_request_one(reset_gpio, GPIOF_OUT_INIT_HIGH,
 
-There are no in-tree users of this driver, so nothing defines
-the platform data.
+Make sure we don't select those drivers for compile-testing unless
+we are building for a pxa27x system, or CONFIG_GPIOLIB_LEGACY is
+already enabled.
 
-Add a dependency on GPIOLIB_LEGACY for the moment to avoid the build
-failure, and make sure the sound driver does not get built without the
-mfd portion either pass that dependency along.
+The SND_PXA_SOC_SSP driver accidentally used a dependency on PLAT_PXA,
+which includes both ARCH_PXA and ARCH_MMP, but it is only used on
+the former.
 
-Alternatively, we could remove the mfd driver along with the radio and
-sound portions.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202507231653.UFlH2dMO-lkp@intel.com/
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/mfd/Kconfig      | 1 +
- sound/soc/codecs/Kconfig | 1 +
- 2 files changed, 2 insertions(+)
+ sound/soc/pxa/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 425c5fba6cb1..6d52a3d22430 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -1411,6 +1411,7 @@ config MFD_SEC_I2C
- config MFD_SI476X_CORE
- 	tristate "Silicon Laboratories 4761/64/68 AM/FM radio."
- 	depends on I2C
-+	depends on GPIOLIB_LEGACY
- 	select MFD_CORE
- 	select REGMAP_I2C
+diff --git a/sound/soc/pxa/Kconfig b/sound/soc/pxa/Kconfig
+index e026f9912a6d..e54abcd39f79 100644
+--- a/sound/soc/pxa/Kconfig
++++ b/sound/soc/pxa/Kconfig
+@@ -3,7 +3,7 @@ menu "PXA"
+ 
+ config SND_PXA2XX_SOC
+ 	tristate "SoC Audio for the Intel PXA2xx chip"
+-	depends on ARCH_PXA || COMPILE_TEST
++	depends on ARCH_PXA || (COMPILE_TEST && GPIOLIB_LEGACY)
+ 	select SND_PXA2XX_LIB
  	help
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 759bcb8260cd..9d5b449fa747 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -1903,6 +1903,7 @@ config SND_SOC_SGTL5000
+ 	  Say Y or M if you want to add support for codecs attached to
+@@ -26,7 +26,7 @@ config SND_PXA2XX_SOC_I2S
  
- config SND_SOC_SI476X
- 	tristate
-+	depends on MFD_SI476X_CORE
+ config SND_PXA_SOC_SSP
+ 	tristate "Soc Audio via PXA2xx/PXA3xx SSP ports"
+-	depends on PLAT_PXA
++	depends on ARCH_PXA
+ 	select PXA_SSP
+ 	select SND_PXA2XX_LIB
  
- config SND_SOC_SIGMADSP
- 	tristate
 -- 
 2.39.5
 
