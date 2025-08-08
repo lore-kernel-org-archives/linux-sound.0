@@ -1,94 +1,78 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3E9271466
-	for <linux-sound@vger.kernel.org>; Fri,  8 Aug 2025 09:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9C521B8E7
+	for <linux-sound@vger.kernel.org>; Fri,  8 Aug 2025 10:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754646791; cv=none; b=SFU4ztt+xeNdY5nyOcxgQvz0iqnYNBXYZsqoTylt4rPyb5iJ9k484nPN3AND2YnNtO90oaoXA9LFu7gZONniKehQ6qXw6dhKsF8MZfkXlXHQ6B6n7JyOEKEOmelYhAOHE+9j2THsbE3bRDyWlCl9ks/mCe2GOnp+qoD6gmMIZZ8=
+	t=1754649623; cv=none; b=cYfVewV3EcBu7EHwT8tL+0+c3sMc1jIaMrHi++/xIQyIDlvO9gCSFp2CvkLQjLNhcoWXz+s19qkD7hgXMkkgxS9/HYmVluhUt5AdWhUBLKpuX2M/OKWdZ9y2SuSnTlTl/lnQb8b+RcnjclO08AMFHnWQ0ey/678YtIe6wXXhuFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754646791; c=relaxed/simple;
-	bh=mRBQhyAKgwd0SyR78LSg9dYwtNTpOoLNvJ2ECVnsbWM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rJdGKM6+RvLHS3DT8vZbaU9EYktEyMXkLd99dwc17PG56s5KvaXRN0lMEaFUs9xtpnKo2l0bTVR8OdXzcWlqPSl2rYirwFscKSRYfggXcqDUEh/jq8HyDEThYtJJ1PKMiqflNCVYOPVXg9w+foOEP5w55kkKtNCyBhG3yiaMLMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CW9e9eGi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S0htzyiU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CW9e9eGi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S0htzyiU; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1754649623; c=relaxed/simple;
+	bh=1drwLTxFsT63IfRrO01m4wtIKzoOH370Yc3Xqdwt4/4=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=fKmh/F3Bgj2AZpVhPnsJa1zQ0NXKJfqRaLN1Smus9VTneVJpHDWUV/JC1JGFCJKHytq72WR+F4j/7VNixbvvRTc01mnhGlpzYOjo5M6GvSNIjoiEeLmFu5QFWTcf4wbjZIMXinzC2//10N0h8ultDFSI1+xFiITgv2wSQrL2LL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lsVUEq9O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iMROzdO0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lsVUEq9O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iMROzdO0; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CW9e9eGi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S0htzyiU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CW9e9eGi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S0htzyiU"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lsVUEq9O";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iMROzdO0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lsVUEq9O";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iMROzdO0"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 20E5522D9B;
-	Fri,  8 Aug 2025 09:53:08 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1BD3033E26;
+	Fri,  8 Aug 2025 10:40:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754646788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dwaaYyMDev0NGtjYWn+qdV4V8O7PjKtAlVYBTh0QrVA=;
-	b=CW9e9eGirwcjKQklfiuFpy7jH9yFxRbEO9vlkslResmt1JhU4TWswAavFwQgRnsLjw5VOA
-	EEdh4QA9VVJ/DYN8I/YDAhWFLS/fowekLKQUCyOHSxXVJRs/vjDE3iUlNknnmJkncSq+NF
-	CPYy4vZCpm4u2qKgJaAQobPQyE0pjaA=
+	t=1754649614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=uoE7MZRNhqz7I2FYlGOff0yqR78rvCLebF29Nou+1ag=;
+	b=lsVUEq9OoUsvwAtjzBU6UTd+VfRnyNFWgGeTzHwco5QGsgJSztXM1L9yiXuMOuZHzhcMAH
+	53gr1C3L4KGJ4RKWMo5DMeoSIqz151h/gCi2KP6Yjm5qatyeJz8VF8e/ZfPgha7Zls5rJp
+	VKbWRWyPN3LmH6giQA2JJra0T376fdo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754646788;
+	s=susede2_ed25519; t=1754649614;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dwaaYyMDev0NGtjYWn+qdV4V8O7PjKtAlVYBTh0QrVA=;
-	b=S0htzyiUNuFbtBJazZ0ljT0E1uPoeEy/zE0cBGBTMevpYD6C+s9bCpEjLl9mhUcxyoWDLI
-	e76gr9d6p7rwY9AQ==
+	 mime-version:mime-version:content-type:content-type;
+	bh=uoE7MZRNhqz7I2FYlGOff0yqR78rvCLebF29Nou+1ag=;
+	b=iMROzdO0L4leCBBtcM6vshEfIIlFckDqqDCzrHFGLrP6WZ1QqMzrJgMD5zrDoDXE1HA2Iv
+	hCOKWVASX0OqILCA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CW9e9eGi;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=S0htzyiU
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lsVUEq9O;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=iMROzdO0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754646788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dwaaYyMDev0NGtjYWn+qdV4V8O7PjKtAlVYBTh0QrVA=;
-	b=CW9e9eGirwcjKQklfiuFpy7jH9yFxRbEO9vlkslResmt1JhU4TWswAavFwQgRnsLjw5VOA
-	EEdh4QA9VVJ/DYN8I/YDAhWFLS/fowekLKQUCyOHSxXVJRs/vjDE3iUlNknnmJkncSq+NF
-	CPYy4vZCpm4u2qKgJaAQobPQyE0pjaA=
+	t=1754649614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=uoE7MZRNhqz7I2FYlGOff0yqR78rvCLebF29Nou+1ag=;
+	b=lsVUEq9OoUsvwAtjzBU6UTd+VfRnyNFWgGeTzHwco5QGsgJSztXM1L9yiXuMOuZHzhcMAH
+	53gr1C3L4KGJ4RKWMo5DMeoSIqz151h/gCi2KP6Yjm5qatyeJz8VF8e/ZfPgha7Zls5rJp
+	VKbWRWyPN3LmH6giQA2JJra0T376fdo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754646788;
+	s=susede2_ed25519; t=1754649614;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dwaaYyMDev0NGtjYWn+qdV4V8O7PjKtAlVYBTh0QrVA=;
-	b=S0htzyiUNuFbtBJazZ0ljT0E1uPoeEy/zE0cBGBTMevpYD6C+s9bCpEjLl9mhUcxyoWDLI
-	e76gr9d6p7rwY9AQ==
+	 mime-version:mime-version:content-type:content-type;
+	bh=uoE7MZRNhqz7I2FYlGOff0yqR78rvCLebF29Nou+1ag=;
+	b=iMROzdO0L4leCBBtcM6vshEfIIlFckDqqDCzrHFGLrP6WZ1QqMzrJgMD5zrDoDXE1HA2Iv
+	hCOKWVASX0OqILCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CE4411392A;
-	Fri,  8 Aug 2025 09:53:07 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E3BDF13A7E;
+	Fri,  8 Aug 2025 10:40:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ddn+MAPJlWhnXAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 08 Aug 2025 09:53:07 +0000
-Date: Fri, 08 Aug 2025 11:53:07 +0200
-Message-ID: <87jz3eywak.wl-tiwai@suse.de>
+	id XsFjNg3UlWgJbAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 08 Aug 2025 10:40:13 +0000
+Date: Fri, 08 Aug 2025 12:40:13 +0200
+Message-ID: <87cy96yu42.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-2?Q?=A9erif?= Rami <ramiserifpersia@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: Re: [RFC PATCH v3] ALSA: usb-audio: Add support for TASCAM US-144MKII
-In-Reply-To: <20250803203409.17005-1-ramiserifpersia@gmail.com>
-References: <20250803203409.17005-1-ramiserifpersia@gmail.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.17-rc1
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,8 +80,7 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -106,83 +89,123 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
 	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
 	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 20E5522D9B
+X-Rspamd-Queue-Id: 1BD3033E26
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -3.51
 
-On Sun, 03 Aug 2025 22:34:09 +0200,
-©erif Rami wrote:
-> 
-> Hi,
-> 
-> Apologies for the invalid patches and the noise from my earlier attempts.
-> I have corrected my workflow and am now submitting this properly.
-> 
-> This patch introduces a new, dedicated driver for the TASCAM US-144MKII.
-> It replaces the partial support that previously existed
-> in the `us122l` driver, which now no longer targets this device.
-> The new driver implements ALSA compatible duplex and RawMIDI implementation of proprietary MIDI protocol.
-> 
-> This v3 patch has been tested as follows:
-> The code has been checked against the kernel's coding style guidelines.
-> It compiles cleanly without any warnings or errors.
-> I have performed a full kernel build against the latest master branch, installed it, and successfully verified that the module loads and functions correctly with the hardware.
-> 
-> Any feedback is greatly appreciated.
+Linus,
 
-Thanks for the patch.  The code looks almost good and you can submit
-as a proper patch at the next submission.
-A few points from my side:
+please pull sound fixes for v6.17-rc1 from:
 
-- The sysfs file should be dropped as Greg suggested
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.17-rc1
 
-- Try to use guard() for spinlocks.  (I know other USB audio drivers
-  don't do that yet, but I already have a bit patch set to convert
-  those.)
+The topmost commit is e8e4f3c242cc26de9d69bd8b3a678d1e50980abe
 
-  Of course, there are cases where guard() and scoped_guard() don't
-  fit well (e.g. the loop with temporary unlock/re-locking), but in
-  most cases, you can use it well.  If it doesn't fit, it's a good
-  chance to take a look at your code again and reconsider whether the
-  code flow can be changed better.
+----------------------------------------------------------------
 
-- Similarly, try to use __free(kfree) for temporary buffers.
+sound fixes for 6.17-rc1
 
-- snd_pcm_lib_preallocate_*() can be replaced with
-  snd_pcm_set_managed_buffer().  Then you can drop
-  snd_pcm_lib_malloc_pages() and snd_pcm_lib_free_pages() calls from
-  hw_params and hw_free callbacks, too.
+A few more small fixes for 6.17-rc1.
 
-- Most of enum info callbacks can be simplified with
-  snd_ctl_enum_info() helper function.
+- Support for ASoC AMD ACP 7.2 with new IDs
+- ASoC Intel AVS and SOF fixes
+- Yet more kconfig adjustments for HD-audio codecs
+- TAS2781 codec fixes
+- Fixes for longstanding (rather minor) bugs in Intel LPE audio
+  and USB-audio drivers
 
-- It's a bit big code and it'd be great if you can split the patches
-  in a logical manner.  But it'd be OK-ish to have a single patch if
-  it's not easy, too.
+----------------------------------------------------------------
 
+Arnd Bergmann (1):
+      ASoC: SOF: Intel: hda-sdw-bpt: fix SND_SOF_SOF_HDA_SDW_BPT dependencies
 
-thanks,
+Baojun Xu (1):
+      ASoC: tas2781: Fix the wrong step for TLV on tas2781
 
-Takashi
+Cezary Rojewski (1):
+      ASoC: Intel: avs: Fix uninitialized pointer error in probe()
+
+Muhammad Usama Anjum (1):
+      ASoC: SOF: amd: acp-loader: Use GFP_KERNEL for DMA allocations in resume context
+
+Peter Jakubek (1):
+      ASoC: Intel: sof_sdw: Add quirk for Alienware Area 51 (2025) 0CCC SKU
+
+Sean Anderson (1):
+      ALSA: usb-audio: Don't use printk_ratelimit for debug prints
+
+Shenghao Ding (1):
+      ALSA: hda/tas2781: Support L"SmartAmpCalibrationData" to save calibrated data
+
+Shengjiu Wang (1):
+      ASoC: wm8962: Clear master mode when enter runtime suspend
+
+Takashi Iwai (4):
+      ALSA: hda/ca0132: Fix missing error handling in ca0132_alt_select_out()
+      ALSA: hda/realtek: Restrict prompt only for CONFIG_EXPERT
+      ALSA: hda/hdmi: Restrict prompt only for CONFIG_EXPERT
+      ALSA: hda/cirrus: Restrict prompt only for CONFIG_EXPERT
+
+Thomas Croft (1):
+      ALSA: hda/realtek: add LG gram 16Z90R-A to alc269 fixup table
+
+Thorsten Blum (1):
+      ALSA: intel_hdmi: Fix off-by-one error in __hdmi_lpe_audio_probe()
+
+Venkata Prasad Potturu (4):
+      ASoC: SOF: amd: Add sof audio support for acp7.2 platform
+      ASoC: amd: ps: Add SoundWire pci and dma driver support for acp7.2 platform
+      ASoC: amd: acp: Add SoundWire legacy machine driver support for acp7.2 platform
+      ASoC: amd: acp: Add SoundWire SOF machine driver support for acp7.2 platform
+
+---
+ include/sound/tas2781-tlv.h                |  2 +-
+ sound/hda/codecs/ca0132.c                  |  5 +++-
+ sound/hda/codecs/cirrus/Kconfig            | 20 ++++++++-----
+ sound/hda/codecs/hdmi/Kconfig              | 20 ++++++++-----
+ sound/hda/codecs/realtek/Kconfig           | 28 ++++++++++--------
+ sound/hda/codecs/realtek/alc269.c          |  1 +
+ sound/hda/codecs/side-codecs/tas2781_hda.c | 47 ++++++++++++++++++++----------
+ sound/hda/codecs/side-codecs/tas2781_hda.h |  2 +-
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c    |  3 ++
+ sound/soc/amd/acp/acp-sdw-sof-mach.c       |  1 +
+ sound/soc/amd/acp/soc_amd_sdw_common.h     |  2 ++
+ sound/soc/amd/ps/acp63.h                   |  1 +
+ sound/soc/amd/ps/pci-ps.c                  |  4 +++
+ sound/soc/amd/ps/ps-sdw-dma.c              |  5 ++++
+ sound/soc/codecs/wm8962.c                  | 11 +++++++
+ sound/soc/intel/avs/core.c                 |  3 +-
+ sound/soc/intel/boards/sof_sdw.c           |  8 +++++
+ sound/soc/sof/amd/acp-loader.c             |  6 ++--
+ sound/soc/sof/amd/acp.c                    |  8 +++++
+ sound/soc/sof/amd/acp.h                    |  1 +
+ sound/soc/sof/amd/pci-acp70.c              |  1 +
+ sound/soc/sof/intel/Kconfig                |  3 +-
+ sound/usb/pcm.c                            |  9 +++---
+ sound/x86/intel_hdmi_audio.c               |  2 +-
+ 24 files changed, 137 insertions(+), 56 deletions(-)
+
