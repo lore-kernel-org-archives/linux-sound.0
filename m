@@ -1,172 +1,93 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB6E27585E
-	for <linux-sound@vger.kernel.org>; Fri,  8 Aug 2025 11:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB78B1E51E1;
+	Fri,  8 Aug 2025 12:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754653661; cv=none; b=t82PIEtnmg364mgPsY5mVzIJzmUW7HMNMEcU0GPz67fnEi1WmCAo5BsFXDMF3ImHz4qsXIF5c9UekqYpshDE/onDaOzCGjXE0YSRcFzyg64vqsFDk7EHt9Df/oR4sguzq1AIpNjAnXuSYeZi1helKdFFRzOokFX6ERiEqCzD7Fc=
+	t=1754655029; cv=none; b=rZFDkcC16bdC3VqKdhdrxUdoBC82CgLcE2Vk3v+c2oGf3yxPmVHaRN15gt/Ws8iIdEBVmn0l6ftozRGNA+VMQDPiN3HKwoiLbWtu6YvOeRFQS/dSx8b/Z2lyE22QWde3a+2hGLlOkJBVeF67Awj+62GuKA+sQreNi40vMp2nT38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754653661; c=relaxed/simple;
-	bh=OMs39cPXH3EsbEjYCGDQeZSreiy7G8uM9/UhBT/4ekY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hC53QBWTEikfevpunXsvO0PWM9006FqVKU5Hr7C+Vc8b1fTax8EkjNe57iCvIpFL2OqYdtZvNTrd/fMabOxDTm4V5XJe1FRl/kqVjH0Gofmuo0XgL9tR0FPvdQ1nsc9jqK552uG09x4SQzwHQYQFbcJP9kyPAoEOSHHN0iaGG5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bfWL5h0R; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DxCG3OlU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bfWL5h0R; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DxCG3OlU; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1754655029; c=relaxed/simple;
+	bh=hp4rqAiFCt5lwwd25Hgflr1TBa/scWIpW6Aj/Q47xZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JQRwUL+E19z69QqnfT/KFe3CqHYC2ULOXGO8aMoYWdV9YM9E9eYJOBjYX4J2Eph34nsQBrXQO6dnHlLRNny+NNnbul4btLZt9bO0UFraNz4+L/lUG2tFc9mC2Ju9iRy5sfiYEwFHR6vHdXsnipWv++2ePIxBNQZwMVgf75cQW8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QW/bLZ98; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bfWL5h0R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DxCG3OlU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bfWL5h0R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DxCG3OlU"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 585D75BDDF;
-	Fri,  8 Aug 2025 11:47:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754653658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=joXkF6ZQTX4Bw9+xPY1uO4UwL5P2K6IIXB7mOXl7enM=;
-	b=bfWL5h0ReRJM3Os+zAYR2NNgdMd3W+9CXVPe6zu2bEP8uK0v3TADyizhW9Nicxoc8GU3Bo
-	MAQXLVHFMBkyEg8QYZ8kxlah7XUeuB2W3xHfjruTQCqoqGHkOPFIT6G77gTwudpTEIQdhT
-	huq4uZaS8lkEmdUfzQa69ahGSKUoH3o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754653658;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=joXkF6ZQTX4Bw9+xPY1uO4UwL5P2K6IIXB7mOXl7enM=;
-	b=DxCG3OlUYKjeIisqyfObPZD1Ker3MHHl+gZ/XtDioYo2d4lc+8Pmj/ubsNL/iH6LtvLs5n
-	DSEKj6c6p2iCoiAg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754653658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=joXkF6ZQTX4Bw9+xPY1uO4UwL5P2K6IIXB7mOXl7enM=;
-	b=bfWL5h0ReRJM3Os+zAYR2NNgdMd3W+9CXVPe6zu2bEP8uK0v3TADyizhW9Nicxoc8GU3Bo
-	MAQXLVHFMBkyEg8QYZ8kxlah7XUeuB2W3xHfjruTQCqoqGHkOPFIT6G77gTwudpTEIQdhT
-	huq4uZaS8lkEmdUfzQa69ahGSKUoH3o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754653658;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=joXkF6ZQTX4Bw9+xPY1uO4UwL5P2K6IIXB7mOXl7enM=;
-	b=DxCG3OlUYKjeIisqyfObPZD1Ker3MHHl+gZ/XtDioYo2d4lc+8Pmj/ubsNL/iH6LtvLs5n
-	DSEKj6c6p2iCoiAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5C311392A;
-	Fri,  8 Aug 2025 11:47:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id S7DdNtnjlWjVAwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 08 Aug 2025 11:47:37 +0000
-Date: Fri, 08 Aug 2025 13:47:37 +0200
-Message-ID: <878qjuyqzq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-2?Q?=A9erif?= Rami <ramiserifpersia@gmail.com>
-Cc: tiwai@suse.de,
-	arnd@arndb.de,
-	broonie@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	quic_wcheng@quicinc.com,
-	tiwai@suse.com
-Subject: Re: [PATCH v3] ALSA: usb-audio: Add support for TASCAM US-144MKII
-In-Reply-To: <20250808111406.4074-1-ramiserifpersia@gmail.com>
-References: <87jz3eywak.wl-tiwai@suse.de>
-	<20250808111406.4074-1-ramiserifpersia@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QW/bLZ98"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EDDFC4CEED;
+	Fri,  8 Aug 2025 12:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754655029;
+	bh=hp4rqAiFCt5lwwd25Hgflr1TBa/scWIpW6Aj/Q47xZg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QW/bLZ98labLEvtZ64TZa4BtaafaQTPq0BAzENHzPEBRm8ib5q5ADzEWfHrd+WXIg
+	 knEO6UyrH7NrX1fXgotpITtFeOblo7y5JpfWUSGJBT8q7fs8wbfo19ly2iUAUnEjgI
+	 v57Zm2XygywYmDYL424Celb4Z+RCBAl5T/9Z3vIIE4kkjvwz7es6F7kOE5vnHEn1+1
+	 YFcL5OgZlAzlCvBSH0FHIAF32PHs4wZbwRq3LBmG24MYsljwg8rZiraYtbWd1iz8HD
+	 nfAH03xnV2nmj4jYbbyWtd7Hhcc47bdfdk2q6rSUy45Lmts+9az8dXDWToxiiaSxRy
+	 9H60uLKbRnOzg==
+Date: Fri, 8 Aug 2025 13:10:24 +0100
+From: Mark Brown <broonie@kernel.org>
+To: "Colin King (gmail)" <colin.i.king@gmail.com>
+Cc: Kiseok Jo <kiseok.jo@irondevice.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] ASoC: codec: sma1307: replace spelling mistake
+ with new error message
+Message-ID: <91c874a0-5897-4019-ac35-e34187382061@sirena.org.uk>
+References: <20250808105324.829883-1-colin.i.king@gmail.com>
+ <f646f36e-7835-415d-8da7-fc632c57e4e2@sirena.org.uk>
+ <bb06d3bf-684b-4479-8b86-72aed622e453@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
-
-On Fri, 08 Aug 2025 13:14:06 +0200,
-Šerif Rami wrote:
-> 
-> Hi Takashi,
-> 
-> Thank you for your reply and for taking the time to review my patch.
-> 
-> > - The sysfs file should be dropped as Greg suggested
-> >
-> > - Try to use guard() for spinlocks.  (I know other USB audio drivers
-> >   don't do that yet, but I already have a bit patch set to convert
-> >   those.)
-> >
-> >   Of course, there are cases where guard() and scoped_guard() don't
-> >   fit well (e.g. the loop with temporary unlock/re-locking), but in
-> >   most cases, you can use it well.  If it doesn't fit, it's a good
-> >   chance to take a look at your code again and reconsider whether the
-> >   code flow can be changed better.
-> >
-> > - Similarly, try to use __free(kfree) for temporary buffers.
-> >
-> > - snd_pcm_lib_preallocate_*() can be replaced with
-> >   snd_pcm_set_managed_buffer().  Then you can drop
-> >   snd_pcm_lib_malloc_pages() and snd_pcm_lib_free_pages() calls from
-> >   hw_params and hw_free callbacks, too.
-> >
-> > - Most of enum info callbacks can be simplified with
-> >   snd_ctl_enum_info() helper function.
-> >
-> > - It's a bit big code and it'd be great if you can split the patches
-> >   in a logical manner.  But it'd be OK-ish to have a single patch if
-> >   it's not easy, too.
-> 
-> I will implement the suggested changes.
-> 
-> Regarding patch splitting, since most of the driver code is new, the plan is to create two patches: one that removes the US-144MKII device binding from the existing `us122l` driver, and a second that adds the new driver files under `sound/usb/usx2y`. Please let me know if this sounds good or if you’d prefer a different approach.
-
-I don't think this would bring so much -- the drop of the old driver
-binding is just a few line of entry point, after all.
-Rather splitting the new driver code in a few logical pieces might
-help for reviewing.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="FpBC8UcrkcOVUKr5"
+Content-Disposition: inline
+In-Reply-To: <bb06d3bf-684b-4479-8b86-72aed622e453@gmail.com>
+X-Cookie: What an artist dies with me!
 
 
-thanks,
+--FpBC8UcrkcOVUKr5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Takashi
+On Fri, Aug 08, 2025 at 12:35:40PM +0100, Colin King (gmail) wrote:
+> On 08/08/2025 12:30, Mark Brown wrote:
+> > On Fri, Aug 08, 2025 at 11:53:24AM +0100, Colin Ian King wrote:
+
+> > > -		dev_err(sma1307->dev, "%s: failed by dismatch \"%s\"\n",
+> > > +		dev_err(sma1307->dev, "%s: checksum failed \"%s\"\n",
+
+> > It's definitely an unusual term and the reword makes sense but that does
+> > make sense to me as a word, I don't think it's a spelling error as such.
+
+> "Dismatch" is not a standard English word. It's likely a misspelling of
+> "mismatch" or a neologism formed by adding the prefix "dis-" to "match". I
+> understand it a niche term, I just think it is preferable not to use it for
+> folk who's first language isn't English.
+
+My comment was specifically that it doesn't look like a spelling
+mistake.
+
+--FpBC8UcrkcOVUKr5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiV6TAACgkQJNaLcl1U
+h9ALFwf7BOQLzGyGmC7ql9p2Hv+cCvogsAj4/l63KRNHa6nBFzvVJUzZ/hOYyTFh
+PznPBbm3e23txYD/QhpcYcrE1ShiFxkWwNYuNGC9saqDl7rgUO5m58TPCWHPLmcS
+LxzY9PX4bvAKamrCdO/yF1iPc9L1q++ciBbvTP8mWmpn0hv1Pa8FPedoO2a6OUW3
+KfWfwmo1Mcb1fukV3xiJKfrqiCeKU5F2GjbWiaRELFZ1MkOqM6jrL5LqSkuaQG3y
+I67TyHJNsVqXbcB4b9WDM8bmwli10GHpbRHoiBXeQkM1npbjB2MeC8VLW3lzJZIA
+ZTRKqcmCp1oWJ8rTafO/EJ6JvYwIMQ==
+=+4nP
+-----END PGP SIGNATURE-----
+
+--FpBC8UcrkcOVUKr5--
