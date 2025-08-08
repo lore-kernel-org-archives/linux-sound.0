@@ -1,160 +1,126 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E89190498;
-	Thu,  7 Aug 2025 22:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DF11FC0F3
+	for <linux-sound@vger.kernel.org>; Fri,  8 Aug 2025 05:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754605710; cv=none; b=uuCvR09QhOaNuNxDM/Ek3w7TJ9I3hdXdn5s9B6R1WbXy9ECmW3Pkqe9kKtB+vhEsPlOQ1ctenTCWVEGpjUCmg2kHlCk2rmxtVGtw/hnKLkmCduOWS7fidRJxGaDClAlvaUnbpezYn4jYO+Ou9ePdIWkvwd+0xMmx3OzwJChUoiA=
+	t=1754631024; cv=none; b=TauyX/unybBfeoECj8SZ3uam+yXk+amq2Whmhb3SLQkoXQAEBoCBoYhhAXwqdtToe8QP/80cRScgdaYkxC1fHket2/YX9p8NsCIKzFb9WkJr0sYUbi04EK6o8/lASHkYW2n8EYL9bekxixorekR1KS72lawinoLJU7bnTUYYk/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754605710; c=relaxed/simple;
-	bh=tepQER/B3Q2AaKkdBc/YTjlxzZjsKce20rx9wrGtiWM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XfGNowjmpET+WZ9NTmsb17Mq5B+9CTufRHJPC4zeGcBiVjvEyGZJCvOMrTbugoTpoeZivHXjiIh3/05dcRKAYkIER9SsuEe2qYX+bgSkthuZhhilg+zDyQAePV0oOnEE93cqlRsMEsbO8F2ciMKyUOS5F29FWgds4oBtT8tr0N0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i2kvjnYw; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754631024; c=relaxed/simple;
+	bh=Jd76TxLJDO6ktnTVki7hB04b124OqwCvlvXm+sVtsuE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KAWkAC3jUyLsSaRGtlFGpna2kJLXipOVt5bDktdHfw98PQDB1MDXzyTKfS1rYCO1vXrYnpgYFEVSX1EK+jbuAe3GhKicuy2ITjGfgk/MziUw3mRWuvke9Jd6N6UJ04mqCTCJE7SwTNn6GXAOx1TOwc/neI5jYijjZBId+9PI3zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=loOboYIY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2kvjnYw"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3218283cf21so259926a91.3;
-        Thu, 07 Aug 2025 15:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754605708; x=1755210508; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zKwkh4VaAp+S1exgnODdmPTJqqGRa7jXrFsl/hUqQzY=;
-        b=i2kvjnYw7tg97FkyN6Yqxnp/eKbB/7vQdGrOWabzvdA6Jk1iBbR4O8i20CsDMlBG2N
-         CvJBb6uX5Gb1P6BaAioIiX1vc/WO5LLUMlLrotlCB2h+si7BIxYYg4yVb40z3YhaoAtc
-         TjHQAqn+B+NDPWBTAsrIiueq/R+ITeu6gIfqipJlU+fUN3dpd9oBBcH0ayVbVAh4jKzr
-         LBD4kBaGSgB3rOqlWKvCiVTu5TqOaj9tzVzMYkJxmKys1wojmFBD/of1ta3zg5bD6NeY
-         6O00R7Vmrx2qUWi0utACjimcFYWAOvv0szMN1O3lhiDkdM06DteNTXZ6fxtZOn7HaZjO
-         BxAw==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="loOboYIY"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5781mSaP030293
+	for <linux-sound@vger.kernel.org>; Fri, 8 Aug 2025 05:30:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=8Car4PvODcLhqhbydD+z1uxMFD8WOqlwfDy
+	1GI1vIzo=; b=loOboYIYcNiY4EYj1NpU+mpoGcaaQntaHilmAFXH2NpeyP9lDbs
+	wqcnd6ZdF14ktVtV7b6kzD/A7KgpwAuCTTVjg07fIKtUF1Mctmq73bF98HG+MIvH
+	3bafSzfLQw7cpH06rzhk/minn4W9fNr5jcCXJVaNcotYNn9TPMSUsFOoa8sgjh4u
+	Kr6Oh3Fx3c7Pw6IUklGU+DNXTkFHoi9e6L4SrkO2sCpPH/yWkzClgKktyUuvUgYm
+	ZVf++isdZEa+VruZaMtMrlh8RJqlm4SaB1UoY5a1HrySCja/YB0cTPg+CL7/t4Eg
+	nBH7/4zOXomkd90rTR793lXZdPi1ePYteWA==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48bpw00w8c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 08 Aug 2025 05:30:20 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-76bed3183ecso2093884b3a.3
+        for <linux-sound@vger.kernel.org>; Thu, 07 Aug 2025 22:30:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754605708; x=1755210508;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zKwkh4VaAp+S1exgnODdmPTJqqGRa7jXrFsl/hUqQzY=;
-        b=VTvVp+B0xx0ZnYSTbb8wkiq3w8PUgAalvGyAoEiZ+NmzgB8xKvg0wCEBHkNI1Mqb+/
-         /wOKT8kKNsoNk+hUYuEjAeMe2UTEyUI4bZxphzpDkNDRdtaGAAeL8JgR7J23O8Dwbfti
-         Z+rFYNs3LUtKioQdDdVtw+6DlV+HOkDmO2cfLuElWTZORq16/DUzN9dgiWlp6N4UdWQI
-         H7ENmE+pgFWh8uPkyq0dKS5l8Bac2s2VOahxffltcpGV7R1uQxHH91LMzZe+LyIefoTh
-         oqC0TdwoWuN9HC/5scJafvw8SabX1e2uzsweq6243bIkPanScQ4t/gzqhkpHgdrCEiJ7
-         X6Rw==
-X-Forwarded-Encrypted: i=1; AJvYcCWk6VkWO452g3fenyQjxmSp8yM2NDzENI8pw9aN2mhD646xOc9GASFzUrR58IHp6h7afyriz78TQVHn@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTpJz4DdYIDFykedMzBP/UaiA6i8AtRhAVsBXc8Qp8ZoqiQSDJ
-	5V75nYrLe5CSNbU6AS9L09IDIEFOGC+/22NxMzUtg3ZIAXarwVsrXiXQVfMymyXSrYzJZa14udm
-	bzUSUQDWN0/fQXJVNFP8gHj9ixhKy/vk8pOo=
-X-Gm-Gg: ASbGncu/vWakWg1+Kr96/WGH1MUPnA/1HvM10dsqH+piliTk9BwuOvZEkFIPpO7OO5H
-	wd6H5KX1sj72okeShJSZHc1vl9qxgppdxDmXh9Lk0Qa2aAGvc78yLk3EHoRzir5yu12Upc6JhjA
-	F8CWYTiXRjpIWb+bKe2Ln3XGjJuLcwtqyWID4MfWLaVfZDiqW2E/aAZn7S6D0gLPpGV4vzissAD
-	e5ryotb17/YZ0fZnJbgO/+W/c5H8rgccUCd05UG
-X-Google-Smtp-Source: AGHT+IESYxBHFA4uYPN/+uA3OHnZMD9hYgNrtllwU+PZefaQWJDWtjUg0+OCZc7iktp5NIl4QTrN3pl96XeW9OTHtNE=
-X-Received: by 2002:a17:90b:3902:b0:31e:8203:4b9d with SMTP id
- 98e67ed59e1d1-32183e4f157mr781964a91.29.1754605707866; Thu, 07 Aug 2025
- 15:28:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754631019; x=1755235819;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8Car4PvODcLhqhbydD+z1uxMFD8WOqlwfDy1GI1vIzo=;
+        b=ZhjswSREBwTgccM6WCytZ0nCirPKarMHBYjc2Rxsvzn8FNZtJdV+WdjdOC8asfylSx
+         3oWM3/3C95cqDnthFz9EOp5E2ix+DgUEzhqiqb///y4xHOg4dTmQYf+6h6e6rZKtGhoF
+         0HTi4UFEV2hoNihorCyyV1MD1W8Sbr1R9XFOf9U9R1hp6Bj7QE+K9WdcD7OsbAdBrFIJ
+         kkNU+gxH0N37i2ol9IbfVl0CvGBCURrVTP/hmEMLxtmRd3ViLLWPtUjJ7FZkdyXkt9ez
+         5UKcndiajlDJY3PFrq0+IHEmyqXQHYyDzGq39FVkvKXYcyI8AK4j6bEgt8nbLOaLJvIi
+         cAEg==
+X-Gm-Message-State: AOJu0YzC5Q8300QqaSdN/MeEOJnScBoS/E/ql/v8LSwB4YuLLWYocj8M
+	unvq3HhoZCmcht2GNSG4oG3d6i1CMhx8YdBkwHdnF+qNkWIoIzVpcX+dGFI2+ouolE9GCN9Gxsx
+	KflF0I4jWnhv6/axEkloK+NZDQl06SwNi+8ZWKucwZOnZd9PPuoo06Tk7CZwMHygRsg==
+X-Gm-Gg: ASbGncu4ud2HsvmkvDTCNqph8MZsNSIMk6WR1hj1DiROYS1SZchL6h3x9VhVxiRWMCf
+	TbFPv7gDKAvKbvZ2wMX40SxLFI8rkjBIwY4W3WeGOtWT0i8FyYJogqzcKD5kRCi09p7dexJzqEI
+	Nyg7ZrkVBPhdKXscaq3iGBtit33azkVRka1Y3XhbFTcu3jcQ+dI1nDYpB2jxDMMGb8z4wmfqXDp
+	Ue1wko5lARN+NawG1+PGWpJdNH7BzAOta0j7PsDEkC+ExaPWvIB/+MXzvxLLLLD5QwR0zjKCJfR
+	CnFIvRlMJZZ0SXM4ILERzWFt4EVg+aQYjpj+/ZqvSkT2KtMwJMUPAQ//V/clO1EhA30yG7cGTs+
+	L
+X-Received: by 2002:a05:6a20:7d9f:b0:23f:fc18:77af with SMTP id adf61e73a8af0-2405526b3d4mr2604476637.44.1754631019255;
+        Thu, 07 Aug 2025 22:30:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF2AX1odTQ7pYbDdG+vscDveuCfUt/q/c3s8e8DDzLhI/9qs3snSGEcgCMTUUe5hjWo6pSeVg==
+X-Received: by 2002:a05:6a20:7d9f:b0:23f:fc18:77af with SMTP id adf61e73a8af0-2405526b3d4mr2604436637.44.1754631018849;
+        Thu, 07 Aug 2025 22:30:18 -0700 (PDT)
+Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce8f483sm19278662b3a.31.2025.08.07.22.30.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Aug 2025 22:30:18 -0700 (PDT)
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@oss.qualcomm.com
+Subject: [PATCH v1 0/2] Add sound card support for lemans-evk and monaco-evk
+Date: Fri,  8 Aug 2025 10:59:37 +0530
+Message-Id: <20250808052939.1130505-1-mohammad.rafi.shaik@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANBuOYpLNAtLVWBvR9E74Ju4cM1K7H_bS2Z_UhthQFrJaZXmiQ@mail.gmail.com>
- <aIOHm4AOrhHBf6Xv@finisterre.sirena.org.uk>
-In-Reply-To: <aIOHm4AOrhHBf6Xv@finisterre.sirena.org.uk>
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Date: Fri, 8 Aug 2025 00:28:16 +0200
-X-Gm-Features: Ac12FXzK2GC3jOYi6VfNhIpak5X5ZBvlkLFU0I4pabgsBuIDIGVE8v3R54fc1UU
-Message-ID: <CANBuOYrtmA-UgTo6X87pND9eTfub-R633scTzDef56gVvBVwig@mail.gmail.com>
-Subject: Re: [Guidance Request] LFX Mentee looking to contribute to ASoC / DT
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	robh+dt@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, shuah@kernel.org, 
-	kuninori.morimoto.gx@renesas.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: Mz5ECRzVaUcCxgR1LoB4ELJC1X7bdno7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODA2MDAwOSBTYWx0ZWRfX3fNVbyAOMgB7
+ +wU8oY5Z+uFcSfRu+s673c2SIZMo547nfdW557uASsxO26zqFvY+BYBUAIoRzL/ahGmZjgSB/4U
+ kHLOL74QhlmdrW51QqJcGvEGRFt9MydMVbmTdDS+shV/ysSDY+qlEXOOsWUH2XBp5mUC9qBmZVa
+ rI6B+Y2dLMAkzhmOt9N/w4iYcKedzXZk9zQFxIBg7vlDLs/cKxgSTVTr1j3LJ0i+gpicrFVOfnl
+ OrazB+DKu2ivi9PkB+HteSLqKIc+yxW8dDSSANn3W5AgGT0sMmrzm5y+8GM1jFffMuL97YD+Y/8
+ x7a8u2tigJdsKvkcfyqdJBlvDcQi5vYX6jQG5UySXLV5r/gL2aCb8g68UZJptpo2yDXFuw3XxaA
+ BPApduMd
+X-Proofpoint-ORIG-GUID: Mz5ECRzVaUcCxgR1LoB4ELJC1X7bdno7
+X-Authority-Analysis: v=2.4 cv=NsLRc9dJ c=1 sm=1 tr=0 ts=68958b6c cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=2OwXVqhp2XgA:10 a=XcHJyV3jQw5NWJaZqmMA:9 a=zgiPjhLxNE0A:10
+ a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-08_01,2025-08-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0
+ adultscore=0 malwarescore=0 spamscore=0 suspectscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508060009
 
-On Fri, Jul 25, 2025 at 3:33=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Fri, Jul 25, 2025 at 12:50:15AM +0200, Jihed Chaibi wrote:
->
-> > My name is Jihed Chaibi. I am currently a mentee in the Linux
-> > Foundation Mentorship Program, working with Shuah Khan.
->
-> > With a professional background in embedded systems and a strong
-> > personal interest in audio that extends to my own projects, the ASoC
-> > subsystem seems like the perfect place to blend these two passions.
-> > I'm eager to apply my experience with hardware bring-up and Device
-> > Trees by becoming an active contributor.
->
-> That's great.  To be honest it sounds like you're already very up to
-> speed so I'm not sure I'm going to have anything here that isn't pretty
-> generic.
->
-> > As I look to deepen my involvement, I am writing to seek advice on
-> > where I can best apply my efforts. I'm particularly interested in
-> > finding a substantive task where my skills would be a good fit, such
-> > as:
->
-> >     - Enabling audio support for a new board using Device Trees.
-> >     - Assisting with bug fixes or small feature additions in the ASoC C=
- drivers.
-> >     - Tackling items from the TODO list where my DT experience would
-> > be applicable.
-> >     - Helping with other driver enhancements or cleanups within the
-> > ASoC framework.
->
-> > Any guidance on finding a suitable project would be highly appreciated!
->
-> One big thing with embedded stuff like this is hardware access to test -
-> an awful lot of stuff is going to be hard to work on just purely with
-> software.  Given that it's probably useful to take a look at what
-> systems you have or can readily get hold of and then consider what
-> problems they have that might be good to work on - things like board
-> enablement would be an obvious example there, and it's common that
-> boards have some support but pretty basic so there's useful things can
-> be done extending that (eg, leaving a lot of features unused and just
-> supporting basic playback/capture).  Knowing what you've got to hand
-> would make it a lot easier to suggest concrete ideas.
->
-> It's worth noting that a lot of x86 laptops these days are ASoC based,
-> their SoCs are built in the same way as mobile SoCs, so might be worth
-> considering those too.
+This patchset adds support for sound card on Qualcomm LEMANS-EVK and
+MONACO-EVK boards.
 
-Hi Mark, and everyone,
+Mohammad Rafi Shaik (2):
+  ASoC: dt-bindings: qcom,sm8250: Add lemans-evk and monaco-evk sound
+    card
+  ASoC: qcom: sc8280xp: Add sound card support for lemans-evk and
+    monaco-evk
 
-Thank you for the thoughtful advice, I am currently researching a few
-newer boards to order, specifically looking for ones with incomplete
-audio support.
+ Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 2 ++
+ sound/soc/qcom/sc8280xp.c                                | 2 ++
+ 2 files changed, 4 insertions(+)
 
-For an immediate contribution that I can start on without specific
-hardware, I've been digging into the DT bindings and identified a
-challenge I'd like to help solve.
 
-While learning to configure audio, I found that discovering the valid
-routing strings (simple-audio-card,routing) for a lot of codecs is
-kind of difficult. Currently, for most codecs, the only way to find
-those is to read the ASoC C driver source for the specific codec. This
-seems problematic for a few reasons:
+base-commit: b7d4e259682caccb51a25283655f2c8f02e32d23
+-- 
+2.34.1
 
-    - It creates a high barrier for developers who are focused on
-board bring-up, forcing them to navigate complex C driver code just to
-configure a (simple) device tree node.
-
-    - The process is inefficient and error-prone, as typos when
-copying strings can lead to audio routes failing silently and being
-difficult to debug.
-
-I believe documenting these strings directly in each codec's DT
-binding file (.yaml) would be a significant improvement. It would make
-the binding self-contained and greatly improve the experience for
-anyone setting up audio on a board.
-
-Does this seem like a useful contribution? If you agree, I can get
-started immediately on preparing a patch for a popular codec to serve
-as an example.
-
-Thanks again for your time,
-Jihed
