@@ -1,104 +1,123 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDC0227E95;
-	Fri,  8 Aug 2025 10:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C97145329;
+	Fri,  8 Aug 2025 11:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754650445; cv=none; b=jwtmtRPt/Ixj8evyJUvJ9pt7UYojXOptqv9qPXkv8tlWjfCNAQ4ZWQJZu14rNX5npfa9AJaYk5s/Yto4QOj7e08fV1MCF1IfPi5+S4xFMtTE+9yzkNaXPtlwIPvKHp7nOGQASsGEr46ccPskX4O7h2nzvDU2/j9uzi1fk3Tth3k=
+	t=1754651652; cv=none; b=q5UZrHR2PZsIoZGOwIUuh4Zzd0XYzmUT+wPICGGaNMKulKtDZrTIi7tmAnaXBYz8hgkA2gm0IMJ1jhhn6BAqmAH9AzTrP/V+0bFD8WkJRbQn9+XKACEzOTLrju+hrEmd2EOHePyfRsIwaLuLStOCJe8CQJpi3HCMxyZ2iOOKD2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754650445; c=relaxed/simple;
-	bh=lnVlmRUuumBXjFDMqsZCaql8rzu778J/CcpHymusD+E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gHFOLsGDFzwKKRjFQK1qYQmQEoNVYnN89O6DuMHV4+qRaX+ImBaAtACW6fj/xEtLPd1v9rkNKo215EB93VJdSQN7auj48VWvdJn/3JJNraUqzCFvf3Z7BsYj4tEKXYd+tSJ+TjSNZWmavZjbfaPQYqADagIXHuvHlQ8z1hm3D74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ipXnzS27; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1754651652; c=relaxed/simple;
+	bh=mwiKNAZPMigvKlo1e247AZaIqKdLdwnU++ilG3Wst3g=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rv88neZjZbtA22AY19nRmfHTLug0693ShCqfrc6Z8cHtobo45NUpQnPtTQn43CiJh4GvOOnUb0MOjVqpplz7t7eHt1pFfl9X1hTD5wtlG1sLJMOrP/GdqDEuUkVoVMrGazG8eO2kiVBdVa7A+VFpEsrWieA2Nv9JVU1amdCfkHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3mmWKTP; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ipXnzS27"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3b7920354f9so1618615f8f.2;
-        Fri, 08 Aug 2025 03:54:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3mmWKTP"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6156463fae9so4953776a12.0;
+        Fri, 08 Aug 2025 04:14:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754650442; x=1755255242; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qMqIIfGgn6miB0zobtsFUkQvM4z3NfFxewv7fUWGHOg=;
-        b=ipXnzS27bQE5AQPa4Ac+bR+eyKxCqVCQ+iJfgR/fM1tvNiKsSHBUblvMBKOTxGeAL3
-         6WWEag7mcR/84Sf5ZW2QLjlCjlrI510Wt2UIOjw7z14BiXsAX8yzmoRDEjnrpsvDLMYp
-         E1uzLrZSF+/N7WUuebbelL7ns+O2polfAnkMQoZCoxW3V8vQjP3A/wXoX9iLKHQkznoA
-         p3y5vO/9uMUghc0zb7bAw3Kce8N75xBMBEtlx6szE+raPRnggZDbhh8h7GKQJXQh/7Y7
-         dV7TpAc9SDsMTbWmg9b6/irY1tn/jjKvYFXsoXLufvmnhAQwhe1cxVbO2sZ0PFkMbQ78
-         pm4Q==
+        d=gmail.com; s=20230601; t=1754651648; x=1755256448; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B3ct85s2LDNi/ABkkV8Ojfz0tKxakaJGHtxIu3LN6no=;
+        b=B3mmWKTP6AWiP0akooCsijDF/IoJUEpjJWzIYAbKwCpKpnSmUHiMuaPRhfHGRg4kPS
+         HWWxoJT/NkqXwAEEGt3oSS0mvl8V9vj0IiyfYK2nV+oaDTCIhcwn8Toxy3igeuklinsJ
+         yJeLRitEmmv3bjTV3wZhO7Xtt0MBxIpH7oBM0SDHpmR8MFZVyxRte4pr1dwI3CEl/9eQ
+         WhIKKN8u/oYOir6HJSJbxgazXrhWdihFSZzAeSphaOEHu9XS/DhUqOarEl4cWXjs4Rj1
+         SjDyhJeNq2CxQONFhhQCyQ7eSsouIoKeHrFdOwjW0IJEMIv1z9mr84q/h/xb+nc4iHye
+         hr4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754650442; x=1755255242;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qMqIIfGgn6miB0zobtsFUkQvM4z3NfFxewv7fUWGHOg=;
-        b=aVf1bodYbdrjqVaqCoZqGXnjsy3YeYHJ51EuLv197QplLGEPDHKc016YrtpquL3uTP
-         W5lWjTupJ3RCrNWpWs7xr0vsHqiNm4LKJU3aIQj575kw9Gz+GGr6FdE2csaxuU7xVvVa
-         K+Duu1NsHrsAN+rVpX+0qwsu7Vd8iLlca3BotGIBNMB5PP1c00jRrjQD5WPZJ727OZ7d
-         w7cRkZtPwuJet00f/bN+up0mak+L/Mmq+axCygvShURtIJpoAuzhQrBwHAjDeARS3HGi
-         RfPBxIJhKi1WIqakmB0ijSB0e803sJqoLpRMmawcK+QRz5hjma0MmycqQ+OdGKG395ND
-         TvVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQhfPhbG9GdbeeD7bZN6+wHPVFL/eJCeGZ9jUzVMdxv4XQs8+VC+s0hnDHrV4D9O9xgyw12/xuhoY9rFE=@vger.kernel.org, AJvYcCUk60ZaY9iwSfpyOsxl2Sc43wjj2StTUKhkL6qAdTn97UseJSmteXtWnMuRZ/bcsepPV0V5+NoRuoM1mTk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi5zLEwnK3QbGpZA0JIbosrWdlXorzZzukd08m8F88kzJoTtLW
-	g9pajpG7jOD5TTFm1QNgZIOIe6M6NsboXZdNg6TBltK43Sv6MkavOiRTSPuWdIIvKKD+Gw==
-X-Gm-Gg: ASbGncs6tusJtgEvIRu5ZQpzmswqCTXXHMi++GqvJL28r8flMMhzsp93ypbJs45jjI2
-	7FS+XBSle0KVrj8myn6SCAL8605Ffs8x1WoxAGzDrvwTxWtTjxpbzomgghOBPk1fbYFDlv2WdT1
-	1j5qU0eZQpCBgNMmoaDTnwso3RLD4dCsBSh2OwJAGQUv4bpvz6/l/fuo/UZvRY77+KYyAw8CJjj
-	V4zp/cxgfhVNKmVv80duSHVd1VPAkUAaVfU4lvgoLUx1xuDquKtmsCA56f5bepy392aMKWsb9Cf
-	pUPmF+7vAWAvBdbqcblBScbc8bOypplWsyLQDjH93i9h2z1th/9dWJwcJ10M89jAz02b4KXrJqo
-	pte3Obypnj2ol6A6dyvHQ
-X-Google-Smtp-Source: AGHT+IG2qUBo7DwH1oxPokpOfFJVSUkPFi0bV2hgL3Hre/p0CbUqcKb4SWB8ggHg1jAKJzCAcNy5YA==
-X-Received: by 2002:a05:6000:1785:b0:3b8:d16a:a4a5 with SMTP id ffacd0b85a97d-3b900905a8amr2477013f8f.0.1754650442478;
-        Fri, 08 Aug 2025 03:54:02 -0700 (PDT)
-Received: from localhost ([87.254.0.133])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c3b95f4sm29760042f8f.23.2025.08.08.03.54.02
+        d=1e100.net; s=20230601; t=1754651648; x=1755256448;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B3ct85s2LDNi/ABkkV8Ojfz0tKxakaJGHtxIu3LN6no=;
+        b=xJgK59Z9q9VsgTvgyE5eQimGGGqApZkinkxv+L0p3KUh273vo4cJD8RBCAtvlKlX93
+         sU9KlUOfJ6qMzwWeP+TDM22SX4crwP5XR0pWb8t96feHUohnbiymk+ymKjvmlWokrQIA
+         rUB1NKRWOy+qJkCffntc64ZUIbLCFpnItYcZ3duR/RkRjrZERzyf0sAVH9Z3ABh0syhO
+         WOA5NxX0WmbmOp5fKJZu+K7Vwnqqgzj+nI9tHVX/RGFqAeGbLOf/ctvYC6+NJ0zBjwnC
+         i9JqZjJvohrkB8vsUfviGgqVOeY4VoK9J/zk88saRkecJisxjWbHfiNFM/76P/3lwIry
+         JHuA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5v+oyAatqE8wjMqrSHJSZd/CdDlwLS2/u08f1RDCeMW0Ot+voC5CZIGj61jzK7CIaO5N4l7xRx+h/7to=@vger.kernel.org, AJvYcCXVvZ4mNWcNVMykioeXjdGMCB/9ql+3XwMyD075fexHU29TsPsGgLQu5EQnNRDQXYpBOrxwt2CBCCyhC0A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeIG6JZ4ktZqKHNsfjCIMv32GLy8CJkrVKiv8nDVJMm4bVSbkO
+	mff4oHtJlag1EQCwl331hzHdrPw2FBuZ7BGJXwj14H65jIIpR8PqIoVM
+X-Gm-Gg: ASbGnctsZ5tBiZ4xc5Ff5jWIZTMg4HlkJrb4UDj1HrLY5TTi4bMuXxXMUxqqhMI2odc
+	coSzs/rwCoRtZR+soEAlghhTa2kG/YB47X+dhUAdFxhfuyNaHmTq1dmoOLmRlFShMJCmcKZ9+x+
+	qG1x5fJdZzrnGV67tVdWieZC7PoXgNvf3KKmHP5sOPfRza5u/95TixeZFMy9jaIyrdCQgZ9BhLP
+	0ZYf/zAhOBjCBxkpU2IioQDwTjW7Owrid0luAtCVyRSdt/SDWNBO82barAGXPozhOigoIn8NZYV
+	c5WNaMIn5CotYZKuGdUjDONrRkBVMM4CBiiCbmeI6pTPFXwm9pVTXmPdT6k9Yb08DHLtOHxIrm2
+	JGDE+e/VbSRLmG3Z2Ovjg58EyyiQwttMwdmX6iHWO+/9B963CeDHWYamQnKwVALCxr+OQCi9Ep8
+	WzGZTIqQ==
+X-Google-Smtp-Source: AGHT+IERjIDD9lvjWCEMnBtx1QDXOlHZJrcDHzH9a1VHfbHWDgCJi7ODaoELgPxcZxykKOYFOH7C7Q==
+X-Received: by 2002:a17:907:d8c:b0:ae3:c72f:6383 with SMTP id a640c23a62f3a-af9c6fd8b38mr233173366b.17.1754651647872;
+        Fri, 08 Aug 2025 04:14:07 -0700 (PDT)
+Received: from localhost.localdomain (93-87-121-223.dynamic.isp.telekom.rs. [93.87.121.223])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a21c0a4sm1477797966b.109.2025.08.08.04.14.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 03:54:02 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Kiseok Jo <kiseok.jo@irondevice.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ASoC: codec: sma1307: replace spelling mistake with new error message
-Date: Fri,  8 Aug 2025 11:53:24 +0100
-Message-ID: <20250808105324.829883-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        Fri, 08 Aug 2025 04:14:07 -0700 (PDT)
+From: =?UTF-8?q?=C5=A0erif=20Rami?= <ramiserifpersia@gmail.com>
+To: tiwai@suse.de
+Cc: arnd@arndb.de,
+	broonie@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	quic_wcheng@quicinc.com,
+	ramiserifpersia@gmail.com,
+	tiwai@suse.com
+Subject: Re: [PATCH v3] ALSA: usb-audio: Add support for TASCAM US-144MKII
+Date: Fri,  8 Aug 2025 13:14:06 +0200
+Message-Id: <20250808111406.4074-1-ramiserifpersia@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <87jz3eywak.wl-tiwai@suse.de>
+References: <87jz3eywak.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-There is a spelling mistake in a failure message, replace the
-message with something a little more meaningful.
+Hi Takashi,
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/soc/codecs/sma1307.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for your reply and for taking the time to review my patch.
 
-diff --git a/sound/soc/codecs/sma1307.c b/sound/soc/codecs/sma1307.c
-index b3d401ada176..6a601e7134ea 100644
---- a/sound/soc/codecs/sma1307.c
-+++ b/sound/soc/codecs/sma1307.c
-@@ -1749,7 +1749,7 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 	       sma1307->set.header_size * sizeof(int));
- 
- 	if ((sma1307->set.checksum >> 8) != SMA1307_SETTING_CHECKSUM) {
--		dev_err(sma1307->dev, "%s: failed by dismatch \"%s\"\n",
-+		dev_err(sma1307->dev, "%s: checksum failed \"%s\"\n",
- 			__func__, setting_file);
- 		sma1307->set.status = false;
- 		return;
--- 
-2.50.1
+> - The sysfs file should be dropped as Greg suggested
+>
+> - Try to use guard() for spinlocks.  (I know other USB audio drivers
+>   don't do that yet, but I already have a bit patch set to convert
+>   those.)
+>
+>   Of course, there are cases where guard() and scoped_guard() don't
+>   fit well (e.g. the loop with temporary unlock/re-locking), but in
+>   most cases, you can use it well.  If it doesn't fit, it's a good
+>   chance to take a look at your code again and reconsider whether the
+>   code flow can be changed better.
+>
+> - Similarly, try to use __free(kfree) for temporary buffers.
+>
+> - snd_pcm_lib_preallocate_*() can be replaced with
+>   snd_pcm_set_managed_buffer().  Then you can drop
+>   snd_pcm_lib_malloc_pages() and snd_pcm_lib_free_pages() calls from
+>   hw_params and hw_free callbacks, too.
+>
+> - Most of enum info callbacks can be simplified with
+>   snd_ctl_enum_info() helper function.
+>
+> - It's a bit big code and it'd be great if you can split the patches
+>   in a logical manner.  But it'd be OK-ish to have a single patch if
+>   it's not easy, too.
 
+I will implement the suggested changes.
+
+Regarding patch splitting, since most of the driver code is new, the plan is to create two patches: one that removes the US-144MKII device binding from the existing `us122l` driver, and a second that adds the new driver files under `sound/usb/usx2y`. Please let me know if this sounds good or if you’d prefer a different approach.
+
+Best regards,
+Šerif Rami
