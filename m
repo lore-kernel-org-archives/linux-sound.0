@@ -1,204 +1,199 @@
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F327277CB2
-	for <linux-sound@vger.kernel.org>; Sat,  9 Aug 2025 07:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BD1225A32;
+	Sat,  9 Aug 2025 08:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754724339; cv=none; b=HyVgtza++jloePOlHM9vXOEFMp7S9WjdFmTs/DcwOtSquUa9hHNGhNglep6oSa0sWb73KNr1dcJz1wbEyyOpsg1BfY9iVhmNjYPvZWwhQe4lZmTEpqrcv+Xo6jUceB6+Hb7SwIH8HXYAvlZRF6m0c7sZELjsr+vWLwmyYEnk7VQ=
+	t=1754726914; cv=none; b=lmMUoGakbuKrkHjmb+w2kVfw44yVEPDomiG5Gm8ZO/sDekRUkbc9GPS5Bib0cBK3BWfEIgqOS+O2LRvDFbIR4xEJONkTLcueCylYmP9lDrKz/qBw4dnC58uyZjWKw9ckjfygD+R/qahd0wl1hUsTojqQ7TUnPSeUSffLpp9cVMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754724339; c=relaxed/simple;
-	bh=Yz+i5FQslQsUtwK+nDCiUKQt+7XZHV02A+u3AT/7/SQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t6iTzF+mD75gjj0ICW6xdq0gLXDSqk0FupHWohYULXYyGcvVlQpWZ6SXOTW/N+7f7KsSe17ZW7ENV9qPlnwwC0pAn5SkiknJ2TpMFz82gUF/6eRAJJzAhjuUSJCnS2/0J27yIGlDMu5eYPfRn8XlR97OCb/AGIqnqn3EmWKoxy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b=Rou4xzen; arc=none smtp.client-ip=185.67.36.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+	s=arc-20240116; t=1754726914; c=relaxed/simple;
+	bh=zxqVNvlmFBueyIpfaw0chLiheUGrJ1bn4hX2Kep9wY4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T/gFaFFGN0VO9aLN/ygp1W8v6TQcpsbc+UssHw49fPhHN7mQlkog0kOBx3pCBsrZ8rvFfLlBVJYSRSiextE8oVmd6TZ+t8nJqYTmDrNzwYXf8FOqboOENzqx5dL3GSwM7u/+rCTY7c/OaBdfOQQbqzYFbkhg7DpOUkcwm/1qjOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lttuJLFW; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (3072-bit key) header.d=posteo.net header.i=@posteo.net header.b="Rou4xzen"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 65E35240027
-	for <linux-sound@vger.kernel.org>; Sat,  9 Aug 2025 09:25:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net;
-	s=1984.ea087b; t=1754724329;
-	bh=PnOBJp/dCmnaAVtEczBA0DMOWb+q7+EVB4/c2xyrUM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:From;
-	b=Rou4xzenIuode5Do3awcl5z3VhgrbTTW/tCbo9z0pzui0UiSbEl4x7HTmGo2mQo4A
-	 sM6cravd4fnjo+R09JVMrikPSEYUPSx+Br0zbPqcNYpbv2QfWqs/gvtOjfZm6GWQeb
-	 ttzn5YeRxeChPoO+yTzMwblVSIrlAiIHQv9OXg9sQHzwVjD2J7CTwMCffJm9ZQNokE
-	 6lL0AJQrUkZnoijghDQpSww6rSjOgEH5I2kwCSJTzilnORypJddG9IwI2qxVtlN7Hh
-	 ciIawjN7IxA5baZm0gos3jIDRNv5gC7gW3OVBi1LI6RH6yxyQO0K9GQqUCoIPDIP3e
-	 3jm/CTX+btzjY0J0upfyPvwwsHargKgRb/Z+5wsOfNitMRYVJEOVs0YQ8ZdxDTfvpK
-	 9W8kU12E89XTPBnaYGmCB9Xoo9+ykTQ8FOEmaI4afIXV3q4HVTNDn/sm2ziYalVyQr
-	 gzpnidCqnTf3wKWUmy7+hcAl6Om5ZHOsflKNKeAGrlOJte5/poN
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4bzXVb1kmTz9rxD;
-	Sat,  9 Aug 2025 09:25:27 +0200 (CEST)
-Date: Sat, 09 Aug 2025 07:25:29 +0000
-From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-To: linux-sunxi@lists.linux.dev, linux-sound@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [BISECTED] NULL pointer dereference while probing sun8i-codec
-Message-ID: <aJb311bMDc9x-dpW@probook>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lttuJLFW"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3b8de193b60so1673242f8f.0;
+        Sat, 09 Aug 2025 01:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754726910; x=1755331710; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bO63kbpz8+8BzniFjwRj6G4Qq7weRB5CNspOoOAO+Xo=;
+        b=lttuJLFWutHCpTmF9EYsLu0zcE3II9PhnC9GWb+kIQA7Xwq6CQ7Hv0oyyb0d5ZRKtT
+         nRmbXMRYiXwnnDfbcWb0CKtGBqgRnJHi5QNWOu1LDSbRk1iRj9JWH6FYHNYL27twszxZ
+         MyJ7du/f/+hjocHJdFm2vcogy65/I1jdoss+CCfPA+V7Ihh36cFLwxfJYC2uinqtrtcI
+         yPwTkDR45k9ZbkanieZIbkD5zJYq10FImYAipLClyXcWzaBkbBglg/VOzEGjUoswIO+D
+         CpECHmF4aKrY6Kyd6y5o/9X7GsbacR33r0P3qsA7vTsV+bbamVL3s3rRhJZuXPGLNRF7
+         MvnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754726910; x=1755331710;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bO63kbpz8+8BzniFjwRj6G4Qq7weRB5CNspOoOAO+Xo=;
+        b=Co0O+GT6WMgqpApCwH1QMu6SA6p2KiCAw1jVcbTkfO9jBtJiLz5/ZSnyyGPTBM14zN
+         RJ+PT1nOJk50rQp4IYdZo+fWTmqkTi6ADGqeAJIP3XVoB6gCD30ALSfhKzrGihvIsiRG
+         ClQa18hm61Uh3VJGST8W19360Febc7brAuFUDwBt8ODvGComxHmHQitOKuvjKZF1go1z
+         uIX/r1jZ21NrOB71yBMxXHl+tzFYMq817IQkvmZ6p05pSF1qcCVbzqwb4e1FHIyz+5o+
+         Uo15P/5f5VwIyt/oS2Y0Qr/BUB3Gje421UFBS7Nvs3JXv80zqEHU4vmCMao3oklGFC5c
+         TpZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUSHFY4wb4wyw0FMG1Be224j1ldH/z9tVuRF2baNUnOP/uxLZXvpcx7RRfNw751M2FvZQYzfu7sK9tmtRQ=@vger.kernel.org, AJvYcCXfwuK6D2IRbrHns3ifkoM4oYZYA2i1MhlJwDuJXDAx1x7lZETGpO/hov3LHU9ZrlctPoKmNWfzG+HZNFE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4rdjpCRTzbdJeSzIzbT5v+wC1CwqOax6jCCE9mQ66xSSalIRL
+	La3OwlFjvKvtV+iiLhr1utklEz+wCPRqTfhANoqNvHvOn3IB5vfMdkV0KuW7pecV3V2h2Q==
+X-Gm-Gg: ASbGncuSfeEyVYUakm4PqFNZORQq+LYgL3wVpDmmGcdiUuI4kS4COVpj/tuEn+h9wTs
+	NWjCdFdIpi94nNmUQRcwUjFiYG5RLFO1FU62shZDazalIPtKdog7rukMZAPU4LtdXfeTC/2oTFu
+	XMo1ZpB03qzzDsbN9rxVKBYqRST1fNQgnMMAST0Ffc0oPsYNcBuj2vJdT3UzZ5qH6Bgy89gm0eR
+	XKKfoLOwVyhCQIOtcGuyJjKHSXsDOqjbLhm01seKXb/xincSNfxkuTU/FjppCvhgzv3qgfdQl6Q
+	WXbcJC1s26F9HSgrqLiG15CfcZHstDytowx0NvH0LC3GDWmIqoN5vGjHb56/eCqbAym9PqSHI15
+	y/BQVCNMzm7MnxgA=
+X-Google-Smtp-Source: AGHT+IHDWCw/q0WaB4EMZMox+xYQMzAajDWTVvScx+MoxUHFCsr91rFaz5iWccvYQPwh/Fr4EUAwyg==
+X-Received: by 2002:a05:6000:18a6:b0:3b5:dafc:1525 with SMTP id ffacd0b85a97d-3b900b4b727mr4817748f8f.33.1754726910280;
+        Sat, 09 Aug 2025 01:08:30 -0700 (PDT)
+Received: from mmk-tp ([2a00:1d36:1034:ab00:136:d194:45b4:3fb9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459fb43b491sm31291005e9.3.2025.08.09.01.08.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 Aug 2025 01:08:29 -0700 (PDT)
+From: Mahdi Khosravi <mmk1776@gmail.com>
+To: devicetree@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mahdi Khosravi <mmk1776@gmail.com>
+Subject: [PATCH v4] ASoC: dt-bindings: realtek,alc5623: convert to DT schema
+Date: Sat,  9 Aug 2025 11:08:24 +0300
+Message-ID: <20250809080824.68845-1-mmk1776@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-When booting the Allwinner H2+ SoC (Orange Pi Zero) with the audio codec
-enabled, recent kernels crash with a NULL pointer dereference:
+Convert alc5623 audio codec binding to DT schema.
 
-[    0.976256] 8<--- cut here ---
-[    0.979398] Unable to handle kernel NULL pointer dereference at virtual address 00000000 when read
-[    0.988365] [00000000] *pgd=00000000
-[    0.991955] Internal error: Oops: 5 [#1] SMP ARM
-[    0.996572] Modules linked in:
-[    0.999632] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.15.0-rc5-00242-gc208844ffc64 #56 NONE
-[    1.008846] Hardware name: Allwinner sun8i Family
-[    1.013545] PC is at strcmp+0x0/0x34
-[    1.017135] LR is at snd_soc_lookup_component_nolocked+0x64/0xa4
-[    1.023151] pc : [<c08bf8e4>]    lr : [<c073f82c>]    psr: 00000013
-[    1.029412] sp : e0821de8  ip : 00000000  fp : 00000000
-[    1.034632] r10: c0c65f4c  r9 : c0c49834  r8 : 0000001b
-[    1.039853] r7 : c0aff7e0  r6 : c165b810  r5 : c10dc614  r4 : c1df6340
-[    1.046374] r3 : c09b1994  r2 : 0000006e  r1 : c0aff7e0  r0 : 00000000
-[    1.052896] Flags: nzcv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-[    1.060027] Control: 10c5387d  Table: 4000406a  DAC: 00000051
-[    1.065767] Register r0 information: NULL pointer
-[    1.070473] Register r1 information: non-slab/vmalloc memory
-[    1.076132] Register r2 information: non-paged memory
-[    1.081183] Register r3 information: non-slab/vmalloc memory
-[    1.086840] Register r4 information: slab kmalloc-256 start c1df6300 pointer offset 64 size 256
-[    1.095552] Register r5 information: non-slab/vmalloc memory
-[    1.101210] Register r6 information: slab kmalloc-1k start c165b800 pointer offset 16 size 1024
-[    1.109919] Register r7 information: non-slab/vmalloc memory
-[    1.115576] Register r8 information: non-paged memory
-[    1.120626] Register r9 information: non-slab/vmalloc memory
-[    1.126284] Register r10 information: non-slab/vmalloc memory
-[    1.132027] Register r11 information: NULL pointer
-[    1.136817] Register r12 information: NULL pointer
-[    1.141607] Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
-[    1.147610] Stack: (0xe0821de8 to 0xe0822000)
-[    1.151969] 1de0:                   c0aff7e0 c165b810 c165b810 e0821e20 0000001b c0741fa4
-[    1.160142] 1e00: c1df650c c165b810 c165b810 c07557d0 c1df5f80 c17e1000 c165b810 c056dad8
-[    1.168315] 1e20: c1dbab40 c1df6600 00000007 d3dfed03 c165b810 00000205 c10dc9fc 00000000
-[    1.176487] 1e40: c1df5738 c0567cf0 c165b810 c05684a0 c165b810 c10dc9fc c165b810 00000000
-[    1.184660] 1e60: c1df5738 c05685d0 60000013 c0c49834 c1125878 c10dc9fc c165b810 00000000
-[    1.192833] 1e80: c1df5738 c05687b4 c165b810 c10dc9fc c165b854 c1416000 c1df5738 c0568a2c
-[    1.201005] 1ea0: 00000000 c10dc9fc c056899c c0566490 c1416000 c1416058 c1542ab4 d3dfed03
-[    1.209178] 1ec0: c1416000 c10dc9fc c1df5700 00000000 c1416000 c05676b4 c0aff880 00000000
-[    1.217351] 1ee0: c10dc9fc c1450000 00000000 c0b0df40 c10e9000 c0569738 c0c2e2bc c1450000
-[    1.225523] 1f00: 00000000 c010e26c 000004c4 00000000 00000000 00000000 00000000 00000000
-[    1.233695] 1f20: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[    1.241867] 1f40: 00000000 00000000 00000000 00000000 00000000 d3dfed03 c15a1980 000000f4
-[    1.250040] 1f60: c15a1980 00000006 c0b0df40 c0c49854 c0c49834 c0c01220 00000006 00000006
-[    1.258212] 1f80: 00000000 c0c004d0 c1004e00 c08ca784 00000000 00000000 00000000 00000000
-[    1.266384] 1fa0: 00000000 c08ca7a0 00000000 c010014c 00000000 00000000 00000000 00000000
-[    1.274556] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[    1.282728] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
-[    1.290896] Call trace:
-[    1.290910]  strcmp from snd_soc_lookup_component_nolocked+0x64/0xa4
-[    1.299807]  snd_soc_lookup_component_nolocked from snd_soc_unregister_component_by_driver+0x2c/0x44
-[    1.308948]  snd_soc_unregister_component_by_driver from snd_dmaengine_pcm_unregister+0x28/0x64
-[    1.317654]  snd_dmaengine_pcm_unregister from devres_release_all+0x98/0xfc
-[    1.324625]  devres_release_all from device_unbind_cleanup+0xc/0x60
-[    1.330899]  device_unbind_cleanup from really_probe+0x220/0x2c8
-[    1.336913]  really_probe from __driver_probe_device+0x88/0x1a0
-[    1.342841]  __driver_probe_device from driver_probe_device+0x30/0x110
-[    1.349375]  driver_probe_device from __driver_attach+0x90/0x178
-[    1.355390]  __driver_attach from bus_for_each_dev+0x7c/0xcc
-[    1.361056]  bus_for_each_dev from bus_add_driver+0xcc/0x1ec
-[    1.366720]  bus_add_driver from driver_register+0x80/0x11c
-[    1.372301]  driver_register from do_one_initcall+0x58/0x23c
-[    1.377973]  do_one_initcall from kernel_init_freeable+0x198/0x1f4
-[    1.384168]  kernel_init_freeable from kernel_init+0x1c/0x12c
-[    1.389925]  kernel_init from ret_from_fork+0x14/0x28
-[    1.394982] Exception stack(0xe0821fb0 to 0xe0821ff8)
-[    1.400033] 1fa0:                                     00000000 00000000 00000000 00000000
-[    1.408205] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[    1.416376] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-[    1.422991] Code: e5e32001 e3520000 1afffffb e12fff1e (e4d03001)
-[    1.429166] ---[ end trace 0000000000000000 ]---
-[    1.433797] Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
-[    1.441577] ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
+Signed-off-by: Mahdi Khosravi <mmk1776@gmail.com>
+---
+Changes in v4:
+- Add "realtek,alc5621" and "realtek,alc5622" to compatible list
 
+Changes in v3:
+- Drop allOf, just use $ref for uint32
+- Remove stray '>' in descriptions
+- Fix subject to "to DT schema"
 
-This particular error path is taken after platform_probe returns -EPROBE_DEFER
-to call_driver_probe and really_probe calls device_unbind_cleanup.
+Changes in v2:
+- Add dai-common ref
+- Switch add-ctrl/jack-det-ctrl to allOf uint32
+- Use unevaluatedProperties
+- Fix example compatible
+---
+ .../devicetree/bindings/sound/alc5623.txt     | 25 ---------
+ .../bindings/sound/realtek,alc5623.yaml       | 55 +++++++++++++++++++
+ 2 files changed, 55 insertions(+), 25 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/alc5623.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
 
-The parameters to the strcmp call in snd_soc_lookup_component_nolocked are
-component->driver->name = NULL and driver_name = "snd_dmaengine_pcm".
+diff --git a/Documentation/devicetree/bindings/sound/alc5623.txt b/Documentation/devicetree/bindings/sound/alc5623.txt
+deleted file mode 100644
+index 26c86c98d671..000000000000
+--- a/Documentation/devicetree/bindings/sound/alc5623.txt
++++ /dev/null
+@@ -1,25 +0,0 @@
+-ALC5621/ALC5622/ALC5623 audio Codec
+-
+-Required properties:
+-
+- - compatible:	"realtek,alc5623"
+- - reg:		the I2C address of the device.
+-
+-Optional properties:
+-
+- - add-ctrl:	  Default register value for Reg-40h, Additional Control
+-		  Register. If absent or has the value of 0, the
+-		  register is untouched.
+-
+- - jack-det-ctrl: Default register value for Reg-5Ah, Jack Detect
+-		  Control Register. If absent or has value 0, the
+-		  register is untouched.
+-
+-Example:
+-
+-	alc5621: alc5621@1a {
+-		compatible = "alc5621";
+-		reg = <0x1a>;
+-		add-ctrl = <0x3700>;
+-		jack-det-ctrl = <0x4810>;
+-	};
+diff --git a/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
+new file mode 100644
+index 000000000000..f9c9518cd084
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/realtek,alc5623.yaml
+@@ -0,0 +1,55 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/realtek,alc5623.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ALC5621/ALC5622/ALC5623 Audio Codec
++
++maintainers:
++  - Mahdi Khosravi <mmk1776@gmail.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - realtek,alc5621
++      - realtek,alc5622
++      - realtek,alc5623
++
++  reg:
++    maxItems: 1
++
++  add-ctrl:
++    description:
++      Default register value for Reg-40h, Additional Control Register.
++      If absent or zero, the register is left untouched.
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  jack-det-ctrl:
++    description:
++      Default register value for Reg-5Ah, Jack Detect Control Register.
++      If absent or zero, the register is left untouched.
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            compatible = "realtek,alc5623";
++            reg = <0x1a>;
++            add-ctrl = <0x3700>;
++            jack-det-ctrl = <0x4810>;
++        };
++    };
+-- 
+2.50.1
 
-I have bisected this to:
-
-commit 144d6dfc7482455eabf8e8caa974a6e8d9572705
-Author: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Date:   Mon May 12 02:33:16 2025 +0000
-
-    ASoC: soc-core: merge snd_soc_unregister_component() and snd_soc_unregister_component_by_driver()
-
-    We have below 2 functions, but these are very similar
-
-    (A)     snd_soc_unregister_component_by_driver()
-    (B)     snd_soc_unregister_component()
-
-    (A)     void snd_soc_unregister_component_by_driver(...)
-            {
-                    ...
-
-    (a)             mutex_lock(&client_mutex);
-     ^ (X)          component = snd_soc_lookup_component_nolocked(dev, component_driver->name);
-     |              if (!component)                                    ^^^^^^^^^^^^^^^^^^^^^^
-     |                      goto out;
-    (b)
-     |              snd_soc_del_component_unlocked(component);
-     v
-            out:
-    (c)             mutex_unlock(&client_mutex);
-            }
-
-    (B)     void snd_soc_unregister_component_by_driver(...)
-            {
-    (a)             mutex_lock(&client_mutex);
-     ^              while (1) {
-     | (X)                  struct snd_soc_component *component = snd_soc_lookup_component_nolocked(dev, NULL);
-     |                                                                                                   ^^^^
-    (b)                     if (!component)
-     |                              break;
-     |
-     |                      snd_soc_del_component_unlocked(component);
-     v              }
-    (c)             mutex_unlock(&client_mutex);
-            }
-
-    Both are calling lock (a), find component and remove it (b), and
-    unlock (c). The big diff is whether use driver name for lookup() or
-    not (X).
-
-    Merge these into snd_soc_unregister_component_by_driver() (B), and
-    snd_soc_unregister_component_by_driver() (A) can be macro.
-
-    Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-    Link: https://patch.msgid.link/87h61qy2vn.wl-kuninori.morimoto.gx@renesas.com
-    Signed-off-by: Mark Brown <broonie@kernel.org>
-
- include/sound/soc.h  |  2 +-
- sound/soc/soc-core.c | 30 +++++-------------------------
- 2 files changed, 6 insertions(+), 26 deletions(-)
-
-
-Reverting this commit on top of almost-v6.17-rc1 (v6.16-12250-gc30a13538d9f8b)
-results in a successful boot. sun8i-codec's probe returns -EPROBE_DEFER
-the first time, and success the second time.
-
-
-Best regards,
-J. Neuschäfer
