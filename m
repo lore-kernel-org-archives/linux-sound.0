@@ -1,80 +1,55 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCB7B67A
-	for <linux-sound@vger.kernel.org>; Sun, 10 Aug 2025 03:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59FD1684AC;
+	Sun, 10 Aug 2025 12:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754794926; cv=none; b=jlWRcMSxDsZxi/OJ4jy90hX9MNEapf85euyHzWJnvpm/ZPsOp2r3o0gBGqduTHfYHFIQnE83GwFdsqWqbcqwYMdciy65NHInB3XpBLAwZxn42igkXNWDobeExStjXCQl9z0kNk2gQcuJarzFa00EKLRJvsdByB3w7uwpBtry3QI=
+	t=1754828701; cv=none; b=RWImdyLNIVOFGnMSu95yXA7CGy6W4QzAZZ0p6ZzCEMuTGM+yKdA8baVGbA+jZSxXeRGP3//aK3+STek/s02PHq58CReBIsoGDOyEwk0BZjvlso6U6KwRZl1zBX9yDK5tm2SHpm6nMgoDvnp8mL0qm2/fR3DcrGoz+DxvJ2lNEXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754794926; c=relaxed/simple;
-	bh=k+h+Ny9sD1bkhVviYe9h2y02q2ldEvtGORlkHAlO59k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PfyM0oH/VN85AetKhJOwBpntbyfYTu8eRJaJUeTpRTpkjzYaWAVYZGBhZ8OZmEfiTCR+dt6/jeu1UUWF7ow7U7vhpJbuft3PVFxLXahSak/jXUuBV6Db/dj5wBxMRIUKCOKAAD83to0m6EZvAAHG/dzjWgjxAFMO7sJHKQMr8n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kreed.org; spf=pass smtp.mailfrom=kreed.org; dkim=pass (2048-bit key) header.d=kreed.org header.i=@kreed.org header.b=iDuLs2Kt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=J4+4VbxL; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kreed.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kreed.org
+	s=arc-20240116; t=1754828701; c=relaxed/simple;
+	bh=ET0+czvOcBGIPv1oN4tF/4+koCfDWg2L9pGf7sYN32Y=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZEqS7J8u5SBQ3tKz7ZTlV1Z9n+FTyYh94qMiLFS8r/OkRgu1tuOtyuBNy7wL4uzNLVNk373TkmRSwujRoGyhaIFiitxnO8SANMNbwFwAeRGCkM/Y4DNPJ03qdpGWi2CVfVPDz+rHVh/GFkNXtSSwpp1UeRpL4l2XJO5sgy/mLBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=vvPMIwWD; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kreed.org header.i=@kreed.org header.b="iDuLs2Kt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J4+4VbxL"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 21A9A7A0051;
-	Sat,  9 Aug 2025 23:02:02 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Sat, 09 Aug 2025 23:02:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kreed.org; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1754794921; x=1754881321; bh=y7ennVIW+3E+PEtU68G3B
-	LtU8W2CkRAL2GmLNln5PH0=; b=iDuLs2KtStyNni6+Cy4+ba+PoSoVxs8T88MsF
-	bYlZ/G8L2NIrW38o2QOzjHbvvowOwYRkY7Al0lldz44s2eG9tQRFRsDjrwwJCLUc
-	SWVTYQQDJ7YVzO71WqJwlVNif9Sldsn9qnCg8IP4ogu46myfP+yCqLGikk9CM/mL
-	xmL4Ay/ZTbfskh40cgp3rUwGGqCxevwpnHh84K8XtRYo0udzdDNAxRw6By28lWuO
-	ROx17TNoUZXPDYezCOj97ufOFAiNBXeeTn5JhE8lpTm2JTNnGEO28EMRAgOZdNB6
-	QpL9k+axOdClEEPozO6Ji9RWf8377HA1V4eNeN0NsFrnPlncQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1754794921; x=1754881321; bh=y7ennVIW+3E+PEtU68G3BLtU8W2CkRAL2Gm
-	LNln5PH0=; b=J4+4VbxLO9wscTHKoUOPDM/PNfIiJh+tqZZgjGaUdpQym8KTg0I
-	t4mNgkTPKOmbw4JuHXt2tNzjeD+bibv2Xb/GKxiWDRCHL4JEd3h7sxoikaik4Xpa
-	amW9EPPvKqyFu5ZvGEjB9IJwaZqwOeIbLepaACGJ1OLqpXQ2axQForRMdwXOAyA2
-	Zx/9lkbcw8oP6M+3s9uXoWkKezekY0PNfRTodnjDDKuSfLtxz6pjRQZoY3AyaY7z
-	krHn2JMi7d3bR3PnBYiuxYtlB3FIxGEhKXe84W+b/gp6HbR9CFE1rzg50p+xCYWc
-	tdy/FAGna7GH5RFmP5iHGuaaoFuBOYo5PRw==
-X-ME-Sender: <xms:qQuYaB5vRzRiwG-1NLCJ9cAc5hNbcySBz0UrgpAYDKsnB8fFqEpZlQ>
-    <xme:qQuYaJdR0VF4LTFsbE6CH5ug0bi9NdXJbH8F_8IKpCxfLmgDkfIQYCtuEdmN9PIpR
-    gt921qQnAy8j6Fw0A8>
-X-ME-Received: <xmr:qQuYaFB1weciWQUqSUSOtCGpTb1bWEXuRjsK3cB8_7AOwgcLv5Vzp4Qv9sIxEbyVpBv9CuRz20SD5SYTfhLvIPneDQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduvdekgeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpeevhhhrihhsthhophhhvghrucfgsgihuceokhhrvggvugeskhhrvggv
-    ugdrohhrgheqnecuggftrfgrthhtvghrnhepieeuieefieffkedthfelvdeutdeiffeffe
-    efhfelgeekieffhfehuedugfdtheeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomhepkhhrvggvugeskhhrvggvugdrohhrghdpnhgspghrtghpth
-    htohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqshhouhhn
-    ugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtihifrghisehsuhhsvg
-    druggvpdhrtghpthhtoheplhhinhhugiesfhhrrghmvgdrfihorhhkpdhrtghpthhtohep
-    khhrvggvugeskhhrvggvugdrohhrgh
-X-ME-Proxy: <xmx:qQuYaM8Ixq9pjMpY5Uv8lykWZdBpuwEZm7r4NTUYCWw5R8XzzsxGQg>
-    <xmx:qQuYaAIIprIjZKZ7ZBdTteFRwRVSBmE7AqBwR_Zax_GZKUbLErTYMQ>
-    <xmx:qQuYaFhIpuE7t18CNNZFMcjRS36YiKDCziUxyuQXo0oqsN4GS7WSnQ>
-    <xmx:qQuYaA7EGJXW1WVxQE079dhh4f7YvShwFj4kc3_WLp8noT4F6MNy5A>
-    <xmx:qQuYaCdfEfQpTxvPkrWce2hPfDHKF-ZHOlaCndx-jETDUvIUB0S3SjLC>
-Feedback-ID: ifbae4884:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 9 Aug 2025 23:02:00 -0400 (EDT)
-From: Christopher Eby <kreed@kreed.org>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	linux@frame.work,
-	Christopher Eby <kreed@kreed.org>
-Subject: [PATCH] ALSA: hda/realtek: Add Framework Laptop 13 (AMD Ryzen AI 300) to quirks
-Date: Sat,  9 Aug 2025 20:00:06 -0700
-Message-ID: <20250810030006.9060-1-kreed@kreed.org>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="vvPMIwWD"
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57ACOVBQ1403893;
+	Sun, 10 Aug 2025 07:24:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1754828671;
+	bh=JCahSTLS70Y/bivmeHHiaq1vE9DBlhV3k6nliVfmw3U=;
+	h=From:To:CC:Subject:Date;
+	b=vvPMIwWDUqRKL6awmEHV1/R5zUs+KbZ2323yFroxHDxInVHdeIicVjwcHdIovbKp8
+	 ebu0pAfhzB4SD9/okFJti7hfksbWTFJgwKkNF8lXcEOf8n3589YBXqfabPt9Akt2Q1
+	 YPFUwqADEWFToKZvN46eNbELiIW4qP/eZnxLV6WM=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57ACOUjA2964899
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Sun, 10 Aug 2025 07:24:30 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Sun, 10
+ Aug 2025 07:24:30 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Sun, 10 Aug 2025 07:24:30 -0500
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57ACOP741321164;
+	Sun, 10 Aug 2025 07:24:26 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>
+CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
+        <13916275206@139.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <baojun.xu@ti.com>
+Subject: [PATCH v1] ALSA: hda: Add TAS5825 support
+Date: Sun, 10 Aug 2025 20:23:58 +0800
+Message-ID: <20250810122358.1575-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,26 +57,270 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Framework Laptop 13 (AMD Ryzen AI 300) requires the same quirk for headset detection as other Framework 13 models.
+Add TAS5825 support in TI's HDA driver.
+TAS5825 is an on-chip DSP, but no calibration is required,
+and no global address support smart amplifier devices.
 
-Signed-off-by: Christopher Eby <kreed@kreed.org>
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/sound/tas2781-dsp.h                   |  3 +
+ include/sound/tas2781.h                       |  4 +-
+ include/sound/tas5825-tlv.h                   | 24 +++++++
+ .../hda/codecs/side-codecs/tas2781_hda_i2c.c  | 28 ++++++++
+ sound/soc/codecs/tas2781-fmwlib.c             | 67 ++++++++++++++++++-
+ 5 files changed, 121 insertions(+), 5 deletions(-)
+ create mode 100644 include/sound/tas5825-tlv.h
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index e27a36e4e92a..337e33a59de8 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7158,6 +7158,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0xf111, 0x0001, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0xf111, 0x0006, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0xf111, 0x0009, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
-+	SND_PCI_QUIRK(0xf111, 0x000b, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0xf111, 0x000c, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+diff --git a/include/sound/tas2781-dsp.h b/include/sound/tas2781-dsp.h
+index c3a9efa73d5d..49bbf24d6559 100644
+--- a/include/sound/tas2781-dsp.h
++++ b/include/sound/tas2781-dsp.h
+@@ -34,6 +34,7 @@
+ #define PPC3_VERSION_TAS2781_BASIC_MIN		0x14600
+ #define PPC3_VERSION_TAS2781_ALPHA_MIN		0x4a00
+ #define PPC3_VERSION_TAS2781_BETA_MIN		0x19400
++#define PPC3_VERSION_TAS5825_BASE		0x114200
+ #define TASDEVICE_DEVICE_SUM			8
+ #define TASDEVICE_CONFIG_SUM			64
  
- #if 0
+@@ -53,6 +54,8 @@ enum tasdevice_dsp_dev_idx {
+ 	TASDEVICE_DSP_TAS_2781_DUAL_MONO,
+ 	TASDEVICE_DSP_TAS_2781_21,
+ 	TASDEVICE_DSP_TAS_2781_QUAD,
++	TASDEVICE_DSP_TAS_5825_MONO,
++	TASDEVICE_DSP_TAS_5825_DUAL,
+ 	TASDEVICE_DSP_TAS_MAX_DEVICE
+ };
+ 
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index 3875e92f1ec5..f0aefc04a957 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -49,9 +49,9 @@
+ #define TASDEVICE_REG(book, page, reg)	(((book * 256 * 128) + \
+ 					(page * 128)) + reg)
+ 
+-/* Software Reset */
++/* Software Reset, compatble with new device (TAS5825). */
+ #define TASDEVICE_REG_SWRESET		TASDEVICE_REG(0x0, 0x0, 0x01)
+-#define TASDEVICE_REG_SWRESET_RESET	BIT(0)
++#define TASDEVICE_REG_SWRESET_RESET	(BIT(0) | BIT(4))
+ 
+ /* Checksum */
+ #define TASDEVICE_CHECKSUM_REG		TASDEVICE_REG(0x0, 0x0, 0x7e)
+diff --git a/include/sound/tas5825-tlv.h b/include/sound/tas5825-tlv.h
+new file mode 100644
+index 000000000000..95f2d3fad120
+--- /dev/null
++++ b/include/sound/tas5825-tlv.h
+@@ -0,0 +1,24 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++//
++// ALSA SoC Texas Instruments TAS5825 Audio Smart Amplifier
++//
++// Copyright (C) 2025 Texas Instruments Incorporated
++// https://www.ti.com
++//
++// The TAS5825 hda driver implements for one or two TAS5825 chips.
++//
++// Author: Baojun Xu <baojun.xu@ti.com>
++//
++
++#ifndef __TAS5825_TLV_H__
++#define __TAS5825_TLV_H__
++
++#define TAS5825_DVC_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x4c)
++#define TAS5825_AMP_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x54)
++
++static const __maybe_unused DECLARE_TLV_DB_SCALE(
++		tas5825_dvc_tlv, -10300, 50, 0);
++static const __maybe_unused DECLARE_TLV_DB_SCALE(
++		tas5825_amp_tlv, -1550, 50, 0);
++
++#endif
+diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+index 45ac5e41bd4f..71ee946eb748 100644
+--- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
++++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+@@ -26,6 +26,7 @@
+ #include <sound/tlv.h>
+ #include <sound/tas2770-tlv.h>
+ #include <sound/tas2781-tlv.h>
++#include <sound/tas5825-tlv.h>
+ 
+ #include "hda_local.h"
+ #include "hda_auto_parser.h"
+@@ -50,6 +51,7 @@ enum device_chip_id {
+ 	HDA_TAS2563,
+ 	HDA_TAS2770,
+ 	HDA_TAS2781,
++	HDA_TAS5825,
+ 	HDA_OTHERS
+ };
+ 
+@@ -272,6 +274,17 @@ static const struct snd_kcontrol_new tas2781_snd_controls[] = {
+ 		tas2781_force_fwload_get, tas2781_force_fwload_put),
+ };
+ 
++static const struct snd_kcontrol_new tas5825_snd_controls[] = {
++	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS5825_AMP_LEVEL,
++		0, 0, 31, 1, tas2781_amp_getvol,
++		tas2781_amp_putvol, tas5825_amp_tlv),
++	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Digital Volume", TAS5825_DVC_LEVEL,
++		0, 0, 254, 1, tas2781_amp_getvol,
++		tas2781_amp_putvol, tas5825_dvc_tlv),
++	ACARD_SINGLE_BOOL_EXT("Speaker Force Firmware Load", 0,
++		tas2781_force_fwload_get, tas2781_force_fwload_put),
++};
++
+ static const struct snd_kcontrol_new tasdevice_prof_ctrl = {
+ 	.name = "Speaker Profile Id",
+ 	.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+@@ -501,6 +514,12 @@ static void tasdev_fw_ready(const struct firmware *fmw, void *context)
+ 				     ARRAY_SIZE(tas2781_snd_controls));
+ 		tasdevice_dspfw_init(context);
+ 		break;
++	case HDA_TAS5825:
++		tasdev_add_kcontrols(tas_priv, hda_priv->snd_ctls, codec,
++				     &tas5825_snd_controls[0],
++				     ARRAY_SIZE(tas5825_snd_controls));
++		tasdevice_dspfw_init(context);
++		break;
+ 	case HDA_TAS2563:
+ 		tasdevice_dspfw_init(context);
+ 		break;
+@@ -628,6 +647,7 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
+ 	} else if (strstarts(dev_name(&clt->dev),
+ 			     "i2c-TXNW2781:00-tas2781-hda.0")) {
+ 		device_name = "TXNW2781";
++		hda_priv->hda_chip_id = HDA_TAS2781;
+ 		hda_priv->save_calibration = tas2781_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2781_GLOBAL_ADDR;
+ 	} else if (strstr(dev_name(&clt->dev), "INT8866")) {
+@@ -639,6 +659,13 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
+ 		hda_priv->hda_chip_id = HDA_TAS2563;
+ 		hda_priv->save_calibration = tas2563_save_calibration;
+ 		tas_hda->priv->global_addr = TAS2563_GLOBAL_ADDR;
++	} else if (strstarts(dev_name(&clt->dev), "i2c-TXNW5825")) {
++		/*
++		 * TAS5825, integrated on-chip DSP without
++		 * global I2C address and calibration supported.
++		 */
++		device_name = "TXNW5825";
++		hda_priv->hda_chip_id = HDA_TAS5825;
+ 	} else {
+ 		return -ENODEV;
+ 	}
+@@ -775,6 +802,7 @@ static const struct acpi_device_id tas2781_acpi_hda_match[] = {
+ 	{"TIAS2781", 0 },
+ 	{"TXNW2770", 0 },
+ 	{"TXNW2781", 0 },
++	{"TXNW5825", 0 },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(acpi, tas2781_acpi_hda_match);
+diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
+index c9c1e608ddb7..d69faef8a4d7 100644
+--- a/sound/soc/codecs/tas2781-fmwlib.c
++++ b/sound/soc/codecs/tas2781-fmwlib.c
+@@ -91,7 +91,7 @@ struct blktyp_devidx_map {
+ };
+ 
+ static const char deviceNumber[TASDEVICE_DSP_TAS_MAX_DEVICE] = {
+-	1, 2, 1, 2, 1, 1, 0, 2, 4, 3, 1, 2, 3, 4
++	1, 2, 1, 2, 1, 1, 0, 2, 4, 3, 1, 2, 3, 4, 1, 2
+ };
+ 
+ /* fixed m68k compiling issue: mapping table can save code field */
+@@ -509,6 +509,56 @@ static int fw_parse_data_kernel(struct tasdevice_fw *tas_fmw,
+ 	return offset;
+ }
+ 
++static int fw_parse_tas5825_program_data_kernel(
++	struct tasdevice_priv *tas_priv, struct tasdevice_fw *tas_fmw,
++	const struct firmware *fmw, int offset)
++{
++	struct tasdevice_prog *program;
++	unsigned int i;
++
++	for (i = 0; i < tas_fmw->nr_programs; i++) {
++		program = &(tas_fmw->programs[i]);
++		if (offset + 72 > fmw->size) {
++			dev_err(tas_priv->dev, "%s: mpName error\n", __func__);
++			return -EINVAL;
++		}
++		/* Skip 65 unused byts*/
++		offset += 65;
++		offset = fw_parse_data_kernel(tas_fmw, &(program->dev_data),
++			fmw, offset);
++		if (offset < 0)
++			return offset;
++	}
++
++	return offset;
++}
++
++static int fw_parse_tas5825_configuration_data_kernel(
++	struct tasdevice_priv *tas_priv,
++	struct tasdevice_fw *tas_fmw, const struct firmware *fmw, int offset)
++{
++	const unsigned char *data = fmw->data;
++	struct tasdevice_config *config;
++	unsigned int i;
++
++	for (i = 0; i < tas_fmw->nr_configurations; i++) {
++		config = &(tas_fmw->configs[i]);
++		if (offset + 80 > fmw->size) {
++			dev_err(tas_priv->dev, "%s: mpName error\n", __func__);
++			return -EINVAL;
++		}
++		memcpy(config->name, &data[offset], 64);
++		/* Skip extra 8 bytes*/
++		offset += 72;
++		offset = fw_parse_data_kernel(tas_fmw, &(config->dev_data),
++			fmw, offset);
++		if (offset < 0)
++			return offset;
++	}
++
++	return offset;
++}
++
+ static int fw_parse_program_data_kernel(
+ 	struct tasdevice_priv *tas_priv, struct tasdevice_fw *tas_fmw,
+ 	const struct firmware *fmw, int offset)
+@@ -1826,7 +1876,8 @@ static void dspbin_type_check(struct tasdevice_priv *tas_priv,
+ 		else
+ 			tas_priv->dspbin_typ = TASDEV_ALPHA;
+ 	}
+-	if (tas_priv->dspbin_typ != TASDEV_BASIC)
++	if ((tas_priv->dspbin_typ != TASDEV_BASIC) &&
++		(ppcver < PPC3_VERSION_TAS5825_BASE))
+ 		tas_priv->fw_parse_fct_param_address =
+ 			fw_parse_fct_param_address;
+ }
+@@ -1837,7 +1888,17 @@ static int dspfw_default_callback(struct tasdevice_priv *tas_priv,
+ 	int rc = 0;
+ 
+ 	if (drv_ver == 0x100) {
+-		if (ppcver >= PPC3_VERSION_BASE) {
++		if (ppcver >= PPC3_VERSION_TAS5825_BASE) {
++			tas_priv->fw_parse_variable_header =
++				fw_parse_variable_header_kernel;
++			tas_priv->fw_parse_program_data =
++				fw_parse_tas5825_program_data_kernel;
++			tas_priv->fw_parse_configuration_data =
++				fw_parse_tas5825_configuration_data_kernel;
++			tas_priv->tasdevice_load_block =
++				tasdevice_load_block_kernel;
++			dspbin_type_check(tas_priv, ppcver);
++		} else if (ppcver >= PPC3_VERSION_BASE) {
+ 			tas_priv->fw_parse_variable_header =
+ 				fw_parse_variable_header_kernel;
+ 			tas_priv->fw_parse_program_data =
 -- 
-2.50.1
+2.43.0
 
