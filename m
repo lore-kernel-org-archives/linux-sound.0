@@ -1,86 +1,80 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C562BE632;
-	Sat,  9 Aug 2025 15:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCB7B67A
+	for <linux-sound@vger.kernel.org>; Sun, 10 Aug 2025 03:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754752807; cv=none; b=XkyiweKFQ8V9cRCumm4qzAivdAk4eWeALfyBbZc1bedv8FNziLtkAS0vzpYhMvkARVSxbe/lvXv3p/lLjyafpmZKTOnVwBM283DdhkbFHzD5hBTfH3a4YNtbmy0x3i44N4ri4WWLjQSiRIn5MlA98wXgyu274gbuDBEaRU6dM8M=
+	t=1754794926; cv=none; b=jlWRcMSxDsZxi/OJ4jy90hX9MNEapf85euyHzWJnvpm/ZPsOp2r3o0gBGqduTHfYHFIQnE83GwFdsqWqbcqwYMdciy65NHInB3XpBLAwZxn42igkXNWDobeExStjXCQl9z0kNk2gQcuJarzFa00EKLRJvsdByB3w7uwpBtry3QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754752807; c=relaxed/simple;
-	bh=zE69J7iVRkRPHezfEuW053Wj+05v1LG9BKUsSUHztHw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MbXXOOaNR+ZTaOMllF7oNz6eu2eiZrDueAj27O+3HGzdHZGUIb0N9rznwCYC0tv6iUjzG/495XNKRxDQ0FggKvI7dky0BJZPkYz2PSWm1/zxof73nSJ2g/pClHQD/YL2VrL52AdwnSrNDbPBLjpaVH89G/c9mf47hgvTu7BAFeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GBFpHYKK; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754794926; c=relaxed/simple;
+	bh=k+h+Ny9sD1bkhVviYe9h2y02q2ldEvtGORlkHAlO59k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PfyM0oH/VN85AetKhJOwBpntbyfYTu8eRJaJUeTpRTpkjzYaWAVYZGBhZ8OZmEfiTCR+dt6/jeu1UUWF7ow7U7vhpJbuft3PVFxLXahSak/jXUuBV6Db/dj5wBxMRIUKCOKAAD83to0m6EZvAAHG/dzjWgjxAFMO7sJHKQMr8n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kreed.org; spf=pass smtp.mailfrom=kreed.org; dkim=pass (2048-bit key) header.d=kreed.org header.i=@kreed.org header.b=iDuLs2Kt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=J4+4VbxL; arc=none smtp.client-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kreed.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kreed.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GBFpHYKK"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3b77b8750acso1846963f8f.0;
-        Sat, 09 Aug 2025 08:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754752804; x=1755357604; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F2z37DtB7ki2BMrEIWUmQdKynw5LgE3LSUPH4IGC79o=;
-        b=GBFpHYKKs8ps1K/NWJRWha8K02JtQJWk7MZCcSvwKYAmrIgRI8x+nJkXbRwFLd95o+
-         Q+4fXbGgQOq69qTsp3pD1UsicpsA8mzQlNTL+xSZ9A2SrnkF3ZLKt8TXBMQLgvcV6mz7
-         aB7DnuF6yhti9Ul22H8/zxPZghL3t+V9XWzijb8B6g+5OdxpItuqS1UYJpiODDsRn+d3
-         qj1/6SEO7f3E77CX4Itl673ROyapgNzwEybeSLlS4wVRm+MPgPyEKGS+aQc9q6yjRHPh
-         j/Gt9U+FFfRuiU9Ef7dABueYNfDEgnaipKJDA7fF93I638UeSzLcslIxA5gzbIZQWcEU
-         G6Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754752804; x=1755357604;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F2z37DtB7ki2BMrEIWUmQdKynw5LgE3LSUPH4IGC79o=;
-        b=w1LGhM23tk/2B1c1UYXfSYzZPi4n5BgYlDtofTui0pqRdkwzkunLNkQl2y8I7GXgml
-         2o64OXk1NTR1SxEXHf2xjuaUMk7sXRk4CjW4eHxaJo3iS/NUJJJW84rzOEsvRtKMcpmV
-         JyG7JkAc5H9Llna7g7zvn2bV5wAhoQ/bgMKUObbSpMesRofLkGF6kI2+T1Dilst095SR
-         XX6EQ85hp0brTZYiwi2/cPl5e6YhToBtZZHwzkfeV4zFELUKeJvrGe8ebGIylvxQY3ei
-         ebRYpmvetEWk6rhbsdX1sgubAt2FssIPVsdgszHNoDdavLbmkpBS9gDkZYdUUp1S3NoQ
-         GQbA==
-X-Forwarded-Encrypted: i=1; AJvYcCUzkOFgdadkO4YWvR8Z3fke0kVGtDMyyss82OnsVxJ9gK1EkZ1X8G8awaUZLv8rqF/7dHKQLytQ5Cf3@vger.kernel.org, AJvYcCWi8OILLytE1WJ5MXBjZq2vds0/+qR/RrQyhWrQ/si7ZBV21GcOSBVdi7XmuOvmcs5bsXyiMdMnp4aZvit/@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfMOIwDnvLch3I3LeYv2Bs82bzx5vldzo7+m9Z1stxYgHf/fGP
-	MpKh7rBY3zhcRu++L72BBgeJH1ArNKhob+MjOw8QGAeLiq8YCiebLRKZ9xF/yvA=
-X-Gm-Gg: ASbGncsMMVrOtgCKaTixoncTCT9Of+hOlbQzu/X4r5/90Hd3z8DT/FvbOSW+/rYAQ6Q
-	AJpDQ1gUC2rik4n8RNBJsAyeholQ1AHRo3706z8MHv/rJEwAcpxq+HgUDle4QomO/Tcg8BwnWvp
-	II4mFD2ZdyocPMsBICNElvJmv4S1h7pZOpUfV8U8uPoFXhgy++tBRjSHFTnmLh55hOhgjUjVTsH
-	Ar3C77GQuBdseTekbOa0xQREmhVZlnYlWSqWtqvR4tOd0f2GSeBQoGUqnBzTLpGtX60WYP6pEjm
-	VDPlYWZo82Ele8zgGiSBpmO59a4hcfdqAxwzaHrQtAYbt67PnCkDqKDEM4vyrpOSIGylqxy4a98
-	d1/9syoSw4hpVw0EGr9D4q7+ivNRiU2Cl9E4ffP38X+ju8L8=
-X-Google-Smtp-Source: AGHT+IGusN9XKZd7es3KXwBzzyBcPCvZh2zlkHXnNJLYlOsbnMoW0ha4fXEs9ddU9RF0t5ans+UMFg==
-X-Received: by 2002:a05:6000:2507:b0:3b7:931d:37a0 with SMTP id ffacd0b85a97d-3b8f97c46d9mr8230422f8f.9.1754752803443;
-        Sat, 09 Aug 2025 08:20:03 -0700 (PDT)
-Received: from localhost.localdomain ([2a0d:e487:156f:b6b0:b8c7:9296:47d7:b0cc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-459e583ff76sm178748185e9.5.2025.08.09.08.20.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Aug 2025 08:20:03 -0700 (PDT)
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=kreed.org header.i=@kreed.org header.b="iDuLs2Kt";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J4+4VbxL"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 21A9A7A0051;
+	Sat,  9 Aug 2025 23:02:02 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Sat, 09 Aug 2025 23:02:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kreed.org; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1754794921; x=1754881321; bh=y7ennVIW+3E+PEtU68G3B
+	LtU8W2CkRAL2GmLNln5PH0=; b=iDuLs2KtStyNni6+Cy4+ba+PoSoVxs8T88MsF
+	bYlZ/G8L2NIrW38o2QOzjHbvvowOwYRkY7Al0lldz44s2eG9tQRFRsDjrwwJCLUc
+	SWVTYQQDJ7YVzO71WqJwlVNif9Sldsn9qnCg8IP4ogu46myfP+yCqLGikk9CM/mL
+	xmL4Ay/ZTbfskh40cgp3rUwGGqCxevwpnHh84K8XtRYo0udzdDNAxRw6By28lWuO
+	ROx17TNoUZXPDYezCOj97ufOFAiNBXeeTn5JhE8lpTm2JTNnGEO28EMRAgOZdNB6
+	QpL9k+axOdClEEPozO6Ji9RWf8377HA1V4eNeN0NsFrnPlncQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1754794921; x=1754881321; bh=y7ennVIW+3E+PEtU68G3BLtU8W2CkRAL2Gm
+	LNln5PH0=; b=J4+4VbxLO9wscTHKoUOPDM/PNfIiJh+tqZZgjGaUdpQym8KTg0I
+	t4mNgkTPKOmbw4JuHXt2tNzjeD+bibv2Xb/GKxiWDRCHL4JEd3h7sxoikaik4Xpa
+	amW9EPPvKqyFu5ZvGEjB9IJwaZqwOeIbLepaACGJ1OLqpXQ2axQForRMdwXOAyA2
+	Zx/9lkbcw8oP6M+3s9uXoWkKezekY0PNfRTodnjDDKuSfLtxz6pjRQZoY3AyaY7z
+	krHn2JMi7d3bR3PnBYiuxYtlB3FIxGEhKXe84W+b/gp6HbR9CFE1rzg50p+xCYWc
+	tdy/FAGna7GH5RFmP5iHGuaaoFuBOYo5PRw==
+X-ME-Sender: <xms:qQuYaB5vRzRiwG-1NLCJ9cAc5hNbcySBz0UrgpAYDKsnB8fFqEpZlQ>
+    <xme:qQuYaJdR0VF4LTFsbE6CH5ug0bi9NdXJbH8F_8IKpCxfLmgDkfIQYCtuEdmN9PIpR
+    gt921qQnAy8j6Fw0A8>
+X-ME-Received: <xmr:qQuYaFB1weciWQUqSUSOtCGpTb1bWEXuRjsK3cB8_7AOwgcLv5Vzp4Qv9sIxEbyVpBv9CuRz20SD5SYTfhLvIPneDQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduvdekgeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpeevhhhrihhsthhophhhvghrucfgsgihuceokhhrvggvugeskhhrvggv
+    ugdrohhrgheqnecuggftrfgrthhtvghrnhepieeuieefieffkedthfelvdeutdeiffeffe
+    efhfelgeekieffhfehuedugfdtheeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+    rghmpehmrghilhhfrhhomhepkhhrvggvugeskhhrvggvugdrohhrghdpnhgspghrtghpth
+    htohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqshhouhhn
+    ugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehtihifrghisehsuhhsvg
+    druggvpdhrtghpthhtoheplhhinhhugiesfhhrrghmvgdrfihorhhkpdhrtghpthhtohep
+    khhrvggvugeskhhrvggvugdrohhrgh
+X-ME-Proxy: <xmx:qQuYaM8Ixq9pjMpY5Uv8lykWZdBpuwEZm7r4NTUYCWw5R8XzzsxGQg>
+    <xmx:qQuYaAIIprIjZKZ7ZBdTteFRwRVSBmE7AqBwR_Zax_GZKUbLErTYMQ>
+    <xmx:qQuYaFhIpuE7t18CNNZFMcjRS36YiKDCziUxyuQXo0oqsN4GS7WSnQ>
+    <xmx:qQuYaA7EGJXW1WVxQE079dhh4f7YvShwFj4kc3_WLp8noT4F6MNy5A>
+    <xmx:qQuYaCdfEfQpTxvPkrWce2hPfDHKF-ZHOlaCndx-jETDUvIUB0S3SjLC>
+Feedback-ID: ifbae4884:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 9 Aug 2025 23:02:00 -0400 (EDT)
+From: Christopher Eby <kreed@kreed.org>
 To: linux-sound@vger.kernel.org
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	drake@endlessm.com,
-	katsuhiro@katsuster.net,
-	matteomartelli3@gmail.com,
-	zhoubinbin@loongson.cn,
-	KCHSU0@nuvoton.com,
-	patches@opensource.cirrus.com,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	shuah@kernel.org,
-	jihed.chaibi.dev@gmail.com
-Subject: [PATCH 3/3] ASoC: dt-bindings: wlf,wm8960: Document routing strings (pin names)
-Date: Sat,  9 Aug 2025 17:18:53 +0200
-Message-Id: <20250809151853.47562-4-jihed.chaibi.dev@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250809151853.47562-1-jihed.chaibi.dev@gmail.com>
-References: <20250809151853.47562-1-jihed.chaibi.dev@gmail.com>
+Cc: tiwai@suse.de,
+	linux@frame.work,
+	Christopher Eby <kreed@kreed.org>
+Subject: [PATCH] ALSA: hda/realtek: Add Framework Laptop 13 (AMD Ryzen AI 300) to quirks
+Date: Sat,  9 Aug 2025 20:00:06 -0700
+Message-ID: <20250810030006.9060-1-kreed@kreed.org>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,55 +83,25 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The wm8960 driver defines several DAPM widget names that are used for
-audio routing in the Device Tree. However, these strings are not
-documented in the binding file.
+Framework Laptop 13 (AMD Ryzen AI 300) requires the same quirk for headset detection as other Framework 13 models.
 
-This forces developers to read the C source to discover the valid
-names, which can be inefficient and error-prone.
-
-Add a list of the input and output widget names to the binding's
-description to make it self-contained and improve the user
-experience for board bring-up.
-
-Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Signed-off-by: Christopher Eby <kreed@kreed.org>
 ---
- .../devicetree/bindings/sound/wlf,wm8960.yaml | 22 +++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8960.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8960.yaml
-index 3c2b9790f..c8c786cb6 100644
---- a/Documentation/devicetree/bindings/sound/wlf,wm8960.yaml
-+++ b/Documentation/devicetree/bindings/sound/wlf,wm8960.yaml
-@@ -9,6 +9,28 @@ title: Wolfson WM8960 audio codec
- maintainers:
-   - patches@opensource.cirrus.com
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index e27a36e4e92a..337e33a59de8 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7158,6 +7158,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0xf111, 0x0001, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0xf111, 0x0006, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0xf111, 0x0009, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0xf111, 0x000b, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0xf111, 0x000c, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
  
-+description: |
-+  Wolfson WM8960 audio codec
-+
-+  Pins on the device (for linking into audio routes):
-+
-+    Outputs:
-+      * HP_L    : Left Headphone/Line Output
-+      * HP_R    : Right Headphone/Line Output
-+      * SPK_LP  : Left Speaker Output (Positive)
-+      * SPK_LN  : Left Speaker Output (Negative)
-+      * SPK_RP  : Right Speaker Output (Positive)
-+      * SPK_RN  : Right Speaker Output (Negative)
-+      * OUT3    : Mono, Left, Right or buffered midrail output for capless mode
-+
-+    Inputs:
-+      * LINPUT1 : Left single-ended or negative differential microphone input
-+      * RINPUT1 : Right single-ended or negative differential microphone input
-+      * LINPUT2 : Left line input or positive differential microphone input
-+      * RINPUT2 : Right line input or positive differential microphone input
-+      * LINPUT3 : Left line input, positive differential microphone, or Jack Detect 2
-+      * RINPUT3 : Right line input, positive differential microphone, or Jack Detect 3
-+
- properties:
-   compatible:
-     const: wlf,wm8960
+ #if 0
 -- 
-2.39.5
+2.50.1
 
