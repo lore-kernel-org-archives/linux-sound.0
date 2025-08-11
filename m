@@ -1,78 +1,78 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5194B4A2D
-	for <linux-sound@vger.kernel.org>; Mon, 11 Aug 2025 10:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B9D1F3B98
+	for <linux-sound@vger.kernel.org>; Mon, 11 Aug 2025 10:08:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754906932; cv=none; b=gr4FXz5CMJTJaPORw2TCD4QZHMcmD4xNejf5h702VC1jaoUi6J3K3rxYIXO/pFys6PkHzQzQDxCBns+X3VahNRH2AQ5EZCOVK/7z6w2Mi2p3ev5FXRvphjzL2UYo7xkp+X8whYNUru+X1vkaSfblxZrtpatGyO0wrRrDH7ehau4=
+	t=1754906933; cv=none; b=sl7uTo7ELs6y0f8LeUNFE3tEA0xduEj7QaO+EjWLG3vixCQUCtYoH1c8CDTV3ssovJyzoSmeN2bWT5CO5Oa/RbNeQCakUnrR0YnZBVU2Nzs9jAsblFr+7ks99iqNKxI0hf4XbLGOuXkGPFBMUa6Ht2wwan0nkhWKlN2gJ7PvHFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754906932; c=relaxed/simple;
-	bh=WG0GwESq09r1vnUhRNDlYN7RgpJ3k0XXuntbp6q0fQY=;
+	s=arc-20240116; t=1754906933; c=relaxed/simple;
+	bh=sHUlO4SoK+DIqFRthbMvMzhlqOPcFz60LZ4HS2q1PFA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tEQxkJXRalPdDog6lNOnOH1bazCIgQcni1JRUreiepVMYXe4fwxc75hKSOmJ7bbIRXO6LugoHNXA6Qa6bm1CWZjespGLE6B0FmgmOb5tJpU488xO9Oxy9j8NoAczBNpt/5+r9CETJxBMNxS7381lBQ0YBDqB/N+Fz0JP94r56k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xwdJ1aUT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kjDsHUq7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ExTQ+u8W; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UDvPv3B/; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=QIVsGfV9ueG/ZneUTH+fk6iKrzH/lqgpVd/fpJV7MqwOptMpc/Zn60Ji9+hdYmstbD2P89Yqjdibwjc/xMr83/kB0nTUp07pGrGzXApKt3oBSlV+xaqxyFL9QYXihWPTQpzjmyM0Taz2SHOZhL0+UmRhMcLDntkV5r9806iSckw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SYlghJ4L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S5uFRBWu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SYlghJ4L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=S5uFRBWu; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xwdJ1aUT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kjDsHUq7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ExTQ+u8W";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UDvPv3B/"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SYlghJ4L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S5uFRBWu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SYlghJ4L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S5uFRBWu"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EE70A5BE1C;
-	Mon, 11 Aug 2025 10:08:14 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E59C433E4C;
+	Mon, 11 Aug 2025 10:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1754906895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8wNQ83d27F6PvUm5tqiS+mrNRbjHwOtWTpyZ/7nxVGQ=;
-	b=xwdJ1aUTEer7/tCXK3C76UKxC22dPTNCkoS7EObK9wPTzoUmMt9NcjQOyziEHYe7+AQ9Vf
-	zwromOdsR3GlfCoIWUQzLq4eG6r8Mc8+NpQ2weupL+6TYqJw19Jb8JVJSI8BBWcNpVrj7n
-	/+zCijj88R6Olki7eC6pycAQ7POksfU=
+	bh=upa9Ph9N9XdOXlZTygGzizr2+Pw09R0mNnDhxKp+ezk=;
+	b=SYlghJ4L07zvGDYSahYv8CbSzEaoU2slcAsd6PtTLTWIQ56C1fm0YZgT+TM6I/esVOT2hz
+	bWVpXKREPK2wiiVASZ92Kqoa6vcVFGLNk6vYDdDUWrRdxTCjZ5Io8k5rgrJbogDNb3Dd+e
+	r45rni+SpQjpLJOi4Yxi1OkIxMRyOXQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1754906895;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8wNQ83d27F6PvUm5tqiS+mrNRbjHwOtWTpyZ/7nxVGQ=;
-	b=kjDsHUq7LNZ806+7+NswrbFlbLDlEqk3OpN7Smd+R1Iq3GUSYjJUNuhwPDLFS5f3+AnGQm
-	ljWYVdP8dyv2qLAA==
-Authentication-Results: smtp-out2.suse.de;
+	bh=upa9Ph9N9XdOXlZTygGzizr2+Pw09R0mNnDhxKp+ezk=;
+	b=S5uFRBWu7truegBKv4vGSblE9GBaUYvo9IBK3mQhD9WwN9K7XBupvLzAef2GeJDpT6ZIq2
+	501zXHVmDyPr5dCw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754906894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1754906895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8wNQ83d27F6PvUm5tqiS+mrNRbjHwOtWTpyZ/7nxVGQ=;
-	b=ExTQ+u8WWe/Dz7649f40BJ/cLLefOb8yw0mDkjm7cckiBHhrtSrb+dAs9SLOJnGoNj9EkK
-	/wZAmzAKBfqQKvqDQ6/XZWC8X3M62wGHYNVuN7JDH/BA8sOhDBrrsdiVcB98MAiknWfjrS
-	QgUyBf7cIRB+sq+UDvjH2+F63wKJrj8=
+	bh=upa9Ph9N9XdOXlZTygGzizr2+Pw09R0mNnDhxKp+ezk=;
+	b=SYlghJ4L07zvGDYSahYv8CbSzEaoU2slcAsd6PtTLTWIQ56C1fm0YZgT+TM6I/esVOT2hz
+	bWVpXKREPK2wiiVASZ92Kqoa6vcVFGLNk6vYDdDUWrRdxTCjZ5Io8k5rgrJbogDNb3Dd+e
+	r45rni+SpQjpLJOi4Yxi1OkIxMRyOXQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754906894;
+	s=susede2_ed25519; t=1754906895;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8wNQ83d27F6PvUm5tqiS+mrNRbjHwOtWTpyZ/7nxVGQ=;
-	b=UDvPv3B/Cnc3p69qucoTVdy7sntZ7cCCf8Yq7lJXamWyXIAoapwgATEhXz99zWoeTO7Yxr
-	5V8qCJbUy/fRvnDw==
+	bh=upa9Ph9N9XdOXlZTygGzizr2+Pw09R0mNnDhxKp+ezk=;
+	b=S5uFRBWu7truegBKv4vGSblE9GBaUYvo9IBK3mQhD9WwN9K7XBupvLzAef2GeJDpT6ZIq2
+	501zXHVmDyPr5dCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD37413479;
-	Mon, 11 Aug 2025 10:08:14 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ADD8913479;
+	Mon, 11 Aug 2025 10:08:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MIsqKQ7BmWiVBwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 11 Aug 2025 10:08:14 +0000
+	id CONUKQ/BmWiVBwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 11 Aug 2025 10:08:15 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: David Rhodes <david.rhodes@cirrus.com>,
@@ -81,9 +81,9 @@ Cc: David Rhodes <david.rhodes@cirrus.com>,
 	Shenghao Ding <shenghao-ding@ti.com>,
 	Kevin Lu <kevin-lu@ti.com>,
 	Baojun Xu <baojun.xu@ti.com>
-Subject: [PATCH 08/25] ALSA: hda/core: Use guard() for mutex locks
-Date: Mon, 11 Aug 2025 12:07:42 +0200
-Message-ID: <20250811100807.7962-9-tiwai@suse.de>
+Subject: [PATCH 12/25] ALSA: hda/cs35l41: Use guard() for mutex locks
+Date: Mon, 11 Aug 2025 12:07:46 +0200
+Message-ID: <20250811100807.7962-13-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250811100807.7962-1-tiwai@suse.de>
 References: <20250811100807.7962-1-tiwai@suse.de>
@@ -94,6 +94,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -107,7 +108,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_COUNT_TWO(0.00)[2];
@@ -116,7 +117,6 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	R_RATELIMIT(0.00)[to_ip_from(RLf66hkhxcz6y1w5afddqk81z3)];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-Spam-Score: -2.80
 
 Replace the manual mutex lock/unlock pairs with guard().
@@ -125,251 +125,277 @@ Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/core/bus.c            |  8 ++------
- sound/hda/core/component.c      |  6 ++----
- sound/hda/core/device.c         | 23 ++++++++++------------
- sound/hda/core/ext/controller.c |  6 ++----
- sound/hda/core/regmap.c         | 35 +++++++++++----------------------
- 5 files changed, 27 insertions(+), 51 deletions(-)
+ sound/hda/codecs/side-codecs/cs35l41_hda.c | 110 +++++++++------------
+ 1 file changed, 47 insertions(+), 63 deletions(-)
 
-diff --git a/sound/hda/core/bus.c b/sound/hda/core/bus.c
-index d497414a5538..9b196c915f37 100644
---- a/sound/hda/core/bus.c
-+++ b/sound/hda/core/bus.c
-@@ -87,12 +87,8 @@ EXPORT_SYMBOL_GPL(snd_hdac_bus_exit);
- int snd_hdac_bus_exec_verb(struct hdac_bus *bus, unsigned int addr,
- 			   unsigned int cmd, unsigned int *res)
- {
--	int err;
--
--	mutex_lock(&bus->cmd_mutex);
--	err = snd_hdac_bus_exec_verb_unlocked(bus, addr, cmd, res);
--	mutex_unlock(&bus->cmd_mutex);
--	return err;
-+	guard(mutex)(&bus->cmd_mutex);
-+	return snd_hdac_bus_exec_verb_unlocked(bus, addr, cmd, res);
+diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+index 37f2cdc8ce82..c04208e685a0 100644
+--- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
++++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+@@ -624,11 +624,10 @@ static void cs35l41_remove_dsp(struct cs35l41_hda *cs35l41)
+ 
+ 	cancel_work_sync(&cs35l41->fw_load_work);
+ 
+-	mutex_lock(&cs35l41->fw_mutex);
++	guard(mutex)(&cs35l41->fw_mutex);
+ 	cs35l41_shutdown_dsp(cs35l41);
+ 	cs_dsp_remove(dsp);
+ 	cs35l41->halo_initialized = false;
+-	mutex_unlock(&cs35l41->fw_mutex);
  }
  
- /**
-diff --git a/sound/hda/core/component.c b/sound/hda/core/component.c
-index 9c82a2864a2f..04755903880e 100644
---- a/sound/hda/core/component.c
-+++ b/sound/hda/core/component.c
-@@ -69,14 +69,14 @@ void snd_hdac_display_power(struct hdac_bus *bus, unsigned int idx, bool enable)
+ /* Protection release cycle to get the speaker out of Safe-Mode */
+@@ -790,9 +789,9 @@ static void cs35l41_hda_pre_playback_hook(struct device *dev, int action)
  
- 	dev_dbg(bus->dev, "display power %s\n", str_enable_disable(enable));
- 
--	mutex_lock(&bus->lock);
-+	guard(mutex)(&bus->lock);
- 	if (enable)
- 		set_bit(idx, &bus->display_power_status);
- 	else
- 		clear_bit(idx, &bus->display_power_status);
- 
- 	if (!acomp || !acomp->ops)
--		goto unlock;
-+		return;
- 
- 	if (bus->display_power_status) {
- 		if (!bus->display_power_active) {
-@@ -99,8 +99,6 @@ void snd_hdac_display_power(struct hdac_bus *bus, unsigned int idx, bool enable)
- 			bus->display_power_active = 0;
- 		}
- 	}
-- unlock:
--	mutex_unlock(&bus->lock);
- }
- EXPORT_SYMBOL_GPL(snd_hdac_display_power);
- 
-diff --git a/sound/hda/core/device.c b/sound/hda/core/device.c
-index 018f9e176b1b..160c8d0453b0 100644
---- a/sound/hda/core/device.c
-+++ b/sound/hda/core/device.c
-@@ -147,9 +147,9 @@ int snd_hdac_device_register(struct hdac_device *codec)
- 	err = device_add(&codec->dev);
- 	if (err < 0)
- 		return err;
--	mutex_lock(&codec->widget_lock);
--	err = hda_widget_sysfs_init(codec);
--	mutex_unlock(&codec->widget_lock);
-+	scoped_guard(mutex, &codec->widget_lock) {
-+		err = hda_widget_sysfs_init(codec);
-+	}
- 	if (err < 0) {
- 		device_del(&codec->dev);
- 		return err;
-@@ -166,9 +166,9 @@ EXPORT_SYMBOL_GPL(snd_hdac_device_register);
- void snd_hdac_device_unregister(struct hdac_device *codec)
- {
- 	if (device_is_registered(&codec->dev)) {
--		mutex_lock(&codec->widget_lock);
--		hda_widget_sysfs_exit(codec);
--		mutex_unlock(&codec->widget_lock);
-+		scoped_guard(mutex, &codec->widget_lock) {
-+			hda_widget_sysfs_exit(codec);
+ 	switch (action) {
+ 	case HDA_GEN_PCM_ACT_CLEANUP:
+-		mutex_lock(&cs35l41->fw_mutex);
+-		cs35l41_hda_pause_start(dev);
+-		mutex_unlock(&cs35l41->fw_mutex);
++		scoped_guard(mutex, &cs35l41->fw_mutex) {
++			cs35l41_hda_pause_start(dev);
 +		}
- 		device_del(&codec->dev);
- 		snd_hdac_bus_remove_device(codec->bus, codec);
- 	}
-@@ -411,25 +411,22 @@ int snd_hdac_refresh_widgets(struct hdac_device *codec)
- 	 * Serialize against multiple threads trying to update the sysfs
- 	 * widgets array.
- 	 */
--	mutex_lock(&codec->widget_lock);
-+	guard(mutex)(&codec->widget_lock);
- 	nums = snd_hdac_get_sub_nodes(codec, codec->afg, &start_nid);
- 	if (!start_nid || nums <= 0 || nums >= 0xff) {
- 		dev_err(&codec->dev, "cannot read sub nodes for FG 0x%02x\n",
- 			codec->afg);
--		err = -EINVAL;
--		goto unlock;
-+		return -EINVAL;
- 	}
+ 		break;
+ 	default:
+ 		break;
+@@ -813,24 +812,24 @@ static void cs35l41_hda_playback_hook(struct device *dev, int action)
+ 		pm_runtime_get_sync(dev);
+ 		break;
+ 	case HDA_GEN_PCM_ACT_PREPARE:
+-		mutex_lock(&cs35l41->fw_mutex);
+-		cs35l41_hda_play_start(dev);
+-		mutex_unlock(&cs35l41->fw_mutex);
++		scoped_guard(mutex, &cs35l41->fw_mutex) {
++			cs35l41_hda_play_start(dev);
++		}
+ 		break;
+ 	case HDA_GEN_PCM_ACT_CLEANUP:
+-		mutex_lock(&cs35l41->fw_mutex);
+-		cs35l41_hda_pause_done(dev);
+-		mutex_unlock(&cs35l41->fw_mutex);
++		scoped_guard(mutex, &cs35l41->fw_mutex) {
++			cs35l41_hda_pause_done(dev);
++		}
+ 		break;
+ 	case HDA_GEN_PCM_ACT_CLOSE:
+-		mutex_lock(&cs35l41->fw_mutex);
+-		if (!cs35l41->cs_dsp.running && cs35l41->request_fw_load &&
+-		    !cs35l41->fw_request_ongoing) {
+-			dev_info(dev, "Requesting Firmware Load after HDA_GEN_PCM_ACT_CLOSE\n");
+-			cs35l41->fw_request_ongoing = true;
+-			schedule_work(&cs35l41->fw_load_work);
++		scoped_guard(mutex, &cs35l41->fw_mutex) {
++			if (!cs35l41->cs_dsp.running && cs35l41->request_fw_load &&
++			    !cs35l41->fw_request_ongoing) {
++				dev_info(dev, "Requesting Firmware Load after HDA_GEN_PCM_ACT_CLOSE\n");
++				cs35l41->fw_request_ongoing = true;
++				schedule_work(&cs35l41->fw_load_work);
++			}
+ 		}
+-		mutex_unlock(&cs35l41->fw_mutex);
  
- 	err = hda_widget_sysfs_reinit(codec, start_nid, nums);
- 	if (err < 0)
--		goto unlock;
-+		return err;
+ 		/*
+ 		 * Playback must be finished for all amps before we start runtime suspend.
+@@ -849,9 +848,9 @@ static void cs35l41_hda_post_playback_hook(struct device *dev, int action)
  
- 	codec->num_nodes = nums;
- 	codec->start_nid = start_nid;
- 	codec->end_nid = start_nid + nums;
--unlock:
--	mutex_unlock(&codec->widget_lock);
--	return err;
-+	return 0;
+ 	switch (action) {
+ 	case HDA_GEN_PCM_ACT_PREPARE:
+-		mutex_lock(&cs35l41->fw_mutex);
+-		cs35l41_hda_play_done(dev);
+-		mutex_unlock(&cs35l41->fw_mutex);
++		scoped_guard(mutex, &cs35l41->fw_mutex) {
++			cs35l41_hda_play_done(dev);
++		}
+ 		break;
+ 	default:
+ 		break;
+@@ -917,13 +916,12 @@ static int cs35l41_verify_id(struct cs35l41_hda *cs35l41, unsigned int *regid, u
+ 
+ static int cs35l41_ready_for_reset(struct cs35l41_hda *cs35l41)
+ {
+-	mutex_lock(&cs35l41->fw_mutex);
++	guard(mutex)(&cs35l41->fw_mutex);
+ 	if (cs35l41->cs_dsp.running) {
+ 		cs35l41->cs_dsp.running = false;
+ 		cs35l41->cs_dsp.booted = false;
+ 	}
+ 	regcache_mark_dirty(cs35l41->regmap);
+-	mutex_unlock(&cs35l41->fw_mutex);
+ 
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(snd_hdac_refresh_widgets);
- 
-diff --git a/sound/hda/core/ext/controller.c b/sound/hda/core/ext/controller.c
-index c84754434d16..9eea3ea2dae0 100644
---- a/sound/hda/core/ext/controller.c
-+++ b/sound/hda/core/ext/controller.c
-@@ -300,7 +300,7 @@ int snd_hdac_ext_bus_link_get(struct hdac_bus *bus,
- 	unsigned long codec_mask;
- 	int ret = 0;
- 
--	mutex_lock(&bus->lock);
-+	guard(mutex)(&bus->lock);
- 
- 	/*
- 	 * if we move from 0 to 1, count will be 1 so power up this link
-@@ -331,7 +331,6 @@ int snd_hdac_ext_bus_link_get(struct hdac_bus *bus,
- 			bus->codec_mask = codec_mask;
+@@ -939,10 +937,9 @@ static int cs35l41_system_suspend_prep(struct device *dev)
+ 		return 0; /* don't block the whole system suspend */
  	}
  
--	mutex_unlock(&bus->lock);
+-	mutex_lock(&cs35l41->fw_mutex);
++	guard(mutex)(&cs35l41->fw_mutex);
+ 	if (cs35l41->playback_started)
+ 		cs35l41_hda_pause_start(dev);
+-	mutex_unlock(&cs35l41->fw_mutex);
+ 
+ 	return 0;
+ }
+@@ -959,10 +956,10 @@ static int cs35l41_system_suspend(struct device *dev)
+ 		return 0; /* don't block the whole system suspend */
+ 	}
+ 
+-	mutex_lock(&cs35l41->fw_mutex);
+-	if (cs35l41->playback_started)
+-		cs35l41_hda_pause_done(dev);
+-	mutex_unlock(&cs35l41->fw_mutex);
++	scoped_guard(mutex, &cs35l41->fw_mutex) {
++		if (cs35l41->playback_started)
++			cs35l41_hda_pause_done(dev);
++	}
+ 
+ 	ret = pm_runtime_force_suspend(dev);
+ 	if (ret) {
+@@ -1047,13 +1044,12 @@ static int cs35l41_system_resume(struct device *dev)
+ 		return ret;
+ 	}
+ 
+-	mutex_lock(&cs35l41->fw_mutex);
++	guard(mutex)(&cs35l41->fw_mutex);
+ 
+ 	if (cs35l41->request_fw_load && !cs35l41->fw_request_ongoing) {
+ 		cs35l41->fw_request_ongoing = true;
+ 		schedule_work(&cs35l41->fw_load_work);
+ 	}
+-	mutex_unlock(&cs35l41->fw_mutex);
+ 
  	return ret;
  }
- EXPORT_SYMBOL_GPL(snd_hdac_ext_bus_link_get);
-@@ -343,7 +342,7 @@ int snd_hdac_ext_bus_link_put(struct hdac_bus *bus,
- 	struct hdac_ext_link *hlink_tmp;
- 	bool link_up = false;
+@@ -1070,7 +1066,7 @@ static int cs35l41_runtime_idle(struct device *dev)
+ static int cs35l41_runtime_suspend(struct device *dev)
+ {
+ 	struct cs35l41_hda *cs35l41 = dev_get_drvdata(dev);
+-	int ret = 0;
++	int ret;
  
--	mutex_lock(&bus->lock);
-+	guard(mutex)(&bus->lock);
+ 	dev_dbg(cs35l41->dev, "Runtime Suspend\n");
  
- 	/*
- 	 * if we move from 1 to 0, count will be 0
-@@ -369,7 +368,6 @@ int snd_hdac_ext_bus_link_put(struct hdac_bus *bus,
- 		}
+@@ -1079,13 +1075,13 @@ static int cs35l41_runtime_suspend(struct device *dev)
+ 		return 0;
  	}
  
--	mutex_unlock(&bus->lock);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(snd_hdac_ext_bus_link_put);
-diff --git a/sound/hda/core/regmap.c b/sound/hda/core/regmap.c
-index 97cee096a286..e7b866fc52c1 100644
---- a/sound/hda/core/regmap.c
-+++ b/sound/hda/core/regmap.c
-@@ -425,15 +425,11 @@ EXPORT_SYMBOL_GPL(snd_hdac_regmap_add_vendor_verb);
- static int reg_raw_write(struct hdac_device *codec, unsigned int reg,
- 			 unsigned int val)
- {
--	int err;
--
--	mutex_lock(&codec->regmap_lock);
-+	guard(mutex)(&codec->regmap_lock);
- 	if (!codec->regmap)
--		err = hda_reg_write(codec, reg, val);
-+		return hda_reg_write(codec, reg, val);
- 	else
--		err = regmap_write(codec->regmap, reg, val);
--	mutex_unlock(&codec->regmap_lock);
--	return err;
-+		return regmap_write(codec->regmap, reg, val);
- }
+-	mutex_lock(&cs35l41->fw_mutex);
++	guard(mutex)(&cs35l41->fw_mutex);
  
- /* a helper macro to call @func_call; retry with power-up if failed */
-@@ -466,15 +462,11 @@ EXPORT_SYMBOL_GPL(snd_hdac_regmap_write_raw);
- static int reg_raw_read(struct hdac_device *codec, unsigned int reg,
- 			unsigned int *val, bool uncached)
- {
--	int err;
--
--	mutex_lock(&codec->regmap_lock);
-+	guard(mutex)(&codec->regmap_lock);
- 	if (uncached || !codec->regmap)
--		err = hda_reg_read(codec, reg, val);
-+		return hda_reg_read(codec, reg, val);
- 	else
--		err = regmap_read(codec->regmap, reg, val);
--	mutex_unlock(&codec->regmap_lock);
--	return err;
-+		return regmap_read(codec->regmap, reg, val);
- }
- 
- static int __snd_hdac_regmap_read_raw(struct hdac_device *codec,
-@@ -515,7 +507,7 @@ static int reg_raw_update(struct hdac_device *codec, unsigned int reg,
- 	bool change;
- 	int err;
- 
--	mutex_lock(&codec->regmap_lock);
-+	guard(mutex)(&codec->regmap_lock);
- 	if (codec->regmap) {
- 		err = regmap_update_bits_check(codec->regmap, reg, mask, val,
- 					       &change);
-@@ -533,7 +525,6 @@ static int reg_raw_update(struct hdac_device *codec, unsigned int reg,
- 			}
- 		}
+ 	if (cs35l41->cs_dsp.running) {
+ 		ret = cs35l41_enter_hibernate(cs35l41->dev, cs35l41->regmap,
+ 					      cs35l41->hw_cfg.bst_type);
+ 		if (ret)
+-			goto err;
++			return ret;
+ 	} else {
+ 		cs35l41_safe_reset(cs35l41->regmap, cs35l41->hw_cfg.bst_type);
  	}
--	mutex_unlock(&codec->regmap_lock);
- 	return err;
- }
+@@ -1093,17 +1089,14 @@ static int cs35l41_runtime_suspend(struct device *dev)
+ 	regcache_cache_only(cs35l41->regmap, true);
+ 	regcache_mark_dirty(cs35l41->regmap);
  
-@@ -556,17 +547,14 @@ EXPORT_SYMBOL_GPL(snd_hdac_regmap_update_raw);
- static int reg_raw_update_once(struct hdac_device *codec, unsigned int reg,
- 			       unsigned int mask, unsigned int val)
- {
--	int err = 0;
+-err:
+-	mutex_unlock(&cs35l41->fw_mutex);
 -
- 	if (!codec->regmap)
- 		return reg_raw_update(codec, reg, mask, val);
- 
--	mutex_lock(&codec->regmap_lock);
-+	guard(mutex)(&codec->regmap_lock);
- 	/* Discard any updates to already initialised registers. */
- 	if (!regcache_reg_cached(codec->regmap, reg))
--		err = regmap_update_bits(codec->regmap, reg, mask, val);
--	mutex_unlock(&codec->regmap_lock);
--	return err;
-+		return regmap_update_bits(codec->regmap, reg, mask, val);
+-	return ret;
 +	return 0;
  }
  
- /**
-@@ -593,9 +581,8 @@ EXPORT_SYMBOL_GPL(snd_hdac_regmap_update_raw_once);
-  */
- void snd_hdac_regmap_sync(struct hdac_device *codec)
+ static int cs35l41_runtime_resume(struct device *dev)
  {
--	mutex_lock(&codec->regmap_lock);
-+	guard(mutex)(&codec->regmap_lock);
- 	if (codec->regmap)
- 		regcache_sync(codec->regmap);
--	mutex_unlock(&codec->regmap_lock);
+ 	struct cs35l41_hda *cs35l41 = dev_get_drvdata(dev);
+ 	unsigned int regid, reg_revid;
+-	int ret = 0;
++	int ret;
+ 
+ 	dev_dbg(cs35l41->dev, "Runtime Resume\n");
+ 
+@@ -1112,7 +1105,7 @@ static int cs35l41_runtime_resume(struct device *dev)
+ 		return 0;
+ 	}
+ 
+-	mutex_lock(&cs35l41->fw_mutex);
++	guard(mutex)(&cs35l41->fw_mutex);
+ 
+ 	regcache_cache_only(cs35l41->regmap, false);
+ 
+@@ -1120,13 +1113,13 @@ static int cs35l41_runtime_resume(struct device *dev)
+ 		ret = cs35l41_exit_hibernate(cs35l41->dev, cs35l41->regmap);
+ 		if (ret) {
+ 			dev_warn(cs35l41->dev, "Unable to exit Hibernate.");
+-			goto err;
++			return ret;
+ 		}
+ 	}
+ 
+ 	ret = cs35l41_verify_id(cs35l41, &regid, &reg_revid);
+ 	if (ret)
+-		goto err;
++		return ret;
+ 
+ 	/* Test key needs to be unlocked to allow the OTP settings to re-apply */
+ 	cs35l41_test_key_unlock(cs35l41->dev, cs35l41->regmap);
+@@ -1134,7 +1127,7 @@ static int cs35l41_runtime_resume(struct device *dev)
+ 	cs35l41_test_key_lock(cs35l41->dev, cs35l41->regmap);
+ 	if (ret) {
+ 		dev_err(cs35l41->dev, "Failed to restore register cache: %d\n", ret);
+-		goto err;
++		return ret;
+ 	}
+ 
+ 	if (cs35l41->hw_cfg.bst_type == CS35L41_EXT_BOOST)
+@@ -1142,22 +1135,14 @@ static int cs35l41_runtime_resume(struct device *dev)
+ 
+ 	dev_dbg(cs35l41->dev, "CS35L41 Resumed (%x), Revision: %02X\n", regid, reg_revid);
+ 
+-err:
+-	mutex_unlock(&cs35l41->fw_mutex);
+-
+-	return ret;
++	return 0;
  }
- EXPORT_SYMBOL_GPL(snd_hdac_regmap_sync);
+ 
+ static int cs35l41_hda_read_ctl(struct cs_dsp *dsp, const char *name, int type,
+ 				unsigned int alg, void *buf, size_t len)
+ {
+-	int ret;
+-
+-	mutex_lock(&dsp->pwr_lock);
+-	ret = cs_dsp_coeff_read_ctrl(cs_dsp_get_ctl(dsp, name, type, alg), 0, buf, len);
+-	mutex_unlock(&dsp->pwr_lock);
+-
+-	return ret;
++	guard(mutex)(&dsp->pwr_lock);
++	return cs_dsp_coeff_read_ctrl(cs_dsp_get_ctl(dsp, name, type, alg), 0, buf, len);
+ }
+ 
+ static int cs35l41_smart_amp(struct cs35l41_hda *cs35l41)
+@@ -1272,16 +1257,15 @@ static void cs35l41_fw_load_work(struct work_struct *work)
+ 
+ 	pm_runtime_get_sync(cs35l41->dev);
+ 
+-	mutex_lock(&cs35l41->fw_mutex);
++	scoped_guard(mutex, &cs35l41->fw_mutex) {
++		/* Recheck if playback is ongoing, mutex will block playback during firmware loading */
++		if (cs35l41->playback_started)
++			dev_err(cs35l41->dev, "Cannot Load/Unload firmware during Playback. Retrying...\n");
++		else
++			cs35l41_load_firmware(cs35l41, cs35l41->request_fw_load);
+ 
+-	/* Recheck if playback is ongoing, mutex will block playback during firmware loading */
+-	if (cs35l41->playback_started)
+-		dev_err(cs35l41->dev, "Cannot Load/Unload firmware during Playback. Retrying...\n");
+-	else
+-		cs35l41_load_firmware(cs35l41, cs35l41->request_fw_load);
+-
+-	cs35l41->fw_request_ongoing = false;
+-	mutex_unlock(&cs35l41->fw_mutex);
++		cs35l41->fw_request_ongoing = false;
++	}
+ 
+ 	pm_runtime_put_autosuspend(cs35l41->dev);
+ }
 -- 
 2.50.1
 
