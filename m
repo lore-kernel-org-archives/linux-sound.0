@@ -1,78 +1,78 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA37E1F3B98
-	for <linux-sound@vger.kernel.org>; Mon, 11 Aug 2025 10:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9142D1F3B98
+	for <linux-sound@vger.kernel.org>; Mon, 11 Aug 2025 10:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754906918; cv=none; b=h0dhTB2AB8G70IO9duDaFXVJNkeIKILbo/KBKPYSiK9KPJfrMD7n98sP5NUs972aR7kOqD9C8BwRTVKLkUlto4Wfikaf56obNdwgqLN60nNNamiRwuUniSnvKv7/So2gOnbM3RwZS6GPglKId4nBsyAfojDx6ev35TzWPZ1rYCU=
+	t=1754906921; cv=none; b=aWNnTqMrEN0ZKQTncYDG7RtI/cCHep+V45R3thzKXq5I3xx+M34+1jDgogLeEEJ9HY/xAc2iCJplqz+OV5A9Lq16/DEqbHGGHqMy4GncIZF2zlDPoir5RrNDEKXqdDa8roOurfw/adQOMOVQWUNwEGSAPMrOIxwL/uWnEF9Tr5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754906918; c=relaxed/simple;
-	bh=v4JB+6Ho7/Stx9pmr33SWX+COuP17S6EIf0yS2OiJao=;
+	s=arc-20240116; t=1754906921; c=relaxed/simple;
+	bh=YS9MgRrRZSpc785KyfV/mBP5nkNwEb0+MbSgwv3NHYY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qtMpP8AJS39wIAEfMeyXhI2/6i8ArVUHj0d4latXkgDZ913GZuNL6CDZdu5XmIhIDAj2J6zQqur/OLxp7e54gp/kKFIx1D7mb875aDLypOAZNX4iYMkfm3aibtO4KPX1KhueiB4/Ib2j5da+S6lIT8BNDxstvzLAlL/MxcK3Zmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=t7Xj+snW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rYOMnquG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SfWjMCvQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hAJOXdlG; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=DfdU4J2I52x/55GJfvdYVfjaVhn59T/dW9cgeCsaRJb78NIVSWjuGbdxPjsijlvceRGcImw2bCk4YK3mvJ4a65jjuxWvVjqXx6ShvtyAe11MXFonY6r8Kj0ac60E95779GWdphoPZxFGWZ5aOdtm2yMx3U54bl3HGq3ARAX7fr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Zt5asu7x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KeHfk2QJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Zt5asu7x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KeHfk2QJ; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="t7Xj+snW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rYOMnquG";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SfWjMCvQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hAJOXdlG"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zt5asu7x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KeHfk2QJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zt5asu7x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KeHfk2QJ"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 656685BDFD;
-	Mon, 11 Aug 2025 10:08:13 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6A1F633E39;
+	Mon, 11 Aug 2025 10:08:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754906894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1754906895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=e+4lQtZ+rod3EbMhqnjmYK/qxz/RuZ+rgkP6wJv4H5c=;
-	b=t7Xj+snWoCSOxjpApZF/BWkBT4nggBfJyO2FAMQBVEv1CKZaMzRqIDu9lFEdfQJ9lEx56R
-	t+us8Z4qLekEPQ7zOym0w/Hh4PfgFpCrWNgaMv93uHUr5gqhQjErrm9azfcRSMuLKwrIza
-	kPtx66pV3FXlgW/Wmf4p/bc+t7cjKew=
+	bh=hT27mOuPfoKdGY0u6FcqYcrNF/VD0kf3y92LgGXszlU=;
+	b=Zt5asu7xzkQ0e/58xyUlvw5k969EyxXbsfTHo9HCiL1G6mzDQsQ/N0A5eOUpQxGd2rOrns
+	fcDg9hUtkjyvT1fflQggyHwIBKrwFnziiWq3hKo6Lt1T1ye8zDSx71cuI4bkQduvf2oThy
+	D3fWBFd+Rc2jAAHjEjNmwabULiQXhr4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754906894;
+	s=susede2_ed25519; t=1754906895;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=e+4lQtZ+rod3EbMhqnjmYK/qxz/RuZ+rgkP6wJv4H5c=;
-	b=rYOMnquGrgBF42e7mILLlLQcPgncdsBU1PITNlzrrD4NNoJBr6c7H5Cc7Hilz0rbwMStrJ
-	YFDJxV33aCeGt9Ag==
-Authentication-Results: smtp-out2.suse.de;
+	bh=hT27mOuPfoKdGY0u6FcqYcrNF/VD0kf3y92LgGXszlU=;
+	b=KeHfk2QJ2wCTDdet02fQ0ORBf1TJAw2nvTgopxyDSa4yxQDTQgunSfzohI39toUOdkIV/W
+	IqELtF9sbQa3xrBw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754906893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1754906895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=e+4lQtZ+rod3EbMhqnjmYK/qxz/RuZ+rgkP6wJv4H5c=;
-	b=SfWjMCvQZ99tdBO00a10oAzF5moUtOKJ2RIJJqknUBfOKiA5pgOhmqlWW0qYAwutll4V5E
-	rNJb0MIOosiyVQgVfYAuh23ZbrBfWrsl21NJhZz+w9qWGQZAVP+tDIramw9UYDr/qv6Icn
-	oJEdJsjUYhtClShqCZc+4VR7H++FzPs=
+	bh=hT27mOuPfoKdGY0u6FcqYcrNF/VD0kf3y92LgGXszlU=;
+	b=Zt5asu7xzkQ0e/58xyUlvw5k969EyxXbsfTHo9HCiL1G6mzDQsQ/N0A5eOUpQxGd2rOrns
+	fcDg9hUtkjyvT1fflQggyHwIBKrwFnziiWq3hKo6Lt1T1ye8zDSx71cuI4bkQduvf2oThy
+	D3fWBFd+Rc2jAAHjEjNmwabULiQXhr4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754906893;
+	s=susede2_ed25519; t=1754906895;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=e+4lQtZ+rod3EbMhqnjmYK/qxz/RuZ+rgkP6wJv4H5c=;
-	b=hAJOXdlG/X5yiQy/nuwBMb+whb4iJlu3KgYgSJl+PXdlv0gt/pERdC9beygbvQSDIUtIX1
-	eqBj/ipVlAQeY4Bg==
+	bh=hT27mOuPfoKdGY0u6FcqYcrNF/VD0kf3y92LgGXszlU=;
+	b=KeHfk2QJ2wCTDdet02fQ0ORBf1TJAw2nvTgopxyDSa4yxQDTQgunSfzohI39toUOdkIV/W
+	IqELtF9sbQa3xrBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2C17E13A9B;
-	Mon, 11 Aug 2025 10:08:13 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3335213479;
+	Mon, 11 Aug 2025 10:08:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MN2JCQ3BmWiVBwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 11 Aug 2025 10:08:13 +0000
+	id mM5MCw/BmWiVBwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 11 Aug 2025 10:08:15 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: David Rhodes <david.rhodes@cirrus.com>,
@@ -81,9 +81,9 @@ Cc: David Rhodes <david.rhodes@cirrus.com>,
 	Shenghao Ding <shenghao-ding@ti.com>,
 	Kevin Lu <kevin-lu@ti.com>,
 	Baojun Xu <baojun.xu@ti.com>
-Subject: [PATCH 02/25] ALSA: hda/ca0132: Use cleanup macros for PM controls
-Date: Mon, 11 Aug 2025 12:07:36 +0200
-Message-ID: <20250811100807.7962-3-tiwai@suse.de>
+Subject: [PATCH 10/25] ALSA: hda/hdmi: Use guard() for mutex locks
+Date: Mon, 11 Aug 2025 12:07:44 +0200
+Message-ID: <20250811100807.7962-11-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250811100807.7962-1-tiwai@suse.de>
 References: <20250811100807.7962-1-tiwai@suse.de>
@@ -94,6 +94,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -107,7 +108,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_COUNT_TWO(0.00)[2];
@@ -116,406 +117,486 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	R_RATELIMIT(0.00)[to_ip_from(RLf66hkhxcz6y1w5afddqk81z3)];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-Spam-Score: -2.80
 
-The new macro CLASS(snd_hda_power) can replace the manual
-snd_hda_power_up() and _down() calls as well as the *_pm_*() variants
-gracefully.
+Replace the manual mutex lock/unlock pairs with guard().
+
+Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/ca0132.c | 106 ++++++++++++++------------------------
- 1 file changed, 39 insertions(+), 67 deletions(-)
+ sound/hda/codecs/hdmi/hdmi.c       | 170 +++++++++++------------------
+ sound/hda/codecs/hdmi/nvhdmi-mcp.c |   3 +-
+ 2 files changed, 63 insertions(+), 110 deletions(-)
 
-diff --git a/sound/hda/codecs/ca0132.c b/sound/hda/codecs/ca0132.c
-index b7d456e16c93..f5ad8a5777b4 100644
---- a/sound/hda/codecs/ca0132.c
-+++ b/sound/hda/codecs/ca0132.c
-@@ -4244,11 +4244,10 @@ static int tuning_ctl_set(struct hda_codec *codec, hda_nid_t nid,
+diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
+index 4b5d20f0fbe4..d02a47562208 100644
+--- a/sound/hda/codecs/hdmi/hdmi.c
++++ b/sound/hda/codecs/hdmi/hdmi.c
+@@ -145,18 +145,15 @@ static int hdmi_eld_ctl_info(struct snd_kcontrol *kcontrol,
+ 	uinfo->type = SNDRV_CTL_ELEM_TYPE_BYTES;
  
- 	return -EINVAL;
- found:
--	snd_hda_power_up(codec);
-+	CLASS(snd_hda_power, pm)(codec);
- 	dspio_set_param(codec, ca0132_tuning_ctls[i].mid, 0x20,
- 			ca0132_tuning_ctls[i].req,
- 			&(lookup[idx]), sizeof(unsigned int));
--	snd_hda_power_down(codec);
- 
- 	return 1;
- }
-@@ -4465,7 +4464,7 @@ static int ca0132_select_out(struct hda_codec *codec)
- 
- 	codec_dbg(codec, "ca0132_select_out\n");
- 
--	snd_hda_power_up_pm(codec);
-+	CLASS(snd_hda_power_pm, pm)(codec);
- 
- 	auto_jack = spec->vnode_lswitch[VNID_HP_ASEL - VNODE_START_NID];
- 
-@@ -4486,12 +4485,12 @@ static int ca0132_select_out(struct hda_codec *codec)
- 		tmp = FLOAT_ONE;
- 		err = dspio_set_uint_param(codec, 0x80, 0x04, tmp);
- 		if (err < 0)
--			goto exit;
-+			return err;
- 		/*enable speaker EQ*/
- 		tmp = FLOAT_ONE;
- 		err = dspio_set_uint_param(codec, 0x8f, 0x00, tmp);
- 		if (err < 0)
--			goto exit;
-+			return err;
- 
- 		/* Setup EAPD */
- 		snd_hda_codec_write(codec, spec->out_pins[1], 0,
-@@ -4519,12 +4518,12 @@ static int ca0132_select_out(struct hda_codec *codec)
- 		tmp = FLOAT_ZERO;
- 		err = dspio_set_uint_param(codec, 0x80, 0x04, tmp);
- 		if (err < 0)
--			goto exit;
-+			return err;
- 		/*disable speaker EQ*/
- 		tmp = FLOAT_ZERO;
- 		err = dspio_set_uint_param(codec, 0x8f, 0x00, tmp);
- 		if (err < 0)
--			goto exit;
-+			return err;
- 
- 		/* Setup EAPD */
- 		snd_hda_codec_write(codec, spec->out_pins[0], 0,
-@@ -4548,10 +4547,7 @@ static int ca0132_select_out(struct hda_codec *codec)
- 				    pin_ctl | PIN_HP);
+ 	pcm_idx = kcontrol->private_value;
+-	mutex_lock(&spec->pcm_lock);
++	guard(mutex)(&spec->pcm_lock);
+ 	per_pin = pcm_idx_to_pin(spec, pcm_idx);
+ 	if (!per_pin) {
+ 		/* no pin is bound to the pcm */
+ 		uinfo->count = 0;
+-		goto unlock;
++		return 0;
  	}
- 
--exit:
--	snd_hda_power_down_pm(codec);
+ 	eld = &per_pin->sink_eld;
+ 	uinfo->count = eld->eld_valid ? eld->eld_size : 0;
 -
--	return err < 0 ? err : 0;
-+	return 0;
- }
- 
- static int ae5_headphone_gain_set(struct hda_codec *codec, long val);
-@@ -4775,7 +4771,7 @@ static int ca0132_alt_select_out(struct hda_codec *codec)
- 
- 	codec_dbg(codec, "%s\n", __func__);
- 
--	snd_hda_power_up_pm(codec);
-+	CLASS(snd_hda_power_pm, pm)(codec);
- 
- 	auto_jack = spec->vnode_lswitch[VNID_HP_ASEL - VNODE_START_NID];
- 
-@@ -4800,11 +4796,11 @@ static int ca0132_alt_select_out(struct hda_codec *codec)
- 	/* Begin DSP output switch, mute DSP volume. */
- 	err = dspio_set_uint_param(codec, 0x96, SPEAKER_TUNING_MUTE, FLOAT_ONE);
- 	if (err < 0)
--		goto exit;
-+		return err;
- 
- 	err = ca0132_alt_select_out_quirk_set(codec);
- 	if (err < 0)
--		goto exit;
-+		return err;
- 
- 	switch (spec->cur_out_type) {
- 	case SPEAKER_OUT:
-@@ -4835,7 +4831,7 @@ static int ca0132_alt_select_out(struct hda_codec *codec)
- 
- 		err = dspio_set_uint_param(codec, 0x80, 0x04, tmp);
- 		if (err < 0)
--			goto exit;
-+			return err;
- 
- 		break;
- 	case HEADPHONE_OUT:
-@@ -4862,7 +4858,7 @@ static int ca0132_alt_select_out(struct hda_codec *codec)
- 			err = dspio_set_uint_param(codec, 0x80, 0x04, FLOAT_ZERO);
- 
- 		if (err < 0)
--			goto exit;
-+			return err;
- 		break;
- 	}
- 	/*
-@@ -4877,7 +4873,7 @@ static int ca0132_alt_select_out(struct hda_codec *codec)
- 	/* Set speaker EQ bypass attenuation to 0. */
- 	err = dspio_set_uint_param(codec, 0x8f, 0x01, FLOAT_ZERO);
- 	if (err < 0)
--		goto exit;
-+		return err;
- 
- 	/*
- 	 * Although unused on all cards but the AE series, this is always set
-@@ -4886,7 +4882,7 @@ static int ca0132_alt_select_out(struct hda_codec *codec)
- 	err = dspio_set_uint_param(codec, 0x96,
- 			SPEAKER_TUNING_USE_SPEAKER_EQ, FLOAT_ZERO);
- 	if (err < 0)
--		goto exit;
-+		return err;
- 
- 	if (spec->cur_out_type == SPEAKER_OUT)
- 		err = ca0132_alt_surround_set_bass_redirection(codec,
-@@ -4894,24 +4890,21 @@ static int ca0132_alt_select_out(struct hda_codec *codec)
- 	else
- 		err = ca0132_alt_surround_set_bass_redirection(codec, 0);
- 	if (err < 0)
--		goto exit;
-+		return err;
- 
- 	/* Unmute DSP now that we're done with output selection. */
- 	err = dspio_set_uint_param(codec, 0x96,
- 			SPEAKER_TUNING_MUTE, FLOAT_ZERO);
- 	if (err < 0)
--		goto exit;
-+		return err;
- 
- 	if (spec->cur_out_type == SPEAKER_OUT) {
- 		err = ca0132_alt_set_full_range_speaker(codec);
- 		if (err < 0)
--			goto exit;
-+			return err;
- 	}
- 
--exit:
--	snd_hda_power_down_pm(codec);
--
--	return err < 0 ? err : 0;
-+	return 0;
- }
- 
- static void ca0132_unsol_hp_delayed(struct work_struct *work)
-@@ -5059,7 +5052,7 @@ static int ca0132_select_mic(struct hda_codec *codec)
- 
- 	codec_dbg(codec, "ca0132_select_mic\n");
- 
--	snd_hda_power_up_pm(codec);
-+	CLASS(snd_hda_power_pm, pm)(codec);
- 
- 	auto_jack = spec->vnode_lswitch[VNID_AMIC1_ASEL - VNODE_START_NID];
- 
-@@ -5092,8 +5085,6 @@ static int ca0132_select_mic(struct hda_codec *codec)
- 		ca0132_effects_set(codec, VOICE_FOCUS, 0);
- 	}
- 
--	snd_hda_power_down_pm(codec);
--
+- unlock:
+-	mutex_unlock(&spec->pcm_lock);
  	return 0;
  }
  
-@@ -5110,7 +5101,7 @@ static int ca0132_alt_select_in(struct hda_codec *codec)
+@@ -168,24 +165,22 @@ static int hdmi_eld_ctl_get(struct snd_kcontrol *kcontrol,
+ 	struct hdmi_spec_per_pin *per_pin;
+ 	struct hdmi_eld *eld;
+ 	int pcm_idx;
+-	int err = 0;
  
- 	codec_dbg(codec, "%s\n", __func__);
- 
--	snd_hda_power_up_pm(codec);
-+	CLASS(snd_hda_power_pm, pm)(codec);
- 
- 	chipio_set_stream_control(codec, 0x03, 0);
- 	chipio_set_stream_control(codec, 0x04, 0);
-@@ -5273,7 +5264,6 @@ static int ca0132_alt_select_in(struct hda_codec *codec)
+ 	pcm_idx = kcontrol->private_value;
+-	mutex_lock(&spec->pcm_lock);
++	guard(mutex)(&spec->pcm_lock);
+ 	per_pin = pcm_idx_to_pin(spec, pcm_idx);
+ 	if (!per_pin) {
+ 		/* no pin is bound to the pcm */
+ 		memset(ucontrol->value.bytes.data, 0,
+ 		       ARRAY_SIZE(ucontrol->value.bytes.data));
+-		goto unlock;
++		return 0;
  	}
- 	ca0132_cvoice_switch_set(codec);
  
--	snd_hda_power_down_pm(codec);
- 	return 0;
+ 	eld = &per_pin->sink_eld;
+ 	if (eld->eld_size > ARRAY_SIZE(ucontrol->value.bytes.data) ||
+ 	    eld->eld_size > ELD_MAX_SIZE) {
+ 		snd_BUG();
+-		err = -EINVAL;
+-		goto unlock;
++		return -EINVAL;
+ 	}
+ 
+ 	memset(ucontrol->value.bytes.data, 0,
+@@ -193,10 +188,7 @@ static int hdmi_eld_ctl_get(struct snd_kcontrol *kcontrol,
+ 	if (eld->eld_valid)
+ 		memcpy(ucontrol->value.bytes.data, eld->eld_buffer,
+ 		       eld->eld_size);
+-
+- unlock:
+-	mutex_unlock(&spec->pcm_lock);
+-	return err;
++	return 0;
  }
  
-@@ -5611,12 +5601,10 @@ static int ca0132_vnode_switch_set(struct snd_kcontrol *kcontrol,
- static void ca0132_alt_bass_redirection_xover_set(struct hda_codec *codec,
- 		long idx)
+ static const struct snd_kcontrol_new eld_bytes_ctl = {
+@@ -295,10 +287,9 @@ static void print_eld_info(struct snd_info_entry *entry,
  {
--	snd_hda_power_up(codec);
-+	CLASS(snd_hda_power, pm)(codec);
+ 	struct hdmi_spec_per_pin *per_pin = entry->private_data;
  
- 	dspio_set_param(codec, 0x96, 0x20, SPEAKER_BASS_REDIRECT_XOVER_FREQ,
- 			&(float_xbass_xover_lookup[idx]), sizeof(unsigned int));
--
--	snd_hda_power_down(codec);
+-	mutex_lock(&per_pin->lock);
++	guard(mutex)(&per_pin->lock);
+ 	snd_hdmi_print_eld_info(&per_pin->sink_eld, buffer, per_pin->pin_nid,
+ 				per_pin->dev_id, per_pin->cvt_nid);
+-	mutex_unlock(&per_pin->lock);
+ }
+ 
+ static void write_eld_info(struct snd_info_entry *entry,
+@@ -306,9 +297,8 @@ static void write_eld_info(struct snd_info_entry *entry,
+ {
+ 	struct hdmi_spec_per_pin *per_pin = entry->private_data;
+ 
+-	mutex_lock(&per_pin->lock);
++	guard(mutex)(&per_pin->lock);
+ 	snd_hdmi_write_eld_info(&per_pin->sink_eld, buffer);
+-	mutex_unlock(&per_pin->lock);
+ }
+ 
+ static int eld_proc_new(struct hdmi_spec_per_pin *per_pin, int index)
+@@ -599,9 +589,8 @@ void snd_hda_hdmi_check_presence_and_report(struct hda_codec *codec,
+ 
+ 	if (pin_idx < 0)
+ 		return;
+-	mutex_lock(&spec->pcm_lock);
++	guard(mutex)(&spec->pcm_lock);
+ 	hdmi_present_sense(get_pin(spec, pin_idx), 1);
+-	mutex_unlock(&spec->pcm_lock);
+ }
+ EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_check_presence_and_report,
+ 		     "SND_HDA_CODEC_HDMI");
+@@ -907,19 +896,17 @@ static int hdmi_pcm_open(struct hda_pcm_stream *hinfo,
+ 	if (pcm_idx < 0)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&spec->pcm_lock);
++	guard(mutex)(&spec->pcm_lock);
+ 	pin_idx = hinfo_to_pin_index(codec, hinfo);
+ 	/* no pin is assigned to the PCM
+ 	 * PA need pcm open successfully when probe
+ 	 */
+-	if (pin_idx < 0) {
+-		err = hdmi_pcm_open_no_pin(hinfo, codec, substream);
+-		goto unlock;
+-	}
++	if (pin_idx < 0)
++		return hdmi_pcm_open_no_pin(hinfo, codec, substream);
+ 
+ 	err = hdmi_choose_cvt(codec, pin_idx, &cvt_idx, false);
+ 	if (err < 0)
+-		goto unlock;
++		return err;
+ 
+ 	per_cvt = get_cvt(spec, cvt_idx);
+ 	/* Claim converter */
+@@ -960,8 +947,7 @@ static int hdmi_pcm_open(struct hda_pcm_stream *hinfo,
+ 			per_cvt->assigned = false;
+ 			hinfo->nid = 0;
+ 			snd_hda_spdif_ctls_unassign(codec, pcm_idx);
+-			err = -ENODEV;
+-			goto unlock;
++			return -ENODEV;
+ 		}
+ 	}
+ 
+@@ -973,9 +959,7 @@ static int hdmi_pcm_open(struct hda_pcm_stream *hinfo,
+ 
+ 	snd_pcm_hw_constraint_step(substream->runtime, 0,
+ 				   SNDRV_PCM_HW_PARAM_CHANNELS, 2);
+- unlock:
+-	mutex_unlock(&spec->pcm_lock);
+-	return err;
++	return 0;
  }
  
  /*
-@@ -5642,7 +5630,7 @@ static int ca0132_alt_slider_ctl_set(struct hda_codec *codec, hda_nid_t nid,
- 	else
- 		y = 1;
+@@ -1282,7 +1266,7 @@ static void hdmi_present_sense_via_verbs(struct hdmi_spec_per_pin *per_pin,
  
--	snd_hda_power_up(codec);
-+	CLASS(snd_hda_power, pm)(codec);
- 	if (nid == XBASS_XOVER) {
- 		for (i = 0; i < OUT_EFFECTS_COUNT; i++)
- 			if (ca0132_effects[i].nid == X_BASS)
-@@ -5662,8 +5650,6 @@ static int ca0132_alt_slider_ctl_set(struct hda_codec *codec, hda_nid_t nid,
- 				&(lookup[idx]), sizeof(unsigned int));
+ 	present = snd_hda_jack_pin_sense(codec, pin_nid, dev_id);
+ 
+-	mutex_lock(&per_pin->lock);
++	guard(mutex)(&per_pin->lock);
+ 	eld->monitor_present = !!(present & AC_PINSENSE_PRESENCE);
+ 	if (eld->monitor_present)
+ 		eld->eld_valid  = !!(present & AC_PINSENSE_ELDV);
+@@ -1300,7 +1284,6 @@ static void hdmi_present_sense_via_verbs(struct hdmi_spec_per_pin *per_pin,
  	}
  
--	snd_hda_power_down(codec);
+ 	update_eld(codec, per_pin, eld, repoll);
+-	mutex_unlock(&per_pin->lock);
+ }
+ 
+ static void silent_stream_enable(struct hda_codec *codec,
+@@ -1322,19 +1305,18 @@ static void silent_stream_enable(struct hda_codec *codec,
+ 		return;
+ 	}
+ 
+-	mutex_lock(&per_pin->lock);
++	guard(mutex)(&per_pin->lock);
+ 
+ 	if (per_pin->setup) {
+ 		codec_dbg(codec, "hdmi: PCM already open, no silent stream\n");
+-		err = -EBUSY;
+-		goto unlock_out;
++		return;
+ 	}
+ 
+ 	pin_idx = pin_id_to_pin_index(codec, per_pin->pin_nid, per_pin->dev_id);
+ 	err = hdmi_choose_cvt(codec, pin_idx, &cvt_idx, true);
+ 	if (err) {
+ 		codec_err(codec, "hdmi: no free converter to enable silent mode\n");
+-		goto unlock_out;
++		return;
+ 	}
+ 
+ 	per_cvt = get_cvt(spec, cvt_idx);
+@@ -1354,9 +1336,6 @@ static void silent_stream_enable(struct hda_codec *codec,
+ 	pin_cvt_fixup(codec, per_pin, 0);
+ 
+ 	spec->ops.silent_stream(codec, per_pin, true);
 -
+- unlock_out:
+-	mutex_unlock(&per_pin->lock);
+ }
+ 
+ static void silent_stream_disable(struct hda_codec *codec,
+@@ -1374,9 +1353,9 @@ static void silent_stream_disable(struct hda_codec *codec,
+ 		return;
+ 	}
+ 
+-	mutex_lock(&per_pin->lock);
++	guard(mutex)(&per_pin->lock);
+ 	if (!per_pin->silent_stream)
+-		goto unlock_out;
++		return;
+ 
+ 	codec_dbg(codec, "HDMI: disable silent stream on pin-NID=0x%x cvt-NID=0x%x\n",
+ 		  per_pin->pin_nid, per_pin->cvt_nid);
+@@ -1391,9 +1370,6 @@ static void silent_stream_disable(struct hda_codec *codec,
+ 
+ 	per_pin->cvt_nid = 0;
+ 	per_pin->silent_stream = false;
+-
+- unlock_out:
+-	mutex_unlock(&per_pin->lock);
+ }
+ 
+ /* update ELD and jack state via audio component */
+@@ -1404,16 +1380,16 @@ static void sync_eld_via_acomp(struct hda_codec *codec,
+ 	struct hdmi_eld *eld = &spec->temp_eld;
+ 	bool monitor_prev, monitor_next;
+ 
+-	mutex_lock(&per_pin->lock);
+-	eld->monitor_present = false;
+-	monitor_prev = per_pin->sink_eld.monitor_present;
+-	eld->eld_size = snd_hdac_acomp_get_eld(&codec->core, per_pin->pin_nid,
+-				      per_pin->dev_id, &eld->monitor_present,
+-				      eld->eld_buffer, ELD_MAX_SIZE);
+-	eld->eld_valid = (eld->eld_size > 0);
+-	update_eld(codec, per_pin, eld, 0);
+-	monitor_next = per_pin->sink_eld.monitor_present;
+-	mutex_unlock(&per_pin->lock);
++	scoped_guard(mutex, &per_pin->lock) {
++		eld->monitor_present = false;
++		monitor_prev = per_pin->sink_eld.monitor_present;
++		eld->eld_size = snd_hdac_acomp_get_eld(&codec->core, per_pin->pin_nid,
++						       per_pin->dev_id, &eld->monitor_present,
++						       eld->eld_buffer, ELD_MAX_SIZE);
++		eld->eld_valid = (eld->eld_size > 0);
++		update_eld(codec, per_pin, eld, 0);
++		monitor_next = per_pin->sink_eld.monitor_present;
++	}
+ 
+ 	if (spec->silent_stream_type) {
+ 		if (!monitor_prev && monitor_next)
+@@ -1449,9 +1425,8 @@ static void hdmi_repoll_eld(struct work_struct *work)
+ 	if (per_pin->repoll_count++ > 6)
+ 		per_pin->repoll_count = 0;
+ 
+-	mutex_lock(&spec->pcm_lock);
++	guard(mutex)(&spec->pcm_lock);
+ 	hdmi_present_sense(per_pin, per_pin->repoll_count);
+-	mutex_unlock(&spec->pcm_lock);
+ }
+ 
+ static int hdmi_add_pin(struct hda_codec *codec, hda_nid_t pin_nid)
+@@ -1645,20 +1620,15 @@ EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_parse_codec, "SND_HDA_CODEC_HDMI");
+ static bool check_non_pcm_per_cvt(struct hda_codec *codec, hda_nid_t cvt_nid)
+ {
+ 	struct hda_spdif_out *spdif;
+-	bool non_pcm;
+ 
+-	mutex_lock(&codec->spdif_mutex);
++	guard(mutex)(&codec->spdif_mutex);
+ 	spdif = snd_hda_spdif_out_of_nid(codec, cvt_nid);
+ 	/* Add sanity check to pass klockwork check.
+ 	 * This should never happen.
+ 	 */
+-	if (WARN_ON(spdif == NULL)) {
+-		mutex_unlock(&codec->spdif_mutex);
++	if (WARN_ON(spdif == NULL))
+ 		return true;
+-	}
+-	non_pcm = !!(spdif->status & IEC958_AES0_NONAUDIO);
+-	mutex_unlock(&codec->spdif_mutex);
+-	return non_pcm;
++	return !!(spdif->status & IEC958_AES0_NONAUDIO);
+ }
+ 
+ /*
+@@ -1678,9 +1648,8 @@ int snd_hda_hdmi_generic_pcm_prepare(struct hda_pcm_stream *hinfo,
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	bool non_pcm;
+ 	int pinctl, stripe;
+-	int err = 0;
+ 
+-	mutex_lock(&spec->pcm_lock);
++	guard(mutex)(&spec->pcm_lock);
+ 	pin_idx = hinfo_to_pin_index(codec, hinfo);
+ 	if (pin_idx < 0) {
+ 		/* when pcm is not bound to a pin skip pin setup and return 0
+@@ -1689,7 +1658,7 @@ int snd_hda_hdmi_generic_pcm_prepare(struct hda_pcm_stream *hinfo,
+ 		pin_cvt_fixup(codec, NULL, cvt_nid);
+ 		snd_hda_codec_setup_stream(codec, cvt_nid,
+ 					stream_tag, 0, format);
+-		goto unlock;
++		return 0;
+ 	}
+ 
+ 	per_pin = get_pin(spec, pin_idx);
+@@ -1711,20 +1680,20 @@ int snd_hda_hdmi_generic_pcm_prepare(struct hda_pcm_stream *hinfo,
+ 					 per_pin->dev_id, runtime->rate);
+ 
+ 	non_pcm = check_non_pcm_per_cvt(codec, cvt_nid);
+-	mutex_lock(&per_pin->lock);
+-	per_pin->channels = substream->runtime->channels;
+-	per_pin->setup = true;
++	scoped_guard(mutex, &per_pin->lock) {
++		per_pin->channels = substream->runtime->channels;
++		per_pin->setup = true;
+ 
+-	if (get_wcaps(codec, cvt_nid) & AC_WCAP_STRIPE) {
+-		stripe = snd_hdac_get_stream_stripe_ctl(&codec->bus->core,
+-							substream);
+-		snd_hda_codec_write(codec, cvt_nid, 0,
+-				    AC_VERB_SET_STRIPE_CONTROL,
+-				    stripe);
++		if (get_wcaps(codec, cvt_nid) & AC_WCAP_STRIPE) {
++			stripe = snd_hdac_get_stream_stripe_ctl(&codec->bus->core,
++								substream);
++			snd_hda_codec_write(codec, cvt_nid, 0,
++					    AC_VERB_SET_STRIPE_CONTROL,
++					    stripe);
++		}
++
++		snd_hda_hdmi_setup_audio_infoframe(codec, per_pin, non_pcm);
+ 	}
+-
+-	snd_hda_hdmi_setup_audio_infoframe(codec, per_pin, non_pcm);
+-	mutex_unlock(&per_pin->lock);
+ 	if (spec->dyn_pin_out) {
+ 		snd_hda_set_dev_select(codec, per_pin->pin_nid,
+ 				       per_pin->dev_id);
+@@ -1736,11 +1705,8 @@ int snd_hda_hdmi_generic_pcm_prepare(struct hda_pcm_stream *hinfo,
+ 	}
+ 
+ 	/* snd_hda_set_dev_select() has been called before */
+-	err = spec->ops.setup_stream(codec, cvt_nid, per_pin->pin_nid,
+-				     per_pin->dev_id, stream_tag, format);
+- unlock:
+-	mutex_unlock(&spec->pcm_lock);
+-	return err;
++	return spec->ops.setup_stream(codec, cvt_nid, per_pin->pin_nid,
++				      per_pin->dev_id, stream_tag, format);
+ }
+ EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_generic_pcm_prepare, "SND_HDA_CODEC_HDMI");
+ 
+@@ -1762,20 +1728,15 @@ static int hdmi_pcm_close(struct hda_pcm_stream *hinfo,
+ 	struct hdmi_spec_per_cvt *per_cvt;
+ 	struct hdmi_spec_per_pin *per_pin;
+ 	int pinctl;
+-	int err = 0;
+ 
+-	mutex_lock(&spec->pcm_lock);
++	guard(mutex)(&spec->pcm_lock);
+ 	if (hinfo->nid) {
+ 		pcm_idx = hinfo_to_pcm_index(codec, hinfo);
+-		if (snd_BUG_ON(pcm_idx < 0)) {
+-			err = -EINVAL;
+-			goto unlock;
+-		}
++		if (snd_BUG_ON(pcm_idx < 0))
++			return -EINVAL;
+ 		cvt_idx = cvt_nid_to_cvt_index(codec, hinfo->nid);
+-		if (snd_BUG_ON(cvt_idx < 0)) {
+-			err = -EINVAL;
+-			goto unlock;
+-		}
++		if (snd_BUG_ON(cvt_idx < 0))
++			return -EINVAL;
+ 		per_cvt = get_cvt(spec, cvt_idx);
+ 		per_cvt->assigned = false;
+ 		hinfo->nid = 0;
+@@ -1790,7 +1751,7 @@ static int hdmi_pcm_close(struct hda_pcm_stream *hinfo,
+ 		 * hdmi_pcm_open()
+ 		 */
+ 		if (pin_idx < 0)
+-			goto unlock;
++			return 0;
+ 
+ 		per_pin = get_pin(spec, pin_idx);
+ 
+@@ -1804,19 +1765,15 @@ static int hdmi_pcm_close(struct hda_pcm_stream *hinfo,
+ 					    pinctl & ~PIN_OUT);
+ 		}
+ 
+-		mutex_lock(&per_pin->lock);
++		guard(mutex)(&per_pin->lock);
+ 		per_pin->chmap_set = false;
+ 		memset(per_pin->chmap, 0, sizeof(per_pin->chmap));
+ 
+ 		per_pin->setup = false;
+ 		per_pin->channels = 0;
+-		mutex_unlock(&per_pin->lock);
+ 	}
+ 
+-unlock:
+-	mutex_unlock(&spec->pcm_lock);
+-
+-	return err;
++	return 0;
+ }
+ 
+ static const struct hda_pcm_ops generic_ops = {
+@@ -1861,12 +1818,11 @@ static void hdmi_set_chmap(struct hdac_device *hdac, int pcm_idx,
+ 
+ 	if (!per_pin)
+ 		return;
+-	mutex_lock(&per_pin->lock);
++	guard(mutex)(&per_pin->lock);
+ 	per_pin->chmap_set = true;
+ 	memcpy(per_pin->chmap, chmap, ARRAY_SIZE(per_pin->chmap));
+ 	if (prepared)
+ 		snd_hda_hdmi_setup_audio_infoframe(codec, per_pin, per_pin->non_pcm);
+-	mutex_unlock(&per_pin->lock);
+ }
+ 
+ static bool is_hdmi_pcm_attached(struct hdac_device *hdac, int pcm_idx)
+@@ -2035,7 +1991,7 @@ int snd_hda_hdmi_generic_init(struct hda_codec *codec)
+ 	struct hdmi_spec *spec = codec->spec;
+ 	int pin_idx;
+ 
+-	mutex_lock(&spec->bind_lock);
++	guard(mutex)(&spec->bind_lock);
+ 	for (pin_idx = 0; pin_idx < spec->num_pins; pin_idx++) {
+ 		struct hdmi_spec_per_pin *per_pin = get_pin(spec, pin_idx);
+ 		hda_nid_t pin_nid = per_pin->pin_nid;
+@@ -2048,7 +2004,6 @@ int snd_hda_hdmi_generic_init(struct hda_codec *codec)
+ 		snd_hda_jack_detect_enable_callback_mst(codec, pin_nid, dev_id,
+ 							jack_callback);
+ 	}
+-	mutex_unlock(&spec->bind_lock);
  	return 0;
  }
+ EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_generic_init, "SND_HDA_CODEC_HDMI");
+@@ -2219,7 +2174,7 @@ static void generic_acomp_notifier_set(struct drm_audio_component *acomp,
+ 	int i;
  
-@@ -6342,12 +6328,11 @@ static int ca0132_switch_put(struct snd_kcontrol *kcontrol,
- 	hda_nid_t nid = get_amp_nid(kcontrol);
- 	int ch = get_amp_channels(kcontrol);
- 	long *valp = ucontrol->value.integer.value;
--	int changed = 1;
- 
- 	codec_dbg(codec, "ca0132_switch_put: nid=0x%x, val=%ld\n",
- 		    nid, *valp);
- 
--	snd_hda_power_up(codec);
-+	CLASS(snd_hda_power, pm)(codec);
- 	/* vnode */
- 	if ((nid >= VNODE_START_NID) && (nid < VNODE_END_NID)) {
- 		if (ch & 1) {
-@@ -6358,30 +6343,26 @@ static int ca0132_switch_put(struct snd_kcontrol *kcontrol,
- 			spec->vnode_rswitch[nid - VNODE_START_NID] = *valp;
- 			valp++;
- 		}
--		changed = ca0132_vnode_switch_set(kcontrol, ucontrol);
--		goto exit;
-+		return ca0132_vnode_switch_set(kcontrol, ucontrol);
- 	}
- 
- 	/* PE */
- 	if (nid == PLAY_ENHANCEMENT) {
- 		spec->effects_switch[nid - EFFECT_START_NID] = *valp;
--		changed = ca0132_pe_switch_set(codec);
--		goto exit;
-+		return ca0132_pe_switch_set(codec);
- 	}
- 
- 	/* CrystalVoice */
- 	if (nid == CRYSTAL_VOICE) {
- 		spec->effects_switch[nid - EFFECT_START_NID] = *valp;
--		changed = ca0132_cvoice_switch_set(codec);
--		goto exit;
-+		return ca0132_cvoice_switch_set(codec);
- 	}
- 
- 	/* out and in effects */
- 	if (((nid >= OUT_EFFECT_START_NID) && (nid < OUT_EFFECT_END_NID)) ||
- 	    ((nid >= IN_EFFECT_START_NID) && (nid < IN_EFFECT_END_NID))) {
- 		spec->effects_switch[nid - EFFECT_START_NID] = *valp;
--		changed = ca0132_effects_set(codec, nid, *valp);
--		goto exit;
-+		return ca0132_effects_set(codec, nid, *valp);
- 	}
- 
- 	/* mic boost */
-@@ -6389,24 +6370,22 @@ static int ca0132_switch_put(struct snd_kcontrol *kcontrol,
- 		spec->cur_mic_boost = *valp;
- 		if (ca0132_use_alt_functions(spec)) {
- 			if (spec->in_enum_val != REAR_LINE_IN)
--				changed = ca0132_mic_boost_set(codec, *valp);
-+				return ca0132_mic_boost_set(codec, *valp);
- 		} else {
- 			/* Mic boost does not apply to Digital Mic */
- 			if (spec->cur_mic_type != DIGITAL_MIC)
--				changed = ca0132_mic_boost_set(codec, *valp);
-+				return ca0132_mic_boost_set(codec, *valp);
- 		}
- 
--		goto exit;
-+		return 1;
- 	}
- 
- 	if (nid == ZXR_HEADPHONE_GAIN) {
- 		spec->zxr_gain_set = *valp;
- 		if (spec->cur_out_type == HEADPHONE_OUT)
--			changed = zxr_headphone_gain_set(codec, *valp);
-+			return zxr_headphone_gain_set(codec, *valp);
- 		else
--			changed = 0;
--
--		goto exit;
-+			return 0;
- 	}
- 
- 	if (nid == SPEAKER_FULL_RANGE_FRONT || nid == SPEAKER_FULL_RANGE_REAR) {
-@@ -6414,7 +6393,7 @@ static int ca0132_switch_put(struct snd_kcontrol *kcontrol,
- 		if (spec->cur_out_type == SPEAKER_OUT)
- 			ca0132_alt_set_full_range_speaker(codec);
- 
--		changed = 0;
-+		return 0;
- 	}
- 
- 	if (nid == BASS_REDIRECTION) {
-@@ -6422,12 +6401,10 @@ static int ca0132_switch_put(struct snd_kcontrol *kcontrol,
- 		if (spec->cur_out_type == SPEAKER_OUT)
- 			ca0132_alt_surround_set_bass_redirection(codec, *valp);
- 
--		changed = 0;
-+		return 0;
- 	}
- 
--exit:
--	snd_hda_power_down(codec);
--	return changed;
-+	return 1;
+ 	spec = container_of(acomp->audio_ops, struct hdmi_spec, drm_audio_ops);
+-	mutex_lock(&spec->bind_lock);
++	guard(mutex)(&spec->bind_lock);
+ 	spec->use_acomp_notifier = use_acomp;
+ 	spec->codec->relaxed_resume = use_acomp;
+ 	spec->codec->bus->keep_power = 0;
+@@ -2229,7 +2184,6 @@ static void generic_acomp_notifier_set(struct drm_audio_component *acomp,
+ 				      get_pin(spec, i)->pin_nid,
+ 				      get_pin(spec, i)->dev_id,
+ 				      use_acomp);
+-	mutex_unlock(&spec->bind_lock);
  }
  
- /*
-@@ -6555,7 +6532,7 @@ static int ca0132_volume_put(struct snd_kcontrol *kcontrol,
- 		int dir = get_amp_direction(kcontrol);
- 		unsigned long pval;
+ /* enable / disable the notifier via master bind / unbind */
+diff --git a/sound/hda/codecs/hdmi/nvhdmi-mcp.c b/sound/hda/codecs/hdmi/nvhdmi-mcp.c
+index fbcea6d1850e..8fd8d76fa72f 100644
+--- a/sound/hda/codecs/hdmi/nvhdmi-mcp.c
++++ b/sound/hda/codecs/hdmi/nvhdmi-mcp.c
+@@ -131,7 +131,7 @@ static int nvhdmi_8ch_7x_pcm_prepare(struct hda_pcm_stream *hinfo,
+ 	struct hda_spdif_out *spdif;
+ 	struct hdmi_spec_per_cvt *per_cvt;
  
--		snd_hda_power_up(codec);
-+		CLASS(snd_hda_power, pm)(codec);
- 		mutex_lock(&codec->control_mutex);
- 		pval = kcontrol->private_value;
- 		kcontrol->private_value = HDA_COMPOSE_AMP_VAL(shared_nid, ch,
-@@ -6563,7 +6540,6 @@ static int ca0132_volume_put(struct snd_kcontrol *kcontrol,
- 		changed = snd_hda_mixer_amp_volume_put(kcontrol, ucontrol);
- 		kcontrol->private_value = pval;
- 		mutex_unlock(&codec->control_mutex);
--		snd_hda_power_down(codec);
- 	}
+-	mutex_lock(&codec->spdif_mutex);
++	guard(mutex)(&codec->spdif_mutex);
+ 	per_cvt = get_cvt(spec, 0);
+ 	spdif = snd_hda_spdif_out_of_nid(codec, per_cvt->cvt_nid);
  
- 	return changed;
-@@ -6604,12 +6580,11 @@ static int ca0132_alt_volume_put(struct snd_kcontrol *kcontrol,
- 		valp++;
- 	}
+@@ -215,7 +215,6 @@ static int nvhdmi_8ch_7x_pcm_prepare(struct hda_pcm_stream *hinfo,
  
--	snd_hda_power_up(codec);
-+	CLASS(snd_hda_power, pm)(codec);
- 	ca0132_alt_dsp_volume_put(codec, vnid);
- 	mutex_lock(&codec->control_mutex);
- 	changed = snd_hda_mixer_amp_volume_put(kcontrol, ucontrol);
- 	mutex_unlock(&codec->control_mutex);
--	snd_hda_power_down(codec);
+ 	nvhdmi_8ch_7x_set_info_frame_parameters(codec, chs);
  
- 	return changed;
- }
-@@ -8664,14 +8639,13 @@ static void ca0132_process_dsp_response(struct hda_codec *codec,
- 	struct ca0132_spec *spec = codec->spec;
- 
- 	codec_dbg(codec, "ca0132_process_dsp_response\n");
--	snd_hda_power_up_pm(codec);
-+	CLASS(snd_hda_power_pm, pm)(codec);
- 	if (spec->wait_scp) {
- 		if (dspio_get_response_data(codec) >= 0)
- 			spec->wait_scp = 0;
- 	}
- 
- 	dspio_clear_response_queue(codec);
--	snd_hda_power_down_pm(codec);
- }
- 
- static void hp_callback(struct hda_codec *codec, struct hda_jack_callback *cb)
-@@ -9546,7 +9520,7 @@ static int ca0132_init(struct hda_codec *codec)
- 	if (ca0132_use_pci_mmio(spec))
- 		ca0132_mmio_init(codec);
- 
--	snd_hda_power_up_pm(codec);
-+	CLASS(snd_hda_power_pm, pm)(codec);
- 
- 	if (ca0132_quirk(spec) == QUIRK_AE5 || ca0132_quirk(spec) == QUIRK_AE7)
- 		ae5_register_set(codec);
-@@ -9626,8 +9600,6 @@ static int ca0132_init(struct hda_codec *codec)
- 		ca0132_pe_switch_set(codec);
- 	}
- 
--	snd_hda_power_down_pm(codec);
--
+-	mutex_unlock(&codec->spdif_mutex);
  	return 0;
  }
  
