@@ -1,76 +1,75 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2D4219E8C
-	for <linux-sound@vger.kernel.org>; Mon, 11 Aug 2025 08:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4D926B2D3
+	for <linux-sound@vger.kernel.org>; Mon, 11 Aug 2025 08:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754900110; cv=none; b=ktqo3egLyYGUY/F4plIqLz56jni4EkHZRUlHPNiBSwZw7hLeRf7HdZWt82ZnaF+PSfWLdEPCJ4baNyawpS/e8udGo8pEtYKxSvTHb6FjXwTDBcdKb08dSAYoaZm+StYjMIVLHXzlRvIpz+bKbMbjHZ+Px5FejX60RLDoa49e80o=
+	t=1754900426; cv=none; b=Ua8RlA7cD/Y0Yk9ssvt+reWstk0mLDA9cbnrkB1WTw4Zr1pyJmJmBfN4aFdpa/BIv7ov8QqmLihe+mpCVi8f+81zy0F5UWt3S6T4tZA1NfokPzH+6s78Vcg8J4+VXBmohqODykdKau5i52yD9U5/OyVCydFWcb5CVGcb/jugOdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754900110; c=relaxed/simple;
-	bh=1TjM4qsz9cjzUVKmh2Qcd7BXcUPZeLAsGkFM436GNVk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p7If5XR+lF6oe/YRJiksWZe5cnr2gj98LxHpfNGeyG24RhDAeXqIpWr5mdqKC2BfNKArFULevR4c6nXQSPd6Q6p+OF47cmFcyhB2ziqE2kH5cTE00bnPTHqBjdHfpb8agUDZE2YoNOKOp8wlqjm86KztgyicQmyBwFBq86K02Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W79CdDEy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pxY4BVoR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E+m77o72; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cMVgl/kV; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1754900426; c=relaxed/simple;
+	bh=nuhiKr1j7XIjSw+eEvbT88pTET9BRzn03iO2Fg0AL90=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Mds17CdTPX4aPDipCgBDByy1gMkBj0mTmGk6VmecJcvasoWwuxDQlAlhact2oL7VnLSk1qiQIdkCWCE8CngA88ygIVFYKjgbZACdI4y/XUyV2Zep8dPZBA+Ociu+lTY+FHIs7hAHtpgfyb4VS+xyHywf37qKzEZ/CfS7D5wuAjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e62glmVF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1AY0phDB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e62glmVF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1AY0phDB; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W79CdDEy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pxY4BVoR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E+m77o72";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cMVgl/kV"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e62glmVF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1AY0phDB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e62glmVF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1AY0phDB"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E4AB920B1B;
-	Mon, 11 Aug 2025 08:15:03 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A767433F59;
+	Mon, 11 Aug 2025 08:20:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754900104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1754900421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=hwbaZB7/6T0BtmVvhT5FSCoOVfJq2qnE0vAjdbMBwwM=;
-	b=W79CdDEy97dcME0x7kLi2saHuUcJiDD6wnTMY9Js2yN3ghG1Asm2RcSYwCFH9IHqkr3d9u
-	/YTuVVuV8KICNUT4v+A8pF7JV2xGKLPoKAa0Nzf5I6N34e6FPxgY4BmP1mxIdSBGKfdh/M
-	jyxrT+3+i3yeHa/0DLVmS1gahB+aLTY=
+	bh=uPwSZ6sVCFKKD6IArikheGaFl2o7wxl/x5OkO5x/kCk=;
+	b=e62glmVFM8pYCpbxBw8d0DlxTRE0OJE1Swtj6S29Zc3e3zfh2OfxmZa2MPpg1rhfxG5GIZ
+	kVngrR5tYFnD9lVCRy/muvMjY6YwBla1jmfl+DyhGJxLsQ1GF/yig6xVdT2g1YyhChKYei
+	Ho99K7gdcJ8U9ux/9cfZZR3yva6BmEA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754900104;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	s=susede2_ed25519; t=1754900421;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=hwbaZB7/6T0BtmVvhT5FSCoOVfJq2qnE0vAjdbMBwwM=;
-	b=pxY4BVoRmWEJoVVDKBUp84gQZSFGygrPYa4OaJP5VDtQ85IZl58M+QPz8X/otAnd4Ly/c2
-	kkDMFlFSxL9MMeBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=E+m77o72;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="cMVgl/kV"
+	bh=uPwSZ6sVCFKKD6IArikheGaFl2o7wxl/x5OkO5x/kCk=;
+	b=1AY0phDBLh3V8Mos7DjYPaM+kX0VahA2ConcT8PB6FN5CyaS4l0epGkbYzmsdIHwoliie7
+	Y3FaNRd1QOyHGACQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=e62glmVF;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1AY0phDB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754900103; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1754900421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=hwbaZB7/6T0BtmVvhT5FSCoOVfJq2qnE0vAjdbMBwwM=;
-	b=E+m77o72rxvgxhvS++sPCGSU6zxk0OlPSujzs5kJr6wRN4IomEWmYMgHtg8jLZz8Uptsd3
-	bLiTCM5NDXqF/DoHHgoeVxcY+bJ40h4Yw9YbOuJew1572urh8LgV+HQocd+gb8YHxR8Sbv
-	5JQh29OyIMZN8I8cZcYpyAwk0p4shW8=
+	bh=uPwSZ6sVCFKKD6IArikheGaFl2o7wxl/x5OkO5x/kCk=;
+	b=e62glmVFM8pYCpbxBw8d0DlxTRE0OJE1Swtj6S29Zc3e3zfh2OfxmZa2MPpg1rhfxG5GIZ
+	kVngrR5tYFnD9lVCRy/muvMjY6YwBla1jmfl+DyhGJxLsQ1GF/yig6xVdT2g1YyhChKYei
+	Ho99K7gdcJ8U9ux/9cfZZR3yva6BmEA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754900103;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	s=susede2_ed25519; t=1754900421;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=hwbaZB7/6T0BtmVvhT5FSCoOVfJq2qnE0vAjdbMBwwM=;
-	b=cMVgl/kVi+IhlOmxXulNfaz3dDrRgEc32avT/47AM5SxV+NbvR6oegqL34TK0aT/TTGZaY
-	r3mQWIXY3iTkD6Aw==
+	bh=uPwSZ6sVCFKKD6IArikheGaFl2o7wxl/x5OkO5x/kCk=;
+	b=1AY0phDBLh3V8Mos7DjYPaM+kX0VahA2ConcT8PB6FN5CyaS4l0epGkbYzmsdIHwoliie7
+	Y3FaNRd1QOyHGACQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B593513479;
-	Mon, 11 Aug 2025 08:15:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8327913479;
+	Mon, 11 Aug 2025 08:20:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LzcOK4emmWgZZAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 11 Aug 2025 08:15:03 +0000
+	id 1sVfHsWnmWiBZQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 11 Aug 2025 08:20:21 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Cc: "Geoffrey D . Bennett" <g@b4.vu>
-Subject: [PATCH] ALSA: usb: scarlett2: Clean ups with guard() and __free()
-Date: Mon, 11 Aug 2025 10:15:00 +0200
-Message-ID: <20250811081502.30768-1-tiwai@suse.de>
+Subject: [PATCH] ALSA: usb-audio: Replace manual mutex/spinlock with guard()
+Date: Mon, 11 Aug 2025 10:20:18 +0200
+Message-ID: <20250811082019.31052-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -79,11 +78,6 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: E4AB920B1B
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -93,2876 +87,1010 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+	TO_DN_NONE(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: A767433F59
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-Spam-Score: -3.01
 
-There are lots of manual mutex lock/unlock and temporary kmalloc/kfree
-patterns found in mixer_scalett2.c.  Let's simplify the code with the
-recent lock guard() and auto cleanup with __free().
+This is another code cleanup by replacing the manual mutex or spinlock
+with guard() macros.  usb_audio_disconnect() is slightly refactored
+(split to another function) to apply guard() cleanly, but the rest are
+rather straightforward conversions.
 
-Only code refactoring, and there should be no actual behavior change.
+No functional changes but only code refactoring.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/mixer_scarlett2.c | 1317 ++++++++++++-----------------------
- 1 file changed, 437 insertions(+), 880 deletions(-)
+ sound/usb/card.c          |  39 ++++++------
+ sound/usb/endpoint.c      | 124 ++++++++++++++------------------------
+ sound/usb/media.c         |   6 +-
+ sound/usb/midi.c          |  66 ++++++++------------
+ sound/usb/midi2.c         |  16 ++---
+ sound/usb/mixer_s1810c.c  |  35 ++++-------
+ sound/usb/mixer_us16x08.c |   3 +-
+ sound/usb/pcm.c           |  72 +++++++++++-----------
+ sound/usb/proc.c          |   3 +-
+ 9 files changed, 148 insertions(+), 216 deletions(-)
 
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 1ec203cbbd94..e762d6110b1a 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -2348,7 +2348,8 @@ static int scarlett2_usb(
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 10d9b7285597..0265206a8e8c 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -900,7 +900,7 @@ static int usb_audio_probe(struct usb_interface *intf,
+ 
+ 	/* check whether it's already registered */
+ 	chip = NULL;
+-	mutex_lock(&register_mutex);
++	guard(mutex)(&register_mutex);
+ 	for (i = 0; i < SNDRV_CARDS; i++) {
+ 		if (usb_chip[i] && usb_chip[i]->dev == dev) {
+ 			if (atomic_read(&usb_chip[i]->shutdown)) {
+@@ -1015,7 +1015,6 @@ static int usb_audio_probe(struct usb_interface *intf,
+ 
+ 	if (platform_ops && platform_ops->connect_cb)
+ 		platform_ops->connect_cb(chip);
+-	mutex_unlock(&register_mutex);
+ 
+ 	return 0;
+ 
+@@ -1033,7 +1032,6 @@ static int usb_audio_probe(struct usb_interface *intf,
+ 		if (!chip->num_interfaces)
+ 			snd_card_free(chip->card);
+ 	}
+-	mutex_unlock(&register_mutex);
+ 	return err;
+ }
+ 
+@@ -1041,18 +1039,14 @@ static int usb_audio_probe(struct usb_interface *intf,
+  * we need to take care of counter, since disconnection can be called also
+  * many times as well as usb_audio_probe().
+  */
+-static void usb_audio_disconnect(struct usb_interface *intf)
++static bool __usb_audio_disconnect(struct usb_interface *intf,
++				   struct snd_usb_audio *chip,
++				   struct snd_card *card)
  {
- 	struct scarlett2_data *private = mixer->private_data;
- 	struct usb_device *dev = mixer->chip->dev;
--	struct scarlett2_usb_packet *req, *resp = NULL;
-+	struct scarlett2_usb_packet *req __free(kfree) = NULL;
-+	struct scarlett2_usb_packet *resp __free(kfree) = NULL;
- 	size_t req_buf_size = struct_size(req, data, req_size);
- 	size_t resp_buf_size = struct_size(resp, data, resp_size);
- 	int retries = 0;
-@@ -2356,18 +2357,14 @@ static int scarlett2_usb(
- 	int err;
+-	struct snd_usb_audio *chip = usb_get_intfdata(intf);
+-	struct snd_card *card;
+ 	struct list_head *p;
  
- 	req = kmalloc(req_buf_size, GFP_KERNEL);
--	if (!req) {
--		err = -ENOMEM;
--		goto error;
--	}
-+	if (!req)
-+		return -ENOMEM;
+-	if (chip == USB_AUDIO_IFACE_UNUSED)
+-		return;
++	guard(mutex)(&register_mutex);
  
- 	resp = kmalloc(resp_buf_size, GFP_KERNEL);
--	if (!resp) {
--		err = -ENOMEM;
--		goto error;
+-	card = chip->card;
+-
+-	mutex_lock(&register_mutex);
+ 	if (platform_ops && platform_ops->disconnect_cb)
+ 		platform_ops->disconnect_cb(chip);
+ 
+@@ -1098,13 +1092,24 @@ static void usb_audio_disconnect(struct usb_interface *intf)
+ 		usb_enable_autosuspend(interface_to_usbdev(intf));
+ 
+ 	chip->num_interfaces--;
+-	if (chip->num_interfaces <= 0) {
+-		usb_chip[chip->index] = NULL;
+-		mutex_unlock(&register_mutex);
++	if (chip->num_interfaces > 0)
++		return false;
++
++	usb_chip[chip->index] = NULL;
++	return true;
++}
++
++static void usb_audio_disconnect(struct usb_interface *intf)
++{
++	struct snd_usb_audio *chip = usb_get_intfdata(intf);
++	struct snd_card *card;
++
++	if (chip == USB_AUDIO_IFACE_UNUSED)
++		return;
++
++	card = chip->card;
++	if (__usb_audio_disconnect(intf, chip, card))
+ 		snd_card_free_when_closed(card);
+-	} else {
+-		mutex_unlock(&register_mutex);
 -	}
-+	if (!resp)
-+		return -ENOMEM;
+ }
+ 
+ /* lock the shutdown (disconnect) task and autoresume */
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index 7b01e7b4e335..880f5afcce60 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -163,22 +163,19 @@ int snd_usb_endpoint_implicit_feedback_sink(struct snd_usb_endpoint *ep)
+ static int slave_next_packet_size(struct snd_usb_endpoint *ep,
+ 				  unsigned int avail)
+ {
+-	unsigned long flags;
+ 	unsigned int phase;
+ 	int ret;
+ 
+ 	if (ep->fill_max)
+ 		return ep->maxframesize;
+ 
+-	spin_lock_irqsave(&ep->lock, flags);
++	guard(spinlock_irqsave)(&ep->lock);
+ 	phase = (ep->phase & 0xffff) + (ep->freqm << ep->datainterval);
+ 	ret = min(phase >> 16, ep->maxframesize);
+ 	if (avail && ret >= avail)
+ 		ret = -EAGAIN;
+ 	else
+ 		ep->phase = phase;
+-	spin_unlock_irqrestore(&ep->lock, flags);
+-
+ 	return ret;
+ }
+ 
+@@ -440,11 +437,8 @@ next_packet_fifo_dequeue(struct snd_usb_endpoint *ep)
+ static void push_back_to_ready_list(struct snd_usb_endpoint *ep,
+ 				    struct snd_urb_ctx *ctx)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&ep->lock, flags);
++	guard(spinlock_irqsave)(&ep->lock);
+ 	list_add_tail(&ctx->ready_list, &ep->ready_playback_urbs);
+-	spin_unlock_irqrestore(&ep->lock, flags);
+ }
+ 
+ /*
+@@ -466,23 +460,21 @@ int snd_usb_queue_pending_output_urbs(struct snd_usb_endpoint *ep,
+ 	bool implicit_fb = snd_usb_endpoint_implicit_feedback_sink(ep);
+ 
+ 	while (ep_state_running(ep)) {
+-
+-		unsigned long flags;
+ 		struct snd_usb_packet_info *packet;
+ 		struct snd_urb_ctx *ctx = NULL;
+ 		int err, i;
+ 
+-		spin_lock_irqsave(&ep->lock, flags);
+-		if ((!implicit_fb || ep->next_packet_queued > 0) &&
+-		    !list_empty(&ep->ready_playback_urbs)) {
+-			/* take URB out of FIFO */
+-			ctx = list_first_entry(&ep->ready_playback_urbs,
+-					       struct snd_urb_ctx, ready_list);
+-			list_del_init(&ctx->ready_list);
+-			if (implicit_fb)
+-				packet = next_packet_fifo_dequeue(ep);
++		scoped_guard(spinlock_irqsave, &ep->lock) {
++			if ((!implicit_fb || ep->next_packet_queued > 0) &&
++			    !list_empty(&ep->ready_playback_urbs)) {
++				/* take URB out of FIFO */
++				ctx = list_first_entry(&ep->ready_playback_urbs,
++						       struct snd_urb_ctx, ready_list);
++				list_del_init(&ctx->ready_list);
++				if (implicit_fb)
++					packet = next_packet_fifo_dequeue(ep);
++			}
+ 		}
+-		spin_unlock_irqrestore(&ep->lock, flags);
+ 
+ 		if (ctx == NULL)
+ 			break;
+@@ -768,12 +760,8 @@ bool snd_usb_endpoint_compatible(struct snd_usb_audio *chip,
+ 				 const struct audioformat *fp,
+ 				 const struct snd_pcm_hw_params *params)
+ {
+-	bool ret;
+-
+-	mutex_lock(&chip->mutex);
+-	ret = endpoint_compatible(ep, fp, params);
+-	mutex_unlock(&chip->mutex);
+-	return ret;
++	guard(mutex)(&chip->mutex);
++	return endpoint_compatible(ep, fp, params);
+ }
+ 
+ /*
+@@ -799,11 +787,11 @@ snd_usb_endpoint_open(struct snd_usb_audio *chip,
+ 	struct snd_usb_endpoint *ep;
+ 	int ep_num = is_sync_ep ? fp->sync_ep : fp->endpoint;
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	ep = snd_usb_get_endpoint(chip, ep_num);
+ 	if (!ep) {
+ 		usb_audio_err(chip, "Cannot find EP 0x%x to open\n", ep_num);
+-		goto unlock;
++		return NULL;
+ 	}
+ 
+ 	if (!ep->opened) {
+@@ -820,17 +808,13 @@ snd_usb_endpoint_open(struct snd_usb_audio *chip,
+ 			      ep_num, ep->iface, ep->altsetting, ep->ep_idx);
+ 
+ 		ep->iface_ref = iface_ref_find(chip, ep->iface);
+-		if (!ep->iface_ref) {
+-			ep = NULL;
+-			goto unlock;
+-		}
++		if (!ep->iface_ref)
++			return NULL;
+ 
+ 		if (fp->protocol != UAC_VERSION_1) {
+ 			ep->clock_ref = clock_ref_find(chip, fp->clock);
+-			if (!ep->clock_ref) {
+-				ep = NULL;
+-				goto unlock;
+-			}
++			if (!ep->clock_ref)
++				return NULL;
+ 			ep->clock_ref->opened++;
+ 		}
+ 
+@@ -859,16 +843,13 @@ snd_usb_endpoint_open(struct snd_usb_audio *chip,
+ 			      ep->implicit_fb_sync);
+ 
+ 	} else {
+-		if (WARN_ON(!ep->iface_ref)) {
+-			ep = NULL;
+-			goto unlock;
+-		}
++		if (WARN_ON(!ep->iface_ref))
++			return NULL;
+ 
+ 		if (!endpoint_compatible(ep, fp, params)) {
+ 			usb_audio_err(chip, "Incompatible EP setup for 0x%x\n",
+ 				      ep_num);
+-			ep = NULL;
+-			goto unlock;
++			return NULL;
+ 		}
+ 
+ 		usb_audio_dbg(chip, "Reopened EP 0x%x (count %d)\n",
+@@ -879,9 +860,6 @@ snd_usb_endpoint_open(struct snd_usb_audio *chip,
+ 		ep->iface_ref->need_setup = true;
+ 
+ 	ep->opened++;
+-
+- unlock:
+-	mutex_unlock(&chip->mutex);
+ 	return ep;
+ }
+ 
+@@ -964,7 +942,7 @@ static int endpoint_set_interface(struct snd_usb_audio *chip,
+ void snd_usb_endpoint_close(struct snd_usb_audio *chip,
+ 			    struct snd_usb_endpoint *ep)
+ {
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	usb_audio_dbg(chip, "Closing EP 0x%x (count %d)\n",
+ 		      ep->ep_num, ep->opened);
+ 
+@@ -985,7 +963,6 @@ void snd_usb_endpoint_close(struct snd_usb_audio *chip,
+ 		ep->clock_ref = NULL;
+ 		usb_audio_dbg(chip, "EP 0x%x closed\n", ep->ep_num);
+ 	}
+-	mutex_unlock(&chip->mutex);
+ }
+ 
+ /* Prepare for suspening EP, called from the main suspend handler */
+@@ -1047,7 +1024,6 @@ void snd_usb_endpoint_sync_pending_stop(struct snd_usb_endpoint *ep)
+ static int stop_urbs(struct snd_usb_endpoint *ep, bool force, bool keep_pending)
+ {
+ 	unsigned int i;
+-	unsigned long flags;
+ 
+ 	if (!force && atomic_read(&ep->running))
+ 		return -EBUSY;
+@@ -1055,11 +1031,11 @@ static int stop_urbs(struct snd_usb_endpoint *ep, bool force, bool keep_pending)
+ 	if (!ep_state_update(ep, EP_STATE_RUNNING, EP_STATE_STOPPING))
+ 		return 0;
+ 
+-	spin_lock_irqsave(&ep->lock, flags);
+-	INIT_LIST_HEAD(&ep->ready_playback_urbs);
+-	ep->next_packet_head = 0;
+-	ep->next_packet_queued = 0;
+-	spin_unlock_irqrestore(&ep->lock, flags);
++	scoped_guard(spinlock_irqsave, &ep->lock) {
++		INIT_LIST_HEAD(&ep->ready_playback_urbs);
++		ep->next_packet_head = 0;
++		ep->next_packet_queued = 0;
++	}
+ 
+ 	if (keep_pending)
+ 		return 0;
+@@ -1360,16 +1336,16 @@ int snd_usb_endpoint_set_params(struct snd_usb_audio *chip,
+ 				struct snd_usb_endpoint *ep)
+ {
+ 	const struct audioformat *fmt = ep->cur_audiofmt;
+-	int err = 0;
++	int err;
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	if (!ep->need_setup)
+-		goto unlock;
++		return 0;
+ 
+ 	/* release old buffers, if any */
+ 	err = release_urbs(ep, false);
+ 	if (err < 0)
+-		goto unlock;
++		return err;
+ 
+ 	ep->datainterval = fmt->datainterval;
+ 	ep->maxpacksize = fmt->maxpacksize;
+@@ -1407,7 +1383,7 @@ int snd_usb_endpoint_set_params(struct snd_usb_audio *chip,
+ 	usb_audio_dbg(chip, "Set up %d URBS, ret=%d\n", ep->nurbs, err);
+ 
+ 	if (err < 0)
+-		goto unlock;
++		return err;
+ 
+ 	/* some unit conversions in runtime */
+ 	ep->maxframesize = ep->maxpacksize / ep->cur_frame_bytes;
+@@ -1419,8 +1395,6 @@ int snd_usb_endpoint_set_params(struct snd_usb_audio *chip,
+ 		err = 0;
+ 	}
+ 
+- unlock:
+-	mutex_unlock(&chip->mutex);
+ 	return err;
+ }
+ 
+@@ -1467,11 +1441,11 @@ int snd_usb_endpoint_prepare(struct snd_usb_audio *chip,
+ 	bool iface_first;
+ 	int err = 0;
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	if (WARN_ON(!ep->iface_ref))
+-		goto unlock;
++		return 0;
+ 	if (!ep->need_prepare)
+-		goto unlock;
++		return 0;
+ 
+ 	/* If the interface has been already set up, just set EP parameters */
+ 	if (!ep->iface_ref->need_setup) {
+@@ -1481,7 +1455,7 @@ int snd_usb_endpoint_prepare(struct snd_usb_audio *chip,
+ 		if (ep->cur_audiofmt->protocol == UAC_VERSION_1) {
+ 			err = init_sample_rate(chip, ep);
+ 			if (err < 0)
+-				goto unlock;
++				return err;
+ 		}
+ 		goto done;
+ 	}
+@@ -1499,37 +1473,33 @@ int snd_usb_endpoint_prepare(struct snd_usb_audio *chip,
+ 	if (iface_first) {
+ 		err = endpoint_set_interface(chip, ep, true);
+ 		if (err < 0)
+-			goto unlock;
++			return err;
+ 	}
+ 
+ 	err = snd_usb_init_pitch(chip, ep->cur_audiofmt);
+ 	if (err < 0)
+-		goto unlock;
++		return err;
+ 
+ 	err = init_sample_rate(chip, ep);
+ 	if (err < 0)
+-		goto unlock;
++		return err;
+ 
+ 	err = snd_usb_select_mode_quirk(chip, ep->cur_audiofmt);
+ 	if (err < 0)
+-		goto unlock;
++		return err;
+ 
+ 	/* for UAC2/3, enable the interface altset here at last */
+ 	if (!iface_first) {
+ 		err = endpoint_set_interface(chip, ep, true);
+ 		if (err < 0)
+-			goto unlock;
++			return err;
+ 	}
+ 
+ 	ep->iface_ref->need_setup = false;
+ 
+  done:
+ 	ep->need_prepare = false;
+-	err = 1;
+-
+-unlock:
+-	mutex_unlock(&chip->mutex);
+-	return err;
++	return 1;
+ }
+ EXPORT_SYMBOL_GPL(snd_usb_endpoint_prepare);
+ 
+@@ -1541,14 +1511,13 @@ int snd_usb_endpoint_get_clock_rate(struct snd_usb_audio *chip, int clock)
+ 
+ 	if (!clock)
+ 		return 0;
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	list_for_each_entry(ref, &chip->clock_ref_list, list) {
+ 		if (ref->clock == clock) {
+ 			rate = ref->rate;
+ 			break;
+ 		}
+ 	}
+-	mutex_unlock(&chip->mutex);
+ 	return rate;
+ }
+ 
+@@ -1898,9 +1867,8 @@ static void snd_usb_handle_sync_urb(struct snd_usb_endpoint *ep,
+ 		 * If the frequency looks valid, set it.
+ 		 * This value is referred to in prepare_playback_urb().
+ 		 */
+-		spin_lock_irqsave(&ep->lock, flags);
++		guard(spinlock_irqsave)(&ep->lock);
+ 		ep->freqm = f;
+-		spin_unlock_irqrestore(&ep->lock, flags);
+ 	} else {
+ 		/*
+ 		 * Out of range; maybe the shift value is wrong.
+diff --git a/sound/usb/media.c b/sound/usb/media.c
+index d48db6f3ae65..0064f8d12422 100644
+--- a/sound/usb/media.c
++++ b/sound/usb/media.c
+@@ -140,11 +140,10 @@ int snd_media_start_pipeline(struct snd_usb_substream *subs)
+ 	if (!mctl)
+ 		return 0;
+ 
+-	mutex_lock(&mctl->media_dev->graph_mutex);
++	guard(mutex)(&mctl->media_dev->graph_mutex);
+ 	if (mctl->media_dev->enable_source)
+ 		ret = mctl->media_dev->enable_source(&mctl->media_entity,
+ 						     &mctl->media_pipe);
+-	mutex_unlock(&mctl->media_dev->graph_mutex);
+ 	return ret;
+ }
+ 
+@@ -155,10 +154,9 @@ void snd_media_stop_pipeline(struct snd_usb_substream *subs)
+ 	if (!mctl)
+ 		return;
+ 
+-	mutex_lock(&mctl->media_dev->graph_mutex);
++	guard(mutex)(&mctl->media_dev->graph_mutex);
+ 	if (mctl->media_dev->disable_source)
+ 		mctl->media_dev->disable_source(&mctl->media_entity);
+-	mutex_unlock(&mctl->media_dev->graph_mutex);
+ }
+ 
+ static int snd_media_mixer_init(struct snd_usb_audio *chip)
+diff --git a/sound/usb/midi.c b/sound/usb/midi.c
+index acb3bf92857c..1912d59627bd 100644
+--- a/sound/usb/midi.c
++++ b/sound/usb/midi.c
+@@ -265,16 +265,15 @@ static void snd_usbmidi_out_urb_complete(struct urb *urb)
+ 	struct out_urb_context *context = urb->context;
+ 	struct snd_usb_midi_out_endpoint *ep = context->ep;
+ 	unsigned int urb_index;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&ep->buffer_lock, flags);
+-	urb_index = context - ep->urbs;
+-	ep->active_urbs &= ~(1 << urb_index);
+-	if (unlikely(ep->drain_urbs)) {
+-		ep->drain_urbs &= ~(1 << urb_index);
+-		wake_up(&ep->drain_wait);
++	scoped_guard(spinlock_irqsave, &ep->buffer_lock) {
++		urb_index = context - ep->urbs;
++		ep->active_urbs &= ~(1 << urb_index);
++		if (unlikely(ep->drain_urbs)) {
++			ep->drain_urbs &= ~(1 << urb_index);
++			wake_up(&ep->drain_wait);
++		}
+ 	}
+-	spin_unlock_irqrestore(&ep->buffer_lock, flags);
+ 	if (urb->status < 0) {
+ 		int err = snd_usbmidi_urb_error(urb);
+ 		if (err < 0) {
+@@ -295,13 +294,10 @@ static void snd_usbmidi_do_output(struct snd_usb_midi_out_endpoint *ep)
+ {
+ 	unsigned int urb_index;
+ 	struct urb *urb;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&ep->buffer_lock, flags);
+-	if (ep->umidi->disconnected) {
+-		spin_unlock_irqrestore(&ep->buffer_lock, flags);
++	guard(spinlock_irqsave)(&ep->buffer_lock);
++	if (ep->umidi->disconnected)
+ 		return;
+-	}
+ 
+ 	urb_index = ep->next_urb;
+ 	for (;;) {
+@@ -325,7 +321,6 @@ static void snd_usbmidi_do_output(struct snd_usb_midi_out_endpoint *ep)
+ 			break;
+ 	}
+ 	ep->next_urb = urb_index;
+-	spin_unlock_irqrestore(&ep->buffer_lock, flags);
+ }
+ 
+ static void snd_usbmidi_out_work(struct work_struct *work)
+@@ -342,9 +337,8 @@ static void snd_usbmidi_error_timer(struct timer_list *t)
+ 	struct snd_usb_midi *umidi = timer_container_of(umidi, t, error_timer);
+ 	unsigned int i, j;
+ 
+-	spin_lock(&umidi->disc_lock);
++	guard(spinlock)(&umidi->disc_lock);
+ 	if (umidi->disconnected) {
+-		spin_unlock(&umidi->disc_lock);
+ 		return;
+ 	}
+ 	for (i = 0; i < MIDI_MAX_ENDPOINTS; ++i) {
+@@ -361,7 +355,6 @@ static void snd_usbmidi_error_timer(struct timer_list *t)
+ 		if (umidi->endpoints[i].out)
+ 			snd_usbmidi_do_output(umidi->endpoints[i].out);
+ 	}
+-	spin_unlock(&umidi->disc_lock);
+ }
+ 
+ /* helper function to send static data that may not DMA-able */
+@@ -1148,13 +1141,11 @@ static int substream_open(struct snd_rawmidi_substream *substream, int dir,
+ 	struct snd_usb_midi *umidi = substream->rmidi->private_data;
+ 	struct snd_kcontrol *ctl;
+ 
+-	down_read(&umidi->disc_rwsem);
+-	if (umidi->disconnected) {
+-		up_read(&umidi->disc_rwsem);
++	guard(rwsem_read)(&umidi->disc_rwsem);
++	if (umidi->disconnected)
+ 		return open ? -ENODEV : 0;
+-	}
+ 
+-	mutex_lock(&umidi->mutex);
++	guard(mutex)(&umidi->mutex);
+ 	if (open) {
+ 		if (!umidi->opened[0] && !umidi->opened[1]) {
+ 			if (umidi->roland_load_ctl) {
+@@ -1183,8 +1174,6 @@ static int substream_open(struct snd_rawmidi_substream *substream, int dir,
+ 			}
+ 		}
+ 	}
+-	mutex_unlock(&umidi->mutex);
+-	up_read(&umidi->disc_rwsem);
+ 	return 0;
+ }
+ 
+@@ -1548,11 +1537,10 @@ void snd_usbmidi_disconnect(struct list_head *p)
+ 	 * a timer may submit an URB. To reliably break the cycle
+ 	 * a flag under lock must be used
+ 	 */
+-	down_write(&umidi->disc_rwsem);
+-	spin_lock_irq(&umidi->disc_lock);
+-	umidi->disconnected = 1;
+-	spin_unlock_irq(&umidi->disc_lock);
+-	up_write(&umidi->disc_rwsem);
++	scoped_guard(rwsem_write, &umidi->disc_rwsem) {
++		guard(spinlock_irq)(&umidi->disc_lock);
++		umidi->disconnected = 1;
++	}
+ 
+ 	timer_shutdown_sync(&umidi->error_timer);
+ 
+@@ -2094,11 +2082,10 @@ static int roland_load_put(struct snd_kcontrol *kcontrol,
+ 
+ 	if (value->value.enumerated.item[0] > 1)
+ 		return -EINVAL;
+-	mutex_lock(&umidi->mutex);
++	guard(mutex)(&umidi->mutex);
+ 	changed = value->value.enumerated.item[0] != kcontrol->private_value;
+ 	if (changed)
+ 		kcontrol->private_value = value->value.enumerated.item[0];
+-	mutex_unlock(&umidi->mutex);
+ 	return changed;
+ }
+ 
+@@ -2448,18 +2435,17 @@ static void snd_usbmidi_input_start_ep(struct snd_usb_midi *umidi,
+ 				       struct snd_usb_midi_in_endpoint *ep)
+ {
+ 	unsigned int i;
+-	unsigned long flags;
+ 
+ 	if (!ep)
+ 		return;
+ 	for (i = 0; i < INPUT_URBS; ++i) {
+ 		struct urb *urb = ep->urbs[i];
+-		spin_lock_irqsave(&umidi->disc_lock, flags);
+-		if (!atomic_read(&urb->use_count)) {
+-			urb->dev = ep->umidi->dev;
+-			snd_usbmidi_submit_urb(urb, GFP_ATOMIC);
++		scoped_guard(spinlock_irqsave, &umidi->disc_lock) {
++			if (!atomic_read(&urb->use_count)) {
++				urb->dev = ep->umidi->dev;
++				snd_usbmidi_submit_urb(urb, GFP_ATOMIC);
++			}
+ 		}
+-		spin_unlock_irqrestore(&umidi->disc_lock, flags);
+ 	}
+ }
+ 
+@@ -2488,9 +2474,8 @@ void snd_usbmidi_suspend(struct list_head *p)
+ 	struct snd_usb_midi *umidi;
+ 
+ 	umidi = list_entry(p, struct snd_usb_midi, list);
+-	mutex_lock(&umidi->mutex);
++	guard(mutex)(&umidi->mutex);
+ 	snd_usbmidi_input_stop(p);
+-	mutex_unlock(&umidi->mutex);
+ }
+ EXPORT_SYMBOL(snd_usbmidi_suspend);
+ 
+@@ -2502,9 +2487,8 @@ void snd_usbmidi_resume(struct list_head *p)
+ 	struct snd_usb_midi *umidi;
+ 
+ 	umidi = list_entry(p, struct snd_usb_midi, list);
+-	mutex_lock(&umidi->mutex);
++	guard(mutex)(&umidi->mutex);
+ 	snd_usbmidi_input_start(p);
+-	mutex_unlock(&umidi->mutex);
+ }
+ EXPORT_SYMBOL(snd_usbmidi_resume);
+ 
+diff --git a/sound/usb/midi2.c b/sound/usb/midi2.c
+index 030569fda416..e6793f3bdfc3 100644
+--- a/sound/usb/midi2.c
++++ b/sound/usb/midi2.c
+@@ -160,15 +160,13 @@ static void output_urb_complete(struct urb *urb)
+ {
+ 	struct snd_usb_midi2_urb *ctx = urb->context;
+ 	struct snd_usb_midi2_endpoint *ep = ctx->ep;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&ep->lock, flags);
++	guard(spinlock_irqsave)(&ep->lock);
+ 	set_bit(ctx->index, &ep->urb_free);
+ 	if (urb->status >= 0 && atomic_read(&ep->running))
+ 		submit_output_urbs_locked(ep);
+ 	if (ep->urb_free == ep->urb_free_mask)
+ 		wake_up(&ep->wait);
+-	spin_unlock_irqrestore(&ep->lock, flags);
+ }
+ 
+ /* prepare for input submission: just set the buffer length */
+@@ -189,10 +187,9 @@ static void input_urb_complete(struct urb *urb)
+ {
+ 	struct snd_usb_midi2_urb *ctx = urb->context;
+ 	struct snd_usb_midi2_endpoint *ep = ctx->ep;
+-	unsigned long flags;
+ 	int len;
+ 
+-	spin_lock_irqsave(&ep->lock, flags);
++	guard(spinlock_irqsave)(&ep->lock);
+ 	if (ep->disconnected || urb->status < 0)
+ 		goto dequeue;
+ 	len = urb->actual_length;
+@@ -208,22 +205,18 @@ static void input_urb_complete(struct urb *urb)
+ 	submit_input_urbs_locked(ep);
+ 	if (ep->urb_free == ep->urb_free_mask)
+ 		wake_up(&ep->wait);
+-	spin_unlock_irqrestore(&ep->lock, flags);
+ }
+ 
+ /* URB submission helper; for both direction */
+ static void submit_io_urbs(struct snd_usb_midi2_endpoint *ep)
+ {
+-	unsigned long flags;
+-
+ 	if (!ep)
+ 		return;
+-	spin_lock_irqsave(&ep->lock, flags);
++	guard(spinlock_irqsave)(&ep->lock);
+ 	if (ep->direction == STR_IN)
+ 		submit_input_urbs_locked(ep);
+ 	else
+ 		submit_output_urbs_locked(ep);
+-	spin_unlock_irqrestore(&ep->lock, flags);
+ }
+ 
+ /* kill URBs for close, suspend and disconnect */
+@@ -248,13 +241,12 @@ static void drain_urb_queue(struct snd_usb_midi2_endpoint *ep)
+ {
+ 	if (!ep)
+ 		return;
+-	spin_lock_irq(&ep->lock);
++	guard(spinlock_irq)(&ep->lock);
+ 	atomic_set(&ep->running, 0);
+ 	wait_event_lock_irq_timeout(ep->wait,
+ 				    ep->disconnected ||
+ 				    ep->urb_free == ep->urb_free_mask,
+ 				    ep->lock, msecs_to_jiffies(500));
+-	spin_unlock_irq(&ep->lock);
+ }
+ 
+ /* release URBs for an EP */
+diff --git a/sound/usb/mixer_s1810c.c b/sound/usb/mixer_s1810c.c
+index fac4bbc6b275..bee2a65fd3c9 100644
+--- a/sound/usb/mixer_s1810c.c
++++ b/sound/usb/mixer_s1810c.c
+@@ -338,18 +338,16 @@ snd_s1810c_get_switch_state(struct usb_mixer_interface *mixer,
+ 	struct s1810_mixer_state *private = mixer->private_data;
+ 	u32 field = 0;
+ 	u32 ctl_idx = (u32) (kctl->private_value & 0xFF);
+-	int ret = 0;
++	int ret;
  
 -	mutex_lock(&private->usb_mutex);
 +	guard(mutex)(&private->usb_mutex);
- 
- 	/* build request message and send it */
- 
-@@ -2389,8 +2386,7 @@ static int scarlett2_usb(
- 			mixer->chip,
- 			"%s USB request result cmd %x was %d\n",
- 			private->series_name, cmd, err);
--		err = -EINVAL;
+ 	ret = snd_sc1810c_get_status_field(chip->dev, &field,
+ 					   ctl_idx, &private->seqnum);
+ 	if (ret < 0)
 -		goto unlock;
-+		return -EINVAL;
- 	}
++		return ret;
  
- 	if (!wait_for_completion_timeout(&private->cmd_done,
-@@ -2400,8 +2396,7 @@ static int scarlett2_usb(
- 			"%s USB request timed out, cmd %x\n",
- 			private->series_name, cmd);
- 
--		err = -ETIMEDOUT;
--		goto unlock;
-+		return -ETIMEDOUT;
- 	}
- 
- 	/* send a second message to get the response */
-@@ -2418,17 +2413,14 @@ static int scarlett2_usb(
- 		 * reboot request
- 		 */
- 		if (cmd == SCARLETT2_USB_REBOOT &&
--		    (err == -ESHUTDOWN || err == -EPROTO)) {
--			err = 0;
--			goto unlock;
--		}
-+		    (err == -ESHUTDOWN || err == -EPROTO))
-+			return 0;
- 
- 		usb_audio_err(
- 			mixer->chip,
- 			"%s USB response result cmd %x was %d expected %zu\n",
- 			private->series_name, cmd, err, resp_buf_size);
--		err = -EINVAL;
--		goto unlock;
-+		return -EINVAL;
- 	}
- 
- 	/* cmd/seq/size should match except when initialising
-@@ -2451,18 +2443,12 @@ static int scarlett2_usb(
- 			resp_size, le16_to_cpu(resp->size),
- 			le32_to_cpu(resp->error),
- 			le32_to_cpu(resp->pad));
--		err = -EINVAL;
--		goto unlock;
-+		return -EINVAL;
- 	}
- 
- 	if (resp_data && resp_size > 0)
- 		memcpy(resp_data, resp->data, resp_size);
- 
--unlock:
+ 	*state = field;
+- unlock:
 -	mutex_unlock(&private->usb_mutex);
--error:
--	kfree(req);
--	kfree(resp);
- 	return err;
+-	return ret ? ret : 0;
++	return ret;
  }
  
-@@ -3321,25 +3307,20 @@ static int scarlett2_sync_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
+ /*
+@@ -366,12 +364,9 @@ snd_s1810c_set_switch_state(struct usb_mixer_interface *mixer,
+ 	u32 pval = (u32) kctl->private_value;
+ 	u32 ctl_id = (pval >> 8) & 0xFF;
+ 	u32 ctl_val = (pval >> 16) & 0x1;
+-	int ret = 0;
+ 
+-	mutex_lock(&private->usb_mutex);
+-	ret = snd_s1810c_send_ctl_packet(chip->dev, 0, 0, 0, ctl_id, ctl_val);
+-	mutex_unlock(&private->usb_mutex);
+-	return ret;
++	guard(mutex)(&private->usb_mutex);
++	return snd_s1810c_send_ctl_packet(chip->dev, 0, 0, 0, ctl_id, ctl_val);
+ }
+ 
+ /* Generic get/set/init functions for switch controls */
+@@ -386,12 +381,12 @@ snd_s1810c_switch_get(struct snd_kcontrol *kctl,
+ 	u32 pval = (u32) kctl->private_value;
+ 	u32 ctl_idx = pval & 0xFF;
+ 	u32 state = 0;
+-	int ret = 0;
++	int ret;
  
 -	mutex_lock(&private->data_mutex);
 +	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
+ 	ret = snd_s1810c_get_switch_state(mixer, kctl, &state);
+ 	if (ret < 0)
 -		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
++		return ret;
  
- 	if (private->sync_updated) {
- 		err = scarlett2_update_sync(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.enumerated.item[0] = private->sync;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static const struct snd_kcontrol_new scarlett2_sync_ctl = {
-@@ -3589,17 +3570,13 @@ static int scarlett2_autogain_switch_ctl_info(
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
- 	err = scarlett2_check_input_phantom_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
--	err = snd_ctl_boolean_mono_info(kctl, uinfo);
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return snd_ctl_boolean_mono_info(kctl, uinfo);
- }
- 
- static int scarlett2_autogain_switch_ctl_get(
-@@ -3610,23 +3587,18 @@ static int scarlett2_autogain_switch_ctl_get(
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_autogain_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	ucontrol->value.enumerated.item[0] =
- 		private->autogain_switch[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_autogain_status_ctl_get(
-@@ -3637,23 +3609,18 @@ static int scarlett2_autogain_status_ctl_get(
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_autogain_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	ucontrol->value.enumerated.item[0] =
- 		private->autogain_status[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_autogain_switch_ctl_put(
-@@ -3662,46 +3629,37 @@ static int scarlett2_autogain_switch_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_input_phantom_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
--	if (scarlett2_phantom_is_switching(private, index)) {
--		err = -EPERM;
--		goto unlock;
--	}
-+	if (scarlett2_phantom_is_switching(private, index))
-+		return -EPERM;
- 
- 	oval = private->autogain_switch[index];
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->autogain_switch[index] = val;
- 
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_AUTOGAIN_SWITCH, index, val);
--	if (err == 0)
--		err = 1;
- 
- 	scarlett2_autogain_update_access(mixer);
- 	scarlett2_autogain_notify_access(mixer);
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_autogain_status_ctl_info(
-@@ -3742,16 +3700,14 @@ static int scarlett2_ag_target_ctl_info(
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_autogain_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
- 	uinfo->count = 1;
-@@ -3759,9 +3715,7 @@ static int scarlett2_ag_target_ctl_info(
- 	uinfo->value.integer.max = 0;
- 	uinfo->value.integer.step = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_ag_target_ctl_get(
-@@ -3770,26 +3724,21 @@ static int scarlett2_ag_target_ctl_get(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->autogain_updated) {
- 		err = scarlett2_update_autogain(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
+ 	switch (ctl_idx) {
+ 	case SC1810C_STATE_LINE_SW:
+@@ -402,9 +397,7 @@ snd_s1810c_switch_get(struct snd_kcontrol *kctl,
+ 		ctl_elem->value.integer.value[0] = (long)state;
  	}
  
- 	ucontrol->value.integer.value[0] = private->ag_targets[elem->control];
--
--unlock:
+- unlock:
 -	mutex_unlock(&private->data_mutex);
--	return err;
+-	return (ret < 0) ? ret : 0;
 +	return 0;
  }
  
- static int scarlett2_ag_target_ctl_put(
-@@ -3798,39 +3747,32 @@ static int scarlett2_ag_target_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
- 	int oval, val, err;
+ static int
+@@ -420,10 +413,10 @@ snd_s1810c_switch_set(struct snd_kcontrol *kctl,
+ 	u32 newval = 0;
+ 	int ret = 0;
  
 -	mutex_lock(&private->data_mutex);
 +	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
+ 	ret = snd_s1810c_get_switch_state(mixer, kctl, &curval);
+ 	if (ret < 0)
 -		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
++		return ret;
  
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->ag_targets[index];
- 	val = clamp(ucontrol->value.integer.value[0],
- 		    (long)SCARLETT2_AG_TARGET_MIN, 0L);
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->ag_targets[index] = val;
- 
- 	/* Send new value to the device */
- 	err = scarlett2_usb_set_config(
- 		mixer, scarlett2_ag_target_configs[index], 1, -val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const DECLARE_TLV_DB_MINMAX(
-@@ -3885,25 +3827,20 @@ static int scarlett2_input_select_ctl_get(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->input_select_updated) {
- 		err = scarlett2_update_input_select(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.enumerated.item[0] = private->input_select_switch;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_input_select_ctl_put(
-@@ -3913,19 +3850,16 @@ static int scarlett2_input_select_ctl_put(
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	const struct scarlett2_device_info *info = private->info;
--
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->input_select_switch;
- 	val = ucontrol->value.integer.value[0];
-@@ -3936,7 +3870,7 @@ static int scarlett2_input_select_ctl_put(
- 		val = info->gain_input_count - 1;
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->input_select_switch = val;
- 
-@@ -3944,12 +3878,8 @@ static int scarlett2_input_select_ctl_put(
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_INPUT_SELECT_SWITCH,
- 		0, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_input_select_ctl_info(
-@@ -3958,43 +3888,38 @@ static int scarlett2_input_select_ctl_info(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int inputs = private->info->gain_input_count;
- 	int i, err;
--	char **values = kcalloc(inputs, sizeof(char *), GFP_KERNEL);
-+	char **values __free(kfree) = NULL;
- 
-+	values = kcalloc(inputs, sizeof(char *), GFP_KERNEL);
- 	if (!values)
- 		return -ENOMEM;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_autogain_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	/* Loop through each input */
- 	for (i = 0; i < inputs; i++) {
- 		values[i] = kasprintf(GFP_KERNEL, "Input %d", i + 1);
- 		if (!values[i]) {
- 			err = -ENOMEM;
--			goto unlock;
-+			goto clear;
- 		}
+ 	switch (ctl_idx) {
+ 	case SC1810C_STATE_LINE_SW:
+@@ -435,14 +428,12 @@ snd_s1810c_switch_set(struct snd_kcontrol *kctl,
  	}
  
- 	err = snd_ctl_enum_info(uinfo, 1, i,
- 				(const char * const *)values);
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--
-+clear:
- 	for (i = 0; i < inputs; i++)
- 		kfree(values[i]);
--	kfree(values);
- 
- 	return err;
- }
-@@ -4020,22 +3945,16 @@ static int scarlett2_autogain_disables_ctl_info(struct snd_kcontrol *kctl,
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_autogain_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
--	err = snd_ctl_boolean_mono_info(kctl, uinfo);
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return snd_ctl_boolean_mono_info(kctl, uinfo);
- }
- 
- static int scarlett2_input_link_ctl_get(
-@@ -4044,26 +3963,21 @@ static int scarlett2_input_link_ctl_get(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->input_select_updated) {
- 		err = scarlett2_update_input_select(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.enumerated.item[0] =
- 		private->input_link_switch[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_input_link_ctl_put(
-@@ -4072,37 +3986,30 @@ static int scarlett2_input_link_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->input_link_switch[index];
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
+ 	if (curval == newval)
 -		goto unlock;
 +		return 0;
  
- 	private->input_link_switch[index] = val;
+ 	kctl->private_value &= ~(0x1 << 16);
+ 	kctl->private_value |= (unsigned int)(newval & 0x1) << 16;
+ 	ret = snd_s1810c_set_switch_state(mixer, kctl);
  
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_INPUT_LINK_SWITCH, index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
+- unlock:
 -	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
+ 	return (ret < 0) ? 0 : 1;
  }
  
- static const struct snd_kcontrol_new scarlett2_input_link_ctl = {
-@@ -4138,16 +4045,14 @@ static int scarlett2_input_gain_ctl_info(struct snd_kcontrol *kctl,
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_autogain_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
- 	uinfo->count = elem->channels;
-@@ -4155,9 +4060,7 @@ static int scarlett2_input_gain_ctl_info(struct snd_kcontrol *kctl,
- 	uinfo->value.integer.max = SCARLETT2_MAX_GAIN_VALUE;
- 	uinfo->value.integer.step = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_input_gain_ctl_get(struct snd_kcontrol *kctl,
-@@ -4166,26 +4069,21 @@ static int scarlett2_input_gain_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->input_gain_updated) {
- 		err = scarlett2_update_input_gain(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] =
- 		private->gain[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_input_gain_ctl_put(struct snd_kcontrol *kctl,
-@@ -4194,38 +4092,31 @@ static int scarlett2_input_gain_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->gain[index];
- 	val = ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->gain[index] = val;
- 
- 	/* Send gain change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_INPUT_GAIN,
- 				       index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_input_gain_ctl = {
-@@ -4262,26 +4153,21 @@ static int scarlett2_safe_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->input_safe_updated) {
- 		err = scarlett2_update_input_safe(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] =
- 		private->safe_switch[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_safe_ctl_put(struct snd_kcontrol *kctl,
-@@ -4290,38 +4176,31 @@ static int scarlett2_safe_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->safe_switch[index];
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->safe_switch[index] = val;
- 
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_SAFE_SWITCH,
- 				       index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_safe_ctl = {
-@@ -4356,20 +4235,17 @@ static int scarlett2_pcm_input_switch_ctl_get(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = elem->head.mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
- 	if (private->pcm_input_switch_updated) {
- 		err = scarlett2_update_pcm_input_switch(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.enumerated.item[0] = private->pcm_input_switch;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_pcm_input_switch_ctl_put(
-@@ -4378,21 +4254,18 @@ static int scarlett2_pcm_input_switch_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
-+	int oval, val, err;
- 
--	int oval, val, err = 0;
-+	guard(mutex)(&private->data_mutex);
- 
--	mutex_lock(&private->data_mutex);
--
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->pcm_input_switch;
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->pcm_input_switch = val;
- 
-@@ -4400,12 +4273,8 @@ static int scarlett2_pcm_input_switch_ctl_put(
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_PCM_INPUT_SWITCH,
- 		0, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_pcm_input_switch_ctl_info(
-@@ -4492,25 +4361,20 @@ static int scarlett2_master_volume_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->vol_updated) {
- 		err = scarlett2_update_volumes(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->master_vol;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_headphone_volume_ctl_get(
-@@ -4520,25 +4384,20 @@ static int scarlett2_headphone_volume_ctl_get(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->vol_updated) {
- 		err = scarlett2_update_volumes(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->headphone_vol;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int line_out_remap(struct scarlett2_data *private, int index)
-@@ -4561,25 +4420,20 @@ static int scarlett2_volume_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	int index = line_out_remap(private, elem->control);
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->vol_updated) {
- 		err = scarlett2_update_volumes(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->vol[index];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_volume_ctl_put(struct snd_kcontrol *kctl,
-@@ -4589,30 +4443,24 @@ static int scarlett2_volume_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	int index = line_out_remap(private, elem->control);
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->vol[index];
- 	val = ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->vol[index] = val;
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_LINE_OUT_VOLUME,
- 				       index, val - SCARLETT2_VOLUME_BIAS);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const DECLARE_TLV_DB_MINMAX(
-@@ -4691,25 +4539,20 @@ static int scarlett2_mute_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	int index = line_out_remap(private, elem->control);
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->dim_mute_updated) {
- 		err = scarlett2_update_dim_mute(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->mute_switch[index];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_mute_ctl_put(struct snd_kcontrol *kctl,
-@@ -4719,32 +4562,26 @@ static int scarlett2_mute_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	int index = line_out_remap(private, elem->control);
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->mute_switch[index];
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->mute_switch[index] = val;
- 
- 	/* Send mute change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_MUTE_SWITCH,
- 				       index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_mute_ctl = {
-@@ -4863,28 +4700,22 @@ static int scarlett2_sw_hw_enum_ctl_put(struct snd_kcontrol *kctl,
- 	struct scarlett2_data *private = mixer->private_data;
- 	int ctl_index = elem->control;
- 	int index = line_out_remap(private, ctl_index);
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->vol_sw_hw_switch[index];
- 	val = !!ucontrol->value.enumerated.item[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	err = scarlett2_sw_hw_change(mixer, ctl_index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_sw_hw_enum_ctl = {
-@@ -4924,22 +4755,16 @@ static int scarlett2_level_enum_ctl_info(struct snd_kcontrol *kctl,
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_autogain_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
--	err = snd_ctl_enum_info(uinfo, 1, 2, values);
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return snd_ctl_enum_info(uinfo, 1, 2, values);
- }
- 
- static int scarlett2_level_enum_ctl_get(struct snd_kcontrol *kctl,
-@@ -4949,28 +4774,22 @@ static int scarlett2_level_enum_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	const struct scarlett2_device_info *info = private->info;
--
- 	int index = elem->control + info->level_input_first;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->input_level_updated) {
- 		err = scarlett2_update_input_level(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.enumerated.item[0] = scarlett2_decode_muteable(
- 		private->level_switch[index]);
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_level_enum_ctl_put(struct snd_kcontrol *kctl,
-@@ -4980,26 +4799,23 @@ static int scarlett2_level_enum_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	const struct scarlett2_device_info *info = private->info;
--
- 	int index = elem->control + info->level_input_first;
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->level_switch[index];
- 	val = !!ucontrol->value.enumerated.item[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->level_switch[index] = val;
- 
-@@ -5010,12 +4826,8 @@ static int scarlett2_level_enum_ctl_put(struct snd_kcontrol *kctl,
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_LEVEL_SWITCH,
- 				       index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_level_enum_ctl = {
-@@ -5049,26 +4861,21 @@ static int scarlett2_pad_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->input_pad_updated) {
- 		err = scarlett2_update_input_pad(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] =
- 		private->pad_switch[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_pad_ctl_put(struct snd_kcontrol *kctl,
-@@ -5077,34 +4884,27 @@ static int scarlett2_pad_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->pad_switch[index];
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->pad_switch[index] = val;
- 
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_PAD_SWITCH,
- 				       index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_pad_ctl = {
-@@ -5138,25 +4938,20 @@ static int scarlett2_air_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->input_air_updated) {
- 		err = scarlett2_update_input_air(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->air_switch[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_air_ctl_put(struct snd_kcontrol *kctl,
-@@ -5165,38 +4960,31 @@ static int scarlett2_air_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->air_switch[index];
- 	val = ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->air_switch[index] = val;
- 
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_AIR_SWITCH,
- 				       index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_air_with_drive_ctl_info(
-@@ -5210,22 +4998,16 @@ static int scarlett2_air_with_drive_ctl_info(
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_autogain_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
--	err = snd_ctl_enum_info(uinfo, 1, 3, values);
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return snd_ctl_enum_info(uinfo, 1, 3, values);
- }
- 
- static const struct snd_kcontrol_new scarlett2_air_ctl[2] = {
-@@ -5268,25 +5050,20 @@ static int scarlett2_dsp_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->input_dsp_updated) {
- 		err = scarlett2_update_input_dsp(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->dsp_switch[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_dsp_ctl_put(struct snd_kcontrol *kctl,
-@@ -5295,38 +5072,31 @@ static int scarlett2_dsp_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->dsp_switch[index];
- 	val = ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->dsp_switch[index] = val;
- 
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_DSP_SWITCH,
- 				       index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_dsp_ctl = {
-@@ -5389,30 +5159,26 @@ static int scarlett2_compressor_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
- 	int channel = index / SCARLETT2_COMPRESSOR_PARAM_COUNT;
- 	int param_index = index % SCARLETT2_COMPRESSOR_PARAM_COUNT;
- 	const struct compressor_param *param = &compressor_params[param_index];
--
- 	int oval, val, err;
- 	s32 scaled_val;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->compressor_values[index];
- 	val = ucontrol->value.integer.value[0];
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->compressor_values[index] = val;
- 
-@@ -5427,19 +5193,12 @@ static int scarlett2_compressor_ctl_put(
- 	err = scarlett2_usb_set_data(
- 		mixer, private->config_set->param_buf_addr + 1, 1, channel);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_COMPRESSOR_PARAMS, index, scaled_val);
--	if (err < 0)
--		goto unlock;
- 
--	if (err == 0)
--		err = 1;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_compressor_ctl_info(
-@@ -5495,20 +5254,18 @@ static int scarlett2_precomp_flt_switch_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->precomp_flt_switch[elem->control];
- 	val = ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->precomp_flt_switch[elem->control] = val;
- 
-@@ -5516,12 +5273,8 @@ static int scarlett2_precomp_flt_switch_ctl_put(
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_PRECOMP_FLT_SWITCH,
- 		elem->control, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_peq_flt_switch_ctl_put(
-@@ -5530,20 +5283,18 @@ static int scarlett2_peq_flt_switch_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->peq_flt_switch[elem->control];
- 	val = ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->peq_flt_switch[elem->control] = val;
- 
-@@ -5551,12 +5302,8 @@ static int scarlett2_peq_flt_switch_ctl_put(
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_PEQ_FLT_SWITCH,
- 		elem->control, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_precomp_flt_switch_ctl = {
-@@ -5677,20 +5424,17 @@ static int scarlett2_precomp_flt_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control * SCARLETT2_BIQUAD_COEFFS;
- 	int i, oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	/* Check if any of the values have changed; if not, return */
- 	for (i = 0; i < SCARLETT2_BIQUAD_COEFFS; i++) {
-@@ -5701,7 +5445,7 @@ static int scarlett2_precomp_flt_ctl_put(
- 	}
- 
- 	if (i == SCARLETT2_BIQUAD_COEFFS)
--		goto unlock;
-+		return 0;
- 
- 	/* Update the values */
- 	for (i = 0; i < SCARLETT2_BIQUAD_COEFFS; i++)
-@@ -5712,19 +5456,14 @@ static int scarlett2_precomp_flt_ctl_put(
- 	err = scarlett2_usb_set_data(
- 		mixer, private->config_set->param_buf_addr, 1, index);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	err = scarlett2_usb_set_config_buf(
- 		mixer, SCARLETT2_CONFIG_PRECOMP_FLT_PARAMS,
- 		index, SCARLETT2_BIQUAD_COEFFS,
- 		&private->precomp_flt_values[index]);
- 
--	if (err == 0)
--		err = 1;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_peq_flt_ctl_put(
-@@ -5734,7 +5473,6 @@ static int scarlett2_peq_flt_ctl_put(
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	const struct scarlett2_device_info *info = private->info;
--
- 	int src_index = elem->control * SCARLETT2_BIQUAD_COEFFS;
- 	int dst_index = (
- 		elem->control /
-@@ -5744,16 +5482,14 @@ static int scarlett2_peq_flt_ctl_put(
- 	) * SCARLETT2_BIQUAD_COEFFS;
- 	int i, oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	/* Check if any of the values have changed; if not, return */
- 	for (i = 0; i < SCARLETT2_BIQUAD_COEFFS; i++) {
-@@ -5764,7 +5500,7 @@ static int scarlett2_peq_flt_ctl_put(
- 	}
- 
- 	if (i == SCARLETT2_BIQUAD_COEFFS)
--		goto unlock;
-+		return 0;
- 
- 	/* Update the values */
- 	for (i = 0; i < SCARLETT2_BIQUAD_COEFFS; i++)
-@@ -5775,19 +5511,14 @@ static int scarlett2_peq_flt_ctl_put(
- 	err = scarlett2_usb_set_data(
- 		mixer, private->config_set->param_buf_addr, 1, dst_index);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	err = scarlett2_usb_set_config_buf(
- 		mixer, SCARLETT2_CONFIG_PEQ_FLT_PARAMS,
- 		dst_index, SCARLETT2_BIQUAD_COEFFS,
- 		&private->peq_flt_values[src_index]);
- 
--	if (err == 0)
--		err = 1;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_flt_ctl_info(
-@@ -5840,26 +5571,21 @@ static int scarlett2_input_mute_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->input_mute_updated) {
- 		err = scarlett2_update_input_mute(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] =
- 		private->input_mute_switch[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_input_mute_ctl_put(struct snd_kcontrol *kctl,
-@@ -5868,26 +5594,23 @@ static int scarlett2_input_mute_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->input_mute_switch[index];
- 	val = ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->input_mute_switch[index] = val;
- 
-@@ -5895,12 +5618,8 @@ static int scarlett2_input_mute_ctl_put(struct snd_kcontrol *kctl,
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_INPUT_MUTE_SWITCH,
- 			index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_input_mute_ctl = {
-@@ -6011,23 +5730,18 @@ static int scarlett2_phantom_ctl_get(struct snd_kcontrol *kctl,
- 	struct scarlett2_data *private = mixer->private_data;
- 	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_input_phantom_updated(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	ucontrol->value.integer.value[0] = scarlett2_decode_muteable(
- 		private->phantom_switch[elem->control]);
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_phantom_ctl_put(struct snd_kcontrol *kctl,
-@@ -6037,26 +5751,23 @@ static int scarlett2_phantom_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	const struct scarlett2_device_info *info = private->info;
--
- 	int index = elem->control;
- 	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_check_put_during_autogain(mixer);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	oval = private->phantom_switch[index];
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->phantom_switch[index] = val;
- 
-@@ -6067,15 +5778,10 @@ static int scarlett2_phantom_ctl_put(struct snd_kcontrol *kctl,
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_PHANTOM_SWITCH,
- 				       index + info->phantom_first, val);
--	if (err == 0)
--		err = 1;
--
- 	scarlett2_phantom_update_access(mixer);
- 	scarlett2_phantom_notify_access(mixer);
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_phantom_ctl = {
-@@ -6104,34 +5810,27 @@ static int scarlett2_phantom_persistence_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->phantom_persistence;
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->phantom_persistence = val;
- 
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_PHANTOM_PERSISTENCE, index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_phantom_persistence_ctl = {
-@@ -6222,25 +5921,20 @@ static int scarlett2_speaker_switch_enum_ctl_get(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->monitor_other_updated) {
- 		err = scarlett2_update_monitor_other(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.enumerated.item[0] = private->speaker_switching_switch;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- /* when speaker switching gets enabled, switch the main/alt speakers
-@@ -6306,21 +6000,18 @@ static int scarlett2_speaker_switch_enum_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
-+	int oval, val, err;
- 
--	int oval, val, err = 0;
-+	guard(mutex)(&private->data_mutex);
- 
--	mutex_lock(&private->data_mutex);
--
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->speaker_switching_switch;
- 	val = min(ucontrol->value.enumerated.item[0], 2U);
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->speaker_switching_switch = val;
- 
-@@ -6329,14 +6020,14 @@ static int scarlett2_speaker_switch_enum_ctl_put(
- 		mixer, SCARLETT2_CONFIG_MONITOR_OTHER_ENABLE,
- 		0, !!val);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	/* if speaker switching is enabled, select main or alt */
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_MONITOR_OTHER_SWITCH,
- 		0, val == 2);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	/* update controls if speaker switching gets enabled or disabled */
- 	if (!oval && val)
-@@ -6344,12 +6035,7 @@ static int scarlett2_speaker_switch_enum_ctl_put(
- 	else if (oval && !val)
- 		scarlett2_speaker_switch_disable(mixer);
- 
--	if (err == 0)
--		err = 1;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_speaker_switch_enum_ctl = {
-@@ -6392,25 +6078,20 @@ static int scarlett2_talkback_enum_ctl_get(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->monitor_other_updated) {
- 		err = scarlett2_update_monitor_other(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.enumerated.item[0] = private->talkback_switch;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_talkback_enum_ctl_put(
-@@ -6419,21 +6100,18 @@ static int scarlett2_talkback_enum_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
-+	int oval, val, err;
- 
--	int oval, val, err = 0;
-+	guard(mutex)(&private->data_mutex);
- 
--	mutex_lock(&private->data_mutex);
--
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->talkback_switch;
- 	val = min(ucontrol->value.enumerated.item[0], 2U);
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->talkback_switch = val;
- 
-@@ -6442,18 +6120,14 @@ static int scarlett2_talkback_enum_ctl_put(
- 		mixer, SCARLETT2_CONFIG_MONITOR_OTHER_ENABLE,
- 		1, !!val);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	/* if talkback is enabled, select main or alt */
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_MONITOR_OTHER_SWITCH,
- 		1, val == 2);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_talkback_enum_ctl = {
-@@ -6484,21 +6158,19 @@ static int scarlett2_talkback_map_ctl_put(
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	int index = elem->control;
--	int oval, val, err = 0, i;
-+	int oval, val, err, i;
- 	u16 bitmap = 0;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->talkback_map[index];
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->talkback_map[index] = val;
- 
-@@ -6508,12 +6180,8 @@ static int scarlett2_talkback_map_ctl_put(
- 	/* Send updated bitmap to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_TALKBACK_MAP,
- 				       0, bitmap);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_talkback_map_ctl = {
-@@ -6561,25 +6229,20 @@ static int scarlett2_dim_mute_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->dim_mute_updated) {
- 		err = scarlett2_update_dim_mute(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->dim_mute[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_dim_mute_ctl_put(struct snd_kcontrol *kctl,
-@@ -6589,29 +6252,24 @@ static int scarlett2_dim_mute_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	int index = elem->control;
--	int oval, val, err = 0, i;
-+	int oval, val, err, i;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->dim_mute[index];
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->dim_mute[index] = val;
- 
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_DIM_MUTE,
- 				       index, val);
--	if (err == 0)
--		err = 1;
--
- 	if (index == SCARLETT2_BUTTON_MUTE)
- 		for (i = 0; i < private->num_line_out; i++) {
- 			int line_index = line_out_remap(private, i);
-@@ -6624,9 +6282,7 @@ static int scarlett2_dim_mute_ctl_put(struct snd_kcontrol *kctl,
- 			}
- 		}
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_dim_mute_ctl = {
-@@ -7038,25 +6694,20 @@ static int scarlett2_mixer_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->mix_updated) {
- 		err = scarlett2_update_mix(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->mix[elem->control];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_mixer_ctl_put(struct snd_kcontrol *kctl,
-@@ -7065,15 +6716,13 @@ static int scarlett2_mixer_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int oval, val, mix_num, err = 0;
-+	int oval, val, mix_num, err;
- 	int index = elem->control;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->mix[index];
- 	val = clamp(ucontrol->value.integer.value[0],
-@@ -7081,16 +6730,12 @@ static int scarlett2_mixer_ctl_put(struct snd_kcontrol *kctl,
- 	mix_num = index / private->num_mix_in;
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->mix[index] = val;
- 	err = scarlett2_usb_set_mix(mixer, mix_num);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const DECLARE_TLV_DB_MINMAX(
-@@ -7177,25 +6822,20 @@ static int scarlett2_direct_monitor_ctl_get(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->direct_monitor_updated) {
- 		err = scarlett2_update_direct_monitor(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.enumerated.item[0] = private->direct_monitor_switch;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_direct_monitor_ctl_put(
-@@ -7204,34 +6844,27 @@ static int scarlett2_direct_monitor_ctl_put(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--
- 	int index = elem->control;
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->direct_monitor_switch;
- 	val = min(ucontrol->value.enumerated.item[0], 2U);
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->direct_monitor_switch = val;
- 
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_DIRECT_MONITOR, index, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_direct_monitor_stereo_enum_ctl_info(
-@@ -7281,33 +6914,27 @@ static int scarlett2_monitor_mix_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int oval, val, err = 0;
-+	int oval, val, err;
- 	int index = elem->control;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->monitor_mix[index];
- 	val = clamp(ucontrol->value.integer.value[0],
- 		    0L, (long)SCARLETT2_MIXER_MAX_VALUE);
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->monitor_mix[index] = val;
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_DIRECT_MONITOR_GAIN,
- 		index, scarlett2_mixer_values[val]);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_monitor_mix_ctl = {
-@@ -7433,25 +7060,20 @@ static int scarlett2_mux_src_enum_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	int index = line_out_remap(private, elem->control);
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->mux_updated) {
- 		err = scarlett2_usb_get_mux(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.enumerated.item[0] = private->mux[index];
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_mux_src_enum_ctl_put(struct snd_kcontrol *kctl,
-@@ -7461,30 +7083,24 @@ static int scarlett2_mux_src_enum_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
- 	int index = line_out_remap(private, elem->control);
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->mux[index];
- 	val = min(ucontrol->value.enumerated.item[0],
- 		  private->num_mux_srcs - 1U);
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->mux[index] = val;
- 	err = scarlett2_usb_set_mux(mixer);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_mux_src_enum_ctl = {
-@@ -7561,17 +7177,15 @@ static int scarlett2_meter_ctl_get(struct snd_kcontrol *kctl,
- 	u16 meter_levels[SCARLETT2_MAX_METERS];
- 	int i, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	err = scarlett2_usb_get_meter_levels(mixer, elem->channels,
- 					     meter_levels);
- 	if (err < 0)
--		goto unlock;
-+		return err;
- 
- 	/* copy & translate from meter_levels[] using meter_level_map[] */
- 	for (i = 0; i < elem->channels; i++) {
-@@ -7586,10 +7200,7 @@ static int scarlett2_meter_ctl_get(struct snd_kcontrol *kctl,
- 		ucontrol->value.integer.value[i] = value;
- 	}
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--
--	return err;
-+	return 0;
- }
- 
- static const struct snd_kcontrol_new scarlett2_meter_ctl = {
-@@ -7631,33 +7242,26 @@ static int scarlett2_msd_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
-+	int oval, val, err;
- 
--	int oval, val, err = 0;
-+	guard(mutex)(&private->data_mutex);
- 
--	mutex_lock(&private->data_mutex);
--
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->msd_switch;
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->msd_switch = val;
- 
- 	/* Send switch change to the device */
- 	err = scarlett2_usb_set_config(mixer, SCARLETT2_CONFIG_MSD_SWITCH,
- 				       0, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_msd_ctl = {
-@@ -7702,21 +7306,18 @@ static int scarlett2_standalone_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
-+	int oval, val, err;
- 
--	int oval, val, err = 0;
-+	guard(mutex)(&private->data_mutex);
- 
--	mutex_lock(&private->data_mutex);
--
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->standalone_switch;
- 	val = !!ucontrol->value.integer.value[0];
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->standalone_switch = val;
- 
-@@ -7724,12 +7325,8 @@ static int scarlett2_standalone_ctl_put(struct snd_kcontrol *kctl,
- 	err = scarlett2_usb_set_config(mixer,
- 				       SCARLETT2_CONFIG_STANDALONE_SWITCH,
- 				       0, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_standalone_ctl = {
-@@ -7789,20 +7386,17 @@ static int scarlett2_power_status_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
- 	if (private->power_status_updated) {
- 		err = scarlett2_update_power_status(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->power_status;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_power_status_ctl_info(
-@@ -7864,25 +7458,20 @@ static int scarlett2_bluetooth_volume_ctl_get(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int err = 0;
-+	int err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	if (private->bluetooth_updated) {
- 		err = scarlett2_update_bluetooth_volume(mixer);
- 		if (err < 0)
--			goto unlock;
-+			return err;
- 	}
- 	ucontrol->value.integer.value[0] = private->bluetooth_volume;
--
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return 0;
- }
- 
- static int scarlett2_bluetooth_volume_ctl_put(struct snd_kcontrol *kctl,
-@@ -7891,32 +7480,26 @@ static int scarlett2_bluetooth_volume_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int oval, val, err = 0;
-+	int oval, val, err;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
--	if (private->hwdep_in_use) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	if (private->hwdep_in_use)
-+		return -EBUSY;
- 
- 	oval = private->bluetooth_volume;
- 	val = clamp(ucontrol->value.integer.value[0],
- 		    0L, (long)SCARLETT2_MAX_BLUETOOTH_VOLUME);
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->bluetooth_volume = val;
- 	err = scarlett2_usb_set_config(mixer,
- 				       SCARLETT2_CONFIG_BLUETOOTH_VOLUME,
- 				       0, val);
--	if (err == 0)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static int scarlett2_bluetooth_volume_ctl_info(
-@@ -8011,39 +7594,31 @@ static int scarlett2_spdif_mode_ctl_put(struct snd_kcontrol *kctl,
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct usb_mixer_interface *mixer = elem->head.mixer;
- 	struct scarlett2_data *private = mixer->private_data;
--	int oval, val, err = 0;
-+	int oval, val, err;
- 	int i;
- 
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 
- 	oval = private->spdif_mode;
- 	val = ucontrol->value.enumerated.item[0];
- 
--	if (val < 0) {
--		err = -EINVAL;
--		goto unlock;
--	}
-+	if (val < 0)
-+		return -EINVAL;
- 
- 	for (i = 0; i <= val; i++)
--		if (private->info->spdif_mode_values[i] == 0xff) {
--			err = -EINVAL;
--			goto unlock;
--		}
-+		if (private->info->spdif_mode_values[i] == 0xff)
-+			return -EINVAL;
- 
- 	if (oval == val)
--		goto unlock;
-+		return 0;
- 
- 	private->spdif_mode = val;
- 
- 	err = scarlett2_usb_set_config(
- 		mixer, SCARLETT2_CONFIG_SPDIF_MODE, 0,
- 		private->info->spdif_mode_values[val]);
--	if (!err)
--		err = 1;
- 
--unlock:
--	mutex_unlock(&private->data_mutex);
--	return err;
-+	return err < 0 ? err : 1;
- }
- 
- static const struct snd_kcontrol_new scarlett2_spdif_mode_ctl = {
-@@ -9140,9 +8715,8 @@ static int snd_scarlett2_controls_create(
-  */
- static void scarlett2_lock(struct scarlett2_data *private)
+diff --git a/sound/usb/mixer_us16x08.c b/sound/usb/mixer_us16x08.c
+index 236b69054867..1c5712c31f5e 100644
+--- a/sound/usb/mixer_us16x08.c
++++ b/sound/usb/mixer_us16x08.c
+@@ -152,12 +152,11 @@ static int snd_us16x08_recv_urb(struct snd_usb_audio *chip,
+ 	unsigned char *buf, int size)
  {
--	mutex_lock(&private->data_mutex);
-+	guard(mutex)(&private->data_mutex);
- 	private->hwdep_in_use = 1;
--	mutex_unlock(&private->data_mutex);
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	snd_usb_ctl_msg(chip->dev,
+ 		usb_rcvctrlpipe(chip->dev, 0),
+ 		SND_US16X08_URB_METER_REQUEST,
+ 		SND_US16X08_URB_METER_REQUESTTYPE, 0, 0, buf, size);
+-	mutex_unlock(&chip->mutex);
+ 	return 0;
  }
  
- /* Call SCARLETT2_USB_GET_ERASE to get the erase progress */
-@@ -9414,7 +8988,7 @@ static long scarlett2_hwdep_read(struct snd_hwdep *hw,
- 		__le32 len;
- 	} __packed req;
+diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
+index bff92505e408..c52fd0989c93 100644
+--- a/sound/usb/pcm.c
++++ b/sound/usb/pcm.c
+@@ -77,10 +77,10 @@ static snd_pcm_uframes_t snd_usb_pcm_pointer(struct snd_pcm_substream *substream
  
--	u8 *resp;
-+	u8 *resp __free(kfree) = NULL;
- 
- 	/* Flash segment must first be selected */
- 	if (private->flash_write_state != SCARLETT2_FLASH_WRITE_STATE_SELECTED)
-@@ -9460,20 +9034,14 @@ static long scarlett2_hwdep_read(struct snd_hwdep *hw,
- 	err = scarlett2_usb(mixer, SCARLETT2_USB_READ_SEGMENT,
- 			    &req, sizeof(req), resp, count);
- 	if (err < 0)
--		goto error;
-+		return err;
- 
- 	/* Copy the response to userspace */
--	if (copy_to_user(buf, resp, count)) {
--		err = -EFAULT;
--		goto error;
--	}
-+	if (copy_to_user(buf, resp, count))
-+		return -EFAULT;
- 
- 	*offset += count;
--	err = count;
--
--error:
--	kfree(resp);
--	return err;
-+	return count;
+ 	if (atomic_read(&subs->stream->chip->shutdown))
+ 		return SNDRV_PCM_POS_XRUN;
+-	spin_lock(&subs->lock);
+-	hwptr_done = subs->hwptr_done;
+-	runtime->delay = snd_usb_pcm_delay(subs, runtime);
+-	spin_unlock(&subs->lock);
++	scoped_guard(spinlock, &subs->lock) {
++		hwptr_done = subs->hwptr_done;
++		runtime->delay = snd_usb_pcm_delay(subs, runtime);
++	}
+ 	return bytes_to_frames(runtime, hwptr_done);
  }
  
- static long scarlett2_hwdep_write(struct snd_hwdep *hw,
-@@ -9491,7 +9059,7 @@ static long scarlett2_hwdep_write(struct snd_hwdep *hw,
- 		__le32 offset;
- 		__le32 pad;
- 		u8 data[];
--	} __packed *req;
-+	} __packed *req __free(kfree) = NULL;
- 
- 	/* Calculate the maximum permitted in data[] */
- 	const size_t max_data_size = SCARLETT2_FLASH_RW_MAX -
-@@ -9545,22 +9113,16 @@ static long scarlett2_hwdep_write(struct snd_hwdep *hw,
- 	req->offset = cpu_to_le32(*offset);
- 	req->pad = 0;
- 
--	if (copy_from_user(req->data, buf, count)) {
--		err = -EFAULT;
--		goto error;
--	}
-+	if (copy_from_user(req->data, buf, count))
-+		return -EFAULT;
- 
- 	err = scarlett2_usb(mixer, SCARLETT2_USB_WRITE_SEGMENT,
- 			    req, len, NULL, 0);
- 	if (err < 0)
--		goto error;
-+		return err;
- 
- 	*offset += count;
--	err = count;
--
--error:
--	kfree(req);
--	return err;
-+	return count;
- }
- 
- static int scarlett2_hwdep_release(struct snd_hwdep *hw, struct file *file)
-@@ -9610,7 +9172,7 @@ static ssize_t scarlett2_devmap_read(
- 	loff_t                 pos)
- {
- 	struct usb_mixer_interface *mixer = entry->private_data;
--	u8           *resp_buf;
-+	u8           *resp_buf __free(kfree) = NULL;
- 	const size_t  block_size = SCARLETT2_DEVMAP_BLOCK_SIZE;
- 	size_t        copied = 0;
- 
-@@ -9649,15 +9211,11 @@ static ssize_t scarlett2_devmap_read(
- 		req = cpu_to_le32(pos / block_size);
- 		err = scarlett2_usb(mixer, SCARLETT2_USB_GET_DEVMAP,
- 				    &req, sizeof(req), resp_buf, read_size);
--		if (err < 0) {
--			kfree(resp_buf);
-+		if (err < 0)
- 			return copied ? copied : err;
--		}
- 
--		if (copy_to_user(buf, resp_buf + offset, copy_size)) {
--			kfree(resp_buf);
-+		if (copy_to_user(buf, resp_buf + offset, copy_size))
- 			return -EFAULT;
--		}
- 
- 		buf += copy_size;
- 		pos += copy_size;
-@@ -9665,7 +9223,6 @@ static ssize_t scarlett2_devmap_read(
- 		count -= copy_size;
+@@ -560,9 +560,9 @@ int snd_usb_hw_params(struct snd_usb_substream *subs,
+ 					  subs->sync_endpoint);
  	}
  
--	kfree(resp_buf);
- 	return copied;
+-	mutex_lock(&chip->mutex);
+-	subs->cur_audiofmt = fmt;
+-	mutex_unlock(&chip->mutex);
++	scoped_guard(mutex, &chip->mutex) {
++		subs->cur_audiofmt = fmt;
++	}
+ 
+ 	if (!subs->data_endpoint->need_setup)
+ 		goto unlock;
+@@ -611,9 +611,9 @@ int snd_usb_hw_free(struct snd_usb_substream *subs)
+ 	struct snd_usb_audio *chip = subs->stream->chip;
+ 
+ 	snd_media_stop_pipeline(subs);
+-	mutex_lock(&chip->mutex);
+-	subs->cur_audiofmt = NULL;
+-	mutex_unlock(&chip->mutex);
++	scoped_guard(mutex, &chip->mutex) {
++		subs->cur_audiofmt = NULL;
++	}
+ 	if (!snd_usb_lock_shutdown(chip)) {
+ 		if (stop_endpoints(subs, false))
+ 			sync_pending_stops(subs);
+@@ -1244,13 +1244,11 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
+ 	struct snd_usb_audio *chip = subs->stream->chip;
+ 	int ret;
+ 
+-	mutex_lock(&chip->mutex);
+-	if (subs->opened) {
+-		mutex_unlock(&chip->mutex);
+-		return -EBUSY;
++	scoped_guard(mutex, &chip->mutex) {
++		if (subs->opened)
++			return -EBUSY;
++		subs->opened = 1;
+ 	}
+-	subs->opened = 1;
+-	mutex_unlock(&chip->mutex);
+ 
+ 	runtime->hw = snd_usb_hardware;
+ 	/* need an explicit sync to catch applptr update in low-latency mode */
+@@ -1281,9 +1279,9 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
+ err_resume:
+ 	snd_usb_autosuspend(subs->stream->chip);
+ err_open:
+-	mutex_lock(&chip->mutex);
+-	subs->opened = 0;
+-	mutex_unlock(&chip->mutex);
++	scoped_guard(mutex, &chip->mutex) {
++		subs->opened = 0;
++	}
+ 
+ 	return ret;
+ }
+@@ -1307,9 +1305,9 @@ static int snd_usb_pcm_close(struct snd_pcm_substream *substream)
+ 
+ 	subs->pcm_substream = NULL;
+ 	snd_usb_autosuspend(subs->stream->chip);
+-	mutex_lock(&chip->mutex);
+-	subs->opened = 0;
+-	mutex_unlock(&chip->mutex);
++	scoped_guard(mutex, &chip->mutex) {
++		subs->opened = 0;
++	}
+ 
+ 	return 0;
+ }
+@@ -1325,7 +1323,6 @@ static void retire_capture_urb(struct snd_usb_substream *subs,
+ 	struct snd_pcm_runtime *runtime = subs->pcm_substream->runtime;
+ 	unsigned int stride, frames, bytes, oldptr;
+ 	int i, period_elapsed = 0;
+-	unsigned long flags;
+ 	unsigned char *cp;
+ 	int current_frame_number;
+ 
+@@ -1358,22 +1355,21 @@ static void retire_capture_urb(struct snd_usb_substream *subs,
+ 							oldbytes, bytes);
+ 		}
+ 		/* update the current pointer */
+-		spin_lock_irqsave(&subs->lock, flags);
+-		oldptr = subs->hwptr_done;
+-		subs->hwptr_done += bytes;
+-		if (subs->hwptr_done >= subs->buffer_bytes)
+-			subs->hwptr_done -= subs->buffer_bytes;
+-		frames = (bytes + (oldptr % stride)) / stride;
+-		subs->transfer_done += frames;
+-		if (subs->transfer_done >= runtime->period_size) {
+-			subs->transfer_done -= runtime->period_size;
+-			period_elapsed = 1;
++		scoped_guard(spinlock_irqsave, &subs->lock) {
++			oldptr = subs->hwptr_done;
++			subs->hwptr_done += bytes;
++			if (subs->hwptr_done >= subs->buffer_bytes)
++				subs->hwptr_done -= subs->buffer_bytes;
++			frames = (bytes + (oldptr % stride)) / stride;
++			subs->transfer_done += frames;
++			if (subs->transfer_done >= runtime->period_size) {
++				subs->transfer_done -= runtime->period_size;
++				period_elapsed = 1;
++			}
++
++			/* realign last_frame_number */
++			subs->last_frame_number = current_frame_number;
+ 		}
+-
+-		/* realign last_frame_number */
+-		subs->last_frame_number = current_frame_number;
+-
+-		spin_unlock_irqrestore(&subs->lock, flags);
+ 		/* copy a data chunk */
+ 		if (oldptr + bytes > subs->buffer_bytes) {
+ 			unsigned int bytes1 = subs->buffer_bytes - oldptr;
+diff --git a/sound/usb/proc.c b/sound/usb/proc.c
+index c8b967bd7065..f4b7a7ff3203 100644
+--- a/sound/usb/proc.c
++++ b/sound/usb/proc.c
+@@ -193,7 +193,7 @@ static void proc_dump_substream_status(struct snd_usb_audio *chip,
+ 				       struct snd_usb_substream *subs,
+ 				       struct snd_info_buffer *buffer)
+ {
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	if (subs->running) {
+ 		snd_iprintf(buffer, "  Status: Running\n");
+ 		if (subs->cur_audiofmt) {
+@@ -204,7 +204,6 @@ static void proc_dump_substream_status(struct snd_usb_audio *chip,
+ 	} else {
+ 		snd_iprintf(buffer, "  Status: Stop\n");
+ 	}
+-	mutex_unlock(&chip->mutex);
  }
  
+ static void proc_pcm_format_read(struct snd_info_entry *entry, struct snd_info_buffer *buffer)
 -- 
 2.50.1
 
