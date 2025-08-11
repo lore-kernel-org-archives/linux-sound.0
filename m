@@ -1,107 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7F91DF977;
-	Mon, 11 Aug 2025 08:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DFE13A86C
+	for <linux-sound@vger.kernel.org>; Mon, 11 Aug 2025 10:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754902094; cv=none; b=HQXhDRr8WGj/YyokH7Wdy1ExYKh1Vw3SzXZtvy7IXVrkpYm/xX7ougtdT3kaKaoKg0vUrx3VFXK392eSp+AM/sgorsSUyZu7/N/7ShOW+/JkVVbsCuja1j5D+rQfCHCFAxoRuCFUesDhJAzVVSeiDC7Et95wthIr2T88DW1+RkQ=
+	t=1754906899; cv=none; b=rkls8wL0WUsRBvgrNMtqSW1iH86Kp1E58o0fdAWzJ0O7Yem7G0XOcB1a/XwryvHvsKh0ghDxOXjwrqCR3yzwxRwvkKAeO4XB7hvbNFpMpjWtRqkU235kDHL2Arvad7KmLjp9Xy7CsZD4kJIETUsWbcUoboIwgaSyaMEm/JlKGpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754902094; c=relaxed/simple;
-	bh=sPjg+h2SttEo8xH0kwTdqtlRqB886+Ii/S4Rj9LXuaQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UjG2OMPIjH1PPWfATp2uybVehnajQTt0iCHKhK8ICLE9fTX9gISk/HPl1lDOcWTYy3DhdrG6Rl9wHX5UFakziSKY2yFvtk+TyBs6mgTTSjj23V8zG2dw0j3Is769Ve7Vq20RP/W1kDzZHBvT4w77YTn9nplL5nQ/SKnLTKBddA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r0SSgRgm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754906899; c=relaxed/simple;
+	bh=jLF/i1dLEeQcqrwbot7XhKlFVCYr0I15H9m5aWV6mHQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=o1kkzUC3GuVH7h4Q5WUmuUuG3+Pv9PQFZQgeqkBi/SsAHMoPpaJeZFyLbJTQHNN3uTLr1rFTcmx8vsvfNdwFFPQXGDp7NNZ169SMr3PVJNsri1YHRhx/ikkDErRMkxAiT/QF3aiw18RheYXPhiWcXKSwKQpMUiPRm2nYAWoYJKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z5wAO8TN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jdha34qm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kclh3Y5T; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tNMYBBZe; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r0SSgRgm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7109DC4CEED;
-	Mon, 11 Aug 2025 08:48:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754902094;
-	bh=sPjg+h2SttEo8xH0kwTdqtlRqB886+Ii/S4Rj9LXuaQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=r0SSgRgmfayjBC3g16i25zRmOLwqI5o5y2+U0IhR7PxnCDkq2X/zcFyZ+RIRbAlGG
-	 7klbbTCaOwT8bNAgoVT77aLanCy/mhSLcqutyBRBvo7t8Jo9kTB2Rd70a+Jr3AN9/F
-	 fVfWckL6luTbzxoSFBmW0++yYzGqVrOwEkCDhBBsilcJHYpfUxyIwusle/zt9487Ps
-	 zMNxJP32/gY5BO/LBUsXRgXuFksZN6UAHlcpgf7Uft9aNR4BGFtmJHM9pz0pt3au25
-	 418V7u44nUvsbjUTqHEznZNkX7GR/2IdddVi10krsuh9O7ZWtz8f+Rdw6HL0GRoAP3
-	 bnAdU7au5UzuQ==
-Message-ID: <91d05d08-e5be-47d1-a18c-bae972d8eb95@kernel.org>
-Date: Mon, 11 Aug 2025 10:48:09 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z5wAO8TN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jdha34qm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kclh3Y5T";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tNMYBBZe"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 298F833718;
+	Mon, 11 Aug 2025 10:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1754906894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YORe+m3psuwtzdH36UfIGNu02mJx8iY6iH2axASyE4=;
+	b=Z5wAO8TNWszjheD11oEHNDm4LkCPOXQ15QluTMBpr/LekVAO4Xd4wKsWYKyg7IzTr2u/Fd
+	h3xpQIr8ZXfZQx8zVYawaahfeuvwTfD3r2Mq7SuX0Ab1ecOb6w0CnQJxbvzn5zK3Ntuv/e
+	LmMnJzMW8g37J7cby3Q5kJfF9hOCN+Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1754906894;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YORe+m3psuwtzdH36UfIGNu02mJx8iY6iH2axASyE4=;
+	b=jdha34qmLO3D1xm2E5xpoQ5upGjy4ydAi3gYedhG9BqPGXt4pl3WNyUoE6PPXEZQaxqxym
+	QJLExOgFOQ2gNLBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kclh3Y5T;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tNMYBBZe
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1754906893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YORe+m3psuwtzdH36UfIGNu02mJx8iY6iH2axASyE4=;
+	b=kclh3Y5TyNVlxjtVF6AiJ0OUMUL3ESl7QIO1gkUF6aUdD4CxhLwM5Rw5iMbYwlgVBtOsBl
+	O3St6NsbP7WUuxzla+0LCSEJznBdPVgiD8GFnJZMkn6B8wH3/Aak2WBW6ee/Bm4ng9s3nv
+	G8CDSUqxu+pzhPHiD5TOq4wjMDaLfbY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1754906893;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YORe+m3psuwtzdH36UfIGNu02mJx8iY6iH2axASyE4=;
+	b=tNMYBBZeZ3xGJWhmCWZjEaja27pULKHFNAmHFWRero2Ii7tKog5p7oRgJQBxd+x/TTzbT9
+	F9V5iR4jePhkXPDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF76013A7E;
+	Mon, 11 Aug 2025 10:08:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wMFSNQzBmWiVBwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 11 Aug 2025 10:08:12 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>
+Subject: [PATCH 01/25] ALSA: hda: Introduce auto cleanup macros for PM
+Date: Mon, 11 Aug 2025 12:07:35 +0200
+Message-ID: <20250811100807.7962-2-tiwai@suse.de>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250811100807.7962-1-tiwai@suse.de>
+References: <20250811100807.7962-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] ASoC: dt-bindings: realtek,alc5623: convert to DT
- schema
-To: Mahdi Khosravi <mmk1776@gmail.com>, devicetree@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250811080940.7909-1-mmk1776@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250811080940.7909-1-mmk1776@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 298F833718
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email]
+X-Spam-Score: -3.01
 
-On 11/08/2025 10:09, Mahdi Khosravi wrote:
-> Convert alc5623 audio codec binding to DT schema.
-> 
-> Also add "realtek,alc5621" to the compatible list for
-> existing use in kirkwood-t5325.dts.
-> 
-> Signed-off-by: Mahdi Khosravi <mmk1776@gmail.com>
+The temporary power up/down of the codec via snd_hda_power_up() and
+_down() (or snd_hda_power_up_pm() and _down_pm()) is seen in various
+places.  This patch introduces simple auto-cleanup macros for those
+call patterns, so that the drivers don't have to call the
+corresponding power-down calls explicitly.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Namely,
+	err = snd_hda_power_up(codec);
+	if (err < 0)
+		return err;
+	....
+	snd_power_down(codec);
 
+can drop the *_down() call by replacing with
+	CLASS(snd_hda_power, pm)(codec);
+	if (pm.err < 0)
+		return pm.err;
 
-Best regards,
-Krzysztof
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ include/sound/hda_codec.h | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index ddc9c392f93f..e83501ff2875 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -503,6 +503,36 @@ static inline bool hda_codec_need_resume(struct hda_codec *codec)
+ 	return !codec->relaxed_resume && codec->jacktbl.used;
+ }
+ 
++/*
++ * PM with auto-cleanup: call like CLASS(snd_hda_power, pm)(codec)
++ * If the error handling is needed, refer pm.err.
++ */
++struct __hda_power_obj {
++	struct hda_codec *codec;
++	int err;
++};
++
++static inline struct __hda_power_obj __snd_hda_power_up(struct hda_codec *codec)
++{
++	struct __hda_power_obj T = { .codec = codec };
++	T.err = snd_hda_power_up(codec);
++	return T;
++}
++
++static inline struct __hda_power_obj __snd_hda_power_up_pm(struct hda_codec *codec)
++{
++	struct __hda_power_obj T = { .codec = codec };
++	T.err = snd_hda_power_up_pm(codec);
++	return T;
++}
++
++DEFINE_CLASS(snd_hda_power, struct __hda_power_obj,
++	     snd_hda_power_down((_T).codec), __snd_hda_power_up(codec),
++	     struct hda_codec *codec)
++DEFINE_CLASS(snd_hda_power_pm, struct __hda_power_obj,
++	     snd_hda_power_down_pm((_T).codec), __snd_hda_power_up_pm(codec),
++	     struct hda_codec *codec)
++
+ #ifdef CONFIG_SND_HDA_PATCH_LOADER
+ /*
+  * patch firmware
+-- 
+2.50.1
+
