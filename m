@@ -1,130 +1,154 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AE92F28F1;
-	Tue, 12 Aug 2025 17:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5681E2D5A10;
+	Tue, 12 Aug 2025 20:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755018147; cv=none; b=oGcxxkedWuWkhhF1lk+FDDjl7+uGuq35TuaCI4pEGEbiwyk9l7nub62SOC+Waew48B6co6bnWcOp8Pw1YRko/qBevTnB7fdRTgDWIQS7F1ck2PtKvHW69LboLjLNHlyyEENc+cD56LI1bOMK6G59f6XuVStY6ZHP39PIGkDe12Y=
+	t=1755030840; cv=none; b=oPr6b49v0U0UKTDf2uowkcYY0v2ZmamBkWziaPyHJGl+ENI8q5CHb/YNbgkcFvnvtc7CsynR6yQ5NIPcTSc/eK+C2T7hh8m0rvbaA3CvpuFLffVZrIReUoRn0b7WMbI2B+fgOYtyzJkpuOUNH/lFAykPKaOAAaa2C/t8nXBCeP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755018147; c=relaxed/simple;
-	bh=ORKtKIjOObFOnyi6C0JkWlQVdNqqRyj7TK7gyYhelaU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BhQESv9PH47Z8jWVgQlShW2ZAQdKCuztu0GWLQD3F6AzDuAF1ter7BeXOulNcBhnXuHcbg8RFH6cNMnYo1XaiADBHL+HN567zVJF9TD1wLp9HACTvLuRMBTudJxcX0fyR8z1CyltxBGv9Tbb+bIAZYaNygsQoOAwRwbj2TFhXyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=V4Ztrk78; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1755030840; c=relaxed/simple;
+	bh=rzrbO5xcK/Wu8K8pRlisGVRhj7ITITPQ2YAOSrXQ0Hc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k/4rnIocYDsqlwKWc6Wb4kg3F/eZ8g9406LXns8P0enNybj+G4N4avWxrjzIAZyerpPcR/y0jyWxo81BxEj7VyHcHtDulQQ0kkOAN3AKpvZAtlhOgLzPCrmXkqAjVj8kpVHiIozfP7POAzmrzAhBYmzcvW6/9sNKEZLfjbSeNVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UTUw039H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="V4Ztrk78"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DF11C40E0289;
-	Tue, 12 Aug 2025 17:02:21 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id P7u1MG-buWMw; Tue, 12 Aug 2025 17:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1755018137; bh=OWNkdg7JeQ94GyRKo+H1ESi2roT5ujbMOOMUZMYSPNs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V4Ztrk78ZD9ZO1cN+IU8PlhFnSufi2ol4yIMkFmKmAi2Ff6EsUTgRCJP8bpFNx+du
-	 oYxZUcld7KVS4iNtwFiXgX5aFJb3wVc5yxigMpoiyDP96xkFMK/PpJfCuky9Eq0HQB
-	 6sGbIHgMtI5H4B6YYjVu/suxDs+BJQoUgechdcyta4Pqtt74lWfUx2Bt2Ar5CS3oOJ
-	 lyGQCb5uxqeVZsHS7BXWPP09ZgBgb0Pl2U1zolc5KckeMOjicCAAWNNDXAC+VkovGY
-	 sRbokEAEob9MEgQs8AoVJNqaCPawoEfwNRqFAYruFZxlq3VYJ8ohFHx0+Yz7lmEB2h
-	 eVTX8F0v1Gq77qplp7oNJV4bct48vimUphQVRMH09c194pGsvaEWC/7/L1NVgYaj6B
-	 lw3z2w8yFqHfqnCJe7cxkHooAmXnHobias4KT7ey//TgnvxwZVs3l4kkNWYco2IJ9i
-	 vRD0T5jtoXE+vfrEvL58ccka+GVoAC9kXVfGowJ3tuIp29+ZEQxLw1bdDp9FaIWuuH
-	 zFPNfidoEwYRIv6NmYM6GOxNZe/K/6TgwgdCK79rMPrIGH80/Ck1JyLIW+qsCHDjc2
-	 mFquqUVIA4IRlf1dnGa6WngNdMajuVIV1MLEh4tn7cZ7JzafuuhGzUYp9HuDrEi7Ky
-	 SpqFTdOmaP+uRX/2LOWmj6vo=
-Received: from zn.tnic (pd953092e.dip0.t-ipconnect.de [217.83.9.46])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EACF540E00DD;
-	Tue, 12 Aug 2025 17:02:00 +0000 (UTC)
-Date: Tue, 12 Aug 2025 19:01:55 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-gpio@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Arnd Bergmann <arnd@arndb.de>, "H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mateusz =?utf-8?Q?Jo=C5=84czyk?= <mat.jonczyk@o2.pl>,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 06/21] x86/olpc: select GPIOLIB_LEGACY
-Message-ID: <20250812170155.GEaJtzg6ud45lDHwEf@fat_crate.local>
-References: <20250808151822.536879-1-arnd@kernel.org>
- <20250808151822.536879-7-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTUw039H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBFFCC4CEF4;
+	Tue, 12 Aug 2025 20:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755030839;
+	bh=rzrbO5xcK/Wu8K8pRlisGVRhj7ITITPQ2YAOSrXQ0Hc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UTUw039HaDFC5GMa5FZMvSy8rNq7IVpDg2j1hK9nszqq1zwk6lAS8G0W9wnDz1AOn
+	 M+a+XAXAcg7fvVWyuVXo8EGb9udEGYpSM9u93/A9dDXBmR75kCBlWpO2sL+W7Rwo+Y
+	 +rtJ/gvB2Z3eYuU48L9/4hsbIgpyFHSb761ma/PYWnYW3Q+YivS1ZCYiTUzQQ+eSaw
+	 AkWXv1p3WOxgpcfdVTb93cftkDI9i8omUSBAX65U2eO6RGsoQHdZv9kKe2KHI1LaYR
+	 OVZ97qu9UGbS8qO4Wh5c9wzcGly5nEx2yubLGjGJUxIk770NFgDs99DsFUMJVKNkuW
+	 WoPyoOJ2TRb1g==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: dt-bindings: Convert brcm,bcm2835-i2s to DT schema
+Date: Tue, 12 Aug 2025 15:33:55 -0500
+Message-ID: <20250812203356.735234-1-robh@kernel.org>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250808151822.536879-7-arnd@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 08, 2025 at 05:17:50PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The OLPC GPIO controller sets up a fixed number space that is used
-> by at least two drivers:
-> 
-> arch/x86/platform/olpc/olpc-xo1-sci.c: In function 'setup_ec_sci':
-> arch/x86/platform/olpc/olpc-xo1-sci.c:358:13: error: implicit declaration of function 'gpio_request' [-Wimplicit-function-declaration]
->   358 |         r = gpio_request(OLPC_GPIO_ECSCI, "OLPC-ECSCI");
->       |             ^~~~~~~~~~~~
-> sound/pci/cs5535audio/cs5535audio_olpc.c: In function 'olpc_analog_input':
-> sound/pci/cs5535audio/cs5535audio_olpc.c:41:9: error: implicit declaration of function 'gpio_set_value'; did you mean 'gpiod_set_value'? [-Wimplicit-function-declaration]
->    41 |         gpio_set_value(OLPC_GPIO_MIC_AC, on);
-> 
-> Select CONFIG_GPIOLIB_LEGACY for this platform and make sure the
-> sound driver portion cannot be compiled without this.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  arch/x86/Kconfig  | 1 +
->  sound/pci/Kconfig | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index 58d890fe2100..3fd5e378a9f1 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -3006,6 +3006,7 @@ config OLPC
->  	bool "One Laptop Per Child support"
->  	depends on !X86_PAE
->  	select GPIOLIB
-> +	select GPIOLIB_LEGACY
->  	select OF
->  	select OF_PROMTREE
->  	select IRQ_DOMAIN
-> diff --git a/sound/pci/Kconfig b/sound/pci/Kconfig
-> index e0996a9d90b0..6366f72b3667 100644
-> --- a/sound/pci/Kconfig
-> +++ b/sound/pci/Kconfig
-> @@ -300,6 +300,7 @@ config SND_CS5535AUDIO
->  	tristate "CS5535/CS5536 Audio"
->  	depends on X86_32 || MIPS || COMPILE_TEST
->  	depends on HAS_IOPORT
-> +	depends on GPIOLIB_LEGACY || !OLPC
->  	select SND_PCM
->  	select SND_AC97_CODEC
->  	help
-> -- 
+Convert the Broadcom BCM2835 I2S/PCM binding to DT schema format. It's a
+straightforward conversion.
 
-Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ .../bindings/sound/brcm,bcm2835-i2s.txt       | 24 ---------
+ .../bindings/sound/brcm,bcm2835-i2s.yaml      | 51 +++++++++++++++++++
+ 2 files changed, 51 insertions(+), 24 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.yaml
 
+diff --git a/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.txt b/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.txt
+deleted file mode 100644
+index 7bb0362828ec..000000000000
+--- a/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.txt
++++ /dev/null
+@@ -1,24 +0,0 @@
+-* Broadcom BCM2835 SoC I2S/PCM module
+-
+-Required properties:
+-- compatible: "brcm,bcm2835-i2s"
+-- reg: Should contain PCM registers location and length.
+-- clocks: the (PCM) clock to use
+-- dmas: List of DMA controller phandle and DMA request line ordered pairs.
+-- dma-names: Identifier string for each DMA request line in the dmas property.
+-  These strings correspond 1:1 with the ordered pairs in dmas.
+-
+-  One of the DMA channels will be responsible for transmission (should be
+-  named "tx") and one for reception (should be named "rx").
+-
+-Example:
+-
+-bcm2835_i2s: i2s@7e203000 {
+-	compatible = "brcm,bcm2835-i2s";
+-	reg = <0x7e203000 0x24>;
+-	clocks = <&clocks BCM2835_CLOCK_PCM>;
+-
+-	dmas = <&dma 2>,
+-	       <&dma 3>;
+-	dma-names = "tx", "rx";
+-};
+diff --git a/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.yaml b/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.yaml
+new file mode 100644
+index 000000000000..f3cfe92684d0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/brcm,bcm2835-i2s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Broadcom BCM2835 SoC I2S/PCM module
++
++maintainers:
++  - Florian Fainelli <florian.fainelli@broadcom.com>
++
++properties:
++  compatible:
++    const: brcm,bcm2835-i2s
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  dmas:
++    items:
++      - description: Transmission DMA controller phandle and request line.
++      - description: Reception DMA controller phandle and request line.
++
++  dma-names:
++    items:
++      - const: tx
++      - const: rx
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - dmas
++  - dma-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/bcm2835.h>
++
++    i2s@7e203000 {
++        compatible = "brcm,bcm2835-i2s";
++        reg = <0x7e203000 0x24>;
++        clocks = <&clocks BCM2835_CLOCK_PCM>;
++        dmas = <&dma 2>, <&dma 3>;
++        dma-names = "tx", "rx";
++    };
 -- 
-Regards/Gruss,
-    Boris.
+2.47.2
 
-https://people.kernel.org/tglx/notes-about-netiquette
