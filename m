@@ -1,112 +1,101 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54DF52EE29D;
-	Tue, 12 Aug 2025 11:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F24B2C21D7;
+	Tue, 12 Aug 2025 12:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754997674; cv=none; b=PX7dz45eJD/AsK+m5neyDeZuin1hDW4xzL8VIbO+6phrYTyxxJvd3Wea4njlbprJRIM/Dc8vKbDySp7U4cyssl556YZqX/xo4jnzqCXjUYhkOPHJ4xS6xKoWBYzloFKXRDgaPDzVEEi58us9JuvSV+5Es+i2p9tVRbhe3vMGb1k=
+	t=1755000430; cv=none; b=ovIpEwBG4rSf5wjkWfSgPubng/A97CPJ3U/AhTrxFPb+rmVIRQfNgsDAqiHQSjzqnmCLZj7TNliZg3M4A1XkEPDVDND1doBbp3lMxaqOM0UVBwjzIPWtKXQIexjaqZ5SSTmUykoSVrfltJfPgLmX6WSM/h3h1lrJW0Ogai+HVOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754997674; c=relaxed/simple;
-	bh=FRfbeaR7rhVdJf6odNPziauZN7ICtJBaAc+3BTSFO/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L3c4ZKevFwMYtsl6zPxMQy8YUo+2HHljlfY5L0g3OKErRMTPnoOtskA8tCwmpLD1tp0he4dU7BDmBWdy2BVLOjaNsbGJbZu0QWbWQRGQgwFrMG0CEWh7XiddaLHlLbwAgeiPuDnZpyv5HxX9s+WHepWVjar8oJ7U/cVs8qOeTHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4c1SwY3Ysyz9sSH;
-	Tue, 12 Aug 2025 12:51:09 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wJCeT-QG9HUg; Tue, 12 Aug 2025 12:51:09 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4c1SwY2hXlz9sSC;
-	Tue, 12 Aug 2025 12:51:09 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 47B638B764;
-	Tue, 12 Aug 2025 12:51:09 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id WUmfHuHIqMrh; Tue, 12 Aug 2025 12:51:09 +0200 (CEST)
-Received: from PO20335.idsi0.si.c-s.fr (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 9054F8B763;
-	Tue, 12 Aug 2025 12:51:08 +0200 (CEST)
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: Herve Codina <herve.codina@bootlin.com>,
-	Qiang Zhao <qiang.zhao@nxp.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v2 0/4] ASoC: fsl: fsl_qmc_audio: Reduce amount of interrupts
-Date: Tue, 12 Aug 2025 12:50:54 +0200
-Message-ID: <cover.1754993232.git.christophe.leroy@csgroup.eu>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1755000430; c=relaxed/simple;
+	bh=hDryeNe10Owcz/z22DracgjAtkgAx9mmmIC9ti6DPNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VUjh8Uj262jxtAWsXBjVNi5fUb8ieotA4zmKbR7Sl6vg/jMUSf0G378dxxye3kZHMcXmKzqO3Oh7TpcXq8Vgd4T6ELiBRYKTay+BbGhV3w0AnpIcQcXOGgL3dF3MYalkzdCvQ48gA7Kz/RncCXZIcFaKdRaYegqYI4W87evi+YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=hvey+1ge; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="hvey+1ge"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1755000418; bh=hDryeNe10Owcz/z22DracgjAtkgAx9mmmIC9ti6DPNQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hvey+1geXvqlzBdxVqViE81tB6F6NyIMpVIkpU722theLxblUj6uAnKFYecaaEtHs
+	 e0LYd1zua+pgnvycAWfGWopTMf+bDxo8Km907pBQjzi9txG/ljBlbf+vHO4doZGk9w
+	 lWbxcps5vTPvkeRPtF/W6uWRmDWlZ2WWZmmN/3gIrmb3GTmJnQx7dbGyH6MVe5UWH7
+	 iNpyNhAzdGCV3NA6sPR4TCc/896mmYYdfMXWZaJPrkODYb8ShesfobqOr2rmtsJvM1
+	 7fhfXydvy7YPC3n5e6PxgMYlXSIjCawT1h84zNtSuEKnY1+flqT8N9EQs/ieSszowa
+	 ijD+DRjdwg+Eg==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 662D81000D4; Tue, 12 Aug 2025 13:06:58 +0100 (BST)
+Date: Tue, 12 Aug 2025 13:06:58 +0100
+From: Sean Young <sean@mess.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Matt Wu <wuqiang.matt@bytedance.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Kieran Bingham <kbingham@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 6/8] media: pwm-ir-tx: Avoid direct access to hrtimer
+ clockbase
+Message-ID: <aJsuYlRDgmpdQ_rK@gofer.mess.org>
+References: <20250812-hrtimer-cleanup-get_time-v1-0-b962cd9d9385@linutronix.de>
+ <20250812-hrtimer-cleanup-get_time-v1-6-b962cd9d9385@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754995860; l=2086; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=FRfbeaR7rhVdJf6odNPziauZN7ICtJBaAc+3BTSFO/Y=; b=m+XoSKxXt1CUMuWUoeYQjJDOTOPfYSKku1zZEwdalbQcCtNlcpJpL1GEWLIcaBA5FsSz9gnF4 VfjUyF3z/dJDj8+4m4MfsQjwe4fr+C5W2bdhOPsRmYVs+5m9nufHJ4m
-X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250812-hrtimer-cleanup-get_time-v1-6-b962cd9d9385@linutronix.de>
 
-This series reduces significantly the amount of interrupts on
-fsl_qmc_audio device.
+On Tue, Aug 12, 2025 at 08:08:14AM +0200, Thomas Weiﬂschuh wrote:
+> The field timer->base->get_time is a private implementation detail and
+> should not be accessed outside of the hrtimer core.
+> 
+> Switch to an equivalent higher-level helper.
+> 
+> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+> ---
+>  drivers/media/rc/pwm-ir-tx.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
+> index 84533fdd61aa6ce3c0f8593aaefe5919fd05c7f9..047472dc9244afe0e56e505be20f36fd7d9c449a 100644
+> --- a/drivers/media/rc/pwm-ir-tx.c
+> +++ b/drivers/media/rc/pwm-ir-tx.c
+> @@ -117,7 +117,6 @@ static int pwm_ir_tx_atomic(struct rc_dev *dev, unsigned int *txbuf,
+>  static enum hrtimer_restart pwm_ir_timer(struct hrtimer *timer)
+>  {
+>  	struct pwm_ir *pwm_ir = container_of(timer, struct pwm_ir, timer);
+> -	ktime_t now;
+>  
+>  	/*
+>  	 * If we happen to hit an odd latency spike, loop through the
+> @@ -139,9 +138,7 @@ static enum hrtimer_restart pwm_ir_timer(struct hrtimer *timer)
+>  		hrtimer_add_expires_ns(timer, ns);
+>  
+>  		pwm_ir->txbuf_index++;
+> -
+> -		now = timer->base->get_time();
+> -	} while (hrtimer_get_expires_tv64(timer) < now);
+> +	} while (hrtimer_expires_remaining(timer) > 0);
 
-Patches 1 and 2 are preparatory patches.
-Patch 3 is the main change
-Patch 4 is a cleanup which is enabled by previous patch
+Acked-by: Sean Young <sean@mess.org>
 
-Changes in v2:
-- Don't remove UB bit (Patch 1, comment from Herve Codina)
-- Make sure audio channels are ordered on TDM bus (Patch 2, new patch, comment from Herve Codina)
-- Drop struct qmc_dai_chan  (patch 4, new patch)
-
-Backgroup (copied from patch 3):
-
-In non-interleaved mode, several QMC channels are used in sync.
-More details can be found in commit 188d9cae5438 ("ASoC: fsl:
-fsl_qmc_audio: Add support for non-interleaved mode.")
-At the time being, an interrupt is requested on each channel to
-perform capture/playback completion, allthough the completion is
-really performed only once all channels have completed their work.
-
-This leads to a lot more interrupts than really needed. Looking at
-/proc/interrupts shows ~3800 interrupts per second when using
-4 capture and 4 playback devices with 5ms periods while
-only 1600 (200 x 4 + 200 x 4) periods are processed during one second.
-
-The QMC channels work in sync, the one started first is the one
-finishing first and the one started last is the one finishing last,
-so when the last one finishes it is guaranteed that the other ones are
-finished as well. Therefore only request completion processing on the
-last QMC channel.
-
-On my board with the above exemple, on a kernel started with
-'threadirqs' option, the QMC irq thread uses 16% CPU time with this
-patch while it uses 26% CPU time without this patch.
-
-Christophe Leroy (4):
-  soc: fsl: qmc: Only set completion interrupt when needed
-  ASoc: fsl: fsl_qmc_audio: Ensure audio channels are ordered in TDM bus
-  ASoC: fsl: fsl_qmc_audio: Only request completion on last channel
-  ASoc: fsl: fsl_qmc_audio: Drop struct qmc_dai_chan
-
- drivers/soc/fsl/qe/qmc.c      |  44 +++++++++---
- sound/soc/fsl/fsl_qmc_audio.c | 125 +++++++++++++++-------------------
- 2 files changed, 87 insertions(+), 82 deletions(-)
-
--- 
-2.49.0
 
