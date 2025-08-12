@@ -1,37 +1,37 @@
 Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 927881A9F8C;
-	Tue, 12 Aug 2025 11:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 928092D5A07;
+	Tue, 12 Aug 2025 11:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754997637; cv=none; b=AsgOpJWzEjf7VHFURsROBO+CbwrJa6+/GsbMMzTQ+sb/aOIQyq4qVJPnpDvEA2OCkrb8sr+fOd9MEt6qNyZwQCK7+GBWnnnU75+jmi1q+ytoku8MTe8QtzK9EfGoRMHb1h2U4rwWXGxcbmn5lBHOw6Bt+vhKAXof+R+N3JYc/Kg=
+	t=1754997637; cv=none; b=XGnpzh9wfbyyzXFldhfMezQZTYR3gOs95DMSl2qwuMtg1q8RNKwWmbleNnSMs6y/IXBiW1rz1i83tWp3xpWoXeNkAYsfvGBxsGmyBCUsY/QniOazUkBQkBnEk/jiIl6U+CZrEMRVoMmKn8pH2iQaKILDa9VYPdEyoPC5QE8lQWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1754997637; c=relaxed/simple;
-	bh=XfURbicrtINn/6zsJVAuuKOWunGZaLPhKuyOsIyIZX0=;
+	bh=D8aJWskat7D7j+YQUUJGr8krPsanE8nzMLSq+13eJYM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uN1WcoNB0YIJxIJLeQqJlWEQoSzIsvraZ+nLJb37Gb/ENg2VeyGXTOz3g4u9W7wg8H0GD3HWLclB2n2J09fe/TD1e+SDX8M6xoDIvIfsw7B01s7wLGBRb1Q9XvkxyJ66CBMRPCv+dpknZ10cUySeRVZpitwS0xAb0UIji6nRfBw=
+	 MIME-Version; b=ocuVnloDsHuhf6isv2d4s7QdIhHEEow94DQZu9tBd94PCtZLkpPRRerw1Uy5BOYAkKy5PiuPMz8+u/A3MTz36oCBNuGir5giDKHsHRWbE1CUzH1AldbsQ1gS+6fSHr5ff/0G11i/ulmtWw46V1CpaI14Xvxk0v56lqzgbUkCBLU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
 Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4c1Swb2MHyz9sSN;
-	Tue, 12 Aug 2025 12:51:11 +0200 (CEST)
+	by localhost (Postfix) with ESMTP id 4c1Swd6CHXz9sSX;
+	Tue, 12 Aug 2025 12:51:13 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from pegase2.c-s.fr ([172.26.127.65])
 	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kerTTt7NRZVH; Tue, 12 Aug 2025 12:51:11 +0200 (CEST)
+	with ESMTP id iI9dJ_a7pdSu; Tue, 12 Aug 2025 12:51:13 +0200 (CEST)
 Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4c1SwZ5d91z9sSK;
-	Tue, 12 Aug 2025 12:51:10 +0200 (CEST)
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4c1Swc1tNfz9sSS;
+	Tue, 12 Aug 2025 12:51:12 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id AA7BA8B764;
-	Tue, 12 Aug 2025 12:51:10 +0200 (CEST)
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 2D1808B764;
+	Tue, 12 Aug 2025 12:51:12 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from messagerie.si.c-s.fr ([127.0.0.1])
 	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id ClAnCfTxCmbT; Tue, 12 Aug 2025 12:51:10 +0200 (CEST)
+	with ESMTP id 4jorW_lag49m; Tue, 12 Aug 2025 12:51:12 +0200 (CEST)
 Received: from PO20335.idsi0.si.c-s.fr (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 03CA08B763;
-	Tue, 12 Aug 2025 12:51:09 +0200 (CEST)
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 685288B763;
+	Tue, 12 Aug 2025 12:51:11 +0200 (CEST)
 From: Christophe Leroy <christophe.leroy@csgroup.eu>
 To: Herve Codina <herve.codina@bootlin.com>,
 	Qiang Zhao <qiang.zhao@nxp.com>,
@@ -48,9 +48,9 @@ Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH v2 2/4] ASoc: fsl: fsl_qmc_audio: Ensure audio channels are ordered in TDM bus
-Date: Tue, 12 Aug 2025 12:50:56 +0200
-Message-ID: <8d01cf4599664188c92a515922d68c9834263384.1754993232.git.christophe.leroy@csgroup.eu>
+Subject: [PATCH v2 4/4] ASoc: fsl: fsl_qmc_audio: Drop struct qmc_dai_chan
+Date: Tue, 12 Aug 2025 12:50:58 +0200
+Message-ID: <0e73d47d15cf38ad5c4c35fbab545153829dde75.1754993232.git.christophe.leroy@csgroup.eu>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1754993232.git.christophe.leroy@csgroup.eu>
 References: <cover.1754993232.git.christophe.leroy@csgroup.eu>
@@ -60,76 +60,179 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754995860; l=2232; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=XfURbicrtINn/6zsJVAuuKOWunGZaLPhKuyOsIyIZX0=; b=YBxguf9SJ+Iqmj02qL4fBifNH7KDTCcS7hy6Imu81/zBTIa3kKCjuwcO9Knmd63YnJxJKvq/X Q/IvZFe9FcrCZqrymZp7kNatPLd0/qa1D0OzNY8vUMKpguQFswGlVuH
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754995860; l=6627; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=D8aJWskat7D7j+YQUUJGr8krPsanE8nzMLSq+13eJYM=; b=sdXjy3Q5FBCRj+brdHzpE1YVcgqKY2OAvclAR2RvhgKoAGHu+CrM+KqAy40KOfN+VjEtaaeSL 1sImg+Jndj+Cd1xOlWkzqNaSAy1uJ/L/0iilFFGpdP8y8+O2C3bP6l6
 X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
 Content-Transfer-Encoding: 8bit
 
-To reduce complexity of interrupt handling in following patch, ensure
-audio channels are configured in the same order as timeslots on the
-TDM bus. If we need a given ordering of audio sources in the audio
-frame, it is possible to re-order codecs on the TDM bus, no need to
-mix up timeslots in channels.
+prtd_tx and prtd_rx members are not used anymore and only qmc_chan
+member remains so struct qmc_dai_chan has become pointless.
+
+Use qmc_chan directly and drop struct qmc_dai_chan.
 
 Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 ---
 v2: New
 ---
- sound/soc/fsl/fsl_qmc_audio.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ sound/soc/fsl/fsl_qmc_audio.c | 50 +++++++++++++----------------------
+ 1 file changed, 19 insertions(+), 31 deletions(-)
 
 diff --git a/sound/soc/fsl/fsl_qmc_audio.c b/sound/soc/fsl/fsl_qmc_audio.c
-index 5614a8b909edf..0be29ccc1ff7b 100644
+index 92aa813aa3bee..6719da1c81f1d 100644
 --- a/sound/soc/fsl/fsl_qmc_audio.c
 +++ b/sound/soc/fsl/fsl_qmc_audio.c
-@@ -791,12 +791,17 @@ static int qmc_audio_dai_parse(struct qmc_audio *qmc_audio, struct device_node *
- 			       struct qmc_dai *qmc_dai,
- 			       struct snd_soc_dai_driver *qmc_soc_dai_driver)
- {
-+	struct qmc_chan_ts_info ts_info;
- 	struct qmc_chan_info info;
- 	unsigned long rx_fs_rate;
- 	unsigned long tx_fs_rate;
-+	int prev_last_rx_ts = 0;
-+	int prev_last_tx_ts = 0;
- 	unsigned int nb_tx_ts;
- 	unsigned int nb_rx_ts;
- 	unsigned int i;
-+	int last_rx_ts;
-+	int last_tx_ts;
- 	int count;
- 	u32 val;
- 	int ret;
-@@ -879,6 +884,30 @@ static int qmc_audio_dai_parse(struct qmc_audio *qmc_audio, struct device_node *
- 				return -EINVAL;
- 			}
- 		}
-+
-+		ret = qmc_chan_get_ts_info(qmc_dai->qmc_chans[i], &ts_info);
-+		if (ret) {
-+			dev_err(qmc_audio->dev, "dai %d get QMC %d channel TS info failed %d\n",
-+				qmc_dai->id, i, ret);
-+			return ret;
-+		}
-+
-+		last_rx_ts = fls64(ts_info.rx_ts_mask);
-+		last_tx_ts = fls64(ts_info.rx_ts_mask);
-+
-+		if (prev_last_rx_ts > last_rx_ts) {
-+			dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (RX timeslot %lu before %lu)\n",
-+				qmc_dai->id, i, prev_last_rx_ts, last_rx_ts);
-+			return -EINVAL;
-+		}
-+		if (prev_last_tx_ts > last_tx_ts) {
-+			dev_err(qmc_audio->dev, "dai %d QMC chan %d unordered channels (TX timeslot %lu before %lu)\n",
-+				qmc_dai->id, i, prev_last_tx_ts, last_tx_ts);
-+			return -EINVAL;
-+		}
-+
-+		prev_last_rx_ts = last_rx_ts;
-+		prev_last_tx_ts = last_tx_ts;
- 	}
+@@ -17,12 +17,6 @@
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
  
- 	qmc_dai->nb_chans_avail = count;
+-struct qmc_dai_chan {
+-	struct qmc_dai_prtd *prtd_tx;
+-	struct qmc_dai_prtd *prtd_rx;
+-	struct qmc_chan *qmc_chan;
+-};
+-
+ struct qmc_dai {
+ 	char *name;
+ 	int id;
+@@ -33,7 +27,7 @@ struct qmc_dai {
+ 	unsigned int nb_chans_avail;
+ 	unsigned int nb_chans_used_tx;
+ 	unsigned int nb_chans_used_rx;
+-	struct qmc_dai_chan *chans;
++	struct qmc_chan **qmc_chans;
+ };
+ 
+ struct qmc_audio {
+@@ -125,7 +119,7 @@ static int qmc_audio_pcm_write_submit(struct qmc_dai_prtd *prtd)
+ 	int ret;
+ 
+ 	for (i = 0; i < prtd->channels; i++) {
+-		ret = qmc_chan_write_submit(prtd->qmc_dai->chans[i].qmc_chan,
++		ret = qmc_chan_write_submit(prtd->qmc_dai->qmc_chans[i],
+ 					    prtd->ch_dma_addr_current + i * prtd->ch_dma_offset,
+ 					    prtd->ch_dma_size,
+ 					    i == prtd->channels - 1 ? qmc_audio_pcm_write_complete :
+@@ -165,7 +159,7 @@ static int qmc_audio_pcm_read_submit(struct qmc_dai_prtd *prtd)
+ 	int ret;
+ 
+ 	for (i = 0; i < prtd->channels; i++) {
+-		ret = qmc_chan_read_submit(prtd->qmc_dai->chans[i].qmc_chan,
++		ret = qmc_chan_read_submit(prtd->qmc_dai->qmc_chans[i],
+ 					   prtd->ch_dma_addr_current + i * prtd->ch_dma_offset,
+ 					   prtd->ch_dma_size,
+ 					   i == prtd->channels - 1 ? qmc_audio_pcm_read_complete :
+@@ -206,7 +200,6 @@ static int qmc_audio_pcm_trigger(struct snd_soc_component *component,
+ 				 struct snd_pcm_substream *substream, int cmd)
+ {
+ 	struct qmc_dai_prtd *prtd = substream->runtime->private_data;
+-	unsigned int i;
+ 	int ret;
+ 
+ 	if (!prtd->qmc_dai) {
+@@ -220,9 +213,6 @@ static int qmc_audio_pcm_trigger(struct snd_soc_component *component,
+ 		prtd->ch_dma_addr_current = prtd->ch_dma_addr_start;
+ 
+ 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+-			for (i = 0; i < prtd->channels; i++)
+-				prtd->qmc_dai->chans[i].prtd_tx = prtd;
+-
+ 			/* Submit first chunk ... */
+ 			ret = qmc_audio_pcm_write_submit(prtd);
+ 			if (ret)
+@@ -238,9 +228,6 @@ static int qmc_audio_pcm_trigger(struct snd_soc_component *component,
+ 			if (ret)
+ 				return ret;
+ 		} else {
+-			for (i = 0; i < prtd->channels; i++)
+-				prtd->qmc_dai->chans[i].prtd_rx = prtd;
+-
+ 			/* Submit first chunk ... */
+ 			ret = qmc_audio_pcm_read_submit(prtd);
+ 			if (ret)
+@@ -610,9 +597,9 @@ static int qmc_dai_hw_params(struct snd_pcm_substream *substream,
+ 		chan_param.mode = QMC_TRANSPARENT;
+ 		chan_param.transp.max_rx_buf_size = params_period_bytes(params) / nb_chans_used;
+ 		for (i = 0; i < nb_chans_used; i++) {
+-			ret = qmc_chan_set_param(qmc_dai->chans[i].qmc_chan, &chan_param);
++			ret = qmc_chan_set_param(qmc_dai->qmc_chans[i], &chan_param);
+ 			if (ret) {
+-				dev_err(dai->dev, "chans[%u], set param failed %d\n",
++				dev_err(dai->dev, "qmc_chans[%u], set param failed %d\n",
+ 					i, ret);
+ 				return ret;
+ 			}
+@@ -654,7 +641,7 @@ static int qmc_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+ 		for (i = 0; i < nb_chans_used; i++) {
+-			ret = qmc_chan_start(qmc_dai->chans[i].qmc_chan, direction);
++			ret = qmc_chan_start(qmc_dai->qmc_chans[i], direction);
+ 			if (ret)
+ 				goto err_stop;
+ 		}
+@@ -663,13 +650,13 @@ static int qmc_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 		/* Stop and reset all QMC channels and return the first error encountered */
+ 		for (i = 0; i < nb_chans_used; i++) {
+-			ret_tmp = qmc_chan_stop(qmc_dai->chans[i].qmc_chan, direction);
++			ret_tmp = qmc_chan_stop(qmc_dai->qmc_chans[i], direction);
+ 			if (!ret)
+ 				ret = ret_tmp;
+ 			if (ret_tmp)
+ 				continue;
+ 
+-			ret_tmp = qmc_chan_reset(qmc_dai->chans[i].qmc_chan, direction);
++			ret_tmp = qmc_chan_reset(qmc_dai->qmc_chans[i], direction);
+ 			if (!ret)
+ 				ret = ret_tmp;
+ 		}
+@@ -681,7 +668,7 @@ static int qmc_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+ 		/* Stop all QMC channels and return the first error encountered */
+ 		for (i = 0; i < nb_chans_used; i++) {
+-			ret_tmp = qmc_chan_stop(qmc_dai->chans[i].qmc_chan, direction);
++			ret_tmp = qmc_chan_stop(qmc_dai->qmc_chans[i], direction);
+ 			if (!ret)
+ 				ret = ret_tmp;
+ 		}
+@@ -697,8 +684,8 @@ static int qmc_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 
+ err_stop:
+ 	while (i--) {
+-		qmc_chan_stop(qmc_dai->chans[i].qmc_chan, direction);
+-		qmc_chan_reset(qmc_dai->chans[i].qmc_chan, direction);
++		qmc_chan_stop(qmc_dai->qmc_chans[i], direction);
++		qmc_chan_reset(qmc_dai->qmc_chans[i], direction);
+ 	}
+ 	return ret;
+ }
+@@ -794,19 +781,20 @@ static int qmc_audio_dai_parse(struct qmc_audio *qmc_audio, struct device_node *
+ 		return dev_err_probe(qmc_audio->dev, -EINVAL,
+ 				     "dai %d no QMC channel defined\n", qmc_dai->id);
+ 
+-	qmc_dai->chans = devm_kcalloc(qmc_audio->dev, count, sizeof(*qmc_dai->chans), GFP_KERNEL);
+-	if (!qmc_dai->chans)
++	qmc_dai->qmc_chans = devm_kcalloc(qmc_audio->dev, count, sizeof(*qmc_dai->qmc_chans),
++					  GFP_KERNEL);
++	if (!qmc_dai->qmc_chans)
+ 		return -ENOMEM;
+ 
+ 	for (i = 0; i < count; i++) {
+-		qmc_dai->chans[i].qmc_chan = devm_qmc_chan_get_byphandles_index(qmc_audio->dev, np,
+-										"fsl,qmc-chan", i);
+-		if (IS_ERR(qmc_dai->chans[i].qmc_chan)) {
+-			return dev_err_probe(qmc_audio->dev, PTR_ERR(qmc_dai->chans[i].qmc_chan),
++		qmc_dai->qmc_chans[i] = devm_qmc_chan_get_byphandles_index(qmc_audio->dev, np,
++									   "fsl,qmc-chan", i);
++		if (IS_ERR(qmc_dai->qmc_chans[i])) {
++			return dev_err_probe(qmc_audio->dev, PTR_ERR(qmc_dai->qmc_chans[i]),
+ 					     "dai %d get QMC channel %d failed\n", qmc_dai->id, i);
+ 		}
+ 
+-		ret = qmc_chan_get_info(qmc_dai->chans[i].qmc_chan, &info);
++		ret = qmc_chan_get_info(qmc_dai->qmc_chans[i], &info);
+ 		if (ret) {
+ 			dev_err(qmc_audio->dev, "dai %d get QMC %d channel info failed %d\n",
+ 				qmc_dai->id, i, ret);
 -- 
 2.49.0
 
