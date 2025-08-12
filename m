@@ -1,183 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0FB2ED167;
-	Tue, 12 Aug 2025 14:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D55C2882DE;
+	Tue, 12 Aug 2025 15:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755010700; cv=none; b=RJb4msvbhqbPoN4o/IpGZ++/Q/4/T+yM1Wrex7MKjrTp5Yt+k6QUKZQ/TAVDYEKZK4aVjLamk5CefKhBuuS8a5T6XbcVjdceu/vYVgtSScfz5TlPOZ3Ojs3kgBkR/XGBkvqGWsJTspFVkCHodar0DiosBGjvfD/omB0q6zDg0ec=
+	t=1755012551; cv=none; b=slaUbyTFZbWt5RWBDkvRcXdkytaAwlBZOGrwOpK62yMhAbYk6f2Mrv8kMuBlip3qjELzYnFmBVfVq+VvvsYBXhw3ycqJiRrAFfG4/tAO9D4+bis58rUzjuuRvU2zLk4M4XCACsab137Kc1BJ2c0DPCAvPrNn4yKE69pbNpu8mkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755010700; c=relaxed/simple;
-	bh=Rk2Wv+XIInfRq7CIVjb46iopF138UdtfA0/xltArFE4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H/3QS+5KnLpkxCi2YL9jukYJtudEIEHS5JuDE1dhJ+MxuLGRrWRezFYP3cIdWl1Hq6Klv/JulR8haciJsRW1e55zKK6gOSvbwygjZvT1MK7gFVMr2QucQd+xUBwBiKmpI9BQPEmVX760Hz9SMgFbZFaOpgiUZBwU8VbT0IBxzTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gr+95pxJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755012551; c=relaxed/simple;
+	bh=0X8QFqz4pmBHOU4UnmXb3boETfM8x15rmCDELHIAXYU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qSZMpH7KLpMiRH2AmQhsEtetfczlGOjz4VY0q4MaCiZdVJ/BBLFawQdWsCEzkpL4hd0HwMv9rA8y6FIlyOzIKJCJitFfmmsgHtkb3tLlP5uaN9ZxyamkzHXh8QBhT/5j/sVlIz0J3JOQS1LaBtl8WM0NVQkYag0+EWbDO1sg+08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gt8qO4ns; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gr+95pxJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBACEC4CEF0;
-	Tue, 12 Aug 2025 14:58:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gt8qO4ns"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D788DC4CEF6;
+	Tue, 12 Aug 2025 15:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755010699;
-	bh=Rk2Wv+XIInfRq7CIVjb46iopF138UdtfA0/xltArFE4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gr+95pxJS+t0zEZwDxuWO4Zulu5pWboRnBN0sYvpSPCIhgPgcG0CIuNrcuV9cm2iL
-	 JXGLEfoNloA76MSb80VjrzdSRHDkajmPjIDikik6T9k4H64EsfgMxesNGkiJr56TsO
-	 WDGPche70euE6kocR+2vfFYyOF9rq2nI9lR/rZsImJgRG2CFUhRzuZ4p0A5kvp1nbj
-	 M4JC2zibR0HLVtpO8Mv+fQbEvhNLnF7iw0fT8C1synXwh7ip2Pr7da+9FvnOnQF6bR
-	 7HI4Qy2k1OknRHYiuqqRJYI+f2alQAoZpQl1cTcxIugkQ57av21FxSTnbcZJuiQqMg
-	 JaWM2NsG792xA==
-Date: Tue, 12 Aug 2025 09:58:18 -0500
-From: Rob Herring <robh@kernel.org>
-To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: linux-kernel@vger.kernel.org, peter.ujfalusi@gmail.com,
-	dmitry.torokhov@gmail.com, krzk+dt@kernel.org, lgirdwood@gmail.com,
-	tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org,
-	ukleinek@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH 1/8] mfd: dt-bindings: ti,twl4030-audio: convert to DT
- schema
-Message-ID: <20250812145818.GB3607226-robh@kernel.org>
-References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
- <20250811224739.53869-2-jihed.chaibi.dev@gmail.com>
+	s=k20201202; t=1755012551;
+	bh=0X8QFqz4pmBHOU4UnmXb3boETfM8x15rmCDELHIAXYU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=gt8qO4ns+AaZPvgl5jhaekJimTVoi9dw0wCoUryf2d76l6BuGituPyrEbpfp+W2Er
+	 l2IxL0sQLFeRjg0QviHTjtsc+sOLhz32o96U+jxNLyO3+Luqwfg8IKqTx2ZdI4sSKi
+	 zgBfE2PB2YYXn/dJUvllXgaOVL0FhW4+CRf0qovnZSeUfvn5W3GiWrnBfcdZC6bJAK
+	 UAoPyFjgyGvyBAe5NnPD4mufcX1dA1/dwuNTFAu6XbRw66+od4SkPq8PhhI3XHkVtK
+	 /ZlJTCCyLAPKCofI0cG/Tx2gbT44OIhl23ZpT+4/ZurNI845TlXznk47Wvgi1X6g4z
+	 44AO2cCqdUnWA==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Xichao Zhao <zhao.xichao@vivo.com>
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250811070418.352104-1-zhao.xichao@vivo.com>
+References: <20250811070418.352104-1-zhao.xichao@vivo.com>
+Subject: Re: [PATCH] ASoC: fix "dependant"->"dependent"
+Message-Id: <175501254962.179691.12904836095088907799.b4-ty@kernel.org>
+Date: Tue, 12 Aug 2025 16:29:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250811224739.53869-2-jihed.chaibi.dev@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-On Tue, Aug 12, 2025 at 12:47:32AM +0200, Jihed Chaibi wrote:
-> Convert the legacy TXT binding for the TWL4030 audio module
-> to the modern YAML DT schema format. This adds formal validation
-> and improves documentation.
+On Mon, 11 Aug 2025 15:04:18 +0800, Xichao Zhao wrote:
+> Trivial fix to spelling mistake in comment text.
 > 
-> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-> ---
->  .../bindings/mfd/ti,twl4030-audio.yaml        | 91 +++++++++++++++++++
->  .../devicetree/bindings/mfd/twl4030-audio.txt | 46 ----------
-
-Shouldn't this move to bindings/sound/?
-
->  2 files changed, 91 insertions(+), 46 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/mfd/ti,twl4030-audio.yaml
->  delete mode 100644 Documentation/devicetree/bindings/mfd/twl4030-audio.txt
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/ti,twl4030-audio.yaml b/Documentation/devicetree/bindings/mfd/ti,twl4030-audio.yaml
-> new file mode 100644
-> index 000000000..16ddcf007
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/ti,twl4030-audio.yaml
-> @@ -0,0 +1,91 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/ti,twl4030-audio.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments TWL4030-family Audio Module
-> +
-> +maintainers:
-> +  - Peter Ujfalusi <peter.ujfalusi@gmail.com>
-> +
-> +description: |
 
-Don't need '|' if no formatting to preserve.
+Applied to
 
-> +  The audio module within the TWL4030-family of companion chips consists
-> +  of an audio codec and a vibra driver. This binding describes the parent
-> +  node for these functions.
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,twl4030-audio
-> +
-> +  codec:
-> +    type: object
-> +    description: Node containing properties for the audio codec functionality.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-       additionalProperties: false
+Thanks!
 
-and a blank line here.
+[1/1] ASoC: fix "dependant"->"dependent"
+      commit: bdf0f2c84332f1e1b9dc3b267061e263bfaff097
 
-> +    properties:
-> +      ti,digimic_delay:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Delay in milliseconds after enabling digital microphones to reduce
-> +          artifacts.
-> +
-> +      ti,ramp_delay_value:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Headset ramp delay configuration to reduce pop noise.
-> +
-> +      ti,hs_extmute:
-> +        type: boolean
-> +        description:
-> +          Enable the use of an external mute for headset pop reduction.
-> +
-> +      ti,hs_extmute_gpio:
-> +        $ref: /schemas/types.yaml#/definitions/phandle-array
-> +        description:
-> +          The GPIO specifier for the external mute control.
-> +        maxItems: 1
-> +
-> +      ti,offset_cncl_path:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Offset cancellation path selection. Refer to the Technical
-> +          Reference Manual for valid values.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Constraints for any of these properties?
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> +
-> +    # The 'codec' node itself is optional, but if it exists, it can be empty.
-> +    # We don't require any of its sub-properties.
-> +
-> +  ti,enable-vibra:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      Set to 1 to enable the vibra functionality, if missing
-> +      or it is 0, the vibra functionality is disabled.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Sounds like constraints. Don't write constraints in prose.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +
-> +      clock-frequency = <2600000>;
+Thanks,
+Mark
 
-Drop. Not relevant to this binding.
-
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      twl: twl@48 {
-> +        reg = <0x48>;
-> +        interrupts = <7>; /* SYS_NIRQ cascaded to intc */
-> +        interrupt-parent = <&intc>;
-> +
-> +        twl_audio: audio {
-> +          compatible = "ti,twl4030-audio";
-> +
-> +          ti,enable-vibra = <1>;
-> +
-> +          codec {
-> +            ti,ramp_delay_value = <3>;
-> +          };
-> +
-> +        };
-> +      };
-> +    };
