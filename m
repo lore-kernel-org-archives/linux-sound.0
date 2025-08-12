@@ -1,91 +1,91 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D265311C18
-	for <linux-sound@vger.kernel.org>; Tue, 12 Aug 2025 06:48:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7018C296BAB
+	for <linux-sound@vger.kernel.org>; Tue, 12 Aug 2025 06:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754981337; cv=none; b=hwtXaGATSDhsqnPfWdXXESkppARAtjh3CLQEMBHlCyOqE9MIlik3QigsKu+krATV7VtP+DJt8PoESWPgaLfLFqnMdqJ/a0giy4wuSCYBmx/8FeKHHLoJ7ZlBxVFT5BgMhHUR66ajKDXznKfCo++o+dRX5qExisoMm0qjIRxCGIM=
+	t=1754981948; cv=none; b=ea2N1ba3z3gD1hlBxAeYDmTsTPWfWlYhCZIwuN74T0HVarH5lJtRSqd5izPz9aWeiGcpJZuG0DT6ol3XrhkjPTpY7eiFiAvE5KxwLaUnNGOtl8qwvDkP2dqJ4F87BNg9PIkEIZrRNB42pxFD8mpNCC2TpwNI8YPK9Hiu2qexRLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754981337; c=relaxed/simple;
-	bh=QV51PAAZiiy8yMEWPLPGWvSqHqWPbLdXOHYKp939S0c=;
+	s=arc-20240116; t=1754981948; c=relaxed/simple;
+	bh=TLq5M/mc6fxqOeoLjp+2eQHZWF4OBZSaQQWvLUxNxSs=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e4d3q7QuKsyxCLyktlBcHCdGX9Je1lSWotxStatyqqNmEAnde8XqJDnk6/f1rTTU5U2Y8mJb3UvJitGx27wjCsGvwegUvw0i6+uwMPE9fDx50o+jCq57oSeuKmm4vXSAPbZpDwgIhblSwC2VbR1aaVnGjoVFLFV1/3D+tFP+QpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=COr5Q049; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TNUql2R3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=COr5Q049; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TNUql2R3; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=ITSjbBNi8xklIRUtLwXbL3JnJeXB6lHIagqLvw+/1ozLvcT9G6kZDR9v05XjinPiZ8a7E7etWy2c54vnEmbEehT5jKSYaiK3oeer2cO3NFb+Gvj4utUl85AnrAkSPQLWCW8Loa5jpMRrHowsOjyo9Wk5+HpGvkxIzRF/0gwzROw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RMrkyik1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/PquIW72; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RMrkyik1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/PquIW72; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="COr5Q049";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TNUql2R3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="COr5Q049";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TNUql2R3"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RMrkyik1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/PquIW72";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RMrkyik1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/PquIW72"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 948C121170;
-	Tue, 12 Aug 2025 06:48:53 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8663A2174F;
+	Tue, 12 Aug 2025 06:59:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754981333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1754981944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Fmzm+jXCiCsLVw7nuGXgeBX/GB9YrIukEbwxuJ5aod4=;
-	b=COr5Q049szG7EiSLxfrcFl0KjUDLQxGsXSQtRk+nYStDRHZoE8qKNwR6peNmXqDXfMsAPv
-	y6KoOlWQ/ZyEC6WpYRlJ3bB6ynItItPGACK6KTTPdXgcxMFCFSymc1RqcO7yt+wqqgVh4o
-	DyxW+2GtvX7yVRKztNSyc+0hRZ1eoeM=
+	bh=MZhpgNEEjBSLHO+jCd6inXzbaJT2Rb8vaB59NJtE9XA=;
+	b=RMrkyik1HIVZkdMcvpuw3oBPW4SUHbNB0lvP/ANnMnxLZSZcUSdddBMaqukfm5ksbO3eTa
+	kCy5xRgKPauLSYcxVQ4bx41tfG6dOWrjXswUtHBJ0qYEDUCCGUdlS6tgmjptq5Xl6Cucm0
+	GDAyYeJ0Gr7P3qT2bVBlN7hX0leUALQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754981333;
+	s=susede2_ed25519; t=1754981944;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Fmzm+jXCiCsLVw7nuGXgeBX/GB9YrIukEbwxuJ5aod4=;
-	b=TNUql2R3fdHexssq4ifokATRQI039sGVsWb0R4i7P8Gw4xwJrYF857jsc+F4WlhHz34syu
-	YfIDHWrgASH8PDBQ==
+	bh=MZhpgNEEjBSLHO+jCd6inXzbaJT2Rb8vaB59NJtE9XA=;
+	b=/PquIW72ma7MbE9eTcJEVretlH8RtNHX1gjAUuRmslCGlOD/faK7/OEVZb4N3ggAyXKl82
+	4LwnwSo7mUk6DmCw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=COr5Q049;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=TNUql2R3
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RMrkyik1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/PquIW72"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754981333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1754981944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Fmzm+jXCiCsLVw7nuGXgeBX/GB9YrIukEbwxuJ5aod4=;
-	b=COr5Q049szG7EiSLxfrcFl0KjUDLQxGsXSQtRk+nYStDRHZoE8qKNwR6peNmXqDXfMsAPv
-	y6KoOlWQ/ZyEC6WpYRlJ3bB6ynItItPGACK6KTTPdXgcxMFCFSymc1RqcO7yt+wqqgVh4o
-	DyxW+2GtvX7yVRKztNSyc+0hRZ1eoeM=
+	bh=MZhpgNEEjBSLHO+jCd6inXzbaJT2Rb8vaB59NJtE9XA=;
+	b=RMrkyik1HIVZkdMcvpuw3oBPW4SUHbNB0lvP/ANnMnxLZSZcUSdddBMaqukfm5ksbO3eTa
+	kCy5xRgKPauLSYcxVQ4bx41tfG6dOWrjXswUtHBJ0qYEDUCCGUdlS6tgmjptq5Xl6Cucm0
+	GDAyYeJ0Gr7P3qT2bVBlN7hX0leUALQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754981333;
+	s=susede2_ed25519; t=1754981944;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Fmzm+jXCiCsLVw7nuGXgeBX/GB9YrIukEbwxuJ5aod4=;
-	b=TNUql2R3fdHexssq4ifokATRQI039sGVsWb0R4i7P8Gw4xwJrYF857jsc+F4WlhHz34syu
-	YfIDHWrgASH8PDBQ==
+	bh=MZhpgNEEjBSLHO+jCd6inXzbaJT2Rb8vaB59NJtE9XA=;
+	b=/PquIW72ma7MbE9eTcJEVretlH8RtNHX1gjAUuRmslCGlOD/faK7/OEVZb4N3ggAyXKl82
+	4LwnwSo7mUk6DmCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B59C1351A;
-	Tue, 12 Aug 2025 06:48:53 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 542DC1351A;
+	Tue, 12 Aug 2025 06:59:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2oa/F9XjmmjtSwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 12 Aug 2025 06:48:53 +0000
-Date: Tue, 12 Aug 2025 08:48:52 +0200
-Message-ID: <87sehxyqzv.wl-tiwai@suse.de>
+	id UqT7Ejjmmmh2TgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 12 Aug 2025 06:59:04 +0000
+Date: Tue, 12 Aug 2025 08:59:03 +0200
+Message-ID: <87qzxhyqiw.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: =?ISO-8859-2?Q?=A9erif?= Rami <ramiserifpersia@gmail.com>
 Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] ALSA: usb-audio: us144mkii: Implement audio playback and feedback
-In-Reply-To: <20250810124958.25309-4-ramiserifpersia@gmail.com>
+Subject: Re: [PATCH 5/7] ALSA: usb-audio: us144mkii: Add MIDI support and mixer controls
+In-Reply-To: <20250810124958.25309-6-ramiserifpersia@gmail.com>
 References: <20250810124958.25309-1-ramiserifpersia@gmail.com>
-	<20250810124958.25309-4-ramiserifpersia@gmail.com>
+	<20250810124958.25309-6-ramiserifpersia@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,7 +96,7 @@ MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=ISO-8859-2
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -108,82 +108,155 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 948C121170
+X-Rspamd-Queue-Id: 8663A2174F
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -3.51
 
-On Sun, 10 Aug 2025 14:49:54 +0200,
+On Sun, 10 Aug 2025 14:49:56 +0200,
 ©erif Rami wrote:
-> 
 > +/**
-> + * fpoInitPattern() - Generates a packet distribution pattern.
-> + * @size: The number of elements in the pattern array (e.g., 8).
-> + * @pattern_array: Pointer to the array to be populated.
-> + * @initial_value: The base value to initialize each element with.
-> + * @target_sum: The desired sum of all elements in the final array.
+> + * @brief Text descriptions for playback output source options.
 > + *
-> + * This function initializes an array with a base value and then iteratively
-> + * adjusts the elements to match a target sum, distributing the difference
-> + * as evenly as possible.
+> + * Used by ALSA kcontrol elements to provide user-friendly names for
+> + * the playback routing options (e.g., "Playback 1-2", "Playback 3-4").
 > + */
-> +static void fpoInitPattern(unsigned int size, unsigned int *pattern_array,
-> +			   unsigned int initial_value, int target_sum)
-
-Any need for camel case only for this?
-
-> +int us144mkii_configure_device_for_rate(struct tascam_card *tascam, int rate)
+> +static const char *const playback_source_texts[] = { "Playback 1-2",
+> +						     "Playback 3-4" };
+> +
+> +/**
+> + * @brief Text descriptions for capture input source options.
+> + *
+> + * Used by ALSA kcontrol elements to provide user-friendly names for
+> + * the capture routing options (e.g., "Analog In", "Digital In").
+> + */
+> +static const char *const capture_source_texts[] = { "Analog In", "Digital In" };
+> +
+> +/**
+> + * tascam_playback_source_info() - ALSA control info callback for playback
+> + * source.
+> + * @kcontrol: The ALSA kcontrol instance.
+> + * @uinfo: The ALSA control element info structure to fill.
+> + *
+> + * This function provides information about the enumerated playback source
+> + * control, including its type, count, and available items (Playback 1-2,
+> + * Playback 3-4).
+> + *
+> + * Return: 0 on success.
+> + */
+> +static int tascam_playback_source_info(struct snd_kcontrol *kcontrol,
+> +				       struct snd_ctl_elem_info *uinfo)
 > +{
-> +	struct usb_device *dev = tascam->dev;
-> +	u8 *rate_payload_buf;
-> +	u16 rate_vendor_wValue;
-> +	int err = 0;
-> +	const u8 *current_payload_src;
+> +	return snd_ctl_enum_info(uinfo, 1, 2, playback_source_texts);
+> +}
+> +
+> +/**
+> + * tascam_line_out_get() - ALSA control get callback for Line Outputs Source.
+> + * @kcontrol: The ALSA kcontrol instance.
+> + * @ucontrol: The ALSA control element value structure to fill.
+> + *
+> + * This function retrieves the current selection for the Line Outputs source
+> + * (Playback 1-2 or Playback 3-4) from the driver's private data and populates
+> + * the ALSA control element value.
+> + *
+> + * Return: 0 on success.
+> + */
+> +static int tascam_line_out_get(struct snd_kcontrol *kcontrol,
+> +			       struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct tascam_card *tascam = snd_kcontrol_chip(kcontrol);
+> +
+> +	ucontrol->value.enumerated.item[0] = tascam->line_out_source;
+> +	return 0;
+> +}
+> +
+> +/**
+> + * tascam_line_out_put() - ALSA control put callback for Line Outputs Source.
+> + * @kcontrol: The ALSA kcontrol instance.
+> + * @ucontrol: The ALSA control element value structure containing the new value.
+> + *
+> + * This function sets the Line Outputs source (Playback 1-2 or Playback 3-4)
+> + * based on the user's selection from the ALSA control element. It validates
+> + * the input and updates the driver's private data.
+> + *
+> + * Return: 1 if the value was changed, 0 if unchanged, or a negative error code.
+> + */
+> +static int tascam_line_out_put(struct snd_kcontrol *kcontrol,
+> +			       struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct tascam_card *tascam = snd_kcontrol_chip(kcontrol);
+> +
+> +	if (ucontrol->value.enumerated.item[0] > 1)
+> +		return -EINVAL;
+> +	if (tascam->line_out_source == ucontrol->value.enumerated.item[0])
+> +		return 0;
+> +	tascam->line_out_source = ucontrol->value.enumerated.item[0];
+> +	return 1;
+> +}
+> +
+> +/**
+> + * tascam_line_out_control - ALSA kcontrol definition for Line Outputs Source.
+> + *
+> + * This defines a new ALSA mixer control named "Line OUTPUTS Source" that allows
+> + * the user to select between "Playback 1-2" and "Playback 3-4" for the analog
+> + * line outputs of the device. It uses the `tascam_playback_source_info` for
+> + * information and `tascam_line_out_get`/`tascam_line_out_put` for value
+> + * handling.
+> + */
+> +static const struct snd_kcontrol_new tascam_line_out_control = {
+> +	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+> +	.name = "Line OUTPUTS Source",
 
-Use __free(kfree) for temporary allocation/free for this function.
+The control name is always a difficult question.
+For following the standards, it'd be better to be a name like
+"Line Playback Source" (i.e. prefix + direction + suffix where
+direction is either "Playback" or "Capture").
 
-> @@ -36,29 +209,82 @@ int tascam_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
->  {
->  	struct tascam_card *tascam = snd_pcm_substream_chip(substream);
->  	int err = 0;
-> +	int i;
-> +	bool do_start = false;
-> +	bool do_stop = false;
->  
-> -	guard(spinlock_irqsave)(&tascam->lock);
-> -	switch (cmd) {
-> -	case SNDRV_PCM_TRIGGER_START:
-> -	case SNDRV_PCM_TRIGGER_RESUME:
-> -		if (!atomic_read(&tascam->playback_active)) {
-> -			atomic_set(&tascam->playback_active, 1);
-> -			atomic_set(&tascam->capture_active, 1);
-> +	{
-> +		guard(spinlock_irqsave)(&tascam->lock);
+> +static const struct snd_kcontrol_new tascam_digital_out_control = {
+> +	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+> +	.name = "Digital OUTPUTS Source",
 
-You can use scoped_guard() instead, e.g.
+Ditto.
 
-	scoped_guard(spinlock_irqsave, &tascam->lock) {
-		switch (cmd) {
-		.....
-		}
-	}
+> +static const struct snd_kcontrol_new tascam_capture_12_control = {
+> +	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+> +	.name = "ch1 and ch2 Source",
+
+This should be "... Capture Source", then, and what comes at the
+prefix is another difficult question.  I find better to have capital
+letters, or combine like "Ch1/2 Capture Source".
+
+> +static const struct snd_kcontrol_new tascam_capture_34_control = {
+> +	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
+> +	.name = "ch3 and ch4 Source",
+
+Ditto.
+
+> +static int tascam_samplerate_get(struct snd_kcontrol *kcontrol,
+> +				 struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct tascam_card *tascam =
+> +		(struct tascam_card *)snd_kcontrol_chip(kcontrol);
+> +	u8 *buf __free(kfree);
+
+Don't forget NULL initialization.
 
 
 thanks,
