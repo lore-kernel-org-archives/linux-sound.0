@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A43D2ED14C
-	for <linux-sound@vger.kernel.org>; Tue, 12 Aug 2025 11:05:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6324A2ED141;
+	Tue, 12 Aug 2025 11:05:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754996710; cv=none; b=LUt5cNOxtb9f31X/TzyTJpq/8iyOAkGslfzcesq/FxvMSKPvtNzCaGbO7qLI2W8SbD10hXweaZ/dKcjtIx+IKcq0R/hQTJU7UAYDLNRw5tLBr3zoAgNOdRoN/FpYJca/qQIr0FyOfjMaLut9sU8R+2cFNeO0jKO+BKNmsxT4v9I=
+	t=1754996712; cv=none; b=dB9eRb8dG2eRBjdf6BwsHMWVjnhnB0WnOG+MyqkIG11LaZTh/r2fBRJdmXwoffOiLIJfDNpFHxgtM6CzN+9H6DVGOtSu2pIvwRT4pWWZ0Vrq+XbdGlzLGfsSHvPCGlk09z9C45xB2YrshJGUeAwr7I7x3g4J8YX9LC4e/qkeytE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754996710; c=relaxed/simple;
-	bh=/ckE2xFCoIZijcVW4StTbbW5K4SQrp+u6qzoFYf0haU=;
+	s=arc-20240116; t=1754996712; c=relaxed/simple;
+	bh=NbG/dlAMBbcennAPv/FIC5IAuzcBiFtNf8p2K2/4H70=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lgW8qRm2KxSBP0Y7Q7VkmvK8Fq1iMjtXwbFeejOx5TY+KQ25TpSwOUgaocAZFTJHEcdpAbFQxHzlAXUvYU2Pvl4OlJ7Xk95BkPwGGrRdV2NvCfPYfGqx5WKqWCQQat6dXUo3G7VsTYZMQti2k0ybpR6zGWIh4YkFKZX+5CFMZ8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q1jeJblC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=tfgY/C9d4gkR40+YBZSPhPwdwW8IfQ07y2EeFgMuB90GmX7tpbrllVyBHlRQLLX/nZYMQjkPf1vBXcHVhUfAduQRQ8WrE73qC/mZEDEG9BLErm0nZwjjdEZMi6z9udTDW7z2EgiiU16Xag3RS1VICBWuEEOYOtyD5WFZwS1DTR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6QwRGWm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q1jeJblC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 880D6C4CEF0;
-	Tue, 12 Aug 2025 11:05:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6QwRGWm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8035CC4CEF6;
+	Tue, 12 Aug 2025 11:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754996710;
-	bh=/ckE2xFCoIZijcVW4StTbbW5K4SQrp+u6qzoFYf0haU=;
+	s=k20201202; t=1754996712;
+	bh=NbG/dlAMBbcennAPv/FIC5IAuzcBiFtNf8p2K2/4H70=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=q1jeJblCa4Xl/LvyQ2inweq0n11KxDiLhS6b59SFLPDy23cFGTm8nAOTqaPtMiXQw
-	 QBqClXw9oZlexCxMubQCFl7YnVDY81ktSUg3DAOlK0JNj5rPWi1I+oZJzQ50VmF3uo
-	 dQecBQJcDPk/wXcpXYc1d8JHdPUyn16dm5YdDJhj2wkYkgwCK5QI8CAozprJVKtLtN
-	 W+zsrCIoMMqOuXQbY5hmzBfRZElu6IHJ6Ang+tm9d2f3qekSWpBkDdgIOeuy0X7qOh
-	 3X+9GyewCEqPtzc7qu8AEYRRcoBspzI6JcnJrnLdZG5X9hvPNMN+t1IJRNT5vunFDR
-	 e+Q1/TSHjGN4w==
+	b=c6QwRGWmx8TDXhl97WGGhkLLG7F2WcfRKNik+10cNQOjIu7PeBUl/aRAPKDkWXYol
+	 hS7OzGzYfR5JlN3xxWCQ70pcibnuKSmGXq/XOnugeZRrn7Hl7LLOCK5Ev4e/HVcX7o
+	 55lQOL3BaJVoL6r3sfgYvphXBLn0ZGJOHh0jyhbxRxmmUJtBgH9T9hQr4+msVVUNnt
+	 e/37uQv1mtL3jebcp2pSkSZtQKhlp82LZnvJPshiKokXCzKcifQ/fkd83D9zH/tKDd
+	 eGxNMjem6BaonsZ0OAzyoD6OZqEiREfaEJZVjxOUSmZAFkxpvIvjBBiQXxPj4bccAZ
+	 wvM0Z3ULjU6jg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-In-Reply-To: <20250807092432.997989-1-shumingf@realtek.com>
-References: <20250807092432.997989-1-shumingf@realtek.com>
-Subject: Re: [PATCH] ASoC: rt1320: fix random cycle mute issue
-Message-Id: <175499670829.16031.12493544997779229173.b4-ty@kernel.org>
-Date: Tue, 12 Aug 2025 12:05:08 +0100
+To: linux-sound@vger.kernel.org, srini@kernel.org, lgirdwood@gmail.com, 
+ Alexey Klimov <alexey.klimov@linaro.org>
+Cc: perex@perex.cz, tiwai@suse.com, neil.armstrong@linaro.org, 
+ linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250806140030.691477-1-alexey.klimov@linaro.org>
+References: <20250806140030.691477-1-alexey.klimov@linaro.org>
+Subject: Re: [PATCH v2] ASoC: codecs: tx-macro: correct
+ tx_macro_component_drv name
+Message-Id: <175499671026.16031.5383052594222916199.b4-ty@kernel.org>
+Date: Tue, 12 Aug 2025 12:05:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,8 +48,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Thu, 07 Aug 2025 17:24:32 +0800, shumingf@realtek.com wrote:
-> This patch fixed the random cycle mute issue that occurs during long-time playback.
+On Wed, 06 Aug 2025 15:00:30 +0100, Alexey Klimov wrote:
+> We already have a component driver named "RX-MACRO", which is
+> lpass-rx-macro.c. The tx macro component driver's name should
+> be "TX-MACRO" accordingly. Fix it.
 > 
 > 
 
@@ -56,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt1320: fix random cycle mute issue
-      commit: f48d7a1b0bf11d16d8c9f77a5b9c80a82272f625
+[1/1] ASoC: codecs: tx-macro: correct tx_macro_component_drv name
+      commit: 43e0da37d5cfb23eec6aeee9422f84d86621ce2b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
