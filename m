@@ -1,92 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6A6283142;
-	Tue, 12 Aug 2025 14:05:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA019311C18;
+	Tue, 12 Aug 2025 14:54:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755007500; cv=none; b=R0f6rjgI4UkxISln+mM7PMIt4nfk5Ri80ZGQpbrnLoeMTbHcm3sTA77eHJIHJq3cYlxGRz4j70vOemdKf+XN8qVQzRPPHpIcYHX8EcHiz3XzaVhBztXlJiqN5kMNSRM6LoG8MwYQZTZjYZfqe52tWMPtixnYI8ZLDOJlywi90hM=
+	t=1755010456; cv=none; b=D6XcQdfIHfTnh9UTx6spBochQ1tIY+2DuDNU02es1CenRvCgiqe1nNSw1Kr4DCD6+8kScTWZfetIGek2yJ6wu8tTSfpUZHXmVT51Y/E1hwJEtIYCp9XPldC88PGEowHGgJgYQTawRG5WkbhT+qKKLWscrzmy4hmQPnNz/VNA9RA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755007500; c=relaxed/simple;
-	bh=iV0sAQ3Xj3AOnKogGpasLdyXeXQH0sO/pDdrD4YzyAM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DDNSQWV2qEnty/HCm2zs/dMWAhjk3jY60YYLI8/S3JzSLdY5SHvpr0313roO9Vs2OMUQowmt7aTszGXm7Ms2jHA9X4k4y2hnV0IpknIOXq0wZHbQavOeWuGurfYG2As2UmhOMrXE+1jZUiabQZz8p9ayMFHnTNz4QfPxZz8t9/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hSELrmNd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755010456; c=relaxed/simple;
+	bh=6pI6kv0289+5HGzGYD4ZwmD4e83daVjaIOswUg35e+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q3wJ9NhCG1RvlVRx3P92kpYsf+rMYCYtGccBGSd3sgOAiNIhHdJ1pQzm9sHCjAMINbWf7HdIkq5d9y0sskW+wH5EITKdzrB/I6uYCHJePbRJKNVRJUJzyWxlj/JAcnmcsz4t152g4pcoUKGgmqepP+r+ymXAofZ8uhYoJHvAsgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JPgTTLoL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hSELrmNd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F139AC4CEF0;
-	Tue, 12 Aug 2025 14:04:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JPgTTLoL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B78BC4CEF0;
+	Tue, 12 Aug 2025 14:54:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755007500;
-	bh=iV0sAQ3Xj3AOnKogGpasLdyXeXQH0sO/pDdrD4YzyAM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hSELrmNdz5MbuLy734d6l5RPypBn+nT8J9BMtH9dEcI6sBsxJ1w12jimwnIeP/Mc+
-	 dE4k+we6PaiUsZ5B848n/70xVLFHEIWUGANPDimAtF30wybT8dwJ7Z975c8sXJ5Zvi
-	 Ap7gHZi5WQyrV+2q+GzUNjW9QxBlTMXRdtgJmuQPA5WkquCrKfzfZrWVJr4fUSbFM+
-	 pyrXXNbg0lsGd7J9fbeRYI0IbK1UYaRYU3BRBqG3kFhKMAz4BQW1wX7Hl9yqnx8sJe
-	 bEN0Q/5w2QQjLDzY79H558ELams+v7tsF3EVnPYqzVypSjsnz0CKLq9iMltO6BTM6N
-	 P7xOS4GmojVPA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Weidong Wang <wangweidong.a@awinic.com>, 
- anish kumar <yesanishhere@gmail.com>, 
- Zhu Jun <zhujun2@cmss.chinamobile.com>, 
- Colin Ian King <colin.i.king@gmail.com>, 
- Thorsten Blum <thorsten.blum@linux.dev>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250810214144.1985-2-thorsten.blum@linux.dev>
-References: <20250810214144.1985-2-thorsten.blum@linux.dev>
-Subject: Re: [PATCH] ASoC: codecs: Call strscpy() with correct size
- argument
-Message-Id: <175500749772.80402.5028150232150193610.b4-ty@kernel.org>
-Date: Tue, 12 Aug 2025 15:04:57 +0100
+	s=k20201202; t=1755010456;
+	bh=6pI6kv0289+5HGzGYD4ZwmD4e83daVjaIOswUg35e+8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JPgTTLoLqe8lR0yg5vbUjDT+qPRN4AaGU6hRt+7dRDbVNHeBUsH95943N4NQ6dbzX
+	 XrnA90tp1fpbZg+BLUjHyvOus/wnfhIUyt4Oq/31+spstDgSJPri72hDYxMMj34Swc
+	 berbxtsDQo1uKWCzPTykSlApoEUZ26kPCE+2pil22xWNXqSj2LIq4DeD3iPyq+NNR+
+	 cFoGeW1Q0P3J4b5mcJR9At1q54LUKYoJ6p0vIBKHiC7RNTw/mfZJwabcArjlqP+Dv9
+	 QYb0+klhialiVpQJA8EhBejCyObLMWyR31T947fsz/DI2VpkwfrZx+qUW7kVewAmvA
+	 Z5ySg0U/Poy/A==
+Date: Tue, 12 Aug 2025 09:54:15 -0500
+From: Rob Herring <robh@kernel.org>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: tiwai@suse.com, devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+	gregkh@linuxfoundation.org, ukleinek@kernel.org, krzk+dt@kernel.org,
+	dmitry.torokhov@gmail.com, broonie@kernel.org,
+	linux-pwm@vger.kernel.org, lee@kernel.org,
+	linux-sound@vger.kernel.org, lgirdwood@gmail.com,
+	peter.ujfalusi@gmail.com, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, shuah@kernel.org, conor+dt@kernel.org
+Subject: Re: [PATCH 2/8] mfd: dt-bindings: ti,twl6040: convert to DT schema
+Message-ID: <20250812145415.GA3607226-robh@kernel.org>
+References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
+ <20250811224739.53869-3-jihed.chaibi.dev@gmail.com>
+ <175496188325.1486426.9118766970247515386.robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <175496188325.1486426.9118766970247515386.robh@kernel.org>
 
-On Sun, 10 Aug 2025 23:41:05 +0200, Thorsten Blum wrote:
-> In aw8xxxx_profile_info(), strscpy() is called with the length of the
-> source string "null" rather than the size of the destination buffer.
+On Mon, Aug 11, 2025 at 08:24:43PM -0500, Rob Herring (Arm) wrote:
 > 
-> This is fine as long as the destination buffer is larger than the source
-> string, but we should still use the destination buffer size instead to
-> call strscpy() as intended. And since 'name' points to the fixed-size
-> buffer 'uinfo->value.enumerated.name', we can safely omit the size
-> argument and let strscpy() infer it using sizeof() and remove 'name'.
+> On Tue, 12 Aug 2025 00:47:33 +0200, Jihed Chaibi wrote:
+> > Convert the legacy TXT binding for the TWL6040 MFD
+> > to the modern YAML DT schema format. This adds formal validation
+> > and improves documentation.
+> > 
+> > Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> > ---
+> >  .../devicetree/bindings/mfd/ti,twl6040.yaml   | 155 ++++++++++++++++++
+> >  .../devicetree/bindings/mfd/twl6040.txt       |  67 --------
+> >  2 files changed, 155 insertions(+), 67 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/ti,twl6040.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/mfd/twl6040.txt
+> > 
 > 
-> [...]
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/ti,twl6040.example.dtb: 
+> twl@4b (ti,twl6040): 'twl6040,audpwron-gpio' does not match any of 
+> the regexes: '^#.*', 
+> '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gpmc|hdmi|i2c-gpio),.*', 
+> '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', 
+> '^(pciclass|pinctrl-single|#pinctrl-single|PowerPC),.*', 
+> '^(pl022|pxa-mmc|rcar_sound|rotary-encoder|s5m8767|sdhci),.*', 
+> '^(simple-audio-card|st-plgpio|st-spics|ts),.*',
 
-Applied to
+You will need to add 'twl6040' to this list of exceptions in 
+vendor-prefixes.yaml.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: codecs: Call strscpy() with correct size argument
-      commit: dcb82900b12f5809e66835918d4043284ce1d39c
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Rob
