@@ -1,40 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D4027EC7C
-	for <linux-sound@vger.kernel.org>; Tue, 12 Aug 2025 16:23:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43532F5494;
+	Tue, 12 Aug 2025 16:23:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755015824; cv=none; b=LVH6v1C6qMaDnNilzKeWlBCKAAxNAa/pesJYSztXGYBur+5P5482eWROUCG2208fGw49zgn89BTOdWKXvEb/aVy1heDiEoWNP208qif0OqqPZ2FYoGBUFN7NcnCIKvknmmAcHD11KMZI5kNfZ1MEqcLLj+dO2LOJyOmxfeDZwtc=
+	t=1755015826; cv=none; b=hDw2LvZ1OwuPC0gh4bY+rQsAaJgyA5ADEN2LONsyA7olFfRM1vE2BRohW5GXLU7P0d+yqQJU8rZkSyKr6GWMDSxDZnPV6wwxqWcjCNA/zK2Kogy6j8PYZb7dDQud/gtJACqsIhuxSeX42jS53G8tTUN60/aJdEqHLZwmVPIsP8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755015824; c=relaxed/simple;
-	bh=zYqxIZThjJSMneij8xZf2a/Yz0223DzDnHCuumji2CY=;
+	s=arc-20240116; t=1755015826; c=relaxed/simple;
+	bh=aCT0NA5XFbhw2WWxBE1dioUETYz3wro3ExCaYb1idqE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=H96VVTEBIFUmB60gqEN68M3/mZ0xvAOxzv58oUxWzjWhZeXHGy9mf+MVpG/+A67eLMVAelViXEaWteMV2RJVFyz7gjU9FREwZcK+OssfH44wYSIK4VsnAeDjcIkwi1lrOHhdoBaGd/yzlFfnD3L9ExGT6Pe0eap44b7dZIho8mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mFPvsXBJ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=FoyVBxrY9LIeYPNaQH0zSG5Nb69qFrx0+gwFY65msuP6UCtOtj2mTUH0mL4dpskpMso4350avIOIfElRBoD2HeNmAiS7aHNmQpIdWN3A/3ZBCuRXy5ewN1Ji47abDfwse5WoFSz46P+ZqtMyDBxexWmEBO66p2YyBxcMK9vYkdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkUWwKyb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFPvsXBJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD6B6C4CEF6;
-	Tue, 12 Aug 2025 16:23:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkUWwKyb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D87C4CEF6;
+	Tue, 12 Aug 2025 16:23:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755015823;
-	bh=zYqxIZThjJSMneij8xZf2a/Yz0223DzDnHCuumji2CY=;
+	s=k20201202; t=1755015826;
+	bh=aCT0NA5XFbhw2WWxBE1dioUETYz3wro3ExCaYb1idqE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mFPvsXBJM/v+/82jsv5GbGjsJKqGodFCQGI2zjYh+jUNqCpi3XCaM4NN6puSSPrsD
-	 lv5kK9z+7sFXqTXbbPbPURLQPmbMmBy8SEs98w9T3L2nGP7mV27mcTYvzy1uowiUp7
-	 /rQklkL+1Yi4QsDg3EPbn2dSmfOOI272Fb9ESItggkfBwqiEBIpYRCvCEkeAwOED9r
-	 rHE6gGZ5LBoxbo5zhwv1UsPN6A+ICzIRE4cF3SZGvCgqmoit8HlFHwgTabfx8a6YFF
-	 6ZsfSjrMUG521oVPSV45FHm2NfpKUTWxE9EaCnMxF0t6S1wpW/eI9uE5fqB/uVZkda
-	 D6rDfLl/tSHQg==
+	b=bkUWwKybhiKKgdZKDbCQtsMsNZNEhzFvXy3HaKYk/SpaVvx8446Si+N7M9EhLQapY
+	 3u+KtcSeJFzrbhMeft0SyEK+YFdWjQHAaq/r16XWspDEGYvrmKleFz6kOmqIWXAojO
+	 LR+frZYU08PwfKAkHMkbNX6XONbh94ROZe/pijrvDmrLIQ6wL/0mQTLZc9WYkATOxu
+	 M5G21/48F212F6/eyZWOoltGTcO1IypMlYJAkePMySl3fmeMhmeSMgLk+kK9Gpsatu
+	 zHWyzIRBpVh3bYx20Sgr81/wgKleWPbehMuRqv+mwDIOyHkdGDo7GWbRF+wWNfEFNB
+	 gVpltKiqca+Ug==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250729130633.310388-1-cezary.rojewski@intel.com>
-References: <20250729130633.310388-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH 0/2] ASoC: Intel: avs: Conditional path support
-Message-Id: <175501582264.192378.3652969856137595817.b4-ty@kernel.org>
-Date: Tue, 12 Aug 2025 17:23:42 +0100
+To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com, 
+ Nick <nick.li@foursemi.com>
+Cc: xiaoming.yang@foursemi.com, danyang.zheng@foursemi.com, 
+ like.xy@foxmail.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250723090934.480055-1-nick.li@foursemi.com>
+References: <20250723090934.480055-1-nick.li@foursemi.com>
+Subject: Re: [PATCH v5 0/5] ASoC: codecs: Add support for FourSemi
+ FS2104/5S
+Message-Id: <175501582409.192378.2510847202564091154.b4-ty@kernel.org>
+Date: Tue, 12 Aug 2025 17:23:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,16 +49,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Tue, 29 Jul 2025 15:06:31 +0200, Cezary Rojewski wrote:
-> The code presented here is a lighter version of what was initially
-> discussed in 2021 [1]. Later, we've had a more general discussion [2]
-> "what if the feature was part of the ASoC core instead?". The discussion
-> turned towards leaving a simplified version within the avs/, so here is
-> the final outcome.
+On Wed, 23 Jul 2025 17:09:29 +0800, Nick wrote:
+> The FS2104/5S are Inductor-Less, Stereo, Closed-Loop,
+> Digital Input Class-D Power Amplifiers with Enhanced Signal Processing
+> FS2104 can deliver 2x15W into 4ohm BTL speaker loads,
+> FS2105S can deliver 2x30W into 8ohm BTL speaker loads.
 > 
-> What's removed when compared to the older [1] version?
-> - conditional path priorities
-> - conditional path overriding
+> Most functions have been built and tested on EVB boards:
+> ARMv8-A, Linux version 6.16.0-rc6-v8
 > 
 > [...]
 
@@ -64,10 +66,16 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: Intel: avs: Parse conditional path tuples
-      commit: 8bcfcb3bd3e38b8f3bb7e5eb3acb4120500994a0
-[2/2] ASoC: Intel: avs: Conditional-path support
-      commit: 595b7f155b926460a00776cc581e4dcd01220006
+[1/5] dt-bindings: vendor-prefixes: Add Shanghai FourSemi Semiconductor Co.,Ltd
+      commit: 243167e96939630b7d0d7f61be926d327e14a017
+[2/5] ASoC: dt-bindings: Add FS2104/5S audio amplifiers
+      commit: fd90680da7e2d92e50ad72dfd4ea601098ab3493
+[3/5] ASoC: codecs: Add library for FourSemi audio amplifiers
+      commit: e0bbbcaceba1cf47751f264d0dbe36206eab0ef0
+[4/5] ASoC: codecs: Add FourSemi FS2104/5S audio amplifier driver
+      commit: 75611770177965ae902c87c96eace07542beff07
+[5/5] MAINTAINERS: Add entry for FourSemi audio amplifiers
+      commit: 2291a2186305faaf8525d57849d8ba12ad63f5e7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
