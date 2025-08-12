@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3422ECD29
-	for <linux-sound@vger.kernel.org>; Tue, 12 Aug 2025 11:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F832571DA;
+	Tue, 12 Aug 2025 11:05:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754996706; cv=none; b=rl+umLk92bZkztN40R5ztR+RQDr/Sb2//zLdkzfCL/L7uZDx04v8Dyns9FIMbsjFaa+PM/NNNIVzErTysWesBYK2qyfTDLSlxhYvM/cfvBDtulqtUw2w59tQB0JfOfUSOB4hmi4j1jlANbETtYltD4xuwIgC1G8nmp66UwVCL4U=
+	t=1754996708; cv=none; b=a8IbPo2WRZcYeAw/bXS7iAKqNzwY+ZYfUiAW9+n8M5p9ntCKqS3SSFkvzyL2+rhPYwOiekHSGKOLYuPRppHCUhSFACoOmzI3o04NxBXGsKl4C2XfRVVibC3jnhIAPqErue2huxuNYnFNRXbee9Q1jfJcEOPAbYjFBJgtytXMi5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754996706; c=relaxed/simple;
-	bh=OutnMHZESiBf5M4qYSokxLJoeTEJ7bk4VW9lSSmvitk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DDZkGOKIWy/L329U9hWz78bHdvSyziTgpR1Gr9Vc+dYV5lPOKiJo+1+NKQjQFZwmQ9kv1n/xvLAoVGEA2HBOsakNiKo869uLIX3cnYKf4WLAInoLZbNRM0iVpPr3JZMiZ4+LpqRd5mMDK5LbT4c7pdGD+VRY4vOufpUTCWWDQVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JuJ+75T+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1754996708; c=relaxed/simple;
+	bh=i83FLRORzAWaY4/0VoGrVVs4sujsdhDnKVLh/tbKi9w=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=XysUf4SIULKYT7cuETKQCljIttZ+BcypTWm6Kzqm6IjtBbpSBEvxYsNsj9I9gwJwcdE2AWGS0kvCkol8d6lRmvmM7KKdLwDsFVkH4zKB6OaPvUT1i+tOTOkUl+gkTpEGwIBYz+/2ew3qCuSIoCpDuu9VH3YGZ/LXrW6/UM5wtVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ksO+RRwk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JuJ+75T+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 193A0C4CEF0;
-	Tue, 12 Aug 2025 11:05:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ksO+RRwk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B503C4CEF7;
+	Tue, 12 Aug 2025 11:05:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754996705;
-	bh=OutnMHZESiBf5M4qYSokxLJoeTEJ7bk4VW9lSSmvitk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JuJ+75T+mcZIo5ZkmIXKF3RcOz+uuzYxdAPJWueI6ZoJF6CbXdzgMw9r5esnbaef8
-	 rgRpLPI4ekj3/pTrDej1f95ZvplFaIVVmqXD18BP+46lcuzMlgiAdEkv/siz9XawBh
-	 HBckdaD3xM1AXEVrNBFVyywDJFPkFhtmnKBK3nqTDgWygqYhCtZWeXhpXt10XxV+D/
-	 PhJXrfTz1R5ZSkSXBzFuMCQnhwbEUlyBXlKS2t8QLl7ZhoatCNT+WVKQiMNy/Fktkc
-	 PKri+BV4YCEoEG6qFMYwQ2PMpK4E+eSaY+U3OZu0hpfzfYXlCYJVd5aX9jTBoJp85i
-	 CczyTUFeweM2g==
+	s=k20201202; t=1754996708;
+	bh=i83FLRORzAWaY4/0VoGrVVs4sujsdhDnKVLh/tbKi9w=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=ksO+RRwkquDBtc2qSEkIsY/W/9oVsvewgkKCETs1psFyO9oYhSWYxdccqvf6GA6in
+	 HRkUSrLa5aLliSCE+jS4ZD+DF2Ch3QEcYdz9L6Z2lPAYVDTX2g9vEWRV+c7u/7XMlW
+	 yt4zdzN/jPn8++9RuiOKa8bKh96MRVDp+JA17/WN6ITyEKRR3fG2+46XUl1MWjmLNZ
+	 o3rh4TASDUNFSuORrZa/O2jGsnedZafT5ftzABpJlPWkTGzJtfwZ2A5JKLihQj6r5K
+	 puX+wAbXHxgfPaWqy1H9ZOuucI/LyDeRKV7hIfmBzbkkWj0OVN9qAxnRfl36G0rqsP
+	 pqf8DydXndMRg==
 From: Mark Brown <broonie@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87v7n0c9d0.wl-kuninori.morimoto.gx@renesas.com>
-References: <87v7n0c9d0.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: generic: tidyup standardized ASoC menu for
- generic
-Message-Id: <175499670485.16031.1234390045522532784.b4-ty@kernel.org>
-Date: Tue, 12 Aug 2025 12:05:04 +0100
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20250807020318.2143219-1-shengjiu.wang@nxp.com>
+References: <20250807020318.2143219-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH] ASoC: fsl_sai: replace regmap_write with
+ regmap_update_bits
+Message-Id: <175499670591.16031.7607194509968600371.b4-ty@kernel.org>
+Date: Tue, 12 Aug 2025 12:05:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,12 +47,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Wed, 06 Aug 2025 23:34:52 +0000, Kuninori Morimoto wrote:
-> commit acc84d15e45393fb ("ASoC: generic: Standardize ASoC menu")
-> standardized ASoC generic menu. Then, it moved generic menu position
-> under SoC group. It should be kept generic position. Tidyup it.
+On Thu, 07 Aug 2025 10:03:18 +0800, Shengjiu Wang wrote:
+> Use the regmap_write() for software reset in fsl_sai_config_disable would
+> cause the FSL_SAI_CSR_BCE bit to be cleared. Refer to
+> commit 197c53c8ecb34 ("ASoC: fsl_sai: Don't disable bitclock for i.MX8MP")
+> FSL_SAI_CSR_BCE should not be cleared. So need to use regmap_update_bits()
+> instead of regmap_write() for these bit operations.
 > 
 > 
+> [...]
 
 Applied to
 
@@ -59,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: generic: tidyup standardized ASoC menu for generic
-      commit: f13ab498726bb6c636d6c5cd8c7df911444316dc
+[1/1] ASoC: fsl_sai: replace regmap_write with regmap_update_bits
+      commit: 0e270f32975fd21874185ba53653630dd40bf560
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
