@@ -1,156 +1,134 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECC01A9FA5
-	for <linux-sound@vger.kernel.org>; Tue, 12 Aug 2025 07:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F841A9F99;
+	Tue, 12 Aug 2025 07:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754982113; cv=none; b=ae+492BzqU3ooJWBFfAbr7fQtH9FLpFFWsfvVAIDUusjTkvzt8GsetwTK/ITYZjP/hO8SnsFA+9/VTtGQLZkSrpsXeXOxg4UlVtTc6i87UTSbJsFNoW+mNIm5uRH2CUavF+M3G06LGc0rjuzRr/jmwyFCCYmyWGWtOmxWHnomgA=
+	t=1754984426; cv=none; b=phBo9mHCFroehRnuOCDD64AS5/Hz7WfYbUXYdOufveJ/TG62lZZ8knIgahkSv6sHTDa9BbqzxU3hW2lG41v8GobsyQPxV7dCWytRS5xzAca0uF5LsAmdDs9hqv2PEtg4Z3eKeQinQo/T0r1XtvD3S2kU/XBaHuXVc2JZ21HZJCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754982113; c=relaxed/simple;
-	bh=fxk7ZvCgGJ7FcvGq11Qw8ox2RenPJmtB3BA5xDquLK0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fM390ZngSU0bQ6obsrnq9qj0BjbxApdm6M2r0ixk4oeFPgmTV/+dAYsWo07KKFUIa4twnOIthl3pHmiE9LjM2FixYpRBi3ZC0yBXAhJI6gz5ycdUP3GGDyirzg2CYCIKI6bbT0htA5Ed1HXqqh9yk530AAx2Z0i5aA/DGi9R4CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DOQ1CWDK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rY4n/pUr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DOQ1CWDK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rY4n/pUr; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1754984426; c=relaxed/simple;
+	bh=wfjGcl31LN8RT0HnE6qlAX5V1ZOh3Ia0Y/31tNz9kKQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=toznbd1gFh3nx6zZVQ6CPzXr1RbRk3luA59O4rQadJnMWPwq2qr7dfZXr4vgpAhh2GrSJ4LiFWcva5urlDDtQXD2wNctn24c7cxycjNVAmO04ymTgkzWOUkUp/Yh7qx+x9ktcxOnDqx/WUl6eMhMsWtTGQocmbCe6fdDVPOakt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hKV6/h+e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DOQ1CWDK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rY4n/pUr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DOQ1CWDK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rY4n/pUr"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BA9E521C14;
-	Tue, 12 Aug 2025 07:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754982110; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mIuXacPJunB51SFFMyrVjrYJBnMzGcvIHqSEYD8obz4=;
-	b=DOQ1CWDK/UZxuvk2IQ/IbawVHkKa6q6prAhCuFhlYyLd+muT6Dj+CkLDSwHDo+fZV6VZjx
-	9ZLGbRz8n3Phjx8zPPRDOfFZy3VVcAmMTTvW+mpDv9lR3rWzDYa0hGi24s9C8xoC540zqW
-	5tMBDDjGLyJnGjmJkFN/Oe9L0W0yZlc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754982110;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mIuXacPJunB51SFFMyrVjrYJBnMzGcvIHqSEYD8obz4=;
-	b=rY4n/pUr7I1snaOsEaA3aXHAsiBh/kBihj9c81v5sm32KlXkJx5RwU+p97EjEcRXCq2g1H
-	t4t9c9tZn119ZEBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1754982110; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mIuXacPJunB51SFFMyrVjrYJBnMzGcvIHqSEYD8obz4=;
-	b=DOQ1CWDK/UZxuvk2IQ/IbawVHkKa6q6prAhCuFhlYyLd+muT6Dj+CkLDSwHDo+fZV6VZjx
-	9ZLGbRz8n3Phjx8zPPRDOfFZy3VVcAmMTTvW+mpDv9lR3rWzDYa0hGi24s9C8xoC540zqW
-	5tMBDDjGLyJnGjmJkFN/Oe9L0W0yZlc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1754982110;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mIuXacPJunB51SFFMyrVjrYJBnMzGcvIHqSEYD8obz4=;
-	b=rY4n/pUr7I1snaOsEaA3aXHAsiBh/kBihj9c81v5sm32KlXkJx5RwU+p97EjEcRXCq2g1H
-	t4t9c9tZn119ZEBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8EF7E1351A;
-	Tue, 12 Aug 2025 07:01:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HdqrId7mmmhdTwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 12 Aug 2025 07:01:50 +0000
-Date: Tue, 12 Aug 2025 09:01:50 +0200
-Message-ID: <87o6slyqe9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-2?Q?=A9erif?= Rami <ramiserifpersia@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/7] ALSA: usb-audio: Add driver for TASCAM US-144MKII
-In-Reply-To: <20250810124958.25309-1-ramiserifpersia@gmail.com>
-References: <20250810124958.25309-1-ramiserifpersia@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hKV6/h+e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 581A7C4CEF1;
+	Tue, 12 Aug 2025 07:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754984425;
+	bh=wfjGcl31LN8RT0HnE6qlAX5V1ZOh3Ia0Y/31tNz9kKQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hKV6/h+eBdhrGOR8LWo2tUnD1ifH3Wq1YtGrBb6JHh6uQ1buxuoWe6QbWqArRuRb9
+	 GD8Rh+IGPTCxcCTB3c9/9SWXmhuWUlJT55gaGF9GMKQFNrqBn5ogTQIiKhmgfT26OC
+	 uz0rOg9BW292o9M+5Fel25c9L9bEL34TpN8otEYXNXJkH3BZb4v9301FlHTvcUZDTe
+	 kx1VCGUaUvfXwAgoyaZRLQajIHezn+wNVE0J2OZsZn6HQKvcr9S+1JYIReM7x69v16
+	 jRtln5FTv7R+EZbLyRllsMTXjwFB7KNjQYTUD6y6TFcwDQytgWAtDdxfWQOmo5BXZI
+	 1IObiCZTNBUuw==
+Message-ID: <d5d0133f-1b42-4ad0-a3e0-2a2bdeb67484@kernel.org>
+Date: Tue, 12 Aug 2025 09:40:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: everest,es8316: Document routing
+ strings
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>, linux-sound@vger.kernel.org
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, drake@endlessm.com,
+ katsuhiro@katsuster.net, matteomartelli3@gmail.com, zhoubinbin@loongson.cn,
+ KCHSU0@nuvoton.com, patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, shuah@kernel.org
+References: <20250809151853.47562-1-jihed.chaibi.dev@gmail.com>
+ <20250809151853.47562-2-jihed.chaibi.dev@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250809151853.47562-2-jihed.chaibi.dev@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, 10 Aug 2025 14:49:51 +0200,
-©erif Rami wrote:
+On 09/08/2025 17:18, Jihed Chaibi wrote:
+> The es8316 driver defines several DAPM widget names that are used for
+> audio routing in the device tree. However, these strings are not
+> documented in the binding file.
 > 
-> This patch series introduces a new driver for the TASCAM US-144MKII USB audio interface.
-> This device is an entry-level audio interface, and adding
-> support will benefit users who want to use and fully utilize it under the linux kernel.
-> 
-> The series is structured as follows:
-> - Patch 1: Add initial driver for TASCAM US-144MKII.
-> - Patch 2: Adds the core PCM infrastructure.
-> - Patch 3: Implements audio playback functionality.
-> - Patch 4: Implements audio capture functionality.
-> - Patch 5: Adds MIDI support and mixer controls.
-> - Patch 6: Adds deep sleep and code style alignments
-> - Patch 7: Integrates the driver into the ALSA USB audio subsystem.
-> 
-> The driver has been tested on a TASCAM US-144MKII device,
-> verifying playback, recording, and MIDI functionality.
-> 
-> This driver was written for the TASCAM US-144MKII.
-> However, it is possible that it may also work for the original TASCAM US-144.
-> 
-> ©erif Rami (7):
->   ALSA: usb-audio: Add initial driver for TASCAM US-144MKII
->   ALSA: usb-audio: us144mkii: Add PCM core infrastructure
->   ALSA: usb-audio: us144mkii: Implement audio playback and feedback
->   ALSA: usb-audio: us144mkii: Implement audio capture and decoding
->   ALSA: usb-audio: us144mkii: Add MIDI support and mixer controls
->   ALSA: usb-audio: us144mkii: Add deep sleep and code style alignments
->   ALSA: usb-audio: Add infrastructure for TASCAM US-144MKII
+> This forces developers to read the C source to discover the valid
+> names, which can be inefficient and error-prone.
 
-Thanks for splitting, now it's much easier to review.
-I commented on each patch.
+Reading free form text is as inefficient and error-prone as reading the
+driver.
 
+> 
+> Add a list of the input and output widget names to the binding's
+> description to make it self-contained and improve the user
+> experience for board bring-up.
+> 
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> ---
+>  .../devicetree/bindings/sound/everest,es8316.yaml  | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/everest,es8316.yaml b/Documentation/devicetree/bindings/sound/everest,es8316.yaml
+> index e4b2eb5fa..cd073dd0c 100644
+> --- a/Documentation/devicetree/bindings/sound/everest,es8316.yaml
+> +++ b/Documentation/devicetree/bindings/sound/everest,es8316.yaml
+> @@ -12,6 +12,20 @@ maintainers:
+>    - Matteo Martelli <matteomartelli3@gmail.com>
+>    - Binbin Zhou <zhoubinbin@loongson.cn>
+>  
+> +description: |
+> +  Everest ES8311, ES8316 and ES8323 audio CODECs
+> +
+> +  Valid routing names defined in the driver for this codec include:
 
-Takashi
+Anyway, don't describe drivers but hardware.
+
+Best regards,
+Krzysztof
