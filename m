@@ -1,37 +1,37 @@
 Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC242EB5D2;
-	Tue, 12 Aug 2025 11:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D0272ED86F;
+	Tue, 12 Aug 2025 11:21:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754997655; cv=none; b=oW16zGVnVURuGn/W+gDm7I17aEWi194q5MTFdPo9y1Ubeuch4sNiSkQaQRvNqvoVExnXDgKF4ncIJVV0j5CBv5n9DbH+uQc3teTnUQNIVxaY76fDXzdyuon3D9HxfbiPkEv0VoIk62ApGS7Kv4zCPybV0xKK0xn0i3T4amL264U=
+	t=1754997668; cv=none; b=VDvXX/1bA3uJHkkvU7kd1CNq61trYiw/xke+SW+ythOSMMlRNftcs5LGY5rK4RXwuFIJzTZZsNVi/ztWHzBY0PlmfS3IvQuWbZZu4YnzvcylzDrMQ7CL7TrsSugBvAfqbveMTKcw/YbEdMy+kTRggZNIwxF3fyVZw2Ic58YjOsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754997655; c=relaxed/simple;
-	bh=4WvVIASI4alTwJrylXkbVq3Sqy6GlVQKoVrURW7O4pc=;
+	s=arc-20240116; t=1754997668; c=relaxed/simple;
+	bh=btE/H/h8In+zFZ3coyNkPGTFp2sXECgeWwsH+bApf+k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QOODfM7AmxFxrwmo2xdthqY7mMMP4TUaF4wx5vHFJtjrnnsPldno41uZibkfW/iT5s5jytzepAXZC89G7Zx1fApG2ZbWF1jI3qiEMf+uNgDl363VBytXep9noNEs4BwTLVn7y2F3N8ZFH7eQOLyDjOnVWnVIX4GH/XW/R4olcnc=
+	 MIME-Version; b=eE0ZWoHef8HQVPbTEiRYyHld029oDq1fMs8F1CYtsDYjmgMmjB2v+vqZINEjDtGnMWUHMlJoYmSiYvgphE17bPQgxlQuDS+EgQDeDlXnJtXG6TwSHnoWUCILVCntg4OC7Rp6Rt3cA9lqm7yuih0TSz4dqpQMmJOu+G3dD2YjsOc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
 Received: from localhost (mailhub4.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4c1Swc0sHyz9sSR;
-	Tue, 12 Aug 2025 12:51:12 +0200 (CEST)
+	by localhost (Postfix) with ESMTP id 4c1SwZ1yR4z9sSL;
+	Tue, 12 Aug 2025 12:51:10 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from pegase2.c-s.fr ([172.26.127.65])
 	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UZfLVWQ7jLtD; Tue, 12 Aug 2025 12:51:12 +0200 (CEST)
+	with ESMTP id TZTC41d0Ji7b; Tue, 12 Aug 2025 12:51:10 +0200 (CEST)
 Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4c1Swb3wGkz9sSK;
-	Tue, 12 Aug 2025 12:51:11 +0200 (CEST)
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4c1SwZ10sYz9sSK;
+	Tue, 12 Aug 2025 12:51:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 6C8CB8B764;
-	Tue, 12 Aug 2025 12:51:11 +0200 (CEST)
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 090E48B764;
+	Tue, 12 Aug 2025 12:51:10 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at c-s.fr
 Received: from messagerie.si.c-s.fr ([127.0.0.1])
 	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id 4GfoNMbtMS8g; Tue, 12 Aug 2025 12:51:11 +0200 (CEST)
+	with ESMTP id oYqVmKfN6oVn; Tue, 12 Aug 2025 12:51:09 +0200 (CEST)
 Received: from PO20335.idsi0.si.c-s.fr (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id AB8FE8B765;
-	Tue, 12 Aug 2025 12:51:10 +0200 (CEST)
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 4C2A18B765;
+	Tue, 12 Aug 2025 12:51:09 +0200 (CEST)
 From: Christophe Leroy <christophe.leroy@csgroup.eu>
 To: Herve Codina <herve.codina@bootlin.com>,
 	Qiang Zhao <qiang.zhao@nxp.com>,
@@ -48,9 +48,9 @@ Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH v2 3/4] ASoC: fsl: fsl_qmc_audio: Only request completion on last channel
-Date: Tue, 12 Aug 2025 12:50:57 +0200
-Message-ID: <21eb89cc03a1c2135bdaba6a4dd1d0c2e624ce29.1754993232.git.christophe.leroy@csgroup.eu>
+Subject: [PATCH v2 1/4] soc: fsl: qmc: Only set completion interrupt when needed
+Date: Tue, 12 Aug 2025 12:50:55 +0200
+Message-ID: <badb68a85910e5e6f1094ef3b01805209ac21854.1754993232.git.christophe.leroy@csgroup.eu>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1754993232.git.christophe.leroy@csgroup.eu>
 References: <cover.1754993232.git.christophe.leroy@csgroup.eu>
@@ -60,147 +60,114 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754995860; l=4945; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=4WvVIASI4alTwJrylXkbVq3Sqy6GlVQKoVrURW7O4pc=; b=kK0HMFbQjUGoU9gCyvZ9al1SVU7DiGHBkSIKbM6b3PMB48xoPCApvkWX7TBmhMOhpYNbI3W0n YdaUjFo/BHbD6r+nRb+tGtUznllA2+KDoXIpFTPGrpkXMYtBHP9XA7H
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754995860; l=3383; i=christophe.leroy@csgroup.eu; s=20211009; h=from:subject:message-id; bh=btE/H/h8In+zFZ3coyNkPGTFp2sXECgeWwsH+bApf+k=; b=zVwDmHckJ9mDmT1RDuIFBLmmtGpvCrpdaM679R61Csv/878/XJddDu6BCqmg5MWdRPutlVzV8 Tx9V7OFk3U+Cl67z/fTXBHb4yPB9HbRBYFB3c7X4RnCAC8pKGvZDWFv
 X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
 Content-Transfer-Encoding: 8bit
 
-In non-interleaved mode, several QMC channels are used in sync.
-More details can be found in commit 188d9cae5438 ("ASoC: fsl:
-fsl_qmc_audio: Add support for non-interleaved mode.")
-At the time being, an interrupt is requested on each channel to
-perform capture/playback completion, allthough the completion is
-really performed only once all channels have completed their work.
+When no post-completion processing is expected, don't waste time
+handling useless interrupts.
 
-This leads to a lot more interrupts than really needed. Looking at
-/proc/interrupts shows ~3800 interrupts per second when using
-4 capture and 4 playback devices with 5ms periods while
-only 1600 (200 x 4 + 200 x 4) periods are processed during one second.
-
-The QMC channels work in sync, the one started first is the one
-finishing first and the one started last is the one finishing last,
-so when the last one finishes it is guaranteed that the other ones are
-finished as well. Therefore only request completion processing on the
-last QMC channel.
-
-On my board with the above exemple, on a kernel started with
-'threadirqs' option, the QMC irq thread uses 16% CPU time with this
-patch while it uses 26% CPU time without this patch.
+Only set QMC_BD_[R/T]X_I when a completion function is passed in,
+and perform seamless completion on submit for interruptless buffers.
 
 Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 ---
- sound/soc/fsl/fsl_qmc_audio.c | 46 +++++------------------------------
- 1 file changed, 6 insertions(+), 40 deletions(-)
+v2: Keep the UB flag to mark not completed buffers and seamlessly flag them as completed during next submit.
+---
+ drivers/soc/fsl/qe/qmc.c | 44 ++++++++++++++++++++++++++++++----------
+ 1 file changed, 33 insertions(+), 11 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_qmc_audio.c b/sound/soc/fsl/fsl_qmc_audio.c
-index 0be29ccc1ff7b..92aa813aa3bee 100644
---- a/sound/soc/fsl/fsl_qmc_audio.c
-+++ b/sound/soc/fsl/fsl_qmc_audio.c
-@@ -57,7 +57,6 @@ struct qmc_dai_prtd {
- 	size_t ch_dma_offset;
+diff --git a/drivers/soc/fsl/qe/qmc.c b/drivers/soc/fsl/qe/qmc.c
+index 36c0ccc06151f..8f76b9a5e385d 100644
+--- a/drivers/soc/fsl/qe/qmc.c
++++ b/drivers/soc/fsl/qe/qmc.c
+@@ -461,9 +461,16 @@ int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
  
- 	unsigned int channels;
--	DECLARE_BITMAP(chans_pending, 64);
- 	struct snd_pcm_substream *substream;
- };
- 
-@@ -126,17 +125,14 @@ static int qmc_audio_pcm_write_submit(struct qmc_dai_prtd *prtd)
- 	int ret;
- 
- 	for (i = 0; i < prtd->channels; i++) {
--		bitmap_set(prtd->chans_pending, i, 1);
--
- 		ret = qmc_chan_write_submit(prtd->qmc_dai->chans[i].qmc_chan,
- 					    prtd->ch_dma_addr_current + i * prtd->ch_dma_offset,
- 					    prtd->ch_dma_size,
--					    qmc_audio_pcm_write_complete,
--					    &prtd->qmc_dai->chans[i]);
-+					    i == prtd->channels - 1 ? qmc_audio_pcm_write_complete :
-+								      NULL, prtd);
- 		if (ret) {
- 			dev_err(prtd->qmc_dai->dev, "write_submit %u failed %d\n",
- 				i, ret);
--			bitmap_clear(prtd->chans_pending, i, 1);
- 			return ret;
- 		}
- 	}
-@@ -146,20 +142,7 @@ static int qmc_audio_pcm_write_submit(struct qmc_dai_prtd *prtd)
- 
- static void qmc_audio_pcm_write_complete(void *context)
- {
--	struct qmc_dai_chan *chan = context;
--	struct qmc_dai_prtd *prtd;
--
--	prtd = chan->prtd_tx;
--
--	/* Mark the current channel as completed */
--	bitmap_clear(prtd->chans_pending, chan - prtd->qmc_dai->chans, 1);
--
--	/*
--	 * All QMC channels involved must have completed their transfer before
--	 * submitting a new one.
--	 */
--	if (!bitmap_empty(prtd->chans_pending, 64))
--		return;
-+	struct qmc_dai_prtd *prtd = context;
- 
- 	prtd->buffer_ended += prtd->period_size;
- 	if (prtd->buffer_ended >= prtd->buffer_size)
-@@ -182,17 +165,14 @@ static int qmc_audio_pcm_read_submit(struct qmc_dai_prtd *prtd)
- 	int ret;
- 
- 	for (i = 0; i < prtd->channels; i++) {
--		bitmap_set(prtd->chans_pending, i, 1);
--
- 		ret = qmc_chan_read_submit(prtd->qmc_dai->chans[i].qmc_chan,
- 					   prtd->ch_dma_addr_current + i * prtd->ch_dma_offset,
- 					   prtd->ch_dma_size,
--					   qmc_audio_pcm_read_complete,
--					   &prtd->qmc_dai->chans[i]);
-+					   i == prtd->channels - 1 ? qmc_audio_pcm_read_complete :
-+								     NULL, prtd);
- 		if (ret) {
- 			dev_err(prtd->qmc_dai->dev, "read_submit %u failed %d\n",
- 				i, ret);
--			bitmap_clear(prtd->chans_pending, i, 1);
- 			return ret;
- 		}
- 	}
-@@ -202,26 +182,13 @@ static int qmc_audio_pcm_read_submit(struct qmc_dai_prtd *prtd)
- 
- static void qmc_audio_pcm_read_complete(void *context, size_t length, unsigned int flags)
- {
--	struct qmc_dai_chan *chan = context;
--	struct qmc_dai_prtd *prtd;
--
--	prtd = chan->prtd_rx;
--
--	/* Mark the current channel as completed */
--	bitmap_clear(prtd->chans_pending, chan - prtd->qmc_dai->chans, 1);
-+	struct qmc_dai_prtd *prtd = context;
- 
- 	if (length != prtd->ch_dma_size) {
- 		dev_err(prtd->qmc_dai->dev, "read complete length = %zu, exp %zu\n",
- 			length, prtd->ch_dma_size);
+ 	ctrl = qmc_read16(&bd->cbd_sc);
+ 	if (ctrl & (QMC_BD_TX_R | QMC_BD_TX_UB)) {
+-		/* We are full ... */
+-		ret = -EBUSY;
+-		goto end;
++		if (!(ctrl & QMC_BD_TX_I) && bd == chan->txbd_done) {
++			if (ctrl & QMC_BD_TX_W)
++				chan->txbd_done = chan->txbds;
++			else
++				chan->txbd_done++;
++		} else {
++			/* We are full ... */
++			ret = -EBUSY;
++			goto end;
++		}
  	}
  
--	/*
--	 * All QMC channels involved must have completed their transfer before
--	 * submitting a new one.
--	 */
--	if (!bitmap_empty(prtd->chans_pending, 64))
--		return;
--
- 	prtd->buffer_ended += prtd->period_size;
- 	if (prtd->buffer_ended >= prtd->buffer_size)
- 		prtd->buffer_ended = 0;
-@@ -249,7 +216,6 @@ static int qmc_audio_pcm_trigger(struct snd_soc_component *component,
+ 	qmc_write16(&bd->cbd_datlen, length);
+@@ -475,6 +482,10 @@ int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
  
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
--		bitmap_zero(prtd->chans_pending, 64);
- 		prtd->buffer_ended = 0;
- 		prtd->ch_dma_addr_current = prtd->ch_dma_addr_start;
+ 	/* Activate the descriptor */
+ 	ctrl |= (QMC_BD_TX_R | QMC_BD_TX_UB);
++	if (complete)
++		ctrl |= QMC_BD_TX_I;
++	else
++		ctrl &= ~QMC_BD_TX_I;
+ 	wmb(); /* Be sure to flush the descriptor before control update */
+ 	qmc_write16(&bd->cbd_sc, ctrl);
  
+@@ -569,9 +580,16 @@ int qmc_chan_read_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+ 
+ 	ctrl = qmc_read16(&bd->cbd_sc);
+ 	if (ctrl & (QMC_BD_RX_E | QMC_BD_RX_UB)) {
+-		/* We are full ... */
+-		ret = -EBUSY;
+-		goto end;
++		if (!(ctrl & QMC_BD_RX_I) && bd == chan->rxbd_done) {
++			if (ctrl & QMC_BD_RX_W)
++				chan->rxbd_done = chan->rxbds;
++			else
++				chan->rxbd_done++;
++		} else {
++			/* We are full ... */
++			ret = -EBUSY;
++			goto end;
++		}
+ 	}
+ 
+ 	qmc_write16(&bd->cbd_datlen, 0); /* data length is updated by the QMC */
+@@ -587,6 +605,10 @@ int qmc_chan_read_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+ 
+ 	/* Activate the descriptor */
+ 	ctrl |= (QMC_BD_RX_E | QMC_BD_RX_UB);
++	if (complete)
++		ctrl |= QMC_BD_RX_I;
++	else
++		ctrl &= ~QMC_BD_RX_I;
+ 	wmb(); /* Be sure to flush data before descriptor activation */
+ 	qmc_write16(&bd->cbd_sc, ctrl);
+ 
+@@ -1482,19 +1504,19 @@ static int qmc_setup_chan(struct qmc *qmc, struct qmc_chan *chan)
+ 
+ 	/* Init Rx BDs and set Wrap bit on last descriptor */
+ 	BUILD_BUG_ON(QMC_NB_RXBDS == 0);
+-	val = QMC_BD_RX_I;
+ 	for (i = 0; i < QMC_NB_RXBDS; i++) {
+ 		bd = chan->rxbds + i;
+-		qmc_write16(&bd->cbd_sc, val);
++		qmc_write16(&bd->cbd_sc, 0);
+ 	}
+ 	bd = chan->rxbds + QMC_NB_RXBDS - 1;
+-	qmc_write16(&bd->cbd_sc, val | QMC_BD_RX_W);
++	qmc_write16(&bd->cbd_sc, QMC_BD_RX_W);
+ 
+ 	/* Init Tx BDs and set Wrap bit on last descriptor */
+ 	BUILD_BUG_ON(QMC_NB_TXBDS == 0);
+-	val = QMC_BD_TX_I;
+ 	if (chan->mode == QMC_HDLC)
+-		val |= QMC_BD_TX_L | QMC_BD_TX_TC;
++		val = QMC_BD_TX_L | QMC_BD_TX_TC;
++	else
++		val = 0;
+ 	for (i = 0; i < QMC_NB_TXBDS; i++) {
+ 		bd = chan->txbds + i;
+ 		qmc_write16(&bd->cbd_sc, val);
 -- 
 2.49.0
 
