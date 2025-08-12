@@ -1,137 +1,162 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5BBE311C31;
-	Tue, 12 Aug 2025 06:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86228279DAA
+	for <linux-sound@vger.kernel.org>; Tue, 12 Aug 2025 06:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754978900; cv=none; b=S5eZDbgiXyVXiGmJYrXMQWgXk2tmMhWnFkT3ZORxSYXIV4SH1J91iINNF04V6QvdO6P94lNsCWYS2FC2n3sRXexhOIYw02+swFiSYbD90XaNeOLar+mq0l2D1YK2pADW8nNBiQPub+CkVzo6AVD0Cy4X2Bq3IBewL48M1M5Ujs4=
+	t=1754980871; cv=none; b=kNkdJRKXJKdsgHfJdxrxSOOhrjyXGG9RsIuV60HMQMNcd620Xd9/vVE3br7vfA0pwPp51EXnQygY8UcCU0UDYa60HJDPpexol9w8em6+4I54jkKV6p9aowTd1fHWMc+SZZCcUpLPxKR53M3Yh//8wiTbSitZ5dxHKSZmcTEJcBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754978900; c=relaxed/simple;
-	bh=weK04IPBuk7pXV71ZChC/ScFR/2UzE34NC1nf7qNcrA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PbRVsd7TnR3h8Pd19wfkyYWLBnZYLFZKg844n3pYXG8PqFSDBsFv7hv5GvrPp7CCsyPs8eyWdSkolpbMq5UCIsvDuL0MCZ5cA2F43DZZVI17UWw3NHsPvHda7b4JBWgi7aUpYvvxwGKKwwKwNZfl9MSt4d/Gg3UJ/ECeGrsDOOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FRZTBQF+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=h0/i/iqi; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1754980871; c=relaxed/simple;
+	bh=I452LBtT1Qe4JxZrPrNKgAnpwCY+ZA0DknK7i7wM88E=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s/Q0xcWmYle/y+9Aj/a9/rF1NLQno362r5/NZGr5hfCqykcBrtQ5TThAaZidIzcBSUWprMWLPJT7zmj27QZpiBAClJslWqKBXfV94u4dLYCEw1gB16pGsXkLZLM2/hfzuYgLqY1zHaofr6XntSu46w4nTKd0g4X7/eIhbDtTsN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zj8Yyewc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8WZUIzRO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zj8Yyewc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8WZUIzRO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FRZTBQF+";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="h0/i/iqi"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1754978895;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zj8Yyewc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8WZUIzRO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zj8Yyewc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8WZUIzRO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8EED51F452;
+	Tue, 12 Aug 2025 06:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1754980862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=65XSwTq1lmsETNc/hSGvGZmapU2l8DMfuplQ8JTrt6k=;
-	b=FRZTBQF+df4BzDvzQUdjnydvsZxB9/q4nUUf4COaxsbm+c4S85MQiOPSqnjSXN2Ym64u+g
-	OTP3kNdJt7wztEAVQP2oeB9mKyFSmqf7li7iza9Wi4sDj5W0zohJhp8DsTO3MZVz5OpjNj
-	ORtv2Ia7qqwZJLH2YVAXG4G3T0EixsMjFgs17nZUJ1zqTI1erQmZn/ce6Jqdpjk6q5fgey
-	Gu+0GIhirYT6R1IMKU1Jo7eYqraueJWIZSMKRY9o7BMpIiyDkBEB+w2LYIqH+gmpKfm46U
-	jEjtVmq/OTVzJp9WTdjW1MW6caqLNZxXxSBG75oGHIMjksie0xXZF3TxkeACQg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1754978895;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	bh=LGqzfctgmqsb8NWyo8u5Cq9WskDZx8TSmMNEE3j6+Kc=;
+	b=zj8Yyewct31qgWksPczlQ/pDv3jqdiwN9Mtekx0HcPHPnsdkkosCVst4P7KhC/6YpFwAQi
+	vFC0k0GoSiwzBEPFwnrek09Qb34qYAWypaZF+oX5CjtrOIzsEe8RhmyRbgotaisQqsGGTJ
+	C4ki9VUVn4Yyw9Pmuq7ADX+ovBkDduI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1754980862;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=65XSwTq1lmsETNc/hSGvGZmapU2l8DMfuplQ8JTrt6k=;
-	b=h0/i/iqiNQBjXOPJ+MKq2R+oX8qCqKa0pMBL97g1tU0JE9Pr2ydHNm6tv6Hz/dMKXFYq32
-	bh6HBAXg6YZH4cCQ==
-Date: Tue, 12 Aug 2025 08:08:15 +0200
-Subject: [PATCH 7/8] hrtimer: Use hrtimer_cb_get_time() helper
+	bh=LGqzfctgmqsb8NWyo8u5Cq9WskDZx8TSmMNEE3j6+Kc=;
+	b=8WZUIzROEBgO/EPvd5/KiWyPoYLEWuN3K/Z7tpMFbRJMC8VbbnwtyoS4+hL9e0OsYAVMwN
+	I09NycUN9SnwYbAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1754980862; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LGqzfctgmqsb8NWyo8u5Cq9WskDZx8TSmMNEE3j6+Kc=;
+	b=zj8Yyewct31qgWksPczlQ/pDv3jqdiwN9Mtekx0HcPHPnsdkkosCVst4P7KhC/6YpFwAQi
+	vFC0k0GoSiwzBEPFwnrek09Qb34qYAWypaZF+oX5CjtrOIzsEe8RhmyRbgotaisQqsGGTJ
+	C4ki9VUVn4Yyw9Pmuq7ADX+ovBkDduI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1754980862;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LGqzfctgmqsb8NWyo8u5Cq9WskDZx8TSmMNEE3j6+Kc=;
+	b=8WZUIzROEBgO/EPvd5/KiWyPoYLEWuN3K/Z7tpMFbRJMC8VbbnwtyoS4+hL9e0OsYAVMwN
+	I09NycUN9SnwYbAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5FB7B1351A;
+	Tue, 12 Aug 2025 06:41:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5mesFf7hmmggSgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 12 Aug 2025 06:41:02 +0000
+Date: Tue, 12 Aug 2025 08:41:01 +0200
+Message-ID: <87v7mtyrcy.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-2?Q?=A9erif?= Rami <ramiserifpersia@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] ALSA: usb-audio: Add initial driver for TASCAM US-144MKII
+In-Reply-To: <20250810124958.25309-2-ramiserifpersia@gmail.com>
+References: <20250810124958.25309-1-ramiserifpersia@gmail.com>
+	<20250810124958.25309-2-ramiserifpersia@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250812-hrtimer-cleanup-get_time-v1-7-b962cd9d9385@linutronix.de>
-References: <20250812-hrtimer-cleanup-get_time-v1-0-b962cd9d9385@linutronix.de>
-In-Reply-To: <20250812-hrtimer-cleanup-get_time-v1-0-b962cd9d9385@linutronix.de>
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Frederic Weisbecker <frederic@kernel.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- Matt Wu <wuqiang.matt@bytedance.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Sean Young <sean@mess.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-media@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1754978890; l=2174;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=weK04IPBuk7pXV71ZChC/ScFR/2UzE34NC1nf7qNcrA=;
- b=vLtHypcnvNvq0+i4aIgwtLNrK8vjQdJU9LDI90R/PvWs7ArTAwXeWu9g+2hsDdrjpusZTpJjc
- +Zezqr4NYxLDxvABEngkI+/FHlLEUHfyyxNQY/uAgXqzLOxKc4e0PyW
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
 
-Various other helpers contain open-coded implementations of
-hrtimer_cb_get_time(). This prevents refactoring the implementation.
+On Sun, 10 Aug 2025 14:49:52 +0200,
+©erif Rami wrote:
+> 
+> +static int tascam_probe(struct usb_interface *intf,
+> +			const struct usb_device_id *usb_id)
+> +{
+> +	struct usb_device *dev = interface_to_usbdev(intf);
+> +	struct snd_card *card;
+> +	struct tascam_card *tascam;
+> +	int err;
+> +
 
-Reuse the existing helper.
+Please drop a blank line.
 
-For this to work, move hrtimer_cb_get_time() a bit up in the file and also
-make its argument 'const'.
+> +	char *handshake_buf __free(kfree);
 
-Signed-off-by: Thomas Wei√üschuh <thomas.weissschuh@linutronix.de>
----
- include/linux/hrtimer.h | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+For the __free(kfree), you'd always need to initialize the variable to
+NULL, i.e.
+	char *handshake_buf __free(kfree) = NULL;
 
-diff --git a/include/linux/hrtimer.h b/include/linux/hrtimer.h
-index 1ef867bb8c44b06812d8552441d4092922bfe170..e655502b14e6c4b1a69b67c997132d628bd1470f 100644
---- a/include/linux/hrtimer.h
-+++ b/include/linux/hrtimer.h
-@@ -154,14 +154,14 @@ static inline s64 hrtimer_get_expires_ns(const struct hrtimer *timer)
- 	return ktime_to_ns(timer->node.expires);
- }
- 
--static inline ktime_t hrtimer_expires_remaining(const struct hrtimer *timer)
-+static inline ktime_t hrtimer_cb_get_time(const struct hrtimer *timer)
- {
--	return ktime_sub(timer->node.expires, timer->base->get_time());
-+	return timer->base->get_time();
- }
- 
--static inline ktime_t hrtimer_cb_get_time(struct hrtimer *timer)
-+static inline ktime_t hrtimer_expires_remaining(const struct hrtimer *timer)
- {
--	return timer->base->get_time();
-+	return ktime_sub(timer->node.expires, hrtimer_cb_get_time(timer));
- }
- 
- static inline int hrtimer_is_hres_active(struct hrtimer *timer)
-@@ -200,8 +200,7 @@ __hrtimer_expires_remaining_adjusted(const struct hrtimer *timer, ktime_t now)
- static inline ktime_t
- hrtimer_expires_remaining_adjusted(const struct hrtimer *timer)
- {
--	return __hrtimer_expires_remaining_adjusted(timer,
--						    timer->base->get_time());
-+	return __hrtimer_expires_remaining_adjusted(timer, hrtimer_cb_get_time(timer));
- }
- 
- #ifdef CONFIG_TIMERFD
-@@ -363,7 +362,7 @@ hrtimer_forward(struct hrtimer *timer, ktime_t now, ktime_t interval);
- static inline u64 hrtimer_forward_now(struct hrtimer *timer,
- 				      ktime_t interval)
- {
--	return hrtimer_forward(timer, timer->base->get_time(), interval);
-+	return hrtimer_forward(timer, hrtimer_cb_get_time(timer), interval);
- }
- 
- /* Precise sleep: */
+> +/**
+> + * struct tascam_card - Driver data structure for TASCAM US-144MKII.
+> + * @dev: Pointer to the USB device.
+> + * @iface0: Pointer to USB interface 0 (audio).
+> + * @iface1: Pointer to USB interface 1 (MIDI).
+> + * @card: Pointer to the ALSA sound card instance.
+> + */
+> +struct tascam_card {
+> +struct usb_device *dev;
+> +struct usb_interface *iface0;
+> +struct usb_interface *iface1;
+> +struct snd_card *card;
+> +};
 
--- 
-2.50.1
+I see you fix the indentation in a later patch, but better to have the
+right indentation from the beginning.
 
+
+thanks,
+
+Takashi
