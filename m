@@ -1,199 +1,280 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D561F582E
-	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 16:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EF1287241
+	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 16:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755101727; cv=none; b=NGEFg3k2IIu5SOc5cGDKw8sLXp6BluFUI/dRcrrWALLF71StU8VHob6+WPUCFSJfcfUNLFq6EzmLX1AzY8zkjb+sn1hWbM7OiEeL6xRXjOc1Wpr+m0jxIQM1JUF3EsNWYO/FxI6Bs6B+9Q7ynQrmO4Exjp5h2WcdRoPtjT9Hvtg=
+	t=1755101773; cv=none; b=IBYFh60e5N5inqOJCNBFSxQ7qMy62/wiH+WzUy/7CE07MwI6CEWaERP1ISS0fsa2MkQfM4fkQb7Uo34YSZa4BaLHm5AuTne0cnRuUuSB6FvJbc1ZOOSpHX1BmYo3JSl2t0pMHMpSPQ4MPY2mlAs8n/w4WKDPkWtImrhbhYkf/LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755101727; c=relaxed/simple;
-	bh=hl4zEs2VwJkIoJCfTzZ52JO80/R8mSsbV+enovnWwwk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iqL81aXcSmLpMSLNeHoUSunte+0tmVvRfYrzstlqC1rTquMhPQXtOs7C0y5Q8dAoQUGsphJToSdt+yeR6yobrojrnvJ6m3sIvkHjpflg6XF472BIS4cTidBO5sIs4ZJTtO91VLT4UmKYVeGDQD5BsnTL0/6zYrcS5M1s7kD+988=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eXnesF8N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F8LwuPol; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eXnesF8N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F8LwuPol; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1755101773; c=relaxed/simple;
+	bh=KmcwvgRJ1zt5K4wDAvtiaw17GSzeXpuI2dv9vCkYQUg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gGqX2Anh0nSRukSsczFQE289HDa7KOHS0rcdbKwH8vXoKWaBjd6aUI5wiGBGNt6ioq02GFH6y4Z96pfj1xfRJLGlX7GNWQLqXaJ1i8CTMV0uGMvLnAbGnJL6wG0qVxhP8KlFDM2g7/42vNUKX5xtf25P2lCtUjuHvJHQYwWl31g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QCJ48aON; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eXnesF8N";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F8LwuPol";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eXnesF8N";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F8LwuPol"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7785421ACE;
-	Wed, 13 Aug 2025 16:15:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755101723; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Qze8q5H3Rg3WuFji103xXFFxL7DtXvtqLH5aoey5xc=;
-	b=eXnesF8N/c1d2uH99cRRYjJiy4JwYskDQWN3gkTM26n+ImLJgqBV/Duw/3eLMSe4KQlern
-	7zFCfKDfJVTlZ+czbWakCPpr/Xsvp7nZkL3jK2dbFtWRSo8IfvTEATgm0YPgczX8YyyHPA
-	6wg+4+JBqBUgbUnQ/YDGG1lALJzYw/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755101723;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Qze8q5H3Rg3WuFji103xXFFxL7DtXvtqLH5aoey5xc=;
-	b=F8LwuPol8bOMpHqSc7rWhWb3NxWMQOUbCW9cCRu7VAF7pF16aJygp3mGktElIjmovzR2cl
-	p5/1lKt7F8q+1oDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755101723; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Qze8q5H3Rg3WuFji103xXFFxL7DtXvtqLH5aoey5xc=;
-	b=eXnesF8N/c1d2uH99cRRYjJiy4JwYskDQWN3gkTM26n+ImLJgqBV/Duw/3eLMSe4KQlern
-	7zFCfKDfJVTlZ+czbWakCPpr/Xsvp7nZkL3jK2dbFtWRSo8IfvTEATgm0YPgczX8YyyHPA
-	6wg+4+JBqBUgbUnQ/YDGG1lALJzYw/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755101723;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Qze8q5H3Rg3WuFji103xXFFxL7DtXvtqLH5aoey5xc=;
-	b=F8LwuPol8bOMpHqSc7rWhWb3NxWMQOUbCW9cCRu7VAF7pF16aJygp3mGktElIjmovzR2cl
-	p5/1lKt7F8q+1oDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5668B13929;
-	Wed, 13 Aug 2025 16:15:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Xj6OExu6nGheDwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 13 Aug 2025 16:15:23 +0000
-Date: Wed, 13 Aug 2025 18:15:22 +0200
-Message-ID: <874iubw63p.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/ca0132: Fix compile error with CLASS() after label
-In-Reply-To: <20250813161209.GA627603@ax162>
-References: <20250813090039.20064-1-tiwai@suse.de>
-	<20250813150131.GA2842554@ax162>
-	<87h5ybw921.wl-tiwai@suse.de>
-	<20250813161209.GA627603@ax162>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QCJ48aON"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=8r/LCX9rzyog3y
+	rylwFjwRMpIaemTxzslMXi3Wwcda8=; b=QCJ48aONHnHPI67IOJ/3D8OQB3Cd/k
+	va3dqQAxVecMFTPLNQfZkeRCBnr21f5AP85A+ko/Co2kn3d1vUsGdjjGnQSoqHT/
+	XhtDURAzo7LNMG2Hw6aJkJP1nHKCJDt/I4UFOhqYSkFA3npSGKStA4S5hsN3gfb8
+	C8iP/CLkf5T/WRnlry5E/M4rY/ikuUABioRBeFix0sZAgPzikWKDzZXwcrM/PlZn
+	9QF5GBzn0iIdqib/tI3qtiZXmnTMTK2djC7YMTKPNRHBv7OXt7TeyHMZFzQFHHD9
+	4yuXLJeM/fwFHXJlvGUnp8QGyn4bljRJZaBZSVKQgiNlixK49bkom2HA==
+Received: (qmail 694422 invoked from network); 13 Aug 2025 18:15:54 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Aug 2025 18:15:54 +0200
+X-UD-Smtp-Session: l3s3148p1@6vOVeEE8NodtKLKq
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-kernel@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Andrea della Porta <andrea.porta@suse.com>,
+	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	David Airlie <airlied@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Drew Fustini <fustini@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Fu Wei <wefu@redhat.com>,
+	Guo Ren <guoren@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+	imx@lists.linux.dev,
+	Iwona Winiarska <iwona.winiarska@intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Lee Jones <lee@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-actions@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-pwm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-rtc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Liu Ying <victor.liu@nxp.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Nancy Yuen <yuenn@google.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	openbmc@lists.ozlabs.org,
+	Patrick Venture <venture@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	Zhang Rui <rui.zhang@intel.com>
+Subject: [PATCH 00/21] treewide: remove unneeded 'fast_io' parameter in regmap_config
+Date: Wed, 13 Aug 2025 18:14:46 +0200
+Message-ID: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 13 Aug 2025 18:12:09 +0200,
-Nathan Chancellor wrote:
-> 
-> On Wed, Aug 13, 2025 at 05:11:34PM +0200, Takashi Iwai wrote:
-> > Thanks for the review and explanations.
-> > 
-> > But I decided to drop the whole series for now (and fold the fix into
-> > the original patch), as there are another issues that are caught with
-> > clang.
-> > 
-> > Namely, when you have DEFINE_GUARD() locally in the *.c file, this
-> > will lead to error with W=1 because of the unused inline functions.
-> > 
-> > Currently, I paper over with the change like:
-> > 
-> > --- a/include/linux/cleanup.h
-> > +++ b/include/linux/cleanup.h
-> > @@ -347,7 +347,7 @@ static __maybe_unused const bool class_##_name##_is_conditional = _is_cond
-> >  	})
-> >  
-> >  #define __DEFINE_GUARD_LOCK_PTR(_name, _exp)                                \
-> > -	static inline void *class_##_name##_lock_ptr(class_##_name##_t *_T) \
-> > +	static inline __maybe_unused void *class_##_name##_lock_ptr(class_##_name##_t *_T) \
-> >  	{                                                                   \
-> >  		void *_ptr = (void *)(__force unsigned long)*(_exp);        \
-> >  		if (IS_ERR(_ptr)) {                                         \
-> > @@ -355,7 +355,7 @@ static __maybe_unused const bool class_##_name##_is_conditional = _is_cond
-> >  		}                                                           \
-> >  		return _ptr;                                                \
-> >  	}                                                                   \
-> > -	static inline int class_##_name##_lock_err(class_##_name##_t *_T)   \
-> > +	static inline __maybe_unused int class_##_name##_lock_err(class_##_name##_t *_T)   \
-> >  	{                                                                   \
-> >  		long _rc = (__force unsigned long)*(_exp);                  \
-> >  		if (!_rc) {                                                 \
-> > 
-> > But I'm not sure whether that's the best way to go.
-> 
-> Yes, that is the subject of another thread right now, which is likely
-> going to result in the "flag unused inline functions within .c files"
-> part of clang's -Wunused-function being moved into W=2 but we will see
-> how it develops.
-> 
-> https://lore.kernel.org/20250804220955.1453135-1-dan.j.williams@intel.com/
+While working on a driver using regmap with MMIO, I wondered if I need
+to set 'fast_io' in the config. Turned out I don't need to, so I added
+documentation for it with commit ffc72771ff6e ("regmap: Annotate that
+MMIO implies fast IO").
 
-OK, I'll keep eyes and wait until those get resolved in the upstream.
+This series fixes the existing users in the tree which needlessly set
+the flag. They have been found using this coccinelle script:
 
-> Another issue of the same vein that I saw, just in case you didn't:
-> 
->   sound/hda/core/stream.c:954:2: error: label followed by a declaration is a C23 extension [-Werror,-Wc23-extensions]
->     954 |         guard(spinlock_irq)(&bus->reg_lock);
->         |         ^
->   include/linux/cleanup.h:401:2: note: expanded from macro 'guard'
->     401 |         CLASS(_name, __UNIQUE_ID(guard))
->         |         ^
->   include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
->     290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
->         |         ^
->   <scratch space>:86:1: note: expanded from here
->      86 | class_spinlock_irq_t
->         | ^
-> 
-> Which I worked around with:
-> 
-> diff --git a/sound/hda/core/stream.c b/sound/hda/core/stream.c
-> index 503bb3fcacc2..711da67d7506 100644
-> --- a/sound/hda/core/stream.c
-> +++ b/sound/hda/core/stream.c
-> @@ -951,8 +951,8 @@ int snd_hdac_dsp_prepare(struct hdac_stream *azx_dev, unsigned int format,
->   error:
->  	snd_dma_free_pages(bufp);
->   err_alloc:
-> -	guard(spinlock_irq)(&bus->reg_lock);
-> -	azx_dev->locked = false;
-> +	scoped_guard(spinlock_irq, &bus->reg_lock)
-> +		azx_dev->locked = false;
->  	return err;
->  }
->  EXPORT_SYMBOL_GPL(snd_hdac_dsp_prepare);
+===
 
-Yep, I applied locally the very same fix :)
+@ match @
+expression dev, clk, regs;
+identifier config;
+@@
+
+(
+	regmap_init_mmio(dev, regs, &config)
+|
+	devm_regmap_init_mmio(dev, regs, &config)
+|
+	regmap_init_mmio_clk(dev, clk, regs, &config)
+|
+	devm_regmap_init_mmio_clk(dev, clk, regs, &config)
+)
+
+@ fix depends on match @
+identifier match.config;
+@@
+
+	struct regmap_config config = {
+-	.fast_io = true,
+	};
+
+===
+
+It misses occasions where 'config' is an expression and not an
+identifier. These are rare, though, I can fix them manually later. The
+advantage of this approach is that it produces no false positives to the
+best of my knowledge.
+
+Please apply individually per subsystem. There are no dependencies and
+buildbot is happy. Patches are based on 6.17-rc1
+
+Happy hacking,
+
+   Wolfram
 
 
-thanks,
+Wolfram Sang (21):
+  bus: remove unneeded 'fast_io' parameter in regmap_config
+  clk: remove unneeded 'fast_io' parameter in regmap_config
+  gpio: remove unneeded 'fast_io' parameter in regmap_config
+  drm: remove unneeded 'fast_io' parameter in regmap_config
+  iio: remove unneeded 'fast_io' parameter in regmap_config
+  Input: remove unneeded 'fast_io' parameter in regmap_config
+  mailbox: remove unneeded 'fast_io' parameter in regmap_config
+  media: remove unneeded 'fast_io' parameter in regmap_config
+  mfd: remove unneeded 'fast_io' parameter in regmap_config
+  mmc: remove unneeded 'fast_io' parameter in regmap_config
+  peci: remove unneeded 'fast_io' parameter in regmap_config
+  phy: remove unneeded 'fast_io' parameter in regmap_config
+  pinctrl: remove unneeded 'fast_io' parameter in regmap_config
+  pmdomain: remove unneeded 'fast_io' parameter in regmap_config
+  regulator: remove unneeded 'fast_io' parameter in regmap_config
+  reset: remove unneeded 'fast_io' parameter in regmap_config
+  rtc: remove unneeded 'fast_io' parameter in regmap_config
+  soc: remove unneeded 'fast_io' parameter in regmap_config
+  spi: remove unneeded 'fast_io' parameter in regmap_config
+  thermal: remove unneeded 'fast_io' parameter in regmap_config
+  ASoC: remove unneeded 'fast_io' parameter in regmap_config
 
-Takashi
+ drivers/bus/bt1-apb.c                             | 1 -
+ drivers/clk/actions/owl-common.c                  | 1 -
+ drivers/clk/clk-axm5516.c                         | 1 -
+ drivers/clk/nxp/clk-lpc32xx.c                     | 1 -
+ drivers/clk/qcom/a53-pll.c                        | 1 -
+ drivers/clk/qcom/a7-pll.c                         | 1 -
+ drivers/clk/qcom/apss-ipq-pll.c                   | 1 -
+ drivers/clk/qcom/clk-cbf-8996.c                   | 1 -
+ drivers/clk/qcom/clk-cpu-8996.c                   | 1 -
+ drivers/clk/qcom/hfpll.c                          | 1 -
+ drivers/clk/qcom/ipq-cmn-pll.c                    | 1 -
+ drivers/clk/thead/clk-th1520-ap.c                 | 1 -
+ drivers/gpio/gpio-mvebu.c                         | 1 -
+ drivers/gpio/gpio-sifive.c                        | 1 -
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c    | 1 -
+ drivers/gpu/drm/imx/dc/dc-cf.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-de.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-ed.c                    | 2 --
+ drivers/gpu/drm/imx/dc/dc-fg.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-fl.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-fw.c                    | 2 --
+ drivers/gpu/drm/imx/dc/dc-ic.c                    | 1 -
+ drivers/gpu/drm/imx/dc/dc-lb.c                    | 2 --
+ drivers/gpu/drm/imx/dc/dc-tc.c                    | 1 -
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c               | 2 --
+ drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  | 1 -
+ drivers/iio/adc/sun4i-gpadc-iio.c                 | 1 -
+ drivers/input/touchscreen/fsl-imx25-tcq.c         | 1 -
+ drivers/mailbox/qcom-apcs-ipc-mailbox.c           | 1 -
+ drivers/media/cec/platform/stm32/stm32-cec.c      | 1 -
+ drivers/mfd/exynos-lpass.c                        | 1 -
+ drivers/mfd/fsl-imx25-tsadc.c                     | 1 -
+ drivers/mfd/stm32-lptimer.c                       | 1 -
+ drivers/mfd/sun4i-gpadc.c                         | 1 -
+ drivers/mmc/host/sdhci_am654.c                    | 1 -
+ drivers/peci/controller/peci-npcm.c               | 1 -
+ drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 1 -
+ drivers/phy/rockchip/phy-rockchip-usbdp.c         | 1 -
+ drivers/phy/ti/phy-am654-serdes.c                 | 1 -
+ drivers/phy/ti/phy-j721e-wiz.c                    | 1 -
+ drivers/pinctrl/pinctrl-rp1.c                     | 1 -
+ drivers/pmdomain/imx/gpc.c                        | 1 -
+ drivers/regulator/qcom-refgen-regulator.c         | 1 -
+ drivers/reset/reset-intel-gw.c                    | 1 -
+ drivers/reset/reset-qcom-pdc.c                    | 1 -
+ drivers/reset/reset-th1520.c                      | 1 -
+ drivers/rtc/rtc-meson.c                           | 1 -
+ drivers/soc/qcom/llcc-qcom.c                      | 1 -
+ drivers/soc/qcom/ramp_controller.c                | 1 -
+ drivers/spi/spi-altera-platform.c                 | 1 -
+ drivers/thermal/armada_thermal.c                  | 1 -
+ drivers/thermal/sun8i_thermal.c                   | 1 -
+ sound/soc/fsl/fsl_sai.c                           | 1 -
+ 53 files changed, 57 deletions(-)
+
+-- 
+2.47.2
+
