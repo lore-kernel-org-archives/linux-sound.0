@@ -1,171 +1,239 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11012041.outbound.protection.outlook.com [52.101.126.41])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FD5307481;
-	Wed, 13 Aug 2025 09:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755077970; cv=fail; b=eaepCtX38JzrVjTsTXjFDzVuO6awgJB+Ug23R66g/0kPJiYa5U0MHcNp0T7rZzMz2CQTa/cVKVtUVHh8nKvqm/aGKb6mog5a+EwooAfvVNy50q0LhwGvU8X0iH74ICdQWkkUMYTozX0f1wMUalXwE5X/yxDA5Ii67PJ7o+j4I2s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755077970; c=relaxed/simple;
-	bh=cdcLlbaZYs6fE68tG9GV1nycBQ4Qxj4rQVdUJe0ZvTg=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=ZKesQj1VrIznH/My34f85vPYCrHLgU3sgnzb+pKS4pFyc8aviXW0ZAkLW2pbO3a+UsAOqOd9kAquFBgV6WU/AqsFTLa3NRQbx/Clrt4G8NclOyyFkk++sRTERm4tDTmXzZfBdSU5MB0KJpC+eXvRhvhDAVBa4QuGa7Ft32TXVL8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=fP5ZQeP6; arc=fail smtp.client-ip=52.101.126.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47707212566;
+	Wed, 13 Aug 2025 10:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755079617; cv=none; b=NKoVgrfuy9d/O7ydg6HBgdIJMIHhLI7pIbtm4GawfWl7LQFH4/DtIq+HOOXfqO4B5jNVfqrpS/VLpnOea4j6aQIbQyhYEMxjrVjPhAMyolUpFE1gIo34gFxi8qCUelWJd3At8wXqR2BdM7IFy2Egk9TP1rxtJJdoFf/7r3K/U/w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755079617; c=relaxed/simple;
+	bh=3T4bqvz1oeARCcGXhlgamPKO6Z9VO3tUxk/qagQb9Yg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W614z7vxXJykiiKPs4kK5d97Mxs40wRIMqa+x1UHDTAvhNIbStQvAcTSDY2L7gbp2G1YoKWFg0onppd4K2/4HdHoAlXXZS2Dkqg+ZkWSy76U6sTXNJv8WIPg2UjXcjrSrgTfwM9K/l5KLhgywOBQdAFMkx85iKpm7xQXhR0OlDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nr4SKB5o; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="fP5ZQeP6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dc+M4UCdSvQu5TU8r7lWBmWMwRfBu3VmyU1VV+eniXk4osjQ+JHx4WPsDWYOdpFH8fh30lbbw3E/3V0F9aVHwPvS0N2/jV4m/GXO4ccRuhYK8Cxf0Ig7nx4Lywmh9KvLRYFuwR5YS4F/BvS+c3bPphFUwgZXfqCNuydeTupqg57fLsPnvUe+tCaEhARgd8ZvCkKcL5C109IYP2DFTKbp86YEw+L8Jh6tdVvPLq/dyLIU8W8LRAzTACNCgV8/uJpPty0dRrIOVB9psPsbEAAKh2C7LfU9H2iVRV29EhnF6uJO/Man+ufs2xDIrM4nsuQdLkvc4ewMHvYXDS89QEwKGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IpQSe6VotA180cbnZbT8sQmg67F/CIso/zFBd+6tvcg=;
- b=fb9Pu3KlO0exL2TauDGnc1VvoTz/+OEbqxFkns+0CiAu4zghRC4YDY8xfA481oybppI3N54zsuQqQ3HmQDiKiSK57Xit37rpOsOAoT/ZlbfRXoAlLMbBvDlsORvUBTNJamOrgiOPpYITCHbWU/XqnsdSxMXMwds4Ou6AU5jVHXLI4rCkaItWQ0ja7iUhJOCkHgP8SLF7fD/qdm5bI9Ki5CfKJUoHqGUsm6O8kZ9VvapHY6+OCq8iWeNxQFk4oZG9u+O/n8HxagyRybiMrzbTt2weiPHm9Afi4JyY4fc09CBvNfsVp+eEjhbL3Pl9lL5HtLipAm3I2LXxd9sf0yUKWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IpQSe6VotA180cbnZbT8sQmg67F/CIso/zFBd+6tvcg=;
- b=fP5ZQeP6CNBdQe6/AFb5kZeCmYxr0Sb6sogKktrTohYR/QM9BJ3XKXgHEbKxmSYy6zaC9KHhcCdmsVpZZfeOnixcGxac0t6DKjr3ZzpouXBrKrd1opEqpNSh3vtEqhbAtTNy4U5K75byfBNuZMAHZCT2Bi+N+KtkEBzxaCBJVYd97gfzjxYDUn4KMngFWRtMH8froQ8BcAddBmXipFfszGGoTEVHe90yQw9kjAirRux+DWrmqIGvV4I+fsp0lNOe4ehOJ9VdO6i3yN6+tvsIhJlXtZOi9wn5i2Utls9r2RAPl/QsqSAIdxAVF6YIeUp8Qvglb7Vhx3zU19gbp+srCw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
- by TYZPR06MB4978.apcprd06.prod.outlook.com (2603:1096:400:1ce::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9009.21; Wed, 13 Aug
- 2025 09:39:25 +0000
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::5c0a:2748:6a72:99b6]) by SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::5c0a:2748:6a72:99b6%5]) with mapi id 15.20.9031.014; Wed, 13 Aug 2025
- 09:39:24 +0000
-From: Liao Yuanhong <liaoyuanhong@vivo.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org (open list:INTEL ASoC DRIVERS),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Liao Yuanhong <liaoyuanhong@vivo.com>
-Subject: [PATCH] ASoC: Intel: sst: Remove redundant semicolons
-Date: Wed, 13 Aug 2025 17:39:01 +0800
-Message-Id: <20250813093903.551388-1-liaoyuanhong@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0018.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::7) To SEZPR06MB5576.apcprd06.prod.outlook.com
- (2603:1096:101:c9::14)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nr4SKB5o"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 01C1343A12;
+	Wed, 13 Aug 2025 10:06:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1755079613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rTWVOZqjyFAtr/GBKcOX8Jr3xVIljMHUBUwZ1pjKP8M=;
+	b=nr4SKB5oeTBL2ooKdcDslsDShwPFgObspC7NbWZ+A6nsCiOpWgB26mmdAboLF/A5xUZ55F
+	8f5HFUEOoxZFA4aCbcxVCOZFhmPyFqno7CYBzxBV4QM+/fGm1dj7NhBYbvEpQcibMSQW0V
+	i0FToWYI8sXt862d9h8tZxf51lojpQ7B66svG/v88kCmjedkqwjRiq8l+Um6IvpzAVl/jF
+	NRrI27mDR1MkLFHitp2u6ZGtYKAtU8fXa+7x8kAS2IQ7qSRMG+fPnmHgk8d9Rmwmn8M/qp
+	+nzIILtxMnUWHfOWdeEK8JH+Y/HNc9k/cyUL8/oDnVAN611BezzfjsLyvOOH3w==
+Date: Wed, 13 Aug 2025 12:06:51 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Qiang Zhao <qiang.zhao@nxp.com>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam
+ <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] soc: fsl: qmc: Only set completion interrupt
+ when needed
+Message-ID: <20250813120651.27dc8467@bootlin.com>
+In-Reply-To: <badb68a85910e5e6f1094ef3b01805209ac21854.1754993232.git.christophe.leroy@csgroup.eu>
+References: <cover.1754993232.git.christophe.leroy@csgroup.eu>
+ <badb68a85910e5e6f1094ef3b01805209ac21854.1754993232.git.christophe.leroy@csgroup.eu>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|TYZPR06MB4978:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b35400b-63e4-47f3-616e-08ddda4d49e2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|52116014|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?VPpklnw2PpB/PiwZQf4ewoOzU2PQTOV6b08/5B0hliWm3cIceGlb4rYW23Ur?=
- =?us-ascii?Q?HCEK0DqrctYeed2avoKKK79C4jv9BHGIu2TB2UHwtvl5kHK7lvAZfMWyLuce?=
- =?us-ascii?Q?HOp7AwjfPwGnUpsh13hyd2/8aB1f/ei68RkFMnnUtYHV20zsamL0m/wQhbPM?=
- =?us-ascii?Q?f4ZmTXiuIQGe3WSve5DiGquyLRBq/BzsiyyOmsFrRCX6NHbDtJQtUo5viHEH?=
- =?us-ascii?Q?0H3ZVbwMt7xgKnfAz6/h7izuLaRcQXXpKWzHDAyPR8ZRodV0YmfWcS81zqt8?=
- =?us-ascii?Q?UJE0lIUosMCy3ijEXoN5aM4wwJIySRMVzWuJrfZ22WOh5bZ5VCp1Bv/MTWtQ?=
- =?us-ascii?Q?ep86VxIVEwooljwC9iqP3y4IHAygQPgyhVUedN+y5ELJkbYHTe2kWGtYeF19?=
- =?us-ascii?Q?ND0ygYFVVghDAOUylPmHWqTO9DCMApB6hEkpRMHm526tMymiVSpZjFi+nWTn?=
- =?us-ascii?Q?eOm4QEE3KyLWlP0ORdRn1T0L3xeAc1h2W2Riv0szV79LcH2lhI+T+PdaGODr?=
- =?us-ascii?Q?nAHvab6AztOiYHlQhl7jN+0+O/fl0lG5hg4P3Kb6RLmg5F8jPjKRmb0ODFa8?=
- =?us-ascii?Q?TmX2lPmbFPmC+cK2CekAAvmdxpRTMLRxkAM7cP1pR4m8ZrXCoC1Bb10Sdz3t?=
- =?us-ascii?Q?oDZ6nsdyJQHJfmLSOtsu06H9aryaVcoSf0bUW5r7kxl/JtT+OygeayfbeK4t?=
- =?us-ascii?Q?oDc1WYwrmkRjZkxfqXl5Y2q30USIQ4bxbXiKDNTD0sCTE2EIQpVpD6hR5pbs?=
- =?us-ascii?Q?xOLhMINvdfb08OWZbuXxh/A+4ErShzsGu5kfBfm364o7MvS9KzkNrVQNw5zm?=
- =?us-ascii?Q?zdnBrZ0Qh+6mWN4UOyh/X6IOryPCG3ppUHQND9r5HtD7aFlVT3caDuUsfItp?=
- =?us-ascii?Q?25UTHNnKvRvz6uNiya0agaBVVAB//2Bk3mNbejWNKaNVWiojtKNjHeV8dbA2?=
- =?us-ascii?Q?bybpaiJVhi9v8xsBpRV2bZnFy51r2A6Nv6Xr8uoOPiuuhPRQ9w46tG65CwPC?=
- =?us-ascii?Q?jtdn+kVER79RufaD0OoOoLGQaZzqGaObXXv544bxcNqlxfnHjGvSyA3f9mpW?=
- =?us-ascii?Q?XGjfKlQtRHrIkSAELUHiBwlTqEPVQ4SdWFFwap7OT42buoFMRvOV6e5mSfCI?=
- =?us-ascii?Q?73kB54lwNN++2bh+0BjAhzdmlZdy3oP/VNSNu/vnBPBaSLVVD5FPkO4jSK4a?=
- =?us-ascii?Q?SlmR6LcUmEnh/0dWBob1xp+TpJurvIHE91TJ1UDggAPa1UosczE7SSXgdT+w?=
- =?us-ascii?Q?KG9OuPKw0mG+zgsSbSyF9iavXFEK0Cfwx9gyn6pyB/QLNv8wP+QXZq72ZDK5?=
- =?us-ascii?Q?Y5Blb7t2M/eSAzXpF0Dn9mWHQiMHo05RfGTu+S3628myXraIX1/Hrrijr4Br?=
- =?us-ascii?Q?p5T+jlmQ7kKeovq9ZtaMcDiJnASJfYBcu0/Dfe0WAUwIPT/mwBnjZIsHnnvz?=
- =?us-ascii?Q?vZm1LyZbbhM397tkPdmfiJMFtRPojV5iUyNvgNtwuD805YfQYRN3RmAzOFlG?=
- =?us-ascii?Q?PBQ1mM5IWrTSxf0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5576.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xOKBA4WXn7jaUZvraAF0LOFsEEYR/VnpeqKvatRgMoHGM8kSyI7rtZ2ymFWU?=
- =?us-ascii?Q?Ect5ZvBRVpSat8AwUPIMtm2+bqeB2QuAKuPpoUTUoUlEYGHMDMBq9kqAsD9a?=
- =?us-ascii?Q?xwYGfFFL23+7IVfh73JhF+m/n0TXUb8oTZPliTTHjaR8znsnnB/DuzIzXRDF?=
- =?us-ascii?Q?vsAXOLv68id8ExpeSKGM4mt2ulI7B5YEGIcMrcpcKW5wvetvcURQw76UsGqn?=
- =?us-ascii?Q?8vklG7pgc5ZKBZDEBLIJP7LGP86qpoiDURyRYhfwiVebQE7QRqYliycOqkkz?=
- =?us-ascii?Q?lRO8y8Ogzjgnojxz8g0+LTTNdIqVBsNQ51PrcyNXZNyBV2e5U/g0PFrl0F1L?=
- =?us-ascii?Q?JM3jPR1ve3fUMtRS5bbvbz+bXt3ayfQVKOla1hgkUE5B8KMWLpwIUTfMIve6?=
- =?us-ascii?Q?5WUL6SD/AnQfE8U4/+X49suXAavzLy8lTT2YZRhpWc7/iVhoVKsw0SpGSp0k?=
- =?us-ascii?Q?nEFINF2sotyWkH+BhZ37X/3QjHusWa8Zr5wyczwawQJPrX7SxPHCV6df2MGg?=
- =?us-ascii?Q?/k1B4A6gYhbKqcHWqaTGAiJwvJUlawJCTUHGhgzlS8Ph2/Zbi8wpUmC3ok5r?=
- =?us-ascii?Q?EHhHpAI5qhJxO483NXgEs131T015R/XLswEBK5HBlVJ/NfrCw+30EkMUmVu4?=
- =?us-ascii?Q?cdE1ucjdshqCO2MFuE+fr/bodT4aQcw++YNH3kvDydCEGqZ0cqmTJSGkYqE3?=
- =?us-ascii?Q?im/6lPWACdmaQOJdp8RUYGITc17jriZmb/ttkz5SJHtk1PKz9SYvRaUpfYwQ?=
- =?us-ascii?Q?iXSa4Vg3SOEIgcCZK10Zwh1uQeKNcZhAJargXS0zLWv5tCXs7bU6Pu83mXDY?=
- =?us-ascii?Q?xKPFr7n9BGZiws9KJM3DBgpA+DEERFzgHALWtZNhHOTqfwQgGTz6T1xjypiB?=
- =?us-ascii?Q?wqnmEXj0+I1r63ZWl+2Voadl8y4++kTzx0MZ0XZqvGw3bPH8JskHpii9CaRX?=
- =?us-ascii?Q?Xd2wjtyS3rtvFUoJCmpnNktgctn7pha10Hcn4JXxqJ2nmgFgGzdQNB0Cg5Fm?=
- =?us-ascii?Q?S9R4YKu3lPhsv3Wgvhc6keWSvD67aYmjGUHFH7MOtqDWS4FaTLb709OIYl6s?=
- =?us-ascii?Q?4qUKd05GNhLStQN9jeolZT3+pnxlaSZZgJ1hfHON9GhuAeSRhG/bdwwQ2P0D?=
- =?us-ascii?Q?G2RB9t40Pe3KbiIdHQn/Ya3jL4KZ6tTMqQy8BYtFtuG3ESFcOqarbrxCJGx7?=
- =?us-ascii?Q?+eIFP+nrFDmVp47AqMphXt2kwqrChu8pzEC7Dn/JQStgEFEkiVgAiwLxbuB1?=
- =?us-ascii?Q?74Z1Ix/GE2o8RNJeNIuU9BeSFAi5KuTKqG6sB9Bb3qpEis1fWXGNOnfcEn7Y?=
- =?us-ascii?Q?2IzeYi72SPanoPdKwk2f9MnOlmFwQeLSF/K39hdD7Nu4t0JNRs/FrlBjOGMR?=
- =?us-ascii?Q?Ti1EbGHy1QmJEyFdY4ijUUVst2VLhWwBBNVBlbt8Nirk/SIqjvF0+dWjzVeL?=
- =?us-ascii?Q?tBPoorZfry8RLSUdkvs1GEoyUNX+4VDWZF220jcYMXkKquomdhgXw6c2p1Rp?=
- =?us-ascii?Q?H7ItrUatW1GvxEBnNmn53hP0NO30OUoGCqTWpPTKGsAiAolgkGklEJR7MMZY?=
- =?us-ascii?Q?n/V6l6CH5s6SmnuxsFnz3l1XBWA4aa2GTzXEJeTf?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b35400b-63e4-47f3-616e-08ddda4d49e2
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2025 09:39:24.7004
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i3wzqAKygRVLSPU5j3Tz4J+eIwfj3GslFSQUpduvn+1j1jxR04xeg/W2eZd3cmbD3sV5MNApHs7i29ICMYSJlA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4978
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddufeejleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtkeertdertdejnecuhfhrohhmpefjvghrvhgvucevohguihhnrgcuoehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepveeiffefgeeitdelleeigefhjeelueeuveekveetgeffheeltdekgeduiefggfdvnecukfhppedvrgdtudemtggstdekmeelkeeltgemkedttddtmehfugekudemleehgegvmedvudehrgemfeeluddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdtkeemleeklegtmeektddttdemfhgukedumeelheegvgemvdduhegrmeefledutddphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedugedprhgtphhtthhopegthhhrihhsthhophhhvgdrlhgvrhhohiestghsghhrohhuphdrvghupdhrtghpthhtohepqhhirghnghdriihhrghosehngihprdgtohhmpdhrtghpthhtohepshhhvghnghhjihhurdifrghnghesghhmrghilhdrtghomhdprhgtphhtthhop
+ egiihhusghordfnvggvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhgvshhtvghvrghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhitgholhgvohhtshhukhgrsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: herve.codina@bootlin.com
 
-Remove unnecessary semicolons.
+Hi Christophe,
 
-Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
----
- sound/soc/intel/atom/sst/sst.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, 12 Aug 2025 12:50:55 +0200
+Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
 
-diff --git a/sound/soc/intel/atom/sst/sst.c b/sound/soc/intel/atom/sst/sst.c
-index e0357d257c6c..3c47c8de04b7 100644
---- a/sound/soc/intel/atom/sst/sst.c
-+++ b/sound/soc/intel/atom/sst/sst.c
-@@ -64,7 +64,7 @@ static irqreturn_t intel_sst_interrupt_mrfld(int irq, void *context)
- 		header.p.header_high.part.done = 0;
- 		sst_shim_write64(drv->shim, drv->ipc_reg.ipcx, header.full);
- 
--		/* write 1 to clear status register */;
-+		/* write 1 to clear status register */
- 		isr.part.done_interrupt = 1;
- 		sst_shim_write64(drv->shim, SST_ISRX, isr.full);
- 		spin_unlock(&drv->ipc_spin_lock);
--- 
-2.34.1
+> When no post-completion processing is expected, don't waste time
+> handling useless interrupts.
+> 
+> Only set QMC_BD_[R/T]X_I when a completion function is passed in,
+> and perform seamless completion on submit for interruptless buffers.
+> 
+> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> ---
+> v2: Keep the UB flag to mark not completed buffers and seamlessly flag them as completed during next submit.
+> ---
+>  drivers/soc/fsl/qe/qmc.c | 44 ++++++++++++++++++++++++++++++----------
+>  1 file changed, 33 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/soc/fsl/qe/qmc.c b/drivers/soc/fsl/qe/qmc.c
+> index 36c0ccc06151f..8f76b9a5e385d 100644
+> --- a/drivers/soc/fsl/qe/qmc.c
+> +++ b/drivers/soc/fsl/qe/qmc.c
+> @@ -461,9 +461,16 @@ int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+>  
+>  	ctrl = qmc_read16(&bd->cbd_sc);
+>  	if (ctrl & (QMC_BD_TX_R | QMC_BD_TX_UB)) {
+> -		/* We are full ... */
+> -		ret = -EBUSY;
+> -		goto end;
+> +		if (!(ctrl & QMC_BD_TX_I) && bd == chan->txbd_done) {
+> +			if (ctrl & QMC_BD_TX_W)
+> +				chan->txbd_done = chan->txbds;
+> +			else
+> +				chan->txbd_done++;
+> +		} else {
+> +			/* We are full ... */
+> +			ret = -EBUSY;
+> +			goto end;
+> +		}
+>  	}
+>  
+>  	qmc_write16(&bd->cbd_datlen, length);
+> @@ -475,6 +482,10 @@ int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+>  
+>  	/* Activate the descriptor */
+>  	ctrl |= (QMC_BD_TX_R | QMC_BD_TX_UB);
+> +	if (complete)
+> +		ctrl |= QMC_BD_TX_I;
+> +	else
+> +		ctrl &= ~QMC_BD_TX_I;
+>  	wmb(); /* Be sure to flush the descriptor before control update */
+>  	qmc_write16(&bd->cbd_sc, ctrl);
+>  
 
+You try to purge one descriptor for which the transfer is done but you do that
+when you have no more free descriptors.
+
+You end up with all descriptor "used". I think a better way to do that is
+to purge all "done" descriptor configured to work without interrupts until a
+descriptor with interrupt is found.
+
+What do you think about the following (draft code not compiled and not tested) ?
+
+/* must be called with tx_lock taken */
+static void qmc_chan_write_purge(struct qmc_chan *chan)
+{
+	cbd_t __iomem *bd;
+	u16 ctrl;
+
+	/*
+         * Purge descriptors configured to work without interrupts
+	 * (I bit == 0) those descriptors have no completion
+	 * callbacks.
+	 *
+	 * R bit  UB bit
+	 *   0       0  : The BD is free
+	 *   1       1  : The BD is in used, waiting for transfer
+	 *   0       1  : The BD is in used, waiting for completion
+	 *   1       0  : Should not append
+	 *
+	 * We purge those descriptors which are in the state "waiting for
+	 * completion" up to the first one configured to work with an interrupt.
+	 * 
+	 */
+	bd = chan->txbd_done;
+
+	ctrl = qmc_read16(&bd->cbd_sc);
+	while (!(ctrl & (QMC_BD_TX_R | QMC_BD_TX_I)) {
+		if (!(ctrl & QMC_BD_TX_UB))
+			return;
+
+		qmc_write16(&bd->cbd_sc, ctrl & ~QMC_BD_TX_UB);
+
+		if (ctrl & QMC_BD_TX_W)
+			chan->txbd_done = chan->txbds;
+		else
+			chan->txbd_done++;
+
+		bd = chan->txbd_done;
+		ctrl = qmc_read16(&bd->cbd_sc);
+	}
+}
+
+Then, qmc_chan_write_submit() calls the purge function as a first operation.
+This will look to something like the following:
+
+int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+			  void (*complete)(void *context), void *context)
+{
+	struct qmc_xfer_desc *xfer_desc;
+	unsigned long flags;
+	cbd_t __iomem *bd;
+	u16 ctrl;
+	int ret;
+
+	/*
+	 * R bit  UB bit
+	 *   0       0  : The BD is free
+	 *   1       1  : The BD is in used, waiting for transfer
+	 *   0       1  : The BD is in used, waiting for completion
+	 *   1       0  : Should not append
+	 */
+
+	spin_lock_irqsave(&chan->tx_lock, flags);
+
+	qmc_chan_write_purge(chan);
+
+	bd = chan->txbd_free;
+	...
+
+	if (complete)
+		ctrl |= QMC_BD_TX_I;
+	else
+		ctrl &= ~QMC_BD_TX_I;
+	...
+}
+
+
+> @@ -569,9 +580,16 @@ int qmc_chan_read_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
+> 
+...
+
+Exact same comment and proposal for read part.
+
+>  
+> @@ -1482,19 +1504,19 @@ static int qmc_setup_chan(struct qmc *qmc, struct qmc_chan *chan)
+>  
+>  	/* Init Rx BDs and set Wrap bit on last descriptor */
+>  	BUILD_BUG_ON(QMC_NB_RXBDS == 0);
+> -	val = QMC_BD_RX_I;
+>  	for (i = 0; i < QMC_NB_RXBDS; i++) {
+>  		bd = chan->rxbds + i;
+> -		qmc_write16(&bd->cbd_sc, val);
+> +		qmc_write16(&bd->cbd_sc, 0);
+>  	}
+>  	bd = chan->rxbds + QMC_NB_RXBDS - 1;
+> -	qmc_write16(&bd->cbd_sc, val | QMC_BD_RX_W);
+> +	qmc_write16(&bd->cbd_sc, QMC_BD_RX_W);
+>  
+>  	/* Init Tx BDs and set Wrap bit on last descriptor */
+>  	BUILD_BUG_ON(QMC_NB_TXBDS == 0);
+> -	val = QMC_BD_TX_I;
+>  	if (chan->mode == QMC_HDLC)
+> -		val |= QMC_BD_TX_L | QMC_BD_TX_TC;
+> +		val = QMC_BD_TX_L | QMC_BD_TX_TC;
+> +	else
+> +		val = 0;
+>  	for (i = 0; i < QMC_NB_TXBDS; i++) {
+>  		bd = chan->txbds + i;
+>  		qmc_write16(&bd->cbd_sc, val);
+
+Ok for modifications in qmc_setup_chan().
+
+Best regards,
+Hervé
