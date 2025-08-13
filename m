@@ -1,154 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5681E2D5A10;
-	Tue, 12 Aug 2025 20:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A19242D74;
+	Wed, 13 Aug 2025 05:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755030840; cv=none; b=oPr6b49v0U0UKTDf2uowkcYY0v2ZmamBkWziaPyHJGl+ENI8q5CHb/YNbgkcFvnvtc7CsynR6yQ5NIPcTSc/eK+C2T7hh8m0rvbaA3CvpuFLffVZrIReUoRn0b7WMbI2B+fgOYtyzJkpuOUNH/lFAykPKaOAAaa2C/t8nXBCeP4=
+	t=1755063202; cv=none; b=BEipH2MPfvTmbPkn4Gcoy586fPF8LxVZ9e4a6gLkiSOq7jTRCR9+f8Y1D00iEVg2o5A0HFUAy0mW+yc/mtmJn901SG3vvQrGs+bPYeBBSFG273lH4BjWj5MU2J8O0mK9oU56PBefD92jMSmwWjpe5T9HvEOyQ571tNIYib2sVzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755030840; c=relaxed/simple;
-	bh=rzrbO5xcK/Wu8K8pRlisGVRhj7ITITPQ2YAOSrXQ0Hc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k/4rnIocYDsqlwKWc6Wb4kg3F/eZ8g9406LXns8P0enNybj+G4N4avWxrjzIAZyerpPcR/y0jyWxo81BxEj7VyHcHtDulQQ0kkOAN3AKpvZAtlhOgLzPCrmXkqAjVj8kpVHiIozfP7POAzmrzAhBYmzcvW6/9sNKEZLfjbSeNVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UTUw039H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755063202; c=relaxed/simple;
+	bh=SQBB+QuUHQ1WK+SyPt+Tm0tHTtKC0fjHu1V5AzSo2Dc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=E7xgGY8/RxgxHctiwygzNZNQhrYA9MjTkYc1GE2PAB5n+MmGSIerfohgAqXWs3yxFsHFbclbqJd1mjPCrxDjr6A+yI+pvnkUdJdLKGMoAwJBe3gaEvi/Z64Vv/kPl64x3UtK8mBbijEGkgG78rgtEmfZPbyWnQiiTUHuWEE0AZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WXWYzETY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTUw039H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBFFCC4CEF4;
-	Tue, 12 Aug 2025 20:33:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WXWYzETY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF5A0C4CEEB;
+	Wed, 13 Aug 2025 05:33:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755030839;
-	bh=rzrbO5xcK/Wu8K8pRlisGVRhj7ITITPQ2YAOSrXQ0Hc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=UTUw039HaDFC5GMa5FZMvSy8rNq7IVpDg2j1hK9nszqq1zwk6lAS8G0W9wnDz1AOn
-	 M+a+XAXAcg7fvVWyuVXo8EGb9udEGYpSM9u93/A9dDXBmR75kCBlWpO2sL+W7Rwo+Y
-	 +rtJ/gvB2Z3eYuU48L9/4hsbIgpyFHSb761ma/PYWnYW3Q+YivS1ZCYiTUzQQ+eSaw
-	 AkWXv1p3WOxgpcfdVTb93cftkDI9i8omUSBAX65U2eO6RGsoQHdZv9kKe2KHI1LaYR
-	 OVZ97qu9UGbS8qO4Wh5c9wzcGly5nEx2yubLGjGJUxIk770NFgDs99DsFUMJVKNkuW
-	 WoPyoOJ2TRb1g==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: dt-bindings: Convert brcm,bcm2835-i2s to DT schema
-Date: Tue, 12 Aug 2025 15:33:55 -0500
-Message-ID: <20250812203356.735234-1-robh@kernel.org>
-X-Mailer: git-send-email 2.47.2
+	s=k20201202; t=1755063200;
+	bh=SQBB+QuUHQ1WK+SyPt+Tm0tHTtKC0fjHu1V5AzSo2Dc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=WXWYzETYtyVTbS+6jw3ig8Jg4izOU3AzTb1vxENfqDwjFC7caZVy1NbSDCnPFYjoF
+	 dIegtibAh7/9wIcfgd4mdvrngkSa42WlCaV1Tbri6p9VC+Fzk8w+9TFlNCRwTGO/ZH
+	 Boj+8UB/FyjvMkTYJwTl+oGKzP7Ct5oFJmqX0hueRsqjpDeackJjtfa+8sAnLcpMwG
+	 KpnSdvMMs8lbZN3Yqds11J/ukeDaxk5EpUfN2ZtDPt+qy1jzdPutW+KKatuvOaF5rb
+	 A6pTZALHITKaJYxJTE+poZ4yzTEA2rXTnJQalVfgL8bxbb5J8qo8c0KVeGLeKfO7HD
+	 5UURnsGuSl0jQ==
+From: Vinod Koul <vkoul@kernel.org>
+To: vinod.koul@linaro.org, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com, 
+ derek.fang@realtek.com
+In-Reply-To: <20250725101100.1106673-1-shumingf@realtek.com>
+References: <20250725101100.1106673-1-shumingf@realtek.com>
+Subject: Re: [PATCH] soundwire: debugfs: add SCP_SDCA_IntStatX and
+ SCP_SDCA_IntMaskX registers
+Message-Id: <175506319789.649283.14444520276823005932.b4-ty@kernel.org>
+Date: Wed, 13 Aug 2025 11:03:17 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Convert the Broadcom BCM2835 I2S/PCM binding to DT schema format. It's a
-straightforward conversion.
 
-Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
----
- .../bindings/sound/brcm,bcm2835-i2s.txt       | 24 ---------
- .../bindings/sound/brcm,bcm2835-i2s.yaml      | 51 +++++++++++++++++++
- 2 files changed, 51 insertions(+), 24 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.txt
- create mode 100644 Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.yaml
+On Fri, 25 Jul 2025 18:11:00 +0800, shumingf@realtek.com wrote:
+> This patch added SCP_SDCA_IntStatX and SCP_SDCA_IntMaskX registers.
+> 
+> 
 
-diff --git a/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.txt b/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.txt
-deleted file mode 100644
-index 7bb0362828ec..000000000000
---- a/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.txt
-+++ /dev/null
-@@ -1,24 +0,0 @@
--* Broadcom BCM2835 SoC I2S/PCM module
--
--Required properties:
--- compatible: "brcm,bcm2835-i2s"
--- reg: Should contain PCM registers location and length.
--- clocks: the (PCM) clock to use
--- dmas: List of DMA controller phandle and DMA request line ordered pairs.
--- dma-names: Identifier string for each DMA request line in the dmas property.
--  These strings correspond 1:1 with the ordered pairs in dmas.
--
--  One of the DMA channels will be responsible for transmission (should be
--  named "tx") and one for reception (should be named "rx").
--
--Example:
--
--bcm2835_i2s: i2s@7e203000 {
--	compatible = "brcm,bcm2835-i2s";
--	reg = <0x7e203000 0x24>;
--	clocks = <&clocks BCM2835_CLOCK_PCM>;
--
--	dmas = <&dma 2>,
--	       <&dma 3>;
--	dma-names = "tx", "rx";
--};
-diff --git a/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.yaml b/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.yaml
-new file mode 100644
-index 000000000000..f3cfe92684d0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/brcm,bcm2835-i2s.yaml
-@@ -0,0 +1,51 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/brcm,bcm2835-i2s.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Broadcom BCM2835 SoC I2S/PCM module
-+
-+maintainers:
-+  - Florian Fainelli <florian.fainelli@broadcom.com>
-+
-+properties:
-+  compatible:
-+    const: brcm,bcm2835-i2s
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  dmas:
-+    items:
-+      - description: Transmission DMA controller phandle and request line.
-+      - description: Reception DMA controller phandle and request line.
-+
-+  dma-names:
-+    items:
-+      - const: tx
-+      - const: rx
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - dmas
-+  - dma-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/bcm2835.h>
-+
-+    i2s@7e203000 {
-+        compatible = "brcm,bcm2835-i2s";
-+        reg = <0x7e203000 0x24>;
-+        clocks = <&clocks BCM2835_CLOCK_PCM>;
-+        dmas = <&dma 2>, <&dma 3>;
-+        dma-names = "tx", "rx";
-+    };
+Applied, thanks!
+
+[1/1] soundwire: debugfs: add SCP_SDCA_IntStatX and SCP_SDCA_IntMaskX registers
+      commit: 8b63fee9f62361a7d96394611ba05734ec21e2eb
+
+Best regards,
 -- 
-2.47.2
+~Vinod
+
 
