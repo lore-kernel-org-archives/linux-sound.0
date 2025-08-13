@@ -1,55 +1,43 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9571A9F97;
-	Wed, 13 Aug 2025 10:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF662F2908
+	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 10:34:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755079801; cv=none; b=IeyfNH8/hPR0/WQGDpf8DRwYm7Vy78BP1B62pv/tLu7xtr9YkFUZ9hLMFnVuq0k3RbV77FmtjW5CIpfMVRFUGQXvomcxtiY8VVhpRuwFxsnHdVsW0hTpweKrKKdPLjlT7cp5MyrT4AfpQnKuXTikktCzNEWD7axXrXZynr7rjOk=
+	t=1755081273; cv=none; b=QBYEcVUJgiaHwQFLs75mw5WV1m5Qek/uf6lADh+wRRRN/Bo7G+7QVooGGuai6S91i57MFxQyEk8vGcPnrtwff4jarZAjkvdaXhYthuwtDjbWjTTGRGqP8vNAYGPOPKz3nHglt6CzYyZT5O7cKadNqnKBoIBGtfoEWyPInJtsyyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755079801; c=relaxed/simple;
-	bh=ida2CXCr2fFRDvW1t1sPtcOWlT9NS9aCbl0kJ8wWOBg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FZxOvq8W//DO7Ay0ogNw5YvG0HkJw2vEkBIud2sZ++n6WBK9RFBxS0acIpCIBjNxNxKEAKR6KWOU7IJ09TF9OVseAfko9xG17c7jLCpZnt9B0VB9EYcA4lLz5HcRLwClZ61xVy9hT+paEEbv7rbVga7BbtyolgnJrOBfIz9dd4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=oUHvL28J; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1755081273; c=relaxed/simple;
+	bh=QXJYmvp9wTnfWapEMv31m/YZSzt1bIS663ZhNyaG61I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B8+Kmclw6XPpz377yCg9EO/h5kq0tcotfG5vm5XWcxo/FYXI+IYjeVH/PAaWEFJs3fZej2ogPi50iyDW/GtbUT9mBWUTVGiUQ8j8F5U4h5SYsjct7BMF8V5Dz2O/ZlYuDA0ZC2A27usytBg6eRTsJ/GIwTDyd7dda0cfroAl0Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Zfu/jMNB; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="oUHvL28J"
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57DA9Cxw1676987;
-	Wed, 13 Aug 2025 05:09:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755079752;
-	bh=qwJfbD6uTwKoAGtFS7NyqUcPD5IlHQBF9hptV0GBnZE=;
-	h=From:To:CC:Subject:Date;
-	b=oUHvL28J65CnxAE0NfzPqsqcT3YK9Q2gzo8RaIOH608g84ORnD1SGoa1CQDVb6bW7
-	 ABTo6b8vFbfsxZ4f10eVK7JIzDZvbe/AAVhuzbrg7iOlybxPGTm0JUI+wckuWxfcX7
-	 alQ1ErEXmsiX2MGKtkZ0xvgF9Sd2y0M5HeP7T3BE=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57DA9C6q317487
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 13 Aug 2025 05:09:12 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 13
- Aug 2025 05:09:11 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 13 Aug 2025 05:09:11 -0500
-Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57DA97ZN1839683;
-	Wed, 13 Aug 2025 05:09:08 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <tiwai@suse.de>
-CC: <broonie@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <alsa-devel@alsa-project.org>, <shenghao-ding@ti.com>,
-        <13916275206@139.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <baojun.xu@ti.com>
-Subject: [PATCH v1] ALSA: hda/tas2781: Normalize the volume kcontrol name
-Date: Wed, 13 Aug 2025 18:08:42 +0800
-Message-ID: <20250813100842.12224-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Zfu/jMNB"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1755081270;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=+08CHwlWRZjXBglaG84EamhIdGb2S4rweM3TvNniamM=;
+	b=Zfu/jMNBmvtBR3uSfU1TufjdalJ4OMSpnDlD3jv0aUrH35FzZ2sQbicg4G2qZIv9DF4Sid
+	onnfemZ6cu/fCJ7Qsy9eX/u47W7Kg+LMrkaMbAajEjoONjQzLrKrlQZO/FWxE130fYoYPa
+	tlF8LszLzm2MV5s/SdHOltuDfRejcW0=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Wentao Liang <vulab@iscas.ac.cn>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda: Improve local variable data type in snd_hda_get_num_devices()
+Date: Wed, 13 Aug 2025 12:34:16 +0200
+Message-ID: <20250813103418.164110-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,29 +45,33 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Migadu-Flow: FLOW_OUT
 
-Change the name of the kcontrol from "Gain" to "Volume".
+Use 'int' instead of 'unsigned int' because the local variable 'parm'
+can be negative.
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+While an unsigned integer is harmless in practice due to the implicit
+type conversion, it's safer and more idiomatic to use a signed integer
+to properly check for -1.
+
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 2 +-
+ sound/hda/common/codec.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index 92aae19cfc8f..e4bc3bc756b0 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -256,7 +256,7 @@ static const struct snd_kcontrol_new tas2770_snd_controls[] = {
- };
+diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
+index eb268d442201..cab479111603 100644
+--- a/sound/hda/common/codec.c
++++ b/sound/hda/common/codec.c
+@@ -300,7 +300,7 @@ EXPORT_SYMBOL_GPL(snd_hda_get_conn_index);
+ unsigned int snd_hda_get_num_devices(struct hda_codec *codec, hda_nid_t nid)
+ {
+ 	unsigned int wcaps = get_wcaps(codec, nid);
+-	unsigned int parm;
++	int parm;
  
- static const struct snd_kcontrol_new tas2781_snd_controls[] = {
--	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Gain", TAS2781_AMP_LEVEL,
-+	ACARD_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS2781_AMP_LEVEL,
- 		1, 0, 20, 0, tas2781_amp_getvol,
- 		tas2781_amp_putvol, amp_vol_tlv),
- 	ACARD_SINGLE_BOOL_EXT("Speaker Force Firmware Load", 0,
+ 	if (!codec->dp_mst || !(wcaps & AC_WCAP_DIGITAL) ||
+ 	    get_wcaps_type(wcaps) != AC_WID_PIN)
 -- 
-2.43.0
+2.50.1
 
