@@ -1,81 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862D32E2DC0
-	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 14:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBBF2E2DC0
+	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 14:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755093878; cv=none; b=bhMV1ev03a9Bol6ptVWy3D2JRDHGQkAB1S3VVLVg9oOEYy1SCYuzTcBjYOO/4mZ3LYg8w7dzJ/rxR/zZyChyXeMIu0/6NIV7+LJga8pPZv6JikDGcHD7Kolsn+afXv2Xd0gEVgdTvxzz3DQn1PVv2mjjQWQPmWmKSaNDFjlictY=
+	t=1755094048; cv=none; b=G+hrbM5siz6DBZgSYha31hUMiVFzVCD6w39TJbvdBb1ZwjIr81bh9MSBLkfv4JjWj2blm6mL9oDL2X/bD21P7F4UlK6EmQU8/qYtvDIqmpNPa/focs3jFBNxlqFpxEM5cpB2/3bETFTuZBf7+Jlat+zOe7TwAivKZWRUyN3duj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755093878; c=relaxed/simple;
-	bh=27vgXl9oLpDsbnG8B9JGYHt4LfE1xo9U1LojYvtpczY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ueVFrCrOJBgtdWNmuCMASeIaWus6x7+l09Yv56/5KzKkQHYaQjXSU+si8hP5S4pBmh+eiZ+BcW5bGODYT35E6FBCPclkg6m+2LbinEG/hlnNxFQnWJYdlNJfUmAdeELbU5SIQpjBKAQ7ZvWDJEEIZKNmcRmkZH8FP613IMr7rTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iQKEAOwo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755094048; c=relaxed/simple;
+	bh=N8DFsiQNYFR09qeJ8qHaUTwo6iLl+SUsLO71eImroHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lb45Yg06j8Gip40jfLC3VyQ47b19/NRslc9bXN77Ie+ZPqnMTv20LSaLKpBqEGI5LHaUlUUjr6QsKKYBxdEDelyJQSS21ZWpp23nRKnDYKXnuaFbcMVv527rI13FgwY3zJns09sLV95kB6zUbSy1T2sJ5qXNJiO9E2SFELkzVLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ifL3AYde; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iQKEAOwo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51B53C4CEEB;
-	Wed, 13 Aug 2025 14:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755093877;
-	bh=27vgXl9oLpDsbnG8B9JGYHt4LfE1xo9U1LojYvtpczY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=iQKEAOwokgRLjd8yrKnvdQweOWQrWxwZlVrLWPIRCFgxueC3JxyexZf1XTYYZ8GN0
-	 yBCinYbMfjpvFNTyypw9NX6SniD8YWYCRaqMFV3tEmER2qk3CF3MhNZeM7joo2Q+AR
-	 tXEEU5wMtay8yPh4bR9IW4tc/Sv6xYSAkrLOHMhtVL230iaq59SAJ4PY9z96fpfe2a
-	 PTnfaYICExb9ah0iRti+M4Bxamh5/sQOJG3pCGzxkrOmFCzFJ2MzeVbnkpQITW17NN
-	 qKZQueh1zALgrjwBzXp75/WSYatpl+mr+Xup8wXgwqDebpmMgjPFvAJTVugm20Agk7
-	 atop8LV/btQtg==
-From: "Mario Limonciello (AMD)" <superm1@kernel.org>
-To: mario.limonciello@amd.com,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: "Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Richard Gong <richard.gong@amd.com>,
-	Juan Martinez <juan.martinez@amd.com>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] Revert "ALSA: hda: Add ASRock X670E Taichi to denylist"
-Date: Wed, 13 Aug 2025 09:03:08 -0500
-Message-ID: <20250813140427.1577172-1-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ifL3AYde"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755094047; x=1786630047;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N8DFsiQNYFR09qeJ8qHaUTwo6iLl+SUsLO71eImroHs=;
+  b=ifL3AYde8OaYUrVbDA8xER7xNe2I6kBx4/32uDpGFRFeWkdenxSsK5yI
+   k2AXeRdxvX5JbbD392P5ABBn59Tb5zHTsIW2+75nmwBL19rJnO6x3oRam
+   +GZBdxjgsZEFpEtLxuGtu43Ey0qrmifjtTRb111HDCal3GLESlyw1RH5O
+   tCKyVBh0RXVQWQjeBtJ2ItAK59CUDnrxyi+Uo0a8CXkcRWoapfj8++/BJ
+   WuDxSnbqSurkP5Mx/TKPwFyJQSv8zrybU+ytJGEg+0/CWjKc4vcCXRrW/
+   7//IYereIafNvoirkmVO+uor7pO6g2iv3pL+xZphF29HY719bgXBZgD4I
+   Q==;
+X-CSE-ConnectionGUID: W4aNaC0eQ4WuCXyWrLJErg==
+X-CSE-MsgGUID: b9ofcTvXRNK5vf7D2gy4/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11520"; a="67991628"
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="67991628"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2025 07:07:26 -0700
+X-CSE-ConnectionGUID: 13hSyKceR/STvdfyuzIrjg==
+X-CSE-MsgGUID: IF8n4BwoTmSD0BSfOxSyrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,285,1747724400"; 
+   d="scan'208";a="167275619"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa010.fm.intel.com with ESMTP; 13 Aug 2025 07:07:24 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 9A37A93; Wed, 13 Aug 2025 16:07:22 +0200 (CEST)
+Date: Wed, 13 Aug 2025 16:07:22 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	patches@opensource.cirrus.com, Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>
+Subject: Re: [PATCH 23/25] ALSA: hda/core: Use guard() for spinlocks
+Message-ID: <aJycGg2zItImFTL0@black.igk.intel.com>
+References: <20250811100807.7962-1-tiwai@suse.de>
+ <20250811100807.7962-24-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250811100807.7962-24-tiwai@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On a motherboard with an AMD Granite Ridge CPU there is a report
-that 3.5mm microphone and headphones aren't working.  In the
-log it's observed:
+On Mon, Aug 11, 2025 at 12:07:57PM +0200, Takashi Iwai wrote:
+> Replace the manual spin lock/unlock pairs with guard() for code
+> simplification.
+> 
+> Only code refactoring, and no behavior change.
 
-snd_hda_intel 0000:02:00.6: Skipping the device on the denylist
+Wishful thinking :-)
+(At least) this broke my builds
 
-This was because of commit df42ee7e22f03 ("ALSA: hda: Add ASRock
-X670E Taichi to denylist").  Reverting this commit allows the
-microphone and headphones to work again. As at least some combinations
-of this motherboard do have applicable devices, revert so that they
-can be probed.
+/sound/hda/core/stream.c:954:2: error: label followed by a declaration is a C23 extension [-Werror,-Wc23-extensions]
+  954 |         guard(spinlock_irq)(&bus->reg_lock);
+      |         ^
+/include/linux/cleanup.h:405:2: note: expanded from macro 'guard'
+  405 |         CLASS(_name, __UNIQUE_ID(guard))
+      |         ^
+/include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+  290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+      |         ^
+<scratch space>:36:1: note: expanded from here
+   36 | class_spinlock_irq_t
+      | ^
+1 error generated.
 
-Cc: Richard Gong <richard.gong@amd.com>
-Cc: Juan Martinez <juan.martinez@amd.com>
-Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
----
- sound/hda/controllers/intel.c | 1 -
- 1 file changed, 1 deletion(-)
+`make W=1`, clang-19.
 
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index fcf67e97a546a..1bb3ff55b1151 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -2077,7 +2077,6 @@ static const struct pci_device_id driver_denylist[] = {
- 	{ PCI_DEVICE_SUB(0x1022, 0x1487, 0x1043, 0x874f) }, /* ASUS ROG Zenith II / Strix */
- 	{ PCI_DEVICE_SUB(0x1022, 0x1487, 0x1462, 0xcb59) }, /* MSI TRX40 Creator */
- 	{ PCI_DEVICE_SUB(0x1022, 0x1487, 0x1462, 0xcb60) }, /* MSI TRX40 */
--	{ PCI_DEVICE_SUB(0x1022, 0x15e3, 0x1022, 0xd601) }, /* ASRock X670E Taichi */
- 	{}
- };
- 
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
