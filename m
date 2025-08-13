@@ -1,88 +1,92 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987B12D94A4
-	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 14:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C5619D88F
+	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 14:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755094531; cv=none; b=i07ndWqKcnsXhkVLaVvdEGOYc0VZmG+H6ofO5oQH7AnN8GXSrNm/XRDn0/ynt1ozymBIk/Gg3kObJWPeKbH/1UyG3kyrlmPFoevsC/LHdLRT1pmFqGYliO2DmfCRZwsrAqKifIesyAwKsTd1EoChxmHWOkxqo2WuslCDF5Hn3k4=
+	t=1755094791; cv=none; b=Ai1ASa1betA1wRJXTNjAFIZFG4cCIsuzlsxGt9Uct5ZiSsjOVetYRdLJGIMljwas6QQjB6jlSYxLnotaGDKL+aGkP209Mg/WpgklQEx2sYr6p1jWyq5Jder8UZlu5qh49Kge+rD0MK4qZoLJ1Ao5wNLDlFzuGlJg7eOywGpk+hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755094531; c=relaxed/simple;
-	bh=P4RcCQ/XXi5UDUAuO0AlpBxOVBSiWtlr7SgtcgjqXiQ=;
+	s=arc-20240116; t=1755094791; c=relaxed/simple;
+	bh=qlDqcd5IJFEU63T0nKujTmHZtbun/kmAufnl/3wbOKk=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UHwT4rVUu7mNqMjPYf4DznawEO7kiQmaPqFk5yQe3gHGms5L4EmZnY/AGMXgmCbIsCAHUEclBP/fNoOhdYHxMwTWFIic08chuBfveK+Kwq1E0i4K18ov/Y1SK8YCKP/7r3yFDjwOjoZbSpKb1iSXYPPsF3Uf3BonIFpL1ZLNCAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IQo7IYeA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1o2avMM5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IQo7IYeA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1o2avMM5; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=aSn0i4KhOrBx8uvY0tfaRSDyfVFzs2fl9nhOOFdePECT/W5HrFZNn0YJhM6yCWjC9tgo2BgQTmd5/z8aayKP4uvGogJwcBqeaZUJKYjLndDcnCrdLqgJX2L6kD8Weng2qTNXvT+o0dWET8fv/kLEX4IByPbCnQv532Ml9g6i0Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fFMy8cHO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1hDEUNHI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fFMy8cHO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1hDEUNHI; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IQo7IYeA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1o2avMM5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IQo7IYeA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1o2avMM5"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fFMy8cHO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1hDEUNHI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fFMy8cHO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1hDEUNHI"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 962451F74B;
-	Wed, 13 Aug 2025 14:15:27 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8A93F21A8C;
+	Wed, 13 Aug 2025 14:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755094527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1755094788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0uX5teMKwGPEobo4yqVYgz8Wbj9Pr+zjt1GRKLtDE7Q=;
-	b=IQo7IYeAkdwX3luWZRGGg5KJwqVsvJDJhpnCyk9jsD/gFUKHuWP5/J4GsOGnrHjCoAyEe2
-	7CoF+upx8Co5zTs59NuN6sr/X+qLCuvhxfkdCLBKsxfXHhz5EGMl6CWZGIygFvVcSBf4Ub
-	BbslIcbBIDOhblsUyVCple88oHaNbE4=
+	bh=/K1kjAk79PPYKa/Q04xGeNe8nCvhQq4mTpm91DXOSGs=;
+	b=fFMy8cHOMr2of95B4yp0/btcARrugucOv4AnmgRonVbYLFMgtLxb2+s9gVO2BeLb2gOJ3E
+	6mo/LRYkNxdl/OZzKsBE+fNT/k2un0WsB/QuAdGiiL4Glo9ckr/jaw9cfPy27jy67NKRqh
+	H/2MNfHULzjWnLgHyIbPDdsyzP9lCFk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755094527;
+	s=susede2_ed25519; t=1755094788;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0uX5teMKwGPEobo4yqVYgz8Wbj9Pr+zjt1GRKLtDE7Q=;
-	b=1o2avMM5/P0Kyvrc2ak6gcaiWYJp7RI1ZTiyS1EBwsdZH3lOJN2msbzknWBsI8RcKMNMEG
-	u5OkjZTyEoDjeFCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IQo7IYeA;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1o2avMM5
+	bh=/K1kjAk79PPYKa/Q04xGeNe8nCvhQq4mTpm91DXOSGs=;
+	b=1hDEUNHIwF+H69Qsyk1pEQmpIExyKCi5K3VwQBphOraOEQSMui3XMDn9zrSyOyDUHN4br3
+	7dLjnRqJsgRMyrDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755094527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1755094788; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0uX5teMKwGPEobo4yqVYgz8Wbj9Pr+zjt1GRKLtDE7Q=;
-	b=IQo7IYeAkdwX3luWZRGGg5KJwqVsvJDJhpnCyk9jsD/gFUKHuWP5/J4GsOGnrHjCoAyEe2
-	7CoF+upx8Co5zTs59NuN6sr/X+qLCuvhxfkdCLBKsxfXHhz5EGMl6CWZGIygFvVcSBf4Ub
-	BbslIcbBIDOhblsUyVCple88oHaNbE4=
+	bh=/K1kjAk79PPYKa/Q04xGeNe8nCvhQq4mTpm91DXOSGs=;
+	b=fFMy8cHOMr2of95B4yp0/btcARrugucOv4AnmgRonVbYLFMgtLxb2+s9gVO2BeLb2gOJ3E
+	6mo/LRYkNxdl/OZzKsBE+fNT/k2un0WsB/QuAdGiiL4Glo9ckr/jaw9cfPy27jy67NKRqh
+	H/2MNfHULzjWnLgHyIbPDdsyzP9lCFk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755094527;
+	s=susede2_ed25519; t=1755094788;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0uX5teMKwGPEobo4yqVYgz8Wbj9Pr+zjt1GRKLtDE7Q=;
-	b=1o2avMM5/P0Kyvrc2ak6gcaiWYJp7RI1ZTiyS1EBwsdZH3lOJN2msbzknWBsI8RcKMNMEG
-	u5OkjZTyEoDjeFCQ==
+	bh=/K1kjAk79PPYKa/Q04xGeNe8nCvhQq4mTpm91DXOSGs=;
+	b=1hDEUNHIwF+H69Qsyk1pEQmpIExyKCi5K3VwQBphOraOEQSMui3XMDn9zrSyOyDUHN4br3
+	7dLjnRqJsgRMyrDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 60A0C13929;
-	Wed, 13 Aug 2025 14:15:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 49FCE13929;
+	Wed, 13 Aug 2025 14:19:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9wldFv+dnGhWagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 13 Aug 2025 14:15:27 +0000
-Date: Wed, 13 Aug 2025 16:15:26 +0200
-Message-ID: <87ms83wbnl.wl-tiwai@suse.de>
+	id DXRSEASfnGi3awAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 13 Aug 2025 14:19:48 +0000
+Date: Wed, 13 Aug 2025 16:19:47 +0200
+Message-ID: <87ldnnwbgc.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: "Mario Limonciello (AMD)" <superm1@kernel.org>
-Cc: mario.limonciello@amd.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	Richard Gong <richard.gong@amd.com>,
-	Juan Martinez <juan.martinez@amd.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] Revert "ALSA: hda: Add ASRock X670E Taichi to denylist"
-In-Reply-To: <20250813140427.1577172-1-superm1@kernel.org>
-References: <20250813140427.1577172-1-superm1@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>
+Subject: Re: [PATCH 23/25] ALSA: hda/core: Use guard() for spinlocks
+In-Reply-To: <aJycvcDOWJ4L96QD@black.igk.intel.com>
+References: <20250811100807.7962-1-tiwai@suse.de>
+	<20250811100807.7962-24-tiwai@suse.de>
+	<aJycGg2zItImFTL0@black.igk.intel.com>
+	<aJycvcDOWJ4L96QD@black.igk.intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -91,77 +95,65 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 962451F74B
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
 
-On Wed, 13 Aug 2025 16:03:08 +0200,
-Mario Limonciello (AMD) wrote:
+On Wed, 13 Aug 2025 16:10:05 +0200,
+Andy Shevchenko wrote:
 > 
-> On a motherboard with an AMD Granite Ridge CPU there is a report
-> that 3.5mm microphone and headphones aren't working.  In the
-> log it's observed:
+> On Wed, Aug 13, 2025 at 04:07:22PM +0200, Andy Shevchenko wrote:
+> > On Mon, Aug 11, 2025 at 12:07:57PM +0200, Takashi Iwai wrote:
+> > > Replace the manual spin lock/unlock pairs with guard() for code
+> > > simplification.
+> > > 
+> > > Only code refactoring, and no behavior change.
+> > 
+> > Wishful thinking :-)
+> > (At least) this broke my builds
+> > 
+> > /sound/hda/core/stream.c:954:2: error: label followed by a declaration is a C23 extension [-Werror,-Wc23-extensions]
+> >   954 |         guard(spinlock_irq)(&bus->reg_lock);
+> >       |         ^
+> > /include/linux/cleanup.h:405:2: note: expanded from macro 'guard'
+> >   405 |         CLASS(_name, __UNIQUE_ID(guard))
+> >       |         ^
+> > /include/linux/cleanup.h:290:2: note: expanded from macro 'CLASS'
+> >   290 |         class_##_name##_t var __cleanup(class_##_name##_destructor) =   \
+> >       |         ^
+> > <scratch space>:36:1: note: expanded from here
+> >    36 | class_spinlock_irq_t
+> >       | ^
+> > 1 error generated.
+> > 
+> > `make W=1`, clang-19.
 > 
-> snd_hda_intel 0000:02:00.6: Skipping the device on the denylist
-> 
-> This was because of commit df42ee7e22f03 ("ALSA: hda: Add ASRock
-> X670E Taichi to denylist").  Reverting this commit allows the
-> microphone and headphones to work again. As at least some combinations
-> of this motherboard do have applicable devices, revert so that they
-> can be probed.
-> 
-> Cc: Richard Gong <richard.gong@amd.com>
-> Cc: Juan Martinez <juan.martinez@amd.com>
-> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> ---
->  sound/hda/controllers/intel.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-> index fcf67e97a546a..1bb3ff55b1151 100644
-> --- a/sound/hda/controllers/intel.c
-> +++ b/sound/hda/controllers/intel.c
-> @@ -2077,7 +2077,6 @@ static const struct pci_device_id driver_denylist[] = {
->  	{ PCI_DEVICE_SUB(0x1022, 0x1487, 0x1043, 0x874f) }, /* ASUS ROG Zenith II / Strix */
->  	{ PCI_DEVICE_SUB(0x1022, 0x1487, 0x1462, 0xcb59) }, /* MSI TRX40 Creator */
->  	{ PCI_DEVICE_SUB(0x1022, 0x1487, 0x1462, 0xcb60) }, /* MSI TRX40 */
-> -	{ PCI_DEVICE_SUB(0x1022, 0x15e3, 0x1022, 0xd601) }, /* ASRock X670E Taichi */
+> Need to add this is with patches applied from
+> https://lore.kernel.org/lkml/20250804220955.1453135-1-dan.j.williams@intel.com/
+> as otherwise it doesn't compile differently (in other places).
 
-Hmm, it's a bit awkward situation.  I believe this will make the
-problem of the original fix back.
-
-But, the original bug was merely error messages and memory wastes, and
-the PCI SSID looks also not specific to the mobo vendor, so we can
-start as a revert, but we'd need yet another fix to cover the original
-problem.
-Maybe some additional DMI check.  Oh well.  Such mobo vendors should
-be cursed if they don't assign the proper PCI SSIDs...
+Thanks for the info.
+OK, it seems that the patches need some workarounds for clang.
+Will drop for now, then.
 
 
 Takashi
