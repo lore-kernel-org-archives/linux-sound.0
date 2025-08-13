@@ -1,81 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0AD256C88;
-	Wed, 13 Aug 2025 19:34:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F021E2F99A3
+	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 19:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755113693; cv=none; b=MEKHxczRqiz8hgQLANTtEEs35MTTNBSQaPZmIWAYBkW2q4yTvrupxVMJsdV0ZFwHbu4GmDMECMG88vjctN/FWT0UGVOVXEpUMvroUX83/C7nXdR9svu2KTbNmSjfQi/ijWmjkZdCp9k3/JQjRWY3nLBwnDR2628M6uzdBg/crFA=
+	t=1755114409; cv=none; b=mTjzIWLuKweSjiTyq1ydAG0CK179P8C9R9nc5B38HWZ4FRqabx0Sw+XwX28bkP4fDtal0tUbPPqjezgUVRo5P2u2DmwnE+UotPYnu+YFUY7CmUT0Vu23QT46hIGCYf+hvANUNmaY7cYLtNVO4rx9ZTHSXF+r9Y64F4Y9Zb4gq7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755113693; c=relaxed/simple;
-	bh=ouxbFcVrUS9hvxkMdGRbOfAKnaBDJG/JEQxiQR2jMWo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Z2W/CQrNti4EPXTSooQd27eMqkGc1oxk7nHpVzsVCL7utvu4fZO8Ps+6HfEMUwCMCJpddUvO+WBzHC6deTV4ou/UDSqUst95SGvoYhJQ4Bd8eQdrCxxQ+f+ukQ9DxzwkNyZtNKnSC7dgvL0TZvflEpx3lQy1Hnl5kJSkiyTwmro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DmOBO6JJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755114409; c=relaxed/simple;
+	bh=/8GBopGctd7ROLW5s7uQq/RaW7OuHdELmXU9Ltqdl7g=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=uZRPWlHKQDHj3DT/LYaoGqiY5UVKrgPM9lTBWuUe6N1UQCGjgUBjSaXhAMP7fCVZL0oGy7nHifTh3X1kL9ZW/Ekkv/DsL3gU5OtiwaA7wtUV4GQBa2BELm4nLt/4WR0vjE0x/4puxoVB9C75jRFv4p0566R0SWBw0/D1+fsmRhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WgnSZTwS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DmOBO6JJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F38C1C4CEEF;
-	Wed, 13 Aug 2025 19:34:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WgnSZTwS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23972C4CEEB;
+	Wed, 13 Aug 2025 19:46:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755113693;
-	bh=ouxbFcVrUS9hvxkMdGRbOfAKnaBDJG/JEQxiQR2jMWo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DmOBO6JJETxAhR0VJijHavL/SKMgHxEADMQxsONS1H1Zt09SSiRETXQfY+a7uRy1C
-	 lYPfKF4GxN/+fh0dO7ooDwiMrWBqYN9k5wiZlBcCgCgJd5XO4ilR0RGXTQK0tkr2y+
-	 JFpycRB7EGSjnmAd4AxlFDt+n4OO7b3k+wwpf+AkRp878rcps8ggcCqs5kR33ARA13
-	 +rbdKe89aJ7WGsxpm25x21zTLUGs20cOPN8kaYGCZivYi4HcbXRbAbv249J6PQLUcD
-	 t+uP+cEhZWgGZ353Sq5+2Akj5nJ1nKPqDoP+WbRPQ8RiVrgQ7FfhvYnMNPRfnZXZqS
-	 VFr7sh4pOj7IA==
+	s=k20201202; t=1755114408;
+	bh=/8GBopGctd7ROLW5s7uQq/RaW7OuHdELmXU9Ltqdl7g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WgnSZTwSETUEu/h7nicYifJetu9VnL3pDmPI1LWzi2WgPSGWYiln6DVClUsPldILk
+	 Hh+t4G5Nc1S5jRlxHBvq4YKcLif0DBwyYpOWQfCnGxloN0wgTnljb0ZEWJPeVT/vQw
+	 2IaYdEEM8a9yYDSNtyabIzphzWNE8lVw2bGIdDsOFQCnzeqHEVXR+hDfU4/ucDvpgw
+	 GoelD1XJlkG0ntXxR1UnRP8z+VP5SpAVDBcVYh5UbMRnwJmbcXgiWAR61oIrpzVmGS
+	 SreBNvnJNMCzmfWVhTlGZi2kSTj8PzHGy/RNfXyLiE9avQuQ8dgpoYl/Q2ofd94p3p
+	 iciw5r6Ruyjyw==
+Message-ID: <c50400ae698f3d9f5d0a46ad05fbd0fa.broonie@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com, 
- alsa-devel@alsa-project.org, shenghao-ding@ti.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250813100708.12197-1-baojun.xu@ti.com>
-References: <20250813100708.12197-1-baojun.xu@ti.com>
-Subject: Re: [PATCH v1] ASoC: tas2781: Normalize the volume kcontrol name
-Message-Id: <175511369173.254480.2972663584944434542.b4-ty@kernel.org>
-Date: Wed, 13 Aug 2025 20:34:51 +0100
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.17-rc1
+Date: Wed, 13 Aug 2025 20:46:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
 
-On Wed, 13 Aug 2025 18:07:08 +0800, Baojun Xu wrote:
-> Change the name of the kcontrol from "Gain" to "Volume".
-> 
-> 
+The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
 
-Applied to
+  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+are available in the Git repository at:
 
-Thanks!
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-rc1
 
-[1/1] ASoC: tas2781: Normalize the volume kcontrol name
-      commit: 47ed64db8c17eb16541098add865178fb7e68744
+for you to fetch changes up to 47ed64db8c17eb16541098add865178fb7e68744:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+  ASoC: tas2781: Normalize the volume kcontrol name (2025-08-13 15:52:53 +0100)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+----------------------------------------------------------------
+ASoC: Fixes for v6.17
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+A reasonably small collection of fixes that came in since the merge
+window, mostly small and driver specific plus a cleanup of the menu
+reorganisation to address some user confusion with the way the generic
+drivers had been handled.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+----------------------------------------------------------------
+Alexey Klimov (1):
+      ASoC: codecs: tx-macro: correct tx_macro_component_drv name
 
-Thanks,
-Mark
+Baojun Xu (1):
+      ASoC: tas2781: Normalize the volume kcontrol name
 
+Colin Ian King (2):
+      ASoC: codec: sma1307: replace spelling mistake with new error message
+      ASoC: tas2781: Fix spelling mistake "dismatch" -> "mismatch"
+
+Kuninori Morimoto (1):
+      ASoC: generic: tidyup standardized ASoC menu for generic
+
+Sergio Perez Gonzalez (1):
+      ASoC: stm: stm32_i2s: Fix calc_clk_div() error handling in determine_rate()
+
+Shengjiu Wang (1):
+      ASoC: fsl_sai: replace regmap_write with regmap_update_bits
+
+Shuming Fan (2):
+      ASoC: rt721: fix FU33 Boost Volume control not working
+      ASoC: rt1320: fix random cycle mute issue
+
+Thorsten Blum (1):
+      ASoC: codecs: Call strscpy() with correct size argument
+
+ sound/soc/Kconfig                  |  4 +++-
+ sound/soc/codecs/aw87390.c         |  8 +++-----
+ sound/soc/codecs/aw88081.c         |  5 ++---
+ sound/soc/codecs/aw88166.c         |  8 +++-----
+ sound/soc/codecs/aw88261.c         |  8 +++-----
+ sound/soc/codecs/aw88395/aw88395.c |  8 +++-----
+ sound/soc/codecs/aw88399.c         |  8 +++-----
+ sound/soc/codecs/lpass-tx-macro.c  |  2 +-
+ sound/soc/codecs/rt1320-sdw.c      |  3 ++-
+ sound/soc/codecs/rt721-sdca.c      |  2 ++
+ sound/soc/codecs/rt721-sdca.h      |  4 ++++
+ sound/soc/codecs/sma1307.c         |  2 +-
+ sound/soc/codecs/tas2781-i2c.c     |  6 +++---
+ sound/soc/fsl/fsl_sai.c            | 20 ++++++++++----------
+ sound/soc/stm/stm32_i2s.c          |  7 ++-----
+ 15 files changed, 45 insertions(+), 50 deletions(-)
