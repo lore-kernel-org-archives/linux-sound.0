@@ -1,63 +1,63 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4682FC865
-	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 23:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5852F0C73
+	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 23:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755126442; cv=none; b=uxjKqHksvlIYUPCDbaMWfePc01G6jZMigd6mTyvh9eZtDdcf76DSrV8DE9UfDUjkrsHDyxpcWb1im/RlKxgGmJ9CE+rrUaJpzjuojL/Fphkjuy6SbVlUBi21/E/43q2af0JBJGQ42inw6bdfCkHLatBO8xN7PCzMarovJpjzZ0E=
+	t=1755126540; cv=none; b=Qn73qr8CJb2AR1RA/liUbcwCL5j30sIwWINgwbxQqbmgxIOH3lOAsB/nfskOBwxwfCEOABrpemKn2fha7jNs8FsKsQtKrPAPGjiOYX2lGsXi+1peaQBtS2fARMwNgbEG0/bWsISWcbkxIS8dLpGxpqxs8DFJmy4q16/ewm2EStw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755126442; c=relaxed/simple;
-	bh=/qpjGm0i7AdI98kp/Vvxql5u9hFiHNoiTyqr2D7TQGo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=TxUhDv+8ckqiHkC6I0VHds0iQtiBkskNtj/D7AHUFiZE97Ogf8fADfqI09B6TbNYXstwAZyCvTlyTrUZrc0G9hrNy2OnPpZv0Bv/6ghjXpnhfL0vWwKINE1zufQ1BJczRnCu10Cy8l2zIPYpsUnbLi5jC7VPJpGNUdIxuTzE7OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kk6ofFEG; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1755126540; c=relaxed/simple;
+	bh=D3VCs/yBFzDfZDnvikVOvGWSHbXeqmmlCqMVXJKIChc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=GICEYzA9wqN64FUYUpvJ/WobwzYGmJURri4/qIEcNWEsOvx2Zf+WJO8ijW+O9CAfuxQ51WLsYNhUAFreGfu5XWoFB3QGSTPmme1B6Wzngw/+VJw7yP9N9yUlVrmmp9RXTmlFYcVf7BaIazBlDIDg9I53Gk/RtvZrVSQpe3+ZVkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OlxveLth; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kk6ofFEG"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45a1b0cbbbaso1955765e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 16:07:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OlxveLth"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45a1b00a65fso1564775e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 16:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755126437; x=1755731237; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=linaro.org; s=google; t=1755126537; x=1755731337; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t1w1jD5uAhWjkLk2dF1OZgC9h1u3edFNggTts1awcIQ=;
-        b=kk6ofFEGAQbqV2f9QfuvY1fOYFszjFBJrY7z+D3RZuqFVUHW7hVKITWNl1l5Cb4qHW
-         qmqsd8H43xaAZ7BBrFA7tqd8mb6yllhFdN9oEOZysNa03Eyz0DOU84FFEHW9a2xR5nbs
-         5w3ctgof0ow81fziQBf4xMTmE+7LStTySFToDLjGpeLzU5Mi9bdQ19otpba8jVqGFsIi
-         m5DArBnd5hkLd8ie2nR90+srsZz9EXKCQJZ67OImSNLodl+vtaI0m9P8351cBBzZWd1u
-         UXwl1r6e66jC9DUyeLm9P50VQ3go4nM6QWiRwhB04TP84LuRrUdwfN8l2QmS16UGzBJ8
-         UY2g==
+        bh=LYzpkw32rfojTro/yo7c1tGpbEd5gb4/gc+Z99oDHgE=;
+        b=OlxveLth0PbFbSinl2x3O13ijMXjQfKu+/hI8/4tziXCGrFSRzKBOkkOxaDjFOhgev
+         pu/c8d/HpLRsUuoLe+m7ExvEWe31G32wkO6gZH6QfsOrhl76em65Q29WSrYg2YaHFZ78
+         zejUsVj6ZBezt5WMfPNc5PffkZ+tvIk1k5Y4SQhGr+AGjYWjK5F80kNhF/SGmFWImX69
+         nwr41r/tnhdmJ/wf/Y9D2xS4GTzxUUmUoo0pbSbJRunQGJ/PmHgpnjzzCGjdlx+8vq76
+         XUqqobisBGphIoKFwbS0CUG13EngYsGii1yH2qc1D1OG7NnF6FT8fnHE/hk2yeCZ6rgE
+         vdLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755126437; x=1755731237;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
+        d=1e100.net; s=20230601; t=1755126537; x=1755731337;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
          :content-transfer-encoding:mime-version:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=t1w1jD5uAhWjkLk2dF1OZgC9h1u3edFNggTts1awcIQ=;
-        b=hxa2ah6ByheTtokdHMmMlQROARc10Mtre3Eg5Thky68R/8jvfMbxx8iqEm6/kNoYb1
-         t/qHD/tWt1Ingjx+uXuQPpCyRDruT4UV0teJbgzkuzJ43issw/hXxgGBpEowo0WTGN6P
-         3VFmF8mW28rTWo5e6jNgUgu3HOGdHbnyPQjyFP5eCx7zIKUjkp6sOZHNa8KisJGxprUI
-         stvblQfF/82RkWQKBUiF7gdpdAm1cEO/59KuPk4vsKQGYm/RicrkR6cstJcKMSHKXSHE
-         Ig9191YIgGXMUNSNwsF0r1j22HG3t3930jSdwLn5BZt35p6sGbWJ3VOqegFhVSl/pQ3i
-         6k9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW2LV4AfKm864G0ap4hXgF8vsjZpnCwgoG4iT7NCaZ3oeitJ+OORc64giD+XJ6qT8Nz73o13gStKynQyg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyseeIlXDjIpF+tQbyyEWqSW9G8S7Y0sNapGi03TvQmSRu38Meu
-	lTHQ30JyCKCWPeE1RbY5dhpzywxJQETQw8wDEsu2PQKHMFJ03nUjpUJZduBdlj9T1Ts=
-X-Gm-Gg: ASbGncujtLa8Oy0v2ZarB6ElrK8cLlM5Uj4kmXFMNHlEbpZRBS93HI7DtQgwQjK0/gh
-	773uYaFLtTJ3wCY1RiAo7ypn+qb4VGGq+Xr/WfxZz2jvgck2vwcznrwG9vfxLUhV2/rGDfWmOh7
-	85Rpj3tvQFO19QVmPZDZk3iTUkGZH/4hgoSUKhnuSzBQM6YccC4CjQHsZ+9PKk1TKbvkW+f8IrT
-	zZTsTz9flEhe2JblE2TAO4A7KPaNJxyQrYQm6WBwRq3JxeSuL9kvJGO3CEuAlHpGVwk7pboVzVQ
-	bXnlXIA0HmoYBOud2t33Ik8V9gkEGtQUwzhzP12/GyAg4G0DczHFADPRWemGCBWNIu2DOQQjZ73
-	7kIB6hD3gPxT3tnofaYID9oNmdF0=
-X-Google-Smtp-Source: AGHT+IHLYhRGc4JYIFTUPFhdxnROSBPBG4POVhF8NCo8fac7mqIyrnBrDgT2tDgDmUZXysWtmKuWyQ==
-X-Received: by 2002:a05:600c:354e:b0:456:1442:86e with SMTP id 5b1f17b1804b1-45a1b66929dmr3241165e9.21.1755126437430;
-        Wed, 13 Aug 2025 16:07:17 -0700 (PDT)
+        bh=LYzpkw32rfojTro/yo7c1tGpbEd5gb4/gc+Z99oDHgE=;
+        b=SUJsJM7ANYYsxxIeV8rUZy65l9ljlX+3RCMRu+vZWYFLyjSjcerXTWpVkAtHQa18Cp
+         OeBlRuclRnJl7zr9htW3r1p3gJm9TRAflduXb5bon+KcR/r3qGoicLjWXkwPOPMV2sjH
+         Yd9Z4zfBYQCK2Ufne0Kc/6LKRTwHX21H0WZfidzRvkuq1vJpiz5xNsbTfGZqBzPh3JoL
+         fn+FFKLcY0VEhFuEJgUMy1UxToithU7HItaGvx5EgqtRr4ROAPGf+1HPqtktiEM75ECQ
+         Ggq+4Htjw3KzMIyNqJsiKRRazBx2SIAgv8Xn2948YY4QOhMKuu9nIPQyK51DaV/MR9IL
+         eT7g==
+X-Forwarded-Encrypted: i=1; AJvYcCUSENndvCjEx4nhzAB3o+QLCxEbyc60EVey8gVFeL+hC/usppRJ8DiAN/ELJfRapJFEJ3PBrIkJ/MiZkA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YztavcmookfesDc0mzaJA4usaDirUQU11DVJCgOj5x6m1s7bGtw
+	kCIz5AKgoGD/HGb76UDMpDuou9jaiF5phv/AxNSuoG+RAVw1P141LIBHa2H2gmBvEcM=
+X-Gm-Gg: ASbGnctpbRe+GbJkt8jHmE7n44ljVIJgmDQMUBGO7mgvQlz+ReWnTP7lAsQBcvCcUAf
+	wU6a1SqRlOCebkQWDAEt1YUOPBzmxgtp6mgRh6mSEaouCS5oOsvCtY3Fa1jXvSIzI2Wbb7J9UvF
+	dE5inud2X0iVWuehos5ZK0SDRiDnv9iEWGFKVsUQN3C2FrukqS9uSjqmAz7smrMrkFkIJSBHwxP
+	aVjCyUjJ4f+efC+ztFxLE/XfO5H7YoG89w7PXqAwAfAoOt1jBxzy4cFnWocnI29ciqz/7NkuZCF
+	zeOazIO93zhBcu5mbC9FyP2nFZir1Jte8PwspzAu/htuUHctbYi80qNfcFZVEhBJpiuYLyyq82f
+	mK0nKCZfocjlLcMLYV07LgWbrv7g=
+X-Google-Smtp-Source: AGHT+IFbhBknykhgRmGNQ8HnZA9S45Dxb2/Sf7agYpr4TtNvocsFTRipZsdaZQpRwhDbfSKf8QHY8w==
+X-Received: by 2002:a05:6000:310d:b0:3b6:436:b8ea with SMTP id ffacd0b85a97d-3b9edfd22b1mr647097f8f.6.1755126536667;
+        Wed, 13 Aug 2025 16:08:56 -0700 (PDT)
 Received: from localhost ([2a02:c7c:7259:a00:7f3a:5ab2:26aa:831f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a541788sm17732825e9.30.2025.08.13.16.07.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a590187sm16856315e9.25.2025.08.13.16.08.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Aug 2025 16:07:16 -0700 (PDT)
+        Wed, 13 Aug 2025 16:08:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,161 +66,67 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 14 Aug 2025 00:07:16 +0100
-Message-Id: <DC1OE9UIUPON.2DOURP7NEQS54@linaro.org>
-Subject: Re: [PATCH v2 2/3] ASoC: codecs: add new pm4125 audio codec driver
+Date: Thu, 14 Aug 2025 00:08:55 +0100
+Message-Id: <DC1OFJFCKMLD.28U6N6FES0OC8@linaro.org>
 From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Srinivas
- Kandagatla" <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, <linux-arm-msm@vger.kernel.org>,
+To: "Krzysztof Kozlowski" <krzk@kernel.org>
+Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>, "Lee
+ Jones" <lee@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, <linux-arm-msm@vger.kernel.org>,
  <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
+ <dmitry.baryshkov@oss.qualcomm.com>, "Srinivas Kandagatla"
+ <srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH v2 2/3] ASoC: codecs: add new pm4125 audio codec driver
 X-Mailer: aerc 0.20.0
 References: <20250711-pm4125_audio_codec_v1-v2-0-13e6f835677a@linaro.org>
  <20250711-pm4125_audio_codec_v1-v2-2-13e6f835677a@linaro.org>
- <87a56d1e-2bbd-4abf-91c8-5129835d8d87@oss.qualcomm.com>
-In-Reply-To: <87a56d1e-2bbd-4abf-91c8-5129835d8d87@oss.qualcomm.com>
+ <20250711-hungry-uppish-taipan-a0a35a@krzk-bin>
+In-Reply-To: <20250711-hungry-uppish-taipan-a0a35a@krzk-bin>
 
-On Fri Jul 11, 2025 at 2:32 PM BST, Srinivas Kandagatla wrote:
-> On 7/11/25 4:00 AM, Alexey Klimov wrote:
->> The audio codec is found in Qualcomm PM2250/PM4125 PMICs and is used on
->> platforms like Qualcomm QCM2290. It has soundwire interface and
->> corresponding RX and TX slave devices.
->>=20
->> It has only two input channels: HPH left and right. The line output (LO)
->> is linked to HPHL so the hardware has some limitations regarding concurr=
-ent
->> playback via HPH and LO for instance.
->>=20
->> The codec driver also uses WCD MBCH framework. The MBHC functionality is
->> implemented in a minimalistic way to enable IRQs and avoid different
->> issues with IRQs.
->>=20
->> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.c=
-om>
->> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com=
->
->> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
->
-> Thanks for doing this Alexey,
->
-> I have tested Headset playback, headset recording and Lineout.
->
-> While testing I have noticed one issue with the places where enable_irq
-> is being used, there is a possiblity of things going wrong in some cases.
->
->
->> ---
->>  sound/soc/codecs/Kconfig      |   18 +
->>  sound/soc/codecs/Makefile     |    8 +
->>  sound/soc/codecs/pm4125-sdw.c |  546 +++++++++++++
->>  sound/soc/codecs/pm4125.c     | 1767 ++++++++++++++++++++++++++++++++++=
-+++++++
->>  sound/soc/codecs/pm4125.h     |  314 ++++++++
->>  5 files changed, 2653 insertions(+)
->>=20
->
-> ...
->> +static int pm4125_codec_enable_lo_pa(struct snd_soc_dapm_widget *w,
->> +				     struct snd_kcontrol *kcontrol, int event)
+On Fri Jul 11, 2025 at 9:29 AM BST, Krzysztof Kozlowski wrote:
+> On Fri, Jul 11, 2025 at 04:00:11AM +0100, Alexey Klimov wrote:
+>> +static void pm4125_unbind(struct device *dev)
 >> +{
->> +	struct snd_soc_component *component =3D snd_soc_dapm_to_component(w->d=
-apm);
->> +	struct pm4125_priv *pm4125 =3D snd_soc_component_get_drvdata(component=
-);
+>> +	struct pm4125_priv *pm4125 =3D dev_get_drvdata(dev);
 >> +
->> +	switch (event) {
->> +	case SND_SOC_DAPM_PRE_PMU:
->> +		snd_soc_component_update_bits(component, PM4125_ANA_COMBOPA_CTL_5, 0x=
-04, 0x00);
->> +		usleep_range(1000, 1010);
->> +		snd_soc_component_update_bits(component, PM4125_ANA_COMBOPA_CTL_4, 0x=
-0F, 0x0F);
->> +		usleep_range(1000, 1010);
->> +		snd_soc_component_write_field(component, PM4125_ANA_COMBOPA_CTL,
->> +					      PM4125_ANA_COMBO_PA_SELECT_MASK,
->> +					      PM4125_ANA_COMBO_PA_SELECT_LO);
->> +		snd_soc_component_write_field(component, PM4125_DIG_SWR_PDM_WD_CTL0,
->> +					      PM4125_WDT_ENABLE_MASK,
->> +					      (PM4125_WDT_ENABLE_RX0_M | PM4125_WDT_ENABLE_RX0_L));
->> +		break;
->> +	case SND_SOC_DAPM_POST_PMU:
->> +		usleep_range(5000, 5010);
->> +		snd_soc_component_update_bits(component, PM4125_ANA_COMBOPA_CTL_4, 0x=
-0F, 0x04);
->> +		enable_irq(pm4125->hphl_pdm_wd_int);
+>> +	snd_soc_unregister_component(dev);
+>> +	device_link_remove(dev, pm4125->txdev);
+>> +	device_link_remove(dev, pm4125->rxdev);
+>> +	device_link_remove(pm4125->rxdev, pm4125->txdev);
+>> +	component_unbind_all(dev, pm4125);
+>> +}
+>> +
+>> +static const struct component_master_ops pm4125_comp_ops =3D {
+>> +	.bind =3D pm4125_bind,
+>> +	.unbind =3D pm4125_unbind,
+>> +};
+>> +
+>> +static int pm4125_add_slave_components(struct pm4125_priv *pm4125, stru=
+ct device *dev,
+>> +				       struct component_match **matchptr)
+>> +{
+>> +	struct device_node *np =3D dev->of_node;
+>> +
+>> +	pm4125->rxnode =3D of_parse_phandle(np, "qcom,rx-device", 0);
+>> +	if (!pm4125->rxnode)
+>> +		return dev_err_probe(dev, -ENODEV, "Couldn't parse phandle to qcom,rx=
+-device\n");
+>> +	component_match_add_release(dev, matchptr, component_release_of, compo=
+nent_compare_of,
+>> +				    pm4125->rxnode);
+>> +	of_node_put(pm4125->rxnode);
 >
-> if headset playback dapm widgets are powered up or active and you try to
-> play on lineout you would get below splat:
->
-> [ 1181.352762] ------------[ cut here ]------------
-> [ 1181.357435] Unbalanced enable for IRQ 156
-> [ 1181.361489] WARNING: CPU: 1 PID: 877 at kernel/irq/manage.c:753
-> __enable_irq+0x4c/0x7c
-> ...
->
-> [ 1181.483541] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS
-> BTYPE=3D--)
-> [ 1181.490534] pc : __enable_irq+0x4c/0x7c
-> [ 1181.494405] lr : __enable_irq+0x4c/0x7c
-> [ 1181.498278] sp : ffff8000840ab8a0
-> [ 1181.501618] x29: ffff8000840ab8a0 x28: ffffd79b9725d588 x27:
-> ffff8000840ab948
-> [ 1181.508796] x26: 000000000000309b x25: 0000000000000080 x24:
-> 0000000000000080
-> [ 1181.515980] x23: ffffd79b9698f250 x22: 0000000000000000 x21:
-> 0000000000000000
-> [ 1181.523153] x20: 000000000000009c x19: ffff23c347fd9400 x18:
-> 0000000000000006
-> [ 1181.530335] x17: 0000000000000001 x16: ffffd79b94dbcce8 x15:
-> ffff8000840ab46f
-> [ 1181.537508] x14: 0000000000000000 x13: 3635312051524920 x12:
-> ffffd79b96d96768
-> [ 1181.544691] x11: 0000000000000058 x10: 0000000000000018 x9 :
-> ffffd79b96d96768
-> [ 1181.551862] x8 : 000000000000024f x7 : ffffd79b96dee768 x6 :
-> ffffd79b96dee768
-> [ 1181.559044] x5 : ffff23c3bbbb8508 x4 : 0000000000000000 x3 :
-> 0000000000000027
-> [ 1181.566217] x2 : 0000000000000000 x1 : 0000000000000000 x0 :
-> ffff23c35a0a4600
-> [ 1181.573392] Call trace:
-> [ 1181.575871]  __enable_irq+0x4c/0x7c (P)
-> [ 1181.579748]  enable_irq+0x60/0xd8
-> [ 1181.583098]  pm4125_codec_enable_lo_pa+0x6c/0x1a0 [snd_soc_pm4125]
-> [ 1181.589319]  dapm_seq_check_event+0x11c/0x144
-> [ 1181.593720]  dapm_seq_run_coalesced+0x130/0x1d0
-> [ 1181.598286]  dapm_seq_run+0x264/0x374
-> [ 1181.601991]  dapm_power_widgets+0x664/0x900
-> [ 1181.606212]  snd_soc_dapm_stream_event+0xf4/0x178
-> [ 1181.610957]  __soc_pcm_prepare+0x64/0x120
-> [ 1181.614998]  dpcm_be_dai_prepare+0x120/0x168
-> [ 1181.619299]  dpcm_fe_dai_prepare+0x94/0x178
-> [ 1181.623517]  snd_pcm_do_prepare+0x30/0x50
-> [ 1181.627567]  snd_pcm_action_single+0x48/0xa4
-> [ 1181.631872]  snd_pcm_action_nonatomic+0x94/0xb0
-> [ 1181.636435]  snd_pcm_prepare+0x7c/0xe0
-> [ 1181.640222]  snd_pcm_common_ioctl+0xca4/0x16e0
-> [ 1181.644705]  snd_pcm_ioctl+0x34/0x4c
-> [ 1181.648315]  __arm64_sys_ioctl+0xac/0x104
-> [ 1181.652355]  invoke_syscall+0x48/0x104
-> [ 1181.656147]  el0_svc_common.constprop.0+0x40/0xe0
-> [ 1181.660892]  do_el0_svc+0x1c/0x28
-> [ 1181.664242]  el0_svc+0x30/0xcc
-> [ 1181.667340]  el0t_64_sync_handler+0x10c/0x138
-> [ 1181.671737]  el0t_64_sync+0x198/0x19c
-> [ 1181.675430] ---[ end trace 0000000000000000 ]---
+> If you drop it here, then you do not need to keep it in pm4125 in the
+> first place. But this will point you to the problem - what if
+> pm4125_bind() is called after you dropped the reference?
 
+Thanks for pointing this out.
+It looks like that component_release_of callback should handle that so I
+don't think we need of_node_put() here at all.
 
-Yep, I noticed that one time only but was puzzled how to reproduce.
-As you suggested during out of email list discussion I will move handling
-of IRQs into separate widget.
-
-Thank you,
+Best regards,
 Alexey
-
