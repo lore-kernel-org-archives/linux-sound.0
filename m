@@ -1,48 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2482F9982;
-	Wed, 13 Aug 2025 19:22:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135842F999C;
+	Wed, 13 Aug 2025 19:34:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755112958; cv=none; b=sMJ0+YV+HjlhfFDmefpuDjQzBa8vRByoa5U2YdLWixPh2mJei/7twtgQFl33Lmw5rjoR/vUBu0TFbmY2V2q4OtzyiPZbPxuWXE2r8e9TMErNYs8195XBSUrhYU3PTqub6dWIN+pr89FQQAAvhU3fK6WleTBXlVNPBc4AUrEbU50=
+	t=1755113692; cv=none; b=TrbBqFbDRV0WkN4/2tqXnpvqN5po+JS/x29007OFp4aPc5JZOXzuwDp5mbiTPdXoNbQh3ZicU2ii2qgfT1mAxcHylFR7VTok+jSZNEOcUVpzc0TaFoOwvi8pC9Hm5ZMmBI+PGH4I8Kxpqb8dv5d+JmbM5vB3LmwfBcaTEmTOG3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755112958; c=relaxed/simple;
-	bh=N477yPAUgF8MFDSi5oZ2xy5+NriyaZW/5Ft0lXfFS6Y=;
+	s=arc-20240116; t=1755113692; c=relaxed/simple;
+	bh=Oa/mn1bIvlYCCZjy/9e9Ga8TzPTrAjMEY3+qdBPpnMA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Tr4WAUzFhfoJinsmIOntj2KjwKyzFphWT24v2WFxZwDxMC5dCjoNA6Ji7UpANOVI5ri7Om8kjbYgLywkERfmaAZIjZr1lZOnh2f+hAAWxdWccPIOnKQrUdMabK3vgt6ZDTQ65A3WdGeRIkcxFe5D8qEryaBxC6YHmO/Qvvwi2ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IheAlBBI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=c96IY5jJ+k/zbPoG868rjvy5N+uk9WIcXMq67OdxlFRBfvvqvxRN5m5rgEGu39QdT5KQCYGAGZfnTp+nlP4Zru3hL3c5Xw28cAXXBhfjXnIMJdIapRzW/F9os6FUKbMBNUrDJjiAu0ikA7awZq6HxT2AR9gyhXPITHQjU5lyKMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=giytaB1T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IheAlBBI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 577B0C4CEEB;
-	Wed, 13 Aug 2025 19:22:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="giytaB1T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 132ACC4CEEB;
+	Wed, 13 Aug 2025 19:34:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755112957;
-	bh=N477yPAUgF8MFDSi5oZ2xy5+NriyaZW/5Ft0lXfFS6Y=;
+	s=k20201202; t=1755113691;
+	bh=Oa/mn1bIvlYCCZjy/9e9Ga8TzPTrAjMEY3+qdBPpnMA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=IheAlBBIQ2Bt+CcdnxUFDJSj2gXEDefMs+XsgEE9N6Y7yBu0Nv5mj9qbxNsshF6QQ
-	 Y1vQB3DWs+KMaZnajrrrq2CzT6s40dejdd7D9ok5zgISoO7dOBqAlKHY5WArlFW8Mn
-	 Rb4xQESpYfHP+rUhzQjpScWPSkgmoaC571N4HTfNCBYaaXn3EqCrRwCEiGcSdpu1Tf
-	 akFZy6tccfWufnGlQvXMmfWkIsatrUjjjh/JlFUTUThMpEXzfyOoQUPq1bqI6/p4YI
-	 wJVkE8y/Oke8jyVdAfTBBYslChMgHuPBRgCpWNStuJuFgzKykTqzT3q56hRM3fp6DZ
-	 mmOdd0TYoKq4Q==
+	b=giytaB1Twi28I0MYrwISILn40Uh/YaH0AH9XaUa2d9BpaocwWypjcDoP1qQTMQJaR
+	 K8U3d0bB25f8hpzDR6sqHW38Qo7Ja/YtrY3XO/w1ZrAjaeF2zsfw34uCJ1ZEdcBznS
+	 wOV8VqLZh+8C6HAp6BaylYdvyKuX74tE/HcHylr88YM4OjCR6BdzUKoLvbymBs/c5S
+	 ycnrMi9NUrIJ8+9smUwFw2ZaRchWU+XXiKC44ZVj3JVZRh264mCIXX9zYWZTIuJQIx
+	 Hn8l2BKWDeMd23ypOXc9RA4Ugp8ctbpS8RO2XoXKr5aObb4a70RqQSr9AeN6JiKmkR
+	 nuUO8UEh43I0w==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+To: tiwai@suse.de, Baojun Xu <baojun.xu@ti.com>
+Cc: andriy.shevchenko@linux.intel.com, alsa-devel@alsa-project.org, 
+ shenghao-ding@ti.com, 13916275206@139.com, linux-sound@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20250812203356.735234-1-robh@kernel.org>
-References: <20250812203356.735234-1-robh@kernel.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: Convert brcm,bcm2835-i2s to DT
- schema
-Message-Id: <175511295510.250237.5224980225208974771.b4-ty@kernel.org>
-Date: Wed, 13 Aug 2025 20:22:35 +0100
+In-Reply-To: <20250730053236.57643-1-baojun.xu@ti.com>
+References: <20250730053236.57643-1-baojun.xu@ti.com>
+Subject: Re: [PATCH v1] ASoC: tas2781: Normalize the volume kcontrol name
+Message-Id: <175511368980.254480.12270174451313958597.b4-ty@kernel.org>
+Date: Wed, 13 Aug 2025 20:34:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,9 +46,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Tue, 12 Aug 2025 15:33:55 -0500, Rob Herring (Arm) wrote:
-> Convert the Broadcom BCM2835 I2S/PCM binding to DT schema format. It's a
-> straightforward conversion.
+On Wed, 30 Jul 2025 13:32:36 +0800, Baojun Xu wrote:
+> As more devices become supported, add "tas2781" as a suffix before the
+> TLV name, correct the DVC step, and normalize the volume kcontrol name.
 > 
 > 
 
@@ -65,8 +58,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: Convert brcm,bcm2835-i2s to DT schema
-      commit: bab4ab484a6ca170847da9bffe86f1fa90df4bbe
+[1/1] ASoC: tas2781: Normalize the volume kcontrol name
+      commit: 47ed64db8c17eb16541098add865178fb7e68744
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
