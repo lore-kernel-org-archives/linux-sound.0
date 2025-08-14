@@ -1,611 +1,668 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566452ED160;
-	Thu, 14 Aug 2025 08:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA502BE7D7
+	for <linux-sound@vger.kernel.org>; Thu, 14 Aug 2025 09:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755161696; cv=none; b=HQ58auRT1ZcP4CKJA8/0ZaKWnsXQB8O7y0Si5Is19IEULcdaIeXhXdDtxJAoZsVKiLhXi3+1Di8CmAwqovjWMXVDm+ELrIIn4sdIuJeS8LE7EPG20tnqckx75N3sMpylbb+HFpeEiOe2NeMr/VjkvehCpG1ionsDgqqFjaz4uHA=
+	t=1755163341; cv=none; b=QPAKa4+9MMX7NoiL2FZntLBC/sG8vRBY0aM1PK+4YjjInvJz2ksTcOycCQ010iTZzNcv6V4ho05pPKzn7ZOBJ2bdRjc/PQf+jiOwOMglfiRu4hjwsjg0nPdLMikiZhgBkKdNV17TSdJwm36a40OrqLY44lXgMFzVCJKEXrYwk1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755161696; c=relaxed/simple;
-	bh=EQJn/4A0sHn3SbpivdUNDU8g/AqRjuJ70TVjjd8TUxM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R7qbpstyV6DY0hzcBoC5Xk3GMMxNMTfh22E9AIOO2vhZ8JkDgD7PMpFToSf5qJV19PhTdwyq+zpnNl72Ce/pvmuRM8KJRcf50g2+dydPf7t02mVIl8MtrOGkuI2cX0Sup6upVnMlgQ8hgJsdH4HSPWbYBWBDzQ0ExAfXPlSDpe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=O9ffQEdE; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1755163341; c=relaxed/simple;
+	bh=4n2nr2fAz/dGxz+4Sf9bh9p5F/Qf5fzh3bjovn0rTco=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QLkFaq8R8I6dAgUvF1G8amcV3T+J9LVDNkG6zugdy+Ml5IfN2BCltqbdQBP8nO/3B1/+ikcgBUM49zqyDTEZliQSc9Gj9OG8i60xV062iubbzk6y/GE0HEaoyVl4vG2NiaJ4hrtM08bpwB0HbyFiG9FiyGK+eKTjuhTxd9WFQdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=rXmcQTJY; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="O9ffQEdE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1755161678;
-	bh=+w6xRMj/A7b1AVC+0PU+Q2J2D8NPFbzRJfmFtI3Rnso=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=O9ffQEdE3RqXK06c7OMl0AeXWhdEF+66eyRgbV2ETPkN1lvMorVlNNOe7Kyx1xLp6
-	 Gy59Gm8+xKBmp4dnyU43dUEM/MtFqIJkIwYZEcWjuvTuabd561KvnxmJr7rDhGS8Se
-	 4TU3hopJw/3WczL3K1Q8+sgvt0+JeRyV7PQo3fvU=
-X-QQ-mid: esmtpgz16t1755161673tb564e9a8
-X-QQ-Originating-IP: nBoFo2xGU4tj78KjPJa8cFhsVC5heHacOgmGUHGtNec=
-Received: from = ( [61.145.255.150])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 14 Aug 2025 16:54:31 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 672736601068066027
-EX-QQ-RecipientCnt: 16
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Thu, 14 Aug 2025 16:54:20 +0800
-Subject: [PATCH 2/2] ASoC: spacemit: i2s: add support for K1 SoC
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="rXmcQTJY"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 57E9LlAcA1493925, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1755163307; bh=SJn/7fQsaU7kdrX78+30dDVbO37nA4xUE/gAz5oGHAc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=rXmcQTJYyeNDY6hBafzVR6x/EZajYAab82FKRLHcJb/GMIYlxbHgYeLcEe9xo7Xzs
+	 LojwAA6HYhwRXVh2sp1b5Yvw6YxKoyitP8ATE+AL1EF1r38/iOg6hv23mz0FmiAMlT
+	 RQfZ6moYHoHHp5wMtoITbRedhbW3WkpVzi2xsts9w13BtmgTMYy9Wze8OBK5i6Oyp8
+	 DIua55cyCp6KZaXvpjA1ylQroxzjwNHNBdTwEn5xtFoea1SaSnlCktn+ncQHeelGIZ
+	 DMfqh+hDwD1BS55uEjPr4cEEVIiyACRq3ld2toptONh8pL2uEBeS2FBA9uYhYPhxa2
+	 rVm3G+I71LZYA==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 57E9LlAcA1493925
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 14 Aug 2025 17:21:47 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 14 Aug 2025 17:21:47 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 14 Aug 2025 17:21:46 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, <Deep.Harsora@Dell.com>,
+        Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH v2] ASoC: rt1321: Add RT1321 amplifier support
+Date: Thu, 14 Aug 2025 17:21:53 +0800
+Message-ID: <20250814092153.2733592-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250814-k1-i2s-v1-2-c31149b29041@linux.spacemit.com>
-References: <20250814-k1-i2s-v1-0-c31149b29041@linux.spacemit.com>
-In-Reply-To: <20250814-k1-i2s-v1-0-c31149b29041@linux.spacemit.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
- linux-kernel@vger.kernel.org, 
- Troy Mitchell <troy.mitchell@linux.spacemit.com>, 
- Jinmei Wei <weijinmei@linux.spacemit.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755161663; l=16204;
- i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
- bh=EQJn/4A0sHn3SbpivdUNDU8g/AqRjuJ70TVjjd8TUxM=;
- b=2xhviVaBfdGUS1zIC0YfbNwLecrHGw3HuKSmXcCY0fjcomCEinRZupP1yVzePv5kvQWeFXflU
- 55dQZSr90HKAcsjtfV9l0W4iNNu7Wr1zVGYSS/Wz+X/CO6YLYlcvJVX
-X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
- pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: OT1af/FwY+++FQPnYohd12eeIlVx4GMqvTP/PIDXP4OjJSh6HOX6HaTa
-	hz/4yA+ccbYTp0iaZedZn7ZTVtxgyqInSs923AwM2JX8HnooOsjfY4vqEwuqdHoQvDIHMxI
-	bMB2xtRs0RQhQ6eesEtgfi/WJ+TIJGGctK0vvUDpGE0JKYNmmYF3xQCMfsKN261M6+sAKNx
-	n8Fjw+s2BaO6rD5tL1Bprene+tik3uorkfTkdz5zjniQutaizfpt0s9w8euiTmNqgeUp+gs
-	Wln133nyXlnoyRSL37X1icbU4JmuLhl+gXry/SsvgUdarJ9tAHHGGBsVy3UB+Htkc78hlGD
-	+wOiH2Uub797Phks9njW9cxdX7kw6Aq5rQLawyQqFvV++Y0P2rOBLzuFOkU6vwpyTM+bZ9O
-	T2dbLQw0cswumz98lNHLkWJ0maNoJXB+nuiZsES10hd8O5jwW5thE8UtqdhubWocaaA7vAp
-	tX4NN3D34+sVtGwXXFa8LQ3NohJ1owftIC2j3Z6kyKUlpU94AAYv+JCqKGxOwYx19f9Ch2u
-	CrLKhP8Mgw4TzrGGs47crJSi8bxKu+pdft0t7TLC9MSc1RTqBP/4LpteDmYsoczfK7tLDT0
-	Hhz21FmqB9yoL0iR7/pGGWxkLcP7ss9qsO1tyTUUALaPHIRu+0o3dP/9YEqb7nmmRh1qEsa
-	BLLBN8qY3mitcjpqSfgQz9E/x+ZpryyhUyOBbQ56+Hnkz4R9loJd9BvpS674JrXfQd+7x52
-	7BToW1Rn7g6rmGaZkzSpUuyiH+8ZlAxrex2Zs/txIPsdQjOTQSqWKzfRxONebFkMDUCij7m
-	iByb5Bs0KEPdiZDB/k7yQGJf5K8Qnd0LM60T+iEvlAtZwrxS0jkwBFN2d0zYj/l+QrJs0e7
-	EATUKYtc4slXXpWEFeywf7hEGm0WVIl/9nH5IWU28NWLE2LqsBO+l1thFSl/gl/IVU5Ec5n
-	JSfGCRyj1lJ8VwR5BnPfbmSCWq3bL+k0lOdhErvS3l4c6pJM+TVaf23t6RQ9qKftOOSTcM3
-	bu94vjHoGRBFe7PaOOwvd3X+lcTYiihLEnVQGj5cBr+Y7nPWWHJA+V2148kSP4oguLXTO6T
-	NtlYKSJ3fYwLb0c6lxuPeqRVyf/EM8Xc8wnRSIDhIy2hb2DueiIVP3DdARpIUODwQ==
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56)
 
-Add ASoC platform driver for the SpacemiT K1 SoC full-duplex I2S
-controller.
+From: Shuming Fan <shumingf@realtek.com>
 
-Co-developer: Jinmei Wei <weijinmei@linux.spacemit.com>
-Signed-off-by: Jinmei Wei <weijinmei@linux.spacemit.com>
-Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+This patch supported RT1321 amplifier.
+
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
 ---
- sound/soc/Kconfig           |   1 +
- sound/soc/Makefile          |   1 +
- sound/soc/spacemit/Kconfig  |  14 ++
- sound/soc/spacemit/Makefile |   5 +
- sound/soc/spacemit/k1_i2s.c | 444 ++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 465 insertions(+)
+ sound/soc/codecs/rt1320-sdw.c | 380 +++++++++++++++++++++++++++++-----
+ sound/soc/codecs/rt1320-sdw.h |  10 +
+ 2 files changed, 343 insertions(+), 47 deletions(-)
 
-diff --git a/sound/soc/Kconfig b/sound/soc/Kconfig
-index bf362bfca4564f0a7760850be8088ac7cc402b89..63d5c7a3ff4e1988cacfac01c58fd2bd36bd5903 100644
---- a/sound/soc/Kconfig
-+++ b/sound/soc/Kconfig
-@@ -128,6 +128,7 @@ source "sound/soc/renesas/Kconfig"
- source "sound/soc/rockchip/Kconfig"
- source "sound/soc/samsung/Kconfig"
- source "sound/soc/sdca/Kconfig"
-+source "sound/soc/spacemit/Kconfig"
- source "sound/soc/spear/Kconfig"
- source "sound/soc/sprd/Kconfig"
- source "sound/soc/starfive/Kconfig"
-diff --git a/sound/soc/Makefile b/sound/soc/Makefile
-index 462322c38aa42d4c394736239de0317d5918d5a7..8c0480e6484e75eb0b6db306630ba77d259ba8e3 100644
---- a/sound/soc/Makefile
-+++ b/sound/soc/Makefile
-@@ -70,6 +70,7 @@ obj-$(CONFIG_SND_SOC)	+= rockchip/
- obj-$(CONFIG_SND_SOC)	+= samsung/
- obj-$(CONFIG_SND_SOC)	+= sdca/
- obj-$(CONFIG_SND_SOC)	+= sof/
-+obj-$(CONFIG_SND_SOC)	+= spacemit/
- obj-$(CONFIG_SND_SOC)	+= spear/
- obj-$(CONFIG_SND_SOC)	+= sprd/
- obj-$(CONFIG_SND_SOC)	+= starfive/
-diff --git a/sound/soc/spacemit/Kconfig b/sound/soc/spacemit/Kconfig
-new file mode 100644
-index 0000000000000000000000000000000000000000..d0cb7400f9fb62c1178aac7049c59baaa5a2d4e4
---- /dev/null
-+++ b/sound/soc/spacemit/Kconfig
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+menu "SpacemiT"
-+	depends on COMPILE_TEST || ARCH_SPACEMIT
-+	depends on HAVE_CLK
-+
-+config SND_SOC_K1_I2S
-+	tristate "K1 I2S Device Driver"
-+	select SND_SOC_GENERIC_DMAENGINE_PCM
-+	help
-+	  Say Y or M if you want to add support for I2S driver for
-+	  K1 I2S controller. The device supports up to maximum of
-+	  2 channels each for play and record.
-+
-+endmenu
-diff --git a/sound/soc/spacemit/Makefile b/sound/soc/spacemit/Makefile
-new file mode 100644
-index 0000000000000000000000000000000000000000..9069de8ef89c84db8cc7d3a4d3b154fff9bd7aff
---- /dev/null
-+++ b/sound/soc/spacemit/Makefile
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# K1 Platform Support
-+snd-soc-k1-i2s-y := k1_i2s.o
-+
-+obj-$(CONFIG_SND_SOC_K1_I2S) += snd-soc-k1-i2s.o
-diff --git a/sound/soc/spacemit/k1_i2s.c b/sound/soc/spacemit/k1_i2s.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..9e41525afbf3f08ab9a26b562772861d86f39cd7
---- /dev/null
-+++ b/sound/soc/spacemit/k1_i2s.c
-@@ -0,0 +1,444 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) 2025 Troy Mitchell <troy.mitchell@linux.spacemit.com> */
-+
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/reset.h>
-+#include <sound/dmaengine_pcm.h>
-+#include <sound/pcm.h>
-+#include <sound/pcm_params.h>
-+
-+#define SSCR			0x00	/* SPI/I2S top control register */
-+#define SSFCR			0x04	/* SPI/I2S FIFO control register */
-+#define SSINTEN			0x08	/* SPI/I2S interrupt enable register */
-+#define SSDATR			0x10	/* SPI/I2S data register */
-+#define SSPSP			0x18	/* SPI/I2S programmable serial protocol control register */
-+#define SSRWT			0x24	/* SPI/I2S root control register */
-+
-+/* SPI/I2S Work data size, register bits value 0~31 indicated data size 1~32 bits */
-+#define SSCR_FIELD_DSS		GENMASK(9, 5)
-+#define SSCR_DW_8BYTE		FIELD_PREP(SSCR_FIELD_DSS, 0x7)
-+#define SSCR_DW_16BYTE		FIELD_PREP(SSCR_FIELD_DSS, 0xf)
-+#define SSCR_DW_18BYTE		FIELD_PREP(SSCR_FIELD_DSS, 0x11)
-+#define SSCR_DW_32BYTE		FIELD_PREP(SSCR_FIELD_DSS, 0x1f)
-+
-+#define SSCR_SSE		BIT(0)		/* SPI/I2S Enable */
-+#define SSCR_FRF_PSP		GENMASK(2, 1)	/* Frame Format*/
-+#define SSCR_TRAIL		BIT(13)		/* Trailing Byte */
-+
-+#define SSFCR_FIELD_TFT		GENMASK(3, 0)   /* TXFIFO Trigger Threshold */
-+#define SSFCR_FIELD_RFT		GENMASK(8, 5)   /* RXFIFO Trigger Threshold */
-+#define SSFCR_TSRE		BIT(10)		/* Transmit Service Request Enable */
-+#define SSFCR_RSRE		BIT(11)		/* Receive Service Request Enable */
-+
-+#define SSPSP_FSRT		BIT(3)		/* Frame Sync Relative Timing Bit */
-+#define SSPSP_SFRMP		BIT(4)		/* Serial Frame Polarity */
-+#define SSPSP_FIELD_SFRMWDTH	GENMASK(17, 12)	/* Serial Frame Width field  */
-+
-+#define SSRWT_RWOT		BIT(0)		/* Receive Without Transmit */
-+
-+#define SPACEMIT_PCM_RATES	SNDRV_PCM_RATE_8000_192000
-+#define SPACEMIT_PCM_FORMATS	(SNDRV_PCM_FMTBIT_S8 | \
-+				 SNDRV_PCM_FMTBIT_S16_LE | \
-+				 SNDRV_PCM_FMTBIT_S24_LE | \
-+				 SNDRV_PCM_FMTBIT_S32_LE)
-+
-+#define SPACEMIT_I2S_PERIOD_SIZE 1024
-+
-+struct spacemit_i2s_dev {
-+	struct device *dev;
-+
-+	void __iomem *base;
-+
-+	struct reset_control *reset;
-+
-+	struct clk *sysclk;
-+	struct clk *bclk;
-+	struct clk *sspa_clk;
-+
-+	struct snd_dmaengine_dai_dma_data capture_dma_data;
-+	struct snd_dmaengine_dai_dma_data playback_dma_data;
-+
-+	bool has_capture;
-+	bool has_playback;
-+
-+	int dai_fmt;
-+
-+	int started_count;
+diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+index dcddc28e8856..e3f9b03df3aa 100644
+--- a/sound/soc/codecs/rt1320-sdw.c
++++ b/sound/soc/codecs/rt1320-sdw.c
+@@ -256,6 +256,161 @@ static const struct reg_sequence rt1320_vc_blind_write[] = {
+ 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03 },
+ };
+ 
++static const struct reg_sequence rt1321_blind_write[] = {
++	{ 0x0000c003, 0xf0 },
++	{ 0x0000c01b, 0xfc },
++	{ 0x0000c5c3, 0xf2 },
++	{ 0x0000c5c2, 0x00 },
++	{ 0x0000c5c1, 0x10 },
++	{ 0x0000c5c0, 0x04 },
++	{ 0x0000c5c7, 0x03 },
++	{ 0x0000c5c6, 0x10 },
++	{ 0x0000c526, 0x47 },
++	{ 0x0000c5c4, 0x12 },
++	{ 0x0000c5c5, 0x60 },
++	{ 0x0000c520, 0x10 },
++	{ 0x0000c521, 0x32 },
++	{ 0x0000c5c7, 0x00 },
++	{ 0x0000c5c8, 0x03 },
++	{ 0x0000c5d3, 0x08 },
++	{ 0x0000c5d2, 0x0a },
++	{ 0x0000c5d1, 0x49 },
++	{ 0x0000c5d0, 0x0f },
++	{ 0x0000c580, 0x10 },
++	{ 0x0000c581, 0x32 },
++	{ 0x0000c582, 0x01 },
++	{ 0x0000cb00, 0x03 },
++	{ 0x0000cb02, 0x52 },
++	{ 0x0000cb04, 0x80 },
++	{ 0x0000cb0b, 0x01 },
++	{ 0x0000c682, 0x60 },
++	{ 0x0000c019, 0x10 },
++	{ 0x0000c5f0, 0x01 },
++	{ 0x0000c5f7, 0x22 },
++	{ 0x0000c5f6, 0x22 },
++	{ 0x0000c057, 0x51 },
++	{ 0x0000c054, 0x55 },
++	{ 0x0000c053, 0x55 },
++	{ 0x0000c052, 0x55 },
++	{ 0x0000c051, 0x01 },
++	{ 0x0000c050, 0x15 },
++	{ 0x0000c060, 0x99 },
++	{ 0x0000c030, 0x55 },
++	{ 0x0000c061, 0x55 },
++	{ 0x0000c063, 0x55 },
++	{ 0x0000c065, 0xa5 },
++	{ 0x0000c06b, 0x0a },
++	{ 0x0000ca05, 0xd6 },
++	{ 0x0000ca07, 0x07 },
++	{ 0x0000ca25, 0xd6 },
++	{ 0x0000ca27, 0x07 },
++	{ 0x0000cd00, 0x05 },
++	{ 0x0000c604, 0x40 },
++	{ 0x0000c609, 0x40 },
++	{ 0x0000c046, 0xf7 },
++	{ 0x0000c045, 0xff },
++	{ 0x0000c044, 0xff },
++	{ 0x0000c043, 0xff },
++	{ 0x0000c042, 0xff },
++	{ 0x0000c041, 0xff },
++	{ 0x0000c040, 0xff },
++	{ 0x0000c049, 0xff },
++	{ 0x0000c028, 0x3f },
++	{ 0x0000c020, 0x3f },
++	{ 0x0000c032, 0x13 },
++	{ 0x0000c033, 0x01 },
++	{ 0x0000cc10, 0x01 },
++	{ 0x0000dc20, 0x03 },
++	{ 0x0000de03, 0x05 },
++	{ 0x0000dc00, 0x00 },
++	{ 0x0000c700, 0xf0 },
++	{ 0x0000c701, 0x13 },
++	{ 0x0000c900, 0xc3 },
++	{ 0x0000c570, 0x08 },
++	{ 0x0000c086, 0x02 },
++	{ 0x0000c085, 0x7f },
++	{ 0x0000c084, 0x00 },
++	{ 0x0000c081, 0xff },
++	{ 0x0000f084, 0x0f },
++	{ 0x0000f083, 0xff },
++	{ 0x0000f082, 0xff },
++	{ 0x0000f081, 0xff },
++	{ 0x0000f080, 0xff },
++	{ 0x20003003, 0x3f },
++	{ 0x20005818, 0x81 },
++	{ 0x20009018, 0x81 },
++	{ 0x2000301c, 0x81 },
++	{ 0x0000c003, 0xc0 },
++	{ 0x0000c047, 0x80 },
++	{ 0x0000d541, 0x80 },
++	{ 0x0000d487, 0x0b },
++	{ 0x0000d487, 0x3b },
++	{ 0x0000d486, 0xc3 },
++	{ 0x0000d470, 0x89 },
++	{ 0x0000d471, 0x3a },
++	{ 0x0000d472, 0x1d },
++	{ 0x0000d478, 0xff },
++	{ 0x0000d479, 0x20 },
++	{ 0x0000d47a, 0x10 },
++	{ 0x0000d73c, 0xb7 },
++	{ 0x0000d73d, 0xd7 },
++	{ 0x0000d73e, 0x00 },
++	{ 0x0000d73f, 0x10 },
++	{ 0x3fc2dfc3, 0x00 },
++	{ 0x3fc2dfc2, 0x00 },
++	{ 0x3fc2dfc1, 0x00 },
++	{ 0x3fc2dfc0, 0x07 },
++	{ 0x3fc2dfc7, 0x00 },
++	{ 0x3fc2dfc6, 0x00 },
++	{ 0x3fc2dfc5, 0x00 },
++	{ 0x3fc2dfc4, 0x01 },
++	{ 0x3fc2df83, 0x00 },
++	{ 0x3fc2df82, 0x00 },
++	{ 0x3fc2df81, 0x00 },
++	{ 0x3fc2df80, 0x00 },
++	{ 0x0000d541, 0x40 },
++	{ 0x0000d486, 0x43 },
++	{ 0x1000db00, 0x03 },
++	{ 0x1000db01, 0x00 },
++	{ 0x1000db02, 0x10 },
++	{ 0x1000db03, 0x00 },
++	{ 0x1000db04, 0x00 },
++	{ 0x1000db05, 0x45 },
++	{ 0x1000db06, 0x12 },
++	{ 0x1000db07, 0x09 },
++	{ 0x1000db08, 0x00 },
++	{ 0x1000db09, 0x00 },
++	{ 0x1000db0a, 0x00 },
++	{ 0x1000db0b, 0x13 },
++	{ 0x1000db0c, 0x09 },
++	{ 0x1000db0d, 0x00 },
++	{ 0x1000db0e, 0x00 },
++	{ 0x1000db0f, 0x00 },
++	{ 0x0000d540, 0x21 },
++	{ 0x41000189, 0x00 },
++	{ 0x4100018a, 0x00 },
++	{ 0x41001988, 0x00 },
++	{ 0x41081400, 0x09 },
++	{ 0x40801508, 0x03 },
++	{ 0x40801588, 0x03 },
++	{ 0x40801809, 0x00 },
++	{ 0x4080180a, 0x00 },
++	{ 0x4080180b, 0x00 },
++	{ 0x4080180c, 0x00 },
++	{ 0x40801b09, 0x00 },
++	{ 0x40801b0a, 0x00 },
++	{ 0x40801b0b, 0x00 },
++	{ 0x40801b0c, 0x00 },
++	{ 0x0000d714, 0x17 },
++	{ 0x20009012, 0x00 },
++	{ 0x0000dd0b, 0x0d },
++	{ 0x0000dd0a, 0xff },
++	{ 0x0000dd09, 0x0d },
++	{ 0x0000dd08, 0xff },
++	{ 0x0000d172, 0x2a },
++	{ 0x41001988, 0x03 },
 +};
 +
-+static const struct snd_pcm_hardware spacemit_pcm_hardware = {
-+	.info		  = SNDRV_PCM_INFO_INTERLEAVED |
-+			    SNDRV_PCM_INFO_BATCH,
-+	.formats          = SPACEMIT_PCM_FORMATS,
-+	.rates		  = SPACEMIT_PCM_RATES,
-+	.rate_min         = SNDRV_PCM_RATE_8000,
-+	.rate_max         = SNDRV_PCM_RATE_192000,
-+	.channels_min     = 1,
-+	.channels_max     = 2,
-+	.buffer_bytes_max = SPACEMIT_I2S_PERIOD_SIZE * 4 * 4,
-+	.period_bytes_min = SPACEMIT_I2S_PERIOD_SIZE * 2,
-+	.period_bytes_max = SPACEMIT_I2S_PERIOD_SIZE * 4,
-+	.periods_min	  = 2,
-+	.periods_max	  = 4,
-+};
-+
-+static const struct snd_dmaengine_pcm_config spacemit_dmaengine_pcm_config = {
-+	.pcm_hardware = &spacemit_pcm_hardware,
-+	.prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
-+	.chan_names = {"tx", "rx"},
-+	.prealloc_buffer_size = 32 * 1024,
-+};
-+
-+static void spacemit_i2s_init(struct spacemit_i2s_dev *i2s)
-+{
-+	u32 sscr_val, sspsp_val, ssfcr_val, ssrwt_val;
-+
-+	sscr_val = SSCR_TRAIL | SSCR_FRF_PSP;
-+	ssfcr_val = FIELD_PREP(SSFCR_FIELD_TFT, 5) |
-+		    FIELD_PREP(SSFCR_FIELD_RFT, 5) |
-+		    SSFCR_RSRE | SSFCR_TSRE;
-+	ssrwt_val = SSRWT_RWOT;
-+
-+	/* SSPSP register was set by set_fmt */
-+	sspsp_val = readl(i2s->base + SSPSP);
-+	sspsp_val |= SSPSP_SFRMP;
-+
-+	writel(sscr_val, i2s->base + SSCR);
-+	writel(ssfcr_val, i2s->base + SSFCR);
-+	writel(sspsp_val, i2s->base + SSPSP);
-+	writel(ssrwt_val, i2s->base + SSRWT);
-+	writel(0, i2s->base + SSINTEN);
-+}
-+
-+static int spacemit_i2s_hw_params(struct snd_pcm_substream *substream,
-+				  struct snd_pcm_hw_params *params,
-+				  struct snd_soc_dai *dai)
-+{
-+	struct spacemit_i2s_dev *i2s = snd_soc_dai_get_drvdata(dai);
-+	struct snd_dmaengine_dai_dma_data *dma_data;
-+	u32 data_width, data_bits;
-+	unsigned long bclk_rate;
-+	u32 val;
-+	int ret;
-+
-+	val = readl(i2s->base + SSCR);
-+	if (val & SSCR_SSE)
-+		return 0;
-+
-+	dma_data = &i2s->playback_dma_data;
-+
-+	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-+		dma_data = &i2s->capture_dma_data;
-+
-+	switch (params_format(params)) {
-+	case SNDRV_PCM_FORMAT_S8:
-+		data_bits = 8;
-+		data_width = SSCR_DW_8BYTE;
-+		dma_data->maxburst = 8;
-+		dma_data->addr_width = DMA_SLAVE_BUSWIDTH_1_BYTE;
+ static const struct reg_default rt1320_reg_defaults[] = {
+ 	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03 },
+ 	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_MUTE, CH_01), 0x01 },
+@@ -340,10 +495,19 @@ static bool rt1320_readable_register(struct device *dev, unsigned int reg)
+ 	case 0xf717 ... 0xf719:
+ 	case 0xf720 ... 0xf723:
+ 	case 0x1000cd91 ... 0x1000cd96:
++	case RT1321_PATCH_MAIN_VER ... RT1321_PATCH_BETA_VER:
+ 	case 0x1000f008:
+ 	case 0x1000f021:
++	case 0x2000300f:
++	case 0x2000301c:
++	case 0x2000900f:
++	case 0x20009018:
++	case 0x3fc29d80 ... 0x3fc29d83:
+ 	case 0x3fe2e000 ... 0x3fe2e003:
+ 	case 0x3fc2ab80 ... 0x3fc2abd4:
++	case 0x3fc2bfc0 ... 0x3fc2bfc8:
++	case 0x3fc2d300 ... 0x3fc2d354:
++	case 0x3fc2dfc0 ... 0x3fc2dfc8:
+ 	/* 0x40801508/0x40801809/0x4080180a/0x40801909/0x4080190a */
+ 	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_REQ_POWER_STATE, 0):
+ 	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_MUTE, CH_01):
+@@ -394,6 +558,7 @@ static bool rt1320_volatile_register(struct device *dev, unsigned int reg)
+ 	case 0xc560:
+ 	case 0xc5b5 ... 0xc5b7:
+ 	case 0xc5fc ... 0xc5ff:
++	case 0xc680 ... 0xc683:
+ 	case 0xc820:
+ 	case 0xc900:
+ 	case 0xc920:
+@@ -412,7 +577,7 @@ static bool rt1320_volatile_register(struct device *dev, unsigned int reg)
+ 	case 0xd4e5 ... 0xd4e6:
+ 	case 0xd4e8 ... 0xd4ff:
+ 	case 0xd530:
+-	case 0xd540:
++	case 0xd540 ... 0xd541:
+ 	case 0xd543:
+ 	case 0xdb58 ... 0xdb5f:
+ 	case 0xdb60 ... 0xdb63:
+@@ -429,13 +594,20 @@ static bool rt1320_volatile_register(struct device *dev, unsigned int reg)
+ 	case 0xf01e:
+ 	case 0xf717 ... 0xf719:
+ 	case 0xf720 ... 0xf723:
+-	case 0x10000000 ... 0x10007fff:
++	case 0x10000000 ... 0x10008fff:
+ 	case 0x1000c000 ... 0x1000dfff:
+ 	case 0x1000f008:
+ 	case 0x1000f021:
++	case 0x2000300f:
++	case 0x2000301c:
++	case 0x2000900f:
++	case 0x20009018:
+ 	case 0x3fc2ab80 ... 0x3fc2abd4:
++	case 0x3fc2b780:
+ 	case 0x3fc2bf80 ... 0x3fc2bf83:
+-	case 0x3fc2bfc0 ... 0x3fc2bfc7:
++	case 0x3fc2bfc0 ... 0x3fc2bfc8:
++	case 0x3fc2d300 ... 0x3fc2d354:
++	case 0x3fc2dfc0 ... 0x3fc2dfc8:
+ 	case 0x3fe2e000 ... 0x3fe2e003:
+ 	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_ACTUAL_POWER_STATE, 0):
+ 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT0, RT1320_SDCA_CTL_FUNC_STATUS, 0):
+@@ -560,7 +732,7 @@ static int rt1320_read_prop(struct sdw_slave *slave)
+ static int rt1320_pde_transition_delay(struct rt1320_sdw_priv *rt1320, unsigned char func,
+ 	unsigned char entity, unsigned char ps)
+ {
+-	unsigned int delay = 1000, val;
++	unsigned int delay = 2000, val;
+ 
+ 	pm_runtime_mark_last_busy(&rt1320->sdw_slave->dev);
+ 
+@@ -591,24 +763,44 @@ static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
+ 	struct sdw_slave *slave = rt1320->sdw_slave;
+ 	const struct firmware *patch;
+ 	const char *filename;
+-	unsigned int addr, val;
++	unsigned int addr, val, min_addr, max_addr;
+ 	const unsigned char *ptr;
+ 	int ret, i;
+ 
+-	if (rt1320->version_id <= RT1320_VB)
+-		filename = RT1320_VAB_MCU_PATCH;
+-	else
+-		filename = RT1320_VC_MCU_PATCH;
++	switch (rt1320->dev_id) {
++	case RT1320_DEV_ID:
++		if (rt1320->version_id <= RT1320_VB)
++			filename = RT1320_VAB_MCU_PATCH;
++		else
++			filename = RT1320_VC_MCU_PATCH;
++		min_addr = 0x10007000;
++		max_addr = 0x10007fff;
 +		break;
-+	case SNDRV_PCM_FORMAT_S16_LE:
-+		data_bits = 16;
-+		data_width = SSCR_DW_16BYTE;
-+		dma_data->maxburst = 16;
-+		dma_data->addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
-+		if ((i2s->dai_fmt & SND_SOC_DAIFMT_FORMAT_MASK) == SND_SOC_DAIFMT_I2S) {
-+			data_width = SSCR_DW_32BYTE;
-+			dma_data->maxburst = 32;
-+			dma_data->addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		}
-+		break;
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		data_bits = 32;
-+		data_width = SSCR_DW_32BYTE;
-+		dma_data->maxburst = 32;
-+		dma_data->addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-+		break;
-+	default:
-+		dev_dbg(i2s->dev, "unexpected data width type");
-+		return -EINVAL;
-+	}
-+
-+	val = readl(i2s->base + SSCR);
-+	val &= ~SSCR_DW_32BYTE;
-+	val |= data_width;
-+	writel(val, i2s->base + SSCR);
-+
-+	bclk_rate = params_channels(params) *
-+		    params_rate(params) *
-+		    data_bits;
-+
-+	ret = clk_set_rate(i2s->bclk, bclk_rate);
-+	if (ret)
-+		return ret;
-+
-+	return clk_set_rate(i2s->sspa_clk, bclk_rate);
-+}
-+
-+static int spacemit_i2s_set_sysclk(struct snd_soc_dai *cpu_dai, int clk_id,
-+				   unsigned int freq, int dir)
-+{
-+	struct spacemit_i2s_dev *i2s = dev_get_drvdata(cpu_dai->dev);
-+
-+	if (freq == 0)
-+		return 0;
-+
-+	return clk_set_rate(i2s->sysclk, freq);
-+}
-+
-+static int spacemit_i2s_set_fmt(struct snd_soc_dai *cpu_dai,
-+				unsigned int fmt)
-+{
-+	struct spacemit_i2s_dev *i2s = dev_get_drvdata(cpu_dai->dev);
-+	u32 sspsp_val;
-+
-+	sspsp_val = readl(i2s->base + SSPSP);
-+	sspsp_val &= ~SSPSP_FIELD_SFRMWDTH;
-+
-+	i2s->dai_fmt = fmt;
-+
-+	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-+	case SND_SOC_DAIFMT_I2S:
-+		cpu_dai->driver->playback.formats = SNDRV_PCM_FMTBIT_S16_LE;
-+		cpu_dai->driver->capture.formats = SNDRV_PCM_FMTBIT_S16_LE;
-+		sspsp_val |= FIELD_PREP(SSPSP_FIELD_SFRMWDTH, 0x10) |
-+			     SSPSP_FSRT;
-+		break;
-+	case SND_SOC_DAIFMT_DSP_A:
-+	case SND_SOC_DAIFMT_DSP_B:
-+		cpu_dai->driver->playback.channels_min = 1;
-+		cpu_dai->driver->playback.channels_max = 1;
-+		cpu_dai->driver->capture.channels_min = 1;
-+		cpu_dai->driver->capture.channels_max = 1;
-+		cpu_dai->driver->playback.formats = SNDRV_PCM_FMTBIT_S32_LE;
-+		cpu_dai->driver->capture.formats = SNDRV_PCM_FMTBIT_S32_LE;
-+		sspsp_val |= FIELD_PREP(SSPSP_FIELD_SFRMWDTH, 0x1);
++	case RT1321_DEV_ID:
++		filename = RT1321_VA_MCU_PATCH;
++		min_addr = 0x10008000;
++		max_addr = 0x10008fff;
 +		break;
 +	default:
-+		dev_dbg(i2s->dev, "unexpected format type");
-+		return -EINVAL;
++		dev_err(&slave->dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
++		return;
 +	}
-+
-+	if ((fmt & SND_SOC_DAIFMT_FORMAT_MASK) == SND_SOC_DAIFMT_DSP_A)
-+		sspsp_val |= SSPSP_FSRT;
-+
-+	writel(sspsp_val, i2s->base + SSPSP);
-+
-+	return 0;
-+}
-+
-+static int spacemit_i2s_trigger(struct snd_pcm_substream *substream,
-+				int cmd, struct snd_soc_dai *dai)
-+{
-+	struct spacemit_i2s_dev *i2s = snd_soc_dai_get_drvdata(dai);
-+	u32 val;
-+
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
-+	case SNDRV_PCM_TRIGGER_RESUME:
-+	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-+		if (!i2s->started_count) {
-+			val = readl(i2s->base + SSCR);
-+			val |= SSCR_SSE;
-+			writel(val, i2s->base + SSCR);
+ 
+ 	/* load the patch code here */
+ 	ret = request_firmware(&patch, filename, &slave->dev);
+ 	if (ret) {
+ 		dev_err(&slave->dev, "%s: Failed to load %s firmware", __func__, filename);
+ 		regmap_write(rt1320->regmap, 0xc598, 0x00);
+-		regmap_write(rt1320->regmap, 0x10007000, 0x67);
+-		regmap_write(rt1320->regmap, 0x10007001, 0x80);
+-		regmap_write(rt1320->regmap, 0x10007002, 0x00);
+-		regmap_write(rt1320->regmap, 0x10007003, 0x00);
++		regmap_write(rt1320->regmap, min_addr, 0x67);
++		regmap_write(rt1320->regmap, min_addr + 0x1, 0x80);
++		regmap_write(rt1320->regmap, min_addr + 0x2, 0x00);
++		regmap_write(rt1320->regmap, min_addr + 0x3, 0x00);
++		if (rt1320->dev_id == RT1321_DEV_ID) {
++			regmap_write(rt1320->regmap, 0xd73c, 0x67);
++			regmap_write(rt1320->regmap, 0xd73d, 0x80);
++			regmap_write(rt1320->regmap, 0xd73e, 0x00);
++			regmap_write(rt1320->regmap, 0xd73f, 0x00);
 +		}
-+		i2s->started_count++;
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-+		if (i2s->started_count)
-+			i2s->started_count--;
+ 	} else {
+ 		ptr = (const unsigned char *)patch->data;
+ 		if ((patch->size % 8) == 0) {
+@@ -618,7 +810,7 @@ static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
+ 				val = (ptr[i + 4] & 0xff) | (ptr[i + 5] & 0xff) << 8 |
+ 					(ptr[i + 6] & 0xff) << 16 | (ptr[i + 7] & 0xff) << 24;
+ 
+-				if (addr > 0x10007fff || addr < 0x10007000) {
++				if (addr > max_addr || addr < min_addr) {
+ 					dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
+ 					goto _exit_;
+ 				}
+@@ -688,6 +880,28 @@ static void rt1320_vc_preset(struct rt1320_sdw_priv *rt1320)
+ 	}
+ }
+ 
++static void rt1321_preset(struct rt1320_sdw_priv *rt1320)
++{
++	unsigned int i, reg, val, delay;
 +
-+		if (!i2s->started_count) {
-+			val = readl(i2s->base + SSCR);
-+			val &= ~SSCR_SSE;
-+			writel(val, i2s->base + SSCR);
++	for (i = 0; i < ARRAY_SIZE(rt1321_blind_write); i++) {
++		reg = rt1321_blind_write[i].reg;
++		val = rt1321_blind_write[i].def;
++		delay = rt1321_blind_write[i].delay_us;
++
++		if (reg == 0x3fc2dfc3)
++			rt1320_load_mcu_patch(rt1320);
++
++		regmap_write(rt1320->regmap, reg, val);
++
++		if (delay)
++			usleep_range(delay, delay + 1000);
++
++		if (reg == SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_REQ_POWER_STATE, 0))
++			rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, val);
++	}
++}
++
+ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
+ {
+ 	struct rt1320_sdw_priv *rt1320 = dev_get_drvdata(dev);
+@@ -714,6 +928,9 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
+ 	if (rt1320->version_id < 0) {
+ 		regmap_read(rt1320->regmap, RT1320_DEV_VERSION_ID_1, &val);
+ 		rt1320->version_id = val;
++		regmap_read(rt1320->regmap, RT1320_DEV_ID_0, &val);
++		regmap_read(rt1320->regmap, RT1320_DEV_ID_1, &tmp);
++		rt1320->dev_id = (val << 8) | tmp;
+ 	}
+ 
+ 	regmap_read(rt1320->regmap,
+@@ -722,16 +939,25 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
+ 
+ 	/* initialization write */
+ 	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
+-		if (rt1320->version_id < RT1320_VC)
+-			rt1320_vab_preset(rt1320);
+-		else
+-			rt1320_vc_preset(rt1320);
++		switch (rt1320->dev_id) {
++		case RT1320_DEV_ID:
++			if (rt1320->version_id < RT1320_VC)
++				rt1320_vab_preset(rt1320);
++			else
++				rt1320_vc_preset(rt1320);
++			break;
++		case RT1321_DEV_ID:
++			rt1321_preset(rt1320);
++			break;
++		default:
++			dev_err(dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
 +		}
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
+ 
+ 		regmap_write(rt1320->regmap,
+ 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT0, RT1320_SDCA_CTL_FUNC_STATUS, 0),
+ 			FUNCTION_NEEDS_INITIALIZATION);
+ 	}
+-	if (!rt1320->first_hw_init && rt1320->version_id == RT1320_VA) {
++	if (!rt1320->first_hw_init && rt1320->version_id == RT1320_VA && rt1320->dev_id == RT1320_DEV_ID) {
+ 		regmap_write(rt1320->regmap, SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
+ 			RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0);
+ 		regmap_read(rt1320->regmap, RT1320_HIFI_VER_0, &val);
+@@ -751,7 +977,7 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
+ 		regmap_write(rt1320->regmap, SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
+ 			RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 3);
+ 	}
+-	dev_dbg(dev, "%s version_id=%d\n", __func__, rt1320->version_id);
++	dev_dbg(dev, "%s version_id=%d, dev_id=0x%x\n", __func__, rt1320->version_id, rt1320->dev_id);
+ 
+ 	if (rt1320->first_hw_init) {
+ 		regcache_cache_bypass(rt1320->regmap, false);
+@@ -894,12 +1120,20 @@ static int rt1320_set_gain_put(struct snd_kcontrol *kcontrol,
+ 
+ 	/* check all channels */
+ 	for (i = 0; i < p->count; i++) {
+-		if (i < 2) {
++		switch (rt1320->dev_id) {
++		case RT1320_DEV_ID:
++			if (i < 2) {
++				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
++				regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue[i]);
++			} else {
++				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
++				regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue[i]);
++			}
++			break;
++		case RT1321_DEV_ID:
+ 			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
+ 			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue[i]);
+-		} else {
+-			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
+-			regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue[i]);
++			break;
+ 		}
+ 
+ 		gain_val[i] = ucontrol->value.integer.value[i];
+@@ -916,12 +1150,20 @@ static int rt1320_set_gain_put(struct snd_kcontrol *kcontrol,
+ 		return 0;
+ 
+ 	for (i = 0; i < p->count; i++) {
+-		if (i < 2) {
++		switch (rt1320->dev_id) {
++		case RT1320_DEV_ID:
++			if (i < 2) {
++				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
++				err = regmap_write(rt1320->mbq_regmap, reg_base + i, gain_val[i]);
++			} else {
++				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
++				err = regmap_write(rt1320->mbq_regmap, reg_base + i - 2, gain_val[i]);
++			}
++			break;
++		case RT1321_DEV_ID:
+ 			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
+ 			err = regmap_write(rt1320->mbq_regmap, reg_base + i, gain_val[i]);
+-		} else {
+-			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
+-			err = regmap_write(rt1320->mbq_regmap, reg_base + i - 2, gain_val[i]);
++			break;
+ 		}
+ 
+ 		if (err < 0)
+@@ -966,12 +1208,20 @@ static int rt1320_set_gain_get(struct snd_kcontrol *kcontrol,
+ 
+ 	/* check all channels */
+ 	for (i = 0; i < p->count; i++) {
+-		if (i < 2) {
++		switch (rt1320->dev_id) {
++		case RT1320_DEV_ID:
++			if (i < 2) {
++				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
++				regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue);
++			} else {
++				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
++				regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue);
++			}
++			break;
++		case RT1321_DEV_ID:
+ 			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
+ 			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue);
+-		} else {
+-			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
+-			regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue);
++			break;
+ 		}
+ 
+ 		ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
+@@ -989,14 +1239,26 @@ static int rt1320_set_fu_capture_ctl(struct rt1320_sdw_priv *rt1320)
+ 	for (i = 0; i < ARRAY_SIZE(rt1320->fu_mixer_mute); i++) {
+ 		ch_mute = (rt1320->fu_dapm_mute || rt1320->fu_mixer_mute[i]) ? 0x01 : 0x00;
+ 
+-		if (i < 2)
++		switch (rt1320->dev_id) {
++		case RT1320_DEV_ID:
++			if (i < 2)
++				err = regmap_write(rt1320->regmap,
++					SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113,
++						RT1320_SDCA_CTL_FU_MUTE, CH_01) + i, ch_mute);
++			else
++				err = regmap_write(rt1320->regmap,
++					SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14,
++						RT1320_SDCA_CTL_FU_MUTE, CH_01) + i - 2, ch_mute);
++			break;
++		case RT1321_DEV_ID:
+ 			err = regmap_write(rt1320->regmap,
+ 				SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113,
+ 					RT1320_SDCA_CTL_FU_MUTE, CH_01) + i, ch_mute);
+-		else
+-			err = regmap_write(rt1320->regmap,
+-				SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14,
+-					RT1320_SDCA_CTL_FU_MUTE, CH_01) + i - 2, ch_mute);
++			break;
++		default:
++			dev_err(&rt1320->sdw_slave->dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
++			return -EINVAL;
++		}
+ 		if (err < 0)
+ 			return err;
+ 	}
+@@ -1217,10 +1479,20 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
+ 		if (dai->id == RT1320_AIF1)
+ 			port_config.num = 4;
+ 		else if (dai->id == RT1320_AIF2) {
+-			dmic_port_config[0].ch_mask = BIT(0) | BIT(1);
+-			dmic_port_config[0].num = 8;
+-			dmic_port_config[1].ch_mask = BIT(0) | BIT(1);
+-			dmic_port_config[1].num = 10;
++			switch (rt1320->dev_id) {
++			case RT1320_DEV_ID:
++				dmic_port_config[0].ch_mask = BIT(0) | BIT(1);
++				dmic_port_config[0].num = 8;
++				dmic_port_config[1].ch_mask = BIT(0) | BIT(1);
++				dmic_port_config[1].num = 10;
++				break;
++			case RT1321_DEV_ID:
++				dmic_port_config[0].ch_mask = BIT(0) | BIT(1);
++				dmic_port_config[0].num = 8;
++				break;
++			default:
++				return -EINVAL;
++			}
+ 		} else
+ 			return -EINVAL;
+ 	}
+@@ -1228,10 +1500,21 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
+ 	if (dai->id == RT1320_AIF1)
+ 		retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
+ 				&port_config, 1, sdw_stream);
+-	else if (dai->id == RT1320_AIF2)
+-		retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
++	else if (dai->id == RT1320_AIF2) {
++		switch (rt1320->dev_id) {
++		case RT1320_DEV_ID:
++			retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
+ 				dmic_port_config, 2, sdw_stream);
+-	else
++			break;
++		case RT1321_DEV_ID:
++			retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
++				dmic_port_config, 1, sdw_stream);
++			break;
++		default:
++			dev_err(dai->dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
++			return -EINVAL;
++		}
++	} else
+ 		return -EINVAL;
+ 	if (retval) {
+ 		dev_err(dai->dev, "%s: Unable to configure port\n", __func__);
+@@ -1273,9 +1556,11 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
+ 		regmap_write(rt1320->regmap,
+ 			SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS113, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
+ 			sampling_rate);
+-		regmap_write(rt1320->regmap,
+-			SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS14, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
+-			sampling_rate);
 +
-+	return 0;
-+}
++		if (rt1320->dev_id == RT1320_DEV_ID)
++			regmap_write(rt1320->regmap,
++				SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS14, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
++				sampling_rate);
+ 	}
+ 
+ 	return 0;
+@@ -1469,6 +1754,7 @@ static int rt1320_sdw_remove(struct sdw_slave *slave)
+ static const struct sdw_device_id rt1320_id[] = {
+ 	SDW_SLAVE_ENTRY_EXT(0x025d, 0x1320, 0x3, 0x0, 0),
+ 	SDW_SLAVE_ENTRY_EXT(0x025d, 0x1320, 0x3, 0x1, 0),
++	SDW_SLAVE_ENTRY_EXT(0x025d, 0x1321, 0x3, 0x1, 0),
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(sdw, rt1320_id);
+diff --git a/sound/soc/codecs/rt1320-sdw.h b/sound/soc/codecs/rt1320-sdw.h
+index 23b321aee6a9..a6d90e259dc9 100644
+--- a/sound/soc/codecs/rt1320-sdw.h
++++ b/sound/soc/codecs/rt1320-sdw.h
+@@ -14,8 +14,16 @@
+ #include <linux/soundwire/sdw_registers.h>
+ #include <sound/soc.h>
+ 
++#define RT1320_DEV_ID 0x6981
++#define RT1321_DEV_ID 0x7045
 +
-+static int spacemit_i2s_dai_probe(struct snd_soc_dai *dai)
-+{
-+	struct spacemit_i2s_dev *i2s = snd_soc_dai_get_drvdata(dai);
+ /* imp-defined registers */
+ #define RT1320_DEV_VERSION_ID_1 0xc404
++#define RT1320_DEV_ID_1 0xc405
++#define RT1320_DEV_ID_0 0xc406
 +
-+	snd_soc_dai_init_dma_data(dai,
-+				  i2s->has_playback ? &i2s->playback_dma_data : NULL,
-+				  i2s->has_capture ? &i2s->capture_dma_data : NULL);
-+
-+	reset_control_deassert(i2s->reset);
-+
-+	spacemit_i2s_init(i2s);
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_dai_ops spacemit_i2s_dai_ops = {
-+	.probe = spacemit_i2s_dai_probe,
-+	.hw_params = spacemit_i2s_hw_params,
-+	.set_sysclk = spacemit_i2s_set_sysclk,
-+	.set_fmt = spacemit_i2s_set_fmt,
-+	.trigger = spacemit_i2s_trigger,
-+};
-+
-+static struct snd_soc_dai_driver spacemit_i2s_dai = {
-+	.ops = &spacemit_i2s_dai_ops,
-+	.playback = {
-+		.channels_min = 1,
-+		.channels_max = 2,
-+		.rates = SPACEMIT_PCM_RATES,
-+		.rate_min = SNDRV_PCM_RATE_8000,
-+		.rate_max = SNDRV_PCM_RATE_192000,
-+		.formats = SPACEMIT_PCM_FORMATS,
-+	},
-+	.capture = {
-+		.channels_min = 1,
-+		.channels_max = 2,
-+		.rates = SPACEMIT_PCM_RATES,
-+		.rate_min = SNDRV_PCM_RATE_8000,
-+		.rate_max = SNDRV_PCM_RATE_192000,
-+		.formats = SPACEMIT_PCM_FORMATS,
-+	},
-+	.symmetric_rate = 1,
-+};
-+
-+static int spacemit_i2s_init_dai(struct spacemit_i2s_dev *i2s,
-+				 struct snd_soc_dai_driver **dp,
-+				 dma_addr_t addr)
-+{
-+	struct device_node *node = i2s->dev->of_node;
-+	struct snd_soc_dai_driver *dai;
-+	struct property *dma_names;
-+	const char *dma_name;
-+
-+	of_property_for_each_string(node, "dma-names", dma_names, dma_name) {
-+		if (!strcmp(dma_name, "tx"))
-+			i2s->has_playback = true;
-+		if (!strcmp(dma_name, "rx"))
-+			i2s->has_capture = true;
-+	}
-+
-+	dai = devm_kmemdup(i2s->dev, &spacemit_i2s_dai,
-+			   sizeof(*dai), GFP_KERNEL);
-+	if (!dai)
-+		return -ENOMEM;
-+
-+	if (i2s->has_playback) {
-+		dai->playback.stream_name = "Playback";
-+		dai->playback.channels_min = 1;
-+		dai->playback.channels_max = 2;
-+		dai->playback.rates = SPACEMIT_PCM_RATES;
-+		dai->playback.formats = SPACEMIT_PCM_FORMATS;
-+
-+		i2s->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
-+		i2s->playback_dma_data.maxburst = 32;
-+		i2s->playback_dma_data.addr = addr;
-+	}
-+
-+	if (i2s->has_capture) {
-+		dai->capture.stream_name = "Capture";
-+		dai->capture.channels_min = 1;
-+		dai->capture.channels_max = 2;
-+		dai->capture.rates = SPACEMIT_PCM_RATES;
-+		dai->capture.formats = SPACEMIT_PCM_FORMATS;
-+
-+		i2s->capture_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
-+		i2s->capture_dma_data.maxburst = 32;
-+		i2s->capture_dma_data.addr = addr;
-+	}
-+
-+	if (dp)
-+		*dp = dai;
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_component_driver spacemit_i2s_component = {
-+	.name = "i2s-k1",
-+	.legacy_dai_naming = 1,
-+};
-+
-+static int spacemit_i2s_probe(struct platform_device *pdev)
-+{
-+	struct snd_soc_dai_driver *dai;
-+	struct spacemit_i2s_dev *i2s;
-+	struct resource *res;
-+	struct clk *clk;
-+	int ret;
-+
-+	i2s = devm_kzalloc(&pdev->dev, sizeof(*i2s), GFP_KERNEL);
-+	if (!i2s)
-+		return -ENOMEM;
-+
-+	i2s->dev = &pdev->dev;
-+
-+	i2s->sysclk = devm_clk_get_enabled(i2s->dev, "sysclk");
-+	if (IS_ERR(i2s->sysclk))
-+		return dev_err_probe(i2s->dev, PTR_ERR(i2s->sysclk),
-+				     "failed to enable sysbase clock\n");
-+
-+	i2s->bclk = devm_clk_get_enabled(i2s->dev, "bclk");
-+	if (IS_ERR(i2s->bclk))
-+		return dev_err_probe(i2s->dev, PTR_ERR(i2s->bclk), "failed to enable bit clock\n");
-+
-+	clk = devm_clk_get_enabled(i2s->dev, "sspa_bus");
-+	if (IS_ERR(clk))
-+		return dev_err_probe(i2s->dev, PTR_ERR(clk), "failed to enable sspa_bus clock\n");
-+
-+	i2s->sspa_clk = devm_clk_get_enabled(i2s->dev, "sspa");
-+	if (IS_ERR(clk))
-+		return dev_err_probe(i2s->dev, PTR_ERR(clk), "failed to enable sspa clock\n");
-+
-+	i2s->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(i2s->base))
-+		return dev_err_probe(i2s->dev, PTR_ERR(i2s->base), "failed to map registers\n");
-+
-+	i2s->reset =  devm_reset_control_get(&pdev->dev, NULL);
-+	if (IS_ERR(i2s->reset))
-+		return dev_err_probe(i2s->dev, PTR_ERR(i2s->reset),
-+				     "failed to get reset control");
-+
-+	dev_set_drvdata(i2s->dev, i2s);
-+
-+	spacemit_i2s_init_dai(i2s, &dai, res->start + SSDATR);
-+
-+	ret = devm_snd_soc_register_component(i2s->dev,
-+					      &spacemit_i2s_component,
-+					      dai, 1);
-+	if (ret)
-+		return dev_err_probe(i2s->dev, ret, "failed to register component");
-+
-+	return devm_snd_dmaengine_pcm_register(&pdev->dev, &spacemit_dmaengine_pcm_config, 0);
-+}
-+
-+static void spacemit_i2s_remove(struct platform_device *pdev)
-+{
-+	struct spacemit_i2s_dev *i2s = dev_get_drvdata(&pdev->dev);
-+
-+	reset_control_assert(i2s->reset);
-+}
-+
-+static const struct of_device_id spacemit_i2s_of_match[] = {
-+	{ .compatible = "spacemit,k1-i2s", },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, spacemit_i2s_of_match);
-+
-+static struct platform_driver spacemit_i2s_driver = {
-+	.probe = spacemit_i2s_probe,
-+	.remove = spacemit_i2s_remove,
-+	.driver = {
-+		.name = "i2s-k1",
-+		.of_match_table = spacemit_i2s_of_match,
-+	},
-+};
-+module_platform_driver(spacemit_i2s_driver);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("I2S bus driver for SpacemiT K1 SoC");
-
++#define RT1321_PATCH_MAIN_VER 0x1000cffe
++#define RT1321_PATCH_BETA_VER 0x1000cfff
+ 
+ #define RT1320_KR0_STATUS_CNT 0x1000f008
+ #define RT1320_KR0_INT_READY 0x1000f021
+@@ -86,6 +94,7 @@ enum rt1320_version_id {
+ #define RT1320_VER_B_ID 0x07392238
+ #define RT1320_VAB_MCU_PATCH "realtek/rt1320/rt1320-patch-code-vab.bin"
+ #define RT1320_VC_MCU_PATCH "realtek/rt1320/rt1320-patch-code-vc.bin"
++#define RT1321_VA_MCU_PATCH "realtek/rt1320/rt1321-patch-code-va.bin"
+ 
+ struct rt1320_sdw_priv {
+ 	struct snd_soc_component *component;
+@@ -96,6 +105,7 @@ struct rt1320_sdw_priv {
+ 	bool hw_init;
+ 	bool first_hw_init;
+ 	int version_id;
++	unsigned int dev_id;
+ 	bool fu_dapm_mute;
+ 	bool fu_mixer_mute[4];
+ };
 -- 
-2.50.1
+2.34.1
 
