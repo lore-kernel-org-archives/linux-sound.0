@@ -1,86 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C236731986E;
-	Thu, 14 Aug 2025 20:08:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBF226CE3B;
+	Thu, 14 Aug 2025 21:24:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755202088; cv=none; b=l6SER09eAoWSGEmPGMY+f7Dvo/eWJojvkjd+WXVTews1vmWqtnUL9OpW9Vi1Ek2a1E4GkX6x/g/wnII1hmg8u7lmQwVvAN8t3QmyhGxEqs7/QNer50sGpeflslkntSPb6x/LywE86f0HN7gD/grno+n6YjUmg92dSuHeNzZcVWg=
+	t=1755206699; cv=none; b=JmQ5hjYvPYoZT3ocOQY1wkBaAqmQDaPEsSKqLCej3Wc+t76ASHq6KaYS9Hd8RNkP1Ih7ElhV4kQT4qvb/KEAZJKWvm1ltdA8zLa33nHjI0anP+z01A2cTVY9xY9eOR2py7jMGhXnWRG9bJa7J8bO3Q+tfoaX9C/yLX0X+FZTEVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755202088; c=relaxed/simple;
-	bh=CJoOu3ga/1pLRZ+X8m6O3r/IJ7J+n7vSjzg8D7BtxnQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MlHXfItcKjv8XAKTQMGKdFrafmGZKD1Sa2JFd09tFaCQhgkT8V3wTQzxBusMGiurwP3i6N+uF62ZqUcQfqSocLRMw331UxL+eaMfSGxX5kK36oArq0gunN9HLc/5Byre6n935Eq2i7rjebVZFIfO8lHB6I0xuofQCyq7DRkGrW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M+4D3XxX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755206699; c=relaxed/simple;
+	bh=ZkPze2CRy6TGrshQh0qEp2iisTy50jGvZFAixZL50sk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OYlIGwJqm7Pxloc9p0T5kAAtt6i09QjS2wxninX8s+Tv228o2aKKkGEr+96kfl/mt7WfN9Wk+f80R1EjYkRRELs2XHZHuB3GfmnjkpYFOb7WpAF0c/10jrFPBuiBxYwRb46yaFN1h4NvzwIzwcVd+aGxkxr6z+zO3qOvxsUuWbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=soiXpx2/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M+4D3XxX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D94FC4CEED;
-	Thu, 14 Aug 2025 20:08:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="soiXpx2/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746E6C4CEED;
+	Thu, 14 Aug 2025 21:24:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755202088;
-	bh=CJoOu3ga/1pLRZ+X8m6O3r/IJ7J+n7vSjzg8D7BtxnQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=M+4D3XxXCCDwQGYY/QX877Cs+ddgYiMwtNNAWHysxdoI78rLK0t6aFdSbW3cBLMRF
-	 TNLED4+uF/3/UbQ1yk3iLeeJB6blcVqiuf4OmyGE0bLsEeKYdq6rc+F3Dd3QFdRRkV
-	 iOMxckhBH+7ACbEBKmvOqeIxeI6HtcWxXN21FJWLvNhE1CIp7M0uYs43YSh6owpuyW
-	 /5CrQMD1vyFFQr19rRys+i+8c5zhhNa77UWI9vO4WKH88Ic1HYZQ54de97+mvke07O
-	 XlSSH6eQmrIUK3/Psj7QcWMxaJcW1FUuNGpWG0qnpbwFG7Fpr4YRX8Zgmu7aehGQTc
-	 cCSJQNH5ixUMg==
-From: Mark Brown <broonie@kernel.org>
-To: arnd@arndb.de, lee@kernel.org, mchehab@kernel.org, lgirdwood@gmail.com, 
- perex@perex.cz, tiwai@suse.com, linux@treblig.org
-Cc: linux-media@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250625133258.78133-1-linux@treblig.org>
-References: <20250625133258.78133-1-linux@treblig.org>
-Subject: Re: (subset) [PATCH 0/4] Remove the wl1273 FM Radio
-Message-Id: <175520208626.152171.10554357200062278681.b4-ty@kernel.org>
-Date: Thu, 14 Aug 2025 21:08:06 +0100
+	s=k20201202; t=1755206698;
+	bh=ZkPze2CRy6TGrshQh0qEp2iisTy50jGvZFAixZL50sk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=soiXpx2/Ehg30HA8wao4TDS1XDczgMVlDjd8rleJHWRYAksTKPkuaVq1ms35VCRqo
+	 hVwEX2Xy4HpEXNvIuqcKKhr3L1UwQ8PyvEABrOz2ViJsbSs7VFH1wTRTVUWMFeW8cT
+	 I1VsrzDtlJfKo12ee70racW90A1hXokPBdccsWACwJvYfkdNVBXTkuLl3nufpVAo3c
+	 33X0AuHjLVWkK7zNgqmSBwVO1gHmR1wsIT6+EnbF2cdbdzuJ1Jacfk9DlnbUEfsmGY
+	 xdwa/zKdAzd8dKJdDcKCrAR4Cm64ziBYgaDwmvkgwIbBLQ282ZV8UFfuIi6kNCyAL2
+	 +7hjQk8ubsEyQ==
+Date: Thu, 14 Aug 2025 16:24:57 -0500
+From: Rob Herring <robh@kernel.org>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: tiwai@suse.com, devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+	gregkh@linuxfoundation.org, ukleinek@kernel.org, krzk+dt@kernel.org,
+	dmitry.torokhov@gmail.com, broonie@kernel.org,
+	linux-pwm@vger.kernel.org, lee@kernel.org,
+	linux-sound@vger.kernel.org, lgirdwood@gmail.com,
+	peter.ujfalusi@gmail.com, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, shuah@kernel.org, conor+dt@kernel.org
+Subject: Re: [PATCH 2/8] mfd: dt-bindings: ti,twl6040: convert to DT schema
+Message-ID: <20250814212457.GA3932653-robh@kernel.org>
+References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
+ <20250811224739.53869-3-jihed.chaibi.dev@gmail.com>
+ <175496188325.1486426.9118766970247515386.robh@kernel.org>
+ <20250812145415.GA3607226-robh@kernel.org>
+ <CANBuOYrCAcgp+x+TL98V3ih_ThyPF7x6VgXxVi4YnAdOC3nZvA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANBuOYrCAcgp+x+TL98V3ih_ThyPF7x6VgXxVi4YnAdOC3nZvA@mail.gmail.com>
 
-On Wed, 25 Jun 2025 14:32:54 +0100, linux@treblig.org wrote:
-> I noticed that the wl1273 radio had an unused symbol, but then noticed
-> it is on Arnd's unused driver list:
->   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+On Tue, Aug 12, 2025 at 06:06:53PM +0200, Jihed Chaibi wrote:
+> On Tue, Aug 12, 2025 at 4:54 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Mon, Aug 11, 2025 at 08:24:43PM -0500, Rob Herring (Arm) wrote:
+> > >
+> > > On Tue, 12 Aug 2025 00:47:33 +0200, Jihed Chaibi wrote:
+> > > > Convert the legacy TXT binding for the TWL6040 MFD
+> > > > to the modern YAML DT schema format. This adds formal validation
+> > > > and improves documentation.
+> > > >
+> > > > Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> > > > ---
+> > > >  .../devicetree/bindings/mfd/ti,twl6040.yaml   | 155 ++++++++++++++++++
+> > > >  .../devicetree/bindings/mfd/twl6040.txt       |  67 --------
+> > > >  2 files changed, 155 insertions(+), 67 deletions(-)
+> > > >  create mode 100644 Documentation/devicetree/bindings/mfd/ti,twl6040.yaml
+> > > >  delete mode 100644 Documentation/devicetree/bindings/mfd/twl6040.txt
+> > > >
+> > >
+> > > My bot found errors running 'make dt_binding_check' on your patch:
+> > >
+> > > yamllint warnings/errors:
+> > >
+> > > dtschema/dtc warnings/errors:
+> > > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/mfd/ti,twl6040.example.dtb:
+> > > twl@4b (ti,twl6040): 'twl6040,audpwron-gpio' does not match any of
+> > > the regexes: '^#.*',
+> > > '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gpmc|hdmi|i2c-gpio),.*',
+> > > '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*',
+> > > '^(pciclass|pinctrl-single|#pinctrl-single|PowerPC),.*',
+> > > '^(pl022|pxa-mmc|rcar_sound|rotary-encoder|s5m8767|sdhci),.*',
+> > > '^(simple-audio-card|st-plgpio|st-spics|ts),.*',
+> >
+> > You will need to add 'twl6040' to this list of exceptions in
+> > vendor-prefixes.yaml.
+> >
+> > Rob
 > 
-> So, delete it.
-> The components seem pretty separable, except for Kconfig dependencies.
+> Hi Rob, thanks for the feedback.
 > 
-> [...]
+> Wouldn't it be simpler if we put 'ti' (the actual vendor) instead of 'twl6040'?
+> No other file is using the current name, so there would be no need for
+> additional editing.
 
-Applied to
+Indeed. Actually, just drop the property because the driver doesn't use 
+it either. Just note the change in the commit msg.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[2/4] ASoC: wl1273: Remove
-      commit: a46e95c81e3a28926ab1904d9f754fef8318074d
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Rob
