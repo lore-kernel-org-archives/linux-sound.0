@@ -1,146 +1,123 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F6F31984B;
-	Thu, 14 Aug 2025 18:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691D92309B0;
+	Thu, 14 Aug 2025 18:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755196559; cv=none; b=KPcF/RxvjnM9mpXR7/sa8c8g06s/KYHkHwxt+DaVbpvaKMJVy0dc7lpPgVWJH1vvtFFy3EYOmeNxhjejZyGxFdmAi5qngX27E6aEtybgaQrxFLm9KkZVuYtnJ0x30Gc7fkOW8+XLpv7Y3nKclgNSh16bBejbxq4UTHaoZ5+39UE=
+	t=1755197012; cv=none; b=jjUh/hzwePT48Yhv/Cadk/UKgKhX6KE6MKtR/wGzcAPZoIoNiEKQn6wlZuxhYU93GbqVeUntgW1Gq/LGvCNxtUETHO64ZjIXoaT8K4+tcGdQC2tpIGgNRro88VeJNYA+1zUU+8WnmJWxU5F2rw/5/OmbZOWpUC2sGPGkycEIoko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755196559; c=relaxed/simple;
-	bh=oFoTevpJTkFC3fnPkHq5WaRUhn9wdzE1Nk7qHgaKBHA=;
+	s=arc-20240116; t=1755197012; c=relaxed/simple;
+	bh=+edEx8wP5sj6lIPPo4+9dTecgBzL9N0lb1TKODlviEg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Un+ZLK4JQjo236yeh56QBa+EW2n7j5vTFUR3q6G+TbfATWiBWYmhhLXLkTwThXaS9Egn5tIH7iVkkZAJ1lfCtHmcH2Ify2P1D2toja4mFIJGyiwjHNCioIssFDuJJ46yC//Fiv4Z/fE9166W/K+bQypvi3UhSWI1CDlgQ5kmz/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MLm6nyJ6; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=p5o8m+bcEJ1M3+UdfvihLRdamgHnKblel5Dfpn0vzKAUrgkKPBePKPssP/XPCuWKWlbrES9ggX/bP4eF3iolsMNQyI2f5WoPsiq5rhzb4AehTNJSwfPZLvwo+7OOpvp0o4Ghwe5wGdGeIsje++F7+4JwpAUwXAR16sT6ZW156uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+OwVj2O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MLm6nyJ6"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-76e2eb3726cso793730b3a.3;
-        Thu, 14 Aug 2025 11:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755196557; x=1755801357; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kJt/hcAMZ2yC+7PBLbpVyeoi2vS5Vy+duo50bI9bdV8=;
-        b=MLm6nyJ6KW8O7NRsS1xYgMlgzxBdCe+doD4YLtXX+JNh1ImEoaPnbvMEmumoLBPnJJ
-         KiFiVHSnT10uRU4GkpqEvJndzmljP6sneadVVSqjf6hHV3hihCsyl8mqwPdd4T3LK1k9
-         jwlKc5CdNA1xyQDV8tRGTKq3NFv66GYGj5qKvqyA9/StyqzkLCsnODoLWOO4QxiBXo7a
-         DqyUixtRAwjMYEW1aTGXLSlj23MkDOP/HliJfXsK80fHGOwFAzLWAicj56FFGmsSxaXZ
-         S3vy3kuULBT99ypBfxtrZWjhkXyJn32F6JT63YH6j5VfP0UDLXv4ihQN5586JGV3/muj
-         qRlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755196557; x=1755801357;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kJt/hcAMZ2yC+7PBLbpVyeoi2vS5Vy+duo50bI9bdV8=;
-        b=YHjZMcdFvMaNnCuWrKwca3EWAROlX0/hYwN81fhOwG5vSc0iURtqosfWxOyiY4A4hs
-         0j0wKw4+y/usDipz9eMlZihexbnB1Icgdkizozvgc2YdKLeEsCsNZAc1Omlt52XsYIW2
-         ENeh61xRspgJQbongr2mPKgmF7CIdyQpCV4c2bDdVOenq4pKxyAAozxGuNFHJv7IutqY
-         /9pdENj975SLSxEa0BCSvyuE5wZHbTnUbEtQOhwm7sfARdJYOC1cWn8KjwBwVbXsQLSP
-         0PJkoRcAofKKi7XGDlWp1l5Azu719bAgfgDkoxkFTASUWyMustJQainDKFAgI5YexzEE
-         KS6A==
-X-Forwarded-Encrypted: i=1; AJvYcCUYxtyIfpSDK8OZzzF4KJEPcUFnJZThJLwOMmbftzPWMsaN3qb36Xx7IXRZNQOgS52ctRuNmg+OYxfT@vger.kernel.org, AJvYcCVIa2YskxUevOsawJ2pIlpHWCACV6fLJxYaTnln1loPNMOzxujMuZdTW6HQ7IcXItfZJDld26Nf6sfKdv4=@vger.kernel.org, AJvYcCVsyp1Bk6RcNaG6R3SerCpn/W8m12YmfNcQ6NZYuHbGDMHaT8o06GogXn/F3eJPNwuGOfj0aVY0x3VB@vger.kernel.org, AJvYcCW5z8Dq/7E7A8WYupuWuU1okaO9HuK0ALhTZKa0hgHcd+IjENcdU021+h9sVYNzgIg7AJp5YmZpKsSBAMI=@vger.kernel.org, AJvYcCWg1awFdJuB42m7U/gBV9Bet6SsW8scCeZi2CGwoEFJWj4ztr+LPt3ubuso7t8zmEbLriMVONm1lVKC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2gcsjI2kSvgu6vyv0QHtvz3c5LkIE4FPP2E4JBnJcz65xMIhc
-	y3cNrEMkHWit4zqws485oRlZcn434BpyDfDER6yDm+sTWZUE4QC1Pnf4oyDNnQ==
-X-Gm-Gg: ASbGncthaXlYigHFUkOtislDlGVSHDJ5/vQh4pGaiy2/bQPFk5DJEfJ6UGuUN/Yl00t
-	q2Tpx9YSYW/bqwE07dt4E2Ns//iYmzp82m+Oktt19l6tdpWpfr8ekTO+X07KhW8SuCZPaNFcCYr
-	7y2sIlY/PZWD40WnOf1YRvnPoUb/fHpUmw7hsgZev1F10tziQqd2655foPqulN+YtblpE+d6SRT
-	MxvPlfh2lcNSlkf8tf4ha+cn/zsztfXhhebU0NUI/HrL88gtzWzQSMYEWmpxf5RKyXdQd7Khdjp
-	CWezE3+tBz7rT9Fh5trgqL93CNJo4hkNq7cE3id/DvL3N1A/6WWsUDHSolH37WjSk89UeZV3tSZ
-	dY6sjFKQ3xLGL7nN6dXfnyrQlaHfSJkztZg==
-X-Google-Smtp-Source: AGHT+IFTQsaL27wAfrPNbpedIL9oHlFrTHdo6Z1kKN/DyNl5f8XhqHluOPZCfB1ZEEe26gStm1qrjg==
-X-Received: by 2002:a05:6a20:12c2:b0:240:2265:acba with SMTP id adf61e73a8af0-240bd25247amr6795783637.42.1755196556706;
-        Thu, 14 Aug 2025 11:35:56 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:bd82:9778:4ed6:7372])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b424ca987desm25052379a12.40.2025.08.14.11.35.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 11:35:56 -0700 (PDT)
-Date: Thu, 14 Aug 2025 11:35:53 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: linux-kernel@vger.kernel.org, andreas@kemnade.info, 
-	peter.ujfalusi@gmail.com, robh@kernel.org, krzk+dt@kernel.org, lgirdwood@gmail.com, 
-	tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org, ukleinek@kernel.org, 
-	broonie@kernel.org, gregkh@linuxfoundation.org, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH v2 3/9] input: dt-bindings: ti,twl4030-keypad: convert to
- DT schema
-Message-ID: <ziwtdg4elih73nkguilamjh4gfgg76t2evwvnj6pscywvfexyc@abvlmgoij3us>
-References: <20250814132129.138943-1-jihed.chaibi.dev@gmail.com>
- <20250814132129.138943-4-jihed.chaibi.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+OwVj2O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC47DC4CEED;
+	Thu, 14 Aug 2025 18:43:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755197011;
+	bh=+edEx8wP5sj6lIPPo4+9dTecgBzL9N0lb1TKODlviEg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X+OwVj2OLlRjK6XZS/8srDIRauWKxHcA5a0JJhaqDHoM751EWi35LMp2Qe71x0vJI
+	 F3EJ42mzPbM5HV+kbrIw+hh1YmI3ExfnBXTCfklBDrnUbATkYqavQRwnzlA8+5Es4P
+	 0+ej6Zk10WhURXK1AJDCbBBAXRx0GmNAAYusuOELHieRqq67QzKPoAdJiF1E9AAV82
+	 axYbo7gzJ/2k223McejgeoQ1CdcFwGND6LcXLewKrTSJqwkWLyxwizNuzO3cAJYp3l
+	 /DuPYD3q9QH5fFlOheUTni3cZbMk0KIUxvxBoLChPc+8KhPSF8Pv+R2INB3sXR0lN8
+	 RYjoZvJjyUDsA==
+Date: Thu, 14 Aug 2025 19:43:27 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Shimrra Shai <shimrrashai@gmail.com>
+Cc: lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	perex@perex.cz, tiwai@suse.com
+Subject: Re: Re: [PATCH 1/2] ASoC: es8323: enable right-hand DAC-mixer
+ connection on ES8323
+Message-ID: <7d2529cb-7ecb-4616-af04-f65b1f309d89@sirena.org.uk>
+References: <b5a64166-c55f-4ca4-af92-52c954847af6@sirena.org.uk>
+ <20250814183344.59453-1-shimrrashai@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="V6wTkxydwkAjWbTz"
+Content-Disposition: inline
+In-Reply-To: <20250814183344.59453-1-shimrrashai@gmail.com>
+X-Cookie: This sentence no verb.
+
+
+--V6wTkxydwkAjWbTz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250814132129.138943-4-jihed.chaibi.dev@gmail.com>
 
-On Thu, Aug 14, 2025 at 03:21:23PM +0200, Jihed Chaibi wrote:
-> Convert the legacy TXT binding for the TWL4030 keypad module
-> to the modern YAML DT schema format. This adds formal validation
-> and improves documentation by inheriting from the matrix-keymap schema.
-> 
-> Changes in v2:
-> Simplified the description field by removing redundant '|'
-> as it does not affect formatting in this context.
-> 
-> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-> ---
->  .../bindings/input/ti,twl4030-keypad.yaml     | 44 +++++++++++++++++++
->  .../bindings/input/twl4030-keypad.txt         | 27 ------------
->  2 files changed, 44 insertions(+), 27 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml
->  delete mode 100644 Documentation/devicetree/bindings/input/twl4030-keypad.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml b/Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml
-> new file mode 100644
-> index 000000000..2efc88b89
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/ti,twl4030-keypad.yaml
-> @@ -0,0 +1,44 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/ti,twl4030-keypad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments TWL4030-family Keypad Controller
-> +
-> +maintainers:
-> +  - Peter Ujfalusi <peter.ujfalusi@gmail.com>
-> +
-> +description:
-> +  TWL4030's Keypad controller is used to interface a SoC with a matrix-type
-> +  keypad device. The keypad controller supports multiple row and column lines.
-> +  A key can be placed at each intersection of a unique row and a unique column.
-> +  The keypad controller can sense a key-press and key-release and report the
-> +  event using a interrupt to the cpu.
-> +
-> +allOf:
-> +  - $ref: matrix-keymap.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ti,twl4030-keypad
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - keypad,num-rows
-> +  - keypad,num-columns
+On Thu, Aug 14, 2025 at 01:33:44PM -0500, Shimrra Shai wrote:
+> On Thu, Aug 14, 2025 at 01:11:59 PM +0100, Mark Brown wrote:
+> > On Wed, Aug 13, 2025 at 08:47:31PM -0500, Shimrra Shai wrote:
 
-I wonder if "linux,keymap" should not be made required as well... 
+> > >  	snd_soc_component_write(component, ES8323_DACCONTROL17, 0xB8);
+> > > +	snd_soc_component_write(component, ES8323_DACCONTROL20, 0xB8);
 
-Thanks.
+> > Neither of these should be unconditional writes, these should be user
+> > visible controls.  We don't encode specific system's use cases into the
+> > driver.
 
--- 
-Dmitry
+> I was just following the precedent from the driver's prior
+> author(s), in the manner of the line above it. Presumably, enabling
+> the left-hand DAC-mixer connection only was a solution that worked
+
+Yes, as I say this is very bad practice on the part of the original
+authors which only escaped review due to the magic numbers.
+
+> instead of using a blanket for all devices as I thought. In that
+> case, that means the original author was also wrong, and so I need
+> to know exactly where it should be placed.
+
+Like I say these should be userspace controls, not just blind writes.
+Probably wired up in DAPM, SOC_DAPM_SINGLE().
+
+> which suggest it is in fact controllable already, but I wonder why it
+> is in the "bypass" switch only and not the "playback" switch, which
+> seems to do nothing (SND_SOC_NOPM). Would it perhaps be correct to
+> move these to the "playback" switch, or to have both switches
+> collapsed into a single switch?
+
+Those will be different audio paths, it's almost certainly a bug due to
+the hard coding of the enables.  Both DAC and bypass paths should be
+normal user controllable things, from the sound of it what's needed is
+to define the register for the DAC path.
+
+> In any case, if these are the correct places to enable this control
+> and it is already supported there, then it seems neither write command
+> in the setup is needed, viz. we should _delete_
+
+> snd_soc_component_write(component, ES8323_DACCONTROL17, 0xB8);
+
+> too. What do you say?
+
+Yes, ideally that shouldn't be there.  There's some risk that there
+might be some userspace relying on having the mono channel enabled by
+default though so perhaps it's safer to just leave that as is - the path
+can still be configured by userspace, even if we end up with a weird
+asymmetric default.  I guess there's also some other things in that
+register which most likely should also be controllable.
+
+--V6wTkxydwkAjWbTz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmieLk4ACgkQJNaLcl1U
+h9Aujwf9H4/FrH0RsNY7gMqAmRWMuc3EYNLFbcnfpLD+rFs2X4sX3XiQCaPzY/S0
+XgDhpQP1+6+oLIJx8m9+mm5Tpcbr237cNLkYkktWT16vTC0Kb9mVmjMR5i1plscZ
+NbsFHXCZmmxYv6TFYYgjIq1vuYCssxzU7QBFJJSdXBzehOi4deYinNcN9lRti0jX
+TYcfWOxYT9xKhzaJuXWAoQLt1XFMNnzS1LBD5QfWUKgnmEV7RQ0o7io2flZVnqVA
+ZD4wQwRqGVlB7R9pQRuupNhoKJyruO5Cd7NmwmQFtuUSwXS8ca4UO9pU/52dJueh
+jrSJ+kSDmrF7fheV6q3yHrpBoYPuhQ==
+=x+Gy
+-----END PGP SIGNATURE-----
+
+--V6wTkxydwkAjWbTz--
