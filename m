@@ -1,92 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AF21514E4;
-	Thu, 14 Aug 2025 13:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB1E3019D5;
+	Thu, 14 Aug 2025 13:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755178429; cv=none; b=dUpTggMM4qq5R4lleY+gKe9vBHUvY8aWrXd6qFWB8QFTnBUmxZxbN95dNG7KTAu73qpHlERP/FbzIMn0B7eLE4+0vfVBOe7uIytP46leyuH9ptMfxEHNrr8UVwCwIs4FeqgQ6CuYMw8nQ99xJiZqj863nT813D5l9e6XFA52LZc=
+	t=1755179981; cv=none; b=nVlohvMX2RCp+vo+HPgSXIudoNUDvPHnHoHGYiPylkmlLEUev5bwmEXP7LV7Mu+U/TR7rCIlS7jm50E1HKn6UW56HMpdVtprWrA664FNNMqTOjZRaS49BDM9pf5By6R84bAvmHsM0xhiQIPt2VI2Wm/slEqzcMw6pAd61XUOm+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755178429; c=relaxed/simple;
-	bh=qzHOrb660hNBXkxGw6DWMOMC3lLxUoz/yT/E1S7tZKI=;
+	s=arc-20240116; t=1755179981; c=relaxed/simple;
+	bh=4L6OrNhJfmGFaWZ+b8JKogS/RpwJdYNR32VwyIgyZIg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JmW4Ys8h5pnFaqpq+frJ4K4nAngN0V+2GyoD/vJoQZlO52BH2aWWRTUSHGnEoX5FjZB29zUTjpP9SFJx4OGHtWitt9MmpOeq1DmYT57s2KYd4XOUWx2vLxq/Fo66hTY+vUBehFBgY1khBjqdBoZwkxM445CzOBWTmoYYQEidB/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3TFREvM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=XcF+aXTgJeSPtPg3sftfzy4S2XNTDzDCqeKYnB9gBUBuJIbwSUmSS+abpwQs+q5oPFy7inLcEIRDieRllJEWDaca3v6jUGkny8OzkHnH2CNisRYB986INJkZ4mbsgrNGV8nBlD9cgIBxAnWJHi1QWlG4sK/XOH99L8BLvVHHvVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=qR+PgwU7; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3TFREvM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D9DC4CEED;
-	Thu, 14 Aug 2025 13:33:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755178428;
-	bh=qzHOrb660hNBXkxGw6DWMOMC3lLxUoz/yT/E1S7tZKI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z3TFREvMs1WoLOVL2tGaVT1AakYVA6W35J8m4vEyfQfAyM33dod6zbIvi5EZ1o4ab
-	 +wMY1hRryZmJya4eBLPwosoXvYCs7Hm8DP4mJqMxIjz+fK3bTqZyQyIajhMwZadJ3A
-	 VgKFpqwqWMz5XEiP87KZltrdbdpp7ekrl4gAU2w5KnSxbY9Tc79i75ZmxsSbc6noSa
-	 14Zr9EcpAfOR6dYy1EH27ORo6AzIYNG9OjyukxBmc9XHqR84SWyKav01vmYQ15nCYc
-	 kS4Zb/fu4eIRpPpxjviCrOuPbqL1PgkfEYx1n7Bl6BVDLraINW34jdIQrNZEM8PE8E
-	 hX7jkkQX4Kkqg==
-Date: Thu, 14 Aug 2025 14:33:42 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: linux-kernel@vger.kernel.org, andreas@kemnade.info,
-	peter.ujfalusi@gmail.com, dmitry.torokhov@gmail.com,
-	robh@kernel.org, krzk+dt@kernel.org, lgirdwood@gmail.com,
-	tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org,
-	ukleinek@kernel.org, gregkh@linuxfoundation.org,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH v2 7/9] Documentation: omap-twl4030: convert to DT schema
-Message-ID: <8c9366a5-482e-4bf2-b8cc-79e789bf2ff0@sirena.org.uk>
-References: <20250814132129.138943-1-jihed.chaibi.dev@gmail.com>
- <20250814132129.138943-8-jihed.chaibi.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="qR+PgwU7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=ogXuvXwN5zFRqxq6yhXGDhDFOvsNlXP+SJ496jlNU0U=; b=qR+PgwU7itFObyvf
+	k2iTGmiEGahFl7nZuWuuO2rzPwGtxnSafZQbIHvbM8NxWu95gtg4qJFc4+aA+tsqzicHrzQHuGDYT
+	AkSd+MYwUIZxByAgf/n2K97sUANZI5lfr+Isv0PI1AdANwYT6u7QvgXbaRIS0WWX2rwwjtikwgunE
+	NpE+XraDt2Lu+6WNgYao42prkqS1L1J7kfxr3ihct+reih5/Kg+/DVqxZtl+0BS6SUjBSyDPUgpSZ
+	Y5xa+MiCw1UWqO98lUt8i5JyLe34NEYxMWiHvHLP3GejSZlZMakDKvYhmU8LXVV5erEFR/obBmgbe
+	slf+N/L4aNdFfbyUOw==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1umYUJ-003vcV-2A;
+	Thu, 14 Aug 2025 13:59:27 +0000
+Date: Thu, 14 Aug 2025 13:59:27 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Mark Brown <broonie@kernel.org>, lgirdwood@gmail.com
+Cc: arnd@arndb.de, lee@kernel.org, mchehab@kernel.org, perex@perex.cz,
+	tiwai@suse.com, linux-media@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] ASoC: wl1273: Remove
+Message-ID: <aJ3rv8uEerLt4J3g@gallifrey>
+References: <20250625133258.78133-1-linux@treblig.org>
+ <20250625133258.78133-3-linux@treblig.org>
+ <97bfa9fc-c973-444c-9b37-fce557391886@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4nUJ618zm+2DpXSV"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250814132129.138943-8-jihed.chaibi.dev@gmail.com>
-X-Cookie: This sentence no verb.
+In-Reply-To: <97bfa9fc-c973-444c-9b37-fce557391886@sirena.org.uk>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
+X-Uptime: 13:58:04 up 108 days, 22:11,  1 user,  load average: 0.11, 0.05,
+ 0.01
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
+* Mark Brown (broonie@kernel.org) wrote:
+> On Wed, Jun 25, 2025 at 02:32:56PM +0100, linux@treblig.org wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > The wl1273 FM radio is on Arnd's unused driver list:
+> >   https://lore.kernel.org/lkml/a15bb180-401d-49ad-a212-0c81d613fbc8@app.fastmail.com/
+> > Remove the codec component.
+> 
+> Acked-by: Mark Brown <broonie@kernel.org>
 
---4nUJ618zm+2DpXSV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks Mark; can you pick this 2/4 up via sound for 6.18 please?
+(1/4 just went into -next already via media)
 
-On Thu, Aug 14, 2025 at 03:21:27PM +0200, Jihed Chaibi wrote:
-> Convert the legacy TXT binding for the OMAP TWL4030 sound card
-> to the modern YAML DT schema format. This adds formal validation
-> and improves documentation.
+Thanks,
 
-> Changes in v2:
+Dave
 
-This should go after the ---, tools use this to remove the changelog
-when committing.
-
-> - Fixed comment formatting (added spaces for better alignment).
-> - Updated commit subject to align with subsystem style.
-
-Should be ASoC: dt-bindings:=20
-
---4nUJ618zm+2DpXSV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmid5bUACgkQJNaLcl1U
-h9A2/gf8DYx2qBWKgxDl5J/9xk1Tol23Uwe7rnV2+wSVddxlxcPYEO+lCQ+ktiYz
-EJi0x9SUpw/em43nQulrEBY7vvJH6jlOMpM7qehbhuCdkAqIN1Be8e7/bR3LfGCM
-27wWzx1+Hxoun9V4q7w0MuKhjztsmti5MouUB03NQbR13uGmV9kNxJWF9juqAujI
-xfcamPWNGGyPF6GRjiuuBhPmrjl8yFh8u2UyiI4E1IS/GL3kth1FjC8igDAMniou
-2Fgn4M+BQrHi94iGGe+T19uAue1VARcg2RkYU6WUkuiBSRr673eL1OJQVOIoiFn6
-dm6JtgM4fu3FxSdbGp+fonGTJEdUZA==
-=3+dF
------END PGP SIGNATURE-----
-
---4nUJ618zm+2DpXSV--
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
