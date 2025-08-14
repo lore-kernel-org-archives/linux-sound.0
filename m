@@ -1,157 +1,103 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89318F4A;
-	Thu, 14 Aug 2025 07:34:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D89C278157
+	for <linux-sound@vger.kernel.org>; Thu, 14 Aug 2025 07:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755156889; cv=none; b=r+QOdsHo4ki0swrsRRg8UcpSEfADnu+X3TiqABVxbMtwK4FU8G2voktkYfF+El+sNw/bXQ3UL5o+vVbSayXfvBTbuNnG86+QyocI+YKzz74MoGG5XWpE4zJcudf7Dm1qgJVvTu2kL4/WDb7iF6iBSOz1VGvmWQ7RjlBp1jZ4798=
+	t=1755157349; cv=none; b=u9+HzUGw7ZUYC3GYmWbvDaNCQwQi6da6MedgUl1oCeG2TVsdzQt0lazZSsA64bDUTV+4BMndg5QNWzzQ8ARFiGABwCU3gJ3T3Ll/MnB+XGuyQVQMN959E9JK+0f2QQS1TCg0xqTfmUAYBP3z/Y+6bFQ/xFaNMzFSIaaiuzw3/tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755156889; c=relaxed/simple;
-	bh=gb//sC3uVnfDkJjy2aiYiacPurthSFG/TQvxcS/O8Po=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=II84jPGW790VDftgaqPpN/pJOsCeZXBvx2xIoqdOoZ7kBGc2kPEIw0sw0o3oWUtbykdQ2q68o86N+67EknGncpra2JGQwgKwov5HBVVvxQXulLRGTfonqbVZZp7hS/HaHekqBHtkFRbJuc6euje2waPMQlkxOd9D5x6ttJQeECk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RnS1aIBf; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1755157349; c=relaxed/simple;
+	bh=+JHUkLzTeUoCKha+f/XwLk8Y7aly6tRIiS1amdi7l8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AQDy4JAlTRWmAYBVSPw1+y5rIG4+mUBMAdk6Zh+VO38w3wdr459ti046/4spU7cK8y1pw3BV/amTOPenCx9n1gNFbNSb61/WvUNst+vdMVfYpwXazB1U/riEZWSMzbzxhRNQshrM6QPDg58btPn2iWMr1EM8spj1992Wb9pX28w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vDBDqITl; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RnS1aIBf"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0215444500;
-	Thu, 14 Aug 2025 07:34:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1755156884;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f5tAIsgzKuRELv1sm6eESXsPqoZSkkSUqkB2pMeL970=;
-	b=RnS1aIBf3kPuNafBPr5O0T08jAPqeQ5PpdRcHNBXts4N2l7FzWgxEa6s2MzTJsWNvgoeJD
-	rs8+UoZ/6KX/KVJx9TlJiusbzmgArqHlVRGeCLaSbEsBCU2HRcAMZ2Q5Qi8yQ9qqHxhaCY
-	NQmY9HLvJ6a0YwkT+bGet4Q8QyI+Aj8y1e8qwovE6YeuPE7LJBJLThkwFB6wDIv/q3vUa2
-	Y6BOmIXrewaucYGADm1kHYF/XC7OeNePDcd/Dn60VHLbxJgrXLJgPXdpZzOpr47yx6UAcQ
-	3j7sr1Ocv7R9ogaltf0elyZxx3zqzbvSGBpnFIRzpAzDqPD8sZmkYmLXX95ChA==
-Date: Thu, 14 Aug 2025 09:34:43 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Qiang Zhao <qiang.zhao@nxp.com>, Shengjiu Wang
- <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam
- <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] soc: fsl: qmc: Only set completion interrupt
- when needed
-Message-ID: <20250814093443.1506b49f@bootlin.com>
-In-Reply-To: <20250813120651.27dc8467@bootlin.com>
-References: <cover.1754993232.git.christophe.leroy@csgroup.eu>
-	<badb68a85910e5e6f1094ef3b01805209ac21854.1754993232.git.christophe.leroy@csgroup.eu>
-	<20250813120651.27dc8467@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vDBDqITl"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b9e414ef53so482734f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 14 Aug 2025 00:42:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755157345; x=1755762145; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NrpcM8hcPyzNdJylt1IkdHlsz3zNDqVIDbSxyPY/rAI=;
+        b=vDBDqITlymz5lAnWeqvORq11VRi9zLauCmrsjCyaMm5k2qm7lUeaMVWaNVo8m3yXsi
+         kXvMOTVFpvIo/+CPtsbwTvcHtAQVzxkq9NAzLDlXbxBJSGtk5GWcg7cZmqecR32p2C2l
+         qrpygJdAmzPF7LqTWQ3lErhT6o9/4BfLo1qSeThuNkjGfw+5bbc87HncSbjR3xmreiwN
+         1u0judSoQNarsSD/A1E5hZyexGjR6VjWbYZVNEjqnFT2mc/dcu+zg5gL3ntBfKnGoN8Z
+         qU4e6HDnCdVhHilvUO3LeRkKAQYqvhjEytCRxkoFYoS5FL9kZMLL1s2y9mRI4iRmet4z
+         ydjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755157345; x=1755762145;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NrpcM8hcPyzNdJylt1IkdHlsz3zNDqVIDbSxyPY/rAI=;
+        b=RL0E+kp2Ts7y11+XkPuIw5oX7DY1qgQ6GZduH66O2kBuFXNDEESAihidTevgKZi4j7
+         JG2czX8ESmKdcwxfN+ZlaPSPjp8zEkD0X6Mypqls4r1/5UuyoC4tvfBAxudp6d/K6FCG
+         Mw1wX3JWi/iisUraDqqSWn37C7Dnm4QNAnP7AC8QHqEHyX88alEeh1UvyYy2vy2S0NWX
+         s8/+HxCldEpbHk2P0FqkpA8VPy1FRbFggdXhpZdPrTVs8LMOE2qiH3KwlH+h6svCCaas
+         9AfOTfTvizyK+n+NWOJMCyRge/Vml66OzHSkn6k7dF99/2p/w43dpfQYGxU20Nb3EX+/
+         2ZnQ==
+X-Gm-Message-State: AOJu0Yyyc0mCyxafExhFLLo9L2MQs0doiuFQjw9cKcBgLYIdICbE4i4I
+	BQOPgd1ynsEetmAYkcakdqfQxab/dWfdDZC+iq11+/N0oUcbNW/e57KkfyMmXzlr7RWUWa9tH/L
+	eD5jv
+X-Gm-Gg: ASbGncvGp4bkMTdpmD2FBlRyyvKjYHfZo2EUs80n5EWbEumPru58sh9j6o5T59dlRob
+	xxCN9UNN1DAbT/y0Xp4MXgvVy3gjUb3Rt7eTy4zZKOwkhfrwQnPzM5Z292EzoU3VozgDJN6NY/G
+	thmm4i4rKsS/VaJZF4Mis7usw5/yPQsEIE1zb+f5TI2J9QWiZe7LTPRn95k/cyJCh0qtoBp8ode
+	0A6GsQCH+6GZR0ShHg7j9Tcfj8oZM8IRX+oEWPBmBt9GRKSyQfcR5NKD5LwzIlpUxruRxB+y01R
+	UbJFhuPWv5lI1A5nuiqbOJilFJUVG0/WlFUME0NUR6KFDYiO9LngDx/QSeweZcvPRekp3FE1Onx
+	Tdv/xSy/zI2GkeNTm7iBdFR1nCM8fb6W/OzAGvPFs0/0=
+X-Google-Smtp-Source: AGHT+IE9nlRHTWYHS+XT3v0YoMOQHumW4jk+KLmLMDhq4Ya9d/8hg5Ia1Cs9M9eKR4IhHg5gUC2RCw==
+X-Received: by 2002:a05:6000:238a:b0:3b3:c4b1:a212 with SMTP id ffacd0b85a97d-3b9e414d534mr1579730f8f.7.1755157345543;
+        Thu, 14 Aug 2025 00:42:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a1b1d3f11sm10470585e9.0.2025.08.14.00.42.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 00:42:25 -0700 (PDT)
+Date: Thu, 14 Aug 2025 10:42:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Subject: [bug report] ALSA: seq: oss/midi: Cleanup with guard and auto-cleanup
+Message-ID: <aJ2TXWDWOKGSs1Uq@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddugedtgeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtkeertdertdejnecuhfhrohhmpefjvghrvhgvucevohguihhnrgcuoehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepveeiffefgeeitdelleeigefhjeelueeuveekveetgeffheeltdekgeduiefggfdvnecukfhppedvrgdtudemtggstdekmeelkeeltgemkedttddtmehfugekudemleehgegvmedvudehrgemfeeluddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdtkeemleeklegtmeektddttdemfhgukedumeelheegvgemvdduhegrmeefledutddphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedugedprhgtphhtthhopegthhhrihhsthhophhhvgdrlhgvrhhohiestghsghhrohhuphdrvghupdhrtghpthhtohepqhhirghnghdriihhrghosehngihprdgtohhmpdhrtghpthhtohepshhhvghnghhjihhurdifrghnghesghhmrghilhdrtghomhdprhgtphhtthhop
- egiihhusghordfnvggvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhgvshhtvghvrghmsehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhitgholhgvohhtshhukhgrsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhgihhrugifohhougesghhmrghilhdrtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: herve.codina@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Christophe,
+Hello Takashi Iwai,
 
-On Wed, 13 Aug 2025 12:06:51 +0200
-Herve Codina <herve.codina@bootlin.com> wrote:
+Commit 8b887676dc1f ("ALSA: seq: oss/midi: Cleanup with guard and
+auto-cleanup") from Aug 11, 2025 (linux-next), leads to the following
+Smatch static checker warning:
 
-> Hi Christophe,
-> 
-> On Tue, 12 Aug 2025 12:50:55 +0200
-> Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
-> 
-> > When no post-completion processing is expected, don't waste time
-> > handling useless interrupts.
-> > 
-> > Only set QMC_BD_[R/T]X_I when a completion function is passed in,
-> > and perform seamless completion on submit for interruptless buffers.
-> > 
-> > Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> > ---
-> > v2: Keep the UB flag to mark not completed buffers and seamlessly flag them as completed during next submit.
-> > ---
-> >  drivers/soc/fsl/qe/qmc.c | 44 ++++++++++++++++++++++++++++++----------
-> >  1 file changed, 33 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/soc/fsl/qe/qmc.c b/drivers/soc/fsl/qe/qmc.c
-> > index 36c0ccc06151f..8f76b9a5e385d 100644
-> > --- a/drivers/soc/fsl/qe/qmc.c
-> > +++ b/drivers/soc/fsl/qe/qmc.c
-> > @@ -461,9 +461,16 @@ int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
-> >  
-> >  	ctrl = qmc_read16(&bd->cbd_sc);
-> >  	if (ctrl & (QMC_BD_TX_R | QMC_BD_TX_UB)) {
-> > -		/* We are full ... */
-> > -		ret = -EBUSY;
-> > -		goto end;
-> > +		if (!(ctrl & QMC_BD_TX_I) && bd == chan->txbd_done) {
-> > +			if (ctrl & QMC_BD_TX_W)
-> > +				chan->txbd_done = chan->txbds;
-> > +			else
-> > +				chan->txbd_done++;
-> > +		} else {
-> > +			/* We are full ... */
-> > +			ret = -EBUSY;
-> > +			goto end;
-> > +		}
-> >  	}
-> >  
-> >  	qmc_write16(&bd->cbd_datlen, length);
-> > @@ -475,6 +482,10 @@ int qmc_chan_write_submit(struct qmc_chan *chan, dma_addr_t addr, size_t length,
-> >  
-> >  	/* Activate the descriptor */
-> >  	ctrl |= (QMC_BD_TX_R | QMC_BD_TX_UB);
-> > +	if (complete)
-> > +		ctrl |= QMC_BD_TX_I;
-> > +	else
-> > +		ctrl &= ~QMC_BD_TX_I;
-> >  	wmb(); /* Be sure to flush the descriptor before control update */
-> >  	qmc_write16(&bd->cbd_sc, ctrl);
-> >    
-> 
-> You try to purge one descriptor for which the transfer is done but you do that
-> when you have no more free descriptors.
-> 
-> You end up with all descriptor "used". I think a better way to do that is
-> to purge all "done" descriptor configured to work without interrupts until a
-> descriptor with interrupt is found.
+	sound/core/seq/oss/seq_oss_midi.c:196 snd_seq_oss_midi_check_new_port()
+	warn: dereferencing no_free_ptr: 'mdev'
 
-I have looked again at your code and looking for a free descriptor only when it
-is needed is sufficient. You can forget my previous proposal.
+sound/core/seq/oss/seq_oss_midi.c
+    187         if (i >= max_midi_devs) {
+    188                 if (max_midi_devs >= SNDRV_SEQ_OSS_MAX_MIDI_DEVS) {
+    189                         snd_midi_event_free(mdev->coder);
+    190                         kfree(no_free_ptr(mdev));
+    191                         return -ENOMEM;
+    192                 }
+    193                 max_midi_devs++;
+    194         }
+    195         mdev->seq_device = i;
+--> 196         midi_devs[mdev->seq_device] = no_free_ptr(mdev);
+                          ^^^^^^^^^^^^^^^^                ^^^^
+The no_free_ptr() macro sets mdev to NULL but it's dereferenced on the
+left hand side.
 
-Back to your code, I think you need to be sure that the descriptor you want to
-re-use is really available and so you need to check the 'R' bit to be sure
-that we are not with 'R' = 1 and 'UB' = 1 which means "BD is used, waiting for
-a transfer".
+    197 
+    198         return 0;
+    199 }
 
-For instance:
-
-	if (ctrl & (QMC_BD_TX_R | QMC_BD_TX_UB)) {
-		if (!(ctrl & (QMC_BD_TX_I | QMC_BD_TX_R) &&
-		    bd == chan->txbd_done) {
-			if (ctrl & QMC_BD_TX_W)
-				chan->txbd_done = chan->txbds;
-			else
-				chan->txbd_done++;
-		} else {
-			/* We are full ... */
-			ret = -EBUSY;
-			goto end;
-		}
-	}
-
-Best regards,
-Hervé
+regards,
+dan carpenter
