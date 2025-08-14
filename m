@@ -1,132 +1,191 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5852F0C73
-	for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 23:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7859D2FF675
+	for <linux-sound@vger.kernel.org>; Thu, 14 Aug 2025 00:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755126540; cv=none; b=Qn73qr8CJb2AR1RA/liUbcwCL5j30sIwWINgwbxQqbmgxIOH3lOAsB/nfskOBwxwfCEOABrpemKn2fha7jNs8FsKsQtKrPAPGjiOYX2lGsXi+1peaQBtS2fARMwNgbEG0/bWsISWcbkxIS8dLpGxpqxs8DFJmy4q16/ewm2EStw=
+	t=1755130505; cv=none; b=PfvhIvGCepgwR1KmSAYSMRPDTj7Pdg7XR2aMcPoVM+ZYgPdBFiMXyJI3OykDmjAvn58qpDHhc+mnOU/a6/esGiMaBdn2a55BHZgiWvvi8u73JzGZLgn6xfFihBcwVE8vqat+Q2PkNSa/pMY8rMxP4VlqMrfUUxL/410dTEXHKBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755126540; c=relaxed/simple;
-	bh=D3VCs/yBFzDfZDnvikVOvGWSHbXeqmmlCqMVXJKIChc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=GICEYzA9wqN64FUYUpvJ/WobwzYGmJURri4/qIEcNWEsOvx2Zf+WJO8ijW+O9CAfuxQ51WLsYNhUAFreGfu5XWoFB3QGSTPmme1B6Wzngw/+VJw7yP9N9yUlVrmmp9RXTmlFYcVf7BaIazBlDIDg9I53Gk/RtvZrVSQpe3+ZVkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OlxveLth; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1755130505; c=relaxed/simple;
+	bh=zwJo72iTk2tgFMJYTVRLk79sFfVI+zpiBHz9nT1PoVk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pcXWxcE4o+lAo/a+6WFHcrV07uLgFijSwm51+Rg9ehXX/70LxFu6/5tFcWmSZgMxEpMwbzClHDBO8bP0VeOveqG9sSUfyAvZJW2ln4re2phYjfUyDqnk8PonW8rpARMQOA2/ZdLnOL7RkhujNgzj8IJt9wK4eIOrMa+dyjjvLyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DOVR/Bm/; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OlxveLth"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45a1b00a65fso1564775e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 16:08:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DOVR/Bm/"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45a1b0c8867so2423255e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 13 Aug 2025 17:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755126537; x=1755731337; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LYzpkw32rfojTro/yo7c1tGpbEd5gb4/gc+Z99oDHgE=;
-        b=OlxveLth0PbFbSinl2x3O13ijMXjQfKu+/hI8/4tziXCGrFSRzKBOkkOxaDjFOhgev
-         pu/c8d/HpLRsUuoLe+m7ExvEWe31G32wkO6gZH6QfsOrhl76em65Q29WSrYg2YaHFZ78
-         zejUsVj6ZBezt5WMfPNc5PffkZ+tvIk1k5Y4SQhGr+AGjYWjK5F80kNhF/SGmFWImX69
-         nwr41r/tnhdmJ/wf/Y9D2xS4GTzxUUmUoo0pbSbJRunQGJ/PmHgpnjzzCGjdlx+8vq76
-         XUqqobisBGphIoKFwbS0CUG13EngYsGii1yH2qc1D1OG7NnF6FT8fnHE/hk2yeCZ6rgE
-         vdLQ==
+        d=linaro.org; s=google; t=1755130502; x=1755735302; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Js8h6ldMj+gdFZOOeslA8bqfXFQEBcc6o5WLKiebJLY=;
+        b=DOVR/Bm/r0eN+Soz+Y3N2SXB8jkRvWWtup7un/rnkyOR8PdaGD1K/OQXpVMSBLtGIt
+         nLsMZssen5RAxbfBq8EIzqXmec2aTqHBUOB2C4wTiJ5m+pqR37nNjqflxKzBRJk5n4RV
+         Hptxpa8QkvJJDKpD3qWhDt0ig6ymqrA4mNi5cugLO2a6ikgZZ9Q+4UjCIr7hImoXcNrf
+         95V3N/UDx32zX79ky71WFTs8P6QUx4FzPICnVE2OCodT+STgFTwmJ86avFLjm9rLNanr
+         Ul/FS3C4Rxd+qOxDOYnecr6+uzSA6C5eYA0xRXs3mOmE4hHlMzSY/LvLXBe+R4gTQmc1
+         +RIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755126537; x=1755731337;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LYzpkw32rfojTro/yo7c1tGpbEd5gb4/gc+Z99oDHgE=;
-        b=SUJsJM7ANYYsxxIeV8rUZy65l9ljlX+3RCMRu+vZWYFLyjSjcerXTWpVkAtHQa18Cp
-         OeBlRuclRnJl7zr9htW3r1p3gJm9TRAflduXb5bon+KcR/r3qGoicLjWXkwPOPMV2sjH
-         Yd9Z4zfBYQCK2Ufne0Kc/6LKRTwHX21H0WZfidzRvkuq1vJpiz5xNsbTfGZqBzPh3JoL
-         fn+FFKLcY0VEhFuEJgUMy1UxToithU7HItaGvx5EgqtRr4ROAPGf+1HPqtktiEM75ECQ
-         Ggq+4Htjw3KzMIyNqJsiKRRazBx2SIAgv8Xn2948YY4QOhMKuu9nIPQyK51DaV/MR9IL
-         eT7g==
-X-Forwarded-Encrypted: i=1; AJvYcCUSENndvCjEx4nhzAB3o+QLCxEbyc60EVey8gVFeL+hC/usppRJ8DiAN/ELJfRapJFEJ3PBrIkJ/MiZkA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YztavcmookfesDc0mzaJA4usaDirUQU11DVJCgOj5x6m1s7bGtw
-	kCIz5AKgoGD/HGb76UDMpDuou9jaiF5phv/AxNSuoG+RAVw1P141LIBHa2H2gmBvEcM=
-X-Gm-Gg: ASbGnctpbRe+GbJkt8jHmE7n44ljVIJgmDQMUBGO7mgvQlz+ReWnTP7lAsQBcvCcUAf
-	wU6a1SqRlOCebkQWDAEt1YUOPBzmxgtp6mgRh6mSEaouCS5oOsvCtY3Fa1jXvSIzI2Wbb7J9UvF
-	dE5inud2X0iVWuehos5ZK0SDRiDnv9iEWGFKVsUQN3C2FrukqS9uSjqmAz7smrMrkFkIJSBHwxP
-	aVjCyUjJ4f+efC+ztFxLE/XfO5H7YoG89w7PXqAwAfAoOt1jBxzy4cFnWocnI29ciqz/7NkuZCF
-	zeOazIO93zhBcu5mbC9FyP2nFZir1Jte8PwspzAu/htuUHctbYi80qNfcFZVEhBJpiuYLyyq82f
-	mK0nKCZfocjlLcMLYV07LgWbrv7g=
-X-Google-Smtp-Source: AGHT+IFbhBknykhgRmGNQ8HnZA9S45Dxb2/Sf7agYpr4TtNvocsFTRipZsdaZQpRwhDbfSKf8QHY8w==
-X-Received: by 2002:a05:6000:310d:b0:3b6:436:b8ea with SMTP id ffacd0b85a97d-3b9edfd22b1mr647097f8f.6.1755126536667;
-        Wed, 13 Aug 2025 16:08:56 -0700 (PDT)
-Received: from localhost ([2a02:c7c:7259:a00:7f3a:5ab2:26aa:831f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a590187sm16856315e9.25.2025.08.13.16.08.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Aug 2025 16:08:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755130502; x=1755735302;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Js8h6ldMj+gdFZOOeslA8bqfXFQEBcc6o5WLKiebJLY=;
+        b=r9ueglNY6u/UVyBK4AH1QaLyl4eTi5OZbIWtgYpuBaPCQ2fMJmVx/UgENkw/6Cji5/
+         B0fU/gi8mttLWseGBpWTEEe+iBx1SNbLCbXCuyJECr8QkzmO8z569N49wvuLdupd7Gc5
+         p/wIIJfMKQwyKfGD7zX1JHnrzHf+QCsgUYYlztUEtFBLaKO6nePy8EklA/kMdN+WJJ4J
+         Zm0iIfkdCunPpFdwIkKowizjS17BgKk2UshldE5me/LPSRdrr0xvn3zAs8QrlFiU4o0L
+         Z/CY5rcd9o5XNVi0GwX0bqJR8QR8T0d9nTo/MOKB9wfnA3GRLNqo1D4RLjtcwqkzzoYU
+         o/Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCXIJXIpe6tYeO/BMks5VEfrRTHw4NLaEUAgiWbKvqcDVJpn0E4XVfB4yLW4MDSrKyrVYHnyGTMKTcEO2Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5tCUcxk9NxTrZ6i3t1QkvcA7gOxwp0q0V/LZSTHuY4fPT+tVj
+	OwlPEf7arNBMZg4vvlCh+CuFqTs5K7foNxKa9mxzSbXg7j6HrwJP7xiGqlthQwVvn68=
+X-Gm-Gg: ASbGnctB9N/5Rf26fAIjHl41Zk8/LQrPyz/lfQX0RINzBhszUA3DvOD6mWZ9BFAcc9O
+	8zHtf6kKOEneK4dZ8H6tEPQYXjVsAQs27BTLfXBH+Fp8TjEwCo1GrKqoLKFFmEbnufH/UOUnsJR
+	Ln/QhxH8RA06z09/arFLlbe7nC20bCGxzWLSC4P2fOC94BV9DOBo7oqPu/clqO4OZ71yshDr6hX
+	1nO+IIZKU+b3d/l3iM9m3byhiqTnX+DsnicyoLB47aoPLBS7wMJYWfgAh2lhTXJJJrEtTbYWnY9
+	25LvC8Pc2AcMPmE0LYV12b/0R/zdP7Bj7xk3aU325B0Mbalqx3BdlZvNFYt+VH3ufShrXlIXjCG
+	pwtwgGlyiVz55w1iAu7l+E4yMQOt5
+X-Google-Smtp-Source: AGHT+IEE/qJ2A+EGcLK5KKpvuXaOVb/kTUWQl2Zzg8RdrlyOQ/B0cgj/6qwXHlkz+00A1J55dDOw1w==
+X-Received: by 2002:a05:600c:3541:b0:441:b698:3431 with SMTP id 5b1f17b1804b1-45a1b655a8cmr4647785e9.28.1755130501766;
+        Wed, 13 Aug 2025 17:15:01 -0700 (PDT)
+Received: from orion.home ([2a02:c7c:7259:a00:7f3a:5ab2:26aa:831f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1a540e1esm18449065e9.28.2025.08.13.17.15.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Aug 2025 17:15:01 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+Subject: [PATCH v3 0/3] Add PM4125 audio codec driver
+Date: Thu, 14 Aug 2025 01:14:46 +0100
+Message-Id: <20250814-pm4125_audio_codec_v1-v3-0-31a6ea0b368b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 14 Aug 2025 00:08:55 +0100
-Message-Id: <DC1OFJFCKMLD.28U6N6FES0OC8@linaro.org>
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>
-Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
- <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>, "Lee
- Jones" <lee@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
- <tiwai@suse.com>, <linux-arm-msm@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Srinivas Kandagatla"
- <srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v2 2/3] ASoC: codecs: add new pm4125 audio codec driver
-X-Mailer: aerc 0.20.0
-References: <20250711-pm4125_audio_codec_v1-v2-0-13e6f835677a@linaro.org>
- <20250711-pm4125_audio_codec_v1-v2-2-13e6f835677a@linaro.org>
- <20250711-hungry-uppish-taipan-a0a35a@krzk-bin>
-In-Reply-To: <20250711-hungry-uppish-taipan-a0a35a@krzk-bin>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHcqnWgC/4XN0QrCIBTG8VcZXmfocWrrqveIGKJnm1BzaEkx9
+ u653UQX0eX/g/M7M0kYPSZyrGYSMfvkw1hC7CpiBzP2SL0rTYCBZAoUnW41B9mah/OhtcGhbTO
+ nDKzRRjDmnCXldorY+efmni+lB5/uIb62N5mv6z9xRSlKaISwNTSGna5+NDHsQ+zJSmb4MJrzX
+ wwUhgtU3UFIpbX5YpZleQPo0+7TAgEAAA==
+X-Change-ID: 20250626-pm4125_audio_codec_v1-02ca7a300ddc
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ christophe.jaillet@wanadoo.fr, Alexey Klimov <alexey.klimov@linaro.org>
+X-Mailer: b4 0.14.2
 
-On Fri Jul 11, 2025 at 9:29 AM BST, Krzysztof Kozlowski wrote:
-> On Fri, Jul 11, 2025 at 04:00:11AM +0100, Alexey Klimov wrote:
->> +static void pm4125_unbind(struct device *dev)
->> +{
->> +	struct pm4125_priv *pm4125 =3D dev_get_drvdata(dev);
->> +
->> +	snd_soc_unregister_component(dev);
->> +	device_link_remove(dev, pm4125->txdev);
->> +	device_link_remove(dev, pm4125->rxdev);
->> +	device_link_remove(pm4125->rxdev, pm4125->txdev);
->> +	component_unbind_all(dev, pm4125);
->> +}
->> +
->> +static const struct component_master_ops pm4125_comp_ops =3D {
->> +	.bind =3D pm4125_bind,
->> +	.unbind =3D pm4125_unbind,
->> +};
->> +
->> +static int pm4125_add_slave_components(struct pm4125_priv *pm4125, stru=
-ct device *dev,
->> +				       struct component_match **matchptr)
->> +{
->> +	struct device_node *np =3D dev->of_node;
->> +
->> +	pm4125->rxnode =3D of_parse_phandle(np, "qcom,rx-device", 0);
->> +	if (!pm4125->rxnode)
->> +		return dev_err_probe(dev, -ENODEV, "Couldn't parse phandle to qcom,rx=
--device\n");
->> +	component_match_add_release(dev, matchptr, component_release_of, compo=
-nent_compare_of,
->> +				    pm4125->rxnode);
->> +	of_node_put(pm4125->rxnode);
->
-> If you drop it here, then you do not need to keep it in pm4125 in the
-> first place. But this will point you to the problem - what if
-> pm4125_bind() is called after you dropped the reference?
+PMICs like PM4125 have in-built audio codec IC. The series here
+adds support for this codec driver: DT bindings and codec driver
+itself that consists mainly of two parts: soundwire devices and
+codec part itself.
 
-Thanks for pointing this out.
-It looks like that component_release_of callback should handle that so I
-don't think we need of_node_put() here at all.
+This audio codec can be found on platforms like QCM2290 and
+on Qualcomm QRB2210 RB1 board.
+
+We are working on this together with Srini
+(srinivas.kandagatla@oss.qualcomm.com or srini@kernel.org).
+
+This driver also has a bit limited support for concurrent playback,
+since line out path is connected to left input channel.
+
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+---
+Changes in v3:
+-- added qcom,pm4125-codec compatible to qcom,spmi-pmic.yaml
+   as suggested by Krzysztof;
+-- added braces around if-else branch in pm4125_probe, removed coma in
+   pm4125_slave_id[] as suggested by Christophe Jaillet;
+-- slightly re-ordered header files in pm4125.c;
+-- reworked how driver deals with regulators after Christophe Jaillet
+   noted that it is broken, devm_regulator_bulk_get_enable() is used,
+   it looks like there is no need for regulator_bulk_{disable,free};
+-- PDM watchdog irqs are moved to separate (new) widgets
+   as suggested by Srini, therefore audio routing and events for
+   HPH{L,R},LO and ERA PGAs are changed;
+-- extended pr_err() msg in pm4125_get_micb_vout_ctl_val();
+-- small styling code adjustment in pm4125_get_compander();
+-- added/reworked pm4125_bind() to add error paths
+   as suggested by Christophe Jaillet;
+-- removed of_node_put() in pm4125_add_slave_components() after Krzysztof
+   pointed out that of_node_put() is out of place, it looks like
+   of_parse_phandle() gets the node and component_release_of() will
+   do of_node_put() on dev release so no need for of_node_put();
+-- Link to v2: https://lore.kernel.org/r/20250711-pm4125_audio_codec_v1-v2-0-13e6f835677a@linaro.org
+
+Changes in v2:
+
+-- added rxclk dapm widget, fixed/changed RX1/RX2 widgets;
+-- added comment for pm4125_wd_handle_irq();
+-- registers access permission routines have been reworked;
+-- changed pm4125_sdw_* functions to static inline;
+-- cleaned a bit pm4125_{rx,tx}_sdw_channels;
+-- got rid of most of hardcoded magic numbers (for the remaining regs+values I don't have documentation);
+-- updated commit messages;
+-- pm4125_tx_sdw_ports has been updated;
+-- removed of_match_ptr() and OF ifdef;
+-- removed couple of pm_runtime_mark_last_busy() calls;
+-- removed swap_gnd_mic;
+-- removed __pm4125_codec_enable_micbias_pullup();
+-- reordered sequence of calls in pm4125_probe() to make it a bit more logical;
+-- removed excessive regulator_bulk_free() and in error path in _probe();
+-- re-aligned for 100-chars length;
+-- removed of_node_get(), replaced with of_node_put();
+-- corrected some dev_err() messages;
+-- corrected some comments;
+-- removed legacy "WCD" from stream_name, replaced with "PM4125";
+-- removed null callbacks from struct wcd_mbhc_cb;
+-- removed "HPH Type" and "HPH{L,R} Impedance";
+-- pm4125_codec_enable_micbias() has been updated;
+-- pm4125_micbias_control() and pm4125_codec_enable_adc have been implemented;
+-- pm4125_codec_enable_dmic() has been updated;
+-- cleaned struct pm4125_priv;
+-- some rework to pm4125_handle_post_irq() and pm4125_regmap_irq_chip;
+-- updated Kconfig+Makefile (to make things be in sorting order);
+-- new patch: adding new files to MAINTAINERS file;
+
+For dt bindings:
+-- I think all requested comments from Krzysztof were implemented;
+-- squashed qcom,spmi-pmic change into previous patch to avoid warnings on dtbs check;
+
+Not done:
+-- Mark suggested to look at reimplementing this as a child mfd device from
+MFD PMIC without device tree description.
+
+- Link to v1: https://lore.kernel.org/r/20250626-pm4125_audio_codec_v1-v1-0-e52933c429a0@linaro.org
+
+---
+Alexey Klimov (3):
+      dt-bindings: sound: add bindings for pm4125 audio codec
+      ASoC: codecs: add new pm4125 audio codec driver
+      MAINTAINERS: add Qualcomm PM4125 audio codec to drivers list
+
+ .../devicetree/bindings/mfd/qcom,spmi-pmic.yaml    |    7 +-
+ .../bindings/sound/qcom,pm4125-codec.yaml          |  134 ++
+ .../devicetree/bindings/sound/qcom,pm4125-sdw.yaml |   79 +
+ MAINTAINERS                                        |    2 +
+ sound/soc/codecs/Kconfig                           |   18 +
+ sound/soc/codecs/Makefile                          |    8 +
+ sound/soc/codecs/pm4125-sdw.c                      |  547 ++++++
+ sound/soc/codecs/pm4125.c                          | 1793 ++++++++++++++++++++
+ sound/soc/codecs/pm4125.h                          |  313 ++++
+ 9 files changed, 2900 insertions(+), 1 deletion(-)
+---
+base-commit: 43c3c17f0c805882d1b48818b1085747a68c80ec
+change-id: 20250626-pm4125_audio_codec_v1-02ca7a300ddc
 
 Best regards,
-Alexey
+-- 
+Alexey Klimov <alexey.klimov@linaro.org>
+
