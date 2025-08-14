@@ -1,108 +1,101 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B304814A4F0;
-	Thu, 14 Aug 2025 14:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343BB32144D;
+	Thu, 14 Aug 2025 15:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755181674; cv=none; b=uJTYJkdtud4QyIVqNkMixsUvIr3Cd2gKu8eT9IRouVFKZ/sJS3GKiXcNlVPr2iRcevHpI8gNqR8XBtXjb6QytvuqufH685/exsm//5kIq294SG/ssYpxKpkAWlOjSXf/tAkUPwadMeVWuK9B6iJmVEnvuqfGaL6IG+aFdNlVhmk=
+	t=1755185892; cv=none; b=ePU4V217eZARh6Up+c1yjpuEhnoer8yuEMmRhI5o+s42M4FEfTQKcqb6J+2hZRy/Ic7O3NE0/pWUTQH7IcDLDILtwudJNzUmUgCn46ZJMrs52klZkN0ATIOTs+pLYQCJAYeD60AG+97/mfvmQJSK3zjF8bnWEZxhYzAnBcPGN/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755181674; c=relaxed/simple;
-	bh=Awy3n8Kfpi3JQmCappj3VUKmr0DBuJ40ABeIKPpW8hs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QOivPMmnTLd+JKst+hr8wOtZ8h3cWdcJlHGf1D6LMqjgPlnMHk+Abvx2xItfdX7Xqhry2cRMBxs5v/KcHJ5g9eGl8mnLtuDxEU+6SJhrcY1t3ptBbE04U+5KlaShVW+jPhfafGH7d/z9FyUVfZeSulQR1uQ+fwv9bN6S/oBDZTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gBq4fNYs; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1755185892; c=relaxed/simple;
+	bh=jLhYJU88sZxBCe9SefYGees+F/ss1OWTb33Sg75mSxs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lYlwRIsY2n9OcpZBuwzxorDx6XC9kzRemeMPF73+M1attGYoYZRT07/WKALIuW0tuASy6DcSndcgmNcyI08Z5lGnDF8rJqFP1P9FGcCRVUm29clOvaoMO4OqD2X2QJJAPXG8/X4T4fgq3uGmFOR69TfSG4wTzitMjbHbGypFuK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mYJfRnuo; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gBq4fNYs"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-323267872f3so975919a91.1;
-        Thu, 14 Aug 2025 07:27:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mYJfRnuo"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-afcb7ace3baso172666966b.3;
+        Thu, 14 Aug 2025 08:38:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755181672; x=1755786472; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1755185889; x=1755790689; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Awy3n8Kfpi3JQmCappj3VUKmr0DBuJ40ABeIKPpW8hs=;
-        b=gBq4fNYs+K/otbFX09xYD5Oe09V2t+9BedddglTs4lsMozwImQiF2AloRs1q09z2IY
-         jOARvAgGcvxayEHqviI8m0+j9WuTQICx8wdl1n9iVb5259HwQk1AOyV9wEAqC4tJvHRZ
-         a1LDifFOOm63bDwsmIx+rvRWZYX/70SCRRKRCxRqjTlN4vKbOkHZT0rPYy4/jAyNxAwK
-         Xa6xfxTXSGQCRlz1AhVnigz1Uu+0T2Bi6wuOXxPPL4BdeSQGK3ow3T+uD8U+qtHacnrr
-         ktt7LJnr2I9K8qsrpThpmuEBKP39COesRq4RPy6WiqMxbR5DCJ10/oT6ZEPaayCMFR6A
-         Krlw==
+        bh=eKf5Uw9bpy4LJVUlx+RGUE8QW84u/SWmHMh9fX7TDFk=;
+        b=mYJfRnuoXnf+RXpS7hJYbUc4pK87SRd+kFv9OGSNLiiHnktQd7M5L8YxvViHkhFXAg
+         laHgw/RJtb8gsSUKyeh/E4SoYywoqScPhndgshNki9RoCQdx6VPB7Mknz/X6eQNh6/ev
+         DO8XBrSBxo9F5Nk7gPb0qASptu/SHNYecAkqJ08DJEjR5L/++/Hbqos0VNVlRCNSmgQe
+         r+fN3f7NrTusP8IamzIplVHJ2sj+xIXQzHBtPbXeYSjUpq9MqVEQxWvFi3Bcy+X8AYS9
+         i8Ml0Aq1/3yzzTGu8M+i1VBwOOAbtZmjocxJvuxURl5DoFcffSp+78O7ApQ0bL959IDn
+         nVbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755181672; x=1755786472;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1755185889; x=1755790689;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Awy3n8Kfpi3JQmCappj3VUKmr0DBuJ40ABeIKPpW8hs=;
-        b=I+xWERImbHXBUjYkl9gokaWdUOJhdFM+CJKt0L+YlgvhkE3eCmNC4dvSSGfRHKptzz
-         QgqioU/O8/bAIudtJq8zpthV7lJcmQoXctzdMVjB+RwPlWsxvJRvWxQbRKyVaDI6WOcv
-         bPrd6wGlewukcP9Jr6mS0a63D2kMOiLRMlYLYXabWpgsCCKJeik4nvS8i3O9DKZQ7WXE
-         fl7GzS630XW2yB9433H+f4TXtqL9Etq+CCq1kbQ76f1o/TO2olftnsJoKQue1oykNs7p
-         SCuZetym8A8LCLyXbLSYa3t0RY+D2GBhh+TnUyMykLd0lqAikSmERYBMCSFpVgvFEcp4
-         5GPA==
-X-Forwarded-Encrypted: i=1; AJvYcCUb/+dozajgF3vaXncMgxOdfRyaAA0+O6WKhX+g7moK12LmbuJyQIDYAlXR03X6dDNp8wi2XjWuzpcDoBc=@vger.kernel.org, AJvYcCVmwQJFu56JlqeuGtZqiqYg6C3GFdspTlm5gDCN2E+DALbp2U6T/Q6V1wTVs7LIahue//AqhOZ6iIfm@vger.kernel.org, AJvYcCW9aMxwZWRALfwN4RRogzYdYCLiGHtAIgn0zYi0sc4OuHpIOm2MGTM7eDwB3qVKVIapyPlSDMmAQhrY@vger.kernel.org, AJvYcCWiExN0cPTzAhIe9NbnaThCfKe2pAHdjIM+/Ggu6++G/cWrMYgfFtZomDJQ1zv+6c4iQhbiN+Jv1El6/Z0=@vger.kernel.org, AJvYcCX9yOjm1Dx/6lFbu279H6XMdwb1IS4LMs8H6cdNWe/kbXpQuAC+Eug1AAwONl/IGuxNImdOjFPiRGJA@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2GvsF7OsfH3zCFJWxXARmcYhEZwc9C4EXtOWZpI6oo7kHWa9b
-	8Y5gyVrTAUFFdI5S6ttD7zRdQq1XCj+dGviEjULN0LEEM52A8WPLM1njvrXbmgtZtLwaXmHz4x9
-	RQggmFTV5OuC15bfWBSYZjaLgXi5iRQ==
-X-Gm-Gg: ASbGncsqHi+0hiIwiNh+OebkYvAjX8Ni8O4WnptY7SwfThSp5uLGTXg1Ieck5RV5d1q
-	l0LRi5vuZxfffmWNPaucLYJrGsi+sNUd3PKaT0fcEsAt/PMS8Q/DQbuHUg8WOvuSBADoeVodLgM
-	S6MpujN3nLpcSmJWVAJbJ2XQxjZ5Vj5LmajaFvy2OWn1ow6dBOvcb6dSzRm7nH6soLdojFQ1LfD
-	xaeRS4=
-X-Google-Smtp-Source: AGHT+IGfWM+gBEqMlS7c7zrD8ipF1auww1lSeaLBjQHLt84E8zAqKKYznSFzoDQMTqknUx8lOeQ+5JFv5XgbMJ+TGGA=
-X-Received: by 2002:a17:90a:ec83:b0:311:df4b:4b7a with SMTP id
- 98e67ed59e1d1-32327b6fb91mr5127905a91.29.1755181671822; Thu, 14 Aug 2025
- 07:27:51 -0700 (PDT)
+        bh=eKf5Uw9bpy4LJVUlx+RGUE8QW84u/SWmHMh9fX7TDFk=;
+        b=JJU7spWPq1csf9pmCPDnFJlMvT3kBAgqUF4I6FxwRyNep8dBhK1EPhwDYWuAeETqut
+         TmSnL7oJ/ZKsEQr3/gdFerjlZ818IPk6r083G/bgUMr9Rn8fTITeRLg5APN0ncKQtYt2
+         S/AM5nS4+G617H3gIeIEVUvdwLteJjRJJeL+ob0651a3Q6mbku1Gm7zUllQYlzNuDrOm
+         hgvFfXoZ6mZsd7t23/pBUwEXTafq0PIqHmFlWqEHh92YVmjsoTRi8obN8Goo0Z9Kr59i
+         EpHkmRBTYmOqmmhs2v0/SrSwUFXWyMKj7kFS9ooGSQmWiKzj42COXBucWJiz5pj8q1CR
+         SW+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXs/mKlcDSr2dm4smjweRrJWxX72aWrdEbRJt+SxUJCQxwOFd654CfTmRGZ0NrqEiTYkeHyi5BmZkvWZg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0v3qnP4ZxHbaw10y8bwYwsx71TynhTjwuY1/2xpwNz5kgaPMP
+	dPxrw2xMuCb9FM9PxgPlP79g/3Q0/zRCIDMGC4Nc2QSHoNQbtoSH+fuq
+X-Gm-Gg: ASbGncv4RKmmotGwMhmhwXrEb/VHhNmP1NgfvXTbdEwlW4jzIRuIZ3b35jG7otVAH6R
+	cVpNisMXcHnAQM/LySvyJbovSVuGFL5KIuu9KERGKDIuNte7eIbEcJ7WWJCc7dOCuPqT3/j+uN5
+	d0L+lNjZz61Xj/OKlsfeAQrSPamtGQvXB+G/HrKi1rh4kzw5d7uUKrGmGwBKr+x1s+GAg4qgIrz
+	gIkzYAelL4VJcw5/Sc2O9oUZmm2H8sjR1k+Pc/s4Doo37TV9oOKwAdtrS8afYyBiIHT3q52Oyxj
+	L3r1PUPGVS180YyN3k6FOzss5j2pA29mr0vvVZBiXBCiAlD8C1DC4Sbms9RYjNU9xQj9xmdDrUc
+	weAfnRAv1NzjlLnNCwPeFrcMUX+IvVoqiOSIQvLWAnbigP77CoFjq6tuC3M7EMKPN/WM4OL39rM
+	8OfIzIzw==
+X-Google-Smtp-Source: AGHT+IEycjlQEzkkqgWSPc87Yh4VbiCOsAw66b43QafRHA+YKsPDKsQG7aeMR8yEhckT3Lm5e/Mapg==
+X-Received: by 2002:a17:907:608d:b0:ae6:c154:8059 with SMTP id a640c23a62f3a-afcbe1b26ecmr279627566b.37.1755185889073;
+        Thu, 14 Aug 2025 08:38:09 -0700 (PDT)
+Received: from localhost.localdomain (93-87-121-223.dynamic.isp.telekom.rs. [93.87.121.223])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a0a38aasm2619506866b.37.2025.08.14.08.38.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 08:38:08 -0700 (PDT)
+From: =?UTF-8?q?=C5=A0erif=20Rami?= <ramiserifpersia@gmail.com>
+To: ramiserifpersia@gmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Subject: Re: [PATCH v5 0/7] ALSA: usb-audio: Add driver for TASCAM US-144MKII
+Date: Thu, 14 Aug 2025 17:38:07 +0200
+Message-Id: <20250814153807.12834-1-ramiserifpersia@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250814102534.34439-8-ramiserifpersia@gmail.com>
+References: <20250814102534.34439-8-ramiserifpersia@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250814132129.138943-1-jihed.chaibi.dev@gmail.com>
- <20250814132129.138943-8-jihed.chaibi.dev@gmail.com> <8c9366a5-482e-4bf2-b8cc-79e789bf2ff0@sirena.org.uk>
-In-Reply-To: <8c9366a5-482e-4bf2-b8cc-79e789bf2ff0@sirena.org.uk>
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Date: Thu, 14 Aug 2025 16:27:40 +0200
-X-Gm-Features: Ac12FXyk9L6l4rag2sdISDeOTV4bIMeo93taJNhP2t-7KUD0dJkxa6u_-D_m2Ys
-Message-ID: <CANBuOYpU5Q9C1rQ0PmJK3icz4Q5-b+BSZyKKQhhPFopeFqtJDQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/9] Documentation: omap-twl4030: convert to DT schema
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-kernel@vger.kernel.org, andreas@kemnade.info, 
-	peter.ujfalusi@gmail.com, dmitry.torokhov@gmail.com, robh@kernel.org, 
-	krzk+dt@kernel.org, lgirdwood@gmail.com, tiwai@suse.com, conor+dt@kernel.org, 
-	lee@kernel.org, ukleinek@kernel.org, gregkh@linuxfoundation.org, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 14, 2025 at 3:33=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Thu, Aug 14, 2025 at 03:21:27PM +0200, Jihed Chaibi wrote:
-> > Convert the legacy TXT binding for the OMAP TWL4030 sound card
-> > to the modern YAML DT schema format. This adds formal validation
-> > and improves documentation.
->
-> > Changes in v2:
->
-> This should go after the ---, tools use this to remove the changelog
-> when committing.
->
-> > - Fixed comment formatting (added spaces for better alignment).
-> > - Updated commit subject to align with subsystem style.
->
-> Should be ASoC: dt-bindings:
+Hi,
 
-Hi Mark,
+While reviewing my v5 series, I noticed that the default values for the
+digital in/out kcontrols were lost during patch splitting. They should
+default to 1 (currently 0), which is incorrect for these controls.
 
-Thanks for the quick feedback. I've corrected the subject line and
-changelog placements.
+us144mkii.c:
 
-I will wait until early next week for any other potential reviews
-before sending v3 to bundle any changes together.
+@@ -489,6 +489,8 @@ static int tascam_probe(struct usb_interface *intf,
+ 	tascam->dev = usb_get_dev(dev);
+ 	tascam->card = card;
+ 	tascam->iface0 = intf;
++	tascam->digital_out_source = 1;
++	tascam->capture_34_source = 1;
 
-Best regards,
+I will restore these defaults in the appropriate patch in the next revision.
+
+Thanks,
+Šerif
