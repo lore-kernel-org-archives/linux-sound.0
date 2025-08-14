@@ -1,668 +1,144 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA502BE7D7
-	for <linux-sound@vger.kernel.org>; Thu, 14 Aug 2025 09:22:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABCF318124;
+	Thu, 14 Aug 2025 10:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755163341; cv=none; b=QPAKa4+9MMX7NoiL2FZntLBC/sG8vRBY0aM1PK+4YjjInvJz2ksTcOycCQ010iTZzNcv6V4ho05pPKzn7ZOBJ2bdRjc/PQf+jiOwOMglfiRu4hjwsjg0nPdLMikiZhgBkKdNV17TSdJwm36a40OrqLY44lXgMFzVCJKEXrYwk1E=
+	t=1755167142; cv=none; b=ZdVa5hGZzqox3Xlj+c9ieJZjCYijBBi1beHv5WrdDW7cjeBPFDkaHodE7rkGSENviKAMdJg41dnLVtgtS4hvqsm+x/UHFl9ffMwvmDtEHkyz6GgAdyeM9aP4skZ2aBy2OsfndsfBP2zdj8qE+orOg68RQcR9hxAJdrpHVqEc1V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755163341; c=relaxed/simple;
-	bh=4n2nr2fAz/dGxz+4Sf9bh9p5F/Qf5fzh3bjovn0rTco=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QLkFaq8R8I6dAgUvF1G8amcV3T+J9LVDNkG6zugdy+Ml5IfN2BCltqbdQBP8nO/3B1/+ikcgBUM49zqyDTEZliQSc9Gj9OG8i60xV062iubbzk6y/GE0HEaoyVl4vG2NiaJ4hrtM08bpwB0HbyFiG9FiyGK+eKTjuhTxd9WFQdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=rXmcQTJY; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1755167142; c=relaxed/simple;
+	bh=/+K3OD8MCTk4gMJFELwMbTcwXd10UKBWpodQtCX5epY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=WSWEXItv2rzeIYYcWcUz8bcwiNZT7NC6kISj8gwC6C6PXH/fv5yyqJU37MvcoLfqyESxRGpbM4ZTTTgaLLuRHS+gf6+5CIoT/vpXtJI/OepG8aPQ3Qifon/xfhD8fB0tfs3+YOI5STMizcq7yroolfHc4M68R3KPW0QUjlnw2mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=awSCC8tL; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="rXmcQTJY"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 57E9LlAcA1493925, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1755163307; bh=SJn/7fQsaU7kdrX78+30dDVbO37nA4xUE/gAz5oGHAc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=rXmcQTJYyeNDY6hBafzVR6x/EZajYAab82FKRLHcJb/GMIYlxbHgYeLcEe9xo7Xzs
-	 LojwAA6HYhwRXVh2sp1b5Yvw6YxKoyitP8ATE+AL1EF1r38/iOg6hv23mz0FmiAMlT
-	 RQfZ6moYHoHHp5wMtoITbRedhbW3WkpVzi2xsts9w13BtmgTMYy9Wze8OBK5i6Oyp8
-	 DIua55cyCp6KZaXvpjA1ylQroxzjwNHNBdTwEn5xtFoea1SaSnlCktn+ncQHeelGIZ
-	 DMfqh+hDwD1BS55uEjPr4cEEVIiyACRq3ld2toptONh8pL2uEBeS2FBA9uYhYPhxa2
-	 rVm3G+I71LZYA==
-Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 57E9LlAcA1493925
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 14 Aug 2025 17:21:47 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 14 Aug 2025 17:21:47 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 14 Aug 2025 17:21:46 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, <Deep.Harsora@Dell.com>,
-        Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH v2] ASoC: rt1321: Add RT1321 amplifier support
-Date: Thu, 14 Aug 2025 17:21:53 +0800
-Message-ID: <20250814092153.2733592-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="awSCC8tL"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-afcb61f6044so147236066b.0;
+        Thu, 14 Aug 2025 03:25:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755167138; x=1755771938; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PpoIVUM+zNiV047AhNhVrEOhCqdoUHKoqO7rt/ZEjRQ=;
+        b=awSCC8tL+18/VgDX2DZHMVuWtSKYJ8y3bz8TTB7MYq6hNWAyoYnh7Li7Bc9Q62Dpu5
+         TPqEUx3iGSb0ExRVvP9cpLnSxE6p1ajQ7LPpy6+cax+cxt0mBVl9E94eNi4vX67FjH+n
+         6cBMQQf0xkRBjNkgFdWsJQcAb1ArfZNUAcKRtpmTsz7DnubgN/Q2Ipq1GiIdUWolAUah
+         uqgpF0+954fw02ok4AeRiVXy66kNHV83zXAZU+5T1a6z79ji3P3eZ+muSKBTIIruExPC
+         MWwymkXAWhV5RjNm+gtpYyQ5Bqcylu6n/DsKSpH9CQLdjmR60anzVq8xKZ7/cPAau0Mb
+         foKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755167138; x=1755771938;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PpoIVUM+zNiV047AhNhVrEOhCqdoUHKoqO7rt/ZEjRQ=;
+        b=HWzzysqX/7i55Y21wpp/PCoGrr9NSFf610N5kv7xr6Wiu0HushWuCIwuNocS2iH4TX
+         XdsjpSZoX9fPx0eHBP+L3dB6GPlktdnekP8Sgr89fw9Px7zBCrzXFSaHz4RvZUT2ziqf
+         uj4Ej1WWa/ZiDv4qCimGsIyS9fICEEvn6EEXLQJh3xGF0JMhVgOhZnXV8zqdhIuWYnYZ
+         UHsfSeFzmkV+GpswwMoeH9VWAmnIER3MfxGSio5HtjAZAj076dp4ihJ5ki4V/xJdAbJh
+         uxiG4fYTtfDG21TxvB5YEOOXOLpXEibjRTcyP5RMBN9Gm7hjDgk6P3EXxemIWOMwnDP4
+         kJDg==
+X-Forwarded-Encrypted: i=1; AJvYcCWfgFvhEDvzUeKePTX77OITrxS9ZYY4ZisMYHtW1J4cJqL16XYcltMf/YIiNbkXLE9gCpRd0h3j2Sxxeg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6qhnSVocPFuAgpqBxSRxJRDOBnCSbfTZ3LPMDbEyuUIlJPDZY
+	B5u4cNWE13gPactPNHm2BHoGuI1x40637ZtJofcgIq9XkOjnjuibH2Bk
+X-Gm-Gg: ASbGncvUznCoHkGwxUaAfbxOaXKD0AjnPnM7JZCUpYY9h9mlNN+pBC/oLkGWG6O0rJe
+	HYDSFI0QCSfWZbaipxJnz3oGaPQXBFV3YMRsmGhaNOUefk/imt/CiKIasl+4UpANG9D0nTEn+Sq
+	8OsLjZtQVHxYcX0QaroAYX7e756+LwozFNYc1aPyDVecZAB6ZjwvOTysj6fNaMbZBKyX/qJQ/rZ
+	2/fpSGuXLwPVw5Vl9M6bjhGPG5EHEi4JrJgdJB/BpZfdRAGL9M/vKGcsytVkDWH4efiUEE838N0
+	Cz8y5/5dvK+hMQhNDSmwCSUs+nkvEEDAnAPn9Yhbt9lfFiaON1Qdo7i9hriEB8qwmAUNZFM0Xr/
+	qH23r/GUlrLdGJtgLyW1mAuSjYyh2FDgTli5tdtiehCfQQ4YIoVSeJv9N2ZRKVKvi46+WFnyXdU
+	VvubE7Lg5DdtA8wwu6
+X-Google-Smtp-Source: AGHT+IHfN0E8UlXzIZ6c128woeZOL/pqA058tSmYhnseXXkG4yvEzZ+V8jtf29UZ5yYpCln7p7kbsg==
+X-Received: by 2002:a17:906:361a:b0:afa:1d2c:bbd1 with SMTP id a640c23a62f3a-afcbe95ca40mr162158766b.30.1755167137550;
+        Thu, 14 Aug 2025 03:25:37 -0700 (PDT)
+Received: from localhost.localdomain (93-87-121-223.dynamic.isp.telekom.rs. [93.87.121.223])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a219ef2sm2564819466b.96.2025.08.14.03.25.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 03:25:37 -0700 (PDT)
+From: =?UTF-8?q?=C5=A0erif=20Rami?= <ramiserifpersia@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	=?UTF-8?q?=C5=A0erif=20Rami?= <ramiserifpersia@gmail.com>
+Subject: [PATCH v5 0/7] ALSA: usb-audio: Add driver for TASCAM US-144MKII
+Date: Thu, 14 Aug 2025 12:25:27 +0200
+Message-Id: <20250814102534.34439-1-ramiserifpersia@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
- RTKEXHMBS06.realtek.com.tw (10.21.1.56)
 
-From: Shuming Fan <shumingf@realtek.com>
+This is v5 of the patch series to add a new driver
+for the TASCAM US-144MKII USB audio interface.
 
-This patch supported RT1321 amplifier.
+Changes in v5:
+  - Addressed u64 remainder in Patch 2/7.
+  - Refactored guard() calls for spinlocks to scoped_guard() for ones
+    that got missed(hopefully all).
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/codecs/rt1320-sdw.c | 380 +++++++++++++++++++++++++++++-----
- sound/soc/codecs/rt1320-sdw.h |  10 +
- 2 files changed, 343 insertions(+), 47 deletions(-)
+Changes in v4:
+  - Removing leading spaces from #defines as requested.
+  - Renaming fpoInitPattern to fpo_init_pattern.
+  - Removing unnecessary kfree() calls.
+  - Replacing manual lock/unlock patterns with scoped_guard().
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index dcddc28e8856..e3f9b03df3aa 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -256,6 +256,161 @@ static const struct reg_sequence rt1320_vc_blind_write[] = {
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03 },
- };
- 
-+static const struct reg_sequence rt1321_blind_write[] = {
-+	{ 0x0000c003, 0xf0 },
-+	{ 0x0000c01b, 0xfc },
-+	{ 0x0000c5c3, 0xf2 },
-+	{ 0x0000c5c2, 0x00 },
-+	{ 0x0000c5c1, 0x10 },
-+	{ 0x0000c5c0, 0x04 },
-+	{ 0x0000c5c7, 0x03 },
-+	{ 0x0000c5c6, 0x10 },
-+	{ 0x0000c526, 0x47 },
-+	{ 0x0000c5c4, 0x12 },
-+	{ 0x0000c5c5, 0x60 },
-+	{ 0x0000c520, 0x10 },
-+	{ 0x0000c521, 0x32 },
-+	{ 0x0000c5c7, 0x00 },
-+	{ 0x0000c5c8, 0x03 },
-+	{ 0x0000c5d3, 0x08 },
-+	{ 0x0000c5d2, 0x0a },
-+	{ 0x0000c5d1, 0x49 },
-+	{ 0x0000c5d0, 0x0f },
-+	{ 0x0000c580, 0x10 },
-+	{ 0x0000c581, 0x32 },
-+	{ 0x0000c582, 0x01 },
-+	{ 0x0000cb00, 0x03 },
-+	{ 0x0000cb02, 0x52 },
-+	{ 0x0000cb04, 0x80 },
-+	{ 0x0000cb0b, 0x01 },
-+	{ 0x0000c682, 0x60 },
-+	{ 0x0000c019, 0x10 },
-+	{ 0x0000c5f0, 0x01 },
-+	{ 0x0000c5f7, 0x22 },
-+	{ 0x0000c5f6, 0x22 },
-+	{ 0x0000c057, 0x51 },
-+	{ 0x0000c054, 0x55 },
-+	{ 0x0000c053, 0x55 },
-+	{ 0x0000c052, 0x55 },
-+	{ 0x0000c051, 0x01 },
-+	{ 0x0000c050, 0x15 },
-+	{ 0x0000c060, 0x99 },
-+	{ 0x0000c030, 0x55 },
-+	{ 0x0000c061, 0x55 },
-+	{ 0x0000c063, 0x55 },
-+	{ 0x0000c065, 0xa5 },
-+	{ 0x0000c06b, 0x0a },
-+	{ 0x0000ca05, 0xd6 },
-+	{ 0x0000ca07, 0x07 },
-+	{ 0x0000ca25, 0xd6 },
-+	{ 0x0000ca27, 0x07 },
-+	{ 0x0000cd00, 0x05 },
-+	{ 0x0000c604, 0x40 },
-+	{ 0x0000c609, 0x40 },
-+	{ 0x0000c046, 0xf7 },
-+	{ 0x0000c045, 0xff },
-+	{ 0x0000c044, 0xff },
-+	{ 0x0000c043, 0xff },
-+	{ 0x0000c042, 0xff },
-+	{ 0x0000c041, 0xff },
-+	{ 0x0000c040, 0xff },
-+	{ 0x0000c049, 0xff },
-+	{ 0x0000c028, 0x3f },
-+	{ 0x0000c020, 0x3f },
-+	{ 0x0000c032, 0x13 },
-+	{ 0x0000c033, 0x01 },
-+	{ 0x0000cc10, 0x01 },
-+	{ 0x0000dc20, 0x03 },
-+	{ 0x0000de03, 0x05 },
-+	{ 0x0000dc00, 0x00 },
-+	{ 0x0000c700, 0xf0 },
-+	{ 0x0000c701, 0x13 },
-+	{ 0x0000c900, 0xc3 },
-+	{ 0x0000c570, 0x08 },
-+	{ 0x0000c086, 0x02 },
-+	{ 0x0000c085, 0x7f },
-+	{ 0x0000c084, 0x00 },
-+	{ 0x0000c081, 0xff },
-+	{ 0x0000f084, 0x0f },
-+	{ 0x0000f083, 0xff },
-+	{ 0x0000f082, 0xff },
-+	{ 0x0000f081, 0xff },
-+	{ 0x0000f080, 0xff },
-+	{ 0x20003003, 0x3f },
-+	{ 0x20005818, 0x81 },
-+	{ 0x20009018, 0x81 },
-+	{ 0x2000301c, 0x81 },
-+	{ 0x0000c003, 0xc0 },
-+	{ 0x0000c047, 0x80 },
-+	{ 0x0000d541, 0x80 },
-+	{ 0x0000d487, 0x0b },
-+	{ 0x0000d487, 0x3b },
-+	{ 0x0000d486, 0xc3 },
-+	{ 0x0000d470, 0x89 },
-+	{ 0x0000d471, 0x3a },
-+	{ 0x0000d472, 0x1d },
-+	{ 0x0000d478, 0xff },
-+	{ 0x0000d479, 0x20 },
-+	{ 0x0000d47a, 0x10 },
-+	{ 0x0000d73c, 0xb7 },
-+	{ 0x0000d73d, 0xd7 },
-+	{ 0x0000d73e, 0x00 },
-+	{ 0x0000d73f, 0x10 },
-+	{ 0x3fc2dfc3, 0x00 },
-+	{ 0x3fc2dfc2, 0x00 },
-+	{ 0x3fc2dfc1, 0x00 },
-+	{ 0x3fc2dfc0, 0x07 },
-+	{ 0x3fc2dfc7, 0x00 },
-+	{ 0x3fc2dfc6, 0x00 },
-+	{ 0x3fc2dfc5, 0x00 },
-+	{ 0x3fc2dfc4, 0x01 },
-+	{ 0x3fc2df83, 0x00 },
-+	{ 0x3fc2df82, 0x00 },
-+	{ 0x3fc2df81, 0x00 },
-+	{ 0x3fc2df80, 0x00 },
-+	{ 0x0000d541, 0x40 },
-+	{ 0x0000d486, 0x43 },
-+	{ 0x1000db00, 0x03 },
-+	{ 0x1000db01, 0x00 },
-+	{ 0x1000db02, 0x10 },
-+	{ 0x1000db03, 0x00 },
-+	{ 0x1000db04, 0x00 },
-+	{ 0x1000db05, 0x45 },
-+	{ 0x1000db06, 0x12 },
-+	{ 0x1000db07, 0x09 },
-+	{ 0x1000db08, 0x00 },
-+	{ 0x1000db09, 0x00 },
-+	{ 0x1000db0a, 0x00 },
-+	{ 0x1000db0b, 0x13 },
-+	{ 0x1000db0c, 0x09 },
-+	{ 0x1000db0d, 0x00 },
-+	{ 0x1000db0e, 0x00 },
-+	{ 0x1000db0f, 0x00 },
-+	{ 0x0000d540, 0x21 },
-+	{ 0x41000189, 0x00 },
-+	{ 0x4100018a, 0x00 },
-+	{ 0x41001988, 0x00 },
-+	{ 0x41081400, 0x09 },
-+	{ 0x40801508, 0x03 },
-+	{ 0x40801588, 0x03 },
-+	{ 0x40801809, 0x00 },
-+	{ 0x4080180a, 0x00 },
-+	{ 0x4080180b, 0x00 },
-+	{ 0x4080180c, 0x00 },
-+	{ 0x40801b09, 0x00 },
-+	{ 0x40801b0a, 0x00 },
-+	{ 0x40801b0b, 0x00 },
-+	{ 0x40801b0c, 0x00 },
-+	{ 0x0000d714, 0x17 },
-+	{ 0x20009012, 0x00 },
-+	{ 0x0000dd0b, 0x0d },
-+	{ 0x0000dd0a, 0xff },
-+	{ 0x0000dd09, 0x0d },
-+	{ 0x0000dd08, 0xff },
-+	{ 0x0000d172, 0x2a },
-+	{ 0x41001988, 0x03 },
-+};
-+
- static const struct reg_default rt1320_reg_defaults[] = {
- 	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_MUTE, CH_01), 0x01 },
-@@ -340,10 +495,19 @@ static bool rt1320_readable_register(struct device *dev, unsigned int reg)
- 	case 0xf717 ... 0xf719:
- 	case 0xf720 ... 0xf723:
- 	case 0x1000cd91 ... 0x1000cd96:
-+	case RT1321_PATCH_MAIN_VER ... RT1321_PATCH_BETA_VER:
- 	case 0x1000f008:
- 	case 0x1000f021:
-+	case 0x2000300f:
-+	case 0x2000301c:
-+	case 0x2000900f:
-+	case 0x20009018:
-+	case 0x3fc29d80 ... 0x3fc29d83:
- 	case 0x3fe2e000 ... 0x3fe2e003:
- 	case 0x3fc2ab80 ... 0x3fc2abd4:
-+	case 0x3fc2bfc0 ... 0x3fc2bfc8:
-+	case 0x3fc2d300 ... 0x3fc2d354:
-+	case 0x3fc2dfc0 ... 0x3fc2dfc8:
- 	/* 0x40801508/0x40801809/0x4080180a/0x40801909/0x4080190a */
- 	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_REQ_POWER_STATE, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_MUTE, CH_01):
-@@ -394,6 +558,7 @@ static bool rt1320_volatile_register(struct device *dev, unsigned int reg)
- 	case 0xc560:
- 	case 0xc5b5 ... 0xc5b7:
- 	case 0xc5fc ... 0xc5ff:
-+	case 0xc680 ... 0xc683:
- 	case 0xc820:
- 	case 0xc900:
- 	case 0xc920:
-@@ -412,7 +577,7 @@ static bool rt1320_volatile_register(struct device *dev, unsigned int reg)
- 	case 0xd4e5 ... 0xd4e6:
- 	case 0xd4e8 ... 0xd4ff:
- 	case 0xd530:
--	case 0xd540:
-+	case 0xd540 ... 0xd541:
- 	case 0xd543:
- 	case 0xdb58 ... 0xdb5f:
- 	case 0xdb60 ... 0xdb63:
-@@ -429,13 +594,20 @@ static bool rt1320_volatile_register(struct device *dev, unsigned int reg)
- 	case 0xf01e:
- 	case 0xf717 ... 0xf719:
- 	case 0xf720 ... 0xf723:
--	case 0x10000000 ... 0x10007fff:
-+	case 0x10000000 ... 0x10008fff:
- 	case 0x1000c000 ... 0x1000dfff:
- 	case 0x1000f008:
- 	case 0x1000f021:
-+	case 0x2000300f:
-+	case 0x2000301c:
-+	case 0x2000900f:
-+	case 0x20009018:
- 	case 0x3fc2ab80 ... 0x3fc2abd4:
-+	case 0x3fc2b780:
- 	case 0x3fc2bf80 ... 0x3fc2bf83:
--	case 0x3fc2bfc0 ... 0x3fc2bfc7:
-+	case 0x3fc2bfc0 ... 0x3fc2bfc8:
-+	case 0x3fc2d300 ... 0x3fc2d354:
-+	case 0x3fc2dfc0 ... 0x3fc2dfc8:
- 	case 0x3fe2e000 ... 0x3fe2e003:
- 	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_ACTUAL_POWER_STATE, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT0, RT1320_SDCA_CTL_FUNC_STATUS, 0):
-@@ -560,7 +732,7 @@ static int rt1320_read_prop(struct sdw_slave *slave)
- static int rt1320_pde_transition_delay(struct rt1320_sdw_priv *rt1320, unsigned char func,
- 	unsigned char entity, unsigned char ps)
- {
--	unsigned int delay = 1000, val;
-+	unsigned int delay = 2000, val;
- 
- 	pm_runtime_mark_last_busy(&rt1320->sdw_slave->dev);
- 
-@@ -591,24 +763,44 @@ static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
- 	struct sdw_slave *slave = rt1320->sdw_slave;
- 	const struct firmware *patch;
- 	const char *filename;
--	unsigned int addr, val;
-+	unsigned int addr, val, min_addr, max_addr;
- 	const unsigned char *ptr;
- 	int ret, i;
- 
--	if (rt1320->version_id <= RT1320_VB)
--		filename = RT1320_VAB_MCU_PATCH;
--	else
--		filename = RT1320_VC_MCU_PATCH;
-+	switch (rt1320->dev_id) {
-+	case RT1320_DEV_ID:
-+		if (rt1320->version_id <= RT1320_VB)
-+			filename = RT1320_VAB_MCU_PATCH;
-+		else
-+			filename = RT1320_VC_MCU_PATCH;
-+		min_addr = 0x10007000;
-+		max_addr = 0x10007fff;
-+		break;
-+	case RT1321_DEV_ID:
-+		filename = RT1321_VA_MCU_PATCH;
-+		min_addr = 0x10008000;
-+		max_addr = 0x10008fff;
-+		break;
-+	default:
-+		dev_err(&slave->dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
-+		return;
-+	}
- 
- 	/* load the patch code here */
- 	ret = request_firmware(&patch, filename, &slave->dev);
- 	if (ret) {
- 		dev_err(&slave->dev, "%s: Failed to load %s firmware", __func__, filename);
- 		regmap_write(rt1320->regmap, 0xc598, 0x00);
--		regmap_write(rt1320->regmap, 0x10007000, 0x67);
--		regmap_write(rt1320->regmap, 0x10007001, 0x80);
--		regmap_write(rt1320->regmap, 0x10007002, 0x00);
--		regmap_write(rt1320->regmap, 0x10007003, 0x00);
-+		regmap_write(rt1320->regmap, min_addr, 0x67);
-+		regmap_write(rt1320->regmap, min_addr + 0x1, 0x80);
-+		regmap_write(rt1320->regmap, min_addr + 0x2, 0x00);
-+		regmap_write(rt1320->regmap, min_addr + 0x3, 0x00);
-+		if (rt1320->dev_id == RT1321_DEV_ID) {
-+			regmap_write(rt1320->regmap, 0xd73c, 0x67);
-+			regmap_write(rt1320->regmap, 0xd73d, 0x80);
-+			regmap_write(rt1320->regmap, 0xd73e, 0x00);
-+			regmap_write(rt1320->regmap, 0xd73f, 0x00);
-+		}
- 	} else {
- 		ptr = (const unsigned char *)patch->data;
- 		if ((patch->size % 8) == 0) {
-@@ -618,7 +810,7 @@ static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
- 				val = (ptr[i + 4] & 0xff) | (ptr[i + 5] & 0xff) << 8 |
- 					(ptr[i + 6] & 0xff) << 16 | (ptr[i + 7] & 0xff) << 24;
- 
--				if (addr > 0x10007fff || addr < 0x10007000) {
-+				if (addr > max_addr || addr < min_addr) {
- 					dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
- 					goto _exit_;
- 				}
-@@ -688,6 +880,28 @@ static void rt1320_vc_preset(struct rt1320_sdw_priv *rt1320)
- 	}
- }
- 
-+static void rt1321_preset(struct rt1320_sdw_priv *rt1320)
-+{
-+	unsigned int i, reg, val, delay;
-+
-+	for (i = 0; i < ARRAY_SIZE(rt1321_blind_write); i++) {
-+		reg = rt1321_blind_write[i].reg;
-+		val = rt1321_blind_write[i].def;
-+		delay = rt1321_blind_write[i].delay_us;
-+
-+		if (reg == 0x3fc2dfc3)
-+			rt1320_load_mcu_patch(rt1320);
-+
-+		regmap_write(rt1320->regmap, reg, val);
-+
-+		if (delay)
-+			usleep_range(delay, delay + 1000);
-+
-+		if (reg == SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_REQ_POWER_STATE, 0))
-+			rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, val);
-+	}
-+}
-+
- static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
- {
- 	struct rt1320_sdw_priv *rt1320 = dev_get_drvdata(dev);
-@@ -714,6 +928,9 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
- 	if (rt1320->version_id < 0) {
- 		regmap_read(rt1320->regmap, RT1320_DEV_VERSION_ID_1, &val);
- 		rt1320->version_id = val;
-+		regmap_read(rt1320->regmap, RT1320_DEV_ID_0, &val);
-+		regmap_read(rt1320->regmap, RT1320_DEV_ID_1, &tmp);
-+		rt1320->dev_id = (val << 8) | tmp;
- 	}
- 
- 	regmap_read(rt1320->regmap,
-@@ -722,16 +939,25 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
- 
- 	/* initialization write */
- 	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
--		if (rt1320->version_id < RT1320_VC)
--			rt1320_vab_preset(rt1320);
--		else
--			rt1320_vc_preset(rt1320);
-+		switch (rt1320->dev_id) {
-+		case RT1320_DEV_ID:
-+			if (rt1320->version_id < RT1320_VC)
-+				rt1320_vab_preset(rt1320);
-+			else
-+				rt1320_vc_preset(rt1320);
-+			break;
-+		case RT1321_DEV_ID:
-+			rt1321_preset(rt1320);
-+			break;
-+		default:
-+			dev_err(dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
-+		}
- 
- 		regmap_write(rt1320->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT0, RT1320_SDCA_CTL_FUNC_STATUS, 0),
- 			FUNCTION_NEEDS_INITIALIZATION);
- 	}
--	if (!rt1320->first_hw_init && rt1320->version_id == RT1320_VA) {
-+	if (!rt1320->first_hw_init && rt1320->version_id == RT1320_VA && rt1320->dev_id == RT1320_DEV_ID) {
- 		regmap_write(rt1320->regmap, SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
- 			RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0);
- 		regmap_read(rt1320->regmap, RT1320_HIFI_VER_0, &val);
-@@ -751,7 +977,7 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
- 		regmap_write(rt1320->regmap, SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
- 			RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 3);
- 	}
--	dev_dbg(dev, "%s version_id=%d\n", __func__, rt1320->version_id);
-+	dev_dbg(dev, "%s version_id=%d, dev_id=0x%x\n", __func__, rt1320->version_id, rt1320->dev_id);
- 
- 	if (rt1320->first_hw_init) {
- 		regcache_cache_bypass(rt1320->regmap, false);
-@@ -894,12 +1120,20 @@ static int rt1320_set_gain_put(struct snd_kcontrol *kcontrol,
- 
- 	/* check all channels */
- 	for (i = 0; i < p->count; i++) {
--		if (i < 2) {
-+		switch (rt1320->dev_id) {
-+		case RT1320_DEV_ID:
-+			if (i < 2) {
-+				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+				regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue[i]);
-+			} else {
-+				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+				regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue[i]);
-+			}
-+			break;
-+		case RT1321_DEV_ID:
- 			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
- 			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue[i]);
--		} else {
--			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
--			regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue[i]);
-+			break;
- 		}
- 
- 		gain_val[i] = ucontrol->value.integer.value[i];
-@@ -916,12 +1150,20 @@ static int rt1320_set_gain_put(struct snd_kcontrol *kcontrol,
- 		return 0;
- 
- 	for (i = 0; i < p->count; i++) {
--		if (i < 2) {
-+		switch (rt1320->dev_id) {
-+		case RT1320_DEV_ID:
-+			if (i < 2) {
-+				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+				err = regmap_write(rt1320->mbq_regmap, reg_base + i, gain_val[i]);
-+			} else {
-+				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+				err = regmap_write(rt1320->mbq_regmap, reg_base + i - 2, gain_val[i]);
-+			}
-+			break;
-+		case RT1321_DEV_ID:
- 			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
- 			err = regmap_write(rt1320->mbq_regmap, reg_base + i, gain_val[i]);
--		} else {
--			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
--			err = regmap_write(rt1320->mbq_regmap, reg_base + i - 2, gain_val[i]);
-+			break;
- 		}
- 
- 		if (err < 0)
-@@ -966,12 +1208,20 @@ static int rt1320_set_gain_get(struct snd_kcontrol *kcontrol,
- 
- 	/* check all channels */
- 	for (i = 0; i < p->count; i++) {
--		if (i < 2) {
-+		switch (rt1320->dev_id) {
-+		case RT1320_DEV_ID:
-+			if (i < 2) {
-+				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+				regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue);
-+			} else {
-+				reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+				regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue);
-+			}
-+			break;
-+		case RT1321_DEV_ID:
- 			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
- 			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue);
--		} else {
--			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
--			regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue);
-+			break;
- 		}
- 
- 		ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
-@@ -989,14 +1239,26 @@ static int rt1320_set_fu_capture_ctl(struct rt1320_sdw_priv *rt1320)
- 	for (i = 0; i < ARRAY_SIZE(rt1320->fu_mixer_mute); i++) {
- 		ch_mute = (rt1320->fu_dapm_mute || rt1320->fu_mixer_mute[i]) ? 0x01 : 0x00;
- 
--		if (i < 2)
-+		switch (rt1320->dev_id) {
-+		case RT1320_DEV_ID:
-+			if (i < 2)
-+				err = regmap_write(rt1320->regmap,
-+					SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113,
-+						RT1320_SDCA_CTL_FU_MUTE, CH_01) + i, ch_mute);
-+			else
-+				err = regmap_write(rt1320->regmap,
-+					SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14,
-+						RT1320_SDCA_CTL_FU_MUTE, CH_01) + i - 2, ch_mute);
-+			break;
-+		case RT1321_DEV_ID:
- 			err = regmap_write(rt1320->regmap,
- 				SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113,
- 					RT1320_SDCA_CTL_FU_MUTE, CH_01) + i, ch_mute);
--		else
--			err = regmap_write(rt1320->regmap,
--				SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14,
--					RT1320_SDCA_CTL_FU_MUTE, CH_01) + i - 2, ch_mute);
-+			break;
-+		default:
-+			dev_err(&rt1320->sdw_slave->dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
-+			return -EINVAL;
-+		}
- 		if (err < 0)
- 			return err;
- 	}
-@@ -1217,10 +1479,20 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
- 		if (dai->id == RT1320_AIF1)
- 			port_config.num = 4;
- 		else if (dai->id == RT1320_AIF2) {
--			dmic_port_config[0].ch_mask = BIT(0) | BIT(1);
--			dmic_port_config[0].num = 8;
--			dmic_port_config[1].ch_mask = BIT(0) | BIT(1);
--			dmic_port_config[1].num = 10;
-+			switch (rt1320->dev_id) {
-+			case RT1320_DEV_ID:
-+				dmic_port_config[0].ch_mask = BIT(0) | BIT(1);
-+				dmic_port_config[0].num = 8;
-+				dmic_port_config[1].ch_mask = BIT(0) | BIT(1);
-+				dmic_port_config[1].num = 10;
-+				break;
-+			case RT1321_DEV_ID:
-+				dmic_port_config[0].ch_mask = BIT(0) | BIT(1);
-+				dmic_port_config[0].num = 8;
-+				break;
-+			default:
-+				return -EINVAL;
-+			}
- 		} else
- 			return -EINVAL;
- 	}
-@@ -1228,10 +1500,21 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
- 	if (dai->id == RT1320_AIF1)
- 		retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
- 				&port_config, 1, sdw_stream);
--	else if (dai->id == RT1320_AIF2)
--		retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
-+	else if (dai->id == RT1320_AIF2) {
-+		switch (rt1320->dev_id) {
-+		case RT1320_DEV_ID:
-+			retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
- 				dmic_port_config, 2, sdw_stream);
--	else
-+			break;
-+		case RT1321_DEV_ID:
-+			retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
-+				dmic_port_config, 1, sdw_stream);
-+			break;
-+		default:
-+			dev_err(dai->dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
-+			return -EINVAL;
-+		}
-+	} else
- 		return -EINVAL;
- 	if (retval) {
- 		dev_err(dai->dev, "%s: Unable to configure port\n", __func__);
-@@ -1273,9 +1556,11 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
- 		regmap_write(rt1320->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS113, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
- 			sampling_rate);
--		regmap_write(rt1320->regmap,
--			SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS14, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
--			sampling_rate);
-+
-+		if (rt1320->dev_id == RT1320_DEV_ID)
-+			regmap_write(rt1320->regmap,
-+				SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS14, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
-+				sampling_rate);
- 	}
- 
- 	return 0;
-@@ -1469,6 +1754,7 @@ static int rt1320_sdw_remove(struct sdw_slave *slave)
- static const struct sdw_device_id rt1320_id[] = {
- 	SDW_SLAVE_ENTRY_EXT(0x025d, 0x1320, 0x3, 0x0, 0),
- 	SDW_SLAVE_ENTRY_EXT(0x025d, 0x1320, 0x3, 0x1, 0),
-+	SDW_SLAVE_ENTRY_EXT(0x025d, 0x1321, 0x3, 0x1, 0),
- 	{},
- };
- MODULE_DEVICE_TABLE(sdw, rt1320_id);
-diff --git a/sound/soc/codecs/rt1320-sdw.h b/sound/soc/codecs/rt1320-sdw.h
-index 23b321aee6a9..a6d90e259dc9 100644
---- a/sound/soc/codecs/rt1320-sdw.h
-+++ b/sound/soc/codecs/rt1320-sdw.h
-@@ -14,8 +14,16 @@
- #include <linux/soundwire/sdw_registers.h>
- #include <sound/soc.h>
- 
-+#define RT1320_DEV_ID 0x6981
-+#define RT1321_DEV_ID 0x7045
-+
- /* imp-defined registers */
- #define RT1320_DEV_VERSION_ID_1 0xc404
-+#define RT1320_DEV_ID_1 0xc405
-+#define RT1320_DEV_ID_0 0xc406
-+
-+#define RT1321_PATCH_MAIN_VER 0x1000cffe
-+#define RT1321_PATCH_BETA_VER 0x1000cfff
- 
- #define RT1320_KR0_STATUS_CNT 0x1000f008
- #define RT1320_KR0_INT_READY 0x1000f021
-@@ -86,6 +94,7 @@ enum rt1320_version_id {
- #define RT1320_VER_B_ID 0x07392238
- #define RT1320_VAB_MCU_PATCH "realtek/rt1320/rt1320-patch-code-vab.bin"
- #define RT1320_VC_MCU_PATCH "realtek/rt1320/rt1320-patch-code-vc.bin"
-+#define RT1321_VA_MCU_PATCH "realtek/rt1320/rt1321-patch-code-va.bin"
- 
- struct rt1320_sdw_priv {
- 	struct snd_soc_component *component;
-@@ -96,6 +105,7 @@ struct rt1320_sdw_priv {
- 	bool hw_init;
- 	bool first_hw_init;
- 	int version_id;
-+	unsigned int dev_id;
- 	bool fu_dapm_mute;
- 	bool fu_mixer_mute[4];
- };
+Changes in v3
+  - Corrected v2 invalid patches order
+  The v2 submission included mix of patches for v2 that were unusable.
+  These new patches are valid now.
+
+Changes in v2:
+  - Patch 1: Dropped blank line, initialized `__free(kfree)` variable to
+     NULL, and fixed `struct tascam_card` indentation.
+  - Patch 2: Corrected indentation in `us144mkii.h`.
+  - Patch 3: Changed `fpoInitPattern` to `fpo_init_pattern` (snake_case),
+     initialized `__free(kfree)` variable, and replaced
+     `guard(spinlock_irqsave)` with `scoped_guard()`.
+  - Patch 5: Updated control names to standard "Playback Source" and
+     "Capture Source" formats, and initialized `__free(kfree)` variable to NULL.
+  - Patch 6: Re-organized code style alignments into previous patches.
+  - Patch 7: Fixed trailing whitespace warning.
+
+Šerif Rami (7):
+  ALSA: usb-audio: Add initial driver for TASCAM US-144MKII
+  ALSA: usb-audio: us144mkii: Add PCM core infrastructure
+  ALSA: usb-audio: us144mkii: Implement audio playback and feedback
+  ALSA: usb-audio: us144mkii: Implement audio capture and decoding
+  ALSA: usb-audio: us144mkii: Add MIDI support and mixer controls
+  ALSA: usb-audio: us144mkii: Add deep sleep command
+  ALSA: usb-audio: Add infrastructure for TASCAM US-144MKII
+
+ sound/usb/Kconfig                    |  12 +
+ sound/usb/usx2y/Makefile             |   2 +
+ sound/usb/usx2y/us122l.c             |   6 -
+ sound/usb/usx2y/us144mkii.c          | 618 +++++++++++++++++++++++++++
+ sound/usb/usx2y/us144mkii.h          | 368 ++++++++++++++++
+ sound/usb/usx2y/us144mkii_capture.c  | 323 ++++++++++++++
+ sound/usb/usx2y/us144mkii_controls.c | 453 ++++++++++++++++++++
+ sound/usb/usx2y/us144mkii_midi.c     | 400 +++++++++++++++++
+ sound/usb/usx2y/us144mkii_pcm.c      | 370 ++++++++++++++++
+ sound/usb/usx2y/us144mkii_pcm.h      | 165 +++++++
+ sound/usb/usx2y/us144mkii_playback.c | 458 ++++++++++++++++++++
+ 11 files changed, 3169 insertions(+), 6 deletions(-)
+ create mode 100644 sound/usb/usx2y/us144mkii.c
+ create mode 100644 sound/usb/usx2y/us144mkii.h
+ create mode 100644 sound/usb/usx2y/us144mkii_capture.c
+ create mode 100644 sound/usb/usx2y/us144mkii_controls.c
+ create mode 100644 sound/usb/usx2y/us144mkii_midi.c
+ create mode 100644 sound/usb/usx2y/us144mkii_pcm.c
+ create mode 100644 sound/usb/usx2y/us144mkii_pcm.h
+ create mode 100644 sound/usb/usx2y/us144mkii_playback.c
+
+
+base-commit: e8e4f3c242cc26de9d69bd8b3a678d1e50980abe
 -- 
-2.34.1
+2.39.5
 
