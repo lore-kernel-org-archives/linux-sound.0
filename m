@@ -1,141 +1,147 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C468199E94
-	for <linux-sound@vger.kernel.org>; Thu, 14 Aug 2025 16:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4DA139D0A;
+	Thu, 14 Aug 2025 17:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755188007; cv=none; b=DLKbGPywY9X8qmLiPmktzqUqwityfvNoHCYYQkk4xmVDFIF19LJtqfv53gXzkPXs4MXfLV62vGwoCjapEKBKLmelJ69MrkoeAeYtlnxBTeFtS5XcxY9XdACygts5AbByWwVJOGHXXUvj+ElcDRDCAXv1QWv1Ilf/Lr140j9cmZ4=
+	t=1755192149; cv=none; b=VmSkoJUkn1k77MDidvOujet69qVIb7tWyC6WV9YM6zRlStZOzu0fOsE8EOVNUfTUb0hFxBdUPeWSkIoD+O+2MjzGLEuSLPSrwsa2/4SBVebo+X4t6g89L1HrumND87LdTECAzHj//phioA+cp5DgbVyJF8y7gTiZFr9oWem61+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755188007; c=relaxed/simple;
-	bh=wn0RUU7wRB89Dsu/XEgQvcYCdZEwMPkATy/Q7fw5yk8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nlMSayWIy//KXyhblBZVtSI/OeSTIP54DGkXWYwNWu+KndSjcLV5dVpPFLMmakeCvq++mXghyup4VArelZWcvGvGEOp5tkayVLxP/kANLTNN33cDsuqkWE8lWhC5EGpc9pbRS/+HW4jlbh/SzvnqrzzvXiItVpTHoLu+dkyBicw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YieH2tLk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fMPQe3MB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YieH2tLk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fMPQe3MB; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1755192149; c=relaxed/simple;
+	bh=120jGlfjlfdd7Emz7Fp/PilxZdEz4gAqwhu1OwG95+4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=jTkEaNpA9vAeW1otvk+EdlSNNlvSDB6D3bwmQ89a4O6SFzXYwLNkvAMggw9fQrus2MZZKnQchsp/CIYWr5CqePJi9yPo1c81i7kf5QOemOuwlKmW4s2Kk/7Srru0ekWm9xKrdg/N+0mTGtGMCpbPzjeQvqLP9omCgc+jAS5IoMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jcQO2goa; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YieH2tLk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fMPQe3MB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YieH2tLk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fMPQe3MB"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 909B71F7FE;
-	Thu, 14 Aug 2025 16:13:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755188003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HY1Ka0blAbgBSRBSt7UsmlbudX5SHQaBBsmWeXDPrW0=;
-	b=YieH2tLkKlvRrVu6dJLG1RLMdnmZmCzItV3ivvcnK5VZSx2EH4lM4pQmyUuyTM2vc3kO8b
-	lUP4K3wz4I8uXfopS1pl0I9O4/J+nUh7RsZndBjrr90oSIKfDvINDVnoRqbN/cKNaGv3Q0
-	UZIpOI6U7XXz6McC105pWKGmecr5uk4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755188003;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HY1Ka0blAbgBSRBSt7UsmlbudX5SHQaBBsmWeXDPrW0=;
-	b=fMPQe3MBMVFloEbJao3B95VwXbo9DZIPltasgGnrFSNAQHaYTUWbkJ3Aki6bJjNqxaWqp3
-	dudKTll5S6gjgqAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YieH2tLk;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fMPQe3MB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755188003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HY1Ka0blAbgBSRBSt7UsmlbudX5SHQaBBsmWeXDPrW0=;
-	b=YieH2tLkKlvRrVu6dJLG1RLMdnmZmCzItV3ivvcnK5VZSx2EH4lM4pQmyUuyTM2vc3kO8b
-	lUP4K3wz4I8uXfopS1pl0I9O4/J+nUh7RsZndBjrr90oSIKfDvINDVnoRqbN/cKNaGv3Q0
-	UZIpOI6U7XXz6McC105pWKGmecr5uk4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755188003;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HY1Ka0blAbgBSRBSt7UsmlbudX5SHQaBBsmWeXDPrW0=;
-	b=fMPQe3MBMVFloEbJao3B95VwXbo9DZIPltasgGnrFSNAQHaYTUWbkJ3Aki6bJjNqxaWqp3
-	dudKTll5S6gjgqAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E661136AE;
-	Thu, 14 Aug 2025 16:13:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /aljFSMLnmgsHAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 14 Aug 2025 16:13:23 +0000
-Date: Thu, 14 Aug 2025 18:13:22 +0200
-Message-ID: <87ms81ubj1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-2?Q?=A9erif?= Rami <ramiserifpersia@gmail.com>
-Cc: tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jcQO2goa"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-afcb731caaaso164344566b.0;
+        Thu, 14 Aug 2025 10:22:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755192146; x=1755796946; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bXQ4zFcP1VHzRpcQtDiXfue/khViqbfXGoh+G+cmdaU=;
+        b=jcQO2goaVvlpNqnbCmk8MD2w2G4Ikl2AxA1FUHPcRX07lB9bsislIhhNBP31doOLep
+         328L5SUupLrCpu2gG6cgUi8617cVlpB+dxinwxhE2plLPk+7t1n/iOeTMtzJErq6qnuC
+         vZvZYIgT4TGrIUH3OnUyF5WQ9A6d5c3jQhtkQIZ/ET98C92ZWeDea8DhrcodArqtQttr
+         Mge7+Cg0RU8L6VNVyGM+2+kEJhcejeSmO2voN33MRSuNxYpCkAsCyRLWi4NMd9SitPC1
+         K+TS2tJlMGpvlBD+3FNgyce3Otw4yJNX/Ht8dqYHH4brrOyeFKJnC4p2elE7B4Htcg0j
+         v36Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755192146; x=1755796946;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bXQ4zFcP1VHzRpcQtDiXfue/khViqbfXGoh+G+cmdaU=;
+        b=RMUQIfxuw4PlhNgcr6SIB/JhGcHoJlDXFAhA9cc8zglYC3WZmvWXchYWGZHapNUV2k
+         n902ux/AllxOk8vlIO3vjrrlpm8UAAHFHLlQ4uefu6br2TdZIxrL+18EJolni/rjlh7k
+         lH8GAW9Ky2AHY1rdPY83nuA/evgpYEc4zh/mGyMXo73QsfhADt59sK9L9BIl7rzC7nvd
+         zrn4YKEIlJi/rVj33mVYLei2hmNVVmdHdQHF8+GV5GA5zLUm6jTOsslbCoBpEY3nsbkx
+         FTzTLbLxoANI27a17haiuc+L1GHKda0+wB81qUeQAjMync2OwZCFfuH7cHFQIiny+dfq
+         RmsA==
+X-Forwarded-Encrypted: i=1; AJvYcCWD1WnmvWmUsCzEpUEbrUrkTipmL2V8jOeexgQuU3RGwv44jzL1695TjfUOGpGcg1SQBaXxpPTDNeizPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB7ueFGy4XyMpx0sOrU91SGyhBSM0g9lYHxUF2j7sgMuwrIfXq
+	jHdSHtdaLxpK5kaM0C5MViv8Eoa+zzVC61+OLs5EPX7c/mfdBflP6vNi
+X-Gm-Gg: ASbGncuu9E2+ZauTXtLvp7/bbxEoK4Fw2JEmwJVkj7sgRY2ky8xz1eoI8c/SKz+aZ6a
+	WWJWiL/+mlAIAyzyLhNZBTvjHqe4iX7ZeISz7Feu+zdA+8xDv7qpUVj6wDLpphi33zhmeYt56HW
+	J/ZL/QR3eJ0nrri5OJCgtsQ8wVh2ZBO0BWNdICkfQSLbVASZrXWp/ZKBtQH0Y4nIX5leSx9xPkG
+	CcXmmRTb/x3aCk6wYWyOZnAmWxrQs7fUijY6WtWtdi+EnXkIGDhL9o5wMEOi1beQKk8Fn1N4AVT
+	G5+t3E+U2sv3VYU6kRiTRm+ErMMO90MRhAGK5ISjylA4t+ZwG3aXFEv5IgtiCqNJG76rkqtChSK
+	5olzGDh5dzPrlGckzgsfT0CxNUdZg56pT0LsmT/DGSAhvBsQmT8b1t7E6akS24CP5VL3apVnwH4
+	Wn2XM7DA==
+X-Google-Smtp-Source: AGHT+IER2zPzMvrw4CKEPAnHDQegy0Jro1MRokFhNcNZXbr3NRVE24nTIWs58dh8OLsl7TmsaP1jvQ==
+X-Received: by 2002:a17:907:7208:b0:ad8:914b:7d0b with SMTP id a640c23a62f3a-afcb9357c3emr378205866b.11.1755192145818;
+        Thu, 14 Aug 2025 10:22:25 -0700 (PDT)
+Received: from localhost.localdomain (93-87-121-223.dynamic.isp.telekom.rs. [93.87.121.223])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a8f2c265sm23774115a12.26.2025.08.14.10.22.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Aug 2025 10:22:25 -0700 (PDT)
+From: =?UTF-8?q?=C5=A0erif=20Rami?= <ramiserifpersia@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Subject: Re: [PATCH v5 0/7] ALSA: usb-audio: Add driver for TASCAM US-144MKII
-In-Reply-To: <20250814160538.3269-1-ramiserifpersia@gmail.com>
-References: <87qzxduchg.wl-tiwai@suse.de>
-	<20250814160538.3269-1-ramiserifpersia@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	=?UTF-8?q?=C5=A0erif=20Rami?= <ramiserifpersia@gmail.com>
+Subject: [PATCH v6 0/7] ALSA: usb-audio: Add driver for TASCAM US-144MKII
+Date: Thu, 14 Aug 2025 19:22:15 +0200
+Message-Id: <20250814172222.9448-1-ramiserifpersia@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 909B71F7FE
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
 
-On Thu, 14 Aug 2025 18:05:38 +0200,
-Šerif Rami wrote:
-> 
-> Thanks, I’ll fix the brace placement for scoped_guard() in the next revision.
-> If there’s anything else you’d like me to adjust before resubmitting, please let me know.
+This is v6 of the patch series to add a new driver
+for the TASCAM US-144MKII USB audio interface.
 
-Other than that (and the point you noticed), I didn't see anything
-obvious, so likely I'll merge v6 :)
+Changes in v6:
+  - Addressed open brace cosmetic standards for scoped_guard() calls.
+  - Added lost default values for digital in/out kcontrols.
 
+Changes in v5:
+  - Addressed u64 remainder in Patch 2/7.
+  - Refactored guard() calls for spinlocks to scoped_guard() for ones
+    that got missed(hopefully all).
 
-thanks,
+Changes in v4:
+  - Removing leading spaces from #defines as requested.
+  - Renaming fpoInitPattern to fpo_init_pattern.
+  - Removing unnecessary kfree() calls.
+  - Replacing manual lock/unlock patterns with scoped_guard().
 
-Takashi
+Changes in v3
+  - Corrected v2 invalid patches order
+  The v2 submission included mix of patches for v2 that were unusable.
+  These new patches are valid now.
+
+Changes in v2:
+  - Patch 1: Dropped blank line, initialized `__free(kfree)` variable to
+     NULL, and fixed `struct tascam_card` indentation.
+  - Patch 2: Corrected indentation in `us144mkii.h`.
+  - Patch 3: Changed `fpoInitPattern` to `fpo_init_pattern` (snake_case),
+     initialized `__free(kfree)` variable, and replaced
+     `guard(spinlock_irqsave)` with `scoped_guard()`.
+  - Patch 5: Updated control names to standard "Playback Source" and
+     "Capture Source" formats, and initialized `__free(kfree)` variable to NULL.
+  - Patch 6: Re-organized code style alignments into previous patches.
+  - Patch 7: Fixed trailing whitespace warning.
+
+Šerif Rami (7):
+  ALSA: usb-audio: Add initial driver for TASCAM US-144MKII
+  ALSA: usb-audio: us144mkii: Add PCM core infrastructure
+  ALSA: usb-audio: us144mkii: Implement audio playback and feedback
+  ALSA: usb-audio: us144mkii: Implement audio capture and decoding
+  ALSA: usb-audio: us144mkii: Add MIDI support and mixer controls
+  ALSA: usb-audio: us144mkii: Add deep sleep command
+  ALSA: usb-audio: Add infrastructure for TASCAM US-144MKII
+
+ sound/usb/Kconfig                    |  12 +
+ sound/usb/usx2y/Makefile             |   2 +
+ sound/usb/usx2y/us122l.c             |   6 -
+ sound/usb/usx2y/us144mkii.c          | 620 +++++++++++++++++++++++++++
+ sound/usb/usx2y/us144mkii.h          | 368 ++++++++++++++++
+ sound/usb/usx2y/us144mkii_capture.c  | 319 ++++++++++++++
+ sound/usb/usx2y/us144mkii_controls.c | 444 +++++++++++++++++++
+ sound/usb/usx2y/us144mkii_midi.c     | 399 +++++++++++++++++
+ sound/usb/usx2y/us144mkii_pcm.c      | 370 ++++++++++++++++
+ sound/usb/usx2y/us144mkii_pcm.h      | 165 +++++++
+ sound/usb/usx2y/us144mkii_playback.c | 456 ++++++++++++++++++++
+ 11 files changed, 3155 insertions(+), 6 deletions(-)
+ create mode 100644 sound/usb/usx2y/us144mkii.c
+ create mode 100644 sound/usb/usx2y/us144mkii.h
+ create mode 100644 sound/usb/usx2y/us144mkii_capture.c
+ create mode 100644 sound/usb/usx2y/us144mkii_controls.c
+ create mode 100644 sound/usb/usx2y/us144mkii_midi.c
+ create mode 100644 sound/usb/usx2y/us144mkii_pcm.c
+ create mode 100644 sound/usb/usx2y/us144mkii_pcm.h
+ create mode 100644 sound/usb/usx2y/us144mkii_playback.c
+
+base-commit: e8e4f3c242cc26de9d69bd8b3a678d1e50980abe
+-- 
+2.39.5
+
