@@ -1,89 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CD92135D1;
-	Thu, 14 Aug 2025 14:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6DE5321425;
+	Thu, 14 Aug 2025 14:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755181121; cv=none; b=R8uo3TQcQBZwvbIT7TSmFZli5bps1x/lf0+TbBQ+VGeOHpTfNL9Bn3c4CNowp76+8rIaCtjjZx3Up0jBkB2W9fNE/lFclr0Y0SACSFpyvsvtw6AXVFxaKdtCebjMda7QE+h9XPPCZh+onvUfIzrRiuiJDsfQXrXT63oyqqZVDfw=
+	t=1755181348; cv=none; b=DEsU8OkCYoLDVxszHoNgmI0tDj8EMWh2gOHPcAsZ9pPX/bEh6XFnr123y03uCal0vboxon6tEzoR3QCjUxSZFAJTcPxh2i6LtsLY6eBOB07bEQX1KHNGXOPJc8vaqaKhqwR6nBQV6ExJZqYHhi97e9Z9lqHuXPqS9LwMu3EQQqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755181121; c=relaxed/simple;
-	bh=ezT8h19tbrErhEX74K5EDIS1DVgKzjeCE9jYx/GAjfA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tNJxXsnp4Oe/+SLv7VR28K0H/otA/0ySdv075M/4sbuFD/qBN6i0rN1k1MFm1lp6mq/Fk44IxWBmT/G8L+4We9e6848d4rUvYQesDi3n8mikfKvirEDdWOPj3VHiEYKXsXUO/3dH1567RE9u+OehaOhLNi8jbef9ZGgkFWyprfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YS/34ryV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755181348; c=relaxed/simple;
+	bh=/XNYpGekW5FTkck9vkxbycrYIDktpqRjcH0lEJ1R/bY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qSecMYCW5yNDSGc2AKTSvCXJYzIgcseIT3viuoTJszkLEgCFRRhPBG4jYHNtGmZlCVIUzsqfPNjcOJUCc+aqp89BVlnlgGjix2BUq5YdrBV9YWQsLROIGYiOUCIoeorbFL3Eua2DkXBRFq5OWma5aPpXbMI0n5UWpzYoRqq9YQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=sLESdke4; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YS/34ryV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34B0EC4CEEF;
-	Thu, 14 Aug 2025 14:18:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755181120;
-	bh=ezT8h19tbrErhEX74K5EDIS1DVgKzjeCE9jYx/GAjfA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=YS/34ryVn84cNOohcF2crew00cdL4+AySZDS67orfKzZ6wPYwxb0VXm+90fsXs7wa
-	 ro6h1JrAYglyF4hkd8C9yjlSkSPfRn1axNtKDNEefAsGZsDafSLEPwvrXMQnCWCd6e
-	 uIl81Ky+eHTwQU6A4WozPX249myuEg4QaD3WPPN5QArwvUFu9q9Zvn1ebIzmeOLNLl
-	 NzKiy0gsJyTXbS02VwxHGQBgbQlwOMnpoqbbRBVp6quESoH0IMmriHX1TGOJoHJiWK
-	 +skeBwsrltkLQGXOZ8mbi3QBpUWFYCyzkN/+L9SkF7teg6fjKRSFfhAmIddmCyfD96
-	 2uWcuvB3zImWg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Shimrra Shai <shimrrashai@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20250814012652.81424-1-shimrrashai@gmail.com>
-References: <20250814012652.81424-1-shimrrashai@gmail.com>
-Subject: Re: (subset) [PATCH 0/2] ASoC: es8323: Playback enablement for
- Firefly ITX-3588J and similar hardware
-Message-Id: <175518111895.47921.9144261888630473273.b4-ty@kernel.org>
-Date: Thu, 14 Aug 2025 15:18:38 +0100
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="sLESdke4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=yBVHQGnzgNju8paCixuYP7SJ47LWZfp4e7tehQ9v+jU=; b=sLESdke4jcvzMSZyS2XuOK9j0f
+	LGePkEsEt9Gyie3xmH0z39G50LcNZwydVway9tZtd7tHGKzNbSxYnpYROrUTNdfVCs4+H9/x0lnHl
+	dthaY+JBajtTijeiE3BfVeAI+NnMxVXml7Cu8nvSqbZsIjLqxRDolPjCAG3I90PQSNClmekFN4n+X
+	eILTr2tQRYXei9nFktUA9AWkoAlu6Y4dgyuxeqacJkHmTklLT4Qfui1HESI2HAKLFblz6fMwmOxxu
+	OR7Y4aEcqokM6v788Ka6Hbe4YmGN/QmQXpKL/xUHChlDIKT4PNUOSoo1slPiCKjDBMZ1V2ONoN4oG
+	qslh++qA==;
+Date: Thu, 14 Aug 2025 16:22:22 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: linux-kernel@vger.kernel.org, peter.ujfalusi@gmail.com,
+ dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ lgirdwood@gmail.com, tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org,
+ ukleinek@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org, shuah@kernel.org
+Subject: Re: [PATCH v2 9/9] dt-bindings: mfd: twl: Add missing sub-nodes for
+ TWL4030 & TWL603x
+Message-ID: <20250814162222.4173e3e8@akair>
+In-Reply-To: <20250814132129.138943-10-jihed.chaibi.dev@gmail.com>
+References: <20250814132129.138943-1-jihed.chaibi.dev@gmail.com>
+	<20250814132129.138943-10-jihed.chaibi.dev@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
 
-On Wed, 13 Aug 2025 20:26:49 -0500, Shimrra Shai wrote:
-> This small pair of patches is needed to enable the audio output to
-> speaker using the ES8323 CODEC on boards like the Firefly ITX-3588J
-> that use the right-hand DAC mixer to connect the line out jack. I also
-> enable associated DAPM power widgets so that the volume can be
-> controlled in the ALSA mixer. This seems sufficient to me to produce
-> basic audio functionality on this board and any others that might use
-> the same features. I tested it with both ear buds and a pair of
-> speakers plugged into the green jack on the back of the board.
+Am Thu, 14 Aug 2025 15:21:29 +0200
+schrieb Jihed Chaibi <jihed.chaibi.dev@gmail.com>:
+
+> Update the TI TWL family Device Tree binding to include additional
+> subnodes for TWL4030, TWL6030, and TWL6032 devices.
 > 
-> [...]
+> This patch enhances the schema by adding support for audio, GPIO, power,
+> keypad, PWM, PWM LED, and USB subnodes, referencing their respective YAML
+> schemas where applicable. These additions improve the schema's
+> completeness, enabling better validation and documentation of the
+> TWL multi-function device's capabilities.
+> 
+> The changes ensure proper handling of TWL4030-specific features (audio,
+> keypad, PWM, PWM LED, USB, GPIO, and power) and TWL6030/TWL6032-specific
+> features (PWM, PWM LED, and USB), with appropriate schema references to
+> prevent unevaluated properties.
+> 
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> ---
+>  .../devicetree/bindings/mfd/ti,twl.yaml       | 63 +++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/ti,twl.yaml b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> index f162ab60c..81f9d8f72 100644
+> --- a/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
+> @@ -76,6 +76,38 @@ allOf:
+>            properties:
+>              compatible:
+>                const: ti,twl4030-wdt
+> +
+> +        audio:
+> +          type: object
+> +          $ref: /schemas/sound/ti,twl4030-audio.yaml#
+> +          unevaluatedProperties: false
+> +
+> +        keypad:
+> +          type: object
+> +          $ref: /schemas/input/ti,twl4030-keypad.yaml#
+> +          unevaluatedProperties: false
+> +
+> +        pwm:
+> +          type: object
+> +          $ref: /schemas/pwm/ti,twl-pwm.yaml#
+> +          unevaluatedProperties: false
+> +
+> +        pwmled:
+> +          type: object
+> +          $ref: /schemas/pwm/ti,twl-pwmled.yaml#
+> +          unevaluatedProperties: false
+> +
+I think the pwm stuff is so simple, that it can go in here directly.
 
-Applied to
+> +        'twl4030-usb':
+> +          type: object
+> +          $ref: /schemas/usb/ti,twlxxxx-usb.yaml#
+> +          unevaluatedProperties: false
+> +
+> +        gpio:
+> +          type: object
+> +
+$ref it to restrict compatibles.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> +        power:
+> +          type: object
+> +
+just list the compatibles allowed here.
 
-Thanks!
 
-[2/2] ASoC: es8323: enable DAPM power widgets for playback DAC and output
-      commit: 258384d8ce365dddd6c5c15204de8ccd53a7ab0a
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Regards,
+Andreas
