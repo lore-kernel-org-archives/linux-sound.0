@@ -1,156 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D472F39B2;
-	Thu, 14 Aug 2025 11:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70482FCC0E;
+	Thu, 14 Aug 2025 12:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755170054; cv=none; b=Ut15ndK9suyWTvlPi7DRjKmO94cmLLVDWMaRypWKxuWA8pHu+VadjJ6yv6l6yEZp82zCdcyPcg7J2QmL6NLM/Mn/GPL9gb4POPCN2yXj2gwqSWNVcr1EyFTdvAOID7POMYFRvLQ3eEjz5vah/gFkgjO6Bm6y49ViemAkEAi2Xws=
+	t=1755173523; cv=none; b=Za0i6IehVY9liVAdDf9EVV1gScrtycbXb12oNVTPWcsEuuJN5mgcfcYpNDE9ehLBb8VxUKIDIwMFHiKW4vVuNehNnIgS+EYpZIbTH7JDTj0flSanKZwkU3mYT8wDV1JB9ghoTISeW+OMhJeUlWHMnoEoRpSoGWXioEulad+kozM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755170054; c=relaxed/simple;
-	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=f8zoWRljDaUtkBEG9jh9Akue/JgQHMQF2UYUfm6gU4hT/joe+akAkfpcd0ZHLLYz2KzJli0+FGfjLaIpZN4Vt1/8xS3graQCyQD/V4f92xGOE0q/i4rZPBfKTyrijFZMf6hOgat7utoV3U51SBti+RH3jtwtejtHqLftwZnUyC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNpjrfeQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755173523; c=relaxed/simple;
+	bh=oKG/z4imADYHqqynLKtUtN4Oij6zZpz6vZ6gDYrFCfw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n5hfDyZpxsxmjWd6VUyi6AeTm80KRyyh9A3g8H4ED+uvclpu89390U2bjS9mDMWO5zAd+qog8wzRxIQvGijRziq/Arssr17VPN4pJtknjxI1btVg28iK81sNnrIR1t7AvOuxbFUgREUzvUnVnY58QSjtuzjHFvLD11/F8QgRBGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qRWP95gW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNpjrfeQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF02C4CEED;
-	Thu, 14 Aug 2025 11:13:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qRWP95gW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E177FC4CEED;
+	Thu, 14 Aug 2025 12:12:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755170053;
-	bh=tEQmYgzbbnDyqDEJWRtGvNd+F5EzBR/vQBdSyaJQhYo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nNpjrfeQtIacQG0WEX7mhSYTd7hQlnB7xgoGgJ3v0sCDCZTw/gWywOLfqOYZY4LEw
-	 5E1vCRzlD1L7yPW24oE8hMcbLDvBgKF7UglcpNWQtk+d21igAN/jkLiw4vfw95mmaO
-	 Wy7Aqpr6pD43wwMPVYuuHLtW+Bl/6xetkfjwBZUQFNWFgaJ0eeIdJk6JAFWM+nmE53
-	 +kHohC9FP8zxW9RrnA7dkwqqcgSuN4MKh4R6jlzu+aBiOCgoS1PQtvycwFenFDAKSf
-	 8NGwtU+raJOCaLGmFHJD4RvJXWWS3gsAOxCpMzRtcOJrdMPkcN8DQ2NiQbSAuAjRLj
-	 ccmAEOd0wNzVg==
+	s=k20201202; t=1755173523;
+	bh=oKG/z4imADYHqqynLKtUtN4Oij6zZpz6vZ6gDYrFCfw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qRWP95gWPi8uGdMOal1tWKaqi6Fih6c4F2ouyp3iwFFTnq65bqB9nXZ80bQBqhVVL
+	 3sOuySCHWSFjSkzaWpMelGWspQGcAErxFbcDac9LoJoHq0Hj1Br3rW+qzz6rv1XJOL
+	 uu3nI3imdj/MZhWIU0n8vL/UmXveS7jTq07JAfVc+tEBq+oftsBIJE6yyaFanq3Iwp
+	 EmagD21d8bZYFrRgegdFvx3VBpzPT2K0Mi/ZT2cP4oU7/3mpf9Ndu+INHKInvSMgJP
+	 +gFmlHP1QAur5Wbl7fX5bCyHPt4J0Op/n50t5Z6xrP2AV1+TKvtrh0MkI98Max3l37
+	 sMQaowSLuBbCQ==
+Date: Thu, 14 Aug 2025 13:11:59 +0100
 From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Adrian Hunter <adrian.hunter@intel.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Andrea della Porta <andrea.porta@suse.com>, 
- =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Andy Shevchenko <andy@kernel.org>, 
- Andy Yan <andy.yan@rock-chips.com>, Avi Fishman <avifishman70@gmail.com>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Benjamin Fair <benjaminfair@google.com>, 
- Bjorn Andersson <andersson@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- David Airlie <airlied@gmail.com>, David Lechner <dlechner@baylibre.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Drew Fustini <fustini@kernel.org>, dri-devel@lists.freedesktop.org, 
- Fabio Estevam <festevam@gmail.com>, 
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Fu Wei <wefu@redhat.com>, 
- Guo Ren <guoren@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, imx@lists.linux.dev, 
- Iwona Winiarska <iwona.winiarska@intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, Jassi Brar <jassisinghbrar@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Jonathan Cameron <jic23@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Linus Walleij <linus.walleij@linaro.org>, linux-actions@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-rtc@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-sunxi@lists.linux.dev, Liu Ying <victor.liu@nxp.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Manivannan Sadhasivam <mani@kernel.org>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, Nancy Yuen <yuenn@google.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Nicolin Chen <nicoleotsuka@gmail.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, openbmc@lists.ozlabs.org, 
- Patrick Venture <venture@google.com>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Samuel Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Shengjiu Wang <shengjiu.wang@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Stephen Boyd <sboyd@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- Tali Perry <tali.perry1@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Tomer Maimon <tmaimon77@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
- Vasily Khoruzhick <anarsoul@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
- Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Yangtao Li <tiny.windzz@gmail.com>, Zhang Rui <rui.zhang@intel.com>
-In-Reply-To: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-References: <20250813161517.4746-1-wsa+renesas@sang-engineering.com>
-Subject: Re: (subset) [PATCH 00/21] treewide: remove unneeded 'fast_io'
- parameter in regmap_config
-Message-Id: <175517003454.17441.365944262533574232.b4-ty@kernel.org>
-Date: Thu, 14 Aug 2025 12:13:54 +0100
+To: Shimrra Shai <shimrrashai@gmail.com>
+Cc: lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	perex@perex.cz, tiwai@suse.com
+Subject: Re: [PATCH 1/2] ASoC: es8323: enable right-hand DAC-mixer connection
+ on ES8323
+Message-ID: <b5a64166-c55f-4ca4-af92-52c954847af6@sirena.org.uk>
+References: <20250814012652.81424-1-shimrrashai@gmail.com>
+ <20250814014731.86651-1-shimrrashai@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PLXYa5/zsu/y4xid"
+Content-Disposition: inline
+In-Reply-To: <20250814014731.86651-1-shimrrashai@gmail.com>
+X-Cookie: This sentence no verb.
 
-On Wed, 13 Aug 2025 18:14:46 +0200, Wolfram Sang wrote:
-> While working on a driver using regmap with MMIO, I wondered if I need
-> to set 'fast_io' in the config. Turned out I don't need to, so I added
-> documentation for it with commit ffc72771ff6e ("regmap: Annotate that
-> MMIO implies fast IO").
-> 
-> This series fixes the existing users in the tree which needlessly set
-> the flag. They have been found using this coccinelle script:
-> 
-> [...]
 
-Applied to
+--PLXYa5/zsu/y4xid
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+On Wed, Aug 13, 2025 at 08:47:31PM -0500, Shimrra Shai wrote:
+> Enable the right-hand DAC mixer connection in the same manner as the
+> left-hand one.
 
-Thanks!
+> @@ -633,6 +633,7 @@ static int es8323_probe(struct snd_soc_component *component)
+>  	snd_soc_component_write(component, ES8323_CONTROL2, 0x60);
+>  	snd_soc_component_write(component, ES8323_CHIPPOWER, 0x00);
+>  	snd_soc_component_write(component, ES8323_DACCONTROL17, 0xB8);
+> +	snd_soc_component_write(component, ES8323_DACCONTROL20, 0xB8);
 
-[19/21] spi: remove unneeded 'fast_io' parameter in regmap_config
-        commit: 48124569bbc6bfda1df3e9ee17b19d559f4b1aa3
+Neither of these should be unconditional writes, these should be user
+visible controls.  We don't encode specific system's use cases into the
+driver.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--PLXYa5/zsu/y4xid
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmid0o4ACgkQJNaLcl1U
+h9Cw0Qf/fVy2aA2vdtzxxkMt3NZISirhPQt7ljKImdZ23mMinHypli76WIRu4Vom
+EZ67Rf8PhDIh47o4kt1PXRoqs+RY0+kVMV/EXl62aRHEWzZA5Nnu9NAoeallApT9
+B/Zee+ERSeLSfiG5VnMgOXyIoxXj8ef3qjT+YnmosASsC8mO6KratoqMTJgv1vA0
+MYDl2eKwzYZc2E4ejPJOQj1LY+mWLaZVLAxzYL2SJYafv6IucpT40wuL7d+GfrDO
+oOnm2yFtY88AxYlocm4j1SOet5v6acFHJT+eZfSWDNBr2vRn96q/zqK58nIIkVMU
+LINhnJwnXBOQqaEvviOTsFg+cCG2DA==
+=Cp97
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--PLXYa5/zsu/y4xid--
