@@ -1,193 +1,75 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929912FDC34
-	for <linux-sound@vger.kernel.org>; Fri, 15 Aug 2025 10:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17A721422B;
+	Fri, 15 Aug 2025 11:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755253829; cv=none; b=gJDzLH7/SF3pC8yBn5miH5ItbH/GsKCclfrLtVY0eI6xf1iPL9iRIRPgdif1jaF6BV8xoNcvX9vRfS2pwwAS5jf7ANfpb6Zw5Vx/kjCisK9V40Bukn9GCaegY3Dm2/tpNs2FhQsOMc0GazpyLIqU9gZDvs4BkDbhimnz5GvGjSs=
+	t=1755256881; cv=none; b=q+Hqlz9kutnWdhSK4aItnsGmgwOWfOY24A4c7ERS5Idvy4oOpNY+ST6DchzD1SpbmsGcoBHj5bmj8whReF5X47a/IHaTcPwYu4nfbpg+w0RR0oblkmc4U6Hkz7WWuVq9TwwkG+hUEo+1QOnFwqK3/ocg2UAUWSw4K6bBPVVLW2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755253829; c=relaxed/simple;
-	bh=UOCRw2WKItyLa/IG6PBz1/NN08tPiqLkSnqWg/d64pE=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=T4zVIrypdsQ4VMDa0pViUcksiwa7SjdepmTy1LMf4un/zb9JsTr22NLNvICLGKvtBsiCqAeNzHanbcIrEbmRR5nDf0MbvVT6KUbCdZMP3T4DE2dBEesoFnPzLXs80aQ/jYlm8aVRd4Fy/HfHfJdszhzdPr8TwTwCVEAQBOUm71I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GkNmD9tc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BL/l6xUX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GkNmD9tc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BL/l6xUX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1755256881; c=relaxed/simple;
+	bh=IcKBbC8Ql6iD0ak3ttxASGdvakYmVW8V3mebISgdDqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a9kEKEPIysb4HKGJFHnzm16scTbPprdRmA6jd21uI9asypJqrI0vIDQAZ//QzXNcaKW42QjjtMiFL68BrEOYSDEU17zB/0U/xCRMoPKcLr1YIeX1HS2uDHTyJyoCX2MOOYV83qMbdKmt8z5Zf7HYNQfDtbIckd8zladbEqLO5tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K8j62Mzp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GkNmD9tc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BL/l6xUX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GkNmD9tc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BL/l6xUX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B752C2188B;
-	Fri, 15 Aug 2025 10:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755253825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=ghmMkFo3QvAYeAvB3P6z4pmIIkT6+ltUDkCjOy0gp+4=;
-	b=GkNmD9tcEOybCh3eitFfxjmuYursB5BHHvQ5m9U+d0aOmDcO9PA2PKmqN7zplAq9fbOBj7
-	4ddvVF7sORuJNJYY2JE1oo97cIJBvvfKEcWiwuxac4xq2nNDwsF36EJ95bSu8e+sfaJE7r
-	RV2dttJJJwvewCF+yq7qxngi8JmpC/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755253825;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=ghmMkFo3QvAYeAvB3P6z4pmIIkT6+ltUDkCjOy0gp+4=;
-	b=BL/l6xUXBXxxnkV1w2pDv3Y1i6szozZ51iR1jOkoIRUP9If5YompJUehx2Hlc5mI5QRw05
-	KLJ8weBPf8WDQmBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755253825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=ghmMkFo3QvAYeAvB3P6z4pmIIkT6+ltUDkCjOy0gp+4=;
-	b=GkNmD9tcEOybCh3eitFfxjmuYursB5BHHvQ5m9U+d0aOmDcO9PA2PKmqN7zplAq9fbOBj7
-	4ddvVF7sORuJNJYY2JE1oo97cIJBvvfKEcWiwuxac4xq2nNDwsF36EJ95bSu8e+sfaJE7r
-	RV2dttJJJwvewCF+yq7qxngi8JmpC/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755253825;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=ghmMkFo3QvAYeAvB3P6z4pmIIkT6+ltUDkCjOy0gp+4=;
-	b=BL/l6xUXBXxxnkV1w2pDv3Y1i6szozZ51iR1jOkoIRUP9If5YompJUehx2Hlc5mI5QRw05
-	KLJ8weBPf8WDQmBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8CB0C13876;
-	Fri, 15 Aug 2025 10:30:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id a9YSIUEMn2hfPgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 15 Aug 2025 10:30:25 +0000
-Date: Fri, 15 Aug 2025 12:30:25 +0200
-Message-ID: <877bz4ubb2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.17-rc2
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K8j62Mzp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23B0CC4CEF0;
+	Fri, 15 Aug 2025 11:21:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755256881;
+	bh=IcKBbC8Ql6iD0ak3ttxASGdvakYmVW8V3mebISgdDqc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K8j62MzpxcfBc3qcgt2UPHU32gtIvqCkx9BLNNUdg4OiYC38ZUdYoyurhs6BkRlcn
+	 7y51ijwADt6qupR3TqxVDoBbIIqi1RyoDKKIPZkWbw2XHZ/NOgxkBTxT10GPR94GEx
+	 1WNE80HNC/5e/g/iHF0WWKJ/KrYF5LYPvxUe5ujXLXhpwfaK9A1ZFtqx5Zat5/ZoA3
+	 yMc63Etkfsrt+6EdSoiPHa+T+nrUNlM36VMaJoq4VetRURCXKRVpcZKw4FP25OZBxu
+	 d06QNGZ4QjzUhJrBBjQ8kM7zMAE5Cfl15WMlEyfUttIL2Zue0iQbXaACJeI4XmK7CM
+	 eiTYS+cT9d7eQ==
+Date: Fri, 15 Aug 2025 12:21:15 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Zhang Yi <zhangyi@everest-semi.com>
+Cc: tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: codecs: ES9389: Modify the standby configuration
+Message-ID: <06b5ea28-5b3a-4c9b-a2ed-6c945373d3b1@sirena.org.uk>
+References: <20250815024729.3051-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Gd7g/NSGg91lNoMV"
+Content-Disposition: inline
+In-Reply-To: <20250815024729.3051-1-zhangyi@everest-semi.com>
+X-Cookie: Tell me what to think!!!
 
-Linus,
 
-please pull sound fixes for v6.17-rc2 from:
+--Gd7g/NSGg91lNoMV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.17-rc2
+On Fri, Aug 15, 2025 at 10:47:29AM +0800, Zhang Yi wrote:
+> Modify the standby configuration
 
-The topmost commit is c345102d1feed3de8aa9b9ec7d18b3fbba62deb7
+Why?  Is this a fix?  You're just changing one magic number for another
+here...
 
-----------------------------------------------------------------
+--Gd7g/NSGg91lNoMV
+Content-Type: application/pgp-signature; name="signature.asc"
 
-sound fixes for 6.17-rc2
+-----BEGIN PGP SIGNATURE-----
 
-A collection of small fixes.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmifGCsACgkQJNaLcl1U
+h9CSvgf/c4v10gdnh5qqAC5mUm1uBFzoV4BQ0pKDo4+AMo034DUzJcVaqmJMDyRs
+P8koHD79nbBe+43WBxPIYo9kjMcQ6HxNx1UOZuH5O2QOfQh7flwQQVDlYNNVmQBZ
+xsmMHxlmjlujJ2dppbgx6JgxXxnW9jhA0GVkuYPjSRpGmb2u0N3/j3RGZnkOsCeE
+mWD7Hwc+Jgiw6Ugmgrl/X8aDwf8CFz/rLfhdb/fH4y+4NP3ECnNENNtJ/tmTB70J
+yxzLcWlfe2tkREn/G1P0XKqV6jzq4uGuOYkTx2beAwBSbeGApIGFSXRDQtmnQ+AH
+VlYvz5GiN6896SEPaUW7sdkWeJ/LEQ==
+=I9lz
+-----END PGP SIGNATURE-----
 
-- Potential OOB access fixes in USB-audio driver
-- ASoC kconfig menu fix for improving the generic drivers
-- HD-audio quirks and a fix revert
-- Codec and platform-specific small fixes for ASoC
-
-----------------------------------------------------------------
-
-Alexey Klimov (1):
-      ASoC: codecs: tx-macro: correct tx_macro_component_drv name
-
-Baojun Xu (2):
-      ASoC: tas2781: Normalize the volume kcontrol name
-      ALSA: hda/tas2781: Normalize the volume kcontrol name
-
-Christopher Eby (1):
-      ALSA: hda/realtek: Add Framework Laptop 13 (AMD Ryzen AI 300) to quirks
-
-Colin Ian King (2):
-      ASoC: codec: sma1307: replace spelling mistake with new error message
-      ASoC: tas2781: Fix spelling mistake "dismatch" -> "mismatch"
-
-Kuninori Morimoto (1):
-      ASoC: generic: tidyup standardized ASoC menu for generic
-
-Mario Limonciello (AMD) (1):
-      Revert "ALSA: hda: Add ASRock X670E Taichi to denylist"
-
-Sergio Perez Gonzalez (1):
-      ASoC: stm: stm32_i2s: Fix calc_clk_div() error handling in determine_rate()
-
-Shengjiu Wang (1):
-      ASoC: fsl_sai: replace regmap_write with regmap_update_bits
-
-Shuming Fan (2):
-      ASoC: rt721: fix FU33 Boost Volume control not working
-      ASoC: rt1320: fix random cycle mute issue
-
-Takashi Iwai (3):
-      ALSA: azt3328: Put __maybe_unused for inline functions for gameport
-      ALSA: usb-audio: Validate UAC3 power domain descriptors, too
-      ALSA: usb-audio: Validate UAC3 cluster segment descriptors
-
-Thorsten Blum (1):
-      ASoC: codecs: Call strscpy() with correct size argument
-
-Vasiliy Kovalev (1):
-      ALSA: hda/realtek: Fix headset mic on HONOR BRB-X
-
----
- sound/hda/codecs/realtek/alc269.c              |  2 ++
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c |  2 +-
- sound/hda/controllers/intel.c                  |  1 -
- sound/pci/azt3328.c                            |  8 ++++----
- sound/soc/Kconfig                              |  4 +++-
- sound/soc/codecs/aw87390.c                     |  8 +++-----
- sound/soc/codecs/aw88081.c                     |  5 ++---
- sound/soc/codecs/aw88166.c                     |  8 +++-----
- sound/soc/codecs/aw88261.c                     |  8 +++-----
- sound/soc/codecs/aw88395/aw88395.c             |  8 +++-----
- sound/soc/codecs/aw88399.c                     |  8 +++-----
- sound/soc/codecs/lpass-tx-macro.c              |  2 +-
- sound/soc/codecs/rt1320-sdw.c                  |  3 ++-
- sound/soc/codecs/rt721-sdca.c                  |  2 ++
- sound/soc/codecs/rt721-sdca.h                  |  4 ++++
- sound/soc/codecs/sma1307.c                     |  2 +-
- sound/soc/codecs/tas2781-i2c.c                 |  6 +++---
- sound/soc/fsl/fsl_sai.c                        | 20 ++++++++++----------
- sound/soc/stm/stm32_i2s.c                      |  7 ++-----
- sound/usb/stream.c                             | 25 ++++++++++++++++++++++---
- sound/usb/validate.c                           | 12 ++++++++++++
- 21 files changed, 86 insertions(+), 59 deletions(-)
-
+--Gd7g/NSGg91lNoMV--
