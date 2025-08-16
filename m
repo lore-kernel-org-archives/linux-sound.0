@@ -1,130 +1,117 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8C71A2390;
-	Sat, 16 Aug 2025 02:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FAB22DA06;
+	Sat, 16 Aug 2025 08:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755310711; cv=none; b=O0iXjeZVhRUa7mLC7e7iCg/7MYZLGg50dEoYn/9RJ5apWNqhbOmm6scJHmQ9WW+DaSeCXtPiT6SwPjrs1eDMBcMH2nRCiJAQhijEWgDEvL9AAkT+jRM2EkEH+iLU96JK0Ocx/MDMF9GrB8Hu5cmK4YVqwtwaT7x4HXZrXSjLdJw=
+	t=1755332945; cv=none; b=VerSMVNugq6LqPUdsJGfKB3uiOnkNHPqER0JGGpp0hbohSOpbybvb9bCkVVd2gTJdfiu2yOhyUIjEYGT4ZwYLe9omiUBNuVtf4FAHQWY4ZBZcVG18ZhkPWIJfcjgj42iVXkP41Y2hu9mZGce5lWs6F7ASlppebXtwl855UreI3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755310711; c=relaxed/simple;
-	bh=LTAk80ojjlxDjMNbAIhSaXgRHd6phArsoagHfBi65pY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TpD79gRhRtMW2jHw0b4/30Zvy6IEIUQZ41AigyOnZzkerD8f+C9EvgZy2JBQA2YwCIi5jKftQvy0crNc/FWHmuCn2VuwevUYcB+XkSLWO+TpGx/9azi65NirS6n/MZKrQZg5Cnru6d1eEy3Uwbw5yKQ55vVBluksgFodqhTIL/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LT/nxOV4; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755332945; c=relaxed/simple;
+	bh=A8xxdPa5/JUVr8ScJmZ4Y9ktbdrnVbk09I0nvPpS8f4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tzIeH4ulhXira9rIbA1sWG718+j2ROdmqzs27kU7mvjxGsdS6j9ecFodkujZTmDboLWdRVA2TJ7rfku/Aotqmy6u+LA6sW2Gj6jE9BxyVPSDrEn2JOdQwht9L9WmgouJ+h923RDE8M2COkZtICiIXKQZVDjEeXh+fZFeUxxuyeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7r19cKb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LT/nxOV4"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3b9e4147690so1507145f8f.2;
-        Fri, 15 Aug 2025 19:18:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755310708; x=1755915508; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7CndxzlsZCtg7d9Z//XgRlEI2JhvocYMg+RhFNFhIuE=;
-        b=LT/nxOV4eqrHY8tjN/veWj53Z6t2b1fFhag1ly+nfO8YN0krthpEntyhQ0FgYswvcD
-         Xn62QTupl48cIQcj49a0xfJYnLYC7BHzs4izHZ52zkTimlS/7My4eiqRHMHyJACHRE9Q
-         J7Sisp6ElG0w1b/T9xZKr84j2zVKIEXReP7DLSpWsuQrzLJfWhcty/TXPKFszUTevPEx
-         ZblMi+eO8x1j90fnsiqAShkRSsSxrymPcCeT+gcvwVnossRvBq8tapR6vnvTMWYNzeNZ
-         tvGWsuO6iX5uIw0L8X0uW+nRU4hq68dymDUaNdCQ7rxf5HUgKmYRZ8IHpDFPhGyRlxDR
-         N+LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755310708; x=1755915508;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7CndxzlsZCtg7d9Z//XgRlEI2JhvocYMg+RhFNFhIuE=;
-        b=rR3aiCbXpEelVrC5kuuQ0/3slu8LtjVAPv9HR7MehOh2a7RbF6G/t2q3cLNIEfDSWy
-         PI+q3fEX3ySO1lm4DV/SV4O/qGljCYWrXp5PRha2XoN33F2zIpyLw+Kd3Z+sSdmsK6t2
-         1QEAJHiBXAwGbgg1Qyv6TH/WDnC4e9b41setqSSp4t1RGJF0sCNGJMl31hZtmFmKF60C
-         YKkTDxdwkZvbWgvHwJOXPgkUdrWgUCKvSqT7lhAIzG/GvC04LWwuxzW/qH0IvOeI/Bgg
-         7XyFOlpVvjtktF3mTsvoFMQGKrE+At/xM5Lsxd43Nz4xHRwSSt52pY1W9Scx71NUIbU6
-         fI2w==
-X-Forwarded-Encrypted: i=1; AJvYcCU15/FMRZTa1Gr5raVpGEsXCiIQxiDEnFThhgUPGf7jfoduxAZkvOUfUHTD4LYUM0VY/2ue4KzXXFPJ@vger.kernel.org, AJvYcCUfo2EaVSJoL7qRCJtK1ioG3vUHZPEZLyQjRiNeBdR8UCYCo/HoW9WqJGafT/68jkIqEOJ5eyiKKhZSQcE=@vger.kernel.org, AJvYcCUpsFXfR5S131nB+Ug0Qk1z+qmGwiob6/WYUHyZt3UylcQ0NJnFN8tL6A3hs5LRO2RoNNZreonAgte2xA==@vger.kernel.org, AJvYcCVr4w9GLKbym+BE0I6dAX52TCerZNIz0xoWZzJw28hKbs3VdmYScJ9BO/E8CYpitM5WWcq+opCnDqZ7Kdc=@vger.kernel.org, AJvYcCWityn1BQYWDa7B9Bu4+lnWCASdPgqGgb6YNY0bhl3dDtIoxf3IUIVG6k2M5BkhcqPIFIK0/nuW0/3GRg==@vger.kernel.org, AJvYcCWxZowLhTKugVOOsmrEB7bu/sbnGV9pTMEMRt+Flazn+8fh5HIOJXcAmJi8epuThN/dWAZGT6Ohn06f@vger.kernel.org, AJvYcCXIhZUWtNmmsSZLsWp5nKMDDwthNT5utfsdSjAdtzdiJhZcRbEQGPwjYK1RXRgDXky3iyQ8MHoTmZ78@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjkvBW0mw5UKQQ987dizKA5tFhqy+X98cRvJpKqlBNQJU1140f
-	ponMTQpnx5+XleB2ngLpzMlgrqCFxFx5HKh9jBpkFh92poYWBi9kms6KpbV9cps=
-X-Gm-Gg: ASbGncuqJ0rNijXd8uwFqQ30UpuvhsXQpqvrMMxMgkytxuew9wHjaJC2m/xbQIPtUj4
-	ssD7EilZ9Q5Tqsj3+WcjINAiRsH5nqT8UDB8dcN4yUPBmPqrfwhICXNDLLRSMP12Xf7+GklWLmb
-	B/UZWVgkW0j+IAryz8hU20iUIGiBOJEHi9AqRgRWk7q8fqWD3cGvlvhwJQm1PqifxDUrxf7uto8
-	6Mv63ovMZPaeS828N2nmRyTJ7iQptw0Untw/C//sQlhJ4amg7Nn2BpGb+CD/GDH8yEbvlIo1H/0
-	jd/yB/zBkav5po/BFWOoGk7SFTVaVa2W7TGnnxkBFHFhWgzR3spMktcugdgefqE/Ytbzy0DFyOg
-	kJvEvYG/BDXNDPG8ni9VCShochA/lri+0XNz1VlVp1MJReRQ=
-X-Google-Smtp-Source: AGHT+IEXy+zIhMtHlBqxHaP/l0gZKZqeddXpLu+bDishkzNCk/VPNPCwjMO4/biZa0rdMq8hY9j0Sw==
-X-Received: by 2002:a05:600c:5253:b0:455:f380:32e2 with SMTP id 5b1f17b1804b1-45a26784347mr7315375e9.18.1755310707825;
-        Fri, 15 Aug 2025 19:18:27 -0700 (PDT)
-Received: from localhost.localdomain ([2a0d:e487:212f:1af8:ee74:5774:2fc2:70a1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1fe2c019sm58712535e9.17.2025.08.15.19.18.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Aug 2025 19:18:27 -0700 (PDT)
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: andreas@kemnade.info,
-	peter.ujfalusi@gmail.com,
-	dmitry.torokhov@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	lgirdwood@gmail.com,
-	tiwai@suse.com,
-	conor+dt@kernel.org,
-	lee@kernel.org,
-	ukleinek@kernel.org,
-	broonie@kernel.org,
-	gregkh@linuxfoundation.org,
-	linus.walleij@linaro.org,
-	brgl@bgdev.pl,
-	aaro.koskinen@iki.fi,
-	khilman@baylibre.com,
-	rogerq@kernel.org,
-	tony@atomide.com,
-	linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	shuah@kernel.org,
-	jihed.chaibi.dev@gmail.com
-Subject: [PATCH v3 6/6] dt-bindings: gpio: ti,twl4030: Correct the schema $id path
-Date: Sat, 16 Aug 2025 04:15:23 +0200
-Message-Id: <20250816021523.167049-7-jihed.chaibi.dev@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250816021523.167049-1-jihed.chaibi.dev@gmail.com>
-References: <20250816021523.167049-1-jihed.chaibi.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7r19cKb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 432E2C4CEEF;
+	Sat, 16 Aug 2025 08:29:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755332944;
+	bh=A8xxdPa5/JUVr8ScJmZ4Y9ktbdrnVbk09I0nvPpS8f4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=i7r19cKbR/od3lzZpjnRNNMZVwbbaD18fZiSQGGMZW6ZBMORU40IgbxmGTG66c99x
+	 5N18PZtX57SqB648uhJml7wZv86QLuvQGDOR9iV78aQ5yx4f2tpGUVgBpiw/OKqS+y
+	 YD6rt/YRsChlAAzXUMKu7BO9kOs1qtlAn2Q5M1Bgg3ogLC1t2S+DwUiJI4VBppeMtb
+	 Twb8oGOmPRkE6+cePeeY1hsEhRuljwXP7N38HAUkPSx7hUb5XuCUTtHYmPt7/rw01f
+	 TAk3Wlmf6Y9AIR+qrCoQCO2cCj8SCSlcRLreVC7iE8F5cT+6G0fqcE8L4ndnN6qOCp
+	 RBXKR6eE4w5hw==
+Message-ID: <fb1a7290-721e-4bde-aab3-d1edd0630862@kernel.org>
+Date: Sat, 16 Aug 2025 10:28:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/2] ASoC: codecs: wsa883x: Handle shared reset GPIO
+ for WSA883x speakers
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, kernel@oss.qualcomm.com,
+ Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+References: <20250815172353.2430981-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20250815172353.2430981-3-mohammad.rafi.shaik@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20250815172353.2430981-3-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The $id for a binding should match its file path. The ti,twl4030-gpio
-binding is located in the gpio/ subdirectory but was missing this from
-its $id.
+On 15/08/2025 19:23, Mohammad Rafi Shaik wrote:
+> From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+> 
+> On some Qualcomm platforms such as QCS6490-RB3Gen2, the multiple
+> WSA8830/WSA8835 speaker amplifiers share a common reset (shutdown) GPIO.
+> 
+> To handle such scenario, use the reset controller framework and its
+> "reset-gpio" driver to handle such case. This allows proper handling
+> of all WSA883x speaker amplifiers on QCS6490-RB3Gen2 board.
+> 
+> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
 
-Correct the path to follow the standard convention.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
----
- Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml b/Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml
-index 5e3e199fd..96d50d14c 100644
---- a/Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/ti,twl4030-gpio.yaml#
-+$id: http://devicetree.org/schemas/gpio/ti,twl4030-gpio.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: TI TWL4030 GPIO controller
--- 
-2.39.5
-
+Best regards,
+Krzysztof
