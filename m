@@ -1,117 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FAB22DA06;
-	Sat, 16 Aug 2025 08:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7DE11713;
+	Sat, 16 Aug 2025 09:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755332945; cv=none; b=VerSMVNugq6LqPUdsJGfKB3uiOnkNHPqER0JGGpp0hbohSOpbybvb9bCkVVd2gTJdfiu2yOhyUIjEYGT4ZwYLe9omiUBNuVtf4FAHQWY4ZBZcVG18ZhkPWIJfcjgj42iVXkP41Y2hu9mZGce5lWs6F7ASlppebXtwl855UreI3Y=
+	t=1755335652; cv=none; b=jAOgL59Rec+ykWYDTrbFNgC3cmFF4BO5QBlYAqyuvM3UbVcEkAgVvGPKxgYH2W4tenyqAQ63YWjWRJ276zKB2R2+IbKo4pYrMKM/uG57ldny4B93PmMgDyTKbHLcBv7sbAvuEZzs6jOteaXflTjaV9GzNiht76pttcFcWuPG7I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755332945; c=relaxed/simple;
-	bh=A8xxdPa5/JUVr8ScJmZ4Y9ktbdrnVbk09I0nvPpS8f4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tzIeH4ulhXira9rIbA1sWG718+j2ROdmqzs27kU7mvjxGsdS6j9ecFodkujZTmDboLWdRVA2TJ7rfku/Aotqmy6u+LA6sW2Gj6jE9BxyVPSDrEn2JOdQwht9L9WmgouJ+h923RDE8M2COkZtICiIXKQZVDjEeXh+fZFeUxxuyeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7r19cKb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755335652; c=relaxed/simple;
+	bh=ZdKnQYRuR3HrfaBPrfJ2dVRybAc1Vk+EPmW79NieZ/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QirnJmBjFk4ClANALid33ZB4KHfXRFTcmiAh3K/m+vmJdlXb2cVeEsOoguPDOhW5L73Uyc4mT+6HdwFhRvYhtxHNNHEsHrOpBjFwccCf9g2TPxz5t0ch6I/IgnI7oXrVjkBWTq8t9luiGnhviWMaOl2MLtk9aSMMtNsllcSxAsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=FOSCCvBK; arc=none smtp.client-ip=54.206.16.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7r19cKb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 432E2C4CEEF;
-	Sat, 16 Aug 2025 08:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755332944;
-	bh=A8xxdPa5/JUVr8ScJmZ4Y9ktbdrnVbk09I0nvPpS8f4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=i7r19cKbR/od3lzZpjnRNNMZVwbbaD18fZiSQGGMZW6ZBMORU40IgbxmGTG66c99x
-	 5N18PZtX57SqB648uhJml7wZv86QLuvQGDOR9iV78aQ5yx4f2tpGUVgBpiw/OKqS+y
-	 YD6rt/YRsChlAAzXUMKu7BO9kOs1qtlAn2Q5M1Bgg3ogLC1t2S+DwUiJI4VBppeMtb
-	 Twb8oGOmPRkE6+cePeeY1hsEhRuljwXP7N38HAUkPSx7hUb5XuCUTtHYmPt7/rw01f
-	 TAk3Wlmf6Y9AIR+qrCoQCO2cCj8SCSlcRLreVC7iE8F5cT+6G0fqcE8L4ndnN6qOCp
-	 RBXKR6eE4w5hw==
-Message-ID: <fb1a7290-721e-4bde-aab3-d1edd0630862@kernel.org>
-Date: Sat, 16 Aug 2025 10:28:58 +0200
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="FOSCCvBK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1755335630;
+	bh=hbXtoR3uWxiKczQIaq//GQkhVV7HPaIDh8JT8/clkDc=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version;
+	b=FOSCCvBKymEN0pkkf1IIPQKjNhpVz06HRqr0F6cclv01GpdoC6gAWTA26rpDgpJ8w
+	 vR9vWitVXhe1//uRya04izDDpZTRrHNc2YRycmqCctfHZQ8d1yp4K1J4doD/7R7VQk
+	 5SUL4l36MPwc1kg7ko5eDYBheEP6n3d9TdiK3nuM=
+X-QQ-mid: zesmtpip3t1755335624tdfc22a4d
+X-QQ-Originating-IP: q1QVFsw6Qn/8GxGPXxJhBWdr66tYEr9pdlAVtNoZFY4=
+Received: from = ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sat, 16 Aug 2025 17:13:43 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 8634151311153834424
+EX-QQ-RecipientCnt: 15
+Date: Sat, 16 Aug 2025 17:13:42 +0800
+From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Subject: Re: [PATCH 1/2] dt-bindings: i2s: spacemit: add support for K1 SoC
+Message-ID: <67A5AD581BFFAEE1+aKBLxuQLDlf3JFVN@troy-wujie14pro-arch>
+References: <20250814-k1-i2s-v1-0-c31149b29041@linux.spacemit.com>
+ <20250814-k1-i2s-v1-1-c31149b29041@linux.spacemit.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] ASoC: codecs: wsa883x: Handle shared reset GPIO
- for WSA883x speakers
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, kernel@oss.qualcomm.com,
- Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-References: <20250815172353.2430981-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20250815172353.2430981-3-mohammad.rafi.shaik@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250815172353.2430981-3-mohammad.rafi.shaik@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250814-k1-i2s-v1-1-c31149b29041@linux.spacemit.com>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:linux.spacemit.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: MjlOSqg8Riw0VUfjb59dP+uHGYzwZfcwx2tAA5V9Kb/KKrSY6eXtwg8w
+	XNobfaFx1wmWRRut5/IMl6uJArv7IHbzpT2LVKRVQ5nrpAxKX89M6DGk3vRw3DISWKCfo3o
+	UuU9CF+jGMmQKM3lpzHYtoYK/bpvF9s/OFRPWtVEtogR4TtnaDrhZ15CipnEzOxFCkZVsDh
+	/JxtduDGBlIvcH09BqyP+J8O3h/u3OSeTGIIcV+ZXGeOBZ0nO7UFTcwAOW2QVN2REgfvi+j
+	MgFBDpM0ONjZU1/J2mvP7tNHLh8yddjVqaABzwVtMz69zOcNt7o3vo0ZyChOdTb9v080NqK
+	tsmcjM5KpS0kjLq22AugfOoNBEltrf3ITeDI+Y9S72sqWiUjku3gOKb23SfPoHg2V4dl4sk
+	5y7L/sj/UFxQSszUuXHs4X3PBpz0r29QWKnoYHlerapVusJFvKKSmHkicS6wGIPdMvAoeNz
+	FNc/+J7IoYrSxjNtZ8XF/+8ekXMxgrOBTaKtjU9B5SuCLdu+F6Qgf4zdbJClilfNwNiNqvp
+	ETQ2YG5qAzv5+F9AXvK5ZwM6qjRICREE5MHq8D0CN7fkYWU/uOhR+IGtdqX9zFBtjYaUBf+
+	ihdOyRlC7mYZxD5Wa6V7LJewEyCvXfuSPEVYuL1F0dsi0qRq5cUYEfGmWldn2JdFjrWwonK
+	wReDtTaoD+yT6lCPsX03mtVeO4pbqxoTuro1upq3KyUgj1wwNuHChslQRpK6/U19NP3nIzW
+	neZyE7VhRhluZrab/11JllfZ1tsNp1OqZY0ycg1VsSxkXpuzhS+0RMLRzw8/3PpZuXdq4UH
+	/p+YDRkdaoEiVmYpa+SwIRU09mOYiJcOuuU9OOrbmD2zbJdYPMSNk9HAxyiLJkf+CkfMpqz
+	Gr9337zyx/Gq7kNgTO2GJCCQBFDkeUQ1gC7rFr/X704kr5DLniQTA85aolE/gjO3V2wlDI8
+	24mdwUrjL2JrhISv6jbmd+ScM+AL5vF36iZaFRyWb0duDoEYdpLjYXGccgQoGK48RyPHSfa
+	EuRZ3tFxje5/1UB0zwtXXTQGsbHsF1J21AohlOOv4rEPVCmoafsg84tYqxt0M=
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
 
-On 15/08/2025 19:23, Mohammad Rafi Shaik wrote:
-> From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+On Thu, Aug 14, 2025 at 04:54:19PM +0800, Troy Mitchell wrote:
+> Add dt-binding for the i2s driver of SpacemiT's K1 SoC.
 > 
-> On some Qualcomm platforms such as QCS6490-RB3Gen2, the multiple
-> WSA8830/WSA8835 speaker amplifiers share a common reset (shutdown) GPIO.
+> Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+> ---
+>  .../devicetree/bindings/sound/spacemit,k1-i2s.yaml | 88 ++++++++++++++++++++++
+>  1 file changed, 88 insertions(+)
 > 
-> To handle such scenario, use the reset controller framework and its
-> "reset-gpio" driver to handle such case. This allows proper handling
-> of all WSA883x speaker amplifiers on QCS6490-RB3Gen2 board.
-> 
-> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+> diff --git a/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..7d9110638d71792db6e5bb72559f6abaf4cb59bb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
+> @@ -0,0 +1,88 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/spacemit,k1-i2s.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: K1 I2S controller
+> +
+> +description:
+> +  The I2S bus (Inter-IC sound bus) is a serial link for digital
+> +  audio data transfer between devices in the system.
+> +
+> +maintainers:
+> +  - Troy Mitchell <troy.mitchell@linux.spacemit.com>
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: spacemit,k1-i2s
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: clock for I2S sysclk
+> +      - description: clock for I2S bclk
+> +      - description: clock for I2S bus
+> +      - description: clock for I2S controller
+> +
+> +  clock-names:
+> +    items:
+> +      - const: sysclk
+> +      - const: bclk
+> +      - const: bus
+> +      - const: func
+> +
+> +  dmas:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  dma-names:
+> +    oneOf:
+> +      - const: rx
+> +      - items:
+> +          - const: tx
+> +          - const: rx
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: audio-graph-port.yaml#
+> +    unevaluatedProperties: false
+> +
+> +  "#sound-dai-cells":
+> +    const: 0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - dmas
+> +  - dma-names
+> +  - resets
+> +  - "#sound-dai-cells"
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/spacemit,k1-syscon.h>
+> +    i2s@d4026000 {
+> +      compatible = "spacemit,k1-i2s";
+> +      reg = <0xd4026000 0x30>;
+> +      clocks = <&syscon_mpmu CLK_I2S_SYSCLK>,
+> +               <&syscon_mpmu CLK_I2S_BCLK>,
+> +               <&syscon_apbc CLK_SSPA0_BUS>,
+> +               <&syscon_apbc CLK_SSPA0>;
+> +      clock-names = "sysclk", "bclk", "bus", "func";
+> +      dmas = <&pdma0 21 1>, <&pdma0 22 1>;
+I'll keep to 1 cell in the next version.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
+> +      dma-names = "tx", "rx";
+> +      resets = <&syscon_apbc RESET_SSPA0>;
+> +      #sound-dai-cells = <0>;
+> +    };
+> 
+> -- 
+> 2.50.1
+> 
