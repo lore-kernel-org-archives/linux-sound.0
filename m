@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7AF3112A3
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 10:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C785731579B
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 10:20:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755512436; cv=none; b=UPufYo4f8NKeCNp0ieEnol1ifcooVGcyxRPfSAP6ex3NbAeMuUzbBg4Ydu3bwQrvLBoC5SFjaRmiYZWvcOj5+8iI2/3kcPkT7FuBYTKEY1eGwlOv4gRB4dN6GrzDk06+jqmm574SNys4/dNjbs6EijiR4HUdJaokgebvkotRIXw=
+	t=1755512439; cv=none; b=QQuc6FmbddCZRBkNFZZZKi1aB4/UH7gXlhbjBpkZ9c2yboLXfKdmmD8Om/+rBrQTX3gFvtZiEfAuo58TaJnS4yJrDAj+jUjeyXm763zRZrcONzCrRDBSf+oTM34fvHQHGWkG0k4EDInd8PRPAK/4AVVBmuqYj0QAhM4ZI5/+HIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755512436; c=relaxed/simple;
-	bh=8Bq69GFXzeB36wq5XiN1ybucQob7aGqnyuN8FmsOdKo=;
+	s=arc-20240116; t=1755512439; c=relaxed/simple;
+	bh=3VHsP3+NlOX3xPii01LUI7JnS02JV/lc67W2qIVZ50E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yg/Z/yGVgWxPwGambTSvS0F+FGmNaVRQ3ED2iWrrkEuo8AMdk6EQx3axskTQD8hQlReSb5wG5eZ9BhbhUXXEEpOBjLmNSEzpHFjbDt+qArS5iasp7q62/eUHPmznV5TuyyyPkkmM0/TX1puO/6GM5ZGdvn7siurVhmXQGDlOPdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Um0ioU1a; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version:Content-Type; b=iDBXk2rI5e9QgRNR6oFs2qfcE6xGKr1v9pf/mh4Vi+HretT08vF4qsiViWp4hrBrIszee+MdLFyh7S4hxI1nhh9unNv6yj5QS4/ptW66EimYuXuB8MHtlystP88pAeW/ItumumHJAU8ktYB2/RYrxpiJ1YPh6NlEPhzHgbbQIcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DKoETQuJ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Um0ioU1a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DKoETQuJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755512435; x=1787048435;
+  t=1755512438; x=1787048438;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=8Bq69GFXzeB36wq5XiN1ybucQob7aGqnyuN8FmsOdKo=;
-  b=Um0ioU1aoax7UiNOicLq14oLRnA/7SN6gODRLlHXKIj/VahDawcGemS3
-   E7CUrRUkgXElZ3n3zDg9l2v1qlHZGJ+tJAtRwCmipDS5XsG/tfHA6QvyP
-   9EL855IgsWZPQMMoLc5FAMCKEDNBxV4mhYh6/23/90dLzrtj/7toTB6SU
-   1h++UcMttwOKqkQK3qs+VhPSXrK05Oa23v9S1EI+RAiDUvStwHsS4cNx7
-   PJHlSKG8SELDwWOUUJTEfg74GHL5BbPrwj5hD+X+11xAtRPUVBZe4LFyP
-   pZqPaP2m1zwDmnKyOueeMScBhbOBjpXiYGh3RhOqWCN4gPeJjCCgJUGbB
+  bh=3VHsP3+NlOX3xPii01LUI7JnS02JV/lc67W2qIVZ50E=;
+  b=DKoETQuJ/yXijBx1G70jjmOMwjRuaCysQ0FoLPmVnytq6L3Gu52gvaD+
+   N7+sg7lYActo7/3W0cyiRQGBoPMFmWL15Gj4tVgTjLs0KvxLgMlXZ9+gz
+   EjhU4pHHfCe/KBZpv+DTzA3UIukxLTyylikJAraBfo+rkL3cXsqCfKeuJ
+   fIQqT8u4dOBTunYABCcthbSDbs7iom0CjUWKt/AhEIRDR9OXwuv2/NiKj
+   YIpjvgjwP2UU7O5XGmRgl4hp1wXaav6eoMVfpEttza8T4Z8Is+4HLjXwS
+   k36upDoQg2Po+wjZdN8uaQA+/fQOosS1rk4TnVKg9wjHiE7kWZlXZ9dVX
    w==;
-X-CSE-ConnectionGUID: 6PExJRoZSfKsrvUGuKOC/g==
-X-CSE-MsgGUID: zv1zOZwEQligfUrYuhcX0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="68825901"
+X-CSE-ConnectionGUID: q7ydAOFcTNis1Y9C8roeCw==
+X-CSE-MsgGUID: zbTh0w/+TbS/KhLF2XlyAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="68825907"
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="68825901"
+   d="scan'208";a="68825907"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 03:20:35 -0700
-X-CSE-ConnectionGUID: oZuGpxFvTemVU5ez4zsyCQ==
-X-CSE-MsgGUID: 3QXs36UcTxudzZM/a5HPGw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 03:20:37 -0700
+X-CSE-ConnectionGUID: /o4WroBAS7iq5G5NhcDl/w==
+X-CSE-MsgGUID: SeiL/WqISDKwuvDUBmVdeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
-   d="scan'208";a="166717204"
+   d="scan'208";a="166717211"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa006.jf.intel.com with ESMTP; 18 Aug 2025 03:20:32 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 Aug 2025 03:20:35 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amadeuszx.slawinski@linux.intel.com,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 1/4] ASoC: Intel: avs: Separate debug symbols
-Date: Mon, 18 Aug 2025 12:41:23 +0200
-Message-Id: <20250818104126.526442-2-cezary.rojewski@intel.com>
+Subject: [PATCH 2/4] ASoC: Intel: avs: Drop pcm.h dependency for probes
+Date: Mon, 18 Aug 2025 12:41:24 +0200
+Message-Id: <20250818104126.526442-3-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250818104126.526442-1-cezary.rojewski@intel.com>
 References: <20250818104126.526442-1-cezary.rojewski@intel.com>
@@ -65,372 +65,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Make it clear what is part of debug functionality and what is not by
-separating debug symbols away from the common header file.
+The 'probe' machine board is not a typical one, it serves debug purpose
+only and does not expect any kind of topology. The topology descriptor
+pointer (acomp->tplg) is the only reason an avs-driver component would
+utilize the pcm.c helpers and be described by a 'struct
+avs_soc_component' instance rather than 'struct snd_soc_component' one.
 
-Apart from changing avs_probe_platform_register() to return -ENOTSUPP
-when CONFIG_DEBUG_FS is disabled, status quo is achieved.
+Cut the line linking probes.c with pcm.h to avoid confusing readers.
+And with that link gone, constify the component-driver again.
 
 Reviewed-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/apl.c             |  1 +
- sound/soc/intel/avs/avs.h             | 75 +---------------------
- sound/soc/intel/avs/board_selection.c |  1 +
- sound/soc/intel/avs/cnl.c             |  1 +
- sound/soc/intel/avs/core.c            |  1 +
- sound/soc/intel/avs/debug.h           | 91 +++++++++++++++++++++++++++
- sound/soc/intel/avs/debugfs.c         |  1 +
- sound/soc/intel/avs/icl.c             |  1 +
- sound/soc/intel/avs/ipc.c             |  1 +
- sound/soc/intel/avs/lnl.c             |  1 +
- sound/soc/intel/avs/mtl.c             |  1 +
- sound/soc/intel/avs/probes.c          |  1 +
- sound/soc/intel/avs/ptl.c             |  1 +
- sound/soc/intel/avs/skl.c             |  1 +
- sound/soc/intel/avs/tgl.c             |  1 +
- 15 files changed, 105 insertions(+), 74 deletions(-)
- create mode 100644 sound/soc/intel/avs/debug.h
+ sound/soc/intel/avs/probes.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/intel/avs/apl.c b/sound/soc/intel/avs/apl.c
-index 3dccf0a57a3a..b922eeaba843 100644
---- a/sound/soc/intel/avs/apl.c
-+++ b/sound/soc/intel/avs/apl.c
-@@ -10,6 +10,7 @@
- #include <linux/slab.h>
- #include <sound/hdaudio_ext.h>
- #include "avs.h"
-+#include "debug.h"
- #include "messages.h"
- #include "path.h"
- #include "registers.h"
-diff --git a/sound/soc/intel/avs/avs.h b/sound/soc/intel/avs/avs.h
-index 4c096afc5848..2be35c19d6ee 100644
---- a/sound/soc/intel/avs/avs.h
-+++ b/sound/soc/intel/avs/avs.h
-@@ -359,80 +359,7 @@ int avs_hda_platform_register(struct avs_dev *adev, const char *name);
- int avs_register_all_boards(struct avs_dev *adev);
- void avs_unregister_all_boards(struct avs_dev *adev);
- 
--/* Firmware tracing helpers */
--
--#define avs_log_buffer_size(adev) \
--	((adev)->fw_cfg.trace_log_bytes / (adev)->hw_cfg.dsp_cores)
--
--#define avs_log_buffer_addr(adev, core) \
--({ \
--	s32 __offset = avs_dsp_op(adev, log_buffer_offset, core); \
--	(__offset < 0) ? NULL : \
--			 (avs_sram_addr(adev, AVS_DEBUG_WINDOW) + __offset); \
--})
--
--static inline int avs_log_buffer_status_locked(struct avs_dev *adev, union avs_notify_msg *msg)
--{
--	unsigned long flags;
--	int ret;
--
--	spin_lock_irqsave(&adev->trace_lock, flags);
--	ret = avs_dsp_op(adev, log_buffer_status, msg);
--	spin_unlock_irqrestore(&adev->trace_lock, flags);
--
--	return ret;
--}
--
--struct avs_apl_log_buffer_layout {
--	u32 read_ptr;
--	u32 write_ptr;
--	u8 buffer[];
--} __packed;
--static_assert(sizeof(struct avs_apl_log_buffer_layout) == 8);
--
--#define avs_apl_log_payload_size(adev) \
--	(avs_log_buffer_size(adev) - sizeof(struct avs_apl_log_buffer_layout))
--
--#define avs_apl_log_payload_addr(addr) \
--	(addr + sizeof(struct avs_apl_log_buffer_layout))
--
--#ifdef CONFIG_DEBUG_FS
--#define AVS_SET_ENABLE_LOGS_OP(name) \
--	.enable_logs = avs_##name##_enable_logs
--
--bool avs_logging_fw(struct avs_dev *adev);
--void avs_dump_fw_log(struct avs_dev *adev, const void __iomem *src, unsigned int len);
--void avs_dump_fw_log_wakeup(struct avs_dev *adev, const void __iomem *src, unsigned int len);
--
--int avs_probe_platform_register(struct avs_dev *adev, const char *name);
--
--void avs_debugfs_init(struct avs_dev *adev);
--void avs_debugfs_exit(struct avs_dev *adev);
--#else
--#define AVS_SET_ENABLE_LOGS_OP(name)
--
--static inline bool avs_logging_fw(struct avs_dev *adev)
--{
--	return false;
--}
--
--static inline void avs_dump_fw_log(struct avs_dev *adev, const void __iomem *src, unsigned int len)
--{
--}
--
--static inline void
--avs_dump_fw_log_wakeup(struct avs_dev *adev, const void __iomem *src, unsigned int len)
--{
--}
--
--static inline int avs_probe_platform_register(struct avs_dev *adev, const char *name)
--{
--	return 0;
--}
--
--static inline void avs_debugfs_init(struct avs_dev *adev) { }
--static inline void avs_debugfs_exit(struct avs_dev *adev) { }
--#endif
-+int avs_parse_sched_cfg(struct avs_dev *adev, const char *buf, size_t len);
- 
- /* Filesystems integration */
- 
-diff --git a/sound/soc/intel/avs/board_selection.c b/sound/soc/intel/avs/board_selection.c
-index fb49167f5fc4..9eb59d5a73f7 100644
---- a/sound/soc/intel/avs/board_selection.c
-+++ b/sound/soc/intel/avs/board_selection.c
-@@ -17,6 +17,7 @@
- #include <sound/soc-acpi.h>
- #include <sound/soc-component.h>
- #include "avs.h"
-+#include "debug.h"
- #include "utils.h"
- 
- static char *i2s_test;
-diff --git a/sound/soc/intel/avs/cnl.c b/sound/soc/intel/avs/cnl.c
-index 03f8fb0dc187..5b5359e9128b 100644
---- a/sound/soc/intel/avs/cnl.c
-+++ b/sound/soc/intel/avs/cnl.c
-@@ -8,6 +8,7 @@
- 
- #include <sound/hdaudio_ext.h>
- #include "avs.h"
-+#include "debug.h"
- #include "messages.h"
- #include "registers.h"
- 
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index 5ebadba07ecc..6e0e65584c7f 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -27,6 +27,7 @@
- #include "../../codecs/hda.h"
- #include "avs.h"
- #include "cldma.h"
-+#include "debug.h"
- #include "messages.h"
- #include "pcm.h"
- 
-diff --git a/sound/soc/intel/avs/debug.h b/sound/soc/intel/avs/debug.h
-new file mode 100644
-index 000000000000..9f0f6f3b2bde
---- /dev/null
-+++ b/sound/soc/intel/avs/debug.h
-@@ -0,0 +1,91 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright(c) 2024-2025 Intel Corporation
-+ *
-+ * Authors: Cezary Rojewski <cezary.rojewski@intel.com>
-+ *          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
-+ */
-+
-+#ifndef __SOUND_SOC_INTEL_AVS_DEBUG_H
-+#define __SOUND_SOC_INTEL_AVS_DEBUG_H
-+
-+#include "messages.h"
-+#include "registers.h"
-+
-+struct avs_dev;
-+
-+#define avs_log_buffer_size(adev) \
-+	((adev)->fw_cfg.trace_log_bytes / (adev)->hw_cfg.dsp_cores)
-+
-+#define avs_log_buffer_addr(adev, core) \
-+({										\
-+	s32 __offset = avs_dsp_op(adev, log_buffer_offset, core);		\
-+	(__offset < 0) ? NULL :							\
-+			 (avs_sram_addr(adev, AVS_DEBUG_WINDOW) + __offset);	\
-+})
-+
-+static inline int avs_log_buffer_status_locked(struct avs_dev *adev, union avs_notify_msg *msg)
-+{
-+	unsigned long flags;
-+	int ret;
-+
-+	spin_lock_irqsave(&adev->trace_lock, flags);
-+	ret = avs_dsp_op(adev, log_buffer_status, msg);
-+	spin_unlock_irqrestore(&adev->trace_lock, flags);
-+
-+	return ret;
-+}
-+
-+struct avs_apl_log_buffer_layout {
-+	u32 read_ptr;
-+	u32 write_ptr;
-+	u8 buffer[];
-+} __packed;
-+static_assert(sizeof(struct avs_apl_log_buffer_layout) == 8);
-+
-+#define avs_apl_log_payload_size(adev) \
-+	(avs_log_buffer_size(adev) - sizeof(struct avs_apl_log_buffer_layout))
-+
-+#define avs_apl_log_payload_addr(addr) \
-+	(addr + sizeof(struct avs_apl_log_buffer_layout))
-+
-+#ifdef CONFIG_DEBUG_FS
-+int avs_probe_platform_register(struct avs_dev *adev, const char *name);
-+
-+#define AVS_SET_ENABLE_LOGS_OP(name) \
-+	.enable_logs = avs_##name##_enable_logs
-+
-+bool avs_logging_fw(struct avs_dev *adev);
-+void avs_dump_fw_log(struct avs_dev *adev, const void __iomem *src, unsigned int len);
-+void avs_dump_fw_log_wakeup(struct avs_dev *adev, const void __iomem *src, unsigned int len);
-+
-+void avs_debugfs_init(struct avs_dev *adev);
-+void avs_debugfs_exit(struct avs_dev *adev);
-+
-+#else
-+static inline int avs_probe_platform_register(struct avs_dev *adev, const char *name)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+#define AVS_SET_ENABLE_LOGS_OP(name)
-+
-+static inline bool avs_logging_fw(struct avs_dev *adev)
-+{
-+	return false;
-+}
-+
-+static inline void avs_dump_fw_log(struct avs_dev *adev, const void __iomem *src, unsigned int len)
-+{
-+}
-+
-+static inline void avs_dump_fw_log_wakeup(struct avs_dev *adev, const void __iomem *src,
-+					  unsigned int len)
-+{
-+}
-+
-+static inline void avs_debugfs_init(struct avs_dev *adev) { }
-+static inline void avs_debugfs_exit(struct avs_dev *adev) { }
-+#endif
-+
-+#endif
-diff --git a/sound/soc/intel/avs/debugfs.c b/sound/soc/intel/avs/debugfs.c
-index f508f215ecd2..3534de46f9e4 100644
---- a/sound/soc/intel/avs/debugfs.c
-+++ b/sound/soc/intel/avs/debugfs.c
-@@ -13,6 +13,7 @@
- #include <linux/string_helpers.h>
- #include <sound/soc.h>
- #include "avs.h"
-+#include "debug.h"
- #include "messages.h"
- 
- static unsigned int __kfifo_fromio(struct kfifo *fifo, const void __iomem *src, unsigned int len)
-diff --git a/sound/soc/intel/avs/icl.c b/sound/soc/intel/avs/icl.c
-index f8d327ea2656..d655e727bebd 100644
---- a/sound/soc/intel/avs/icl.c
-+++ b/sound/soc/intel/avs/icl.c
-@@ -10,6 +10,7 @@
- #include <sound/hdaudio.h>
- #include <sound/hdaudio_ext.h>
- #include "avs.h"
-+#include "debug.h"
- #include "messages.h"
- 
- #define ICL_VS_LTRP_GB_ICCMAX	95
-diff --git a/sound/soc/intel/avs/ipc.c b/sound/soc/intel/avs/ipc.c
-index 6bfb9d1a1ca8..c0feb9edd7f6 100644
---- a/sound/soc/intel/avs/ipc.c
-+++ b/sound/soc/intel/avs/ipc.c
-@@ -10,6 +10,7 @@
- #include <linux/slab.h>
- #include <sound/hdaudio_ext.h>
- #include "avs.h"
-+#include "debug.h"
- #include "messages.h"
- #include "registers.h"
- #include "trace.h"
-diff --git a/sound/soc/intel/avs/lnl.c b/sound/soc/intel/avs/lnl.c
-index 03208596dfb1..4fbc62bfd6c5 100644
---- a/sound/soc/intel/avs/lnl.c
-+++ b/sound/soc/intel/avs/lnl.c
-@@ -8,6 +8,7 @@
- 
- #include <sound/hdaudio_ext.h>
- #include "avs.h"
-+#include "debug.h"
- #include "registers.h"
- 
- int avs_lnl_core_stall(struct avs_dev *adev, u32 core_mask, bool stall)
-diff --git a/sound/soc/intel/avs/mtl.c b/sound/soc/intel/avs/mtl.c
-index e7b7915b2a82..d8bdd03275d7 100644
---- a/sound/soc/intel/avs/mtl.c
-+++ b/sound/soc/intel/avs/mtl.c
-@@ -8,6 +8,7 @@
- 
- #include <sound/hdaudio_ext.h>
- #include "avs.h"
-+#include "debug.h"
- #include "registers.h"
- #include "trace.h"
- 
 diff --git a/sound/soc/intel/avs/probes.c b/sound/soc/intel/avs/probes.c
-index a42736b9aa55..505ca4975e61 100644
+index 505ca4975e61..88c6d385c73c 100644
 --- a/sound/soc/intel/avs/probes.c
 +++ b/sound/soc/intel/avs/probes.c
-@@ -11,6 +11,7 @@
- #include <sound/hdaudio.h>
- #include <sound/soc.h>
- #include "avs.h"
-+#include "debug.h"
- #include "messages.h"
+@@ -285,7 +285,7 @@ static struct snd_soc_dai_driver probe_cpu_dais[] = {
+ },
+ };
  
- static int avs_dsp_init_probe(struct avs_dev *adev, union avs_connector_node_id node_id,
-diff --git a/sound/soc/intel/avs/ptl.c b/sound/soc/intel/avs/ptl.c
-index 2be4b545c91d..07da9b0aa2b8 100644
---- a/sound/soc/intel/avs/ptl.c
-+++ b/sound/soc/intel/avs/ptl.c
-@@ -8,6 +8,7 @@
+-static struct snd_soc_component_driver avs_probe_component_driver = {
++static const struct snd_soc_component_driver avs_probe_component_driver = {
+ 	.name			= "avs-probe-compr",
+ 	.compress_ops		= &avs_probe_compress_ops,
+ 	.module_get_upon_open	= 1, /* increment refcount when a stream is opened */
+@@ -293,6 +293,20 @@ static struct snd_soc_component_driver avs_probe_component_driver = {
  
- #include <sound/hdaudio_ext.h>
- #include "avs.h"
-+#include "debug.h"
- #include "registers.h"
- #include "trace.h"
- 
-diff --git a/sound/soc/intel/avs/skl.c b/sound/soc/intel/avs/skl.c
-index d66ef000de9e..8fb86f364ff3 100644
---- a/sound/soc/intel/avs/skl.c
-+++ b/sound/soc/intel/avs/skl.c
-@@ -11,6 +11,7 @@
- #include <sound/hdaudio_ext.h>
- #include "avs.h"
- #include "cldma.h"
-+#include "debug.h"
- #include "messages.h"
- #include "registers.h"
- 
-diff --git a/sound/soc/intel/avs/tgl.c b/sound/soc/intel/avs/tgl.c
-index 9dbb3ad0954a..afb066516101 100644
---- a/sound/soc/intel/avs/tgl.c
-+++ b/sound/soc/intel/avs/tgl.c
-@@ -8,6 +8,7 @@
- 
- #include <linux/pci.h>
- #include "avs.h"
-+#include "debug.h"
- #include "messages.h"
- 
- #define CPUID_TSC_LEAF 0x15
+ int avs_probe_platform_register(struct avs_dev *adev, const char *name)
+ {
+-	return avs_soc_component_register(adev->dev, name, &avs_probe_component_driver,
+-					  probe_cpu_dais, ARRAY_SIZE(probe_cpu_dais));
++	struct snd_soc_component *component;
++	int ret;
++
++	component = devm_kzalloc(adev->dev, sizeof(*component), GFP_KERNEL);
++	if (!component)
++		return -ENOMEM;
++
++	component->name = devm_kstrdup(adev->dev, name, GFP_KERNEL);
++	if (!component->name)
++		return -ENOMEM;
++
++	ret = snd_soc_component_initialize(component, &avs_probe_component_driver, adev->dev);
++	if (ret)
++		return ret;
++
++	return snd_soc_add_component(component, probe_cpu_dais, ARRAY_SIZE(probe_cpu_dais));
+ }
 -- 
 2.25.1
 
