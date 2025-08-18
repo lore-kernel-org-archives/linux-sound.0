@@ -1,118 +1,94 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADAA21C166
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 15:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED39732254D;
+	Mon, 18 Aug 2025 15:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755530541; cv=none; b=LuAvb7cm5wAa4E4996a6jBkbkQFbb3I/PMV6PAJmIqN/ubQy89SzO9Ub1s+ojUxlnYUmbxte1G8yB/1MovVChqA6ykBtLhyM05uEZSXrqvLA129PwssJds2euYajr4/MxG+cOg9vNcyrXhaRHzBG8UAu1mwKj/r742Oa5UQZPG4=
+	t=1755532125; cv=none; b=aELVieXgd9qy9nGS9/XPIGb0s968eEKg7Jjl3wnGo6gWUvubkoF0g75nSrs9rGG8WMlSmSjFyqJFwq0u+Wjm/4PQZxOFI0UEPMaMvIQZRF7jyLOQ6bVOHJgbkFcw3PmxP2L9A0RpsZbbCIqww8c8R4OMGirGH9CVsw0ZHO6tzgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755530541; c=relaxed/simple;
-	bh=TZB6OzqRHkfT0at7DfysjFW1dYU/QwDxNcArpH9FPJQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kDKcb3B06CGqell5fXN9Ah3Lc3OQg35SgMiOZuXfd/kAjb7gVofiDYmcqHD5h+Dl63Fi2EmmQq0pfNd8RFLUChVUFpBgBjmHuDNczXPyelboCwxwXX7TK/vGquKfheXek2ok8KFk0bghICWFhPnl3S4bdPz+gkNQlSyzthZi4d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u06rAZbl; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755532125; c=relaxed/simple;
+	bh=Gsf4hYz1t1PPwQY5cCeTDhK3xws8M2fmBosGFpRURDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UuqpgdlWiHg89BID68sCR7uyOt7HHwdh8C0bDgJaI9Nw6SIbk/GSCrDv7xnjcg6QUB+tNeQ+r7Cg76QDQsYuYkTQr/ciiaftcoez8pad1zBizoWWCn0JL/bGkmx0vM4MllqUwpQ/3GSygiqs5RnH37VmHD0dzGG3PsvZnU/VBZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JcwR3C+I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u06rAZbl"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-333f901b2d2so31607111fa.2
-        for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 08:22:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755530538; x=1756135338; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yVZcBNGwpkq+v3DR0vvpafxBkSL/1KeRhlI8oyXPu5U=;
-        b=u06rAZbl2IKE5aHqI29nVAjfqYPmxsWvrYsyHBlAY+SwekxsfWfAGIC8oAlGGBhBOD
-         wugb5qxb3xnEuUyB8rXIbkTNNY8fdDdsbNTIc/Au5PBccylFzxKaJosRKuhoo0fJHZJG
-         NIlWCQ7Vtd4B2yhHdr2A7aOtM7LnoqyPru8SHYjAZVk3u/K2WTVWF8VUTAAeS3t1rto5
-         zyiy9gXs4sZ/3SLQ2tBq64TO64PUhPUC8CWNb1kHMFwD9sihRygUxt6BIyA3SaaULwfg
-         2RvGGxV6djsdbbsQBJg7tWrbdJYxzxk8lNdguUDp6rMxHPJtwI2sf18JqKPZYLGnlP7g
-         kuvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755530538; x=1756135338;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yVZcBNGwpkq+v3DR0vvpafxBkSL/1KeRhlI8oyXPu5U=;
-        b=a2mQGYJgK4axWeaT8ZLUuFcdXaVGq51Xwq7j/+hzY6/AudfeN1l9PLoDiP17DjeAMC
-         Ewy70oEHu/oWt1Ng67/euMnVTorATmGNX2xj+RmauNGaqWINAjahDBSbzGETRPdpV6EL
-         3XbJNV6yWPHWrsfM3WmZcoWcIiDSxn6MPIU2U/rYszEm/mvdPyYpR2UOeGWbmBb2XHGF
-         mA9d8kzX9+hU7HVWNpxVy3i2ChPodhEKId1f1JR/7FI01Og49nq0j8dUPExuPP4vBuuL
-         5uEjY95ljuFFEuJN8h2C5IQ5ZxaIqleeaZycf+xOeW/u14ADVNnaJy3Jllq8776cm+7u
-         UPyg==
-X-Forwarded-Encrypted: i=1; AJvYcCUdpczZ3R1mioNZIdZBSVKDfcE8RQ3VhREJpqYpnl5FaDDkGNGg936O16CCjtT4rqHX60tvrGqwBeyV1Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEQOKxXZag9E86akI8gTPsvYSoBIhygYZqSrAzSdATAJe+pd31
-	s/GiaDvPzzGz8a++soBXWTHBCf5eQUtPFaGELcWwg2rZ38lAb6Lr+pRwokhyE4+6XQRE69z7v/H
-	JRvTBvCT8YI1qub4McHKoab5LiNJZ9RcMuXoznwNFAg==
-X-Gm-Gg: ASbGncsY0mrP3mFbTjxAbUMPNlZ8cp3Ahzpn1zFe3b52KQaLE3jt4SiNOrclljgs4VH
-	2qKbFPXRQCRa8FA987Kf3OoR4cRwnUVM92DoOSqMjCW1yJceUgGQ+s1rT9/RGt/7i3k9rw+HvvR
-	/vfWIJTT1HVIjnI5T6gccpMSyhkbdM2DFWx5h/skacRPogAVPD/VTwAcENAs2ATczZfHD65eCIh
-	RWxpQLRkfSx
-X-Google-Smtp-Source: AGHT+IEuIn7Pd5TPUO8L66bFb+S5ecBGsVI6khVLYk/8B6wK0KvSrOChhN5fjVMUxuyUcCqgOaWvaaAbYkhBGXf3lsc=
-X-Received: by 2002:a2e:bc1b:0:b0:333:ad65:c4bd with SMTP id
- 38308e7fff4ca-3340990b5cbmr39999151fa.23.1755530537596; Mon, 18 Aug 2025
- 08:22:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JcwR3C+I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8938DC4CEEB;
+	Mon, 18 Aug 2025 15:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755532124;
+	bh=Gsf4hYz1t1PPwQY5cCeTDhK3xws8M2fmBosGFpRURDs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JcwR3C+IgjQvfxVNJtB6HcwKS4D6Fuhu6vjNWn23hP9N5zmJezFKSRjMFrL97+vyt
+	 1uNHwfeJVzacR5oXUVA0rd89/RK0hV5jtymHWWT6x6JCerFmhUxb8hkVBSrg7EdEQL
+	 QjAE+rwGRUAh8bNR19g9FEon6HfQLAnZp2SZ+nd63AATvfeSEKDwiGtY/F8fyQaMd3
+	 tOylhsrkijU24jEK4QamQxFA9eGKGKi2Tj43Rsi/jkcRmPqaUEwLCmI24ISXmduzse
+	 eK4SavulmBrZRAYToPWhCjC5xsoSQPk1tjAORBf7qKMyPgx9RGZT3E/4+Whx7WJbTV
+	 Hlmk/sx2HivEA==
+Date: Mon, 18 Aug 2025 16:48:40 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v1] ASoC: cs35l56: Fixes for CS35L63 for production
+ silicon
+Message-ID: <dea2b581-b984-4232-bd65-b0e6357e78a0@sirena.org.uk>
+References: <20250818145952.124199-1-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250801-mtk-dtb-warnings-v1-0-6ba4e432427b@collabora.com>
- <20250801-mtk-dtb-warnings-v1-8-6ba4e432427b@collabora.com> <CAGXv+5EHk=f62+KiLo-aWMcd0-q+_59kno+uOW5rdYaq5q+5tQ@mail.gmail.com>
-In-Reply-To: <CAGXv+5EHk=f62+KiLo-aWMcd0-q+_59kno+uOW5rdYaq5q+5tQ@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 18 Aug 2025 17:22:05 +0200
-X-Gm-Features: Ac12FXwpejZ0ETsmnb_X42vgeTPsfQZWI7EY17l_sz1-eYnLo5UFkub2X4VrxBw
-Message-ID: <CACRpkdbWctNH0XJfcHfVJM9Etp0WCXpdyhhyaQemH-Xc0LDr0A@mail.gmail.com>
-Subject: Re: [PATCH 8/9] arm64: dts: mediatek: mt8183-kukui: Fix
- pull-down/up-adv values
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Julien Massot <julien.massot@collabora.com>, kernel@collabora.com, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Ikjoon Jang <ikjn@chromium.org>, 
-	Enric Balletbo i Serra <eballetbo@kernel.org>, Weiyi Lu <weiyi.lu@mediatek.com>, 
-	Eugen Hristev <eugen.hristev@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Julien Massot <jmassot@collabora.com>, 
-	Sean Wang <sean.wang@kernel.org>, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="I1gmiPG33CiQ9Utz"
+Content-Disposition: inline
+In-Reply-To: <20250818145952.124199-1-sbinding@opensource.cirrus.com>
+X-Cookie: No guts, no glory.
 
-On Wed, Aug 6, 2025 at 8:38=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> wr=
-ote:
-> On Fri, Aug 1, 2025 at 7:18=E2=80=AFPM Julien Massot wrote
 
-> >                 pins-clk {
-> >                         pinmux =3D <PINMUX_GPIO124__FUNC_MSDC0_CLK>;
-> >                         drive-strength =3D <MTK_DRIVE_14mA>;
-> > -                       mediatek,pull-down-adv =3D <10>;
-> > +                       mediatek,pull-down-adv =3D <2>;
->
->         bias-pull-down =3D <MTK_PUPD_SET_R1R0_10>;
->
-> and so on.
->
-> ChenYu
+--I1gmiPG33CiQ9Utz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I agree with ChenYu, the more standardized properties are the better it is.
+On Mon, Aug 18, 2025 at 03:59:40PM +0100, Stefan Binding wrote:
+> Production silicon for CS36L63 has some small differences compared to
+> pre-production silicon. This requires small fixes in driver.
+> Update firmware addresses and remove soundwire clock workaround as no
+> longer necessary. In addition, different calibration and tuning
+> algorithm IDs are required for CS35L63.
 
-All the custom properties makes sense for an engineer working with just
-that one SoC (like the SoC vendor...) but for field engineers who have
-to use different SoCs every day this is just a big mess for the mind.
+There are multiple changes in here, this should be a patch series not a
+single patch.
 
-The standard properties are clear, concise and tell you exactly what
-they are about.
+> -static int cs35l56_sdw_bus_config(struct sdw_slave *peripheral,
+> -				  struct sdw_bus_params *params)
+> -{
+> -	struct cs35l56_private *cs35l56 = dev_get_drvdata(&peripheral->dev);
+> -
+> -	if ((cs35l56->base.type == 0x63) && (cs35l56->base.rev < 0xa1))
+> -		return cs35l63_sdw_kick_divider(cs35l56, peripheral);
+> -
+> -	return 0;
+> -}
 
-The argument should be in Ohms though, according to the standard
-bindings, but maybe the value of MTK_PUPD_SET_R1R0_10 is
-something like that?
+Are you *positive* there's no preproduction silicon floating about out
+there?
 
-Yours,
-Linus Walleij
+--I1gmiPG33CiQ9Utz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmijS1gACgkQJNaLcl1U
+h9BfFQf/SmzbMuyTTwJDKte6b7UYif3niHRgAJyzoxoGqI/OEpaXgiK/y7qbViie
+hmi0XtOgh2mLmHE2y+Oh1/DxtkPmcdPBcHMTX4p541YnctCxVNarB6H5sAc1pRK1
+mo/Qixcebu5wfH2rFa123FFaQYznDo83r784pJO1WVr147mpTyVLxW6jOUg85amu
+1DSCuXev/zNVgnQ2+ZT/1kIdIfdzz529aikn8prgjkV44dfB+FLw46BnLEJ8e3FC
+9AmtHWOkh7XHNCIgsZbbOApyRlgJZogR4p9dFOGGlMIpwntEWksLlgk+7mW5MOAk
+xfIt9XW2Npo7Yil4/YPVb6KTxvzvuQ==
+=Hbol
+-----END PGP SIGNATURE-----
+
+--I1gmiPG33CiQ9Utz--
