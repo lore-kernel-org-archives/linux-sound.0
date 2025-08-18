@@ -1,66 +1,66 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FE02FFDEF
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 11:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F19A31A062
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 11:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755517672; cv=none; b=rfjmutovblVGl0WfDEFks5MQRT2+IgDozhjRb1lmGeW+wsT5ZZZ0dlROlucblyJTprrJLpoptFpIJlo+Ne/I+Apd1whuBqG5flVslCnOrTK4s3r7qy20S9g7BETd0NXqOavq4PVZ3NJHydn0c0l/ZAJqHeicQAmRZoAumrfxiug=
+	t=1755518004; cv=none; b=sMVPaz4xV5s5vgDnJ5JEwcdYCW9kdzjHxM5HKrEqGo/9fJvDYT0Nkh3cuNCMiM8EsWI2fif4XCwSb4D7hx4Diw5i1nhOoUrYQIiqV8fgGWghkLbtbBUgI2MS5906WsL9FdUJIqMm3WtQ2ij6WpxCgTtvdH+tn3CD2/tHuJruBW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755517672; c=relaxed/simple;
-	bh=tGBqh60Un0TalerAF7oi+EQiBm/FcItRtvBszAhPCVw=;
+	s=arc-20240116; t=1755518004; c=relaxed/simple;
+	bh=ZCMXsVlHtqvHp9HOjuFdwqmzaSfIoEmF+vzlt2RxC6Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N8q6ek9owjyWvyBVnjMPHw6iaGlsvnEerhzyHCH8FTj8zwPcmZr0bdwTCduRJEGVTyW3CwvTHPl5JnGwzHRQyEFE8sbgmHb/27ADfxIjpaEGyxKOFBdfLPU3C0FrF/a10x+9+CTrM7sgV6Aewb3NayYVqfj/IqjeOUgVm2zcKIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tWW2/ElX; arc=none smtp.client-ip=209.85.208.51
+	 In-Reply-To:Content-Type; b=lYwXJT3k8wH9VgP99xjMMrBJwrLAxZa4rZwIVug1heJjJWOLwiwaZLepMCrTBhuV1ogiPFkDSEYfdmXmOPfMmOlgAuVcP2BPJi1hKOhrhGCmRhZBzGdnd65ZObe8J7thsKEUHNW5QYC10x1bSIq/IUNDtWxJWojorNbmV4JVa08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U7PzZ3BV; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tWW2/ElX"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-61a54560c1fso74264a12.0
-        for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 04:47:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U7PzZ3BV"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6188b657564so423605a12.1
+        for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 04:53:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755517669; x=1756122469; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1755518001; x=1756122801; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=wyRfBryJejL1jcHUi+Bp1Ubw25EetLDqaChcg3c+p3w=;
-        b=tWW2/ElXDR2LouGbmaJdlOQBfr0wYzqFht5acK0oSN8UZwM/L5eoVksNbzXmL9yHDl
-         fOuVaYrrG6j85PqpUK7sBifLVfh/slP1HApgHOAVrvZDjbdL57Rof0bYk5xYWa5KeT0s
-         H+jX4ytSkVBGIm7CFcxSibzumGDrVG5E09EwnqgGcln+nGuZWPqJEibSu/GhYIwZOgqB
-         VHVsfRDLkHDDL8l932Uj2UbPSrDH2bUcClq9IfBy/1e1WmiwrET+CeDP3UHfRVLco8PN
-         qTJsHmHrbW95avjG0M17NTgaPj+jVzSCLyNjaaE7rjosogedm6cGldbddz5k2k0l+dfP
-         OmuA==
+        bh=fuR6jAMBV4ZTTjPzdysECiSK5P/2INKf3lMZTVfus0Q=;
+        b=U7PzZ3BVooxxh573KcLqW5cso69QHJ2g0rgR5bcsnPtDICP09FVwAWkr/fBjqY6D/E
+         Mv7YAgPjIlVXUd6bjIwCgOnGQma4C0E8FoWGwImXftxNh2kc7dedLhh7TeCMIykO0c8A
+         EyqYjOrZVrywCJSkugYeDmogrVN/YlxEIAgQeruo1id1+bekB3iR87GmxDBoG21p4RpY
+         aDzz6FJ+M+zAXUf5xK/4MxOCvQcZt/FPBKKI8E92WPk9I5ViUk4TtnFeuOIe/l2mSEoy
+         Txg6YduzMmqdhmddjIIxKVHbim9J/iYh/5crXCYWr4LNBjRxfcTpSUbmdiMhGcUSO6d0
+         vgeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755517669; x=1756122469;
+        d=1e100.net; s=20230601; t=1755518001; x=1756122801;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wyRfBryJejL1jcHUi+Bp1Ubw25EetLDqaChcg3c+p3w=;
-        b=sCtddnbzsKoXeX2d+aeW33f/16rx4SVAYLcP6hbb4WjDf38Q/u5M/ydg2vyWY3cKIS
-         +VtYc3pD3bZ/WVyAogh42UuOSGpZpbYYbALYUPQeq0ZYhZrIVatr0Zo8EtBeciC4f3y+
-         SKvYLAfW8AqWcKjUv6zQUDdibqRtl/xiN8/Z+dAOSslvSS4scowHopeY405rwIcrKyWC
-         j5z/7uyv3M6VVzG6+PZlvNc6qua6Cb4/UNy3dyYlNsKf7UZ7SjqAW1CR57S8t/rEFc7C
-         4/nuicziOocs3pTDtiDjRys99egb3qm5zSt3zc4sjRR5wSwzYUelJjq/7tAWZDCVyTi6
-         jSDw==
-X-Forwarded-Encrypted: i=1; AJvYcCWnfb7VvqPYt71hsqkUwS46Bh824gREz+QF/vJ0KFkIy+TjdB2DDoR2+g8tuZlkOwPR23+vtNMzrrQyGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxqmlr4EzsFj9xqjXCT4XeJLUmDMaHaIX96pGD18PhOQ7jzy6uq
-	WaK69OECOiQOKFPEXDoKkgtyqDp/WlDKK5p7+XVZzNG17XoENyNJlJOu4iCBipkovKY=
-X-Gm-Gg: ASbGncvnwFH12+bLTKAq2O8uTb8nKVr7KB3TxZXgxKDY/oZ2EfVN4vZQLoW5yWgdbgQ
-	t5mQIjxb809fNM1iuXqP8FoPt+sH3zBCDjYt0FUyBz+IvJmoH94yzQ9cTosqYkIqbf2fc2LcSF7
-	i6O1vsxVzcN0DfVfO0f97j8rPfHRYnptKSL/U0pI5UZt7tOrXn4P0ZKMjvfrroBiCgFBPkdVz5x
-	TeYukihrhLMdtQ+U7Kz9/UAorAOuaaAIRsLXYTL0nbQQAJ8omg1o6ubxdlr1gP8pNhf6DM4X0UD
-	ZyyyE8pta4TVmR//RojO0umWO18xWUGYovcZ1k0A0UVnA5dd/wR3gShxhoHkrq8Boy+c44pobwn
-	3GcJT0qeGolJttBQtyOQQVwuOxYCEvmM9tplXIhCEvXPOCzG29nqwXA==
-X-Google-Smtp-Source: AGHT+IGL6fqxjaynuafgC5BqIzUloo+GykeyBNTQgTdgf+l4Lyt5a1MZcGz9r615RaktpZ8JU4TDbw==
-X-Received: by 2002:a05:6402:520f:b0:618:227b:8848 with SMTP id 4fb4d7f45d1cf-618b0f2715cmr4571238a12.7.1755517669110;
-        Mon, 18 Aug 2025 04:47:49 -0700 (PDT)
+        bh=fuR6jAMBV4ZTTjPzdysECiSK5P/2INKf3lMZTVfus0Q=;
+        b=AqMS1LCVM6H4dIa+R17L7Y4pAn9OO5O4mYOvljuQQjNXM+xTqgeZ8AtvSPyrhXn8iW
+         HpBUYokNMIMiE/89XD3svCv2faMhJufPb42eCN10utlM9wrnycgMaz1HaV+YRrSlo/ji
+         7n2HV0OG28/UahJkLGXdJJtB7C6HhU8FWP/8ig434Tfuf0fG9fVFhZSrw2+B1BQTRKJk
+         a+SZ9Cudw7gdg/2Dl0l3Fy0lqfLt/iKxxUIZyb4rZJKs8MRST6wqp2RLqAKhN1oeVTm7
+         ZXOKRzStJlSEaYtuaR9yj7tHlNb7MU8CVd/TlVi6vkwN70CYYilpE10pwtZM1VET4/z7
+         fwbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUzCuSABWZ8Wk9Ka8ES4kgGpr43u3s0mLSL2qsg+3N5qlWMJIngv4SO91+4Se+gh3UIBTveoz8P7yrZBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz48p6+mridEeHVm0aBZ8B4zD5YEuZIrACCuQtu0CwUJ71MVJUy
+	h/NtIurbFfyF0nav3Pr2wfU11cbs06F9y9i8aSG3j9W0iyp6BOSNNGdjLESXGZO5u6k=
+X-Gm-Gg: ASbGnctswN4ceKUtpfzI8X8CafKPxcQrNxzIG0Qnwk3py3eYma2onyD3VK61mXQMKj9
+	DEUCJfVyip+mXLX3v3zmgXWuoQwpW880QVWjpuNrgR6+/Wdc5ZHRm03o5y4iGXqeCBUHKEe6BVJ
+	pW9AG1oLTFMQzmjKbXlDJ/9Cz454c/N3sqh6ENNEulAHUh+BmlHUSmUsS8AVFo7VV2JJ3y6xrv4
+	7OtuFqMfjeFtDUlh62BQQRNTn6a2Irimyu7bU0rRwT/32vW8wF0t++7oaSowpp7upwLc9R6++4n
+	YwQkrJcvzHHaDh3DBUe/97y4R7AVZdJNqyg+gSyhqSkFtGA8k3a9Enujxm/+g3cpyeubseFHYvF
+	/RbHVYyheuM2o3+HOrpDX2GY4FYTY0QqFb6oSoO5iTLw=
+X-Google-Smtp-Source: AGHT+IF1APw03/g57XmrCRLPRGpzFqKfZPNAZEXzjhiiwCZgq4h8v9nOpxisxIx7dzP2ziBJeIDBXg==
+X-Received: by 2002:a17:907:9627:b0:af9:a9ea:f42f with SMTP id a640c23a62f3a-afcdc1f4d0emr506220966b.9.1755518000578;
+        Mon, 18 Aug 2025 04:53:20 -0700 (PDT)
 Received: from [192.168.1.29] ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-618af9da3e7sm7004184a12.13.2025.08.18.04.47.47
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce72cfesm776327966b.46.2025.08.18.04.53.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Aug 2025 04:47:48 -0700 (PDT)
-Message-ID: <63e044d1-ad3e-4971-9b7d-6b58c2ccc852@linaro.org>
-Date: Mon, 18 Aug 2025 13:47:46 +0200
+        Mon, 18 Aug 2025 04:53:20 -0700 (PDT)
+Message-ID: <f75a5ef0-d742-42a4-81c7-85b33028265d@linaro.org>
+Date: Mon, 18 Aug 2025 13:53:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,18 +68,14 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qcom: q6apm-lpass-dais: Fix NULL pointer
- dereference if source graph failed
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-References: <20250815113915.168009-2-krzysztof.kozlowski@linaro.org>
- <70abcfee-e4c1-42d9-b623-266140aa2ff3@oss.qualcomm.com>
+Subject: Re: [PATCH 1/4] ASoC: qcom: audioreach: deprecate
+ AR_TKN_U32_MODULE_[IN/OUT]_PORTS
+To: srinivas.kandagatla@oss.qualcomm.com, broonie@kernel.org
+Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, lgirdwood@gmail.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20250818112810.1207033-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20250818112810.1207033-2-srinivas.kandagatla@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -126,73 +122,27 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
  vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
  2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <70abcfee-e4c1-42d9-b623-266140aa2ff3@oss.qualcomm.com>
+In-Reply-To: <20250818112810.1207033-2-srinivas.kandagatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 15/08/2025 17:56, Srinivas Kandagatla wrote:
-> Thanks Krzysztof,
-> On 8/15/25 12:39 PM, Krzysztof Kozlowski wrote:
->> If earlier opening of source graph fails (e.g. ADSP rejects due to
+On 18/08/2025 13:28, srinivas.kandagatla@oss.qualcomm.com wrote:
+> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 > 
-> I think you are referring to the err patch in prepare.
-
-True I am working on feature relying on that other patch, but the code
-here is not really relevant to that other patch, I think.
-
+> Deprecate usage of AR_TKN_U32_MODULE_IN_PORTS and
+> AR_TKN_U32_MODULE_OUT_PORTS as the connectivity of modules is taken care
+> by AR_TKN_U32_MODULE_SRC_OP_PORT_ID* and AR_TKN_U32_MODULE_DST_IN_PORT_ID*
 > 
->> incorrect audioreach topology), the graph is closed and
->> "dai_data->graph[dai->id]" is assigned NULL.  Preparing the DAI for sink
->> graph continues though and next call to q6apm_lpass_dai_prepare()
->> receives dai_data->graph[dai->id]=NULL leading to NULL pointer
->> exception:
->>
->>   qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
->>   qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
->>   q6apm-lpass-dais 30000000.remoteproc:glink-edge:gpr:service@1:bedais: fail to start APM port 78
->>   q6apm-lpass-dais 30000000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC: error at snd_soc_pcm_dai_prepare on TX_CODEC_DMA_TX_3: -22
->>   Unable to handle kernel NULL pointer dereference at virtual address 00000000000000a8
->>   ...
->>   Call trace:
->>    q6apm_graph_media_format_pcm+0x48/0x120 (P)
->>    q6apm_lpass_dai_prepare+0x110/0x1b4
->>    snd_soc_pcm_dai_prepare+0x74/0x108
->>    __soc_pcm_prepare+0x44/0x160
->>    dpcm_be_dai_prepare+0x124/0x1c0
->>
->> Fixes: 30ad723b93ad ("ASoC: qdsp6: audioreach: add q6apm lpass dai support")
->> Cc: <stable@vger.kernel.org>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>  sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
->> index f90628d9b90e..7520e6f024c3 100644
->> --- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
->> +++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
->> @@ -191,6 +191,12 @@ static int q6apm_lpass_dai_prepare(struct snd_pcm_substream *substream, struct s
->>  			return rc;
->>  		}
->>  		dai_data->graph[graph_id] = graph;
->> +	} else if (!dai_data->graph[dai->id]) {
->> +		/*
->> +		 * Loading source graph failed before, so abort loading the sink
->> +		 * as well.
->> +		 */
->> +		return -EINVAL;
->>  	}
-> I guess this is the capture graph that is triggering the error, normally
-> we do not open/close the capture graph in prepare, we do
-> stop/prepare/start for capture graphs and handle open close in
-> startup/shutdown.
+> Also this property is never used in the drivers.
 > 
-> Can you try this change and see if it fixes the issue, as prepare could
-> be called multiple times and your patch will not give chance for trying
-> new parameters incase the failure was due to unsupported params.
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> ---
+>  include/uapi/sound/snd_ar_tokens.h |  4 ++--
+>  sound/soc/qcom/qdsp6/audioreach.h  |  3 ---
+>  sound/soc/qcom/qdsp6/topology.c    | 10 +---------
+>  3 files changed, 3 insertions(+), 14 deletions(-)
 
-
-Yes, this works.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
