@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0422831A063
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 13:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C893318B0F
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 13:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755522091; cv=none; b=acfaBHVa6Rt4zE8SxoLiP6kVs7RZOSyIguaN3bTct3Z0VOyTVIaON/WUHCSUtrsgdJfL2v6/trHzOmI72yhE+iHsfVHniDjlTkP5ofKPKNvudAA8Kp/hejzSo2m6vj0R0pWs8K3zEw1p2gcpxVM/Xz8Ap/d1lGD1lof6ck8DIDY=
+	t=1755522092; cv=none; b=GjjSmN+m+aJDxXF5IvAIX6LnJpoTaaVEDpZ0FSnw6y/ABBCJeFQTjy7/MG18RS7839tjkxoBUAMJG7Fx88o7CXY2VLFNZWBMl2uGDQrmxSiGNoLEJrMj7FjTE9FFM9xWTVk6pm007UGb+JBid6TXxrbaOPjfMcs9ialoIW/D9Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755522091; c=relaxed/simple;
-	bh=lYZ4xblenSXqTgBcJ1Ts2ig91XG8BZggQjJLEkjVl44=;
+	s=arc-20240116; t=1755522092; c=relaxed/simple;
+	bh=SkeKDhXVBnqZd7Uxe45eZprRwgX6elgTADkVtzd6zQk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ptogU/MGqPttJ0bl/8O3P6JE/6pU22QwVekdG9nASSBwhggvw9YWTNshosFMddlKsPsP12aab3E0miFEtT0uFBr/Larzb84ZXEXumiwfRKb7sZxDP8dIRf7kRdsxYWqqho3JI6PGPv9Oxl3VEKKr/8I/1Y6+ft+Mc/PkmFzGSHA=
+	 In-Reply-To:To:Cc; b=R/mRkRuW6XPuJ+xw+1RNR3Rh9XazvmyfRQ3V17oWWd7xfscTgKnsiruuilgJ8+OnZlzYbHIlEKXdrOlEpNqs6yeV0FP56+RI9coG/dRApW5t494LFFzbYnFmUXbVje3laY0m1UI6hqGNyUcUuQVGKmLPITmyUyyOMbafnMavXkQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,22 +18,21 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <s.kerkmann@pengutronix.de>)
-	id 1unzUD-0003t9-OS; Mon, 18 Aug 2025 15:01:17 +0200
+	id 1unzUD-0003t8-OR; Mon, 18 Aug 2025 15:01:17 +0200
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <s.kerkmann@pengutronix.de>)
-	id 1unzUD-000uE4-0K;
+	id 1unzUD-000uE3-0I;
 	Mon, 18 Aug 2025 15:01:17 +0200
 Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
 	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <s.kerkmann@pengutronix.de>)
-	id 1unzUD-005swT-06;
+	id 1unzUD-005swT-05;
 	Mon, 18 Aug 2025 15:01:17 +0200
 From: Stefan Kerkmann <s.kerkmann@pengutronix.de>
-Date: Mon, 18 Aug 2025 15:01:08 +0200
-Subject: [PATCH 2/2] ASoC: dt-bindings: ti,pcm1754: add binding
- documentation
+Date: Mon, 18 Aug 2025 15:01:07 +0200
+Subject: [PATCH 1/2] ASoC: codecs: pcm1754: add pcm1754 dac driver
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,8 +40,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250818-v6-12-topic-pcm1754-v1-2-e1dd189ea99a@pengutronix.de>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250818-v6-12-topic-pcm1754-v1-1-e1dd189ea99a@pengutronix.de>
 References: <20250818-v6-12-topic-pcm1754-v1-0-e1dd189ea99a@pengutronix.de>
 In-Reply-To: <20250818-v6-12-topic-pcm1754-v1-0-e1dd189ea99a@pengutronix.de>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -59,77 +58,260 @@ X-SA-Exim-Mail-From: s.kerkmann@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-The Texas Instruments PCM1754 is a simple stereo DAC without any digital
+From: Alvin Šipraga <alsi@bang-olufsen.dk>
+
+The Texas Instruments PCM1754[1] is a simple stereo DAC without any
+digital
 management interface but soft mute, PCM input format and 44.1 kHz
 digital de-emphasis can be configured via strapping pins. Only soft mute
 and PCM input format selection is currently exposed via optional GPIOs
 in the driver.
 
+[1]: https://www.ti.com/product/PCM1754
+
+Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
+Co-developed-by: Stefan Kerkmann <s.kerkmann@pengutronix.de>
 Signed-off-by: Stefan Kerkmann <s.kerkmann@pengutronix.de>
 ---
- .../devicetree/bindings/sound/ti,pcm1754.yaml      | 54 ++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ sound/soc/codecs/Kconfig   |   5 ++
+ sound/soc/codecs/Makefile  |   2 +
+ sound/soc/codecs/pcm1754.c | 185 +++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 192 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,pcm1754.yaml b/Documentation/devicetree/bindings/sound/ti,pcm1754.yaml
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 7092842480ef17d705920a6ac62a85158119352e..7b2d677453872b5e8d7c115c5f5618be55b7a4a1 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -170,6 +170,7 @@ config SND_SOC_ALL_CODECS
+ 	imply SND_SOC_NAU8825
+ 	imply SND_SOC_HDMI_CODEC
+ 	imply SND_SOC_PCM1681
++	imply SND_SOC_PCM1754
+ 	imply SND_SOC_PCM1789_I2C
+ 	imply SND_SOC_PCM179X_I2C
+ 	imply SND_SOC_PCM179X_SPI
+@@ -1367,6 +1368,10 @@ config SND_SOC_PCM1681
+ 	tristate "Texas Instruments PCM1681 CODEC"
+ 	depends on I2C
+ 
++config SND_SOC_PCM1754
++	tristate "Texas Instruments PCM1754 CODEC"
++	depends on GPIOLIB
++
+ config SND_SOC_PCM1789
+ 	tristate
+ 
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index 54cbc3feae3277ae29d6ea8fe891d4d17e5c9b17..1c6fbdc752309ab75486a979b21be50c3f67fdcf 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -191,6 +191,7 @@ snd-soc-nau8824-y := nau8824.o
+ snd-soc-nau8825-y := nau8825.o
+ snd-soc-hdmi-codec-y := hdmi-codec.o
+ snd-soc-pcm1681-y := pcm1681.o
++snd-soc-pcm1754-y := pcm1754.o
+ snd-soc-pcm1789-codec-y := pcm1789.o
+ snd-soc-pcm1789-i2c-y := pcm1789-i2c.o
+ snd-soc-pcm179x-codec-y := pcm179x.o
+@@ -593,6 +594,7 @@ obj-$(CONFIG_SND_SOC_NAU8824)   += snd-soc-nau8824.o
+ obj-$(CONFIG_SND_SOC_NAU8825)   += snd-soc-nau8825.o
+ obj-$(CONFIG_SND_SOC_HDMI_CODEC)	+= snd-soc-hdmi-codec.o
+ obj-$(CONFIG_SND_SOC_PCM1681)	+= snd-soc-pcm1681.o
++obj-$(CONFIG_SND_SOC_PCM1754)	+= snd-soc-pcm1754.o
+ obj-$(CONFIG_SND_SOC_PCM179X)	+= snd-soc-pcm179x-codec.o
+ obj-$(CONFIG_SND_SOC_PCM1789_I2C)	+= snd-soc-pcm1789-i2c.o
+ obj-$(CONFIG_SND_SOC_PCM1789)	+= snd-soc-pcm1789-codec.o
+diff --git a/sound/soc/codecs/pcm1754.c b/sound/soc/codecs/pcm1754.c
 new file mode 100644
-index 0000000000000000000000000000000000000000..924386092a60e6637a1134f174511e7e61b16839
+index 0000000000000000000000000000000000000000..b68a528000be89b15c1d7770ba8f55fbdadeb6b8
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,pcm1754.yaml
-@@ -0,0 +1,54 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,pcm1754.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/sound/soc/codecs/pcm1754.c
+@@ -0,0 +1,185 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * PCM1754 DAC ASoC codec driver
++ *
++ * Copyright (c) 2022 Alvin Šipraga <alsi@bang-olufsen.dk>
++ * Copyright (c) 2025 Stefan Kerkmann <s.kerkmann@pengutronix.de>
++ */
 +
-+title: Texas Instruments PCM1754 Stereo DAC
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/regulator/consumer.h>
 +
-+description: |
-+  The PCM1754 is a simple stereo DAC that is controlled via hardware gpios.
++#include <sound/pcm_params.h>
++#include <sound/soc.h>
 +
-+maintainers:
-+  - Stefan Kerkmann <s.kerkmann@pengutronix.de>
++struct pcm1754_priv {
++	unsigned int format;
++	struct gpio_desc *gpiod_mute;
++	struct gpio_desc *gpiod_format;
++};
 +
-+allOf:
-+  - $ref: dai-common.yaml#
++static int pcm1754_set_dai_fmt(struct snd_soc_dai *codec_dai,
++				   unsigned int format)
++{
++	struct snd_soc_component *component = codec_dai->component;
++	struct pcm1754_priv *priv = snd_soc_component_get_drvdata(component);
 +
-+properties:
-+  compatible:
-+    enum:
-+      - ti,pcm1754
++	priv->format = format;
 +
-+  VCC-supply: true
++	return 0;
++}
 +
-+  '#sound-dai-cells':
-+    const: 0
++static int pcm1754_hw_params(struct snd_pcm_substream *substream,
++				 struct snd_pcm_hw_params *params,
++				 struct snd_soc_dai *codec_dai)
++{
++	struct snd_soc_component *component = codec_dai->component;
++	struct pcm1754_priv *priv = snd_soc_component_get_drvdata(component);
++	int format;
 +
-+  format-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO used to select the PCM format
++	switch (priv->format & SND_SOC_DAIFMT_FORMAT_MASK) {
++	case SND_SOC_DAIFMT_RIGHT_J:
++		switch (params_width(params)) {
++		case 16:
++			format = 1;
++			break;
++		default:
++			return -EINVAL;
++		}
++		break;
++	case SND_SOC_DAIFMT_I2S:
++		switch (params_width(params)) {
++		case 16:
++			fallthrough;
++		case 24:
++			format = 0;
++			break;
++		default:
++			return -EINVAL;
++		}
++		break;
++	default:
++		dev_err(component->dev, "Invalid DAI format\n");
++		return -EINVAL;
++	}
 +
-+  mute-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO used to mute all outputs
++	gpiod_set_value_cansleep(priv->gpiod_format, format);
 +
-+required:
-+  - "#sound-dai-cells"
-+  - compatible
++	return 0;
++}
 +
-+additionalProperties: false
++static int pcm1754_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
++{
++	struct pcm1754_priv *priv = snd_soc_component_get_drvdata(dai->component);
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    codec {
-+      compatible = "ti,pcm1754";
-+      #sound-dai-cells = <0>;
++	gpiod_set_value_cansleep(priv->gpiod_mute, mute);
 +
-+      VCC-supply = <&vcc_reg>;
-+      mute-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
-+      format-gpios = <&gpio 1 GPIO_ACTIVE_HIGH>;
-+    };
++	return 0;
++}
++
++static const struct snd_soc_dai_ops pcm1754_dai_ops = {
++	.set_fmt = pcm1754_set_dai_fmt,
++	.hw_params = pcm1754_hw_params,
++	.mute_stream = pcm1754_mute_stream,
++};
++
++static const struct snd_soc_dai_driver pcm1754_dai = {
++	.name = "pcm1754",
++	.playback = {
++		.stream_name	= "Playback",
++		.channels_min	= 2,
++		.channels_max	= 2,
++		.rates		= SNDRV_PCM_RATE_CONTINUOUS,
++		.rate_min	= 5000,
++		.rate_max	= 200000,
++		.formats	= SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE
++	},
++	.ops = &pcm1754_dai_ops,
++};
++
++static const struct snd_soc_dapm_widget pcm1754_dapm_widgets[] = {
++	SND_SOC_DAPM_REGULATOR_SUPPLY("VCC", 0, 0),
++
++	SND_SOC_DAPM_DAC("DAC1", "Channel 1 Playback", SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_DAC("DAC2", "Channel 2 Playback", SND_SOC_NOPM, 0, 0),
++
++	SND_SOC_DAPM_OUTPUT("VOUTL"),
++	SND_SOC_DAPM_OUTPUT("VOUTR"),
++};
++
++static const struct snd_soc_dapm_route pcm1754_dapm_routes[] = {
++	{ "DAC1", NULL, "Playback" },
++	{ "DAC2", NULL, "Playback" },
++
++	{ "DAC1", NULL, "VCC" },
++	{ "DAC2", NULL, "VCC" },
++
++	{ "VOUTL", NULL, "DAC1" },
++	{ "VOUTR", NULL, "DAC2" },
++};
++
++static const struct snd_soc_component_driver soc_component_dev_pcm1754 = {
++	.dapm_widgets = pcm1754_dapm_widgets,
++	.num_dapm_widgets = ARRAY_SIZE(pcm1754_dapm_widgets),
++	.dapm_routes = pcm1754_dapm_routes,
++	.num_dapm_routes = ARRAY_SIZE(pcm1754_dapm_routes),
++};
++
++static int pcm1754_probe(struct platform_device *pdev)
++{
++	struct pcm1754_priv *priv;
++	struct device *dev = &pdev->dev;
++	struct snd_soc_dai_driver *dai_drv;
++	int ret;
++
++	dai_drv = devm_kmemdup(dev, &pcm1754_dai, sizeof(*dai_drv), GFP_KERNEL);
++	if (!dai_drv)
++		return -ENOMEM;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->gpiod_mute = devm_gpiod_get_optional(dev, "mute", GPIOD_OUT_HIGH);
++	if (IS_ERR(priv->gpiod_mute))
++		return dev_err_probe(dev, PTR_ERR(priv->gpiod_mute),
++					 "failed to get mute gpio");
++
++	priv->gpiod_format = devm_gpiod_get_optional(dev, "format", GPIOD_OUT_LOW);
++	if (IS_ERR(priv->gpiod_format))
++		return dev_err_probe(dev, PTR_ERR(priv->gpiod_format),
++					 "failed to get format gpio");
++
++	dev_set_drvdata(dev, priv);
++
++	ret = devm_snd_soc_register_component(
++		&pdev->dev, &soc_component_dev_pcm1754, dai_drv, 1);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to register");
++
++	return 0;
++}
++
++#ifdef CONFIG_OF
++static const struct of_device_id pcm1754_of_match[] = {
++	{ .compatible = "ti,pcm1754" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, pcm1754_of_match);
++#endif
++
++static struct platform_driver pcm1754_codec_driver = {
++	.driver = {
++		.name = "pcm1754-codec",
++		.of_match_table = of_match_ptr(pcm1754_of_match),
++	},
++	.probe = pcm1754_probe,
++};
++
++module_platform_driver(pcm1754_codec_driver);
++
++MODULE_DESCRIPTION("ASoC PCM1754 driver");
++MODULE_AUTHOR("Alvin Šipraga <alsi@bang-olufsen.dk>");
++MODULE_AUTHOR("Stefan Kerkmann <s.kerkmann@pengutronix.de>");
++MODULE_LICENSE("GPL");
 
 -- 
 2.39.5
