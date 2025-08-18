@@ -1,103 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from air.basealt.ru (air.basealt.ru [193.43.8.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37361D9663;
-	Mon, 18 Aug 2025 18:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F327222584;
+	Mon, 18 Aug 2025 20:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.43.8.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755543176; cv=none; b=DK4pxTIBLFvpyBAZjLYJAEYV3vTtAN2fQUaOoPcul2fcwQ3qRE2MXuf0EoBygJjUZR1ndWqEOMLwQgRzDLBIHxPSywIPGVs9UTDk/benIAEV8omHJpnoqFEN8LH6rgIwDBi3L04l+YwEu3dKcVHVmA3o28a0QwdIu/MUFCjwqSk=
+	t=1755550209; cv=none; b=dGS2mEwY132T2BGAJ3Oemw+ORLeFtwOI/IpUzVbNpi3Vnx6Ltq2G8XRZxDM3fpC2WtB/ogmkdE31cljNnuClyebpzQ9mVbW/YB9or4Rn8YL7VnQQYLkEQ/XYx9ffL3DZ4uRGvO29kEqeEXSJMZk9qOofsNnbMvOWmBh7KvvF+KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755543176; c=relaxed/simple;
-	bh=xAl6j6GaAGL32sNV8Opo5jFXlU7s74kxZxZLMQi9Ibc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XogeHUqVUuuzk+38o+uj3mOoUc4NNQOy04NaUjOKp8hYNf1eyolqW1o2+VUbz7ug2FjCi/lFw178ENInnKaUMlxBSWLfJLcmT2hK3POnvOzZ+aL33e8kNJTfrOl4Olo1WFc+3nX86+ZekZ9EWKfGM0mI88vcJH0z4cCtHA/8i2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uNm5odB9; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uNm5odB9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90FAEC4CEEB;
-	Mon, 18 Aug 2025 18:52:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755543175;
-	bh=xAl6j6GaAGL32sNV8Opo5jFXlU7s74kxZxZLMQi9Ibc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uNm5odB9c601eu4eW8kNtWNarTFoY6NNh025QD2l0ZENuijjXcbZo+gKtavPD4qMr
-	 uEhBfKkInkdd4bXnmYHEhedA6iSxQFsQo9ii0yFDL0QAuVtJHoMbR0l10ZuCkYd0Jd
-	 uKq3jKfMBpaww06mTp9fos8+mv0FbhqQ/WTZkDnIWX//EMs5w7CRRBrd95aJSrn0Gt
-	 FMgKkzR+tQeqlkcQodam8VGFF9W2qQHNOJa24573syPJkxS3ZEVLWL5BcZPSAj9xAR
-	 V1etDOvN5fcx/wONFITovTk0OZRURZ8qe4Qk0ku/iM/mhQjYhH437P1yZW/DfBPrFM
-	 DH7VToQuTvNkA==
-Date: Mon, 18 Aug 2025 19:52:50 +0100
-From: Mark Brown <broonie@kernel.org>
-To: srinivas.kandagatla@oss.qualcomm.com
-Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org
-Subject: Re: [PATCH v3 3/6] ASoC: qcom: audioreach: add support for static
- calibration
-Message-ID: <6d137f07-d37a-431b-ab38-5f3087d9b3b7@sirena.org.uk>
-References: <20250818125055.1226708-1-srinivas.kandagatla@oss.qualcomm.com>
- <20250818125055.1226708-4-srinivas.kandagatla@oss.qualcomm.com>
+	s=arc-20240116; t=1755550209; c=relaxed/simple;
+	bh=kzI1ji97StoZqXSmUTpzmElG3fr9N3s8DOq5wMv6AH0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jmloLg6RLWusWa63w8rk9o9JLCjh0JNXpADPc072NNbSnMv2cz1pJdNxnisASWzEWXHgoLtD7BrpI9Y796dkQu1GYk3lUa4ztDJhWuTd12qyJQgrAcqu9nEO3cGQz/8Qh3QHBtptyArFvycre/mVxOSfmnwfCTeIkbY5+7Rog4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=193.43.8.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from altlinux.ipa.basealt.ru (unknown [178.76.204.78])
+	(Authenticated sender: kovalevvv)
+	by air.basealt.ru (Postfix) with ESMTPSA id CB93923384;
+	Mon, 18 Aug 2025 23:42:47 +0300 (MSK)
+From: Vasiliy Kovalev <kovalev@altlinux.org>
+To: Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Stefan Binding <sbinding@opensource.cirrus.com>,
+	kovalev@altlinux.org
+Subject: [PATCH] ALSA: hda/realtek: Fix headset mic on ASUS Zenbook 14
+Date: Mon, 18 Aug 2025 23:42:43 +0300
+Message-Id: <20250818204243.247297-1-kovalev@altlinux.org>
+X-Mailer: git-send-email 2.33.8
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5IwgppfYZzURBDwA"
-Content-Disposition: inline
-In-Reply-To: <20250818125055.1226708-4-srinivas.kandagatla@oss.qualcomm.com>
-X-Cookie: Be careful!  Is it classified?
+Content-Transfer-Encoding: 8bit
 
+Add a PCI quirk to enable microphone input on the headphone jack on
+the ASUS Zenbook 14 UM3406HA laptop.
 
---5IwgppfYZzURBDwA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This model uses an ALC294 codec with CS35L41 amplifiers over I2C,
+and the existing fixup for it did not enable the headset microphone.
+A new fix is introduced to get the mic working while keeping the
+amplifier settings correct.
 
-On Mon, Aug 18, 2025 at 01:50:52PM +0100, srinivas.kandagatla@oss.qualcomm.=
-com wrote:
-> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->=20
-> This change adds support for static calibration data via ASoC topology
-> file. This static calibration data could include binary blob of data
-> that is required by specific module and is not part of topology tokens.
+Fixes: 61cbc08fdb04 ("ALSA: hda/realtek: Add quirks for ASUS 2024 Zenbooks")
+Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
+---
+ sound/hda/codecs/realtek/alc269.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-This breaks an x86 allmodconfig build:
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index db8e6352b9425..6c78a286172c5 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -3579,6 +3579,7 @@ enum {
+ 	ALC286_FIXUP_ACER_AIO_MIC_NO_PRESENCE,
+ 	ALC294_FIXUP_ASUS_MIC,
+ 	ALC294_FIXUP_ASUS_HEADSET_MIC,
++	ALC294_FIXUP_ASUS_I2C_HEADSET_MIC,
+ 	ALC294_FIXUP_ASUS_SPK,
+ 	ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
+ 	ALC285_FIXUP_LENOVO_PC_BEEP_IN_NOISE,
+@@ -4889,6 +4890,15 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC269_FIXUP_HEADSET_MIC
+ 	},
++	[ALC294_FIXUP_ASUS_I2C_HEADSET_MIC] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x19, 0x03a19020 }, /* use as headset mic */
++			{ }
++		},
++		.chained = true,
++		.chain_id = ALC287_FIXUP_CS35L41_I2C_2
++	},
+ 	[ALC294_FIXUP_ASUS_SPK] = {
+ 		.type = HDA_FIXUP_VERBS,
+ 		.v.verbs = (const struct hda_verb[]) {
+@@ -6730,7 +6740,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1b13, "ASUS U41SV/GA403U", ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1b93, "ASUS G614JVR/JIR", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1bbd, "ASUS Z550MA", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
+-	SND_PCI_QUIRK(0x1043, 0x1c03, "ASUS UM3406HA", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x1043, 0x1c03, "ASUS UM3406HA", ALC294_FIXUP_ASUS_I2C_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1c23, "Asus X55U", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x1043, 0x1c33, "ASUS UX5304MA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1c43, "ASUS UX8406MA", ALC245_FIXUP_CS35L41_SPI_2),
+-- 
+2.50.1
 
-In file included from <built-in>:1:
-=2E/usr/include/sound/snd_ar_tokens.h:243:2: error: unknown type name '__le=
-32'
-  243 |         __le32 size;    /* size in bytes of the array, including al=
-l elements */
-      |         ^
-=2E/usr/include/sound/snd_ar_tokens.h:244:2: error: unknown type name '__le=
-32'
-  244 |         __le32 type;    /* SND_SOC_AR_TPLG_MODULE_CFG_TYPE */
-      |         ^
-=2E/usr/include/sound/snd_ar_tokens.h:245:2: error: unknown type name '__le=
-32'
-  245 |         __le32 priv[2]; /* Private data for future expansion */
-      |         ^
-=2E/usr/include/sound/snd_ar_tokens.h:246:2: error: unknown type name '__le=
-32'
-  246 |         __le32 data[0]; /* config data */
-      |         ^
-4 errors generated.
-
---5IwgppfYZzURBDwA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmijdoIACgkQJNaLcl1U
-h9A68wf9Fq8C+zsAJwozO4UA322ixrFDwbVc4xy7sAUCejeurkRxtsq8tf0F7wga
-60lD3z9dUNrzm3mo7hIclevBucdlnrJzOzAGfe921vhpiKQ6DQCL96aR/rGTK/zY
-P2JI2yeSUigtuWk/AHLy+i2RC+EkesgrqE1XwRl8gzSAqzHSJZHUyCniMV5us/u+
-8gkTmwSbdyzeyLLSy1nPo0ume0lxlTqXJm77hoyHFQFawBH+jmg13OgRd6hX+Q5w
-MfPQkyHM6aMww5IOTYSQrifcKwNaFc6zMLp4V4xBR0KiUVxohCVGlFRUKGB4BZQ8
-tVU1AvVvQtI+qVsv2haeJ6dHSGFFYQ==
-=9BxV
------END PGP SIGNATURE-----
-
---5IwgppfYZzURBDwA--
