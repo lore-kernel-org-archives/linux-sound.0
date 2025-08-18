@@ -1,96 +1,182 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970D7199EAD
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 13:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A582882DC;
+	Mon, 18 Aug 2025 13:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755523812; cv=none; b=MK+o3yXsAFdApai/W80fgvtJa0tiQnVQsVJDwhS5t1QA9V0fqQlA2d2bio6revl9T64+yb//f50O78RhsrTVaLGtMIqTfmKCobSM4jSsN64VyO5ZkIXRgiPrCWvAqB99n6A97e3h4anqMdjLXUbTsVCHDQ1hITEvXchp3lhoYnc=
+	t=1755524153; cv=none; b=u45XPsVMgCZaeX9d7knvz+MhZyV+W+eVb3truK+JgT4amSmrry5Wbt/n0j3TgdoADvBJNuv8O2jl3VXEZ0yyAmK9enLS/IRRooIoQg4tFvat/MWZV3t/ZkNypF3BtOZj5IJV0hZfb5DgjTPTmXVgrJI5+e9OMsJfnlzjKFS3hxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755523812; c=relaxed/simple;
-	bh=D5zHzkaUG9quUhFDlcVrJcSL5FWXj5F/tQFVWAqY7/4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=S90eUsJ3vGE1GfEKsQk6XE8dYbXeCDZI0A19eHwygrPkMpWsxzaef7fmjjUf4S7ohKXK3SEObSZKBMN93jfa7L6Q67Gii+tO0LXZd67YDUDUznnAfOXp+JWyqFszfMM4hdY/7NOFBHqmePqwsW41L6gbNJ84jgbIUWMikLr0H7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJkh1QKc; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755524153; c=relaxed/simple;
+	bh=ge3vJt5cfZmtjHo3BqHNdW6u5rydVE2uOcO9TLHOPc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GnRX0kffwschwY1Dxswrt/ebACr/ZWb94Wc/nATxBeLei8U25SEQrR3HHSmBR303yy0FWYewtsS8KyBHQKS7EmJsqClF7pzH1vlqKC+O+fiSYjC2d7xFHgaxsgsglNcNWV6eSODMKe+EUi44ebLxtVTjFI5bQlrcGLu9XqW/rlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zs7ln4d6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJkh1QKc"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e934c8f9751so1171499276.2
-        for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 06:30:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755523809; x=1756128609; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4hRzn+oIF5fztLdhL5subYQJ3TbdQUTcJRAQuHjESUE=;
-        b=DJkh1QKcNrQGf0NhHyIxeAtisT2UYUf/Ft5CEs2QimFK1kLkMzbe3cRLjhIp6vZ9aJ
-         T3SxmqEs9se5J1OGeMbv5b86WtfcanrvGrK0mLVfeO6LrnaKxqoK8PLANTzBDwmqpr8x
-         rAEAI+VeIg8vuE7Il2hVfJodUxHcrecnYFDM8mpT9rD6NJTWATKY/HQ5ZRJ5ricCiE63
-         40+XtyN1O4OOySWYXI+uEx4SeCReohrP+L+BVzWnyPLcLrudE+1z2Y7MAiMQ297D+nJC
-         YEpcuemDgFSdjbnzIR4kW7YOIbx1KklRKWWqTtZNy1u1CS23Tlb3Y+102qHufZ/QUEN1
-         Dlow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755523809; x=1756128609;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4hRzn+oIF5fztLdhL5subYQJ3TbdQUTcJRAQuHjESUE=;
-        b=p03jsvrq9la9/13ns4mbZ8EqsV9ziToP2ootSBrt5Knp94+ULE/w7lQeaZJN5vXE5+
-         hIJlw+DkFaKKe7+X08/PXmzM8pjLzCGmb0Np0tf0+MR7yadavfWDxEWSJBngw4U/nKPr
-         L/yX09xScOXHwa3ea2synbrDUU2po+FNtU5H/EtxZQo02YKhCqFwNOY01zZb0mqHh4q0
-         H2qhJZF8LlmS8ODEget2K2g39KvcywS+grsF8iK7Mrs3Z3kFIY125+B+3RdjfUOWnXJY
-         2IJ53VmDuCQXRAVLVBcUZrEzq5cKDIqaWtI7/uYalsCftmT5Lnot4MPr+GbaFtbbWxgt
-         kBYA==
-X-Gm-Message-State: AOJu0YwiuDKytd4umQnMFK84HKnyPsMl97kqa2d2EiVNNcnUs3vDApKh
-	88HYj78uddt4ea0RmwURD0Z3OKj+RHG58qJgj+CVRDV0iEkD+Yodiq4TfrlPfsPHNFEeeL8rDWs
-	ARVkBNbdfGj1iIlm1kkY7Sd3gxrZGS7BlWpaUV3I8ZA==
-X-Gm-Gg: ASbGncvi0cEork939wdnGJH25R8AlrK9esJ8KEGMFckW1+HfTRCRK+qsoEpZgL8ZJpF
-	2cT3EWdF/L5aLltzInjaZR1knQbIsMOcKPWmshQ/f5JG9r4aG33sbl0mDiuUKBO9o0fueQzWC91
-	TOLMFit66PGgd9B/XMXJuRqE+t3FpWZexI5yGhuCjsJP/46nKoQ6J1ko75HaXolqrkKLPioiILg
-	mJYkvdTgAABTPUzgwb7OmLAFAR1hkjTWGI2LkxAwg==
-X-Google-Smtp-Source: AGHT+IEfnxYLmgivZ5x8WDjtZPOjrCQRRZpUr69XKHm0GzOjEcDCv4cMjZWrLbR53neIVMFoyw0EsRuHMA/fjfvtTII=
-X-Received: by 2002:a05:6902:120a:b0:e93:48dc:e224 with SMTP id
- 3f1490d57ef6-e9348dce45cmr6474953276.4.1755523809094; Mon, 18 Aug 2025
- 06:30:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zs7ln4d6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F18C4CEEB;
+	Mon, 18 Aug 2025 13:35:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755524153;
+	bh=ge3vJt5cfZmtjHo3BqHNdW6u5rydVE2uOcO9TLHOPc4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Zs7ln4d6TkqBaRIjmQcefSKNl7YhVDm9yF9eI/qayxK5bK7Yg9SbQ6U01ZGVgj60r
+	 Mua/mYOvGL9f7HsBoZ6YhWDai/o9Vx1bInu+ioXermtQkVHhbmgHMkFIhND/4Wq+Xy
+	 OwISXTCBTglQqQLO2dJMQm+rD8gHStT34/xmUsOmu1/uUFPByMEZ4/M4hswWSoTMWq
+	 dFySSq9fjL7gtq8ilwl1ruYZlcNPnIPjJJS1Eu3Ywn3GvVchbbFEeYS26b5eef8hYR
+	 3P1X3qGzt2PV7NxtD+tQqE+Kzt4yqCBsI+RM0X/5WJmuI2ZPaLm5m84rdjW1MsruU0
+	 oBrxw9/VJ7Lrw==
+Message-ID: <826f4f63-1c2d-4598-9d21-1e905d9b0d89@kernel.org>
+Date: Mon, 18 Aug 2025 15:35:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Carlisle Nightingale <thyriaen@gmail.com>
-Date: Mon, 18 Aug 2025 15:29:58 +0200
-X-Gm-Features: Ac12FXyAsR9nApNKZs7T3VBCoSf5M9RS6e6ULbN0qOaJbcKC_hyHtiqKe62VaoU
-Message-ID: <CAAKYfHCD854_KLNUoe41tC4gYahg70-hzWnb6pKqJreo85DwEw@mail.gmail.com>
-Subject: =?UTF-8?Q?=5BPATCH_REQUEST=5D_ESI_Juli=40_eX_=E2=80=93_currently_unsupport?=
-	=?UTF-8?Q?ed=2C_manufacturer_info?=
-To: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: ti,pcm1754: add binding
+ documentation
+To: Stefan Kerkmann <s.kerkmann@pengutronix.de>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, =?UTF-8?Q?Alvin_=C5=A0ipraga?=
+ <alsi@bang-olufsen.dk>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@pengutronix.de
+References: <20250818-v6-12-topic-pcm1754-v1-0-e1dd189ea99a@pengutronix.de>
+ <20250818-v6-12-topic-pcm1754-v1-2-e1dd189ea99a@pengutronix.de>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250818-v6-12-topic-pcm1754-v1-2-e1dd189ea99a@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Resending with proper subject, sorry for the noise.
+On 18/08/2025 15:01, Stefan Kerkmann wrote:
+> The Texas Instruments PCM1754 is a simple stereo DAC without any digital
+> management interface but soft mute, PCM input format and 44.1 kHz
+> digital de-emphasis can be configured via strapping pins. Only soft mute
+> and PCM input format selection is currently exposed via optional GPIOs
+> in the driver.
+> 
+> Signed-off-by: Stefan Kerkmann <s.kerkmann@pengutronix.de>
+> ---
+>  .../devicetree/bindings/sound/ti,pcm1754.yaml      | 54 ++++++++++++++++++++++
 
-Hi all,
+Missing rest of patches and user of that. Maybe these are in 1/2? But
+then this is misordered, see submitting patches in DT.
 
-I=E2=80=99d like to share some information I received directly from the
-manufacturer (ESI) regarding the new sound card Juli@ eX.
 
-The alsa-project pointed me to this mailing list:
-https://github.com/alsa-project/alsa-lib/issues/462
+>  1 file changed, 54 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/ti,pcm1754.yaml b/Documentation/devicetree/bindings/sound/ti,pcm1754.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..924386092a60e6637a1134f174511e7e61b16839
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/ti,pcm1754.yaml
+> @@ -0,0 +1,54 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/ti,pcm1754.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments PCM1754 Stereo DAC
+> +
+> +description: |
 
-Currently the card does not work under Linux, since the kernel driver
-would need to fully handle the DAC and ADC control, which has changed
-compared to previous models from ESI. The manufacturer has no resources to
-provide documentation right now, but shared the following details:
+Drop |
 
-- DAC: ES9080Q (to be replaced by ES9081Q in a later revision =E2=80=93 thi=
-s
-  will affect driver support)
-- ADC: ES9822PRO
+> +  The PCM1754 is a simple stereo DAC that is controlled via hardware gpios.
+> +
+> +maintainers:
+> +  - Stefan Kerkmann <s.kerkmann@pengutronix.de>
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,pcm1754
+> +
+> +  VCC-supply: true
 
-Datasheets are available at: https://www.esstech.com
+Lowercase, vcc-supply
 
-Hopefully this helps as a starting point if the community wants to
-work on support for this card.
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+> +  format-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO used to select the PCM format
+> +
+> +  mute-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO used to mute all outputs
+> +
+> +required:
+> +  - "#sound-dai-cells"
 
-Kind regards,
-Carlisle
+Keep consistent quotes
+
+> +  - compatible
+
+compatible is always the first. Don't use different ordering here.
+
+Missing supply.
+
+> +
+> +additionalProperties: false
+> +
+
+
+Best regards,
+Krzysztof
