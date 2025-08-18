@@ -1,78 +1,78 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83A6320CB5
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E23321442
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755519778; cv=none; b=KoCftkm882aFYlQmn4PpF8QPLH4OCO3M++RZY850lPyeZt2CNSISm1DuWHWFg4Zxne/zoVTfROEdYssz9nmg3Oi8R2dPCFm0AbSr3F2I93lHx1V27xp7WFoKPowTK2JK7bSbpB4Mr16sV8nfJaw6QBaj5YczgEOAz1AoXI8B1GY=
+	t=1755519780; cv=none; b=oJcAd4E/Gj9a34kM07CBSN1AsisIdkUIFfWNnJxpwgiA6dbPi+Xu2LgLCc6CnUJCh05wXvPhrTZMeplN2CWp71u0n8kba4L5IdsHnuGdcQ+1B9yLzFy7sV+G0/JuIvXqnSlsAt441v8vK3g/tpTOuQ1nZTAv2dM0u5t4znG4z60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755519778; c=relaxed/simple;
-	bh=JCKIVW3Vnp7HuLWLnbUgbVk+bUV6UaYytum8NP0pPgs=;
+	s=arc-20240116; t=1755519780; c=relaxed/simple;
+	bh=H6GmVGgK5ll2SdWjCCALFf5iXA1TVZUoNq4CRHuxHNE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nD86k1MGC1DAnGNQRLQp2lwOiSImVGUKDHRpriLrd9DqZS+LRrMESXS3mKVnpeTeIRp7UP/b8MRwdF36tlsK6iH5bf0bc4kKCWr1uwOlTLcg75fb/HlSiBIViKqITMdvc4qxVpoO5tLhQqC2Jn3LWI8veV+8da1qcXVjSHcIl5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=i4Okl02F; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=RXRTMachUNT6GVLNZ9EOJqwfgIPTURPVVLmRcNk0+7Oy5eoDlw41p/7K9a0R9oMr9FR37xC01rO1QzAhOxILLlO+HPkTCTTa6/87VZvG3mXzoWpEqnS7R19JcQh5Ry975BHskPBMKtN/uAcC5Dh6JK9K/defcidlWuJFq5HjeUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FFClrAg9; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="i4Okl02F"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57I80Lvp030728
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:55 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FFClrAg9"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57I7Vfdk005301
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=Q1s0Zyj4qhx
-	N9eeMbMRlym+e7IsQucdcHjllLnnn6HQ=; b=i4Okl02FpVqyfsGJmwyYg4lkCrY
-	djDTnu0DzZsndu5uWBIIr7ndJk91LF1s2j7dWyHB9ut6FnDZZ1umhzbikjSBoXce
-	/G8ic68fqTY1UKTYiXk93PahNH91OQi4vy5X6gmz42CiWNBHLhm5VkRRRGIRK7XS
-	MVWmX6XfYsoHsCeUw2LVbVA0bt4RvA5Zz1/GNoHMVywPFL8OjujH23yd2rbclo6U
-	dsyYeT9PDkUmDOhbvxIdbQwq02Z5vEIIi3Cr86wMeDumbkOOnfkKLs7klbEeiEFc
-	7inxbEHH8SXSZ3Bik5wtATp2oNMHz0xMmcynPffzsuHCbCVF/WQTVS/W+uQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jj2ucpgj-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=ZxJHrPhW4rJ
+	jRlDgxhmie2TsrJx2Ufa63zRckQyMYdg=; b=FFClrAg91Sx5LTeXFhkO6gjnpU/
+	P68ISsd4Wh8TOLrL662kM05eiL3SozsQdbehyOcFZSg31OjykYsn2ScF0xFO933S
+	nD5GghX6+vtW81qlP7JMx61zmNxliPyNim4Q7G0pBcFY6IQ8nFUqP+WOh0teCVkD
+	4yzIHS74eKnR6Kv715Xx7kMD7G0QcaHqucEY5STeImj/0qiEfF7ANkOQ0pqm/U0B
+	Asnedfx7oID/2/kzFDp2TE7zqvXkoCXofv0Jn6QwKBiXguOyNhq5MOvJPMZFBeq9
+	HGfc5+JU6fld26/2DwvysaPidLqq1ENDxAIQv6EVQ4yBMLzDNBDr+p2XrtA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48kyur8v7f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:55 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-70a94f3bbdbso88301046d6.2
-        for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 05:22:55 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:57 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-70a88dd1408so93053346d6.0
+        for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 05:22:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755519775; x=1756124575;
+        d=1e100.net; s=20230601; t=1755519776; x=1756124576;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q1s0Zyj4qhxN9eeMbMRlym+e7IsQucdcHjllLnnn6HQ=;
-        b=Vcy2RdylNMdXIYiDPReYffblawF+YsKxxRO0sMaVwOsJ/sCrIbRF/j9WWgbEdJyN2a
-         e6q2zWhHuTZC61ctseWbPRDdWXfTD/ozAVA7rSbKV5W+Sbg00y8YMLpQfG0C+AZ8Qr0c
-         AwJo4qgQgPSPWQ+wde5JCtgZVnM26SmK7KHXrmXnq/MVwgVJVE3m8DgMX8x08gWofWwW
-         W04zlZ1Z5ZpCHzmkjWGMFHvBqnaLeiFryMxxnRqOx5PxjVzYIeQjUOCBGVvd5C4F0BD2
-         jZAZNWMbMSPHdR1ejBYZf5UyI7cpfLSx3lz1mOOZdWSzWRGRbfblqxYAar8XIbqTUJ2a
-         8J3g==
-X-Forwarded-Encrypted: i=1; AJvYcCWIvMMPQ7FOYTenZkWbtgK3OfMKwL8pW4gaLVlIaMHfcc02GZyNkf4UeLBY1AYSYHe3wzwcom6JclukiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3IgYf8u5ZufP6duvpHGKmS/lsuEauMA2nw5EZdWpEmiOmn8wa
-	CLNIiRdsWtMbZJ3xMWi5kD+TCob1Pfq1+jPsheiim78Lnusos/o+s5DkgEEsW94QgQDNs5/TDaj
-	V/LzM3c8b9/W2vFz1ffUvLAO3vPdgNsgYuUThn94P3zQfXMHc7ve2+G9Z95swtKLrFQ==
-X-Gm-Gg: ASbGncufL1Nbnpsj21XrIXUEVdLgaq+ua0m9Jf5/DFj21UhGam/KwN357k5+rz2gYwP
-	N2MlVXPRwKotmpP2M8QICF9yfd4Qej3+t4YQwg0u8CC8vvyFCVD9Rc8L4VmcIYe9535AGKI/8d+
-	VwY06qhAPGC65kguQJS57AN7NTYvF8Gsj7CdF3P8qUUGvQ23kPPxo66N1did2Q+Au31VQbIlYjV
-	Kz9lN55f+9kJN5733uM3vJt5h9/rkKvTxxcKHs6632MOA8tN+rNNeMbh+7l0GtDG1X6RM8mn/zy
-	4i9LVp71EuHKbKndcfe5MScki1DexUuUxaP60XDuI7rce5EKTfnaJg==
-X-Received: by 2002:a05:6214:20cb:b0:70a:cfa6:4028 with SMTP id 6a1803df08f44-70bb060c400mr102225346d6.25.1755519774776;
-        Mon, 18 Aug 2025 05:22:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFtod+zAN6dMjolYmwj14N6c1+Q0ATWvvWPcGCEBNXnfbj7vopuJbRImMQjax+QKZKBMkDymg==
-X-Received: by 2002:a05:6214:20cb:b0:70a:cfa6:4028 with SMTP id 6a1803df08f44-70bb060c400mr102224866d6.25.1755519774299;
-        Mon, 18 Aug 2025 05:22:54 -0700 (PDT)
+        bh=ZxJHrPhW4rJjRlDgxhmie2TsrJx2Ufa63zRckQyMYdg=;
+        b=drHhWE2KyJrKvgwS74zocgPItUy4L7fpKxhC9x147thRGOs50bPZTBZWOx+ksnTAKR
+         ETTU++z3RjiMiLpfIbjRuh9G0as/N7ruTqH3Su/PYFbPYuQ/7SBE6z/CP+uWw9GZ69XK
+         pLc7vDjDfbmTJ0+iB5iufMmNeNCCLYYqPWeqEphe58fbocZ+kSC+FeTElxRGBykVburt
+         OACSXdcazhcOxTbcQUtZYjvAnMsCoTZ6MqyTBnxWma1bT4ttV4YbxzHDmpjePdqLsL+H
+         63FUhBOhILcsGtEw+xzU48S3/rkcMgBvD8yEdOzV1UjrGMBEQSxJ48orf7ig8I7ffc09
+         4R2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXwcMDR/1bmE2Tl01Bev0J1kSOQUHMKo5S5/Gp8V7UTQo+CMdP8qzLWwEM2UDZrgYwF2/hNUm+GwKaoVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3FpfaPAGAbPRcJL9rzdg8C1BwWDrT7BXAtu51UO0m6MN0YNjQ
+	VYQ/gfDT2TNJubp/nTCJrE/t9VJat9YX/wj+DBoRlNXe8t/OfHy+wZQprWq6WGfWUpejPbvm2Yc
+	HCB3teiNOXwsDyJPpNau90rBItH+BSkwft09GSRljwXW7CJ+OnbsiCFCcGavb7io80Q==
+X-Gm-Gg: ASbGnctJMmf52rTNXG53NnIECWAsxICi/fnBaDNW19FkJsjPRugsjnMdnGwXFyLLAMo
+	7538soVLNd+Wt3MN+FmRS/OKuzoOgqa3lDLMbYNtv5h9fD/EgpW2M70Xe1mTp+wFa9HnvNVwEsB
+	/PjwfX4Fvn7hbXDMvSPZTPZu93YTVRnZRbjXjKpfEctXMuaJdziU+zHqlE9woERSfti20GDJp2i
+	jR6s6TaRdMvl+kD5gAh52DgOeBj9ET28ibO/dZ3t1juK3Xpc3Z00c5rEXEj8mgxRely8JfSjBjf
+	A+HRlp26qTm7Z3pNfHE02vULWplhdMT55ILGs8FUzbL0U7tru7A34w==
+X-Received: by 2002:a05:6214:1c46:b0:70b:9a89:c2d with SMTP id 6a1803df08f44-70ba7a9a7d1mr128986446d6.11.1755519775996;
+        Mon, 18 Aug 2025 05:22:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFzUJ6w0ICilwEQ42QLrmeuUoDXTHduQ9jES10B49TbGEQsDe6EUQYGwGMQAw+sADlCHw2VKg==
+X-Received: by 2002:a05:6214:1c46:b0:70b:9a89:c2d with SMTP id 6a1803df08f44-70ba7a9a7d1mr128985986d6.11.1755519775271;
+        Mon, 18 Aug 2025 05:22:55 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb653f657fsm12601563f8f.29.2025.08.18.05.22.53
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb653f657fsm12601563f8f.29.2025.08.18.05.22.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 05:22:53 -0700 (PDT)
+        Mon, 18 Aug 2025 05:22:54 -0700 (PDT)
 From: srinivas.kandagatla@oss.qualcomm.com
 To: broonie@kernel.org
 Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, lgirdwood@gmail.com,
         linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v2 5/6] ASoC: qcom: audioreach: sort modules based on hex ids
-Date: Mon, 18 Aug 2025 13:22:39 +0100
-Message-ID: <20250818122240.1223535-6-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v2 6/6] ASoC: qcom: audioreach: add support for SMECNS module
+Date: Mon, 18 Aug 2025 13:22:40 +0100
+Message-ID: <20250818122240.1223535-7-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250818122240.1223535-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20250818122240.1223535-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -83,60 +83,97 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=MJ9gmNZl c=1 sm=1 tr=0 ts=68a31b1f cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=8nb5IOs2KV4HrawvOq4A:9
- a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-ORIG-GUID: baqKbcpmNGa4394KDfdQbg3kOHPavNpR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDAzMSBTYWx0ZWRfX8L9o4lh0K0gq
- XFnnRL9nsG3xO+vfrvUzLSoMjg137xWHErDxv1mjjpkV2sxrK44ljXIf31tw1vX4LYSw6dQfrWX
- KA+WUXApQxhk4COJzlNjG6VAuFUjt8cpdZRMonG1i7f77SrS6eEdcEF/+DDEZZymVKgVlM4p/xC
- JP1rVdC2MnTemSl4dU5c7dpT8vuiCMmHibDJstHyr2hnDtv0t0cjY5U0hACXlWPAeoAO7KzWnUD
- jzKBiJ05+H/BJpJi7suwVme2eI5QkB2VXfm9MjO9ZjiUNWvcO1Rc0j0DsLL030q1fCixuF0yp1L
- 5UlEk7BOlDVpjLRRA1dUzfsqkjp47yJATsfr7/zbBrgGDG6PW4Xt1wJFUQumMbQLjNU5Jz5ekOF
- X4j8VSVU
-X-Proofpoint-GUID: baqKbcpmNGa4394KDfdQbg3kOHPavNpR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE4MDA2OSBTYWx0ZWRfX6PcXgbkXMr7P
+ Txr68pr+jBKm4hbI69A9NkjByk7Z/RgQR7ScjupHQBQUQh1OPZzqIhsIM+diV9TNxYZKODcsEhI
+ sJ2gUbEgC2JH6jGtDp8XYn2267U3+mwMMv3f3tBR0Zwx6zTMTr3WKANKX4iMFJ3RzhXuIAH0IAt
+ MyAuFPxDuHr6/BuQKWhR4wZnhdLQWqNpJ30qSvLeVTnnEhZtWpxfmj5X7WR1fEex0ZKe19s8ZYY
+ Jc78KA6ncPlo6r8CBxsbDjRAHcdvGDEU9owCJ37dNfnPBm7efByaqmDM3pYYkwPIDMSIYuuXnMe
+ DKMRyIszwwI/o7aCeSwljsYib/6Oz1Mdpj1TtbcynTg0n5NYPWA6C391+bpqly/OEL1cjANxjaa
+ +668YVbZ
+X-Proofpoint-ORIG-GUID: Z-UKCjyyiNtOY2pKbJoB7IxND2eCj7vm
+X-Proofpoint-GUID: Z-UKCjyyiNtOY2pKbJoB7IxND2eCj7vm
+X-Authority-Analysis: v=2.4 cv=YtIPR5YX c=1 sm=1 tr=0 ts=68a31b21 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=oi9uD5rjtjE88QS_ecgA:9
+ a=OIgjcC2v60KrkQgK7BGD:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 phishscore=0 bulkscore=0 malwarescore=0
- spamscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508160031
+ clxscore=1015 suspectscore=0 adultscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 bulkscore=0 phishscore=0 impostorscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508180069
 
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-Sort the module defines based on its hex ids.
+This patch adds support for Single Mic ECNS module, used for echo
+cancellation. It also makes use of audioreach_set_module_config to load
+the calibration data for this module from ASoC tplg file.
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/qdsp6/audioreach.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/qcom/qdsp6/audioreach.c | 27 +++++++++++++++++++++++++++
+ sound/soc/qcom/qdsp6/audioreach.h |  1 +
+ 2 files changed, 28 insertions(+)
 
+diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+index 4ebaaf736fb9..f4c53e84b4dc 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.c
++++ b/sound/soc/qcom/qdsp6/audioreach.c
+@@ -811,6 +811,30 @@ static int audioreach_gapless_set_media_format(struct q6apm_graph *graph,
+ 					 EARLY_EOS_DELAY_MS);
+ }
+ 
++static int audioreach_set_module_config(struct q6apm_graph *graph,
++					struct audioreach_module *module,
++					struct audioreach_module_config *cfg)
++{
++	int payload_size = module->data->size;
++	struct gpr_pkt *pkt;
++	int rc;
++	void *p;
++
++	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
++	if (IS_ERR(pkt))
++		return PTR_ERR(pkt);
++
++	p = (void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
++
++	memcpy(p, module->data->data, payload_size);
++
++	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
++
++	kfree(pkt);
++
++	return rc;
++}
++
+ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
+ 					   struct audioreach_module *module,
+ 					   struct audioreach_module_config *cfg)
+@@ -1247,6 +1271,9 @@ int audioreach_set_media_format(struct q6apm_graph *graph, struct audioreach_mod
+ 	case MODULE_ID_DISPLAY_PORT_SINK:
+ 		rc = audioreach_display_port_set_media_format(graph, module, cfg);
+ 		break;
++	case  MODULE_ID_SMECNS_V2:
++		rc = audioreach_set_module_config(graph, module, cfg);
++		break;
+ 	case MODULE_ID_I2S_SOURCE:
+ 	case MODULE_ID_I2S_SINK:
+ 		rc = audioreach_i2s_set_media_format(graph, module, cfg);
 diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-index 512886042224..790fba96e34d 100644
+index 790fba96e34d..cc45c94f023f 100644
 --- a/sound/soc/qcom/qdsp6/audioreach.h
 +++ b/sound/soc/qcom/qdsp6/audioreach.h
-@@ -18,14 +18,14 @@ struct q6apm_graph;
- #define MODULE_ID_PCM_DEC		0x07001005
- #define MODULE_ID_PLACEHOLDER_ENCODER	0x07001008
- #define MODULE_ID_PLACEHOLDER_DECODER	0x07001009
--#define MODULE_ID_SAL			0x07001010
--#define MODULE_ID_MFC			0x07001015
--#define MODULE_ID_CODEC_DMA_SINK	0x07001023
--#define MODULE_ID_CODEC_DMA_SOURCE	0x07001024
- #define MODULE_ID_I2S_SINK		0x0700100A
- #define MODULE_ID_I2S_SOURCE		0x0700100B
-+#define MODULE_ID_SAL			0x07001010
-+#define MODULE_ID_MFC			0x07001015
- #define MODULE_ID_DATA_LOGGING		0x0700101A
- #define MODULE_ID_AAC_DEC		0x0700101F
-+#define MODULE_ID_CODEC_DMA_SINK	0x07001023
-+#define MODULE_ID_CODEC_DMA_SOURCE	0x07001024
- #define MODULE_ID_FLAC_DEC		0x0700102F
- #define MODULE_ID_SMECNS_V2		0x07001031
+@@ -31,6 +31,7 @@ struct q6apm_graph;
  #define MODULE_ID_MP3_DECODE		0x0700103B
+ #define MODULE_ID_GAPLESS		0x0700104D
+ #define MODULE_ID_DISPLAY_PORT_SINK	0x07001069
++#define MODULE_ID_SMECNS_V2		0x07001031
+ 
+ #define APM_CMD_GET_SPF_STATE		0x01001021
+ #define APM_CMD_RSP_GET_SPF_STATE	0x02001007
 -- 
 2.50.0
 
