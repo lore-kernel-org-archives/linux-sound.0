@@ -1,102 +1,115 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FBE30FF38
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 09:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41302701C3
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 10:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755511192; cv=none; b=LoAtqCxtEF+jV7Ad8YMZ3VyAlnx6LHerW5TgTqjY0hdCzP26p7mpBJaveV2R5/YWt4Q6/bB8sx8F1/PXu8jsY3FZkSA/e4LyB7LTRu+S+3m5P6YW3qMV2oajSZQvZ704N+Q23nu+WedBGYsL+i1iEaVe/mYOC4q9ZT6Q45KjxBo=
+	t=1755512434; cv=none; b=pb6yZa/uqZhYVDE7+JUPP/mWQGW8RABOEabhVxPgrIMMGCxKHtnz810XYV5y51TfUxnJepHm9XuJZrfCjj8SvLYoeJKkEpvKvr4gboTvX8XEKFHu69qXfJeT36o1JhwHEkS0c1+y50V5OLozWyYk0QwbCpl1/DI/aymZqrW6efU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755511192; c=relaxed/simple;
-	bh=uXo2HfKIzXZcEAqe1+Cgkmi5au4JHjAcMP56tR1hXWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u4oq+cLQAkijDevVvY/YVkXkFLz2DbltHjjlHdFuUrLIWNBhCDJIpZkrdi6btquhwwEw3HNibQwYPSUd6JD0bxQ80Ra0JUwLqJ+TzubaOkVMpXHUNCXwuBsyOYzKImGBezy+coD1OcGn4DZePtvy6BL8AyVJgAk7g3naWtUVpsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ysd5xhYD; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755512434; c=relaxed/simple;
+	bh=yKRz2Pkik5x//6HWGhDyeHKA9ehQnHH1o3DtuqB9gpU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Xszz/p0lv9pd20mZk3FzcqiF21BqXu3JZGbs3F8PXRvwjpEvhP6Kf6hqKtbqfisPiPnRPP1/XckJB1/PXuj+3r47/SbPKERGgsEQf74UQfDhoZ/wNe7DR2GWkTRr5NVuvN7vRQLMbdWtleSeR1uijPNXk6iIsb4etWPetQy6x74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J+ppY5S6; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ysd5xhYD"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45a1b004954so27848145e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 02:59:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755511189; x=1756115989; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PAzYeYzFTOC96kJwyQ7IcW6iscdjbjDH2bcXfWJ1JYU=;
-        b=ysd5xhYDGXECGnAT/n2KyxCW/wbIFMGMBZy94OODzaLfyZxJmFXkzETADId29xJTa3
-         8TDcOFD6hTtRX6xc8l2liTlwmU+YCBh6Y9bcUq1BjRwJiW9HixocDe+C6p3xyDPYCM4i
-         g+R7QoiUaICNqfCPAUgnbkqV8R8UWWmdnRSnI/mhwflRIFFLZjfYPWVzJuuYABadpsC6
-         Re2ARFBEkoqRL3b9cwKUv0Bfm0kojG30PtEciz49yHJdzgKpvb7nEt4XFKHJl7abo44w
-         7olO/9qNdg+YINzyN8S5yTCDlk3WsXkmvcsmKkWoXKWivH3+CF2AiSqKINbk49jPqqsI
-         lLJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755511189; x=1756115989;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PAzYeYzFTOC96kJwyQ7IcW6iscdjbjDH2bcXfWJ1JYU=;
-        b=iPNOX3M9vBNDYJ7ccPQlOygccPkCMDUAzDjBHIAVbODP7/he95koK2cDL87efIHw8X
-         A6W09/wiiwTmmbMkBZOoa5+mZnjslor0sMJanB60xflL4ml4D+8RhNPdCrGsWWYSKMpM
-         boYQwU0fkHX01oa/6VwKbflig9S47R/dXggcRb5uhpy7DebLkSglFAT/evbz9UTIYUiv
-         kKehGgzT1OIl03mACNMEAh88j7i77ZaRUboM7/HjJqS5YbBSlO1n6BEBWeuIuHah63Tw
-         1tPGDV/YewggR3QogmB9tJo/jvQnLJ5e9ItzGWy28MlOPqBIatkHTWKwbPnfAj+s9bQo
-         tsqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVAC/lD8SFudNBjFol7HuzRo0MXrOrx+0K5FKgjsOZ3OkRWiJKWJRpQNhTVIgX6EiOSGrSI990A7mqt1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5gZ67YVZyZPlSlkouw0wdQuZun0cGSvpbRkySANGAytpBXRkl
-	7RswWsLaByBMA1jG5+Fzg4zKR4GHnBJFjlfQ2vhstTBvivzjVSZSCb/xKrDAxRAn3TE=
-X-Gm-Gg: ASbGnculy+xrhC03+B3JmnLrZ/2PlG44HgaGZAuTSi6hWlsGimxiV1b4EEBctZmuAe4
-	paP04Hgta3o6TO53PbkoCxj5B5ltENvBRfx9g+mRfJssBcmx3GmrJ5wuzlHTOfsSr01VeYmXZC6
-	+bxufHTMb3aaYw8adtkTKxoOl8nBelFi745T8A7tHvglvv+3078TkBacJCNpJ9Sa09qpZ+9chqo
-	jF9pv1CE6akqgd6If3Mjfvyl9eLt0YpgQzmM8D6/Cv0bqxDlS6CsfAgjGbkuuFmF9qoaQdOPYcu
-	vlRNtOXC7BjCskMaVdy+/GSv1snK/PK3hSVXqgz9q5vTSJYBaoG3ScDbYwo91UPHYvBUBD+b7UW
-	JOrP9MdSPfEcj3KFIzrBw/NomIqPo86qVaADaMrVQ74U=
-X-Google-Smtp-Source: AGHT+IESeM6A+8YV4kbdeq3Rgqzb28xUjkrQolArR+kWnKAsQ9pql4kCFEogW9+cFxcDvalPpojZnQ==
-X-Received: by 2002:a05:600c:444b:b0:459:db80:c2ce with SMTP id 5b1f17b1804b1-45a2748c3a4mr49153035e9.7.1755511189272;
-        Mon, 18 Aug 2025 02:59:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a1c78b410sm172408255e9.24.2025.08.18.02.59.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 02:59:49 -0700 (PDT)
-Date: Mon, 18 Aug 2025 12:59:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Karol Kosik <k.kosik@outlook.com>,
-	Youngjun Lee <yjjuny.lee@samsung.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Fix size validation in convert_chmap_v3()
-Message-ID: <aKL5kftC1qGt6lpv@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+ppY5S6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755512433; x=1787048433;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yKRz2Pkik5x//6HWGhDyeHKA9ehQnHH1o3DtuqB9gpU=;
+  b=J+ppY5S6edIcf6aS70J//5W9/Tm2QNQSWpxOjKnuMMefQhEAiQg4Kw0G
+   GQCdNdYyda/zexstckvWx2oYb5nqqnne6By47Gc9kXQeeiDBbJbZiOlPN
+   40prpXtvuHqJjWOc8AMGeRzF2eNZugNmUF7rw4mN6MiiTS2+HzcWBG0/4
+   FWLARc2iqy7AOurI2dCXRmf7BB+6j/41WIFyrI0RQtPefr87d35alaN83
+   /Vsl92yGOS+5BA0/ltwUyYtke3cJtwg8GRoxMVgjfq3E2dSUnm40ZN43C
+   t/lDLE/lRNOlSdTG/vthKghXfDNmpNJRwu2N/Vl3/K0A99M8KiPAuJVbd
+   Q==;
+X-CSE-ConnectionGUID: PyyefJfBSBC1uTHNRreYjQ==
+X-CSE-MsgGUID: mDZnDeUPS8ynfsPGTvRObQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11524"; a="68825889"
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="68825889"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2025 03:20:33 -0700
+X-CSE-ConnectionGUID: 0wD5S7gDRXiX26E5gvrV8A==
+X-CSE-MsgGUID: ftA0KfbrSQ+3hhubAFgr0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,293,1747724400"; 
+   d="scan'208";a="166717183"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa006.jf.intel.com with ESMTP; 18 Aug 2025 03:20:31 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/4] ASoC: Intel: avs: Code cleanups and separation
+Date: Mon, 18 Aug 2025 12:41:22 +0200
+Message-Id: <20250818104126.526442-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The "p" pointer is void so sizeof(*p) is 1.  The intent was to check
-sizeof(*cs_desc), which is 3, instead.
+Set of patches that brings no new functionality but makes it easier to
+maintain and read the avs-driver code. There is one 'fix' among them -
+the third patch, described below.
 
-Fixes: ecfd41166b72 ("ALSA: usb-audio: Validate UAC3 cluster segment descriptors")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- sound/usb/stream.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+First, debug-related code - mainly the data-probing feature - is mixed
+with non-debug PCM code. Separate it into debug.h and update the pcm.c
+file.
 
-diff --git a/sound/usb/stream.c b/sound/usb/stream.c
-index acf3dc2d79e0..5c235a5ba7e1 100644
---- a/sound/usb/stream.c
-+++ b/sound/usb/stream.c
-@@ -349,7 +349,7 @@ snd_pcm_chmap_elem *convert_chmap_v3(struct uac3_cluster_header_descriptor
- 		u16 cs_len;
- 		u8 cs_type;
- 
--		if (len < sizeof(*p))
-+		if (len < sizeof(*cs_desc))
- 			break;
- 		cs_len = le16_to_cpu(cs_desc->wLength);
- 		if (len < cs_len)
+Next, as the probing-board is not tied to any topology file, it shall
+not using struct avs_soc_component descriptor but the basic struct
+snd_soc_component one. While on the first sight this is just bump in
+LOCs, runtime is simplified as no topology checks and related code will
+be engaged.
+
+With probing-board addressed and debug code relocated:
+- address the component-teardown issues when the
+componet->name points to a string which is shared by multiple components
+and/or machine boards. devm_kstrdup() makes this go away.
+
+- streamline the naming scheme for the functions engaged in the
+components registration. This is purely a readability improvement.
+
+
+Cezary Rojewski (4):
+  ASoC: Intel: avs: Separate debug symbols
+  ASoC: Intel: avs: Drop pcm.h dependency for probes
+  ASoC: Intel: avs: Do not share the name pointer between components
+  ASoC: Intel: avs: Streamline register-component function names
+
+ sound/soc/intel/avs/apl.c             |  1 +
+ sound/soc/intel/avs/avs.h             | 89 +++-----------------------
+ sound/soc/intel/avs/board_selection.c | 10 +--
+ sound/soc/intel/avs/cnl.c             |  1 +
+ sound/soc/intel/avs/core.c            |  1 +
+ sound/soc/intel/avs/debug.h           | 91 +++++++++++++++++++++++++++
+ sound/soc/intel/avs/debugfs.c         |  1 +
+ sound/soc/intel/avs/icl.c             |  1 +
+ sound/soc/intel/avs/ipc.c             |  1 +
+ sound/soc/intel/avs/lnl.c             |  1 +
+ sound/soc/intel/avs/mtl.c             |  1 +
+ sound/soc/intel/avs/pcm.c             | 35 ++++++-----
+ sound/soc/intel/avs/probes.c          | 23 +++++--
+ sound/soc/intel/avs/ptl.c             |  1 +
+ sound/soc/intel/avs/skl.c             |  1 +
+ sound/soc/intel/avs/tgl.c             |  1 +
+ 16 files changed, 153 insertions(+), 106 deletions(-)
+ create mode 100644 sound/soc/intel/avs/debug.h
+
 -- 
-2.47.2
+2.25.1
 
