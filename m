@@ -1,78 +1,78 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D0031B10F
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1371C31B13E
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755519775; cv=none; b=R0QWgZ95rkZwNuo3ejCamgPbN3SkRllavpQPSd/Ayw2GkaFWT7ywSSef1bHzCrfD1f7+5Ix6iMA3lHy1q5GFJk8/umYA4Lmjpy7DUx9w5LW80Opbiml+0TweX6kMkJV1OC15ObzSvqPG/hZmuRTCUn/x7L23W3FlhJ+VihBavio=
+	t=1755519776; cv=none; b=rIcWvfZTwtqMUVKOlWXs/eZqKVLUMF2/KW1k5fHaMvwtZxC0jER+OdKBqUdeGAZETsfUrfnPcYSjpnWAwgn4HRtZLj/5LfpQPKS3n06bpOXDjntSnvjTrRu0grzR7d9nGJQObuJwaB+stIXfQDckQGGlZfUYbArRw2mGfb/AijE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755519775; c=relaxed/simple;
-	bh=lJiXI/C5Fuyf6B55gsngV/ulvqr7iM3XDCbQuIE36GQ=;
+	s=arc-20240116; t=1755519776; c=relaxed/simple;
+	bh=0r9Hyf0nVDtZIhGlg9pnxUosjJ8q4m1DneRXJydATCQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a91bOPuQPuOdgjdw7dYR5t4o35frnqYUa4gT4Gq1pvwN/erQwUDvoI4vegzaeii6cBMt8QPk+IDuXXnjoNOdebpZKR0lFpQYfE0ewgcqr5C7F0gjsezZVAozpk7SQy5yCfcoiQ61gH/KCanOk2fvuWLb5/HFNZ18RnbOO9CZCzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kx1txnnE; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=VG9B/BuHYGqBTKxxoy4qQ6Sl/qpI3tGQOcHqAwQYy04Q3vij/9YoXhkxXxVzt7gaLvp34E1r2DCWqqBPz7UFWwbYIf0BzLWEHO71ljuhlTZ0BgDCSNcUGdGscUZOAThsj/ml4KIDi+SBVpK1yrqyO0MGN21vGyXTE7cmOoep/zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NQqU+qG5; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kx1txnnE"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NQqU+qG5"
 Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57I7VA8L026395
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:52 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57I7VTE6026740
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=18KqI4JQ1JW
-	PbQpGA5es5HkuNAUrV8JMaK/zZS5RWVA=; b=kx1txnnE8UVg6qDf10/ScpJgfHm
-	Sb6o5KrqK8vMq7JweYSeBujnqCgHTHuiGKOgVAxXqUC7YYm4bbP9bAAC8zV9DXQ1
-	SnSXb41M8J2KL+6PjYQ1gbBB5ZkrdgOZejn+lJAWc+pum9CnpL75LWyQGPNUJtaZ
-	SLmqfJkAREBkX2njPoJUkMp5C//F2awzvdwCsHmEcHr288ValDNbVXXhWyI//dGg
-	oL3pjkVZgfOGjQxD82uerSS+2hb0+ey9xsEK+48PdGIMlNcpxIgiu+Fq9Hl/H7Bp
-	5giq0soDgneomKdhz9vuYfyMQDq4Z1BU5K3XOXnWZce5YpC0W6eqJf6WnGA==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48kyunrvg4-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=cxCH5jc9rps
+	/mrQJQ1gQYWQ3StnbOOQ8G8DFqXSrAMI=; b=NQqU+qG5FXHYClKSYO4okcgO1L+
+	y41z3kZdy2irxE/veyMuqNixo2xoaKMG/u3UWlzINpOIJcePQ+DA7IQtPbqkS6Yw
+	M/1yMnY/9ggBKmp9wLBdJrEmcQ/RXzEFcS/7DNt+vOtKBvJkxrE5bZwxybtCBEqz
+	k+f2l4wjnHQ8ndeOMtP2IE4xS7QC3N9GHFlZwDGYgHB6pMTSH0okImCH/MDk34lZ
+	k3zff6RBqSBuu7VR/fRRXpBWGq17TAQZ+sg8XzksNhfq7RacPTWGCHJELbJcoB7Y
+	7ZYOq07DsZ8nsL1y0c7Zq8fvZAlifehu+ToAQKJv6Ivbd903dru999+5eEg==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48kyunrvg5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:52 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-70a9f55836dso100018826d6.3
-        for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 05:22:52 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 12:22:53 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-70a88dd0193so97085776d6.0
+        for <linux-sound@vger.kernel.org>; Mon, 18 Aug 2025 05:22:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755519772; x=1756124572;
+        d=1e100.net; s=20230601; t=1755519773; x=1756124573;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=18KqI4JQ1JWPbQpGA5es5HkuNAUrV8JMaK/zZS5RWVA=;
-        b=S2Tb1jazDqRIyOZxoyg3ihUOD1xO5SzlA/q8/4ItSa3Xonu+7TiDuY1s0yBRQqLQFu
-         33Hojx/h53ctGwZjDKps1UKIqyBGfwhq9FSKBZX1qnGDnjjQBiDTtFXiVlIdOD8ARlhw
-         5CUefmT+X2TWeSUOqlj3MgOJIhSyUN/oSwzNtqNB7vElt45vzhRaaT22p/vsGsX6Dv9Y
-         KaHHU+ytV1yH/FfTkywFS9xohVDWGM2Kp6hYOW6mrXb9XpQJJZB3YxP8bBUWMa2pzp4G
-         nBZRy+Lln9h6/bJL1xe6ANhLaOh9HMkXKTpb9pYWPsez/2sEktivJ7gFHHu5aBJoeCqc
-         Iz9A==
-X-Forwarded-Encrypted: i=1; AJvYcCV/l5ImORL8AmlolTrPt1wNJG3ekTRl7t6qh9hYSeKw72I60PF5p0uMtscDtHE2f+Uiq3w8aYYFsQ64Rg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQjoSBNN9+ckgq04hRbQXzsFgy6dLT2suYJF/MNL3Ota5T/IZN
-	/ZQpIZbinTqS2i9hosX3m2tUisUZkjfCk3kI7obz+7/l+1aol1DX18lglRjoejnXnPJ9ukr0NP0
-	gf926ZeP1OCovsFTV2i9qcadCfROiF1ohdSLX9UfKx1ZSroL7ldlloynRdNfZ5UIEdw==
-X-Gm-Gg: ASbGncvmq21Pp89T1VZW/b1IZEoXwIRaELZMEEv421DLKu/3X3NfxgUsAXf9DNcPpol
-	hW0MJAAWJVG94e0Jf8dJgiCV9sj7ZspBdB7MU26AJMZyC079CTnst7UD27vD7/Z8EsbKBdYB2o3
-	PHA2alvPxn2xT0CIQDWYpeMNAxj9HvXcrN0ZGfN9udz//3owLPb45hrTUeQzztRvIZnE7rEUB21
-	+wdMT8f9t0tOnREbquZCXU+ERqqJPQjBxKXX4+JEAVU0i1YVriszyKaHWKkGIUQPUf81UmrN474
-	lbEZRpMd2N47YtT8EPuAw3tugIDMLVQp0AWjlf2uyo+rC8nJ+13g2Q==
-X-Received: by 2002:a05:6214:c43:b0:709:e51b:2971 with SMTP id 6a1803df08f44-70ba7bfbca1mr127743506d6.26.1755519771588;
-        Mon, 18 Aug 2025 05:22:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGsRLUYmlEY9isyXBY9OO7FatP/twXOv1kdIQnNy6AnCeJmhofS9wF093UUPE6Fpivow8O03Q==
-X-Received: by 2002:a05:6214:c43:b0:709:e51b:2971 with SMTP id 6a1803df08f44-70ba7bfbca1mr127743076d6.26.1755519771142;
-        Mon, 18 Aug 2025 05:22:51 -0700 (PDT)
+        bh=cxCH5jc9rps/mrQJQ1gQYWQ3StnbOOQ8G8DFqXSrAMI=;
+        b=xBXZGB3mTYTRpNLR51D6ipwN3546ym+B0hymWfygLvlES8xFCnbRO/k+bBaq8x+fu2
+         ODLn34sW5r3aCADAIEIwJ8xTsllx9ELh731xQEsTid3MryvS3BHZ931gu13btJqXO70i
+         ELcX/nBuAfalh0G1NLchVag/i5n05K47zqo5ITV6cV2b3A7J0ylGIpKSspv3/3Xr9i2k
+         twL3OZDVKDG1APLDQWzjYrVzgflQHA9pITnGevZzCd22Bc9TdSyrhLFBWNRFOE+oCB5d
+         iYGrJoG3gS6qQKTbChsLcdOGunyQ0TXqM05bgsdzR0SwPevI+Qi37B8/Dqy2H4p+8nOQ
+         T2XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV6ZunlHOKQrLPGu7sYhGYHIbKoMMzbEPOhj088+ZieuGF5KAcuES6T2CTZlC3No1qNYJPMspg2NGDsiw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTP7+GbKfR4OUBoNIb62T7/Go84HtrTbUNLGbV+gcXRdf/6Unl
+	t/NL8pXEr2yLRkufk36wnbw//avt4F0IZaeIQELM5ikqOyr62xohHohBE1n7QkP0MHCSodPM6Cc
+	q1LtGRAqf5qf452hgO/+vOYh9LcYCtpbQP6IrZrFiIJwNG1BDXP2wq6BIGpM7CgzUmg==
+X-Gm-Gg: ASbGncs7xHPtt8wgLYuevJ4VKZwmXLFOzY1Yge0TAOSQewSNc3Sstz6RARtrrO58JlR
+	iihkg2k0mtvIGNJViTFHVHADkRNDLZM1j1o4GuIGRK7PYe00qwTIuO5IiV1D5Sol8ZSJ65Xf6hG
+	4e15767kD9eLcPDD6seQsK8KySpxm+4uWgqT4Xj2M2z2S3MZ0O4ANlNZz8PGw52qxJPjcK6iS01
+	c7xBYJx0Jex1JbN6cko7geNL/09pZDjyBsqusq0hR5F+5ysj6G2UIGAuwCjlVlP++zAQvEsm76j
+	tD+wKXsNRTQhu2S/YnAyk2I39T3kDYik5lrdq0SeqRaOSd7R7AcpsA==
+X-Received: by 2002:ad4:5c43:0:b0:707:5319:d3f1 with SMTP id 6a1803df08f44-70ba7bcd758mr132199146d6.32.1755519772821;
+        Mon, 18 Aug 2025 05:22:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFhUYdasV96pnAGAVB482zMVwB+ztPSFkdJL7AZgDt1OaA3hCb8rRc++U4kwgJmxmJWnSwk2g==
+X-Received: by 2002:ad4:5c43:0:b0:707:5319:d3f1 with SMTP id 6a1803df08f44-70ba7bcd758mr132198696d6.32.1755519772199;
+        Mon, 18 Aug 2025 05:22:52 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb653f657fsm12601563f8f.29.2025.08.18.05.22.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3bb653f657fsm12601563f8f.29.2025.08.18.05.22.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 05:22:50 -0700 (PDT)
+        Mon, 18 Aug 2025 05:22:51 -0700 (PDT)
 From: srinivas.kandagatla@oss.qualcomm.com
 To: broonie@kernel.org
 Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, lgirdwood@gmail.com,
         linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v2 2/6] ASoC: qcom: audioreach: add documentation for i2s interface type
-Date: Mon, 18 Aug 2025 13:22:36 +0100
-Message-ID: <20250818122240.1223535-3-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v2 3/6] ASoC: qcom: audioreach: add support for static calibration
+Date: Mon, 18 Aug 2025 13:22:37 +0100
+Message-ID: <20250818122240.1223535-4-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250818122240.1223535-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20250818122240.1223535-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -83,19 +83,19 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 230LleWfBug3Mw1rVbnKVMdeo8CHnSYd
-X-Authority-Analysis: v=2.4 cv=N6UpF39B c=1 sm=1 tr=0 ts=68a31b1c cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=FY2npp4C09wRtmNKfY8A:9
- a=pJ04lnu7RYOZP9TFuWaZ:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE4MDA3MSBTYWx0ZWRfX/WUJMtbaavun
- 9CzGqCnVA0l9CFRKyHdPU/5teIo5SYVFjss5OcqmDC3Q8Le90wlNNsblmoKs6nFHJ9Me74oweow
- A953ro5uJYBu3slVn6yLg6vfhUUMKHsQvZrjREbWl4R6fxEgbqM5wm+NFvpUkLw2xEwUYMf+Lre
- J3jmFzNGeX5jGorTdsgo2Yxsh1Etpj4gVETNU/WhvEkcLXIp40i5cmJFO7eBqprVbkjX0XTn0bv
- gNjqZmLRfuXhj6Wtb7mIDsmfTLh8Whteu+WI+v4SDrtGtJwhOAfV+FcNXozXI+0oikWT1mFh9t7
- xxt+p9BLMBeif+yXhlUfssIW1C5R9qAFgyQaD4BSTyoaofoHiOPLdjnIcQjnxUNq2V+N95EobQL
- o3t3AfsB
-X-Proofpoint-ORIG-GUID: 230LleWfBug3Mw1rVbnKVMdeo8CHnSYd
+X-Proofpoint-GUID: U06lkoUsJ44vMOzsfY5PkbZhWiMF_Esc
+X-Authority-Analysis: v=2.4 cv=N6UpF39B c=1 sm=1 tr=0 ts=68a31b1d cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=FkCHEUkhfVKCBkrVOAQA:9
+ a=OIgjcC2v60KrkQgK7BGD:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE4MDA3MSBTYWx0ZWRfX11v9PN7gs1z7
+ PmVYYtDKca3EeTUDEXo+o/Sdig4lF626go4j7bH3JdcSxj00tlIOxaHvzWmwiNduiSInMj/LHkm
+ 1Y6VdykUX3URchPkaGlFpXGy2VhMir/B/UNnY1LDfHNoKn3+3V0hcepIj6npb109dD6Lt/YiK4h
+ /Jymh+4G3XOgIFh8rR5GnMo4UXvggziiyzSMmz9DytxA4Kin/0MJsfYTAfnLwGQ8EndUSroM+dM
+ 5hQc9mgG3Z6C+yf3p7ifXWHga8i4ezUCqGGGKZQKn2HNqnoUEEocnz2zBfFdzeVMO9VgTolLkFu
+ 8mw9yosXCoEFM2mvTc43u7mFaGLk2XTd3o4soy+RJABZ84iTTdJq/l7c7/foqq2KBeeV5YFtEKv
+ Ra910hBH
+X-Proofpoint-ORIG-GUID: U06lkoUsJ44vMOzsfY5PkbZhWiMF_Esc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-18_05,2025-08-14_01,2025-03-28_01
@@ -107,32 +107,148 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-Add documentation of possible values for I2S interface types,
-currently this is only documented for DMA module.
+This change adds support for static calibration data via ASoC topology
+file. This static calibration data could include binary blob of data
+that is required by specific module and is not part of topology tokens.
+
+Reason for adding this support is to allow loading module specific data
+that can not be part of the tplg tokens, example, Echo and Noise cancelling
+module needs a blob of calibration data to function correctly.
+
+This support is also one of the building block for adding speaker
+protection support.
+
+Tested this with Single Mic ECNS(Echo and Noise Cancellation).
+
+tplg can now contain this calibration data like:
+
+SectionWidget."stream2.SMECNS_V224" {
+	...
+	data [
+		...
+		"stream2.SMECNS_V224_cfg_data"
+	]
+}
+
+SectionData."stream2.SMECNS_V224_cfg_data" {
+	words "0x00000330, 0x01001006,0x00000000,0x00000000,
+		0x00004145,0x08001026,0x00000004,0x00000000,
+		..."
+	}
+}
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- include/uapi/sound/snd_ar_tokens.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/uapi/sound/snd_ar_tokens.h | 12 ++++++++++--
+ sound/soc/qcom/qdsp6/audioreach.h  |  2 ++
+ sound/soc/qcom/qdsp6/topology.c    | 31 ++++++++++++++++++++++++++++++
+ 3 files changed, 43 insertions(+), 2 deletions(-)
 
 diff --git a/include/uapi/sound/snd_ar_tokens.h b/include/uapi/sound/snd_ar_tokens.h
-index bc0b1bede00c..3aa5f4928a2b 100644
+index 3aa5f4928a2b..3e18442d383a 100644
 --- a/include/uapi/sound/snd_ar_tokens.h
 +++ b/include/uapi/sound/snd_ar_tokens.h
-@@ -118,6 +118,12 @@ enum ar_event_types {
-  *						LPAIF_WSA = 2,
-  *						LPAIF_VA = 3,
+@@ -120,8 +120,8 @@ enum ar_event_types {
   *						LPAIF_AXI = 4
-+ * Possible values for MI2S
-+ *						I2S_INTF_TYPE_PRIMARY = 0,
-+ *						I2S_INTF_TYPE_SECOINDARY = 1,
-+ *						I2S_INTF_TYPE_TERTINARY = 2,
-+ *						I2S_INTF_TYPE_QUATERNARY = 3,
-+ *						I2S_INTF_TYPE_QUINARY = 4,
+  * Possible values for MI2S
+  *						I2S_INTF_TYPE_PRIMARY = 0,
+- *						I2S_INTF_TYPE_SECOINDARY = 1,
+- *						I2S_INTF_TYPE_TERTINARY = 2,
++ *						I2S_INTF_TYPE_SECONDARY = 1,
++ *						I2S_INTF_TYPE_TERTIARY = 2,
+  *						I2S_INTF_TYPE_QUATERNARY = 3,
+  *						I2S_INTF_TYPE_QUINARY = 4,
   *
-  * %AR_TKN_U32_MODULE_FMT_INTERLEAVE:		PCM Interleaving
-  *						PCM_INTERLEAVED = 1,
+@@ -238,4 +238,12 @@ enum ar_event_types {
+ #define AR_TKN_U32_MODULE_LOG_TAP_POINT_ID	260
+ #define AR_TKN_U32_MODULE_LOG_MODE		261
+ 
++#define SND_SOC_AR_TPLG_MODULE_CFG_TYPE 0x01001006
++struct audioreach_module_priv_data {
++	__le32 size;	/* size in bytes of the array, including all elements */
++	__le32 type;	/* SND_SOC_AR_TPLG_MODULE_CFG_TYPE */
++	__le32 priv[2];	/* Private data for future expansion */
++	__le32 data[0];	/* config data */
++};
++
+ #endif /* __SND_AR_TOKENS_H__ */
+diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
+index 9b30177463e6..617bda051cf8 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.h
++++ b/sound/soc/qcom/qdsp6/audioreach.h
+@@ -4,6 +4,7 @@
+ #define __AUDIOREACH_H__
+ #include <linux/types.h>
+ #include <linux/soc/qcom/apr.h>
++#include <uapi/sound/snd_ar_tokens.h>
+ #include <sound/soc.h>
+ struct q6apm;
+ struct q6apm_graph;
+@@ -742,6 +743,7 @@ struct audioreach_module {
+ 	struct list_head node;
+ 	struct audioreach_container *container;
+ 	struct snd_soc_dapm_widget *widget;
++	struct audioreach_module_priv_data *data;
+ };
+ 
+ struct audioreach_module_config {
+diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topology.c
+index a3b0f558260c..ec51fabd98cb 100644
+--- a/sound/soc/qcom/qdsp6/topology.c
++++ b/sound/soc/qcom/qdsp6/topology.c
+@@ -305,6 +305,34 @@ static struct snd_soc_tplg_vendor_array *audioreach_get_module_array(
+ 	return NULL;
+ }
+ 
++static struct audioreach_module_priv_data *audioreach_get_module_priv_data(
++		struct snd_soc_tplg_private *private)
++{
++	int sz;
++
++	for (sz = 0; sz < le32_to_cpu(private->size); ) {
++		struct snd_soc_tplg_vendor_array *mod_array;
++
++		mod_array = (struct snd_soc_tplg_vendor_array *)((u8 *)private->array + sz);
++		if (mod_array->type == SND_SOC_AR_TPLG_MODULE_CFG_TYPE) {
++			struct audioreach_module_priv_data *pdata;
++
++			pdata = kzalloc(struct_size(pdata, data, le32_to_cpu(mod_array->size)),
++				       GFP_KERNEL);
++			if (!pdata)
++				return ERR_PTR(-ENOMEM);
++
++			memcpy(pdata, ((u8 *)private->data + sz), struct_size(pdata, data,
++						le32_to_cpu(mod_array->size)));
++			return pdata;
++		}
++
++		sz = sz + le32_to_cpu(mod_array->size);
++	}
++
++	return NULL;
++}
++
+ static struct audioreach_sub_graph *audioreach_parse_sg_tokens(struct q6apm *apm,
+ 						       struct snd_soc_tplg_private *private)
+ {
+@@ -582,6 +610,8 @@ static int audioreach_widget_load_module_common(struct snd_soc_component *compon
+ 	if (IS_ERR(mod))
+ 		return PTR_ERR(mod);
+ 
++	mod->data = audioreach_get_module_priv_data(&tplg_w->priv);
++
+ 	dobj = &w->dobj;
+ 	dobj->private = mod;
+ 
+@@ -939,6 +969,7 @@ static int audioreach_widget_unload(struct snd_soc_component *scomp,
+ 	cont->num_modules--;
+ 
+ 	list_del(&mod->node);
++	kfree(mod->data);
+ 	kfree(mod);
+ 	/* Graph Info has N sub-graphs, sub-graph has N containers, Container has N Modules */
+ 	if (list_empty(&cont->modules_list)) { /* if no modules in the container then remove it */
 -- 
 2.50.0
 
