@@ -1,107 +1,88 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85453322741;
-	Tue, 19 Aug 2025 13:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B60033CE88;
+	Tue, 19 Aug 2025 13:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755609571; cv=none; b=WOAKETY8XWfx6yGiEaw/4dQgbEW4KTC3YgXlTyFfxD0jKQPfgmHB+ztC9bC70gX2jq8NrTft3WDk/5QKCNzYtftSB2RNBJCJKEEGOnv/YnH1jxtWhNXyWWMC7m4s4Egjvv2xdvLWmNyskTWQYfXaqffTNjbLx9JYrcgGDCoBEFI=
+	t=1755610534; cv=none; b=kWxeS4gzQmQeWxgqa4KBz7z3X9ctmQvihERs2Fxu9ir/xr4atDSFobLIbq1pyipPQcfAN8/XihBb7JZpxCANPCv2sQkL9m6negtVne4IOm5Z5mfURnQ7wasgw8ndXTp7jJYyfmGD2wAlXcK27E7mVlHEU3oCDmqfneFrSCvMD1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755609571; c=relaxed/simple;
-	bh=r23hmMjYeFnmQbtG3d+3ohTMfPdmfJrL7/bunmfRuaM=;
+	s=arc-20240116; t=1755610534; c=relaxed/simple;
+	bh=R9Sy8VQpNOrJ8/sl1lL2re/tMQ75cIWyis0ycpDudBY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fVgB2dyYvXLu3BhgjRmiK4LZ9r7IlBfl5xNyo0UbtnhfC5qcZjIEFajd6FQolilyeGamphBYSFmXx4OsAaZBt+r0hAtmgewVlJZFVEGAmgCnyDRWCpVMMaHO3VdUNPWz7rsSYImz0xLWcg7dwFL+simGzp9Etj4bowmRdRtML74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G6jwNhRW; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=B/yqyV7GfdOKsPTE/ZjownQRPYHJzJTDVMeaL+R+O/G9uqA0BuKuu3nJ5F5BjP8YDVaNLuUYDhe3l0K3i85OINh+K1kfhQggdJXpNSgioG1jGCrUSGAyIG3tx6j5Jp1O7WagXEoNuMeOU7WLFx40fueJTcXgQyWAVDpgAM8bWpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DhPDByNm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G6jwNhRW"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-323267bc2eeso3759195a91.1;
-        Tue, 19 Aug 2025 06:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755609570; x=1756214370; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=r23hmMjYeFnmQbtG3d+3ohTMfPdmfJrL7/bunmfRuaM=;
-        b=G6jwNhRWzP7TnO5eRjxZTd4eUsxnVKXSCOmr4Y559//KHQ069d85tUZhkneio7Bm16
-         fBp37/P5E9835T7uB88VMbK5MJ+z1lZe1wOVzOY3YzUzg5EbA1JanESAoFzMN30LYKVz
-         oRAXZmWARqD7hzQGjrvOY7EQh4FMxz6cM3m8opY9UwxUqgfV8mBpwNId4EUhsVf1/WEc
-         FAgZZwfO9U98n7s7FGmHcNVkoU7YpOjMDWOeQK2Rk49NT8wRga0Pahzl7kIrB/IGuU4q
-         jVVteHQSbaPIIa9ucdbd9f1qg191ufas394P6z+6JgoRx07c+co+1MwDLf1VgJDYrlGh
-         s/5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755609570; x=1756214370;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r23hmMjYeFnmQbtG3d+3ohTMfPdmfJrL7/bunmfRuaM=;
-        b=gHvVNjZ6w+kHN5vJc/iegUM5uYlmsEAKn8PMV1KIbr+ttHBK62spP2QumJXQpea6JE
-         cZosAnR0iJiiKwMqr8J40H/VarjXPKD303uxBkNhbsa+EbjCxEDojGlnajhydvB4XIXr
-         Gl2aZZemsfxiR9g6H8Yj/rJrD0/qVymkYw86f4eJOPFzKhXSGlLENdYnGZCgOMgHZ/e/
-         gnRpbwEkrtGafPYw51QK1siH2YGgkCE/AbyAWP6DWnwBzmVTxHU1fyNw8mNRiqOqBRoV
-         QS8rl8UCzmDTOW9McN9JEDdDxPSe4ZLOP64uR3uK63G777SE/ejRRHk9P9ylMxf4qh0d
-         mVjw==
-X-Forwarded-Encrypted: i=1; AJvYcCU8wg0oQHZcCYMRsqOc09jF9Q+tnuhlbg/KvmBL6uInY3tHmK0/w3Z/itZryRqU7b/GLS1u8rvi6twJ@vger.kernel.org, AJvYcCUQAAxjC1St7mtpnssd6bdnU6+7MqRD83XjrPxJE0rlInzL4pb6PjmAg8AXSkdMcygbxEmLCHcmvjt4ahE=@vger.kernel.org, AJvYcCWuJILw2JEGpZynnrvt6ckPTuqHbKeQmew1mglrkBhs1dJvdBxTPA7/QEAYyj8CMvN+piqAOmwfR05+RZU=@vger.kernel.org, AJvYcCWxWAC8SE7RP91Kzjw1xnYBc52EXoWpSaZo/8wPYW3DUF7rx3o8MLkN9udeDX4KyG6Pyn+BHlXLO4Mq@vger.kernel.org, AJvYcCXSkim3lErXp0t/B8PlqGVG3XImGHsCN6jo7Xmnfnwz3G5IFF3eAFLORHtZtE2hALbgekIJ4LZjU4df@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVXa3jCwAFI2Nb6/q+WGGTaPRTx3PIAMi31J8lD4Dh2X2ZuNwY
-	VYVpgnaAkPSi6aHLyMRJhwMw13kJuIfq64/sQjKQqb17dxwPFJ+qiChJmM9DKyn0AMMj5SqNJAl
-	Hel7WPYeaMKStziIEvxtSIO9YgRh79A==
-X-Gm-Gg: ASbGncs33BXRR6dF3WJtdVtLGok4Zsj2HaGAHP+zmzQ7ve4osmOsjL93TdkvGAKdcaL
-	VTT904g7JRbeepHeo4h5zKF/DSW8IC3so955j3lRwMBJtapHYFNlq1jnCAahgfblSITREKMYqZf
-	Q6/xoLuRXNk7AhViUSaBreYatwBSvRL9zYJQKa6H+dvVe5laNhh4aLGZ7sxuLpQp/arMBCDxWvc
-	iPc3jw=
-X-Google-Smtp-Source: AGHT+IEhhIygA1bnMp5OmuLfxqFMwh/55vlg61V7P62U8jCxjgB67lK8mBtooTUSQ4tyZ+w3P2ukeu2oqxwqtea8dJY=
-X-Received: by 2002:a17:90b:5103:b0:313:f6fa:5bca with SMTP id
- 98e67ed59e1d1-32476afbfbfmr3312885a91.22.1755609569563; Tue, 19 Aug 2025
- 06:19:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DhPDByNm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEE93C116B1;
+	Tue, 19 Aug 2025 13:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755610533;
+	bh=R9Sy8VQpNOrJ8/sl1lL2re/tMQ75cIWyis0ycpDudBY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=DhPDByNmUaahaYOad5JwcHU8LV9bkjrUAKT+ZpSbsJaT+bqrd5FpB1d3jATBRnXyo
+	 2IOTmdXHj+ZR+KKJrwGUBclOfPdhdrhX1kyHmsSom3W/2g3vG1hk2G2DQFpRdcd9z8
+	 X4e7qvYm2zPIqzuulrpny+TEkXNXzB6EI0X0j11UtgRrB6bKgpi52eQ9nzTpQTwe65
+	 JTQ1o8fo7Mv+p443UYTy5Vc3YMiWCu3k+TiwGPhv9ftfAwTGrk46jTHljjo4M9j9Ye
+	 CUYETsku00O4m91oMpTNaCUeGTknhuZ7m3QGIsPprFo4jDIzni2J3pwuEKLxc+6q7U
+	 ++7TAWQ+8ydRw==
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-afcb7a3ee3cso817685066b.2;
+        Tue, 19 Aug 2025 06:35:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU6UYM0+6Iy0aOFP9/oNIk3zpUwJbdd4EfL+ym242C7L9ZZqL0D4FEkt7aPHkucy13PeJAB6jiDTpPPtZz4@vger.kernel.org, AJvYcCUtwCGp0cCWo6L8RVr5Re/xNboM+1gLSI5aBlDNg7vVg8lwBpluGZMjqa93g25qf/dGPWpqtiQA2UP9U1j0cA==@vger.kernel.org, AJvYcCV2x4WYg1Qdc3sP5v02H3u+hXpWy3GuWzAcbS+2/MMT+qApSf8eAIPe0evqKXlnS+GwUGQA760vmZsq@vger.kernel.org, AJvYcCXk4x18D/UwqcqAfKU2H7ucVk4QS5x9mpX3ZrL3xIv2zPqPgrmplkm5warL6z1o3z+NQk+8GFYVS+Ibivs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4MNa2QXLST5gde706xsNsNheAe0qT29LR/Z2V/lpitd7uWEPB
+	/zBbOB03xcxIswRwxpxOAuouS+Z8XPhGqrg+mnRzrGdCum8Cbxe5ZYBmsJPavuAx97BC1u9Vx8Y
+	r3MkKY0exlNXEjtt9K0moUDpt0DhnhA==
+X-Google-Smtp-Source: AGHT+IH2MkYx7kpJ+xN9k3+oODecUEIgiLoLvMLtyUB1pi/Kr5EqVSB7WGUHwSSty8Ksq7ALpKgNCHIiH3bxADNv84A=
+X-Received: by 2002:a17:907:d8e:b0:afd:bd24:4de1 with SMTP id
+ a640c23a62f3a-afddd0cf7efmr261603866b.33.1755610532515; Tue, 19 Aug 2025
+ 06:35:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com> <564lqfhskoiivxziptyhrkajpblrrnk7nmfe73fzsd6ov2vwlh@n6ydqbrxh2my>
-In-Reply-To: <564lqfhskoiivxziptyhrkajpblrrnk7nmfe73fzsd6ov2vwlh@n6ydqbrxh2my>
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Date: Tue, 19 Aug 2025 15:19:17 +0200
-X-Gm-Features: Ac12FXyaAV_fr68gP_yU1FNDg6itu2IlLFaD6Hyb0iuATvPfS4x6a8BXCW6M9uY
-Message-ID: <CANBuOYoJv5F=4H71fPoWx3MmzSQuKt_p5SPMJx1P=PGwDrEmPA@mail.gmail.com>
-Subject: Re: [PATCH 0/8] dt-bindings: Convert TWL4030/6040 family binding to
- DT schema
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	peter.ujfalusi@gmail.com
-Cc: linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, robh@kernel.org, 
-	krzk+dt@kernel.org, lgirdwood@gmail.com, tiwai@suse.com, conor+dt@kernel.org, 
-	lee@kernel.org, broonie@kernel.org, gregkh@linuxfoundation.org, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, shuah@kernel.org
+References: <20250724132808.101351-1-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20250724132808.101351-1-srinivas.kandagatla@oss.qualcomm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 19 Aug 2025 08:35:20 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKG+dcMgp1QF4F3Oxh5Shvagg6cSde=g1JMcEAquZhH_Q@mail.gmail.com>
+X-Gm-Features: Ac12FXwlOsoI_6EYLq8GGEsTwxxs1hQzLvyShUqH2EB_7YD-9IGjwYC8P64fEO4
+Message-ID: <CAL_JsqKG+dcMgp1QF4F3Oxh5Shvagg6cSde=g1JMcEAquZhH_Q@mail.gmail.com>
+Subject: Re: [PATCH] slimbus: qcom: remove unused qcom controller driver
+To: srinivas.kandagatla@oss.qualcomm.com
+Cc: srini@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > The following eight patches are included in this series, covering the
-> > audio, keypad, power, PWM, and USB sub-modules.
+On Thu, Jul 24, 2025 at 8:28=E2=80=AFAM <srinivas.kandagatla@oss.qualcomm.c=
+om> wrote:
 >
-> Thanks for doing that.
+> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 >
-> I think the patches are all orthogonal and can/should be applied by the
-> respective subsystem maintainers once they are considered ready?
+> Qcom Slimbus controller driver is totally unused and dead code, there is
+> no point in keeping this driver in the kernel without users.
 >
+> This patch removes the driver along with device tree bindings.
+>
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> ---
+>  .../bindings/slimbus/qcom,slim.yaml           |  86 --
+>  drivers/slimbus/Kconfig                       |   7 -
+>  drivers/slimbus/Makefile                      |   3 -
+>  drivers/slimbus/qcom-ctrl.c                   | 735 ------------------
+>  4 files changed, 831 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/slimbus/qcom,slim.y=
+aml
+>  delete mode 100644 drivers/slimbus/qcom-ctrl.c
 
-Hello Uwe, Peter, and everyone,
+This adds warnings to dt_binding_check:
 
-Thank you for the feedback, I am now working on a new v4 patch series
-for each subsystem with few improvements and will make sure of their
-orthogonality.
-
-While working on this, I had a question about the 'maintainers:' property for
-the new YAML bindings. I see from the MAINTAINERS file that Peter Ujfalusi
-is the maintainer for the TWL4030 codec driver. I initially marked him as
-maintainer for every new twl4030 related binding.
-
-For those new YAML binding files I am creating, should I list only the driver
-maintainer (Peter, once he confirms this), or should I add myself as
-a co-maintainer since I am authoring these new binding files?
-
-Pinging Peter for his thoughts on this as well.
-
-Thanks again for your guidance.
-Jihed
+Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
+/example-0/soc/slim@28080000: failed to match any schema with
+compatible: ['qcom,apq8064-slim', 'qcom,slim']
+Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
+/example-0/soc/slim@28080000: failed to match any schema with
+compatible: ['qcom,apq8064-slim', 'qcom,slim']
