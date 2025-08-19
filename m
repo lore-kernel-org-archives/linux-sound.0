@@ -1,99 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CAA342C8A;
-	Tue, 19 Aug 2025 19:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3066426A0AD;
+	Tue, 19 Aug 2025 20:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755632825; cv=none; b=dIXu/AbATERC+unkPsaZrO0iftRM82x5cAY7o6ZlKIKrw1TQNJ5uC+ZzCswcRjBCDasJru4xQfsvHtJUpefwjxD+KmDuovzgX+3nW3V256wVcU4pk62y2ZOireXnvCeQY3myxUIUzDLBnHvkpqpre+p51NNjk4dzdM0Cd7tMDpM=
+	t=1755634401; cv=none; b=NC7CkppNs1LkOycNkwDlUITmc3sIS0kbUwHkefFHizvKeAyjWL3hWWX/iNtLy6A/157Pxav2nUCeTZd98Hov8HngNysk8/Gdz5iDy3l+zO/n0dsnJzwhH/z6yah/wBkzL4ds4PDzUjiRoiB3g1iRP3ljmKQGQbA9CaArz65kGT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755632825; c=relaxed/simple;
-	bh=GBfKF09b+2epbMEdIrT2YbBaZkiaw3OQUA9l38qNwao=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=j7ysj1X1iBzRAr23W1pgXFftZpQ1AhdEciiPfmumHxbpiwKsFX+YJ6mfoRD02t8QmN6xiGn0jseP5EbuatEyUJrIxmIqGP992m8xDG9vW2Y6ONntMSoJINwINsE6JE46zxJLzAJBxUegJB18p9nTc425DVgdjovc+41jsCgnK0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=skQp/BYn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755634401; c=relaxed/simple;
+	bh=9X/2VGNApmcQ7rOcJ+VUgDeSKoF3XoYcobAsc+OKa3M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=OfXISz5s/TGIAVXTOwGq/PLc+2J4HoUtcZaAUcu6i0AOwoenwyMUPwVLWMQy1FnUrCYPL925avR8k1HVtwO2fYaTXowbIIVg6mNSWEnQmJSdIyGI4T6+5fgE3M1mJRf8MlruG31dYh8bcmqch6qOZS3uZ1dhqGIsBa0Wybtj6WU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CKcN2giu; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="skQp/BYn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9553AC4CEF1;
-	Tue, 19 Aug 2025 19:47:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755632825;
-	bh=GBfKF09b+2epbMEdIrT2YbBaZkiaw3OQUA9l38qNwao=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=skQp/BYnFUDamCUbt3/js9qmrDslC4xa42rmqRSumsDLhIlG9ndB/iarWNXhW+hb3
-	 0il1DgD+1XfXDL208xqAt0Oa6WeK0zEwTw/kKaA7hZTFeLTnQfz/PcSMIDqP/H7cwI
-	 b+wn67xRHPVGuqo9aOKBEKXEjD1U0ZmfJks/LfabnuozCNYjvqRDmhmnOwc3PeGRIk
-	 8NIgik49beEH2vmTfBehrvXCbVCoFjt4nUX+0cEqsNFzhxajg2MiuwtRCgYiqj1/l+
-	 5N8oo9HGLd2h9Hygs9Hrzf6fbVqmIFN/pVEaS3LBiIWtqF9YWX/N3tcGvsSVJnIcPD
-	 yUEWp9lAJPeNw==
-From: Mark Brown <broonie@kernel.org>
-To: srinivas.kandagatla@oss.qualcomm.com
-Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, lgirdwood@gmail.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org
-In-Reply-To: <20250819100151.1294047-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20250819100151.1294047-1-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [RESEND PATCH v4 0/6] ASoC: qcom: audioreach: cleanup and
- calibration
-Message-Id: <175563282335.270039.7788680159319198523.b4-ty@kernel.org>
-Date: Tue, 19 Aug 2025 20:47:03 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CKcN2giu"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3b9e41669d6so4366115f8f.2;
+        Tue, 19 Aug 2025 13:13:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755634398; x=1756239198; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hv4875C2PzimpafByJlP6Vqr30Mci0sbeGJ0/jFTW9U=;
+        b=CKcN2giuhGRIKqi5TSNs4bD/UYxJQXZqTaQzK9MJdimrT2rY9prJa2ZnzNfmOZ/e+c
+         nKHiqPuaOntvcsVoYjfI78yNvsxMhwPSzmOaUDDZXQzrYXbsPnF8ivGBkMvRvBwSd5UW
+         0skZYv4vE+VKSDmk2mpJTp9pzdA6XzZbKi+OXgBV3Td9lkA3oPJfYXk+bpj/bBGENX0X
+         EXdkHBsaDTqlELS5DQrTglcLpDTT11FNJfmLMsXokzMq12+TZVKQA9d9TMlzIJDxU5bz
+         ufEIZ9mGK0mrAKxEqoeKZ1WQkOZ02TXeyPlnIz0+gtf05QuPy8BbTtQZ1isHZDgcZjEB
+         rI9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755634398; x=1756239198;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hv4875C2PzimpafByJlP6Vqr30Mci0sbeGJ0/jFTW9U=;
+        b=Mhep7upHIoMTmsbzudMe6sSvbYD+ht2oo0j+LbQy77t3MYaXHlcto+uh4wipO94/ww
+         3YSAF/l/XpJWa35qj2jVfU4O+r6BH/L+Hn2SgsNrfFi+w6oYQDinsor/CA8kA6oZskY7
+         y8hQcdTbJVC0iI3TvFFwjsjIRCxG4Gn0tyw2LsYF0nDeBhwOCJjua1/2o+6YUl5m4ifS
+         xMfVFtZ5yGjr/7UcQ0LKhzUXMMz3oKnZj8m2JwDPYvGtGjpakxXTkztnjiB0UNgWiYSt
+         rznIK8CDIdN+eDsqILh4IYBWUMpl5Wjml1jJZl9v+VpgfTsQD3DI0/CsHdRN7Ro9g45x
+         gBvw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2yX9D8hRSAzF5ru57yWvaEmQwhflDhBvPo95bMxVipiX0OYoK/Z50oZjHDVgsX9CDRTCz7AjvieXo67x2@vger.kernel.org, AJvYcCWK64RrtYL3zap35TtXP7bU8bM52VO/xb7lsfBK3tENL/iGDF79C22c9gpEnObpmlZs0MluqVkYVbjr/lg=@vger.kernel.org, AJvYcCWZmlCHIC+0UeshINumPvgeGr7t7l1RIOXuPAVpUkSCPEgFN1Nd0ZpnedL+4X0k7/aQKQyc/KxPYibA@vger.kernel.org, AJvYcCWeYhDyOnET7yIB6MWhnibaLGVLa3N2VqGVoO6AGkWK+ktEiGsDeqGb/N+aQyNGOPJSXXf4Q2L/hKdL3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNNS5MkDor0ZxZZdVoto0TlZI0OHs3BziNpbAzapEHuHxJyLqo
+	ChqdHnbYO2Xgpfpeuq4yYwdktvzuaviyg8Fwfd3BoCb8jOo4ayyD+ZwQO4Ew
+X-Gm-Gg: ASbGnctottXRUWsS6AoWKa9wPjmbP0byIQAis6j79ubWz5557Zrrc5sO2e0IQw1Jz5X
+	Ks1HLJreRL5VmczOdaFaNjxTmtnbdB16+938tPlkfmyutaPySbEDuex8d0AgXgFHemYsGEp8seK
+	zH0IYEnIumImdSFp9ewh2P5ohnu6HXRmjnIrgacPBHYilytFSB5z5HKg1CuM0PQP1Uy1tf6qfIc
+	9uKLa8FPMhK/k4BN2vWXRCuqh0QGVN6DUJUH+TGVs+0MOCBNsa3/3cMAAeMa+sfYB8PgChnJ+KN
+	yg0Vua6sEA7smhbrjD5URctJRjN6TftY2Psfx+1DcZnjwqPgoCTG/iYry07+5vV+ZMyDM/XFL+X
+	9qt/iC+SEOLoq0hwIUPLbLlLmZqygeTMld6xTiQlSdCQ3aQY=
+X-Google-Smtp-Source: AGHT+IE39W/od8Q6Lv4eHcOg3CqK1TKtJR1QdKfM982lU9SVEinsuN6XuD5Bxq2jv1S2etdEW7jtjA==
+X-Received: by 2002:a5d:64ca:0:b0:3b9:2989:b859 with SMTP id ffacd0b85a97d-3c32dd5e02fmr196354f8f.14.1755634398149;
+        Tue, 19 Aug 2025 13:13:18 -0700 (PDT)
+Received: from localhost.localdomain ([2a0d:e487:216f:2f7a:74c6:177a:3b99:868c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c077c57d32sm4939887f8f.64.2025.08.19.13.13.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 13:13:17 -0700 (PDT)
+From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+To: broonie@kernel.org,
+	lgirdwood@gmail.com,
+	robh@kernel.org
+Cc: peter.ujfalusi@gmail.com,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shuah@kernel.org,
+	jihed.chaibi.dev@gmail.com
+Subject: [PATCH v4 0/2] ASoC: dt-bindings: Convert TI TWL4030 sound bindings to schema
+Date: Tue, 19 Aug 2025 22:13:00 +0200
+Message-Id: <20250819201302.80712-1-jihed.chaibi.dev@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 19 Aug 2025 11:01:45 +0100, srinivas.kandagatla@oss.qualcomm.com wrote:
-> Sorry to resend this series once again, as some of the patches seems
-> to be dropped/rejected by email client from previous send.
-> 
-> This patchset:
->  - cleans up some of the audioreach tokens which are unused
->  - adds missing documentation
->  - add support for static calibration support which is required for ECNS
->    an speaker protection support.
-> 
-> [...]
+Hello,
 
-Applied to
+This series converts the legacy TXT bindings for the TI TWL4030
+sound-related modules to the modern YAML DT schema format.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+This work was previously part of a larger series but is now being sent
+as a focused submission for the ASoC subsystem.
 
-Thanks!
+Link to v3 discussion:
+https://lore.kernel.org/all/20250816021523.167049-1-jihed.chaibi.dev@gmail.com/
 
-[1/6] ASoC: qcom: audioreach: deprecate AR_TKN_U32_MODULE_[IN/OUT]_PORTS
-      commit: 12cc0ff3cdd95f2bc0ffdc63bcd9da231eb33199
-[2/6] ASoC: qcom: audioreach: add documentation for i2s interface type
-      commit: f07b81b573b28e5cae5c1482001ad0d6c0b7c051
-[3/6] ASoC: qcom: audioreach: add support for static calibration
-      commit: c7ed4c2debfd192f6071f4ab33c092d419abb941
-[4/6] ASoC: qcom: audioreach: fix typos in I2S_INTF_TYPE
-      commit: 0f5787df78799c7c8a7dbd2de5ff15250d8d3a4e
-[5/6] ASoC: qcom: audioreach: sort modules based on hex ids
-      commit: 97a719fe7d7001d361490b44985f8b4c7ea6ef98
-[6/6] ASoC: qcom: audioreach: add support for SMECNS module
-      commit: da9881d00153cc6d3917f6b74144b1d41b58338c
+Thank you,
+Jihed
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+---
+Changes in v4:
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+  - Resending as a separate, focused series per maintainer feedback.
+    v3 link:
+      https://lore.kernel.org/all/20250816021523.167049-1-jihed.chaibi.dev@gmail.com/
+  - (1/2) ti,twl4030-audio: No change to binding content, only
+          updating commit message format.
+  - (2/2) ti,omap-twl4030.yaml: Deleted redundant pins list.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Changes in v3:
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+  - Updated commit message format for omap-twl4030.yaml (PATCH v2 7/9).
 
-Thanks,
-Mark
+Changes in v2:
+
+  - (1/9) ti,twl4030-audio: Moved binding to sound/, added enum for
+    ti,enable-vibra, and simplified the example.
+  - (7/9) omap-twl4030: Minor cosmetic fixes, retaining Acked-by Mark Brown.
+
+The following two patches are included in this series:
+
+Jihed Chaibi (2):
+  ASoC: dt-bindings: ti,twl4030-audio: convert to DT schema
+  ASoC: dt-bindings: omap-twl4030: convert to DT schema
+
+ .../devicetree/bindings/mfd/twl4030-audio.txt | 46 ---------
+ .../bindings/sound/omap-twl4030.txt           | 62 ------------
+ .../bindings/sound/ti,omap-twl4030.yaml       | 98 +++++++++++++++++++
+ .../bindings/sound/ti,twl4030-audio.yaml      | 90 +++++++++++++++++
+ 4 files changed, 188 insertions(+), 108 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/mfd/twl4030-audio.txt
+ delete mode 100644 Documentation/devicetree/bindings/sound/omap-twl4030.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/ti,omap-twl4030.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/ti,twl4030-audio.yaml
+
+-- 
+2.39.5
 
