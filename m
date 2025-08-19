@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3AC2BD029
-	for <linux-sound@vger.kernel.org>; Tue, 19 Aug 2025 19:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49F325A34F;
+	Tue, 19 Aug 2025 19:46:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755632817; cv=none; b=YMu+7XmzrHMWneARg+ZH/Z4BzMF8FypblqthLFu/RA8xEsTey1foHI5M1Oq4NEFwr7Yjui9sDckuTrRtbdkD4bfEbQ8Riynk0a+E34Kh5XzUu0cvYIk6l9yC4ByX0yUNZewWDLMEVfnb9Ph5CPjFvEbEt4W8V9Yc09qmOhpDVCw=
+	t=1755632820; cv=none; b=u0ybYZRaPYmZzCEerRlWQmgy6/3uIfFWJrHARY1KbJgdqCpsObLPO4sIi+NiXW+oWQ8+wnkIyn88eo0Qo+jtTqtvNIIvOKKrvq3MmqT2JiafC1yNrh0mukcOXNiXzrA9JjXdf2xJW6t4y4YtixrVLlNHM3vSKBHmdiZ8gal+R0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755632817; c=relaxed/simple;
-	bh=moay/SuwDtTg5hzwNVyU+ZZcVbTE9eaFWgnDITu2Euo=;
+	s=arc-20240116; t=1755632820; c=relaxed/simple;
+	bh=zjsvWOjFJwzEISD7/TnWq3ysj6+L+RhzzIvzDdCnXJg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RewecaIcTMbSzEBZ7oIJsvsgD5j3/BU/Ostlets5YZQ4NOi5YG5tk5cu4JQ8vCnZcpP5fJNDvJgDzeHwzdHFHBPL8W++CwhEHkkbAwOMHJgpeUDyFU8y8k0o85qSVX9dDzn/a6txV+YONJ4AE/uYZk0ZftdVIH1fb0+I4mALPI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNGNZ4DI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=U2XEQxhwnkY1Uw50kSyDv+czTggtHKqPM+T6474bn59pzCqAOjgXCd3BYvYBINC2Q9BeEKtSvc7To1TRlRyUW4ldP84cKpIsXzl54BudYhc5hrKOZ07/BASvdOnt49hx27YCIJGTKMJ5g5o9KnGAytCAfvFPrrkZCFFDp4cmUeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2x6y5u0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNGNZ4DI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52864C113D0;
-	Tue, 19 Aug 2025 19:46:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2x6y5u0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD5C4C4CEF1;
+	Tue, 19 Aug 2025 19:46:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755632817;
-	bh=moay/SuwDtTg5hzwNVyU+ZZcVbTE9eaFWgnDITu2Euo=;
+	s=k20201202; t=1755632819;
+	bh=zjsvWOjFJwzEISD7/TnWq3ysj6+L+RhzzIvzDdCnXJg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=lNGNZ4DIWwXSaAxqwy4QjmzSmvVLkFO2jjD8YrLCTOjjFkWF3ZWReAk/XLgGOLpLG
-	 aUtSbjDP9lq3e8OXxcKDlhppK2AyeM1Duk62U6ULVq0g7TBKMSI6umnqMUkj0X+DlE
-	 R+xOI4J7G7e8v9XBNgh35t8ctfo/ltJPihcLXjDynf23kcKemGJHs0ku55i22nwlAN
-	 L437rmDFNZDTiGfz3FDahpto9b5a4pCiGfRDYKSgM5kk/oRYoX5ucDNZko7rmVdjiZ
-	 yogDMAQgLbADfSiMf2A3ocDYLNUz/VAt0eMU1fe8fIHg/FyCO+hu40lbWnEO+akaO2
-	 RcbfIeOfJhbHg==
+	b=K2x6y5u00YF/HE2NztJGI7o1vqCSW0B9zOqzhEX54FLTUPu0ogNku/pf0rlGk3Qd7
+	 gQz3Btvy0kY34rcf7jDUtfqo1b08FTTCDXeFyhb2sd1R0y3q8aVgV+A51Cchp80xjN
+	 m0Lznn2pksHONzkOq7hr1hB4dsF9snBCNUED5FecWjfZSE9wFMow1s1b6uoaJU7ZuP
+	 A3/CizjfB7b4eKOSOLjNSAMwc15ThTXseg0tehISoK7sI4AZvgEamkhbZAs2vSJbLL
+	 OvmKRBTR8M1P+HnKYukhskviI2D7VWRJf8QE27a/ZRcbwfEaAdqc2fNaWiaQU13isw
+	 OmzmmCCd3A4Cg==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20250818104126.526442-1-cezary.rojewski@intel.com>
-References: <20250818104126.526442-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH 0/4] ASoC: Intel: avs: Code cleanups and separation
-Message-Id: <175563281607.270039.2315792155577877323.b4-ty@kernel.org>
-Date: Tue, 19 Aug 2025 20:46:56 +0100
+To: srinivas.kandagatla@oss.qualcomm.com
+Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, lgirdwood@gmail.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org
+In-Reply-To: <20250818125055.1226708-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20250818125055.1226708-1-srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH v3 0/6] ASoC: qcom: audioreach: cleanup and calibration
+Message-Id: <175563281751.270039.1018203120207920690.b4-ty@kernel.org>
+Date: Tue, 19 Aug 2025 20:46:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,14 +46,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Mon, 18 Aug 2025 12:41:22 +0200, Cezary Rojewski wrote:
-> Set of patches that brings no new functionality but makes it easier to
-> maintain and read the avs-driver code. There is one 'fix' among them -
-> the third patch, described below.
+On Mon, 18 Aug 2025 13:50:49 +0100, srinivas.kandagatla@oss.qualcomm.com wrote:
+> This patchset:
+>  - cleans up some of the audioreach tokens which are unused
+>  - adds missing documentation
+>  - add support for static calibration support which is required for ECNS
+>    an speaker protection support.
 > 
-> First, debug-related code - mainly the data-probing feature - is mixed
-> with non-debug PCM code. Separate it into debug.h and update the pcm.c
-> file.
+> Tested this with Single Mic ECNS on SM8450 platform.
 > 
 > [...]
 
@@ -62,14 +63,18 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: Intel: avs: Separate debug symbols
-      commit: 62dc545be11d956419a21724de3810930db20d43
-[2/4] ASoC: Intel: avs: Drop pcm.h dependency for probes
-      commit: df36e5c197f31a105b8c8a70f13ebdf3a4c019d5
-[3/4] ASoC: Intel: avs: Do not share the name pointer between components
-      commit: 4dee5c1cc439b0d5ef87f741518268ad6a95b23d
-[4/4] ASoC: Intel: avs: Streamline register-component function names
-      commit: 2a55135201d5e24b80b7624880ff42eafd8e320c
+[1/6] ASoC: qcom: audioreach: deprecate AR_TKN_U32_MODULE_[IN/OUT]_PORTS
+      commit: 12cc0ff3cdd95f2bc0ffdc63bcd9da231eb33199
+[2/6] ASoC: qcom: audioreach: add documentation for i2s interface type
+      commit: f07b81b573b28e5cae5c1482001ad0d6c0b7c051
+[3/6] ASoC: qcom: audioreach: add support for static calibration
+      commit: c7ed4c2debfd192f6071f4ab33c092d419abb941
+[4/6] ASoC: qcom: audioreach: fix typos in I2S_INTF_TYPE
+      commit: 0f5787df78799c7c8a7dbd2de5ff15250d8d3a4e
+[5/6] ASoC: qcom: audioreach: sort modules based on hex ids
+      commit: 97a719fe7d7001d361490b44985f8b4c7ea6ef98
+[6/6] ASoC: qcom: audioreach: add support for SMECNS module
+      commit: da9881d00153cc6d3917f6b74144b1d41b58338c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
