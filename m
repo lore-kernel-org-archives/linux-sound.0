@@ -1,168 +1,144 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FDA31A059;
-	Tue, 19 Aug 2025 09:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6324274666
+	for <linux-sound@vger.kernel.org>; Tue, 19 Aug 2025 09:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755594784; cv=none; b=Jl4Br/8roRolIV3TMcRPoazRDnqkvI+qV2SwpqtzP1mOyX2j4aYjfkqaHSM8Hk68xratRUi36euxL0QB3gAnjg0ilDdy3fAxh9qRnUbyHCccInpJxJ4yilHBdntN7NDpk7XPTdtxd0NVGEevcY3WOXTRWk0QbfZj6PHoh4Nlkqg=
+	t=1755595619; cv=none; b=E2daecUc99bdF0JJwW8GsW44w3qXgxdM+UR1xDToA+DhVX552Np93SPHzOwRGAjfaml6S7VxDDQTymI4Rgs5LyfHTcJd4yF60v9G3tfCa9Z6ohMWDqVUorWUXfUkle1p/uQzi/Y/CGhrX+clSEy15XRKYgo0rlzc2wYmzwAAecc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755594784; c=relaxed/simple;
-	bh=nLwgX0rt2w+Inkkf34i/Uun1hxhNuo283Du7mGcFnw0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZSi0SXwrQia02d7my7896EmyweuT69QttDbDux3dDcihaubLf8oXTqNTiQlJG0ZMHs6sd1yHD5PDVDXlDEgXaEBl06kBkq7hH2XTxc+pIIhmcbeSJm93dOMStLk7dq0EYLGxLW4lGXgrRJ+0ALwy112O+jfLpbJl/9vp1jjwRm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dmyJzvwd; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1755595619; c=relaxed/simple;
+	bh=6GscCOCmisZTiVBfFfxxVc0dHspdhAW8+DH/P55nLlU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PBlRddoYM1Tm7QYZcalqQTHviAH6LCvqRrXLTz6U0OjKmu3idN/wZ5addQrt4JSx4tXzQqcp7Ivr5E0mGK6d+21YvlYtWyr2JBbEws7zuqoYUX/lTa4C0+OZ31bkgef0xHWGEw9ptyeJvQTkuCPZAKDMiKdYDK0Q3D127C+yoVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=g80EQsmB; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dmyJzvwd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1755594779;
-	bh=nLwgX0rt2w+Inkkf34i/Uun1hxhNuo283Du7mGcFnw0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=dmyJzvwdD2oD2FA+P7Jf0WYb7DiNDMsSsqqC+w3eByrplSvm5P6/JiN4Bnmc9RXZg
-	 ZBzFkqlUjidrS5O2k++VziehpoX4z+eoBg/tDFXcfbuaULb5mNpaCDbaHK4qc/OK6P
-	 KaKLwfcXifGQyx4e0J9Wnnoco2dFwUx4ZNr63+kEyHp2PFncQGwJNx885D7bLnYWUP
-	 wLNMiYKllEWYiYE0nZXQ4R+e2YdR0wmf8bR7VSNN8x7k68F3XpwLdN+VQje1uZISaE
-	 2OKFTumwkHm729xNyan5REMukD1yFfBl1w8P9ZmspuNCF/YKVRGPQCCt4RjVPY3HPY
-	 SVaDtz8wlAsxA==
-Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892F2d600c8f85cF092d4AF51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id DC5FA17E0154;
-	Tue, 19 Aug 2025 11:12:58 +0200 (CEST)
-Message-ID: <8be063910b553945da12263818bd05c4e90e27f6.camel@collabora.com>
-Subject: Re: [PATCH 8/9] arm64: dts: mediatek: mt8183-kukui: Fix
- pull-down/up-adv values
-From: Julien Massot <julien.massot@collabora.com>
-To: Chen-Yu Tsai <wenst@chromium.org>, Linus Walleij
- <linus.walleij@linaro.org>
-Cc: kernel@collabora.com, Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
- <angelogioacchino.delregno@collabora.com>, Ikjoon Jang <ikjn@chromium.org>,
-  Enric Balletbo i Serra	 <eballetbo@kernel.org>, Weiyi Lu
- <weiyi.lu@mediatek.com>, Eugen Hristev	 <eugen.hristev@linaro.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown	 <broonie@kernel.org>, Julien
- Massot <jmassot@collabora.com>, Sean Wang	 <sean.wang@kernel.org>,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Date: Tue, 19 Aug 2025 11:12:58 +0200
-In-Reply-To: <CAGXv+5FXZ_byK8Ftb9LjfQMkgtLd7mTmWgz_Nsvcv8=jy53T=g@mail.gmail.com>
-References: <20250801-mtk-dtb-warnings-v1-0-6ba4e432427b@collabora.com>
-	 <20250801-mtk-dtb-warnings-v1-8-6ba4e432427b@collabora.com>
-	 <CAGXv+5EHk=f62+KiLo-aWMcd0-q+_59kno+uOW5rdYaq5q+5tQ@mail.gmail.com>
-	 <CACRpkdbWctNH0XJfcHfVJM9Etp0WCXpdyhhyaQemH-Xc0LDr0A@mail.gmail.com>
-	 <CAGXv+5ECsP7_wbdcaAkWuD=RyJiJpPe4r60bhD5U8xUvEBzmXw@mail.gmail.com>
-	 <CAGXv+5FXZ_byK8Ftb9LjfQMkgtLd7mTmWgz_Nsvcv8=jy53T=g@mail.gmail.com>
-Organization: Collabora Ltd.
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="g80EQsmB"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57J90Z2E029794
+	for <linux-sound@vger.kernel.org>; Tue, 19 Aug 2025 09:26:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=+YPBn86OFJA4z22/KeAbz4i2F1zro6Zj3rE
+	nwMnF2qM=; b=g80EQsmB2URX2cRDs04qdDDphpiAhDj4V+eQLJWvJyGP8NO/T16
+	aPSaymDcAvJF/2RjcYu6hCkH5FZ43L3yJAUGUMsB6tkOGOrqOvHpFvBzQ+gC7pGR
+	9fe7hj4aB4yZ+LW82WGFB1snxw6NsiNgqJw1mAVIaxwv1xGijjHv+Xh0zpzcl69R
+	U7boAIhmIfNy4ETFQ1v0PV6cXCmSIg8QNEY1fVZoWV70IBcPzIbcYFFrFWsX4ZAK
+	pv5MqiQRwBUWoVz8MB9mFz8az1ZaQfEFQ9FDgz/qzF4fGTR+CXDF5pahqgZuGgFW
+	jAOTTbWy33kjZ7HGQPs3wilIQvihKOh1E4g==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48jk5mfvrr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 19 Aug 2025 09:26:57 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-70a927f4090so116857316d6.1
+        for <linux-sound@vger.kernel.org>; Tue, 19 Aug 2025 02:26:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755595616; x=1756200416;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+YPBn86OFJA4z22/KeAbz4i2F1zro6Zj3rEnwMnF2qM=;
+        b=gF3/I2WYs2aB+bynK+JMJL+XHNOW2D9eDzC2WU5vQV19JLTjIozLy6dc9mw/RwFvh/
+         TupHp7KCgTAwr3kk6FLM/Y59M97lzx4qKqEVEZH3nK6DHcDg7wV0xYnQDmWPe1wQPzJH
+         J0orVvG4tUFTfRemY71Xa/u5DTnXIOAeznThacXX2wetmwa+Ua8prCV2U8yAYqWl9UUJ
+         oRHaSRyi7SsJ+3TwxSu8bC/hKpC8hAIPXGD7RP3j/mYQPkFweCIJz4a1tvlxOwHuX6pA
+         BVsl97REQb+3EFjMovoUyXKa2NCrtZ/dzs2Uw80pjiNpGIb9SIWN6IXtv/2ARts2S3Dj
+         P8ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWv5qK2IqhYQumVCa3UYjM8wT4S2iYIOl8MPB/EE5EQfY5AV6IjD3WV+2QN7L+u7lk7SXFWIvvh7pydQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtRe4PYZyDFpSFOWhboDyOohwGoqi294MABhVW3MHsuzvUkAcO
+	BHf6zOf4zXNUkzZ/BUfrsyW1E0qLT+m8d+WPOvv1mfjTgxRzsNlwTr9NQYv++iL1cDQYmmvZAur
+	kgkhufWZEUFm8tAsu4O/OVL1a4gPdDA9knjCi3l9NYTU07jTz+Wkbmi7N4rVOZA5pbQ==
+X-Gm-Gg: ASbGncuv5xz9zGLmD/x1W8bPq4p9Kothzqdu4dNFebQWjjfOeSEgpDBapUPlqgAx41U
+	3Cyfv0ep6Liww3NoTHgZxWqtFK8rL0oUbBMWFwMCrsrMt12JKQRtL6EgbR3olUmZSnZsOXWS9VW
+	Y/wRoaxxxmKTR4kFRlm/v04rpEqhoUekVc3rOW7Tw/U7Xw67i93zNZDFf8wXXIJ7UV8LTlwnZLC
+	sbf2wCVsA/o55kHdyJYFw7vr2Y6S0Lyk/Rujl8Ju20QBREdlAfQbWscql5j8k2mJAkqqp8PkRDR
+	LyUtwMVeimXDRiEQXw2B0tu5pIJQIuzomm8HewfN9buNBSZnwXmp5Q==
+X-Received: by 2002:a05:6214:cc5:b0:709:22e8:af63 with SMTP id 6a1803df08f44-70c35d3b192mr16724906d6.43.1755595615731;
+        Tue, 19 Aug 2025 02:26:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF0MfiMsbVwzC+4oeXG9E0aKt6J0XkgKUpLg/D1cp1Zaqk5taa60r7RFcbnnFW1iR4JFSX58g==
+X-Received: by 2002:a05:6214:cc5:b0:709:22e8:af63 with SMTP id 6a1803df08f44-70c35d3b192mr16724756d6.43.1755595615291;
+        Tue, 19 Aug 2025 02:26:55 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c077788df7sm2942284f8f.48.2025.08.19.02.26.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 02:26:54 -0700 (PDT)
+From: srinivas.kandagatla@oss.qualcomm.com
+To: broonie@kernel.org
+Cc: perex@perex.cz, tiwai@suse.com, srini@kernel.org, lgirdwood@gmail.com,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v4 0/6] ASoC: qcom: audioreach: cleanup and calibration
+Date: Tue, 19 Aug 2025 10:26:46 +0100
+Message-ID: <20250819092652.1291164-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=Sdn3duRu c=1 sm=1 tr=0 ts=68a44361 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=NU7b6h4jXCN-HWJItUMA:9
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-ORIG-GUID: 6M335pwu0VohnOsM7IwvFwW5CUZ5v5QB
+X-Proofpoint-GUID: 6M335pwu0VohnOsM7IwvFwW5CUZ5v5QB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE2MDA0MiBTYWx0ZWRfX/f8R2xtNJnJz
+ ecDyAGiipHvZQTe+TPNhtBME581RNfGAObWi87y2s+Ce6VCKcElIeJZbUCfBu1IWYvbaE9iGvfK
+ LGNr6v2Pagtcc8YoC2CCcFiFrpq362QQSi9SP/hQAQuKOIdulv5U/7o5xaVApL+WsQ3uofZuiBZ
+ cb8X/E+e/Oedn+k0Dc7Jp/RH11WFEPwZPrdtQv2APX1fxwWaLkdZtxQF845plffNZ6iTsQ1uWnz
+ 6k9dFTM537pElWzY5A1e1yG5XU3bL0Q6s6pZfSQ2FrpH1P3z2u3f1KM2JD1HeIdZX7IsLKr1xrI
+ l3Sh4jSGVXOROEeNn40UNkm0PUdtlBu80sr+AQfT7V8hnbjbWwscnjN2FgClyHuQF5BkksgR78u
+ BWE7Yjse
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-19_01,2025-08-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015 suspectscore=0 priorityscore=1501 spamscore=0
+ adultscore=0 malwarescore=0 bulkscore=0 phishscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508160042
 
-Hi,
-On Tue, 2025-08-19 at 13:29 +0800, Chen-Yu Tsai wrote:
-> On Tue, Aug 19, 2025 at 1:27=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org>=
- wrote:
-> >=20
-> > On Mon, Aug 18, 2025 at 11:22=E2=80=AFPM Linus Walleij <linus.walleij@l=
-inaro.org> wrote:
-> > >=20
-> > > On Wed, Aug 6, 2025 at 8:38=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.o=
-rg> wrote:
-> > > > On Fri, Aug 1, 2025 at 7:18=E2=80=AFPM Julien Massot wrote
-> > >=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 pins-clk {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- pinmux =3D <PINMUX_GPIO124__FUNC_MSDC0_CLK>;
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- drive-strength =3D <MTK_DRIVE_14mA>;
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media=
-tek,pull-down-adv =3D <10>;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media=
-tek,pull-down-adv =3D <2>;
-> > > >=20
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bias-pull-down =3D <MTK_=
-PUPD_SET_R1R0_10>;
-> > > >=20
-> > > > and so on.
-> > > >=20
-> > > > ChenYu
-> > >=20
-> > > I agree with ChenYu, the more standardized properties are the better =
-it is.
-> > >=20
-> > > All the custom properties makes sense for an engineer working with ju=
-st
-> > > that one SoC (like the SoC vendor...) but for field engineers who hav=
-e
-> > > to use different SoCs every day this is just a big mess for the mind.
-> > >=20
-> > > The standard properties are clear, concise and tell you exactly what
-> > > they are about.
-> > >=20
-> > > The argument should be in Ohms though, according to the standard
-> > > bindings, but maybe the value of MTK_PUPD_SET_R1R0_10 is
-> > > something like that?
-> >=20
-> > For reasons I can't recall clearly these are just placeholder values
-> > that the driver then maps to the R1 and R0 settings. But at least they
-> > use the standard properties.
-> >=20
-> > The reason was either one of the following or both:
-> >=20
-> > =C2=A0 a. not every group of pins had the same resistance values for R1=
- & R0
-> > =C2=A0 b. there are no known precise values; the values depend on the p=
-rocess
-> > =C2=A0=C2=A0=C2=A0=C2=A0 and batch
->=20
-> I don't know for (b), but no there is a lot of different values for R1 & =
-R0
->=20
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-From what I saw in the register table
-We can have for the pull up resistors
-75K / 200K
-2K  / 75K
-5K  / 20K
-50k / 10K=20
+This patchset:
+ - cleans up some of the audioreach tokens which are unused
+ - adds missing documentation 
+ - add support for static calibration support which is required for ECNS
+   an speaker protection support.
 
-And for the pull down ones:
+Tested this with Single Mic ECNS on SM8450 platform.
 
-75k/2k
-75k/75k
-10k/50k
+thanks,
+Srini
 
-And we can have a combination of both resistors that will give odd values=
-=20
-(e.g 1948 Ohm for 2k/75K, 545454 Ohm for 75k/200k) to express in the device=
- tree=20
+Changes since v3:
+	- added missing linux/types.h in uapi header
 
+Changes since v2:
+	- fixed some fixup rebase mess.
 
->=20
-> Also, their customers seemed more accustomed to dealing with toggling
-> R1 & R0 vs setting some actual value. I presume that comes with the
-> uncertainty of the actual hardware value, and they just try which
-> combination works better.
->=20
-> ChenYu
+Changes since v1:
+	- fixed typos in I2S_INTF_TYPE
+	- sorted module defines based on ids.
 
-Regards,
-Julien
+Srinivas Kandagatla (6):
+  ASoC: qcom: audioreach: deprecate AR_TKN_U32_MODULE_[IN/OUT]_PORTS
+  ASoC: qcom: audioreach: add documentation for i2s interface type
+  ASoC: qcom: audioreach: add support for static calibration
+  ASoC: qcom: audioreach: fix typos in I2S_INTF_TYPE
+  ASoC: qcom: audioreach: sort modules based on hex ids
+  ASoC: qcom: audioreach: add support for SMECNS module
+
+ include/uapi/sound/snd_ar_tokens.h | 20 +++++++++++++--
+ sound/soc/qcom/qdsp6/audioreach.c  | 27 ++++++++++++++++++++
+ sound/soc/qcom/qdsp6/audioreach.h  | 18 ++++++-------
+ sound/soc/qcom/qdsp6/topology.c    | 41 +++++++++++++++++++++++-------
+ 4 files changed, 86 insertions(+), 20 deletions(-)
+
+-- 
+2.50.0
+
