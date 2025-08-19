@@ -1,199 +1,198 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE1321772D;
-	Tue, 19 Aug 2025 14:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755615074; cv=none; b=roSGSQ7Nmkq556rsHpFIaw7vETOslsIbAR7hmWj2Fa8oACsWeRARHBV6w/sHJr80zkjDuPeQonx2qOme36YkZhHLQbYyQK8c1j4BErGXRIecneGCfmjP+u1HPG15srlm4E1m6Lx+yLsoIqXRpoKsNVLGrcYhmzbHnY4S1vDuRi0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755615074; c=relaxed/simple;
-	bh=eKOwK0qY0XlIYHG/mfv6JRGT834tGvbpGugdoJwXfiw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XwJS/bUCRfST0w9SjKUZXWc7naqayJ1tYAzk5o7knUxNVAgm4Ycdti2y5thh6e7+jeferJKzcQvWeIT1DikL4R+b/rOCjYishrnwOF2KkmISlgoXY29F1Dvjb63LgTeoQfrB1sm9b6Ii715Yer4Jap0Ffd8m4suYiTD7AWh1iJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdzC9lTx; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6DB286897;
+	Tue, 19 Aug 2025 16:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755619554; cv=fail; b=Jwx7t8SKq4s2IBZxosyeuvfnUcw23vFPCKELroipGgf48DMRd231t9Duln7eIPFPXzQSOJrAIQmSHKNSzcDvZ08TZczm8dvNqV9HtqVcRID244SYkcS1iwuMZB8uD1Qj7kAWjNYHn6X+k4FRYvt4No1ancYjWmWjseunpgL8RGM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755619554; c=relaxed/simple;
+	bh=eFA+it69royD5SV8yGq14RjbuAyk3V8M2k8MfUrx4Hs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=orCh7cFMxKPqib1RQ2G8Enlckwv6jxIsnOYjV4YeQXq/e4k7vsuwT3wOMOLZjVii2Of1vj+PrUljcIr10lEJZetdov4yosZNLf5yQU0RyfRs4G5jNvvakenBAd2K3Xxjcu/aK50o/+EkNOePqzuF7T2mHKhYjx6GBoaa69J09hs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=LhcppzNQ; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=WIRJvAnl; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdzC9lTx"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-32326de9f4eso4716286a91.2;
-        Tue, 19 Aug 2025 07:51:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="LhcppzNQ";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="WIRJvAnl"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 57IMpaYm2032571;
+	Tue, 19 Aug 2025 11:05:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=PjyWP0EbvrFnU0FG
+	MJDyiYU60hrqDYnlNWqq1cEYCRU=; b=LhcppzNQp3W5zXwbC/9RbzeqmezCE32x
+	wNQ1ivhczHpXMnjwAz8bLvj/7iwp+/7yGw03sGwKjbMNpPSpaKxEbwpyjXR0Zz9i
+	WqcLRZuabZXBGoE1kRtM6MKYoQU9i6ZvOwg5kkYqjGGxUZtlIzbsBjSFSXpiA2hi
+	35mqmovGYVUAMX8zKedH9Sh9TYSF9wTG7FnoW/bkOVQRV8M3xCj+6xebEL2VDbSH
+	25JNmvsd0qStbtWg/NbGdQNu7swtXwWroGI2M3DSvxd+2Dq/zdRZH7fpxDvbTMP+
+	LmAk7yhZN75kIbTDZ3OgYRzPJS8R1XopjEtYBWBOiY/uXV5vh5dsQw==
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10on2092.outbound.protection.outlook.com [40.107.93.92])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 48mdbc99jp-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 19 Aug 2025 11:05:33 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XUkzvdMhcmERXk9SzPsfh8NzZOpjEgS5k4EEcml/TIBIeFTiyFPipBIPNGHMaOyEt6wo8UkOXpa7IP/W8bwBuRqU0qFyXGq4GMR1QZTo4IIjtWJ1LkyQvgIj9Yr+TUjOEU34pbEiXHASxa/PY9oWlEB+0uh3Oyw7yg8N6mb3ftREXBPGc3kQYkRKj6VP+8QoGK7l+PmNFMFPKlfT/7XnvsoPNuhiY60oNqhQhWzsCpV0RaF732j0KtI+TPFToOIjD8+ABUQwxfXKEOxlGp9x1Huf4aDiRUZq1uWjD3m9mD1+gFF5kjqhp6kA6Ni8VmAeY3g/JHX7iMW6PBVDUndIEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PjyWP0EbvrFnU0FGMJDyiYU60hrqDYnlNWqq1cEYCRU=;
+ b=uZP3LXLN+MK+7JzemPFHt0Yp9e8pRkSsVPcEZs/BX1KpKsh98dx2JzmiN7BnO63nXmLlSAzJEaqtEakSZwCUx2FVcRfntqK0fodJPQMEnCHtci1e0bTEzrAIv6+HG5nu5lq9HVtbO1LW1i4bw4Etc0EZztfSXxeoYwhhG3ohhZTc3AfQ900laaIQHL8Iy/R+Y80fLqh9R5rPBi5ZjRkPb1mjz78OZKL21kJ5IBVeJ9BJDf9zahtxh0L7KtNDbDHVLj+L3vdgoubrSEDHFetnPevREywR1F8nsmu2TGtYOx7iippcOcmcOpbvCJIGEoaQDxyE2i3SrNJcU6vsewhCAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=alsa-project.org
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755615072; x=1756219872; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=84JBC/K4prfKTVHBWmcQiE2Ae580xZlTp9zQ8TNTSNA=;
-        b=XdzC9lTxcPRY7N+Kabkp7vSPBem3WSlSNOEshPU6GORd84T7ObUDPJQbzgEytlWIpZ
-         b8EAwnVXR7bGkffTMlkb8tztOUw5qDAXsr/+VcU2wwyw7u2dbbtEnH3bR36RyK0WdZa8
-         N+fOxO1iViF9QOPFQZe9iyYHXmcWtrA4+CenTC2/qnIYkJlqK0z/QUF6Itr5VggV378M
-         FezOun4VLyRTIP19W3VHpcOAbVZXSp68ZbqxHhhBMwCSf1JyvjV+zSEtBFxnXRFFOs0I
-         Y6xX9bOdGRmpVcv+dZWzQJV6YZY/BPWga+KsXXvML0q30Pa+FT7pRk7/bt/zoJmY5UfD
-         OOXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755615072; x=1756219872;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=84JBC/K4prfKTVHBWmcQiE2Ae580xZlTp9zQ8TNTSNA=;
-        b=PrW47UPbb+4uCfby/Km8RJ/8e4Jj25Ns0KsJiV5bTFlqlJAE+6VD7wyrhf+5ZiMejs
-         ah6sw9tjx2bMwTYWUpnSZzE1kZmiVSRm6OSh91/MbB67iackG49WT5wkTap6YSvNUlvP
-         +YCTUeVA2qinrPK9NZr1c8fIO2+nnTptyrOTetOp11geFoMYZmG6PH4KTJPiEEIrJdj2
-         NBsHhs6dR1tpVlX12JpOFfDEud/pNTDJbvN9Vr+wEDU0t4MM6Yqrx60fbOXY3rmOxR/i
-         BEe7S5/BPPa18Oc1Fb/7PUKqElKl/jhSggrovo4g+V6mpsV22TmITAkBiMlpvAjZClzO
-         yLzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU8F+0vySOpamRbWB4WbZtvAx0RUfP1tNdKcW4fd8NHoWzZGKpr3SRTCw/dlFDO3VnQ2BnHgPrZK9vm@vger.kernel.org, AJvYcCUMNPxlV51SSjs6jpID71dv2sq22lHK+zojmLiEdp3VqvstDlFzfpNJmTghlt+/sQIBSmjUzGREQCGG@vger.kernel.org, AJvYcCUXjKHFQxEh5Ry5NN6Evab2oE/TbrELeRdyihiPyMZ7AMrRLfFd349m/5SGz3OpiFBMjmD0geX5xM7hTg==@vger.kernel.org, AJvYcCUYVY3KNv8qU+LxsO3Vx8e+1n6w5FCpbW+WcQv0TSi6cPInA35WEAaFYG+D3aNf4v2f7G+P6pSfNkXYFZk=@vger.kernel.org, AJvYcCUqPgxIZK/i5BDL1sVPFnK5nVPL16xgGmw4cbngadDHXr5mbkM/90CQvALt175V/rdFVI22PdKeplr2@vger.kernel.org, AJvYcCWlwrj5HW9N/eGnok0i4T6KZGSgVF9VWVDMPWUd57SRxXN7GMA34DG2JEG3rlepwcTMu/aZirJJHhrLPLI=@vger.kernel.org, AJvYcCXscHSGQ+VNKQ1wVg11zKwO8hdefrj1pMJF2qdXJzjU/NFjoAhPvsKZcrupM1IUnrWHIHh9oDFMeDu59g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdpbGzsX4148l3IfsL/y1j+4+/bAyR9TN6H/HT7ST+UnL5m4E9
-	P+3OuIINNQiuecbqVsllY45dk9xArQu3mertCZk8rxRTitkC7Z7VYBq1cRq8hVBYJCLgcSTvtFJ
-	sEN0/h+i4XRH44/LLOoLL3o0k50da2w==
-X-Gm-Gg: ASbGnctYsyNVABx2OZB/+S+40W7KAvM/mNaFjqaGC0p0d1Jjw8BCTuvpR4UUNMsEA1F
-	BZYtqdRvQU9iKar9ahHJl3r5m5HhRLi4AWzFZMczblUSW2LymVG3jODtWqPcyRpyO5YQAZORFq0
-	Wo8nScz5QHYa8sVQpjF02ZNoJerNDBEmMXEqCEWRuDGPmrX251YY0qOVyQOSmtl/RYEP5U6baHW
-	A92Faw=
-X-Google-Smtp-Source: AGHT+IGFX3Kpa1nizieMl3Ixu9nhO8VijjVmgDz/D33VTEV/CrtZhkKtRMf84sQy3fytu82eKOQOb3mHib8daIX2DhE=
-X-Received: by 2002:a17:90b:134e:b0:311:df4b:4b7a with SMTP id
- 98e67ed59e1d1-32497102910mr3896605a91.29.1755615071705; Tue, 19 Aug 2025
- 07:51:11 -0700 (PDT)
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PjyWP0EbvrFnU0FGMJDyiYU60hrqDYnlNWqq1cEYCRU=;
+ b=WIRJvAnlAFNGdbqYqNLcXANsgCmZyDyn1ziT1jM8+iWl4xI+7CwxDAsvGn9VzrK2mB6WYyDqiVRqV7+Xmk5fxBruPSOO0U/IPxGHZzeGNseqsh+u6/TrBlrwo9wmsqRL0OCKSkHgbBXCKVWk2TZdJYu8dx8m/9El9QWKWd80gTw=
+Received: from CH2PR08CA0005.namprd08.prod.outlook.com (2603:10b6:610:5a::15)
+ by PH7PR19MB6613.namprd19.prod.outlook.com (2603:10b6:510:1b0::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Tue, 19 Aug
+ 2025 16:05:28 +0000
+Received: from CH1PEPF0000AD81.namprd04.prod.outlook.com
+ (2603:10b6:610:5a:cafe::c7) by CH2PR08CA0005.outlook.office365.com
+ (2603:10b6:610:5a::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9031.20 via Frontend Transport; Tue,
+ 19 Aug 2025 16:05:27 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH1PEPF0000AD81.mail.protection.outlook.com (10.167.244.89) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.8
+ via Frontend Transport; Tue, 19 Aug 2025 16:05:26 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 76DE6406547;
+	Tue, 19 Aug 2025 16:05:25 +0000 (UTC)
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.24])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 5D730820249;
+	Tue, 19 Aug 2025 16:05:25 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: broonie@kernel.org, peter.ujfalusi@linux.intel.com,
+        yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
+        kai.vehmanen@linux.intel.com
+Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: [PATCH] ASoC: SOF: ipc4-pcm: Fix incorrect comparison with number of tdm_slots
+Date: Tue, 19 Aug 2025 17:05:25 +0100
+Message-Id: <20250819160525.423416-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250816021523.167049-1-jihed.chaibi.dev@gmail.com>
- <20250816021523.167049-2-jihed.chaibi.dev@gmail.com> <20250819-humongous-muscular-curassow-5accd5@kuoka>
-In-Reply-To: <20250819-humongous-muscular-curassow-5accd5@kuoka>
-From: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Date: Tue, 19 Aug 2025 16:51:00 +0200
-X-Gm-Features: Ac12FXwysxyGsjAabyXw5_P1WV9yLN_7McwriOwmRdAXImPNCo-sOD4JlUKkl3s
-Message-ID: <CANBuOYr9Kmj7n664CSRuORKfxx70w+DHzO5kToyBnHyBv0SjNg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: mfd: twl: Add missing sub-nodes for
- TWL4030 & TWL603x
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, andreas@kemnade.info, 
-	peter.ujfalusi@gmail.com, dmitry.torokhov@gmail.com, robh@kernel.org, 
-	krzk+dt@kernel.org, lgirdwood@gmail.com, tiwai@suse.com, conor+dt@kernel.org, 
-	lee@kernel.org, ukleinek@kernel.org, broonie@kernel.org, 
-	gregkh@linuxfoundation.org, linus.walleij@linaro.org, brgl@bgdev.pl, 
-	aaro.koskinen@iki.fi, khilman@baylibre.com, rogerq@kernel.org, 
-	tony@atomide.com, linux-gpio@vger.kernel.org, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-omap@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD81:EE_|PH7PR19MB6613:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 225990bb-c734-4ad3-4df9-08dddf3a3636
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700013|61400799027|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?xN7NmRZcUspysO/MzXvrY02K41YHk7kZOVF4snlJ20o7PCwizScHv/msQy3U?=
+ =?us-ascii?Q?JX3LKYqPFswY6Bo8SzAQSRdeQNK5bOIlwoL+hMJN1wv49uqj600EXDd8bZo4?=
+ =?us-ascii?Q?eZKMANlxn2DcezhPrFruPnR5+MPXAZTFyqnPZTQoOyo5H9CAbRgRdyWDsmrd?=
+ =?us-ascii?Q?8z8Np1QziO7HtAZsI7DotqO1NU1JsJnVnMJIDHAXxK+EyS600XcodMzP2bEQ?=
+ =?us-ascii?Q?ZOTIdxc5QZ1+icTW7ynaOxWnm1iBgnkVSPI8Nwr+nOiRSE7ZljZU4Ts4Ti9c?=
+ =?us-ascii?Q?xkKBbUPe0Y6aegyn5C/NJAuwAzEu0JrPd6k8lHnDvrc4ZDN4Saw5v+xCmx2t?=
+ =?us-ascii?Q?LQ+MAWv7AqnyfjJpZs7i45Wnt6U3KbqS49XyvkRFg7Yl/UlpxcuWZTLqCt1J?=
+ =?us-ascii?Q?jIPaCCSO/5zjE4KCMFfTsS3IneIIJ4+kjFwMVQfdG2s3ot5w/2qV4zwJzjiw?=
+ =?us-ascii?Q?P1nIgu64BBGzL5C4ZXUSnxP/yr742q3oQ/ma58dYrJz6Z07J87XgSPL8t5xz?=
+ =?us-ascii?Q?7ONTlw5XOBqBEdNURSF6HZAYLB7U2B9GUPBEeRZXuxk0PqWc6ifOoh0HIhAQ?=
+ =?us-ascii?Q?b372XV3N8OqHv2PQxsQ872djfrJ6DOficWr2X0GSS0vSt1OT7uRvKiSxlFyO?=
+ =?us-ascii?Q?PWmXYgf8QmYlQOhbC3Qp4QcVpIJfnchVIMwaPl89zxU/gFZza3AlF/JYvpXH?=
+ =?us-ascii?Q?ysBqQ9QhFeg0qXoNk4TFqsKtbISPGooH1Js/t/udtQsTvsQsqpSBFZ9P1xz6?=
+ =?us-ascii?Q?S82k8n3/pyBLhha+zmVFp5t7DTvPeiovneYa7bQZHQOfv+BlHSoBoaPQdbee?=
+ =?us-ascii?Q?C7EksT5LxoutmLRqS8uXljjJp6i7y1wM2+PCyXBUd9Ub2fqUB1usKen46uRu?=
+ =?us-ascii?Q?+Jvh32H9oDKujGYl9hVaiA9O6KKzFeDwB3rSkt2eEQZJ5X7IbNQmq3acptFd?=
+ =?us-ascii?Q?DViTWGmSQ/xpUChEW39PY8yVQdKoMAtwU56IWp8alLHhq6+vjMxgHyNGQ0Vu?=
+ =?us-ascii?Q?kgj7Crw3M1DVRtSmIjE2eCk7Eh2xiES3yZ5n8HOJUIC33iE8FWnHFxm5M2l+?=
+ =?us-ascii?Q?IONbB0ZwTOMVVFk+Tk93d6zqtd+WxvBS62rQOQrB7BKhpEdU6l05zKWWAQh3?=
+ =?us-ascii?Q?OqVf5OyEd3cH5lb8qWcdqVjP1BKV/rR5rcHkTVGkQ9dObG00pKjq7K9DKjy2?=
+ =?us-ascii?Q?zaAJ45OZouYFsodN8+JOwhTd8ULfjumvBoZ5JFZY3EuPWcQbDjqGEejr10CN?=
+ =?us-ascii?Q?U6u+Mfz24D/tlp0JdibW8Bz0u4aps072Rgi0eIDKXX/AdoFNo4+w9ZJ/wDFi?=
+ =?us-ascii?Q?5hi06EKfgEVmhBHSGXYl0IGPsELVRVc7I9M42YngPYuIBBx3oNGfaW+astPr?=
+ =?us-ascii?Q?/8esuqJfaHWmsh3HyWN6wOHTR8z2Q3tnPomhvtqFABovNjSKAv/ErxjvJi+0?=
+ =?us-ascii?Q?Lp9DXPT+KulC8+dhvFSTUKCEgdw17MfC0/TqlQR6szj5kNvbYR2Mt4QmOQEa?=
+ =?us-ascii?Q?WdrTm6mv/sNF1d14Tv5BqAkdPT1o694NLpNu?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(61400799027)(376014);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 16:05:26.4730
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 225990bb-c734-4ad3-4df9-08dddf3a3636
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000AD81.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6613
+X-Authority-Analysis: v=2.4 cv=SPFCVPvH c=1 sm=1 tr=0 ts=68a4a0cd cx=c_pps
+ a=r7KzSfrYGOUIMoyRl8H3Xw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=2OwXVqhp2XgA:10 a=s63m1ICgrNkA:10
+ a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8 a=hhZaFHulF5nJkzhaXGgA:9
+X-Proofpoint-GUID: gNpYfgrNB5lztOvfqcEZhtwzj7MCeeSP
+X-Proofpoint-ORIG-GUID: gNpYfgrNB5lztOvfqcEZhtwzj7MCeeSP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDE0OSBTYWx0ZWRfX8HMlwWzp3Tgr
+ fsU0EDpXF83jjL6z1wVEXW7GKqG0Q/evHGATfvDesm8ztwbBPB+mL6zdQpHaHr7yiPzznFDQOeA
+ Xt9aSBnKhe5Ozmx6yxc2juzt7LRp0ZmXqghEd74y/cTxiK37uW7POZaxQgnI/facO4OFBpYmw8L
+ m6jb1sNagMmzUJ3LVa6e18EvSm0l3zUTI2TBabkDl2YYA5zewThRF56QUrP257NY4uaOgV+NHGb
+ vsitZjpDPY8Qiy1k/e6JHPlu5AuywxPVEBAukIuI/GGSaiIPWiCQJlsGY1cEtlcGRhnJm8TS4sJ
+ Xjy1l9dHdBuoanqzK7KTSDplapehRd8IthpYAYZwE7LVk0Yf8x7vLp1KU29k2Y=
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, Aug 19, 2025 at 10:13=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.o=
-rg> wrote:
->
-> On Sat, Aug 16, 2025 at 04:15:18AM +0200, Jihed Chaibi wrote:
-> > Update the TI TWL family Device Tree binding to include additional
-> > subnodes for TWL4030, TWL6030, and TWL6032 devices.
-> >
-> > The simple power and PWM bindings (ti,twl4030-power, ti,twl-pwm, and
-> > ti,twl-pwmled) are now defined directly within this binding.
-> >
-> > Other child node definitions (audio, gpio, keypad, usb, etc.) are also
-> > added to the schema. These additions fix 'unevaluated properties'
-> > errors found during dtbs_check for boards like the omap3-beagle
-> > and improve the binding's overall completeness.
-> >
-> > Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-> >
-> > ---
-> > Changes in v3:
-> >  - New patch to consolidate simple bindings (power, pwm) and add
-> >    definitions for all child nodes to fix dtbs_check validation
-> >    errors found in v2.
-> > ---
-> >  .../devicetree/bindings/mfd/ti,twl.yaml       | 191 ++++++++++++++++++
-> >  .../devicetree/bindings/mfd/twl4030-power.txt |  48 -----
-> >  .../devicetree/bindings/pwm/ti,twl-pwm.txt    |  17 --
-> >  .../devicetree/bindings/pwm/ti,twl-pwmled.txt |  17 --
-> >  4 files changed, 191 insertions(+), 82 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/mfd/twl4030-power=
-.txt
-> >  delete mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwm.tx=
-t
-> >  delete mode 100644 Documentation/devicetree/bindings/pwm/ti,twl-pwmled=
-.txt
-> >
-> > diff --git a/Documentation/devicetree/bindings/mfd/ti,twl.yaml b/Docume=
-ntation/devicetree/bindings/mfd/ti,twl.yaml
-> > index f162ab60c..b0f1cb7b5 100644
-> > --- a/Documentation/devicetree/bindings/mfd/ti,twl.yaml
-> > +++ b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
-> > @@ -76,6 +76,98 @@ allOf:
-> >            properties:
-> >              compatible:
-> >                const: ti,twl4030-wdt
-> > +
-> > +        audio:
-> > +          type: object
-> > +          $ref: /schemas/sound/ti,twl4030-audio.yaml#
-> > +          unevaluatedProperties: false
-> > +
-> > +        keypad:
-> > +          type: object
-> > +          $ref: /schemas/input/ti,twl4030-keypad.yaml#
-> > +          unevaluatedProperties: false
-> > +
-> > +        pwm:
-> > +          type: object
-> > +          $ref: /schemas/pwm/pwm.yaml#
-> > +          unevaluatedProperties: false
-> > +          description: |
-> > +            TWL4030 series: PWMA and PWMB (connected to LEDA and LEDB =
-terminals)
-> > +          properties:
-> > +            compatible:
-> > +              enum:
-> > +                - ti,twl4030-pwm
-> > +            '#pwm-cells':
-> > +              const: 2
-> > +          required:
-> > +            - compatible
-> > +            - '#pwm-cells'
-> > +
-> > +        pwmled:
-> > +          type: object
-> > +          $ref: /schemas/pwm/pwm.yaml#
-> > +          unevaluatedProperties: false
-> > +          description: |
-> > +            TWL4030 series: PWMA and PWMB (connected to LEDA and LEDB =
-terminals)
-> > +          properties:
-> > +            compatible:
-> > +              enum:
-> > +                - ti,twl4030-pwmled
-> > +            '#pwm-cells':
-> > +              const: 2
-> > +          required:
-> > +            - compatible
-> > +            - '#pwm-cells'
-> > +
-> > +        'twl4030-usb':
->
-> No need for quotes.
->
-> > +          type: object
-> > +          $ref: /schemas/usb/ti,twlxxxx-usb.yaml#
->
-> Are you sure your patchset is bsiectable? Apply this patch and test. You
-> will see errors and you must fix these. Even after fixing you have
-> strict dependencies so your cover letter must explain these (or merging
-> constraints)...
->
-> I suggest listing here only compatible with additionalProperties:true
-> and splitting entire patchset per different maintainers.
+In ipc4_ssp_dai_config_pcm_params_match() when comparing params_channels()
+against hw_config->tdm_slots the comparison should be a <= not a ==.
 
-Hi Krzysztof,
+The number of TDM slots must be enough for the number of required channels.
+But it can be greater. There are various reason why a I2S/TDM link has more
+TDM slots than a particular audio stream needs.
 
-Thank you for the review. That additionalProperties
-suggestion is definitely helpful in this scenario.
+The original comparison would fail on systems that had more TDM slots.
 
-I will split (in v4) the patchset into smaller & independent
-series for each subsystem as recommended.
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: 8a07944a77e9 ("ASoC: SOF: ipc4-pcm: Look for best matching hw_config for SSP")
+---
+ sound/soc/sof/ipc4-pcm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks again for your guidance.
-Jihed
+diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
+index 374dc10d10fd..86f7377fb92f 100644
+--- a/sound/soc/sof/ipc4-pcm.c
++++ b/sound/soc/sof/ipc4-pcm.c
+@@ -639,14 +639,14 @@ static int ipc4_ssp_dai_config_pcm_params_match(struct snd_sof_dev *sdev,
+ 
+ 		if (params_rate(params) == le32_to_cpu(hw_config->fsync_rate) &&
+ 		    params_width(params) == le32_to_cpu(hw_config->tdm_slot_width) &&
+-		    params_channels(params) == le32_to_cpu(hw_config->tdm_slots)) {
++		    params_channels(params) <= le32_to_cpu(hw_config->tdm_slots)) {
+ 			current_config = le32_to_cpu(hw_config->id);
+ 			partial_match = false;
+ 			/* best match found */
+ 			break;
+ 		} else if (current_config < 0 &&
+ 			   params_rate(params) == le32_to_cpu(hw_config->fsync_rate) &&
+-			   params_channels(params) == le32_to_cpu(hw_config->tdm_slots)) {
++			   params_channels(params) <= le32_to_cpu(hw_config->tdm_slots)) {
+ 			current_config = le32_to_cpu(hw_config->id);
+ 			partial_match = true;
+ 			/* keep looking for better match */
+-- 
+2.39.5
+
