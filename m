@@ -1,99 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C5824887E;
-	Tue, 19 Aug 2025 06:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3332B38B
+	for <linux-sound@vger.kernel.org>; Tue, 19 Aug 2025 06:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755583769; cv=none; b=E0WxfUoY73pCVKYkvluuzTjtT7sPTfLNe4ALdYw4zHBmQBPwuZW8OIu+f1eYjdFOWS9l0aamR9jrXRd5+VDAlhB90RDTrmglAbDifZ8UjJnrJ8E8wdv2SaH0b+1/YVEENByr5mHrMhc2IQ5hfgVSIoQWXksutcF5y06zDT2g7oY=
+	t=1755584435; cv=none; b=Z4Jwz77VxAN34FOlD5Q0W64+mKLwIfBpTCA5dN0cjJs/OVBMajhzZeeOroR39CsS8TQFPg89v5ZZwmaU30CNfYmUn/SLSb/MJhrJvxI1+sytiQDtai0+5V8FCbldT2oYsr8xbRHjqyxO1IzJJ/wiQk1u/icgCAzXXny+Kgqcrng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755583769; c=relaxed/simple;
-	bh=o8gg4esKzhrXW5xRLa4YA+2LIArey07uhNGPYg+o6r0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bK1iTeRF+9c72oyZa3lqES2wthWPL1kXj0EShZvFfgz7IJqMHP8qlJ2N4XExxfhSThOX3DqoHFzX7wV+5Xj08WjXZScRbQUQT2e6hasajabulfdYwkJooShgt9UQfYpzo3hJxRCfY6VnJpsnMaYxLZrShBYSlYxy1iRiEP4bmuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FsVMJGQI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755584435; c=relaxed/simple;
+	bh=NapvAPxGFgTPBOxpp8PZcUkuTxgCbiS0lBHZcxteJiE=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=EM5EiJgpILrUKq4DwW/1EFe5E4EFTEHS4SKyKWJOdUM9k23+ztb5nr3yvxqu+gtJ66QKr/E3D/vhzC88viWjW9piD2t6qxOdkBGHxhva4zqqkd6Rpv674oqddoTNG3kOm/PyyFv6t0jrZOdP3LpM3C3wExTZXYR+FIT5sWsw3wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=fZ2Nkhdw; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FsVMJGQI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA340C4CEF4;
-	Tue, 19 Aug 2025 06:09:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755583768;
-	bh=o8gg4esKzhrXW5xRLa4YA+2LIArey07uhNGPYg+o6r0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FsVMJGQITGW1H27xkdEzFhnhVzzVZHSJJ+sYfdI3vue67s81lO3PyhAa8qvVe2XwC
-	 aRPqZxecPuS6ERc4/+eGYccsRxMsvMqmmOjYDIiI7JCqcbuXSeO0oA6xWp3wGFiizi
-	 d7bNqC0g5x2R/MvLKZf+70O8/MGlluUeeIZmhWUdz3UyeVCc4Qg/WBeTe175KVmDTa
-	 gNDGthWz7LdEBQxc1smD7WOT9fI3VD9nYjrm8BbRPFLt143DwAV+GpEL1QGJ1xwih9
-	 XG9PGCyW+MUBN4XsvDA51dmpazmjEx55VkNg1w10eyQ/Mjm+4HT0ReFd41OMRj3MUT
-	 cNX8i5by7Z4dw==
-Date: Tue, 19 Aug 2025 08:09:25 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: linux-kernel@vger.kernel.org, peter.ujfalusi@gmail.com, 
-	dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, lgirdwood@gmail.com, 
-	tiwai@suse.com, conor+dt@kernel.org, lee@kernel.org, broonie@kernel.org, 
-	gregkh@linuxfoundation.org, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
-	shuah@kernel.org
-Subject: Re: [PATCH 0/8] dt-bindings: Convert TWL4030/6040 family binding to
- DT schema
-Message-ID: <564lqfhskoiivxziptyhrkajpblrrnk7nmfe73fzsd6ov2vwlh@n6ydqbrxh2my>
-References: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="fZ2Nkhdw"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 57J6JldkE2235434, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1755584387; bh=UvFgyS0ux22zTRzpnuy5sJ67IAUrFQKNZEb+skSbRl0=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	b=fZ2NkhdwEfvt8HyJrfrr4UouAiAzQNtPtR/L1zspMxY8I1vBMiG7+EYM6vd6pWVoD
+	 p3BTb2dYredT/ZT4pd3hPCzb4dVGHz7I8s+TKNAzi6dJXf7NnrS+N8A+qeUXuu0icM
+	 BFvhoosthRsud+yKEbpDdc1K/RX58/Hf0z477BE84WfW60wSmVTSAGFz0WzmmUejyR
+	 8f/8QGbx3gBE7KWMzkboUKKY+JJSrJvZLHKxCIkpamQh2158blS3O8HXBUjXSA0vTI
+	 aVwLUliyJFHguujUjQkgV9L3/GKZlSeEuioa2TSztGtftCM8QSy3IAkZ7NhQXakzWN
+	 qh2UPIIfasQtw==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 57J6JldkE2235434
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 19 Aug 2025 14:19:47 +0800
+Received: from RTEXDAG02.realtek.com.tw (172.21.6.101) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 19 Aug 2025 14:19:47 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXDAG02.realtek.com.tw (172.21.6.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 19 Aug 2025 14:19:46 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547]) by
+ RTEXMBS01.realtek.com.tw ([fe80::f5bd:6ac9:46d:9547%5]) with mapi id
+ 15.01.2507.035; Tue, 19 Aug 2025 14:19:46 +0800
+From: Kailang <kailang@realtek.com>
+To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
+CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Bug 220109 - Audio disappears on HP 15-fc000 after warm boot again
+Thread-Topic: Bug 220109 - Audio disappears on HP 15-fc000 after warm boot
+ again
+Thread-Index: AdwQ0QfLY4QVx7zfRsqbBhsvzBpmqw==
+Date: Tue, 19 Aug 2025 06:19:45 +0000
+Message-ID: <5317ca723c82447a938414fcca85cbf5@realtek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+Content-Type: multipart/mixed;
+	boundary="_002_5317ca723c82447a938414fcca85cbf5realtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wx3t3mqnpi5eirrc"
-Content-Disposition: inline
-In-Reply-To: <20250811224739.53869-1-jihed.chaibi.dev@gmail.com>
 
-
---wx3t3mqnpi5eirrc
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+--_002_5317ca723c82447a938414fcca85cbf5realtekcom_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/8] dt-bindings: Convert TWL4030/6040 family binding to
- DT schema
-MIME-Version: 1.0
 
-Hello,
+Hi Takashi,
 
-On Tue, Aug 12, 2025 at 12:47:31AM +0200, Jihed Chaibi wrote:
-> This series modernizes the Device Tree bindings for the Texas
-> Instruments TWL4030/TWL6040 family by converting all remaining
-> legacy TXT bindings to the structured YAML DT schema format.
->=20
-> This improves the bindings by adding formal type checking, clear property
-> definitions, and machine-readable examples, which allows for automated
-> validation and better documentation for developers.
->=20
-> The following eight patches are included in this series, covering the
-> audio, keypad, power, PWM, and USB sub-modules.
+Attach patch will solve issue.
 
-Thanks for doing that.
+BR,
+Kailang
 
-I think the patches are all orthogonal and can/should be applied by the
-respective subsystem maintainers once they are considered ready?
+--_002_5317ca723c82447a938414fcca85cbf5realtekcom_
+Content-Type: application/octet-stream; name="0000-15-fc000.patch"
+Content-Description: 0000-15-fc000.patch
+Content-Disposition: attachment; filename="0000-15-fc000.patch"; size=2483;
+	creation-date="Tue, 19 Aug 2025 06:08:47 GMT";
+	modification-date="Tue, 19 Aug 2025 06:16:52 GMT"
+Content-Transfer-Encoding: base64
 
-Best regards
-Uwe
+RnJvbSBmNGY4MDk1Y2E0ZDhmYmQ0ZjMwMTI2MGY0ZDJjMmQ3M2VkN2ZhMzc0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
+dGU6IFR1ZSwgMTkgQXVnIDIwMjUgMTQ6MDM6NDQgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
+OiBoZGEvcmVhbHRlazogQXVkaW8gZGlzYXBwZWFycyBvbiBIUCAxNS1mYzAwMCBhZnRlciB3YXJt
+IGJvb3QgYWdhaW4KClRoZXJlIHdhcyBhIHNpbWlsYXIgYnVnIGluIHRoZSBwYXN0IChCdWcgMjE3
+NDQwKSwgd2hpY2ggd2FzIGZpeGVkIGZvciB0aGlzIGxhcHRvcC4gClRoZSBzYW1lIGlzc3VlIGlz
+IG9jY3VycmluZyBhZ2FpbiBhcyBvZiBrZXJuZWwgdi42LjEyLjIuIFRoZSBzeW1wdG9tcyBhcmUg
+dmVyeSBzaW1pbGFyIAotIGluaXRpYWxseSBhdWRpbyB3b3JrcyBidXQgYWZ0ZXIgYSB3YXJtIHJl
+Ym9vdCwgdGhlIGF1ZGlvIGNvbXBsZXRlbHkgZGlzYXBwZWFycyB1bnRpbCAKdGhlIGNvbXB1dGVy
+IGlzIHBvd2VyZWQgb2ZmICh0aGVyZSBpcyBubyBhdWRpbyBvdXRwdXQgYXQgYWxsKS4KClRoZSBp
+c3N1ZSBpcyBhbHNvIHJlbGF0ZWQgYnkgY2F1c2VkIGJ5IGEgZGlmZmVyZW50IGNoYW5nZSBub3cu
+IEJ5IGJpc2VjdGluZyBkaWZmZXJlbnQga2VybmVsIHZlcnNpb25zLApJIGZvdW5kIHRoYXQgcmV2
+ZXJ0aW5nIGNjM2QwYjVkZDk4OWQzMjM4ZDQ1NmY5ZmQzODU5NDYzNzlhOWMxM2QgaW4gcGF0Y2hf
+cmVhbHRlay5jIAooIHNlZSBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2Vy
+bmVsL2dpdC9zdGFibGUvbGludXguZ2l0L2NvbW1pdC9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0
+ZWsuYz9oPXY2LjEyLjImaWQ9NGVkN2YxNjA3MGE4NDc1YzA4OGZmNDIzYjJlYjExYmExNWViODli
+NiApCnJlc3RvcmVzIHRoZSBzb3VuZCBhbmQgaXQgd29ya3MgZmluZSBhZnRlciB0aGUgcmVib290
+LgoKTGluazogaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMjAx
+MDkKU2lnbmVkLW9mZi1ieTogS2FpbGFuZyBZYW5nIDxrYWlsYW5nQHJlYWx0ZWsuY29tPgoKZGlm
+ZiAtLWdpdCBhL3NvdW5kL2hkYS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYyBiL3NvdW5kL2hkYS9j
+b2RlY3MvcmVhbHRlay9hbGMyNjkuYwppbmRleCBhNGM1NGRhMzliNDcuLmNkZmI5ZGYxNTg0YiAx
+MDA2NDQKLS0tIGEvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jCisrKyBiL3NvdW5k
+L2hkYS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYwpAQCAtNTEwLDYgKzUxMCwxNSBAQCBzdGF0aWMg
+dm9pZCBhbGMyNTZfc2h1dHVwKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogCQlocF9waW4gPSAw
+eDIxOwogCiAJYWxjX3VwZGF0ZV9jb2VmZXhfaWR4KGNvZGVjLCAweDU3LCAweDA0LCAweDAwMDcs
+IDB4MSk7IC8qIExvdyBwb3dlciAqLworCisJLyogM2sgcHVsbCBsb3cgY29udHJvbCBmb3IgSGVh
+ZHNldCBqYWNrLiAqLworCS8qIE5PVEU6IGNhbGwgdGhpcyBiZWZvcmUgY2xlYXJpbmcgdGhlIHBp
+biwgb3RoZXJ3aXNlIGNvZGVjIHN0YWxscyAqLworCS8qIElmIGRpc2FibGUgM2sgcHVsbGRvd24g
+Y29udHJvbCBmb3IgYWxjMjU3LCB0aGUgTWljIGRldGVjdGlvbiB3aWxsIG5vdCB3b3JrIGNvcnJl
+Y3RseQorCSAqIHdoZW4gYm9vdGluZyB3aXRoIGhlYWRzZXQgcGx1Z2dlZC4gU28gc2tpcCBzZXR0
+aW5nIGl0IGZvciB0aGUgY29kZWMgYWxjMjU3CisJICovCisJaWYgKHNwZWMtPmVuXzNrcHVsbF9s
+b3cpCisJCWFsY191cGRhdGVfY29lZl9pZHgoY29kZWMsIDB4NDYsIDAsIDMgPDwgMTIpOworCiAJ
+aHBfcGluX3NlbnNlID0gc25kX2hkYV9qYWNrX2RldGVjdChjb2RlYywgaHBfcGluKTsKIAogCWlm
+IChocF9waW5fc2Vuc2UpIHsKQEAgLTUyMCwxNCArNTI5LDYgQEAgc3RhdGljIHZvaWQgYWxjMjU2
+X3NodXR1cChzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYykKIAogCQltc2xlZXAoNzUpOwogCi0JLyog
+M2sgcHVsbCBsb3cgY29udHJvbCBmb3IgSGVhZHNldCBqYWNrLiAqLwotCS8qIE5PVEU6IGNhbGwg
+dGhpcyBiZWZvcmUgY2xlYXJpbmcgdGhlIHBpbiwgb3RoZXJ3aXNlIGNvZGVjIHN0YWxscyAqLwot
+CS8qIElmIGRpc2FibGUgM2sgcHVsbGRvd24gY29udHJvbCBmb3IgYWxjMjU3LCB0aGUgTWljIGRl
+dGVjdGlvbiB3aWxsIG5vdCB3b3JrIGNvcnJlY3RseQotCSAqIHdoZW4gYm9vdGluZyB3aXRoIGhl
+YWRzZXQgcGx1Z2dlZC4gU28gc2tpcCBzZXR0aW5nIGl0IGZvciB0aGUgY29kZWMgYWxjMjU3Ci0J
+ICovCi0JCWlmIChzcGVjLT5lbl8za3B1bGxfbG93KQotCQkJYWxjX3VwZGF0ZV9jb2VmX2lkeChj
+b2RlYywgMHg0NiwgMCwgMyA8PCAxMik7Ci0KIAkJaWYgKCFzcGVjLT5ub19zaHV0dXBfcGlucykK
+IAkJCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIGhwX3BpbiwgMCwKIAkJCQkgICAgQUNfVkVS
+Ql9TRVRfUElOX1dJREdFVF9DT05UUk9MLCAweDApOwo=
 
---wx3t3mqnpi5eirrc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmikFRMACgkQj4D7WH0S
-/k7K4Qf+NXaiDwh8VZ3/FPuqYKi8JDG6yZev/d9gfb9whZz7mnjc5HNUoniMaaIX
-WPmzU2zk9W7nV/JaCamjURYPHvQI+4K6CbOmBU2AmO3CAgfbejOoUjtsQmNa+bei
-XSrmaRgy9awVDnE30dT6AsV5cgCAgq6pjhJYXrftH5827tFkeHdHd1KEsZj07TdD
-iglm1Pfcb0RKy0L6A/Wab7O10bFbkeuNWphUnfN0ikJ/cTSS3fGuiAuH2dT+olfA
-LULNsZWSim7+vfXhiS75zbSIEovn4HmvgxMDmsNKYLnhZXj7AR/7fRMtwmx2LUxS
-iaeLl8en8XlDqUMqoyVdNHyRkHmCdw==
-=k0sm
------END PGP SIGNATURE-----
-
---wx3t3mqnpi5eirrc--
+--_002_5317ca723c82447a938414fcca85cbf5realtekcom_--
