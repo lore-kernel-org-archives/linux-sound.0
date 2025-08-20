@@ -1,80 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D44353377;
-	Tue, 19 Aug 2025 23:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC7C26F295;
+	Wed, 20 Aug 2025 02:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755644594; cv=none; b=ohSe0h/wRYbPlhpqQ+t+V4orcojbcsG/ra/ADvc5MBFQDBlIKBdxuDrJ+RGVnPoG1ROjkNKJ9aBQ2z4boF2RFIBWXbHboom1RAsxA74rK4IygA18GpZtXgFbhN7ZppKixtkuVk3f0WJiDn9facA0rcDoix0Z5A4rz5NHZ/Jkx+I=
+	t=1755658767; cv=none; b=kWi/xenRt54eRpbexOTg5z7+q2flH4GF8AAaUxECbvTteXNDIIDBmw/dBFStD9VdDntsYCsOOZB+839mc6pxtuuLG5gYQ7sBN0LgBxGW0WTyuGYlCS01tqcj+nZPtS+0hwiWUvLCWWAeZCJMpr0uI1JCKCx7bsPpgBmtcKLaBoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755644594; c=relaxed/simple;
-	bh=Ixf1JrBTr7/vnBjVCGUxiZ3p8HV6MKyK33odXby8GG8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ADkPqKG71cF/ougypYlp56zS+i7wRT04Hn+/DXnHnEL092FxqwB3BGsKinGfCbkZatzBkQmyVCloLTHMPjefv/OyGygW1LepUh64QTHUl2d1NjZqq6lCQQrZjVlPeDJEn3OCiuPNGudbYINTQ5JbHbQQZuPJLaZAVKnNjMUk1cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JtNUdg7N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755658767; c=relaxed/simple;
+	bh=lqQnDZ3r28IKLgBuza0AFNv8cKyvpuTP+0NE2//RlQY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U6pqJRCfuWnaYw4HbgHIQF9vFTy3NwpzPCf9Xt+Uy7DoJgWFzMf4F5ITIwbGxEvboR1E1la1DrEge8vVtz9xr/dNwiQpxBjbAKhNvJi3YVD6iDad34bBgN4Q7J9pXknw+RbsOV8O+eOEkC/SjZ48z+/HZuKQR5/HJBvilPhvI28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=LxCrpMFl; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JtNUdg7N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A681C4CEF1;
-	Tue, 19 Aug 2025 23:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755644593;
-	bh=Ixf1JrBTr7/vnBjVCGUxiZ3p8HV6MKyK33odXby8GG8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JtNUdg7NqQm88XpHU+egXs5vuX5wZ8ShuIhmqcbwb+s7e1GqltjsYaF6N6TaCAd/a
-	 cm/zn2rbu5eEbwkXLb+5B37kbQuadyZiA5qE3I5FxdlMYSgpOa6crWMtaxfWgOUej9
-	 OKh2q3JTKYaeAO3gUYhga4a0NNzBETL3W25Ct/AoRhbXaQ3itKg0IsiVmMFrMCZlOu
-	 M+bKS8v+t9GCgn32Z95LFVGiqeFkgOTigsFgHjyzKb4UrkWhChnhj8ybDKpxgoxBu2
-	 ypXS++d9kx85s85z7bpnulsjMNuHJ1rvxKAUdBAh6Jtgk94iqV9ycGTMmVUFFZvW+5
-	 dPzKMw/KGTcSw==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, 
- Zhang Yi <zhangyi@everest-semi.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20250815024729.3051-1-zhangyi@everest-semi.com>
-References: <20250815024729.3051-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH] ASoC: codecs: ES9389: Modify the standby configuration
-Message-Id: <175564459128.355815.11034514640865008612.b4-ty@kernel.org>
-Date: Wed, 20 Aug 2025 00:03:11 +0100
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="LxCrpMFl"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57K2x4273096797;
+	Tue, 19 Aug 2025 21:59:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1755658744;
+	bh=4TEQ1Mdr01d1Jv8q7fpV3KX1BmxQ1Dk9ydlh/AW6kdg=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=LxCrpMFld9XLrxSXLwmpJt17qW5FXfCz+MsQFLugYCAcLgMawaBQZDO6JPB5AzBdS
+	 R7DlnsvZLRYds+UfMGLFJebwCpohEzIGlP4+EF/qJEsbFRnzwf+yQwoNcDvCzzyCmO
+	 IF+HyoCew0+pLCVU04cSx9SuSTcYrK4t229HKMoo=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57K2x3mq1738431
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Tue, 19 Aug 2025 21:59:04 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 19
+ Aug 2025 21:59:03 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Tue, 19 Aug 2025 21:59:03 -0500
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57K2wqs44008196;
+	Tue, 19 Aug 2025 21:58:58 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
+        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <k-y@ti.com>, <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
+        <will-wang@ti.com>
+Subject: [PATCH v1 2/2] ASoC: tas2781: Add tas2118, tas2x20, tas5825 support
+Date: Wed, 20 Aug 2025 10:58:24 +0800
+Message-ID: <20250820025824.24473-2-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+In-Reply-To: <20250820025824.24473-1-baojun.xu@ti.com>
+References: <20250820025824.24473-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Fri, 15 Aug 2025 10:47:29 +0800, Zhang Yi wrote:
-> Modify the standby configuration
-> 
-> 
+Update ti,tas2781.yaml for added tas2118, tas2x20, tas5825.
 
-Applied to
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ .../devicetree/bindings/sound/ti,tas2781.yaml | 73 ++++++++++++++++++-
+ 1 file changed, 72 insertions(+), 1 deletion(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: codecs: ES9389: Modify the standby configuration
-      commit: af24c20c4633a667ac5b5e20cf9d96f6176a0ca3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+index 5ea1cdc593b5..fb57b63a00a2 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-# Copyright (C) 2022 - 2023 Texas Instruments Incorporated
++# Copyright (C) 2022 - 2025 Texas Instruments Incorporated
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
+@@ -11,30 +11,62 @@ maintainers:
+   - Shenghao Ding <shenghao-ding@ti.com>
+ 
+ description: |
++  The TAS2118/TAS2X20 is mono, digital input Class-D audio amplifier
++  optimized for efficiently driving high peak power into small loudspeakers.
++  Integrated speaker voltage and current sense provides for
++  real time monitoring of loudspeaker behavior.
+   The TAS2563/TAS2781 is a mono, digital input Class-D audio
+   amplifier optimized for efficiently driving high peak power into
+   small loudspeakers. An integrated on-chip DSP supports Texas
+   Instruments Smart Amp speaker protection algorithm. The
+   integrated speaker voltage and current sense provides for real time
+   monitoring of loudspeaker behavior.
++  The TAS5825 is a stereo, digital input Class-D audio
++  amplifier optimized for efficiently driving high peak power into
++  small loudspeakers. An integrated on-chip DSP supports Texas
++  Instruments Smart Amp speaker protection algorithm. The
++  integrated speaker voltage and current sense provides for real time
++  monitoring of loudspeaker behavior.
+ 
+   Specifications about the audio amplifier can be found at:
++    https://www.ti.com/lit/gpn/tas2120
++    https://www.ti.com/lit/gpn/tas2320
+     https://www.ti.com/lit/gpn/tas2563
+     https://www.ti.com/lit/gpn/tas2781
++    https://www.ti.com/lit/gpn/tas5825m
+ 
+ properties:
+   compatible:
+     description: |
++      ti,tas2020: 3.2-W Mono Digital Input Class-D Speaker Amp with 5.5V PVDD
++      Support.
++
++      ti,tas2118: 5-W Mono Digital Input Class-D Speaker Amp with Integrated
++      8.4-V Class-H Boost.
++
++      ti,tas2120: 8.2-W Mono Digital Input Class-D Speaker Amp with
++      Integrated 14.75V Class-H Boost.
++
++      ti,tas2320: 15-W Mono Digital Input Class-D Speaker Amp with 15V Support.
++
+       ti,tas2563: 6.1-W Boosted Class-D Audio Amplifier With Integrated
+       DSP and IV Sense, 16/20/24/32bit stereo I2S or multichannel TDM.
+ 
+       ti,tas2781: 24-V Class-D Amplifier with Real Time Integrated Speaker
+       Protection and Audio Processing, 16/20/24/32bit stereo I2S or
+       multichannel TDM.
++
++      ti,tas5825: 38-W Stereo, Inductor-Less, Digital Input, Closed-Loop 4.5V
++      to 26.4V Class-D Audio Amplifier with 192-kHz Extended Audio Processing.
+     oneOf:
+       - items:
+           - enum:
++              - ti,tas2020
++              - ti,tas2118
++              - ti,tas2120
++              - ti,tas2320
+               - ti,tas2563
++              - ti,tas5825
+           - const: ti,tas2781
+       - enum:
+           - ti,tas2781
+@@ -61,6 +93,27 @@ required:
+ 
+ allOf:
+   - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas2020
++              - ti,tas2118
++              - ti,tas2120
++              - ti,tas2320
++    then:
++      properties:
++        reg:
++          description:
++            I2C address, in multiple-AMP case, all the i2c address
++            aggregate as one Audio Device to support multiple audio slots.
++          maxItems: 4
++          minItems: 1
++          items:
++            minimum: 0x48
++            maximum: 0x4b
++
+   - if:
+       properties:
+         compatible:
+@@ -97,6 +150,24 @@ allOf:
+             minimum: 0x38
+             maximum: 0x3f
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5825
++    then:
++      properties:
++        reg:
++          description:
++            I2C address, in multiple-AMP case, all the i2c address
++            aggregate as one Audio Device to support multiple audio slots.
++          maxItems: 4
++          minItems: 1
++          items:
++            minimum: 0x4c
++            maximum: 0x4f
++
+ additionalProperties: false
+ 
+ examples:
+-- 
+2.43.0
 
