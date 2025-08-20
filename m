@@ -1,151 +1,120 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643E2253939
-	for <linux-sound@vger.kernel.org>; Wed, 20 Aug 2025 05:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F03429ACFC;
+	Wed, 20 Aug 2025 05:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755668007; cv=none; b=SQNn2UXBaIG6DBnUWM6I0BU9aasyN/fw3EmCWfkrVAW/p+NMz5KgZiLrs059W7CuJpNyT8lmJS04d0vS6DmMU6XmFkIi786yfi+BUCmTEEf/s6acs6c53Akec1na5QjroLGPi8vNbuZEYXfN5GkL26eJjY/96Q8srDEXETpr+NY=
+	t=1755669444; cv=none; b=qr2gsY6YoAZNnFscyaYTYMRpbYKve/2wKVpiI+rjuGvjXScd2+BhKJlkoMLWO3nM9ddhPfAErrBtLFfx3wGcsbJ+iKQQS2zWxRcFMrqvLGebDzxXbOpf9rAtOFMcgppdS69r0uNzzRkjp3za6/HTDKamWnUPcsn4ykYZcdHM3Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755668007; c=relaxed/simple;
-	bh=SU6Y5KT2p9HGDdKOWBXFhBuctKiSPENI8bwlRvYH+ew=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fTpTZe6zvN9dGgbNCM9o9rW+DG+Rowi7lE+ZUhO6o9FvjJ2AjQAtytvNxBwEnm/BMXGp7NgYJCRgP81zwQJS4QQ6vlaEojLNJmxkFX2ZG+uoskhjSg09rot5vDuqBY37yrB2Q9wbohaAPzo1q1og6UuCML9xNMFRmxbdcEqmPkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=seQA/Owk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C3meaJvE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LI9eejD7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k9Q0681n; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1755669444; c=relaxed/simple;
+	bh=Y+062joObmsol1gkoHoKktNswPMSOYB1ABAm6sd7nWo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MUAlUtTlPH9ollUMNTVDz40Nbb7vF6a/0gppuQV8d5o49kGrHs/nz+gr3i2cz7qGXe+kmOCPX12d42XT92uv0+x7F3bZmwK7Jyb0lHotE0PiG6K9aMs0WDt21Gm1oWYWMuB7C+Yqg5T+7Fm2VSbZad+gZNt6RBgmA6jJyHb0ukY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1/hWcg0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="seQA/Owk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C3meaJvE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LI9eejD7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k9Q0681n"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 788BE2121D;
-	Wed, 20 Aug 2025 05:33:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755668003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=on36+hu45j9cFXKrBGVlTwBSePKEvV/BGbUwTqOQ0Zs=;
-	b=seQA/OwkPM43005W2KCdQwOy7c9YrhNJTTbIj4LB0cbLVvyrNM3Rzl17SL1qLWrWEwyEC+
-	wr0Fw8hGLqpRlm7b2S8f8hQyiA2TSBbEvkBV6Lp0htENwmcjnYwXbi8KXNjK84ok3tfyFC
-	Tzqw7cdHJJzUOHamNQ7xtG8oBS5qG0A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755668003;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=on36+hu45j9cFXKrBGVlTwBSePKEvV/BGbUwTqOQ0Zs=;
-	b=C3meaJvEA/moAT2aXZHKueo/srDy8EtdvEyTcT0aGCM7TGoHn0aS28kOPMHXa3HZ+pxSSy
-	sgKuvmGjFvrFY6CQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755668002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=on36+hu45j9cFXKrBGVlTwBSePKEvV/BGbUwTqOQ0Zs=;
-	b=LI9eejD7toy/DNNT9FhXdDs+h/Ix7y8eADWbIfWN5KM+3L+2VsXWDMnNCwaoaT7INLTy0G
-	7lFZPINtJfyk8Pt612FMC2ib6bUeQiknfqM/kAv2fysP73JQ0qhT1p9wLfG+wCyO8P8BE6
-	f0GX/Ov3NBU9+izXJz2owQq/Uj85SnQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755668002;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=on36+hu45j9cFXKrBGVlTwBSePKEvV/BGbUwTqOQ0Zs=;
-	b=k9Q0681nVPuqCM9pNztCJa/Se/9f9tn8kAR0bdLDU4U4TJZtZnMoyX5EuTcHVrh4lZKcsQ
-	FdJpZ2mkDK2A3xBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 39C9F1378C;
-	Wed, 20 Aug 2025 05:33:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8qU9DCJepWi5NgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 20 Aug 2025 05:33:22 +0000
-Date: Wed, 20 Aug 2025 07:33:21 +0200
-Message-ID: <87frdm8sm6.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-2?Q?=A9erif?= Rami <ramiserifpersia@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	lkp@intel.com
-Subject: Re: [PATCH v2] ALSA: usb-audio: us144mkii: Fix null-deref in tascam_midi_in_urb_complete()
-In-Reply-To: <20250819185133.10464-1-ramiserifpersia@gmail.com>
-References: <20250819185133.10464-1-ramiserifpersia@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1/hWcg0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B74C4CEEB;
+	Wed, 20 Aug 2025 05:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755669443;
+	bh=Y+062joObmsol1gkoHoKktNswPMSOYB1ABAm6sd7nWo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=i1/hWcg0oXxgedGDs9KjrtglcEwNsrTrut3izxrXACCm9P0zu4NeOwzFQX/iBs1Ai
+	 ln5kfCMEwQgToHf7br9+tSkW04D24wQmuXdfabgarxqN1u1wb9CeZjGfRXi1IGHV68
+	 jFQ8x6sjaP6IjxNeiGf4Qd7yHiaSYdkXKqT2LQStSUdLtaP1PWR+zPVppgtOfAj+aU
+	 xRUZ0j0Fohp7Ib9Sr/MYaJhj/lysGt5D0vJDvCsk3buzO772Sn1Sto1L9zHVKoy1M/
+	 3pgniaoRYgIMWFjGb6AlzZN1wCjWRN5bkVbpCcN6H4w8zajy4NBAQQ7uiugbwIg4n6
+	 U12NwUktYflGg==
+Message-ID: <e0bec141-6aef-475f-b997-60fdf8234b82@kernel.org>
+Date: Wed, 20 Aug 2025 07:57:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] dt-bindings: mfd: twl: Add missing sub-nodes for
+ TWL4030 & TWL603x
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: Jihed Chaibi <jihed.chaibi.dev@gmail.com>, linux-kernel@vger.kernel.org,
+ peter.ujfalusi@gmail.com, dmitry.torokhov@gmail.com, robh@kernel.org,
+ krzk+dt@kernel.org, lgirdwood@gmail.com, tiwai@suse.com,
+ conor+dt@kernel.org, lee@kernel.org, ukleinek@kernel.org,
+ broonie@kernel.org, gregkh@linuxfoundation.org, linus.walleij@linaro.org,
+ brgl@bgdev.pl, aaro.koskinen@iki.fi, khilman@baylibre.com,
+ rogerq@kernel.org, tony@atomide.com, linux-gpio@vger.kernel.org,
+ linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-omap@vger.kernel.org, shuah@kernel.org
+References: <20250816021523.167049-1-jihed.chaibi.dev@gmail.com>
+ <20250816021523.167049-2-jihed.chaibi.dev@gmail.com>
+ <20250819-humongous-muscular-curassow-5accd5@kuoka>
+ <20250819223157.0b271c74@akair>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250819223157.0b271c74@akair>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 19 Aug 2025 20:51:33 +0200,
-©erif Rami wrote:
-> 
-> Changes in v2:
->  - Removed duplicate call to usb_put_urb() on submission failure.
->  - Removed extra blank line after the function.
->  
-> The smatch tool reported a potential null pointer dereference in
-> tascam_midi_in_urb_complete(). The 'tascam' variable, derived from
-> 'urb->context', was checked for nullity in one place, but dereferenced
-> without a check in several other places.
-> 
-> This patch fixes the issue by adding a null check at the beginning of
-> the function. If 'tascam' is null, the function now safely exits.
-> This prevents any potential crashes from null pointer dereferences.
-> 
-> It also fixes a latent bug where 'usb_put_urb()' could
-> be called twice for the same URB on submission failure, which would
-> lead to a use-after-free error.
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/r/202508192109.lcMrINK1-lkp@intel.com/
-> Signed-off-by: ©erif Rami <ramiserifpersia@gmail.com>
+On 19/08/2025 22:31, Andreas Kemnade wrote:
+>>
+>>> +          type: object
+>>> +          $ref: /schemas/usb/ti,twlxxxx-usb.yaml#  
+>>
+>> Are you sure your patchset is bsiectable? Apply this patch and test. You
+>> will see errors and you must fix these. Even after fixing you have
+>> strict dependencies so your cover letter must explain these (or merging
+>> constraints)...
+>>
+> what are the rules here regarding bisectability? non-existing files
 
-Applied now.  Thanks.
+dt_binding_check.
 
 
-Takashi
+Best regards,
+Krzysztof
