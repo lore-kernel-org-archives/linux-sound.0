@@ -1,724 +1,212 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012013.outbound.protection.outlook.com [52.101.66.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F17223E33D;
-	Wed, 20 Aug 2025 02:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755658793; cv=none; b=cnRozbJpCadgYIlw8I+z63KQlSQW/+G/HmH2tHgXoSGoJEX7ZV+cYpU8Mpjr+AzpZbM40UqPxEQIEavN3AmVJPpIxszD/6YGqWhUnhE+vRzMy33ybVlIDsCj32zE4ukxT9SAt/KVBcwjXke9A24vsTc//aSdRF2E6cSeq6fpeQk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755658793; c=relaxed/simple;
-	bh=GVFNATat9W++Wrwk8WZWyBBbyJ23ZCbufVCGNpzdlM4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dWmff1zh8E0nWOarC2opkoHxEnhY2hLW2Zqj4rPqPDcQKyf8b2s8LLDzIDZh8bkw6n/adIT3z7P7MsvJsDSAF1Rq5lG4Gr5JFyEIUNcpGqr6JYLpqyvqoRzzYEsmjoXc8E4Gme4UjnvwVuff/jInmZcnLNm1rAeMHZnqqw3QYRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=y6ZYALuG; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7046821765B;
+	Wed, 20 Aug 2025 03:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755659827; cv=fail; b=l4Xof545qY1jleYthaJJXth4d5R1bdEWCyjYDeZiKBW1BUbKmIZgPGcYXIy9uMn8UtrNPYRHNh/bzHDjoTU2zEfaOnCOgxiGCYrDcU2CJo0BVCTgf//uxSLKnEh4YkbSx75KPmjRdRyr0It1zuEKSzoEsDVUav12AgCWpp2llWg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755659827; c=relaxed/simple;
+	bh=rMFBDsb5NG9O6SrjJVmMOxEXiWGS4H31cB/al7TDDqo=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=LjNCCoYcCSoTO8rW2dQHqBOChzJsyJSzjukfx+DQhsf+EkRzvqEJkw2R5xnWOfimsGJet54Zhfi5xoBeTyaMcNNsrxJK44KoYzw2jtXs2nmN8yfm/hPDP/To2mg1FMxwhsCVBTFLCeC/auQYm8SwE/PXlh8HsORQ/aL6vkLAUE0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=kmoDEZd1; arc=fail smtp.client-ip=52.101.66.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="y6ZYALuG"
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57K2wxjQ3096781;
-	Tue, 19 Aug 2025 21:58:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755658739;
-	bh=q+JxnrWhHJ7XEP8iCZylnJz9Y10XJSSI0+64aXz2BKQ=;
-	h=From:To:CC:Subject:Date;
-	b=y6ZYALuGSCMuSbHxG0FH6Agx0X5QGVhCjR2/c3O/TIuXFeE3rpohScZwpDX95SZm9
-	 wA9dMeQf7SIFuF7T9fe802Tz2zQT6fgiNwYY1BKmRxmHv4IkqhWzR+QDPNxgF5n8y2
-	 3bdPCZMRByCbJ22/wY7zJxs8cjRZZ+nh7YeAuMWI=
-Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57K2wwUR1738277
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 19 Aug 2025 21:58:58 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 19
- Aug 2025 21:58:57 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 19 Aug 2025 21:58:57 -0500
-Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57K2wqs34008196;
-	Tue, 19 Aug 2025 21:58:53 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <broonie@kernel.org>
-CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
-        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
-        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <k-y@ti.com>, <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
-        <will-wang@ti.com>
-Subject: [PATCH v1 1/2] ASoC: tas2781: Add tas2118, tas2x20, tas5825 support
-Date: Wed, 20 Aug 2025 10:58:23 +0800
-Message-ID: <20250820025824.24473-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="kmoDEZd1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nbed6AMs6zRgnmF4VvE1H32kZ568DznCtyHKl+jkI0DsPSmYmgb2as/UsW22kR+WiUA3gqQY820Cbdv3fs37nUBc00vWtNSc7PEbEylw82WhxcAsGnLkx1NMuY2bEhExRpwmcralkemIPnYSp4ccaDqlXzjdLeBp7PgQ2g+UB7EjVlm8GLzjNkkpj/pzuf5DWLt5up8M5HzhpKnvLkwfBXs197Iisjps5wFI496nyHsAQ/kmN2CxO5APenq22rY4WEOFo0YRON6knxGKQN7uCb7J7Ka8MxOBilVI6QJo/OoBcKi9D9QiCCyjWXhBe0gzMPNOQy6pkkPqwP2VBP8Mzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3Q88szJlLYUPSI/0L3OmlhdvMemLnYRyhrsv5S5LGl0=;
+ b=OxbhR0Edh5EH+wU/C/DXmaldq3I/K9srgMYeVYG/c7P4n/E2oY93hRY4N4lPq5FkuRvAdWZAUQtlGV1VoqECh0ImSXEaLeVNzcnbSXSVzAl1DEg0LqvNoPwBfDsueRUk9AszBZBOmW/a4Tx8Uq6sf1QzbolstK7eamdZjb3XRzAh71CmsM0mxAslHc6SxDVoZbD8UtzoelXBBRGk0bUEvxY9ORxTeehaXlIazxPoCXPghwz3cCjBXq4lOMFl2xsroZVBpV3S8f2O5DxgRhKXcHazQm9BQSN1UyoLUvWQHYXQ6SZwCWA+FogSMkJdrvRXfr3sqbOKdSE8cOyRvLMWhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Q88szJlLYUPSI/0L3OmlhdvMemLnYRyhrsv5S5LGl0=;
+ b=kmoDEZd1oSc8hbQKegQdRJUSVLl4/gE6HBNZnXXpHsrUjmPPUvY6nlqZn7SM0Yl8QHsFHWN5IuJgJmOFyMilXlTulah8jd0lj/3r0zw8v01bmhYUiFUnItidPPLIG6n+Ld7Uhj1zx1N+hR9YzRjub+leEF/daVtaZBrWRchk8hWzcnbtlsnFLE6QTJE04qqdQstimxbhaGo6Y6qFx0IUnfQv9iOu8p5Pci24wFH2oPetjXW49okPQJAO/JyWRWcRVZS8QvV2ilUrs3BR4gT/omQ7dnFO1QeAZYhRVtWlhA2kt8q/ZB+3zp0adBv7NLVTEM61XPM/+lS1WBh2GuKPsQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by VI2PR04MB11171.eurprd04.prod.outlook.com (2603:10a6:800:29a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.12; Wed, 20 Aug
+ 2025 03:17:01 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891%5]) with mapi id 15.20.9052.012; Wed, 20 Aug 2025
+ 03:17:01 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: imx-hdmi: remove cpu_pdev related code
+Date: Wed, 20 Aug 2025 11:16:41 +0800
+Message-Id: <20250820031641.2158261-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0011.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::6) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|VI2PR04MB11171:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11c020bf-216b-4a58-4d68-08dddf980780
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|7416014|19092799006|1800799024|366016|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?wiV4jjV+CvSbivSAR7wjnHRTmkEnKW+OUT1+1vPKRf5bQRqM64ToNW7XHRsU?=
+ =?us-ascii?Q?8xn/kEpga/WWCMwB0KfPA2Jgpy8eFb2XJII2mHKd+oOLy96OfENtCE2ypInT?=
+ =?us-ascii?Q?F1de+RIpG50cbtCyo8+uvZpEM1+HuO6YtjYo9bt2h30BQFB7AObfrn949f/V?=
+ =?us-ascii?Q?2q67xNJiHVsV3OC8F49ZD69OC37jajDFGaAZn0SjCKN1vUL+3O45GySLDFmo?=
+ =?us-ascii?Q?WWp4JWxETi6JrYr8ZjR1g5TxAQDmAts0AHnBmRPIHKA30Yf6cJvJP6A8cO1h?=
+ =?us-ascii?Q?9aM3bjz3g1tpILbffvGqzH7dEz6t3/CgRDkvKQDyzQg3ORfaCtYySlpf2tXK?=
+ =?us-ascii?Q?WSCSidoJK/OamUKrUqxgJfCViVCyDp9fKswbBCCNQplT6O58IFg0NOx+UAPE?=
+ =?us-ascii?Q?ZkNLPuHBcJkvJcZCoeoWyER2Ug1PRKwEjgtSOHdd0dHSOr25uPuRTUz5kRkp?=
+ =?us-ascii?Q?S58T9wAMfOlDCouH0rVv6dEC8OU79iiQflJ8YRKO7RIBguvQEULLDTJVqKpJ?=
+ =?us-ascii?Q?R39hQb5iPIsltOghhDGl7OpxCGpJVpgs1YITDGMdGyb4a9aM+Kjal/+jJFqZ?=
+ =?us-ascii?Q?lPcwMho6wD52vOytLy3daREYnvMViS9iUuOp5CX/PAjp9vqJXs23QrP/5sUP?=
+ =?us-ascii?Q?A7xuKbQCTxtb9RKnnn5ZYCJvBbgH+Rp1jehbrQwkjpo20LB4ceoTUASkQymJ?=
+ =?us-ascii?Q?q/5xVitSIHI9PjD41bjr+LRxsntOiz6KTTqlhkPacHghEMs8dlnxdRxkvmUH?=
+ =?us-ascii?Q?f98QQrd006V6hkBx0l9k+SO7Rz0etT8Fsj3xxDKlUWFwQSo074Z+4Uhe0ToO?=
+ =?us-ascii?Q?cApPH2ul2dNg7mnXjNDDIfwz9fSjJJIaC/hVe8Qc/L61HG6lC2Gt6SWUsb+4?=
+ =?us-ascii?Q?OXzpw5+OZitYGRGnWqoV9SIP1kTX7fyad3TthHpKW3SUqBghgcT7loov5PDr?=
+ =?us-ascii?Q?XIdZuJZ4fp297Czhms69cO4xtT54uZRH2I4916yPT5iRJJP1sMrqLN17Wa2/?=
+ =?us-ascii?Q?x4FfuOs2WZgGQBaAAxXOdhCzrFCXObVoarKCcv9Dt46YfslqIV4qopckjsIK?=
+ =?us-ascii?Q?dpJjc1SqmMnkOYQhoVNFB0F6m/mnJxgFgNUx/hg78teJA7Rrqozcon/sAjkP?=
+ =?us-ascii?Q?6bfRScBIzXyiOxNKDhhgPF9NMutihsRkmVr4uxzkJzsbpARprqpaPAGtbYan?=
+ =?us-ascii?Q?xZ1Zf4my6RT6ZeYz/EgMrdN2C85BDHPpek+3ly3iaLGlvT022i2ceEHN3CTF?=
+ =?us-ascii?Q?dM2kuA7/xZC7vNKmvRN+Lplf/D6ezMBES0QTnsgi4W4ta3tBOvNbjllZ86Yg?=
+ =?us-ascii?Q?O2L/lUlj0Nc1LLRBWyjTUOsFw49hXg1ZSf3tSzoeArlJqP2FAmcsbRS8Tso0?=
+ =?us-ascii?Q?hMyDg8w2nWuALK6In9dDSpVuPED0Gq2pwXyA0qkAx8OlMioIebu6AfkNIFtM?=
+ =?us-ascii?Q?4MHsjm6WVT9hEXJnQVg69i1f0SJIOgzrbCutLjLxLKcOeUkttK43OM2fS6zI?=
+ =?us-ascii?Q?6gZMOgIom9tgT8E=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(19092799006)(1800799024)(366016)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?/eP3isa0HyIUFLGUz6glfAgB9+yGgiDtiKQe/i+WyGE05oMlyZOFTxr0D7/y?=
+ =?us-ascii?Q?QfXA4b5iUPBIIH9u8+Ss+U1ggIZ6Z3NEAv49nSiRU2mj5lx+LBkOfkazqQJe?=
+ =?us-ascii?Q?wwniQ1J4q+o7JkOXnJIkcwFgBYq+X3pBwMueSd3j6sM8KAkfKND0WPBsXeUe?=
+ =?us-ascii?Q?i2KCkJD5WMxp7C4rcEbKUMxluUsHu9fZ9Fz0b5yhN5YwMwO9YGTZk4njOu9h?=
+ =?us-ascii?Q?iwu1bQv3rMjMd8pKT3qqMNGmeLC6YUNFX2OhoOxeAzSJwXYCeZPE55lutllY?=
+ =?us-ascii?Q?Dp/7UHkJs9qzLfc84Em2299rjD9He5YgfGIwPJsMB3WkqB8Zl1K14TircYxs?=
+ =?us-ascii?Q?TTv6Q0mXjDOlkeQOm3j2fE+MgI9xj37TEn9En08rvvpsJK5HcQMK3Fk6ftFR?=
+ =?us-ascii?Q?f5MwoHqtQH4fO836yzaqgiItHc4IhdnGFj9UHXJILdYRC/WjAZlPg4Mb56Q4?=
+ =?us-ascii?Q?8YksWNPIdQe+1nDVfHwtYo9P2qwN3i0NpUMIn4C007e/CTekH50tUoC71/41?=
+ =?us-ascii?Q?OihY8vfwfIn58eIZ1rYyFn1g/k9XmMG3DQkrYR/AwA7IV/tbNmkrd2TspW65?=
+ =?us-ascii?Q?+V1adG6otLEYJ9FLKw8YF0rWjlIGTdMfIyGrGznxLs0GSDN8HXcBIS4FRech?=
+ =?us-ascii?Q?FquEM2kNC5c/K5VDvsqNNWy/ijagPh1NEBFa3hYYzP3iD0Zf87n5KaJ+r3JZ?=
+ =?us-ascii?Q?ZrwtAmDEWsGhCVKkeCVv9zzfU76ckvzkORXXlNGEqpERiPEALp5/pd43taRo?=
+ =?us-ascii?Q?/MhiOba24zSCb/x/B3YwO+V0H0WYNITIw+M+VlfT7iXi+Q9F2+XpOg2SXCjW?=
+ =?us-ascii?Q?ElEL2iKR+zS3keSipsHgSZpUitJKA9Q5qv0b9Hz38LE8PT07E5c+dNQOehAc?=
+ =?us-ascii?Q?ipF7u1Ysxoc/2BtV5ouWoypGQKDJYl3TO0eclsLA1QvJLyOzktKBix6boX5e?=
+ =?us-ascii?Q?Icu3C6hXV8JRBklFQN93W6Ov+Z1vlc23Jzk14g9+nBQGqtfqurnhuWOEG9qm?=
+ =?us-ascii?Q?SzpDGHvTxaqtW9CLkUlm9jrJZKzWFD3E3JDu4AzxzJslxtcV11FCrpRGnHoN?=
+ =?us-ascii?Q?oBTt92J16ub4C2ziy/iwd+qYch/bQ+0guFDSIsdOUJouIXbQTvk8Ak5RAFfl?=
+ =?us-ascii?Q?8z/qYkArQfEtW8StxW3+gA3aLR4JNrY0nM2KUJxLh4ORqmg6r+tPlftkp400?=
+ =?us-ascii?Q?plhYhYvPl6OJfoLMPGXGObYXfSXzclzPD/Tr2yGo/u105E8FN7Eo12QZIcf2?=
+ =?us-ascii?Q?rmURfl0JB66x6bRO1I1R2TxZyDdyv2jrXulb3w9RCX619FdLHoM3li+jIsBa?=
+ =?us-ascii?Q?rI9V7S31r04v4/AwlvU3ztRzI443x7cAIw+b/rs910TdPMobcPS+N1cSUhGj?=
+ =?us-ascii?Q?iVtaSH55tvycZf3yMP2kH6opIgI/Px4ey1aXGJ0nkFw1qz51YmnrV7UBuv0Q?=
+ =?us-ascii?Q?GxN20p3euklOFhbZCENk3c4M820yPewX8oX3FJbr2+7HbuM1nENN78847lZj?=
+ =?us-ascii?Q?1LB0SAaUrhNdxNeZKNxRS1422exbX4+nJ/LNynpOVsXmVzfi0IwTBjJeeaY4?=
+ =?us-ascii?Q?mv0SF47hUA9a+zNtyLqviKvOfEVML85ZeMkJiynC?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11c020bf-216b-4a58-4d68-08dddf980780
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2025 03:17:01.2746
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: llaiY6FVgLlpeGYEKN8nXbw/1VPgA6iuNawxVxdpMRdOJgJHKiibO7gJMq4xS2Q9atI7wTFTyKXXCMWb0EK0CA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB11171
 
-Add tas2020, tas2118, tas2120, tas2320, tas5825 support in tas2781 driver.
-Tas2118, tas2x20 have no on-chip DSP, tas5825 have on-chip DSP but
-have no calibration required stereo smart amplifier.
+If a defer probe happens for the cpu device, the return value for
+cpu_pdev "ret = -EINVAL" breaks defer probe. As the cpus->dai_name
+can be replaced by cpus->of_node, to simplify the code, remove related
+code for cpu_pdev.
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+Fixes: 6a5f850aa83a ("ASoC: fsl: Add imx-hdmi machine driver")
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 ---
- include/sound/tas2781.h               |  11 +-
- include/sound/tas2x20-tlv.h           | 259 ++++++++++++++++++++++++++
- sound/soc/codecs/tas2781-comlib-i2c.c |   2 +
- sound/soc/codecs/tas2781-i2c.c        | 156 +++++++++++-----
- 4 files changed, 381 insertions(+), 47 deletions(-)
- create mode 100644 include/sound/tas2x20-tlv.h
+ sound/soc/fsl/imx-hdmi.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-index f0aefc04a957..73ac447b9327 100644
---- a/include/sound/tas2781.h
-+++ b/include/sound/tas2781.h
-@@ -51,7 +51,9 @@
- 
- /* Software Reset, compatble with new device (TAS5825). */
- #define TASDEVICE_REG_SWRESET		TASDEVICE_REG(0x0, 0x0, 0x01)
--#define TASDEVICE_REG_SWRESET_RESET	(BIT(0) | BIT(4))
-+#define TASDEVICE_REG_SWRESET_RESET	BIT(0)
-+
-+#define TAS5825_REG_SWRESET_RESET	(BIT(0) | BIT(4))
- 
- /* Checksum */
- #define TASDEVICE_CHECKSUM_REG		TASDEVICE_REG(0x0, 0x0, 0x7e)
-@@ -110,8 +112,14 @@
- #define TAS2781_RUNTIME_RE_REG		TASDEVICE_REG(0x64, 0x63, 0x44)
- 
- enum audio_device {
-+	TAS2020,
-+	TAS2118,
-+	TAS2120,
-+	TAS2320,
- 	TAS2563,
- 	TAS2781,
-+	TAS5825,
-+	TAS_OTHERS,
- };
- 
- enum dspbin_type {
-@@ -194,6 +202,7 @@ struct tasdevice_priv {
- 	unsigned char coef_binaryname[64];
- 	unsigned char rca_binaryname[64];
- 	unsigned char dev_name[32];
-+	const unsigned char (*dvc_tlv_table)[4];
- 	const char *name_prefix;
- 	unsigned char ndev;
- 	unsigned int dspbin_typ;
-diff --git a/include/sound/tas2x20-tlv.h b/include/sound/tas2x20-tlv.h
-new file mode 100644
-index 000000000000..6e6bcec4a0a1
---- /dev/null
-+++ b/include/sound/tas2x20-tlv.h
-@@ -0,0 +1,259 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+//
-+// ALSA SoC Texas Instruments TAS2x20/TAS2118 Audio Smart Amplifier
-+//
-+// Copyright (C) 2025 Texas Instruments Incorporated
-+// https://www.ti.com
-+//
-+// The TAS2x20/TAS2118 hda driver implements for one, two, or even multiple
-+// TAS2x20/TAS2118 chips.
-+//
-+// Author: Baojun Xu <baojun.xu@ti.com>
-+//
-+
-+#ifndef __TAS2X20_TLV_H__
-+#define __TAS2X20_TLV_H__
-+
-+#define TAS2X20_DVC_LEVEL		TASDEVICE_REG(0x0, 0x2, 0x0c)
-+#define TAS2X20_AMP_LEVEL		TASDEVICE_REG(0x0, 0x0, 0x07)
-+
-+static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2x20_dvc_tlv, 1650, 50, 0);
-+static const __maybe_unused DECLARE_TLV_DB_SCALE(tas2x20_amp_tlv, 2100, 50, 0);
-+
-+/* pow(10, db/20) * pow(2,22) */
-+static const __maybe_unused unsigned char tas2x20_dvc_table[][4] = {
-+	{ 0X00, 0X00, 0X0D, 0X00 }, /* -110.0db */
-+	{ 0X00, 0X00, 0X0E, 0X00 }, /* -109.5db */
-+	{ 0X00, 0X00, 0X0E, 0X00 }, /* -109.0db */
-+	{ 0X00, 0X00, 0X0F, 0X00 }, /* -108.5db */
-+	{ 0X00, 0X00, 0X10, 0X00 }, /* -108.0db */
-+	{ 0X00, 0X00, 0X11, 0X00 }, /* -107.5db */
-+	{ 0X00, 0X00, 0X12, 0X00 }, /* -107.0db */
-+	{ 0X00, 0X00, 0X13, 0X00 }, /* -106.5db */
-+	{ 0X00, 0X00, 0X15, 0X00 }, /* -106.0db */
-+	{ 0X00, 0X00, 0X16, 0X00 }, /* -105.5db */
-+	{ 0X00, 0X00, 0X17, 0X00 }, /* -105.0db */
-+	{ 0X00, 0X00, 0X18, 0X00 }, /* -104.5db */
-+	{ 0X00, 0X00, 0X1A, 0X00 }, /* -104.0db */
-+	{ 0X00, 0X00, 0X1C, 0X00 }, /* -103.5db */
-+	{ 0X00, 0X00, 0X1D, 0X00 }, /* -103.0db */
-+	{ 0X00, 0X00, 0X1F, 0X00 }, /* -102.5db */
-+	{ 0X00, 0X00, 0X21, 0X00 }, /* -102.0db */
-+	{ 0X00, 0X00, 0X23, 0X00 }, /* -101.5db */
-+	{ 0X00, 0X00, 0X25, 0X00 }, /* -101.0db */
-+	{ 0X00, 0X00, 0X27, 0X00 }, /* -100.5db */
-+	{ 0X00, 0X00, 0X29, 0X00 }, /* -100.0db */
-+	{ 0X00, 0X00, 0X2C, 0X00 }, /* -99.5db */
-+	{ 0X00, 0X00, 0X2F, 0X00 }, /* -99.0db */
-+	{ 0X00, 0X00, 0X31, 0X00 }, /* -98.5db */
-+	{ 0X00, 0X00, 0X34, 0X00 }, /* -98.0db */
-+	{ 0X00, 0X00, 0X37, 0X00 }, /* -97.5db */
-+	{ 0X00, 0X00, 0X3B, 0X00 }, /* -97.0db */
-+	{ 0X00, 0X00, 0X3E, 0X00 }, /* -96.5db */
-+	{ 0X00, 0X00, 0X42, 0X00 }, /* -96.0db */
-+	{ 0X00, 0X00, 0X46, 0X00 }, /* -95.5db */
-+	{ 0X00, 0X00, 0X4A, 0X00 }, /* -95.0db */
-+	{ 0X00, 0X00, 0X4F, 0X00 }, /* -94.5db */
-+	{ 0X00, 0X00, 0X53, 0X00 }, /* -94.0db */
-+	{ 0X00, 0X00, 0X58, 0X00 }, /* -93.5db */
-+	{ 0X00, 0X00, 0X5D, 0X00 }, /* -93.0db */
-+	{ 0X00, 0X00, 0X63, 0X00 }, /* -92.5db */
-+	{ 0X00, 0X00, 0X69, 0X00 }, /* -92.0db */
-+	{ 0X00, 0X00, 0X6F, 0X00 }, /* -91.5db */
-+	{ 0X00, 0X00, 0X76, 0X00 }, /* -91.0db */
-+	{ 0X00, 0X00, 0X7D, 0X00 }, /* -90.5db */
-+	{ 0X00, 0X00, 0X84, 0X00 }, /* -90.0db */
-+	{ 0X00, 0X00, 0X8C, 0X00 }, /* -89.5db */
-+	{ 0X00, 0X00, 0X94, 0X00 }, /* -89.0db */
-+	{ 0X00, 0X00, 0X9D, 0X00 }, /* -88.5db */
-+	{ 0X00, 0X00, 0XA6, 0X00 }, /* -88.0db */
-+	{ 0X00, 0X00, 0XB0, 0X00 }, /* -87.5db */
-+	{ 0X00, 0X00, 0XBB, 0X00 }, /* -87.0db */
-+	{ 0X00, 0X00, 0XC6, 0X00 }, /* -86.5db */
-+	{ 0X00, 0X00, 0XD2, 0X00 }, /* -86.0db */
-+	{ 0X00, 0X00, 0XDE, 0X00 }, /* -85.5db */
-+	{ 0X00, 0X00, 0XEB, 0X00 }, /* -85.0db */
-+	{ 0X00, 0X00, 0XF9, 0X00 }, /* -84.5db */
-+	{ 0X00, 0X01, 0X08, 0X00 }, /* -84.0db */
-+	{ 0X00, 0X01, 0X18, 0X00 }, /* -83.5db */
-+	{ 0X00, 0X01, 0X28, 0X00 }, /* -83.0db */
-+	{ 0X00, 0X01, 0X3A, 0X00 }, /* -82.5db */
-+	{ 0X00, 0X01, 0X4D, 0X00 }, /* -82.0db */
-+	{ 0X00, 0X01, 0X60, 0X00 }, /* -81.5db */
-+	{ 0X00, 0X01, 0X75, 0X00 }, /* -81.0db */
-+	{ 0X00, 0X01, 0X8B, 0X00 }, /* -80.5db */
-+	{ 0X00, 0X01, 0XA3, 0X00 }, /* -80.0db */
-+	{ 0X00, 0X01, 0XBC, 0X00 }, /* -79.5db */
-+	{ 0X00, 0X01, 0XD6, 0X00 }, /* -79.0db */
-+	{ 0X00, 0X01, 0XF2, 0X00 }, /* -78.5db */
-+	{ 0X00, 0X02, 0X10, 0X00 }, /* -78.0db */
-+	{ 0X00, 0X02, 0X2F, 0X00 }, /* -77.5db */
-+	{ 0X00, 0X02, 0X50, 0X00 }, /* -77.0db */
-+	{ 0X00, 0X02, 0X73, 0X00 }, /* -76.5db */
-+	{ 0X00, 0X02, 0X98, 0X00 }, /* -76.0db */
-+	{ 0X00, 0X02, 0XC0, 0X00 }, /* -75.5db */
-+	{ 0X00, 0X02, 0XE9, 0X00 }, /* -75.0db */
-+	{ 0X00, 0X03, 0X16, 0X00 }, /* -74.5db */
-+	{ 0X00, 0X03, 0X44, 0X00 }, /* -74.0db */
-+	{ 0X00, 0X03, 0X76, 0X00 }, /* -73.5db */
-+	{ 0X00, 0X03, 0XAA, 0X00 }, /* -73.0db */
-+	{ 0X00, 0X03, 0XE2, 0X00 }, /* -72.5db */
-+	{ 0X00, 0X04, 0X1D, 0X00 }, /* -72.0db */
-+	{ 0X00, 0X04, 0X5B, 0X00 }, /* -71.5db */
-+	{ 0X00, 0X04, 0X9E, 0X00 }, /* -71.0db */
-+	{ 0X00, 0X04, 0XE4, 0X00 }, /* -70.5db */
-+	{ 0X00, 0X05, 0X2E, 0X00 }, /* -70.0db */
-+	{ 0X00, 0X05, 0X7C, 0X00 }, /* -69.5db */
-+	{ 0X00, 0X05, 0XD0, 0X00 }, /* -69.0db */
-+	{ 0X00, 0X06, 0X28, 0X00 }, /* -68.5db */
-+	{ 0X00, 0X06, 0X85, 0X00 }, /* -68.0db */
-+	{ 0X00, 0X06, 0XE8, 0X00 }, /* -67.5db */
-+	{ 0X00, 0X07, 0X51, 0X00 }, /* -67.0db */
-+	{ 0X00, 0X07, 0XC0, 0X00 }, /* -66.5db */
-+	{ 0X00, 0X08, 0X36, 0X00 }, /* -66.0db */
-+	{ 0X00, 0X08, 0XB2, 0X00 }, /* -65.5db */
-+	{ 0X00, 0X09, 0X36, 0X00 }, /* -65.0db */
-+	{ 0X00, 0X09, 0XC2, 0X00 }, /* -64.5db */
-+	{ 0X00, 0X0A, 0X56, 0X00 }, /* -64.0db */
-+	{ 0X00, 0X0A, 0XF3, 0X00 }, /* -63.5db */
-+	{ 0X00, 0X0B, 0X99, 0X00 }, /* -63.0db */
-+	{ 0X00, 0X0C, 0X49, 0X00 }, /* -62.5db */
-+	{ 0X00, 0X0D, 0X03, 0X00 }, /* -62.0db */
-+	{ 0X00, 0X0D, 0XC9, 0X00 }, /* -61.5db */
-+	{ 0X00, 0X0E, 0X9A, 0X00 }, /* -61.0db */
-+	{ 0X00, 0X0F, 0X77, 0X00 }, /* -60.5db */
-+	{ 0X00, 0X10, 0X62, 0X00 }, /* -60.0db */
-+	{ 0X00, 0X11, 0X5A, 0X00 }, /* -59.5db */
-+	{ 0X00, 0X12, 0X62, 0X00 }, /* -59.0db */
-+	{ 0X00, 0X13, 0X78, 0X00 }, /* -58.5db */
-+	{ 0X00, 0X14, 0XA0, 0X00 }, /* -58.0db */
-+	{ 0X00, 0X15, 0XD9, 0X00 }, /* -57.5db */
-+	{ 0X00, 0X17, 0X24, 0X00 }, /* -57.0db */
-+	{ 0X00, 0X18, 0X83, 0X00 }, /* -56.5db */
-+	{ 0X00, 0X19, 0XF7, 0X00 }, /* -56.0db */
-+	{ 0X00, 0X1B, 0X81, 0X00 }, /* -55.5db */
-+	{ 0X00, 0X1D, 0X22, 0X00 }, /* -55.0db */
-+	{ 0X00, 0X1E, 0XDC, 0X00 }, /* -54.5db */
-+	{ 0X00, 0X20, 0XB0, 0X00 }, /* -54.0db */
-+	{ 0X00, 0X22, 0XA0, 0X00 }, /* -53.5db */
-+	{ 0X00, 0X24, 0XAD, 0X00 }, /* -53.0db */
-+	{ 0X00, 0X26, 0XDA, 0X00 }, /* -52.5db */
-+	{ 0X00, 0X29, 0X27, 0X00 }, /* -52.0db */
-+	{ 0X00, 0X2B, 0X97, 0X00 }, /* -51.5db */
-+	{ 0X00, 0X2E, 0X2D, 0X00 }, /* -51.0db */
-+	{ 0X00, 0X30, 0XE9, 0X00 }, /* -50.5db */
-+	{ 0X00, 0X33, 0XCF, 0X00 }, /* -50.0db */
-+	{ 0X00, 0X36, 0XE1, 0X00 }, /* -49.5db */
-+	{ 0X00, 0X3A, 0X21, 0X00 }, /* -49.0db */
-+	{ 0X00, 0X3D, 0X93, 0X00 }, /* -48.5db */
-+	{ 0X00, 0X41, 0X39, 0X00 }, /* -48.0db */
-+	{ 0X00, 0X45, 0X17, 0X00 }, /* -47.5db */
-+	{ 0X00, 0X49, 0X2F, 0X00 }, /* -47.0db */
-+	{ 0X00, 0X4D, 0X85, 0X00 }, /* -46.5db */
-+	{ 0X00, 0X52, 0X1D, 0X00 }, /* -46.0db */
-+	{ 0X00, 0X56, 0XFA, 0X00 }, /* -45.5db */
-+	{ 0X00, 0X5C, 0X22, 0X00 }, /* -45.0db */
-+	{ 0X00, 0X61, 0X97, 0X00 }, /* -44.5db */
-+	{ 0X00, 0X67, 0X60, 0X00 }, /* -44.0db */
-+	{ 0X00, 0X6D, 0X80, 0X00 }, /* -43.5db */
-+	{ 0X00, 0X73, 0XFD, 0X00 }, /* -43.0db */
-+	{ 0X00, 0X7A, 0XDC, 0X00 }, /* -42.5db */
-+	{ 0X00, 0X82, 0X24, 0X00 }, /* -42.0db */
-+	{ 0X00, 0X89, 0XDA, 0X00 }, /* -41.5db */
-+	{ 0X00, 0X92, 0X05, 0X00 }, /* -41.0db */
-+	{ 0X00, 0X9A, 0XAC, 0X00 }, /* -40.5db */
-+	{ 0X00, 0XA3, 0XD7, 0X00 }, /* -40.0db */
-+	{ 0X00, 0XAD, 0X8C, 0X00 }, /* -39.5db */
-+	{ 0X00, 0XB7, 0XD4, 0X00 }, /* -39.0db */
-+	{ 0X00, 0XC2, 0XB9, 0X00 }, /* -38.5db */
-+	{ 0X00, 0XCE, 0X43, 0X00 }, /* -38.0db */
-+	{ 0X00, 0XDA, 0X7B, 0X00 }, /* -37.5db */
-+	{ 0X00, 0XE7, 0X6E, 0X00 }, /* -37.0db */
-+	{ 0X00, 0XF5, 0X24, 0X00 }, /* -36.5db */
-+	{ 0X01, 0X03, 0XAB, 0X00 }, /* -36.0db */
-+	{ 0X01, 0X13, 0X0E, 0X00 }, /* -35.5db */
-+	{ 0X01, 0X23, 0X5A, 0X00 }, /* -35.0db */
-+	{ 0X01, 0X34, 0X9D, 0X00 }, /* -34.5db */
-+	{ 0X01, 0X46, 0XE7, 0X00 }, /* -34.0db */
-+	{ 0X01, 0X5A, 0X46, 0X00 }, /* -33.5db */
-+	{ 0X01, 0X6E, 0XCA, 0X00 }, /* -33.0db */
-+	{ 0X01, 0X84, 0X86, 0X00 }, /* -32.5db */
-+	{ 0X01, 0X9B, 0X8C, 0X00 }, /* -32.0db */
-+	{ 0X01, 0XB3, 0XEE, 0X00 }, /* -31.5db */
-+	{ 0X01, 0XCD, 0XC3, 0X00 }, /* -31.0db */
-+	{ 0X01, 0XE9, 0X20, 0X00 }, /* -30.5db */
-+	{ 0X02, 0X06, 0X1B, 0X00 }, /* -30.0db */
-+	{ 0X02, 0X24, 0XCE, 0X00 }, /* -29.5db */
-+	{ 0X02, 0X45, 0X53, 0X00 }, /* -29.0db */
-+	{ 0X02, 0X67, 0XC5, 0X00 }, /* -28.5db */
-+	{ 0X02, 0X8C, 0X42, 0X00 }, /* -28.0db */
-+	{ 0X02, 0XB2, 0XE8, 0X00 }, /* -27.5db */
-+	{ 0X02, 0XDB, 0XD8, 0X00 }, /* -27.0db */
-+	{ 0X03, 0X07, 0X36, 0X00 }, /* -26.5db */
-+	{ 0X03, 0X35, 0X25, 0X00 }, /* -26.0db */
-+	{ 0X03, 0X65, 0XCD, 0X00 }, /* -25.5db */
-+	{ 0X03, 0X99, 0X57, 0X00 }, /* -25.0db */
-+	{ 0X03, 0XCF, 0XEE, 0X00 }, /* -24.5db */
-+	{ 0X04, 0X09, 0XC2, 0X00 }, /* -24.0db */
-+	{ 0X04, 0X47, 0X03, 0X00 }, /* -23.5db */
-+	{ 0X04, 0X87, 0XE5, 0X00 }, /* -23.0db */
-+	{ 0X04, 0XCC, 0XA0, 0X00 }, /* -22.5db */
-+	{ 0X05, 0X15, 0X6D, 0X00 }, /* -22.0db */
-+	{ 0X05, 0X62, 0X8A, 0X00 }, /* -21.5db */
-+	{ 0X05, 0XB4, 0X39, 0X00 }, /* -21.0db */
-+	{ 0X06, 0X0A, 0XBF, 0X00 }, /* -20.5db */
-+	{ 0X06, 0X66, 0X66, 0X00 }, /* -20.0db */
-+	{ 0X06, 0XC7, 0X7B, 0X00 }, /* -19.5db */
-+	{ 0X07, 0X2E, 0X50, 0X00 }, /* -19.0db */
-+	{ 0X07, 0X9B, 0X3D, 0X00 }, /* -18.5db */
-+	{ 0X08, 0X0E, 0X9F, 0X00 }, /* -18.0db */
-+	{ 0X08, 0X88, 0XD7, 0X00 }, /* -17.5db */
-+	{ 0X09, 0X0A, 0X4D, 0X00 }, /* -17.0db */
-+	{ 0X09, 0X93, 0X6E, 0X00 }, /* -16.5db */
-+	{ 0X0A, 0X24, 0XB0, 0X00 }, /* -16.0db */
-+	{ 0X0A, 0XBE, 0X8D, 0X00 }, /* -15.5db */
-+	{ 0X0B, 0X61, 0X88, 0X00 }, /* -15.0db */
-+	{ 0X0C, 0X0E, 0X2B, 0X00 }, /* -14.5db */
-+	{ 0X0C, 0XC5, 0X09, 0X00 }, /* -14.0db */
-+	{ 0X0D, 0X86, 0XBD, 0X00 }, /* -13.5db */
-+	{ 0X0E, 0X53, 0XEB, 0X00 }, /* -13.0db */
-+	{ 0X0F, 0X2D, 0X42, 0X00 }, /* -12.5db */
-+	{ 0X10, 0X13, 0X79, 0X00 }, /* -12.0db */
-+	{ 0X11, 0X07, 0X54, 0X00 }, /* -11.5db */
-+	{ 0X12, 0X09, 0XA3, 0X00 }, /* -11.0db */
-+	{ 0X13, 0X1B, 0X40, 0X00 }, /* -10.5db */
-+	{ 0X14, 0X3D, 0X13, 0X00 }, /* -10.0db */
-+	{ 0X15, 0X70, 0X12, 0X00 }, /* -9.5db */
-+	{ 0X16, 0XB5, 0X43, 0X00 }, /* -9.0db */
-+	{ 0X18, 0X0D, 0XB8, 0X00 }, /* -8.5db */
-+	{ 0X19, 0X7A, 0X96, 0X00 }, /* -8.0db */
-+	{ 0X1A, 0XFD, 0X13, 0X00 }, /* -7.5db */
-+	{ 0X1C, 0X96, 0X76, 0X00 }, /* -7.0db */
-+	{ 0X1E, 0X48, 0X1C, 0X00 }, /* -6.5db */
-+	{ 0X20, 0X13, 0X73, 0X00 }, /* -6.0db */
-+	{ 0X21, 0XFA, 0X02, 0X00 }, /* -5.5db */
-+	{ 0X23, 0XFD, 0X66, 0X00 }, /* -5.0db */
-+	{ 0X26, 0X1F, 0X54, 0X00 }, /* -4.5db */
-+	{ 0X28, 0X61, 0X9A, 0X00 }, /* -4.0db */
-+	{ 0X2A, 0XC6, 0X25, 0X00 }, /* -3.5db */
-+	{ 0X2D, 0X4E, 0XFB, 0X00 }, /* -3.0db */
-+	{ 0X2F, 0XFE, 0X44, 0X00 }, /* -2.5db */
-+	{ 0X32, 0XD6, 0X46, 0X00 }, /* -2.0db */
-+	{ 0X35, 0XD9, 0X6B, 0X00 }, /* -1.5db */
-+	{ 0X39, 0X0A, 0X41, 0X00 }, /* -1.0db */
-+	{ 0X3C, 0X6B, 0X7E, 0X00 }, /* -0.5db */
-+	{ 0X40, 0X00, 0X00, 0X00 }, /* 0.0db */
-+	{ 0X43, 0XCA, 0XD0, 0X00 }, /* 0.5db */
-+	{ 0X47, 0XCF, 0X26, 0X00 }, /* 1.0db */
-+	{ 0X4C, 0X10, 0X6B, 0X00 }, /* 1.5db */
-+	{ 0X50, 0X92, 0X3B, 0X00 }, /* 2.0db */
-+	{ 0X55, 0X58, 0X6A, 0X00 }, /* 2.5db */
-+	{ 0X5A, 0X67, 0X03, 0X00 }, /* 3.0db */
-+	{ 0X5F, 0XC2, 0X53, 0X00 }, /* 3.5db */
-+	{ 0X65, 0X6E, 0XE3, 0X00 }, /* 4.0db */
-+	{ 0X6B, 0X71, 0X86, 0X00 }, /* 4.5db */
-+	{ 0X71, 0XCF, 0X54, 0X00 }, /* 5.0db */
-+	{ 0X78, 0X8D, 0XB4, 0X00 }, /* 5.5db */
-+	{ 0X7F, 0XB2, 0X61, 0X00 }, /* 6.0db */
-+};
-+#endif
-diff --git a/sound/soc/codecs/tas2781-comlib-i2c.c b/sound/soc/codecs/tas2781-comlib-i2c.c
-index c078bb0a8437..764304604e2c 100644
---- a/sound/soc/codecs/tas2781-comlib-i2c.c
-+++ b/sound/soc/codecs/tas2781-comlib-i2c.c
-@@ -320,6 +320,8 @@ void tasdevice_reset(struct tasdevice_priv *tas_dev)
- 		for (i = 0; i < tas_dev->ndev; i++) {
- 			ret = tasdevice_dev_write(tas_dev, i,
- 				TASDEVICE_REG_SWRESET,
-+				tas_dev->chip_id == TAS5825 ?
-+				TAS5825_REG_SWRESET_RESET :
- 				TASDEVICE_REG_SWRESET_RESET);
- 			if (ret < 0)
- 				dev_err(tas_dev->dev,
-diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
-index ea3cdb8553de..cf6bd4d63f31 100644
---- a/sound/soc/codecs/tas2781-i2c.c
-+++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -30,8 +30,10 @@
- #include <sound/tas2781.h>
- #include <sound/tas2781-comlib-i2c.h>
- #include <sound/tlv.h>
-+#include <sound/tas2x20-tlv.h>
- #include <sound/tas2563-tlv.h>
- #include <sound/tas2781-tlv.h>
-+#include <sound/tas5825-tlv.h>
- #include <linux/unaligned.h>
- 
- #define X2563_CL_STT_VAL(xreg, xval) \
-@@ -98,16 +100,26 @@ static const struct bulk_reg_val tas2781_cali_start_reg[] = {
- };
- 
- static const struct i2c_device_id tasdevice_id[] = {
-+	{ "tas2020", TAS2020 },
-+	{ "tas2118", TAS2118 },
-+	{ "tas2120", TAS2120 },
-+	{ "tas2320", TAS2320 },
- 	{ "tas2563", TAS2563 },
- 	{ "tas2781", TAS2781 },
-+	{ "tas5825", TAS5825 },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, tasdevice_id);
- 
- #ifdef CONFIG_OF
- static const struct of_device_id tasdevice_of_match[] = {
-+	{ .compatible = "ti,tas2020" },
-+	{ .compatible = "ti,tas2118" },
-+	{ .compatible = "ti,tas2120" },
-+	{ .compatible = "ti,tas2320" },
- 	{ .compatible = "ti,tas2563" },
- 	{ .compatible = "ti,tas2781" },
-+	{ .compatible = "ti,tas5825" },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, tasdevice_of_match);
-@@ -797,7 +809,7 @@ static int tasdev_nop_get(
- 	return 0;
- }
- 
--static int tas2563_digital_gain_get(
-+static int tasdevice_digital_gain_get(
- 	struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *ucontrol)
- {
-@@ -823,15 +835,15 @@ static int tas2563_digital_gain_get(
- 
- 	while (r > 1 + l) {
- 		mid = (l + r) / 2;
--		ar_mid = get_unaligned_be32(tas2563_dvc_table[mid]);
-+		ar_mid = get_unaligned_be32(tas_dev->dvc_tlv_table[mid]);
- 		if (target < ar_mid)
- 			r = mid;
- 		else
- 			l = mid;
+diff --git a/sound/soc/fsl/imx-hdmi.c b/sound/soc/fsl/imx-hdmi.c
+index fe47b439a818..1115189cc640 100644
+--- a/sound/soc/fsl/imx-hdmi.c
++++ b/sound/soc/fsl/imx-hdmi.c
+@@ -101,7 +101,6 @@ static int imx_hdmi_probe(struct platform_device *pdev)
+ 	bool hdmi_out = of_property_read_bool(np, "hdmi-out");
+ 	bool hdmi_in = of_property_read_bool(np, "hdmi-in");
+ 	struct snd_soc_dai_link_component *dlc;
+-	struct platform_device *cpu_pdev;
+ 	struct device_node *cpu_np;
+ 	struct imx_hdmi_data *data;
+ 	int ret;
+@@ -117,17 +116,9 @@ static int imx_hdmi_probe(struct platform_device *pdev)
+ 		goto fail;
  	}
  
--	ar_l = get_unaligned_be32(tas2563_dvc_table[l]);
--	ar_r = get_unaligned_be32(tas2563_dvc_table[r]);
-+	ar_l = get_unaligned_be32(tas_dev->dvc_tlv_table[l]);
-+	ar_r = get_unaligned_be32(tas_dev->dvc_tlv_table[r]);
- 
- 	/* find out the member same as or closer to the current volume */
- 	ucontrol->value.integer.value[0] =
-@@ -841,7 +853,7 @@ static int tas2563_digital_gain_get(
- 	return 0;
- }
- 
--static int tas2563_digital_gain_put(
-+static int tasdevice_digital_gain_put(
- 	struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *ucontrol)
- {
-@@ -867,7 +879,7 @@ static int tas2563_digital_gain_put(
- 	}
- 
- 	volrd = get_unaligned_be32(&data[0]);
--	volwr = get_unaligned_be32(tas2563_dvc_table[vol]);
-+	volwr = get_unaligned_be32(tas_dev->dvc_tlv_table[vol]);
- 
- 	if (volrd == volwr) {
- 		rc = 0;
-@@ -876,7 +888,7 @@ static int tas2563_digital_gain_put(
- 
- 	for (i = 0; i < tas_dev->ndev; i++) {
- 		ret = tasdevice_dev_bulk_write(tas_dev, i, reg,
--			(unsigned char *)tas2563_dvc_table[vol], 4);
-+			(unsigned char *)tas_dev->dvc_tlv_table[vol], 4);
- 		if (ret) {
- 			dev_err(tas_dev->dev,
- 				"%s, set digital vol error in dev %d\n",
-@@ -892,11 +904,6 @@ static int tas2563_digital_gain_put(
- 	return rc;
- }
- 
--static const struct snd_kcontrol_new tasdevice_snd_controls[] = {
--	SOC_SINGLE_BOOL_EXT("Speaker Force Firmware Load", 0,
--		tasdev_force_fwload_get, tasdev_force_fwload_put),
--};
--
- static const struct snd_kcontrol_new tasdevice_cali_controls[] = {
- 	SOC_SINGLE_EXT("Calibration Stop", SND_SOC_NOPM, 0, 1, 0,
- 		tasdev_nop_get, tasdev_calib_stop_put),
-@@ -907,6 +914,16 @@ static const struct snd_kcontrol_new tasdevice_cali_controls[] = {
- 	SND_SOC_BYTES_EXT("Amp XMA2 Data", 6, tasdev_XMA2_data_get, NULL),
- };
- 
-+static const struct snd_kcontrol_new tas2x20_snd_controls[] = {
-+	SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS2X20_AMP_LEVEL,
-+		0, 0, 42, 1, tas2781_amp_getvol,
-+		tas2781_amp_putvol, tas2x20_amp_tlv),
-+	SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Volume", TAS2X20_DVC_LEVEL,
-+		0, 0, ARRAY_SIZE(tas2x20_dvc_table) - 1, 0,
-+		tasdevice_digital_gain_get, tasdevice_digital_gain_put,
-+		tas2x20_dvc_tlv),
-+};
-+
- static const struct snd_kcontrol_new tas2781_snd_controls[] = {
- 	SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS2781_AMP_LEVEL,
- 		1, 0, 20, 0, tas2781_amp_getvol,
-@@ -916,6 +933,15 @@ static const struct snd_kcontrol_new tas2781_snd_controls[] = {
- 		tas2781_digital_putvol, tas2781_dvc_tlv),
- };
- 
-+static const struct snd_kcontrol_new tas5825_snd_controls[] = {
-+	SOC_SINGLE_RANGE_EXT_TLV("Speaker Analog Volume", TAS5825_AMP_LEVEL,
-+		0, 0, 31, 1, tas2781_amp_getvol,
-+		tas2781_amp_putvol, tas5825_amp_tlv),
-+	SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Volume", TAS5825_DVC_LEVEL,
-+		0, 0, 254, 1, tas2781_amp_getvol,
-+		tas2781_amp_putvol, tas5825_dvc_tlv),
-+};
-+
- static const struct snd_kcontrol_new tas2781_cali_controls[] = {
- 	SND_SOC_BYTES_EXT("Amp Latch Data", 3, tas2781_latch_reg_get, NULL),
- };
-@@ -923,7 +949,7 @@ static const struct snd_kcontrol_new tas2781_cali_controls[] = {
- static const struct snd_kcontrol_new tas2563_snd_controls[] = {
- 	SOC_SINGLE_RANGE_EXT_TLV("Speaker Digital Volume", TAS2563_DVC_LVL, 0,
- 		0, ARRAY_SIZE(tas2563_dvc_table) - 1, 0,
--		tas2563_digital_gain_get, tas2563_digital_gain_put,
-+		tasdevice_digital_gain_get, tasdevice_digital_gain_put,
- 		tas2563_dvc_tlv),
- };
- 
-@@ -968,7 +994,7 @@ static int tasdevice_info_chip_id(struct snd_kcontrol *kcontrol,
- {
- 	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
- 	uinfo->count = 1;
--	uinfo->value.integer.min = TAS2563;
-+	uinfo->value.integer.min = TAS2020;
- 	uinfo->value.integer.max = TAS2781;
- 
- 	return 0;
-@@ -1168,9 +1194,9 @@ static int tasdevice_active_num_put(struct snd_kcontrol *kcontrol,
- static int tasdevice_dsp_create_ctrls(struct tasdevice_priv *tas_priv)
- {
- 	struct snd_kcontrol_new *dsp_ctrls;
--	char *active_dev_num, *chip_id;
-+	char *active_dev_num, *chip_id, *fw_load;
- 	char *conf_name, *prog_name;
--	int nr_controls = 4;
-+	int nr_controls = 5;
- 	int mix_index = 0;
- 
- 	/* Alloc kcontrol via devm_kzalloc, which don't manually
-@@ -1228,6 +1254,19 @@ static int tasdevice_dsp_create_ctrls(struct tasdevice_priv *tas_priv)
- 	dsp_ctrls[mix_index].get = tasdevice_get_chip_id;
- 	mix_index++;
- 
-+	fw_load = devm_kstrdup(tas_priv->dev, "Speaker Force Firmware Load",
-+		GFP_KERNEL);
-+	if (!fw_load)
-+		return -ENOMEM;
-+
-+	dsp_ctrls[mix_index].name = fw_load;
-+	dsp_ctrls[mix_index].iface = SNDRV_CTL_ELEM_IFACE_MIXER;
-+	dsp_ctrls[mix_index].info = snd_soc_info_bool_ext;
-+	dsp_ctrls[mix_index].put = tasdev_force_fwload_put;
-+	dsp_ctrls[mix_index].get = tasdev_force_fwload_get;
-+	dsp_ctrls[mix_index].private_value = 0UL;
-+	mix_index++;
-+
- 	return snd_soc_add_component_controls(tas_priv->codec, dsp_ctrls,
- 		nr_controls < mix_index ? nr_controls : mix_index);
- }
-@@ -1587,6 +1626,9 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
- 	 * failing to load DSP firmware is NOT an error.
- 	 */
- 	tas_priv->fw_state = TASDEVICE_RCA_FW_OK;
-+	/* There is no DSP firmware required for TAS2118/2X20. */
-+	if (tas_priv->chip_id < TAS2563)
-+		goto out;
- 	if (tas_priv->name_prefix)
- 		scnprintf(tas_priv->coef_binaryname, 64, "%s-%s_coef.bin",
- 			tas_priv->name_prefix, tas_priv->dev_name);
-@@ -1608,34 +1650,37 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
- 		dev_err(tas_priv->dev, "dsp controls error\n");
- 		goto out;
- 	}
--
--	ret = tasdevice_create_cali_ctrls(tas_priv);
--	if (ret) {
--		dev_err(tas_priv->dev, "cali controls error\n");
--		goto out;
+-	cpu_pdev = of_find_device_by_node(cpu_np);
+-	if (!cpu_pdev) {
+-		dev_err(&pdev->dev, "failed to find SAI platform device\n");
+-		ret = -EINVAL;
+-		goto fail;
 -	}
 -
- 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
- 
--	/* If calibrated data occurs error, dsp will still works with default
--	 * calibrated data inside algo.
--	 */
--	for (i = 0; i < tas_priv->ndev; i++) {
--		if (tas_priv->name_prefix)
--			scnprintf(tas_priv->cal_binaryname[i], 64,
--				"%s-%s_cal_0x%02x.bin", tas_priv->name_prefix,
--				tas_priv->dev_name,
--				tas_priv->tasdevice[i].dev_addr);
--		else
--			scnprintf(tas_priv->cal_binaryname[i], 64,
--				"%s_cal_0x%02x.bin", tas_priv->dev_name,
--				tas_priv->tasdevice[i].dev_addr);
--		ret = tas2781_load_calibration(tas_priv,
--			tas_priv->cal_binaryname[i], i);
--		if (ret != 0)
--			dev_err(tas_priv->dev,
--				"%s: load %s error, default will effect\n",
--				__func__, tas_priv->cal_binaryname[i]);
-+	/* There is no calibration required for TAS5825. */
-+	if (tas_priv->chip_id < TAS5825) {
-+		ret = tasdevice_create_cali_ctrls(tas_priv);
-+		if (ret) {
-+			dev_err(tas_priv->dev, "cali controls error\n");
-+			goto out;
-+		}
-+		/* If calibrated data occurs error, dsp will still works
-+		 * with default calibrated data inside algo.
-+		 */
-+		for (i = 0; i < tas_priv->ndev; i++) {
-+			if (tas_priv->name_prefix)
-+				scnprintf(tas_priv->cal_binaryname[i], 64,
-+					  "%s-%s_cal_0x%02x.bin",
-+					  tas_priv->name_prefix,
-+					  tas_priv->dev_name,
-+					  tas_priv->tasdevice[i].dev_addr);
-+			else
-+				scnprintf(tas_priv->cal_binaryname[i], 64,
-+					  "%s_cal_0x%02x.bin",
-+					  tas_priv->dev_name,
-+					  tas_priv->tasdevice[i].dev_addr);
-+			ret = tas2781_load_calibration(tas_priv,
-+				tas_priv->cal_binaryname[i], i);
-+			if (ret != 0)
-+				dev_err(tas_priv->dev,
-+					"%s: load %s error, keep default.\n",
-+					__func__, tas_priv->cal_binaryname[i]);
-+		}
+ 	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+ 	if (!data) {
+ 		ret = -ENOMEM;
+-		put_device(&cpu_pdev->dev);
+ 		goto fail;
  	}
  
- 	tasdevice_prmg_load(tas_priv, 0);
-@@ -1658,7 +1703,8 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
- 		comp, &acoustic_ctl_fops);
- #endif
- out:
--	if (tas_priv->fw_state == TASDEVICE_RCA_FW_OK) {
-+	if ((tas_priv->fw_state == TASDEVICE_RCA_FW_OK) &&
-+	    (tas_priv->chip_id >= TAS2563)) {
- 		/* If DSP FW fail, DSP kcontrol won't be created. */
- 		tasdevice_dsp_remove(tas_priv);
- 	}
-@@ -1804,13 +1850,27 @@ static int tasdevice_codec_probe(struct snd_soc_component *codec)
- 	int rc;
+@@ -140,15 +131,13 @@ static int imx_hdmi_probe(struct platform_device *pdev)
  
- 	switch (tas_priv->chip_id) {
-+	case TAS2020:
-+	case TAS2118:
-+	case TAS2120:
-+	case TAS2320:
-+		p = (struct snd_kcontrol_new *)tas2x20_snd_controls;
-+		size = ARRAY_SIZE(tas2x20_snd_controls);
-+		tas_priv->dvc_tlv_table = tas2x20_dvc_table;
-+		break;
- 	case TAS2781:
- 		p = (struct snd_kcontrol_new *)tas2781_snd_controls;
- 		size = ARRAY_SIZE(tas2781_snd_controls);
- 		break;
-+	case TAS5825:
-+		p = (struct snd_kcontrol_new *)tas5825_snd_controls;
-+		size = ARRAY_SIZE(tas5825_snd_controls);
-+		break;
- 	default:
- 		p = (struct snd_kcontrol_new *)tas2563_snd_controls;
- 		size = ARRAY_SIZE(tas2563_snd_controls);
-+		tas_priv->dvc_tlv_table = tas2563_dvc_table;
-+		break;
- 	}
+ 	data->dai.name = "i.MX HDMI";
+ 	data->dai.stream_name = "i.MX HDMI";
+-	data->dai.cpus->dai_name = dev_name(&cpu_pdev->dev);
++	data->dai.cpus->of_node = cpu_np;
+ 	data->dai.platforms->of_node = cpu_np;
+ 	data->dai.ops = &imx_hdmi_ops;
+ 	data->dai.playback_only = true;
+ 	data->dai.capture_only = false;
+ 	data->dai.init = imx_hdmi_init;
  
- 	rc = snd_soc_add_component_controls(codec, p, size);
-@@ -1850,8 +1910,6 @@ static const struct snd_soc_component_driver
- 	soc_codec_driver_tasdevice = {
- 	.probe			= tasdevice_codec_probe,
- 	.remove			= tasdevice_codec_remove,
--	.controls		= tasdevice_snd_controls,
--	.num_controls		= ARRAY_SIZE(tasdevice_snd_controls),
- 	.dapm_widgets		= tasdevice_dapm_widgets,
- 	.num_dapm_widgets	= ARRAY_SIZE(tasdevice_dapm_widgets),
- 	.dapm_routes		= tasdevice_audio_map,
-@@ -1967,7 +2025,13 @@ static void tasdevice_i2c_remove(struct i2c_client *client)
- 
- #ifdef CONFIG_ACPI
- static const struct acpi_device_id tasdevice_acpi_match[] = {
--	{ "TAS2781", TAS2781 },
-+	{ "TXNW2020", TAS2020 },
-+	{ "TXNW2118", TAS2118 },
-+	{ "TXNW2120", TAS2120 },
-+	{ "TXNW2320", TAS2320 },
-+	{ "TXNW2563", TAS2563 },
-+	{ "TXNW2781", TAS2781 },
-+	{ "TXNW5825", TAS5825 },
- 	{},
- };
- 
+-	put_device(&cpu_pdev->dev);
+-
+ 	if (of_node_name_eq(cpu_np, "sai")) {
+ 		data->cpu_priv.sysclk_id[1] = FSL_SAI_CLK_MAST1;
+ 		data->cpu_priv.sysclk_id[0] = FSL_SAI_CLK_MAST1;
 -- 
-2.43.0
+2.34.1
 
