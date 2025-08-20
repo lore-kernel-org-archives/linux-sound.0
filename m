@@ -1,83 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58C126A1D8;
-	Wed, 20 Aug 2025 14:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD7C2641E3;
+	Wed, 20 Aug 2025 14:09:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755698930; cv=none; b=IQETPoJ5oEP/ETZqMKKhPFbtN51JERyGYtFAcJ4+oMpzBbdTE/+7cccZfSioUJi7cfWtB9czq9FSOwUNy+gsxbimdFLaa5bhx97oxUlQ6qp9TIo9/iEWcIlfXi+YM61zKipRuLtJzeJXqe4tu0OFxuGDzZwsVZy6u6AwLkEAkog=
+	t=1755698943; cv=none; b=ENgv0fbowG6tGfFXzUprvaIM5hIyx/FmGdPzr+4naU1DYzqo+6R2me1XwH40uIjgRT9uoCtXSh+8xa8ZzN+zrwB1MX+/rXlBWmS1OaLnnzvqpYWF6QWgZ17ey2vpCnwsakrNkk7Q2NrlYeRh/vinwuAYCCrXoc9dumb7eu0D5yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755698930; c=relaxed/simple;
-	bh=pMXgzqRfvoRVUf9L0RDd1Zb77kzZePSRtO3S30aU0Xo=;
+	s=arc-20240116; t=1755698943; c=relaxed/simple;
+	bh=8GNwXhFDUK+QdMGtKEC2x2L7fi25pyc6D2jK6dA+Vs0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BwdYnpzwskSPGosYy4GZ0xKOtz1r4Gdl2UUS2Riqrnx5+Vq0B6gnKqBTH3lN/Mo2W6HC4KiOy4GowHJ1utBgqcvaWwVmUShKKrrJbhNydQUeoczzUqiNSAwb5BKGVAiR5KiQ7Sz49TpQ1aDOS4slsWq1rU85cKGx68xb7zhp8iQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMluIu+L; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SdQ+UXR8n/VtbLkGy5u4JI95cU4HGR8qDZlyUhYfjiMZZymxX9XSwH0XiEXfAQzuIAWo61ABa+GTecE2v6n+5OEVsqIfQ8yCyotWUMGzq3GTvpvu39XccjdiLMnQdhZ8rgQ+ViJuUDJ0lNAx3B7QW6m0cvlx8qhimUmWsJsd7YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q65285Kb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMluIu+L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48077C4CEE7;
-	Wed, 20 Aug 2025 14:08:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q65285Kb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA273C4CEE7;
+	Wed, 20 Aug 2025 14:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755698930;
-	bh=pMXgzqRfvoRVUf9L0RDd1Zb77kzZePSRtO3S30aU0Xo=;
+	s=k20201202; t=1755698942;
+	bh=8GNwXhFDUK+QdMGtKEC2x2L7fi25pyc6D2jK6dA+Vs0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZMluIu+L7G0qZ27ch6bbEMCHqZYo4zO0+4qfGiWeY8Ym3Pi6Jj3xQ631+UDAlxO6p
-	 WlSORCiLj0OjmbQzC2fpqQgrLaCPbQSvIENijX4JhpOPt6IpxJDRVz4A1+tbBi/4PW
-	 GjmF3XCkx8d81oCaFx6vmxCRkKQq/RGvmCjBOVK15fV/xaHBFC243GDwGOUwKPv/gq
-	 u+cTO9cPPUswMkATRkwRuvAJ9okXE1YWaIfef06n/h5XA+SihM72+BX//I6k4B4ZXT
-	 vBxnET2lXMz7ZWkgw8s0WQeVaZ6f0+2ocSueMIhTlaIGs+3+KBQ6iv80DcLgbrkW8w
-	 /GxW6XmWtNnaQ==
-Date: Wed, 20 Aug 2025 15:08:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH v2 3/3] ASoC: cs35l56: Remove SoundWire Clock Divider
- workaround for CS35L63
-Message-ID: <5e89d3eb-15d1-40c3-a777-01c3f97a89ed@sirena.org.uk>
-References: <20250820125045.117740-1-sbinding@opensource.cirrus.com>
- <20250820125045.117740-4-sbinding@opensource.cirrus.com>
+	b=q65285KbRd0VzWFQ3bT2Sr98WEh3bE7hveob8ouhH/owd0dj6ImcPreXi3P/nlMKm
+	 qjLt/8DKCiN9r2Qk91KRKVwu2lC2Wo1xSxEWVUk1XVNOi69QDUrO6nOA8LUTnvHEPU
+	 ERLi/tKAO+HbBUM1hfBish1/VRHzcm3ChdYPldcbHkCpDhAcKm9oXt0dq8LjQQYiu/
+	 1QIXV7tQNpxSC+J36Rkq+0GJBfb9OAhw3q2ZxT6K95UPu0kPMTmv6j9meRsmet1DBL
+	 rNIlS3++9fLpUDsUCu1aQvRUmDWZ5wVFY3CtaOJDx3IXv/DJFB+D+ABAWI9W3OBfBH
+	 ZLtWumwzK357w==
+Date: Wed, 20 Aug 2025 09:09:01 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: linux-omap@vger.kernel.org, conor+dt@kernel.org, broonie@kernel.org,
+	shuah@kernel.org, krzk+dt@kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	lgirdwood@gmail.com, peter.ujfalusi@gmail.com
+Subject: Re: [PATCH v4 1/2] ASoC: dt-bindings: ti,twl4030-audio: convert to
+ DT schema
+Message-ID: <175569894135.3348790.4972298739522547890.robh@kernel.org>
+References: <20250819201302.80712-1-jihed.chaibi.dev@gmail.com>
+ <20250819201302.80712-2-jihed.chaibi.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FV8WXpWu7APsZlZW"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250820125045.117740-4-sbinding@opensource.cirrus.com>
-X-Cookie: Semper Fi, dude.
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250819201302.80712-2-jihed.chaibi.dev@gmail.com>
 
 
---FV8WXpWu7APsZlZW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 19 Aug 2025 22:13:01 +0200, Jihed Chaibi wrote:
+> Convert the TWL4030 audio module bindings from txt to YAML format and
+> move them to the sound subsystem bindings directory. This patch also
+> refines the schema by adding an enum constraint for ti,enable-vibra and
+> updates the example to remove irrelevant I2C clock-frequency property.
+> 
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> 
+> ---
+> Changes in v4:
+>  - No change to binding content, only updating commit message format.
+>  - Split from larger series per maintainer feedback.
+>  - v3 link:
+>    https://lore.kernel.org/all/20250816021523.167049-1-jihed.chaibi.dev@gmail.com/
+> 
+> Changes in v3:
+>  - No changes.
+> 
+> Changes in v2:
+>  - Moved binding from mfd to sound directory.
+>  - Added enum: [0, 1] to ti,enable-vibra for stricter validation.
+>  - Removed clock-frequency from the example as it’s not relevant to the binding.
+>  - Simplified example by removing unnecessary I2C node properties.
+> ---
+>  .../devicetree/bindings/mfd/twl4030-audio.txt | 46 ----------
+>  .../bindings/sound/ti,twl4030-audio.yaml      | 90 +++++++++++++++++++
+>  2 files changed, 90 insertions(+), 46 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/twl4030-audio.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/ti,twl4030-audio.yaml
+> 
 
-On Wed, Aug 20, 2025 at 01:50:36PM +0100, Stefan Binding wrote:
-> Production silicon for CS36L63 has some small differences compared to
-> pre-production silicon. Remove soundwire clock workaround as no
-> longer necessary. We don't want to do tricks with low-level clocking
-> controls if we don't need to.
->=20
-> Fixes: d3197a09a117 ("ASoC: cs35l56: Add initial support for CS35L63 for =
-I2C and SoundWire")
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-This patch isn't present in mainline?
-
---FV8WXpWu7APsZlZW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmil1u0ACgkQJNaLcl1U
-h9CpwQf+I4uXAKXSLcpDCNBFi8iOLJiAwQLUjElQQW6WlxXg5jH+/kZgeBvrGk42
-FzkPHSJyY95iaP5kPY6jhS/PRT9XMJRTSG1kZWHVmPIhDUdE1rnaBC7XBnr3E//5
-tjS0GmGni9qL2l3Nmjx69h51XIj9v+QetApwWLh/PMzbdsx8PQhm/uqjyvy9RFYM
-wECLlCgFS8b14qK2NxahsY/5boZhy+VCnrpIjj74+P9wZltdvJR6goUFe03i4zhZ
-4iVf8aT1q3F4/5V3LklkSQfuX+c3v4YV080YM3yE4ipgGcIZPkLneab/piXJEpNr
-d7vfyapOL8LvjhxiHT9qZKu0BflbEQ==
-=LlrB
------END PGP SIGNATURE-----
-
---FV8WXpWu7APsZlZW--
