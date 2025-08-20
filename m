@@ -1,179 +1,83 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187631A83F7;
-	Wed, 20 Aug 2025 13:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58C126A1D8;
+	Wed, 20 Aug 2025 14:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755697512; cv=none; b=sR29z3xj+FiS7mZlIq3rKOgOEppF7GCEwFYvRVT29Vy7XxSPNzAK9ie5MFPevTNjS+vWAPfw/aoZKR3j3/dpVtlYW2bzc/NcIVxt9dHDtPzQ+KCPjHuvja76t0f03qnA7oIyQj2tcRyr/mSmVmHqLk2c0UlK5lC2GiTA1QBK/5s=
+	t=1755698930; cv=none; b=IQETPoJ5oEP/ETZqMKKhPFbtN51JERyGYtFAcJ4+oMpzBbdTE/+7cccZfSioUJi7cfWtB9czq9FSOwUNy+gsxbimdFLaa5bhx97oxUlQ6qp9TIo9/iEWcIlfXi+YM61zKipRuLtJzeJXqe4tu0OFxuGDzZwsVZy6u6AwLkEAkog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755697512; c=relaxed/simple;
-	bh=USQrAZZJj10MR5a19PgXs2S92DCFQyDjwkKul1A2/QU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oonssYmBqNhmJuRm0+V+k7p+6FTKZ0QpH5MqDxvBEQ3GTCJUdBoO0QOGND9eBXXCSIm33itxGKZfIfHmkyJWE7az7ztISk1bIvyRJCoySM4eRKkwkGBGUNy3C/pYctkEk7uDbnFJXxVpqruLqwD0uTMs6Az2zrM0r1MAz3VgXKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=V+ACyZEe; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1755698930; c=relaxed/simple;
+	bh=pMXgzqRfvoRVUf9L0RDd1Zb77kzZePSRtO3S30aU0Xo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BwdYnpzwskSPGosYy4GZ0xKOtz1r4Gdl2UUS2Riqrnx5+Vq0B6gnKqBTH3lN/Mo2W6HC4KiOy4GowHJ1utBgqcvaWwVmUShKKrrJbhNydQUeoczzUqiNSAwb5BKGVAiR5KiQ7Sz49TpQ1aDOS4slsWq1rU85cKGx68xb7zhp8iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMluIu+L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="V+ACyZEe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1755697508;
-	bh=USQrAZZJj10MR5a19PgXs2S92DCFQyDjwkKul1A2/QU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=V+ACyZEeuzaNAus8J+TTuv3/kSXjuUTRWqt2YJhX28Fu/ocqChkEESUuwNvexKYvu
-	 uFTfvMwN5FX12IBFr+W/iGQZ6KVG9lJMbu8pq7KmVaEK9MkQNqF+il2DUWwXnuNTVz
-	 fbJdNJWeI0JiQxFuQ9PZwwJkrNLOP2WXd0D8ryHB5HB76nIWIn8+jKpCBofN2ZHk6d
-	 MfwHTkX1F2D/CAuBtShAvxpjkNYsCsWdEYBVZZ8X8XQkBRq9hZDxwjsal+e9HmzUnp
-	 Vh9pOrZbiHSQ9vrTU9H4fW95oS9qZHzBqHjAX+m3ui9FCiIL9/0CWdz0f3r8VLg7Ju
-	 QCY69rb1HpHTQ==
-Received: from localhost-live.home (2a01cb0892F2D600C8f85CF092d4AF51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2905F17E0483;
-	Wed, 20 Aug 2025 15:45:07 +0200 (CEST)
-From: Julien Massot <julien.massot@collabora.com>
-Date: Wed, 20 Aug 2025 15:44:57 +0200
-Subject: [PATCH v2 6/6] ASoC: dt-binding: Convert MediaTek mt8183-mt6358
- bindings to YAML
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMluIu+L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48077C4CEE7;
+	Wed, 20 Aug 2025 14:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755698930;
+	bh=pMXgzqRfvoRVUf9L0RDd1Zb77kzZePSRtO3S30aU0Xo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZMluIu+L7G0qZ27ch6bbEMCHqZYo4zO0+4qfGiWeY8Ym3Pi6Jj3xQ631+UDAlxO6p
+	 WlSORCiLj0OjmbQzC2fpqQgrLaCPbQSvIENijX4JhpOPt6IpxJDRVz4A1+tbBi/4PW
+	 GjmF3XCkx8d81oCaFx6vmxCRkKQq/RGvmCjBOVK15fV/xaHBFC243GDwGOUwKPv/gq
+	 u+cTO9cPPUswMkATRkwRuvAJ9okXE1YWaIfef06n/h5XA+SihM72+BX//I6k4B4ZXT
+	 vBxnET2lXMz7ZWkgw8s0WQeVaZ6f0+2ocSueMIhTlaIGs+3+KBQ6iv80DcLgbrkW8w
+	 /GxW6XmWtNnaQ==
+Date: Wed, 20 Aug 2025 15:08:46 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v2 3/3] ASoC: cs35l56: Remove SoundWire Clock Divider
+ workaround for CS35L63
+Message-ID: <5e89d3eb-15d1-40c3-a777-01c3f97a89ed@sirena.org.uk>
+References: <20250820125045.117740-1-sbinding@opensource.cirrus.com>
+ <20250820125045.117740-4-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250820-mtk-dtb-warnings-v2-6-cf4721e58f4e@collabora.com>
-References: <20250820-mtk-dtb-warnings-v2-0-cf4721e58f4e@collabora.com>
-In-Reply-To: <20250820-mtk-dtb-warnings-v2-0-cf4721e58f4e@collabora.com>
-To: kernel@collabora.com, Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Ikjoon Jang <ikjn@chromium.org>, 
- Enric Balletbo i Serra <eballetbo@kernel.org>, 
- Chen-Yu Tsai <wenst@chromium.org>, Weiyi Lu <weiyi.lu@mediatek.com>, 
- Eugen Hristev <eugen.hristev@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Julien Massot <jmassot@collabora.com>, Sean Wang <sean.wang@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, 
- linux-gpio@vger.kernel.org, Julien Massot <julien.massot@collabora.com>
-X-Mailer: b4 0.14.2
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="FV8WXpWu7APsZlZW"
+Content-Disposition: inline
+In-Reply-To: <20250820125045.117740-4-sbinding@opensource.cirrus.com>
+X-Cookie: Semper Fi, dude.
 
-Convert the existing text-based DT binding for MT8183 sound cards using
-MT6358 and various other codecs to a YAML schema.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Julien Massot <julien.massot@collabora.com>
----
- .../sound/mediatek,mt8183_mt6358_ts3a227.yaml      | 59 ++++++++++++++++++++++
- .../sound/mt8183-mt6358-ts3a227-max98357.txt       | 25 ---------
- 2 files changed, 59 insertions(+), 25 deletions(-)
+--FV8WXpWu7APsZlZW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8183_mt6358_ts3a227.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8183_mt6358_ts3a227.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..048fe62715d67d44daa08e75a63c782238815689
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt8183_mt6358_ts3a227.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/mediatek,mt8183_mt6358_ts3a227.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MediaTek MT8183 sound card with MT6358, TS3A227, and MAX98357/RT1015 codecs
-+
-+maintainers:
-+  - Julien Massot <julien.massot@collabora.com>
-+
-+description:
-+  Binding for MediaTek MT8183 SoC-based sound cards using the MT6358 codec,
-+  with optional TS3A227 headset codec, EC codec (via Chrome EC), and HDMI audio.
-+  Speaker amplifier can be one of MAX98357A/B, RT1015, or RT1015P.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mt8183_mt6358_ts3a227_max98357
-+      - mediatek,mt8183_mt6358_ts3a227_max98357b
-+      - mediatek,mt8183_mt6358_ts3a227_rt1015
-+      - mediatek,mt8183_mt6358_ts3a227_rt1015p
-+
-+  mediatek,platform:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the MT8183 ASoC platform node (e.g., AFE).
-+
-+  mediatek,headset-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the TS3A227 headset codec.
-+
-+  mediatek,ec-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: |
-+      Optional phandle to a ChromeOS EC codec node.
-+      See bindings in google,cros-ec-codec.yaml.
-+
-+  mediatek,hdmi-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Optional phandle to an HDMI audio codec node.
-+
-+required:
-+  - compatible
-+  - mediatek,platform
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "mediatek,mt8183_mt6358_ts3a227_max98357";
-+        mediatek,headset-codec = <&ts3a227>;
-+        mediatek,ec-codec = <&ec_codec>;
-+        mediatek,hdmi-codec = <&it6505dptx>;
-+        mediatek,platform = <&afe>;
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/sound/mt8183-mt6358-ts3a227-max98357.txt b/Documentation/devicetree/bindings/sound/mt8183-mt6358-ts3a227-max98357.txt
-deleted file mode 100644
-index ecd46ed8eb98b99d0f2cc9eeca5f6d0aef6a5ada..0000000000000000000000000000000000000000
---- a/Documentation/devicetree/bindings/sound/mt8183-mt6358-ts3a227-max98357.txt
-+++ /dev/null
-@@ -1,25 +0,0 @@
--MT8183 with MT6358, TS3A227, MAX98357, and RT1015 CODECS
--
--Required properties:
--- compatible : "mediatek,mt8183_mt6358_ts3a227_max98357" for MAX98357A codec
--               "mediatek,mt8183_mt6358_ts3a227_max98357b" for MAX98357B codec
--               "mediatek,mt8183_mt6358_ts3a227_rt1015" for RT1015 codec
--               "mediatek,mt8183_mt6358_ts3a227_rt1015p" for RT1015P codec
--- mediatek,platform: the phandle of MT8183 ASoC platform
--
--Optional properties:
--- mediatek,headset-codec: the phandles of ts3a227 codecs
--- mediatek,ec-codec: the phandle of EC codecs.
--                     See google,cros-ec-codec.txt for more details.
--- mediatek,hdmi-codec: the phandles of HDMI codec
--
--Example:
--
--	sound {
--		compatible = "mediatek,mt8183_mt6358_ts3a227_max98357";
--		mediatek,headset-codec = <&ts3a227>;
--		mediatek,ec-codec = <&ec_codec>;
--		mediatek,hdmi-codec = <&it6505dptx>;
--		mediatek,platform = <&afe>;
--	};
--
+On Wed, Aug 20, 2025 at 01:50:36PM +0100, Stefan Binding wrote:
+> Production silicon for CS36L63 has some small differences compared to
+> pre-production silicon. Remove soundwire clock workaround as no
+> longer necessary. We don't want to do tricks with low-level clocking
+> controls if we don't need to.
+>=20
+> Fixes: d3197a09a117 ("ASoC: cs35l56: Add initial support for CS35L63 for =
+I2C and SoundWire")
 
--- 
-2.50.1
+This patch isn't present in mainline?
 
+--FV8WXpWu7APsZlZW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmil1u0ACgkQJNaLcl1U
+h9CpwQf+I4uXAKXSLcpDCNBFi8iOLJiAwQLUjElQQW6WlxXg5jH+/kZgeBvrGk42
+FzkPHSJyY95iaP5kPY6jhS/PRT9XMJRTSG1kZWHVmPIhDUdE1rnaBC7XBnr3E//5
+tjS0GmGni9qL2l3Nmjx69h51XIj9v+QetApwWLh/PMzbdsx8PQhm/uqjyvy9RFYM
+wECLlCgFS8b14qK2NxahsY/5boZhy+VCnrpIjj74+P9wZltdvJR6goUFe03i4zhZ
+4iVf8aT1q3F4/5V3LklkSQfuX+c3v4YV080YM3yE4ipgGcIZPkLneab/piXJEpNr
+d7vfyapOL8LvjhxiHT9qZKu0BflbEQ==
+=LlrB
+-----END PGP SIGNATURE-----
+
+--FV8WXpWu7APsZlZW--
