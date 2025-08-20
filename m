@@ -1,171 +1,99 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012EA25EFBF
-	for <linux-sound@vger.kernel.org>; Wed, 20 Aug 2025 18:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208672522A7;
+	Wed, 20 Aug 2025 18:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755713055; cv=none; b=ZVebb9UYQXM6UsNC36ziypOWyFy6DaooXjrNa7IMGAhouGOT0NyUpEXLfImAjvTMIVHtq7ok9jF6IgGByPvtjG9DSpPT1VYpgxUUyyIEnAICyW5irF2DMYntMn3NoG9f7MyjiBFDlND6/fdnbCW33bYQHl0K2LDRtw79eeHTeXg=
+	t=1755716110; cv=none; b=q+xHpZ4WM4cW8Y3L05qoSMsUF7sFfL4Fim7ZsHBtOk7yzzw8pzAB34zE+wcAdyvs2SW0VpARmLwHHRaBCU+goDMrPhYuB7e9/Fck471sS7gxY1Wlh7x7RidXsgsMCH32VZ6b1Pkk5TMJPUgXg4unUfAKxBVvzWsfSq8ML4auO78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755713055; c=relaxed/simple;
-	bh=OpFpKI+KtlmIT9oYEBNy9nRTNf0yv3CRnBX+62DRQw4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=jaQF8iux/Y+R2k7TSg5gxqSOCWCLcN0KEEn4UfJCqvOkz7Zq8L68X//lScIpOMMr7T6fbG3y3FPKoLkT01EN+fG+S7X3hWV4Lidg9M/7evJtyfwFGPzXnt/LogzPIMLLgq5xwG7cw5Ltt4VyDH23DvKgo+x0+I5ViSQN/jxdb7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=P7UFMh+u; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755716110; c=relaxed/simple;
+	bh=KrxBI4bw6u84H4zKkUEDYwKmV2iNFMyZmZhqsrfdtV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R7IYANhACssORhLKzP6jQq3x17roE97+5pN+L699rcZMDrzXa7lxE43m16CTuT74DTPuPlTRn+DfDjTPiYsxsXSbESyPveoJmfv+lQh4rOslTHx6i834mGZUz96ua78O9d9U3nLbflzqKjgdJPXdx9RXXyHSlTdeyflKhypqmKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CozULjtI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P7UFMh+u"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45a1b0d224dso802315e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 20 Aug 2025 11:04:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755713052; x=1756317852; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X/AR5JOfPXOoSWz1scRPUv02h/vmF6EJ2WDbLA90+dU=;
-        b=P7UFMh+u3+qZUMXsFVqBRmxNwYYrVqeWrFiQJ2fi71wFQ4hUPQG6h3dWef+ZtvnlGn
-         Fy/PDrX8UD1rL+zOnrs50zBsoLaAZujAHTOQj7Y6LvjkFUb4JnRU0bfaz/vXAY/djs48
-         HskhBZ2RwEmwUgEIiLprvRB7qfOYg740cTPU29VA6Qx4Po+FvDPA+6zbgVOCnXIgn1KR
-         4N4uMvlQpTVJrHRNd5rplXy2D3HpgXzYzTryVoeYMYoL3PVC179l/oFvBxICzHRROdbc
-         j3+mkoD7mcwEgDebtiUv1vl4rAHMA6Uao3xOAmmh19euqj8kq7YIQnxvFd0EI/umd7gr
-         8Mpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755713052; x=1756317852;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=X/AR5JOfPXOoSWz1scRPUv02h/vmF6EJ2WDbLA90+dU=;
-        b=r9OXKnchho6g0d54kQReneE62H3fBSe+1/ZfyMqMcdr20QtJd5+wK+vHUhgCIX48Vh
-         y3ceO4Cfb2Le/Wz1MCy09TAU9ZqmKMt9Vsy6IpQxmepDEjYM5NJHncMsc3kaOnh3hUlH
-         zvz8T9ku95nodqFA2l3TPnbf4wk2ExmWlYmO7v1LV05/8O26ohqA9BT8sDKEh0uGsce8
-         W8itavSRh2L818xZJU3Rmvk++JXbn5xHoPt1c5xISdREctVbTqJXzgi759W9HBri3rsv
-         b0raUjy+sGXNWmM++p30YspmD7o5zdsN67UbR1QYv9dFpaUq7iI7he/1TVwPLnn/N4sf
-         ArbA==
-X-Forwarded-Encrypted: i=1; AJvYcCXOiEestDeizFOpAiHWQTazsHYQajiXHdF9oWgK5OwgXogNqv1LRriNYx0VqaRx6mrAsxywuE9ExTYezg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2KkdbmN9+Ds16hNAE28oSH/9fZkbFnpChlZPvHPoNSxirwYDK
-	6YwSwj+hIth/3f1KFV5WxBbG6QdEKTNlfgQCOXRjxFKgLl+Zkedna/2x6ZgeF/3ZwXQ=
-X-Gm-Gg: ASbGnctyWVn9M5bnbFrOK4DW61toPo9KhPimzuVo27RC6NO926SLi/tUwZM5DLKiZdL
-	kunbTPIQC5LOFoj9XuX3wOOceNfkERn6fYXYfOe/IE31RIJVDcwVShq/kKWaLnMEzuHSOZD9lDX
-	EoDQyezrD9Sxs3o01FIjEEAiO8ZF2n6blTywusw/cKYYprcbz6IKV3qPrYIvz9wjbuuDnJa2H9N
-	VPYsxK6knf76v7g1vfnPIVuJe8e9qQ2u70u2a3RdmMtiV8L1OwtbknPLp9nlQzVxZCrVFREvV9b
-	J1+kE0lwznnBXyBNS6UYUke6t7izIAP6MAQn4U7JXchbhEnSW+KPr6c7wmbRGmolrzwYQQrY/6U
-	K9mFOuF2499PsWAk8tvn3gnghC94=
-X-Google-Smtp-Source: AGHT+IF4HffwmvTz6VUbz/+5M+jcK4ZI8rIXlBiu5vgtpE5f8sju5xfz46Xbc5v3IHdDPzI90a1fDA==
-X-Received: by 2002:a05:600c:4447:b0:459:db80:c29f with SMTP id 5b1f17b1804b1-45b479ad42amr23982595e9.1.1755713052212;
-        Wed, 20 Aug 2025 11:04:12 -0700 (PDT)
-Received: from localhost ([2a02:c7c:7259:a00:3a9b:1de2:5440:9326])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c077789d1dsm8464172f8f.49.2025.08.20.11.04.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Aug 2025 11:04:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CozULjtI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD47C4CEE7;
+	Wed, 20 Aug 2025 18:55:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755716109;
+	bh=KrxBI4bw6u84H4zKkUEDYwKmV2iNFMyZmZhqsrfdtV8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CozULjtI87ezxw30qO0tiBXmd/B+a0DtFD8O0r1Ijt8QQQx8BThbtwW8QWNFZ8zwn
+	 GDhVSyvd/eTXNDvmuoKLP8gZbzIqwAavVeNAJTL9AD4T+oq9JD211sXJ3A9jIHdBe9
+	 oby2P2YVBQ3I8r9mQM/Lwt2RVdfRe2sGJcP/c1x3u1vg+xkh+l09/RNCiQufnL+vjh
+	 GyhWNZepnUHlVO7AOBcuUpAEM08nIs4SZGmNIG29XplZsZ5MYKbpImtIHpbPRBy/n6
+	 J3D2v1i3GLEYxCZCXE+oRmNdlWlQrHy63msQ03IsVrcWk7mI62sGbw7/ZkfMSJmtPd
+	 X3jYiXs/0WZXQ==
+Date: Wed, 20 Aug 2025 13:55:08 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+	andrew-ct.chen@mediatek.com,
+	angelogioacchino.delregno@collabora.com, broonie@kernel.org,
+	chunkuang.hu@kernel.org, ck.hu@mediatek.com, conor+dt@kernel.org,
+	davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+	flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
+	jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
+	kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
+	lgirdwood@gmail.com, linus.walleij@linaro.org,
+	louisalexis.eyraud@collabora.com, maarten.lankhorst@linux.intel.com,
+	matthias.bgg@gmail.com, mchehab@kernel.org,
+	minghsiu.tsai@mediatek.com, mripard@kernel.org,
+	p.zabel@pengutronix.de, pabeni@redhat.com, sean.wang@kernel.org,
+	simona@ffwll.ch, support.opensource@diasemi.com,
+	tiffany.lin@mediatek.com, tzimmermann@suse.de,
+	yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v1 14/14] dt-bindings: media: mediatek,jpeg: Fix jpeg
+ encoder/decoder ranges
+Message-ID: <20250820185508.GA273751-robh@kernel.org>
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-15-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 20 Aug 2025 19:04:10 +0100
-Message-Id: <DC7GC0UEKZDM.2C8KIM6TFLMHK@linaro.org>
-Cc: "Vinod Koul" <vkoul@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>, "Patrick Lai" <plai@qti.qualcomm.com>,
- "Annemarie Porter" <annemari@quicinc.com>, <linux-sound@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski@linaro.org>, <kernel@oss.qualcomm.com>,
- "Ekansh Gupta" <ekansh.gupta@oss.qualcomm.com>, "Pierre-Louis Bossart"
- <pierre-louis.bossart@linux.dev>
-Subject: Re: [PATCH RFC 2/2] ASoC: qcom: qdsp6/audioreach: add support for
- offloading raw opus playback
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Srinivas
- Kandagatla" <srini@kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20250616-opus_codec_rfc_v1-v1-0-1f70b0a41a70@linaro.org>
- <20250616-opus_codec_rfc_v1-v1-2-1f70b0a41a70@linaro.org>
- <c4d934c1-0218-4147-882f-279795bcd1f4@oss.qualcomm.com>
- <DB2HSWQRGFZM.JVPTBYXCOTKS@linaro.org>
-In-Reply-To: <DB2HSWQRGFZM.JVPTBYXCOTKS@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820171302.324142-15-ariel.dalessandro@collabora.com>
 
-On Thu Jul 3, 2025 at 3:33 PM BST, Alexey Klimov wrote:
-> On Wed Jun 18, 2025 at 1:34 PM BST, Srinivas Kandagatla wrote:
+On Wed, Aug 20, 2025 at 02:13:02PM -0300, Ariel D'Alessandro wrote:
+> Commit 14176e94bb35d ("arm64: dts: mediatek: mt8195: Fix ranges for jpeg
 
-[...]
+That commit is not in any upstream tree.
 
->> Pl use audioreach_set_default_channel_mapping() to fill in the channel
->> mapping data.
->>
->> Why are we not using channel mapping info from the snd_dec_opus struct h=
-ere?
->
-> Okay, I was re-reading RFC and can't really get my head around this.
->
-> So first I came up with something like this:
->
-> 	switch (opus_cfg->mapping_family) {
-> 	case 0:
-> 		if (num_chan =3D=3D 1 || num_chan =3D=3D 2)
-> 			audioreach_set_default_channel_mapping(ch_map, num_chan);
-> 		else
-> 			/* mapping family 0 allows only 1 or 2 channels */
-> 			return -EINVAL;
-> 			break;
-> 		case 1:
-> 			if (num_chan > 8)
-> 				return -EINVAL;
-> 			if (mcfg->codec.options.opus_d.coupled_count > mcfg->codec.options.opu=
-s_d.stream_count)
-> 				return -EINVAL;
->
-> 			memcpy(ch_map, mcfg->codec.options.opus_d.channel_map, sizeof(mcfg->co=
-dec.options.opus_d.channel_map));
-> 			break;
-> 		default:
-> 			/* mapping family 2..255 shouldn't be allowed to playback */
-> 			return -EOPNOTSUPP;
-> 		}
->
-> but I don't think above is correct at all.
->
-> After re-reading the RFC few more times. It looks that channel_mapping in
-> opus struct has nothing to do with channel mapping that we need to provid=
-e
-> to DSP here. The channel mapping maps "decoded" channels to output channe=
-ls
-> and seems to be needed by opus decoder logic and in some sense is interna=
-l
-> thingy to correctly construct sound for output channel from opus stream(s=
-).
-> In other words if output channel is present and valid then channel_mappin=
-g
-> describes how and which decoded stream or streams (coupled or uncoupled)
-> to use for producing sound output for that output channel.
-> This is described in https://www.rfc-editor.org/rfc/rfc7845#section-5.1.1
->
-> The number of output channels here actually matters for us. We can constr=
-uct
-> mapping for channels that we pass to DSP based just only on the number of
-> output channels here and let DSP to figure out how to scatter or downmix =
-or
-> upmix them to its own output channels.
->
-> Conclusion from my understanding:
-> -- we shouldn't mess with opus_cfg->channel_mapping here, it is needed fo=
-r
-> the correct operation of decoder, we shouldn't call
-> audioreach_set_default_channel_mapping() on it;
-> -- mapping output channels to provide the mapping to DSP might require so=
-me
-> rework or I need to look into this.
->
-> Or something else that didn't came up in my mind yet.
+> enc/decoder nodes") redefined jpeg encoder/decoder children node ranges.
+> Update the related device tree binding yaml definition to match
+> mediatek/mt8195.dtsi, as this is currently the only one using it.
+> 
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> ---
+>  .../media/mediatek,mt8195-jpegdec.yaml        | 31 ++++++++++---------
+>  .../media/mediatek,mt8195-jpegenc.yaml        | 15 ++++-----
+>  2 files changed, 24 insertions(+), 22 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+> index e5448c60e3eb5..b1f3df258dc87 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.yaml
+> @@ -36,7 +36,7 @@ properties:
+>  
+>  # Required child node:
+>  patternProperties:
+> -  "^jpgdec@[0-9a-f]+$":
+> +  "^jpgdec@[0-9],[0-9a-f]+$":
 
-As discussed during out-of-list chats I'll update it to include mfc module =
-in
-compress-playback path that should handle the mapping to output channels.
-I already have a change for that locally and it seems to work, at least it
-doesn't break playback.
+This is wrong unless 0-9 is a separate, distinct address (like a chip 
+select #).
 
-Thanks,
-Alexey
+Rob
+
