@@ -1,125 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B463E158DAC;
-	Wed, 20 Aug 2025 06:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD432256D
+	for <linux-sound@vger.kernel.org>; Wed, 20 Aug 2025 06:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755670234; cv=none; b=LyqAq5GtzoqkzT++cz0uduWgtJv7JNiBv4CD70r4nZozEhvg8TLEIu3iA8pHHrX9zluhez8eZmj3yhLdCnnsGfuVbgI2B8A6ycfbqcBJK4j+uHoZ5sYkR38l4OBhKfiO783lL4hGawgQtIHvnV9hxyaS9lqOdW2TUPz2xKUm+bg=
+	t=1755672249; cv=none; b=S26u0u618L1mxMtfY7nlL/dakxIcfPqsszzNhwK8nsJeqpfSPSfjOsSgwbGys+e6cQroEZrAW1iyAwJCUNFYmK87N7eiw95unjhD3m1EQ1qKVuJA04vzQl0zce6BfHutWSsat+Juqj6c42pitVKDY9yy4vW2yCBvuUMFwn1AsCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755670234; c=relaxed/simple;
-	bh=JuGHT5QMlzsU4UFod+nYgtwxNYw3vzXETG0B+lFibNA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DgSjuQKQ/AaTnm+vvtN22mIIavRP/ILMRfkrz+3FSSVJH644FjbvHjJq0GRLtHoS0RsUeYerPKcaEVmZkBkct+aXQ49IVLJbJQd5IyFN9aObFgVt2sGvOq+kfxyzv+qPUaXC28fQXm5u9avp+JYrhkVZszKT5nePBsYjYJcsRTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WFLtqeBw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755672249; c=relaxed/simple;
+	bh=UjDTQRoZv2JpQyn5jVZSc5/MkQKOuSnET32nSBAvZlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TgtZem11oYxcw/jXPv7pWQ7cr3gzO9yUaeUyxJP0bRBrddGjhEnTIB/Kbhfy93dO1CGajOVtG88fEpEFwQBywP3yJVKWamqaMPEGATRGOVipX3tYHSr6XytR9JDizNmUdZ7oKq6bJea9l1xZA2F9zwzAyd/q6WGnu8NzbA523fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=db+c5rxB; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WFLtqeBw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2559C4CEEB;
-	Wed, 20 Aug 2025 06:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755670234;
-	bh=JuGHT5QMlzsU4UFod+nYgtwxNYw3vzXETG0B+lFibNA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WFLtqeBwJZs388BnhEC02yvYOr1vzPPBf8Lea89P597jz8zXTHG6lJm/lZUfYnuL6
-	 fxsrHx9AaQG7AOoVHS0wssGhYg3OwWvf8c9zEVAkOROL4/2IzvLpJAhubJCYkuF83j
-	 PtqytXN1jOTFEl6YlDlG6VgNTlxZM0EjpaJSYFSqLGhM7d7AeUSWxfsi1qxpr/qgt/
-	 KflDxdG/v2ykPMvZ0JRIdYGk3GcBq3KIWdIVxh9GRxmNapuGJ3JooVl3Hj2IjnCtfS
-	 aK+tnGVSGcDSu9zkFNlEg62LTB9L3rzZG/m3yhVgtQSWRZeKMIErrLebN4aze80fOD
-	 z/bb2kZrMPttA==
-Message-ID: <93f838cf-9e1d-489e-995e-55e56033f2d7@kernel.org>
-Date: Wed, 20 Aug 2025 08:10:28 +0200
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="db+c5rxB"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3b9ba300cb9so397716f8f.1
+        for <linux-sound@vger.kernel.org>; Tue, 19 Aug 2025 23:44:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755672246; x=1756277046; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ca+sHHJfBtLlYCIIifJPFcIpqB60osm+WWWvfSezYso=;
+        b=db+c5rxBqNHUPpuBR6k533kXKBLjr1M8enkL2wGo1mW4IquRBG+JFyh1OqFyvjcwzR
+         ZZqTJkgcqTdFEkehDZKjfYW5kO8it2Ica4YrD1M2pdgQNMGdyigKvBIIca6qx2adK2To
+         DgwEFc3gm1Kp0hGitsX1goBQyCLcnrbMMLPoOFPOr2zXXo/8FB5BqEAs+Cq2N6PswTQ8
+         9coPCKLxwf4REvw3yoPRqmT+y8nOw+bMYEkS3sq8qxL8s0OUO/kKU47S8y5PqZLGJe0C
+         lEJYTQOnU4fxQPw+NnisCUae/XpsmPZyfDeBJNgLMeTSTpJFIyNGJu33hGQyU2Zi3Azj
+         XzEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755672246; x=1756277046;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ca+sHHJfBtLlYCIIifJPFcIpqB60osm+WWWvfSezYso=;
+        b=TWA2A/7DALQgRx/fTUIJylHRx/zhHxglohxyG8iDWk/ppKvmHiJr+q/PGQGte5q+T8
+         qhkdTeqSJ6JSFEVFv1NTnAI6rEHKEXmQzESJWdzSlCikDBseRSQ2zVg1hyfBNYTPIkCA
+         IPW5ZYi04xXN2ub7ww0q5q8B0aO8Ltw1sp9JyliOSxHanTNtK8yjPte/ClptCo2O8V+s
+         uCuay+rDpiUU7W/TwWd2IgcryBVKVQMpyN0aIv6dbosovH1HGGyUWoygaI5KzlGJmviY
+         uXgJL+kO/r/9AVLnzXyhQAqJyChVTLjhuqplzX6f80ZNAc1jhsDS4DPsYIFRRnSKMsd+
+         eGhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWC7LjM3ZFl7ItdcSwLBTwJ1WtMejI/3+aXBWLAeaadVHa1PBBiowF1SBPbh9evIQhdjlC6Tt+Jr9zB3A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7IwU0OynROzLx1AKIB3Ue2THDKepphmICl5cW0tQ2ETSJHoSH
+	xjtsmxwu4do3L+N3uw+XhYzQf0/v+UoN23B+c3v6KIxNDdDbVc1Wig6+/Frcori2gm4=
+X-Gm-Gg: ASbGncsgEq229HW6eCY6mA8xVB4x3RrZld/25/GxS12GZi/jpm4OJo7uP61GaZGvlgA
+	NHZGzb/ZsZCuqV7qafgMIvH2si1a6evCBnKBj31JL6HbQGrj2+uV228v9D5DVHCqmA4CH0mW2WQ
+	GKCiv2LO5WqRHwnEMPRPVo3NeEvkN6nbAUJ0Teh0YSq4Dvw24YaUUhVQfo4cGmZMizsAmcG2HzG
+	tYjA1IaNfb19mjr8phSSAEJJ3hu70gSKi3ddjskCeR1PeNqHYMa8H6eVwHhb2gg8osMcR8dg+Ml
+	X5tFO4nlHyA0XSTNZd3THmRu00lgqOQfrc7S1qE74tWk9zDBXAhJPxl3wWV6r+0E74C0ZknIyGt
+	4SQlLm7PwBaom/uJ/Kak/JYw+60ZloFHqTXQiSrQDtxc=
+X-Google-Smtp-Source: AGHT+IEbdnNwo4oJeDPciQ8EIBQEmtCB3Kmp9sG6xxzro0qvoVfD68XvPSQhTVIjeim78/KydRRKRA==
+X-Received: by 2002:a05:6000:40ca:b0:3a4:f7dd:6fad with SMTP id ffacd0b85a97d-3c3147b50b6mr1512172f8f.14.1755672246117;
+        Tue, 19 Aug 2025 23:44:06 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3c0777884e8sm6939837f8f.45.2025.08.19.23.44.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 23:44:05 -0700 (PDT)
+Date: Wed, 20 Aug 2025 09:44:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: =?utf-8?B?xaBlcmlm?= Rami <ramiserifpersia@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lkp@intel.com
+Subject: Re: [PATCH v2] ALSA: usb-audio: us144mkii: Fix null-deref in
+ tascam_midi_in_urb_complete()
+Message-ID: <aKVusmJ-sE1sgZVV@stanley.mountain>
+References: <20250819185133.10464-1-ramiserifpersia@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] ASoC: tas2781: Add tas2118, tas2x20, tas5825
- support
-To: Baojun Xu <baojun.xu@ti.com>, broonie@kernel.org
-Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com,
- alsa-devel@alsa-project.org, shenghao-ding@ti.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, k-y@ti.com,
- henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com, will-wang@ti.com
-References: <20250820025824.24473-1-baojun.xu@ti.com>
- <20250820025824.24473-2-baojun.xu@ti.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250820025824.24473-2-baojun.xu@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250819185133.10464-1-ramiserifpersia@gmail.com>
 
-On 20/08/2025 04:58, Baojun Xu wrote:
-> Update ti,tas2781.yaml for added tas2118, tas2x20, tas5825.
-> 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+Awesome.  Thanks!
 
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+regards,
+dan carpenter
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
-
-Please order patches according to expected order (see submitting patches
-in DT).
-
-Best regards,
-Krzysztof
