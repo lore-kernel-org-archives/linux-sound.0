@@ -1,59 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E361E342C85;
-	Wed, 20 Aug 2025 17:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D2E23BD1B;
+	Wed, 20 Aug 2025 17:26:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755710368; cv=none; b=H1LvVraPqYu2nNpujmpuTdDHa4/nI7ETczM9zcu9/YJhTsq0wIMtsGFYSAyNpmAKk+wGI9yHJTWZPjJGEpOuVbU8Mzo8AhGiBdbeI2tWRU4X4otHNDAUzDAg2vVXmY93dd345QmF2d1vCH7A3h2mdsQStH+4o9N3hNMseW2cZXc=
+	t=1755710795; cv=none; b=uzoG3EY0kCtFeTORsdrpMRlMuzpXbXhHUjMHDVVgzQyxieMw0kE5fXmOSJK2y29XBVQgIPWYuOy3TOqDVdlzHINxj5GdmXztl6y0u+vjbXTzKWLChaVvEB6iodcrScRVbn7w33TZJYJHQsxni0tw3wZ4vn5CNnE0qwo0ohUAfmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755710368; c=relaxed/simple;
-	bh=ZqeFO6HvfjccxgbJRn37HsDogI883Z0ye1Ok5+j3EBg=;
+	s=arc-20240116; t=1755710795; c=relaxed/simple;
+	bh=2HxiUW8t0HrEjsYL4FGL1eWcypffGvojSNkMNHG2UK0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X8qfKrbNAKc1TLWebdR/aAlg7v//NXqAEt2/A0pk2EXbSer5BJZwnFItC6WxwT0d2nRGjhOoK5dMyggdlZzKfVRGGwWNp3m+nLL8XDidu1mLf7NjSNjjZXS6z4NSYr82/8HWIXH+zdqeO3M7hU+V0Y8gbdv7fcancYI+IcREmpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QnXxuBq9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=He+AG6aR/i87YbfnozxbGJ64kM12B5XDPjM9sHeN7C/q4IScfZW7c5Tn2Yrc7f1MTbyTlV15t9/F18+epjkMovPK++ZAIO0RuaAf2tLFGhhWdRve9U9u+UFjTDDS0NE/CA9KZzC9/JCKMfkjyzNPrWTFK5wnXX+Jq1x5Inq4qww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PNsJnbz3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QnXxuBq9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48A08C113CF;
-	Wed, 20 Aug 2025 17:19:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PNsJnbz3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBC8AC4CEE7;
+	Wed, 20 Aug 2025 17:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755710367;
-	bh=ZqeFO6HvfjccxgbJRn37HsDogI883Z0ye1Ok5+j3EBg=;
+	s=k20201202; t=1755710794;
+	bh=2HxiUW8t0HrEjsYL4FGL1eWcypffGvojSNkMNHG2UK0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QnXxuBq9DaMzoURintPzzDLWm6OGJtRPK5y6jTbj4z7Fe4QFIOGeMAm6xTyXlFlwz
-	 I1zl0A27O5+l30TpOLpjgTLLT3IBhtn/oy3JXr6IOY17PGFSGAekC+hsYinNTrGBFk
-	 iyi5XmYQfJfrXsrIMIx9mSXEVhtw5EJDcwvNR9/iaD0lQqiT+VhTajCOQjYaWm06jB
-	 stPgfsAYA4tGBt+YkC71Gl8cggC5pcFKWJugxR6MwEfnWn+gBwjqX7RUh22ZwkEEu2
-	 EFSJB4JzO4GLVaUVXC0doDoVm3oCa3OAU1BRy4BTWD+deENzt+8LIf/iP/tmJ3OedF
-	 fG0lE3alkNn6Q==
-Date: Wed, 20 Aug 2025 18:19:16 +0100
+	b=PNsJnbz33XUs+f7DHFXusLggHbld5Oa0GZoDnO4LvmNDRSnXCnVnUrmIfwd3mRG0P
+	 VG95dyBr7nr2VJL3ZTRdmVcGu3/dTPFynZxUbJ106X75TKyipcDjz3wqCx2mC852jF
+	 Hc5iXC3U12EcrwMEc+CY4uH2JuxB1Jo4POHabhQSuYOPk37NZgVjW8KrfvHOHvHqIg
+	 syynHObGm3qYw79mEcxeRUnYwNWLvySnDTxctaaEMMPveotJUuj1Ft2vBO21+9mghM
+	 BA8Q28LXGfg8TPhyoVDCO3SlBQkXyGDUCh7NivYtNSMH76//dycDH+Z+srbsoaiWLQ
+	 1t8kv447fTfxQ==
+Date: Wed, 20 Aug 2025 18:26:28 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
-	andrew-ct.chen@mediatek.com,
-	angelogioacchino.delregno@collabora.com, chunkuang.hu@kernel.org,
-	ck.hu@mediatek.com, conor+dt@kernel.org, davem@davemloft.net,
-	dmitry.torokhov@gmail.com, edumazet@google.com,
-	flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
-	jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
-	kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
-	lgirdwood@gmail.com, linus.walleij@linaro.org,
-	louisalexis.eyraud@collabora.com, maarten.lankhorst@linux.intel.com,
-	matthias.bgg@gmail.com, mchehab@kernel.org,
-	minghsiu.tsai@mediatek.com, mripard@kernel.org,
-	p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
-	sean.wang@kernel.org, simona@ffwll.ch,
-	support.opensource@diasemi.com, tiffany.lin@mediatek.com,
-	tzimmermann@suse.de, yunfei.dong@mediatek.com,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v1 00/14] MediaTek dt-bindings sanitization (MT8173)
-Message-ID: <9401aab0-1168-4570-a0a1-1310f37142eb@sirena.org.uk>
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@gmail.com>,
+	Xichao Zhao <zhao.xichao@vivo.com>,
+	Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>,
+	lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com, perex@perex.cz, tiwai@suse.com,
+	shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev,
+	kernel@pengutronix.de, festevam@gmail.com,
+	linux-sound@vger.kernel.org, imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: SOF: imx: Remove the use of dev_err_probe()
+Message-ID: <a1fa8baa-3116-496c-8c33-bdbc1712c062@sirena.org.uk>
+References: <20250819112654.588527-1-zhao.xichao@vivo.com>
+ <CAEnQRZB=fq7=ahMkFWaQ58SR_yftSTYqZKFBh7YEXz2M7PyXsQ@mail.gmail.com>
+ <00984350-97d2-4aaf-96c3-091f15ec1254@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,52 +52,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/IS/CsiIsaaXgGuH"
+	protocol="application/pgp-signature"; boundary="THIbrnuRqt5F+FD8"
 Content-Disposition: inline
-In-Reply-To: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
-X-Cookie: Semper Fi, dude.
+In-Reply-To: <00984350-97d2-4aaf-96c3-091f15ec1254@gmail.com>
+X-Cookie: Whoever dies with the most toys wins.
 
 
---/IS/CsiIsaaXgGuH
-Content-Type: text/plain; charset=us-ascii
+--THIbrnuRqt5F+FD8
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 20, 2025 at 02:12:48PM -0300, Ariel D'Alessandro wrote:
-> This patch series continues the effort to address Device Tree validation
-> warnings for MediaTek platforms, with a focus on MT8173. It follows the i=
-nitial
-> cleanup series by Angelo (https://www.spinics.net/lists/kernel/msg5780177=
-=2Ehtml)
+On Wed, Aug 20, 2025 at 12:24:40PM +0300, Laurentiu Mihalcea wrote:
+> On 8/20/2025 10:04 AM, Daniel Baluta wrote:
+> > On Tue, Aug 19, 2025 at 2:29=E2=80=AFPM Xichao Zhao <zhao.xichao@vivo.c=
+om> wrote:
+
+> >> The dev_err_probe() doesn't do anything when error is '-ENOMEM'.
+> >> Therefore, remove the useless call to dev_err_probe(), and just
+> >> return the value instead.
+
+> > NACK on this.
+
+> > Quote from dev_err_probe documentation:
+> >
+> > ```
+> >  Using this helper in your probe function is totally fine even if @err
+
+> AFAIK the kernel logs are verbose enough on OOM errors, which makes prints
 >=20
-> Similarly to the ongoing MT8183 work done by Julien Massot, this patchset
-> eliminates several of the remaining warnings by improving or converting DT
-> bindings to YAML, adding missing properties, and updating device tree fil=
-es
-> accordingly.
+> such as the ones removed by this series unneeded (have a look at [1]). No=
+rmally,
+>=20
+> you'd get a warning from checkpatch but I think these logs slipped throug=
+h the
+>=20
+> cracks because the error messages do not quite match the expected format?
 
-Same question as for that series, what's the story with
-interdependencies between the patches?
+Indeed, there's generally no need for any additional logging on OOM and
+if the code is fixed there's no possibility of deferral.
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---/IS/CsiIsaaXgGuH
+--THIbrnuRqt5F+FD8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmimA5MACgkQJNaLcl1U
-h9CEfgf+Pr+Af7Z3trY1Qt1ap+qEJ57HkG6lF3iW60MvmprIVByI7krLMLxXZ09K
-ggagUaBYGNe98N0oE1w0BjSlrjQxJkAkDTBS7pWP1kc001DinfldPd7bCVwY+3i/
-59SETB3Wqun/8fKWU717tHGGGXQ0ruQ7y7dJbZNRCNIo8od7RIBHM2ev88Q8q6H9
-wqdaDwKYMej3vW+Icx/xuH+VELI62AlrJ6W6XGDofU3hpvWHCvMN8GPcJnieHnZi
-2iOYaasf79REJsNyLC6UqGXE1LBDcN3GkZDxou/yZ2kzh5h7obsGMg11oQS3/iI6
-kvVcUoGo80bkRQrHEqntaPQqVwSecQ==
-=rN98
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmimBUMACgkQJNaLcl1U
+h9AyHQf/eILWRJD35lCaZ8JrEPC/MN/J2z9zjlYr+Ve8qCXP0UpMzm6yaDLLd8Ja
+0sjDidcN5FJxNMiCUj3H6Nn9YiyLuI5xJkms66XSrtC0l6Lge0PvjF3e3XHmHzne
+ip602hTKXEI2AbBls7skB8iwr8c2mXcBtsEXNVrwvVUpP3gh6jgk3AGQiMA9H9qg
+hYjihZQRdBx+67Y/sJFqBZaQqMagqVSB/q/4OrWMFBywBbuOim3RjCQAHfLn1Ts4
+la9PLUUD3BycKYRW4WFlTxxTEwivN0pG8bT5ywnksUe8Wx3b/aglJkCSe6Z9zG4y
+GkI7t5GpI3MOn2TlODzs8m/O8PEPGQ==
+=74Wd
 -----END PGP SIGNATURE-----
 
---/IS/CsiIsaaXgGuH--
+--THIbrnuRqt5F+FD8--
