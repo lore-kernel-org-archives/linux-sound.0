@@ -1,91 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6542DAFC1;
-	Wed, 20 Aug 2025 22:17:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C6D280312
+	for <linux-sound@vger.kernel.org>; Wed, 20 Aug 2025 23:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755728264; cv=none; b=WSMDNYVJDA+fLSQD5PKjij14lHmxoaClR7Xc/9cuGQjL46tdiJ+WYeEWE4QROU0Nip5JAKXaoCN1fXC95OYGAqnydjpWSa9zT12ltp3kLBMrvi8rN69CRrwT2jf+FDSzf8dMMhw9HctiOd8uMuIOJHMPqRKbiU7CwNFpZVdhuqI=
+	t=1755732368; cv=none; b=TuvjN3AepmKVJi8GKsdtKSM6cuDowLQrLfHjY9TR6ONsDwzFLxitlwZ5rr4U3rBomr3GE9g9lnHKwkTurVgmauESYDw+WSzA1oNLUIydzRlj2KCgZrNcJBxAlSvGeRifEZ4qB7n7SjnsirwwD+2NhnFCs3hrNm4XlVqzML+cwnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755728264; c=relaxed/simple;
-	bh=YF43KGoO2dSFOul1+BCDouHP3wCNucft3cNQlUfcKBs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RXETwbdD98F0phUz7IAvbfj1ber+2Av3t7BWl2AH1Td2cOnw86gUQO3nAAqWqBOhSXh1TIbDMPJnJ9hL+OfSAYCsHyixQqHvAPQEW/4+V7/+d0ksLhJzxghfxLBUVtm8Cu3JTz6wlcuMvD5CcAb4Gf9jdMDEVDbNujf51KVm3YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jq2Bb1tm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755732368; c=relaxed/simple;
+	bh=8I4ftgLEbGLAsbQ4rJdlUw9RZIk2vsRaxRC8gVRcUBI=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=tAnocr06Qgoo/BawEDqzOnHqSj9/tbMt2KSn+rmJbsnCCboLtbAHinBJm5cXxa8GA4tldwxpzkAd/1bfo/MliffpC2xsLWRUzuWJb1Lw43IiXu5g9uz+pckY5GJnXLJJRQHF7u4krBOEiG6di+bx6mClzNomNLRs1Elgp9F6jgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ol3KDShL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jq2Bb1tm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7289C4CEED;
-	Wed, 20 Aug 2025 22:17:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ol3KDShL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FB2CC4CEE7;
+	Wed, 20 Aug 2025 23:26:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755728264;
-	bh=YF43KGoO2dSFOul1+BCDouHP3wCNucft3cNQlUfcKBs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Jq2Bb1tmOuI+mk7eyUv9vuWoGzwQXYvL6zI+eMPRMTEyVXFkpylj1x5IFo115usG4
-	 dPtLMtjiR7SOMKXMjhvHiKkC0gKfUGBk9VjOeqwyYaSYeQpRTGmpqkIuhbbBkxjnJw
-	 8VybF3qjOfEzBNxny6TV00YBfiPBNLfjJVpeSoLgOp+DMrlhZe4ekuzUvQ8YEb+nvg
-	 LllDcnMw/XPTV3OXDKTvSWrmLerK35cOiiL7uAtsosnu2Q8HeWBKxC4q617UBrAGeD
-	 wHw2uPyW924A6MvEJUlJ5yAggnDy8JuGQc93o92DXzcPGxAqbyfa2tLVMgledH4b8B
-	 J8ZDGMJ/Xmkcw==
+	s=k20201202; t=1755732368;
+	bh=8I4ftgLEbGLAsbQ4rJdlUw9RZIk2vsRaxRC8gVRcUBI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ol3KDShLyM5dgHcPQXvonlDJkV920x10p257fYnrd8UpHg45fIgO2nTogOzLv5CzO
+	 6z4TXejX//PI4SzjLn+0yzuA1aey3wtIHCs21Nr3crHrfO34oNEM58WXC2ygsklssO
+	 KGGJFENwkDUCylP4ThQR7s0DaZQh23CYasWvaHNiTmKh3ClBmiAEhb39IBGQzzyM/I
+	 mEzKeoV6VamZghB8SM0osepoVzGikejnNM1e1dyCFsP6cWqMqrkHlF8PXwD8lKHquI
+	 ezyiAWXsxdrVeNIiBntoyaje14/tl0uM94IdXaCudIiloh9M7JrlJmThapIjIG64n4
+	 tE7Xwe+Ty9cUw==
+Message-ID: <c76f8af82172ef5d00fce6f17a50eae6@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250820142209.127575-1-sbinding@opensource.cirrus.com>
-References: <20250820142209.127575-1-sbinding@opensource.cirrus.com>
-Subject: Re: [PATCH v3 0/3] ASoC: cs35l56: Fixes for CS35L63 for production
- silicon
-Message-Id: <175572826370.300376.1566951929910497131.b4-ty@kernel.org>
-Date: Wed, 20 Aug 2025 23:17:43 +0100
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.17-rc2
+Date: Thu, 21 Aug 2025 00:25:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
 
-On Wed, 20 Aug 2025 15:21:59 +0100, Stefan Binding wrote:
-> Production silicon for CS36L63 has some small differences compared to
-> pre-production silicon. This requires small fixes in driver.
-> Update firmware addresses, tuning algorithm IDs and remove soundwire
-> clock workaround as no longer necessary.
-> 
-> No product was ever released using pre-production silicon, therefore
-> there is no need to keep support for it.
-> 
-> [...]
+The following changes since commit c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9:
 
-Applied to
+  Linux 6.17-rc2 (2025-08-17 15:22:10 -0700)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+are available in the Git repository at:
 
-Thanks!
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-rc2
 
-[1/3] ASoC: cs35l56: Update Firmware Addresses for CS35L63 for production silicon
-      commit: f135fb24ef29335b94921077588cae445bc7f099
-[2/3] ASoC: cs35l56: Handle new algorithms IDs for CS35L63
-      commit: 8dadc11b67d4b83deff45e4889b3b5540b9c0a7f
-[3/3] ASoC: cs35l56: Remove SoundWire Clock Divider workaround for CS35L63
-      commit: 8d13d1bdb59d0a2c526869ee571ec51a3a887463
+for you to fetch changes up to 7c15e4cabfa96ed3cd717a2ed7a9961268ab21f7:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+  ASoC: cs35l56: Fixes for CS35L63 for production (2025-08-20 19:56:20 +0100)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+----------------------------------------------------------------
+ASoC: Fixes for v6.17
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+A few fixes that came in during the past week, there's some updates for
+the CS35L56 which adjust the driver for production silicon and a fix for
+buggy resume of the ES9389.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+----------------------------------------------------------------
+Mark Brown (1):
+      ASoC: cs35l56: Fixes for CS35L63 for production
 
-Thanks,
-Mark
+Richard Fitzgerald (1):
+      ASoC: cs35l56: Handle new algorithms IDs for CS35L63
 
+Stefan Binding (2):
+      ASoC: cs35l56: Update Firmware Addresses for CS35L63 for production silicon
+      ASoC: cs35l56: Remove SoundWire Clock Divider workaround for CS35L63
+
+Zhang Yi (1):
+      ASoC: codecs: ES9389: Modify the standby configuration
+
+ include/sound/cs35l56.h           |  5 +--
+ sound/soc/codecs/cs35l56-sdw.c    | 69 ---------------------------------------
+ sound/soc/codecs/cs35l56-shared.c | 29 ++++++++++++++--
+ sound/soc/codecs/cs35l56.c        |  2 +-
+ sound/soc/codecs/cs35l56.h        |  3 --
+ sound/soc/codecs/es8389.c         |  2 +-
+ 6 files changed, 31 insertions(+), 79 deletions(-)
