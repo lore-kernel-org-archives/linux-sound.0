@@ -1,83 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB9521D59C;
-	Wed, 20 Aug 2025 14:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9957126F45A;
+	Wed, 20 Aug 2025 14:21:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755699002; cv=none; b=hpDHvdJacUQD1DX5l0PkOUSM4gp6GBS3hUif+bDNJlGtrKqgYWCPRvhfy+uTsVSTMhy7UCozC2Abt5JwwfBJI1mlDWEIACD/RIBlW0jKNdZf9i1tuaffqI1Zyv2TLm2YR6BWylNRxcDt0AQHkXDu9E0fho0NMVTb7JXXejxPlYU=
+	t=1755699707; cv=none; b=no7QXKx/CDoBRkOQhLmDWDms3FWKzDx+c/AM4hudDUoOIeASq8MgRqJ7Pc6MFN2p09E4K2mPmkGrNNLHNJNBP0qVAK6hEWBmaQsu6suOF+O+q82oH2FAoGEN06xJT+aNGUBS0GXn3Q5v4N3c3B2CyyKaBZl2YqYFiwjPMCFpKPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755699002; c=relaxed/simple;
-	bh=sqe9qbdA5TL2KgyWbfPjytwIiDXhTpLiFklKKC5M5OM=;
+	s=arc-20240116; t=1755699707; c=relaxed/simple;
+	bh=oqNZJj++AlZ8Ps0cc+9Vt/kMxVfjlJ3sjFH2mz3NPjA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EKa3uqtymlHV15EI6cY86u/KAnu/dRYcec/FWsLUB5J9JdRZKNqKaj72rq+2pWKwPQeX9rOemcLqfLEzSiFOY3aaRe+4Nqn4h1cEiQhBXjl8lgVP5NfUmdkvRbHKi8pq9dvLtrOamTR/HSDFW1ezhjCSqAKoC8F0H4h50UP/5gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GMM6XANz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NVt4TrgbHtoTQb/5qNprLoTms8VHe6+/JtUgqUEX6NTAweswGrhNGeaN+iu4boJhT5xu/ba4tspYEaCPYdtO0dAES5j4YLXCRzPnXDS90uH9du1JZtRbNmV3dC7k7gcofXKyQeSS79Yjl+nK3jvnhSqfxT6wnqTVhlGHhAYMgdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ov7P0L6i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GMM6XANz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7290FC4CEE7;
-	Wed, 20 Aug 2025 14:10:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ov7P0L6i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 904EDC4CEEB;
+	Wed, 20 Aug 2025 14:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755699001;
-	bh=sqe9qbdA5TL2KgyWbfPjytwIiDXhTpLiFklKKC5M5OM=;
+	s=k20201202; t=1755699706;
+	bh=oqNZJj++AlZ8Ps0cc+9Vt/kMxVfjlJ3sjFH2mz3NPjA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GMM6XANzM8Wfka/z8j65pbK5D086lEeXEVALZQD3sYoycjLS9K29uAzVFD44rlNJB
-	 MlG0IXvA5PNoMRfR8FrZuLAqNcz+LdQmO+rz6Ie3kG+KTvxzGBPsomDaCs7sVYVIdQ
-	 dus81eiQB6WhPWX1/vpEn0N4TvsrrcBGbm/BJq6lHzOYzbsXZXPExhTM/RflTzh6Uy
-	 cn0H7ZZzR0s6Ts27se9ZiuOkZWKoPt90tSQJWnwu1nAxk5Cj0g2ZAut2AIi5JV3IPJ
-	 ZHxWbJc2tsVYljICGkq656wx9Bc5I6duPM+r7W2YmjhFRH0SuYOpQbu886CVEyUyrQ
-	 DBh8zaOJVqK6A==
-Date: Wed, 20 Aug 2025 09:10:00 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-Cc: linux-omap@vger.kernel.org, peter.ujfalusi@gmail.com,
-	broonie@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, shuah@kernel.org, lgirdwood@gmail.com,
-	krzk+dt@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] ASoC: dt-bindings: omap-twl4030: convert to DT
- schema
-Message-ID: <175569900018.3357203.16722669550945555808.robh@kernel.org>
-References: <20250819201302.80712-1-jihed.chaibi.dev@gmail.com>
- <20250819201302.80712-3-jihed.chaibi.dev@gmail.com>
+	b=ov7P0L6iXmWRO1R7kJepvTyesG5pqkN/+U63hvE3aS06vs/+MuKlOGUSKbiUytdEX
+	 1St/UwrhmbGX0wW3k5WkXrBYONCPcPb8cMrq/0AsVTrn1GWopIH+BwKzcECfA94kp1
+	 Y3vHSAIguM5zfjUCNu8AsQnOhVt35+lXf0gbS4CxX4JbNxZSAjb5voiJ0+PJ1sbUGO
+	 lzqgwG5wURY5QhOynMMyZ4COgYjmwsGZmY8la+DF/OnNzbcU+XXsDaJe3jmXrFae+r
+	 h8n4Fc+S+I6IyCUTiX/GUzRMn/nbY4JsCLM5UMZ4zlJ6oEoopeV2P8EUjBxpejyKJl
+	 tJjudSu++++4Q==
+Date: Wed, 20 Aug 2025 15:21:38 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: kernel@collabora.com, Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Ikjoon Jang <ikjn@chromium.org>,
+	Enric Balletbo i Serra <eballetbo@kernel.org>,
+	Chen-Yu Tsai <wenst@chromium.org>, Weiyi Lu <weiyi.lu@mediatek.com>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Julien Massot <jmassot@collabora.com>,
+	Sean Wang <sean.wang@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] MediaTek devicetree/bindings warnings
+ sanitization second round
+Message-ID: <d02d2a5f-b8d7-4fdb-b3c5-6e6d21127733@sirena.org.uk>
+References: <20250820-mtk-dtb-warnings-v2-0-cf4721e58f4e@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nGxggd7EixyA+X3k"
+Content-Disposition: inline
+In-Reply-To: <20250820-mtk-dtb-warnings-v2-0-cf4721e58f4e@collabora.com>
+X-Cookie: Semper Fi, dude.
+
+
+--nGxggd7EixyA+X3k
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250819201302.80712-3-jihed.chaibi.dev@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Aug 20, 2025 at 03:44:51PM +0200, Julien Massot wrote:
+> This patch series continues the effort to address Device Tree validation =
+warnings for MediaTek platforms, with a focus on MT8183. It follows the ini=
+tial cleanup series by Angelo (https://www.spinics.net/lists/kernel/msg5780=
+177.html)
+>=20
+> The patches in this set eliminate several of the remaining warnings by im=
+proving or converting DT bindings to YAML, adding missing properties, and u=
+pdating device tree files accordingly.
 
-On Tue, 19 Aug 2025 22:13:02 +0200, Jihed Chaibi wrote:
-> Convert the legacy TXT binding for the OMAP TWL4030 sound card
-> to the modern YAML DT schema format. This adds formal validation
-> and improves documentation.
-> 
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
-> 
-> ---
-> Changes in v4:
->  - Deleted redundant pins list.
->  - Split from larger series per maintainer feedback.
->  - v3 link:
->    https://lore.kernel.org/all/20250816021523.167049-1-jihed.chaibi.dev@gmail.com/
-> 
-> Changes in v3:
->  - No change to binding content, only updating commit message format.
-> 
-> Changes in v2:
->  - Fixed comment formatting (added spaces for better alignment).
->  - Updated commit subject to align with subsystem style.
->  - Retained Acked-by from v1 as changes are cosmetic.
-> ---
->  .../bindings/sound/omap-twl4030.txt           | 62 ------------
->  .../bindings/sound/ti,omap-twl4030.yaml       | 98 +++++++++++++++++++
->  2 files changed, 98 insertions(+), 62 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/omap-twl4030.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/ti,omap-twl4030.yaml
-> 
+What's the story with interdepenencies between the patches in this
+series?
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Please fix your mail client to word wrap within paragraphs at something
+substantially less than 80 columns.  Doing this makes your messages much
+easier to read and reply to.
 
+--nGxggd7EixyA+X3k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmil2fIACgkQJNaLcl1U
+h9AT6Qf+O4+Z7uHUog/4pJNkvJdaQakvVyleGl1rZZhFeiygjeRj7kGarSjQtJjP
+/qh5Is7DkgUy+DiROexGk5Z+t9r0yFCkFK+qyvWWteOqiZjna3YsA7NGmssLswTN
+DY6uF15lOVUK7f6cKAEzKoXlct2HK/wZ/l8/AFiIpRxuXxzXB5jyuK7P4dV2UtK4
+bZKuj/3VVOuTrbIkfIJwvlewKhQ4OCswcJHO+8ltNCo1omKcdWZOfS2+4PzVhZju
+XU68yXOWzxgbTWgjcXZQ4Ia/u7uzMOV7JZhSjPByMFRZVVcIfkPkW4D3lbctaggG
+OsL5Gyzt77XUGtoCDX9CXoft9b5PiQ==
+=S34d
+-----END PGP SIGNATURE-----
+
+--nGxggd7EixyA+X3k--
