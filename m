@@ -1,295 +1,334 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CE2238149
-	for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 14:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A69E2E7F3F;
+	Thu, 21 Aug 2025 14:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755785798; cv=none; b=MlP0PGpDP54SgeGqbgeG6GJXhr+rt6k4/9SHD03SL0DOg2l/URuonHa1y/yKqi8KAOu8c31cdVx8qWwH3wMO73fmrQPE56x/blMTRfU499SPTS0SA/bcTZ0EI8TQhHVFI+i/L7urOD3p/sAUT5kpL95jRw4CxeacFZYkedKz39c=
+	t=1755786517; cv=none; b=sEOx8Zn5Ds2KHZ8c2im3NGR+v8VF7vkP2/5WN7hl5enR5jn6ytyLAOE+zC4+VP9hyLTwcFO4D22zPXXSnApvmOnDSySRELzioN42aVlr/tBHABGK1u+v4LbAsSIYmqEtX9HvEuxu41pcAC7mDE0b5oTR/uv8+LE7unfyxVNM2oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755785798; c=relaxed/simple;
-	bh=HLDBdXiNq+P1RF8YKINPxUMTBWBPXzbBbSdu0bYjkO8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZRHVRhMsmh8zWsZjX4jKPEsGYLhOu83wGQc3C5tDJzUVxehRpydONQ09gwrhUF9yR3w5scK3Dgw8ITASKUsu73KQ6TlDK2whMNSYGqCqLXhwHceaOOfgxcfxGL2iQmpHbWSpMYiUBXzOLVIrSserA0as9cfZsAd/FxwzWalKExQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m95TlMiD; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755786517; c=relaxed/simple;
+	bh=EMbz8+HtiX+wFGU2pxupJmg8opMHOLpXmJiRY9CoOkI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AHRcQvlpNbOVndltqYFkaGlpKLAesjDtBAWIuUFgqRlqlP+aHexZ+UAGp8xHxDb4WbI1o5GLRzQb0qydk0RKSLJkkgMtlKuz1a0OwmW4Cgz4NqGUhb4AGATAGSiFRjxuI3TyZcm/2qTexoCdnWzCUkuXg/gwBtfHS/Yt6X19Qww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cRWFxu/B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m95TlMiD"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-afcb731ca55so13974466b.0
-        for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 07:16:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755785795; x=1756390595; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZoN7OIGSwcaV1Dg62iwAEZ0nRj30RcWA9+4IXl2Jlmc=;
-        b=m95TlMiDKXtHjT48X0MqThwCWCc6KlxNonhvTYBsssxbLB2brsHgrAJPrjdYhUR+Kq
-         zTaCDIZVRcf+/DcG4xie0/55f7M26xOsZZ963RYLlcPxHg/e274OBXurlMPePkBVE2Fr
-         09QMZexn6rNLBg14fgk0yZMANc5F6/nO3LDt6RKjh3aMXP1uzf0zjvFuJCIuzoroUyxm
-         LR4tGV2UwZYTaBreHW6cSJNV0em3REV4kkeld1ctkRgRWkb2pPPm5bzXepjb5cpKI+kC
-         d3AvB8etflZPql5+bp2fnp849Sy9KxV4jdaZlpIwMKxQ2QH24Sn+W+itO/ACdZO7VYKe
-         FPlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755785795; x=1756390595;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZoN7OIGSwcaV1Dg62iwAEZ0nRj30RcWA9+4IXl2Jlmc=;
-        b=eW2pzPAaV2ljl+M2wcvmqWO8UQ+N86fCL/2wLYk9xYfaw4Wjv4SLJ3VI2EYRN+ZtWF
-         ECnGd33gOmHE9Xp1nPozWCVCby/caO1X9HGEThTRLaxyLlolGueWh8LThJi615ueehHO
-         rzX1qQsWNBIk0flYS//Cleu5f8MB+i+xTLz566xy6MWjTeFozEEdbsPKDse49pOI9U6Z
-         MBLx3OVHpVedJnjdvqoDiNxDWwpm5aWKhQ26dka0KKumG08ZxYiDCKH9cOiXAwfJiimU
-         oW8zM7AVJt/1kFKtC6NHuOANaEqo6HRpYyg1A9jXrAhU36NWEUnHZFeYXAn1YBrZ1pXE
-         qNxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWautDB9oHQVXieqaTZpA0nx+IrgCCJmgoF8OFKqW5R6ql8t3FSsap8YckDgtwwjplPD5kkHECuAkWd4g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxToVfnmEBCsMug99Dwj5zyCswejjXZy9y8faR5rhIsl/JeQxOs
-	mZF4uFV4GDnzLHc4uI1yoIdeYXPer8a8RSg62MwtSlKPQX5dfydNwqGcANgONadf9uM=
-X-Gm-Gg: ASbGncstegvRXUKnn1ui63fr5LrWnIBIPeOaQcvDSby1FyKH2FrO3J2IZaHK9cFjhz8
-	dytjK//9gn+N8wwUo7RhblZDkh+/Zn6A0o95QafgulgfTnRZHVW/6pqtaD66IeSklnRw9dL07Du
-	TKMgt0mLJ3koQpnccqzijk4GaQjTEojPiLbojXZcjvog+Dzqy/tZPJ9j68+zSuEvKfBodIJC3QZ
-	6iC5gOy+NF+2vMJ8LPlU9ZM5GIfTa00XJ8WI7nYcTSSsLGeWYMb2cLs9KqaUMykoBX+oTcYgMyE
-	K9WkBCNirpW7y4yAMh+XfJ1xzjN8fxW6FD1DiCr2SMvBvklndQVo4aGNeIDfRFiNDPLrx1E6ULh
-	4UMga2UvvB2pc+brLeMaFWWlX4nmNnJrsMg==
-X-Google-Smtp-Source: AGHT+IE58dc/aIqAL0a1sMzCLolMbX1X5JkoLN83gB/cKEIDCinhQWfqhHOUkozKe5jfLtPZw+53PA==
-X-Received: by 2002:a17:907:96a2:b0:adb:2f16:7ba1 with SMTP id a640c23a62f3a-afe07dba271mr131904066b.6.1755785794930;
-        Thu, 21 Aug 2025 07:16:34 -0700 (PDT)
-Received: from kuoka.. ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded4cc3c0sm395325566b.96.2025.08.21.07.16.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 07:16:34 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/2] ASoC: qcom: audioreach: Add support for VI Sense module
-Date: Thu, 21 Aug 2025 16:16:27 +0200
-Message-ID: <20250821141625.131990-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250821141625.131990-3-krzysztof.kozlowski@linaro.org>
-References: <20250821141625.131990-3-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cRWFxu/B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B29C19425;
+	Thu, 21 Aug 2025 14:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755786517;
+	bh=EMbz8+HtiX+wFGU2pxupJmg8opMHOLpXmJiRY9CoOkI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cRWFxu/BPNpqodDqvt1FLl5BcGeujMeWAQcrQgctw9TvOthgFPwJv1EskTamU7fst
+	 mQzi80HtrNlWRLg8/x71MRaPtHwEuWMxVGi67R1kGUrxlAA6QFv8jFd5QoSlaTNJc9
+	 VsHsCf5X8u9pKEhGkTtbvc8EN3W6Ae2VU/fRH/Ow3b4FO95fADdG3ogjEWMdNd/lD/
+	 MQ5A6HSKcraqM1G8VqbvE9p2wcJmdnN5Lcp9SHT1IF+AJxNJwqIz3ABs1IVIbYmzES
+	 o/3J9fZQXk4/j33zoTvzyRiIXVcQsND7pDp6sn7sm1vM2daBOnRpjj8tQfvpxPSGjL
+	 0VVxJB8bhvpIw==
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-61a8c134533so2243276a12.3;
+        Thu, 21 Aug 2025 07:28:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU+x20Y+PsnfxC9k37MQQLbpSZirPWr8ydUr9xX74F/GbaJg5+fcqUYlauM9dIW2fzCMVMmjQPr@vger.kernel.org, AJvYcCUP49j4TgZCZ7h9FcC1KjbOon8RRi7SeR/ac96WFypXUbjB1AAo0e5pEoMdf9IipCA+Ml+SYAbjAOaQYB0=@vger.kernel.org, AJvYcCUcuPn2jZeAQXSs9ZPq9LW70oo0mTVYF+sTCMV/UOKNYM5PvnjPe861ArFJh9gjMOWPwSAjgDli7t65p54=@vger.kernel.org, AJvYcCUlTdFCrAgvjbHP6bmuMggi3iPOeiduZtibDETnwh2n7MJ5GoZpqRqtErsYmy0Gq333vQGECZhMF8kQ4ZQ=@vger.kernel.org, AJvYcCV9sBcHFRbihGWgc0nxUHkjdj1cnwl08WF8W2hqHHw+7BVGfYWEh4bK2/VrOrIW6S/R5pYrzxoL+KYz@vger.kernel.org, AJvYcCVce0ywP6wF/Jwx44DlbRT2yMiqp60+aGrjyhFpNM7RnBsx4Y4EvQy0EG5ULWMc/A6DBSLgxl+qr3cJpHoU@vger.kernel.org, AJvYcCWsGbRPb6gnze0u3cNVZFEaqNi8lQvh0MNW9Y0jGekMJ0NcBtNABQxBOWE/v6JXu2rF4cWH4G9NY5vo@vger.kernel.org, AJvYcCXuQimHS2Gi0AIgAiPK3MU+Z22Nul6ytz0C3FC8VoP/UpjdcqJPmfHFh6tcfQb+Eq0KoXl4zxvPVheqfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuPEb1BYhWn7jB14Ov2vu8frAwlOq9oZG6AMShUcEHJA0S148E
+	6T9a298BTyRkgAYlRYWTR6LB6VEgPDg7XJhiPu3rEN5ANP8CLMtjWVMDLm8gYjioEgj9iUUAeFY
+	WMRMLe9aGOwvHJ+HxHKRqCBA+wsXsew==
+X-Google-Smtp-Source: AGHT+IFBppYBOkX44YlxMo5/Wkh7Q5eWgNuxdz5vrG5HqTxZPVhTa0iHjCUIJQBUOqi7fhL4+BSSlpYJWfsZYnSvbZ0=
+X-Received: by 2002:a05:6402:1ece:b0:61a:9385:c798 with SMTP id
+ 4fb4d7f45d1cf-61bf8747b36mr1919506a12.37.1755786515468; Thu, 21 Aug 2025
+ 07:28:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6801; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=HLDBdXiNq+P1RF8YKINPxUMTBWBPXzbBbSdu0bYjkO8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBopyo90BhsTMDWaaCIrTdOYNoE+igRzEuBwb83f
- FG1GgFmq82JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaKcqPQAKCRDBN2bmhouD
- 13j8D/44jc3lYJkLXcHF225Q8IktIcBA3e8OTKtoktQaW+hjXxIYs2KaOOE6MA9Bjtxc5n6BR48
- rQY0T8WQcTTnSkQ/S4bRosiG1p1NXqOsv6v/2yTZhv8hXvZonbTCUXi5MALz8jLEMsPEMhP2utb
- /suuriSGvS4XlA7Pqei2GYbSbbQbbufmafYoV0OmR/bBFvm8oqTCMclMc0ZEtjFwAnoriH5ZPrl
- 8Zb0ZdR65KpN5DNp6I4c4h+JKPnGpa9e7/jc/OPoHBJM8KJuqVq75j5eBipraN/iIFtKw728UAy
- CXVFenbLFzrAx4/yISgrXIJ2sg6wO6T5kJiA86BFJiwDqMtwXHID062Ki1A5c1fmXNHWcTiw+4d
- BpOSJj6aZ6ip/2nl2seEANZ4Cd4ERKR9/hfiKWMPTJMCFR+OjKTZOeJCNxxRVUEkn9OwjH4pa+1
- khRV/THl/Dv64pFP/BJoBumBHI8Day1cymqPEXcWGYe9XPfBKkpOs1Hq/3eRs6vYxJTbpHebmOj
- 0o9+Fg8x9fjD1bFXYVCXtAeb0aK+g2HJOyjb/WRRSya1dh1ns5v3DKLrzmjjoFTCtICSv46C/a7
- CMzM8W+70BoWtTxUc7+PQ2qN9/y3OO5TohKcs0n4nES/nNE5Z6gAD7O2oe4riRQkLd6vofNHrY4 29AAp4MO7raUIhw==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com> <20250820171302.324142-5-ariel.dalessandro@collabora.com>
+In-Reply-To: <20250820171302.324142-5-ariel.dalessandro@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 21 Aug 2025 09:28:23 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+K72Kof-Z3q2DSh3FKO64npLF6hDJnqnTzNBUoOoVQFA@mail.gmail.com>
+X-Gm-Features: Ac12FXyETnp9uvywF5eryvs_DLFHAynyRYtV9sBUVnGCpXqqypbV2hkfxFtEdCo
+Message-ID: <CAL_Jsq+K72Kof-Z3q2DSh3FKO64npLF6hDJnqnTzNBUoOoVQFA@mail.gmail.com>
+Subject: Re: [PATCH v1 04/14] net: dt-bindings: Convert Marvell 8897/8997
+ bindings to YAML
+To: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
+	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, 
+	broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com, 
+	conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com, 
+	edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com, 
+	jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com, 
+	krzk+dt@kernel.org, kuba@kernel.org, 
+	kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com, 
+	linus.walleij@linaro.org, louisalexis.eyraud@collabora.com, 
+	maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com, mchehab@kernel.org, 
+	minghsiu.tsai@mediatek.com, mripard@kernel.org, p.zabel@pengutronix.de, 
+	pabeni@redhat.com, sean.wang@kernel.org, simona@ffwll.ch, 
+	support.opensource@diasemi.com, tiffany.lin@mediatek.com, tzimmermann@suse.de, 
+	yunfei.dong@mediatek.com, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-sound@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-VI Sense module in ADSP is responsible for feedback loop for measuring
-current and voltage of amplifiers, necessary for proper calibration of
-Speaker Protection algorightms.  Implement parsing
-MODULE_ID_SPEAKER_PROTECTION_VI from Audioreach topology and sending it
-as command to the ADSP.
+On Wed, Aug 20, 2025 at 12:15=E2=80=AFPM Ariel D'Alessandro
+<ariel.dalessandro@collabora.com> wrote:
+>
+> Convert the existing text-based DT bindings for Marvell 8897/8997
+> (sd8897/sd8997) bluetooth devices controller to a YAML schema.
+>
+> While here, bindings for "usb1286,204e" (USB interface) are dropped from
+> the YAML definition as these are currently documented in file:
+>
+> - Documentation/devicetree/bindings/net/btusb.txt
+>
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> ---
+>  .../bindings/net/marvell,sd8897-bt.yaml       | 91 +++++++++++++++++++
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- sound/soc/qcom/qdsp6/audioreach.c | 112 ++++++++++++++++++++++++++++++
- sound/soc/qcom/qdsp6/audioreach.h |  27 +++++++
- 2 files changed, 139 insertions(+)
+This needs to move to net/bluetooth/
 
-diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index b7f1fc835dc2..f2b7f18e29ae 100644
---- a/sound/soc/qcom/qdsp6/audioreach.c
-+++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -202,6 +202,31 @@ struct apm_display_port_module_intf_cfg {
- } __packed;
- #define APM_DP_INTF_CFG_PSIZE ALIGN(sizeof(struct apm_display_port_module_intf_cfg), 8)
- 
-+struct apm_module_sp_vi_op_mode_cfg {
-+	struct apm_module_param_data param_data;
-+	struct param_id_sp_vi_op_mode_cfg cfg;
-+} __packed;
-+
-+#define APM_SP_VI_OP_MODE_CFG_PSIZE(ch) ALIGN( \
-+				sizeof(struct apm_module_sp_vi_op_mode_cfg) + \
-+				(ch) * sizeof(uint32_t), 8)
-+
-+struct apm_module_sp_vi_ex_mode_cfg {
-+	struct apm_module_param_data param_data;
-+	struct param_id_sp_vi_ex_mode_cfg cfg;
-+} __packed;
-+
-+#define APM_SP_VI_EX_MODE_CFG_PSIZE ALIGN(sizeof(struct apm_module_sp_vi_ex_mode_cfg), 8)
-+
-+struct apm_module_sp_vi_channel_map_cfg {
-+	struct apm_module_param_data param_data;
-+	struct param_id_sp_vi_channel_map_cfg cfg;
-+} __packed;
-+
-+#define APM_SP_VI_CH_MAP_CFG_PSIZE(ch) ALIGN( \
-+				sizeof(struct apm_module_sp_vi_channel_map_cfg) + \
-+				(ch) * sizeof(uint32_t), 8)
-+
- static void *__audioreach_alloc_pkt(int payload_size, uint32_t opcode, uint32_t token,
- 				    uint32_t src_port, uint32_t dest_port, bool has_cmd_hdr)
- {
-@@ -1258,6 +1283,89 @@ static int audioreach_speaker_protection(struct q6apm_graph *graph,
- 					 operation_mode);
- }
- 
-+static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
-+					    struct audioreach_module *module,
-+					    struct audioreach_module_config *mcfg)
-+{
-+	uint32_t num_channels = mcfg->num_channels;
-+	struct apm_module_sp_vi_op_mode_cfg *op_cfg;
-+	struct apm_module_sp_vi_channel_map_cfg *cm_cfg;
-+	struct apm_module_sp_vi_ex_mode_cfg *ex_cfg;
-+	int op_sz, cm_sz, ex_sz;
-+	struct apm_module_param_data *param_data;
-+	int rc, i, payload_size;
-+	struct gpr_pkt *pkt;
-+	void *p;
-+
-+	if (num_channels > 2) {
-+		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
-+		return -EINVAL;
-+	}
-+
-+	op_sz = APM_SP_VI_OP_MODE_CFG_PSIZE(num_channels);
-+	/* Channel mapping for Isense and Vsense, thus twice number of speakers. */
-+	cm_sz = APM_SP_VI_CH_MAP_CFG_PSIZE(num_channels * 2);
-+	ex_sz = APM_SP_VI_EX_MODE_CFG_PSIZE;
-+
-+	payload_size = op_sz + cm_sz + ex_sz;
-+
-+	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-+	if (IS_ERR(pkt))
-+		return PTR_ERR(pkt);
-+
-+	p = (void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
-+
-+	op_cfg = p;
-+	param_data = &op_cfg->param_data;
-+	param_data->module_instance_id = module->instance_id;
-+	param_data->error_code = 0;
-+	param_data->param_id = PARAM_ID_SP_VI_OP_MODE_CFG;
-+	param_data->param_size = op_sz - APM_MODULE_PARAM_DATA_SIZE;
-+
-+	op_cfg->cfg.num_channels = num_channels;
-+	op_cfg->cfg.operation_mode = PARAM_ID_SP_VI_OP_MODE_CALIBRATION;
-+	op_cfg->cfg.quick_calibration = 1;
-+	/*
-+	 * op_cfg->cfg.r0_t0_selection should be set only for normal mode, keep
-+	 * as 0 for calibration
-+	 */
-+	p += op_sz;
-+
-+	cm_cfg = p;
-+	param_data = &cm_cfg->param_data;
-+	param_data->module_instance_id = module->instance_id;
-+	param_data->error_code = 0;
-+	param_data->param_id = PARAM_ID_SP_VI_CHANNEL_MAP_CFG;
-+	param_data->param_size = cm_sz - APM_MODULE_PARAM_DATA_SIZE;
-+
-+	cm_cfg->cfg.num_channels = num_channels * 2;
-+	for (i = 0; i < num_channels; i++) {
-+		/*
-+		 * Map speakers into Vsense and then Isense of each channel.
-+		 * E.g. for PCM_CHANNEL_FL and PCM_CHANNEL_FR to:
-+		 * [ 1, 2, 3, 4]
-+		 */
-+		cm_cfg->cfg.channel_mapping[2 * i] = (mcfg->channel_map[i] - 1) * 2 + 1;
-+		cm_cfg->cfg.channel_mapping[2 * i + 1] = (mcfg->channel_map[i] - 1) * 2 + 2;
-+	}
-+
-+	p += cm_sz;
-+
-+	ex_cfg = p;
-+	param_data = &ex_cfg->param_data;
-+	param_data->module_instance_id = module->instance_id;
-+	param_data->error_code = 0;
-+	param_data->param_id = PARAM_ID_SP_VI_EX_MODE_CFG;
-+	param_data->param_size = ex_sz - APM_MODULE_PARAM_DATA_SIZE;
-+
-+	ex_cfg->cfg.factory_mode = 0;
-+
-+	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
-+
-+	kfree(pkt);
-+
-+	return rc;
-+}
- 
- int audioreach_set_media_format(struct q6apm_graph *graph, struct audioreach_module *module,
- 				struct audioreach_module_config *cfg)
-@@ -1312,6 +1420,10 @@ int audioreach_set_media_format(struct q6apm_graph *graph, struct audioreach_mod
- 		rc = audioreach_speaker_protection(graph, module,
- 						   PARAM_ID_SP_OP_MODE_CALIBRATION);
- 		break;
-+	case MODULE_ID_SPEAKER_PROTECTION_VI:
-+		rc = audioreach_speaker_protection_vi(graph, module, cfg);
-+		break;
-+
- 	default:
- 		rc = 0;
- 	}
-diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-index 0ad566e45e09..80dcedac3482 100644
---- a/sound/soc/qcom/qdsp6/audioreach.h
-+++ b/sound/soc/qcom/qdsp6/audioreach.h
-@@ -32,6 +32,7 @@ struct q6apm_graph;
- #define MODULE_ID_GAPLESS		0x0700104D
- #define MODULE_ID_DISPLAY_PORT_SINK	0x07001069
- #define MODULE_ID_SPEAKER_PROTECTION	0x070010E2
-+#define MODULE_ID_SPEAKER_PROTECTION_VI	0x070010E3
- 
- #define APM_CMD_GET_SPF_STATE		0x01001021
- #define APM_CMD_RSP_GET_SPF_STATE	0x02001007
-@@ -553,6 +554,32 @@ struct param_id_sp_op_mode {
- 	uint32_t operation_mode;
- } __packed;
- 
-+/* Speaker Protection VI */
-+
-+#define PARAM_ID_SP_VI_OP_MODE_CFG		0x080011f4
-+#define PARAM_ID_SP_VI_OP_MODE_NORMAL		0
-+#define PARAM_ID_SP_VI_OP_MODE_CALIBRATION	1
-+#define PARAM_ID_SP_VI_OP_MODE_FACTORY_TEST	2
-+#define PARAM_ID_SP_VI_OP_MODE_VALIDATION	3
-+struct param_id_sp_vi_op_mode_cfg {
-+	uint32_t num_channels;
-+	uint32_t operation_mode;
-+	uint32_t quick_calibration;
-+	uint32_t r0_t0_selection[];
-+} __packed;
-+
-+#define PARAM_ID_SP_VI_EX_MODE_CFG		0x080011ff
-+struct param_id_sp_vi_ex_mode_cfg {
-+	uint32_t factory_mode;
-+} __packed;
-+
-+#define PARAM_ID_SP_VI_CHANNEL_MAP_CFG		0x08001203
-+struct param_id_sp_vi_channel_map_cfg {
-+	uint32_t num_channels;
-+	/* [ Vsense of ch 1, Isense of ch 1, Vsense of ch 2, Isense of ch 2, ... ] */
-+	uint32_t channel_mapping[];
-+} __packed;
-+
- #define PARAM_ID_SAL_OUTPUT_CFG			0x08001016
- struct param_id_sal_output_config {
- 	uint32_t bits_per_sample;
--- 
-2.48.1
+>  .../bindings/net/marvell-bt-8xxx.txt          | 83 -----------------
+>  2 files changed, 91 insertions(+), 83 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/net/marvell,sd8897-=
+bt.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/net/marvell-bt-8xxx=
+.txt
+>
+> diff --git a/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml=
+ b/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
+> new file mode 100644
+> index 0000000000000..6539868c08b8a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
+> @@ -0,0 +1,91 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/marvell,sd8897-bt.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Marvell 8897/8997 (sd8897/sd8997) bluetooth devices (SDIO)
+> +
+> +maintainers:
+> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> +
 
+Needs a $ref to bluetooth-controller.yaml
+
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - marvell,sd8897-bt
+> +      - marvell,sd8997-bt
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  marvell,cal-data:
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    description:
+> +      Calibration data downloaded to the device during initialization.
+> +    minItems: 28
+
+Just: maxItems: 28
+
+> +
+> +  marvell,wakeup-pin:
+> +    $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      Wakeup pin number of the bluetooth chip. Used by firmware to wakeu=
+p host
+> +      system.
+> +
+> +  marvell,wakeup-gap-ms:
+
+This unfortunately needs a uint16 type. That will cause a warning
+which has to be fixed on the dtschema side.
+
+> +    description:
+> +      Wakeup latency of the host platform. Required by the chip sleep fe=
+ature.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/pinctrl/rockchip.h>
+
+Please drop this and just use a number below.
+
+> +
+> +    sdio0 {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        btmrvl: btmrvl@2 {
+> +            compatible =3D "marvell,sd8897-bt";
+> +            reg =3D <2>;
+> +            interrupt-parent =3D <&gpio4>;
+> +            interrupts =3D <RK_PD7 IRQ_TYPE_LEVEL_LOW>;
+> +            marvell,wakeup-pin =3D /bits/ 16 <13>;
+> +            pinctrl-names =3D "default";
+> +            pinctrl-0 =3D <&bt_host_wake_l>;
+> +        };
+> +    };
+
+I would drop this example.
+
+> +
+> +    mmc3 {
+
+mmc {
+
+> +        vmmc-supply =3D <&wlan_en_reg>;
+> +        bus-width =3D <4>;
+> +        cap-power-off-card;
+> +        keep-power-in-suspend;
+> +
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        bluetooth: bluetooth@2 {
+
+Drop the label.
+
+> +            compatible =3D "marvell,sd8897-bt";
+> +            reg =3D <2>;
+> +            interrupt-parent =3D <&pio>;
+> +            interrupts =3D <119 IRQ_TYPE_LEVEL_LOW>;
+> +
+> +            marvell,cal-data =3D /bits/ 8 <
+> +                0x37 0x01 0x1c 0x00 0xff 0xff 0xff 0xff 0x01 0x7f 0x04 0=
+x02
+> +                0x00 0x00 0xba 0xce 0xc0 0xc6 0x2d 0x00 0x00 0x00 0x00 0=
+x00
+> +                0x00 0x00 0xf0 0x00>;
+> +            marvell,wakeup-pin =3D /bits/ 16 <0x0d>;
+> +            marvell,wakeup-gap-ms =3D /bits/ 16 <0x64>;
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt b/=
+Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
+> deleted file mode 100644
+> index 957e5e5c2927c..0000000000000
+> --- a/Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
+> +++ /dev/null
+> @@ -1,83 +0,0 @@
+> -Marvell 8897/8997 (sd8897/sd8997) bluetooth devices (SDIO or USB based)
+> -------
+> -The 8997 devices supports multiple interfaces. When used on SDIO interfa=
+ces,
+> -the btmrvl driver is used and when used on USB interface, the btusb driv=
+er is
+> -used.
+> -
+> -Required properties:
+> -
+> -  - compatible : should be one of the following:
+> -       * "marvell,sd8897-bt" (for SDIO)
+> -       * "marvell,sd8997-bt" (for SDIO)
+> -       * "usb1286,204e"      (for USB)
+> -
+> -Optional properties:
+> -
+> -  - marvell,cal-data: Calibration data downloaded to the device during
+> -                     initialization. This is an array of 28 values(u8).
+> -                     This is only applicable to SDIO devices.
+> -
+> -  - marvell,wakeup-pin: It represents wakeup pin number of the bluetooth=
+ chip.
+> -                       firmware will use the pin to wakeup host system (=
+u16).
+> -  - marvell,wakeup-gap-ms: wakeup gap represents wakeup latency of the h=
+ost
+> -                     platform. The value will be configured to firmware.=
+ This
+> -                     is needed to work chip's sleep feature as expected =
+(u16).
+> -  - interrupt-names: Used only for USB based devices (See below)
+> -  - interrupts : specifies the interrupt pin number to the cpu. For SDIO=
+, the
+> -                driver will use the first interrupt specified in the int=
+errupt
+> -                array. For USB based devices, the driver will use the in=
+terrupt
+> -                named "wakeup" from the interrupt-names and interrupt ar=
+rays.
+> -                The driver will request an irq based on this interrupt n=
+umber.
+> -                During system suspend, the irq will be enabled so that t=
+he
+> -                bluetooth chip can wakeup host platform under certain
+> -                conditions. During system resume, the irq will be disabl=
+ed
+> -                to make sure unnecessary interrupt is not received.
+> -
+> -Example:
+> -
+> -IRQ pin 119 is used as system wakeup source interrupt.
+> -wakeup pin 13 and gap 100ms are configured so that firmware can wakeup h=
+ost
+> -using this device side pin and wakeup latency.
+> -
+> -Example for SDIO device follows (calibration data is also available in
+> -below example).
+> -
+> -&mmc3 {
+> -       vmmc-supply =3D <&wlan_en_reg>;
+> -       bus-width =3D <4>;
+> -       cap-power-off-card;
+> -       keep-power-in-suspend;
+> -
+> -       #address-cells =3D <1>;
+> -       #size-cells =3D <0>;
+> -       btmrvl: bluetooth@2 {
+> -               compatible =3D "marvell,sd8897-bt";
+> -               reg =3D <2>;
+> -               interrupt-parent =3D <&pio>;
+> -               interrupts =3D <119 IRQ_TYPE_LEVEL_LOW>;
+> -
+> -               marvell,cal-data =3D /bits/ 8 <
+> -                       0x37 0x01 0x1c 0x00 0xff 0xff 0xff 0xff 0x01 0x7f=
+ 0x04 0x02
+> -                       0x00 0x00 0xba 0xce 0xc0 0xc6 0x2d 0x00 0x00 0x00=
+ 0x00 0x00
+> -                       0x00 0x00 0xf0 0x00>;
+> -               marvell,wakeup-pin =3D /bits/ 16 <0x0d>;
+> -               marvell,wakeup-gap-ms =3D /bits/ 16 <0x64>;
+> -       };
+> -};
+> -
+> -Example for USB device:
+> -
+> -&usb_host1_ohci {
+> -    #address-cells =3D <1>;
+> -    #size-cells =3D <0>;
+> -
+> -    mvl_bt1: bt@1 {
+> -       compatible =3D "usb1286,204e";
+> -       reg =3D <1>;
+> -       interrupt-parent =3D <&gpio0>;
+> -       interrupt-names =3D "wakeup";
+> -       interrupts =3D <119 IRQ_TYPE_LEVEL_LOW>;
+> -       marvell,wakeup-pin =3D /bits/ 16 <0x0d>;
+> -       marvell,wakeup-gap-ms =3D /bits/ 16 <0x64>;
+> -    };
+> -};
+> --
+> 2.50.1
+>
