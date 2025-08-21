@@ -1,110 +1,92 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52DD34165C;
-	Thu, 21 Aug 2025 13:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD8B338F3F
+	for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 13:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755782987; cv=none; b=s5lFQj/px0K6kVUsorqqfGHiU6iwwe/Jwz4iOfuefz2RWCeuUEAoDzrAunaCxM77gjS0g/W7ztASRbqVvAfg0Uwav64DlPiM+tOdIMuEclcZ/abDfkXe8Wvn7oiUdwhwEW5ks6ZMlUgYCq40Qr0y5EzvjaVrjerQLtImLWswr3o=
+	t=1755783296; cv=none; b=J0IkIZBluaClKt/9s2oWGVhQACn0wJppaw27XvDjEUUXZBbroQ7dxTOL8QYuz4laMj8ER7fXsmGKhyvFcWD9DZl7fh0PprNR600j7oCNiqc3SDqVUVAxd8EcKjRqcvm8LkSjv2LfswPWJgglXrVFqtgCbCSEvtgAsx+4/Eh6sBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755782987; c=relaxed/simple;
-	bh=lRNEtqcrtlw74Q5TFa9XsODgun9hFWArZJOwnOWoo2E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FjhLpSUkGudlOaPcR4q48N6lrhSzbU55fDpOLB9sXMHfY2606h60QEbnwULvMDLEmUSr7rDSsJxnni4NmAKY/XNqo3Qo8o+TsERDXsemQagMogcVA/y+YuF4FFrFLDoEYssg1n/Bgbg1XGA/9i+Ysp9DuiiQ0oTRWuzHAJ9betY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sbWEZzS9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ej46kqb5; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1755783296; c=relaxed/simple;
+	bh=kv6n6GOVWTADV8kGP5+6GEG5ThL+6nnGm9DljXi3Qxg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=chG+qxJof20N/Hql0YxP2nNkEfmj0Mz5yzaLQTiMCv3faH7LlcEwBFnClzv8JRAPEF7DeZsqHQTZ2haJmZBOVBK77IWg7wzys6evQDNf7T0Y5a6vdhC/5B9ZnFDSKvsXrIayijKwpJD17CrX/g3d5efNxEg47RupoxZv9PFK5Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QBkuTnPA; arc=none smtp.client-ip=209.85.208.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sbWEZzS9";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ej46kqb5"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1755782983;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/IFfXb2Gts/wINwWBJRkteFrwzlStBGHf9GvRYuutbo=;
-	b=sbWEZzS9RpijCcTfWGULdNkOaitzT7INtDE+7XhR76hdc3RdH7lQe3J0T+0slwNnrUSJS7
-	TDP7BuP8pXIcqbq5n7fxBRfaw2kPQjYbD5lXkh/tdmlUMGCbuVL+KspzwYkfRNigqgURYx
-	hNq+qHTkoJysQe2PwIlscKD8js5IUolD2/wYCU0sGmZagCgtQ92/9Kp/TzNVs78vysanYA
-	iHCsYcktO58z+mBvDR8egjaXjnCs+t3Pkm7S2V9C6Qq8KV4kooeDooSaJ1HA5nbo8jRqCW
-	S2W5r5QkPsO6AK2fho514PoA+zfwrUD++MTZ3U1f/mDA0SqHRdNrplLkfwGvkA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1755782983;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/IFfXb2Gts/wINwWBJRkteFrwzlStBGHf9GvRYuutbo=;
-	b=Ej46kqb5WCNAosfV2HN79ixwnaFLactfkbLvZsHJCyzAJ2P1Y24yz0l2D6XhrKcOBjJwFz
-	Cn0mdygi2Gc9MGCg==
-Date: Thu, 21 Aug 2025 15:28:16 +0200
-Subject: [PATCH v2 9/9] hrtimer: Reorder branches in
- hrtimer_clockid_to_base()
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QBkuTnPA"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-333f901b2d2so8175431fa.2
+        for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 06:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755783293; x=1756388093; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dnk1CgahWWI41MJxVYInV4yTmBrTqgMN7PmBauKY3jg=;
+        b=QBkuTnPANj3BZINlJazP7frVb5LANa77kiv1wlh6sdJ1Rocs65TYZFopzIXJ7Gpo4E
+         bt6XHcKCfPzrwWd26qjSGCGOD0OjzXiZTJ0uj5i1lBkPsIxheHzsRJnDnkKWTasUnh98
+         w+xweOAbIQHvTKl0Y6B2wJsyMZ7sqxz6Ec85xNOUBKF60rZ2gc3Wc4/5Y/+p8uZtQJUc
+         mv1JfcJ0DfZ122AHny8DVZSch22ZlQUos0ZzKopjrYJNr9+PM0BWvZgEet6VbEOQD8sM
+         ELG1MnACc3LwbBnbAAYJv8VRmXmQ1e9pB8tUINj6oYmnnxhzxpG9Lr0zW4A9M93/d+y2
+         QLPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755783293; x=1756388093;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dnk1CgahWWI41MJxVYInV4yTmBrTqgMN7PmBauKY3jg=;
+        b=WnVuM5hcHra6KrdOaZB6IjihBgrhP7aIsvbf8t6c+pOVL6FdrlY45vSDVl55WETXH1
+         HGoiEaYAP+joL2hXvTzC5RNPJSLwgtefk/C5AyGdJNHKolUc3pTsX9kB15bC8tCoTD7x
+         ZSHmjRIVLROKS+KAsTh07LroPYSYofE5XOlIfPVBK+YSUVaeQjjeNPEAc5nx6aiB9dcK
+         PVHipfPlx3y8IiaaEuWREY6+/fj6h1xxG2w+YEdMSGoyLKrJnP5p2KmCF0mvUCxsvFpD
+         LmhQoxCHqby46V+AXhG0goO0IHy7hGuWMft/BBttn4BTyiwUH9O/u4sWZuo2k1ACM9Q9
+         wJug==
+X-Forwarded-Encrypted: i=1; AJvYcCUm7NUa204gtVRxEfEBUy+8dscA4gFHH/rRxxn1oSImjLoILlpU1mSow9rhlJEq4ETZZkMxuXF9nnrlOQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFKxc5UdDb0LjyqAEj9Cmp2fYQeFaHgFz11qDBNqWU9lvS5Qiv
+	t9mHoUyS+Ez3DRVYMprT6jMtqMHKAUVCUTnRxmzlb/JmufwEu1yKKRKi2pOWjzFm4G7YyGq7cy/
+	jhR/xJgCuKTdMlfPHVIWNorY4fXwvbCUfXlDS5J6FIg==
+X-Gm-Gg: ASbGncvfjf+jr1wy5DeHJ7qhMXJGnDBdtkk37J8iajmj5qUjpTRS+kQkBlbxt7VPxfG
+	SNWDTIga3mb0ZunHqZ1fCwoirEtyQM37SyRgiA9gIr2tbUF2JfZ+KiM5SxO8csskVxd5SEwL284
+	u+vorQGiGivoSs5Wnr33hJ6vWaZQXjp7Q5Ei1jPlgjogDXjs1+j2kqOAW2RF+k7fliaiQudsn/f
+	xpuORM=
+X-Google-Smtp-Source: AGHT+IGKufYc8VS+JVO/RTN7GptvxunMWcIXqzHM88cXAswfPy/+XrvyTDd4OoGPmr6RyZIf76Xo3OAHmqvX/1JjcQo=
+X-Received: by 2002:a05:651c:2112:b0:32e:aaa0:b06a with SMTP id
+ 38308e7fff4ca-33549e41fd1mr7866791fa.8.1755783292895; Thu, 21 Aug 2025
+ 06:34:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250821-hrtimer-cleanup-get_time-v2-9-3ae822e5bfbd@linutronix.de>
-References: <20250821-hrtimer-cleanup-get_time-v2-0-3ae822e5bfbd@linutronix.de>
-In-Reply-To: <20250821-hrtimer-cleanup-get_time-v2-0-3ae822e5bfbd@linutronix.de>
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Frederic Weisbecker <frederic@kernel.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- Matt Wu <wuqiang.matt@bytedance.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Sean Young <sean@mess.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-media@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755782976; l=898;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=lRNEtqcrtlw74Q5TFa9XsODgun9hFWArZJOwnOWoo2E=;
- b=vqkNbf2HDc9MrwNYTlgNZcaXjPwKmO8nzmctb1RJqQ7MWtSVWXM+JlSG1p27AZCkXGbENtHUi
- pzFWlcUBNJbA9pAFtazbmHpBdCfoY1IMbm5HzMzCgTDf4tSQdjuFN7Q
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+References: <20250821044914.710044-1-quic_pkumpatl@quicinc.com>
+In-Reply-To: <20250821044914.710044-1-quic_pkumpatl@quicinc.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 21 Aug 2025 15:34:41 +0200
+X-Gm-Features: Ac12FXzZfdEuIXlDJunjHifIf2iPhc7L3Fxydb1EWGcglhWvXkLWa6PHYXSvLu0
+Message-ID: <CACRpkdYEzbM33HBAhHEmAg9f4Zpi=2WvqPdZ35=M2eVCqcTTFg@mail.gmail.com>
+Subject: Re: [PATCH v8 0/9] Enable audio on qcs6490-RB3Gen2 and qcm6490-idp boards
+To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, cros-qcom-dts-watchers@chromium.org, 
+	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, kernel@oss.qualcomm.com, 
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Align the ordering to the one used for hrtimer_bases.
+On Thu, Aug 21, 2025 at 6:49=E2=80=AFAM Prasad Kumpatla
+<quic_pkumpatl@quicinc.com> wrote:
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> Mohammad Rafi Shaik (9):
+>   dt-bindings: pinctrl: qcom,sc7280-lpass-lpi-pinctrl: Document the
+>     clock property
 
----
-v2: New patch
----
- kernel/time/hrtimer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Can I just apply this one patch to the pinctrl tree?
 
-diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-index fedd1d793f6cdf8923cc8a6707ff793f36b77f26..f383df28c5325919b4d22df383d7fb286ea05874 100644
---- a/kernel/time/hrtimer.c
-+++ b/kernel/time/hrtimer.c
-@@ -1567,10 +1567,10 @@ u64 hrtimer_next_event_without(const struct hrtimer *exclude)
- static inline int hrtimer_clockid_to_base(clockid_t clock_id)
- {
- 	switch (clock_id) {
--	case CLOCK_REALTIME:
--		return HRTIMER_BASE_REALTIME;
- 	case CLOCK_MONOTONIC:
- 		return HRTIMER_BASE_MONOTONIC;
-+	case CLOCK_REALTIME:
-+		return HRTIMER_BASE_REALTIME;
- 	case CLOCK_BOOTTIME:
- 		return HRTIMER_BASE_BOOTTIME;
- 	case CLOCK_TAI:
-
--- 
-2.50.1
-
+Yours,
+Linus Walleij
