@@ -1,113 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8777334378;
-	Thu, 21 Aug 2025 13:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D2B3376A4;
+	Thu, 21 Aug 2025 13:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755782694; cv=none; b=QcWGiPyoep64c5GzbAYJ7EDqwNZSqe22YndGKhiDFnrAMBXdKnWCUhm9YAhKLHN8MFLc2nEjdE6DT0yV+D2K5vMPUy9cuE3onDTLg6AkLpCtR/2bYjmDLhN38ecbpCdSE+5YGiId4uT7rLuYBEYdV3ZbhJVW0MWkMjxfutxjuQo=
+	t=1755782982; cv=none; b=do6x188ofBcrwJpi/dKPCM03eCMwaMhkqXBg0zvalgaLMF+rrxtlWpQRYGbX1Jz/EEXJg/LYLetgSBAyIie5YU8A93V/yWu2jKTejY6ZG6dPwVXrsIpSQ8b6qtSVip2BBKFkq5sM+PFqMuCXSUBElEa5wpvcG9hX876e+WIfayE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755782694; c=relaxed/simple;
-	bh=76ReIJtXJzBwzWrjJa65Ko+8l//Yi0hjkZIdqxBBBC4=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=RmhO+oB7Llr+QsStDx+ilgypEj+cP/uDdKKac/A3bHaqoBuW25k3HVUzDO3MKwZtIXxHoTbmXtiEN24ctUyJvTMRewg2x+zgcVw9LT8ldX2ozSwK5lGgSbyoMf3h6FUx0lRVOYtT94saNgenVQo179P4RGFGm2oUmLaz8AmEPE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnBgB5CT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755782982; c=relaxed/simple;
+	bh=lh4GI5/eFBI8OTn1QJ/Btg9LnQHdDy7gu1gwdYWndp8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=I0lmAGSEitaAuQFOhPWN+wmlF0eLO67U5lIds1g2AO5aI1ppRqGaDQ2VXfPwIHwjMuEKVDetksxTbBjzXdtqAwji9KTzZutyUMHnfsspMPW/DSI1tiBzuLeOF76pL7Xqjy9lQk6ufLqW4t5n+D80qrtRQQZiQLsPqToSq7AwnDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lBfknWVb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eFdHDXbW; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnBgB5CT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DFE2C4CEEB;
-	Thu, 21 Aug 2025 13:24:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755782693;
-	bh=76ReIJtXJzBwzWrjJa65Ko+8l//Yi0hjkZIdqxBBBC4=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=RnBgB5CTZ17kmiwkBbDAExo7pQlNQ7peebeeq092niVb2vM+IwmJxsaCAvlOS3f1A
-	 1KXPgaHqN2qA+FxKYuTun7TaAYGIOyMoiJwznaRPhIPEf4jTowAINPvQa5U5Y/q2cm
-	 31QZA8P9XHmdskehrqJbo59m7Mlp3EwsKBWt55rxDk06koyNoMi+dS8TV3XLfBuySg
-	 BUN7JtkuVLrS9PAtC2+onlSRb59amhYyTZUBKjLNryTjslMPmnQOlFeQij1/xLGXTP
-	 g87wdPfMA2peIEu6ojeGdw+oPlXqMg0JJ2c5MCSOLr2n2eQ+fqaYHiBWU7p3uiloB5
-	 8ovoQJMVlfSvA==
-Date: Thu, 21 Aug 2025 08:24:52 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lBfknWVb";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eFdHDXbW"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1755782978;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/22kGxTjt1WwvcoZvYm0bJNx0EMkPzwFbeyf40/sVlo=;
+	b=lBfknWVbiLllOft06mMW9dJrAcCa4aTQN2vcpBqK1nn/wNzMgEjNbhCrMWnVIX97s6sQB5
+	9FgR3CebjFCEphTsYmgtMBD7Z3LeWjqoLVkOcrSmEQRybtlXzT/s1jTd0dAwXFLEzFTulV
+	W8aVbtTiHdypwWgIFM51tFUOOY507X/s7PexDH455Hf12iXwR4tPqQmKMm6FkByBlZFrjp
+	d1LJROSWll0hN2mymXErM/rNMdixFHVtA3iSWRFmhCugGGqHo2TgBTJAktfa+gosDM7z2i
+	yyc+BnvmoiQljEUtyA0KkqXB5C2HmrvLMMm5RjaFpVvlGrIcHHRT/HuW/gV1Tw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1755782978;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/22kGxTjt1WwvcoZvYm0bJNx0EMkPzwFbeyf40/sVlo=;
+	b=eFdHDXbWYZX4kr4QWMEtNTMA1bJ/fYUUlreTQrp+/W1F+7MZjQEr4S27d/OdFlXUuroQ/G
+	2j2WR+cFlMb4gFDg==
+Subject: [PATCH v2 0/9] hrtimer: Remove hrtimer_clock_base::get_time
+Date: Thu, 21 Aug 2025 15:28:07 +0200
+Message-Id: <20250821-hrtimer-cleanup-get_time-v2-0-3ae822e5bfbd@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: flora.fu@mediatek.com, chunkuang.hu@kernel.org, broonie@kernel.org, 
- linux-gpio@vger.kernel.org, mripard@kernel.org, 
- louisalexis.eyraud@collabora.com, mchehab@kernel.org, 
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com, 
- linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com, 
- conor+dt@kernel.org, kernel@collabora.com, 
- linux-arm-kernel@lists.infradead.org, amergnat@baylibre.com, 
- netdev@vger.kernel.org, tiffany.lin@mediatek.com, 
- linux-input@vger.kernel.org, airlied@gmail.com, linux-clk@vger.kernel.org, 
- jeesw@melfas.com, yunfei.dong@mediatek.com, linus.walleij@linaro.org, 
- sean.wang@kernel.org, linux-media@vger.kernel.org, 
- linux-sound@vger.kernel.org, tzimmermann@suse.de, 
- andrew-ct.chen@mediatek.com, minghsiu.tsai@mediatek.com, simona@ffwll.ch, 
- kuba@kernel.org, jmassot@collabora.com, devicetree@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, houlong.wei@mediatek.com, 
- angelogioacchino.delregno@collabora.com, andrew+netdev@lunn.ch, 
- support.opensource@diasemi.com, maarten.lankhorst@linux.intel.com, 
- ck.hu@mediatek.com, matthias.bgg@gmail.com, pabeni@redhat.com, 
- p.zabel@pengutronix.de, edumazet@google.com, krzk+dt@kernel.org, 
- davem@davemloft.net, dri-devel@lists.freedesktop.org
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250820171302.324142-5-ariel.dalessandro@collabora.com>
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-5-ariel.dalessandro@collabora.com>
-Message-Id: <175578240744.3438740.13033328475024605529.robh@kernel.org>
-Subject: Re: [PATCH v1 04/14] net: dt-bindings: Convert Marvell 8897/8997
- bindings to YAML
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOcep2gC/3WNQQ6CMBBFr0K6dgzUAK0r72GIqe0Ik2Ah00Iwh
+ LtbcO3yveS/v4qATBjENVsF40yBBp9AnjJhO+NbBHKJhcxlmddSQceR3shgezR+GqHF+NgNKGO
+ 1q3VtKlWKNB8ZX7Qc6XuTuKMQB/4cT3Ox219UFfJ/dC4gh6eupHXa6Ysqbz35KfLgaTk7FM22b
+ V+dsqK+xAAAAA==
+X-Change-ID: 20250728-hrtimer-cleanup-get_time-8ac9d797a685
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>, 
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Matt Wu <wuqiang.matt@bytedance.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Sean Young <sean@mess.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-media@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ Takashi Iwai <tiwai@suse.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755782975; l=1774;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=lh4GI5/eFBI8OTn1QJ/Btg9LnQHdDy7gu1gwdYWndp8=;
+ b=IEkqHTSTeaVThWHHMvcj1X6SuVqEeVfho40mpZjwtWgbknbWPPnuONJBha7nKjoPryqI+qQlx
+ x/qodVrzBUkBwB22Hu33ElfpGezuSI9myjtrDgu1L7tzU7JpjFTIGcK
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
+The get_time() callbacks always need to match the bases clockid.
+Instead of maintaining that association twice in hrtimer_bases,
+use a helper.
 
-On Wed, 20 Aug 2025 14:12:52 -0300, Ariel D'Alessandro wrote:
-> Convert the existing text-based DT bindings for Marvell 8897/8997
-> (sd8897/sd8997) bluetooth devices controller to a YAML schema.
-> 
-> While here, bindings for "usb1286,204e" (USB interface) are dropped from
-> the YAML definition as these are currently documented in file:
-> 
-> - Documentation/devicetree/bindings/net/btusb.txt
-> 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> ---
->  .../bindings/net/marvell,sd8897-bt.yaml       | 91 +++++++++++++++++++
->  .../bindings/net/marvell-bt-8xxx.txt          | 83 -----------------
->  2 files changed, 91 insertions(+), 83 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
->  delete mode 100644 Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
-> 
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+Changes in v2:
+- Pick up tags from the mailing list
+- Reorder switch-case branches to match hrtimer_bases table
+- Link to v1: https://lore.kernel.org/r/20250812-hrtimer-cleanup-get_time-v1-0-b962cd9d9385@linutronix.de
 
-My bot found errors running 'make dt_binding_check' on your patch:
+---
+Thomas Weißschuh (9):
+      posix-timers: Avoid direct access to hrtimer clockbase
+      timers/itimer: Avoid direct access to hrtimer clockbase
+      sched/core: Avoid direct access to hrtimer clockbase
+      lib: test_objpool: Avoid direct access to hrtimer clockbase
+      ALSA: hrtimer: Avoid direct access to hrtimer clockbase
+      media: pwm-ir-tx: Avoid direct access to hrtimer clockbase
+      hrtimer: Use hrtimer_cb_get_time() helper
+      hrtimer: Remove hrtimer_clock_base::get_time
+      hrtimer: Reorder branches in hrtimer_clockid_to_base()
 
-yamllint warnings/errors:
+ drivers/media/rc/pwm-ir-tx.c   |  5 +----
+ include/linux/hrtimer.h        | 14 +++++---------
+ include/linux/hrtimer_defs.h   |  2 --
+ kernel/sched/core.c            |  2 +-
+ kernel/time/hrtimer.c          | 38 +++++++++++++++++++++++++++-----------
+ kernel/time/itimer.c           |  3 +--
+ kernel/time/posix-timers.c     |  5 ++---
+ kernel/time/timer_list.c       |  2 --
+ lib/test_objpool.c             |  2 +-
+ scripts/gdb/linux/timerlist.py |  2 --
+ sound/core/hrtimer.c           |  2 +-
+ 11 files changed, 39 insertions(+), 38 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250728-hrtimer-cleanup-get_time-8ac9d797a685
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml: marvell,wakeup-gap-ms: missing type definition
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/marvell,sd8897-bt.example.dtb: bluetooth@2 (marvell,sd8897-bt): marvell,wakeup-gap-ms: b'\x00d' is not of type 'object', 'integer', 'array', 'boolean', 'null'
-	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-
-doc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/net/btusb.txt references a file that doesn't exist: Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
-Documentation/devicetree/bindings/net/btusb.txt: Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250820171302.324142-5-ariel.dalessandro@collabora.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
