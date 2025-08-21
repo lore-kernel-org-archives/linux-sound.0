@@ -1,166 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65AC71F3B8A;
-	Thu, 21 Aug 2025 17:19:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7A32E54BA;
+	Thu, 21 Aug 2025 18:03:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755796785; cv=none; b=OLznfaSzQryqTE6sQGDuRHw8b5ZKvmZWXKx1DXMMr44M6byZkDJA314Fvaeqy9UaEnoxWl2yaOk3GbT/6AjU920sA4jCrxjbDtsoGGn2ozF8zPE3kJO+lIJg4zw3qd/t5cUYDg9MNPwvvmTGZC9SUn6lBjb+kgoHZNs59mcGwRU=
+	t=1755799386; cv=none; b=k4l8Zz1UcdHAKeEqvHGToHvpHESIMCZ3vLMdTB8tOid62UX78s/Ov08UymtVty7b6EBdm8s+djtgOl/AuO/Xdmeq2zSv8Jv4SGmGDPtr22R5Ea09ZbD0yNlI9rXU02f5ZdyBO3LwjWZiFryj3JFT50IxbURRZFqZDmm/6jLRhYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755796785; c=relaxed/simple;
-	bh=IHK0B0vbjFIm7tiUW5zNchHrSbYpWhq6dFSoqlxbP+E=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=W93W6qL09PzGEu2aa77/JOndTRwXj6iOJm+MOqEHJeOUuEIIMsf3nRQSXtlmhBJeIxQuZ4AdlRx5SSgHK2Wwm2kvTzslCnMZDSfUGrTFjEL0M2vzPlgeApoZkwFj/PDUutQA5/vTCJJJKhjinU14S5sNG/SSU/7oqfHwTSbVkBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qZ/s+UCx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755799386; c=relaxed/simple;
+	bh=+hDXx6EahSKYVsdXiGT3+Ns+DUu9UsAG4PZJGUJkP0g=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=eZ7iuj7mdkhG3rgozYZSF5XnWqsyRoC4i+NDkZ15gF4AIVpLpVMDYVWredqeVnO6wOAmxWjoJAFkD0bP9ls/sVv+soU5Bk6wyu+k53RKZ4zRPvNLu0XypYn3sPoM7R+SLJsVzD/DlCZi/uYiFabgRRTDipN+4ICHnE5f0QzDltc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t98mUctK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qZ/s+UCx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5177C4CEEB;
-	Thu, 21 Aug 2025 17:19:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t98mUctK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29C69C4CEEB;
+	Thu, 21 Aug 2025 18:03:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755796785;
-	bh=IHK0B0vbjFIm7tiUW5zNchHrSbYpWhq6dFSoqlxbP+E=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=qZ/s+UCx9zJ7A6OILHKr08EaK+Kqn0vd34RzrnT+C2XPIVpzlGGCAHIdg3LTC7glu
-	 hXHfQEBAslXaywDV7aVUSS8a8e2T4E7Td2VON9C8I8ZPeXtKyfyRzm8736MXLocYN9
-	 U2p+s4GUInwmuHNP+wAHqU3QNHIojNw3TnGnaMmD8k+2Hr89XvNWHa1vTJI7gKmeoG
-	 hFd0MdKk1P6QhJ1E+NACKAR66V8si2F60z+bIpYqusaV+KLrXKpOtrquXayG8Ji3S5
-	 6W0NYoglLQegO+BnuGolIFcNfp2s5FqeGFsRxQHsEXmwbM+WNzxH5xGya2/Ef9xEvN
-	 uIh0i/bhYRtOw==
-Date: Thu, 21 Aug 2025 12:19:43 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1755799385;
+	bh=+hDXx6EahSKYVsdXiGT3+Ns+DUu9UsAG4PZJGUJkP0g=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=t98mUctKHD1oOF0o5AWMTF9AQJoF4WI4IREfvuF3AQiB0ayUU6J4Pn9hDdCWX8boD
+	 GEouHkX4VCwM4OyHFomAj33UceHHnhgDt6WN0Tkl/BNyT0XDr98HrcHAHoWTGijh6W
+	 Qk1uyow4jPKJzIQWCNn66b6mqjwEqi8vfW0gtnIXIHSJkDZugdZLIm/Y+gk/UjBeWR
+	 mWLyQDngm600t4DXZtxIR9/WZTpg1TLbiMNBuCFif/VlfwSa/mvchEmljX0GQti8xC
+	 UUFoYi3carqbNFgZHOCN99yn+QlYlo4pJZkqGZeEqBKXTrcaM918c0Lsc9HqdacnE9
+	 rbeTHN4vnbwFA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250821083100.46340-2-krzysztof.kozlowski@linaro.org>
+References: <20250821083100.46340-2-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: Minor whitespace cleanup in example
+Message-Id: <175579938289.113971.15653749852299099860.b4-ty@kernel.org>
+Date: Thu, 21 Aug 2025 19:03:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>, devicetree@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, 
- cros-qcom-dts-watchers@chromium.org, linux-gpio@vger.kernel.org, 
- Liam Girdwood <lgirdwood@gmail.com>, kernel@oss.qualcomm.com, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>
-To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-In-Reply-To: <20250821044914.710044-1-quic_pkumpatl@quicinc.com>
-References: <20250821044914.710044-1-quic_pkumpatl@quicinc.com>
-Message-Id: <175579643373.37269.13580204801598375110.robh@kernel.org>
-Subject: Re: [PATCH v8 0/9] Enable audio on qcs6490-RB3Gen2 and qcm6490-idp
- boards
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-
-On Thu, 21 Aug 2025 10:19:05 +0530, Prasad Kumpatla wrote:
-> From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> 
-> Audio support is now enabled on the qcs6490-RB3Gen2 and qcm6490-idp boards.
-> The updates include adding the necessary audio device tree support and the required
-> dependencies.
-> 
-> Both the qcs6490-RB3Gen2 and qcm6490-idp boards are derived from the same SoC
-> platform. Therefore, the audio support changes are included in a single patch
-> set for consistency and ease of maintenance.
-> 
-> changes in [v8]:
-> 	- Added drive strength for all lpass_dmic pinctrl nodes reported by Konrad Dybcio.
-> 	- Rebased changes on top of the latest kernel tree.
-> 	- Link to V7: https://lore.kernel.org/all/20250720173215.3075576-1-quic_pkumpatl@quicinc.com/
-> 
-> changes in [v7]:
-> 	- Addressed the review commnets in dt-binding patches from Krzysztof Kozlowski
-> 	- Rebased changes on top of dependent patches
-> 	- Link to V6: https://lore.kernel.org/linux-sound/20250715180050.3920019-1-quic_pkumpatl@quicinc.com/
-> 
-> changes in [v6]:
-> 	- Addressed the review commnets in dt-binding patches from Krzysztof Kozlowski
-> 	- Link to V5: https://lore.kernel.org/linux-arm-msm/20250625082927.31038-1-quic_pkumpatl@quicinc.com/
-> 
-> changes in [v5]:
-> 	- Added separate patch for QCS6490 pinctrl bindings.
-> 	- Updated commit message with more description.
-> 	- Addressed the review commnets.
-> 	- Link to V4: https://lore.kernel.org/linux-arm-msm/20250527111227.2318021-1-quic_pkumpatl@quicinc.com/
-> 
-> Changes in [v4]:
-> 	- Fix DT binding errors by adding dt-binding clock changes for ADSP base platform.
-> 	- Link to V3 : https://lore.kernel.org/linux-arm-msm/20250520062618.2765109-1-quic_pkumpatl@quicinc.com/
-> 
-> Changes in [v3]:
-> 	- Added protection-domain in gpr services.
-> 	- Addressed the review commnets from Konrad Dybcio.
-> 	- Fix DT binding errors reported by Rob Herring.
-> 	- Link to V2 : https://lore.kernel.org/linux-arm-msm/20250429092430.21477-1-quic_pkumpatl@quicinc.com/
-> 
-> Changes in [v2]:
-> 	- Created dtsi file to handle common audio nodes to support Audioreach.
-> 	- Addressed the review comments.
-> 	- Link to V1 : https://lore.kernel.org/linux-arm-msm/20250317054151.6095-2-quic_pkumpatl@quicinc.com/
-> 
-> Mohammad Rafi Shaik (9):
->   arm64: dts: qcom: qcs6490-audioreach: Add gpr node
->   dt-bindings: pinctrl: qcom,sc7280-lpass-lpi-pinctrl: Document the
->     clock property
->   ASoC: dt-bindings: qcom,lpass-va-macro: Update bindings for clocks to
->     support ADSP
->   arm64: dts: qcom: sc7280: Add WSA SoundWire and LPASS support
->   arm64: dts: qcom: qcs6490-audioreach: Modify LPASS macros clock
->     settings for audioreach
->   arm64: dts: qcom: qcs6490-rb3gen2: Add WSA8830 speakers amplifier
->   arm64: dts: qcom: qcs6490-rb3gen2: Add sound card
->   arm64: dts: qcom: qcm6490-idp: Add WSA8830 speakers and WCD9370
->     headset codec
->   arm64: dts: qcom: qcm6490-idp: Add sound card
-> 
->  .../qcom,sc7280-lpass-lpi-pinctrl.yaml        |  16 ++
->  .../bindings/sound/qcom,lpass-va-macro.yaml   |  23 +-
->  arch/arm64/boot/dts/qcom/qcm6490-idp.dts      | 207 ++++++++++++++++++
->  .../boot/dts/qcom/qcs6490-audioreach.dtsi     | 121 ++++++++++
->  arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dts  |  80 +++++++
->  arch/arm64/boot/dts/qcom/sc7280.dtsi          |  99 ++++++++-
->  6 files changed, 540 insertions(+), 6 deletions(-)
->  create mode 100644 arch/arm64/boot/dts/qcom/qcs6490-audioreach.dtsi
-> 
-> 
-> base-commit: 5303936d609e09665deda94eaedf26a0e5c3a087
-> --
-> 2.34.1
-> 
+On Thu, 21 Aug 2025 10:31:01 +0200, Krzysztof Kozlowski wrote:
+> The DTS code coding style expects exactly one space around '='
+> character.
 > 
 > 
 
+Applied to
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+Thanks!
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+[1/1] ASoC: dt-bindings: Minor whitespace cleanup in example
+      commit: d78e48ebe04e9566f8ecbf51471e80da3adbceeb
 
-  pip3 install dtschema --upgrade
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-This patch series was applied (using b4) to base:
- Base: using specified base-commit 5303936d609e09665deda94eaedf26a0e5c3a087
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20250821044914.710044-1-quic_pkumpatl@quicinc.com:
-
-arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pmic@2 (qcom,pm8350c): pwm:nvmem: [[366, 367]] is too short
-	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
-arch/arm64/boot/dts/qcom/qcs6490-rb3gen2.dtb: pwm (qcom,pm8350c-pwm): nvmem: [[366, 367]] is too short
-	from schema $id: http://devicetree.org/schemas/leds/leds-qcom-lpg.yaml#
-
-
-
-
+Thanks,
+Mark
 
