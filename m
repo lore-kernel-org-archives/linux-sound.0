@@ -1,153 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939103C17;
-	Thu, 21 Aug 2025 05:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755752508; cv=none; b=cC0CJdywophzQmDluPpoQQ1i/Wtgtk9/YeSl+38xmIML3SmcP9Whh/M9yn5wSoiGnyMZLab1kQxzPeRPN8TfFgACKYfZtZSW1nUg/wLgCYErob239T5zwbYZf9VD0URkEE8U27wioZWWFNDnVA8lIwHhr8XqzWDZe6mned+OvrM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755752508; c=relaxed/simple;
-	bh=y17oh05KWAMEIEy/khXMdgn0rc3Brufsz34KAhUY4M4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kltiYnDqNChB6ZA9i5aGDqRSSu/gJMQVUSrj2V6NjlT3bBbHu7h7FMXaVRSXCwA+aZo6oq90aMVIb3mVL5Hx+tsqVPZBj4JIcrgen5vgpkDMYthwDJZmIU0MGfc4hoIPaeu1SKbDosXXNkS4MJrOpZHc1lS+hmbqLLbHEoZq+Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aa7TKd2u; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E1C19EED3;
+	Thu, 21 Aug 2025 05:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755755177; cv=fail; b=tclrJIK20i1vn2DClZfSqrM9E+GDon+SvJ4snPpvhe3dBe9bWhlRkKQIn9cqgynaskQu3AnQkr1nRXJjghH8jEYeBZmv1ip07NRxsl8yxm8qYJapJuUSWhxai5I7NTjFYb2U0lPPicYcv2XTE3YPWXPIcvdg8lT46OIIQg8TOVY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755755177; c=relaxed/simple;
+	bh=Fe0pSRLKUxN/6GFETSVmxrgVErFelzGCziGF/H/S5VI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RKBHhI3zLs45eAmrA35L9d7OcaHQxsUqgNuDK8HsaExQvbQY16kXSJsD3zu4O0BA014gOSqmCgvDX+cU7UQmzDjf93Ve3541CcFYrhdvKr/H/3f+1WDD+5kmUp5WOoGbV7NlJsiCNe/EaIu7svv3SDWyiv6zSmyOjaz4bFTu3JI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=19TZ/8A4; arc=fail smtp.client-ip=40.107.223.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aa7TKd2u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22CC5C4CEED;
-	Thu, 21 Aug 2025 05:01:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755752508;
-	bh=y17oh05KWAMEIEy/khXMdgn0rc3Brufsz34KAhUY4M4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Aa7TKd2u1Ezy8RbzW0I66PiwqfKtxCBwOLp29CdY3Tq+faAXGHShoUUkvINvAltVF
-	 OymjuuvUyoekaK0Qt5v2s5TBkzcO6xxpmVd8YZu+/WZZKRLamaJ7PHySZ66PpB3hi+
-	 2Lbzd8X/pC/yHs59kufy83AXMXcdqn53EylLJOyADkQScBtgiiQQSzSMza/ty6tUAz
-	 vVEMhw01P4xtLmDZzo5nczr3Oq5yyZoaTrhJQ/jFyF60uPCImSylHUPVqfKrHtY3z6
-	 p536P8LhTlj+PTjGASRZ3FOgQrnNpYuBAYpxPaEbitWKd86S1A/qLZ9ZXJoJuPJCBG
-	 zqP8fExOZj9Pg==
-Date: Thu, 21 Aug 2025 10:31:43 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Patrick Lai <plai@qti.qualcomm.com>,
-	Annemarie Porter <annemari@quicinc.com>,
-	srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	kernel@oss.qualcomm.com,
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Subject: Re: [PATCH 1/2] ALSA: compress: add raw opus codec define and opus
- decoder structs
-Message-ID: <aKaoN7CmnXfojq-5@vaman>
-References: <20250820-opus_codec_rfc_v1-v1-0-54d5c7560856@linaro.org>
- <20250820-opus_codec_rfc_v1-v1-1-54d5c7560856@linaro.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="19TZ/8A4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZnGnrPHmpEIv9834bDgbI5WZI8fha9XHTgoYeFkVaCHsXxyWv2Umm4Z8HjPSi087XlVgjAohhJ1TaA7d1W9fsJv8J5BkuNV4JY/vRyaf+C3le/DwmvwgbuWV/2SI55WG1r2TIaRQf6lUm7ZluSpxXdfFMNR8aP/KlLWc/2RxADpJH1nJpfIZTP9clf10uH/wDVC4XLryUIq62RPqpO0M1FiNThAJMszbxR58fC5F6HVB1R287Yl6tvoOb+Te4lQkJrjn1WCtU6Wo5JlCcnOlQ7w7dqC4pME3zxIm+KZLdDo3JKHcozQh44e9/J49bnglmqj0DGMeJhawBYUE7jsvGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Fuk/0H0XSnRyrrkMOHNfWG6NzPm2JioMWFqTVL5yoTk=;
+ b=VUtZLVUIGJzLwZVijpCBEeoj+4ByIh0+hDGB26Dd/F+4SyZm1wJ/Gnsa5iceiE/NehSkklv9yyYkF2+GMCwN3tV6WeQ2v52TYD7i/pIIaeWV+PaFzr6VqBApSlVVLU7IlvPLmd9bOL+hAdPopKE2Au0WAaa+Wv1tI8GeNZXJmCuw5F0yprl4rGTKG62rVkYFjgLDDnEK2KUS94nDfneeSNIAUfEhng/pguBATnPeHEHUKoUQL6xgZbiH1Jdl6FYr8S80y1Kjkpc8aj30VnkUp+54JxFhGjAMzMat45dVuRf3l0MiMGM+nggCA0UdkobhIpswcUnx+ZnqKHD3Oe7KpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fuk/0H0XSnRyrrkMOHNfWG6NzPm2JioMWFqTVL5yoTk=;
+ b=19TZ/8A4NlLpvv8Uq7cRC3HgApSLUjLrUE6DoeMHXyqMsAqR/ZQblpwpi+tDCncPeHykupDgQyJF8yuxynQAiDunqrSLT62c2sBufsokMvbEExCNtNhokdB58de1AVn79LcOgFcQjLUgStW/cbzLu0BctETrV/BQVgrzM1KnuQ8=
+Received: from BL0PR02CA0124.namprd02.prod.outlook.com (2603:10b6:208:35::29)
+ by IA1PR12MB9739.namprd12.prod.outlook.com (2603:10b6:208:465::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Thu, 21 Aug
+ 2025 05:46:11 +0000
+Received: from BN3PEPF0000B077.namprd04.prod.outlook.com
+ (2603:10b6:208:35:cafe::cc) by BL0PR02CA0124.outlook.office365.com
+ (2603:10b6:208:35::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.15 via Frontend Transport; Thu,
+ 21 Aug 2025 05:46:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN3PEPF0000B077.mail.protection.outlook.com (10.167.243.122) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.9052.8 via Frontend Transport; Thu, 21 Aug 2025 05:46:11 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Aug
+ 2025 00:46:11 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Wed, 20 Aug
+ 2025 22:46:10 -0700
+Received: from r9-mach.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 21 Aug 2025 00:46:07 -0500
+From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, "Venkata Prasad
+ Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, "open
+ list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
+	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] ASoC: amd: acp: Adjust pdm gain value
+Date: Thu, 21 Aug 2025 11:15:47 +0530
+Message-ID: <20250821054606.1279178-1-venkataprasad.potturu@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820-opus_codec_rfc_v1-v1-1-54d5c7560856@linaro.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B077:EE_|IA1PR12MB9739:EE_
+X-MS-Office365-Filtering-Correlation-Id: 748fc209-ab97-464c-9c43-08dde07608db
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Zh33A3OBsBLS6TA1bknD1a5ImbHTwYDazg9VIzzB/zgDhserxIbSJL+K1Zf2?=
+ =?us-ascii?Q?9hw0SUcCr0Ef+meYF6XzCzIm6Txm78+61D/T0K5I26s3CTyUM0Xb3ppp1No8?=
+ =?us-ascii?Q?RM3+m/07YMOT4qDdx8Ps6sWhpIcrMmtzXzPxgbKDw0yffRZGELxHBKG1TOUO?=
+ =?us-ascii?Q?utNGWfWh0RvpbQJHjdkqUV/gESYcrQ6YZUvQUS8CU8JxGth0+9teRZzb4oqM?=
+ =?us-ascii?Q?WEQYjjsHfhjtl29533IggYM5AVpf3+XI+cmc0wHWcDSf9FvUCuZABisE112N?=
+ =?us-ascii?Q?0Kf3S2zVzurgRZmKiXkwo6LjtevWpQrhdOhkHn8saY178d7vQ/I4Xjq2Cefb?=
+ =?us-ascii?Q?VHY3csRcqtH9lPNFdGS9DQcrIz7FPKfE8C5pBYOAFU/NS/HLc01hcR08u77w?=
+ =?us-ascii?Q?BnAtjDPXySotnY4x1+0jnTgf//MgPdK1da13WyVR1Wwa6zCzTD/WpIVLcbbr?=
+ =?us-ascii?Q?D4+UnZEnjJ0ehSo/mrjpwU2OV2NLaFQNd/5dt7IQztCt0bEdCaCyvnSHPxsX?=
+ =?us-ascii?Q?lE2q9XZdWgIVsB3khjnQCe0zaIOUar6pAVUiou+MSC52+F/zW0evkRjWeU8B?=
+ =?us-ascii?Q?V6of0hs3G4UI8zUK1jz+hxh7PkSVCBzfZ9D6++dce7o+4rUxGn2CHxdCpOP6?=
+ =?us-ascii?Q?KcZxKB+9O1cCTHWG9umyV72ArNCyATpp8oh+CQRgf97bJb7t3TkJShuCcXr6?=
+ =?us-ascii?Q?JtBTUG4OUiKcOz5zLQ5G+vtDKKH89+wqordy1+gN2+9gPOZ/eJWPLJdFo0bU?=
+ =?us-ascii?Q?5JPsKiXVsVqlGLJQ3ZuB8QejLrLI3T+jaT8Bj1ve9QhM/lRSI7/1Xv4t2j+9?=
+ =?us-ascii?Q?Xx2MSfRHc27/RKFI4NOF9Nv8CBqOG9RcqlswRfZD906+IMdaO4kVp2YwyiqS?=
+ =?us-ascii?Q?mpDa5oaGquR/KvnPFv4av/DFQahAF+etHyiVqW0djy2GOLZt3UxpvZ2VrNS3?=
+ =?us-ascii?Q?rciBkTbPs3rowzvry+kgOTaLHjWS03BLsGh4hUMwRDr09IhHX4kULeEHFfIC?=
+ =?us-ascii?Q?5RPdQDCy50ZmBOtPnna/5N97FsCXjUWQ7GXMc+Wrp3st+4r0lVwvaFR5f2GE?=
+ =?us-ascii?Q?nTRs853cRoqE6BjhcQXdbezJkAO0kX50OY3LRYEdCZGFOopGH7fwwWNsdkbg?=
+ =?us-ascii?Q?G4EJgQf7JBrqVkKFz104OARWQ/dQ22AmgKrf+TwMC6XrbCWcvHBHunkNG6qF?=
+ =?us-ascii?Q?816x6eB7AHywpf7sicCo+zNoLYDy5ziLXMqAgWr8Lo0pzHDUGtb92NdOPpxv?=
+ =?us-ascii?Q?cwyzgmhYIfe1u4c7szq8W4TRjZ6Ae4hpttMd/TcW/B6Igtr2gCjVDLya7Kvd?=
+ =?us-ascii?Q?AU4tFi0YQdzZp8A4C77yEGJhrlQB+LLGUM1cn3w97kjFQ0ufyaSvqN/gphI1?=
+ =?us-ascii?Q?Y3IwUbYAW3m+2z3U4/G8vGUV1k9gw68STzwB+GS8d89bj7gCYiYogqIPSj+w?=
+ =?us-ascii?Q?Dmg0ThkcVKP6P7G/p6aBH6osPbd5EIRj+CKb4WwSBkIMkcs8Er25Dnc8GWdv?=
+ =?us-ascii?Q?e+1fipb7XJsqVIcLOtQ+vwWKtz1QXycRMNdi?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 05:46:11.5441
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 748fc209-ab97-464c-9c43-08dde07608db
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B077.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9739
 
-On 20-08-25, 22:15, Alexey Klimov wrote:
-> Adds a raw opus codec define and raw opus decoder structs.
-> This is for raw OPUS packets not packed in any type of container
-> (for instance OGG container). The decoder struct fields are
-> taken from corresponding RFC document: RFC 7845 Section 5.
-> 
-> Cc: Srinivas Kandagatla <srini@kernel.org>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Co-developed-by: Annemarie Porter <annemari@quicinc.com>
-> Signed-off-by: Annemarie Porter <annemari@quicinc.com>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
->  include/uapi/sound/compress_params.h | 43 +++++++++++++++++++++++++++++++++++-
->  1 file changed, 42 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/sound/compress_params.h b/include/uapi/sound/compress_params.h
-> index bc7648a30746f4632ecf6695868e79550a431dfa..faf4fa911f7fc2830c3ae42b93650fe40d8a776b 100644
-> --- a/include/uapi/sound/compress_params.h
-> +++ b/include/uapi/sound/compress_params.h
-> @@ -43,7 +43,8 @@
->  #define SND_AUDIOCODEC_BESPOKE               ((__u32) 0x0000000E)
->  #define SND_AUDIOCODEC_ALAC                  ((__u32) 0x0000000F)
->  #define SND_AUDIOCODEC_APE                   ((__u32) 0x00000010)
-> -#define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_APE
-> +#define SND_AUDIOCODEC_OPUS_RAW              ((__u32) 0x00000011)
-> +#define SND_AUDIOCODEC_MAX                   SND_AUDIOCODEC_OPUS_RAW
+Set pdm gain value by setting PDM_MISC_CTRL_MASK value.
+To avoid low pdm gain value.
 
-we should bump API minor version with this
+Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+---
 
->  
->  /*
->   * Profile and modes are listed with bit masks. This allows for a
-> @@ -324,6 +325,45 @@ struct snd_dec_ape {
->  	__u32 seek_table_present;
->  } __attribute__((packed, aligned(4)));
->  
-> +/**
-> + * struct snd_dec_opus - Opus decoder parameters (raw opus packets)
-> + * @version: Usually should be '1' but can be split into major (4 upper bits)
-> + * and minor (4 lower bits) sub-fields.
+Changes since v1:
+	- remove pdm gain adjustment using module parameter.
 
-Please define bits, this is an ABI so needs to be properly defined
+ sound/soc/amd/acp/amd.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> + * @num_channels: Number of output channels.
-> + * @pre_skip: Number of samples to discard at 48 kHz.
-> + * @sample_rate: Sample rate of original input.
-> + * @output_gain: Gain to apply when decoding (in Q7.8 format).
-> + * @mapping_family: Order and meaning of output channels. Only values 0 and 1
-> + * are expected; values 2..255 are not recommended for playback.
-> + *
-> + * Optional channel mapping table. Describes mapping of opus streams to decoded
-> + * channels.
-> + * @struct snd_dec_opus_ch_map
-> + *	@stream_count: Number of streams encoded in each Ogg packet.
-> + *	@coupled_count: Number of streams whose decoders are used for two
-> + *		channels.
-> + *	@channel_map: describes which decoded channel to be used for each one.
-> + *		See RFC doc for details.
-> + *		This supports only mapping families 0 and 1, therefore max
-> + *		number of channels is 8.
-> + *
-> + * These options were extracted from RFC7845 Section 5.
-> + */
-> +
-> +struct snd_dec_opus {
-> +	__u8 version;
-> +	__u8 num_channels;
-> +	__u16 pre_skip;
-> +	__u32 sample_rate;
-> +	__u16 output_gain;
-> +	__u8 mapping_family;
-> +	struct snd_dec_opus_ch_map {
-> +		__u8 stream_count;
-> +		__u8 coupled_count;
-> +		__u8 channel_map[8];
-> +	} chan_map;
-> +} __attribute__((packed, aligned(4)));
-> +
->  union snd_codec_options {
->  	struct snd_enc_wma wma;
->  	struct snd_enc_vorbis vorbis;
-> @@ -334,6 +374,7 @@ union snd_codec_options {
->  	struct snd_dec_wma wma_d;
->  	struct snd_dec_alac alac_d;
->  	struct snd_dec_ape ape_d;
-> +	struct snd_dec_opus opus_d;
->  	struct {
->  		__u32 out_sample_rate;
->  	} src_d;
-> 
-> -- 
-> 2.47.2
-
+diff --git a/sound/soc/amd/acp/amd.h b/sound/soc/amd/acp/amd.h
+index cb8d97122f95..73a028e67246 100644
+--- a/sound/soc/amd/acp/amd.h
++++ b/sound/soc/amd/acp/amd.h
+@@ -130,7 +130,7 @@
+ #define PDM_DMA_INTR_MASK       0x10000
+ #define PDM_DEC_64              0x2
+ #define PDM_CLK_FREQ_MASK       0x07
+-#define PDM_MISC_CTRL_MASK      0x10
++#define PDM_MISC_CTRL_MASK      0x18
+ #define PDM_ENABLE              0x01
+ #define PDM_DISABLE             0x00
+ #define DMA_EN_MASK             0x02
 -- 
-~Vinod
+2.43.0
+
