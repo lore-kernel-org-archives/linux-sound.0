@@ -1,161 +1,94 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E1C19EED3;
-	Thu, 21 Aug 2025 05:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755755177; cv=fail; b=tclrJIK20i1vn2DClZfSqrM9E+GDon+SvJ4snPpvhe3dBe9bWhlRkKQIn9cqgynaskQu3AnQkr1nRXJjghH8jEYeBZmv1ip07NRxsl8yxm8qYJapJuUSWhxai5I7NTjFYb2U0lPPicYcv2XTE3YPWXPIcvdg8lT46OIIQg8TOVY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755755177; c=relaxed/simple;
-	bh=Fe0pSRLKUxN/6GFETSVmxrgVErFelzGCziGF/H/S5VI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RKBHhI3zLs45eAmrA35L9d7OcaHQxsUqgNuDK8HsaExQvbQY16kXSJsD3zu4O0BA014gOSqmCgvDX+cU7UQmzDjf93Ve3541CcFYrhdvKr/H/3f+1WDD+5kmUp5WOoGbV7NlJsiCNe/EaIu7svv3SDWyiv6zSmyOjaz4bFTu3JI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=19TZ/8A4; arc=fail smtp.client-ip=40.107.223.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683342110;
+	Thu, 21 Aug 2025 06:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755758613; cv=none; b=oJ4EIHlPtdiW6tDA9F2xKRjWGWpU2zkcruZeK2pM5iRIwl7QHRMxXQDjFPKkJXyG4V9LiRvft90/womBB8yBIHaqpaW2rIGPeYWQYqOh5NXJ9ZqrtrwFxGBp6sbhP3aakkwg7/nK+8mKEmXRDryqC40r3gVGF4+nMPUsjFn+mNA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755758613; c=relaxed/simple;
+	bh=zaVWerZTZLJ8YGpnqDKef0xiQVpqgGGNlE3XojBrVrQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aIGASKiuxLd0LIsNq6/0QArWbZcerbbNxVD2jHL5UsBpQCdPRwumraQubyam7Hz6fyXElDQgModm3KZMLCYL45dK0O5h3OgnxwXIWSpYTvoS+oEpYWGnKJ6N5glX/P5BvzvRI2gP9ZsWLm8YSmm7IYrAcZcnGGcDcToxUF39fQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RlbxLLph; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="19TZ/8A4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZnGnrPHmpEIv9834bDgbI5WZI8fha9XHTgoYeFkVaCHsXxyWv2Umm4Z8HjPSi087XlVgjAohhJ1TaA7d1W9fsJv8J5BkuNV4JY/vRyaf+C3le/DwmvwgbuWV/2SI55WG1r2TIaRQf6lUm7ZluSpxXdfFMNR8aP/KlLWc/2RxADpJH1nJpfIZTP9clf10uH/wDVC4XLryUIq62RPqpO0M1FiNThAJMszbxR58fC5F6HVB1R287Yl6tvoOb+Te4lQkJrjn1WCtU6Wo5JlCcnOlQ7w7dqC4pME3zxIm+KZLdDo3JKHcozQh44e9/J49bnglmqj0DGMeJhawBYUE7jsvGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fuk/0H0XSnRyrrkMOHNfWG6NzPm2JioMWFqTVL5yoTk=;
- b=VUtZLVUIGJzLwZVijpCBEeoj+4ByIh0+hDGB26Dd/F+4SyZm1wJ/Gnsa5iceiE/NehSkklv9yyYkF2+GMCwN3tV6WeQ2v52TYD7i/pIIaeWV+PaFzr6VqBApSlVVLU7IlvPLmd9bOL+hAdPopKE2Au0WAaa+Wv1tI8GeNZXJmCuw5F0yprl4rGTKG62rVkYFjgLDDnEK2KUS94nDfneeSNIAUfEhng/pguBATnPeHEHUKoUQL6xgZbiH1Jdl6FYr8S80y1Kjkpc8aj30VnkUp+54JxFhGjAMzMat45dVuRf3l0MiMGM+nggCA0UdkobhIpswcUnx+ZnqKHD3Oe7KpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fuk/0H0XSnRyrrkMOHNfWG6NzPm2JioMWFqTVL5yoTk=;
- b=19TZ/8A4NlLpvv8Uq7cRC3HgApSLUjLrUE6DoeMHXyqMsAqR/ZQblpwpi+tDCncPeHykupDgQyJF8yuxynQAiDunqrSLT62c2sBufsokMvbEExCNtNhokdB58de1AVn79LcOgFcQjLUgStW/cbzLu0BctETrV/BQVgrzM1KnuQ8=
-Received: from BL0PR02CA0124.namprd02.prod.outlook.com (2603:10b6:208:35::29)
- by IA1PR12MB9739.namprd12.prod.outlook.com (2603:10b6:208:465::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Thu, 21 Aug
- 2025 05:46:11 +0000
-Received: from BN3PEPF0000B077.namprd04.prod.outlook.com
- (2603:10b6:208:35:cafe::cc) by BL0PR02CA0124.outlook.office365.com
- (2603:10b6:208:35::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9052.15 via Frontend Transport; Thu,
- 21 Aug 2025 05:46:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN3PEPF0000B077.mail.protection.outlook.com (10.167.243.122) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9052.8 via Frontend Transport; Thu, 21 Aug 2025 05:46:11 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 21 Aug
- 2025 00:46:11 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Wed, 20 Aug
- 2025 22:46:10 -0700
-Received: from r9-mach.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 21 Aug 2025 00:46:07 -0500
-From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, "Venkata Prasad
- Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, "open
- list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..."
-	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] ASoC: amd: acp: Adjust pdm gain value
-Date: Thu, 21 Aug 2025 11:15:47 +0530
-Message-ID: <20250821054606.1279178-1-venkataprasad.potturu@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RlbxLLph"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5356EC4CEED;
+	Thu, 21 Aug 2025 06:43:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755758612;
+	bh=zaVWerZTZLJ8YGpnqDKef0xiQVpqgGGNlE3XojBrVrQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RlbxLLphD3s6EoJ5D3WCBJhkvpXfyxmkM+Qya8AKcXeBnVJLqM3Vsrc3PdaE1oGl/
+	 Qo+edh7KSJ0kTQEF7CnlEohahPoHRRs2dickP/uGTguIIdLZVFlS2b52/8ecx5Nk/m
+	 7T2LcSdChTzPHT3itMuL39yH6al0pQprxVmGFsBW9p+lMgWfXyVZWtte+oZjqxv2Uz
+	 sksMu6TvOONzSOEaSF9B1dAWw/J39W6ARtM4nHVYp3KwZbqb9VuE1HT0enMMEDhCZW
+	 i8kxRu1EZ2sYpSQHNpCitTBsBoN1OR7Lkjq536twpmdXapSiVtjLmM2GbVlIRiytW9
+	 +hYeRC8retWSA==
+Date: Thu, 21 Aug 2025 08:43:30 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
+	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, broonie@kernel.org, 
+	chunkuang.hu@kernel.org, ck.hu@mediatek.com, conor+dt@kernel.org, davem@davemloft.net, 
+	dmitry.torokhov@gmail.com, edumazet@google.com, flora.fu@mediatek.com, 
+	houlong.wei@mediatek.com, jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com, 
+	krzk+dt@kernel.org, kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com, 
+	lgirdwood@gmail.com, linus.walleij@linaro.org, louisalexis.eyraud@collabora.com, 
+	maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com, mchehab@kernel.org, 
+	minghsiu.tsai@mediatek.com, mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com, 
+	robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch, 
+	support.opensource@diasemi.com, tiffany.lin@mediatek.com, tzimmermann@suse.de, 
+	yunfei.dong@mediatek.com, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v1 03/14] dt-bindings: arm: mediatek: mmsys: Add
+ assigned-clocks/rates properties
+Message-ID: <20250821-electric-kestrel-of-awe-cb89dc@kuoka>
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-4-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B077:EE_|IA1PR12MB9739:EE_
-X-MS-Office365-Filtering-Correlation-Id: 748fc209-ab97-464c-9c43-08dde07608db
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Zh33A3OBsBLS6TA1bknD1a5ImbHTwYDazg9VIzzB/zgDhserxIbSJL+K1Zf2?=
- =?us-ascii?Q?9hw0SUcCr0Ef+meYF6XzCzIm6Txm78+61D/T0K5I26s3CTyUM0Xb3ppp1No8?=
- =?us-ascii?Q?RM3+m/07YMOT4qDdx8Ps6sWhpIcrMmtzXzPxgbKDw0yffRZGELxHBKG1TOUO?=
- =?us-ascii?Q?utNGWfWh0RvpbQJHjdkqUV/gESYcrQ6YZUvQUS8CU8JxGth0+9teRZzb4oqM?=
- =?us-ascii?Q?WEQYjjsHfhjtl29533IggYM5AVpf3+XI+cmc0wHWcDSf9FvUCuZABisE112N?=
- =?us-ascii?Q?0Kf3S2zVzurgRZmKiXkwo6LjtevWpQrhdOhkHn8saY178d7vQ/I4Xjq2Cefb?=
- =?us-ascii?Q?VHY3csRcqtH9lPNFdGS9DQcrIz7FPKfE8C5pBYOAFU/NS/HLc01hcR08u77w?=
- =?us-ascii?Q?BnAtjDPXySotnY4x1+0jnTgf//MgPdK1da13WyVR1Wwa6zCzTD/WpIVLcbbr?=
- =?us-ascii?Q?D4+UnZEnjJ0ehSo/mrjpwU2OV2NLaFQNd/5dt7IQztCt0bEdCaCyvnSHPxsX?=
- =?us-ascii?Q?lE2q9XZdWgIVsB3khjnQCe0zaIOUar6pAVUiou+MSC52+F/zW0evkRjWeU8B?=
- =?us-ascii?Q?V6of0hs3G4UI8zUK1jz+hxh7PkSVCBzfZ9D6++dce7o+4rUxGn2CHxdCpOP6?=
- =?us-ascii?Q?KcZxKB+9O1cCTHWG9umyV72ArNCyATpp8oh+CQRgf97bJb7t3TkJShuCcXr6?=
- =?us-ascii?Q?JtBTUG4OUiKcOz5zLQ5G+vtDKKH89+wqordy1+gN2+9gPOZ/eJWPLJdFo0bU?=
- =?us-ascii?Q?5JPsKiXVsVqlGLJQ3ZuB8QejLrLI3T+jaT8Bj1ve9QhM/lRSI7/1Xv4t2j+9?=
- =?us-ascii?Q?Xx2MSfRHc27/RKFI4NOF9Nv8CBqOG9RcqlswRfZD906+IMdaO4kVp2YwyiqS?=
- =?us-ascii?Q?mpDa5oaGquR/KvnPFv4av/DFQahAF+etHyiVqW0djy2GOLZt3UxpvZ2VrNS3?=
- =?us-ascii?Q?rciBkTbPs3rowzvry+kgOTaLHjWS03BLsGh4hUMwRDr09IhHX4kULeEHFfIC?=
- =?us-ascii?Q?5RPdQDCy50ZmBOtPnna/5N97FsCXjUWQ7GXMc+Wrp3st+4r0lVwvaFR5f2GE?=
- =?us-ascii?Q?nTRs853cRoqE6BjhcQXdbezJkAO0kX50OY3LRYEdCZGFOopGH7fwwWNsdkbg?=
- =?us-ascii?Q?G4EJgQf7JBrqVkKFz104OARWQ/dQ22AmgKrf+TwMC6XrbCWcvHBHunkNG6qF?=
- =?us-ascii?Q?816x6eB7AHywpf7sicCo+zNoLYDy5ziLXMqAgWr8Lo0pzHDUGtb92NdOPpxv?=
- =?us-ascii?Q?cwyzgmhYIfe1u4c7szq8W4TRjZ6Ae4hpttMd/TcW/B6Igtr2gCjVDLya7Kvd?=
- =?us-ascii?Q?AU4tFi0YQdzZp8A4C77yEGJhrlQB+LLGUM1cn3w97kjFQ0ufyaSvqN/gphI1?=
- =?us-ascii?Q?Y3IwUbYAW3m+2z3U4/G8vGUV1k9gw68STzwB+GS8d89bj7gCYiYogqIPSj+w?=
- =?us-ascii?Q?Dmg0ThkcVKP6P7G/p6aBH6osPbd5EIRj+CKb4WwSBkIMkcs8Er25Dnc8GWdv?=
- =?us-ascii?Q?e+1fipb7XJsqVIcLOtQ+vwWKtz1QXycRMNdi?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 05:46:11.5441
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 748fc209-ab97-464c-9c43-08dde07608db
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B077.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9739
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250820171302.324142-4-ariel.dalessandro@collabora.com>
 
-Set pdm gain value by setting PDM_MISC_CTRL_MASK value.
-To avoid low pdm gain value.
+On Wed, Aug 20, 2025 at 02:12:51PM -0300, Ariel D'Alessandro wrote:
+> Current, the DT bindings for MediaTek mmsys controller is missing the
+> assigned-clocks and assigned-clocks-rates properties. Add these and
 
-Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
----
+No, they do not miss them. I don't understand why you are adding these.
 
-Changes since v1:
-	- remove pdm gain adjustment using module parameter.
+> update the example as well.
+> 
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> ---
+>  .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> index 3f4262e93c789..d045d366eb8e2 100644
+> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> @@ -68,6 +68,12 @@ properties:
+>        of the power controller specified by phandle. See
+>        Documentation/devicetree/bindings/power/power-domain.yaml for details.
+>  
+> +  assigned-clocks:
+> +    maxItems: 1
+> +
+> +  assigned-clock-rates:
+> +    maxItems: 1
+> +
 
- sound/soc/amd/acp/amd.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Drop both, completely redundant and not actually in the scope of the binding.
 
-diff --git a/sound/soc/amd/acp/amd.h b/sound/soc/amd/acp/amd.h
-index cb8d97122f95..73a028e67246 100644
---- a/sound/soc/amd/acp/amd.h
-+++ b/sound/soc/amd/acp/amd.h
-@@ -130,7 +130,7 @@
- #define PDM_DMA_INTR_MASK       0x10000
- #define PDM_DEC_64              0x2
- #define PDM_CLK_FREQ_MASK       0x07
--#define PDM_MISC_CTRL_MASK      0x10
-+#define PDM_MISC_CTRL_MASK      0x18
- #define PDM_ENABLE              0x01
- #define PDM_DISABLE             0x00
- #define DMA_EN_MASK             0x02
--- 
-2.43.0
+Best regards,
+Krzysztof
 
