@@ -1,84 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66ADE276038
-	for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 07:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A544527C154
+	for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 07:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755760338; cv=none; b=SJkli8W0kmPhGmukAcOhUE5mHKUVrjqGMQKyQMLO8gH+gnx6YUygmeBjlYV9dD9JVTf00E0wZKz3XR3PEET2FcavUcCpgP3uxxpbEv3zoJ1HwFmVpQoJXB18sH/s17sqPyvacRNwgA4I9hyAkcgwz/LclE5xOiVrprHZAZaN2K4=
+	t=1755760423; cv=none; b=F7xwF/5LnhVnH9+HWhp7FrCvCv9d8vUloOHyjuggUAN6h2BkLTANuvOtKp3CjENFQfV7gDetxPReBjRJ2sVqkmK/wbRrmPyzaILRWsigmF55RFY+WZkYP4QURrnuLWu5hrVwhLvkesqUkye3CrybS9VDIEa2XxG5Cc9HJnI7th0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755760338; c=relaxed/simple;
-	bh=BYRNFkireHleEmmy0KTdwkXPjUC2Xdzolhv+YEAvMj4=;
+	s=arc-20240116; t=1755760423; c=relaxed/simple;
+	bh=6Ho901v7Yuv0giLjJQ9df2Slo/KdObDQP9ZDyeA78v4=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lJdpjmPg71DzC0d/xJo5wV1ab79frhveB3C1vohKgoJ3gyGCucZba7r1WBO6HS+fXSQXRnPdX623MqKqTZimuJS1c8vCkSJGIkDUt7r00Aq4FN7nkTNyGV1Oqg2N2EaLJnCSyMLPwI9B8gk3D2jfI1sMia1uICv7+p9KlYH8258=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GpsF0yAX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iTG1BXdv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GpsF0yAX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iTG1BXdv; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=CIPUthR0l8HM3pIFnznNSORIY8iog0IG+wnUdprgqsLOJf+g/tea3Ox7a4dlq0ZLr7sLAr2k94v652U64r36PC6EvO6V2jJZPko14jd2wNmoszoTgZJCmd90iSnl+su9eyRbDWQZJnewVw4ArMqVr78ucdrMIHyHB4yVioPXBzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qzQVGyZt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CKZi9mUi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qzQVGyZt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CKZi9mUi; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GpsF0yAX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iTG1BXdv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GpsF0yAX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iTG1BXdv"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qzQVGyZt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CKZi9mUi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qzQVGyZt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CKZi9mUi"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7D4D221C35;
-	Thu, 21 Aug 2025 07:12:12 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1ED211F7C7;
+	Thu, 21 Aug 2025 07:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755760332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1755760414; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NmfHWW0jFWPbjBVrxTprBSeQrh06MCbgYee85N8Q44o=;
-	b=GpsF0yAXqVbJDkL92N0CBMQks4gAifwhJEiF+SZUKLHMtmY048WQzkdQL4BuffW11sr0k8
-	tpmq6WB/5EjbwLMFWxlOKHbVHxf/by2wml/dswIdoNA6M5PUnfRFBLzWu4DlvAugft2QLQ
-	AWI7QgthXTppwLGBV73dt/QKb/U84YY=
+	bh=AhNWJQZWsc7PSXphoLrI7blVNvFaUxzl3Hv0jDX/Gak=;
+	b=qzQVGyZtK1fRyOAeLsQ2VS4ibk2BOapybh9EvUI8LdCnVrGMzFyzoEhXMrowX76wktEWLB
+	8c9Z791bgCWLPJfur5+TSKUftplom306oKrotbsuWbNgR3Kccs8Ppz7TX+pMarGyb7dhXy
+	kOhMFBJjY7K0p6f2KjMpRJo9mDrZoaE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755760332;
+	s=susede2_ed25519; t=1755760414;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NmfHWW0jFWPbjBVrxTprBSeQrh06MCbgYee85N8Q44o=;
-	b=iTG1BXdv84suosNVe50vwIU8YzOLcsT7wBwDPMfWgslhZt3jLcNcpYgcV8ZgBXjMRzd2rX
-	CczX5QbX70ghhDBg==
-Authentication-Results: smtp-out1.suse.de;
+	bh=AhNWJQZWsc7PSXphoLrI7blVNvFaUxzl3Hv0jDX/Gak=;
+	b=CKZi9mUi/oOxuYX3a76H4g6X4v92EMfeWNmhUwqOwgjw6pDB+LamMoMU6rQgY0CQInIno0
+	J5vXy2fX4oo4IkBw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1755760332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1755760414; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NmfHWW0jFWPbjBVrxTprBSeQrh06MCbgYee85N8Q44o=;
-	b=GpsF0yAXqVbJDkL92N0CBMQks4gAifwhJEiF+SZUKLHMtmY048WQzkdQL4BuffW11sr0k8
-	tpmq6WB/5EjbwLMFWxlOKHbVHxf/by2wml/dswIdoNA6M5PUnfRFBLzWu4DlvAugft2QLQ
-	AWI7QgthXTppwLGBV73dt/QKb/U84YY=
+	bh=AhNWJQZWsc7PSXphoLrI7blVNvFaUxzl3Hv0jDX/Gak=;
+	b=qzQVGyZtK1fRyOAeLsQ2VS4ibk2BOapybh9EvUI8LdCnVrGMzFyzoEhXMrowX76wktEWLB
+	8c9Z791bgCWLPJfur5+TSKUftplom306oKrotbsuWbNgR3Kccs8Ppz7TX+pMarGyb7dhXy
+	kOhMFBJjY7K0p6f2KjMpRJo9mDrZoaE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1755760332;
+	s=susede2_ed25519; t=1755760414;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NmfHWW0jFWPbjBVrxTprBSeQrh06MCbgYee85N8Q44o=;
-	b=iTG1BXdv84suosNVe50vwIU8YzOLcsT7wBwDPMfWgslhZt3jLcNcpYgcV8ZgBXjMRzd2rX
-	CczX5QbX70ghhDBg==
+	bh=AhNWJQZWsc7PSXphoLrI7blVNvFaUxzl3Hv0jDX/Gak=;
+	b=CKZi9mUi/oOxuYX3a76H4g6X4v92EMfeWNmhUwqOwgjw6pDB+LamMoMU6rQgY0CQInIno0
+	J5vXy2fX4oo4IkBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59C1E13867;
-	Thu, 21 Aug 2025 07:12:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E3DFF13867;
+	Thu, 21 Aug 2025 07:13:33 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9peUFMzGpmh9fgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 21 Aug 2025 07:12:12 +0000
-Date: Thu, 21 Aug 2025 09:12:11 +0200
-Message-ID: <87frdl6tdg.wl-tiwai@suse.de>
+	id D/xWNh3HpmjGfgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 21 Aug 2025 07:13:33 +0000
+Date: Thu, 21 Aug 2025 09:13:33 +0200
+Message-ID: <87ect56tb6.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+To: Dewei Meng <mengdewei@cqsoftware.com.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v6.17-rc2
-In-Reply-To: <c76f8af82172ef5d00fce6f17a50eae6@kernel.org>
-References: <c76f8af82172ef5d00fce6f17a50eae6@kernel.org>
+	linux-kernel@vger.kernel.org,
+	ivan.orlov0322@gmail.com
+Subject: Re: [PATCH] ALSA: timer: fix ida_free call while not allocated
+In-Reply-To: <20250821014317.40786-1-mengdewei@cqsoftware.com.cn>
+References: <20250821014317.40786-1-mengdewei@cqsoftware.com.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,54 +89,81 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_THREE(0.00)[4];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+X-Spam-Score: -1.80
 
-On Thu, 21 Aug 2025 01:25:59 +0200,
-Mark Brown wrote:
+On Thu, 21 Aug 2025 03:43:17 +0200,
+Dewei Meng wrote:
 > 
-> The following changes since commit c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9:
+> In the snd_utimer_create() function, if the kasprintf() function return
+> NULL, snd_utimer_put_id() will be called, finally use ida_free()
+> to free the unallocated id 0.
 > 
->   Linux 6.17-rc2 (2025-08-17 15:22:10 -0700)
+> the syzkaller reported the following information:
+>   ------------[ cut here ]------------
+>   ida_free called for id=0 which is not allocated.
+>   WARNING: CPU: 1 PID: 1286 at lib/idr.c:592 ida_free+0x1fd/0x2f0 lib/idr.c:592
+>   Modules linked in:
+>   CPU: 1 UID: 0 PID: 1286 Comm: syz-executor164 Not tainted 6.15.8 #3 PREEMPT(lazy)
+>   Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-4.fc42 04/01/2014
+>   RIP: 0010:ida_free+0x1fd/0x2f0 lib/idr.c:592
+>   Code: f8 fc 41 83 fc 3e 76 69 e8 70 b2 f8 (...)
+>   RSP: 0018:ffffc900007f79c8 EFLAGS: 00010282
+>   RAX: 0000000000000000 RBX: 1ffff920000fef3b RCX: ffffffff872176a5
+>   RDX: ffff88800369d200 RSI: 0000000000000000 RDI: ffff88800369d200
+>   RBP: 0000000000000000 R08: ffffffff87ba60a5 R09: 0000000000000000
+>   R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+>   R13: 0000000000000002 R14: 0000000000000000 R15: 0000000000000000
+>   FS:  00007f6f1abc1740(0000) GS:ffff8880d76a0000(0000) knlGS:0000000000000000
+>   CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>   CR2: 00007f6f1ad7a784 CR3: 000000007a6e2000 CR4: 00000000000006f0
+>   Call Trace:
+>    <TASK>
+>    snd_utimer_put_id sound/core/timer.c:2043 [inline] [snd_timer]
+>    snd_utimer_create+0x59b/0x6a0 sound/core/timer.c:2184 [snd_timer]
+>    snd_utimer_ioctl_create sound/core/timer.c:2202 [inline] [snd_timer]
+>    __snd_timer_user_ioctl.isra.0+0x724/0x1340 sound/core/timer.c:2287 [snd_timer]
+>    snd_timer_user_ioctl+0x75/0xc0 sound/core/timer.c:2298 [snd_timer]
+>    vfs_ioctl fs/ioctl.c:51 [inline]
+>    __do_sys_ioctl fs/ioctl.c:907 [inline]
+>    __se_sys_ioctl fs/ioctl.c:893 [inline]
+>    __x64_sys_ioctl+0x198/0x200 fs/ioctl.c:893
+>    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>    do_syscall_64+0x7b/0x160 arch/x86/entry/syscall_64.c:94
+>    entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>   [...]
 > 
-> are available in the Git repository at:
+> The utimer->id should be set properly before the kasprintf() function,
+> ensures the snd_utimer_put_id() function will free the allocated id.
 > 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-rc2
-> 
-> for you to fetch changes up to 7c15e4cabfa96ed3cd717a2ed7a9961268ab21f7:
-> 
->   ASoC: cs35l56: Fixes for CS35L63 for production (2025-08-20 19:56:20 +0100)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v6.17
-> 
-> A few fixes that came in during the past week, there's some updates for
-> the CS35L56 which adjust the driver for production silicon and a fix for
-> buggy resume of the ES9389.
+> Fixes: 37745918e0e75 ("ALSA: timer: Introduce virtual userspace-driven timers")
+> Signed-off-by: Dewei Meng <mengdewei@cqsoftware.com.cn>
 
-Pulled now.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
