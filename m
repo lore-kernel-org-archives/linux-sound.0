@@ -1,184 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31732E62B1;
-	Thu, 21 Aug 2025 06:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66ADE276038
+	for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 07:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755759190; cv=none; b=RVLHIKuHMmHPAWhZ8as+c4ONAX7MO2DLGcSqjuQKBXejK+amWSgxkiScQqQqOs3fAeGksvirw1QjBySJbvSFg3sEPOmBP4u8QHj/x8vksHK35Cw12Re/8W1dE30filN/UfkMWuAmYMndc2JwC90F2S35tYRsLYFvE1OloKEtVH8=
+	t=1755760338; cv=none; b=SJkli8W0kmPhGmukAcOhUE5mHKUVrjqGMQKyQMLO8gH+gnx6YUygmeBjlYV9dD9JVTf00E0wZKz3XR3PEET2FcavUcCpgP3uxxpbEv3zoJ1HwFmVpQoJXB18sH/s17sqPyvacRNwgA4I9hyAkcgwz/LclE5xOiVrprHZAZaN2K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755759190; c=relaxed/simple;
-	bh=Bq9tP1dBXwQ3sRC4YKUxmHUFPSXpyXHLlJKSZ1attcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n78rQaSabD/ScKUnpdTllO9ZlOg/hDxdCc+ldpAowt6f4umkVt5TxhZ8AArkxFRzJinaYlanbIJQWKe0+FhGCd+kGDQAQhPK9H/U8b72NoTMSW3CS4wOv092aogUcb+K2vG42wz4oKsRxYZrpbO/St1YuZzDs5k89jvumpkF2SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qs7XcmMv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755760338; c=relaxed/simple;
+	bh=BYRNFkireHleEmmy0KTdwkXPjUC2Xdzolhv+YEAvMj4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lJdpjmPg71DzC0d/xJo5wV1ab79frhveB3C1vohKgoJ3gyGCucZba7r1WBO6HS+fXSQXRnPdX623MqKqTZimuJS1c8vCkSJGIkDUt7r00Aq4FN7nkTNyGV1Oqg2N2EaLJnCSyMLPwI9B8gk3D2jfI1sMia1uICv7+p9KlYH8258=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GpsF0yAX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iTG1BXdv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GpsF0yAX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iTG1BXdv; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qs7XcmMv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22860C4CEED;
-	Thu, 21 Aug 2025 06:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755759189;
-	bh=Bq9tP1dBXwQ3sRC4YKUxmHUFPSXpyXHLlJKSZ1attcQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qs7XcmMvSsV7ZlsJpkSxU/mY6+27bCRXN2nW1JYMEkIZbbbxqeCb++SHayuZouPBe
-	 pXLdV6i4y+uV93jaiaeZXB1iriW3zE/bbKi69plgG3xa5OIs0Qi76qhRmK7VU1E6ss
-	 LtnBtwtwFnfX6J44cs071lPZ9x5vD+8uwLd7zPounkMciOpdxkDvBvqh8jlNUP8dii
-	 u2f72i1+0PrrVy50oULnOBet9AcjJiPjRXovxGrycQLyhLCkK3Ylvj06fa/HZTKOhm
-	 8BZFUH4yFIxuQlwwigXeCGWanttsE4WFa/g75aoSrNq3PTsRHEf2r+EsWQcMVJMPEe
-	 J0JNPZ+l1tSHA==
-Date: Thu, 21 Aug 2025 08:53:07 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
-	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, broonie@kernel.org, 
-	chunkuang.hu@kernel.org, ck.hu@mediatek.com, conor+dt@kernel.org, davem@davemloft.net, 
-	dmitry.torokhov@gmail.com, edumazet@google.com, flora.fu@mediatek.com, 
-	houlong.wei@mediatek.com, jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com, 
-	krzk+dt@kernel.org, kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com, 
-	lgirdwood@gmail.com, linus.walleij@linaro.org, louisalexis.eyraud@collabora.com, 
-	maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com, mchehab@kernel.org, 
-	minghsiu.tsai@mediatek.com, mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com, 
-	robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch, 
-	support.opensource@diasemi.com, tiffany.lin@mediatek.com, tzimmermann@suse.de, 
-	yunfei.dong@mediatek.com, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v1 10/14] regulator: dt-bindings: Convert Dialog
- Semiconductor DA9211 Regulators to YAML
-Message-ID: <20250821-practical-coyote-of-hail-d2fddb@kuoka>
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-11-ariel.dalessandro@collabora.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GpsF0yAX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iTG1BXdv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GpsF0yAX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iTG1BXdv"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7D4D221C35;
+	Thu, 21 Aug 2025 07:12:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755760332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NmfHWW0jFWPbjBVrxTprBSeQrh06MCbgYee85N8Q44o=;
+	b=GpsF0yAXqVbJDkL92N0CBMQks4gAifwhJEiF+SZUKLHMtmY048WQzkdQL4BuffW11sr0k8
+	tpmq6WB/5EjbwLMFWxlOKHbVHxf/by2wml/dswIdoNA6M5PUnfRFBLzWu4DlvAugft2QLQ
+	AWI7QgthXTppwLGBV73dt/QKb/U84YY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755760332;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NmfHWW0jFWPbjBVrxTprBSeQrh06MCbgYee85N8Q44o=;
+	b=iTG1BXdv84suosNVe50vwIU8YzOLcsT7wBwDPMfWgslhZt3jLcNcpYgcV8ZgBXjMRzd2rX
+	CczX5QbX70ghhDBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755760332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NmfHWW0jFWPbjBVrxTprBSeQrh06MCbgYee85N8Q44o=;
+	b=GpsF0yAXqVbJDkL92N0CBMQks4gAifwhJEiF+SZUKLHMtmY048WQzkdQL4BuffW11sr0k8
+	tpmq6WB/5EjbwLMFWxlOKHbVHxf/by2wml/dswIdoNA6M5PUnfRFBLzWu4DlvAugft2QLQ
+	AWI7QgthXTppwLGBV73dt/QKb/U84YY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755760332;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NmfHWW0jFWPbjBVrxTprBSeQrh06MCbgYee85N8Q44o=;
+	b=iTG1BXdv84suosNVe50vwIU8YzOLcsT7wBwDPMfWgslhZt3jLcNcpYgcV8ZgBXjMRzd2rX
+	CczX5QbX70ghhDBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59C1E13867;
+	Thu, 21 Aug 2025 07:12:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9peUFMzGpmh9fgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 21 Aug 2025 07:12:12 +0000
+Date: Thu, 21 Aug 2025 09:12:11 +0200
+Message-ID: <87frdl6tdg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v6.17-rc2
+In-Reply-To: <c76f8af82172ef5d00fce6f17a50eae6@kernel.org>
+References: <c76f8af82172ef5d00fce6f17a50eae6@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250820171302.324142-11-ariel.dalessandro@collabora.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
 
-On Wed, Aug 20, 2025 at 02:12:58PM -0300, Ariel D'Alessandro wrote:
-> Convert the existing text-based DT bindings for Dialog Semiconductor DA9211
-> Voltage Regulators family to a YAML schema. Examples are simplified, as
-> these are all equal.
-
-Also not wrapped... fix your editor to recognize how commits are
-written.
-
+On Thu, 21 Aug 2025 01:25:59 +0200,
+Mark Brown wrote:
 > 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> ---
+> The following changes since commit c17b750b3ad9f45f2b6f7e6f7f4679844244f0b9:
+> 
+>   Linux 6.17-rc2 (2025-08-17 15:22:10 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-rc2
+> 
+> for you to fetch changes up to 7c15e4cabfa96ed3cd717a2ed7a9961268ab21f7:
+> 
+>   ASoC: cs35l56: Fixes for CS35L63 for production (2025-08-20 19:56:20 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v6.17
+> 
+> A few fixes that came in during the past week, there's some updates for
+> the CS35L56 which adjust the driver for production silicon and a fix for
+> buggy resume of the ES9389.
 
-...
-
-> +---
-> +$id: http://devicetree.org/schemas/regulator/dlg,da9211.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: |
-
-Drop |
-
-> +  Dialog Semiconductor DA9211/DA9212/DA9213/DA9223/DA9214/DA9224/DA9215/DA9225
-> +  Voltage Regulator
-> +
-> +maintainers:
-> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - "dlg,da9211"
-> +      - "dlg,da9212"
-> +      - "dlg,da9213"
-> +      - "dlg,da9223"
-> +      - "dlg,da9214"
-> +      - "dlg,da9224"
-> +      - "dlg,da9215"
-> +      - "dlg,da9225"
-
-No quotes. I don't think this was ever tested.
-
-Also, keep it properly ordered
+Pulled now.  Thanks.
 
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  regulators:
-> +    type: object
-> +    additionalProperties: false
-> +    description: |
-
-Drop |
-
-> +      List of regulators provided by the device
-> +
-> +    patternProperties:
-> +      "^BUCK([A-B])$":
-
-[AB]
-
-> +        type: object
-> +        $ref: regulator.yaml#
-> +        description: |
-> +          Properties for a single BUCK regulator
-> +
-> +        properties:
-> +          regulator-initial-mode:
-> +            items:
-> +              enum: [ 1, 2, 3 ]
-> +            description: Defined in include/dt-bindings/regulator/dlg,da9211-regulator.h
-> +
-> +          regulator-allowed-modes:
-> +            items:
-> +              enum: [ 1, 2, 3 ]
-> +            description: Defined in include/dt-bindings/regulator/dlg,da9211-regulator.h
-> +
-> +          enable-gpios:
-> +            maxItems: 1
-> +            description: Specify a valid GPIO for platform control of the regulator
-
-Drop description, obvious.
-
-> +
-> +        unevaluatedProperties: false
-
-For nested blocks this goes after $ref: regulator.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - regulators
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/regulator/dlg,da9211-regulator.h>
-> +
-> +    i2c1 {
-
-i2c
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        da9212: da9212@68 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
-
-Best regards,
-Krzysztof
-
+Takashi
