@@ -1,72 +1,72 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017F02253A7
-	for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 09:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848682E9EBB
+	for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 09:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755768060; cv=none; b=sjaD1PiZJCTD7Ockn1oRcLTuyouE9ihVdU+vw7P9Q7EKgLicjsC0gDVsfIrcedGDVq8q4xkJqtRlLOwVSPwhA8CA+SV5VBYoqjUlKdj/JUF3lgrR9osNUPAtshRQUnN0CD0lR9tS1nEPCrSgqfmkqNwEaT3sF/tDOBm85FVQV1Y=
+	t=1755768148; cv=none; b=OBY/q9k6vwLye3P6QKq8AWSOZOcFH64By126yIpzAaDIvkM5OIIVRQqMMGOG4PSXR92H34Mf3XbQW/87MVLTaLIOkqBYrciEVon4f02Wp2zMfX5jzslXzY6w5G/vfzK+WVWNfsN/K6Mzy99XUlnkKL/8I5V2McpysUUEFNad0GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755768060; c=relaxed/simple;
-	bh=pY5RDlpsVcczuRRN0X/oppac2hovD8tG3/IVrc4OM5U=;
+	s=arc-20240116; t=1755768148; c=relaxed/simple;
+	bh=HsZamS/rSvKeU1mW3uSKVvFtOhX8tT9L0tOV6LUabno=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YtUNRPoRuxbL2lzVzEenpJ8s7mweB/gbbWj7clLIQWyYpoo5HcuNBqCb0+m3768Ryz+kPaJLFJJFTQbw0A6FvnrghBEIvbXqBmNZX78KyDZsEmlmO/njL1ZRJW4xTfiBSyEyRALQwRf5/VvCEiTLNygJdXRcWyHW+NWoJvCtrHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JU0NQwwY; arc=none smtp.client-ip=209.85.167.174
+	 To:Cc:Content-Type; b=XLyZtSe3qO3vNEuA8kckVrputUeLmiZd3J2c1G3fx9NFao4834uNmyK/kzYKgh0OUbxbNvagPOLMoaZ3ipxCOofIC7TnW9SsyXhI+FVbCYryYgGhiDRzcOFv5j9llu8zUMFO8qdRZU7qwKdLgZmm5GBAByNC6bhYKXdaIQ2+EWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EHGnWNRE; arc=none smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JU0NQwwY"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-435de7d6d05so485332b6e.2
-        for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 02:20:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EHGnWNRE"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-74374a65f35so1036342a34.1
+        for <linux-sound@vger.kernel.org>; Thu, 21 Aug 2025 02:22:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755768058; x=1756372858; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1755768145; x=1756372945; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wdwGiEWkgU15r/K0wtAmVMJlPasaOb9O6WsVm5AyGnQ=;
-        b=JU0NQwwYG/tzRSYn8UUXSuB4xo6NElLT8/pnLlJIxOc4RMZotTF/Ci31zR8aKl4xUn
-         B35y5P3CUs8OoZG3ipbnOlIJLgCPyTcKD7s6YlgNltMJGy/ZaY1VSB8GZmYpMQHp+bux
-         yT6HVj3ZGxc+ixf+wZcPp1vQnNn4Mj+YjMVund3ipxGaJ0ajgxHOXlrxntzibIas04co
-         XrpCFOQT0CB1rUOoss1h4PJYtMtHb5sTGqS506tHou7eO6LxwXvsaC+nRNeULVd5UWg9
-         ah/Rjp5G7AYiL0kyo4tjwY9bsHRgUyTu1qAGxuD20c8/SIDrDKn3B7TNpEpwTe3fL2Vo
-         Gexw==
+        bh=FUNnIA5LJfH2mLFr2pGbmlN3J1pRI/AcSQxLyTn59sI=;
+        b=EHGnWNREOr58c+zcACVYFaO9LV7Jj31B14edBkurxF4gNpnDH1H3t5DwSj2DggXM+T
+         dVJScQGSeoyZlVaZ72x0hg8MGRtlXIM4ezDPVTS8w+xuu3S3Y3SFxc7FYNvM7x5EZNra
+         1zZc6QJjPRrQdaqbF/m70fUFV4+6TTPE+TqQBN4fI2eNOJQIOzV7l+D88/78HpuFbkxv
+         GoRkK7MuCAXfJ+lrOg2PUrzdZAnb7G3S/pwnHIjqmIl2sW+Wv3iuyuC6VnG9vDBTbQiW
+         9YvfP+lRlgagqqTogTy9oIfXPu+7faXlzs/DMbf2bUHBAifvhJHVlIn6LtoLcXtVkKyA
+         o0Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755768058; x=1756372858;
+        d=1e100.net; s=20230601; t=1755768145; x=1756372945;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wdwGiEWkgU15r/K0wtAmVMJlPasaOb9O6WsVm5AyGnQ=;
-        b=rro14nUlAWTQDMb5JMeMTNqRTD1TfFmOrAkiZ6uq9Dp97UGsh9ZmQpdwFnAh33xIqP
-         pwBVUMWEM5bEdm/HBYNatk1uyflxhj5y5Og8iwx40wE2iraiDPyvHCi7u2IwmsqO8zwT
-         /okDWifbdKQy8NYA7UxgmdYQs/Z8VGckUwWU8pduUDru67Cvkr8d7JOWYBeTwu1azG6z
-         SKBN9ucWLpgt+kAZr6k9fixU+2xwDCmNIErhNx3tfdHXoyxB5miadDLAewaOlkuIPJny
-         +/TSPrq62iGRBs1uWvhArnZze8PUC/DT+i53CvNhfH1UvGJMQDXO42XoFZ3TJPobepZS
-         LYPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXcIe0djF0LAyZqXEUfkIwLD1pnFxBeeWTEmuT008D91E+XuWgTvJBn/ik4OLpFO5luHxgaj5wq2GSecg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPQbN0hvrwBxwrBR7NHXTuJMK15O+ggnCAkpgAh0H5yhSMCWzN
-	2JPQReu0G6/UrTFdzeT5BobD8WRc4sVPvUFhrHeJg1lWYuw9XGj2en4XykGCy+g80p0lO+G+4Ei
-	aR9J/VbzKdq82wUmNm2VU9s0SqjQ/AF8=
-X-Gm-Gg: ASbGncsYc8HbR2QZ+E1Z62hjWpq6qBE8F7TINAEmw/TSC6b7lSoo2LQVxJs/HLFUwW0
-	YfQgPpwFvKFwnQDQs4xjB5CRQsBr3dWoDkk318tB270IireBiJLqARgi7v59aDAuNRj+RiBpLya
-	Yisg1tZhkq+afAnQwa1hoBYZxYgmJOv2CKO4FRNhUg7n/DTF6gt48y0xwtBzet7fM4e3otZxPTk
-	zEUcwN3F+/Me5fjxiQ=
-X-Google-Smtp-Source: AGHT+IGh1Eh2P0gozdvzc0uxCXP2Wa1I03qt2EqN4HLMFPdOo1OK+wDJ9nE8eKJ29zMa5XHbWO31iEn1Z9uCQ7nO3Uw=
-X-Received: by 2002:a05:6808:688e:20b0:435:f353:a648 with SMTP id
- 5614622812f47-4377d6c5f7bmr495393b6e.2.1755768057981; Thu, 21 Aug 2025
- 02:20:57 -0700 (PDT)
+        bh=FUNnIA5LJfH2mLFr2pGbmlN3J1pRI/AcSQxLyTn59sI=;
+        b=a4YYHHjAGNwnH5sYFyYOpBjJMBNg22nw3TKzE4BtsyHuhAwyEIOGGDGABxElZv2HbO
+         JGSyleGmqZdjc8gOmn/8VRSbl4Iu8ZzwjeE/QTUn3xzDvrcBnY2HNstIRmtwLSIv/HeW
+         NBFHvE052+WXqQ+jIbuLY0LdW2xJW46vFF5wLFI4Vkug4FhrRXoPRs88FuT1/pqKDtqG
+         5vmgQj2LtZW3HzkqGoAAkjg4gVbcpQZbLO2wAiTEht8tm25BAOxwYLoGZU5+9gOZo1r0
+         w7zJpu156Bg6ERz0ipW4f5i3FiAS4iHU/IYamaRaimrX49wlaF4op08lBwE2gEALM6PR
+         eZqA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXr/Un2CIaux5S1fyElNZRjzYU5OBYyX+ukpX9vT5ltctgSIRZdCB5ZsWOPfs1ZdOK7ZVzwTaqtGxtZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+oP4KTCAplWxHUm8KXlic0UJheqUCmiAdj6yrI+N1Iy/M7pTu
+	MM+iakX8zUGYOWbFlZcaueFj3CR/tE0GBu4ipJI84FmsweK2dUPnYP5quvrJlnhYU0sqjkpYVE8
+	jCMegrU9v3bTskB12Ra1dSeQ+4kjxAkg=
+X-Gm-Gg: ASbGncvA6dkrkGLluY9a43mnTqif7L4MxSNjrT+YWKmClpmMJt08HTb/OFgHdAuM6cR
+	qKHboHbPnu8AMCuoY+hmFru7KgIqAPHm1ZQSLG2jZ4xDNHvB5o/JMGmGm8g7bqAPqP2L+T6ViuP
+	WSxq/Leimr+UQILIOA4pkABYT5wFSvhFQx0/72XK7QKCegQ/NUD314/148GOKam1r3pSB9rg35Y
+	uoL/wgS
+X-Google-Smtp-Source: AGHT+IG+OKwnvaEyIjdYBGJ44opPxNBTRZHoVlcPa3R/NZO/Xe8PFrjRzD/6JPLLuhEuaViYBBegE3bQclXBTygW8+0=
+X-Received: by 2002:a05:6808:67c4:b0:437:75ea:6c74 with SMTP id
+ 5614622812f47-4377db572demr663430b6e.23.1755768145491; Thu, 21 Aug 2025
+ 02:22:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250821082639.1301453-1-ckeepax@opensource.cirrus.com> <20250821082639.1301453-2-ckeepax@opensource.cirrus.com>
-In-Reply-To: <20250821082639.1301453-2-ckeepax@opensource.cirrus.com>
+References: <20250821082639.1301453-1-ckeepax@opensource.cirrus.com> <20250821082639.1301453-3-ckeepax@opensource.cirrus.com>
+In-Reply-To: <20250821082639.1301453-3-ckeepax@opensource.cirrus.com>
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Thu, 21 Aug 2025 21:20:46 +1200
-X-Gm-Features: Ac12FXyPe1NBR2J3Jvx5XscH8ZDTgAWYBOLUSRQaWYCm0L9ouAW5pcME463nkDs
-Message-ID: <CADySD0Gc51oUqM=kbWgH7XN1XV+Xf=xo9tjBgCGMKhhYv1kEUw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] ASoC: wm8940: Correct PLL rate rounding
+Date: Thu, 21 Aug 2025 21:22:14 +1200
+X-Gm-Features: Ac12FXznwYW44anjF4mhoTG-qleSlXkyMJnkjAYJHUUEtP5l2G2oGwNsg-pkp2s
+Message-ID: <CADySD0FFhfPp7cSAGVfofMq7gC2mW1L=AjMgt0TaNxaKzMZk=g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ASoC: wm8940: Correct typo in control name
 To: Charles Keepax <ckeepax@opensource.cirrus.com>
 Cc: broonie@kernel.org, lgirdwood@gmail.com, lukma@denx.de, mans@mansr.com, 
 	linux-sound@vger.kernel.org, patches@opensource.cirrus.com
@@ -78,39 +78,30 @@ Tested-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 On Thu, Aug 21, 2025 at 8:26=E2=80=AFPM Charles Keepax
 <ckeepax@opensource.cirrus.com> wrote:
 >
-> Using a single value of 22500000 for both 48000Hz and 44100Hz audio
-> will sometimes result in returning wrong dividers due to rounding.
-> Update the code to use the actual value for both.
->
-> Fixes: 294833fc9eb4 ("ASoC: wm8940: Rewrite code to set proper clocks")
+> Fixes: 0b5e92c5e020 ("ASoC WM8940 Driver")
 > Reported-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 > Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 > ---
 >
 > No change since v1.
 >
->  sound/soc/codecs/wm8940.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  sound/soc/codecs/wm8940.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/sound/soc/codecs/wm8940.c b/sound/soc/codecs/wm8940.c
-> index 401ee20897b1b..46c16c9bc17a8 100644
+> index 46c16c9bc17a8..94873ea630146 100644
 > --- a/sound/soc/codecs/wm8940.c
 > +++ b/sound/soc/codecs/wm8940.c
-> @@ -693,7 +693,12 @@ static int wm8940_update_clocks(struct snd_soc_dai *=
-dai)
->         f =3D wm8940_get_mclkdiv(priv->mclk, fs256, &mclkdiv);
->         if (f !=3D priv->mclk) {
->                 /* The PLL performs best around 90MHz */
-> -               fpll =3D wm8940_get_mclkdiv(22500000, fs256, &mclkdiv);
-> +               if (fs256 % 8000)
-> +                       f =3D 22579200;
-> +               else
-> +                       f =3D 24576000;
-> +
-> +               fpll =3D wm8940_get_mclkdiv(f, fs256, &mclkdiv);
->         }
->
->         wm8940_set_dai_pll(dai, 0, 0, priv->mclk, fpll);
+> @@ -220,7 +220,7 @@ static const struct snd_kcontrol_new wm8940_snd_contr=
+ols[] =3D {
+>         SOC_SINGLE_TLV("Digital Capture Volume", WM8940_ADCVOL,
+>                        0, 255, 0, wm8940_adc_tlv),
+>         SOC_ENUM("Mic Bias Level", wm8940_mic_bias_level_enum),
+> -       SOC_SINGLE_TLV("Capture Boost Volue", WM8940_ADCBOOST,
+> +       SOC_SINGLE_TLV("Capture Boost Volume", WM8940_ADCBOOST,
+>                        8, 1, 0, wm8940_capture_boost_vol_tlv),
+>         SOC_SINGLE_TLV("Speaker Playback Volume", WM8940_SPKVOL,
+>                        0, 63, 0, wm8940_spk_vol_tlv),
 > --
 > 2.47.2
 >
