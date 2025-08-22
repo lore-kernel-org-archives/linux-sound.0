@@ -1,108 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1F72BDC33;
-	Fri, 22 Aug 2025 14:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EE73F9D2
+	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 15:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755874013; cv=none; b=enDqJTFQaHmVn90w//9fVyYjNtMWBORBr/UpDCMzvOMrKtrm2HmXoZsqHK/rhhhRcl3rquNah79UYjLFSyGwpu1PsG5gTAuTDoP1i4VIgdG5ZAgpb6WsvjoZrMY5z3jkTXRQmr45KCtUnS+R+v0Xsn4sw4JEL57OlEHxfA6LK3E=
+	t=1755875231; cv=none; b=UvrXeg/LzBUyjGaY4F6Qkz8TiuUTDtBHb2zEA6Ybq4liI5+iisACABERJmkrhUtZV3GtI9QUecyXg5XDnb6Em/tW3W38As+lgzOBIKe7sMUo8VpAUaD9IGcd6qCOQExLnZTEHeGeo06l+gXfycuPp3W5niPi/NO2VxH6CRplh4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755874013; c=relaxed/simple;
-	bh=+LMAKVwOGszxRowkPXPHA9+jKYN9k/xShb+3HOShYDk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XoSQwRR7YtTH3vag+yQw6+sjZeeSZKZw8xtkhLDRwKgA3T0AZjclNFG1DRKcJTcQ6Yz+EZqHZ8Y9s9yYeD4nQQiKGhiQRRoK2stitP4/8ofwPuHpOM0fApSTvdvMq6cN99IHyjZ9CG0Bqe/6VJAcdkMo26JqR3bMKE7umjrRTCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gIuN8hF9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755875231; c=relaxed/simple;
+	bh=/uncVOXZcMQbLNucxBabFCDRr2nx2IC+bgiq+wWdwX4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bicr+4Elt0UnQ9Ch0Fs1ieEsyf3T2jOU1SUDIpJnkrjqPIOpA4V9nkYZdDtp98+kLaqhNgAkrTD/qZRx90fr9L3ckQW/Ez8LndFDDIiqXy8JNA2bmojr+O4Ur+fhacUfGzwuDLJLMam1g0DNq/msZe/sdkFINTra8Uddpcprdec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Extxltvb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lgrCvuj9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Extxltvb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lgrCvuj9; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gIuN8hF9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86587C4CEED;
-	Fri, 22 Aug 2025 14:46:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755874013;
-	bh=+LMAKVwOGszxRowkPXPHA9+jKYN9k/xShb+3HOShYDk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gIuN8hF9wWDGShDvUOB2QK4Nd/qYdV1baMD1PWWrn0lgPIxFWci5eGIbdnbvjUyz8
-	 JCPZE8w7epY/TRHm9LS14Tmux3Pm7TvbCBbPxMskuHdpgKGBiENdgd9l271qVLiuIE
-	 lUJK25RtwR4AJPaYuhGy/tSFK7YbGAFnsKlDjrqAfWXnFwHMF8javBuwrQfC2E56MY
-	 RVQ4OytbvrMwrKfxwLiIDqvolz2QfoR68/ju5eqQ3YEUMRsM0dEGu/CpaOq9hoH7hK
-	 wqzkaTsIqJIdo6xQtm0bziemWvZIE7aDFGOznqFsW/nffenMl8Fz+cRLk6qXCLD4QA
-	 q2Ip/9UEuZ3oQ==
-Date: Fri, 22 Aug 2025 09:46:52 -0500
-From: Rob Herring <robh@kernel.org>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: kernel@collabora.com, Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Ikjoon Jang <ikjn@chromium.org>,
-	Enric Balletbo i Serra <eballetbo@kernel.org>,
-	Chen-Yu Tsai <wenst@chromium.org>, Weiyi Lu <weiyi.lu@mediatek.com>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Julien Massot <jmassot@collabora.com>,
-	Sean Wang <sean.wang@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] ASoC: dt-binding: Convert MediaTek mt8183-mt6358
- bindings to YAML
-Message-ID: <20250822144652.GA3763665-robh@kernel.org>
-References: <20250820-mtk-dtb-warnings-v2-0-cf4721e58f4e@collabora.com>
- <20250820-mtk-dtb-warnings-v2-6-cf4721e58f4e@collabora.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Extxltvb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lgrCvuj9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Extxltvb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lgrCvuj9"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AC2B121C23;
+	Fri, 22 Aug 2025 15:07:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755875227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YDhxIfASYAxDg8QUeAO/Y8aHQ+HwfhrLXM/TNGwAWo=;
+	b=ExtxltvbN6kPiUzTBNeGOTVS3ul8R92rB1bmfkVnIyRhHk4lxWi/XC4XaP6dl63V6svQgy
+	qkLKHPrAn6ZeE1qrAJ2B2g0mtQ+LARKRzPs9mfOhZ1hY5HDQPk10LVO6uyethGJUKNLULB
+	pGPHEE08Oaod203xjgr4YQbK2ZavSvw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755875227;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YDhxIfASYAxDg8QUeAO/Y8aHQ+HwfhrLXM/TNGwAWo=;
+	b=lgrCvuj9e/vLdKYffKP4SDL/mHUIpWb/gbeJN3GDG9hMITQkDjX3v3qr21zoQCjNBoorL1
+	IHWS++d3H/YdLICA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755875227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YDhxIfASYAxDg8QUeAO/Y8aHQ+HwfhrLXM/TNGwAWo=;
+	b=ExtxltvbN6kPiUzTBNeGOTVS3ul8R92rB1bmfkVnIyRhHk4lxWi/XC4XaP6dl63V6svQgy
+	qkLKHPrAn6ZeE1qrAJ2B2g0mtQ+LARKRzPs9mfOhZ1hY5HDQPk10LVO6uyethGJUKNLULB
+	pGPHEE08Oaod203xjgr4YQbK2ZavSvw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755875227;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1YDhxIfASYAxDg8QUeAO/Y8aHQ+HwfhrLXM/TNGwAWo=;
+	b=lgrCvuj9e/vLdKYffKP4SDL/mHUIpWb/gbeJN3GDG9hMITQkDjX3v3qr21zoQCjNBoorL1
+	IHWS++d3H/YdLICA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 503A913931;
+	Fri, 22 Aug 2025 15:07:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Sw4dEZuHqGgXFgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 22 Aug 2025 15:07:07 +0000
+Date: Fri, 22 Aug 2025 17:07:06 +0200
+Message-ID: <87ect34cpx.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: cryolitia@uniontech.com,
+	Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	guanwentao@uniontech.com,
+	niecheng1@uniontech.com,
+	zhanjun@uniontech.com,
+	jeffbai@aosc.io,
+	Guoli An <anguoli@uniontech.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Add mute TLV for playback volumes on some devices
+In-Reply-To: <20250822-mixer-quirk-v1-1-b19252239c1c@uniontech.com>
+References: <20250822-mixer-quirk-v1-1-b19252239c1c@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250820-mtk-dtb-warnings-v2-6-cf4721e58f4e@collabora.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[cryolitia.uniontech.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
 
-On Wed, Aug 20, 2025 at 03:44:57PM +0200, Julien Massot wrote:
-> Convert the existing text-based DT binding for MT8183 sound cards using
-> MT6358 and various other codecs to a YAML schema.
-
-In the subject (on all the patches), avoid saying 'binding' twice and I 
-prefer 'DT schema' over YAML. Lot's of things are YAML, but only one 
-thing is DT schema.
-
+On Fri, 22 Aug 2025 14:58:08 +0200,
+Cryolitia PukNgae via B4 Relay wrote:
 > 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
->  .../sound/mediatek,mt8183_mt6358_ts3a227.yaml      | 59 ++++++++++++++++++++++
->  .../sound/mt8183-mt6358-ts3a227-max98357.txt       | 25 ---------
->  2 files changed, 59 insertions(+), 25 deletions(-)
+> From: Cryolitia PukNgae <cryolitia@uniontech.com>
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8183_mt6358_ts3a227.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8183_mt6358_ts3a227.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..048fe62715d67d44daa08e75a63c782238815689
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8183_mt6358_ts3a227.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/mediatek,mt8183_mt6358_ts3a227.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek MT8183 sound card with MT6358, TS3A227, and MAX98357/RT1015 codecs
-> +
-> +maintainers:
-> +  - Julien Massot <julien.massot@collabora.com>
-> +
-> +description:
-> +  Binding for MediaTek MT8183 SoC-based sound cards using the MT6358 codec,
+> Applying the quirk of that, the lowest Playback mixer volume setting
+> mutes the audio output, on more devices.
+> 
+> Link: https://gitlab.freedesktop.org/pipewire/pipewire/-/merge_requests/2514
+> Tested-by: Guoli An <anguoli@uniontech.com>
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-Drop 'Binding for '.
+Thanks, applied now.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-And thank you for jumping on all these Mediatek bindings.
-
-Rob
+Takashi
