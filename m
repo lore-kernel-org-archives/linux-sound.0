@@ -1,120 +1,204 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0253828E579;
-	Fri, 22 Aug 2025 17:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32832877CA;
+	Fri, 22 Aug 2025 20:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755884023; cv=none; b=Six5breNF5UlmdbOJMTXhT5G1e+4ftayLd+Sm6S/O78haenrYqw5W6/9rGmWbatuAFhiZ5rdtqyLer5tXCI3Tp3S9snuRnSRSy+C86Zenc1MKoI/N5bLzgzUo//AfrUoq0kSCUKXDesfkNEZoMj0QLBzmlunqqZpwGYIIhgQ9r0=
+	t=1755894018; cv=none; b=aXErY0OPag3ncOXbzA9adXI0PXJ8u4vLWdK14K6lyzUw2E+vgBtzPfohNXbEECucka+wPWAqe+1ods/gFAvhuHEV9/ZwxmNlP6lvDbgMLTn1Ul0LYsmpsDpJjWTdjrsB2vJFeCA5R3OlGkRJm78XBZg26U2u7QSXSEqWvCBdkX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755884023; c=relaxed/simple;
-	bh=qzGcX2QKJZgPau8n3KCGHQhknefVrNuVSIhpxGsvuW8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=h3+XdSlzbbdWaAHpKK0NSNSISfSTOWkxMPo/vuwhpqNSUEjLpGfepj2er6kf2y1SSAHHCcbgwj3dwCOGEDXzrdkKM3DaeSrGI6fTrGmjmIh9W63rqEiC+9wMZ+DwSmhZ2gPZbDD64cRLPkNoJN/pP6AR2kLuiF0dAz415vZ+a+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Ut2gKRSU; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1755894018; c=relaxed/simple;
+	bh=tdtNSs8Kpu/sExAf4TXBpIT5C7B1P4VkLkgrDCZvGXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HXv5THMj+L50p2ZuUFyljeCNDUrRH/D/o8aYvbUmEy5rED4NLwtEq37bZDUMMQacBqgon9XFoMu9PQPJT0PA1Jj1cOKzPHWZew59yTb/TCFtdj64MxfGreCktgcgxdg9+ze48PP7lDGOOI40DyRigqyk8bS2JgkUQHJu/KFv7sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzO9EgdR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Ut2gKRSU"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57MHV3Ht019350;
-	Fri, 22 Aug 2025 17:33:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lwBcAcs5br8qQtNHRCfNFC2LF/dfcqaA+kuFhinPq08=; b=Ut2gKRSUymGL4/bK
-	c9MIkKE7fuCO638jNdFZFemNgcLoYBGF+5gSS7CI1zlrDvILZgOt/2buTbxk2Oa0
-	yf2LsmRjJiXzl2zld+G+N09p9WDXeGGZXiJ+bCpr135zikkBuhpUSEhloX0X4hNV
-	fgRYKcqnWI4To7KSr0aHknFHo0aPDXpZSWoWGOXdKeIEn8Yd9QfmIkRmOJoCTDUg
-	aiFpiXl8rCFa9nmNRyOZjBtck/P27a9AL2jMMBn57RMUoKLhhwx/29eJCD4oX3ik
-	JTxLBJ7O0CLzivkHiMJpMVSvEKGI0VwnROwNPdYyzzD/rsCWNwNeGsMcOsupJWwj
-	KAkEwg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48pw10r0cv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Aug 2025 17:33:36 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57MHXZEv026286
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Aug 2025 17:33:35 GMT
-Received: from [10.216.23.37] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 22 Aug
- 2025 10:33:30 -0700
-Message-ID: <c81019f3-3570-4437-a10a-d49cabc4952d@quicinc.com>
-Date: Fri, 22 Aug 2025 23:03:27 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzO9EgdR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 465F5C4CEED;
+	Fri, 22 Aug 2025 20:20:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755894017;
+	bh=tdtNSs8Kpu/sExAf4TXBpIT5C7B1P4VkLkgrDCZvGXY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lzO9EgdR7yAAuw4MAy6NAMcNJzNOxchSLb3UDks+Vx5t7khko1bBwoZ/Hmcha3ssz
+	 k79MgQNMwMESniJJjNMVsXab1fagt/Zhnujwgfprcjsbz9vFPTX5GQRCKq2IpNRXap
+	 qw5mPkeerbyapNE6B1EGb+o/IOJQJYILe4/RYgB15qVc9u72TV/X5C4xf6dZ1b6ZL3
+	 3it0/Qlz2keHGvwb8gfbXrsHyuAkZViFeamL0PN9tAZqAqk9C383YnnfwhfeI992KG
+	 sBg8dhwAUePwlIhTc1eid85HyubEsiiz7yNyDZKt6Ur/KW5Fayyr7DcaP8NluVVLld
+	 tNg2tK94rkk5g==
+Date: Fri, 22 Aug 2025 15:20:16 -0500
+From: Rob Herring <robh@kernel.org>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: broonie@kernel.org, tiwai@suse.de, andriy.shevchenko@linux.intel.com,
+	13916275206@139.com, alsa-devel@alsa-project.org,
+	shenghao-ding@ti.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
+	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+	k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com,
+	will-wang@ti.com
+Subject: Re: [PATCH v2 2/2] ASoC: tas2781: Add tas2118, tas2x20, tas5825
+ support
+Message-ID: <20250822202016.GA297320-robh@kernel.org>
+References: <20250822051410.1732-1-baojun.xu@ti.com>
+ <20250822051410.1732-2-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 0/9] Enable audio on qcs6490-RB3Gen2 and qcm6490-idp
- boards
-To: Linus Walleij <linus.walleij@linaro.org>
-CC: Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        <cros-qcom-dts-watchers@chromium.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <kernel@oss.qualcomm.com>,
-        Mohammad Rafi Shaik
-	<mohammad.rafi.shaik@oss.qualcomm.com>
-References: <20250821044914.710044-1-quic_pkumpatl@quicinc.com>
- <CACRpkdYEzbM33HBAhHEmAg9f4Zpi=2WvqPdZ35=M2eVCqcTTFg@mail.gmail.com>
-Content-Language: en-US
-From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-In-Reply-To: <CACRpkdYEzbM33HBAhHEmAg9f4Zpi=2WvqPdZ35=M2eVCqcTTFg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIyMDE2MCBTYWx0ZWRfX9pZidifCGK7S
- jn07VXThat6c3gUuOxH3AD+f0IG1JNB4WoCuDf2wwFVzqIXCQ9gtHcsIJ+nfhuR7I0nLUwq/24C
- QZD36ryFNGTwSCsobS/792yjN46l50eAdZOz9MBC9aSuGVHcVZkNeDFF0VEo1CmA53iU8e9F6Zr
- fn0MA/HyUmqpAnCHDiROGNZQOEFS5C6GgEZkvPOJ03eyrf2SjY/7LUZnM/D8MInThV7BD89eGP4
- vQB09SFK2RngOvky69hNw9UNykO1DMyPl4rbD2qxkmYkE81X/eof3510+HQXlZLrI73cqNg0Edz
- gxVxt9tDmMTyY+qxeLoh1rX+ot00li2PH61jBn4gQx+xLIPevkvDwjYt6XBDZt1wC/OaGieFbaf
- KCyK3+cz
-X-Authority-Analysis: v=2.4 cv=eaA9f6EH c=1 sm=1 tr=0 ts=68a8a9f0 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
- a=eBniO7g4Yh2Fc4B1ST8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: o6nGBWm1tINpdsv4yEeZS4GtajS-cSJS
-X-Proofpoint-ORIG-GUID: o6nGBWm1tINpdsv4yEeZS4GtajS-cSJS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_04,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 suspectscore=0 impostorscore=0 malwarescore=0
- priorityscore=1501 phishscore=0 spamscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508220160
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250822051410.1732-2-baojun.xu@ti.com>
 
-
-
-On 8/21/2025 7:04 PM, Linus Walleij wrote:
-> On Thu, Aug 21, 2025 at 6:49 AM Prasad Kumpatla
-> <quic_pkumpatl@quicinc.com> wrote:
+On Fri, Aug 22, 2025 at 01:14:09PM +0800, Baojun Xu wrote:
+> Update ti,tas2781.yaml for added tas2118, tas2x20, tas5825.
 > 
->> Mohammad Rafi Shaik (9):
->>    dt-bindings: pinctrl: qcom,sc7280-lpass-lpi-pinctrl: Document the
->>      clock property
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 > 
-> Can I just apply this one patch to the pinctrl tree?
+> ---
+> v2:
+>  - Update the mail list for maintainers of yaml file
+> ---
+>  .../devicetree/bindings/sound/ti,tas2781.yaml | 73 ++++++++++++++++++-
+>  1 file changed, 72 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+> index 5ea1cdc593b5..fb57b63a00a2 100644
+> --- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+> +++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> -# Copyright (C) 2022 - 2023 Texas Instruments Incorporated
+> +# Copyright (C) 2022 - 2025 Texas Instruments Incorporated
+>  %YAML 1.2
+>  ---
+>  $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
+> @@ -11,30 +11,62 @@ maintainers:
+>    - Shenghao Ding <shenghao-ding@ti.com>
+>  
+>  description: |
+> +  The TAS2118/TAS2X20 is mono, digital input Class-D audio amplifier
+> +  optimized for efficiently driving high peak power into small loudspeakers.
+> +  Integrated speaker voltage and current sense provides for
+> +  real time monitoring of loudspeaker behavior.
+>    The TAS2563/TAS2781 is a mono, digital input Class-D audio
+>    amplifier optimized for efficiently driving high peak power into
+>    small loudspeakers. An integrated on-chip DSP supports Texas
+>    Instruments Smart Amp speaker protection algorithm. The
+>    integrated speaker voltage and current sense provides for real time
+>    monitoring of loudspeaker behavior.
+> +  The TAS5825 is a stereo, digital input Class-D audio
+> +  amplifier optimized for efficiently driving high peak power into
+> +  small loudspeakers. An integrated on-chip DSP supports Texas
+> +  Instruments Smart Amp speaker protection algorithm. The
+> +  integrated speaker voltage and current sense provides for real time
+> +  monitoring of loudspeaker behavior.
+>  
+>    Specifications about the audio amplifier can be found at:
+> +    https://www.ti.com/lit/gpn/tas2120
+> +    https://www.ti.com/lit/gpn/tas2320
+>      https://www.ti.com/lit/gpn/tas2563
+>      https://www.ti.com/lit/gpn/tas2781
+> +    https://www.ti.com/lit/gpn/tas5825m
+>  
+>  properties:
+>    compatible:
+>      description: |
+> +      ti,tas2020: 3.2-W Mono Digital Input Class-D Speaker Amp with 5.5V PVDD
+> +      Support.
+> +
+> +      ti,tas2118: 5-W Mono Digital Input Class-D Speaker Amp with Integrated
+> +      8.4-V Class-H Boost.
+> +
+> +      ti,tas2120: 8.2-W Mono Digital Input Class-D Speaker Amp with
+> +      Integrated 14.75V Class-H Boost.
+> +
+> +      ti,tas2320: 15-W Mono Digital Input Class-D Speaker Amp with 15V Support.
+> +
+>        ti,tas2563: 6.1-W Boosted Class-D Audio Amplifier With Integrated
+>        DSP and IV Sense, 16/20/24/32bit stereo I2S or multichannel TDM.
+>  
+>        ti,tas2781: 24-V Class-D Amplifier with Real Time Integrated Speaker
+>        Protection and Audio Processing, 16/20/24/32bit stereo I2S or
+>        multichannel TDM.
+> +
+> +      ti,tas5825: 38-W Stereo, Inductor-Less, Digital Input, Closed-Loop 4.5V
+> +      to 26.4V Class-D Audio Amplifier with 192-kHz Extended Audio Processing.
+>      oneOf:
+>        - items:
+>            - enum:
+> +              - ti,tas2020
+> +              - ti,tas2118
+> +              - ti,tas2120
+> +              - ti,tas2320
+>                - ti,tas2563
+> +              - ti,tas5825
+>            - const: ti,tas2781
+>        - enum:
+>            - ti,tas2781
+> @@ -61,6 +93,27 @@ required:
+>  
+>  allOf:
+>    - $ref: dai-common.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - ti,tas2020
+> +              - ti,tas2118
+> +              - ti,tas2120
+> +              - ti,tas2320
+> +    then:
+> +      properties:
+> +        reg:
+> +          description:
+> +            I2C address, in multiple-AMP case, all the i2c address
+> +            aggregate as one Audio Device to support multiple audio slots.
+> +          maxItems: 4
+> +          minItems: 1
 
-yes, please go ahead.
+1 is already the min items, so drop.
 
-Thanks,
-Prasad>
-> Yours,
-> Linus Walleij
+> +          items:
+> +            minimum: 0x48
+> +            maximum: 0x4b
+> +
+>    - if:
+>        properties:
+>          compatible:
+> @@ -97,6 +150,24 @@ allOf:
+>              minimum: 0x38
+>              maximum: 0x3f
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - ti,tas5825
+> +    then:
+> +      properties:
+> +        reg:
+> +          description:
+> +            I2C address, in multiple-AMP case, all the i2c address
+> +            aggregate as one Audio Device to support multiple audio slots.
 
+You've duplicated this. Does it belong at the top level 'reg'?
+
+> +          maxItems: 4
+> +          minItems: 1
+
+Same here.
+
+> +          items:
+> +            minimum: 0x4c
+> +            maximum: 0x4f
+> +
+>  additionalProperties: false
+>  
+>  examples:
+> -- 
+> 2.43.0
+> 
