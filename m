@@ -1,194 +1,103 @@
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA18301465;
-	Fri, 22 Aug 2025 12:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07312FFDC1;
+	Fri, 22 Aug 2025 12:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755867242; cv=none; b=DoFIQVGc6iToSZ9OhYTxawT2p6NF2YV5cADLX8h/LNCIKW67IN6mYzoT5/YKatI/fOZ0yX4dgizHuIEzmXr0N8NnsvgLq7V5fmRypP1uNI0D02lofEGCadh74PWc+g7dTyOupu4380G52wn4X/w541IXUYz6oEfAQ7BhBLqY+tM=
+	t=1755867490; cv=none; b=gKIyUOoVt8wy7/oAbnjQiL/RqAhqcJwfJbas20W0FTP0cCoWRzCfsUzksD0OZ1Se6pt19DMRDFZoOESxoZK01ugZ0MuBwIi0Z6Ho8Wq6ayJ+YpjovQtFd6woXnRFVAmbHLrrO+ZphwbI19IvzzKIuJWxRvP3jNIAs9BfpoeOgfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755867242; c=relaxed/simple;
-	bh=Te0ho3pz2NfR8BqN8aLJYQorQGC7EvtxapDMAw+KjH0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mAnZN8D8jXtr58KoBO51APgyQ5lC83dwmnjdj2v1JKSCc17Av3Nz4NG4T8awUf97R27FxPd6TexFcWlfWrDdPE6L+3leBZ/e17/FFrljrozOsP34rDrAxDnk3qWOgNH0+i/k2qm/Goa7jfxCxmanmeAaW6yh7hQddADHpGM3X7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=Qizcvcax; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+	s=arc-20240116; t=1755867490; c=relaxed/simple;
+	bh=4/1ip04GTUVjn+DTl6JTM32LsyVUAI+Y7eDrGdATaYc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=FLJJVsg2eskZPKfE4bxCMgBaxCmn/oMl9fVPU9H7pkd0gObQ+lv8ZeuLpiwqyyj17XxMJ3NHMPjpDFA2XQh6UbS1qIt4wYhzKSY+Vw9KwXWRK1qWXnYROARDtUdS/FEVIeoWr3Vp904S45Crif/L3lspf29YmaGoxyVcHZ7QSyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOJuITsm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="Qizcvcax"
-X-UUID: 0e92678e7f5711f0b33aeb1e7f16c2b6-20250822
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=/QiMgaVLOAOBbB0zzFeIJKagsHQm6FFy1ZPWjVMcc5A=;
-	b=QizcvcaxRbwp8JlC7zS9662BtIco5FcdvkdqDNLXyFQWVu62/r6+SHUzfDycesiwds5GgqffE1N7JmZQEAWRoaVDJTEB4xz9ztQcInIqRTwVhOXG8TWIT/WbPl/QLEZ/dzHfe9wQzbQjuJbQg477CGBO1GuMSXFz9MtWPLC4euw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.3,REQID:51cfd86a-410d-4a01-97ca-40631e6bf5ea,IP:0,UR
-	L:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:25
-X-CID-META: VersionHash:f1326cf,CLOUDID:a1f7c344-18c5-4075-a135-4c0afe29f9d6,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:-5,Content:0|15|50,EDM:
-	-3,IP:nil,URL:11|97|99|83|106|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,CO
-	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 0e92678e7f5711f0b33aeb1e7f16c2b6-20250822
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
-	(envelope-from <darren.ye@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1534367532; Fri, 22 Aug 2025 20:53:53 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Fri, 22 Aug 2025 20:53:51 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Fri, 22 Aug 2025 20:53:49 +0800
-From: Darren.Ye <darren.ye@mediatek.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
- Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Linus
- Walleij" <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
-CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-gpio@vger.kernel.org>, Darren Ye
-	<darren.ye@mediatek.com>, Krzysztof Kozlowski
-	<krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v7 10/10] ASoC: dt-bindings: mediatek,mt8196-nau8825: Add audio sound card
-Date: Fri, 22 Aug 2025 20:52:39 +0800
-Message-ID: <20250822125301.12333-11-darren.ye@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250822125301.12333-1-darren.ye@mediatek.com>
-References: <20250822125301.12333-1-darren.ye@mediatek.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOJuITsm"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4DE0FC113D0;
+	Fri, 22 Aug 2025 12:58:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755867489;
+	bh=4/1ip04GTUVjn+DTl6JTM32LsyVUAI+Y7eDrGdATaYc=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=jOJuITsmR/VHBSrsLLxE08s9zp0o+Uwsm48EoIlO+2UlKCp3uTraJHWow9JS8g5Su
+	 0kMgW+9owV7tvt7cGe581O++3UAmPF02XspSudcLtJbd4GJGco3FgEUshDBOV/JF1H
+	 P5IrzgTblzglQgNXgh53N4/yGgf7gtVt88DqsEMPS71VjWHLew/tbn/Ju/00R8+QtS
+	 GbNGbX3Md9StxQHoyBdULNjaO0WoHfrUwZOCvGNIGIjBJNub7utrNNatD2FBkSx06h
+	 pPKEg0urZvChV4Ff3EYmVyIv7SPumAb64VwCwu5fHkBPeShUnUL9gTuIymBZRxSRZW
+	 PNI52gjdP8yFQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E8AFCA0EEB;
+	Fri, 22 Aug 2025 12:58:09 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Date: Fri, 22 Aug 2025 20:58:08 +0800
+Subject: [PATCH] ALSA: usb-audio: Add mute TLV for playback volumes on some
+ devices
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250822-mixer-quirk-v1-1-b19252239c1c@uniontech.com>
+X-B4-Tracking: v=1; b=H4sIAF9pqGgC/xWMQQqAIBAAvxJ7TjAtjL4SHSrXWiKrlSIQ/54dh
+ 2EmQkAmDNAVERgfCnT4DFVZwLyOfkFBNjMoqRrZKiV2epHFdRNvAqWpnZmM1UZDLk5Gl/V/64e
+ UPo8oZktdAAAA
+X-Change-ID: 20250822-mixer-quirk-e074f7b7d373
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ guanwentao@uniontech.com, niecheng1@uniontech.com, zhanjun@uniontech.com, 
+ jeffbai@aosc.io, Guoli An <anguoli@uniontech.com>, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755867488; l=1344;
+ i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
+ bh=CbanlkJhMdYwPVYycxuiequ7kNqYRPxDyM43A/LEFUw=;
+ b=yCxulBPx293iMhoZV+mLoi+fq/AH8+tHNDLBwFVMn6E6UhqhkD30MdIhEOftKafe1+gSimyE5
+ xepKmUPCykeB7T9W26JQvqix9eJaJpzL+4fglwhO8G5xr614LscM4pD
+X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
+ auth_id=474
+X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Reply-To: cryolitia@uniontech.com
 
-From: Darren Ye <darren.ye@mediatek.com>
+From: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-Add soundcard bindings for the MT8196 SoC with the NAU8825 audio codec.
+Applying the quirk of that, the lowest Playback mixer volume setting
+mutes the audio output, on more devices.
 
-Signed-off-by: Darren Ye <darren.ye@mediatek.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Link: https://gitlab.freedesktop.org/pipewire/pipewire/-/merge_requests/2514
+Tested-by: Guoli An <anguoli@uniontech.com>
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 ---
- .../sound/mediatek,mt8196-nau8825.yaml        | 100 ++++++++++++++++++
- 1 file changed, 100 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8196-nau8825.yaml
+ sound/usb/mixer_quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8196-nau8825.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8196-nau8825.yaml
-new file mode 100644
-index 000000000000..83350faa1e29
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt8196-nau8825.yaml
-@@ -0,0 +1,100 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/mediatek,mt8196-nau8825.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MediaTek MT8196 ASoC sound card
-+
-+maintainers:
-+  - Darren Ye <darren.ye@mediatek.com>
-+
-+allOf:
-+  - $ref: sound-card-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mt8196-nau8825-sound
-+      - mediatek,mt8196-rt5682s-sound
-+      - mediatek,mt8196-rt5650-sound
-+
-+  mediatek,platform:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of MT8188 ASoC platform.
-+
-+patternProperties:
-+  "^dai-link-[0-9]+$":
-+    type: object
-+    description:
-+      Container for dai-link level properties and CODEC sub-nodes.
-+
-+    properties:
-+      link-name:
-+        description:
-+          This property corresponds to the name of the BE dai-link to which
-+          we are going to update parameters in this node.
-+        items:
-+          enum:
-+            - TDM_DPTX_BE
-+            - I2SOUT6_BE
-+            - I2SIN6_BE
-+            - I2SOUT4_BE
-+            - I2SOUT3_BE
-+
-+      codec:
-+        description: Holds subnode which indicates codec dai.
-+        type: object
-+        additionalProperties: false
-+        properties:
-+          sound-dai:
-+            minItems: 1
-+            maxItems: 2
-+        required:
-+          - sound-dai
-+
-+      dai-format:
-+        description: audio format.
-+        items:
-+          enum:
-+            - i2s
-+            - right_j
-+            - left_j
-+            - dsp_a
-+            - dsp_b
-+
-+      mediatek,clk-provider:
-+        $ref: /schemas/types.yaml#/definitions/string
-+        description: Indicates dai-link clock master.
-+        enum:
-+          - cpu
-+          - codec
-+
-+    additionalProperties: false
-+
-+    required:
-+      - link-name
-+
-+required:
-+  - compatible
-+  - mediatek,platform
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "mediatek,mt8196-nau8825-sound";
-+        model = "mt8196-nau8825";
-+        mediatek,platform = <&afe>;
-+        dai-link-0 {
-+            link-name = "I2SOUT6_BE";
-+            dai-format = "i2s";
-+            mediatek,clk-provider = "cpu";
-+            codec {
-+                sound-dai = <&nau8825>;
-+            };
-+        };
-+    };
-+
-+...
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 7cc27ae5512f07d5318443a7e03c1da7943bfb7a..6b47b3145d2cfd84bbadbe9e2b3e4383ed6828b4 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -4609,9 +4609,11 @@ void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_interface *mixer,
+ 			snd_dragonfly_quirk_db_scale(mixer, cval, kctl);
+ 		break;
+ 	/* lowest playback value is muted on some devices */
++	case USB_ID(0x0572, 0x1b09): /* Conexant Systems (Rockwell), Inc. */
+ 	case USB_ID(0x0d8c, 0x000c): /* C-Media */
+ 	case USB_ID(0x0d8c, 0x0014): /* C-Media */
+ 	case USB_ID(0x19f7, 0x0003): /* RODE NT-USB */
++	case USB_ID(0x2d99, 0x0026): /* HECATE G2 GAMING HEADSET */
+ 		if (strstr(kctl->id.name, "Playback"))
+ 			cval->min_mute = 1;
+ 		break;
+
+---
+base-commit: 3957a5720157264dcc41415fbec7c51c4000fc2d
+change-id: 20250822-mixer-quirk-e074f7b7d373
+
+Best regards,
 -- 
-2.45.2
+Cryolitia PukNgae <cryolitia@uniontech.com>
+
 
