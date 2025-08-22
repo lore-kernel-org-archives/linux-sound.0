@@ -1,98 +1,210 @@
-Received: from rmx-a.mailgw.jp (smx-a.mailgw.jp [210.171.6.215])
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B0519D065;
-	Fri, 22 Aug 2025 03:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.6.215
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BEC01DD543;
+	Fri, 22 Aug 2025 05:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755833488; cv=none; b=pF47UX1dpuTkx0hdvZvQY6ef3AMB/I8d44GPM4i+mfoSaUKeM6D8re5QdIVVKwAVq6N1Ofg6kz4uuglqw7vfewg7/Rld1nSi7tm3QZkIGgA4HnphASPP0UvdIacCTyRbdjcrYZnf5TclAyfnXL2Avn4teSyygkynUSq82c339UE=
+	t=1755839743; cv=none; b=cgXQwsWhAiU5k8jVj0UMYpqAbUgVSMcGzGiK0H7ORcqMVj0E1GC4NT0+G5xbrggetS8JWIU9ipFyKV5tglpsg0WkfUC9mvIRkmRSeyWAx3iFOHUSBikl3NVWJ5nbqz1WY0JrHbwfN846vPdqfqMMmwv66l+ZYc8141FwWV7Kpjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755833488; c=relaxed/simple;
-	bh=22+DhZ9zPwLkwrXQele1XLn9fEYB+MqI0om042EoCWo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MSjPa2XuBupoPKxnM4liGnt2lUBGdpm0tNtDu9lfvmjE+nyFvk+JDeRkn/72diu9xyrzkkyScjUw/v7rTqIn1q8lt35Z6wQ98hRZvwfLYeamYN5R3xJU6YyRb7J9wMiTLRMeHEwiLgK8mbYZXXIfA+KYef5TDGRr7Wm/JZj3GVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bcc.bai.ne.jp; spf=pass smtp.mailfrom=bcc.bai.ne.jp; dkim=pass (2048-bit key) header.d=bcc.bai.ne.jp header.i=@bcc.bai.ne.jp header.b=bDbcWxBy; arc=none smtp.client-ip=210.171.6.215
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bcc.bai.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bcc.bai.ne.jp
+	s=arc-20240116; t=1755839743; c=relaxed/simple;
+	bh=1TL3XNAOnKIufLktw17XryVC4/ANfrq/osZ8lKNQsFU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=G33xsiEvXgfK2yH0zshSm48yrD59QX3SmPC9xnbxfe8m3P/FIICfqyVSWaRyFF9kb0rnLIPc/KoU8qsVecJzwzhKoIwph9HKLUiYEGC+eZdv9EbAqY+SvDelnxxPSD6sc2E+OjOloOZsbML4KdwGgYambySSekBNOBlPRwVx8Zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=D9UEIZe7; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bcc.bai.ne.jp header.i=@bcc.bai.ne.jp header.b="bDbcWxBy"
-Received: from bccml.bai.ne.jp (bccml-a.bai.ne.jp [210.171.3.161])
-	by rmx-a.mailgw.jp  with ESMTP id 57M3KnEh030847-57M3KnEi030847;
-	Fri, 22 Aug 2025 12:20:49 +0900
-Received: from [192.168.11.11] (bai859bcd79.bai.ne.jp [133.155.205.121])
-	by bccml.bai.ne.jp (Postfix) with ESMTPA id 1624B8192A;
-	Fri, 22 Aug 2025 12:20:49 +0900 (JST)
-Message-ID: <d0d7fc7f-d3f5-4375-abc4-c194c5b78c03@bcc.bai.ne.jp>
-Date: Fri, 22 Aug 2025 12:20:48 +0900
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="D9UEIZe7"
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57M5EvPS646872;
+	Fri, 22 Aug 2025 00:14:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1755839697;
+	bh=s3OZ+5uJNZlQQkYCda1jyqfEOisnzWAp6eQe4RhwOfo=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=D9UEIZe7MAButNXfhKS3sKuCYJNhqFJoqtYCMbjChT2VCWPJBrus77MF7PGJPBNai
+	 QegSIVnkaaUubskux0SKyOXKCeGTVsOt6pHMVWY25hBPyzBaIaR3M6dvU0zcJPpttx
+	 mBjKnbc+UQGVm6stc9SiVlwFM+9VDA0xoJLyraNM=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57M5Ev3X2663247
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Fri, 22 Aug 2025 00:14:57 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 22
+ Aug 2025 00:14:56 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Fri, 22 Aug 2025 00:14:56 -0500
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.138])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57M5EYps3296152;
+	Fri, 22 Aug 2025 00:14:45 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
+        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <lgirdwood@gmail.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <devicetree@vger.kernel.org>, <k-yi@ti.com>,
+        <henry.lo@ti.com>, <robinchen@ti.com>, <jesse-ji@ti.com>,
+        <will-wang@ti.com>
+Subject: [PATCH v2 2/2] ASoC: tas2781: Add tas2118, tas2x20, tas5825 support
+Date: Fri, 22 Aug 2025 13:14:09 +0800
+Message-ID: <20250822051410.1732-2-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+In-Reply-To: <20250822051410.1732-1-baojun.xu@ti.com>
+References: <20250822051410.1732-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: dts: rockchip: Enables sound output from the audio
- jack on OrangePI5 Plus
-To: Jimmy Hon <honyuenkwun@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250821041555.4781-2-opi5plus@bcc.bai.ne.jp>
- <CALWfF7+rGDxtKDqYyazeh+8bndkyBb8LKe_gMq_EbNycD4mw3w@mail.gmail.com>
-Content-Language: en-US
-From: Hide Hako <opi5plus@bcc.bai.ne.jp>
-In-Reply-To: <CALWfF7+rGDxtKDqYyazeh+8bndkyBb8LKe_gMq_EbNycD4mw3w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-FE-Last-Public-Client-IP: 210.171.3.161
-X-FE-Policy-ID: 3:1:2:SYSTEM
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=bcc.bai.ne.jp; s=20240516; c=relaxed/relaxed;
- h=message-id:date:mime-version:subject:to:cc:references:from:content-type;
- bh=p9uP8cxjGLNlDC8IEuVAZKUw+9vO9WrsgXPNx2Qu4J8=;
- b=bDbcWxBygFWyIUYXw912ssQ4jaYb80gXSXk3Hl+LEmN4HH1ZKhOKkhJUOaDtc07a7wukwvTKE13P
-	6oZOXVXfIa4E+/1Zm6IihOKSGAEagfxDQdU3xAZ3+zLxeYSeeVS97JCMO1vYUhPazKP8l+nVkj3V
-	7JRo8lTgW7yUjmgFrjqMUjOXBBaRko9DCSF0iqHoGf3Qa+zFEiQSCInR//d43cfWLFi3jDOYzWwJ
-	XRZjCELFZgbA46rJ7BraTB5ez6ylspMIGWypXImNQ/17Cb04VzIqeGNZlxcSWfTWPJfWFyCZNQsu
-	i9T/X26iZp9erO2/qNx0hmYC/3GbrypfEcMiiA==
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
+Update ti,tas2781.yaml for added tas2118, tas2x20, tas5825.
 
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-On 2025/08/22 1:49, Jimmy Hon wrote:
-> Note: the subject lost the "a" in arm64
-Sorry, typo.
->
-> On Wed, Aug 20, 2025, 23:19 Hide Hako <opi5plus@bcc.bai.ne.jp> wrote:
->
->> Currently, analog sound is not output from the audio jack.
->> This patch allows you to select analog headphones in alsamixer.
->> Works with kernel 6.16.1, but not 6.17.
->>
->> Signed-off-by: Hide Hako <opi5plus@bcc.bai.ne.jp>
->> ---
->>   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi
->> b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi
->> index 91d56c34a..656aac2df 100644
->> --- a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi
->> +++ b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi
->> @@ -113,6 +113,7 @@ analog_sound: sound {
->>                  simple-audio-card,mclk-fs = <256>;
->>                  simple-audio-card,bitclock-master = <&daicpu>;
->>                  simple-audio-card,frame-master = <&daicpu>;
->> +               simple-audio-card,pin-switches = "Headphones";
->>
-> For the Plus, it has Speaker and Headphones.
-> For the Max and Ultra, they only have Headphones.
-For boards with an audio jack, the statement 
-"simple-audio-card,pin-switches = "Headphones";" is probably required.
-Without this statement, the "Headphones" item will not appear in alsamixer.
-> So this property should be defined in the -plus.dts and the -compact.dtsi
-> instead of this file which is common to all.
-  This patch was created with reference to rk3588s-orangepi-5.dtsi.
+---
+v2:
+ - Update the mail list for maintainers of yaml file
+---
+ .../devicetree/bindings/sound/ti,tas2781.yaml | 73 ++++++++++++++++++-
+ 1 file changed, 72 insertions(+), 1 deletion(-)
 
-Hide
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+index 5ea1cdc593b5..fb57b63a00a2 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+-# Copyright (C) 2022 - 2023 Texas Instruments Incorporated
++# Copyright (C) 2022 - 2025 Texas Instruments Incorporated
+ %YAML 1.2
+ ---
+ $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
+@@ -11,30 +11,62 @@ maintainers:
+   - Shenghao Ding <shenghao-ding@ti.com>
+ 
+ description: |
++  The TAS2118/TAS2X20 is mono, digital input Class-D audio amplifier
++  optimized for efficiently driving high peak power into small loudspeakers.
++  Integrated speaker voltage and current sense provides for
++  real time monitoring of loudspeaker behavior.
+   The TAS2563/TAS2781 is a mono, digital input Class-D audio
+   amplifier optimized for efficiently driving high peak power into
+   small loudspeakers. An integrated on-chip DSP supports Texas
+   Instruments Smart Amp speaker protection algorithm. The
+   integrated speaker voltage and current sense provides for real time
+   monitoring of loudspeaker behavior.
++  The TAS5825 is a stereo, digital input Class-D audio
++  amplifier optimized for efficiently driving high peak power into
++  small loudspeakers. An integrated on-chip DSP supports Texas
++  Instruments Smart Amp speaker protection algorithm. The
++  integrated speaker voltage and current sense provides for real time
++  monitoring of loudspeaker behavior.
+ 
+   Specifications about the audio amplifier can be found at:
++    https://www.ti.com/lit/gpn/tas2120
++    https://www.ti.com/lit/gpn/tas2320
+     https://www.ti.com/lit/gpn/tas2563
+     https://www.ti.com/lit/gpn/tas2781
++    https://www.ti.com/lit/gpn/tas5825m
+ 
+ properties:
+   compatible:
+     description: |
++      ti,tas2020: 3.2-W Mono Digital Input Class-D Speaker Amp with 5.5V PVDD
++      Support.
++
++      ti,tas2118: 5-W Mono Digital Input Class-D Speaker Amp with Integrated
++      8.4-V Class-H Boost.
++
++      ti,tas2120: 8.2-W Mono Digital Input Class-D Speaker Amp with
++      Integrated 14.75V Class-H Boost.
++
++      ti,tas2320: 15-W Mono Digital Input Class-D Speaker Amp with 15V Support.
++
+       ti,tas2563: 6.1-W Boosted Class-D Audio Amplifier With Integrated
+       DSP and IV Sense, 16/20/24/32bit stereo I2S or multichannel TDM.
+ 
+       ti,tas2781: 24-V Class-D Amplifier with Real Time Integrated Speaker
+       Protection and Audio Processing, 16/20/24/32bit stereo I2S or
+       multichannel TDM.
++
++      ti,tas5825: 38-W Stereo, Inductor-Less, Digital Input, Closed-Loop 4.5V
++      to 26.4V Class-D Audio Amplifier with 192-kHz Extended Audio Processing.
+     oneOf:
+       - items:
+           - enum:
++              - ti,tas2020
++              - ti,tas2118
++              - ti,tas2120
++              - ti,tas2320
+               - ti,tas2563
++              - ti,tas5825
+           - const: ti,tas2781
+       - enum:
+           - ti,tas2781
+@@ -61,6 +93,27 @@ required:
+ 
+ allOf:
+   - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas2020
++              - ti,tas2118
++              - ti,tas2120
++              - ti,tas2320
++    then:
++      properties:
++        reg:
++          description:
++            I2C address, in multiple-AMP case, all the i2c address
++            aggregate as one Audio Device to support multiple audio slots.
++          maxItems: 4
++          minItems: 1
++          items:
++            minimum: 0x48
++            maximum: 0x4b
++
+   - if:
+       properties:
+         compatible:
+@@ -97,6 +150,24 @@ allOf:
+             minimum: 0x38
+             maximum: 0x3f
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - ti,tas5825
++    then:
++      properties:
++        reg:
++          description:
++            I2C address, in multiple-AMP case, all the i2c address
++            aggregate as one Audio Device to support multiple audio slots.
++          maxItems: 4
++          minItems: 1
++          items:
++            minimum: 0x4c
++            maximum: 0x4f
++
+ additionalProperties: false
+ 
+ examples:
+-- 
+2.43.0
 
