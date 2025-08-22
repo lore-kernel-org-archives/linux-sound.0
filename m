@@ -1,99 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9056219307F;
-	Fri, 22 Aug 2025 10:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36ECB1A9F83
+	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 10:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755858518; cv=none; b=p3EiBIhMYqWcYkuCDO1/OLDCXCHiUdzMZ39b4VG+O8K7ozMNSyqqR4/REDzITHWqqVWAIWZj6nadD2h3gUf9b2Z65ZpNp5cIJ/3lMc4hZq5dD9JtEA6UVYMLwCT//0+dKFZyKHzSS7h06ziJag/jm1lOB9tol167Y7o8tE8gh9M=
+	t=1755859079; cv=none; b=sx1A3UGOM9EEop+609Ae2JF1fdR/z/9fhizwYrP9rlD8KqLBUezy6M9KaaTWh1NnvS5ZAj6ANSDYtw3MN7lb7dhXuqir9EVq6UEcGETQqi3kFsTnCeR9SbO/kuoE1CTDQ9u1/m3mFHKQQTPB2ImASShzt0IpEaOK96v8BSpMZ+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755858518; c=relaxed/simple;
-	bh=UhhnLcGKdARCqcQkNb0PZAh2gumC9LMMptQdei1s5io=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=F0DIDRvXsSV7ICHZdXL3K+vtDiPYtiqLzfU1jxka8EE6vClXdE5pGlgtRLuvX7vHPuWF/wn3aTqBfuFyGHZ78rAzXX393/oIqiIvNT3KhMknxQJCG5qIpkSkObUFZ/ChmYTIAB4Qj6Y/ZSeu5syucNxblzWaRSJIhGNrPkXWDTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b6v8eDwk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755859079; c=relaxed/simple;
+	bh=pHVbu1zawc1+XKyzYxBMKZwzP0Lj74IQ8rz4jxqwTek=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=WT3WS9ixiZ5ZDJO0HaihLTdjOVmWogDuoNCeUT8Qx/ADpoAfLThGBOwdusvIAK2uxSzL/5JTgg3Woby4enDitnpJOCbuqWglZK00btQ5Z5QmwMizttqAeMnyflBZoanRajtURwQiX4yfRv9nmc56xRUi1XZJgT18nm6PljDmXwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c4TVsuQy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Eu4aSXkw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c4TVsuQy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Eu4aSXkw; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6v8eDwk"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1A3A7C4CEED;
-	Fri, 22 Aug 2025 10:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755858518;
-	bh=UhhnLcGKdARCqcQkNb0PZAh2gumC9LMMptQdei1s5io=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=b6v8eDwk4t4M4v+Kkn5FVe+lZSC0Rimai9aqmkuRWXOxLCOqch5YpdKZMgrazAlOf
-	 /WT8WMqdKNfFTkQwOw1zbNM0Rodopx+mIHjFkXoyR7kbHZKt853iQqnY5EEELJDep8
-	 c7GMjxnzwmiWa6bFKSQTnjBskKm9kQ1A+V/FEujQIGUiZdk26Atw5mgPdSe84OPcgb
-	 m/QsKbYby3b7DlR0wVxpwvUCOu+n9bapkq8QJZpK1d2Z99jdcJhUx/gk704x90nu2+
-	 1DIjSwF0nnjgQ+nKJGyo2NDwwE+FOOrRso3ommdR8g1U1JZNg6sTIyTmLWtQw+Mg5L
-	 TjbiG3Ayr53lA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0554DCA0FE1;
-	Fri, 22 Aug 2025 10:28:38 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Fri, 22 Aug 2025 18:28:33 +0800
-Subject: [PATCH] ASoC: codecs: idt821034: fix wrong log in
- idt821034_chip_direction_output()
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c4TVsuQy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eu4aSXkw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c4TVsuQy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eu4aSXkw"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 47F941F7DD;
+	Fri, 22 Aug 2025 10:37:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755859075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=SNnS58n1IEvRTS6Y4zEPIKJBPbrLmqSdeBq1nutGYOw=;
+	b=c4TVsuQynH3h1H0BYAXGKBZXvWu4gGM7H78EwVmF3N65GJtNiZJSGoZlivIIGx+UhZJau7
+	tQctko4ISg6vD4s4SobuVqxlKxvTBiKtNj6IDJsD+F2nUZysPtDsq+k6dGcqS1RgP8/gDs
+	cNVV6oat26/lOjEow1WP5zGQdYVtuUQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755859075;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=SNnS58n1IEvRTS6Y4zEPIKJBPbrLmqSdeBq1nutGYOw=;
+	b=Eu4aSXkwXSppDPiUDfvEC6hkF2ihV2h4yTJ2l9BghSDe+xLziHFbqge+F/xo1zv/T4jD0H
+	lJ0EvdJSlkk5SxDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1755859075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=SNnS58n1IEvRTS6Y4zEPIKJBPbrLmqSdeBq1nutGYOw=;
+	b=c4TVsuQynH3h1H0BYAXGKBZXvWu4gGM7H78EwVmF3N65GJtNiZJSGoZlivIIGx+UhZJau7
+	tQctko4ISg6vD4s4SobuVqxlKxvTBiKtNj6IDJsD+F2nUZysPtDsq+k6dGcqS1RgP8/gDs
+	cNVV6oat26/lOjEow1WP5zGQdYVtuUQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1755859075;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=SNnS58n1IEvRTS6Y4zEPIKJBPbrLmqSdeBq1nutGYOw=;
+	b=Eu4aSXkwXSppDPiUDfvEC6hkF2ihV2h4yTJ2l9BghSDe+xLziHFbqge+F/xo1zv/T4jD0H
+	lJ0EvdJSlkk5SxDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 19F4B13931;
+	Fri, 22 Aug 2025 10:37:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MfM8BINIqGgIRAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 22 Aug 2025 10:37:55 +0000
+Date: Fri, 22 Aug 2025 12:37:54 +0200
+Message-ID: <87ms7r4p6l.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.17-rc3
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250822-idt821034-v1-1-e2bfffbde56f@uniontech.com>
-X-B4-Tracking: v=1; b=H4sIAFBGqGgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDCyMjILfEwsjQwNhE1yDJNDnJwizJINnSTAmovqAoNS2zAmxWdGxtLQA
- pAZE0WwAAAA==
-X-Change-ID: 20250822-idt821034-0b5cb86b0c96
-To: Herve Codina <herve.codina@bootlin.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- guanwentao@uniontech.com, niecheng1@uniontech.com, zhanjun@uniontech.com, 
- Cryolitia PukNgae <cryolitia@uniontech.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755858517; l=1022;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=Xf7JFZXRbt8rXAX/IFwN/P7Ba3v6XdLGbf2wZX2q3kI=;
- b=utMVbNOaZjz16DXuia93Q7alE05P+SVaph8G790DbgkFgWzfz6oObdvp6v+qBHq16mbFeEGLp
- kPtPjee41xpAEHHkEpSeIBuVuIH8Ij2y3+4IgS0Z4TyyvsTUSalebt9
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Linus,
 
-Change `dir in` to `dir out`
+please pull sound fixes for v6.17-rc3 from:
 
-Suggested-by: Jun Zhan <zhanjun@uniontech.com>
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.17-rc3
+
+The topmost commit is 8410fe81093ff231e964891e215b624dabb734b0
+
+----------------------------------------------------------------
+
+sound fixes for 6.17-rc3
+
+Only small fixes.
+
+- ASoC Cirrus codec fixes
+- A regression fix for the recent TAS2781 codec refactoring
+- A fix for user-timer error handling
+- Fixes for USB-audio descriptor validators
+- Usual HD-audio and ASoC device-specific quirks
+
+----------------------------------------------------------------
+
+Dan Carpenter (1):
+      ALSA: usb-audio: Fix size validation in convert_chmap_v3()
+
+Dewei Meng (1):
+      ALSA: timer: fix ida_free call while not allocated
+
+Evgeniy Harchenko (1):
+      ALSA: hda/realtek: Add support for HP EliteBook x360 830 G6 and EliteBook 830 G6
+
+Kailang Yang (1):
+      ALSA: hda/realtek: Audio disappears on HP 15-fc000 after warm boot again
+
+Richard Fitzgerald (1):
+      ASoC: cs35l56: Handle new algorithms IDs for CS35L63
+
+Shenghao Ding (1):
+      ALSA: hda/tas2781: Add name prefix tas2781 for tas2781's dvc_tlv and amp_vol_tlv
+
+Stefan Binding (2):
+      ASoC: cs35l56: Update Firmware Addresses for CS35L63 for production silicon
+      ASoC: cs35l56: Remove SoundWire Clock Divider workaround for CS35L63
+
+Takashi Iwai (2):
+      ALSA: hda: tas2781: Fix wrong reference of tasdevice_priv
+      ALSA: usb-audio: Use correct sub-type for UAC3 feature unit validation
+
+Vasiliy Kovalev (1):
+      ALSA: hda/realtek: Fix headset mic on ASUS Zenbook 14
+
+Zhang Yi (1):
+      ASoC: codecs: ES9389: Modify the standby configuration
+
 ---
- sound/soc/codecs/idt821034.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/idt821034.c b/sound/soc/codecs/idt821034.c
-index 6738cf21983b0dc58e162cbfaacaedb5edaaa245..a03d4e5e7d144195622ea0cbf6b6c6ba95642aa7 100644
---- a/sound/soc/codecs/idt821034.c
-+++ b/sound/soc/codecs/idt821034.c
-@@ -1067,7 +1067,7 @@ static int idt821034_chip_direction_output(struct gpio_chip *c, unsigned int off
- 
- 	ret = idt821034_set_slic_conf(idt821034, ch, slic_conf);
- 	if (ret) {
--		dev_err(&idt821034->spi->dev, "dir in gpio %d (%u, 0x%x) failed (%d)\n",
-+		dev_err(&idt821034->spi->dev, "dir out gpio %d (%u, 0x%x) failed (%d)\n",
- 			offset, ch, mask, ret);
- 	}
- 
-
----
-base-commit: 3957a5720157264dcc41415fbec7c51c4000fc2d
-change-id: 20250822-idt821034-0b5cb86b0c96
-
-Best regards,
--- 
-Cryolitia PukNgae <cryolitia@uniontech.com>
-
+ include/sound/cs35l56.h                        |  5 +-
+ include/sound/tas2781-tlv.h                    |  6 +--
+ sound/core/timer.c                             |  4 +-
+ sound/hda/codecs/realtek/alc269.c              | 31 ++++++++----
+ sound/hda/codecs/side-codecs/tas2781_hda_i2c.c |  4 +-
+ sound/hda/codecs/side-codecs/tas2781_hda_spi.c |  6 ++-
+ sound/soc/codecs/cs35l56-sdw.c                 | 69 --------------------------
+ sound/soc/codecs/cs35l56-shared.c              | 29 +++++++++--
+ sound/soc/codecs/cs35l56.c                     |  2 +-
+ sound/soc/codecs/cs35l56.h                     |  3 --
+ sound/soc/codecs/es8389.c                      |  2 +-
+ sound/soc/codecs/tas2781-i2c.c                 |  4 +-
+ sound/usb/stream.c                             |  2 +-
+ sound/usb/validate.c                           |  2 +-
+ 14 files changed, 68 insertions(+), 101 deletions(-)
 
