@@ -1,141 +1,187 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993FA2D7DF5;
-	Fri, 22 Aug 2025 12:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92ED2FC008;
+	Fri, 22 Aug 2025 12:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755864039; cv=none; b=QX1CIVD8CW39J7aPY9+1g6KLVAvvHt8ZdQI0MdFRXp+loTXZzB8hF1QHG4OoEi9UP3oyIsvOgPMPLcICj5tm2ax7o4yr4j+Y+rF5x04C4UsK2SxIeVrIipFYh4aashkYgoWCz7pR+PZzgBwiOjAIZVfBhsMJVZYrXZl6xo4Aabk=
+	t=1755867207; cv=none; b=nBlqqNxEnIEHrnuZmNg6PzrYpSfqFXwM63BfqBh4iDNYwhkDycQ1mP/Xsq/fx8Vve9UVF3LAp6NTH7166imeurl4KBIdaVLufxgvvm6n7xK/A0ZCZi36yui2MBnyrdFMNYU1tP0kTT1Oh1K1N6LOJO88XTog2fUq6q5lSVYx1JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755864039; c=relaxed/simple;
-	bh=j/PHFwFQyeZC5x+M4hZ/FInqHN/UmN4edBE1iMIfpB8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=iF4ktmpP4CZteEMEBwuicGKdAng9ybtf+rcFgt41LsLrdhbxyo9oPF+4T8Zb3QmdOCE63sbq1I5sldI66HXCtWwOJ9u0aRypofRMN53NjXRJuflHVXxFkn+OXpCwhUMg6JesBEdBry0U9z4JEkE1XJh8Vfa8RGq/7Ctk44Z++3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=TYq2FsLB; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1755867207; c=relaxed/simple;
+	bh=PLU7Jy+4Idnvc1wYz0kN+QAM+kuaOgeNMCbhEi1tcJc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oTstRToFP9EwtM1Tkqmmk2meTvAiQKnMPjW0Biy7IfqQmxJaCb37WKOIXtWCyZTRoBYgtNQAhu9MNOH4CzUAKaHtxgkGbl6f1pO9hBzRHgViOANW2wWEI9j/gFYtJPNcePKMi9GfNTHfEWdrfdZEwigAqYFXsW1h+6rEKl9iILI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=keyaL7QO; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="TYq2FsLB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1755864023; x=1756468823; i=markus.elfring@web.de;
-	bh=m4BknXcAVSKp17JscyULcRyQ1UHjIYAVSX3FSV7X0Ko=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=TYq2FsLB4U86mbf4I+HmWNtdGY7eWd8EKKP2NldsQDiVAvev3ywrlQfUqxllJI7c
-	 /GCg36iicE/2GMZYS5a5wv0LwRPB6c7Ot6twPs91+1ej/KY3AVVTmIPrU/lBv1cu6
-	 gE0iXIwBZvmaOK8Cgp2cGWAC+6SW6rpBC4SBsDTshFXvpS/Q9G6XoDJeFaxNI+m0x
-	 G18SS2gk3Sd+s3cipgO4PLkbdTbBxopR32VRSKkEyZ7ARzd9gO1bksh1fTQCJ6f+p
-	 ZimN0ld4ukNbjLGBp7vWnMoDFaNgy4FMfZzospXlp4gE7MqUJcnGc5zgUk7XwR1Zd
-	 QeyQvyo/L+zfU7WDxA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.186]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N62yY-1uRItD3E3U-016lSn; Fri, 22
- Aug 2025 14:00:23 +0200
-Message-ID: <c97b2c44-d03c-40d0-b2a8-e8070320499d@web.de>
-Date: Fri, 22 Aug 2025 14:00:22 +0200
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="keyaL7QO"
+X-UUID: fa8c272a7f5611f0b33aeb1e7f16c2b6-20250822
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=gdrKdZ51IexfRxyYh9eQjGmdG6o5t0ED4W3C8AISUc8=;
+	b=keyaL7QOfXRiAu0qbA6h3ulRSnAWmYhVkTofO8RvB/kxM8HAPDWVg25iIYoHjYAiVanjphn2u2hnPp0v83bE7G3fUbE7VYDbe7zrVfOOHQzbnvyhInr9amNJ8mls6Jd5sOavdiFZMqX/ByN03TQV0Q7Y6RqfPOKy0WFExmtT7gY=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.3,REQID:ecee648e-dd5a-428c-bae7-8cc573aef1a4,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:f1326cf,CLOUDID:e2f6c344-18c5-4075-a135-4c0afe29f9d6,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|102,TC:-5,Content:0|15|50,EDM:-3,
+	IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:
+	0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: fa8c272a7f5611f0b33aeb1e7f16c2b6-20250822
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
+	(envelope-from <darren.ye@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1089959311; Fri, 22 Aug 2025 20:53:19 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Fri, 22 Aug 2025 20:53:17 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Fri, 22 Aug 2025 20:53:16 +0800
+From: Darren.Ye <darren.ye@mediatek.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus
+ Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>
+CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-gpio@vger.kernel.org>, Darren Ye
+	<darren.ye@mediatek.com>
+Subject: [PATCH v7 00/10] ASoC: mediatek: Add support for MT8196 SoC
+Date: Fri, 22 Aug 2025 20:52:29 +0800
+Message-ID: <20250822125301.12333-1-darren.ye@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Takashi Iwai <tiwai@suse.de>, =?UTF-8?Q?=C5=A0erif_Rami?=
- <ramiserifpersia@gmail.com>, linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.com>, LKML <linux-kernel@vger.kernel.org>,
- Jaroslav Kysela <perex@perex.cz>
-References: <87v7mtyrcy.wl-tiwai@suse.de>
-Subject: Re: [PATCH 1/7] ALSA: usb-audio: Add initial driver for TASCAM
- US-144MKII
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <87v7mtyrcy.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:13ZwNEUV283A707QLweo6J82j8VrTu4VvtucraZjcQgBlnERs9S
- 7TykcEbuyHJzfLz5xYafuSK6YYk6YpfEf4kk+2J+JnM2mBIwJvcd+/J8RTLZPa7X+qxLMLj
- ssdvTTC8GZKqJGyefjjSNW4uMlZwyPS9CtWRr8p8RJcuwdH0zSm6pJSZMSKts7EsR/fD1Fr
- q3KK7Mxevj2AiX+zo0ndA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NsAXwB+qMSY=;i7NQqALQnUYjxkqqijdx5gwCBuz
- OYf3rylFHrdq1yVB3DixJIjhuG9Do1EhPYRaIjSR/dQHdtmv4j6er8zxiUj3ajqVJ4XB0K3+t
- ku3mGuTHV5DbEXGXejeCc+mwGupO0utogGeWa2HOiz+aO2xWpOkCC/sE0qHUT5GZWFq6NGN7X
- fzaQCvGmFibsmmm5HTnfobtfYmq5/iewiUvbr9ql8+xfkM8VD6fwnby4JvXMCRNJENGZEexRJ
- vZ9XIVC/ebhKHNTRGbHXlk0FEdrxcJds72aUyjkVtDf2dpjSKAsGh6nI9nJa2SitpZHu4/RdL
- knM5vZwjtlWzWTosgFLO4wyfG22dsSCvrSeiT9WNRC7Phfy7xh/CuYqc+IHEYincqIvKO14gD
- mRhgMz0DL+4bGsrM5baD7kuleuqIn/XuuFaC7hs5sOufaDSR+Auy6wfvm3M6hf34qtdksevsN
- XGMIJwg299jOrCD1wOXN/c3+Jel4nAIx71uAKSxLLMjT4h31/Aq8/hb54qEv8D9UV0fiWNzT6
- HHEnOlquqCmRN3auXdogOTpF2o2fy271YiHEeHJJNcY0Us2v3zVYhwLyt49FY5icZmonhYhbk
- 8OEQKq4keE3jNBM8vbqsiQUq5RLo0kHnqUDBRGFuVGUNdUn4PWb28RCu3IxIqLktcgyjSdt0C
- 0aREQhm+qdmCevT9pwvu/MOrcWRzn+A6lfq4aNApQ2Csm0LITHdHDd5J1X1qSlVIYSjSPkxN9
- +R1p3Lm5P6ughjtrvIFySRfxAL2CsAZWAcl38WnLSdidLK5WS4y417j1mzNMSWx/TfQBFYvHc
- fy9nthOnzHKeztmfoKPZ0QJHb9Naqp5hEac9/eJWqnFWH1SdLjjRRtGP9qZ4naLEeJasyZf3O
- 8Mp7trfp0Oj01XF0OBJrV7Po5FToovabDZ8ZTzINmGXfDy841OzpB9dUsde9QeVxEegaWRnXE
- wJzbaqnnEqoTBQaUxSbAeJxeqvbcWehQmB8JM28FhiUSpCq69gtdhgxKcNJKZdDuSy8Bw+p1m
- /xnlw9T+X7klNJPTJW+8b+mxaVzIGv0sViPx1POZCXMzCLFxbCCwgVqU8c0VcPLz2WijCEmIQ
- jcqMVj8SnjgETzv167HBc4v9czHXXeCHBjGvnPABHqUfFilycQGDOMKH8djtbsWeXrbJHq7VX
- UJ3OhgMz0Ixi6uNqgJxbXEpj41dtPzt0jR5OxLppokIEwKBa30ntehWkXUfoQq8JVJY18E0Uz
- uYHlE0ru1Qgj2wzWG0X6oGIiS46IxcVuq4hnXhN5UDcEHDR5ma0CXozyUBaXvywhlpu+Li4u4
- 9SQUkraCkB1Zoy7+8woTlIOfC2k//nF6Wcv9gQzVzFeaiBQ1npDRw7DRrCmjffhYg2PUgf2L8
- TfUsokSceJJU90/TX0NNWpVcTE8dIOBJJ9i/owYtRziZINbQk2T11VeCwoy1k+BnmbyWu82mA
- /L+GPaUbtU2MuuGoc1pBku3akD5kAcUxrMYmgcYe6wv13C1wjZBdaLwhq3LyIwnyWwVduXRuS
- ijm3sbFel9BlazJteo0zEkCXYnZLMYUIhz2GogGjgDiJu0c0GfJLI7757M2lwYqeTHj+JpkuU
- Pslr10knsnieZEu4JKelAX13lNUtoydgb7Et53XX2MrTPcaToTQW31JqM6R6z5IJtK9aC/MQv
- 0noNt9H0c8FLQ2/g+zLGrDesJSYxRdHBw5DH9NAPkJlT+6PkX4AjRZ8UEjqCwqMMEPaE6pLBV
- ktbxAG4htfLka7/bTQWoEDoorrczmcxA8mwDf0/Cd8Uoqonq7IIhtGQVlDgyZyS4QLxqoofi8
- zGHA37Hpmt6lIrBrqESJER/ZmyBIZucB7fqiam49oHbwnZl9jXWea23RFPGDBmWfGiIajnXOh
- RDuppM8LoagALJOIyZnPIsyzrETlZs9o5Vg+/Pwj/3pGvjO8Uk9MmqoflWrpLeByx0wceVFQc
- f4O0LEq6Jv8Vqa5YNbTLFD0ozmsgjgtkqXNQQilwFPEzFAKdaDRqE42bJ4E9G983Ot8PWxw9e
- A+PvL1tzRJ5/Be6R9RpghZ1Dm9RuefrBmULavHO1q6WFBd/gbh3YA3OBcvydLuvzfdCHg9D7T
- pKSIUTAanVZ+2ie4Fv+ZfjJKwnj65Ix/x+b0Jqn8A0SXcJsXkB8+sJqPG1kXakVXTwz4qadkI
- aZfeHt2OC+EZxqJE57YPStLZHHUW5wt81tuF7ilAYcXziRqoY1O9KF+0PaU9hhT2oXrITbSDN
- QzuY8Ra+OGRLR9CR3WENOTbUlYPnsePHhC94hf5DeNWy+9A2A0JD4xIDRpC21dc9ShIFxflBb
- 5CI1xVWPkc4JmtsyzoJxUz7PBvEkKCPVurcay16NSW2maVFK16gSnkaipL+o/bVf5fhGErsmk
- PR09GIwl/+ohaKvKwN/jrBb4PT8IwMdw6nmfFb92nCva+l7Q/Udcpbt0t4hV5G6EUwr798YOt
- V8HggmrKviMAdhfFGtnduc1QIS24HaiTrgR6fDzYY81WZ8WBtIOB9lU6rUfLS1DzwzscCNyzu
- 5hGC3wy3pskvnfSaqsWypY8k5nt/7F2hnwaBdNMEvFJNDMWSQOSYetOh5rKzAD2jTzTVvMtz8
- cAbhDOVlyt/+nIQfQTPJl6GJ25xJZGDmA+zLMuD9LsAEvJQgOzQvha9P769DJTn2HX94CtDw+
- 1ixc6SljnsElFz0UlFA5H61nGciRSs5hU4kOE7/kBt5OWWXun65BdR1RCfXLX7Ni7uL8qibZf
- Rml2/68FmlZ6oZo7tlNvtizlXcVE6vEIMwBu6knwt51mqgUE5t6YoYQAgv/YgHTQ6+2MkERCP
- wujMmq5HSYxO6Lp7X0iCFcfOMuVUA4UwaSQF9PcqVBCVihTrxWRiRWsFHsWf2CL/kDtGDzdCB
- KiAfeEE6eXN//2iQKO/Agvedvkck/YblNGIQ2+FRYFkvZrUs+DLsp0clwkAV/Q/wJHBaPdiev
- 9uP47KjgUsHF0/a516401EMJGS+zW2KEImOHuzOs+CV+PwdLvXAfALF9ufg5BooqGHMu2JXcy
- ZagzqcHx7hJVnUBFhyJTpN6YiMKb1ta3bCU2UDkRfJv3p9J6uhhorGmoeF1pnAsdoBt6efcz5
- 1g3ktXggFid6y8sS9p57nVZ5kI4IqbvTvocRYVcQ9umOVmGMBbm67knRN8//5V6b/5bS/97K/
- IAMzX8N6NcxRiMkD94caRYGkX+y+NLVHYkZAIuOa5FYj6BOPvQBqQE3SgNUIOFr/KdJmKJL/s
- T9Zrx9klb0U2hJxH0s/fkHTIJO67fWhYT80HJnbWUshHHsGvb1dIIBAQhjxlw5NbWkj3meaQt
- fHukGCQ02OylXUkX06ofLB5TiRKs2oxoIlsfqM4S60L2B+1RoQPWJHIL0t+b2Gu/6blNac+6k
- Dlfl+DBIVG2sJOKjLRQYHDrDPEbRVSOl4Ys2KT26Znep1iOQ5ch+z//Ny2qoWK1XtAMGbvmRA
- 6InFbzr5U+hnqRQmQ/84OXK2UM9JdFp4HxYkgZZvZYwBfPTqV79qKOKlKgf86WlONqphJ5OPd
- vaYz6Z/cwWpeKD7VXGsLdNZbD6APlP0BXVae8KnM5OrhzyP8IXuJim8clCza7QcDPTwnTguyG
- x0wKDYj8gHR3jOCUdulP62vr7JXqTH9+Jt/oDu+wtrXk0VzyxQCeErTMsHnQgeKjnjEYinsYS
- yWJpq+HUpnV+YbafiPbs1iVqfsKwGHZWjr6ZtTZkqBoNCsWYrc8lZkZFD1MPPFI+H+iu7pxZK
- OESK0ZrHlwnkA7l18KMZ2H59NGuNAyEIURQ7+VbgGsiAuMwB87VVGpJQQIJrxDxXHF8PGf1LS
- SvwQ0IoT337bmpdBO1tiT5GxDS0CUojZd0hkpeU78h0UdRPZ8SIiCt9Gx3sHAiVn4JoS+0/xl
- ocLl1fBrGtW72ecRO5YDPNP6ariOwmVOV7hLOZgsF8MqdaIDCr+JV5i3Aktbx5SfV/GO6JvYG
- LDtLW0FRgVa/K7F2JJM08EO6ZqqCSsUd1kU7rRv2rJCUpClvPYxrNngYa8ge2OrxZA/iTpNL1
- 6rYBg9DVCC3ZwKz36PVzQwEe6ZRKesqpcnmyw/N84E1Uw5lkvU8Ovd+4wNEX2sp5PMBSJ+ceg
- 10brZ8kNM9Luth3jGXSQpL6EfrCOtRZ5F8vhiD9oWpbUxPaCB5nNSmLTwL+dhtKFq97K2HUR6
- U4kHQ56yVdJ5J9phDTgRHXwjOzbsxh3MCaPA05fde4DSw6KU/LbQrLv343Q/0S7iqcURW+Z+Y
- gU/Rhpw59qHDxbYyQk7dkLRp/L4Bff44UiYOC1niJwkddwqiGUbJLOxkPY4ABbqBxOLb6C0Ae
- q2TAhkLpYfeBaqsXCQsYbUmEmQVmQ+8ChtsyV0QzKUVIZOSJOgn/D4EBBn7ZHY6RsdihnN6bK
- zSLxhFgIt0LQ3TFVSOrYaT2m42qQhXnKhBL7WfTUv5t5PYorRzhDFkvhkymG6Svf1d2eW7kkJ
- pqhg617wTZVZEptUBiCpH7ozGZ4OJxPmckDl3rdJpki3eYcW8H6MZPHuisFJ5lHpPnrlhiKKF
- 9IJMhSX0x0a7gqhVVKS0maS59yKdwBxLOuX2aI4vKrUnvPgAj7xHeZBMfznaQFRnTtdVyVRHY
- yp0+DfrOMBjqZfB+tqONzQMR18MMLp9u42NmQD32Auef4CbVMmGx1pbDTqw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 
-=E2=80=A6
-> > +	char *handshake_buf __free(kfree);
->=20
-> For the __free(kfree), you'd always need to initialize the variable to
-> NULL, i.e.
-=E2=80=A6
+From: Darren Ye <darren.ye@mediatek.com>
 
-Can another software design option become more attractive?
-May the scope be reduced for such a variable (in the implementation of the=
- function =E2=80=9Ctascam_probe=E2=80=9D)?
+This series of patches adds support for Mediatek AFE of MT8196 SoC.
+Patches are based on broonie tree "for-next" branch.
 
-Regards,
-Markus
+Changes since v6:
+ - optimize mtk_afe_pcm_pointer interface and improved logic checks.
+ - update mt8196_afe_private structure by removing unused member variables.
+ - only reference clocks directly supplied to afe and set required frequencies directly.
+ - update adda driver according to reviewer suggestions.
+ - update i2s driver according to reviewer suggestions.
+ - update tdm driver according to reviewer suggestions.
+ - optimize platform driver and update widget rotues.
+ - move the sof route from platform driver to the machine driver, and moved pinctrl to platform driver.
+ - update the afe yaml file to remove unnecessary clock references.
+
+Changes since v5:
+ - restore the commit message for mediatek,mt8196-afe.yaml and only remove the string document.
+ - add reviewed owner for mediatek,mt8196-nau8825.yaml.
+ - use SND_JACK_AVOUT as jack status.
+ - use GENMASK_ULL to support 64-bit address masks.
+ - modify the afe platform and i2s dai driver code based on reviewer's suggestions.
+
+Changes since v4:
+ - modify the mediatek,mt8196-afe.yaml commit message and add reviewed owner.
+ - modify the mediatek,mt8196-nau8825.yaml commit message.
+ - modify the audio common code based on reviewer's suggestions.
+ - add reviewed and tested owners in the audio common code submission message.
+ - fix cm update cnt calculation issue.
+
+Changes since v3:
+ - the AFE TOP CG index is added to the common header.
+ - remove the audsys clk register and directly read and write to the regmap of afe cg clk.
+ - modify the clk logic according to the suggestions.
+ - remove the macro definition of MTKAIF4
+ - remove the tdm cg event and directly read and write the tdm cg reg form the widget.
+ - remove the i2s and cm cg event and directly read and write cg reg.
+ - afe hopping and f26m clk cg are placed in remap_register_patch and enable.
+ - the yaml file is modified according to the suggestions.
+ - replace SND_SOC_DAIFMT_CBS_CFS with SND_SOC_DAIFMT_CBC_CFC.
+
+Changes since v2:
+  - remove the mtk_memif_set_channel interface modify.
+  - remove duplicate definitions from the header file.
+  - move the afe gate clk to the audio driver for management and registration
+    and manage the afe clk gate in each dai driver.
+  - delete the useless clk source.
+  - the i2s driver adds i2s clk gate management, removes the additional dts
+    configuration of i2s4.
+  - the afe and i2s dai driver,memif and irq data structs are encapsulated using
+    macros to reduce the amount of code.
+  - the volatile reg is modified as suggested.
+  - mt6681 codec is not supported, the mt6681 keyword is removed.
+  - the name of the machine driver is changed from mt8196-mt6681.c to mt8196-nau8825.c
+  - remove the i2s4 configuration from mt8196-afe.yaml and make the modifications as suggested.
+  - change the mt8196-mt6681.yaml to mt8196-nau8825.yaml and make the modifications as suggested.
+
+Changes since v1:
+  - modify mtk_memif_set_channel and mtk_afe_pcm_pointer interfaces
+    are improved to support mt8196.
+  - remove duplicate definitions in the mt8196 common header file.
+  - cm logic is merge into the afe platform driver.
+  - modify afe clk to return judgment logic and remove useless clk sources.
+  - refactor the mt8196 adda dai driver.
+  - remove the gpio module and use SND_SOC_DAPM_PINCTRL to manage it.
+  - removes CONNSYS_I2S related functions that are not supported in i2s dai driver.
+  - fixed mt8196-afe.yaml and mt8196-mt6681.yaml syntax issues.
+  - modify log printing in all modules.
+  - optimize the header file included for machine driver.
+
+Darren Ye (10):
+  ASoC: mediatek: common: modify mtk afe platform driver for mt8196
+  ASoC: mediatek: mt8196: add common header
+  ASoC: mediatek: mt8196: support audio clock control
+  ASoC: mediatek: mt8196: support ADDA in platform driver
+  ASoC: mediatek: mt8196: support I2S in platform driver
+  ASoC: mediatek: mt8196: support TDM in platform driver
+  ASoC: mediatek: mt8196: add platform driver
+  ASoC: dt-bindings: mediatek,mt8196-afe: add audio AFE
+  ASoC: mediatek: mt8196: add machine driver with nau8825
+  ASoC: dt-bindings: mediatek,mt8196-nau8825: Add audio sound card
+
+ .../bindings/sound/mediatek,mt8196-afe.yaml   |   113 +
+ .../sound/mediatek,mt8196-nau8825.yaml        |   100 +
+ sound/soc/mediatek/Kconfig                    |    30 +
+ sound/soc/mediatek/Makefile                   |     1 +
+ .../mediatek/common/mtk-afe-platform-driver.c |    56 +-
+ .../mediatek/common/mtk-afe-platform-driver.h |     2 +
+ sound/soc/mediatek/mt8196/Makefile            |    14 +
+ sound/soc/mediatek/mt8196/mt8196-afe-clk.c    |   580 +
+ sound/soc/mediatek/mt8196/mt8196-afe-clk.h    |    64 +
+ sound/soc/mediatek/mt8196/mt8196-afe-common.h |   205 +
+ sound/soc/mediatek/mt8196/mt8196-afe-pcm.c    |  2497 ++++
+ sound/soc/mediatek/mt8196/mt8196-dai-adda.c   |   845 ++
+ sound/soc/mediatek/mt8196/mt8196-dai-i2s.c    |  2613 ++++
+ sound/soc/mediatek/mt8196/mt8196-dai-tdm.c    |   675 +
+ .../mediatek/mt8196/mt8196-interconnection.h  |   121 +
+ sound/soc/mediatek/mt8196/mt8196-nau8825.c    |   868 ++
+ sound/soc/mediatek/mt8196/mt8196-reg.h        | 12068 ++++++++++++++++
+ 17 files changed, 20834 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8196-afe.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8196-nau8825.yaml
+ create mode 100644 sound/soc/mediatek/mt8196/Makefile
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-clk.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-clk.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-common.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-dai-adda.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-dai-i2s.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-dai-tdm.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-interconnection.h
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-nau8825.c
+ create mode 100644 sound/soc/mediatek/mt8196/mt8196-reg.h
+
+-- 
+2.45.2
+
