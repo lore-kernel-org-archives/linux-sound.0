@@ -1,232 +1,141 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5D526E704
-	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 11:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993FA2D7DF5;
+	Fri, 22 Aug 2025 12:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755862375; cv=none; b=QQGfN+dLuBL4h9NZVlvBHdYKHhonp4y6k1Kj7p80kOsMZXy0t1ccJA2rlGgxYqdCcUGPJiS249CtFSD1NBLJISMoqcZ4/+sOrVeJrvo/+cacXl9jjycGXYwv2aJpN15mJ+wmx//x5TMzlgrKlZw4b9QEWMJFzES5BckYi1uEPQ0=
+	t=1755864039; cv=none; b=QX1CIVD8CW39J7aPY9+1g6KLVAvvHt8ZdQI0MdFRXp+loTXZzB8hF1QHG4OoEi9UP3oyIsvOgPMPLcICj5tm2ax7o4yr4j+Y+rF5x04C4UsK2SxIeVrIipFYh4aashkYgoWCz7pR+PZzgBwiOjAIZVfBhsMJVZYrXZl6xo4Aabk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755862375; c=relaxed/simple;
-	bh=MbeLJ7GhzWYYPAdLWZcANylSjO7QkTw3HNqWV+nnRtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MBvlz1yJQgu3XJXp9zwuDSNnmLEHe9RPGCjwoGz61Q6hdG82HhWeT5bDc/jjmk0E+Vv3hvTnhzjcQ7m7BDFnaj5whjUdneYpQ5LFjFpMXvZJZIR2u0vGNSgVoTq3Q/G+aQnOw/NF9JuRzn4d3gDKbv4bgG3Af4rz9AAaDO2BPBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Qx9WY6/F; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1755864039; c=relaxed/simple;
+	bh=j/PHFwFQyeZC5x+M4hZ/FInqHN/UmN4edBE1iMIfpB8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=iF4ktmpP4CZteEMEBwuicGKdAng9ybtf+rcFgt41LsLrdhbxyo9oPF+4T8Zb3QmdOCE63sbq1I5sldI66HXCtWwOJ9u0aRypofRMN53NjXRJuflHVXxFkn+OXpCwhUMg6JesBEdBry0U9z4JEkE1XJh8Vfa8RGq/7Ctk44Z++3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=TYq2FsLB; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qx9WY6/F"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57M8UdqZ030673
-	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 11:32:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=hrhxs/e4R9oX+Zmf2Gb0jkfc
-	weHfmbU1GnT4MRTHzDA=; b=Qx9WY6/FcSoUrG8bv/KEZuomjvzNDSeK9dMGlMhv
-	Ql/oWRuPU6lw1yu4YDaJbDLEZx7s3CK69m3DzWM9VMnxllDyaRqzFETLNW/sV8tB
-	FDt7tlhQZwMJrHs41UCGF09mnsFV9dkXtmC7/Mo57/xkjsCNC2hydsmAOF3l5Owc
-	6hVVRokWqww7DjbYsfZ+KWlu11JPfb5NI8F2WvmudhINkUeDEsEqALz+ksjTIXeL
-	zD951kzedtFa9nibjXklSBmshqi2b1gS+IzVW7kP4orxpLWFyZ+2UG4iNSxTq5gL
-	Vvm1MtMpmMomxdMwft5DXLywg9JsUY4UXm8xxsNWiXXVow==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ngtdpvbw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 11:32:53 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-70d93f579a1so12229906d6.1
-        for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 04:32:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755862372; x=1756467172;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hrhxs/e4R9oX+Zmf2Gb0jkfcweHfmbU1GnT4MRTHzDA=;
-        b=Im96uCJCBU6MhDDvImAf87k0tlP4KEHQtzQuix7trJd7jDIDaYsGSiGSBF58yvvjeh
-         ZdBrBtO1BddLlHSi8qCpqOCWHZtY8dRDWQpQfjcMHZIwqS/9cJgNQZ9xuY3BOpeAuxFH
-         V1GvltKOt10+k2NS+6fbw4/IUgDHonBOLUMIfUHOPDr13CqHKdO1wLMPwt1ZX/aavFV+
-         CKP81j8IK1VtGLDhqXZGfZDUbwfj8NkzvtSkfBse1ZwX7Ejt3Jg6i1F2mQOgLEZ/h1wJ
-         WxKc+zsww4Y+RUlbn6GY3DSMyMsFC4mDQyzkuIYIQ+/BvxrvWV1QoOKU0EZj9mrudMQ2
-         Fkmg==
-X-Forwarded-Encrypted: i=1; AJvYcCXEhGT5nmIR+H89zlgYGzoAMKjCfev2aH8QDKvS0loQLG7lqDKA1iimzRwrW4LtA8IAzDT67vq3SXPx4Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YweVN+bd5L3cQrn0G6lokW/ROVevQg8SRhcPl70R+Pa7SzBKwyu
-	lk+pt3ZhOdT/pDWC2FMUm6waRNV8y16SOIo84gZzicb4uKEzJknVBtxjnQajF4A590dO0z9UJmn
-	Wpe/BFhXluJDRTQkMk9dhmpjH80Zd48I4fbKARFnA1NYOKe7BpN4Kbj8Q1UK+RfGDVw==
-X-Gm-Gg: ASbGnctEYjkZUVGpiwTBfKE1TyivaDlb753bKK8vveME1QF1+TZBvWCc9a7NPJpIWao
-	14be1D4LFUKn6qVsGMWfmtq5L7d6IsFNyCYKYWi3jJCMfTFHw3SwU24XvPEelM9evLd5HRqerDs
-	ISltNIQ8RXH0Fd1NX7jQfiGf1eux4csdipya8Cm0UcVQtAbJ4AYrfdtMsTpasrMNyoyswk4k/Aq
-	FfretT4QvUSf128uONa/ZsA658w4ZfZVFrPR+8mMJGyCXlx2j2l88FU2JvDyOOvW6CSRqYcFrSD
-	nnei2xFf/NoJe4Gu0tW2FlU2tQMV6tYAVC3GH/CipKkSEeqjWYOCP6uv5RTCfUgNOEbeZfxR2qe
-	5Vi5uHT1+B1d1SheUjwXc4+RfhQKJocjJ/HKGG/9Z7bgKtP0VfRpQ
-X-Received: by 2002:ad4:5b87:0:b0:709:f553:f707 with SMTP id 6a1803df08f44-70d972c25f1mr33591266d6.19.1755862371602;
-        Fri, 22 Aug 2025 04:32:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFXQAzyXjd3aFI95Ax/cuAFmfG034WYhExtNbk9ibR6IrU4TuKhnCk3Qmr/TKCz6E53o1TsvA==
-X-Received: by 2002:ad4:5b87:0:b0:709:f553:f707 with SMTP id 6a1803df08f44-70d972c25f1mr33590746d6.19.1755862370948;
-        Fri, 22 Aug 2025 04:32:50 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55e084e46b7sm1165666e87.48.2025.08.22.04.32.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Aug 2025 04:32:50 -0700 (PDT)
-Date: Fri, 22 Aug 2025 14:32:48 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com, srini@kernel.org,
-        lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        krzysztof.kozlowski@linaro.org, neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 6/8] ASoC: codecs: wcd-common: move status_update
- callback to common
-Message-ID: <ld3s5vbjjigkbesnyccyxohnekgbwkbae7zwmjd7u23km3f5fq@awxsaee7yj6m>
-References: <20250822104927.2621866-1-srinivas.kandagatla@oss.qualcomm.com>
- <20250822104927.2621866-7-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="TYq2FsLB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1755864023; x=1756468823; i=markus.elfring@web.de;
+	bh=m4BknXcAVSKp17JscyULcRyQ1UHjIYAVSX3FSV7X0Ko=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=TYq2FsLB4U86mbf4I+HmWNtdGY7eWd8EKKP2NldsQDiVAvev3ywrlQfUqxllJI7c
+	 /GCg36iicE/2GMZYS5a5wv0LwRPB6c7Ot6twPs91+1ej/KY3AVVTmIPrU/lBv1cu6
+	 gE0iXIwBZvmaOK8Cgp2cGWAC+6SW6rpBC4SBsDTshFXvpS/Q9G6XoDJeFaxNI+m0x
+	 G18SS2gk3Sd+s3cipgO4PLkbdTbBxopR32VRSKkEyZ7ARzd9gO1bksh1fTQCJ6f+p
+	 ZimN0ld4ukNbjLGBp7vWnMoDFaNgy4FMfZzospXlp4gE7MqUJcnGc5zgUk7XwR1Zd
+	 QeyQvyo/L+zfU7WDxA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.186]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N62yY-1uRItD3E3U-016lSn; Fri, 22
+ Aug 2025 14:00:23 +0200
+Message-ID: <c97b2c44-d03c-40d0-b2a8-e8070320499d@web.de>
+Date: Fri, 22 Aug 2025 14:00:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250822104927.2621866-7-srinivas.kandagatla@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=LexlKjfi c=1 sm=1 tr=0 ts=68a85565 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=2OwXVqhp2XgA:10 a=sWKEhP36mHoA:10 a=EUspDBNiAAAA:8 a=5fLxXxe7Dn6VKq7M814A:9
- a=CjuIK1q_8ugA:10 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-GUID: jwAjWcgYKj_6V_GCM0LtxPvd0k9qi1HQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDEzNSBTYWx0ZWRfXxYCWJrfY/XP3
- wFUdl1TkZLEiXjh1iOUqs2UkAU104SGjY49xXRQcniq8wDSBPJR9z2ShbNpZxwUOIE/Ij5Ogi/L
- jlRSH57DPfZcExQAxCNQzPIICpEnx3oTJJz32bF4R3KzVjASHrAnHiK3nI96GKE2czT1N3CibUK
- 5yHu/u5R4mZvFy31dYqV94AN90p5wehOD1GwpJlzy8nEkzc/iK4wh8QBeo9Zu0HhUhclG8d0z1Z
- qBC2wTY94V9smnoKEcNoiy73pAT1N6QvToiVnF8KiL3Ljxaaez0K3QsNY+6Xz0hzkHJ7yWCome9
- rSJYkwo91OgT3WhQU3mcQgERyqY/kMR7TjbvNAU6m1xywuAi77ks7PZ+aoiHLE4sIAiQdKLMEP3
- byZ9a3WSZi5J2iGw4ufIylRaN/kG8Q==
-X-Proofpoint-ORIG-GUID: jwAjWcgYKj_6V_GCM0LtxPvd0k9qi1HQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_04,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 malwarescore=0
- spamscore=0 priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200135
+User-Agent: Mozilla Thunderbird
+To: Takashi Iwai <tiwai@suse.de>, =?UTF-8?Q?=C5=A0erif_Rami?=
+ <ramiserifpersia@gmail.com>, linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.com>, LKML <linux-kernel@vger.kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>
+References: <87v7mtyrcy.wl-tiwai@suse.de>
+Subject: Re: [PATCH 1/7] ALSA: usb-audio: Add initial driver for TASCAM
+ US-144MKII
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <87v7mtyrcy.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:13ZwNEUV283A707QLweo6J82j8VrTu4VvtucraZjcQgBlnERs9S
+ 7TykcEbuyHJzfLz5xYafuSK6YYk6YpfEf4kk+2J+JnM2mBIwJvcd+/J8RTLZPa7X+qxLMLj
+ ssdvTTC8GZKqJGyefjjSNW4uMlZwyPS9CtWRr8p8RJcuwdH0zSm6pJSZMSKts7EsR/fD1Fr
+ q3KK7Mxevj2AiX+zo0ndA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NsAXwB+qMSY=;i7NQqALQnUYjxkqqijdx5gwCBuz
+ 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
 
-On Fri, Aug 22, 2025 at 11:49:25AM +0100, Srinivas Kandagatla wrote:
-> Soundwire update_status, bus_config and interrupt callbacks for wcd937x,
-> wcd938x, wcd939x soundwire codecs are exactly identlical, move them to
-> common driver to remove this duplicate code.
-> 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> ---
->  sound/soc/codecs/wcd-common.c  | 46 ++++++++++++++++++++++++++++++++++
->  sound/soc/codecs/wcd-common.h  | 10 ++++++++
->  sound/soc/codecs/wcd937x-sdw.c | 28 +++------------------
->  sound/soc/codecs/wcd938x-sdw.c | 41 +++---------------------------
->  sound/soc/codecs/wcd939x-sdw.c | 42 +++----------------------------
->  5 files changed, 67 insertions(+), 100 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/wcd-common.c b/sound/soc/codecs/wcd-common.c
-> index 0c1ffa015403..2592e8ed2d13 100644
-> --- a/sound/soc/codecs/wcd-common.c
-> +++ b/sound/soc/codecs/wcd-common.c
-> @@ -9,9 +9,14 @@
->  #include <linux/printk.h>
->  #include <linux/component.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/soundwire/sdw.h>
-> +#include <linux/soundwire/sdw_type.h>
-> +#include <linux/regmap.h>
->  
->  #include "wcd-common.h"
->  
-> +#define SWRS_SCP_HOST_CLK_DIV2_CTL_BANK(m) (0xE0 + 0x10 * (m))
-> +
->  int wcd_get_micb_vout_ctl_val(struct device *dev, u32 micb_mv)
->  {
->  	/* min micbias voltage is 1V and maximum is 2.85V */
-> @@ -89,5 +94,46 @@ const struct component_ops wcd_sdw_component_ops = {
->  };
->  EXPORT_SYMBOL_GPL(wcd_sdw_component_ops);
->  
-> +int wcd_update_status(struct sdw_slave *slave, enum sdw_slave_status status)
-> +{
-> +	struct regmap *regmap = dev_get_regmap(&slave->dev, NULL);
-> +
-> +	if (regmap && status == SDW_SLAVE_ATTACHED) {
-> +		/* Write out any cached changes that happened between probe and attach */
-> +		regcache_cache_only(regmap, false);
-> +		return regcache_sync(regmap);
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(wcd_update_status);
-> +
-> +int wcd_bus_config(struct sdw_slave *slave, struct sdw_bus_params *params)
-> +{
-> +	sdw_write(slave, SWRS_SCP_HOST_CLK_DIV2_CTL_BANK(params->next_bank), 0x01);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(wcd_bus_config);
-> +
-> +int wcd_interrupt_callback(struct sdw_slave *slave, struct irq_domain *slave_irq,
-> +		unsigned int wcd_intr_status0, unsigned int wcd_intr_status1,
-> +		unsigned int wcd_intr_status2)
-> +{
-> +	struct regmap *regmap = dev_get_regmap(&slave->dev, NULL);
-> +	u32 sts1, sts2, sts3;
-> +
-> +	do {
-> +		handle_nested_irq(irq_find_mapping(slave_irq, 0));
-> +		regmap_read(regmap, wcd_intr_status0, &sts1);
-> +		regmap_read(regmap, wcd_intr_status1, &sts2);
-> +		regmap_read(regmap, wcd_intr_status2, &sts3);
-> +
-> +	} while (sts1 || sts2 || sts3);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +EXPORT_SYMBOL_GPL(wcd_interrupt_callback);
-> +
->  MODULE_DESCRIPTION("Common Qualcomm WCD Codec helpers driver");
->  MODULE_LICENSE("GPL");
-> diff --git a/sound/soc/codecs/wcd-common.h b/sound/soc/codecs/wcd-common.h
-> index deb78241236b..0cb6365bea4b 100644
-> --- a/sound/soc/codecs/wcd-common.h
-> +++ b/sound/soc/codecs/wcd-common.h
-> @@ -6,11 +6,16 @@
->  #ifndef __WCD_COMMON_H__
->  #define __WCD_COMMON_H___
->  
-> +#include <linux/device.h>
-> +#include <linux/soundwire/sdw.h>
+=E2=80=A6
+> > +	char *handshake_buf __free(kfree);
+>=20
+> For the __free(kfree), you'd always need to initialize the variable to
+> NULL, i.e.
+=E2=80=A6
 
-Just forward-declare structures, there is no need for includes.
+Can another software design option become more attractive?
+May the scope be reduced for such a variable (in the implementation of the=
+ function =E2=80=9Ctascam_probe=E2=80=9D)?
 
-> +
->  #define WCD_MIN_MICBIAS_MV	1000
->  #define WCD_DEF_MICBIAS_MV	1800
->  #define WCD_MAX_MICBIAS_MV	2850
->  #define WCD_MAX_MICBIAS		4
->  
-> +
-> +
-
-Extra empty lines.
-
->  struct wcd_sdw_ch_info {
->  	int port_num;
->  	unsigned int ch_mask;
-> @@ -32,5 +37,10 @@ struct wcd_common {
->  extern const struct component_ops wcd_sdw_component_ops;
->  int wcd_get_micb_vout_ctl_val(struct device *dev, u32 micb_mv);
->  int wcd_dt_parse_micbias_info(struct wcd_common *common);
-> +int wcd_update_status(struct sdw_slave *slave, enum sdw_slave_status status);
-> +int wcd_bus_config(struct sdw_slave *slave, struct sdw_bus_params *params);
-> +int wcd_interrupt_callback(struct sdw_slave *slave, struct irq_domain *slave_irq,
-> +		unsigned int wcd_intr_status0, unsigned int wcd_intr_status1,
-> +		unsigned int wcd_intr_status2);
->  
->  #endif /* __WCD_COMMON_H___  */
-
--- 
-With best wishes
-Dmitry
+Regards,
+Markus
