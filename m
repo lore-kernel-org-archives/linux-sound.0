@@ -1,95 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from rmx-a.mailgw.jp (smx-a.mailgw.jp [210.171.6.215])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFDC22CBD9;
-	Thu, 21 Aug 2025 23:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B0519D065;
+	Fri, 22 Aug 2025 03:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.6.215
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755818046; cv=none; b=VUluXdm2z5yRue6KkbnndbgJhZ/HO41YCS4n0FzXlpwSzQMbjEFgQd1l5RdccqvBL+HzqgiejznJzqshYAV7FccoAQNxtew72c02Bs8PQIJLf4Wi+h0enPzGVFdM0p0wbFMJaCDmMQB6Dh7guBvgZUUfcGSXu370TPUvm/Y+zLY=
+	t=1755833488; cv=none; b=pF47UX1dpuTkx0hdvZvQY6ef3AMB/I8d44GPM4i+mfoSaUKeM6D8re5QdIVVKwAVq6N1Ofg6kz4uuglqw7vfewg7/Rld1nSi7tm3QZkIGgA4HnphASPP0UvdIacCTyRbdjcrYZnf5TclAyfnXL2Avn4teSyygkynUSq82c339UE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755818046; c=relaxed/simple;
-	bh=+Fd4hex0v5A2Jp8km47dNwNpIjquGOCRML4KaiRjcms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BKFp6NMUrWhNtqutHFNFTOmpWwntt34pVu9QJT/Aie4EWmJ8L5nB1Uvd3oQ+dW5pEC7bn/7p3YZUJFsegkssKv4u/AsmrU5/d95Gr7JunmFVruB1eXTbbW/F+iN07KRJT2fSWsz0+frA0PuqA7vh9uZilO6TNx0ujIaQSP0qKVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gcyop3vU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755833488; c=relaxed/simple;
+	bh=22+DhZ9zPwLkwrXQele1XLn9fEYB+MqI0om042EoCWo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MSjPa2XuBupoPKxnM4liGnt2lUBGdpm0tNtDu9lfvmjE+nyFvk+JDeRkn/72diu9xyrzkkyScjUw/v7rTqIn1q8lt35Z6wQ98hRZvwfLYeamYN5R3xJU6YyRb7J9wMiTLRMeHEwiLgK8mbYZXXIfA+KYef5TDGRr7Wm/JZj3GVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bcc.bai.ne.jp; spf=pass smtp.mailfrom=bcc.bai.ne.jp; dkim=pass (2048-bit key) header.d=bcc.bai.ne.jp header.i=@bcc.bai.ne.jp header.b=bDbcWxBy; arc=none smtp.client-ip=210.171.6.215
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bcc.bai.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bcc.bai.ne.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gcyop3vU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42098C4CEEB;
-	Thu, 21 Aug 2025 23:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755818044;
-	bh=+Fd4hex0v5A2Jp8km47dNwNpIjquGOCRML4KaiRjcms=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gcyop3vUYz9QId350sMm0ZlAUM2Bs/MFkuVigXbACaCwMIscE82rjkJmclwZ0OkvQ
-	 bOTU/I3kifjCxleGmqbZEQxHjyNIF1GRjQY5/zSGLuB/8459vQRKQYpJlGA1fTs6LF
-	 y3Nt5aiPalMRTrm/bYoTTDoS6TKqitHu0KJSzewzovbxnYmJoCY1fpr3ODez2n9qK9
-	 rJQU3eiCzzMUUb2Kk5yNfa8bobj7fyq9xE2Y/X9UpqxbVGlgthCwonDc3eHlTb15Di
-	 HYJpmhPFf82UxxJOSZq8s8SaYXvTpv5SZr83tGJT72HfwHijEkDC5RMhNQBAdzEaJo
-	 HTOiVeP0egqHA==
-Date: Fri, 22 Aug 2025 00:14:00 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Nikola Z. Ivanov" <zlatistiv@gmail.com>
-Cc: perex@perex.cz, tiwai@suse.com, shuah@kernel.org,
-	linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] selftests/alsa: remove 0/NULL global variable assignment
-Message-ID: <5e9d15e2-d77f-4540-8528-0a7c60d7f92f@sirena.org.uk>
-References: <20250821200132.1218850-1-zlatistiv@gmail.com>
- <9c310ab7-0f0b-412f-8df7-71730a2d2caa@sirena.org.uk>
- <CAHjv_as7m7UbSLAPU6hX_=tAvLZYR_7Q=1n+Xq-nW-6OJ237PA@mail.gmail.com>
- <f7ff446f-2a9e-49dc-af7a-6e4c76803471@sirena.org.uk>
- <uzfke2ry3rhdirqpdb2bdjkoemj4rgtfwsio7yf5la7p3p2ait@6umacnfdeto2>
+	dkim=pass (2048-bit key) header.d=bcc.bai.ne.jp header.i=@bcc.bai.ne.jp header.b="bDbcWxBy"
+Received: from bccml.bai.ne.jp (bccml-a.bai.ne.jp [210.171.3.161])
+	by rmx-a.mailgw.jp  with ESMTP id 57M3KnEh030847-57M3KnEi030847;
+	Fri, 22 Aug 2025 12:20:49 +0900
+Received: from [192.168.11.11] (bai859bcd79.bai.ne.jp [133.155.205.121])
+	by bccml.bai.ne.jp (Postfix) with ESMTPA id 1624B8192A;
+	Fri, 22 Aug 2025 12:20:49 +0900 (JST)
+Message-ID: <d0d7fc7f-d3f5-4375-abc4-c194c5b78c03@bcc.bai.ne.jp>
+Date: Fri, 22 Aug 2025 12:20:48 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fpvv84RzATYdGRRa"
-Content-Disposition: inline
-In-Reply-To: <uzfke2ry3rhdirqpdb2bdjkoemj4rgtfwsio7yf5la7p3p2ait@6umacnfdeto2>
-X-Cookie: Warp 7 -- It's a law we can live with.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: dts: rockchip: Enables sound output from the audio
+ jack on OrangePI5 Plus
+To: Jimmy Hon <honyuenkwun@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20250821041555.4781-2-opi5plus@bcc.bai.ne.jp>
+ <CALWfF7+rGDxtKDqYyazeh+8bndkyBb8LKe_gMq_EbNycD4mw3w@mail.gmail.com>
+Content-Language: en-US
+From: Hide Hako <opi5plus@bcc.bai.ne.jp>
+In-Reply-To: <CALWfF7+rGDxtKDqYyazeh+8bndkyBb8LKe_gMq_EbNycD4mw3w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-FE-Last-Public-Client-IP: 210.171.3.161
+X-FE-Policy-ID: 3:1:2:SYSTEM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=bcc.bai.ne.jp; s=20240516; c=relaxed/relaxed;
+ h=message-id:date:mime-version:subject:to:cc:references:from:content-type;
+ bh=p9uP8cxjGLNlDC8IEuVAZKUw+9vO9WrsgXPNx2Qu4J8=;
+ b=bDbcWxBygFWyIUYXw912ssQ4jaYb80gXSXk3Hl+LEmN4HH1ZKhOKkhJUOaDtc07a7wukwvTKE13P
+	6oZOXVXfIa4E+/1Zm6IihOKSGAEagfxDQdU3xAZ3+zLxeYSeeVS97JCMO1vYUhPazKP8l+nVkj3V
+	7JRo8lTgW7yUjmgFrjqMUjOXBBaRko9DCSF0iqHoGf3Qa+zFEiQSCInR//d43cfWLFi3jDOYzWwJ
+	XRZjCELFZgbA46rJ7BraTB5ez6ylspMIGWypXImNQ/17Cb04VzIqeGNZlxcSWfTWPJfWFyCZNQsu
+	i9T/X26iZp9erO2/qNx0hmYC/3GbrypfEcMiiA==
 
 
---fpvv84RzATYdGRRa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Fri, Aug 22, 2025 at 01:57:05AM +0300, Nikola Z. Ivanov wrote:
-> On Thu, Aug 21, 2025 at 10:30:50PM +0100, Mark Brown wrote:
+On 2025/08/22 1:49, Jimmy Hon wrote:
+> Note: the subject lost the "a" in arm64
+Sorry, typo.
+>
+> On Wed, Aug 20, 2025, 23:19 Hide Hako <opi5plus@bcc.bai.ne.jp> wrote:
+>
+>> Currently, analog sound is not output from the audio jack.
+>> This patch allows you to select analog headphones in alsamixer.
+>> Works with kernel 6.16.1, but not 6.17.
+>>
+>> Signed-off-by: Hide Hako <opi5plus@bcc.bai.ne.jp>
+>> ---
+>>   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi
+>> b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi
+>> index 91d56c34a..656aac2df 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi
+>> +++ b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi
+>> @@ -113,6 +113,7 @@ analog_sound: sound {
+>>                  simple-audio-card,mclk-fs = <256>;
+>>                  simple-audio-card,bitclock-master = <&daicpu>;
+>>                  simple-audio-card,frame-master = <&daicpu>;
+>> +               simple-audio-card,pin-switches = "Headphones";
+>>
+> For the Plus, it has Speaker and Headphones.
+> For the Max and Ultra, they only have Headphones.
+For boards with an audio jack, the statement 
+"simple-audio-card,pin-switches = "Headphones";" is probably required.
+Without this statement, the "Headphones" item will not appear in alsamixer.
+> So this property should be defined in the -plus.dts and the -compact.dtsi
+> instead of this file which is common to all.
+  This patch was created with reference to rk3588s-orangepi-5.dtsi.
 
-> > Do you have a reference there, note that these are just plain non-static
-> > variables?  I wouldn't trust checkpatch for anything that isn't kernel
-> > code (and even there it's got issues).
+Hide
 
-> This is what it says in the C99/C11/C18/C23 drafts I found:
-
-...
-
-> Since as you said checkpatch.pl is mostly intended for kernel code
-> (which I was not aware of) this patch is probably not desired.
-> In case it still is I can add quote to the draft and link it in the patch.
-
-No, it's fine - thanks for checking the reference.  I suspected this
-might be something specific to how the kernel is linked:
-
-Reviewed-by: Mark Brown <broonie@kernel.org>
-
---fpvv84RzATYdGRRa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAminqDcACgkQJNaLcl1U
-h9BdCgf/TfI3HsI809BC+afmSmWtLf0s3lTuAF0GOKUDNAB5r8rYhxWVTiYOiiDQ
-Wbr6b2ESocsiL6w7ZwqMsO3y80XRxU/FNTIWZuJlQV4J6eLnFoj3XQPE1LBAW/3z
-Xo+vmTVeIf3UZ81+f1tr8feL/m4Nno2sdWEY5Cg1OA9ToX9i/clLFRME4GsV+CpV
-E9OMqsbcRq44Q+o/bgf17RyVFj5wxnS/Rxj4hdxka14xPXMFpwwEYh7F+H7aNsne
-eCM16uieEqa5hQeyf26ZB1pHT7K+17s9/2A3wJ7j1/Zv5jevH479yW1eKnFiTf/Y
-PtxUT5D2fDcvbh2Mc65o+aMnhFA3hg==
-=Uoem
------END PGP SIGNATURE-----
-
---fpvv84RzATYdGRRa--
