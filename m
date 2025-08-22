@@ -1,46 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32832877CA;
-	Fri, 22 Aug 2025 20:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E72273D8D;
+	Fri, 22 Aug 2025 20:40:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755894018; cv=none; b=aXErY0OPag3ncOXbzA9adXI0PXJ8u4vLWdK14K6lyzUw2E+vgBtzPfohNXbEECucka+wPWAqe+1ods/gFAvhuHEV9/ZwxmNlP6lvDbgMLTn1Ul0LYsmpsDpJjWTdjrsB2vJFeCA5R3OlGkRJm78XBZg26U2u7QSXSEqWvCBdkX8=
+	t=1755895228; cv=none; b=NCmyCDnnxd+Y0JhGMOaxTsXLKT3L6r1vQ9yvMYURmX/469yQhBg7PF23HgpijLld+SbIP+rxNeKKO3Ul6pHtwzq8QkPkcRM/2M2cUM47xClKvJ0yzTz0icKwNW3M1Oj6oiArzQgL+BXOHIZZ2bJMkBBWmIUT1bX7kscnakf8LHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755894018; c=relaxed/simple;
-	bh=tdtNSs8Kpu/sExAf4TXBpIT5C7B1P4VkLkgrDCZvGXY=;
+	s=arc-20240116; t=1755895228; c=relaxed/simple;
+	bh=cQaigDBTxzr1UzSEKTyGQ6sShaL7mmiAEnUOGpm19DU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HXv5THMj+L50p2ZuUFyljeCNDUrRH/D/o8aYvbUmEy5rED4NLwtEq37bZDUMMQacBqgon9XFoMu9PQPJT0PA1Jj1cOKzPHWZew59yTb/TCFtdj64MxfGreCktgcgxdg9+ze48PP7lDGOOI40DyRigqyk8bS2JgkUQHJu/KFv7sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzO9EgdR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MeW3pFmOC0l/mAli5hBRZgi/ssPCEH/SSSXcqnbbKHfPXvGVLn3pxJ9iuDiAWwy7kWFpCCdQFCqooR/HTMKnZz4/czj749FBjgNOLiAiHb032XHh+p6oXV7AO+xyoLBhKLxycLCVtSvVkpsJFHLaOi9u54zzcZX1qqIzvGxx8RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5KQQ1ia; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzO9EgdR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 465F5C4CEED;
-	Fri, 22 Aug 2025 20:20:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5KQQ1ia"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF79C4CEED;
+	Fri, 22 Aug 2025 20:40:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755894017;
-	bh=tdtNSs8Kpu/sExAf4TXBpIT5C7B1P4VkLkgrDCZvGXY=;
+	s=k20201202; t=1755895228;
+	bh=cQaigDBTxzr1UzSEKTyGQ6sShaL7mmiAEnUOGpm19DU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lzO9EgdR7yAAuw4MAy6NAMcNJzNOxchSLb3UDks+Vx5t7khko1bBwoZ/Hmcha3ssz
-	 k79MgQNMwMESniJJjNMVsXab1fagt/Zhnujwgfprcjsbz9vFPTX5GQRCKq2IpNRXap
-	 qw5mPkeerbyapNE6B1EGb+o/IOJQJYILe4/RYgB15qVc9u72TV/X5C4xf6dZ1b6ZL3
-	 3it0/Qlz2keHGvwb8gfbXrsHyuAkZViFeamL0PN9tAZqAqk9C383YnnfwhfeI992KG
-	 sBg8dhwAUePwlIhTc1eid85HyubEsiiz7yNyDZKt6Ur/KW5Fayyr7DcaP8NluVVLld
-	 tNg2tK94rkk5g==
-Date: Fri, 22 Aug 2025 15:20:16 -0500
+	b=Q5KQQ1ia/LPE0jWIdLX92S6hU598Aa9oRK7q68PJvX9I1fP/wu2jVpxXUu4ZcRWWh
+	 2TfX6N8DyNb10amwbNWFA89/+lM2wvkQBHmBTik/BEEjHPWC89iPGf1jrn5rclz1fe
+	 wK04qZwSD+dVz269iAxvyxHAo3q2QlGOaPlxj2K0dXqlH5ssipaSd9MphPUHImfv/h
+	 wYEz0UMcT/FekQnw959WOP+qoCbpI8+JNc7ficN2QdOaD2Klz2HXJf3uIhOLMZqlwA
+	 PmsO23d3FLfEGROqaXKZp6Fu18+lGDNCv1rzjKbVQ/7OzPzkDeuueIY5lZZ9wjDiWA
+	 EQ61a7HDJl4ZQ==
+Date: Fri, 22 Aug 2025 15:40:27 -0500
 From: Rob Herring <robh@kernel.org>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: broonie@kernel.org, tiwai@suse.de, andriy.shevchenko@linux.intel.com,
-	13916275206@139.com, alsa-devel@alsa-project.org,
-	shenghao-ding@ti.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
-	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
-	k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, jesse-ji@ti.com,
-	will-wang@ti.com
-Subject: Re: [PATCH v2 2/2] ASoC: tas2781: Add tas2118, tas2x20, tas5825
- support
-Message-ID: <20250822202016.GA297320-robh@kernel.org>
-References: <20250822051410.1732-1-baojun.xu@ti.com>
- <20250822051410.1732-2-baojun.xu@ti.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Michael Walle <mwalle@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jean Delvare <jdelvare@suse.com>,
+	Thomas Gleixner <tglx@linutronix.de>, Lee Jones <lee@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Cheng-Yi Chiang <cychiang@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Tinghan Shen <tinghan.shen@mediatek.com>,
+	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	Mathew McBride <matt@traverse.com.au>
+Subject: Re: [PATCH v2] dt-bindings: mfd: Move embedded controllers to own
+ directory
+Message-ID: <20250822204027.GA319356-robh@kernel.org>
+References: <20250822075712.27314-2-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,156 +71,52 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250822051410.1732-2-baojun.xu@ti.com>
+In-Reply-To: <20250822075712.27314-2-krzysztof.kozlowski@linaro.org>
 
-On Fri, Aug 22, 2025 at 01:14:09PM +0800, Baojun Xu wrote:
-> Update ti,tas2781.yaml for added tas2118, tas2x20, tas5825.
+On Fri, Aug 22, 2025 at 09:57:13AM +0200, Krzysztof Kozlowski wrote:
+> Move ChromeOS Embedded Controller, Gateworks System Controller and
+> Kontron sl28cpld Board Management Controller to new subdirectory
+> "embedded-controller" matching their purpose.  MFD is coming from Linux
+> and does not really fit the actual purpose of this hardware.
 > 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+> Rename Gateworks GSC filename to match compatible, as preferred for
+> bindings.
 > 
+> Acked-by: Michael Walle <mwalle@kernel.org> # for sl28cpld
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
-> v2:
->  - Update the mail list for maintainers of yaml file
+> 
+> Cc: Mathew McBride <matt@traverse.com.au>
+> 
+> Lee,
+> Can you take it via MFD?
+> 
+> Changes in v2:
+> 1. Correct remaining paths in other schemas ($ref and descriptions)
 > ---
->  .../devicetree/bindings/sound/ti,tas2781.yaml | 73 ++++++++++++++++++-
->  1 file changed, 72 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-> index 5ea1cdc593b5..fb57b63a00a2 100644
-> --- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-> +++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
-> @@ -1,5 +1,5 @@
->  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> -# Copyright (C) 2022 - 2023 Texas Instruments Incorporated
-> +# Copyright (C) 2022 - 2025 Texas Instruments Incorporated
->  %YAML 1.2
->  ---
->  $id: http://devicetree.org/schemas/sound/ti,tas2781.yaml#
-> @@ -11,30 +11,62 @@ maintainers:
->    - Shenghao Ding <shenghao-ding@ti.com>
->  
->  description: |
-> +  The TAS2118/TAS2X20 is mono, digital input Class-D audio amplifier
-> +  optimized for efficiently driving high peak power into small loudspeakers.
-> +  Integrated speaker voltage and current sense provides for
-> +  real time monitoring of loudspeaker behavior.
->    The TAS2563/TAS2781 is a mono, digital input Class-D audio
->    amplifier optimized for efficiently driving high peak power into
->    small loudspeakers. An integrated on-chip DSP supports Texas
->    Instruments Smart Amp speaker protection algorithm. The
->    integrated speaker voltage and current sense provides for real time
->    monitoring of loudspeaker behavior.
-> +  The TAS5825 is a stereo, digital input Class-D audio
-> +  amplifier optimized for efficiently driving high peak power into
-> +  small loudspeakers. An integrated on-chip DSP supports Texas
-> +  Instruments Smart Amp speaker protection algorithm. The
-> +  integrated speaker voltage and current sense provides for real time
-> +  monitoring of loudspeaker behavior.
->  
->    Specifications about the audio amplifier can be found at:
-> +    https://www.ti.com/lit/gpn/tas2120
-> +    https://www.ti.com/lit/gpn/tas2320
->      https://www.ti.com/lit/gpn/tas2563
->      https://www.ti.com/lit/gpn/tas2781
-> +    https://www.ti.com/lit/gpn/tas5825m
->  
->  properties:
->    compatible:
->      description: |
-> +      ti,tas2020: 3.2-W Mono Digital Input Class-D Speaker Amp with 5.5V PVDD
-> +      Support.
-> +
-> +      ti,tas2118: 5-W Mono Digital Input Class-D Speaker Amp with Integrated
-> +      8.4-V Class-H Boost.
-> +
-> +      ti,tas2120: 8.2-W Mono Digital Input Class-D Speaker Amp with
-> +      Integrated 14.75V Class-H Boost.
-> +
-> +      ti,tas2320: 15-W Mono Digital Input Class-D Speaker Amp with 15V Support.
-> +
->        ti,tas2563: 6.1-W Boosted Class-D Audio Amplifier With Integrated
->        DSP and IV Sense, 16/20/24/32bit stereo I2S or multichannel TDM.
->  
->        ti,tas2781: 24-V Class-D Amplifier with Real Time Integrated Speaker
->        Protection and Audio Processing, 16/20/24/32bit stereo I2S or
->        multichannel TDM.
-> +
-> +      ti,tas5825: 38-W Stereo, Inductor-Less, Digital Input, Closed-Loop 4.5V
-> +      to 26.4V Class-D Audio Amplifier with 192-kHz Extended Audio Processing.
->      oneOf:
->        - items:
->            - enum:
-> +              - ti,tas2020
-> +              - ti,tas2118
-> +              - ti,tas2120
-> +              - ti,tas2320
->                - ti,tas2563
-> +              - ti,tas5825
->            - const: ti,tas2781
->        - enum:
->            - ti,tas2781
-> @@ -61,6 +93,27 @@ required:
->  
->  allOf:
->    - $ref: dai-common.yaml#
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - ti,tas2020
-> +              - ti,tas2118
-> +              - ti,tas2120
-> +              - ti,tas2320
-> +    then:
-> +      properties:
-> +        reg:
-> +          description:
-> +            I2C address, in multiple-AMP case, all the i2c address
-> +            aggregate as one Audio Device to support multiple audio slots.
-> +          maxItems: 4
-> +          minItems: 1
+>  .../bindings/{mfd => embedded-controller}/google,cros-ec.yaml | 2 +-
+>  .../gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml}    | 2 +-
+>  .../{mfd => embedded-controller}/kontron,sl28cpld.yaml        | 2 +-
+>  .../devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml       | 2 +-
+>  .../devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml     | 2 +-
+>  .../bindings/interrupt-controller/kontron,sl28cpld-intc.yaml  | 2 +-
+>  Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml | 2 +-
+>  .../devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml         | 2 +-
+>  Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml     | 4 ++--
+>  .../devicetree/bindings/sound/google,cros-ec-codec.yaml       | 2 +-
+>  .../devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml    | 2 +-
+>  MAINTAINERS                                                   | 4 ++--
+>  12 files changed, 14 insertions(+), 14 deletions(-)
+>  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/google,cros-ec.yaml (99%)
+>  rename Documentation/devicetree/bindings/{mfd/gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml} (98%)
+>  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/kontron,sl28cpld.yaml (97%)
 
-1 is already the min items, so drop.
+Who's the maintainer for the 'embedded-controller' directory? Fine if 
+me, just need to know.
 
-> +          items:
-> +            minimum: 0x48
-> +            maximum: 0x4b
-> +
->    - if:
->        properties:
->          compatible:
-> @@ -97,6 +150,24 @@ allOf:
->              minimum: 0x38
->              maximum: 0x3f
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - ti,tas5825
-> +    then:
-> +      properties:
-> +        reg:
-> +          description:
-> +            I2C address, in multiple-AMP case, all the i2c address
-> +            aggregate as one Audio Device to support multiple audio slots.
+Other candidates:
+Documentation/devicetree/bindings/platform/*
+Documentation/devicetree/bindings/misc/olpc,xo1.75-ec.yaml
+Documentation/devicetree/bindings/misc/ge-achc.yaml ?
 
-You've duplicated this. Does it belong at the top level 'reg'?
-
-> +          maxItems: 4
-> +          minItems: 1
-
-Same here.
-
-> +          items:
-> +            minimum: 0x4c
-> +            maximum: 0x4f
-> +
->  additionalProperties: false
->  
->  examples:
-> -- 
-> 2.43.0
-> 
+Rob
