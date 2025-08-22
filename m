@@ -1,224 +1,197 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01BE2F4A10
-	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 10:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561242DCF47
+	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 11:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755860120; cv=none; b=uPPvKAl1LkrxV1ENaTgGs4rEBZ2NcWbo23GPF8UtMAG93HCC+f9qU5zfsS9vGp6DLm6CNN4rvcvm24f2tHCNcZW95O92przyy6JFJz5miv6f9HY8waIVMpgoDzUnvIPyyC4fv89cN8OBzjopJ+7ukux7nJDF3pnWEZK7C/uW6+0=
+	t=1755861543; cv=none; b=NBbCe3hQQlajEiQwXpM6mhjXbGX8e5MR0pm2xWQN9SYuif6fnVQclUhMSjBumHWThlq6dgxbhXwJn0hNdrRRNSTfUY0sBZrt8EJwhVUFZ8T271boC1SfxaDSY2CKB7aZfG81pmt4jbzLs7CxiKWbRIBLjG0BXazwWG8FHXuL4QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755860120; c=relaxed/simple;
-	bh=XbuOpXqYiunKbSbSNp+OTWaA/M6GReq0/U3LNHNvyJw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=XN3zWhj6BZ8rEOqLuDaUPq3mLe9s0XhBfAIzmz2vDUMAwlbEbHboFFWET8UdD2DmyZ7oih8uxgvOBSeVm2km2O9+LsQ0RpkBXhz1luMBts93f55L4qNBhYpay8v37KleMQBJJuD2jZ9hLoCUbj12pryOWahTw9lyVxLSyTqpphw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fv0G3qhu; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1755861543; c=relaxed/simple;
+	bh=gjW1E5jQcjS0ncKnacHLHtjFpc2y4txxw5PnY5/3YBY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YYjaDokSY8zMZK+99X1kir7NfqzcaJNrZtvePkqNex5y2F46ZMcNbogjAkSnJPCWGbKh3L9iD6H4S74gS1mceH1eIFXAcMPgdOokI1KGZjiU920xAOeHvZNnEa5pVvvIa3te0X141ImZVguPlXNDuL73BCLpGt3B7lUyl48WWqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ht77CVcn; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fv0G3qhu"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57M8UROA020955
-	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 10:55:18 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ht77CVcn"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57M8UM9E030532
+	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 11:19:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	DuF30ydN2ZQeTy/GA6e65bX7Ud15XFT+k/NW2dRJT08=; b=fv0G3qhuMi+JwZjZ
-	fDd/WJHvc+3p7aAa1iuCx1JfoEqbnvusj/teXgfsAahoEdrT6TEX5f0Mw0KMFWZy
-	uv4EEt5ZMrsdXCSi0A+SvOBtx9Fyevvt4aDKm2arJ+/r4pgzYSEEaKPWOxnP+6si
-	DPuWrFcGSSf3pY5AXy44MfZiSruyPT2TKHfA8lEbGiTbXwGlYg2p45/QDMkmIvuJ
-	PeeXhv3ywBWxdQY5HTkamYtgrowWRWE63xMe1AkAl8DseHkGj+qG2Du82pWxked7
-	XajWyqvYQAUO8JGWc78y0oa4w1hn2Vir2FvMo0t13f/dLVnAvjoVWfZ7lqS10NU9
-	xbTQtQ==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n5290ya5-1
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=o6io8yY3zdT7abjrvvZnuU/W
+	RzBlcjmfD4PXDAPO+bg=; b=Ht77CVcnLOWR25Y7V3rpkqLm6uzPZ7CC/RY+zKcA
+	FLDH4uSFYPAzYSb1WwdychsdrmKTdjTo7xw5O30BpABVZeaNvzbkr42b0eEcA9vW
+	Htp47sv33hyFfMIaXGzeWE7/i1AzkWVR/Hl7HlqGAJTBZ2Wr/4qcR0rmDstcAFHj
+	GFx7mxf0zJ4emhsXdiGMtEKUf97GP/0A3JqzQCnG6uzdNcGcpAggkA3HCMM7k2F9
+	uRv9sguJaC9GMofpUSaBoiP57jieekONlCWeI9OcoGkv4BuazOh66hHvWfk/Fb76
+	JRicQIYO5mEQiIukTZCz8aiH6erb9uvJSJz+iNiHbzh92w==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ngtdpube-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 10:55:17 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-70d93f579ceso24123576d6.1
-        for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 03:55:17 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 11:19:01 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4b2b3cd4d00so6773741cf.3
+        for <linux-sound@vger.kernel.org>; Fri, 22 Aug 2025 04:19:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755860117; x=1756464917;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DuF30ydN2ZQeTy/GA6e65bX7Ud15XFT+k/NW2dRJT08=;
-        b=izmATM1OrG55+jZ+l2GQ+DqPxzVlQy1+b2u2wLd4ZRPCTgmddQuP2bdMffnvPotqo3
-         8hgBu2m34Z8/zGGgTiryPPbeumIqVdoxMIeJOUUsWMcuDr5KDphSALD42oDCj+YValQF
-         IuQNqJMXSLFwuFr0LIQb+klNn7YCZRSZ1qglcvelU+gfhI1unFaKruvo0X9l/qtVFAz/
-         54jEQUPGGY90lLPzs+skW2uE1mkhdp3X4aDAehi+yljk58IPlaJofRZC0uT2L3OXWLGK
-         wycQ9AsO3+icmkJMkh7F1PXwhW31tk1xkCc3eJaMW4QYfhZPkcnOmr+QoZXyjPVHn58t
-         2AUw==
-X-Forwarded-Encrypted: i=1; AJvYcCXFDyK1j+Yn7VzevUYkvJaBGx4WLYIS+SXgEkcLEodmOoW93yEj3zjwpRbYYuGkjCtXP6gXSRzNPUHjmQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXT4esGnclnnUGIvs2O7NTyCvYZILv4dZxRELyFcYlPMOW1Vx4
-	v9pzGsSzSQ7HOnvmCyhYYlISt5E22dbqPYDg62tx+45TV9hGeKsVLU9gyRyoCrMrDnH7pnHM1vp
-	f62d23x7+ejl0ZWZAHHIzp+cKTWqLMye8IqMTRfmXTEgsl7v2zb9OOd/kLyBHzWkwXRppmqnASg
-	==
-X-Gm-Gg: ASbGncv41ehvFWHTqLvGaVXmWEfl0/LgamLjK7eS+y4PG0XW0Bvnypr1qkaAeF5Ttu9
-	EJ7mNbnOxTRLfpfXk6erp/l8fZkG6k4FhpzauyzB7h2U+qLVN1pBCJbHqtIrKcAjBkkhg3SEh9c
-	FWDuvdEZfYuN+EvX7icPYNnRHMf+RkC+Tz1dLy6uuxyl8VPvlJtkmf22giCdRu9ttdCM/dIEN1T
-	9UxwCRkLaW6vD9CQKADY6k0uv0U2gt/Q86UYNDw8DqEIVjndBCFBMb89X5j5pC2zAPJ3jliHq81
-	qf4ShArn79k31OUU03pFmE1e0QJ32qAliCQ6/56BeETchcD0EwQiO0dWsD9ynYiOso0=
-X-Received: by 2002:a05:6214:1c86:b0:70d:6de2:50ba with SMTP id 6a1803df08f44-70d9733f326mr29342166d6.55.1755860116916;
-        Fri, 22 Aug 2025 03:55:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG5yaFihF5akudpDZ3q6UIvfl9qSPo9Ne7xAKkzui1FD6I2i7DxTmdLR4xBlr/nHdiY7Lf+kA==
-X-Received: by 2002:a05:6214:1c86:b0:70d:6de2:50ba with SMTP id 6a1803df08f44-70d9733f326mr29341916d6.55.1755860116255;
-        Fri, 22 Aug 2025 03:55:16 -0700 (PDT)
-Received: from [192.168.68.118] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-45b50e1852asm32076825e9.25.2025.08.22.03.55.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Aug 2025 03:55:15 -0700 (PDT)
-Message-ID: <6a4a601b-937e-441f-80a7-3f733fc86445@oss.qualcomm.com>
-Date: Fri, 22 Aug 2025 11:55:15 +0100
+        d=1e100.net; s=20230601; t=1755861540; x=1756466340;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o6io8yY3zdT7abjrvvZnuU/WRzBlcjmfD4PXDAPO+bg=;
+        b=izLN1KovkaUbS6TiXPnpsVXH3kRvwsSjADcNjnoCCFxoPEVm5WI8FeoTtGeY1eZv6H
+         VbGhISuWOhkupFPM2zBtbUUNHU1uX+dB8LGQZnGPX6aXOJz+pTcKS1Gk4ws+M++WG06v
+         aUusNbAgZTLNUVUsuFQr4WSv7XRkUm0QElSv4QK7K64tnlsIEIWdssToGXngcKJAiIqp
+         qynIb5+r0C5YnjfVX5BRgM+xS+SplooV3u0I8uHW6r2BUpzfqRMvKB35T9yfniuo3No2
+         u1w8uDctcOtAN98QfvzoBUvd2g4mTMpBkrwzqYujwcZ18/M4CpfDTG2zLXFQ8hS3OKN+
+         KpJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXl+H/1Tk35mx1EtLCTnuSX6VL7GPt0SeSNefuznJr4co+JZ/rWbfniGRVBF5pkvHozgc2COXq551HAfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvJT+50FtheIbLKVV6negVgiC/fqTPCG72sf2wDL4PzSdfRcXz
+	F5T4pjACAXYJ7W99nC6s1hxtyZeGfGgdZITN6Vwr7AqdEwS9vvfrVg5eO73nv8xG26KWeicJd0Y
+	BhQofmLHbmi/m0aZX2FgH5FCBywfTzYWZTCvHkAzVf6S0Egs53T+Ic52PVsO4zJen2Q==
+X-Gm-Gg: ASbGncvGO+jzVoeHJCAxq9emcnKVylrVkWxEflEoCETvG88ecMMnXV4Ore0dzbKg/V9
+	jdRt66l2BcNlg69gsGiLE+UnccYvnYimwMdzJK0douXIA9hb10gJ3ccLDomTXiGzxvzo+TyujJk
+	fpIcjCZtHLEY2aaXTfyDUqFgDqxSbK2qPB2AILacGHjxIskTBOtu1CpeJneqESX/y0seI+fhGMA
+	V9KXGya58IpBEnihykNaZ+PokARtTlq+2y9WsOENoV/q/N8usSqMS+mE7RYpOpiCagGNp8DPihX
+	oK+6HeuhqyJAdBwnZTfz8CgNENwd6OvbzYcBlvEvXEeMErAPj175/OKLUkNfefLgykcOaKFrdE4
+	oCZWdOdLLw7Lhxnq+nEPQj0Tn8KzNQoZUD1XzhwYRb8ZfC9KvcDWp
+X-Received: by 2002:a05:622a:343:b0:4b0:7021:50f with SMTP id d75a77b69052e-4b2aaa824cfmr28024821cf.33.1755861539893;
+        Fri, 22 Aug 2025 04:18:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEk4ooQUwy4SsDbqUvmLri6Kkkne1Ak40MgYMIctMWFEgd8h7TTpELQ+1FzhQRj2zoHeDaDDg==
+X-Received: by 2002:a05:622a:343:b0:4b0:7021:50f with SMTP id d75a77b69052e-4b2aaa824cfmr28024571cf.33.1755861539332;
+        Fri, 22 Aug 2025 04:18:59 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cef368d34sm3442811e87.58.2025.08.22.04.18.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Aug 2025 04:18:58 -0700 (PDT)
+Date: Fri, 22 Aug 2025 14:18:56 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com, srini@kernel.org,
+        lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        krzysztof.kozlowski@linaro.org, neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 2/8] ASoC: codecs: wcd: add common helper for wcd
+ codecs
+Message-ID: <kmm4e5bg7uehmlsgrfhzo4agr6ga6d5gxtpxq5sg4t3wql5p6m@llwyz4kzsj7y>
+References: <20250822104927.2621866-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20250822104927.2621866-3-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: qcom: audioreach: Add support for VI Sense
- module
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20250821141625.131990-3-krzysztof.kozlowski@linaro.org>
- <20250821141625.131990-4-krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20250821141625.131990-4-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=I4c8hNgg c=1 sm=1 tr=0 ts=68a84c95 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8 a=zgq_qGFzbcYR-VCCdk8A:9
- a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: 5yVde745eiia4SdgC7AM_ZwJE8n9FtP6
-X-Proofpoint-ORIG-GUID: 5yVde745eiia4SdgC7AM_ZwJE8n9FtP6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfXzTNLu7mGm+I9
- Ox+uxqvlcd4iF4vi+7JXToSrDLXi7d+HIfT5m4JlmunWQuojkdacIWBaTk9pCkCVuu175DN2pbB
- V2l/44n9uwppMTq7KfCKQOq24MPitOGhYG88C0OgjzsiDhugZDlTSYMoW96fEBFjzFxDHZEvzs2
- 4wRu0QwmVSFDqpLc2Cmap2kQHzTDS94/91dOyhWnOQ5FX07Glmu2EWQtbkd57M35JZBM9JOYfJ2
- uQOug9QrX/HHWLQ3QFl3PHxOsY1uFtZUUjpNngVQ57gSvmiXxWYdjuzgKYfwLnij6WDaNGhexrw
- CbG42+TCICxg2yTcb/bIHPqA87GOWHMczfQq/qGbQj4dbYD+kGGHUHh3gmkd1V0Bu35+JOKEaxq
- ctyXcmoj3KVKov74ETXSJRQ1VILjPw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250822104927.2621866-3-srinivas.kandagatla@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=LexlKjfi c=1 sm=1 tr=0 ts=68a85225 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=c23LMRYEHR_IeyHnjawA:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-GUID: 00mvLEGbYMgw5ESsd5EDk4MHcEm6Udti
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDEzNSBTYWx0ZWRfX75CwiXs5JuB7
+ hCpLTAjsyDK9bkra6ryIq9B6Avc54neA/iAY3vBt9EsfHh4m0EFMd2IQVTXOOi2tpfquw+dnwoL
+ zMQwUS/FkdF7xE28HPo0xbRE+30/plQVfFD0V0mr+yMNS2/aFUuRaV/7/UExye7y7/L7+D6/MDT
+ ZbXoQ4E+uELA38jpPed13JmVz2+/XTWlxm17wpzMR5eaXopuBNBp2vbcv/fRYQxVUyUMoI9hWgh
+ 4oiknF9OiLfAy/jrqpWcxXFinD/zIX/vdD6oK/rudGX6B6hHblwLWWlZTQOhFtUbxH0hIdfLTRf
+ xpf+6xzQEG7v0Wd3UQMvA2ZGHY3dlncKSA8ttmsd7KYQHGnRnmYIatTPT1TYtXYG5WSk4sPR5B1
+ n3yyy7jB22vKLkUx+R0Fuwt9RJzTSA==
+X-Proofpoint-ORIG-GUID: 00mvLEGbYMgw5ESsd5EDk4MHcEm6Udti
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_03,2025-08-20_03,2025-03-28_01
+ definitions=2025-08-22_04,2025-08-20_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 malwarescore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 impostorscore=0 bulkscore=0 suspectscore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+ reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200135
 
+On Fri, Aug 22, 2025 at 11:49:21AM +0100, Srinivas Kandagatla wrote:
+> All the Qualcomm WCD codecs have most of its code duplicated across all
+> these 3/4 drivers. This patch is an attempt to remove those duplicate
 
+See Documentation/process/submitting-patches.rst, "This patch"
 
-On 8/21/25 3:16 PM, Krzysztof Kozlowski wrote:
-> VI Sense module in ADSP is responsible for feedback loop for measuring
-> current and voltage of amplifiers, necessary for proper calibration of
-> Speaker Protection algorightms.  Implement parsing
-> MODULE_ID_SPEAKER_PROTECTION_VI from Audioreach topology and sending it
-> as command to the ADSP.
+> parts by adding a common helper library for these codecs.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> To start with move all the micbias parsing and voltage settings these
+> are identical in WCD934x, WCD937x, WCD938x and WCD939x codec driver.
+> 
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 > ---
->  sound/soc/qcom/qdsp6/audioreach.c | 112 ++++++++++++++++++++++++++++++
->  sound/soc/qcom/qdsp6/audioreach.h |  27 +++++++
->  2 files changed, 139 insertions(+)
+>  sound/soc/codecs/Kconfig      |  8 ++++
+>  sound/soc/codecs/Makefile     |  2 +
+>  sound/soc/codecs/wcd-common.c | 66 ++++++++++++++++++++++++++
+>  sound/soc/codecs/wcd-common.h | 24 ++++++++++
+>  sound/soc/codecs/wcd934x.c    | 82 +++++++++-----------------------
+>  sound/soc/codecs/wcd937x.c    | 75 +++++++----------------------
+>  sound/soc/codecs/wcd937x.h    |  6 +--
+>  sound/soc/codecs/wcd938x.c    | 87 +++++++---------------------------
+>  sound/soc/codecs/wcd938x.h    |  1 +
+>  sound/soc/codecs/wcd939x.c    | 89 +++++++----------------------------
+>  sound/soc/codecs/wcd939x.h    |  1 +
+>  11 files changed, 176 insertions(+), 265 deletions(-)
+>  create mode 100644 sound/soc/codecs/wcd-common.c
+>  create mode 100644 sound/soc/codecs/wcd-common.h
 > 
-> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-> index b7f1fc835dc2..f2b7f18e29ae 100644
-> --- a/sound/soc/qcom/qdsp6/audioreach.c
-> +++ b/sound/soc/qcom/qdsp6/audioreach.c
-> @@ -202,6 +202,31 @@ struct apm_display_port_module_intf_cfg {
->  } __packed;
->  }
+> diff --git a/sound/soc/codecs/wcd-common.h b/sound/soc/codecs/wcd-common.h
+> new file mode 100644
+> index 000000000000..08c8e7ce9814
+> --- /dev/null
+> +++ b/sound/soc/codecs/wcd-common.h
+> @@ -0,0 +1,24 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+
+Please use the correct copyright according to guidelines.
+
+> + */
+> +
+> +#ifndef __WCD_COMMON_H__
+> +#define __WCD_COMMON_H___
+> +
+> +#define WCD_MIN_MICBIAS_MV	1000
+> +#define WCD_DEF_MICBIAS_MV	1800
+> +#define WCD_MAX_MICBIAS_MV	2850
+
+These do not belong to a public header.
+
+> +#define WCD_MAX_MICBIAS		4
+> +
+> +struct wcd_common {
+> +	struct device *dev;
+> +	int max_bias;
+> +	u32 micb_mv[WCD_MAX_MICBIAS];
+> +	u32 micb_vout[WCD_MAX_MICBIAS];
+> +};
+> +
+> +int wcd_get_micb_vout_ctl_val(struct device *dev, u32 micb_mv);
+> +int wcd_dt_parse_micbias_info(struct wcd_common *common);
+> +
+> +#endif /* __WCD_COMMON_H___  */
+
+> diff --git a/sound/soc/codecs/wcd939x.h b/sound/soc/codecs/wcd939x.h
+> index e70445b1a4bc..f587cf22f86f 100644
+> --- a/sound/soc/codecs/wcd939x.h
+> +++ b/sound/soc/codecs/wcd939x.h
+> @@ -8,6 +8,7 @@
+>  #define __WCD939X_H__
+>  #include <linux/soundwire/sdw.h>
+>  #include <linux/soundwire/sdw_type.h>
+> +#include "wcd-common.h"
+
+No need to. Please include headers where they are actually used.
+
 >  
-> +static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
-> +					    struct audioreach_module *module,
-> +					    struct audioreach_module_config *mcfg)
-> +{
-> +	uint32_t num_channels = mcfg->num_channels;
-> +	struct apm_module_sp_vi_op_mode_cfg *op_cfg;
-> +	struct apm_module_sp_vi_channel_map_cfg *cm_cfg;
-> +	struct apm_module_sp_vi_ex_mode_cfg *ex_cfg;
-> +	int op_sz, cm_sz, ex_sz;
-> +	struct apm_module_param_data *param_data;
-> +	int rc, i, payload_size;
-> +	struct gpr_pkt *pkt;
-> +	void *p;
-> +
-> +	if (num_channels > 2) {
-> +		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
-> +		return -EINVAL;
-> +	}
-> +
-> +	op_sz = APM_SP_VI_OP_MODE_CFG_PSIZE(num_channels);
-> +	/* Channel mapping for Isense and Vsense, thus twice number of speakers. */
-> +	cm_sz = APM_SP_VI_CH_MAP_CFG_PSIZE(num_channels * 2);
-> +	ex_sz = APM_SP_VI_EX_MODE_CFG_PSIZE;
-> +
-> +	payload_size = op_sz + cm_sz + ex_sz;
-> +
-> +	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
-> +	if (IS_ERR(pkt))
-> +		return PTR_ERR(pkt);
-> +
-> +	p = (void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
-> +
-> +	op_cfg = p;
-> +	param_data = &op_cfg->param_data;
-> +	param_data->module_instance_id = module->instance_id;
-> +	param_data->error_code = 0;
-> +	param_data->param_id = PARAM_ID_SP_VI_OP_MODE_CFG;
-> +	param_data->param_size = op_sz - APM_MODULE_PARAM_DATA_SIZE;
-> +
-> +	op_cfg->cfg.num_channels = num_channels;
-> +	op_cfg->cfg.operation_mode = PARAM_ID_SP_VI_OP_MODE_CALIBRATION;
-> +	op_cfg->cfg.quick_calibration = 1;
-> +	/*
-> +	 * op_cfg->cfg.r0_t0_selection should be set only for normal mode, keep
-> +	 * as 0 for calibration
+>  #define WCD939X_BASE					   (0x3000)
+>  #define WCD939X_ANA_PAGE				   (0x3000)
+> -- 
+> 2.50.0
+> 
 
-How do we move from calibration to a normal mode?
-
---srini
-> +	 */
-> +	p += op_sz;
-> +
-> +	cm_cfg = p;
-> +	param_data = &cm_cfg->param_data;
-> +	param_data->module_instance_id = module->instance_id;
-> +	param_data->error_code = 0;
-> +	param_data->param_id = PARAM_ID_SP_VI_CHANNEL_MAP_CFG;
-> +	param_data->param_size = cm_sz - APM_MODULE_PARAM_DATA_SIZE;
-> +
-> +	cm_cfg->cfg.num_channels = num_channels * 2;
-> +	for (i = 0; i < num_channels; i++) {
-> +		/*
-> +		 * Map speakers into Vsense and then Isense of each channel.
-> +		 * E.g. for PCM_CHANNEL_FL and PCM_CHANNEL_FR to:
-> +		 * [ 1, 2, 3, 4]
-> +		 */
-> +		cm_cfg->cfg.channel_mapping[2 * i] = (mcfg->channel_map[i] - 1) * 2 + 1;
-> +		cm_cfg->cfg.channel_mapping[2 * i + 1] = (mcfg->channel_map[i] - 1) * 2 + 2;
-> +	}
-> +
-> +	p += cm_sz;
-> +
-> +	ex_cfg = p;
-> +	param_data = &ex_cfg->param_data;
-> +	param_data->module_instance_id = module->instance_id;
-> +	param_data->error_code = 0;
-> +	param_data->param_id = PARAM_ID_SP_VI_EX_MODE_CFG;
-> +	param_data->param_size = ex_sz - APM_MODULE_PARAM_DATA_SIZE;
-> +
-> +	ex_cfg->cfg.factory_mode = 0;
-> +
-> +	rc = q6apm_send_cmd_sync(graph->apm, pkt, 0);
-> +
-> +	kfree(pkt);
-> +
-> +	return rc;
-> +}
+-- 
+With best wishes
+Dmitry
