@@ -1,185 +1,118 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazolkn19011030.outbound.protection.outlook.com [52.103.33.30])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB825C96;
-	Sat, 23 Aug 2025 10:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.33.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755943230; cv=fail; b=ptm92UHY9Tc97d0JFYPhsV5hkWXJXvBJQ2cjuC9EloLrsY8scFpDge5CTEaQwZUK36jcWjHcndmSFS5htdoqDPUStvXy6Eix+jSuFOxwAxQ6i5zBoA30LBEQJTn012Kd6OkQB/Lqk/xMNto3lZtOx9auH+LdZtmf4mpEFA0OdMc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755943230; c=relaxed/simple;
-	bh=S7tNLqNocVGF0U2zQtY/S6y27OMgekEP5NseV3pUfvI=;
-	h=Message-ID:Date:To:Cc:References:Subject:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=QnRgStpBbD8x8sx7031/q7wFHiYjclG9CatzzRUvHQl88p7h8OSqwpSqKMeYURh6oiemiukdFyphGxi8Elz1Z8PVMfLLwyvVUwT8w6D0K5MLBCbu1Wihe5gr/qWiF2VOzIjIAJD2MueNlt1atoQki4NCC259XLhyp8jK58bskbw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=QxazX3GV; arc=fail smtp.client-ip=52.103.33.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675041E51D
+	for <linux-sound@vger.kernel.org>; Sat, 23 Aug 2025 22:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755989738; cv=none; b=BgkQ+x2ORrnMSWhjH49t/IrL8z+uW75SBUPTD6WmXeXBdMGcdrSKCUfk5vJlV/kT9mGbqgNhNfheExh5/NYx2FL7vyRaumrSJoLJBg18p9rdP+m9GdYTEwNjzDV33dg+9W3ELPS9WHUugUSQwj992eFVQUKZj1ZEa8l3SSgomT4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755989738; c=relaxed/simple;
+	bh=oF/qgJIRFblcc7lPXX3Y+rePhLdLTPq/hUDAN/ZBFSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iWPCBABSY5N6NhRzwDLFhFUq/fom7P+NpbM3AgSWTDClxuzS7/gN/83v4DOuHqeBX54Xc2252OpPVl2uGAQFT3b+LaBaUMzuffqXNVwVJB9b9WTCdeFZHKZuKIVzpO9g6JILpAWvmzhJax0aSepGc8p/7rgcHJJcM1n52RvWbOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=K64lOu0C; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="QxazX3GV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DR4ftLPCeOY08GNptZxNrWt9gAyrgktAUMsnwzwycIuzc4fqsrTYkdvFgGaJ8vvC0Oqf1kC26tyuM7hZi86qZk6ikoabU71HqREVGqbIY20o2AifgFIev9R/h8oYMUmnDWvCGU6qcCe/t6wkngu+nGMYMtW6qO7gT1mMXZuXrGx+OGAj21IDaDl0oRe6Hdx2XaxK3sRGqMwcPF7otHCqBeTSft9MvTv8RTJ/gKhgIb9KIJHyat6D8p7szLshzgiFSFvEEdfjgJtQuX/0SKSR6XNFinCyZ0rU3HIjg3kpOozDExAbuuwkopZQiCwpFaXYhdubsJZ9hIKMjYhGZGjE1g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rHXh54qUZ6bGyP/9bwmBCNiDT3N1FlVFtBupBvKz2J8=;
- b=V0NnahtejLPG4BF2Bfg6lK93RIoeP+1vS7k/SPUL8ar2PJ4B6J2/4f2ZjHf55oET/iIhUBvPwN9Chbm1WsYKfAsOM6Nmz8Iw0GQ40NXPqIS94hPHhWqe50aPLUkbOTILxRKUWsBQPwHwfCSh5IK19ONI8QjHQ71a5BfRCMnpcdzN2g6IJEFdSMOViAjbfLInf+53DA/biL1lvyduQNK2sVxNpLPmiYSRuD+b8k5vH9DW4Skshu/GgGOA0Yr9hJe665Nj81i74Pr9FecRB2cKnKIuAEJDtY5xrDLGhFnve0Jk4GAkMsC9c0jaQBdz2jD6ie5VUyTMM3ckHQnXnr5TCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rHXh54qUZ6bGyP/9bwmBCNiDT3N1FlVFtBupBvKz2J8=;
- b=QxazX3GVvVAiJd++z1Q4zeJ+foA/nXSXj1rfiaCimHdvar2lNmzxEsg6IX+PaMoekm8NlyaiKcmav9k1zKRnOMa/BZthaWH4bV+lE37eNqbHk/USzB5BGKsHknrfjeX0POUprFYZBE0FTMtKR3WMADQWewf/Oq0UDQTFWdY3+r8xR8ihnSLJYfS9y+yWRwLlp/m5SQHAQXDKaSxbTFfkDdMQCbKOAL19jjS4r0Q91xt1jUCFCpGgj4wLJ4fcrHYw1/HcTUTKEi97yurMC7NYiRp2zzwx/e8ujJbar6y6YjuUVoVrqmqT3Frkwu9BMrd3+azkx67BqY74etAIt5EMdQ==
-Received: from AM7P189MB1009.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:175::17)
- by GV2P189MB2959.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:265::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Sat, 23 Aug
- 2025 10:00:26 +0000
-Received: from AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
- ([fe80::5756:694d:1641:3b13]) by AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
- ([fe80::5756:694d:1641:3b13%4]) with mapi id 15.20.9052.014; Sat, 23 Aug 2025
- 10:00:26 +0000
-Message-ID:
- <AM7P189MB1009A6BCD143F9BE5C3341FAE33CA@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
-Date: Sat, 23 Aug 2025 12:00:24 +0200
-User-Agent: Mozilla Thunderbird
-To: opi5plus@bcc.bai.ne.jp
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, heiko@sntech.de,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sound@vger.kernel.org, robh@kernel.org
-References: <20250821041555.4781-2-opi5plus@bcc.bai.ne.jp>
-Subject: Re: [PATCH] rm64: dts: rockchip: Enables sound output from the audio
- jack on OrangePI5 Plus
-Content-Language: en-US
-From: Maud Spierings <maud_spierings@hotmail.com>
-In-Reply-To: <20250821041555.4781-2-opi5plus@bcc.bai.ne.jp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P189CA0008.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d7::9) To AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:175::17)
-X-Microsoft-Original-Message-ID:
- <4f77f183-6487-4797-8f65-d6406cb1f8db@hotmail.com>
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="K64lOu0C"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id DDDC0240103
+	for <linux-sound@vger.kernel.org>; Sun, 24 Aug 2025 00:55:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
+	t=1755989727; bh=5JFP2HLD0hLEKvD+av+Zu5GQkM6XdqXHZzyl3CQ0ER4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:From;
+	b=K64lOu0CKY7CyZHrtc1zDlsTQHmFN2D4e+nASwRQJF0gzvswI1vUvd+BGu90XskCa
+	 ijYYT4bARMmK6XaiuDLHjL/HfCRA8IAG+RqRXfY13E1lbS4wMGLOMoIrcCjJeL/P00
+	 vq4NauxO4B1QCUkf++9rGnUCAASWTXTsztgYRhbfvuJc+rkxpi5PRgbV+JsVyrmpwm
+	 byi6nUxWrJTCZuI0wOry2O86OvejwFEbZdGDdDzG7wpPUM+i6N852t7AkvBfthIYMY
+	 2xy9PsB4UAZ5bKiS2c5QgsrWB93shlCflpj0KsKVPhjz2sUEqVDNiqhXwiwtaXU070
+	 7MIj89kFIwoaw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4c8XTC1NSZz9rxN;
+	Sun, 24 Aug 2025 00:55:27 +0200 (CEST)
+Date: Sat, 23 Aug 2025 22:55:27 +0000
+From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	=?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: soc-core: care NULL dirver name on
+ snd_soc_lookup_component_nolocked()
+Message-ID: <aKpG3oy_uY3Z1Myl@probook>
+References: <87frdoyswf.wl-kuninori.morimoto.gx@renesas.com>
+ <87ect8ysv8.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7P189MB1009:EE_|GV2P189MB2959:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d1dabce-3b74-4de2-1699-08dde22be1ab
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799012|8060799015|19110799012|23021999003|461199028|6090799003|5072599009|1602099012|3412199025|51005399003|4302099013|40105399003|440099028|10035399007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NkFYVUZIOUd4cGZxUG01YjdVOThGd3crNnU3THQ4WXNXdlVPTXcvYTdaSW1J?=
- =?utf-8?B?WkFOeE9BSkdPQ3ZKSnFuMTNuRDJLbnZSVWx4dkhjQTRjY0UzU1BkWlpaTEQ2?=
- =?utf-8?B?dCtwN00wc2xzdjhsSW1LZFJRbDJ4MzJTT3JBWUxPbVJpM3g5NWRTOE5Xb1JN?=
- =?utf-8?B?V0lPbGRYTUVRamN3ekZxM1RVNkdVNG9aUFJsR1hQMlhMMXM2S3dteG1UN0ti?=
- =?utf-8?B?akQ5dUNjT3BBMGZWQ2hCdEozY0RLdFRGdnRxb2lBUThueHBjeFdDTFN4Mksx?=
- =?utf-8?B?UHY3ZzgveGNYbElZQnNJSFcvK1d4SjJReERMZjVhd25ORVExbmNxY01uSVJ6?=
- =?utf-8?B?eUdDN05CZjFrZDRXWHNjcUhvcUxSZTBzOE80WGFFLzExSkFENXdibzhOWGw1?=
- =?utf-8?B?VDlzMU5ic3c3SEhKblFWYW9ObElwRGJZNVc1TG90M2VRa2VYKzEzQ25LUVcz?=
- =?utf-8?B?Y0d0dUhxVkhqTXhUWFZ2MHduUGJmRUQ5TDJlWlYvMzZsVkRSbDJYWnpVQ2xL?=
- =?utf-8?B?Qnk2VExvd2JSaU45N3ZwR0YxWEJEN25CWk56ZW5pZWhNbnFDMlNpWTlrQm1N?=
- =?utf-8?B?ejB2MDZBaXVCWEY0UVdzY2JYbFlUOUlVL0dDQTAyLzUyemRHMlAwMUxpWEMx?=
- =?utf-8?B?MTluM0ozZDZ0ZTRialJUQk1xeFI1ejZTdXYzeTV5NEtGVzBBOWQyMFVJa3dh?=
- =?utf-8?B?MURIb0xGWWp6NlJzY3JuOFc4djdQb3pjUTluNmVQbTM0MkM4R3lxNWhPb3ph?=
- =?utf-8?B?Q2Q4ZFQvSE10VHUxOW1lN1NSTmVrT0l3ZHk0alFlSEtNV2xGL3lyeVI3R0k5?=
- =?utf-8?B?dis2bFRrNTlNZFVmbENYYTNmeFEyMmE4T1QxQXZxUHU4Y09tWHBNTGVDdFRI?=
- =?utf-8?B?ZCttdGpzV2ZQMmM5K1JyazliRVRWSU9tY1UvazVEVTlTekFRNnNiZ2hid2VT?=
- =?utf-8?B?UTFmNXNxZ3B5d2hyaFZSSHNQdXpCR1F4RzlPQU52TjlQMW5XZFZSeHRoOVFV?=
- =?utf-8?B?TENnaFJSdEd0RG1xTjU1TUFjWkUvTW9acFJGUHBkUmovRXh4bmI4TTVtdGFt?=
- =?utf-8?B?cEgxaDRpa1kyMlB0TVRWNTVTMWZ2cTJlN3ptS3NVamo5aCs1UklJMTJZSkJh?=
- =?utf-8?B?NDl2ZmJxVkp6OTBtVGNGNk05UTY3OVhEYkllU2hqQVFyUFA5cGNJWVlSR2VS?=
- =?utf-8?B?bHBMMTc1YVViK3ZZQnpOaFhMdk42TFRZaHpnOW8wK2hhcm8yNmNBTmdRU0VL?=
- =?utf-8?B?YnA0dGNuYzFSODJEalNwUGRGRVFiMGVubVRxTDEwQXl6dFlWSVZlaG9GakxI?=
- =?utf-8?B?OW8vbnhjYkRtZFJ5UzlRMTNyMjRyNG5kbm1JQUplc2N1MDRrRE5mZ0wyWVpD?=
- =?utf-8?B?bGt5REJLSjRZZmNzbUV6Q2NiQW9Fc21lNmw1Z0lwK1JIZmhaSXNzR1NDRk9T?=
- =?utf-8?B?TUp6TCtkcFZ1TVZ3Q0NkK2NhdFVocXYrU0FoUWpHelkyY1EzaUw3dE1pa21O?=
- =?utf-8?B?dURQT1dWcEJCREowak9CNEpYUjc2bjZGVitaVHRaZkdKZERpWFJQLzBIUTZv?=
- =?utf-8?B?NXdHUjFJWXNKZTJHL01VazdQTkR6WHVGUlFBaTNEc1pXS1A3RS9DcXdPNjg0?=
- =?utf-8?B?MGtSQm9jVkwxV2lOYW1OSHZmU2JvbHA0TU1KRW4wSjc0Q1owakpZdjlGLzRs?=
- =?utf-8?B?Q2UrOW50ang5aDQzaW0zblZzcW43VGxMTkUwcWpndnFjUVB4dGQ0amxtUzJ0?=
- =?utf-8?B?Z0R6dEhBcS9RWkNKRGJaY2UzKzJFYmdjRncxaFM2QmRRVVNpUDJQcjV6NEVX?=
- =?utf-8?B?UnZGV29CUzR1WXJFL1VEZz09?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VTcrZlgxN1hwelZZZ1ZKQ2dUVHNjemZ4b3JmV2I1VEp1ZFl1Vk9WbldmSjJZ?=
- =?utf-8?B?eFI1c3VlUDVFUlVpdXpCQ05GZlBUS28rWnUydVh3Q0xYRGo3N0RaTjgrUEgv?=
- =?utf-8?B?WGQyZml0Q3N5MHRjeEpqV1M3ZDdURURwMEM1dU0wWm1PQW1WZ2Z1N0NUZ2Y5?=
- =?utf-8?B?VXZTRlpGSDhsRTZIWUJTV1BNNXloOGdJM0ZzRVRESEU3b0hLZEhsNUJvNDl0?=
- =?utf-8?B?WU8yQmJjUVNjL0tEVi81c3RucGN6aWh6Y2QrOUxDbm43eC9xYTdWcGZ0OU9I?=
- =?utf-8?B?T2FzaHRQTktYdGwrSElucytRaXEvaS8zenI1ZDMvWitTdFNIMUhhV1ZMNHdm?=
- =?utf-8?B?UTltNHZORlZYdVV4eEJxbzJhOS95UXpOT3l4d2lRRm9zZ3ZWT05JVEJZVHB5?=
- =?utf-8?B?RDkyRmM1RTMzWEhkajNsSVI4SklUc3c1YmdjcXRieWMzR2tLZVNOcTZOMjRq?=
- =?utf-8?B?bjYybDREaE5IbGJsTHo3RXlaQjFKaVNBeXNWV3ZBOGRCOGYzcTFlaDNkNFk3?=
- =?utf-8?B?NnlLR3ZpWHM2OUVjNG5CSStrUnI0VVl1V1poc0Q1K2VUR2plTVdyQTZiR3ox?=
- =?utf-8?B?cjQ3SjBhN1paK01uLzllMStjQmxWM0JNbkdPQTZYWkpwQ1RlQUU4S2NPNkJF?=
- =?utf-8?B?TDdCcURWZ3hOWU8rSGo3cU9VWTBnaFh1WmE4VTlwdVZJYW41SFd6Z1FvQlpZ?=
- =?utf-8?B?WTNuZ2U1bWxRYk9MY1FUVDBiZlpSck5tQW41OTMzajdtQk5GNjZIUWI5dzJt?=
- =?utf-8?B?ZHpyOVgvMEVUblVicGNNTDU3bGFuNDlnMXlGdThVNmlub1hrelVBanlrNCs4?=
- =?utf-8?B?QUIzQ2J1T0tZWGZicXNsTzNyMngwcmVkS3Fsb2JUV1FjbCsxempDZzZIK0hK?=
- =?utf-8?B?SzN3aU9tUWpSTGFucTRyemoweTlmd1BTV3hmT0FpNEh0QktCa25neFRPb3lW?=
- =?utf-8?B?QkdlNjFhdGFwRDdjLzBOSFB4dzhlOE5PSEkwSkNGYXYwV2tybEc2eVRHc3hF?=
- =?utf-8?B?OWQySXQrTEVPVEpMYXhvZW9CNmtEakkxS3hVMDdzNHlGeW1NUHZ4TnJCaU8v?=
- =?utf-8?B?U0krdkQ0N2dyWU5nL0p0ZXhwOG01dXpWQUU4TDRXZ1c5ekNzWkh5RHhybTZp?=
- =?utf-8?B?ZEFXcHpxVHdxVFdnUHA0UnFWNm9DUTdXQ3gxYWVUVzQ5RVBRMXFtSlE2WGF2?=
- =?utf-8?B?NVVkejc0LzhJalVKOGFudlMzL1d3aUcza2tSNHVjc3JOeXYyZThORjFaRjdr?=
- =?utf-8?B?emYvclhOZzRFRHdmc3pla1RMbzVHS1llMlgycFdMZXcrekpNVzFvWUtCWm52?=
- =?utf-8?B?amI4R3Q3aUV0Q0FBcUpaSW40V0lpTGlXU2E4V3F6SzJFNU9EV2FYTHJYTG5z?=
- =?utf-8?B?bWFraVFRUjU3NmxDUlJmYXUyZXlDZEF5MDdraWI5N1ZvUWhsbkNseVMrNytW?=
- =?utf-8?B?ZGp2V24yclpqYkx2SGt2Sk5FVUlPTjNudmo3VXkzdmZRblZMZnBZRUJ6Ni8r?=
- =?utf-8?B?Um5ScFhHbWVHbnFFVkNMYnVRMmhzZXAwSmIzSDNCS0M0SlhvRm4xSEhLV0Vv?=
- =?utf-8?B?aDRDSS80TTk4OGlCM2lBMERtSFgrZnVzc3J1SnZjQjMybFJ2S2xwQmVhc2ly?=
- =?utf-8?B?cUhwQ29MQWRrNEJjYjVYRWFLakM3aFNrSk5GTGlCSFRzZTAyeTB0NzVyaDBo?=
- =?utf-8?Q?nuXlHhQFbzvyw2lvueAB?=
-X-OriginatorOrg: sct-15-20-8534-20-msonline-outlook-2ef4d.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d1dabce-3b74-4de2-1699-08dde22be1ab
-X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2025 10:00:26.2230
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P189MB2959
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87ect8ysv8.wl-kuninori.morimoto.gx@renesas.com>
 
-Hello Hide,
+Hello,
 
-> Currently, analog sound is not output from the audio jack.
-> This patch allows you to select analog headphones in alsamixer.
-> Works with kernel 6.16.1, but not 6.17.
->
-> Signed-off-by: Hide Hako <opi5plus@bcc.bai.ne.jp>
+On Tue, Aug 19, 2025 at 01:58:51AM +0000, Kuninori Morimoto wrote:
+> soc-generic-dmaengine-pcm.c uses same dev for both CPU and Platform.
+> In such case, CPU component driver might not have driver->name, then
+> snd_soc_lookup_component_nolocked() will be NULL pointer access error.
+> Care NULL driver name.
+> 
+> 	Call trace:
+> 	 strcmp from snd_soc_lookup_component_nolocked+0x64/0xa4
+> 	 snd_soc_lookup_component_nolocked from snd_soc_unregister_component_by_driver+0x2c/0x44
+> 	 snd_soc_unregister_component_by_driver from snd_dmaengine_pcm_unregister+0x28/0x64
+> 	 snd_dmaengine_pcm_unregister from devres_release_all+0x98/0xfc
+> 	 devres_release_all from device_unbind_cleanup+0xc/0x60
+> 	 device_unbind_cleanup from really_probe+0x220/0x2c8
+> 	 really_probe from __driver_probe_device+0x88/0x1a0
+> 	 __driver_probe_device from driver_probe_device+0x30/0x110
+> 	driver_probe_device from __driver_attach+0x90/0x178
+> 	__driver_attach from bus_for_each_dev+0x7c/0xcc
+> 	bus_for_each_dev from bus_add_driver+0xcc/0x1ec
+> 	bus_add_driver from driver_register+0x80/0x11c
+> 	driver_register from do_one_initcall+0x58/0x23c
+> 	do_one_initcall from kernel_init_freeable+0x198/0x1f4
+> 	kernel_init_freeable from kernel_init+0x1c/0x12c
+> 	kernel_init from ret_from_fork+0x14/0x28
+> 
+> Fixes: 144d6dfc7482 ("ASoC: soc-core: merge snd_soc_unregister_component() and snd_soc_unregister_component_by_driver()")
+> Reported-by: J. Neuschäfer <j.ne@posteo.net>
+> Closes: https://lore.kernel.org/r/aJb311bMDc9x-dpW@probook
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
->   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi <https://lore.kernel.org/all/20250821041555.4781-2-opi5plus@bcc.bai.ne.jp/#Z2e.:20250821041555.4781-2-opi5plus::40bcc.bai.ne.jp:1arch:arm64:boot:dts:rockchip:rk3588-orangepi-5.dtsi> | 1 +
->   1 filechanged <https://lore.kernel.org/all/20250821041555.4781-2-opi5plus@bcc.bai.ne.jp/#related>, 1 insertion(+)
->
-> diff 
-> <https://lore.kernel.org/all/20250821041555.4781-2-opi5plus@bcc.bai.ne.jp/#iZ2e.:20250821041555.4781-2-opi5plus::40bcc.bai.ne.jp:1arch:arm64:boot:dts:rockchip:rk3588-orangepi-5.dtsi> 
-> --git a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi 
-> b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi index 
-> 91d56c34a..656aac2df 100644 --- 
-> a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi +++ 
-> b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi @@ -113,6 +113,7 
-> @@ analog_sound: sound {  		simple-audio-card,mclk-fs = <256>;
->   		simple-audio-card,bitclock-master = <&daicpu>;
->   		simple-audio-card,frame-master = <&daicpu>;
-> + simple-audio-card,pin-switches = "Headphones";  		/*TODO: SARADC_IN3 is used as MIC detection / key input */
->   
->   		daicpu: simple-audio-card,cpu {
+
+I can confirm that this patch (applied on top of v6.17-rc1) fixes the
+NULL deref that I reported.
+
+Tested-by: J. Neuschäfer <j.ne@posteo.net>
+
+Thank you!
+
+
+>  sound/soc/soc-core.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+> index 37bc5867f81d4..c1cf205e05569 100644
+> --- a/sound/soc/soc-core.c
+> +++ b/sound/soc/soc-core.c
+> @@ -375,8 +375,9 @@ struct snd_soc_component
+>  	for_each_component(component) {
+>  		if ((dev == component->dev) &&
+>  		    (!driver_name ||
+> -		     (driver_name == component->driver->name) ||
+> -		     (strcmp(component->driver->name, driver_name) == 0))) {
+> +		     (component->driver->name &&
+> +		      ((component->driver->name == driver_name) ||
+> +		       (strcmp(component->driver->name, driver_name) == 0))))) {
+>  			found_component = component;
+>  			break;
+>  		}
 > -- 
-> 2.48.1
-I tried this patch, but I am not able to get any audio out on my 
-headphones. using kernel 6.16.1
-
-I did see headphones in alsamixer, but cannot get it to actually output 
-any audio. Any hints?
-
-Kind regards,
-Maud
-
+> 2.43.0
+> 
