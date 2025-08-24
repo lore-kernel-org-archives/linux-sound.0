@@ -1,118 +1,107 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from rmx-b.mailgw.jp (smx-b.mailgw.jp [210.171.6.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675041E51D
-	for <linux-sound@vger.kernel.org>; Sat, 23 Aug 2025 22:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C7524467B;
+	Sun, 24 Aug 2025 07:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.171.6.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755989738; cv=none; b=BgkQ+x2ORrnMSWhjH49t/IrL8z+uW75SBUPTD6WmXeXBdMGcdrSKCUfk5vJlV/kT9mGbqgNhNfheExh5/NYx2FL7vyRaumrSJoLJBg18p9rdP+m9GdYTEwNjzDV33dg+9W3ELPS9WHUugUSQwj992eFVQUKZj1ZEa8l3SSgomT4=
+	t=1756021108; cv=none; b=MKlFuCtsc0cd/GxxQw2v+FS7SnZsfqEvYzz/1skEvanvy/rSq0Wq9CvPjoaVDDBlnzUoe9HN1ZhuID0roMhmmupYcCJlO2twalNUUb6UGfgl/YFiMnATeiqvxkPhEttL9Uxb1RV+fphpFORKtDF0nuQeI1FNQYwoP6V+/xWRBh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755989738; c=relaxed/simple;
-	bh=oF/qgJIRFblcc7lPXX3Y+rePhLdLTPq/hUDAN/ZBFSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iWPCBABSY5N6NhRzwDLFhFUq/fom7P+NpbM3AgSWTDClxuzS7/gN/83v4DOuHqeBX54Xc2252OpPVl2uGAQFT3b+LaBaUMzuffqXNVwVJB9b9WTCdeFZHKZuKIVzpO9g6JILpAWvmzhJax0aSepGc8p/7rgcHJJcM1n52RvWbOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=K64lOu0C; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+	s=arc-20240116; t=1756021108; c=relaxed/simple;
+	bh=iDdCpFyWd7epqUGs66dyAmaZv0TFETT0aH5mRBkakJQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KwMtn8veZUpJcYGv2YnkQ7LycXJsc9ADmLWk6sexfqibcrzCggF2I7dUDoRcg4xJyewPx4+x9+uf6k+jQorf3tTpVbwqeeGZ57vJyfTXm5Du8ejIP+pmQMyOR5ElypIVNogS0ZmsmUndgRn04MaM3wCT4gKamU1aJ+LBgUMiBCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bcc.bai.ne.jp; spf=pass smtp.mailfrom=bcc.bai.ne.jp; dkim=pass (2048-bit key) header.d=bcc.bai.ne.jp header.i=@bcc.bai.ne.jp header.b=e2L96bCA; arc=none smtp.client-ip=210.171.6.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bcc.bai.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bcc.bai.ne.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="K64lOu0C"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id DDDC0240103
-	for <linux-sound@vger.kernel.org>; Sun, 24 Aug 2025 00:55:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
-	t=1755989727; bh=5JFP2HLD0hLEKvD+av+Zu5GQkM6XdqXHZzyl3CQ0ER4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:From;
-	b=K64lOu0CKY7CyZHrtc1zDlsTQHmFN2D4e+nASwRQJF0gzvswI1vUvd+BGu90XskCa
-	 ijYYT4bARMmK6XaiuDLHjL/HfCRA8IAG+RqRXfY13E1lbS4wMGLOMoIrcCjJeL/P00
-	 vq4NauxO4B1QCUkf++9rGnUCAASWTXTsztgYRhbfvuJc+rkxpi5PRgbV+JsVyrmpwm
-	 byi6nUxWrJTCZuI0wOry2O86OvejwFEbZdGDdDzG7wpPUM+i6N852t7AkvBfthIYMY
-	 2xy9PsB4UAZ5bKiS2c5QgsrWB93shlCflpj0KsKVPhjz2sUEqVDNiqhXwiwtaXU070
-	 7MIj89kFIwoaw==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4c8XTC1NSZz9rxN;
-	Sun, 24 Aug 2025 00:55:27 +0200 (CEST)
-Date: Sat, 23 Aug 2025 22:55:27 +0000
-From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	=?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.ne@posteo.net>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/2] ASoC: soc-core: care NULL dirver name on
- snd_soc_lookup_component_nolocked()
-Message-ID: <aKpG3oy_uY3Z1Myl@probook>
-References: <87frdoyswf.wl-kuninori.morimoto.gx@renesas.com>
- <87ect8ysv8.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=bcc.bai.ne.jp header.i=@bcc.bai.ne.jp header.b="e2L96bCA"
+Received: from bccml.bai.ne.jp (bccml-a.bai.ne.jp [210.171.3.161])
+	by rmx-b.mailgw.jp  with ESMTP id 57O7bqps028395-57O7bqpt028395;
+	Sun, 24 Aug 2025 16:37:52 +0900
+Received: from [192.168.11.8] (bai859bcd79.bai.ne.jp [133.155.205.121])
+	by bccml.bai.ne.jp (Postfix) with ESMTPA id 9DF3781AA6;
+	Sun, 24 Aug 2025 16:37:51 +0900 (JST)
+Message-ID: <5c5e6fe7-866c-4b79-bf52-35a393fbeb3d@bcc.bai.ne.jp>
+Date: Sun, 24 Aug 2025 16:37:51 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] rm64: dts: rockchip: Enables sound output from the audio
+ jack on OrangePI5 Plus
+To: Maud Spierings <maud_spierings@hotmail.com>
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, heiko@sntech.de,
+ krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sound@vger.kernel.org, robh@kernel.org
+References: <20250821041555.4781-2-opi5plus@bcc.bai.ne.jp>
+ <AM7P189MB1009A6BCD143F9BE5C3341FAE33CA@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Hide Hako <opi5plus@bcc.bai.ne.jp>
+In-Reply-To: <AM7P189MB1009A6BCD143F9BE5C3341FAE33CA@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87ect8ysv8.wl-kuninori.morimoto.gx@renesas.com>
+X-FE-Last-Public-Client-IP: 210.171.3.161
+X-FE-Policy-ID: 3:1:2:SYSTEM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=bcc.bai.ne.jp; s=20240516; c=relaxed/relaxed;
+ h=message-id:date:mime-version:subject:to:cc:references:from:content-type;
+ bh=b612zyZuwwWZsTfE+gJ72Y9isVumaiaCq1dyAr8cbwI=;
+ b=e2L96bCAWEGTgj74lXbRoZnxCIbWVL3ppVqDGlL0ZnVtS7RoSJm2HWDELDPzNuqRkIYFGDW1EkJ5
+	rpHcIPzY025bY5XYdVQTqXqPXJIGgfV7VWbrEhojVRuwnePBlI83Sew7IpdlAL91zFnWDrnuAVy5
+	ieE4VEQrqIqoxC7Vu5j4A+rkFKucGIzVg0AwKXnK971z1rYMff+5hFbB9GCcTKNTaP03rJvyZEb6
+	d3rBs8470uc7P0ZW1bJ9bg9Ge0vfA9vu1rB8Ic32JvSApbE5QqIJj3wmoZklAY+CugAfxanWNy0w
+	/g7lLA3rXnPXxcislm2I01rkBglnTvpUA4F+HA==
 
-Hello,
+Hello Muad
 
-On Tue, Aug 19, 2025 at 01:58:51AM +0000, Kuninori Morimoto wrote:
-> soc-generic-dmaengine-pcm.c uses same dev for both CPU and Platform.
-> In such case, CPU component driver might not have driver->name, then
-> snd_soc_lookup_component_nolocked() will be NULL pointer access error.
-> Care NULL driver name.
-> 
-> 	Call trace:
-> 	 strcmp from snd_soc_lookup_component_nolocked+0x64/0xa4
-> 	 snd_soc_lookup_component_nolocked from snd_soc_unregister_component_by_driver+0x2c/0x44
-> 	 snd_soc_unregister_component_by_driver from snd_dmaengine_pcm_unregister+0x28/0x64
-> 	 snd_dmaengine_pcm_unregister from devres_release_all+0x98/0xfc
-> 	 devres_release_all from device_unbind_cleanup+0xc/0x60
-> 	 device_unbind_cleanup from really_probe+0x220/0x2c8
-> 	 really_probe from __driver_probe_device+0x88/0x1a0
-> 	 __driver_probe_device from driver_probe_device+0x30/0x110
-> 	driver_probe_device from __driver_attach+0x90/0x178
-> 	__driver_attach from bus_for_each_dev+0x7c/0xcc
-> 	bus_for_each_dev from bus_add_driver+0xcc/0x1ec
-> 	bus_add_driver from driver_register+0x80/0x11c
-> 	driver_register from do_one_initcall+0x58/0x23c
-> 	do_one_initcall from kernel_init_freeable+0x198/0x1f4
-> 	kernel_init_freeable from kernel_init+0x1c/0x12c
-> 	kernel_init from ret_from_fork+0x14/0x28
-> 
-> Fixes: 144d6dfc7482 ("ASoC: soc-core: merge snd_soc_unregister_component() and snd_soc_unregister_component_by_driver()")
-> Reported-by: J. Neuschäfer <j.ne@posteo.net>
-> Closes: https://lore.kernel.org/r/aJb311bMDc9x-dpW@probook
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
+On 2025/08/23 19:00, Maud Spierings wrote:
+> Hello Hide,
+>
+>> Currently, analog sound is not output from the audio jack.
+>> This patch allows you to select analog headphones in alsamixer.
+>> Works with kernel 6.16.1, but not 6.17.
+>>
+>> Signed-off-by: Hide Hako <opi5plus@bcc.bai.ne.jp>
+>> ---
+>>   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi 
+>> <https://lore.kernel.org/all/20250821041555.4781-2-opi5plus@bcc.bai.ne.jp/#Z2e.:20250821041555.4781-2-opi5plus::40bcc.bai.ne.jp:1arch:arm64:boot:dts:rockchip:rk3588-orangepi-5.dtsi> 
+>> | 1 +
+>>   1 filechanged 
+>> <https://lore.kernel.org/all/20250821041555.4781-2-opi5plus@bcc.bai.ne.jp/#related>, 
+>> 1 insertion(+)
+>>
+>> diff 
+>> <https://lore.kernel.org/all/20250821041555.4781-2-opi5plus@bcc.bai.ne.jp/#iZ2e.:20250821041555.4781-2-opi5plus::40bcc.bai.ne.jp:1arch:arm64:boot:dts:rockchip:rk3588-orangepi-5.dtsi> 
+>> --git a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi 
+>> b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi index 
+>> 91d56c34a..656aac2df 100644 --- 
+>> a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi +++ 
+>> b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5.dtsi @@ -113,6 
+>> +113,7 @@ analog_sound: sound { simple-audio-card,mclk-fs = <256>;
+>>           simple-audio-card,bitclock-master = <&daicpu>;
+>>           simple-audio-card,frame-master = <&daicpu>;
+>> + simple-audio-card,pin-switches = "Headphones"; /*TODO: SARADC_IN3 
+>> is used as MIC detection / key input */
+>>             daicpu: simple-audio-card,cpu {
+>> -- 
+>> 2.48.1
+> I tried this patch, but I am not able to get any audio out on my 
+> headphones. using kernel 6.16.1
+>
+> I did see headphones in alsamixer, but cannot get it to actually 
+> output any audio. Any hints?
+I use ubuntu 25.04.
+Setting -> Sound -> Output Device.
+Two Analog Output-Built-in-Audio are displayed.
+Please select second Analog Output-Built-in-Audio.
 
-I can confirm that this patch (applied on top of v6.17-rc1) fixes the
-NULL deref that I reported.
+I'm currently working on another patch. As pointed out by Jimmy, I'm 
+creating a patch for rk3588-orangepi-5-plus.dts.
+Thank you Muad.
 
-Tested-by: J. Neuschäfer <j.ne@posteo.net>
+Hide
 
-Thank you!
-
-
->  sound/soc/soc-core.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-> index 37bc5867f81d4..c1cf205e05569 100644
-> --- a/sound/soc/soc-core.c
-> +++ b/sound/soc/soc-core.c
-> @@ -375,8 +375,9 @@ struct snd_soc_component
->  	for_each_component(component) {
->  		if ((dev == component->dev) &&
->  		    (!driver_name ||
-> -		     (driver_name == component->driver->name) ||
-> -		     (strcmp(component->driver->name, driver_name) == 0))) {
-> +		     (component->driver->name &&
-> +		      ((component->driver->name == driver_name) ||
-> +		       (strcmp(component->driver->name, driver_name) == 0))))) {
->  			found_component = component;
->  			break;
->  		}
-> -- 
-> 2.43.0
-> 
