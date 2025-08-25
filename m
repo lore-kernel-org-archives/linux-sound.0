@@ -1,111 +1,104 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908B61946A0;
-	Mon, 25 Aug 2025 16:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9241E32DB;
+	Mon, 25 Aug 2025 16:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756137648; cv=none; b=dXrlrzMHmc24Y+rXw54dDKSExBdQsXKbc2vz8xL3Ld3XN6Gm9eM0zM5QIC/0t6s8DrWQXhIl1r94WlGNAW/Q9ByQjstraKx90kJZP0xOxMHnWFHi5cgLeqrNUpYZNtoetyhPD5E6abGWyYBIwQezzaHgEnvLbtDGBivueIcobI4=
+	t=1756137744; cv=none; b=qgVrEXtF5RGcMGAwvwmkZ0OL8k7MsJ6DkW8PDLjI0ADYdnR9ZlKPVmLtpMunimZH/F+Ru4jOn1/OVuOPae+/dQhq2oMw6we/PpDWMU1FCXjOnMWg+XLLKPxVzfX493wovtHU6DvO9yWN6QCDK8+C8g07CwsNpaJ84vewJzVLbcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756137648; c=relaxed/simple;
-	bh=gaSCgp+9x9wgETscmsm6/J/E9Z0jSnaLlgjGoTawuZE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IYBXMMHtTqlrqDVy1gmy5uXmAjGd0imtSOc1U0p0rSQFqolwGSlaoPIv8MsspQkaI86oHSd0iaFO4A5josE1VciHqHc7Rh+QNBdGWyQZ0nV1A7Msl6frtjjygsBbLXikA6I4kt12pMAIFWIsxi/iFlMNhk7ISnLBM/hYWOkQ7UU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=K5cSiuiN; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1756137744; c=relaxed/simple;
+	bh=5RIxqJd7IqKsgGYZtC5FJ86XqFMASS2zrNcnCR9ReIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lqzCxAZLM0PoVMA4jcl4omndxO9GDkrRtvuH+ZJCurw/72D2GColv1sO4zJDguxXeCsKvTLuSqDqLLoV0RToGVzseFV43fkxrATu4sE2Hv3zsBWpxzshrtgNmFteh8xI5vYbjmRDdJY3pss6ZEtZBS3PEbqcdSemDFdkV7rsVUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gCfeFmmV; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="K5cSiuiN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1756137644;
-	bh=gaSCgp+9x9wgETscmsm6/J/E9Z0jSnaLlgjGoTawuZE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=K5cSiuiNyUlYig3gKw/Pjj8VRjMsSG/tQRnivKT87u8PoxdsqfWiKfs/lEN/BjDul
-	 YXcr+hei3+I2ZidXLOkn8JZnAmouiTOcVvtekkzgZkg2fjxKznWWD1UoyquCGhh5F5
-	 lM8M/Mqx2PvIN0+1c+3CA64FuDBiBS26UgHtt0fNtR+3h4O4/EcTl4Qjnu0p0Ve0v8
-	 g5U0haJrieuKeHvC5yLqOY0MSLzy2UdA8XXs1vKabJ9EMn5dA+cTVh8xXMpml6gf7c
-	 fKWl9gSQTYKapeF5r+YHs4yQN5nxRNeHiJCEYT3MzfbinYdWkeM1FivxAGgdiyLVg7
-	 LOYmef7KeMQqA==
-Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892f2d600c8f85Cf092D4Af51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A47A017E053B;
-	Mon, 25 Aug 2025 18:00:43 +0200 (CEST)
-Message-ID: <9c544d68ec10da176b062333b8a04903ce77a406.camel@collabora.com>
-Subject: Re: [PATCH v2 2/6] ASoC: dt-binding: Convert mt8183-afe-pcm binding
- to YAML
-From: Julien Massot <julien.massot@collabora.com>
-To: Rob Herring <robh@kernel.org>
-Cc: kernel@collabora.com, Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,  Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,  Ikjoon Jang
- <ikjn@chromium.org>, Enric Balletbo i Serra <eballetbo@kernel.org>, Chen-Yu
- Tsai	 <wenst@chromium.org>, Weiyi Lu <weiyi.lu@mediatek.com>, Eugen Hristev
-	 <eugen.hristev@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown	 <broonie@kernel.org>, Julien Massot <jmassot@collabora.com>, Sean
- Wang	 <sean.wang@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Date: Mon, 25 Aug 2025 18:00:43 +0200
-In-Reply-To: <20250822143945.GA3709669-robh@kernel.org>
-References: <20250820-mtk-dtb-warnings-v2-0-cf4721e58f4e@collabora.com>
-	 <20250820-mtk-dtb-warnings-v2-2-cf4721e58f4e@collabora.com>
-	 <20250822143945.GA3709669-robh@kernel.org>
-Organization: Collabora Ltd.
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gCfeFmmV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756137743; x=1787673743;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5RIxqJd7IqKsgGYZtC5FJ86XqFMASS2zrNcnCR9ReIo=;
+  b=gCfeFmmV7d0HFB9UPbpyoKJv5o47gS5hqi/iUU6QT79pVOzksQIsXs0D
+   3oQ+4hHDXxMDXdR5UTMRntdQWYwS6q9KZzMOETpgASJ93+NzfoLOAIda7
+   IlmsFD0s3lGBnrmcCjn/JYbzU2vOOGQNa0IKV18ynAxY2SbOvHVfParqU
+   baCKYm5vHFLy1QLMdAQKR6MzosUAlmrf0CybzWy0ZIOnVOkFFtoTCsmxv
+   oL0H5vTDqz7JaMdy2l9TEOP0FAXBVWW+0PLH8cQrWju33TJzp3lM3SeCX
+   d8mPIdnNDLtgI7GiH1d52LfOcEk8KenVKuBMZL3ZtzAZvVDDBJfCRuewk
+   Q==;
+X-CSE-ConnectionGUID: SNRdBcFYTLOX83jr93nAwg==
+X-CSE-MsgGUID: W+EZl6InRCSvgKAGVGRQJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="60985775"
+X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
+   d="scan'208";a="60985775"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 09:01:41 -0700
+X-CSE-ConnectionGUID: 70/rlXnbSf2ZxxO/KaBo8A==
+X-CSE-MsgGUID: eWqomYhzQUmVzg+UmhL9uw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
+   d="scan'208";a="173512649"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 09:01:39 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uqZdY-00000008YVA-3lh9;
+	Mon, 25 Aug 2025 19:01:36 +0300
+Date: Mon, 25 Aug 2025 19:01:36 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v1 1/1] ASoC: amd: acp: Remove (explicitly) unused header
+Message-ID: <aKyI4L-wMeL-TOV5@smile.fi.intel.com>
+References: <20250331070943.3986387-1-andriy.shevchenko@linux.intel.com>
+ <aKxraexKHD8T8zk6@smile.fi.intel.com>
+ <aKyFDaYnXrC5sMiA@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aKyFDaYnXrC5sMiA@finisterre.sirena.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Rob,
-On Fri, 2025-08-22 at 09:39 -0500, Rob Herring wrote:
-> On Wed, Aug 20, 2025 at 03:44:53PM +0200, Julien Massot wrote:
-> > Convert the MediaTek MT8183 AFE PCM Device Tree binding from the old
-> > .txt format to YAML schema format to improve validation.
-> >=20
-> > While converting, also document all clock inputs and memory-region
-> > used by the AFE block.
-> >=20
-> > Reviewed-by: AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@collabora.com>
-> > Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> >=20
+On Mon, Aug 25, 2025 at 04:45:17PM +0100, Mark Brown wrote:
+> On Mon, Aug 25, 2025 at 04:55:53PM +0300, Andy Shevchenko wrote:
+> > On Mon, Mar 31, 2025 at 10:09:43AM +0300, Andy Shevchenko wrote:
+> > > The fwnode.h is not supposed to be used by the drivers as it
+> > > has the definitions for the core parts for different device
+> > > property provider implementations. Drop it.
+> > > 
+> > > Note, that fwnode API for drivers is provided in property.h
+> > > which is included here.
+> > 
+> > Any news here?
+> 
+> Please don't send content free pings and please allow a reasonable time
+> for review.  People get busy, go on holiday, attend conferences and so 
+> on so unless there is some reason for urgency (like critical bug fixes)
+> please allow at least a couple of weeks for review.  If there have been
+> review comments then people may be waiting for those to be addressed.
+> 
+> Sending content free pings adds to the mail volume (if they are seen at
+> all) which is often the problem and since they can't be reviewed
+> directly if something has gone wrong you'll have to resend the patches
+> anyway, so sending again is generally a better approach though there are
+> some other maintainers who like them - if in doubt look at how patches
+> for the subsystem are normally handled.
 
-> > ...
+I truly believe the 5 month is reasonable time for review, no?
 
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +=C2=A0 - |
-> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/clock/mt8183-clk.h>
-> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/interrupt-controller/arm-gic.=
-h>
-> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/interrupt-controller/irq.h>
-> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/power/mt8183-power.h>
-> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/reset/mt8183-resets.h>
-> > +
-> > +=C2=A0=C2=A0=C2=A0 afe: mt8183-afe-pcm {
->=20
-> audio-controller {
->=20
-> like you changed the .dts.
->=20
-> With that,
->=20
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Thanks, I will fix the node name in V3.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Regards,
-Julien
+
