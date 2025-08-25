@@ -1,96 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF3B304993;
-	Mon, 25 Aug 2025 16:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E032877C7;
+	Mon, 25 Aug 2025 20:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756138322; cv=none; b=J+6iIoluPx0kaQg27SySwSxzD+OmuT7gz8RSBynwra8FNX4NzB+wu1ns5WlV+ESt/9MJ5h/pOa8DFGxAULLulDHNZPsHdO6ga0AVQ3gRxRw2ETXy/L1VE+T/ZzRdY09Y540c+Jw0uvr6tzhpn8EM/i7XZ8eB07TFWaEu2ep8/+Y=
+	t=1756152269; cv=none; b=LrLKlFoysyHOfiwpqZjqHZUJChd3sLShZDcBV2WJNZBkLQHddLiGU5PYXPdvVjtXol4wYS1pd1/nVhgafC0DxG+OJ8wETx2b9ts91uC5b7/K9Ua/bG4I4c5LSBECimJ8KQk8eTNfH1Zcvot1MMRAW99fYcqyK3jgiU/1rM/GSX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756138322; c=relaxed/simple;
-	bh=lRmwIXXuuVxuUeGAauGH9Bx39v/B949+O0RVAstjSuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FMxKl5oZpUpkLdBI+imibDLkTqYEdlPYriEMfv9HL0W7tOY9nfhuLxMwWd2iqM5WS6g/cva11UrPAmX7BTmzDvAgG4TTjiYthpKBo3Q1lbe0NCPa5ZpfXtJL4QcFm8DVQ+TFUv8+rk4ZYEAeua6c+6+5PjouHfle9eAn+DLi5Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cQ7VlgxH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756152269; c=relaxed/simple;
+	bh=OB6kFuj6GvVQGzt10o/kddzzei92yd1h3z6/meVJtoo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JbyUo7cUPDk2IEFXcoiKaKnt54Ty09SQ2Fij0HoWh6/oIjpd7mkX/BE+xPmhO9HHHVmn5zE3CcFhOeH4tlQwlZOnIDj+aAvbRRSqbIqd6LLgHsl/xYSjfaxoeiSAZLjijAE1WvcyLBx4niPjBjkoC2pX4MkXWwNtrLLQRXVBHG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PRb9+8Gb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cQ7VlgxH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F2DC4CEED;
-	Mon, 25 Aug 2025 16:11:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PRb9+8Gb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D718DC113D0;
+	Mon, 25 Aug 2025 20:04:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756138321;
-	bh=lRmwIXXuuVxuUeGAauGH9Bx39v/B949+O0RVAstjSuk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cQ7VlgxHju8BEVWwXx8S5s9QO0VAGvXQFLrv/Uk7vG//TkWLtQ958x6s8s27sBA9K
-	 ZcC+Vqlxi7SLRsijcAT4VR40IpnOE02lPJoJxRdH4JLlfsembYa20HUZxxM4Ykvuhd
-	 gR9Ewz0C17+TNmcjSvn8rsyUEZ3eHGOfihpu+yQUtN2eQgqTq4UevTo4hW53DjKucR
-	 RcfXKEtkDNMjSmnffIYVrTmNpy0yJ+On9axRFVmIFarvx0PpkxtcTqBkLOK2JQ/CFW
-	 UV/FEDmGacDp6s4U8xtBgsmf+FYq4bHcugm4JlhafhGE0dBr3Z/OCxvHsJZPXPRon0
-	 vH/QeTkJt0PjQ==
-Date: Mon, 25 Aug 2025 09:11:58 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Jaehoon Chung <jh80.chung@samsung.com>, Ulf
- Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Shreeya
- Patel <shreeya.patel@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>, Andy Yan
- <andy.yan@rock-chips.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Vinod Koul <vkoul@kernel.org>, Kishon
- Vijay Abraham I <kishon@kernel.org>, Nicolas Frattaroli
- <frattaroli.nicolas@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre
- Torgue <alexandre.torgue@foss.st.com>, Shawn Lin
- <shawn.lin@rock-chips.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>, Manivannan
- Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham
- <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, Qin
- Jian <qinjian@cqplus1.com>, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v3 15/20] net: stmmac: dwmac-rk: switch to
- FIELD_PREP_WM16 macro
-Message-ID: <20250825091158.07893b12@kernel.org>
-In-Reply-To: <20250825-byeword-update-v3-15-947b841cdb29@collabora.com>
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
-	<20250825-byeword-update-v3-15-947b841cdb29@collabora.com>
+	s=k20201202; t=1756152269;
+	bh=OB6kFuj6GvVQGzt10o/kddzzei92yd1h3z6/meVJtoo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=PRb9+8GbIP12gHXsvaNk4yX9v+MiCQI89IgFxXX3qFzsBC40aCYNMyOI/dTl0pPZJ
+	 HJAetTRIuBjwIbAm25ZeKmV8X0YNxLnlYngA97Tt+LuorTSZkdiDErbjdIAlWr8Vb9
+	 2WLpqj3hYzCBbEU34Ud+xe4XmW5tbSRcuIGHp/LG2ZJhsn8pIKLTU+x3M/mr7UNUJc
+	 4YDdh5t95ZA7NZhpAbyste/3RxfUYqbNtLx2Lqoabriv5p7rs414HTdSIB0lH49g3H
+	 9jE2hoyQMW+TBwtXSFnP1xmNeHNmUpwEw8ngQTC8dLi05xWOu7kG5eyg2y6u4zy0Hv
+	 UvFtZGHpbK+aA==
+From: Mark Brown <broonie@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Cryolitia PukNgae <cryolitia@uniontech.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ guanwentao@uniontech.com, niecheng1@uniontech.com, zhanjun@uniontech.com
+In-Reply-To: <20250822-idt821034-v1-1-e2bfffbde56f@uniontech.com>
+References: <20250822-idt821034-v1-1-e2bfffbde56f@uniontech.com>
+Subject: Re: [PATCH] ASoC: codecs: idt821034: fix wrong log in
+ idt821034_chip_direction_output()
+Message-Id: <175615226389.226187.9381064853664088480.b4-ty@kernel.org>
+Date: Mon, 25 Aug 2025 21:04:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-a9b2a
 
-On Mon, 25 Aug 2025 10:28:35 +0200 Nicolas Frattaroli wrote:
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
+On Fri, 22 Aug 2025 18:28:33 +0800, Cryolitia PukNgae wrote:
+> Change `dir in` to `dir out`
 > 
-> Like many other Rockchip drivers, dwmac-rk has its own HIWORD_UPDATE
-> macro. Its semantics allow us to redefine it as a wrapper to the shared
-> hw_bitfield.h FIELD_PREP_WM16 macros though.
 > 
-> Replace the implementation of this driver's very own HIWORD_UPDATE macro
-> with an instance of FIELD_PREP_WM16 from hw_bitfield.h. This keeps the
-> diff easily reviewable, while giving us more compile-time error
-> checking.
-> 
-> The related GRF_BIT macro is left alone for now; any attempt to rework
-> the code to not use its own solution here would likely end up harder to
-> review and less pretty for the time being.
 
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: codecs: idt821034: fix wrong log in idt821034_chip_direction_output()
+      commit: b1c99d5bd24ce0a1193d8476d83bf8c8bc633266
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
