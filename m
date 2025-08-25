@@ -1,435 +1,241 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EEA280A52
-	for <linux-sound@vger.kernel.org>; Mon, 25 Aug 2025 08:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756109532; cv=none; b=dEqCwvrE9wQbw/QRexPjBxzvUgd1QHwwxCJABc30pd6B+I/kB7/w+F8DeGmjMLQPclBcqM4CBd5ohHc8mTMz4eQFO3aNgSqod7XUf0WtniS5O8kkBnSHNNvRE1Y+EZ4dQ2DdHxHnF0YorjQyNkUivHjVGQeaR/4td54zeM9oAUE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756109532; c=relaxed/simple;
-	bh=VcDFtIzr4vI441rEW7Kp7RzmGwxaWxQUt3xEq6jBw1M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c/6MTfjEOHz/olR7n4MouXrILTJeSNJBQrRLu9jPo7rvLaX/QACOm+xMEauF2dYUId9NnhWT0D1Vl7u0GKf0OhT9NFLxqqIx1ewn5AvIlrV6n+zimeosblLYoyFpHGaGeSnTwweQccj6+hpvwPVadFGfbou3KnnM0RxsSg52jjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=erjsbJs5; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDE829BDA2;
+	Mon, 25 Aug 2025 08:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756110615; cv=pass; b=LSdMzyX4KxKgGYUrpCyJYZsOn20+ssBC60FUEBqbRpYeIHPhhY3xjshFCbxJCwqopFHNAWGeDlnPZnlXytzO/hHXq15Um1XrFVsKgRWHILFkeiaGkkjTgzyFu17qlutg2hiC5bWZD5DmKwF3IVgNXn50GdE/Z+c2de1qzt1zmNs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756110615; c=relaxed/simple;
+	bh=6XSD7X+RgLDbJmelrFUCemaN25GJQmoO86sqiNiHoGY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BFWS+R/S/f0BXms38V21ppeyn1WOhBzpX3UzDsTo0og3dg9aWW6Biwy0lL8E98MYMGt456kR0xACCHCTOmU/dwgZ5DlF251hk9F8AKsk79/aLxSWDNixw8ErIcwvAA8VlTBAHfUyplDzokM5M7AkSc0fW16AvbrnYNZSLfkUNa4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=XEZR1DZV; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="erjsbJs5"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-61c2874224cso262050a12.2
-        for <linux-sound@vger.kernel.org>; Mon, 25 Aug 2025 01:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756109527; x=1756714327; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TnsZ6L300ZKgc1COVNFcUJ5H1mGue0Pdof2dEQV2XRs=;
-        b=erjsbJs5OpIMRinksocW45K8M4sPTf72bTry0kCuEMA9W7dUjnE3KXhkvbCjhK+93A
-         ZTdtfGeqSl5jjpYMAQaPSbCCVUFFwD2Eawj4v6x/2Ak3J9ro0JiCgjslyBsUx6mSM+sF
-         C0a1xmgIuMLm5iEEK/WF8xZd8LixM8QSTPE5v9TDpdODyyuhU0bgYtgUlwHWC38ZIu+0
-         gsP2vRttAsSGh74hXkJLVyh7WiD2SlNi5w3udki6NptmK7Z+tVIxoVQNsvSf6onC5rUB
-         7Hr78qb84aV7F4Fu9n7FSBbq7k6WfnGBeuU14zFE7xUsj73V3rkSd5IxiKj//cPDOPL+
-         sL3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756109527; x=1756714327;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TnsZ6L300ZKgc1COVNFcUJ5H1mGue0Pdof2dEQV2XRs=;
-        b=lSisRHRRXbyfLwX2aEtx0f7NqYaSxOB1ePGo0+H6E6xFzKguDA0zyPMMnPr5eYUynw
-         nXP2d61NKDWm/0gWFHUplHULyKnKwFDKckLZ2Pg2vH/tsfP3KuQZoME/XiSBytc84uPH
-         SWij+x1BLlCCOmBoPdS5gn2VqTfNRxGM4e8B2d7ZDTrNw8NiaVEr/cKu8jT3xwTdsUU5
-         0UWfc5j35fWnQMvDCGUxTIj3xmvRrZLp4kAYbxgD6HFivWZVsfJ7DVb4lj3wHsZQFdmn
-         J4Ej621bfZHeKI2Smhjgph+OFQM9rvYGCorNzaaj1Fo+3WZ6Qrak39Er4Lq6oHdjRXai
-         zdMw==
-X-Forwarded-Encrypted: i=1; AJvYcCU2dwSlFjaJcjXCrHQpyqgiDfv74yK+HhMFPSgl0XGEidp7mTsHcbFQoqxVi9AGmpxiZZz3uvRz3q6bgg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxna0lD1j+6Cwqurejh+T+w9U1BcKe89Pli2c8Z76CVPzuVUMuS
-	j/BCIPYJL2eVJwE81bCDpBwGeMeZH8+ZDfy+Mx7l/6vbqmfuXi5/XG4CaHdiJV/bvUs=
-X-Gm-Gg: ASbGnctJZ2WTcCQ52Rw76C4fvQwS8yv+sl8NK8YQaTbMAMCMggPcezBJmaEnkQ3okGT
-	51JihnT4Tm/knxEbyFuVoQirxnumDUVQqoT52QqAZYuNMdT5B0SpdW/U4uYQVC5ETCCNsnv39Re
-	kIl5qtCzjpp+oGJ/2OeTeTyfqYYepKNRSkfSXvIjDTPgtZ/YSZRsOvHZv3wmBOIhlgw7RGFwclh
-	UDOVII8R4YAl3zVgfh3BuYQApHm7aEgjt9LhDnv0yfhkW6yMCXsENqYIYiQ5tmjaFnACd+3XpuB
-	n9sx8Z7IBaGzA146uTZs4T/Ewwh9a/tXtXOB1jJEEhiqHeEtX5JTP4GXkSo5feqZD/hd1NDwJKg
-	ntm+iHKXgaISG4DmSB54ckG4hlCc0FxjlWQ==
-X-Google-Smtp-Source: AGHT+IGMFHVCfgzqOUh+pGDLejurh3U7hp17R5KFUc6Wa/vTUBiH/N42R6EI9BDD6UgsghTGJU7GvA==
-X-Received: by 2002:a05:6402:2748:b0:61c:6855:d917 with SMTP id 4fb4d7f45d1cf-61c6855df51mr1226404a12.6.1756109526816;
-        Mon, 25 Aug 2025 01:12:06 -0700 (PDT)
-Received: from kuoka.. ([213.244.170.152])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61c312a57e6sm4553003a12.14.2025.08.25.01.12.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 01:12:06 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Pengyu Luo <mitltlatltl@gmail.com>,
-	Michael Walle <mwalle@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jean Delvare <jdelvare@suse.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Lee Jones <lee@kernel.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Nikita Travkin <nikita@trvn.ru>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tinghan Shen <tinghan.shen@mediatek.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chrome-platform@lists.linux.dev,
-	linux-gpio@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-pwm@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-watchdog@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Mathew McBride <matt@traverse.com.au>
-Subject: [PATCH v3] dt-bindings: mfd: Move embedded controllers to own directory
-Date: Mon, 25 Aug 2025 10:12:02 +0200
-Message-ID: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="XEZR1DZV"
+ARC-Seal: i=1; a=rsa-sha256; t=1756110534; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Kaj07l+KJHjwgrTN4ypGgxEUJROoxxzaBsZnD3OUf+5LDOOblsn6wic7dsefSAxyPDtLeAFyHyNj4MyNlFgYaJh6rL6EEaK2ap7IFl36mnCWMVIBkFIwFYhJKoaa1dFlSOgEBDriZ5ampiH3TQgtb0HWkQjW9DTEu6oqrrC9lIs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1756110534; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=7Fvpfg+PNyagHR37TkE0ZPNG3x9nZudXe4XKD4LHhxs=; 
+	b=OISu4RIgKAxjJ6YaqWywRv+alPbF+6bm5tW49+Hu42Rhbr8YbkOc5FLr6ktF4nBc6maYTwTa467/RzI0MVPBzUdvNcuXS2f6ByaS7WlAi3XL7A2RO+sp5CwMO3m94KBZERAoNX8dZxeokAgVACKgBBlaZV3qMZ7UZnBdmJAim6U=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756110534;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=7Fvpfg+PNyagHR37TkE0ZPNG3x9nZudXe4XKD4LHhxs=;
+	b=XEZR1DZVfgAILwelSAZzqFJzCfY4YMXWOXBkoUa/GooArBWTMLDzJ2m7VYeOvBQT
+	itI76enUGOZQyHq6PoqNRc73MEwkuAtpxKglF/vgLCTyD92/uMzRh94Y+ih+OVxXidw
+	3qvKuI8g/IPc4ECDUqgjddCkbICkQkC3LnmOsoVU=
+Received: by mx.zohomail.com with SMTPS id 1756110531357309.34716059553057;
+	Mon, 25 Aug 2025 01:28:51 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: [PATCH v3 00/20] BYEWORD_UPDATE: unifying (most) HIWORD_UPDATE
+ macros
+Date: Mon, 25 Aug 2025 10:28:20 +0200
+Message-Id: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKQerGgC/2XOTQ6DIBAF4KsY1qUB/E1XvUfTBeJQSVQsINUY7
+ 16KXTR1+SZ535sVWTAKLLokKzLglVV6CCE9JUi0fHgAVk3IiBGWk4ISXC/w0qbB09hwBzjLckE
+ AeFnSBoXSaECqOYK3+54NPKfguv2Iam4BC933yl2SAWaHo12xHH0KrbJOmyU+5GlsfLfZ/7anm
+ GCZcVlXskhpKq9Cdx2vteHnMBA5z34Ilh4IFgghqRSk4gzogdi27Q2HCXpbJAEAAA==
+X-Change-ID: 20250610-byeword-update-445c0eea771d
+To: Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Jaehoon Chung <jh80.chung@samsung.com>, 
+ Ulf Hansson <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Shreeya Patel <shreeya.patel@collabora.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Shawn Lin <shawn.lin@rock-chips.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
+ MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, 
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+X-Mailer: b4 0.14.2
 
-Move several embedded controller bindings (like ChromeOS EC, Gateworks
-System Controller and Kontron sl28cpld Board Management) to new
-subdirectory "embedded-controller" matching their purpose.
+This series was spawned by [1], where I was asked to move every instance
+of HIWORD_UPDATE et al that I could find to a common macro in the same
+series that I am introducing said common macro.
 
-An embedded controller (EC) is a discrete component that contains a
-microcontroller (i.e. a small CPU running a small firmware without
-operating system) mounted into a larger computer system running
-a fully fledged operating system that needs to utilize the embedded
-controller as part of its operation.
+The first patch of the series introduces a new header file,
+hw_bitfield.h, which contains two new macros: FIELD_PREP_WM16 and
+FIELD_PREP_WM16_CONST. The latter can be used in initializers.
 
-So far the EC bindings were split between "mfd" and "platform"
-directory.  MFD name comes from Linux, not hardware, and "platform" is a
-bit too generic.
+I've cheekily added the hw_bitfield.h header to the BITMAP API section
+of the MAINTAINERS file.
 
-Rename Gateworks GSC and Huawei Gaokun filenames to match compatible, as
-preferred for bindings.
+This macro definition checks that the mask fits, and that the value fits
+in the mask. Like FIELD_PREP, it also shifts the value up to the mask,
+so turning off a bit does not require using the mask as a value. Masks
+are also required to be contiguous, like with FIELD_PREP.
 
-Acked-by: Michael Walle <mwalle@kernel.org> # for sl28cpld
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+For each definition of such a macro, the driver(s) that used it were
+evaluated for three different treatments:
+ - full conversion to the new macro, for cases where replacing the
+   implementation of the old macro wouldn't have worked, or where the
+   conversion was trivial. These are the most complex patches in this
+   series, as they sometimes have to pull apart definitions of masks
+   and values due to the new semantics, which require a contiguous
+   mask and shift the value for us.
+ - replacing the implementation of the old macro with an instance of the
+   new macro, done where I felt it made the patch much easier to review
+   because I didn't want to drop a big diff on people.
+ - skipping conversion entirely, usually because the mask is
+   non-constant and it's not trivial to make it constant. Sometimes an
+   added complication is that said non-constant mask is either used in a
+   path where runtime overhead may not be desirable, or in an
+   initializer.
+
+Left out of conversion:
+ - drivers/mmc/host/sdhci-of-arasan.c: mask is non-constant.
+ - drivers/phy/rockchip/phy-rockchip-inno-csidphy.c: mask is
+   non-constant likely by way of runtime pointer dereferencing, even if
+   struct and members are made const.
+ - drivers/clk/rockchip/clk.h: way too many clock drivers use non-const
+   masks in the context of an initializer.
+
+I will not be addressing these 3 remaining users in this series, as
+implementing a runtime checked version on top of this and verifying that
+it doesn't cause undue overhead just for 3 stragglers is a bit outside
+the scope of wanting to get my RK3576 PWM series unblocked. Please have
+mercy.
+
+In total, I count 19 different occurrences of such a macro fixed out of
+22 I found. The vast majority of these patches have either undergone
+static testing to ensure the values end up the same during development,
+or have been verified to not break the device the driver is for at
+runtime. Only a handful are just compile-tested, and the individual
+patches remark which ones those are.
+
+This took a lot of manual work as this wasn't really something that
+could be automated: code had to be refactored to ensure masks were
+contiguous, made sense to how the hardware actually works and to human
+readers, were constant, and that the code uses unshifted values.
+
+Please note that I will not be resending the whole series again for
+purely subjective cosmetic changes. This series touches a lot of
+subsystems, which means many clashing tastes. You've had a week's notice
+to get any low-effort naming nitpicks out of the way after v1. If you as
+a maintainer are unhappy with a commit prefix or such, then you have my
+express permission to modify it while applying the patch, so that I
+don't need to bombard everyone else's inboxes again.
+
+https://lore.kernel.org/all/aD8hB-qJ4Qm6IFuS@yury/ [1]
+
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
-
-Lee,
-Can you take it via MFD?
-There is a patch on the lists touching kontron,sl28cpld.
-
 Changes in v3:
-1. Move more files from "platform" directory.
-2. Grow commit msg, based on feedback from Linus.
-3. Add Rb (patch changed, though).
+- Rebased onto next-20250825
+- Link to v2: https://lore.kernel.org/r/20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com
 
 Changes in v2:
-1. Correct remaining paths in other schemas ($ref and descriptions).
-2. Add Ack.
+- rebase onto next-20250623. This involved solving two conflicts in
+  pcie-dw-rockchip.
+- move new macros to a new hw_bitfield.h, and rename them to
+  FIELD_PREP_WM16*. All patches in the series have been updated to use
+  the new names.
+- hw_bitfield.h: fix macro param re-use in FIELD_PREP_WM16. I don't know
+  if there's any way to do the same in FIELD_PREP_WM16_CONST, but the
+  bitfield.h FIELD_PREP functions don't do it for either, so I'm already
+  strictly better anyway.
+- hw_bitfield.h: remove whitespace after cast operators.
+- change newly introduced U literal suffixes to UL, as they are more
+  commonly used in the kernel.
+- pcie-dw-rockchip: remove the legacy mode flag, as it's unused.
+- Link to v1: https://lore.kernel.org/r/20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com
 
-Cc: Mathew McBride <matt@traverse.com.au>
 ---
- .../{platform => embedded-controller}/acer,aspire1-ec.yaml  | 2 +-
- .../{mfd => embedded-controller}/google,cros-ec.yaml        | 2 +-
- .../gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml}  | 2 +-
- .../huawei,gaokun3-ec.yaml}                                 | 2 +-
- .../{mfd => embedded-controller}/kontron,sl28cpld.yaml      | 2 +-
- .../lenovo,yoga-c630-ec.yaml                                | 2 +-
- .../microsoft,surface-sam.yaml                              | 2 +-
- .../devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml     | 2 +-
- .../devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml   | 2 +-
- .../interrupt-controller/kontron,sl28cpld-intc.yaml         | 2 +-
- .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml         | 2 +-
- .../devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml       | 2 +-
- Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml   | 4 ++--
- .../devicetree/bindings/sound/google,cros-ec-codec.yaml     | 2 +-
- .../devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml  | 2 +-
- MAINTAINERS                                                 | 6 +++---
- 16 files changed, 19 insertions(+), 19 deletions(-)
- rename Documentation/devicetree/bindings/{platform => embedded-controller}/acer,aspire1-ec.yaml (94%)
- rename Documentation/devicetree/bindings/{mfd => embedded-controller}/google,cros-ec.yaml (99%)
- rename Documentation/devicetree/bindings/{mfd/gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml} (98%)
- rename Documentation/devicetree/bindings/{platform/huawei,gaokun-ec.yaml => embedded-controller/huawei,gaokun3-ec.yaml} (97%)
- rename Documentation/devicetree/bindings/{mfd => embedded-controller}/kontron,sl28cpld.yaml (97%)
- rename Documentation/devicetree/bindings/{platform => embedded-controller}/lenovo,yoga-c630-ec.yaml (95%)
- rename Documentation/devicetree/bindings/{platform => embedded-controller}/microsoft,surface-sam.yaml (92%)
+Nicolas Frattaroli (20):
+      bitmap: introduce hardware-specific bitfield operations
+      mmc: dw_mmc-rockchip: switch to FIELD_PREP_WM16 macro
+      soc: rockchip: grf: switch to FIELD_PREP_WM16_CONST macro
+      media: synopsys: hdmirx: replace macros with bitfield variants
+      drm/rockchip: lvds: switch to FIELD_PREP_WM16 macro
+      phy: rockchip-emmc: switch to FIELD_PREP_WM16 macro
+      drm/rockchip: dsi: switch to FIELD_PREP_WM16* macros
+      drm/rockchip: vop2: switch to FIELD_PREP_WM16 macro
+      phy: rockchip-samsung-dcphy: switch to FIELD_PREP_WM16 macro
+      drm/rockchip: dw_hdmi_qp: switch to FIELD_PREP_WM16 macro
+      drm/rockchip: inno-hdmi: switch to FIELD_PREP_WM16 macro
+      phy: rockchip-usb: switch to FIELD_PREP_WM16 macro
+      drm/rockchip: dw_hdmi: switch to FIELD_PREP_WM16* macros
+      ASoC: rockchip: i2s-tdm: switch to FIELD_PREP_WM16_CONST macro
+      net: stmmac: dwmac-rk: switch to FIELD_PREP_WM16 macro
+      PCI: rockchip: Switch to FIELD_PREP_WM16* macros
+      PCI: dw-rockchip: Switch to FIELD_PREP_WM16 macro
+      PM / devfreq: rockchip-dfi: switch to FIELD_PREP_WM16 macro
+      clk: sp7021: switch to FIELD_PREP_WM16 macro
+      phy: rockchip-pcie: switch to FIELD_PREP_WM16 macro
 
-diff --git a/Documentation/devicetree/bindings/platform/acer,aspire1-ec.yaml b/Documentation/devicetree/bindings/embedded-controller/acer,aspire1-ec.yaml
-similarity index 94%
-rename from Documentation/devicetree/bindings/platform/acer,aspire1-ec.yaml
-rename to Documentation/devicetree/bindings/embedded-controller/acer,aspire1-ec.yaml
-index 7cb0134134ff..01ee61768527 100644
---- a/Documentation/devicetree/bindings/platform/acer,aspire1-ec.yaml
-+++ b/Documentation/devicetree/bindings/embedded-controller/acer,aspire1-ec.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/platform/acer,aspire1-ec.yaml#
-+$id: http://devicetree.org/schemas/embedded-controller/acer,aspire1-ec.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Acer Aspire 1 Embedded Controller
-diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml
-similarity index 99%
-rename from Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-rename to Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml
-index 50f457090066..3ab5737c9a8f 100644
---- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-+++ b/Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-+$id: http://devicetree.org/schemas/embedded-controller/google,cros-ec.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: ChromeOS Embedded Controller
-diff --git a/Documentation/devicetree/bindings/mfd/gateworks-gsc.yaml b/Documentation/devicetree/bindings/embedded-controller/gw,gsc.yaml
-similarity index 98%
-rename from Documentation/devicetree/bindings/mfd/gateworks-gsc.yaml
-rename to Documentation/devicetree/bindings/embedded-controller/gw,gsc.yaml
-index dc379f3ebf24..82d4b2dadbae 100644
---- a/Documentation/devicetree/bindings/mfd/gateworks-gsc.yaml
-+++ b/Documentation/devicetree/bindings/embedded-controller/gw,gsc.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/mfd/gateworks-gsc.yaml#
-+$id: http://devicetree.org/schemas/embedded-controller/gw,gsc.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Gateworks System Controller
-diff --git a/Documentation/devicetree/bindings/platform/huawei,gaokun-ec.yaml b/Documentation/devicetree/bindings/embedded-controller/huawei,gaokun3-ec.yaml
-similarity index 97%
-rename from Documentation/devicetree/bindings/platform/huawei,gaokun-ec.yaml
-rename to Documentation/devicetree/bindings/embedded-controller/huawei,gaokun3-ec.yaml
-index 4a03b0ee3149..cd9e65b6c2ea 100644
---- a/Documentation/devicetree/bindings/platform/huawei,gaokun-ec.yaml
-+++ b/Documentation/devicetree/bindings/embedded-controller/huawei,gaokun3-ec.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/platform/huawei,gaokun-ec.yaml#
-+$id: http://devicetree.org/schemas/embedded-controller/huawei,gaokun3-ec.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Huawei Matebook E Go Embedded Controller
-diff --git a/Documentation/devicetree/bindings/mfd/kontron,sl28cpld.yaml b/Documentation/devicetree/bindings/embedded-controller/kontron,sl28cpld.yaml
-similarity index 97%
-rename from Documentation/devicetree/bindings/mfd/kontron,sl28cpld.yaml
-rename to Documentation/devicetree/bindings/embedded-controller/kontron,sl28cpld.yaml
-index 37207a97e06c..0b752f3baaa9 100644
---- a/Documentation/devicetree/bindings/mfd/kontron,sl28cpld.yaml
-+++ b/Documentation/devicetree/bindings/embedded-controller/kontron,sl28cpld.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/mfd/kontron,sl28cpld.yaml#
-+$id: http://devicetree.org/schemas/embedded-controller/kontron,sl28cpld.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Kontron's sl28cpld board management controller
-diff --git a/Documentation/devicetree/bindings/platform/lenovo,yoga-c630-ec.yaml b/Documentation/devicetree/bindings/embedded-controller/lenovo,yoga-c630-ec.yaml
-similarity index 95%
-rename from Documentation/devicetree/bindings/platform/lenovo,yoga-c630-ec.yaml
-rename to Documentation/devicetree/bindings/embedded-controller/lenovo,yoga-c630-ec.yaml
-index 3180ce1a22d4..a029b38e8dc0 100644
---- a/Documentation/devicetree/bindings/platform/lenovo,yoga-c630-ec.yaml
-+++ b/Documentation/devicetree/bindings/embedded-controller/lenovo,yoga-c630-ec.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/platform/lenovo,yoga-c630-ec.yaml#
-+$id: http://devicetree.org/schemas/embedded-controller/lenovo,yoga-c630-ec.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Lenovo Yoga C630 Embedded Controller.
-diff --git a/Documentation/devicetree/bindings/platform/microsoft,surface-sam.yaml b/Documentation/devicetree/bindings/embedded-controller/microsoft,surface-sam.yaml
-similarity index 92%
-rename from Documentation/devicetree/bindings/platform/microsoft,surface-sam.yaml
-rename to Documentation/devicetree/bindings/embedded-controller/microsoft,surface-sam.yaml
-index b33d26f15b2a..9202cfca0b35 100644
---- a/Documentation/devicetree/bindings/platform/microsoft,surface-sam.yaml
-+++ b/Documentation/devicetree/bindings/embedded-controller/microsoft,surface-sam.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/platform/microsoft,surface-sam.yaml#
-+$id: http://devicetree.org/schemas/embedded-controller/microsoft,surface-sam.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Surface System Aggregator Module (SAM, SSAM)
-diff --git a/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml b/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
-index b032471831e7..02663d67eac7 100644
---- a/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
-@@ -11,7 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the sl28cpld multi-function device. For more
--  details see ../mfd/kontron,sl28cpld.yaml.
-+  details see ../embedded-controller/kontron,sl28cpld.yaml.
- 
-   There are three flavors of the GPIO controller, one full featured
-   input/output with interrupt support (kontron,sl28cpld-gpio), one
-diff --git a/Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml
-index 010333cb25c0..5803a1770cad 100644
---- a/Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml
-@@ -11,7 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the sl28cpld multi-function device. For more
--  details see ../mfd/kontron,sl28cpld.yaml.
-+  details see ../embedded-controller/kontron,sl28cpld.yaml.
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml
-index e8dfa6507f64..87df07beda59 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml
-@@ -11,7 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the sl28cpld multi-function device. For more
--  details see ../mfd/kontron,sl28cpld.yaml.
-+  details see ../embedded-controller/kontron,sl28cpld.yaml.
- 
-   The following interrupts are available. All types and levels are fixed
-   and handled by the board management controller.
-diff --git a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
-index f7bc84b05a87..8f5a468cfb91 100644
---- a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
-+++ b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
-@@ -14,7 +14,7 @@ description: |
-   Google's ChromeOS EC PWM is a simple PWM attached to the Embedded Controller
-   (EC) and controlled via a host-command interface.
-   An EC PWM node should be only found as a sub-node of the EC node (see
--  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml).
-+  Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml).
- 
- allOf:
-   - $ref: pwm.yaml#
-diff --git a/Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml b/Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml
-index 981cfec53f37..19a9d2e15a96 100644
---- a/Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml
-+++ b/Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml
-@@ -11,7 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the sl28cpld multi-function device. For more
--  details see ../mfd/kontron,sl28cpld.yaml.
-+  details see ../embedded-controller/kontron,sl28cpld.yaml.
- 
-   The controller supports one PWM channel and supports only four distinct
-   frequencies (250Hz, 500Hz, 1kHz, 2kHz).
-diff --git a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
-index adc6b3f36fde..179c98b33b4d 100644
---- a/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
-+++ b/Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml
-@@ -58,7 +58,7 @@ properties:
-     maxItems: 1
- 
-   cros-ec-rpmsg:
--    $ref: /schemas/mfd/google,cros-ec.yaml
-+    $ref: /schemas/embedded-controller/google,cros-ec.yaml
-     description:
-       This subnode represents the rpmsg device. The properties
-       of this node are defined by the individual bindings for
-@@ -126,7 +126,7 @@ patternProperties:
-         maxItems: 1
- 
-       cros-ec-rpmsg:
--        $ref: /schemas/mfd/google,cros-ec.yaml
-+        $ref: /schemas/embedded-controller/google,cros-ec.yaml
-         description:
-           This subnode represents the rpmsg device. The properties
-           of this node are defined by the individual bindings for
-diff --git a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
-index 1434f4433738..dd51e8c5b8c2 100644
---- a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
-+++ b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
-@@ -15,7 +15,7 @@ description: |
-   Embedded Controller (EC) and is controlled via a host-command
-   interface.  An EC codec node should only be found inside the "codecs"
-   subnode of a cros-ec node.
--  (see Documentation/devicetree/bindings/mfd/google,cros-ec.yaml).
-+  (see Documentation/devicetree/bindings/embedded-controller/google,cros-ec.yaml).
- 
- allOf:
-   - $ref: dai-common.yaml#
-diff --git a/Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml b/Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml
-index 179272f74de5..872a8471ef65 100644
---- a/Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml
-@@ -11,7 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the sl28cpld multi-function device. For more
--  details see ../mfd/kontron,sl28cpld.yaml.
-+  details see ../embedded-controller/kontron,sl28cpld.yaml.
- 
- allOf:
-   - $ref: watchdog.yaml#
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7969d09dff17..ef41ae022a36 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10129,7 +10129,7 @@ F:	drivers/media/i2c/gc2145.c
- GATEWORKS SYSTEM CONTROLLER (GSC) DRIVER
- M:	Tim Harvey <tharvey@gateworks.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/mfd/gateworks-gsc.yaml
-+F:	Documentation/devicetree/bindings/embedded-controller/gw,gsc.yaml
- F:	Documentation/hwmon/gsc-hwmon.rst
- F:	drivers/hwmon/gsc-hwmon.c
- F:	drivers/mfd/gateworks-gsc.c
-@@ -11300,7 +11300,7 @@ F:	drivers/net/ethernet/huawei/hinic3/
- HUAWEI MATEBOOK E GO EMBEDDED CONTROLLER DRIVER
- M:	Pengyu Luo <mitltlatltl@gmail.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/platform/huawei,gaokun-ec.yaml
-+F:	Documentation/devicetree/bindings/embedded-controller/huawei,gaokun3-ec.yaml
- F:	drivers/platform/arm64/huawei-gaokun-ec.c
- F:	drivers/power/supply/huawei-gaokun-battery.c
- F:	drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-@@ -23177,10 +23177,10 @@ F:	drivers/usb/misc/sisusbvga/
- SL28 CPLD MFD DRIVER
- M:	Michael Walle <mwalle@kernel.org>
- S:	Maintained
-+F:	Documentation/devicetree/bindings/embedded-controller/kontron,sl28cpld.yaml
- F:	Documentation/devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml
- F:	Documentation/devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/kontron,sl28cpld-intc.yaml
--F:	Documentation/devicetree/bindings/mfd/kontron,sl28cpld.yaml
- F:	Documentation/devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml
- F:	Documentation/devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml
- F:	drivers/gpio/gpio-sl28cpld.c
+ MAINTAINERS                                        |   1 +
+ drivers/clk/clk-sp7021.c                           |  22 ++--
+ drivers/devfreq/event/rockchip-dfi.c               |  27 ++--
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    | 142 ++++++++++-----------
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c        |  80 ++++++------
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c     |  68 +++++-----
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  11 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h       |   1 -
+ drivers/gpu/drm/rockchip/rockchip_lvds.h           |  21 +--
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c       |  15 ++-
+ .../media/platform/synopsys/hdmirx/snps_hdmirx.h   |   6 +-
+ drivers/mmc/host/dw_mmc-rockchip.c                 |   9 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-rk.c     |   3 +-
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c      |  42 +++---
+ drivers/pci/controller/pcie-rockchip.h             |  35 ++---
+ drivers/phy/rockchip/phy-rockchip-emmc.c           |   3 +-
+ drivers/phy/rockchip/phy-rockchip-pcie.c           |  70 +++-------
+ drivers/phy/rockchip/phy-rockchip-samsung-dcphy.c  |  11 +-
+ drivers/phy/rockchip/phy-rockchip-usb.c            |  51 +++-----
+ drivers/soc/rockchip/grf.c                         |  35 +++--
+ include/linux/hw_bitfield.h                        |  62 +++++++++
+ sound/soc/rockchip/rockchip_i2s_tdm.h              |   4 +-
+ 22 files changed, 366 insertions(+), 353 deletions(-)
+---
+base-commit: 0c5416a62c0e4df1b3f79b5c74c03cd48df51357
+change-id: 20250610-byeword-update-445c0eea771d
+
+Best regards,
 -- 
-2.48.1
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
