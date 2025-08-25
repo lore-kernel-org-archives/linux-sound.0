@@ -1,84 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBA72F0C50;
-	Mon, 25 Aug 2025 13:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6854723D7E3
+	for <linux-sound@vger.kernel.org>; Mon, 25 Aug 2025 15:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756130162; cv=none; b=T0e+LLjZUghUP22A14w+jhMptMr/u9STTha0bJHdRao/npabNWtlIJWwqgjZs7nYKq1t1M+BCRYQDnRqwxXrOf7EUamWzVYKLIioZtfgllYJnaQqoeFrBO1Ekq18vzxsHAJnc0I4cINS0wjDQHPMojLtDFUyUFsrU0Of3ov5RWI=
+	t=1756134682; cv=none; b=t9Rzf4M9OdCngEH9UTS9548gTU5oVR4ebceGSR9K4bmSzdQMsUI+UIuwgBqm/l5mh6e2i63kx4L40IQ/uuSMSzOdz0urDs5Lomqwt64C2qob35w8l445fWpKFYCKubSKsuu9Z10OjCg9fn4koJb7U2Eu/GW6rGlCkctiVS3bLnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756130162; c=relaxed/simple;
-	bh=QgaDswc0Ha06/naCbpUA1quGmwdQM39WO9QQETVt1Z8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UnFP1H48jQ5uw09iiyVQUV53lObTVsxVJSV/kX7ATnt6m92NNj1ZshdqlE2WBRUwyWVm4Y5u6Tl/vWqwGFPaNAD1ilZOvTE2B+CzweZ43N6tSO7fYvPMelTkxFZFvu9jBOnPWcrwj0oG2XfEQLyUVmneR53x7UGaZ5dDehy3gGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M58xxnMk; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1756134682; c=relaxed/simple;
+	bh=6aWYKlqmLmN65SZrSdpzfteiFn/NWrcOVSYzCVaVo8k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IkUXGRDzYpLNpHks6IELJ+6khlBqnVIc0U290wvPVoUQawzw6nltsU5HsfotGrFaypznSdjGc8WGt25StRHyYQjiU4vTJ/7/CP1YrRD0cEazt/qq3popYqHMMhA9RqKPPidCckg5ljXJOrxWCJ8MuQG2CnQlPcnOJvIRBICPEwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KYLoyNCk; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M58xxnMk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756130161; x=1787666161;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QgaDswc0Ha06/naCbpUA1quGmwdQM39WO9QQETVt1Z8=;
-  b=M58xxnMkKokSIjJZaZ6/0cp/J3IVn3F3ExYXSvGvbKDBImL9ot6CTGth
-   IGJKtrd0JgUPC1QdGlcrS6WZBehRv70gl6/dAsk86FCCe4BQcbUj/lXPT
-   6VQHXQPoNu/cq8yHw8IJJ3AaP452CsElInADm2m9DEm9o8cH06zK17tTo
-   0+S3B0WACXBFMiEe32qKd8mc3nH1+0/U6NyGAK6h/Y4q/f/Aak4EbeYQy
-   qYK6Gwu6aMLuEHVH3e4XOvT7zx/wT9a+2w4NIAaye8KTPxVfwjkUm5gUX
-   3BkIZuy5LK64T1pWOLZXC013JsQ6NRDxlUxHGjwusD6x+pS8r3ZFx/6lQ
-   A==;
-X-CSE-ConnectionGUID: tmFg0yj8Tnutt8jpG0YxMg==
-X-CSE-MsgGUID: wclXLs1nRzGIminLCkclUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69057453"
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
-   d="scan'208";a="69057453"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 06:55:59 -0700
-X-CSE-ConnectionGUID: SCes7JLZR1aT0iI5qUmRbg==
-X-CSE-MsgGUID: SOVC7D3bT9ebDmcz/VrSeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
-   d="scan'208";a="173485854"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 06:55:56 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uqXft-00000008WcC-3wk4;
-	Mon, 25 Aug 2025 16:55:53 +0300
-Date: Mon, 25 Aug 2025 16:55:53 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v1 1/1] ASoC: amd: acp: Remove (explicitly) unused header
-Message-ID: <aKxraexKHD8T8zk6@smile.fi.intel.com>
-References: <20250331070943.3986387-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KYLoyNCk"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-76e39ec6f30so4277371b3a.2
+        for <linux-sound@vger.kernel.org>; Mon, 25 Aug 2025 08:11:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1756134681; x=1756739481; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UYv1SFw8KHRTBAs11RxrIjSXI0+Dq/l8nNXuXGxjK1Y=;
+        b=KYLoyNCkbbNHWe05MTlksYWH/jJao9Nks6d8wYamyAvmlfXiZKeb1Og7Uasz0EbFdO
+         rVq9q9K/MYiaRA+J31+sHtqEA8NaRlkc4UdSudsvJ3Hl+9BGLCZGoSBEbuQNEs+pc+iM
+         MQl/x2ugqT98WbVX8DBqdiDRxyv2AGuQD87J4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756134681; x=1756739481;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UYv1SFw8KHRTBAs11RxrIjSXI0+Dq/l8nNXuXGxjK1Y=;
+        b=FbeZwvIocellt+z/83MSh0UI7Wf5+kgd6x0Ulogj6d2hxfBPd4s2oI1dHjf06EVNil
+         cs/b12azRSaAcdBWXBb4tTxA0Moi3+u99FsRXwAR+IfODAW3+PFz1tobqi6Lg1GKLhUC
+         5lm6NQp6PvNeFx84uhJejC3HPgNfmfFDsnL1j4oY2d0ZO0Obr1TWL1x6vlYlA65XnBbK
+         ulC2ozHgObIbPfG8G2lHRLKwGGgxD9mrRrspSI09mhQyJAAczWPIQZjVr4a+9roOjGol
+         ruqeaGoRSk6ucs+Yqm6DCCOeZXSpjeJ91ktBO4wggTAM2Dlz0lwNo5WbS1lQ6/zzA/+z
+         EHYg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWNr6PwP4IEz2cLg5vziR1/ABktuSuU4XBPN72S+sBgkI5SVmZCctuQH9HO7/JzRVrHS/dEifB290kaQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3jzlheBT7hMqYFEHYGaTN4S2GABxqX6TbwIX8PNtoBecFKTLh
+	oEOw2MswiTJ/KCFjNedcL99wyFhem0ZV1Oc64GXE8S5BXrud9hKbmi3l+tHXDHqZV09hq67HdWw
+	5D3CrzCdq
+X-Gm-Gg: ASbGncsefJDQziALcfsiCOjFolDNZf03d8dGizxuZiPbP22XZLzzOKLjBwBTW0ieKNR
+	ntf4u+w9uAemfZHWGbvfIQL/SI58TQKm1qL4jtZn0YFe8L4SZQRM6iTMtk+D9cL1Yz0jcGnCVmA
+	6+SNWmQONfn+El8piEMKJA2lx2G0cajbLikNc3onvwwGy6jR63K3nrqEGGjOKDAU4rmOCQvxaOL
+	KgdJ++M0SG1QpFG98XzP2PHjfpaMV6llFAy8ZcZ+bsdY1dic11j18tI15b4zZIMD984yOqQ4gIp
+	bb7ifPJRBgOQHDKG0glT9MV9yZf2IPzdqLCK5SInwm/1MLlYJHnNTOoTH+w6Puyco0fAhgxKOe+
+	yAy9SzuHclvZX/G7zDLbEU+oh38Wc+CkmIbhb4lug
+X-Google-Smtp-Source: AGHT+IEdQuMc4qvfjOIBTCp/6aJwd6EcXET57GS+m3OZRdtWe1hoQXNFWqvIycN2W/2OBfSyp1B9yg==
+X-Received: by 2002:a05:6a20:7f85:b0:240:30c:273e with SMTP id adf61e73a8af0-24340c42b16mr19202183637.15.1756134680661;
+        Mon, 25 Aug 2025 08:11:20 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:d5a9:711e:13f5:e60f])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b49cb88fac4sm6956517a12.9.2025.08.25.08.11.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Aug 2025 08:11:20 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: mediatek: common: Switch to for_each_available_child_of_node_scoped()
+Date: Mon, 25 Aug 2025 23:11:09 +0800
+Message-ID: <20250825151111.3696404-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.51.0.261.g7ce5a0a67e-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250331070943.3986387-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 31, 2025 at 10:09:43AM +0300, Andy Shevchenko wrote:
-> The fwnode.h is not supposed to be used by the drivers as it
-> has the definitions for the core parts for different device
-> property provider implementations. Drop it.
-> 
-> Note, that fwnode API for drivers is provided in property.h
-> which is included here.
+Using for_each_available_child_of_node_scoped() allows us to get rid of
+of_node_put() calls from early returns or breaks in the loop. It also
+fixes issues with missing of_node_put() calls.
 
-Any news here?
+Switch to for_each_available_child_of_node_scoped() in parse_dai_link_info().
+Also drop the braces around if blocks now that the inner block is just
+one statement.
 
+Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+---
+Changes since v1:
+- Dropped unused variable
+---
+ .../mediatek/common/mtk-soundcard-driver.c    | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
+
+diff --git a/sound/soc/mediatek/common/mtk-soundcard-driver.c b/sound/soc/mediatek/common/mtk-soundcard-driver.c
+index 95a083939f3e..a2a30a87a359 100644
+--- a/sound/soc/mediatek/common/mtk-soundcard-driver.c
++++ b/sound/soc/mediatek/common/mtk-soundcard-driver.c
+@@ -89,40 +89,31 @@ static int set_dailink_daifmt(struct snd_soc_card *card,
+ int parse_dai_link_info(struct snd_soc_card *card)
+ {
+ 	struct device *dev = card->dev;
+-	struct device_node *sub_node;
+ 	struct snd_soc_dai_link *dai_link;
+ 	const char *dai_link_name;
+ 	int ret, i;
+ 
+ 	/* Loop over all the dai link sub nodes */
+-	for_each_available_child_of_node(dev->of_node, sub_node) {
++	for_each_available_child_of_node_scoped(dev->of_node, sub_node) {
+ 		if (of_property_read_string(sub_node, "link-name",
+-					    &dai_link_name)) {
+-			of_node_put(sub_node);
++					    &dai_link_name))
+ 			return -EINVAL;
+-		}
+ 
+ 		for_each_card_prelinks(card, i, dai_link) {
+ 			if (!strcmp(dai_link_name, dai_link->name))
+ 				break;
+ 		}
+ 
+-		if (i >= card->num_links) {
+-			of_node_put(sub_node);
++		if (i >= card->num_links)
+ 			return -EINVAL;
+-		}
+ 
+ 		ret = set_card_codec_info(card, sub_node, dai_link);
+-		if (ret < 0) {
+-			of_node_put(sub_node);
++		if (ret < 0)
+ 			return ret;
+-		}
+ 
+ 		ret = set_dailink_daifmt(card, sub_node, dai_link);
+-		if (ret < 0) {
+-			of_node_put(sub_node);
++		if (ret < 0)
+ 			return ret;
+-		}
+ 	}
+ 
+ 	return 0;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.51.0.261.g7ce5a0a67e-goog
 
