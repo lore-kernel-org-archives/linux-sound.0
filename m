@@ -1,146 +1,96 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6854723D7E3
-	for <linux-sound@vger.kernel.org>; Mon, 25 Aug 2025 15:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DD02FE060;
+	Mon, 25 Aug 2025 15:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756134682; cv=none; b=t9Rzf4M9OdCngEH9UTS9548gTU5oVR4ebceGSR9K4bmSzdQMsUI+UIuwgBqm/l5mh6e2i63kx4L40IQ/uuSMSzOdz0urDs5Lomqwt64C2qob35w8l445fWpKFYCKubSKsuu9Z10OjCg9fn4koJb7U2Eu/GW6rGlCkctiVS3bLnw=
+	t=1756136722; cv=none; b=gXN7IsaiCl8ebUSCJO2hIBIzDCbego/HP9C7lDg+aZF9RuQ2PX4onb3zaccZR1jR0sVb5+UEGQa+If867dRPU7unYbcuGcRz/iHbayiFjXUTMutRLS05rgbJn3LQTYvso1UH3r0t/ND50WQa99T/eut9sXWnABy/hplD6uNdmCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756134682; c=relaxed/simple;
-	bh=6aWYKlqmLmN65SZrSdpzfteiFn/NWrcOVSYzCVaVo8k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IkUXGRDzYpLNpHks6IELJ+6khlBqnVIc0U290wvPVoUQawzw6nltsU5HsfotGrFaypznSdjGc8WGt25StRHyYQjiU4vTJ/7/CP1YrRD0cEazt/qq3popYqHMMhA9RqKPPidCckg5ljXJOrxWCJ8MuQG2CnQlPcnOJvIRBICPEwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KYLoyNCk; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1756136722; c=relaxed/simple;
+	bh=i/vvLe+lwO7yVG+WXgvoPxHrxkfOl5zcez2+b+QQQnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QIKWy2Sj0cqpogQJIUgL2wPqIdbR2bfF1WBGPyilcsOW3oSlhpTUynRofDYBrbGeCpdImz6w7FGey8DO3NjPgjRFOu/3L5ul6mOBPIJCwlOe3h6LBEniYFZ2fgA4wIFDCfmR31rw0TnNPxhLslbDU5ew00juI0nRQpGBdUqF0tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nG3hxLOq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KYLoyNCk"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-76e39ec6f30so4277371b3a.2
-        for <linux-sound@vger.kernel.org>; Mon, 25 Aug 2025 08:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1756134681; x=1756739481; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UYv1SFw8KHRTBAs11RxrIjSXI0+Dq/l8nNXuXGxjK1Y=;
-        b=KYLoyNCkbbNHWe05MTlksYWH/jJao9Nks6d8wYamyAvmlfXiZKeb1Og7Uasz0EbFdO
-         rVq9q9K/MYiaRA+J31+sHtqEA8NaRlkc4UdSudsvJ3Hl+9BGLCZGoSBEbuQNEs+pc+iM
-         MQl/x2ugqT98WbVX8DBqdiDRxyv2AGuQD87J4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756134681; x=1756739481;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UYv1SFw8KHRTBAs11RxrIjSXI0+Dq/l8nNXuXGxjK1Y=;
-        b=FbeZwvIocellt+z/83MSh0UI7Wf5+kgd6x0Ulogj6d2hxfBPd4s2oI1dHjf06EVNil
-         cs/b12azRSaAcdBWXBb4tTxA0Moi3+u99FsRXwAR+IfODAW3+PFz1tobqi6Lg1GKLhUC
-         5lm6NQp6PvNeFx84uhJejC3HPgNfmfFDsnL1j4oY2d0ZO0Obr1TWL1x6vlYlA65XnBbK
-         ulC2ozHgObIbPfG8G2lHRLKwGGgxD9mrRrspSI09mhQyJAAczWPIQZjVr4a+9roOjGol
-         ruqeaGoRSk6ucs+Yqm6DCCOeZXSpjeJ91ktBO4wggTAM2Dlz0lwNo5WbS1lQ6/zzA/+z
-         EHYg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWNr6PwP4IEz2cLg5vziR1/ABktuSuU4XBPN72S+sBgkI5SVmZCctuQH9HO7/JzRVrHS/dEifB290kaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3jzlheBT7hMqYFEHYGaTN4S2GABxqX6TbwIX8PNtoBecFKTLh
-	oEOw2MswiTJ/KCFjNedcL99wyFhem0ZV1Oc64GXE8S5BXrud9hKbmi3l+tHXDHqZV09hq67HdWw
-	5D3CrzCdq
-X-Gm-Gg: ASbGncsefJDQziALcfsiCOjFolDNZf03d8dGizxuZiPbP22XZLzzOKLjBwBTW0ieKNR
-	ntf4u+w9uAemfZHWGbvfIQL/SI58TQKm1qL4jtZn0YFe8L4SZQRM6iTMtk+D9cL1Yz0jcGnCVmA
-	6+SNWmQONfn+El8piEMKJA2lx2G0cajbLikNc3onvwwGy6jR63K3nrqEGGjOKDAU4rmOCQvxaOL
-	KgdJ++M0SG1QpFG98XzP2PHjfpaMV6llFAy8ZcZ+bsdY1dic11j18tI15b4zZIMD984yOqQ4gIp
-	bb7ifPJRBgOQHDKG0glT9MV9yZf2IPzdqLCK5SInwm/1MLlYJHnNTOoTH+w6Puyco0fAhgxKOe+
-	yAy9SzuHclvZX/G7zDLbEU+oh38Wc+CkmIbhb4lug
-X-Google-Smtp-Source: AGHT+IEdQuMc4qvfjOIBTCp/6aJwd6EcXET57GS+m3OZRdtWe1hoQXNFWqvIycN2W/2OBfSyp1B9yg==
-X-Received: by 2002:a05:6a20:7f85:b0:240:30c:273e with SMTP id adf61e73a8af0-24340c42b16mr19202183637.15.1756134680661;
-        Mon, 25 Aug 2025 08:11:20 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:d5a9:711e:13f5:e60f])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b49cb88fac4sm6956517a12.9.2025.08.25.08.11.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 08:11:20 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ASoC: mediatek: common: Switch to for_each_available_child_of_node_scoped()
-Date: Mon, 25 Aug 2025 23:11:09 +0800
-Message-ID: <20250825151111.3696404-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.51.0.261.g7ce5a0a67e-goog
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nG3hxLOq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CC61C4CEED;
+	Mon, 25 Aug 2025 15:45:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756136722;
+	bh=i/vvLe+lwO7yVG+WXgvoPxHrxkfOl5zcez2+b+QQQnA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nG3hxLOqqLkOcrDBRg63JgemQULN1Iy22cTf3NkLBHwoO31uQ1O6ujij6oXSqimJE
+	 +sQBZ/D2IZYGT/IZmpb1Rj0uG5AFbU2pXjrbAMJkjbNFwE170jI+jwXW4kKlL5eH1h
+	 WdXuwrEkd9YIMH9L9lCeQQYZIqNp04zbX7X4GCQMNUBSKssoUFWuc08ZfceXpaqwtE
+	 rG6fyxNL/3okBkLH3dE3WpiidmjAuG+M2Bj+pdmvPJ9V+H8yzb5KzQM/KxbOOdkMUJ
+	 G9Lk941E8ayXe+Z4QbmlgQaYnzOvmIT1zKdypA7s6eVsmB6o9zKMPwhLxv3TwsA7Eb
+	 qYmtNhBUJo1ZQ==
+Date: Mon, 25 Aug 2025 16:45:17 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v1 1/1] ASoC: amd: acp: Remove (explicitly) unused header
+Message-ID: <aKyFDaYnXrC5sMiA@finisterre.sirena.org.uk>
+References: <20250331070943.3986387-1-andriy.shevchenko@linux.intel.com>
+ <aKxraexKHD8T8zk6@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ub3yC1cUlYaBfLnJ"
+Content-Disposition: inline
+In-Reply-To: <aKxraexKHD8T8zk6@smile.fi.intel.com>
+X-Cookie: Filmed before a live audience.
 
-Using for_each_available_child_of_node_scoped() allows us to get rid of
-of_node_put() calls from early returns or breaks in the loop. It also
-fixes issues with missing of_node_put() calls.
 
-Switch to for_each_available_child_of_node_scoped() in parse_dai_link_info().
-Also drop the braces around if blocks now that the inner block is just
-one statement.
+--ub3yC1cUlYaBfLnJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v1:
-- Dropped unused variable
----
- .../mediatek/common/mtk-soundcard-driver.c    | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+On Mon, Aug 25, 2025 at 04:55:53PM +0300, Andy Shevchenko wrote:
+> On Mon, Mar 31, 2025 at 10:09:43AM +0300, Andy Shevchenko wrote:
+> > The fwnode.h is not supposed to be used by the drivers as it
+> > has the definitions for the core parts for different device
+> > property provider implementations. Drop it.
+> >=20
+> > Note, that fwnode API for drivers is provided in property.h
+> > which is included here.
+>=20
+> Any news here?
 
-diff --git a/sound/soc/mediatek/common/mtk-soundcard-driver.c b/sound/soc/mediatek/common/mtk-soundcard-driver.c
-index 95a083939f3e..a2a30a87a359 100644
---- a/sound/soc/mediatek/common/mtk-soundcard-driver.c
-+++ b/sound/soc/mediatek/common/mtk-soundcard-driver.c
-@@ -89,40 +89,31 @@ static int set_dailink_daifmt(struct snd_soc_card *card,
- int parse_dai_link_info(struct snd_soc_card *card)
- {
- 	struct device *dev = card->dev;
--	struct device_node *sub_node;
- 	struct snd_soc_dai_link *dai_link;
- 	const char *dai_link_name;
- 	int ret, i;
- 
- 	/* Loop over all the dai link sub nodes */
--	for_each_available_child_of_node(dev->of_node, sub_node) {
-+	for_each_available_child_of_node_scoped(dev->of_node, sub_node) {
- 		if (of_property_read_string(sub_node, "link-name",
--					    &dai_link_name)) {
--			of_node_put(sub_node);
-+					    &dai_link_name))
- 			return -EINVAL;
--		}
- 
- 		for_each_card_prelinks(card, i, dai_link) {
- 			if (!strcmp(dai_link_name, dai_link->name))
- 				break;
- 		}
- 
--		if (i >= card->num_links) {
--			of_node_put(sub_node);
-+		if (i >= card->num_links)
- 			return -EINVAL;
--		}
- 
- 		ret = set_card_codec_info(card, sub_node, dai_link);
--		if (ret < 0) {
--			of_node_put(sub_node);
-+		if (ret < 0)
- 			return ret;
--		}
- 
- 		ret = set_dailink_daifmt(card, sub_node, dai_link);
--		if (ret < 0) {
--			of_node_put(sub_node);
-+		if (ret < 0)
- 			return ret;
--		}
- 	}
- 
- 	return 0;
--- 
-2.51.0.261.g7ce5a0a67e-goog
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
 
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
+
+--ub3yC1cUlYaBfLnJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmishQwACgkQJNaLcl1U
+h9BbEwf8DtHTUSrHrG9f66R5YQn6jSjVOfXBjLlbvgUzr+DJnTYmxkCO9MsqRrAu
+Wzkvakv77Du8gyiq1fuDYAd0x/rmyJ/8JMUIsr/Nhg4YbnC6PArgSX9nXXyW8I/W
+Y3SWgBq+sigBP9ONx+ixxRzaStniClF1Xe282TFyDJ5Go071lH2vz2tfVEebh3HZ
+PrJV2VZhDEeNzxpfDmhKUsXl2SrSbP+WR5BF8D/ssabNxiii03Y9aCBgWcUVUsQW
+Y5i6SWxk2tXbX/9fjJOF3Tp9H5m2pryAEGk7oCt2AqeBojWy0XmgwpwSTMU4Ik7V
+rNQJDwIMfDIfo4I4sJp4rI5beOIR3A==
+=nRRm
+-----END PGP SIGNATURE-----
+
+--ub3yC1cUlYaBfLnJ--
