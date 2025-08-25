@@ -1,137 +1,84 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDE926FA57;
-	Mon, 25 Aug 2025 12:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBA72F0C50;
+	Mon, 25 Aug 2025 13:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756123939; cv=none; b=SMN3vYTqV5OH/gxISmIjjOzMgXUPHkMK2fBa0GsFbXnz51fiMwVZ8B3cQHpFG3+BlEECv7e8r4XyuqSEGSBBumvHo+lvKxIx2g8NL9+Lf82Py9VkJFlJUwdOPqc757fc+8ai7ysPKL8u1yxKbZJ0EoURLrg+jyAYt6LkIemGuCE=
+	t=1756130162; cv=none; b=T0e+LLjZUghUP22A14w+jhMptMr/u9STTha0bJHdRao/npabNWtlIJWwqgjZs7nYKq1t1M+BCRYQDnRqwxXrOf7EUamWzVYKLIioZtfgllYJnaQqoeFrBO1Ekq18vzxsHAJnc0I4cINS0wjDQHPMojLtDFUyUFsrU0Of3ov5RWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756123939; c=relaxed/simple;
-	bh=4U9bVvwz/4NvnHCdp11J+Yuh+x5MC1T9tjtfK8agXDA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rr9zxQYkbaOnE9mtxt/+fC1OOv0UImnSp6jWi4DgMeWe52fhTQhQk0KKBtd1IK+yHbuyLqHN5QIu2NU7oonpB1L3LYZL8fZxM/9o5fiQKJL7xLSr3I5wye48G2aIUWZ6u/q2eiiO8pDhy9IbvXQUUS7mV9pQ29Cwtr89N7pxwP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=Oc+BeMLB; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=pIMB0pyT reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1756130162; c=relaxed/simple;
+	bh=QgaDswc0Ha06/naCbpUA1quGmwdQM39WO9QQETVt1Z8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UnFP1H48jQ5uw09iiyVQUV53lObTVsxVJSV/kX7ATnt6m92NNj1ZshdqlE2WBRUwyWVm4Y5u6Tl/vWqwGFPaNAD1ilZOvTE2B+CzweZ43N6tSO7fYvPMelTkxFZFvu9jBOnPWcrwj0oG2XfEQLyUVmneR53x7UGaZ5dDehy3gGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M58xxnMk; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="Oc+BeMLB";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="pIMB0pyT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1756123935; x=1787659935;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=X9+y2O9OmxOxX/zEOIoBycF6UqAOtVG8eEXojOig4yI=;
-  b=Oc+BeMLBf/UQWJdxGuUX8ZY9amXmC5GUih0HUagEk5wvAon/MXACJDaY
-   Tw60d3JCVZD3QHpItYnqisTLCKWbSgddPE+21NBeGl9c0Jgg3qr3h/2UG
-   4uMShrWHfTR6sCZhAIfmmEbEdKGt1C6uPtxIzi4sTbe7gsQwnBz1qfAqB
-   jyNQVAIzepGoeUouQ4aUMgsemF9xBksvASM7L2DFmcHCKOh9OYW7GcAYx
-   5U+GYBIapdnyGOYDN6gGCN3DRQYCqyV7DE4AI9mFWz4PrAfU9BYWCCdVO
-   Zs49RTw2g3IGFDW3aAF9EB0omJz+sWm4wpz8GJ7XLLmjfSy2Xc+HQVufl
-   Q==;
-X-CSE-ConnectionGUID: zg0bytcDSRGhJ3iD8qtdkQ==
-X-CSE-MsgGUID: VvlUDMQLR42OVmmbK81Exg==
-X-IronPort-AV: E=Sophos;i="6.17,312,1747692000"; 
-   d="scan'208";a="45893167"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 25 Aug 2025 14:12:10 +0200
-X-CheckPoint: {68AC531A-51-20CAA7DA-EC9DC758}
-X-MAIL-CPID: A576D94F7D758DC4C925CA782C60CC17_0
-X-Control-Analysis: str=0001.0A00211C.68AC531E.002E,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0369E1637A2;
-	Mon, 25 Aug 2025 14:12:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1756123926; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=X9+y2O9OmxOxX/zEOIoBycF6UqAOtVG8eEXojOig4yI=;
-	b=pIMB0pyTfFwshsr143kAZ41f239nMkXUqMRUe4chYF1iddy0ODQhW9wmej8XHPlcED7q2N
-	hGfaZSIi72fmNUqukxPQAiZLTFkewChZtRCxcCglv2wP7BvaS6l3QcTdWn+O3j54h28otw
-	8hBU20ZFVoWV2xx9X1Xwcm6Reqb3Vt79zxVXV2pmd6x4aFwaPe1D/0UW6Vi9Pl49xYK0Sm
-	yDKQ7z58GmGLxUIighQdvHrNTQDNSQKOjDDTFSHxboCwq44e7lt7kaOv1ghowH2CV7SoeW
-	7XnGnVUvWWugPnQwT2KkFgHkICCuK3KtnauUS4djAszRUPNARSeFAcDG8fMLzg==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: [PATCH 1/1] ASoC: tlv320aic32x4: use dev_err_probe() for regulators
-Date: Mon, 25 Aug 2025 14:11:38 +0200
-Message-ID: <20250825121139.2150099-1-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M58xxnMk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756130161; x=1787666161;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QgaDswc0Ha06/naCbpUA1quGmwdQM39WO9QQETVt1Z8=;
+  b=M58xxnMkKokSIjJZaZ6/0cp/J3IVn3F3ExYXSvGvbKDBImL9ot6CTGth
+   IGJKtrd0JgUPC1QdGlcrS6WZBehRv70gl6/dAsk86FCCe4BQcbUj/lXPT
+   6VQHXQPoNu/cq8yHw8IJJ3AaP452CsElInADm2m9DEm9o8cH06zK17tTo
+   0+S3B0WACXBFMiEe32qKd8mc3nH1+0/U6NyGAK6h/Y4q/f/Aak4EbeYQy
+   qYK6Gwu6aMLuEHVH3e4XOvT7zx/wT9a+2w4NIAaye8KTPxVfwjkUm5gUX
+   3BkIZuy5LK64T1pWOLZXC013JsQ6NRDxlUxHGjwusD6x+pS8r3ZFx/6lQ
+   A==;
+X-CSE-ConnectionGUID: tmFg0yj8Tnutt8jpG0YxMg==
+X-CSE-MsgGUID: wclXLs1nRzGIminLCkclUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="69057453"
+X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
+   d="scan'208";a="69057453"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 06:55:59 -0700
+X-CSE-ConnectionGUID: SCes7JLZR1aT0iI5qUmRbg==
+X-CSE-MsgGUID: SOVC7D3bT9ebDmcz/VrSeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,213,1751266800"; 
+   d="scan'208";a="173485854"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 06:55:56 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uqXft-00000008WcC-3wk4;
+	Mon, 25 Aug 2025 16:55:53 +0300
+Date: Mon, 25 Aug 2025 16:55:53 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v1 1/1] ASoC: amd: acp: Remove (explicitly) unused header
+Message-ID: <aKxraexKHD8T8zk6@smile.fi.intel.com>
+References: <20250331070943.3986387-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250331070943.3986387-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+On Mon, Mar 31, 2025 at 10:09:43AM +0300, Andy Shevchenko wrote:
+> The fwnode.h is not supposed to be used by the drivers as it
+> has the definitions for the core parts for different device
+> property provider implementations. Drop it.
+> 
+> Note, that fwnode API for drivers is provided in property.h
+> which is included here.
 
-Avoid error messages like the following when the regulators have not
-been probed yet:
+Any news here?
 
-    tlv320aic32x4 0-0018: Missing supply 'iov'
-    tlv320aic32x4 0-0018: Failed to setup regulators
-
-Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- sound/soc/codecs/tlv320aic32x4.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
-
-diff --git a/sound/soc/codecs/tlv320aic32x4.c b/sound/soc/codecs/tlv320aic32x4.c
-index 7399080f8580c..715a07ab97b9f 100644
---- a/sound/soc/codecs/tlv320aic32x4.c
-+++ b/sound/soc/codecs/tlv320aic32x4.c
-@@ -1277,8 +1277,8 @@ static int aic32x4_setup_regulators(struct device *dev,
- 	/* Check if the regulator requirements are fulfilled */
- 
- 	if (IS_ERR(aic32x4->supply_iov)) {
--		dev_err(dev, "Missing supply 'iov'\n");
--		return PTR_ERR(aic32x4->supply_iov);
-+		return dev_err_probe(dev, PTR_ERR(aic32x4->supply_iov),
-+				     "Missing supply 'iov'\n");
- 	}
- 
- 	if (IS_ERR(aic32x4->supply_ldo)) {
-@@ -1286,12 +1286,12 @@ static int aic32x4_setup_regulators(struct device *dev,
- 			return -EPROBE_DEFER;
- 
- 		if (IS_ERR(aic32x4->supply_dv)) {
--			dev_err(dev, "Missing supply 'dv' or 'ldoin'\n");
--			return PTR_ERR(aic32x4->supply_dv);
-+			return dev_err_probe(dev, PTR_ERR(aic32x4->supply_dv),
-+					     "Missing supply 'dv' or 'ldoin'\n");
- 		}
- 		if (IS_ERR(aic32x4->supply_av)) {
--			dev_err(dev, "Missing supply 'av' or 'ldoin'\n");
--			return PTR_ERR(aic32x4->supply_av);
-+			return dev_err_probe(dev, PTR_ERR(aic32x4->supply_av),
-+					     "Missing supply 'av' or 'ldoin'\n");
- 		}
- 	} else {
- 		if (PTR_ERR(aic32x4->supply_dv) == -EPROBE_DEFER)
-@@ -1383,10 +1383,8 @@ int aic32x4_probe(struct device *dev, struct regmap *regmap,
- 	}
- 
- 	ret = aic32x4_setup_regulators(dev, aic32x4);
--	if (ret) {
--		dev_err(dev, "Failed to setup regulators\n");
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to setup regulators\n");
- 
- 	if (aic32x4->rstn_gpio) {
- 		ndelay(10);
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
