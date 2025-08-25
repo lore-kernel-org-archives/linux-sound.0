@@ -1,108 +1,137 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF60B26B96A;
-	Mon, 25 Aug 2025 11:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDE926FA57;
+	Mon, 25 Aug 2025 12:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756122649; cv=none; b=r8/mU7cARvwvCRfdXoqjQD2hR9wBlpohUtkWqrQWP+Vn8z0cUut1TXmNOO/br8drFaHDxKe3yUbX/96NO4hrCnNHuDRBB2+ZBEkPMACgtjgAXQB1bX19nx0ep1J/ixDCvaMIf9OuKWJhny8pwE+S/tNv5TLywba3mSUdS7+hV5s=
+	t=1756123939; cv=none; b=SMN3vYTqV5OH/gxISmIjjOzMgXUPHkMK2fBa0GsFbXnz51fiMwVZ8B3cQHpFG3+BlEECv7e8r4XyuqSEGSBBumvHo+lvKxIx2g8NL9+Lf82Py9VkJFlJUwdOPqc757fc+8ai7ysPKL8u1yxKbZJ0EoURLrg+jyAYt6LkIemGuCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756122649; c=relaxed/simple;
-	bh=IOgRJ2eleMpZ0vUdVq7/RiI9M9eXDoLDvXBtk7uBY4s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tKr1f3lz0zGveh9PorSgs7VcLPehGItUmvnjBOQNFtHYKe9KrsK4dirIg0WFo8VsjuknXWwume9QlozD21E6PlNnv54q3viEbyuAsdQm6aTxLC2bsqw6clpTForJPesvKLDC+pd4w4NbMufRsRHQIa30bMJOIxwkmav2mvBJjlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=x5881tFt; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1756123939; c=relaxed/simple;
+	bh=4U9bVvwz/4NvnHCdp11J+Yuh+x5MC1T9tjtfK8agXDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rr9zxQYkbaOnE9mtxt/+fC1OOv0UImnSp6jWi4DgMeWe52fhTQhQk0KKBtd1IK+yHbuyLqHN5QIu2NU7oonpB1L3LYZL8fZxM/9o5fiQKJL7xLSr3I5wye48G2aIUWZ6u/q2eiiO8pDhy9IbvXQUUS7mV9pQ29Cwtr89N7pxwP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=Oc+BeMLB; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=pIMB0pyT reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="x5881tFt"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4c9TdJ1kPkz9sWM;
-	Mon, 25 Aug 2025 13:50:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1756122644; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IOgRJ2eleMpZ0vUdVq7/RiI9M9eXDoLDvXBtk7uBY4s=;
-	b=x5881tFtTnZsbMZH99Fc8I37Q7+fNng5Pz2oIsX1crecmQ/oV0KJPU6O2cMBV3mO6pJ9R1
-	th6ynfy0QWmonH9b4m53UTnbJdnmlTOwWPjCFTwAlZ1oCJKe+A00Yz8DCIiBfuW+DmcZcI
-	Di07D0DmZlACD0GKPlT/x2HPe3JhRuzenRPuHcVmRQ4KURg8f+v7dbWknAMgoCTtNRuPEC
-	HMw/GiYsnvZJZL6Xz85wVa3rSM2INlAOc0xoQU10+WcQmo6NYO+4QwxKsszXGLchyejkGR
-	BVg98rtJo04n5YUaG2yfPPnPZ77ze9T/UyDL+ZPl1ZroxWMsJrvdSwUl0b708A==
-Message-ID: <0f0cef136230d97e9181cd2e61a365d1ceb00cb7.camel@mailbox.org>
-Subject: Re: [PATCH 0/3] ALSA: use vmalloc_array() to simplify code
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Qianfeng Rong <rongqianfeng@vivo.com>, Andy Shevchenko
-	 <andriy.shevchenko@linux.intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Philipp
- Stanner <phasta@kernel.org>, Thorsten Blum <thorsten.blum@linux.dev>, "open
- list:SOUND" <linux-sound@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>
-Date: Mon, 25 Aug 2025 13:50:40 +0200
-In-Reply-To: <f1e66db3-980c-4e06-98cc-021c166e9b21@vivo.com>
-References: <20250824135521.590780-1-rongqianfeng@vivo.com>
-	 <aKxCbceDzTFom2Mq@smile.fi.intel.com>
-	 <f1e66db3-980c-4e06-98cc-021c166e9b21@vivo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="Oc+BeMLB";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="pIMB0pyT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1756123935; x=1787659935;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=X9+y2O9OmxOxX/zEOIoBycF6UqAOtVG8eEXojOig4yI=;
+  b=Oc+BeMLBf/UQWJdxGuUX8ZY9amXmC5GUih0HUagEk5wvAon/MXACJDaY
+   Tw60d3JCVZD3QHpItYnqisTLCKWbSgddPE+21NBeGl9c0Jgg3qr3h/2UG
+   4uMShrWHfTR6sCZhAIfmmEbEdKGt1C6uPtxIzi4sTbe7gsQwnBz1qfAqB
+   jyNQVAIzepGoeUouQ4aUMgsemF9xBksvASM7L2DFmcHCKOh9OYW7GcAYx
+   5U+GYBIapdnyGOYDN6gGCN3DRQYCqyV7DE4AI9mFWz4PrAfU9BYWCCdVO
+   Zs49RTw2g3IGFDW3aAF9EB0omJz+sWm4wpz8GJ7XLLmjfSy2Xc+HQVufl
+   Q==;
+X-CSE-ConnectionGUID: zg0bytcDSRGhJ3iD8qtdkQ==
+X-CSE-MsgGUID: VvlUDMQLR42OVmmbK81Exg==
+X-IronPort-AV: E=Sophos;i="6.17,312,1747692000"; 
+   d="scan'208";a="45893167"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 25 Aug 2025 14:12:10 +0200
+X-CheckPoint: {68AC531A-51-20CAA7DA-EC9DC758}
+X-MAIL-CPID: A576D94F7D758DC4C925CA782C60CC17_0
+X-Control-Analysis: str=0001.0A00211C.68AC531E.002E,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0369E1637A2;
+	Mon, 25 Aug 2025 14:12:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1756123926; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=X9+y2O9OmxOxX/zEOIoBycF6UqAOtVG8eEXojOig4yI=;
+	b=pIMB0pyTfFwshsr143kAZ41f239nMkXUqMRUe4chYF1iddy0ODQhW9wmej8XHPlcED7q2N
+	hGfaZSIi72fmNUqukxPQAiZLTFkewChZtRCxcCglv2wP7BvaS6l3QcTdWn+O3j54h28otw
+	8hBU20ZFVoWV2xx9X1Xwcm6Reqb3Vt79zxVXV2pmd6x4aFwaPe1D/0UW6Vi9Pl49xYK0Sm
+	yDKQ7z58GmGLxUIighQdvHrNTQDNSQKOjDDTFSHxboCwq44e7lt7kaOv1ghowH2CV7SoeW
+	7XnGnVUvWWugPnQwT2KkFgHkICCuK3KtnauUS4djAszRUPNARSeFAcDG8fMLzg==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alexander Stein <alexander.stein@ew.tq-group.com>
+Subject: [PATCH 1/1] ASoC: tlv320aic32x4: use dev_err_probe() for regulators
+Date: Mon, 25 Aug 2025 14:11:38 +0200
+Message-ID: <20250825121139.2150099-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: cb5060d04b1811c3c7f
-X-MBO-RS-META: bxaotygh93575z97puainxsiuztaj6zr
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, 2025-08-25 at 19:46 +0800, Qianfeng Rong wrote:
->=20
-> =E5=9C=A8 2025/8/25 19:01, Andy Shevchenko =E5=86=99=E9=81=93:
-> > On Sun, Aug 24, 2025 at 09:55:09PM +0800, Qianfeng Rong wrote:
-> > > Remove array_size() calls and replace vmalloc() with vmalloc_array() =
-to
-> > > simplify the code and maintain consistency with existing kmalloc_arra=
-y()
-> > > usage.
-> > >=20
-> > > vmalloc_array() is also optimized better, resulting in less instructi=
-ons
-> > > being used [1].
-> > Have you considered using sizeof(*...) where it makes sense?
-> I believe that sizeof(*...) should preferably not be mixed with this patc=
-h;
-> instead, it should be addressed in a separate, independent patch that
-> covers all relevant instances.
->=20
-> Additionally, I understand that not everyone prefers using sizeof(*...), =
-as
-> it reduces readability.=C2=A0 What do you think, Andy?
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 
-I agree that should be addressed in a separate patch, if at all.
+Avoid error messages like the following when the regulators have not
+been probed yet:
 
-As for sizeof(*foo), one gets used to it. I think it's preferred in the
-kernel often because it's more difficult to introduce bugs like so:
+    tlv320aic32x4 0-0018: Missing supply 'iov'
+    tlv320aic32x4 0-0018: Failed to setup regulators
 
-long *foo;
+Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+ sound/soc/codecs/tlv320aic32x4.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-foo =3D kmalloc(sizeof(long) * 9001);
-
-When you later change long *foo to int *foo and forget about the malloc
-place, you'll get an overflow.
-
-foo =3D kmalloc(sizeof(*foo) =E2=80=A6) can never have that problem.
-
-Regards
-P.
-
-
->=20
-> Best regards,
-> Qianfeng
-> >=20
+diff --git a/sound/soc/codecs/tlv320aic32x4.c b/sound/soc/codecs/tlv320aic32x4.c
+index 7399080f8580c..715a07ab97b9f 100644
+--- a/sound/soc/codecs/tlv320aic32x4.c
++++ b/sound/soc/codecs/tlv320aic32x4.c
+@@ -1277,8 +1277,8 @@ static int aic32x4_setup_regulators(struct device *dev,
+ 	/* Check if the regulator requirements are fulfilled */
+ 
+ 	if (IS_ERR(aic32x4->supply_iov)) {
+-		dev_err(dev, "Missing supply 'iov'\n");
+-		return PTR_ERR(aic32x4->supply_iov);
++		return dev_err_probe(dev, PTR_ERR(aic32x4->supply_iov),
++				     "Missing supply 'iov'\n");
+ 	}
+ 
+ 	if (IS_ERR(aic32x4->supply_ldo)) {
+@@ -1286,12 +1286,12 @@ static int aic32x4_setup_regulators(struct device *dev,
+ 			return -EPROBE_DEFER;
+ 
+ 		if (IS_ERR(aic32x4->supply_dv)) {
+-			dev_err(dev, "Missing supply 'dv' or 'ldoin'\n");
+-			return PTR_ERR(aic32x4->supply_dv);
++			return dev_err_probe(dev, PTR_ERR(aic32x4->supply_dv),
++					     "Missing supply 'dv' or 'ldoin'\n");
+ 		}
+ 		if (IS_ERR(aic32x4->supply_av)) {
+-			dev_err(dev, "Missing supply 'av' or 'ldoin'\n");
+-			return PTR_ERR(aic32x4->supply_av);
++			return dev_err_probe(dev, PTR_ERR(aic32x4->supply_av),
++					     "Missing supply 'av' or 'ldoin'\n");
+ 		}
+ 	} else {
+ 		if (PTR_ERR(aic32x4->supply_dv) == -EPROBE_DEFER)
+@@ -1383,10 +1383,8 @@ int aic32x4_probe(struct device *dev, struct regmap *regmap,
+ 	}
+ 
+ 	ret = aic32x4_setup_regulators(dev, aic32x4);
+-	if (ret) {
+-		dev_err(dev, "Failed to setup regulators\n");
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to setup regulators\n");
+ 
+ 	if (aic32x4->rstn_gpio) {
+ 		ndelay(10);
+-- 
+2.43.0
 
