@@ -1,133 +1,88 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2452116E9;
-	Mon, 25 Aug 2025 07:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756106770; cv=none; b=Q4Pr9jaKzpRozs4pqpLr4ZjHypoOv8EyIbVVMykeqm45p9pYbfppJlcM3xdBNLyIA4fupjHdnIzcyKPAlO+UFIz8eggorHQZdrRhWNVGmqlHbdnQ26NU6w5IzAg7ouLAt7FAqBeNrBibhWskN83uQxFY4f1qScjpXZa6qYRIj8c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756106770; c=relaxed/simple;
-	bh=9QK8KkIHKhcfQflDQb19Jjrs4UyawTA8XPgfVuRLJpI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PbpwJxKOIlJ6q/gQsLuBl+NuCv67/W3LCLWWg3PxxmJZXGARxIhPtajhyCJ9k0nHZlF016i0M/xxGwYuDJnMtYq4VUWLnq/Ib8zs1+Fsv39KtkEtq9+dMO+6/lS49wjdyv1tVh02uuRozuuWs7SAHUGGIgKlykpqVQpbNC33yis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YAx4wDEu; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D355C221578;
+	Mon, 25 Aug 2025 07:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756108119; cv=pass; b=F2pwl1kzAZsJcM97E9ZC5+jvbGcOAAp15GIuDOOzDqpPEPeGJyQlbPiE9UJJ5UXCacMjlILdFCENjxFsK5ZCqpp6bVjQy7a90KhsbqwiwCVhNw9HTqoNPr6SzaFe4WFGEBbe8qHiV9uG1AQ0YHBrbenGjspeDBGTu0UJFUmJOTY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756108119; c=relaxed/simple;
+	bh=R5WQhVv7rK8cy7Q4wz4ZKiJYZYoscvA7NtPO3IDhYFw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ouYBTlir4PXZ+pAsmXmhRwSXSEgx/vtOxBsC8cLtaLakd5iHcsOSHz8OJq8a5FvkS7d/IihkDu75RpQTHsbLl4xO8i00BbK27cSpYB7GkHz3XGKDOv+93v7tZytr+I1IUd4ZciVae/fhWEUGobp5OYUhfMhDoebXrxptzgMyXK0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=F+CZpcEH; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YAx4wDEu"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-afcb7ace3baso724767466b.3;
-        Mon, 25 Aug 2025 00:26:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756106767; x=1756711567; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i83Ubiy7GBrk2qSsKCWz4m4ANjWjQBr67uBLa/oY6eA=;
-        b=YAx4wDEu2WzJWpRwAF+UGdx/g1Us6+H25X/HIosKQo1zb/63dI1UrWdygZXfJ5m3jq
-         e5rVT0cMQtwurThrZH6FCMN9aTYDVpUVIBxw6/ZVyEAxFIyfYA05hMyRHkTl/LPA67xu
-         WTdYfalRJNggVqkN0hOj6xF94x6jmXpc+6oBUySfwrMIdJK/UJ873D17KlEvwo+zNPFO
-         4TIdvhQx3Q1UKpTLMfhkFq5wCQ6AynTf8HpEcApqiOUWbovCaqV0MU0LZzYkmyukpHIb
-         JaItPPlTsZANhZUyCAiQYD2XHsV2UIfS5C/Oj85zKRXOLQRWT/zbCc8/QOh1wVQPM8BX
-         xLdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756106767; x=1756711567;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i83Ubiy7GBrk2qSsKCWz4m4ANjWjQBr67uBLa/oY6eA=;
-        b=LzeCBthy1p3ywvaBB6qXsFlHQ6+1bIAeDOeDOcnQOaX2wcgzI+Jn3rqtrnZii301Mu
-         QNq8+RJ8V4Q1VPvFk+jTlYNP7S55pfefEhClWO0JlXbQW8NGISFytS3wkmTRuRtMwzg2
-         1lahs9YlmK6SZys8CMrMiEqv4ttrS5O88g7gdJO04vCGmXIXKItr6KpUrlDFzV0wAum3
-         DlUGAbRJi9lcfs1dYxQ2wa7NaaaAZuUvf/1TpmQQIirTFdhuqcBCzKR0HkOvWnHMSfhF
-         kn2Lh0XwIfoD83YYRhkaUYED1D/ROKCpcFvNJtyqlfm02u6cjS8o/1rudU+/fUjLWLa0
-         r79A==
-X-Forwarded-Encrypted: i=1; AJvYcCWRN2hLZnd3xRdPFg9Lkmwmrj8Psl/p0yZiwLWNGJl6h/7HpeXmPNY8hWUOVabA8w51bSZn4ryRTiW7gtg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDdZXsOqCHqBSqyvZdRCdVW4mu8EJqlzmky0gcRlKAbbVqTsCv
-	Xq+WN9+7Jrulop/Wk4TrJ8+wiszSSrz+fgSzW48N8kpnY8D+29GjxwQK
-X-Gm-Gg: ASbGncuISs4ZL00uN0v02yzACSdqYQO5YrENJZcgoz9X5Mogou7UVaSPgzzMpm0+JjY
-	2PIvcM5+J5rJewxkJoWfjtabj4tvpQuHPARzXGxD4NEuflcfsGuF56MkOTq50vAT0RWG9bX0Zgm
-	iwmxUAMOgQ3U1yEGgj16Oz7vxRlDLllwnooWbprOYAj6O8JrT/fZb7xvXOUhZrBklkHiowF6omQ
-	HEpMCJ3sT0+ukPr+n7ZLPTEgrRsR7WqfdGIwB7UHTGaAbZAcJ2p5yNVd4bOKULvCHOYJt+JhyhX
-	2lgTchFKvHHsuLRE41V+F0IkaLIRGMni5eVHZ3m+l/4EFtetmjjotW/piacnYQ28bfXrUi+mphI
-	UK7465tsU/4Ssq5oCspV9vSvDtS/rub3p5SLdoCiZ/6u/UWOPgNk47qseX8IX3q4x28jytMxPnL
-	zxaGoRvKERvWMefkofDfOl1iwCmHYAp/4DO1yQzx2ziECE7oG1w3O2
-X-Google-Smtp-Source: AGHT+IHOBqfH8kFoxiw1qNS6rxcwJYCmvvakLJPwx92KlOeYRXHGTrYIX2gTCyD/0BXBCwK+J/uU4w==
-X-Received: by 2002:a17:906:3759:b0:afe:6881:79c1 with SMTP id a640c23a62f3a-afe68817d5bmr352521666b.35.1756106766822;
-        Mon, 25 Aug 2025 00:26:06 -0700 (PDT)
-Received: from localhost.localdomain (93-87-121-239.dynamic.isp.telekom.rs. [93.87.121.239])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe7d5553c3sm178142966b.76.2025.08.25.00.26.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Aug 2025 00:26:06 -0700 (PDT)
-From: =?UTF-8?q?=C5=A0erif=20Rami?= <ramiserifpersia@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?=C5=A0erif=20Rami?= <ramiserifpersia@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: us144mkii: Fixes for handshake, MIDI out and cleanup
-Date: Mon, 25 Aug 2025 09:25:57 +0200
-Message-ID: <20250825072557.7670-1-ramiserifpersia@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="F+CZpcEH"
+ARC-Seal: i=1; a=rsa-sha256; t=1756108093; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Mif53jBa6MJhiFA3/aeaKEpanFEPOgAIH7H2ZuUdsrAtRPu/MgbOT3DP6FBY2rj6ePbMjSECj12yIiQqzo9EC3onYNcemMOPA7kexfcK9xKDYPuR6j4sRJVelnLZBLEQG0X38Apa47eBKSzmFFuNz9vrZ2uFGldXO/K346zQY/c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1756108093; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=80dzrh8aYZfGg2XUHBNmSgUetz0wp59La7rrflIHLYk=; 
+	b=hTrQDB+vFRUoh2TzCLNct7ZH6mA+ZiLxyi08MHJ278n9kJefJSS8W0fZv6yV5vnJvzDAcQZhLzydoq1k/A5PczB6y4tbslyaC/qdgSZhpG/4L25+svqU468G3JXb+BZHKPSOMfmr/+kta3MYdiQArODPHxGvpuzc+7VGFRmUwYk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756108093;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=80dzrh8aYZfGg2XUHBNmSgUetz0wp59La7rrflIHLYk=;
+	b=F+CZpcEHNCcVVD5E2eusUhfW3VOUS/ZWUIpDXxI5z5QeKjtOV9RCcGxyZ/bOxE14
+	x+XVoB1b6xaPLKM4peUQofBqgx8GIHy0CMMo5WJvpvX22tuJAS78545/+5x34SM4fh0
+	HU9zR45BRWmSNqHl8sXRyIGwQroD2o9wsHxVH/9U=
+Received: by mx.zohomail.com with SMTPS id 1756108090913704.2939268893988;
+	Mon, 25 Aug 2025 00:48:10 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v2 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
+Date: Mon, 25 Aug 2025 09:48:05 +0200
+Message-ID: <2795210.mvXUDI8C0e@workhorse>
+In-Reply-To: <175340605069.3513.18204498860033427106@lazor>
+References:
+ <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
+ <20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com>
+ <175340605069.3513.18204498860033427106@lazor>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Add a handshake value of 0x32, which is required when the device
-was previously used by another OS with the official drivers.
+On Friday, 25 July 2025 03:14:10 Central European Summer Time Stephen Boyd wrote:
+> Quoting Nicolas Frattaroli (2025-06-23 09:05:47)
+> > The sp7021 clock driver has its own shifted high word mask macro,
+> > similar to the ones many Rockchip drivers have.
+> > 
+> > Remove it, and replace instances of it with hw_bitfield.h's
+> > FIELD_PREP_WM16 macro, which does the same thing except in a common
+> > macro that also does compile-time error checking.
+> > 
+> > This was compile-tested with 32-bit ARM with Clang, no runtime tests
+> > were performed as I lack the hardware. However, I verified that fix
+> > commit 5c667d5a5a3e ("clk: sp7021: Adjust width of _m in HWM_FIELD_PREP()")
+> > is not regressed. No warning is produced.
+> 
+> Does it generate the same code before and after?
+> 
 
-Correct the last byte of the MIDI output protocol to 0xe0.
+Yes, the generated machine code is exactly the same, at least with
+clang, and I'll assume it'll be the same for gcc.
 
-Also, remove the unused DRIVER_VERSION macro.
+Kind regards,
+Nicolas Frattaroli
 
-Signed-off-by: Šerif Rami <ramiserifpersia@gmail.com>
----
- sound/usb/usx2y/us144mkii.c      | 2 +-
- sound/usb/usx2y/us144mkii.h      | 1 -
- sound/usb/usx2y/us144mkii_midi.c | 2 +-
- 3 files changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/sound/usb/usx2y/us144mkii.c b/sound/usb/usx2y/us144mkii.c
-index 3127a3206..f6572a576 100644
---- a/sound/usb/usx2y/us144mkii.c
-+++ b/sound/usb/usx2y/us144mkii.c
-@@ -454,7 +454,7 @@ static int tascam_probe(struct usb_interface *intf,
- 	}
- 
- 	if (handshake_buf[0] != 0x12 && handshake_buf[0] != 0x16 &&
--	    handshake_buf[0] != 0x30) {
-+	    handshake_buf[0] != 0x30 && handshake_buf[0] != 0x32) {
- 		dev_err(&dev->dev, "Unexpected handshake value: 0x%x\n",
- 			handshake_buf[0]);
- 		return -ENODEV;
-diff --git a/sound/usb/usx2y/us144mkii.h b/sound/usb/usx2y/us144mkii.h
-index ecc4c2fed..95c4341f0 100644
---- a/sound/usb/usx2y/us144mkii.h
-+++ b/sound/usb/usx2y/us144mkii.h
-@@ -15,7 +15,6 @@
- #include <sound/rawmidi.h>
- 
- #define DRIVER_NAME "us144mkii"
--#define DRIVER_VERSION "1.7.6"
- 
- /* --- USB Device Identification --- */
- #define USB_VID_TASCAM 0x0644
-diff --git a/sound/usb/usx2y/us144mkii_midi.c b/sound/usb/usx2y/us144mkii_midi.c
-index 08b04aa39..ed2afec2a 100644
---- a/sound/usb/usx2y/us144mkii_midi.c
-+++ b/sound/usb/usx2y/us144mkii_midi.c
-@@ -257,7 +257,7 @@ static void tascam_midi_out_work_handler(struct work_struct *work)
- 			if (bytes_to_send < 9)
- 				memset(buf + bytes_to_send, 0xfd,
- 				       9 - bytes_to_send);
--			buf[8] = 0x00;
-+			buf[8] = 0xe0;
- 
- 			set_bit(urb_index, &tascam->midi_out_urbs_in_flight);
- 			urb->transfer_buffer_length = 9;
--- 
-2.50.1
 
