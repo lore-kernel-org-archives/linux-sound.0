@@ -1,86 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B15233D85;
-	Mon, 25 Aug 2025 20:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000841DE8BB;
+	Mon, 25 Aug 2025 20:13:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756152280; cv=none; b=GuaIVv5SmFd13GQZ2RVBB/7ZbQW++1F0fEZgz7s4Jc+e1LXDwWpMYorsxJ1Wt00rWKfxQ8qIKL6Ht5eKNonwKJo9b+Paauv40MMq4YyjiNmD0QPcy1w62zsPfkNc0UGssgxSlNceZID0YENzihjz3P2YA705JZJ0bAweEhiGePM=
+	t=1756152806; cv=none; b=JJfKEzviMtA1wNJtG813yE7oxoZpqiyfPyPNjuC0mv50CFfxyJsXo1fxzm3+uN2bhBiI+yrrR9uzKX2SqtWvNW+n+WBAPR0MEmi25ZgyiSg6XOQN+x36FQJvMfE+DkLm55gEeex5815gMcCueeFl5DVE0sWPnStZJGAn43vL/Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756152280; c=relaxed/simple;
-	bh=zfoEC0qVaIxne+Ih7GOFCCmslaPPL3pdBZesCwuWO18=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YkNSNXkJeGq9VqoqsZsqR26zIn72tKSPiJ+x2SuHjXzffc1ibmRtrIWnDGZuzy5jYN4EPR+EmA668fYh+Dxw2f6XKalhcT/uL9LHfiXHDuJ+36SA9fLKx4GeCIS6jIF0cM+885E1tSBKmvCp4i63DGraY4DS8XW0Am3JffPCvh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UYIb/7F6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756152806; c=relaxed/simple;
+	bh=jCo0z7yvg7e703GOOJQAWe1gwyYswiH7Jz7cBH73tK8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o4suslRCm6lBkJ6APEkaIL+9l2fZ3vOG8Lq5PHYtQDx07Gog0bNOyrYgH4fPU1cCVv7wg5jjtLODSB7gFoFFiwg0ra4oQhNb4qKcCpYLLlrEPlLTJ0/8VVxEZaAHu4Ycln4uxZuNteYsnXBlZB6xlvOL6UB3J2+vO2IrQfKnllc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oYIfHfaq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UYIb/7F6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66D1BC113D0;
-	Mon, 25 Aug 2025 20:04:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oYIfHfaq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5541EC4CEED;
+	Mon, 25 Aug 2025 20:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756152280;
-	bh=zfoEC0qVaIxne+Ih7GOFCCmslaPPL3pdBZesCwuWO18=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=UYIb/7F6z/p/GP+mdnt7Qx6lRuw0WvsBXI59wavEe3ebR/bxsPORopOj2TBtdkrO3
-	 1x5T+pNYfTV7UoELqXsNXLibUw79tmZp1JXZaU6KsedmkosfIeKceywPs0oVL6voR/
-	 viiCgSO5Bzv8k4xGWc4y5Z6Pl2t3vpRH+saJmQvB208Dy3ZHzng0Zx7296ldDhbYfI
-	 X/eplYSnaj7E41O8x3oj8XRJ8JmcmpI6L3rzNeOTYzGzd09XmXeIOQY1ZQWpz0mi21
-	 TM2nRNgx56k1T3a79aMuEpP0RhsM5WXibX5PQJkdd4XSSKqs3FK1waqkPLVLRWeWcN
-	 cXkWhCa1T2paw==
+	s=k20201202; t=1756152805;
+	bh=jCo0z7yvg7e703GOOJQAWe1gwyYswiH7Jz7cBH73tK8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oYIfHfaqlCOYIR5ds9lklFCouXY/JhGqHelYR7R3kkavp0Xa6qIOIKqlRn2ildPNN
+	 FEAVgGzsGgmIIVdWcgiEQC14UrqHj1AG7GKIDyWwFUoxzVe3RD46+D1N9Jk6+uYsXl
+	 NVSd5jhQBPeBJLcINs4vPhZYFSYpVgKeebcqBO5Xs0SGk4vcS57XXuxo9OsUHNseaK
+	 jeMaZbyafHqSOXofVaXCuRDUpC5g+6LxuHVrji/JG/m/xteTtk2UWriWu44eoe1UBv
+	 xaBe5q2K/aymRLb965MNjXW8k+dAwkSARul14A3wE/gYj1mDdI8NhmX0xvzUKC6Umk
+	 00JRC8nGU1gFQ==
+Date: Mon, 25 Aug 2025 21:13:20 +0100
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20250820031641.2158261-1-shengjiu.wang@nxp.com>
-References: <20250820031641.2158261-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH] ASoC: imx-hdmi: remove cpu_pdev related code
-Message-Id: <175615227355.226187.1520162312481432148.b4-ty@kernel.org>
-Date: Mon, 25 Aug 2025 21:04:33 +0100
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v1 1/1] ASoC: amd: acp: Remove (explicitly) unused header
+Message-ID: <aKzD4EBSYb_RcWMO@finisterre.sirena.org.uk>
+References: <20250331070943.3986387-1-andriy.shevchenko@linux.intel.com>
+ <aKxraexKHD8T8zk6@smile.fi.intel.com>
+ <aKyFDaYnXrC5sMiA@finisterre.sirena.org.uk>
+ <aKyI4L-wMeL-TOV5@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a9b2a
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pQHJ1daTIcaqBAsG"
+Content-Disposition: inline
+In-Reply-To: <aKyI4L-wMeL-TOV5@smile.fi.intel.com>
+X-Cookie: Filmed before a live audience.
 
-On Wed, 20 Aug 2025 11:16:41 +0800, Shengjiu Wang wrote:
-> If a defer probe happens for the cpu device, the return value for
-> cpu_pdev "ret = -EINVAL" breaks defer probe. As the cpus->dai_name
-> can be replaced by cpus->of_node, to simplify the code, remove related
-> code for cpu_pdev.
-> 
-> 
 
-Applied to
+--pQHJ1daTIcaqBAsG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Mon, Aug 25, 2025 at 07:01:36PM +0300, Andy Shevchenko wrote:
+> On Mon, Aug 25, 2025 at 04:45:17PM +0100, Mark Brown wrote:
 
-Thanks!
+> > all) which is often the problem and since they can't be reviewed
+> > directly if something has gone wrong you'll have to resend the patches
+> > anyway, so sending again is generally a better approach though there are
+> > some other maintainers who like them - if in doubt look at how patches
+> > for the subsystem are normally handled.
 
-[1/1] ASoC: imx-hdmi: remove cpu_pdev related code
-      commit: bc017f28b1c6c3d44c3631f8f6d152b7e703e990
+> I truly believe the 5 month is reasonable time for review, no?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+You're missing the part about how you should resend instead.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--pQHJ1daTIcaqBAsG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmisw90ACgkQJNaLcl1U
+h9C/Uwf+PLIPWCVKaGNH6oQ3T1D7uUvBzN7kzE08VZk82XIxor9oHQqXEDqYndOW
+D5ue2vk8on50sAmaKhD8E/z3s7nPgZglQ+Ma+YcuxQz2G5v+RYtEiS86C/4yg1nN
+ivoauIFk8oYhUezflEjnM/HTo+UpsWQ9lIj8xzHH1UuHAWIqrXBMioMdu3RMBVX+
+Y/+3CnyUGuIEc1lG50nWOTbXzYLWvw2IyzgoPqdESYUlIKM+5x49guZt4PRg4cVt
+URqVXaomTvI50YLQvS59InHeiQY6iYUPx3gQ5V/RQTbxKu7xrIp6y1HFuXxnaBvS
+ri7CojUdJ9Jv8qkx8yKr6B1hbIzVBw==
+=hovd
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
-
+--pQHJ1daTIcaqBAsG--
