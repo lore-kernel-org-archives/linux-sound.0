@@ -1,180 +1,216 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73972F99B5;
-	Tue, 26 Aug 2025 07:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7883C22E004
+	for <linux-sound@vger.kernel.org>; Tue, 26 Aug 2025 08:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756193988; cv=none; b=icabEo4aFzO0VnRkR9IE34MmWwW2p+YiN2WfunmVIoEzgFLSYz5RMSuIzE0WrtRT9j+niPQlt+Q1XisInMJz3qqucM5Z+q4X2ZPpqACGDFg7k/fjBnCfaCwhMXb0zMY73Rqz2iVwLMdf9PbZPwkR6qIKwZN7ODvo8q302nKYrNE=
+	t=1756197314; cv=none; b=uNvNiX+9QNAA4aox7MIiky1o+Uz3I6biYN2ivndW7cst7rvbg9OpA9adADJZULO/IMrCchwt2dZMEDr8mgWpgeY/0ctbC/eCCeWQlc+tYNF407bQAohGFk+rMPmdmF27hbqLimKbk+kFZcYN86k1dC86+j3i/R8eiI1cL/2CJEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756193988; c=relaxed/simple;
-	bh=IdixZxrNWPt50GtxxtAuJjgTZCVnyk5QruEPtZQ+mLM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eoS4duXdxIc0CtuSvyg2G+Th7M+0TUSoS31kF1zg2A3o8A2JVRkdIBCVKgjIMOz3dXKtgG/dwQem1mrmnUKzwnd8ib3Hc2hY/o4Ocli8IP81JS2Xesqr0mYacSHXRmQ62rkFQ9HCega4NxMr4MyfCcMs5IDDkLson3szL/uyoEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MP+XJbgO; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1756197314; c=relaxed/simple;
+	bh=fIGkeLONFrX7mfKnTU+0rDqDf6uylyY2QC5W+MrWVCQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=twSm6/bnl4Ln6GTm8xvPTPFOVzBFoQ7uub3vYy8NTWbDLoVub0wr5rLl1dzHczb8nMZ3I00XMJxTS0/UcOU5tox8GwZBhZNfHAIMgFUNkoYhE1TKDPXdq5H+e00ujSOTBqf3ixkrdgrx/MGnWe64HP1aLH7Ahcbf5XX10J72phI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m7dlpXBp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1wEnXBap; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m7dlpXBp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1wEnXBap; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MP+XJbgO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1756193985;
-	bh=IdixZxrNWPt50GtxxtAuJjgTZCVnyk5QruEPtZQ+mLM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=MP+XJbgO1nW7kVD4o0fcUHF2K3/HHFxGUV7olYVe6eoJ81/o1gnMrjy8VH5DBxUlw
-	 15Abd820pWIh1ermhivPxPm85a/xUnHvyOzGcHT9PKcGQkkmCqDO2PClmBEYTL8C3C
-	 72wp4T4qR4TV3qDAeFDwVfiE7r2QqctEHGDAyS7YWE9v7wM/dRyim0cwAZOkZ1y0hm
-	 T8x4tf4kg4QGrHtUNIcKsP3YxFEdc9eJL40oxhs+RkRPTyTLjORMWCzL4BTX+2E+xw
-	 VK+OAhcLdQ6CRMAOmFn0fGysv2CffMyLPc6IcEt5GQ0Kc/KWksWjntaXbFRvSAPIp4
-	 Y7HxCemACRALA==
-Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892F2D600C8F85cF092d4AF51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m7dlpXBp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1wEnXBap";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m7dlpXBp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1wEnXBap"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2AE3517E0A28;
-	Tue, 26 Aug 2025 09:39:44 +0200 (CEST)
-From: Julien Massot <julien.massot@collabora.com>
-Date: Tue, 26 Aug 2025 09:39:39 +0200
-Subject: [PATCH v3 6/6] ASoC: dt-binding: Convert MediaTek mt8183-mt6358 to
- DT schema
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 78CE11F78B;
+	Tue, 26 Aug 2025 08:35:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756197310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hD1zU5W7VdMJcb2nze9gemiChZKOODEXPq8T1w/3Dns=;
+	b=m7dlpXBpWFe3iKMEhLnFlmnVnD+m+LZbfhg4hgzdRBL+ZEB9LrjMM4Ctj9IYKvoPtPNV2K
+	IOZyn+JJ/FQIpIR/rfDXxHyJL/LJoI+y3J/EoKpcAB3tOAkZCs1Mvq6IrFT1ARdHrCEdkQ
+	TaeDZ3oo3zMSUJHvfLGhkhQTsJnn18Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756197310;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hD1zU5W7VdMJcb2nze9gemiChZKOODEXPq8T1w/3Dns=;
+	b=1wEnXBap1f0p2ouO4sr5kQ58rOeMSW+5zLRBd79tCfzvgOFuH12K4TXZIiKDcVuNm5+oVA
+	9SDBPGOmv5nP/DAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=m7dlpXBp;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1wEnXBap
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756197310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hD1zU5W7VdMJcb2nze9gemiChZKOODEXPq8T1w/3Dns=;
+	b=m7dlpXBpWFe3iKMEhLnFlmnVnD+m+LZbfhg4hgzdRBL+ZEB9LrjMM4Ctj9IYKvoPtPNV2K
+	IOZyn+JJ/FQIpIR/rfDXxHyJL/LJoI+y3J/EoKpcAB3tOAkZCs1Mvq6IrFT1ARdHrCEdkQ
+	TaeDZ3oo3zMSUJHvfLGhkhQTsJnn18Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756197310;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hD1zU5W7VdMJcb2nze9gemiChZKOODEXPq8T1w/3Dns=;
+	b=1wEnXBap1f0p2ouO4sr5kQ58rOeMSW+5zLRBd79tCfzvgOFuH12K4TXZIiKDcVuNm5+oVA
+	9SDBPGOmv5nP/DAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B50A13A51;
+	Tue, 26 Aug 2025 08:35:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mFIDFb5xrWgxUAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 Aug 2025 08:35:10 +0000
+Date: Tue, 26 Aug 2025 10:35:10 +0200
+Message-ID: <87sehe32gx.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Daniel Dadap <ddadap@nvidia.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de
+Subject: Re: [PATCH] ALSA: hda/hdmi: Restore missing HDMI codec entries
+In-Reply-To: <aK0hfo9k1BZGVhTE@ddadap-lakeline.nvidia.com>
+References: <aK0ghvagXy740rxd@ddadap-lakeline.nvidia.com>
+	<aK0hfo9k1BZGVhTE@ddadap-lakeline.nvidia.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250826-mtk-dtb-warnings-v3-6-20e89886a20e@collabora.com>
-References: <20250826-mtk-dtb-warnings-v3-0-20e89886a20e@collabora.com>
-In-Reply-To: <20250826-mtk-dtb-warnings-v3-0-20e89886a20e@collabora.com>
-To: kernel@collabora.com, Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Ikjoon Jang <ikjn@chromium.org>, 
- Enric Balletbo i Serra <eballetbo@kernel.org>, 
- Chen-Yu Tsai <wenst@chromium.org>, Weiyi Lu <weiyi.lu@mediatek.com>, 
- Eugen Hristev <eugen.hristev@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Julien Massot <jmassot@collabora.com>, Sean Wang <sean.wang@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, 
- linux-gpio@vger.kernel.org, Julien Massot <julien.massot@collabora.com>
-X-Mailer: b4 0.14.2
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 78CE11F78B
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
 
-Convert the existing text-based DT binding for MT8183 sound cards using
-MT6358 and various other codecs to a DT schema.
+On Tue, 26 Aug 2025 04:52:46 +0200,
+Daniel Dadap wrote:
+> 
+> Hi Takashi,
+> 
+> I noticed the reorganized HDA codebase (I really like the new structure
+> BTW) when looking something up in the Linux source tree. It seems that
+> the reorganized code, including the missing codec ID entries, has landed
+> in the v6.17 RCs. It would be good to address this before v6.17 to avoid
+> regressions on the relevant HDAs.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Julien Massot <julien.massot@collabora.com>
----
- .../sound/mediatek,mt8183_mt6358_ts3a227.yaml      | 59 ++++++++++++++++++++++
- .../sound/mt8183-mt6358-ts3a227-max98357.txt       | 25 ---------
- 2 files changed, 59 insertions(+), 25 deletions(-)
+Yes, my bad, I must have handled badly there.
+Now applied.  Thanks!
 
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8183_mt6358_ts3a227.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8183_mt6358_ts3a227.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..43a6f9d40644c2fc1e61ebf58fcd62eaf3ee43f0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt8183_mt6358_ts3a227.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/mediatek,mt8183_mt6358_ts3a227.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MediaTek MT8183 sound card with MT6358, TS3A227, and MAX98357/RT1015 codecs
-+
-+maintainers:
-+  - Julien Massot <julien.massot@collabora.com>
-+
-+description:
-+  MediaTek MT8183 SoC-based sound cards using the MT6358 codec,
-+  with optional TS3A227 headset codec, EC codec (via Chrome EC), and HDMI audio.
-+  Speaker amplifier can be one of MAX98357A/B, RT1015, or RT1015P.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mt8183_mt6358_ts3a227_max98357
-+      - mediatek,mt8183_mt6358_ts3a227_max98357b
-+      - mediatek,mt8183_mt6358_ts3a227_rt1015
-+      - mediatek,mt8183_mt6358_ts3a227_rt1015p
-+
-+  mediatek,platform:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the MT8183 ASoC platform node (e.g., AFE).
-+
-+  mediatek,headset-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Phandle to the TS3A227 headset codec.
-+
-+  mediatek,ec-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: |
-+      Optional phandle to a ChromeOS EC codec node.
-+      See bindings in google,cros-ec-codec.yaml.
-+
-+  mediatek,hdmi-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: Optional phandle to an HDMI audio codec node.
-+
-+required:
-+  - compatible
-+  - mediatek,platform
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "mediatek,mt8183_mt6358_ts3a227_max98357";
-+        mediatek,headset-codec = <&ts3a227>;
-+        mediatek,ec-codec = <&ec_codec>;
-+        mediatek,hdmi-codec = <&it6505dptx>;
-+        mediatek,platform = <&afe>;
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/sound/mt8183-mt6358-ts3a227-max98357.txt b/Documentation/devicetree/bindings/sound/mt8183-mt6358-ts3a227-max98357.txt
-deleted file mode 100644
-index ecd46ed8eb98b99d0f2cc9eeca5f6d0aef6a5ada..0000000000000000000000000000000000000000
---- a/Documentation/devicetree/bindings/sound/mt8183-mt6358-ts3a227-max98357.txt
-+++ /dev/null
-@@ -1,25 +0,0 @@
--MT8183 with MT6358, TS3A227, MAX98357, and RT1015 CODECS
--
--Required properties:
--- compatible : "mediatek,mt8183_mt6358_ts3a227_max98357" for MAX98357A codec
--               "mediatek,mt8183_mt6358_ts3a227_max98357b" for MAX98357B codec
--               "mediatek,mt8183_mt6358_ts3a227_rt1015" for RT1015 codec
--               "mediatek,mt8183_mt6358_ts3a227_rt1015p" for RT1015P codec
--- mediatek,platform: the phandle of MT8183 ASoC platform
--
--Optional properties:
--- mediatek,headset-codec: the phandles of ts3a227 codecs
--- mediatek,ec-codec: the phandle of EC codecs.
--                     See google,cros-ec-codec.txt for more details.
--- mediatek,hdmi-codec: the phandles of HDMI codec
--
--Example:
--
--	sound {
--		compatible = "mediatek,mt8183_mt6358_ts3a227_max98357";
--		mediatek,headset-codec = <&ts3a227>;
--		mediatek,ec-codec = <&ec_codec>;
--		mediatek,hdmi-codec = <&it6505dptx>;
--		mediatek,platform = <&afe>;
--	};
--
 
--- 
-2.50.1
+Takashi
 
+> 
+> On Mon, Aug 25, 2025 at 09:48:40PM -0500, Daniel Dadap wrote:
+> > Commit ad781b550f9a ("ALSA: hda/hdmi: Rewrite to new probe method")
+> > rewrote the HDMI codec ID tables to a new format. In doing so, recently
+> > added codec IDs from commit e0a911ac868 ("ALSA: hda: Add missing NVIDIA
+> > HDA codec IDs") were dropped from the tables. These tables had recently
+> > been split from the unified table that existed in patch_hdmi.c, and did
+> > contain the entries in question after the split but before the codec ID
+> > entries were rewritten to the new format.
+> > 
+> > Restore the missing codec ID entries to nvhdmi.c and tegrahdmi.c. There
+> > do not appear to be any additional missing entries in any of the other
+> > codec ID tables when compared to the patch_hdmi.c at the final revision
+> > before the split.
+> > 
+> > Fixes: ad781b550f9a ("ALSA: hda/hdmi: Rewrite to new probe method")
+> > Signed-off-by: Daniel Dadap <ddadap@nvidia.com>
+> > ---
+> >  sound/hda/codecs/hdmi/nvhdmi.c    | 17 +++++++++++++++++
+> >  sound/hda/codecs/hdmi/tegrahdmi.c |  2 ++
+> >  2 files changed, 19 insertions(+)
+> > 
+> > diff --git a/sound/hda/codecs/hdmi/nvhdmi.c b/sound/hda/codecs/hdmi/nvhdmi.c
+> > index b513253b1101..94671ad24b5e 100644
+> > --- a/sound/hda/codecs/hdmi/nvhdmi.c
+> > +++ b/sound/hda/codecs/hdmi/nvhdmi.c
+> > @@ -198,15 +198,32 @@ static const struct hda_device_id snd_hda_id_nvhdmi[] = {
+> >  	HDA_CODEC_ID_MODEL(0x10de0098, "GPU 98 HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de0099, "GPU 99 HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de009a, "GPU 9a HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de009b, "GPU 9b HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de009c, "GPU 9c HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de009d, "GPU 9d HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de009e, "GPU 9e HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de009f, "GPU 9f HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de00a0, "GPU a0 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00a1, "GPU a1 HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de00a3, "GPU a3 HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de00a4, "GPU a4 HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de00a5, "GPU a5 HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de00a6, "GPU a6 HDMI/DP",	MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10de00a7, "GPU a7 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00a8, "GPU a8 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00a9, "GPU a9 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00aa, "GPU aa HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00ab, "GPU ab HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00ad, "GPU ad HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00ae, "GPU ae HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00af, "GPU af HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00b0, "GPU b0 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00b1, "GPU b1 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00c0, "GPU c0 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00c1, "GPU c1 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00c3, "GPU c3 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00c4, "GPU c4 HDMI/DP",	MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x10de00c5, "GPU c5 HDMI/DP",	MODEL_GENERIC),
+> >  	{} /* terminator */
+> >  };
+> >  MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_nvhdmi);
+> > diff --git a/sound/hda/codecs/hdmi/tegrahdmi.c b/sound/hda/codecs/hdmi/tegrahdmi.c
+> > index f1f745187f68..5f6fe31aa202 100644
+> > --- a/sound/hda/codecs/hdmi/tegrahdmi.c
+> > +++ b/sound/hda/codecs/hdmi/tegrahdmi.c
+> > @@ -299,7 +299,9 @@ static const struct hda_device_id snd_hda_id_tegrahdmi[] = {
+> >  	HDA_CODEC_ID_MODEL(0x10de002f, "Tegra194 HDMI/DP2",	MODEL_TEGRA),
+> >  	HDA_CODEC_ID_MODEL(0x10de0030, "Tegra194 HDMI/DP3",	MODEL_TEGRA),
+> >  	HDA_CODEC_ID_MODEL(0x10de0031, "Tegra234 HDMI/DP",	MODEL_TEGRA234),
+> > +	HDA_CODEC_ID_MODEL(0x10de0033, "SoC 33 HDMI/DP",	MODEL_TEGRA234),
+> >  	HDA_CODEC_ID_MODEL(0x10de0034, "Tegra264 HDMI/DP",	MODEL_TEGRA234),
+> > +	HDA_CODEC_ID_MODEL(0x10de0035, "SoC 35 HDMI/DP",	MODEL_TEGRA234),
+> >  	{} /* terminator */
+> >  };
+> >  MODULE_DEVICE_TABLE(hdaudio, snd_hda_id_tegrahdmi);
+> > -- 
+> > 2.47.2
+> > 
