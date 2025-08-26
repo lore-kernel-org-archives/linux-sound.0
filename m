@@ -1,105 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2753054E5;
-	Tue, 26 Aug 2025 09:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7CB239072
+	for <linux-sound@vger.kernel.org>; Tue, 26 Aug 2025 09:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756199491; cv=none; b=sXUXeUWp1FJibHIpyhwZxjRdsEgwyoI1UARF23GC1D3yJhjeQIGRp1u6ilEOmnzg5K+UrGNkdYa0Y9YQ83zlvCdb1jcxMqgaItHMSgN+6D02hy0E4KmAE2X6ISQ9G819b+V7PA+nRXcV929/ZJkCwiBXmL2WiNOWR29Vfm5jPCY=
+	t=1756200626; cv=none; b=TDgmgT0uevcU3+DZ8NDAzQ5mXWcb+u0m6u6/jC2T4eK0slBRgcmi7dg4X7AAbJlqIFj1QJdX5fQSyJxsO4whBbTSJrgsCw2CLpHudLIFwiJaCgdGPC1a/twvhJOO5Hn0hF6+Ay0vTg4RTc2/q3/s6QmO+kmEX+kBhFxwijGC9IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756199491; c=relaxed/simple;
-	bh=eBOr2RpiZufw8xG5QulV/98+dCNxavPMBGdKmW1cQ6A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bM9Bv1vEuPOjhup5lW4Z8+5lFYmafR/4Mx52/eo0KIPeMPp2YaoXZXbRNJwvsTtsOc0CM1cmGQCFq8TwA8gRhwAnm3LAQ3XL89GNqEh2Q/YxjYuFSzsPsuBQxDvB4qjX9dgl0yq7XzIKtaNc72GZay6F2VXT6yFpYmqO/kBkZ84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DEYMSi4j; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1756200626; c=relaxed/simple;
+	bh=OvUbIz95K4JXfdcPlfARC+AizRB3XJUiuZwikQ+/j1E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NszEziyNZbe/sx+DVemPavQcBrLRqmbxjL5LY537XjO+82WAWG3vaz1AeMovZyPMMj23N+J+QJajW83MJWL3VT8TxtzfaTopkXK6Oiep4eUXKt/WUlKXvbYD6q0bQSp0XUeyBHIzkwmQg3wdvN0Zjp+fEE2Kpav+vFqJ7dNzuFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.corp-partner.google.com; spf=pass smtp.mailfrom=compal.corp-partner.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s59G+bjG; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.corp-partner.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.corp-partner.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DEYMSi4j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756199489; x=1787735489;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=eBOr2RpiZufw8xG5QulV/98+dCNxavPMBGdKmW1cQ6A=;
-  b=DEYMSi4jfCHPBIBL88cE2FFLA0//y7O5zjnfRI/4sd29UsQjUebBCdiz
-   B67e8M0SCK/lHLvgD5orvrIyno0qky03f55zp4B2y7ED02PydoTbENy9r
-   bWh8EaHNHZYrcgGt2tLsJLJo684BbsDFxpFJ/X4K7ImlrTnmyxwo6qwSd
-   51k2KqLK4RYNU56OhOopE6sM/r2mjfT3dqITOwe2T6OYs+KFPZb1AfT/F
-   bJps3CRaVS0issSdoL7sQRRaOgsSv9NhkhTELwjgZVshdtXgGoZKNHMiq
-   iRoxxXGMWhAqhjMC9N751PMW7z/+WdluGiH1i2Ln6rjbSJRY62/UZN7d7
-   Q==;
-X-CSE-ConnectionGUID: CSPwdiwOSXa1iEl/0SxGFw==
-X-CSE-MsgGUID: 6TwneSocSl6rE7t6J5CuOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58346425"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58346425"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 02:11:28 -0700
-X-CSE-ConnectionGUID: yuzWgUc3SJyc4SsHyobBew==
-X-CSE-MsgGUID: RujYWHaCRXCZwW48rej0eQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
-   d="scan'208";a="174789996"
-Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.74]) ([10.245.246.74])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2025 02:11:24 -0700
-Message-ID: <431d4cbf-281a-4f93-bda4-767fa6b96c8c@linux.intel.com>
-Date: Tue, 26 Aug 2025 12:11:54 +0300
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s59G+bjG"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-70d9eb2e655so44385916d6.0
+        for <linux-sound@vger.kernel.org>; Tue, 26 Aug 2025 02:30:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1756200623; x=1756805423; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OvUbIz95K4JXfdcPlfARC+AizRB3XJUiuZwikQ+/j1E=;
+        b=s59G+bjG7OAUIP7IxnZmYpZYjJKTms7pfu6w86fK4vBe4UlOG1Ia8AKE5fyIHPosZO
+         jaqzVRX74rvU0sXuZvt4JunXJ7pyZp7o0ItAndlTBT3ck1VHvcsbZkKT+HNcucUb02I5
+         2j6n5tYMhW0YpKPmevylx5+h2R3RFhjXgCPmOiCJkGLlHSVn/icLQx+BgcqkkwGRmxNw
+         UPGY9x3hYoWmcoQb4DpV9Olv0B5Yqjgub2TFE12/a/ePtDQUXMGtfm0fH2aCBIdYbkBO
+         oIB2Pt6yBvnck1gseO/jTh440WAgWVQWkLKupALx8JRm02gq+1Iz5byzlpnb6ofNQu05
+         crsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756200623; x=1756805423;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OvUbIz95K4JXfdcPlfARC+AizRB3XJUiuZwikQ+/j1E=;
+        b=GLLOD0PI3/2iX6LmlSF8/XEQycz5zLOJvh737PqL9YeasVSfuIfZ1c3tMvLautb0T8
+         ZqllvxMHTJ7hrtiEvx2eOnL4lADbGxexbOCSs2c6H1CLJawRIgP3CjTOkrwedAKXuCaj
+         psdRJrAc9b3QU0wq2XS7fJZnVEy9l3LU52YFHH7oHM6TdoCh7tj/0xYYf6hXmBYyRkfk
+         aJSvlL0D/Y9k6q3LIJ66kX5Hb+RXuVea2usTLO1MJA5pQsixIMmXr+Bc7Mmvxlr+Qh5t
+         blBcTrOYHjGwg+kNqmeyVBsbKewmQpZKOEuM/kilOoFcb1AN3vapKiNfK7rUcneGQPGK
+         swVg==
+X-Forwarded-Encrypted: i=1; AJvYcCXkw0EhloCd3Me2Sc38grRyX/u/2J1MXhXP6YNuF864xqZLPaVzgVhnMd18ZJx7rl7uS8LQfbXHS4n1Tg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9akgXJXdiQlRmw3vzalp8oMTAQt1O4g7awER9gRKEZED1axCz
+	67392SonCcwE/W7pAPzBJf0elDgkxMcVgFcqnentnm5aaBITDmMefTUnmtTDRsHDtWnVUlsmsN3
+	NVsQeYUokgm5CqtQEu0cj5HFvmnOisfGeU54dGDcW3ueVq5+/alfADeY=
+X-Gm-Gg: ASbGncsCi/FCOoMQ2P0qnPyJoDtyXtheeZX9ZjV6ZtxwPgparWSqmWjlgGPlBOxbt2r
+	lTOXwFGI2DgCUxmUfthMgMNsUGWQA+XR42aoH+xRf0nL1lFSxm3DlO0iJr69daLM2r0OYPCyw9Q
+	mRCP0lLUB8edRe0wxUrfVJcxvbE7qphuPtmJCJm5py63R7HbaWuqIx8nwr/gHRy7NBNo6A+AB7z
+	9TjGzE=
+X-Google-Smtp-Source: AGHT+IGmb6aCsOOpnEHv9Gpndnk4Vjl+wnb5OY915aQJlI5lgdEYqe5G/1E/Dq637FnnVD91zJaENT6TRFh3PTA48B0=
+X-Received: by 2002:a05:6214:2526:b0:70d:b80b:70c0 with SMTP id
+ 6a1803df08f44-70db80b8896mr80009216d6.51.1756200623362; Tue, 26 Aug 2025
+ 02:30:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] ASoC: SOF: Intel: WCL: Add the sdw_process_wakeen op
-To: Ajye Huang <ajye_huang@compal.corp-partner.google.com>,
- linux-kernel@vger.kernel.org
-Cc: linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
- <perex@perex.cz>, Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Mac Chiang <mac.chiang@intel.com>,
- alsa-devel@alsa-project.org
 References: <20250826090530.2409509-1-ajye_huang@compal.corp-partner.google.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20250826090530.2409509-1-ajye_huang@compal.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <431d4cbf-281a-4f93-bda4-767fa6b96c8c@linux.intel.com>
+In-Reply-To: <431d4cbf-281a-4f93-bda4-767fa6b96c8c@linux.intel.com>
+From: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
+Date: Tue, 26 Aug 2025 17:30:12 +0800
+X-Gm-Features: Ac12FXxSXegTC0bZL7M87CxHLjg5Y4MEinlMDORv0H8fnA3ehnPv_o-ljoNpdTU
+Message-ID: <CALprXBaatmypSp=AUDjxYec87XRtnEE3vDc-VKsULPA2W5135w@mail.gmail.com>
+Subject: Re: [PATCH v1] ASoC: SOF: Intel: WCL: Add the sdw_process_wakeen op
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Mark Brown <broonie@kernel.org>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
+	Mac Chiang <mac.chiang@intel.com>, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Aug 26, 2025 at 5:11=E2=80=AFPM P=C3=A9ter Ujfalusi
+<peter.ujfalusi@linux.intel.com> wrote:
 
-
-On 26/08/2025 12:05, Ajye Huang wrote:
-> Add the missing op in the device description to avoid issues with jack
-> detection.
-> 
-> Signed-off-by: Ajye Huang <ajye_huang@compal.corp-partner.google.com>
-
-Can you add these tags and send v2?
-Fixes: 6b04629ae97a ("ASoC: SOF: Intel: add initial support for WCL")
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-
-Thank you!
-
-> ---
->  sound/soc/sof/intel/ptl.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/soc/sof/intel/ptl.c b/sound/soc/sof/intel/ptl.c
-> index 1bc1f54c470d..4633cd01e7dd 100644
-> --- a/sound/soc/sof/intel/ptl.c
-> +++ b/sound/soc/sof/intel/ptl.c
-> @@ -143,6 +143,7 @@ const struct sof_intel_dsp_desc wcl_chip_info = {
->  	.read_sdw_lcount =  hda_sdw_check_lcount_ext,
->  	.check_sdw_irq = lnl_dsp_check_sdw_irq,
->  	.check_sdw_wakeen_irq = lnl_sdw_check_wakeen_irq,
-> +	.sdw_process_wakeen = hda_sdw_process_wakeen_common,
->  	.check_ipc_irq = mtl_dsp_check_ipc_irq,
->  	.cl_init = mtl_dsp_cl_init,
->  	.power_down_dsp = mtl_power_down_dsp,
-
--- 
-Péter
-
+> Can you add these tags and send v2?
+> Fixes: 6b04629ae97a ("ASoC: SOF: Intel: add initial support for WCL")
+> Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>
+> Thank you!
+>
+Sure, I will follow it. thank you
