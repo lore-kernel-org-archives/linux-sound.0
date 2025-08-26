@@ -1,89 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F422BD59C;
-	Mon, 25 Aug 2025 22:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBEBB1C8610;
+	Tue, 26 Aug 2025 02:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756161072; cv=none; b=UB7uL5ic8+wIcHCnQmDJAKNegHJMhJZKxEMkgemdcxQm27bkEqtysQ8eBHoEOHZjIiXssuayliox4nSqVkTdRD7/VMJRC6njiff/hxSOV9DsEh1El0W+56r6h/soLkxbMRK/wU2pzpkwFDjn3nBk3YZAmgNiSWN9+i7BS9lJLQ4=
+	t=1756176460; cv=none; b=TBtE9eIEtEnuwUaee1MOlejJ8yzVK9mJsqsEGjEhBmwjDf2LP+G+sLjUAWZGwf6w/g7m2c37DZy7oK/+EsEQWf6Q72PbzHbD5sn+1TDxh0L3+iTgWMrTdqDNnD1oCBsPzNFcklw9eXmfKV1ZMRBlU5vHA3ev0sFTjPjtgFJCcLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756161072; c=relaxed/simple;
-	bh=K1DkR1nYObRfAayoPYDMGwSRljtof412ye+04a+YIf4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RCQbjjYsEX3TwFN/G3FI9LN0RuJMk2+259Ci1+x9X+sZnR2D4MegziJXW2fiSo+zyh6nwLzjUvlBSDXXmNuVJSkea0hCTxf8qf3ITOnjsfVLPi4YOmKNLkxqQO8ECbSM9KWke0gIlKj+3N5fMQFf2ZecYaqANdizeiO8+9jQZAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rR//IVir; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756176460; c=relaxed/simple;
+	bh=Wm/2S21Pg6Nmoyskp843r48HknqB72yRjYDtSbAC9eI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OFGNIuHr5E+0ekOUOIx7m3EEkLhT7MZULYkQp3ymQA3w/xz/6wYVaKhVsmZPs8J07Yc1wiJDlMEd/ubuF+qUp3WrZVaNuiDkzyjC5WWfZaiN14OcDyqRG9AvdsQ48tP3aN4ZJdBPmj0Wz1RX3DrJy/1HFvOe6kd9yGgb9l8KdVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D98vDBHd; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rR//IVir"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34040C4CEED;
-	Mon, 25 Aug 2025 22:31:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756161071;
-	bh=K1DkR1nYObRfAayoPYDMGwSRljtof412ye+04a+YIf4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=rR//IVirdMjmQr0o2wYCPpGz44IsQz1DB1lmxB0IXz5ygGgkmCC0FStU0bxDlF0DF
-	 q8IbeFayMfgnRjqtuOEeWluNS4Zwmfz9vGw1RXzd240KHmDgG1BhdpKUsXVChiioUS
-	 S0f9Ssf68Hb6dVIGfynPesdzbZ4XRu5DhkArgTDuXPGj8kzuiAO3e1QnOtUXlpc06t
-	 sf/YFdK1d8r605jxsNr/cCWhwaS1xkerolzBNQZKo1FK2ASMDSF6UaFg+CpjTezcbG
-	 NSs8NcVva/n9fS+dRtn7tYo24vip+fmNojbOMysnV4kGmb1D9zYaMjzlFVhELlNzWW
-	 TJph4TKu61MzQ==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20250825121139.2150099-1-alexander.stein@ew.tq-group.com>
-References: <20250825121139.2150099-1-alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 1/1] ASoC: tlv320aic32x4: use dev_err_probe() for
- regulators
-Message-Id: <175616106888.240045.14722462456328491850.b4-ty@kernel.org>
-Date: Mon, 25 Aug 2025 23:31:08 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D98vDBHd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756176458; x=1787712458;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Wm/2S21Pg6Nmoyskp843r48HknqB72yRjYDtSbAC9eI=;
+  b=D98vDBHdVQiSsAWdYqa8G9n9+g2+p+qrSIAMoIQR+MDNj8uREv5nzUri
+   wi6qtgINiynikjMY638u2U1uz76pJY8qMHiSZ4jzVN7/m0sKaMpivEd1w
+   Dv9c7yeA9IsvU4Bi8gZ8kARpN8l3/CFPbuNvedc9gh01wgtc38ukSiwG/
+   dx2+q6GYT69tst8fAOBV3nWOB/O4wCdfPcTv+1qKGsgA59O2tXqa7oILo
+   MfeK5VxxaOLNKobEn+6BmCEr0yOsma4vTd92HLAtXbChTEH7AVWsaK10F
+   mlqU2RgC3Us3MPJvI8kneNOygajSo7frSLAdZnO7yRUozKG/oAm3Kgnxj
+   g==;
+X-CSE-ConnectionGUID: VrOeYicPSWm+O9I8dpiacA==
+X-CSE-MsgGUID: 0HV8kHJQTvielMcDZqsvcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11533"; a="58467741"
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="58467741"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 19:47:37 -0700
+X-CSE-ConnectionGUID: olyZ81apQuaoegO1K0ddNw==
+X-CSE-MsgGUID: gZmNKNo5SPmhtImu+Ik1wg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,214,1751266800"; 
+   d="scan'208";a="173760513"
+Received: from lkp-server02.sh.intel.com (HELO 4ea60e6ab079) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 25 Aug 2025 19:47:32 -0700
+Received: from kbuild by 4ea60e6ab079 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uqjic-000OB9-1g;
+	Tue, 26 Aug 2025 02:47:30 +0000
+Date: Tue, 26 Aug 2025 10:47:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Darren.Ye" <darren.ye@mediatek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Darren Ye <darren.ye@mediatek.com>
+Subject: Re: [PATCH v7 09/10] ASoC: mediatek: mt8196: add machine driver with
+ nau8825
+Message-ID: <202508261004.7adPXk4m-lkp@intel.com>
+References: <20250822125301.12333-10-darren.ye@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-a9b2a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250822125301.12333-10-darren.ye@mediatek.com>
 
-On Mon, 25 Aug 2025 14:11:38 +0200, Alexander Stein wrote:
-> Avoid error messages like the following when the regulators have not
-> been probed yet:
-> 
->     tlv320aic32x4 0-0018: Missing supply 'iov'
->     tlv320aic32x4 0-0018: Failed to setup regulators
-> 
-> 
-> [...]
+Hi Darren.Ye,
 
-Applied to
+kernel test robot noticed the following build warnings:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on broonie-spi/for-next robh/for-next linus/master v6.17-rc3 next-20250825]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Darren-Ye/ASoC-mediatek-common-modify-mtk-afe-platform-driver-for-mt8196/20250822-210108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250822125301.12333-10-darren.ye%40mediatek.com
+patch subject: [PATCH v7 09/10] ASoC: mediatek: mt8196: add machine driver with nau8825
+config: arm64-randconfig-r131-20250826 (https://download.01.org/0day-ci/archive/20250826/202508261004.7adPXk4m-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d26ea02060b1c9db751d188b2edb0059a9eb273d)
+reproduce: (https://download.01.org/0day-ci/archive/20250826/202508261004.7adPXk4m-lkp@intel.com/reproduce)
 
-[1/1] ASoC: tlv320aic32x4: use dev_err_probe() for regulators
-      commit: a12b74d2bd4724ee1883bc97ec93eac8fafc8d3c
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508261004.7adPXk4m-lkp@intel.com/
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/mediatek/mt8196/mt8196-nau8825.c:183:33: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int to @@     got restricted snd_pcm_format_t [usertype] @@
+   sound/soc/mediatek/mt8196/mt8196-nau8825.c:183:33: sparse:     expected unsigned int to
+   sound/soc/mediatek/mt8196/mt8196-nau8825.c:183:33: sparse:     got restricted snd_pcm_format_t [usertype]
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+vim +183 sound/soc/mediatek/mt8196/mt8196-nau8825.c
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+   175	
+   176	static int mt8196_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+   177					  struct snd_pcm_hw_params *params)
+   178	{
+   179		dev_info(rtd->dev, "fix format to 32bit\n");
+   180	
+   181		/* fix BE i2s format to 32bit, clean param mask first */
+   182		snd_mask_reset_range(hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT),
+ > 183				     0, SNDRV_PCM_FORMAT_LAST);
+   184	
+   185		params_set_format(params, SNDRV_PCM_FORMAT_S32_LE);
+   186		return 0;
+   187	}
+   188	
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
