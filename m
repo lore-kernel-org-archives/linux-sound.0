@@ -1,140 +1,144 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BB218A6AD;
-	Tue, 26 Aug 2025 20:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756241137; cv=pass; b=gHOAH6WtgouPSbt8cZu9l+PJaWB6GvGx3U0dqKLh3Ksdnf9Cx3TWuGngzYjSAT7irKagudPipTSJWualQpIxopXRK3sTa2H7M+d7nlhkfB8i2QgpB2QtCaX0vgoaAdEeBYnM7634rIIaenV1Fx+cXKjNxosjovJIQCjYk12x8dc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756241137; c=relaxed/simple;
-	bh=KJjS8I6gJSijIC7JO2aXSuBJftstDuSC97VuLN7ULDM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xle5+TQ0wY8fLKfrnBqd4lnoaNdbk5+9aBBc4UhwIB5haPZPyme+9xLxriVrEsEpShEdcHwjc/1CJZozbwR2DNCK1M28c42vZtdbP6TDQRIEvjbrxZir5KCthGC1tLyaijXTHzi3SjXE5qk+FrRhI/I/rlLRnXxhjkj+56SHxI8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=Ki9wPHON; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B025826D4DD;
+	Tue, 26 Aug 2025 23:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756252245; cv=none; b=Q7CW4RzwrX91TF9kjJq8eEbkStdgcxrxMjfv3fjVf50SYC4A9D/+D3t6zKwhjtrtlnxp2cN9fU6Zn1EqSzIj+uPtb/8EsvbVKL/2OtYP4+6BwCk4JASUr53pFpxEcBB6UOsGOyYACTNwGzu7+tGq71DMUV0/ZnLflq4u5co0uyc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756252245; c=relaxed/simple;
+	bh=07Ku4luLp6tCckZKvoGpBvBDQ0Ywwcemo2l4BS/xWs0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OJaeeNxkprsmccTyyeJIBp56PiKBH6On4kyqx08MY6TqZFwpiv05fpaIs1AyEb19Qzr1lg0nEVI4oCTpMKM87lBoHdWjK3Nvdj+2MwqkaKsB86WhRIZz41T/IZYpY5DRAkV84REITSw9Epsvl7S/GwcAbYDQq5Bch4k/a5kkuQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ku2eS2aL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Ki9wPHON"
-ARC-Seal: i=1; a=rsa-sha256; t=1756241053; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=j2yVxPbvVmnkEx3m/dN6e1AnUw4nYDLYLrQh9jouqxO5BJjiiCr793G8HSPBwBdIjatD9NagViFauNjRfSXiN5OkOvRkuqJsv3BkMAKRRezf9KhkZ9qHONfzjNiYdn92suhyL8w0t2CahFZ6j03Kzk/PHMsJrm8p8efMx+NlI/M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1756241053; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=h44Qfi5J3Y304gTJmb6TLXLe4gIhtF4d/gBhlL0gNV4=; 
-	b=N2xtWkuh45RuU2Vs8YqwfZJBv6pw4MgqWCT3y3wTsVdIc4i07F27CpHJTe6r0RHrYKECjA2mdKudHQ73mnL9z6hLRcvSqq2844PABhn+1mHxPbT5bMHwssg/rwWgr6mQ/zKgi0MKUL5PN5Wc1C2feJz+9yYB4bE83Epayd99uKE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756241053;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=h44Qfi5J3Y304gTJmb6TLXLe4gIhtF4d/gBhlL0gNV4=;
-	b=Ki9wPHONx+Kgfg+EjzLJhd6LwqGwWdyDua6+Z+EDmJEbzyVUdyErOswt5JJ7uGnV
-	yBZm/csgF+b9XzuM3ZCk9g4oG2mnCIHV2SY/tvJsxQ81i+wvrbET0R14VjHnkb41YXS
-	mDPO7PRK+qiv+NHwXJGh2VBPtPHhrJ7sOczkb5CI=
-Received: by mx.zohomail.com with SMTPS id 1756241051276539.1866484786493;
-	Tue, 26 Aug 2025 13:44:11 -0700 (PDT)
-Message-ID: <676d88d1-c15a-4648-a4c5-c668e40b12f0@collabora.com>
-Date: Tue, 26 Aug 2025 23:43:57 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ku2eS2aL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D91F3C4CEF1;
+	Tue, 26 Aug 2025 23:50:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756252245;
+	bh=07Ku4luLp6tCckZKvoGpBvBDQ0Ywwcemo2l4BS/xWs0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ku2eS2aLuk2BO85gltgp9fViBt3A7nXYGIzz3ko+3i02BU56tWHBUt7SqU2nURtEN
+	 XBBLjuym5594eRddN8//2A0hIq9YGE3uJyHGblP1kjOj68phQ1DzZczKcjxA+BYH7m
+	 beuxjpqZ1t3NkKzgfPTOjhOisGGViCwrEjzxf5/EchC01qkp/d/r0yRVVVq5e9D4ra
+	 9iyKZSacjOMQZjnsjMUDUS7FZcVzPkmSyZlv8uUTxMLQ55Ro7lB9BFk8KSd1dsWumX
+	 ZZ+S+nCkt7tGurJCOCifKfd1hsdFyeaBfVGIOUwIwszL5KLRmkt2m3Rz7ePoD+ElMf
+	 wfPZvM216LTww==
+Date: Tue, 26 Aug 2025 18:50:43 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	linux-watchdog@vger.kernel.org,
+	Mathew McBride <matt@traverse.com.au>,
+	linux-arm-kernel@lists.infradead.org,
+	Michael Walle <mwalle@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Nikita Travkin <nikita@trvn.ru>,
+	Guenter Roeck <groeck@chromium.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-mediatek@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-sound@vger.kernel.org,
+	Cheng-Yi Chiang <cychiang@chromium.org>,
+	linux-hwmon@vger.kernel.org, Tzung-Bi Shih <tzungbi@kernel.org>,
+	Pengyu Luo <mitltlatltl@gmail.com>, linux-gpio@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>,
+	linux-pwm@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Tinghan Shen <tinghan.shen@mediatek.com>
+Subject: Re: [PATCH v3] dt-bindings: mfd: Move embedded controllers to own
+ directory
+Message-ID: <175625224288.764159.13881647192010727208.robh@kernel.org>
+References: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/20] media: synopsys: hdmirx: replace macros with
- bitfield variants
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang
- <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Shawn Lin <shawn.lin@rock-chips.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-4-947b841cdb29@collabora.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250825-byeword-update-v3-4-947b841cdb29@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
 
-On 8/25/25 11:28, Nicolas Frattaroli wrote:
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
+
+On Mon, 25 Aug 2025 10:12:02 +0200, Krzysztof Kozlowski wrote:
+> Move several embedded controller bindings (like ChromeOS EC, Gateworks
+> System Controller and Kontron sl28cpld Board Management) to new
+> subdirectory "embedded-controller" matching their purpose.
 > 
-> Replace the UPDATE macro with bitfield.h's FIELD_PREP, to give us
-> additional error checking.
+> An embedded controller (EC) is a discrete component that contains a
+> microcontroller (i.e. a small CPU running a small firmware without
+> operating system) mounted into a larger computer system running
+> a fully fledged operating system that needs to utilize the embedded
+> controller as part of its operation.
 > 
-> Also, replace the HIWORD_UPDATE macro at the same time with the new
-> FIELD_PREP_WM16 macro in hw_bitfield.h, which also gives us additional
-> error checking.
+> So far the EC bindings were split between "mfd" and "platform"
+> directory.  MFD name comes from Linux, not hardware, and "platform" is a
+> bit too generic.
 > 
-> The UPDATE/HIWORD_UPDATE macros are left as wrappers around the
-> replacement macros, in order to not rock the boat too much, and keep the
-> changes easy to review.
+> Rename Gateworks GSC and Huawei Gaokun filenames to match compatible, as
+> preferred for bindings.
 > 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> Acked-by: Michael Walle <mwalle@kernel.org> # for sl28cpld
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-> index 220ab99ca61152b36b0a08b398ddefdb985709a5..b26668a98aafd1682b8342cc11f84666a13f07a3 100644
-> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-> @@ -8,10 +8,12 @@
->  #ifndef DW_HDMIRX_H
->  #define DW_HDMIRX_H
->  
-> +#include <linux/bitfield.h>
->  #include <linux/bitops.h>
-> +#include <linux/hw_bitfield.h>
->  
-> -#define UPDATE(x, h, l)		(((x) << (l)) & GENMASK((h), (l)))
-> -#define HIWORD_UPDATE(v, h, l)	(((v) << (l)) | (GENMASK((h), (l)) << 16))
-> +#define UPDATE(x, h, l)		(FIELD_PREP(GENMASK((h), (l)), (x)))
-> +#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16(GENMASK((h), (l)), (v)))
+> Lee,
+> Can you take it via MFD?
+> There is a patch on the lists touching kontron,sl28cpld.
+> 
+> Changes in v3:
+> 1. Move more files from "platform" directory.
+> 2. Grow commit msg, based on feedback from Linus.
+> 3. Add Rb (patch changed, though).
+> 
+> Changes in v2:
+> 1. Correct remaining paths in other schemas ($ref and descriptions).
+> 2. Add Ack.
+> 
+> Cc: Mathew McBride <matt@traverse.com.au>
+> ---
+>  .../{platform => embedded-controller}/acer,aspire1-ec.yaml  | 2 +-
+>  .../{mfd => embedded-controller}/google,cros-ec.yaml        | 2 +-
+>  .../gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml}  | 2 +-
+>  .../huawei,gaokun3-ec.yaml}                                 | 2 +-
+>  .../{mfd => embedded-controller}/kontron,sl28cpld.yaml      | 2 +-
+>  .../lenovo,yoga-c630-ec.yaml                                | 2 +-
+>  .../microsoft,surface-sam.yaml                              | 2 +-
+>  .../devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml     | 2 +-
+>  .../devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml   | 2 +-
+>  .../interrupt-controller/kontron,sl28cpld-intc.yaml         | 2 +-
+>  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml         | 2 +-
+>  .../devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml       | 2 +-
+>  Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml   | 4 ++--
+>  .../devicetree/bindings/sound/google,cros-ec-codec.yaml     | 2 +-
+>  .../devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml  | 2 +-
+>  MAINTAINERS                                                 | 6 +++---
+>  16 files changed, 19 insertions(+), 19 deletions(-)
+>  rename Documentation/devicetree/bindings/{platform => embedded-controller}/acer,aspire1-ec.yaml (94%)
+>  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/google,cros-ec.yaml (99%)
+>  rename Documentation/devicetree/bindings/{mfd/gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml} (98%)
+>  rename Documentation/devicetree/bindings/{platform/huawei,gaokun-ec.yaml => embedded-controller/huawei,gaokun3-ec.yaml} (97%)
+>  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/kontron,sl28cpld.yaml (97%)
+>  rename Documentation/devicetree/bindings/{platform => embedded-controller}/lenovo,yoga-c630-ec.yaml (95%)
+>  rename Documentation/devicetree/bindings/{platform => embedded-controller}/microsoft,surface-sam.yaml (92%)
+> 
 
-Nit: the extra parens around FIELD_PREP may be omitted
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Acked-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-
--- 
-Best regards,
-Dmitry
