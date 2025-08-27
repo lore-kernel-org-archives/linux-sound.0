@@ -1,83 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07163128C0
-	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 07:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202123128C0
+	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 07:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756280643; cv=none; b=TB6id4EWIRvNy3tRv1MdAO+/b0zY7/4mvUemogZjIQuWuh25j8FiL8fepSg7l3yuRpZG9dO+rkdb5nzYWyMcCQNjTa5HB5qgaTaHx1jriQogkkebf/qPQHjMbA5khczjzveWhRslx+N4pP0+m5XlQ7Ee7ad7YcvIgc9md5etHjo=
+	t=1756280654; cv=none; b=miWzkubC6wrtqpBq5qAKyIf+kD+XrLZlnjTML6em3KeB7Mr+TFzDfMd1XPFrN91xXxHHrfoOttP0jONSQgO/yBIVhWKDEQqvpjJCeAmfRDzit5W8h4F9MQ9JOKfHyzL0YEfTQsYDgjIZhGLEsxCG2T7A/lsYi0aQxsobI79cmuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756280643; c=relaxed/simple;
-	bh=ICx47fw1qZrkDbYRPwNdO+NueUtAdXXaEZcZD5OQIJk=;
+	s=arc-20240116; t=1756280654; c=relaxed/simple;
+	bh=q0WfVfsyiBDJVnMhQRnabD16CU4frbJn+iE6kQhJ528=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BD67JMr15M3Ec6tcKY8Ch00HpG7CnyBUCFmw0H/cNnuXK8Lvpb78d/ll1uHKeuM6DovQ57IfuuxhnFhT8AsycsK4X4LKui9EcgN5+oveEc5gDD+w17TuuKamSBySPo8SOvM1OMxA6zJMcnQx72O2JuCAC34Tks80ja1ecaDs9/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hdqtULNU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6HLSx1cC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hdqtULNU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6HLSx1cC; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=BgWqZtsk8hzIEeBud5HQ3wypvTVHXjX4YOOMxzPeRnTvnvKqFeZm2WUtusJMIWESBmXW64XVI0tt8gBHVNraXVlVNkPeevFOUs2KOSdg4AJuk2jkPFCZj7h/R941KcQkUX267rNV1Snt+sNX8klK/tckL/xCpzYqOVvox75VC+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=COF+1Fcx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KwG/7bNI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EBglm2sJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6SVTuLSJ; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hdqtULNU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6HLSx1cC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hdqtULNU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6HLSx1cC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="COF+1Fcx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KwG/7bNI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EBglm2sJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6SVTuLSJ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 815E92239D;
-	Wed, 27 Aug 2025 07:29:20 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EEAC522389;
+	Wed, 27 Aug 2025 07:29:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756279760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YpP9O6plsri2pYgniie99vvj+j3S9m+p/4NgSnbzgg8=;
-	b=hdqtULNUksyKSTbR5F3OJ+jfTa/0+DCLCFYSzQlgzIhYB1Lg8fvGVbUiklTGiwebfPLYti
-	97TD+unLyXFKbkXhoTClQ0JPPfLjCwnrkcV0gn61l8gXxlJ3CUeiICmCuUCxNKFip6dD2C
-	u3uoPSFduBa38n7xJQ8bwVO1v4D+a9E=
+	bh=NaHyOdouTjXnXiqShkHrkM82AzdhdQNa1GyopyBKN98=;
+	b=COF+1Fcxi1oWAFP5PCNrhTLhwprtKOUIeEX5cwm5w9liabWnDpLLsHGsYnNccHkf1hXRma
+	URXGrG28eCZVOxR7KsxcQJWSsD0NBgTMQ9pNq1HbAG3OJf9z0GhIAKISxBxj6hZ+me0wir
+	HozX7flXKv1xfMkNauvgQVHMTkHS+0o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756279760;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YpP9O6plsri2pYgniie99vvj+j3S9m+p/4NgSnbzgg8=;
-	b=6HLSx1cC6LZWgsDeSP/ceNvxE/I9fb1yEKibiPVhGpoJN8pAi4JLzXwFPeFVDwVcs6/XlV
-	Ynw9WYbACYUVRRDQ==
+	bh=NaHyOdouTjXnXiqShkHrkM82AzdhdQNa1GyopyBKN98=;
+	b=KwG/7bNIoqx/8Mq2pdgyJedww3E9EBMwQJFYkeJ32I4jQxUCBWLe40uzK81HEO+IJGgoJX
+	X9PDZWwt+xmOBOCg==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EBglm2sJ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6SVTuLSJ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756279760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756279759; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YpP9O6plsri2pYgniie99vvj+j3S9m+p/4NgSnbzgg8=;
-	b=hdqtULNUksyKSTbR5F3OJ+jfTa/0+DCLCFYSzQlgzIhYB1Lg8fvGVbUiklTGiwebfPLYti
-	97TD+unLyXFKbkXhoTClQ0JPPfLjCwnrkcV0gn61l8gXxlJ3CUeiICmCuUCxNKFip6dD2C
-	u3uoPSFduBa38n7xJQ8bwVO1v4D+a9E=
+	bh=NaHyOdouTjXnXiqShkHrkM82AzdhdQNa1GyopyBKN98=;
+	b=EBglm2sJegs2bdg8dNMInDll7oQ4NNZh+uDuVaXYhSlwBTpEd6fF5bZI/M5eh42U9fxXq1
+	MaioBYCXcuAF7ronuBFDLfClXsxxndliOiRwlERtxL3gzrHeLBIDnZUn3GgsrgS64HB5YI
+	6AIN6UyFlDn/vmzmsinPg8/dOpkf/2g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756279760;
+	s=susede2_ed25519; t=1756279759;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YpP9O6plsri2pYgniie99vvj+j3S9m+p/4NgSnbzgg8=;
-	b=6HLSx1cC6LZWgsDeSP/ceNvxE/I9fb1yEKibiPVhGpoJN8pAi4JLzXwFPeFVDwVcs6/XlV
-	Ynw9WYbACYUVRRDQ==
+	bh=NaHyOdouTjXnXiqShkHrkM82AzdhdQNa1GyopyBKN98=;
+	b=6SVTuLSJ3vgd2oKAoa4Bk/zrtCRPJdwO9OIdjkXk3wF5/iXd4ncIH6ylLK7UM1jZajN/5q
+	ps7fPrrxC+1FgrDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6736113A31;
-	Wed, 27 Aug 2025 07:29:20 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D55C413A31;
+	Wed, 27 Aug 2025 07:29:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CN3BF9CzrmjoagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 07:29:20 +0000
+	id 8MXfMs+zrmjoagAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 07:29:19 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 07/25] ALSA: hda/common: Use guard() for mutex locks
-Date: Wed, 27 Aug 2025 09:28:47 +0200
-Message-ID: <20250827072916.31933-8-tiwai@suse.de>
+Subject: [PATCH v2 03/25] ALSA: hda/hdmi: Use cleanup macros for PM controls
+Date: Wed, 27 Aug 2025 09:28:43 +0200
+Message-ID: <20250827072916.31933-4-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250827072916.31933-1-tiwai@suse.de>
 References: <20250827072916.31933-1-tiwai@suse.de>
@@ -89,536 +90,133 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: EEAC522389
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_ONE(0.00)[1];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 
-Replace the manual mutex lock/unlock pairs with guard().
+The new macro CLASS(snd_hda_power_pm) can replace the manual
+snd_hda_power_up_pm() and _down() calls gracefully.
 
-Only code refactoring, and no behavior change.
+Merely code cleanups and no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/common/codec.c      | 89 +++++++++++++++--------------------
- sound/hda/common/controller.c | 24 +++++-----
- sound/hda/common/sysfs.c      | 66 ++++++++++----------------
- 3 files changed, 74 insertions(+), 105 deletions(-)
+ sound/hda/codecs/hdmi/hdmi.c | 29 ++++++++++-------------------
+ 1 file changed, 10 insertions(+), 19 deletions(-)
 
-diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
-index 3e692dd6725e..022086f8d4df 100644
---- a/sound/hda/common/codec.c
-+++ b/sound/hda/common/codec.c
-@@ -39,13 +39,12 @@ static int call_exec_verb(struct hda_bus *bus, struct hda_codec *codec,
- 	int err;
- 
- 	CLASS(snd_hda_power_pm, pm)(codec);
--	mutex_lock(&bus->core.cmd_mutex);
-+	guard(mutex)(&bus->core.cmd_mutex);
- 	if (flags & HDA_RW_NO_RESPONSE_FALLBACK)
- 		bus->no_response_fallback = 1;
- 	err = snd_hdac_bus_exec_verb_unlocked(&bus->core, codec->core.addr,
- 					      cmd, res);
- 	bus->no_response_fallback = 0;
--	mutex_unlock(&bus->core.cmd_mutex);
- 	return err;
- }
- 
-@@ -531,11 +530,11 @@ unsigned int snd_hda_codec_get_pincfg(struct hda_codec *codec, hda_nid_t nid)
- #ifdef CONFIG_SND_HDA_RECONFIG
- 	{
- 		unsigned int cfg = 0;
--		mutex_lock(&codec->user_mutex);
--		pin = look_up_pincfg(codec, &codec->user_pins, nid);
--		if (pin)
--			cfg = pin->cfg;
--		mutex_unlock(&codec->user_mutex);
-+		scoped_guard(mutex, &codec->user_mutex) {
-+			pin = look_up_pincfg(codec, &codec->user_pins, nid);
-+			if (pin)
-+				cfg = pin->cfg;
-+		}
- 		if (cfg)
- 			return cfg;
- 	}
-@@ -2179,13 +2178,12 @@ static int snd_hda_spdif_default_get(struct snd_kcontrol *kcontrol,
- 
- 	if (WARN_ON(codec->spdif_out.used <= idx))
- 		return -EINVAL;
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	spdif = snd_array_elem(&codec->spdif_out, idx);
- 	ucontrol->value.iec958.status[0] = spdif->status & 0xff;
- 	ucontrol->value.iec958.status[1] = (spdif->status >> 8) & 0xff;
- 	ucontrol->value.iec958.status[2] = (spdif->status >> 16) & 0xff;
- 	ucontrol->value.iec958.status[3] = (spdif->status >> 24) & 0xff;
--	mutex_unlock(&codec->spdif_mutex);
- 
- 	return 0;
- }
-@@ -2288,7 +2286,7 @@ static int snd_hda_spdif_default_put(struct snd_kcontrol *kcontrol,
- 
- 	if (WARN_ON(codec->spdif_out.used <= idx))
- 		return -EINVAL;
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	spdif = snd_array_elem(&codec->spdif_out, idx);
- 	nid = spdif->nid;
- 	spdif->status = ucontrol->value.iec958.status[0] |
-@@ -2301,7 +2299,6 @@ static int snd_hda_spdif_default_put(struct snd_kcontrol *kcontrol,
- 	spdif->ctls = val;
- 	if (change && nid != (u16)-1)
- 		set_dig_out_convert(codec, nid, val & 0xff, (val >> 8) & 0xff);
--	mutex_unlock(&codec->spdif_mutex);
- 	return change;
- }
- 
-@@ -2316,10 +2313,9 @@ static int snd_hda_spdif_out_switch_get(struct snd_kcontrol *kcontrol,
- 
- 	if (WARN_ON(codec->spdif_out.used <= idx))
- 		return -EINVAL;
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	spdif = snd_array_elem(&codec->spdif_out, idx);
- 	ucontrol->value.integer.value[0] = spdif->ctls & AC_DIG1_ENABLE;
--	mutex_unlock(&codec->spdif_mutex);
- 	return 0;
- }
- 
-@@ -2346,7 +2342,7 @@ static int snd_hda_spdif_out_switch_put(struct snd_kcontrol *kcontrol,
- 
- 	if (WARN_ON(codec->spdif_out.used <= idx))
- 		return -EINVAL;
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	spdif = snd_array_elem(&codec->spdif_out, idx);
- 	nid = spdif->nid;
- 	val = spdif->ctls & ~AC_DIG1_ENABLE;
-@@ -2356,7 +2352,6 @@ static int snd_hda_spdif_out_switch_put(struct snd_kcontrol *kcontrol,
- 	spdif->ctls = val;
- 	if (change && nid != (u16)-1)
- 		set_spdif_ctls(codec, nid, val & 0xff, -1);
--	mutex_unlock(&codec->spdif_mutex);
- 	return change;
- }
- 
-@@ -2501,10 +2496,9 @@ void snd_hda_spdif_ctls_unassign(struct hda_codec *codec, int idx)
- 
- 	if (WARN_ON(codec->spdif_out.used <= idx))
- 		return;
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	spdif = snd_array_elem(&codec->spdif_out, idx);
- 	spdif->nid = (u16)-1;
--	mutex_unlock(&codec->spdif_mutex);
- }
- EXPORT_SYMBOL_GPL(snd_hda_spdif_ctls_unassign);
- 
-@@ -2523,14 +2517,13 @@ void snd_hda_spdif_ctls_assign(struct hda_codec *codec, int idx, hda_nid_t nid)
- 
- 	if (WARN_ON(codec->spdif_out.used <= idx))
- 		return;
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	spdif = snd_array_elem(&codec->spdif_out, idx);
- 	if (spdif->nid != nid) {
- 		spdif->nid = nid;
- 		val = spdif->ctls;
- 		set_spdif_ctls(codec, nid, val & 0xff, (val >> 8) & 0xff);
- 	}
--	mutex_unlock(&codec->spdif_mutex);
- }
- EXPORT_SYMBOL_GPL(snd_hda_spdif_ctls_assign);
- 
-@@ -2605,14 +2598,13 @@ static int snd_hda_spdif_in_switch_put(struct snd_kcontrol *kcontrol,
- 	unsigned int val = !!ucontrol->value.integer.value[0];
- 	int change;
- 
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	change = codec->spdif_in_enable != val;
- 	if (change) {
- 		codec->spdif_in_enable = val;
- 		snd_hdac_regmap_write(&codec->core, nid,
- 				      AC_VERB_SET_DIGI_CONVERT_1, val);
- 	}
--	mutex_unlock(&codec->spdif_mutex);
- 	return change;
- }
- 
-@@ -3182,7 +3174,8 @@ int snd_hda_codec_prepare(struct hda_codec *codec,
- 			  struct snd_pcm_substream *substream)
- {
- 	int ret;
--	mutex_lock(&codec->bus->prepare_mutex);
-+
-+	guard(mutex)(&codec->bus->prepare_mutex);
- 	if (hinfo->ops.prepare)
- 		ret = hinfo->ops.prepare(hinfo, codec, stream, format,
- 					 substream);
-@@ -3190,7 +3183,6 @@ int snd_hda_codec_prepare(struct hda_codec *codec,
- 		ret = -ENODEV;
- 	if (ret >= 0)
- 		purify_inactive_streams(codec);
--	mutex_unlock(&codec->bus->prepare_mutex);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(snd_hda_codec_prepare);
-@@ -3207,10 +3199,9 @@ void snd_hda_codec_cleanup(struct hda_codec *codec,
- 			   struct hda_pcm_stream *hinfo,
- 			   struct snd_pcm_substream *substream)
- {
--	mutex_lock(&codec->bus->prepare_mutex);
-+	guard(mutex)(&codec->bus->prepare_mutex);
- 	if (hinfo->ops.cleanup)
- 		hinfo->ops.cleanup(hinfo, codec, substream);
--	mutex_unlock(&codec->bus->prepare_mutex);
- }
- EXPORT_SYMBOL_GPL(snd_hda_codec_cleanup);
- 
-@@ -3640,12 +3631,11 @@ static void cleanup_dig_out_stream(struct hda_codec *codec, hda_nid_t nid)
- int snd_hda_multi_out_dig_open(struct hda_codec *codec,
- 			       struct hda_multi_out *mout)
- {
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	if (mout->dig_out_used == HDA_DIG_ANALOG_DUP)
- 		/* already opened as analog dup; reset it once */
- 		cleanup_dig_out_stream(codec, mout->dig_out_nid);
- 	mout->dig_out_used = HDA_DIG_EXCLUSIVE;
--	mutex_unlock(&codec->spdif_mutex);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_hda_multi_out_dig_open);
-@@ -3664,9 +3654,8 @@ int snd_hda_multi_out_dig_prepare(struct hda_codec *codec,
- 				  unsigned int format,
- 				  struct snd_pcm_substream *substream)
- {
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	setup_dig_out_stream(codec, mout->dig_out_nid, stream_tag, format);
--	mutex_unlock(&codec->spdif_mutex);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_hda_multi_out_dig_prepare);
-@@ -3679,9 +3668,8 @@ EXPORT_SYMBOL_GPL(snd_hda_multi_out_dig_prepare);
- int snd_hda_multi_out_dig_cleanup(struct hda_codec *codec,
- 				  struct hda_multi_out *mout)
- {
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	cleanup_dig_out_stream(codec, mout->dig_out_nid);
--	mutex_unlock(&codec->spdif_mutex);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_hda_multi_out_dig_cleanup);
-@@ -3694,9 +3682,8 @@ EXPORT_SYMBOL_GPL(snd_hda_multi_out_dig_cleanup);
- int snd_hda_multi_out_dig_close(struct hda_codec *codec,
- 				struct hda_multi_out *mout)
- {
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	mout->dig_out_used = 0;
--	mutex_unlock(&codec->spdif_mutex);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_hda_multi_out_dig_close);
-@@ -3736,7 +3723,7 @@ int snd_hda_multi_out_analog_open(struct hda_codec *codec,
- 						    NULL,
- 						    &mout->spdif_maxbps);
- 		}
--		mutex_lock(&codec->spdif_mutex);
-+		guard(mutex)(&codec->spdif_mutex);
- 		if (mout->share_spdif) {
- 			if ((runtime->hw.rates & mout->spdif_rates) &&
- 			    (runtime->hw.formats & mout->spdif_formats)) {
-@@ -3749,7 +3736,6 @@ int snd_hda_multi_out_analog_open(struct hda_codec *codec,
- 				/* FIXME: need notify? */
- 			}
- 		}
--		mutex_unlock(&codec->spdif_mutex);
- 	}
- 	return snd_pcm_hw_constraint_step(substream->runtime, 0,
- 					  SNDRV_PCM_HW_PARAM_CHANNELS, 2);
-@@ -3778,23 +3764,23 @@ int snd_hda_multi_out_analog_prepare(struct hda_codec *codec,
- 	struct hda_spdif_out *spdif;
- 	int i;
- 
--	mutex_lock(&codec->spdif_mutex);
--	spdif = snd_hda_spdif_out_of_nid(codec, mout->dig_out_nid);
--	if (mout->dig_out_nid && mout->share_spdif &&
--	    mout->dig_out_used != HDA_DIG_EXCLUSIVE) {
--		if (chs == 2 && spdif != NULL &&
--		    snd_hda_is_supported_format(codec, mout->dig_out_nid,
--						format) &&
--		    !(spdif->status & IEC958_AES0_NONAUDIO)) {
--			mout->dig_out_used = HDA_DIG_ANALOG_DUP;
--			setup_dig_out_stream(codec, mout->dig_out_nid,
--					     stream_tag, format);
--		} else {
--			mout->dig_out_used = 0;
--			cleanup_dig_out_stream(codec, mout->dig_out_nid);
-+	scoped_guard(mutex, &codec->spdif_mutex) {
-+		spdif = snd_hda_spdif_out_of_nid(codec, mout->dig_out_nid);
-+		if (mout->dig_out_nid && mout->share_spdif &&
-+		    mout->dig_out_used != HDA_DIG_EXCLUSIVE) {
-+			if (chs == 2 && spdif != NULL &&
-+			    snd_hda_is_supported_format(codec, mout->dig_out_nid,
-+							format) &&
-+			    !(spdif->status & IEC958_AES0_NONAUDIO)) {
-+				mout->dig_out_used = HDA_DIG_ANALOG_DUP;
-+				setup_dig_out_stream(codec, mout->dig_out_nid,
-+						     stream_tag, format);
-+			} else {
-+				mout->dig_out_used = 0;
-+				cleanup_dig_out_stream(codec, mout->dig_out_nid);
-+			}
- 		}
- 	}
--	mutex_unlock(&codec->spdif_mutex);
- 
- 	/* front */
- 	snd_hda_codec_setup_stream(codec, nids[HDA_FRONT], stream_tag,
-@@ -3861,12 +3847,11 @@ int snd_hda_multi_out_analog_cleanup(struct hda_codec *codec,
- 		if (mout->extra_out_nid[i])
- 			snd_hda_codec_cleanup_stream(codec,
- 						     mout->extra_out_nid[i]);
--	mutex_lock(&codec->spdif_mutex);
-+	guard(mutex)(&codec->spdif_mutex);
- 	if (mout->dig_out_nid && mout->dig_out_used == HDA_DIG_ANALOG_DUP) {
- 		cleanup_dig_out_stream(codec, mout->dig_out_nid);
- 		mout->dig_out_used = 0;
- 	}
--	mutex_unlock(&codec->spdif_mutex);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_hda_multi_out_analog_cleanup);
-diff --git a/sound/hda/common/controller.c b/sound/hda/common/controller.c
-index ceab8625bb1f..a5693c9ca400 100644
---- a/sound/hda/common/controller.c
-+++ b/sound/hda/common/controller.c
-@@ -96,12 +96,12 @@ static int azx_pcm_close(struct snd_pcm_substream *substream)
- 	struct azx_dev *azx_dev = get_azx_dev(substream);
- 
- 	trace_azx_pcm_close(chip, azx_dev);
--	mutex_lock(&chip->open_mutex);
--	azx_release_device(azx_dev);
--	if (hinfo->ops.close)
--		hinfo->ops.close(hinfo, apcm->codec, substream);
--	snd_hda_power_down(apcm->codec);
--	mutex_unlock(&chip->open_mutex);
-+	scoped_guard(mutex, &chip->open_mutex) {
-+		azx_release_device(azx_dev);
-+		if (hinfo->ops.close)
-+			hinfo->ops.close(hinfo, apcm->codec, substream);
-+		snd_hda_power_down(apcm->codec);
-+	}
- 	snd_hda_codec_pcm_put(apcm->info);
- 	return 0;
- }
-@@ -1129,12 +1129,12 @@ static int probe_codec(struct azx *chip, int addr)
- 	int err;
- 	unsigned int res = -1;
- 
--	mutex_lock(&bus->cmd_mutex);
--	chip->probing = 1;
--	azx_send_cmd(bus, cmd);
--	err = azx_get_response(bus, addr, &res);
--	chip->probing = 0;
--	mutex_unlock(&bus->cmd_mutex);
-+	scoped_guard(mutex, &bus->cmd_mutex) {
-+		chip->probing = 1;
-+		azx_send_cmd(bus, cmd);
-+		err = azx_get_response(bus, addr, &res);
-+		chip->probing = 0;
-+	}
- 	if (err < 0 || res == -1)
- 		return -EIO;
- 	dev_dbg(chip->card->dev, "codec #%d probed OK\n", addr);
-diff --git a/sound/hda/common/sysfs.c b/sound/hda/common/sysfs.c
-index 0d464d4dd7c9..555c16ea60a5 100644
---- a/sound/hda/common/sysfs.c
-+++ b/sound/hda/common/sysfs.c
-@@ -81,12 +81,12 @@ static ssize_t pin_configs_show(struct hda_codec *codec,
- {
- 	const struct hda_pincfg *pin;
- 	int i, len = 0;
--	mutex_lock(&codec->user_mutex);
-+
-+	guard(mutex)(&codec->user_mutex);
- 	snd_array_for_each(list, i, pin) {
- 		len += sysfs_emit_at(buf, len, "0x%02x 0x%08x\n",
- 				     pin->nid, pin->cfg);
- 	}
--	mutex_unlock(&codec->user_mutex);
- 	return len;
- }
- 
-@@ -215,12 +215,12 @@ static ssize_t init_verbs_show(struct device *dev,
- 	struct hda_codec *codec = dev_get_drvdata(dev);
- 	const struct hda_verb *v;
- 	int i, len = 0;
--	mutex_lock(&codec->user_mutex);
-+
-+	guard(mutex)(&codec->user_mutex);
- 	snd_array_for_each(&codec->init_verbs, i, v) {
- 		len += sysfs_emit_at(buf, len, "0x%02x 0x%03x 0x%04x\n",
- 				     v->nid, v->verb, v->param);
- 	}
--	mutex_unlock(&codec->user_mutex);
- 	return len;
- }
- 
-@@ -233,16 +233,13 @@ static int parse_init_verbs(struct hda_codec *codec, const char *buf)
- 		return -EINVAL;
- 	if (!nid || !verb)
- 		return -EINVAL;
--	mutex_lock(&codec->user_mutex);
-+	guard(mutex)(&codec->user_mutex);
- 	v = snd_array_new(&codec->init_verbs);
--	if (!v) {
--		mutex_unlock(&codec->user_mutex);
-+	if (!v)
- 		return -ENOMEM;
--	}
- 	v->nid = nid;
- 	v->verb = verb;
- 	v->param = param;
--	mutex_unlock(&codec->user_mutex);
- 	return 0;
- }
- 
-@@ -264,12 +261,12 @@ static ssize_t hints_show(struct device *dev,
- 	struct hda_codec *codec = dev_get_drvdata(dev);
- 	const struct hda_hint *hint;
- 	int i, len = 0;
--	mutex_lock(&codec->user_mutex);
-+
-+	guard(mutex)(&codec->user_mutex);
- 	snd_array_for_each(&codec->hints, i, hint) {
- 		len += sysfs_emit_at(buf, len, "%s = %s\n",
- 				     hint->key, hint->val);
- 	}
--	mutex_unlock(&codec->user_mutex);
- 	return len;
- }
- 
-@@ -324,7 +321,7 @@ static int parse_hints(struct hda_codec *codec, const char *buf)
- 	val = skip_spaces(val);
- 	remove_trail_spaces(key);
- 	remove_trail_spaces(val);
--	mutex_lock(&codec->user_mutex);
-+	guard(mutex)(&codec->user_mutex);
- 	hint = get_hint(codec, key);
- 	if (hint) {
- 		/* replace */
-@@ -345,7 +342,6 @@ static int parse_hints(struct hda_codec *codec, const char *buf)
- 		err = -ENOMEM;
- 	}
-  unlock:
--	mutex_unlock(&codec->user_mutex);
- 	if (err)
- 		kfree(key);
- 	return err;
-@@ -372,16 +368,14 @@ static ssize_t user_pin_configs_show(struct device *dev,
- 
- static int parse_user_pin_configs(struct hda_codec *codec, const char *buf)
- {
--	int nid, cfg, err;
-+	int nid, cfg;
- 
- 	if (sscanf(buf, "%i %i", &nid, &cfg) != 2)
- 		return -EINVAL;
- 	if (!nid)
- 		return -EINVAL;
--	mutex_lock(&codec->user_mutex);
--	err = snd_hda_add_pincfg(codec, &codec->user_pins, nid, cfg);
--	mutex_unlock(&codec->user_mutex);
--	return err;
-+	guard(mutex)(&codec->user_mutex);
-+	return snd_hda_add_pincfg(codec, &codec->user_pins, nid, cfg);
- }
- 
- static ssize_t user_pin_configs_store(struct device *dev,
-@@ -429,26 +423,19 @@ EXPORT_SYMBOL_GPL(snd_hda_get_hint);
- int snd_hda_get_bool_hint(struct hda_codec *codec, const char *key)
- {
- 	const char *p;
+diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
+index b5d840d9892b..4b5d20f0fbe4 100644
+--- a/sound/hda/codecs/hdmi/hdmi.c
++++ b/sound/hda/codecs/hdmi/hdmi.c
+@@ -1270,16 +1270,15 @@ static void hdmi_present_sense_via_verbs(struct hdmi_spec_per_pin *per_pin,
+ 	 * the unsolicited response to avoid custom WARs.
+ 	 */
+ 	int present;
 -	int ret;
  
--	mutex_lock(&codec->user_mutex);
-+	guard(mutex)(&codec->user_mutex);
- 	p = snd_hda_get_hint(codec, key);
- 	if (!p || !*p)
--		ret = -ENOENT;
--	else {
--		switch (toupper(*p)) {
--		case 'T': /* true */
--		case 'Y': /* yes */
--		case '1':
--			ret = 1;
--			break;
--		default:
--			ret = 0;
--			break;
--		}
-+		return -ENOENT;
-+	switch (toupper(*p)) {
-+	case 'T': /* true */
-+	case 'Y': /* yes */
-+	case '1':
-+		return 1;
-+	default:
-+		return 0;
- 	}
--	mutex_unlock(&codec->user_mutex);
--	return ret;
- }
- EXPORT_SYMBOL_GPL(snd_hda_get_bool_hint);
+ #ifdef	CONFIG_PM
+ 	if (dev->power.runtime_status == RPM_SUSPENDING)
+ 		return;
+ #endif
  
-@@ -466,20 +453,17 @@ int snd_hda_get_int_hint(struct hda_codec *codec, const char *key, int *valp)
+-	ret = snd_hda_power_up_pm(codec);
+-	if (ret < 0 && pm_runtime_suspended(dev))
+-		goto out;
++	CLASS(snd_hda_power_pm, pm)(codec);
++	if (pm.err < 0 && pm_runtime_suspended(dev))
++		return;
+ 
+ 	present = snd_hda_jack_pin_sense(codec, pin_nid, dev_id);
+ 
+@@ -1302,8 +1301,6 @@ static void hdmi_present_sense_via_verbs(struct hdmi_spec_per_pin *per_pin,
+ 
+ 	update_eld(codec, per_pin, eld, repoll);
+ 	mutex_unlock(&per_pin->lock);
+- out:
+-	snd_hda_power_down_pm(codec);
+ }
+ 
+ static void silent_stream_enable(struct hda_codec *codec,
+@@ -1318,11 +1315,10 @@ static void silent_stream_enable(struct hda_codec *codec,
+ 	 * have to be done without mutex held.
+ 	 */
+ 
+-	err = snd_hda_power_up_pm(codec);
+-	if (err < 0 && err != -EACCES) {
++	CLASS(snd_hda_power_pm, pm)(codec);
++	if (pm.err < 0 && pm.err != -EACCES) {
+ 		codec_err(codec,
+-			  "Failed to power up codec for silent stream enable ret=[%d]\n", err);
+-		snd_hda_power_down_pm(codec);
++			  "Failed to power up codec for silent stream enable ret=[%d]\n", pm.err);
+ 		return;
+ 	}
+ 
+@@ -1361,8 +1357,6 @@ static void silent_stream_enable(struct hda_codec *codec,
+ 
+  unlock_out:
+ 	mutex_unlock(&per_pin->lock);
+-
+-	snd_hda_power_down_pm(codec);
+ }
+ 
+ static void silent_stream_disable(struct hda_codec *codec,
+@@ -1370,14 +1364,13 @@ static void silent_stream_disable(struct hda_codec *codec,
  {
- 	const char *p;
- 	unsigned long val;
--	int ret;
+ 	struct hdmi_spec *spec = codec->spec;
+ 	struct hdmi_spec_per_cvt *per_cvt;
+-	int cvt_idx, err;
++	int cvt_idx;
  
--	mutex_lock(&codec->user_mutex);
-+	guard(mutex)(&codec->user_mutex);
- 	p = snd_hda_get_hint(codec, key);
- 	if (!p)
--		ret = -ENOENT;
-+		return -ENOENT;
- 	else if (kstrtoul(p, 0, &val))
--		ret = -EINVAL;
-+		return -EINVAL;
- 	else {
- 		*valp = val;
--		ret = 0;
-+		return 0;
+-	err = snd_hda_power_up_pm(codec);
+-	if (err < 0 && err != -EACCES) {
++	CLASS(snd_hda_power_pm, pm)(codec);
++	if (pm.err < 0 && pm.err != -EACCES) {
+ 		codec_err(codec,
+ 			  "Failed to power up codec for silent stream disable ret=[%d]\n",
+-			  err);
+-		snd_hda_power_down_pm(codec);
++			  pm.err);
+ 		return;
  	}
--	mutex_unlock(&codec->user_mutex);
--	return ret;
+ 
+@@ -1401,8 +1394,6 @@ static void silent_stream_disable(struct hda_codec *codec,
+ 
+  unlock_out:
+ 	mutex_unlock(&per_pin->lock);
+-
+-	snd_hda_power_down_pm(codec);
  }
- EXPORT_SYMBOL_GPL(snd_hda_get_int_hint);
- #endif /* CONFIG_SND_HDA_RECONFIG */
+ 
+ /* update ELD and jack state via audio component */
 -- 
 2.50.1
 
