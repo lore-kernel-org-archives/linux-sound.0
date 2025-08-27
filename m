@@ -1,83 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626D0322745
-	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 08:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE9C322757
+	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 08:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756281939; cv=none; b=oGvqOQFSeSw+A8JX3HFaYBJMNXCAlnLS1lVRhhuymqrybG7atdNBGqaFw6FQj4rxXUGtShRQy9r1g2ZMtyPD/o+u9qyKFKMbgbcTEAQzxxBnJYBTWg8VzIEibXRes7Jjmb2gMUfFjbfEsB8GPi8I/l0U8ZAnt5gU6fs1uEqSjY0=
+	t=1756281941; cv=none; b=uYTZ3Z22d6p9MWmd2SgqtWpcPkho7dRfoJjfCyZnRM/6aU5Ih5mQpO5UsuK70pE0MNMnBh5Tmk2pzNcHnD1XWsPCa9RkwhUKHpAm2BDbCalqEkOlQpC8x995eImrVxD/l+XjJLBSTO9ahhSJfUaVyrjCTjQcCYZVQAWS/ImIQJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756281939; c=relaxed/simple;
-	bh=MgkFc1uIfNwwtA9JtfKngmn0hfLbI9fkLYH0P/+OTi8=;
+	s=arc-20240116; t=1756281941; c=relaxed/simple;
+	bh=gdIsJpzSDUsOnnQ7IboJHDzy5Em6kehXoJAlbqU2+PE=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HBmg6ae43cji+O1QalNdQj2HrJX/2VeBFbJ2/J1Z98C4s83DtJGwH4w8wTx+uzwiY0rVkJNk9dOcGPOP15upij8fr8Di12muEqG6/qt84Q3VmpyWdcHea8OaRnQcshZNVSJe5fTuq8BRj9mudyG2piaGlXP8CkOdha/EL08YWAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=unEk7nRE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7/hlZ1iw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=unEk7nRE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7/hlZ1iw; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=YcqvfPv+R5WZ4dKk/xJkQLhBEf2Bq9w/9L/SdZK6/qTbngOk43aMGSSeozfwF4/ecF3kI6THrhhNmpim87g2NVqyElAmI0tddmDtxigntqB3w5lK+Im0TCw/SrQZWb3kXaenB0Ct8SDCAXjLVla6b+atzH0lDvFGhdu+NTLwCg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Uq42u1DM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xN0KkiTW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yGISstr+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DF7TIDau; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="unEk7nRE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7/hlZ1iw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="unEk7nRE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7/hlZ1iw"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Uq42u1DM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xN0KkiTW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yGISstr+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DF7TIDau"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 634E11FEE3;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F0F2B21F02;
 	Wed, 27 Aug 2025 08:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756281923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756281924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pnZW8QCkHscRznSHSU/ML9lz0BLJiUM6+85BtqDHogE=;
-	b=unEk7nRE8ldjWVeqFIbkm43Pa7jgqK/5nXbrEo9N7uAavSEqIRoHvkQioQFotRT+eDTa+C
-	G5th41v+GtnSDwHLTs8IO4oYWgjicJkIXjj7lQk3U7mVRYwuwTjsRKvCMWra/EjAKxg2MC
-	ESaOaAOd1ZOBywSTeWIWCjHgIp+yAbk=
+	bh=TNGn3pGXzfQ1GsvEcjySwH1MQJAQ39pM9LTAAIogh8o=;
+	b=Uq42u1DMPdbgqDWiVXK1dLWfUMyKYtkFjTvmvKng7NG52F2YlF8/AEjFKROSMei4MIV/2K
+	UXXdEIkyfb9+St4LZ3hjnWVBiqmCyqmznGfO0z0PHtyJGUC72c9r2ps74oicJnlBLEqmyJ
+	zN1QO6Rv1LSRq5mpRoR2uXnK2ZYdA4g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756281923;
+	s=susede2_ed25519; t=1756281924;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pnZW8QCkHscRznSHSU/ML9lz0BLJiUM6+85BtqDHogE=;
-	b=7/hlZ1iw2PVD02QCjVAPe3NYr9ZQSMF1KsMaF04uW5qMM4egIUr4CItJkSxOU7mdV5+f//
-	FBNv0Tud3/KtmMDQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=TNGn3pGXzfQ1GsvEcjySwH1MQJAQ39pM9LTAAIogh8o=;
+	b=xN0KkiTW3R63Fw3qxjHJk36U6Ay/3HT5tr+vtvgW1KkfyYCPl1s5foCqKyj623eUawpVzh
+	OFq9pkOYVP/dhrCw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756281923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pnZW8QCkHscRznSHSU/ML9lz0BLJiUM6+85BtqDHogE=;
-	b=unEk7nRE8ldjWVeqFIbkm43Pa7jgqK/5nXbrEo9N7uAavSEqIRoHvkQioQFotRT+eDTa+C
-	G5th41v+GtnSDwHLTs8IO4oYWgjicJkIXjj7lQk3U7mVRYwuwTjsRKvCMWra/EjAKxg2MC
-	ESaOaAOd1ZOBywSTeWIWCjHgIp+yAbk=
+	bh=TNGn3pGXzfQ1GsvEcjySwH1MQJAQ39pM9LTAAIogh8o=;
+	b=yGISstr+/QOjnXKjDBvwda260wkDdbjhihSzoLUncgm5V0vjZ5hZPvmA8GnO4fU8Zu4m0P
+	g5h750lJ25fcueiB5in/mo8rYiYQwbIY3T0nCTMJwzTL88U3VHWn8Kiq1uShMZaviA6Vyj
+	rrHxX9Yk2OHrDP4ZZL2Ac4w8eyRf4Gw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756281923;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pnZW8QCkHscRznSHSU/ML9lz0BLJiUM6+85BtqDHogE=;
-	b=7/hlZ1iw2PVD02QCjVAPe3NYr9ZQSMF1KsMaF04uW5qMM4egIUr4CItJkSxOU7mdV5+f//
-	FBNv0Tud3/KtmMDQ==
+	bh=TNGn3pGXzfQ1GsvEcjySwH1MQJAQ39pM9LTAAIogh8o=;
+	b=DF7TIDaubCUqUEbIMz6UguxEzkRZ8EGqJzazxZSDqDwQwX2UJ7XAIj+/zWg0JR0EYH6R2q
+	lPjWs0SN8vwR2oCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44D1613A31;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D89BA13A31;
 	Wed, 27 Aug 2025 08:05:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gMyyD0O8rmgHdwAAD6G6ig
+	id OFbAM0O8rmgHdwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 08:05:23 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 01/11] ALSA: seq: Simplify internal command operation from OSS layer
-Date: Wed, 27 Aug 2025 10:05:07 +0200
-Message-ID: <20250827080520.7544-2-tiwai@suse.de>
+Subject: [PATCH v2 06/11] ALSA: seq: Clean up queue locking with auto cleanup
+Date: Wed, 27 Aug 2025 10:05:12 +0200
+Message-ID: <20250827080520.7544-7-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250827080520.7544-1-tiwai@suse.de>
 References: <20250827080520.7544-1-tiwai@suse.de>
@@ -112,164 +112,527 @@ X-Spam-Flag: NO
 X-Spam-Level: 
 X-Spam-Score: -2.80
 
-snd_seq_client_ioctl_lock() and *_unlock() are used only from a single
-function of the OSS layer, and it's just to wrap the call of
-snd_seq_kernel_client_ctl().
+Yet more cleanup with the auto-cleanup macro: now we replace the
+queuefree() calls with the magic pointer attribute
+__free(snd_seq_queue).
 
-Provide another variant of snd_seq_kernel_client_ctl() that takes the
-locks internally and drop the ugly snd_seq_client_ioctl_lock() and
-*_unlock() implementations, instead.
+Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/seq/oss/seq_oss_device.h |  7 +--
- sound/core/seq/seq_clientmgr.c      | 77 +++++++++++++----------------
- sound/core/seq/seq_clientmgr.h      |  3 +-
- 3 files changed, 35 insertions(+), 52 deletions(-)
+ sound/core/seq/seq_clientmgr.c | 37 ++++++-----------
+ sound/core/seq/seq_queue.c     | 76 ++++++++++------------------------
+ sound/core/seq/seq_queue.h     |  2 +
+ sound/core/seq/seq_timer.c     |  5 +--
+ 4 files changed, 39 insertions(+), 81 deletions(-)
 
-diff --git a/sound/core/seq/oss/seq_oss_device.h b/sound/core/seq/oss/seq_oss_device.h
-index 6163a00bc8de..935cf3df0b30 100644
---- a/sound/core/seq/oss/seq_oss_device.h
-+++ b/sound/core/seq/oss/seq_oss_device.h
-@@ -137,12 +137,7 @@ snd_seq_oss_dispatch(struct seq_oss_devinfo *dp, struct snd_seq_event *ev, int a
- static inline int
- snd_seq_oss_control(struct seq_oss_devinfo *dp, unsigned int type, void *arg)
- {
--	int err;
--
--	snd_seq_client_ioctl_lock(dp->cseq);
--	err = snd_seq_kernel_client_ctl(dp->cseq, type, arg);
--	snd_seq_client_ioctl_unlock(dp->cseq);
--	return err;
-+	return snd_seq_kernel_client_ioctl(dp->cseq, type, arg);
- }
- 
- /* fill the addresses in header */
 diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
-index aa9c956d2581..7787f4661626 100644
+index 18424f56251a..38ad5bbd2706 100644
 --- a/sound/core/seq/seq_clientmgr.c
 +++ b/sound/core/seq/seq_clientmgr.c
-@@ -182,41 +182,6 @@ static struct snd_seq_client *client_load_and_use_ptr(int clientid)
- 	return client_use_ptr(clientid, IS_ENABLED(CONFIG_MODULES));
+@@ -566,7 +566,7 @@ static int bounce_error_event(struct snd_seq_client *client,
+ static int update_timestamp_of_queue(struct snd_seq_event *event,
+ 				     int queue, int real_time)
+ {
+-	struct snd_seq_queue *q;
++	struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
+ 
+ 	q = queueptr(queue);
+ 	if (! q)
+@@ -580,7 +580,6 @@ static int update_timestamp_of_queue(struct snd_seq_event *event,
+ 		event->time.tick = snd_seq_timer_get_cur_tick(q->timer);
+ 		event->flags |= SNDRV_SEQ_TIME_STAMP_TICK;
+ 	}
+-	queuefree(q);
+ 	return 1;
  }
  
--/* Take refcount and perform ioctl_mutex lock on the given client;
-- * used only for OSS sequencer
-- * Unlock via snd_seq_client_ioctl_unlock() below
-- */
--bool snd_seq_client_ioctl_lock(int clientid)
--{
--	struct snd_seq_client *client;
--
--	client = client_load_and_use_ptr(clientid);
--	if (!client)
--		return false;
--	mutex_lock(&client->ioctl_mutex);
--	/* The client isn't unrefed here; see snd_seq_client_ioctl_unlock() */
--	return true;
--}
--EXPORT_SYMBOL_GPL(snd_seq_client_ioctl_lock);
--
--/* Unlock and unref the given client; for OSS sequencer use only */
--void snd_seq_client_ioctl_unlock(int clientid)
--{
--	struct snd_seq_client *client;
--
--	client = snd_seq_client_use_ptr(clientid);
--	if (WARN_ON(!client))
--		return;
--	mutex_unlock(&client->ioctl_mutex);
--	/* The doubly unrefs below are intentional; the first one releases the
--	 * leftover from snd_seq_client_ioctl_lock() above, and the second one
--	 * is for releasing snd_seq_client_use_ptr() in this function
--	 */
--	snd_seq_client_unlock(client);
--	snd_seq_client_unlock(client);
--}
--EXPORT_SYMBOL_GPL(snd_seq_client_ioctl_unlock);
--
- static void usage_alloc(struct snd_seq_usage *res, int num)
+@@ -1520,7 +1519,7 @@ static int snd_seq_ioctl_unsubscribe_port(struct snd_seq_client *client,
+ static int snd_seq_ioctl_create_queue(struct snd_seq_client *client, void *arg)
  {
- 	res->cur += num;
-@@ -2558,6 +2523,21 @@ int snd_seq_kernel_client_dispatch(int client, struct snd_seq_event * ev,
+ 	struct snd_seq_queue_info *info = arg;
+-	struct snd_seq_queue *q;
++	struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
+ 
+ 	q = snd_seq_queue_alloc(client->number, info->locked, info->flags);
+ 	if (IS_ERR(q))
+@@ -1534,7 +1533,6 @@ static int snd_seq_ioctl_create_queue(struct snd_seq_client *client, void *arg)
+ 	if (!info->name[0])
+ 		snprintf(info->name, sizeof(info->name), "Queue-%d", q->queue);
+ 	strscpy(q->name, info->name, sizeof(q->name));
+-	snd_use_lock_free(&q->use_lock);
+ 
+ 	return 0;
  }
- EXPORT_SYMBOL(snd_seq_kernel_client_dispatch);
- 
-+static int call_seq_client_ctl(struct snd_seq_client *client,
-+			       unsigned int cmd, void *arg)
-+{
-+	const struct ioctl_handler *handler;
-+
-+	for (handler = ioctl_handlers; handler->cmd > 0; ++handler) {
-+		if (handler->cmd == cmd)
-+			return handler->func(client, arg);
-+	}
-+
-+	pr_debug("ALSA: seq unknown ioctl() 0x%x (type='%c', number=0x%02x)\n",
-+		 cmd, _IOC_TYPE(cmd), _IOC_NR(cmd));
-+	return -ENOTTY;
-+}
-+
- /**
-  * snd_seq_kernel_client_ctl - operate a command for a client with data in
-  *			       kernel space.
-@@ -2572,24 +2552,33 @@ EXPORT_SYMBOL(snd_seq_kernel_client_dispatch);
-  */
- int snd_seq_kernel_client_ctl(int clientid, unsigned int cmd, void *arg)
+@@ -1552,7 +1550,7 @@ static int snd_seq_ioctl_get_queue_info(struct snd_seq_client *client,
+ 					void *arg)
  {
--	const struct ioctl_handler *handler;
- 	struct snd_seq_client *client;
+ 	struct snd_seq_queue_info *info = arg;
+-	struct snd_seq_queue *q;
++	struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
  
- 	client = clientptr(clientid);
- 	if (client == NULL)
- 		return -ENXIO;
+ 	q = queueptr(info->queue);
+ 	if (q == NULL)
+@@ -1563,7 +1561,6 @@ static int snd_seq_ioctl_get_queue_info(struct snd_seq_client *client,
+ 	info->owner = q->owner;
+ 	info->locked = q->locked;
+ 	strscpy(info->name, q->name, sizeof(info->name));
+-	queuefree(q);
  
--	for (handler = ioctl_handlers; handler->cmd > 0; ++handler) {
--		if (handler->cmd == cmd)
--			return handler->func(client, arg);
+ 	return 0;
+ }
+@@ -1573,7 +1570,7 @@ static int snd_seq_ioctl_set_queue_info(struct snd_seq_client *client,
+ 					void *arg)
+ {
+ 	struct snd_seq_queue_info *info = arg;
+-	struct snd_seq_queue *q;
++	struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
+ 
+ 	if (info->owner != client->number)
+ 		return -EINVAL;
+@@ -1591,12 +1588,9 @@ static int snd_seq_ioctl_set_queue_info(struct snd_seq_client *client,
+ 	q = queueptr(info->queue);
+ 	if (! q)
+ 		return -EINVAL;
+-	if (q->owner != client->number) {
+-		queuefree(q);
++	if (q->owner != client->number)
+ 		return -EPERM;
 -	}
--
--	pr_debug("ALSA: seq unknown ioctl() 0x%x (type='%c', number=0x%02x)\n",
--		 cmd, _IOC_TYPE(cmd), _IOC_NR(cmd));
--	return -ENOTTY;
-+	return call_seq_client_ctl(client, cmd, arg);
+ 	strscpy(q->name, info->name, sizeof(q->name));
+-	queuefree(q);
+ 
+ 	return 0;
  }
- EXPORT_SYMBOL(snd_seq_kernel_client_ctl);
- 
-+/* a similar like above but taking locks; used only from OSS sequencer layer */
-+int snd_seq_kernel_client_ioctl(int clientid, unsigned int cmd, void *arg)
-+{
-+	struct snd_seq_client *client;
-+	int ret;
-+
-+	client = client_load_and_use_ptr(clientid);
-+	if (!client)
-+		return -ENXIO;
-+	mutex_lock(&client->ioctl_mutex);
-+	ret = call_seq_client_ctl(client, cmd, arg);
-+	mutex_unlock(&client->ioctl_mutex);
-+	snd_seq_client_unlock(client);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(snd_seq_kernel_client_ioctl);
-+
- /* exported (for OSS emulator) */
- int snd_seq_kernel_client_write_poll(int clientid, struct file *file, poll_table *wait)
+@@ -1606,7 +1600,7 @@ static int snd_seq_ioctl_get_named_queue(struct snd_seq_client *client,
+ 					 void *arg)
  {
-diff --git a/sound/core/seq/seq_clientmgr.h b/sound/core/seq/seq_clientmgr.h
-index 915b1017286e..7d0758e72aa9 100644
---- a/sound/core/seq/seq_clientmgr.h
-+++ b/sound/core/seq/seq_clientmgr.h
-@@ -94,8 +94,7 @@ int __snd_seq_deliver_single_event(struct snd_seq_client *dest,
- 				   int atomic, int hop);
+ 	struct snd_seq_queue_info *info = arg;
+-	struct snd_seq_queue *q;
++	struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
  
- /* only for OSS sequencer */
--bool snd_seq_client_ioctl_lock(int clientid);
--void snd_seq_client_ioctl_unlock(int clientid);
-+int snd_seq_kernel_client_ioctl(int clientid, unsigned int cmd, void *arg);
+ 	q = snd_seq_queue_find_name(info->name);
+ 	if (q == NULL)
+@@ -1614,7 +1608,6 @@ static int snd_seq_ioctl_get_named_queue(struct snd_seq_client *client,
+ 	info->queue = q->queue;
+ 	info->owner = q->owner;
+ 	info->locked = q->locked;
+-	queuefree(q);
  
- extern int seq_client_load[15];
+ 	return 0;
+ }
+@@ -1624,7 +1617,7 @@ static int snd_seq_ioctl_get_queue_status(struct snd_seq_client *client,
+ 					  void *arg)
+ {
+ 	struct snd_seq_queue_status *status = arg;
+-	struct snd_seq_queue *queue;
++	struct snd_seq_queue *queue __free(snd_seq_queue) = NULL;
+ 	struct snd_seq_timer *tmr;
  
+ 	queue = queueptr(status->queue);
+@@ -1642,7 +1635,6 @@ static int snd_seq_ioctl_get_queue_status(struct snd_seq_client *client,
+ 	status->running = tmr->running;
+ 
+ 	status->flags = queue->flags;
+-	queuefree(queue);
+ 
+ 	return 0;
+ }
+@@ -1653,7 +1645,7 @@ static int snd_seq_ioctl_get_queue_tempo(struct snd_seq_client *client,
+ 					 void *arg)
+ {
+ 	struct snd_seq_queue_tempo *tempo = arg;
+-	struct snd_seq_queue *queue;
++	struct snd_seq_queue *queue __free(snd_seq_queue) = NULL;
+ 	struct snd_seq_timer *tmr;
+ 
+ 	queue = queueptr(tempo->queue);
+@@ -1670,7 +1662,6 @@ static int snd_seq_ioctl_get_queue_tempo(struct snd_seq_client *client,
+ 	tempo->skew_base = tmr->skew_base;
+ 	if (client->user_pversion >= SNDRV_PROTOCOL_VERSION(1, 0, 4))
+ 		tempo->tempo_base = tmr->tempo_base;
+-	queuefree(queue);
+ 
+ 	return 0;
+ }
+@@ -1703,14 +1694,14 @@ static int snd_seq_ioctl_get_queue_timer(struct snd_seq_client *client,
+ 					 void *arg)
+ {
+ 	struct snd_seq_queue_timer *timer = arg;
+-	struct snd_seq_queue *queue;
++	struct snd_seq_queue *queue __free(snd_seq_queue) = NULL;
+ 	struct snd_seq_timer *tmr;
+ 
+ 	queue = queueptr(timer->queue);
+ 	if (queue == NULL)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&queue->timer_mutex);
++	guard(mutex)(&queue->timer_mutex);
+ 	tmr = queue->timer;
+ 	memset(timer, 0, sizeof(*timer));
+ 	timer->queue = queue->queue;
+@@ -1720,8 +1711,6 @@ static int snd_seq_ioctl_get_queue_timer(struct snd_seq_client *client,
+ 		timer->u.alsa.id = tmr->alsa_id;
+ 		timer->u.alsa.resolution = tmr->preferred_resolution;
+ 	}
+-	mutex_unlock(&queue->timer_mutex);
+-	queuefree(queue);
+ 	
+ 	return 0;
+ }
+@@ -1738,13 +1727,13 @@ static int snd_seq_ioctl_set_queue_timer(struct snd_seq_client *client,
+ 		return -EINVAL;
+ 
+ 	if (snd_seq_queue_check_access(timer->queue, client->number)) {
+-		struct snd_seq_queue *q;
++		struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
+ 		struct snd_seq_timer *tmr;
+ 
+ 		q = queueptr(timer->queue);
+ 		if (q == NULL)
+ 			return -ENXIO;
+-		mutex_lock(&q->timer_mutex);
++		guard(mutex)(&q->timer_mutex);
+ 		tmr = q->timer;
+ 		snd_seq_queue_timer_close(timer->queue);
+ 		tmr->type = timer->type;
+@@ -1753,8 +1742,6 @@ static int snd_seq_ioctl_set_queue_timer(struct snd_seq_client *client,
+ 			tmr->preferred_resolution = timer->u.alsa.resolution;
+ 		}
+ 		result = snd_seq_queue_timer_open(timer->queue);
+-		mutex_unlock(&q->timer_mutex);
+-		queuefree(q);
+ 	} else {
+ 		return -EPERM;
+ 	}	
+diff --git a/sound/core/seq/seq_queue.c b/sound/core/seq/seq_queue.c
+index 10add922323d..f5c0e401c8ae 100644
+--- a/sound/core/seq/seq_queue.c
++++ b/sound/core/seq/seq_queue.c
+@@ -209,14 +209,13 @@ struct snd_seq_queue *queueptr(int queueid)
+ struct snd_seq_queue *snd_seq_queue_find_name(char *name)
+ {
+ 	int i;
+-	struct snd_seq_queue *q;
+ 
+ 	for (i = 0; i < SNDRV_SEQ_MAX_QUEUES; i++) {
++		struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
+ 		q = queueptr(i);
+ 		if (q) {
+ 			if (strncmp(q->name, name, sizeof(q->name)) == 0)
+-				return q;
+-			queuefree(q);
++				return no_free_ptr(q);
+ 		}
+ 	}
+ 	return NULL;
+@@ -286,7 +285,7 @@ void snd_seq_check_queue(struct snd_seq_queue *q, int atomic, int hop)
+ int snd_seq_enqueue_event(struct snd_seq_event_cell *cell, int atomic, int hop)
+ {
+ 	int dest, err;
+-	struct snd_seq_queue *q;
++	struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
+ 
+ 	if (snd_BUG_ON(!cell))
+ 		return -EINVAL;
+@@ -321,16 +320,12 @@ int snd_seq_enqueue_event(struct snd_seq_event_cell *cell, int atomic, int hop)
+ 		break;
+ 	}
+ 
+-	if (err < 0) {
+-		queuefree(q); /* unlock */
++	if (err < 0)
+ 		return err;
+-	}
+ 
+ 	/* trigger dispatching */
+ 	snd_seq_check_queue(q, atomic, hop);
+ 
+-	queuefree(q); /* unlock */
+-
+ 	return 0;
+ }
+ 
+@@ -366,15 +361,12 @@ static inline void queue_access_unlock(struct snd_seq_queue *q)
+ /* exported - only checking permission */
+ int snd_seq_queue_check_access(int queueid, int client)
+ {
+-	struct snd_seq_queue *q = queueptr(queueid);
+-	int access_ok;
++	struct snd_seq_queue *q __free(snd_seq_queue) = queueptr(queueid);
+ 
+ 	if (! q)
+ 		return 0;
+-	scoped_guard(spinlock_irqsave, &q->owner_lock)
+-		access_ok = check_access(q, client);
+-	queuefree(q);
+-	return access_ok;
++	guard(spinlock_irqsave)(&q->owner_lock);
++	return check_access(q, client);
+ }
+ 
+ /*----------------------------------------------------------------*/
+@@ -384,22 +376,19 @@ int snd_seq_queue_check_access(int queueid, int client)
+  */
+ int snd_seq_queue_set_owner(int queueid, int client, int locked)
+ {
+-	struct snd_seq_queue *q = queueptr(queueid);
++	struct snd_seq_queue *q __free(snd_seq_queue) = queueptr(queueid);
+ 
+ 	if (q == NULL)
+ 		return -EINVAL;
+ 
+-	if (! queue_access_lock(q, client)) {
+-		queuefree(q);
++	if (!queue_access_lock(q, client))
+ 		return -EPERM;
+-	}
+ 
+ 	scoped_guard(spinlock_irqsave, &q->owner_lock) {
+ 		q->locked = locked ? 1 : 0;
+ 		q->owner = client;
+ 	}
+ 	queue_access_unlock(q);
+-	queuefree(q);
+ 
+ 	return 0;
+ }
+@@ -414,7 +403,7 @@ int snd_seq_queue_set_owner(int queueid, int client, int locked)
+ int snd_seq_queue_timer_open(int queueid)
+ {
+ 	int result = 0;
+-	struct snd_seq_queue *queue;
++	struct snd_seq_queue *queue __free(snd_seq_queue) = NULL;
+ 	struct snd_seq_timer *tmr;
+ 
+ 	queue = queueptr(queueid);
+@@ -426,7 +415,6 @@ int snd_seq_queue_timer_open(int queueid)
+ 		snd_seq_timer_defaults(tmr);
+ 		result = snd_seq_timer_open(queue);
+ 	}
+-	queuefree(queue);
+ 	return result;
+ }
+ 
+@@ -435,14 +423,13 @@ int snd_seq_queue_timer_open(int queueid)
+  */
+ int snd_seq_queue_timer_close(int queueid)
+ {
+-	struct snd_seq_queue *queue;
++	struct snd_seq_queue *queue __free(snd_seq_queue) = NULL;
+ 	int result = 0;
+ 
+ 	queue = queueptr(queueid);
+ 	if (queue == NULL)
+ 		return -EINVAL;
+ 	snd_seq_timer_close(queue);
+-	queuefree(queue);
+ 	return result;
+ }
+ 
+@@ -450,15 +437,13 @@ int snd_seq_queue_timer_close(int queueid)
+ int snd_seq_queue_timer_set_tempo(int queueid, int client,
+ 				  struct snd_seq_queue_tempo *info)
+ {
+-	struct snd_seq_queue *q = queueptr(queueid);
++	struct snd_seq_queue *q __free(snd_seq_queue) = queueptr(queueid);
+ 	int result;
+ 
+ 	if (q == NULL)
+ 		return -EINVAL;
+-	if (! queue_access_lock(q, client)) {
+-		queuefree(q);
++	if (!queue_access_lock(q, client))
+ 		return -EPERM;
+-	}
+ 
+ 	result = snd_seq_timer_set_tempo_ppq(q->timer, info->tempo, info->ppq,
+ 					     info->tempo_base);
+@@ -466,7 +451,6 @@ int snd_seq_queue_timer_set_tempo(int queueid, int client,
+ 		result = snd_seq_timer_set_skew(q->timer, info->skew_value,
+ 						info->skew_base);
+ 	queue_access_unlock(q);
+-	queuefree(q);
+ 	return result;
+ }
+ 
+@@ -495,15 +479,13 @@ static void queue_use(struct snd_seq_queue *queue, int client, int use)
+  */
+ int snd_seq_queue_use(int queueid, int client, int use)
+ {
+-	struct snd_seq_queue *queue;
++	struct snd_seq_queue *queue __free(snd_seq_queue) = NULL;
+ 
+ 	queue = queueptr(queueid);
+ 	if (queue == NULL)
+ 		return -EINVAL;
+-	mutex_lock(&queue->timer_mutex);
++	guard(mutex)(&queue->timer_mutex);
+ 	queue_use(queue, client, use);
+-	mutex_unlock(&queue->timer_mutex);
+-	queuefree(queue);
+ 	return 0;
+ }
+ 
+@@ -514,15 +496,12 @@ int snd_seq_queue_use(int queueid, int client, int use)
+  */
+ int snd_seq_queue_is_used(int queueid, int client)
+ {
+-	struct snd_seq_queue *q;
+-	int result;
++	struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
+ 
+ 	q = queueptr(queueid);
+ 	if (q == NULL)
+ 		return -EINVAL; /* invalid queue */
+-	result = test_bit(client, q->clients_bitmap) ? 1 : 0;
+-	queuefree(q);
+-	return result;
++	return test_bit(client, q->clients_bitmap) ? 1 : 0;
+ }
+ 
+ 
+@@ -535,11 +514,10 @@ int snd_seq_queue_is_used(int queueid, int client)
+ void snd_seq_queue_client_leave(int client)
+ {
+ 	int i;
+-	struct snd_seq_queue *q;
+ 
+ 	/* delete own queues from queue list */
+ 	for (i = 0; i < SNDRV_SEQ_MAX_QUEUES; i++) {
+-		q = queue_list_remove(i, client);
++		struct snd_seq_queue *q = queue_list_remove(i, client);
+ 		if (q)
+ 			queue_delete(q);
+ 	}
+@@ -548,7 +526,7 @@ void snd_seq_queue_client_leave(int client)
+ 	 * they are not owned by this client
+ 	 */
+ 	for (i = 0; i < SNDRV_SEQ_MAX_QUEUES; i++) {
+-		q = queueptr(i);
++		struct snd_seq_queue *q __free(snd_seq_queue) = queueptr(i);
+ 		if (!q)
+ 			continue;
+ 		if (test_bit(client, q->clients_bitmap)) {
+@@ -556,7 +534,6 @@ void snd_seq_queue_client_leave(int client)
+ 			snd_seq_prioq_leave(q->timeq, client, 0);
+ 			snd_seq_queue_use(q->queue, client, 0);
+ 		}
+-		queuefree(q);
+ 	}
+ }
+ 
+@@ -568,10 +545,9 @@ void snd_seq_queue_client_leave(int client)
+ void snd_seq_queue_remove_cells(int client, struct snd_seq_remove_events *info)
+ {
+ 	int i;
+-	struct snd_seq_queue *q;
+ 
+ 	for (i = 0; i < SNDRV_SEQ_MAX_QUEUES; i++) {
+-		q = queueptr(i);
++		struct snd_seq_queue *q __free(snd_seq_queue) = queueptr(i);
+ 		if (!q)
+ 			continue;
+ 		if (test_bit(client, q->clients_bitmap) &&
+@@ -580,7 +556,6 @@ void snd_seq_queue_remove_cells(int client, struct snd_seq_remove_events *info)
+ 			snd_seq_prioq_remove_events(q->tickq, client, info);
+ 			snd_seq_prioq_remove_events(q->timeq, client, info);
+ 		}
+-		queuefree(q);
+ 	}
+ }
+ 
+@@ -667,7 +642,7 @@ static void snd_seq_queue_process_event(struct snd_seq_queue *q,
+  */
+ int snd_seq_control_queue(struct snd_seq_event *ev, int atomic, int hop)
+ {
+-	struct snd_seq_queue *q;
++	struct snd_seq_queue *q __free(snd_seq_queue) = NULL;
+ 
+ 	if (snd_BUG_ON(!ev))
+ 		return -EINVAL;
+@@ -676,15 +651,12 @@ int snd_seq_control_queue(struct snd_seq_event *ev, int atomic, int hop)
+ 	if (q == NULL)
+ 		return -EINVAL;
+ 
+-	if (! queue_access_lock(q, ev->source.client)) {
+-		queuefree(q);
++	if (!queue_access_lock(q, ev->source.client))
+ 		return -EPERM;
+-	}
+ 
+ 	snd_seq_queue_process_event(q, ev, atomic, hop);
+ 
+ 	queue_access_unlock(q);
+-	queuefree(q);
+ 	return 0;
+ }
+ 
+@@ -697,13 +669,12 @@ void snd_seq_info_queues_read(struct snd_info_entry *entry,
+ 			      struct snd_info_buffer *buffer)
+ {
+ 	int i, bpm;
+-	struct snd_seq_queue *q;
+ 	struct snd_seq_timer *tmr;
+ 	bool locked;
+ 	int owner;
+ 
+ 	for (i = 0; i < SNDRV_SEQ_MAX_QUEUES; i++) {
+-		q = queueptr(i);
++		struct snd_seq_queue *q __free(snd_seq_queue) = queueptr(i);
+ 		if (!q)
+ 			continue;
+ 
+@@ -731,7 +702,6 @@ void snd_seq_info_queues_read(struct snd_info_entry *entry,
+ 		snd_iprintf(buffer, "current time       : %d.%09d s\n", tmr->cur_time.tv_sec, tmr->cur_time.tv_nsec);
+ 		snd_iprintf(buffer, "current tick       : %d\n", tmr->tick.cur_tick);
+ 		snd_iprintf(buffer, "\n");
+-		queuefree(q);
+ 	}
+ }
+ #endif /* CONFIG_SND_PROC_FS */
+diff --git a/sound/core/seq/seq_queue.h b/sound/core/seq/seq_queue.h
+index b81379c9af43..afcd3c5484a6 100644
+--- a/sound/core/seq/seq_queue.h
++++ b/sound/core/seq/seq_queue.h
+@@ -73,6 +73,8 @@ struct snd_seq_queue *queueptr(int queueid);
+ /* unlock */
+ #define queuefree(q) snd_use_lock_free(&(q)->use_lock)
+ 
++DEFINE_FREE(snd_seq_queue, struct snd_seq_queue *, if (!IS_ERR_OR_NULL(_T)) queuefree(_T))
++
+ /* return the (first) queue matching with the specified name */
+ struct snd_seq_queue *snd_seq_queue_find_name(char *name);
+ 
+diff --git a/sound/core/seq/seq_timer.c b/sound/core/seq/seq_timer.c
+index c9f0392ac7f1..29b018a212fc 100644
+--- a/sound/core/seq/seq_timer.c
++++ b/sound/core/seq/seq_timer.c
+@@ -440,13 +440,13 @@ void snd_seq_info_timer_read(struct snd_info_entry *entry,
+ 			     struct snd_info_buffer *buffer)
+ {
+ 	int idx;
+-	struct snd_seq_queue *q;
+ 	struct snd_seq_timer *tmr;
+ 	struct snd_timer_instance *ti;
+ 	unsigned long resolution;
+ 	
+ 	for (idx = 0; idx < SNDRV_SEQ_MAX_QUEUES; idx++) {
+-		q = queueptr(idx);
++		struct snd_seq_queue *q __free(snd_seq_queue) = queueptr(idx);
++
+ 		if (q == NULL)
+ 			continue;
+ 		scoped_guard(mutex, &q->timer_mutex) {
+@@ -461,7 +461,6 @@ void snd_seq_info_timer_read(struct snd_info_entry *entry,
+ 			snd_iprintf(buffer, "  Period time : %lu.%09lu\n", resolution / 1000000000, resolution % 1000000000);
+ 			snd_iprintf(buffer, "  Skew : %u / %u\n", tmr->skew, tmr->skew_base);
+ 		}
+-		queuefree(q);
+  	}
+ }
+ #endif /* CONFIG_SND_PROC_FS */
 -- 
 2.50.1
 
