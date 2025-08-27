@@ -1,250 +1,112 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91A9314A83
-	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 07:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E64C2F0C4F;
+	Wed, 27 Aug 2025 07:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756279844; cv=none; b=RbBCRNw3s47zTP4hynYCGoTv8io/wPvS9761usveb7t0KzdMllaKB5lzqSajetHjtflBDTosWX6XWUKN9tWkXMrxdQK6rj67ourlw7jie+J6guY71X0tBVZodxQfsiuYVPFn5dG5b8CEUeP1AnWQvd+CG2dJrNY6Yq6YkyNWLhQ=
+	t=1756279850; cv=none; b=JATEmPW7PiXroH5QrbhovFZTRhzJo4IdgdQiuyRN5GT4FX96kZantsarWMdE1Y/x3QXdQuCATN0V3BxZkbDxalrf0xbhlVSfZzORfyUAuo6vYQenY9xMYeib+niwBardEDn8wKAxk0C2lA7xdq4arOTK4eF81Vm4UjVPnBLV5TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756279844; c=relaxed/simple;
-	bh=4Ij3X7mnnbeGAYTIyU4/SeztDgXk5qBiP3CilCgFo2o=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nC5PcuPrGtXM5YTiJTHpOuiKfJw/G2G2cd3Aj+fo38IBkMFCaz1sU9FMv5GvUgznr7Dk5+LL0xbA16OqA9yAxmSRuN5epy5F4VPWQ00CWy8fJF5sZ7VnGqcgfDzrR49cWePVdbpJo80EL1isLzIEofoj5HfIADIYuybF2GH5Ex8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tnXK+3uG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oyiea6sz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tnXK+3uG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oyiea6sz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1756279850; c=relaxed/simple;
+	bh=gzeeqkroKmmZWJXoYtqTZrgkcFkhpm3FfXA6Qfi5FPg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C/ClABmD9Md41jbTdtjaogXIJAm8xMy+nUBoeHgah/4kN8L8ZQXOHoLKiWOTX90+VRmDQ7dKEZFHyPJ/V7kr+c2LfGEj2a9vszaq6md/Gfm/84Y7UKvbq5UCa+w5/UzlG+8bJstAVQAXrwFbaOcS/soSAc1573o4qpgc8gjeI1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=onAY/ahR; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tnXK+3uG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oyiea6sz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tnXK+3uG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oyiea6sz"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3FA3E22390;
-	Wed, 27 Aug 2025 07:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756279760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uk8Z3PFsKk9vRV2vy7oF7Zim4jYkhCd2cO3Gr+GuFj4=;
-	b=tnXK+3uGCXw9PKdLGrrgN5spKyDMzNNHAyf2Nh0Q+wxH49SnDEcItmYE96vGdg/9zaEDUW
-	yqI1y2bdphBmXlMEWMndnQ0GzSNsSuDMDspajy+vWG/mtZW9kPNq9f9ZzpFU9GJs8+7RfJ
-	2r9qM9t9rnEZqVqV7T4t36mlLTBvlZE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756279760;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uk8Z3PFsKk9vRV2vy7oF7Zim4jYkhCd2cO3Gr+GuFj4=;
-	b=Oyiea6szyogxyV5ZJB3N0pFnmQWuW7byhboiziEO6rJFLuS2mdD2aRUviZSa/W0JWKac6i
-	s2wDJhA2iW4Hy3AQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756279760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uk8Z3PFsKk9vRV2vy7oF7Zim4jYkhCd2cO3Gr+GuFj4=;
-	b=tnXK+3uGCXw9PKdLGrrgN5spKyDMzNNHAyf2Nh0Q+wxH49SnDEcItmYE96vGdg/9zaEDUW
-	yqI1y2bdphBmXlMEWMndnQ0GzSNsSuDMDspajy+vWG/mtZW9kPNq9f9ZzpFU9GJs8+7RfJ
-	2r9qM9t9rnEZqVqV7T4t36mlLTBvlZE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756279760;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uk8Z3PFsKk9vRV2vy7oF7Zim4jYkhCd2cO3Gr+GuFj4=;
-	b=Oyiea6szyogxyV5ZJB3N0pFnmQWuW7byhboiziEO6rJFLuS2mdD2aRUviZSa/W0JWKac6i
-	s2wDJhA2iW4Hy3AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2198A13A6A;
-	Wed, 27 Aug 2025 07:29:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uGnwBtCzrmjoagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 07:29:20 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 05/25] ALSA: hda/common: Use cleanup macros for PM controls
-Date: Wed, 27 Aug 2025 09:28:45 +0200
-Message-ID: <20250827072916.31933-6-tiwai@suse.de>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250827072916.31933-1-tiwai@suse.de>
-References: <20250827072916.31933-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="onAY/ahR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=gzeeqkroKmmZWJXoYtqTZrgkcFkhpm3FfXA6Qfi5FPg=; b=onAY/ahRdxPnV3oOrlFTMxQsX1
+	4/F/GUoC28qL6WdTxW50bPjN63UISSfr8rUpECTYtXUj8F6A6equvZyuPi8gKvNfIplPPmYprCEje
+	uppsPP7iPfS7Ly06vK5eSP80d2opR341xk6LhR5PkC1VZGU8nu7LgogwusFd2K9ipAQrve5Nfa8sJ
+	jWCQdnBzTYXNPj1AuUKZukP3eg9qFGBR7wfHOCwFc1vDrYzPVX6lW8zDfMPgZnOxxtAWIc+vREiZe
+	9ejE+O/VVoVgTm3LRiNTWCXXvToZVeA4ZmCWtyvQ7U5M4imzYzWKNS8i32zcr5z7d/9Fofigj9iol
+	KuwvSPJg==;
+Received: from [213.244.170.152] (helo=phil.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1urAbr-0003Q8-H8; Wed, 27 Aug 2025 09:30:19 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject:
+ Re: [PATCH v3 10/20] drm/rockchip: dw_hdmi_qp: switch to FIELD_PREP_WM16
+ macro
+Date: Wed, 27 Aug 2025 09:30:18 +0200
+Message-ID: <881125850.0ifERbkFSE@phil>
+In-Reply-To: <20250825-byeword-update-v3-10-947b841cdb29@collabora.com>
+References:
+ <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+ <20250825-byeword-update-v3-10-947b841cdb29@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-The new macro CLASS(snd_hda_power_pm) can replace the manual
-snd_hda_power_up_pm() and _down() calls gracefully.
+Am Montag, 25. August 2025, 10:28:30 Mitteleurop=C3=A4ische Sommerzeit schr=
+ieb Nicolas Frattaroli:
+> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
+> drivers that use constant masks.
+>=20
+> Replace this driver's HIWORD_UPDATE with the FIELD_PREP_WM16 macro from
+> hw_bitfield.h. While at it, disambiguate the GRF write to SOC_CON7 by
+> splitting the definition into the individual bitflags. This is done
+> because FIELD_PREP_WM16 shifts the value for us according to the mask,
+> so writing the mask to itself to enable two bits is no longer something
+> that can be done. It should also not be done anyway because it hides the
+> true meaning of those two individual bit flags.
+>=20
+> HDMI output with this patch has been tested on both RK3588 and RK3576.
+> On the former, with both present HDMI connectors.
+>=20
+> Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> Tested-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-A part of the code in codec_exec_verb() is factored out to a function,
-so that the auto-cleanup can be well scoped.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-Merely cleanups and no functional changes.
-
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/hda/common/codec.c | 30 +++++++++++++++++++-----------
- sound/hda/common/proc.c  |  4 +---
- sound/hda/common/sysfs.c | 11 ++++-------
- 3 files changed, 24 insertions(+), 21 deletions(-)
-
-diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
-index 7a72d4c7ae91..3e692dd6725e 100644
---- a/sound/hda/common/codec.c
-+++ b/sound/hda/common/codec.c
-@@ -32,6 +32,23 @@
- #define codec_has_clkstop(codec) \
- 	((codec)->core.power_caps & AC_PWRST_CLKSTOP)
- 
-+static int call_exec_verb(struct hda_bus *bus, struct hda_codec *codec,
-+			  unsigned int cmd, unsigned int flags,
-+			  unsigned int *res)
-+{
-+	int err;
-+
-+	CLASS(snd_hda_power_pm, pm)(codec);
-+	mutex_lock(&bus->core.cmd_mutex);
-+	if (flags & HDA_RW_NO_RESPONSE_FALLBACK)
-+		bus->no_response_fallback = 1;
-+	err = snd_hdac_bus_exec_verb_unlocked(&bus->core, codec->core.addr,
-+					      cmd, res);
-+	bus->no_response_fallback = 0;
-+	mutex_unlock(&bus->core.cmd_mutex);
-+	return err;
-+}
-+
- /*
-  * Send and receive a verb - passed to exec_verb override for hdac_device
-  */
-@@ -46,15 +63,7 @@ static int codec_exec_verb(struct hdac_device *dev, unsigned int cmd,
- 		return -1;
- 
-  again:
--	snd_hda_power_up_pm(codec);
--	mutex_lock(&bus->core.cmd_mutex);
--	if (flags & HDA_RW_NO_RESPONSE_FALLBACK)
--		bus->no_response_fallback = 1;
--	err = snd_hdac_bus_exec_verb_unlocked(&bus->core, codec->core.addr,
--					      cmd, res);
--	bus->no_response_fallback = 0;
--	mutex_unlock(&bus->core.cmd_mutex);
--	snd_hda_power_down_pm(codec);
-+	err = call_exec_verb(bus, codec, cmd, flags, res);
- 	if (!codec_in_pm(codec) && res && err == -EAGAIN) {
- 		if (bus->response_reset) {
- 			codec_dbg(codec,
-@@ -633,12 +642,11 @@ static void hda_jackpoll_work(struct work_struct *work)
- 		return;
- 
- 	/* the power-up/down sequence triggers the runtime resume */
--	snd_hda_power_up(codec);
-+	CLASS(snd_hda_power, pm)(codec);
- 	/* update jacks manually if polling is required, too */
- 	snd_hda_jack_set_dirty_all(codec);
- 	snd_hda_jack_poll_all(codec);
- 	schedule_delayed_work(&codec->jackpoll_work, codec->jackpoll_interval);
--	snd_hda_power_down(codec);
- }
- 
- /* release all pincfg lists */
-diff --git a/sound/hda/common/proc.c b/sound/hda/common/proc.c
-index d36195f73d45..5f3f61519ba6 100644
---- a/sound/hda/common/proc.c
-+++ b/sound/hda/common/proc.c
-@@ -781,7 +781,7 @@ static void print_codec_info(struct snd_info_entry *entry,
- 	fg = codec->core.afg;
- 	if (!fg)
- 		return;
--	snd_hda_power_up(codec);
-+	CLASS(snd_hda_power, pm)(codec);
- 	snd_iprintf(buffer, "Default PCM:\n");
- 	print_pcm_caps(buffer, codec, fg);
- 	snd_iprintf(buffer, "Default Amp-In caps: ");
-@@ -794,7 +794,6 @@ static void print_codec_info(struct snd_info_entry *entry,
- 	nodes = snd_hda_get_sub_nodes(codec, fg, &nid);
- 	if (! nid || nodes < 0) {
- 		snd_iprintf(buffer, "Invalid AFG subtree\n");
--		snd_hda_power_down(codec);
- 		return;
- 	}
- 
-@@ -931,7 +930,6 @@ static void print_codec_info(struct snd_info_entry *entry,
- 
- 		kfree(conn);
- 	}
--	snd_hda_power_down(codec);
- }
- 
- /*
-diff --git a/sound/hda/common/sysfs.c b/sound/hda/common/sysfs.c
-index 140e24bf4d7f..0d464d4dd7c9 100644
---- a/sound/hda/common/sysfs.c
-+++ b/sound/hda/common/sysfs.c
-@@ -129,21 +129,18 @@ static int reconfig_codec(struct hda_codec *codec)
- {
- 	int err;
- 
--	snd_hda_power_up(codec);
-+	CLASS(snd_hda_power, pm)(codec);
- 	codec_info(codec, "hda-codec: reconfiguring\n");
- 	err = snd_hda_codec_reset(codec);
- 	if (err < 0) {
- 		codec_err(codec,
- 			   "The codec is being used, can't reconfigure.\n");
--		goto error;
-+		return err;
- 	}
- 	err = device_reprobe(hda_codec_dev(codec));
- 	if (err < 0)
--		goto error;
--	err = snd_card_register(codec->card);
-- error:
--	snd_hda_power_down(codec);
--	return err;
-+		return err;
-+	return snd_card_register(codec->card);
- }
- 
- /*
--- 
-2.50.1
 
