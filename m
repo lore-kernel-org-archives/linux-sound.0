@@ -1,179 +1,115 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6D231A55C
-	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 07:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EBD2BE7DF;
+	Wed, 27 Aug 2025 07:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756280667; cv=none; b=f2C6bWr3DDHAbgwCRVX+E978IEg3obyWXPBoFKruomehZmJPdtmxnHySLwixD235+yAClvRxJArXojOtDkf1MjvwZ3KR998S9Q7QtcutOF9cQ+enO8ijG/r63L4A6d18VXnIX0O3dOqtIHeOPawn30ON3iAMsxdRL3FGYF0tJy4=
+	t=1756281461; cv=none; b=fIHpFjMfbTiYVrNP9CfvzTY3k9WUITj8yq4XJt9xpOImkzEmLaBTgRRUIZRNvQh7NhNAFs2R1wy0tuy5M0JnueWVIdRNgdQnfaOwD7zWlhCy02CKrEVy80qDqDLhLwegO0enmUq1jCC4qDRGFhtwfFuzdoPBdL4GI9Zo7/TJrFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756280667; c=relaxed/simple;
-	bh=CFyGA65dIj1hu1CQmjlsAZKoQN3za4EBuYtp0htbTHM=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fCNfyNrIcpAYavO7cBbhklTy0Q++k45nzcStMVHJtVZUoYlwlBGduBUl/E2iigiVPpX9i1lWJIISVvWgU0kggKWYaw512EZh+oX09cEzdAKnWNU6P8EPlYRlGrxLdDpFZIenhZYzqVBDO4+sjqKXS9a0gpIGcMyB/ufgkZ+jXUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tLTOl+on; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=P2mVsfVm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tLTOl+on; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=P2mVsfVm; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1756281461; c=relaxed/simple;
+	bh=0MK1dUMIBWuj72rwewkqEVH0cn/LnA/1R+TUGxOlw7A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mlOqgHAwDwrLDc0v0peUBcMCR5JyiGWyJYva7Q76UYTQ02AwsyvXa7yd5qdVuHurMyhVyQ9t5s4xZX/mv3onJCCJKhzF/F/dyE+KbhbRUpnHcLWu/DWzumjaseYPN9uhmuO1LGYQVQCR4trisOgSljiKr1pv6kes61mpFijNkFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=ETZTkoEo; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tLTOl+on";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P2mVsfVm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tLTOl+on";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P2mVsfVm"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 081C6223E5;
-	Wed, 27 Aug 2025 07:29:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756279762; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4FOEeoiKhJX/aYHRKM/nBxNFwHz3BhaU0lboy14qwf4=;
-	b=tLTOl+onlrmTbRqVGEBHKQqkH87Zo0LK6LL1XFXx2Ei37SCxWzBi3qHdSWxkjqyKbbqDKm
-	Hr+4ExUv5Mn9Wm2GCUHNdtXyH7uUvqQRMRVKN/KbQYV5h2u8cQP3CReSsna+lllhAkC9Gp
-	r+nS7m3IbLDaBdh3pR9Ri1se38IyvhQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756279762;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4FOEeoiKhJX/aYHRKM/nBxNFwHz3BhaU0lboy14qwf4=;
-	b=P2mVsfVmSp0tS75HsxpdifvD+1fHTKu1StmZj9miG/lBCdIzCDlv8z3ed5inC4ozCW/UC6
-	2vG59lcjXWYCHNBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tLTOl+on;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=P2mVsfVm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756279762; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4FOEeoiKhJX/aYHRKM/nBxNFwHz3BhaU0lboy14qwf4=;
-	b=tLTOl+onlrmTbRqVGEBHKQqkH87Zo0LK6LL1XFXx2Ei37SCxWzBi3qHdSWxkjqyKbbqDKm
-	Hr+4ExUv5Mn9Wm2GCUHNdtXyH7uUvqQRMRVKN/KbQYV5h2u8cQP3CReSsna+lllhAkC9Gp
-	r+nS7m3IbLDaBdh3pR9Ri1se38IyvhQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756279762;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4FOEeoiKhJX/aYHRKM/nBxNFwHz3BhaU0lboy14qwf4=;
-	b=P2mVsfVmSp0tS75HsxpdifvD+1fHTKu1StmZj9miG/lBCdIzCDlv8z3ed5inC4ozCW/UC6
-	2vG59lcjXWYCHNBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E304F13867;
-	Wed, 27 Aug 2025 07:29:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SH4cNtGzrmjoagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 07:29:21 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 18/25] ALSA: hda/intel: Use guard() for mutex locks
-Date: Wed, 27 Aug 2025 09:28:58 +0200
-Message-ID: <20250827072916.31933-19-tiwai@suse.de>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250827072916.31933-1-tiwai@suse.de>
-References: <20250827072916.31933-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="ETZTkoEo"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=0MK1dUMIBWuj72rwewkqEVH0cn/LnA/1R+TUGxOlw7A=; b=ETZTkoEoOwtznU7PtnZeQFX4Fe
+	vM6Gg/U5rsSJj/WUqqtUEJV3BceYz2JVc61zNRNRjL4DFqp104N1wUclJpSswXx5sqCln7OWyunG6
+	1BXLLRpOWOQKi7IxecmWks9WndogbL1isYzy85Po6NTAI5iUKT6cVGycUUx1+G9Sdk6QBfX5Nab2O
+	AoHyUEffPqw/BIjMBTDsou/G4FI5gXNkiAM7XHNVs95bP9wM5OxBgaN/F8O7uh73Jt61EZ5SREvoE
+	VRfAa8DcHOrlfJ+EZjWxzMMZ6lcGDOSdP3RHulTQGePkNCSjMsKPIAnaT2QKSPEuFVcPwPFvGnA9V
+	jTWs2Wcg==;
+Received: from [213.244.170.152] (helo=phil.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1urB1d-0002Lk-PM; Wed, 27 Aug 2025 09:56:57 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: Re: [PATCH v3 16/20] PCI: rockchip: Switch to FIELD_PREP_WM16* macros
+Date: Wed, 27 Aug 2025 09:56:55 +0200
+Message-ID: <7681880.cEBGB3zze1@phil>
+In-Reply-To: <20250825-byeword-update-v3-16-947b841cdb29@collabora.com>
+References:
+ <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+ <20250825-byeword-update-v3-16-947b841cdb29@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 081C6223E5
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_ONE(0.00)[1];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.01
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Replace the manual mutex lock/unlock pairs with guard().
+Am Montag, 25. August 2025, 10:28:36 Mitteleurop=C3=A4ische Sommerzeit schr=
+ieb Nicolas Frattaroli:
+> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
+> drivers that use constant masks.
+>=20
+> The Rockchip PCI driver, like many other Rockchip drivers, has its very
+> own definition of HIWORD_UPDATE.
+>=20
+> Remove it, and replace its usage with either FIELD_PREP_WM16, or two new
+> header local macros for setting/clearing a bit with the high mask, which
+> use FIELD_PREP_WM16_CONST internally. In the process, ENCODE_LANES
+> needed to be adjusted, as FIELD_PREP_WM16* shifts the value for us.
+>=20
+> That this is equivalent was verified by first making all FIELD_PREP_WM16
+> instances FIELD_PREP_WM16_CONST, then doing a static_assert() comparing
+> it to the old macro (and for those with parameters, static_asserting for
+> the full range of possible values with the old encode macro).
+>=20
+> What we get out of this is compile time error checking to make sure the
+> value actually fits in the mask, and that the mask fits in the register,
+> and also generally less icky code that writes shifted values when it
+> actually just meant to set and clear a handful of bits.
+>=20
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-Only code refactoring, and no behavior change.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/hda/controllers/intel.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 1bb3ff55b115..1e13678428d2 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -915,17 +915,17 @@ static void azx_shutdown_chip(struct azx *chip)
- static void azx_add_card_list(struct azx *chip)
- {
- 	struct hda_intel *hda = container_of(chip, struct hda_intel, chip);
--	mutex_lock(&card_list_lock);
-+
-+	guard(mutex)(&card_list_lock);
- 	list_add(&hda->list, &card_list);
--	mutex_unlock(&card_list_lock);
- }
- 
- static void azx_del_card_list(struct azx *chip)
- {
- 	struct hda_intel *hda = container_of(chip, struct hda_intel, chip);
--	mutex_lock(&card_list_lock);
-+
-+	guard(mutex)(&card_list_lock);
- 	list_del_init(&hda->list);
--	mutex_unlock(&card_list_lock);
- }
- 
- /* trigger power-save check at writing parameter */
-@@ -942,7 +942,7 @@ static int __maybe_unused param_set_xint(const char *val, const struct kernel_pa
- 	if (pm_blacklist > 0)
- 		return 0;
- 
--	mutex_lock(&card_list_lock);
-+	guard(mutex)(&card_list_lock);
- 	list_for_each_entry(hda, &card_list, list) {
- 		chip = &hda->chip;
- 		if (!hda->probe_continued || chip->disabled ||
-@@ -950,7 +950,6 @@ static int __maybe_unused param_set_xint(const char *val, const struct kernel_pa
- 			continue;
- 		snd_hda_set_power_save(&chip->bus, power_save * 1000);
- 	}
--	mutex_unlock(&card_list_lock);
- 	return 0;
- }
- 
--- 
-2.50.1
 
