@@ -1,70 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B025826D4DD;
-	Tue, 26 Aug 2025 23:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130FE19DF6A;
+	Wed, 27 Aug 2025 01:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756252245; cv=none; b=Q7CW4RzwrX91TF9kjJq8eEbkStdgcxrxMjfv3fjVf50SYC4A9D/+D3t6zKwhjtrtlnxp2cN9fU6Zn1EqSzIj+uPtb/8EsvbVKL/2OtYP4+6BwCk4JASUr53pFpxEcBB6UOsGOyYACTNwGzu7+tGq71DMUV0/ZnLflq4u5co0uyc=
+	t=1756256971; cv=none; b=FebVH28fgykKSxRLShy6zN7MVj5PzXx0C/0FdyIRfaI6FjQtVIIRpc9pmEHRa/ymFeEaGJCnJz0vb76/szkChS5sIx0cQxiio5MJteO5m7+RtzWSoQTVMkVUjHnUmoBb6XXtuw1TfUK8c175A46Zf3tzzIunv87I14YB87S65EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756252245; c=relaxed/simple;
-	bh=07Ku4luLp6tCckZKvoGpBvBDQ0Ywwcemo2l4BS/xWs0=;
+	s=arc-20240116; t=1756256971; c=relaxed/simple;
+	bh=niYjYnyBVkUaS+VEAYBdmWbeRY8+WA3IC2YXvYSH4F0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OJaeeNxkprsmccTyyeJIBp56PiKBH6On4kyqx08MY6TqZFwpiv05fpaIs1AyEb19Qzr1lg0nEVI4oCTpMKM87lBoHdWjK3Nvdj+2MwqkaKsB86WhRIZz41T/IZYpY5DRAkV84REITSw9Epsvl7S/GwcAbYDQq5Bch4k/a5kkuQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ku2eS2aL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=eQ3tervChRrYp/yh7k0LtAw1O9xMzX0bF/YhueFQjRnB6Xb+zTPze9DzCHt85FSumrYlC9VDH3aN6/bfW5xF3mhvK1bTSpRznICAfMx0PEn+0AjQEyjjPiEwx+2EYPItAYS8Cwegr51uD/IfDEDBz/E8QPwXZmvUe4SCQK/TUco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bsUQePlI; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ku2eS2aL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D91F3C4CEF1;
-	Tue, 26 Aug 2025 23:50:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756252245;
-	bh=07Ku4luLp6tCckZKvoGpBvBDQ0Ywwcemo2l4BS/xWs0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ku2eS2aLuk2BO85gltgp9fViBt3A7nXYGIzz3ko+3i02BU56tWHBUt7SqU2nURtEN
-	 XBBLjuym5594eRddN8//2A0hIq9YGE3uJyHGblP1kjOj68phQ1DzZczKcjxA+BYH7m
-	 beuxjpqZ1t3NkKzgfPTOjhOisGGViCwrEjzxf5/EchC01qkp/d/r0yRVVVq5e9D4ra
-	 9iyKZSacjOMQZjnsjMUDUS7FZcVzPkmSyZlv8uUTxMLQ55Ro7lB9BFk8KSd1dsWumX
-	 ZZ+S+nCkt7tGurJCOCifKfd1hsdFyeaBfVGIOUwIwszL5KLRmkt2m3Rz7ePoD+ElMf
-	 wfPZvM216LTww==
-Date: Tue, 26 Aug 2025 18:50:43 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	linux-watchdog@vger.kernel.org,
-	Mathew McBride <matt@traverse.com.au>,
-	linux-arm-kernel@lists.infradead.org,
-	Michael Walle <mwalle@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bsUQePlI"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b47175d02dcso5201166a12.3;
+        Tue, 26 Aug 2025 18:09:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756256969; x=1756861769; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rYru9aDq9lQqkQVO+bwcYPZ+KioVEL3wdcshlzZLQl8=;
+        b=bsUQePlIR9gg1Gpp62JnbKgmkkcgGtENrHiZIBRaQtpx5xT2YMTjWBMDQtbWQ8kDLc
+         b8JCTzGwMYIV97NMwIS7ZhcRrH905hGbLyOTmS/hklPke48UDyovYrBosBxP7RKjotWS
+         OWNR/GEHXqiHW3ZlkphVknYKwo5ybqv6BbBDVexSYPeDU0u/E1rI/+Hm2L4aPHSyxj05
+         nyTiLRWnl+b6gUFY+l0G1peE+sgwI9VC55zWXNFNTnInW8/OTnHV8k+BFwSdtIOVSIL4
+         REn7RADiOe8izY/byKUHpvCehYgOkiGJ9NKZWR0gTGqIidEjRmbO2R7estr4f/IH7jEz
+         JjBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756256969; x=1756861769;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rYru9aDq9lQqkQVO+bwcYPZ+KioVEL3wdcshlzZLQl8=;
+        b=EBhdnr3Dx3N7EICrbEtw4gJov/TdwzuV262krBLjbGNPI9mKBn+81meMtel7gxakpT
+         D5VHhXqY+UnsjIIeyUHmL0yJtuV81grLABUqy310bfPhdhI3IUvcR6K9PE/aOllpoBDl
+         sNcprCmGjwJ5D93/DYfmDwOb/UWYIXAQ0IZNWqrhY7LNvkUzMY2UUNcPJ0ruUADw1+u8
+         5ew/gT7WmXEGJeaxPnFA04RTaO8eXmiGiu3IwOmtDxqr8YjwtNYmHno56bmB/WdEP+Bm
+         y1/mleNAklbnmkPwMTxtvTbS+u8AZc0PurpjqqLUbXKmkAhZf6k4y8SRxGEimH+q+uh5
+         55CQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVsmc17LoziqMqd9H8/ThRpxSngnfjHjtUBfnCaFMne2CB6oMrSfUOoOOCnI+DukjddlJhKgAOE/Mg+@vger.kernel.org, AJvYcCW23glR1QVyERMWhSAOL12IkjbRCs/fs/TnP1kLfOAmVU1FCuMxj9upFtsjA0CNei72iUiaAPwBHeEweM4=@vger.kernel.org, AJvYcCWF2waGmpaDezBmhyvs7VyPvpHJTWFqxFos0Va/ld12Jn9x3Qkt6L3u90dLlgurJG3Cc2g4j1Sw@vger.kernel.org, AJvYcCWL9D+fqsDscAtsBgA2uRGzjUDdiQ/GAZr8AQ9uWCcwPfbKF9t0SeqOeTpiQXLQCk5GlGCUVEov4Z5jt6nt@vger.kernel.org, AJvYcCWjIcbzBdYTYvIUWgEsDKJQm5q7mVOManBSYPp5kpl6gdazyV3ad1ArcYwucFh0GNuVxrV723Zthos=@vger.kernel.org, AJvYcCX2sb8jGWTBWzxEaglGy6bVhe7r9jG2Bqik+BgIgi+VnHZrRgqjq9bG5ChwqYWEPqHjqG5W+ppwFPmOrFk=@vger.kernel.org, AJvYcCXBJm92BPicg/VlMgCulS9C4ejjeY6xuEI8lZ0VQ6uj6/rdFAGoVKQtgVqgL/UtGDb4w4nV1MWJrBtr@vger.kernel.org, AJvYcCXRzQTnR6pJ6EVa7BhYGt3rPHFP1L+lLeCVZOiJwSpSkKslnD0EKFYLgzDf3rHgsUb9yKKJb1JOe8Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywm3mqJD1yACJW6SB+1ncL7fhqjzv/ry/tqy8msdOr3dqZn6Wmu
+	cT7urGvuEEAQ1q06ErHktf55zTAq0v6RLXci0D6JNCSwO/H85PB2o2aI
+X-Gm-Gg: ASbGnctKLv9wLp3PFtNM320SFCxshcdoorOi1/5+boAEOMrH2Ll/DAa2tJ1kZzFfP5M
+	IM2DPA+p7BL/I8LajBj5g1okOI7XQE2CwuxWUuKtLNDFv2XL4G/gC2rJuTraAxMBB25P1pTF4qE
+	XRJJi0lG4GS/b6xIH8XoHCjGbOIc2ZI6K2Mnmvn/B61+QKhE50jNGR4exJJWnxKyYj1Z21FWepv
+	P3xTnNsH7PfKGc+vzLhFEGVm37BUC4ZFxoJYnLPLaFGa0pysQ6JcRxLJ5jQGD34m2uEofBb3Q0b
+	m9H8XYhOjTLyT7BUBp4pkgBVOcGSuuoBLncS7BYWnutivzFIlxBg10oj5ZKIEx6WBf93CnGRMqf
+	eC8sKwjyH4qLcOw3pky74sjLjvPNivQZ5
+X-Google-Smtp-Source: AGHT+IHkfsVuZ+4qDUB9kGWXKNs3ixhtdzwAG20w+Ik2IkMK7IqkqBUunACMn5yLzf65+cgJRTumCw==
+X-Received: by 2002:a05:6a20:7286:b0:240:d7a:9591 with SMTP id adf61e73a8af0-24340d1c50amr25873828637.46.1756256969084;
+        Tue, 26 Aug 2025 18:09:29 -0700 (PDT)
+Received: from localhost ([216.228.127.130])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4a8b7b301csm6847632a12.35.2025.08.26.18.09.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Aug 2025 18:09:28 -0700 (PDT)
+Date: Tue, 26 Aug 2025 21:09:26 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Shreeya Patel <shreeya.patel@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Nikita Travkin <nikita@trvn.ru>,
-	Guenter Roeck <groeck@chromium.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-mediatek@lists.infradead.org,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	linux-sound@vger.kernel.org,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	linux-hwmon@vger.kernel.org, Tzung-Bi Shih <tzungbi@kernel.org>,
-	Pengyu Luo <mitltlatltl@gmail.com>, linux-gpio@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	Benson Leung <bleung@chromium.org>, Lee Jones <lee@kernel.org>,
-	linux-pwm@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Tinghan Shen <tinghan.shen@mediatek.com>
-Subject: Re: [PATCH v3] dt-bindings: mfd: Move embedded controllers to own
- directory
-Message-ID: <175625224288.764159.13881647192010727208.robh@kernel.org>
-References: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Qin Jian <qinjian@cqplus1.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+	linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH v3 00/20] BYEWORD_UPDATE: unifying (most) HIWORD_UPDATE
+ macros
+Message-ID: <aK5aujavDc4PvvjO@yury>
+References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -73,72 +119,74 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
 
+Hi Nicolas,
 
-On Mon, 25 Aug 2025 10:12:02 +0200, Krzysztof Kozlowski wrote:
-> Move several embedded controller bindings (like ChromeOS EC, Gateworks
-> System Controller and Kontron sl28cpld Board Management) to new
-> subdirectory "embedded-controller" matching their purpose.
-> 
-> An embedded controller (EC) is a discrete component that contains a
-> microcontroller (i.e. a small CPU running a small firmware without
-> operating system) mounted into a larger computer system running
-> a fully fledged operating system that needs to utilize the embedded
-> controller as part of its operation.
-> 
-> So far the EC bindings were split between "mfd" and "platform"
-> directory.  MFD name comes from Linux, not hardware, and "platform" is a
-> bit too generic.
-> 
-> Rename Gateworks GSC and Huawei Gaokun filenames to match compatible, as
-> preferred for bindings.
-> 
-> Acked-by: Michael Walle <mwalle@kernel.org> # for sl28cpld
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> 
-> Lee,
-> Can you take it via MFD?
-> There is a patch on the lists touching kontron,sl28cpld.
-> 
-> Changes in v3:
-> 1. Move more files from "platform" directory.
-> 2. Grow commit msg, based on feedback from Linus.
-> 3. Add Rb (patch changed, though).
-> 
-> Changes in v2:
-> 1. Correct remaining paths in other schemas ($ref and descriptions).
-> 2. Add Ack.
-> 
-> Cc: Mathew McBride <matt@traverse.com.au>
-> ---
->  .../{platform => embedded-controller}/acer,aspire1-ec.yaml  | 2 +-
->  .../{mfd => embedded-controller}/google,cros-ec.yaml        | 2 +-
->  .../gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml}  | 2 +-
->  .../huawei,gaokun3-ec.yaml}                                 | 2 +-
->  .../{mfd => embedded-controller}/kontron,sl28cpld.yaml      | 2 +-
->  .../lenovo,yoga-c630-ec.yaml                                | 2 +-
->  .../microsoft,surface-sam.yaml                              | 2 +-
->  .../devicetree/bindings/gpio/kontron,sl28cpld-gpio.yaml     | 2 +-
->  .../devicetree/bindings/hwmon/kontron,sl28cpld-hwmon.yaml   | 2 +-
->  .../interrupt-controller/kontron,sl28cpld-intc.yaml         | 2 +-
->  .../devicetree/bindings/pwm/google,cros-ec-pwm.yaml         | 2 +-
->  .../devicetree/bindings/pwm/kontron,sl28cpld-pwm.yaml       | 2 +-
->  Documentation/devicetree/bindings/remoteproc/mtk,scp.yaml   | 4 ++--
->  .../devicetree/bindings/sound/google,cros-ec-codec.yaml     | 2 +-
->  .../devicetree/bindings/watchdog/kontron,sl28cpld-wdt.yaml  | 2 +-
->  MAINTAINERS                                                 | 6 +++---
->  16 files changed, 19 insertions(+), 19 deletions(-)
->  rename Documentation/devicetree/bindings/{platform => embedded-controller}/acer,aspire1-ec.yaml (94%)
->  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/google,cros-ec.yaml (99%)
->  rename Documentation/devicetree/bindings/{mfd/gateworks-gsc.yaml => embedded-controller/gw,gsc.yaml} (98%)
->  rename Documentation/devicetree/bindings/{platform/huawei,gaokun-ec.yaml => embedded-controller/huawei,gaokun3-ec.yaml} (97%)
->  rename Documentation/devicetree/bindings/{mfd => embedded-controller}/kontron,sl28cpld.yaml (97%)
->  rename Documentation/devicetree/bindings/{platform => embedded-controller}/lenovo,yoga-c630-ec.yaml (95%)
->  rename Documentation/devicetree/bindings/{platform => embedded-controller}/microsoft,surface-sam.yaml (92%)
-> 
+Thanks for the work!
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+On Mon, Aug 25, 2025 at 10:28:20AM +0200, Nicolas Frattaroli wrote:
+> This series was spawned by [1], where I was asked to move every instance
+> of HIWORD_UPDATE et al that I could find to a common macro in the same
+> series that I am introducing said common macro.
+> 
+> The first patch of the series introduces a new header file,
+> hw_bitfield.h, which contains two new macros: FIELD_PREP_WM16 and
+> FIELD_PREP_WM16_CONST. The latter can be used in initializers.
+> 
+> I've cheekily added the hw_bitfield.h header to the BITMAP API section
+> of the MAINTAINERS file.
+> 
+> This macro definition checks that the mask fits, and that the value fits
+> in the mask. Like FIELD_PREP, it also shifts the value up to the mask,
+> so turning off a bit does not require using the mask as a value. Masks
+> are also required to be contiguous, like with FIELD_PREP.
+> 
+> For each definition of such a macro, the driver(s) that used it were
+> evaluated for three different treatments:
+>  - full conversion to the new macro, for cases where replacing the
+>    implementation of the old macro wouldn't have worked, or where the
+>    conversion was trivial. These are the most complex patches in this
+>    series, as they sometimes have to pull apart definitions of masks
+>    and values due to the new semantics, which require a contiguous
+>    mask and shift the value for us.
+>  - replacing the implementation of the old macro with an instance of the
+>    new macro, done where I felt it made the patch much easier to review
+>    because I didn't want to drop a big diff on people.
+>  - skipping conversion entirely, usually because the mask is
+>    non-constant and it's not trivial to make it constant. Sometimes an
+>    added complication is that said non-constant mask is either used in a
+>    path where runtime overhead may not be desirable, or in an
+>    initializer.
+> 
+> Left out of conversion:
+>  - drivers/mmc/host/sdhci-of-arasan.c: mask is non-constant.
 
++ Michal Simek <michal.simek@amd.com>
+
+>  - drivers/phy/rockchip/phy-rockchip-inno-csidphy.c: mask is
+>    non-constant likely by way of runtime pointer dereferencing, even if
+>    struct and members are made const.
+
++ Vinod Koul <vkoul@kernel.org> (already in the list)
+
+>  - drivers/clk/rockchip/clk.h: way too many clock drivers use non-const
+>    masks in the context of an initializer.
+
++ Heiko Stuebner <heiko@sntech.de> (already in the list)
+
+Guys, can you please take a look? Would be nice to finish the
+consolidation.
+
+--
+
+I'll take #1 and the acknowledged (or at least reviewed) per-driver
+fixes in bitmap-for-next in 2-3 weeks before the end of cycle.
+Everyone, please send your tags!
+
+Nicolas, please ping me if I forget. For the rest of the series, in
+case of no feedback from maintainers, let's wait for one more merge
+window, and then move everything altogether.
+
+Thanks,
+Yury
