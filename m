@@ -1,85 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCCAC32C318
-	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 09:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA702BFC70
+	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 09:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756286454; cv=none; b=OqikfZV5G+P70QQX+l+wkdTkwrLaTp06q6XXa2SrQWGO8O/GwAhv6mIaFgUiZ9+WFCtnMTSOeHrQ538QKEVWoYwi/yRkAjdDdHIRHU0eWuLz9OR9uNrx57/sBQsk0c9FWWxAZULtYn4rfeUPdsGhRXHyRgWWidskNm0Tt+OaCVw=
+	t=1756286454; cv=none; b=QyMCION/16O6jTDNL1vQ2OaU8MLE+Ehw4SdUDKTITpJ/qn6VM/RIvJLyWy/6opo/U0klZlAf/Uu6INVZVhBO3AV4kG/CvQ9anu+flkccos9X70YpK6ZPsfcyZP7YdgREL+gIyi3iScnUn+5w/u14BQ/BSa+bFVYJRlqfK8Moqy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756286454; c=relaxed/simple;
-	bh=nQdW+WsRg/UJ/gLN6skB7RMqqSoZqIkahpO1BdMBjBc=;
+	bh=OSZSOfXPZxMdv6izv8EwGuJW7OJ8t4e/ZPt/1PqPa7U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZONmwbsKBJQOgRHsNQb7/s3qW3WrL5plCKmaQb+RY9rSdK8nbcXxq9KEvQ722e81XxdMujUjEOfcSz0k6bcAJTvnmPnYlCUwc1VhpbtbdnsOs7DzT8DFiF5MgSVcmuf01gVgo9yXRJ7DfmjLc20pw3N9hvOt1X52bAxYXrSks7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JYLO5w/I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OHBOQOV/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JYLO5w/I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OHBOQOV/; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=IYcrjvqlGO2dfLoapZmCgQJV9NndVB9CVdkn3Ttv09W/UZmEm8+7otif9aolA17XuT0Pwd9rsNVZJUr138rVwfwcMznQ8w2RdjzlU6X3gcL7/LApGMSBib1VnV+1+jARdJ05P316YxPwnlGcMQyWtwPspjBUHbljxTbbTGh2Pqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OcinYQK5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LQjvoANC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OcinYQK5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LQjvoANC; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JYLO5w/I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OHBOQOV/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JYLO5w/I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OHBOQOV/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OcinYQK5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LQjvoANC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OcinYQK5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LQjvoANC"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AF6861FFC4;
-	Wed, 27 Aug 2025 09:20:24 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 157D62222F;
+	Wed, 27 Aug 2025 09:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756286424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1756286425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tyLB1bOMYKtUi06H+vWR70X6P5AjdUPStKIhVHhi+vE=;
-	b=JYLO5w/IoTmrp7bO110jvO60b16yQ4ObD32sF9LESS1m8ZJAd8o7b5sun+6U4hFDJz9q3W
-	h9HbXZieLrHhmjkIZnrHZ6oRhcE5386w1CzwI3TvZqJpk481Je/JjcL/FDg+Wtk8OVympG
-	1gbpwlsc3icZuGQMfvW4TIXF0OUppBw=
+	bh=ARn33w4vjEvrKIIDIIwEl+E9wSwdsCvZvxMaNC0T7LY=;
+	b=OcinYQK5TClWW5QTXd9Oe7VrW2KLDIlyh+FcMC3geLW6BPUysnKCyLvTbpd6gPT48cu/L+
+	MeLpPKce5yM34EiY+BW+YJbT3aHyylnT3OUnz2PBD9MRyA0PIBw7ELPL/EVDAdIttNwOc+
+	3QNIZFwnzKIrEGWDQLVJkbTCJgkjez0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756286424;
+	s=susede2_ed25519; t=1756286425;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tyLB1bOMYKtUi06H+vWR70X6P5AjdUPStKIhVHhi+vE=;
-	b=OHBOQOV/BNw0enXRSa2dnpUejOFz/QIZ98KcbnjJ0oL8NUQmnrWiNGPZRGoMatr1mZlI/3
-	UiSt6iemhvVk82BA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=ARn33w4vjEvrKIIDIIwEl+E9wSwdsCvZvxMaNC0T7LY=;
+	b=LQjvoANCcCuhpJBid4Ln5T7esrobmu5PAiHTGw8VvBHQ/4nO6dPU4A3sz+R5sf1Bc7Wr3P
+	IPFz5mSKxzfHb7CA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OcinYQK5;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LQjvoANC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756286424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1756286425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tyLB1bOMYKtUi06H+vWR70X6P5AjdUPStKIhVHhi+vE=;
-	b=JYLO5w/IoTmrp7bO110jvO60b16yQ4ObD32sF9LESS1m8ZJAd8o7b5sun+6U4hFDJz9q3W
-	h9HbXZieLrHhmjkIZnrHZ6oRhcE5386w1CzwI3TvZqJpk481Je/JjcL/FDg+Wtk8OVympG
-	1gbpwlsc3icZuGQMfvW4TIXF0OUppBw=
+	bh=ARn33w4vjEvrKIIDIIwEl+E9wSwdsCvZvxMaNC0T7LY=;
+	b=OcinYQK5TClWW5QTXd9Oe7VrW2KLDIlyh+FcMC3geLW6BPUysnKCyLvTbpd6gPT48cu/L+
+	MeLpPKce5yM34EiY+BW+YJbT3aHyylnT3OUnz2PBD9MRyA0PIBw7ELPL/EVDAdIttNwOc+
+	3QNIZFwnzKIrEGWDQLVJkbTCJgkjez0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756286424;
+	s=susede2_ed25519; t=1756286425;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tyLB1bOMYKtUi06H+vWR70X6P5AjdUPStKIhVHhi+vE=;
-	b=OHBOQOV/BNw0enXRSa2dnpUejOFz/QIZ98KcbnjJ0oL8NUQmnrWiNGPZRGoMatr1mZlI/3
-	UiSt6iemhvVk82BA==
+	bh=ARn33w4vjEvrKIIDIIwEl+E9wSwdsCvZvxMaNC0T7LY=;
+	b=LQjvoANCcCuhpJBid4Ln5T7esrobmu5PAiHTGw8VvBHQ/4nO6dPU4A3sz+R5sf1Bc7Wr3P
+	IPFz5mSKxzfHb7CA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9D48213AA3;
-	Wed, 27 Aug 2025 09:20:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 03A5E13867;
+	Wed, 27 Aug 2025 09:20:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kJ3jJdjNrmiFEgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 09:20:24 +0000
+	id UHdgANnNrmiFEgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 09:20:25 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	Clemens Ladisch <clemens@ladisch.de>
-Subject: [PATCH 07/19] ALSA: firewire: tascam: Use guard() for mutex locks
-Date: Wed, 27 Aug 2025 11:20:01 +0200
-Message-ID: <20250827092017.29014-8-tiwai@suse.de>
+Subject: [PATCH 12/19] ALSA: firewire: dice: Use guard() for spin locks
+Date: Wed, 27 Aug 2025 11:20:06 +0200
+Message-ID: <20250827092017.29014-13-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250827092017.29014-1-tiwai@suse.de>
 References: <20250827092017.29014-1-tiwai@suse.de>
@@ -91,189 +92,242 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 157D62222F
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 
-Replace the manual mutex lock/unlock pairs with guard() for code
-simplification.
+Clean up the code using guard() for spin locks.
 
-Only code refactoring, and no behavior change.
+Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/firewire/tascam/tascam-pcm.c | 68 ++++++++++++------------------
- sound/firewire/tascam/tascam.c     |  3 +-
- 2 files changed, 28 insertions(+), 43 deletions(-)
+ sound/firewire/dice/dice-hwdep.c       | 37 +++++++-------------------
+ sound/firewire/dice/dice-midi.c        | 10 ++-----
+ sound/firewire/dice/dice-stream.c      | 21 +++++----------
+ sound/firewire/dice/dice-transaction.c |  7 +++--
+ 4 files changed, 21 insertions(+), 54 deletions(-)
 
-diff --git a/sound/firewire/tascam/tascam-pcm.c b/sound/firewire/tascam/tascam-pcm.c
-index a73003ac11e6..a437efcecae3 100644
---- a/sound/firewire/tascam/tascam-pcm.c
-+++ b/sound/firewire/tascam/tascam-pcm.c
-@@ -59,43 +59,36 @@ static int pcm_open(struct snd_pcm_substream *substream)
- 	if (err < 0)
- 		goto err_locked;
- 
--	mutex_lock(&tscm->mutex);
-+	scoped_guard(mutex, &tscm->mutex) {
- 
--	// When source of clock is not internal or any stream is reserved for
--	// transmission of PCM frames, the available sampling rate is limited
--	// at current one.
--	if (clock != SND_TSCM_CLOCK_INTERNAL || tscm->substreams_counter > 0) {
--		unsigned int frames_per_period = d->events_per_period;
--		unsigned int frames_per_buffer = d->events_per_buffer;
--		unsigned int rate;
-+		// When source of clock is not internal or any stream is reserved for
-+		// transmission of PCM frames, the available sampling rate is limited
-+		// at current one.
-+		if (clock != SND_TSCM_CLOCK_INTERNAL || tscm->substreams_counter > 0) {
-+			unsigned int frames_per_period = d->events_per_period;
-+			unsigned int frames_per_buffer = d->events_per_buffer;
-+			unsigned int rate;
- 
--		err = snd_tscm_stream_get_rate(tscm, &rate);
--		if (err < 0) {
--			mutex_unlock(&tscm->mutex);
--			goto err_locked;
--		}
--		substream->runtime->hw.rate_min = rate;
--		substream->runtime->hw.rate_max = rate;
-+			err = snd_tscm_stream_get_rate(tscm, &rate);
-+			if (err < 0)
-+				goto err_locked;
-+			substream->runtime->hw.rate_min = rate;
-+			substream->runtime->hw.rate_max = rate;
- 
--		err = snd_pcm_hw_constraint_minmax(substream->runtime,
--					SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
--					frames_per_period, frames_per_period);
--		if (err < 0) {
--			mutex_unlock(&tscm->mutex);
--			goto err_locked;
--		}
-+			err = snd_pcm_hw_constraint_minmax(substream->runtime,
-+							   SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
-+							   frames_per_period, frames_per_period);
-+			if (err < 0)
-+				goto err_locked;
- 
--		err = snd_pcm_hw_constraint_minmax(substream->runtime,
--					SNDRV_PCM_HW_PARAM_BUFFER_SIZE,
--					frames_per_buffer, frames_per_buffer);
--		if (err < 0) {
--			mutex_unlock(&tscm->mutex);
--			goto err_locked;
-+			err = snd_pcm_hw_constraint_minmax(substream->runtime,
-+							   SNDRV_PCM_HW_PARAM_BUFFER_SIZE,
-+							   frames_per_buffer, frames_per_buffer);
-+			if (err < 0)
-+				goto err_locked;
- 		}
- 	}
- 
--	mutex_unlock(&tscm->mutex);
--
- 	snd_pcm_set_sync(substream);
- 
- 	return 0;
-@@ -124,12 +117,11 @@ static int pcm_hw_params(struct snd_pcm_substream *substream,
- 		unsigned int frames_per_period = params_period_size(hw_params);
- 		unsigned int frames_per_buffer = params_buffer_size(hw_params);
- 
--		mutex_lock(&tscm->mutex);
-+		guard(mutex)(&tscm->mutex);
- 		err = snd_tscm_stream_reserve_duplex(tscm, rate,
- 					frames_per_period, frames_per_buffer);
- 		if (err >= 0)
- 			++tscm->substreams_counter;
--		mutex_unlock(&tscm->mutex);
- 	}
- 
- 	return err;
-@@ -139,15 +131,13 @@ static int pcm_hw_free(struct snd_pcm_substream *substream)
+diff --git a/sound/firewire/dice/dice-hwdep.c b/sound/firewire/dice/dice-hwdep.c
+index d165dd427bd3..747ff0952483 100644
+--- a/sound/firewire/dice/dice-hwdep.c
++++ b/sound/firewire/dice/dice-hwdep.c
+@@ -55,18 +55,14 @@ static __poll_t hwdep_poll(struct snd_hwdep *hwdep, struct file *file,
+ 			       poll_table *wait)
  {
- 	struct snd_tscm *tscm = substream->private_data;
+ 	struct snd_dice *dice = hwdep->private_data;
+-	__poll_t events;
  
--	mutex_lock(&tscm->mutex);
-+	guard(mutex)(&tscm->mutex);
+ 	poll_wait(file, &dice->hwdep_wait, wait);
  
- 	if (substream->runtime->state != SNDRV_PCM_STATE_OPEN)
- 		--tscm->substreams_counter;
- 
- 	snd_tscm_stream_stop_duplex(tscm);
- 
--	mutex_unlock(&tscm->mutex);
+-	spin_lock_irq(&dice->lock);
++	guard(spinlock_irq)(&dice->lock);
+ 	if (dice->dev_lock_changed || dice->notification_bits != 0)
+-		events = EPOLLIN | EPOLLRDNORM;
++		return EPOLLIN | EPOLLRDNORM;
+ 	else
+-		events = 0;
+-	spin_unlock_irq(&dice->lock);
 -
+-	return events;
++		return 0;
+ }
+ 
+ static int hwdep_get_info(struct snd_dice *dice, void __user *arg)
+@@ -90,48 +86,35 @@ static int hwdep_get_info(struct snd_dice *dice, void __user *arg)
+ 
+ static int hwdep_lock(struct snd_dice *dice)
+ {
+-	int err;
+-
+-	spin_lock_irq(&dice->lock);
++	guard(spinlock_irq)(&dice->lock);
+ 
+ 	if (dice->dev_lock_count == 0) {
+ 		dice->dev_lock_count = -1;
+-		err = 0;
++		return 0;
+ 	} else {
+-		err = -EBUSY;
++		return -EBUSY;
+ 	}
+-
+-	spin_unlock_irq(&dice->lock);
+-
+-	return err;
+ }
+ 
+ static int hwdep_unlock(struct snd_dice *dice)
+ {
+-	int err;
+-
+-	spin_lock_irq(&dice->lock);
++	guard(spinlock_irq)(&dice->lock);
+ 
+ 	if (dice->dev_lock_count == -1) {
+ 		dice->dev_lock_count = 0;
+-		err = 0;
++		return 0;
+ 	} else {
+-		err = -EBADFD;
++		return -EBADFD;
+ 	}
+-
+-	spin_unlock_irq(&dice->lock);
+-
+-	return err;
+ }
+ 
+ static int hwdep_release(struct snd_hwdep *hwdep, struct file *file)
+ {
+ 	struct snd_dice *dice = hwdep->private_data;
+ 
+-	spin_lock_irq(&dice->lock);
++	guard(spinlock_irq)(&dice->lock);
+ 	if (dice->dev_lock_count == -1)
+ 		dice->dev_lock_count = 0;
+-	spin_unlock_irq(&dice->lock);
+ 
  	return 0;
  }
+diff --git a/sound/firewire/dice/dice-midi.c b/sound/firewire/dice/dice-midi.c
+index 9ca975c556ca..722bce379345 100644
+--- a/sound/firewire/dice/dice-midi.c
++++ b/sound/firewire/dice/dice-midi.c
+@@ -47,9 +47,8 @@ static int midi_close(struct snd_rawmidi_substream *substream)
+ static void midi_capture_trigger(struct snd_rawmidi_substream *substrm, int up)
+ {
+ 	struct snd_dice *dice = substrm->rmidi->private_data;
+-	unsigned long flags;
  
-@@ -157,14 +147,12 @@ static int pcm_capture_prepare(struct snd_pcm_substream *substream)
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	int err;
+-	spin_lock_irqsave(&dice->lock, flags);
++	guard(spinlock_irqsave)(&dice->lock);
  
--	mutex_lock(&tscm->mutex);
-+	guard(mutex)(&tscm->mutex);
- 
- 	err = snd_tscm_stream_start_duplex(tscm, runtime->rate);
- 	if (err >= 0)
- 		amdtp_stream_pcm_prepare(&tscm->tx_stream);
- 
--	mutex_unlock(&tscm->mutex);
+ 	if (up)
+ 		amdtp_am824_midi_trigger(&dice->tx_stream[0],
+@@ -57,16 +56,13 @@ static void midi_capture_trigger(struct snd_rawmidi_substream *substrm, int up)
+ 	else
+ 		amdtp_am824_midi_trigger(&dice->tx_stream[0],
+ 					  substrm->number, NULL);
 -
- 	return err;
+-	spin_unlock_irqrestore(&dice->lock, flags);
  }
  
-@@ -174,14 +162,12 @@ static int pcm_playback_prepare(struct snd_pcm_substream *substream)
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	int err;
+ static void midi_playback_trigger(struct snd_rawmidi_substream *substrm, int up)
+ {
+ 	struct snd_dice *dice = substrm->rmidi->private_data;
+-	unsigned long flags;
  
--	mutex_lock(&tscm->mutex);
-+	guard(mutex)(&tscm->mutex);
+-	spin_lock_irqsave(&dice->lock, flags);
++	guard(spinlock_irqsave)(&dice->lock);
  
- 	err = snd_tscm_stream_start_duplex(tscm, runtime->rate);
- 	if (err >= 0)
- 		amdtp_stream_pcm_prepare(&tscm->rx_stream);
- 
--	mutex_unlock(&tscm->mutex);
+ 	if (up)
+ 		amdtp_am824_midi_trigger(&dice->rx_stream[0],
+@@ -74,8 +70,6 @@ static void midi_playback_trigger(struct snd_rawmidi_substream *substrm, int up)
+ 	else
+ 		amdtp_am824_midi_trigger(&dice->rx_stream[0],
+ 					 substrm->number, NULL);
 -
- 	return err;
+-	spin_unlock_irqrestore(&dice->lock, flags);
  }
  
-diff --git a/sound/firewire/tascam/tascam.c b/sound/firewire/tascam/tascam.c
-index 4f68bb4c58bc..f4092df8650c 100644
---- a/sound/firewire/tascam/tascam.c
-+++ b/sound/firewire/tascam/tascam.c
-@@ -158,9 +158,8 @@ static void snd_tscm_update(struct fw_unit *unit)
+ static void set_midi_substream_names(struct snd_dice *dice,
+diff --git a/sound/firewire/dice/dice-stream.c b/sound/firewire/dice/dice-stream.c
+index 4c677c8546c7..d5ffe7c82993 100644
+--- a/sound/firewire/dice/dice-stream.c
++++ b/sound/firewire/dice/dice-stream.c
+@@ -677,32 +677,23 @@ static void dice_lock_changed(struct snd_dice *dice)
  
- 	snd_tscm_transaction_reregister(tscm);
+ int snd_dice_stream_lock_try(struct snd_dice *dice)
+ {
+-	int err;
++	guard(spinlock_irq)(&dice->lock);
  
--	mutex_lock(&tscm->mutex);
-+	guard(mutex)(&tscm->mutex);
- 	snd_tscm_stream_update_duplex(tscm);
--	mutex_unlock(&tscm->mutex);
+-	spin_lock_irq(&dice->lock);
+-
+-	if (dice->dev_lock_count < 0) {
+-		err = -EBUSY;
+-		goto out;
+-	}
++	if (dice->dev_lock_count < 0)
++		return -EBUSY;
+ 
+ 	if (dice->dev_lock_count++ == 0)
+ 		dice_lock_changed(dice);
+-	err = 0;
+-out:
+-	spin_unlock_irq(&dice->lock);
+-	return err;
++	return 0;
  }
  
- static void snd_tscm_remove(struct fw_unit *unit)
+ void snd_dice_stream_lock_release(struct snd_dice *dice)
+ {
+-	spin_lock_irq(&dice->lock);
++	guard(spinlock_irq)(&dice->lock);
+ 
+ 	if (WARN_ON(dice->dev_lock_count <= 0))
+-		goto out;
++		return;
+ 
+ 	if (--dice->dev_lock_count == 0)
+ 		dice_lock_changed(dice);
+-out:
+-	spin_unlock_irq(&dice->lock);
+ }
+diff --git a/sound/firewire/dice/dice-transaction.c b/sound/firewire/dice/dice-transaction.c
+index 92941ef83cd5..a3f7dfa990a4 100644
+--- a/sound/firewire/dice/dice-transaction.c
++++ b/sound/firewire/dice/dice-transaction.c
+@@ -136,7 +136,6 @@ static void dice_notification(struct fw_card *card, struct fw_request *request,
+ {
+ 	struct snd_dice *dice = callback_data;
+ 	u32 bits;
+-	unsigned long flags;
+ 
+ 	if (tcode != TCODE_WRITE_QUADLET_REQUEST) {
+ 		fw_send_response(card, request, RCODE_TYPE_ERROR);
+@@ -149,9 +148,9 @@ static void dice_notification(struct fw_card *card, struct fw_request *request,
+ 
+ 	bits = be32_to_cpup(data);
+ 
+-	spin_lock_irqsave(&dice->lock, flags);
+-	dice->notification_bits |= bits;
+-	spin_unlock_irqrestore(&dice->lock, flags);
++	scoped_guard(spinlock_irqsave, &dice->lock) {
++		dice->notification_bits |= bits;
++	}
+ 
+ 	fw_send_response(card, request, RCODE_COMPLETE);
+ 
 -- 
 2.50.1
 
