@@ -1,304 +1,110 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36471CD215
-	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 07:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09A6205E2F;
+	Wed, 27 Aug 2025 07:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756280026; cv=none; b=EuuR9u3If69yPzqBspLTJ1S50W+FMxeu2MVdwV4HHwt7dcw/Xd/Ixq2bgWJswU7sh9j5n9qGPMpudJYWzO2wClSOgDSKcnBsLQT77sRii5FYS3buXmTRdCJ4msM9bW4ulTjbfBbAvv7LOUak81bBnzSytY9DGGv6RUS1rqf0c5U=
+	t=1756280112; cv=none; b=knxONkimvTSU0tMT0uxd9i/6bT3ZlkpTMHfabqMxxLkOmQM0i8YIVwteyGhT9iJ3lYlmUH5Fa/vYz3hN0jXJwoTuXUmOSVLlrw4sxQiZ/Lg6+D0Zi3YZZhuqjCe3dLquZV4VbJ30q3CyT5uqUSGzisY2Cv8bij19a9EGlMArNqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756280026; c=relaxed/simple;
-	bh=fojbwhXbGX/9HvoRv0JHVJhM645ewvLys5wtlpMbqqw=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mGyzNg4/A+lRz4nj8ILcrrkVJRfbCcSbV/nJCcYaeWruSpKadC07V5Dkc/HmsVFGbvVTQEPlqkB4WXCiSkrrT6AOiLEJPtrsJXkY4NZK6vURO8U6zPtVVP0s72Xmjh2M3JO+cu9Z0sNgjujPRcRgH0qKlvIMg8PSSdV3Bk15Us4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=o+JSFg4S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ytU8sMeZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=o+JSFg4S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ytU8sMeZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1756280112; c=relaxed/simple;
+	bh=2E2t5XJ0oBHE/MDQjcbZItd2IrlEm9kNRRgPclvPx2Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AszmQEEKTRzJmC6koiP5556V9NK2h6Ohg2d0d5Ft+g8ITtARivNp1ZeS73WUk+NVpJBiQiiibg7Og3kNf6LM2YVXqlrG0MmOyVQwgld8ytb5dE3zhdbApOVtFEI43msqnS+Cml3TurZeRHLy1UJy4Ik7hozOsr20h2bxVaMPyIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=q+dEkXRN; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o+JSFg4S";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ytU8sMeZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o+JSFg4S";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ytU8sMeZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5A693223CF;
-	Wed, 27 Aug 2025 07:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756279761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MFj92CyFBcV0QRA7v7zOmjAB16Thwc7ob/ppByDN/JY=;
-	b=o+JSFg4Sjc1ua5C1O9FOdNWp9ym2+QFwP5oL8mTfS1W5FsrTjZFW/o8LA1YHRofC6OJWmy
-	yOmn6yJfLoSzunAl4DXxKiyKVNIdheaCRy3t8cvWZrgRibU78Hpv6LIqW7PPoIdpMp/sdW
-	KS0iG7DMfzdXYXiznrkq12OamvcpMZk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756279761;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MFj92CyFBcV0QRA7v7zOmjAB16Thwc7ob/ppByDN/JY=;
-	b=ytU8sMeZx7XIS9dt7pI+EfW8U3/l3nQtiTOcRdwdMP1lVxZa7wdXBiRhjqmOO1tljwRrc0
-	rrzhrpSlafv0M4BA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=o+JSFg4S;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ytU8sMeZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756279761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MFj92CyFBcV0QRA7v7zOmjAB16Thwc7ob/ppByDN/JY=;
-	b=o+JSFg4Sjc1ua5C1O9FOdNWp9ym2+QFwP5oL8mTfS1W5FsrTjZFW/o8LA1YHRofC6OJWmy
-	yOmn6yJfLoSzunAl4DXxKiyKVNIdheaCRy3t8cvWZrgRibU78Hpv6LIqW7PPoIdpMp/sdW
-	KS0iG7DMfzdXYXiznrkq12OamvcpMZk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756279761;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MFj92CyFBcV0QRA7v7zOmjAB16Thwc7ob/ppByDN/JY=;
-	b=ytU8sMeZx7XIS9dt7pI+EfW8U3/l3nQtiTOcRdwdMP1lVxZa7wdXBiRhjqmOO1tljwRrc0
-	rrzhrpSlafv0M4BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3F45913A31;
-	Wed, 27 Aug 2025 07:29:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gKoXDtGzrmjoagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 07:29:21 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 13/25] ALSA: hda/tas2781: Use guard() for mutex locks
-Date: Wed, 27 Aug 2025 09:28:53 +0200
-Message-ID: <20250827072916.31933-14-tiwai@suse.de>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250827072916.31933-1-tiwai@suse.de>
-References: <20250827072916.31933-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="q+dEkXRN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=2E2t5XJ0oBHE/MDQjcbZItd2IrlEm9kNRRgPclvPx2Y=; b=q+dEkXRNy3JfEbTDNXEe/S/Q0S
+	Lzw01WTWTAPxZ0eF1o36zaQhaBOKLAMxG7r/pgMIvbRAAAs1FvocPigGldPnwWmIjkVRFQQp3SoP+
+	B0TRDhzc0ZpGNvZBCPRCp01Fr5cu7nos/o8IIpBrM7voobaAWUhtgpBGTcxChnkaaYzoiHCKjNjcx
+	DX5yLcYwUr+yT2mONOZMl4kZJIbm0Ia0+tFlKMoA2t/ASxSDWPh5U2RqQY9HQyKj0hI0LR8oqVHAn
+	iNu+Hg8d5nSM87e28dKJ8XEIbGJAwTuLvwVcl82p8CMiqxhL6axkl4rH0x9WfV64Kl21R0NePmiKI
+	8Iy4r5HQ==;
+Received: from [213.244.170.152] (helo=phil.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1urAg9-00062s-SC; Wed, 27 Aug 2025 09:34:45 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject:
+ Re: [PATCH v3 12/20] phy: rockchip-usb: switch to FIELD_PREP_WM16 macro
+Date: Wed, 27 Aug 2025 09:34:44 +0200
+Message-ID: <5249188.NgBsaNRSFp@phil>
+In-Reply-To: <20250825-byeword-update-v3-12-947b841cdb29@collabora.com>
+References:
+ <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+ <20250825-byeword-update-v3-12-947b841cdb29@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 5A693223CF
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_ONE(0.00)[1];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.01
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Replace the manual mutex lock/unlock pairs with guard().
+Am Montag, 25. August 2025, 10:28:32 Mitteleurop=C3=A4ische Sommerzeit schr=
+ieb Nicolas Frattaroli:
+> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
+> drivers that use constant masks.
+>=20
+> Remove this driver's HIWORD_UPDATE macro, and replace all instances of
+> it with (hopefully) equivalent FIELD_PREP_WM16 instances. To do this, a
+> few of the defines are being adjusted, as FIELD_PREP_WM16 shifts up the
+> value for us. This gets rid of the icky update(mask, mask) shenanigans.
+>=20
+> The benefit of using FIELD_PREP_WM16 is that it does more checking of
+> the input, hopefully catching errors. In practice, a shared definition
+> makes code more readable than several different flavours of the same
+> macro, and the shifted value helps as well.
+>=20
+> I do not have the hardware that uses this particular driver, so it's
+> compile-tested only as far as my own testing goes.
+>=20
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-Only code refactoring, and no behavior change.
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- .../hda/codecs/side-codecs/tas2781_hda_i2c.c  | 53 ++++++-------------
- 1 file changed, 17 insertions(+), 36 deletions(-)
-
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index ed7771ab9475..fb3439161490 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -158,16 +158,16 @@ static void tas2781_hda_playback_hook(struct device *dev, int action)
- 	switch (action) {
- 	case HDA_GEN_PCM_ACT_OPEN:
- 		pm_runtime_get_sync(dev);
--		mutex_lock(&tas_hda->priv->codec_lock);
--		tasdevice_tuning_switch(tas_hda->priv, 0);
--		tas_hda->priv->playback_started = true;
--		mutex_unlock(&tas_hda->priv->codec_lock);
-+		scoped_guard(mutex, &tas_hda->priv->codec_lock) {
-+			tasdevice_tuning_switch(tas_hda->priv, 0);
-+			tas_hda->priv->playback_started = true;
-+		}
- 		break;
- 	case HDA_GEN_PCM_ACT_CLOSE:
--		mutex_lock(&tas_hda->priv->codec_lock);
--		tasdevice_tuning_switch(tas_hda->priv, 1);
--		tas_hda->priv->playback_started = false;
--		mutex_unlock(&tas_hda->priv->codec_lock);
-+		scoped_guard(mutex, &tas_hda->priv->codec_lock) {
-+			tasdevice_tuning_switch(tas_hda->priv, 1);
-+			tas_hda->priv->playback_started = false;
-+		}
- 
- 		pm_runtime_put_autosuspend(dev);
- 		break;
-@@ -184,15 +184,13 @@ static int tas2781_amp_getvol(struct snd_kcontrol *kcontrol,
- 		(struct soc_mixer_control *)kcontrol->private_value;
- 	int ret;
- 
--	mutex_lock(&tas_priv->codec_lock);
-+	guard(mutex)(&tas_priv->codec_lock);
- 
- 	ret = tasdevice_amp_getvol(tas_priv, ucontrol, mc);
- 
- 	dev_dbg(tas_priv->dev, "%s: kcontrol %s: %ld\n",
- 		__func__, kcontrol->id.name, ucontrol->value.integer.value[0]);
- 
--	mutex_unlock(&tas_priv->codec_lock);
--
- 	return ret;
- }
- 
-@@ -202,19 +200,14 @@ static int tas2781_amp_putvol(struct snd_kcontrol *kcontrol,
- 	struct tasdevice_priv *tas_priv = snd_kcontrol_chip(kcontrol);
- 	struct soc_mixer_control *mc =
- 		(struct soc_mixer_control *)kcontrol->private_value;
--	int ret;
- 
--	mutex_lock(&tas_priv->codec_lock);
-+	guard(mutex)(&tas_priv->codec_lock);
- 
- 	dev_dbg(tas_priv->dev, "%s: kcontrol %s: -> %ld\n",
- 		__func__, kcontrol->id.name, ucontrol->value.integer.value[0]);
- 
- 	/* The check of the given value is in tasdevice_amp_putvol. */
--	ret = tasdevice_amp_putvol(tas_priv, ucontrol, mc);
--
--	mutex_unlock(&tas_priv->codec_lock);
--
--	return ret;
-+	return tasdevice_amp_putvol(tas_priv, ucontrol, mc);
- }
- 
- static int tas2781_force_fwload_get(struct snd_kcontrol *kcontrol,
-@@ -222,14 +215,12 @@ static int tas2781_force_fwload_get(struct snd_kcontrol *kcontrol,
- {
- 	struct tasdevice_priv *tas_priv = snd_kcontrol_chip(kcontrol);
- 
--	mutex_lock(&tas_priv->codec_lock);
-+	guard(mutex)(&tas_priv->codec_lock);
- 
- 	ucontrol->value.integer.value[0] = (int)tas_priv->force_fwload_status;
- 	dev_dbg(tas_priv->dev, "%s: kcontrol %s: %d\n",
- 		__func__, kcontrol->id.name, tas_priv->force_fwload_status);
- 
--	mutex_unlock(&tas_priv->codec_lock);
--
- 	return 0;
- }
- 
-@@ -239,7 +230,7 @@ static int tas2781_force_fwload_put(struct snd_kcontrol *kcontrol,
- 	struct tasdevice_priv *tas_priv = snd_kcontrol_chip(kcontrol);
- 	bool change, val = (bool)ucontrol->value.integer.value[0];
- 
--	mutex_lock(&tas_priv->codec_lock);
-+	guard(mutex)(&tas_priv->codec_lock);
- 
- 	dev_dbg(tas_priv->dev, "%s: kcontrol %s: %d -> %d\n",
- 		__func__, kcontrol->id.name,
-@@ -252,8 +243,6 @@ static int tas2781_force_fwload_put(struct snd_kcontrol *kcontrol,
- 		tas_priv->force_fwload_status = val;
- 	}
- 
--	mutex_unlock(&tas_priv->codec_lock);
--
- 	return change;
- }
- 
-@@ -711,7 +700,7 @@ static int tas2781_runtime_suspend(struct device *dev)
- 
- 	dev_dbg(tas_hda->dev, "Runtime Suspend\n");
- 
--	mutex_lock(&tas_hda->priv->codec_lock);
-+	guard(mutex)(&tas_hda->priv->codec_lock);
- 
- 	/* The driver powers up the amplifiers at module load time.
- 	 * Stop the playback if it's unused.
-@@ -721,8 +710,6 @@ static int tas2781_runtime_suspend(struct device *dev)
- 		tas_hda->priv->playback_started = false;
- 	}
- 
--	mutex_unlock(&tas_hda->priv->codec_lock);
--
- 	return 0;
- }
- 
-@@ -732,12 +719,10 @@ static int tas2781_runtime_resume(struct device *dev)
- 
- 	dev_dbg(tas_hda->dev, "Runtime Resume\n");
- 
--	mutex_lock(&tas_hda->priv->codec_lock);
-+	guard(mutex)(&tas_hda->priv->codec_lock);
- 
- 	tasdevice_prmg_load(tas_hda->priv, tas_hda->priv->cur_prog);
- 
--	mutex_unlock(&tas_hda->priv->codec_lock);
--
- 	return 0;
- }
- 
-@@ -747,14 +732,12 @@ static int tas2781_system_suspend(struct device *dev)
- 
- 	dev_dbg(tas_hda->priv->dev, "System Suspend\n");
- 
--	mutex_lock(&tas_hda->priv->codec_lock);
-+	guard(mutex)(&tas_hda->priv->codec_lock);
- 
- 	/* Shutdown chip before system suspend */
- 	if (tas_hda->priv->playback_started)
- 		tasdevice_tuning_switch(tas_hda->priv, 1);
- 
--	mutex_unlock(&tas_hda->priv->codec_lock);
--
- 	/*
- 	 * Reset GPIO may be shared, so cannot reset here.
- 	 * However beyond this point, amps may be powered down.
-@@ -769,7 +752,7 @@ static int tas2781_system_resume(struct device *dev)
- 
- 	dev_dbg(tas_hda->priv->dev, "System Resume\n");
- 
--	mutex_lock(&tas_hda->priv->codec_lock);
-+	guard(mutex)(&tas_hda->priv->codec_lock);
- 
- 	for (i = 0; i < tas_hda->priv->ndev; i++) {
- 		tas_hda->priv->tasdevice[i].cur_book = -1;
-@@ -782,8 +765,6 @@ static int tas2781_system_resume(struct device *dev)
- 	if (tas_hda->priv->playback_started)
- 		tasdevice_tuning_switch(tas_hda->priv, 0);
- 
--	mutex_unlock(&tas_hda->priv->codec_lock);
--
- 	return 0;
- }
- 
--- 
-2.50.1
 
