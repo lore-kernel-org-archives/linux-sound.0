@@ -1,86 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E331D32C318
-	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 09:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55DA342CBE
+	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 09:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756286472; cv=none; b=Ulrq1PwDORQX4alLhUUAGfA5GjZ8llrwVSPuagRqtAvKJfxdom5Sk/MWUtCBDe5TiOp1rHF9XpRLpzMVHdAWtOxuMSYRoCEjE8PbI12r/bxyyMuJV4O2DPPPddn07oXtg/xro8Ccoq3y8ZZ9dPTf3ObWMRfAZJ4Pvj9rSLPyWuo=
+	t=1756286474; cv=none; b=pvU+3qf7vDqAMxVw9+2NqAjyy43SQH6bFXPoll4RS/uSjI28ZOgtPH6NWUKVCWIpgmhFbkMwRlui3GQ4P1xyUA2jDWH3N+9CQEIFFnGG7el3Dcp7pEjYbPR4zLc2i5I79dO/R5KASqIlhJmdn2SYNz1fz+3XuYklRdg5Y4LM66c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756286472; c=relaxed/simple;
-	bh=5J5S8AJaU5x3gl7ljPHkD4c3vpBn3f2xXN9Jy25CLRs=;
+	s=arc-20240116; t=1756286474; c=relaxed/simple;
+	bh=KN9Fl8REajXglJ6pXTrMvw5fT4KZ8GS8RNRvdC9KraM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fi0URJl5nrvT8wDIB428jO5yHelNBEdEH/A0gbmi2z0/ZYXPYN99D9dXGK8eqhrl+ebyoB5uCu6OUfET73CE8WiqNgwj9p/hHeNN/+D7S7YsKDf/q4aRNNOfCxQtd30W1a0i25jwR6a3uBZX/KJO/3/vazzsnex2+HqK9EdawKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JO1sI4hk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4NAT3OXp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JO1sI4hk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4NAT3OXp; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=A2pRrplPH1GFfWz4r1UtVcmU7FI0wB8/Vck86dpHxQPJLng0noMw1LdrImxNyKvjUdAfKe8iu9WL7Se2H8RNuTQ/MckzVVJDGP7CoOJLfHocCBtp1LvOzJ0NHO4ovXjiZb1V9+G6ag5HZTYBZwH3AtHVlWUZPzAniQyuk57hQQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=O+oRRMuq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Pz7BgWEj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=O+oRRMuq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Pz7BgWEj; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JO1sI4hk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4NAT3OXp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JO1sI4hk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4NAT3OXp"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="O+oRRMuq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Pz7BgWEj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="O+oRRMuq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Pz7BgWEj"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 027E81FFC7;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 73D7922233;
 	Wed, 27 Aug 2025 09:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756286425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v6lYccxddkk4cfpmQVkUvC+JXNtrTSLurryIAj1C5rQ=;
-	b=JO1sI4hkFVav1+A/QayKAC+2o3qoIrhedU9TqL2o5s2PTxvoevSt0Z3fkaXqp73XnU1ntJ
-	oOAga3KFodVv9+vJEyA1+ewsw9Sv/HS0sZfgw1D/iCC0K1/Mk/qR8jKdpXp3UrQ0n7TBTx
-	Lv0RcuRxhPUEiKg6/9zSG1n1WQ0RzME=
+	bh=CJd2C0dVGebw6I1gE2eWz1T9Lm2pL3dIS0AbqsZJTkI=;
+	b=O+oRRMuqESU/aBiHKtG3+X07j4SC8xR37UBECl2hGholk57LIXTeZ2MR0K09Hf6PSUURPV
+	FKFWPE6WszQhKIdrkCX6mTfjrZO0GdI2r2xKNQCrGmPrD7jbGrYF7Oo0RkugxdJQ0xlGd6
+	FpOsU02idrdQ2dGW13PR8Mb8fJ+/hX8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756286425;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v6lYccxddkk4cfpmQVkUvC+JXNtrTSLurryIAj1C5rQ=;
-	b=4NAT3OXpBlSA4AfCLL3V48Bqa48xRk7R9WOuVjWA5AvrwVm8og3+jq+5YF3+KrGHdUavi+
-	wwoVCgvUFG5zfoDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JO1sI4hk;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4NAT3OXp
+	bh=CJd2C0dVGebw6I1gE2eWz1T9Lm2pL3dIS0AbqsZJTkI=;
+	b=Pz7BgWEjsymRpKaMYVtR/Qw1Z2F4CEy6CxG4+cqY6G/Ec0SRBhSzNUCx0XtephR/dpzcnJ
+	TftpiE4L+E0wBhCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=O+oRRMuq;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Pz7BgWEj
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756286425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v6lYccxddkk4cfpmQVkUvC+JXNtrTSLurryIAj1C5rQ=;
-	b=JO1sI4hkFVav1+A/QayKAC+2o3qoIrhedU9TqL2o5s2PTxvoevSt0Z3fkaXqp73XnU1ntJ
-	oOAga3KFodVv9+vJEyA1+ewsw9Sv/HS0sZfgw1D/iCC0K1/Mk/qR8jKdpXp3UrQ0n7TBTx
-	Lv0RcuRxhPUEiKg6/9zSG1n1WQ0RzME=
+	bh=CJd2C0dVGebw6I1gE2eWz1T9Lm2pL3dIS0AbqsZJTkI=;
+	b=O+oRRMuqESU/aBiHKtG3+X07j4SC8xR37UBECl2hGholk57LIXTeZ2MR0K09Hf6PSUURPV
+	FKFWPE6WszQhKIdrkCX6mTfjrZO0GdI2r2xKNQCrGmPrD7jbGrYF7Oo0RkugxdJQ0xlGd6
+	FpOsU02idrdQ2dGW13PR8Mb8fJ+/hX8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756286425;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v6lYccxddkk4cfpmQVkUvC+JXNtrTSLurryIAj1C5rQ=;
-	b=4NAT3OXpBlSA4AfCLL3V48Bqa48xRk7R9WOuVjWA5AvrwVm8og3+jq+5YF3+KrGHdUavi+
-	wwoVCgvUFG5zfoDw==
+	bh=CJd2C0dVGebw6I1gE2eWz1T9Lm2pL3dIS0AbqsZJTkI=;
+	b=Pz7BgWEjsymRpKaMYVtR/Qw1Z2F4CEy6CxG4+cqY6G/Ec0SRBhSzNUCx0XtephR/dpzcnJ
+	TftpiE4L+E0wBhCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E63A913A31;
-	Wed, 27 Aug 2025 09:20:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 60AC113A31;
+	Wed, 27 Aug 2025 09:20:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qBO3N9jNrmiFEgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 09:20:24 +0000
+	id GDwSF9nNrmiFEgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 09:20:25 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	Clemens Ladisch <clemens@ladisch.de>
-Subject: [PATCH 11/19] ALSA: firewire: bebob: Use guard() for spin locks
-Date: Wed, 27 Aug 2025 11:20:05 +0200
-Message-ID: <20250827092017.29014-12-tiwai@suse.de>
+Subject: [PATCH 17/19] ALSA: firewire: oxfw: Use guard() for spin locks
+Date: Wed, 27 Aug 2025 11:20:11 +0200
+Message-ID: <20250827092017.29014-18-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250827092017.29014-1-tiwai@suse.de>
 References: <20250827092017.29014-1-tiwai@suse.de>
@@ -91,37 +91,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 73D7922233
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_HAS_DN(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 027E81FFC7
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	R_RATELIMIT(0.00)[to_ip_from(RLoh6gpjpepziq6z1gge5pcxxt)];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email]
 X-Spam-Score: -3.01
 
 Clean up the code using guard() for spin locks.
@@ -130,48 +131,48 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/firewire/bebob/bebob_hwdep.c  | 37 ++++++++---------------------
- sound/firewire/bebob/bebob_midi.c   | 10 ++------
- sound/firewire/bebob/bebob_stream.c | 21 +++++-----------
+ sound/firewire/oxfw/oxfw-hwdep.c  | 37 +++++++++----------------------
+ sound/firewire/oxfw/oxfw-midi.c   | 10 ++-------
+ sound/firewire/oxfw/oxfw-stream.c | 21 +++++-------------
  3 files changed, 18 insertions(+), 50 deletions(-)
 
-diff --git a/sound/firewire/bebob/bebob_hwdep.c b/sound/firewire/bebob/bebob_hwdep.c
-index 5779e99a6bb2..216d1fceb6e7 100644
---- a/sound/firewire/bebob/bebob_hwdep.c
-+++ b/sound/firewire/bebob/bebob_hwdep.c
-@@ -53,18 +53,14 @@ static __poll_t
- hwdep_poll(struct snd_hwdep *hwdep, struct file *file, poll_table *wait)
+diff --git a/sound/firewire/oxfw/oxfw-hwdep.c b/sound/firewire/oxfw/oxfw-hwdep.c
+index 3be214d8a922..f8ac362fc73a 100644
+--- a/sound/firewire/oxfw/oxfw-hwdep.c
++++ b/sound/firewire/oxfw/oxfw-hwdep.c
+@@ -53,18 +53,14 @@ static __poll_t hwdep_poll(struct snd_hwdep *hwdep, struct file *file,
+ 			       poll_table *wait)
  {
- 	struct snd_bebob *bebob = hwdep->private_data;
+ 	struct snd_oxfw *oxfw = hwdep->private_data;
 -	__poll_t events;
  
- 	poll_wait(file, &bebob->hwdep_wait, wait);
+ 	poll_wait(file, &oxfw->hwdep_wait, wait);
  
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
- 	if (bebob->dev_lock_changed)
+-	spin_lock_irq(&oxfw->lock);
++	guard(spinlock_irq)(&oxfw->lock);
+ 	if (oxfw->dev_lock_changed)
 -		events = EPOLLIN | EPOLLRDNORM;
 +		return EPOLLIN | EPOLLRDNORM;
  	else
 -		events = 0;
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&oxfw->lock);
 -
 -	return events;
 +		return 0;
  }
  
- static int
-@@ -90,39 +86,27 @@ hwdep_get_info(struct snd_bebob *bebob, void __user *arg)
- static int
- hwdep_lock(struct snd_bebob *bebob)
+ static int hwdep_get_info(struct snd_oxfw *oxfw, void __user *arg)
+@@ -88,48 +84,35 @@ static int hwdep_get_info(struct snd_oxfw *oxfw, void __user *arg)
+ 
+ static int hwdep_lock(struct snd_oxfw *oxfw)
  {
 -	int err;
 -
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
+-	spin_lock_irq(&oxfw->lock);
++	guard(spinlock_irq)(&oxfw->lock);
  
- 	if (bebob->dev_lock_count == 0) {
- 		bebob->dev_lock_count = -1;
+ 	if (oxfw->dev_lock_count == 0) {
+ 		oxfw->dev_lock_count = -1;
 -		err = 0;
 +		return 0;
  	} else {
@@ -179,21 +180,20 @@ index 5779e99a6bb2..216d1fceb6e7 100644
 +		return -EBUSY;
  	}
 -
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&oxfw->lock);
 -
 -	return err;
  }
  
- static int
- hwdep_unlock(struct snd_bebob *bebob)
+ static int hwdep_unlock(struct snd_oxfw *oxfw)
  {
 -	int err;
 -
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
+-	spin_lock_irq(&oxfw->lock);
++	guard(spinlock_irq)(&oxfw->lock);
  
- 	if (bebob->dev_lock_count == -1) {
- 		bebob->dev_lock_count = 0;
+ 	if (oxfw->dev_lock_count == -1) {
+ 		oxfw->dev_lock_count = 0;
 -		err = 0;
 +		return 0;
  	} else {
@@ -201,109 +201,108 @@ index 5779e99a6bb2..216d1fceb6e7 100644
 +		return -EBADFD;
  	}
 -
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&oxfw->lock);
 -
 -	return err;
  }
  
- static int
-@@ -130,10 +114,9 @@ hwdep_release(struct snd_hwdep *hwdep, struct file *file)
+ static int hwdep_release(struct snd_hwdep *hwdep, struct file *file)
  {
- 	struct snd_bebob *bebob = hwdep->private_data;
+ 	struct snd_oxfw *oxfw = hwdep->private_data;
  
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
- 	if (bebob->dev_lock_count == -1)
- 		bebob->dev_lock_count = 0;
--	spin_unlock_irq(&bebob->lock);
+-	spin_lock_irq(&oxfw->lock);
++	guard(spinlock_irq)(&oxfw->lock);
+ 	if (oxfw->dev_lock_count == -1)
+ 		oxfw->dev_lock_count = 0;
+-	spin_unlock_irq(&oxfw->lock);
  
  	return 0;
  }
-diff --git a/sound/firewire/bebob/bebob_midi.c b/sound/firewire/bebob/bebob_midi.c
-index 5fd2d363de52..678631f31d3c 100644
---- a/sound/firewire/bebob/bebob_midi.c
-+++ b/sound/firewire/bebob/bebob_midi.c
-@@ -47,9 +47,8 @@ static int midi_close(struct snd_rawmidi_substream *substream)
+diff --git a/sound/firewire/oxfw/oxfw-midi.c b/sound/firewire/oxfw/oxfw-midi.c
+index 7f757f02a877..a16bf885f918 100644
+--- a/sound/firewire/oxfw/oxfw-midi.c
++++ b/sound/firewire/oxfw/oxfw-midi.c
+@@ -84,9 +84,8 @@ static int midi_playback_close(struct snd_rawmidi_substream *substream)
  static void midi_capture_trigger(struct snd_rawmidi_substream *substrm, int up)
  {
- 	struct snd_bebob *bebob = substrm->rmidi->private_data;
+ 	struct snd_oxfw *oxfw = substrm->rmidi->private_data;
 -	unsigned long flags;
  
--	spin_lock_irqsave(&bebob->lock, flags);
-+	guard(spinlock_irqsave)(&bebob->lock);
+-	spin_lock_irqsave(&oxfw->lock, flags);
++	guard(spinlock_irqsave)(&oxfw->lock);
  
  	if (up)
- 		amdtp_am824_midi_trigger(&bebob->tx_stream,
-@@ -57,16 +56,13 @@ static void midi_capture_trigger(struct snd_rawmidi_substream *substrm, int up)
+ 		amdtp_am824_midi_trigger(&oxfw->tx_stream,
+@@ -94,16 +93,13 @@ static void midi_capture_trigger(struct snd_rawmidi_substream *substrm, int up)
  	else
- 		amdtp_am824_midi_trigger(&bebob->tx_stream,
+ 		amdtp_am824_midi_trigger(&oxfw->tx_stream,
  					 substrm->number, NULL);
 -
--	spin_unlock_irqrestore(&bebob->lock, flags);
+-	spin_unlock_irqrestore(&oxfw->lock, flags);
  }
  
  static void midi_playback_trigger(struct snd_rawmidi_substream *substrm, int up)
  {
- 	struct snd_bebob *bebob = substrm->rmidi->private_data;
+ 	struct snd_oxfw *oxfw = substrm->rmidi->private_data;
 -	unsigned long flags;
  
--	spin_lock_irqsave(&bebob->lock, flags);
-+	guard(spinlock_irqsave)(&bebob->lock);
+-	spin_lock_irqsave(&oxfw->lock, flags);
++	guard(spinlock_irqsave)(&oxfw->lock);
  
  	if (up)
- 		amdtp_am824_midi_trigger(&bebob->rx_stream,
-@@ -74,8 +70,6 @@ static void midi_playback_trigger(struct snd_rawmidi_substream *substrm, int up)
+ 		amdtp_am824_midi_trigger(&oxfw->rx_stream,
+@@ -111,8 +107,6 @@ static void midi_playback_trigger(struct snd_rawmidi_substream *substrm, int up)
  	else
- 		amdtp_am824_midi_trigger(&bebob->rx_stream,
+ 		amdtp_am824_midi_trigger(&oxfw->rx_stream,
  					 substrm->number, NULL);
 -
--	spin_unlock_irqrestore(&bebob->lock, flags);
+-	spin_unlock_irqrestore(&oxfw->lock, flags);
  }
  
- static void set_midi_substream_names(struct snd_bebob *bebob,
-diff --git a/sound/firewire/bebob/bebob_stream.c b/sound/firewire/bebob/bebob_stream.c
-index 8629b14ded76..449cb17717f0 100644
---- a/sound/firewire/bebob/bebob_stream.c
-+++ b/sound/firewire/bebob/bebob_stream.c
-@@ -964,33 +964,24 @@ void snd_bebob_stream_lock_changed(struct snd_bebob *bebob)
+ static void set_midi_substream_names(struct snd_oxfw *oxfw,
+diff --git a/sound/firewire/oxfw/oxfw-stream.c b/sound/firewire/oxfw/oxfw-stream.c
+index 00f7feb91f92..5e36d7153a7b 100644
+--- a/sound/firewire/oxfw/oxfw-stream.c
++++ b/sound/firewire/oxfw/oxfw-stream.c
+@@ -866,33 +866,24 @@ void snd_oxfw_stream_lock_changed(struct snd_oxfw *oxfw)
  
- int snd_bebob_stream_lock_try(struct snd_bebob *bebob)
+ int snd_oxfw_stream_lock_try(struct snd_oxfw *oxfw)
  {
 -	int err;
 -
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
+-	spin_lock_irq(&oxfw->lock);
++	guard(spinlock_irq)(&oxfw->lock);
  
  	/* user land lock this */
--	if (bebob->dev_lock_count < 0) {
+-	if (oxfw->dev_lock_count < 0) {
 -		err = -EBUSY;
 -		goto end;
 -	}
-+	if (bebob->dev_lock_count < 0)
++	if (oxfw->dev_lock_count < 0)
 +		return -EBUSY;
  
  	/* this is the first time */
- 	if (bebob->dev_lock_count++ == 0)
- 		snd_bebob_stream_lock_changed(bebob);
+ 	if (oxfw->dev_lock_count++ == 0)
+ 		snd_oxfw_stream_lock_changed(oxfw);
 -	err = 0;
 -end:
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&oxfw->lock);
 -	return err;
 +	return 0;
  }
  
- void snd_bebob_stream_lock_release(struct snd_bebob *bebob)
+ void snd_oxfw_stream_lock_release(struct snd_oxfw *oxfw)
  {
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
+-	spin_lock_irq(&oxfw->lock);
++	guard(spinlock_irq)(&oxfw->lock);
  
- 	if (WARN_ON(bebob->dev_lock_count <= 0))
+ 	if (WARN_ON(oxfw->dev_lock_count <= 0))
 -		goto end;
 +		return;
- 	if (--bebob->dev_lock_count == 0)
- 		snd_bebob_stream_lock_changed(bebob);
+ 	if (--oxfw->dev_lock_count == 0)
+ 		snd_oxfw_stream_lock_changed(oxfw);
 -end:
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&oxfw->lock);
  }
 -- 
 2.50.1
