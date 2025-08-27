@@ -1,189 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7F0304BDB;
-	Wed, 27 Aug 2025 03:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593E2275872
+	for <linux-sound@vger.kernel.org>; Wed, 27 Aug 2025 05:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756265344; cv=none; b=iwATy8jT5WyvsQ4IZSF3lUJUo8RNK3/7EkfJn95LVSm2918Gov4RxynkwYIldRCgO0FV+OQg7m1o2B9womo8XHyCJ5eQ8tPlx4iHj7o8PD9GFaq+G+W5DteKeq9BCcgM3RKzBpQsT0pxh5wUwR8NsmHOnUZ+4El0OrYOOwe2JOg=
+	t=1756274190; cv=none; b=dXw6GHEn55EP05E87l+fzg01hUlfGOWdm1YqE6sVXbMEoOXjLQISnK9PiRQI3PmYZIIIKrbL2rwodkw5KwcZp64i+7qYxfhTKlKhJiMQTDd2zyQ0LISkYmmvasfevTU59kYMGA5WdrECD9pwDjWEg+AUJTCH5DARwQByGeIefJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756265344; c=relaxed/simple;
-	bh=UOtn/EgV9OgwgFU9YlJ9O3EdVzi26FriVBDF0GKjUhk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CMQD1VlMse76cNNZyL0mF+EiSmVAOsqd5ixXjUb1cqBIiJYBamAPiSxdDazHEbPA3f5ktpbSaButapyAcgNH6DCV1Dxooh7Ue/2zai5ngydJEO1hsDkJDMI8+NtVhkqBnfyv8Ej8qkuMG6J8Z8dYVniVaF2LrXel1YeFcTamnhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m3MzqBYq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756274190; c=relaxed/simple;
+	bh=8KGQ2U30WB0kF//3bk0bGjDhq+uOCKuLnyUORX8VUYI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DZiLaZJSD0pC9YfZh2dPybCqmD2JZDLA6HvrN3GNs3BhB8ZjtNb60qJbS+z3UTeBQRFvgAkJD368TMwTJR6FR+3ib9Fpr01R1y4FCb4hBluk1h1c1hcD/Q+stvTJcaRP147VS7xHuKPjxti44ZZamswpuJEX2ZZxHSsR08nCgy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vdM3fXRk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ubY41WTn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vdM3fXRk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ubY41WTn; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m3MzqBYq"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 10BCFC4CEEB;
-	Wed, 27 Aug 2025 03:29:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756265344;
-	bh=UOtn/EgV9OgwgFU9YlJ9O3EdVzi26FriVBDF0GKjUhk=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=m3MzqBYqHAAts9rzbqDmknS5YiSt7jMgcM/VzOZZJtJk4SuAclpzGF/TPigwttYPD
-	 6LxuIiEQPYoz1W5OwB2cPYjb9GwGcW/agGq/lWoaQcSTH5aq+L5MUSSkWklG5Hy88z
-	 VoZXw7AtuJnymzxy6YHRQggFERnnTZxl77OEvfRW/yko7ixE0gaXiJW/DejkJYVxT3
-	 cKOBvVgqbZ/rnlX4bb18ht9CSHPgwErCIGjzXCDvB55qSdUcSJySXjWVorGlGN228c
-	 L2dzixzQh6iODGTDacxvhRZOxn4LFx/062o6rLXNI+eatyiT12OdyCqe6RzEL99LXZ
-	 myd+Yi5xpmkxg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1FAECA0EFF;
-	Wed, 27 Aug 2025 03:29:03 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Wed, 27 Aug 2025 11:29:02 +0800
-Subject: [PATCH] ALSA: usb-audio: move mixer_quirks' min_mute into common
- quirk
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vdM3fXRk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ubY41WTn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vdM3fXRk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ubY41WTn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 178261FDF0;
+	Wed, 27 Aug 2025 05:56:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756274186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y7l7PrgkDJSFVY+UvFVbNmqI5owAG0Awi1MO5Vsi6Hc=;
+	b=vdM3fXRk4kU3gF15JsbgfiyZ2ihKQ2lz/mCLEZ4fVqFo5iTTDhe2axwZ0EVSnqfTF9pWC6
+	cxS+2aIxv/d+gZFYm8xiPck94cIgGWvinwPRKbCHx3oqYUtZFj3J/ewVZhCQT/ReOQ0mQ/
+	SZfqUSv3Xot8Xu9oG5fVvYQUCqQZ9D0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756274186;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y7l7PrgkDJSFVY+UvFVbNmqI5owAG0Awi1MO5Vsi6Hc=;
+	b=ubY41WTnwT6crFwBQ0wklHGYGHAOko0+eQ/0c8NDuF//LLeKLj17uVV/1oBqqaLd29l57o
+	LIbMeiyZjHdHDpAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vdM3fXRk;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ubY41WTn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756274186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y7l7PrgkDJSFVY+UvFVbNmqI5owAG0Awi1MO5Vsi6Hc=;
+	b=vdM3fXRk4kU3gF15JsbgfiyZ2ihKQ2lz/mCLEZ4fVqFo5iTTDhe2axwZ0EVSnqfTF9pWC6
+	cxS+2aIxv/d+gZFYm8xiPck94cIgGWvinwPRKbCHx3oqYUtZFj3J/ewVZhCQT/ReOQ0mQ/
+	SZfqUSv3Xot8Xu9oG5fVvYQUCqQZ9D0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756274186;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y7l7PrgkDJSFVY+UvFVbNmqI5owAG0Awi1MO5Vsi6Hc=;
+	b=ubY41WTnwT6crFwBQ0wklHGYGHAOko0+eQ/0c8NDuF//LLeKLj17uVV/1oBqqaLd29l57o
+	LIbMeiyZjHdHDpAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A584013310;
+	Wed, 27 Aug 2025 05:56:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QjjfJgmermhpTwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 27 Aug 2025 05:56:25 +0000
+Date: Wed, 27 Aug 2025 07:56:25 +0200
+Message-ID: <874itti9yu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: cryolitia@uniontech.com,
+	Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Kexy Biscuit <kexybiscuit@aosc.io>,
+	Wang Yuli <wangyuli@deepin.org>,
+	Guan Wentao <guanwentao@uniontech.com>,
+	Nie Cheng <niecheng1@uniontech.com>,
+	Zhan Jun <zhanjun@uniontech.com>,
+	Celeste Liu <CoelacanthusHex@gmail.com>,
+	Guoli An <anguoli@uniontech.com>
+Subject: Re: [PATCH] ALSA: usb-audio: move mixer_quirks' min_mute into common quirk
+In-Reply-To: <20250827-sound-quirk-min-mute-v1-1-4717aa8a4f6a@uniontech.com>
+References: <20250827-sound-quirk-min-mute-v1-1-4717aa8a4f6a@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250827-sound-quirk-min-mute-v1-1-4717aa8a4f6a@uniontech.com>
-X-B4-Tracking: v=1; b=H4sIAH17rmgC/x3MTQ5AMBBA4avIrE1SQxtxFbHwM5iIolWRiLtrL
- L/Few94dsIequQBx5d42WxElibQz62dGGWIBlKkVUkG/RbsgEcQt+AqFtdwMpYZ5Zo61ZqugJj
- ujke5/23dvO8HPNLnZ2YAAAA=
-X-Change-ID: 20250826-sound-quirk-min-mute-812352b0a6b4
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
- Wang Yuli <wangyuli@deepin.org>, Guan Wentao <guanwentao@uniontech.com>, 
- Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
- Celeste Liu <CoelacanthusHex@gmail.com>, Guoli An <anguoli@uniontech.com>, 
- Cryolitia PukNgae <cryolitia@uniontech.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756265342; l=5419;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=XM4ODXE91Bv/DpvME8axcOEDeEvWXinY6fXYQ3VvonM=;
- b=KKjy1xNjC7ijCwUpbdaYMUlrqS3ki5Xzkennqj6EpYPywDgVMiSOylGRim2B141goHfcZz5t+
- Cx1JMYYk/QdBnxMG9zXeHGcFDuTqr0LN4uvTJcqrn+10rhZqwfHlAzr
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,aosc.io,deepin.org,uniontech.com,gmail.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[cryolitia.uniontech.com];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 178261FDF0
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+On Wed, 27 Aug 2025 05:29:02 +0200,
+Cryolitia PukNgae via B4 Relay wrote:
+> 
+> From: Cryolitia PukNgae <cryolitia@uniontech.com>
+> 
+> We have found more and more devices that have the same problem, that
+> the mixer's minimum value is muted. Accroding to pipewire's MR[1]
+> and Arch Linux wiki[2], this should be a very common problem in USB
+> audio devices. Move the quirk into common quirk,as a preparation of
+> more devices' quirk's patch coming on the road[3].
+> 
+> 1. https://gitlab.freedesktop.org/pipewire/pipewire/-/merge_requests/2514
+> 2. https://wiki.archlinux.org/index.php?title=PipeWire&oldid=804138#No_sound_from_USB_DAC_until_30%_volume
+> 3. On the road, in the physical sense. We have been buying ton of
+>    these devices for testing the problem.
+> 
+> Tested-by: Guoli An <anguoli@uniontech.com>
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+> ---
+> I also would like to know if the quirk worth a kernel param.
 
-We have found more and more devices that have the same problem, that
-the mixer's minimum value is muted. Accroding to pipewire's MR[1]
-and Arch Linux wiki[2], this should be a very common problem in USB
-audio devices. Move the quirk into common quirk,as a preparation of
-more devices' quirk's patch coming on the road[3].
-
-1. https://gitlab.freedesktop.org/pipewire/pipewire/-/merge_requests/2514
-2. https://wiki.archlinux.org/index.php?title=PipeWire&oldid=804138#No_sound_from_USB_DAC_until_30%_volume
-3. On the road, in the physical sense. We have been buying ton of
-   these devices for testing the problem.
-
-Tested-by: Guoli An <anguoli@uniontech.com>
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
----
-I also would like to know if the quirk worth a kernel param.
----
- sound/usb/mixer_quirks.c | 10 +++-------
- sound/usb/quirks.c       | 12 ++++++++++--
- sound/usb/usbaudio.h     |  4 ++++
- 3 files changed, 17 insertions(+), 9 deletions(-)
-
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 48e8c2014f0f27406ddca29f36e8b1d03be92f31..b8275c81802e60314ee483a31a0fcb7306b24c76 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -4540,16 +4540,12 @@ void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_interface *mixer,
- 		if (unitid == 7 && cval->control == UAC_FU_VOLUME)
- 			snd_dragonfly_quirk_db_scale(mixer, cval, kctl);
- 		break;
-+	}
-+
- 	/* lowest playback value is muted on some devices */
--	case USB_ID(0x0572, 0x1b09): /* Conexant Systems (Rockwell), Inc. */
--	case USB_ID(0x0d8c, 0x000c): /* C-Media */
--	case USB_ID(0x0d8c, 0x0014): /* C-Media */
--	case USB_ID(0x19f7, 0x0003): /* RODE NT-USB */
--	case USB_ID(0x2d99, 0x0026): /* HECATE G2 GAMING HEADSET */
-+	if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_MIN_MUTE)
- 		if (strstr(kctl->id.name, "Playback"))
- 			cval->min_mute = 1;
--		break;
--	}
- 
- 	/* ALSA-ify some Plantronics headset control names */
- 	if (USB_ID_VENDOR(mixer->chip->usb_id) == 0x047f &&
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index e75b0b1df6eb2120b1446b7bd54f3ba50a79f567..8bc1e247cdf1af0a3e9c506830d8428a86c25595 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2199,6 +2199,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_SET_IFACE_FIRST),
- 	DEVICE_FLG(0x0556, 0x0014, /* Phoenix Audio TMX320VC */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+	DEVICE_FLG(0x0572, 0x1b09, /* Conexant Systems (Rockwell), Inc. */
-+		   QUIRK_FLAG_MIXER_MIN_MUTE),
- 	DEVICE_FLG(0x05a3, 0x9420, /* ELP HD USB Camera */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x05a7, 0x1020, /* Bose Companion 5 */
-@@ -2245,8 +2247,10 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x0c45, 0x636b, /* Microdia JP001 USB Camera */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
--	DEVICE_FLG(0x0d8c, 0x0014, /* USB Audio Device */
--		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-+	DEVICE_FLG(0x0d8c, 0x000c, /* C-Media */
-+		   QUIRK_FLAG_MIXER_MIN_MUTE),
-+	DEVICE_FLG(0x0d8c, 0x0014, /* C-Media */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIXER_MIN_MUTE),
- 	DEVICE_FLG(0x0ecb, 0x205c, /* JBL Quantum610 Wireless */
- 		   QUIRK_FLAG_FIXED_RATE),
- 	DEVICE_FLG(0x0ecb, 0x2069, /* JBL Quantum810 Wireless */
-@@ -2293,6 +2297,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
- 	DEVICE_FLG(0x1901, 0x0191, /* GE B850V3 CP2114 audio interface */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+	DEVICE_FLG(0x19f7, 0x0003, /* RODE NT-USB */
-+		   QUIRK_FLAG_MIXER_MIN_MUTE),
- 	DEVICE_FLG(0x19f7, 0x0035, /* RODE NT-USB+ */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x1bcf, 0x2281, /* HD Webcam */
-@@ -2353,6 +2359,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
- 	DEVICE_FLG(0x2d95, 0x8021, /* VIVO USB-C-XE710 HEADSET */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-+	DEVICE_FLG(0x2d99, 0x0026, /* HECATE G2 GAMING HEADSET */
-+		   QUIRK_FLAG_MIXER_MIN_MUTE),
- 	DEVICE_FLG(0x2fc6, 0xf0b7, /* iBasso DC07 Pro */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
- 	DEVICE_FLG(0x30be, 0x0101, /* Schiit Hel */
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index 7521098ba391c04a83c2b6b6180c88c52ac6c5dc..59335b94103004b900285e4990b971d74bf37532 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -219,6 +219,9 @@ extern bool snd_usb_skip_validation;
-  *  for the given endpoint.
-  * QUIRK_FLAG_MIC_RES_16 and QUIRK_FLAG_MIC_RES_384
-  *  Set the fixed resolution for Mic Capture Volume (mostly for webcams)
-+ * QUIRK_FLAG_MIXER_MIN_MUTE
-+ *  Set minimum volume control value as mute for devices where the lowest
-+ *  playback value represents muted state instead of minimum audible volume
-  */
- 
- #define QUIRK_FLAG_GET_SAMPLE_RATE	(1U << 0)
-@@ -245,5 +248,6 @@ extern bool snd_usb_skip_validation;
- #define QUIRK_FLAG_FIXED_RATE		(1U << 21)
- #define QUIRK_FLAG_MIC_RES_16		(1U << 22)
- #define QUIRK_FLAG_MIC_RES_384		(1U << 23)
-+#define QUIRK_FLAG_MIXER_MIN_MUTE	(1U << 24)
- 
- #endif /* __USBAUDIO_H */
-
----
-base-commit: 7656e95cbd3ee0c67bbedf0a184eb307bb9aa65f
-change-id: 20250826-sound-quirk-min-mute-812352b0a6b4
-
-Best regards,
--- 
-Cryolitia PukNgae <cryolitia@uniontech.com>
+If the workaround becomes common for various devices, it makes sense.
+Applied now to for-linus branch.
 
 
+thanks,
+
+Takashi
