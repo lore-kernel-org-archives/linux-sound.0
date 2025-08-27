@@ -1,192 +1,189 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130FE19DF6A;
-	Wed, 27 Aug 2025 01:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7F0304BDB;
+	Wed, 27 Aug 2025 03:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756256971; cv=none; b=FebVH28fgykKSxRLShy6zN7MVj5PzXx0C/0FdyIRfaI6FjQtVIIRpc9pmEHRa/ymFeEaGJCnJz0vb76/szkChS5sIx0cQxiio5MJteO5m7+RtzWSoQTVMkVUjHnUmoBb6XXtuw1TfUK8c175A46Zf3tzzIunv87I14YB87S65EE=
+	t=1756265344; cv=none; b=iwATy8jT5WyvsQ4IZSF3lUJUo8RNK3/7EkfJn95LVSm2918Gov4RxynkwYIldRCgO0FV+OQg7m1o2B9womo8XHyCJ5eQ8tPlx4iHj7o8PD9GFaq+G+W5DteKeq9BCcgM3RKzBpQsT0pxh5wUwR8NsmHOnUZ+4El0OrYOOwe2JOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756256971; c=relaxed/simple;
-	bh=niYjYnyBVkUaS+VEAYBdmWbeRY8+WA3IC2YXvYSH4F0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eQ3tervChRrYp/yh7k0LtAw1O9xMzX0bF/YhueFQjRnB6Xb+zTPze9DzCHt85FSumrYlC9VDH3aN6/bfW5xF3mhvK1bTSpRznICAfMx0PEn+0AjQEyjjPiEwx+2EYPItAYS8Cwegr51uD/IfDEDBz/E8QPwXZmvUe4SCQK/TUco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bsUQePlI; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756265344; c=relaxed/simple;
+	bh=UOtn/EgV9OgwgFU9YlJ9O3EdVzi26FriVBDF0GKjUhk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CMQD1VlMse76cNNZyL0mF+EiSmVAOsqd5ixXjUb1cqBIiJYBamAPiSxdDazHEbPA3f5ktpbSaButapyAcgNH6DCV1Dxooh7Ue/2zai5ngydJEO1hsDkJDMI8+NtVhkqBnfyv8Ej8qkuMG6J8Z8dYVniVaF2LrXel1YeFcTamnhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m3MzqBYq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bsUQePlI"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b47175d02dcso5201166a12.3;
-        Tue, 26 Aug 2025 18:09:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756256969; x=1756861769; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rYru9aDq9lQqkQVO+bwcYPZ+KioVEL3wdcshlzZLQl8=;
-        b=bsUQePlIR9gg1Gpp62JnbKgmkkcgGtENrHiZIBRaQtpx5xT2YMTjWBMDQtbWQ8kDLc
-         b8JCTzGwMYIV97NMwIS7ZhcRrH905hGbLyOTmS/hklPke48UDyovYrBosBxP7RKjotWS
-         OWNR/GEHXqiHW3ZlkphVknYKwo5ybqv6BbBDVexSYPeDU0u/E1rI/+Hm2L4aPHSyxj05
-         nyTiLRWnl+b6gUFY+l0G1peE+sgwI9VC55zWXNFNTnInW8/OTnHV8k+BFwSdtIOVSIL4
-         REn7RADiOe8izY/byKUHpvCehYgOkiGJ9NKZWR0gTGqIidEjRmbO2R7estr4f/IH7jEz
-         JjBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756256969; x=1756861769;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rYru9aDq9lQqkQVO+bwcYPZ+KioVEL3wdcshlzZLQl8=;
-        b=EBhdnr3Dx3N7EICrbEtw4gJov/TdwzuV262krBLjbGNPI9mKBn+81meMtel7gxakpT
-         D5VHhXqY+UnsjIIeyUHmL0yJtuV81grLABUqy310bfPhdhI3IUvcR6K9PE/aOllpoBDl
-         sNcprCmGjwJ5D93/DYfmDwOb/UWYIXAQ0IZNWqrhY7LNvkUzMY2UUNcPJ0ruUADw1+u8
-         5ew/gT7WmXEGJeaxPnFA04RTaO8eXmiGiu3IwOmtDxqr8YjwtNYmHno56bmB/WdEP+Bm
-         y1/mleNAklbnmkPwMTxtvTbS+u8AZc0PurpjqqLUbXKmkAhZf6k4y8SRxGEimH+q+uh5
-         55CQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVsmc17LoziqMqd9H8/ThRpxSngnfjHjtUBfnCaFMne2CB6oMrSfUOoOOCnI+DukjddlJhKgAOE/Mg+@vger.kernel.org, AJvYcCW23glR1QVyERMWhSAOL12IkjbRCs/fs/TnP1kLfOAmVU1FCuMxj9upFtsjA0CNei72iUiaAPwBHeEweM4=@vger.kernel.org, AJvYcCWF2waGmpaDezBmhyvs7VyPvpHJTWFqxFos0Va/ld12Jn9x3Qkt6L3u90dLlgurJG3Cc2g4j1Sw@vger.kernel.org, AJvYcCWL9D+fqsDscAtsBgA2uRGzjUDdiQ/GAZr8AQ9uWCcwPfbKF9t0SeqOeTpiQXLQCk5GlGCUVEov4Z5jt6nt@vger.kernel.org, AJvYcCWjIcbzBdYTYvIUWgEsDKJQm5q7mVOManBSYPp5kpl6gdazyV3ad1ArcYwucFh0GNuVxrV723Zthos=@vger.kernel.org, AJvYcCX2sb8jGWTBWzxEaglGy6bVhe7r9jG2Bqik+BgIgi+VnHZrRgqjq9bG5ChwqYWEPqHjqG5W+ppwFPmOrFk=@vger.kernel.org, AJvYcCXBJm92BPicg/VlMgCulS9C4ejjeY6xuEI8lZ0VQ6uj6/rdFAGoVKQtgVqgL/UtGDb4w4nV1MWJrBtr@vger.kernel.org, AJvYcCXRzQTnR6pJ6EVa7BhYGt3rPHFP1L+lLeCVZOiJwSpSkKslnD0EKFYLgzDf3rHgsUb9yKKJb1JOe8Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywm3mqJD1yACJW6SB+1ncL7fhqjzv/ry/tqy8msdOr3dqZn6Wmu
-	cT7urGvuEEAQ1q06ErHktf55zTAq0v6RLXci0D6JNCSwO/H85PB2o2aI
-X-Gm-Gg: ASbGnctKLv9wLp3PFtNM320SFCxshcdoorOi1/5+boAEOMrH2Ll/DAa2tJ1kZzFfP5M
-	IM2DPA+p7BL/I8LajBj5g1okOI7XQE2CwuxWUuKtLNDFv2XL4G/gC2rJuTraAxMBB25P1pTF4qE
-	XRJJi0lG4GS/b6xIH8XoHCjGbOIc2ZI6K2Mnmvn/B61+QKhE50jNGR4exJJWnxKyYj1Z21FWepv
-	P3xTnNsH7PfKGc+vzLhFEGVm37BUC4ZFxoJYnLPLaFGa0pysQ6JcRxLJ5jQGD34m2uEofBb3Q0b
-	m9H8XYhOjTLyT7BUBp4pkgBVOcGSuuoBLncS7BYWnutivzFIlxBg10oj5ZKIEx6WBf93CnGRMqf
-	eC8sKwjyH4qLcOw3pky74sjLjvPNivQZ5
-X-Google-Smtp-Source: AGHT+IHkfsVuZ+4qDUB9kGWXKNs3ixhtdzwAG20w+Ik2IkMK7IqkqBUunACMn5yLzf65+cgJRTumCw==
-X-Received: by 2002:a05:6a20:7286:b0:240:d7a:9591 with SMTP id adf61e73a8af0-24340d1c50amr25873828637.46.1756256969084;
-        Tue, 26 Aug 2025 18:09:29 -0700 (PDT)
-Received: from localhost ([216.228.127.130])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4a8b7b301csm6847632a12.35.2025.08.26.18.09.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Aug 2025 18:09:28 -0700 (PDT)
-Date: Tue, 26 Aug 2025 21:09:26 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH v3 00/20] BYEWORD_UPDATE: unifying (most) HIWORD_UPDATE
- macros
-Message-ID: <aK5aujavDc4PvvjO@yury>
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m3MzqBYq"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 10BCFC4CEEB;
+	Wed, 27 Aug 2025 03:29:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756265344;
+	bh=UOtn/EgV9OgwgFU9YlJ9O3EdVzi26FriVBDF0GKjUhk=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=m3MzqBYqHAAts9rzbqDmknS5YiSt7jMgcM/VzOZZJtJk4SuAclpzGF/TPigwttYPD
+	 6LxuIiEQPYoz1W5OwB2cPYjb9GwGcW/agGq/lWoaQcSTH5aq+L5MUSSkWklG5Hy88z
+	 VoZXw7AtuJnymzxy6YHRQggFERnnTZxl77OEvfRW/yko7ixE0gaXiJW/DejkJYVxT3
+	 cKOBvVgqbZ/rnlX4bb18ht9CSHPgwErCIGjzXCDvB55qSdUcSJySXjWVorGlGN228c
+	 L2dzixzQh6iODGTDacxvhRZOxn4LFx/062o6rLXNI+eatyiT12OdyCqe6RzEL99LXZ
+	 myd+Yi5xpmkxg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1FAECA0EFF;
+	Wed, 27 Aug 2025 03:29:03 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Date: Wed, 27 Aug 2025 11:29:02 +0800
+Subject: [PATCH] ALSA: usb-audio: move mixer_quirks' min_mute into common
+ quirk
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250827-sound-quirk-min-mute-v1-1-4717aa8a4f6a@uniontech.com>
+X-B4-Tracking: v=1; b=H4sIAH17rmgC/x3MTQ5AMBBA4avIrE1SQxtxFbHwM5iIolWRiLtrL
+ L/Few94dsIequQBx5d42WxElibQz62dGGWIBlKkVUkG/RbsgEcQt+AqFtdwMpYZ5Zo61ZqugJj
+ ujke5/23dvO8HPNLnZ2YAAAA=
+X-Change-ID: 20250826-sound-quirk-min-mute-812352b0a6b4
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
+ Wang Yuli <wangyuli@deepin.org>, Guan Wentao <guanwentao@uniontech.com>, 
+ Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
+ Celeste Liu <CoelacanthusHex@gmail.com>, Guoli An <anguoli@uniontech.com>, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756265342; l=5419;
+ i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
+ bh=XM4ODXE91Bv/DpvME8axcOEDeEvWXinY6fXYQ3VvonM=;
+ b=KKjy1xNjC7ijCwUpbdaYMUlrqS3ki5Xzkennqj6EpYPywDgVMiSOylGRim2B141goHfcZz5t+
+ Cx1JMYYk/QdBnxMG9zXeHGcFDuTqr0LN4uvTJcqrn+10rhZqwfHlAzr
+X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
+ auth_id=474
+X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Reply-To: cryolitia@uniontech.com
 
-Hi Nicolas,
+From: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-Thanks for the work!
+We have found more and more devices that have the same problem, that
+the mixer's minimum value is muted. Accroding to pipewire's MR[1]
+and Arch Linux wiki[2], this should be a very common problem in USB
+audio devices. Move the quirk into common quirk,as a preparation of
+more devices' quirk's patch coming on the road[3].
 
-On Mon, Aug 25, 2025 at 10:28:20AM +0200, Nicolas Frattaroli wrote:
-> This series was spawned by [1], where I was asked to move every instance
-> of HIWORD_UPDATE et al that I could find to a common macro in the same
-> series that I am introducing said common macro.
-> 
-> The first patch of the series introduces a new header file,
-> hw_bitfield.h, which contains two new macros: FIELD_PREP_WM16 and
-> FIELD_PREP_WM16_CONST. The latter can be used in initializers.
-> 
-> I've cheekily added the hw_bitfield.h header to the BITMAP API section
-> of the MAINTAINERS file.
-> 
-> This macro definition checks that the mask fits, and that the value fits
-> in the mask. Like FIELD_PREP, it also shifts the value up to the mask,
-> so turning off a bit does not require using the mask as a value. Masks
-> are also required to be contiguous, like with FIELD_PREP.
-> 
-> For each definition of such a macro, the driver(s) that used it were
-> evaluated for three different treatments:
->  - full conversion to the new macro, for cases where replacing the
->    implementation of the old macro wouldn't have worked, or where the
->    conversion was trivial. These are the most complex patches in this
->    series, as they sometimes have to pull apart definitions of masks
->    and values due to the new semantics, which require a contiguous
->    mask and shift the value for us.
->  - replacing the implementation of the old macro with an instance of the
->    new macro, done where I felt it made the patch much easier to review
->    because I didn't want to drop a big diff on people.
->  - skipping conversion entirely, usually because the mask is
->    non-constant and it's not trivial to make it constant. Sometimes an
->    added complication is that said non-constant mask is either used in a
->    path where runtime overhead may not be desirable, or in an
->    initializer.
-> 
-> Left out of conversion:
->  - drivers/mmc/host/sdhci-of-arasan.c: mask is non-constant.
+1. https://gitlab.freedesktop.org/pipewire/pipewire/-/merge_requests/2514
+2. https://wiki.archlinux.org/index.php?title=PipeWire&oldid=804138#No_sound_from_USB_DAC_until_30%_volume
+3. On the road, in the physical sense. We have been buying ton of
+   these devices for testing the problem.
 
-+ Michal Simek <michal.simek@amd.com>
+Tested-by: Guoli An <anguoli@uniontech.com>
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+---
+I also would like to know if the quirk worth a kernel param.
+---
+ sound/usb/mixer_quirks.c | 10 +++-------
+ sound/usb/quirks.c       | 12 ++++++++++--
+ sound/usb/usbaudio.h     |  4 ++++
+ 3 files changed, 17 insertions(+), 9 deletions(-)
 
->  - drivers/phy/rockchip/phy-rockchip-inno-csidphy.c: mask is
->    non-constant likely by way of runtime pointer dereferencing, even if
->    struct and members are made const.
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 48e8c2014f0f27406ddca29f36e8b1d03be92f31..b8275c81802e60314ee483a31a0fcb7306b24c76 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -4540,16 +4540,12 @@ void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_interface *mixer,
+ 		if (unitid == 7 && cval->control == UAC_FU_VOLUME)
+ 			snd_dragonfly_quirk_db_scale(mixer, cval, kctl);
+ 		break;
++	}
++
+ 	/* lowest playback value is muted on some devices */
+-	case USB_ID(0x0572, 0x1b09): /* Conexant Systems (Rockwell), Inc. */
+-	case USB_ID(0x0d8c, 0x000c): /* C-Media */
+-	case USB_ID(0x0d8c, 0x0014): /* C-Media */
+-	case USB_ID(0x19f7, 0x0003): /* RODE NT-USB */
+-	case USB_ID(0x2d99, 0x0026): /* HECATE G2 GAMING HEADSET */
++	if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_MIN_MUTE)
+ 		if (strstr(kctl->id.name, "Playback"))
+ 			cval->min_mute = 1;
+-		break;
+-	}
+ 
+ 	/* ALSA-ify some Plantronics headset control names */
+ 	if (USB_ID_VENDOR(mixer->chip->usb_id) == 0x047f &&
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index e75b0b1df6eb2120b1446b7bd54f3ba50a79f567..8bc1e247cdf1af0a3e9c506830d8428a86c25595 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2199,6 +2199,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_SET_IFACE_FIRST),
+ 	DEVICE_FLG(0x0556, 0x0014, /* Phoenix Audio TMX320VC */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
++	DEVICE_FLG(0x0572, 0x1b09, /* Conexant Systems (Rockwell), Inc. */
++		   QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x05a3, 0x9420, /* ELP HD USB Camera */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x05a7, 0x1020, /* Bose Companion 5 */
+@@ -2245,8 +2247,10 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x0c45, 0x636b, /* Microdia JP001 USB Camera */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+-	DEVICE_FLG(0x0d8c, 0x0014, /* USB Audio Device */
+-		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
++	DEVICE_FLG(0x0d8c, 0x000c, /* C-Media */
++		   QUIRK_FLAG_MIXER_MIN_MUTE),
++	DEVICE_FLG(0x0d8c, 0x0014, /* C-Media */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x0ecb, 0x205c, /* JBL Quantum610 Wireless */
+ 		   QUIRK_FLAG_FIXED_RATE),
+ 	DEVICE_FLG(0x0ecb, 0x2069, /* JBL Quantum810 Wireless */
+@@ -2293,6 +2297,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
+ 	DEVICE_FLG(0x1901, 0x0191, /* GE B850V3 CP2114 audio interface */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
++	DEVICE_FLG(0x19f7, 0x0003, /* RODE NT-USB */
++		   QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x19f7, 0x0035, /* RODE NT-USB+ */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x1bcf, 0x2281, /* HD Webcam */
+@@ -2353,6 +2359,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
+ 	DEVICE_FLG(0x2d95, 0x8021, /* VIVO USB-C-XE710 HEADSET */
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
++	DEVICE_FLG(0x2d99, 0x0026, /* HECATE G2 GAMING HEADSET */
++		   QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x2fc6, 0xf0b7, /* iBasso DC07 Pro */
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
+ 	DEVICE_FLG(0x30be, 0x0101, /* Schiit Hel */
+diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
+index 7521098ba391c04a83c2b6b6180c88c52ac6c5dc..59335b94103004b900285e4990b971d74bf37532 100644
+--- a/sound/usb/usbaudio.h
++++ b/sound/usb/usbaudio.h
+@@ -219,6 +219,9 @@ extern bool snd_usb_skip_validation;
+  *  for the given endpoint.
+  * QUIRK_FLAG_MIC_RES_16 and QUIRK_FLAG_MIC_RES_384
+  *  Set the fixed resolution for Mic Capture Volume (mostly for webcams)
++ * QUIRK_FLAG_MIXER_MIN_MUTE
++ *  Set minimum volume control value as mute for devices where the lowest
++ *  playback value represents muted state instead of minimum audible volume
+  */
+ 
+ #define QUIRK_FLAG_GET_SAMPLE_RATE	(1U << 0)
+@@ -245,5 +248,6 @@ extern bool snd_usb_skip_validation;
+ #define QUIRK_FLAG_FIXED_RATE		(1U << 21)
+ #define QUIRK_FLAG_MIC_RES_16		(1U << 22)
+ #define QUIRK_FLAG_MIC_RES_384		(1U << 23)
++#define QUIRK_FLAG_MIXER_MIN_MUTE	(1U << 24)
+ 
+ #endif /* __USBAUDIO_H */
 
-+ Vinod Koul <vkoul@kernel.org> (already in the list)
+---
+base-commit: 7656e95cbd3ee0c67bbedf0a184eb307bb9aa65f
+change-id: 20250826-sound-quirk-min-mute-812352b0a6b4
 
->  - drivers/clk/rockchip/clk.h: way too many clock drivers use non-const
->    masks in the context of an initializer.
+Best regards,
+-- 
+Cryolitia PukNgae <cryolitia@uniontech.com>
 
-+ Heiko Stuebner <heiko@sntech.de> (already in the list)
 
-Guys, can you please take a look? Would be nice to finish the
-consolidation.
-
---
-
-I'll take #1 and the acknowledged (or at least reviewed) per-driver
-fixes in bitmap-for-next in 2-3 weeks before the end of cycle.
-Everyone, please send your tags!
-
-Nicolas, please ping me if I forget. For the rest of the series, in
-case of no feedback from maintainers, let's wait for one more merge
-window, and then move everything altogether.
-
-Thanks,
-Yury
