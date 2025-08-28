@@ -1,85 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB67311956
-	for <linux-sound@vger.kernel.org>; Thu, 28 Aug 2025 13:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8ECC3112D4
+	for <linux-sound@vger.kernel.org>; Thu, 28 Aug 2025 13:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756387702; cv=none; b=TzAOnUadQf7vRdR9UtJ1d9hA5WwSnoB3bvtCpbtPACQ/WdHb276AhhzZwxo9SShPWN2MaF+3+4LgeJkBtNx0NIxVE32wiOl0kpsfNriwY5GRnl3rNp79dzwEQmH7oCJnQa37YTdsV5Lme3gXbFS3j/Rcu3kSQ7rGE0LjY0Bk/P0=
+	t=1756387706; cv=none; b=HlA/XubwXTtzJnbmpJ4z1SQ7ShurM03m5E9XfGWS10d6DoIojyTv00EzdOfe0aVAbIkvyItH+5HwO60vAvVDzXOqKUmxcw75QeqlkIKM6uI5Yzfhfb9SVVco/p2xMvdild+YzOiB5CBJThC997dj9CuIyZtcPIZz96E1XVewP9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756387702; c=relaxed/simple;
-	bh=fohctW2RZps0djDmZgHg4cNRQSu6oU+I9gye3A9c8ss=;
+	s=arc-20240116; t=1756387706; c=relaxed/simple;
+	bh=SwDk0FEF1xMmWX4d2dCt7eyYbJLh1bS4PoPjGz1IvFQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JcohNtoTEBQmOJ2GhuuHa5O8A3oOeS+8Y4lybK3nNzk9+HD0PvDrgNskFjldniqkSXfmCTstOZmKwRDLQfiMrxP+dl3ATK9AH1SpD/YL3kppm7L1Tu8nbXkDjkihN13qvtn2NLgmldxYXwxEvOtJBb61c7dC77R25nePWZGdr3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AsQ2wVpz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Un2rrwV2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AsQ2wVpz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Un2rrwV2; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=EDahmEtcFjQ/Hpk9h/vRWNLTlLqTLAnLDtwzlO1IaIumz1TJ3YBJGXbvUaBMNlDTOFebAFTFC4KIKthYs98g/NNMNxOCERDHhMr3OUsR7Bwdraa1Gwuyl9+7jOGclhmO/a6ZrltakMVI2zZjXjMZZJpktizauYPtYopbKiysDJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PC2UCN2L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=j5Kj17e3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SPfdddQK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dVRBFseg; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AsQ2wVpz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Un2rrwV2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AsQ2wVpz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Un2rrwV2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PC2UCN2L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j5Kj17e3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SPfdddQK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dVRBFseg"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6BB5920BEC;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EDB2822DB4;
 	Thu, 28 Aug 2025 13:28:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756387689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1756387690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ifTMvmIO0/np+TNdd6KagOYDZKVQgiRgFJD/eCcUNAo=;
-	b=AsQ2wVpzp/sd9eF5GbciPNvs+pzv4RkxO/9FsMR6SK6p+z4TBQ79hE/Qxjo0cOJSiuhV+1
-	yFPdw7Pz29UMjYdhX7+8uosNCSYg1VZJSfDIkMronOw0gwswAY6dEExqgsCksF/em5+bxT
-	yz12tOIq1WIzfEINJ5jfQGqaGyyEgEc=
+	bh=mUqiUGdqT0fCkhSVA018Du2aZelm9xh/fKcYxMwJp4Y=;
+	b=PC2UCN2LUEhXuaHYMudnfuo35igTlLC/e+jiysCMfBDV3cnG33CnEOp1xx2IGplbHIxa+7
+	UIUtK2lAciYRexKQkyEyhmFGc3Gf+NLlLXDTvagf818AEV/qT0+pnQJ3AfvnIp1XA/eIDs
+	T0JZz3XerFjWB3ZIicZJdnQBTnbEGd8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756387689;
+	s=susede2_ed25519; t=1756387690;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ifTMvmIO0/np+TNdd6KagOYDZKVQgiRgFJD/eCcUNAo=;
-	b=Un2rrwV2cDY9d4SJ4Zm/wqPhtuwI4ilh7ma9jDQPqyUurjIRBEM+S47lDkTHp1K9V2WP6k
-	Drxw3+kDWESs+zCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=mUqiUGdqT0fCkhSVA018Du2aZelm9xh/fKcYxMwJp4Y=;
+	b=j5Kj17e3G9n7w7dlRR88Dxs5IsbHB8YC5bUHgOkEC2q2l1lhz/dzcV2W+ERUBw4KuEqlU/
+	AaywybRJGQLFOjBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SPfdddQK;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dVRBFseg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756387689; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ifTMvmIO0/np+TNdd6KagOYDZKVQgiRgFJD/eCcUNAo=;
-	b=AsQ2wVpzp/sd9eF5GbciPNvs+pzv4RkxO/9FsMR6SK6p+z4TBQ79hE/Qxjo0cOJSiuhV+1
-	yFPdw7Pz29UMjYdhX7+8uosNCSYg1VZJSfDIkMronOw0gwswAY6dEExqgsCksF/em5+bxT
-	yz12tOIq1WIzfEINJ5jfQGqaGyyEgEc=
+	bh=mUqiUGdqT0fCkhSVA018Du2aZelm9xh/fKcYxMwJp4Y=;
+	b=SPfdddQKSfl271/xSt0WhVt4Q/3Ebw+T6BP0zGIBlYXzGopRigljan2+8h1hNgXlM19Mka
+	jOttRByKwvHP21dJLEhQZFbEzUlQBIPNeZa2gWreraokz/wSKVsxLj4C1E4V2T6P0X6Vn5
+	v6vmmmejI1vMQtg+2tnKJAufMfzvbXE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756387689;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ifTMvmIO0/np+TNdd6KagOYDZKVQgiRgFJD/eCcUNAo=;
-	b=Un2rrwV2cDY9d4SJ4Zm/wqPhtuwI4ilh7ma9jDQPqyUurjIRBEM+S47lDkTHp1K9V2WP6k
-	Drxw3+kDWESs+zCw==
+	bh=mUqiUGdqT0fCkhSVA018Du2aZelm9xh/fKcYxMwJp4Y=;
+	b=dVRBFsegrdXNXf2b9pqK9xmtzRI5haQwB9FJ67mHbXvbd+W6upcuYyPmfpjoEsKzW7WvSa
+	SKEkb1ZU3hXQsDCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 46BEA1368B;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C502E13326;
 	Thu, 28 Aug 2025 13:28:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UFpzD2lZsGgmDgAAD6G6ig
+	id iCTyLmlZsGgmDgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Thu, 28 Aug 2025 13:28:09 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	Clemens Ladisch <clemens@ladisch.de>
-Subject: [PATCH v2 01/19] ALSA: firewire: bebob: Use guard() for mutex locks
-Date: Thu, 28 Aug 2025 15:27:05 +0200
-Message-ID: <20250828132802.9032-2-tiwai@suse.de>
+Subject: [PATCH v2 04/19] ALSA: firewire: fireworks: Use guard() for mutex locks
+Date: Thu, 28 Aug 2025 15:27:08 +0200
+Message-ID: <20250828132802.9032-5-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250828132802.9032-1-tiwai@suse.de>
 References: <20250828132802.9032-1-tiwai@suse.de>
@@ -90,29 +91,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: EDB2822DB4
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -2.80
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 
 Replace the manual mutex lock/unlock pairs with guard() for code
 simplification.
@@ -121,35 +131,34 @@ Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/firewire/bebob/bebob.c        | 36 +++++++--------
- sound/firewire/bebob/bebob_maudio.c | 42 +++++++-----------
- sound/firewire/bebob/bebob_midi.c   | 24 +++++-----
- sound/firewire/bebob/bebob_pcm.c    | 68 ++++++++++++-----------------
- 4 files changed, 72 insertions(+), 98 deletions(-)
+ sound/firewire/fireworks/fireworks.c      | 39 ++++++--------
+ sound/firewire/fireworks/fireworks_midi.c | 27 +++++-----
+ sound/firewire/fireworks/fireworks_pcm.c  | 65 ++++++++++-------------
+ 3 files changed, 57 insertions(+), 74 deletions(-)
 
-diff --git a/sound/firewire/bebob/bebob.c b/sound/firewire/bebob/bebob.c
-index 4ebaeff16455..01e2c4cc03d4 100644
---- a/sound/firewire/bebob/bebob.c
-+++ b/sound/firewire/bebob/bebob.c
-@@ -122,9 +122,9 @@ bebob_card_free(struct snd_card *card)
+diff --git a/sound/firewire/fireworks/fireworks.c b/sound/firewire/fireworks/fireworks.c
+index 69f722244362..3378c7dce88a 100644
+--- a/sound/firewire/fireworks/fireworks.c
++++ b/sound/firewire/fireworks/fireworks.c
+@@ -188,9 +188,9 @@ efw_card_free(struct snd_card *card)
  {
- 	struct snd_bebob *bebob = card->private_data;
+ 	struct snd_efw *efw = card->private_data;
  
 -	mutex_lock(&devices_mutex);
--	clear_bit(bebob->card_index, devices_used);
+-	clear_bit(efw->card_index, devices_used);
 -	mutex_unlock(&devices_mutex);
 +	scoped_guard(mutex, &devices_mutex) {
-+		clear_bit(bebob->card_index, devices_used);
++		clear_bit(efw->card_index, devices_used);
 +	}
  
- 	snd_bebob_stream_destroy_duplex(bebob);
+ 	snd_efw_stream_destroy_duplex(efw);
+ 	snd_efw_transaction_remove_instance(efw);
+@@ -207,25 +207,21 @@ static int efw_probe(struct fw_unit *unit, const struct ieee1394_device_id *entr
+ 	int err;
  
-@@ -207,25 +207,21 @@ static int bebob_probe(struct fw_unit *unit, const struct ieee1394_device_id *en
- 			return -ENODEV;
- 	}
- 
+ 	// check registered cards.
 -	mutex_lock(&devices_mutex);
--	for (card_index = 0; card_index < SNDRV_CARDS; card_index++) {
+-	for (card_index = 0; card_index < SNDRV_CARDS; ++card_index) {
 -		if (!test_bit(card_index, devices_used) && enable[card_index])
 -			break;
 -	}
@@ -158,7 +167,7 @@ index 4ebaeff16455..01e2c4cc03d4 100644
 -		return -ENOENT;
 -	}
 +	scoped_guard(mutex, &devices_mutex) {
-+		for (card_index = 0; card_index < SNDRV_CARDS; card_index++) {
++		for (card_index = 0; card_index < SNDRV_CARDS; ++card_index) {
 +			if (!test_bit(card_index, devices_used) && enable[card_index])
 +				break;
 +		}
@@ -166,229 +175,98 @@ index 4ebaeff16455..01e2c4cc03d4 100644
 +			return -ENOENT;
  
 -	err = snd_card_new(&unit->device, index[card_index], id[card_index], THIS_MODULE,
--			   sizeof(*bebob), &card);
+-			   sizeof(*efw), &card);
 -	if (err < 0) {
 -		mutex_unlock(&devices_mutex);
 -		return err;
 +		err = snd_card_new(&unit->device, index[card_index], id[card_index], THIS_MODULE,
-+				   sizeof(*bebob), &card);
++				   sizeof(*efw), &card);
 +		if (err < 0)
 +			return err;
-+		card->private_free = bebob_card_free;
++		card->private_free = efw_card_free;
 +		set_bit(card_index, devices_used);
  	}
--	card->private_free = bebob_card_free;
+-	card->private_free = efw_card_free;
 -	set_bit(card_index, devices_used);
 -	mutex_unlock(&devices_mutex);
  
- 	bebob = card->private_data;
- 	bebob->unit = fw_unit_get(unit);
-diff --git a/sound/firewire/bebob/bebob_maudio.c b/sound/firewire/bebob/bebob_maudio.c
-index 177699e1be11..376a9a175479 100644
---- a/sound/firewire/bebob/bebob_maudio.c
-+++ b/sound/firewire/bebob/bebob_maudio.c
-@@ -265,7 +265,7 @@ snd_bebob_maudio_special_discover(struct snd_bebob *bebob, bool is1814)
- 	if (!params)
- 		return -ENOMEM;
+ 	efw = card->private_data;
+ 	efw->unit = fw_unit_get(unit);
+@@ -287,9 +283,8 @@ static void efw_update(struct fw_unit *unit)
  
--	mutex_lock(&bebob->mutex);
-+	guard(mutex)(&bebob->mutex);
+ 	snd_efw_transaction_bus_reset(efw->unit);
  
- 	bebob->maudio_special_quirk = (void *)params;
- 	params->is1814 = is1814;
-@@ -277,12 +277,12 @@ snd_bebob_maudio_special_discover(struct snd_bebob *bebob, bool is1814)
- 	if (err < 0) {
- 		dev_err(&bebob->unit->device,
- 			"fail to initialize clock params: %d\n", err);
--		goto end;
-+		return err;
- 	}
+-	mutex_lock(&efw->mutex);
++	guard(mutex)(&efw->mutex);
+ 	snd_efw_stream_update_duplex(efw);
+-	mutex_unlock(&efw->mutex);
+ }
  
- 	err = add_special_controls(bebob);
+ static void efw_remove(struct fw_unit *unit)
+diff --git a/sound/firewire/fireworks/fireworks_midi.c b/sound/firewire/fireworks/fireworks_midi.c
+index 350bf4d299c2..90fe809a26c0 100644
+--- a/sound/firewire/fireworks/fireworks_midi.c
++++ b/sound/firewire/fireworks/fireworks_midi.c
+@@ -14,20 +14,19 @@ static int midi_open(struct snd_rawmidi_substream *substream)
+ 
+ 	err = snd_efw_stream_lock_try(efw);
  	if (err < 0)
 -		goto end;
 +		return err;
  
- 	special_stream_formation_set(bebob);
- 
-@@ -293,8 +293,6 @@ snd_bebob_maudio_special_discover(struct snd_bebob *bebob, bool is1814)
- 		bebob->midi_input_ports = 2;
- 		bebob->midi_output_ports = 2;
- 	}
--end:
--	mutex_unlock(&bebob->mutex);
- 	return err;
- }
- 
-@@ -383,14 +381,12 @@ static int special_clk_ctl_put(struct snd_kcontrol *kctl,
- 	if (id >= ARRAY_SIZE(special_clk_types))
- 		return -EINVAL;
- 
--	mutex_lock(&bebob->mutex);
-+	guard(mutex)(&bebob->mutex);
- 
- 	err = avc_maudio_set_special_clk(bebob, id,
- 					 params->dig_in_fmt,
- 					 params->dig_out_fmt,
- 					 params->clk_lock);
--	mutex_unlock(&bebob->mutex);
--
- 	if (err >= 0)
- 		err = 1;
- 
-@@ -456,14 +452,14 @@ static int special_dig_in_iface_ctl_get(struct snd_kcontrol *kctl,
- 	unsigned int dig_in_iface;
- 	int err, val;
- 
--	mutex_lock(&bebob->mutex);
-+	guard(mutex)(&bebob->mutex);
- 
- 	err = avc_audio_get_selector(bebob->unit, 0x00, 0x04,
- 				     &dig_in_iface);
- 	if (err < 0) {
- 		dev_err(&bebob->unit->device,
- 			"fail to get digital input interface: %d\n", err);
--		goto end;
-+		return err;
- 	}
- 
- 	/* encoded id for user value */
-@@ -474,9 +470,7 @@ static int special_dig_in_iface_ctl_get(struct snd_kcontrol *kctl,
- 		val = 2;
- 
- 	uval->value.enumerated.item[0] = val;
--end:
--	mutex_unlock(&bebob->mutex);
--	return err;
-+	return 0;
- }
- static int special_dig_in_iface_ctl_set(struct snd_kcontrol *kctl,
- 					struct snd_ctl_elem_value *uval)
-@@ -494,7 +488,7 @@ static int special_dig_in_iface_ctl_set(struct snd_kcontrol *kctl,
- 	dig_in_fmt = (id >> 1) & 0x01;
- 	dig_in_iface = id & 0x01;
- 
--	mutex_lock(&bebob->mutex);
-+	guard(mutex)(&bebob->mutex);
- 
- 	err = avc_maudio_set_special_clk(bebob,
- 					 params->clk_src,
-@@ -502,24 +496,19 @@ static int special_dig_in_iface_ctl_set(struct snd_kcontrol *kctl,
- 					 params->dig_out_fmt,
- 					 params->clk_lock);
- 	if (err < 0)
--		goto end;
-+		return err;
- 
- 	/* For ADAT, optical interface is only available. */
--	if (params->dig_in_fmt > 0) {
--		err = 1;
--		goto end;
--	}
-+	if (params->dig_in_fmt > 0)
-+		return 1;
- 
- 	/* For S/PDIF, optical/coaxial interfaces are selectable. */
- 	err = avc_audio_set_selector(bebob->unit, 0x00, 0x04, dig_in_iface);
- 	if (err < 0)
- 		dev_err(&bebob->unit->device,
- 			"fail to set digital input interface: %d\n", err);
--	err = 1;
--end:
- 	special_stream_formation_set(bebob);
--	mutex_unlock(&bebob->mutex);
--	return err;
-+	return 1;
- }
- static const struct snd_kcontrol_new special_dig_in_iface_ctl = {
- 	.name	= "Digital Input Interface",
-@@ -546,9 +535,9 @@ static int special_dig_out_iface_ctl_get(struct snd_kcontrol *kctl,
- {
- 	struct snd_bebob *bebob = snd_kcontrol_chip(kctl);
- 	struct special_params *params = bebob->maudio_special_quirk;
--	mutex_lock(&bebob->mutex);
-+
-+	guard(mutex)(&bebob->mutex);
- 	uval->value.enumerated.item[0] = params->dig_out_fmt;
--	mutex_unlock(&bebob->mutex);
- 	return 0;
- }
- static int special_dig_out_iface_ctl_set(struct snd_kcontrol *kctl,
-@@ -563,7 +552,7 @@ static int special_dig_out_iface_ctl_set(struct snd_kcontrol *kctl,
- 	if (id >= ARRAY_SIZE(special_dig_out_iface_labels))
- 		return -EINVAL;
- 
--	mutex_lock(&bebob->mutex);
-+	guard(mutex)(&bebob->mutex);
- 
- 	err = avc_maudio_set_special_clk(bebob,
- 					 params->clk_src,
-@@ -574,7 +563,6 @@ static int special_dig_out_iface_ctl_set(struct snd_kcontrol *kctl,
- 		err = 1;
- 	}
- 
--	mutex_unlock(&bebob->mutex);
- 	return err;
- }
- static const struct snd_kcontrol_new special_dig_out_iface_ctl = {
-diff --git a/sound/firewire/bebob/bebob_midi.c b/sound/firewire/bebob/bebob_midi.c
-index b1425bf98c3b..5fd2d363de52 100644
---- a/sound/firewire/bebob/bebob_midi.c
-+++ b/sound/firewire/bebob/bebob_midi.c
-@@ -16,15 +16,15 @@ static int midi_open(struct snd_rawmidi_substream *substream)
- 	if (err < 0)
- 		return err;
- 
--	mutex_lock(&bebob->mutex);
--	err = snd_bebob_stream_reserve_duplex(bebob, 0, 0, 0);
+-	mutex_lock(&efw->mutex);
+-	err = snd_efw_stream_reserve_duplex(efw, 0, 0, 0);
 -	if (err >= 0) {
--		++bebob->substreams_counter;
--		err = snd_bebob_stream_start_duplex(bebob);
+-		++efw->substreams_counter;
+-		err = snd_efw_stream_start_duplex(efw);
 -		if (err < 0)
--			--bebob->substreams_counter;
-+	scoped_guard(mutex, &bebob->mutex) {
-+		err = snd_bebob_stream_reserve_duplex(bebob, 0, 0, 0);
+-			--efw->substreams_counter;
++	scoped_guard(mutex, &efw->mutex) {
++		err = snd_efw_stream_reserve_duplex(efw, 0, 0, 0);
 +		if (err >= 0) {
-+			++bebob->substreams_counter;
-+			err = snd_bebob_stream_start_duplex(bebob);
++			++efw->substreams_counter;
++			err = snd_efw_stream_start_duplex(efw);
 +			if (err < 0)
-+				--bebob->substreams_counter;
++				--efw->substreams_counter;
 +		}
  	}
--	mutex_unlock(&bebob->mutex);
+-	mutex_unlock(&efw->mutex);
  	if (err < 0)
- 		snd_bebob_stream_lock_release(bebob);
+ 		snd_efw_stream_lock_release(efw);
+-end:
+ 	return err;
+ }
  
-@@ -35,10 +35,10 @@ static int midi_close(struct snd_rawmidi_substream *substream)
+@@ -35,10 +34,10 @@ static int midi_close(struct snd_rawmidi_substream *substream)
  {
- 	struct snd_bebob *bebob = substream->rmidi->private_data;
+ 	struct snd_efw *efw = substream->rmidi->private_data;
  
--	mutex_lock(&bebob->mutex);
--	bebob->substreams_counter--;
--	snd_bebob_stream_stop_duplex(bebob);
--	mutex_unlock(&bebob->mutex);
-+	scoped_guard(mutex, &bebob->mutex) {
-+		bebob->substreams_counter--;
-+		snd_bebob_stream_stop_duplex(bebob);
+-	mutex_lock(&efw->mutex);
+-	--efw->substreams_counter;
+-	snd_efw_stream_stop_duplex(efw);
+-	mutex_unlock(&efw->mutex);
++	scoped_guard(mutex, &efw->mutex) {
++		--efw->substreams_counter;
++		snd_efw_stream_stop_duplex(efw);
 +	}
  
- 	snd_bebob_stream_lock_release(bebob);
+ 	snd_efw_stream_lock_release(efw);
  	return 0;
-diff --git a/sound/firewire/bebob/bebob_pcm.c b/sound/firewire/bebob/bebob_pcm.c
-index 360ebf3c4ca2..692d33bac2d2 100644
---- a/sound/firewire/bebob/bebob_pcm.c
-+++ b/sound/firewire/bebob/bebob_pcm.c
-@@ -149,49 +149,42 @@ static int pcm_open(struct snd_pcm_substream *substream)
+diff --git a/sound/firewire/fireworks/fireworks_pcm.c b/sound/firewire/fireworks/fireworks_pcm.c
+index eaf7778211de..9399293a9fe9 100644
+--- a/sound/firewire/fireworks/fireworks_pcm.c
++++ b/sound/firewire/fireworks/fireworks_pcm.c
+@@ -189,46 +189,38 @@ static int pcm_open(struct snd_pcm_substream *substream)
  	if (err < 0)
  		goto err_locked;
  
--	mutex_lock(&bebob->mutex);
-+	scoped_guard(mutex, &bebob->mutex) {
+-	mutex_lock(&efw->mutex);
++	scoped_guard(mutex, &efw->mutex) {
 +		// When source of clock is not internal or any stream is reserved for
 +		// transmission of PCM frames, the available sampling rate is limited
 +		// at current one.
-+		if (src == SND_BEBOB_CLOCK_TYPE_EXTERNAL ||
-+		    (bebob->substreams_counter > 0 && d->events_per_period > 0)) {
++		if ((clock_source != SND_EFW_CLOCK_SOURCE_INTERNAL) ||
++		    (efw->substreams_counter > 0 && d->events_per_period > 0)) {
 +			unsigned int frames_per_period = d->events_per_period;
 +			unsigned int frames_per_buffer = d->events_per_buffer;
 +			unsigned int sampling_rate;
@@ -396,20 +274,17 @@ index 360ebf3c4ca2..692d33bac2d2 100644
 -	// When source of clock is not internal or any stream is reserved for
 -	// transmission of PCM frames, the available sampling rate is limited
 -	// at current one.
--	if (src == SND_BEBOB_CLOCK_TYPE_EXTERNAL ||
--	    (bebob->substreams_counter > 0 && d->events_per_period > 0)) {
+-	if ((clock_source != SND_EFW_CLOCK_SOURCE_INTERNAL) ||
+-	    (efw->substreams_counter > 0 && d->events_per_period > 0)) {
 -		unsigned int frames_per_period = d->events_per_period;
 -		unsigned int frames_per_buffer = d->events_per_buffer;
 -		unsigned int sampling_rate;
 -
--		err = spec->get(bebob, &sampling_rate);
+-		err = snd_efw_command_get_sampling_rate(efw, &sampling_rate);
 -		if (err < 0) {
--			mutex_unlock(&bebob->mutex);
--			dev_err(&bebob->unit->device,
--				"fail to get sampling rate: %d\n", err);
+-			mutex_unlock(&efw->mutex);
 -			goto err_locked;
 -		}
--
 -		substream->runtime->hw.rate_min = sampling_rate;
 -		substream->runtime->hw.rate_max = sampling_rate;
 -
@@ -417,23 +292,21 @@ index 360ebf3c4ca2..692d33bac2d2 100644
 -			err = snd_pcm_hw_constraint_minmax(substream->runtime,
 -					SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
 -					frames_per_period, frames_per_period);
-+			err = spec->get(bebob, &sampling_rate);
- 			if (err < 0) {
--				mutex_unlock(&bebob->mutex);
-+				dev_err(&bebob->unit->device,
-+					"fail to get sampling rate: %d\n", err);
+-			if (err < 0) {
+-				mutex_unlock(&efw->mutex);
++			err = snd_efw_command_get_sampling_rate(efw, &sampling_rate);
++			if (err < 0)
  				goto err_locked;
- 			}
+-			}
++			substream->runtime->hw.rate_min = sampling_rate;
++			substream->runtime->hw.rate_max = sampling_rate;
  
 -			err = snd_pcm_hw_constraint_minmax(substream->runtime,
 -					SNDRV_PCM_HW_PARAM_BUFFER_SIZE,
 -					frames_per_buffer, frames_per_buffer);
 -			if (err < 0) {
--				mutex_unlock(&bebob->mutex);
+-				mutex_unlock(&efw->mutex);
 -				goto err_locked;
-+			substream->runtime->hw.rate_min = sampling_rate;
-+			substream->runtime->hw.rate_max = sampling_rate;
-+
 +			if (frames_per_period > 0) {
 +				err = snd_pcm_hw_constraint_minmax(substream->runtime,
 +								   SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
@@ -450,38 +323,38 @@ index 360ebf3c4ca2..692d33bac2d2 100644
  		}
  	}
  
--	mutex_unlock(&bebob->mutex);
+-	mutex_unlock(&efw->mutex);
 -
  	snd_pcm_set_sync(substream);
  
  	return 0;
-@@ -219,12 +212,11 @@ static int pcm_hw_params(struct snd_pcm_substream *substream,
+@@ -255,12 +247,11 @@ static int pcm_hw_params(struct snd_pcm_substream *substream,
  		unsigned int frames_per_period = params_period_size(hw_params);
  		unsigned int frames_per_buffer = params_buffer_size(hw_params);
  
--		mutex_lock(&bebob->mutex);
-+		guard(mutex)(&bebob->mutex);
- 		err = snd_bebob_stream_reserve_duplex(bebob, rate,
+-		mutex_lock(&efw->mutex);
++		guard(mutex)(&efw->mutex);
+ 		err = snd_efw_stream_reserve_duplex(efw, rate,
  					frames_per_period, frames_per_buffer);
  		if (err >= 0)
- 			++bebob->substreams_counter;
--		mutex_unlock(&bebob->mutex);
+ 			++efw->substreams_counter;
+-		mutex_unlock(&efw->mutex);
  	}
  
  	return err;
-@@ -234,15 +226,13 @@ static int pcm_hw_free(struct snd_pcm_substream *substream)
+@@ -270,15 +261,13 @@ static int pcm_hw_free(struct snd_pcm_substream *substream)
  {
- 	struct snd_bebob *bebob = substream->private_data;
+ 	struct snd_efw *efw = substream->private_data;
  
--	mutex_lock(&bebob->mutex);
-+	guard(mutex)(&bebob->mutex);
+-	mutex_lock(&efw->mutex);
++	guard(mutex)(&efw->mutex);
  
  	if (substream->runtime->state != SNDRV_PCM_STATE_OPEN)
- 		bebob->substreams_counter--;
+ 		--efw->substreams_counter;
  
- 	snd_bebob_stream_stop_duplex(bebob);
+ 	snd_efw_stream_stop_duplex(efw);
  
--	mutex_unlock(&bebob->mutex);
+-	mutex_unlock(&efw->mutex);
 -
  	return 0;
  }
