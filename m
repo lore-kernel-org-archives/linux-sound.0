@@ -1,151 +1,153 @@
-Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3160230FF3C
-	for <linux-sound@vger.kernel.org>; Thu, 28 Aug 2025 12:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76919310636
+	for <linux-sound@vger.kernel.org>; Thu, 28 Aug 2025 13:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756385793; cv=none; b=Yt1v4mqsv07qaB6dpfEedyBARVfQ/saP3kVvj4ZWhZ1s8mcHUyE8Bxy8VLf+vuptXASJx/eWnmA10VSRaNunzJ3KU4WZ3/hBDh8tTei8c48ksbnbMzHbf6I8LqpRW5gyxsduiwye1RH+C7cGQoceAxZayu51DNY0uX7ibI9iwEY=
+	t=1756387424; cv=none; b=JrMQyLT/wqoMTTBZhx3F/l3yPwyABreDZAL01FWN9XMInr2/QtYnwLl6kK47BlRsx5rgEsS2gikOmQBgSuzuowKO86Km5wW7LPjFysTGi2o1MNU7fFF4U2q3TFFnyzKQ0eRMlZh2G/r8QmKDucGUpdGbvJi3YhAAT9GFnfBP5bA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756385793; c=relaxed/simple;
-	bh=w7Mb8IbjpTG1LNxJgWjyj9IyC2doa9g6aNhPGmeo16o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NqpkvREuYK1eYZxbOhVtqHFc5myo+z8XCHgQADvTetlXHMD41nZSfBS1RN3hdeJ9uTArll7pbtbyrk7PI/O6KJZ3XXqBseXhj65bUpeDhgfOZOdHkXRidQCvDQikok2b1xvTgb/YkmoVNhiIW4W6Ix5AlRwmi5GoprgjD1dNf9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=ax4QEuUD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TaHiOVDn; arc=none smtp.client-ip=202.12.124.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1756387424; c=relaxed/simple;
+	bh=1lUR/zSfZFwROkI7ec9aAoy0rtinbosJrIFD88B4m4I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EGXBSW9wHIdcjilGUowXaAxKh2rcZw2XR48xJq5tcAcP+PG24Iqzi6pcDt+VS97rXGaMIUcHK8RK2NF8MmVp00Bw19nEyNs0mBCV+poaP7vd0vmbINWsyhucqNnDaYc7/3Yh+8glKv08MstxvkTvChQ6AkL9GvlKoai0CGhj9NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HGJ4qU80; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dtdCe5Pl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HGJ4qU80; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dtdCe5Pl; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="ax4QEuUD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TaHiOVDn"
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.stl.internal (Postfix) with ESMTP id F11791D000E0;
-	Thu, 28 Aug 2025 08:56:28 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Thu, 28 Aug 2025 08:56:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1756385788; x=
-	1756472188; bh=eEenZfMb7oKCp61aBANMJ6mQ+H+Gwv0eyds6jzQXqCE=; b=a
-	x4QEuUDRlmr327LXek6xxqrT8GQwqmjcItUQzwdw3eWG5q8sklK84eshSiSHfCL1
-	J40Upwy3NdLCYfJMXrgR/YzX9y0ObXwhjwycKuJKrXmuatvQMMnzaZ9efv1Pbvt4
-	LNk3JnOMypy7ox5Qag0Oz90FpKBoA7OrwiHW04TP21WKEaqkdj6O6P5eNOIUWotP
-	Jt3Q2396o49FgRQol73HhmSSOliUeYX3AoWAUUdVnadDZI7TJnDAWu6kry/S8tNQ
-	/3WQqz7Ex0Dii6Q77E9O2Xk7r90/NiCryxqrLixDEKYlNAjsdxVnqSB3QzdbNOO2
-	1AHPPjm9e265ZKBLzhtbw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1756385788; x=1756472188; bh=eEenZfMb7oKCp61aBANMJ6mQ+H+Gwv0eyds
-	6jzQXqCE=; b=TaHiOVDnZwqhqUhQgxDjw4kzXukhJG1VOm54WUBiHRKOeRsiHmG
-	bsAu7numplscnzvI2dsu0plErSN0w77zUeecV9CDZ/rg6DSX+RfMRysa/NSageF9
-	ZhHhOK4o0ZkoQoEd4vwOAH/zzw4Z9/8fXhnw+R91GBS9D45Nh2bBU07C0Iq9R8Mv
-	dZwqpBrX1mWFO5ZOe9e0PBfbr/Z8wjNLZL9vCcp7XtyquOD/cXRipoGA59oWVIkg
-	sHAkO4xwS1HGDZmVTPhlRut88/Ap/jh4LbgiVqRrCI4mp4MQz3XoLeDsutReZl3q
-	VkQCLXRiGRc1G8Q5AX/U7mFXgu09yfR3lAw==
-X-ME-Sender: <xms:_FGwaHeadBSo95D3td0i2Q4avNQ9B7T-z2WtlzsKH-zJzX5qRWkiLw>
-    <xme:_FGwaAe3nkTHdSVyEd5orwMuFSDFIWdU0FEamXg4jeDW_3UcULwJJEKktydOAa-6Z
-    ckhzjDRpY_gsKzKZ-k>
-X-ME-Received: <xmr:_FGwaJ-7QoXrYzDYgICxBe4Brrmdhyb7jYvYTd3AP-SmUoQSVTEZ1ioLaUsCb0iJWokr4aq9QYBc_rqDVIFy-_Mkz_EyKGeL_3Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedutdekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgrshhh
-    ihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
-    eqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeuffevveeufedtlefhjeeiieet
-    vdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghr
-    tghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhifigrihessh
-    hushgvrdguvgdprhgtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtoheptghlvghmvghnsheslhgrughishgthhdruggv
-X-ME-Proxy: <xmx:_FGwaEk48PQbMl_MEXW7bGDfUzZ7xLf9nwnX6St2l26hgFyA7c001Q>
-    <xmx:_FGwaD8Ot1jqyB9yJ0lt9uLEcJuu_wSASayLWSk2QOGZUtcA5csPJw>
-    <xmx:_FGwaKm0pG4X_xorNQO65Q4kyyRNGYQYfIYTsLUT-pSWq5CU3Jy2nw>
-    <xmx:_FGwaI2Ca5PBJiIdUJwnoA1JmYstp4gXdM_9wk_NDOcxxdCsWcgueg>
-    <xmx:_FGwaES7tCAUBr0miRBS_dIDKE-bNCgQ2gQOiicBphIbYv_PeFLT-53U>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 08:56:27 -0400 (EDT)
-Date: Thu, 28 Aug 2025 21:56:23 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Clemens Ladisch <clemens@ladisch.de>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HGJ4qU80";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dtdCe5Pl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HGJ4qU80";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dtdCe5Pl"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7ABF720BDA;
+	Thu, 28 Aug 2025 13:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756387420; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lwvr7Z1Rk2ECDA06Sq5KxeaQYDyOTRytlGkHLaDEHZY=;
+	b=HGJ4qU80KdVPbGV/9nfeYs0lJZ7m+alj6LQ71XqQIpIbRH40NE2wqjCIvyKvBYrfyQTthR
+	GpktuobT5tXa08b/qL21NZF1Ma8IDGkT0Edf9B//LeQp1mfnp89h37PdlGQqQiC4IiIhpZ
+	graHZUKwLNhR2Hr7chxfn/Cc/lORdd4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756387420;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lwvr7Z1Rk2ECDA06Sq5KxeaQYDyOTRytlGkHLaDEHZY=;
+	b=dtdCe5PlbBgQwyeVlW2xF1nGO8jenvhoH/QE7SJy2zcNznfs9U21kh2SdPeDgNiuFuWC0U
+	tpo0TTW6YTcS4ECw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756387420; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lwvr7Z1Rk2ECDA06Sq5KxeaQYDyOTRytlGkHLaDEHZY=;
+	b=HGJ4qU80KdVPbGV/9nfeYs0lJZ7m+alj6LQ71XqQIpIbRH40NE2wqjCIvyKvBYrfyQTthR
+	GpktuobT5tXa08b/qL21NZF1Ma8IDGkT0Edf9B//LeQp1mfnp89h37PdlGQqQiC4IiIhpZ
+	graHZUKwLNhR2Hr7chxfn/Cc/lORdd4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756387420;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lwvr7Z1Rk2ECDA06Sq5KxeaQYDyOTRytlGkHLaDEHZY=;
+	b=dtdCe5PlbBgQwyeVlW2xF1nGO8jenvhoH/QE7SJy2zcNznfs9U21kh2SdPeDgNiuFuWC0U
+	tpo0TTW6YTcS4ECw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 56B1813326;
+	Thu, 28 Aug 2025 13:23:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id hQ3NE1xYsGjJDAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 28 Aug 2025 13:23:40 +0000
+Date: Thu, 28 Aug 2025 15:23:39 +0200
+Message-ID: <87plcfeg10.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	Clemens Ladisch <clemens@ladisch.de>
 Subject: Re: [PATCH 00/19] ALSA: firewire: Use auto-cleanup macros
-Message-ID: <20250828125623.GA346302@workstation.local>
+In-Reply-To: <20250828125623.GA346302@workstation.local>
 References: <20250827092017.29014-1-tiwai@suse.de>
+	<20250828125623.GA346302@workstation.local>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250827092017.29014-1-tiwai@suse.de>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
 
-Hi,
-
-On Wed, Aug 27, 2025 at 11:19:54AM +0200, Takashi Iwai wrote:
-> This is another patch set for cleaning up the code with the recent
-> auto-cleanup macros like guard() & co, applied to FireWire sound
-> drivers.
+On Thu, 28 Aug 2025 14:56:23 +0200,
+Takashi Sakamoto wrote:
 > 
-> Only code refactoring, and no behavior changes intended.
+> > Takashi Iwai (19):
+> >   ALSA: firewire: bebob: Use guard() for mutex locks
+> >   ALSA: firewire: dice: Use guard() for mutex locks
+> >   ALSA: firewire: Use guard() for mutex locks
 > 
+> The patch title misses 'digi00x: '.
+
+OK, will fix.
+
+> >   ALSA: firewire: fireworks: Use guard() for mutex locks
+> >   ALSA: firewire: motu: Use guard() for mutex locks
+> >   ALSA: firewire: oxfw: Use guard() for mutex locks
+> >   ALSA: firewire: tascam: Use guard() for mutex locks
+> >   ALSA: firewire: fireface: Use guard() for mutex locks
+> >   ALSA: firewire: isight: Use guard() for mutex locks
+> >   ALSA: firewire: lib: Use guard() for mutex locks
+> >   ALSA: firewire: bebob: Use guard() for spin locks
+> >   ALSA: firewire: dice: Use guard() for spin locks
+> >   ALSA: firewire: digi00x: Use guard() for spin locks
+> >   ALSA: firewire: fireface: Use guard() for spin locks
+> >   ALSA: firewire: fireworks: Use guard() for spin locks
+> >   ALSA: firewire: motu: Use guard() for spin locks
+> >   ALSA: firewire: oxfw: Use guard() for spin locks
+> >   ALSA: firewire: tascam: Use guard() for spin locks
+> >   ALSA: firewire: lib: Use guard() for spin locks
 > 
-> Takashi
- 
-Thanks for the patchset. I have the similar series in my local, but not
-yet completed. The patchset mostly looks good to me, but I can find
-some nitpickings.
+> In my opinion, 'scoped_guard()' is available without blaces when the
+> inner component is just one line, however the above patches include
+> such lines. Additionally, some parts of scoped_guard() are followed by
+> useless blank line.
 
-> ===
-> 
-> Takashi Iwai (19):
->   ALSA: firewire: bebob: Use guard() for mutex locks
->   ALSA: firewire: dice: Use guard() for mutex locks
->   ALSA: firewire: Use guard() for mutex locks
-
-The patch title misses 'digi00x: '.
-
->   ALSA: firewire: fireworks: Use guard() for mutex locks
->   ALSA: firewire: motu: Use guard() for mutex locks
->   ALSA: firewire: oxfw: Use guard() for mutex locks
->   ALSA: firewire: tascam: Use guard() for mutex locks
->   ALSA: firewire: fireface: Use guard() for mutex locks
->   ALSA: firewire: isight: Use guard() for mutex locks
->   ALSA: firewire: lib: Use guard() for mutex locks
->   ALSA: firewire: bebob: Use guard() for spin locks
->   ALSA: firewire: dice: Use guard() for spin locks
->   ALSA: firewire: digi00x: Use guard() for spin locks
->   ALSA: firewire: fireface: Use guard() for spin locks
->   ALSA: firewire: fireworks: Use guard() for spin locks
->   ALSA: firewire: motu: Use guard() for spin locks
->   ALSA: firewire: oxfw: Use guard() for spin locks
->   ALSA: firewire: tascam: Use guard() for spin locks
->   ALSA: firewire: lib: Use guard() for spin locks
-
-In my opinion, 'scoped_guard()' is available without blaces when the
-inner component is just one line, however the above patches include
-such lines. Additionally, some parts of scoped_guard() are followed by
-useless blank line.
-
-$ git grep -n -A2 scoped_guard sound/firewire/dice/dice-pcm.c
-sound/firewire/dice/dice-pcm.c:199:     scoped_guard(mutex, &dice->mutex) {
-sound/firewire/dice/dice-pcm.c-200-
-sound/firewire/dice/dice-pcm.c-201-             // When source of clock is not internal or any stream is reserved for
---
-sound/firewire/dice/dice-pcm.c:302:     scoped_guard(mutex, &dice->mutex) {
-sound/firewire/dice/dice-pcm.c-303-             err = snd_dice_stream_start_duplex(dice);
-sound/firewire/dice/dice-pcm.c-304-     }
---
-sound/firewire/dice/dice-pcm.c:316:     scoped_guard(mutex, &dice->mutex) {
-sound/firewire/dice/dice-pcm.c-317-             err = snd_dice_stream_start_duplex(dice);
-sound/firewire/dice/dice-pcm.c-318-     }
+OK, will fix in v2, too.
 
 
-Thanks
+thanks,
 
-Takashi Sakamoto
+Takashi
