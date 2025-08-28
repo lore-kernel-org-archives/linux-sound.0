@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167AF2BE051
-	for <linux-sound@vger.kernel.org>; Thu, 28 Aug 2025 21:00:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD68299A94
+	for <linux-sound@vger.kernel.org>; Thu, 28 Aug 2025 21:00:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756414842; cv=none; b=HTyHs9K+lV7gxHunjTBfWDBqYdahF52t+lJYAecjJ32qougUsLu5cn9E9WHTOLrqjH51qOW86ajyX06r6CSklCKXKYBGtidavDhU/FrWuH6uPversA4CwMDsKqjBBmPcscyGFNfh2hAnqJai7UDBNnYmbMnh3rEljcFdW0rn+s0=
+	t=1756414843; cv=none; b=WSW++yCWa4xlXdHtGDSNRSw/lGqMdNcKgSJaUwq6LkFXfSwnHeVWuXfeUefj7Z6NMZjVMKH8VJIREs5DX71oN8JfUR0sgIQ7YRgrPdH+KUoxKmV2G1BC9AzLtsNeoRDtRrcBuKrAcZj78EFRo+ILhG4NZMHIfgbyrrU+n/Vu81I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756414842; c=relaxed/simple;
-	bh=KntWKqlfr6RDGIfdjViu8dcGMAIEHHvlV4zud01lphI=;
+	s=arc-20240116; t=1756414843; c=relaxed/simple;
+	bh=4SKy0UrRQcf2FlJlE/A8R0sgQFjDPRgWCAHjGTnf7Aw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZkaVlAAyaHBymljRyDEdGFSnsfUQSu3GTz8TF6/fPLcWEsPGYtfjY8Mo+XQGtwsX497izFOtarCXpOlrcw2QHstyZhDaLOF95D40ep7jE1Z013o7MvSXq+RWnag9OS9kAuhS0LsGVfzisKMBdoiUuhr2kacRB04AoJHJnkpJTiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ryix3qEJ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LTpAwd/nxWnZzf6nqhUTSH8KFqyrVNu9nRm0tXbuCDTJxoPrWqQFGiXY4F5VKG4BKSM71XonwcXtRza0WqR9FayCiFRUG0EXrPvltfo94AfwAvotqEr0X5s1zdu+/cvT6nyviFRVDkvLMhpP7mWME13OTtOBd8jnqjKpZW5BrSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtyqPTch; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ryix3qEJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF39C4CEF4;
-	Thu, 28 Aug 2025 21:00:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtyqPTch"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1218DC4CEEB;
+	Thu, 28 Aug 2025 21:00:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756414841;
-	bh=KntWKqlfr6RDGIfdjViu8dcGMAIEHHvlV4zud01lphI=;
+	s=k20201202; t=1756414843;
+	bh=4SKy0UrRQcf2FlJlE/A8R0sgQFjDPRgWCAHjGTnf7Aw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ryix3qEJCVIrgdD3Xa+Nlb6uwywZ6gNinjZ88Orx4JqRf0qu4QEUS6Xxdgl3bmSLm
-	 n+Y9s9HR3nsa8r/CChO9C9rT9f1RLEk3/G6/JiUolEXQslQXeFwu8jWhsNDk93abMh
-	 mYVrTCdxbSbXHxMV86/HZsk7pBauqtzizWnLhx8q4HjMaguTYwe2cfrw/VuuPMqwsU
-	 +5wADDY9VWLt22kssLfQLpdc1Uy4JR8HxyIcSuYn2sz/+9tTV0ynFznkLsUgTqH5Mq
-	 gsJPlD76OGdg+35prS2qAEwz8W3aqs1b28a0IEybsEbaBTNRdd2kK2+Rf6Gs5K48Sr
-	 WRPgBHgpxY3Hw==
+	b=XtyqPTche9q0WEFBs8cGrbcRldiXzbjDHYZnARsJZG4HESA9zvLdBweof8E0/RrD2
+	 MAhupqinCYMFQjkB8arQokeqhinH4f1DqiSn1sp/hQKple94pfF/SyWWuAWbdcyArT
+	 aTC3xTjLoCvUQ7ftRnCtk3nl+5fVK5VvAh7O3YjEIhxPJ6pChQMS3um6to6wJVrfHw
+	 E4avKLJTW7fKItAR8OW8ATAQU2lv64T+FqI/pdMOZtYcstVorrbdCZuuwYqyaRgoO2
+	 SLmtGe5rg0v2CBP/DVsD7cRW1j9W21vI6XugPwk6xW+RTQK9n+Cm6aMpdodg9n5TTH
+	 42FWTLeF1bU+w==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87iki8uqxt.wl-kuninori.morimoto.gx@renesas.com>
-References: <87iki8uqxt.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 0/4] ASoC: renesas: msiof: Make small adjustments to
- avoid errors
-Message-Id: <175641484083.364214.415905926445024010.b4-ty@kernel.org>
-Date: Thu, 28 Aug 2025 23:00:40 +0200
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amadeuszx.slawinski@linux.intel.com, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20250827142229.869139-1-cezary.rojewski@intel.com>
+References: <20250827142229.869139-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH 0/5] ASoC: Intel: avs: Refactor machine-board
+ registration
+Message-Id: <175641484183.364214.6721597198781092696.b4-ty@kernel.org>
+Date: Thu, 28 Aug 2025 23:00:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,15 +46,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-a9b2a
 
-On Thu, 28 Aug 2025 02:21:19 +0000, Kuninori Morimoto wrote:
-> Current Renesas MSIOF get unknown error when first used.
-> This patch-set will fixup this issue.
-> 
-> Kuninori Morimoto (4):
->   ASoC: renesas: msiof: msiof_update_and_wait() checks whether reg was updated
->   ASoC: renesas: msiof: tidyup error message
->   ASoC: renesas: msiof: cleanup status clear method
->   ASoC: renesas: msiof: start DMAC first
+On Wed, 27 Aug 2025 16:22:24 +0200, Cezary Rojewski wrote:
+> Set of patches all connected to the machine-board registration process
+> and the board_selection.c file. Apart from LOC reduction, allows for
+> multiple cards of the same 'type' e.g.: avs_rt5640, to be present
+> simultanetously without any workarounds or tricks. The last patch
+> improves debugability - helps us (the devs) deal with basic I2S-boards
+> issues out there without forcing the user to constantly switch between
+> debug-friendly and non-debug options.
 > 
 > [...]
 
@@ -63,14 +63,16 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: renesas: msiof: msiof_update_and_wait() checks whether reg was updated
-      commit: 042e57d59b3e7f44014da23e62911ae9b591953a
-[2/4] ASoC: renesas: msiof: tidyup error message
-      commit: d3593ac41aaf31db9d6d28cacd584330c769a4a6
-[3/4] ASoC: renesas: msiof: cleanup status clear method
-      commit: d092b70d7b54321ff481226fe6bc2a6aaa91519f
-[4/4] ASoC: renesas: msiof: start DMAC first
-      commit: edb5c1f885207d1d74e8a1528e6937e02829ee6e
+[1/5] ASoC: Intel: avs: New board registration routines
+      commit: 3351e814cb49dff7ef4808f5ebfb299162994118
+[2/5] ASoC: Intel: avs: Cleanup duplicate members
+      commit: 6acfaee44cbe9364a91dcc373fb4e6e395c5b20b
+[3/5] ASoC: Intel: avs: Simplify dmi_match_quirk()
+      commit: a44281b8b58a88ca3020c89fd697fc1cd18a31b4
+[4/5] ASoC: Intel: avs: Simplify avs_get_i2s_boards()
+      commit: db41fe9baa8b8bd1a1aa96962dd4294f2a9135c7
+[5/5] ASoC: Intel: avs: Allow i2s test and non-test boards to coexist
+      commit: a37280daa4d583c7212681c49b285de9464a5200
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
