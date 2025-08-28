@@ -1,110 +1,151 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5919F30F54D;
-	Thu, 28 Aug 2025 12:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3160230FF3C
+	for <linux-sound@vger.kernel.org>; Thu, 28 Aug 2025 12:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756382700; cv=none; b=GFfwaDO6Z7HAaKXNyocGXcNem48Sn6bwokQjN0SrGP2cYUThXR5Nc1bpDTTm8LYTRWVikhTSgfcoWBCHjsamlfopl8VK/5QmJqw6FNHjsey7WFFtRw4QWdAfc76Wygy2LUFKbkxiTyZHGLNGJc4kootcD0jCRzguODsnEqbGidM=
+	t=1756385793; cv=none; b=Yt1v4mqsv07qaB6dpfEedyBARVfQ/saP3kVvj4ZWhZ1s8mcHUyE8Bxy8VLf+vuptXASJx/eWnmA10VSRaNunzJ3KU4WZ3/hBDh8tTei8c48ksbnbMzHbf6I8LqpRW5gyxsduiwye1RH+C7cGQoceAxZayu51DNY0uX7ibI9iwEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756382700; c=relaxed/simple;
-	bh=hui+EEJxD/vnvKdapGOPLoICemUL0PTzMfP7GQy58oY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dL+2JyGaS/BdnpLZfaaJ4I088fwj1SgJ/SoEMB94Juy3kYFYe391w0bPLJC9IPcksG+hE0W3lFY3y6ZnnTkZKmJw3lF14xtQ1mrRrbW6G+q/qDH05EgmuF4TC8U8O3msdxWGbf89PqigxnP/kiHcazDR7JymzesRgmoBhfy9B1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=dXfse24o; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1756385793; c=relaxed/simple;
+	bh=w7Mb8IbjpTG1LNxJgWjyj9IyC2doa9g6aNhPGmeo16o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NqpkvREuYK1eYZxbOhVtqHFc5myo+z8XCHgQADvTetlXHMD41nZSfBS1RN3hdeJ9uTArll7pbtbyrk7PI/O6KJZ3XXqBseXhj65bUpeDhgfOZOdHkXRidQCvDQikok2b1xvTgb/YkmoVNhiIW4W6Ix5AlRwmi5GoprgjD1dNf9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=ax4QEuUD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TaHiOVDn; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="dXfse24o"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=vPdymbaCqau+yaCWSCW4KLmPAF+HpjkM+g2fCUR5lNY=; b=dXfse24ojcLjDHCLcShxSynjgY
-	N3lUpTszTBimpfq/1btLaJ5GmD2APYQLHOXc4DgzbEXb/MrcIWlyZKL4lIS5mG2MbF9glnlRmfRhT
-	me0SSegWwB5BxdHbpsmlFCgvJy4VgoZkLTtUjvjksXVm1Y5lpTDUhCqGkrtdFHe3gcKFAoCpOFIJB
-	764/UBax1SXtRp8cspT1503G4cSGfPKToIyaS7joNn/ldwsScvHDynbipeCcaulw9057Sxg6kDz1q
-	h+pciZ0fW0BLrTeIMjqZoALd147RFdPQjJFZhWNZCYLVAIUIAbdZM+Dcpq+pna1EeX7feXmYmg3ih
-	kyFo7bBQ==;
-Received: from [185.205.242.134] (helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1urbMy-0005X1-Ex; Thu, 28 Aug 2025 14:04:44 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hide Hako <opi5plus@bcc.bai.ne.jp>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Hide Hako <opi5plus@bcc.bai.ne.jp>
-Subject:
- Re: [PATCH v2] arm64: dts: rockchip: Enables sound output from the audio jack
- on OrangePI5 Plus
-Date: Thu, 28 Aug 2025 14:04:43 +0200
-Message-ID: <9820114.4vTCxPXJkl@phil>
-In-Reply-To: <20250826134456.9636-2-opi5plus@bcc.bai.ne.jp>
-References: <20250826134456.9636-2-opi5plus@bcc.bai.ne.jp>
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="ax4QEuUD";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TaHiOVDn"
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfout.stl.internal (Postfix) with ESMTP id F11791D000E0;
+	Thu, 28 Aug 2025 08:56:28 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Thu, 28 Aug 2025 08:56:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1756385788; x=
+	1756472188; bh=eEenZfMb7oKCp61aBANMJ6mQ+H+Gwv0eyds6jzQXqCE=; b=a
+	x4QEuUDRlmr327LXek6xxqrT8GQwqmjcItUQzwdw3eWG5q8sklK84eshSiSHfCL1
+	J40Upwy3NdLCYfJMXrgR/YzX9y0ObXwhjwycKuJKrXmuatvQMMnzaZ9efv1Pbvt4
+	LNk3JnOMypy7ox5Qag0Oz90FpKBoA7OrwiHW04TP21WKEaqkdj6O6P5eNOIUWotP
+	Jt3Q2396o49FgRQol73HhmSSOliUeYX3AoWAUUdVnadDZI7TJnDAWu6kry/S8tNQ
+	/3WQqz7Ex0Dii6Q77E9O2Xk7r90/NiCryxqrLixDEKYlNAjsdxVnqSB3QzdbNOO2
+	1AHPPjm9e265ZKBLzhtbw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1756385788; x=1756472188; bh=eEenZfMb7oKCp61aBANMJ6mQ+H+Gwv0eyds
+	6jzQXqCE=; b=TaHiOVDnZwqhqUhQgxDjw4kzXukhJG1VOm54WUBiHRKOeRsiHmG
+	bsAu7numplscnzvI2dsu0plErSN0w77zUeecV9CDZ/rg6DSX+RfMRysa/NSageF9
+	ZhHhOK4o0ZkoQoEd4vwOAH/zzw4Z9/8fXhnw+R91GBS9D45Nh2bBU07C0Iq9R8Mv
+	dZwqpBrX1mWFO5ZOe9e0PBfbr/Z8wjNLZL9vCcp7XtyquOD/cXRipoGA59oWVIkg
+	sHAkO4xwS1HGDZmVTPhlRut88/Ap/jh4LbgiVqRrCI4mp4MQz3XoLeDsutReZl3q
+	VkQCLXRiGRc1G8Q5AX/U7mFXgu09yfR3lAw==
+X-ME-Sender: <xms:_FGwaHeadBSo95D3td0i2Q4avNQ9B7T-z2WtlzsKH-zJzX5qRWkiLw>
+    <xme:_FGwaAe3nkTHdSVyEd5orwMuFSDFIWdU0FEamXg4jeDW_3UcULwJJEKktydOAa-6Z
+    ckhzjDRpY_gsKzKZ-k>
+X-ME-Received: <xmr:_FGwaJ-7QoXrYzDYgICxBe4Brrmdhyb7jYvYTd3AP-SmUoQSVTEZ1ioLaUsCb0iJWokr4aq9QYBc_rqDVIFy-_Mkz_EyKGeL_3Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedutdekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgrshhh
+    ihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
+    eqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeuffevveeufedtlefhjeeiieet
+    vdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
+    hilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjphdpnhgspghr
+    tghpthhtohepfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhifigrihessh
+    hushgvrdguvgdprhgtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtoheptghlvghmvghnsheslhgrughishgthhdruggv
+X-ME-Proxy: <xmx:_FGwaEk48PQbMl_MEXW7bGDfUzZ7xLf9nwnX6St2l26hgFyA7c001Q>
+    <xmx:_FGwaD8Ot1jqyB9yJ0lt9uLEcJuu_wSASayLWSk2QOGZUtcA5csPJw>
+    <xmx:_FGwaKm0pG4X_xorNQO65Q4kyyRNGYQYfIYTsLUT-pSWq5CU3Jy2nw>
+    <xmx:_FGwaI2Ca5PBJiIdUJwnoA1JmYstp4gXdM_9wk_NDOcxxdCsWcgueg>
+    <xmx:_FGwaES7tCAUBr0miRBS_dIDKE-bNCgQ2gQOiicBphIbYv_PeFLT-53U>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 28 Aug 2025 08:56:27 -0400 (EDT)
+Date: Thu, 28 Aug 2025 21:56:23 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Clemens Ladisch <clemens@ladisch.de>
+Subject: Re: [PATCH 00/19] ALSA: firewire: Use auto-cleanup macros
+Message-ID: <20250828125623.GA346302@workstation.local>
+References: <20250827092017.29014-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250827092017.29014-1-tiwai@suse.de>
 
-Hi Hide Hako,
+Hi,
 
-Am Dienstag, 26. August 2025, 15:44:57 Mitteleurop=C3=A4ische Sommerzeit sc=
-hrieb Hide Hako:
-> Currently, analog sound is not output from the audio jack.
-> This patch allows you to select analog headphones in alsamixer.
-> Works with kernel 6.16.1, but not 6.17-rc1.
->=20
-> Points of concern:
-> 6.16.1 kernel with ubuntu 25.04 Setting -> Sound -> Output Device
->  I select Speakers Built-in Audio, the sound will be output from the audi=
-o jack.
->=20
-> Changes since v1:
-> - As pointed out by Jimmy, the file to be modified has been changed
->   from rk3588-orangepi-5.dtsi to rk3588-orangepi-5-plus.dts.
+On Wed, Aug 27, 2025 at 11:19:54AM +0200, Takashi Iwai wrote:
+> This is another patch set for cleaning up the code with the recent
+> auto-cleanup macros like guard() & co, applied to FireWire sound
+> drivers.
+> 
+> Only code refactoring, and no behavior changes intended.
+> 
+> 
+> Takashi
+ 
+Thanks for the patchset. I have the similar series in my local, but not
+yet completed. The patchset mostly looks good to me, but I can find
+some nitpickings.
 
-All of what Maud said, but also I think this deserves some
+> ===
+> 
+> Takashi Iwai (19):
+>   ALSA: firewire: bebob: Use guard() for mutex locks
+>   ALSA: firewire: dice: Use guard() for mutex locks
+>   ALSA: firewire: Use guard() for mutex locks
 
-=46ixes: 236d225e1ee7 ("arm64: dts: rockchip: Add board device tree for rk3=
-588-orangepi-5-plus")
+The patch title misses 'digi00x: '.
 
-tag + could do the subject as=20
-  "arm64: dts: rockchip: Fix sound output from the audio jack on OrangePI5 =
-Plus"
+>   ALSA: firewire: fireworks: Use guard() for mutex locks
+>   ALSA: firewire: motu: Use guard() for mutex locks
+>   ALSA: firewire: oxfw: Use guard() for mutex locks
+>   ALSA: firewire: tascam: Use guard() for mutex locks
+>   ALSA: firewire: fireface: Use guard() for mutex locks
+>   ALSA: firewire: isight: Use guard() for mutex locks
+>   ALSA: firewire: lib: Use guard() for mutex locks
+>   ALSA: firewire: bebob: Use guard() for spin locks
+>   ALSA: firewire: dice: Use guard() for spin locks
+>   ALSA: firewire: digi00x: Use guard() for spin locks
+>   ALSA: firewire: fireface: Use guard() for spin locks
+>   ALSA: firewire: fireworks: Use guard() for spin locks
+>   ALSA: firewire: motu: Use guard() for spin locks
+>   ALSA: firewire: oxfw: Use guard() for spin locks
+>   ALSA: firewire: tascam: Use guard() for spin locks
+>   ALSA: firewire: lib: Use guard() for spin locks
 
-because this really sounds like it fixes functionality to is supposed
-to be working :-)
+In my opinion, 'scoped_guard()' is available without blaces when the
+inner component is just one line, however the above patches include
+such lines. Additionally, some parts of scoped_guard() are followed by
+useless blank line.
+
+$ git grep -n -A2 scoped_guard sound/firewire/dice/dice-pcm.c
+sound/firewire/dice/dice-pcm.c:199:     scoped_guard(mutex, &dice->mutex) {
+sound/firewire/dice/dice-pcm.c-200-
+sound/firewire/dice/dice-pcm.c-201-             // When source of clock is not internal or any stream is reserved for
+--
+sound/firewire/dice/dice-pcm.c:302:     scoped_guard(mutex, &dice->mutex) {
+sound/firewire/dice/dice-pcm.c-303-             err = snd_dice_stream_start_duplex(dice);
+sound/firewire/dice/dice-pcm.c-304-     }
+--
+sound/firewire/dice/dice-pcm.c:316:     scoped_guard(mutex, &dice->mutex) {
+sound/firewire/dice/dice-pcm.c-317-             err = snd_dice_stream_start_duplex(dice);
+sound/firewire/dice/dice-pcm.c-318-     }
 
 
-Thanks a lot
-Heiko
+Thanks
 
-> Signed-off-by: Hide Hako <opi5plus@bcc.bai.ne.jp>
-> ---
->  arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts b/ar=
-ch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts
-> index 121e4d1c3..44bb15951 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts
-> @@ -78,6 +78,7 @@ &analog_sound {
->  	pinctrl-0 =3D <&hp_detect>;
->  	simple-audio-card,aux-devs =3D <&speaker_amp>, <&headphone_amp>;
->  	simple-audio-card,hp-det-gpios =3D <&gpio1 RK_PD3 GPIO_ACTIVE_LOW>;
-> +	simple-audio-card,pin-switches =3D "Speaker", "Headphones";
->  	simple-audio-card,widgets =3D
->  		"Microphone", "Onboard Microphone",
->  		"Microphone", "Microphone Jack",
->=20
-
-
-
-
+Takashi Sakamoto
