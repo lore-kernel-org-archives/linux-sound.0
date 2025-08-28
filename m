@@ -1,85 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC813126CC
-	for <linux-sound@vger.kernel.org>; Thu, 28 Aug 2025 13:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865F9311C3B
+	for <linux-sound@vger.kernel.org>; Thu, 28 Aug 2025 13:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756387728; cv=none; b=qhXWW9WZu3Fuc+vEgmFYrYdD4CbuxnDHjGbCB9n+w4wQQKl0iWrDuANcQc3Pul59znNNkhuH1HZzYbarysrtDE+ybAZPsT8JR/A0Djx0V7Y3qer5Mu6+olWrxDwb1gXZyzAQ0Eni6TX3CFD/uTpYROXsxRCc9Zet6jGaJ9aO9FE=
+	t=1756387731; cv=none; b=Fa3WQozflDkk4IxadQo/SkYd+Fa6K5793Vq/Gzi/P88N3DMoICsim5XxchAHXP+ddIGu031BdcKUuLZYqYzudJc3In78FHb8+YuWtES4kwMpeWhJmUY5poyI6n9R7g6CmnSprVD4OFBsWK93Lyy9Z5TaR23iigOpppGi9OmOqWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756387728; c=relaxed/simple;
-	bh=5J5S8AJaU5x3gl7ljPHkD4c3vpBn3f2xXN9Jy25CLRs=;
+	s=arc-20240116; t=1756387731; c=relaxed/simple;
+	bh=Oo77QGHRh2Il66KEg/QciNGbbiYW96p50E/Cy+At6F0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KluYS7VrD37xEVs0Yv2z3E7KlzLKSCd7v0vqUsQ5b6ap4N/OyT8UN5EFbY600nCZ1aHZgH3yiqtx01XnCC0o8DSfItacVD7QwEG8foYGdPF8xF8BJxOP7whb+9XK5tZPFx685uBbOViFzsJaFeS9zJr6MHawPn0S3b6J8IZ66nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KlN2CL2P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GcLpietX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KlN2CL2P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GcLpietX; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=lxjCO4r4FNLSUu8sstb8M5W2kmNuSNPKtH8xX/U+uc3T5wvoD4JDVyJ3/Sl4ie006aDEjJ/vyN8aHXe8duu/8/IarGkq4Ruy/t6WOUizx07O6COakqglq3cNlc/fWjOTatQVGr3GmzRygxpfoUs43Yk2CGp+9PYYeW6YnvQv5UE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=K6vGQuec; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=deMlwz8u; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=K6vGQuec; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=deMlwz8u; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KlN2CL2P";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GcLpietX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KlN2CL2P";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GcLpietX"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K6vGQuec";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="deMlwz8u";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K6vGQuec";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="deMlwz8u"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 25F4020BF1;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 779FC22DD4;
 	Thu, 28 Aug 2025 13:28:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756387691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v6lYccxddkk4cfpmQVkUvC+JXNtrTSLurryIAj1C5rQ=;
-	b=KlN2CL2PzJ9K6avxlhG6KdclFEj1qeFcVcsNnnPkJ/IA7nOwHeu6OD7VkArJ4+tIHn761x
-	sqcRD7/M2XcGbELi3NPsAmbvoBx4r+Qqak9tXQbMaTXSMCpxGLgDlz0cNeUcOWtWz3847i
-	Puq7HhNix073IMsoNHVTEJ69M+h9GF0=
+	bh=xp87e/KPtOOzfaaVwD+2SdykCAhzUKpUDs506O+aBt8=;
+	b=K6vGQuecGO0HrqaDBakKc9DDv3/nPAhV35BVtm0mSd+QilxwJwrI0kvMW+fI7Wka9YqGE+
+	u5zKQRug8hNsojlqUJhbageBD8PUKpcrwuqsUTFABmvBojDQLTr30dULlt3jV3RsRpBo/C
+	w2A1mFftW5jW2ywXqQiletKGALrnLxU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756387691;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v6lYccxddkk4cfpmQVkUvC+JXNtrTSLurryIAj1C5rQ=;
-	b=GcLpietXHiJEGk0qGi4S4y97/xt/zhfv6vEd3WbmBJ9S7iX12KI5TuyxJ8AwseA/lDfNP5
-	hP3F7wJN8K4f03Cw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=xp87e/KPtOOzfaaVwD+2SdykCAhzUKpUDs506O+aBt8=;
+	b=deMlwz8uL6UeA+X/A8vtrzrz1DYYtQe0QGt3/q+GbLD2tLdm99MsFmRbxQ3vkMGxcFJFuT
+	r1zpg7rKuPJ8CXBQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756387691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v6lYccxddkk4cfpmQVkUvC+JXNtrTSLurryIAj1C5rQ=;
-	b=KlN2CL2PzJ9K6avxlhG6KdclFEj1qeFcVcsNnnPkJ/IA7nOwHeu6OD7VkArJ4+tIHn761x
-	sqcRD7/M2XcGbELi3NPsAmbvoBx4r+Qqak9tXQbMaTXSMCpxGLgDlz0cNeUcOWtWz3847i
-	Puq7HhNix073IMsoNHVTEJ69M+h9GF0=
+	bh=xp87e/KPtOOzfaaVwD+2SdykCAhzUKpUDs506O+aBt8=;
+	b=K6vGQuecGO0HrqaDBakKc9DDv3/nPAhV35BVtm0mSd+QilxwJwrI0kvMW+fI7Wka9YqGE+
+	u5zKQRug8hNsojlqUJhbageBD8PUKpcrwuqsUTFABmvBojDQLTr30dULlt3jV3RsRpBo/C
+	w2A1mFftW5jW2ywXqQiletKGALrnLxU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756387691;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v6lYccxddkk4cfpmQVkUvC+JXNtrTSLurryIAj1C5rQ=;
-	b=GcLpietXHiJEGk0qGi4S4y97/xt/zhfv6vEd3WbmBJ9S7iX12KI5TuyxJ8AwseA/lDfNP5
-	hP3F7wJN8K4f03Cw==
+	bh=xp87e/KPtOOzfaaVwD+2SdykCAhzUKpUDs506O+aBt8=;
+	b=deMlwz8uL6UeA+X/A8vtrzrz1DYYtQe0QGt3/q+GbLD2tLdm99MsFmRbxQ3vkMGxcFJFuT
+	r1zpg7rKuPJ8CXBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 025071368B;
-	Thu, 28 Aug 2025 13:28:10 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53A4A1368B;
+	Thu, 28 Aug 2025 13:28:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eMkFO2pZsGgmDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 28 Aug 2025 13:28:10 +0000
+	id QPQmE2tZsGgmDgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 28 Aug 2025 13:28:11 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	Clemens Ladisch <clemens@ladisch.de>
-Subject: [PATCH v2 11/19] ALSA: firewire: bebob: Use guard() for spin locks
-Date: Thu, 28 Aug 2025 15:27:15 +0200
-Message-ID: <20250828132802.9032-12-tiwai@suse.de>
+Subject: [PATCH v2 13/19] ALSA: firewire: digi00x: Use guard() for spin locks
+Date: Thu, 28 Aug 2025 15:27:17 +0200
+Message-ID: <20250828132802.9032-14-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250828132802.9032-1-tiwai@suse.de>
 References: <20250828132802.9032-1-tiwai@suse.de>
@@ -121,48 +121,49 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/firewire/bebob/bebob_hwdep.c  | 37 ++++++++---------------------
- sound/firewire/bebob/bebob_midi.c   | 10 ++------
- sound/firewire/bebob/bebob_stream.c | 21 +++++-----------
- 3 files changed, 18 insertions(+), 50 deletions(-)
+ sound/firewire/digi00x/digi00x-hwdep.c       | 37 ++++++--------------
+ sound/firewire/digi00x/digi00x-midi.c        | 10 ++----
+ sound/firewire/digi00x/digi00x-stream.c      | 21 ++++-------
+ sound/firewire/digi00x/digi00x-transaction.c |  8 ++---
+ 4 files changed, 21 insertions(+), 55 deletions(-)
 
-diff --git a/sound/firewire/bebob/bebob_hwdep.c b/sound/firewire/bebob/bebob_hwdep.c
-index 5779e99a6bb2..216d1fceb6e7 100644
---- a/sound/firewire/bebob/bebob_hwdep.c
-+++ b/sound/firewire/bebob/bebob_hwdep.c
-@@ -53,18 +53,14 @@ static __poll_t
- hwdep_poll(struct snd_hwdep *hwdep, struct file *file, poll_table *wait)
+diff --git a/sound/firewire/digi00x/digi00x-hwdep.c b/sound/firewire/digi00x/digi00x-hwdep.c
+index b150607c0a0d..435d18417cf0 100644
+--- a/sound/firewire/digi00x/digi00x-hwdep.c
++++ b/sound/firewire/digi00x/digi00x-hwdep.c
+@@ -63,18 +63,14 @@ static __poll_t hwdep_poll(struct snd_hwdep *hwdep, struct file *file,
+ 			       poll_table *wait)
  {
- 	struct snd_bebob *bebob = hwdep->private_data;
+ 	struct snd_dg00x *dg00x = hwdep->private_data;
 -	__poll_t events;
  
- 	poll_wait(file, &bebob->hwdep_wait, wait);
+ 	poll_wait(file, &dg00x->hwdep_wait, wait);
  
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
- 	if (bebob->dev_lock_changed)
+-	spin_lock_irq(&dg00x->lock);
++	guard(spinlock_irq)(&dg00x->lock);
+ 	if (dg00x->dev_lock_changed || dg00x->msg)
 -		events = EPOLLIN | EPOLLRDNORM;
 +		return EPOLLIN | EPOLLRDNORM;
  	else
 -		events = 0;
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&dg00x->lock);
 -
 -	return events;
 +		return 0;
  }
  
- static int
-@@ -90,39 +86,27 @@ hwdep_get_info(struct snd_bebob *bebob, void __user *arg)
- static int
- hwdep_lock(struct snd_bebob *bebob)
+ static int hwdep_get_info(struct snd_dg00x *dg00x, void __user *arg)
+@@ -98,48 +94,35 @@ static int hwdep_get_info(struct snd_dg00x *dg00x, void __user *arg)
+ 
+ static int hwdep_lock(struct snd_dg00x *dg00x)
  {
 -	int err;
 -
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
+-	spin_lock_irq(&dg00x->lock);
++	guard(spinlock_irq)(&dg00x->lock);
  
- 	if (bebob->dev_lock_count == 0) {
- 		bebob->dev_lock_count = -1;
+ 	if (dg00x->dev_lock_count == 0) {
+ 		dg00x->dev_lock_count = -1;
 -		err = 0;
 +		return 0;
  	} else {
@@ -170,21 +171,20 @@ index 5779e99a6bb2..216d1fceb6e7 100644
 +		return -EBUSY;
  	}
 -
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&dg00x->lock);
 -
 -	return err;
  }
  
- static int
- hwdep_unlock(struct snd_bebob *bebob)
+ static int hwdep_unlock(struct snd_dg00x *dg00x)
  {
 -	int err;
 -
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
+-	spin_lock_irq(&dg00x->lock);
++	guard(spinlock_irq)(&dg00x->lock);
  
- 	if (bebob->dev_lock_count == -1) {
- 		bebob->dev_lock_count = 0;
+ 	if (dg00x->dev_lock_count == -1) {
+ 		dg00x->dev_lock_count = 0;
 -		err = 0;
 +		return 0;
  	} else {
@@ -192,109 +192,135 @@ index 5779e99a6bb2..216d1fceb6e7 100644
 +		return -EBADFD;
  	}
 -
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&dg00x->lock);
 -
 -	return err;
  }
  
- static int
-@@ -130,10 +114,9 @@ hwdep_release(struct snd_hwdep *hwdep, struct file *file)
+ static int hwdep_release(struct snd_hwdep *hwdep, struct file *file)
  {
- 	struct snd_bebob *bebob = hwdep->private_data;
+ 	struct snd_dg00x *dg00x = hwdep->private_data;
  
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
- 	if (bebob->dev_lock_count == -1)
- 		bebob->dev_lock_count = 0;
--	spin_unlock_irq(&bebob->lock);
+-	spin_lock_irq(&dg00x->lock);
++	guard(spinlock_irq)(&dg00x->lock);
+ 	if (dg00x->dev_lock_count == -1)
+ 		dg00x->dev_lock_count = 0;
+-	spin_unlock_irq(&dg00x->lock);
  
  	return 0;
  }
-diff --git a/sound/firewire/bebob/bebob_midi.c b/sound/firewire/bebob/bebob_midi.c
-index 5fd2d363de52..678631f31d3c 100644
---- a/sound/firewire/bebob/bebob_midi.c
-+++ b/sound/firewire/bebob/bebob_midi.c
-@@ -47,9 +47,8 @@ static int midi_close(struct snd_rawmidi_substream *substream)
- static void midi_capture_trigger(struct snd_rawmidi_substream *substrm, int up)
+diff --git a/sound/firewire/digi00x/digi00x-midi.c b/sound/firewire/digi00x/digi00x-midi.c
+index 0f6ca58cc4a0..bcdaf003514b 100644
+--- a/sound/firewire/digi00x/digi00x-midi.c
++++ b/sound/firewire/digi00x/digi00x-midi.c
+@@ -49,21 +49,18 @@ static void midi_capture_trigger(struct snd_rawmidi_substream *substream,
  {
- 	struct snd_bebob *bebob = substrm->rmidi->private_data;
+ 	struct snd_dg00x *dg00x = substream->rmidi->private_data;
+ 	unsigned int port;
 -	unsigned long flags;
  
--	spin_lock_irqsave(&bebob->lock, flags);
-+	guard(spinlock_irqsave)(&bebob->lock);
+ 	if (substream->rmidi->device == 0)
+ 		port = substream->number;
+ 	else
+ 		port = 2;
+ 
+-	spin_lock_irqsave(&dg00x->lock, flags);
++	guard(spinlock_irqsave)(&dg00x->lock);
  
  	if (up)
- 		amdtp_am824_midi_trigger(&bebob->tx_stream,
-@@ -57,16 +56,13 @@ static void midi_capture_trigger(struct snd_rawmidi_substream *substrm, int up)
+ 		amdtp_dot_midi_trigger(&dg00x->tx_stream, port, substream);
  	else
- 		amdtp_am824_midi_trigger(&bebob->tx_stream,
- 					 substrm->number, NULL);
+ 		amdtp_dot_midi_trigger(&dg00x->tx_stream, port, NULL);
 -
--	spin_unlock_irqrestore(&bebob->lock, flags);
+-	spin_unlock_irqrestore(&dg00x->lock, flags);
  }
  
- static void midi_playback_trigger(struct snd_rawmidi_substream *substrm, int up)
+ static void midi_playback_trigger(struct snd_rawmidi_substream *substream,
+@@ -71,21 +68,18 @@ static void midi_playback_trigger(struct snd_rawmidi_substream *substream,
  {
- 	struct snd_bebob *bebob = substrm->rmidi->private_data;
+ 	struct snd_dg00x *dg00x = substream->rmidi->private_data;
+ 	unsigned int port;
 -	unsigned long flags;
  
--	spin_lock_irqsave(&bebob->lock, flags);
-+	guard(spinlock_irqsave)(&bebob->lock);
+ 	if (substream->rmidi->device == 0)
+ 		port = substream->number;
+ 	else
+ 		port = 2;
+ 
+-	spin_lock_irqsave(&dg00x->lock, flags);
++	guard(spinlock_irqsave)(&dg00x->lock);
  
  	if (up)
- 		amdtp_am824_midi_trigger(&bebob->rx_stream,
-@@ -74,8 +70,6 @@ static void midi_playback_trigger(struct snd_rawmidi_substream *substrm, int up)
+ 		amdtp_dot_midi_trigger(&dg00x->rx_stream, port, substream);
  	else
- 		amdtp_am824_midi_trigger(&bebob->rx_stream,
- 					 substrm->number, NULL);
+ 		amdtp_dot_midi_trigger(&dg00x->rx_stream, port, NULL);
 -
--	spin_unlock_irqrestore(&bebob->lock, flags);
+-	spin_unlock_irqrestore(&dg00x->lock, flags);
  }
  
- static void set_midi_substream_names(struct snd_bebob *bebob,
-diff --git a/sound/firewire/bebob/bebob_stream.c b/sound/firewire/bebob/bebob_stream.c
-index 8629b14ded76..449cb17717f0 100644
---- a/sound/firewire/bebob/bebob_stream.c
-+++ b/sound/firewire/bebob/bebob_stream.c
-@@ -964,33 +964,24 @@ void snd_bebob_stream_lock_changed(struct snd_bebob *bebob)
+ static void set_substream_names(struct snd_dg00x *dg00x,
+diff --git a/sound/firewire/digi00x/digi00x-stream.c b/sound/firewire/digi00x/digi00x-stream.c
+index 295163bb8abb..250ffdb26ebd 100644
+--- a/sound/firewire/digi00x/digi00x-stream.c
++++ b/sound/firewire/digi00x/digi00x-stream.c
+@@ -427,33 +427,24 @@ void snd_dg00x_stream_lock_changed(struct snd_dg00x *dg00x)
  
- int snd_bebob_stream_lock_try(struct snd_bebob *bebob)
+ int snd_dg00x_stream_lock_try(struct snd_dg00x *dg00x)
  {
 -	int err;
 -
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
+-	spin_lock_irq(&dg00x->lock);
++	guard(spinlock_irq)(&dg00x->lock);
  
  	/* user land lock this */
--	if (bebob->dev_lock_count < 0) {
+-	if (dg00x->dev_lock_count < 0) {
 -		err = -EBUSY;
 -		goto end;
 -	}
-+	if (bebob->dev_lock_count < 0)
++	if (dg00x->dev_lock_count < 0)
 +		return -EBUSY;
  
  	/* this is the first time */
- 	if (bebob->dev_lock_count++ == 0)
- 		snd_bebob_stream_lock_changed(bebob);
+ 	if (dg00x->dev_lock_count++ == 0)
+ 		snd_dg00x_stream_lock_changed(dg00x);
 -	err = 0;
 -end:
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&dg00x->lock);
 -	return err;
 +	return 0;
  }
  
- void snd_bebob_stream_lock_release(struct snd_bebob *bebob)
+ void snd_dg00x_stream_lock_release(struct snd_dg00x *dg00x)
  {
--	spin_lock_irq(&bebob->lock);
-+	guard(spinlock_irq)(&bebob->lock);
+-	spin_lock_irq(&dg00x->lock);
++	guard(spinlock_irq)(&dg00x->lock);
  
- 	if (WARN_ON(bebob->dev_lock_count <= 0))
+ 	if (WARN_ON(dg00x->dev_lock_count <= 0))
 -		goto end;
 +		return;
- 	if (--bebob->dev_lock_count == 0)
- 		snd_bebob_stream_lock_changed(bebob);
+ 	if (--dg00x->dev_lock_count == 0)
+ 		snd_dg00x_stream_lock_changed(dg00x);
 -end:
--	spin_unlock_irq(&bebob->lock);
+-	spin_unlock_irq(&dg00x->lock);
+ }
+diff --git a/sound/firewire/digi00x/digi00x-transaction.c b/sound/firewire/digi00x/digi00x-transaction.c
+index cf0bcf1c5956..8a1667159930 100644
+--- a/sound/firewire/digi00x/digi00x-transaction.c
++++ b/sound/firewire/digi00x/digi00x-transaction.c
+@@ -11,11 +11,9 @@
+ static void handle_unknown_message(struct snd_dg00x *dg00x,
+ 				   unsigned long long offset, __be32 *buf)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&dg00x->lock, flags);
+-	dg00x->msg = be32_to_cpu(*buf);
+-	spin_unlock_irqrestore(&dg00x->lock, flags);
++	scoped_guard(spinlock_irqsave, &dg00x->lock) {
++		dg00x->msg = be32_to_cpu(*buf);
++	}
+ 
+ 	wake_up(&dg00x->hwdep_wait);
  }
 -- 
 2.50.1
