@@ -1,164 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388D61FA15E;
-	Thu, 28 Aug 2025 14:22:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1D8226D18;
+	Thu, 28 Aug 2025 14:26:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756390943; cv=none; b=Q1V3UAamdv1CHaZCGiE4EtNq6LT7aBpE0HQpejO4Ab5/gpM8pn2ShIS1c98xb9jUkK3mxi5aEmJJ8HAtHqDr2cbrnl5v6wLOQhi3n5O47BOcNzbbgw3IbihfMRNhAEc5j5vZpChyTERoZ/Nc4nKdQe/QmYIMWZG6eN3Nmv8c28A=
+	t=1756391205; cv=none; b=ZhPui96gCsterHg1VJSx840Y0lhrkpANeeP8wmHHpeV7Dxt1lWmS+cVQRKcfIRWN207yA+CtbEQP49aj1Mwmz62P2gc9i1R17RqO0GOCvIhnVShORHwF00E7uP2vJTAmXy3m+wlHPSLulbpBkaD4dPkYPTFRMsMeiP/j1gPbTWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756390943; c=relaxed/simple;
-	bh=ZNUOk/U5XHkyNmed5rNpKTvmqEEuZ1Qc8KSMKTF7N2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VZIIYJHobbQ+mVvyz6LUskk8aiVbWL562wYydoFXAWxqBQCRyNHf7MqIYk2x2B+BVCaUjx0Sa6Lu8eDXQgJHASBi9QHk2xBUWYFqdsWpTYWwXksR4SUQTwB4EVUfMyobsf5rL+ecpMLQO8tr4XsUPTmzvlTfwzrB0UjUjQd9pqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9UWA7qi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756391205; c=relaxed/simple;
+	bh=OgX2g1VbwOW3A/1+b5scV4T2jr/8zC7Zzky6etYrcv4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GklKr7MAd4/0EA9AAUtEVj6+xhsbvSSDBWOYk6NfvJfdG2Y1U/CCa3+7NODp2XD8oT5I737hoo2TPFSWti7fYyr+zQC+gb0YtFkCrIgk/FqTbfqX8dDPAuzZT7lfSNjomZdg3YcqC6jCcfh3GEumlwmyZnJavHFa8GJNgqoWEFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aHrNGTMa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9UWA7qi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A761C4CEEB;
-	Thu, 28 Aug 2025 14:22:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHrNGTMa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74F6AC4CEED;
+	Thu, 28 Aug 2025 14:26:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756390942;
-	bh=ZNUOk/U5XHkyNmed5rNpKTvmqEEuZ1Qc8KSMKTF7N2A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c9UWA7qi1mCxALI/fcKN3YcVU6r7ymNdfLj7eTcXldzCR6zJit7gQ+5KOHpnKbm+T
-	 dhbMER4Rm403oplzlUJCyXAlhkX3xFaq1m3zp+Z9K3G/gN2ZWbvRhkpuB3S+3TyY5e
-	 8UpVhJuYv2NcCUbh4QCBulLMoC2/cqWBFAugEm42eA9BU7lmnYLS3eXGpiJn7eRPfP
-	 l8dzuY30A7ABSOMdKTzJstpikUD3zRCs09pjYhcDbF529t5uaGmXF4NIvzBtOg2D2m
-	 ZgZVZLKojrkpB3D753h4uk7Tm2EL78Zl/HK5T3rBtZ0Sm6e9CHPxpg+t5mA68wsQWV
-	 sMYDhmNK+NiNQ==
-Date: Thu, 28 Aug 2025 16:22:19 +0200
+	s=k20201202; t=1756391205;
+	bh=OgX2g1VbwOW3A/1+b5scV4T2jr/8zC7Zzky6etYrcv4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=aHrNGTMaTGob9tj9cRYan5PlGmiK7c94wZV665v4S6Iftfjt3+XWdaYcJmN6OIfoL
+	 OIOw+9FouyrcEVNVPjRt2H4tZTs4B/DllMrkQ9x1XwYGN1cslg+511hgE/GwvZ0wrf
+	 iqBDxrwtgreuOJB9XybZzvXjemhOl7JILve2tMco8BR5UxfppxrZHy53IHlpAc5Ukh
+	 Dt4IMYIAsXWE3noY5UWAUe9CEq4Ez8MopM4DeRxc34OO77F6rf+0WEC93PzP8S0LAs
+	 Cg9V/k2K4WfI0CD+z3BZwKZ7Y5xt4QhKiSsZ8GrnU1VTi2JY4Es+Q3Z05kBkjtF1Or
+	 xz3G0AmYNTRug==
 From: Mark Brown <broonie@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Marc Zyngier <maz@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 30/37] ASoC: dt-bindings: apple,mca: Add t6020-mca
- compatible
-Message-ID: <aLBmG_YKAjfhclz5@finisterre.sirena.org.uk>
-Mail-Followup-To: Janne Grunau <j@jannau.net>, Sven Peter <sven@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Marc Zyngier <maz@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250828-dt-apple-t6020-v1-30-507ba4c4b98e@jannau.net>
+To: Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wenst@chromium.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250825151111.3696404-1-wenst@chromium.org>
+References: <20250825151111.3696404-1-wenst@chromium.org>
+Subject: Re: [PATCH v2] ASoC: mediatek: common: Switch to
+ for_each_available_child_of_node_scoped()
+Message-Id: <175639120317.325624.3705402613246984996.b4-ty@kernel.org>
+Date: Thu, 28 Aug 2025 16:26:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="R/s8UvYbtRjS5rew"
-Content-Disposition: inline
-In-Reply-To: <20250828-dt-apple-t6020-v1-30-507ba4c4b98e@jannau.net>
-X-Cookie: Filmed before a live audience.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-a9b2a
 
+On Mon, 25 Aug 2025 23:11:09 +0800, Chen-Yu Tsai wrote:
+> Using for_each_available_child_of_node_scoped() allows us to get rid of
+> of_node_put() calls from early returns or breaks in the loop. It also
+> fixes issues with missing of_node_put() calls.
+> 
+> Switch to for_each_available_child_of_node_scoped() in parse_dai_link_info().
+> Also drop the braces around if blocks now that the inner block is just
+> one statement.
+> 
+> [...]
 
---R/s8UvYbtRjS5rew
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Aug 28, 2025 at 04:01:49PM +0200, Janne Grunau wrote:
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatible "apple,mca" anymore [1]. Use
-> "apple,t8103-mca" as base compatible as it is the SoC the driver and
-> bindings were written for.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Thanks!
 
---R/s8UvYbtRjS5rew
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: mediatek: common: Switch to for_each_available_child_of_node_scoped()
+      commit: b088b6189a4066b97cef459afd312fd168a76dea
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmiwZhoACgkQJNaLcl1U
-h9DqSwf9Geew2GG8U08Cp3YSqes1Niq7rfNXO481mbApMr+kngCZ4cjnxRGwZ690
-77xnO5uGLJkfPBt8ZHzyyJK1A/u2sE+Smbb2mXKJoSNJ6Z2Yn/4i+Ez9OZ+ZyftL
-fZMNo3ol1vREKrfdKTcgL5IiDYy/VyYGS+TUTWrLjv5N+RFP8a2KZKTKKz7urWMl
-JuJt4kjIjX/7qY2ZM/VHS6F/yXZ1salKEYmdRATzPA6mAXix7sPVnAsfu3kkBJ65
-TZnb9NKtLK/ZB9V/X8GzXTxHuDeY9TmCpc/+eebbXeBZpOou9mTxYxpHoRAF3MXC
-WEXpefNWCR7pc3QpdL7HzMvzvIT5GQ==
-=4Q82
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---R/s8UvYbtRjS5rew--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
