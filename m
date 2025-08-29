@@ -1,86 +1,76 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE3432144F
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71DC314A9C
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478893; cv=none; b=mhO2QzD55ZAy3kAUzIPXv5vz/C+pP9PLcjc/jgoV4ZORoLQhUVWpy7ZGgAvFEqZL+uZL/Ywu32bCaRtu40NpVgSL9BiQzvS20yq6QsRKryO10TQJL4NhYhnt1dgisKEl5AQQxuZjF/u8qqrMIPJpYkOhMEH57DZd+jYA2GPxHBM=
+	t=1756479194; cv=none; b=Sw+vO6n0EbJeQFOL9LxYM3iXgqgnc1PAyH3risOf+z27dq6aQ8USAKqlsOd6JiC1JYNgeXmEiuSMTNb0yVyQ5RpcU2dQ03ybCxDeEvByjS2bcsYBc/espg841xxim/8WyyT9excO41zoSbJ2wtvPB9Vs/Zr+m8oQndkGvtltCXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478893; c=relaxed/simple;
-	bh=Lo7aBsuh76lYt6chk5gtrzSaj3o8kAjHGcJWK5kUmvE=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s8NjY7pp+TuItOrmnOBzKQjcmfTbS327eicnZprCrRidVHsQyPOdlH0O122VkPiEg/f9p8CXib+/7tm9O9Gi8O/LvVkAnJpeCNVHIJXcV+0EsONxUEKuWZcHjSMKDWr1rUV6JxrA2LtqSSnQVo1r8CnU86NOCDWeixwGWHEF2Ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Fwi3zKr5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yinfIcl6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Fwi3zKr5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yinfIcl6; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1756479194; c=relaxed/simple;
+	bh=rnylBpQJBmpwXzqnnzBQrLSVFfYgzOBoajAMljH8hoc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=LY9iLCdSzED6yPVrVk6vh8BZSfi/zySBMZrIHgs9Rl3tBGe2lG4SKJ2scuPTvMBhtdJK5HivDUJ10M0ynRvPoc/xHcIrOPJjVXLC42aYZAc4WmmmxvoDg0G6tTcwTCDGUh7JbThh5cB8WkaTxPusezrNDX7yxj2coePeADHspUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bM1gfSYD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VNAsG67U; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bM1gfSYD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VNAsG67U; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fwi3zKr5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yinfIcl6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fwi3zKr5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yinfIcl6"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bM1gfSYD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VNAsG67U";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bM1gfSYD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VNAsG67U"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 759895C248;
-	Fri, 29 Aug 2025 14:44:04 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AC2E722678;
+	Fri, 29 Aug 2025 14:53:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tpmvklQYREWftqOl9P1qE5vSNfXl6cwlTWZp2RAvblk=;
-	b=Fwi3zKr5uCXCYEfDECkZrxyyVYFkPBP6+2i/ntfVw5SytT0hQNYhFzHWWI/PCvvMoWO92y
-	RD+G9qs7XlfJwG80S6E2yLktu2l05sjeLpVA6Ilh4hP4qM9XZxMcRdmuZgkvqWUUVRQz3v
-	6gXl0K7FQpbdeQm/aO3ds3GMlsXKbUg=
+	t=1756479190; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xXG8vSIYRY+Mk9kKdt69BnDm91M6cQCoHJjW+Qp2b60=;
+	b=bM1gfSYDMiB/23HNJkyBz2euoc9/LOpVPmDoScdJeumZI2sHTVNVzCyTu2N6GE9HNZyraO
+	kVwr7rMGw6Gva6h69CkKdboOcEE9HeE0FDA1MEwsHdujmJDayupveAIDFN9ydXHgd8c37n
+	KxH/wia8+nvJeXB4BWIkze9tg3HnyIk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478644;
+	s=susede2_ed25519; t=1756479190;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tpmvklQYREWftqOl9P1qE5vSNfXl6cwlTWZp2RAvblk=;
-	b=yinfIcl6UIXfdHuNSZ3GORoXjLoN+z6Dxrw6on/t1j3yNbi+HQhus2QW2i7RiNLA2aWBVw
-	e6VTG+pOdqQhF5AA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xXG8vSIYRY+Mk9kKdt69BnDm91M6cQCoHJjW+Qp2b60=;
+	b=VNAsG67UloOuVhLv8Im2HMMZlejRDjtY6onFcziZWxoaecdiKeoXq7E4xt9N+Gjn9GNORQ
+	v5WtKWsTg2MXrRAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bM1gfSYD;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VNAsG67U
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tpmvklQYREWftqOl9P1qE5vSNfXl6cwlTWZp2RAvblk=;
-	b=Fwi3zKr5uCXCYEfDECkZrxyyVYFkPBP6+2i/ntfVw5SytT0hQNYhFzHWWI/PCvvMoWO92y
-	RD+G9qs7XlfJwG80S6E2yLktu2l05sjeLpVA6Ilh4hP4qM9XZxMcRdmuZgkvqWUUVRQz3v
-	6gXl0K7FQpbdeQm/aO3ds3GMlsXKbUg=
+	t=1756479190; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xXG8vSIYRY+Mk9kKdt69BnDm91M6cQCoHJjW+Qp2b60=;
+	b=bM1gfSYDMiB/23HNJkyBz2euoc9/LOpVPmDoScdJeumZI2sHTVNVzCyTu2N6GE9HNZyraO
+	kVwr7rMGw6Gva6h69CkKdboOcEE9HeE0FDA1MEwsHdujmJDayupveAIDFN9ydXHgd8c37n
+	KxH/wia8+nvJeXB4BWIkze9tg3HnyIk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478644;
+	s=susede2_ed25519; t=1756479190;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tpmvklQYREWftqOl9P1qE5vSNfXl6cwlTWZp2RAvblk=;
-	b=yinfIcl6UIXfdHuNSZ3GORoXjLoN+z6Dxrw6on/t1j3yNbi+HQhus2QW2i7RiNLA2aWBVw
-	e6VTG+pOdqQhF5AA==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xXG8vSIYRY+Mk9kKdt69BnDm91M6cQCoHJjW+Qp2b60=;
+	b=VNAsG67UloOuVhLv8Im2HMMZlejRDjtY6onFcziZWxoaecdiKeoXq7E4xt9N+Gjn9GNORQ
+	v5WtKWsTg2MXrRAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E19F13A3E;
-	Fri, 29 Aug 2025 14:44:04 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8E04813326;
+	Fri, 29 Aug 2025 14:53:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aFDNFbS8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:04 +0000
+	id Ckw0Ida+sWhzGwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:53:10 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 61/61] ALSA: ymfpci: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:43:36 +0200
-Message-ID: <20250829144342.4290-62-tiwai@suse.de>
+Subject: [PATCH 00/18] ALSA: Use auto-cleanup macros for ISA drivers
+Date: Fri, 29 Aug 2025 16:52:40 +0200
+Message-ID: <20250829145300.5460-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
-References: <20250829144342.4290-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,692 +79,104 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: AC2E722678
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLsqo7dymd5dgmoaprf5rep8is)];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+X-Spam-Score: -3.01
 
-Clean up the code using guard() for spin locks.
+This is yet another patch set for applying the auto-cleanup macros
+to sound/isa/* drivers.  Merely code refactoring and no functional
+changes are expected.
 
-Merely code refactoring, and no behavior change.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/ymfpci/ymfpci_main.c | 248 ++++++++++++++-------------------
- 1 file changed, 101 insertions(+), 147 deletions(-)
+Takashi
 
-diff --git a/sound/pci/ymfpci/ymfpci_main.c b/sound/pci/ymfpci/ymfpci_main.c
-index 75e013b66c5b..eb373d9395e3 100644
---- a/sound/pci/ymfpci/ymfpci_main.c
-+++ b/sound/pci/ymfpci/ymfpci_main.c
-@@ -159,26 +159,21 @@ static u32 snd_ymfpci_calc_lpfQ(u32 rate)
- 
- static void snd_ymfpci_hw_start(struct snd_ymfpci *chip)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	if (chip->start_count++ > 0)
--		goto __end;
-+		return;
- 	snd_ymfpci_writel(chip, YDSXGR_MODE,
- 			  snd_ymfpci_readl(chip, YDSXGR_MODE) | 3);
- 	chip->active_bank = snd_ymfpci_readl(chip, YDSXGR_CTRLSELECT) & 1;
--      __end:
--      	spin_unlock_irqrestore(&chip->reg_lock, flags);
- }
- 
- static void snd_ymfpci_hw_stop(struct snd_ymfpci *chip)
- {
--	unsigned long flags;
- 	long timeout = 1000;
- 
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	if (--chip->start_count > 0)
--		goto __end;
-+		return;
- 	snd_ymfpci_writel(chip, YDSXGR_MODE,
- 			  snd_ymfpci_readl(chip, YDSXGR_MODE) & ~3);
- 	while (timeout-- > 0) {
-@@ -189,8 +184,6 @@ static void snd_ymfpci_hw_stop(struct snd_ymfpci *chip)
- 		atomic_set(&chip->interrupt_sleep_count, 0);
- 		wake_up(&chip->interrupt_sleep);
- 	}
--      __end:
--      	spin_unlock_irqrestore(&chip->reg_lock, flags);
- }
- 
- /*
-@@ -239,7 +232,6 @@ static int snd_ymfpci_voice_alloc(struct snd_ymfpci *chip,
- 				  enum snd_ymfpci_voice_type type, int pair,
- 				  struct snd_ymfpci_voice **rvoice)
- {
--	unsigned long flags;
- 	int result;
- 	
- 	if (snd_BUG_ON(!rvoice))
-@@ -247,7 +239,7 @@ static int snd_ymfpci_voice_alloc(struct snd_ymfpci *chip,
- 	if (snd_BUG_ON(pair && type != YMFPCI_PCM))
- 		return -EINVAL;
- 	
--	spin_lock_irqsave(&chip->voice_lock, flags);
-+	guard(spinlock_irqsave)(&chip->voice_lock);
- 	for (;;) {
- 		result = voice_alloc(chip, type, pair, rvoice);
- 		if (result == 0 || type != YMFPCI_PCM)
-@@ -255,18 +247,15 @@ static int snd_ymfpci_voice_alloc(struct snd_ymfpci *chip,
- 		/* TODO: synth/midi voice deallocation */
- 		break;
- 	}
--	spin_unlock_irqrestore(&chip->voice_lock, flags);	
- 	return result;		
- }
- 
- static int snd_ymfpci_voice_free(struct snd_ymfpci *chip, struct snd_ymfpci_voice *pvoice)
- {
--	unsigned long flags;
--	
- 	if (snd_BUG_ON(!pvoice))
- 		return -EINVAL;
- 	snd_ymfpci_hw_stop(chip);
--	spin_lock_irqsave(&chip->voice_lock, flags);
-+	guard(spinlock_irqsave)(&chip->voice_lock);
- 	if (pvoice->number == chip->src441_used) {
- 		chip->src441_used = -1;
- 		pvoice->ypcm->use_441_slot = 0;
-@@ -274,7 +263,6 @@ static int snd_ymfpci_voice_free(struct snd_ymfpci *chip, struct snd_ymfpci_voic
- 	pvoice->use = pvoice->pcm = pvoice->synth = pvoice->midi = 0;
- 	pvoice->ypcm = NULL;
- 	pvoice->interrupt = NULL;
--	spin_unlock_irqrestore(&chip->voice_lock, flags);
- 	return 0;
- }
- 
-@@ -292,7 +280,7 @@ static void snd_ymfpci_pcm_interrupt(struct snd_ymfpci *chip, struct snd_ymfpci_
- 		return;
- 	if (ypcm->substream == NULL)
- 		return;
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	if (ypcm->running) {
- 		pos = le32_to_cpu(voice->bank[chip->active_bank].start);
- 		if (pos < ypcm->last_pos)
-@@ -334,7 +322,6 @@ static void snd_ymfpci_pcm_interrupt(struct snd_ymfpci *chip, struct snd_ymfpci_
- 			ypcm->update_pcm_vol--;
- 		}
- 	}
--	spin_unlock(&chip->reg_lock);
- }
- 
- static void snd_ymfpci_pcm_capture_interrupt(struct snd_pcm_substream *substream)
-@@ -344,7 +331,7 @@ static void snd_ymfpci_pcm_capture_interrupt(struct snd_pcm_substream *substream
- 	struct snd_ymfpci *chip = ypcm->chip;
- 	u32 pos, delta;
- 	
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	if (ypcm->running) {
- 		pos = le32_to_cpu(chip->bank_capture[ypcm->capture_bank_number][chip->active_bank]->start) >> ypcm->shift;
- 		if (pos < ypcm->last_pos)
-@@ -366,7 +353,6 @@ static void snd_ymfpci_pcm_capture_interrupt(struct snd_pcm_substream *substream
- 			spin_lock(&chip->reg_lock);
- 		}
- 	}
--	spin_unlock(&chip->reg_lock);
- }
- 
- static int snd_ymfpci_playback_trigger(struct snd_pcm_substream *substream,
-@@ -377,11 +363,9 @@ static int snd_ymfpci_playback_trigger(struct snd_pcm_substream *substream,
- 	struct snd_kcontrol *kctl = NULL;
- 	int result = 0;
- 
--	spin_lock(&chip->reg_lock);
--	if (ypcm->voices[0] == NULL) {
--		result = -EINVAL;
--		goto __unlock;
--	}
-+	guard(spinlock)(&chip->reg_lock);
-+	if (ypcm->voices[0] == NULL)
-+		return -EINVAL;
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-@@ -405,11 +389,8 @@ static int snd_ymfpci_playback_trigger(struct snd_pcm_substream *substream,
- 		ypcm->running = 0;
- 		break;
- 	default:
--		result = -EINVAL;
--		break;
-+		return -EINVAL;
- 	}
--      __unlock:
--	spin_unlock(&chip->reg_lock);
- 	if (kctl)
- 		snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_INFO, &kctl->id);
- 	return result;
-@@ -422,7 +403,7 @@ static int snd_ymfpci_capture_trigger(struct snd_pcm_substream *substream,
- 	int result = 0;
- 	u32 tmp;
- 
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-@@ -442,7 +423,6 @@ static int snd_ymfpci_capture_trigger(struct snd_pcm_substream *substream,
- 		result = -EINVAL;
- 		break;
- 	}
--	spin_unlock(&chip->reg_lock);
- 	return result;
- }
- 
-@@ -489,7 +469,6 @@ static void snd_ymfpci_pcm_init_voice(struct snd_ymfpci_pcm *ypcm, unsigned int
- 	unsigned int nbank;
- 	__le32 vol_left, vol_right;
- 	u8 use_left, use_right;
--	unsigned long flags;
- 
- 	if (snd_BUG_ON(!voice))
- 		return;
-@@ -509,26 +488,26 @@ static void snd_ymfpci_pcm_init_voice(struct snd_ymfpci_pcm *ypcm, unsigned int
- 		vol_left = cpu_to_le32(0x40000000);
- 		vol_right = cpu_to_le32(0x40000000);
- 	}
--	spin_lock_irqsave(&ypcm->chip->voice_lock, flags);
--	format = runtime->channels == 2 ? 0x00010000 : 0;
--	if (snd_pcm_format_width(runtime->format) == 8)
--		format |= 0x80000000;
--	else if (ypcm->chip->device_id == PCI_DEVICE_ID_YAMAHA_754 &&
--		 runtime->rate == 44100 && runtime->channels == 2 &&
--		 voiceidx == 0 && (ypcm->chip->src441_used == -1 ||
--				   ypcm->chip->src441_used == voice->number)) {
--		ypcm->chip->src441_used = voice->number;
--		ypcm->use_441_slot = 1;
--		format |= 0x10000000;
-+	scoped_guard(spinlock_irqsave, &ypcm->chip->voice_lock) {
-+		format = runtime->channels == 2 ? 0x00010000 : 0;
-+		if (snd_pcm_format_width(runtime->format) == 8)
-+			format |= 0x80000000;
-+		else if (ypcm->chip->device_id == PCI_DEVICE_ID_YAMAHA_754 &&
-+			 runtime->rate == 44100 && runtime->channels == 2 &&
-+			 voiceidx == 0 && (ypcm->chip->src441_used == -1 ||
-+					   ypcm->chip->src441_used == voice->number)) {
-+			ypcm->chip->src441_used = voice->number;
-+			ypcm->use_441_slot = 1;
-+			format |= 0x10000000;
-+		}
-+		if (ypcm->chip->src441_used == voice->number &&
-+		    (format & 0x10000000) == 0) {
-+			ypcm->chip->src441_used = -1;
-+			ypcm->use_441_slot = 0;
-+		}
-+		if (runtime->channels == 2 && (voiceidx & 1) != 0)
-+			format |= 1;
- 	}
--	if (ypcm->chip->src441_used == voice->number &&
--	    (format & 0x10000000) == 0) {
--		ypcm->chip->src441_used = -1;
--		ypcm->use_441_slot = 0;
--	}
--	if (runtime->channels == 2 && (voiceidx & 1) != 0)
--		format |= 1;
--	spin_unlock_irqrestore(&ypcm->chip->voice_lock, flags);
- 	for (nbank = 0; nbank < 2; nbank++) {
- 		bank = &voice->bank[nbank];
- 		memset(bank, 0, sizeof(*bank));
-@@ -596,19 +575,18 @@ static int snd_ymfpci_ac3_init(struct snd_ymfpci *chip)
- 	chip->bank_effect[4][0]->loop_end =
- 	chip->bank_effect[4][1]->loop_end = cpu_to_le32(1024);
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	snd_ymfpci_writel(chip, YDSXGR_MAPOFEFFECT,
- 			  snd_ymfpci_readl(chip, YDSXGR_MAPOFEFFECT) | 3 << 3);
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
- static int snd_ymfpci_ac3_done(struct snd_ymfpci *chip)
- {
--	spin_lock_irq(&chip->reg_lock);
--	snd_ymfpci_writel(chip, YDSXGR_MAPOFEFFECT,
--			  snd_ymfpci_readl(chip, YDSXGR_MAPOFEFFECT) & ~(3 << 3));
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		snd_ymfpci_writel(chip, YDSXGR_MAPOFEFFECT,
-+				  snd_ymfpci_readl(chip, YDSXGR_MAPOFEFFECT) & ~(3 << 3));
-+	}
- 	// snd_ymfpci_irq_wait(chip);
- 	if (chip->ac3_tmp_base.area) {
- 		snd_dma_free_pages(&chip->ac3_tmp_base);
-@@ -778,28 +756,28 @@ static irqreturn_t snd_ymfpci_interrupt(int irq, void *dev_id)
- 	status = snd_ymfpci_readl(chip, YDSXGR_STATUS);
- 	if (status & 0x80000000) {
- 		chip->active_bank = snd_ymfpci_readl(chip, YDSXGR_CTRLSELECT) & 1;
--		spin_lock(&chip->voice_lock);
--		for (nvoice = 0; nvoice < YDSXG_PLAYBACK_VOICES; nvoice++) {
--			voice = &chip->voices[nvoice];
--			if (voice->interrupt)
--				voice->interrupt(chip, voice);
--		}
--		for (nvoice = 0; nvoice < YDSXG_CAPTURE_VOICES; nvoice++) {
--			if (chip->capture_substream[nvoice])
--				snd_ymfpci_pcm_capture_interrupt(chip->capture_substream[nvoice]);
--		}
-+		scoped_guard(spinlock, &chip->voice_lock) {
-+			for (nvoice = 0; nvoice < YDSXG_PLAYBACK_VOICES; nvoice++) {
-+				voice = &chip->voices[nvoice];
-+				if (voice->interrupt)
-+					voice->interrupt(chip, voice);
-+			}
-+			for (nvoice = 0; nvoice < YDSXG_CAPTURE_VOICES; nvoice++) {
-+				if (chip->capture_substream[nvoice])
-+					snd_ymfpci_pcm_capture_interrupt(chip->capture_substream[nvoice]);
-+			}
- #if 0
--		for (nvoice = 0; nvoice < YDSXG_EFFECT_VOICES; nvoice++) {
--			if (chip->effect_substream[nvoice])
--				snd_ymfpci_pcm_effect_interrupt(chip->effect_substream[nvoice]);
--		}
-+			for (nvoice = 0; nvoice < YDSXG_EFFECT_VOICES; nvoice++) {
-+				if (chip->effect_substream[nvoice])
-+					snd_ymfpci_pcm_effect_interrupt(chip->effect_substream[nvoice]);
-+			}
- #endif
--		spin_unlock(&chip->voice_lock);
--		spin_lock(&chip->reg_lock);
--		snd_ymfpci_writel(chip, YDSXGR_STATUS, 0x80000000);
--		mode = snd_ymfpci_readl(chip, YDSXGR_MODE) | 2;
--		snd_ymfpci_writel(chip, YDSXGR_MODE, mode);
--		spin_unlock(&chip->reg_lock);
-+		}
-+		scoped_guard(spinlock, &chip->reg_lock) {
-+			snd_ymfpci_writel(chip, YDSXGR_STATUS, 0x80000000);
-+			mode = snd_ymfpci_readl(chip, YDSXGR_MODE) | 2;
-+			snd_ymfpci_writel(chip, YDSXGR_MODE, mode);
-+		}
- 
- 		if (atomic_read(&chip->interrupt_sleep_count)) {
- 			atomic_set(&chip->interrupt_sleep_count, 0);
-@@ -936,12 +914,11 @@ static int snd_ymfpci_playback_open(struct snd_pcm_substream *substream)
- 	ypcm->output_front = 1;
- 	ypcm->output_rear = chip->mode_dup4ch ? 1 : 0;
- 	ypcm->swap_rear = 0;
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	if (ypcm->output_rear) {
- 		ymfpci_open_extension(chip);
- 		chip->rear_opened++;
- 	}
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -959,14 +936,14 @@ static int snd_ymfpci_playback_spdif_open(struct snd_pcm_substream *substream)
- 	ypcm->output_front = 0;
- 	ypcm->output_rear = 1;
- 	ypcm->swap_rear = 1;
--	spin_lock_irq(&chip->reg_lock);
--	snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTCTRL,
--			  snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) | 2);
--	ymfpci_open_extension(chip);
--	chip->spdif_pcm_bits = chip->spdif_bits;
--	snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_pcm_bits);
--	chip->spdif_opened++;
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTCTRL,
-+				  snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) | 2);
-+		ymfpci_open_extension(chip);
-+		chip->spdif_pcm_bits = chip->spdif_bits;
-+		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_pcm_bits);
-+		chip->spdif_opened++;
-+	}
- 
- 	chip->spdif_pcm_ctl->vd[0].access &= ~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
- 	snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE |
-@@ -988,10 +965,9 @@ static int snd_ymfpci_playback_4ch_open(struct snd_pcm_substream *substream)
- 	ypcm->output_front = 0;
- 	ypcm->output_rear = 1;
- 	ypcm->swap_rear = 0;
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	ymfpci_open_extension(chip);
- 	chip->rear_opened++;
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -1048,12 +1024,12 @@ static int snd_ymfpci_playback_close(struct snd_pcm_substream *substream)
- 	struct snd_ymfpci *chip = snd_pcm_substream_chip(substream);
- 	struct snd_ymfpci_pcm *ypcm = substream->runtime->private_data;
- 
--	spin_lock_irq(&chip->reg_lock);
--	if (ypcm->output_rear && chip->rear_opened > 0) {
--		chip->rear_opened--;
--		ymfpci_close_extension(chip);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		if (ypcm->output_rear && chip->rear_opened > 0) {
-+			chip->rear_opened--;
-+			ymfpci_close_extension(chip);
-+		}
- 	}
--	spin_unlock_irq(&chip->reg_lock);
- 	return snd_ymfpci_playback_close_1(substream);
- }
- 
-@@ -1061,13 +1037,13 @@ static int snd_ymfpci_playback_spdif_close(struct snd_pcm_substream *substream)
- {
- 	struct snd_ymfpci *chip = snd_pcm_substream_chip(substream);
- 
--	spin_lock_irq(&chip->reg_lock);
--	chip->spdif_opened = 0;
--	ymfpci_close_extension(chip);
--	snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTCTRL,
--			  snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) & ~2);
--	snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_bits);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		chip->spdif_opened = 0;
-+		ymfpci_close_extension(chip);
-+		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTCTRL,
-+				  snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) & ~2);
-+		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_bits);
-+	}
- 	chip->spdif_pcm_ctl->vd[0].access |= SNDRV_CTL_ELEM_ACCESS_INACTIVE;
- 	snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE |
- 		       SNDRV_CTL_EVENT_MASK_INFO, &chip->spdif_pcm_ctl->id);
-@@ -1078,12 +1054,12 @@ static int snd_ymfpci_playback_4ch_close(struct snd_pcm_substream *substream)
- {
- 	struct snd_ymfpci *chip = snd_pcm_substream_chip(substream);
- 
--	spin_lock_irq(&chip->reg_lock);
--	if (chip->rear_opened > 0) {
--		chip->rear_opened--;
--		ymfpci_close_extension(chip);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		if (chip->rear_opened > 0) {
-+			chip->rear_opened--;
-+			ymfpci_close_extension(chip);
-+		}
- 	}
--	spin_unlock_irq(&chip->reg_lock);
- 	return snd_ymfpci_playback_close_1(substream);
- }
- 
-@@ -1264,11 +1240,10 @@ static int snd_ymfpci_spdif_default_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	ucontrol->value.iec958.status[0] = (chip->spdif_bits >> 0) & 0xff;
- 	ucontrol->value.iec958.status[1] = (chip->spdif_bits >> 8) & 0xff;
- 	ucontrol->value.iec958.status[3] = IEC958_AES3_CON_FS_48000;
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -1281,12 +1256,11 @@ static int snd_ymfpci_spdif_default_put(struct snd_kcontrol *kcontrol,
- 
- 	val = ((ucontrol->value.iec958.status[0] & 0x3e) << 0) |
- 	      (ucontrol->value.iec958.status[1] << 8);
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	change = chip->spdif_bits != val;
- 	chip->spdif_bits = val;
- 	if ((snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) & 1) && chip->pcm_spdif == NULL)
- 		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_bits);
--	spin_unlock_irq(&chip->reg_lock);
- 	return change;
- }
- 
-@@ -1311,10 +1285,9 @@ static int snd_ymfpci_spdif_mask_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	ucontrol->value.iec958.status[0] = 0x3e;
- 	ucontrol->value.iec958.status[1] = 0xff;
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -1339,11 +1312,10 @@ static int snd_ymfpci_spdif_stream_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	ucontrol->value.iec958.status[0] = (chip->spdif_pcm_bits >> 0) & 0xff;
- 	ucontrol->value.iec958.status[1] = (chip->spdif_pcm_bits >> 8) & 0xff;
- 	ucontrol->value.iec958.status[3] = IEC958_AES3_CON_FS_48000;
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -1356,12 +1328,11 @@ static int snd_ymfpci_spdif_stream_put(struct snd_kcontrol *kcontrol,
- 
- 	val = ((ucontrol->value.iec958.status[0] & 0x3e) << 0) |
- 	      (ucontrol->value.iec958.status[1] << 8);
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	change = chip->spdif_pcm_bits != val;
- 	chip->spdif_pcm_bits = val;
- 	if ((snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) & 2))
- 		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_pcm_bits);
--	spin_unlock_irq(&chip->reg_lock);
- 	return change;
- }
- 
-@@ -1387,9 +1358,8 @@ static int snd_ymfpci_drec_source_get(struct snd_kcontrol *kcontrol, struct snd_
- 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
- 	u16 reg;
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	reg = snd_ymfpci_readw(chip, YDSXGR_GLOBALCTRL);
--	spin_unlock_irq(&chip->reg_lock);
- 	if (!(reg & 0x100))
- 		value->value.enumerated.item[0] = 0;
- 	else
-@@ -1402,14 +1372,13 @@ static int snd_ymfpci_drec_source_put(struct snd_kcontrol *kcontrol, struct snd_
- 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
- 	u16 reg, old_reg;
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	old_reg = snd_ymfpci_readw(chip, YDSXGR_GLOBALCTRL);
- 	if (value->value.enumerated.item[0] == 0)
- 		reg = old_reg & ~0x100;
- 	else
- 		reg = (old_reg & ~0x300) | 0x100 | ((value->value.enumerated.item[0] == 2) << 9);
- 	snd_ymfpci_writew(chip, YDSXGR_GLOBALCTRL, reg);
--	spin_unlock_irq(&chip->reg_lock);
- 	return reg != old_reg;
- }
- 
-@@ -1469,12 +1438,11 @@ static int snd_ymfpci_put_single(struct snd_kcontrol *kcontrol,
- 	}
- 	val = (ucontrol->value.integer.value[0] & mask);
- 	val <<= shift;
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	oval = snd_ymfpci_readl(chip, reg);
- 	val = (oval & ~(mask << shift)) | val;
- 	change = val != oval;
- 	snd_ymfpci_writel(chip, reg, val);
--	spin_unlock_irq(&chip->reg_lock);
- 	return change;
- }
- 
-@@ -1510,9 +1478,8 @@ static int snd_ymfpci_get_double(struct snd_kcontrol *kcontrol, struct snd_ctl_e
- 	
- 	if (reg < 0x80 || reg >= 0xc0)
- 		return -EINVAL;
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	val = snd_ymfpci_readl(chip, reg);
--	spin_unlock_irq(&chip->reg_lock);
- 	ucontrol->value.integer.value[0] = (val >> shift_left) & mask;
- 	ucontrol->value.integer.value[1] = (val >> shift_right) & mask;
- 	return 0;
-@@ -1532,12 +1499,11 @@ static int snd_ymfpci_put_double(struct snd_kcontrol *kcontrol, struct snd_ctl_e
- 	val2 = ucontrol->value.integer.value[1] & mask;
- 	val1 <<= shift_left;
- 	val2 <<= shift_right;
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	oval = snd_ymfpci_readl(chip, reg);
- 	val1 = (oval & ~((mask << shift_left) | (mask << shift_right))) | val1 | val2;
- 	change = val1 != oval;
- 	snd_ymfpci_writel(chip, reg, val1);
--	spin_unlock_irq(&chip->reg_lock);
- 	return change;
- }
- 
-@@ -1552,12 +1518,11 @@ static int snd_ymfpci_put_nativedacvol(struct snd_kcontrol *kcontrol,
- 	
- 	value = ucontrol->value.integer.value[0] & 0x3fff;
- 	value |= (ucontrol->value.integer.value[1] & 0x3fff) << 16;
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	oval = snd_ymfpci_readl(chip, reg);
- 	change = value != oval;
- 	snd_ymfpci_writel(chip, reg, value);
- 	snd_ymfpci_writel(chip, reg2, value);
--	spin_unlock_irq(&chip->reg_lock);
- 	return change;
- }
- 
-@@ -1629,9 +1594,8 @@ YMFPCI_SINGLE(SNDRV_CTL_NAME_IEC958("Loop",NONE,NONE), 0, YDSXGR_SPDIFINCTRL, 4)
- static int snd_ymfpci_get_gpio_out(struct snd_ymfpci *chip, int pin)
- {
- 	u16 reg, mode;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	reg = snd_ymfpci_readw(chip, YDSXGR_GPIOFUNCENABLE);
- 	reg &= ~(1 << (pin + 8));
- 	reg |= (1 << pin);
-@@ -1642,23 +1606,20 @@ static int snd_ymfpci_get_gpio_out(struct snd_ymfpci *chip, int pin)
- 	snd_ymfpci_writew(chip, YDSXGR_GPIOTYPECONFIG, mode);
- 	snd_ymfpci_writew(chip, YDSXGR_GPIOFUNCENABLE, reg | (1 << (pin + 8)));
- 	mode = snd_ymfpci_readw(chip, YDSXGR_GPIOINSTATUS);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	return (mode >> pin) & 1;
- }
- 
- static int snd_ymfpci_set_gpio_out(struct snd_ymfpci *chip, int pin, int enable)
- {
- 	u16 reg;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	reg = snd_ymfpci_readw(chip, YDSXGR_GPIOFUNCENABLE);
- 	reg &= ~(1 << pin);
- 	reg &= ~(1 << (pin + 8));
- 	snd_ymfpci_writew(chip, YDSXGR_GPIOFUNCENABLE, reg);
- 	snd_ymfpci_writew(chip, YDSXGR_GPIOOUTCTRL, enable << pin);
- 	snd_ymfpci_writew(chip, YDSXGR_GPIOFUNCENABLE, reg | (1 << (pin + 8)));
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 
- 	return 0;
- }
-@@ -1726,7 +1687,6 @@ static int snd_ymfpci_pcm_vol_put(struct snd_kcontrol *kcontrol,
- 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
- 	unsigned int subs = kcontrol->id.subdevice;
- 	struct snd_pcm_substream *substream;
--	unsigned long flags;
- 
- 	if (ucontrol->value.integer.value[0] != chip->pcm_mixer[subs].left ||
- 	    ucontrol->value.integer.value[1] != chip->pcm_mixer[subs].right) {
-@@ -1738,13 +1698,12 @@ static int snd_ymfpci_pcm_vol_put(struct snd_kcontrol *kcontrol,
- 			chip->pcm_mixer[subs].right = 0x8000;
- 
- 		substream = (struct snd_pcm_substream *)kcontrol->private_value;
--		spin_lock_irqsave(&chip->voice_lock, flags);
-+		guard(spinlock_irqsave)(&chip->voice_lock);
- 		if (substream->runtime && substream->runtime->private_data) {
- 			struct snd_ymfpci_pcm *ypcm = substream->runtime->private_data;
- 			if (!ypcm->use_441_slot)
- 				ypcm->update_pcm_vol = 2;
- 		}
--		spin_unlock_irqrestore(&chip->voice_lock, flags);
- 		return 1;
- 	}
- 	return 0;
-@@ -1884,11 +1843,10 @@ int snd_ymfpci_mixer(struct snd_ymfpci *chip, int rear_switch)
- static int snd_ymfpci_timer_start(struct snd_timer *timer)
- {
- 	struct snd_ymfpci *chip;
--	unsigned long flags;
- 	unsigned int count;
- 
- 	chip = snd_timer_chip(timer);
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	if (timer->sticks > 1) {
- 		chip->timer_ticks = timer->sticks;
- 		count = timer->sticks - 1;
-@@ -1902,19 +1860,16 @@ static int snd_ymfpci_timer_start(struct snd_timer *timer)
- 	}
- 	snd_ymfpci_writew(chip, YDSXGR_TIMERCOUNT, count);
- 	snd_ymfpci_writeb(chip, YDSXGR_TIMERCTRL, 0x03);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	return 0;
- }
- 
- static int snd_ymfpci_timer_stop(struct snd_timer *timer)
- {
- 	struct snd_ymfpci *chip;
--	unsigned long flags;
- 
- 	chip = snd_timer_chip(timer);
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	snd_ymfpci_writeb(chip, YDSXGR_TIMERCTRL, 0x00);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	return 0;
- }
- 
-@@ -2273,10 +2228,9 @@ static int snd_ymfpci_resume(struct device *dev)
- 
- 	/* start hw again */
- 	if (chip->start_count > 0) {
--		spin_lock_irq(&chip->reg_lock);
-+		guard(spinlock_irq)(&chip->reg_lock);
- 		snd_ymfpci_writel(chip, YDSXGR_MODE, chip->saved_ydsxgr_mode);
- 		chip->active_bank = snd_ymfpci_readl(chip, YDSXGR_CTRLSELECT);
--		spin_unlock_irq(&chip->reg_lock);
- 	}
- 	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
- 	return 0;
+===
+
+Takashi Iwai (18):
+  ALSA: ad1816a: Use guard() for spin locks
+  ALSA: cmi8330: Use guard() for spin locks
+  ALSA: cs423x: Use guard() for mutex locks
+  ALSA: cs423x: Use guard() for spin locks
+  ALSA: es1688: Use guard() for spin locks
+  ALSA: es18xx: Use guard() for spin locks
+  ALSA: gus: Use guard() for mutex locks
+  ALSA: gus: Use guard() for spin locks
+  ALSA: msnd: Use guard() for spin locks
+  ALSA: opl3sa2: Use guard() for spin locks
+  ALSA: opti9xx: Use guard() for spin locks
+  ALSA: sb: Use guard() for mutex locks
+  ALSA: sb: Use guard() for spin locks
+  ALSA: emu8000: Use guard() for spin locks
+  ALSA: sscape: Use guard() for spin locks
+  ALSA: wss: Use guard() for mutex locks
+  ALSA: wss: Use guard() for spin locks
+  ALSA: wavefront: Use guard() for spin locks
+
+ include/sound/gus.h                   |   1 -
+ sound/isa/ad1816a/ad1816a_lib.c       | 117 ++++-------
+ sound/isa/cmi8330.c                   |  15 +-
+ sound/isa/cs423x/cs4236_lib.c         | 133 +++++-------
+ sound/isa/es1688/es1688_lib.c         | 276 ++++++++++++-------------
+ sound/isa/es18xx.c                    |  58 ++----
+ sound/isa/gus/gus_dma.c               |  88 ++++----
+ sound/isa/gus/gus_dram.c              |   8 +-
+ sound/isa/gus/gus_io.c                |  65 ++----
+ sound/isa/gus/gus_main.c              |  65 +++---
+ sound/isa/gus/gus_mem.c               |  33 +--
+ sound/isa/gus/gus_mixer.c             |  12 +-
+ sound/isa/gus/gus_pcm.c               | 177 ++++++++--------
+ sound/isa/gus/gus_reset.c             |  66 ++----
+ sound/isa/gus/gus_timer.c             |  16 +-
+ sound/isa/gus/gus_uart.c              |  24 +--
+ sound/isa/gus/gusextreme.c            |  21 +-
+ sound/isa/gus/interwave.c             |  33 ++-
+ sound/isa/msnd/msnd.c                 |  29 +--
+ sound/isa/msnd/msnd_pinnacle.c        |  11 +-
+ sound/isa/msnd/msnd_pinnacle_mixer.c  |   8 +-
+ sound/isa/opl3sa2.c                   |  29 +--
+ sound/isa/opti9xx/miro.c              |  17 +-
+ sound/isa/opti9xx/opti92x-ad1848.c    |  21 +-
+ sound/isa/sb/emu8000.c                |  94 ++++-----
+ sound/isa/sb/emu8000_pcm.c            |  46 ++---
+ sound/isa/sb/sb16.c                   |  11 +-
+ sound/isa/sb/sb16_csp.c               | 225 +++++++++-----------
+ sound/isa/sb/sb16_main.c              | 123 +++++------
+ sound/isa/sb/sb8_main.c               | 168 +++++++--------
+ sound/isa/sb/sb8_midi.c               | 121 +++++------
+ sound/isa/sb/sb_common.c              |  17 +-
+ sound/isa/sb/sb_mixer.c               |  61 ++----
+ sound/isa/sscape.c                    | 184 ++++++++---------
+ sound/isa/wavefront/wavefront_midi.c  | 129 +++++-------
+ sound/isa/wavefront/wavefront_synth.c |  18 +-
+ sound/isa/wss/wss_lib.c               | 285 ++++++++++----------------
+ 37 files changed, 1121 insertions(+), 1684 deletions(-)
+
 -- 
 2.50.1
 
