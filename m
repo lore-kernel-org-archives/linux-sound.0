@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B9B1E1DF2;
-	Fri, 29 Aug 2025 05:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00842AEFD;
+	Fri, 29 Aug 2025 06:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756444264; cv=none; b=PDuwzx/P2VXxCBZ0I0mUzKmffRzVZmtQugyqz6qCKzWkl1TdyP7z6sDUwIajBhSQFHNA+sOFoIuUO1/LDUQpxwXzoM8EECd3Ngieb0jBqXyXQe3Z3mu2pfFgCYRfPo1u4ezgW7LsF4FoLgu+xOKs8psN5TtIPKs1/bsHc4z+HmQ=
+	t=1756449670; cv=none; b=fyBdWZ1sn1zAmcWrzC8WuB7H5eZkTuslHCz8pAff1tnhpGCVR6Yy6ETm4PhY+Jkb7zWYClGlHgrjfy1Q4U4pk4k2+/HAH+LDD3tkZ6HtLjsvhKH9TFzZ3uRbLJstPEbB+BKarru2scbV92+jIK6DgQPGPExySJHFYhLxUqV0F5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756444264; c=relaxed/simple;
-	bh=GRwLPBbaFTV6GFMn0tsScJTJKih42wsfR6S52yPN3Qs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QUANy1iUIiOiU7NfzMWWDRNR0HFZKMu7CKpF8Dfmff2wB/iXESjzR2sir9wGkMDGPmjY49WzdFbJ6ua0GWGy8VU1XIlqYJr98M9e1k4RonnFWxyzmG1xCnVLyTJxiuSVb1u9gHXwRdKzz9EsSRio5KvQjTccbcPP38seMAWDQ3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fbpRMY84; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756449670; c=relaxed/simple;
+	bh=8i6fbXOb5z0SkuR45STk52XtRArKAtCKXukEnXHdhT8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=szOQdpeqPQQQ5mUeKl5TsnkTRxpNDD8+5Xisw/o2kN9EEbnaiYB2/p5tIqwwj2f7HMS+Hgbr+mIKxMK7xcLsHc8QyjsHDtNfr8gVM46NoUTc1ZabHlhfHMR9WJ1ftRh00dYqLcoCYlFtumf8lGMxkNpYYWFUibiPB+gRyUESsFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S2YTYQwU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fbpRMY84"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 096EEC4CEF4;
-	Fri, 29 Aug 2025 05:11:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2YTYQwU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4FF36C4CEF0;
+	Fri, 29 Aug 2025 06:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756444264;
-	bh=GRwLPBbaFTV6GFMn0tsScJTJKih42wsfR6S52yPN3Qs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=fbpRMY84mjfg1bEi+7/5sgzEkiE/ZFyJlGiAwvlnEuVKdUGMbbcc4ivsjJhUd4QCl
-	 a5wuRWAIV1gg3mrsTgiV2n7wRUOc6nEIl9lB8aZyXCYj4zF3AyoswozwzPbjL5YUHl
-	 MBpCBaKPewSOGakhIvwFUsmv5CxJ4kgaWB2gCaT+3SYLUygQwpFdCQRigsn8JI6SOq
-	 +nicyLa3w7HI90dPsvrewaco1Sp/cgg40hyBikBvQmZenwcX8S4rn2HM84LMM7Z/DT
-	 xHD1x1A9ByoiutcUOwXFOKaT2nXN4g0rwv+rcTtSmaMD0B0OfJ6ThFGongbmVLL5YJ
-	 uBd/hZ3B7PfZQ==
+	s=k20201202; t=1756449670;
+	bh=8i6fbXOb5z0SkuR45STk52XtRArKAtCKXukEnXHdhT8=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=S2YTYQwUBysvH9gtvO+FKfA6L9BMRTzjIQpHrpX0wY9xss7tc58d7/2rMUmB9rPOI
+	 qTSa3mpjP/VsQXSNGUpy31EgPie/8sY4i5MmjfhApvDNQQKqDgaQyCfNxthJfpB6PK
+	 4ARLhWAAoAr6IeP7rN5VMuGMBDIjCuAroqbanIS1Vl6Bfz0FiiUgiav4p+bYJ+7/U6
+	 HWCNuPVVLVh0Ih4WS5bmBfvh5YwH3/Su5Bkzn9A5jpRIHdG8bd3iDXclBOscmfqzwP
+	 V4WPycFdp7jkeC8GLb0QkYrVa5XUnUDa8GpfhiMNf/L0jp4gUYVL4dTdToZIHuc3Z5
+	 zU3D/bs7FCEDg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB738C8303F;
-	Fri, 29 Aug 2025 05:11:03 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Fri, 29 Aug 2025 13:10:59 +0800
-Subject: [PATCH 1/2] ALSA: usb-audio: Add module param mixer_min_mute
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44447CA0FFD;
+	Fri, 29 Aug 2025 06:41:10 +0000 (UTC)
+From: qaqland via B4 Relay <devnull+anguoli.uniontech.com@kernel.org>
+Date: Fri, 29 Aug 2025 14:40:48 +0800
+Subject: [PATCH] ALSA: usb-audio: Add mute TLV for playback volumes on more
+ devices
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,80 +40,98 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250829-sound-param-v1-1-3c2f67cd7c97@uniontech.com>
-References: <20250829-sound-param-v1-0-3c2f67cd7c97@uniontech.com>
-In-Reply-To: <20250829-sound-param-v1-0-3c2f67cd7c97@uniontech.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
+Message-Id: <20250829-sound_quirk-v1-1-745529b44440@uniontech.com>
+X-B4-Tracking: v=1; b=H4sIAG9LsWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDCyNL3eL80ryU+MLSzKJsXRODpNRU02RLY1MDIyWgjoKi1LTMCrBp0bG
+ 1tQD9alItXQAAAA==
+X-Change-ID: 20250829-sound_quirk-40bee5c93502
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>, 
- Wang Yuli <wangyuli@deepin.org>, Guan Wentao <guanwentao@uniontech.com>, 
  Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>, 
- Celeste Liu <CoelacanthusHex@gmail.com>, Guoli An <anguoli@uniontech.com>, 
- linux-doc@vger.kernel.org, Cryolitia PukNgae <cryolitia@uniontech.com>
+ Feng Yuan <fengyuan@uniontech.com>, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>, 
+ qaqland <anguoli@uniontech.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756444262; l=1950;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=+99QuTAVSYELP6NAKN8XeWv9qym77uQKo+/WgpeA+2g=;
- b=HnggGRou4PiMYDTU3AYipRu+GaNa/iVDrSJQhpBq+CYS0vzcYQIq78ibXM36rZyhm2bdKKlfz
- aRqIp2XWoxMCdotnsi9id0iyJ48QPRojXpF5ltHe0/IK5IIoJ4vdx3j
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756449669; l=3151;
+ i=anguoli@uniontech.com; s=20250829; h=from:subject:message-id;
+ bh=Hpktb+CQ4vd5dzIX+ki+zIh0ybyRu/1SRUs42KE6TK8=;
+ b=LV4XUBokc49WaeVA5A9i9im5sdmxa1hF80JhOMs+Lb+JYP0H/clCAxAn0dvwCaQQbFgoWqYnk
+ lO5adVEN5lBD6tfgMn0b2u3TEW5W5xxKtXR3MOcvNDmZhbQX8cX+OpS
+X-Developer-Key: i=anguoli@uniontech.com; a=ed25519;
+ pk=boYZUYN5CUcKxq2lHODsag4XCrry/KC4N81H4GYjPpU=
+X-Endpoint-Received: by B4 Relay for anguoli@uniontech.com/20250829 with
+ auth_id=503
+X-Original-From: qaqland <anguoli@uniontech.com>
+Reply-To: anguoli@uniontech.com
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+From: qaqland <anguoli@uniontech.com>
 
-As already discussed[1], a module parameter called mixer_min_mute is
-added to make it easier for end users to debug the widespread problem
-without recompiling the kernel, where USB audio devices are muted when
-the volume is set to the minimum value.
+Applying the quirk of that, the lowest Playback mixer volume setting
+mutes the audio output, on more devices.
 
-1.
-https://lore.kernel.org/all/20250827-sound-quirk-min-mute-v1-1-4717aa8a4f6a@uniontech.com/
-
-Tested-by: Guoli An <anguoli@uniontech.com>
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+Suggested-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+Signed-off-by: qaqland <anguoli@uniontech.com>
 ---
- sound/usb/card.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/usb/quirks.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index 0265206a8e8cf31133e8463c98fe0497d8ace89e..bf65727ad213f2897d735c1f3c55bfc3f85971cf 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -74,6 +74,7 @@ static char *quirk_alias[SNDRV_CARDS];
- static char *delayed_register[SNDRV_CARDS];
- static bool implicit_fb[SNDRV_CARDS];
- static unsigned int quirk_flags[SNDRV_CARDS];
-+static bool mixer_min_mute;
- 
- bool snd_usb_use_vmalloc = true;
- bool snd_usb_skip_validation;
-@@ -109,6 +110,9 @@ module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
- MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
- module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
- MODULE_PARM_DESC(skip_validation, "Skip unit descriptor validation (default: no).");
-+module_param(mixer_min_mute, bool, 0444);
-+MODULE_PARM_DESC(mixer_min_mute,
-+		 "Set minimum volume control value as mute (default: no).");
- 
- /*
-  * we keep the snd_usb_audio_t instances by ourselves for merging
-@@ -959,6 +963,9 @@ static int usb_audio_probe(struct usb_interface *intf,
- 	if (ignore_ctl_error)
- 		chip->quirk_flags |= QUIRK_FLAG_IGNORE_CTL_ERROR;
- 
-+	if (mixer_min_mute)
-+		chip->quirk_flags |= QUIRK_FLAG_MIXER_MIN_MUTE;
-+
- 	if (chip->quirk_flags & QUIRK_FLAG_DISABLE_AUTOSUSPEND)
- 		usb_disable_autosuspend(interface_to_usbdev(intf));
- 
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 8bc1e247cdf1af0a3e9c506830d8428a86c25595..766db7d00cbc95984afa834200ebe3adfdf182ef 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2199,6 +2199,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_SET_IFACE_FIRST),
+ 	DEVICE_FLG(0x0556, 0x0014, /* Phoenix Audio TMX320VC */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
++	DEVICE_FLG(0x0572, 0x1b08, /* Conexant Systems (Rockwell), Inc. */
++		   QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x0572, 0x1b09, /* Conexant Systems (Rockwell), Inc. */
+ 		   QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x05a3, 0x9420, /* ELP HD USB Camera */
+@@ -2243,6 +2245,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
+ 	DEVICE_FLG(0x0b0e, 0x0349, /* Jabra 550a */
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
++	DEVICE_FLG(0x0bda, 0x498a, /* Realtek Semiconductor Corp. */
++		   QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x0c45, 0x6340, /* Sonix HD USB Camera */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x0c45, 0x636b, /* Microdia JP001 USB Camera */
+@@ -2259,6 +2263,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
+ 	DEVICE_FLG(0x1101, 0x0003, /* Audioengine D1 */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
++	DEVICE_FLG(0x12d1, 0x3a07, /* Huawei Technologies Co., Ltd. */
++		   QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x1224, 0x2a25, /* Jieli Technology USB PHY 2.0 */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x1395, 0x740a, /* Sennheiser DECT */
+@@ -2349,6 +2355,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
+ 	DEVICE_FLG(0x2912, 0x30c8, /* Audioengine D1 */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
++	DEVICE_FLG(0x2a70, 0x1881, /* OnePlus Technology (Shenzhen) Co., Ltd. BE02T */
++		   QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x2b53, 0x0023, /* Fiero SC-01 (firmware v1.0.0 @ 48 kHz) */
+ 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x2b53, 0x0024, /* Fiero SC-01 (firmware v1.0.0 @ 96 kHz) */
+@@ -2365,6 +2373,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
+ 	DEVICE_FLG(0x30be, 0x0101, /* Schiit Hel */
+ 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
++	DEVICE_FLG(0x339b, 0x3a07, /* Synaptics HONOR USB-C HEADSET */
++		   QUIRK_FLAG_MIXER_MIN_MUTE),
+ 	DEVICE_FLG(0x413c, 0xa506, /* Dell AE515 sound bar */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x534d, 0x0021, /* MacroSilicon MS2100/MS2106 */
 
+---
+base-commit: 112f7d3cff02e357c2f7a116fd7ab6a366ed27f4
+change-id: 20250829-sound_quirk-40bee5c93502
+
+Best regards,
 -- 
-2.51.0
+qaqland <anguoli@uniontech.com>
 
 
