@@ -1,83 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117BB31CA76
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C82B31CA77
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756479221; cv=none; b=ppuxPjBSNvodkQXgY967VjjIEF2ZyJFO0vwJVtpty+Fs2rjrVMAy/niQJUX0ltcgyC7Tj+H7kjZ0YD2Awqow1jpW/kyKTiJ5hPekiFqzHZgxoY4aSiPi42aFfqv/YhXV0HP38q/wlZ6144puGE1t1TReIXOGYPKrHPYwNwZ7qmk=
+	t=1756479221; cv=none; b=d2JSMzP9GLLN/fwh8dP+NYbFJJ49x352ZPfmpjDrhzN9jbCmd9/ETVdUPuhDzWDJVyLgN8ZUsPftUtuvcUBMDNcBp+fXMM7mS1VXRwgjX8zEq0r31poh9jVwhzQ9LXXnIQcQoTwc+mrSNOBQkOckLoJH9cbCiGPs1h87lEf/Qag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756479221; c=relaxed/simple;
-	bh=BePFn1pq5Om3fZnQdrhsR+OP067iGbTAztlU7KdYObE=;
+	bh=WDbpQM0xO/4NGpZ5pN/QE/ZeohUzgkUL7VNsFjOA184=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kETnb6AvyIGW4/wEL0Jkd92CTe7n1ESYE5ORQW6Xfr/1hC12frJTYWLXWT/9+MvctuYZSoI6SdjX2rqekPuTjmfgFPlpteixbgsxaN6+YAnQsYIngaH4pr4JSE7I/EXrvm6c8pbuwiKrmn6dSKcsH5DMdfhZwG/Zww57SFU0S8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T8amjuBx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Vkw/IvVx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T8amjuBx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Vkw/IvVx; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=SZ9cFUrLPMaZfU2wSdeoACTQmRHhRt+61EjyGXy6uvX43054O7rr+ZZ5yYMHAYR2g+S5Y3inWRwpjxvws0XNZ2qftlmBX2Uy+6nvzttE2gvMkVnATzKBHit69hhWBLDv2IXku07ZJbFX4JzfgpxHU24eLjkfwBj1KTt0jnPA/wQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L60dUBVM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=41m4Y7nh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L60dUBVM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=41m4Y7nh; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T8amjuBx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Vkw/IvVx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T8amjuBx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Vkw/IvVx"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L60dUBVM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="41m4Y7nh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L60dUBVM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="41m4Y7nh"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9E49D5C244;
-	Fri, 29 Aug 2025 14:53:11 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 099D9227CE;
+	Fri, 29 Aug 2025 14:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756479191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756479192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0Y03CuzjxxmybvObGerUqSMPAfAocVp1EtscjMCpXGk=;
-	b=T8amjuBx1oG7Z1y4dQ6pxmZEuBBl0P7qkg1FYKlcHiWDVY43QPlJ5h5liRcy3js4zQGRH1
-	Yxrh4WSO5S8LNSRmhAv2jqm0zWXNaGcTFyy1hnMUqVLdwfy6Sf3U26fSGkLmtVQJmGKIzZ
-	irp121D6vsadIfuPymBqMippIDP7X04=
+	bh=4PQlb6z83UZfmWqyPbdZeQsselHaMrPzOtzHEJBVH4c=;
+	b=L60dUBVM6dG7Hq1N5A/4JrLFOmNRVadt7wIdcmUyIrVg8iqIJ1RA3VAJoAgiG7Pwf6Dy4/
+	KMMyPbg6Y5cKx3IQldy4n5agfjiHWxNNVcJeFkuYvC54VbTsbGsTjWueEAgUfifKUZF0z1
+	efHZDd0tTipnDqdKAqgVAVRNNabepsY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756479191;
+	s=susede2_ed25519; t=1756479192;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0Y03CuzjxxmybvObGerUqSMPAfAocVp1EtscjMCpXGk=;
-	b=Vkw/IvVx6LfCpl+WYI3huv72lU/cGYIBmxgPW023Ef06FYs+SN3kBEwphvSa5goFTCGZs7
-	WHZUbviZN9ayRRCw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=4PQlb6z83UZfmWqyPbdZeQsselHaMrPzOtzHEJBVH4c=;
+	b=41m4Y7nhnvxh6GfcHhN/BuWLaC5XxKI5UZcOe2nAuezhoOF4aYHGGq6pMI+bOeavwOCR0y
+	FYgd8B5qWP8ogeBQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756479191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756479192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0Y03CuzjxxmybvObGerUqSMPAfAocVp1EtscjMCpXGk=;
-	b=T8amjuBx1oG7Z1y4dQ6pxmZEuBBl0P7qkg1FYKlcHiWDVY43QPlJ5h5liRcy3js4zQGRH1
-	Yxrh4WSO5S8LNSRmhAv2jqm0zWXNaGcTFyy1hnMUqVLdwfy6Sf3U26fSGkLmtVQJmGKIzZ
-	irp121D6vsadIfuPymBqMippIDP7X04=
+	bh=4PQlb6z83UZfmWqyPbdZeQsselHaMrPzOtzHEJBVH4c=;
+	b=L60dUBVM6dG7Hq1N5A/4JrLFOmNRVadt7wIdcmUyIrVg8iqIJ1RA3VAJoAgiG7Pwf6Dy4/
+	KMMyPbg6Y5cKx3IQldy4n5agfjiHWxNNVcJeFkuYvC54VbTsbGsTjWueEAgUfifKUZF0z1
+	efHZDd0tTipnDqdKAqgVAVRNNabepsY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756479191;
+	s=susede2_ed25519; t=1756479192;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0Y03CuzjxxmybvObGerUqSMPAfAocVp1EtscjMCpXGk=;
-	b=Vkw/IvVx6LfCpl+WYI3huv72lU/cGYIBmxgPW023Ef06FYs+SN3kBEwphvSa5goFTCGZs7
-	WHZUbviZN9ayRRCw==
+	bh=4PQlb6z83UZfmWqyPbdZeQsselHaMrPzOtzHEJBVH4c=;
+	b=41m4Y7nhnvxh6GfcHhN/BuWLaC5XxKI5UZcOe2nAuezhoOF4aYHGGq6pMI+bOeavwOCR0y
+	FYgd8B5qWP8ogeBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 842BC13A54;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E52E013326;
 	Fri, 29 Aug 2025 14:53:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2JYhH9e+sWhzGwAAD6G6ig
+	id 2L3JNte+sWhzGwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:53:11 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 07/18] ALSA: gus: Use guard() for mutex locks
-Date: Fri, 29 Aug 2025 16:52:47 +0200
-Message-ID: <20250829145300.5460-8-tiwai@suse.de>
+Subject: [PATCH 10/18] ALSA: opl3sa2: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:52:50 +0200
+Message-ID: <20250829145300.5460-11-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829145300.5460-1-tiwai@suse.de>
 References: <20250829145300.5460-1-tiwai@suse.de>
@@ -88,6 +88,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -100,7 +101,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -109,191 +110,133 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-Spam-Score: -2.80
 
-Replace the manual mutex lock/unlock pairs with guard() for code
-simplification.
+Clean up the code using guard() for spin locks.
 
-As replaced with the guard(mutex), no longer used snd_gf1_mem_lock()
-is dropped, too.
-
-Only code refactoring, and no behavior change.
+Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- include/sound/gus.h      |  1 -
- sound/isa/gus/gus_dma.c  | 10 +++-------
- sound/isa/gus/gus_main.c |  1 -
- sound/isa/gus/gus_mem.c  | 33 ++++++---------------------------
- 4 files changed, 9 insertions(+), 36 deletions(-)
+ sound/isa/opl3sa2.c | 29 +++++++----------------------
+ 1 file changed, 7 insertions(+), 22 deletions(-)
 
-diff --git a/include/sound/gus.h b/include/sound/gus.h
-index 1c8fb6c93e50..321ae93625eb 100644
---- a/include/sound/gus.h
-+++ b/include/sound/gus.h
-@@ -515,7 +515,6 @@ struct _SND_IW_LFO_PROGRAM {
- 
- /* gus_mem.c */
- 
--void snd_gf1_mem_lock(struct snd_gf1_mem * alloc, int xup);
- int snd_gf1_mem_xfree(struct snd_gf1_mem * alloc, struct snd_gf1_mem_block * block);
- struct snd_gf1_mem_block *snd_gf1_mem_alloc(struct snd_gf1_mem * alloc, int owner,
- 				       char *name, int size, int w_16,
-diff --git a/sound/isa/gus/gus_dma.c b/sound/isa/gus/gus_dma.c
-index bb5a4e2fbfb3..7b2e7878adc7 100644
---- a/sound/isa/gus/gus_dma.c
-+++ b/sound/isa/gus/gus_dma.c
-@@ -143,18 +143,15 @@ static void snd_gf1_dma_interrupt(struct snd_gus_card * gus)
- 
- int snd_gf1_dma_init(struct snd_gus_card * gus)
+diff --git a/sound/isa/opl3sa2.c b/sound/isa/opl3sa2.c
+index 5e8e1326d5c0..8c1767697b62 100644
+--- a/sound/isa/opl3sa2.c
++++ b/sound/isa/opl3sa2.c
+@@ -172,13 +172,8 @@ static unsigned char __snd_opl3sa2_read(struct snd_opl3sa2 *chip, unsigned char
+ /* read control port (with spinlock) */
+ static unsigned char snd_opl3sa2_read(struct snd_opl3sa2 *chip, unsigned char reg)
  {
--	mutex_lock(&gus->dma_mutex);
-+	guard(mutex)(&gus->dma_mutex);
- 	gus->gf1.dma_shared++;
--	if (gus->gf1.dma_shared > 1) {
--		mutex_unlock(&gus->dma_mutex);
-+	if (gus->gf1.dma_shared > 1)
- 		return 0;
--	}
- 	gus->gf1.interrupt_handler_dma_write = snd_gf1_dma_interrupt;
- 	gus->gf1.dma_data_pcm = 
- 	gus->gf1.dma_data_pcm_last =
- 	gus->gf1.dma_data_synth = 
- 	gus->gf1.dma_data_synth_last = NULL;
--	mutex_unlock(&gus->dma_mutex);
- 	return 0;
- }
- 
-@@ -162,7 +159,7 @@ int snd_gf1_dma_done(struct snd_gus_card * gus)
- {
- 	struct snd_gf1_dma_block *block;
- 
--	mutex_lock(&gus->dma_mutex);
-+	guard(mutex)(&gus->dma_mutex);
- 	gus->gf1.dma_shared--;
- 	if (!gus->gf1.dma_shared) {
- 		snd_dma_disable(gus->gf1.dma1);
-@@ -179,7 +176,6 @@ int snd_gf1_dma_done(struct snd_gus_card * gus)
- 		gus->gf1.dma_data_pcm_last =
- 		gus->gf1.dma_data_synth_last = NULL;
- 	}
--	mutex_unlock(&gus->dma_mutex);
- 	return 0;
- }
- 
-diff --git a/sound/isa/gus/gus_main.c b/sound/isa/gus/gus_main.c
-index 873ef4046cd6..a82185c86143 100644
---- a/sound/isa/gus/gus_main.c
-+++ b/sound/isa/gus/gus_main.c
-@@ -447,4 +447,3 @@ EXPORT_SYMBOL(snd_gf1_translate_freq);
- EXPORT_SYMBOL(snd_gf1_mem_alloc);
- EXPORT_SYMBOL(snd_gf1_mem_xfree);
- EXPORT_SYMBOL(snd_gf1_mem_free);
--EXPORT_SYMBOL(snd_gf1_mem_lock);
-diff --git a/sound/isa/gus/gus_mem.c b/sound/isa/gus/gus_mem.c
-index 054058779db6..8d95d8d5abdf 100644
---- a/sound/isa/gus/gus_mem.c
-+++ b/sound/isa/gus/gus_mem.c
-@@ -15,15 +15,6 @@ static void snd_gf1_mem_info_read(struct snd_info_entry *entry,
- 				  struct snd_info_buffer *buffer);
- #endif
- 
--void snd_gf1_mem_lock(struct snd_gf1_mem * alloc, int xup)
--{
--	if (!xup) {
--		mutex_lock(&alloc->memory_mutex);
--	} else {
--		mutex_unlock(&alloc->memory_mutex);
--	}
--}
+-	unsigned long flags;
+-	unsigned char result;
 -
- static struct snd_gf1_mem_block *
- snd_gf1_mem_xalloc(struct snd_gf1_mem *alloc, struct snd_gf1_mem_block *block,
- 		   const char *name)
-@@ -50,7 +41,6 @@ snd_gf1_mem_xalloc(struct snd_gf1_mem *alloc, struct snd_gf1_mem_block *block,
- 				alloc->first = nblock;
- 			else
- 				nblock->prev->next = nblock;
--			mutex_unlock(&alloc->memory_mutex);
- 			return nblock;
- 		}
- 		pblock = pblock->next;
-@@ -71,7 +61,6 @@ int snd_gf1_mem_xfree(struct snd_gf1_mem * alloc, struct snd_gf1_mem_block * blo
- {
- 	if (block->share) {	/* ok.. shared block */
- 		block->share--;
--		mutex_unlock(&alloc->memory_mutex);
- 		return 0;
- 	}
- 	if (alloc->first == block) {
-@@ -183,7 +172,7 @@ struct snd_gf1_mem_block *snd_gf1_mem_alloc(struct snd_gf1_mem * alloc, int owne
- {
- 	struct snd_gf1_mem_block block, *nblock;
- 
--	snd_gf1_mem_lock(alloc, 0);
-+	guard(mutex)(&alloc->memory_mutex);
- 	if (share_id != NULL) {
- 		nblock = snd_gf1_mem_share(alloc, share_id);
- 		if (nblock != NULL) {
-@@ -193,36 +182,27 @@ struct snd_gf1_mem_block *snd_gf1_mem_alloc(struct snd_gf1_mem * alloc, int owne
- 				goto __std;
- 			}
- 			nblock->share++;
--			snd_gf1_mem_lock(alloc, 1);
- 			return NULL;
- 		}
- 	}
-       __std:
--	if (snd_gf1_mem_find(alloc, &block, size, w_16, align) < 0) {
--		snd_gf1_mem_lock(alloc, 1);
-+	if (snd_gf1_mem_find(alloc, &block, size, w_16, align) < 0)
- 		return NULL;
--	}
- 	if (share_id != NULL)
- 		memcpy(&block.share_id, share_id, sizeof(block.share_id));
- 	block.owner = owner;
- 	nblock = snd_gf1_mem_xalloc(alloc, &block, name);
--	snd_gf1_mem_lock(alloc, 1);
- 	return nblock;
+-	spin_lock_irqsave(&chip->reg_lock, flags);
+-	result = __snd_opl3sa2_read(chip, reg);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+-	return result;
++	guard(spinlock_irqsave)(&chip->reg_lock);
++	return __snd_opl3sa2_read(chip, reg);
  }
  
- int snd_gf1_mem_free(struct snd_gf1_mem * alloc, unsigned int address)
+ /* write control port (w/o spinlock) */
+@@ -195,10 +190,8 @@ static void __snd_opl3sa2_write(struct snd_opl3sa2 *chip, unsigned char reg, uns
+ /* write control port (with spinlock) */
+ static void snd_opl3sa2_write(struct snd_opl3sa2 *chip, unsigned char reg, unsigned char value)
  {
--	int result;
- 	struct snd_gf1_mem_block *block;
- 
--	snd_gf1_mem_lock(alloc, 0);
-+	guard(mutex)(&alloc->memory_mutex);
- 	block = snd_gf1_mem_look(alloc, address);
--	if (block) {
--		result = snd_gf1_mem_xfree(alloc, block);
--		snd_gf1_mem_lock(alloc, 1);
--		return result;
--	}
--	snd_gf1_mem_lock(alloc, 1);
-+	if (block)
-+		return snd_gf1_mem_xfree(alloc, block);
- 	return -EINVAL;
+-	unsigned long flags;
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	__snd_opl3sa2_write(chip, reg, value);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
  }
  
-@@ -282,7 +262,7 @@ static void snd_gf1_mem_info_read(struct snd_info_entry *entry,
+ static int snd_opl3sa2_detect(struct snd_card *card)
+@@ -336,15 +329,13 @@ static irqreturn_t snd_opl3sa2_interrupt(int irq, void *dev_id)
+ static int snd_opl3sa2_get_single(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_opl3sa2 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int reg = kcontrol->private_value & 0xff;
+ 	int shift = (kcontrol->private_value >> 8) & 0xff;
+ 	int mask = (kcontrol->private_value >> 16) & 0xff;
+ 	int invert = (kcontrol->private_value >> 24) & 0xff;
  
- 	gus = entry->private_data;
- 	alloc = &gus->gf1.mem_alloc;
--	mutex_lock(&alloc->memory_mutex);
-+	guard(mutex)(&alloc->memory_mutex);
- 	snd_iprintf(buffer, "8-bit banks       : \n    ");
- 	for (i = 0; i < 4; i++)
- 		snd_iprintf(buffer, "0x%06x (%04ik)%s", alloc->banks_8[i].address, alloc->banks_8[i].size >> 10, i + 1 < 4 ? "," : "");
-@@ -326,7 +306,6 @@ static void snd_gf1_mem_info_read(struct snd_info_entry *entry,
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	ucontrol->value.integer.value[0] = (chip->ctlregs[reg] >> shift) & mask;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	if (invert)
+ 		ucontrol->value.integer.value[0] = mask - ucontrol->value.integer.value[0];
+ 	return 0;
+@@ -353,7 +344,6 @@ static int snd_opl3sa2_get_single(struct snd_kcontrol *kcontrol, struct snd_ctl_
+ static int snd_opl3sa2_put_single(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_opl3sa2 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int reg = kcontrol->private_value & 0xff;
+ 	int shift = (kcontrol->private_value >> 8) & 0xff;
+ 	int mask = (kcontrol->private_value >> 16) & 0xff;
+@@ -365,12 +355,11 @@ static int snd_opl3sa2_put_single(struct snd_kcontrol *kcontrol, struct snd_ctl_
+ 	if (invert)
+ 		val = mask - val;
+ 	val <<= shift;
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	oval = chip->ctlregs[reg];
+ 	val = (oval & ~(mask << shift)) | val;
+ 	change = val != oval;
+ 	__snd_opl3sa2_write(chip, reg, val);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return change;
+ }
+ 
+@@ -391,7 +380,6 @@ static int snd_opl3sa2_put_single(struct snd_kcontrol *kcontrol, struct snd_ctl_
+ static int snd_opl3sa2_get_double(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_opl3sa2 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int left_reg = kcontrol->private_value & 0xff;
+ 	int right_reg = (kcontrol->private_value >> 8) & 0xff;
+ 	int shift_left = (kcontrol->private_value >> 16) & 0x07;
+@@ -399,10 +387,9 @@ static int snd_opl3sa2_get_double(struct snd_kcontrol *kcontrol, struct snd_ctl_
+ 	int mask = (kcontrol->private_value >> 24) & 0xff;
+ 	int invert = (kcontrol->private_value >> 22) & 1;
+ 	
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	ucontrol->value.integer.value[0] = (chip->ctlregs[left_reg] >> shift_left) & mask;
+ 	ucontrol->value.integer.value[1] = (chip->ctlregs[right_reg] >> shift_right) & mask;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	if (invert) {
+ 		ucontrol->value.integer.value[0] = mask - ucontrol->value.integer.value[0];
+ 		ucontrol->value.integer.value[1] = mask - ucontrol->value.integer.value[1];
+@@ -413,7 +400,6 @@ static int snd_opl3sa2_get_double(struct snd_kcontrol *kcontrol, struct snd_ctl_
+ static int snd_opl3sa2_put_double(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_opl3sa2 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int left_reg = kcontrol->private_value & 0xff;
+ 	int right_reg = (kcontrol->private_value >> 8) & 0xff;
+ 	int shift_left = (kcontrol->private_value >> 16) & 0x07;
+@@ -431,7 +417,7 @@ static int snd_opl3sa2_put_double(struct snd_kcontrol *kcontrol, struct snd_ctl_
  	}
- 	snd_iprintf(buffer, "  Total: memory = %i, used = %i, free = %i\n",
- 		    total, used, total - used);
--	mutex_unlock(&alloc->memory_mutex);
- #if 0
- 	ultra_iprintf(buffer, "  Verify: free = %i, max 8-bit block = %i, max 16-bit block = %i\n",
- 		      ultra_memory_free_size(card, &card->gf1.mem_alloc),
+ 	val1 <<= shift_left;
+ 	val2 <<= shift_right;
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	if (left_reg != right_reg) {
+ 		oval1 = chip->ctlregs[left_reg];
+ 		oval2 = chip->ctlregs[right_reg];
+@@ -446,7 +432,6 @@ static int snd_opl3sa2_put_double(struct snd_kcontrol *kcontrol, struct snd_ctl_
+ 		change = val1 != oval1;
+ 		__snd_opl3sa2_write(chip, left_reg, val1);
+ 	}
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return change;
+ }
+ 
 -- 
 2.50.1
 
