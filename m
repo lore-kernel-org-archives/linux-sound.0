@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BF8321445
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6AF31E113
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478757; cv=none; b=ab9GHvHB3+8yTN3p4XeWoceu5GjWxXLVDlXm1x5ClPwqUGXbBmf5E7cuudXsqEeOQJNPBjnx3NBBqjnxpRh5/K44SMMPbH/SGFglk23sy9zr30sJ3DSVsdhPUhnP6eb/N7LofF4xiXMNYRbo/lc71/PgdKejhI5xL+ZO1eYl/HA=
+	t=1756478763; cv=none; b=JTyqjh7qnkTrGnnXpz1CbB7CBC0qk34ViCdSFgr70HcApvI0j8OcPSk5+jFNQySQnNr65rEy5SOy1eUQy9nI9GjvSglD4J9vSvPvJdzv0niGP+PfttDGZV4t33RLWVjn6GyC5zM+oBzGQZ0eIxtVJaT5CKTOCrwk3xcXfxiwT08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478757; c=relaxed/simple;
-	bh=2thCEQantapnFQTsuNlj3htVi7h4YB5AdDJeWdLeV8Y=;
+	s=arc-20240116; t=1756478763; c=relaxed/simple;
+	bh=Jqv+nl8CZRS6E2Lbtp/oR0gSiVKH+uwzmgmv9CVhNDY=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mlEZIsFEZnb8GaDlt2gcdSQnO6DyqKpx+xXY1vT9tyxTD24A2VNmdpn+rXbf+oiYiVocRaxzuYDPjtyMqyuBhc+JXnDwAVkQnVL/kwxTGNKOMz+HnXVpXkgyWEXDunL0RCk3xbfWnenMBejChFKbAAt6XAPPvn7fga3GxhkPFzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HO7ZWEZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qWkzpGNi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HO7ZWEZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qWkzpGNi; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=Aqlvi23+msqfvomeH0JQ8PH3XW9RZUJLIAARue/4ZJfTMq7hoW7xEijYYINwki9xXgUwPS9vaL10vs0qZftcqBCZnawJtbzKb95eju3eccqlvIckQwdgQMmdHzukiXBbcueriUgGS03dPo78bQZq0Y6JbzPmvf+zWf5Ew85G9pI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HkUQG/Wp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vwon2ZZP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HkUQG/Wp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vwon2ZZP; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HO7ZWEZd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qWkzpGNi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HO7ZWEZd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qWkzpGNi"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HkUQG/Wp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vwon2ZZP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HkUQG/Wp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vwon2ZZP"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CF44F33ED2;
-	Fri, 29 Aug 2025 14:44:02 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1762E5C236;
+	Fri, 29 Aug 2025 14:44:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2KTtOecK/YcqR5MoixII5qW3uLymbcqTYpJ+XiQFOCM=;
-	b=HO7ZWEZdNMcdTgBCdIY8vfyBH7veeNtTFa/nT80IO9BgQyXmn9uiZQeUi/LBGfRR9OmV7G
-	SaiO+sopVG66noZrRTF9M1rUw2UWXsH3k62X4sJyrsQM95/rPW60HGIi+aC/4pdbMk/LjT
-	lDV0xq4IaqrXTG4ub9h1I2oddzm9X64=
+	bh=piK/g7eoE4j5LXdC638+5OzJwQ8XEMiOKsGz3dPPod4=;
+	b=HkUQG/WphP6TArGrz7VWdHeSqdViqrDUaccERDAOkEqvbOnODL9U0xDsQSzA83KOFirQuk
+	yT7wNbIOmkCMlG9qnovHgLVERDkG2iihLnA0g+1A0YEC1CJjpCRKFJP+5CtEqcN3t3DK+e
+	toI2slOFTl9tYrSK52mWOR99lUez2EE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478642;
+	s=susede2_ed25519; t=1756478641;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2KTtOecK/YcqR5MoixII5qW3uLymbcqTYpJ+XiQFOCM=;
-	b=qWkzpGNi6xqTZ25fk1hjIsCILdKGAK+wzVYaNNxzJt0Q1ZSCi8ihggSK8Mm5Hs9M1ighXT
-	Bw3UJeOgWpNHCCCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HO7ZWEZd;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qWkzpGNi
+	bh=piK/g7eoE4j5LXdC638+5OzJwQ8XEMiOKsGz3dPPod4=;
+	b=vwon2ZZPM4c9zRFljWfjTyWa0x4FoeXL8naYPsa7FJcsGPBdSKY9Rp8Ag4HbnkJA30bjnH
+	sS5npzA4zPHkt5DQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="HkUQG/Wp";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vwon2ZZP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2KTtOecK/YcqR5MoixII5qW3uLymbcqTYpJ+XiQFOCM=;
-	b=HO7ZWEZdNMcdTgBCdIY8vfyBH7veeNtTFa/nT80IO9BgQyXmn9uiZQeUi/LBGfRR9OmV7G
-	SaiO+sopVG66noZrRTF9M1rUw2UWXsH3k62X4sJyrsQM95/rPW60HGIi+aC/4pdbMk/LjT
-	lDV0xq4IaqrXTG4ub9h1I2oddzm9X64=
+	bh=piK/g7eoE4j5LXdC638+5OzJwQ8XEMiOKsGz3dPPod4=;
+	b=HkUQG/WphP6TArGrz7VWdHeSqdViqrDUaccERDAOkEqvbOnODL9U0xDsQSzA83KOFirQuk
+	yT7wNbIOmkCMlG9qnovHgLVERDkG2iihLnA0g+1A0YEC1CJjpCRKFJP+5CtEqcN3t3DK+e
+	toI2slOFTl9tYrSK52mWOR99lUez2EE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478642;
+	s=susede2_ed25519; t=1756478641;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2KTtOecK/YcqR5MoixII5qW3uLymbcqTYpJ+XiQFOCM=;
-	b=qWkzpGNi6xqTZ25fk1hjIsCILdKGAK+wzVYaNNxzJt0Q1ZSCi8ihggSK8Mm5Hs9M1ighXT
-	Bw3UJeOgWpNHCCCQ==
+	bh=piK/g7eoE4j5LXdC638+5OzJwQ8XEMiOKsGz3dPPod4=;
+	b=vwon2ZZPM4c9zRFljWfjTyWa0x4FoeXL8naYPsa7FJcsGPBdSKY9Rp8Ag4HbnkJA30bjnH
+	sS5npzA4zPHkt5DQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B487C13A54;
-	Fri, 29 Aug 2025 14:44:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0009113A54;
+	Fri, 29 Aug 2025 14:44:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GKPxKrK8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:02 +0000
+	id 8LxyOrC8sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:00 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 48/61] ALSA: pcxhr: Use guard() for mutex locks
-Date: Fri, 29 Aug 2025 16:43:23 +0200
-Message-ID: <20250829144342.4290-49-tiwai@suse.de>
+Subject: [PATCH 34/61] ALSA: ice1712: Use guard() for mutex locks
+Date: Fri, 29 Aug 2025 16:43:09 +0200
+Message-ID: <20250829144342.4290-35-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -89,11 +89,6 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: CF44F33ED2
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -108,8 +103,8 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_ONE(0.00)[1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -119,6 +114,11 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 1762E5C236
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-Spam-Score: -3.01
 
 Replace the manual mutex lock/unlock pairs with guard() for code
@@ -128,610 +128,1305 @@ Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/pcxhr/pcxhr.c       | 35 +++++----------------
- sound/pci/pcxhr/pcxhr_core.c  | 15 +++------
- sound/pci/pcxhr/pcxhr_mix22.c | 23 +++++++-------
- sound/pci/pcxhr/pcxhr_mixer.c | 58 +++++++++++++----------------------
- 4 files changed, 45 insertions(+), 86 deletions(-)
+ sound/pci/ice1712/aureon.c       | 27 ++++--------
+ sound/pci/ice1712/delta.c        | 30 ++++++--------
+ sound/pci/ice1712/hoontech.c     | 24 +++++------
+ sound/pci/ice1712/ice1724.c      | 70 +++++++++++++++++---------------
+ sound/pci/ice1712/maya44.c       | 18 +++-----
+ sound/pci/ice1712/phase.c        |  6 +--
+ sound/pci/ice1712/pontis.c       | 70 +++++++++++++-------------------
+ sound/pci/ice1712/prodigy192.c   | 11 ++---
+ sound/pci/ice1712/prodigy_hifi.c | 56 +++++++++----------------
+ sound/pci/ice1712/quartet.c      |  3 +-
+ sound/pci/ice1712/wtm.c          |  6 +--
+ 11 files changed, 132 insertions(+), 189 deletions(-)
 
-diff --git a/sound/pci/pcxhr/pcxhr.c b/sound/pci/pcxhr/pcxhr.c
-index bfd84c50e981..83066d08367e 100644
---- a/sound/pci/pcxhr/pcxhr.c
-+++ b/sound/pci/pcxhr/pcxhr.c
-@@ -701,7 +701,7 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
+diff --git a/sound/pci/ice1712/aureon.c b/sound/pci/ice1712/aureon.c
+index 027849329c1b..b4c9e7d11609 100644
+--- a/sound/pci/ice1712/aureon.c
++++ b/sound/pci/ice1712/aureon.c
+@@ -358,14 +358,13 @@ static int aureon_ac97_vol_get(struct snd_kcontrol *kcontrol, struct snd_ctl_ele
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	unsigned short vol;
  
- 	start_time = ktime_get();
- #endif
--	mutex_lock(&mgr->setup_mutex);
-+	guard(mutex)(&mgr->setup_mutex);
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
  
- 	/* check the pipes concerned and build pipe_array */
- 	for (i = 0; i < mgr->num_cards; i++) {
-@@ -720,7 +720,6 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
- 		}
+ 	vol = aureon_ac97_read(ice, kcontrol->private_value & 0x7F);
+ 	ucontrol->value.integer.value[0] = 0x1F - (vol & 0x1F);
+ 	if (kcontrol->private_value & AUREON_AC97_STEREO)
+ 		ucontrol->value.integer.value[1] = 0x1F - ((vol >> 8) & 0x1F);
+ 
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -401,12 +400,11 @@ static int aureon_ac97_mute_get(struct snd_kcontrol *kcontrol, struct snd_ctl_el
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 
+ 	ucontrol->value.integer.value[0] = aureon_ac97_read(ice,
+ 			kcontrol->private_value & 0x7F) & 0x8000 ? 0 : 1;
+ 
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -439,11 +437,10 @@ static int aureon_ac97_micboost_get(struct snd_kcontrol *kcontrol, struct snd_ct
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 
+ 	ucontrol->value.integer.value[0] = aureon_ac97_read(ice, AC97_MIC) & 0x0020 ? 0 : 1;
+ 
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -642,11 +639,10 @@ static int aureon_ac97_mmute_get(struct snd_kcontrol *kcontrol, struct snd_ctl_e
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 
+ 	ucontrol->value.integer.value[0] = (wm_get(ice, WM_OUT_MUX1) >> 1) & 0x01;
+ 
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -704,9 +700,8 @@ static int wm_pcm_mute_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_va
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.integer.value[0] = (wm_get(ice, WM_MUTE) & 0x10) ? 0 : 1;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -944,11 +939,10 @@ static int wm_pcm_vol_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	unsigned short val;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	val = wm_get(ice, WM_DAC_DIG_MASTER_ATTEN) & 0xff;
+ 	val = val > PCM_MIN ? (val - PCM_MIN) : 0;
+ 	ucontrol->value.integer.value[0] = val;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -984,12 +978,11 @@ static int wm_adc_mute_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_va
+ 	unsigned short val;
+ 	int i;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		val = wm_get(ice, WM_ADC_GAIN + i);
+ 		ucontrol->value.integer.value[i] = ~val>>5 & 0x1;
  	}
- 	if (capture_mask == 0 && playback_mask == 0) {
--		mutex_unlock(&mgr->setup_mutex);
- 		dev_err(&mgr->pci->dev, "%s : no pipes\n", __func__);
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -1031,13 +1024,12 @@ static int wm_adc_vol_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	int i, idx;
+ 	unsigned short vol;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		idx = WM_ADC_GAIN + i;
+ 		vol = wm_get(ice, idx) & 0x1f;
+ 		ucontrol->value.integer.value[i] = vol;
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -1097,11 +1089,10 @@ static int wm_adc_mux_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	unsigned short val;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	val = wm_get(ice, WM_ADC_MUX);
+ 	ucontrol->value.enumerated.item[0] = val & 7;
+ 	ucontrol->value.enumerated.item[1] = (val >> 4) & 7;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+diff --git a/sound/pci/ice1712/delta.c b/sound/pci/ice1712/delta.c
+index 08adf4dd1303..fa484e2a9a78 100644
+--- a/sound/pci/ice1712/delta.c
++++ b/sound/pci/ice1712/delta.c
+@@ -126,13 +126,12 @@ static int ap_cs8427_sendbytes(struct snd_i2c_device *device, unsigned char *byt
+ 	int res = count;
+ 	unsigned char tmp;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	tmp = ap_cs8427_codec_select(ice);
+ 	ap_cs8427_write_byte(ice, (device->addr << 1) | 0, tmp); /* address + write mode */
+ 	while (count-- > 0)
+ 		ap_cs8427_write_byte(ice, *bytes++, tmp);
+ 	ap_cs8427_codec_deassert(ice, tmp);
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return res;
+ }
+ 
+@@ -143,13 +142,12 @@ static int ap_cs8427_readbytes(struct snd_i2c_device *device, unsigned char *byt
+ 	int res = count;
+ 	unsigned char tmp;
+ 	
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	tmp = ap_cs8427_codec_select(ice);
+ 	ap_cs8427_write_byte(ice, (device->addr << 1) | 1, tmp); /* address + read mode */
+ 	while (count-- > 0)
+ 		*bytes++ = ap_cs8427_read_byte(ice, tmp);
+ 	ap_cs8427_codec_deassert(ice, tmp);
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return res;
+ }
+ 
+@@ -176,7 +174,7 @@ static void snd_ice1712_delta_cs8403_spdif_write(struct snd_ice1712 *ice, unsign
+ 	/* send byte to transmitter */
+ 	mask1 = ICE1712_DELTA_SPDIF_OUT_STAT_CLOCK;
+ 	mask2 = ICE1712_DELTA_SPDIF_OUT_STAT_DATA;
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	tmp = snd_ice1712_read(ice, ICE1712_IREG_GPIO_DATA);
+ 	for (idx = 7; idx >= 0; idx--) {
+ 		tmp &= ~(mask1 | mask2);
+@@ -190,7 +188,6 @@ static void snd_ice1712_delta_cs8403_spdif_write(struct snd_ice1712 *ice, unsign
+ 	}
+ 	tmp &= ~mask1;
+ 	snd_ice1712_write(ice, ICE1712_IREG_GPIO_DATA, tmp);
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ 
+@@ -306,14 +303,13 @@ static void delta_1010_set_rate_val(struct snd_ice1712 *ice, unsigned int rate)
+ 	if (rate == 0)	/* no hint - S/PDIF input is master, simply return */
  		return;
- 	}
-@@ -731,7 +730,6 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
- 	/* synchronous stop of all the pipes concerned */
- 	err = pcxhr_set_pipe_state(mgr,  playback_mask, capture_mask, 0);
- 	if (err) {
--		mutex_unlock(&mgr->setup_mutex);
- 		dev_err(&mgr->pci->dev, "%s : "
- 			   "error stop pipes (P%x C%x)\n",
- 			   __func__, playback_mask, capture_mask);
-@@ -776,7 +774,6 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
- 	/* synchronous start of all the pipes concerned */
- 	err = pcxhr_set_pipe_state(mgr, playback_mask, capture_mask, 1);
- 	if (err) {
--		mutex_unlock(&mgr->setup_mutex);
- 		dev_err(&mgr->pci->dev, "%s : "
- 			   "error start pipes (P%x C%x)\n",
- 			   __func__, playback_mask, capture_mask);
-@@ -786,7 +783,7 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
- 	/* put the streams into the running state now
- 	 * (increment pointer by interrupt)
- 	 */
--	mutex_lock(&mgr->lock);
-+	guard(mutex)(&mgr->lock);
- 	for ( i =0; i < mgr->num_cards; i++) {
- 		struct pcxhr_stream *stream;
- 		chip = mgr->chip[i];
-@@ -804,9 +801,6 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
- 			}
- 		}
- 	}
--	mutex_unlock(&mgr->lock);
--
--	mutex_unlock(&mgr->setup_mutex);
  
- #ifdef CONFIG_SND_DEBUG_VERBOSE
- 	stop_time = ktime_get();
-@@ -907,7 +901,7 @@ static int pcxhr_prepare(struct snd_pcm_substream *subs)
- 		    subs->runtime->period_size, subs->runtime->periods,
- 		    subs->runtime->buffer_size);
- 
--	mutex_lock(&mgr->setup_mutex);
-+	guard(mutex)(&mgr->setup_mutex);
- 
- 	do {
- 		/* only the first stream can choose the sample rate */
-@@ -923,8 +917,6 @@ static int pcxhr_prepare(struct snd_pcm_substream *subs)
- 		}
- 	} while(0);	/* do only once (so we can use break instead of goto) */
- 
--	mutex_unlock(&mgr->setup_mutex);
--
- 	return err;
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	tmp = snd_ice1712_read(ice, ICE1712_IREG_GPIO_DATA);
+ 	tmp2 = tmp & ~ICE1712_DELTA_DFS;
+ 	if (rate > 48000)
+ 		tmp2 |= ICE1712_DELTA_DFS;
+ 	if (tmp != tmp2)
+ 		snd_ice1712_write(ice, ICE1712_IREG_GPIO_DATA, tmp2);
+-	mutex_unlock(&ice->gpio_mutex);
  }
  
-@@ -939,15 +931,13 @@ static int pcxhr_hw_params(struct snd_pcm_substream *subs,
- 	struct pcxhr_mgr *mgr = chip->mgr;
- 	struct pcxhr_stream *stream = subs->runtime->private_data;
+ /*
+@@ -328,9 +324,9 @@ static void delta_ak4524_set_rate_val(struct snd_akm4xxx *ak, unsigned int rate)
+ 		return;
  
--	mutex_lock(&mgr->setup_mutex);
-+	guard(mutex)(&mgr->setup_mutex);
+ 	/* check before reset ak4524 to avoid unnecessary clicks */
+-	mutex_lock(&ice->gpio_mutex);
+-	tmp = snd_ice1712_read(ice, ICE1712_IREG_GPIO_DATA);
+-	mutex_unlock(&ice->gpio_mutex);
++	scoped_guard(mutex, &ice->gpio_mutex) {
++		tmp = snd_ice1712_read(ice, ICE1712_IREG_GPIO_DATA);
++	}
+ 	tmp2 = tmp & ~ICE1712_DELTA_DFS; 
+ 	if (rate > 48000)
+ 		tmp2 |= ICE1712_DELTA_DFS;
+@@ -339,12 +335,12 @@ static void delta_ak4524_set_rate_val(struct snd_akm4xxx *ak, unsigned int rate)
  
- 	/* set up channels */
- 	stream->channels = params_channels(hw);
- 	/* set up format for the stream */
- 	stream->format = params_format(hw);
+ 	/* do it again */
+ 	snd_akm4xxx_reset(ak, 1);
+-	mutex_lock(&ice->gpio_mutex);
+-	tmp = snd_ice1712_read(ice, ICE1712_IREG_GPIO_DATA) & ~ICE1712_DELTA_DFS;
+-	if (rate > 48000)
+-		tmp |= ICE1712_DELTA_DFS;
+-	snd_ice1712_write(ice, ICE1712_IREG_GPIO_DATA, tmp);
+-	mutex_unlock(&ice->gpio_mutex);
++	scoped_guard(mutex, &ice->gpio_mutex) {
++		tmp = snd_ice1712_read(ice, ICE1712_IREG_GPIO_DATA) & ~ICE1712_DELTA_DFS;
++		if (rate > 48000)
++			tmp |= ICE1712_DELTA_DFS;
++		snd_ice1712_write(ice, ICE1712_IREG_GPIO_DATA, tmp);
++	}
+ 	snd_akm4xxx_reset(ak, 0);
+ }
  
--	mutex_unlock(&mgr->setup_mutex);
+diff --git a/sound/pci/ice1712/hoontech.c b/sound/pci/ice1712/hoontech.c
+index 46daeea8dc66..071f94dc7390 100644
+--- a/sound/pci/ice1712/hoontech.c
++++ b/sound/pci/ice1712/hoontech.c
+@@ -41,35 +41,35 @@ static void snd_ice1712_stdsp24_gpio_write(struct snd_ice1712 *ice, unsigned cha
+ static void snd_ice1712_stdsp24_darear(struct snd_ice1712 *ice, int activate)
+ {
+ 	struct hoontech_spec *spec = ice->spec;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	ICE1712_STDSP24_0_DAREAR(spec->boxbits, activate);
+ 	snd_ice1712_stdsp24_gpio_write(ice, spec->boxbits[0]);
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void snd_ice1712_stdsp24_mute(struct snd_ice1712 *ice, int activate)
+ {
+ 	struct hoontech_spec *spec = ice->spec;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	ICE1712_STDSP24_3_MUTE(spec->boxbits, activate);
+ 	snd_ice1712_stdsp24_gpio_write(ice, spec->boxbits[3]);
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void snd_ice1712_stdsp24_insel(struct snd_ice1712 *ice, int activate)
+ {
+ 	struct hoontech_spec *spec = ice->spec;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	ICE1712_STDSP24_3_INSEL(spec->boxbits, activate);
+ 	snd_ice1712_stdsp24_gpio_write(ice, spec->boxbits[3]);
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void snd_ice1712_stdsp24_box_channel(struct snd_ice1712 *ice, int box, int chn, int activate)
+ {
+ 	struct hoontech_spec *spec = ice->spec;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 
+ 	/* select box */
+ 	ICE1712_STDSP24_0_BOX(spec->boxbits, box);
+@@ -111,15 +111,13 @@ static void snd_ice1712_stdsp24_box_channel(struct snd_ice1712 *ice, int box, in
+ 
+ 	ICE1712_STDSP24_2_MIDI1(spec->boxbits, 0);
+ 	snd_ice1712_stdsp24_gpio_write(ice, spec->boxbits[2]);
 -
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void snd_ice1712_stdsp24_box_midi(struct snd_ice1712 *ice, int box, int master)
+ {
+ 	struct hoontech_spec *spec = ice->spec;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 
+ 	/* select box */
+ 	ICE1712_STDSP24_0_BOX(spec->boxbits, box);
+@@ -139,17 +137,15 @@ static void snd_ice1712_stdsp24_box_midi(struct snd_ice1712 *ice, int box, int m
+ 	
+ 	ICE1712_STDSP24_2_MIDIIN(spec->boxbits, 1);
+ 	snd_ice1712_stdsp24_gpio_write(ice, spec->boxbits[2]);
+-
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void snd_ice1712_stdsp24_midi2(struct snd_ice1712 *ice, int activate)
+ {
+ 	struct hoontech_spec *spec = ice->spec;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	ICE1712_STDSP24_3_MIDI2(spec->boxbits, activate);
+ 	snd_ice1712_stdsp24_gpio_write(ice, spec->boxbits[3]);
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static int hoontech_init(struct snd_ice1712 *ice, bool staudio)
+diff --git a/sound/pci/ice1712/ice1724.c b/sound/pci/ice1712/ice1724.c
+index 0445d2e8e548..5bf90e2fd191 100644
+--- a/sound/pci/ice1712/ice1724.c
++++ b/sound/pci/ice1712/ice1724.c
+@@ -684,24 +684,21 @@ static int snd_vt1724_set_pro_rate(struct snd_ice1712 *ice, unsigned int rate,
  	return 0;
  }
  
-@@ -990,7 +980,7 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
- 	struct pcxhr_stream    *stream;
- 	int err;
+-static int snd_vt1724_pcm_hw_params(struct snd_pcm_substream *substream,
+-				    struct snd_pcm_hw_params *hw_params)
++static int __snd_vt1724_pcm_hw_params(struct snd_pcm_substream *substream,
++				      struct snd_pcm_hw_params *hw_params)
+ {
+ 	struct snd_ice1712 *ice = snd_pcm_substream_chip(substream);
+ 	int i, chs;
  
--	mutex_lock(&mgr->setup_mutex);
-+	guard(mutex)(&mgr->setup_mutex);
- 
- 	/* copy the struct snd_pcm_hardware struct */
- 	runtime->hw = pcxhr_caps;
-@@ -1012,7 +1002,6 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
- 		/* streams in use */
- 		dev_err(chip->card->dev, "%s chip%d subs%d in use\n",
- 			   __func__, chip->chip_idx, subs->number);
--		mutex_unlock(&mgr->setup_mutex);
- 		return -EBUSY;
- 	}
- 
-@@ -1023,10 +1012,8 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
- 	/* buffer-size should better be multiple of period-size */
- 	err = snd_pcm_hw_constraint_integer(runtime,
- 					    SNDRV_PCM_HW_PARAM_PERIODS);
--	if (err < 0) {
--		mutex_unlock(&mgr->setup_mutex);
-+	if (err < 0)
- 		return err;
--	}
- 
- 	/* if a sample rate is already used or fixed by external clock,
- 	 * the stream cannot change
-@@ -1040,7 +1027,6 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
- 						     &external_rate) ||
- 			    external_rate == 0) {
- 				/* cannot detect the external clock rate */
--				mutex_unlock(&mgr->setup_mutex);
+ 	chs = params_channels(hw_params);
+-	mutex_lock(&ice->open_mutex);
+ 	/* mark surround channels */
+ 	if (substream == ice->playback_pro_substream) {
+ 		/* PDMA0 can be multi-channel up to 8 */
+ 		chs = chs / 2 - 1;
+ 		for (i = 0; i < chs; i++) {
+ 			if (ice->pcm_reserved[i] &&
+-			    ice->pcm_reserved[i] != substream) {
+-				mutex_unlock(&ice->open_mutex);
++			    ice->pcm_reserved[i] != substream)
  				return -EBUSY;
+-			}
+ 			ice->pcm_reserved[i] = substream;
+ 		}
+ 		for (; i < 3; i++) {
+@@ -713,16 +710,28 @@ static int snd_vt1724_pcm_hw_params(struct snd_pcm_substream *substream,
+ 			/* check individual playback stream */
+ 			if (ice->playback_con_substream_ds[i] == substream) {
+ 				if (ice->pcm_reserved[i] &&
+-				    ice->pcm_reserved[i] != substream) {
+-					mutex_unlock(&ice->open_mutex);
++				    ice->pcm_reserved[i] != substream)
+ 					return -EBUSY;
+-				}
+ 				ice->pcm_reserved[i] = substream;
+ 				break;
  			}
- 			runtime->hw.rate_min = external_rate;
-@@ -1063,7 +1049,6 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
- 
- 	mgr->ref_count_rate++;
- 
--	mutex_unlock(&mgr->setup_mutex);
- 	return 0;
- }
- 
-@@ -1074,7 +1059,7 @@ static int pcxhr_close(struct snd_pcm_substream *subs)
- 	struct pcxhr_mgr *mgr = chip->mgr;
- 	struct pcxhr_stream *stream = subs->runtime->private_data;
- 
--	mutex_lock(&mgr->setup_mutex);
-+	guard(mutex)(&mgr->setup_mutex);
- 
- 	dev_dbg(chip->card->dev, "%s chip%d subs%d\n", __func__,
- 		    chip->chip_idx, subs->number);
-@@ -1088,8 +1073,6 @@ static int pcxhr_close(struct snd_pcm_substream *subs)
- 	stream->status    = PCXHR_STREAM_STATUS_FREE;
- 	stream->substream = NULL;
- 
--	mutex_unlock(&mgr->setup_mutex);
--
- 	return 0;
- }
- 
-@@ -1102,14 +1085,12 @@ static snd_pcm_uframes_t pcxhr_stream_pointer(struct snd_pcm_substream *subs)
- 	struct snd_pcm_runtime *runtime = subs->runtime;
- 	struct pcxhr_stream *stream  = runtime->private_data;
- 
--	mutex_lock(&chip->mgr->lock);
-+	guard(mutex)(&chip->mgr->lock);
- 
- 	/* get the period fragment and the nb of periods in the buffer */
- 	timer_period_frag = stream->timer_period_frag;
- 	timer_buf_periods = stream->timer_buf_periods;
- 
--	mutex_unlock(&chip->mgr->lock);
--
- 	return (snd_pcm_uframes_t)((timer_buf_periods * runtime->period_size) +
- 				   timer_period_frag);
- }
-diff --git a/sound/pci/pcxhr/pcxhr_core.c b/sound/pci/pcxhr/pcxhr_core.c
-index 23f253effb4f..b3b9ab4f303e 100644
---- a/sound/pci/pcxhr/pcxhr_core.c
-+++ b/sound/pci/pcxhr/pcxhr_core.c
-@@ -754,12 +754,8 @@ void pcxhr_set_pipe_cmd_params(struct pcxhr_rmh *rmh, int capture,
-  */
- int pcxhr_send_msg(struct pcxhr_mgr *mgr, struct pcxhr_rmh *rmh)
- {
--	int err;
--
--	mutex_lock(&mgr->msg_lock);
--	err = pcxhr_send_msg_nolock(mgr, rmh);
--	mutex_unlock(&mgr->msg_lock);
--	return err;
-+	guard(mutex)(&mgr->msg_lock);
-+	return pcxhr_send_msg_nolock(mgr, rmh);
- }
- 
- static inline int pcxhr_pipes_running(struct pcxhr_mgr *mgr)
-@@ -962,14 +958,13 @@ int pcxhr_write_io_num_reg_cont(struct pcxhr_mgr *mgr, unsigned int mask,
- 	struct pcxhr_rmh rmh;
- 	int err;
- 
--	mutex_lock(&mgr->msg_lock);
-+	guard(mutex)(&mgr->msg_lock);
- 	if ((mgr->io_num_reg_cont & mask) == value) {
- 		dev_dbg(&mgr->pci->dev,
- 			"IO_NUM_REG_CONT mask %x already is set to %x\n",
- 			    mask, value);
- 		if (changed)
- 			*changed = 0;
--		mutex_unlock(&mgr->msg_lock);
- 		return 0;	/* already programmed */
- 	}
- 	pcxhr_init_rmh(&rmh, CMD_ACCESS_IO_WRITE);
-@@ -984,7 +979,6 @@ int pcxhr_write_io_num_reg_cont(struct pcxhr_mgr *mgr, unsigned int mask,
- 		if (changed)
- 			*changed = 1;
- 	}
--	mutex_unlock(&mgr->msg_lock);
- 	return err;
- }
- 
-@@ -1269,7 +1263,7 @@ irqreturn_t pcxhr_threaded_irq(int irq, void *dev_id)
- 	int i, j;
- 	struct snd_pcxhr *chip;
- 
--	mutex_lock(&mgr->lock);
-+	guard(mutex)(&mgr->lock);
- 	if (mgr->src_it_dsp & PCXHR_IRQ_TIMER) {
- 		/* is a 24 bit counter */
- 		int dsp_time_new =
-@@ -1328,6 +1322,5 @@ irqreturn_t pcxhr_threaded_irq(int irq, void *dev_id)
- 	}
- 
- 	pcxhr_msg_thread(mgr);
--	mutex_unlock(&mgr->lock);
- 	return IRQ_HANDLED;
- }
-diff --git a/sound/pci/pcxhr/pcxhr_mix22.c b/sound/pci/pcxhr/pcxhr_mix22.c
-index e1435afc4907..80d22e22ea30 100644
---- a/sound/pci/pcxhr/pcxhr_mix22.c
-+++ b/sound/pci/pcxhr/pcxhr_mix22.c
-@@ -710,9 +710,9 @@ static int hr222_mic_vol_get(struct snd_kcontrol *kcontrol,
- 			     struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
--	mutex_lock(&chip->mgr->mixer_mutex);
-+
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	ucontrol->value.integer.value[0] = chip->mic_volume;
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return 0;
- }
- 
-@@ -721,13 +721,13 @@ static int hr222_mic_vol_put(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
- 	int changed = 0;
--	mutex_lock(&chip->mgr->mixer_mutex);
-+
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	if (chip->mic_volume != ucontrol->value.integer.value[0]) {
- 		changed = 1;
- 		chip->mic_volume = ucontrol->value.integer.value[0];
- 		hr222_update_analog_audio_level(chip, 1, 0);
- 	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return changed;
- }
- 
-@@ -760,9 +760,9 @@ static int hr222_mic_boost_get(struct snd_kcontrol *kcontrol,
- 			       struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
--	mutex_lock(&chip->mgr->mixer_mutex);
-+
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	ucontrol->value.integer.value[0] = chip->mic_boost;
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return 0;
- }
- 
-@@ -771,13 +771,13 @@ static int hr222_mic_boost_put(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
- 	int changed = 0;
--	mutex_lock(&chip->mgr->mixer_mutex);
-+
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	if (chip->mic_boost != ucontrol->value.integer.value[0]) {
- 		changed = 1;
- 		chip->mic_boost = ucontrol->value.integer.value[0];
- 		hr222_micro_boost(chip->mgr, chip->mic_boost);
- 	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return changed;
- }
- 
-@@ -800,9 +800,9 @@ static int hr222_phantom_power_get(struct snd_kcontrol *kcontrol,
- 				   struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
--	mutex_lock(&chip->mgr->mixer_mutex);
-+
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	ucontrol->value.integer.value[0] = chip->phantom_power;
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return 0;
- }
- 
-@@ -812,14 +812,13 @@ static int hr222_phantom_power_put(struct snd_kcontrol *kcontrol,
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
- 	int power, changed = 0;
- 
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	power = !!ucontrol->value.integer.value[0];
- 	if (chip->phantom_power != power) {
- 		hr222_phantom_power(chip->mgr, power);
- 		chip->phantom_power = power;
- 		changed = 1;
- 	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return changed;
- }
- 
-diff --git a/sound/pci/pcxhr/pcxhr_mixer.c b/sound/pci/pcxhr/pcxhr_mixer.c
-index aec509461dd6..03daa2832b1b 100644
---- a/sound/pci/pcxhr/pcxhr_mixer.c
-+++ b/sound/pci/pcxhr/pcxhr_mixer.c
-@@ -110,7 +110,8 @@ static int pcxhr_analog_vol_get(struct snd_kcontrol *kcontrol,
- 				struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
--	mutex_lock(&chip->mgr->mixer_mutex);
-+
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	if (kcontrol->private_value == 0) {	/* playback */
- 	  ucontrol->value.integer.value[0] = chip->analog_playback_volume[0];
- 	  ucontrol->value.integer.value[1] = chip->analog_playback_volume[1];
-@@ -118,7 +119,6 @@ static int pcxhr_analog_vol_get(struct snd_kcontrol *kcontrol,
- 	  ucontrol->value.integer.value[0] = chip->analog_capture_volume[0];
- 	  ucontrol->value.integer.value[1] = chip->analog_capture_volume[1];
- 	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return 0;
- }
- 
-@@ -129,7 +129,7 @@ static int pcxhr_analog_vol_put(struct snd_kcontrol *kcontrol,
- 	int changed = 0;
- 	int is_capture, i;
- 
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	is_capture = (kcontrol->private_value != 0);
- 	for (i = 0; i < 2; i++) {
- 		int  new_volume = ucontrol->value.integer.value[i];
-@@ -168,7 +168,6 @@ static int pcxhr_analog_vol_put(struct snd_kcontrol *kcontrol,
- 								is_capture, i);
  		}
  	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return changed;
- }
- 
-@@ -192,10 +191,9 @@ static int pcxhr_audio_sw_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
- 
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	ucontrol->value.integer.value[0] = chip->analog_playback_active[0];
- 	ucontrol->value.integer.value[1] = chip->analog_playback_active[1];
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return 0;
- }
- 
-@@ -204,7 +202,8 @@ static int pcxhr_audio_sw_put(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
- 	int i, changed = 0;
--	mutex_lock(&chip->mgr->mixer_mutex);
+-	mutex_unlock(&ice->open_mutex);
 +
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	for(i = 0; i < 2; i++) {
- 		if (chip->analog_playback_active[i] !=
- 		    ucontrol->value.integer.value[i]) {
-@@ -218,7 +217,6 @@ static int pcxhr_audio_sw_put(struct snd_kcontrol *kcontrol,
- 				pcxhr_update_analog_audio_level(chip, 0, i);
- 		}
- 	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return changed;
++	return 0;
++}
++
++static int snd_vt1724_pcm_hw_params(struct snd_pcm_substream *substream,
++				    struct snd_pcm_hw_params *hw_params)
++{
++	struct snd_ice1712 *ice = snd_pcm_substream_chip(substream);
++	int err;
++
++	scoped_guard(mutex, &ice->open_mutex) {
++		err = __snd_vt1724_pcm_hw_params(substream, hw_params);
++		if (err < 0)
++			return err;
++	}
+ 
+ 	return snd_vt1724_set_pro_rate(ice, params_rate(hw_params), 0);
  }
- 
-@@ -352,14 +350,13 @@ static int pcxhr_pcm_vol_get(struct snd_kcontrol *kcontrol,
- 	int *stored_volume;
- 	int is_capture = kcontrol->private_value;
- 
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	if (is_capture)		/* digital capture */
- 		stored_volume = chip->digital_capture_volume;
- 	else			/* digital playback */
- 		stored_volume = chip->digital_playback_volume[idx];
- 	ucontrol->value.integer.value[0] = stored_volume[0];
- 	ucontrol->value.integer.value[1] = stored_volume[1];
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return 0;
- }
- 
-@@ -373,7 +370,7 @@ static int pcxhr_pcm_vol_put(struct snd_kcontrol *kcontrol,
- 	int *stored_volume;
+@@ -732,12 +741,11 @@ static int snd_vt1724_pcm_hw_free(struct snd_pcm_substream *substream)
+ 	struct snd_ice1712 *ice = snd_pcm_substream_chip(substream);
  	int i;
  
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	if (is_capture)		/* digital capture */
- 		stored_volume = chip->digital_capture_volume;
- 	else			/* digital playback */
-@@ -392,7 +389,6 @@ static int pcxhr_pcm_vol_put(struct snd_kcontrol *kcontrol,
- 	}
- 	if (!is_capture && changed)	/* update playback volume */
- 		pcxhr_update_playback_stream_level(chip, idx);
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return changed;
- }
- 
-@@ -416,10 +412,9 @@ static int pcxhr_pcm_sw_get(struct snd_kcontrol *kcontrol,
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
- 	int idx = snd_ctl_get_ioffidx(kcontrol, &ucontrol->id); /* index */
- 
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	ucontrol->value.integer.value[0] = chip->digital_playback_active[idx][0];
- 	ucontrol->value.integer.value[1] = chip->digital_playback_active[idx][1];
--	mutex_unlock(&chip->mgr->mixer_mutex);
+-	mutex_lock(&ice->open_mutex);
++	guard(mutex)(&ice->open_mutex);
+ 	/* unmark surround channels */
+ 	for (i = 0; i < 3; i++)
+ 		if (ice->pcm_reserved[i] == substream)
+ 			ice->pcm_reserved[i] = NULL;
+-	mutex_unlock(&ice->open_mutex);
  	return 0;
  }
  
-@@ -431,7 +426,7 @@ static int pcxhr_pcm_sw_put(struct snd_kcontrol *kcontrol,
- 	int idx = snd_ctl_get_ioffidx(kcontrol, &ucontrol->id); /* index */
- 	int i, j;
- 
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	j = idx;
- 	for (i = 0; i < 2; i++) {
- 		if (chip->digital_playback_active[j][i] !=
-@@ -443,7 +438,6 @@ static int pcxhr_pcm_sw_put(struct snd_kcontrol *kcontrol,
+@@ -1013,18 +1021,18 @@ static int snd_vt1724_playback_pro_open(struct snd_pcm_substream *substream)
+ 	snd_pcm_set_sync(substream);
+ 	snd_pcm_hw_constraint_msbits(runtime, 0, 32, 24);
+ 	set_rate_constraints(ice, substream);
+-	mutex_lock(&ice->open_mutex);
+-	/* calculate the currently available channels */
+-	num_indeps = ice->num_total_dacs / 2 - 1;
+-	for (chs = 0; chs < num_indeps; chs++) {
+-		if (ice->pcm_reserved[chs])
+-			break;
++	scoped_guard(mutex, &ice->open_mutex) {
++		/* calculate the currently available channels */
++		num_indeps = ice->num_total_dacs / 2 - 1;
++		for (chs = 0; chs < num_indeps; chs++) {
++			if (ice->pcm_reserved[chs])
++				break;
++		}
++		chs = (chs + 1) * 2;
++		runtime->hw.channels_max = chs;
++		if (chs > 2) /* channels must be even */
++			snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_CHANNELS, 2);
  	}
- 	if (changed)
- 		pcxhr_update_playback_stream_level(chip, idx);
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return changed;
- }
+-	chs = (chs + 1) * 2;
+-	runtime->hw.channels_max = chs;
+-	if (chs > 2) /* channels must be even */
+-		snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_CHANNELS, 2);
+-	mutex_unlock(&ice->open_mutex);
+ 	snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_PERIOD_BYTES,
+ 				   VT1724_BUFFER_ALIGN);
+ 	snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
+@@ -1367,13 +1375,11 @@ static int snd_vt1724_playback_indep_open(struct snd_pcm_substream *substream)
+ 	struct snd_ice1712 *ice = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
  
-@@ -465,10 +459,10 @@ static int pcxhr_monitor_vol_get(struct snd_kcontrol *kcontrol,
- 				 struct snd_ctl_elem_value *ucontrol)
+-	mutex_lock(&ice->open_mutex);
+-	/* already used by PDMA0? */
+-	if (ice->pcm_reserved[substream->number]) {
+-		mutex_unlock(&ice->open_mutex);
+-		return -EBUSY; /* FIXME: should handle blocking mode properly */
++	scoped_guard(mutex, &ice->open_mutex) {
++		/* already used by PDMA0? */
++		if (ice->pcm_reserved[substream->number])
++			return -EBUSY; /* FIXME: should handle blocking mode properly */
+ 	}
+-	mutex_unlock(&ice->open_mutex);
+ 	runtime->private_data = (void *)&vt1724_playback_dma_regs[substream->number];
+ 	ice->playback_con_substream_ds[substream->number] = substream;
+ 	runtime->hw = snd_vt1724_2ch_stereo;
+@@ -2220,13 +2226,12 @@ unsigned char snd_vt1724_read_i2c(struct snd_ice1712 *ice,
  {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
--	mutex_lock(&chip->mgr->mixer_mutex);
-+
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	ucontrol->value.integer.value[0] = chip->monitoring_volume[0];
- 	ucontrol->value.integer.value[1] = chip->monitoring_volume[1];
--	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	unsigned char val;
+ 
+-	mutex_lock(&ice->i2c_mutex);
++	guard(mutex)(&ice->i2c_mutex);
+ 	wait_i2c_busy(ice);
+ 	outb(addr, ICEREG1724(ice, I2C_BYTE_ADDR));
+ 	outb(dev & ~VT1724_I2C_WRITE, ICEREG1724(ice, I2C_DEV_ADDR));
+ 	wait_i2c_busy(ice);
+ 	val = inb(ICEREG1724(ice, I2C_DATA));
+-	mutex_unlock(&ice->i2c_mutex);
+ 	/*
+ 	dev_dbg(ice->card->dev, "i2c_read: [0x%x,0x%x] = 0x%x\n", dev, addr, val);
+ 	*/
+@@ -2236,7 +2241,7 @@ unsigned char snd_vt1724_read_i2c(struct snd_ice1712 *ice,
+ void snd_vt1724_write_i2c(struct snd_ice1712 *ice,
+ 			  unsigned char dev, unsigned char addr, unsigned char data)
+ {
+-	mutex_lock(&ice->i2c_mutex);
++	guard(mutex)(&ice->i2c_mutex);
+ 	wait_i2c_busy(ice);
+ 	/*
+ 	dev_dbg(ice->card->dev, "i2c_write: [0x%x,0x%x] = 0x%x\n", dev, addr, data);
+@@ -2245,7 +2250,6 @@ void snd_vt1724_write_i2c(struct snd_ice1712 *ice,
+ 	outb(data, ICEREG1724(ice, I2C_DATA));
+ 	outb(dev | VT1724_I2C_WRITE, ICEREG1724(ice, I2C_DEV_ADDR));
+ 	wait_i2c_busy(ice);
+-	mutex_unlock(&ice->i2c_mutex);
+ }
+ 
+ static int snd_vt1724_read_eeprom(struct snd_ice1712 *ice,
+diff --git a/sound/pci/ice1712/maya44.c b/sound/pci/ice1712/maya44.c
+index b46df1821251..551f478c59c4 100644
+--- a/sound/pci/ice1712/maya44.c
++++ b/sound/pci/ice1712/maya44.c
+@@ -175,10 +175,9 @@ static int maya_vol_get(struct snd_kcontrol *kcontrol,
+ 		&chip->wm[snd_ctl_get_ioff(kcontrol, &ucontrol->id)];
+ 	unsigned int idx = kcontrol->private_value;
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	ucontrol->value.integer.value[0] = wm->volumes[idx][0];
+ 	ucontrol->value.integer.value[1] = wm->volumes[idx][1];
+-	mutex_unlock(&chip->mutex);
  	return 0;
  }
  
-@@ -479,7 +473,7 @@ static int pcxhr_monitor_vol_put(struct snd_kcontrol *kcontrol,
- 	int changed = 0;
+@@ -193,7 +192,7 @@ static int maya_vol_put(struct snd_kcontrol *kcontrol,
+ 	unsigned int val, data;
+ 	int ch, changed = 0;
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	for (ch = 0; ch < 2; ch++) {
+ 		val = ucontrol->value.integer.value[ch];
+ 		if (val > vol->maxval)
+@@ -213,7 +212,6 @@ static int maya_vol_put(struct snd_kcontrol *kcontrol,
+ 					  val ? 0 : vol->mux_bits[ch]);
+ 		wm->volumes[idx][ch] = val;
+ 	}
+-	mutex_unlock(&chip->mutex);
+ 	return changed;
+ }
+ 
+@@ -250,7 +248,7 @@ static int maya_sw_put(struct snd_kcontrol *kcontrol,
+ 	unsigned int mask, val;
+ 	int changed;
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	mask = 1 << idx;
+ 	wm->switch_bits &= ~mask;
+ 	val = ucontrol->value.integer.value[0];
+@@ -260,7 +258,6 @@ static int maya_sw_put(struct snd_kcontrol *kcontrol,
+ 	changed = wm8776_write_bits(chip->ice, wm,
+ 				    GET_SW_VAL_REG(kcontrol->private_value),
+ 				    mask, val ? mask : 0);
+-	mutex_unlock(&chip->mutex);
+ 	return changed;
+ }
+ 
+@@ -315,14 +312,13 @@ static int maya_gpio_sw_put(struct snd_kcontrol *kcontrol,
+ 	unsigned int val, mask;
+ 	int changed;
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	mask = 1 << shift;
+ 	val = ucontrol->value.integer.value[0];
+ 	if (GET_GPIO_VAL_INV(kcontrol->private_value))
+ 		val = !val;
+ 	val = val ? mask : 0;
+ 	changed = maya_set_gpio_bits(chip->ice, mask, val);
+-	mutex_unlock(&chip->mutex);
+ 	return changed;
+ }
+ 
+@@ -369,11 +365,10 @@ static int maya_rec_src_put(struct snd_kcontrol *kcontrol,
+ 	int sel = ucontrol->value.enumerated.item[0];
+ 	int changed;
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	changed = maya_set_gpio_bits(chip->ice, 1 << GPIO_MIC_RELAY,
+ 				     sel ? (1 << GPIO_MIC_RELAY) : 0);
+ 	wm8776_select_input(chip, 0, sel ? MAYA_MIC_IN : MAYA_LINE_IN);
+-	mutex_unlock(&chip->mutex);
+ 	return changed;
+ }
+ 
+@@ -635,12 +630,11 @@ static void set_rate(struct snd_ice1712 *ice, unsigned int rate)
+ 		val |= 8;
+ 	val |= ratio << 4;
+ 
+-	mutex_lock(&chip->mutex);
++	guard(mutex)(&chip->mutex);
+ 	for (i = 0; i < 2; i++)
+ 		wm8776_write_bits(ice, &chip->wm[i],
+ 				  WM8776_REG_MASTER_MODE_CONTROL,
+ 				  0x180, val);
+-	mutex_unlock(&chip->mutex);
+ }
+ 
+ /*
+diff --git a/sound/pci/ice1712/phase.c b/sound/pci/ice1712/phase.c
+index 1e47e46ab8ac..151b740ce66d 100644
+--- a/sound/pci/ice1712/phase.c
++++ b/sound/pci/ice1712/phase.c
+@@ -287,10 +287,9 @@ static int wm_pcm_mute_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.integer.value[0] = (wm_get(ice, WM_MUTE) & 0x10) ?
+ 						0 : 1;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -638,11 +637,10 @@ static int wm_pcm_vol_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	unsigned short val;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	val = wm_get(ice, WM_DAC_DIG_MASTER_ATTEN) & 0xff;
+ 	val = val > PCM_MIN ? (val - PCM_MIN) : 0;
+ 	ucontrol->value.integer.value[0] = val;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+diff --git a/sound/pci/ice1712/pontis.c b/sound/pci/ice1712/pontis.c
+index 683909ca147c..557473f0d59e 100644
+--- a/sound/pci/ice1712/pontis.c
++++ b/sound/pci/ice1712/pontis.c
+@@ -112,13 +112,12 @@ static int wm_dac_vol_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	unsigned short val;
  	int i;
  
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
  	for (i = 0; i < 2; i++) {
- 		if (chip->monitoring_volume[i] !=
- 		    ucontrol->value.integer.value[i]) {
-@@ -492,7 +486,6 @@ static int pcxhr_monitor_vol_put(struct snd_kcontrol *kcontrol,
- 			changed = 1;
- 		}
+ 		val = wm_get(ice, WM_DAC_ATTEN_L + i) & 0xff;
+ 		val = val > DAC_MIN ? (val - DAC_MIN) : 0;
+ 		ucontrol->value.integer.value[i] = val;
  	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return changed;
- }
- 
-@@ -515,10 +508,10 @@ static int pcxhr_monitor_sw_get(struct snd_kcontrol *kcontrol,
- 				struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
--	mutex_lock(&chip->mgr->mixer_mutex);
-+
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	ucontrol->value.integer.value[0] = chip->monitoring_active[0];
- 	ucontrol->value.integer.value[1] = chip->monitoring_active[1];
--	mutex_unlock(&chip->mgr->mixer_mutex);
+-	mutex_unlock(&ice->gpio_mutex);
  	return 0;
  }
  
-@@ -529,7 +522,7 @@ static int pcxhr_monitor_sw_put(struct snd_kcontrol *kcontrol,
- 	int changed = 0;
+@@ -128,7 +127,7 @@ static int wm_dac_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	unsigned short oval, nval;
+ 	int i, idx, change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		nval = ucontrol->value.integer.value[i];
+ 		nval = (nval ? (nval + DAC_MIN) : 0) & 0xff;
+@@ -140,7 +139,6 @@ static int wm_dac_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 			change = 1;
+ 		}
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -167,13 +165,12 @@ static int wm_adc_vol_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	unsigned short val;
  	int i;
  
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
  	for (i = 0; i < 2; i++) {
- 		if (chip->monitoring_active[i] !=
- 		    ucontrol->value.integer.value[i]) {
-@@ -545,7 +538,6 @@ static int pcxhr_monitor_sw_put(struct snd_kcontrol *kcontrol,
- 		/* update right monitoring volume and mute */
- 		pcxhr_update_audio_pipe_level(chip, 0, 1);
- 
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return (changed != 0);
- }
- 
-@@ -671,7 +663,7 @@ static int pcxhr_audio_src_put(struct snd_kcontrol *kcontrol,
+ 		val = wm_get(ice, WM_ADC_ATTEN_L + i) & 0xff;
+ 		val = val > ADC_MIN ? (val - ADC_MIN) : 0;
+ 		ucontrol->value.integer.value[i] = val;
  	}
- 	if (ucontrol->value.enumerated.item[0] >= i)
- 		return -EINVAL;
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	if (chip->audio_capture_source != ucontrol->value.enumerated.item[0]) {
- 		chip->audio_capture_source = ucontrol->value.enumerated.item[0];
- 		if (chip->mgr->is_hr_stereo)
-@@ -680,7 +672,6 @@ static int pcxhr_audio_src_put(struct snd_kcontrol *kcontrol,
- 			pcxhr_set_audio_source(chip);
- 		ret = 1;
- 	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
- 	return ret;
- }
- 
-@@ -760,9 +751,9 @@ static int pcxhr_clock_type_put(struct snd_kcontrol *kcontrol,
- 	}
- 	if (ucontrol->value.enumerated.item[0] >= clock_items)
- 		return -EINVAL;
--	mutex_lock(&mgr->mixer_mutex);
-+	guard(mutex)(&mgr->mixer_mutex);
- 	if (mgr->use_clock_type != ucontrol->value.enumerated.item[0]) {
--		mutex_lock(&mgr->setup_mutex);
-+		guard(mutex)(&mgr->setup_mutex);
- 		mgr->use_clock_type = ucontrol->value.enumerated.item[0];
- 		rate = 0;
- 		if (mgr->use_clock_type != PCXHR_CLOCK_TYPE_INTERNAL) {
-@@ -778,10 +769,8 @@ static int pcxhr_clock_type_put(struct snd_kcontrol *kcontrol,
- 			if (mgr->sample_rate)
- 				mgr->sample_rate = rate;
- 		}
--		mutex_unlock(&mgr->setup_mutex);
- 		ret = 1; /* return 1 even if the set was not done. ok ? */
- 	}
--	mutex_unlock(&mgr->mixer_mutex);
- 	return ret;
- }
- 
-@@ -814,7 +803,7 @@ static int pcxhr_clock_rate_get(struct snd_kcontrol *kcontrol,
- 	struct pcxhr_mgr *mgr = snd_kcontrol_chip(kcontrol);
- 	int i, err, rate;
- 
--	mutex_lock(&mgr->mixer_mutex);
-+	guard(mutex)(&mgr->mixer_mutex);
- 	for(i = 0; i < 3 + mgr->capture_chips; i++) {
- 		if (i == PCXHR_CLOCK_TYPE_INTERNAL)
- 			rate = mgr->sample_rate_real;
-@@ -825,7 +814,6 @@ static int pcxhr_clock_rate_get(struct snd_kcontrol *kcontrol,
- 		}
- 		ucontrol->value.integer.value[i] = rate;
- 	}
--	mutex_unlock(&mgr->mixer_mutex);
+-	mutex_unlock(&ice->gpio_mutex);
  	return 0;
  }
  
-@@ -918,7 +906,7 @@ static int pcxhr_iec958_get(struct snd_kcontrol *kcontrol,
- 	unsigned char aes_bits;
- 	int i, err;
+@@ -183,7 +180,7 @@ static int wm_adc_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	unsigned short ovol, nvol;
+ 	int i, idx, change = 0;
  
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	for(i = 0; i < 5; i++) {
- 		if (kcontrol->private_value == 0)	/* playback */
- 			aes_bits = chip->aes_bits[i];
-@@ -934,7 +922,6 @@ static int pcxhr_iec958_get(struct snd_kcontrol *kcontrol,
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		nvol = ucontrol->value.integer.value[i];
+ 		nvol = nvol ? (nvol + ADC_MIN) : 0;
+@@ -194,7 +191,6 @@ static int wm_adc_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 			change = 1;
  		}
- 		ucontrol->value.iec958.status[i] = aes_bits;
  	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
-         return 0;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
  }
  
-@@ -988,7 +975,7 @@ static int pcxhr_iec958_put(struct snd_kcontrol *kcontrol,
- 	int i, changed = 0;
+@@ -208,9 +204,8 @@ static int wm_adc_mux_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	int bit = kcontrol->private_value;
  
- 	/* playback */
--	mutex_lock(&chip->mgr->mixer_mutex);
-+	guard(mutex)(&chip->mgr->mixer_mutex);
- 	for (i = 0; i < 5; i++) {
- 		if (ucontrol->value.iec958.status[i] != chip->aes_bits[i]) {
- 			if (chip->mgr->is_hr_stereo)
-@@ -1000,7 +987,6 @@ static int pcxhr_iec958_put(struct snd_kcontrol *kcontrol,
- 			changed = 1;
- 		}
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.integer.value[0] = (wm_get(ice, WM_ADC_MUX) & (1 << bit)) ? 1 : 0;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -221,7 +216,7 @@ static int wm_adc_mux_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	unsigned short oval, nval;
+ 	int change;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	nval = oval = wm_get(ice, WM_ADC_MUX);
+ 	if (ucontrol->value.integer.value[0])
+ 		nval |= (1 << bit);
+@@ -231,7 +226,6 @@ static int wm_adc_mux_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	if (change) {
+ 		wm_put(ice, WM_ADC_MUX, nval);
  	}
--	mutex_unlock(&chip->mgr->mixer_mutex);
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -244,9 +238,8 @@ static int wm_bypass_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_valu
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.integer.value[0] = (wm_get(ice, WM_OUT_MUX) & 0x04) ? 1 : 0;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -256,7 +249,7 @@ static int wm_bypass_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_valu
+ 	unsigned short val, oval;
+ 	int change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	val = oval = wm_get(ice, WM_OUT_MUX);
+ 	if (ucontrol->value.integer.value[0])
+ 		val |= 0x04;
+@@ -266,7 +259,6 @@ static int wm_bypass_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_valu
+ 		wm_put(ice, WM_OUT_MUX, val);
+ 		change = 1;
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -279,9 +271,8 @@ static int wm_chswap_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_valu
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.integer.value[0] = (wm_get(ice, WM_DAC_CTRL1) & 0xf0) != 0x90;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -291,7 +282,7 @@ static int wm_chswap_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_valu
+ 	unsigned short val, oval;
+ 	int change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	oval = wm_get(ice, WM_DAC_CTRL1);
+ 	val = oval & 0x0f;
+ 	if (ucontrol->value.integer.value[0])
+@@ -303,7 +294,6 @@ static int wm_chswap_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_valu
+ 		wm_put_nocache(ice, WM_DAC_CTRL1, val);
+ 		change = 1;
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -410,9 +400,8 @@ static int cs_source_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_valu
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.enumerated.item[0] = ice->gpio.saved[0];
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -422,14 +411,13 @@ static int cs_source_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_valu
+ 	unsigned char val;
+ 	int change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	if (ucontrol->value.enumerated.item[0] != ice->gpio.saved[0]) {
+ 		ice->gpio.saved[0] = ucontrol->value.enumerated.item[0] & 3;
+ 		val = 0x80 | (ice->gpio.saved[0] << 3);
+ 		spi_write(ice, CS_DEV, 0x04, val);
+ 		change = 1;
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -449,10 +437,10 @@ static int pontis_gpio_mask_info(struct snd_kcontrol *kcontrol, struct snd_ctl_e
+ static int pontis_gpio_mask_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	/* 4-7 reserved */
+ 	ucontrol->value.integer.value[0] = (~ice->gpio.write_mask & 0xffff) | 0x00f0;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 	
+@@ -461,22 +449,22 @@ static int pontis_gpio_mask_put(struct snd_kcontrol *kcontrol, struct snd_ctl_el
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	unsigned int val;
+ 	int changed;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	/* 4-7 reserved */
+ 	val = (~ucontrol->value.integer.value[0] & 0xffff) | 0x00f0;
+ 	changed = val != ice->gpio.write_mask;
+ 	ice->gpio.write_mask = val;
+-	mutex_unlock(&ice->gpio_mutex);
  	return changed;
  }
+ 
+ static int pontis_gpio_dir_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	/* 4-7 reserved */
+ 	ucontrol->value.integer.value[0] = ice->gpio.direction & 0xff0f;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 	
+@@ -485,23 +473,23 @@ static int pontis_gpio_dir_put(struct snd_kcontrol *kcontrol, struct snd_ctl_ele
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	unsigned int val;
+ 	int changed;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	/* 4-7 reserved */
+ 	val = ucontrol->value.integer.value[0] & 0xff0f;
+ 	changed = (val != ice->gpio.direction);
+ 	ice->gpio.direction = val;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return changed;
+ }
+ 
+ static int pontis_gpio_data_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	snd_ice1712_gpio_set_dir(ice, ice->gpio.direction);
+ 	snd_ice1712_gpio_set_mask(ice, ice->gpio.write_mask);
+ 	ucontrol->value.integer.value[0] = snd_ice1712_gpio_read(ice) & 0xffff;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -510,7 +498,8 @@ static int pontis_gpio_data_put(struct snd_kcontrol *kcontrol, struct snd_ctl_el
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	unsigned int val, nval;
+ 	int changed = 0;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	snd_ice1712_gpio_set_dir(ice, ice->gpio.direction);
+ 	snd_ice1712_gpio_set_mask(ice, ice->gpio.write_mask);
+ 	val = snd_ice1712_gpio_read(ice) & 0xffff;
+@@ -519,7 +508,6 @@ static int pontis_gpio_data_put(struct snd_kcontrol *kcontrol, struct snd_ctl_el
+ 		snd_ice1712_gpio_write(ice, nval);
+ 		changed = 1;
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return changed;
+ }
+ 
+@@ -620,14 +608,14 @@ static void wm_proc_regs_write(struct snd_info_entry *entry, struct snd_info_buf
+ 	struct snd_ice1712 *ice = entry->private_data;
+ 	char line[64];
+ 	unsigned int reg, val;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	while (!snd_info_get_line(buffer, line, sizeof(line))) {
+ 		if (sscanf(line, "%x %x", &reg, &val) != 2)
+ 			continue;
+ 		if (reg <= 0x17 && val <= 0xffff)
+ 			wm_put(ice, reg, val);
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void wm_proc_regs_read(struct snd_info_entry *entry, struct snd_info_buffer *buffer)
+@@ -635,12 +623,11 @@ static void wm_proc_regs_read(struct snd_info_entry *entry, struct snd_info_buff
+ 	struct snd_ice1712 *ice = entry->private_data;
+ 	int reg, val;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (reg = 0; reg <= 0x17; reg++) {
+ 		val = wm_get(ice, reg);
+ 		snd_iprintf(buffer, "%02x = %04x\n", reg, val);
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void wm_proc_init(struct snd_ice1712 *ice)
+@@ -654,14 +641,13 @@ static void cs_proc_regs_read(struct snd_info_entry *entry, struct snd_info_buff
+ 	struct snd_ice1712 *ice = entry->private_data;
+ 	int reg, val;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (reg = 0; reg <= 0x26; reg++) {
+ 		val = spi_read(ice, CS_DEV, reg);
+ 		snd_iprintf(buffer, "%02x = %02x\n", reg, val);
+ 	}
+ 	val = spi_read(ice, CS_DEV, 0x7f);
+ 	snd_iprintf(buffer, "%02x = %02x\n", 0x7f, val);
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void cs_proc_init(struct snd_ice1712 *ice)
+diff --git a/sound/pci/ice1712/prodigy192.c b/sound/pci/ice1712/prodigy192.c
+index a12dafbf53ab..cd7db2b65b51 100644
+--- a/sound/pci/ice1712/prodigy192.c
++++ b/sound/pci/ice1712/prodigy192.c
+@@ -110,21 +110,19 @@ static int stac9460_dac_mute_put(struct snd_kcontrol *kcontrol, struct snd_ctl_e
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	struct prodigy192_spec *spec = ice->spec;
+-	int idx, change;
++	int idx;
+ 
+ 	if (kcontrol->private_value)
+ 		idx = STAC946X_MASTER_VOLUME;
+ 	else
+ 		idx  = snd_ctl_get_ioffidx(kcontrol, &ucontrol->id) + STAC946X_LF_VOLUME;
+ 	/* due to possible conflicts with stac9460_set_rate_val, mutexing */
+-	mutex_lock(&spec->mute_mutex);
++	guard(mutex)(&spec->mute_mutex);
+ 	/*
+ 	dev_dbg(ice->card->dev, "Mute put: reg 0x%02x, ctrl value: 0x%02x\n", idx,
+ 	       ucontrol->value.integer.value[0]);
+ 	*/
+-	change = stac9460_dac_mute(ice, idx, ucontrol->value.integer.value[0]);
+-	mutex_unlock(&spec->mute_mutex);
+-	return change;
++	return stac9460_dac_mute(ice, idx, ucontrol->value.integer.value[0]);
+ }
+ 
+ /*
+@@ -316,7 +314,7 @@ static void stac9460_set_rate_val(struct snd_ice1712 *ice, unsigned int rate)
+ 		return;
+ 	/* change detected, setting master clock, muting first */
+ 	/* due to possible conflicts with mute controls - mutexing */
+-	mutex_lock(&spec->mute_mutex);
++	guard(mutex)(&spec->mute_mutex);
+ 	/* we have to remember current mute status for each DAC */
+ 	for (idx = 0; idx < 7 ; ++idx)
+ 		changed[idx] = stac9460_dac_mute(ice,
+@@ -330,7 +328,6 @@ static void stac9460_set_rate_val(struct snd_ice1712 *ice, unsigned int rate)
+ 		if (changed[idx])
+ 			stac9460_dac_mute(ice, STAC946X_MASTER_VOLUME + idx, 1);
+ 	}
+-	mutex_unlock(&spec->mute_mutex);
+ }
+ 
+ 
+diff --git a/sound/pci/ice1712/prodigy_hifi.c b/sound/pci/ice1712/prodigy_hifi.c
+index 9aa12a67d370..eac233093865 100644
+--- a/sound/pci/ice1712/prodigy_hifi.c
++++ b/sound/pci/ice1712/prodigy_hifi.c
+@@ -268,7 +268,7 @@ static int ak4396_dac_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem
+ 	int i;
+ 	int change = 0;
+ 	
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		if (ucontrol->value.integer.value[i] != spec->vol[i]) {
+ 			spec->vol[i] = ucontrol->value.integer.value[i];
+@@ -277,7 +277,6 @@ static int ak4396_dac_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem
+ 			change = 1;
+ 		}
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -376,7 +375,7 @@ static int wm_dac_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 	struct prodigy_hifi_spec *spec = ice->spec;
+ 	int i, idx, change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		if (ucontrol->value.integer.value[i] != spec->vol[2 + i]) {
+ 			idx = WM_DAC_ATTEN_L + i;
+@@ -386,7 +385,6 @@ static int wm_dac_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 			change = 1;
+ 		}
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -428,7 +426,7 @@ static int wm8766_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 
+ 	voices = kcontrol->private_value >> 8;
+ 	ofs = kcontrol->private_value & 0xff;
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (i = 0; i < voices; i++) {
+ 		if (ucontrol->value.integer.value[i] != spec->vol[ofs + i]) {
+ 			idx = WM8766_LDA1 + ofs + i;
+@@ -439,7 +437,6 @@ static int wm8766_vol_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_val
+ 			change = 1;
+ 		}
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -474,7 +471,7 @@ static int wm_master_vol_put(struct snd_kcontrol *kcontrol,
+ 	struct prodigy_hifi_spec *spec = ice->spec;
+ 	int ch, change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (ch = 0; ch < 2; ch++) {
+ 		if (ucontrol->value.integer.value[ch] != spec->master[ch]) {
+ 			spec->master[ch] = ucontrol->value.integer.value[ch];
+@@ -494,7 +491,6 @@ static int wm_master_vol_put(struct snd_kcontrol *kcontrol,
+ 			change = 1;
+ 		}
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);	
+ 	return change;
+ }
+ 
+@@ -535,9 +531,8 @@ static int wm_adc_mux_enum_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.enumerated.item[0] = wm_get(ice, WM_ADC_MUX) & 0x1f;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -548,14 +543,13 @@ static int wm_adc_mux_enum_put(struct snd_kcontrol *kcontrol,
+ 	unsigned short oval, nval;
+ 	int change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	oval = wm_get(ice, WM_ADC_MUX);
+ 	nval = (oval & 0xe0) | ucontrol->value.enumerated.item[0];
+ 	if (nval != oval) {
+ 		wm_put(ice, WM_ADC_MUX, nval);
+ 		change = 1;
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -586,13 +580,12 @@ static int wm_adc_vol_get(struct snd_kcontrol *kcontrol,
+ 	unsigned short val;
+ 	int i;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		val = wm_get(ice, WM_ADC_ATTEN_L + i) & 0xff;
+ 		val = val > ADC_MIN ? (val - ADC_MIN) : 0;
+ 		ucontrol->value.integer.value[i] = val;
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -603,7 +596,7 @@ static int wm_adc_vol_put(struct snd_kcontrol *kcontrol,
+ 	unsigned short ovol, nvol;
+ 	int i, idx, change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		nvol = ucontrol->value.integer.value[i];
+ 		nvol = nvol ? (nvol + ADC_MIN) : 0;
+@@ -614,7 +607,6 @@ static int wm_adc_vol_put(struct snd_kcontrol *kcontrol,
+ 			change = 1;
+ 		}
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -629,10 +621,9 @@ static int wm_adc_mux_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 	int bit = kcontrol->private_value;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.integer.value[0] =
+ 		(wm_get(ice, WM_ADC_MUX) & (1 << bit)) ? 1 : 0;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -644,7 +635,7 @@ static int wm_adc_mux_put(struct snd_kcontrol *kcontrol,
+ 	unsigned short oval, nval;
+ 	int change;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	nval = oval = wm_get(ice, WM_ADC_MUX);
+ 	if (ucontrol->value.integer.value[0])
+ 		nval |= (1 << bit);
+@@ -654,7 +645,6 @@ static int wm_adc_mux_put(struct snd_kcontrol *kcontrol,
+ 	if (change) {
+ 		wm_put(ice, WM_ADC_MUX, nval);
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -668,10 +658,9 @@ static int wm_bypass_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.integer.value[0] =
+ 		(wm_get(ice, WM_OUT_MUX) & 0x04) ? 1 : 0;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -682,7 +671,7 @@ static int wm_bypass_put(struct snd_kcontrol *kcontrol,
+ 	unsigned short val, oval;
+ 	int change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	val = oval = wm_get(ice, WM_OUT_MUX);
+ 	if (ucontrol->value.integer.value[0])
+ 		val |= 0x04;
+@@ -692,7 +681,6 @@ static int wm_bypass_put(struct snd_kcontrol *kcontrol,
+ 		wm_put(ice, WM_OUT_MUX, val);
+ 		change = 1;
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -706,10 +694,9 @@ static int wm_chswap_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_ice1712 *ice = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	ucontrol->value.integer.value[0] =
+ 			(wm_get(ice, WM_DAC_CTRL1) & 0xf0) != 0x90;
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ 
+@@ -720,7 +707,7 @@ static int wm_chswap_put(struct snd_kcontrol *kcontrol,
+ 	unsigned short val, oval;
+ 	int change = 0;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	oval = wm_get(ice, WM_DAC_CTRL1);
+ 	val = oval & 0x0f;
+ 	if (ucontrol->value.integer.value[0])
+@@ -732,7 +719,6 @@ static int wm_chswap_put(struct snd_kcontrol *kcontrol,
+ 		wm_put_nocache(ice, WM_DAC_CTRL1, val);
+ 		change = 1;
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return change;
+ }
+ 
+@@ -864,14 +850,14 @@ static void wm_proc_regs_write(struct snd_info_entry *entry,
+ 	struct snd_ice1712 *ice = entry->private_data;
+ 	char line[64];
+ 	unsigned int reg, val;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	while (!snd_info_get_line(buffer, line, sizeof(line))) {
+ 		if (sscanf(line, "%x %x", &reg, &val) != 2)
+ 			continue;
+ 		if (reg <= 0x17 && val <= 0xffff)
+ 			wm_put(ice, reg, val);
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void wm_proc_regs_read(struct snd_info_entry *entry,
+@@ -880,12 +866,11 @@ static void wm_proc_regs_read(struct snd_info_entry *entry,
+ 	struct snd_ice1712 *ice = entry->private_data;
+ 	int reg, val;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	for (reg = 0; reg <= 0x17; reg++) {
+ 		val = wm_get(ice, reg);
+ 		snd_iprintf(buffer, "%02x = %04x\n", reg, val);
+ 	}
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static void wm_proc_init(struct snd_ice1712 *ice)
+@@ -994,7 +979,7 @@ static int prodigy_hifi_resume(struct snd_ice1712 *ice)
+ 	struct prodigy_hifi_spec *spec = ice->spec;
+ 	int i, ch;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 
+ 	/* reinitialize WM8776 and re-apply old register values */
+ 	wm8776_init(ice);
+@@ -1023,7 +1008,6 @@ static int prodigy_hifi_resume(struct snd_ice1712 *ice)
+ 	wm_put(ice, WM_DAC_MUTE, 0x00);
+ 	wm_put(ice, WM_DAC_CTRL1, 0x90);
+ 
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ #endif
+@@ -1134,11 +1118,11 @@ static int prodigy_hd2_resume(struct snd_ice1712 *ice)
+ 	/* initialize ak4396 codec and restore previous mixer volumes */
+ 	struct prodigy_hifi_spec *spec = ice->spec;
+ 	int i;
+-	mutex_lock(&ice->gpio_mutex);
++
++	guard(mutex)(&ice->gpio_mutex);
+ 	ak4396_init(ice);
+ 	for (i = 0; i < 2; i++)
+ 		ak4396_write(ice, AK4396_LCH_ATT + i, spec->vol[i] & 0xff);
+-	mutex_unlock(&ice->gpio_mutex);
+ 	return 0;
+ }
+ #endif
+diff --git a/sound/pci/ice1712/quartet.c b/sound/pci/ice1712/quartet.c
+index f61ee9f5c754..099601edf1d0 100644
+--- a/sound/pci/ice1712/quartet.c
++++ b/sound/pci/ice1712/quartet.c
+@@ -396,7 +396,7 @@ static void reg_write(struct snd_ice1712 *ice, unsigned int reg,
+ {
+ 	unsigned int tmp;
+ 
+-	mutex_lock(&ice->gpio_mutex);
++	guard(mutex)(&ice->gpio_mutex);
+ 	/* set direction of used GPIOs*/
+ 	/* all outputs */
+ 	tmp = 0x00ffff;
+@@ -429,7 +429,6 @@ static void reg_write(struct snd_ice1712 *ice, unsigned int reg,
+ 	ice->gpio.set_mask(ice, 0xffffff);
+ 	/* outputs only 8-15 */
+ 	ice->gpio.set_dir(ice, 0x00ff00);
+-	mutex_unlock(&ice->gpio_mutex);
+ }
+ 
+ static unsigned int get_scr(struct snd_ice1712 *ice)
+diff --git a/sound/pci/ice1712/wtm.c b/sound/pci/ice1712/wtm.c
+index f613f0067d8c..57a79536e7ba 100644
+--- a/sound/pci/ice1712/wtm.c
++++ b/sound/pci/ice1712/wtm.c
+@@ -118,7 +118,7 @@ static int stac9460_dac_mute_get(struct snd_kcontrol *kcontrol,
+ 	unsigned char val;
+ 	int idx, id;
+ 
+-	mutex_lock(&spec->mute_mutex);
++	guard(mutex)(&spec->mute_mutex);
+ 
+ 	if (kcontrol->private_value) {
+ 		idx = STAC946X_MASTER_VOLUME;
+@@ -133,7 +133,6 @@ static int stac9460_dac_mute_get(struct snd_kcontrol *kcontrol,
+ 		val = stac9460_2_get(ice, idx - 6);
+ 	ucontrol->value.integer.value[0] = (~val >> 7) & 0x1;
+ 
+-	mutex_unlock(&spec->mute_mutex);
+ 	return 0;
+ }
+ 
+@@ -455,7 +454,7 @@ static void stac9460_set_rate_val(struct snd_ice1712 *ice, unsigned int rate)
+ 		return;
+ 	/* change detected, setting master clock, muting first */
+ 	/* due to possible conflicts with mute controls - mutexing */
+-	mutex_lock(&spec->mute_mutex);
++	guard(mutex)(&spec->mute_mutex);
+ 	/* we have to remember current mute status for each DAC */
+ 	changed = 0xFFFF;
+ 	stac9460_dac_mute_all(ice, 0, &changed);
+@@ -466,7 +465,6 @@ static void stac9460_set_rate_val(struct snd_ice1712 *ice, unsigned int rate)
+ 	/* unmuting - only originally unmuted dacs -
+ 	* i.e. those changed when muting */
+ 	stac9460_dac_mute_all(ice, 1, &changed);
+-	mutex_unlock(&spec->mute_mutex);
+ }
+ 
  
 -- 
 2.50.1
