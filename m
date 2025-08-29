@@ -1,48 +1,48 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA7032143F
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE3432144F
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:48:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478886; cv=none; b=epIhgVM5tIDpIDyTjakVrCcppyJhPGE/bYEWNOPkP5bhNvnbWVfAcGH9nfvaS8afshM4QqWzF6fqXaxA3JohNwGMFy6XmCMUP6hDbnr4Ip+Vfr1vDC4y6fKq9DcemdpOOeqHQDvtJJtrZqfRvKTTv+8S8pMaPyGCigcMzwmoVlg=
+	t=1756478893; cv=none; b=mhO2QzD55ZAy3kAUzIPXv5vz/C+pP9PLcjc/jgoV4ZORoLQhUVWpy7ZGgAvFEqZL+uZL/Ywu32bCaRtu40NpVgSL9BiQzvS20yq6QsRKryO10TQJL4NhYhnt1dgisKEl5AQQxuZjF/u8qqrMIPJpYkOhMEH57DZd+jYA2GPxHBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478886; c=relaxed/simple;
-	bh=wgs+nGg2WAxZp4+/UmsWZHZ0Ur+utT5LQXat9XgYzAE=;
+	s=arc-20240116; t=1756478893; c=relaxed/simple;
+	bh=Lo7aBsuh76lYt6chk5gtrzSaj3o8kAjHGcJWK5kUmvE=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AK9BQAMOlG4VadkcQ6fwybZw5Qc95o7ugNRu+7kIQacNypc243A5ZKRmvvuM3u73bFIkKDGa2INZnA+GG/gtxnVcQIAv5k+F7VXQjQmRBQ4J8zHyjsd1H40IRiWiI5mI1RF+s0cfk7b4YzgPOg2Rk1BeCr0kxf4uv/MyerxofcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oHhLmHMY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PaZZWg3t; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oHhLmHMY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PaZZWg3t; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=s8NjY7pp+TuItOrmnOBzKQjcmfTbS327eicnZprCrRidVHsQyPOdlH0O122VkPiEg/f9p8CXib+/7tm9O9Gi8O/LvVkAnJpeCNVHIJXcV+0EsONxUEKuWZcHjSMKDWr1rUV6JxrA2LtqSSnQVo1r8CnU86NOCDWeixwGWHEF2Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Fwi3zKr5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yinfIcl6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Fwi3zKr5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yinfIcl6; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oHhLmHMY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PaZZWg3t";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oHhLmHMY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PaZZWg3t"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fwi3zKr5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yinfIcl6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fwi3zKr5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yinfIcl6"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5900E5C247;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 759895C248;
 	Fri, 29 Aug 2025 14:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756478644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BpP8k/fmCHUMqe7f0LzT30ODisexZAGM+Ll5qPUWJXA=;
-	b=oHhLmHMYdaiJON8CiFDQ6IX0Ys80TZ7AW38VVQr/pe613nOgeXZIglItsZWaxCN/hL5iR7
-	4Bq9KeXn3OW90HrZsq/8010u2O9gNpLfPOf6zJm34CILmDBzOQxD9FDun/cX5adZw62ucI
-	rDeqmNiXlv6hvcXI7WspN6M7zMhl29w=
+	bh=tpmvklQYREWftqOl9P1qE5vSNfXl6cwlTWZp2RAvblk=;
+	b=Fwi3zKr5uCXCYEfDECkZrxyyVYFkPBP6+2i/ntfVw5SytT0hQNYhFzHWWI/PCvvMoWO92y
+	RD+G9qs7XlfJwG80S6E2yLktu2l05sjeLpVA6Ilh4hP4qM9XZxMcRdmuZgkvqWUUVRQz3v
+	6gXl0K7FQpbdeQm/aO3ds3GMlsXKbUg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756478644;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BpP8k/fmCHUMqe7f0LzT30ODisexZAGM+Ll5qPUWJXA=;
-	b=PaZZWg3txMtQ6vmrs9OFPM61/VqZlIETZlakkzmR/Rli7eitCOJ8T5e0bLyzGhC3OSyASz
-	CR5TsQnxVzVr8HDg==
+	bh=tpmvklQYREWftqOl9P1qE5vSNfXl6cwlTWZp2RAvblk=;
+	b=yinfIcl6UIXfdHuNSZ3GORoXjLoN+z6Dxrw6on/t1j3yNbi+HQhus2QW2i7RiNLA2aWBVw
+	e6VTG+pOdqQhF5AA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
@@ -50,34 +50,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BpP8k/fmCHUMqe7f0LzT30ODisexZAGM+Ll5qPUWJXA=;
-	b=oHhLmHMYdaiJON8CiFDQ6IX0Ys80TZ7AW38VVQr/pe613nOgeXZIglItsZWaxCN/hL5iR7
-	4Bq9KeXn3OW90HrZsq/8010u2O9gNpLfPOf6zJm34CILmDBzOQxD9FDun/cX5adZw62ucI
-	rDeqmNiXlv6hvcXI7WspN6M7zMhl29w=
+	bh=tpmvklQYREWftqOl9P1qE5vSNfXl6cwlTWZp2RAvblk=;
+	b=Fwi3zKr5uCXCYEfDECkZrxyyVYFkPBP6+2i/ntfVw5SytT0hQNYhFzHWWI/PCvvMoWO92y
+	RD+G9qs7XlfJwG80S6E2yLktu2l05sjeLpVA6Ilh4hP4qM9XZxMcRdmuZgkvqWUUVRQz3v
+	6gXl0K7FQpbdeQm/aO3ds3GMlsXKbUg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756478644;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BpP8k/fmCHUMqe7f0LzT30ODisexZAGM+Ll5qPUWJXA=;
-	b=PaZZWg3txMtQ6vmrs9OFPM61/VqZlIETZlakkzmR/Rli7eitCOJ8T5e0bLyzGhC3OSyASz
-	CR5TsQnxVzVr8HDg==
+	bh=tpmvklQYREWftqOl9P1qE5vSNfXl6cwlTWZp2RAvblk=;
+	b=yinfIcl6UIXfdHuNSZ3GORoXjLoN+z6Dxrw6on/t1j3yNbi+HQhus2QW2i7RiNLA2aWBVw
+	e6VTG+pOdqQhF5AA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3873B13A54;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E19F13A3E;
 	Fri, 29 Aug 2025 14:44:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MBatDLS8sWi6GAAAD6G6ig
+	id aFDNFbS8sWi6GAAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:04 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 60/61] ALSA: vx222: Use guard() for mutex locks
-Date: Fri, 29 Aug 2025 16:43:35 +0200
-Message-ID: <20250829144342.4290-61-tiwai@suse.de>
+Subject: [PATCH 61/61] ALSA: ymfpci: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:43:36 +0200
+Message-ID: <20250829144342.4290-62-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -113,67 +113,668 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 X-Spam-Flag: NO
 X-Spam-Score: -2.80
 
-Replace the manual mutex lock/unlock pairs with guard() for code
-simplification.
+Clean up the code using guard() for spin locks.
 
-Only code refactoring, and no behavior change.
+Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/vx222/vx222_ops.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ sound/pci/ymfpci/ymfpci_main.c | 248 ++++++++++++++-------------------
+ 1 file changed, 101 insertions(+), 147 deletions(-)
 
-diff --git a/sound/pci/vx222/vx222_ops.c b/sound/pci/vx222/vx222_ops.c
-index 3e7e928b24f8..b6459dbdb1b0 100644
---- a/sound/pci/vx222/vx222_ops.c
-+++ b/sound/pci/vx222/vx222_ops.c
-@@ -868,10 +868,10 @@ static int vx_input_level_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem
+diff --git a/sound/pci/ymfpci/ymfpci_main.c b/sound/pci/ymfpci/ymfpci_main.c
+index 75e013b66c5b..eb373d9395e3 100644
+--- a/sound/pci/ymfpci/ymfpci_main.c
++++ b/sound/pci/ymfpci/ymfpci_main.c
+@@ -159,26 +159,21 @@ static u32 snd_ymfpci_calc_lpfQ(u32 rate)
+ 
+ static void snd_ymfpci_hw_start(struct snd_ymfpci *chip)
  {
- 	struct vx_core *_chip = snd_kcontrol_chip(kcontrol);
- 	struct snd_vx222 *chip = to_vx222(_chip);
--	mutex_lock(&_chip->mixer_mutex);
-+
-+	guard(mutex)(&_chip->mixer_mutex);
- 	ucontrol->value.integer.value[0] = chip->input_level[0];
- 	ucontrol->value.integer.value[1] = chip->input_level[1];
--	mutex_unlock(&_chip->mixer_mutex);
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	if (chip->start_count++ > 0)
+-		goto __end;
++		return;
+ 	snd_ymfpci_writel(chip, YDSXGR_MODE,
+ 			  snd_ymfpci_readl(chip, YDSXGR_MODE) | 3);
+ 	chip->active_bank = snd_ymfpci_readl(chip, YDSXGR_CTRLSELECT) & 1;
+-      __end:
+-      	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ }
+ 
+ static void snd_ymfpci_hw_stop(struct snd_ymfpci *chip)
+ {
+-	unsigned long flags;
+ 	long timeout = 1000;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	if (--chip->start_count > 0)
+-		goto __end;
++		return;
+ 	snd_ymfpci_writel(chip, YDSXGR_MODE,
+ 			  snd_ymfpci_readl(chip, YDSXGR_MODE) & ~3);
+ 	while (timeout-- > 0) {
+@@ -189,8 +184,6 @@ static void snd_ymfpci_hw_stop(struct snd_ymfpci *chip)
+ 		atomic_set(&chip->interrupt_sleep_count, 0);
+ 		wake_up(&chip->interrupt_sleep);
+ 	}
+-      __end:
+-      	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ }
+ 
+ /*
+@@ -239,7 +232,6 @@ static int snd_ymfpci_voice_alloc(struct snd_ymfpci *chip,
+ 				  enum snd_ymfpci_voice_type type, int pair,
+ 				  struct snd_ymfpci_voice **rvoice)
+ {
+-	unsigned long flags;
+ 	int result;
+ 	
+ 	if (snd_BUG_ON(!rvoice))
+@@ -247,7 +239,7 @@ static int snd_ymfpci_voice_alloc(struct snd_ymfpci *chip,
+ 	if (snd_BUG_ON(pair && type != YMFPCI_PCM))
+ 		return -EINVAL;
+ 	
+-	spin_lock_irqsave(&chip->voice_lock, flags);
++	guard(spinlock_irqsave)(&chip->voice_lock);
+ 	for (;;) {
+ 		result = voice_alloc(chip, type, pair, rvoice);
+ 		if (result == 0 || type != YMFPCI_PCM)
+@@ -255,18 +247,15 @@ static int snd_ymfpci_voice_alloc(struct snd_ymfpci *chip,
+ 		/* TODO: synth/midi voice deallocation */
+ 		break;
+ 	}
+-	spin_unlock_irqrestore(&chip->voice_lock, flags);	
+ 	return result;		
+ }
+ 
+ static int snd_ymfpci_voice_free(struct snd_ymfpci *chip, struct snd_ymfpci_voice *pvoice)
+ {
+-	unsigned long flags;
+-	
+ 	if (snd_BUG_ON(!pvoice))
+ 		return -EINVAL;
+ 	snd_ymfpci_hw_stop(chip);
+-	spin_lock_irqsave(&chip->voice_lock, flags);
++	guard(spinlock_irqsave)(&chip->voice_lock);
+ 	if (pvoice->number == chip->src441_used) {
+ 		chip->src441_used = -1;
+ 		pvoice->ypcm->use_441_slot = 0;
+@@ -274,7 +263,6 @@ static int snd_ymfpci_voice_free(struct snd_ymfpci *chip, struct snd_ymfpci_voic
+ 	pvoice->use = pvoice->pcm = pvoice->synth = pvoice->midi = 0;
+ 	pvoice->ypcm = NULL;
+ 	pvoice->interrupt = NULL;
+-	spin_unlock_irqrestore(&chip->voice_lock, flags);
  	return 0;
  }
  
-@@ -885,16 +885,14 @@ static int vx_input_level_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem
- 	if (ucontrol->value.integer.value[1] < 0 ||
- 	    ucontrol->value.integer.value[1] > MIC_LEVEL_MAX)
+@@ -292,7 +280,7 @@ static void snd_ymfpci_pcm_interrupt(struct snd_ymfpci *chip, struct snd_ymfpci_
+ 		return;
+ 	if (ypcm->substream == NULL)
+ 		return;
+-	spin_lock(&chip->reg_lock);
++	guard(spinlock)(&chip->reg_lock);
+ 	if (ypcm->running) {
+ 		pos = le32_to_cpu(voice->bank[chip->active_bank].start);
+ 		if (pos < ypcm->last_pos)
+@@ -334,7 +322,6 @@ static void snd_ymfpci_pcm_interrupt(struct snd_ymfpci *chip, struct snd_ymfpci_
+ 			ypcm->update_pcm_vol--;
+ 		}
+ 	}
+-	spin_unlock(&chip->reg_lock);
+ }
+ 
+ static void snd_ymfpci_pcm_capture_interrupt(struct snd_pcm_substream *substream)
+@@ -344,7 +331,7 @@ static void snd_ymfpci_pcm_capture_interrupt(struct snd_pcm_substream *substream
+ 	struct snd_ymfpci *chip = ypcm->chip;
+ 	u32 pos, delta;
+ 	
+-	spin_lock(&chip->reg_lock);
++	guard(spinlock)(&chip->reg_lock);
+ 	if (ypcm->running) {
+ 		pos = le32_to_cpu(chip->bank_capture[ypcm->capture_bank_number][chip->active_bank]->start) >> ypcm->shift;
+ 		if (pos < ypcm->last_pos)
+@@ -366,7 +353,6 @@ static void snd_ymfpci_pcm_capture_interrupt(struct snd_pcm_substream *substream
+ 			spin_lock(&chip->reg_lock);
+ 		}
+ 	}
+-	spin_unlock(&chip->reg_lock);
+ }
+ 
+ static int snd_ymfpci_playback_trigger(struct snd_pcm_substream *substream,
+@@ -377,11 +363,9 @@ static int snd_ymfpci_playback_trigger(struct snd_pcm_substream *substream,
+ 	struct snd_kcontrol *kctl = NULL;
+ 	int result = 0;
+ 
+-	spin_lock(&chip->reg_lock);
+-	if (ypcm->voices[0] == NULL) {
+-		result = -EINVAL;
+-		goto __unlock;
+-	}
++	guard(spinlock)(&chip->reg_lock);
++	if (ypcm->voices[0] == NULL)
++		return -EINVAL;
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+@@ -405,11 +389,8 @@ static int snd_ymfpci_playback_trigger(struct snd_pcm_substream *substream,
+ 		ypcm->running = 0;
+ 		break;
+ 	default:
+-		result = -EINVAL;
+-		break;
++		return -EINVAL;
+ 	}
+-      __unlock:
+-	spin_unlock(&chip->reg_lock);
+ 	if (kctl)
+ 		snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_INFO, &kctl->id);
+ 	return result;
+@@ -422,7 +403,7 @@ static int snd_ymfpci_capture_trigger(struct snd_pcm_substream *substream,
+ 	int result = 0;
+ 	u32 tmp;
+ 
+-	spin_lock(&chip->reg_lock);
++	guard(spinlock)(&chip->reg_lock);
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+@@ -442,7 +423,6 @@ static int snd_ymfpci_capture_trigger(struct snd_pcm_substream *substream,
+ 		result = -EINVAL;
+ 		break;
+ 	}
+-	spin_unlock(&chip->reg_lock);
+ 	return result;
+ }
+ 
+@@ -489,7 +469,6 @@ static void snd_ymfpci_pcm_init_voice(struct snd_ymfpci_pcm *ypcm, unsigned int
+ 	unsigned int nbank;
+ 	__le32 vol_left, vol_right;
+ 	u8 use_left, use_right;
+-	unsigned long flags;
+ 
+ 	if (snd_BUG_ON(!voice))
+ 		return;
+@@ -509,26 +488,26 @@ static void snd_ymfpci_pcm_init_voice(struct snd_ymfpci_pcm *ypcm, unsigned int
+ 		vol_left = cpu_to_le32(0x40000000);
+ 		vol_right = cpu_to_le32(0x40000000);
+ 	}
+-	spin_lock_irqsave(&ypcm->chip->voice_lock, flags);
+-	format = runtime->channels == 2 ? 0x00010000 : 0;
+-	if (snd_pcm_format_width(runtime->format) == 8)
+-		format |= 0x80000000;
+-	else if (ypcm->chip->device_id == PCI_DEVICE_ID_YAMAHA_754 &&
+-		 runtime->rate == 44100 && runtime->channels == 2 &&
+-		 voiceidx == 0 && (ypcm->chip->src441_used == -1 ||
+-				   ypcm->chip->src441_used == voice->number)) {
+-		ypcm->chip->src441_used = voice->number;
+-		ypcm->use_441_slot = 1;
+-		format |= 0x10000000;
++	scoped_guard(spinlock_irqsave, &ypcm->chip->voice_lock) {
++		format = runtime->channels == 2 ? 0x00010000 : 0;
++		if (snd_pcm_format_width(runtime->format) == 8)
++			format |= 0x80000000;
++		else if (ypcm->chip->device_id == PCI_DEVICE_ID_YAMAHA_754 &&
++			 runtime->rate == 44100 && runtime->channels == 2 &&
++			 voiceidx == 0 && (ypcm->chip->src441_used == -1 ||
++					   ypcm->chip->src441_used == voice->number)) {
++			ypcm->chip->src441_used = voice->number;
++			ypcm->use_441_slot = 1;
++			format |= 0x10000000;
++		}
++		if (ypcm->chip->src441_used == voice->number &&
++		    (format & 0x10000000) == 0) {
++			ypcm->chip->src441_used = -1;
++			ypcm->use_441_slot = 0;
++		}
++		if (runtime->channels == 2 && (voiceidx & 1) != 0)
++			format |= 1;
+ 	}
+-	if (ypcm->chip->src441_used == voice->number &&
+-	    (format & 0x10000000) == 0) {
+-		ypcm->chip->src441_used = -1;
+-		ypcm->use_441_slot = 0;
+-	}
+-	if (runtime->channels == 2 && (voiceidx & 1) != 0)
+-		format |= 1;
+-	spin_unlock_irqrestore(&ypcm->chip->voice_lock, flags);
+ 	for (nbank = 0; nbank < 2; nbank++) {
+ 		bank = &voice->bank[nbank];
+ 		memset(bank, 0, sizeof(*bank));
+@@ -596,19 +575,18 @@ static int snd_ymfpci_ac3_init(struct snd_ymfpci *chip)
+ 	chip->bank_effect[4][0]->loop_end =
+ 	chip->bank_effect[4][1]->loop_end = cpu_to_le32(1024);
+ 
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	snd_ymfpci_writel(chip, YDSXGR_MAPOFEFFECT,
+ 			  snd_ymfpci_readl(chip, YDSXGR_MAPOFEFFECT) | 3 << 3);
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return 0;
+ }
+ 
+ static int snd_ymfpci_ac3_done(struct snd_ymfpci *chip)
+ {
+-	spin_lock_irq(&chip->reg_lock);
+-	snd_ymfpci_writel(chip, YDSXGR_MAPOFEFFECT,
+-			  snd_ymfpci_readl(chip, YDSXGR_MAPOFEFFECT) & ~(3 << 3));
+-	spin_unlock_irq(&chip->reg_lock);
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		snd_ymfpci_writel(chip, YDSXGR_MAPOFEFFECT,
++				  snd_ymfpci_readl(chip, YDSXGR_MAPOFEFFECT) & ~(3 << 3));
++	}
+ 	// snd_ymfpci_irq_wait(chip);
+ 	if (chip->ac3_tmp_base.area) {
+ 		snd_dma_free_pages(&chip->ac3_tmp_base);
+@@ -778,28 +756,28 @@ static irqreturn_t snd_ymfpci_interrupt(int irq, void *dev_id)
+ 	status = snd_ymfpci_readl(chip, YDSXGR_STATUS);
+ 	if (status & 0x80000000) {
+ 		chip->active_bank = snd_ymfpci_readl(chip, YDSXGR_CTRLSELECT) & 1;
+-		spin_lock(&chip->voice_lock);
+-		for (nvoice = 0; nvoice < YDSXG_PLAYBACK_VOICES; nvoice++) {
+-			voice = &chip->voices[nvoice];
+-			if (voice->interrupt)
+-				voice->interrupt(chip, voice);
+-		}
+-		for (nvoice = 0; nvoice < YDSXG_CAPTURE_VOICES; nvoice++) {
+-			if (chip->capture_substream[nvoice])
+-				snd_ymfpci_pcm_capture_interrupt(chip->capture_substream[nvoice]);
+-		}
++		scoped_guard(spinlock, &chip->voice_lock) {
++			for (nvoice = 0; nvoice < YDSXG_PLAYBACK_VOICES; nvoice++) {
++				voice = &chip->voices[nvoice];
++				if (voice->interrupt)
++					voice->interrupt(chip, voice);
++			}
++			for (nvoice = 0; nvoice < YDSXG_CAPTURE_VOICES; nvoice++) {
++				if (chip->capture_substream[nvoice])
++					snd_ymfpci_pcm_capture_interrupt(chip->capture_substream[nvoice]);
++			}
+ #if 0
+-		for (nvoice = 0; nvoice < YDSXG_EFFECT_VOICES; nvoice++) {
+-			if (chip->effect_substream[nvoice])
+-				snd_ymfpci_pcm_effect_interrupt(chip->effect_substream[nvoice]);
+-		}
++			for (nvoice = 0; nvoice < YDSXG_EFFECT_VOICES; nvoice++) {
++				if (chip->effect_substream[nvoice])
++					snd_ymfpci_pcm_effect_interrupt(chip->effect_substream[nvoice]);
++			}
+ #endif
+-		spin_unlock(&chip->voice_lock);
+-		spin_lock(&chip->reg_lock);
+-		snd_ymfpci_writel(chip, YDSXGR_STATUS, 0x80000000);
+-		mode = snd_ymfpci_readl(chip, YDSXGR_MODE) | 2;
+-		snd_ymfpci_writel(chip, YDSXGR_MODE, mode);
+-		spin_unlock(&chip->reg_lock);
++		}
++		scoped_guard(spinlock, &chip->reg_lock) {
++			snd_ymfpci_writel(chip, YDSXGR_STATUS, 0x80000000);
++			mode = snd_ymfpci_readl(chip, YDSXGR_MODE) | 2;
++			snd_ymfpci_writel(chip, YDSXGR_MODE, mode);
++		}
+ 
+ 		if (atomic_read(&chip->interrupt_sleep_count)) {
+ 			atomic_set(&chip->interrupt_sleep_count, 0);
+@@ -936,12 +914,11 @@ static int snd_ymfpci_playback_open(struct snd_pcm_substream *substream)
+ 	ypcm->output_front = 1;
+ 	ypcm->output_rear = chip->mode_dup4ch ? 1 : 0;
+ 	ypcm->swap_rear = 0;
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	if (ypcm->output_rear) {
+ 		ymfpci_open_extension(chip);
+ 		chip->rear_opened++;
+ 	}
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -959,14 +936,14 @@ static int snd_ymfpci_playback_spdif_open(struct snd_pcm_substream *substream)
+ 	ypcm->output_front = 0;
+ 	ypcm->output_rear = 1;
+ 	ypcm->swap_rear = 1;
+-	spin_lock_irq(&chip->reg_lock);
+-	snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTCTRL,
+-			  snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) | 2);
+-	ymfpci_open_extension(chip);
+-	chip->spdif_pcm_bits = chip->spdif_bits;
+-	snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_pcm_bits);
+-	chip->spdif_opened++;
+-	spin_unlock_irq(&chip->reg_lock);
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTCTRL,
++				  snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) | 2);
++		ymfpci_open_extension(chip);
++		chip->spdif_pcm_bits = chip->spdif_bits;
++		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_pcm_bits);
++		chip->spdif_opened++;
++	}
+ 
+ 	chip->spdif_pcm_ctl->vd[0].access &= ~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+ 	snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE |
+@@ -988,10 +965,9 @@ static int snd_ymfpci_playback_4ch_open(struct snd_pcm_substream *substream)
+ 	ypcm->output_front = 0;
+ 	ypcm->output_rear = 1;
+ 	ypcm->swap_rear = 0;
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	ymfpci_open_extension(chip);
+ 	chip->rear_opened++;
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -1048,12 +1024,12 @@ static int snd_ymfpci_playback_close(struct snd_pcm_substream *substream)
+ 	struct snd_ymfpci *chip = snd_pcm_substream_chip(substream);
+ 	struct snd_ymfpci_pcm *ypcm = substream->runtime->private_data;
+ 
+-	spin_lock_irq(&chip->reg_lock);
+-	if (ypcm->output_rear && chip->rear_opened > 0) {
+-		chip->rear_opened--;
+-		ymfpci_close_extension(chip);
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		if (ypcm->output_rear && chip->rear_opened > 0) {
++			chip->rear_opened--;
++			ymfpci_close_extension(chip);
++		}
+ 	}
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return snd_ymfpci_playback_close_1(substream);
+ }
+ 
+@@ -1061,13 +1037,13 @@ static int snd_ymfpci_playback_spdif_close(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_ymfpci *chip = snd_pcm_substream_chip(substream);
+ 
+-	spin_lock_irq(&chip->reg_lock);
+-	chip->spdif_opened = 0;
+-	ymfpci_close_extension(chip);
+-	snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTCTRL,
+-			  snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) & ~2);
+-	snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_bits);
+-	spin_unlock_irq(&chip->reg_lock);
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		chip->spdif_opened = 0;
++		ymfpci_close_extension(chip);
++		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTCTRL,
++				  snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) & ~2);
++		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_bits);
++	}
+ 	chip->spdif_pcm_ctl->vd[0].access |= SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+ 	snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE |
+ 		       SNDRV_CTL_EVENT_MASK_INFO, &chip->spdif_pcm_ctl->id);
+@@ -1078,12 +1054,12 @@ static int snd_ymfpci_playback_4ch_close(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_ymfpci *chip = snd_pcm_substream_chip(substream);
+ 
+-	spin_lock_irq(&chip->reg_lock);
+-	if (chip->rear_opened > 0) {
+-		chip->rear_opened--;
+-		ymfpci_close_extension(chip);
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		if (chip->rear_opened > 0) {
++			chip->rear_opened--;
++			ymfpci_close_extension(chip);
++		}
+ 	}
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return snd_ymfpci_playback_close_1(substream);
+ }
+ 
+@@ -1264,11 +1240,10 @@ static int snd_ymfpci_spdif_default_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	ucontrol->value.iec958.status[0] = (chip->spdif_bits >> 0) & 0xff;
+ 	ucontrol->value.iec958.status[1] = (chip->spdif_bits >> 8) & 0xff;
+ 	ucontrol->value.iec958.status[3] = IEC958_AES3_CON_FS_48000;
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -1281,12 +1256,11 @@ static int snd_ymfpci_spdif_default_put(struct snd_kcontrol *kcontrol,
+ 
+ 	val = ((ucontrol->value.iec958.status[0] & 0x3e) << 0) |
+ 	      (ucontrol->value.iec958.status[1] << 8);
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	change = chip->spdif_bits != val;
+ 	chip->spdif_bits = val;
+ 	if ((snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) & 1) && chip->pcm_spdif == NULL)
+ 		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_bits);
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1311,10 +1285,9 @@ static int snd_ymfpci_spdif_mask_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	ucontrol->value.iec958.status[0] = 0x3e;
+ 	ucontrol->value.iec958.status[1] = 0xff;
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -1339,11 +1312,10 @@ static int snd_ymfpci_spdif_stream_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	ucontrol->value.iec958.status[0] = (chip->spdif_pcm_bits >> 0) & 0xff;
+ 	ucontrol->value.iec958.status[1] = (chip->spdif_pcm_bits >> 8) & 0xff;
+ 	ucontrol->value.iec958.status[3] = IEC958_AES3_CON_FS_48000;
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -1356,12 +1328,11 @@ static int snd_ymfpci_spdif_stream_put(struct snd_kcontrol *kcontrol,
+ 
+ 	val = ((ucontrol->value.iec958.status[0] & 0x3e) << 0) |
+ 	      (ucontrol->value.iec958.status[1] << 8);
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	change = chip->spdif_pcm_bits != val;
+ 	chip->spdif_pcm_bits = val;
+ 	if ((snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) & 2))
+ 		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_pcm_bits);
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1387,9 +1358,8 @@ static int snd_ymfpci_drec_source_get(struct snd_kcontrol *kcontrol, struct snd_
+ 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
+ 	u16 reg;
+ 
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	reg = snd_ymfpci_readw(chip, YDSXGR_GLOBALCTRL);
+-	spin_unlock_irq(&chip->reg_lock);
+ 	if (!(reg & 0x100))
+ 		value->value.enumerated.item[0] = 0;
+ 	else
+@@ -1402,14 +1372,13 @@ static int snd_ymfpci_drec_source_put(struct snd_kcontrol *kcontrol, struct snd_
+ 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
+ 	u16 reg, old_reg;
+ 
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	old_reg = snd_ymfpci_readw(chip, YDSXGR_GLOBALCTRL);
+ 	if (value->value.enumerated.item[0] == 0)
+ 		reg = old_reg & ~0x100;
+ 	else
+ 		reg = (old_reg & ~0x300) | 0x100 | ((value->value.enumerated.item[0] == 2) << 9);
+ 	snd_ymfpci_writew(chip, YDSXGR_GLOBALCTRL, reg);
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return reg != old_reg;
+ }
+ 
+@@ -1469,12 +1438,11 @@ static int snd_ymfpci_put_single(struct snd_kcontrol *kcontrol,
+ 	}
+ 	val = (ucontrol->value.integer.value[0] & mask);
+ 	val <<= shift;
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	oval = snd_ymfpci_readl(chip, reg);
+ 	val = (oval & ~(mask << shift)) | val;
+ 	change = val != oval;
+ 	snd_ymfpci_writel(chip, reg, val);
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1510,9 +1478,8 @@ static int snd_ymfpci_get_double(struct snd_kcontrol *kcontrol, struct snd_ctl_e
+ 	
+ 	if (reg < 0x80 || reg >= 0xc0)
  		return -EINVAL;
--	mutex_lock(&_chip->mixer_mutex);
-+	guard(mutex)(&_chip->mixer_mutex);
- 	if (chip->input_level[0] != ucontrol->value.integer.value[0] ||
- 	    chip->input_level[1] != ucontrol->value.integer.value[1]) {
- 		chip->input_level[0] = ucontrol->value.integer.value[0];
- 		chip->input_level[1] = ucontrol->value.integer.value[1];
- 		vx2_set_input_level(chip);
--		mutex_unlock(&_chip->mixer_mutex);
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	val = snd_ymfpci_readl(chip, reg);
+-	spin_unlock_irq(&chip->reg_lock);
+ 	ucontrol->value.integer.value[0] = (val >> shift_left) & mask;
+ 	ucontrol->value.integer.value[1] = (val >> shift_right) & mask;
+ 	return 0;
+@@ -1532,12 +1499,11 @@ static int snd_ymfpci_put_double(struct snd_kcontrol *kcontrol, struct snd_ctl_e
+ 	val2 = ucontrol->value.integer.value[1] & mask;
+ 	val1 <<= shift_left;
+ 	val2 <<= shift_right;
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	oval = snd_ymfpci_readl(chip, reg);
+ 	val1 = (oval & ~((mask << shift_left) | (mask << shift_right))) | val1 | val2;
+ 	change = val1 != oval;
+ 	snd_ymfpci_writel(chip, reg, val1);
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1552,12 +1518,11 @@ static int snd_ymfpci_put_nativedacvol(struct snd_kcontrol *kcontrol,
+ 	
+ 	value = ucontrol->value.integer.value[0] & 0x3fff;
+ 	value |= (ucontrol->value.integer.value[1] & 0x3fff) << 16;
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	oval = snd_ymfpci_readl(chip, reg);
+ 	change = value != oval;
+ 	snd_ymfpci_writel(chip, reg, value);
+ 	snd_ymfpci_writel(chip, reg2, value);
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1629,9 +1594,8 @@ YMFPCI_SINGLE(SNDRV_CTL_NAME_IEC958("Loop",NONE,NONE), 0, YDSXGR_SPDIFINCTRL, 4)
+ static int snd_ymfpci_get_gpio_out(struct snd_ymfpci *chip, int pin)
+ {
+ 	u16 reg, mode;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	reg = snd_ymfpci_readw(chip, YDSXGR_GPIOFUNCENABLE);
+ 	reg &= ~(1 << (pin + 8));
+ 	reg |= (1 << pin);
+@@ -1642,23 +1606,20 @@ static int snd_ymfpci_get_gpio_out(struct snd_ymfpci *chip, int pin)
+ 	snd_ymfpci_writew(chip, YDSXGR_GPIOTYPECONFIG, mode);
+ 	snd_ymfpci_writew(chip, YDSXGR_GPIOFUNCENABLE, reg | (1 << (pin + 8)));
+ 	mode = snd_ymfpci_readw(chip, YDSXGR_GPIOINSTATUS);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return (mode >> pin) & 1;
+ }
+ 
+ static int snd_ymfpci_set_gpio_out(struct snd_ymfpci *chip, int pin, int enable)
+ {
+ 	u16 reg;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	reg = snd_ymfpci_readw(chip, YDSXGR_GPIOFUNCENABLE);
+ 	reg &= ~(1 << pin);
+ 	reg &= ~(1 << (pin + 8));
+ 	snd_ymfpci_writew(chip, YDSXGR_GPIOFUNCENABLE, reg);
+ 	snd_ymfpci_writew(chip, YDSXGR_GPIOOUTCTRL, enable << pin);
+ 	snd_ymfpci_writew(chip, YDSXGR_GPIOFUNCENABLE, reg | (1 << (pin + 8)));
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 
+ 	return 0;
+ }
+@@ -1726,7 +1687,6 @@ static int snd_ymfpci_pcm_vol_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_ymfpci *chip = snd_kcontrol_chip(kcontrol);
+ 	unsigned int subs = kcontrol->id.subdevice;
+ 	struct snd_pcm_substream *substream;
+-	unsigned long flags;
+ 
+ 	if (ucontrol->value.integer.value[0] != chip->pcm_mixer[subs].left ||
+ 	    ucontrol->value.integer.value[1] != chip->pcm_mixer[subs].right) {
+@@ -1738,13 +1698,12 @@ static int snd_ymfpci_pcm_vol_put(struct snd_kcontrol *kcontrol,
+ 			chip->pcm_mixer[subs].right = 0x8000;
+ 
+ 		substream = (struct snd_pcm_substream *)kcontrol->private_value;
+-		spin_lock_irqsave(&chip->voice_lock, flags);
++		guard(spinlock_irqsave)(&chip->voice_lock);
+ 		if (substream->runtime && substream->runtime->private_data) {
+ 			struct snd_ymfpci_pcm *ypcm = substream->runtime->private_data;
+ 			if (!ypcm->use_441_slot)
+ 				ypcm->update_pcm_vol = 2;
+ 		}
+-		spin_unlock_irqrestore(&chip->voice_lock, flags);
  		return 1;
  	}
--	mutex_unlock(&_chip->mixer_mutex);
  	return 0;
- }
+@@ -1884,11 +1843,10 @@ int snd_ymfpci_mixer(struct snd_ymfpci *chip, int rear_switch)
+ static int snd_ymfpci_timer_start(struct snd_timer *timer)
+ {
+ 	struct snd_ymfpci *chip;
+-	unsigned long flags;
+ 	unsigned int count;
  
-@@ -923,14 +921,12 @@ static int vx_mic_level_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_v
- 	if (ucontrol->value.integer.value[0] < 0 ||
- 	    ucontrol->value.integer.value[0] > MIC_LEVEL_MAX)
- 		return -EINVAL;
--	mutex_lock(&_chip->mixer_mutex);
-+	guard(mutex)(&_chip->mixer_mutex);
- 	if (chip->mic_level != ucontrol->value.integer.value[0]) {
- 		chip->mic_level = ucontrol->value.integer.value[0];
- 		vx2_set_input_level(chip);
--		mutex_unlock(&_chip->mixer_mutex);
- 		return 1;
+ 	chip = snd_timer_chip(timer);
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	if (timer->sticks > 1) {
+ 		chip->timer_ticks = timer->sticks;
+ 		count = timer->sticks - 1;
+@@ -1902,19 +1860,16 @@ static int snd_ymfpci_timer_start(struct snd_timer *timer)
  	}
--	mutex_unlock(&_chip->mixer_mutex);
+ 	snd_ymfpci_writew(chip, YDSXGR_TIMERCOUNT, count);
+ 	snd_ymfpci_writeb(chip, YDSXGR_TIMERCTRL, 0x03);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
  	return 0;
  }
  
+ static int snd_ymfpci_timer_stop(struct snd_timer *timer)
+ {
+ 	struct snd_ymfpci *chip;
+-	unsigned long flags;
+ 
+ 	chip = snd_timer_chip(timer);
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	snd_ymfpci_writeb(chip, YDSXGR_TIMERCTRL, 0x00);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return 0;
+ }
+ 
+@@ -2273,10 +2228,9 @@ static int snd_ymfpci_resume(struct device *dev)
+ 
+ 	/* start hw again */
+ 	if (chip->start_count > 0) {
+-		spin_lock_irq(&chip->reg_lock);
++		guard(spinlock_irq)(&chip->reg_lock);
+ 		snd_ymfpci_writel(chip, YDSXGR_MODE, chip->saved_ydsxgr_mode);
+ 		chip->active_bank = snd_ymfpci_readl(chip, YDSXGR_CTRLSELECT);
+-		spin_unlock_irq(&chip->reg_lock);
+ 	}
+ 	snd_power_change_state(card, SNDRV_CTL_POWER_D0);
+ 	return 0;
 -- 
 2.50.1
 
