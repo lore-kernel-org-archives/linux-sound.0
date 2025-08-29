@@ -1,83 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE6F2E7F08
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAEE2E7F08
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478707; cv=none; b=BsQGpMcJDUiEVF08tKBZtnAGRVJRyEwEAEMjA0trqG4XtYhUjwPIqe4cA0O0cDWRGO6sW1Z+gnWVfOQGLNHzcZxV1D3TLpU6Xsw6ASJT1YIqJAdKUZsU5yrMw8sxekO1KDp7FZToW30/FtK0YHf5RrS+vqynmbaNO7N+y9I7Y+M=
+	t=1756478710; cv=none; b=mfqU1PJCVY4u2D47bz1SlJyoKYZGj6gjd050sjivClJhryFMC9jWjpgpiFWlspaONFz0PWzdFFZzx8zycoXSL8O/jDmkFbeMmCCpRu1tFXbVhEu0Vkl5obg8966CFZL12hHYK3p8xEWK5Eywgv9aAVDYKzhhseDmhVwzdwtoyn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478707; c=relaxed/simple;
-	bh=UK3tiI8TRUaeMNuOoGk6sm/48grKE+tBuBLjTKieh4M=;
+	s=arc-20240116; t=1756478710; c=relaxed/simple;
+	bh=JpNHiFdTjkKaYnK6mG/MBBssnEPqdvfa5S1N1cEx/iI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CnP+QclAsWmg5Mr7P67f03CtHSi6hFIkYT8IFzrlxHRE0ulzNlNzHOVqFhxV1Ic5zIi8zv+ukqz3GLD999O8xNd0hMII0fxtnMy7EoHVIXgUChiQI2H963si09+1XDS9XNSbuw+aNZI7V343JXTcccfJQ8Lg5JPJWcAhUWDmEAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NveDitho; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lPvYjhD3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NveDitho; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lPvYjhD3; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=LQK08/oQKaZqSXwc2zeSDOoDxvle4zPJF+ycVZRQa30bkZZV0IrshS1Lnb94+Uox/YIHg3/Zrx32Gp+VOYtSlgX0Z09wJuxV9rcQOjHYKo6ny5yzkJWCZBKVva2xE6tSvMQu0+MPxFElcrABfAjQHUYNrCKc/SX2d6zeWwCZ6Jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r33G6AKB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1Dvt1Eyn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r33G6AKB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1Dvt1Eyn; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NveDitho";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lPvYjhD3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NveDitho";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lPvYjhD3"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r33G6AKB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1Dvt1Eyn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r33G6AKB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1Dvt1Eyn"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E1DE633ECC;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4954A5C229;
 	Fri, 29 Aug 2025 14:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756478639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QU+oryXl3UkcNcMC9CZnL7b5Q/m+6YfLAKM7dXs5spI=;
-	b=NveDithoesSjh1iyn8a13mw7JTsi3FBkDB8GDZ7Chj2eaZ+VIvqx9Qt3abOKnQgSOTiyVL
-	85OJVU1ES6TzGPxLmQ+PzOsBPwQVnrOcwjw4LuohQ5VJdjoInEUs1+9PQpd4M7GIKLYVGz
-	GAJm78RxdFmjgghcLzyKZkFddcG5lGI=
+	bh=5sCVbDo4tvMxhJfZT50pg8jvxpEQkfZyOLgZdSwOx9A=;
+	b=r33G6AKBJFSE9Tg2oD50aGu/WHVnLvisf+Y32CfUitwbuDjBs92mLJ3hL76ErnshCBf5Mv
+	n3yEY0jj8/SIJ/hinBRSQt/rpd/8+hCuk9bJms12XihhrCF6uZ2aJzggzQcShVUk93CS96
+	7Dz2T2qSvxsINFpzIZ0jHSKNhMiBQIU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756478639;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QU+oryXl3UkcNcMC9CZnL7b5Q/m+6YfLAKM7dXs5spI=;
-	b=lPvYjhD3Nq5ZzMO9aLPxfK66lnN4VWaSDv/IEfDKfQlSW/d4l/ai+O8SVZ5z0i78gLHOCX
-	zvrC9ivU9T5yzeDA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=5sCVbDo4tvMxhJfZT50pg8jvxpEQkfZyOLgZdSwOx9A=;
+	b=1Dvt1EynBddmbwQ6unvJU7+p4Q8SGi+v9RZHM3aeuEM2oT/9rbYDSQhuqvNMeRt3DGDtXD
+	v0Y8rNUaJQPm+IDw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756478639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QU+oryXl3UkcNcMC9CZnL7b5Q/m+6YfLAKM7dXs5spI=;
-	b=NveDithoesSjh1iyn8a13mw7JTsi3FBkDB8GDZ7Chj2eaZ+VIvqx9Qt3abOKnQgSOTiyVL
-	85OJVU1ES6TzGPxLmQ+PzOsBPwQVnrOcwjw4LuohQ5VJdjoInEUs1+9PQpd4M7GIKLYVGz
-	GAJm78RxdFmjgghcLzyKZkFddcG5lGI=
+	bh=5sCVbDo4tvMxhJfZT50pg8jvxpEQkfZyOLgZdSwOx9A=;
+	b=r33G6AKBJFSE9Tg2oD50aGu/WHVnLvisf+Y32CfUitwbuDjBs92mLJ3hL76ErnshCBf5Mv
+	n3yEY0jj8/SIJ/hinBRSQt/rpd/8+hCuk9bJms12XihhrCF6uZ2aJzggzQcShVUk93CS96
+	7Dz2T2qSvxsINFpzIZ0jHSKNhMiBQIU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756478639;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QU+oryXl3UkcNcMC9CZnL7b5Q/m+6YfLAKM7dXs5spI=;
-	b=lPvYjhD3Nq5ZzMO9aLPxfK66lnN4VWaSDv/IEfDKfQlSW/d4l/ai+O8SVZ5z0i78gLHOCX
-	zvrC9ivU9T5yzeDA==
+	bh=5sCVbDo4tvMxhJfZT50pg8jvxpEQkfZyOLgZdSwOx9A=;
+	b=1Dvt1EynBddmbwQ6unvJU7+p4Q8SGi+v9RZHM3aeuEM2oT/9rbYDSQhuqvNMeRt3DGDtXD
+	v0Y8rNUaJQPm+IDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C21A813A3E;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2C1BB13A54;
 	Fri, 29 Aug 2025 14:43:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MKBHLq+8sWi6GAAAD6G6ig
+	id ABSXCa+8sWi6GAAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:59 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 25/61] ALSA: echoaudio: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:43:00 +0200
-Message-ID: <20250829144342.4290-26-tiwai@suse.de>
+Subject: [PATCH 20/61] ALSA: cs46xx: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:42:55 +0200
+Message-ID: <20250829144342.4290-21-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -88,7 +88,6 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -101,7 +100,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -110,6 +109,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
+X-Spam-Level: 
 X-Spam-Score: -2.80
 
 Clean up the code using guard() for spin locks.
@@ -118,484 +118,482 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/echoaudio/echoaudio.c    | 92 ++++++++++++------------------
- sound/pci/echoaudio/echoaudio_3g.c |  6 +-
- sound/pci/echoaudio/gina24_dsp.c   |  3 +-
- sound/pci/echoaudio/layla24_dsp.c  |  6 +-
- sound/pci/echoaudio/midi.c         | 41 ++++++-------
- sound/pci/echoaudio/mona_dsp.c     |  3 +-
- 6 files changed, 62 insertions(+), 89 deletions(-)
+ sound/pci/cs46xx/cs46xx_lib.c       | 113 ++++++++++++----------------
+ sound/pci/cs46xx/dsp_spos.c         |   4 +-
+ sound/pci/cs46xx/dsp_spos_scb_lib.c |  60 +++++----------
+ 3 files changed, 69 insertions(+), 108 deletions(-)
 
-diff --git a/sound/pci/echoaudio/echoaudio.c b/sound/pci/echoaudio/echoaudio.c
-index 4cfe8ad97069..f2c8602a1ad7 100644
---- a/sound/pci/echoaudio/echoaudio.c
-+++ b/sound/pci/echoaudio/echoaudio.c
-@@ -531,22 +531,21 @@ static int init_engine(struct snd_pcm_substream *substream,
- 	/* Sets up che hardware. If it's already initialized, reset and
- 	 * redo with the new parameters
- 	 */
--	spin_lock_irq(&chip->lock);
--	if (pipe->index >= 0) {
--		dev_dbg(chip->card->dev, "hwp_ie free(%d)\n", pipe->index);
--		err = free_pipes(chip, pipe);
--		snd_BUG_ON(err);
--		chip->substream[pipe->index] = NULL;
--	}
-+	scoped_guard(spinlock_irq, &chip->lock) {
-+		if (pipe->index >= 0) {
-+			dev_dbg(chip->card->dev, "hwp_ie free(%d)\n", pipe->index);
-+			err = free_pipes(chip, pipe);
-+			snd_BUG_ON(err);
-+			chip->substream[pipe->index] = NULL;
-+		}
+diff --git a/sound/pci/cs46xx/cs46xx_lib.c b/sound/pci/cs46xx/cs46xx_lib.c
+index a87571d5b572..b96ab7fd464c 100644
+--- a/sound/pci/cs46xx/cs46xx_lib.c
++++ b/sound/pci/cs46xx/cs46xx_lib.c
+@@ -707,7 +707,6 @@ static void snd_cs46xx_proc_stop(struct snd_cs46xx *chip)
  
--	err = allocate_pipes(chip, pipe, pipe_index, interleave);
--	if (err < 0) {
--		spin_unlock_irq(&chip->lock);
--		dev_err(chip->card->dev, "allocate_pipes(%d) err=%d\n",
--			pipe_index, err);
--		return err;
-+		err = allocate_pipes(chip, pipe, pipe_index, interleave);
-+		if (err < 0) {
-+			dev_err(chip->card->dev, "allocate_pipes(%d) err=%d\n",
-+				pipe_index, err);
-+			return err;
-+		}
- 	}
--	spin_unlock_irq(&chip->lock);
- 	dev_dbg(chip->card->dev, "allocate_pipes()=%d\n", pipe_index);
- 
- 	dev_dbg(chip->card->dev,
-@@ -594,9 +593,8 @@ static int init_engine(struct snd_pcm_substream *substream,
- 	smp_wmb();
- 	chip->substream[pipe_index] = substream;
- 	chip->rate_set = 1;
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 	set_sample_rate(chip, hw_params->rate_num / hw_params->rate_den);
--	spin_unlock_irq(&chip->lock);
- 	return 0;
- }
- 
-@@ -658,14 +656,13 @@ static int pcm_hw_free(struct snd_pcm_substream *substream)
- 	chip = snd_pcm_substream_chip(substream);
- 	pipe = (struct audiopipe *) substream->runtime->private_data;
- 
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 	if (pipe->index >= 0) {
- 		dev_dbg(chip->card->dev, "pcm_hw_free(%d)\n", pipe->index);
- 		free_pipes(chip, pipe);
- 		chip->substream[pipe->index] = NULL;
- 		pipe->index = -1;
- 	}
--	spin_unlock_irq(&chip->lock);
- 
- 	return 0;
- }
-@@ -715,15 +712,12 @@ static int pcm_prepare(struct snd_pcm_substream *substream)
- 	 * exclusive control
- 	 */
- 
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 
--	if (snd_BUG_ON(!is_pipe_allocated(chip, pipe_index))) {
--		spin_unlock_irq(&chip->lock);
-+	if (snd_BUG_ON(!is_pipe_allocated(chip, pipe_index)))
- 		return -EINVAL;
--	}
- 
- 	set_audio_format(chip, pipe_index, &format);
--	spin_unlock_irq(&chip->lock);
- 
- 	return 0;
- }
-@@ -747,7 +741,7 @@ static int pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 		}
- 	}
- 
--	spin_lock(&chip->lock);
-+	guard(spinlock)(&chip->lock);
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_RESUME:
- 	case SNDRV_PCM_TRIGGER_START:
-@@ -795,7 +789,6 @@ static int pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 	default:
- 		err = -EINVAL;
- 	}
--	spin_unlock(&chip->lock);
- 	return err;
- }
- 
-@@ -1012,7 +1005,7 @@ static int snd_echo_output_gain_put(struct snd_kcontrol *kcontrol,
- 
- 	changed = 0;
- 	chip = snd_kcontrol_chip(kcontrol);
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 	for (c = 0; c < num_busses_out(chip); c++) {
- 		gain = ucontrol->value.integer.value[c];
- 		/* Ignore out of range values */
-@@ -1025,7 +1018,6 @@ static int snd_echo_output_gain_put(struct snd_kcontrol *kcontrol,
- 	}
- 	if (changed)
- 		update_output_line_level(chip);
--	spin_unlock_irq(&chip->lock);
- 	return changed;
- }
- 
-@@ -1093,7 +1085,7 @@ static int snd_echo_input_gain_put(struct snd_kcontrol *kcontrol,
- 
- 	changed = 0;
- 	chip = snd_kcontrol_chip(kcontrol);
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 	for (c = 0; c < num_analog_busses_in(chip); c++) {
- 		gain = ucontrol->value.integer.value[c];
- 		/* Ignore out of range values */
-@@ -1106,7 +1098,6 @@ static int snd_echo_input_gain_put(struct snd_kcontrol *kcontrol,
- 	}
- 	if (changed)
- 		update_input_line_level(chip);
--	spin_unlock_irq(&chip->lock);
- 	return changed;
- }
- 
-@@ -1162,7 +1153,7 @@ static int snd_echo_output_nominal_put(struct snd_kcontrol *kcontrol,
- 
- 	changed = 0;
- 	chip = snd_kcontrol_chip(kcontrol);
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 	for (c = 0; c < num_analog_busses_out(chip); c++) {
- 		if (chip->nominal_level[c] != ucontrol->value.integer.value[c]) {
- 			set_nominal_level(chip, c,
-@@ -1172,7 +1163,6 @@ static int snd_echo_output_nominal_put(struct snd_kcontrol *kcontrol,
- 	}
- 	if (changed)
- 		update_output_line_level(chip);
--	spin_unlock_irq(&chip->lock);
- 	return changed;
- }
- 
-@@ -1225,7 +1215,7 @@ static int snd_echo_input_nominal_put(struct snd_kcontrol *kcontrol,
- 
- 	changed = 0;
- 	chip = snd_kcontrol_chip(kcontrol);
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 	for (c = 0; c < num_analog_busses_in(chip); c++) {
- 		if (chip->nominal_level[bx_analog_in(chip) + c] !=
- 		    ucontrol->value.integer.value[c]) {
-@@ -1238,7 +1228,6 @@ static int snd_echo_input_nominal_put(struct snd_kcontrol *kcontrol,
- 		update_output_line_level(chip);	/* "Output" is not a mistake
- 						 * here.
- 						 */
--	spin_unlock_irq(&chip->lock);
- 	return changed;
- }
- 
-@@ -1298,10 +1287,9 @@ static int snd_echo_mixer_put(struct snd_kcontrol *kcontrol,
- 	if (gain < ECHOGAIN_MINOUT || gain > ECHOGAIN_MAXOUT)
- 		return -EINVAL;
- 	if (chip->monitor_gain[out][in] != gain) {
--		spin_lock_irq(&chip->lock);
-+		guard(spinlock_irq)(&chip->lock);
- 		set_monitor_gain(chip, out, in, gain);
- 		update_output_line_level(chip);
--		spin_unlock_irq(&chip->lock);
- 		changed = 1;
- 	}
- 	return changed;
-@@ -1361,10 +1349,9 @@ static int snd_echo_vmixer_put(struct snd_kcontrol *kcontrol,
- 	if (gain < ECHOGAIN_MINOUT || gain > ECHOGAIN_MAXOUT)
- 		return -EINVAL;
- 	if (chip->vmixer_gain[out][vch] != ucontrol->value.integer.value[0]) {
--		spin_lock_irq(&chip->lock);
-+		guard(spinlock_irq)(&chip->lock);
- 		set_vmixer_gain(chip, out, vch, ucontrol->value.integer.value[0]);
- 		update_vmixer_level(chip);
--		spin_unlock_irq(&chip->lock);
- 		changed = 1;
- 	}
- 	return changed;
-@@ -1500,9 +1487,8 @@ static int snd_echo_spdif_mode_put(struct snd_kcontrol *kcontrol,
- 	chip = snd_kcontrol_chip(kcontrol);
- 	mode = !!ucontrol->value.enumerated.item[0];
- 	if (mode != chip->professional_spdif) {
--		spin_lock_irq(&chip->lock);
-+		guard(spinlock_irq)(&chip->lock);
- 		set_professional_spdif(chip, mode);
--		spin_unlock_irq(&chip->lock);
- 		return 1;
- 	}
- 	return 0;
-@@ -1567,11 +1553,10 @@ static int snd_echo_clock_source_put(struct snd_kcontrol *kcontrol,
- 	dclock = chip->clock_source_list[eclock];
- 	if (chip->input_clock != dclock) {
- 		guard(mutex)(&chip->mode_mutex);
--		spin_lock_irq(&chip->lock);
-+		guard(spinlock_irq)(&chip->lock);
- 		changed = set_input_clock(chip, dclock);
- 		if (!changed)
- 			changed = 1;	/* no errors */
--		spin_unlock_irq(&chip->lock);
- 	}
- 
- 	if (changed < 0)
-@@ -1615,9 +1600,8 @@ static int snd_echo_phantom_power_put(struct snd_kcontrol *kcontrol,
- 
- 	power = !!ucontrol->value.integer.value[0];
- 	if (chip->phantom_power != power) {
--		spin_lock_irq(&chip->lock);
-+		guard(spinlock_irq)(&chip->lock);
- 		changed = set_phantom_power(chip, power);
--		spin_unlock_irq(&chip->lock);
- 		if (changed == 0)
- 			changed = 1;	/* no errors */
- 	}
-@@ -1658,9 +1642,8 @@ static int snd_echo_automute_put(struct snd_kcontrol *kcontrol,
- 
- 	automute = !!ucontrol->value.integer.value[0];
- 	if (chip->digital_in_automute != automute) {
--		spin_lock_irq(&chip->lock);
-+		guard(spinlock_irq)(&chip->lock);
- 		changed = set_input_auto_mute(chip, automute);
--		spin_unlock_irq(&chip->lock);
- 		if (changed == 0)
- 			changed = 1;	/* no errors */
- 	}
-@@ -1688,9 +1671,8 @@ static int snd_echo_vumeters_switch_put(struct snd_kcontrol *kcontrol,
- 	struct echoaudio *chip;
- 
- 	chip = snd_kcontrol_chip(kcontrol);
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 	set_meters_on(chip, ucontrol->value.integer.value[0]);
--	spin_unlock_irq(&chip->lock);
- 	return 1;
- }
- 
-@@ -2135,17 +2117,13 @@ static int snd_echo_suspend(struct device *dev)
- 	if (chip->midi_out)
- 		snd_echo_midi_output_trigger(chip->midi_out, 0);
- #endif
--	spin_lock_irq(&chip->lock);
--	if (wait_handshake(chip)) {
--		spin_unlock_irq(&chip->lock);
--		return -EIO;
-+	scoped_guard(spinlock_irq, &chip->lock) {
-+		if (wait_handshake(chip))
-+			return -EIO;
-+		clear_handshake(chip);
-+		if (send_vector(chip, DSP_VC_GO_COMATOSE) < 0)
-+			return -EIO;
- 	}
--	clear_handshake(chip);
--	if (send_vector(chip, DSP_VC_GO_COMATOSE) < 0) {
--		spin_unlock_irq(&chip->lock);
--		return -EIO;
--	}
--	spin_unlock_irq(&chip->lock);
- 
- 	chip->dsp_code = NULL;
- 	free_irq(chip->irq, chip);
-diff --git a/sound/pci/echoaudio/echoaudio_3g.c b/sound/pci/echoaudio/echoaudio_3g.c
-index 18b4d4b4d38d..c9ee98ea3c71 100644
---- a/sound/pci/echoaudio/echoaudio_3g.c
-+++ b/sound/pci/echoaudio/echoaudio_3g.c
-@@ -119,7 +119,7 @@ static int set_digital_mode(struct echoaudio *chip, u8 mode)
- 	 * updated by the DSP comm object. */
- 	if (err >= 0 && previous_mode != mode &&
- 	    (previous_mode == DIGITAL_MODE_ADAT || mode == DIGITAL_MODE_ADAT)) {
--		spin_lock_irq(&chip->lock);
-+		guard(spinlock_irq)(&chip->lock);
- 		for (o = 0; o < num_busses_out(chip); o++)
- 			for (i = 0; i < num_busses_in(chip); i++)
- 				set_monitor_gain(chip, o, i,
-@@ -134,7 +134,6 @@ static int set_digital_mode(struct echoaudio *chip, u8 mode)
- 		for (o = 0; o < num_busses_out(chip); o++)
- 			set_output_gain(chip, o, chip->output_gain[o]);
- 		update_output_line_level(chip);
--		spin_unlock_irq(&chip->lock);
- 	}
- 
- 	return err;
-@@ -396,7 +395,7 @@ static int dsp_set_digital_mode(struct echoaudio *chip, u8 mode)
- 		return -EINVAL;
- 	}
- 
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 
- 	if (incompatible_clock) {
- 		chip->sample_rate = 48000;
-@@ -422,7 +421,6 @@ static int dsp_set_digital_mode(struct echoaudio *chip, u8 mode)
- 	}
- 
- 	err = write_control_reg(chip, control_reg, get_frq_reg(chip), 1);
--	spin_unlock_irq(&chip->lock);
- 	if (err < 0)
- 		return err;
- 	chip->digital_mode = mode;
-diff --git a/sound/pci/echoaudio/gina24_dsp.c b/sound/pci/echoaudio/gina24_dsp.c
-index 56e9d1b9b330..78fbac9f3eac 100644
---- a/sound/pci/echoaudio/gina24_dsp.c
-+++ b/sound/pci/echoaudio/gina24_dsp.c
-@@ -305,7 +305,7 @@ static int dsp_set_digital_mode(struct echoaudio *chip, u8 mode)
- 		return -EINVAL;
- 	}
- 
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 
- 	if (incompatible_clock) {	/* Switch to 48KHz, internal */
- 		chip->sample_rate = 48000;
-@@ -336,7 +336,6 @@ static int dsp_set_digital_mode(struct echoaudio *chip, u8 mode)
- 	}
- 
- 	err = write_control_reg(chip, control_reg, true);
--	spin_unlock_irq(&chip->lock);
- 	if (err < 0)
- 		return err;
- 	chip->digital_mode = mode;
-diff --git a/sound/pci/echoaudio/layla24_dsp.c b/sound/pci/echoaudio/layla24_dsp.c
-index ef27805d63f6..decfccb1e803 100644
---- a/sound/pci/echoaudio/layla24_dsp.c
-+++ b/sound/pci/echoaudio/layla24_dsp.c
-@@ -358,16 +358,15 @@ static int dsp_set_digital_mode(struct echoaudio *chip, u8 mode)
- 
- 	if (incompatible_clock) {	/* Switch to 48KHz, internal */
- 		chip->sample_rate = 48000;
--		spin_lock_irq(&chip->lock);
-+		guard(spinlock_irq)(&chip->lock);
- 		set_input_clock(chip, ECHO_CLOCK_INTERNAL);
--		spin_unlock_irq(&chip->lock);
- 	}
- 
- 	/* switch_asic() can sleep */
- 	if (switch_asic(chip, asic) < 0)
- 		return -EIO;
- 
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
- 
- 	/* Tweak the control register */
- 	control_reg = le32_to_cpu(chip->comm_page->control_register);
-@@ -387,7 +386,6 @@ static int dsp_set_digital_mode(struct echoaudio *chip, u8 mode)
- 	}
- 
- 	err = write_control_reg(chip, control_reg, true);
--	spin_unlock_irq(&chip->lock);
- 	if (err < 0)
- 		return err;
- 	chip->digital_mode = mode;
-diff --git a/sound/pci/echoaudio/midi.c b/sound/pci/echoaudio/midi.c
-index 4ee230794b4e..dd5212644844 100644
---- a/sound/pci/echoaudio/midi.c
-+++ b/sound/pci/echoaudio/midi.c
-@@ -167,9 +167,8 @@ static void snd_echo_midi_input_trigger(struct snd_rawmidi_substream *substream,
- 	struct echoaudio *chip = substream->rmidi->private_data;
- 
- 	if (up != chip->midi_input_enabled) {
--		spin_lock_irq(&chip->lock);
-+		guard(spinlock_irq)(&chip->lock);
- 		enable_midi_input(chip, up);
--		spin_unlock_irq(&chip->lock);
- 		chip->midi_input_enabled = up;
- 	}
- }
-@@ -201,14 +200,13 @@ static int snd_echo_midi_output_open(struct snd_rawmidi_substream *substream)
- static void snd_echo_midi_output_write(struct timer_list *t)
+ static void snd_cs46xx_set_play_sample_rate(struct snd_cs46xx *chip, unsigned int rate)
  {
- 	struct echoaudio *chip = timer_container_of(chip, t, timer);
 -	unsigned long flags;
- 	int bytes, sent, time;
- 	unsigned char buf[MIDI_OUT_BUFFER_SIZE - 1];
- 
- 	/* No interrupts are involved: we have to check at regular intervals
- 	if the card's output buffer has room for new data. */
- 	sent = 0;
--	spin_lock_irqsave(&chip->lock, flags);
-+	guard(spinlock_irqsave)(&chip->lock);
- 	chip->midi_full = 0;
- 	if (!snd_rawmidi_transmit_empty(chip->midi_out)) {
- 		bytes = snd_rawmidi_transmit_peek(chip->midi_out, buf,
-@@ -242,7 +240,6 @@ static void snd_echo_midi_output_write(struct timer_list *t)
- 		dev_dbg(chip->card->dev,
- 			"Timer armed(%d)\n", ((time * HZ + 999) / 1000));
- 	}
--	spin_unlock_irqrestore(&chip->lock, flags);
+ 	unsigned int tmp1, tmp2;
+ 	unsigned int phiIncr;
+ 	unsigned int correctionPerGOF, correctionPerSec;
+@@ -744,16 +743,14 @@ static void snd_cs46xx_set_play_sample_rate(struct snd_cs46xx *chip, unsigned in
+ 	/*
+ 	 *  Fill in the SampleRateConverter control block.
+ 	 */
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	snd_cs46xx_poke(chip, BA1_PSRC,
+ 	  ((correctionPerSec << 16) & 0xFFFF0000) | (correctionPerGOF & 0xFFFF));
+ 	snd_cs46xx_poke(chip, BA1_PPI, phiIncr);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
  }
  
- 
-@@ -251,25 +248,29 @@ static void snd_echo_midi_output_trigger(struct snd_rawmidi_substream *substream
- 					 int up)
+ static void snd_cs46xx_set_capture_sample_rate(struct snd_cs46xx *chip, unsigned int rate)
  {
- 	struct echoaudio *chip = substream->rmidi->private_data;
-+	bool remove_timer = false;
- 
- 	dev_dbg(chip->card->dev, "snd_echo_midi_output_trigger(%d)\n", up);
--	spin_lock_irq(&chip->lock);
--	if (up) {
--		if (!chip->tinuse) {
--			timer_setup(&chip->timer, snd_echo_midi_output_write,
--				    0);
--			chip->tinuse = 1;
--		}
--	} else {
--		if (chip->tinuse) {
--			chip->tinuse = 0;
--			spin_unlock_irq(&chip->lock);
--			timer_delete_sync(&chip->timer);
--			dev_dbg(chip->card->dev, "Timer removed\n");
--			return;
-+	scoped_guard(spinlock_irq, &chip->lock) {
-+		if (up) {
-+			if (!chip->tinuse) {
-+				timer_setup(&chip->timer, snd_echo_midi_output_write,
-+					    0);
-+				chip->tinuse = 1;
-+			}
-+		} else {
-+			if (chip->tinuse) {
-+				chip->tinuse = 0;
-+				remove_timer = true;
-+			}
- 		}
- 	}
--	spin_unlock_irq(&chip->lock);
-+
-+	if (remove_timer) {
-+		timer_delete_sync(&chip->timer);
-+		dev_dbg(chip->card->dev, "Timer removed\n");
-+		return;
+-	unsigned long flags;
+ 	unsigned int phiIncr, coeffIncr, tmp1, tmp2;
+ 	unsigned int correctionPerGOF, correctionPerSec, initialDelay;
+ 	unsigned int frameGroupLength, cnt;
+@@ -818,14 +815,14 @@ static void snd_cs46xx_set_capture_sample_rate(struct snd_cs46xx *chip, unsigned
+ 	/*
+ 	 *  Fill in the VariDecimate control block.
+ 	 */
+-	spin_lock_irqsave(&chip->reg_lock, flags);
+-	snd_cs46xx_poke(chip, BA1_CSRC,
+-		((correctionPerSec << 16) & 0xFFFF0000) | (correctionPerGOF & 0xFFFF));
+-	snd_cs46xx_poke(chip, BA1_CCI, coeffIncr);
+-	snd_cs46xx_poke(chip, BA1_CD,
+-		(((BA1_VARIDEC_BUF_1 + (initialDelay << 2)) << 16) & 0xFFFF0000) | 0x80);
+-	snd_cs46xx_poke(chip, BA1_CPI, phiIncr);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
++		snd_cs46xx_poke(chip, BA1_CSRC,
++			((correctionPerSec << 16) & 0xFFFF0000) | (correctionPerGOF & 0xFFFF));
++		snd_cs46xx_poke(chip, BA1_CCI, coeffIncr);
++		snd_cs46xx_poke(chip, BA1_CD,
++			(((BA1_VARIDEC_BUF_1 + (initialDelay << 2)) << 16) & 0xFFFF0000) | 0x80);
++		snd_cs46xx_poke(chip, BA1_CPI, phiIncr);
 +	}
  
- 	if (up && !chip->midi_full)
- 		snd_echo_midi_output_write(&chip->timer);
-diff --git a/sound/pci/echoaudio/mona_dsp.c b/sound/pci/echoaudio/mona_dsp.c
-index f8e7bb6ce040..9bb6a174745c 100644
---- a/sound/pci/echoaudio/mona_dsp.c
-+++ b/sound/pci/echoaudio/mona_dsp.c
-@@ -381,7 +381,7 @@ static int dsp_set_digital_mode(struct echoaudio *chip, u8 mode)
+ 	/*
+ 	 *  Figure out the frame group length for the write back task.  Basically,
+@@ -848,13 +845,12 @@ static void snd_cs46xx_set_capture_sample_rate(struct snd_cs46xx *chip, unsigned
+ 	/*
+ 	 * Fill in the WriteBack control block.
+ 	 */
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	snd_cs46xx_poke(chip, BA1_CFG1, frameGroupLength);
+ 	snd_cs46xx_poke(chip, BA1_CFG2, (0x00800000 | frameGroupLength));
+ 	snd_cs46xx_poke(chip, BA1_CCST, 0x0000FFFF);
+ 	snd_cs46xx_poke(chip, BA1_CSPB, ((65536 * rate) / 24000));
+ 	snd_cs46xx_poke(chip, (BA1_CSPB + 4), 0x0000FFFF);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ }
+ 
+ /*
+@@ -969,15 +965,14 @@ static int snd_cs46xx_playback_trigger(struct snd_pcm_substream *substream,
+ 		if (substream->runtime->periods != CS46XX_FRAGS)
+ 			snd_cs46xx_playback_transfer(substream);
+ #else
+-		spin_lock(&chip->reg_lock);
+-		if (substream->runtime->periods != CS46XX_FRAGS)
+-			snd_cs46xx_playback_transfer(substream);
+-		{ unsigned int tmp;
+-		tmp = snd_cs46xx_peek(chip, BA1_PCTL);
+-		tmp &= 0x0000ffff;
+-		snd_cs46xx_poke(chip, BA1_PCTL, chip->play_ctl | tmp);
++		scoped_guard(spinlock, &chip->reg_lock) {
++			unsigned int tmp;
++			if (substream->runtime->periods != CS46XX_FRAGS)
++				snd_cs46xx_playback_transfer(substream);
++			tmp = snd_cs46xx_peek(chip, BA1_PCTL);
++			tmp &= 0x0000ffff;
++			snd_cs46xx_poke(chip, BA1_PCTL, chip->play_ctl | tmp);
+ 		}
+-		spin_unlock(&chip->reg_lock);
+ #endif
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+@@ -990,13 +985,12 @@ static int snd_cs46xx_playback_trigger(struct snd_pcm_substream *substream,
+ 		if (!cpcm->pcm_channel->unlinked)
+ 			cs46xx_dsp_pcm_unlink(chip,cpcm->pcm_channel);
+ #else
+-		spin_lock(&chip->reg_lock);
+-		{ unsigned int tmp;
+-		tmp = snd_cs46xx_peek(chip, BA1_PCTL);
+-		tmp &= 0x0000ffff;
+-		snd_cs46xx_poke(chip, BA1_PCTL, tmp);
++		scoped_guard(spinlock, &chip->reg_lock) {
++			unsigned int tmp;
++			tmp = snd_cs46xx_peek(chip, BA1_PCTL);
++			tmp &= 0x0000ffff;
++			snd_cs46xx_poke(chip, BA1_PCTL, tmp);
+ 		}
+-		spin_unlock(&chip->reg_lock);
+ #endif
+ 		break;
+ 	default:
+@@ -1012,9 +1006,8 @@ static int snd_cs46xx_capture_trigger(struct snd_pcm_substream *substream,
+ {
+ 	struct snd_cs46xx *chip = snd_pcm_substream_chip(substream);
+ 	unsigned int tmp;
+-	int result = 0;
+ 
+-	spin_lock(&chip->reg_lock);
++	guard(spinlock)(&chip->reg_lock);
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+@@ -1029,12 +1022,9 @@ static int snd_cs46xx_capture_trigger(struct snd_pcm_substream *substream,
+ 		snd_cs46xx_poke(chip, BA1_CCTL, tmp);
+ 		break;
+ 	default:
+-		result = -EINVAL;
+-		break;
++		return -EINVAL;
+ 	}
+-	spin_unlock(&chip->reg_lock);
+-
+-	return result;
++	return 0;
+ }
+ 
+ #ifdef CONFIG_SND_CS46XX_NEW_DSP
+@@ -1371,7 +1361,7 @@ static irqreturn_t snd_cs46xx_interrupt(int irq, void *dev_id)
+ 	if ((status1 & HISR_MIDI) && chip->rmidi) {
+ 		unsigned char c;
+ 		
+-		spin_lock(&chip->reg_lock);
++		guard(spinlock)(&chip->reg_lock);
+ 		while ((snd_cs46xx_peekBA0(chip, BA0_MIDSR) & MIDSR_RBE) == 0) {
+ 			c = snd_cs46xx_peekBA0(chip, BA0_MIDRP);
+ 			if ((chip->midcr & MIDCR_RIE) == 0)
+@@ -1388,7 +1378,6 @@ static irqreturn_t snd_cs46xx_interrupt(int irq, void *dev_id)
+ 			}
+ 			snd_cs46xx_pokeBA0(chip, BA0_MIDWP, c);
+ 		}
+-		spin_unlock(&chip->reg_lock);
+ 	}
+ 	/*
+ 	 *  EOI to the PCI part....reenables interrupts
+@@ -2509,7 +2498,7 @@ static int snd_cs46xx_midi_input_open(struct snd_rawmidi_substream *substream)
+ 	struct snd_cs46xx *chip = substream->rmidi->private_data;
+ 
+ 	chip->active_ctrl(chip, 1);
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	chip->uartm |= CS46XX_MODE_INPUT;
+ 	chip->midcr |= MIDCR_RXE;
+ 	chip->midi_input = substream;
+@@ -2518,7 +2507,6 @@ static int snd_cs46xx_midi_input_open(struct snd_rawmidi_substream *substream)
+ 	} else {
+ 		snd_cs46xx_pokeBA0(chip, BA0_MIDCR, chip->midcr);
+ 	}
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -2526,16 +2514,16 @@ static int snd_cs46xx_midi_input_close(struct snd_rawmidi_substream *substream)
+ {
+ 	struct snd_cs46xx *chip = substream->rmidi->private_data;
+ 
+-	spin_lock_irq(&chip->reg_lock);
+-	chip->midcr &= ~(MIDCR_RXE | MIDCR_RIE);
+-	chip->midi_input = NULL;
+-	if (!(chip->uartm & CS46XX_MODE_OUTPUT)) {
+-		snd_cs46xx_midi_reset(chip);
+-	} else {
+-		snd_cs46xx_pokeBA0(chip, BA0_MIDCR, chip->midcr);
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		chip->midcr &= ~(MIDCR_RXE | MIDCR_RIE);
++		chip->midi_input = NULL;
++		if (!(chip->uartm & CS46XX_MODE_OUTPUT)) {
++			snd_cs46xx_midi_reset(chip);
++		} else {
++			snd_cs46xx_pokeBA0(chip, BA0_MIDCR, chip->midcr);
++		}
++		chip->uartm &= ~CS46XX_MODE_INPUT;
+ 	}
+-	chip->uartm &= ~CS46XX_MODE_INPUT;
+-	spin_unlock_irq(&chip->reg_lock);
+ 	chip->active_ctrl(chip, -1);
+ 	return 0;
+ }
+@@ -2546,7 +2534,7 @@ static int snd_cs46xx_midi_output_open(struct snd_rawmidi_substream *substream)
+ 
+ 	chip->active_ctrl(chip, 1);
+ 
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	chip->uartm |= CS46XX_MODE_OUTPUT;
+ 	chip->midcr |= MIDCR_TXE;
+ 	chip->midi_output = substream;
+@@ -2555,7 +2543,6 @@ static int snd_cs46xx_midi_output_open(struct snd_rawmidi_substream *substream)
+ 	} else {
+ 		snd_cs46xx_pokeBA0(chip, BA0_MIDCR, chip->midcr);
+ 	}
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -2563,26 +2550,25 @@ static int snd_cs46xx_midi_output_close(struct snd_rawmidi_substream *substream)
+ {
+ 	struct snd_cs46xx *chip = substream->rmidi->private_data;
+ 
+-	spin_lock_irq(&chip->reg_lock);
+-	chip->midcr &= ~(MIDCR_TXE | MIDCR_TIE);
+-	chip->midi_output = NULL;
+-	if (!(chip->uartm & CS46XX_MODE_INPUT)) {
+-		snd_cs46xx_midi_reset(chip);
+-	} else {
+-		snd_cs46xx_pokeBA0(chip, BA0_MIDCR, chip->midcr);
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		chip->midcr &= ~(MIDCR_TXE | MIDCR_TIE);
++		chip->midi_output = NULL;
++		if (!(chip->uartm & CS46XX_MODE_INPUT)) {
++			snd_cs46xx_midi_reset(chip);
++		} else {
++			snd_cs46xx_pokeBA0(chip, BA0_MIDCR, chip->midcr);
++		}
++		chip->uartm &= ~CS46XX_MODE_OUTPUT;
+ 	}
+-	chip->uartm &= ~CS46XX_MODE_OUTPUT;
+-	spin_unlock_irq(&chip->reg_lock);
+ 	chip->active_ctrl(chip, -1);
+ 	return 0;
+ }
+ 
+ static void snd_cs46xx_midi_input_trigger(struct snd_rawmidi_substream *substream, int up)
+ {
+-	unsigned long flags;
+ 	struct snd_cs46xx *chip = substream->rmidi->private_data;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	if (up) {
+ 		if ((chip->midcr & MIDCR_RIE) == 0) {
+ 			chip->midcr |= MIDCR_RIE;
+@@ -2594,16 +2580,14 @@ static void snd_cs46xx_midi_input_trigger(struct snd_rawmidi_substream *substrea
+ 			snd_cs46xx_pokeBA0(chip, BA0_MIDCR, chip->midcr);
+ 		}
+ 	}
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ }
+ 
+ static void snd_cs46xx_midi_output_trigger(struct snd_rawmidi_substream *substream, int up)
+ {
+-	unsigned long flags;
+ 	struct snd_cs46xx *chip = substream->rmidi->private_data;
+ 	unsigned char byte;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	if (up) {
+ 		if ((chip->midcr & MIDCR_TIE) == 0) {
+ 			chip->midcr |= MIDCR_TIE;
+@@ -2624,7 +2608,6 @@ static void snd_cs46xx_midi_output_trigger(struct snd_rawmidi_substream *substre
+ 			snd_cs46xx_pokeBA0(chip, BA0_MIDCR, chip->midcr);
+ 		}
+ 	}
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ }
+ 
+ static const struct snd_rawmidi_ops snd_cs46xx_midi_output =
+diff --git a/sound/pci/cs46xx/dsp_spos.c b/sound/pci/cs46xx/dsp_spos.c
+index a0f908bfe7fa..3d34575a0e8f 100644
+--- a/sound/pci/cs46xx/dsp_spos.c
++++ b/sound/pci/cs46xx/dsp_spos.c
+@@ -1696,7 +1696,7 @@ int cs46xx_dsp_enable_spdif_in (struct snd_cs46xx *chip)
+ 								ins->spdif_in_src,
+ 								SCB_ON_PARENT_SUBLIST_SCB);
+ 
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 
+ 	/* reset SPDIF input sample buffer pointer */
+ 	/*snd_cs46xx_poke (chip, (SPDIFI_SCB_INST + 0x0c) << 2,
+@@ -1709,8 +1709,6 @@ int cs46xx_dsp_enable_spdif_in (struct snd_cs46xx *chip)
+ 	/* unmute SRC volume */
+ 	cs46xx_dsp_scb_set_volume (chip,ins->spdif_in_src,0x7fff,0x7fff);
+ 
+-	spin_unlock_irq(&chip->reg_lock);
+-
+ 	/* set SPDIF input sample rate and unmute
+ 	   NOTE: only 48khz support for SPDIF input this time */
+ 	/* cs46xx_dsp_set_src_sample_rate(chip,ins->spdif_in_src,48000); */
+diff --git a/sound/pci/cs46xx/dsp_spos_scb_lib.c b/sound/pci/cs46xx/dsp_spos_scb_lib.c
+index 660ad19e5f18..32ed415bf427 100644
+--- a/sound/pci/cs46xx/dsp_spos_scb_lib.c
++++ b/sound/pci/cs46xx/dsp_spos_scb_lib.c
+@@ -159,7 +159,6 @@ static void _dsp_clear_sample_buffer (struct snd_cs46xx *chip, u32 sample_buffer
+ void cs46xx_dsp_remove_scb (struct snd_cs46xx *chip, struct dsp_scb_descriptor * scb)
+ {
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
+-	unsigned long flags;
+ 
+ 	/* check integrety */
+ 	if (snd_BUG_ON(scb->index < 0 ||
+@@ -175,9 +174,9 @@ void cs46xx_dsp_remove_scb (struct snd_cs46xx *chip, struct dsp_scb_descriptor *
+ 		goto _end;
+ #endif
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);    
+-	_dsp_unlink_scb (chip,scb);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
++		_dsp_unlink_scb(chip, scb);
++	}
+ 
+ 	cs46xx_dsp_proc_free_scb_desc(scb);
+ 	if (snd_BUG_ON(!scb->scb_symbol))
+@@ -262,8 +261,6 @@ _dsp_create_generic_scb (struct snd_cs46xx *chip, char * name, u32 * scb_data, u
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
+ 	struct dsp_scb_descriptor * scb;
+   
+-	unsigned long flags;
+-
+ 	if (snd_BUG_ON(!ins->the_null_scb))
+ 		return NULL;
+ 
+@@ -317,12 +314,10 @@ _dsp_create_generic_scb (struct snd_cs46xx *chip, char * name, u32 * scb_data, u
+ 			snd_BUG();
+ 		}
+ 
+-		spin_lock_irqsave(&chip->reg_lock, flags);
+-
+-		/* update entry in DSP RAM */
+-		cs46xx_dsp_spos_update_scb(chip,scb->parent_scb_ptr);
+-
+-		spin_unlock_irqrestore(&chip->reg_lock, flags);
++		scoped_guard(spinlock_irqsave, &chip->reg_lock) {
++			/* update entry in DSP RAM */
++			cs46xx_dsp_spos_update_scb(chip, scb->parent_scb_ptr);
++		}
+ 	}
+ 
+ 
+@@ -1219,7 +1214,6 @@ cs46xx_dsp_create_pcm_channel (struct snd_cs46xx * chip,
+ 	/* struct dsp_scb_descriptor * pcm_parent_scb; */
+ 	char scb_name[DSP_MAX_SCB_NAME];
+ 	int i, pcm_index = -1, insert_point, src_index = -1, pass_through = 0;
+-	unsigned long flags;
+ 
+ 	switch (pcm_channel_id) {
+ 	case DSP_PCM_MAIN_CHANNEL:
+@@ -1356,7 +1350,7 @@ cs46xx_dsp_create_pcm_channel (struct snd_cs46xx * chip,
+ 		return NULL;
+ 	}
+ 	
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	ins->pcm_channels[pcm_index].sample_rate = sample_rate;
+ 	ins->pcm_channels[pcm_index].pcm_reader_scb = pcm_scb;
+ 	ins->pcm_channels[pcm_index].src_scb = src_scb;
+@@ -1367,7 +1361,6 @@ cs46xx_dsp_create_pcm_channel (struct snd_cs46xx * chip,
+ 	ins->pcm_channels[pcm_index].pcm_slot = pcm_index;
+ 	ins->pcm_channels[pcm_index].mixer_scb = mixer_scb;
+ 	ins->npcm_channels ++;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 
+ 	return (ins->pcm_channels + pcm_index);
+ }
+@@ -1455,20 +1448,19 @@ void cs46xx_dsp_destroy_pcm_channel (struct snd_cs46xx * chip,
+ 				     struct dsp_pcm_channel_descriptor * pcm_channel)
+ {
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
+-	unsigned long flags;
+ 
+ 	if (snd_BUG_ON(!pcm_channel->active ||
+ 		       ins->npcm_channels <= 0 ||
+ 		       pcm_channel->src_scb->ref_count <= 0))
+ 		return;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
+-	pcm_channel->unlinked = 1;
+-	pcm_channel->active = 0;
+-	pcm_channel->private_data = NULL;
+-	pcm_channel->src_scb->ref_count --;
+-	ins->npcm_channels --;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
++		pcm_channel->unlinked = 1;
++		pcm_channel->active = 0;
++		pcm_channel->private_data = NULL;
++		pcm_channel->src_scb->ref_count--;
++		ins->npcm_channels--;
++	}
+ 
+ 	cs46xx_dsp_remove_scb(chip,pcm_channel->pcm_reader_scb);
+ 
+@@ -1487,22 +1479,17 @@ void cs46xx_dsp_destroy_pcm_channel (struct snd_cs46xx * chip,
+ int cs46xx_dsp_pcm_unlink (struct snd_cs46xx * chip,
+ 			   struct dsp_pcm_channel_descriptor * pcm_channel)
+ {
+-	unsigned long flags;
+-
+ 	if (snd_BUG_ON(!pcm_channel->active ||
+ 		       chip->dsp_spos_instance->npcm_channels <= 0))
+ 		return -EIO;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
+-	if (pcm_channel->unlinked) {
+-		spin_unlock_irqrestore(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
++	if (pcm_channel->unlinked)
+ 		return -EIO;
+-	}
+ 
+ 	pcm_channel->unlinked = 1;
+ 
+ 	_dsp_unlink_scb (chip,pcm_channel->pcm_reader_scb);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 
+ 	return 0;
+ }
+@@ -1513,14 +1500,11 @@ int cs46xx_dsp_pcm_link (struct snd_cs46xx * chip,
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
+ 	struct dsp_scb_descriptor * parent_scb;
+ 	struct dsp_scb_descriptor * src_scb = pcm_channel->src_scb;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 
+-	if (pcm_channel->unlinked == 0) {
+-		spin_unlock_irqrestore(&chip->reg_lock, flags);
++	if (pcm_channel->unlinked == 0)
+ 		return -EIO;
+-	}
+ 
+ 	parent_scb = src_scb;
+ 
+@@ -1541,7 +1525,6 @@ int cs46xx_dsp_pcm_link (struct snd_cs46xx * chip,
+ 	cs46xx_dsp_spos_update_scb(chip,parent_scb);
+ 
+ 	pcm_channel->unlinked = 0;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return 0;
+ }
+ 
+@@ -1574,17 +1557,14 @@ cs46xx_add_record_source (struct snd_cs46xx *chip, struct dsp_scb_descriptor * s
+ 
+ int cs46xx_src_unlink(struct snd_cs46xx *chip, struct dsp_scb_descriptor * src)
+ {
+-	unsigned long flags;
+-
+ 	if (snd_BUG_ON(!src->parent_scb_ptr))
  		return -EINVAL;
- 	}
  
--	spin_lock_irq(&chip->lock);
-+	guard(spinlock_irq)(&chip->lock);
+ 	/* mute SCB */
+ 	cs46xx_dsp_scb_set_volume (chip,src,0,0);
  
- 	if (incompatible_clock) {	/* Switch to 48KHz, internal */
- 		chip->sample_rate = 48000;
-@@ -413,7 +413,6 @@ static int dsp_set_digital_mode(struct echoaudio *chip, u8 mode)
- 	}
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	_dsp_unlink_scb (chip,src);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
  
- 	err = write_control_reg(chip, control_reg, false);
--	spin_unlock_irq(&chip->lock);
- 	if (err < 0)
- 		return err;
- 	chip->digital_mode = mode;
+ 	return 0;
+ }
 -- 
 2.50.1
 
