@@ -1,84 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B4819F121
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B03D31CA73
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756479641; cv=none; b=q/6sd4JWnZTjYksAzkLQXLPQVDb8j2MMzzJyTcWznlcYi1lIibmAupxp76GRDoiP/DE+xFFfk8xKOzfDiihtHx/505VeVarBRzRru9DUALWmjtB+IX7sT/nBEhVwCaAGci6L5csIdofvmB91CCmFuihne3Ue/n4F7wv4G8yVyS8=
+	t=1756479642; cv=none; b=kFi3jT3whopSvVa81SYOUUAjXbNHLvVeOD3N/d1z2TOajIOEhupK75u25K2pLTpcPWTdcZT0h/YawnqBqlsl1uEfTflCiE1NwucMLSgiiRz0SdcyZ4soUzVg6FTQMlgxfPkqCnm034GpWoR4ld5LpriwWNAfdERLxdptUm5gwLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756479641; c=relaxed/simple;
-	bh=ZDDSaBtfcK8gTqqa1nyEFWRncHsGFSjIjFNKEmx9aPo=;
+	s=arc-20240116; t=1756479642; c=relaxed/simple;
+	bh=5yPE1O8s5+nBfA2j6QjcTGU6BG4Mpf2SNuZ8V2pXSGw=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RSfgtBmXLm811EZmcdcrFoTdN0DpiBLC1UWyibBBq4GMAS617rmwr6trG3Hg7nKJafw82ToxZDW3hSlxxnF97L1SnpKtvb7K7bEtLStDoLF6u22j7M6RLxXbPWd/cOGekmptSNLj0BMLjDoiPa3clcUy6Ay0RkzonPlmB2zVc1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lA7rVPHF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y8YJ3myg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lA7rVPHF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y8YJ3myg; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=eAX8MBzmI8lQZi97VRbPbRUA5TE0WEkq6EI2aWDdUnKiJJU642LxJHvX+pEyeifG/p2m49ptai17bzVGAq7jVYHLqbYIqMc8jLetlSwa+IfMklZvydnIa4Qmz7UdgX6ZoaNi8vT8ZGozwUj7ZEBDow7PzIfxWTmmBhW9TGl9fYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T89JuXWN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wnkZ+oV7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T89JuXWN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wnkZ+oV7; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lA7rVPHF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y8YJ3myg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lA7rVPHF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y8YJ3myg"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T89JuXWN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wnkZ+oV7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T89JuXWN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wnkZ+oV7"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 970E533EDC;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D3A1B5C242;
 	Fri, 29 Aug 2025 15:00:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756479631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EOIuL9s01TzaiVwNaQI99udotlk2XMJM4ioBXnNL+SE=;
-	b=lA7rVPHFcHJerpdINIW1XB4qFiecXBQiQmBNegiKOxbcQgwUkHHZHFCV88qcgMSIhEzHMU
-	e+UVhgwSgVaCdIKGlzkxk+IdlMbcoMkJylkkgWsJ60tZPWHqP9cabnx59FCHnume81tEae
-	RfBGy+5xtm8WOaORvIqDIf021aVvSTU=
+	bh=sEpnrX2m+FC0LPXns5osiWZhhgql3Wp9udFL8JDkx3I=;
+	b=T89JuXWNhMEI2La0Eu902hHxQKQXZpwLGmeascW+/4q21GHRzNZnCGSIeu3Mc9sONgo9cm
+	C4QmXx4p/fxvCaE3BNylP9o2l6UzdadzDtBbDEbokOqTLZVKWqSNemx2IpQUsNg05uxUN6
+	UIFcw6uRejv4p4R1eAY80WvMwDBLJ6Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756479631;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EOIuL9s01TzaiVwNaQI99udotlk2XMJM4ioBXnNL+SE=;
-	b=y8YJ3mygcSYzr0qyBx3oYDqTicFB6AhaoCdWV2qaSpXA6FDAWJQAMSDEgRmV0jh0Uqp86d
-	mwwExkFWySU1UjDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lA7rVPHF;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=y8YJ3myg
+	bh=sEpnrX2m+FC0LPXns5osiWZhhgql3Wp9udFL8JDkx3I=;
+	b=wnkZ+oV7Vf4UnYtx62cVO2B0Cv3kGdfw1DGf2FPczeTxzoSZZML+ov8ADpMpMQo/Qet/je
+	xlEREjtHmV/ExaAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756479631; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EOIuL9s01TzaiVwNaQI99udotlk2XMJM4ioBXnNL+SE=;
-	b=lA7rVPHFcHJerpdINIW1XB4qFiecXBQiQmBNegiKOxbcQgwUkHHZHFCV88qcgMSIhEzHMU
-	e+UVhgwSgVaCdIKGlzkxk+IdlMbcoMkJylkkgWsJ60tZPWHqP9cabnx59FCHnume81tEae
-	RfBGy+5xtm8WOaORvIqDIf021aVvSTU=
+	bh=sEpnrX2m+FC0LPXns5osiWZhhgql3Wp9udFL8JDkx3I=;
+	b=T89JuXWNhMEI2La0Eu902hHxQKQXZpwLGmeascW+/4q21GHRzNZnCGSIeu3Mc9sONgo9cm
+	C4QmXx4p/fxvCaE3BNylP9o2l6UzdadzDtBbDEbokOqTLZVKWqSNemx2IpQUsNg05uxUN6
+	UIFcw6uRejv4p4R1eAY80WvMwDBLJ6Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756479631;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EOIuL9s01TzaiVwNaQI99udotlk2XMJM4ioBXnNL+SE=;
-	b=y8YJ3mygcSYzr0qyBx3oYDqTicFB6AhaoCdWV2qaSpXA6FDAWJQAMSDEgRmV0jh0Uqp86d
-	mwwExkFWySU1UjDg==
+	bh=sEpnrX2m+FC0LPXns5osiWZhhgql3Wp9udFL8JDkx3I=;
+	b=wnkZ+oV7Vf4UnYtx62cVO2B0Cv3kGdfw1DGf2FPczeTxzoSZZML+ov8ADpMpMQo/Qet/je
+	xlEREjtHmV/ExaAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7FB3E13326;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA9DC13A6A;
 	Fri, 29 Aug 2025 15:00:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wGAHHo/AsWjjHQAAD6G6ig
+	id sONnLI/AsWjjHQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 15:00:31 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 02/13] ALSA: aloop: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 17:00:13 +0200
-Message-ID: <20250829150026.6379-3-tiwai@suse.de>
+Subject: [PATCH 04/13] ALSA: opl3: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 17:00:15 +0200
+Message-ID: <20250829150026.6379-5-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829150026.6379-1-tiwai@suse.de>
 References: <20250829150026.6379-1-tiwai@suse.de>
@@ -89,36 +88,29 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 970E533EDC
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 
 Clean up the code using guard() for spin locks.
 
@@ -126,273 +118,314 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/drivers/aloop.c | 193 +++++++++++++++++++++---------------------
- 1 file changed, 96 insertions(+), 97 deletions(-)
+ sound/drivers/opl3/opl3_lib.c  | 26 ++++-------------
+ sound/drivers/opl3/opl3_midi.c | 51 ++++++++++++----------------------
+ sound/drivers/opl3/opl3_seq.c  | 11 ++++----
+ 3 files changed, 28 insertions(+), 60 deletions(-)
 
-diff --git a/sound/drivers/aloop.c b/sound/drivers/aloop.c
-index 79e7f03e51e9..64ef03b2d579 100644
---- a/sound/drivers/aloop.c
-+++ b/sound/drivers/aloop.c
-@@ -414,39 +414,39 @@ static int loopback_trigger(struct snd_pcm_substream *substream, int cmd)
- 		dpcm->last_jiffies = jiffies;
- 		dpcm->pcm_rate_shift = 0;
- 		dpcm->last_drift = 0;
--		spin_lock(&cable->lock);	
--		cable->running |= stream;
--		cable->pause &= ~stream;
--		err = cable->ops->start(dpcm);
--		spin_unlock(&cable->lock);
-+		scoped_guard(spinlock, &cable->lock) {
-+			cable->running |= stream;
-+			cable->pause &= ~stream;
-+			err = cable->ops->start(dpcm);
-+		}
- 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
- 			loopback_active_notify(dpcm);
- 		break;
- 	case SNDRV_PCM_TRIGGER_STOP:
--		spin_lock(&cable->lock);	
--		cable->running &= ~stream;
--		cable->pause &= ~stream;
--		err = cable->ops->stop(dpcm);
--		spin_unlock(&cable->lock);
-+		scoped_guard(spinlock, &cable->lock) {
-+			cable->running &= ~stream;
-+			cable->pause &= ~stream;
-+			err = cable->ops->stop(dpcm);
-+		}
- 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
- 			loopback_active_notify(dpcm);
- 		break;
- 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
- 	case SNDRV_PCM_TRIGGER_SUSPEND:
--		spin_lock(&cable->lock);	
--		cable->pause |= stream;
--		err = cable->ops->stop(dpcm);
--		spin_unlock(&cable->lock);
-+		scoped_guard(spinlock, &cable->lock) {
-+			cable->pause |= stream;
-+			err = cable->ops->stop(dpcm);
-+		}
- 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
- 			loopback_active_notify(dpcm);
- 		break;
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
- 	case SNDRV_PCM_TRIGGER_RESUME:
--		spin_lock(&cable->lock);
--		dpcm->last_jiffies = jiffies;
--		cable->pause &= ~stream;
--		err = cable->ops->start(dpcm);
--		spin_unlock(&cable->lock);
-+		scoped_guard(spinlock, &cable->lock) {
-+			dpcm->last_jiffies = jiffies;
-+			cable->pause &= ~stream;
-+			err = cable->ops->start(dpcm);
-+		}
- 		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
- 			loopback_active_notify(dpcm);
- 		break;
-@@ -700,21 +700,22 @@ static unsigned int loopback_jiffies_timer_pos_update
- static void loopback_jiffies_timer_function(struct timer_list *t)
- {
- 	struct loopback_pcm *dpcm = timer_container_of(dpcm, t, timer);
--	unsigned long flags;
-+	bool period_elapsed = false;
+diff --git a/sound/drivers/opl3/opl3_lib.c b/sound/drivers/opl3/opl3_lib.c
+index cd9642a6689b..fa8a2ccbbd51 100644
+--- a/sound/drivers/opl3/opl3_lib.c
++++ b/sound/drivers/opl3/opl3_lib.c
+@@ -25,7 +25,6 @@ MODULE_LICENSE("GPL");
  
--	spin_lock_irqsave(&dpcm->cable->lock, flags);
--	if (loopback_jiffies_timer_pos_update(dpcm->cable) &
--			(1 << dpcm->substream->stream)) {
--		loopback_jiffies_timer_start(dpcm);
--		if (dpcm->period_update_pending) {
--			dpcm->period_update_pending = 0;
--			spin_unlock_irqrestore(&dpcm->cable->lock, flags);
--			/* need to unlock before calling below */
--			snd_pcm_period_elapsed(dpcm->substream);
--			return;
-+	scoped_guard(spinlock_irqsave, &dpcm->cable->lock) {
-+		if (loopback_jiffies_timer_pos_update(dpcm->cable) &
-+		    (1 << dpcm->substream->stream)) {
-+			loopback_jiffies_timer_start(dpcm);
-+			if (dpcm->period_update_pending) {
-+				dpcm->period_update_pending = 0;
-+				period_elapsed = true;
-+				break;
+ static void snd_opl2_command(struct snd_opl3 * opl3, unsigned short cmd, unsigned char val)
+ {
+-	unsigned long flags;
+ 	unsigned long port;
+ 
+ 	/*
+@@ -35,20 +34,17 @@ static void snd_opl2_command(struct snd_opl3 * opl3, unsigned short cmd, unsigne
+ 
+ 	port = (cmd & OPL3_RIGHT) ? opl3->r_port : opl3->l_port;
+ 
+-	spin_lock_irqsave(&opl3->reg_lock, flags);
++	guard(spinlock_irqsave)(&opl3->reg_lock);
+ 
+ 	outb((unsigned char) cmd, port);
+ 	udelay(10);
+ 
+ 	outb((unsigned char) val, port + 1);
+ 	udelay(30);
+-
+-	spin_unlock_irqrestore(&opl3->reg_lock, flags);
+ }
+ 
+ static void snd_opl3_command(struct snd_opl3 * opl3, unsigned short cmd, unsigned char val)
+ {
+-	unsigned long flags;
+ 	unsigned long port;
+ 
+ 	/*
+@@ -58,7 +54,7 @@ static void snd_opl3_command(struct snd_opl3 * opl3, unsigned short cmd, unsigne
+ 
+ 	port = (cmd & OPL3_RIGHT) ? opl3->r_port : opl3->l_port;
+ 
+-	spin_lock_irqsave(&opl3->reg_lock, flags);
++	guard(spinlock_irqsave)(&opl3->reg_lock);
+ 
+ 	outb((unsigned char) cmd, port);
+ 	inb(opl3->l_port);
+@@ -67,8 +63,6 @@ static void snd_opl3_command(struct snd_opl3 * opl3, unsigned short cmd, unsigne
+ 	outb((unsigned char) val, port + 1);
+ 	inb(opl3->l_port);
+ 	inb(opl3->l_port);
+-
+-	spin_unlock_irqrestore(&opl3->reg_lock, flags);
+ }
+ 
+ static int snd_opl3_detect(struct snd_opl3 * opl3)
+@@ -142,34 +136,30 @@ static int snd_opl3_detect(struct snd_opl3 * opl3)
+ 
+ static int snd_opl3_timer1_start(struct snd_timer * timer)
+ {
+-	unsigned long flags;
+ 	unsigned char tmp;
+ 	unsigned int ticks;
+ 	struct snd_opl3 *opl3;
+ 
+ 	opl3 = snd_timer_chip(timer);
+-	spin_lock_irqsave(&opl3->timer_lock, flags);
++	guard(spinlock_irqsave)(&opl3->timer_lock);
+ 	ticks = timer->sticks;
+ 	tmp = (opl3->timer_enable | OPL3_TIMER1_START) & ~OPL3_TIMER1_MASK;
+ 	opl3->timer_enable = tmp;
+ 	opl3->command(opl3, OPL3_LEFT | OPL3_REG_TIMER1, 256 - ticks);	/* timer 1 count */
+ 	opl3->command(opl3, OPL3_LEFT | OPL3_REG_TIMER_CONTROL, tmp);	/* enable timer 1 IRQ */
+-	spin_unlock_irqrestore(&opl3->timer_lock, flags);
+ 	return 0;
+ }
+ 
+ static int snd_opl3_timer1_stop(struct snd_timer * timer)
+ {
+-	unsigned long flags;
+ 	unsigned char tmp;
+ 	struct snd_opl3 *opl3;
+ 
+ 	opl3 = snd_timer_chip(timer);
+-	spin_lock_irqsave(&opl3->timer_lock, flags);
++	guard(spinlock_irqsave)(&opl3->timer_lock);
+ 	tmp = (opl3->timer_enable | OPL3_TIMER1_MASK) & ~OPL3_TIMER1_START;
+ 	opl3->timer_enable = tmp;
+ 	opl3->command(opl3, OPL3_LEFT | OPL3_REG_TIMER_CONTROL, tmp);	/* disable timer #1 */
+-	spin_unlock_irqrestore(&opl3->timer_lock, flags);
+ 	return 0;
+ }
+ 
+@@ -179,34 +169,30 @@ static int snd_opl3_timer1_stop(struct snd_timer * timer)
+ 
+ static int snd_opl3_timer2_start(struct snd_timer * timer)
+ {
+-	unsigned long flags;
+ 	unsigned char tmp;
+ 	unsigned int ticks;
+ 	struct snd_opl3 *opl3;
+ 
+ 	opl3 = snd_timer_chip(timer);
+-	spin_lock_irqsave(&opl3->timer_lock, flags);
++	guard(spinlock_irqsave)(&opl3->timer_lock);
+ 	ticks = timer->sticks;
+ 	tmp = (opl3->timer_enable | OPL3_TIMER2_START) & ~OPL3_TIMER2_MASK;
+ 	opl3->timer_enable = tmp;
+ 	opl3->command(opl3, OPL3_LEFT | OPL3_REG_TIMER2, 256 - ticks);	/* timer 1 count */
+ 	opl3->command(opl3, OPL3_LEFT | OPL3_REG_TIMER_CONTROL, tmp);	/* enable timer 1 IRQ */
+-	spin_unlock_irqrestore(&opl3->timer_lock, flags);
+ 	return 0;
+ }
+ 
+ static int snd_opl3_timer2_stop(struct snd_timer * timer)
+ {
+-	unsigned long flags;
+ 	unsigned char tmp;
+ 	struct snd_opl3 *opl3;
+ 
+ 	opl3 = snd_timer_chip(timer);
+-	spin_lock_irqsave(&opl3->timer_lock, flags);
++	guard(spinlock_irqsave)(&opl3->timer_lock);
+ 	tmp = (opl3->timer_enable | OPL3_TIMER2_MASK) & ~OPL3_TIMER2_START;
+ 	opl3->timer_enable = tmp;
+ 	opl3->command(opl3, OPL3_LEFT | OPL3_REG_TIMER_CONTROL, tmp);	/* disable timer #1 */
+-	spin_unlock_irqrestore(&opl3->timer_lock, flags);
+ 	return 0;
+ }
+ 
+diff --git a/sound/drivers/opl3/opl3_midi.c b/sound/drivers/opl3/opl3_midi.c
+index de7449cb6515..6d3c5b5a35ff 100644
+--- a/sound/drivers/opl3/opl3_midi.c
++++ b/sound/drivers/opl3/opl3_midi.c
+@@ -234,29 +234,27 @@ void snd_opl3_timer_func(struct timer_list *t)
+ {
+ 
+ 	struct snd_opl3 *opl3 = timer_container_of(opl3, t, tlist);
+-	unsigned long flags;
+ 	int again = 0;
+ 	int i;
+ 
+-	spin_lock_irqsave(&opl3->voice_lock, flags);
+-	for (i = 0; i < opl3->max_voices; i++) {
+-		struct snd_opl3_voice *vp = &opl3->voices[i];
+-		if (vp->state > 0 && vp->note_off_check) {
+-			if (vp->note_off == jiffies)
+-				snd_opl3_note_off_unsafe(opl3, vp->note, 0,
+-							 vp->chan);
+-			else
+-				again++;
++	scoped_guard(spinlock_irqsave, &opl3->voice_lock) {
++		for (i = 0; i < opl3->max_voices; i++) {
++			struct snd_opl3_voice *vp = &opl3->voices[i];
++			if (vp->state > 0 && vp->note_off_check) {
++				if (vp->note_off == jiffies)
++					snd_opl3_note_off_unsafe(opl3, vp->note, 0,
++								 vp->chan);
++				else
++					again++;
 +			}
  		}
  	}
--	spin_unlock_irqrestore(&dpcm->cable->lock, flags);
-+
-+	if (period_elapsed)
-+		snd_pcm_period_elapsed(dpcm->substream);
+-	spin_unlock_irqrestore(&opl3->voice_lock, flags);
+ 
+-	spin_lock_irqsave(&opl3->sys_timer_lock, flags);
++	guard(spinlock_irqsave)(&opl3->sys_timer_lock);
+ 	if (again)
+ 		mod_timer(&opl3->tlist, jiffies + 1);	/* invoke again */
+ 	else
+ 		opl3->sys_timer_status = 0;
+-	spin_unlock_irqrestore(&opl3->sys_timer_lock, flags);
  }
  
- /* call in cable->lock */
-@@ -759,69 +760,69 @@ static void loopback_snd_timer_period_elapsed(struct loopback_cable *cable,
- 	struct snd_pcm_substream *substream_play, *substream_capt;
- 	struct snd_pcm_runtime *valid_runtime;
- 	unsigned int running, elapsed_bytes;
+ /*
+@@ -264,13 +262,11 @@ void snd_opl3_timer_func(struct timer_list *t)
+  */
+ static void snd_opl3_start_timer(struct snd_opl3 *opl3)
+ {
 -	unsigned long flags;
-+	bool xrun = false;
+-	spin_lock_irqsave(&opl3->sys_timer_lock, flags);
++	guard(spinlock_irqsave)(&opl3->sys_timer_lock);
+ 	if (! opl3->sys_timer_status) {
+ 		mod_timer(&opl3->tlist, jiffies + 1);
+ 		opl3->sys_timer_status = 1;
+ 	}
+-	spin_unlock_irqrestore(&opl3->sys_timer_lock, flags);
+ }
  
--	spin_lock_irqsave(&cable->lock, flags);
--	running = cable->running ^ cable->pause;
--	/* no need to do anything if no stream is running */
--	if (!running) {
--		spin_unlock_irqrestore(&cable->lock, flags);
-+	scoped_guard(spinlock_irqsave, &cable->lock) {
-+		running = cable->running ^ cable->pause;
-+		/* no need to do anything if no stream is running */
-+		if (!running)
-+			return;
-+
-+		dpcm_play = cable->streams[SNDRV_PCM_STREAM_PLAYBACK];
-+		dpcm_capt = cable->streams[SNDRV_PCM_STREAM_CAPTURE];
-+
-+		if (event == SNDRV_TIMER_EVENT_MSTOP) {
-+			if (!dpcm_play ||
-+			    dpcm_play->substream->runtime->state !=
-+			    SNDRV_PCM_STATE_DRAINING)
-+				return;
-+		}
-+
-+		substream_play = (running & (1 << SNDRV_PCM_STREAM_PLAYBACK)) ?
-+			dpcm_play->substream : NULL;
-+		substream_capt = (running & (1 << SNDRV_PCM_STREAM_CAPTURE)) ?
-+			dpcm_capt->substream : NULL;
-+		valid_runtime = (running & (1 << SNDRV_PCM_STREAM_PLAYBACK)) ?
-+			dpcm_play->substream->runtime :
-+			dpcm_capt->substream->runtime;
-+
-+		/* resolution is only valid for SNDRV_TIMER_EVENT_TICK events */
-+		if (event == SNDRV_TIMER_EVENT_TICK) {
-+			/* The hardware rules guarantee that playback and capture period
-+			 * are the same. Therefore only one device has to be checked
-+			 * here.
-+			 */
-+			if (loopback_snd_timer_check_resolution(valid_runtime,
-+								resolution) < 0) {
-+				xrun = true;
-+				break;
-+			}
-+		}
-+
-+		elapsed_bytes = frames_to_bytes(valid_runtime,
-+						valid_runtime->period_size);
-+		/* The same timer interrupt is used for playback and capture device */
-+		if ((running & (1 << SNDRV_PCM_STREAM_PLAYBACK)) &&
-+		    (running & (1 << SNDRV_PCM_STREAM_CAPTURE))) {
-+			copy_play_buf(dpcm_play, dpcm_capt, elapsed_bytes);
-+			bytepos_finish(dpcm_play, elapsed_bytes);
-+			bytepos_finish(dpcm_capt, elapsed_bytes);
-+		} else if (running & (1 << SNDRV_PCM_STREAM_PLAYBACK)) {
-+			bytepos_finish(dpcm_play, elapsed_bytes);
-+		} else if (running & (1 << SNDRV_PCM_STREAM_CAPTURE)) {
-+			clear_capture_buf(dpcm_capt, elapsed_bytes);
-+			bytepos_finish(dpcm_capt, elapsed_bytes);
-+		}
-+	}
-+
-+	if (xrun) {
-+		if (substream_play)
-+			snd_pcm_stop_xrun(substream_play);
-+		if (substream_capt)
-+			snd_pcm_stop_xrun(substream_capt);
+ /* ------------------------------ */
+@@ -309,7 +305,6 @@ void snd_opl3_note_on(void *p, int note, int vel, struct snd_midi_channel *chan)
+ 
+ 	struct fm_patch *patch;
+ 	struct fm_instrument *fm;
+-	unsigned long flags;
+ 
+ 	opl3 = p;
+ 
+@@ -337,20 +332,17 @@ void snd_opl3_note_on(void *p, int note, int vel, struct snd_midi_channel *chan)
+ 		prg = chan->midi_program;
+ 	}
+ 
+-	spin_lock_irqsave(&opl3->voice_lock, flags);
++	guard(spinlock_irqsave)(&opl3->voice_lock);
+ 
+ 	if (use_internal_drums) {
+ 		snd_opl3_drum_switch(opl3, note, vel, 1, chan);
+-		spin_unlock_irqrestore(&opl3->voice_lock, flags);
  		return;
  	}
  
--	dpcm_play = cable->streams[SNDRV_PCM_STREAM_PLAYBACK];
--	dpcm_capt = cable->streams[SNDRV_PCM_STREAM_CAPTURE];
--
--	if (event == SNDRV_TIMER_EVENT_MSTOP) {
--		if (!dpcm_play ||
--		    dpcm_play->substream->runtime->state !=
--				SNDRV_PCM_STATE_DRAINING) {
--			spin_unlock_irqrestore(&cable->lock, flags);
--			return;
--		}
+  __extra_prg:
+ 	patch = snd_opl3_find_patch(opl3, prg, bank, 0);
+-	if (!patch) {
+-		spin_unlock_irqrestore(&opl3->voice_lock, flags);
++	if (!patch)
+ 		return;
 -	}
--
--	substream_play = (running & (1 << SNDRV_PCM_STREAM_PLAYBACK)) ?
--			dpcm_play->substream : NULL;
--	substream_capt = (running & (1 << SNDRV_PCM_STREAM_CAPTURE)) ?
--			dpcm_capt->substream : NULL;
--	valid_runtime = (running & (1 << SNDRV_PCM_STREAM_PLAYBACK)) ?
--				dpcm_play->substream->runtime :
--				dpcm_capt->substream->runtime;
--
--	/* resolution is only valid for SNDRV_TIMER_EVENT_TICK events */
--	if (event == SNDRV_TIMER_EVENT_TICK) {
--		/* The hardware rules guarantee that playback and capture period
--		 * are the same. Therefore only one device has to be checked
--		 * here.
--		 */
--		if (loopback_snd_timer_check_resolution(valid_runtime,
--							resolution) < 0) {
--			spin_unlock_irqrestore(&cable->lock, flags);
--			if (substream_play)
--				snd_pcm_stop_xrun(substream_play);
--			if (substream_capt)
--				snd_pcm_stop_xrun(substream_capt);
--			return;
--		}
--	}
--
--	elapsed_bytes = frames_to_bytes(valid_runtime,
--					valid_runtime->period_size);
--	/* The same timer interrupt is used for playback and capture device */
--	if ((running & (1 << SNDRV_PCM_STREAM_PLAYBACK)) &&
--	    (running & (1 << SNDRV_PCM_STREAM_CAPTURE))) {
--		copy_play_buf(dpcm_play, dpcm_capt, elapsed_bytes);
--		bytepos_finish(dpcm_play, elapsed_bytes);
--		bytepos_finish(dpcm_capt, elapsed_bytes);
--	} else if (running & (1 << SNDRV_PCM_STREAM_PLAYBACK)) {
--		bytepos_finish(dpcm_play, elapsed_bytes);
--	} else if (running & (1 << SNDRV_PCM_STREAM_CAPTURE)) {
--		clear_capture_buf(dpcm_capt, elapsed_bytes);
--		bytepos_finish(dpcm_capt, elapsed_bytes);
--	}
--	spin_unlock_irqrestore(&cable->lock, flags);
--
- 	if (substream_play)
- 		snd_pcm_period_elapsed(substream_play);
- 	if (substream_capt)
-@@ -909,11 +910,10 @@ static snd_pcm_uframes_t loopback_pointer(struct snd_pcm_substream *substream)
- 	struct loopback_pcm *dpcm = runtime->private_data;
- 	snd_pcm_uframes_t pos;
  
--	spin_lock(&dpcm->cable->lock);
-+	guard(spinlock)(&dpcm->cable->lock);
- 	if (dpcm->cable->ops->pos_update)
- 		dpcm->cable->ops->pos_update(dpcm->cable);
- 	pos = dpcm->buf_pos;
--	spin_unlock(&dpcm->cable->lock);
- 	return bytes_to_frames(runtime, pos);
+ 	fm = &patch->inst;
+ 	switch (patch->type) {
+@@ -364,7 +356,6 @@ void snd_opl3_note_on(void *p, int note, int vel, struct snd_midi_channel *chan)
+ 		}
+ 		fallthrough;
+ 	default:
+-		spin_unlock_irqrestore(&opl3->voice_lock, flags);
+ 		return;
+ 	}
+ 	opl3_dbg(opl3, "  --> OPL%i instrument: %s\n",
+@@ -378,10 +369,8 @@ void snd_opl3_note_on(void *p, int note, int vel, struct snd_midi_channel *chan)
+ 		voice = snd_opl3_oss_map[chan->number];		
+ 	}
+ 
+-	if (voice < 0) {
+-		spin_unlock_irqrestore(&opl3->voice_lock, flags);
++	if (voice < 0)
+ 		return;
+-	}
+ 
+ 	if (voice < MAX_OPL2_VOICES) {
+ 		/* Left register block for voices 0 .. 8 */
+@@ -597,7 +586,6 @@ void snd_opl3_note_on(void *p, int note, int vel, struct snd_midi_channel *chan)
+ 		opl3_dbg(opl3, " *** allocating extra program\n");
+ 		goto __extra_prg;
+ 	}
+-	spin_unlock_irqrestore(&opl3->voice_lock, flags);
  }
  
-@@ -1045,9 +1045,8 @@ static void free_cable(struct snd_pcm_substream *substream)
- 		return;
- 	if (cable->streams[!substream->stream]) {
- 		/* other stream is still alive */
--		spin_lock_irq(&cable->lock);
-+		guard(spinlock_irq)(&cable->lock);
- 		cable->streams[substream->stream] = NULL;
--		spin_unlock_irq(&cable->lock);
- 	} else {
- 		struct loopback_pcm *dpcm = substream->runtime->private_data;
+ static void snd_opl3_kill_voice(struct snd_opl3 *opl3, int voice)
+@@ -686,11 +674,9 @@ void snd_opl3_note_off(void *p, int note, int vel,
+ 		       struct snd_midi_channel *chan)
+ {
+ 	struct snd_opl3 *opl3 = p;
+-	unsigned long flags;
  
-@@ -1313,9 +1312,9 @@ static int loopback_open(struct snd_pcm_substream *substream)
- 	else
- 		runtime->hw = cable->hw;
+-	spin_lock_irqsave(&opl3->voice_lock, flags);
++	guard(spinlock_irqsave)(&opl3->voice_lock);
+ 	snd_opl3_note_off_unsafe(p, note, vel, chan);
+-	spin_unlock_irqrestore(&opl3->voice_lock, flags);
+ }
  
--	spin_lock_irq(&cable->lock);
--	cable->streams[substream->stream] = dpcm;
--	spin_unlock_irq(&cable->lock);
-+	scoped_guard(spinlock_irq, &cable->lock) {
-+		cable->streams[substream->stream] = dpcm;
-+	}
+ /*
+@@ -764,9 +750,7 @@ static void snd_opl3_pitch_ctrl(struct snd_opl3 *opl3, struct snd_midi_channel *
+ 	int voice;
+ 	struct snd_opl3_voice *vp;
  
-  unlock:
- 	if (err < 0) {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&opl3->voice_lock, flags);
++	guard(spinlock_irqsave)(&opl3->voice_lock);
+ 
+ 	if (opl3->synth_mode == SNDRV_OPL3_MODE_SEQ) {
+ 		for (voice = 0; voice < opl3->max_voices; voice++) {
+@@ -782,7 +766,6 @@ static void snd_opl3_pitch_ctrl(struct snd_opl3 *opl3, struct snd_midi_channel *
+ 			snd_opl3_update_pitch(opl3, voice);
+ 		}
+ 	}
+-	spin_unlock_irqrestore(&opl3->voice_lock, flags);
+ }
+ 
+ /*
+diff --git a/sound/drivers/opl3/opl3_seq.c b/sound/drivers/opl3/opl3_seq.c
+index 8db77a81476c..d3278428d360 100644
+--- a/sound/drivers/opl3/opl3_seq.c
++++ b/sound/drivers/opl3/opl3_seq.c
+@@ -66,16 +66,15 @@ int snd_opl3_synth_setup(struct snd_opl3 * opl3)
+ 
+ void snd_opl3_synth_cleanup(struct snd_opl3 * opl3)
+ {
+-	unsigned long flags;
+ 	struct snd_hwdep *hwdep;
+ 
+ 	/* Stop system timer */
+-	spin_lock_irqsave(&opl3->sys_timer_lock, flags);
+-	if (opl3->sys_timer_status) {
+-		timer_delete(&opl3->tlist);
+-		opl3->sys_timer_status = 0;
++	scoped_guard(spinlock_irq, &opl3->sys_timer_lock) {
++		if (opl3->sys_timer_status) {
++			timer_delete(&opl3->tlist);
++			opl3->sys_timer_status = 0;
++		}
+ 	}
+-	spin_unlock_irqrestore(&opl3->sys_timer_lock, flags);
+ 
+ 	snd_opl3_reset(opl3);
+ 	hwdep = opl3->hwdep;
 -- 
 2.50.1
 
