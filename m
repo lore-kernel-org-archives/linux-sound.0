@@ -1,157 +1,156 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D68224B09;
-	Fri, 29 Aug 2025 19:51:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E587B26F445;
+	Fri, 29 Aug 2025 22:19:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756497084; cv=none; b=I4P70kSM/UbuEPJGCwvWVZTRmf7sNrLXJa/F0QKIaAhPuiG8DubsD/C9agQ3S+ZRu+yJ3Huj+5I2d3HUrLvpOnNfkEl9Z3BhMCURd09D66U5iIbaxtPsXX++qmGBNnpqn3gqIcqfc2bI6zRIxTBrUEsWUcAdKhZ13ZtkbGQ2R54=
+	t=1756505963; cv=none; b=KWfpnpANmvoB8AmYyfgghbwai/yntVP4vpuksvJNMe+gDLl75aSUQzNNTB3jjbBJ0ttUwDW6DBBXM0Us05cAPJUmumQSo94GTaFpdPjKfXxZPzs5czy9YEyi+cQ1aUizz4mDSgrYzqmY/iCcA75dLMJ0e2SZokn72N8bs2zsK6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756497084; c=relaxed/simple;
-	bh=iE1fOPe+H/DOT9l+qqw7zhT3aTQ0dSMmo1kdS8d+f20=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FVoFiEY1/cOidwb5l7UbAnM/1QTc+m0Y7YN/xOXHOdRctYzwsNfS7hnUsAKBHvkXvCYayeo7cea5hHIWUJXK3zcXvhmP3Sr9eTLPQ7u1OIVF83kOvmXuo+mBEaRN2g12kJkIXRIGdCzrY1zXvXEkhf15h9XTeQQE+5677mu/DNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uPYEnPUU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756505963; c=relaxed/simple;
+	bh=0bwPfbMyrek5L9hOu7GBREJXWyINw9aI7B0CsO+yy18=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gS+j9X+RZCCT8PBD6OtENW+p+FlHGfJmu3fCai1WIit2rIGItApAfXYPs0v17ovLIHNWBYH+9Rih7VQXIdCtX4ygWlzvGAH1zMITezdu7NlFKbJ+dD5DvyWDuIj5tBXXNNry//txCFk4dCRLLIeR4y2SumO8s1yxYABn4hnKoAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpneGQ3Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uPYEnPUU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 346BBC4CEF0;
-	Fri, 29 Aug 2025 19:51:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NpneGQ3Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D549C4CEF0;
+	Fri, 29 Aug 2025 22:19:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756497082;
-	bh=iE1fOPe+H/DOT9l+qqw7zhT3aTQ0dSMmo1kdS8d+f20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uPYEnPUUg4/LuQVFtqhOOS0tGS/0OVJpM+KchdKwqnpfkH0/J3whjo1E0NBxW4gpi
-	 uJDXfPT2+7W9SvWuvKxITtr+9wgDa0PLPjlOlPveFqy+zGxeJXRW3bmLtv6e6tXZkm
-	 Lt0jKmNEbrsoJG57fd3KAzrHhMHII+VJCvAN8o9yIncXsE2LjVvdVRlbplw8VmHBsq
-	 nEieoqr4Hd58x1XnW+1xWPl9IbBCsaBFlrOtBOQRsS5iKDBvoMcj7GYIAOBvWu/48K
-	 9ZUoI9CDe2TXQXinfy+0J0W3S8zuoPtSs1TE+Ci/Y2CLPC2Ymd1DL36wGlg46kmRHz
-	 JZChNYlMpZoRQ==
-Date: Fri, 29 Aug 2025 14:51:19 -0500
-From: Rob Herring <robh@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
- Pro/Max/Ultra devices
-Message-ID: <20250829195119.GA1206685-robh@kernel.org>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+	s=k20201202; t=1756505962;
+	bh=0bwPfbMyrek5L9hOu7GBREJXWyINw9aI7B0CsO+yy18=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=NpneGQ3QoAZZMVPOqxAMTMsnXEod1MdR9ylvjRjnlUJ/5Mz3jdgYOeIgkfRKPhZ/U
+	 vShN87eLYGT8BEANkp63jXP/WsDTW3PU0xitnIZmnudm3QKOtQPPDMN6lDjVT1DMy6
+	 XFRyCvB6YJQmelc7Wn3BJtfB7gPtsENP28OUr9nZgR3Z3uJVJ4N4zjTqq2R/gAAsif
+	 WTFcvK4iQOHAl7e/mRAw01njvP6SR0PeP/vp9kcpLKktQGVHBqKVQ45BB3W4Cv3bfY
+	 SvtEaHF5gGrpETbJNljug4x3qCKcghxgOt/gZHQtCpaow0R9q2yCiFsgb9Uaue3SoT
+	 1eYuRWMtynFfw==
+From: Mark Brown <broonie@kernel.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Linux Documentation <linux-doc@vger.kernel.org>, 
+ Linux DAMON <damon@lists.linux.dev>, 
+ Linux Memory Management List <linux-mm@kvack.org>, 
+ Linux Power Management <linux-pm@vger.kernel.org>, 
+ Linux Block Devices <linux-block@vger.kernel.org>, 
+ Linux BPF <bpf@vger.kernel.org>, 
+ Linux Kernel Workflows <workflows@vger.kernel.org>, 
+ Linux KASAN <kasan-dev@googlegroups.com>, 
+ Linux Devicetree <devicetree@vger.kernel.org>, 
+ Linux fsverity <fsverity@lists.linux.dev>, 
+ Linux MTD <linux-mtd@lists.infradead.org>, 
+ Linux DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel Build System <linux-lbuild@vger.kernel.org>, 
+ Linux Networking <netdev@vger.kernel.org>, 
+ Linux Sound <linux-sound@vger.kernel.org>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@redhat.com>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+ Alexander Potapenko <glider@google.com>, 
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>, 
+ tytso@mit.edu, Richard Weinberger <richard@nod.at>, 
+ Zhihao Cheng <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nicolas Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>, 
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Waiman Long <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Shay Agroskin <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>, 
+ David Arinzon <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>, 
+ Andrew Lunn <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Alexandru Ciobotaru <alcioa@amazon.com>, 
+ The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Steve French <stfrench@microsoft.com>, 
+ Meetakshi Setiya <msetiya@microsoft.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Bart Van Assche <bvanassche@acm.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Masahiro Yamada <masahiroy@kernel.org>
+In-Reply-To: <20250829075524.45635-1-bagasdotme@gmail.com>
+References: <20250829075524.45635-1-bagasdotme@gmail.com>
+Subject: Re: (subset) [PATCH 00/14] Internalize www.kernel.org/doc
+ cross-reference
+Message-Id: <175650594072.395832.3911302052314725751.b4-ty@kernel.org>
+Date: Fri, 29 Aug 2025 23:19:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-a9b2a
 
-On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
-> This series adds device trees for Apple's M2 Pro, Max and Ultra based
-> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
-> follow design of the t600x family so copy the structure of SoC *.dtsi
-> files.
+On Fri, 29 Aug 2025 14:55:10 +0700, Bagas Sanjaya wrote:
+> Cross-references to other docs (so-called internal links) are typically
+> done following Documentation/doc-guide/sphinx.rst: either simply
+> write the target docs (preferred) or use :doc: or :ref: reST directives
+> (for use-cases like having anchor text or cross-referencing sections).
+> In some places, however, links to https://www.kernel.org/doc
+> are used instead (outgoing, external links), owing inconsistency as
+> these requires Internet connection only to see docs that otherwise
+> can be accessed locally (after building with ``make htmldocs``).
 > 
-> t6020 is a cut-down version of t6021, so the former just includes the
-> latter and disables the missing bits.
-> 
-> t6022 is two connected t6021 dies. The implementation seems to use
-> t6021 and disables blocks based on whether it is useful to carry
-> multiple instances. The disabled blocks are mostly on the second die.
-> MMIO addresses on the second die have a constant offset. The interrupt
-> controller is multi-die aware. This setup can be represented in the
-> device tree with two top level "soc" nodes. The MMIO offset is applied
-> via "ranges" and devices are included with preprocessor macros to make
-> the node labels unique and to specify the die number for the interrupt
-> definition.
-> 
-> The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
-> counterparts. The existing device templates are SoC agnostic so the new
-> devices can reuse them and include their t602{0,1,2}.dtsi file. The
-> minor differences in pinctrl and gpio numbers can be easily adjusted.
-> 
-> With the t602x SoC family Apple introduced two new devices:
-> 
-> The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
-> missing SDHCI card reader and two front USB3.1 type-c ports and their
-> internal USB hub can be easily deleted.
-> 
-> The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
-> devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
-> implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
-> calls the PCIe controller "apcie-ge" in their device tree. The
-> implementation seems to be mostly compatible with the base t6020 PCIe
-> controller. The main difference is that there is only a single port with
-> with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
-> Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
-> and PCIe slots connect too.
-> 
-> This series does not include PCIe support for the Mac Pro for two
-> reasons:
-> - the linux switchtec driver fails to probe and the downstream PCIe
->   connections come up as PCIe Gen1
-> - some of the internal devices require PERST# and power control to come
->   up. Since the device are connected via the PCIe switch the PCIe
->   controller can not do this. The PCI slot pwrctrl can be utilized for
->   power control but misses integration with PERST# as proposed in [1].
-> 
-> This series depends on "[PATCH v2 0/5] Apple device tree sync from
-> downstream kernel" [2] due to the reuse of the t600x device templates
-> (patch dependencies and DT compilation) and 4 page table level support
-> in apple-dart and io-pgtable-dart [3] since the dart instances report
-> 42-bit IAS (IOMMU device attach fails without the series).
-> 
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatibles anymore [1]. Instead either the first
-> compatible SoC or t8103 is used as fallback compatible supported by the
-> drivers. t8103 is used as default since most drivers and bindings were
-> initially written for M1 based devices.
+> [...]
 
-An issue here is any OS without the compatibles added to the drivers 
-won't work. Does that matter here? Soon as you need any new drivers or 
-significant driver changes it won't. The compatible additions could be 
-backported to stable. They aren't really any different than new PCI IDs 
-which get backported.
+Applied to
 
-Rob
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[12/14] ASoC: doc: Internally link to Writing an ALSA Driver docs
+        commit: f522da9ab56c96db8703b2ea0f09be7cdc3bffeb
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
