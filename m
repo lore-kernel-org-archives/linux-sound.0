@@ -1,84 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792D6320CBD
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939043203A4
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478697; cv=none; b=Mj3QYIUpFdx52FgezkQ309jv+8q///epUpDnHUip+r/SJXz9Kek5hsOh9mjk7mpOqniNIkM4XHst8Hlc36OAPEsrlRZQKb2XtCICclo11s5YnBHkmLwUJtzUDXretyZTpnEntR7qdb4XiAyzH4NHgVzGG6WVK4gRd+7j4dlHwWM=
+	t=1756478701; cv=none; b=cPSo8lJxCLt5tvdIeRaxYeMf8VxgCUICXHBcX9Aq3Vyk0CEFSvPkdfjqoqHVR0QIj8MJZYICxvpuMuwdhM7lgaKmCf9caWIvWHqXw698TyeJhYOzdffK5Ztz398QfLYaoM4cRrPxXPIZGvY+lbie74XXhR/OfRhLgsTqs0/qlpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478697; c=relaxed/simple;
-	bh=eXGkLmbr9O+OJa9Rc7JdOJJ8tSlji/hooKH+9cqfvJo=;
+	s=arc-20240116; t=1756478701; c=relaxed/simple;
+	bh=yc2K5eU51MBtGj5PGM/9SZxV5SE8N8l3oew05uyBGH4=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TBY8ORpsoCzatJzOqGU/6JG+9H9vdbhUvrft/n8tt7V1LCu261lzlJO1y0ab/DkTiGS8aAUUkBh/iTAeAnAiPEp+8AROrpt35QsZ7yRbP1+tfJ7YMwvbqqO2yWfCXiyYK/P7zLqO1p1pxi043bPI5n+Y5BAktONLLuyfSOQxeJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dD6Q+byR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7Hkh27T0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dD6Q+byR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7Hkh27T0; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=B1HITr1YNDSxvdVlEoSPfxo9lGhvEzBT9yysMIm6FkCyT3ltS9xyU/ifai0/6TLPO97qF7b0Pu6NsHPOUCWn/AGwlZMeFYaZeCdzbhoeoFXaXyzGx3YpslAjdunsNcRvDVEvQ7nN2ucS7wVR5PmXVRkDrbBSo50I+L0RqgPW8zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lyl1WM8d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2HGP8OW+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lyl1WM8d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2HGP8OW+; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dD6Q+byR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7Hkh27T0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dD6Q+byR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7Hkh27T0"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lyl1WM8d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2HGP8OW+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lyl1WM8d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2HGP8OW+"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AAAFD5C22C;
-	Fri, 29 Aug 2025 14:43:57 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C74CB33ECB;
+	Fri, 29 Aug 2025 14:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cvVAog4OsP58Cl01VaPJaPoBlgA4i37VWIlBqpma+r8=;
-	b=dD6Q+byRyxLd2aDtuCmCrK/FYesh5u4hzUZLETYagHU7qu8GPsNneWaS7gXnFZlwaVdS26
-	eeOCECvw/p82gaU7QEtV8pM/4QKd7z/XE0lprSfTuvn6FexM8mcDfLBzIfBOcqEbsJO/nb
-	OkEZrAR9jGS2RzWBMoyhMZIJJHvWSG8=
+	bh=JFM3vT4yjBr74DTEyyEYSRMYxuDY8ZcfF6RFGvfHMYo=;
+	b=lyl1WM8dxB80vS52YbEUPo3Vm5sUGP/vzA2iUWOo3mi163bOOnUYB0kGxE6atOhIzyg8Wo
+	OyYp2Ad6NHqcMVAtBRS098KdSfJw+X2yQpF6Y+0fVwa+Tv4rz8weRDETvB9kx8Nz8nFRs3
+	9+S25b/jo2K+0W/NbHjhT5pLvT92kVE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478637;
+	s=susede2_ed25519; t=1756478639;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cvVAog4OsP58Cl01VaPJaPoBlgA4i37VWIlBqpma+r8=;
-	b=7Hkh27T0C38l24hRKEHxKahqqWNFz7QgmKynVCPsvazz7eyEV5IfoX2KB9NgDAMyBEZNqv
-	UguxUEWO4zCFEMAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dD6Q+byR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7Hkh27T0
+	bh=JFM3vT4yjBr74DTEyyEYSRMYxuDY8ZcfF6RFGvfHMYo=;
+	b=2HGP8OW+V8NM/eXcFWTipv8rA+YAzoB5qAp0rgrY/VpFbwtos7uzW/wgUEThUjq4xxgigv
+	pSNeQSZUEEgOweCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lyl1WM8d;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2HGP8OW+
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cvVAog4OsP58Cl01VaPJaPoBlgA4i37VWIlBqpma+r8=;
-	b=dD6Q+byRyxLd2aDtuCmCrK/FYesh5u4hzUZLETYagHU7qu8GPsNneWaS7gXnFZlwaVdS26
-	eeOCECvw/p82gaU7QEtV8pM/4QKd7z/XE0lprSfTuvn6FexM8mcDfLBzIfBOcqEbsJO/nb
-	OkEZrAR9jGS2RzWBMoyhMZIJJHvWSG8=
+	bh=JFM3vT4yjBr74DTEyyEYSRMYxuDY8ZcfF6RFGvfHMYo=;
+	b=lyl1WM8dxB80vS52YbEUPo3Vm5sUGP/vzA2iUWOo3mi163bOOnUYB0kGxE6atOhIzyg8Wo
+	OyYp2Ad6NHqcMVAtBRS098KdSfJw+X2yQpF6Y+0fVwa+Tv4rz8weRDETvB9kx8Nz8nFRs3
+	9+S25b/jo2K+0W/NbHjhT5pLvT92kVE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478637;
+	s=susede2_ed25519; t=1756478639;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cvVAog4OsP58Cl01VaPJaPoBlgA4i37VWIlBqpma+r8=;
-	b=7Hkh27T0C38l24hRKEHxKahqqWNFz7QgmKynVCPsvazz7eyEV5IfoX2KB9NgDAMyBEZNqv
-	UguxUEWO4zCFEMAw==
+	bh=JFM3vT4yjBr74DTEyyEYSRMYxuDY8ZcfF6RFGvfHMYo=;
+	b=2HGP8OW+V8NM/eXcFWTipv8rA+YAzoB5qAp0rgrY/VpFbwtos7uzW/wgUEThUjq4xxgigv
+	pSNeQSZUEEgOweCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BD0C13A3E;
-	Fri, 29 Aug 2025 14:43:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A487813A54;
+	Fri, 29 Aug 2025 14:43:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4G/BIK28sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:57 +0000
+	id ED8MJ6+8sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:59 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 17/61] ALSA: cmipci: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:42:52 +0200
-Message-ID: <20250829144342.4290-18-tiwai@suse.de>
+Subject: [PATCH 24/61] ALSA: echoaudio: Use guard() for mutex locks
+Date: Fri, 29 Aug 2025 16:42:59 +0200
+Message-ID: <20250829144342.4290-25-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -89,11 +89,6 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: AAAFD5C22C
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -104,11 +99,11 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCPT_COUNT_ONE(0.00)[1];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -118,503 +113,171 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C74CB33ECB
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-Spam-Score: -3.01
 
-Clean up the code using guard() for spin locks.
+Replace the manual mutex lock/unlock pairs with guard() for code
+simplification.
 
-Merely code refactoring, and no behavior change.
+Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/cmipci.c | 165 +++++++++++++++++++--------------------------
- 1 file changed, 69 insertions(+), 96 deletions(-)
+ sound/pci/echoaudio/echoaudio.c | 36 +++++++++++++--------------------
+ 1 file changed, 14 insertions(+), 22 deletions(-)
 
-diff --git a/sound/pci/cmipci.c b/sound/pci/cmipci.c
-index cfd80a24580c..0666be543474 100644
---- a/sound/pci/cmipci.c
-+++ b/sound/pci/cmipci.c
-@@ -712,7 +712,7 @@ static int set_dac_channels(struct cmipci *cm, struct cmipci_pcm *rec, int chann
+diff --git a/sound/pci/echoaudio/echoaudio.c b/sound/pci/echoaudio/echoaudio.c
+index 2b33ef588ac3..4cfe8ad97069 100644
+--- a/sound/pci/echoaudio/echoaudio.c
++++ b/sound/pci/echoaudio/echoaudio.c
+@@ -237,7 +237,7 @@ static int hw_rule_sample_rate(struct snd_pcm_hw_params *params,
+ 	struct snd_interval fixed;
+ 	int err;
+ 
+-	mutex_lock(&chip->mode_mutex);
++	guard(mutex)(&chip->mode_mutex);
+ 
+ 	if (chip->can_set_rate) {
+ 		err = 0;
+@@ -247,7 +247,6 @@ static int hw_rule_sample_rate(struct snd_pcm_hw_params *params,
+ 		err = snd_interval_refine(rate, &fixed);
  	}
  
- 	if (cm->can_multi_ch) {
--		spin_lock_irq(&cm->reg_lock);
-+		guard(spinlock_irq)(&cm->reg_lock);
- 		if (channels > 2) {
- 			snd_cmipci_set_bit(cm, CM_REG_LEGACY_CTRL, CM_NXCHG);
- 			snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_XCHGDAC);
-@@ -735,7 +735,6 @@ static int set_dac_channels(struct cmipci *cm, struct cmipci_pcm *rec, int chann
- 			snd_cmipci_set_bit(cm, CM_REG_CHFORMAT, CM_CHB3D);
- 		else
- 			snd_cmipci_clear_bit(cm, CM_REG_CHFORMAT, CM_CHB3D);
--		spin_unlock_irq(&cm->reg_lock);
- 	}
- 	return 0;
+-	mutex_unlock(&chip->mode_mutex);
+ 	return err;
  }
-@@ -776,7 +775,7 @@ static int snd_cmipci_pcm_prepare(struct cmipci *cm, struct cmipci_pcm *rec,
- 		period_size = (period_size * runtime->channels) / 2;
- 	}
  
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
+@@ -415,7 +414,7 @@ static int pcm_digital_in_open(struct snd_pcm_substream *substream)
+ 	int err, max_channels;
  
- 	/* set buffer address */
- 	reg = rec->ch ? CM_REG_CH1_FRAME1 : CM_REG_CH0_FRAME1;
-@@ -842,7 +841,6 @@ static int snd_cmipci_pcm_prepare(struct cmipci *cm, struct cmipci_pcm *rec,
- 	}
+ 	max_channels = num_digital_busses_in(chip) - substream->number;
+-	mutex_lock(&chip->mode_mutex);
++	guard(mutex)(&chip->mode_mutex);
+ 	if (chip->digital_mode == DIGITAL_MODE_ADAT)
+ 		err = pcm_open(substream, max_channels);
+ 	else	/* If the card has ADAT, subtract the 6 channels
+@@ -424,24 +423,22 @@ static int pcm_digital_in_open(struct snd_pcm_substream *substream)
+ 		err = pcm_open(substream, max_channels - ECHOCARD_HAS_ADAT);
  
- 	rec->running = 0;
--	spin_unlock_irq(&cm->reg_lock);
+ 	if (err < 0)
+-		goto din_exit;
++		return err;
  
- 	return 0;
- }
-@@ -854,14 +852,13 @@ static int snd_cmipci_pcm_trigger(struct cmipci *cm, struct cmipci_pcm *rec,
- 				  int cmd)
- {
- 	unsigned int inthld, chen, reset, pause;
--	int result = 0;
+ 	err = snd_pcm_hw_rule_add(substream->runtime, 0,
+ 				  SNDRV_PCM_HW_PARAM_CHANNELS,
+ 				  hw_rule_capture_channels_by_format, NULL,
+ 				  SNDRV_PCM_HW_PARAM_FORMAT, -1);
+ 	if (err < 0)
+-		goto din_exit;
++		return err;
+ 	err = snd_pcm_hw_rule_add(substream->runtime, 0,
+ 				  SNDRV_PCM_HW_PARAM_FORMAT,
+ 				  hw_rule_capture_format_by_channels, NULL,
+ 				  SNDRV_PCM_HW_PARAM_CHANNELS, -1);
+ 	if (err < 0)
+-		goto din_exit;
++		return err;
  
- 	inthld = CM_CH0_INT_EN << rec->ch;
- 	chen = CM_CHEN0 << rec->ch;
- 	reset = CM_RST_CH0 << rec->ch;
- 	pause = CM_PAUSE0 << rec->ch;
- 
--	spin_lock(&cm->reg_lock);
-+	guard(spinlock)(&cm->reg_lock);
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 		rec->running = 1;
-@@ -893,11 +890,9 @@ static int snd_cmipci_pcm_trigger(struct cmipci *cm, struct cmipci_pcm *rec,
- 		snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl);
- 		break;
- 	default:
--		result = -EINVAL;
--		break;
-+		return -EINVAL;
- 	}
--	spin_unlock(&cm->reg_lock);
--	return result;
+-din_exit:
+-	mutex_unlock(&chip->mode_mutex);
+-	return err;
 +	return 0;
  }
  
- /*
-@@ -987,10 +982,9 @@ static int snd_cmipci_spdif_default_get(struct snd_kcontrol *kcontrol,
- 	struct cmipci *chip = snd_kcontrol_chip(kcontrol);
- 	int i;
  
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	for (i = 0; i < 4; i++)
- 		ucontrol->value.iec958.status[i] = (chip->dig_status >> (i * 8)) & 0xff;
--	spin_unlock_irq(&chip->reg_lock);
+@@ -454,7 +451,7 @@ static int pcm_digital_out_open(struct snd_pcm_substream *substream)
+ 	int err, max_channels;
+ 
+ 	max_channels = num_digital_busses_out(chip) - substream->number;
+-	mutex_lock(&chip->mode_mutex);
++	guard(mutex)(&chip->mode_mutex);
+ 	if (chip->digital_mode == DIGITAL_MODE_ADAT)
+ 		err = pcm_open(substream, max_channels);
+ 	else	/* If the card has ADAT, subtract the 6 channels
+@@ -463,7 +460,7 @@ static int pcm_digital_out_open(struct snd_pcm_substream *substream)
+ 		err = pcm_open(substream, max_channels - ECHOCARD_HAS_ADAT);
+ 
+ 	if (err < 0)
+-		goto dout_exit;
++		return err;
+ 
+ 	err = snd_pcm_hw_rule_add(substream->runtime, 0,
+ 				  SNDRV_PCM_HW_PARAM_CHANNELS,
+@@ -471,18 +468,16 @@ static int pcm_digital_out_open(struct snd_pcm_substream *substream)
+ 				  NULL, SNDRV_PCM_HW_PARAM_FORMAT,
+ 				  -1);
+ 	if (err < 0)
+-		goto dout_exit;
++		return err;
+ 	err = snd_pcm_hw_rule_add(substream->runtime, 0,
+ 				  SNDRV_PCM_HW_PARAM_FORMAT,
+ 				  hw_rule_playback_format_by_channels,
+ 				  NULL, SNDRV_PCM_HW_PARAM_CHANNELS,
+ 				  -1);
+ 	if (err < 0)
+-		goto dout_exit;
++		return err;
+ 
+-dout_exit:
+-	mutex_unlock(&chip->mode_mutex);
+-	return err;
++	return 0;
+ }
+ 
+ #endif /* !ECHOCARD_HAS_VMIXER */
+@@ -499,7 +494,7 @@ static int pcm_close(struct snd_pcm_substream *substream)
+ 	 * freed by its callback
+ 	 */
+ 
+-	mutex_lock(&chip->mode_mutex);
++	guard(mutex)(&chip->mode_mutex);
+ 
+ 	dev_dbg(chip->card->dev, "pcm_open opencount=%d can_set_rate=%d, rate_set=%d",
+ 		chip->opencount, chip->can_set_rate, chip->rate_set);
+@@ -516,7 +511,6 @@ static int pcm_close(struct snd_pcm_substream *substream)
+ 		break;
+ 	}
+ 
+-	mutex_unlock(&chip->mode_mutex);
  	return 0;
  }
  
-@@ -1002,12 +996,11 @@ static int snd_cmipci_spdif_default_put(struct snd_kcontrol *kcontrol,
- 	unsigned int val;
+@@ -1440,7 +1434,7 @@ static int snd_echo_digital_mode_put(struct snd_kcontrol *kcontrol,
+ 	if (dmode != chip->digital_mode) {
+ 		/* mode_mutex is required to make this operation atomic wrt
+ 		pcm_digital_*_open() and set_input_clock() functions. */
+-		mutex_lock(&chip->mode_mutex);
++		guard(mutex)(&chip->mode_mutex);
  
- 	val = 0;
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	for (i = 0; i < 4; i++)
- 		val |= (unsigned int)ucontrol->value.iec958.status[i] << (i * 8);
- 	change = val != chip->dig_status;
- 	chip->dig_status = val;
--	spin_unlock_irq(&chip->reg_lock);
- 	return change;
- }
- 
-@@ -1061,10 +1054,9 @@ static int snd_cmipci_spdif_stream_get(struct snd_kcontrol *kcontrol,
- 	struct cmipci *chip = snd_kcontrol_chip(kcontrol);
- 	int i;
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	for (i = 0; i < 4; i++)
- 		ucontrol->value.iec958.status[i] = (chip->dig_pcm_status >> (i * 8)) & 0xff;
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -1076,12 +1068,11 @@ static int snd_cmipci_spdif_stream_put(struct snd_kcontrol *kcontrol,
- 	unsigned int val;
- 
- 	val = 0;
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	for (i = 0; i < 4; i++)
- 		val |= (unsigned int)ucontrol->value.iec958.status[i] << (i * 8);
- 	change = val != chip->dig_pcm_status;
- 	chip->dig_pcm_status = val;
--	spin_unlock_irq(&chip->reg_lock);
- 	return change;
- }
- 
-@@ -1225,7 +1216,7 @@ static int setup_spdif_playback(struct cmipci *cm, struct snd_pcm_substream *sub
- 			return err;
- 	}
- 
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	cm->spdif_playback_avail = up;
- 	if (up) {
- 		/* they are controlled via "IEC958 Output Switch" */
-@@ -1251,7 +1242,6 @@ static int setup_spdif_playback(struct cmipci *cm, struct snd_pcm_substream *sub
- 		snd_cmipci_clear_bit(cm, CM_REG_FUNCTRL1, CM_PLAYBACK_SPDF);
- 		setup_ac3(cm, subs, 0, 0);
- 	}
--	spin_unlock_irq(&cm->reg_lock);
- 	return 0;
- }
- 
-@@ -1317,32 +1307,32 @@ static void snd_cmipci_silence_hack(struct cmipci *cm, struct cmipci_pcm *rec)
- 		/* configure for 16 bits, 2 channels, 8 kHz */
- 		if (runtime->channels > 2)
- 			set_dac_channels(cm, rec, 2);
--		spin_lock_irq(&cm->reg_lock);
--		val = snd_cmipci_read(cm, CM_REG_FUNCTRL1);
--		val &= ~(CM_ASFC_MASK << (rec->ch * 3));
--		val |= (4 << CM_ASFC_SHIFT) << (rec->ch * 3);
--		snd_cmipci_write(cm, CM_REG_FUNCTRL1, val);
--		val = snd_cmipci_read(cm, CM_REG_CHFORMAT);
--		val &= ~(CM_CH0FMT_MASK << (rec->ch * 2));
--		val |= (3 << CM_CH0FMT_SHIFT) << (rec->ch * 2);
--		if (cm->can_96k)
--			val &= ~(CM_CH0_SRATE_MASK << (rec->ch * 2));
--		snd_cmipci_write(cm, CM_REG_CHFORMAT, val);
-+		scoped_guard(spinlock_irq, &cm->reg_lock) {
-+			val = snd_cmipci_read(cm, CM_REG_FUNCTRL1);
-+			val &= ~(CM_ASFC_MASK << (rec->ch * 3));
-+			val |= (4 << CM_ASFC_SHIFT) << (rec->ch * 3);
-+			snd_cmipci_write(cm, CM_REG_FUNCTRL1, val);
-+			val = snd_cmipci_read(cm, CM_REG_CHFORMAT);
-+			val &= ~(CM_CH0FMT_MASK << (rec->ch * 2));
-+			val |= (3 << CM_CH0FMT_SHIFT) << (rec->ch * 2);
-+			if (cm->can_96k)
-+				val &= ~(CM_CH0_SRATE_MASK << (rec->ch * 2));
-+			snd_cmipci_write(cm, CM_REG_CHFORMAT, val);
- 	
--		/* start stream (we don't need interrupts) */
--		cm->ctrl |= CM_CHEN0 << rec->ch;
--		snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl);
--		spin_unlock_irq(&cm->reg_lock);
-+			/* start stream (we don't need interrupts) */
-+			cm->ctrl |= CM_CHEN0 << rec->ch;
-+			snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl);
-+		}
- 
- 		msleep(1);
- 
- 		/* stop and reset stream */
--		spin_lock_irq(&cm->reg_lock);
--		cm->ctrl &= ~(CM_CHEN0 << rec->ch);
--		val = CM_RST_CH0 << rec->ch;
--		snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl | val);
--		snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl & ~val);
--		spin_unlock_irq(&cm->reg_lock);
-+		scoped_guard(spinlock_irq, &cm->reg_lock) {
-+			cm->ctrl &= ~(CM_CHEN0 << rec->ch);
-+			val = CM_RST_CH0 << rec->ch;
-+			snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl | val);
-+			snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl & ~val);
-+		}
- 
- 		rec->needs_silencing = 0;
- 	}
-@@ -1376,20 +1366,19 @@ static int snd_cmipci_capture_spdif_prepare(struct snd_pcm_substream *substream)
- {
- 	struct cmipci *cm = snd_pcm_substream_chip(substream);
- 
--	spin_lock_irq(&cm->reg_lock);
--	snd_cmipci_set_bit(cm, CM_REG_FUNCTRL1, CM_CAPTURE_SPDF);
--	if (cm->can_96k) {
--		if (substream->runtime->rate > 48000)
--			snd_cmipci_set_bit(cm, CM_REG_CHFORMAT, CM_DBLSPDS);
-+	scoped_guard(spinlock_irq, &cm->reg_lock) {
-+		snd_cmipci_set_bit(cm, CM_REG_FUNCTRL1, CM_CAPTURE_SPDF);
-+		if (cm->can_96k) {
-+			if (substream->runtime->rate > 48000)
-+				snd_cmipci_set_bit(cm, CM_REG_CHFORMAT, CM_DBLSPDS);
-+			else
-+				snd_cmipci_clear_bit(cm, CM_REG_CHFORMAT, CM_DBLSPDS);
-+		}
-+		if (snd_pcm_format_width(substream->runtime->format) > 16)
-+			snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
- 		else
--			snd_cmipci_clear_bit(cm, CM_REG_CHFORMAT, CM_DBLSPDS);
-+			snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
- 	}
--	if (snd_pcm_format_width(substream->runtime->format) > 16)
--		snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
--	else
--		snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
--
--	spin_unlock_irq(&cm->reg_lock);
- 
- 	return snd_cmipci_pcm_prepare(cm, &cm->channel[CM_CH_CAPT], substream);
- }
-@@ -1398,10 +1387,9 @@ static int snd_cmipci_capture_spdif_hw_free(struct snd_pcm_substream *subs)
- {
- 	struct cmipci *cm = snd_pcm_substream_chip(subs);
- 
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	snd_cmipci_clear_bit(cm, CM_REG_FUNCTRL1, CM_CAPTURE_SPDF);
- 	snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
--	spin_unlock_irq(&cm->reg_lock);
- 
- 	return 0;
- }
-@@ -1421,14 +1409,14 @@ static irqreturn_t snd_cmipci_interrupt(int irq, void *dev_id)
- 		return IRQ_NONE;
- 
- 	/* acknowledge interrupt */
--	spin_lock(&cm->reg_lock);
--	if (status & CM_CHINT0)
--		mask |= CM_CH0_INT_EN;
--	if (status & CM_CHINT1)
--		mask |= CM_CH1_INT_EN;
--	snd_cmipci_clear_bit(cm, CM_REG_INT_HLDCLR, mask);
--	snd_cmipci_set_bit(cm, CM_REG_INT_HLDCLR, mask);
--	spin_unlock(&cm->reg_lock);
-+	scoped_guard(spinlock, &cm->reg_lock) {
-+		if (status & CM_CHINT0)
-+			mask |= CM_CH0_INT_EN;
-+		if (status & CM_CHINT1)
-+			mask |= CM_CH1_INT_EN;
-+		snd_cmipci_clear_bit(cm, CM_REG_INT_HLDCLR, mask);
-+		snd_cmipci_set_bit(cm, CM_REG_INT_HLDCLR, mask);
-+	}
- 
- 	if (cm->rmidi && (status & CM_UARTINT))
- 		snd_mpu401_uart_interrupt(irq, cm->rmidi->private_data);
-@@ -1587,9 +1575,8 @@ static int open_device_check(struct cmipci *cm, int mode, struct snd_pcm_substre
- 	if (! (mode & CM_OPEN_DAC)) {
- 		/* disable dual DAC mode */
- 		cm->channel[ch].is_dac = 0;
--		spin_lock_irq(&cm->reg_lock);
-+		guard(spinlock_irq)(&cm->reg_lock);
- 		snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_ENDBDAC);
--		spin_unlock_irq(&cm->reg_lock);
- 	}
- 	return 0;
- }
-@@ -1609,9 +1596,8 @@ static void close_device_check(struct cmipci *cm, int mode)
- 		if (! cm->channel[ch].is_dac) {
- 			/* enable dual DAC mode again */
- 			cm->channel[ch].is_dac = 1;
--			spin_lock_irq(&cm->reg_lock);
-+			guard(spinlock_irq)(&cm->reg_lock);
- 			snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_ENDBDAC);
--			spin_unlock_irq(&cm->reg_lock);
+ 		/* Do not allow the user to change the digital mode when a pcm
+ 		device is open because it also changes the number of channels
+@@ -1460,7 +1454,6 @@ static int snd_echo_digital_mode_put(struct snd_kcontrol *kcontrol,
+ 			if (changed >= 0)
+ 				changed = 1;	/* No errors */
  		}
+-		mutex_unlock(&chip->mode_mutex);
  	}
+ 	return changed;
  }
-@@ -2002,7 +1988,7 @@ static int snd_cmipci_get_volume(struct snd_kcontrol *kcontrol,
- 	int val;
- 
- 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	val = (snd_cmipci_mixer_read(cm, reg.left_reg) >> reg.left_shift) & reg.mask;
- 	if (reg.invert)
- 		val = reg.mask - val;
-@@ -2013,7 +1999,6 @@ static int snd_cmipci_get_volume(struct snd_kcontrol *kcontrol,
- 			val = reg.mask - val;
- 		ucontrol->value.integer.value[1] = val;
+@@ -1573,13 +1566,12 @@ static int snd_echo_clock_source_put(struct snd_kcontrol *kcontrol,
+ 		return -EINVAL;
+ 	dclock = chip->clock_source_list[eclock];
+ 	if (chip->input_clock != dclock) {
+-		mutex_lock(&chip->mode_mutex);
++		guard(mutex)(&chip->mode_mutex);
+ 		spin_lock_irq(&chip->lock);
+ 		changed = set_input_clock(chip, dclock);
+ 		if (!changed)
+ 			changed = 1;	/* no errors */
+ 		spin_unlock_irq(&chip->lock);
+-		mutex_unlock(&chip->mode_mutex);
  	}
--	spin_unlock_irq(&cm->reg_lock);
- 	return 0;
- }
  
-@@ -2037,7 +2022,7 @@ static int snd_cmipci_put_volume(struct snd_kcontrol *kcontrol,
- 		right <<= reg.right_shift;
- 	} else
- 		right = 0;
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	oleft = snd_cmipci_mixer_read(cm, reg.left_reg);
- 	left |= oleft & ~(reg.mask << reg.left_shift);
- 	change = left != oleft;
-@@ -2052,7 +2037,6 @@ static int snd_cmipci_put_volume(struct snd_kcontrol *kcontrol,
- 		snd_cmipci_mixer_write(cm, reg.right_reg, right);
- 	} else
- 		snd_cmipci_mixer_write(cm, reg.left_reg, left);
--	spin_unlock_irq(&cm->reg_lock);
- 	return change;
- }
- 
-@@ -2084,10 +2068,9 @@ static int snd_cmipci_get_input_sw(struct snd_kcontrol *kcontrol,
- 	int val1, val2;
- 
- 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	val1 = snd_cmipci_mixer_read(cm, reg.left_reg);
- 	val2 = snd_cmipci_mixer_read(cm, reg.right_reg);
--	spin_unlock_irq(&cm->reg_lock);
- 	ucontrol->value.integer.value[0] = (val1 >> reg.left_shift) & 1;
- 	ucontrol->value.integer.value[1] = (val2 >> reg.left_shift) & 1;
- 	ucontrol->value.integer.value[2] = (val1 >> reg.right_shift) & 1;
-@@ -2104,7 +2087,7 @@ static int snd_cmipci_put_input_sw(struct snd_kcontrol *kcontrol,
- 	int val1, val2, oval1, oval2;
- 
- 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	oval1 = snd_cmipci_mixer_read(cm, reg.left_reg);
- 	oval2 = snd_cmipci_mixer_read(cm, reg.right_reg);
- 	val1 = oval1 & ~((1 << reg.left_shift) | (1 << reg.right_shift));
-@@ -2116,7 +2099,6 @@ static int snd_cmipci_put_input_sw(struct snd_kcontrol *kcontrol,
- 	change = val1 != oval1 || val2 != oval2;
- 	snd_cmipci_mixer_write(cm, reg.left_reg, val1);
- 	snd_cmipci_mixer_write(cm, reg.right_reg, val2);
--	spin_unlock_irq(&cm->reg_lock);
- 	return change;
- }
- 
-@@ -2174,7 +2156,7 @@ static int snd_cmipci_get_native_mixer(struct snd_kcontrol *kcontrol,
- 	unsigned char oreg, val;
- 
- 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	oreg = inb(cm->iobase + reg.left_reg);
- 	val = (oreg >> reg.left_shift) & reg.mask;
- 	if (reg.invert)
-@@ -2186,7 +2168,6 @@ static int snd_cmipci_get_native_mixer(struct snd_kcontrol *kcontrol,
- 			val = reg.mask - val;
- 		ucontrol->value.integer.value[1] = val;
- 	}
--	spin_unlock_irq(&cm->reg_lock);
- 	return 0;
- }
- 
-@@ -2198,7 +2179,7 @@ static int snd_cmipci_put_native_mixer(struct snd_kcontrol *kcontrol,
- 	unsigned char oreg, nreg, val;
- 
- 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	oreg = inb(cm->iobase + reg.left_reg);
- 	val = ucontrol->value.integer.value[0] & reg.mask;
- 	if (reg.invert)
-@@ -2213,7 +2194,6 @@ static int snd_cmipci_put_native_mixer(struct snd_kcontrol *kcontrol,
- 		nreg |= (val << reg.right_shift);
- 	}
- 	outb(nreg, cm->iobase + reg.left_reg);
--	spin_unlock_irq(&cm->reg_lock);
- 	return (nreg != oreg);
- }
- 
-@@ -2300,10 +2280,9 @@ static int _snd_cmipci_uswitch_get(struct snd_kcontrol *kcontrol,
- 	unsigned int val;
- 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
- 
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	if (args->ac3_sensitive && cm->mixer_insensitive) {
- 		ucontrol->value.integer.value[0] = 0;
--		spin_unlock_irq(&cm->reg_lock);
- 		return 0;
- 	}
- 	if (args->is_byte)
-@@ -2311,7 +2290,6 @@ static int _snd_cmipci_uswitch_get(struct snd_kcontrol *kcontrol,
- 	else
- 		val = snd_cmipci_read(cm, args->reg);
- 	ucontrol->value.integer.value[0] = ((val & args->mask) == args->mask_on) ? 1 : 0;
--	spin_unlock_irq(&cm->reg_lock);
- 	return 0;
- }
- 
-@@ -2333,10 +2311,9 @@ static int _snd_cmipci_uswitch_put(struct snd_kcontrol *kcontrol,
- 	int change;
- 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
- 
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	if (args->ac3_sensitive && cm->mixer_insensitive) {
- 		/* ignored */
--		spin_unlock_irq(&cm->reg_lock);
- 		return 0;
- 	}
- 	if (args->is_byte)
-@@ -2356,7 +2333,6 @@ static int _snd_cmipci_uswitch_put(struct snd_kcontrol *kcontrol,
- 		else
- 			snd_cmipci_write(cm, args->reg, val);
- 	}
--	spin_unlock_irq(&cm->reg_lock);
- 	return change;
- }
- 
-@@ -2489,9 +2465,8 @@ static int snd_cmipci_line_in_mode_get(struct snd_kcontrol *kcontrol,
- {
- 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
- 
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	ucontrol->value.enumerated.item[0] = get_line_in_mode(cm);
--	spin_unlock_irq(&cm->reg_lock);
- 	return 0;
- }
- 
-@@ -2501,7 +2476,7 @@ static int snd_cmipci_line_in_mode_put(struct snd_kcontrol *kcontrol,
- 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
- 	int change;
- 
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	if (ucontrol->value.enumerated.item[0] == 2)
- 		change = snd_cmipci_set_bit(cm, CM_REG_LEGACY_CTRL, CM_CENTR2LIN | CM_BASE2LIN);
- 	else
-@@ -2510,7 +2485,6 @@ static int snd_cmipci_line_in_mode_put(struct snd_kcontrol *kcontrol,
- 		change |= snd_cmipci_set_bit_b(cm, CM_REG_MIXER1, CM_REAR2LIN);
- 	else
- 		change |= snd_cmipci_clear_bit_b(cm, CM_REG_MIXER1, CM_REAR2LIN);
--	spin_unlock_irq(&cm->reg_lock);
- 	return change;
- }
- 
-@@ -2526,11 +2500,11 @@ static int snd_cmipci_mic_in_mode_get(struct snd_kcontrol *kcontrol,
- 				      struct snd_ctl_elem_value *ucontrol)
- {
- 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
-+
- 	/* same bit as spdi_phase */
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	ucontrol->value.enumerated.item[0] = 
- 		(snd_cmipci_read_b(cm, CM_REG_MISC) & CM_SPDIF_INVERSE) ? 1 : 0;
--	spin_unlock_irq(&cm->reg_lock);
- 	return 0;
- }
- 
-@@ -2540,12 +2514,11 @@ static int snd_cmipci_mic_in_mode_put(struct snd_kcontrol *kcontrol,
- 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
- 	int change;
- 
--	spin_lock_irq(&cm->reg_lock);
-+	guard(spinlock_irq)(&cm->reg_lock);
- 	if (ucontrol->value.enumerated.item[0])
- 		change = snd_cmipci_set_bit_b(cm, CM_REG_MISC, CM_SPDIF_INVERSE);
- 	else
- 		change = snd_cmipci_clear_bit_b(cm, CM_REG_MISC, CM_SPDIF_INVERSE);
--	spin_unlock_irq(&cm->reg_lock);
- 	return change;
- }
- 
-@@ -2627,9 +2600,9 @@ static int snd_cmipci_mixer_new(struct cmipci *cm, int pcm_spdif_device)
- 
- 	strscpy(card->mixername, "CMedia PCI");
- 
--	spin_lock_irq(&cm->reg_lock);
--	snd_cmipci_mixer_write(cm, 0x00, 0x00);		/* mixer reset */
--	spin_unlock_irq(&cm->reg_lock);
-+	scoped_guard(spinlock_irq, &cm->reg_lock) {
-+		snd_cmipci_mixer_write(cm, 0x00, 0x00);	/* mixer reset */
-+	}
- 
- 	for (idx = 0; idx < ARRAY_SIZE(snd_cmipci_mixers); idx++) {
- 		if (cm->chip_version == 68) {	// 8768 has no PCM volume
+ 	if (changed < 0)
 -- 
 2.50.1
 
