@@ -1,151 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA0B1E0E1F;
-	Fri, 29 Aug 2025 08:46:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01EB0273804
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 09:09:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756457189; cv=none; b=Bm7Pe8eixP/wzL4vyNii3dRwp76NSb5bgtW6Rmrtg+1yZceBIcjuxUQWwwNHpPT9w0Xx5O0gbUzUGN6gX+Y6ylTzys9xmG+A5XDnJElxIFQCgKxEgU6/4ZISuSHLBE/PLun0nno8v2c783FmT6QydticnzPiIXLrDUXwriOvFME=
+	t=1756458584; cv=none; b=Ohhh5joI/LgD78xSJ2BOu/tKPe8tZ7su+GMkxHFsl8A3pJtxr8+aDuY7kXDDD9G4wACMA2rbmQenjINwhRex76kZcCQsLS0xMop96WllB9gZucIWOACOQf2IHe9HuEFRndWT2PGu1jcG+Id69iz3NsxRy8m/WL8cg/cMZPSsmbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756457189; c=relaxed/simple;
-	bh=DialTkaZ2UwEoPpeuNzfbQp3IDqYgtAn+UUymBTw6Io=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QLrifNB62Z6PX6av6qt5mYGeq11a5ncxRaw91noa4JiH/M2Nbl3VXX0KNUwo3WQQ0sFbmSaG2QXC0BM80013R2pLJziTHIPF2Rcz9bcNWviPt2YqWRHnVBAXf0KKbNJ1qoARNNax6dhebGcaGFStV7IsShdnDB22WegbgMYDxwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Urlg8agv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756458584; c=relaxed/simple;
+	bh=gp0NkXAwsaMNEVMt9E7wsKeDRKCegVjSnZ5p9RsWRWc=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=it8cEKamD/aTCUiQWcEJFGSXHJhPfSv+V0w9Ql5SidFkhW6EW7kjewlQXgQH0GH/esIfkeoeEL/Y4Xw8se0iul5YPRuQR6lEYbyP4oo5/XUhNNmTORhti1DEWZ1bkxdeLS4RTs7zJ+JYvxhw4XfM+S2rw4Ho7BWuAm/TzoildlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftCtH7MH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Urlg8agv"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A02D1C4CEF0;
-	Fri, 29 Aug 2025 08:46:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftCtH7MH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAC4DC4CEF0;
+	Fri, 29 Aug 2025 09:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756457188;
-	bh=DialTkaZ2UwEoPpeuNzfbQp3IDqYgtAn+UUymBTw6Io=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Urlg8agveP3FzvS8aPPcBa0pIrmxh5TS9xYk/WTKKR/MJvNSJbvsqrhp7ciuMsfBx
-	 /lyhPxVNe9nj41BlFbwGYy3JbB3rE9S2AuHMDDHk6vM6KHVDZ326ExkUhHahxxZkWu
-	 kZUV7bEMEgH6HQjqRECYFEK1BPoxWabLLJiPx7fq7HO0e0mJ4zba7vct4Bk8XaSnC6
-	 7ARztJKyhCglBs5euuaoSps8SLs0x0i7PzE9RkkI0VNAW/jG+wtbeoxMd1SDXDTqYA
-	 j/v9qHDzngfiySRJN3okkEWQMY+vtSy6L0fflQkUmOeJVAetmI/UoQ+iFpqlPqo0C9
-	 6d3e+xdAoCUPQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CB4CA0FF0;
-	Fri, 29 Aug 2025 08:46:28 +0000 (UTC)
-From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Fri, 29 Aug 2025 16:46:06 +0800
-Subject: [PATCH] ALSA: docs: Add documents for recently changes in
- snd-usb-audio
+	s=k20201202; t=1756458583;
+	bh=gp0NkXAwsaMNEVMt9E7wsKeDRKCegVjSnZ5p9RsWRWc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ftCtH7MHq2jfFxHFtxnzWKrOjDwMCfRFzPFsfwgGoBF0JhaC8q2h41L/VD45tFEag
+	 hhIfFYnqUEgzHKvV8hxtxyN83SFFORxElC4PJGa1YAIfXMhaSBpbMTEwysXlP50W39
+	 eJm5SmgBwtqrbQeN7W0U5bogdShcvIaM8c3bzVToaI7ENj466o+0rEPJaT/8yvwvNt
+	 mJt7k/FItQcMEVmSCX/BkRszV0hlj1gbY50d3uSh090DfaarFXTqt0XUIcfzjwK6eT
+	 YaVAsXL5Mn36Z4kIe/31kucGRx7a/3uqdeFLdsuNB0igJl06cZUa//tn1uRim/CCbe
+	 4Z7DqwQ7CxhVw==
+Message-ID: <b8dbfe9e97c69e8307375219e714c823@kernel.org>
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v6.17-rc3
+Date: Fri, 29 Aug 2025 11:09:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250829-sound-doc-v1-1-e0110452b03d@uniontech.com>
-X-B4-Tracking: v=1; b=H4sIAM1osWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDCyNL3eL80rwU3ZT8ZF1z42SzVFMTEwvLFEMloPqCotS0zAqwWdGxtbU
- AYedTW1sAAAA=
-X-Change-ID: 20250829-sound-doc-73c6e54489d1
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, niecheng1@uniontech.com, 
- zhanjun@uniontech.com, Cryolitia PukNgae <cryolitia@uniontech.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1756457187; l=3763;
- i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
- bh=HE89odsIwYI1Vul0J0CIerepfkejArZ/qTv9Q4oEXbY=;
- b=K4pQlW5283gHmgF0tuapReYbIHgrysYjpS0ltdEVRBVl5YcdIkLPZNJiNbKub9gScdwYiODmH
- koJvJicRJ6jAAjgm5wFOaskFcTntv3F86uVw9M/5r+XCm+6sbPDOBHQ
-X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
- pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
-X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
- auth_id=474
-X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-Reply-To: cryolitia@uniontech.com
 
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+The following changes since commit 1b237f190eb3d36f52dffe07a40b5eb210280e00:
 
-Changed:
-  - ignore_ctl_error
-  - lowlatency
-  - skip_validation
-  - quirk_flags[19:24]
+  Linux 6.17-rc3 (2025-08-24 12:04:12 -0400)
 
-Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
----
- Documentation/sound/alsa-configuration.rst | 29 +++++++++++++++++++++++++----
- 1 file changed, 25 insertions(+), 4 deletions(-)
+are available in the Git repository at:
 
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
-index a45174d165ebdeadd89de5f556483465c5f6e808..77fd70ac12975a271600ebd542672a3afb443d39 100644
---- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -2253,8 +2253,15 @@ device_setup
-     Default: 0x0000 
- ignore_ctl_error
-     Ignore any USB-controller regarding mixer interface (default: no)
-+    ``ignore_ctl_error=1`` may help when you get an error at accessing
-+    the mixer element such as URB error -22.  This happens on some
-+    buggy USB device or the controller.  This workaround corresponds to
-+    the ``quirk_flags`` bit 14, too.
- autoclock
-     Enable auto-clock selection for UAC2 devices (default: yes)
-+lowlatency
-+    Enable low latency playback mode (default: yes).
-+    Could disable it to switch back to the old mode if face a regression.
- quirk_alias
-     Quirk alias list, pass strings like ``0123abcd:5678beef``, which
-     applies the existing quirk for the device 5678:beef to a new
-@@ -2284,6 +2291,11 @@ delayed_register
-     The driver prints a message like "Found post-registration device
-     assignment: 1234abcd:04" for such a device, so that user can
-     notice the need.
-+skip_validation
-+    Skip unit descriptor validation (default: no).
-+    The option is used to ignores the validation errors with the hexdump
-+    of the unit descriptor instead of a driver probe error, so that we
-+    can check its details.
- quirk_flags
-     Contains the bit flags for various device specific workarounds.
-     Applied to the corresponding card index.
-@@ -2307,6 +2319,16 @@ quirk_flags
-         * bit 16: Set up the interface at first like UAC1
-         * bit 17: Apply the generic implicit feedback sync mode
-         * bit 18: Don't apply implicit feedback sync mode
-+        * bit 19: Don't closed interface during setting sample rate
-+        * bit 20: Force an interface reset whenever stopping & restarting
-+          a stream
-+        * bit 21: Do not set PCM rate (frequency) when only one rate is
-+          available for the given endpoint.
-+        * bit 22: Set the fixed resolution 16 for Mic Capture Volume
-+        * bit 23: Set the fixed resolution 384 for Mic Capture Volume
-+        * bit 24: Set minimum volume control value as mute for devices
-+          where the lowest playback value represents muted state instead
-+          of minimum audible volume
- 
- This module supports multiple devices, autoprobe and hotplugging.
- 
-@@ -2314,10 +2336,9 @@ NB: ``nrpacks`` parameter can be modified dynamically via sysfs.
- Don't put the value over 20.  Changing via sysfs has no sanity
- check.
- 
--NB: ``ignore_ctl_error=1`` may help when you get an error at accessing
--the mixer element such as URB error -22.  This happens on some
--buggy USB device or the controller.  This workaround corresponds to
--the ``quirk_flags`` bit 14, too.
-+NB: ``ignore_ctl_error=1`` just provides A quick way to work around the
-+issues.  If you have a buggy device that requires these quirks, please
-+report it to the upstream.
- 
- NB: ``quirk_alias`` option is provided only for testing / development.
- If you want to have a proper support, contact to upstream for
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v6.17-rc3
 
----
-base-commit: 15be520ab00cfc9c59fa1623de6757f61ab42d8a
-change-id: 20250829-sound-doc-73c6e54489d1
+for you to fetch changes up to 3e7fd1febc3156d3d98fba229399a13b12d69707:
 
-Best regards,
--- 
-Cryolitia PukNgae <cryolitia@uniontech.com>
+  ASoC: SOF: Intel: WCL: Add the sdw_process_wakeen op (2025-08-28 21:15:49 +0200)
 
+----------------------------------------------------------------
+ASoC: Fixes for v6.17
 
+The main fixes here are for some of the cleanups done in the core in
+this release, we had broken component lookup in the case with a single
+bus and DMA controller.  Otherwise it's driver specific changes, the
+shortlogs for the Intel WCL and rsnd drivers look like minor cleanups
+but are actually bugfixes (adding an op needed for correct functionality
+and reverting an inappropriate helper usage).
+
+----------------------------------------------------------------
+Ajye Huang (1):
+      ASoC: SOF: Intel: WCL: Add the sdw_process_wakeen op
+
+Cryolitia PukNgae (1):
+      ASoC: codecs: idt821034: fix wrong log in idt821034_chip_direction_output()
+
+Kuninori Morimoto (3):
+      ASoC: soc-core: care NULL dirver name on snd_soc_lookup_component_nolocked()
+      ASoC: soc-core: tidyup snd_soc_lookup_component_nolocked()
+      ASoC: rsnd: tidyup direction name on rsnd_dai_connect()
+
+Mark Brown (1):
+      ASoC: fixup snd_soc_lookup_component_nolocked()
+
+ sound/soc/codecs/idt821034.c  |  2 +-
+ sound/soc/renesas/rcar/core.c |  2 +-
+ sound/soc/soc-core.c          | 25 +++++++++++++++----------
+ sound/soc/sof/intel/ptl.c     |  1 +
+ 4 files changed, 18 insertions(+), 12 deletions(-)
