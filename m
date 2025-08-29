@@ -1,83 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD912EB85D
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BF8321445
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:45:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478755; cv=none; b=ic3HsZEC209qZF+c1EsV/yU/bv2mKr27DcsHjixb7MNRUBIexu5Tu+I0ugfmqq3u8R0GHMAO84BN9M+OcAkuJQ3BQp9IM3GLDaEM6FMVLh84fF7q0PsccxpvbbtsMvpabSK3PdwqgtvWTxU2Nw/huyckvQ/pzcNFVDiV+kZKmFs=
+	t=1756478757; cv=none; b=ab9GHvHB3+8yTN3p4XeWoceu5GjWxXLVDlXm1x5ClPwqUGXbBmf5E7cuudXsqEeOQJNPBjnx3NBBqjnxpRh5/K44SMMPbH/SGFglk23sy9zr30sJ3DSVsdhPUhnP6eb/N7LofF4xiXMNYRbo/lc71/PgdKejhI5xL+ZO1eYl/HA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478755; c=relaxed/simple;
-	bh=0OqF9tDYD0zH5zktE9ZM2dZ4ZAgmZpW+gFmIDmePXOE=;
+	s=arc-20240116; t=1756478757; c=relaxed/simple;
+	bh=2thCEQantapnFQTsuNlj3htVi7h4YB5AdDJeWdLeV8Y=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PG523yv2yorttH8KKy9Ef84cb/AAGeWC8aA35d5YaNKO9tJwlSeKUlb1qPhzg9cqitUWzPEnQXQf6W4dMc7Gj+yePEeVhXTV9+VrLfVBrIXDzDlXoOWIxAbpNFvwxC0Su7MIJCQzLhjW0JvcXmjCdoJTLGcKk8ZTyR6YqGARedc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z2HuPQi3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A+JhliAM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mMG6Eyk8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TGq9KvEx; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=mlEZIsFEZnb8GaDlt2gcdSQnO6DyqKpx+xXY1vT9tyxTD24A2VNmdpn+rXbf+oiYiVocRaxzuYDPjtyMqyuBhc+JXnDwAVkQnVL/kwxTGNKOMz+HnXVpXkgyWEXDunL0RCk3xbfWnenMBejChFKbAAt6XAPPvn7fga3GxhkPFzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HO7ZWEZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qWkzpGNi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HO7ZWEZd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qWkzpGNi; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z2HuPQi3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A+JhliAM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mMG6Eyk8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TGq9KvEx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HO7ZWEZd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qWkzpGNi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HO7ZWEZd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qWkzpGNi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ED6F05C235;
-	Fri, 29 Aug 2025 14:44:00 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CF44F33ED2;
+	Fri, 29 Aug 2025 14:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=POgsyF2gynxc/cd38LN/tqNwa1hBueO3Mxnrx9Kw8+s=;
-	b=Z2HuPQi3DMtJ60K0BqQUojckVl5Ql/ywAOmz94E3aVq8qUCYlEYjf3xgakUfWUEL/jomsD
-	MnK2jF3OEZLHN/eb35NcY9hyGp2jYUswPBAmy92es/yodpzKnnuhUrX4n8iJkmVGQijxmw
-	+PQcePQFjKGInzlLSxMjRGysgut72HY=
+	bh=2KTtOecK/YcqR5MoixII5qW3uLymbcqTYpJ+XiQFOCM=;
+	b=HO7ZWEZdNMcdTgBCdIY8vfyBH7veeNtTFa/nT80IO9BgQyXmn9uiZQeUi/LBGfRR9OmV7G
+	SaiO+sopVG66noZrRTF9M1rUw2UWXsH3k62X4sJyrsQM95/rPW60HGIi+aC/4pdbMk/LjT
+	lDV0xq4IaqrXTG4ub9h1I2oddzm9X64=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478641;
+	s=susede2_ed25519; t=1756478642;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=POgsyF2gynxc/cd38LN/tqNwa1hBueO3Mxnrx9Kw8+s=;
-	b=A+JhliAMW+AMafA/2B7qriCKnZy5LJCRkzkEviWhSG+VeOjQ2tgBKi857keXdP8QK8Khh5
-	U/Iy+zEqVVsKxUDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=2KTtOecK/YcqR5MoixII5qW3uLymbcqTYpJ+XiQFOCM=;
+	b=qWkzpGNi6xqTZ25fk1hjIsCILdKGAK+wzVYaNNxzJt0Q1ZSCi8ihggSK8Mm5Hs9M1ighXT
+	Bw3UJeOgWpNHCCCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HO7ZWEZd;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qWkzpGNi
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=POgsyF2gynxc/cd38LN/tqNwa1hBueO3Mxnrx9Kw8+s=;
-	b=mMG6Eyk82Nr6Sw6Xr0+hKah3LNoXHR7Ts15a5PhTZz9ws0v9H2KpTzdON8Bq18MRTlYsLX
-	076zRsyRV2XX0aIgciNdDtJb4Q1hO54kuC2tp9n32P3Ohha5q9k1U0daA2BrxZtlp3UW2F
-	Di3WdvomuuURZ3jqtYhO1ySU0VCW9Cc=
+	bh=2KTtOecK/YcqR5MoixII5qW3uLymbcqTYpJ+XiQFOCM=;
+	b=HO7ZWEZdNMcdTgBCdIY8vfyBH7veeNtTFa/nT80IO9BgQyXmn9uiZQeUi/LBGfRR9OmV7G
+	SaiO+sopVG66noZrRTF9M1rUw2UWXsH3k62X4sJyrsQM95/rPW60HGIi+aC/4pdbMk/LjT
+	lDV0xq4IaqrXTG4ub9h1I2oddzm9X64=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478640;
+	s=susede2_ed25519; t=1756478642;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=POgsyF2gynxc/cd38LN/tqNwa1hBueO3Mxnrx9Kw8+s=;
-	b=TGq9KvExC9kzTHWcAXuWykYR+HMcf8QZfoEoX5ys/KZvGHH/4Hq4rKRIKQMv2r8G0FZJZ+
-	oFwW8eArQ48P1PBw==
+	bh=2KTtOecK/YcqR5MoixII5qW3uLymbcqTYpJ+XiQFOCM=;
+	b=qWkzpGNi6xqTZ25fk1hjIsCILdKGAK+wzVYaNNxzJt0Q1ZSCi8ihggSK8Mm5Hs9M1ighXT
+	Bw3UJeOgWpNHCCCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D614213A3E;
-	Fri, 29 Aug 2025 14:44:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B487C13A54;
+	Fri, 29 Aug 2025 14:44:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GEUkM7C8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:00 +0000
+	id GKPxKrK8sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:02 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 33/61] ALSA: fm801: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:43:08 +0200
-Message-ID: <20250829144342.4290-34-tiwai@suse.de>
+Subject: [PATCH 48/61] ALSA: pcxhr: Use guard() for mutex locks
+Date: Fri, 29 Aug 2025 16:43:23 +0200
+Message-ID: <20250829144342.4290-49-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -89,234 +90,649 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: CF44F33ED2
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_ONE(0.00)[1];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLe1mc1hwayk397878n5a1j337)];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 
-Clean up the code using guard() for spin locks.
+Replace the manual mutex lock/unlock pairs with guard() for code
+simplification.
 
-Merely code refactoring, and no behavior change.
+Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/fm801.c | 71 ++++++++++++++++++++---------------------------
- 1 file changed, 30 insertions(+), 41 deletions(-)
+ sound/pci/pcxhr/pcxhr.c       | 35 +++++----------------
+ sound/pci/pcxhr/pcxhr_core.c  | 15 +++------
+ sound/pci/pcxhr/pcxhr_mix22.c | 23 +++++++-------
+ sound/pci/pcxhr/pcxhr_mixer.c | 58 +++++++++++++----------------------
+ 4 files changed, 45 insertions(+), 86 deletions(-)
 
-diff --git a/sound/pci/fm801.c b/sound/pci/fm801.c
-index cf40bd06b734..4ca992449ea3 100644
---- a/sound/pci/fm801.c
-+++ b/sound/pci/fm801.c
-@@ -279,16 +279,14 @@ static int snd_fm801_update_bits(struct fm801 *chip, unsigned short reg,
- 				 unsigned short mask, unsigned short value)
- {
- 	int change;
--	unsigned long flags;
- 	unsigned short old, new;
+diff --git a/sound/pci/pcxhr/pcxhr.c b/sound/pci/pcxhr/pcxhr.c
+index bfd84c50e981..83066d08367e 100644
+--- a/sound/pci/pcxhr/pcxhr.c
++++ b/sound/pci/pcxhr/pcxhr.c
+@@ -701,7 +701,7 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
  
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	old = fm801_ioread16(chip, reg);
- 	new = (old & ~mask) | value;
- 	change = old != new;
- 	if (change)
- 		fm801_iowrite16(chip, reg, new);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	return change;
+ 	start_time = ktime_get();
+ #endif
+-	mutex_lock(&mgr->setup_mutex);
++	guard(mutex)(&mgr->setup_mutex);
+ 
+ 	/* check the pipes concerned and build pipe_array */
+ 	for (i = 0; i < mgr->num_cards; i++) {
+@@ -720,7 +720,6 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
+ 		}
+ 	}
+ 	if (capture_mask == 0 && playback_mask == 0) {
+-		mutex_unlock(&mgr->setup_mutex);
+ 		dev_err(&mgr->pci->dev, "%s : no pipes\n", __func__);
+ 		return;
+ 	}
+@@ -731,7 +730,6 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
+ 	/* synchronous stop of all the pipes concerned */
+ 	err = pcxhr_set_pipe_state(mgr,  playback_mask, capture_mask, 0);
+ 	if (err) {
+-		mutex_unlock(&mgr->setup_mutex);
+ 		dev_err(&mgr->pci->dev, "%s : "
+ 			   "error stop pipes (P%x C%x)\n",
+ 			   __func__, playback_mask, capture_mask);
+@@ -776,7 +774,6 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
+ 	/* synchronous start of all the pipes concerned */
+ 	err = pcxhr_set_pipe_state(mgr, playback_mask, capture_mask, 1);
+ 	if (err) {
+-		mutex_unlock(&mgr->setup_mutex);
+ 		dev_err(&mgr->pci->dev, "%s : "
+ 			   "error start pipes (P%x C%x)\n",
+ 			   __func__, playback_mask, capture_mask);
+@@ -786,7 +783,7 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
+ 	/* put the streams into the running state now
+ 	 * (increment pointer by interrupt)
+ 	 */
+-	mutex_lock(&mgr->lock);
++	guard(mutex)(&mgr->lock);
+ 	for ( i =0; i < mgr->num_cards; i++) {
+ 		struct pcxhr_stream *stream;
+ 		chip = mgr->chip[i];
+@@ -804,9 +801,6 @@ static void pcxhr_start_linked_stream(struct pcxhr_mgr *mgr)
+ 			}
+ 		}
+ 	}
+-	mutex_unlock(&mgr->lock);
+-
+-	mutex_unlock(&mgr->setup_mutex);
+ 
+ #ifdef CONFIG_SND_DEBUG_VERBOSE
+ 	stop_time = ktime_get();
+@@ -907,7 +901,7 @@ static int pcxhr_prepare(struct snd_pcm_substream *subs)
+ 		    subs->runtime->period_size, subs->runtime->periods,
+ 		    subs->runtime->buffer_size);
+ 
+-	mutex_lock(&mgr->setup_mutex);
++	guard(mutex)(&mgr->setup_mutex);
+ 
+ 	do {
+ 		/* only the first stream can choose the sample rate */
+@@ -923,8 +917,6 @@ static int pcxhr_prepare(struct snd_pcm_substream *subs)
+ 		}
+ 	} while(0);	/* do only once (so we can use break instead of goto) */
+ 
+-	mutex_unlock(&mgr->setup_mutex);
+-
+ 	return err;
  }
  
-@@ -393,7 +391,7 @@ static int snd_fm801_playback_trigger(struct snd_pcm_substream *substream,
- {
- 	struct fm801 *chip = snd_pcm_substream_chip(substream);
+@@ -939,15 +931,13 @@ static int pcxhr_hw_params(struct snd_pcm_substream *subs,
+ 	struct pcxhr_mgr *mgr = chip->mgr;
+ 	struct pcxhr_stream *stream = subs->runtime->private_data;
  
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 		chip->ply_ctrl &= ~(FM801_BUF1_LAST |
-@@ -414,12 +412,10 @@ static int snd_fm801_playback_trigger(struct snd_pcm_substream *substream,
- 		chip->ply_ctrl &= ~FM801_PAUSE;
- 		break;
- 	default:
--		spin_unlock(&chip->reg_lock);
- 		snd_BUG();
+-	mutex_lock(&mgr->setup_mutex);
++	guard(mutex)(&mgr->setup_mutex);
+ 
+ 	/* set up channels */
+ 	stream->channels = params_channels(hw);
+ 	/* set up format for the stream */
+ 	stream->format = params_format(hw);
+ 
+-	mutex_unlock(&mgr->setup_mutex);
+-
+ 	return 0;
+ }
+ 
+@@ -990,7 +980,7 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
+ 	struct pcxhr_stream    *stream;
+ 	int err;
+ 
+-	mutex_lock(&mgr->setup_mutex);
++	guard(mutex)(&mgr->setup_mutex);
+ 
+ 	/* copy the struct snd_pcm_hardware struct */
+ 	runtime->hw = pcxhr_caps;
+@@ -1012,7 +1002,6 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
+ 		/* streams in use */
+ 		dev_err(chip->card->dev, "%s chip%d subs%d in use\n",
+ 			   __func__, chip->chip_idx, subs->number);
+-		mutex_unlock(&mgr->setup_mutex);
+ 		return -EBUSY;
+ 	}
+ 
+@@ -1023,10 +1012,8 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
+ 	/* buffer-size should better be multiple of period-size */
+ 	err = snd_pcm_hw_constraint_integer(runtime,
+ 					    SNDRV_PCM_HW_PARAM_PERIODS);
+-	if (err < 0) {
+-		mutex_unlock(&mgr->setup_mutex);
++	if (err < 0)
+ 		return err;
+-	}
+ 
+ 	/* if a sample rate is already used or fixed by external clock,
+ 	 * the stream cannot change
+@@ -1040,7 +1027,6 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
+ 						     &external_rate) ||
+ 			    external_rate == 0) {
+ 				/* cannot detect the external clock rate */
+-				mutex_unlock(&mgr->setup_mutex);
+ 				return -EBUSY;
+ 			}
+ 			runtime->hw.rate_min = external_rate;
+@@ -1063,7 +1049,6 @@ static int pcxhr_open(struct snd_pcm_substream *subs)
+ 
+ 	mgr->ref_count_rate++;
+ 
+-	mutex_unlock(&mgr->setup_mutex);
+ 	return 0;
+ }
+ 
+@@ -1074,7 +1059,7 @@ static int pcxhr_close(struct snd_pcm_substream *subs)
+ 	struct pcxhr_mgr *mgr = chip->mgr;
+ 	struct pcxhr_stream *stream = subs->runtime->private_data;
+ 
+-	mutex_lock(&mgr->setup_mutex);
++	guard(mutex)(&mgr->setup_mutex);
+ 
+ 	dev_dbg(chip->card->dev, "%s chip%d subs%d\n", __func__,
+ 		    chip->chip_idx, subs->number);
+@@ -1088,8 +1073,6 @@ static int pcxhr_close(struct snd_pcm_substream *subs)
+ 	stream->status    = PCXHR_STREAM_STATUS_FREE;
+ 	stream->substream = NULL;
+ 
+-	mutex_unlock(&mgr->setup_mutex);
+-
+ 	return 0;
+ }
+ 
+@@ -1102,14 +1085,12 @@ static snd_pcm_uframes_t pcxhr_stream_pointer(struct snd_pcm_substream *subs)
+ 	struct snd_pcm_runtime *runtime = subs->runtime;
+ 	struct pcxhr_stream *stream  = runtime->private_data;
+ 
+-	mutex_lock(&chip->mgr->lock);
++	guard(mutex)(&chip->mgr->lock);
+ 
+ 	/* get the period fragment and the nb of periods in the buffer */
+ 	timer_period_frag = stream->timer_period_frag;
+ 	timer_buf_periods = stream->timer_buf_periods;
+ 
+-	mutex_unlock(&chip->mgr->lock);
+-
+ 	return (snd_pcm_uframes_t)((timer_buf_periods * runtime->period_size) +
+ 				   timer_period_frag);
+ }
+diff --git a/sound/pci/pcxhr/pcxhr_core.c b/sound/pci/pcxhr/pcxhr_core.c
+index 23f253effb4f..b3b9ab4f303e 100644
+--- a/sound/pci/pcxhr/pcxhr_core.c
++++ b/sound/pci/pcxhr/pcxhr_core.c
+@@ -754,12 +754,8 @@ void pcxhr_set_pipe_cmd_params(struct pcxhr_rmh *rmh, int capture,
+  */
+ int pcxhr_send_msg(struct pcxhr_mgr *mgr, struct pcxhr_rmh *rmh)
+ {
+-	int err;
+-
+-	mutex_lock(&mgr->msg_lock);
+-	err = pcxhr_send_msg_nolock(mgr, rmh);
+-	mutex_unlock(&mgr->msg_lock);
+-	return err;
++	guard(mutex)(&mgr->msg_lock);
++	return pcxhr_send_msg_nolock(mgr, rmh);
+ }
+ 
+ static inline int pcxhr_pipes_running(struct pcxhr_mgr *mgr)
+@@ -962,14 +958,13 @@ int pcxhr_write_io_num_reg_cont(struct pcxhr_mgr *mgr, unsigned int mask,
+ 	struct pcxhr_rmh rmh;
+ 	int err;
+ 
+-	mutex_lock(&mgr->msg_lock);
++	guard(mutex)(&mgr->msg_lock);
+ 	if ((mgr->io_num_reg_cont & mask) == value) {
+ 		dev_dbg(&mgr->pci->dev,
+ 			"IO_NUM_REG_CONT mask %x already is set to %x\n",
+ 			    mask, value);
+ 		if (changed)
+ 			*changed = 0;
+-		mutex_unlock(&mgr->msg_lock);
+ 		return 0;	/* already programmed */
+ 	}
+ 	pcxhr_init_rmh(&rmh, CMD_ACCESS_IO_WRITE);
+@@ -984,7 +979,6 @@ int pcxhr_write_io_num_reg_cont(struct pcxhr_mgr *mgr, unsigned int mask,
+ 		if (changed)
+ 			*changed = 1;
+ 	}
+-	mutex_unlock(&mgr->msg_lock);
+ 	return err;
+ }
+ 
+@@ -1269,7 +1263,7 @@ irqreturn_t pcxhr_threaded_irq(int irq, void *dev_id)
+ 	int i, j;
+ 	struct snd_pcxhr *chip;
+ 
+-	mutex_lock(&mgr->lock);
++	guard(mutex)(&mgr->lock);
+ 	if (mgr->src_it_dsp & PCXHR_IRQ_TIMER) {
+ 		/* is a 24 bit counter */
+ 		int dsp_time_new =
+@@ -1328,6 +1322,5 @@ irqreturn_t pcxhr_threaded_irq(int irq, void *dev_id)
+ 	}
+ 
+ 	pcxhr_msg_thread(mgr);
+-	mutex_unlock(&mgr->lock);
+ 	return IRQ_HANDLED;
+ }
+diff --git a/sound/pci/pcxhr/pcxhr_mix22.c b/sound/pci/pcxhr/pcxhr_mix22.c
+index e1435afc4907..80d22e22ea30 100644
+--- a/sound/pci/pcxhr/pcxhr_mix22.c
++++ b/sound/pci/pcxhr/pcxhr_mix22.c
+@@ -710,9 +710,9 @@ static int hr222_mic_vol_get(struct snd_kcontrol *kcontrol,
+ 			     struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+-	mutex_lock(&chip->mgr->mixer_mutex);
++
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	ucontrol->value.integer.value[0] = chip->mic_volume;
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return 0;
+ }
+ 
+@@ -721,13 +721,13 @@ static int hr222_mic_vol_put(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+ 	int changed = 0;
+-	mutex_lock(&chip->mgr->mixer_mutex);
++
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	if (chip->mic_volume != ucontrol->value.integer.value[0]) {
+ 		changed = 1;
+ 		chip->mic_volume = ucontrol->value.integer.value[0];
+ 		hr222_update_analog_audio_level(chip, 1, 0);
+ 	}
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return changed;
+ }
+ 
+@@ -760,9 +760,9 @@ static int hr222_mic_boost_get(struct snd_kcontrol *kcontrol,
+ 			       struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+-	mutex_lock(&chip->mgr->mixer_mutex);
++
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	ucontrol->value.integer.value[0] = chip->mic_boost;
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return 0;
+ }
+ 
+@@ -771,13 +771,13 @@ static int hr222_mic_boost_put(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+ 	int changed = 0;
+-	mutex_lock(&chip->mgr->mixer_mutex);
++
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	if (chip->mic_boost != ucontrol->value.integer.value[0]) {
+ 		changed = 1;
+ 		chip->mic_boost = ucontrol->value.integer.value[0];
+ 		hr222_micro_boost(chip->mgr, chip->mic_boost);
+ 	}
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return changed;
+ }
+ 
+@@ -800,9 +800,9 @@ static int hr222_phantom_power_get(struct snd_kcontrol *kcontrol,
+ 				   struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+-	mutex_lock(&chip->mgr->mixer_mutex);
++
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	ucontrol->value.integer.value[0] = chip->phantom_power;
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return 0;
+ }
+ 
+@@ -812,14 +812,13 @@ static int hr222_phantom_power_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+ 	int power, changed = 0;
+ 
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	power = !!ucontrol->value.integer.value[0];
+ 	if (chip->phantom_power != power) {
+ 		hr222_phantom_power(chip->mgr, power);
+ 		chip->phantom_power = power;
+ 		changed = 1;
+ 	}
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return changed;
+ }
+ 
+diff --git a/sound/pci/pcxhr/pcxhr_mixer.c b/sound/pci/pcxhr/pcxhr_mixer.c
+index aec509461dd6..03daa2832b1b 100644
+--- a/sound/pci/pcxhr/pcxhr_mixer.c
++++ b/sound/pci/pcxhr/pcxhr_mixer.c
+@@ -110,7 +110,8 @@ static int pcxhr_analog_vol_get(struct snd_kcontrol *kcontrol,
+ 				struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+-	mutex_lock(&chip->mgr->mixer_mutex);
++
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	if (kcontrol->private_value == 0) {	/* playback */
+ 	  ucontrol->value.integer.value[0] = chip->analog_playback_volume[0];
+ 	  ucontrol->value.integer.value[1] = chip->analog_playback_volume[1];
+@@ -118,7 +119,6 @@ static int pcxhr_analog_vol_get(struct snd_kcontrol *kcontrol,
+ 	  ucontrol->value.integer.value[0] = chip->analog_capture_volume[0];
+ 	  ucontrol->value.integer.value[1] = chip->analog_capture_volume[1];
+ 	}
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return 0;
+ }
+ 
+@@ -129,7 +129,7 @@ static int pcxhr_analog_vol_put(struct snd_kcontrol *kcontrol,
+ 	int changed = 0;
+ 	int is_capture, i;
+ 
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	is_capture = (kcontrol->private_value != 0);
+ 	for (i = 0; i < 2; i++) {
+ 		int  new_volume = ucontrol->value.integer.value[i];
+@@ -168,7 +168,6 @@ static int pcxhr_analog_vol_put(struct snd_kcontrol *kcontrol,
+ 								is_capture, i);
+ 		}
+ 	}
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return changed;
+ }
+ 
+@@ -192,10 +191,9 @@ static int pcxhr_audio_sw_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+ 
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	ucontrol->value.integer.value[0] = chip->analog_playback_active[0];
+ 	ucontrol->value.integer.value[1] = chip->analog_playback_active[1];
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return 0;
+ }
+ 
+@@ -204,7 +202,8 @@ static int pcxhr_audio_sw_put(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+ 	int i, changed = 0;
+-	mutex_lock(&chip->mgr->mixer_mutex);
++
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	for(i = 0; i < 2; i++) {
+ 		if (chip->analog_playback_active[i] !=
+ 		    ucontrol->value.integer.value[i]) {
+@@ -218,7 +217,6 @@ static int pcxhr_audio_sw_put(struct snd_kcontrol *kcontrol,
+ 				pcxhr_update_analog_audio_level(chip, 0, i);
+ 		}
+ 	}
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return changed;
+ }
+ 
+@@ -352,14 +350,13 @@ static int pcxhr_pcm_vol_get(struct snd_kcontrol *kcontrol,
+ 	int *stored_volume;
+ 	int is_capture = kcontrol->private_value;
+ 
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	if (is_capture)		/* digital capture */
+ 		stored_volume = chip->digital_capture_volume;
+ 	else			/* digital playback */
+ 		stored_volume = chip->digital_playback_volume[idx];
+ 	ucontrol->value.integer.value[0] = stored_volume[0];
+ 	ucontrol->value.integer.value[1] = stored_volume[1];
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return 0;
+ }
+ 
+@@ -373,7 +370,7 @@ static int pcxhr_pcm_vol_put(struct snd_kcontrol *kcontrol,
+ 	int *stored_volume;
+ 	int i;
+ 
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	if (is_capture)		/* digital capture */
+ 		stored_volume = chip->digital_capture_volume;
+ 	else			/* digital playback */
+@@ -392,7 +389,6 @@ static int pcxhr_pcm_vol_put(struct snd_kcontrol *kcontrol,
+ 	}
+ 	if (!is_capture && changed)	/* update playback volume */
+ 		pcxhr_update_playback_stream_level(chip, idx);
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return changed;
+ }
+ 
+@@ -416,10 +412,9 @@ static int pcxhr_pcm_sw_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+ 	int idx = snd_ctl_get_ioffidx(kcontrol, &ucontrol->id); /* index */
+ 
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	ucontrol->value.integer.value[0] = chip->digital_playback_active[idx][0];
+ 	ucontrol->value.integer.value[1] = chip->digital_playback_active[idx][1];
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return 0;
+ }
+ 
+@@ -431,7 +426,7 @@ static int pcxhr_pcm_sw_put(struct snd_kcontrol *kcontrol,
+ 	int idx = snd_ctl_get_ioffidx(kcontrol, &ucontrol->id); /* index */
+ 	int i, j;
+ 
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	j = idx;
+ 	for (i = 0; i < 2; i++) {
+ 		if (chip->digital_playback_active[j][i] !=
+@@ -443,7 +438,6 @@ static int pcxhr_pcm_sw_put(struct snd_kcontrol *kcontrol,
+ 	}
+ 	if (changed)
+ 		pcxhr_update_playback_stream_level(chip, idx);
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return changed;
+ }
+ 
+@@ -465,10 +459,10 @@ static int pcxhr_monitor_vol_get(struct snd_kcontrol *kcontrol,
+ 				 struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+-	mutex_lock(&chip->mgr->mixer_mutex);
++
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	ucontrol->value.integer.value[0] = chip->monitoring_volume[0];
+ 	ucontrol->value.integer.value[1] = chip->monitoring_volume[1];
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return 0;
+ }
+ 
+@@ -479,7 +473,7 @@ static int pcxhr_monitor_vol_put(struct snd_kcontrol *kcontrol,
+ 	int changed = 0;
+ 	int i;
+ 
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		if (chip->monitoring_volume[i] !=
+ 		    ucontrol->value.integer.value[i]) {
+@@ -492,7 +486,6 @@ static int pcxhr_monitor_vol_put(struct snd_kcontrol *kcontrol,
+ 			changed = 1;
+ 		}
+ 	}
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return changed;
+ }
+ 
+@@ -515,10 +508,10 @@ static int pcxhr_monitor_sw_get(struct snd_kcontrol *kcontrol,
+ 				struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_pcxhr *chip = snd_kcontrol_chip(kcontrol);
+-	mutex_lock(&chip->mgr->mixer_mutex);
++
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	ucontrol->value.integer.value[0] = chip->monitoring_active[0];
+ 	ucontrol->value.integer.value[1] = chip->monitoring_active[1];
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return 0;
+ }
+ 
+@@ -529,7 +522,7 @@ static int pcxhr_monitor_sw_put(struct snd_kcontrol *kcontrol,
+ 	int changed = 0;
+ 	int i;
+ 
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	for (i = 0; i < 2; i++) {
+ 		if (chip->monitoring_active[i] !=
+ 		    ucontrol->value.integer.value[i]) {
+@@ -545,7 +538,6 @@ static int pcxhr_monitor_sw_put(struct snd_kcontrol *kcontrol,
+ 		/* update right monitoring volume and mute */
+ 		pcxhr_update_audio_pipe_level(chip, 0, 1);
+ 
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return (changed != 0);
+ }
+ 
+@@ -671,7 +663,7 @@ static int pcxhr_audio_src_put(struct snd_kcontrol *kcontrol,
+ 	}
+ 	if (ucontrol->value.enumerated.item[0] >= i)
  		return -EINVAL;
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	if (chip->audio_capture_source != ucontrol->value.enumerated.item[0]) {
+ 		chip->audio_capture_source = ucontrol->value.enumerated.item[0];
+ 		if (chip->mgr->is_hr_stereo)
+@@ -680,7 +672,6 @@ static int pcxhr_audio_src_put(struct snd_kcontrol *kcontrol,
+ 			pcxhr_set_audio_source(chip);
+ 		ret = 1;
  	}
- 	fm801_writew(chip, PLY_CTRL, chip->ply_ctrl);
--	spin_unlock(&chip->reg_lock);
- 	return 0;
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return ret;
  }
  
-@@ -428,7 +424,7 @@ static int snd_fm801_capture_trigger(struct snd_pcm_substream *substream,
- {
- 	struct fm801 *chip = snd_pcm_substream_chip(substream);
- 
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 		chip->cap_ctrl &= ~(FM801_BUF1_LAST |
-@@ -449,12 +445,10 @@ static int snd_fm801_capture_trigger(struct snd_pcm_substream *substream,
- 		chip->cap_ctrl &= ~FM801_PAUSE;
- 		break;
- 	default:
--		spin_unlock(&chip->reg_lock);
- 		snd_BUG();
+@@ -760,9 +751,9 @@ static int pcxhr_clock_type_put(struct snd_kcontrol *kcontrol,
+ 	}
+ 	if (ucontrol->value.enumerated.item[0] >= clock_items)
  		return -EINVAL;
+-	mutex_lock(&mgr->mixer_mutex);
++	guard(mutex)(&mgr->mixer_mutex);
+ 	if (mgr->use_clock_type != ucontrol->value.enumerated.item[0]) {
+-		mutex_lock(&mgr->setup_mutex);
++		guard(mutex)(&mgr->setup_mutex);
+ 		mgr->use_clock_type = ucontrol->value.enumerated.item[0];
+ 		rate = 0;
+ 		if (mgr->use_clock_type != PCXHR_CLOCK_TYPE_INTERNAL) {
+@@ -778,10 +769,8 @@ static int pcxhr_clock_type_put(struct snd_kcontrol *kcontrol,
+ 			if (mgr->sample_rate)
+ 				mgr->sample_rate = rate;
+ 		}
+-		mutex_unlock(&mgr->setup_mutex);
+ 		ret = 1; /* return 1 even if the set was not done. ok ? */
  	}
- 	fm801_writew(chip, CAP_CTRL, chip->cap_ctrl);
--	spin_unlock(&chip->reg_lock);
+-	mutex_unlock(&mgr->mixer_mutex);
+ 	return ret;
+ }
+ 
+@@ -814,7 +803,7 @@ static int pcxhr_clock_rate_get(struct snd_kcontrol *kcontrol,
+ 	struct pcxhr_mgr *mgr = snd_kcontrol_chip(kcontrol);
+ 	int i, err, rate;
+ 
+-	mutex_lock(&mgr->mixer_mutex);
++	guard(mutex)(&mgr->mixer_mutex);
+ 	for(i = 0; i < 3 + mgr->capture_chips; i++) {
+ 		if (i == PCXHR_CLOCK_TYPE_INTERNAL)
+ 			rate = mgr->sample_rate_real;
+@@ -825,7 +814,6 @@ static int pcxhr_clock_rate_get(struct snd_kcontrol *kcontrol,
+ 		}
+ 		ucontrol->value.integer.value[i] = rate;
+ 	}
+-	mutex_unlock(&mgr->mixer_mutex);
  	return 0;
  }
  
-@@ -465,7 +459,7 @@ static int snd_fm801_playback_prepare(struct snd_pcm_substream *substream)
+@@ -918,7 +906,7 @@ static int pcxhr_iec958_get(struct snd_kcontrol *kcontrol,
+ 	unsigned char aes_bits;
+ 	int i, err;
  
- 	chip->ply_size = snd_pcm_lib_buffer_bytes(substream);
- 	chip->ply_count = snd_pcm_lib_period_bytes(substream);
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	chip->ply_ctrl &= ~(FM801_START | FM801_16BIT |
- 			     FM801_STEREO | FM801_RATE_MASK |
- 			     FM801_CHANNELS_MASK);
-@@ -487,7 +481,6 @@ static int snd_fm801_playback_prepare(struct snd_pcm_substream *substream)
- 	fm801_writel(chip, PLY_BUF1, chip->ply_buffer);
- 	fm801_writel(chip, PLY_BUF2,
- 		     chip->ply_buffer + (chip->ply_count % chip->ply_size));
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	for(i = 0; i < 5; i++) {
+ 		if (kcontrol->private_value == 0)	/* playback */
+ 			aes_bits = chip->aes_bits[i];
+@@ -934,7 +922,6 @@ static int pcxhr_iec958_get(struct snd_kcontrol *kcontrol,
+ 		}
+ 		ucontrol->value.iec958.status[i] = aes_bits;
+ 	}
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+         return 0;
  }
  
-@@ -498,7 +491,7 @@ static int snd_fm801_capture_prepare(struct snd_pcm_substream *substream)
+@@ -988,7 +975,7 @@ static int pcxhr_iec958_put(struct snd_kcontrol *kcontrol,
+ 	int i, changed = 0;
  
- 	chip->cap_size = snd_pcm_lib_buffer_bytes(substream);
- 	chip->cap_count = snd_pcm_lib_period_bytes(substream);
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	chip->cap_ctrl &= ~(FM801_START | FM801_16BIT |
- 			     FM801_STEREO | FM801_RATE_MASK);
- 	if (snd_pcm_format_width(runtime->format) == 16)
-@@ -514,7 +507,6 @@ static int snd_fm801_capture_prepare(struct snd_pcm_substream *substream)
- 	fm801_writel(chip, CAP_BUF1, chip->cap_buffer);
- 	fm801_writel(chip, CAP_BUF2,
- 		     chip->cap_buffer + (chip->cap_count % chip->cap_size));
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
+ 	/* playback */
+-	mutex_lock(&chip->mgr->mixer_mutex);
++	guard(mutex)(&chip->mgr->mixer_mutex);
+ 	for (i = 0; i < 5; i++) {
+ 		if (ucontrol->value.iec958.status[i] != chip->aes_bits[i]) {
+ 			if (chip->mgr->is_hr_stereo)
+@@ -1000,7 +987,6 @@ static int pcxhr_iec958_put(struct snd_kcontrol *kcontrol,
+ 			changed = 1;
+ 		}
+ 	}
+-	mutex_unlock(&chip->mgr->mixer_mutex);
+ 	return changed;
  }
  
-@@ -525,13 +517,12 @@ static snd_pcm_uframes_t snd_fm801_playback_pointer(struct snd_pcm_substream *su
- 
- 	if (!(chip->ply_ctrl & FM801_START))
- 		return 0;
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	ptr = chip->ply_pos + (chip->ply_count - 1) - fm801_readw(chip, PLY_COUNT);
- 	if (fm801_readw(chip, IRQ_STATUS) & FM801_IRQ_PLAYBACK) {
- 		ptr += chip->ply_count;
- 		ptr %= chip->ply_size;
- 	}
--	spin_unlock(&chip->reg_lock);
- 	return bytes_to_frames(substream->runtime, ptr);
- }
- 
-@@ -542,13 +533,12 @@ static snd_pcm_uframes_t snd_fm801_capture_pointer(struct snd_pcm_substream *sub
- 
- 	if (!(chip->cap_ctrl & FM801_START))
- 		return 0;
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	ptr = chip->cap_pos + (chip->cap_count - 1) - fm801_readw(chip, CAP_COUNT);
- 	if (fm801_readw(chip, IRQ_STATUS) & FM801_IRQ_CAPTURE) {
- 		ptr += chip->cap_count;
- 		ptr %= chip->cap_size;
- 	}
--	spin_unlock(&chip->reg_lock);
- 	return bytes_to_frames(substream->runtime, ptr);
- }
- 
-@@ -565,31 +555,31 @@ static irqreturn_t snd_fm801_interrupt(int irq, void *dev_id)
- 	/* ack first */
- 	fm801_writew(chip, IRQ_STATUS, status);
- 	if (chip->pcm && (status & FM801_IRQ_PLAYBACK) && chip->playback_substream) {
--		spin_lock(&chip->reg_lock);
--		chip->ply_buf++;
--		chip->ply_pos += chip->ply_count;
--		chip->ply_pos %= chip->ply_size;
--		tmp = chip->ply_pos + chip->ply_count;
--		tmp %= chip->ply_size;
--		if (chip->ply_buf & 1)
--			fm801_writel(chip, PLY_BUF1, chip->ply_buffer + tmp);
--		else
--			fm801_writel(chip, PLY_BUF2, chip->ply_buffer + tmp);
--		spin_unlock(&chip->reg_lock);
-+		scoped_guard(spinlock, &chip->reg_lock) {
-+			chip->ply_buf++;
-+			chip->ply_pos += chip->ply_count;
-+			chip->ply_pos %= chip->ply_size;
-+			tmp = chip->ply_pos + chip->ply_count;
-+			tmp %= chip->ply_size;
-+			if (chip->ply_buf & 1)
-+				fm801_writel(chip, PLY_BUF1, chip->ply_buffer + tmp);
-+			else
-+				fm801_writel(chip, PLY_BUF2, chip->ply_buffer + tmp);
-+		}
- 		snd_pcm_period_elapsed(chip->playback_substream);
- 	}
- 	if (chip->pcm && (status & FM801_IRQ_CAPTURE) && chip->capture_substream) {
--		spin_lock(&chip->reg_lock);
--		chip->cap_buf++;
--		chip->cap_pos += chip->cap_count;
--		chip->cap_pos %= chip->cap_size;
--		tmp = chip->cap_pos + chip->cap_count;
--		tmp %= chip->cap_size;
--		if (chip->cap_buf & 1)
--			fm801_writel(chip, CAP_BUF1, chip->cap_buffer + tmp);
--		else
--			fm801_writel(chip, CAP_BUF2, chip->cap_buffer + tmp);
--		spin_unlock(&chip->reg_lock);
-+		scoped_guard(spinlock, &chip->reg_lock) {
-+			chip->cap_buf++;
-+			chip->cap_pos += chip->cap_count;
-+			chip->cap_pos %= chip->cap_size;
-+			tmp = chip->cap_pos + chip->cap_count;
-+			tmp %= chip->cap_size;
-+			if (chip->cap_buf & 1)
-+				fm801_writel(chip, CAP_BUF1, chip->cap_buffer + tmp);
-+			else
-+				fm801_writel(chip, CAP_BUF2, chip->cap_buffer + tmp);
-+		}
- 		snd_pcm_period_elapsed(chip->capture_substream);
- 	}
- 	if (chip->rmidi && (status & FM801_IRQ_MPU))
-@@ -924,10 +914,9 @@ static int snd_fm801_get_double(struct snd_kcontrol *kcontrol,
- 	int invert = (kcontrol->private_value >> 24) & 0xff;
- 	long *value = ucontrol->value.integer.value;
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	value[0] = (fm801_ioread16(chip, reg) >> shift_left) & mask;
- 	value[1] = (fm801_ioread16(chip, reg) >> shift_right) & mask;
--	spin_unlock_irq(&chip->reg_lock);
- 	if (invert) {
- 		value[0] = mask - value[0];
- 		value[1] = mask - value[1];
 -- 
 2.50.1
 
