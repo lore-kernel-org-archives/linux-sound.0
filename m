@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538761E25F9
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D433322774
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756480445; cv=none; b=UuuKUp4eAU6pt+2VVuDAwmpnr6u/RoVWQCYP7yXd3NuwoVup1y9tIhAkQMvtuVvCWUJOXY1pD/cXzT06GrB7+MYF+jzlLRcY0mpWiO2k2mrrCDnJWuzAkwEmVup8comcj2AW7Hs7w7r9X9fMbbcXu5TkUhs4oa21zySMplFv2/0=
+	t=1756480446; cv=none; b=LmGxqnTuOUNVBfK0et8tG05xUftT24MOSWUXCYYQ2XpDVl1UDADsaLxu0yoqCxjvGz/yX65bd88oAZWXGBJOCLd32c4c8eo2P9wNiDPfJALp/U7UfffPJNi0BCYtabQp5epDwnYowIOdMgAhQssz71N6J2i1QXEopr9+2iXLXeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756480445; c=relaxed/simple;
-	bh=WXQo2D8/OyOH5BQwtNbsbOs9L4Z4FocY7cwdg2COsRA=;
+	s=arc-20240116; t=1756480446; c=relaxed/simple;
+	bh=E3do/8qN7XEasxJcnr6v8ksThrkyYO3ulFZ2EAfCNFc=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=urSmkn4tqyi11HtKGzEwFw1rDQq47OQtdRMkxwNoC4sCD6d7OidrSHxBZmkfiMGP2xQkouMGNtMghTYOgkPYIachPicahdxuWh2I5EJDBMEzX2hXGp1yRL+uWjadsRS/icyow8LIfBsD9Hl1Xkf+oeagxnETid0P93yDIm4RNg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=j7vaf/27; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rK0dMAkS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=j7vaf/27; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rK0dMAkS; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=S9c9TlNB45Z/4cuBzxD+f+MBaFMLlx4TzcdKimHrVCRGbiFHjyVbou9msep8cCNlnQjuUcMQOV7KZMvFIlQZ0RigcD9AU3/nrGOC0jvao40+T412m/B1uCLOPbquD9nJxTdgz9wfI8OOSjxs3qJ41yvvKWyP5+514gNnOkvdR0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qYGzEaJw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vu8P2adp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qYGzEaJw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vu8P2adp; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j7vaf/27";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rK0dMAkS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j7vaf/27";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rK0dMAkS"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qYGzEaJw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vu8P2adp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qYGzEaJw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vu8P2adp"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1379C33F08;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 723C05C26A;
 	Fri, 29 Aug 2025 15:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756480422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1WjV8YRro2Prw9JhqVocf3kJnA80yQKCGCuZbx9gYT8=;
-	b=j7vaf/27JYau3r4qm35NBJqAH0LrLIydQKJMRAXCEx6l2ipd8oW/4WgvwACQCok23+YTRW
-	AI57veWVgKLut9mi+E7S9KT0PlcnDnyMR+c2madLOnF9Ptayr2WGj2FhiTZzKd7KjGy6Op
-	CT2LNCbFZh+nNgiVH3mPSv9vh1vpIlg=
+	bh=MXUTL7WyaadOiDTiaWfpXSqe5Le413UdyUI211McMFQ=;
+	b=qYGzEaJwpxo71pVCAFi+dlAOTBxUIh37blFTi9+9jtm2zIR6FBmk/HmzRFf5hucPYlEz6d
+	patokZRJQQ0ZZsn0yMSx8Di0nLxNvcbMLWyHE2dQbVQkLsrdkA69HXcYRSoSHCSYpi+lNr
+	HjvKrZMC7dR9iUBeVbQ4noPFvZLK4E8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756480422;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1WjV8YRro2Prw9JhqVocf3kJnA80yQKCGCuZbx9gYT8=;
-	b=rK0dMAkSDGCX9o7jso/URRHR5HH1I47UkGutLQXsHQm5hGdx2AJs0AJmdB9Utv5R5WCbos
-	yfUPhhJHoneLayAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="j7vaf/27";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rK0dMAkS
+	bh=MXUTL7WyaadOiDTiaWfpXSqe5Le413UdyUI211McMFQ=;
+	b=vu8P2adpvwDy14HA49SwTnC56qIFlcWVdfB9+JggzSr1IIvVhj4nS79jVnzgjczZ2CC/cA
+	6byypfoNd9yV1eBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qYGzEaJw;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vu8P2adp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756480422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1WjV8YRro2Prw9JhqVocf3kJnA80yQKCGCuZbx9gYT8=;
-	b=j7vaf/27JYau3r4qm35NBJqAH0LrLIydQKJMRAXCEx6l2ipd8oW/4WgvwACQCok23+YTRW
-	AI57veWVgKLut9mi+E7S9KT0PlcnDnyMR+c2madLOnF9Ptayr2WGj2FhiTZzKd7KjGy6Op
-	CT2LNCbFZh+nNgiVH3mPSv9vh1vpIlg=
+	bh=MXUTL7WyaadOiDTiaWfpXSqe5Le413UdyUI211McMFQ=;
+	b=qYGzEaJwpxo71pVCAFi+dlAOTBxUIh37blFTi9+9jtm2zIR6FBmk/HmzRFf5hucPYlEz6d
+	patokZRJQQ0ZZsn0yMSx8Di0nLxNvcbMLWyHE2dQbVQkLsrdkA69HXcYRSoSHCSYpi+lNr
+	HjvKrZMC7dR9iUBeVbQ4noPFvZLK4E8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756480422;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1WjV8YRro2Prw9JhqVocf3kJnA80yQKCGCuZbx9gYT8=;
-	b=rK0dMAkSDGCX9o7jso/URRHR5HH1I47UkGutLQXsHQm5hGdx2AJs0AJmdB9Utv5R5WCbos
-	yfUPhhJHoneLayAA==
+	bh=MXUTL7WyaadOiDTiaWfpXSqe5Le413UdyUI211McMFQ=;
+	b=vu8P2adpvwDy14HA49SwTnC56qIFlcWVdfB9+JggzSr1IIvVhj4nS79jVnzgjczZ2CC/cA
+	6byypfoNd9yV1eBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE5B913A54;
-	Fri, 29 Aug 2025 15:13:41 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5756013326;
+	Fri, 29 Aug 2025 15:13:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qC0YNaXDsWiQIQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 15:13:41 +0000
+	id mCIJFKbDsWiQIQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 15:13:42 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 06/19] ALSA: x86: Use guard() for mutex locks
-Date: Fri, 29 Aug 2025 17:13:20 +0200
-Message-ID: <20250829151335.7342-7-tiwai@suse.de>
+Subject: [PATCH 09/19] ALSA: at73c213: Use guard() for mutex locks
+Date: Fri, 29 Aug 2025 17:13:23 +0200
+Message-ID: <20250829151335.7342-10-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829151335.7342-1-tiwai@suse.de>
 References: <20250829151335.7342-1-tiwai@suse.de>
@@ -91,7 +91,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 1379C33F08
+X-Rspamd-Queue-Id: 723C05C26A
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00];
@@ -127,73 +127,134 @@ Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/x86/intel_hdmi_audio.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ sound/spi/at73c213.c | 39 ++++++++++-----------------------------
+ 1 file changed, 10 insertions(+), 29 deletions(-)
 
-diff --git a/sound/x86/intel_hdmi_audio.c b/sound/x86/intel_hdmi_audio.c
-index 01f49555c5f6..c1506a9f7e15 100644
---- a/sound/x86/intel_hdmi_audio.c
-+++ b/sound/x86/intel_hdmi_audio.c
-@@ -554,16 +554,13 @@ static int had_chmap_ctl_get(struct snd_kcontrol *kcontrol,
+diff --git a/sound/spi/at73c213.c b/sound/spi/at73c213.c
+index a0a7f90b6146..0ece7ccbd55f 100644
+--- a/sound/spi/at73c213.c
++++ b/sound/spi/at73c213.c
+@@ -401,7 +401,7 @@ static int snd_at73c213_mono_get(struct snd_kcontrol *kcontrol,
+ 	int mask = (kcontrol->private_value >> 16) & 0xff;
+ 	int invert = (kcontrol->private_value >> 24) & 0xff;
  
- 	memset(ucontrol->value.integer.value, 0,
- 	       sizeof(long) * HAD_MAX_CHANNEL);
--	mutex_lock(&intelhaddata->mutex);
--	if (!intelhaddata->chmap->chmap) {
--		mutex_unlock(&intelhaddata->mutex);
-+	guard(mutex)(&intelhaddata->mutex);
-+	if (!intelhaddata->chmap->chmap)
- 		return 0;
--	}
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
  
- 	chmap = intelhaddata->chmap->chmap;
- 	for (i = 0; i < chmap->channels; i++)
- 		ucontrol->value.integer.value[i] = chmap->map[i];
--	mutex_unlock(&intelhaddata->mutex);
+ 	ucontrol->value.integer.value[0] =
+ 		(chip->reg_image[reg] >> shift) & mask;
+@@ -410,8 +410,6 @@ static int snd_at73c213_mono_get(struct snd_kcontrol *kcontrol,
+ 		ucontrol->value.integer.value[0] =
+ 			mask - ucontrol->value.integer.value[0];
  
- 	return 0;
- }
-@@ -1394,14 +1391,13 @@ static int had_iec958_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_intelhad *intelhaddata = snd_kcontrol_chip(kcontrol);
- 
--	mutex_lock(&intelhaddata->mutex);
-+	guard(mutex)(&intelhaddata->mutex);
- 	ucontrol->value.iec958.status[0] = (intelhaddata->aes_bits >> 0) & 0xff;
- 	ucontrol->value.iec958.status[1] = (intelhaddata->aes_bits >> 8) & 0xff;
- 	ucontrol->value.iec958.status[2] =
- 					(intelhaddata->aes_bits >> 16) & 0xff;
- 	ucontrol->value.iec958.status[3] =
- 					(intelhaddata->aes_bits >> 24) & 0xff;
--	mutex_unlock(&intelhaddata->mutex);
+-	mutex_unlock(&chip->mixer_lock);
+-
  	return 0;
  }
  
-@@ -1426,12 +1422,11 @@ static int had_iec958_put(struct snd_kcontrol *kcontrol,
- 		(ucontrol->value.iec958.status[1] << 8) |
- 		(ucontrol->value.iec958.status[2] << 16) |
- 		(ucontrol->value.iec958.status[3] << 24);
--	mutex_lock(&intelhaddata->mutex);
-+	guard(mutex)(&intelhaddata->mutex);
- 	if (intelhaddata->aes_bits != val) {
- 		intelhaddata->aes_bits = val;
- 		changed = 1;
+@@ -431,14 +429,12 @@ static int snd_at73c213_mono_put(struct snd_kcontrol *kcontrol,
+ 		val = mask - val;
+ 	val <<= shift;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
+ 
+ 	val = (chip->reg_image[reg] & ~(mask << shift)) | val;
+ 	change = val != chip->reg_image[reg];
+ 	retval = snd_at73c213_write_reg(chip, reg, val);
+ 
+-	mutex_unlock(&chip->mixer_lock);
+-
+ 	if (retval)
+ 		return retval;
+ 
+@@ -473,7 +469,7 @@ static int snd_at73c213_stereo_get(struct snd_kcontrol *kcontrol,
+ 	int mask = (kcontrol->private_value >> 24) & 0xff;
+ 	int invert = (kcontrol->private_value >> 22) & 1;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
+ 
+ 	ucontrol->value.integer.value[0] =
+ 		(chip->reg_image[left_reg] >> shift_left) & mask;
+@@ -487,8 +483,6 @@ static int snd_at73c213_stereo_get(struct snd_kcontrol *kcontrol,
+ 			mask - ucontrol->value.integer.value[1];
  	}
--	mutex_unlock(&intelhaddata->mutex);
- 	return changed;
- }
  
-@@ -1448,10 +1443,9 @@ static int had_ctl_eld_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_intelhad *intelhaddata = snd_kcontrol_chip(kcontrol);
- 
--	mutex_lock(&intelhaddata->mutex);
-+	guard(mutex)(&intelhaddata->mutex);
- 	memcpy(ucontrol->value.bytes.data, intelhaddata->eld,
- 	       HDMI_MAX_ELD_BYTES);
--	mutex_unlock(&intelhaddata->mutex);
+-	mutex_unlock(&chip->mixer_lock);
+-
  	return 0;
  }
+ 
+@@ -514,29 +508,20 @@ static int snd_at73c213_stereo_put(struct snd_kcontrol *kcontrol,
+ 	val1 <<= shift_left;
+ 	val2 <<= shift_right;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
+ 
+ 	val1 = (chip->reg_image[left_reg] & ~(mask << shift_left)) | val1;
+ 	val2 = (chip->reg_image[right_reg] & ~(mask << shift_right)) | val2;
+ 	change = val1 != chip->reg_image[left_reg]
+ 		|| val2 != chip->reg_image[right_reg];
+ 	retval = snd_at73c213_write_reg(chip, left_reg, val1);
+-	if (retval) {
+-		mutex_unlock(&chip->mixer_lock);
+-		goto out;
+-	}
++	if (retval)
++		return retval;
+ 	retval = snd_at73c213_write_reg(chip, right_reg, val2);
+-	if (retval) {
+-		mutex_unlock(&chip->mixer_lock);
+-		goto out;
+-	}
+-
+-	mutex_unlock(&chip->mixer_lock);
++	if (retval)
++		return retval;
+ 
+ 	return change;
+-
+-out:
+-	return retval;
+ }
+ 
+ #define snd_at73c213_mono_switch_info	snd_ctl_boolean_mono_info
+@@ -549,7 +534,7 @@ static int snd_at73c213_mono_switch_get(struct snd_kcontrol *kcontrol,
+ 	int shift = (kcontrol->private_value >> 8) & 0xff;
+ 	int invert = (kcontrol->private_value >> 24) & 0xff;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
+ 
+ 	ucontrol->value.integer.value[0] =
+ 		(chip->reg_image[reg] >> shift) & 0x01;
+@@ -558,8 +543,6 @@ static int snd_at73c213_mono_switch_get(struct snd_kcontrol *kcontrol,
+ 		ucontrol->value.integer.value[0] =
+ 			0x01 - ucontrol->value.integer.value[0];
+ 
+-	mutex_unlock(&chip->mixer_lock);
+-
+ 	return 0;
+ }
+ 
+@@ -583,15 +566,13 @@ static int snd_at73c213_mono_switch_put(struct snd_kcontrol *kcontrol,
+ 		val = mask - val;
+ 	val <<= shift;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
+ 
+ 	val |= (chip->reg_image[reg] & ~(mask << shift));
+ 	change = val != chip->reg_image[reg];
+ 
+ 	retval = snd_at73c213_write_reg(chip, reg, val);
+ 
+-	mutex_unlock(&chip->mixer_lock);
+-
+ 	if (retval)
+ 		return retval;
  
 -- 
 2.50.1
