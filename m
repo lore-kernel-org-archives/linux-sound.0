@@ -1,83 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C39322774
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD65322750
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478662; cv=none; b=dfBxAHghGN6o0ya4kkLhl7sbtY2ctfn3pKh2lYsAwYDEwyizViSGuRo6qM/qeJCT+9zGjlyd4nsl1Qo3LydU+BeRG55M0RLgeod4LIK5p+BD74HjW/d7nYeMO9BcgndeM6fWKNTfAq7Fg/NLFfN4xj11wkUCebwoOqjRmwVzcZc=
+	t=1756478668; cv=none; b=Vt/7cvozq21XtJAUO16R4D9MeIkxUcTTrTM6/2EAY6Y2y8UlZqA/JNEM8+Dk43pKFk16jPd1ahbbJ1YRPcoXVSI9Bf5up8lY4THpFQSZc+BWnEA+2uJSfo6w4xZoBi1kZGr4fHkGu3f8ZqEmALYcll5gXZ8wF5fjwDeKM7whhSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478662; c=relaxed/simple;
-	bh=NXUAVF9KXLqNpXoGHgiJyDdIe2wz4OEeUwDSj9+GXKM=;
+	s=arc-20240116; t=1756478668; c=relaxed/simple;
+	bh=FkHhYReWewnaXTyRX6SCD7hyaf3BS5d+xzHczMFwJRo=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IW37iGYR69Q697RKRdTS0AQFBxsApf7u3j1haYpJuATESVeawCopv28+31x7BuMS7F5hKsk+ja4fgzOIPEaXpXTg7ole6vvjL6mXZQmKptgr6Ggidxbs7CcRJLmhsV0/fqhbF+wu2Q/Y6FxET+G39z1IQqDvPtjjYTXPO5vkJUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v7wEbM3J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zwyx/oy+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v7wEbM3J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zwyx/oy+; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=Ct4R+OvVsfjv9zq+IKno2t57Yk5LIizkaDQuRvS8MqGo9FqCFXb2/m9b64KpVNRw0TnHwHF3LlQz2g6Y/DEiq/gLHqlem6B3NDKJRcX2dbH8cFIE0vBkRAMlo8qHZHh0L6635xUqcpQ5kP08OpID4Kqp8YichI4Iu04MVSgMkX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kk1KTnbH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ka+nfst4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kk1KTnbH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ka+nfst4; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v7wEbM3J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zwyx/oy+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v7wEbM3J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zwyx/oy+"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kk1KTnbH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ka+nfst4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kk1KTnbH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ka+nfst4"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3BC065C22A;
-	Fri, 29 Aug 2025 14:43:53 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 80B1533EC7;
+	Fri, 29 Aug 2025 14:43:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478633; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v/u/ITArElfYXRGIsePflX9NOfHSogIjMDeXeo8+Akc=;
-	b=v7wEbM3JMpw1Ms5yL/yQ2ZUfT3neMMV8cfvYfwjSL/avPGrwhThZpJYVIc9uCK+gKAZ9rj
-	2GY8gSWA5sRwMmtGB5caFhn6G2yZsx5xYmIZ2cfcWdmyJtri2PocM4L5ycz5bXI2N8PWZX
-	+8njdWaLooJaR2s+HymTxVu/hn51b+0=
+	bh=WXQL2Lrn9v/dxZCGYdxYYiUAAM3sc01YKZUgMucgrdk=;
+	b=kk1KTnbHrHZ0pvsQlKYThGM0tqcoqcH4nYG6AUlOZQYXXGZtjK3r1VAMuFqIo2gFbrk8Y2
+	u0HIrCXTbYPQ1gsLuMLwS3C9GQ0bdm//l0XdzONqpgd5qC0wqSAQOYnJSEd5L/JaD3zlCr
+	CGl+KnHTVsBrwQKOk9XZH/Vd2VG+7vw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478633;
+	s=susede2_ed25519; t=1756478634;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v/u/ITArElfYXRGIsePflX9NOfHSogIjMDeXeo8+Akc=;
-	b=Zwyx/oy+5AH99vM+Ap+fTFmOhBJfHU7fBH0gp+84MQNa04ej+k5/zhS8zffhf+2VKn1H71
-	BumA5GFEAn/hh4Cg==
-Authentication-Results: smtp-out2.suse.de;
+	bh=WXQL2Lrn9v/dxZCGYdxYYiUAAM3sc01YKZUgMucgrdk=;
+	b=ka+nfst4AnEToYUTSClp9vRKSqCBPIol/TczHA3QsNNfiAdLkbqPTawJZ8PGFY2yPLo1Wy
+	hVB+6fclb5ztU4Bg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478633; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v/u/ITArElfYXRGIsePflX9NOfHSogIjMDeXeo8+Akc=;
-	b=v7wEbM3JMpw1Ms5yL/yQ2ZUfT3neMMV8cfvYfwjSL/avPGrwhThZpJYVIc9uCK+gKAZ9rj
-	2GY8gSWA5sRwMmtGB5caFhn6G2yZsx5xYmIZ2cfcWdmyJtri2PocM4L5ycz5bXI2N8PWZX
-	+8njdWaLooJaR2s+HymTxVu/hn51b+0=
+	bh=WXQL2Lrn9v/dxZCGYdxYYiUAAM3sc01YKZUgMucgrdk=;
+	b=kk1KTnbHrHZ0pvsQlKYThGM0tqcoqcH4nYG6AUlOZQYXXGZtjK3r1VAMuFqIo2gFbrk8Y2
+	u0HIrCXTbYPQ1gsLuMLwS3C9GQ0bdm//l0XdzONqpgd5qC0wqSAQOYnJSEd5L/JaD3zlCr
+	CGl+KnHTVsBrwQKOk9XZH/Vd2VG+7vw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478633;
+	s=susede2_ed25519; t=1756478634;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v/u/ITArElfYXRGIsePflX9NOfHSogIjMDeXeo8+Akc=;
-	b=Zwyx/oy+5AH99vM+Ap+fTFmOhBJfHU7fBH0gp+84MQNa04ej+k5/zhS8zffhf+2VKn1H71
-	BumA5GFEAn/hh4Cg==
+	bh=WXQL2Lrn9v/dxZCGYdxYYiUAAM3sc01YKZUgMucgrdk=;
+	b=ka+nfst4AnEToYUTSClp9vRKSqCBPIol/TczHA3QsNNfiAdLkbqPTawJZ8PGFY2yPLo1Wy
+	hVB+6fclb5ztU4Bg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2133113A3E;
-	Fri, 29 Aug 2025 14:43:53 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6883C13A3E;
+	Fri, 29 Aug 2025 14:43:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OOP7Bqm8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:53 +0000
+	id 4JYvGKq8sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:54 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 07/61] ALSA: als300: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:42:42 +0200
-Message-ID: <20250829144342.4290-8-tiwai@suse.de>
+Subject: [PATCH 10/61] ALSA: atiixp: Use guard() for mutex locks
+Date: Fri, 29 Aug 2025 16:42:45 +0200
+Message-ID: <20250829144342.4290-11-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -88,7 +88,6 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -101,7 +100,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -110,107 +109,120 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
+X-Spam-Level: 
 X-Spam-Score: -2.80
 
-Clean up the code using guard() for spin locks.
+Replace the manual mutex lock/unlock pairs with guard() for code
+simplification.
 
-Merely code refactoring, and no behavior change.
+Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/als300.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ sound/pci/atiixp.c       | 31 ++++++++++++-------------------
+ sound/pci/atiixp_modem.c | 17 +++++------------
+ 2 files changed, 17 insertions(+), 31 deletions(-)
 
-diff --git a/sound/pci/als300.c b/sound/pci/als300.c
-index f9e8424dc77f..733e84def5a7 100644
---- a/sound/pci/als300.c
-+++ b/sound/pci/als300.c
-@@ -402,7 +402,7 @@ static int snd_als300_playback_prepare(struct snd_pcm_substream *substream)
- 	unsigned short period_bytes = snd_pcm_lib_period_bytes(substream);
- 	unsigned short buffer_bytes = snd_pcm_lib_buffer_bytes(substream);
- 	
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	tmp = snd_als300_gcr_read(chip->port, PLAYBACK_CONTROL);
- 	tmp &= ~TRANSFER_START;
+diff --git a/sound/pci/atiixp.c b/sound/pci/atiixp.c
+index 4f544950ee7b..38c07f3de850 100644
+--- a/sound/pci/atiixp.c
++++ b/sound/pci/atiixp.c
+@@ -1073,9 +1073,8 @@ static int snd_atiixp_playback_open(struct snd_pcm_substream *substream)
+ 	struct atiixp *chip = snd_pcm_substream_chip(substream);
+ 	int err;
  
-@@ -419,7 +419,6 @@ static int snd_als300_playback_prepare(struct snd_pcm_substream *substream)
- 					runtime->dma_addr);
- 	snd_als300_gcr_write(chip->port, PLAYBACK_END,
- 					runtime->dma_addr + buffer_bytes - 1);
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -431,7 +430,7 @@ static int snd_als300_capture_prepare(struct snd_pcm_substream *substream)
- 	unsigned short period_bytes = snd_pcm_lib_period_bytes(substream);
- 	unsigned short buffer_bytes = snd_pcm_lib_buffer_bytes(substream);
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	tmp = snd_als300_gcr_read(chip->port, RECORD_CONTROL);
- 	tmp &= ~TRANSFER_START;
- 
-@@ -448,7 +447,6 @@ static int snd_als300_capture_prepare(struct snd_pcm_substream *substream)
- 					runtime->dma_addr);
- 	snd_als300_gcr_write(chip->port, RECORD_END,
- 					runtime->dma_addr + buffer_bytes - 1);
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -463,7 +461,7 @@ static int snd_als300_trigger(struct snd_pcm_substream *substream, int cmd)
- 	data = substream->runtime->private_data;
- 	reg = data->control_register;
- 
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_RESUME:
-@@ -492,7 +490,6 @@ static int snd_als300_trigger(struct snd_pcm_substream *substream, int cmd)
- 		snd_als300_dbgplay("TRIGGER INVALID\n");
- 		ret = -EINVAL;
- 	}
--	spin_unlock(&chip->reg_lock);
- 	return ret;
- }
- 
-@@ -506,10 +503,10 @@ static snd_pcm_uframes_t snd_als300_pointer(struct snd_pcm_substream *substream)
- 	data = substream->runtime->private_data;
- 	period_bytes = snd_pcm_lib_period_bytes(substream);
- 	
--	spin_lock(&chip->reg_lock);
--	current_ptr = (u16) snd_als300_gcr_read(chip->port,
--					data->block_counter_register) + 4;
--	spin_unlock(&chip->reg_lock);
-+	scoped_guard(spinlock, &chip->reg_lock) {
-+		current_ptr = (u16) snd_als300_gcr_read(chip->port,
-+							data->block_counter_register) + 4;
-+	}
- 	if (current_ptr > period_bytes)
- 		current_ptr = 0;
- 	else
-@@ -563,10 +560,9 @@ static int snd_als300_new_pcm(struct snd_als300 *chip)
- 
- static void snd_als300_init(struct snd_als300 *chip)
+-	mutex_lock(&chip->open_mutex);
++	guard(mutex)(&chip->open_mutex);
+ 	err = snd_atiixp_pcm_open(substream, &chip->dmas[ATI_DMA_PLAYBACK], 0);
+-	mutex_unlock(&chip->open_mutex);
+ 	if (err < 0)
+ 		return err;
+ 	substream->runtime->hw.channels_max = chip->max_channels;
+@@ -1089,11 +1088,9 @@ static int snd_atiixp_playback_open(struct snd_pcm_substream *substream)
+ static int snd_atiixp_playback_close(struct snd_pcm_substream *substream)
  {
--	unsigned long flags;
- 	u32 tmp;
- 	
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	chip->revision = (snd_als300_gcr_read(chip->port, MISC_CONTROL) >> 16)
- 								& 0x0000000F;
- 	/* Setup DRAM */
-@@ -591,7 +587,6 @@ static void snd_als300_init(struct snd_als300 *chip)
- 	tmp = snd_als300_gcr_read(chip->port, PLAYBACK_CONTROL);
- 	snd_als300_gcr_write(chip->port, PLAYBACK_CONTROL,
- 			tmp & ~TRANSFER_START);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	struct atiixp *chip = snd_pcm_substream_chip(substream);
+-	int err;
+-	mutex_lock(&chip->open_mutex);
+-	err = snd_atiixp_pcm_close(substream, &chip->dmas[ATI_DMA_PLAYBACK]);
+-	mutex_unlock(&chip->open_mutex);
+-	return err;
++
++	guard(mutex)(&chip->open_mutex);
++	return snd_atiixp_pcm_close(substream, &chip->dmas[ATI_DMA_PLAYBACK]);
  }
  
- static int snd_als300_create(struct snd_card *card,
+ static int snd_atiixp_capture_open(struct snd_pcm_substream *substream)
+@@ -1111,27 +1108,23 @@ static int snd_atiixp_capture_close(struct snd_pcm_substream *substream)
+ static int snd_atiixp_spdif_open(struct snd_pcm_substream *substream)
+ {
+ 	struct atiixp *chip = snd_pcm_substream_chip(substream);
+-	int err;
+-	mutex_lock(&chip->open_mutex);
++
++	guard(mutex)(&chip->open_mutex);
+ 	if (chip->spdif_over_aclink) /* share DMA_PLAYBACK */
+-		err = snd_atiixp_pcm_open(substream, &chip->dmas[ATI_DMA_PLAYBACK], 2);
++		return snd_atiixp_pcm_open(substream, &chip->dmas[ATI_DMA_PLAYBACK], 2);
+ 	else
+-		err = snd_atiixp_pcm_open(substream, &chip->dmas[ATI_DMA_SPDIF], -1);
+-	mutex_unlock(&chip->open_mutex);
+-	return err;
++		return snd_atiixp_pcm_open(substream, &chip->dmas[ATI_DMA_SPDIF], -1);
+ }
+ 
+ static int snd_atiixp_spdif_close(struct snd_pcm_substream *substream)
+ {
+ 	struct atiixp *chip = snd_pcm_substream_chip(substream);
+-	int err;
+-	mutex_lock(&chip->open_mutex);
++
++	guard(mutex)(&chip->open_mutex);
+ 	if (chip->spdif_over_aclink)
+-		err = snd_atiixp_pcm_close(substream, &chip->dmas[ATI_DMA_PLAYBACK]);
++		return snd_atiixp_pcm_close(substream, &chip->dmas[ATI_DMA_PLAYBACK]);
+ 	else
+-		err = snd_atiixp_pcm_close(substream, &chip->dmas[ATI_DMA_SPDIF]);
+-	mutex_unlock(&chip->open_mutex);
+-	return err;
++		return snd_atiixp_pcm_close(substream, &chip->dmas[ATI_DMA_SPDIF]);
+ }
+ 
+ /* AC97 playback */
+diff --git a/sound/pci/atiixp_modem.c b/sound/pci/atiixp_modem.c
+index f7417c2bb477..81a53336699e 100644
+--- a/sound/pci/atiixp_modem.c
++++ b/sound/pci/atiixp_modem.c
+@@ -892,24 +892,17 @@ static int snd_atiixp_pcm_close(struct snd_pcm_substream *substream,
+ static int snd_atiixp_playback_open(struct snd_pcm_substream *substream)
+ {
+ 	struct atiixp_modem *chip = snd_pcm_substream_chip(substream);
+-	int err;
+ 
+-	mutex_lock(&chip->open_mutex);
+-	err = snd_atiixp_pcm_open(substream, &chip->dmas[ATI_DMA_PLAYBACK], 0);
+-	mutex_unlock(&chip->open_mutex);
+-	if (err < 0)
+-		return err;
+-	return 0;
++	guard(mutex)(&chip->open_mutex);
++	return snd_atiixp_pcm_open(substream, &chip->dmas[ATI_DMA_PLAYBACK], 0);
+ }
+ 
+ static int snd_atiixp_playback_close(struct snd_pcm_substream *substream)
+ {
+ 	struct atiixp_modem *chip = snd_pcm_substream_chip(substream);
+-	int err;
+-	mutex_lock(&chip->open_mutex);
+-	err = snd_atiixp_pcm_close(substream, &chip->dmas[ATI_DMA_PLAYBACK]);
+-	mutex_unlock(&chip->open_mutex);
+-	return err;
++
++	guard(mutex)(&chip->open_mutex);
++	return snd_atiixp_pcm_close(substream, &chip->dmas[ATI_DMA_PLAYBACK]);
+ }
+ 
+ static int snd_atiixp_capture_open(struct snd_pcm_substream *substream)
 -- 
 2.50.1
 
