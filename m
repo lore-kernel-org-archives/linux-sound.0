@@ -1,182 +1,156 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazolkn19013084.outbound.protection.outlook.com [52.103.33.84])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8391E229B1F;
-	Fri, 29 Aug 2025 12:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.33.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756469370; cv=fail; b=sIouC7zGNXIUo/e5hYPbi5Uk/oylUkqflMNY/UuUuYGWlh3KQ18kuJMktxl9/1Wv3FUC6PzzQgAPWjLmCQJJzuFdKdOJcL8lhAYyIaeLdacFWPsj1n0luPrRancSd51JY4M0qRBoL0aPsNEgJd0016NOkbz6jPFQcJx5yg2EeJ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756469370; c=relaxed/simple;
-	bh=vlkLvTZDZZPJJtSGChDIpbplBmleTgofPJJ5kGtDm9A=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Sz9D9pbE/CA+0JhKkeWvqYoHXZOFZPoKz03+eVId4lHDbrKW46v50EAk0RxV24ojYzYea2mGQpEwt2p4Cu2c1MDNl+qtbofwl+yN2PN3/JDtvecOqV0QUFWgiIbD2IvFOn9i+3cw5Ks1Ym1uEeYrs/3DGxJBefI8TFSbZqRCRzQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=p/ETy4Ez; arc=fail smtp.client-ip=52.103.33.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4E13128BA;
+	Fri, 29 Aug 2025 12:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756469934; cv=none; b=j+avQN4WhEr7qXpDuA/3nhceLiCx2nMLiANtB4U3xGPsCcmFsdKQ73zdCesgJvKUYW3Gkjk5YeEWLfpsdkuT7kThPTFWA5UeDUkP1Qy8FCufqzoQS1OSATLB+fOkIIqiq2ErXMnOoiY2ormYdotsQ6vTGLhuxRLtU1dCLDRSIgc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756469934; c=relaxed/simple;
+	bh=lmOaDJrWsALHNdIkFkPEn+1/tHhvy8ASz+0CpcTOxMQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=aixO4Udse8s1/Be5EQ+hm5B9V1oK4EoGuqdUm4w7WZN6OgfQjs9oDhXgFjHHuKBX6oB6pN/VihjWOlSnlzAU7WZg5OrRBnvWeTs7xPkgdvtSa+K9u01GU0NVVPZOrZ1nq17ue8hc+/U1WWO2OoUou5xWsMxaTmWf/Yo/c/qSaoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQ0/AxIO; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="p/ETy4Ez"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VYTdUfMDS6s80zAdr6lKzzMb9VQ2OkAarm+f+BmuqP0r6AkT46Qa/6kgJUweejc4mM7CufuTie7Rz84fTrtO8kLzkfv1U6G7wTMshqYVCZPk6+psceN2LJlf4crFQkituJY8YPNSAF15jRfR6yWA/zBGPrEOT3vsLcK02EAoKqvtawi6v3Rq4RYkbZfLn8XsqBd6kBH7qC5RQLscdlERGw/HCPSYXom33CIdHrcVxkBURPole/iNHBxM4MxIeVl1pkZWblMhwhh78dYHe3s8C5CsQaURiBatjv1/kQMW2UgDyr+sBxHxagUsJz32RX0vwwLDLPUdcHHwj3qVDB4UcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h57HBxcSiY0SG6v7wxAj9+QmyN+laDhOcbRw/aQ9mZM=;
- b=y87UnarHEzDkRS9YBfHubnPWBi1ja/V+57tyCU55qrsilSZgKDvjeINdW59xIMj5K9S6YledOG/2T4iTcwDTFh3Qml37xxGtxOKrdsABEUH8TcmeaVuqfne5ONEO0xdlr466BO1TYZUzej6XN8JeOH1+w7U1o1KrETY02SMx5xoxdTsbJwWPq6/QRCMkT+QxDhKzcC9GJ3qKOrIiMg/ovPGdlw8Agw76r2xaMJMCYkPISKF4IJNQi9eXFQgKTAj1pDoX3lv42fDC5bXRkyq0QixZOEv3G7aQ3WcYsmJ+DKvYYtNqsTdcdTCIdyIBwC5W7WXGDkZcJY3R0xsbrSCSLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h57HBxcSiY0SG6v7wxAj9+QmyN+laDhOcbRw/aQ9mZM=;
- b=p/ETy4EzmMEMzglNh+Ce3gm6cHW+qKqjaiiNy3mN2ahrHm4vJrlKQG0IgjCdK4+v1dfoyABGf8z7lmGoSTtUvwITrarHxRSeTxC+pWNDbFmaj2Hr+dxAN6RtxBQtNobi2B47JTj3VbbNkZ0nE8F6iV22wyeHJ8CigFZen2+VC8j8rEvvxzUxND5NfLoIx4MhWo8BIrUjrkN3xz5XZ9xG9u5UjfiwjeNyNmiZlWKuYdO1t48TGNNPWsHCXO39VLvyUQ+TrDhPmgWFvhPr+ENzyi9lGMd9D6qiX9fMkXP/rG1xvosOfjdczbo9VvaktFwIwo2jOF5eoNv9a+qNxrNHUQ==
-Received: from AM7P189MB1009.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:175::17)
- by DU0P189MB3268.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:5a7::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.13; Fri, 29 Aug
- 2025 12:09:25 +0000
-Received: from AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
- ([fe80::5756:694d:1641:3b13]) by AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
- ([fe80::5756:694d:1641:3b13%4]) with mapi id 15.20.9052.014; Fri, 29 Aug 2025
- 12:09:25 +0000
-Message-ID:
- <AM7P189MB1009CB3632FAAEEE43D9CED5E33AA@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
-Date: Fri, 29 Aug 2025 14:09:24 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] arm64: dts: rockchip: Enables sound output from the
- audio jack on OrangePI5 Plus
-To: Hide Hako <opi5plus@bcc.bai.ne.jp>
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, heiko@sntech.de,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sound@vger.kernel.org, robh@kernel.org
-References: <20250826134456.9636-2-opi5plus@bcc.bai.ne.jp>
- <AM7P189MB1009A67370CA029038DF2A69E33BA@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
- <0b061e42-0a01-4839-871c-a5d760dbddeb@bcc.bai.ne.jp>
-Content-Language: en-US
-From: Maud Spierings <maud_spierings@hotmail.com>
-In-Reply-To: <0b061e42-0a01-4839-871c-a5d760dbddeb@bcc.bai.ne.jp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P189CA0065.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:659::8) To AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:175::17)
-X-Microsoft-Original-Message-ID:
- <ffff1abf-2427-444a-8934-045ea6e3f6f2@hotmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQ0/AxIO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756469933; x=1788005933;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=lmOaDJrWsALHNdIkFkPEn+1/tHhvy8ASz+0CpcTOxMQ=;
+  b=JQ0/AxIOhGOdNMLF+qwZWK/qJiXTSwfEjc9AjX87xrVNj81JYdTRUYja
+   V7Zb2LTkZJLsheaBDsqGMptJ5WLRby9tzbmbVTPMLbVDGXjofwZLzfW44
+   uOWocqbtuuJjlRsXxevgLMALWmEsvl5IiIVUgq/yRnlEAAkyhKziMiGiq
+   8LQ0HYP1ZzdKGkkj3GmzQUSZySM6I71X9QFAhieJDOOWEHkEahigArV0G
+   EZKhduHmce0JLMY2Jfh70zm2ysBhf+FZp5eGkImBMlzoWCDD2/UUeD67o
+   gUoOPBKJW64YrJe4R/5lKaE/2DIWL5soyk1zj202MgephKE5eRnOICCye
+   A==;
+X-CSE-ConnectionGUID: HteoTLb2Tjy5YxO8qrXg+A==
+X-CSE-MsgGUID: J3mI7IycSxOWSYmo7wvxqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="58603807"
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
+   d="scan'208";a="58603807"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 05:18:51 -0700
+X-CSE-ConnectionGUID: FceyOGKfTMK8J/ArNXLz6w==
+X-CSE-MsgGUID: nahg4MG6QSGDgmwgF/j0Ug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
+   d="scan'208";a="170753940"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.246.58])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 05:18:22 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Documentation
+ <linux-doc@vger.kernel.org>, Linux DAMON <damon@lists.linux.dev>, Linux
+ Memory Management List <linux-mm@kvack.org>, Linux Power Management
+ <linux-pm@vger.kernel.org>, Linux Block Devices
+ <linux-block@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>, Linux
+ Kernel Workflows <workflows@vger.kernel.org>, Linux KASAN
+ <kasan-dev@googlegroups.com>, Linux Devicetree
+ <devicetree@vger.kernel.org>, Linux fsverity <fsverity@lists.linux.dev>,
+ Linux MTD <linux-mtd@lists.infradead.org>, Linux DRI Development
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Build System
+ <linux-lbuild@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>,
+ Linux Sound <linux-sound@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf
+ <jpoimboe@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy"
+ <gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
+ Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>, Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
+ <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, Andrey Ryabinin
+ <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey
+ Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>, tytso@mit.edu,
+ Richard Weinberger <richard@nod.at>, Zhihao Cheng
+ <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>, Will
+ Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Waiman Long
+ <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Shay Agroskin
+ <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>, David
+ Arinzon <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>, Andrew
+ Lunn <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>, The AWS Nitro
+ Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Bagas Sanjaya <bagasdotme@gmail.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Steve French
+ <stfrench@microsoft.com>, Meetakshi Setiya <msetiya@microsoft.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Bart Van Assche <bvanassche@acm.org>, Thomas
+ =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Masahiro Yamada
+ <masahiroy@kernel.org>
+Subject: Re: [PATCH 00/14] Internalize www.kernel.org/doc cross-reference
+In-Reply-To: <20250829075524.45635-1-bagasdotme@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250829075524.45635-1-bagasdotme@gmail.com>
+Date: Fri, 29 Aug 2025 15:18:20 +0300
+Message-ID: <437912a24e94673c2355a2b7b50c3c4b6f68fcc6@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7P189MB1009:EE_|DU0P189MB3268:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c0efa7f-3218-4105-6e88-08dde6f4e552
-X-MS-Exchange-SLBlob-MailProps:
-	/UmSaZDmfYBk0OqXWkGcw9KFcS+e1k4i74Lcb+KFj/kRsLKDsOin6Li1a561l+xBHJIGGuHqNNF6hBfGn7RxVVSrFYp20O9LWjTbaUNCwaaBQXRZngHA1Ix12ZtjI8Ukc2i6+w3LqJGkxUhyUbiOnSGC7Kx/OcessFqOIjBbUcZeK5ZiqH4xxihjOnzunpiuRKeaPT+pY1rd0WI/Bre2mpfNltuep1CbXCaic7LMdVG9KKLQC6AU89ANRioGPdzJIz1RWMyaBTmbXmk3phrWNQJggvb2NV+PNIaRxNJKWkhzqOQvIZkrr9BN2JhoD9aGTxGpURXaxh/sIAKrTYh9jIboRrgN1PkEBPqtRZStCypNfothdKVRNB0RtfUqdK3cppjZhoO3Jqze9aH/0dDK+nJzJHgrJJ5Fjhrw0eWrp++C+lVi+zI6q+diPif1/Z5teHPGJG/KsEQ+SeqEA98qQjPZPBlAeShItxMqufvZTcZM4MVgAuZEGPkT87Lk44LzzOHEZ2YsjM1PZdU3vB46nT1XfUq68y3KndFF5dGyZHmwLEkvxA5owfB4RG9k1PDS20J2g+8O89PWfYBo+dY9zoAkwzRQm6Ud53dFrVTQSYKh1apn2Oxpbp2m8W4KSkF7BN/sXxEK7jXjQHc77Qdr4LRyzpa+nBM1nO2Wd2Ljl7ho8eVAYP/HOnFjeLsDa/71p9vkz81hcChPbsLsIt4JYXT3wI/vO5t2hblbO6qZ4uEkeYVHsbedM2rGi0US+uFASceXpfNro6KEUTt9UrZm8iKSN47y1lc3kWTWFFBmRYrLNpsZdEoOiu0PZ1REexUjDsJ06G7hpYrqewEKn3zQ0g==
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799012|5072599009|23021999003|461199028|6090799003|19110799012|8060799015|1602099012|4302099013|40105399003|440099028|3412199025|10035399007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bXA4akNwRmNUVTE4YzlJbGpCZ0VKV0tkUlVSUENjaStSdE83eFE0VmNNcXBw?=
- =?utf-8?B?V1hmNTZxSmsyZytYK1dYNGZsK2RGeW90VExIbll5d2VQOG1sOHJ2RHM5Um1J?=
- =?utf-8?B?alVuNy9qNDllNCt3ZDV1TFRtMXl1d0lLZytmWUg5aWNaU1hrbjYxV0ZBQXNC?=
- =?utf-8?B?eWx0c3QyTU1idkQ4cVQ1dGZ4dzVvQ01tUlhOenBCbklFd1ljN1N1Mm1STWp6?=
- =?utf-8?B?SG5zQ0xjL0k2UVI4YUFUdWxHU3hmT1VOOFA4NkltK3RXSmdSdmhEblFiNjdP?=
- =?utf-8?B?aDNnZEVYc1BiTmZjMEczS2lPRzdYQ0FjN1JwTk52WTF4L3owQVNYK3FQeGNX?=
- =?utf-8?B?b2FJeHQ4OEYvb0dnUnR3VDdpNlA5bzJMZnZRaFI1bWY4QVAwSzlVcXpVR1ly?=
- =?utf-8?B?Q2xkU1BuekF0ajR3cDFHYXREL1lOTXVQc3UxYldROWVMK2JjQkJGMFlkTm1u?=
- =?utf-8?B?ZFVXdDVJY1R0N3V3dTdkcm1kZFZEUmdjZW5WM2pBZG1mWXVKM1pheUM0dUZW?=
- =?utf-8?B?VytPZUpqVEdqRURvMGJmRlVuVTZJZjZ5UHJtU3RZR29TZU1NRGRMZ0I4MzVG?=
- =?utf-8?B?ZmhXcXV1VnVjWHduTXk5c2NtQ3M2UUtKUkNWLzhBQ1JpZk9ERzRGVis2QzNy?=
- =?utf-8?B?WkZFcE13Sm9CYVIvcW9pcDRGU05leFcxMjhpNnZ2dUlFQ3ZCSjJNRXVRZmhQ?=
- =?utf-8?B?VFV0R0VLTjY5dEVkK3JweWZyaXNiWE15K2VJdkpidHRKNG1hNFZDb1Z6Ujl1?=
- =?utf-8?B?QkNWeWFLZGVWdEo3bXNTV2czbEJiMi9RLzhlWTJGeTFxMlVqYXA0cW9LSjAr?=
- =?utf-8?B?dWFaN0xuWmZCSzFLdS9Xa0Z4NldaV3VoQTdmK3A3QzByMWhvS1FCUXNBRWZW?=
- =?utf-8?B?eG8wNTZUdUxxdi91MTNaRjhGSW5wUUxldkFyVDI2dHZpdi9CVmhxQ2hEb29J?=
- =?utf-8?B?SG0rRGlQZ252ZkpjVGxPWS8vT0I4amRleUNZeU54OG1FSThUNzZRU1BYSlh5?=
- =?utf-8?B?by9hUnNKZDlyS2E2RzJGSDQ3U05CbXpxUjlxbkk1QkZzK0g4VFU4V21EZzFG?=
- =?utf-8?B?d3ZIckhtS2JZMStpc25wYUh2K2ZUT1ptMm9NaGd5aitpNHZ0SGtTRDJKZXZF?=
- =?utf-8?B?dGM2UVU2RW40U0tNQmE4M0lUVTQreXNKQ3pWa3Myb1VsbmJJdS9jMDk2NnZT?=
- =?utf-8?B?OVhuSVMrSXlaNTZTRTJtL2ljdEV6SlBDUnpLTjBscDRYUDExRHFIN0NNY2dL?=
- =?utf-8?B?WkZDRmhLMy94cG0yS1FkSVVQbG13YjI2ek1CWWtldDlEUTZuM1ErdytJa3M0?=
- =?utf-8?B?Skl1NlUzb0VraXJ4enVJQVQ2cXZCWHdySWZrSmM4SWdDRHEvUFpqN01FRXRk?=
- =?utf-8?B?d2VrL1RqajNGN0sraG8vTnFXTHFLSER6ZGowcHZtNTBFaDAweDFZcVNRMlZE?=
- =?utf-8?B?TThhQldwOWRhakU4RGxFa0RzenZ5RVJEM1JselRXK1RtMXgvSE5CYWJhUE9C?=
- =?utf-8?B?ckRvcHRDQkFzMjJYUFYvcitrblN0NkNJY2FCNGxaOTFUOUU5RGxYUGdWTHJX?=
- =?utf-8?B?aFpMWGF4QjRxanJmem1TSkEvWnhvUWxtaExPTjFVNnEzeUpieWNIa2Q4N1pu?=
- =?utf-8?B?a2hQNWFLNmU5RktTODJtMEE3RW12TURvSm5US3VISjN6L3pJL0o5UDdCR3I1?=
- =?utf-8?B?aVRiaTAzYmw5dVZRYVZqNTMzaXdYczR5QTdZWU1heU5VQi9lVFlnM1BVVkhk?=
- =?utf-8?Q?XJ0ciTD0SP/V75okQp3DUoQIO1CNsVVhpdoJj17?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UFdla1R6cG5UTUZiL09wUC9WYTMvTDAzcGpiV3dORlpYazIwSTRSM3J6MSt5?=
- =?utf-8?B?alFpZEZPQTIxaVpuQXRwUklpblFTdGx6eE9XbldKb2x3b3kzWVRTeHNpZk0y?=
- =?utf-8?B?Y0JweDNHM2hvT1pwL1pya245ZExjNGZqeGpBZ1lGNTBCcVVUOHBaN04zMmVH?=
- =?utf-8?B?eGZWRzNRUzF5VWVwZW0xZHd6VEs0bFJyU2JmVlhrWmdTVU9kMGpVViswRXYy?=
- =?utf-8?B?S05ESkxBd2xTQlg1NmlUQzNWWU5UMUxZT1ZkdWQwWGZKOW9rU0FmV3ZJbG5C?=
- =?utf-8?B?OUl1VkFNa1FPc1NDWm1qQmNjckFUWGZpeWxoYU0veHArV2hIV3JWM1BDVFR5?=
- =?utf-8?B?RlVEQXB3QWFMOTk3UGkrQlFmMDQ5UVQ2THZNMVRHZGEzRjNkeElmWXJYNEo4?=
- =?utf-8?B?enFpUGVtSWRRemdiYzYvL0cwVjhqTitVeldVWDdpdFBtak5KREEvcWdOUG9m?=
- =?utf-8?B?ODR3M2xROUROMVJYQWhka04wV1RnMXJOREY5L0FZa3pVYzYyVVM3WGpWQ1BP?=
- =?utf-8?B?UzVyRHVlam91bS9ZZFQ5TjQ3bUZZTTRYM3ZPcTJIbERWQk94RGZCRFhzaWEx?=
- =?utf-8?B?VnovaUdyOTdaTm93RTMwdXAwb212T3NYNzJFeW53OUpwNUNwbjNHck9rbGVV?=
- =?utf-8?B?Vm56MFVKOGIxNERGaGRuR1ZjQWc4Q2h2ZFNCRVlocXpVQ3dVeE5seUlmZmRa?=
- =?utf-8?B?OUV6YiszQ2JUMzBFTndhMjRBVTVRR2ZzVno2MG83eVlONHI4VU5oMDAvSVNx?=
- =?utf-8?B?cFFBaVN6Um93WWt1Y0Y3SW1wZmdjZ0J6WUhyWXV4TWZUSVFxUCthOEdDL3dX?=
- =?utf-8?B?U250NlJUR1ArRjBVMk92L0xJY3JHeGhCVDhESmZrVGhESTNHUmlFa2czZHg1?=
- =?utf-8?B?M3Y0dldqZXpmZGZaUUwyMERUbTlIZWpqT0FEM1BCOWFjdUZkNzB6dldoc2dv?=
- =?utf-8?B?SFlmb0FvaHlxemdWUzcxSkV5bVVaOVFSTEMycy9zSERhM0lzTlVMM3h6TENw?=
- =?utf-8?B?Z2kvNmV2dnphTU1KNm1nTzhXZDB2bkYyTEZlQTlsc0FSZk9uZVJSbzVMZmxi?=
- =?utf-8?B?RDBUb3p0UWJoWm11dFBmeldlMXcyS3hMcWNqWjhkUUFLanc0bnN4VTZ1SjFC?=
- =?utf-8?B?RytlZjE4WUZlZWNCV1JpRDU0NEZTL3F3THlkYlIvRWFBUnlVU01IQTNtK0cr?=
- =?utf-8?B?d0JnTVB0QU5vNGU5d2NkeENCU0ZUdXFwL2pzYVdES3crT3JsME5Vck8yUkhr?=
- =?utf-8?B?emcrQ0RLSHNOaGQ3amlSOWV3YW0yQjBqSnUxbHlDOGtjQ2ZqUlVGaWJ3d2pV?=
- =?utf-8?B?bWNzZXZpTlZTcFlSdmtQeFBNaDVrTmVIVUFiS2laa05NMDV4VU5SMHp2ME9i?=
- =?utf-8?B?RVJVenhPeS9OeWNhRnkvRGVkRnFjWWpZM0ZoSk1hOXhSYlBUaGlrczQyK2hZ?=
- =?utf-8?B?cDJuMklzTVNtalJ0bWgwWkJRYlpjanlja0tmbkY2ZUlTWTgydDB4VEtabDdG?=
- =?utf-8?B?Y3l3Z3d0aUFwdDFTMzRJcmlFN09Jd1VmWDE4eXJqSjZCQmdZTjVYSWE2QThT?=
- =?utf-8?B?UE1wdVB0YmZnSXJVdnFWeTdWYjNWQjNETVp2NmY2blZFZys4RVdxNWhNSytE?=
- =?utf-8?B?Tzh3VjhMS2VLZW45YzlzMEM5QU8wMFB4cE5pUXZSWWlYV3NlQnEzUGVuRVo3?=
- =?utf-8?B?N1NwNWcxYlBRSFhTRjcxM3ZqRTJiZVg3TzgwNkdWbmhJZTBQUkZ2V2t0ZE9z?=
- =?utf-8?Q?5LpPjatf9bkL7ilEKwvAQyP3HEc4W19E5Nyoek3?=
-X-OriginatorOrg: sct-15-20-8534-20-msonline-outlook-2ef4d.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c0efa7f-3218-4105-6e88-08dde6f4e552
-X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 12:09:25.5795
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB3268
+Content-Type: text/plain
 
-On 8/29/25 13:59, Hide Hako wrote:
-> Hello Maud,
-> 
-> On 2025/08/28 17:47, Maud Spierings wrote:
->> I recommend rebasing on the latest next since my fix [1] was applied.
->> I also recommend testing it with that patch, for me that fixed the 
->> headphone detection and enabled audio playback. The microphone is not 
->> working yet though.
->>
->> Link: https://lore.kernel.org/all/20250823-orangepi5-v1-1- 
->> ae77dd0e06d7@hotmail.com/ [1]
->>
-> Today, i build linux-next.
-> But sound not come out from headphone.
+On Fri, 29 Aug 2025, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> Cross-references to other docs (so-called internal links) are typically
+> done following Documentation/doc-guide/sphinx.rst: either simply
+> write the target docs (preferred) or use :doc: or :ref: reST directives
+> (for use-cases like having anchor text or cross-referencing sections).
+> In some places, however, links to https://www.kernel.org/doc
+> are used instead (outgoing, external links), owing inconsistency as
+> these requires Internet connection only to see docs that otherwise
+> can be accessed locally (after building with ``make htmldocs``).
+>
+> Convert such external links to internal links. Note that this does not
+> cover docs.kernel.org links nor touching Documentation/tools (as
+> docs containing external links are in manpages).
 
-Is that with your patch applied ontop or unchanged linux-next? The audio 
-was very quiet for me, even at 100%.
+FWIW, I'd much prefer using :ref: on rst anchors (that automatically
+pick the link text from the target heading) instead of manually adding
+link texts and file references.
 
-> If you test the 6.17 kernel after using the 6.16 kernel, sound will be 
-> output. Try building and testing in an environment with only the 6.17 
-> kernel.
-> 
-> Or is it okay to use the JMB582 "M.2" nvme-sata 3.0 expansion card to 
-> connect a 2.5-inch SSD?
-> This makes disk swapping easy and convenient.
+i.e.
 
-I am not quite sure what you mean here.
+.. _some_target:
 
+Heading After Some Target
+=========================
+
+See :ref:`some_target`.
+
+Will generate "See Heading After Some Target".
+
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
