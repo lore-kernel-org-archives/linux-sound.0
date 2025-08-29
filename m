@@ -1,84 +1,84 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6259F29E110
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:47:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AAB29E110
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:47:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478837; cv=none; b=Pl19hsYWsHzSbgW2LNozJRrMHagCj6sOSWQfJNZouF9bcTZOtWbfbOxtB/S4jh5xUrRrFq1q389+TaM+69GjzJetKqdFHwItRmUeHXexAO6FXHIgPSVPobQfHCA1DBB7hZGi66auvT27wKXi3JRCNGDc/J31wwd1qUzq0ESafAk=
+	t=1756478844; cv=none; b=imANMaqbx0twjM8dCZ8uLwo+hCr8MMgjxro/taXHEdDNvl3+Dzc0Q2Nqczp3YtugEIN/ODg8OQNBaix/Cm0Zpb6uWKvLVDQS0HKd+uejTrL2MDaS75LMQfh0x29YUM4nks2//xPLEUXrAsKGzWtucwt6DQBSvAmBHMyCILfqB9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478837; c=relaxed/simple;
-	bh=vsUqbE1s6wvZpCixClxtC3i0uTFnvFlOvCbP7zxW6C0=;
+	s=arc-20240116; t=1756478844; c=relaxed/simple;
+	bh=jgkM5nfHayWGRdcRVvmFcGr+4E/zDaOLX3HKiDgJyzQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i4xURoSfWFx95aU2m5dN4IH9BUblH6d4shh6GKxWa2B1KLv1bWOYOpAxjluzJlhMbPbdZfJyod8zFrTYij9udEY9XLz+4zB+UB3sDt9fj+M9gpfd4F73X1+9xxBrMbjqY/h76+Xbw4F5Ll2nYkdGcLYgaNfTDoLXKw4Mn6WCAzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OBRkRe0a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ah0xRoh3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OBRkRe0a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ah0xRoh3; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=UX5ttg7dpQ8pdtvqg/6Pfu1JVC+k8GXHR+lmDsEHydVsmURBCAQ5rtoRhYo2S4EInobP4Dbkis1+1B6ltqSVv2WIyfYQv5MpPHuSbk8WbBRguVlniqJ3y2Dg3IUOGI39FE/Drz20EZBVJw4nVbJAkNL9eNTRNe+S8ArG701xREU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Rpi/BmR0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A7N/q7Gx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1osqAj0+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UkP2vH+Z; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OBRkRe0a";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ah0xRoh3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OBRkRe0a";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ah0xRoh3"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Rpi/BmR0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A7N/q7Gx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1osqAj0+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UkP2vH+Z"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AE9565C240;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EB9515C241;
 	Fri, 29 Aug 2025 14:44:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GEq1QHWU1ZpqmBECaeeRlH/zGOBK3yOZFVDWCYKSVhU=;
-	b=OBRkRe0aOovbDtK2gPd65FJaCVQplkUUQb71/pISmpHlyOwQDpZZ1dkpChKECBwQeeuEoc
-	xjwIQ+MooFV+gQ3er12FIRzT8FvuOpu40mYYUDcQCunx53iqxMMpWHiDCYzwsbdxH/S6Xe
-	MkrIULGkuA1QTHl3CCYPOEVAoer+AZI=
+	bh=NmDmlXjJ38RVSrZV/qe8E58bKi3CwskP54DMBOC58Yc=;
+	b=Rpi/BmR0krs4+sAb1TSrwOUu4EFnOBuSAuPfGurpv0CRRNVGrNJs8CPvrdDEzgu2B3Uk+5
+	G4d8/zCeeXktyC1+Bux0Ufd7rTGKCIrkLcfQtzzBv1IRsJX4dikSaUuwJtT6c7IzAKQERH
+	AwCsIHmigJtBaYyZtVdZRYcZ0/P84T8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478642;
+	s=susede2_ed25519; t=1756478643;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GEq1QHWU1ZpqmBECaeeRlH/zGOBK3yOZFVDWCYKSVhU=;
-	b=Ah0xRoh3D6tSj3FASyIVWLgSKfVHlBEa2yqvk1GintHnB+h1UfqE/ZxLlR4UQVFh0OMIty
-	bJy0N4ig/CzZ8ODg==
+	bh=NmDmlXjJ38RVSrZV/qe8E58bKi3CwskP54DMBOC58Yc=;
+	b=A7N/q7GxaFw0J2tl3N5CaIf2Cgx10IOXy7yHGndu9KsdhK81jGbl0QSkj3hibzgRex5qs6
+	lMeHbquD1+42XFCQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OBRkRe0a;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Ah0xRoh3
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1osqAj0+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UkP2vH+Z
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756478642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GEq1QHWU1ZpqmBECaeeRlH/zGOBK3yOZFVDWCYKSVhU=;
-	b=OBRkRe0aOovbDtK2gPd65FJaCVQplkUUQb71/pISmpHlyOwQDpZZ1dkpChKECBwQeeuEoc
-	xjwIQ+MooFV+gQ3er12FIRzT8FvuOpu40mYYUDcQCunx53iqxMMpWHiDCYzwsbdxH/S6Xe
-	MkrIULGkuA1QTHl3CCYPOEVAoer+AZI=
+	bh=NmDmlXjJ38RVSrZV/qe8E58bKi3CwskP54DMBOC58Yc=;
+	b=1osqAj0+1HE2Sc0/Jq2Afnc3sD0qfGCPg31Hsfs5mlYFIEpCmGARydnevSHPhNIXIEm1zM
+	XDcwU7ciXcHTZlYN41HqzCNFCgkIGRRxIQ9rlcX4ctpmjVzXAneFwQ+6ycHh1nkeQJRWQx
+	By2rhWAOFNb96p/tl3FAHv/95bHkNJ0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756478642;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GEq1QHWU1ZpqmBECaeeRlH/zGOBK3yOZFVDWCYKSVhU=;
-	b=Ah0xRoh3D6tSj3FASyIVWLgSKfVHlBEa2yqvk1GintHnB+h1UfqE/ZxLlR4UQVFh0OMIty
-	bJy0N4ig/CzZ8ODg==
+	bh=NmDmlXjJ38RVSrZV/qe8E58bKi3CwskP54DMBOC58Yc=;
+	b=UkP2vH+ZOcFZMB03VRRNJ38wbfaDWKw1fkn6lnGq1TpudMJe84+7+Lw4Ty9C4dgsKE58+d
+	WNIkuhV4qxvZPkCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 969FE13A3E;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D3C8313A3E;
 	Fri, 29 Aug 2025 14:44:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GLSwI7K8sWi6GAAAD6G6ig
+	id WLiZMrK8sWi6GAAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:02 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 47/61] ALSA: oxygen: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:43:22 +0200
-Message-ID: <20250829144342.4290-48-tiwai@suse.de>
+Subject: [PATCH 49/61] ALSA: rme32: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:43:24 +0200
+Message-ID: <20250829144342.4290-50-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -103,8 +103,8 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_ONE(0.00)[1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -116,7 +116,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: AE9565C240
+X-Rspamd-Queue-Id: EB9515C241
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -3.01
@@ -127,540 +127,402 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/oxygen/oxygen_lib.c    | 132 ++++++++++++++--------------
- sound/pci/oxygen/oxygen_mixer.c  |   6 +-
- sound/pci/oxygen/oxygen_pcm.c    | 144 +++++++++++++++----------------
- sound/pci/oxygen/xonar_cs43xx.c  |   3 +-
- sound/pci/oxygen/xonar_lib.c     |   3 +-
- sound/pci/oxygen/xonar_pcm179x.c |   3 +-
- 6 files changed, 139 insertions(+), 152 deletions(-)
+ sound/pci/rme32.c | 152 +++++++++++++++++-----------------------------
+ 1 file changed, 56 insertions(+), 96 deletions(-)
 
-diff --git a/sound/pci/oxygen/oxygen_lib.c b/sound/pci/oxygen/oxygen_lib.c
-index 9c7270e4c35e..6b096d654f9f 100644
---- a/sound/pci/oxygen/oxygen_lib.c
-+++ b/sound/pci/oxygen/oxygen_lib.c
-@@ -59,36 +59,34 @@ static irqreturn_t oxygen_interrupt(int dummy, void *dev_id)
- 	if (!status)
- 		return IRQ_NONE;
- 
--	spin_lock(&chip->reg_lock);
-+	scoped_guard(spinlock, &chip->reg_lock) {
-+		clear = status & (OXYGEN_CHANNEL_A |
-+				  OXYGEN_CHANNEL_B |
-+				  OXYGEN_CHANNEL_C |
-+				  OXYGEN_CHANNEL_SPDIF |
-+				  OXYGEN_CHANNEL_MULTICH |
-+				  OXYGEN_CHANNEL_AC97 |
-+				  OXYGEN_INT_SPDIF_IN_DETECT |
-+				  OXYGEN_INT_GPIO |
-+				  OXYGEN_INT_AC97);
-+		if (clear) {
-+			if (clear & OXYGEN_INT_SPDIF_IN_DETECT)
-+				chip->interrupt_mask &= ~OXYGEN_INT_SPDIF_IN_DETECT;
-+			oxygen_write16(chip, OXYGEN_INTERRUPT_MASK,
-+				       chip->interrupt_mask & ~clear);
-+			oxygen_write16(chip, OXYGEN_INTERRUPT_MASK,
-+				       chip->interrupt_mask);
-+		}
- 
--	clear = status & (OXYGEN_CHANNEL_A |
--			  OXYGEN_CHANNEL_B |
--			  OXYGEN_CHANNEL_C |
--			  OXYGEN_CHANNEL_SPDIF |
--			  OXYGEN_CHANNEL_MULTICH |
--			  OXYGEN_CHANNEL_AC97 |
--			  OXYGEN_INT_SPDIF_IN_DETECT |
--			  OXYGEN_INT_GPIO |
--			  OXYGEN_INT_AC97);
--	if (clear) {
--		if (clear & OXYGEN_INT_SPDIF_IN_DETECT)
--			chip->interrupt_mask &= ~OXYGEN_INT_SPDIF_IN_DETECT;
--		oxygen_write16(chip, OXYGEN_INTERRUPT_MASK,
--			       chip->interrupt_mask & ~clear);
--		oxygen_write16(chip, OXYGEN_INTERRUPT_MASK,
--			       chip->interrupt_mask);
-+		elapsed_streams = status & chip->pcm_running;
+diff --git a/sound/pci/rme32.c b/sound/pci/rme32.c
+index f07b6023473a..123dddcb6972 100644
+--- a/sound/pci/rme32.c
++++ b/sound/pci/rme32.c
+@@ -646,35 +646,27 @@ snd_rme32_playback_hw_params(struct snd_pcm_substream *substream,
+ 		runtime->dma_bytes = RME32_BUFFER_SIZE;
  	}
  
--	elapsed_streams = status & chip->pcm_running;
--
--	spin_unlock(&chip->reg_lock);
--
- 	for (i = 0; i < PCM_COUNT; ++i)
- 		if ((elapsed_streams & (1 << i)) && chip->streams[i])
- 			snd_pcm_period_elapsed(chip->streams[i]);
- 
- 	if (status & OXYGEN_INT_SPDIF_IN_DETECT) {
--		spin_lock(&chip->reg_lock);
-+		guard(spinlock)(&chip->reg_lock);
- 		i = oxygen_read32(chip, OXYGEN_SPDIF_CONTROL);
- 		if (i & (OXYGEN_SPDIF_SENSE_INT | OXYGEN_SPDIF_LOCK_INT |
- 			 OXYGEN_SPDIF_RATE_INT)) {
-@@ -96,7 +94,6 @@ static irqreturn_t oxygen_interrupt(int dummy, void *dev_id)
- 			oxygen_write32(chip, OXYGEN_SPDIF_CONTROL, i);
- 			schedule_work(&chip->spdif_input_bits_work);
- 		}
--		spin_unlock(&chip->reg_lock);
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	rate = 0;
+ 	if (rme32->rcreg & RME32_RCR_KMODE)
+ 		rate = snd_rme32_capture_getrate(rme32, &dummy);
+ 	if (rate > 0) {
+ 		/* AutoSync */
+-		if ((int)params_rate(params) != rate) {
+-			spin_unlock_irq(&rme32->lock);
++		if ((int)params_rate(params) != rate)
+ 			return -EIO;
+-		}
+ 	} else {
+ 		err = snd_rme32_playback_setrate(rme32, params_rate(params));
+-		if (err < 0) {
+-			spin_unlock_irq(&rme32->lock);
++		if (err < 0)
+ 			return err;
+-		}
  	}
- 
- 	if (status & OXYGEN_INT_GPIO)
-@@ -127,45 +124,45 @@ static void oxygen_spdif_input_bits_changed(struct work_struct *work)
- 	 * changes.
- 	 */
- 	msleep(1);
--	spin_lock_irq(&chip->reg_lock);
--	reg = oxygen_read32(chip, OXYGEN_SPDIF_CONTROL);
--	if ((reg & (OXYGEN_SPDIF_SENSE_STATUS |
--		    OXYGEN_SPDIF_LOCK_STATUS))
--	    == OXYGEN_SPDIF_SENSE_STATUS) {
--		/*
--		 * If we detect activity on the SPDIF input but cannot lock to
--		 * a signal, the clock bit is likely to be wrong.
--		 */
--		reg ^= OXYGEN_SPDIF_IN_CLOCK_MASK;
--		oxygen_write32(chip, OXYGEN_SPDIF_CONTROL, reg);
--		spin_unlock_irq(&chip->reg_lock);
--		msleep(1);
--		spin_lock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
- 		reg = oxygen_read32(chip, OXYGEN_SPDIF_CONTROL);
- 		if ((reg & (OXYGEN_SPDIF_SENSE_STATUS |
- 			    OXYGEN_SPDIF_LOCK_STATUS))
- 		    == OXYGEN_SPDIF_SENSE_STATUS) {
--			/* nothing detected with either clock; give up */
--			if ((reg & OXYGEN_SPDIF_IN_CLOCK_MASK)
--			    == OXYGEN_SPDIF_IN_CLOCK_192) {
--				/*
--				 * Reset clock to <= 96 kHz because this is
--				 * more likely to be received next time.
--				 */
--				reg &= ~OXYGEN_SPDIF_IN_CLOCK_MASK;
--				reg |= OXYGEN_SPDIF_IN_CLOCK_96;
--				oxygen_write32(chip, OXYGEN_SPDIF_CONTROL, reg);
-+			/*
-+			 * If we detect activity on the SPDIF input but cannot lock to
-+			 * a signal, the clock bit is likely to be wrong.
-+			 */
-+			reg ^= OXYGEN_SPDIF_IN_CLOCK_MASK;
-+			oxygen_write32(chip, OXYGEN_SPDIF_CONTROL, reg);
-+			spin_unlock_irq(&chip->reg_lock);
-+			msleep(1);
-+			spin_lock_irq(&chip->reg_lock);
-+			reg = oxygen_read32(chip, OXYGEN_SPDIF_CONTROL);
-+			if ((reg & (OXYGEN_SPDIF_SENSE_STATUS |
-+				    OXYGEN_SPDIF_LOCK_STATUS))
-+			    == OXYGEN_SPDIF_SENSE_STATUS) {
-+				/* nothing detected with either clock; give up */
-+				if ((reg & OXYGEN_SPDIF_IN_CLOCK_MASK)
-+				    == OXYGEN_SPDIF_IN_CLOCK_192) {
-+					/*
-+					 * Reset clock to <= 96 kHz because this is
-+					 * more likely to be received next time.
-+					 */
-+					reg &= ~OXYGEN_SPDIF_IN_CLOCK_MASK;
-+					reg |= OXYGEN_SPDIF_IN_CLOCK_96;
-+					oxygen_write32(chip, OXYGEN_SPDIF_CONTROL, reg);
-+				}
- 			}
- 		}
- 	}
--	spin_unlock_irq(&chip->reg_lock);
- 
- 	if (chip->controls[CONTROL_SPDIF_INPUT_BITS]) {
--		spin_lock_irq(&chip->reg_lock);
--		chip->interrupt_mask |= OXYGEN_INT_SPDIF_IN_DETECT;
--		oxygen_write16(chip, OXYGEN_INTERRUPT_MASK,
--			       chip->interrupt_mask);
--		spin_unlock_irq(&chip->reg_lock);
-+		scoped_guard(spinlock_irq, &chip->reg_lock) {
-+			chip->interrupt_mask |= OXYGEN_INT_SPDIF_IN_DETECT;
-+			oxygen_write16(chip, OXYGEN_INTERRUPT_MASK,
-+				       chip->interrupt_mask);
-+		}
- 
- 		/*
- 		 * We don't actually know that any channel status bits have
-@@ -557,12 +554,11 @@ static void oxygen_init(struct oxygen *chip)
- 
- static void oxygen_shutdown(struct oxygen *chip)
- {
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	chip->interrupt_mask = 0;
- 	chip->pcm_running = 0;
- 	oxygen_write16(chip, OXYGEN_DMA_STATUS, 0);
- 	oxygen_write16(chip, OXYGEN_INTERRUPT_MASK, 0);
--	spin_unlock_irq(&chip->reg_lock);
- }
- 
- static void oxygen_card_free(struct snd_card *card)
-@@ -686,13 +682,13 @@ static int __oxygen_pci_probe(struct pci_dev *pci, int index, char *id,
- 
- 	oxygen_proc_init(chip);
- 
--	spin_lock_irq(&chip->reg_lock);
--	if (chip->model.device_config & CAPTURE_1_FROM_SPDIF)
--		chip->interrupt_mask |= OXYGEN_INT_SPDIF_IN_DETECT;
--	if (chip->has_ac97_0 | chip->has_ac97_1)
--		chip->interrupt_mask |= OXYGEN_INT_AC97;
--	oxygen_write16(chip, OXYGEN_INTERRUPT_MASK, chip->interrupt_mask);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		if (chip->model.device_config & CAPTURE_1_FROM_SPDIF)
-+			chip->interrupt_mask |= OXYGEN_INT_SPDIF_IN_DETECT;
-+		if (chip->has_ac97_0 | chip->has_ac97_1)
-+			chip->interrupt_mask |= OXYGEN_INT_AC97;
-+		oxygen_write16(chip, OXYGEN_INTERRUPT_MASK, chip->interrupt_mask);
-+	}
- 
- 	err = snd_card_register(card);
- 	if (err < 0)
-@@ -724,12 +720,12 @@ static int oxygen_pci_suspend(struct device *dev)
- 	if (chip->model.suspend)
- 		chip->model.suspend(chip);
- 
--	spin_lock_irq(&chip->reg_lock);
--	saved_interrupt_mask = chip->interrupt_mask;
--	chip->interrupt_mask = 0;
--	oxygen_write16(chip, OXYGEN_DMA_STATUS, 0);
--	oxygen_write16(chip, OXYGEN_INTERRUPT_MASK, 0);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		saved_interrupt_mask = chip->interrupt_mask;
-+		chip->interrupt_mask = 0;
-+		oxygen_write16(chip, OXYGEN_DMA_STATUS, 0);
-+		oxygen_write16(chip, OXYGEN_INTERRUPT_MASK, 0);
-+	}
- 
- 	flush_work(&chip->spdif_input_bits_work);
- 	flush_work(&chip->gpio_work);
-diff --git a/sound/pci/oxygen/oxygen_mixer.c b/sound/pci/oxygen/oxygen_mixer.c
-index be35f5582485..256a601d7811 100644
---- a/sound/pci/oxygen/oxygen_mixer.c
-+++ b/sound/pci/oxygen/oxygen_mixer.c
-@@ -432,7 +432,7 @@ static int spdif_bit_switch_put(struct snd_kcontrol *ctl,
- 	u32 oldreg, newreg;
- 	int changed;
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	oldreg = oxygen_read32(chip, OXYGEN_SPDIF_CONTROL);
- 	if (value->value.integer.value[0])
- 		newreg = oldreg | bit;
-@@ -441,7 +441,6 @@ static int spdif_bit_switch_put(struct snd_kcontrol *ctl,
- 	changed = newreg != oldreg;
- 	if (changed)
- 		oxygen_write32(chip, OXYGEN_SPDIF_CONTROL, newreg);
--	spin_unlock_irq(&chip->reg_lock);
- 	return changed;
- }
- 
-@@ -476,7 +475,7 @@ static int monitor_put(struct snd_kcontrol *ctl,
- 	u8 oldreg, newreg;
- 	int changed;
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	oldreg = oxygen_read8(chip, OXYGEN_ADC_MONITOR);
- 	if ((!!value->value.integer.value[0] ^ !!invert) != 0)
- 		newreg = oldreg | bit;
-@@ -485,7 +484,6 @@ static int monitor_put(struct snd_kcontrol *ctl,
- 	changed = newreg != oldreg;
- 	if (changed)
- 		oxygen_write8(chip, OXYGEN_ADC_MONITOR, newreg);
--	spin_unlock_irq(&chip->reg_lock);
- 	return changed;
- }
- 
-diff --git a/sound/pci/oxygen/oxygen_pcm.c b/sound/pci/oxygen/oxygen_pcm.c
-index 1fcd0b1d439c..b716356010b8 100644
---- a/sound/pci/oxygen/oxygen_pcm.c
-+++ b/sound/pci/oxygen/oxygen_pcm.c
-@@ -349,20 +349,20 @@ static int oxygen_rec_a_hw_params(struct snd_pcm_substream *substream,
- 	if (err < 0)
+ 	err = snd_rme32_setformat(rme32, params_format(params));
+-	if (err < 0) {
+-		spin_unlock_irq(&rme32->lock);
++	if (err < 0)
  		return err;
+-	}
  
--	spin_lock_irq(&chip->reg_lock);
--	oxygen_write8_masked(chip, OXYGEN_REC_FORMAT,
--			     oxygen_format(hw_params) << OXYGEN_REC_FORMAT_A_SHIFT,
--			     OXYGEN_REC_FORMAT_A_MASK);
--	oxygen_write16_masked(chip, OXYGEN_I2S_A_FORMAT,
--			      oxygen_rate(hw_params) |
--			      chip->model.adc_i2s_format |
--			      get_mclk(chip, PCM_A, hw_params) |
--			      oxygen_i2s_bits(hw_params),
--			      OXYGEN_I2S_RATE_MASK |
--			      OXYGEN_I2S_FORMAT_MASK |
--			      OXYGEN_I2S_MCLK_MASK |
--			      OXYGEN_I2S_BITS_MASK);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		oxygen_write8_masked(chip, OXYGEN_REC_FORMAT,
-+				     oxygen_format(hw_params) << OXYGEN_REC_FORMAT_A_SHIFT,
-+				     OXYGEN_REC_FORMAT_A_MASK);
-+		oxygen_write16_masked(chip, OXYGEN_I2S_A_FORMAT,
-+				      oxygen_rate(hw_params) |
-+				      chip->model.adc_i2s_format |
-+				      get_mclk(chip, PCM_A, hw_params) |
-+				      oxygen_i2s_bits(hw_params),
-+				      OXYGEN_I2S_RATE_MASK |
-+				      OXYGEN_I2S_FORMAT_MASK |
-+				      OXYGEN_I2S_MCLK_MASK |
-+				      OXYGEN_I2S_BITS_MASK);
-+	}
+ 	snd_rme32_setframelog(rme32, params_channels(params), 1);
+ 	if (rme32->capture_periodsize != 0) {
+-		if (params_period_size(params) << rme32->playback_frlog != rme32->capture_periodsize) {
+-			spin_unlock_irq(&rme32->lock);
++		if (params_period_size(params) << rme32->playback_frlog != rme32->capture_periodsize)
+ 			return -EBUSY;
+-		}
+ 	}
+ 	rme32->playback_periodsize = params_period_size(params) << rme32->playback_frlog;
+ 	/* S/PDIF setup */
+@@ -683,7 +675,6 @@ snd_rme32_playback_hw_params(struct snd_pcm_substream *substream,
+ 		rme32->wcreg |= rme32->wcreg_spdif_stream;
+ 		writel(rme32->wcreg, rme32->iobase + RME32_IO_CONTROL_REGISTER);
+ 	}
+-	spin_unlock_irq(&rme32->lock);
  
- 	guard(mutex)(&chip->mutex);
- 	chip->model.set_adc_params(chip, hw_params);
-@@ -383,21 +383,21 @@ static int oxygen_rec_b_hw_params(struct snd_pcm_substream *substream,
- 	is_ac97 = chip->has_ac97_1 &&
- 		(chip->model.device_config & CAPTURE_2_FROM_AC97_1);
+ 	return 0;
+ }
+@@ -703,32 +694,24 @@ snd_rme32_capture_hw_params(struct snd_pcm_substream *substream,
+ 		runtime->dma_bytes = RME32_BUFFER_SIZE;
+ 	}
  
--	spin_lock_irq(&chip->reg_lock);
--	oxygen_write8_masked(chip, OXYGEN_REC_FORMAT,
--			     oxygen_format(hw_params) << OXYGEN_REC_FORMAT_B_SHIFT,
--			     OXYGEN_REC_FORMAT_B_MASK);
--	if (!is_ac97)
--		oxygen_write16_masked(chip, OXYGEN_I2S_B_FORMAT,
--				      oxygen_rate(hw_params) |
--				      chip->model.adc_i2s_format |
--				      get_mclk(chip, PCM_B, hw_params) |
--				      oxygen_i2s_bits(hw_params),
--				      OXYGEN_I2S_RATE_MASK |
--				      OXYGEN_I2S_FORMAT_MASK |
--				      OXYGEN_I2S_MCLK_MASK |
--				      OXYGEN_I2S_BITS_MASK);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		oxygen_write8_masked(chip, OXYGEN_REC_FORMAT,
-+				     oxygen_format(hw_params) << OXYGEN_REC_FORMAT_B_SHIFT,
-+				     OXYGEN_REC_FORMAT_B_MASK);
-+		if (!is_ac97)
-+			oxygen_write16_masked(chip, OXYGEN_I2S_B_FORMAT,
-+					      oxygen_rate(hw_params) |
-+					      chip->model.adc_i2s_format |
-+					      get_mclk(chip, PCM_B, hw_params) |
-+					      oxygen_i2s_bits(hw_params),
-+					      OXYGEN_I2S_RATE_MASK |
-+					      OXYGEN_I2S_FORMAT_MASK |
-+					      OXYGEN_I2S_MCLK_MASK |
-+					      OXYGEN_I2S_BITS_MASK);
-+	}
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	/* enable AutoSync for record-preparing */
+ 	rme32->wcreg |= RME32_WCR_AUTOSYNC;
+ 	writel(rme32->wcreg, rme32->iobase + RME32_IO_CONTROL_REGISTER);
  
- 	if (!is_ac97) {
- 		guard(mutex)(&chip->mutex);
-@@ -419,21 +419,21 @@ static int oxygen_rec_c_hw_params(struct snd_pcm_substream *substream,
- 
- 	is_spdif = chip->model.device_config & CAPTURE_1_FROM_SPDIF;
- 
--	spin_lock_irq(&chip->reg_lock);
--	oxygen_write8_masked(chip, OXYGEN_REC_FORMAT,
--			     oxygen_format(hw_params) << OXYGEN_REC_FORMAT_C_SHIFT,
--			     OXYGEN_REC_FORMAT_C_MASK);
--	if (!is_spdif)
--		oxygen_write16_masked(chip, OXYGEN_I2S_C_FORMAT,
--				      oxygen_rate(hw_params) |
--				      chip->model.adc_i2s_format |
--				      get_mclk(chip, PCM_B, hw_params) |
--				      oxygen_i2s_bits(hw_params),
--				      OXYGEN_I2S_RATE_MASK |
--				      OXYGEN_I2S_FORMAT_MASK |
--				      OXYGEN_I2S_MCLK_MASK |
--				      OXYGEN_I2S_BITS_MASK);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		oxygen_write8_masked(chip, OXYGEN_REC_FORMAT,
-+				     oxygen_format(hw_params) << OXYGEN_REC_FORMAT_C_SHIFT,
-+				     OXYGEN_REC_FORMAT_C_MASK);
-+		if (!is_spdif)
-+			oxygen_write16_masked(chip, OXYGEN_I2S_C_FORMAT,
-+					      oxygen_rate(hw_params) |
-+					      chip->model.adc_i2s_format |
-+					      get_mclk(chip, PCM_B, hw_params) |
-+					      oxygen_i2s_bits(hw_params),
-+					      OXYGEN_I2S_RATE_MASK |
-+					      OXYGEN_I2S_FORMAT_MASK |
-+					      OXYGEN_I2S_MCLK_MASK |
-+					      OXYGEN_I2S_BITS_MASK);
-+	}
- 
- 	if (!is_spdif) {
- 		guard(mutex)(&chip->mutex);
-@@ -453,7 +453,7 @@ static int oxygen_spdif_hw_params(struct snd_pcm_substream *substream,
+ 	err = snd_rme32_setformat(rme32, params_format(params));
+-	if (err < 0) {
+-		spin_unlock_irq(&rme32->lock);
++	if (err < 0)
  		return err;
- 
- 	guard(mutex)(&chip->mutex);
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	oxygen_clear_bits32(chip, OXYGEN_SPDIF_CONTROL,
- 			    OXYGEN_SPDIF_OUT_ENABLE);
- 	oxygen_write8_masked(chip, OXYGEN_PLAY_FORMAT,
-@@ -463,7 +463,6 @@ static int oxygen_spdif_hw_params(struct snd_pcm_substream *substream,
- 			      oxygen_rate(hw_params) << OXYGEN_SPDIF_OUT_RATE_SHIFT,
- 			      OXYGEN_SPDIF_OUT_RATE_MASK);
- 	oxygen_update_spdif_source(chip);
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -478,24 +477,24 @@ static int oxygen_multich_hw_params(struct snd_pcm_substream *substream,
+-	}
+ 	err = snd_rme32_playback_setrate(rme32, params_rate(params));
+-	if (err < 0) {
+-		spin_unlock_irq(&rme32->lock);
++	if (err < 0)
  		return err;
+-	}
+ 	rate = snd_rme32_capture_getrate(rme32, &isadat);
+ 	if (rate > 0) {
+-                if ((int)params_rate(params) != rate) {
+-			spin_unlock_irq(&rme32->lock);
++		if ((int)params_rate(params) != rate)
+                         return -EIO;                    
+-                }
+                 if ((isadat && runtime->hw.channels_min == 2) ||
+-                    (!isadat && runtime->hw.channels_min == 8)) {
+-			spin_unlock_irq(&rme32->lock);
++		    (!isadat && runtime->hw.channels_min == 8))
+                         return -EIO;
+-                }
+ 	}
+ 	/* AutoSync off for recording */
+ 	rme32->wcreg &= ~RME32_WCR_AUTOSYNC;
+@@ -737,14 +720,11 @@ snd_rme32_capture_hw_params(struct snd_pcm_substream *substream,
+ 	snd_rme32_setframelog(rme32, params_channels(params), 0);
+ 	if (rme32->playback_periodsize != 0) {
+ 		if (params_period_size(params) << rme32->capture_frlog !=
+-		    rme32->playback_periodsize) {
+-			spin_unlock_irq(&rme32->lock);
++		    rme32->playback_periodsize)
+ 			return -EBUSY;
+-		}
+ 	}
+ 	rme32->capture_periodsize =
+ 	    params_period_size(params) << rme32->capture_frlog;
+-	spin_unlock_irq(&rme32->lock);
  
- 	guard(mutex)(&chip->mutex);
--	spin_lock_irq(&chip->reg_lock);
--	oxygen_write8_masked(chip, OXYGEN_PLAY_CHANNELS,
--			     oxygen_play_channels(hw_params),
--			     OXYGEN_PLAY_CHANNELS_MASK);
--	oxygen_write8_masked(chip, OXYGEN_PLAY_FORMAT,
--			     oxygen_format(hw_params) << OXYGEN_MULTICH_FORMAT_SHIFT,
--			     OXYGEN_MULTICH_FORMAT_MASK);
--	oxygen_write16_masked(chip, OXYGEN_I2S_MULTICH_FORMAT,
--			      oxygen_rate(hw_params) |
--			      chip->model.dac_i2s_format |
--			      get_mclk(chip, PCM_MULTICH, hw_params) |
--			      oxygen_i2s_bits(hw_params),
--			      OXYGEN_I2S_RATE_MASK |
--			      OXYGEN_I2S_FORMAT_MASK |
--			      OXYGEN_I2S_MCLK_MASK |
--			      OXYGEN_I2S_BITS_MASK);
--	oxygen_update_spdif_source(chip);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		oxygen_write8_masked(chip, OXYGEN_PLAY_CHANNELS,
-+				     oxygen_play_channels(hw_params),
-+				     OXYGEN_PLAY_CHANNELS_MASK);
-+		oxygen_write8_masked(chip, OXYGEN_PLAY_FORMAT,
-+				     oxygen_format(hw_params) << OXYGEN_MULTICH_FORMAT_SHIFT,
-+				     OXYGEN_MULTICH_FORMAT_MASK);
-+		oxygen_write16_masked(chip, OXYGEN_I2S_MULTICH_FORMAT,
-+				      oxygen_rate(hw_params) |
-+				      chip->model.dac_i2s_format |
-+				      get_mclk(chip, PCM_MULTICH, hw_params) |
-+				      oxygen_i2s_bits(hw_params),
-+				      OXYGEN_I2S_RATE_MASK |
-+				      OXYGEN_I2S_FORMAT_MASK |
-+				      OXYGEN_I2S_MCLK_MASK |
-+				      OXYGEN_I2S_BITS_MASK);
-+		oxygen_update_spdif_source(chip);
+ 	return 0;
+ }
+@@ -824,15 +804,13 @@ static int snd_rme32_playback_spdif_open(struct snd_pcm_substream *substream)
+ 
+ 	snd_pcm_set_sync(substream);
+ 
+-	spin_lock_irq(&rme32->lock);
+-	if (rme32->playback_substream != NULL) {
+-		spin_unlock_irq(&rme32->lock);
+-		return -EBUSY;
++	scoped_guard(spinlock_irq, &rme32->lock) {
++		if (rme32->playback_substream != NULL)
++			return -EBUSY;
++		rme32->wcreg &= ~RME32_WCR_ADAT;
++		writel(rme32->wcreg, rme32->iobase + RME32_IO_CONTROL_REGISTER);
++		rme32->playback_substream = substream;
+ 	}
+-	rme32->wcreg &= ~RME32_WCR_ADAT;
+-	writel(rme32->wcreg, rme32->iobase + RME32_IO_CONTROL_REGISTER);
+-	rme32->playback_substream = substream;
+-	spin_unlock_irq(&rme32->lock);
+ 
+ 	if (rme32->fullduplex_mode)
+ 		runtime->hw = snd_rme32_spdif_fd_info;
+@@ -869,13 +847,11 @@ static int snd_rme32_capture_spdif_open(struct snd_pcm_substream *substream)
+ 
+ 	snd_pcm_set_sync(substream);
+ 
+-	spin_lock_irq(&rme32->lock);
+-        if (rme32->capture_substream != NULL) {
+-		spin_unlock_irq(&rme32->lock);
+-                return -EBUSY;
+-        }
+-	rme32->capture_substream = substream;
+-	spin_unlock_irq(&rme32->lock);
++	scoped_guard(spinlock_irq, &rme32->lock) {
++		if (rme32->capture_substream != NULL)
++			return -EBUSY;
++		rme32->capture_substream = substream;
 +	}
  
- 	chip->model.set_dac_params(chip, hw_params);
- 	oxygen_update_dac_routing(chip);
-@@ -508,13 +507,12 @@ static int oxygen_hw_free(struct snd_pcm_substream *substream)
- 	unsigned int channel = oxygen_substream_channel(substream);
- 	unsigned int channel_mask = 1 << channel;
+ 	if (rme32->fullduplex_mode)
+ 		runtime->hw = snd_rme32_spdif_fd_info;
+@@ -909,15 +885,13 @@ snd_rme32_playback_adat_open(struct snd_pcm_substream *substream)
+ 	
+ 	snd_pcm_set_sync(substream);
  
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	chip->interrupt_mask &= ~channel_mask;
- 	oxygen_write16(chip, OXYGEN_INTERRUPT_MASK, chip->interrupt_mask);
- 
- 	oxygen_set_bits8(chip, OXYGEN_DMA_FLUSH, channel_mask);
- 	oxygen_clear_bits8(chip, OXYGEN_DMA_FLUSH, channel_mask);
--	spin_unlock_irq(&chip->reg_lock);
- 
- 	return 0;
- }
-@@ -523,10 +521,10 @@ static int oxygen_spdif_hw_free(struct snd_pcm_substream *substream)
- {
- 	struct oxygen *chip = snd_pcm_substream_chip(substream);
- 
--	spin_lock_irq(&chip->reg_lock);
--	oxygen_clear_bits32(chip, OXYGEN_SPDIF_CONTROL,
--			    OXYGEN_SPDIF_OUT_ENABLE);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		oxygen_clear_bits32(chip, OXYGEN_SPDIF_CONTROL,
-+				    OXYGEN_SPDIF_OUT_ENABLE);
+-	spin_lock_irq(&rme32->lock);	
+-        if (rme32->playback_substream != NULL) {
+-		spin_unlock_irq(&rme32->lock);
+-                return -EBUSY;
+-        }
+-	rme32->wcreg |= RME32_WCR_ADAT;
+-	writel(rme32->wcreg, rme32->iobase + RME32_IO_CONTROL_REGISTER);
+-	rme32->playback_substream = substream;
+-	spin_unlock_irq(&rme32->lock);
++	scoped_guard(spinlock_irq, &rme32->lock) {
++		if (rme32->playback_substream != NULL)
++			return -EBUSY;
++		rme32->wcreg |= RME32_WCR_ADAT;
++		writel(rme32->wcreg, rme32->iobase + RME32_IO_CONTROL_REGISTER);
++		rme32->playback_substream = substream;
 +	}
- 	return oxygen_hw_free(substream);
- }
+ 	
+ 	if (rme32->fullduplex_mode)
+ 		runtime->hw = snd_rme32_adat_fd_info;
+@@ -960,13 +934,11 @@ snd_rme32_capture_adat_open(struct snd_pcm_substream *substream)
  
-@@ -536,7 +534,7 @@ static int oxygen_prepare(struct snd_pcm_substream *substream)
- 	unsigned int channel = oxygen_substream_channel(substream);
- 	unsigned int channel_mask = 1 << channel;
+ 	snd_pcm_set_sync(substream);
+         
+-	spin_lock_irq(&rme32->lock);	
+-	if (rme32->capture_substream != NULL) {
+-		spin_unlock_irq(&rme32->lock);
+-		return -EBUSY;
+-        }
+-	rme32->capture_substream = substream;
+-	spin_unlock_irq(&rme32->lock);
++	scoped_guard(spinlock_irq, &rme32->lock) {
++		if (rme32->capture_substream != NULL)
++			spin_unlock_irq(&rme32->lock);
++		rme32->capture_substream = substream;
++	}
  
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	oxygen_set_bits8(chip, OXYGEN_DMA_FLUSH, channel_mask);
- 	oxygen_clear_bits8(chip, OXYGEN_DMA_FLUSH, channel_mask);
+ 	snd_rme32_set_buffer_constraint(rme32, runtime);
+ 	return 0;
+@@ -977,11 +949,11 @@ static int snd_rme32_playback_close(struct snd_pcm_substream *substream)
+ 	struct rme32 *rme32 = snd_pcm_substream_chip(substream);
+ 	int spdif = 0;
  
-@@ -545,7 +543,6 @@ static int oxygen_prepare(struct snd_pcm_substream *substream)
- 	else
- 		chip->interrupt_mask |= channel_mask;
- 	oxygen_write16(chip, OXYGEN_INTERRUPT_MASK, chip->interrupt_mask);
--	spin_unlock_irq(&chip->reg_lock);
+-	spin_lock_irq(&rme32->lock);
+-	rme32->playback_substream = NULL;
+-	rme32->playback_periodsize = 0;
+-	spdif = (rme32->wcreg & RME32_WCR_ADAT) == 0;
+-	spin_unlock_irq(&rme32->lock);
++	scoped_guard(spinlock_irq, &rme32->lock) {
++		rme32->playback_substream = NULL;
++		rme32->playback_periodsize = 0;
++		spdif = (rme32->wcreg & RME32_WCR_ADAT) == 0;
++	}
+ 	if (spdif) {
+ 		rme32->spdif_ctl->vd[0].access |= SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+ 		snd_ctl_notify(rme32->card, SNDRV_CTL_EVENT_MASK_VALUE |
+@@ -995,10 +967,9 @@ static int snd_rme32_capture_close(struct snd_pcm_substream *substream)
+ {
+ 	struct rme32 *rme32 = snd_pcm_substream_chip(substream);
+ 
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	rme32->capture_substream = NULL;
+ 	rme32->capture_periodsize = 0;
+-	spin_unlock_irq(&rme32->lock);
  	return 0;
  }
  
-@@ -577,7 +574,7 @@ static int oxygen_trigger(struct snd_pcm_substream *substream, int cmd)
- 		}
- 	}
+@@ -1006,7 +977,7 @@ static int snd_rme32_playback_prepare(struct snd_pcm_substream *substream)
+ {
+ 	struct rme32 *rme32 = snd_pcm_substream_chip(substream);
  
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	if (!pausing) {
- 		if (cmd == SNDRV_PCM_TRIGGER_START)
- 			chip->pcm_running |= mask;
-@@ -590,7 +587,6 @@ static int oxygen_trigger(struct snd_pcm_substream *substream, int cmd)
- 		else
- 			oxygen_clear_bits8(chip, OXYGEN_DMA_PAUSE, mask);
- 	}
--	spin_unlock(&chip->reg_lock);
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	if (rme32->fullduplex_mode) {
+ 		memset(&rme32->playback_pcm, 0, sizeof(rme32->playback_pcm));
+ 		rme32->playback_pcm.hw_buffer_size = RME32_BUFFER_SIZE;
+@@ -1017,7 +988,6 @@ static int snd_rme32_playback_prepare(struct snd_pcm_substream *substream)
+ 	if (rme32->wcreg & RME32_WCR_SEL)
+ 		rme32->wcreg &= ~RME32_WCR_MUTE;
+ 	writel(rme32->wcreg, rme32->iobase + RME32_IO_CONTROL_REGISTER);
+-	spin_unlock_irq(&rme32->lock);
  	return 0;
  }
  
-diff --git a/sound/pci/oxygen/xonar_cs43xx.c b/sound/pci/oxygen/xonar_cs43xx.c
-index d608803fd874..47b2758653e4 100644
---- a/sound/pci/oxygen/xonar_cs43xx.c
-+++ b/sound/pci/oxygen/xonar_cs43xx.c
-@@ -339,11 +339,10 @@ static void xonar_d1_line_mic_ac97_switch(struct oxygen *chip,
- 					  unsigned int reg, unsigned int mute)
+@@ -1025,7 +995,7 @@ static int snd_rme32_capture_prepare(struct snd_pcm_substream *substream)
  {
- 	if (reg == AC97_LINE) {
--		spin_lock_irq(&chip->reg_lock);
-+		guard(spinlock_irq)(&chip->reg_lock);
- 		oxygen_write16_masked(chip, OXYGEN_GPIO_DATA,
- 				      mute ? GPIO_D1_INPUT_ROUTE : 0,
- 				      GPIO_D1_INPUT_ROUTE);
--		spin_unlock_irq(&chip->reg_lock);
+ 	struct rme32 *rme32 = snd_pcm_substream_chip(substream);
+ 
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	if (rme32->fullduplex_mode) {
+ 		memset(&rme32->capture_pcm, 0, sizeof(rme32->capture_pcm));
+ 		rme32->capture_pcm.hw_buffer_size = RME32_BUFFER_SIZE;
+@@ -1034,7 +1004,6 @@ static int snd_rme32_capture_prepare(struct snd_pcm_substream *substream)
+ 	} else {
+ 		writel(0, rme32->iobase + RME32_IO_RESET_POS);
  	}
+-	spin_unlock_irq(&rme32->lock);
+ 	return 0;
  }
  
-diff --git a/sound/pci/oxygen/xonar_lib.c b/sound/pci/oxygen/xonar_lib.c
-index e951f5478075..0edf67ce37d1 100644
---- a/sound/pci/oxygen/xonar_lib.c
-+++ b/sound/pci/oxygen/xonar_lib.c
-@@ -109,7 +109,7 @@ int xonar_gpio_bit_switch_put(struct snd_kcontrol *ctl,
- 	u16 old_bits, new_bits;
- 	int changed;
+@@ -1044,7 +1013,7 @@ snd_rme32_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+ 	struct rme32 *rme32 = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_substream *s;
  
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	old_bits = oxygen_read16(chip, OXYGEN_GPIO_DATA);
- 	if (!!value->value.integer.value[0] ^ invert)
- 		new_bits = old_bits | bit;
-@@ -118,6 +118,5 @@ int xonar_gpio_bit_switch_put(struct snd_kcontrol *ctl,
- 	changed = new_bits != old_bits;
- 	if (changed)
- 		oxygen_write16(chip, OXYGEN_GPIO_DATA, new_bits);
--	spin_unlock_irq(&chip->reg_lock);
- 	return changed;
- }
-diff --git a/sound/pci/oxygen/xonar_pcm179x.c b/sound/pci/oxygen/xonar_pcm179x.c
-index a491c9c92989..837a9505382a 100644
---- a/sound/pci/oxygen/xonar_pcm179x.c
-+++ b/sound/pci/oxygen/xonar_pcm179x.c
-@@ -1021,11 +1021,10 @@ static void xonar_line_mic_ac97_switch(struct oxygen *chip,
- 				       unsigned int reg, unsigned int mute)
- {
- 	if (reg == AC97_LINE) {
--		spin_lock_irq(&chip->reg_lock);
-+		guard(spinlock_irq)(&chip->reg_lock);
- 		oxygen_write16_masked(chip, OXYGEN_GPIO_DATA,
- 				      mute ? GPIO_INPUT_ROUTE : 0,
- 				      GPIO_INPUT_ROUTE);
--		spin_unlock_irq(&chip->reg_lock);
+-	spin_lock(&rme32->lock);
++	guard(spinlock)(&rme32->lock);
+ 	snd_pcm_group_for_each_entry(s, substream) {
+ 		if (s != rme32->playback_substream &&
+ 		    s != rme32->capture_substream)
+@@ -1088,7 +1057,6 @@ snd_rme32_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+ 			snd_rme32_pcm_start(rme32, 1);
+ 		break;
  	}
+-	spin_unlock(&rme32->lock);
+ 	return 0;
+ }
+ 
+@@ -1124,11 +1092,11 @@ static int snd_rme32_playback_fd_ack(struct snd_pcm_substream *substream)
+ 
+ 	rec = &rme32->playback_pcm;
+ 	cprec = &rme32->capture_pcm;
+-	spin_lock(&rme32->lock);
+-	rec->hw_queue_size = RME32_BUFFER_SIZE;
+-	if (rme32->running & (1 << SNDRV_PCM_STREAM_CAPTURE))
+-		rec->hw_queue_size -= cprec->hw_ready;
+-	spin_unlock(&rme32->lock);
++	scoped_guard(spinlock, &rme32->lock) {
++		rec->hw_queue_size = RME32_BUFFER_SIZE;
++		if (rme32->running & (1 << SNDRV_PCM_STREAM_CAPTURE))
++			rec->hw_queue_size -= cprec->hw_ready;
++	}
+ 	return snd_pcm_indirect_playback_transfer(substream, rec,
+ 						  snd_rme32_pb_trans_copy);
+ }
+@@ -1513,10 +1481,9 @@ snd_rme32_get_loopback_control(struct snd_kcontrol *kcontrol,
+ {
+ 	struct rme32 *rme32 = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	ucontrol->value.integer.value[0] =
+ 	    rme32->wcreg & RME32_WCR_SEL ? 0 : 1;
+-	spin_unlock_irq(&rme32->lock);
+ 	return 0;
+ }
+ static int
+@@ -1528,7 +1495,7 @@ snd_rme32_put_loopback_control(struct snd_kcontrol *kcontrol,
+ 	int change;
+ 
+ 	val = ucontrol->value.integer.value[0] ? 0 : RME32_WCR_SEL;
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	val = (rme32->wcreg & ~RME32_WCR_SEL) | val;
+ 	change = val != rme32->wcreg;
+ 	if (ucontrol->value.integer.value[0])
+@@ -1537,7 +1504,6 @@ snd_rme32_put_loopback_control(struct snd_kcontrol *kcontrol,
+ 		val |= RME32_WCR_MUTE;
+ 	rme32->wcreg = val;
+ 	writel(val, rme32->iobase + RME32_IO_CONTROL_REGISTER);
+-	spin_unlock_irq(&rme32->lock);
+ 	return change;
+ }
+ 
+@@ -1572,7 +1538,7 @@ snd_rme32_get_inputtype_control(struct snd_kcontrol *kcontrol,
+ 	struct rme32 *rme32 = snd_kcontrol_chip(kcontrol);
+ 	unsigned int items = 3;
+ 
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	ucontrol->value.enumerated.item[0] = snd_rme32_getinputtype(rme32);
+ 
+ 	switch (rme32->pci->device) {
+@@ -1591,7 +1557,6 @@ snd_rme32_get_inputtype_control(struct snd_kcontrol *kcontrol,
+ 		ucontrol->value.enumerated.item[0] = items - 1;
+ 	}
+ 
+-	spin_unlock_irq(&rme32->lock);
+ 	return 0;
+ }
+ static int
+@@ -1616,10 +1581,9 @@ snd_rme32_put_inputtype_control(struct snd_kcontrol *kcontrol,
+ 	}
+ 	val = ucontrol->value.enumerated.item[0] % items;
+ 
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	change = val != (unsigned int)snd_rme32_getinputtype(rme32);
+ 	snd_rme32_setinputtype(rme32, val);
+-	spin_unlock_irq(&rme32->lock);
+ 	return change;
+ }
+ 
+@@ -1640,9 +1604,8 @@ snd_rme32_get_clockmode_control(struct snd_kcontrol *kcontrol,
+ {
+ 	struct rme32 *rme32 = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	ucontrol->value.enumerated.item[0] = snd_rme32_getclockmode(rme32);
+-	spin_unlock_irq(&rme32->lock);
+ 	return 0;
+ }
+ static int
+@@ -1654,10 +1617,9 @@ snd_rme32_put_clockmode_control(struct snd_kcontrol *kcontrol,
+ 	int change;
+ 
+ 	val = ucontrol->value.enumerated.item[0] % 3;
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	change = val != (unsigned int)snd_rme32_getclockmode(rme32);
+ 	snd_rme32_setclockmode(rme32, val);
+-	spin_unlock_irq(&rme32->lock);
+ 	return change;
+ }
+ 
+@@ -1707,10 +1669,9 @@ static int snd_rme32_control_spdif_put(struct snd_kcontrol *kcontrol,
+ 	u32 val;
+ 
+ 	val = snd_rme32_convert_from_aes(&ucontrol->value.iec958);
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	change = val != rme32->wcreg_spdif;
+ 	rme32->wcreg_spdif = val;
+-	spin_unlock_irq(&rme32->lock);
+ 	return change;
+ }
+ 
+@@ -1742,13 +1703,12 @@ static int snd_rme32_control_spdif_stream_put(struct snd_kcontrol *kcontrol,
+ 	u32 val;
+ 
+ 	val = snd_rme32_convert_from_aes(&ucontrol->value.iec958);
+-	spin_lock_irq(&rme32->lock);
++	guard(spinlock_irq)(&rme32->lock);
+ 	change = val != rme32->wcreg_spdif_stream;
+ 	rme32->wcreg_spdif_stream = val;
+ 	rme32->wcreg &= ~(RME32_WCR_PRO | RME32_WCR_EMP);
+ 	rme32->wcreg |= val;
+ 	writel(rme32->wcreg, rme32->iobase + RME32_IO_CONTROL_REGISTER);
+-	spin_unlock_irq(&rme32->lock);
+ 	return change;
  }
  
 -- 
