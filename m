@@ -1,46 +1,46 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D03E265CA7
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 10:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8E830F952
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 10:52:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756464754; cv=none; b=IWm56CA4POxnIdBsknOj9CZk+fkWoP/R65/vonm4wzwl25+nJLAGyiZLlqEJsO78mqDnleolGdJa9j6Aclesc8JvTqNzrm1p6x+XtP3OkQN2t+jHZ0t9rXDr9Emlw+EhJime4WOeKMKUPA/lQwkZdQGOtIEvJlv6ehu4Zs+eBV4=
+	t=1756464756; cv=none; b=rMOHSmD5cHBAwoxNji5re9KsExnLPUhcxd3WtlWVaWxswkVuuDCQQgpHD2t9KtsVK0Pd94YhccetRsyEOWs5JM1g6n3rwOtedokuIb6b9m2INbV41xas4kuRueV4q8rBfhRDkwJ5jNPzv/5vXSqr0sjgJ2cWNgl8jfekF6S93tU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756464754; c=relaxed/simple;
-	bh=wMTrVAYMoqfJ3jO6gUtsg2B0MzhfzAqKZm+bUAcL6Pk=;
+	s=arc-20240116; t=1756464756; c=relaxed/simple;
+	bh=KYwtJJam8Jyu332GlLqcSeAXRicpkuqAMLZBEeKiHJU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=skc6/St3r1kHECZ/izLd+0nsfJgDqN+OgO2oDv+1QJgfWlI5e+jB/riczGAR4qSjxLzCm7Dad40VqYDmEHagkOkg0OPdLXCWh8x59Ltg3CbtAjbn698KqZIVP4bmO75RSrZePd5Pk0fQdbSBm2iQO3LVMavsbFlYekgOmT7eZ30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IKqhbDgW; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version:Content-Type; b=am1EotEZVL+yPZ4WmVurGmhfoknBPsPl0WKnQWijIfsq7ZpRD7mOGAEsNVXCTf3tzzXmKR62l1mgR0u7LnLF8Wiy8K40i85nTDM9tpxvUZIavwqqdsRmgmRsbHGo0qLcFog1THQkx6Of0iJzjZonaET6mpKMQYb0gI51iNW0MLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L/Q3fKAO; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IKqhbDgW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L/Q3fKAO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756464752; x=1788000752;
+  t=1756464755; x=1788000755;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=wMTrVAYMoqfJ3jO6gUtsg2B0MzhfzAqKZm+bUAcL6Pk=;
-  b=IKqhbDgW0rnAtbBhTia9I88bADuSaxQcnS+ZK5WdWBuy6vJWMclFjlJS
-   Qq/oaIKLlz2BbRJDHlzWB1/gJF9Tdu2mvRRGoneffeo/kEm/9KYr6pzx8
-   dMHmS20JI9LNbJoQmWn3hkmtz3dvinFAaoGpRo8mXZBtMCxJndFwqIWOE
-   yJBeYmBE0rOyQxH2T/JfSbWmQ5l4ER+YWD+FTeexVPKf022uV7G933h/E
-   UbtiwtHKGfl7XoNMP27riZAzWBSX/PS0haB6M6KP71X/L/8UYAHynuyJe
-   hMPpde8op9qVw53mUMuimuLzzMn2LsGCDU1tVoTVSmxuavG+ZZKxUxynB
+  bh=KYwtJJam8Jyu332GlLqcSeAXRicpkuqAMLZBEeKiHJU=;
+  b=L/Q3fKAOHYpIJGMH4hethw3g4dD18fB1VpwrXfzBytEogiapghB2eDPB
+   AqPTj6kx0ByDPyam2T7XnCPw0YxDA4YcHl3UhtSRddsqOre4qS4WsBDPg
+   ucJBQ2ctkWID0hAW4W9BE8p+8Pf9muCtwUcQYksowy6LKWEaVRetZXp9Z
+   qMxv0rR8XqXzYCS75ew19DEaMAog/0E4jdjzpQPkXZlUo045I2G5y7a5C
+   AnQ13YHXvrNBKXL6An9L50tiQwPXpyjtZYMRt1S4pGqbTHB5ikcN6tdbn
+   KgKip0KQNQxK2oiBJWOQDsABWnLc5mNjKVrao0SC/qK5bakKiEGcD/KCY
    A==;
-X-CSE-ConnectionGUID: r+XKVwkAQyqCvqDt/SPUwg==
-X-CSE-MsgGUID: X/UIxoF0QXa8B9M33lq2RA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="61383248"
+X-CSE-ConnectionGUID: TZGCyBgSTRi1m1CighWrjw==
+X-CSE-MsgGUID: b5aSWOiSQCmdYwDjWlfKbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="61383253"
 X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="61383248"
+   d="scan'208";a="61383253"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 03:52:32 -0700
-X-CSE-ConnectionGUID: JIVfCR4sTOeTfhvtYnJnYw==
-X-CSE-MsgGUID: 7nUDH49DRrWqiEaEgByZUA==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 03:52:35 -0700
+X-CSE-ConnectionGUID: fphtAKWfQQSr/MLoFYFMyQ==
+X-CSE-MsgGUID: f57lQMbpSZmo1QSdi2yiJw==
 X-ExtLoop1: 1
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.56])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 03:52:29 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 03:52:32 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -51,9 +51,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	seppo.ingalsuo@linux.intel.com,
 	liam.r.girdwood@intel.com
-Subject: [PATCH 2/3] ASoC: SOF: ipc4-topology: Add support for 8-bit formats
-Date: Fri, 29 Aug 2025 13:53:04 +0300
-Message-ID: <20250829105305.31818-3-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 3/3] ASoC: SOF: ipc4-topology: Add support for float sample type
+Date: Fri, 29 Aug 2025 13:53:05 +0300
+Message-ID: <20250829105305.31818-4-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829105305.31818-1-peter.ujfalusi@linux.intel.com>
 References: <20250829105305.31818-1-peter.ujfalusi@linux.intel.com>
@@ -68,39 +68,11 @@ Content-Transfer-Encoding: 8bit
 
 From: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 
-This patch enables use of 8-bit unsigned, A-law, and mu-law
-sample formats with IPC4 SOF.
-
-The ipc4-topology.h is updated with IPC4 sample types. The
-purpose is to convert ALSA types to IPC4 types.
-
-The functions of_ipc4_update_hw_params(), sof_ipc4_get_valid_bits(),
-and new function sof_ipc4_get_sample_type() are updated to handle
-the sample type conversions.
-
-The function sof_ipc4_prepare_copier_module() is updated to set
-the DMA SCS bit for all non 32 bits sample types.
-
-The change to function sof_ipc4_get_valid_bits() returns 8 bits
-for these ALSA formats.
-
-The change to function sof_ipc4_prepare_copier_module() is
-needed to handle properly all non 32-bit formats with SCS
-bit set.
-
-To support playback with new 8 bits types, the
-sof_ipc4_init_input_audio_fmt() function is updated to get
-the sample type and use it in search for copier input pin
-format.
-
-To support capture, the sof_ipc4_init_output_audio_fmt()
-is updated similarly. Since the function uses separate
-out_ref_type argument, instead of single parameters struct,
-the out_ref_type needs to be added to every user of the
-function. Therefore functions sof_ipc4_prepare_copier_module(),
-sof_ipc4_prepare_gain_module(), sof_ipc4_prepare_mixer_module(),
-sof_ipc4_prepare_src_module(), and sof_ipc4_prepare_process_module()
-are updated to set the out_ref_type.
+This patch adds support for FLOAT_LE ALSA type for playback and
+capture for IPC4 systems. Functions sof_ipc4_update_hw_params(),
+sof_ipc4_get_valid_bits() and sof_ipc4_get_sample_type()
+are updated to handle SOF_IPC4_TYPE_FLOAT and
+SNDRV_PCM_FORMAT_FLOAT_LE.
 
 Signed-off-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
@@ -108,366 +80,50 @@ Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/sof/ipc4-topology.c | 126 +++++++++++++++++++++++++++++-----
- sound/soc/sof/ipc4-topology.h |   9 +++
- 2 files changed, 116 insertions(+), 19 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 591ee30551ba..47cc76328c23 100644
+index 47cc76328c23..d934165fda11 100644
 --- a/sound/soc/sof/ipc4-topology.c
 +++ b/sound/soc/sof/ipc4-topology.c
-@@ -1292,6 +1292,23 @@ static int sof_ipc4_widget_assign_instance_id(struct snd_sof_dev *sdev,
- 	return 0;
- }
- 
-+static u32 sof_ipc4_fmt_cfg_to_type(u32 fmt_cfg)
-+{
-+	/* Fetch  the sample type from the fmt for 8 and 32 bit formats */
-+	u32 __bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt_cfg);
-+
-+	if (__bits == 8 || __bits == 32)
-+		return SOF_IPC4_AUDIO_FORMAT_CFG_SAMPLE_TYPE(fmt_cfg);
-+
-+	/*
-+	 * Return LSB integer type for 20 and 24 formats as the firmware is
-+	 * handling the LSB/MSB alignment internally, for the kernel this
-+	 * should not be taken into account, we treat them as LSB to match with
-+	 * the format we support on the PCM side.
-+	 */
-+	return SOF_IPC4_TYPE_LSB_INTEGER;
-+}
-+
- /* update hw_params based on the audio stream format */
- static int sof_ipc4_update_hw_params(struct snd_sof_dev *sdev, struct snd_pcm_hw_params *params,
- 				     struct sof_ipc4_audio_format *fmt, u32 param_to_update)
-@@ -1300,10 +1317,27 @@ static int sof_ipc4_update_hw_params(struct snd_sof_dev *sdev, struct snd_pcm_hw
- 
- 	if (param_to_update & BIT(SNDRV_PCM_HW_PARAM_FORMAT)) {
- 		int valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt->fmt_cfg);
-+		int type = sof_ipc4_fmt_cfg_to_type(fmt->fmt_cfg);
- 		snd_pcm_format_t snd_fmt;
- 		struct snd_mask *m;
- 
- 		switch (valid_bits) {
-+		case 8:
+@@ -1345,7 +1345,17 @@ static int sof_ipc4_update_hw_params(struct snd_sof_dev *sdev, struct snd_pcm_hw
+ 			snd_fmt = SNDRV_PCM_FORMAT_S24_LE;
+ 			break;
+ 		case 32:
+-			snd_fmt = SNDRV_PCM_FORMAT_S32_LE;
 +			switch (type) {
-+			case SOF_IPC4_TYPE_A_LAW:
-+				snd_fmt = SNDRV_PCM_FORMAT_A_LAW;
++			case SOF_IPC4_TYPE_LSB_INTEGER:
++				snd_fmt = SNDRV_PCM_FORMAT_S32_LE;
 +				break;
-+			case SOF_IPC4_TYPE_MU_LAW:
-+				snd_fmt = SNDRV_PCM_FORMAT_MU_LAW;
-+				break;
-+			case SOF_IPC4_TYPE_UNSIGNED_INTEGER:
-+				snd_fmt = SNDRV_PCM_FORMAT_U8;
++			case SOF_IPC4_TYPE_FLOAT:
++				snd_fmt = SNDRV_PCM_FORMAT_FLOAT_LE;
 +				break;
 +			default:
-+				dev_err(sdev->dev, "Unsupported PCM 8-bit IPC4 type %d\n", type);
++				dev_err(sdev->dev, "Unsupported PCM 32-bit IPC4 type %d\n", type);
 +				return -EINVAL;
 +			}
-+			break;
- 		case 16:
- 			snd_fmt = SNDRV_PCM_FORMAT_S16_LE;
  			break;
-@@ -1375,7 +1409,7 @@ static int sof_ipc4_init_output_audio_fmt(struct snd_sof_dev *sdev,
- 					  struct sof_ipc4_base_module_cfg *base_config,
- 					  struct sof_ipc4_available_audio_format *available_fmt,
- 					  u32 out_ref_rate, u32 out_ref_channels,
--					  u32 out_ref_valid_bits)
-+					  u32 out_ref_valid_bits, u32 out_ref_type)
- {
- 	struct sof_ipc4_pin_format *pin_fmts = available_fmt->output_pin_fmts;
- 	u32 pin_fmts_size = available_fmt->num_output_formats;
-@@ -1401,19 +1435,22 @@ static int sof_ipc4_init_output_audio_fmt(struct snd_sof_dev *sdev,
- 	for (i = 0; i < pin_fmts_size; i++) {
- 		struct sof_ipc4_audio_format *fmt = &pin_fmts[i].audio_fmt;
- 
--		u32 _out_rate, _out_channels, _out_valid_bits;
-+		u32 _out_rate, _out_channels, _out_valid_bits, _out_type;
- 
- 		_out_rate = fmt->sampling_frequency;
- 		_out_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(fmt->fmt_cfg);
- 		_out_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt->fmt_cfg);
-+		_out_type = sof_ipc4_fmt_cfg_to_type(fmt->fmt_cfg);
- 
- 		if (_out_rate == out_ref_rate && _out_channels == out_ref_channels &&
--		    _out_valid_bits == out_ref_valid_bits)
-+		    _out_valid_bits == out_ref_valid_bits && _out_type == out_ref_type)
- 			goto out_fmt;
- 	}
- 
--	dev_err(sdev->dev, "%s: Unsupported audio format: %uHz, %ubit, %u channels\n",
--		__func__, out_ref_rate, out_ref_valid_bits, out_ref_channels);
-+	dev_err(sdev->dev,
-+		"%s: Unsupported audio format: %uHz, %ubit, %u channels, type: %d\n",
-+		__func__, out_ref_rate, out_ref_valid_bits, out_ref_channels,
-+		out_ref_type);
- 
- 	return -EINVAL;
- 
-@@ -1426,6 +1463,10 @@ static int sof_ipc4_init_output_audio_fmt(struct snd_sof_dev *sdev,
- static int sof_ipc4_get_valid_bits(struct snd_sof_dev *sdev, struct snd_pcm_hw_params *params)
- {
- 	switch (params_format(params)) {
-+	case SNDRV_PCM_FORMAT_U8:
-+	case SNDRV_PCM_FORMAT_MU_LAW:
-+	case SNDRV_PCM_FORMAT_A_LAW:
-+		return 8;
- 	case SNDRV_PCM_FORMAT_S16_LE:
- 		return 16;
- 	case SNDRV_PCM_FORMAT_S24_LE:
-@@ -1438,6 +1479,26 @@ static int sof_ipc4_get_valid_bits(struct snd_sof_dev *sdev, struct snd_pcm_hw_p
- 	}
- }
- 
-+static int sof_ipc4_get_sample_type(struct snd_sof_dev *sdev, struct snd_pcm_hw_params *params)
-+{
-+	switch (params_format(params)) {
-+	case SNDRV_PCM_FORMAT_A_LAW:
-+		return SOF_IPC4_TYPE_A_LAW;
-+	case SNDRV_PCM_FORMAT_MU_LAW:
-+		return SOF_IPC4_TYPE_MU_LAW;
-+	case SNDRV_PCM_FORMAT_U8:
-+		return SOF_IPC4_TYPE_UNSIGNED_INTEGER;
-+	case SNDRV_PCM_FORMAT_S16_LE:
-+	case SNDRV_PCM_FORMAT_S24_LE:
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+	case SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE:
-+		return SOF_IPC4_TYPE_LSB_INTEGER;
-+	default:
-+		dev_err(sdev->dev, "invalid pcm sample type %d\n", params_format(params));
-+		return -EINVAL;
-+	}
-+}
-+
- static int sof_ipc4_init_input_audio_fmt(struct snd_sof_dev *sdev,
- 					 struct snd_sof_widget *swidget,
- 					 struct sof_ipc4_base_module_cfg *base_config,
-@@ -1449,8 +1510,10 @@ static int sof_ipc4_init_input_audio_fmt(struct snd_sof_dev *sdev,
- 	u32 valid_bits;
- 	u32 channels;
- 	u32 rate;
-+	u32 type;
- 	bool single_format;
- 	int sample_valid_bits;
-+	int sample_type;
- 	int i = 0;
- 
- 	if (!pin_fmts_size) {
-@@ -1466,6 +1529,10 @@ static int sof_ipc4_init_input_audio_fmt(struct snd_sof_dev *sdev,
- 	if (sample_valid_bits < 0)
- 		return sample_valid_bits;
- 
-+	sample_type = sof_ipc4_get_sample_type(sdev, params);
-+	if (sample_type < 0)
-+		return sample_type;
-+
- 	/*
- 	 * Search supported input audio formats with pin index 0 to match rate, channels and
- 	 * sample_valid_bits from reference params
-@@ -1479,14 +1546,17 @@ static int sof_ipc4_init_input_audio_fmt(struct snd_sof_dev *sdev,
- 		rate = fmt->sampling_frequency;
- 		channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(fmt->fmt_cfg);
- 		valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt->fmt_cfg);
-+		type = sof_ipc4_fmt_cfg_to_type(fmt->fmt_cfg);
- 		if (params_rate(params) == rate && params_channels(params) == channels &&
--		    sample_valid_bits == valid_bits)
-+		    sample_valid_bits == valid_bits && sample_type == type)
- 			break;
- 	}
- 
- 	if (i == pin_fmts_size) {
--		dev_err(sdev->dev, "%s: Unsupported audio format: %uHz, %ubit, %u channels\n",
--			__func__, params_rate(params), sample_valid_bits, params_channels(params));
-+		dev_err(sdev->dev,
-+			"%s: Unsupported audio format: %uHz, %ubit, %u channels, type: %d\n",
-+			__func__, params_rate(params), sample_valid_bits,
-+			params_channels(params), sample_type);
+ 		default:
+ 			dev_err(sdev->dev, "invalid PCM valid_bits %d\n", valid_bits);
+@@ -1473,6 +1483,8 @@ static int sof_ipc4_get_valid_bits(struct snd_sof_dev *sdev, struct snd_pcm_hw_p
+ 		return 24;
+ 	case SNDRV_PCM_FORMAT_S32_LE:
+ 		return 32;
++	case SNDRV_PCM_FORMAT_FLOAT_LE:
++		return 32;
+ 	default:
+ 		dev_err(sdev->dev, "invalid pcm frame format %d\n", params_format(params));
  		return -EINVAL;
- 	}
- 
-@@ -1882,7 +1952,7 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 	int *ipc_config_size;
- 	u32 **data;
- 	int ipc_size, ret, out_ref_valid_bits;
--	u32 out_ref_rate, out_ref_channels;
-+	u32 out_ref_rate, out_ref_channels, out_ref_type;
- 	u32 deep_buffer_dma_ms = 0;
- 	bool single_output_bitdepth;
- 	int i;
-@@ -1923,10 +1993,13 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 			host_dma_id = platform_params->stream_tag - 1;
- 			pipeline->msg.primary |= SOF_IPC4_GLB_CHAIN_DMA_HOST_ID(host_dma_id);
- 
--			/* Set SCS bit for S16_LE format only */
- 			if (params_format(fe_params) == SNDRV_PCM_FORMAT_S16_LE)
- 				pipeline->msg.primary |= SOF_IPC4_GLB_CHAIN_DMA_SCS_MASK;
- 
-+			/* Set SCS bit for 8 and 16 bit formats */
-+			if (params_physical_width(fe_params) <= 16)
-+				pipeline->msg.primary |= SOF_IPC4_GLB_CHAIN_DMA_SCS_MASK;
-+
- 			/*
- 			 * Despite its name the bitfield 'fifo_size' is used to define DMA buffer
- 			 * size. The expression calculates 2ms buffer size.
-@@ -2051,6 +2124,7 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 		in_fmt = &available_fmt->input_pin_fmts[input_fmt_index].audio_fmt;
- 		out_ref_rate = in_fmt->sampling_frequency;
- 		out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
-+		out_ref_type = sof_ipc4_fmt_cfg_to_type(in_fmt->fmt_cfg);
- 
- 		if (!single_output_bitdepth)
- 			out_ref_valid_bits =
-@@ -2061,6 +2135,10 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 	case snd_soc_dapm_dai_in:
- 		out_ref_rate = params_rate(fe_params);
- 		out_ref_channels = params_channels(fe_params);
-+		out_ref_type = sof_ipc4_get_sample_type(sdev, fe_params);
-+		if (out_ref_type < 0)
-+			return out_ref_type;
-+
- 		if (!single_output_bitdepth) {
- 			out_ref_valid_bits = sof_ipc4_get_valid_bits(sdev, fe_params);
- 			if (out_ref_valid_bits < 0)
-@@ -2085,12 +2163,14 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 		out_fmt = &available_fmt->output_pin_fmts[0].audio_fmt;
- 		out_ref_valid_bits =
- 			SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(out_fmt->fmt_cfg);
-+		out_ref_type = sof_ipc4_fmt_cfg_to_type(out_fmt->fmt_cfg);
- 	}
- 
- 	output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
- 							  &copier_data->base_config,
- 							  available_fmt, out_ref_rate,
--							  out_ref_channels, out_ref_valid_bits);
-+							  out_ref_channels, out_ref_valid_bits,
-+							  out_ref_type);
- 	if (output_fmt_index < 0)
- 		return output_fmt_index;
- 
-@@ -2319,7 +2399,7 @@ static int sof_ipc4_prepare_gain_module(struct snd_sof_widget *swidget,
- 	struct sof_ipc4_gain *gain = swidget->private;
- 	struct sof_ipc4_available_audio_format *available_fmt = &gain->available_fmt;
- 	struct sof_ipc4_audio_format *in_fmt;
--	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits;
-+	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits, out_ref_type;
- 	int input_fmt_index, output_fmt_index;
- 
- 	input_fmt_index = sof_ipc4_init_input_audio_fmt(sdev, swidget,
-@@ -2333,13 +2413,15 @@ static int sof_ipc4_prepare_gain_module(struct snd_sof_widget *swidget,
- 	out_ref_rate = in_fmt->sampling_frequency;
- 	out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
- 	out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_fmt->fmt_cfg);
-+	out_ref_type = sof_ipc4_fmt_cfg_to_type(in_fmt->fmt_cfg);
- 
- 	output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
- 							  &gain->data.base_config,
- 							  available_fmt,
- 							  out_ref_rate,
- 							  out_ref_channels,
--							  out_ref_valid_bits);
-+							  out_ref_valid_bits,
-+							  out_ref_type);
- 	if (output_fmt_index < 0)
- 		return output_fmt_index;
- 
-@@ -2362,7 +2444,7 @@ static int sof_ipc4_prepare_mixer_module(struct snd_sof_widget *swidget,
- 	struct sof_ipc4_mixer *mixer = swidget->private;
- 	struct sof_ipc4_available_audio_format *available_fmt = &mixer->available_fmt;
- 	struct sof_ipc4_audio_format *in_fmt;
--	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits;
-+	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits, out_ref_type;
- 	int input_fmt_index, output_fmt_index;
- 
- 	input_fmt_index = sof_ipc4_init_input_audio_fmt(sdev, swidget,
-@@ -2376,13 +2458,15 @@ static int sof_ipc4_prepare_mixer_module(struct snd_sof_widget *swidget,
- 	out_ref_rate = in_fmt->sampling_frequency;
- 	out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
- 	out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_fmt->fmt_cfg);
-+	out_ref_type = sof_ipc4_fmt_cfg_to_type(in_fmt->fmt_cfg);
- 
- 	output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
- 							  &mixer->base_config,
- 							  available_fmt,
- 							  out_ref_rate,
- 							  out_ref_channels,
--							  out_ref_valid_bits);
-+							  out_ref_valid_bits,
-+							  out_ref_type);
- 	if (output_fmt_index < 0)
- 		return output_fmt_index;
- 
-@@ -2406,7 +2490,7 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 	struct sof_ipc4_available_audio_format *available_fmt = &src->available_fmt;
- 	struct sof_ipc4_audio_format *out_audio_fmt;
- 	struct sof_ipc4_audio_format *in_audio_fmt;
--	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits;
-+	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits, out_ref_type;
- 	int output_fmt_index, input_fmt_index;
- 
- 	input_fmt_index = sof_ipc4_init_input_audio_fmt(sdev, swidget,
-@@ -2433,6 +2517,7 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 	in_audio_fmt = &available_fmt->input_pin_fmts[input_fmt_index].audio_fmt;
- 	out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_audio_fmt->fmt_cfg);
- 	out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_audio_fmt->fmt_cfg);
-+	out_ref_type = sof_ipc4_fmt_cfg_to_type(in_audio_fmt->fmt_cfg);
- 
- 	/*
- 	 * For capture, the SRC module should convert the rate to match the rate requested by the
-@@ -2446,7 +2531,8 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 							  available_fmt,
- 							  out_ref_rate,
- 							  out_ref_channels,
--							  out_ref_valid_bits);
-+							  out_ref_valid_bits,
-+							  out_ref_type);
- 	if (output_fmt_index < 0)
- 		return output_fmt_index;
- 
-@@ -2570,20 +2656,22 @@ static int sof_ipc4_prepare_process_module(struct snd_sof_widget *swidget,
- 		struct sof_ipc4_audio_format *in_fmt;
- 		struct sof_ipc4_pin_format *pin_fmt;
- 		u32 out_ref_rate, out_ref_channels;
--		int out_ref_valid_bits;
-+		int out_ref_valid_bits, out_ref_type;
- 
- 		in_fmt = &available_fmt->input_pin_fmts[input_fmt_index].audio_fmt;
- 
- 		out_ref_rate = in_fmt->sampling_frequency;
- 		out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
- 		out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_fmt->fmt_cfg);
-+		out_ref_type = sof_ipc4_fmt_cfg_to_type(in_fmt->fmt_cfg);
- 
- 		output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
- 								  &process->base_config,
- 								  available_fmt,
- 								  out_ref_rate,
- 								  out_ref_channels,
--								  out_ref_valid_bits);
-+								  out_ref_valid_bits,
-+								  out_ref_type);
- 		if (output_fmt_index < 0)
- 			return output_fmt_index;
- 
-diff --git a/sound/soc/sof/ipc4-topology.h b/sound/soc/sof/ipc4-topology.h
-index 14ba58d2be03..537b97d22766 100644
---- a/sound/soc/sof/ipc4-topology.h
-+++ b/sound/soc/sof/ipc4-topology.h
-@@ -41,6 +41,15 @@
- #define SOF_IPC4_FW_MAX_PAGE_COUNT 20
- #define SOF_IPC4_FW_MAX_QUEUE_COUNT 8
- 
-+/* IPC4 sample types */
-+#define SOF_IPC4_TYPE_MSB_INTEGER 0
-+#define SOF_IPC4_TYPE_LSB_INTEGER 1
-+#define SOF_IPC4_TYPE_SIGNED_INTEGER 2
-+#define SOF_IPC4_TYPE_UNSIGNED_INTEGER 3
-+#define SOF_IPC4_TYPE_FLOAT 4
-+#define SOF_IPC4_TYPE_A_LAW 5
-+#define SOF_IPC4_TYPE_MU_LAW 6
-+
- /* Node index and mask applicable for host copier and ALH/HDA type DAI copiers */
- #define SOF_IPC4_NODE_INDEX_MASK	0xFF
- #define SOF_IPC4_NODE_INDEX(x)	((x) & SOF_IPC4_NODE_INDEX_MASK)
+@@ -1493,6 +1505,8 @@ static int sof_ipc4_get_sample_type(struct snd_sof_dev *sdev, struct snd_pcm_hw_
+ 	case SNDRV_PCM_FORMAT_S32_LE:
+ 	case SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE:
+ 		return SOF_IPC4_TYPE_LSB_INTEGER;
++	case SNDRV_PCM_FORMAT_FLOAT_LE:
++		return SOF_IPC4_TYPE_FLOAT;
+ 	default:
+ 		dev_err(sdev->dev, "invalid pcm sample type %d\n", params_format(params));
+ 		return -EINVAL;
 -- 
 2.50.1
 
