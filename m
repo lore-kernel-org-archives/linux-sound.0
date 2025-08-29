@@ -1,371 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9938F277003
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 09:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5EE2F3636;
+	Fri, 29 Aug 2025 09:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756459799; cv=none; b=NRjkdfgQcqiMeF9mT2AbpqY0pOeRWtoEhGXlX1Rg8LK9l3nAmFFge4XyvaFUBvxDzmXO76EIf9xRDlZVujeMXjMMLZBoDik63YRk2+5FQ6RDIyn725H/l7uN7fNLy+jlkx47AvXJSMOfrFUwpi4WoIofebA7LRnk1Td4bQmuSpI=
+	t=1756459803; cv=none; b=Oo1eG+F9gvSklUN8keobP8wTAfjQAigjEDUz9tATkHPCUBLqNF23TT0bATGGza4iEEPrcl7AYAlVKJbed5ZPZeEgCtha0hDL1z1loTZMwEv2aePRylwpCah1MN1JHZi4glWD9e4fEFmRtPz/BUIkFySN7Ojbizwt9dUa3QHcV6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756459799; c=relaxed/simple;
-	bh=nqueYbH5X8MxpOTjNWmSaxkx9DF16ui5l8AZpoNV53U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T11nnyKVqTQJdE0W7bH2F2xX/6aywAYnwIZwhDxlPb6MHkLuenav2EQKTz9gF374/o9DnL5q0l66twR8L488bFTHMTS4IKNV8Hp+nH40zV0OhIBRZyQ+8wowiRYFx/FAEFYgae5ZoAEi+41zYFVHpcE/WOzCv4r5ca9YUexzCco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9NO16ip; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1756459803; c=relaxed/simple;
+	bh=Kbb0zO07TWKOgAWnfOJ5eGnqTBUdk2BTH1xaneKkpwE=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=agHJHuPjcd36THNf8andOzUGMuc7pIOH+SNkWvqFkrJmAm5n5gwfuzOQEuK9e4yMIkyCM1l5BNPkcOhj7o735p6NF8ixsgX0JsE7T8duQpMQ8j0gJos1L6J+N7nrM4fKqKdR19GPlTdfuhz69rUtd2eaXfWje+j2oFYtJF/TymU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=O9RLlRfc; arc=none smtp.client-ip=54.204.34.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9NO16ip"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756459797; x=1787995797;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=nqueYbH5X8MxpOTjNWmSaxkx9DF16ui5l8AZpoNV53U=;
-  b=B9NO16ipg1mVJYHlvUFzQHxYAisJJALCdDfX6ivNZ02Z3csL33CQWoM2
-   q/XYQd+e9rjJDUm8wKBHGqu/6/ULW8nNYGUYMiXL7jYbRQTiEdCIo0Fyt
-   2WP385nUGq3bQv9e6YuF5PnRryj0TgX9TvznnhB2luDvhhO/mYDKs65C9
-   wiA/h6c9y435xtftnsIVshl4n/fzosRwRv9zePLlOS6noJ64XujIM5HdL
-   Uv14lAxHGOycv7EHKwgyUK/nH+ssrEQzR2Dv27tvW9/cc0vjzBuzRKhYm
-   dR70s7GhUnGDcOwOfOOkelgomfkbnEBAy97PQFripS6/HPwzygfKxZ+kZ
-   w==;
-X-CSE-ConnectionGUID: uBdFV57ZRyi2EHHuz6Tcjg==
-X-CSE-MsgGUID: VdrEl02FTAmOcr/cdlpvQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="84147908"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="84147908"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 02:29:57 -0700
-X-CSE-ConnectionGUID: Ili/LmYdT2q/i73Xkd+k6A==
-X-CSE-MsgGUID: fT4LyB2LQYq7M1Kdo6qdWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="170245433"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.56])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 02:29:54 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	liam.r.girdwood@intel.com,
-	jyri.sarha@linux.intel.com
-Subject: [PATCH 5/5] ASoC: SOF: sof-client-probes: Add available points_info(), IPC4 only
-Date: Fri, 29 Aug 2025 12:30:22 +0300
-Message-ID: <20250829093022.32094-6-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250829093022.32094-1-peter.ujfalusi@linux.intel.com>
-References: <20250829093022.32094-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="O9RLlRfc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1756459775;
+	bh=Kbb0zO07TWKOgAWnfOJ5eGnqTBUdk2BTH1xaneKkpwE=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject;
+	b=O9RLlRfcCJV1haw/mJQNo9/SArdeAnJN96kn38sxSGL7mkE7DuCrV5x4y1Qnhh9e+
+	 40AnjAeSsmNe+aJZovxoe1DQ1ydzn3WsxltjBPXj9LZEWbzIKZ00r4lcxqJwJLdS7E
+	 jVT72xkKPurbWd/HnDJn/P52F15nYpRaMew0YdGA=
+X-QQ-mid: zesmtpsz5t1756459764t24e88756
+X-QQ-Originating-IP: K3fxIcND9xVU396Ni2vHkM3OCrJJ2bM2OHyoxQ3IHZg=
+Received: from [192.168.15.210] ( [103.152.35.21])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 29 Aug 2025 17:29:22 +0800 (CST)
+X-QQ-SSF: 0002000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 1035626945351233096
+EX-QQ-RecipientCnt: 11
+Message-ID: <C22C1A172EBB9BD9+eccc2e4a-d21e-4a7d-848c-bbf3982feb94@uniontech.com>
+Date: Fri, 29 Aug 2025 17:29:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>,
+ Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>,
+ Feng Yuan <fengyuan@uniontech.com>,
+ Cryolitia PukNgae <cryolitia@uniontech.com>, qaqland <anguoli@uniontech.com>
+From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Subject: [RFC] sound: usb: design for quirk 'mixer_min_mute'
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: MIXpHopat2IaOpNcAuVGIBGvY9lpwwwsbCi0frLC47CxZYfkkV2RlyTJ
+	HA1/6lqKuDG1pTkCsrOzezOD+IrIO5BDGRdmzhN5ETZku2dPTQCRwlT1+7qeSi8GJRAIR08
+	SFvRUCXsTDlrL/+QEZIWjoVfdtUx10UFOWSLQCipemXJgLkETULpkgWSHqkQBiu2Fk7/oJW
+	BfKZWWqztav15siXXqmkmeeuR1ZheXBbHGMnqDDcjaMWP/L2j9dFDZXo8cUkAUDBbEdAkFS
+	i7y2BIGa7WQDrID17jg/x5etshCF6mQ5Aha/24R64B2DZ3QYDZQy6m4KttApx8dThfYU5gg
+	/y00V2ue7KYm/B5ZAjVT9SOE8EwwguzTFW06vY1H7Lz1RXy/IYEWtRdimTusrx5A3bFtEtV
+	SIvlc25vouKT77sFAB+KAsqxaAhQ9kpQ22VfZ0oDhh6Hh/N/jWum9dpWa5mPelypLfUROhn
+	QXkWRDK1fESJBIY9BtEpNkKAWhXrLlySyW7oR4I3xsF2MO9Ssg2q3OIUM0FI6NRc5HCe0Oo
+	uqwnKKq1iEE4PJYwjtjoduwNNGRu/ShY+Ryt2WR2+CC1TtGlljKRP/iouSkWMAaJVtvAFJ9
+	xsJAx2W+Y0I5QqDfTDln1wL6QYZsfsgoqaUHP5ked+g1fMe4UysBymJ+OPL8MbV6eo3x+Un
+	KqILiYdk4+cTHZgy+3v+/0F+beMPYJ200h+h/BdLLwUkXxdiaxgg5es6PiTig15KKXEHlr6
+	bRUHWTMvHnAWlCMlLEvwdluwidk22Zqn2EQiXPP3n/YCI1x530/DPvAgLs/ER343SVAuYtG
+	BncWkb+iUOtAZHdbfwgMMSE5bHrDGvdSVlqwmt0IgHnrL9W371H+pWv6IZ/SR+UvrUQpPsC
+	uAQfTcrNOmIiqIt7dkTaHnwgjgENRBif802fLldFi/B0h1C6jaTSnfRtdaJU9ojm5UiJFso
+	t5r4BBYbKFWoi7Beh/irF8E4s97IWjAWw/mvt11xh4YgpzJVUMlIWtzY4AFKGomZxhIWVZF
+	41Bbm0hVFdDLJDoEFmoI1tMXCuMDe9DwIPl380Fq8KkagS9XBsa31Qn9EXA3FH5vKQMdpbF
+	jmKEqBYlOIT
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-RECHKSPAM: 0
 
-From: Jyri Sarha <jyri.sarha@linux.intel.com>
+We are discussig about the problem that, on some devices the lowest
+playback value represents muted state instead of minimum audible volume.
+In the previous discussion, we have shown that this problem is widespread
+across a wide range of hardware[1][2]. And we have already added a bit for
+it[1].
 
-Add another debugfs file, "probe_points_available", that shows all the
-available probe points in the SOF FW at the time of query. The probe
-points are there only when an active SOF stream exists in the
-system. However, the stream identifiers are persistent in the sense
-that the same probe point identifiers always appear with the same
-playback or capture command in the same system configuration.
+Firstly, we need to discuss about how to design a module param for it. As
+it is needed to debug the device for end users instead of ignoring
+hardware mixer and using soft mixer only in pipewire, which has already
+written in Arch Linux wiki[3], as an imperfect workaround.
 
-The output, when reading "probe_points_available", may look like this:
+Inspired by Takashi Iwai[4], I would like to design a module param named
+`quirk_names`, to be passed like
+`1234:abcd:mixer_min_mute,4567:efef:ignore_ctl_error`, so that we can
+apply one or more quirk on a specific USB device. And the already existed
+param `ignore_ctl_error` could be deleted, because of included in the
+one.
 
-0x1000005,0x0,0x100     host-copier.0.playback output buf idx 0 (connected)
-0x7,0x0,0x100   gain.1.1 input buf idx 0 (connected)
-0x1000007,0x0,0x0       gain.1.1 output buf idx 0
-0x3,0x0,0x0     mixin.1.1 input buf idx 0
-0x1000003,0x0,0x0       mixin.1.1 output buf idx 0
-0x4,0x0,0x0     mixout.2.1 input buf idx 0
-0x1000004,0x0,0x0       mixout.2.1 output buf idx 0
-0x10007,0x0,0x0 gain.2.1 input buf idx 0
-0x1010007,0x0,0x0       gain.2.1 output buf idx 0
-0x11,0x0,0x0    smart_amp.2.1 input buf idx 0
-0x1000011,0x0,0x0       smart_amp.2.1 output buf idx 0
-0x10005,0x0,0x0 dai-copier.SSP.NoCodec-0.playback input buf idx 0
+>    /* lowest playback value is muted on some devices */
+>    if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_MIN_MUTE)
+>        if (strstr(kctl->id.name, "Playback"))
+>            cval->min_mute = 1;
 
-The triplet at the beginning of a line can be copy-pasted as such to
-"probe_points" debugfs file for adding a probe point. The rest of the
-line tries to give human readable explanation of what this probe point
-is.
+Secondly, all efforts so far is only for the Playback. But we have found
+some devices have the same problem on the Capture. So for the problem
+that the lowest playback value represents muted state instead of minimum 
+udible volume:
 
-Signed-off-by: Jyri Sarha <jyri.sarha@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/sof/sof-client-probes-ipc3.c | 25 ++++++++++-----
- sound/soc/sof/sof-client-probes-ipc4.c | 28 ++++++++++++++---
- sound/soc/sof/sof-client-probes.c      | 42 ++++++++++++++++++++++----
- sound/soc/sof/sof-client-probes.h      |  7 ++++-
- 4 files changed, 84 insertions(+), 18 deletions(-)
+  1. On some devices we already tested, only happens on their Playback,
+     but their Capture works perfectly. Or they are just a simple
+     earphone without audio input.
+  2. On some devices we already tested, have the problem both on Playback
+     and Capture.
+  3. Maybe on some devices we havn't found yet, have the problem only on
+     Capture but not Playback.
 
-diff --git a/sound/soc/sof/sof-client-probes-ipc3.c b/sound/soc/sof/sof-client-probes-ipc3.c
-index 816df745c9af..a78ec0954a61 100644
---- a/sound/soc/sof/sof-client-probes-ipc3.c
-+++ b/sound/soc/sof/sof-client-probes-ipc3.c
-@@ -100,9 +100,11 @@ static int ipc3_probes_deinit(struct sof_client_dev *cdev)
- }
- 
- static int ipc3_probes_info(struct sof_client_dev *cdev, unsigned int cmd,
--			    void **params, size_t *num_params)
-+			    void **params, size_t *num_params,
-+			    enum sof_probe_info_type type)
- {
- 	size_t max_msg_size = sof_client_get_ipc_max_payload_size(cdev);
-+	struct device *dev = &cdev->auxdev.dev;
- 	struct sof_ipc_probe_info_params msg = {{{0}}};
- 	struct sof_ipc_probe_info_params *reply;
- 	size_t bytes;
-@@ -111,6 +113,11 @@ static int ipc3_probes_info(struct sof_client_dev *cdev, unsigned int cmd,
- 	*params = NULL;
- 	*num_params = 0;
- 
-+	if (type != PROBES_INFO_ACTIVE_PROBES) {
-+		dev_err(dev, "%s: info type %u not supported", __func__, type);
-+		return -EOPNOTSUPP;
-+	}
-+
- 	reply = kzalloc(max_msg_size, GFP_KERNEL);
- 	if (!reply)
- 		return -ENOMEM;
-@@ -142,21 +149,25 @@ static int ipc3_probes_info(struct sof_client_dev *cdev, unsigned int cmd,
- }
- 
- /**
-- * ipc3_probes_points_info - retrieve list of active probe points
-+ * ipc3_probes_points_info - retrieve list of probe points
-  * @cdev:		SOF client device
-  * @desc:	Returned list of active probes
-  * @num_desc:	Returned count of active probes
-+ * @type:	Either PROBES_INFO_ACTIVE_PROBES or PROBES_INFO_AVAILABE_PROBES
-+ *
-+ * If type is PROBES_INFO_ACTIVE_PROBES, host sends PROBE_POINT_INFO
-+ * request to obtain list of active probe points, valid for
-+ * disconnection when given probe is no longer required.
-  *
-- * Host sends PROBE_POINT_INFO request to obtain list of active probe
-- * points, valid for disconnection when given probe is no longer
-- * required.
-+ * Type PROBES_INFO_AVAILABE_PROBES is not yet supported.
-  */
- static int ipc3_probes_points_info(struct sof_client_dev *cdev,
- 				   struct sof_probe_point_desc **desc,
--				   size_t *num_desc)
-+				   size_t *num_desc,
-+				   enum sof_probe_info_type type)
- {
- 	return ipc3_probes_info(cdev, SOF_IPC_PROBE_POINT_INFO,
--			       (void **)desc, num_desc);
-+				(void **)desc, num_desc, type);
- }
- 
- /**
-diff --git a/sound/soc/sof/sof-client-probes-ipc4.c b/sound/soc/sof/sof-client-probes-ipc4.c
-index 0b974e6268bb..758a56d271d7 100644
---- a/sound/soc/sof/sof-client-probes-ipc4.c
-+++ b/sound/soc/sof/sof-client-probes-ipc4.c
-@@ -28,6 +28,7 @@ enum sof_ipc4_probe_runtime_param {
- 	SOF_IPC4_PROBE_INJECTION_DMA_DETACH,
- 	SOF_IPC4_PROBE_POINTS,
- 	SOF_IPC4_PROBE_POINTS_DISCONNECT,
-+	SOF_IPC4_PROBE_POINTS_AVAILABLE,
- };
- 
- struct sof_ipc4_probe_gtw_cfg {
-@@ -192,30 +193,49 @@ static int ipc4_probes_deinit(struct sof_client_dev *cdev)
- }
- 
- /**
-- * ipc4_probes_points_info - retrieve list of active probe points
-+ * ipc4_probes_points_info - retrieve list of probe points
-  * @cdev:	SOF client device
-  * @desc:	Returned list of active probes
-  * @num_desc:	Returned count of active probes
-+ * @type:	Either PROBES_INFO_ACTIVE_PROBES or PROBES_INFO_AVAILABE_PROBES
-  * @return:	0 on success, negative error code on error
-+ *
-+ * Returns list if active probe points if type is
-+ * PROBES_INFO_ACTIVE_PROBES, or list of all available probe points if
-+ * type is PROBES_INFO_AVAILABE_PROBES.
-  */
- static int ipc4_probes_points_info(struct sof_client_dev *cdev,
- 				   struct sof_probe_point_desc **desc,
--				   size_t *num_desc)
-+				   size_t *num_desc,
-+				   enum sof_probe_info_type type)
- {
- 	struct sof_man4_module *mentry = sof_ipc4_probe_get_module_info(cdev);
- 	struct device *dev = &cdev->auxdev.dev;
- 	struct sof_ipc4_probe_info *info;
- 	struct sof_ipc4_msg msg;
-+	u32 param_id;
- 	int i, ret;
- 
- 	if (!mentry)
- 		return -ENODEV;
- 
-+	switch (type) {
-+	case PROBES_INFO_ACTIVE_PROBES:
-+		param_id = SOF_IPC4_PROBE_POINTS;
-+		break;
-+	case PROBES_INFO_AVAILABE_PROBES:
-+		param_id = SOF_IPC4_PROBE_POINTS_AVAILABLE;
-+		break;
-+	default:
-+		dev_err(dev, "%s: info type %u not supported", __func__, type);
-+		return -EOPNOTSUPP;
-+	}
-+
- 	msg.primary = mentry->id;
- 	msg.primary |= SOF_IPC4_MSG_DIR(SOF_IPC4_MSG_REQUEST);
- 	msg.primary |= SOF_IPC4_MSG_TARGET(SOF_IPC4_MODULE_MSG);
- 
--	msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(SOF_IPC4_PROBE_POINTS);
-+	msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(param_id);
- 
- 	msg.data_size = sof_client_get_ipc_max_payload_size(cdev);
- 	msg.data_ptr = kzalloc(msg.data_size, GFP_KERNEL);
-@@ -299,7 +319,7 @@ static int ipc4_probes_points_add(struct sof_client_dev *cdev,
- 	int i, ret;
- 
- 	if (!mentry)
--		return -ENODEV;
-+		return -EOPNOTSUPP;
- 
- 	/* The sof_probe_point_desc and sof_ipc4_probe_point structs
- 	 * are of same size and even the integers are the same in the
-diff --git a/sound/soc/sof/sof-client-probes.c b/sound/soc/sof/sof-client-probes.c
-index 242fa19a82ec..3ca8460774bb 100644
---- a/sound/soc/sof/sof-client-probes.c
-+++ b/sound/soc/sof/sof-client-probes.c
-@@ -75,7 +75,8 @@ static int sof_probes_compr_shutdown(struct snd_compr_stream *cstream,
- 	int i, ret;
- 
- 	/* disconnect all probe points */
--	ret = ipc->points_info(cdev, &desc, &num_desc);
-+	ret = ipc->points_info(cdev, &desc, &num_desc,
-+			       PROBES_INFO_ACTIVE_PROBES);
- 	if (ret < 0) {
- 		dev_err(dai->dev, "Failed to get probe points: %d\n", ret);
- 		goto exit;
-@@ -195,7 +196,8 @@ static const struct snd_compress_ops sof_probes_compressed_ops = {
- };
- 
- static ssize_t sof_probes_dfs_points_read(struct file *file, char __user *to,
--					  size_t count, loff_t *ppos)
-+					  size_t count, loff_t *ppos,
-+					  enum sof_probe_info_type type)
- {
- 	struct sof_client_dev *cdev = file->private_data;
- 	struct sof_probes_priv *priv = cdev->data;
-@@ -222,7 +224,7 @@ static ssize_t sof_probes_dfs_points_read(struct file *file, char __user *to,
- 		goto exit;
- 	}
- 
--	ret = ipc->points_info(cdev, &desc, &num_desc);
-+	ret = ipc->points_info(cdev, &desc, &num_desc, type);
- 	if (ret < 0)
- 		goto pm_error;
- 
-@@ -257,6 +259,22 @@ static ssize_t sof_probes_dfs_points_read(struct file *file, char __user *to,
- 	return ret;
- }
- 
-+static ssize_t sof_probes_dfs_active_points_read(struct file *file,
-+						 char __user *to,
-+						 size_t count, loff_t *ppos)
-+{
-+	return sof_probes_dfs_points_read(file, to, count, ppos,
-+					  PROBES_INFO_ACTIVE_PROBES);
-+}
-+
-+static ssize_t sof_probes_dfs_available_points_read(struct file *file,
-+						    char __user *to,
-+						    size_t count, loff_t *ppos)
-+{
-+	return sof_probes_dfs_points_read(file, to, count, ppos,
-+					  PROBES_INFO_AVAILABE_PROBES);
-+}
-+
- static ssize_t
- sof_probes_dfs_points_write(struct file *file, const char __user *from,
- 			    size_t count, loff_t *ppos)
-@@ -306,15 +324,23 @@ sof_probes_dfs_points_write(struct file *file, const char __user *from,
- 	return ret;
- }
- 
--static const struct file_operations sof_probes_points_fops = {
-+static const struct file_operations sof_probes_active_points_fops = {
- 	.open = simple_open,
--	.read = sof_probes_dfs_points_read,
-+	.read = sof_probes_dfs_active_points_read,
- 	.write = sof_probes_dfs_points_write,
- 	.llseek = default_llseek,
- 
- 	.owner = THIS_MODULE,
- };
- 
-+static const struct file_operations sof_probes_available_points_fops = {
-+	.open = simple_open,
-+	.read = sof_probes_dfs_available_points_read,
-+	.llseek = default_llseek,
-+
-+	.owner = THIS_MODULE,
-+};
-+
- static ssize_t
- sof_probes_dfs_points_remove_write(struct file *file, const char __user *from,
- 				   size_t count, loff_t *ppos)
-@@ -459,13 +485,17 @@ static int sof_probes_client_probe(struct auxiliary_device *auxdev,
- 
- 	/* create read-write probes_points debugfs entry */
- 	priv->dfs_points = debugfs_create_file("probe_points", 0644, dfsroot,
--					       cdev, &sof_probes_points_fops);
-+					       cdev, &sof_probes_active_points_fops);
- 
- 	/* create read-write probe_points_remove debugfs entry */
- 	priv->dfs_points_remove = debugfs_create_file("probe_points_remove", 0644,
- 						      dfsroot, cdev,
- 						      &sof_probes_points_remove_fops);
- 
-+	/* create read-write probes_points debugfs entry */
-+	priv->dfs_points = debugfs_create_file("probe_points_available", 0644, dfsroot,
-+					       cdev, &sof_probes_available_points_fops);
-+
- 	links = devm_kcalloc(dev, SOF_PROBES_NUM_DAI_LINKS, sizeof(*links), GFP_KERNEL);
- 	cpus = devm_kcalloc(dev, SOF_PROBES_NUM_DAI_LINKS, sizeof(*cpus), GFP_KERNEL);
- 	if (!links || !cpus) {
-diff --git a/sound/soc/sof/sof-client-probes.h b/sound/soc/sof/sof-client-probes.h
-index c445e435aa35..5fb95553ea53 100644
---- a/sound/soc/sof/sof-client-probes.h
-+++ b/sound/soc/sof/sof-client-probes.h
-@@ -34,13 +34,18 @@ struct sof_probe_point_desc {
- 	unsigned int stream_tag;
- } __packed;
- 
-+enum sof_probe_info_type {
-+	PROBES_INFO_ACTIVE_PROBES,
-+	PROBES_INFO_AVAILABE_PROBES,
-+};
-+
- struct sof_probes_ipc_ops {
- 	int (*init)(struct sof_client_dev *cdev, u32 stream_tag,
- 		    size_t buffer_size);
- 	int (*deinit)(struct sof_client_dev *cdev);
- 	int (*points_info)(struct sof_client_dev *cdev,
- 			   struct sof_probe_point_desc **desc,
--			   size_t *num_desc);
-+			   size_t *num_desc, enum sof_probe_info_type type);
- 	int (*point_print)(struct sof_client_dev *cdev, char *buf, size_t size,
- 			   struct sof_probe_point_desc *desc);
- 	int (*points_add)(struct sof_client_dev *cdev,
--- 
-2.50.1
+How could we deal with them? Would two quirk bit seems a little waste?
 
+Thirdly, the most complex situation. We found a device: `3302:12db
+MOONDROP Quark2` , that its volume control has a range 0-120, but acts to
+mute when less than 8. I have no idea about how to deal with it simplly.
+We are actively contacting the manufacturer and informing them of this
+matter.
+
+I sincerely hope that my poor English explains the current situation clearly.
+
+1. https://lore.kernel.org/all/20250827-sound-quirk-min-mute-v1-1-4717aa8a4f6a@uniontech.com/
+2. https://lore.kernel.org/all/20250829-sound_quirk-v1-1-745529b44440@uniontech.com/
+3. https://wiki.archlinux.org/index.php?title=PipeWire&oldid=804138#No_sound_from_USB_DAC_until_30%_volume
+4. https://lore.kernel.org/all/87bjnyimu9.wl-tiwai@suse.de/
+
+Best regards,
+Cryolitia PukNgae <cryolitia@uniontech.com>
