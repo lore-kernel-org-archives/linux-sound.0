@@ -1,152 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA2A286D77
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 08:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA0B1E0E1F;
+	Fri, 29 Aug 2025 08:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756456117; cv=none; b=FZ9LgUeBqnKn1VnPJUwMIbaPsqsTS/D3DYhpBhPIpiNv1NF5Kh6zv1tdyhVhTcvgqWJ16zJlnUIS0FTfTJg4rekqB8bERySkhjfAdCeOgyjJr79lEBbGQsWlIWtDOKVepaHycccx7JW2/M7aBd2B2kHqox5rYfcGgdAAgssMZL8=
+	t=1756457189; cv=none; b=Bm7Pe8eixP/wzL4vyNii3dRwp76NSb5bgtW6Rmrtg+1yZceBIcjuxUQWwwNHpPT9w0Xx5O0gbUzUGN6gX+Y6ylTzys9xmG+A5XDnJElxIFQCgKxEgU6/4ZISuSHLBE/PLun0nno8v2c783FmT6QydticnzPiIXLrDUXwriOvFME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756456117; c=relaxed/simple;
-	bh=HDJvQ36VseszJOkHdIbvYJI34MM7s67ca+rq6Q64JF8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iAZA9mtffdN5SrGOAYp3X+E1euPLnH/aY1tAFukjNWvYnvvMC0IYot/ZWDmqvNRgVEUUcrGBXxgRTj/mYd2zwPWGy06MijYB3uOU0rcLwkYdFd7KmxZSbXDMzy+6PP3V6vsOQAIoElpveRXvuzDdXWeB9lCnf8+3HYZNT+5Z1co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5k+Eg6F; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1756457189; c=relaxed/simple;
+	bh=DialTkaZ2UwEoPpeuNzfbQp3IDqYgtAn+UUymBTw6Io=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QLrifNB62Z6PX6av6qt5mYGeq11a5ncxRaw91noa4JiH/M2Nbl3VXX0KNUwo3WQQ0sFbmSaG2QXC0BM80013R2pLJziTHIPF2Rcz9bcNWviPt2YqWRHnVBAXf0KKbNJ1qoARNNax6dhebGcaGFStV7IsShdnDB22WegbgMYDxwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Urlg8agv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5k+Eg6F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756456116; x=1787992116;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=HDJvQ36VseszJOkHdIbvYJI34MM7s67ca+rq6Q64JF8=;
-  b=D5k+Eg6FKYTc/ybNpcC5o3PMSYTmE6w+5u/eSF2dhlPkw+2gq5IyoD0o
-   iooJHS9hcHVCdsb9MtokZZy19EwKww0/DmiGhSaYRESGLrQRoaf6HQ4H9
-   s7VdChodrULeiv2nonAqpN/5BoUoMbZYbYY0Z08tevr7VsRMZUsyQhfFS
-   Z6m4dIFTUd6Y7w/H+00gILNJ7JIDFKdtgdwGiXSTxt1HzHhyUrmoHL5TK
-   kKVffV6z79DTBgGDhv0MyAQ/D2dNaxFz5iW3mcbC4tRRW7UmZiK8QNu5e
-   XBxs4G3Udfr5ZbLQOzcQMVrcjzHeEr5PN1gfvoW4xe+fxaVGqnEi+jRK6
-   w==;
-X-CSE-ConnectionGUID: Q2CdunPqTNS7aZn1PwJORg==
-X-CSE-MsgGUID: 4MZzJ6G8TtqTu3upj899MA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="61373566"
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="61373566"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 01:28:35 -0700
-X-CSE-ConnectionGUID: SzaYypRUQL20qCcpHC1X0g==
-X-CSE-MsgGUID: ggFfPlKgTVG/tA/u18h/qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,221,1751266800"; 
-   d="scan'208";a="170494515"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.56])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2025 01:28:32 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev
-Subject: [PATCH 2/2] ASoC: SOF: Intel: only detect codecs when HDA DSP probe
-Date: Fri, 29 Aug 2025 11:29:08 +0300
-Message-ID: <20250829082908.2693-3-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250829082908.2693-1-peter.ujfalusi@linux.intel.com>
-References: <20250829082908.2693-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Urlg8agv"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A02D1C4CEF0;
+	Fri, 29 Aug 2025 08:46:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756457188;
+	bh=DialTkaZ2UwEoPpeuNzfbQp3IDqYgtAn+UUymBTw6Io=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Urlg8agveP3FzvS8aPPcBa0pIrmxh5TS9xYk/WTKKR/MJvNSJbvsqrhp7ciuMsfBx
+	 /lyhPxVNe9nj41BlFbwGYy3JbB3rE9S2AuHMDDHk6vM6KHVDZ326ExkUhHahxxZkWu
+	 kZUV7bEMEgH6HQjqRECYFEK1BPoxWabLLJiPx7fq7HO0e0mJ4zba7vct4Bk8XaSnC6
+	 7ARztJKyhCglBs5euuaoSps8SLs0x0i7PzE9RkkI0VNAW/jG+wtbeoxMd1SDXDTqYA
+	 j/v9qHDzngfiySRJN3okkEWQMY+vtSy6L0fflQkUmOeJVAetmI/UoQ+iFpqlPqo0C9
+	 6d3e+xdAoCUPQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CB4CA0FF0;
+	Fri, 29 Aug 2025 08:46:28 +0000 (UTC)
+From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
+Date: Fri, 29 Aug 2025 16:46:06 +0800
+Subject: [PATCH] ALSA: docs: Add documents for recently changes in
+ snd-usb-audio
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250829-sound-doc-v1-1-e0110452b03d@uniontech.com>
+X-B4-Tracking: v=1; b=H4sIAM1osWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDCyNL3eL80rwU3ZT8ZF1z42SzVFMTEwvLFEMloPqCotS0zAqwWdGxtbU
+ AYedTW1sAAAA=
+X-Change-ID: 20250829-sound-doc-73c6e54489d1
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, niecheng1@uniontech.com, 
+ zhanjun@uniontech.com, Cryolitia PukNgae <cryolitia@uniontech.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1756457187; l=3763;
+ i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
+ bh=HE89odsIwYI1Vul0J0CIerepfkejArZ/qTv9Q4oEXbY=;
+ b=K4pQlW5283gHmgF0tuapReYbIHgrysYjpS0ltdEVRBVl5YcdIkLPZNJiNbKub9gScdwYiODmH
+ koJvJicRJ6jAAjgm5wFOaskFcTntv3F86uVw9M/5r+XCm+6sbPDOBHQ
+X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
+ pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
+X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
+ auth_id=474
+X-Original-From: Cryolitia PukNgae <cryolitia@uniontech.com>
+Reply-To: cryolitia@uniontech.com
 
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
+From: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-SDW codecs use the global HDaudio WAKEEN/STS to detect wakes since LNL.
-But the wake event is handled in the SDW driver. We should only clear
-WAKESTS for the HDA and IDISP codecs that was detected when HDA DSP
-probe. The SoundWire codec will be included in the codec_mask if we read
-the STATESTS register when a SoundWire codec wake event happens.
-The commit avoid updating bus->codec_mask in resume to not clear WAKESTS
-of SoundWire codecs.
+Changed:
+  - ignore_ctl_error
+  - lowlatency
+  - skip_validation
+  - quirk_flags[19:24]
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 ---
- sound/soc/sof/intel/hda-ctrl.c | 5 +++--
- sound/soc/sof/intel/hda-dsp.c  | 2 +-
- sound/soc/sof/intel/hda.c      | 2 +-
- sound/soc/sof/intel/hda.h      | 2 +-
- 4 files changed, 6 insertions(+), 5 deletions(-)
+ Documentation/sound/alsa-configuration.rst | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-ctrl.c b/sound/soc/sof/intel/hda-ctrl.c
-index f43eb2a21f48..8332d4bda558 100644
---- a/sound/soc/sof/intel/hda-ctrl.c
-+++ b/sound/soc/sof/intel/hda-ctrl.c
-@@ -183,7 +183,7 @@ int hda_dsp_ctrl_clock_power_gating(struct snd_sof_dev *sdev, bool enable)
- }
- EXPORT_SYMBOL_NS(hda_dsp_ctrl_clock_power_gating, "SND_SOC_SOF_INTEL_HDA_COMMON");
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
+index a45174d165ebdeadd89de5f556483465c5f6e808..77fd70ac12975a271600ebd542672a3afb443d39 100644
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2253,8 +2253,15 @@ device_setup
+     Default: 0x0000 
+ ignore_ctl_error
+     Ignore any USB-controller regarding mixer interface (default: no)
++    ``ignore_ctl_error=1`` may help when you get an error at accessing
++    the mixer element such as URB error -22.  This happens on some
++    buggy USB device or the controller.  This workaround corresponds to
++    the ``quirk_flags`` bit 14, too.
+ autoclock
+     Enable auto-clock selection for UAC2 devices (default: yes)
++lowlatency
++    Enable low latency playback mode (default: yes).
++    Could disable it to switch back to the old mode if face a regression.
+ quirk_alias
+     Quirk alias list, pass strings like ``0123abcd:5678beef``, which
+     applies the existing quirk for the device 5678:beef to a new
+@@ -2284,6 +2291,11 @@ delayed_register
+     The driver prints a message like "Found post-registration device
+     assignment: 1234abcd:04" for such a device, so that user can
+     notice the need.
++skip_validation
++    Skip unit descriptor validation (default: no).
++    The option is used to ignores the validation errors with the hexdump
++    of the unit descriptor instead of a driver probe error, so that we
++    can check its details.
+ quirk_flags
+     Contains the bit flags for various device specific workarounds.
+     Applied to the corresponding card index.
+@@ -2307,6 +2319,16 @@ quirk_flags
+         * bit 16: Set up the interface at first like UAC1
+         * bit 17: Apply the generic implicit feedback sync mode
+         * bit 18: Don't apply implicit feedback sync mode
++        * bit 19: Don't closed interface during setting sample rate
++        * bit 20: Force an interface reset whenever stopping & restarting
++          a stream
++        * bit 21: Do not set PCM rate (frequency) when only one rate is
++          available for the given endpoint.
++        * bit 22: Set the fixed resolution 16 for Mic Capture Volume
++        * bit 23: Set the fixed resolution 384 for Mic Capture Volume
++        * bit 24: Set minimum volume control value as mute for devices
++          where the lowest playback value represents muted state instead
++          of minimum audible volume
  
--int hda_dsp_ctrl_init_chip(struct snd_sof_dev *sdev)
-+int hda_dsp_ctrl_init_chip(struct snd_sof_dev *sdev, bool detect_codec)
- {
- 	struct hdac_bus *bus = sof_to_bus(sdev);
- 	struct hdac_stream *stream;
-@@ -223,7 +223,8 @@ int hda_dsp_ctrl_init_chip(struct snd_sof_dev *sdev)
- 	/* Accept unsolicited responses */
- 	snd_hdac_chip_updatel(bus, GCTL, AZX_GCTL_UNSOL, AZX_GCTL_UNSOL);
+ This module supports multiple devices, autoprobe and hotplugging.
  
--	hda_codec_detect_mask(sdev);
-+	if (detect_codec)
-+		hda_codec_detect_mask(sdev);
+@@ -2314,10 +2336,9 @@ NB: ``nrpacks`` parameter can be modified dynamically via sysfs.
+ Don't put the value over 20.  Changing via sysfs has no sanity
+ check.
  
- 	/* clear stream status */
- 	list_for_each_entry(stream, &bus->stream_list, list) {
-diff --git a/sound/soc/sof/intel/hda-dsp.c b/sound/soc/sof/intel/hda-dsp.c
-index f64e8a6a9a33..3ab6d5ce6329 100644
---- a/sound/soc/sof/intel/hda-dsp.c
-+++ b/sound/soc/sof/intel/hda-dsp.c
-@@ -870,7 +870,7 @@ static int hda_resume(struct snd_sof_dev *sdev, bool runtime_resume)
- 	snd_sof_pci_update_bits(sdev, PCI_TCSEL, 0x07, 0);
+-NB: ``ignore_ctl_error=1`` may help when you get an error at accessing
+-the mixer element such as URB error -22.  This happens on some
+-buggy USB device or the controller.  This workaround corresponds to
+-the ``quirk_flags`` bit 14, too.
++NB: ``ignore_ctl_error=1`` just provides A quick way to work around the
++issues.  If you have a buggy device that requires these quirks, please
++report it to the upstream.
  
- 	/* reset and start hda controller */
--	ret = hda_dsp_ctrl_init_chip(sdev);
-+	ret = hda_dsp_ctrl_init_chip(sdev, false);
- 	if (ret < 0) {
- 		dev_err(sdev->dev,
- 			"error: failed to start controller after resume\n");
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index c387efec41e9..52e86fa60077 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -616,7 +616,7 @@ static int hda_init_caps(struct snd_sof_dev *sdev)
- 		dev_dbg(sdev->dev, "PP capability, will probe DSP later.\n");
- 
- 	/* Init HDA controller after i915 init */
--	ret = hda_dsp_ctrl_init_chip(sdev);
-+	ret = hda_dsp_ctrl_init_chip(sdev, true);
- 	if (ret < 0) {
- 		dev_err(bus->dev, "error: init chip failed with ret: %d\n",
- 			ret);
-diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
-index e14f82c0831f..28daf0a3b984 100644
---- a/sound/soc/sof/intel/hda.h
-+++ b/sound/soc/sof/intel/hda.h
-@@ -757,7 +757,7 @@ void hda_dsp_ctrl_ppcap_int_enable(struct snd_sof_dev *sdev, bool enable);
- int hda_dsp_ctrl_link_reset(struct snd_sof_dev *sdev, bool reset);
- void hda_dsp_ctrl_misc_clock_gating(struct snd_sof_dev *sdev, bool enable);
- int hda_dsp_ctrl_clock_power_gating(struct snd_sof_dev *sdev, bool enable);
--int hda_dsp_ctrl_init_chip(struct snd_sof_dev *sdev);
-+int hda_dsp_ctrl_init_chip(struct snd_sof_dev *sdev, bool detect_codec);
- void hda_dsp_ctrl_stop_chip(struct snd_sof_dev *sdev);
- /*
-  * HDA bus operations.
+ NB: ``quirk_alias`` option is provided only for testing / development.
+ If you want to have a proper support, contact to upstream for
+
+---
+base-commit: 15be520ab00cfc9c59fa1623de6757f61ab42d8a
+change-id: 20250829-sound-doc-73c6e54489d1
+
+Best regards,
 -- 
-2.50.1
+Cryolitia PukNgae <cryolitia@uniontech.com>
+
 
