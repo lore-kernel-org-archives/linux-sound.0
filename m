@@ -1,84 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFAF932039E
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1961A322DD4
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478681; cv=none; b=DRtIsDThSRuu0yyVe0SOg2VJLPHlCFBfHS0G0r2zkrV56lze2gt6cb1ZmdvQePeuryU56mYG383U+nDk9s2MK0qU45LiXvj1YNyCQUkv4XtH4+C41oQp+v+vGmzbS3RTev5yOWW6Kr6BoAqVKDjA4HxGzACrSrOVu7EnIhjEan0=
+	t=1756478684; cv=none; b=NmUqaWrmU25kEUD3HdP4gwKMgBQkvcU+n31bm8A+O1jBYUg99BzFM6oEyOo5UPj13HZCBR+grcvzlOKcChyxHq+4ve78stUaNDHglkasruhyvqQgXGDmg+I/iYy/zn+xHLJEaWa7MwSInXgxueiD716lhUubVnP81KP7ApYyslk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478681; c=relaxed/simple;
-	bh=u7PAo7+W/4TdynIiVT049EiYs1Btkw5t/G+KdsngX4U=;
+	s=arc-20240116; t=1756478684; c=relaxed/simple;
+	bh=WxjaGIRLbWaUEVJHbmRRhfPJ7LTaKlRWi5OGdB65JyM=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iNmwOGN4oWnKm8Ed2IVjfOXB8/akHwjROGLCbRw12yyWl4kKzVjhyPLBG8zwnPAAmRvH+Ph0xSyqYVHKRHI67YxuoB5oIaCHNjuAdbz1u3pn3sQ+mRe4/KzWjYHA0E8PZMkwwAc4M+iEaey3Zd809SvHCWvFHc/42WfMWW4Zz9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E8Z+eLcP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Kb1cpTEr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DQGyik0M; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PlsGy6Ku; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=eQE19DEKhPEPZYaf4gUp+zO+Ud1cF6kGQSRZJkfeSeGwQX8D9K8vulXgY2CbrZ2MVmES5KSvzx0zRk6jNh3YPyRto41JsltRG5wcrGiPjb1FNTPghqgqRKTEGVpIp+KqlryP8+HzVVpwxtkBhRdaPSJA4JCsmHvT4eX48aEEN60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Q9TJhpv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k9E1mIcL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Q9TJhpv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k9E1mIcL; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E8Z+eLcP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Kb1cpTEr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DQGyik0M";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PlsGy6Ku"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Q9TJhpv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k9E1mIcL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Q9TJhpv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k9E1mIcL"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F16C833EC9;
-	Fri, 29 Aug 2025 14:43:55 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9DA445C22D;
+	Fri, 29 Aug 2025 14:43:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756478636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K/uMImmIuzhnNxUL0Siiau6MWAVpjnBi6ncksE2Ectc=;
-	b=E8Z+eLcP1WlaREVj0Z5hQz2wjM/2UqoFt4eSkRqtCiDS7pZSpWTMjiji+Vm/EJq7o22UvK
-	JB9pOJrIz4PEUVdqzBKIk1FCnDH/nkC2YCSduBuEVWFcseWH5H9rIoY7dY7tQ9iDhOZGNZ
-	Jn1GIA/8Df2YiORHrzUFT9kUNTeOhnw=
+	bh=ClX6lLLYYmFM5YoEBNGWgkPFzVjzc3pbR1p9/ynP0XE=;
+	b=1Q9TJhpvtq+Bb4FPx4vrpLjAvpJbXImTCU2qYOl8zhyutKN3Nm3IeoXyo4lU1L0PsmuQXK
+	hCc2PLBgmzALH1amMkatGIfvPN53AqMsbpqRIdyDOw7zEK3Grj4b9JEaJ16b4PTMmlg6Dz
+	1dqk2tu8fGjTiqCI10rsosATVrmilRA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756478636;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K/uMImmIuzhnNxUL0Siiau6MWAVpjnBi6ncksE2Ectc=;
-	b=Kb1cpTErs+R88cDrxJy/J0YdlnDCCIpnioPzB/uZsBE9BjKJ9M2ehwE8OOQMnmgWq3zhZl
-	Q1wSZPpQsLvMlEAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DQGyik0M;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PlsGy6Ku
+	bh=ClX6lLLYYmFM5YoEBNGWgkPFzVjzc3pbR1p9/ynP0XE=;
+	b=k9E1mIcLV3/WwIbVjgP6MPHHu/dHiPRuRXxBJEYsxuCd8BRDDlS4VKERhu0aHv8dpxeMIa
+	5Bj9yA1GaceTxGAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K/uMImmIuzhnNxUL0Siiau6MWAVpjnBi6ncksE2Ectc=;
-	b=DQGyik0MMEVDkMHFM5uCcIEDl4nr8AUUipwvJshewhnLdNF1l67pB0n2r3AciQqYdngRYA
-	+/cPUCGTPA9X1E+toe3yq6LLOy96pmB8VvqynR+ec4mPBV392PtogRlyozh9LQ/f4rLa+6
-	7/4Fj61UjJQe5PXQvloOEQshWnASm8o=
+	bh=ClX6lLLYYmFM5YoEBNGWgkPFzVjzc3pbR1p9/ynP0XE=;
+	b=1Q9TJhpvtq+Bb4FPx4vrpLjAvpJbXImTCU2qYOl8zhyutKN3Nm3IeoXyo4lU1L0PsmuQXK
+	hCc2PLBgmzALH1amMkatGIfvPN53AqMsbpqRIdyDOw7zEK3Grj4b9JEaJ16b4PTMmlg6Dz
+	1dqk2tu8fGjTiqCI10rsosATVrmilRA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478635;
+	s=susede2_ed25519; t=1756478636;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=K/uMImmIuzhnNxUL0Siiau6MWAVpjnBi6ncksE2Ectc=;
-	b=PlsGy6KuLjcMCLDG4/LYZ4mFBRUfz9TiNHa8GmABqi3ph468XeGX3xHA/+BJ9Q41LpjvWH
-	jPJ/CTu0DsUv7iCw==
+	bh=ClX6lLLYYmFM5YoEBNGWgkPFzVjzc3pbR1p9/ynP0XE=;
+	b=k9E1mIcLV3/WwIbVjgP6MPHHu/dHiPRuRXxBJEYsxuCd8BRDDlS4VKERhu0aHv8dpxeMIa
+	5Bj9yA1GaceTxGAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D905413A3E;
-	Fri, 29 Aug 2025 14:43:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8468C13A3E;
+	Fri, 29 Aug 2025 14:43:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MEreM6u8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:55 +0000
+	id YNhDH6y8sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:56 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 14/61] ALSA: bt87x: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:42:49 +0200
-Message-ID: <20250829144342.4290-15-tiwai@suse.de>
+Subject: [PATCH 15/61] ALSA: ca0106: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:42:50 +0200
+Message-ID: <20250829144342.4290-16-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -89,36 +88,29 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCPT_COUNT_ONE(0.00)[1];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: F16C833EC9
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 
 Clean up the code using guard() for spin locks.
 
@@ -126,116 +118,439 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/bt87x.c | 26 ++++++++++----------------
- 1 file changed, 10 insertions(+), 16 deletions(-)
+ sound/pci/ca0106/ca0106_main.c |  33 ++-----
+ sound/pci/ca0106/ca0106_proc.c |  28 +++---
+ sound/pci/ca0106/ca_midi.c     | 169 +++++++++++++++------------------
+ 3 files changed, 96 insertions(+), 134 deletions(-)
 
-diff --git a/sound/pci/bt87x.c b/sound/pci/bt87x.c
-index b70f6f4ffe67..383def1f2af7 100644
---- a/sound/pci/bt87x.c
-+++ b/sound/pci/bt87x.c
-@@ -431,10 +431,10 @@ static int snd_bt87x_close(struct snd_pcm_substream *substream)
+diff --git a/sound/pci/ca0106/ca0106_main.c b/sound/pci/ca0106/ca0106_main.c
+index 242618793181..41774e2ef53f 100644
+--- a/sound/pci/ca0106/ca0106_main.c
++++ b/sound/pci/ca0106/ca0106_main.c
+@@ -332,16 +332,13 @@ unsigned int snd_ca0106_ptr_read(struct snd_ca0106 * emu,
+ 					  unsigned int reg, 
+ 					  unsigned int chn)
  {
- 	struct snd_bt87x *chip = snd_pcm_substream_chip(substream);
+-	unsigned long flags;
+-	unsigned int regptr, val;
++	unsigned int regptr;
+   
+ 	regptr = (reg << 16) | chn;
  
--	spin_lock_irq(&chip->reg_lock);
--	chip->reg_control |= CTL_A_PWRDN;
--	snd_bt87x_writel(chip, REG_GPIO_DMA_CTL, chip->reg_control);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		chip->reg_control |= CTL_A_PWRDN;
-+		snd_bt87x_writel(chip, REG_GPIO_DMA_CTL, chip->reg_control);
-+	}
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outl(regptr, emu->port + CA0106_PTR);
+-	val = inl(emu->port + CA0106_DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+-	return val;
++	return inl(emu->port + CA0106_DATA);
+ }
  
- 	chip->substream = NULL;
- 	clear_bit(0, &chip->opened);
-@@ -466,20 +466,19 @@ static int snd_bt87x_prepare(struct snd_pcm_substream *substream)
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	int decimation;
+ void snd_ca0106_ptr_write(struct snd_ca0106 *emu, 
+@@ -350,14 +347,12 @@ void snd_ca0106_ptr_write(struct snd_ca0106 *emu,
+ 				   unsigned int data)
+ {
+ 	unsigned int regptr;
+-	unsigned long flags;
  
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	chip->reg_control &= ~(CTL_DA_SDR_MASK | CTL_DA_SBR);
- 	decimation = (ANALOG_CLOCK + runtime->rate / 4) / runtime->rate;
- 	chip->reg_control |= decimation << CTL_DA_SDR_SHIFT;
- 	if (runtime->format == SNDRV_PCM_FORMAT_S8)
- 		chip->reg_control |= CTL_DA_SBR;
- 	snd_bt87x_writel(chip, REG_GPIO_DMA_CTL, chip->reg_control);
--	spin_unlock_irq(&chip->reg_lock);
+ 	regptr = (reg << 16) | chn;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outl(regptr, emu->port + CA0106_PTR);
+ 	outl(data, emu->port + CA0106_DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ int snd_ca0106_spi_write(struct snd_ca0106 * emu,
+@@ -451,24 +446,20 @@ int snd_ca0106_i2c_write(struct snd_ca0106 *emu,
+ 
+ static void snd_ca0106_intr_enable(struct snd_ca0106 *emu, unsigned int intrenb)
+ {
+-	unsigned long flags;
+ 	unsigned int intr_enable;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	intr_enable = inl(emu->port + CA0106_INTE) | intrenb;
+ 	outl(intr_enable, emu->port + CA0106_INTE);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ static void snd_ca0106_intr_disable(struct snd_ca0106 *emu, unsigned int intrenb)
+ {
+-	unsigned long flags;
+ 	unsigned int intr_enable;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	intr_enable = inl(emu->port + CA0106_INTE) & ~intrenb;
+ 	outl(intr_enable, emu->port + CA0106_INTE);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ 
+@@ -1138,26 +1129,20 @@ static unsigned short snd_ca0106_ac97_read(struct snd_ac97 *ac97,
+ 					     unsigned short reg)
+ {
+ 	struct snd_ca0106 *emu = ac97->private_data;
+-	unsigned long flags;
+-	unsigned short val;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outb(reg, emu->port + CA0106_AC97ADDRESS);
+-	val = inw(emu->port + CA0106_AC97DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+-	return val;
++	return inw(emu->port + CA0106_AC97DATA);
+ }
+ 
+ static void snd_ca0106_ac97_write(struct snd_ac97 *ac97,
+ 				    unsigned short reg, unsigned short val)
+ {
+ 	struct snd_ca0106 *emu = ac97->private_data;
+-	unsigned long flags;
+   
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outb(reg, emu->port + CA0106_AC97ADDRESS);
+ 	outw(val, emu->port + CA0106_AC97DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ static int snd_ca0106_ac97(struct snd_ca0106 *chip)
+diff --git a/sound/pci/ca0106/ca0106_proc.c b/sound/pci/ca0106/ca0106_proc.c
+index c99603e137e5..c181e4954579 100644
+--- a/sound/pci/ca0106/ca0106_proc.c
++++ b/sound/pci/ca0106/ca0106_proc.c
+@@ -281,16 +281,14 @@ static void snd_ca0106_proc_reg_write32(struct snd_info_entry *entry,
+ 				       struct snd_info_buffer *buffer)
+ {
+ 	struct snd_ca0106 *emu = entry->private_data;
+-	unsigned long flags;
+         char line[64];
+         u32 reg, val;
+         while (!snd_info_get_line(buffer, line, sizeof(line))) {
+                 if (sscanf(line, "%x %x", &reg, &val) != 2)
+                         continue;
+ 		if (reg < 0x40 && val <= 0xffffffff) {
+-			spin_lock_irqsave(&emu->emu_lock, flags);
++			guard(spinlock_irqsave)(&emu->emu_lock);
+ 			outl(val, emu->port + (reg & 0xfffffffc));
+-			spin_unlock_irqrestore(&emu->emu_lock, flags);
+ 		}
+         }
+ }
+@@ -300,13 +298,13 @@ static void snd_ca0106_proc_reg_read32(struct snd_info_entry *entry,
+ {
+ 	struct snd_ca0106 *emu = entry->private_data;
+ 	unsigned long value;
+-	unsigned long flags;
+ 	int i;
++
+ 	snd_iprintf(buffer, "Registers:\n\n");
+ 	for(i = 0; i < 0x20; i+=4) {
+-		spin_lock_irqsave(&emu->emu_lock, flags);
+-		value = inl(emu->port + i);
+-		spin_unlock_irqrestore(&emu->emu_lock, flags);
++		scoped_guard(spinlock_irqsave, &emu->emu_lock) {
++			value = inl(emu->port + i);
++		}
+ 		snd_iprintf(buffer, "Register %02X: %08lX\n", i, value);
+ 	}
+ }
+@@ -316,13 +314,13 @@ static void snd_ca0106_proc_reg_read16(struct snd_info_entry *entry,
+ {
+ 	struct snd_ca0106 *emu = entry->private_data;
+         unsigned int value;
+-	unsigned long flags;
+ 	int i;
++
+ 	snd_iprintf(buffer, "Registers:\n\n");
+ 	for(i = 0; i < 0x20; i+=2) {
+-		spin_lock_irqsave(&emu->emu_lock, flags);
+-		value = inw(emu->port + i);
+-		spin_unlock_irqrestore(&emu->emu_lock, flags);
++		scoped_guard(spinlock_irqsave, &emu->emu_lock) {
++			value = inw(emu->port + i);
++		}
+ 		snd_iprintf(buffer, "Register %02X: %04X\n", i, value);
+ 	}
+ }
+@@ -332,13 +330,13 @@ static void snd_ca0106_proc_reg_read8(struct snd_info_entry *entry,
+ {
+ 	struct snd_ca0106 *emu = entry->private_data;
+ 	unsigned int value;
+-	unsigned long flags;
+ 	int i;
++
+ 	snd_iprintf(buffer, "Registers:\n\n");
+ 	for(i = 0; i < 0x20; i+=1) {
+-		spin_lock_irqsave(&emu->emu_lock, flags);
+-		value = inb(emu->port + i);
+-		spin_unlock_irqrestore(&emu->emu_lock, flags);
++		scoped_guard(spinlock_irqsave, &emu->emu_lock) {
++			value = inb(emu->port + i);
++		}
+ 		snd_iprintf(buffer, "Register %02X: %02X\n", i, value);
+ 	}
+ }
+diff --git a/sound/pci/ca0106/ca_midi.c b/sound/pci/ca0106/ca_midi.c
+index f9cec67f31ac..6efd93abddb5 100644
+--- a/sound/pci/ca0106/ca_midi.c
++++ b/sound/pci/ca0106/ca_midi.c
+@@ -45,58 +45,54 @@ static void ca_midi_interrupt(struct snd_ca_midi *midi, unsigned int status)
+ 		return;
+ 	}
+ 
+-	spin_lock(&midi->input_lock);
+-	if ((status & midi->ipr_rx) && ca_midi_input_avail(midi)) {
+-		if (!(midi->midi_mode & CA_MIDI_MODE_INPUT)) {
+-			ca_midi_clear_rx(midi);
+-		} else {
+-			byte = ca_midi_read_data(midi);
+-			if(midi->substream_input)
+-				snd_rawmidi_receive(midi->substream_input, &byte, 1);
+-
+-
++	scoped_guard(spinlock, &midi->input_lock) {
++		if ((status & midi->ipr_rx) && ca_midi_input_avail(midi)) {
++			if (!(midi->midi_mode & CA_MIDI_MODE_INPUT)) {
++				ca_midi_clear_rx(midi);
++			} else {
++				byte = ca_midi_read_data(midi);
++				if (midi->substream_input)
++					snd_rawmidi_receive(midi->substream_input, &byte, 1);
++			}
+ 		}
+ 	}
+-	spin_unlock(&midi->input_lock);
+ 
+-	spin_lock(&midi->output_lock);
+-	if ((status & midi->ipr_tx) && ca_midi_output_ready(midi)) {
+-		if (midi->substream_output &&
+-		    snd_rawmidi_transmit(midi->substream_output, &byte, 1) == 1) {
+-			ca_midi_write_data(midi, byte);
+-		} else {
+-			midi->interrupt_disable(midi,midi->tx_enable);
++	scoped_guard(spinlock, &midi->output_lock) {
++		if ((status & midi->ipr_tx) && ca_midi_output_ready(midi)) {
++			if (midi->substream_output &&
++			    snd_rawmidi_transmit(midi->substream_output, &byte, 1) == 1) {
++				ca_midi_write_data(midi, byte);
++			} else {
++				midi->interrupt_disable(midi, midi->tx_enable);
++			}
+ 		}
+ 	}
+-	spin_unlock(&midi->output_lock);
+-
+ }
+ 
+ static void ca_midi_cmd(struct snd_ca_midi *midi, unsigned char cmd, int ack)
+ {
+-	unsigned long flags;
+ 	int timeout, ok;
+ 
+-	spin_lock_irqsave(&midi->input_lock, flags);
+-	ca_midi_write_data(midi, 0x00);
+-	/* ca_midi_clear_rx(midi); */
++	scoped_guard(spinlock_irqsave, &midi->input_lock) {
++		ca_midi_write_data(midi, 0x00);
++		/* ca_midi_clear_rx(midi); */
+ 
+-	ca_midi_write_cmd(midi, cmd);
+-	if (ack) {
+-		ok = 0;
+-		timeout = 10000;
+-		while (!ok && timeout-- > 0) {
+-			if (ca_midi_input_avail(midi)) {
+-				if (ca_midi_read_data(midi) == midi->ack)
+-					ok = 1;
++		ca_midi_write_cmd(midi, cmd);
++		if (ack) {
++			ok = 0;
++			timeout = 10000;
++			while (!ok && timeout-- > 0) {
++				if (ca_midi_input_avail(midi)) {
++					if (ca_midi_read_data(midi) == midi->ack)
++						ok = 1;
++				}
+ 			}
+-		}
+-		if (!ok && ca_midi_read_data(midi) == midi->ack)
++			if (!ok && ca_midi_read_data(midi) == midi->ack)
++				ok = 1;
++		} else {
+ 			ok = 1;
+-	} else {
+-		ok = 1;
++		}
+ 	}
+-	spin_unlock_irqrestore(&midi->input_lock, flags);
+ 	if (!ok)
+ 		pr_err("ca_midi_cmd: 0x%x failed at 0x%x (status = 0x%x, data = 0x%x)!!!\n",
+ 			   cmd,
+@@ -108,83 +104,69 @@ static void ca_midi_cmd(struct snd_ca_midi *midi, unsigned char cmd, int ack)
+ static int ca_midi_input_open(struct snd_rawmidi_substream *substream)
+ {
+ 	struct snd_ca_midi *midi = substream->rmidi->private_data;
+-	unsigned long flags;
+ 	
+ 	if (snd_BUG_ON(!midi->dev_id))
+ 		return -ENXIO;
+-	spin_lock_irqsave(&midi->open_lock, flags);
+-	midi->midi_mode |= CA_MIDI_MODE_INPUT;
+-	midi->substream_input = substream;
+-	if (!(midi->midi_mode & CA_MIDI_MODE_OUTPUT)) {
+-		spin_unlock_irqrestore(&midi->open_lock, flags);
+-		ca_midi_cmd(midi, midi->reset, 1);
+-		ca_midi_cmd(midi, midi->enter_uart, 1);
+-	} else {
+-		spin_unlock_irqrestore(&midi->open_lock, flags);
++	scoped_guard(spinlock_irqsave, &midi->open_lock) {
++		midi->midi_mode |= CA_MIDI_MODE_INPUT;
++		midi->substream_input = substream;
++		if (midi->midi_mode & CA_MIDI_MODE_OUTPUT)
++			return 0;
+ 	}
++	ca_midi_cmd(midi, midi->reset, 1);
++	ca_midi_cmd(midi, midi->enter_uart, 1);
  	return 0;
  }
  
- static int snd_bt87x_start(struct snd_bt87x *chip)
+ static int ca_midi_output_open(struct snd_rawmidi_substream *substream)
  {
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	chip->current_line = 0;
- 	chip->reg_control |= CTL_FIFO_ENABLE | CTL_RISC_ENABLE | CTL_ACAP_EN;
- 	snd_bt87x_writel(chip, REG_RISC_STRT_ADD, chip->dma_risc.addr);
-@@ -487,18 +486,16 @@ static int snd_bt87x_start(struct snd_bt87x *chip)
- 			 chip->line_bytes | (chip->lines << 16));
- 	snd_bt87x_writel(chip, REG_INT_MASK, chip->interrupt_mask);
- 	snd_bt87x_writel(chip, REG_GPIO_DMA_CTL, chip->reg_control);
--	spin_unlock(&chip->reg_lock);
+ 	struct snd_ca_midi *midi = substream->rmidi->private_data;
+-	unsigned long flags;
+ 
+ 	if (snd_BUG_ON(!midi->dev_id))
+ 		return -ENXIO;
+-	spin_lock_irqsave(&midi->open_lock, flags);
+-	midi->midi_mode |= CA_MIDI_MODE_OUTPUT;
+-	midi->substream_output = substream;
+-	if (!(midi->midi_mode & CA_MIDI_MODE_INPUT)) {
+-		spin_unlock_irqrestore(&midi->open_lock, flags);
+-		ca_midi_cmd(midi, midi->reset, 1);
+-		ca_midi_cmd(midi, midi->enter_uart, 1);
+-	} else {
+-		spin_unlock_irqrestore(&midi->open_lock, flags);
++	scoped_guard(spinlock_irqsave, &midi->open_lock) {
++		midi->midi_mode |= CA_MIDI_MODE_OUTPUT;
++		midi->substream_output = substream;
++		if (midi->midi_mode & CA_MIDI_MODE_INPUT)
++			return 0;
+ 	}
++	ca_midi_cmd(midi, midi->reset, 1);
++	ca_midi_cmd(midi, midi->enter_uart, 1);
  	return 0;
  }
  
- static int snd_bt87x_stop(struct snd_bt87x *chip)
+ static int ca_midi_input_close(struct snd_rawmidi_substream *substream)
  {
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	chip->reg_control &= ~(CTL_FIFO_ENABLE | CTL_RISC_ENABLE | CTL_ACAP_EN);
- 	snd_bt87x_writel(chip, REG_GPIO_DMA_CTL, chip->reg_control);
- 	snd_bt87x_writel(chip, REG_INT_MASK, 0);
- 	snd_bt87x_writel(chip, REG_INT_STAT, MY_INTERRUPTS);
--	spin_unlock(&chip->reg_lock);
+ 	struct snd_ca_midi *midi = substream->rmidi->private_data;
+-	unsigned long flags;
+ 
+ 	if (snd_BUG_ON(!midi->dev_id))
+ 		return -ENXIO;
+-	spin_lock_irqsave(&midi->open_lock, flags);
+-	midi->interrupt_disable(midi,midi->rx_enable);
+-	midi->midi_mode &= ~CA_MIDI_MODE_INPUT;
+-	midi->substream_input = NULL;
+-	if (!(midi->midi_mode & CA_MIDI_MODE_OUTPUT)) {
+-		spin_unlock_irqrestore(&midi->open_lock, flags);
+-		ca_midi_cmd(midi, midi->reset, 0);
+-	} else {
+-		spin_unlock_irqrestore(&midi->open_lock, flags);
++	scoped_guard(spinlock_irqsave, &midi->open_lock) {
++		midi->interrupt_disable(midi, midi->rx_enable);
++		midi->midi_mode &= ~CA_MIDI_MODE_INPUT;
++		midi->substream_input = NULL;
++		if (midi->midi_mode & CA_MIDI_MODE_OUTPUT)
++			return 0;
+ 	}
++	ca_midi_cmd(midi, midi->reset, 0);
  	return 0;
  }
  
-@@ -560,13 +557,12 @@ static int snd_bt87x_capture_volume_put(struct snd_kcontrol *kcontrol,
- 	u32 old_control;
- 	int changed;
+ static int ca_midi_output_close(struct snd_rawmidi_substream *substream)
+ {
+ 	struct snd_ca_midi *midi = substream->rmidi->private_data;
+-	unsigned long flags;
  
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	old_control = chip->reg_control;
- 	chip->reg_control = (chip->reg_control & ~CTL_A_GAIN_MASK)
- 		| (value->value.integer.value[0] << CTL_A_GAIN_SHIFT);
- 	snd_bt87x_writel(chip, REG_GPIO_DMA_CTL, chip->reg_control);
- 	changed = old_control != chip->reg_control;
--	spin_unlock_irq(&chip->reg_lock);
- 	return changed;
+ 	if (snd_BUG_ON(!midi->dev_id))
+ 		return -ENXIO;
+ 	
+-	spin_lock_irqsave(&midi->open_lock, flags);
+-
+-	midi->interrupt_disable(midi,midi->tx_enable);
+-	midi->midi_mode &= ~CA_MIDI_MODE_OUTPUT;
+-	midi->substream_output = NULL;
+-	
+-	if (!(midi->midi_mode & CA_MIDI_MODE_INPUT)) {
+-		spin_unlock_irqrestore(&midi->open_lock, flags);
+-		ca_midi_cmd(midi, midi->reset, 0);
+-	} else {
+-		spin_unlock_irqrestore(&midi->open_lock, flags);
++	scoped_guard(spinlock_irqsave, &midi->open_lock) {
++		midi->interrupt_disable(midi, midi->tx_enable);
++		midi->midi_mode &= ~CA_MIDI_MODE_OUTPUT;
++		midi->substream_output = NULL;
++		if (midi->midi_mode & CA_MIDI_MODE_INPUT)
++			return 0;
+ 	}
++	ca_midi_cmd(midi, midi->reset, 0);
+ 	return 0;
  }
  
-@@ -596,13 +592,12 @@ static int snd_bt87x_capture_boost_put(struct snd_kcontrol *kcontrol,
- 	u32 old_control;
- 	int changed;
+@@ -205,7 +187,6 @@ static void ca_midi_input_trigger(struct snd_rawmidi_substream *substream, int u
+ static void ca_midi_output_trigger(struct snd_rawmidi_substream *substream, int up)
+ {
+ 	struct snd_ca_midi *midi = substream->rmidi->private_data;
+-	unsigned long flags;
  
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	old_control = chip->reg_control;
- 	chip->reg_control = (chip->reg_control & ~CTL_A_G2X)
- 		| (value->value.integer.value[0] ? CTL_A_G2X : 0);
- 	snd_bt87x_writel(chip, REG_GPIO_DMA_CTL, chip->reg_control);
- 	changed = chip->reg_control != old_control;
--	spin_unlock_irq(&chip->reg_lock);
- 	return changed;
- }
+ 	if (snd_BUG_ON(!midi->dev_id))
+ 		return;
+@@ -214,25 +195,23 @@ static void ca_midi_output_trigger(struct snd_rawmidi_substream *substream, int
+ 		int max = 4;
+ 		unsigned char byte;
  
-@@ -638,13 +633,12 @@ static int snd_bt87x_capture_source_put(struct snd_kcontrol *kcontrol,
- 	u32 old_control;
- 	int changed;
+-		spin_lock_irqsave(&midi->output_lock, flags);
++		scoped_guard(spinlock_irqsave, &midi->output_lock) {
+ 	
+-		/* try to send some amount of bytes here before interrupts */
+-		while (max > 0) {
+-			if (ca_midi_output_ready(midi)) {
+-				if (!(midi->midi_mode & CA_MIDI_MODE_OUTPUT) ||
+-				    snd_rawmidi_transmit(substream, &byte, 1) != 1) {
+-					/* no more data */
+-					spin_unlock_irqrestore(&midi->output_lock, flags);
+-					return;
++			/* try to send some amount of bytes here before interrupts */
++			while (max > 0) {
++				if (ca_midi_output_ready(midi)) {
++					if (!(midi->midi_mode & CA_MIDI_MODE_OUTPUT) ||
++					    snd_rawmidi_transmit(substream, &byte, 1) != 1) {
++						/* no more data */
++						return;
++					}
++					ca_midi_write_data(midi, byte);
++					max--;
++				} else {
++					break;
+ 				}
+-				ca_midi_write_data(midi, byte);
+-				max--;
+-			} else {
+-				break;
+ 			}
+ 		}
+-
+-		spin_unlock_irqrestore(&midi->output_lock, flags);
+ 		midi->interrupt_enable(midi,midi->tx_enable);
  
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	old_control = chip->reg_control;
- 	chip->reg_control = (chip->reg_control & ~CTL_A_SEL_MASK)
- 		| (value->value.enumerated.item[0] << CTL_A_SEL_SHIFT);
- 	snd_bt87x_writel(chip, REG_GPIO_DMA_CTL, chip->reg_control);
- 	changed = chip->reg_control != old_control;
--	spin_unlock_irq(&chip->reg_lock);
- 	return changed;
- }
- 
+ 	} else {
 -- 
 2.50.1
 
