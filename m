@@ -1,84 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869E51E25F9
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E771E25F9
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756479674; cv=none; b=ZV4g5W31AnA+EXFmLz5s4wlloGkqBtNPFKsc5dTZ95iAnKSk/FU/5CMn1cioZa8YVGDmpofaBu1EwWEn8JeeRnhNmt1I0ULVI6CV9sNPAh+eFyPaFM0ZL1QuJb5Jc7JIeMz/oRApKvsZ/0AThd1bbD2afnz7E3OeFr0aodQkGmg=
+	t=1756479676; cv=none; b=PLZvJFyVR7cucKiGIuXFEm8AFC6ZhvLNLA8TbTwDXIwyfccZb4+fHw3aWl4JXt6sSsbrnUBZRtwOhzvV7FDaTVgsjFQ3TBcIbPCY268juSA7y4cWeY2mzyApC13kfibPhbMkz0jHB7j4dtUe1zL8C9N4NYPAyJfrtmzPyIIpEFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756479674; c=relaxed/simple;
-	bh=ZpID5ERFNzo80WN5l0nSTTNH5iQ1h7TZ9b5jzyxg3rA=;
+	s=arc-20240116; t=1756479676; c=relaxed/simple;
+	bh=h3n8t9m4UYu7TxVXu62PMFJ+3MfPDDFLqUlkTIcGQZU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X+DnDY4Vlp6pwzv3IqM1TtwdKkxZjtsMZ35gT/l+fz5BnUNswtL5WxG2fYGbN1EAHSm2Qt4sd8O1+C4ODx5pD7ATtkUTeI3VwNbUt36wPzbeK4c7ZNT9SXIS8enGbX5c/2crNaz+1F4BVutzjfZ3PgftcP23if8Kt9gUw+Gh+t4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Irfg/B9c; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HPJTxkqx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Irfg/B9c; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HPJTxkqx; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=lN7RCf+bPT8sE/GASTQs3N3L6kXxrxhXBfr9df9+pNNUOYGnEgDSJHmSI68Ne+DKzloEgj2CZFP+idnfKymbwlaJFgBp4jqKwnGQbvqhfQ8wTvhi/Ba5v6LvCphqpU+ByBb5QZ96DgkC6SONb9Ef+1ZeTT3idb+4G4/af9OCVfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ItMwHtT5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=v72K23HB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k+jW5NcG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xQwpRRYS; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Irfg/B9c";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HPJTxkqx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Irfg/B9c";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HPJTxkqx"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ItMwHtT5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v72K23HB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k+jW5NcG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xQwpRRYS"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D0A9933EE2;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EFB0E5C248;
 	Fri, 29 Aug 2025 15:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756479632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756479633; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fNWLJsUScDJ6EH2WcSnfjW8sw6J6Jrwr2UYCk9FSo14=;
-	b=Irfg/B9cdsXxV97lPUIQ+ehwR7xFqyCEduJg0mfnMEmVKZIoDXOI//W9hlLx46BB+KGmne
-	BXMbGpL2d13d3fggf0ieQdZsnCD5gGlq8QQiJWG8gn9rj0Ue9t10qfoWKjGOcspF+AYsnN
-	As6He5//EHC5VlLpi8pmYsuagZfmLLI=
+	bh=qv81gRLRgeLalAx4rBS9+n2DvvBg0qM82OJ0e9nEXG8=;
+	b=ItMwHtT5RZoqJpjwcqzP6cbTLZ9TSjeKXAZeqKD0oUWe1sQx/0gR1gJcT2zeUmsuh83E4t
+	YfKey/MavI2NcO0IPtgg+WMq1RKeoxFQcTmCGOAOJ800/1Rw/NQ6hYLNXrxYGJGIGdHDMV
+	W9HXInSkfbxGLnj0H6VRkkxSKXUSk/o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756479632;
+	s=susede2_ed25519; t=1756479633;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fNWLJsUScDJ6EH2WcSnfjW8sw6J6Jrwr2UYCk9FSo14=;
-	b=HPJTxkqxi8hYOw07XEDu23IVpWtTLqtcGW505jubmJvyrM246qi7grwBuOCDqX1BjmQKgB
-	TB2LJ9eoO7GLOgAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Irfg/B9c";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HPJTxkqx
+	bh=qv81gRLRgeLalAx4rBS9+n2DvvBg0qM82OJ0e9nEXG8=;
+	b=v72K23HBXJ5ZhslHXUWuy6XxoROft1Aq7YFgM3PdeM4gBBXB07qs7ctuAeFirLj18Pn96N
+	jNvpvFZAtnWgI+BQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756479632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fNWLJsUScDJ6EH2WcSnfjW8sw6J6Jrwr2UYCk9FSo14=;
-	b=Irfg/B9cdsXxV97lPUIQ+ehwR7xFqyCEduJg0mfnMEmVKZIoDXOI//W9hlLx46BB+KGmne
-	BXMbGpL2d13d3fggf0ieQdZsnCD5gGlq8QQiJWG8gn9rj0Ue9t10qfoWKjGOcspF+AYsnN
-	As6He5//EHC5VlLpi8pmYsuagZfmLLI=
+	bh=qv81gRLRgeLalAx4rBS9+n2DvvBg0qM82OJ0e9nEXG8=;
+	b=k+jW5NcGVn8F6mX4dA9u7HQdvczYy4VytKHnR6XiFtmdAgqqad67nUbv+QS57fTgB7CEHe
+	BscklOXE/TNAi3RKSeiEJRhOmjulHD1ZOIvzPLUzfugnzbbPrvrovBRWDNid1TdvK2hB6W
+	E686PvWDdp7b8dwaAPvwaX6/9y7xICo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756479632;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fNWLJsUScDJ6EH2WcSnfjW8sw6J6Jrwr2UYCk9FSo14=;
-	b=HPJTxkqxi8hYOw07XEDu23IVpWtTLqtcGW505jubmJvyrM246qi7grwBuOCDqX1BjmQKgB
-	TB2LJ9eoO7GLOgAA==
+	bh=qv81gRLRgeLalAx4rBS9+n2DvvBg0qM82OJ0e9nEXG8=;
+	b=xQwpRRYSLdNdsGfxfvEGOTvA1K+EEfqzf/0hwwd54BaIteRgqD6ONq6+VYTgt80YtOkkVd
+	y5OVfU5ozdUshEAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B737313A54;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D5F5F13326;
 	Fri, 29 Aug 2025 15:00:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OHODK5DAsWjjHQAAD6G6ig
+	id oIgcM5DAsWjjHQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 15:00:32 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 12/13] ALSA: portman2x4: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 17:00:23 +0200
-Message-ID: <20250829150026.6379-13-tiwai@suse.de>
+Subject: [PATCH 13/13] ALSA: serial-u16550: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 17:00:24 +0200
+Message-ID: <20250829150026.6379-14-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829150026.6379-1-tiwai@suse.de>
 References: <20250829150026.6379-1-tiwai@suse.de>
@@ -89,36 +88,29 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email];
-	RCPT_COUNT_ONE(0.00)[1];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: D0A9933EE2
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 
 Clean up the code using guard() for spin locks.
 
@@ -126,63 +118,168 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/drivers/portman2x4.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ sound/drivers/serial-u16550.c | 48 +++++++++++------------------------
+ 1 file changed, 15 insertions(+), 33 deletions(-)
 
-diff --git a/sound/drivers/portman2x4.c b/sound/drivers/portman2x4.c
-index b4fa6625a3d6..b903a138fc2a 100644
---- a/sound/drivers/portman2x4.c
-+++ b/sound/drivers/portman2x4.c
-@@ -496,29 +496,25 @@ static void snd_portman_midi_input_trigger(struct snd_rawmidi_substream *substre
- 					   int up)
- {
- 	struct portman *pm = substream->rmidi->private_data;
--	unsigned long flags;
+diff --git a/sound/drivers/serial-u16550.c b/sound/drivers/serial-u16550.c
+index 52772ccfc377..3c28961091b1 100644
+--- a/sound/drivers/serial-u16550.c
++++ b/sound/drivers/serial-u16550.c
+@@ -281,29 +281,24 @@ static irqreturn_t snd_uart16550_interrupt(int irq, void *dev_id)
+ 	struct snd_uart16550 *uart;
  
--	spin_lock_irqsave(&pm->reg_lock, flags);
-+	guard(spinlock_irqsave)(&pm->reg_lock);
+ 	uart = dev_id;
+-	spin_lock(&uart->open_lock);
+-	if (uart->filemode == SERIAL_MODE_NOT_OPENED) {
+-		spin_unlock(&uart->open_lock);
++	guard(spinlock)(&uart->open_lock);
++	if (uart->filemode == SERIAL_MODE_NOT_OPENED)
+ 		return IRQ_NONE;
+-	}
+ 	/* indicate to the UART that the interrupt has been serviced */
+ 	inb(uart->base + UART_IIR);
+ 	snd_uart16550_io_loop(uart);
+-	spin_unlock(&uart->open_lock);
+ 	return IRQ_HANDLED;
+ }
+ 
+ /* When the polling mode, this function calls snd_uart16550_io_loop. */
+ static void snd_uart16550_buffer_timer(struct timer_list *t)
+ {
+-	unsigned long flags;
+ 	struct snd_uart16550 *uart;
+ 
+ 	uart = timer_container_of(uart, t, buffer_timer);
+-	spin_lock_irqsave(&uart->open_lock, flags);
++	guard(spinlock_irqsave)(&uart->open_lock);
+ 	snd_uart16550_del_timer(uart);
+ 	snd_uart16550_io_loop(uart);
+-	spin_unlock_irqrestore(&uart->open_lock, flags);
+ }
+ 
+ /*
+@@ -499,71 +494,61 @@ static void snd_uart16550_do_close(struct snd_uart16550 * uart)
+ 
+ static int snd_uart16550_input_open(struct snd_rawmidi_substream *substream)
+ {
+-	unsigned long flags;
+ 	struct snd_uart16550 *uart = substream->rmidi->private_data;
+ 
+-	spin_lock_irqsave(&uart->open_lock, flags);
++	guard(spinlock_irqsave)(&uart->open_lock);
+ 	if (uart->filemode == SERIAL_MODE_NOT_OPENED)
+ 		snd_uart16550_do_open(uart);
+ 	uart->filemode |= SERIAL_MODE_INPUT_OPEN;
+ 	uart->midi_input[substream->number] = substream;
+-	spin_unlock_irqrestore(&uart->open_lock, flags);
+ 	return 0;
+ }
+ 
+ static int snd_uart16550_input_close(struct snd_rawmidi_substream *substream)
+ {
+-	unsigned long flags;
+ 	struct snd_uart16550 *uart = substream->rmidi->private_data;
+ 
+-	spin_lock_irqsave(&uart->open_lock, flags);
++	guard(spinlock_irqsave)(&uart->open_lock);
+ 	uart->filemode &= ~SERIAL_MODE_INPUT_OPEN;
+ 	uart->midi_input[substream->number] = NULL;
+ 	if (uart->filemode == SERIAL_MODE_NOT_OPENED)
+ 		snd_uart16550_do_close(uart);
+-	spin_unlock_irqrestore(&uart->open_lock, flags);
+ 	return 0;
+ }
+ 
+ static void snd_uart16550_input_trigger(struct snd_rawmidi_substream *substream,
+ 					int up)
+ {
+-	unsigned long flags;
+ 	struct snd_uart16550 *uart = substream->rmidi->private_data;
+ 
+-	spin_lock_irqsave(&uart->open_lock, flags);
++	guard(spinlock_irqsave)(&uart->open_lock);
  	if (up)
- 		pm->mode[substream->number] |= PORTMAN2X4_MODE_INPUT_TRIGGERED;
+ 		uart->filemode |= SERIAL_MODE_INPUT_TRIGGERED;
  	else
- 		pm->mode[substream->number] &= ~PORTMAN2X4_MODE_INPUT_TRIGGERED;
--	spin_unlock_irqrestore(&pm->reg_lock, flags);
+ 		uart->filemode &= ~SERIAL_MODE_INPUT_TRIGGERED;
+-	spin_unlock_irqrestore(&uart->open_lock, flags);
  }
  
- static void snd_portman_midi_output_trigger(struct snd_rawmidi_substream *substream,
- 					    int up)
+ static int snd_uart16550_output_open(struct snd_rawmidi_substream *substream)
  {
- 	struct portman *pm = substream->rmidi->private_data;
 -	unsigned long flags;
- 	unsigned char byte;
+ 	struct snd_uart16550 *uart = substream->rmidi->private_data;
  
--	spin_lock_irqsave(&pm->reg_lock, flags);
-+	guard(spinlock_irqsave)(&pm->reg_lock);
- 	if (up) {
- 		while ((snd_rawmidi_transmit(substream, &byte, 1) == 1))
- 			portman_write_midi(pm, substream->number, byte);
- 	}
--	spin_unlock_irqrestore(&pm->reg_lock, flags);
- }
+-	spin_lock_irqsave(&uart->open_lock, flags);
++	guard(spinlock_irqsave)(&uart->open_lock);
+ 	if (uart->filemode == SERIAL_MODE_NOT_OPENED)
+ 		snd_uart16550_do_open(uart);
+ 	uart->filemode |= SERIAL_MODE_OUTPUT_OPEN;
+ 	uart->midi_output[substream->number] = substream;
+-	spin_unlock_irqrestore(&uart->open_lock, flags);
+ 	return 0;
+ };
  
- static const struct snd_rawmidi_ops snd_portman_midi_output = {
-@@ -590,7 +586,7 @@ static void snd_portman_interrupt(void *userdata)
- 	unsigned char midivalue = 0;
- 	struct portman *pm = ((struct snd_card*)userdata)->private_data;
+ static int snd_uart16550_output_close(struct snd_rawmidi_substream *substream)
+ {
+-	unsigned long flags;
+ 	struct snd_uart16550 *uart = substream->rmidi->private_data;
  
--	spin_lock(&pm->reg_lock);
-+	guard(spinlock)(&pm->reg_lock);
+-	spin_lock_irqsave(&uart->open_lock, flags);
++	guard(spinlock_irqsave)(&uart->open_lock);
+ 	uart->filemode &= ~SERIAL_MODE_OUTPUT_OPEN;
+ 	uart->midi_output[substream->number] = NULL;
+ 	if (uart->filemode == SERIAL_MODE_NOT_OPENED)
+ 		snd_uart16550_do_close(uart);
+-	spin_unlock_irqrestore(&uart->open_lock, flags);
+ 	return 0;
+ };
  
- 	/* While any input data is waiting */
- 	while ((portman_read_status(pm) & INT_REQ) == INT_REQ) {
-@@ -617,8 +613,6 @@ static void snd_portman_interrupt(void *userdata)
+@@ -632,7 +617,6 @@ static int snd_uart16550_output_byte(struct snd_uart16550 *uart,
+ 
+ static void snd_uart16550_output_write(struct snd_rawmidi_substream *substream)
+ {
+-	unsigned long flags;
+ 	unsigned char midi_byte, addr_byte;
+ 	struct snd_uart16550 *uart = substream->rmidi->private_data;
+ 	char first;
+@@ -643,7 +627,7 @@ static void snd_uart16550_output_write(struct snd_rawmidi_substream *substream)
+ 	 * variables (ie buff_in & buff_out)
+ 	 */
+ 
+-	spin_lock_irqsave(&uart->open_lock, flags);
++	guard(spinlock_irqsave)(&uart->open_lock);
+ 
+ 	if (uart->irq < 0)	/* polling */
+ 		snd_uart16550_io_loop(uart);
+@@ -718,21 +702,19 @@ static void snd_uart16550_output_write(struct snd_rawmidi_substream *substream)
  		}
- 
+ 		lasttime = jiffies;
  	}
--
--	spin_unlock(&pm->reg_lock);
+-	spin_unlock_irqrestore(&uart->open_lock, flags);
  }
  
- static void snd_portman_attach(struct parport *p)
+ static void snd_uart16550_output_trigger(struct snd_rawmidi_substream *substream,
+ 					 int up)
+ {
+-	unsigned long flags;
+ 	struct snd_uart16550 *uart = substream->rmidi->private_data;
+ 
+-	spin_lock_irqsave(&uart->open_lock, flags);
+-	if (up)
+-		uart->filemode |= SERIAL_MODE_OUTPUT_TRIGGERED;
+-	else
+-		uart->filemode &= ~SERIAL_MODE_OUTPUT_TRIGGERED;
+-	spin_unlock_irqrestore(&uart->open_lock, flags);
++	scoped_guard(spinlock_irqsave, &uart->open_lock) {
++		if (up)
++			uart->filemode |= SERIAL_MODE_OUTPUT_TRIGGERED;
++		else
++			uart->filemode &= ~SERIAL_MODE_OUTPUT_TRIGGERED;
++	}
+ 	if (up)
+ 		snd_uart16550_output_write(substream);
+ }
 -- 
 2.50.1
 
