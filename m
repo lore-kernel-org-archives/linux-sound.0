@@ -1,83 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B792EA170
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B9231CA73
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756479246; cv=none; b=jCh2uhQBtGS251QUeZ0MFg38jTGC+DNeW/Bmo2pji4NHTGaD4K9nrcUnPmQrZBwzWvk2i9k5UiAe1taGBNfVYQPg+RczRNhfA2mr68G4eLsAxeKnCbwgDON2VYAtckEoPwZNalt09YOvNImWsUnbGfz1wNUk8MbXC+LtPRyVQ7I=
+	t=1756479251; cv=none; b=BTWqm0JMmPl9r63GoviVEAYRCWt6TDnxckvuOrmG8EJVzzd+4cRXJLhO5QPph5okL+ISJ9cQJwJPrDUCJiDukaWL0Bp0KqQ/M/Ghq8dbbGidZ2VjrYfHozKd/oCpHk/kgAnL4ktmVSy2qrnBQh9/Gzlre7aI5M42Iry3mju2KEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756479246; c=relaxed/simple;
-	bh=st3YX/RHd/Fq3Nk1i5PPyFSgaRwARVBfvQExKIRGkdo=;
+	s=arc-20240116; t=1756479251; c=relaxed/simple;
+	bh=nzv1J6zW3VRAu+bwBhzMiCTw0dED+8W4tTqvh9FG3pQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uRUtkTkk7THgCNj7PTc9WNL9uCVGahoFwOcn5mQN9uM5u2EBrcJv5Itc8VWnZrYcDRUBV1Vghux25S6Qq4sOdluUi0DvMc1cYfiVw80J2wl99bsEwIpovUqyTvH+o5FBEwqftEMUdbxK8AVQr/JH9hVBoeV1hJnZpSFFAPccRuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r5I9LupE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ojjjoqUe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r5I9LupE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ojjjoqUe; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=jzFZxEAAo2Otel1Wxn/4HZn6bOHto6jH5M6PqC9WysIOYIEoKuXCkQKpMCJx07/YEoBDzdf0+EdvWP4QMJLhU7e4+BsRcr02x0uddqxOHvm5KlAQXhkED56dC5WkVnjoiXSp8fnCJw7eOmoshGE5I00g5TwyAUhdSsQ8NrNcSaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0zdiqY2t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XFfIpn2I; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0zdiqY2t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XFfIpn2I; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r5I9LupE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ojjjoqUe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r5I9LupE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ojjjoqUe"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0zdiqY2t";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XFfIpn2I";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0zdiqY2t";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XFfIpn2I"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B76FF2287F;
-	Fri, 29 Aug 2025 14:53:12 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 14D7E5C247;
+	Fri, 29 Aug 2025 14:53:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756479192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756479193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mgRSCV2yRy++jfyuf/lN3ZA1qqoVSX8Z5zWCGJ6hqiQ=;
-	b=r5I9LupEvt+fo/lMCn7jQa9OfOVg/p02g6vNt+ovevhQzN/VFt0sqpekZH5QXiZ3ZYCImb
-	EZeI8zSyeO6qsWXOfFWen7Inc6Fx89ivgwdxGru566cgN73/AdzQMlulcR4adSruyNnWxF
-	6tFJwsyzpjJXYRUx2fSco5m0WMGY8VI=
+	bh=BylEYaiZzqYMUoeXBkxXXFZ74FWBnmCH9cWFSwX1jeU=;
+	b=0zdiqY2tWucATjJTuVzmtOE9PuJST2eiP6Ql88QgxIHDQzbvhnYmjWObB5RE29H8klXLie
+	6M1bcUSlaKCKR/XI1qZECzvaU0eLTauEIw66Gp6DE97MUFgsXQ1/gZKjlGAGwwOZlrD+Hh
+	tr/FI8QKp4Ae15UTISG8GNwILBa2DuY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756479192;
+	s=susede2_ed25519; t=1756479193;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mgRSCV2yRy++jfyuf/lN3ZA1qqoVSX8Z5zWCGJ6hqiQ=;
-	b=ojjjoqUeNR8D6FMEAtlKVkK8SPLW9a7mHUMxYFoHP97LthnizWcoGakcQErrMqoNGArvx7
-	vpe5m6gWkugMlABw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=BylEYaiZzqYMUoeXBkxXXFZ74FWBnmCH9cWFSwX1jeU=;
+	b=XFfIpn2I58/UQx/5GOmXTxr8o5Ct5iFxlRvZTUmc+zO8mx9ddsXe+crw78iDfSJNJ87JP0
+	99zXrgIw8FF+nnAg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756479192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756479193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mgRSCV2yRy++jfyuf/lN3ZA1qqoVSX8Z5zWCGJ6hqiQ=;
-	b=r5I9LupEvt+fo/lMCn7jQa9OfOVg/p02g6vNt+ovevhQzN/VFt0sqpekZH5QXiZ3ZYCImb
-	EZeI8zSyeO6qsWXOfFWen7Inc6Fx89ivgwdxGru566cgN73/AdzQMlulcR4adSruyNnWxF
-	6tFJwsyzpjJXYRUx2fSco5m0WMGY8VI=
+	bh=BylEYaiZzqYMUoeXBkxXXFZ74FWBnmCH9cWFSwX1jeU=;
+	b=0zdiqY2tWucATjJTuVzmtOE9PuJST2eiP6Ql88QgxIHDQzbvhnYmjWObB5RE29H8klXLie
+	6M1bcUSlaKCKR/XI1qZECzvaU0eLTauEIw66Gp6DE97MUFgsXQ1/gZKjlGAGwwOZlrD+Hh
+	tr/FI8QKp4Ae15UTISG8GNwILBa2DuY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756479192;
+	s=susede2_ed25519; t=1756479193;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mgRSCV2yRy++jfyuf/lN3ZA1qqoVSX8Z5zWCGJ6hqiQ=;
-	b=ojjjoqUeNR8D6FMEAtlKVkK8SPLW9a7mHUMxYFoHP97LthnizWcoGakcQErrMqoNGArvx7
-	vpe5m6gWkugMlABw==
+	bh=BylEYaiZzqYMUoeXBkxXXFZ74FWBnmCH9cWFSwX1jeU=;
+	b=XFfIpn2I58/UQx/5GOmXTxr8o5Ct5iFxlRvZTUmc+zO8mx9ddsXe+crw78iDfSJNJ87JP0
+	99zXrgIw8FF+nnAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92CE913A54;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EFAB313326;
 	Fri, 29 Aug 2025 14:53:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yCysIti+sWhzGwAAD6G6ig
+	id 0BZdOdi+sWhzGwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:53:12 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 15/18] ALSA: sscape: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:52:55 +0200
-Message-ID: <20250829145300.5460-16-tiwai@suse.de>
+Subject: [PATCH 18/18] ALSA: wavefront: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:52:58 +0200
+Message-ID: <20250829145300.5460-19-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829145300.5460-1-tiwai@suse.de>
 References: <20250829145300.5460-1-tiwai@suse.de>
@@ -88,6 +88,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -100,7 +101,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -109,7 +110,6 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-Spam-Score: -2.80
 
 Clean up the code using guard() for spin locks.
@@ -118,337 +118,356 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/isa/sscape.c | 184 ++++++++++++++++++++-------------------------
- 1 file changed, 81 insertions(+), 103 deletions(-)
+ sound/isa/wavefront/wavefront_midi.c  | 129 ++++++++++----------------
+ sound/isa/wavefront/wavefront_synth.c |  18 ++--
+ 2 files changed, 60 insertions(+), 87 deletions(-)
 
-diff --git a/sound/isa/sscape.c b/sound/isa/sscape.c
-index 709a1659d66f..a31ca75774a6 100644
---- a/sound/isa/sscape.c
-+++ b/sound/isa/sscape.c
-@@ -200,11 +200,8 @@ static inline void sscape_write_unsafe(unsigned io_base, enum GA_REG reg,
- static void sscape_write(struct soundscape *s, enum GA_REG reg,
- 			 unsigned char val)
+diff --git a/sound/isa/wavefront/wavefront_midi.c b/sound/isa/wavefront/wavefront_midi.c
+index 494b21be665c..1250ecba659a 100644
+--- a/sound/isa/wavefront/wavefront_midi.c
++++ b/sound/isa/wavefront/wavefront_midi.c
+@@ -113,7 +113,6 @@ static void snd_wavefront_midi_output_write(snd_wavefront_card_t *card)
  {
+ 	snd_wavefront_midi_t *midi = &card->wavefront.midi;
+ 	snd_wavefront_mpu_id  mpu;
 -	unsigned long flags;
--
--	spin_lock_irqsave(&s->lock, flags);
-+	guard(spinlock_irqsave)(&s->lock);
- 	sscape_write_unsafe(s->io_base, reg, val);
--	spin_unlock_irqrestore(&s->lock, flags);
+ 	unsigned char midi_byte;
+ 	int max = 256, mask = 1;
+ 	int timeout;
+@@ -142,11 +141,9 @@ static void snd_wavefront_midi_output_write(snd_wavefront_card_t *card)
+ 				break;
+ 		}
+ 	
+-		spin_lock_irqsave (&midi->virtual, flags);
+-		if ((midi->mode[midi->output_mpu] & MPU401_MODE_OUTPUT) == 0) {
+-			spin_unlock_irqrestore (&midi->virtual, flags);
++		guard(spinlock_irqsave)(&midi->virtual);
++		if ((midi->mode[midi->output_mpu] & MPU401_MODE_OUTPUT) == 0)
+ 			goto __second;
+-		}
+ 		if (output_ready (midi)) {
+ 			if (snd_rawmidi_transmit(midi->substream_output[midi->output_mpu], &midi_byte, 1) == 1) {
+ 				if (!midi->isvirtual ||
+@@ -160,14 +157,11 @@ static void snd_wavefront_midi_output_write(snd_wavefront_card_t *card)
+ 						timer_delete(&midi->timer);
+ 				}
+ 				midi->mode[midi->output_mpu] &= ~MPU401_MODE_OUTPUT_TRIGGER;
+-				spin_unlock_irqrestore (&midi->virtual, flags);
+ 				goto __second;
+ 			}
+ 		} else {
+-			spin_unlock_irqrestore (&midi->virtual, flags);
+ 			return;
+ 		}
+-		spin_unlock_irqrestore (&midi->virtual, flags);
+ 	}
+ 
+       __second:
+@@ -185,15 +179,13 @@ static void snd_wavefront_midi_output_write(snd_wavefront_card_t *card)
+ 				break;
+ 		}
+ 	
+-		spin_lock_irqsave (&midi->virtual, flags);
++		guard(spinlock_irqsave)(&midi->virtual);
+ 		if (!midi->isvirtual)
+ 			mask = 0;
+ 		mpu = midi->output_mpu ^ mask;
+ 		mask = 0;	/* don't invert the value from now */
+-		if ((midi->mode[mpu] & MPU401_MODE_OUTPUT) == 0) {
+-			spin_unlock_irqrestore (&midi->virtual, flags);
++		if ((midi->mode[mpu] & MPU401_MODE_OUTPUT) == 0)
+ 			return;
+-		}
+ 		if (snd_rawmidi_transmit_empty(midi->substream_output[mpu]))
+ 			goto __timer;
+ 		if (output_ready (midi)) {
+@@ -215,20 +207,16 @@ static void snd_wavefront_midi_output_write(snd_wavefront_card_t *card)
+ 						timer_delete(&midi->timer);
+ 				}
+ 				midi->mode[mpu] &= ~MPU401_MODE_OUTPUT_TRIGGER;
+-				spin_unlock_irqrestore (&midi->virtual, flags);
+ 				return;
+ 			}
+ 		} else {
+-			spin_unlock_irqrestore (&midi->virtual, flags);
+ 			return;
+ 		}
+-		spin_unlock_irqrestore (&midi->virtual, flags);
+ 	}
  }
  
- /*
-@@ -367,12 +364,11 @@ static int obp_startup_ack(struct soundscape *s, unsigned timeout)
- 	unsigned long end_time = jiffies + msecs_to_jiffies(timeout);
- 
- 	do {
--		unsigned long flags;
- 		int x;
- 
--		spin_lock_irqsave(&s->lock, flags);
--		x = host_read_unsafe(s->io_base);
--		spin_unlock_irqrestore(&s->lock, flags);
-+		scoped_guard(spinlock_irqsave, &s->lock) {
-+			x = host_read_unsafe(s->io_base);
-+		}
- 		if (x == 0xfe || x == 0xff)
- 			return 1;
- 
-@@ -394,12 +390,11 @@ static int host_startup_ack(struct soundscape *s, unsigned timeout)
- 	unsigned long end_time = jiffies + msecs_to_jiffies(timeout);
- 
- 	do {
--		unsigned long flags;
- 		int x;
- 
--		spin_lock_irqsave(&s->lock, flags);
--		x = host_read_unsafe(s->io_base);
--		spin_unlock_irqrestore(&s->lock, flags);
-+		scoped_guard(spinlock_irqsave, &s->lock) {
-+			x = host_read_unsafe(s->io_base);
-+		}
- 		if (x == 0xfe)
- 			return 1;
- 
-@@ -415,7 +410,6 @@ static int host_startup_ack(struct soundscape *s, unsigned timeout)
- static int upload_dma_data(struct soundscape *s, const unsigned char *data,
- 			   size_t size)
+ static int snd_wavefront_midi_input_open(struct snd_rawmidi_substream *substream)
  {
 -	unsigned long flags;
- 	struct snd_dma_buffer dma;
- 	int ret;
- 	unsigned char val;
-@@ -423,62 +417,57 @@ static int upload_dma_data(struct soundscape *s, const unsigned char *data,
- 	if (!get_dmabuf(s, &dma, PAGE_ALIGN(32 * 1024)))
- 		return -ENOMEM;
+ 	snd_wavefront_midi_t *midi;
+ 	snd_wavefront_mpu_id mpu;
  
--	spin_lock_irqsave(&s->lock, flags);
-+	scoped_guard(spinlock_irqsave, &s->lock) {
+@@ -243,17 +231,15 @@ static int snd_wavefront_midi_input_open(struct snd_rawmidi_substream *substream
+ 	if (!midi)
+ 	        return -EIO;
  
--	/*
--	 * Reset the board ...
--	 */
--	val = sscape_read_unsafe(s->io_base, GA_HMCTL_REG);
--	sscape_write_unsafe(s->io_base, GA_HMCTL_REG, val & 0x3f);
-+		/*
-+		 * Reset the board ...
-+		 */
-+		val = sscape_read_unsafe(s->io_base, GA_HMCTL_REG);
-+		sscape_write_unsafe(s->io_base, GA_HMCTL_REG, val & 0x3f);
+-	spin_lock_irqsave (&midi->open, flags);
++	guard(spinlock_irqsave)(&midi->open);
+ 	midi->mode[mpu] |= MPU401_MODE_INPUT;
+ 	midi->substream_input[mpu] = substream;
+-	spin_unlock_irqrestore (&midi->open, flags);
  
--	/*
--	 * Enable the DMA channels and configure them ...
--	 */
--	val = (s->chip->dma1 << 4) | DMA_8BIT;
--	sscape_write_unsafe(s->io_base, GA_DMAA_REG, val);
--	sscape_write_unsafe(s->io_base, GA_DMAB_REG, 0x20);
-+		/*
-+		 * Enable the DMA channels and configure them ...
-+		 */
-+		val = (s->chip->dma1 << 4) | DMA_8BIT;
-+		sscape_write_unsafe(s->io_base, GA_DMAA_REG, val);
-+		sscape_write_unsafe(s->io_base, GA_DMAB_REG, 0x20);
- 
--	/*
--	 * Take the board out of reset ...
--	 */
--	val = sscape_read_unsafe(s->io_base, GA_HMCTL_REG);
--	sscape_write_unsafe(s->io_base, GA_HMCTL_REG, val | 0x80);
-+		/*
-+		 * Take the board out of reset ...
-+		 */
-+		val = sscape_read_unsafe(s->io_base, GA_HMCTL_REG);
-+		sscape_write_unsafe(s->io_base, GA_HMCTL_REG, val | 0x80);
- 
--	/*
--	 * Upload the firmware to the SoundScape
--	 * board through the DMA channel ...
--	 */
--	while (size != 0) {
--		unsigned long len;
-+		/*
-+		 * Upload the firmware to the SoundScape
-+		 * board through the DMA channel ...
-+		 */
-+		while (size != 0) {
-+			unsigned long len;
- 
--		len = min(size, dma.bytes);
--		memcpy(dma.area, data, len);
--		data += len;
--		size -= len;
-+			len = min(size, dma.bytes);
-+			memcpy(dma.area, data, len);
-+			data += len;
-+			size -= len;
- 
--		snd_dma_program(s->chip->dma1, dma.addr, len, DMA_MODE_WRITE);
--		sscape_start_dma_unsafe(s->io_base, GA_DMAA_REG);
--		if (!sscape_wait_dma_unsafe(s->io_base, GA_DMAA_REG, 5000)) {
--			/*
--			 * Don't forget to release this spinlock we're holding
--			 */
--			spin_unlock_irqrestore(&s->lock, flags);
-+			snd_dma_program(s->chip->dma1, dma.addr, len, DMA_MODE_WRITE);
-+			sscape_start_dma_unsafe(s->io_base, GA_DMAA_REG);
-+			if (!sscape_wait_dma_unsafe(s->io_base, GA_DMAA_REG, 5000)) {
-+				dev_err(s->dev, "sscape: DMA upload has timed out\n");
-+				ret = -EAGAIN;
-+				goto _release_dma;
-+			}
-+		} /* while */
- 
--			dev_err(s->dev, "sscape: DMA upload has timed out\n");
--			ret = -EAGAIN;
--			goto _release_dma;
--		}
--	} /* while */
-+		set_host_mode_unsafe(s->io_base);
-+		outb(0x0, s->io_base);
- 
--	set_host_mode_unsafe(s->io_base);
--	outb(0x0, s->io_base);
--
--	/*
--	 * Boot the board ... (I think)
--	 */
--	val = sscape_read_unsafe(s->io_base, GA_HMCTL_REG);
--	sscape_write_unsafe(s->io_base, GA_HMCTL_REG, val | 0x40);
--	spin_unlock_irqrestore(&s->lock, flags);
-+		/*
-+		 * Boot the board ... (I think)
-+		 */
-+		val = sscape_read_unsafe(s->io_base, GA_HMCTL_REG);
-+		sscape_write_unsafe(s->io_base, GA_HMCTL_REG, val | 0x40);
-+	}
- 
- 	/*
- 	 * If all has gone well, then the board should acknowledge
-@@ -513,7 +502,6 @@ static int upload_dma_data(struct soundscape *s, const unsigned char *data,
- static int sscape_upload_bootblock(struct snd_card *card)
- {
- 	struct soundscape *sscape = get_card_soundscape(card);
--	unsigned long flags;
- 	const struct firmware *init_fw = NULL;
- 	int data = 0;
- 	int ret;
-@@ -527,15 +515,13 @@ static int sscape_upload_bootblock(struct snd_card *card)
- 
- 	release_firmware(init_fw);
- 
--	spin_lock_irqsave(&sscape->lock, flags);
-+	guard(spinlock_irqsave)(&sscape->lock);
- 	if (ret == 0)
- 		data = host_read_ctrl_unsafe(sscape->io_base, 100);
- 
- 	if (data & 0x10)
- 		sscape_write_unsafe(sscape->io_base, GA_SMCFGA_REG, 0x2f);
- 
--	spin_unlock_irqrestore(&sscape->lock, flags);
--
- 	data &= 0xf;
- 	if (ret == 0 && data > 7) {
- 		dev_err(card->dev,
-@@ -593,11 +579,9 @@ static int sscape_midi_get(struct snd_kcontrol *kctl,
- 	struct snd_wss *chip = snd_kcontrol_chip(kctl);
- 	struct snd_card *card = chip->card;
- 	register struct soundscape *s = get_card_soundscape(card);
--	unsigned long flags;
- 
--	spin_lock_irqsave(&s->lock, flags);
-+	guard(spinlock_irqsave)(&s->lock);
- 	uctl->value.integer.value[0] = s->midi_vol;
--	spin_unlock_irqrestore(&s->lock, flags);
  	return 0;
  }
  
-@@ -607,11 +591,10 @@ static int sscape_midi_put(struct snd_kcontrol *kctl,
- 	struct snd_wss *chip = snd_kcontrol_chip(kctl);
- 	struct snd_card *card = chip->card;
- 	struct soundscape *s = get_card_soundscape(card);
+ static int snd_wavefront_midi_output_open(struct snd_rawmidi_substream *substream)
+ {
 -	unsigned long flags;
- 	int change;
- 	unsigned char new_val;
+ 	snd_wavefront_midi_t *midi;
+ 	snd_wavefront_mpu_id mpu;
  
--	spin_lock_irqsave(&s->lock, flags);
-+	guard(spinlock_irqsave)(&s->lock);
+@@ -268,17 +254,15 @@ static int snd_wavefront_midi_output_open(struct snd_rawmidi_substream *substrea
+ 	if (!midi)
+ 	        return -EIO;
  
- 	new_val = uctl->value.integer.value[0] & 127;
- 	/*
-@@ -642,7 +625,6 @@ static int sscape_midi_put(struct snd_kcontrol *kctl,
- 	 */
- 	set_midi_mode_unsafe(s->io_base);
+-	spin_lock_irqsave (&midi->open, flags);
++	guard(spinlock_irqsave)(&midi->open);
+ 	midi->mode[mpu] |= MPU401_MODE_OUTPUT;
+ 	midi->substream_output[mpu] = substream;
+-	spin_unlock_irqrestore (&midi->open, flags);
  
--	spin_unlock_irqrestore(&s->lock, flags);
- 	return change;
+ 	return 0;
  }
  
-@@ -852,8 +834,6 @@ static int create_ad1845(struct snd_card *card, unsigned port,
- 	err = snd_wss_create(card, port, -1, irq, dma1, dma2,
- 			     codec_type, WSS_HWSHARE_DMA1, &chip);
- 	if (!err) {
--		unsigned long flags;
--
- 		if (sscape->type != SSCAPE_VIVO) {
- 			/*
- 			 * The input clock frequency on the SoundScape must
-@@ -861,9 +841,9 @@ static int create_ad1845(struct snd_card *card, unsigned port,
- 			 * to get the playback to sound correct ...
- 			 */
- 			snd_wss_mce_up(chip);
--			spin_lock_irqsave(&chip->reg_lock, flags);
--			snd_wss_out(chip, AD1845_CLOCK, 0x20);
--			spin_unlock_irqrestore(&chip->reg_lock, flags);
-+			scoped_guard(spinlock_irqsave, &chip->reg_lock) {
-+				snd_wss_out(chip, AD1845_CLOCK, 0x20);
-+			}
- 			snd_wss_mce_down(chip);
- 
- 		}
-@@ -920,7 +900,6 @@ static int create_sscape(int dev, struct snd_card *card)
- 	unsigned mpu_irq_cfg;
- 	struct resource *io_res;
- 	struct resource *wss_res;
+ static int snd_wavefront_midi_input_close(struct snd_rawmidi_substream *substream)
+ {
 -	unsigned long flags;
- 	int err;
- 	int val;
- 	const char *name;
-@@ -1006,34 +985,34 @@ static int create_sscape(int dev, struct snd_card *card)
- 	 * Tell the on-board devices where their resources are (I think -
- 	 * I can't be sure without a datasheet ... So many magic values!)
- 	 */
--	spin_lock_irqsave(&sscape->lock, flags);
-+	scoped_guard(spinlock_irqsave, &sscape->lock) {
+ 	snd_wavefront_midi_t *midi;
+ 	snd_wavefront_mpu_id mpu;
  
--	sscape_write_unsafe(sscape->io_base, GA_SMCFGA_REG, 0x2e);
--	sscape_write_unsafe(sscape->io_base, GA_SMCFGB_REG, 0x00);
-+		sscape_write_unsafe(sscape->io_base, GA_SMCFGA_REG, 0x2e);
-+		sscape_write_unsafe(sscape->io_base, GA_SMCFGB_REG, 0x00);
+@@ -293,16 +277,14 @@ static int snd_wavefront_midi_input_close(struct snd_rawmidi_substream *substrea
+ 	if (!midi)
+ 	        return -EIO;
  
--	/*
--	 * Enable and configure the DMA channels ...
--	 */
--	sscape_write_unsafe(sscape->io_base, GA_DMACFG_REG, 0x50);
--	dma_cfg = (sscape->ic_type == IC_OPUS ? 0x40 : 0x70);
--	sscape_write_unsafe(sscape->io_base, GA_DMAA_REG, dma_cfg);
--	sscape_write_unsafe(sscape->io_base, GA_DMAB_REG, 0x20);
-+		/*
-+		 * Enable and configure the DMA channels ...
-+		 */
-+		sscape_write_unsafe(sscape->io_base, GA_DMACFG_REG, 0x50);
-+		dma_cfg = (sscape->ic_type == IC_OPUS ? 0x40 : 0x70);
-+		sscape_write_unsafe(sscape->io_base, GA_DMAA_REG, dma_cfg);
-+		sscape_write_unsafe(sscape->io_base, GA_DMAB_REG, 0x20);
+-	spin_lock_irqsave (&midi->open, flags);
++	guard(spinlock_irqsave)(&midi->open);
+ 	midi->mode[mpu] &= ~MPU401_MODE_INPUT;
+-	spin_unlock_irqrestore (&midi->open, flags);
  
--	mpu_irq_cfg |= mpu_irq_cfg << 2;
--	val = sscape_read_unsafe(sscape->io_base, GA_HMCTL_REG) & 0xF7;
--	if (joystick[dev])
--		val |= 8;
--	sscape_write_unsafe(sscape->io_base, GA_HMCTL_REG, val | 0x10);
--	sscape_write_unsafe(sscape->io_base, GA_INTCFG_REG, 0xf0 | mpu_irq_cfg);
--	sscape_write_unsafe(sscape->io_base,
--			    GA_CDCFG_REG, 0x09 | DMA_8BIT
--			    | (dma[dev] << 4) | (irq_cfg << 1));
--	/*
--	 * Enable the master IRQ ...
--	 */
--	sscape_write_unsafe(sscape->io_base, GA_INTENA_REG, 0x80);
-+		mpu_irq_cfg |= mpu_irq_cfg << 2;
-+		val = sscape_read_unsafe(sscape->io_base, GA_HMCTL_REG) & 0xF7;
-+		if (joystick[dev])
-+			val |= 8;
-+		sscape_write_unsafe(sscape->io_base, GA_HMCTL_REG, val | 0x10);
-+		sscape_write_unsafe(sscape->io_base, GA_INTCFG_REG, 0xf0 | mpu_irq_cfg);
-+		sscape_write_unsafe(sscape->io_base,
-+				    GA_CDCFG_REG, 0x09 | DMA_8BIT
-+				    | (dma[dev] << 4) | (irq_cfg << 1));
-+		/*
-+		 * Enable the master IRQ ...
-+		 */
-+		sscape_write_unsafe(sscape->io_base, GA_INTENA_REG, 0x80);
+ 	return 0;
+ }
  
--	spin_unlock_irqrestore(&sscape->lock, flags);
+ static int snd_wavefront_midi_output_close(struct snd_rawmidi_substream *substream)
+ {
+-	unsigned long flags;
+ 	snd_wavefront_midi_t *midi;
+ 	snd_wavefront_mpu_id mpu;
+ 
+@@ -317,15 +299,13 @@ static int snd_wavefront_midi_output_close(struct snd_rawmidi_substream *substre
+ 	if (!midi)
+ 	        return -EIO;
+ 
+-	spin_lock_irqsave (&midi->open, flags);
++	guard(spinlock_irqsave)(&midi->open);
+ 	midi->mode[mpu] &= ~MPU401_MODE_OUTPUT;
+-	spin_unlock_irqrestore (&midi->open, flags);
+ 	return 0;
+ }
+ 
+ static void snd_wavefront_midi_input_trigger(struct snd_rawmidi_substream *substream, int up)
+ {
+-	unsigned long flags;
+ 	snd_wavefront_midi_t *midi;
+ 	snd_wavefront_mpu_id mpu;
+ 
+@@ -341,30 +321,27 @@ static void snd_wavefront_midi_input_trigger(struct snd_rawmidi_substream *subst
+ 	if (!midi)
+ 		return;
+ 
+-	spin_lock_irqsave (&midi->virtual, flags);
++	guard(spinlock_irqsave)(&midi->virtual);
+ 	if (up) {
+ 		midi->mode[mpu] |= MPU401_MODE_INPUT_TRIGGER;
+ 	} else {
+ 		midi->mode[mpu] &= ~MPU401_MODE_INPUT_TRIGGER;
+ 	}
+-	spin_unlock_irqrestore (&midi->virtual, flags);
+ }
+ 
+ static void snd_wavefront_midi_output_timer(struct timer_list *t)
+ {
+ 	snd_wavefront_midi_t *midi = timer_container_of(midi, t, timer);
+ 	snd_wavefront_card_t *card = midi->timer_card;
+-	unsigned long flags;
+ 	
+-	spin_lock_irqsave (&midi->virtual, flags);
+-	mod_timer(&midi->timer, 1 + jiffies);
+-	spin_unlock_irqrestore (&midi->virtual, flags);
++	scoped_guard(spinlock_irqsave, &midi->virtual) {
++		mod_timer(&midi->timer, 1 + jiffies);
 +	}
+ 	snd_wavefront_midi_output_write(card);
+ }
  
- 	/*
- 	 * We have now enabled the codec chip, and so we should
-@@ -1073,7 +1052,7 @@ static int create_sscape(int dev, struct snd_card *card)
- 			/*
- 			 * Initialize mixer
- 			 */
--			spin_lock_irqsave(&sscape->lock, flags);
-+			guard(spinlock_irqsave)(&sscape->lock);
- 			sscape->midi_vol = 0;
- 			host_write_ctrl_unsafe(sscape->io_base,
- 						CMD_SET_MIDI_VOL, 100);
-@@ -1090,7 +1069,6 @@ static int create_sscape(int dev, struct snd_card *card)
- 			host_write_ctrl_unsafe(sscape->io_base, CMD_ACK, 100);
+ static void snd_wavefront_midi_output_trigger(struct snd_rawmidi_substream *substream, int up)
+ {
+-	unsigned long flags;
+ 	snd_wavefront_midi_t *midi;
+ 	snd_wavefront_mpu_id mpu;
  
- 			set_midi_mode_unsafe(sscape->io_base);
--			spin_unlock_irqrestore(&sscape->lock, flags);
+@@ -380,22 +357,22 @@ static void snd_wavefront_midi_output_trigger(struct snd_rawmidi_substream *subs
+ 	if (!midi)
+ 		return;
+ 
+-	spin_lock_irqsave (&midi->virtual, flags);
+-	if (up) {
+-		if ((midi->mode[mpu] & MPU401_MODE_OUTPUT_TRIGGER) == 0) {
+-			if (!midi->istimer) {
+-				timer_setup(&midi->timer,
+-					    snd_wavefront_midi_output_timer,
+-					    0);
+-				mod_timer(&midi->timer, 1 + jiffies);
++	scoped_guard(spinlock_irqsave, &midi->virtual) {
++		if (up) {
++			if ((midi->mode[mpu] & MPU401_MODE_OUTPUT_TRIGGER) == 0) {
++				if (!midi->istimer) {
++					timer_setup(&midi->timer,
++						    snd_wavefront_midi_output_timer,
++						    0);
++					mod_timer(&midi->timer, 1 + jiffies);
++				}
++				midi->istimer++;
++				midi->mode[mpu] |= MPU401_MODE_OUTPUT_TRIGGER;
+ 			}
+-			midi->istimer++;
+-			midi->mode[mpu] |= MPU401_MODE_OUTPUT_TRIGGER;
++		} else {
++			midi->mode[mpu] &= ~MPU401_MODE_OUTPUT_TRIGGER;
  		}
+-	} else {
+-		midi->mode[mpu] &= ~MPU401_MODE_OUTPUT_TRIGGER;
+ 	}
+-	spin_unlock_irqrestore (&midi->virtual, flags);
+ 
+ 	if (up)
+ 		snd_wavefront_midi_output_write((snd_wavefront_card_t *)substream->rmidi->card->private_data);
+@@ -405,7 +382,6 @@ void
+ snd_wavefront_midi_interrupt (snd_wavefront_card_t *card)
+ 
+ {
+-	unsigned long flags;
+ 	snd_wavefront_midi_t *midi;
+ 	static struct snd_rawmidi_substream *substream = NULL;
+ 	static int mpu = external_mpu; 
+@@ -419,37 +395,37 @@ snd_wavefront_midi_interrupt (snd_wavefront_card_t *card)
+ 		return;
  	}
  
+-	spin_lock_irqsave (&midi->virtual, flags);
+-	while (--max) {
++	scoped_guard(spinlock_irqsave, &midi->virtual) {
++		while (--max) {
+ 
+-		if (input_avail (midi)) {
+-			byte = read_data (midi);
++			if (input_avail(midi)) {
++				byte = read_data(midi);
+ 
+-			if (midi->isvirtual) {				
+-				if (byte == WF_EXTERNAL_SWITCH) {
+-					substream = midi->substream_input[external_mpu];
+-					mpu = external_mpu;
+-				} else if (byte == WF_INTERNAL_SWITCH) { 
+-					substream = midi->substream_output[internal_mpu];
++				if (midi->isvirtual) {
++					if (byte == WF_EXTERNAL_SWITCH) {
++						substream = midi->substream_input[external_mpu];
++						mpu = external_mpu;
++					} else if (byte == WF_INTERNAL_SWITCH) {
++						substream = midi->substream_output[internal_mpu];
++						mpu = internal_mpu;
++					} /* else just leave it as it is */
++				} else {
++					substream = midi->substream_input[internal_mpu];
+ 					mpu = internal_mpu;
+-				} /* else just leave it as it is */
++				}
++
++				if (substream == NULL) {
++					continue;
++				}
++
++				if (midi->mode[mpu] & MPU401_MODE_INPUT_TRIGGER) {
++					snd_rawmidi_receive(substream, &byte, 1);
++				}
+ 			} else {
+-				substream = midi->substream_input[internal_mpu];
+-				mpu = internal_mpu;
++				break;
+ 			}
+-
+-			if (substream == NULL) {
+-				continue;
+-			}
+-
+-			if (midi->mode[mpu] & MPU401_MODE_INPUT_TRIGGER) {
+-				snd_rawmidi_receive(substream, &byte, 1);
+-			}
+-		} else {
+-			break;
+ 		}
+-	} 
+-	spin_unlock_irqrestore (&midi->virtual, flags);
++	}
+ 
+ 	snd_wavefront_midi_output_write(card);
+ }
+@@ -471,13 +447,10 @@ void
+ snd_wavefront_midi_disable_virtual (snd_wavefront_card_t *card)
+ 
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave (&card->wavefront.midi.virtual, flags);
++	guard(spinlock_irqsave)(&card->wavefront.midi.virtual);
+ 	// snd_wavefront_midi_input_close (card->ics2115_external_rmidi);
+ 	// snd_wavefront_midi_output_close (card->ics2115_external_rmidi);
+ 	card->wavefront.midi.isvirtual = 0;
+-	spin_unlock_irqrestore (&card->wavefront.midi.virtual, flags);
+ }
+ 
+ int
+diff --git a/sound/isa/wavefront/wavefront_synth.c b/sound/isa/wavefront/wavefront_synth.c
+index bd679e2da154..cd5c177943aa 100644
+--- a/sound/isa/wavefront/wavefront_synth.c
++++ b/sound/isa/wavefront/wavefront_synth.c
+@@ -1741,10 +1741,10 @@ snd_wavefront_internal_interrupt (snd_wavefront_card_t *card)
+ 		return;
+ 	}
+ 
+-	spin_lock(&dev->irq_lock);
+-	dev->irq_ok = 1;
+-	dev->irq_cnt++;
+-	spin_unlock(&dev->irq_lock);
++	scoped_guard(spinlock, &dev->irq_lock) {
++		dev->irq_ok = 1;
++		dev->irq_cnt++;
++	}
+ 	wake_up(&dev->interrupt_sleeper);
+ }
+ 
+@@ -1796,11 +1796,11 @@ wavefront_should_cause_interrupt (snd_wavefront_t *dev,
+ 	wait_queue_entry_t wait;
+ 
+ 	init_waitqueue_entry(&wait, current);
+-	spin_lock_irq(&dev->irq_lock);
+-	add_wait_queue(&dev->interrupt_sleeper, &wait);
+-	dev->irq_ok = 0;
+-	outb (val,port);
+-	spin_unlock_irq(&dev->irq_lock);
++	scoped_guard(spinlock_irq, &dev->irq_lock) {
++		add_wait_queue(&dev->interrupt_sleeper, &wait);
++		dev->irq_ok = 0;
++		outb(val, port);
++	}
+ 	while (!dev->irq_ok && time_before(jiffies, timeout)) {
+ 		schedule_timeout_uninterruptible(1);
+ 		barrier();
 -- 
 2.50.1
 
