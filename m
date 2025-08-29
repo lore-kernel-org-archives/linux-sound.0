@@ -1,83 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1961A322DD4
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18EF43203B2
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478684; cv=none; b=NmUqaWrmU25kEUD3HdP4gwKMgBQkvcU+n31bm8A+O1jBYUg99BzFM6oEyOo5UPj13HZCBR+grcvzlOKcChyxHq+4ve78stUaNDHglkasruhyvqQgXGDmg+I/iYy/zn+xHLJEaWa7MwSInXgxueiD716lhUubVnP81KP7ApYyslk=
+	t=1756478688; cv=none; b=D9n89WS444wk5489NWhqsKBLdjzew58UK/FHWQ2ulGey5eLOVwuRT6q5KmrvC29m8MliB2seYZs1AsgncWsk5kZphwHH/lQe5ksa/qx+IUUs098XJRV1amBXmpNJDZW8DxlQKsJTQlp0RRkdDwAhHjUCLaNAQgn3LYhkd1Bg1io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478684; c=relaxed/simple;
-	bh=WxjaGIRLbWaUEVJHbmRRhfPJ7LTaKlRWi5OGdB65JyM=;
+	s=arc-20240116; t=1756478688; c=relaxed/simple;
+	bh=RTrs4/Wt9QvhwjT8hid9D1IvZkMF9X1bGCqyn17ppXQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eQE19DEKhPEPZYaf4gUp+zO+Ud1cF6kGQSRZJkfeSeGwQX8D9K8vulXgY2CbrZ2MVmES5KSvzx0zRk6jNh3YPyRto41JsltRG5wcrGiPjb1FNTPghqgqRKTEGVpIp+KqlryP8+HzVVpwxtkBhRdaPSJA4JCsmHvT4eX48aEEN60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Q9TJhpv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k9E1mIcL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Q9TJhpv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k9E1mIcL; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=DtpHL1HvFDkRTg2oM/dY6MouvU7uG4RViYTVefJdoz3E7G3XkOPLs1b8Mrg+D4wepwhXW2QKj2u+5vwMS2JI+ge+7waPvvFGSNSR9rEDjDw8wXJIDVUdM7O9Kb9I/885SzaryG5evulwtq/s+02LDPCx0BRrH1lc46sguES3efU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sylMxGOk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q2HBrPLz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sylMxGOk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q2HBrPLz; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Q9TJhpv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k9E1mIcL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Q9TJhpv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k9E1mIcL"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sylMxGOk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q2HBrPLz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sylMxGOk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q2HBrPLz"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9DA445C22D;
-	Fri, 29 Aug 2025 14:43:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2641433ECA;
+	Fri, 29 Aug 2025 14:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ClX6lLLYYmFM5YoEBNGWgkPFzVjzc3pbR1p9/ynP0XE=;
-	b=1Q9TJhpvtq+Bb4FPx4vrpLjAvpJbXImTCU2qYOl8zhyutKN3Nm3IeoXyo4lU1L0PsmuQXK
-	hCc2PLBgmzALH1amMkatGIfvPN53AqMsbpqRIdyDOw7zEK3Grj4b9JEaJ16b4PTMmlg6Dz
-	1dqk2tu8fGjTiqCI10rsosATVrmilRA=
+	bh=uTwauuXQITNuP1nKRqq0QVl5EUREJ7EDmmNyxtIC/HI=;
+	b=sylMxGOklhsrFmTBg59XVbru1VpVpOPNZ/m5ENilFsqlbXcdT6Oer5IvQ8YSup379LUafR
+	WRnseW+pX5YqycwwoLxDKeGFSD2SjhWClGAgXjjyYcmpeUBojGsEWuByDvvCBE1rnT3Vz/
+	TdamM9T/fwbv4oUdO+87eYMvUC/GGME=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478636;
+	s=susede2_ed25519; t=1756478639;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ClX6lLLYYmFM5YoEBNGWgkPFzVjzc3pbR1p9/ynP0XE=;
-	b=k9E1mIcLV3/WwIbVjgP6MPHHu/dHiPRuRXxBJEYsxuCd8BRDDlS4VKERhu0aHv8dpxeMIa
-	5Bj9yA1GaceTxGAw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=uTwauuXQITNuP1nKRqq0QVl5EUREJ7EDmmNyxtIC/HI=;
+	b=Q2HBrPLzT1rPb013emVFWuJMYJxCOGpRFxXzuHTWiikwWgBtP8kzPNI3WiV9eCJquMFtIL
+	tktVX67mJckWsBDw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ClX6lLLYYmFM5YoEBNGWgkPFzVjzc3pbR1p9/ynP0XE=;
-	b=1Q9TJhpvtq+Bb4FPx4vrpLjAvpJbXImTCU2qYOl8zhyutKN3Nm3IeoXyo4lU1L0PsmuQXK
-	hCc2PLBgmzALH1amMkatGIfvPN53AqMsbpqRIdyDOw7zEK3Grj4b9JEaJ16b4PTMmlg6Dz
-	1dqk2tu8fGjTiqCI10rsosATVrmilRA=
+	bh=uTwauuXQITNuP1nKRqq0QVl5EUREJ7EDmmNyxtIC/HI=;
+	b=sylMxGOklhsrFmTBg59XVbru1VpVpOPNZ/m5ENilFsqlbXcdT6Oer5IvQ8YSup379LUafR
+	WRnseW+pX5YqycwwoLxDKeGFSD2SjhWClGAgXjjyYcmpeUBojGsEWuByDvvCBE1rnT3Vz/
+	TdamM9T/fwbv4oUdO+87eYMvUC/GGME=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478636;
+	s=susede2_ed25519; t=1756478639;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ClX6lLLYYmFM5YoEBNGWgkPFzVjzc3pbR1p9/ynP0XE=;
-	b=k9E1mIcLV3/WwIbVjgP6MPHHu/dHiPRuRXxBJEYsxuCd8BRDDlS4VKERhu0aHv8dpxeMIa
-	5Bj9yA1GaceTxGAw==
+	bh=uTwauuXQITNuP1nKRqq0QVl5EUREJ7EDmmNyxtIC/HI=;
+	b=Q2HBrPLzT1rPb013emVFWuJMYJxCOGpRFxXzuHTWiikwWgBtP8kzPNI3WiV9eCJquMFtIL
+	tktVX67mJckWsBDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8468C13A3E;
-	Fri, 29 Aug 2025 14:43:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E6C7613A3E;
+	Fri, 29 Aug 2025 14:43:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YNhDH6y8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:56 +0000
+	id UHU6N668sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:58 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 15/61] ALSA: ca0106: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:42:50 +0200
-Message-ID: <20250829144342.4290-16-tiwai@suse.de>
+Subject: [PATCH 19/61] ALSA: cs46xx: Use guard() for mutex locks
+Date: Fri, 29 Aug 2025 16:42:54 +0200
+Message-ID: <20250829144342.4290-20-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -88,469 +88,508 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-Spam-Score: -2.80
 
-Clean up the code using guard() for spin locks.
+Replace the manual mutex lock/unlock pairs with guard() for code
+simplification.
 
-Merely code refactoring, and no behavior change.
+Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/ca0106/ca0106_main.c |  33 ++-----
- sound/pci/ca0106/ca0106_proc.c |  28 +++---
- sound/pci/ca0106/ca_midi.c     | 169 +++++++++++++++------------------
- 3 files changed, 96 insertions(+), 134 deletions(-)
+ sound/pci/cs46xx/cs46xx_lib.c       | 87 +++++++++++------------------
+ sound/pci/cs46xx/dsp_spos.c         | 66 +++++++++-------------
+ sound/pci/cs46xx/dsp_spos_scb_lib.c |  3 +-
+ 3 files changed, 59 insertions(+), 97 deletions(-)
 
-diff --git a/sound/pci/ca0106/ca0106_main.c b/sound/pci/ca0106/ca0106_main.c
-index 242618793181..41774e2ef53f 100644
---- a/sound/pci/ca0106/ca0106_main.c
-+++ b/sound/pci/ca0106/ca0106_main.c
-@@ -332,16 +332,13 @@ unsigned int snd_ca0106_ptr_read(struct snd_ca0106 * emu,
- 					  unsigned int reg, 
- 					  unsigned int chn)
- {
--	unsigned long flags;
--	unsigned int regptr, val;
-+	unsigned int regptr;
-   
- 	regptr = (reg << 16) | chn;
+diff --git a/sound/pci/cs46xx/cs46xx_lib.c b/sound/pci/cs46xx/cs46xx_lib.c
+index 85a7988cf822..a87571d5b572 100644
+--- a/sound/pci/cs46xx/cs46xx_lib.c
++++ b/sound/pci/cs46xx/cs46xx_lib.c
+@@ -1093,24 +1093,17 @@ static int snd_cs46xx_playback_hw_params(struct snd_pcm_substream *substream,
+ 	if (snd_BUG_ON(!sample_rate))
+ 		return -ENXIO;
  
--	spin_lock_irqsave(&emu->emu_lock, flags);
-+	guard(spinlock_irqsave)(&emu->emu_lock);
- 	outl(regptr, emu->port + CA0106_PTR);
--	val = inl(emu->port + CA0106_DATA);
--	spin_unlock_irqrestore(&emu->emu_lock, flags);
--	return val;
-+	return inl(emu->port + CA0106_DATA);
- }
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
  
- void snd_ca0106_ptr_write(struct snd_ca0106 *emu, 
-@@ -350,14 +347,12 @@ void snd_ca0106_ptr_write(struct snd_ca0106 *emu,
- 				   unsigned int data)
- {
- 	unsigned int regptr;
--	unsigned long flags;
+-	if (_cs46xx_adjust_sample_rate (chip,cpcm,sample_rate)) {
+-		mutex_unlock(&chip->spos_mutex);
++	if (_cs46xx_adjust_sample_rate(chip, cpcm, sample_rate))
+ 		return -ENXIO;
+-	}
  
- 	regptr = (reg << 16) | chn;
+ 	snd_BUG_ON(!cpcm->pcm_channel);
+-	if (!cpcm->pcm_channel) {
+-		mutex_unlock(&chip->spos_mutex);
++	if (!cpcm->pcm_channel)
+ 		return -ENXIO;
+-	}
  
--	spin_lock_irqsave(&emu->emu_lock, flags);
-+	guard(spinlock_irqsave)(&emu->emu_lock);
- 	outl(regptr, emu->port + CA0106_PTR);
- 	outl(data, emu->port + CA0106_DATA);
--	spin_unlock_irqrestore(&emu->emu_lock, flags);
- }
- 
- int snd_ca0106_spi_write(struct snd_ca0106 * emu,
-@@ -451,24 +446,20 @@ int snd_ca0106_i2c_write(struct snd_ca0106 *emu,
- 
- static void snd_ca0106_intr_enable(struct snd_ca0106 *emu, unsigned int intrenb)
- {
--	unsigned long flags;
- 	unsigned int intr_enable;
- 
--	spin_lock_irqsave(&emu->emu_lock, flags);
-+	guard(spinlock_irqsave)(&emu->emu_lock);
- 	intr_enable = inl(emu->port + CA0106_INTE) | intrenb;
- 	outl(intr_enable, emu->port + CA0106_INTE);
--	spin_unlock_irqrestore(&emu->emu_lock, flags);
- }
- 
- static void snd_ca0106_intr_disable(struct snd_ca0106 *emu, unsigned int intrenb)
- {
--	unsigned long flags;
- 	unsigned int intr_enable;
- 
--	spin_lock_irqsave(&emu->emu_lock, flags);
-+	guard(spinlock_irqsave)(&emu->emu_lock);
- 	intr_enable = inl(emu->port + CA0106_INTE) & ~intrenb;
- 	outl(intr_enable, emu->port + CA0106_INTE);
--	spin_unlock_irqrestore(&emu->emu_lock, flags);
- }
- 
- 
-@@ -1138,26 +1129,20 @@ static unsigned short snd_ca0106_ac97_read(struct snd_ac97 *ac97,
- 					     unsigned short reg)
- {
- 	struct snd_ca0106 *emu = ac97->private_data;
--	unsigned long flags;
--	unsigned short val;
- 
--	spin_lock_irqsave(&emu->emu_lock, flags);
-+	guard(spinlock_irqsave)(&emu->emu_lock);
- 	outb(reg, emu->port + CA0106_AC97ADDRESS);
--	val = inw(emu->port + CA0106_AC97DATA);
--	spin_unlock_irqrestore(&emu->emu_lock, flags);
--	return val;
-+	return inw(emu->port + CA0106_AC97DATA);
- }
- 
- static void snd_ca0106_ac97_write(struct snd_ac97 *ac97,
- 				    unsigned short reg, unsigned short val)
- {
- 	struct snd_ca0106 *emu = ac97->private_data;
--	unsigned long flags;
-   
--	spin_lock_irqsave(&emu->emu_lock, flags);
-+	guard(spinlock_irqsave)(&emu->emu_lock);
- 	outb(reg, emu->port + CA0106_AC97ADDRESS);
- 	outw(val, emu->port + CA0106_AC97DATA);
--	spin_unlock_irqrestore(&emu->emu_lock, flags);
- }
- 
- static int snd_ca0106_ac97(struct snd_ca0106 *chip)
-diff --git a/sound/pci/ca0106/ca0106_proc.c b/sound/pci/ca0106/ca0106_proc.c
-index c99603e137e5..c181e4954579 100644
---- a/sound/pci/ca0106/ca0106_proc.c
-+++ b/sound/pci/ca0106/ca0106_proc.c
-@@ -281,16 +281,14 @@ static void snd_ca0106_proc_reg_write32(struct snd_info_entry *entry,
- 				       struct snd_info_buffer *buffer)
- {
- 	struct snd_ca0106 *emu = entry->private_data;
--	unsigned long flags;
-         char line[64];
-         u32 reg, val;
-         while (!snd_info_get_line(buffer, line, sizeof(line))) {
-                 if (sscanf(line, "%x %x", &reg, &val) != 2)
-                         continue;
- 		if (reg < 0x40 && val <= 0xffffffff) {
--			spin_lock_irqsave(&emu->emu_lock, flags);
-+			guard(spinlock_irqsave)(&emu->emu_lock);
- 			outl(val, emu->port + (reg & 0xfffffffc));
--			spin_unlock_irqrestore(&emu->emu_lock, flags);
- 		}
-         }
- }
-@@ -300,13 +298,13 @@ static void snd_ca0106_proc_reg_read32(struct snd_info_entry *entry,
- {
- 	struct snd_ca0106 *emu = entry->private_data;
- 	unsigned long value;
--	unsigned long flags;
- 	int i;
-+
- 	snd_iprintf(buffer, "Registers:\n\n");
- 	for(i = 0; i < 0x20; i+=4) {
--		spin_lock_irqsave(&emu->emu_lock, flags);
--		value = inl(emu->port + i);
--		spin_unlock_irqrestore(&emu->emu_lock, flags);
-+		scoped_guard(spinlock_irqsave, &emu->emu_lock) {
-+			value = inl(emu->port + i);
-+		}
- 		snd_iprintf(buffer, "Register %02X: %08lX\n", i, value);
- 	}
- }
-@@ -316,13 +314,13 @@ static void snd_ca0106_proc_reg_read16(struct snd_info_entry *entry,
- {
- 	struct snd_ca0106 *emu = entry->private_data;
-         unsigned int value;
--	unsigned long flags;
- 	int i;
-+
- 	snd_iprintf(buffer, "Registers:\n\n");
- 	for(i = 0; i < 0x20; i+=2) {
--		spin_lock_irqsave(&emu->emu_lock, flags);
--		value = inw(emu->port + i);
--		spin_unlock_irqrestore(&emu->emu_lock, flags);
-+		scoped_guard(spinlock_irqsave, &emu->emu_lock) {
-+			value = inw(emu->port + i);
-+		}
- 		snd_iprintf(buffer, "Register %02X: %04X\n", i, value);
- 	}
- }
-@@ -332,13 +330,13 @@ static void snd_ca0106_proc_reg_read8(struct snd_info_entry *entry,
- {
- 	struct snd_ca0106 *emu = entry->private_data;
- 	unsigned int value;
--	unsigned long flags;
- 	int i;
-+
- 	snd_iprintf(buffer, "Registers:\n\n");
- 	for(i = 0; i < 0x20; i+=1) {
--		spin_lock_irqsave(&emu->emu_lock, flags);
--		value = inb(emu->port + i);
--		spin_unlock_irqrestore(&emu->emu_lock, flags);
-+		scoped_guard(spinlock_irqsave, &emu->emu_lock) {
-+			value = inb(emu->port + i);
-+		}
- 		snd_iprintf(buffer, "Register %02X: %02X\n", i, value);
- 	}
- }
-diff --git a/sound/pci/ca0106/ca_midi.c b/sound/pci/ca0106/ca_midi.c
-index f9cec67f31ac..6efd93abddb5 100644
---- a/sound/pci/ca0106/ca_midi.c
-+++ b/sound/pci/ca0106/ca_midi.c
-@@ -45,58 +45,54 @@ static void ca_midi_interrupt(struct snd_ca_midi *midi, unsigned int status)
- 		return;
- 	}
- 
--	spin_lock(&midi->input_lock);
--	if ((status & midi->ipr_rx) && ca_midi_input_avail(midi)) {
--		if (!(midi->midi_mode & CA_MIDI_MODE_INPUT)) {
--			ca_midi_clear_rx(midi);
--		} else {
--			byte = ca_midi_read_data(midi);
--			if(midi->substream_input)
--				snd_rawmidi_receive(midi->substream_input, &byte, 1);
 -
--
-+	scoped_guard(spinlock, &midi->input_lock) {
-+		if ((status & midi->ipr_rx) && ca_midi_input_avail(midi)) {
-+			if (!(midi->midi_mode & CA_MIDI_MODE_INPUT)) {
-+				ca_midi_clear_rx(midi);
-+			} else {
-+				byte = ca_midi_read_data(midi);
-+				if (midi->substream_input)
-+					snd_rawmidi_receive(midi->substream_input, &byte, 1);
-+			}
- 		}
- 	}
--	spin_unlock(&midi->input_lock);
+-	if (cs46xx_dsp_pcm_channel_set_period (chip,cpcm->pcm_channel,period_size)) {
+-		 mutex_unlock(&chip->spos_mutex);
++	if (cs46xx_dsp_pcm_channel_set_period(chip, cpcm->pcm_channel, period_size))
+ 		 return -EINVAL;
+-	 }
  
--	spin_lock(&midi->output_lock);
--	if ((status & midi->ipr_tx) && ca_midi_output_ready(midi)) {
--		if (midi->substream_output &&
--		    snd_rawmidi_transmit(midi->substream_output, &byte, 1) == 1) {
--			ca_midi_write_data(midi, byte);
--		} else {
--			midi->interrupt_disable(midi,midi->tx_enable);
-+	scoped_guard(spinlock, &midi->output_lock) {
-+		if ((status & midi->ipr_tx) && ca_midi_output_ready(midi)) {
-+			if (midi->substream_output &&
-+			    snd_rawmidi_transmit(midi->substream_output, &byte, 1) == 1) {
-+				ca_midi_write_data(midi, byte);
-+			} else {
-+				midi->interrupt_disable(midi, midi->tx_enable);
-+			}
- 		}
- 	}
--	spin_unlock(&midi->output_lock);
--
- }
- 
- static void ca_midi_cmd(struct snd_ca_midi *midi, unsigned char cmd, int ack)
- {
--	unsigned long flags;
- 	int timeout, ok;
- 
--	spin_lock_irqsave(&midi->input_lock, flags);
--	ca_midi_write_data(midi, 0x00);
--	/* ca_midi_clear_rx(midi); */
-+	scoped_guard(spinlock_irqsave, &midi->input_lock) {
-+		ca_midi_write_data(midi, 0x00);
-+		/* ca_midi_clear_rx(midi); */
- 
--	ca_midi_write_cmd(midi, cmd);
--	if (ack) {
--		ok = 0;
--		timeout = 10000;
--		while (!ok && timeout-- > 0) {
--			if (ca_midi_input_avail(midi)) {
--				if (ca_midi_read_data(midi) == midi->ack)
--					ok = 1;
-+		ca_midi_write_cmd(midi, cmd);
-+		if (ack) {
-+			ok = 0;
-+			timeout = 10000;
-+			while (!ok && timeout-- > 0) {
-+				if (ca_midi_input_avail(midi)) {
-+					if (ca_midi_read_data(midi) == midi->ack)
-+						ok = 1;
-+				}
- 			}
+ 	dev_dbg(chip->card->dev,
+ 		"period_size (%d), periods (%d) buffer_size(%d)\n",
+@@ -1144,12 +1137,8 @@ static int snd_cs46xx_playback_hw_params(struct snd_pcm_substream *substream,
+ 		if (runtime->dma_area == cpcm->hw_buf.area)
+ 			snd_pcm_set_runtime_buffer(substream, NULL);
+ 		err = snd_pcm_lib_malloc_pages(substream, params_buffer_bytes(hw_params));
+-		if (err < 0) {
+-#ifdef CONFIG_SND_CS46XX_NEW_DSP
+-			mutex_unlock(&chip->spos_mutex);
+-#endif
++		if (err < 0)
+ 			return err;
 -		}
--		if (!ok && ca_midi_read_data(midi) == midi->ack)
-+			if (!ok && ca_midi_read_data(midi) == midi->ack)
-+				ok = 1;
-+		} else {
- 			ok = 1;
--	} else {
--		ok = 1;
+ 
+ #ifdef CONFIG_SND_CS46XX_NEW_DSP
+ 		if (cpcm->pcm_channel_id == DSP_PCM_MAIN_CHANNEL) {
+@@ -1169,10 +1158,6 @@ static int snd_cs46xx_playback_hw_params(struct snd_pcm_substream *substream,
+ 
+ 	}
+ 
+-#ifdef CONFIG_SND_CS46XX_NEW_DSP
+-	mutex_unlock(&chip->spos_mutex);
+-#endif
+-
+ 	return 0;
+ }
+ 
+@@ -1495,16 +1480,14 @@ static int _cs46xx_playback_open_channel (struct snd_pcm_substream *substream,in
+ 
+ 	cpcm->substream = substream;
+ #ifdef CONFIG_SND_CS46XX_NEW_DSP
+-	mutex_lock(&chip->spos_mutex);
+-	cpcm->pcm_channel = NULL; 
+-	cpcm->pcm_channel_id = pcm_channel_id;
+-
++	scoped_guard(mutex, &chip->spos_mutex) {
++		cpcm->pcm_channel = NULL;
++		cpcm->pcm_channel_id = pcm_channel_id;
++	}
+ 
+ 	snd_pcm_hw_constraint_list(runtime, 0,
+ 				   SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 
+ 				   &hw_constraints_period_sizes);
+-
+-	mutex_unlock(&chip->spos_mutex);
+ #else
+ 	chip->playback_pcm = cpcm; /* HACK */
+ #endif
+@@ -1541,9 +1524,9 @@ static int snd_cs46xx_playback_open_iec958(struct snd_pcm_substream *substream)
+ 
+ 	dev_dbg(chip->card->dev, "open raw iec958 channel\n");
+ 
+-	mutex_lock(&chip->spos_mutex);
+-	cs46xx_iec958_pre_open (chip);
+-	mutex_unlock(&chip->spos_mutex);
++	scoped_guard(mutex, &chip->spos_mutex) {
++		cs46xx_iec958_pre_open(chip);
++	}
+ 
+ 	return _cs46xx_playback_open_channel(substream,DSP_IEC958_CHANNEL);
+ }
+@@ -1559,9 +1542,9 @@ static int snd_cs46xx_playback_close_iec958(struct snd_pcm_substream *substream)
+ 
+ 	err = snd_cs46xx_playback_close(substream);
+ 
+-	mutex_lock(&chip->spos_mutex);
+-	cs46xx_iec958_post_close (chip);
+-	mutex_unlock(&chip->spos_mutex);
++	scoped_guard(mutex, &chip->spos_mutex) {
++		cs46xx_iec958_post_close(chip);
++	}
+ 
+ 	return err;
+ }
+@@ -1602,12 +1585,12 @@ static int snd_cs46xx_playback_close(struct snd_pcm_substream *substream)
+ 	if (!cpcm) return -ENXIO;
+ 
+ #ifdef CONFIG_SND_CS46XX_NEW_DSP
+-	mutex_lock(&chip->spos_mutex);
+-	if (cpcm->pcm_channel) {
+-		cs46xx_dsp_destroy_pcm_channel(chip,cpcm->pcm_channel);
+-		cpcm->pcm_channel = NULL;
++	scoped_guard(mutex, &chip->spos_mutex) {
++		if (cpcm->pcm_channel) {
++			cs46xx_dsp_destroy_pcm_channel(chip, cpcm->pcm_channel);
++			cpcm->pcm_channel = NULL;
 +		}
  	}
--	spin_unlock_irqrestore(&midi->input_lock, flags);
- 	if (!ok)
- 		pr_err("ca_midi_cmd: 0x%x failed at 0x%x (status = 0x%x, data = 0x%x)!!!\n",
- 			   cmd,
-@@ -108,83 +104,69 @@ static void ca_midi_cmd(struct snd_ca_midi *midi, unsigned char cmd, int ack)
- static int ca_midi_input_open(struct snd_rawmidi_substream *substream)
- {
- 	struct snd_ca_midi *midi = substream->rmidi->private_data;
--	unsigned long flags;
- 	
- 	if (snd_BUG_ON(!midi->dev_id))
- 		return -ENXIO;
--	spin_lock_irqsave(&midi->open_lock, flags);
--	midi->midi_mode |= CA_MIDI_MODE_INPUT;
--	midi->substream_input = substream;
--	if (!(midi->midi_mode & CA_MIDI_MODE_OUTPUT)) {
--		spin_unlock_irqrestore(&midi->open_lock, flags);
--		ca_midi_cmd(midi, midi->reset, 1);
--		ca_midi_cmd(midi, midi->enter_uart, 1);
--	} else {
--		spin_unlock_irqrestore(&midi->open_lock, flags);
-+	scoped_guard(spinlock_irqsave, &midi->open_lock) {
-+		midi->midi_mode |= CA_MIDI_MODE_INPUT;
-+		midi->substream_input = substream;
-+		if (midi->midi_mode & CA_MIDI_MODE_OUTPUT)
-+			return 0;
- 	}
-+	ca_midi_cmd(midi, midi->reset, 1);
-+	ca_midi_cmd(midi, midi->enter_uart, 1);
+-	mutex_unlock(&chip->spos_mutex);
+ #else
+ 	chip->playback_pcm = NULL;
+ #endif
+@@ -1982,15 +1965,15 @@ static int snd_cs46xx_iec958_put(struct snd_kcontrol *kcontrol,
+ 
+ 	switch (kcontrol->private_value) {
+ 	case CS46XX_MIXER_SPDIF_OUTPUT_ELEMENT:
+-		mutex_lock(&chip->spos_mutex);
+-		change = (chip->dsp_spos_instance->spdif_status_out & DSP_SPDIF_STATUS_OUTPUT_ENABLED);
+-		if (ucontrol->value.integer.value[0] && !change) 
+-			cs46xx_dsp_enable_spdif_out(chip);
+-		else if (change && !ucontrol->value.integer.value[0])
+-			cs46xx_dsp_disable_spdif_out(chip);
++		scoped_guard(mutex, &chip->spos_mutex) {
++			change = (chip->dsp_spos_instance->spdif_status_out & DSP_SPDIF_STATUS_OUTPUT_ENABLED);
++			if (ucontrol->value.integer.value[0] && !change)
++				cs46xx_dsp_enable_spdif_out(chip);
++			else if (change && !ucontrol->value.integer.value[0])
++				cs46xx_dsp_disable_spdif_out(chip);
+ 
+-		res = (change != (chip->dsp_spos_instance->spdif_status_out & DSP_SPDIF_STATUS_OUTPUT_ENABLED));
+-		mutex_unlock(&chip->spos_mutex);
++			res = (change != (chip->dsp_spos_instance->spdif_status_out & DSP_SPDIF_STATUS_OUTPUT_ENABLED));
++		}
+ 		break;
+ 	case CS46XX_MIXER_SPDIF_INPUT_ELEMENT:
+ 		change = chip->dsp_spos_instance->spdif_status_in;
+@@ -2131,12 +2114,11 @@ static int snd_cs46xx_spdif_default_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_cs46xx *chip = snd_kcontrol_chip(kcontrol);
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	ucontrol->value.iec958.status[0] = _wrap_all_bits((ins->spdif_csuv_default >> 24) & 0xff);
+ 	ucontrol->value.iec958.status[1] = _wrap_all_bits((ins->spdif_csuv_default >> 16) & 0xff);
+ 	ucontrol->value.iec958.status[2] = 0;
+ 	ucontrol->value.iec958.status[3] = _wrap_all_bits((ins->spdif_csuv_default) & 0xff);
+-	mutex_unlock(&chip->spos_mutex);
+ 
  	return 0;
  }
+@@ -2149,7 +2131,7 @@ static int snd_cs46xx_spdif_default_put(struct snd_kcontrol *kcontrol,
+ 	unsigned int val;
+ 	int change;
  
- static int ca_midi_output_open(struct snd_rawmidi_substream *substream)
- {
- 	struct snd_ca_midi *midi = substream->rmidi->private_data;
--	unsigned long flags;
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	val = ((unsigned int)_wrap_all_bits(ucontrol->value.iec958.status[0]) << 24) |
+ 		((unsigned int)_wrap_all_bits(ucontrol->value.iec958.status[2]) << 16) |
+ 		((unsigned int)_wrap_all_bits(ucontrol->value.iec958.status[3]))  |
+@@ -2163,8 +2145,6 @@ static int snd_cs46xx_spdif_default_put(struct snd_kcontrol *kcontrol,
+ 	if ( !(ins->spdif_status_out & DSP_SPDIF_STATUS_PLAYBACK_OPEN) )
+ 		cs46xx_poke_via_dsp (chip,SP_SPDOUT_CSUV,val);
  
- 	if (snd_BUG_ON(!midi->dev_id))
- 		return -ENXIO;
--	spin_lock_irqsave(&midi->open_lock, flags);
--	midi->midi_mode |= CA_MIDI_MODE_OUTPUT;
--	midi->substream_output = substream;
--	if (!(midi->midi_mode & CA_MIDI_MODE_INPUT)) {
--		spin_unlock_irqrestore(&midi->open_lock, flags);
--		ca_midi_cmd(midi, midi->reset, 1);
--		ca_midi_cmd(midi, midi->enter_uart, 1);
--	} else {
--		spin_unlock_irqrestore(&midi->open_lock, flags);
-+	scoped_guard(spinlock_irqsave, &midi->open_lock) {
-+		midi->midi_mode |= CA_MIDI_MODE_OUTPUT;
-+		midi->substream_output = substream;
-+		if (midi->midi_mode & CA_MIDI_MODE_INPUT)
-+			return 0;
- 	}
-+	ca_midi_cmd(midi, midi->reset, 1);
-+	ca_midi_cmd(midi, midi->enter_uart, 1);
- 	return 0;
- }
- 
- static int ca_midi_input_close(struct snd_rawmidi_substream *substream)
- {
- 	struct snd_ca_midi *midi = substream->rmidi->private_data;
--	unsigned long flags;
- 
- 	if (snd_BUG_ON(!midi->dev_id))
- 		return -ENXIO;
--	spin_lock_irqsave(&midi->open_lock, flags);
--	midi->interrupt_disable(midi,midi->rx_enable);
--	midi->midi_mode &= ~CA_MIDI_MODE_INPUT;
--	midi->substream_input = NULL;
--	if (!(midi->midi_mode & CA_MIDI_MODE_OUTPUT)) {
--		spin_unlock_irqrestore(&midi->open_lock, flags);
--		ca_midi_cmd(midi, midi->reset, 0);
--	} else {
--		spin_unlock_irqrestore(&midi->open_lock, flags);
-+	scoped_guard(spinlock_irqsave, &midi->open_lock) {
-+		midi->interrupt_disable(midi, midi->rx_enable);
-+		midi->midi_mode &= ~CA_MIDI_MODE_INPUT;
-+		midi->substream_input = NULL;
-+		if (midi->midi_mode & CA_MIDI_MODE_OUTPUT)
-+			return 0;
- 	}
-+	ca_midi_cmd(midi, midi->reset, 0);
- 	return 0;
- }
- 
- static int ca_midi_output_close(struct snd_rawmidi_substream *substream)
- {
- 	struct snd_ca_midi *midi = substream->rmidi->private_data;
--	unsigned long flags;
- 
- 	if (snd_BUG_ON(!midi->dev_id))
- 		return -ENXIO;
- 	
--	spin_lock_irqsave(&midi->open_lock, flags);
+-	mutex_unlock(&chip->spos_mutex);
 -
--	midi->interrupt_disable(midi,midi->tx_enable);
--	midi->midi_mode &= ~CA_MIDI_MODE_OUTPUT;
--	midi->substream_output = NULL;
--	
--	if (!(midi->midi_mode & CA_MIDI_MODE_INPUT)) {
--		spin_unlock_irqrestore(&midi->open_lock, flags);
--		ca_midi_cmd(midi, midi->reset, 0);
--	} else {
--		spin_unlock_irqrestore(&midi->open_lock, flags);
-+	scoped_guard(spinlock_irqsave, &midi->open_lock) {
-+		midi->interrupt_disable(midi, midi->tx_enable);
-+		midi->midi_mode &= ~CA_MIDI_MODE_OUTPUT;
-+		midi->substream_output = NULL;
-+		if (midi->midi_mode & CA_MIDI_MODE_INPUT)
-+			return 0;
- 	}
-+	ca_midi_cmd(midi, midi->reset, 0);
- 	return 0;
+ 	return change;
  }
  
-@@ -205,7 +187,6 @@ static void ca_midi_input_trigger(struct snd_rawmidi_substream *substream, int u
- static void ca_midi_output_trigger(struct snd_rawmidi_substream *substream, int up)
- {
- 	struct snd_ca_midi *midi = substream->rmidi->private_data;
--	unsigned long flags;
+@@ -2184,12 +2164,11 @@ static int snd_cs46xx_spdif_stream_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_cs46xx *chip = snd_kcontrol_chip(kcontrol);
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
  
- 	if (snd_BUG_ON(!midi->dev_id))
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	ucontrol->value.iec958.status[0] = _wrap_all_bits((ins->spdif_csuv_stream >> 24) & 0xff);
+ 	ucontrol->value.iec958.status[1] = _wrap_all_bits((ins->spdif_csuv_stream >> 16) & 0xff);
+ 	ucontrol->value.iec958.status[2] = 0;
+ 	ucontrol->value.iec958.status[3] = _wrap_all_bits((ins->spdif_csuv_stream) & 0xff);
+-	mutex_unlock(&chip->spos_mutex);
+ 
+ 	return 0;
+ }
+@@ -2202,7 +2181,7 @@ static int snd_cs46xx_spdif_stream_put(struct snd_kcontrol *kcontrol,
+ 	unsigned int val;
+ 	int change;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	val = ((unsigned int)_wrap_all_bits(ucontrol->value.iec958.status[0]) << 24) |
+ 		((unsigned int)_wrap_all_bits(ucontrol->value.iec958.status[1]) << 16) |
+ 		((unsigned int)_wrap_all_bits(ucontrol->value.iec958.status[3])) |
+@@ -2216,8 +2195,6 @@ static int snd_cs46xx_spdif_stream_put(struct snd_kcontrol *kcontrol,
+ 	if ( ins->spdif_status_out & DSP_SPDIF_STATUS_PLAYBACK_OPEN )
+ 		cs46xx_poke_via_dsp (chip,SP_SPDOUT_CSUV,val);
+ 
+-	mutex_unlock(&chip->spos_mutex);
+-
+ 	return change;
+ }
+ 
+diff --git a/sound/pci/cs46xx/dsp_spos.c b/sound/pci/cs46xx/dsp_spos.c
+index e07f85322f1c..a0f908bfe7fa 100644
+--- a/sound/pci/cs46xx/dsp_spos.c
++++ b/sound/pci/cs46xx/dsp_spos.c
+@@ -283,7 +283,7 @@ void  cs46xx_dsp_spos_destroy (struct snd_cs46xx * chip)
+ 	if (snd_BUG_ON(!ins))
  		return;
-@@ -214,25 +195,23 @@ static void ca_midi_output_trigger(struct snd_rawmidi_substream *substream, int
- 		int max = 4;
- 		unsigned char byte;
  
--		spin_lock_irqsave(&midi->output_lock, flags);
-+		scoped_guard(spinlock_irqsave, &midi->output_lock) {
- 	
--		/* try to send some amount of bytes here before interrupts */
--		while (max > 0) {
--			if (ca_midi_output_ready(midi)) {
--				if (!(midi->midi_mode & CA_MIDI_MODE_OUTPUT) ||
--				    snd_rawmidi_transmit(substream, &byte, 1) != 1) {
--					/* no more data */
--					spin_unlock_irqrestore(&midi->output_lock, flags);
--					return;
-+			/* try to send some amount of bytes here before interrupts */
-+			while (max > 0) {
-+				if (ca_midi_output_ready(midi)) {
-+					if (!(midi->midi_mode & CA_MIDI_MODE_OUTPUT) ||
-+					    snd_rawmidi_transmit(substream, &byte, 1) != 1) {
-+						/* no more data */
-+						return;
-+					}
-+					ca_midi_write_data(midi, byte);
-+					max--;
-+				} else {
-+					break;
- 				}
--				ca_midi_write_data(midi, byte);
--				max--;
--			} else {
--				break;
- 			}
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	for (i = 0; i < ins->nscb; ++i) {
+ 		if (ins->scbs[i].deleted) continue;
+ 
+@@ -297,7 +297,6 @@ void  cs46xx_dsp_spos_destroy (struct snd_cs46xx * chip)
+ 	vfree(ins->symbol_table.symbols);
+ 	kfree(ins->modules);
+ 	kfree(ins);
+-	mutex_unlock(&chip->spos_mutex);
+ }
+ 
+ static int dsp_load_parameter(struct snd_cs46xx *chip,
+@@ -525,7 +524,7 @@ static void cs46xx_dsp_proc_modules_read (struct snd_info_entry *entry,
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
+ 	int i,j;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	snd_iprintf(buffer, "MODULES:\n");
+ 	for ( i = 0; i < ins->nmodules; ++i ) {
+ 		snd_iprintf(buffer, "\n%s:\n", ins->modules[i].module_name);
+@@ -538,7 +537,6 @@ static void cs46xx_dsp_proc_modules_read (struct snd_info_entry *entry,
+ 				    desc->segment_type,desc->offset, desc->size);
  		}
--
--		spin_unlock_irqrestore(&midi->output_lock, flags);
- 		midi->interrupt_enable(midi,midi->tx_enable);
+ 	}
+-	mutex_unlock(&chip->spos_mutex);
+ }
  
- 	} else {
+ static void cs46xx_dsp_proc_task_tree_read (struct snd_info_entry *entry,
+@@ -549,7 +547,7 @@ static void cs46xx_dsp_proc_task_tree_read (struct snd_info_entry *entry,
+ 	int i, j, col;
+ 	void __iomem *dst = chip->region.idx[1].remap_addr + DSP_PARAMETER_BYTE_OFFSET;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	snd_iprintf(buffer, "TASK TREES:\n");
+ 	for ( i = 0; i < ins->ntask; ++i) {
+ 		snd_iprintf(buffer,"\n%04x %s:\n",ins->tasks[i].address,ins->tasks[i].task_name);
+@@ -566,7 +564,6 @@ static void cs46xx_dsp_proc_task_tree_read (struct snd_info_entry *entry,
+ 	}
+ 
+ 	snd_iprintf(buffer,"\n");  
+-	mutex_unlock(&chip->spos_mutex);
+ }
+ 
+ static void cs46xx_dsp_proc_scb_read (struct snd_info_entry *entry,
+@@ -576,7 +573,7 @@ static void cs46xx_dsp_proc_scb_read (struct snd_info_entry *entry,
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
+ 	int i;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	snd_iprintf(buffer, "SCB's:\n");
+ 	for ( i = 0; i < ins->nscb; ++i) {
+ 		if (ins->scbs[i].deleted)
+@@ -599,7 +596,6 @@ static void cs46xx_dsp_proc_scb_read (struct snd_info_entry *entry,
+ 	}
+ 
+ 	snd_iprintf(buffer,"\n");
+-	mutex_unlock(&chip->spos_mutex);
+ }
+ 
+ static void cs46xx_dsp_proc_parameter_dump_read (struct snd_info_entry *entry,
+@@ -831,14 +827,13 @@ int cs46xx_dsp_proc_init (struct snd_card *card, struct snd_cs46xx *chip)
+ 		snd_info_set_text_ops(entry, chip,
+ 				      cs46xx_dsp_proc_scb_read);
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	/* register/update SCB's entries on proc */
+ 	for (i = 0; i < ins->nscb; ++i) {
+ 		if (ins->scbs[i].deleted) continue;
+ 
+ 		cs46xx_dsp_proc_register_scb_desc (chip, (ins->scbs + i));
+ 	}
+-	mutex_unlock(&chip->spos_mutex);
+ 
+ 	return 0;
+ }
+@@ -851,12 +846,13 @@ int cs46xx_dsp_proc_done (struct snd_cs46xx *chip)
+ 	if (!ins)
+ 		return 0;
+ 
+-	mutex_lock(&chip->spos_mutex);
+-	for (i = 0; i < ins->nscb; ++i) {
+-		if (ins->scbs[i].deleted) continue;
+-		cs46xx_dsp_proc_free_scb_desc ( (ins->scbs + i) );
++	scoped_guard(mutex, &chip->spos_mutex) {
++		for (i = 0; i < ins->nscb; ++i) {
++			if (ins->scbs[i].deleted)
++				continue;
++			cs46xx_dsp_proc_free_scb_desc((ins->scbs + i));
++		}
+ 	}
+-	mutex_unlock(&chip->spos_mutex);
+ 
+ 	snd_info_free_entry(ins->proc_dsp_dir);
+ 	ins->proc_dsp_dir = NULL;
+@@ -1677,7 +1673,7 @@ int cs46xx_dsp_enable_spdif_in (struct snd_cs46xx *chip)
+ 	if (snd_BUG_ON(!ins->spdif_in_src))
+ 		return -EINVAL;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 
+ 	if ( ! (ins->spdif_status_out & DSP_SPDIF_STATUS_INPUT_CTRL_ENABLED) ) {
+ 		/* time countdown enable */
+@@ -1721,7 +1717,6 @@ int cs46xx_dsp_enable_spdif_in (struct snd_cs46xx *chip)
+ 
+ 	/* monitor state */
+ 	ins->spdif_status_in = 1;
+-	mutex_unlock(&chip->spos_mutex);
+ 
+ 	return 0;
+ }
+@@ -1735,17 +1730,16 @@ int cs46xx_dsp_disable_spdif_in (struct snd_cs46xx *chip)
+ 	if (snd_BUG_ON(!ins->spdif_in_src))
+ 		return -EINVAL;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	scoped_guard(mutex, &chip->spos_mutex) {
++		/* Remove the asynchronous receiver SCB */
++		cs46xx_dsp_remove_scb(chip, ins->asynch_rx_scb);
++		ins->asynch_rx_scb = NULL;
+ 
+-	/* Remove the asynchronous receiver SCB */
+-	cs46xx_dsp_remove_scb (chip,ins->asynch_rx_scb);
+-	ins->asynch_rx_scb = NULL;
++		cs46xx_src_unlink(chip, ins->spdif_in_src);
+ 
+-	cs46xx_src_unlink(chip,ins->spdif_in_src);
+-
+-	/* monitor state */
+-	ins->spdif_status_in = 0;
+-	mutex_unlock(&chip->spos_mutex);
++		/* monitor state */
++		ins->spdif_status_in = 0;
++	}
+ 
+ 	/* restore amplifier */
+ 	chip->active_ctrl(chip, -1);
+@@ -1763,10 +1757,9 @@ int cs46xx_dsp_enable_pcm_capture (struct snd_cs46xx *chip)
+ 	if (snd_BUG_ON(!ins->ref_snoop_scb))
+ 		return -EINVAL;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	ins->pcm_input = cs46xx_add_record_source(chip,ins->ref_snoop_scb,PCMSERIALIN_PCM_SCB_ADDR,
+                                                   "PCMSerialInput_Wave");
+-	mutex_unlock(&chip->spos_mutex);
+ 
+ 	return 0;
+ }
+@@ -1778,10 +1771,9 @@ int cs46xx_dsp_disable_pcm_capture (struct snd_cs46xx *chip)
+ 	if (snd_BUG_ON(!ins->pcm_input))
+ 		return -EINVAL;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	cs46xx_dsp_remove_scb (chip,ins->pcm_input);
+ 	ins->pcm_input = NULL;
+-	mutex_unlock(&chip->spos_mutex);
+ 
+ 	return 0;
+ }
+@@ -1795,10 +1787,9 @@ int cs46xx_dsp_enable_adc_capture (struct snd_cs46xx *chip)
+ 	if (snd_BUG_ON(!ins->codec_in_scb))
+ 		return -EINVAL;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	ins->adc_input = cs46xx_add_record_source(chip,ins->codec_in_scb,PCMSERIALIN_SCB_ADDR,
+ 						  "PCMSerialInput_ADC");
+-	mutex_unlock(&chip->spos_mutex);
+ 
+ 	return 0;
+ }
+@@ -1810,10 +1801,9 @@ int cs46xx_dsp_disable_adc_capture (struct snd_cs46xx *chip)
+ 	if (snd_BUG_ON(!ins->adc_input))
+ 		return -EINVAL;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	cs46xx_dsp_remove_scb (chip,ins->adc_input);
+ 	ins->adc_input = NULL;
+-	mutex_unlock(&chip->spos_mutex);
+ 
+ 	return 0;
+ }
+@@ -1861,7 +1851,7 @@ int cs46xx_dsp_set_dac_volume (struct snd_cs46xx * chip, u16 left, u16 right)
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
+ 	struct dsp_scb_descriptor * scb; 
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	
+ 	/* main output */
+ 	scb = ins->master_mix_scb->sub_list_ptr;
+@@ -1880,8 +1870,6 @@ int cs46xx_dsp_set_dac_volume (struct snd_cs46xx * chip, u16 left, u16 right)
+ 	ins->dac_volume_left = left;
+ 	ins->dac_volume_right = right;
+ 
+-	mutex_unlock(&chip->spos_mutex);
+-
+ 	return 0;
+ }
+ 
+@@ -1889,7 +1877,7 @@ int cs46xx_dsp_set_iec958_volume (struct snd_cs46xx * chip, u16 left, u16 right)
+ {
+ 	struct dsp_spos_instance * ins = chip->dsp_spos_instance;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 
+ 	if (ins->asynch_rx_scb != NULL)
+ 		cs46xx_dsp_scb_set_volume (chip,ins->asynch_rx_scb,
+@@ -1898,8 +1886,6 @@ int cs46xx_dsp_set_iec958_volume (struct snd_cs46xx * chip, u16 left, u16 right)
+ 	ins->spdif_input_volume_left = left;
+ 	ins->spdif_input_volume_right = right;
+ 
+-	mutex_unlock(&chip->spos_mutex);
+-
+ 	return 0;
+ }
+ 
+diff --git a/sound/pci/cs46xx/dsp_spos_scb_lib.c b/sound/pci/cs46xx/dsp_spos_scb_lib.c
+index 28faca268196..660ad19e5f18 100644
+--- a/sound/pci/cs46xx/dsp_spos_scb_lib.c
++++ b/sound/pci/cs46xx/dsp_spos_scb_lib.c
+@@ -63,7 +63,7 @@ static void cs46xx_dsp_proc_scb_info_read (struct snd_info_entry *entry,
+ 	int j,col;
+ 	void __iomem *dst = chip->region.idx[1].remap_addr + DSP_PARAMETER_BYTE_OFFSET;
+ 
+-	mutex_lock(&chip->spos_mutex);
++	guard(mutex)(&chip->spos_mutex);
+ 	snd_iprintf(buffer,"%04x %s:\n",scb->address,scb->scb_name);
+ 
+ 	for (col = 0,j = 0;j < 0x10; j++,col++) {
+@@ -91,7 +91,6 @@ static void cs46xx_dsp_proc_scb_info_read (struct snd_info_entry *entry,
+ 		    scb->task_entry->address);
+ 
+ 	snd_iprintf(buffer,"index [%d] ref_count [%d]\n",scb->index,scb->ref_count);  
+-	mutex_unlock(&chip->spos_mutex);
+ }
+ #endif
+ 
 -- 
 2.50.1
 
