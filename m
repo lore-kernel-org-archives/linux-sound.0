@@ -1,159 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from irl.hu (irl.hu [95.85.9.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8BC3314B5;
-	Fri, 29 Aug 2025 15:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888A032A3CC;
+	Fri, 29 Aug 2025 16:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756481821; cv=none; b=HFQK+i1BkoweWh+BDSVEZDu5TZac3GMoZgJUDHT/q+ExtXvmNvUuPT8nPjxV1gPgbwPFPTvhtYCA3LT5IbcgMPbCsSOhhWBsjK/MfCuqCajso5dwh0qgknDOYgNhZudyKj1TcQ05S6CauQXrCqSllT6u++ajsn1jo538d2o5DLk=
+	t=1756483573; cv=none; b=TkSfVcptulSPwpl3YXRyCgeKq8C77/7B1tF77W5EmD1Lc4JGjFi9RMYnquLtl2yhSdOQP8S0v3fn+JDLhdgGDRbetJurcmE3sRiZFSaeqDdWxmEGI9C/6JA1OP9pBPwBWGQ8PvRw2Lwax1r6+YSRN8ZG83ZZOYp8NAw8GUZfaLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756481821; c=relaxed/simple;
-	bh=Z0Bv7WaDdOXi4UMDM6ZgBS7CKcxMZ6kvuSO3nqYq5X8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tsIfPZa7mQzdBEr0SQkeuIybGgclalZa2TMbE3XaXUV70tsaXAjZZ0QnaymCyqt0KvlDCCwP/TShTmqFVpEeBu8C7VkMRbnFocgkvDBUWaB2fRNyHScrjbOxuMhy62lbhebt3XO5L19lEbhC7fg8CfBo0laeTWqUN5obMTgFhMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hxRjy6JU; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hxRjy6JU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61569C4CEFC;
-	Fri, 29 Aug 2025 15:37:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756481820;
-	bh=Z0Bv7WaDdOXi4UMDM6ZgBS7CKcxMZ6kvuSO3nqYq5X8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hxRjy6JU/oDw6RINsxcmGRsTVGeDOVIb4ykJmLCqUX+QQzeylWuLrDXAGu73hmOa8
-	 cXkBsFfxubx34foFYG+QHJojJeqb3QzXsHL83AkHDPdn/Qv4/IIR3e2qaYlaHVj7X8
-	 /ujZy8fCtuvOl+p3ABN9mW0y/L62IEPa3LIB45zqcEIJiII+iaRRjvCxcFZVIe4UIP
-	 kaEKsYFY6b00ExIR7mNyizMsT0mnem6gSXppPc1I0E+Yiwnl2Whyv7VtVp7zbfroC1
-	 buwbPy49vW/4gXiHEGPpC1YTGlyYCgxjAJ+Hb56S4jwabvggJ+9rHuCjN6QDMZMzu7
-	 EVcfRMiw+6syA==
-From: SeongJae Park <sj@kernel.org>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DAMON <damon@lists.linux.dev>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Power Management <linux-pm@vger.kernel.org>,
-	Linux Block Devices <linux-block@vger.kernel.org>,
-	Linux BPF <bpf@vger.kernel.org>,
-	Linux Kernel Workflows <workflows@vger.kernel.org>,
-	Linux KASAN <kasan-dev@googlegroups.com>,
-	Linux Devicetree <devicetree@vger.kernel.org>,
-	Linux fsverity <fsverity@lists.linux.dev>,
-	Linux MTD <linux-mtd@lists.infradead.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Build System <linux-lbuild@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux Sound <linux-sound@vger.kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Huang Rui <ray.huang@amd.com>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Joe Perches <joe@perches.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	tytso@mit.edu,
-	Richard Weinberger <richard@nod.at>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Waiman Long <longman@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Shay Agroskin <shayagr@amazon.com>,
-	Arthur Kiyanovski <akiyano@amazon.com>,
-	David Arinzon <darinzon@amazon.com>,
-	Saeed Bishara <saeedb@amazon.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Alexandru Ciobotaru <alcioa@amazon.com>,
-	The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Steve French <stfrench@microsoft.com>,
-	Meetakshi Setiya <msetiya@microsoft.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 02/14] Documentation: damon: reclaim: Convert "Free Page Reporting" citation link
-Date: Fri, 29 Aug 2025 08:36:58 -0700
-Message-Id: <20250829153658.69466-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250829075524.45635-3-bagasdotme@gmail.com>
-References: 
+	s=arc-20240116; t=1756483573; c=relaxed/simple;
+	bh=oG/RqtqKieHZimm7gXgRkzsfB19O/IOZeItoUrALDIM=;
+	h=From:To:Cc:Subject:Date:Message-ID:Mime-Version:Content-Type; b=FUzHxm+YbTfEptBwYi4PMbF5qlSZ0Iekd5N3+k8oIInRTvYimS0x5WlD6nohXDJXwZ+BjH/GYmW/7qvmMD+Fu5BjojzRySDIUh8O75U6LUCK3L2S/AaKfvHd9QOvWZ2ML084Dx5Vtr4e7Ry5omkWRD6NTJ+WmhZCRhQijFAJen0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b694d5.dsl.pool.telekom.hu [::ffff:81.182.148.213])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 0000000000088D58.0000000068B1CFEC.0023A913; Fri, 29 Aug 2025 18:06:04 +0200
+From: Gergo Koteles <soyer@irl.hu>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+  alsa-devel@alsa-project.org, Gergo Koteles <soyer@irl.hu>,
+  stable@vger.kernel.org
+Subject: [PATCH 1/2] ALSA: hda: tas2781: fix tas2563 EFI data endianness
+Date: Fri, 29 Aug 2025 18:04:49 +0200
+Message-ID: <20250829160450.66623-1-soyer@irl.hu>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mime-Autoconverted: from 8bit to 7bit by courier 1.0
 
-On Fri, 29 Aug 2025 14:55:12 +0700 Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+Before conversion to unify the calibration data management, the
+tas2563_apply_calib() function performed the big endian conversion and
+wrote the calibration data to the device. The writing is now done by the
+common tasdev_load_calibrated_data() function, but without conversion.
 
-> Use internal cross-reference for the citation link to Free Page
-> Reporting docs.
+Put the values into the calibration data buffer with the expected
+endianness.
 
-Thank you for fixing this!
+Fixes: 4fe238513407 ("ALSA: hda/tas2781: Move and unified the calibrated-data getting function for SPI and I2C into the tas2781_hda lib")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Gergo Koteles <soyer@irl.hu>
+---
+ sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+index e34b17f0c9b9..1eac751ab2a6 100644
+--- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
++++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+@@ -310,6 +310,7 @@ static int tas2563_save_calibration(struct tas2781_hda *h)
+ 	struct cali_reg *r = &cd->cali_reg_array;
+ 	unsigned int offset = 0;
+ 	unsigned char *data;
++	__be32 bedata;
+ 	efi_status_t status;
+ 	unsigned int attr;
+ 	int ret, i, j, k;
+@@ -351,6 +352,8 @@ static int tas2563_save_calibration(struct tas2781_hda *h)
+ 					i, j, status);
+ 				return -EINVAL;
+ 			}
++			bedata = cpu_to_be32(*(uint32_t *)&data[offset]);
++			memcpy(&data[offset], &bedata, sizeof(bedata));
+ 			offset += TAS2563_CAL_DATA_SIZE;
+ 		}
+ 	}
+-- 
+2.51.0
 
-Reviewed-by: SeongJae Park <sj@kernel.org>
-
-
-Thanks,
-SJ
-
-[...]
