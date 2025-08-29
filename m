@@ -1,246 +1,157 @@
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC503375DA
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 18:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D68224B09;
+	Fri, 29 Aug 2025 19:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756492718; cv=none; b=G9j3FB7IR9Arvbl7ACQ7nSbIBG4S/vmar0k4TIkNjI16lmO5OAGZPjrRVaepKoQxrFdOOXPrOwL9mqOhZY7HJL/DikdJ4UqkoGyCvIhx9dMMmbe2+3KGaa9zUn8ZRi/l38FdW45h7iCOhTQeQ9e2KvSbzK5Z2703JdGUtaN522s=
+	t=1756497084; cv=none; b=I4P70kSM/UbuEPJGCwvWVZTRmf7sNrLXJa/F0QKIaAhPuiG8DubsD/C9agQ3S+ZRu+yJ3Huj+5I2d3HUrLvpOnNfkEl9Z3BhMCURd09D66U5iIbaxtPsXX++qmGBNnpqn3gqIcqfc2bI6zRIxTBrUEsWUcAdKhZ13ZtkbGQ2R54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756492718; c=relaxed/simple;
-	bh=OfUB/67JDHrbHFb22OnUeyYH/uNgHdYyRgex7vcvqdo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=FExqNxWPAERdsV2sRS/XmJ3fZVWEUnfDcxTg2GFd7Z1lvA6Ag3xhdB4lAvJsZPOEMmoqmwOomYqkvsdrjtv8vZiT2lmlvi0gzJZaHEHM/N+5ZYiskJsrOyxTyKX2tYe4keymGbfB2UiO6c05Zq9MC+hZo/bqzF203zalAUJZXQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3f34562d2c6so6996955ab.0
-        for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 11:38:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756492716; x=1757097516;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QHBiohU/IfnNy2/jJyGGyYEu33yWuNinuwBomxj9yEQ=;
-        b=ZSn6RaRJKzQhdDtNAIrU084wNnVHZ+PXOXBA2OduyTAFp3qW6nLEY9/GcBO7YaqJ0g
-         +y5lv3YweRTmPiqRvX/DM0Xa49hM2f8hLLDfghrRU5TMvmDwzWBkeNgjoFGrLlSprF6M
-         t3fZHlxlK5Qkeli7OlsW1iXWi1gvYqjgVVX0KNt1+b5nvzJM3UhBFhPp87SgEHShnADL
-         uYvwTCZQAhSzWvUOx0DnnPGwXq5qPgEycV5RMkVVLCiNCiYFym5lAJVsoMIR1Bsy/kQI
-         QY/llJ8jqoXlJ9br4g294uGqamX3IGcdgp2pXgkSP4olmgcyKpFEJt2C9MK6i2uwj1wh
-         XOag==
-X-Forwarded-Encrypted: i=1; AJvYcCWEqxgjz7WikSemh2znB6eHZEnAui0a4hNGptSfjpgpdBB8LoxDKV6pYlkj8J7p+kHj4zwhhkZ3gHp0rw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1AD8uzo/0rYakJK7W9uN04kEcQwyEfXzjA8RQbwvCpnjRiJMm
-	YKTCvlMdlxsLnzsbarX/JNRBuPuPnK3dLGy2SEz/v/T4x7Z57GZZ/Hgjw4pnGbKltaAoiTynL1O
-	6iLNbDSCgux/QzhrxLY/SbjOYreEBiD9y6MsPkNaFA+wRJChnw8xs0nllzF4=
-X-Google-Smtp-Source: AGHT+IFGv+wpZE1GHk3unJetyIUwzS3tvVpwcmglg5i9LgXXoOGGyIx73gWWeXKx+Mv25meuzgRc0/Fwv9KBRvV2VvFPq9ztgYxx
+	s=arc-20240116; t=1756497084; c=relaxed/simple;
+	bh=iE1fOPe+H/DOT9l+qqw7zhT3aTQ0dSMmo1kdS8d+f20=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FVoFiEY1/cOidwb5l7UbAnM/1QTc+m0Y7YN/xOXHOdRctYzwsNfS7hnUsAKBHvkXvCYayeo7cea5hHIWUJXK3zcXvhmP3Sr9eTLPQ7u1OIVF83kOvmXuo+mBEaRN2g12kJkIXRIGdCzrY1zXvXEkhf15h9XTeQQE+5677mu/DNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uPYEnPUU; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uPYEnPUU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 346BBC4CEF0;
+	Fri, 29 Aug 2025 19:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756497082;
+	bh=iE1fOPe+H/DOT9l+qqw7zhT3aTQ0dSMmo1kdS8d+f20=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uPYEnPUUg4/LuQVFtqhOOS0tGS/0OVJpM+KchdKwqnpfkH0/J3whjo1E0NBxW4gpi
+	 uJDXfPT2+7W9SvWuvKxITtr+9wgDa0PLPjlOlPveFqy+zGxeJXRW3bmLtv6e6tXZkm
+	 Lt0jKmNEbrsoJG57fd3KAzrHhMHII+VJCvAN8o9yIncXsE2LjVvdVRlbplw8VmHBsq
+	 nEieoqr4Hd58x1XnW+1xWPl9IbBCsaBFlrOtBOQRsS5iKDBvoMcj7GYIAOBvWu/48K
+	 9ZUoI9CDe2TXQXinfy+0J0W3S8zuoPtSs1TE+Ci/Y2CLPC2Ymd1DL36wGlg46kmRHz
+	 JZChNYlMpZoRQ==
+Date: Fri, 29 Aug 2025 14:51:19 -0500
+From: Rob Herring <robh@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+Message-ID: <20250829195119.GA1206685-robh@kernel.org>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:23c3:b0:3f3:1321:1ed5 with SMTP id
- e9e14a558f8ab-3f3d15af642mr4662815ab.0.1756492715908; Fri, 29 Aug 2025
- 11:38:35 -0700 (PDT)
-Date: Fri, 29 Aug 2025 11:38:35 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68b1f3ab.a70a0220.f8cc2.00f0.GAE@google.com>
-Subject: [syzbot] [sound?] possible deadlock in __snd_pcm_lib_xfer (2)
-From: syzbot <syzbot+10b4363fb0f46527f3f3@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
 
-Hello,
+On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
+> This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> follow design of the t600x family so copy the structure of SoC *.dtsi
+> files.
+> 
+> t6020 is a cut-down version of t6021, so the former just includes the
+> latter and disables the missing bits.
+> 
+> t6022 is two connected t6021 dies. The implementation seems to use
+> t6021 and disables blocks based on whether it is useful to carry
+> multiple instances. The disabled blocks are mostly on the second die.
+> MMIO addresses on the second die have a constant offset. The interrupt
+> controller is multi-die aware. This setup can be represented in the
+> device tree with two top level "soc" nodes. The MMIO offset is applied
+> via "ranges" and devices are included with preprocessor macros to make
+> the node labels unique and to specify the die number for the interrupt
+> definition.
+> 
+> The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
+> counterparts. The existing device templates are SoC agnostic so the new
+> devices can reuse them and include their t602{0,1,2}.dtsi file. The
+> minor differences in pinctrl and gpio numbers can be easily adjusted.
+> 
+> With the t602x SoC family Apple introduced two new devices:
+> 
+> The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
+> missing SDHCI card reader and two front USB3.1 type-c ports and their
+> internal USB hub can be easily deleted.
+> 
+> The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
+> devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
+> implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
+> calls the PCIe controller "apcie-ge" in their device tree. The
+> implementation seems to be mostly compatible with the base t6020 PCIe
+> controller. The main difference is that there is only a single port with
+> with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
+> Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
+> and PCIe slots connect too.
+> 
+> This series does not include PCIe support for the Mac Pro for two
+> reasons:
+> - the linux switchtec driver fails to probe and the downstream PCIe
+>   connections come up as PCIe Gen1
+> - some of the internal devices require PERST# and power control to come
+>   up. Since the device are connected via the PCIe switch the PCIe
+>   controller can not do this. The PCI slot pwrctrl can be utilized for
+>   power control but misses integration with PERST# as proposed in [1].
+> 
+> This series depends on "[PATCH v2 0/5] Apple device tree sync from
+> downstream kernel" [2] due to the reuse of the t600x device templates
+> (patch dependencies and DT compilation) and 4 page table level support
+> in apple-dart and io-pgtable-dart [3] since the dart instances report
+> 42-bit IAS (IOMMU device attach fails without the series).
+> 
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatibles anymore [1]. Instead either the first
+> compatible SoC or t8103 is used as fallback compatible supported by the
+> drivers. t8103 is used as default since most drivers and bindings were
+> initially written for M1 based devices.
 
-syzbot found the following issue on:
+An issue here is any OS without the compatibles added to the drivers 
+won't work. Does that matter here? Soon as you need any new drivers or 
+significant driver changes it won't. The compatible additions could be 
+backported to stable. They aren't really any different than new PCI IDs 
+which get backported.
 
-HEAD commit:    07d9df80082b Merge tag 'perf-tools-fixes-for-v6.17-2025-08..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17333fbc580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e1e1566c7726877e
-dashboard link: https://syzkaller.appspot.com/bug?extid=10b4363fb0f46527f3f3
-compiler:       Debian clang version 20.1.7 (++20250616065708+6146a88f6049-1~exp1~20250616065826.132), Debian LLD 20.1.7
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=160e9262580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17ed0242580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/cdf0bbb7922b/disk-07d9df80.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d1975bf771ed/vmlinux-07d9df80.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/942416e1bedd/bzImage-07d9df80.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+10b4363fb0f46527f3f3@syzkaller.appspotmail.com
-
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz.0.48/6160 is trying to acquire lock:
-ffff8880b8923d90 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:44 [inline]
-ffff8880b8923d90 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: __local_bh_disable_ip+0x264/0x400 kernel/softirq.c:168
-
-but task is already holding lock:
-ffff88802f930150 (&group->lock#2){+.+.}-{3:3}, at: __snd_pcm_lib_xfer+0x386/0x1ce0 sound/core/pcm_lib.c:2319
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #2 (&group->lock#2){+.+.}-{3:3}:
-       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-       rt_spin_lock+0x88/0x2c0 kernel/locking/spinlock_rt.c:56
-       spin_lock include/linux/spinlock_rt.h:44 [inline]
-       _snd_pcm_stream_lock_irqsave+0x7c/0xa0 sound/core/pcm_native.c:171
-       class_pcm_stream_lock_irqsave_constructor include/sound/pcm.h:682 [inline]
-       snd_pcm_period_elapsed+0x1e/0x80 sound/core/pcm_lib.c:1938
-       dummy_hrtimer_callback+0x80/0x180 sound/drivers/dummy.c:386
-       __run_hrtimer kernel/time/hrtimer.c:1761 [inline]
-       __hrtimer_run_queues+0x54f/0xd40 kernel/time/hrtimer.c:1825
-       hrtimer_run_softirq+0x1a3/0x2e0 kernel/time/hrtimer.c:1842
-       handle_softirqs+0x22c/0x710 kernel/softirq.c:579
-       __do_softirq kernel/softirq.c:613 [inline]
-       run_ktimerd+0xcf/0x190 kernel/softirq.c:1043
-       smpboot_thread_fn+0x542/0xa60 kernel/smpboot.c:160
-       kthread+0x711/0x8a0 kernel/kthread.c:463
-       ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #1 (&base->softirq_expiry_lock){+...}-{3:3}:
-       lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
-       rt_spin_lock+0x88/0x2c0 kernel/locking/spinlock_rt.c:56
-       spin_lock include/linux/spinlock_rt.h:44 [inline]
-       hrtimer_cpu_base_lock_expiry kernel/time/hrtimer.c:1383 [inline]
-       hrtimer_run_softirq+0x7c/0x2e0 kernel/time/hrtimer.c:1838
-       handle_softirqs+0x22c/0x710 kernel/softirq.c:579
-       __do_softirq kernel/softirq.c:613 [inline]
-       run_ktimerd+0xcf/0x190 kernel/softirq.c:1043
-       smpboot_thread_fn+0x542/0xa60 kernel/smpboot.c:160
-       kthread+0x711/0x8a0 kernel/kthread.c:463
-       ret_from_fork+0x3fc/0x770 arch/x86/kernel/process.c:148
-       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
--> #0 ((softirq_ctrl.lock)){+.+.}-{3:3}:
-       check_prev_add kernel/locking/lockdep.c:3165 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain+0xb9b/0x2140 kernel/locking/lockdep.c:3908
-       __lock_acquire+0xab9/0xd20 kernel/locking/lockdep.c:5237
-       reacquire_held_locks+0x127/0x1d0 kernel/locking/lockdep.c:5385
-       __lock_release kernel/locking/lockdep.c:5574 [inline]
-       lock_release+0x1b4/0x3e0 kernel/locking/lockdep.c:5889
-       __local_bh_enable_ip+0x10c/0x270 kernel/softirq.c:228
-       hrtimer_cancel+0x39/0x60 kernel/time/hrtimer.c:1491
-       dummy_hrtimer_stop+0xcf/0x100 sound/drivers/dummy.c:410
-       snd_pcm_do_stop+0x12a/0x1c0 sound/core/pcm_native.c:1525
-       snd_pcm_action_single sound/core/pcm_native.c:1305 [inline]
-       snd_pcm_action+0xe4/0x240 sound/core/pcm_native.c:1388
-       __snd_pcm_xrun+0x27f/0x7c0 sound/core/pcm_lib.c:180
-       snd_pcm_update_state+0x342/0x430 sound/core/pcm_lib.c:224
-       snd_pcm_update_hw_ptr0+0x10b2/0x1b00 sound/core/pcm_lib.c:493
-       snd_pcm_update_hw_ptr sound/core/pcm_lib.c:499 [inline]
-       __snd_pcm_lib_xfer+0x510/0x1ce0 sound/core/pcm_lib.c:2326
-       snd_pcm_oss_write3+0x1bc/0x320 sound/core/oss/pcm_oss.c:1241
-       snd_pcm_plug_write_transfer+0x2cb/0x4c0 sound/core/oss/pcm_plugin.c:630
-       snd_pcm_oss_write2 sound/core/oss/pcm_oss.c:1373 [inline]
-       snd_pcm_oss_write1 sound/core/oss/pcm_oss.c:1439 [inline]
-       snd_pcm_oss_write+0xba2/0x11a0 sound/core/oss/pcm_oss.c:2795
-       vfs_write+0x284/0xb40 fs/read_write.c:684
-       ksys_write+0x14b/0x260 fs/read_write.c:738
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  (softirq_ctrl.lock) --> &base->softirq_expiry_lock --> &group->lock#2
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&group->lock#2);
-                               lock(&base->softirq_expiry_lock);
-                               lock(&group->lock#2);
-  lock((softirq_ctrl.lock));
-
- *** DEADLOCK ***
-
-2 locks held by syz.0.48/6160:
- #0: ffff88802f930150 (&group->lock#2){+.+.}-{3:3}, at: __snd_pcm_lib_xfer+0x386/0x1ce0 sound/core/pcm_lib.c:2319
- #1: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
- #1: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:841 [inline]
- #1: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
- #1: ffffffff8d9a8b80 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1bb/0x2c0 kernel/locking/spinlock_rt.c:57
-
-stack backtrace:
-CPU: 1 UID: 0 PID: 6160 Comm: syz.0.48 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/12/2025
-Call Trace:
- <TASK>
- dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
- print_circular_bug+0x2ee/0x310 kernel/locking/lockdep.c:2043
- check_noncircular+0x134/0x160 kernel/locking/lockdep.c:2175
- check_prev_add kernel/locking/lockdep.c:3165 [inline]
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain+0xb9b/0x2140 kernel/locking/lockdep.c:3908
- __lock_acquire+0xab9/0xd20 kernel/locking/lockdep.c:5237
- reacquire_held_locks+0x127/0x1d0 kernel/locking/lockdep.c:5385
- __lock_release kernel/locking/lockdep.c:5574 [inline]
- lock_release+0x1b4/0x3e0 kernel/locking/lockdep.c:5889
- __local_bh_enable_ip+0x10c/0x270 kernel/softirq.c:228
- hrtimer_cancel+0x39/0x60 kernel/time/hrtimer.c:1491
- dummy_hrtimer_stop+0xcf/0x100 sound/drivers/dummy.c:410
- snd_pcm_do_stop+0x12a/0x1c0 sound/core/pcm_native.c:1525
- snd_pcm_action_single sound/core/pcm_native.c:1305 [inline]
- snd_pcm_action+0xe4/0x240 sound/core/pcm_native.c:1388
- __snd_pcm_xrun+0x27f/0x7c0 sound/core/pcm_lib.c:180
- snd_pcm_update_state+0x342/0x430 sound/core/pcm_lib.c:224
- snd_pcm_update_hw_ptr0+0x10b2/0x1b00 sound/core/pcm_lib.c:493
- snd_pcm_update_hw_ptr sound/core/pcm_lib.c:499 [inline]
- __snd_pcm_lib_xfer+0x510/0x1ce0 sound/core/pcm_lib.c:2326
- snd_pcm_oss_write3+0x1bc/0x320 sound/core/oss/pcm_oss.c:1241
- snd_pcm_plug_write_transfer+0x2cb/0x4c0 sound/core/oss/pcm_plugin.c:630
- snd_pcm_oss_write2 sound/core/oss/pcm_oss.c:1373 [inline]
- snd_pcm_oss_write1 sound/core/oss/pcm_oss.c:1439 [inline]
- snd_pcm_oss_write+0xba2/0x11a0 sound/core/oss/pcm_oss.c:2795
- vfs_write+0x284/0xb40 fs/read_write.c:684
- ksys_write+0x14b/0x260 fs/read_write.c:738
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f0e7a70ebe9
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe73a3cd48 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f0e7a935fa0 RCX: 00007f0e7a70ebe9
-RDX: 000000000000fc36 RSI: 0000200000000500 RDI: 0000000000000003
-RBP: 00007f0e7a791e19 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f0e7a935fa0 R14: 00007f0e7a935fa0 R15: 0000000000000003
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Rob
