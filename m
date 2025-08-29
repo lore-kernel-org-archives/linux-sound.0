@@ -1,83 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87577322750
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9C2322DB2
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478670; cv=none; b=oLIlSuY0bXOm9kzg1BZfZixBbfe96NsqIbpx788JPOaeVIh0Dtc4GYy1VZC+wyfhLLNz4vrwuBFAnlX6vHyKqXCrKY7j4Pl7SHGlmA/0ccJgvdpldpVZduO8m8jPXv3OzvofF9BPwXqAtDkSX8hbFxcWWKgj6UX1K5nsDN0Y7TU=
+	t=1756478674; cv=none; b=hlje0kxHWicfl3WHYD3uDqtXo9eO3/JAQ851rnv+yERcYrPhGJdXJnxLYOQdr+mMAkEJlHa9EEeyIIft/4CWYsM/uFdY7fF13zZ7a5wTFSIGq07fsQqycYzSMOOkfmDRxicN0KKi0AdnRcVN6xRX+e3e71kMKvzsch+9zf/adJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478670; c=relaxed/simple;
-	bh=7iKMRdWrftFa/aQK87927LOGi3EsdEg0zQqhBHWHSG8=;
+	s=arc-20240116; t=1756478674; c=relaxed/simple;
+	bh=75BKzJ/6wZLCGEqSr0T0FXFtrx1tbYTbFESXOrifHEQ=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ttjt/+LslrmcpWPxjCYBl0iimaLu6jBXocVCCjHKfJU+J0ppFS1Sdltjbwg2s/yrWbrG/M/tM68jsDrHP4nzPs/TISpqhm7D3e0kpmDsBEtQFg5tChjT0BA6xfK/auYhz5qOgk7uqAMBhWSeLjwHL2qYL/AV9tnuAmvN2/aIswg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TuxMd240; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AaxJdNFv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TuxMd240; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AaxJdNFv; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=nniiR6xymG+kq/hlCKTxa0p6mc/v3p8Svmr+ZyKjmk4fNr5w/T6kmTlFqrGY6YL2PuJntwnBuT7ZARlZuMb3Sp1cp0aOG1A11GszjDAab2arlzb53KNQxnRXf6uH+sg8TrZyQ/DGFztvJ8MIIbcZh2jBtfajQwcPDPU9L/ouydc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=StiisKq9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=f6uY0WGz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=StiisKq9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=f6uY0WGz; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TuxMd240";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AaxJdNFv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TuxMd240";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AaxJdNFv"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="StiisKq9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="f6uY0WGz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="StiisKq9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="f6uY0WGz"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DDD9B5C092;
-	Fri, 29 Aug 2025 14:43:54 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4476133EC8;
+	Fri, 29 Aug 2025 14:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZjJK+tmZdQs/t4gRn/hwKyi7Sd3zbDIyfT1fos3m9Xo=;
-	b=TuxMd240RXRhGJfnAUw3jl9ck0K9vBRvvZHbHiHczOZYwUiTFVuQFs6grqYBO1PfCXbWSW
-	w6D227NJmaX7O02FNSINX3BhQVtH0r1RGmQCOTtqj62r/qZHlARXb0VJ7paSwEc+uVnGfU
-	/+QkWR9h2ikXv15vb0RJaya7++MIXY4=
+	bh=S4qobfZrC+bfCZXaDDo2wyvubnI7NT8aZ8UVWyOR/Qo=;
+	b=StiisKq95W9CB4/raZCTj5SbqJxFlpkkm7GsAn/Ga07SoN5X70Tz6vQ3u8Ou7O9jZuRwn1
+	rARRS8GNE0zdB1GO4YUhXP5wErvW41HU5wcf4CHIOCAv0fLjyOGkFjaghhMNcvKj9M/OsS
+	ljBeT6whwCUTm3D+bWjraM5F7euT/wM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478634;
+	s=susede2_ed25519; t=1756478635;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZjJK+tmZdQs/t4gRn/hwKyi7Sd3zbDIyfT1fos3m9Xo=;
-	b=AaxJdNFvWHxOq3lvz5phmpc4VE7yeAcd/5SmBRaORfY1eX0rqlAJWeBpH20mZESQevIcu0
-	z0mQOXp1zuGb1hAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=S4qobfZrC+bfCZXaDDo2wyvubnI7NT8aZ8UVWyOR/Qo=;
+	b=f6uY0WGzCQ9k3o+9TXP24A+XIl1qaFnYQ0fl+D1LCYUVbu+iWHyilG+UK6TWNS7216tOqt
+	fErDU6Rl7daKyXCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=StiisKq9;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=f6uY0WGz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZjJK+tmZdQs/t4gRn/hwKyi7Sd3zbDIyfT1fos3m9Xo=;
-	b=TuxMd240RXRhGJfnAUw3jl9ck0K9vBRvvZHbHiHczOZYwUiTFVuQFs6grqYBO1PfCXbWSW
-	w6D227NJmaX7O02FNSINX3BhQVtH0r1RGmQCOTtqj62r/qZHlARXb0VJ7paSwEc+uVnGfU
-	/+QkWR9h2ikXv15vb0RJaya7++MIXY4=
+	bh=S4qobfZrC+bfCZXaDDo2wyvubnI7NT8aZ8UVWyOR/Qo=;
+	b=StiisKq95W9CB4/raZCTj5SbqJxFlpkkm7GsAn/Ga07SoN5X70Tz6vQ3u8Ou7O9jZuRwn1
+	rARRS8GNE0zdB1GO4YUhXP5wErvW41HU5wcf4CHIOCAv0fLjyOGkFjaghhMNcvKj9M/OsS
+	ljBeT6whwCUTm3D+bWjraM5F7euT/wM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478634;
+	s=susede2_ed25519; t=1756478635;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZjJK+tmZdQs/t4gRn/hwKyi7Sd3zbDIyfT1fos3m9Xo=;
-	b=AaxJdNFvWHxOq3lvz5phmpc4VE7yeAcd/5SmBRaORfY1eX0rqlAJWeBpH20mZESQevIcu0
-	z0mQOXp1zuGb1hAw==
+	bh=S4qobfZrC+bfCZXaDDo2wyvubnI7NT8aZ8UVWyOR/Qo=;
+	b=f6uY0WGzCQ9k3o+9TXP24A+XIl1qaFnYQ0fl+D1LCYUVbu+iWHyilG+UK6TWNS7216tOqt
+	fErDU6Rl7daKyXCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C557513A3E;
-	Fri, 29 Aug 2025 14:43:54 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B89C13A3E;
+	Fri, 29 Aug 2025 14:43:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6NcQL6q8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:54 +0000
+	id OFVaCau8sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:55 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 11/61] ALSA: atiixp: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:42:46 +0200
-Message-ID: <20250829144342.4290-12-tiwai@suse.de>
+Subject: [PATCH 12/61] ALSA: aw2: Use guard() for mutex locks
+Date: Fri, 29 Aug 2025 16:42:47 +0200
+Message-ID: <20250829144342.4290-13-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -89,269 +90,86 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 4476133EC8
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
 	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 
-Clean up the code using guard() for spin locks.
+Replace the manual mutex lock/unlock pairs with guard() for code
+simplification.
 
-Merely code refactoring, and no behavior change.
+Only code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/atiixp.c       | 38 ++++++++++++++++----------------------
- sound/pci/atiixp_modem.c | 32 ++++++++++++++------------------
- 2 files changed, 30 insertions(+), 40 deletions(-)
+ sound/pci/aw2/aw2-alsa.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/sound/pci/atiixp.c b/sound/pci/atiixp.c
-index 38c07f3de850..2a0c59d5afa5 100644
---- a/sound/pci/atiixp.c
-+++ b/sound/pci/atiixp.c
-@@ -345,7 +345,6 @@ static int atiixp_build_dma_packets(struct atiixp *chip, struct atiixp_dma *dma,
- {
- 	unsigned int i;
- 	u32 addr, desc_addr;
--	unsigned long flags;
+diff --git a/sound/pci/aw2/aw2-alsa.c b/sound/pci/aw2/aw2-alsa.c
+index 1d7aab14579e..bf9b3c84f554 100644
+--- a/sound/pci/aw2/aw2-alsa.c
++++ b/sound/pci/aw2/aw2-alsa.c
+@@ -347,7 +347,7 @@ static int snd_aw2_pcm_prepare_playback(struct snd_pcm_substream *substream)
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	unsigned long period_size, buffer_size;
  
- 	if (periods > ATI_MAX_DESCRIPTORS)
- 		return -ENOMEM;
-@@ -363,11 +362,11 @@ static int atiixp_build_dma_packets(struct atiixp *chip, struct atiixp_dma *dma,
- 		return 0;
+-	mutex_lock(&chip->mtx);
++	guard(mutex)(&chip->mtx);
  
- 	/* reset DMA before changing the descriptor table */
--	spin_lock_irqsave(&chip->reg_lock, flags);
--	writel(0, chip->remap_addr + dma->ops->llp_offset);
--	dma->ops->enable_dma(chip, 0);
--	dma->ops->enable_dma(chip, 1);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
-+	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
-+		writel(0, chip->remap_addr + dma->ops->llp_offset);
-+		dma->ops->enable_dma(chip, 0);
-+		dma->ops->enable_dma(chip, 1);
-+	}
+ 	period_size = snd_pcm_lib_period_bytes(substream);
+ 	buffer_size = snd_pcm_lib_buffer_bytes(substream);
+@@ -363,8 +363,6 @@ static int snd_aw2_pcm_prepare_playback(struct snd_pcm_substream *substream)
+ 						    snd_pcm_period_elapsed,
+ 						    (void *)substream);
  
- 	/* fill the entries */
- 	addr = (u32)substream->runtime->dma_addr;
-@@ -711,7 +710,7 @@ static int snd_atiixp_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 		       !dma->ops->flush_dma))
- 		return -EINVAL;
- 
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-@@ -745,7 +744,6 @@ static int snd_atiixp_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 			snd_atiixp_check_bus_busy(chip);
- 		}
- 	}
--	spin_unlock(&chip->reg_lock);
- 	return err;
- }
- 
-@@ -859,7 +857,7 @@ static int snd_atiixp_spdif_prepare(struct snd_pcm_substream *substream)
- {
- 	struct atiixp *chip = snd_pcm_substream_chip(substream);
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	if (chip->spdif_over_aclink) {
- 		unsigned int data;
- 		/* enable slots 10/11 */
-@@ -877,7 +875,6 @@ static int snd_atiixp_spdif_prepare(struct snd_pcm_substream *substream)
- 		atiixp_update(chip, CMD, ATI_REG_CMD_SPDF_CONFIG_MASK, 0);
- 		atiixp_update(chip, CMD, ATI_REG_CMD_INTERLEAVE_SPDF, 0);
- 	}
--	spin_unlock_irq(&chip->reg_lock);
+-	mutex_unlock(&chip->mtx);
+-
  	return 0;
  }
  
-@@ -887,7 +884,7 @@ static int snd_atiixp_playback_prepare(struct snd_pcm_substream *substream)
- 	struct atiixp *chip = snd_pcm_substream_chip(substream);
- 	unsigned int data;
+@@ -376,7 +374,7 @@ static int snd_aw2_pcm_prepare_capture(struct snd_pcm_substream *substream)
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	unsigned long period_size, buffer_size;
  
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	data = atiixp_read(chip, OUT_DMA_SLOT) & ~ATI_REG_OUT_DMA_SLOT_MASK;
- 	switch (substream->runtime->channels) {
- 	case 8:
-@@ -922,7 +919,6 @@ static int snd_atiixp_playback_prepare(struct snd_pcm_substream *substream)
- 	atiixp_update(chip, 6CH_REORDER, ATI_REG_6CH_REORDER_EN,
- 		      substream->runtime->channels >= 6 ? ATI_REG_6CH_REORDER_EN: 0);
-     
--	spin_unlock_irq(&chip->reg_lock);
+-	mutex_lock(&chip->mtx);
++	guard(mutex)(&chip->mtx);
+ 
+ 	period_size = snd_pcm_lib_period_bytes(substream);
+ 	buffer_size = snd_pcm_lib_buffer_bytes(substream);
+@@ -392,8 +390,6 @@ static int snd_aw2_pcm_prepare_capture(struct snd_pcm_substream *substream)
+ 						   snd_pcm_period_elapsed,
+ 						   (void *)substream);
+ 
+-	mutex_unlock(&chip->mtx);
+-
  	return 0;
  }
  
-@@ -931,11 +927,10 @@ static int snd_atiixp_capture_prepare(struct snd_pcm_substream *substream)
- {
- 	struct atiixp *chip = snd_pcm_substream_chip(substream);
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	atiixp_update(chip, CMD, ATI_REG_CMD_INTERLEAVE_IN,
- 		      substream->runtime->format == SNDRV_PCM_FORMAT_S16_LE ?
- 		      ATI_REG_CMD_INTERLEAVE_IN : 0);
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -1043,9 +1038,9 @@ static int snd_atiixp_pcm_open(struct snd_pcm_substream *substream,
- 	runtime->private_data = dma;
- 
- 	/* enable DMA bits */
--	spin_lock_irq(&chip->reg_lock);
--	dma->ops->enable_dma(chip, 1);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		dma->ops->enable_dma(chip, 1);
-+	}
- 	dma->opened = 1;
- 
- 	return 0;
-@@ -1058,9 +1053,9 @@ static int snd_atiixp_pcm_close(struct snd_pcm_substream *substream,
- 	/* disable DMA bits */
- 	if (snd_BUG_ON(!dma->ops || !dma->ops->enable_dma))
- 		return -EINVAL;
--	spin_lock_irq(&chip->reg_lock);
--	dma->ops->enable_dma(chip, 0);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		dma->ops->enable_dma(chip, 0);
-+	}
- 	dma->substream = NULL;
- 	dma->opened = 0;
- 	return 0;
-@@ -1348,10 +1343,9 @@ static irqreturn_t snd_atiixp_interrupt(int irq, void *dev_id)
- 	if (status & CODEC_CHECK_BITS) {
- 		unsigned int detected;
- 		detected = status & CODEC_CHECK_BITS;
--		spin_lock(&chip->reg_lock);
-+		guard(spinlock)(&chip->reg_lock);
- 		chip->codec_not_ready_bits |= detected;
- 		atiixp_update(chip, IER, detected, 0); /* disable the detected irqs */
--		spin_unlock(&chip->reg_lock);
- 	}
- 
- 	/* ack */
-diff --git a/sound/pci/atiixp_modem.c b/sound/pci/atiixp_modem.c
-index 81a53336699e..91f31e2ad3d3 100644
---- a/sound/pci/atiixp_modem.c
-+++ b/sound/pci/atiixp_modem.c
-@@ -314,7 +314,6 @@ static int atiixp_build_dma_packets(struct atiixp_modem *chip,
- {
- 	unsigned int i;
- 	u32 addr, desc_addr;
--	unsigned long flags;
- 
- 	if (periods > ATI_MAX_DESCRIPTORS)
- 		return -ENOMEM;
-@@ -330,11 +329,11 @@ static int atiixp_build_dma_packets(struct atiixp_modem *chip,
- 		return 0;
- 
- 	/* reset DMA before changing the descriptor table */
--	spin_lock_irqsave(&chip->reg_lock, flags);
--	writel(0, chip->remap_addr + dma->ops->llp_offset);
--	dma->ops->enable_dma(chip, 0);
--	dma->ops->enable_dma(chip, 1);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
-+	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
-+		writel(0, chip->remap_addr + dma->ops->llp_offset);
-+		dma->ops->enable_dma(chip, 0);
-+		dma->ops->enable_dma(chip, 1);
-+	}
- 
- 	/* fill the entries */
- 	addr = (u32)substream->runtime->dma_addr;
-@@ -661,7 +660,7 @@ static int snd_atiixp_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 		       !dma->ops->flush_dma))
- 		return -EINVAL;
- 
--	spin_lock(&chip->reg_lock);
-+	guard(spinlock)(&chip->reg_lock);
- 	switch(cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 		dma->ops->enable_transfer(chip, 1);
-@@ -682,7 +681,6 @@ static int snd_atiixp_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 		snd_atiixp_check_bus_busy(chip);
- 	}
- 	}
--	spin_unlock(&chip->reg_lock);
- 	return err;
- }
- 
-@@ -753,13 +751,12 @@ static int snd_atiixp_playback_prepare(struct snd_pcm_substream *substream)
- 	struct atiixp_modem *chip = snd_pcm_substream_chip(substream);
- 	unsigned int data;
- 
--	spin_lock_irq(&chip->reg_lock);
-+	guard(spinlock_irq)(&chip->reg_lock);
- 	/* set output threshold */
- 	data = atiixp_read(chip, MODEM_OUT_FIFO);
- 	data &= ~ATI_REG_MODEM_OUT1_DMA_THRESHOLD_MASK;
- 	data |= 0x04 << ATI_REG_MODEM_OUT1_DMA_THRESHOLD_SHIFT;
- 	atiixp_write(chip, MODEM_OUT_FIFO, data);
--	spin_unlock_irq(&chip->reg_lock);
- 	return 0;
- }
- 
-@@ -864,9 +861,9 @@ static int snd_atiixp_pcm_open(struct snd_pcm_substream *substream,
- 	runtime->private_data = dma;
- 
- 	/* enable DMA bits */
--	spin_lock_irq(&chip->reg_lock);
--	dma->ops->enable_dma(chip, 1);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		dma->ops->enable_dma(chip, 1);
-+	}
- 	dma->opened = 1;
- 
- 	return 0;
-@@ -879,9 +876,9 @@ static int snd_atiixp_pcm_close(struct snd_pcm_substream *substream,
- 	/* disable DMA bits */
- 	if (snd_BUG_ON(!dma->ops || !dma->ops->enable_dma))
- 		return -EINVAL;
--	spin_lock_irq(&chip->reg_lock);
--	dma->ops->enable_dma(chip, 0);
--	spin_unlock_irq(&chip->reg_lock);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		dma->ops->enable_dma(chip, 0);
-+	}
- 	dma->substream = NULL;
- 	dma->opened = 0;
- 	return 0;
-@@ -1013,10 +1010,9 @@ static irqreturn_t snd_atiixp_interrupt(int irq, void *dev_id)
- 	if (status & CODEC_CHECK_BITS) {
- 		unsigned int detected;
- 		detected = status & CODEC_CHECK_BITS;
--		spin_lock(&chip->reg_lock);
-+		guard(spinlock)(&chip->reg_lock);
- 		chip->codec_not_ready_bits |= detected;
- 		atiixp_update(chip, IER, detected, 0); /* disable the detected irqs */
--		spin_unlock(&chip->reg_lock);
- 	}
- 
- 	/* ack */
 -- 
 2.50.1
 
