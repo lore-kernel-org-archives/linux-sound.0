@@ -1,83 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78844320CBF
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F29322A1B
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478782; cv=none; b=URmtnhPQWAK7+0+nOxuI7hf3G+onkbYroJFfrRTGYIs4i865ZGBryRA4OFJAzclvE3etEHKUvRmGOeDkBzYqUP9F2VJDtRannypj3z1thrL6l0zH2h9ZQBv1+KA/k5aIYYtDppBcBlstkTTzLSF5dcMc9QiB6Ct6qgQ3iO977l8=
+	t=1756478784; cv=none; b=o8siqOrKADuWdqvlYcRLoc0m6AgTbCHvrbFbj0kj2wjNhf0IQdk8D6PDMVFsZP1GZ50nb/d3lYXBtS6JCmjGqIvsz2+mrbsP2RHQmav8333yUR4L1b93UYNCF70gmS2IKUgGjvTVOlMDElZU8rGzbgHHNJqePWIWeO9dXsdAC2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478782; c=relaxed/simple;
-	bh=eW/eweRIs8xGWtmdHRZUrqoFcwRyNEnExmMPW/8+1bc=;
+	s=arc-20240116; t=1756478784; c=relaxed/simple;
+	bh=hA9oBdwoPvaLyKhntPvs6dwKaUb7611H/APDE7J8kdk=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oNdlU9j0hJKoUogxtKzqxs02Pu6CU5m7H1DXteyMS4PHCRNDDO0F0sGRq3erxvuPCTdQpqVh521MoJGV3tvXxbwA0tG5hY8tSK4X6ayEv/pvjV+AnhV8OWzNeJY2Gep8vy0gchH13AjhjdOdKGAEIotJKesxmnEwgAEDHvwJ0ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zCkgTJjM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lDOrDym4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BzD/nczj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ov0J3uYY; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=Dgw8YV/YoEQFv711ONsoWdffPZQ7qqa0mDYEqIjiGo9eJu7bk911HmaKHKvdOOefW9LVz5ymjXgIHeUfTzMarB2l64a9X4K7F3FAqfZlarWVEXSsvYvm0A96pJrjWw63CSCxSirSlZIpwdgSCI2T2qzV/6vaZFIs4qSe4fghUIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0UYSKFEv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7YS6E//k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0UYSKFEv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7YS6E//k; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zCkgTJjM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lDOrDym4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BzD/nczj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ov0J3uYY"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0UYSKFEv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7YS6E//k";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0UYSKFEv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7YS6E//k"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EAEF333ED6;
-	Fri, 29 Aug 2025 14:44:03 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9FDB25C239;
+	Fri, 29 Aug 2025 14:44:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zBSKsxxxEOOQ/vMvFNpF08M4nwrk2noUEzGvQBP5nBA=;
-	b=zCkgTJjMSCatfRmks7UKP4UYOKMEEEA/UIXKXmhlZmrlush1/iw0fVZgkccK9hi0Wpgmhi
-	ZzVC1VZ9NNU/DBMOUhaoFrrmWpCwXG6u9kPPxJRIh+mTDptDbKS+KWI78UiLGDP78Efqk3
-	r0IWkFvi6cGEvdd1PElsxPTo+GPyI3A=
+	bh=xJo2gDpf9LFDMIeqBJm9gZKzxtBeCqdaNgfrwp43F1w=;
+	b=0UYSKFEvXNV9m87Ko/F2fmcuLd65VETWwl+0mWjGiZ/EseOKfwPPeVRdXzhgDv63iqwiPF
+	W39cGd32O7+9797ldUu0Z1/R1+/Ou8z2T8qDpsTZaO3F4bZGdQ4yjjLFHNOXlyVU1TsGUl
+	Lvbi1hxWeKflPJ1Ssqx2hNlw6cw9EI8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478644;
+	s=susede2_ed25519; t=1756478641;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zBSKsxxxEOOQ/vMvFNpF08M4nwrk2noUEzGvQBP5nBA=;
-	b=lDOrDym4IbgzzI9l3NRmHFU6T+HHaH3NBJFTF6f2NoQRAMEx6cq/W6DcyPp4pCOx54CUu8
-	L/RPqD3O76F9kTCw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=xJo2gDpf9LFDMIeqBJm9gZKzxtBeCqdaNgfrwp43F1w=;
+	b=7YS6E//k1bjdwOS5rseYPAskMoHbOqJ8w2qunrUUmB5IxqKX+OMZ8+R9qJxC9bkKTjTCOT
+	D+eeH3RusujjFeAA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zBSKsxxxEOOQ/vMvFNpF08M4nwrk2noUEzGvQBP5nBA=;
-	b=BzD/nczj8/tObr+JHdmzX6i1cdx2srcIqQScebJFFhceQLu6cQE5LLIn8c8E7Kb/6dEELD
-	dttMFDL3O+hv7oQ/v2wxuYEcX5LQftH52DTCs+QJND48xUObYeTERqLE25IoQZSQpYBfvD
-	Wp6/Gjtor1lhFVBP6k6joRKGGfn2Wko=
+	bh=xJo2gDpf9LFDMIeqBJm9gZKzxtBeCqdaNgfrwp43F1w=;
+	b=0UYSKFEvXNV9m87Ko/F2fmcuLd65VETWwl+0mWjGiZ/EseOKfwPPeVRdXzhgDv63iqwiPF
+	W39cGd32O7+9797ldUu0Z1/R1+/Ou8z2T8qDpsTZaO3F4bZGdQ4yjjLFHNOXlyVU1TsGUl
+	Lvbi1hxWeKflPJ1Ssqx2hNlw6cw9EI8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478643;
+	s=susede2_ed25519; t=1756478641;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zBSKsxxxEOOQ/vMvFNpF08M4nwrk2noUEzGvQBP5nBA=;
-	b=ov0J3uYYBv0yu/YXeDtRgOz+mWTbA3BdvCGHWqwnJCyZxxsBOLu0/YRh6laC8y5KkcP9cs
-	BEpeg727bKx8dODg==
+	bh=xJo2gDpf9LFDMIeqBJm9gZKzxtBeCqdaNgfrwp43F1w=;
+	b=7YS6E//k1bjdwOS5rseYPAskMoHbOqJ8w2qunrUUmB5IxqKX+OMZ8+R9qJxC9bkKTjTCOT
+	D+eeH3RusujjFeAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D2E6B13A3E;
-	Fri, 29 Aug 2025 14:44:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 829FC13A6A;
+	Fri, 29 Aug 2025 14:44:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IAkYMrO8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:03 +0000
+	id aK3GHrG8sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:01 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 57/61] ALSA: trident: Use guard() for mutex locks
-Date: Fri, 29 Aug 2025 16:43:32 +0200
-Message-ID: <20250829144342.4290-58-tiwai@suse.de>
+Subject: [PATCH 38/61] ALSA: korg1212: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:43:13 +0200
+Message-ID: <20250829144342.4290-39-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -113,90 +113,470 @@ X-Spam-Flag: NO
 X-Spam-Level: 
 X-Spam-Score: -2.80
 
-Replace the manual mutex lock/unlock pairs with guard() for code
-simplification.
+Clean up the code using guard() for spin locks.
 
-Only code refactoring, and no behavior change.
+Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/trident/trident_memory.c | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+ sound/pci/korg1212/korg1212.c | 168 ++++++++++++----------------------
+ 1 file changed, 58 insertions(+), 110 deletions(-)
 
-diff --git a/sound/pci/trident/trident_memory.c b/sound/pci/trident/trident_memory.c
-index 4a36f194c7f8..81f6348191dc 100644
---- a/sound/pci/trident/trident_memory.c
-+++ b/sound/pci/trident/trident_memory.c
-@@ -172,12 +172,10 @@ snd_trident_alloc_sg_pages(struct snd_trident *trident,
+diff --git a/sound/pci/korg1212/korg1212.c b/sound/pci/korg1212/korg1212.c
+index 26c515ec76e9..d16acf83668a 100644
+--- a/sound/pci/korg1212/korg1212.c
++++ b/sound/pci/korg1212/korg1212.c
+@@ -568,25 +568,19 @@ static void snd_korg1212_SendStop(struct snd_korg1212 *korg1212)
  
- 	
- 
--	mutex_lock(&hdr->block_mutex);
-+	guard(mutex)(&hdr->block_mutex);
- 	blk = search_empty(hdr, runtime->dma_bytes);
--	if (blk == NULL) {
--		mutex_unlock(&hdr->block_mutex);
-+	if (blk == NULL)
- 		return NULL;
--	}
- 			   
- 	/* set TLB entries */
- 	idx = 0;
-@@ -186,12 +184,10 @@ snd_trident_alloc_sg_pages(struct snd_trident *trident,
- 		dma_addr_t addr = snd_pcm_sgbuf_get_addr(substream, ofs);
- 		if (!is_valid_page(trident, addr)) {
- 			__snd_util_mem_free(hdr, blk);
--			mutex_unlock(&hdr->block_mutex);
- 			return NULL;
- 		}
- 		set_tlb_bus(trident, page, addr);
- 	}
--	mutex_unlock(&hdr->block_mutex);
- 	return blk;
+ static void snd_korg1212_SendStopAndWait(struct snd_korg1212 *korg1212)
+ {
+-	unsigned long flags;
+-	spin_lock_irqsave(&korg1212->lock, flags);
+-	snd_korg1212_SendStop(korg1212);
+-	spin_unlock_irqrestore(&korg1212->lock, flags);
++	scoped_guard(spinlock_irqsave, &korg1212->lock) {
++		snd_korg1212_SendStop(korg1212);
++	}
+ 	wait_event_timeout(korg1212->wait, !korg1212->dsp_stop_processing, HZ);
  }
  
-@@ -216,12 +212,10 @@ snd_trident_alloc_cont_pages(struct snd_trident *trident,
- 	if (snd_BUG_ON(!hdr))
- 		return NULL;
- 
--	mutex_lock(&hdr->block_mutex);
-+	guard(mutex)(&hdr->block_mutex);
- 	blk = search_empty(hdr, runtime->dma_bytes);
--	if (blk == NULL) {
--		mutex_unlock(&hdr->block_mutex);
-+	if (blk == NULL)
- 		return NULL;
--	}
- 			   
- 	/* set TLB entries */
- 	addr = runtime->dma_addr;
-@@ -229,12 +223,10 @@ snd_trident_alloc_cont_pages(struct snd_trident *trident,
- 	     addr += SNDRV_TRIDENT_PAGE_SIZE) {
- 		if (!is_valid_page(trident, addr)) {
- 			__snd_util_mem_free(hdr, blk);
--			mutex_unlock(&hdr->block_mutex);
- 			return NULL;
- 		}
- 		set_tlb_bus(trident, page, addr);
- 	}
--	mutex_unlock(&hdr->block_mutex);
- 	return blk;
+ static int snd_korg1212_TurnOnIdleMonitor(struct snd_korg1212 *korg1212)
+ {
+-	unsigned long flags;
+-	int rc;
+-
+         udelay(INTERCOMMAND_DELAY);
+-	spin_lock_irqsave(&korg1212->lock, flags);
++	guard(spinlock_irqsave)(&korg1212->lock);
+         korg1212->idleMonitorOn = 1;
+-        rc = snd_korg1212_Send1212Command(korg1212, K1212_DB_SelectPlayMode,
+-					  K1212_MODE_MonitorOn, 0, 0, 0);
+-        spin_unlock_irqrestore(&korg1212->lock, flags);
+-	return rc;
++	return snd_korg1212_Send1212Command(korg1212, K1212_DB_SelectPlayMode,
++					    K1212_MODE_MonitorOn, 0, 0, 0);
  }
  
-@@ -267,12 +259,11 @@ int snd_trident_free_pages(struct snd_trident *trident,
- 		return -EINVAL;
+ static void snd_korg1212_TurnOffIdleMonitor(struct snd_korg1212 *korg1212)
+@@ -838,7 +832,6 @@ static int snd_korg1212_WriteADCSensitivity(struct snd_korg1212 *korg1212)
+         u16       controlValue;    // this keeps the current value to be written to
+                                    //  the card's eeprom control register.
+         u16       count;
+-	unsigned long flags;
  
- 	hdr = trident->tlb.memhdr;
--	mutex_lock(&hdr->block_mutex);
-+	guard(mutex)(&hdr->block_mutex);
- 	/* reset TLB entries */
- 	for (page = firstpg(blk); page <= lastpg(blk); page++)
- 		set_silent_tlb(trident, page);
- 	/* free memory block */
- 	__snd_util_mem_free(hdr, blk);
--	mutex_unlock(&hdr->block_mutex);
+ 	K1212_DEBUG_PRINTK("K1212_DEBUG: WriteADCSensivity [%s]\n",
+ 			   stateName[korg1212->cardState]);
+@@ -859,7 +852,7 @@ static int snd_korg1212_WriteADCSensitivity(struct snd_korg1212 *korg1212)
+         } else
+                 monModeSet = 0;
+ 
+-	spin_lock_irqsave(&korg1212->lock, flags);
++	guard(spinlock_irqsave)(&korg1212->lock);
+ 
+         // ----------------------------------------------------------------------------
+         // we are about to send new values to the card, so clear the new values queued
+@@ -968,8 +961,6 @@ static int snd_korg1212_WriteADCSensitivity(struct snd_korg1212 *korg1212)
+ 					   rc, stateName[korg1212->cardState]);
+         }
+ 
+-	spin_unlock_irqrestore(&korg1212->lock, flags);
+-
+         return 1;
+ }
+ 
+@@ -1061,7 +1052,7 @@ static irqreturn_t snd_korg1212_interrupt(int irq, void *dev_id)
+         if (!doorbellValue)
+ 		return IRQ_NONE;
+ 
+-	spin_lock(&korg1212->lock);
++	guard(spinlock)(&korg1212->lock);
+ 
+ 	writel(doorbellValue, korg1212->inDoorbellPtr);
+ 
+@@ -1139,8 +1130,6 @@ static irqreturn_t snd_korg1212_interrupt(int irq, void *dev_id)
+ 
+ 	korg1212->inIRQ--;
+ 
+-	spin_unlock(&korg1212->lock);
+-
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -1326,7 +1315,6 @@ static void snd_korg1212_free_pcm(struct snd_pcm *pcm)
+ 
+ static int snd_korg1212_playback_open(struct snd_pcm_substream *substream)
+ {
+-        unsigned long flags;
+         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
+         struct snd_pcm_runtime *runtime = substream->runtime;
+ 
+@@ -1338,15 +1326,13 @@ static int snd_korg1212_playback_open(struct snd_pcm_substream *substream)
+         runtime->hw = snd_korg1212_playback_info;
+ 	snd_pcm_set_runtime_buffer(substream, korg1212->dma_play);
+ 
+-        spin_lock_irqsave(&korg1212->lock, flags);
+-
+-        korg1212->playback_substream = substream;
+-	korg1212->playback_pid = current->pid;
+-        korg1212->periodsize = K1212_PERIODS;
+-	korg1212->channels = K1212_CHANNELS;
+-	korg1212->errorcnt = 0;
+-
+-        spin_unlock_irqrestore(&korg1212->lock, flags);
++	scoped_guard(spinlock_irqsave, &korg1212->lock) {
++		korg1212->playback_substream = substream;
++		korg1212->playback_pid = current->pid;
++		korg1212->periodsize = K1212_PERIODS;
++		korg1212->channels = K1212_CHANNELS;
++		korg1212->errorcnt = 0;
++	}
+ 
+ 	snd_pcm_hw_constraint_single(runtime, SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
+ 				     kPlayBufferFrames);
+@@ -1357,7 +1343,6 @@ static int snd_korg1212_playback_open(struct snd_pcm_substream *substream)
+ 
+ static int snd_korg1212_capture_open(struct snd_pcm_substream *substream)
+ {
+-        unsigned long flags;
+         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
+         struct snd_pcm_runtime *runtime = substream->runtime;
+ 
+@@ -1369,14 +1354,12 @@ static int snd_korg1212_capture_open(struct snd_pcm_substream *substream)
+         runtime->hw = snd_korg1212_capture_info;
+ 	snd_pcm_set_runtime_buffer(substream, korg1212->dma_rec);
+ 
+-        spin_lock_irqsave(&korg1212->lock, flags);
+-
+-        korg1212->capture_substream = substream;
+-	korg1212->capture_pid = current->pid;
+-        korg1212->periodsize = K1212_PERIODS;
+-	korg1212->channels = K1212_CHANNELS;
+-
+-        spin_unlock_irqrestore(&korg1212->lock, flags);
++	scoped_guard(spinlock_irqsave, &korg1212->lock) {
++		korg1212->capture_substream = substream;
++		korg1212->capture_pid = current->pid;
++		korg1212->periodsize = K1212_PERIODS;
++		korg1212->channels = K1212_CHANNELS;
++	}
+ 
+ 	snd_pcm_hw_constraint_single(runtime, SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
+ 				     kPlayBufferFrames);
+@@ -1385,7 +1368,6 @@ static int snd_korg1212_capture_open(struct snd_pcm_substream *substream)
+ 
+ static int snd_korg1212_playback_close(struct snd_pcm_substream *substream)
+ {
+-        unsigned long flags;
+         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
+ 
+ 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_playback_close [%s]\n",
+@@ -1393,13 +1375,11 @@ static int snd_korg1212_playback_close(struct snd_pcm_substream *substream)
+ 
+ 	snd_korg1212_silence(korg1212, 0, K1212_MAX_SAMPLES, 0, korg1212->channels * 2);
+ 
+-        spin_lock_irqsave(&korg1212->lock, flags);
+-
+-	korg1212->playback_pid = -1;
+-        korg1212->playback_substream = NULL;
+-        korg1212->periodsize = 0;
+-
+-        spin_unlock_irqrestore(&korg1212->lock, flags);
++	scoped_guard(spinlock_irqsave, &korg1212->lock) {
++		korg1212->playback_pid = -1;
++		korg1212->playback_substream = NULL;
++		korg1212->periodsize = 0;
++	}
+ 
+ 	snd_korg1212_CloseCard(korg1212);
+         return 0;
+@@ -1407,19 +1387,16 @@ static int snd_korg1212_playback_close(struct snd_pcm_substream *substream)
+ 
+ static int snd_korg1212_capture_close(struct snd_pcm_substream *substream)
+ {
+-        unsigned long flags;
+         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
+ 
+ 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_capture_close [%s]\n",
+ 			   stateName[korg1212->cardState]);
+ 
+-        spin_lock_irqsave(&korg1212->lock, flags);
+-
+-	korg1212->capture_pid = -1;
+-        korg1212->capture_substream = NULL;
+-        korg1212->periodsize = 0;
+-
+-        spin_unlock_irqrestore(&korg1212->lock, flags);
++	scoped_guard(spinlock_irqsave, &korg1212->lock) {
++		korg1212->capture_pid = -1;
++		korg1212->capture_substream = NULL;
++		korg1212->periodsize = 0;
++	}
+ 
+ 	snd_korg1212_CloseCard(korg1212);
+         return 0;
+@@ -1445,7 +1422,6 @@ static int snd_korg1212_ioctl(struct snd_pcm_substream *substream,
+ static int snd_korg1212_hw_params(struct snd_pcm_substream *substream,
+                              struct snd_pcm_hw_params *params)
+ {
+-        unsigned long flags;
+         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
+         int err;
+ 	pid_t this_pid;
+@@ -1454,7 +1430,7 @@ static int snd_korg1212_hw_params(struct snd_pcm_substream *substream,
+ 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_hw_params [%s]\n",
+ 			   stateName[korg1212->cardState]);
+ 
+-        spin_lock_irqsave(&korg1212->lock, flags);
++	guard(spinlock_irqsave)(&korg1212->lock);
+ 
+ 	if (substream->pstr->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+ 		this_pid = korg1212->playback_pid;
+@@ -1472,26 +1448,20 @@ static int snd_korg1212_hw_params(struct snd_pcm_substream *substream,
+ 		 */
+ 
+ 		if ((int)params_rate(params) != korg1212->clkRate) {
+-			spin_unlock_irqrestore(&korg1212->lock, flags);
+ 			_snd_pcm_hw_param_setempty(params, SNDRV_PCM_HW_PARAM_RATE);
+ 			return -EBUSY;
+ 		}
+ 
+-        	spin_unlock_irqrestore(&korg1212->lock, flags);
+ 	        return 0;
+ 	}
+ 
+ 	err = snd_korg1212_SetRate(korg1212, params_rate(params));
+-	if (err < 0) {
+-                spin_unlock_irqrestore(&korg1212->lock, flags);
++	if (err < 0)
+                 return err;
+-        }
+ 
+ 	korg1212->channels = params_channels(params);
+         korg1212->periodsize = K1212_PERIOD_BYTES;
+ 
+-        spin_unlock_irqrestore(&korg1212->lock, flags);
+-
+         return 0;
+ }
+ 
+@@ -1511,15 +1481,13 @@ static int snd_korg1212_prepare(struct snd_pcm_substream *substream)
+ 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_prepare [%s]\n",
+ 			   stateName[korg1212->cardState]);
+ 
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 	korg1212->dsp_stop_processing = 0;
+ 
+         rc = snd_korg1212_SetupForPlay(korg1212);
+ 
+         korg1212->currentBuffer = 0;
+ 
+-        spin_unlock_irq(&korg1212->lock);
+-
+ 	return rc ? -EINVAL : 0;
+ }
+ 
+@@ -1532,7 +1500,7 @@ static int snd_korg1212_trigger(struct snd_pcm_substream *substream,
+ 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_trigger [%s] cmd=%d\n",
+ 			   stateName[korg1212->cardState], cmd);
+ 
+-	spin_lock(&korg1212->lock);
++	guard(spinlock)(&korg1212->lock);
+         switch (cmd) {
+                 case SNDRV_PCM_TRIGGER_START:
+ /*
+@@ -1560,7 +1528,6 @@ static int snd_korg1212_trigger(struct snd_pcm_substream *substream,
+ 			rc = 1;
+ 			break;
+         }
+-	spin_unlock(&korg1212->lock);
+         return rc ? -EINVAL : 0;
+ }
+ 
+@@ -1660,15 +1627,13 @@ static int snd_korg1212_control_phase_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
+ 	int i = kcontrol->private_value;
+ 
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 
+         u->value.integer.value[0] = korg1212->volumePhase[i];
+ 
+ 	if (i >= 8)
+         	u->value.integer.value[1] = korg1212->volumePhase[i+1];
+ 
+-	spin_unlock_irq(&korg1212->lock);
+-
+         return 0;
+ }
+ 
+@@ -1679,7 +1644,7 @@ static int snd_korg1212_control_phase_put(struct snd_kcontrol *kcontrol,
+         int change = 0;
+         int i, val;
+ 
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 
+ 	i = kcontrol->private_value;
+ 
+@@ -1705,8 +1670,6 @@ static int snd_korg1212_control_phase_put(struct snd_kcontrol *kcontrol,
+ 		}
+ 	}
+ 
+-	spin_unlock_irq(&korg1212->lock);
+-
+         return change;
+ }
+ 
+@@ -1726,7 +1689,7 @@ static int snd_korg1212_control_volume_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
+         int i;
+ 
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 
+ 	i = kcontrol->private_value;
+         u->value.integer.value[0] = abs(korg1212->sharedBufferPtr->volumeData[i]);
+@@ -1734,8 +1697,6 @@ static int snd_korg1212_control_volume_get(struct snd_kcontrol *kcontrol,
+ 	if (i >= 8) 
+                 u->value.integer.value[1] = abs(korg1212->sharedBufferPtr->volumeData[i+1]);
+ 
+-        spin_unlock_irq(&korg1212->lock);
+-
+         return 0;
+ }
+ 
+@@ -1747,7 +1708,7 @@ static int snd_korg1212_control_volume_put(struct snd_kcontrol *kcontrol,
+         int i;
+ 	int val;
+ 
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 
+ 	i = kcontrol->private_value;
+ 
+@@ -1773,8 +1734,6 @@ static int snd_korg1212_control_volume_put(struct snd_kcontrol *kcontrol,
+ 		}
+ 	}
+ 
+-	spin_unlock_irq(&korg1212->lock);
+-
+         return change;
+ }
+ 
+@@ -1792,7 +1751,7 @@ static int snd_korg1212_control_route_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
+         int i;
+ 
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 
+ 	i = kcontrol->private_value;
+ 	u->value.enumerated.item[0] = korg1212->sharedBufferPtr->routeData[i];
+@@ -1800,8 +1759,6 @@ static int snd_korg1212_control_route_get(struct snd_kcontrol *kcontrol,
+ 	if (i >= 8) 
+ 		u->value.enumerated.item[1] = korg1212->sharedBufferPtr->routeData[i+1];
+ 
+-        spin_unlock_irq(&korg1212->lock);
+-
+         return 0;
+ }
+ 
+@@ -1811,7 +1768,7 @@ static int snd_korg1212_control_route_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
+         int change = 0, i;
+ 
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 
+ 	i = kcontrol->private_value;
+ 
+@@ -1831,8 +1788,6 @@ static int snd_korg1212_control_route_put(struct snd_kcontrol *kcontrol,
+ 		}
+ 	}
+ 
+-	spin_unlock_irq(&korg1212->lock);
+-
+         return change;
+ }
+ 
+@@ -1851,13 +1806,11 @@ static int snd_korg1212_control_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 
+         u->value.integer.value[0] = korg1212->leftADCInSens;
+         u->value.integer.value[1] = korg1212->rightADCInSens;
+ 
+-	spin_unlock_irq(&korg1212->lock);
+-
+         return 0;
+ }
+ 
+@@ -1867,22 +1820,20 @@ static int snd_korg1212_control_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
+         int change = 0;
+ 
+-	spin_lock_irq(&korg1212->lock);
+-
+-	if (u->value.integer.value[0] >= k1212MinADCSens &&
+-	    u->value.integer.value[0] <= k1212MaxADCSens &&
+-	    u->value.integer.value[0] != korg1212->leftADCInSens) {
+-                korg1212->leftADCInSens = u->value.integer.value[0];
+-                change = 1;
+-        }
+-	if (u->value.integer.value[1] >= k1212MinADCSens &&
+-	    u->value.integer.value[1] <= k1212MaxADCSens &&
+-	    u->value.integer.value[1] != korg1212->rightADCInSens) {
+-                korg1212->rightADCInSens = u->value.integer.value[1];
+-                change = 1;
+-        }
+-
+-	spin_unlock_irq(&korg1212->lock);
++	scoped_guard(spinlock_irq, &korg1212->lock) {
++		if (u->value.integer.value[0] >= k1212MinADCSens &&
++		    u->value.integer.value[0] <= k1212MaxADCSens &&
++		    u->value.integer.value[0] != korg1212->leftADCInSens) {
++			korg1212->leftADCInSens = u->value.integer.value[0];
++			change = 1;
++		}
++		if (u->value.integer.value[1] >= k1212MinADCSens &&
++		    u->value.integer.value[1] <= k1212MaxADCSens &&
++		    u->value.integer.value[1] != korg1212->rightADCInSens) {
++			korg1212->rightADCInSens = u->value.integer.value[1];
++			change = 1;
++		}
++	}
+ 
+         if (change)
+                 snd_korg1212_WriteADCSensitivity(korg1212);
+@@ -1901,11 +1852,9 @@ static int snd_korg1212_control_sync_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 
+ 	ucontrol->value.enumerated.item[0] = korg1212->clkSource;
+-
+-	spin_unlock_irq(&korg1212->lock);
  	return 0;
  }
+ 
+@@ -1917,10 +1866,9 @@ static int snd_korg1212_control_sync_put(struct snd_kcontrol *kcontrol,
+ 	int change;
+ 
+ 	val = ucontrol->value.enumerated.item[0] % 3;
+-	spin_lock_irq(&korg1212->lock);
++	guard(spinlock_irq)(&korg1212->lock);
+ 	change = val != korg1212->clkSource;
+         snd_korg1212_SetClockSource(korg1212, val);
+-	spin_unlock_irq(&korg1212->lock);
+ 	return change;
+ }
+ 
 -- 
 2.50.1
 
