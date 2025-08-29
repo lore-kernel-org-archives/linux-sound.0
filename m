@@ -1,84 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033EE320CD5
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BA4322C65
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:13:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756480431; cv=none; b=dvlcUcHs8KHXnuci2zSMI9DuB56XYyRA5uPdA4rMe6vTIFIDU9vK+Z27zJO0BIKHSlCssxBqu9TLkytNJSZ6M2NpBP1n2g9wIXdcMtmhJROVwMtyonQk7d0bfruVmKZrAxWHWPHP2HZVRgDqULJHeC6c9iu63I439YS+VNVHP54=
+	t=1756480437; cv=none; b=HqDgtXAhEArryL54HDvwczR/0MtwO8zEJDFIpfBEYwbBHkUNAGSIXe0Zcf0Mngfh79RqDSF1Un7qMyc1QG8pJUMlKlOKYXOOPNPY77cd2d8BGo0mlgWVqOEo5F0xqOGwahGbVNPbzJG+VfI8FcTV7PxKfKWqZ7mL95AWLC7Mnlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756480431; c=relaxed/simple;
-	bh=N++4uE+qnujYdXXR/Zh6Q5yt38qUC3gn5cmDqhjIlWw=;
+	s=arc-20240116; t=1756480437; c=relaxed/simple;
+	bh=ANx7vBVgpsjKCenl3l3oC+TCS+xZPPPzzzwI1O5wdXI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LHPjcoUHRYhCAfUepIqcA7NHS8dZBccBvzJWngvId0WkepppLIJv8K3SDZBvQie8ujOvCWzFE9MKLgag++3faErWwZTedKybOjCRmAT8U2UJwEoISU12OQ8WplB2UsfFtUTeYvHvDmWCT0tLrLHafwxizMYeA4dHIAfxMxIs8uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wfUc1TsS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nxMN2CJh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wfUc1TsS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nxMN2CJh; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=S/zYuROelVcC4PxR6iS311K/1fIO4yvSkICvAmeLVfft6pTGY44hDuieYHygMDfQJpQcHUFCDYE813gzuOZiwsIa1qFZUuGjzV59ApW0+P5ekWbSHAh/w132xI77AQdpEk4kob96/1A9Emg0ZRA5dhmlFOaeh5iOGexMBAAEKZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GSESAK3M; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UwZ1pla7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GSESAK3M; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UwZ1pla7; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wfUc1TsS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nxMN2CJh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wfUc1TsS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nxMN2CJh"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GSESAK3M";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UwZ1pla7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GSESAK3M";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UwZ1pla7"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9204C33F06;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D7FD95C268;
 	Fri, 29 Aug 2025 15:13:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756480421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/tcmAL3KKqN8TMLnBqEnkz67BMD+zkBNlGtEivEdoys=;
-	b=wfUc1TsSe2+ag3iJ0GX04pm17414viIfDIz8Bxi6/TAuZEXv63oayDD5a3Ye+f8l78egSQ
-	p0yGBi/x5X9clW2Q9eWFgsL4aApNyAiWjRCYa3nDZLx3BXUp+wgrRF+30rcNRVjo6AOaDp
-	cZ2KqR/H4AmhMvAIoH7dTeDl/KvN5xI=
+	bh=OH/tVUW9kRpeREiY0ny68jGGiOg+THJXlK+b/aOlNK4=;
+	b=GSESAK3MGidoPTKRxB0ZwzZT1reLXFAUZDpdNuf139oJLRIlqaPnPEphx6mOv+3+X8w7en
+	jiE6jx1csZ4DPKl759ZY/Xj8QrgVu1iW9WYJGheW4vDLOfbGobbEgLv7W7LuP02Ij/ZspI
+	gKLctvQIPbHSMEpv7jzjxcuWNjgucHY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756480421;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/tcmAL3KKqN8TMLnBqEnkz67BMD+zkBNlGtEivEdoys=;
-	b=nxMN2CJhbafAolKKuP+WSUBxpsOtJYN73bMYBUqOOwCe6nH39ji40nKDKLh8zHsGHoMblm
-	ZlY89fr0OS6crTBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wfUc1TsS;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nxMN2CJh
+	bh=OH/tVUW9kRpeREiY0ny68jGGiOg+THJXlK+b/aOlNK4=;
+	b=UwZ1pla7Bn1tGjQXVp0rSVG9CjxjJrQzojvDUzlaRsRG61+UiqxmrcKUUUNMcfsYIICTuW
+	v+eSWRNOrQK69VCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756480421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/tcmAL3KKqN8TMLnBqEnkz67BMD+zkBNlGtEivEdoys=;
-	b=wfUc1TsSe2+ag3iJ0GX04pm17414viIfDIz8Bxi6/TAuZEXv63oayDD5a3Ye+f8l78egSQ
-	p0yGBi/x5X9clW2Q9eWFgsL4aApNyAiWjRCYa3nDZLx3BXUp+wgrRF+30rcNRVjo6AOaDp
-	cZ2KqR/H4AmhMvAIoH7dTeDl/KvN5xI=
+	bh=OH/tVUW9kRpeREiY0ny68jGGiOg+THJXlK+b/aOlNK4=;
+	b=GSESAK3MGidoPTKRxB0ZwzZT1reLXFAUZDpdNuf139oJLRIlqaPnPEphx6mOv+3+X8w7en
+	jiE6jx1csZ4DPKl759ZY/Xj8QrgVu1iW9WYJGheW4vDLOfbGobbEgLv7W7LuP02Ij/ZspI
+	gKLctvQIPbHSMEpv7jzjxcuWNjgucHY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756480421;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/tcmAL3KKqN8TMLnBqEnkz67BMD+zkBNlGtEivEdoys=;
-	b=nxMN2CJhbafAolKKuP+WSUBxpsOtJYN73bMYBUqOOwCe6nH39ji40nKDKLh8zHsGHoMblm
-	ZlY89fr0OS6crTBQ==
+	bh=OH/tVUW9kRpeREiY0ny68jGGiOg+THJXlK+b/aOlNK4=;
+	b=UwZ1pla7Bn1tGjQXVp0rSVG9CjxjJrQzojvDUzlaRsRG61+UiqxmrcKUUUNMcfsYIICTuW
+	v+eSWRNOrQK69VCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 765E713326;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD87C13326;
 	Fri, 29 Aug 2025 15:13:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gHW3G6XDsWiQIQAAD6G6ig
+	id IMQCLaXDsWiQIQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 15:13:41 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 03/19] ALSA: synth: Use guard() for mutex locks
-Date: Fri, 29 Aug 2025 17:13:17 +0200
-Message-ID: <20250829151335.7342-4-tiwai@suse.de>
+Subject: [PATCH 05/19] ALSA: synth: Use guard() for preset locks
+Date: Fri, 29 Aug 2025 17:13:19 +0200
+Message-ID: <20250829151335.7342-6-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829151335.7342-1-tiwai@suse.de>
 References: <20250829151335.7342-1-tiwai@suse.de>
@@ -89,183 +88,196 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 9204C33F06
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 
-Replace the manual mutex lock/unlock pairs with guard() for code
-simplification.
+Define a macro for the preset locking/unlocking pairs for soundfont
+using guard() macro as a further code cleanup.
 
-Only code refactoring, and no behavior change.
+The new macro is put in soundfont.h (and some function renames) along
+with it for avoiding unnecessary troubles with clang.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/synth/emux/emux_proc.c |  6 ++----
- sound/synth/emux/emux_seq.c  | 17 +++++------------
- sound/synth/util_mem.c       | 17 +++++------------
- 3 files changed, 12 insertions(+), 28 deletions(-)
+ include/sound/soundfont.h    | 18 ++++++++++++
+ sound/synth/emux/soundfont.c | 56 ++++++++----------------------------
+ 2 files changed, 30 insertions(+), 44 deletions(-)
 
-diff --git a/sound/synth/emux/emux_proc.c b/sound/synth/emux/emux_proc.c
-index 820351f52551..16d6c9a1e24f 100644
---- a/sound/synth/emux/emux_proc.c
-+++ b/sound/synth/emux/emux_proc.c
-@@ -19,7 +19,7 @@ snd_emux_proc_info_read(struct snd_info_entry *entry,
- 	int i;
+diff --git a/include/sound/soundfont.h b/include/sound/soundfont.h
+index 8a40cc15f66d..48f8cf6de3ac 100644
+--- a/include/sound/soundfont.h
++++ b/include/sound/soundfont.h
+@@ -114,5 +114,23 @@ int snd_sf_calc_parm_decay(int msec);
+ extern int snd_sf_vol_table[128];
+ int snd_sf_linear_to_log(unsigned int amount, int offset, int ratio);
  
- 	emu = entry->private_data;
--	mutex_lock(&emu->register_mutex);
-+	guard(mutex)(&emu->register_mutex);
- 	if (emu->name)
- 		snd_iprintf(buf, "Device: %s\n", emu->name);
- 	snd_iprintf(buf, "Ports: %d\n", emu->num_ports);
-@@ -38,13 +38,12 @@ snd_emux_proc_info_read(struct snd_info_entry *entry,
- 		snd_iprintf(buf, "Memory Size: 0\n");
- 	}
- 	if (emu->sflist) {
--		mutex_lock(&emu->sflist->presets_mutex);
-+		guard(mutex)(&emu->sflist->presets_mutex);
- 		snd_iprintf(buf, "SoundFonts: %d\n", emu->sflist->fonts_size);
- 		snd_iprintf(buf, "Instruments: %d\n", emu->sflist->zone_counter);
- 		snd_iprintf(buf, "Samples: %d\n", emu->sflist->sample_counter);
- 		snd_iprintf(buf, "Locked Instruments: %d\n", emu->sflist->zone_locked);
- 		snd_iprintf(buf, "Locked Samples: %d\n", emu->sflist->sample_locked);
--		mutex_unlock(&emu->sflist->presets_mutex);
- 	}
- #if 0  /* debug */
- 	if (emu->voices[0].state != SNDRV_EMUX_ST_OFF && emu->voices[0].ch >= 0) {
-@@ -85,7 +84,6 @@ snd_emux_proc_info_read(struct snd_info_entry *entry,
- 		snd_iprintf(buf, "sample_mode=%x, rate=%x\n", vp->reg.sample_mode, vp->reg.rate_offset);
- 	}
- #endif
--	mutex_unlock(&emu->register_mutex);
- }
++/* lock access to sflist */
++static inline void snd_soundfont_lock_preset(struct snd_sf_list *sflist)
++{
++	mutex_lock(&sflist->presets_mutex);
++	guard(spinlock_irqsave)(&sflist->lock);
++	sflist->presets_locked = 1;
++}
++
++/* remove lock */
++static inline void snd_soundfont_unlock_preset(struct snd_sf_list *sflist)
++{
++	guard(spinlock_irqsave)(&sflist->lock);
++	sflist->presets_locked = 0;
++	mutex_unlock(&sflist->presets_mutex);
++}
++
++DEFINE_GUARD(snd_soundfont_lock_preset, struct snd_sf_list *,
++	     snd_soundfont_lock_preset(_T), snd_soundfont_unlock_preset(_T))
  
+ #endif /* __SOUND_SOUNDFONT_H */
+diff --git a/sound/synth/emux/soundfont.c b/sound/synth/emux/soundfont.c
+index cbff9f7ad38c..59f3b1b6df4a 100644
+--- a/sound/synth/emux/soundfont.c
++++ b/sound/synth/emux/soundfont.c
+@@ -60,30 +60,6 @@ static int get_index(int bank, int instr, int key);
+ static void snd_sf_init(struct snd_sf_list *sflist);
+ static void snd_sf_clear(struct snd_sf_list *sflist);
  
-diff --git a/sound/synth/emux/emux_seq.c b/sound/synth/emux/emux_seq.c
-index 9daced0e6c59..9d63ac006aa5 100644
---- a/sound/synth/emux/emux_seq.c
-+++ b/sound/synth/emux/emux_seq.c
-@@ -272,12 +272,8 @@ __snd_emux_inc_count(struct snd_emux *emu)
- 
- int snd_emux_inc_count(struct snd_emux *emu)
- {
--	int ret;
+-/*
+- * lock access to sflist
+- */
+-static void
+-lock_preset(struct snd_sf_list *sflist)
+-{
+-	mutex_lock(&sflist->presets_mutex);
+-	guard(spinlock_irqsave)(&sflist->lock);
+-	sflist->presets_locked = 1;
+-}
 -
--	mutex_lock(&emu->register_mutex);
--	ret = __snd_emux_inc_count(emu);
--	mutex_unlock(&emu->register_mutex);
--	return ret;
-+	guard(mutex)(&emu->register_mutex);
-+	return __snd_emux_inc_count(emu);
- }
- 
+-
+-/*
+- * remove lock
+- */
+-static void
+-unlock_preset(struct snd_sf_list *sflist)
+-{
+-	guard(spinlock_irqsave)(&sflist->lock);
+-	sflist->presets_locked = 0;
+-	mutex_unlock(&sflist->presets_mutex);
+-}
+-
+-
  /*
-@@ -295,9 +291,8 @@ __snd_emux_dec_count(struct snd_emux *emu)
- 
- void snd_emux_dec_count(struct snd_emux *emu)
- {
--	mutex_lock(&emu->register_mutex);
-+	guard(mutex)(&emu->register_mutex);
- 	__snd_emux_dec_count(emu);
--	mutex_unlock(&emu->register_mutex);
- }
- 
- /*
-@@ -316,10 +311,9 @@ snd_emux_use(void *private_data, struct snd_seq_port_subscribe *info)
- 	if (snd_BUG_ON(!emu))
- 		return -EINVAL;
- 
--	mutex_lock(&emu->register_mutex);
-+	guard(mutex)(&emu->register_mutex);
- 	snd_emux_init_port(p);
- 	__snd_emux_inc_count(emu);
--	mutex_unlock(&emu->register_mutex);
- 	return 0;
- }
- 
-@@ -339,10 +333,9 @@ snd_emux_unuse(void *private_data, struct snd_seq_port_subscribe *info)
- 	if (snd_BUG_ON(!emu))
- 		return -EINVAL;
- 
--	mutex_lock(&emu->register_mutex);
-+	guard(mutex)(&emu->register_mutex);
- 	snd_emux_sounds_off_all(p);
- 	__snd_emux_dec_count(emu);
--	mutex_unlock(&emu->register_mutex);
- 	return 0;
- }
- 
-diff --git a/sound/synth/util_mem.c b/sound/synth/util_mem.c
-index 304a8f1740c3..2fd577c2a8eb 100644
---- a/sound/synth/util_mem.c
-+++ b/sound/synth/util_mem.c
-@@ -124,11 +124,8 @@ __snd_util_memblk_new(struct snd_util_memhdr *hdr, unsigned int units,
- struct snd_util_memblk *
- snd_util_mem_alloc(struct snd_util_memhdr *hdr, int size)
- {
--	struct snd_util_memblk *blk;
--	mutex_lock(&hdr->block_mutex);
--	blk = __snd_util_mem_alloc(hdr, size);
--	mutex_unlock(&hdr->block_mutex);
--	return blk;
-+	guard(mutex)(&hdr->block_mutex);
-+	return __snd_util_mem_alloc(hdr, size);
- }
- 
- 
-@@ -153,9 +150,8 @@ int snd_util_mem_free(struct snd_util_memhdr *hdr, struct snd_util_memblk *blk)
- 	if (snd_BUG_ON(!hdr || !blk))
- 		return -EINVAL;
- 
--	mutex_lock(&hdr->block_mutex);
-+	guard(mutex)(&hdr->block_mutex);
- 	__snd_util_mem_free(hdr, blk);
--	mutex_unlock(&hdr->block_mutex);
- 	return 0;
- }
- 
-@@ -164,11 +160,8 @@ int snd_util_mem_free(struct snd_util_memhdr *hdr, struct snd_util_memblk *blk)
+  * close the patch if the patch was opened by this client.
   */
- int snd_util_mem_avail(struct snd_util_memhdr *hdr)
+@@ -140,10 +116,8 @@ snd_soundfont_load(struct snd_card *card,
+ 
+ 	if (patch.type == SNDRV_SFNT_OPEN_PATCH) {
+ 		/* grab sflist to open */
+-		lock_preset(sflist);
+-		rc = open_patch(sflist, data, count, client);
+-		unlock_preset(sflist);
+-		return rc;
++		guard(snd_soundfont_lock_preset)(sflist);
++		return open_patch(sflist, data, count, client);
+ 	}
+ 
+ 	/* check if other client already opened patch */
+@@ -152,7 +126,7 @@ snd_soundfont_load(struct snd_card *card,
+ 			return -EBUSY;
+ 	}
+ 
+-	lock_preset(sflist);
++	guard(snd_soundfont_lock_preset)(sflist);
+ 	rc = -EINVAL;
+ 	switch (patch.type) {
+ 	case SNDRV_SFNT_LOAD_INFO:
+@@ -190,7 +164,6 @@ snd_soundfont_load(struct snd_card *card,
+ 		}
+ 		break;
+ 	}
+-	unlock_preset(sflist);
+ 
+ 	return rc;
+ }
+@@ -1153,11 +1126,8 @@ snd_soundfont_load_guspatch(struct snd_card *card,
+ 			    struct snd_sf_list *sflist, const char __user *data,
+ 			    long count)
  {
--	unsigned int size;
--	mutex_lock(&hdr->block_mutex);
--	size = hdr->size - hdr->used;
--	mutex_unlock(&hdr->block_mutex);
--	return size;
-+	guard(mutex)(&hdr->block_mutex);
-+	return hdr->size - hdr->used;
+-	int rc;
+-	lock_preset(sflist);
+-	rc = load_guspatch(card, sflist, data, count);
+-	unlock_preset(sflist);
+-	return rc;
++	guard(snd_soundfont_lock_preset)(sflist);
++	return load_guspatch(card, sflist, data, count);
  }
  
  
+@@ -1446,11 +1416,11 @@ snd_sf_free(struct snd_sf_list *sflist)
+ 	if (sflist == NULL)
+ 		return;
+ 	
+-	lock_preset(sflist);
+-	if (sflist->callback.sample_reset)
+-		sflist->callback.sample_reset(sflist->callback.private_data);
+-	snd_sf_clear(sflist);
+-	unlock_preset(sflist);
++	scoped_guard(snd_soundfont_lock_preset, sflist) {
++		if (sflist->callback.sample_reset)
++			sflist->callback.sample_reset(sflist->callback.private_data);
++		snd_sf_clear(sflist);
++	}
+ 
+ 	kfree(sflist);
+ }
+@@ -1462,11 +1432,10 @@ snd_sf_free(struct snd_sf_list *sflist)
+ int
+ snd_soundfont_remove_samples(struct snd_sf_list *sflist)
+ {
+-	lock_preset(sflist);
++	guard(snd_soundfont_lock_preset)(sflist);
+ 	if (sflist->callback.sample_reset)
+ 		sflist->callback.sample_reset(sflist->callback.private_data);
+ 	snd_sf_clear(sflist);
+-	unlock_preset(sflist);
+ 
+ 	return 0;
+ }
+@@ -1482,7 +1451,7 @@ snd_soundfont_remove_unlocked(struct snd_sf_list *sflist)
+ 	struct snd_sf_zone *zp, *nextzp;
+ 	struct snd_sf_sample *sp, *nextsp;
+ 
+-	lock_preset(sflist);
++	guard(snd_soundfont_lock_preset)(sflist);
+ 
+ 	if (sflist->callback.sample_reset)
+ 		sflist->callback.sample_reset(sflist->callback.private_data);
+@@ -1516,6 +1485,5 @@ snd_soundfont_remove_unlocked(struct snd_sf_list *sflist)
+ 
+ 	rebuild_presets(sflist);
+ 
+-	unlock_preset(sflist);
+ 	return 0;
+ }
 -- 
 2.50.1
 
