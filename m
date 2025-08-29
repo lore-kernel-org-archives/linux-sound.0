@@ -1,115 +1,144 @@
 Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE3C273F9
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 23:37:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4DE481B1
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 23:47:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756510679; cv=none; b=i5AT2r2I8GpruEyGL8lLGkOxi3Un3u910y3zQOGDDQDDwAgFbzr2iViSc4+nU5Qiq7eFMFRvuKldVZh8gOKwzV+fdaOJAcRyoK/xjfIuqZLR5rJ4YGi8VKXd3t1paMVVla+MW9wOreRsoqbxjd7RkkLB0TOua68RDeRMMDv4WhM=
+	t=1756511228; cv=none; b=YDsRdJA25eE/T4C4pcoFtX8BYyNNOn4hpMYzPaxrES3U8usOYNQd0ADKMAOVEAMxu0PnvIPJH5x+Es4EfFgH6BA9h3o43NTpUOUOjw3vRUMaWrJGRnmD2HGDTVfdrD8IUfkouJUBeu6hUf9JGFLuiXlnb2i1boWa+8kE7OXJjVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756510679; c=relaxed/simple;
-	bh=Kkc3GFD5/Lo48b78pGUwuGKNmFAGohKvV5ddl69ZqHA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XVPzjxsl7QM8N2yZEK0+lz5xwlWZNYIWHL62nRi0vO7Ynej7ZpUF2UgBoBpEaPesv+C4MlS12znA0lJNVXpXGqF4NwHWeYu9T5kr5/xSf0H+Cpp9HIwQNYQGd9IG1aQk+HcQwLzU1bbrZTkXKoxkVrkgsS6cLbPWV+fth1tyYLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=C5DkJV6Y; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=m9DqzBlh; arc=none smtp.client-ip=202.12.124.157
+	s=arc-20240116; t=1756511228; c=relaxed/simple;
+	bh=mYMKyoA8RIK3UUy5noKMxD4NUAv/oyIOw0fXqSvDTE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KFMU6Ajp3asKiQKv3rl5mCEGxyEm14w5aLYkwYhBSF1U2cUkd7VUPaQq3P0VkCGtL/B7oOi/jZbC6pDYgOMATXTTD+mnCqN7adfTUmahfyAAGnu3JvEpuAKH7hNMXYZ6lMBHiukbNStFG8PrsY0BPq3ee1puTgv4j8LozIl3u4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=RPUC4VKi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nX4G5azu; arc=none smtp.client-ip=202.12.124.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="C5DkJV6Y";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="m9DqzBlh"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id A43F57A0193;
-	Fri, 29 Aug 2025 19:37:54 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Fri, 29 Aug 2025 19:37:54 -0400
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="RPUC4VKi";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nX4G5azu"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 29FF87A0129;
+	Fri, 29 Aug 2025 19:47:05 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Fri, 29 Aug 2025 19:47:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm1; t=1756510674; x=1756597074; bh=OBZire+HLo
-	F5CIwo8rPhnFzGNSQae0tGQzr3KTl2KSg=; b=C5DkJV6YQQN7Ru8Wl+R8q0gdh9
-	+wr8eQZMvLNWMBS8s1sFoED0DITXITI1k4OVxnZqUNT65PzIuZrnukns9aNRg9B7
-	mSMDZ6kIPWi7eIC+BVqhWHzGt83u+cZb9LPZ2IhLATja5zpmOCvR88LcaOlrpx7r
-	708g9GG709JDgMnKkjXR55SEtqmtxO/mty4j5mnJ6pt2uUCIgdUocFV04duith0H
-	D7rUwlTKzzan/JRsyoMeAiAE3V3xzejHtKxX8KoA25lSgzhzhZvoyy4tsvxz5f95
-	pjX7VcneYqpCKPkFVETRNIbEqC6w24RlKGn/TjymkwhZLcenjLBaYqNC2sug==
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1756511225; x=
+	1756597625; bh=KyqvAjyIHI7CuQ8RAAFbQZBqX7g+Sthw3y87XBxuMpc=; b=R
+	PUC4VKightZmhfbpGfkLbJLqrsryMtMAdhwFko8B/KzR3/3UlFLu4bogGvf2j9gB
+	U6tN/2Tn4EIwdIHJf35aF425CtN2n1AkSW/jJWucZjles1te+BRzK2LQL9Ure/vL
+	Kxi8qNirwlkI4bxJwWAzuleNHVPyQlCJXxOS9wwYxt9upb59xoYWDHxr7BfOcdVA
+	+lxwI37/+Gk9heWWgGsEmS7Ge2jvtg6srYX9ifST/JPjzNhSIpiIM4oRldbundzh
+	MTaXJGTey2rUq/Isol1OUC7+tI0p+x5t+PXeAkmlD4OioTPYYASf68WX3Da81gBd
+	SGtidbb1CEser3/fN155Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1756510674; x=1756597074; bh=OBZire+HLoF5CIwo8rPhnFzGNSQae0tGQzr
-	3KTl2KSg=; b=m9DqzBlhMMQ0IPC36ttzqqeMkBeZZdUf0WafoIS9vLH7BzrQ6dY
-	qtZHr/V0TYSiOtCj3p/v9/C+SILR1qgyvKJPjMpdjKk3HiGm8OVBZTcN5CWEyBEM
-	SHmuuI28K/uPmE8CuEGUoV622/FDA8ZZOhTVanGNKsWHD9ILvepD3pwj0aYbZhFo
-	zNhZqyVSSRoR1uP9L4InIkXKU5ZxR7vA8W/srmnlZTSxpGuqBDZSDOnAoa5YJU+a
-	nsoxse8qMpIP6KNJ57fRI9IVybY/Cf74PotrIH2nEbUGD20zJlzHqhLbBAc2WQG4
-	wWOVY6s05cjZ5kQ3WoTshbyR52k9SMDpjKA==
-X-ME-Sender: <xms:0jmyaEvSe5fbL4nP_d0OuMMDagfPJA45dTNOXnK4lQC27-MNUdfh5g>
-    <xme:0jmyaPY0ps1QMFDwwYmcJksSnV1LVdvX0SC8C5hzZoY8yXIWtdLaEwi9Omp4n1KEm
-    J879KCCy2ZiyhIk0Ko>
-X-ME-Received: <xmr:0jmyaHUO6PPPG7wNt7-zkpVeTHcGZgeMKaltfo_AcnlBQD1lb28ovtepfhP7VXDeDs3LQJarwgMR3ZyThFKDxMdOp5c0jO4CiZwb7ybj7ONL7Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeegkeehucetufdoteggodetrf
+	1756511225; x=1756597625; bh=KyqvAjyIHI7CuQ8RAAFbQZBqX7g+Sthw3y8
+	7XBxuMpc=; b=nX4G5azuhroyTitHf0i49wbn9bF8L0ElDTrs0ML0XYQa//8k0IU
+	eqMQCaGsgvZAlzWyvA9eRaMNy/7LWA3MgDib/o+UVDiajOaR3mTNh3MdPd43zIbN
+	YcCqO6aLntr+rEnBXlEpetYwMspRjoOYsDPvwMCuiojVUbJNAOa5VXawnWHKCr9l
+	24FqCVO/vMW4a8LqMioiLqcCzrlV3Xc6PSl2wYMC9n05poyxQfkc8n/Fn1ik5s6a
+	K1uZejANqc/AEGLv1DWbAsC5ajKe5bQtnxIbAMisEIxkgtuf35w2OvpIJndEwdEy
+	HVfjkPfRabZ2J1fNmrSOyF1ivtYcxZxrRPQ==
+X-ME-Sender: <xms:-DuyaOAk1wXhHLtisWKEvj4aCGLFozo0GcOd6BEhJeCdLRmsHkHfIg>
+    <xme:-DuyaLz7uTpWT2rgnMq2OFXXvWxwQgyDhC6h0ykMrCD4paYSASH9JxzHe4nr8dl9u
+    vX1fbxn4QApTv1fMBQ>
+X-ME-Received: <xmr:-DuyaLCadRuvxZ9puSQNA3GfWTOV_K06EAbM-eKwweT9IqiR4luxJpnFwiK-0qz0gy-a7nu8jwWsxaEz5EnpRNNCHR4q2kUo_WU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukeegkeeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertd
-    dtnecuhfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhi
-    sehsrghkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeffvdeuleffveekud
-    fhteejudffgefhtedtgfeutdfgvdfgueefudehveehveekkeenucevlhhushhtvghrufhi
-    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrg
-    hmohgttghhihdrjhhppdhnsggprhgtphhtthhopedvpdhmohguvgepshhmthhpohhuthdp
-    rhgtphhtthhopehtihifrghisehsuhhsvgdruggvpdhrtghpthhtoheplhhinhhugidqsh
-    houhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:0jmyaD4xP76ME2jXpPA5t-DIGkUgnBHIcwKSJpkhpB6i5HKceEJK0w>
-    <xmx:0jmyaChe4ssaosv0BKqWucx_8luWnU_oYMMVbYWZa00SjRbLIZe_NQ>
-    <xmx:0jmyaKf-q17ZdHYEa5Dv3f1b2oawvlu5dUk082cMNTINJ6aCL5wjKA>
-    <xmx:0jmyaHd_d56i37hsvLP_c9BW1CtICE1qlHK6LA362ga7iX2h0-ibYQ>
-    <xmx:0jmyaHo9aas6kV2LNVtS-x1WMxNthq_vrqDMvaCWF1Ds6TIneZ-4SyCz>
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgrshhh
+    ihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
+    eqnecuggftrfgrthhtvghrnhepveeilefhudekffehkeffudduvedvfeduleelfeegieel
+    jeehjeeuvdeghfetvedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhi
+    sehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeefpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopehtihifrghisehsuhhsvgdruggvpdhrtghpthhtoheplhhi
+    nhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegtlh
+    gvmhgvnhhssehlrgguihhstghhrdguvg
+X-ME-Proxy: <xmx:-DuyaIZ4rv4FbZf9cnd39Dxx6I-Xw08PsrYGO9sS2owm9Pn1BxI4Sg>
+    <xmx:-DuyaDg2q4oskitMPzEvn3vr02NXB2LkV5dlq4O3fJ-wBqklfVbIOg>
+    <xmx:-DuyaK5vD9fhmbYmqidJm1V7vzqy1qiKIm00ZC3J5HjYxM8Lv1XR4g>
+    <xmx:-DuyaK6hf6t7yJ0OqpNXh1dsEUO2HmB5gHG0wA08rEai0Z1G6MoL-w>
+    <xmx:-DuyaNEsM4vjsfq1tjeCF5C-VuCv8PPwEktBGiYtW7qkp5p48qz4ZQqM>
 Feedback-ID: ie8e14432:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 Aug 2025 19:37:53 -0400 (EDT)
+ 29 Aug 2025 19:47:03 -0400 (EDT)
+Date: Sat, 30 Aug 2025 08:47:01 +0900
 From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: tiwai@suse.de
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: firewire-motu: drop EPOLLOUT from poll return values as write is not supported
-Date: Sat, 30 Aug 2025 08:37:49 +0900
-Message-ID: <20250829233749.366222-1-o-takashi@sakamocchi.jp>
-X-Mailer: git-send-email 2.48.1
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Clemens Ladisch <clemens@ladisch.de>
+Subject: Re: [PATCH v2 00/19] ALSA: firewire: Use auto-cleanup macros
+Message-ID: <20250829234701.GA362429@workstation.local>
+References: <20250828132802.9032-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250828132802.9032-1-tiwai@suse.de>
 
-The ALSA HwDep character device of the firewire-motu driver incorrectly
-returns EPOLLOUT in poll(2), even though the driver implements no operation
-for write(2). This misleads userspace applications to believe write() is
-allowed, potentially resulting in unnecessarily wakeups.
+Hi,
 
-This issue dates back to the driver's initial code added by a commit
-71c3797779d3 ("ALSA: firewire-motu: add hwdep interface"), and persisted
-when POLLOUT was updated to EPOLLOUT by a commit a9a08845e9ac ('vfs: do
-bulk POLL* -> EPOLL* replacement("").').
+Thanks for your updates.
 
-This commit fixes the bug.
+On Thu, Aug 28, 2025 at 03:27:04PM +0200, Takashi Iwai wrote:
+> This is another patch set for cleaning up the code with the recent
+> auto-cleanup macros like guard() & co, applied to FireWire sound
+> drivers.
+> 
+> Only code refactoring, and no behavior changes intended.
+> 
+> 
+> Takashi
+> 
+> v1->v2:
+> * Fix missing subject prefix for digi00x
+> * Drop superfluous blank lines in scoped_work blocks
+> 
+> ===
+> 
+> Takashi Iwai (19):
+>   ALSA: firewire: bebob: Use guard() for mutex locks
+>   ALSA: firewire: dice: Use guard() for mutex locks
+>   ALSA: firewire: digi00x: Use guard() for mutex locks
+>   ALSA: firewire: fireworks: Use guard() for mutex locks
+>   ALSA: firewire: motu: Use guard() for mutex locks
+>   ALSA: firewire: oxfw: Use guard() for mutex locks
+>   ALSA: firewire: tascam: Use guard() for mutex locks
+>   ALSA: firewire: fireface: Use guard() for mutex locks
+>   ALSA: firewire: isight: Use guard() for mutex locks
+>   ALSA: firewire: lib: Use guard() for mutex locks
+>   ALSA: firewire: bebob: Use guard() for spin locks
+>   ALSA: firewire: dice: Use guard() for spin locks
+>   ALSA: firewire: digi00x: Use guard() for spin locks
+>   ALSA: firewire: fireface: Use guard() for spin locks
+>   ALSA: firewire: fireworks: Use guard() for spin locks
+>   ALSA: firewire: motu: Use guard() for spin locks
+>   ALSA: firewire: oxfw: Use guard() for spin locks
+>   ALSA: firewire: tascam: Use guard() for spin locks
+>   ALSA: firewire: lib: Use guard() for spin locks
 
-Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
----
- sound/firewire/motu/motu-hwdep.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-diff --git a/sound/firewire/motu/motu-hwdep.c b/sound/firewire/motu/motu-hwdep.c
-index 1ed60618220d..fa2685665db3 100644
---- a/sound/firewire/motu/motu-hwdep.c
-+++ b/sound/firewire/motu/motu-hwdep.c
-@@ -111,7 +111,7 @@ static __poll_t hwdep_poll(struct snd_hwdep *hwdep, struct file *file,
- 		events = 0;
- 	spin_unlock_irq(&motu->lock);
- 
--	return events | EPOLLOUT;
-+	return events;
- }
- 
- static int hwdep_get_info(struct snd_motu *motu, void __user *arg)
--- 
-2.48.1
+By the way, I found a bug in ALSA firewire-motu driver (that's on me...)
+when reviewing the patchset, and sent a patch[1] now to fix it on your
+for-linus branch. It could bring a conflict against 16th patch in your set
+("ALSA: firewire: motu: Use guard() for spin locks"), and I would like
+you to apply it at first (then sent it to upstream), then applying the
+conflicted patch with handy changes.
 
+[1] https://lore.kernel.org/linux-sound/20250829233749.366222-1-o-takashi@sakamocchi.jp/T/#u
+
+
+Thanks
+
+Takashi Sakamoto
