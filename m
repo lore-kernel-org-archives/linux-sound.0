@@ -1,83 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F29322A1B
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D1D32C33E
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478784; cv=none; b=o8siqOrKADuWdqvlYcRLoc0m6AgTbCHvrbFbj0kj2wjNhf0IQdk8D6PDMVFsZP1GZ50nb/d3lYXBtS6JCmjGqIvsz2+mrbsP2RHQmav8333yUR4L1b93UYNCF70gmS2IKUgGjvTVOlMDElZU8rGzbgHHNJqePWIWeO9dXsdAC2Q=
+	t=1756478789; cv=none; b=W0LGegMfPeubgyuT+X5F0gRa5eJ0agxXuerJIGHsGqN23urdufhcUIwvs1/u1rw4y2IrInmHz6XIdAU2W8Q/zsLi3ipV/msaZjKw18C7C3SS9lrBU+oJdlj9rL+1SIJQruU5ep+Mp7mJxqPF+6/8nEYij+pRhJZj1zuLXGUk/7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478784; c=relaxed/simple;
-	bh=hA9oBdwoPvaLyKhntPvs6dwKaUb7611H/APDE7J8kdk=;
+	s=arc-20240116; t=1756478789; c=relaxed/simple;
+	bh=FrUoL4o73BveZr/M3DQSGc0lPfZ6o50LA6rXr+iP81w=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dgw8YV/YoEQFv711ONsoWdffPZQ7qqa0mDYEqIjiGo9eJu7bk911HmaKHKvdOOefW9LVz5ymjXgIHeUfTzMarB2l64a9X4K7F3FAqfZlarWVEXSsvYvm0A96pJrjWw63CSCxSirSlZIpwdgSCI2T2qzV/6vaZFIs4qSe4fghUIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0UYSKFEv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7YS6E//k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0UYSKFEv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7YS6E//k; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=WAm/YLd5G8c9EMzYOwxbh0XIEdHkDovI/rrtNm2tHkyxaR/rli2TlB+jzFH/FPAHMcIq8nk2N0M5hYLXwJwySKChfuyDw3kM4SEEKACUjKlgpU5RDkj1gB5d2wStDPVZHWr0qZH9Azk7jy1+o66ckHPNjIyQwNcVlIpzH2ZnAEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V10gjlWK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fJB9U8JK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V10gjlWK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fJB9U8JK; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0UYSKFEv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7YS6E//k";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0UYSKFEv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7YS6E//k"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V10gjlWK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fJB9U8JK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V10gjlWK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fJB9U8JK"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9FDB25C239;
-	Fri, 29 Aug 2025 14:44:01 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1436C33ED8;
+	Fri, 29 Aug 2025 14:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xJo2gDpf9LFDMIeqBJm9gZKzxtBeCqdaNgfrwp43F1w=;
-	b=0UYSKFEvXNV9m87Ko/F2fmcuLd65VETWwl+0mWjGiZ/EseOKfwPPeVRdXzhgDv63iqwiPF
-	W39cGd32O7+9797ldUu0Z1/R1+/Ou8z2T8qDpsTZaO3F4bZGdQ4yjjLFHNOXlyVU1TsGUl
-	Lvbi1hxWeKflPJ1Ssqx2hNlw6cw9EI8=
+	bh=QvkQW3LqqipbkaWLd69QoaUSoa1Yc5uWbY51LD2nB4E=;
+	b=V10gjlWK3MRwWRZOFL/lDzBMYTnI7thzGQX+APZi6z9/cjfji2ZoX51ETMBo1ZMHSLAkyR
+	VwuUYCk43O7Zj9pvaaJ+tUS+em8Y3UegOrFkmJhaNNp1A68hpBeOeG1F8dbTrtqLTcfg9F
+	UEl/TfySda2S0VVK73bN0brCnKpyzVE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478641;
+	s=susede2_ed25519; t=1756478644;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xJo2gDpf9LFDMIeqBJm9gZKzxtBeCqdaNgfrwp43F1w=;
-	b=7YS6E//k1bjdwOS5rseYPAskMoHbOqJ8w2qunrUUmB5IxqKX+OMZ8+R9qJxC9bkKTjTCOT
-	D+eeH3RusujjFeAA==
-Authentication-Results: smtp-out2.suse.de;
+	bh=QvkQW3LqqipbkaWLd69QoaUSoa1Yc5uWbY51LD2nB4E=;
+	b=fJB9U8JKY7AzYZK2S5+09np75qyc4ZWzEM9f3toNsljTGGjTXJJwkSNRe4ofcIk+yiJaC2
+	OSRk2z1wBcNgFQCQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xJo2gDpf9LFDMIeqBJm9gZKzxtBeCqdaNgfrwp43F1w=;
-	b=0UYSKFEvXNV9m87Ko/F2fmcuLd65VETWwl+0mWjGiZ/EseOKfwPPeVRdXzhgDv63iqwiPF
-	W39cGd32O7+9797ldUu0Z1/R1+/Ou8z2T8qDpsTZaO3F4bZGdQ4yjjLFHNOXlyVU1TsGUl
-	Lvbi1hxWeKflPJ1Ssqx2hNlw6cw9EI8=
+	bh=QvkQW3LqqipbkaWLd69QoaUSoa1Yc5uWbY51LD2nB4E=;
+	b=V10gjlWK3MRwWRZOFL/lDzBMYTnI7thzGQX+APZi6z9/cjfji2ZoX51ETMBo1ZMHSLAkyR
+	VwuUYCk43O7Zj9pvaaJ+tUS+em8Y3UegOrFkmJhaNNp1A68hpBeOeG1F8dbTrtqLTcfg9F
+	UEl/TfySda2S0VVK73bN0brCnKpyzVE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478641;
+	s=susede2_ed25519; t=1756478644;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xJo2gDpf9LFDMIeqBJm9gZKzxtBeCqdaNgfrwp43F1w=;
-	b=7YS6E//k1bjdwOS5rseYPAskMoHbOqJ8w2qunrUUmB5IxqKX+OMZ8+R9qJxC9bkKTjTCOT
-	D+eeH3RusujjFeAA==
+	bh=QvkQW3LqqipbkaWLd69QoaUSoa1Yc5uWbY51LD2nB4E=;
+	b=fJB9U8JKY7AzYZK2S5+09np75qyc4ZWzEM9f3toNsljTGGjTXJJwkSNRe4ofcIk+yiJaC2
+	OSRk2z1wBcNgFQCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 829FC13A6A;
-	Fri, 29 Aug 2025 14:44:01 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F095B13A54;
+	Fri, 29 Aug 2025 14:44:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aK3GHrG8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:01 +0000
+	id aGyXObO8sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:03 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 38/61] ALSA: korg1212: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:43:13 +0200
-Message-ID: <20250829144342.4290-39-tiwai@suse.de>
+Subject: [PATCH 58/61] ALSA: trident: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:43:33 +0200
+Message-ID: <20250829144342.4290-59-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -88,6 +88,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -101,7 +102,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	R_RATELIMIT(0.00)[to_ip_from(RLsqo7dymd5dgmoaprf5rep8is)];
@@ -110,7 +111,6 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-Spam-Score: -2.80
 
 Clean up the code using guard() for spin locks.
@@ -119,464 +119,723 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/korg1212/korg1212.c | 168 ++++++++++++----------------------
- 1 file changed, 58 insertions(+), 110 deletions(-)
+ sound/pci/trident/trident_main.c | 324 +++++++++++++------------------
+ 1 file changed, 140 insertions(+), 184 deletions(-)
 
-diff --git a/sound/pci/korg1212/korg1212.c b/sound/pci/korg1212/korg1212.c
-index 26c515ec76e9..d16acf83668a 100644
---- a/sound/pci/korg1212/korg1212.c
-+++ b/sound/pci/korg1212/korg1212.c
-@@ -568,25 +568,19 @@ static void snd_korg1212_SendStop(struct snd_korg1212 *korg1212)
- 
- static void snd_korg1212_SendStopAndWait(struct snd_korg1212 *korg1212)
+diff --git a/sound/pci/trident/trident_main.c b/sound/pci/trident/trident_main.c
+index 39ed52bf8631..55515c58b8aa 100644
+--- a/sound/pci/trident/trident_main.c
++++ b/sound/pci/trident/trident_main.c
+@@ -107,10 +107,9 @@ static unsigned short snd_trident_codec_read(struct snd_ac97 *ac97, unsigned sho
  {
+ 	unsigned int data = 0, treg;
+ 	unsigned short count = 0xffff;
 -	unsigned long flags;
--	spin_lock_irqsave(&korg1212->lock, flags);
--	snd_korg1212_SendStop(korg1212);
--	spin_unlock_irqrestore(&korg1212->lock, flags);
-+	scoped_guard(spinlock_irqsave, &korg1212->lock) {
-+		snd_korg1212_SendStop(korg1212);
-+	}
- 	wait_event_timeout(korg1212->wait, !korg1212->dsp_stop_processing, HZ);
+ 	struct snd_trident *trident = ac97->private_data;
+ 
+-	spin_lock_irqsave(&trident->reg_lock, flags);
++	guard(spinlock_irqsave)(&trident->reg_lock);
+ 	if (trident->device == TRIDENT_DEVICE_ID_DX) {
+ 		data = (DX_AC97_BUSY_READ | (reg & 0x000000ff));
+ 		outl(data, TRID_REG(trident, DX_ACR1_AC97_R));
+@@ -147,7 +146,6 @@ static unsigned short snd_trident_codec_read(struct snd_ac97 *ac97, unsigned sho
+ 		data = 0;
+ 	}
+ 
+-	spin_unlock_irqrestore(&trident->reg_lock, flags);
+ 	return ((unsigned short) (data >> 16));
  }
  
- static int snd_korg1212_TurnOnIdleMonitor(struct snd_korg1212 *korg1212)
+@@ -170,12 +168,11 @@ static void snd_trident_codec_write(struct snd_ac97 *ac97, unsigned short reg,
  {
+ 	unsigned int address, data;
+ 	unsigned short count = 0xffff;
 -	unsigned long flags;
--	int rc;
--
-         udelay(INTERCOMMAND_DELAY);
--	spin_lock_irqsave(&korg1212->lock, flags);
-+	guard(spinlock_irqsave)(&korg1212->lock);
-         korg1212->idleMonitorOn = 1;
--        rc = snd_korg1212_Send1212Command(korg1212, K1212_DB_SelectPlayMode,
--					  K1212_MODE_MonitorOn, 0, 0, 0);
--        spin_unlock_irqrestore(&korg1212->lock, flags);
--	return rc;
-+	return snd_korg1212_Send1212Command(korg1212, K1212_DB_SelectPlayMode,
-+					    K1212_MODE_MonitorOn, 0, 0, 0);
- }
+ 	struct snd_trident *trident = ac97->private_data;
  
- static void snd_korg1212_TurnOffIdleMonitor(struct snd_korg1212 *korg1212)
-@@ -838,7 +832,6 @@ static int snd_korg1212_WriteADCSensitivity(struct snd_korg1212 *korg1212)
-         u16       controlValue;    // this keeps the current value to be written to
-                                    //  the card's eeprom control register.
-         u16       count;
--	unsigned long flags;
+ 	data = ((unsigned long) wdata) << 16;
  
- 	K1212_DEBUG_PRINTK("K1212_DEBUG: WriteADCSensivity [%s]\n",
- 			   stateName[korg1212->cardState]);
-@@ -859,7 +852,7 @@ static int snd_korg1212_WriteADCSensitivity(struct snd_korg1212 *korg1212)
-         } else
-                 monModeSet = 0;
+-	spin_lock_irqsave(&trident->reg_lock, flags);
++	guard(spinlock_irqsave)(&trident->reg_lock);
+ 	if (trident->device == TRIDENT_DEVICE_ID_DX) {
+ 		address = DX_ACR0_AC97_W;
  
--	spin_lock_irqsave(&korg1212->lock, flags);
-+	guard(spinlock_irqsave)(&korg1212->lock);
- 
-         // ----------------------------------------------------------------------------
-         // we are about to send new values to the card, so clear the new values queued
-@@ -968,8 +961,6 @@ static int snd_korg1212_WriteADCSensitivity(struct snd_korg1212 *korg1212)
- 					   rc, stateName[korg1212->cardState]);
-         }
- 
--	spin_unlock_irqrestore(&korg1212->lock, flags);
--
-         return 1;
- }
- 
-@@ -1061,7 +1052,7 @@ static irqreturn_t snd_korg1212_interrupt(int irq, void *dev_id)
-         if (!doorbellValue)
- 		return IRQ_NONE;
- 
--	spin_lock(&korg1212->lock);
-+	guard(spinlock)(&korg1212->lock);
- 
- 	writel(doorbellValue, korg1212->inDoorbellPtr);
- 
-@@ -1139,8 +1130,6 @@ static irqreturn_t snd_korg1212_interrupt(int irq, void *dev_id)
- 
- 	korg1212->inIRQ--;
- 
--	spin_unlock(&korg1212->lock);
--
- 	return IRQ_HANDLED;
- }
- 
-@@ -1326,7 +1315,6 @@ static void snd_korg1212_free_pcm(struct snd_pcm *pcm)
- 
- static int snd_korg1212_playback_open(struct snd_pcm_substream *substream)
- {
--        unsigned long flags;
-         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
-         struct snd_pcm_runtime *runtime = substream->runtime;
- 
-@@ -1338,15 +1326,13 @@ static int snd_korg1212_playback_open(struct snd_pcm_substream *substream)
-         runtime->hw = snd_korg1212_playback_info;
- 	snd_pcm_set_runtime_buffer(substream, korg1212->dma_play);
- 
--        spin_lock_irqsave(&korg1212->lock, flags);
--
--        korg1212->playback_substream = substream;
--	korg1212->playback_pid = current->pid;
--        korg1212->periodsize = K1212_PERIODS;
--	korg1212->channels = K1212_CHANNELS;
--	korg1212->errorcnt = 0;
--
--        spin_unlock_irqrestore(&korg1212->lock, flags);
-+	scoped_guard(spinlock_irqsave, &korg1212->lock) {
-+		korg1212->playback_substream = substream;
-+		korg1212->playback_pid = current->pid;
-+		korg1212->periodsize = K1212_PERIODS;
-+		korg1212->channels = K1212_CHANNELS;
-+		korg1212->errorcnt = 0;
-+	}
- 
- 	snd_pcm_hw_constraint_single(runtime, SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
- 				     kPlayBufferFrames);
-@@ -1357,7 +1343,6 @@ static int snd_korg1212_playback_open(struct snd_pcm_substream *substream)
- 
- static int snd_korg1212_capture_open(struct snd_pcm_substream *substream)
- {
--        unsigned long flags;
-         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
-         struct snd_pcm_runtime *runtime = substream->runtime;
- 
-@@ -1369,14 +1354,12 @@ static int snd_korg1212_capture_open(struct snd_pcm_substream *substream)
-         runtime->hw = snd_korg1212_capture_info;
- 	snd_pcm_set_runtime_buffer(substream, korg1212->dma_rec);
- 
--        spin_lock_irqsave(&korg1212->lock, flags);
--
--        korg1212->capture_substream = substream;
--	korg1212->capture_pid = current->pid;
--        korg1212->periodsize = K1212_PERIODS;
--	korg1212->channels = K1212_CHANNELS;
--
--        spin_unlock_irqrestore(&korg1212->lock, flags);
-+	scoped_guard(spinlock_irqsave, &korg1212->lock) {
-+		korg1212->capture_substream = substream;
-+		korg1212->capture_pid = current->pid;
-+		korg1212->periodsize = K1212_PERIODS;
-+		korg1212->channels = K1212_CHANNELS;
-+	}
- 
- 	snd_pcm_hw_constraint_single(runtime, SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
- 				     kPlayBufferFrames);
-@@ -1385,7 +1368,6 @@ static int snd_korg1212_capture_open(struct snd_pcm_substream *substream)
- 
- static int snd_korg1212_playback_close(struct snd_pcm_substream *substream)
- {
--        unsigned long flags;
-         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
- 
- 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_playback_close [%s]\n",
-@@ -1393,13 +1375,11 @@ static int snd_korg1212_playback_close(struct snd_pcm_substream *substream)
- 
- 	snd_korg1212_silence(korg1212, 0, K1212_MAX_SAMPLES, 0, korg1212->channels * 2);
- 
--        spin_lock_irqsave(&korg1212->lock, flags);
--
--	korg1212->playback_pid = -1;
--        korg1212->playback_substream = NULL;
--        korg1212->periodsize = 0;
--
--        spin_unlock_irqrestore(&korg1212->lock, flags);
-+	scoped_guard(spinlock_irqsave, &korg1212->lock) {
-+		korg1212->playback_pid = -1;
-+		korg1212->playback_substream = NULL;
-+		korg1212->periodsize = 0;
-+	}
- 
- 	snd_korg1212_CloseCard(korg1212);
-         return 0;
-@@ -1407,19 +1387,16 @@ static int snd_korg1212_playback_close(struct snd_pcm_substream *substream)
- 
- static int snd_korg1212_capture_close(struct snd_pcm_substream *substream)
- {
--        unsigned long flags;
-         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
- 
- 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_capture_close [%s]\n",
- 			   stateName[korg1212->cardState]);
- 
--        spin_lock_irqsave(&korg1212->lock, flags);
--
--	korg1212->capture_pid = -1;
--        korg1212->capture_substream = NULL;
--        korg1212->periodsize = 0;
--
--        spin_unlock_irqrestore(&korg1212->lock, flags);
-+	scoped_guard(spinlock_irqsave, &korg1212->lock) {
-+		korg1212->capture_pid = -1;
-+		korg1212->capture_substream = NULL;
-+		korg1212->periodsize = 0;
-+	}
- 
- 	snd_korg1212_CloseCard(korg1212);
-         return 0;
-@@ -1445,7 +1422,6 @@ static int snd_korg1212_ioctl(struct snd_pcm_substream *substream,
- static int snd_korg1212_hw_params(struct snd_pcm_substream *substream,
-                              struct snd_pcm_hw_params *params)
- {
--        unsigned long flags;
-         struct snd_korg1212 *korg1212 = snd_pcm_substream_chip(substream);
-         int err;
- 	pid_t this_pid;
-@@ -1454,7 +1430,7 @@ static int snd_korg1212_hw_params(struct snd_pcm_substream *substream,
- 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_hw_params [%s]\n",
- 			   stateName[korg1212->cardState]);
- 
--        spin_lock_irqsave(&korg1212->lock, flags);
-+	guard(spinlock_irqsave)(&korg1212->lock);
- 
- 	if (substream->pstr->stream == SNDRV_PCM_STREAM_PLAYBACK) {
- 		this_pid = korg1212->playback_pid;
-@@ -1472,26 +1448,20 @@ static int snd_korg1212_hw_params(struct snd_pcm_substream *substream,
- 		 */
- 
- 		if ((int)params_rate(params) != korg1212->clkRate) {
--			spin_unlock_irqrestore(&korg1212->lock, flags);
- 			_snd_pcm_hw_param_setempty(params, SNDRV_PCM_HW_PARAM_RATE);
- 			return -EBUSY;
- 		}
- 
--        	spin_unlock_irqrestore(&korg1212->lock, flags);
- 	        return 0;
+@@ -213,12 +210,9 @@ static void snd_trident_codec_write(struct snd_ac97 *ac97, unsigned short reg,
+ 		count = 0;	/* return */
  	}
  
- 	err = snd_korg1212_SetRate(korg1212, params_rate(params));
--	if (err < 0) {
--                spin_unlock_irqrestore(&korg1212->lock, flags);
-+	if (err < 0)
-                 return err;
--        }
- 
- 	korg1212->channels = params_channels(params);
-         korg1212->periodsize = K1212_PERIOD_BYTES;
- 
--        spin_unlock_irqrestore(&korg1212->lock, flags);
--
-         return 0;
+-	if (count == 0) {
+-		spin_unlock_irqrestore(&trident->reg_lock, flags);
++	if (count == 0)
+ 		return;
+-	}
+ 	outl(data, TRID_REG(trident, address));
+-	spin_unlock_irqrestore(&trident->reg_lock, flags);
  }
  
-@@ -1511,15 +1481,13 @@ static int snd_korg1212_prepare(struct snd_pcm_substream *substream)
- 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_prepare [%s]\n",
- 			   stateName[korg1212->cardState]);
+ /*---------------------------------------------------------------------------
+@@ -911,7 +905,7 @@ static int snd_trident_playback_prepare(struct snd_pcm_substream *substream)
+ 	struct snd_trident_voice *evoice = voice->extra;
+ 	struct snd_trident_pcm_mixer *mix = &trident->pcm_mixer[substream->number];
  
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 	korg1212->dsp_stop_processing = 0;
+-	spin_lock_irq(&trident->reg_lock);	
++	guard(spinlock_irq)(&trident->reg_lock);
  
-         rc = snd_korg1212_SetupForPlay(korg1212);
- 
-         korg1212->currentBuffer = 0;
- 
--        spin_unlock_irq(&korg1212->lock);
--
- 	return rc ? -EINVAL : 0;
- }
- 
-@@ -1532,7 +1500,7 @@ static int snd_korg1212_trigger(struct snd_pcm_substream *substream,
- 	K1212_DEBUG_PRINTK("K1212_DEBUG: snd_korg1212_trigger [%s] cmd=%d\n",
- 			   stateName[korg1212->cardState], cmd);
- 
--	spin_lock(&korg1212->lock);
-+	guard(spinlock)(&korg1212->lock);
-         switch (cmd) {
-                 case SNDRV_PCM_TRIGGER_START:
- /*
-@@ -1560,7 +1528,6 @@ static int snd_korg1212_trigger(struct snd_pcm_substream *substream,
- 			rc = 1;
- 			break;
-         }
--	spin_unlock(&korg1212->lock);
-         return rc ? -EINVAL : 0;
- }
- 
-@@ -1660,15 +1627,13 @@ static int snd_korg1212_control_phase_get(struct snd_kcontrol *kcontrol,
- 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
- 	int i = kcontrol->private_value;
- 
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 
-         u->value.integer.value[0] = korg1212->volumePhase[i];
- 
- 	if (i >= 8)
-         	u->value.integer.value[1] = korg1212->volumePhase[i+1];
- 
--	spin_unlock_irq(&korg1212->lock);
--
-         return 0;
- }
- 
-@@ -1679,7 +1644,7 @@ static int snd_korg1212_control_phase_put(struct snd_kcontrol *kcontrol,
-         int change = 0;
-         int i, val;
- 
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 
- 	i = kcontrol->private_value;
- 
-@@ -1705,8 +1670,6 @@ static int snd_korg1212_control_phase_put(struct snd_kcontrol *kcontrol,
- 		}
+ 	/* set delta (rate) value */
+ 	voice->Delta = snd_trident_convert_rate(runtime->rate);
+@@ -972,8 +966,6 @@ static int snd_trident_playback_prepare(struct snd_pcm_substream *substream)
+ 		evoice->ESO = (runtime->period_size * 2) - 1;
  	}
  
--	spin_unlock_irq(&korg1212->lock);
+-	spin_unlock_irq(&trident->reg_lock);
 -
-         return change;
- }
- 
-@@ -1726,7 +1689,7 @@ static int snd_korg1212_control_volume_get(struct snd_kcontrol *kcontrol,
- 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
-         int i;
- 
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 
- 	i = kcontrol->private_value;
-         u->value.integer.value[0] = abs(korg1212->sharedBufferPtr->volumeData[i]);
-@@ -1734,8 +1697,6 @@ static int snd_korg1212_control_volume_get(struct snd_kcontrol *kcontrol,
- 	if (i >= 8) 
-                 u->value.integer.value[1] = abs(korg1212->sharedBufferPtr->volumeData[i+1]);
- 
--        spin_unlock_irq(&korg1212->lock);
--
-         return 0;
- }
- 
-@@ -1747,7 +1708,7 @@ static int snd_korg1212_control_volume_put(struct snd_kcontrol *kcontrol,
-         int i;
- 	int val;
- 
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 
- 	i = kcontrol->private_value;
- 
-@@ -1773,8 +1734,6 @@ static int snd_korg1212_control_volume_put(struct snd_kcontrol *kcontrol,
- 		}
- 	}
- 
--	spin_unlock_irq(&korg1212->lock);
--
-         return change;
- }
- 
-@@ -1792,7 +1751,7 @@ static int snd_korg1212_control_route_get(struct snd_kcontrol *kcontrol,
- 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
-         int i;
- 
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 
- 	i = kcontrol->private_value;
- 	u->value.enumerated.item[0] = korg1212->sharedBufferPtr->routeData[i];
-@@ -1800,8 +1759,6 @@ static int snd_korg1212_control_route_get(struct snd_kcontrol *kcontrol,
- 	if (i >= 8) 
- 		u->value.enumerated.item[1] = korg1212->sharedBufferPtr->routeData[i+1];
- 
--        spin_unlock_irq(&korg1212->lock);
--
-         return 0;
- }
- 
-@@ -1811,7 +1768,7 @@ static int snd_korg1212_control_route_put(struct snd_kcontrol *kcontrol,
- 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
-         int change = 0, i;
- 
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 
- 	i = kcontrol->private_value;
- 
-@@ -1831,8 +1788,6 @@ static int snd_korg1212_control_route_put(struct snd_kcontrol *kcontrol,
- 		}
- 	}
- 
--	spin_unlock_irq(&korg1212->lock);
--
-         return change;
- }
- 
-@@ -1851,13 +1806,11 @@ static int snd_korg1212_control_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
- 
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 
-         u->value.integer.value[0] = korg1212->leftADCInSens;
-         u->value.integer.value[1] = korg1212->rightADCInSens;
- 
--	spin_unlock_irq(&korg1212->lock);
--
-         return 0;
- }
- 
-@@ -1867,22 +1820,20 @@ static int snd_korg1212_control_put(struct snd_kcontrol *kcontrol,
- 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
-         int change = 0;
- 
--	spin_lock_irq(&korg1212->lock);
--
--	if (u->value.integer.value[0] >= k1212MinADCSens &&
--	    u->value.integer.value[0] <= k1212MaxADCSens &&
--	    u->value.integer.value[0] != korg1212->leftADCInSens) {
--                korg1212->leftADCInSens = u->value.integer.value[0];
--                change = 1;
--        }
--	if (u->value.integer.value[1] >= k1212MinADCSens &&
--	    u->value.integer.value[1] <= k1212MaxADCSens &&
--	    u->value.integer.value[1] != korg1212->rightADCInSens) {
--                korg1212->rightADCInSens = u->value.integer.value[1];
--                change = 1;
--        }
--
--	spin_unlock_irq(&korg1212->lock);
-+	scoped_guard(spinlock_irq, &korg1212->lock) {
-+		if (u->value.integer.value[0] >= k1212MinADCSens &&
-+		    u->value.integer.value[0] <= k1212MaxADCSens &&
-+		    u->value.integer.value[0] != korg1212->leftADCInSens) {
-+			korg1212->leftADCInSens = u->value.integer.value[0];
-+			change = 1;
-+		}
-+		if (u->value.integer.value[1] >= k1212MinADCSens &&
-+		    u->value.integer.value[1] <= k1212MaxADCSens &&
-+		    u->value.integer.value[1] != korg1212->rightADCInSens) {
-+			korg1212->rightADCInSens = u->value.integer.value[1];
-+			change = 1;
-+		}
-+	}
- 
-         if (change)
-                 snd_korg1212_WriteADCSensitivity(korg1212);
-@@ -1901,11 +1852,9 @@ static int snd_korg1212_control_sync_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_korg1212 *korg1212 = snd_kcontrol_chip(kcontrol);
- 
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 
- 	ucontrol->value.enumerated.item[0] = korg1212->clkSource;
--
--	spin_unlock_irq(&korg1212->lock);
  	return 0;
  }
  
-@@ -1917,10 +1866,9 @@ static int snd_korg1212_control_sync_put(struct snd_kcontrol *kcontrol,
+@@ -1013,7 +1005,7 @@ static int snd_trident_capture_prepare(struct snd_pcm_substream *substream)
+ 	struct snd_trident_voice *voice = runtime->private_data;
+ 	unsigned int val, ESO_bytes;
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 
+ 	// Initialize the channel and set channel Mode
+ 	outb(0, TRID_REG(trident, LEGACY_DMAR15));
+@@ -1082,7 +1074,6 @@ static int snd_trident_capture_prepare(struct snd_pcm_substream *substream)
+ 
+ 	snd_trident_write_voice_regs(trident, voice);
+ 
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -1147,7 +1138,7 @@ static int snd_trident_si7018_capture_prepare(struct snd_pcm_substream *substrea
+ 	struct snd_trident_voice *voice = runtime->private_data;
+ 	struct snd_trident_voice *evoice = voice->extra;
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 
+ 	voice->LBA = runtime->dma_addr;
+ 	voice->Delta = snd_trident_convert_adc_rate(runtime->rate);
+@@ -1196,7 +1187,6 @@ static int snd_trident_si7018_capture_prepare(struct snd_pcm_substream *substrea
+ 		evoice->ESO = (runtime->period_size * 2) - 1;
+ 	}
+ 	
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -1218,7 +1208,7 @@ static int snd_trident_foldback_prepare(struct snd_pcm_substream *substream)
+ 	struct snd_trident_voice *voice = runtime->private_data;
+ 	struct snd_trident_voice *evoice = voice->extra;
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 
+ 	/* Set channel buffer Address */
+ 	if (voice->memblk)
+@@ -1273,7 +1263,6 @@ static int snd_trident_foldback_prepare(struct snd_pcm_substream *substream)
+ 		evoice->ESO = (runtime->period_size * 2) - 1;
+ 	}
+ 
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -1307,35 +1296,33 @@ static int snd_trident_spdif_hw_params(struct snd_pcm_substream *substream,
+ 	}
+ 
+ 	/* prepare SPDIF channel */
+-	spin_lock_irq(&trident->reg_lock);
+-	old_bits = trident->spdif_pcm_bits;
+-	if (old_bits & IEC958_AES0_PROFESSIONAL)
+-		trident->spdif_pcm_bits &= ~IEC958_AES0_PRO_FS;
+-	else
+-		trident->spdif_pcm_bits &= ~(IEC958_AES3_CON_FS << 24);
+-	if (params_rate(hw_params) >= 48000) {
+-		trident->spdif_pcm_ctrl = 0x3c;	// 48000 Hz
+-		trident->spdif_pcm_bits |=
+-			trident->spdif_bits & IEC958_AES0_PROFESSIONAL ?
++	scoped_guard(spinlock_irq, &trident->reg_lock) {
++		old_bits = trident->spdif_pcm_bits;
++		if (old_bits & IEC958_AES0_PROFESSIONAL)
++			trident->spdif_pcm_bits &= ~IEC958_AES0_PRO_FS;
++		else
++			trident->spdif_pcm_bits &= ~(IEC958_AES3_CON_FS << 24);
++		if (params_rate(hw_params) >= 48000) {
++			trident->spdif_pcm_ctrl = 0x3c;	// 48000 Hz
++			trident->spdif_pcm_bits |=
++				trident->spdif_bits & IEC958_AES0_PROFESSIONAL ?
+ 				IEC958_AES0_PRO_FS_48000 :
+ 				(IEC958_AES3_CON_FS_48000 << 24);
+-	}
+-	else if (params_rate(hw_params) >= 44100) {
+-		trident->spdif_pcm_ctrl = 0x3e;	// 44100 Hz
+-		trident->spdif_pcm_bits |=
+-			trident->spdif_bits & IEC958_AES0_PROFESSIONAL ?
++		} else if (params_rate(hw_params) >= 44100) {
++			trident->spdif_pcm_ctrl = 0x3e;	// 44100 Hz
++			trident->spdif_pcm_bits |=
++				trident->spdif_bits & IEC958_AES0_PROFESSIONAL ?
+ 				IEC958_AES0_PRO_FS_44100 :
+ 				(IEC958_AES3_CON_FS_44100 << 24);
+-	}
+-	else {
+-		trident->spdif_pcm_ctrl = 0x3d;	// 32000 Hz
+-		trident->spdif_pcm_bits |=
+-			trident->spdif_bits & IEC958_AES0_PROFESSIONAL ?
++		} else {
++			trident->spdif_pcm_ctrl = 0x3d;	// 32000 Hz
++			trident->spdif_pcm_bits |=
++				trident->spdif_bits & IEC958_AES0_PROFESSIONAL ?
+ 				IEC958_AES0_PRO_FS_32000 :
+ 				(IEC958_AES3_CON_FS_32000 << 24);
++		}
++		change = old_bits != trident->spdif_pcm_bits;
+ 	}
+-	change = old_bits != trident->spdif_pcm_bits;
+-	spin_unlock_irq(&trident->reg_lock);
+ 
+ 	if (change)
+ 		snd_ctl_notify(trident->card, SNDRV_CTL_EVENT_MASK_VALUE, &trident->spdif_pcm_ctl->id);
+@@ -1364,7 +1351,7 @@ static int snd_trident_spdif_prepare(struct snd_pcm_substream *substream)
+ 	unsigned int RESO, LBAO;
+ 	unsigned int temp;
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 
+ 	if (trident->device != TRIDENT_DEVICE_ID_SI7018) {
+ 
+@@ -1476,8 +1463,6 @@ static int snd_trident_spdif_prepare(struct snd_pcm_substream *substream)
+ 		outl(temp, TRID_REG(trident, SI_SERIAL_INTF_CTRL));
+ 	}
+ 
+-	spin_unlock_irq(&trident->reg_lock);
+-
+ 	return 0;
+ }
+ 
+@@ -1518,7 +1503,7 @@ static int snd_trident_trigger(struct snd_pcm_substream *substream,
+ 		return -EINVAL;
+ 	}
+ 	what = whati = capture_flag = spdif_flag = 0;
+-	spin_lock(&trident->reg_lock);
++	guard(spinlock)(&trident->reg_lock);
+ 	val = inl(TRID_REG(trident, T4D_STIMER)) & 0x00ffffff;
+ 	snd_pcm_group_for_each_entry(s, substream) {
+ 		if ((struct snd_trident *) snd_pcm_substream_chip(s) == trident) {
+@@ -1577,7 +1562,6 @@ static int snd_trident_trigger(struct snd_pcm_substream *substream,
+ 		if (capture_flag && trident->device != TRIDENT_DEVICE_ID_SI7018)
+ 			outb(0x00, TRID_REG(trident, T4D_SBCTRL_SBE2R_SBDD));
+ 	}
+-	spin_unlock(&trident->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -1602,7 +1586,7 @@ static snd_pcm_uframes_t snd_trident_playback_pointer(struct snd_pcm_substream *
+ 	if (!voice->running)
+ 		return 0;
+ 
+-	spin_lock(&trident->reg_lock);
++	guard(spinlock)(&trident->reg_lock);
+ 
+ 	outb(voice->number, TRID_REG(trident, T4D_LFO_GC_CIR));
+ 
+@@ -1612,8 +1596,6 @@ static snd_pcm_uframes_t snd_trident_playback_pointer(struct snd_pcm_substream *
+ 		cso = (unsigned int) inl(TRID_REG(trident, CH_NX_DELTA_CSO)) & 0x00ffffff;
+ 	}
+ 
+-	spin_unlock(&trident->reg_lock);
+-
+ 	if (cso >= runtime->buffer_size)
+ 		cso = 0;
+ 
+@@ -1866,9 +1848,9 @@ static int snd_trident_spdif_open(struct snd_pcm_substream *substream)
+ 		return -EAGAIN;
+ 	voice->spdif = 1;
+ 	voice->substream = substream;
+-	spin_lock_irq(&trident->reg_lock);
+-	trident->spdif_pcm_bits = trident->spdif_bits;
+-	spin_unlock_irq(&trident->reg_lock);
++	scoped_guard(spinlock_irq, &trident->reg_lock) {
++		trident->spdif_pcm_bits = trident->spdif_bits;
++	}
+ 
+ 	runtime->private_data = voice;
+ 	runtime->private_free = snd_trident_pcm_free_substream;
+@@ -1901,22 +1883,22 @@ static int snd_trident_spdif_close(struct snd_pcm_substream *substream)
+ 	struct snd_trident *trident = snd_pcm_substream_chip(substream);
+ 	unsigned int temp;
+ 
+-	spin_lock_irq(&trident->reg_lock);
+-	// restore default SPDIF setting
+-	if (trident->device != TRIDENT_DEVICE_ID_SI7018) {
+-		outb(trident->spdif_ctrl, TRID_REG(trident, NX_SPCTRL_SPCSO + 3));
+-		outl(trident->spdif_bits, TRID_REG(trident, NX_SPCSTATUS));
+-	} else {
+-		outl(trident->spdif_bits, TRID_REG(trident, SI_SPDIF_CS));
+-		temp = inl(TRID_REG(trident, SI_SERIAL_INTF_CTRL));
+-		if (trident->spdif_ctrl) {
+-			temp |= SPDIF_EN;
++	scoped_guard(spinlock_irq, &trident->reg_lock) {
++		// restore default SPDIF setting
++		if (trident->device != TRIDENT_DEVICE_ID_SI7018) {
++			outb(trident->spdif_ctrl, TRID_REG(trident, NX_SPCTRL_SPCSO + 3));
++			outl(trident->spdif_bits, TRID_REG(trident, NX_SPCSTATUS));
+ 		} else {
+-			temp &= ~SPDIF_EN;
++			outl(trident->spdif_bits, TRID_REG(trident, SI_SPDIF_CS));
++			temp = inl(TRID_REG(trident, SI_SERIAL_INTF_CTRL));
++			if (trident->spdif_ctrl) {
++				temp |= SPDIF_EN;
++			} else {
++				temp &= ~SPDIF_EN;
++			}
++			outl(temp, TRID_REG(trident, SI_SERIAL_INTF_CTRL));
+ 		}
+-		outl(temp, TRID_REG(trident, SI_SERIAL_INTF_CTRL));
+ 	}
+-	spin_unlock_irq(&trident->reg_lock);
+ 	trident->spdif_pcm_ctl->vd[0].access |= SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+ 	snd_ctl_notify(trident->card, SNDRV_CTL_EVENT_MASK_VALUE |
+ 		       SNDRV_CTL_EVENT_MASK_INFO, &trident->spdif_pcm_ctl->id);
+@@ -2013,9 +1995,8 @@ static int snd_trident_foldback_close(struct snd_pcm_substream *substream)
+ 	voice = runtime->private_data;
+ 	
+ 	/* stop capture channel */
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	outb(0x00, TRID_REG(trident, T4D_RCI + voice->foldback_chan));
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -2269,10 +2250,9 @@ static int snd_trident_spdif_control_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_trident *trident = snd_kcontrol_chip(kcontrol);
+ 	unsigned char val;
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	val = trident->spdif_ctrl;
+ 	ucontrol->value.integer.value[0] = val == kcontrol->private_value;
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -2284,7 +2264,7 @@ static int snd_trident_spdif_control_put(struct snd_kcontrol *kcontrol,
  	int change;
  
- 	val = ucontrol->value.enumerated.item[0] % 3;
--	spin_lock_irq(&korg1212->lock);
-+	guard(spinlock_irq)(&korg1212->lock);
- 	change = val != korg1212->clkSource;
-         snd_korg1212_SetClockSource(korg1212, val);
--	spin_unlock_irq(&korg1212->lock);
+ 	val = ucontrol->value.integer.value[0] ? (unsigned char) kcontrol->private_value : 0x00;
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	/* S/PDIF C Channel bits 0-31 : 48khz, SCMS disabled */
+ 	change = trident->spdif_ctrl != val;
+ 	trident->spdif_ctrl = val;
+@@ -2303,7 +2283,6 @@ static int snd_trident_spdif_control_put(struct snd_kcontrol *kcontrol,
+ 			outl(temp, TRID_REG(trident, SI_SERIAL_INTF_CTRL));
+ 		}
+ 	}
+-	spin_unlock_irq(&trident->reg_lock);
  	return change;
  }
  
+@@ -2336,12 +2315,11 @@ static int snd_trident_spdif_default_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_trident *trident = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	ucontrol->value.iec958.status[0] = (trident->spdif_bits >> 0) & 0xff;
+ 	ucontrol->value.iec958.status[1] = (trident->spdif_bits >> 8) & 0xff;
+ 	ucontrol->value.iec958.status[2] = (trident->spdif_bits >> 16) & 0xff;
+ 	ucontrol->value.iec958.status[3] = (trident->spdif_bits >> 24) & 0xff;
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -2356,7 +2334,7 @@ static int snd_trident_spdif_default_put(struct snd_kcontrol *kcontrol,
+ 	      (ucontrol->value.iec958.status[1] << 8) |
+ 	      (ucontrol->value.iec958.status[2] << 16) |
+ 	      (ucontrol->value.iec958.status[3] << 24);
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	change = trident->spdif_bits != val;
+ 	trident->spdif_bits = val;
+ 	if (trident->device != TRIDENT_DEVICE_ID_SI7018) {
+@@ -2366,7 +2344,6 @@ static int snd_trident_spdif_default_put(struct snd_kcontrol *kcontrol,
+ 		if (trident->spdif == NULL)
+ 			outl(trident->spdif_bits, TRID_REG(trident, SI_SPDIF_CS));
+ 	}
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2431,12 +2408,11 @@ static int snd_trident_spdif_stream_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_trident *trident = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	ucontrol->value.iec958.status[0] = (trident->spdif_pcm_bits >> 0) & 0xff;
+ 	ucontrol->value.iec958.status[1] = (trident->spdif_pcm_bits >> 8) & 0xff;
+ 	ucontrol->value.iec958.status[2] = (trident->spdif_pcm_bits >> 16) & 0xff;
+ 	ucontrol->value.iec958.status[3] = (trident->spdif_pcm_bits >> 24) & 0xff;
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -2451,7 +2427,7 @@ static int snd_trident_spdif_stream_put(struct snd_kcontrol *kcontrol,
+ 	      (ucontrol->value.iec958.status[1] << 8) |
+ 	      (ucontrol->value.iec958.status[2] << 16) |
+ 	      (ucontrol->value.iec958.status[3] << 24);
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	change = trident->spdif_pcm_bits != val;
+ 	trident->spdif_pcm_bits = val;
+ 	if (trident->spdif != NULL) {
+@@ -2461,7 +2437,6 @@ static int snd_trident_spdif_stream_put(struct snd_kcontrol *kcontrol,
+ 			outl(trident->spdif_bits, TRID_REG(trident, SI_SPDIF_CS));
+ 		}
+ 	}
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2489,10 +2464,9 @@ static int snd_trident_ac97_control_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_trident *trident = snd_kcontrol_chip(kcontrol);
+ 	unsigned char val;
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	val = trident->ac97_ctrl = inl(TRID_REG(trident, NX_ACR0_AC97_COM_STAT));
+ 	ucontrol->value.integer.value[0] = (val & (1 << kcontrol->private_value)) ? 1 : 0;
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -2503,7 +2477,7 @@ static int snd_trident_ac97_control_put(struct snd_kcontrol *kcontrol,
+ 	unsigned char val;
+ 	int change = 0;
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	val = trident->ac97_ctrl = inl(TRID_REG(trident, NX_ACR0_AC97_COM_STAT));
+ 	val &= ~(1 << kcontrol->private_value);
+ 	if (ucontrol->value.integer.value[0])
+@@ -2511,7 +2485,6 @@ static int snd_trident_ac97_control_put(struct snd_kcontrol *kcontrol,
+ 	change = val != trident->ac97_ctrl;
+ 	trident->ac97_ctrl = val;
+ 	outl(trident->ac97_ctrl = val, TRID_REG(trident, NX_ACR0_AC97_COM_STAT));
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2562,14 +2535,13 @@ static int snd_trident_vol_control_put(struct snd_kcontrol *kcontrol,
+ 	unsigned int val;
+ 	int change = 0;
+ 
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	val = trident->musicvol_wavevol;
+ 	val &= ~(0xffff << kcontrol->private_value);
+ 	val |= ((255 - (ucontrol->value.integer.value[0] & 0xff)) |
+ 	        ((255 - (ucontrol->value.integer.value[1] & 0xff)) << 8)) << kcontrol->private_value;
+ 	change = val != trident->musicvol_wavevol;
+ 	outl(trident->musicvol_wavevol = val, TRID_REG(trident, T4D_MUSICVOL_WAVEVOL));
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2642,12 +2614,11 @@ static int snd_trident_pcm_vol_control_put(struct snd_kcontrol *kcontrol,
+ 	} else {
+ 		val = (255 - (ucontrol->value.integer.value[0] & 255)) << 2;
+ 	}
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	change = val != mix->vol;
+ 	mix->vol = val;
+ 	if (mix->voice != NULL)
+ 		snd_trident_write_vol_reg(trident, mix->voice, val);
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2706,12 +2677,11 @@ static int snd_trident_pcm_pan_control_put(struct snd_kcontrol *kcontrol,
+ 		val = ucontrol->value.integer.value[0] & 0x3f;
+ 	else
+ 		val = (0x3f - (ucontrol->value.integer.value[0] & 0x3f)) | 0x40;
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	change = val != mix->pan;
+ 	mix->pan = val;
+ 	if (mix->voice != NULL)
+ 		snd_trident_write_pan_reg(trident, mix->voice, val);
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2761,12 +2731,11 @@ static int snd_trident_pcm_rvol_control_put(struct snd_kcontrol *kcontrol,
+ 	int change = 0;
+ 
+ 	val = 0x7f - (ucontrol->value.integer.value[0] & 0x7f);
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	change = val != mix->rvol;
+ 	mix->rvol = val;
+ 	if (mix->voice != NULL)
+ 		snd_trident_write_rvol_reg(trident, mix->voice, val);
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2819,12 +2788,11 @@ static int snd_trident_pcm_cvol_control_put(struct snd_kcontrol *kcontrol,
+ 	int change = 0;
+ 
+ 	val = 0x7f - (ucontrol->value.integer.value[0] & 0x7f);
+-	spin_lock_irq(&trident->reg_lock);
++	guard(spinlock_irq)(&trident->reg_lock);
+ 	change = val != mix->cvol;
+ 	mix->cvol = val;
+ 	if (mix->voice != NULL)
+ 		snd_trident_write_cvol_reg(trident, mix->voice, val);
+-	spin_unlock_irq(&trident->reg_lock);
+ 	return change;
+ }
+ 
+@@ -3659,79 +3627,76 @@ static irqreturn_t snd_trident_interrupt(int irq, void *dev_id)
+ 		return IRQ_NONE;
+ 	if (audio_int & ADDRESS_IRQ) {
+ 		// get interrupt status for all channels
+-		spin_lock(&trident->reg_lock);
+-		stimer = inl(TRID_REG(trident, T4D_STIMER)) & 0x00ffffff;
+-		chn_int = inl(TRID_REG(trident, T4D_AINT_A));
+-		if (chn_int == 0)
+-			goto __skip1;
+-		outl(chn_int, TRID_REG(trident, T4D_AINT_A));	/* ack */
+-	      __skip1:
+-		chn_int = inl(TRID_REG(trident, T4D_AINT_B));
+-		if (chn_int == 0)
+-			goto __skip2;
+-		for (channel = 63; channel >= 32; channel--) {
+-			mask = 1 << (channel&0x1f);
+-			if ((chn_int & mask) == 0)
+-				continue;
+-			voice = &trident->synth.voices[channel];
+-			if (!voice->pcm || voice->substream == NULL) {
+-				outl(mask, TRID_REG(trident, T4D_STOP_B));
+-				continue;
+-			}
+-			delta = (int)stimer - (int)voice->stimer;
+-			if (delta < 0)
+-				delta = -delta;
+-			if ((unsigned int)delta < voice->spurious_threshold) {
+-				/* do some statistics here */
+-				trident->spurious_irq_count++;
+-				if (trident->spurious_irq_max_delta < (unsigned int)delta)
+-					trident->spurious_irq_max_delta = delta;
+-				continue;
+-			}
+-			voice->stimer = stimer;
+-			if (voice->isync) {
+-				if (!voice->isync3) {
+-					tmp = inw(TRID_REG(trident, T4D_SBBL_SBCL));
+-					if (trident->bDMAStart & 0x40)
+-						tmp >>= 1;
+-					if (tmp > 0)
+-						tmp = voice->isync_max - tmp;
+-				} else {
+-					tmp = inl(TRID_REG(trident, NX_SPCTRL_SPCSO)) & 0x00ffffff;
++		scoped_guard(spinlock, &trident->reg_lock) {
++			stimer = inl(TRID_REG(trident, T4D_STIMER)) & 0x00ffffff;
++			chn_int = inl(TRID_REG(trident, T4D_AINT_A));
++			if (chn_int)
++				outl(chn_int, TRID_REG(trident, T4D_AINT_A));	/* ack */
++			chn_int = inl(TRID_REG(trident, T4D_AINT_B));
++			if (chn_int == 0)
++				break;
++			for (channel = 63; channel >= 32; channel--) {
++				mask = 1 << (channel&0x1f);
++				if ((chn_int & mask) == 0)
++					continue;
++				voice = &trident->synth.voices[channel];
++				if (!voice->pcm || voice->substream == NULL) {
++					outl(mask, TRID_REG(trident, T4D_STOP_B));
++					continue;
+ 				}
+-				if (tmp < voice->isync_mark) {
+-					if (tmp > 0x10)
+-						tmp = voice->isync_ESO - 7;
+-					else
+-						tmp = voice->isync_ESO + 2;
+-					/* update ESO for IRQ voice to preserve sync */
++				delta = (int)stimer - (int)voice->stimer;
++				if (delta < 0)
++					delta = -delta;
++				if ((unsigned int)delta < voice->spurious_threshold) {
++					/* do some statistics here */
++					trident->spurious_irq_count++;
++					if (trident->spurious_irq_max_delta < (unsigned int)delta)
++						trident->spurious_irq_max_delta = delta;
++					continue;
++				}
++				voice->stimer = stimer;
++				if (voice->isync) {
++					if (!voice->isync3) {
++						tmp = inw(TRID_REG(trident, T4D_SBBL_SBCL));
++						if (trident->bDMAStart & 0x40)
++							tmp >>= 1;
++						if (tmp > 0)
++							tmp = voice->isync_max - tmp;
++					} else {
++						tmp = inl(TRID_REG(trident, NX_SPCTRL_SPCSO)) & 0x00ffffff;
++					}
++					if (tmp < voice->isync_mark) {
++						if (tmp > 0x10)
++							tmp = voice->isync_ESO - 7;
++						else
++							tmp = voice->isync_ESO + 2;
++						/* update ESO for IRQ voice to preserve sync */
++						snd_trident_stop_voice(trident, voice->number);
++						snd_trident_write_eso_reg(trident, voice, tmp);
++						snd_trident_start_voice(trident, voice->number);
++					}
++				} else if (voice->isync2) {
++					voice->isync2 = 0;
++					/* write original ESO and update CSO for IRQ voice to preserve sync */
+ 					snd_trident_stop_voice(trident, voice->number);
+-					snd_trident_write_eso_reg(trident, voice, tmp);
++					snd_trident_write_cso_reg(trident, voice, voice->isync_mark);
++					snd_trident_write_eso_reg(trident, voice, voice->ESO);
+ 					snd_trident_start_voice(trident, voice->number);
+ 				}
+-			} else if (voice->isync2) {
+-				voice->isync2 = 0;
+-				/* write original ESO and update CSO for IRQ voice to preserve sync */
+-				snd_trident_stop_voice(trident, voice->number);
+-				snd_trident_write_cso_reg(trident, voice, voice->isync_mark);
+-				snd_trident_write_eso_reg(trident, voice, voice->ESO);
+-				snd_trident_start_voice(trident, voice->number);
+-			}
+ #if 0
+-			if (voice->extra) {
+-				/* update CSO for extra voice to preserve sync */
+-				snd_trident_stop_voice(trident, voice->extra->number);
+-				snd_trident_write_cso_reg(trident, voice->extra, 0);
+-				snd_trident_start_voice(trident, voice->extra->number);
+-			}
++				if (voice->extra) {
++					/* update CSO for extra voice to preserve sync */
++					snd_trident_stop_voice(trident, voice->extra->number);
++					snd_trident_write_cso_reg(trident, voice->extra, 0);
++					snd_trident_start_voice(trident, voice->extra->number);
++				}
+ #endif
+-			spin_unlock(&trident->reg_lock);
+-			snd_pcm_period_elapsed(voice->substream);
+-			spin_lock(&trident->reg_lock);
++				spin_unlock(&trident->reg_lock);
++				snd_pcm_period_elapsed(voice->substream);
++				spin_lock(&trident->reg_lock);
++			}
++			outl(chn_int, TRID_REG(trident, T4D_AINT_B));	/* ack */
+ 		}
+-		outl(chn_int, TRID_REG(trident, T4D_AINT_B));	/* ack */
+-	      __skip2:
+-		spin_unlock(&trident->reg_lock);
+ 	}
+ 	if (audio_int & MPU401_IRQ) {
+ 		if (trident->rmidi) {
+@@ -3747,16 +3712,13 @@ static irqreturn_t snd_trident_interrupt(int irq, void *dev_id)
+ struct snd_trident_voice *snd_trident_alloc_voice(struct snd_trident * trident, int type, int client, int port)
+ {
+ 	struct snd_trident_voice *pvoice;
+-	unsigned long flags;
+ 	int idx;
+ 
+-	spin_lock_irqsave(&trident->voice_alloc, flags);
++	guard(spinlock_irqsave)(&trident->voice_alloc);
+ 	if (type == SNDRV_TRIDENT_VOICE_TYPE_PCM) {
+ 		idx = snd_trident_allocate_pcm_channel(trident);
+-		if(idx < 0) {
+-			spin_unlock_irqrestore(&trident->voice_alloc, flags);
++		if (idx < 0)
+ 			return NULL;
+-		}
+ 		pvoice = &trident->synth.voices[idx];
+ 		pvoice->use = 1;
+ 		pvoice->pcm = 1;
+@@ -3764,27 +3726,22 @@ struct snd_trident_voice *snd_trident_alloc_voice(struct snd_trident * trident,
+ 		pvoice->spdif = 0;
+ 		pvoice->memblk = NULL;
+ 		pvoice->substream = NULL;
+-		spin_unlock_irqrestore(&trident->voice_alloc, flags);
+ 		return pvoice;
+ 	}
+ 	if (type == SNDRV_TRIDENT_VOICE_TYPE_SYNTH) {
+ 		idx = snd_trident_allocate_synth_channel(trident);
+-		if(idx < 0) {
+-			spin_unlock_irqrestore(&trident->voice_alloc, flags);
++		if (idx < 0)
+ 			return NULL;
+-		}
+ 		pvoice = &trident->synth.voices[idx];
+ 		pvoice->use = 1;
+ 		pvoice->synth = 1;
+ 		pvoice->client = client;
+ 		pvoice->port = port;
+ 		pvoice->memblk = NULL;
+-		spin_unlock_irqrestore(&trident->voice_alloc, flags);
+ 		return pvoice;
+ 	}
+ 	if (type == SNDRV_TRIDENT_VOICE_TYPE_MIDI) {
+ 	}
+-	spin_unlock_irqrestore(&trident->voice_alloc, flags);
+ 	return NULL;
+ }
+ 
+@@ -3792,26 +3749,25 @@ EXPORT_SYMBOL(snd_trident_alloc_voice);
+ 
+ void snd_trident_free_voice(struct snd_trident * trident, struct snd_trident_voice *voice)
+ {
+-	unsigned long flags;
+ 	void (*private_free)(struct snd_trident_voice *);
+ 
+ 	if (voice == NULL || !voice->use)
+ 		return;
+ 	snd_trident_clear_voices(trident, voice->number, voice->number);
+-	spin_lock_irqsave(&trident->voice_alloc, flags);
+-	private_free = voice->private_free;
+-	voice->private_free = NULL;
+-	voice->private_data = NULL;
+-	if (voice->pcm)
+-		snd_trident_free_pcm_channel(trident, voice->number);
+-	if (voice->synth)
+-		snd_trident_free_synth_channel(trident, voice->number);
+-	voice->use = voice->pcm = voice->synth = voice->midi = 0;
+-	voice->capture = voice->spdif = 0;
+-	voice->sample_ops = NULL;
+-	voice->substream = NULL;
+-	voice->extra = NULL;
+-	spin_unlock_irqrestore(&trident->voice_alloc, flags);
++	scoped_guard(spinlock_irqsave, &trident->voice_alloc) {
++		private_free = voice->private_free;
++		voice->private_free = NULL;
++		voice->private_data = NULL;
++		if (voice->pcm)
++			snd_trident_free_pcm_channel(trident, voice->number);
++		if (voice->synth)
++			snd_trident_free_synth_channel(trident, voice->number);
++		voice->use = voice->pcm = voice->synth = voice->midi = 0;
++		voice->capture = voice->spdif = 0;
++		voice->sample_ops = NULL;
++		voice->substream = NULL;
++		voice->extra = NULL;
++	}
+ 	if (private_free)
+ 		private_free(voice);
+ }
 -- 
 2.50.1
 
