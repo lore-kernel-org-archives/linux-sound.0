@@ -1,109 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E587B26F445;
-	Fri, 29 Aug 2025 22:19:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E422BEC20
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 22:19:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756505963; cv=none; b=KWfpnpANmvoB8AmYyfgghbwai/yntVP4vpuksvJNMe+gDLl75aSUQzNNTB3jjbBJ0ttUwDW6DBBXM0Us05cAPJUmumQSo94GTaFpdPjKfXxZPzs5czy9YEyi+cQ1aUizz4mDSgrYzqmY/iCcA75dLMJ0e2SZokn72N8bs2zsK6s=
+	t=1756505965; cv=none; b=RBHevwST/DyqnQtNZKJ82OFCAQyKwa4uYlmdfDl5iyURIE1+gP2bYiTxPj8TJm6nl7cbztLvVvXJoUIeWwfht2MX9+t/u+tuWov+7rffPNs3chIIzNYiZBLa5siNDmonPjdo34VXmY2lXlTpKl1CV7jYTo7Sc0WA1KKYLDCABhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756505963; c=relaxed/simple;
-	bh=0bwPfbMyrek5L9hOu7GBREJXWyINw9aI7B0CsO+yy18=;
+	s=arc-20240116; t=1756505965; c=relaxed/simple;
+	bh=AHhfJ0jWS/rnUCwx9k+Jv3qVStTVMgqk/MET3BMQnW8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gS+j9X+RZCCT8PBD6OtENW+p+FlHGfJmu3fCai1WIit2rIGItApAfXYPs0v17ovLIHNWBYH+9Rih7VQXIdCtX4ygWlzvGAH1zMITezdu7NlFKbJ+dD5DvyWDuIj5tBXXNNry//txCFk4dCRLLIeR4y2SumO8s1yxYABn4hnKoAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpneGQ3Q; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=i6HuPlNeXloDt7PutMF3BQksnJDLzr8ehsTaBBTyQ+cidGtKvSNu7dyQRY+bai3JLfGdXEl37VhXxYOUOiZpAyJW1coZpstEdkd0ZWyqlNL95d5ZmqKhd23Tuzz6vUg6tvHDTnMqC931F5wQbsM5y4NBY3q/YrgesQS87lL2Bjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HfTMl9LK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NpneGQ3Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D549C4CEF0;
-	Fri, 29 Aug 2025 22:19:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HfTMl9LK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA106C4CEF6;
+	Fri, 29 Aug 2025 22:19:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756505962;
-	bh=0bwPfbMyrek5L9hOu7GBREJXWyINw9aI7B0CsO+yy18=;
+	s=k20201202; t=1756505964;
+	bh=AHhfJ0jWS/rnUCwx9k+Jv3qVStTVMgqk/MET3BMQnW8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NpneGQ3QoAZZMVPOqxAMTMsnXEod1MdR9ylvjRjnlUJ/5Mz3jdgYOeIgkfRKPhZ/U
-	 vShN87eLYGT8BEANkp63jXP/WsDTW3PU0xitnIZmnudm3QKOtQPPDMN6lDjVT1DMy6
-	 XFRyCvB6YJQmelc7Wn3BJtfB7gPtsENP28OUr9nZgR3Z3uJVJ4N4zjTqq2R/gAAsif
-	 WTFcvK4iQOHAl7e/mRAw01njvP6SR0PeP/vp9kcpLKktQGVHBqKVQ45BB3W4Cv3bfY
-	 SvtEaHF5gGrpETbJNljug4x3qCKcghxgOt/gZHQtCpaow0R9q2yCiFsgb9Uaue3SoT
-	 1eYuRWMtynFfw==
+	b=HfTMl9LKNAtUCxyKUh17yrQeinNDI8CdZv1eYGSYlXNHOzQftbg3yXOjw3w6mV2Rq
+	 Ya02K7TtRjzjg5UyGFoC+d/oMd/ZPYmRpuzKhuaUe7NbPcVa0w36ZenfyW55tI8frw
+	 +4+mxcjW3NGVWppiAOJi8GSHyCboCuwxvUtpMJjJKv+kVFYhShoJO4yKjctO9nV2/X
+	 eXBdLldO8GjGdAQhyJMtepPT3xIO/ld7ueZ3r7FVaE7Or3/ZjVlNKliRHLjBDPkV6D
+	 MykU8KDg0mjjK2p2KjfqXS+xYAEXKd+gH/iN/B52FlKpsa3pdgbiPpmEjiI5Cfdsb9
+	 XzuFsneCrYi8A==
 From: Mark Brown <broonie@kernel.org>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux Documentation <linux-doc@vger.kernel.org>, 
- Linux DAMON <damon@lists.linux.dev>, 
- Linux Memory Management List <linux-mm@kvack.org>, 
- Linux Power Management <linux-pm@vger.kernel.org>, 
- Linux Block Devices <linux-block@vger.kernel.org>, 
- Linux BPF <bpf@vger.kernel.org>, 
- Linux Kernel Workflows <workflows@vger.kernel.org>, 
- Linux KASAN <kasan-dev@googlegroups.com>, 
- Linux Devicetree <devicetree@vger.kernel.org>, 
- Linux fsverity <fsverity@lists.linux.dev>, 
- Linux MTD <linux-mtd@lists.infradead.org>, 
- Linux DRI Development <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Build System <linux-lbuild@vger.kernel.org>, 
- Linux Networking <netdev@vger.kernel.org>, 
- Linux Sound <linux-sound@vger.kernel.org>, 
- Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, 
- Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@redhat.com>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, 
- Martin KaFai Lau <martin.lau@linux.dev>, 
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
- Yonghong Song <yonghong.song@linux.dev>, 
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
- Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
- Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
- Alexander Potapenko <glider@google.com>, 
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
- Vincenzo Frascino <vincenzo.frascino@arm.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>, 
- tytso@mit.edu, Richard Weinberger <richard@nod.at>, 
- Zhihao Cheng <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nicolas Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>, 
- Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
- Waiman Long <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Shay Agroskin <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>, 
- David Arinzon <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>, 
- Andrew Lunn <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexandru Ciobotaru <alcioa@amazon.com>, 
- The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Steve French <stfrench@microsoft.com>, 
- Meetakshi Setiya <msetiya@microsoft.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Bart Van Assche <bvanassche@acm.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Masahiro Yamada <masahiroy@kernel.org>
-In-Reply-To: <20250829075524.45635-1-bagasdotme@gmail.com>
-References: <20250829075524.45635-1-bagasdotme@gmail.com>
-Subject: Re: (subset) [PATCH 00/14] Internalize www.kernel.org/doc
- cross-reference
-Message-Id: <175650594072.395832.3911302052314725751.b4-ty@kernel.org>
-Date: Fri, 29 Aug 2025 23:19:00 +0100
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, jyri.sarha@linux.intel.com
+In-Reply-To: <20250829151101.27327-1-peter.ujfalusi@linux.intel.com>
+References: <20250829151101.27327-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: sof: ipc4-topology: Add support to sched_domain
+ attribute
+Message-Id: <175650596145.395832.10404747327113318803.b4-ty@kernel.org>
+Date: Fri, 29 Aug 2025 23:19:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -114,15 +47,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-a9b2a
 
-On Fri, 29 Aug 2025 14:55:10 +0700, Bagas Sanjaya wrote:
-> Cross-references to other docs (so-called internal links) are typically
-> done following Documentation/doc-guide/sphinx.rst: either simply
-> write the target docs (preferred) or use :doc: or :ref: reST directives
-> (for use-cases like having anchor text or cross-referencing sections).
-> In some places, however, links to https://www.kernel.org/doc
-> are used instead (outgoing, external links), owing inconsistency as
-> these requires Internet connection only to see docs that otherwise
-> can be accessed locally (after building with ``make htmldocs``).
+On Fri, 29 Aug 2025 18:11:01 +0300, Peter Ujfalusi wrote:
+> Add SOF_TKN_COMP_SCHED_DOMAIN and connect it to struct snd_sof_widget
+> comp_domain member, with new get_token_comp_domain() function.
+> 
+> The logic is such that if the topology attribute is not present in the
+> widget node the corresponding IPC4 extension value is taken from the
+> module's manifest like before. But if the attribute is found and
+> recognized its value overrides what is there in the manifest.
 > 
 > [...]
 
@@ -132,8 +64,8 @@ Applied to
 
 Thanks!
 
-[12/14] ASoC: doc: Internally link to Writing an ALSA Driver docs
-        commit: f522da9ab56c96db8703b2ea0f09be7cdc3bffeb
+[1/1] ASoC: sof: ipc4-topology: Add support to sched_domain attribute
+      commit: 3d439e1ec3368fae17db379354bd7a9e568ca0ab
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
