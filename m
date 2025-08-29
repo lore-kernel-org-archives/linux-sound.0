@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F2431DD85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D3731CA73
 	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756479227; cv=none; b=UeKHBtBYowwPUAABjpTbS48218OzOdRD7CoFazD8hvrpgS/02w1LHcDrVVwffljc2Vt7r+3lV56VamT5maQDXboynAYM/BzFAEUHv8UM2J2Ny7ufni0FleRDkrZ2CgyBUOGXuFMw9LibOdFyG2eiJY05nBiDpCyRlmCJs74FeNg=
+	t=1756479229; cv=none; b=tvBT2XtMEv5eS+6tTlzsZ75IAdB4Vo1qzuUxlerBh6XU2E0PKMqR0C99rUuRuoiDrjk/5oaVKGM4EHdhSACDnwOUYXSmB9NGXGKzMCQeIZFxwwS50jEgMF5imhz4j0aF6R71Cv4nyvdJEg0uoVONu/5+H0gqQVoMxnisYexLBNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756479227; c=relaxed/simple;
-	bh=5TaP060Gip+WVyjy0dx/fgBjyuO6BEKZeBXrHLSDbcs=;
+	s=arc-20240116; t=1756479229; c=relaxed/simple;
+	bh=7xBNg0Kk/5cBnyLQ1tupuA1PJGLzhxrv30oCqrEEpLg=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fTglk9cH9sP6GfCxU7XVYfy4IVXbr+OmQb4HH9bG4PLTjGnOegC4mpVfvDkMiPpw0XYg0txf4D6AhEYDGU22AQWEIYmR0nR1UCDkPJ30KkTkkUrwABPb5vP/jwqylJ3sWGYIlnUXIOb5rcLSofyw/d1/xsZyZ60JsZLk6AYsLYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k9hajpE+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dlSQ6W5d; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k9hajpE+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dlSQ6W5d; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=kUvsfzgoqdPva3VQ45mIEx0IxOVs4E7ESawwDby0H3rL03oaIe8XUqurIM1JLHrttfPxEjbml2F+JG6/BcbxjJjU/as6gxGW/vnwsRyj37Kc/X2iMUgKEmmK+K3v7ItywMJtkt3QgcXftEbyGX2FEeHmXQF33DWmgMl4md4uQc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R7r3iwmJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QY3FHM31; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R7r3iwmJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QY3FHM31; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k9hajpE+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dlSQ6W5d";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k9hajpE+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dlSQ6W5d"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R7r3iwmJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QY3FHM31";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R7r3iwmJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QY3FHM31"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A6C1227DD;
-	Fri, 29 Aug 2025 14:53:12 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF7C35C245;
+	Fri, 29 Aug 2025 14:53:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756479192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756479191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wOgMbM3XAqO2tsVd2/rV4gxJdYaxlvKqcdoaIb7dIxY=;
-	b=k9hajpE+QRZEHcjDXLdc+00SVQ8RUL9tm8bcXhiJg7axfJkF61RfNM+KTUOJhXIAwRd4jK
-	AORUsfTnYBmcUrxUm/5XcXwgPQ/M2DWKKTEqyeJBh7SfTooew8G7Bn79tBChbSQQ55Uzj2
-	LgROEAyn0pMK5DNkiF4aGSR3a/qSUr0=
+	bh=Gm0xLPLp9Z9JNlJ3Y2koMhKhjp+VIYT3OqR+qNGuXdg=;
+	b=R7r3iwmJQHXcmoVNSMmIIjdVgDv2IB+5aoEtCk/CGLrTiO9j2oHeVD9NUn8Rgy8wytT2e0
+	WGhC8CDFmkaKIriWw9+Q7nmN3gjJiTRhkvYRoJguJk2ebfgzfNpiUeiqn0TK2i6cZVqGSa
+	2R8MTXvA9Vzkdh054xHgV93A9/2DujI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756479192;
+	s=susede2_ed25519; t=1756479191;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wOgMbM3XAqO2tsVd2/rV4gxJdYaxlvKqcdoaIb7dIxY=;
-	b=dlSQ6W5d0QqF1HjwgHNPZls45P9YcEeKxAWjnPbSXtsv7ryYzS7DLX4PcX0jLbA+blxenc
-	Gcs3P7XiDq1pDcBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=k9hajpE+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dlSQ6W5d
+	bh=Gm0xLPLp9Z9JNlJ3Y2koMhKhjp+VIYT3OqR+qNGuXdg=;
+	b=QY3FHM31hh1Awh3+bIblwz6KytyrKFblK3BkfTseGZmLatXFBQ2XmkzRG/DCSdpumvidex
+	2mhIR1K3D0cO9HAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=R7r3iwmJ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QY3FHM31
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756479192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756479191; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wOgMbM3XAqO2tsVd2/rV4gxJdYaxlvKqcdoaIb7dIxY=;
-	b=k9hajpE+QRZEHcjDXLdc+00SVQ8RUL9tm8bcXhiJg7axfJkF61RfNM+KTUOJhXIAwRd4jK
-	AORUsfTnYBmcUrxUm/5XcXwgPQ/M2DWKKTEqyeJBh7SfTooew8G7Bn79tBChbSQQ55Uzj2
-	LgROEAyn0pMK5DNkiF4aGSR3a/qSUr0=
+	bh=Gm0xLPLp9Z9JNlJ3Y2koMhKhjp+VIYT3OqR+qNGuXdg=;
+	b=R7r3iwmJQHXcmoVNSMmIIjdVgDv2IB+5aoEtCk/CGLrTiO9j2oHeVD9NUn8Rgy8wytT2e0
+	WGhC8CDFmkaKIriWw9+Q7nmN3gjJiTRhkvYRoJguJk2ebfgzfNpiUeiqn0TK2i6cZVqGSa
+	2R8MTXvA9Vzkdh054xHgV93A9/2DujI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756479192;
+	s=susede2_ed25519; t=1756479191;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wOgMbM3XAqO2tsVd2/rV4gxJdYaxlvKqcdoaIb7dIxY=;
-	b=dlSQ6W5d0QqF1HjwgHNPZls45P9YcEeKxAWjnPbSXtsv7ryYzS7DLX4PcX0jLbA+blxenc
-	Gcs3P7XiDq1pDcBA==
+	bh=Gm0xLPLp9Z9JNlJ3Y2koMhKhjp+VIYT3OqR+qNGuXdg=;
+	b=QY3FHM31hh1Awh3+bIblwz6KytyrKFblK3BkfTseGZmLatXFBQ2XmkzRG/DCSdpumvidex
+	2mhIR1K3D0cO9HAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1005913A54;
-	Fri, 29 Aug 2025 14:53:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A527213326;
+	Fri, 29 Aug 2025 14:53:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kA6+Ati+sWhzGwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:53:12 +0000
+	id AEcZJ9e+sWhzGwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:53:11 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 11/18] ALSA: opti9xx: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:52:51 +0200
-Message-ID: <20250829145300.5460-12-tiwai@suse.de>
+Subject: [PATCH 08/18] ALSA: gus: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:52:48 +0200
+Message-ID: <20250829145300.5460-9-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829145300.5460-1-tiwai@suse.de>
 References: <20250829145300.5460-1-tiwai@suse.de>
@@ -89,6 +89,11 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: BF7C35C245
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -98,26 +103,21 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
 	RCPT_COUNT_ONE(0.00)[1];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 2A6C1227DD
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 X-Spam-Score: -3.01
 
 Clean up the code using guard() for spin locks.
@@ -126,142 +126,1387 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/isa/opti9xx/miro.c           | 17 +++++------------
- sound/isa/opti9xx/opti92x-ad1848.c | 21 ++++++---------------
- 2 files changed, 11 insertions(+), 27 deletions(-)
+ sound/isa/gus/gus_dma.c    |  78 ++++++++--------
+ sound/isa/gus/gus_dram.c   |   8 +-
+ sound/isa/gus/gus_io.c     |  65 +++-----------
+ sound/isa/gus/gus_main.c   |  64 +++++++-------
+ sound/isa/gus/gus_mixer.c  |  12 +--
+ sound/isa/gus/gus_pcm.c    | 177 +++++++++++++++++--------------------
+ sound/isa/gus/gus_reset.c  |  66 +++++---------
+ sound/isa/gus/gus_timer.c  |  16 +---
+ sound/isa/gus/gus_uart.c   |  24 ++---
+ sound/isa/gus/gusextreme.c |  21 +++--
+ sound/isa/gus/interwave.c  |  33 ++++---
+ 11 files changed, 224 insertions(+), 340 deletions(-)
 
-diff --git a/sound/isa/opti9xx/miro.c b/sound/isa/opti9xx/miro.c
-index ad7180d7c0c2..c320af3e9a05 100644
---- a/sound/isa/opti9xx/miro.c
-+++ b/sound/isa/opti9xx/miro.c
-@@ -822,10 +822,9 @@ static int snd_miro_init(struct snd_miro *chip,
- static unsigned char snd_miro_read(struct snd_miro *chip,
- 				   unsigned char reg)
- {
--	unsigned long flags;
- 	unsigned char retval = 0xff;
+diff --git a/sound/isa/gus/gus_dma.c b/sound/isa/gus/gus_dma.c
+index 7b2e7878adc7..ffc69e26227e 100644
+--- a/sound/isa/gus/gus_dma.c
++++ b/sound/isa/gus/gus_dma.c
+@@ -11,12 +11,9 @@
  
--	spin_lock_irqsave(&chip->lock, flags);
-+	guard(spinlock_irqsave)(&chip->lock);
- 	outb(chip->password, chip->mc_base + chip->pwd_reg);
- 
- 	switch (chip->hardware) {
-@@ -846,16 +845,13 @@ static unsigned char snd_miro_read(struct snd_miro *chip,
- 		dev_err(chip->card->dev, "sorry, no support for %d\n", chip->hardware);
- 	}
- 
--	spin_unlock_irqrestore(&chip->lock, flags);
- 	return retval;
- }
- 
- static void snd_miro_write(struct snd_miro *chip, unsigned char reg,
- 			   unsigned char value)
+ static void snd_gf1_dma_ack(struct snd_gus_card * gus)
  {
 -	unsigned long flags;
 -
--	spin_lock_irqsave(&chip->lock, flags);
-+	guard(spinlock_irqsave)(&chip->lock);
- 	outb(chip->password, chip->mc_base + chip->pwd_reg);
- 
- 	switch (chip->hardware) {
-@@ -875,8 +871,6 @@ static void snd_miro_write(struct snd_miro *chip, unsigned char reg,
- 	default:
- 		dev_err(chip->card->dev, "sorry, no support for %d\n", chip->hardware);
- 	}
--
--	spin_unlock_irqrestore(&chip->lock, flags);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_DRAM_DMA_CONTROL, 0x00);
+ 	snd_gf1_look8(gus, SNDRV_GF1_GB_DRAM_DMA_CONTROL);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
  }
  
- static inline void snd_miro_write_mask(struct snd_miro *chip,
-@@ -1013,7 +1007,6 @@ static int snd_miro_configure(struct snd_miro *chip)
- 	unsigned char dma_bits;
- 	unsigned char mpu_port_bits = 0;
- 	unsigned char mpu_irq_bits;
+ static void snd_gf1_dma_program(struct snd_gus_card * gus,
+@@ -25,7 +22,6 @@ static void snd_gf1_dma_program(struct snd_gus_card * gus,
+ 				unsigned int count,
+ 				unsigned int cmd)
+ {
+-	unsigned long flags;
+ 	unsigned int address;
+ 	unsigned char dma_cmd;
+ 	unsigned int address_high;
+@@ -70,7 +66,7 @@ static void snd_gf1_dma_program(struct snd_gus_card * gus,
+ 		"address = 0x%x, count = 0x%x, dma_cmd = 0x%x\n",
+ 		address << 1, count, dma_cmd);
+ #endif
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	if (gus->gf1.enh_mode) {
+ 		address_high = ((address >> 16) & 0x000000f0) | (address & 0x0000000f);
+ 		snd_gf1_write16(gus, SNDRV_GF1_GW_DRAM_DMA_LOW, (unsigned short) (address >> 4));
+@@ -78,7 +74,6 @@ static void snd_gf1_dma_program(struct snd_gus_card * gus,
+ 	} else
+ 		snd_gf1_write16(gus, SNDRV_GF1_GW_DRAM_DMA_LOW, (unsigned short) (address >> 4));
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_DRAM_DMA_CONTROL, dma_cmd);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ static struct snd_gf1_dma_block *snd_gf1_dma_next_block(struct snd_gus_card * gus)
+@@ -120,16 +115,15 @@ static void snd_gf1_dma_interrupt(struct snd_gus_card * gus)
+ 	snd_gf1_dma_ack(gus);
+ 	if (gus->gf1.dma_ack)
+ 		gus->gf1.dma_ack(gus, gus->gf1.dma_private_data);
+-	spin_lock(&gus->dma_lock);
+-	if (gus->gf1.dma_data_pcm == NULL &&
+-	    gus->gf1.dma_data_synth == NULL) {
+-	    	gus->gf1.dma_ack = NULL;
+-		gus->gf1.dma_flags &= ~SNDRV_GF1_DMA_TRIGGER;
+-		spin_unlock(&gus->dma_lock);
+-		return;
++	scoped_guard(spinlock, &gus->dma_lock) {
++		if (gus->gf1.dma_data_pcm == NULL &&
++		    gus->gf1.dma_data_synth == NULL) {
++			gus->gf1.dma_ack = NULL;
++			gus->gf1.dma_flags &= ~SNDRV_GF1_DMA_TRIGGER;
++			return;
++		}
++		block = snd_gf1_dma_next_block(gus);
+ 	}
+-	block = snd_gf1_dma_next_block(gus);
+-	spin_unlock(&gus->dma_lock);
+ 	if (!block)
+ 		return;
+ 	snd_gf1_dma_program(gus, block->addr, block->buf_addr, block->count, (unsigned short) block->cmd);
+@@ -184,8 +178,8 @@ int snd_gf1_dma_transfer_block(struct snd_gus_card * gus,
+ 			       int atomic,
+ 			       int synth)
+ {
+-	unsigned long flags;
+ 	struct snd_gf1_dma_block *block;
++	struct snd_gf1_dma_block *free_block = NULL;
+ 
+ 	block = kmalloc(sizeof(*block), atomic ? GFP_ATOMIC : GFP_KERNEL);
+ 	if (!block)
+@@ -206,34 +200,36 @@ int snd_gf1_dma_transfer_block(struct snd_gus_card * gus,
+ 		"gus->gf1.dma_data_pcm = 0x%lx\n",
+ 		(long)gus->gf1.dma_data_pcm);
+ 
+-	spin_lock_irqsave(&gus->dma_lock, flags);
+-	if (synth) {
+-		if (gus->gf1.dma_data_synth_last) {
+-			gus->gf1.dma_data_synth_last->next = block;
+-			gus->gf1.dma_data_synth_last = block;
++	scoped_guard(spinlock_irqsave, &gus->dma_lock) {
++		if (synth) {
++			if (gus->gf1.dma_data_synth_last) {
++				gus->gf1.dma_data_synth_last->next = block;
++				gus->gf1.dma_data_synth_last = block;
++			} else {
++				gus->gf1.dma_data_synth =
++					gus->gf1.dma_data_synth_last = block;
++			}
+ 		} else {
+-			gus->gf1.dma_data_synth = 
+-			gus->gf1.dma_data_synth_last = block;
++			if (gus->gf1.dma_data_pcm_last) {
++				gus->gf1.dma_data_pcm_last->next = block;
++				gus->gf1.dma_data_pcm_last = block;
++			} else {
++				gus->gf1.dma_data_pcm =
++					gus->gf1.dma_data_pcm_last = block;
++			}
+ 		}
+-	} else {
+-		if (gus->gf1.dma_data_pcm_last) {
+-			gus->gf1.dma_data_pcm_last->next = block;
+-			gus->gf1.dma_data_pcm_last = block;
+-		} else {
+-			gus->gf1.dma_data_pcm = 
+-			gus->gf1.dma_data_pcm_last = block;
++		if (!(gus->gf1.dma_flags & SNDRV_GF1_DMA_TRIGGER)) {
++			gus->gf1.dma_flags |= SNDRV_GF1_DMA_TRIGGER;
++			free_block = snd_gf1_dma_next_block(gus);
+ 		}
+ 	}
+-	if (!(gus->gf1.dma_flags & SNDRV_GF1_DMA_TRIGGER)) {
+-		gus->gf1.dma_flags |= SNDRV_GF1_DMA_TRIGGER;
+-		block = snd_gf1_dma_next_block(gus);
+-		spin_unlock_irqrestore(&gus->dma_lock, flags);
+-		if (block == NULL)
+-			return 0;
+-		snd_gf1_dma_program(gus, block->addr, block->buf_addr, block->count, (unsigned short) block->cmd);
+-		kfree(block);
+-		return 0;
++
++	if (free_block) {
++		snd_gf1_dma_program(gus, free_block->addr, free_block->buf_addr,
++				    free_block->count,
++				    (unsigned short)free_block->cmd);
++		kfree(free_block);
+ 	}
+-	spin_unlock_irqrestore(&gus->dma_lock, flags);
++
+ 	return 0;
+ }
+diff --git a/sound/isa/gus/gus_dram.c b/sound/isa/gus/gus_dram.c
+index 5cebc0119d0a..50fe738ee3ea 100644
+--- a/sound/isa/gus/gus_dram.c
++++ b/sound/isa/gus/gus_dram.c
+@@ -13,7 +13,6 @@
+ static int snd_gus_dram_poke(struct snd_gus_card *gus, char __user *_buffer,
+ 			     unsigned int address, unsigned int size)
+ {
+-	unsigned long flags;
+ 	unsigned int size1, size2;
+ 	char buffer[256], *pbuffer;
+ 
+@@ -22,11 +21,10 @@ static int snd_gus_dram_poke(struct snd_gus_card *gus, char __user *_buffer,
+ 		if (copy_from_user(buffer, _buffer, size1))
+ 			return -EFAULT;
+ 		if (gus->interwave) {
+-			spin_lock_irqsave(&gus->reg_lock, flags);
++			guard(spinlock_irqsave)(&gus->reg_lock);
+ 			snd_gf1_write8(gus, SNDRV_GF1_GB_MEMORY_CONTROL, 0x01);
+ 			snd_gf1_dram_addr(gus, address);
+ 			outsb(GUSP(gus, DRAM), buffer, size1);
+-			spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 			address += size1;
+ 		} else {
+ 			pbuffer = buffer;
+@@ -51,19 +49,17 @@ static int snd_gus_dram_peek(struct snd_gus_card *gus, char __user *_buffer,
+ 			     unsigned int address, unsigned int size,
+ 			     int rom)
+ {
+-	unsigned long flags;
+ 	unsigned int size1, size2;
+ 	char buffer[256], *pbuffer;
+ 
+ 	while (size > 0) {
+ 		size1 = size > sizeof(buffer) ? sizeof(buffer) : size;
+ 		if (gus->interwave) {
+-			spin_lock_irqsave(&gus->reg_lock, flags);
++			guard(spinlock_irqsave)(&gus->reg_lock);
+ 			snd_gf1_write8(gus, SNDRV_GF1_GB_MEMORY_CONTROL, rom ? 0x03 : 0x01);
+ 			snd_gf1_dram_addr(gus, address);
+ 			insb(GUSP(gus, DRAM), buffer, size1);
+ 			snd_gf1_write8(gus, SNDRV_GF1_GB_MEMORY_CONTROL, 0x01);
+-			spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 			address += size1;
+ 		} else {
+ 			pbuffer = buffer;
+diff --git a/sound/isa/gus/gus_io.c b/sound/isa/gus/gus_io.c
+index f167eb8d516b..3e6f35084f26 100644
+--- a/sound/isa/gus/gus_io.c
++++ b/sound/isa/gus/gus_io.c
+@@ -177,55 +177,36 @@ unsigned int snd_gf1_read_addr(struct snd_gus_card * gus,
+ 
+ void snd_gf1_i_ctrl_stop(struct snd_gus_card * gus, unsigned char reg)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	__snd_gf1_ctrl_stop(gus, reg);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ void snd_gf1_i_write8(struct snd_gus_card * gus,
+ 		      unsigned char reg,
+                       unsigned char data)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	__snd_gf1_write8(gus, reg, data);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ unsigned char snd_gf1_i_look8(struct snd_gus_card * gus, unsigned char reg)
+ {
+-	unsigned long flags;
+-	unsigned char res;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	res = __snd_gf1_look8(gus, reg);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+-	return res;
++	guard(spinlock_irqsave)(&gus->reg_lock);
++	return __snd_gf1_look8(gus, reg);
+ }
+ 
+ void snd_gf1_i_write16(struct snd_gus_card * gus,
+ 		       unsigned char reg,
+ 		       unsigned int data)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	__snd_gf1_write16(gus, reg, data);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ unsigned short snd_gf1_i_look16(struct snd_gus_card * gus, unsigned char reg)
+ {
+-	unsigned long flags;
+-	unsigned short res;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	res = __snd_gf1_look16(gus, reg);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+-	return res;
++	guard(spinlock_irqsave)(&gus->reg_lock);
++	return __snd_gf1_look16(gus, reg);
+ }
+ 
+ void snd_gf1_dram_addr(struct snd_gus_card * gus, unsigned int addr)
+@@ -242,9 +223,7 @@ void snd_gf1_dram_addr(struct snd_gus_card * gus, unsigned int addr)
+ 
+ void snd_gf1_poke(struct snd_gus_card * gus, unsigned int addr, unsigned char data)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	outb(SNDRV_GF1_GW_DRAM_IO_LOW, gus->gf1.reg_regsel);
+ 	mb();
+ 	outw((unsigned short) addr, gus->gf1.reg_data16);
+@@ -254,15 +233,11 @@ void snd_gf1_poke(struct snd_gus_card * gus, unsigned int addr, unsigned char da
+ 	outb((unsigned char) (addr >> 16), gus->gf1.reg_data8);
+ 	mb();
+ 	outb(data, gus->gf1.reg_dram);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ unsigned char snd_gf1_peek(struct snd_gus_card * gus, unsigned int addr)
+ {
+-	unsigned long flags;
+-	unsigned char res;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	outb(SNDRV_GF1_GW_DRAM_IO_LOW, gus->gf1.reg_regsel);
+ 	mb();
+ 	outw((unsigned short) addr, gus->gf1.reg_data16);
+@@ -271,20 +246,16 @@ unsigned char snd_gf1_peek(struct snd_gus_card * gus, unsigned int addr)
+ 	mb();
+ 	outb((unsigned char) (addr >> 16), gus->gf1.reg_data8);
+ 	mb();
+-	res = inb(gus->gf1.reg_dram);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+-	return res;
++	return inb(gus->gf1.reg_dram);
+ }
+ 
+ #if 0
+ 
+ void snd_gf1_pokew(struct snd_gus_card * gus, unsigned int addr, unsigned short data)
+ {
+-	unsigned long flags;
+-
+ 	if (!gus->interwave)
+ 		dev_dbg(gus->card->dev, "%s - GF1!!!\n", __func__);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	outb(SNDRV_GF1_GW_DRAM_IO_LOW, gus->gf1.reg_regsel);
+ 	mb();
+ 	outw((unsigned short) addr, gus->gf1.reg_data16);
+@@ -296,17 +267,13 @@ void snd_gf1_pokew(struct snd_gus_card * gus, unsigned int addr, unsigned short
+ 	outb(SNDRV_GF1_GW_DRAM_IO16, gus->gf1.reg_regsel);
+ 	mb();
+ 	outw(data, gus->gf1.reg_data16);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ unsigned short snd_gf1_peekw(struct snd_gus_card * gus, unsigned int addr)
+ {
+-	unsigned long flags;
+-	unsigned short res;
+-
+ 	if (!gus->interwave)
+ 		dev_dbg(gus->card->dev, "%s - GF1!!!\n", __func__);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	outb(SNDRV_GF1_GW_DRAM_IO_LOW, gus->gf1.reg_regsel);
+ 	mb();
+ 	outw((unsigned short) addr, gus->gf1.reg_data16);
+@@ -317,23 +284,20 @@ unsigned short snd_gf1_peekw(struct snd_gus_card * gus, unsigned int addr)
+ 	mb();
+ 	outb(SNDRV_GF1_GW_DRAM_IO16, gus->gf1.reg_regsel);
+ 	mb();
+-	res = inw(gus->gf1.reg_data16);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+-	return res;
++	return inw(gus->gf1.reg_data16);
+ }
+ 
+ void snd_gf1_dram_setmem(struct snd_gus_card * gus, unsigned int addr,
+ 			 unsigned short value, unsigned int count)
+ {
+ 	unsigned long port;
 -	unsigned long flags;
  
- 	snd_miro_write_mask(chip, OPTi9XX_MC_REG(1), 0x80, 0x80);
- 	snd_miro_write_mask(chip, OPTi9XX_MC_REG(2), 0x20, 0x20); /* OPL4 */
-@@ -1109,9 +1102,9 @@ static int snd_miro_configure(struct snd_miro *chip)
- 	}
- 	dma_bits |= 0x04;
+ 	if (!gus->interwave)
+ 		dev_dbg(gus->card->dev, "%s - GF1!!!\n", __func__);
+ 	addr &= ~1;
+ 	count >>= 1;
+ 	port = GUSP(gus, GF1DATALOW);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	outb(SNDRV_GF1_GW_DRAM_IO_LOW, gus->gf1.reg_regsel);
+ 	mb();
+ 	outw((unsigned short) addr, gus->gf1.reg_data16);
+@@ -345,7 +309,6 @@ void snd_gf1_dram_setmem(struct snd_gus_card * gus, unsigned int addr,
+ 	outb(SNDRV_GF1_GW_DRAM_IO16, gus->gf1.reg_regsel);
+ 	while (count--)
+ 		outw(value, port);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
  
--	spin_lock_irqsave(&chip->lock, flags);
--	outb(irq_bits << 3 | dma_bits, chip->wss_base);
--	spin_unlock_irqrestore(&chip->lock, flags);
-+	scoped_guard(spinlock_irqsave, &chip->lock) {
-+		outb(irq_bits << 3 | dma_bits, chip->wss_base);
+ #endif  /*  0  */
+diff --git a/sound/isa/gus/gus_main.c b/sound/isa/gus/gus_main.c
+index a82185c86143..5f50a39c6f16 100644
+--- a/sound/isa/gus/gus_main.c
++++ b/sound/isa/gus/gus_main.c
+@@ -42,16 +42,14 @@ static int snd_gus_joystick_get(struct snd_kcontrol *kcontrol, struct snd_ctl_el
+ static int snd_gus_joystick_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_gus_card *gus = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int change;
+ 	unsigned char nval;
+ 	
+ 	nval = ucontrol->value.integer.value[0] & 31;
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	change = gus->joystick_dac != nval;
+ 	gus->joystick_dac = nval;
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_JOYSTICK_DAC_LEVEL, gus->joystick_dac);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	return change;
+ }
+ 
+@@ -249,7 +247,6 @@ static int snd_gus_detect_memory(struct snd_gus_card * gus)
+ static int snd_gus_init_dma_irq(struct snd_gus_card * gus, int latches)
+ {
+ 	struct snd_card *card;
+-	unsigned long flags;
+ 	int irq, dma1, dma2;
+ 	static const unsigned char irqs[16] =
+ 		{0, 0, 1, 3, 0, 2, 0, 4, 0, 1, 0, 5, 6, 0, 0, 7};
+@@ -292,34 +289,34 @@ static int snd_gus_init_dma_irq(struct snd_gus_card * gus, int latches)
+ 	card->mixer.mix_ctrl_reg |= 0x10;
+ #endif
+ 
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	outb(5, GUSP(gus, REGCNTRLS));
+-	outb(gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
+-	outb(0x00, GUSP(gus, IRQDMACNTRLREG));
+-	outb(0, GUSP(gus, REGCNTRLS));
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
++		outb(5, GUSP(gus, REGCNTRLS));
++		outb(gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
++		outb(0x00, GUSP(gus, IRQDMACNTRLREG));
++		outb(0, GUSP(gus, REGCNTRLS));
 +	}
  
- __skip_resources:
- 	if (chip->hardware > OPTi9XX_HW_82C928) {
-diff --git a/sound/isa/opti9xx/opti92x-ad1848.c b/sound/isa/opti9xx/opti92x-ad1848.c
-index 328d043a1619..abaa3ed3ab5c 100644
---- a/sound/isa/opti9xx/opti92x-ad1848.c
-+++ b/sound/isa/opti9xx/opti92x-ad1848.c
-@@ -228,10 +228,9 @@ static int snd_opti9xx_init(struct snd_opti9xx *chip,
- static unsigned char snd_opti9xx_read(struct snd_opti9xx *chip,
- 				      unsigned char reg)
- {
--	unsigned long flags;
- 	unsigned char retval = 0xff;
+ 	udelay(100);
  
--	spin_lock_irqsave(&chip->lock, flags);
-+	guard(spinlock_irqsave)(&chip->lock);
- 	outb(chip->password, chip->mc_base + chip->pwd_reg);
- 
- 	switch (chip->hardware) {
-@@ -265,16 +264,13 @@ static unsigned char snd_opti9xx_read(struct snd_opti9xx *chip,
- 		dev_err(chip->card->dev, "chip %d not supported\n", chip->hardware);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	outb(0x00 | gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
+-	outb(dma1, GUSP(gus, IRQDMACNTRLREG));
+-	if (latches) {
+-		outb(0x40 | gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
+-		outb(irq, GUSP(gus, IRQDMACNTRLREG));
++	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
++		outb(0x00 | gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
++		outb(dma1, GUSP(gus, IRQDMACNTRLREG));
++		if (latches) {
++			outb(0x40 | gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
++			outb(irq, GUSP(gus, IRQDMACNTRLREG));
++		}
  	}
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
  
--	spin_unlock_irqrestore(&chip->lock, flags);
- 	return retval;
- }
+ 	udelay(100);
  
- static void snd_opti9xx_write(struct snd_opti9xx *chip, unsigned char reg,
- 			      unsigned char value)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(&chip->lock, flags);
-+	guard(spinlock_irqsave)(&chip->lock);
- 	outb(chip->password, chip->mc_base + chip->pwd_reg);
- 
- 	switch (chip->hardware) {
-@@ -307,8 +303,6 @@ static void snd_opti9xx_write(struct snd_opti9xx *chip, unsigned char reg,
- 	default:
- 		dev_err(chip->card->dev, "chip %d not supported\n", chip->hardware);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	outb(0x00 | gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
+-	outb(dma1, GUSP(gus, IRQDMACNTRLREG));
+-	if (latches) {
+-		outb(0x40 | gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
+-		outb(irq, GUSP(gus, IRQDMACNTRLREG));
++	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
++		outb(0x00 | gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
++		outb(dma1, GUSP(gus, IRQDMACNTRLREG));
++		if (latches) {
++			outb(0x40 | gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
++			outb(irq, GUSP(gus, IRQDMACNTRLREG));
++		}
  	}
--
--	spin_unlock_irqrestore(&chip->lock, flags);
- }
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
  
+ 	snd_gf1_delay(gus);
  
-@@ -659,9 +653,6 @@ static int snd_opti9xx_read_check(struct snd_card *card,
- 				  struct snd_opti9xx *chip)
- {
- 	unsigned char value;
--#ifdef OPTi93X
--	unsigned long flags;
--#endif
- 
- 	chip->res_mc_base =
- 		devm_request_region(card->dev, chip->mc_base,
-@@ -680,10 +671,10 @@ static int snd_opti9xx_read_check(struct snd_card *card,
- 	if (!chip->res_mc_indir)
- 		return -EBUSY;
- 
--	spin_lock_irqsave(&chip->lock, flags);
--	outb(chip->password, chip->mc_base + chip->pwd_reg);
--	outb(((chip->mc_indir_index & 0x1f0) >> 4), chip->mc_base);
--	spin_unlock_irqrestore(&chip->lock, flags);
-+	scoped_guard(spinlock_irqsave, &chip->lock) {
-+		outb(chip->password, chip->mc_base + chip->pwd_reg);
-+		outb(((chip->mc_indir_index & 0x1f0) >> 4), chip->mc_base);
+@@ -327,26 +324,25 @@ static int snd_gus_init_dma_irq(struct snd_gus_card * gus, int latches)
+ 		gus->mix_cntrl_reg |= 0x08;	/* enable latches */
+ 	else
+ 		gus->mix_cntrl_reg &= ~0x08;	/* disable latches */
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	outb(gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
+-	outb(0, GUSP(gus, GF1PAGE));
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
++		outb(gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
++		outb(0, GUSP(gus, GF1PAGE));
 +	}
  
- 	value = snd_opti9xx_read(chip, OPTi9XX_MC_REG(7));
- 	snd_opti9xx_write(chip, OPTi9XX_MC_REG(7), 0xff - value);
+ 	return 0;
+ }
+ 
+ static int snd_gus_check_version(struct snd_gus_card * gus)
+ {
+-	unsigned long flags;
+ 	unsigned char val, rev;
+ 	struct snd_card *card;
+ 
+ 	card = gus->card;
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	outb(0x20, GUSP(gus, REGCNTRLS));
+-	val = inb(GUSP(gus, REGCNTRLS));
+-	rev = inb(GUSP(gus, BOARDVERSION));
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
++		outb(0x20, GUSP(gus, REGCNTRLS));
++		val = inb(GUSP(gus, REGCNTRLS));
++		rev = inb(GUSP(gus, BOARDVERSION));
++	}
+ 	dev_dbg(card->dev, "GF1 [0x%lx] init - val = 0x%x, rev = 0x%x\n", gus->gf1.port, val, rev);
+ 	strscpy(card->driver, "GUS");
+ 	strscpy(card->longname, "Gravis UltraSound Classic (2.4)");
+diff --git a/sound/isa/gus/gus_mixer.c b/sound/isa/gus/gus_mixer.c
+index 60c3a8219770..9bfdb4e45a5d 100644
+--- a/sound/isa/gus/gus_mixer.c
++++ b/sound/isa/gus/gus_mixer.c
+@@ -37,7 +37,6 @@ static int snd_gf1_get_single(struct snd_kcontrol *kcontrol, struct snd_ctl_elem
+ static int snd_gf1_put_single(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_gus_card *gus = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int shift = kcontrol->private_value & 0xff;
+ 	int invert = (kcontrol->private_value >> 8) & 1;
+ 	int change;
+@@ -47,13 +46,12 @@ static int snd_gf1_put_single(struct snd_kcontrol *kcontrol, struct snd_ctl_elem
+ 	if (invert)
+ 		nval ^= 1;
+ 	nval <<= shift;
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	oval = gus->mix_cntrl_reg;
+ 	nval = (oval & ~(1 << shift)) | nval;
+ 	change = nval != oval;
+ 	outb(gus->mix_cntrl_reg = nval, GUSP(gus, MIXCNTRLREG));
+ 	outb(gus->gf1.active_voice = 0, GUSP(gus, GF1PAGE));
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	return change;
+ }
+ 
+@@ -75,14 +73,12 @@ static int snd_ics_info_double(struct snd_kcontrol *kcontrol, struct snd_ctl_ele
+ static int snd_ics_get_double(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_gus_card *gus = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int addr = kcontrol->private_value & 0xff;
+ 	unsigned char left, right;
+ 	
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	left = gus->gf1.ics_regs[addr][0];
+ 	right = gus->gf1.ics_regs[addr][1];
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	ucontrol->value.integer.value[0] = left & 127;
+ 	ucontrol->value.integer.value[1] = right & 127;
+ 	return 0;
+@@ -91,14 +87,13 @@ static int snd_ics_get_double(struct snd_kcontrol *kcontrol, struct snd_ctl_elem
+ static int snd_ics_put_double(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_gus_card *gus = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int addr = kcontrol->private_value & 0xff;
+ 	int change;
+ 	unsigned char val1, val2, oval1, oval2;
+ 	
+ 	val1 = ucontrol->value.integer.value[0] & 127;
+ 	val2 = ucontrol->value.integer.value[1] & 127;
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	oval1 = gus->gf1.ics_regs[addr][0];
+ 	oval2 = gus->gf1.ics_regs[addr][1];
+ 	change = val1 != oval1 || val2 != oval2;
+@@ -116,7 +111,6 @@ static int snd_ics_put_double(struct snd_kcontrol *kcontrol, struct snd_ctl_elem
+ 	outb(2, GUSP(gus, MIXDATAPORT));
+ 	outb(addr | 3, GUSP(gus, MIXCNTRLPORT));
+ 	outb((unsigned char) val2, GUSP(gus, MIXDATAPORT));
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	return change;
+ }
+ 
+diff --git a/sound/isa/gus/gus_pcm.c b/sound/isa/gus/gus_pcm.c
+index 8b9b7b8d92b2..9249cbff30f3 100644
+--- a/sound/isa/gus/gus_pcm.c
++++ b/sound/isa/gus/gus_pcm.c
+@@ -89,7 +89,6 @@ static void snd_gf1_pcm_trigger_up(struct snd_pcm_substream *substream)
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct gus_pcm_private *pcmp = runtime->private_data;
+ 	struct snd_gus_card * gus = pcmp->gus;
+-	unsigned long flags;
+ 	unsigned char voice_ctrl, ramp_ctrl;
+ 	unsigned short rate;
+ 	unsigned int curr, begin, end;
+@@ -97,14 +96,12 @@ static void snd_gf1_pcm_trigger_up(struct snd_pcm_substream *substream)
+ 	unsigned char pan;
+ 	unsigned int voice;
+ 
+-	spin_lock_irqsave(&pcmp->lock, flags);
+-	if (pcmp->flags & SNDRV_GF1_PCM_PFLG_ACTIVE) {
+-		spin_unlock_irqrestore(&pcmp->lock, flags);
+-		return;
++	scoped_guard(spinlock_irqsave, &pcmp->lock) {
++		if (pcmp->flags & SNDRV_GF1_PCM_PFLG_ACTIVE)
++			return;
++		pcmp->flags |= SNDRV_GF1_PCM_PFLG_ACTIVE;
++		pcmp->final_volume = 0;
+ 	}
+-	pcmp->flags |= SNDRV_GF1_PCM_PFLG_ACTIVE;
+-	pcmp->final_volume = 0;
+-	spin_unlock_irqrestore(&pcmp->lock, flags);
+ 	rate = snd_gf1_translate_freq(gus, runtime->rate << 4);
+ 	/* enable WAVE IRQ */
+ 	voice_ctrl = snd_pcm_format_width(runtime->format) == 16 ? 0x24 : 0x20;
+@@ -121,7 +118,7 @@ static void snd_gf1_pcm_trigger_up(struct snd_pcm_substream *substream)
+ 		end -= snd_pcm_format_width(runtime->format) == 16 ? 2 : 1;
+ 		pan = runtime->channels == 2 ? (!voice ? 1 : 14) : 8;
+ 		vol = !voice ? gus->gf1.pcm_volume_level_left : gus->gf1.pcm_volume_level_right;
+-		spin_lock_irqsave(&gus->reg_lock, flags);
++		guard(spinlock_irqsave)(&gus->reg_lock);
+ 		snd_gf1_select_voice(gus, pcmp->pvoices[voice]->number);
+ 		snd_gf1_write8(gus, SNDRV_GF1_VB_PAN, pan);
+ 		snd_gf1_write16(gus, SNDRV_GF1_VW_FREQUENCY, rate);
+@@ -137,9 +134,9 @@ static void snd_gf1_pcm_trigger_up(struct snd_pcm_substream *substream)
+ 			snd_gf1_delay(gus);
+ 			snd_gf1_write8(gus, SNDRV_GF1_VB_VOLUME_CONTROL, ramp_ctrl);
+ 		}
+-		spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	}
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	for (voice = 0; voice < pcmp->voices; voice++) {
+ 		snd_gf1_select_voice(gus, pcmp->pvoices[voice]->number);
+ 		if (gus->gf1.enh_mode)
+@@ -156,7 +153,6 @@ static void snd_gf1_pcm_trigger_up(struct snd_pcm_substream *substream)
+ 			voice_ctrl &= ~0x20;	/* disable IRQ for next voice */
+ 		}
+ 	}
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ static void snd_gf1_pcm_interrupt_wave(struct snd_gus_card * gus,
+@@ -182,52 +178,52 @@ static void snd_gf1_pcm_interrupt_wave(struct snd_gus_card * gus,
+ 	gus = pcmp->gus;
+ 	runtime = pcmp->substream->runtime;
+ 
+-	spin_lock(&gus->reg_lock);
+-	snd_gf1_select_voice(gus, pvoice->number);
+-	voice_ctrl = snd_gf1_read8(gus, SNDRV_GF1_VB_ADDRESS_CONTROL) & ~0x8b;
+-	ramp_ctrl = (snd_gf1_read8(gus, SNDRV_GF1_VB_VOLUME_CONTROL) & ~0xa4) | 0x03;
++	scoped_guard(spinlock, &gus->reg_lock) {
++		snd_gf1_select_voice(gus, pvoice->number);
++		voice_ctrl = snd_gf1_read8(gus, SNDRV_GF1_VB_ADDRESS_CONTROL) & ~0x8b;
++		ramp_ctrl = (snd_gf1_read8(gus, SNDRV_GF1_VB_VOLUME_CONTROL) & ~0xa4) | 0x03;
+ #if 0
+-	snd_gf1_select_voice(gus, pvoice->number);
+-	dev_dbg(gus->card->dev, "position = 0x%x\n",
+-		(snd_gf1_read_addr(gus, SNDRV_GF1_VA_CURRENT, voice_ctrl & 4) >> 4));
+-	snd_gf1_select_voice(gus, pcmp->pvoices[1]->number);
+-	dev_dbg(gus->card->dev, "position = 0x%x\n",
+-		(snd_gf1_read_addr(gus, SNDRV_GF1_VA_CURRENT, voice_ctrl & 4) >> 4));
+-	snd_gf1_select_voice(gus, pvoice->number);
++		snd_gf1_select_voice(gus, pvoice->number);
++		dev_dbg(gus->card->dev, "position = 0x%x\n",
++			(snd_gf1_read_addr(gus, SNDRV_GF1_VA_CURRENT, voice_ctrl & 4) >> 4));
++		snd_gf1_select_voice(gus, pcmp->pvoices[1]->number);
++		dev_dbg(gus->card->dev, "position = 0x%x\n",
++			(snd_gf1_read_addr(gus, SNDRV_GF1_VA_CURRENT, voice_ctrl & 4) >> 4));
++		snd_gf1_select_voice(gus, pvoice->number);
+ #endif
+-	pcmp->bpos++;
+-	pcmp->bpos %= pcmp->blocks;
+-	if (pcmp->bpos + 1 >= pcmp->blocks) {	/* last block? */
+-		voice_ctrl |= 0x08;	/* enable loop */
+-	} else {
+-		ramp_ctrl |= 0x04;	/* enable rollover */
+-	}
+-	end = pcmp->memory + (((pcmp->bpos + 1) * pcmp->block_size) / runtime->channels);
+-	end -= voice_ctrl & 4 ? 2 : 1;
+-	step = pcmp->dma_size / runtime->channels;
+-	voice_ctrl |= 0x20;
+-	if (!pcmp->final_volume) {
+-		ramp_ctrl |= 0x20;
+-		ramp_ctrl &= ~0x03;
+-	}
+-	for (idx = 0; idx < pcmp->voices; idx++, end += step) {
+-		snd_gf1_select_voice(gus, pcmp->pvoices[idx]->number);
+-		snd_gf1_write_addr(gus, SNDRV_GF1_VA_END, end << 4, voice_ctrl & 4);
+-		snd_gf1_write8(gus, SNDRV_GF1_VB_ADDRESS_CONTROL, voice_ctrl);
+-		snd_gf1_write8(gus, SNDRV_GF1_VB_VOLUME_CONTROL, ramp_ctrl);
+-		voice_ctrl &= ~0x20;
+-	}
+-	if (!gus->gf1.enh_mode) {
+-		snd_gf1_delay(gus);
++		pcmp->bpos++;
++		pcmp->bpos %= pcmp->blocks;
++		if (pcmp->bpos + 1 >= pcmp->blocks) {	/* last block? */
++			voice_ctrl |= 0x08;	/* enable loop */
++		} else {
++			ramp_ctrl |= 0x04;	/* enable rollover */
++		}
++		end = pcmp->memory + (((pcmp->bpos + 1) * pcmp->block_size) / runtime->channels);
++		end -= voice_ctrl & 4 ? 2 : 1;
++		step = pcmp->dma_size / runtime->channels;
+ 		voice_ctrl |= 0x20;
+-		for (idx = 0; idx < pcmp->voices; idx++) {
++		if (!pcmp->final_volume) {
++			ramp_ctrl |= 0x20;
++			ramp_ctrl &= ~0x03;
++		}
++		for (idx = 0; idx < pcmp->voices; idx++, end += step) {
+ 			snd_gf1_select_voice(gus, pcmp->pvoices[idx]->number);
++			snd_gf1_write_addr(gus, SNDRV_GF1_VA_END, end << 4, voice_ctrl & 4);
+ 			snd_gf1_write8(gus, SNDRV_GF1_VB_ADDRESS_CONTROL, voice_ctrl);
+ 			snd_gf1_write8(gus, SNDRV_GF1_VB_VOLUME_CONTROL, ramp_ctrl);
+ 			voice_ctrl &= ~0x20;
+ 		}
++		if (!gus->gf1.enh_mode) {
++			snd_gf1_delay(gus);
++			voice_ctrl |= 0x20;
++			for (idx = 0; idx < pcmp->voices; idx++) {
++				snd_gf1_select_voice(gus, pcmp->pvoices[idx]->number);
++				snd_gf1_write8(gus, SNDRV_GF1_VB_ADDRESS_CONTROL, voice_ctrl);
++				snd_gf1_write8(gus, SNDRV_GF1_VB_VOLUME_CONTROL, ramp_ctrl);
++				voice_ctrl &= ~0x20;
++			}
++		}
+ 	}
+-	spin_unlock(&gus->reg_lock);
+ 
+ 	snd_pcm_period_elapsed(pcmp->substream);
+ #if 0
+@@ -252,10 +248,10 @@ static void snd_gf1_pcm_interrupt_volume(struct snd_gus_card * gus,
+ 	struct gus_pcm_private *pcmp = pvoice->private_data;
+ 
+ 	/* stop ramp, but leave rollover bit untouched */
+-	spin_lock(&gus->reg_lock);
+-	snd_gf1_select_voice(gus, pvoice->number);
+-	snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_VOLUME_CONTROL);
+-	spin_unlock(&gus->reg_lock);
++	scoped_guard(spinlock, &gus->reg_lock) {
++		snd_gf1_select_voice(gus, pvoice->number);
++		snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_VOLUME_CONTROL);
++	}
+ 	if (pcmp == NULL)
+ 		return;
+ 	/* are we active? */
+@@ -266,11 +262,10 @@ static void snd_gf1_pcm_interrupt_volume(struct snd_gus_card * gus,
+ 	if (pcmp->substream == NULL)
+ 		return;
+ 	vol = !cvoice ? gus->gf1.pcm_volume_level_left : gus->gf1.pcm_volume_level_right;
+-	spin_lock(&gus->reg_lock);
++	guard(spinlock)(&gus->reg_lock);
+ 	snd_gf1_select_voice(gus, pvoice->number);
+ 	snd_gf1_write16(gus, SNDRV_GF1_VW_VOLUME, vol);
+ 	pcmp->final_volume = 1;
+-	spin_unlock(&gus->reg_lock);
+ }
+ 
+ static void snd_gf1_pcm_volume_change(struct snd_gus_card * gus)
+@@ -282,7 +277,6 @@ static int snd_gf1_pcm_poke_block(struct snd_gus_card *gus, unsigned char *buf,
+ 				  int w16, int invert)
+ {
+ 	unsigned int len;
+-	unsigned long flags;
+ 
+ 	while (count > 0) {
+ 		len = count;
+@@ -290,7 +284,7 @@ static int snd_gf1_pcm_poke_block(struct snd_gus_card *gus, unsigned char *buf,
+ 			len = 512;
+ 		count -= len;
+ 		if (gus->interwave) {
+-			spin_lock_irqsave(&gus->reg_lock, flags);
++			guard(spinlock_irqsave)(&gus->reg_lock);
+ 			snd_gf1_write8(gus, SNDRV_GF1_GB_MEMORY_CONTROL, 0x01 | (invert ? 0x08 : 0x00));
+ 			snd_gf1_dram_addr(gus, pos);
+ 			if (w16) {
+@@ -299,7 +293,6 @@ static int snd_gf1_pcm_poke_block(struct snd_gus_card *gus, unsigned char *buf,
+ 			} else {
+ 				outsb(GUSP(gus, DRAM), buf, len);
+ 			}
+-			spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 			buf += 512;
+ 			pos += 512;
+ 		} else {
+@@ -479,9 +472,9 @@ static int snd_gf1_pcm_playback_trigger(struct snd_pcm_substream *substream,
+ 	if (cmd == SNDRV_PCM_TRIGGER_START) {
+ 		snd_gf1_pcm_trigger_up(substream);
+ 	} else if (cmd == SNDRV_PCM_TRIGGER_STOP) {
+-		spin_lock(&pcmp->lock);
+-		pcmp->flags &= ~SNDRV_GF1_PCM_PFLG_ACTIVE;
+-		spin_unlock(&pcmp->lock);
++		scoped_guard(spinlock, &pcmp->lock) {
++			pcmp->flags &= ~SNDRV_GF1_PCM_PFLG_ACTIVE;
++		}
+ 		voice = pcmp->pvoices[0]->number;
+ 		snd_gf1_stop_voices(gus, voice, voice);
+ 		if (pcmp->pvoices[1]) {
+@@ -503,7 +496,7 @@ static snd_pcm_uframes_t snd_gf1_pcm_playback_pointer(struct snd_pcm_substream *
+ 	unsigned char voice_ctrl;
+ 
+ 	pos = 0;
+-	spin_lock(&gus->reg_lock);
++	guard(spinlock)(&gus->reg_lock);
+ 	if (pcmp->flags & SNDRV_GF1_PCM_PFLG_ACTIVE) {
+ 		snd_gf1_select_voice(gus, pcmp->pvoices[0]->number);
+ 		voice_ctrl = snd_gf1_read8(gus, SNDRV_GF1_VB_ADDRESS_CONTROL);
+@@ -512,7 +505,6 @@ static snd_pcm_uframes_t snd_gf1_pcm_playback_pointer(struct snd_pcm_substream *
+ 			pos <<= 1;
+ 		pos = bytes_to_frames(runtime, pos);
+ 	}
+-	spin_unlock(&gus->reg_lock);
+ 	return pos;
+ }
+ 
+@@ -572,10 +564,9 @@ static int snd_gf1_pcm_capture_trigger(struct snd_pcm_substream *substream,
+ 		return -EINVAL;
+ 	}
+ 
+-	spin_lock(&gus->reg_lock);
++	guard(spinlock)(&gus->reg_lock);
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_REC_DMA_CONTROL, val);
+ 	snd_gf1_look8(gus, SNDRV_GF1_GB_REC_DMA_CONTROL);
+-	spin_unlock(&gus->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -724,19 +715,16 @@ static int snd_gf1_pcm_volume_info(struct snd_kcontrol *kcontrol, struct snd_ctl
+ static int snd_gf1_pcm_volume_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_gus_card *gus = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	
+-	spin_lock_irqsave(&gus->pcm_volume_level_lock, flags);
++	guard(spinlock_irqsave)(&gus->pcm_volume_level_lock);
+ 	ucontrol->value.integer.value[0] = gus->gf1.pcm_volume_level_left1;
+ 	ucontrol->value.integer.value[1] = gus->gf1.pcm_volume_level_right1;
+-	spin_unlock_irqrestore(&gus->pcm_volume_level_lock, flags);
+ 	return 0;
+ }
+ 
+ static int snd_gf1_pcm_volume_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_gus_card *gus = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int change;
+ 	unsigned int idx;
+ 	unsigned short val1, val2, vol;
+@@ -745,33 +733,32 @@ static int snd_gf1_pcm_volume_put(struct snd_kcontrol *kcontrol, struct snd_ctl_
+ 	
+ 	val1 = ucontrol->value.integer.value[0] & 127;
+ 	val2 = ucontrol->value.integer.value[1] & 127;
+-	spin_lock_irqsave(&gus->pcm_volume_level_lock, flags);
+-	change = val1 != gus->gf1.pcm_volume_level_left1 ||
+-	         val2 != gus->gf1.pcm_volume_level_right1;
+-	gus->gf1.pcm_volume_level_left1 = val1;
+-	gus->gf1.pcm_volume_level_right1 = val2;
+-	gus->gf1.pcm_volume_level_left = snd_gf1_lvol_to_gvol_raw(val1 << 9) << 4;
+-	gus->gf1.pcm_volume_level_right = snd_gf1_lvol_to_gvol_raw(val2 << 9) << 4;
+-	spin_unlock_irqrestore(&gus->pcm_volume_level_lock, flags);
+-	/* are we active? */
+-	spin_lock_irqsave(&gus->voice_alloc, flags);
+-	for (idx = 0; idx < 32; idx++) {
+-		pvoice = &gus->gf1.voices[idx];
+-		if (!pvoice->pcm)
+-			continue;
+-		pcmp = pvoice->private_data;
+-		if (!(pcmp->flags & SNDRV_GF1_PCM_PFLG_ACTIVE))
+-			continue;
+-		/* load real volume - better precision */
+-		spin_lock(&gus->reg_lock);
+-		snd_gf1_select_voice(gus, pvoice->number);
+-		snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_VOLUME_CONTROL);
+-		vol = pvoice == pcmp->pvoices[0] ? gus->gf1.pcm_volume_level_left : gus->gf1.pcm_volume_level_right;
+-		snd_gf1_write16(gus, SNDRV_GF1_VW_VOLUME, vol);
+-		pcmp->final_volume = 1;
+-		spin_unlock(&gus->reg_lock);
++	scoped_guard(spinlock_irqsave, &gus->pcm_volume_level_lock) {
++		change = val1 != gus->gf1.pcm_volume_level_left1 ||
++			val2 != gus->gf1.pcm_volume_level_right1;
++		gus->gf1.pcm_volume_level_left1 = val1;
++		gus->gf1.pcm_volume_level_right1 = val2;
++		gus->gf1.pcm_volume_level_left = snd_gf1_lvol_to_gvol_raw(val1 << 9) << 4;
++		gus->gf1.pcm_volume_level_right = snd_gf1_lvol_to_gvol_raw(val2 << 9) << 4;
++	}
++	/* are we active? */
++	scoped_guard(spinlock_irqsave, &gus->voice_alloc) {
++		for (idx = 0; idx < 32; idx++) {
++			pvoice = &gus->gf1.voices[idx];
++			if (!pvoice->pcm)
++				continue;
++			pcmp = pvoice->private_data;
++			if (!(pcmp->flags & SNDRV_GF1_PCM_PFLG_ACTIVE))
++				continue;
++			/* load real volume - better precision */
++			guard(spinlock)(&gus->reg_lock);
++			snd_gf1_select_voice(gus, pvoice->number);
++			snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_VOLUME_CONTROL);
++			vol = pvoice == pcmp->pvoices[0] ? gus->gf1.pcm_volume_level_left : gus->gf1.pcm_volume_level_right;
++			snd_gf1_write16(gus, SNDRV_GF1_VW_VOLUME, vol);
++			pcmp->final_volume = 1;
++		}
+ 	}
+-	spin_unlock_irqrestore(&gus->voice_alloc, flags);
+ 	return change;
+ }
+ 
+diff --git a/sound/isa/gus/gus_reset.c b/sound/isa/gus/gus_reset.c
+index 326bc6028885..5cbace8369f8 100644
+--- a/sound/isa/gus/gus_reset.c
++++ b/sound/isa/gus/gus_reset.c
+@@ -83,26 +83,20 @@ void snd_gf1_set_default_handlers(struct snd_gus_card * gus, unsigned int what)
+ 
+ static void snd_gf1_clear_regs(struct snd_gus_card * gus)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	inb(GUSP(gus, IRQSTAT));
+ 	snd_gf1_write8(gus, 0x41, 0);	/* DRAM DMA Control Register */
+ 	snd_gf1_write8(gus, 0x45, 0);	/* Timer Control */
+ 	snd_gf1_write8(gus, 0x49, 0);	/* Sampling Control Register */
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ static void snd_gf1_look_regs(struct snd_gus_card * gus)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	snd_gf1_look8(gus, 0x41);	/* DRAM DMA Control Register */
+ 	snd_gf1_look8(gus, 0x49);	/* Sampling Control Register */
+ 	inb(GUSP(gus, IRQSTAT));
+ 	snd_gf1_read8(gus, 0x0f);	/* IRQ Source Register */
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ /*
+@@ -111,9 +105,7 @@ static void snd_gf1_look_regs(struct snd_gus_card * gus)
+ 
+ void snd_gf1_smart_stop_voice(struct snd_gus_card * gus, unsigned short voice)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	snd_gf1_select_voice(gus, voice);
+ #if 0
+ 	dev_dbg(gus->card->dev,
+@@ -122,14 +114,11 @@ void snd_gf1_smart_stop_voice(struct snd_gus_card * gus, unsigned short voice)
+ #endif
+ 	snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_ADDRESS_CONTROL);
+ 	snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_VOLUME_CONTROL);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ void snd_gf1_stop_voice(struct snd_gus_card * gus, unsigned short voice)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	snd_gf1_select_voice(gus, voice);
+ #if 0
+ 	dev_dbg(gus->card->dev,
+@@ -140,13 +129,11 @@ void snd_gf1_stop_voice(struct snd_gus_card * gus, unsigned short voice)
+ 	snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_VOLUME_CONTROL);
+ 	if (gus->gf1.enh_mode)
+ 		snd_gf1_write8(gus, SNDRV_GF1_VB_ACCUMULATOR, 0);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ }
+ 
+ static void snd_gf1_clear_voices(struct snd_gus_card * gus, unsigned short v_min,
+ 				 unsigned short v_max)
+ {
+-	unsigned long flags;
+ 	unsigned int daddr;
+ 	unsigned short i, w_16;
+ 
+@@ -156,7 +143,7 @@ static void snd_gf1_clear_voices(struct snd_gus_card * gus, unsigned short v_min
+ 		if (gus->gf1.syn_voices)
+ 			gus->gf1.syn_voices[i].flags = ~VFLG_DYNAMIC;
+ #endif
+-		spin_lock_irqsave(&gus->reg_lock, flags);
++		guard(spinlock_irqsave)(&gus->reg_lock);
+ 		snd_gf1_select_voice(gus, i);
+ 		snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_ADDRESS_CONTROL);	/* Voice Control Register = voice stop */
+ 		snd_gf1_ctrl_stop(gus, SNDRV_GF1_VB_VOLUME_CONTROL);	/* Volume Ramp Control Register = ramp off */
+@@ -177,19 +164,17 @@ static void snd_gf1_clear_voices(struct snd_gus_card * gus, unsigned short v_min
+ 			snd_gf1_write16(gus, SNDRV_GF1_VW_EFFECT_VOLUME, 0);
+ 			snd_gf1_write16(gus, SNDRV_GF1_VW_EFFECT_VOLUME_FINAL, 0);
+ 		}
+-		spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	}
+ }
+ 
+ void snd_gf1_stop_voices(struct snd_gus_card * gus, unsigned short v_min, unsigned short v_max)
+ {
+-	unsigned long flags;
+ 	short i, ramp_ok;
+ 	unsigned short ramp_end;
+ 
+ 	if (!in_interrupt()) {	/* this can't be done in interrupt */
+ 		for (i = v_min, ramp_ok = 0; i <= v_max; i++) {
+-			spin_lock_irqsave(&gus->reg_lock, flags);
++			guard(spinlock_irqsave)(&gus->reg_lock);
+ 			snd_gf1_select_voice(gus, i);
+ 			ramp_end = snd_gf1_read16(gus, 9) >> 8;
+ 			if (ramp_end > SNDRV_GF1_MIN_OFFSET) {
+@@ -203,7 +188,6 @@ void snd_gf1_stop_voices(struct snd_gus_card * gus, unsigned short v_min, unsign
+ 					snd_gf1_write8(gus, SNDRV_GF1_VB_VOLUME_CONTROL, 0x40);
+ 				}
+ 			}
+-			spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 		}
+ 		msleep_interruptible(50);
+ 	}
+@@ -236,21 +220,17 @@ static void snd_gf1_alloc_voice_use(struct snd_gus_card * gus,
+ struct snd_gus_voice *snd_gf1_alloc_voice(struct snd_gus_card * gus, int type, int client, int port)
+ {
+ 	struct snd_gus_voice *pvoice;
+-	unsigned long flags;
+ 	int idx;
+ 
+-	spin_lock_irqsave(&gus->voice_alloc, flags);
++	guard(spinlock_irqsave)(&gus->voice_alloc);
+ 	if (type == SNDRV_GF1_VOICE_TYPE_PCM) {
+-		if (gus->gf1.pcm_alloc_voices >= gus->gf1.pcm_channels) {
+-			spin_unlock_irqrestore(&gus->voice_alloc, flags);
++		if (gus->gf1.pcm_alloc_voices >= gus->gf1.pcm_channels)
+ 			return NULL;
+-		}
+ 	}
+ 	for (idx = 0; idx < 32; idx++) {
+ 		pvoice = &gus->gf1.voices[idx];
+ 		if (!pvoice->use) {
+ 			snd_gf1_alloc_voice_use(gus, pvoice, type, client, port);
+-			spin_unlock_irqrestore(&gus->voice_alloc, flags);
+ 			return pvoice;
+ 		}
+ 	} 
+@@ -259,32 +239,29 @@ struct snd_gus_voice *snd_gf1_alloc_voice(struct snd_gus_card * gus, int type, i
+ 		if (pvoice->midi && !pvoice->client) {
+ 			snd_gf1_clear_voices(gus, pvoice->number, pvoice->number);
+ 			snd_gf1_alloc_voice_use(gus, pvoice, type, client, port);
+-			spin_unlock_irqrestore(&gus->voice_alloc, flags);
+ 			return pvoice;
+ 		}
+ 	} 
+-	spin_unlock_irqrestore(&gus->voice_alloc, flags);
+ 	return NULL;
+ }
+ 
+ void snd_gf1_free_voice(struct snd_gus_card * gus, struct snd_gus_voice *voice)
+ {
+-	unsigned long flags;
+ 	void (*private_free)(struct snd_gus_voice *voice);
+ 
+ 	if (voice == NULL || !voice->use)
+ 		return;
+ 	snd_gf1_set_default_handlers(gus, SNDRV_GF1_HANDLER_VOICE | voice->number);
+ 	snd_gf1_clear_voices(gus, voice->number, voice->number);
+-	spin_lock_irqsave(&gus->voice_alloc, flags);
+-	private_free = voice->private_free;
+-	voice->private_free = NULL;
+-	voice->private_data = NULL;
+-	if (voice->pcm)
+-		gus->gf1.pcm_alloc_voices--;
+-	voice->use = voice->pcm = 0;
+-	voice->sample_ops = NULL;
+-	spin_unlock_irqrestore(&gus->voice_alloc, flags);
++	scoped_guard(spinlock_irqsave, &gus->voice_alloc) {
++		private_free = voice->private_free;
++		voice->private_free = NULL;
++		voice->private_data = NULL;
++		if (voice->pcm)
++			gus->gf1.pcm_alloc_voices--;
++		voice->use = voice->pcm = 0;
++		voice->sample_ops = NULL;
++	}
+ 	if (private_free)
+ 		private_free(voice);
+ }
+@@ -295,7 +272,6 @@ void snd_gf1_free_voice(struct snd_gus_card * gus, struct snd_gus_voice *voice)
+ 
+ int snd_gf1_start(struct snd_gus_card * gus)
+ {
+-	unsigned long flags;
+ 	unsigned int i;
+ 
+ 	snd_gf1_i_write8(gus, SNDRV_GF1_GB_RESET, 0);	/* reset GF1 */
+@@ -344,10 +320,10 @@ int snd_gf1_start(struct snd_gus_card * gus)
+ 	}
+ 	while ((snd_gf1_i_read8(gus, SNDRV_GF1_GB_VOICES_IRQ) & 0xc0) != 0xc0);
+ 
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	outb(gus->gf1.active_voice = 0, GUSP(gus, GF1PAGE));
+-	outb(gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
++		outb(gus->gf1.active_voice = 0, GUSP(gus, GF1PAGE));
++		outb(gus->mix_cntrl_reg, GUSP(gus, MIXCNTRLREG));
++	}
+ 
+ 	snd_gf1_timers_init(gus);
+ 	snd_gf1_look_regs(gus);
+diff --git a/sound/isa/gus/gus_timer.c b/sound/isa/gus/gus_timer.c
+index 7267fb5bf8e5..e3a8847e02cf 100644
+--- a/sound/isa/gus/gus_timer.c
++++ b/sound/isa/gus/gus_timer.c
+@@ -16,33 +16,29 @@
+ 
+ static int snd_gf1_timer1_start(struct snd_timer * timer)
+ {
+-	unsigned long flags;
+ 	unsigned char tmp;
+ 	unsigned int ticks;
+ 	struct snd_gus_card *gus;
+ 
+ 	gus = snd_timer_chip(timer);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	ticks = timer->sticks;
+ 	tmp = (gus->gf1.timer_enabled |= 4);
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_ADLIB_TIMER_1, 256 - ticks);	/* timer 1 count */
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL, tmp);	/* enable timer 1 IRQ */
+ 	snd_gf1_adlib_write(gus, 0x04, tmp >> 2);	/* timer 2 start */
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	return 0;
+ }
+ 
+ static int snd_gf1_timer1_stop(struct snd_timer * timer)
+ {
+-	unsigned long flags;
+ 	unsigned char tmp;
+ 	struct snd_gus_card *gus;
+ 
+ 	gus = snd_timer_chip(timer);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	tmp = (gus->gf1.timer_enabled &= ~4);
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL, tmp);	/* disable timer #1 */
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	return 0;
+ }
+ 
+@@ -52,33 +48,29 @@ static int snd_gf1_timer1_stop(struct snd_timer * timer)
+ 
+ static int snd_gf1_timer2_start(struct snd_timer * timer)
+ {
+-	unsigned long flags;
+ 	unsigned char tmp;
+ 	unsigned int ticks;
+ 	struct snd_gus_card *gus;
+ 
+ 	gus = snd_timer_chip(timer);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	ticks = timer->sticks;
+ 	tmp = (gus->gf1.timer_enabled |= 8);
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_ADLIB_TIMER_2, 256 - ticks);	/* timer 2 count */
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL, tmp);	/* enable timer 2 IRQ */
+ 	snd_gf1_adlib_write(gus, 0x04, tmp >> 2);	/* timer 2 start */
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	return 0;
+ }
+ 
+ static int snd_gf1_timer2_stop(struct snd_timer * timer)
+ {
+-	unsigned long flags;
+ 	unsigned char tmp;
+ 	struct snd_gus_card *gus;
+ 
+ 	gus = snd_timer_chip(timer);
+-	spin_lock_irqsave(&gus->reg_lock, flags);
++	guard(spinlock_irqsave)(&gus->reg_lock);
+ 	tmp = (gus->gf1.timer_enabled &= ~8);
+ 	snd_gf1_write8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL, tmp);	/* disable timer #1 */
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
+ 	return 0;
+ }
+ 
+diff --git a/sound/isa/gus/gus_uart.c b/sound/isa/gus/gus_uart.c
+index e207f274f240..770d8f3e4cff 100644
+--- a/sound/isa/gus/gus_uart.c
++++ b/sound/isa/gus/gus_uart.c
+@@ -49,13 +49,12 @@ static void snd_gf1_interrupt_midi_in(struct snd_gus_card * gus)
+ static void snd_gf1_interrupt_midi_out(struct snd_gus_card * gus)
+ {
+ 	char byte;
+-	unsigned long flags;
+ 
+ 	/* try unlock output */
+ 	if (snd_gf1_uart_stat(gus) & 0x01)
+ 		snd_gf1_interrupt_midi_in(gus);
+ 
+-	spin_lock_irqsave(&gus->uart_cmd_lock, flags);
++	guard(spinlock_irqsave)(&gus->uart_cmd_lock);
+ 	if (snd_gf1_uart_stat(gus) & 0x02) {	/* Tx FIFO free? */
+ 		if (snd_rawmidi_transmit(gus->midi_substream_output, &byte, 1) != 1) {	/* no other bytes or error */
+ 			snd_gf1_uart_cmd(gus, gus->gf1.uart_cmd & ~0x20); /* disable Tx interrupt */
+@@ -63,7 +62,6 @@ static void snd_gf1_interrupt_midi_out(struct snd_gus_card * gus)
+ 			snd_gf1_uart_put(gus, byte);
+ 		}
+ 	}
+-	spin_unlock_irqrestore(&gus->uart_cmd_lock, flags);
+ }
+ 
+ static void snd_gf1_uart_reset(struct snd_gus_card * gus, int close)
+@@ -77,17 +75,15 @@ static void snd_gf1_uart_reset(struct snd_gus_card * gus, int close)
+ 
+ static int snd_gf1_uart_output_open(struct snd_rawmidi_substream *substream)
+ {
+-	unsigned long flags;
+ 	struct snd_gus_card *gus;
+ 
+ 	gus = substream->rmidi->private_data;
+-	spin_lock_irqsave(&gus->uart_cmd_lock, flags);
++	guard(spinlock_irqsave)(&gus->uart_cmd_lock);
+ 	if (!(gus->gf1.uart_cmd & 0x80)) {	/* input active? */
+ 		snd_gf1_uart_reset(gus, 0);
+ 	}
+ 	gus->gf1.interrupt_handler_midi_out = snd_gf1_interrupt_midi_out;
+ 	gus->midi_substream_output = substream;
+-	spin_unlock_irqrestore(&gus->uart_cmd_lock, flags);
+ #if 0
+ 	dev_dbg(gus->card->dev,
+ 		"write init - cmd = 0x%x, stat = 0x%x\n",
+@@ -98,12 +94,11 @@ static int snd_gf1_uart_output_open(struct snd_rawmidi_substream *substream)
+ 
+ static int snd_gf1_uart_input_open(struct snd_rawmidi_substream *substream)
+ {
+-	unsigned long flags;
+ 	struct snd_gus_card *gus;
+ 	int i;
+ 
+ 	gus = substream->rmidi->private_data;
+-	spin_lock_irqsave(&gus->uart_cmd_lock, flags);
++	guard(spinlock_irqsave)(&gus->uart_cmd_lock);
+ 	if (gus->gf1.interrupt_handler_midi_out != snd_gf1_interrupt_midi_out) {
+ 		snd_gf1_uart_reset(gus, 0);
+ 	}
+@@ -115,7 +110,6 @@ static int snd_gf1_uart_input_open(struct snd_rawmidi_substream *substream)
+ 		if (i >= 1000)
+ 			dev_err(gus->card->dev, "gus midi uart init read - cleanup error\n");
+ 	}
+-	spin_unlock_irqrestore(&gus->uart_cmd_lock, flags);
+ #if 0
+ 	dev_dbg(gus->card->dev,
+ 		"read init - enable = %i, cmd = 0x%x, stat = 0x%x\n",
+@@ -130,42 +124,37 @@ static int snd_gf1_uart_input_open(struct snd_rawmidi_substream *substream)
+ 
+ static int snd_gf1_uart_output_close(struct snd_rawmidi_substream *substream)
+ {
+-	unsigned long flags;
+ 	struct snd_gus_card *gus;
+ 
+ 	gus = substream->rmidi->private_data;
+-	spin_lock_irqsave(&gus->uart_cmd_lock, flags);
++	guard(spinlock_irqsave)(&gus->uart_cmd_lock);
+ 	if (gus->gf1.interrupt_handler_midi_in != snd_gf1_interrupt_midi_in)
+ 		snd_gf1_uart_reset(gus, 1);
+ 	snd_gf1_set_default_handlers(gus, SNDRV_GF1_HANDLER_MIDI_OUT);
+ 	gus->midi_substream_output = NULL;
+-	spin_unlock_irqrestore(&gus->uart_cmd_lock, flags);
+ 	return 0;
+ }
+ 
+ static int snd_gf1_uart_input_close(struct snd_rawmidi_substream *substream)
+ {
+-	unsigned long flags;
+ 	struct snd_gus_card *gus;
+ 
+ 	gus = substream->rmidi->private_data;
+-	spin_lock_irqsave(&gus->uart_cmd_lock, flags);
++	guard(spinlock_irqsave)(&gus->uart_cmd_lock);
+ 	if (gus->gf1.interrupt_handler_midi_out != snd_gf1_interrupt_midi_out)
+ 		snd_gf1_uart_reset(gus, 1);
+ 	snd_gf1_set_default_handlers(gus, SNDRV_GF1_HANDLER_MIDI_IN);
+ 	gus->midi_substream_input = NULL;
+-	spin_unlock_irqrestore(&gus->uart_cmd_lock, flags);
+ 	return 0;
+ }
+ 
+ static void snd_gf1_uart_input_trigger(struct snd_rawmidi_substream *substream, int up)
+ {
+ 	struct snd_gus_card *gus;
+-	unsigned long flags;
+ 
+ 	gus = substream->rmidi->private_data;
+ 
+-	spin_lock_irqsave(&gus->uart_cmd_lock, flags);
++	guard(spinlock_irqsave)(&gus->uart_cmd_lock);
+ 	if (up) {
+ 		if ((gus->gf1.uart_cmd & 0x80) == 0)
+ 			snd_gf1_uart_cmd(gus, gus->gf1.uart_cmd | 0x80); /* enable Rx interrupts */
+@@ -173,7 +162,6 @@ static void snd_gf1_uart_input_trigger(struct snd_rawmidi_substream *substream,
+ 		if (gus->gf1.uart_cmd & 0x80)
+ 			snd_gf1_uart_cmd(gus, gus->gf1.uart_cmd & ~0x80); /* disable Rx interrupts */
+ 	}
+-	spin_unlock_irqrestore(&gus->uart_cmd_lock, flags);
+ }
+ 
+ static void snd_gf1_uart_output_trigger(struct snd_rawmidi_substream *substream, int up)
+diff --git a/sound/isa/gus/gusextreme.c b/sound/isa/gus/gusextreme.c
+index 28827a2e6cbd..ed921b89b00a 100644
+--- a/sound/isa/gus/gusextreme.c
++++ b/sound/isa/gus/gusextreme.c
+@@ -145,7 +145,6 @@ static int snd_gusextreme_gus_card_create(struct snd_card *card,
+ static int snd_gusextreme_detect(struct snd_gus_card *gus,
+ 				 struct snd_es1688 *es1688)
+ {
+-	unsigned long flags;
+ 	unsigned char d;
+ 
+ 	/*
+@@ -162,17 +161,17 @@ static int snd_gusextreme_detect(struct snd_gus_card *gus,
+ 	 * 0x260 = 2,2,1
+ 	 */
+ 
+-	spin_lock_irqsave(&es1688->mixer_lock, flags);
+-	snd_es1688_mixer_write(es1688, 0x40, 0x0b);	/* don't change!!! */
+-	spin_unlock_irqrestore(&es1688->mixer_lock, flags);
++	scoped_guard(spinlock_irqsave, &es1688->mixer_lock) {
++		snd_es1688_mixer_write(es1688, 0x40, 0x0b); /* don't change!!! */
++	}
+ 
+-	spin_lock_irqsave(&es1688->reg_lock, flags);
+-	outb(gus->gf1.port & 0x040 ? 2 : 0, ES1688P(es1688, INIT1));
+-	outb(0, 0x201);
+-	outb(gus->gf1.port & 0x020 ? 2 : 0, ES1688P(es1688, INIT1));
+-	outb(0, 0x201);
+-	outb(gus->gf1.port & 0x010 ? 3 : 1, ES1688P(es1688, INIT1));
+-	spin_unlock_irqrestore(&es1688->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &es1688->reg_lock) {
++		outb(gus->gf1.port & 0x040 ? 2 : 0, ES1688P(es1688, INIT1));
++		outb(0, 0x201);
++		outb(gus->gf1.port & 0x020 ? 2 : 0, ES1688P(es1688, INIT1));
++		outb(0, 0x201);
++		outb(gus->gf1.port & 0x010 ? 3 : 1, ES1688P(es1688, INIT1));
++	}
+ 
+ 	udelay(100);
+ 
+diff --git a/sound/isa/gus/interwave.c b/sound/isa/gus/interwave.c
+index 0e0bcd85a648..18adcd35e117 100644
+--- a/sound/isa/gus/interwave.c
++++ b/sound/isa/gus/interwave.c
+@@ -239,7 +239,6 @@ static int snd_interwave_detect(struct snd_interwave *iwcard,
+ #endif
+ 				          )
+ {
+-	unsigned long flags;
+ 	unsigned char rev1, rev2;
+ 	int d;
+ 
+@@ -257,12 +256,12 @@ static int snd_interwave_detect(struct snd_interwave *iwcard,
+ 		dev_dbg(gus->card->dev, "[0x%lx] check 2 failed - 0x%x\n", gus->gf1.port, d);
+ 		return -ENODEV;
+ 	}
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	rev1 = snd_gf1_look8(gus, SNDRV_GF1_GB_VERSION_NUMBER);
+-	snd_gf1_write8(gus, SNDRV_GF1_GB_VERSION_NUMBER, ~rev1);
+-	rev2 = snd_gf1_look8(gus, SNDRV_GF1_GB_VERSION_NUMBER);
+-	snd_gf1_write8(gus, SNDRV_GF1_GB_VERSION_NUMBER, rev1);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
++		rev1 = snd_gf1_look8(gus, SNDRV_GF1_GB_VERSION_NUMBER);
++		snd_gf1_write8(gus, SNDRV_GF1_GB_VERSION_NUMBER, ~rev1);
++		rev2 = snd_gf1_look8(gus, SNDRV_GF1_GB_VERSION_NUMBER);
++		snd_gf1_write8(gus, SNDRV_GF1_GB_VERSION_NUMBER, rev1);
++	}
+ 	dev_dbg(gus->card->dev,
+ 		"[0x%lx] InterWave check - rev1=0x%x, rev2=0x%x\n",
+ 		gus->gf1.port, rev1, rev2);
+@@ -457,18 +456,16 @@ static void snd_interwave_detect_memory(struct snd_gus_card *gus)
+ 
+ static void snd_interwave_init(int dev, struct snd_gus_card *gus)
+ {
+-	unsigned long flags;
+-
+ 	/* ok.. some InterWave specific initialization */
+-	spin_lock_irqsave(&gus->reg_lock, flags);
+-	snd_gf1_write8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL, 0x00);
+-	snd_gf1_write8(gus, SNDRV_GF1_GB_COMPATIBILITY, 0x1f);
+-	snd_gf1_write8(gus, SNDRV_GF1_GB_DECODE_CONTROL, 0x49);
+-	snd_gf1_write8(gus, SNDRV_GF1_GB_VERSION_NUMBER, 0x11);
+-	snd_gf1_write8(gus, SNDRV_GF1_GB_MPU401_CONTROL_A, 0x00);
+-	snd_gf1_write8(gus, SNDRV_GF1_GB_MPU401_CONTROL_B, 0x30);
+-	snd_gf1_write8(gus, SNDRV_GF1_GB_EMULATION_IRQ, 0x00);
+-	spin_unlock_irqrestore(&gus->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &gus->reg_lock) {
++		snd_gf1_write8(gus, SNDRV_GF1_GB_SOUND_BLASTER_CONTROL, 0x00);
++		snd_gf1_write8(gus, SNDRV_GF1_GB_COMPATIBILITY, 0x1f);
++		snd_gf1_write8(gus, SNDRV_GF1_GB_DECODE_CONTROL, 0x49);
++		snd_gf1_write8(gus, SNDRV_GF1_GB_VERSION_NUMBER, 0x11);
++		snd_gf1_write8(gus, SNDRV_GF1_GB_MPU401_CONTROL_A, 0x00);
++		snd_gf1_write8(gus, SNDRV_GF1_GB_MPU401_CONTROL_B, 0x30);
++		snd_gf1_write8(gus, SNDRV_GF1_GB_EMULATION_IRQ, 0x00);
++	}
+ 	gus->equal_irq = 1;
+ 	gus->codec_flag = 1;
+ 	gus->interwave = 1;
 -- 
 2.50.1
 
