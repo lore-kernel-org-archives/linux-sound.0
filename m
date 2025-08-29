@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A053919CC02
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7384B320CDA
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 15:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756479660; cv=none; b=VejIw7H5CyX8/Vjmv15x/MZXGJRfKCzVPeEVjqYaP1lscN99PaAgOT4CjgMKtXlv0FXijNxMxThpOd5VIguW+eIAkDLKtzlb8eZaMyhKUzscwAvKTDc1NeLrb+XSy758/vMcJlXwl8XExBQpTkFx8RhclNYnFE/QTH+kN5ScdLE=
+	t=1756479663; cv=none; b=sU1G9TJNbbLtMc+vu3F4FwAqAcjno7t1dawXdwUM2uybjfUQ34AV7TCfz9Oyglh6DGgtRavm7ncn+9ED1D/nWGxLNW6DwgD+QZPjwuv3UxQis2OB9t+19CpDH2osXYLIrrU4KZDBUYv/hxRS6CIn/OeUWwRaL81q3T4ETQJgnsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756479660; c=relaxed/simple;
-	bh=yda0TMb+/13YdMDTj77mLmpP32CSsX6VnxtWO/AIbt0=;
+	s=arc-20240116; t=1756479663; c=relaxed/simple;
+	bh=k4PKzA2VV6Yf5+C1ba3Owaog6r7z42UGurQaENobF2w=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KwIsgCPiDRHdPAuTdfc/Sru3N9LxKC5sQT3yFPNYX99UmWZmb0PMVvcf3HdOWxujXN90ryCyYdzkBrdlwU+G1aQd8oDiR+SMLxIWAS1r1D0BSHnpt0eBVli3fI0bMtAyrNasSTVeymGUiBiJTlGfD8WPaoZiqDKpv6uV8PwOE+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ykubncxb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bjSLUvGi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ykubncxb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bjSLUvGi; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=jRtQNu6/a7AvvDDiR3dnRWTHlNmm98hphWD8fwuiPlV3L34zMfgU0I/fqKr/Uxag8VtNC3ZdbhM83fQfkCgyXjPZ69oooHV6Go0AfuOVZ4tpHk2wGLUySiwjqVsgswxMOIr5ETTI4rHzObAZJgD+dg4EDReBJyUXBLLRTG/f8m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RslSicFQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bOXj0t/U; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RslSicFQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bOXj0t/U; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ykubncxb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bjSLUvGi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ykubncxb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bjSLUvGi"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RslSicFQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bOXj0t/U";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RslSicFQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bOXj0t/U"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E55033EE0;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 94A615C246;
 	Fri, 29 Aug 2025 15:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756479632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g+g44PFep3fSTWym5VClxP/9wVNoMotVRv4j5WW8vIM=;
-	b=Ykubncxbh4jxGIDDjjwQItoExrvs44JGarbuol/nt4ymNO63GpK93tHxi+iRaBhBi+BBXR
-	ZcbM7FzGt8k8fVpWTzeAhqrjUjAlGgdLRGBwOc5sRLSBQRASUVlaiSe0Xihi6HgJP/lh92
-	LiPggf0SGQAhx0WbB9qij/+SNcaaa2A=
+	bh=9jSdLCGsFES2RKXFVTiDlMNKZslW36efrcEQo5fEa2c=;
+	b=RslSicFQEoTE+LJO7B+CRoDyPorahdfT++BLcRFWSnQn9r0z71nklj0wEWnL+oaX1ViJz1
+	bjfReVikrq4+EdHlLZUKSNFS6ANzTvXlOWLeGSyP/co7wsUMjFD8Yb+VxxxeiR+fZXFyOD
+	pkwBd1vFvKFphGH9e1ElpWz6BuuuI7Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756479632;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g+g44PFep3fSTWym5VClxP/9wVNoMotVRv4j5WW8vIM=;
-	b=bjSLUvGiKIKlYmZLCQERkceG1IpwVrKIxIZ4jAiCQmEQBLBZsCbiOhm3adtVpNb608KMRq
-	8hRvi2eistTwuLAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ykubncxb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bjSLUvGi
+	bh=9jSdLCGsFES2RKXFVTiDlMNKZslW36efrcEQo5fEa2c=;
+	b=bOXj0t/UWU8HPn5Heo3OQcK5PQbzkm6/2D4LZ6JzZ5g/xrQX0lGCAodrE1KG5jBtBrul5L
+	hYbq8sLd5c3Ly1Bw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RslSicFQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="bOXj0t/U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756479632; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g+g44PFep3fSTWym5VClxP/9wVNoMotVRv4j5WW8vIM=;
-	b=Ykubncxbh4jxGIDDjjwQItoExrvs44JGarbuol/nt4ymNO63GpK93tHxi+iRaBhBi+BBXR
-	ZcbM7FzGt8k8fVpWTzeAhqrjUjAlGgdLRGBwOc5sRLSBQRASUVlaiSe0Xihi6HgJP/lh92
-	LiPggf0SGQAhx0WbB9qij/+SNcaaa2A=
+	bh=9jSdLCGsFES2RKXFVTiDlMNKZslW36efrcEQo5fEa2c=;
+	b=RslSicFQEoTE+LJO7B+CRoDyPorahdfT++BLcRFWSnQn9r0z71nklj0wEWnL+oaX1ViJz1
+	bjfReVikrq4+EdHlLZUKSNFS6ANzTvXlOWLeGSyP/co7wsUMjFD8Yb+VxxxeiR+fZXFyOD
+	pkwBd1vFvKFphGH9e1ElpWz6BuuuI7Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756479632;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=g+g44PFep3fSTWym5VClxP/9wVNoMotVRv4j5WW8vIM=;
-	b=bjSLUvGiKIKlYmZLCQERkceG1IpwVrKIxIZ4jAiCQmEQBLBZsCbiOhm3adtVpNb608KMRq
-	8hRvi2eistTwuLAA==
+	bh=9jSdLCGsFES2RKXFVTiDlMNKZslW36efrcEQo5fEa2c=;
+	b=bOXj0t/UWU8HPn5Heo3OQcK5PQbzkm6/2D4LZ6JzZ5g/xrQX0lGCAodrE1KG5jBtBrul5L
+	hYbq8sLd5c3Ly1Bw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04C2213A54;
-	Fri, 29 Aug 2025 15:00:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CFD113A6A;
+	Fri, 29 Aug 2025 15:00:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oKSOO4/AsWjjHQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 15:00:31 +0000
+	id ON5dHZDAsWjjHQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 15:00:32 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 06/13] ALSA: opl4: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 17:00:17 +0200
-Message-ID: <20250829150026.6379-7-tiwai@suse.de>
+Subject: [PATCH 10/13] ALSA: mtpav: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 17:00:21 +0200
+Message-ID: <20250829150026.6379-11-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829150026.6379-1-tiwai@suse.de>
 References: <20250829150026.6379-1-tiwai@suse.de>
@@ -115,7 +115,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 1E55033EE0
+X-Rspamd-Queue-Id: 94A615C246
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -3.01
@@ -126,272 +126,182 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/drivers/opl4/opl4_lib.c   | 10 +---
- sound/drivers/opl4/opl4_mixer.c |  8 +---
- sound/drivers/opl4/opl4_synth.c | 81 ++++++++++++++-------------------
- 3 files changed, 39 insertions(+), 60 deletions(-)
+ sound/drivers/mtpav.c | 59 +++++++++++++++----------------------------
+ 1 file changed, 20 insertions(+), 39 deletions(-)
 
-diff --git a/sound/drivers/opl4/opl4_lib.c b/sound/drivers/opl4/opl4_lib.c
-index ef6b2d533958..44fbc6bf0654 100644
---- a/sound/drivers/opl4/opl4_lib.c
-+++ b/sound/drivers/opl4/opl4_lib.c
-@@ -47,10 +47,9 @@ EXPORT_SYMBOL(snd_opl4_read);
- 
- void snd_opl4_read_memory(struct snd_opl4 *opl4, char *buf, int offset, int size)
+diff --git a/sound/drivers/mtpav.c b/sound/drivers/mtpav.c
+index 91828f496738..d31eadf4be5f 100644
+--- a/sound/drivers/mtpav.c
++++ b/sound/drivers/mtpav.c
+@@ -304,11 +304,9 @@ static void snd_mtpav_output_write(struct snd_rawmidi_substream *substream)
  {
+ 	struct mtpav *mtp_card = substream->rmidi->private_data;
+ 	struct mtpav_port *portp = &mtp_card->ports[substream->number];
 -	unsigned long flags;
- 	u8 memcfg;
  
--	spin_lock_irqsave(&opl4->reg_lock, flags);
-+	guard(spinlock_irqsave)(&opl4->reg_lock);
- 
- 	memcfg = snd_opl4_read(opl4, OPL4_REG_MEMORY_CONFIGURATION);
- 	snd_opl4_write(opl4, OPL4_REG_MEMORY_CONFIGURATION, memcfg | OPL4_MODE_BIT);
-@@ -65,18 +64,15 @@ void snd_opl4_read_memory(struct snd_opl4 *opl4, char *buf, int offset, int size
- 	insb(opl4->pcm_port + 1, buf, size);
- 
- 	snd_opl4_write(opl4, OPL4_REG_MEMORY_CONFIGURATION, memcfg);
--
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
+-	spin_lock_irqsave(&mtp_card->spinlock, flags);
++	guard(spinlock_irqsave)(&mtp_card->spinlock);
+ 	snd_mtpav_output_port_write(mtp_card, portp, substream);
+-	spin_unlock_irqrestore(&mtp_card->spinlock, flags);
  }
  
- EXPORT_SYMBOL(snd_opl4_read_memory);
  
- void snd_opl4_write_memory(struct snd_opl4 *opl4, const char *buf, int offset, int size)
+@@ -334,14 +332,12 @@ static int snd_mtpav_input_open(struct snd_rawmidi_substream *substream)
  {
+ 	struct mtpav *mtp_card = substream->rmidi->private_data;
+ 	struct mtpav_port *portp = &mtp_card->ports[substream->number];
 -	unsigned long flags;
- 	u8 memcfg;
  
--	spin_lock_irqsave(&opl4->reg_lock, flags);
-+	guard(spinlock_irqsave)(&opl4->reg_lock);
- 
- 	memcfg = snd_opl4_read(opl4, OPL4_REG_MEMORY_CONFIGURATION);
- 	snd_opl4_write(opl4, OPL4_REG_MEMORY_CONFIGURATION, memcfg | OPL4_MODE_BIT);
-@@ -91,8 +87,6 @@ void snd_opl4_write_memory(struct snd_opl4 *opl4, const char *buf, int offset, i
- 	outsb(opl4->pcm_port + 1, buf, size);
- 
- 	snd_opl4_write(opl4, OPL4_REG_MEMORY_CONFIGURATION, memcfg);
--
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
- }
- 
- EXPORT_SYMBOL(snd_opl4_write_memory);
-diff --git a/sound/drivers/opl4/opl4_mixer.c b/sound/drivers/opl4/opl4_mixer.c
-index fa1e6eff43ab..deebb8636437 100644
---- a/sound/drivers/opl4/opl4_mixer.c
-+++ b/sound/drivers/opl4/opl4_mixer.c
-@@ -19,13 +19,11 @@ static int snd_opl4_ctl_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_
- static int snd_opl4_ctl_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_opl4 *opl4 = snd_kcontrol_chip(kcontrol);
--	unsigned long flags;
- 	u8 reg = kcontrol->private_value;
- 	u8 value;
- 
--	spin_lock_irqsave(&opl4->reg_lock, flags);
-+	guard(spinlock_irqsave)(&opl4->reg_lock);
- 	value = snd_opl4_read(opl4, reg);
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
- 	ucontrol->value.integer.value[0] = 7 - (value & 7);
- 	ucontrol->value.integer.value[1] = 7 - ((value >> 3) & 7);
+-	spin_lock_irqsave(&mtp_card->spinlock, flags);
++	guard(spinlock_irqsave)(&mtp_card->spinlock);
+ 	portp->mode |= MTPAV_MODE_INPUT_OPENED;
+ 	portp->input = substream;
+ 	if (mtp_card->share_irq++ == 0)
+ 		snd_mtpav_mputreg(mtp_card, CREG, (SIGC_INTEN | SIGC_WRITE));	// enable pport interrupts
+-	spin_unlock_irqrestore(&mtp_card->spinlock, flags);
  	return 0;
-@@ -34,16 +32,14 @@ static int snd_opl4_ctl_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_v
- static int snd_opl4_ctl_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_opl4 *opl4 = snd_kcontrol_chip(kcontrol);
--	unsigned long flags;
- 	u8 reg = kcontrol->private_value;
- 	u8 value, old_value;
- 
- 	value = (7 - (ucontrol->value.integer.value[0] & 7)) |
- 		((7 - (ucontrol->value.integer.value[1] & 7)) << 3);
--	spin_lock_irqsave(&opl4->reg_lock, flags);
-+	guard(spinlock_irqsave)(&opl4->reg_lock);
- 	old_value = snd_opl4_read(opl4, reg);
- 	snd_opl4_write(opl4, reg, value);
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
- 	return value != old_value;
  }
  
-diff --git a/sound/drivers/opl4/opl4_synth.c b/sound/drivers/opl4/opl4_synth.c
-index 34e2bd52bba1..82dbb8519ab1 100644
---- a/sound/drivers/opl4/opl4_synth.c
-+++ b/sound/drivers/opl4/opl4_synth.c
-@@ -272,13 +272,12 @@ static const unsigned char snd_opl4_volume_table[128] = {
-  */
- void snd_opl4_synth_reset(struct snd_opl4 *opl4)
+@@ -352,14 +348,12 @@ static int snd_mtpav_input_close(struct snd_rawmidi_substream *substream)
  {
+ 	struct mtpav *mtp_card = substream->rmidi->private_data;
+ 	struct mtpav_port *portp = &mtp_card->ports[substream->number];
 -	unsigned long flags;
- 	int i;
  
--	spin_lock_irqsave(&opl4->reg_lock, flags);
--	for (i = 0; i < OPL4_MAX_VOICES; i++)
--		snd_opl4_write(opl4, OPL4_REG_MISC + i, OPL4_DAMP_BIT);
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
-+	scoped_guard(spinlock_irqsave, &opl4->reg_lock) {
-+		for (i = 0; i < OPL4_MAX_VOICES; i++)
-+			snd_opl4_write(opl4, OPL4_REG_MISC + i, OPL4_DAMP_BIT);
-+	}
- 
- 	INIT_LIST_HEAD(&opl4->off_voices);
- 	INIT_LIST_HEAD(&opl4->on_voices);
-@@ -296,14 +295,12 @@ void snd_opl4_synth_reset(struct snd_opl4 *opl4)
-  */
- void snd_opl4_synth_shutdown(struct snd_opl4 *opl4)
- {
--	unsigned long flags;
- 	int i;
- 
--	spin_lock_irqsave(&opl4->reg_lock, flags);
-+	guard(spinlock_irqsave)(&opl4->reg_lock);
- 	for (i = 0; i < OPL4_MAX_VOICES; i++)
- 		snd_opl4_write(opl4, OPL4_REG_MISC + i,
- 			       opl4->voices[i].reg_misc & ~OPL4_KEY_ON_BIT);
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
+-	spin_lock_irqsave(&mtp_card->spinlock, flags);
++	guard(spinlock_irqsave)(&mtp_card->spinlock);
+ 	portp->mode &= ~MTPAV_MODE_INPUT_OPENED;
+ 	portp->input = NULL;
+ 	if (--mtp_card->share_irq == 0)
+ 		snd_mtpav_mputreg(mtp_card, CREG, 0);	// disable pport interrupts
+-	spin_unlock_irqrestore(&mtp_card->spinlock, flags);
+ 	return 0;
  }
  
- /*
-@@ -313,17 +310,15 @@ static void snd_opl4_do_for_note(struct snd_opl4 *opl4, int note, struct snd_mid
- 				 void (*func)(struct snd_opl4 *opl4, struct opl4_voice *voice))
+@@ -370,15 +364,12 @@ static void snd_mtpav_input_trigger(struct snd_rawmidi_substream *substream, int
  {
- 	int i;
+ 	struct mtpav *mtp_card = substream->rmidi->private_data;
+ 	struct mtpav_port *portp = &mtp_card->ports[substream->number];
 -	unsigned long flags;
- 	struct opl4_voice *voice;
  
--	spin_lock_irqsave(&opl4->reg_lock, flags);
-+	guard(spinlock_irqsave)(&opl4->reg_lock);
- 	for (i = 0; i < OPL4_MAX_VOICES; i++) {
- 		voice = &opl4->voices[i];
- 		if (voice->chan == chan && voice->note == note) {
- 			func(opl4, voice);
+-	spin_lock_irqsave(&mtp_card->spinlock, flags);
++	guard(spinlock_irqsave)(&mtp_card->spinlock);
+ 	if (up)
+ 		portp->mode |= MTPAV_MODE_INPUT_TRIGGERED;
+ 	else
+ 		portp->mode &= ~MTPAV_MODE_INPUT_TRIGGERED;
+-	spin_unlock_irqrestore(&mtp_card->spinlock, flags);
+-
+ }
+ 
+ 
+@@ -388,11 +379,10 @@ static void snd_mtpav_input_trigger(struct snd_rawmidi_substream *substream, int
+ 
+ static void snd_mtpav_output_timer(struct timer_list *t)
+ {
+-	unsigned long flags;
+ 	struct mtpav *chip = timer_container_of(chip, t, timer);
+ 	int p;
+ 
+-	spin_lock_irqsave(&chip->spinlock, flags);
++	guard(spinlock_irqsave)(&chip->spinlock);
+ 	/* reprogram timer */
+ 	mod_timer(&chip->timer, 1 + jiffies);
+ 	/* process each port */
+@@ -401,7 +391,6 @@ static void snd_mtpav_output_timer(struct timer_list *t)
+ 		if ((portp->mode & MTPAV_MODE_OUTPUT_TRIGGERED) && portp->output)
+ 			snd_mtpav_output_port_write(chip, portp, portp->output);
+ 	}
+-	spin_unlock_irqrestore(&chip->spinlock, flags);
+ }
+ 
+ /* spinlock held! */
+@@ -423,12 +412,10 @@ static int snd_mtpav_output_open(struct snd_rawmidi_substream *substream)
+ {
+ 	struct mtpav *mtp_card = substream->rmidi->private_data;
+ 	struct mtpav_port *portp = &mtp_card->ports[substream->number];
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&mtp_card->spinlock, flags);
++	guard(spinlock_irqsave)(&mtp_card->spinlock);
+ 	portp->mode |= MTPAV_MODE_OUTPUT_OPENED;
+ 	portp->output = substream;
+-	spin_unlock_irqrestore(&mtp_card->spinlock, flags);
+ 	return 0;
+ };
+ 
+@@ -439,12 +426,10 @@ static int snd_mtpav_output_close(struct snd_rawmidi_substream *substream)
+ {
+ 	struct mtpav *mtp_card = substream->rmidi->private_data;
+ 	struct mtpav_port *portp = &mtp_card->ports[substream->number];
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&mtp_card->spinlock, flags);
++	guard(spinlock_irqsave)(&mtp_card->spinlock);
+ 	portp->mode &= ~MTPAV_MODE_OUTPUT_OPENED;
+ 	portp->output = NULL;
+-	spin_unlock_irqrestore(&mtp_card->spinlock, flags);
+ 	return 0;
+ };
+ 
+@@ -455,21 +440,20 @@ static void snd_mtpav_output_trigger(struct snd_rawmidi_substream *substream, in
+ {
+ 	struct mtpav *mtp_card = substream->rmidi->private_data;
+ 	struct mtpav_port *portp = &mtp_card->ports[substream->number];
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&mtp_card->spinlock, flags);
+-	if (up) {
+-		if (! (portp->mode & MTPAV_MODE_OUTPUT_TRIGGERED)) {
+-			if (mtp_card->istimer++ == 0)
+-				snd_mtpav_add_output_timer(mtp_card);
+-			portp->mode |= MTPAV_MODE_OUTPUT_TRIGGERED;
++	scoped_guard(spinlock_irqsave, &mtp_card->spinlock) {
++		if (up) {
++			if ((portp->mode & MTPAV_MODE_OUTPUT_TRIGGERED)) {
++				if (mtp_card->istimer++ == 0)
++					snd_mtpav_add_output_timer(mtp_card);
++				portp->mode |= MTPAV_MODE_OUTPUT_TRIGGERED;
++			}
++		} else {
++			portp->mode &= ~MTPAV_MODE_OUTPUT_TRIGGERED;
++			if (--mtp_card->istimer == 0)
++				snd_mtpav_remove_output_timer(mtp_card);
  		}
+-	} else {
+-		portp->mode &= ~MTPAV_MODE_OUTPUT_TRIGGERED;
+-		if (--mtp_card->istimer == 0)
+-			snd_mtpav_remove_output_timer(mtp_card);
  	}
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
+-	spin_unlock_irqrestore(&mtp_card->spinlock, flags);
+ 
+ 	if (up)
+ 		snd_mtpav_output_write(substream);
+@@ -550,9 +534,8 @@ static irqreturn_t snd_mtpav_irqh(int irq, void *dev_id)
+ {
+ 	struct mtpav *mcard = dev_id;
+ 
+-	spin_lock(&mcard->spinlock);
++	guard(spinlock)(&mcard->spinlock);
+ 	snd_mtpav_read_bytes(mcard);
+-	spin_unlock(&mcard->spinlock);
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -658,12 +641,10 @@ static int snd_mtpav_get_RAWMIDI(struct mtpav *mcard)
+ static void snd_mtpav_free(struct snd_card *card)
+ {
+ 	struct mtpav *crd = card->private_data;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&crd->spinlock, flags);
++	guard(spinlock_irqsave)(&crd->spinlock);
+ 	if (crd->istimer > 0)
+ 		snd_mtpav_remove_output_timer(crd);
+-	spin_unlock_irqrestore(&crd->spinlock, flags);
  }
  
  /*
-@@ -334,17 +329,15 @@ static void snd_opl4_do_for_channel(struct snd_opl4 *opl4,
- 				    void (*func)(struct snd_opl4 *opl4, struct opl4_voice *voice))
- {
- 	int i;
--	unsigned long flags;
- 	struct opl4_voice *voice;
- 
--	spin_lock_irqsave(&opl4->reg_lock, flags);
-+	guard(spinlock_irqsave)(&opl4->reg_lock);
- 	for (i = 0; i < OPL4_MAX_VOICES; i++) {
- 		voice = &opl4->voices[i];
- 		if (voice->chan == chan) {
- 			func(opl4, voice);
- 		}
- 	}
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
- }
- 
- /*
-@@ -354,16 +347,14 @@ static void snd_opl4_do_for_all(struct snd_opl4 *opl4,
- 				void (*func)(struct snd_opl4 *opl4, struct opl4_voice *voice))
- {
- 	int i;
--	unsigned long flags;
- 	struct opl4_voice *voice;
- 
--	spin_lock_irqsave(&opl4->reg_lock, flags);
-+	guard(spinlock_irqsave)(&opl4->reg_lock);
- 	for (i = 0; i < OPL4_MAX_VOICES; i++) {
- 		voice = &opl4->voices[i];
- 		if (voice->chan)
- 			func(opl4, voice);
- 	}
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
- }
- 
- static void snd_opl4_update_volume(struct snd_opl4 *opl4, struct opl4_voice *voice)
-@@ -486,7 +477,6 @@ void snd_opl4_note_on(void *private_data, int note, int vel, struct snd_midi_cha
- 	struct opl4_voice *voice[2];
- 	const struct opl4_sound *sound[2];
- 	int voices = 0, i;
--	unsigned long flags;
- 
- 	/* determine the number of voices and voice parameters */
- 	i = chan->drum_channel ? 0x80 : (chan->midi_program & 0x7f);
-@@ -501,41 +491,41 @@ void snd_opl4_note_on(void *private_data, int note, int vel, struct snd_midi_cha
- 	}
- 
- 	/* allocate and initialize the needed voices */
--	spin_lock_irqsave(&opl4->reg_lock, flags);
--	for (i = 0; i < voices; i++) {
--		voice[i] = snd_opl4_get_voice(opl4);
--		list_move_tail(&voice[i]->list, &opl4->on_voices);
--		voice[i]->chan = chan;
--		voice[i]->note = note;
--		voice[i]->velocity = vel & 0x7f;
--		voice[i]->sound = sound[i];
--	}
-+	scoped_guard(spinlock_irqsave, &opl4->reg_lock) {
-+		for (i = 0; i < voices; i++) {
-+			voice[i] = snd_opl4_get_voice(opl4);
-+			list_move_tail(&voice[i]->list, &opl4->on_voices);
-+			voice[i]->chan = chan;
-+			voice[i]->note = note;
-+			voice[i]->velocity = vel & 0x7f;
-+			voice[i]->sound = sound[i];
-+		}
- 
--	/* set tone number (triggers header loading) */
--	for (i = 0; i < voices; i++) {
--		voice[i]->reg_f_number =
--			(sound[i]->tone >> 8) & OPL4_TONE_NUMBER_BIT8;
--		snd_opl4_write(opl4, OPL4_REG_F_NUMBER + voice[i]->number,
--			       voice[i]->reg_f_number);
--		snd_opl4_write(opl4, OPL4_REG_TONE_NUMBER + voice[i]->number,
--			       sound[i]->tone & 0xff);
--	}
-+		/* set tone number (triggers header loading) */
-+		for (i = 0; i < voices; i++) {
-+			voice[i]->reg_f_number =
-+				(sound[i]->tone >> 8) & OPL4_TONE_NUMBER_BIT8;
-+			snd_opl4_write(opl4, OPL4_REG_F_NUMBER + voice[i]->number,
-+				       voice[i]->reg_f_number);
-+			snd_opl4_write(opl4, OPL4_REG_TONE_NUMBER + voice[i]->number,
-+				       sound[i]->tone & 0xff);
-+		}
- 
--	/* set parameters which can be set while loading */
--	for (i = 0; i < voices; i++) {
--		voice[i]->reg_misc = OPL4_LFO_RESET_BIT;
--		snd_opl4_update_pan(opl4, voice[i]);
--		snd_opl4_update_pitch(opl4, voice[i]);
--		voice[i]->level_direct = OPL4_LEVEL_DIRECT_BIT;
--		snd_opl4_update_volume(opl4, voice[i]);
-+		/* set parameters which can be set while loading */
-+		for (i = 0; i < voices; i++) {
-+			voice[i]->reg_misc = OPL4_LFO_RESET_BIT;
-+			snd_opl4_update_pan(opl4, voice[i]);
-+			snd_opl4_update_pitch(opl4, voice[i]);
-+			voice[i]->level_direct = OPL4_LEVEL_DIRECT_BIT;
-+			snd_opl4_update_volume(opl4, voice[i]);
-+		}
- 	}
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
- 
- 	/* wait for completion of loading */
- 	snd_opl4_wait_for_wave_headers(opl4);
- 
- 	/* set remaining parameters */
--	spin_lock_irqsave(&opl4->reg_lock, flags);
-+	guard(spinlock_irqsave)(&opl4->reg_lock);
- 	for (i = 0; i < voices; i++) {
- 		snd_opl4_update_tone_parameters(opl4, voice[i]);
- 		voice[i]->reg_lfo_vibrato = voice[i]->sound->reg_lfo_vibrato;
-@@ -549,7 +539,6 @@ void snd_opl4_note_on(void *private_data, int note, int vel, struct snd_midi_cha
- 		snd_opl4_write(opl4, OPL4_REG_MISC + voice[i]->number,
- 			       voice[i]->reg_misc);
- 	}
--	spin_unlock_irqrestore(&opl4->reg_lock, flags);
- }
- 
- static void snd_opl4_voice_off(struct snd_opl4 *opl4, struct opl4_voice *voice)
 -- 
 2.50.1
 
