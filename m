@@ -1,83 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76D13203B2
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792D6320CBD
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478695; cv=none; b=NIjWPHFtuPU7m9I7LEyhLYJ64t7SI0WjVdwRxVFJce9VZDZIkXZMaDvSxam2fWNDGZvlm1aT50W42UWHiYKHVaeMchKNWX3EUQXMT3jCNVmUIFi3lMmDeyjZbTCNdJ4i7zrZyCmmKqePHHoKaYxPZIXgB6Owad7RlVyKOzbenl4=
+	t=1756478697; cv=none; b=Mj3QYIUpFdx52FgezkQ309jv+8q///epUpDnHUip+r/SJXz9Kek5hsOh9mjk7mpOqniNIkM4XHst8Hlc36OAPEsrlRZQKb2XtCICclo11s5YnBHkmLwUJtzUDXretyZTpnEntR7qdb4XiAyzH4NHgVzGG6WVK4gRd+7j4dlHwWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478695; c=relaxed/simple;
-	bh=1G2j00QCfUZ32yGc29viEGr+sH25KiYyOUlG/exBMIk=;
+	s=arc-20240116; t=1756478697; c=relaxed/simple;
+	bh=eXGkLmbr9O+OJa9Rc7JdOJJ8tSlji/hooKH+9cqfvJo=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BkaVHT6jujZlwiCwJor8MMMA7B2CUC/ZY5O8jMbo/klOoa1d2QR+F0M0Tm1es/6tdhOFo8+Jra1SehW+QFbrafYloPIidRYeawanpCJbQpGZWdytEJz6+6Xj4wvnVeFgKbyl4JyTueyL0MnW/UghtIDJo30YEqGTtGu+alaCvFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2JjjGeAH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/77QZLg/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2JjjGeAH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/77QZLg/; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=TBY8ORpsoCzatJzOqGU/6JG+9H9vdbhUvrft/n8tt7V1LCu261lzlJO1y0ab/DkTiGS8aAUUkBh/iTAeAnAiPEp+8AROrpt35QsZ7yRbP1+tfJ7YMwvbqqO2yWfCXiyYK/P7zLqO1p1pxi043bPI5n+Y5BAktONLLuyfSOQxeJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dD6Q+byR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7Hkh27T0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dD6Q+byR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7Hkh27T0; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2JjjGeAH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/77QZLg/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2JjjGeAH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/77QZLg/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dD6Q+byR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7Hkh27T0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dD6Q+byR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7Hkh27T0"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9F4C033EC6;
-	Fri, 29 Aug 2025 14:43:59 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AAAFD5C22C;
+	Fri, 29 Aug 2025 14:43:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gm5OSG2Kzp1GrBsovNaPeFw8hwOBaPNv6JzFcmODOfQ=;
-	b=2JjjGeAHtcSFAJ680gqhFCJU+Fq3PJl06hfbdneKIVYeXXcP1euMz9ONcDmPWqMamhBgeg
-	W62gB4mCuvW+YEfYdZjMJq2FYW9b2PDZuyVa0GUQe6ReViyF/zwOhzGz3xQ8rR45mtckB5
-	dWkmCo/iOpzqnXbMPdjDYGAW69NnwBM=
+	bh=cvVAog4OsP58Cl01VaPJaPoBlgA4i37VWIlBqpma+r8=;
+	b=dD6Q+byRyxLd2aDtuCmCrK/FYesh5u4hzUZLETYagHU7qu8GPsNneWaS7gXnFZlwaVdS26
+	eeOCECvw/p82gaU7QEtV8pM/4QKd7z/XE0lprSfTuvn6FexM8mcDfLBzIfBOcqEbsJO/nb
+	OkEZrAR9jGS2RzWBMoyhMZIJJHvWSG8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478639;
+	s=susede2_ed25519; t=1756478637;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gm5OSG2Kzp1GrBsovNaPeFw8hwOBaPNv6JzFcmODOfQ=;
-	b=/77QZLg/vWnO4VFW8lToZNlDu7W6g6HKxQ0/x1RswSKOXQpZIHp3Dkj4o6IMhFhyM05lfk
-	1QVfqoXeSksfTMCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=cvVAog4OsP58Cl01VaPJaPoBlgA4i37VWIlBqpma+r8=;
+	b=7Hkh27T0C38l24hRKEHxKahqqWNFz7QgmKynVCPsvazz7eyEV5IfoX2KB9NgDAMyBEZNqv
+	UguxUEWO4zCFEMAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dD6Q+byR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7Hkh27T0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756478639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1756478637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gm5OSG2Kzp1GrBsovNaPeFw8hwOBaPNv6JzFcmODOfQ=;
-	b=2JjjGeAHtcSFAJ680gqhFCJU+Fq3PJl06hfbdneKIVYeXXcP1euMz9ONcDmPWqMamhBgeg
-	W62gB4mCuvW+YEfYdZjMJq2FYW9b2PDZuyVa0GUQe6ReViyF/zwOhzGz3xQ8rR45mtckB5
-	dWkmCo/iOpzqnXbMPdjDYGAW69NnwBM=
+	bh=cvVAog4OsP58Cl01VaPJaPoBlgA4i37VWIlBqpma+r8=;
+	b=dD6Q+byRyxLd2aDtuCmCrK/FYesh5u4hzUZLETYagHU7qu8GPsNneWaS7gXnFZlwaVdS26
+	eeOCECvw/p82gaU7QEtV8pM/4QKd7z/XE0lprSfTuvn6FexM8mcDfLBzIfBOcqEbsJO/nb
+	OkEZrAR9jGS2RzWBMoyhMZIJJHvWSG8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756478639;
+	s=susede2_ed25519; t=1756478637;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gm5OSG2Kzp1GrBsovNaPeFw8hwOBaPNv6JzFcmODOfQ=;
-	b=/77QZLg/vWnO4VFW8lToZNlDu7W6g6HKxQ0/x1RswSKOXQpZIHp3Dkj4o6IMhFhyM05lfk
-	1QVfqoXeSksfTMCw==
+	bh=cvVAog4OsP58Cl01VaPJaPoBlgA4i37VWIlBqpma+r8=;
+	b=7Hkh27T0C38l24hRKEHxKahqqWNFz7QgmKynVCPsvazz7eyEV5IfoX2KB9NgDAMyBEZNqv
+	UguxUEWO4zCFEMAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 85A0E13A3E;
-	Fri, 29 Aug 2025 14:43:59 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BD0C13A3E;
+	Fri, 29 Aug 2025 14:43:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gMR9H6+8sWi6GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:59 +0000
+	id 4G/BIK28sWi6GAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:43:57 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 23/61] ALSA: ctxfi: Use guard() for spin locks
-Date: Fri, 29 Aug 2025 16:42:58 +0200
-Message-ID: <20250829144342.4290-24-tiwai@suse.de>
+Subject: [PATCH 17/61] ALSA: cmipci: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:42:52 +0200
+Message-ID: <20250829144342.4290-18-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -89,28 +90,35 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: AAAFD5C22C
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
 	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 
 Clean up the code using guard() for spin locks.
 
@@ -118,683 +126,495 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/ctxfi/ctamixer.c |  67 +++++++++++-------------
- sound/pci/ctxfi/ctdaio.c   |  42 ++++++---------
- sound/pci/ctxfi/cthw20k1.c |  39 +++-----------
- sound/pci/ctxfi/ctsrc.c    | 101 +++++++++++++++----------------------
- sound/pci/ctxfi/cttimer.c  |  63 +++++++++--------------
- 5 files changed, 115 insertions(+), 197 deletions(-)
+ sound/pci/cmipci.c | 165 +++++++++++++++++++--------------------------
+ 1 file changed, 69 insertions(+), 96 deletions(-)
 
-diff --git a/sound/pci/ctxfi/ctamixer.c b/sound/pci/ctxfi/ctamixer.c
-index 397900929aa6..bb4658592636 100644
---- a/sound/pci/ctxfi/ctamixer.c
-+++ b/sound/pci/ctxfi/ctamixer.c
-@@ -231,7 +231,6 @@ static int get_amixer_rsc(struct amixer_mgr *mgr,
- 	int err, i;
- 	unsigned int idx;
- 	struct amixer *amixer;
--	unsigned long flags;
- 
- 	*ramixer = NULL;
- 
-@@ -243,15 +242,15 @@ static int get_amixer_rsc(struct amixer_mgr *mgr,
- 	/* Check whether there are sufficient
- 	 * amixer resources to meet request. */
- 	err = 0;
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	for (i = 0; i < desc->msr; i++) {
--		err = mgr_get_resource(&mgr->mgr, 1, &idx);
--		if (err)
--			break;
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		for (i = 0; i < desc->msr; i++) {
-+			err = mgr_get_resource(&mgr->mgr, 1, &idx);
-+			if (err)
-+				break;
- 
--		amixer->idx[i] = idx;
-+			amixer->idx[i] = idx;
-+		}
+diff --git a/sound/pci/cmipci.c b/sound/pci/cmipci.c
+index cfd80a24580c..0666be543474 100644
+--- a/sound/pci/cmipci.c
++++ b/sound/pci/cmipci.c
+@@ -712,7 +712,7 @@ static int set_dac_channels(struct cmipci *cm, struct cmipci_pcm *rec, int chann
  	}
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
- 	if (err) {
- 		dev_err(mgr->card->dev,
- 			"Can't meet AMIXER resource request!\n");
-@@ -267,25 +266,23 @@ static int get_amixer_rsc(struct amixer_mgr *mgr,
+ 
+ 	if (cm->can_multi_ch) {
+-		spin_lock_irq(&cm->reg_lock);
++		guard(spinlock_irq)(&cm->reg_lock);
+ 		if (channels > 2) {
+ 			snd_cmipci_set_bit(cm, CM_REG_LEGACY_CTRL, CM_NXCHG);
+ 			snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_XCHGDAC);
+@@ -735,7 +735,6 @@ static int set_dac_channels(struct cmipci *cm, struct cmipci_pcm *rec, int chann
+ 			snd_cmipci_set_bit(cm, CM_REG_CHFORMAT, CM_CHB3D);
+ 		else
+ 			snd_cmipci_clear_bit(cm, CM_REG_CHFORMAT, CM_CHB3D);
+-		spin_unlock_irq(&cm->reg_lock);
+ 	}
  	return 0;
+ }
+@@ -776,7 +775,7 @@ static int snd_cmipci_pcm_prepare(struct cmipci *cm, struct cmipci_pcm *rec,
+ 		period_size = (period_size * runtime->channels) / 2;
+ 	}
  
- error:
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	for (i--; i >= 0; i--)
--		mgr_put_resource(&mgr->mgr, 1, amixer->idx[i]);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		for (i--; i >= 0; i--)
-+			mgr_put_resource(&mgr->mgr, 1, amixer->idx[i]);
-+	}
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
  
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
- 	kfree(amixer);
- 	return err;
+ 	/* set buffer address */
+ 	reg = rec->ch ? CM_REG_CH1_FRAME1 : CM_REG_CH0_FRAME1;
+@@ -842,7 +841,6 @@ static int snd_cmipci_pcm_prepare(struct cmipci *cm, struct cmipci_pcm *rec,
+ 	}
+ 
+ 	rec->running = 0;
+-	spin_unlock_irq(&cm->reg_lock);
+ 
+ 	return 0;
+ }
+@@ -854,14 +852,13 @@ static int snd_cmipci_pcm_trigger(struct cmipci *cm, struct cmipci_pcm *rec,
+ 				  int cmd)
+ {
+ 	unsigned int inthld, chen, reset, pause;
+-	int result = 0;
+ 
+ 	inthld = CM_CH0_INT_EN << rec->ch;
+ 	chen = CM_CHEN0 << rec->ch;
+ 	reset = CM_RST_CH0 << rec->ch;
+ 	pause = CM_PAUSE0 << rec->ch;
+ 
+-	spin_lock(&cm->reg_lock);
++	guard(spinlock)(&cm->reg_lock);
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 		rec->running = 1;
+@@ -893,11 +890,9 @@ static int snd_cmipci_pcm_trigger(struct cmipci *cm, struct cmipci_pcm *rec,
+ 		snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl);
+ 		break;
+ 	default:
+-		result = -EINVAL;
+-		break;
++		return -EINVAL;
+ 	}
+-	spin_unlock(&cm->reg_lock);
+-	return result;
++	return 0;
  }
  
- static int put_amixer_rsc(struct amixer_mgr *mgr, struct amixer *amixer)
- {
--	unsigned long flags;
+ /*
+@@ -987,10 +982,9 @@ static int snd_cmipci_spdif_default_get(struct snd_kcontrol *kcontrol,
+ 	struct cmipci *chip = snd_kcontrol_chip(kcontrol);
  	int i;
  
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	for (i = 0; i < amixer->rsc.msr; i++)
--		mgr_put_resource(&mgr->mgr, 1, amixer->idx[i]);
--
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		for (i = 0; i < amixer->rsc.msr; i++)
-+			mgr_put_resource(&mgr->mgr, 1, amixer->idx[i]);
-+	}
- 	amixer_rsc_uninit(amixer);
- 	kfree(amixer);
- 
-@@ -387,7 +384,6 @@ static int get_sum_rsc(struct sum_mgr *mgr,
- 	int err, i;
- 	unsigned int idx;
- 	struct sum *sum;
--	unsigned long flags;
- 
- 	*rsum = NULL;
- 
-@@ -398,15 +394,15 @@ static int get_sum_rsc(struct sum_mgr *mgr,
- 
- 	/* Check whether there are sufficient sum resources to meet request. */
- 	err = 0;
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	for (i = 0; i < desc->msr; i++) {
--		err = mgr_get_resource(&mgr->mgr, 1, &idx);
--		if (err)
--			break;
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		for (i = 0; i < desc->msr; i++) {
-+			err = mgr_get_resource(&mgr->mgr, 1, &idx);
-+			if (err)
-+				break;
- 
--		sum->idx[i] = idx;
-+			sum->idx[i] = idx;
-+		}
- 	}
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
- 	if (err) {
- 		dev_err(mgr->card->dev,
- 			"Can't meet SUM resource request!\n");
-@@ -422,25 +418,22 @@ static int get_sum_rsc(struct sum_mgr *mgr,
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	for (i = 0; i < 4; i++)
+ 		ucontrol->value.iec958.status[i] = (chip->dig_status >> (i * 8)) & 0xff;
+-	spin_unlock_irq(&chip->reg_lock);
  	return 0;
- 
- error:
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	for (i--; i >= 0; i--)
--		mgr_put_resource(&mgr->mgr, 1, sum->idx[i]);
--
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		for (i--; i >= 0; i--)
-+			mgr_put_resource(&mgr->mgr, 1, sum->idx[i]);
-+	}
- 	kfree(sum);
- 	return err;
  }
  
- static int put_sum_rsc(struct sum_mgr *mgr, struct sum *sum)
- {
--	unsigned long flags;
+@@ -1002,12 +996,11 @@ static int snd_cmipci_spdif_default_put(struct snd_kcontrol *kcontrol,
+ 	unsigned int val;
+ 
+ 	val = 0;
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	for (i = 0; i < 4; i++)
+ 		val |= (unsigned int)ucontrol->value.iec958.status[i] << (i * 8);
+ 	change = val != chip->dig_status;
+ 	chip->dig_status = val;
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1061,10 +1054,9 @@ static int snd_cmipci_spdif_stream_get(struct snd_kcontrol *kcontrol,
+ 	struct cmipci *chip = snd_kcontrol_chip(kcontrol);
  	int i;
  
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	for (i = 0; i < sum->rsc.msr; i++)
--		mgr_put_resource(&mgr->mgr, 1, sum->idx[i]);
--
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		for (i = 0; i < sum->rsc.msr; i++)
-+			mgr_put_resource(&mgr->mgr, 1, sum->idx[i]);
-+	}
- 	sum_rsc_uninit(sum);
- 	kfree(sum);
- 
-diff --git a/sound/pci/ctxfi/ctdaio.c b/sound/pci/ctxfi/ctdaio.c
-index 806c4d754387..c0c3f8ab8467 100644
---- a/sound/pci/ctxfi/ctdaio.c
-+++ b/sound/pci/ctxfi/ctdaio.c
-@@ -503,14 +503,13 @@ static int get_daio_rsc(struct daio_mgr *mgr,
- 			struct daio **rdaio)
- {
- 	int err;
--	unsigned long flags;
- 
- 	*rdaio = NULL;
- 
- 	/* Check whether there are sufficient daio resources to meet request. */
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	err = daio_mgr_get_rsc(&mgr->mgr, desc->type);
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		err = daio_mgr_get_rsc(&mgr->mgr, desc->type);
-+	}
- 	if (err) {
- 		dev_err(mgr->card->dev,
- 			"Can't meet DAIO resource request!\n");
-@@ -551,22 +550,20 @@ static int get_daio_rsc(struct daio_mgr *mgr,
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	for (i = 0; i < 4; i++)
+ 		ucontrol->value.iec958.status[i] = (chip->dig_pcm_status >> (i * 8)) & 0xff;
+-	spin_unlock_irq(&chip->reg_lock);
  	return 0;
- 
- error:
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	daio_mgr_put_rsc(&mgr->mgr, desc->type);
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		daio_mgr_put_rsc(&mgr->mgr, desc->type);
-+	}
- 	return err;
  }
  
- static int put_daio_rsc(struct daio_mgr *mgr, struct daio *daio)
- {
--	unsigned long flags;
--
- 	mgr->daio_disable(mgr, daio);
- 	mgr->commit_write(mgr);
+@@ -1076,12 +1068,11 @@ static int snd_cmipci_spdif_stream_put(struct snd_kcontrol *kcontrol,
+ 	unsigned int val;
  
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	daio_mgr_put_rsc(&mgr->mgr, daio->type);
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		daio_mgr_put_rsc(&mgr->mgr, daio->type);
-+	}
+ 	val = 0;
+-	spin_lock_irq(&chip->reg_lock);
++	guard(spinlock_irq)(&chip->reg_lock);
+ 	for (i = 0; i < 4; i++)
+ 		val |= (unsigned int)ucontrol->value.iec958.status[i] << (i * 8);
+ 	change = val != chip->dig_pcm_status;
+ 	chip->dig_pcm_status = val;
+-	spin_unlock_irq(&chip->reg_lock);
+ 	return change;
+ }
  
- 	if (daio->type <= DAIO_OUT_MAX) {
- 		dao_rsc_uninit(container_of(daio, struct dao, daio));
-@@ -622,34 +619,26 @@ static int daio_map_op(void *data, struct imapper *entry)
- 
- static int daio_imap_add(struct daio_mgr *mgr, struct imapper *entry)
- {
--	unsigned long flags;
--	int err;
--
--	spin_lock_irqsave(&mgr->imap_lock, flags);
-+	guard(spinlock_irqsave)(&mgr->imap_lock);
- 	if (!entry->addr && mgr->init_imap_added) {
- 		input_mapper_delete(&mgr->imappers, mgr->init_imap,
- 							daio_map_op, mgr);
- 		mgr->init_imap_added = 0;
+@@ -1225,7 +1216,7 @@ static int setup_spdif_playback(struct cmipci *cm, struct snd_pcm_substream *sub
+ 			return err;
  	}
--	err = input_mapper_add(&mgr->imappers, entry, daio_map_op, mgr);
--	spin_unlock_irqrestore(&mgr->imap_lock, flags);
--
--	return err;
-+	return input_mapper_add(&mgr->imappers, entry, daio_map_op, mgr);
- }
  
- static int daio_imap_delete(struct daio_mgr *mgr, struct imapper *entry)
- {
--	unsigned long flags;
- 	int err;
- 
--	spin_lock_irqsave(&mgr->imap_lock, flags);
-+	guard(spinlock_irqsave)(&mgr->imap_lock);
- 	err = input_mapper_delete(&mgr->imappers, entry, daio_map_op, mgr);
- 	if (list_empty(&mgr->imappers)) {
- 		input_mapper_add(&mgr->imappers, mgr->init_imap,
- 							daio_map_op, mgr);
- 		mgr->init_imap_added = 1;
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	cm->spdif_playback_avail = up;
+ 	if (up) {
+ 		/* they are controlled via "IEC958 Output Switch" */
+@@ -1251,7 +1242,6 @@ static int setup_spdif_playback(struct cmipci *cm, struct snd_pcm_substream *sub
+ 		snd_cmipci_clear_bit(cm, CM_REG_FUNCTRL1, CM_PLAYBACK_SPDF);
+ 		setup_ac3(cm, subs, 0, 0);
  	}
--	spin_unlock_irqrestore(&mgr->imap_lock, flags);
- 
- 	return err;
- }
-@@ -719,12 +708,11 @@ int daio_mgr_create(struct hw *hw, void **rdaio_mgr)
- int daio_mgr_destroy(void *ptr)
- {
- 	struct daio_mgr *daio_mgr = ptr;
--	unsigned long flags;
- 
- 	/* free daio input mapper list */
--	spin_lock_irqsave(&daio_mgr->imap_lock, flags);
--	free_input_mapper_list(&daio_mgr->imappers);
--	spin_unlock_irqrestore(&daio_mgr->imap_lock, flags);
-+	scoped_guard(spinlock_irqsave, &daio_mgr->imap_lock) {
-+		free_input_mapper_list(&daio_mgr->imappers);
-+	}
- 
- 	rsc_mgr_uninit(&daio_mgr->mgr);
- 	kfree(daio_mgr);
-diff --git a/sound/pci/ctxfi/cthw20k1.c b/sound/pci/ctxfi/cthw20k1.c
-index 9edbf5d8c3c7..42b90c9b2ee9 100644
---- a/sound/pci/ctxfi/cthw20k1.c
-+++ b/sound/pci/ctxfi/cthw20k1.c
-@@ -2091,57 +2091,30 @@ static int hw_resume(struct hw *hw, struct card_conf *info)
- 
- static u32 hw_read_20kx(struct hw *hw, u32 reg)
- {
--	u32 value;
--	unsigned long flags;
--
--	spin_lock_irqsave(
--		&container_of(hw, struct hw20k1, hw)->reg_20k1_lock, flags);
-+	guard(spinlock_irqsave)(&container_of(hw, struct hw20k1, hw)->reg_20k1_lock);
- 	outl(reg, hw->io_base + 0x0);
--	value = inl(hw->io_base + 0x4);
--	spin_unlock_irqrestore(
--		&container_of(hw, struct hw20k1, hw)->reg_20k1_lock, flags);
--
--	return value;
-+	return inl(hw->io_base + 0x4);
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return 0;
  }
  
- static void hw_write_20kx(struct hw *hw, u32 reg, u32 data)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(
--		&container_of(hw, struct hw20k1, hw)->reg_20k1_lock, flags);
-+	guard(spinlock_irqsave)(&container_of(hw, struct hw20k1, hw)->reg_20k1_lock);
- 	outl(reg, hw->io_base + 0x0);
- 	outl(data, hw->io_base + 0x4);
--	spin_unlock_irqrestore(
--		&container_of(hw, struct hw20k1, hw)->reg_20k1_lock, flags);
--
- }
- 
- static u32 hw_read_pci(struct hw *hw, u32 reg)
- {
--	u32 value;
--	unsigned long flags;
--
--	spin_lock_irqsave(
--		&container_of(hw, struct hw20k1, hw)->reg_pci_lock, flags);
-+	guard(spinlock_irqsave)(&container_of(hw, struct hw20k1, hw)->reg_pci_lock);
- 	outl(reg, hw->io_base + 0x10);
--	value = inl(hw->io_base + 0x14);
--	spin_unlock_irqrestore(
--		&container_of(hw, struct hw20k1, hw)->reg_pci_lock, flags);
--
--	return value;
-+	return inl(hw->io_base + 0x14);
- }
- 
- static void hw_write_pci(struct hw *hw, u32 reg, u32 data)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(
--		&container_of(hw, struct hw20k1, hw)->reg_pci_lock, flags);
-+	guard(spinlock_irqsave)(&container_of(hw, struct hw20k1, hw)->reg_pci_lock);
- 	outl(reg, hw->io_base + 0x10);
- 	outl(data, hw->io_base + 0x14);
--	spin_unlock_irqrestore(
--		&container_of(hw, struct hw20k1, hw)->reg_pci_lock, flags);
- }
- 
- static const struct hw ct20k1_preset = {
-diff --git a/sound/pci/ctxfi/ctsrc.c b/sound/pci/ctxfi/ctsrc.c
-index 159bd4008069..46afc9604c08 100644
---- a/sound/pci/ctxfi/ctsrc.c
-+++ b/sound/pci/ctxfi/ctsrc.c
-@@ -414,18 +414,16 @@ get_src_rsc(struct src_mgr *mgr, const struct src_desc *desc, struct src **rsrc)
- 	unsigned int idx = SRC_RESOURCE_NUM;
- 	int err;
- 	struct src *src;
--	unsigned long flags;
- 
- 	*rsrc = NULL;
- 
- 	/* Check whether there are sufficient src resources to meet request. */
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	if (MEMRD == desc->mode)
--		err = mgr_get_resource(&mgr->mgr, desc->multi, &idx);
--	else
--		err = mgr_get_resource(&mgr->mgr, 1, &idx);
--
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		if (MEMRD == desc->mode)
-+			err = mgr_get_resource(&mgr->mgr, desc->multi, &idx);
-+		else
-+			err = mgr_get_resource(&mgr->mgr, 1, &idx);
-+	}
- 	if (err) {
- 		dev_err(mgr->card->dev,
- 			"Can't meet SRC resource request!\n");
-@@ -454,29 +452,25 @@ get_src_rsc(struct src_mgr *mgr, const struct src_desc *desc, struct src **rsrc)
- error2:
- 	kfree(src);
- error1:
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	if (MEMRD == desc->mode)
--		mgr_put_resource(&mgr->mgr, desc->multi, idx);
--	else
--		mgr_put_resource(&mgr->mgr, 1, idx);
--
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		if (MEMRD == desc->mode)
-+			mgr_put_resource(&mgr->mgr, desc->multi, idx);
-+		else
-+			mgr_put_resource(&mgr->mgr, 1, idx);
-+	}
- 	return err;
- }
- 
- static int put_src_rsc(struct src_mgr *mgr, struct src *src)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	src->rsc.ops->master(&src->rsc);
--	if (MEMRD == src->mode)
--		mgr_put_resource(&mgr->mgr, src->multi,
--				 src->rsc.ops->index(&src->rsc));
--	else
--		mgr_put_resource(&mgr->mgr, 1, src->rsc.ops->index(&src->rsc));
--
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		src->rsc.ops->master(&src->rsc);
-+		if (MEMRD == src->mode)
-+			mgr_put_resource(&mgr->mgr, src->multi,
-+					 src->rsc.ops->index(&src->rsc));
-+		else
-+			mgr_put_resource(&mgr->mgr, 1, src->rsc.ops->index(&src->rsc));
-+	}
- 	src_rsc_uninit(src, mgr);
- 	kfree(src);
- 
-@@ -714,7 +708,6 @@ static int get_srcimp_rsc(struct srcimp_mgr *mgr,
- 	int err, i;
- 	unsigned int idx;
- 	struct srcimp *srcimp;
--	unsigned long flags;
- 
- 	*rsrcimp = NULL;
- 
-@@ -725,15 +718,15 @@ static int get_srcimp_rsc(struct srcimp_mgr *mgr,
- 
- 	/* Check whether there are sufficient SRCIMP resources. */
- 	err = 0;
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	for (i = 0; i < desc->msr; i++) {
--		err = mgr_get_resource(&mgr->mgr, 1, &idx);
--		if (err)
--			break;
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		for (i = 0; i < desc->msr; i++) {
-+			err = mgr_get_resource(&mgr->mgr, 1, &idx);
-+			if (err)
-+				break;
- 
--		srcimp->idx[i] = idx;
-+			srcimp->idx[i] = idx;
+@@ -1317,32 +1307,32 @@ static void snd_cmipci_silence_hack(struct cmipci *cm, struct cmipci_pcm *rec)
+ 		/* configure for 16 bits, 2 channels, 8 kHz */
+ 		if (runtime->channels > 2)
+ 			set_dac_channels(cm, rec, 2);
+-		spin_lock_irq(&cm->reg_lock);
+-		val = snd_cmipci_read(cm, CM_REG_FUNCTRL1);
+-		val &= ~(CM_ASFC_MASK << (rec->ch * 3));
+-		val |= (4 << CM_ASFC_SHIFT) << (rec->ch * 3);
+-		snd_cmipci_write(cm, CM_REG_FUNCTRL1, val);
+-		val = snd_cmipci_read(cm, CM_REG_CHFORMAT);
+-		val &= ~(CM_CH0FMT_MASK << (rec->ch * 2));
+-		val |= (3 << CM_CH0FMT_SHIFT) << (rec->ch * 2);
+-		if (cm->can_96k)
+-			val &= ~(CM_CH0_SRATE_MASK << (rec->ch * 2));
+-		snd_cmipci_write(cm, CM_REG_CHFORMAT, val);
++		scoped_guard(spinlock_irq, &cm->reg_lock) {
++			val = snd_cmipci_read(cm, CM_REG_FUNCTRL1);
++			val &= ~(CM_ASFC_MASK << (rec->ch * 3));
++			val |= (4 << CM_ASFC_SHIFT) << (rec->ch * 3);
++			snd_cmipci_write(cm, CM_REG_FUNCTRL1, val);
++			val = snd_cmipci_read(cm, CM_REG_CHFORMAT);
++			val &= ~(CM_CH0FMT_MASK << (rec->ch * 2));
++			val |= (3 << CM_CH0FMT_SHIFT) << (rec->ch * 2);
++			if (cm->can_96k)
++				val &= ~(CM_CH0_SRATE_MASK << (rec->ch * 2));
++			snd_cmipci_write(cm, CM_REG_CHFORMAT, val);
+ 	
+-		/* start stream (we don't need interrupts) */
+-		cm->ctrl |= CM_CHEN0 << rec->ch;
+-		snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl);
+-		spin_unlock_irq(&cm->reg_lock);
++			/* start stream (we don't need interrupts) */
++			cm->ctrl |= CM_CHEN0 << rec->ch;
++			snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl);
 +		}
+ 
+ 		msleep(1);
+ 
+ 		/* stop and reset stream */
+-		spin_lock_irq(&cm->reg_lock);
+-		cm->ctrl &= ~(CM_CHEN0 << rec->ch);
+-		val = CM_RST_CH0 << rec->ch;
+-		snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl | val);
+-		snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl & ~val);
+-		spin_unlock_irq(&cm->reg_lock);
++		scoped_guard(spinlock_irq, &cm->reg_lock) {
++			cm->ctrl &= ~(CM_CHEN0 << rec->ch);
++			val = CM_RST_CH0 << rec->ch;
++			snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl | val);
++			snd_cmipci_write(cm, CM_REG_FUNCTRL0, cm->ctrl & ~val);
++		}
+ 
+ 		rec->needs_silencing = 0;
  	}
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
- 	if (err) {
- 		dev_err(mgr->card->dev,
- 			"Can't meet SRCIMP resource request!\n");
-@@ -749,25 +742,22 @@ static int get_srcimp_rsc(struct srcimp_mgr *mgr,
+@@ -1376,20 +1366,19 @@ static int snd_cmipci_capture_spdif_prepare(struct snd_pcm_substream *substream)
+ {
+ 	struct cmipci *cm = snd_pcm_substream_chip(substream);
+ 
+-	spin_lock_irq(&cm->reg_lock);
+-	snd_cmipci_set_bit(cm, CM_REG_FUNCTRL1, CM_CAPTURE_SPDF);
+-	if (cm->can_96k) {
+-		if (substream->runtime->rate > 48000)
+-			snd_cmipci_set_bit(cm, CM_REG_CHFORMAT, CM_DBLSPDS);
++	scoped_guard(spinlock_irq, &cm->reg_lock) {
++		snd_cmipci_set_bit(cm, CM_REG_FUNCTRL1, CM_CAPTURE_SPDF);
++		if (cm->can_96k) {
++			if (substream->runtime->rate > 48000)
++				snd_cmipci_set_bit(cm, CM_REG_CHFORMAT, CM_DBLSPDS);
++			else
++				snd_cmipci_clear_bit(cm, CM_REG_CHFORMAT, CM_DBLSPDS);
++		}
++		if (snd_pcm_format_width(substream->runtime->format) > 16)
++			snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
+ 		else
+-			snd_cmipci_clear_bit(cm, CM_REG_CHFORMAT, CM_DBLSPDS);
++			snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
+ 	}
+-	if (snd_pcm_format_width(substream->runtime->format) > 16)
+-		snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
+-	else
+-		snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
+-
+-	spin_unlock_irq(&cm->reg_lock);
+ 
+ 	return snd_cmipci_pcm_prepare(cm, &cm->channel[CM_CH_CAPT], substream);
+ }
+@@ -1398,10 +1387,9 @@ static int snd_cmipci_capture_spdif_hw_free(struct snd_pcm_substream *subs)
+ {
+ 	struct cmipci *cm = snd_pcm_substream_chip(subs);
+ 
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	snd_cmipci_clear_bit(cm, CM_REG_FUNCTRL1, CM_CAPTURE_SPDF);
+ 	snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_SPD32SEL);
+-	spin_unlock_irq(&cm->reg_lock);
+ 
  	return 0;
- 
- error1:
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	for (i--; i >= 0; i--)
--		mgr_put_resource(&mgr->mgr, 1, srcimp->idx[i]);
--
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		for (i--; i >= 0; i--)
-+			mgr_put_resource(&mgr->mgr, 1, srcimp->idx[i]);
-+	}
- 	kfree(srcimp);
- 	return err;
  }
+@@ -1421,14 +1409,14 @@ static irqreturn_t snd_cmipci_interrupt(int irq, void *dev_id)
+ 		return IRQ_NONE;
  
- static int put_srcimp_rsc(struct srcimp_mgr *mgr, struct srcimp *srcimp)
- {
--	unsigned long flags;
- 	int i;
- 
--	spin_lock_irqsave(&mgr->mgr_lock, flags);
--	for (i = 0; i < srcimp->rsc.msr; i++)
--		mgr_put_resource(&mgr->mgr, 1, srcimp->idx[i]);
--
--	spin_unlock_irqrestore(&mgr->mgr_lock, flags);
-+	scoped_guard(spinlock_irqsave, &mgr->mgr_lock) {
-+		for (i = 0; i < srcimp->rsc.msr; i++)
-+			mgr_put_resource(&mgr->mgr, 1, srcimp->idx[i]);
+ 	/* acknowledge interrupt */
+-	spin_lock(&cm->reg_lock);
+-	if (status & CM_CHINT0)
+-		mask |= CM_CH0_INT_EN;
+-	if (status & CM_CHINT1)
+-		mask |= CM_CH1_INT_EN;
+-	snd_cmipci_clear_bit(cm, CM_REG_INT_HLDCLR, mask);
+-	snd_cmipci_set_bit(cm, CM_REG_INT_HLDCLR, mask);
+-	spin_unlock(&cm->reg_lock);
++	scoped_guard(spinlock, &cm->reg_lock) {
++		if (status & CM_CHINT0)
++			mask |= CM_CH0_INT_EN;
++		if (status & CM_CHINT1)
++			mask |= CM_CH1_INT_EN;
++		snd_cmipci_clear_bit(cm, CM_REG_INT_HLDCLR, mask);
++		snd_cmipci_set_bit(cm, CM_REG_INT_HLDCLR, mask);
 +	}
- 	srcimp_rsc_uninit(srcimp);
- 	kfree(srcimp);
  
-@@ -790,34 +780,26 @@ static int srcimp_map_op(void *data, struct imapper *entry)
- 
- static int srcimp_imap_add(struct srcimp_mgr *mgr, struct imapper *entry)
- {
--	unsigned long flags;
--	int err;
--
--	spin_lock_irqsave(&mgr->imap_lock, flags);
-+	guard(spinlock_irqsave)(&mgr->imap_lock);
- 	if ((0 == entry->addr) && (mgr->init_imap_added)) {
- 		input_mapper_delete(&mgr->imappers,
- 				    mgr->init_imap, srcimp_map_op, mgr);
- 		mgr->init_imap_added = 0;
+ 	if (cm->rmidi && (status & CM_UARTINT))
+ 		snd_mpu401_uart_interrupt(irq, cm->rmidi->private_data);
+@@ -1587,9 +1575,8 @@ static int open_device_check(struct cmipci *cm, int mode, struct snd_pcm_substre
+ 	if (! (mode & CM_OPEN_DAC)) {
+ 		/* disable dual DAC mode */
+ 		cm->channel[ch].is_dac = 0;
+-		spin_lock_irq(&cm->reg_lock);
++		guard(spinlock_irq)(&cm->reg_lock);
+ 		snd_cmipci_clear_bit(cm, CM_REG_MISC_CTRL, CM_ENDBDAC);
+-		spin_unlock_irq(&cm->reg_lock);
  	}
--	err = input_mapper_add(&mgr->imappers, entry, srcimp_map_op, mgr);
--	spin_unlock_irqrestore(&mgr->imap_lock, flags);
--
--	return err;
-+	return input_mapper_add(&mgr->imappers, entry, srcimp_map_op, mgr);
+ 	return 0;
  }
- 
- static int srcimp_imap_delete(struct srcimp_mgr *mgr, struct imapper *entry)
- {
--	unsigned long flags;
- 	int err;
- 
--	spin_lock_irqsave(&mgr->imap_lock, flags);
-+	guard(spinlock_irqsave)(&mgr->imap_lock);
- 	err = input_mapper_delete(&mgr->imappers, entry, srcimp_map_op, mgr);
- 	if (list_empty(&mgr->imappers)) {
- 		input_mapper_add(&mgr->imappers, mgr->init_imap,
- 				 srcimp_map_op, mgr);
- 		mgr->init_imap_added = 1;
- 	}
--	spin_unlock_irqrestore(&mgr->imap_lock, flags);
- 
- 	return err;
- }
-@@ -870,12 +852,11 @@ int srcimp_mgr_create(struct hw *hw, void **rsrcimp_mgr)
- int srcimp_mgr_destroy(void *ptr)
- {
- 	struct srcimp_mgr *srcimp_mgr = ptr;
--	unsigned long flags;
- 
- 	/* free src input mapper list */
--	spin_lock_irqsave(&srcimp_mgr->imap_lock, flags);
--	free_input_mapper_list(&srcimp_mgr->imappers);
--	spin_unlock_irqrestore(&srcimp_mgr->imap_lock, flags);
-+	scoped_guard(spinlock_irqsave, &srcimp_mgr->imap_lock) {
-+		free_input_mapper_list(&srcimp_mgr->imappers);
-+	}
- 
- 	rsc_mgr_uninit(&srcimp_mgr->mgr);
- 	kfree(srcimp_mgr);
-diff --git a/sound/pci/ctxfi/cttimer.c b/sound/pci/ctxfi/cttimer.c
-index fa6867adb42b..609b10320ff7 100644
---- a/sound/pci/ctxfi/cttimer.c
-+++ b/sound/pci/ctxfi/cttimer.c
-@@ -68,7 +68,6 @@ static void ct_systimer_callback(struct timer_list *t)
- 	struct ct_atc_pcm *apcm = ti->apcm;
- 	unsigned int period_size = runtime->period_size;
- 	unsigned int buffer_size = runtime->buffer_size;
--	unsigned long flags;
- 	unsigned int position, dist, interval;
- 
- 	position = substream->ops->pointer(substream);
-@@ -82,10 +81,9 @@ static void ct_systimer_callback(struct timer_list *t)
- 	 * at 8kHz in 8-bit format or at 88kHz in 24-bit format. */
- 	interval = ((period_size - (position % period_size))
- 		   * HZ + (runtime->rate - 1)) / runtime->rate + HZ * 5 / 1000;
--	spin_lock_irqsave(&ti->lock, flags);
-+	guard(spinlock_irqsave)(&ti->lock);
- 	if (ti->running)
- 		mod_timer(&ti->timer, jiffies + interval);
--	spin_unlock_irqrestore(&ti->lock, flags);
- }
- 
- static void ct_systimer_init(struct ct_timer_instance *ti)
-@@ -96,24 +94,19 @@ static void ct_systimer_init(struct ct_timer_instance *ti)
- static void ct_systimer_start(struct ct_timer_instance *ti)
- {
- 	struct snd_pcm_runtime *runtime = ti->substream->runtime;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&ti->lock, flags);
-+	guard(spinlock_irqsave)(&ti->lock);
- 	ti->running = 1;
- 	mod_timer(&ti->timer,
- 		  jiffies + (runtime->period_size * HZ +
- 			     (runtime->rate - 1)) / runtime->rate);
--	spin_unlock_irqrestore(&ti->lock, flags);
- }
- 
- static void ct_systimer_stop(struct ct_timer_instance *ti)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(&ti->lock, flags);
-+	guard(spinlock_irqsave)(&ti->lock);
- 	ti->running = 0;
- 	timer_delete(&ti->timer);
--	spin_unlock_irqrestore(&ti->lock, flags);
- }
- 
- static void ct_systimer_prepare(struct ct_timer_instance *ti)
-@@ -229,25 +222,22 @@ static int ct_xfitimer_reprogram(struct ct_timer *atimer, int can_update)
- static void ct_xfitimer_check_period(struct ct_timer *atimer)
- {
- 	struct ct_timer_instance *ti;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&atimer->list_lock, flags);
-+	guard(spinlock_irqsave)(&atimer->list_lock);
- 	list_for_each_entry(ti, &atimer->instance_head, instance_list) {
- 		if (ti->running && ti->need_update) {
- 			ti->need_update = 0;
- 			ti->apcm->interrupt(ti->apcm);
+@@ -1609,9 +1596,8 @@ static void close_device_check(struct cmipci *cm, int mode)
+ 		if (! cm->channel[ch].is_dac) {
+ 			/* enable dual DAC mode again */
+ 			cm->channel[ch].is_dac = 1;
+-			spin_lock_irq(&cm->reg_lock);
++			guard(spinlock_irq)(&cm->reg_lock);
+ 			snd_cmipci_set_bit(cm, CM_REG_MISC_CTRL, CM_ENDBDAC);
+-			spin_unlock_irq(&cm->reg_lock);
  		}
  	}
--	spin_unlock_irqrestore(&atimer->list_lock, flags);
  }
+@@ -2002,7 +1988,7 @@ static int snd_cmipci_get_volume(struct snd_kcontrol *kcontrol,
+ 	int val;
  
- /* Handle timer-interrupt */
- static void ct_xfitimer_callback(struct ct_timer *atimer)
- {
- 	int update;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&atimer->lock, flags);
-+	guard(spinlock_irqsave)(&atimer->lock);
- 	atimer->irq_handling = 1;
- 	do {
- 		update = ct_xfitimer_reprogram(atimer, 1);
-@@ -257,7 +247,6 @@ static void ct_xfitimer_callback(struct ct_timer *atimer)
- 		spin_lock(&atimer->lock);
- 	} while (atimer->reprogram);
- 	atimer->irq_handling = 0;
--	spin_unlock_irqrestore(&atimer->lock, flags);
- }
- 
- static void ct_xfitimer_prepare(struct ct_timer_instance *ti)
-@@ -271,45 +260,39 @@ static void ct_xfitimer_prepare(struct ct_timer_instance *ti)
- /* start/stop the timer */
- static void ct_xfitimer_update(struct ct_timer *atimer)
- {
--	unsigned long flags;
--
--	spin_lock_irqsave(&atimer->lock, flags);
-+	guard(spinlock_irqsave)(&atimer->lock);
- 	if (atimer->irq_handling) {
- 		/* reached from IRQ handler; let it handle later */
- 		atimer->reprogram = 1;
--		spin_unlock_irqrestore(&atimer->lock, flags);
- 		return;
+ 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	val = (snd_cmipci_mixer_read(cm, reg.left_reg) >> reg.left_shift) & reg.mask;
+ 	if (reg.invert)
+ 		val = reg.mask - val;
+@@ -2013,7 +1999,6 @@ static int snd_cmipci_get_volume(struct snd_kcontrol *kcontrol,
+ 			val = reg.mask - val;
+ 		ucontrol->value.integer.value[1] = val;
  	}
- 
- 	ct_xfitimer_irq_stop(atimer);
- 	ct_xfitimer_reprogram(atimer, 0);
--	spin_unlock_irqrestore(&atimer->lock, flags);
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return 0;
  }
  
- static void ct_xfitimer_start(struct ct_timer_instance *ti)
+@@ -2037,7 +2022,7 @@ static int snd_cmipci_put_volume(struct snd_kcontrol *kcontrol,
+ 		right <<= reg.right_shift;
+ 	} else
+ 		right = 0;
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	oleft = snd_cmipci_mixer_read(cm, reg.left_reg);
+ 	left |= oleft & ~(reg.mask << reg.left_shift);
+ 	change = left != oleft;
+@@ -2052,7 +2037,6 @@ static int snd_cmipci_put_volume(struct snd_kcontrol *kcontrol,
+ 		snd_cmipci_mixer_write(cm, reg.right_reg, right);
+ 	} else
+ 		snd_cmipci_mixer_write(cm, reg.left_reg, left);
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2084,10 +2068,9 @@ static int snd_cmipci_get_input_sw(struct snd_kcontrol *kcontrol,
+ 	int val1, val2;
+ 
+ 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	val1 = snd_cmipci_mixer_read(cm, reg.left_reg);
+ 	val2 = snd_cmipci_mixer_read(cm, reg.right_reg);
+-	spin_unlock_irq(&cm->reg_lock);
+ 	ucontrol->value.integer.value[0] = (val1 >> reg.left_shift) & 1;
+ 	ucontrol->value.integer.value[1] = (val2 >> reg.left_shift) & 1;
+ 	ucontrol->value.integer.value[2] = (val1 >> reg.right_shift) & 1;
+@@ -2104,7 +2087,7 @@ static int snd_cmipci_put_input_sw(struct snd_kcontrol *kcontrol,
+ 	int val1, val2, oval1, oval2;
+ 
+ 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	oval1 = snd_cmipci_mixer_read(cm, reg.left_reg);
+ 	oval2 = snd_cmipci_mixer_read(cm, reg.right_reg);
+ 	val1 = oval1 & ~((1 << reg.left_shift) | (1 << reg.right_shift));
+@@ -2116,7 +2099,6 @@ static int snd_cmipci_put_input_sw(struct snd_kcontrol *kcontrol,
+ 	change = val1 != oval1 || val2 != oval2;
+ 	snd_cmipci_mixer_write(cm, reg.left_reg, val1);
+ 	snd_cmipci_mixer_write(cm, reg.right_reg, val2);
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2174,7 +2156,7 @@ static int snd_cmipci_get_native_mixer(struct snd_kcontrol *kcontrol,
+ 	unsigned char oreg, val;
+ 
+ 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	oreg = inb(cm->iobase + reg.left_reg);
+ 	val = (oreg >> reg.left_shift) & reg.mask;
+ 	if (reg.invert)
+@@ -2186,7 +2168,6 @@ static int snd_cmipci_get_native_mixer(struct snd_kcontrol *kcontrol,
+ 			val = reg.mask - val;
+ 		ucontrol->value.integer.value[1] = val;
+ 	}
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -2198,7 +2179,7 @@ static int snd_cmipci_put_native_mixer(struct snd_kcontrol *kcontrol,
+ 	unsigned char oreg, nreg, val;
+ 
+ 	cmipci_sb_reg_decode(&reg, kcontrol->private_value);
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	oreg = inb(cm->iobase + reg.left_reg);
+ 	val = ucontrol->value.integer.value[0] & reg.mask;
+ 	if (reg.invert)
+@@ -2213,7 +2194,6 @@ static int snd_cmipci_put_native_mixer(struct snd_kcontrol *kcontrol,
+ 		nreg |= (val << reg.right_shift);
+ 	}
+ 	outb(nreg, cm->iobase + reg.left_reg);
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return (nreg != oreg);
+ }
+ 
+@@ -2300,10 +2280,9 @@ static int _snd_cmipci_uswitch_get(struct snd_kcontrol *kcontrol,
+ 	unsigned int val;
+ 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	if (args->ac3_sensitive && cm->mixer_insensitive) {
+ 		ucontrol->value.integer.value[0] = 0;
+-		spin_unlock_irq(&cm->reg_lock);
+ 		return 0;
+ 	}
+ 	if (args->is_byte)
+@@ -2311,7 +2290,6 @@ static int _snd_cmipci_uswitch_get(struct snd_kcontrol *kcontrol,
+ 	else
+ 		val = snd_cmipci_read(cm, args->reg);
+ 	ucontrol->value.integer.value[0] = ((val & args->mask) == args->mask_on) ? 1 : 0;
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -2333,10 +2311,9 @@ static int _snd_cmipci_uswitch_put(struct snd_kcontrol *kcontrol,
+ 	int change;
+ 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
+ 
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	if (args->ac3_sensitive && cm->mixer_insensitive) {
+ 		/* ignored */
+-		spin_unlock_irq(&cm->reg_lock);
+ 		return 0;
+ 	}
+ 	if (args->is_byte)
+@@ -2356,7 +2333,6 @@ static int _snd_cmipci_uswitch_put(struct snd_kcontrol *kcontrol,
+ 		else
+ 			snd_cmipci_write(cm, args->reg, val);
+ 	}
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2489,9 +2465,8 @@ static int snd_cmipci_line_in_mode_get(struct snd_kcontrol *kcontrol,
  {
- 	struct ct_timer *atimer = ti->timer_base;
--	unsigned long flags;
+ 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
  
--	spin_lock_irqsave(&atimer->lock, flags);
--	if (list_empty(&ti->running_list))
--		atimer->wc = ct_xfitimer_get_wc(atimer);
--	ti->running = 1;
--	ti->need_update = 0;
--	list_add(&ti->running_list, &atimer->running_head);
--	spin_unlock_irqrestore(&atimer->lock, flags);
-+	scoped_guard(spinlock_irqsave, &atimer->lock) {
-+		if (list_empty(&ti->running_list))
-+			atimer->wc = ct_xfitimer_get_wc(atimer);
-+		ti->running = 1;
-+		ti->need_update = 0;
-+		list_add(&ti->running_list, &atimer->running_head);
-+	}
- 	ct_xfitimer_update(atimer);
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	ucontrol->value.enumerated.item[0] = get_line_in_mode(cm);
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return 0;
  }
  
- static void ct_xfitimer_stop(struct ct_timer_instance *ti)
+@@ -2501,7 +2476,7 @@ static int snd_cmipci_line_in_mode_put(struct snd_kcontrol *kcontrol,
+ 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
+ 	int change;
+ 
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	if (ucontrol->value.enumerated.item[0] == 2)
+ 		change = snd_cmipci_set_bit(cm, CM_REG_LEGACY_CTRL, CM_CENTR2LIN | CM_BASE2LIN);
+ 	else
+@@ -2510,7 +2485,6 @@ static int snd_cmipci_line_in_mode_put(struct snd_kcontrol *kcontrol,
+ 		change |= snd_cmipci_set_bit_b(cm, CM_REG_MIXER1, CM_REAR2LIN);
+ 	else
+ 		change |= snd_cmipci_clear_bit_b(cm, CM_REG_MIXER1, CM_REAR2LIN);
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2526,11 +2500,11 @@ static int snd_cmipci_mic_in_mode_get(struct snd_kcontrol *kcontrol,
+ 				      struct snd_ctl_elem_value *ucontrol)
  {
- 	struct ct_timer *atimer = ti->timer_base;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&atimer->lock, flags);
--	list_del_init(&ti->running_list);
--	ti->running = 0;
--	spin_unlock_irqrestore(&atimer->lock, flags);
-+	scoped_guard(spinlock_irqsave, &atimer->lock) {
-+		list_del_init(&ti->running_list);
-+		ti->running = 0;
-+	}
- 	ct_xfitimer_update(atimer);
+ 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
++
+ 	/* same bit as spdi_phase */
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	ucontrol->value.enumerated.item[0] = 
+ 		(snd_cmipci_read_b(cm, CM_REG_MISC) & CM_SPDIF_INVERSE) ? 1 : 0;
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return 0;
  }
  
-@@ -347,9 +330,9 @@ ct_timer_instance_new(struct ct_timer *atimer, struct ct_atc_pcm *apcm)
- 	if (atimer->ops->init)
- 		atimer->ops->init(ti);
+@@ -2540,12 +2514,11 @@ static int snd_cmipci_mic_in_mode_put(struct snd_kcontrol *kcontrol,
+ 	struct cmipci *cm = snd_kcontrol_chip(kcontrol);
+ 	int change;
  
--	spin_lock_irq(&atimer->list_lock);
--	list_add(&ti->instance_list, &atimer->instance_head);
--	spin_unlock_irq(&atimer->list_lock);
-+	scoped_guard(spinlock_irq, &atimer->list_lock) {
-+		list_add(&ti->instance_list, &atimer->instance_head);
+-	spin_lock_irq(&cm->reg_lock);
++	guard(spinlock_irq)(&cm->reg_lock);
+ 	if (ucontrol->value.enumerated.item[0])
+ 		change = snd_cmipci_set_bit_b(cm, CM_REG_MISC, CM_SPDIF_INVERSE);
+ 	else
+ 		change = snd_cmipci_clear_bit_b(cm, CM_REG_MISC, CM_SPDIF_INVERSE);
+-	spin_unlock_irq(&cm->reg_lock);
+ 	return change;
+ }
+ 
+@@ -2627,9 +2600,9 @@ static int snd_cmipci_mixer_new(struct cmipci *cm, int pcm_spdif_device)
+ 
+ 	strscpy(card->mixername, "CMedia PCI");
+ 
+-	spin_lock_irq(&cm->reg_lock);
+-	snd_cmipci_mixer_write(cm, 0x00, 0x00);		/* mixer reset */
+-	spin_unlock_irq(&cm->reg_lock);
++	scoped_guard(spinlock_irq, &cm->reg_lock) {
++		snd_cmipci_mixer_write(cm, 0x00, 0x00);	/* mixer reset */
 +	}
  
- 	return ti;
- }
-@@ -382,9 +365,9 @@ void ct_timer_instance_free(struct ct_timer_instance *ti)
- 	if (atimer->ops->free_instance)
- 		atimer->ops->free_instance(ti);
- 
--	spin_lock_irq(&atimer->list_lock);
--	list_del(&ti->instance_list);
--	spin_unlock_irq(&atimer->list_lock);
-+	scoped_guard(spinlock_irq, &atimer->list_lock) {
-+		list_del(&ti->instance_list);
-+	}
- 
- 	kfree(ti);
- }
+ 	for (idx = 0; idx < ARRAY_SIZE(snd_cmipci_mixers); idx++) {
+ 		if (cm->chip_version == 68) {	// 8768 has no PCM volume
 -- 
 2.50.1
 
