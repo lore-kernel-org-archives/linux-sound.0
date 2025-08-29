@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB6A32255F
-	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD872322753
+	for <linux-sound@vger.kernel.org>; Fri, 29 Aug 2025 14:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756478734; cv=none; b=DjoP/WmcpAkfRmH6QXCYeP1KITBoD774A5ehsFQBIgN9n9+iKOCENBJGQD+9H9bn5+LhMFDwelUzxZH6q+5UW0hkOxJDGLWL/EH2s8VQm8gRKyApAlXqsPEd9MkGxnBz8ch2QLJrtoa0P6Sur2mFycpQ8YyqzNfgtCoru6HOLz8=
+	t=1756478741; cv=none; b=jNe0C4I+uJUnADX1+TS8QhWIDvQyUdzivt6bcqxzYrq5BCSK1U9bsQLwY+vfbQn9y7i1QroX+OKwa2GljyxkMF/xiT7EaJq9ACGQFgvNsSea1/+CJw10ggWGjoDAITOXc8b7mBbgDMRM2q3K20bfz6Ymioe/1RH/5Ac3fFofthI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756478734; c=relaxed/simple;
-	bh=rZXoynDvCjRp50MYXCCxEnjYEVNewvH9887eYIS8M2w=;
+	s=arc-20240116; t=1756478741; c=relaxed/simple;
+	bh=GCDqIsZU7jVgSacLMl/pQkFAdqwQo7c537yQBPKrz7Y=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qWRw3yUa5fCOoK2GEeqVEEo/kVD5VdVKKsA8Hz5BXZsQ3e5JrUE0EOk8ZbBZERV53q7Ed9Hh2tCWSNVBPy3s9zeKb6W2kzclIAt/mUul1//sk5M4kAGx0v+4Nw8phwpbtlEbfLRS56wW1voYsfZxb5FjFZBJFa2RsTsaEZi/n/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XCQ13cyx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/fclTgq5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XCQ13cyx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/fclTgq5; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=gEUnP5tt+sgHjoCAJuZhhdEBvOY11oyVoQUcqpg6blpwHPNufLPbz35MpXf/Cggy8hguaMEeCMaGQCY2s+eOf8w1wcHApXFg3VuTi6l/1MK7lEXPM3ilGWkORAZ6qlrOEzrUh7vMWe1122O0OX7TyggkfrIwyKhrAusqa9+KdEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uKieWYaq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Fj7N0Qfi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uKieWYaq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Fj7N0Qfi; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XCQ13cyx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/fclTgq5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XCQ13cyx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/fclTgq5"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uKieWYaq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fj7N0Qfi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uKieWYaq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fj7N0Qfi"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B317F33ECF;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4F6775C233;
 	Fri, 29 Aug 2025 14:44:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756478640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=A8SR0N5xUnUVZ3OhpUuxqa3rtu8c5/7fwycmeEdMr4k=;
-	b=XCQ13cyx8AA6Z7cYZ3A2YiIFKN409/UrXNHhhKJDCblgaF1lIEIgAMEuaUWEikHbpO6kcQ
-	ysOeMMP1pHqXI7RLyT8Fpl4Mdt3VmBU6Z/OgAAZDeywMif3M26THSkyuniKCnYXbfsxzK3
-	jQtfk/FL1jVhhiO2+EcoEWoWFeU1gvQ=
+	bh=m4NdHiNyifrsMKLZBcGGoARv7cjtDYg9xkieIjcjoOE=;
+	b=uKieWYaq9RZx+UQY/fnXbndIARWzW8TWH+Xjli5iNAk/5c2upTFi+9pEK/elyKvwZ4Qnsx
+	9OcicyRMeNJx8O4uJIy5k0co9l1VzTWjLpSJAsGrPBh4waTLVzsBWq8bFBfClxWvtYPf6X
+	yl5gGs8N2Jpkp639ECVOnKOrqI/FnD0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756478640;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=A8SR0N5xUnUVZ3OhpUuxqa3rtu8c5/7fwycmeEdMr4k=;
-	b=/fclTgq5KHO9UhLzWp+z+CM41NVR0tK+9u+6/EQ+diJUBadW98RXZzTXzDyfBW88Wq0PPf
-	G7Jy/4n8m+U677Bg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XCQ13cyx;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/fclTgq5"
+	bh=m4NdHiNyifrsMKLZBcGGoARv7cjtDYg9xkieIjcjoOE=;
+	b=Fj7N0Qfi3z85TbCZ50W5p5bho52sYlr1q/6tssHr/328xlWQFJuV5yUyzAM2aKrp27Npu4
+	zbXZ2hwMeRXLbuAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uKieWYaq;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Fj7N0Qfi
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1756478640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=A8SR0N5xUnUVZ3OhpUuxqa3rtu8c5/7fwycmeEdMr4k=;
-	b=XCQ13cyx8AA6Z7cYZ3A2YiIFKN409/UrXNHhhKJDCblgaF1lIEIgAMEuaUWEikHbpO6kcQ
-	ysOeMMP1pHqXI7RLyT8Fpl4Mdt3VmBU6Z/OgAAZDeywMif3M26THSkyuniKCnYXbfsxzK3
-	jQtfk/FL1jVhhiO2+EcoEWoWFeU1gvQ=
+	bh=m4NdHiNyifrsMKLZBcGGoARv7cjtDYg9xkieIjcjoOE=;
+	b=uKieWYaq9RZx+UQY/fnXbndIARWzW8TWH+Xjli5iNAk/5c2upTFi+9pEK/elyKvwZ4Qnsx
+	9OcicyRMeNJx8O4uJIy5k0co9l1VzTWjLpSJAsGrPBh4waTLVzsBWq8bFBfClxWvtYPf6X
+	yl5gGs8N2Jpkp639ECVOnKOrqI/FnD0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1756478640;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=A8SR0N5xUnUVZ3OhpUuxqa3rtu8c5/7fwycmeEdMr4k=;
-	b=/fclTgq5KHO9UhLzWp+z+CM41NVR0tK+9u+6/EQ+diJUBadW98RXZzTXzDyfBW88Wq0PPf
-	G7Jy/4n8m+U677Bg==
+	bh=m4NdHiNyifrsMKLZBcGGoARv7cjtDYg9xkieIjcjoOE=;
+	b=Fj7N0Qfi3z85TbCZ50W5p5bho52sYlr1q/6tssHr/328xlWQFJuV5yUyzAM2aKrp27Npu4
+	zbXZ2hwMeRXLbuAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9AE3E13A3E;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3174A13A54;
 	Fri, 29 Aug 2025 14:44:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eD+mJLC8sWi6GAAAD6G6ig
+	id mPmzCrC8sWi6GAAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 29 Aug 2025 14:44:00 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 31/61] ALSA: es1968: Use guard() for mutex locks
-Date: Fri, 29 Aug 2025 16:43:06 +0200
-Message-ID: <20250829144342.4290-32-tiwai@suse.de>
+Subject: [PATCH 28/61] ALSA: emu10k1: Use guard() for spin locks
+Date: Fri, 29 Aug 2025 16:43:03 +0200
+Message-ID: <20250829144342.4290-29-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250829144342.4290-1-tiwai@suse.de>
 References: <20250829144342.4290-1-tiwai@suse.de>
@@ -103,7 +103,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_ONE(0.00)[1];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
@@ -116,88 +116,1443 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Rspamd-Queue-Id: B317F33ECF
+X-Rspamd-Queue-Id: 4F6775C233
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -3.01
 
-Replace the manual mutex lock/unlock pairs with guard() for code
-simplification.
+Clean up the code using guard() for spin locks.
 
-Only code refactoring, and no behavior change.
+Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/es1968.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ sound/pci/emu10k1/emu10k1_main.c  |  12 +--
+ sound/pci/emu10k1/emu10k1_synth.c |  11 +-
+ sound/pci/emu10k1/emufx.c         |  46 +++-----
+ sound/pci/emu10k1/emumixer.c      |  56 ++++------
+ sound/pci/emu10k1/emumpu401.c     | 173 +++++++++++++-----------------
+ sound/pci/emu10k1/emupcm.c        |  58 ++++------
+ sound/pci/emu10k1/emuproc.c       |  11 +-
+ sound/pci/emu10k1/io.c            | 120 ++++++---------------
+ sound/pci/emu10k1/memory.c        |  14 +--
+ sound/pci/emu10k1/p16v.c          |   8 +-
+ sound/pci/emu10k1/voice.c         |   8 +-
+ 11 files changed, 192 insertions(+), 325 deletions(-)
 
-diff --git a/sound/pci/es1968.c b/sound/pci/es1968.c
-index 624ba7d47566..a9344c0bcf6b 100644
---- a/sound/pci/es1968.c
-+++ b/sound/pci/es1968.c
-@@ -1318,12 +1318,11 @@ static int calc_available_memory_size(struct es1968 *chip)
- 	int max_size = 0;
- 	struct esm_memory *buf;
+diff --git a/sound/pci/emu10k1/emu10k1_main.c b/sound/pci/emu10k1/emu10k1_main.c
+index a3d028e4a212..b2fe2d164ba8 100644
+--- a/sound/pci/emu10k1/emu10k1_main.c
++++ b/sound/pci/emu10k1/emu10k1_main.c
+@@ -745,12 +745,12 @@ static void emu1010_clock_event(struct snd_emu10k1 *emu)
+ {
+ 	struct snd_ctl_elem_id id;
  
--	mutex_lock(&chip->memory_mutex);
-+	guard(mutex)(&chip->memory_mutex);
- 	list_for_each_entry(buf, &chip->buf_list, list) {
- 		if (buf->empty && buf->buf.bytes > max_size)
- 			max_size = buf->buf.bytes;
+-	spin_lock_irq(&emu->reg_lock);
+-	// This is the only thing that can actually happen.
+-	emu->emu1010.clock_source = emu->emu1010.clock_fallback;
+-	emu->emu1010.wclock = 1 - emu->emu1010.clock_source;
+-	snd_emu1010_update_clock(emu);
+-	spin_unlock_irq(&emu->reg_lock);
++	scoped_guard(spinlock_irq, &emu->reg_lock) {
++		// This is the only thing that can actually happen.
++		emu->emu1010.clock_source = emu->emu1010.clock_fallback;
++		emu->emu1010.wclock = 1 - emu->emu1010.clock_source;
++		snd_emu1010_update_clock(emu);
++	}
+ 	snd_ctl_build_ioff(&id, emu->ctl_clock_source, 0);
+ 	snd_ctl_notify(emu->card, SNDRV_CTL_EVENT_MASK_VALUE, &id);
+ }
+diff --git a/sound/pci/emu10k1/emu10k1_synth.c b/sound/pci/emu10k1/emu10k1_synth.c
+index 68dfcb24b889..662d20eb9689 100644
+--- a/sound/pci/emu10k1/emu10k1_synth.c
++++ b/sound/pci/emu10k1/emu10k1_synth.c
+@@ -55,10 +55,9 @@ static int snd_emu10k1_synth_probe(struct device *_dev)
+ 		return -ENOMEM;
  	}
--	mutex_unlock(&chip->memory_mutex);
- 	if (max_size >= 128*1024)
- 		max_size = 127*1024;
- 	return max_size;
-@@ -1335,21 +1334,18 @@ static struct esm_memory *snd_es1968_new_memory(struct es1968 *chip, int size)
- 	struct esm_memory *buf;
  
- 	size = ALIGN(size, ESM_MEM_ALIGN);
--	mutex_lock(&chip->memory_mutex);
-+	guard(mutex)(&chip->memory_mutex);
- 	list_for_each_entry(buf, &chip->buf_list, list) {
- 		if (buf->empty && buf->buf.bytes >= size)
- 			goto __found;
- 	}
--	mutex_unlock(&chip->memory_mutex);
- 	return NULL;
+-	spin_lock_irq(&hw->voice_lock);
++	guard(spinlock_irq)(&hw->voice_lock);
+ 	hw->synth = emux;
+ 	hw->get_synth_voice = snd_emu10k1_synth_get_voice;
+-	spin_unlock_irq(&hw->voice_lock);
  
- __found:
- 	if (buf->buf.bytes > size) {
- 		struct esm_memory *chunk = kmalloc(sizeof(*chunk), GFP_KERNEL);
--		if (chunk == NULL) {
--			mutex_unlock(&chip->memory_mutex);
-+		if (chunk == NULL)
- 			return NULL;
--		}
- 		chunk->buf = buf->buf;
- 		chunk->buf.bytes -= size;
- 		chunk->buf.area += size;
-@@ -1359,7 +1355,6 @@ static struct esm_memory *snd_es1968_new_memory(struct es1968 *chip, int size)
- 		list_add(&chunk->list, &buf->list);
+ 	dev->driver_data = emux;
+ 
+@@ -77,10 +76,10 @@ static int snd_emu10k1_synth_remove(struct device *_dev)
+ 	emux = dev->driver_data;
+ 
+ 	hw = emux->hw;
+-	spin_lock_irq(&hw->voice_lock);
+-	hw->synth = NULL;
+-	hw->get_synth_voice = NULL;
+-	spin_unlock_irq(&hw->voice_lock);
++	scoped_guard(spinlock_irq, &hw->voice_lock) {
++		hw->synth = NULL;
++		hw->get_synth_voice = NULL;
++	}
+ 
+ 	snd_emux_free(emux);
+ 	return 0;
+diff --git a/sound/pci/emu10k1/emufx.c b/sound/pci/emu10k1/emufx.c
+index aaf488978b18..37af7bf76347 100644
+--- a/sound/pci/emu10k1/emufx.c
++++ b/sound/pci/emu10k1/emufx.c
+@@ -440,13 +440,11 @@ int snd_emu10k1_fx8010_register_irq_handler(struct snd_emu10k1 *emu,
+ 					    void *private_data,
+ 					    struct snd_emu10k1_fx8010_irq *irq)
+ {
+-	unsigned long flags;
+-	
+ 	irq->handler = handler;
+ 	irq->gpr_running = gpr_running;
+ 	irq->private_data = private_data;
+ 	irq->next = NULL;
+-	spin_lock_irqsave(&emu->fx8010.irq_lock, flags);
++	guard(spinlock_irqsave)(&emu->fx8010.irq_lock);
+ 	if (emu->fx8010.irq_handlers == NULL) {
+ 		emu->fx8010.irq_handlers = irq;
+ 		emu->dsp_interrupt = snd_emu10k1_fx8010_interrupt;
+@@ -455,7 +453,6 @@ int snd_emu10k1_fx8010_register_irq_handler(struct snd_emu10k1 *emu,
+ 		irq->next = emu->fx8010.irq_handlers;
+ 		emu->fx8010.irq_handlers = irq;
  	}
- 	buf->empty = 0;
--	mutex_unlock(&chip->memory_mutex);
- 	return buf;
+-	spin_unlock_irqrestore(&emu->fx8010.irq_lock, flags);
+ 	return 0;
  }
  
-@@ -1368,7 +1363,7 @@ static void snd_es1968_free_memory(struct es1968 *chip, struct esm_memory *buf)
+@@ -463,9 +460,8 @@ int snd_emu10k1_fx8010_unregister_irq_handler(struct snd_emu10k1 *emu,
+ 					      struct snd_emu10k1_fx8010_irq *irq)
  {
- 	struct esm_memory *chunk;
+ 	struct snd_emu10k1_fx8010_irq *tmp;
+-	unsigned long flags;
+ 	
+-	spin_lock_irqsave(&emu->fx8010.irq_lock, flags);
++	guard(spinlock_irqsave)(&emu->fx8010.irq_lock);
+ 	tmp = emu->fx8010.irq_handlers;
+ 	if (tmp == irq) {
+ 		emu->fx8010.irq_handlers = tmp->next;
+@@ -479,7 +475,6 @@ int snd_emu10k1_fx8010_unregister_irq_handler(struct snd_emu10k1 *emu,
+ 		if (tmp)
+ 			tmp->next = tmp->next->next;
+ 	}
+-	spin_unlock_irqrestore(&emu->fx8010.irq_lock, flags);
+ 	return 0;
+ }
  
--	mutex_lock(&chip->memory_mutex);
-+	guard(mutex)(&chip->memory_mutex);
- 	buf->empty = 1;
- 	if (buf->list.prev != &chip->buf_list) {
- 		chunk = list_entry(buf->list.prev, struct esm_memory, list);
-@@ -1387,7 +1382,6 @@ static void snd_es1968_free_memory(struct es1968 *chip, struct esm_memory *buf)
- 			kfree(chunk);
+@@ -1085,7 +1080,6 @@ static int snd_emu10k1_ipcm_poke(struct snd_emu10k1 *emu,
+ 				 struct snd_emu10k1_fx8010_pcm_rec *ipcm)
+ {
+ 	unsigned int i;
+-	int err = 0;
+ 	struct snd_emu10k1_fx8010_pcm *pcm;
+ 
+ 	if (ipcm->substream >= EMU10K1_FX8010_PCM_COUNT)
+@@ -1096,19 +1090,15 @@ static int snd_emu10k1_ipcm_poke(struct snd_emu10k1 *emu,
+ 		return -EINVAL;
+ 	pcm = &emu->fx8010.pcm[ipcm->substream];
+ 	guard(mutex)(&emu->fx8010.lock);
+-	spin_lock_irq(&emu->reg_lock);
+-	if (pcm->opened) {
+-		err = -EBUSY;
+-		goto __error;
+-	}
++	guard(spinlock_irq)(&emu->reg_lock);
++	if (pcm->opened)
++		return -EBUSY;
+ 	if (ipcm->channels == 0) {	/* remove */
+ 		pcm->valid = 0;
+ 	} else {
+ 		/* FIXME: we need to add universal code to the PCM transfer routine */
+-		if (ipcm->channels != 2) {
+-			err = -EINVAL;
+-			goto __error;
+-		}
++		if (ipcm->channels != 2)
++			return -EINVAL;
+ 		pcm->valid = 1;
+ 		pcm->opened = 0;
+ 		pcm->channels = ipcm->channels;
+@@ -1123,16 +1113,13 @@ static int snd_emu10k1_ipcm_poke(struct snd_emu10k1 *emu,
+ 		for (i = 0; i < pcm->channels; i++)
+ 			pcm->etram[i] = ipcm->etram[i];
+ 	}
+-      __error:
+-	spin_unlock_irq(&emu->reg_lock);
+-	return err;
++	return 0;
+ }
+ 
+ static int snd_emu10k1_ipcm_peek(struct snd_emu10k1 *emu,
+ 				 struct snd_emu10k1_fx8010_pcm_rec *ipcm)
+ {
+ 	unsigned int i;
+-	int err = 0;
+ 	struct snd_emu10k1_fx8010_pcm *pcm;
+ 
+ 	if (ipcm->substream >= EMU10K1_FX8010_PCM_COUNT)
+@@ -1141,7 +1128,7 @@ static int snd_emu10k1_ipcm_peek(struct snd_emu10k1 *emu,
+ 					     EMU10K1_FX8010_PCM_COUNT);
+ 	pcm = &emu->fx8010.pcm[ipcm->substream];
+ 	guard(mutex)(&emu->fx8010.lock);
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	ipcm->channels = pcm->channels;
+ 	ipcm->tram_start = pcm->tram_start;
+ 	ipcm->buffer_size = pcm->buffer_size;
+@@ -1155,8 +1142,7 @@ static int snd_emu10k1_ipcm_peek(struct snd_emu10k1 *emu,
+ 		ipcm->etram[i] = pcm->etram[i];
+ 	ipcm->res1 = ipcm->res2 = 0;
+ 	ipcm->pad = 0;
+-	spin_unlock_irq(&emu->reg_lock);
+-	return err;
++	return 0;
+ }
+ 
+ #define SND_EMU10K1_GPR_CONTROLS	44
+@@ -2410,9 +2396,9 @@ int snd_emu10k1_fx8010_tram_setup(struct snd_emu10k1 *emu, u32 size)
+ 	}
+ 	if ((emu->fx8010.etram_pages.bytes / 2) == size)
+ 		return 0;
+-	spin_lock_irq(&emu->emu_lock);
+-	outl(HCFG_LOCKTANKCACHE_MASK | inl(emu->port + HCFG), emu->port + HCFG);
+-	spin_unlock_irq(&emu->emu_lock);
++	scoped_guard(spinlock_irq, &emu->emu_lock) {
++		outl(HCFG_LOCKTANKCACHE_MASK | inl(emu->port + HCFG), emu->port + HCFG);
++	}
+ 	snd_emu10k1_ptr_write(emu, TCB, 0, 0);
+ 	snd_emu10k1_ptr_write(emu, TCBS, 0, TCBS_BUFFSIZE_16K);
+ 	if (emu->fx8010.etram_pages.area != NULL) {
+@@ -2428,9 +2414,9 @@ int snd_emu10k1_fx8010_tram_setup(struct snd_emu10k1 *emu, u32 size)
+ 		memset(emu->fx8010.etram_pages.area, 0, size * 2);
+ 		snd_emu10k1_ptr_write(emu, TCB, 0, emu->fx8010.etram_pages.addr);
+ 		snd_emu10k1_ptr_write(emu, TCBS, 0, size_reg);
+-		spin_lock_irq(&emu->emu_lock);
+-		outl(inl(emu->port + HCFG) & ~HCFG_LOCKTANKCACHE_MASK, emu->port + HCFG);
+-		spin_unlock_irq(&emu->emu_lock);
++		scoped_guard(spinlock_irq, &emu->emu_lock) {
++			outl(inl(emu->port + HCFG) & ~HCFG_LOCKTANKCACHE_MASK, emu->port + HCFG);
++		}
+ 	}
+ 
+ 	return 0;
+diff --git a/sound/pci/emu10k1/emumixer.c b/sound/pci/emu10k1/emumixer.c
+index 6d86584be750..f4906ab30c02 100644
+--- a/sound/pci/emu10k1/emumixer.c
++++ b/sound/pci/emu10k1/emumixer.c
+@@ -978,29 +978,25 @@ static int snd_emu1010_clock_source_put(struct snd_kcontrol *kcontrol,
+ 	const struct snd_emu1010_clock_info *emu_ci =
+ 		&emu1010_clock_info[emu1010_idx(emu)];
+ 	unsigned int val;
+-	int change = 0;
+ 
+ 	val = ucontrol->value.enumerated.item[0] ;
+ 	if (val >= emu_ci->num)
+ 		return -EINVAL;
+ 	guard(snd_emu1010_fpga_lock)(emu);
+-	spin_lock_irq(&emu->reg_lock);
+-	change = (emu->emu1010.clock_source != val);
+-	if (change) {
++	scoped_guard(spinlock_irq, &emu->reg_lock) {
++		if (emu->emu1010.clock_source == val)
++			return 0;
+ 		emu->emu1010.clock_source = val;
+ 		emu->emu1010.wclock = emu_ci->vals[val];
+ 		snd_emu1010_update_clock(emu);
+ 
+ 		snd_emu1010_fpga_write(emu, EMU_HANA_UNMUTE, EMU_MUTE);
+ 		snd_emu1010_fpga_write(emu, EMU_HANA_WCLOCK, emu->emu1010.wclock);
+-		spin_unlock_irq(&emu->reg_lock);
+-
+-		msleep(10);  // Allow DLL to settle
+-		snd_emu1010_fpga_write(emu, EMU_HANA_UNMUTE, EMU_UNMUTE);
+-	} else {
+-		spin_unlock_irq(&emu->reg_lock);
+ 	}
+-	return change;
++
++	msleep(10);  // Allow DLL to settle
++	snd_emu1010_fpga_write(emu, EMU_HANA_UNMUTE, EMU_UNMUTE);
++	return 1;
+ }
+ 
+ static const struct snd_kcontrol_new snd_emu1010_clock_source =
+@@ -1208,13 +1204,13 @@ static int snd_audigy_i2c_capture_source_put(struct snd_kcontrol *kcontrol,
+ 	change = (emu->i2c_capture_source != source_id);
+ 	if (change) {
+ 		snd_emu10k1_i2c_write(emu, ADC_MUX, 0); /* Mute input */
+-		spin_lock_irq(&emu->emu_lock);
+-		gpio = inw(emu->port + A_IOCFG);
+-		if (source_id==0)
+-			outw(gpio | 0x4, emu->port + A_IOCFG);
+-		else
+-			outw(gpio & ~0x4, emu->port + A_IOCFG);
+-		spin_unlock_irq(&emu->emu_lock);
++		scoped_guard(spinlock_irq, &emu->emu_lock) {
++			gpio = inw(emu->port + A_IOCFG);
++			if (source_id == 0)
++				outw(gpio | 0x4, emu->port + A_IOCFG);
++			else
++				outw(gpio & ~0x4, emu->port + A_IOCFG);
++		}
+ 
+ 		ngain = emu->i2c_capture_volume[source_id][0]; /* Left */
+ 		ogain = emu->i2c_capture_volume[emu->i2c_capture_source][0]; /* Left */
+@@ -1375,14 +1371,13 @@ static int snd_audigy_spdif_output_rate_put(struct snd_kcontrol *kcontrol,
+ 	}
+ 
+ 	
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	reg = snd_emu10k1_ptr_read(emu, A_SPDIF_SAMPLERATE, 0);
+ 	tmp = reg & ~A_SPDIF_RATE_MASK;
+ 	tmp |= val;
+ 	change = (tmp != reg);
+ 	if (change)
+ 		snd_emu10k1_ptr_write(emu, A_SPDIF_SAMPLERATE, 0, tmp);
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1506,7 +1501,7 @@ static int snd_emu10k1_send_routing_put(struct snd_kcontrol *kcontrol,
+ 	int num_efx = emu->audigy ? 8 : 4;
+ 	int mask = emu->audigy ? 0x3f : 0x0f;
+ 
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	for (voice = 0; voice < 3; voice++)
+ 		for (idx = 0; idx < num_efx; idx++) {
+ 			val = ucontrol->value.integer.value[(voice * num_efx) + idx] & mask;
+@@ -1526,7 +1521,6 @@ static int snd_emu10k1_send_routing_put(struct snd_kcontrol *kcontrol,
+ 					    &mix->send_routing[0][0]);
  		}
  	}
--	mutex_unlock(&chip->memory_mutex);
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return change;
  }
  
- static void snd_es1968_free_dmabuf(struct es1968 *chip)
+@@ -1574,7 +1568,7 @@ static int snd_emu10k1_send_volume_put(struct snd_kcontrol *kcontrol,
+ 	int change = 0, idx, val;
+ 	int num_efx = emu->audigy ? 8 : 4;
+ 
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	for (idx = 0; idx < 3*num_efx; idx++) {
+ 		val = ucontrol->value.integer.value[idx] & 255;
+ 		if (mix->send_volume[idx/num_efx][idx%num_efx] != val) {
+@@ -1593,7 +1587,6 @@ static int snd_emu10k1_send_volume_put(struct snd_kcontrol *kcontrol,
+ 						   &mix->send_volume[0][0]);
+ 		}
+ 	}
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1638,7 +1631,7 @@ static int snd_emu10k1_attn_put(struct snd_kcontrol *kcontrol,
+ 		&emu->pcm_mixer[snd_ctl_get_ioffidx(kcontrol, &ucontrol->id)];
+ 	int change = 0, idx, val;
+ 
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	for (idx = 0; idx < 3; idx++) {
+ 		unsigned uval = ucontrol->value.integer.value[idx] & 0x1ffff;
+ 		val = uval * 0x8000U / 0xffffU;
+@@ -1655,7 +1648,6 @@ static int snd_emu10k1_attn_put(struct snd_kcontrol *kcontrol,
+ 			snd_emu10k1_ptr_write(emu, VTFT_VOLUMETARGET, mix->epcm->voices[0]->number, mix->attn[0]);
+ 		}
+ 	}
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1708,7 +1700,7 @@ static int snd_emu10k1_efx_send_routing_put(struct snd_kcontrol *kcontrol,
+ 	int num_efx = emu->audigy ? 8 : 4;
+ 	int mask = emu->audigy ? 0x3f : 0x0f;
+ 
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	for (idx = 0; idx < num_efx; idx++) {
+ 		val = ucontrol->value.integer.value[idx] & mask;
+ 		if (mix->send_routing[0][idx] != val) {
+@@ -1723,7 +1715,6 @@ static int snd_emu10k1_efx_send_routing_put(struct snd_kcontrol *kcontrol,
+ 					&mix->send_routing[0][0]);
+ 		}
+ 	}
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1771,7 +1762,7 @@ static int snd_emu10k1_efx_send_volume_put(struct snd_kcontrol *kcontrol,
+ 	int change = 0, idx, val;
+ 	int num_efx = emu->audigy ? 8 : 4;
+ 
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	for (idx = 0; idx < num_efx; idx++) {
+ 		val = ucontrol->value.integer.value[idx] & 255;
+ 		if (mix->send_volume[0][idx] != val) {
+@@ -1785,7 +1776,6 @@ static int snd_emu10k1_efx_send_volume_put(struct snd_kcontrol *kcontrol,
+ 						   &mix->send_volume[0][0]);
+ 		}
+ 	}
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1830,7 +1820,7 @@ static int snd_emu10k1_efx_attn_put(struct snd_kcontrol *kcontrol,
+ 	int change = 0, val;
+ 	unsigned uval;
+ 
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	uval = ucontrol->value.integer.value[0] & 0x1ffff;
+ 	val = uval * 0x8000U / 0xffffU;
+ 	if (mix->attn[0] != val) {
+@@ -1842,7 +1832,6 @@ static int snd_emu10k1_efx_attn_put(struct snd_kcontrol *kcontrol,
+ 			snd_emu10k1_ptr_write(emu, VTFT_VOLUMETARGET, mix->epcm->voices[ch]->number, mix->attn[0]);
+ 		}
+ 	}
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1885,7 +1874,7 @@ static int snd_emu10k1_shared_spdif_put(struct snd_kcontrol *kcontrol,
+ 	sw = ucontrol->value.integer.value[0];
+ 	if (emu->card_capabilities->invert_shared_spdif)
+ 		sw = !sw;
+-	spin_lock_irq(&emu->emu_lock);
++	guard(spinlock_irq)(&emu->emu_lock);
+ 	if ( emu->card_capabilities->i2c_adc) {
+ 		/* Do nothing for Audigy 2 ZS Notebook */
+ 	} else if (emu->audigy) {
+@@ -1906,7 +1895,6 @@ static int snd_emu10k1_shared_spdif_put(struct snd_kcontrol *kcontrol,
+ 		reg |= val;
+ 		outl(reg | val, emu->port + HCFG);
+ 	}
+-	spin_unlock_irq(&emu->emu_lock);
+ 	return change;
+ }
+ 
+diff --git a/sound/pci/emu10k1/emumpu401.c b/sound/pci/emu10k1/emumpu401.c
+index efff19bbc0e9..c102a3599225 100644
+--- a/sound/pci/emu10k1/emumpu401.c
++++ b/sound/pci/emu10k1/emumpu401.c
+@@ -68,28 +68,28 @@ static void do_emu10k1_midi_interrupt(struct snd_emu10k1 *emu, struct snd_emu10k
+ 		return;
+ 	}
+ 
+-	spin_lock(&midi->input_lock);
+-	if ((status & midi->ipr_rx) && mpu401_input_avail(emu, midi)) {
+-		if (!(midi->midi_mode & EMU10K1_MIDI_MODE_INPUT)) {
+-			mpu401_clear_rx(emu, midi);
+-		} else {
+-			byte = mpu401_read_data(emu, midi);
+-			if (midi->substream_input)
+-				snd_rawmidi_receive(midi->substream_input, &byte, 1);
++	scoped_guard(spinlock, &midi->input_lock) {
++		if ((status & midi->ipr_rx) && mpu401_input_avail(emu, midi)) {
++			if (!(midi->midi_mode & EMU10K1_MIDI_MODE_INPUT)) {
++				mpu401_clear_rx(emu, midi);
++			} else {
++				byte = mpu401_read_data(emu, midi);
++				if (midi->substream_input)
++					snd_rawmidi_receive(midi->substream_input, &byte, 1);
++			}
+ 		}
+ 	}
+-	spin_unlock(&midi->input_lock);
+ 
+-	spin_lock(&midi->output_lock);
+-	if ((status & midi->ipr_tx) && mpu401_output_ready(emu, midi)) {
+-		if (midi->substream_output &&
+-		    snd_rawmidi_transmit(midi->substream_output, &byte, 1) == 1) {
+-			mpu401_write_data(emu, midi, byte);
+-		} else {
+-			snd_emu10k1_intr_disable(emu, midi->tx_enable);
++	scoped_guard(spinlock, &midi->output_lock) {
++		if ((status & midi->ipr_tx) && mpu401_output_ready(emu, midi)) {
++			if (midi->substream_output &&
++			    snd_rawmidi_transmit(midi->substream_output, &byte, 1) == 1) {
++				mpu401_write_data(emu, midi, byte);
++			} else {
++				snd_emu10k1_intr_disable(emu, midi->tx_enable);
++			}
+ 		}
+ 	}
+-	spin_unlock(&midi->output_lock);
+ }
+ 
+ static void snd_emu10k1_midi_interrupt(struct snd_emu10k1 *emu, unsigned int status)
+@@ -106,26 +106,26 @@ static int snd_emu10k1_midi_cmd(struct snd_emu10k1 * emu, struct snd_emu10k1_mid
+ {
+ 	int timeout, ok;
+ 
+-	spin_lock_irq(&midi->input_lock);
+-	mpu401_write_data(emu, midi, 0x00);
+-	/* mpu401_clear_rx(emu, midi); */
++	scoped_guard(spinlock_irq, &midi->input_lock) {
++		mpu401_write_data(emu, midi, 0x00);
++		/* mpu401_clear_rx(emu, midi); */
+ 
+-	mpu401_write_cmd(emu, midi, cmd);
+-	if (ack) {
+-		ok = 0;
+-		timeout = 10000;
+-		while (!ok && timeout-- > 0) {
+-			if (mpu401_input_avail(emu, midi)) {
+-				if (mpu401_read_data(emu, midi) == MPU401_ACK)
+-					ok = 1;
++		mpu401_write_cmd(emu, midi, cmd);
++		if (ack) {
++			ok = 0;
++			timeout = 10000;
++			while (!ok && timeout-- > 0) {
++				if (mpu401_input_avail(emu, midi)) {
++					if (mpu401_read_data(emu, midi) == MPU401_ACK)
++						ok = 1;
++				}
+ 			}
+-		}
+-		if (!ok && mpu401_read_data(emu, midi) == MPU401_ACK)
++			if (!ok && mpu401_read_data(emu, midi) == MPU401_ACK)
++				ok = 1;
++		} else {
+ 			ok = 1;
+-	} else {
+-		ok = 1;
++		}
+ 	}
+-	spin_unlock_irq(&midi->input_lock);
+ 	if (!ok) {
+ 		dev_err(emu->card->dev,
+ 			"midi_cmd: 0x%x failed at 0x%lx (status = 0x%x, data = 0x%x)!!!\n",
+@@ -145,22 +145,17 @@ static int snd_emu10k1_midi_input_open(struct snd_rawmidi_substream *substream)
+ 	emu = midi->emu;
+ 	if (snd_BUG_ON(!emu))
+ 		return -ENXIO;
+-	spin_lock_irq(&midi->open_lock);
+-	midi->midi_mode |= EMU10K1_MIDI_MODE_INPUT;
+-	midi->substream_input = substream;
+-	if (!(midi->midi_mode & EMU10K1_MIDI_MODE_OUTPUT)) {
+-		spin_unlock_irq(&midi->open_lock);
+-		if (snd_emu10k1_midi_cmd(emu, midi, MPU401_RESET, 1))
+-			goto error_out;
+-		if (snd_emu10k1_midi_cmd(emu, midi, MPU401_ENTER_UART, 1))
+-			goto error_out;
+-	} else {
+-		spin_unlock_irq(&midi->open_lock);
++	scoped_guard(spinlock_irq, &midi->open_lock) {
++		midi->midi_mode |= EMU10K1_MIDI_MODE_INPUT;
++		midi->substream_input = substream;
++		if (midi->midi_mode & EMU10K1_MIDI_MODE_OUTPUT)
++			return 0;
+ 	}
++	if (snd_emu10k1_midi_cmd(emu, midi, MPU401_RESET, 1))
++		return -EIO;
++	if (snd_emu10k1_midi_cmd(emu, midi, MPU401_ENTER_UART, 1))
++		return -EIO;
+ 	return 0;
+-
+-error_out:
+-	return -EIO;
+ }
+ 
+ static int snd_emu10k1_midi_output_open(struct snd_rawmidi_substream *substream)
+@@ -171,66 +166,53 @@ static int snd_emu10k1_midi_output_open(struct snd_rawmidi_substream *substream)
+ 	emu = midi->emu;
+ 	if (snd_BUG_ON(!emu))
+ 		return -ENXIO;
+-	spin_lock_irq(&midi->open_lock);
+-	midi->midi_mode |= EMU10K1_MIDI_MODE_OUTPUT;
+-	midi->substream_output = substream;
+-	if (!(midi->midi_mode & EMU10K1_MIDI_MODE_INPUT)) {
+-		spin_unlock_irq(&midi->open_lock);
+-		if (snd_emu10k1_midi_cmd(emu, midi, MPU401_RESET, 1))
+-			goto error_out;
+-		if (snd_emu10k1_midi_cmd(emu, midi, MPU401_ENTER_UART, 1))
+-			goto error_out;
+-	} else {
+-		spin_unlock_irq(&midi->open_lock);
++	scoped_guard(spinlock_irq, &midi->open_lock) {
++		midi->midi_mode |= EMU10K1_MIDI_MODE_OUTPUT;
++		midi->substream_output = substream;
++		if (midi->midi_mode & EMU10K1_MIDI_MODE_INPUT)
++			return 0;
+ 	}
++	if (snd_emu10k1_midi_cmd(emu, midi, MPU401_RESET, 1))
++		return -EIO;
++	if (snd_emu10k1_midi_cmd(emu, midi, MPU401_ENTER_UART, 1))
++		return -EIO;
+ 	return 0;
+-
+-error_out:
+-	return -EIO;
+ }
+ 
+ static int snd_emu10k1_midi_input_close(struct snd_rawmidi_substream *substream)
+ {
+ 	struct snd_emu10k1 *emu;
+ 	struct snd_emu10k1_midi *midi = (struct snd_emu10k1_midi *)substream->rmidi->private_data;
+-	int err = 0;
+ 
+ 	emu = midi->emu;
+ 	if (snd_BUG_ON(!emu))
+ 		return -ENXIO;
+-	spin_lock_irq(&midi->open_lock);
+-	snd_emu10k1_intr_disable(emu, midi->rx_enable);
+-	midi->midi_mode &= ~EMU10K1_MIDI_MODE_INPUT;
+-	midi->substream_input = NULL;
+-	if (!(midi->midi_mode & EMU10K1_MIDI_MODE_OUTPUT)) {
+-		spin_unlock_irq(&midi->open_lock);
+-		err = snd_emu10k1_midi_cmd(emu, midi, MPU401_RESET, 0);
+-	} else {
+-		spin_unlock_irq(&midi->open_lock);
++	scoped_guard(spinlock_irq, &midi->open_lock) {
++		snd_emu10k1_intr_disable(emu, midi->rx_enable);
++		midi->midi_mode &= ~EMU10K1_MIDI_MODE_INPUT;
++		midi->substream_input = NULL;
++		if (midi->midi_mode & EMU10K1_MIDI_MODE_OUTPUT)
++			return 0;
+ 	}
+-	return err;
++	return snd_emu10k1_midi_cmd(emu, midi, MPU401_RESET, 0);
+ }
+ 
+ static int snd_emu10k1_midi_output_close(struct snd_rawmidi_substream *substream)
+ {
+ 	struct snd_emu10k1 *emu;
+ 	struct snd_emu10k1_midi *midi = (struct snd_emu10k1_midi *)substream->rmidi->private_data;
+-	int err = 0;
+ 
+ 	emu = midi->emu;
+ 	if (snd_BUG_ON(!emu))
+ 		return -ENXIO;
+-	spin_lock_irq(&midi->open_lock);
+-	snd_emu10k1_intr_disable(emu, midi->tx_enable);
+-	midi->midi_mode &= ~EMU10K1_MIDI_MODE_OUTPUT;
+-	midi->substream_output = NULL;
+-	if (!(midi->midi_mode & EMU10K1_MIDI_MODE_INPUT)) {
+-		spin_unlock_irq(&midi->open_lock);
+-		err = snd_emu10k1_midi_cmd(emu, midi, MPU401_RESET, 0);
+-	} else {
+-		spin_unlock_irq(&midi->open_lock);
++	scoped_guard(spinlock_irq, &midi->open_lock) {
++		snd_emu10k1_intr_disable(emu, midi->tx_enable);
++		midi->midi_mode &= ~EMU10K1_MIDI_MODE_OUTPUT;
++		midi->substream_output = NULL;
++		if (midi->midi_mode & EMU10K1_MIDI_MODE_INPUT)
++			return 0;
+ 	}
+-	return err;
++	return snd_emu10k1_midi_cmd(emu, midi, MPU401_RESET, 0);
+ }
+ 
+ static void snd_emu10k1_midi_input_trigger(struct snd_rawmidi_substream *substream, int up)
+@@ -261,22 +243,21 @@ static void snd_emu10k1_midi_output_trigger(struct snd_rawmidi_substream *substr
+ 		unsigned char byte;
+ 	
+ 		/* try to send some amount of bytes here before interrupts */
+-		spin_lock_irq(&midi->output_lock);
+-		while (max > 0) {
+-			if (mpu401_output_ready(emu, midi)) {
+-				if (!(midi->midi_mode & EMU10K1_MIDI_MODE_OUTPUT) ||
+-				    snd_rawmidi_transmit(substream, &byte, 1) != 1) {
+-					/* no more data */
+-					spin_unlock_irq(&midi->output_lock);
+-					return;
++		scoped_guard(spinlock_irq, &midi->output_lock) {
++			while (max > 0) {
++				if (mpu401_output_ready(emu, midi)) {
++					if (!(midi->midi_mode & EMU10K1_MIDI_MODE_OUTPUT) ||
++					    snd_rawmidi_transmit(substream, &byte, 1) != 1) {
++						/* no more data */
++						return;
++					}
++					mpu401_write_data(emu, midi, byte);
++					max--;
++				} else {
++					break;
+ 				}
+-				mpu401_write_data(emu, midi, byte);
+-				max--;
+-			} else {
+-				break;
+ 			}
+ 		}
+-		spin_unlock_irq(&midi->output_lock);
+ 		snd_emu10k1_intr_enable(emu, midi->tx_enable);
+ 	} else {
+ 		snd_emu10k1_intr_disable(emu, midi->tx_enable);
+diff --git a/sound/pci/emu10k1/emupcm.c b/sound/pci/emu10k1/emupcm.c
+index 5414148057ea..071c75ba81fd 100644
+--- a/sound/pci/emu10k1/emupcm.c
++++ b/sound/pci/emu10k1/emupcm.c
+@@ -319,7 +319,7 @@ static void snd_emu10k1_pcm_init_voices(struct snd_emu10k1 *emu,
+ 					unsigned int end_addr,
+ 					struct snd_emu10k1_pcm_mixer *mix)
+ {
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	snd_emu10k1_pcm_init_voice(emu, evoice, w_16, stereo,
+ 				   start_addr, end_addr,
+ 				   &mix->send_routing[stereo][0],
+@@ -329,7 +329,6 @@ static void snd_emu10k1_pcm_init_voices(struct snd_emu10k1 *emu,
+ 					   start_addr, end_addr,
+ 					   &mix->send_routing[2][0],
+ 					   &mix->send_volume[2][0]);
+-	spin_unlock_irq(&emu->reg_lock);
+ }
+ 
+ static void snd_emu10k1_pcm_init_extra_voice(struct snd_emu10k1 *emu,
+@@ -726,14 +725,13 @@ static int snd_emu10k1_playback_trigger(struct snd_pcm_substream *substream,
+ 	struct snd_emu10k1_pcm_mixer *mix;
+ 	bool w_16 = snd_pcm_format_width(runtime->format) == 16;
+ 	bool stereo = runtime->channels == 2;
+-	int result = 0;
+ 
+ 	/*
+ 	dev_dbg(emu->card->dev,
+ 		"trigger - emu10k1 = 0x%x, cmd = %i, pointer = %i\n",
+ 	       (int)emu, cmd, substream->ops->pointer(substream))
+ 	*/
+-	spin_lock(&emu->reg_lock);
++	guard(spinlock)(&emu->reg_lock);
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 		snd_emu10k1_playback_prepare_voices(emu, epcm, w_16, stereo, 1);
+@@ -755,11 +753,9 @@ static int snd_emu10k1_playback_trigger(struct snd_pcm_substream *substream,
+ 		snd_emu10k1_playback_mute_voices(emu, epcm->voices[0], stereo);
+ 		break;
+ 	default:
+-		result = -EINVAL;
+-		break;
++		return -EINVAL;
+ 	}
+-	spin_unlock(&emu->reg_lock);
+-	return result;
++	return 0;
+ }
+ 
+ static int snd_emu10k1_capture_trigger(struct snd_pcm_substream *substream,
+@@ -768,9 +764,8 @@ static int snd_emu10k1_capture_trigger(struct snd_pcm_substream *substream,
+ 	struct snd_emu10k1 *emu = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_emu10k1_pcm *epcm = runtime->private_data;
+-	int result = 0;
+ 
+-	spin_lock(&emu->reg_lock);
++	guard(spinlock)(&emu->reg_lock);
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+@@ -829,10 +824,9 @@ static int snd_emu10k1_capture_trigger(struct snd_pcm_substream *substream,
+ 		}
+ 		break;
+ 	default:
+-		result = -EINVAL;
++		return -EINVAL;
+ 	}
+-	spin_unlock(&emu->reg_lock);
+-	return result;
++	return 0;
+ }
+ 
+ static snd_pcm_uframes_t snd_emu10k1_playback_pointer(struct snd_pcm_substream *substream)
+@@ -923,7 +917,7 @@ static int snd_emu10k1_efx_playback_trigger(struct snd_pcm_substream *substream,
+ 	u64 mask;
+ 	int result = 0;
+ 
+-	spin_lock(&emu->reg_lock);
++	guard(spinlock)(&emu->reg_lock);
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+@@ -950,7 +944,7 @@ static int snd_emu10k1_efx_playback_trigger(struct snd_pcm_substream *substream,
+ 			if (result == 0) {
+ 				// The extra voice is allowed to lag a bit
+ 				snd_emu10k1_playback_trigger_voice(emu, epcm->extra);
+-				goto leave;
++				return 0;
+ 			}
+ 
+ 			snd_emu10k1_efx_playback_stop_voices(
+@@ -972,11 +966,8 @@ static int snd_emu10k1_efx_playback_trigger(struct snd_pcm_substream *substream,
+ 		epcm->resume_pos = snd_emu10k1_playback_pointer(substream);
+ 		break;
+ 	default:
+-		result = -EINVAL;
+-		break;
++		return -EINVAL;
+ 	}
+-leave:
+-	spin_unlock(&emu->reg_lock);
+ 	return result;
+ }
+ 
+@@ -1345,7 +1336,7 @@ static int snd_emu10k1_capture_efx_open(struct snd_pcm_substream *substream)
+ #endif
+ 		runtime->hw.formats = SNDRV_PCM_FMTBIT_S32_LE;
+ 	} else {
+-		spin_lock_irq(&emu->reg_lock);
++		guard(spinlock_irq)(&emu->reg_lock);
+ 		runtime->hw.channels_min = runtime->hw.channels_max = 0;
+ 		for (idx = 0; idx < nefx; idx++) {
+ 			if (emu->efx_voices_mask[idx/32] & (1 << (idx%32))) {
+@@ -1355,7 +1346,6 @@ static int snd_emu10k1_capture_efx_open(struct snd_pcm_substream *substream)
+ 		}
+ 		epcm->capture_cr_val = emu->efx_voices_mask[0];
+ 		epcm->capture_cr_val2 = emu->efx_voices_mask[1];
+-		spin_unlock_irq(&emu->reg_lock);
+ 	}
+ 	err = snd_pcm_hw_constraint_list(runtime, 0, SNDRV_PCM_HW_PARAM_CHANNELS,
+ 					 &hw_constraints_efx_capture_channels);
+@@ -1539,12 +1529,11 @@ static int snd_emu10k1_pcm_efx_voices_mask_put(struct snd_kcontrol *kcontrol, st
+ 	if (bits == 9 || bits == 11 || bits == 13 || bits == 15 || bits > 16)
+ 		return -EINVAL;
+ 
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	change = (nval[0] != emu->efx_voices_mask[0]) ||
+ 		(nval[1] != emu->efx_voices_mask[1]);
+ 	emu->efx_voices_mask[0] = nval[0];
+ 	emu->efx_voices_mask[1] = nval[1];
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return change;
+ }
+ 
+@@ -1685,9 +1674,9 @@ static int snd_emu10k1_fx8010_playback_trigger(struct snd_pcm_substream *substre
+ {
+ 	struct snd_emu10k1 *emu = snd_pcm_substream_chip(substream);
+ 	struct snd_emu10k1_fx8010_pcm *pcm = &emu->fx8010.pcm[substream->number];
+-	int result = 0;
++	int result;
+ 
+-	spin_lock(&emu->reg_lock);
++	guard(spinlock)(&emu->reg_lock);
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 		/* follow thru */
+@@ -1707,7 +1696,7 @@ static int snd_emu10k1_fx8010_playback_trigger(struct snd_pcm_substream *substre
+ #endif
+ 		result = snd_emu10k1_fx8010_register_irq_handler(emu, snd_emu10k1_fx8010_playback_irq, pcm->gpr_running, substream, &pcm->irq);
+ 		if (result < 0)
+-			goto __err;
++			return result;
+ 		snd_emu10k1_fx8010_playback_transfer(substream);	/* roll the ball */
+ 		snd_emu10k1_ptr_write(emu, emu->gpr_base + pcm->gpr_trigger, 0, 1);
+ 		break;
+@@ -1720,12 +1709,9 @@ static int snd_emu10k1_fx8010_playback_trigger(struct snd_pcm_substream *substre
+ 		pcm->tram_shift = 0;
+ 		break;
+ 	default:
+-		result = -EINVAL;
+-		break;
++		return -EINVAL;
+ 	}
+-      __err:
+-	spin_unlock(&emu->reg_lock);
+-	return result;
++	return 0;
+ }
+ 
+ static snd_pcm_uframes_t snd_emu10k1_fx8010_playback_pointer(struct snd_pcm_substream *substream)
+@@ -1769,13 +1755,10 @@ static int snd_emu10k1_fx8010_playback_open(struct snd_pcm_substream *substream)
+ 	runtime->hw = snd_emu10k1_fx8010_playback;
+ 	runtime->hw.channels_min = runtime->hw.channels_max = pcm->channels;
+ 	runtime->hw.period_bytes_max = (pcm->buffer_size * 2) / 2;
+-	spin_lock_irq(&emu->reg_lock);
+-	if (pcm->valid == 0) {
+-		spin_unlock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
++	if (pcm->valid == 0)
+ 		return -ENODEV;
+-	}
+ 	pcm->opened = 1;
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return 0;
+ }
+ 
+@@ -1784,9 +1767,8 @@ static int snd_emu10k1_fx8010_playback_close(struct snd_pcm_substream *substream
+ 	struct snd_emu10k1 *emu = snd_pcm_substream_chip(substream);
+ 	struct snd_emu10k1_fx8010_pcm *pcm = &emu->fx8010.pcm[substream->number];
+ 
+-	spin_lock_irq(&emu->reg_lock);
++	guard(spinlock_irq)(&emu->reg_lock);
+ 	pcm->opened = 0;
+-	spin_unlock_irq(&emu->reg_lock);
+ 	return 0;
+ }
+ 
+diff --git a/sound/pci/emu10k1/emuproc.c b/sound/pci/emu10k1/emuproc.c
+index a12518dd4eed..f6186b5be049 100644
+--- a/sound/pci/emu10k1/emuproc.c
++++ b/sound/pci/emu10k1/emuproc.c
+@@ -537,15 +537,13 @@ static unsigned int snd_ptr_read(struct snd_emu10k1 * emu,
+ 				 unsigned int reg,
+ 				 unsigned int chn)
+ {
+-	unsigned int regptr, val;
++	unsigned int regptr;
+ 
+ 	regptr = (reg << 16) | chn;
+ 
+-	spin_lock_irq(&emu->emu_lock);
++	guard(spinlock_irq)(&emu->emu_lock);
+ 	outl(regptr, emu->port + iobase + PTR);
+-	val = inl(emu->port + iobase + DATA);
+-	spin_unlock_irq(&emu->emu_lock);
+-	return val;
++	return inl(emu->port + iobase + DATA);
+ }
+ 
+ static void snd_ptr_write(struct snd_emu10k1 *emu,
+@@ -558,10 +556,9 @@ static void snd_ptr_write(struct snd_emu10k1 *emu,
+ 
+ 	regptr = (reg << 16) | chn;
+ 
+-	spin_lock_irq(&emu->emu_lock);
++	guard(spinlock_irq)(&emu->emu_lock);
+ 	outl(regptr, emu->port + iobase + PTR);
+ 	outl(data, emu->port + iobase + DATA);
+-	spin_unlock_irq(&emu->emu_lock);
+ }
+ 
+ 
+diff --git a/sound/pci/emu10k1/io.c b/sound/pci/emu10k1/io.c
+index 69debe781177..9c897c3e8c28 100644
+--- a/sound/pci/emu10k1/io.c
++++ b/sound/pci/emu10k1/io.c
+@@ -30,7 +30,6 @@ static inline bool check_ptr_reg(struct snd_emu10k1 *emu, unsigned int reg)
+ 
+ unsigned int snd_emu10k1_ptr_read(struct snd_emu10k1 * emu, unsigned int reg, unsigned int chn)
+ {
+-	unsigned long flags;
+ 	unsigned int regptr, val;
+ 	unsigned int mask;
+ 
+@@ -38,10 +37,10 @@ unsigned int snd_emu10k1_ptr_read(struct snd_emu10k1 * emu, unsigned int reg, un
+ 	if (!check_ptr_reg(emu, regptr))
+ 		return 0;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
+-	outl(regptr, emu->port + PTR);
+-	val = inl(emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
++	scoped_guard(spinlock_irqsave, &emu->emu_lock) {
++		outl(regptr, emu->port + PTR);
++		val = inl(emu->port + DATA);
++	}
+ 
+ 	if (reg & 0xff000000) {
+ 		unsigned char size, offset;
+@@ -61,13 +60,13 @@ EXPORT_SYMBOL(snd_emu10k1_ptr_read);
+ void snd_emu10k1_ptr_write(struct snd_emu10k1 *emu, unsigned int reg, unsigned int chn, unsigned int data)
+ {
+ 	unsigned int regptr;
+-	unsigned long flags;
+ 	unsigned int mask;
+ 
+ 	regptr = (reg << 16) | chn;
+ 	if (!check_ptr_reg(emu, regptr))
+ 		return;
+ 
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	if (reg & 0xff000000) {
+ 		unsigned char size, offset;
+ 
+@@ -79,15 +78,12 @@ void snd_emu10k1_ptr_write(struct snd_emu10k1 *emu, unsigned int reg, unsigned i
+ 		mask <<= offset;
+ 		data <<= offset;
+ 
+-		spin_lock_irqsave(&emu->emu_lock, flags);
+ 		outl(regptr, emu->port + PTR);
+ 		data |= inl(emu->port + DATA) & ~mask;
+ 	} else {
+-		spin_lock_irqsave(&emu->emu_lock, flags);
+ 		outl(regptr, emu->port + PTR);
+ 	}
+ 	outl(data, emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ EXPORT_SYMBOL(snd_emu10k1_ptr_write);
+@@ -96,7 +92,6 @@ void snd_emu10k1_ptr_write_multiple(struct snd_emu10k1 *emu, unsigned int chn, .
+ {
+ 	va_list va;
+ 	u32 addr_mask;
+-	unsigned long flags;
+ 
+ 	if (snd_BUG_ON(!emu))
+ 		return;
+@@ -105,7 +100,7 @@ void snd_emu10k1_ptr_write_multiple(struct snd_emu10k1 *emu, unsigned int chn, .
+ 	addr_mask = ~((emu->audigy ? A_PTR_ADDRESS_MASK : PTR_ADDRESS_MASK) >> 16);
+ 
+ 	va_start(va, chn);
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	for (;;) {
+ 		u32 data;
+ 		u32 reg = va_arg(va, u32);
+@@ -117,7 +112,6 @@ void snd_emu10k1_ptr_write_multiple(struct snd_emu10k1 *emu, unsigned int chn, .
+ 		outl((reg << 16) | chn, emu->port + PTR);
+ 		outl(data, emu->port + DATA);
+ 	}
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ 	va_end(va);
+ }
+ 
+@@ -127,16 +121,13 @@ unsigned int snd_emu10k1_ptr20_read(struct snd_emu10k1 * emu,
+ 					  unsigned int reg, 
+ 					  unsigned int chn)
+ {
+-	unsigned long flags;
+-	unsigned int regptr, val;
++	unsigned int regptr;
+   
+ 	regptr = (reg << 16) | chn;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outl(regptr, emu->port + PTR2);
+-	val = inl(emu->port + DATA2);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+-	return val;
++	return inl(emu->port + DATA2);
+ }
+ 
+ void snd_emu10k1_ptr20_write(struct snd_emu10k1 *emu, 
+@@ -145,14 +136,12 @@ void snd_emu10k1_ptr20_write(struct snd_emu10k1 *emu,
+ 				   unsigned int data)
+ {
+ 	unsigned int regptr;
+-	unsigned long flags;
+ 
+ 	regptr = (reg << 16) | chn;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outl(regptr, emu->port + PTR2);
+ 	outl(data, emu->port + DATA2);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ int snd_emu10k1_spi_write(struct snd_emu10k1 * emu,
+@@ -161,22 +150,19 @@ int snd_emu10k1_spi_write(struct snd_emu10k1 * emu,
+ 	unsigned int reset, set;
+ 	unsigned int reg, tmp;
+ 	int n, result;
+-	int err = 0;
+ 
+ 	/* This function is not re-entrant, so protect against it. */
+-	spin_lock(&emu->spi_lock);
++	guard(spinlock)(&emu->spi_lock);
+ 	if (emu->card_capabilities->ca0108_chip)
+ 		reg = P17V_SPI;
+ 	else {
+ 		/* For other chip types the SPI register
+ 		 * is currently unknown. */
+-		err = 1;
+-		goto spi_write_exit;
++		return 1;
+ 	}
+ 	if (data > 0xffff) {
+ 		/* Only 16bit values allowed */
+-		err = 1;
+-		goto spi_write_exit;
++		return 1;
+ 	}
+ 
+ 	tmp = snd_emu10k1_ptr20_read(emu, reg, 0);
+@@ -197,15 +183,11 @@ int snd_emu10k1_spi_write(struct snd_emu10k1 * emu,
+ 	}
+ 	if (result) {
+ 		/* Timed out */
+-		err = 1;
+-		goto spi_write_exit;
++		return 1;
+ 	}
+ 	snd_emu10k1_ptr20_write(emu, reg, 0, reset | data);
+ 	tmp = snd_emu10k1_ptr20_read(emu, reg, 0); /* Write post */
+-	err = 0;
+-spi_write_exit:
+-	spin_unlock(&emu->spi_lock);
+-	return err;
++	return 0;
+ }
+ 
+ /* The ADC does not support i2c read, so only write is implemented */
+@@ -217,7 +199,6 @@ int snd_emu10k1_i2c_write(struct snd_emu10k1 *emu,
+ 	int timeout = 0;
+ 	int status;
+ 	int retry;
+-	int err = 0;
+ 
+ 	if ((reg > 0x7f) || (value > 0x1ff)) {
+ 		dev_err(emu->card->dev, "i2c_write: invalid values.\n");
+@@ -225,7 +206,7 @@ int snd_emu10k1_i2c_write(struct snd_emu10k1 *emu,
+ 	}
+ 
+ 	/* This function is not re-entrant, so protect against it. */
+-	spin_lock(&emu->i2c_lock);
++	guard(spinlock)(&emu->i2c_lock);
+ 
+ 	tmp = reg << 25 | value << 16;
+ 
+@@ -264,11 +245,10 @@ int snd_emu10k1_i2c_write(struct snd_emu10k1 *emu,
+ 		dev_err(emu->card->dev, "status=0x%x, reg=%d, value=%d\n",
+ 			status, reg, value);
+ 		/* dump_stack(); */
+-		err = -EINVAL;
++		return -EINVAL;
+ 	}
+     
+-	spin_unlock(&emu->i2c_lock);
+-	return err;
++	return 0;
+ }
+ 
+ static void snd_emu1010_fpga_write_locked(struct snd_emu10k1 *emu, u32 reg, u32 value)
+@@ -476,32 +456,27 @@ void snd_emu1010_load_firmware_entry(struct snd_emu10k1 *emu, int dock,
+ 
+ void snd_emu10k1_intr_enable(struct snd_emu10k1 *emu, unsigned int intrenb)
+ {
+-	unsigned long flags;
+ 	unsigned int enable;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	enable = inl(emu->port + INTE) | intrenb;
+ 	outl(enable, emu->port + INTE);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ void snd_emu10k1_intr_disable(struct snd_emu10k1 *emu, unsigned int intrenb)
+ {
+-	unsigned long flags;
+ 	unsigned int enable;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	enable = inl(emu->port + INTE) & ~intrenb;
+ 	outl(enable, emu->port + INTE);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ void snd_emu10k1_voice_intr_enable(struct snd_emu10k1 *emu, unsigned int voicenum)
+ {
+-	unsigned long flags;
+ 	unsigned int val;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	if (voicenum >= 32) {
+ 		outl(CLIEH << 16, emu->port + PTR);
+ 		val = inl(emu->port + DATA);
+@@ -512,15 +487,13 @@ void snd_emu10k1_voice_intr_enable(struct snd_emu10k1 *emu, unsigned int voicenu
+ 		val |= 1 << voicenum;
+ 	}
+ 	outl(val, emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ void snd_emu10k1_voice_intr_disable(struct snd_emu10k1 *emu, unsigned int voicenum)
+ {
+-	unsigned long flags;
+ 	unsigned int val;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	if (voicenum >= 32) {
+ 		outl(CLIEH << 16, emu->port + PTR);
+ 		val = inl(emu->port + DATA);
+@@ -531,14 +504,11 @@ void snd_emu10k1_voice_intr_disable(struct snd_emu10k1 *emu, unsigned int voicen
+ 		val &= ~(1 << voicenum);
+ 	}
+ 	outl(val, emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ void snd_emu10k1_voice_intr_ack(struct snd_emu10k1 *emu, unsigned int voicenum)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	if (voicenum >= 32) {
+ 		outl(CLIPH << 16, emu->port + PTR);
+ 		voicenum = 1 << (voicenum - 32);
+@@ -547,15 +517,13 @@ void snd_emu10k1_voice_intr_ack(struct snd_emu10k1 *emu, unsigned int voicenum)
+ 		voicenum = 1 << voicenum;
+ 	}
+ 	outl(voicenum, emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ void snd_emu10k1_voice_half_loop_intr_enable(struct snd_emu10k1 *emu, unsigned int voicenum)
+ {
+-	unsigned long flags;
+ 	unsigned int val;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	if (voicenum >= 32) {
+ 		outl(HLIEH << 16, emu->port + PTR);
+ 		val = inl(emu->port + DATA);
+@@ -566,15 +534,13 @@ void snd_emu10k1_voice_half_loop_intr_enable(struct snd_emu10k1 *emu, unsigned i
+ 		val |= 1 << voicenum;
+ 	}
+ 	outl(val, emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ void snd_emu10k1_voice_half_loop_intr_disable(struct snd_emu10k1 *emu, unsigned int voicenum)
+ {
+-	unsigned long flags;
+ 	unsigned int val;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	if (voicenum >= 32) {
+ 		outl(HLIEH << 16, emu->port + PTR);
+ 		val = inl(emu->port + DATA);
+@@ -585,14 +551,11 @@ void snd_emu10k1_voice_half_loop_intr_disable(struct snd_emu10k1 *emu, unsigned
+ 		val &= ~(1 << voicenum);
+ 	}
+ 	outl(val, emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ void snd_emu10k1_voice_half_loop_intr_ack(struct snd_emu10k1 *emu, unsigned int voicenum)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	if (voicenum >= 32) {
+ 		outl(HLIPH << 16, emu->port + PTR);
+ 		voicenum = 1 << (voicenum - 32);
+@@ -601,16 +564,14 @@ void snd_emu10k1_voice_half_loop_intr_ack(struct snd_emu10k1 *emu, unsigned int
+ 		voicenum = 1 << voicenum;
+ 	}
+ 	outl(voicenum, emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ #if 0
+ void snd_emu10k1_voice_set_loop_stop(struct snd_emu10k1 *emu, unsigned int voicenum)
+ {
+-	unsigned long flags;
+ 	unsigned int sol;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	if (voicenum >= 32) {
+ 		outl(SOLEH << 16, emu->port + PTR);
+ 		sol = inl(emu->port + DATA);
+@@ -621,15 +582,13 @@ void snd_emu10k1_voice_set_loop_stop(struct snd_emu10k1 *emu, unsigned int voice
+ 		sol |= 1 << voicenum;
+ 	}
+ 	outl(sol, emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ void snd_emu10k1_voice_clear_loop_stop(struct snd_emu10k1 *emu, unsigned int voicenum)
+ {
+-	unsigned long flags;
+ 	unsigned int sol;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	if (voicenum >= 32) {
+ 		outl(SOLEH << 16, emu->port + PTR);
+ 		sol = inl(emu->port + DATA);
+@@ -640,32 +599,25 @@ void snd_emu10k1_voice_clear_loop_stop(struct snd_emu10k1 *emu, unsigned int voi
+ 		sol &= ~(1 << voicenum);
+ 	}
+ 	outl(sol, emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ #endif
+ 
+ void snd_emu10k1_voice_set_loop_stop_multiple(struct snd_emu10k1 *emu, u64 voices)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outl(SOLEL << 16, emu->port + PTR);
+ 	outl(inl(emu->port + DATA) | (u32)voices, emu->port + DATA);
+ 	outl(SOLEH << 16, emu->port + PTR);
+ 	outl(inl(emu->port + DATA) | (u32)(voices >> 32), emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ void snd_emu10k1_voice_clear_loop_stop_multiple(struct snd_emu10k1 *emu, u64 voices)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outl(SOLEL << 16, emu->port + PTR);
+ 	outl(inl(emu->port + DATA) & (u32)~voices, emu->port + DATA);
+ 	outl(SOLEH << 16, emu->port + PTR);
+ 	outl(inl(emu->port + DATA) & (u32)(~voices >> 32), emu->port + DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ int snd_emu10k1_voice_clear_loop_stop_multiple_atomic(struct snd_emu10k1 *emu, u64 voices)
+@@ -748,23 +700,17 @@ void snd_emu10k1_wait(struct snd_emu10k1 *emu, unsigned int wait)
+ unsigned short snd_emu10k1_ac97_read(struct snd_ac97 *ac97, unsigned short reg)
+ {
+ 	struct snd_emu10k1 *emu = ac97->private_data;
+-	unsigned long flags;
+-	unsigned short val;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outb(reg, emu->port + AC97ADDRESS);
+-	val = inw(emu->port + AC97DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+-	return val;
++	return inw(emu->port + AC97DATA);
+ }
+ 
+ void snd_emu10k1_ac97_write(struct snd_ac97 *ac97, unsigned short reg, unsigned short data)
+ {
+ 	struct snd_emu10k1 *emu = ac97->private_data;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	outb(reg, emu->port + AC97ADDRESS);
+ 	outw(data, emu->port + AC97DATA);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+diff --git a/sound/pci/emu10k1/memory.c b/sound/pci/emu10k1/memory.c
+index 3bccba48f82c..be889a4ccf9a 100644
+--- a/sound/pci/emu10k1/memory.c
++++ b/sound/pci/emu10k1/memory.c
+@@ -261,14 +261,12 @@ int snd_emu10k1_memblk_map(struct snd_emu10k1 *emu, struct snd_emu10k1_memblk *b
+ 	int size;
+ 	struct list_head *p, *nextp;
+ 	struct snd_emu10k1_memblk *deleted;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&emu->memblk_lock, flags);
++	guard(spinlock_irqsave)(&emu->memblk_lock);
+ 	if (blk->mapped_page >= 0) {
+ 		/* update order link */
+ 		list_move_tail(&blk->mapped_order_link,
+ 			       &emu->mapped_order_link_head);
+-		spin_unlock_irqrestore(&emu->memblk_lock, flags);
+ 		return 0;
+ 	}
+ 	err = map_memblk(emu, blk);
+@@ -289,7 +287,6 @@ int snd_emu10k1_memblk_map(struct snd_emu10k1 *emu, struct snd_emu10k1_memblk *b
+ 			}
+ 		}
+ 	}
+-	spin_unlock_irqrestore(&emu->memblk_lock, flags);
+ 	return err;
+ }
+ 
+@@ -424,13 +421,12 @@ snd_emu10k1_synth_free(struct snd_emu10k1 *emu, struct snd_util_memblk *memblk)
+ {
+ 	struct snd_util_memhdr *hdr = emu->memhdr; 
+ 	struct snd_emu10k1_memblk *blk = (struct snd_emu10k1_memblk *)memblk;
+-	unsigned long flags;
+ 
+ 	guard(mutex)(&hdr->block_mutex);
+-	spin_lock_irqsave(&emu->memblk_lock, flags);
+-	if (blk->mapped_page >= 0)
+-		unmap_memblk(emu, blk);
+-	spin_unlock_irqrestore(&emu->memblk_lock, flags);
++	scoped_guard(spinlock_irqsave, &emu->memblk_lock) {
++		if (blk->mapped_page >= 0)
++			unmap_memblk(emu, blk);
++	}
+ 	synth_free_pages(emu, blk);
+ 	__snd_util_mem_free(hdr, memblk);
+ 	return 0;
+diff --git a/sound/pci/emu10k1/p16v.c b/sound/pci/emu10k1/p16v.c
+index e774174d10de..b74128e61254 100644
+--- a/sound/pci/emu10k1/p16v.c
++++ b/sound/pci/emu10k1/p16v.c
+@@ -342,24 +342,20 @@ static int snd_p16v_pcm_prepare_capture(struct snd_pcm_substream *substream)
+ 
+ static void snd_p16v_intr_enable(struct snd_emu10k1 *emu, unsigned int intrenb)
+ {
+-	unsigned long flags;
+ 	unsigned int enable;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	enable = inl(emu->port + INTE2) | intrenb;
+ 	outl(enable, emu->port + INTE2);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ static void snd_p16v_intr_disable(struct snd_emu10k1 *emu, unsigned int intrenb)
+ {
+-	unsigned long flags;
+ 	unsigned int disable;
+ 
+-	spin_lock_irqsave(&emu->emu_lock, flags);
++	guard(spinlock_irqsave)(&emu->emu_lock);
+ 	disable = inl(emu->port + INTE2) & (~intrenb);
+ 	outl(disable, emu->port + INTE2);
+-	spin_unlock_irqrestore(&emu->emu_lock, flags);
+ }
+ 
+ static void snd_p16v_interrupt(struct snd_emu10k1 *emu)
+diff --git a/sound/pci/emu10k1/voice.c b/sound/pci/emu10k1/voice.c
+index 77fb5427aaed..7fe1d1727768 100644
+--- a/sound/pci/emu10k1/voice.c
++++ b/sound/pci/emu10k1/voice.c
+@@ -77,7 +77,6 @@ static void voice_free(struct snd_emu10k1 *emu,
+ int snd_emu10k1_voice_alloc(struct snd_emu10k1 *emu, int type, int count, int channels,
+ 			    struct snd_emu10k1_pcm *epcm, struct snd_emu10k1_voice **rvoice)
+ {
+-	unsigned long flags;
+ 	int result;
+ 
+ 	if (snd_BUG_ON(!rvoice))
+@@ -87,7 +86,7 @@ int snd_emu10k1_voice_alloc(struct snd_emu10k1 *emu, int type, int count, int ch
+ 	if (snd_BUG_ON(!channels))
+ 		return -EINVAL;
+ 
+-	spin_lock_irqsave(&emu->voice_lock, flags);
++	guard(spinlock_irqsave)(&emu->voice_lock);
+ 	for (int got = 0; got < channels; ) {
+ 		result = voice_alloc(emu, type, count, epcm, &rvoice[got]);
+ 		if (result == 0) {
+@@ -113,7 +112,6 @@ int snd_emu10k1_voice_alloc(struct snd_emu10k1 *emu, int type, int count, int ch
+ 		}
+ 		break;
+ 	}
+-	spin_unlock_irqrestore(&emu->voice_lock, flags);
+ 
+ 	return result;
+ }
+@@ -123,17 +121,15 @@ EXPORT_SYMBOL(snd_emu10k1_voice_alloc);
+ int snd_emu10k1_voice_free(struct snd_emu10k1 *emu,
+ 			   struct snd_emu10k1_voice *pvoice)
+ {
+-	unsigned long flags;
+ 	int last;
+ 
+ 	if (snd_BUG_ON(!pvoice))
+ 		return -EINVAL;
+-	spin_lock_irqsave(&emu->voice_lock, flags);
++	guard(spinlock_irqsave)(&emu->voice_lock);
+ 	do {
+ 		last = pvoice->last;
+ 		voice_free(emu, pvoice++);
+ 	} while (!last);
+-	spin_unlock_irqrestore(&emu->voice_lock, flags);
+ 	return 0;
+ }
+ 
 -- 
 2.50.1
 
