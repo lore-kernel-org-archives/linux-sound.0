@@ -1,90 +1,155 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5663425D1F5
-	for <linux-sound@vger.kernel.org>; Sat, 30 Aug 2025 12:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52DA22E3E9;
+	Sat, 30 Aug 2025 20:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756556049; cv=none; b=U2Qpj/PQCUeeCAPylhl3h60qxkm32TtwDq5RyHdaqF1keGt6eaCxxWnikhgiXayoGoXpOjXAwC8C8WuqLwnFt6LT6dWjbKoh73l+GRaX2yTmrBWvsvlo58iiHtElmbrA1GyzRkCZvnITG0f5PhhEe7fX8NNPlc1anywZydtfJnM=
+	t=1756586805; cv=none; b=u2aU5xddVY7qKtNoDRnDl9XtGKNb2k0UrUrEp6N461eNqxH1DrJVuEA16IdEBDwHyIKmrbG70+N1j9QjC5yq4yv/JRKE9s4dOReplvjW6/YDb2/Ac3Yb9E/aq4w3/wOwchsMdCcOnVS8l0wVB56z5HjGdAzzRpYkZjcAAoySAAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756556049; c=relaxed/simple;
-	bh=Y5ubcu185JxRyPLyMKOGW2j86hhYDLyAzlRdILh354k=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=h+utmgfJLUq7pHDJAXQRrEbxlrIY8PD/jMegq0UPxx2qvsrxp0suiZ1ARl3W2ZPhuijwDdvUbGSNsq4R6G1dR60eU+IWcKl6Ga6YbV6PiqI+TZBEs8Ib7g2JhKAZP/H3VJLqThhyZm3IXO9LP6WwwYMLS/NDrJow9Z0EDkwnVfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jlQcR14U; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756586805; c=relaxed/simple;
+	bh=N1RyWuUPncwemkQz+wtBxmmLRK1pbPwPhqaSXQEgACo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UFZJUH58/MwRGd5MuLNP1W83tWgg4a5s6LEjzihIZPVXco+98n3ImjxiBmopBZk8LHQ6bCJrTWMgG2jP6sprmNg0lnQrROK5GHuitwEaTBFOzO+B/ps+kO0Aqs7we1+DndvTPCqPwC+GpofZn/GYdd0eB89Q6jI5NusIKdlu7yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7heKHiF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jlQcR14U"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-248c7f955a2so26866515ad.2
-        for <linux-sound@vger.kernel.org>; Sat, 30 Aug 2025 05:14:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756556047; x=1757160847; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y5ubcu185JxRyPLyMKOGW2j86hhYDLyAzlRdILh354k=;
-        b=jlQcR14U77y6JQFwmIbSezwu+KldkKkBVb/O2YXmDJmLKNR8emBTTXdNt60FOynCb7
-         GyF3XHNeM8F9k1ZXuwE2ve8Pi6LulORSQqbc1EXZprPKJ30t5lYayYXaKffN6ucYa3g+
-         u88rOxwyYdWeUCAdyGacDlP2K0F5w9/ovbcCA8q85YUoA9tomO/paszjkTR3l/7qJGiq
-         F7y55tgJb8sqIFOws1wErXrkEv2pwE/pxTcz8Dre/pNhN1OOjH+j0XVDzPk3FftTJDLh
-         CDOs/k47lc15OkpLG7uSuIAxrDBHGw4CcxZRFd/M+HrnlvoKXy5l0QPLIZfBSOObAPdp
-         zHog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756556047; x=1757160847;
-        h=content-transfer-encoding:subject:from:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Y5ubcu185JxRyPLyMKOGW2j86hhYDLyAzlRdILh354k=;
-        b=JGxPVKo11YanmiUQJhMteVZSyPsd8BRfktJwHTdMcuffBw2MAuqsIKr5Ei/cjX+eDj
-         aSLOGuw+1OavGGv+ueY8f4YdDm3EJ1ktqRhlAzrZSmkN+s13Pxvz+xXpsDrrUxy8H940
-         wdrhQUC7zLqlvYcZ7owNgGPYZy9Ke6ff+h1gTqoLfcx+M3HrRXW6uKzGTjBsMvaW7dCa
-         835PsSDofy4k5CIPM0uPPI3wOzcP4pRiLMA/Czv/q9gyonuau4AH+y5QLM4xxIW9eaaw
-         7QSK9Za8ksNuA5zMB4SeWMaaHnfcOCV7AvnB4apTOUvKjp3XFpRrtc9NjYHs1yvtlaTC
-         xE/A==
-X-Gm-Message-State: AOJu0YxRT2DA3YvRmI10Acn9Vq2wML8oyvU4o30mrhsyVFcUS/NB5maC
-	x75RtIRwFKlWSmXUe81o+J3+ty1lD2lIZiAYdLxV0x38SR2dkAcdPtTyIZRVaS8j
-X-Gm-Gg: ASbGnctYP45seTytRER+4S+0+ljQzWzOO18flR8VmH0wnlD6rnYxa5Rq2yJK/RuSCql
-	LBjKPvppROjGU/PiskQLYCA2Qjj6UtxBqbSMBGcc0kNyr6VesnvCh1xH62tVfpAMS2erUChGU1P
-	HGdTqJOrADG+nqce1++DRmA3EEnNCxmLRxKNM7YcYYMpqThMiHTF7to3b+ToEVtFnMPogykFxQ4
-	T2vTe3NfftDOx06yzLji6eM0ACjg1uDF+V5hDygJAc8rcLaATTfVj1sV8+Ja93sF7LXhVhTxykB
-	mr+Bgmk8XPw+l2RRAUTpavQhPmtZttZ2HWlXNwaWsWh6UCfUdYmSFD7pqUX+whr5ClSp5QdI3Py
-	Fg0s3KOytB492zYLbuEsBrygqUBOpNM8d08gMaNKrxMT6M4gskYbUjoY=
-X-Google-Smtp-Source: AGHT+IHlBIEG5jGsBrxgOaH+PLJLddX50N/mkmMq/2hbmNW5If8XFH9KZ275KmEdPF050Hx9PpShhA==
-X-Received: by 2002:a17:903:244e:b0:249:3eec:15bc with SMTP id d9443c01a7336-24944a44010mr25128735ad.19.1756556046981;
-        Sat, 30 Aug 2025 05:14:06 -0700 (PDT)
-Received: from [192.168.0.244] (ag086118.f.east.v6connect.net. [157.107.86.118])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24905da47c2sm50308445ad.78.2025.08.30.05.14.05
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Aug 2025 05:14:06 -0700 (PDT)
-Message-ID: <797f63ce-17da-4b51-b9d5-2228d67c6d70@gmail.com>
-Date: Sat, 30 Aug 2025 21:14:03 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7heKHiF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF130C4CEEB;
+	Sat, 30 Aug 2025 20:46:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756586804;
+	bh=N1RyWuUPncwemkQz+wtBxmmLRK1pbPwPhqaSXQEgACo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=i7heKHiF1WEcWegbUMD1XKbmetMnNnCnljRU/sfGxpB5c3sZchsdHRdnTVLky717F
+	 dDeCNXpev8o9LRk1S9eXnS8o8kWvMacaFziEO6OdWtswKvTxZQ5pU4eCd2WUx5BQCO
+	 14bLFP5QVji02AMa5CJyqW/en6PTbHSnZ78vGj75ZZT/RVMFCiYHRoYXRol8qlqKgn
+	 3lrkJ1IYbZBkwoMZse44FP62uqEzr0WjQEZOzoSJLrIrlje9NRgPYVERWMHuVkMn2k
+	 2QurVWFt7IIr5AR3ahUSN1uV7FUBrHkmiXJe15aj9LzSrsbpHevBdir8lYlUv2SDdP
+	 83zxdoGwMwcyQ==
+Date: Sat, 30 Aug 2025 22:46:22 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux
+ Documentation <linux-doc@vger.kernel.org>, Linux DAMON
+ <damon@lists.linux.dev>, Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Power Management <linux-pm@vger.kernel.org>, Linux Block Devices
+ <linux-block@vger.kernel.org>, Linux BPF <bpf@vger.kernel.org>, Linux
+ Kernel Workflows <workflows@vger.kernel.org>, Linux KASAN
+ <kasan-dev@googlegroups.com>, Linux Devicetree
+ <devicetree@vger.kernel.org>, Linux fsverity <fsverity@lists.linux.dev>,
+ Linux MTD <linux-mtd@lists.infradead.org>, Linux DRI Development
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Build System
+ <linux-lbuild@vger.kernel.org>, Linux Networking <netdev@vger.kernel.org>,
+ Linux Sound <linux-sound@vger.kernel.org>, Thomas Gleixner
+ <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Peter Zijlstra
+ <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren
+ Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Huang Rui
+ <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario
+ Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>,
+ Jens Axboe <axboe@kernel.dk>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, KP
+ Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo
+ <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches <joe@perches.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Andrey Konovalov
+ <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo
+ Frascino <vincenzo.frascino@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>, tytso@mit.edu,
+ Richard Weinberger <richard@nod.at>, Zhihao Cheng
+ <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>, Will
+ Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Waiman Long
+ <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Shay Agroskin
+ <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon
+ <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>, Andrew Lunn
+ <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>, The AWS Nitro
+ Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Steve French <stfrench@microsoft.com>, Meetakshi Setiya
+ <msetiya@microsoft.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, Bart Van Assche
+ <bvanassche@acm.org>, Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?=
+ <linux@weissschuh.net>, Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 12/14] ASoC: doc: Internally link to Writing an ALSA
+ Driver docs
+Message-ID: <20250830224614.6a124f82@foz.lan>
+In-Reply-To: <20250829075524.45635-13-bagasdotme@gmail.com>
+References: <20250829075524.45635-1-bagasdotme@gmail.com>
+	<20250829075524.45635-13-bagasdotme@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Content-Language: en-US
-To: linux-sound@vger.kernel.org
-From: Kalvin Lee <hikaph@gmail.com>
-Subject: HDMI card is "dropped" on resume
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi folks,
+Em Fri, 29 Aug 2025 14:55:22 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
 
-Advance apologies if I'm in the wrong place --- I was directed here from an alsa-lib issue board [1], but I'd appreciate a bounce if I ought to ask elsewhere.
+> ASoC codec and platform driver docs contain reference to writing ALSA
+> driver docs, as an external link. Use :doc: directive for the job
+> instead.
+> 
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/sound/soc/codec.rst    | 4 ++--
+>  Documentation/sound/soc/platform.rst | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
+> index af973c4cac9309..b9d87a4f929b5d 100644
+> --- a/Documentation/sound/soc/codec.rst
+> +++ b/Documentation/sound/soc/codec.rst
+> @@ -131,8 +131,8 @@ The codec driver also supports the following ALSA PCM operations:-
+>  	int (*prepare)(struct snd_pcm_substream *);
+>    };
+>  
+> -Please refer to the ALSA driver PCM documentation for details.
+> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+> +Please refer to the :doc:`ALSA driver PCM documentation
+> +<../kernel-api/writing-an-alsa-driver>` for details.
+>  
+>  
+>  DAPM description
+> diff --git a/Documentation/sound/soc/platform.rst b/Documentation/sound/soc/platform.rst
+> index 7036630eaf016c..bd21d0a4dd9b0b 100644
+> --- a/Documentation/sound/soc/platform.rst
+> +++ b/Documentation/sound/soc/platform.rst
+> @@ -45,8 +45,8 @@ snd_soc_component_driver:-
+>  	...
+>    };
+>  
+> -Please refer to the ALSA driver documentation for details of audio DMA.
+> -https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+> +Please refer to the :doc:`ALSA driver documentation
+> +<../kernel-api/writing-an-alsa-driver>` for details of audio DMA.
 
-Since mid-July or so, suspending my device causes ALSA to "forget" about its HDMI output. (`alsactl monitor` / amixer see the card transition off on suspend and don't see it transition back on until I activate some workaround.) There are a few additional logs pasted into the issue I filed via Github [1], but nothing major, AFAICT.
+Don't use relative paths for :doc:. They don't work well, specially
+when one uses SPHINXDIRS.
 
-(A simple workaround to prevent this is to leave audio playing over my HDMI output while suspending.)
+The best is o use Documentation/kernel-api/writing-an-alsa-driver.rst
+and let automarkup figure it out. As we have a checker, broken
+references generate warnings at build time.
 
-Is this a KI? If not, is there any input I can provide to make this actionable?
-
-Thanks,
-Kalvin
-
-[1] https://github.com/alsa-project/alsa-lib/issues/465
-
+Regards,
+Mauro
