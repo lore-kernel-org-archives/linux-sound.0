@@ -1,41 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77EC218580
-	for <linux-sound@vger.kernel.org>; Sat, 30 Aug 2025 10:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5321F218580
+	for <linux-sound@vger.kernel.org>; Sat, 30 Aug 2025 10:32:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756549937; cv=none; b=XViBBVgTtg+/PjwAxJECgzw4faokDXFVTs6awWuHzUK7++9zdOMZ1s8+ziEYOutuwGXPcbyMhVfWRJ55GEDyDQcXTYmhrQofeN0HQHDkCZwuYPQjR31brzFkmclMRy3yeUv0wYBlDLD44iYLHR+FaRITo72JF+X90zicA+e4QVA=
+	t=1756549939; cv=none; b=g3x92p4+Uloz1ltdv07cVdVdGTyEaVdlzNngfcW6lP/Z4dv2NKGOTn8ywRlnz6st7py7Z8ZN8wYAR76+xjBzq5qx8hqarXqvLmFOccCQQtvaWKAUUXX8ZNE/tu/kXVd5FeimG/GYV/8Y9uEUoZ3BWQ1xblGOBVX9fQFA+e2Ufe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756549937; c=relaxed/simple;
-	bh=lyxxFUjcBUu66ldjiJ0IZZ5xY04McjNrdRLbV1V5fbY=;
+	s=arc-20240116; t=1756549939; c=relaxed/simple;
+	bh=mLIGPD/BqTssP8zVey+qDEfPFt/XBkcSAWO2uznvars=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=X5txjwXGgqem2HCzTuJZ6nEXlK4uzCmPhVrWUj9mkzesy6lIrfTOyXI7E0TBxlBWQxt3Iff/uq+ZM0R6avFD36GbBnnrpGfCtV2GKCq8f3qghzaF03MFlXJyrt01REtocn4UF9PTmKtb3Yh+n6d2YBW+vnn1+yIuSKGhEH01f48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hQGNOSFT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=RCmUT2Pdh8rwlowDpaqIzYkII2L+j5NeHpJZ7ooCjuu6aL4QoXKuviou6NmkRjYd1BFocmAvsIvxrWOp7jBeXzb2z2BU32EmvH26davtE21jIu1SLJbMMhqgfb0WFXyGjZg8OhtN0kAKaUL6Q6mXDrr46gtqkJeOHtH9MhPnkNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ff6GYl17; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hQGNOSFT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 581E7C4CEF5;
-	Sat, 30 Aug 2025 10:32:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ff6GYl17"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95154C4CEEB;
+	Sat, 30 Aug 2025 10:32:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756549936;
-	bh=lyxxFUjcBUu66ldjiJ0IZZ5xY04McjNrdRLbV1V5fbY=;
+	s=k20201202; t=1756549938;
+	bh=mLIGPD/BqTssP8zVey+qDEfPFt/XBkcSAWO2uznvars=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hQGNOSFTsBXiGbdra6RCTudmxvl66g2Mx62PwSxk8Di2+YAVGMl97yR6M09bCmtsQ
-	 ZwzUwTKMXbnkAHk5bv8CUCYrLWv7VLQ7W0VsbKs/OJhF6/Jp3JjuS2xsmN0p66WUgL
-	 /wlXDIAP9DOdYGEh4iy4hrG85Xs3agg/biOMrSUCvVRZu6UyhQnUjzizize4yOQV/J
-	 y8+XuSBkoo/Ssq/5C+s2n+KnwCLUP9upir+DjPE4RFgdKDf0wdpRYcxZOkItCGIcWj
-	 cNf8dGhwVU7FbaWhjPP6obvVjUNZVf9kgwB1koSw6nWyPNugxXKHG1ui7nUl/FnZs5
-	 UE/YP/tcljItA==
+	b=Ff6GYl179nBrCwpH2/NWrjAOCCje8PTJ1sOPtvEMog8P5bg/ojLp5RXA1WtbqZ9dR
+	 JoRh6JOFy6mG+i2SJcJXpAv9r/d13D9XKaXTtoc0nhEx41N49kfwMNtXLsitBfToZu
+	 yHZekA3BiqSH8MWupEvlCrIYucrsqj9YxjOacNG0PkLaqX2T749aCuptmwNGPI8i0z
+	 R9VauIrD+tceGXFdgeFw985BnkOyVUvQOQWA1yL1M3hF2H7G06KrzONDkoKyb60Fvg
+	 4uBlTuH9wzS1K5IhM3lMGWi63BZNORsi1PJN+ZkMQICieL8U9vcu8RPmEgZwD1/kZJ
+	 6pz1xOA9b+f6g==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
  ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, jyri.sarha@linux.intel.com
-In-Reply-To: <20250829102510.15159-1-peter.ujfalusi@linux.intel.com>
-References: <20250829102510.15159-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: SOF: sof-client: Enforce client access scope
-Message-Id: <175654993264.400773.2857329100258384075.b4-ty@kernel.org>
-Date: Sat, 30 Aug 2025 11:32:12 +0100
+ pierre-louis.bossart@linux.dev, seppo.ingalsuo@linux.intel.com, 
+ liam.r.girdwood@intel.com
+In-Reply-To: <20250829105305.31818-1-peter.ujfalusi@linux.intel.com>
+References: <20250829105305.31818-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/3] ASoC: SOF: ipc4: Add support for 8-bit and float
+ formats
+Message-Id: <175654993490.400773.1133643631062943827.b4-ty@kernel.org>
+Date: Sat, 30 Aug 2025 11:32:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,15 +48,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-a9b2a
 
-On Fri, 29 Aug 2025 13:25:08 +0300, Peter Ujfalusi wrote:
-> Up to this point we had a spoken rule what sof-client can access and what
-> they must not (they cannot use sdev directly), recently there were attempts
-> to break this rule as clients could access sdev via the sof client dev.
+On Fri, 29 Aug 2025 13:53:02 +0300, Peter Ujfalusi wrote:
+> This series will add support for various 8-bit and float formats.
 > 
-> The series will re-arrange the client device struct to 'hide' the sdev (and
-> the list) from client drivers to prevent abuse.
+> Regards,
+> Peter
 > 
-> [...]
 
 Applied to
 
@@ -62,10 +61,12 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: SOF: sof-client: Convert sof_client_dev_to_sof_dev into function
-      commit: 850c5dfb17b381f30c4052a68c43da5abc678e74
-[2/2] ASoC: SOF: sof-client: Introduce sof_client_dev_entry structure
-      commit: 07752abfa5dbf7cb4d9ce69fa94dc3b12bc597d9
+[1/3] ASoC: SOF: ipc4-pcm: Add fixup for channels
+      commit: 6ad299a9b968e1c63988e2a327295e522cf6bbf5
+[2/3] ASoC: SOF: ipc4-topology: Add support for 8-bit formats
+      commit: c04c2e829649ab8fe5f1cfe5d7cbb34ab0463231
+[3/3] ASoC: SOF: ipc4-topology: Add support for float sample type
+      commit: f7c41911ad744177d8289820f01009dc93d8f91c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
