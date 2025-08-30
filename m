@@ -1,432 +1,157 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68EB24169D
-	for <linux-sound@vger.kernel.org>; Sat, 30 Aug 2025 08:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016AC1531F9;
+	Sat, 30 Aug 2025 09:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756541038; cv=none; b=odhTmX2w/OqDfLeO4wixtQjfi18s2wJan2D3XSAfOkHJk0fCKZRXmOKI4wEmg4MYW+hKSZVeZ/KpS2brfT+sxPa0re3aoh1ukJmk096rWtiMm7UulHTC9HXlt5qnN2u1/glDvqllwwExasjTml+T6hIQ0wmc6bDb+i3UehmEQ+M=
+	t=1756547731; cv=none; b=eEUCqh81aw7GSJGjmCHt0JfFXL+9E7Y3ZBQU3dQygsTqE4Lnfj9JFAQAOfG/tF1DQQDdVp4R1+BR7urQe4XG0GTWRClW/STJ2gWqDT5IwstmPkFOXmW9YR0FtQxTpnv6qJif7mRKCeR+tZ4NfeLpvO5J0Jc1LM82o4GDHko0Bvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756541038; c=relaxed/simple;
-	bh=bJdJoKW8ZPIaos5oRWbf60tbQYEUr27mQu389D0ZGNY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DRG7D6IyZHrHLqCwvWEaEjLPcTcGsKZpOKTGYF445uUPvQ18U3aT7jBz1Rl4uOnGU3/N5NYofofxpEdBaTQelbaTegNtDBEhBcdK+ap+bDq2YGljK1BOVgRx1hv3OmJspBdj5mukZmoxsPKfZwIN8Pd+1CZTjE4n+eW3v+U+rbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NhvhU3If; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0cQNQRkW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tzOmc+GC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tu7coenr; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1756547731; c=relaxed/simple;
+	bh=bbTkg9VOabzO44YnmEVXA0NVE1Zz3kqfiBxtN679nZ8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=GeGbrFpJpKf3re252rZsyKwpBQk6gcVrngAEGKa27UW7tfg6ULfOiGZM1AIPTgUn5XmnddCfGzO+CSuENfsXwBk2lILx0Fz+/vV1wrx8Tto4BIiOAovMqC/7q96v73Q24R8NVoCuHVrVusID7KFvVqrqyG+YSMr5nULsWLASFQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=deNA8p7P; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NhvhU3If";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0cQNQRkW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tzOmc+GC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tu7coenr"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B7E7C336C0;
-	Sat, 30 Aug 2025 08:03:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756541034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=91kzAtwCrT6R4Jn8oyYieocLPqbBufAQO3BfdmXbOOo=;
-	b=NhvhU3Ifhq+rveYOGr4tuN7QrhdSvCmUzOsO1jXTcYGK3Q0rH95xYkqzzFBq5tOH0bR6dV
-	1NSb21FvOvsjsqKI9B2RAJM7Fi9jm76DIFsf4WpcB+BswY7Y9nd61zW3Zp8rwWY5XcjYJB
-	9Wa1u5CXvVBT3+Apcb9Zd0KlkaGAlq4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756541034;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=91kzAtwCrT6R4Jn8oyYieocLPqbBufAQO3BfdmXbOOo=;
-	b=0cQNQRkWrbkeoqh+IzZUiAmFGgCpdBfhPiHeit91bPHkdV9L86WH01jh6j2i1YyIyKfIpP
-	NoHLEeCJZMFbPCAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tzOmc+GC;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Tu7coenr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756541033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=91kzAtwCrT6R4Jn8oyYieocLPqbBufAQO3BfdmXbOOo=;
-	b=tzOmc+GCyn7aURYY+CsVxCRMkKbnhnwwUm4Dr7I6HetIw6Ady+oMCvQNbg90K1VA3qRw4t
-	0HT0MdVP+5caiJ4nJHc6ql352AHbA2R9VdLv+/x9ehtPG6fMMCp1g7lnZQijIi0AfEFTO5
-	Vxkm/9/D7sVYpzIm9h0x7Xp3oZYnRMM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756541033;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=91kzAtwCrT6R4Jn8oyYieocLPqbBufAQO3BfdmXbOOo=;
-	b=Tu7coenrXE/g0oXBB32UptirKkDxaMDGHjzX+4t9UeBQ/AdeSJF2z3fohoY/b3o0RoVtQY
-	A6Jgnglpab9PxQBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94B7313890;
-	Sat, 30 Aug 2025 08:03:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LYmPImmwsmjXIgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 30 Aug 2025 08:03:53 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Subject: [PATCH v3] ALSA: firewire: motu: Use guard() for spin locks
-Date: Sat, 30 Aug 2025 10:03:50 +0200
-Message-ID: <20250830080351.25600-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="deNA8p7P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1756547715; x=1757152515; i=markus.elfring@web.de;
+	bh=LfT2Mg3Wp5zN4MePAdXO0bh+Ixl52RXlU2Z358Vjx3E=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=deNA8p7PHU9dMSSpwhhop9+nTiLedTgNjULDVyiz3/0DjcFrJQFRK08X/k7CB/fb
+	 T0t7D7OuXyAIWS+SVVkFFnzlTIEk8sjdJdqbWwgEwcMCRXCHxsI2EhSq4WCmHm9rg
+	 TmzAVLZv/s9bWDdA2fi1RR/DpdOylY+ZI/j2dXk2MVma91DEmMspYmSpnEAZYu8YH
+	 5VZrs7PvAbYP8fDE+siIXYjgInPaI6xblllKvnc6foIaDu8pkLupF+V8POnFKfpBX
+	 XtaEuz35+wIyjAQ6vBhAOxmrUqyD+4tZHV1UPiiNn0veDWBl2XsdYQghxfLGg7Lbm
+	 ZvGh0tE8fP/7IZeesA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.198]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MTOlk-1v4M5H0UCC-00RGwe; Sat, 30
+ Aug 2025 11:55:15 +0200
+Message-ID: <0c2906f7-ded0-4609-b9a5-8d6949ab6e07@web.de>
+Date: Sat, 30 Aug 2025 11:55:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,sakamocchi.jp:email,suse.de:mid,suse.de:dkim,suse.de:email]
+User-Agent: Mozilla Thunderbird
+To: =?UTF-8?Q?=C5=A0erif_Rami?= <ramiserifpersia@gmail.com>,
+ linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20250814172222.9448-2-ramiserifpersia@gmail.com>
+Subject: Re: [PATCH v6 1/7] ALSA: usb-audio: Add initial driver for TASCAM
+ US-144MKII
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250814172222.9448-2-ramiserifpersia@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:TdP0lmSh8lIjCpCrBcIiMoqjGF2KMKzIn4nYFMxBx+L74ONS/Fk
+ 22L0kxKzS9z5pWiG5paEcqzSfUEbb0cBOcbp3fP5TshAf0rGHU6k1t7OkY8IjHhLZFbUS5d
+ bZbM5XS4KTWuAb0xgwYAbtlPix4M5PyU9+6SJVbuWXtbXY0lmraOg4aR44ryiqzyKWNGihC
+ JgqmOQSNrJpiJIX/OUdNg==
 X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: B7E7C336C0
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+UI-OutboundReport: notjunk:1;M01:P0:6hRLm8bGeWg=;0S88ZccCSd555tbyYzhYPWAPOKv
+ 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
 
-Clean up the code using guard() for spin locks.
+> This patch introduces =E2=80=A6
 
-Merely code refactoring, and no behavior change.
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.17-rc3#n94
 
-Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
-v2->v3: rebase on the latest code and simplify hwdep_poll() accordingly
 
- .../motu/motu-command-dsp-message-parser.c    |  9 +----
- sound/firewire/motu/motu-hwdep.c              | 37 +++++--------------
- sound/firewire/motu/motu-midi.c               | 10 +----
- .../motu/motu-register-dsp-message-parser.c   | 18 ++-------
- sound/firewire/motu/motu-stream.c             | 21 +++--------
- sound/firewire/motu/motu-transaction.c        |  7 ++--
- 6 files changed, 27 insertions(+), 75 deletions(-)
+=E2=80=A6
+> +++ b/sound/usb/usx2y/us144mkii.c
+> @@ -0,0 +1,248 @@
+=E2=80=A6
+> +static int tascam_probe(struct usb_interface *intf,
+> +			const struct usb_device_id *usb_id)
+> +{
+=E2=80=A6
+> +	char *handshake_buf __free(kfree) =3D NULL;
+> +
+> +	if (dev->speed !=3D USB_SPEED_HIGH)
+=E2=80=A6
+> +	handshake_buf =3D kmalloc(1, GFP_KERNEL);
+=E2=80=A6
 
-diff --git a/sound/firewire/motu/motu-command-dsp-message-parser.c b/sound/firewire/motu/motu-command-dsp-message-parser.c
-index 5d8a86a12f1f..c6440e6e360b 100644
---- a/sound/firewire/motu/motu-command-dsp-message-parser.c
-+++ b/sound/firewire/motu/motu-command-dsp-message-parser.c
-@@ -87,10 +87,9 @@ void snd_motu_command_dsp_message_parser_parse(const struct amdtp_stream *s,
- 	unsigned int data_block_quadlets = s->data_block_quadlets;
- 	struct msg_parser *parser = motu->message_parser;
- 	unsigned int interval = parser->interval;
--	unsigned long flags;
- 	int i;
- 
--	spin_lock_irqsave(&parser->lock, flags);
-+	guard(spinlock_irqsave)(&parser->lock);
- 
- 	for (i = 0; i < count; ++i) {
- 		__be32 *buffer = desc->ctx_payload;
-@@ -168,17 +167,13 @@ void snd_motu_command_dsp_message_parser_parse(const struct amdtp_stream *s,
- 			}
- 		}
- 	}
--
--	spin_unlock_irqrestore(&parser->lock, flags);
- }
- 
- void snd_motu_command_dsp_message_parser_copy_meter(struct snd_motu *motu,
- 					struct snd_firewire_motu_command_dsp_meter *meter)
- {
- 	struct msg_parser *parser = motu->message_parser;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&parser->lock, flags);
-+	guard(spinlock_irqsave)(&parser->lock);
- 	memcpy(meter, &parser->meter, sizeof(*meter));
--	spin_unlock_irqrestore(&parser->lock, flags);
- }
-diff --git a/sound/firewire/motu/motu-hwdep.c b/sound/firewire/motu/motu-hwdep.c
-index fa2685665db3..981c19430cb0 100644
---- a/sound/firewire/motu/motu-hwdep.c
-+++ b/sound/firewire/motu/motu-hwdep.c
-@@ -100,18 +100,14 @@ static __poll_t hwdep_poll(struct snd_hwdep *hwdep, struct file *file,
- 			       poll_table *wait)
- {
- 	struct snd_motu *motu = hwdep->private_data;
--	__poll_t events;
- 
- 	poll_wait(file, &motu->hwdep_wait, wait);
- 
--	spin_lock_irq(&motu->lock);
-+	guard(spinlock_irq)(&motu->lock);
- 	if (motu->dev_lock_changed || motu->msg || has_dsp_event(motu))
--		events = EPOLLIN | EPOLLRDNORM;
-+		return EPOLLIN | EPOLLRDNORM;
- 	else
--		events = 0;
--	spin_unlock_irq(&motu->lock);
--
--	return events;
-+		return 0;
- }
- 
- static int hwdep_get_info(struct snd_motu *motu, void __user *arg)
-@@ -135,48 +131,35 @@ static int hwdep_get_info(struct snd_motu *motu, void __user *arg)
- 
- static int hwdep_lock(struct snd_motu *motu)
- {
--	int err;
--
--	spin_lock_irq(&motu->lock);
-+	guard(spinlock_irq)(&motu->lock);
- 
- 	if (motu->dev_lock_count == 0) {
- 		motu->dev_lock_count = -1;
--		err = 0;
-+		return 0;
- 	} else {
--		err = -EBUSY;
-+		return -EBUSY;
- 	}
--
--	spin_unlock_irq(&motu->lock);
--
--	return err;
- }
- 
- static int hwdep_unlock(struct snd_motu *motu)
- {
--	int err;
--
--	spin_lock_irq(&motu->lock);
-+	guard(spinlock_irq)(&motu->lock);
- 
- 	if (motu->dev_lock_count == -1) {
- 		motu->dev_lock_count = 0;
--		err = 0;
-+		return 0;
- 	} else {
--		err = -EBADFD;
-+		return -EBADFD;
- 	}
--
--	spin_unlock_irq(&motu->lock);
--
--	return err;
- }
- 
- static int hwdep_release(struct snd_hwdep *hwdep, struct file *file)
- {
- 	struct snd_motu *motu = hwdep->private_data;
- 
--	spin_lock_irq(&motu->lock);
-+	guard(spinlock_irq)(&motu->lock);
- 	if (motu->dev_lock_count == -1)
- 		motu->dev_lock_count = 0;
--	spin_unlock_irq(&motu->lock);
- 
- 	return 0;
- }
-diff --git a/sound/firewire/motu/motu-midi.c b/sound/firewire/motu/motu-midi.c
-index 18c5734e999f..85e3260f9349 100644
---- a/sound/firewire/motu/motu-midi.c
-+++ b/sound/firewire/motu/motu-midi.c
-@@ -47,9 +47,8 @@ static int midi_close(struct snd_rawmidi_substream *substream)
- static void midi_capture_trigger(struct snd_rawmidi_substream *substrm, int up)
- {
- 	struct snd_motu *motu = substrm->rmidi->private_data;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&motu->lock, flags);
-+	guard(spinlock_irqsave)(&motu->lock);
- 
- 	if (up)
- 		amdtp_motu_midi_trigger(&motu->tx_stream, substrm->number,
-@@ -57,16 +56,13 @@ static void midi_capture_trigger(struct snd_rawmidi_substream *substrm, int up)
- 	else
- 		amdtp_motu_midi_trigger(&motu->tx_stream, substrm->number,
- 					NULL);
--
--	spin_unlock_irqrestore(&motu->lock, flags);
- }
- 
- static void midi_playback_trigger(struct snd_rawmidi_substream *substrm, int up)
- {
- 	struct snd_motu *motu = substrm->rmidi->private_data;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&motu->lock, flags);
-+	guard(spinlock_irqsave)(&motu->lock);
- 
- 	if (up)
- 		amdtp_motu_midi_trigger(&motu->rx_stream, substrm->number,
-@@ -74,8 +70,6 @@ static void midi_playback_trigger(struct snd_rawmidi_substream *substrm, int up)
- 	else
- 		amdtp_motu_midi_trigger(&motu->rx_stream, substrm->number,
- 					NULL);
--
--	spin_unlock_irqrestore(&motu->lock, flags);
- }
- 
- static void set_midi_substream_names(struct snd_motu *motu,
-diff --git a/sound/firewire/motu/motu-register-dsp-message-parser.c b/sound/firewire/motu/motu-register-dsp-message-parser.c
-index ef3b0b0f0dab..a8053e3ef065 100644
---- a/sound/firewire/motu/motu-register-dsp-message-parser.c
-+++ b/sound/firewire/motu/motu-register-dsp-message-parser.c
-@@ -150,10 +150,9 @@ void snd_motu_register_dsp_message_parser_parse(const struct amdtp_stream *s,
- 	struct msg_parser *parser = motu->message_parser;
- 	bool meter_pos_quirk = parser->meter_pos_quirk;
- 	unsigned int pos = parser->push_pos;
--	unsigned long flags;
- 	int i;
- 
--	spin_lock_irqsave(&parser->lock, flags);
-+	guard(spinlock_irqsave)(&parser->lock);
- 
- 	for (i = 0; i < count; ++i) {
- 		__be32 *buffer = desc->ctx_payload;
-@@ -363,30 +362,24 @@ void snd_motu_register_dsp_message_parser_parse(const struct amdtp_stream *s,
- 
- 	if (pos != parser->push_pos)
- 		wake_up(&motu->hwdep_wait);
--
--	spin_unlock_irqrestore(&parser->lock, flags);
- }
- 
- void snd_motu_register_dsp_message_parser_copy_meter(struct snd_motu *motu,
- 						struct snd_firewire_motu_register_dsp_meter *meter)
- {
- 	struct msg_parser *parser = motu->message_parser;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&parser->lock, flags);
-+	guard(spinlock_irqsave)(&parser->lock);
- 	memcpy(meter, &parser->meter, sizeof(*meter));
--	spin_unlock_irqrestore(&parser->lock, flags);
- }
- 
- void snd_motu_register_dsp_message_parser_copy_parameter(struct snd_motu *motu,
- 					struct snd_firewire_motu_register_dsp_parameter *param)
- {
- 	struct msg_parser *parser = motu->message_parser;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&parser->lock, flags);
-+	guard(spinlock_irqsave)(&parser->lock);
- 	memcpy(param, &parser->param, sizeof(*param));
--	spin_unlock_irqrestore(&parser->lock, flags);
- }
- 
- unsigned int snd_motu_register_dsp_message_parser_count_event(struct snd_motu *motu)
-@@ -403,12 +396,11 @@ bool snd_motu_register_dsp_message_parser_copy_event(struct snd_motu *motu, u32
- {
- 	struct msg_parser *parser = motu->message_parser;
- 	unsigned int pos = parser->pull_pos;
--	unsigned long flags;
- 
- 	if (pos == parser->push_pos)
- 		return false;
- 
--	spin_lock_irqsave(&parser->lock, flags);
-+	guard(spinlock_irqsave)(&parser->lock);
- 
- 	*event = parser->event_queue[pos];
- 
-@@ -417,7 +409,5 @@ bool snd_motu_register_dsp_message_parser_copy_event(struct snd_motu *motu, u32
- 		pos = 0;
- 	parser->pull_pos = pos;
- 
--	spin_unlock_irqrestore(&parser->lock, flags);
--
- 	return true;
- }
-diff --git a/sound/firewire/motu/motu-stream.c b/sound/firewire/motu/motu-stream.c
-index 64aec9c3eefd..e5f21360cfb7 100644
---- a/sound/firewire/motu/motu-stream.c
-+++ b/sound/firewire/motu/motu-stream.c
-@@ -407,32 +407,23 @@ static void motu_lock_changed(struct snd_motu *motu)
- 
- int snd_motu_stream_lock_try(struct snd_motu *motu)
- {
--	int err;
-+	guard(spinlock_irq)(&motu->lock);
- 
--	spin_lock_irq(&motu->lock);
--
--	if (motu->dev_lock_count < 0) {
--		err = -EBUSY;
--		goto out;
--	}
-+	if (motu->dev_lock_count < 0)
-+		return -EBUSY;
- 
- 	if (motu->dev_lock_count++ == 0)
- 		motu_lock_changed(motu);
--	err = 0;
--out:
--	spin_unlock_irq(&motu->lock);
--	return err;
-+	return 0;
- }
- 
- void snd_motu_stream_lock_release(struct snd_motu *motu)
- {
--	spin_lock_irq(&motu->lock);
-+	guard(spinlock_irq)(&motu->lock);
- 
- 	if (WARN_ON(motu->dev_lock_count <= 0))
--		goto out;
-+		return;
- 
- 	if (--motu->dev_lock_count == 0)
- 		motu_lock_changed(motu);
--out:
--	spin_unlock_irq(&motu->lock);
- }
-diff --git a/sound/firewire/motu/motu-transaction.c b/sound/firewire/motu/motu-transaction.c
-index 2dc1d6e59144..804f4208cf81 100644
---- a/sound/firewire/motu/motu-transaction.c
-+++ b/sound/firewire/motu/motu-transaction.c
-@@ -51,7 +51,6 @@ static void handle_message(struct fw_card *card, struct fw_request *request,
- {
- 	struct snd_motu *motu = callback_data;
- 	__be32 *buf = (__be32 *)data;
--	unsigned long flags;
- 
- 	if (tcode != TCODE_WRITE_QUADLET_REQUEST) {
- 		fw_send_response(card, request, RCODE_COMPLETE);
-@@ -63,9 +62,9 @@ static void handle_message(struct fw_card *card, struct fw_request *request,
- 		return;
- 	}
- 
--	spin_lock_irqsave(&motu->lock, flags);
--	motu->msg = be32_to_cpu(*buf);
--	spin_unlock_irqrestore(&motu->lock, flags);
-+	scoped_guard(spinlock_irqsave, &motu->lock) {
-+		motu->msg = be32_to_cpu(*buf);
-+	}
- 
- 	fw_send_response(card, request, RCODE_COMPLETE);
- 
--- 
-2.50.1
+Can another software design option become more attractive?
+May the scope be reduced for such a variable?
 
+Regards,
+Markus
