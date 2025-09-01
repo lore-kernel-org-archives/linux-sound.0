@@ -1,52 +1,80 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6162FFDE3
-	for <linux-sound@vger.kernel.org>; Mon,  1 Sep 2025 08:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F7E2E0417
+	for <linux-sound@vger.kernel.org>; Mon,  1 Sep 2025 09:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756717133; cv=none; b=dZArRFzR9Dj5SfYNTub1B54sMCIYh/sDvvKHXEEJFQT5IQkS6p9t6gyhWD/BFMXlB5URMLT8jGj1KD/iy42mNH1FR1XyKo+hDhejhBxDZnGoz4PVWh3VxYXsMZ87lpKRSZqBryXuqr2XCKwh43ZRYVYFb+ZPws+oF4OP+lZwZkE=
+	t=1756718459; cv=none; b=eSWQjvPZvIqrnNRq9GmbryqNYti5X8shV90BNBnNelS25xkNMdqxZgZHNHz9yt8uuU1XTKtAYr+7ZSgOX+wOIbsStmals98DYVVr3/Qtuhxq/Jaq5sOErX9OoJh9W8y67vV2oC2ippgCTp/CKcNX/UU8kR5FqmkbYBFfZinZNBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756717133; c=relaxed/simple;
-	bh=xsx4VyU9xOxGUJknmUmlfucM5tZVsPD5k/KG6ZMqmcU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ls8GyF2HQyTZp0xKBkAIt+f7xkT2RJrP7U8DXtEE7qyF8nvGboWywb6fpmG/uy/knVsmnbqg6cPj7vYEpH+tlp+n5zh5ikXs+gK+cstk0WIwyxm/HfPfGLKM4mr7aWAA3ipScDL1SwCu6O8XnvV2DQoZoYjacFAh0Sw1dmoXYkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=sOZRstDm; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1756718459; c=relaxed/simple;
+	bh=ML4S0rF/tkDhN+3lsKun7u6d9LYUxTbMll7DA/fC5po=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kRD/y8JPf5lfjKE157Y34h5YD3LdghWK87XOl++W7WjuCQ1IB3z3kc4BzhrtBnj+NZY285Mcvp/ZeX+t1HfQb7woOuYboN6CfK011D1arNcB9+UhGj0mELNKAcwEeeWSwYtH1sUaXv8FYUz+ZXIkzVS1MGlf2QtqzTLXXi1/dEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wuest.me; spf=pass smtp.mailfrom=wuest.me; dkim=pass (2048-bit key) header.d=wuest.me header.i=@wuest.me header.b=cZPCJiaL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eNdAIl76; arc=none smtp.client-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wuest.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wuest.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="sOZRstDm"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5818wDFO1633970, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1756717093; bh=9x8sST39J1o3D/0ldtJhDbwANiC2FjsTYwbjjiWNAJA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=sOZRstDmt8XXBz1/04HpvmFizPVyvYLVEEV0o/vkeo78qbaA4QtLk2QRFcSJHOuQp
-	 ZxpC1LTWbjNKZJnjCMY9YHc7tj79ZmWt57gmx1NNEE35nrUH0Mj33GrzdjgnDFMEsN
-	 4klJsLbQLgiWcpzGuF8MOA2YqgUC/xZADfKQKxHNl2yd7qtRBhAKRzhdssJzGJXRsL
-	 EwwKeQfZ0HPF5pr67TEfEUM6DxpS8lThGzKJhrp//7l3tJlqWpMC0NvkGqsGFTk4Gx
-	 b7gUVW1h2UP+q7ab3AZcfGBpLaeNQWO00X+NWRA48RGGGYNNeXXoIobPl3qBJ4jUVq
-	 UWbeb3Bpl47UA==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 5818wDFO1633970
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 1 Sep 2025 16:58:13 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.27; Mon, 1 Sep 2025 16:58:13 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.27; Mon, 1 Sep 2025 16:58:12 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] ASoC: rt712: avoid skipping the blind write
-Date: Mon, 1 Sep 2025 16:57:57 +0800
-Message-ID: <20250901085757.1287945-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=wuest.me header.i=@wuest.me header.b="cZPCJiaL";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eNdAIl76"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 7B2827A0273;
+	Mon,  1 Sep 2025 05:20:56 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Mon, 01 Sep 2025 05:20:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wuest.me; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1756718456; x=1756804856; bh=UESsNAJovC0+HKip7p8E3
+	681t5kc0+t2Fk3o9Os6ucQ=; b=cZPCJiaLMLyGqFOVFnw0cgECv5CwKhsFrZ9as
+	Rd5CS/9eK18mdrrNlTkyZ6JboXvOST9w4TMwEjO8P49O0CKkHGm/emhzX4fmmW+F
+	7egVAZ5QFnv/SP3IOgbfBVTQoJvvoBLP12q+ycfx0WJG3dAk21qO5UlgWwakMbml
+	DTGk2ynKXVjRLxBQv7rW6mv+PEoG4TmH9lC+gYOhfjjIhkLLJRVmkUOINI/jTElS
+	7U67ZQvBWU8OW31o9mn4cGnIyoP74nXCxC6LIBjOll+Jek0yPv67NjKnL8eBFJIM
+	O1feCKtJZHxf2bYsix/HG+oo1BLzGorAf7kefvN7+D9gN9Qmw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1756718456; x=1756804856; bh=UESsNAJovC0+HKip7p8E3681t5kc0+t2Fk3
+	o9Os6ucQ=; b=eNdAIl76+3Fsbs4PLO7q9P4En18d1Qi3DjFs5la/f/5RXm5XoxK
+	sJL802H6Pl/o1hHLRGbKjgxQyF0C0MnQwon6PrvvfwSHeHATewRT+9Ke7nEtVI6N
+	SdZbBUDixBvUx6iD2PhL8G7itQ829vvGcJzyTFALjAdruRE5BLbgUGAzCeo7qO/O
+	/tXfvJJ+3lnRMO6pxf0YWMmuLM/jbEYr17OTKrvR9mYeCuzmlMX7NJA5MbdiAnG3
+	0FkuWew5aeVkt4NlA+4ZK5qq84ASDp7mE3/ArZNrShhrTAC9g2pcFWMhjK/LKyV9
+	Cgji3Z6fgpWyM7V0Zb2RogVP1Zcld14JAaQ==
+X-ME-Sender: <xms:d2W1aDDmpNwMHSe7Y6Bpntpbk6QFmjvgDkpudz7AqNwI1bhwuZ67Gw>
+    <xme:d2W1aEEwL1sgBdb_pc1EtrljpcW09shYcOPoeYn29CthsuNGQhO81hQPhQTZKzokK
+    am9B0GWjvQJf-gNnHk>
+X-ME-Received: <xmr:d2W1aLL_fev9Em50naBFkoP3ZNx98PLrrPZVIN27IYEPTTrh8IJKhcb6V0nCEJcAkHeKFLYI5iXUusicg59k5OMPEG9w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduledujeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepvfhinhgrucghuhgv
+    shhtuceothhinhgrseifuhgvshhtrdhmvgeqnecuggftrfgrthhtvghrnhepheevgeefff
+    fguedtfeffhfefveekfedvkeekheegheejledtvdeigeehieeigfefnecuvehluhhsthgv
+    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepthhinhgrseifuhgvshhtrd
+    hmvgdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    thhifigrihesshhushgvrdgtohhmpdhrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtg
+    iipdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehtihhnrgesfihuvghsthdrmhgv
+X-ME-Proxy: <xmx:d2W1aIkAuTmNNTRQbjMluj2hPGvY0eDOlByjgjasdrv-L8sbzYHenw>
+    <xmx:d2W1aDSeImWlu-8tagn_bOU4mFZNfQHNoFHW-4xODRu_fyN6uJKpHQ>
+    <xmx:d2W1aKInu6EroTXlGCX_4s-FTl7Mwy6jQcfG7s7zx22ZL2m2QZm1MQ>
+    <xmx:d2W1aJBS0CJw7wsHFo7pXe2uUqlL4lUIFYjrs1gmEH0fbPWoTQQ_Rw>
+    <xmx:eGW1aCb1VdTYiDYQNRIB0nXZkZYsV50AiZ69jBQMZh-V3dh0IMwQOYsc>
+Feedback-ID: i33814470:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 1 Sep 2025 05:20:55 -0400 (EDT)
+From: Tina Wuest <tina@wuest.me>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org
+Cc: Tina Wuest <tina@wuest.me>
+Subject: [PATCH] ALSA: Allow Focusrite devices to use low samplerates
+Date: Mon,  1 Sep 2025 12:20:24 +0300
+Message-ID: <20250901092024.140993-1-tina@wuest.me>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,38 +82,49 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
- RTKEXHMBS06.realtek.com.tw (10.21.1.56)
 
-From: Shuming Fan <shumingf@realtek.com>
+Commit 05f254a6369ac020fc0382a7cbd3ef64ad997c92 ("ALSA: usb-audio:
+Improve filtering of sample rates on Focusrite devices") changed the
+check for max_rate in a way which was overly restrictive, forcing
+devices to use very high samplerates if they support them, despite
+support existing for lower rates as well.
 
-Some devices might not use the DMIC function of the RT712VB.
-Therefore, this patch avoids skipping the blind write with RT712VB.
+This maintains the intended outcome (ensuring samplerates selected are
+supported) while allowing devices with higher maximum samplerates to be
+opened at all supported samplerates.
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
+This patch was tested with a Clarett+ 8Pre USB
+
+Signed-off-by: Tina Wuest <tina@wuest.me>
 ---
- sound/soc/codecs/rt712-sdca.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ sound/usb/format.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
-index 5b298db5f0f6..0ebaae426e73 100644
---- a/sound/soc/codecs/rt712-sdca.c
-+++ b/sound/soc/codecs/rt712-sdca.c
-@@ -1890,11 +1890,9 @@ int rt712_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+diff --git a/sound/usb/format.c b/sound/usb/format.c
+index 0ee532acbb60..ec95a063beb1 100644
+--- a/sound/usb/format.c
++++ b/sound/usb/format.c
+@@ -327,12 +327,16 @@ static bool focusrite_valid_sample_rate(struct snd_usb_audio *chip,
+ 		max_rate = combine_quad(&fmt[6]);
  
- 		rt712_sdca_va_io_init(rt712);
- 	} else {
--		if (!rt712->dmic_function_found) {
--			dev_err(&slave->dev, "%s RT712 VB detected but no SMART_MIC function exposed in ACPI\n",
-+		if (!rt712->dmic_function_found)
-+			dev_warn(&slave->dev, "%s RT712 VB detected but no SMART_MIC function exposed in ACPI\n",
- 				__func__);
--			goto suspend;
--		}
- 
- 		/* multilanes and DMIC are supported by rt712vb */
- 		prop->lane_control_support = true;
+ 		switch (max_rate) {
++		case 192000:
++			if (rate == 176400 || rate == 192000)
++				return true;
++			fallthrough;
++		case 96000:
++			if (rate == 88200 || rate == 96000)
++				return true;
++			fallthrough;
+ 		case 48000:
+ 			return (rate == 44100 || rate == 48000);
+-		case 96000:
+-			return (rate == 88200 || rate == 96000);
+-		case 192000:
+-			return (rate == 176400 || rate == 192000);
+ 		default:
+ 			usb_audio_info(chip,
+ 				"%u:%d : unexpected max rate: %u\n",
 -- 
-2.34.1
+2.51.0
 
