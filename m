@@ -1,93 +1,116 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822B633E1;
-	Mon,  1 Sep 2025 18:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C9D202997;
+	Mon,  1 Sep 2025 18:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756750209; cv=none; b=NhsLtkzq/hymN2Xvfgo9g3HBNtiE7sK2ZmwFnsBBHZS5943SRdbdEOmUGw+6gX1coSg3G9XMet3SsU5R0VhBrOo7bd79SpycoDVxzQjfIRhHb2rZBo9SH/O9vdZ8e3W6sMAkFYaCpp+5s2f0HjaeGIQcxg3pGdRddL/RITfesh4=
+	t=1756752037; cv=none; b=koVuuas0kqBOJeU4sd1ELS3SgZKPT8K/oFta7DWfT8geSN4xmMNqA5iA5ntO9LoHGMRMxIObegK12lVDjaSgicL+FzAzSiLkn/Oh9EnvmSFj809Ipwc9j8VZ8UTqIVY5DPqCaHzKTAxvmRdzZUlznEpEFgXssNuGMZjGcge9QNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756750209; c=relaxed/simple;
-	bh=u4s0dHyUeQUG6hbgBlysKLZwGtKp79dKBs5fUKoIwwE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nBwEKsIsaQ9Es1Z2ZUwSinEIeIujYoDGu0KhdLk7tJyLaeTNnk1AdfGxMhLCEPcaHu0YagyxKxMT7dFSOJmcKcuV3PyQO//zi9BeQdN2RPFws3aInKItMM7zh7o+/e2lxm0YlEtMcHBaW9OjxmOldZet7fLzV/+6tVJNZzjYENs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mou8/7TJ; arc=none smtp.client-ip=209.85.221.169
+	s=arc-20240116; t=1756752037; c=relaxed/simple;
+	bh=Q2KNqqX4HvvrdV+7pX8yVeWwRZhNJcUc2pVnU5UUo4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j8igCw3Z9KAoIp3XKmoQ1rrKkonW5teoidtzMqIofo2eaVaTa1+tDwcBfd6d2HQ2S6dfnjUH+Fpm2hBIEhUcgbc6C58teTzxx9LL2z5vNxExBhWY05dC6n1UEV/X64ncfBeIRyir6yYD1XpyybJCAncQwj56W0u35nkt28HpDZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EVzQ88cg; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mou8/7TJ"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-544bd485420so343783e0c.2;
-        Mon, 01 Sep 2025 11:10:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EVzQ88cg"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7723cf6e4b6so1588600b3a.3;
+        Mon, 01 Sep 2025 11:40:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756750206; x=1757355006; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u4s0dHyUeQUG6hbgBlysKLZwGtKp79dKBs5fUKoIwwE=;
-        b=mou8/7TJjW22olwK8Fy35/h+5FRpL8kbpNXvzTl/LR+N70mGeZfynfLEYa+8coGktZ
-         dm2OIKBiB3cUp08EI4Hdwom2B4FgpRbgHXvuQAqYLH+6RzC0lM+B6myW0kM/L7WynzXJ
-         WfxpLv30/U/XtM34H5od9Go3k1mHvfwfYQz9hrrX7DM+vrNMwbrqGWRsN21PLN2T+yX3
-         zZwTv5iO6x+1G0Rd0YKDb9xLyA8CIMUapBo09v/IdjwOOr2DHKn7SBJjUsKBoO3pyYqr
-         DLkHUvJMCyMWP1EOxU2q6QsRSv2q3eeq6StuWvuOkqvmM9wOjnAhmYyZ7te3dOFxW9ng
-         Rx9Q==
+        d=gmail.com; s=20230601; t=1756752035; x=1757356835; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NIrx3vsJGKnIC1mV3ZO9Gva97ORXiax8+B9LAsCFpWY=;
+        b=EVzQ88cgwHO6cPVMZgjtyywo7TtWAfZ6rfPXKGrX2hBczA18yvCJIl4YhgxMW4OxgO
+         BtgD1FadQBPrObgXfP1/w7jub/J9l6RS6/McUpklzrm1k3IZVTcTnj+vUKZ51bHKz8mG
+         7hwu39KhWGONgPbvewCZWfUmHOepL6HxkM8WlU4VtYGMmF4aE+IrljSXvsowRvUyt9C6
+         U3As41BgG3t3+uq+44PDRNrAgjNKcZ+4x28xyGSWMsBrUPUAeFfLj9oGSR6s1kP4eqUh
+         /h+Ow4eSI1kQoPKhPDagzmha1nKxxHa2V7yxMt85osQ8DXuMTKwQOy1/ribDfnhUmrLk
+         uaSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756750206; x=1757355006;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u4s0dHyUeQUG6hbgBlysKLZwGtKp79dKBs5fUKoIwwE=;
-        b=p3RrfoE2vwiDfMrIyezSRV5HrNJnLYQ6H5bmOPoeDT1hdyFcwAP0zYyp6yI5EDA/Xv
-         YimtDjMUzz+nwwUJctIfhoUgLaNiZn39k0iFnVTmSyLg0iM/QAR7iJr/fowyeLQcszHt
-         Egto4ijdysLxYHTcBcKjXUB55qh3G+7l69PmbWN9fKLq5nzQmEv6Z8a60qbQFZiELt+h
-         x7D+sGZp5GAWl6CHFKmK91XziXnMX6rBtQZ0/54ksvjgdmiawABCLxuT6vMnlCHbVcMv
-         gZUfxuAGYPsfRkznC8e2caiNAH6AQverN/lTESGuElHmYji9WGR1f8jTGre4IpfKIY1h
-         yPFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUKk31WPcf54qSr1v+ZLV6ecythY7DOATVl+0B9VcnCsU24vQyn7VZDQNHLv6pb1xxRRGAZvIrCUor+@vger.kernel.org, AJvYcCVR9zovmcFu9XnPeO/JWFVau8cgrF/BrFiF5YhYzj/b58hMp0gG4ZLEh/DjNBL2qmZiB/1aKUVISj/23k8=@vger.kernel.org, AJvYcCXF7GevxzyvVIKAi8RlP8WdTHkzNsKSsAA+eNHb9+n/z4fk7WcGXQFuSy31QVf/eHh5Ejy90IC7Q18GhkJC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyh82atzB0oySKT06LDx/ptO1sPsRM+MCXGaABhyLlW2zxIDwK5
-	3h7TiV/jfMXj8pS4PvFPtRyhOZJtgcnBla/fkd8q0W1QYatkx/UYCdnWr+b7EqZxek5XU8ByuhL
-	sqWxlTb2fBzCt1kNINCB5PF38NTUkWZs=
-X-Gm-Gg: ASbGncuT5CqPthvHj/ajTLkqAqctGVJpJddKheO4ciKJtzSxLsrd1wriVUDiKMbxOy+
-	Jj+kIujk8/X0AVgk/LtfqZIMsjTJrGzkuLAlFXVP15aXR2QK+BPAzIP3EoxUJ7At+P6XQtnVJ92
-	89F8c+23h8TnNrKGhrqd1I/JIMIz3chQU3N2KKCFhiWkNX5LN2SxzoUZOA38g2qrGdQtlVD6ix5
-	95Jn4wj8MHiJkHBVgqy/PcEX5qQmorHOo+S1RfzEDlf1elofg==
-X-Google-Smtp-Source: AGHT+IHXZ1r8GUTkdEGJtZstnBmcYDncXiw72Acoaycgnc5Y10NlmaPoxEphu/Y8hM9ev5TJlCyEe9lum5TKmzCXTGc=
-X-Received: by 2002:a05:6122:3c4a:b0:544:9a46:7c85 with SMTP id
- 71dfb90a1353d-544a019bb21mr2759056e0c.4.1756750206322; Mon, 01 Sep 2025
- 11:10:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756752035; x=1757356835;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NIrx3vsJGKnIC1mV3ZO9Gva97ORXiax8+B9LAsCFpWY=;
+        b=noY+7nJiD2g6sQrOXVTn4fs/+2HvcSNtrewnYmCI2pI/OJ+a52vbq2xlGP80rxShAr
+         KsCOu3IWyFB5Vok4u/RB/BW+/wkxaVxKJsnQOl33HLQKLgfahJgUg7tOHu4r09kueua+
+         yk/CCLKcuTfffh3ouJuv6HcbURbfNKwBshGwvjpglp84JH5v5Tr5SYlRqHK4yO5D+DWv
+         WFa8j7QM5MgKA7xTpQKvn6rONG+8m/5DUCZpygj2x/2jLrQGdspJ03tkUnRkCYbKaxoc
+         YP9TaW5S+/4UHBudREY/yO7USmyT1h0G2xeXHsk+Usi8jAdyuCGKjWEMvrSIMGz7Lhif
+         e50g==
+X-Forwarded-Encrypted: i=1; AJvYcCVNlc7z0ceKYU3zkDkZqF8X/Qbhm6j+VwK6OyNoMrdXfASLTywc66EAf1PtrdwblRHPi7B0QW6SS/d/FGk=@vger.kernel.org, AJvYcCVNo59MR1Xxi8/R3JZqJim9TeQQDKDVc21pYwhRa8VjgX91aGhSIrCrLmLpik0isRaCOFsQ6LjikRdFm4Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3ynlEUq5obpugRhv+v3Y17XU6D6wMjzbQZijNQGCtQ/zcLdAo
+	U6qEYXhDMFqB+buBgXxeWbqjjr0W3Qm1EjQGCWJ8aXe/8PQOwf7kU17p
+X-Gm-Gg: ASbGnct/fmpNw4QHEQetAvcJTY+YSOPiiLckzRDgsaegca9KFbvHgjJKUm8RauwAuAX
+	6X+LobTPmawaOfc1Fz6//lN0icUdjOOl7NcE5kCNqprxcIUJRRYa+pS6CNbJNs0/uBFPJVBZ/6i
+	kn24UCQGPKuhjsHVoKuDn9lQi3YBEmPN6Ok2SQILwpVqDtXrLc/7TsrDpHqrMwgyxnqdMLYR0UG
+	VNCec0IvAT7Wrd39B5XkQtU90GJ5gAkq3Gd0c6HGEXVoO227KXq4CLOMIKBOWEOlNJZ80AaiyIN
+	WOnZttXL4sAIAd+jopSGLFUSCW/WaBoXYRW5zceCRvl1q/fvNeEiSOERwBWnvQrbtLJHwZXcApD
+	vpr6Aj2IpxPspViCGYOx9sexFci4X1DPR4iYxp2LcKXidjqnl2koW
+X-Google-Smtp-Source: AGHT+IE/jtLqtpNoHzHQm8+GWilNaW0KaW/thghaOxb46kqVDVblP5DDWRKxuVHZ+7ag3CTMto3DbA==
+X-Received: by 2002:a05:6a21:6d9a:b0:243:af85:44b2 with SMTP id adf61e73a8af0-243d6bc9cf9mr11653749637.0.1756752035340;
+        Mon, 01 Sep 2025 11:40:35 -0700 (PDT)
+Received: from fedora ([172.59.162.44])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77236d7eb7fsm9436621b3a.54.2025.09.01.11.40.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Sep 2025 11:40:35 -0700 (PDT)
+From: Alex Tran <alex.t.tran@gmail.com>
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alex Tran <alex.t.tran@gmail.com>
+Subject: [PATCH v3 2/3] ASoC: codecs: tlv320dac33: Add default value for burst_bclkdiv
+Date: Mon,  1 Sep 2025 11:40:06 -0700
+Message-ID: <20250901184008.1249535-1-alex.t.tran@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250901035956.1195081-1-alex.t.tran@gmail.com> <7de59d85-a72e-4afa-b3d7-8729e22f4c3f@sirena.org.uk>
-In-Reply-To: <7de59d85-a72e-4afa-b3d7-8729e22f4c3f@sirena.org.uk>
-From: Alex Tran <alex.t.tran@gmail.com>
-Date: Mon, 1 Sep 2025 11:09:55 -0700
-X-Gm-Features: Ac12FXznIgauai2qg9BT_nu_HrZkRzEL3M2uZi99adtx16zr_HtQ42YUlNTyMwI
-Message-ID: <CA+hkOd4QmJ=VbWwjg36npFv3ZEuNVAj8Xw_QCPhCaF5k4dFFfw@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: codecs: tlv320dac33: switch to gpiod api
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, tiwai@suse.com, perex@perex.cz, shenghao-ding@ti.com, 
-	kevin-lu@ti.com, baojun.xu@ti.com, linus.walleij@linaro.org, brgl@bgdev.pl, 
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 1, 2025 at 3:35=E2=80=AFAM Mark Brown <broonie@kernel.org> wrot=
-e:
-> This is a set of separate changes which as covered in
-> submitting-patches.rst should each be split into individual patches,
-> this makes things much easier to review.
->
-> As also covered in submitting-patches.rst any inter-version changelogs
-> should go after the --- so they can be removed by tooling.
+Add default value for field burst_bclkdiv as initializing it to 0
+is incorrect, potentially leading to a divide by 0 issue.
+Valid range is 2-17 per TI datasheet. 8 was chosen as a
+dummy value.
 
-I'll split it up into 3 separate patches: the removal of the struct
-tlv320dac33_platform_data,
-addition of burst_bclkdiv default value, and the conversion to gpiod.
+Reference <https://www.ti.com/lit/ds/symlink/tlv320dac32.pdf>.
 
-Thanks for the feedback,
---=20
-Alex Tran
+Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+---
+Changes in v2:
+- Included removal of struct 'tlv320dac33_platform_data'
+  and header file 'tlv320dac33-plat.h'
+Changes in v3:
+- Split into separate patches as per request
+- Moved inter-version changelogs after '---' line
+
+ sound/soc/codecs/tlv320dac33.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/soc/codecs/tlv320dac33.c b/sound/soc/codecs/tlv320dac33.c
+index 36b3de75a..feefc777c 100644
+--- a/sound/soc/codecs/tlv320dac33.c
++++ b/sound/soc/codecs/tlv320dac33.c
+@@ -1480,6 +1480,8 @@ static int dac33_i2c_probe(struct i2c_client *client)
+ 
+ 	i2c_set_clientdata(client, dac33);
+ 
++	if (!dac33->burst_bclkdiv)
++		dac33->burst_bclkdiv = 8;
+ 	if (!dac33->mode1_latency)
+ 		dac33->mode1_latency = 10000; /* 10ms */
+ 	dac33->irq = client->irq;
+-- 
+2.51.0
+
