@@ -1,278 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA7832F764
-	for <linux-sound@vger.kernel.org>; Mon,  1 Sep 2025 15:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756741371; cv=fail; b=hXE28eh3VeBLHS7IVe0Lc8ELNBs/kOUorzCuDA5GDJMSkDeZXm191CsiF8KCN0BORj0htqfnh8cxHfb/AR+U7FMo4En7Xf35EtXjAzhv9QWKXEvCW4TfLZRIWZEd/Xw8IUCkJm2eG96t9pCvnsQdbf7G4ymnV8TYDniuS5nFQhg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756741371; c=relaxed/simple;
-	bh=OtgUCdNifUJgSD3BHmEAaoF+j7ViIEc+prsLwsK6A2s=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=L+hT5kUnVbnnbpbbL+G4q1FGzEYtp0w/O93TlKlDKXxDR30lPMdedsLD/XbmUCVIo7Onj/IiaFxB75kvauOLPOpcwCdKqozztghFr1hvCu1QCGuRyomInCYmfjG72NAnLjDK38EgQ45tgwXX18vWf1z4rV902nKXUIxRhj/uu8k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GcHvwLZH; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC941FDE31
+	for <linux-sound@vger.kernel.org>; Mon,  1 Sep 2025 15:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756741561; cv=none; b=rk8KRY9L7MEwfmc+Z16OpYpSwxS8sSMKXVp5s0yVKEWtFNke25Kz9xkYujW6/eNpoRTYw9KYYghBV6TH7/TPuqyDiGch3mcauu3hcRRj8XDIViMF2JXZ/BhN7KbqkH0EMniA4IHOZXyl3Jfd2gLm7flraawnsVssMXFaIhb17wI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756741561; c=relaxed/simple;
+	bh=yIIBpx1WiLYWLBRyT3VoexsH+O30nR5EJg4j5RtIhkE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IEFVhM2vD9hfonztS9BQ/bmrzhwqz68C+8JIDB9bAAK1y9VbKHdJUddtmwuyKzCcfnnajmtKR2f6MHKavsSYZ/SouOAA8vUoYmnRUyCiVef8C4wX9vxqcAEcqeadX9uk6QFlJTNdUmg4z0n3Lp1kgV2J3kPnvMI1y9mUVYkj6B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UeWZDLx/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xvhN9kqq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UeWZDLx/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xvhN9kqq; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GcHvwLZH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756741370; x=1788277370;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=OtgUCdNifUJgSD3BHmEAaoF+j7ViIEc+prsLwsK6A2s=;
-  b=GcHvwLZHsdgHYKu5bDnI4tgWQ9vAP0Rn6z0LmoUpsPPNTn76Lp6hWEbt
-   r4QnzgKeIABaNcjuwjGVlozc0QTx+G7vw/DPj/4MZQqaCSYuo3uo1NyA7
-   UrQzlgl3emgQJrCmNEVshvN/80IzSsa+4Xr5rTEmYPauX2feRVpvEu/vB
-   +BBqkN1QxRdQUcMBG2FfLuJ9JhYA+tfy3ZqSevF6ZUBZYMItikPHIEeBU
-   3CyxBS/eJj8d31MeG4xUzPvWyUEHcw1YIv5SI8VIp9GcQ41rwtmduk/f7
-   0sP1ptC1HQx4OiTmbOiYLdIBJ93yYcIsnc+0Pke9Mac4eS6rooaeyzvFU
-   g==;
-X-CSE-ConnectionGUID: fXGnNUyKSLu6UGziIzSpNA==
-X-CSE-MsgGUID: 6nHKXcUPSiCdqOrZxb1fHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="70433047"
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="70433047"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 08:42:49 -0700
-X-CSE-ConnectionGUID: xFAGdNyQQDGWJheARVKzOg==
-X-CSE-MsgGUID: yMYTmgE6RUOC6f+HNhe+LA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="170328929"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 08:42:49 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 1 Sep 2025 08:42:48 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Mon, 1 Sep 2025 08:42:48 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.70) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 1 Sep 2025 08:42:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ez8VYPj3PJt2A38UUtqy8pzXQI1N7XUc9Uq0JzK0hWM2hVz4iudqYZyTCNPJ8NFHOL0fx8ftMKJTn2AEN9iScb3dy7pZolnx2k0e6Tgz7Zh36df4rirxCiEs57g8MxJeaoYWGDzUH0jVabvm0/t61Ugno7c/niAvs4rfILhqZOnMaOGMju90Kr8WIMVNUHIUuemzPs/58Ub8R6onQEToQ4xucL3BzEzI1ZERoKwMPwrvPuken/UyA4gKUUpEKe6LgpCOCYX1AAMEpK5ZdTewtYxnOyXpCcb4wyuNZ0W9YxgkGwxHLnkXqP9ae5k6K9nZC4ilN6aL1OT04vyiFlQN+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=waL7mie/XBhRjKoEQWZBKv6zVMoZSQBe7ZZ3Rp+B4rY=;
- b=aRvFO0OZm43gJnAZR3NWoXekzwof/VeTn9XbE/q2KBI5Tovm6G2706QK3UEiezzYg9VLK4GE0t7AJ1DeHmY2jGXUE2Ua65I4nBVz917Q6NkZbTeoUS5Vlry1vkfyduNSKe0EGTb3x4k6+0Xdfcv6GLXO+F7RrmJ2edazcUGGsgE+eHPPE8E1cooZLyPh+GN/pu65Iq1n+EkmWabLqhwJcShED7FcH1NoxWFvX7MrfzJldi+svX00HVtHCSrx/44eXCewooQZdzTZhttkpAS1+c1GJMs8taLKHnDWggljDfkABqeIp/gBzROozpzn95FPOF17fziN+pQBXWWNuBEeug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
- by SJ0PR11MB4784.namprd11.prod.outlook.com (2603:10b6:a03:2da::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Mon, 1 Sep
- 2025 15:42:46 +0000
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::3:e0a:87af:d4b6]) by SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::3:e0a:87af:d4b6%6]) with mapi id 15.20.9073.026; Mon, 1 Sep 2025
- 15:42:45 +0000
-Message-ID: <fea2fed2-dfe8-425d-b03d-e0a49d62dce6@intel.com>
-Date: Mon, 1 Sep 2025 17:42:39 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] ASoC: Intel: avs: Cleanup duplicate members
-To: Nathan Chancellor <nathan@kernel.org>
-CC: <broonie@kernel.org>, <tiwai@suse.com>, <perex@perex.cz>,
-	<amadeuszx.slawinski@linux.intel.com>, <linux-sound@vger.kernel.org>
-References: <20250827142229.869139-1-cezary.rojewski@intel.com>
- <20250827142229.869139-3-cezary.rojewski@intel.com>
- <20250829225532.GA400117@ax162>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20250829225532.GA400117@ax162>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1P191CA0004.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:800:1ba::10) To SN7PR11MB8283.namprd11.prod.outlook.com
- (2603:10b6:806:26c::16)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UeWZDLx/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xvhN9kqq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UeWZDLx/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xvhN9kqq"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8B4A61F388;
+	Mon,  1 Sep 2025 15:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756741557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L8E5oFHeOOl9JH2Nl796U5+RxzjChoh6gygsoYjlDhs=;
+	b=UeWZDLx/aZwUy4sRs6VZ1BFp7F8r0oHwH8T0U5OTBoOxKIjHhwK4r1QmNtbuEFDn7Ho2VN
+	f9mm4G0hrxdMqEuoUZMqHSOi/ZzQNQDwJCgCduMskRA/DDWcRJLEcqe7asF1sJB+P3vt6V
+	bcs44kkkSQ7A83wJF1UWAUUj7xIpD7E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756741557;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L8E5oFHeOOl9JH2Nl796U5+RxzjChoh6gygsoYjlDhs=;
+	b=xvhN9kqqVb0THbvD9XWAZfFEYhaeIkSC6oJvQjHjp6fQmbDNgocSj9tMArOgiKUC1SgFXp
+	i1L9W3LrwEimSFDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="UeWZDLx/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xvhN9kqq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756741557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L8E5oFHeOOl9JH2Nl796U5+RxzjChoh6gygsoYjlDhs=;
+	b=UeWZDLx/aZwUy4sRs6VZ1BFp7F8r0oHwH8T0U5OTBoOxKIjHhwK4r1QmNtbuEFDn7Ho2VN
+	f9mm4G0hrxdMqEuoUZMqHSOi/ZzQNQDwJCgCduMskRA/DDWcRJLEcqe7asF1sJB+P3vt6V
+	bcs44kkkSQ7A83wJF1UWAUUj7xIpD7E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756741557;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L8E5oFHeOOl9JH2Nl796U5+RxzjChoh6gygsoYjlDhs=;
+	b=xvhN9kqqVb0THbvD9XWAZfFEYhaeIkSC6oJvQjHjp6fQmbDNgocSj9tMArOgiKUC1SgFXp
+	i1L9W3LrwEimSFDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B5BB1378C;
+	Mon,  1 Sep 2025 15:45:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id X6VCDbW/tWhRaQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 01 Sep 2025 15:45:57 +0000
+Date: Mon, 01 Sep 2025 17:45:56 +0200
+Message-ID: <87h5xm5g7f.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cryolitia PukNgae <cryolitia@uniontech.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Kexy Biscuit <kexybiscuit@aosc.io>,
+	Nie Cheng <niecheng1@uniontech.com>,
+	Zhan Jun <zhanjun@uniontech.com>,
+	Feng Yuan <fengyuan@uniontech.com>,
+	qaqland <anguoli@uniontech.com>
+Subject: Re: [RFC] sound: usb: design for quirk 'mixer_min_mute'
+In-Reply-To: <C22C1A172EBB9BD9+eccc2e4a-d21e-4a7d-848c-bbf3982feb94@uniontech.com>
+References: <C22C1A172EBB9BD9+eccc2e4a-d21e-4a7d-848c-bbf3982feb94@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|SJ0PR11MB4784:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ca5d9ba-8824-409d-7044-08dde96e3204
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SzZEaDJFVkloSjFONEI0VkN5LzRvV1hYSy82YStxWWhtcU9IQ2lJMzdpMXRz?=
- =?utf-8?B?YzFVUU1jL1lwWUh0YXhBNk5EM29lNkpSRjlQN2U5MlhUakNRYzk0eEhGNDBl?=
- =?utf-8?B?QkJmK3lNM29jblAxOHB2Qk53VXE5LzJBaXVBUjhRN0NQR1NBMEI3QlZtbDdD?=
- =?utf-8?B?VzljQThXaEEraGd3Njlhd3VabVlyaEZ3bDRPNXdxL0xFem1kai9YNWdFT1hp?=
- =?utf-8?B?K0FmYUFsNHR3Qlk4Um1LYmw3cGQvSkEyYXNCOHcvc2YyWUVHS1hZd0hPN2dy?=
- =?utf-8?B?TUFaQ2VzQUZ6cXBlUEQ0cTNtbThYOEoyUGJvMGNwV1FTTXNMcjhWcUdzOVEr?=
- =?utf-8?B?L2dpQ2JUQ0hwZ09jb2lWSDBJNjdMajdpejU2Ykc2WTFLTyt5MHRLM1g1Q3pD?=
- =?utf-8?B?Tmt3MVh5UW50OWtWNitDU2RqTWZpMEdON01hV1VhcndwT3ordjdlYVQzb08x?=
- =?utf-8?B?emFYdUV5VUMzSnhkcEd3MURxdUw5SUJ4TEh1RXhSb3duZFNWV2tBTzNVeTBQ?=
- =?utf-8?B?NXgrcmVZaUNJYUZEcUNRUHlUMlgzeEJsSnVackRITjlMejhFdE9TVktIcFZR?=
- =?utf-8?B?MWlUM2xBK2Q2SjFoUXhyN3ZiZjRNMVFsUWlNNlBtSmF6Ynl4elVIdG9mS2h3?=
- =?utf-8?B?QUkwZTR1VGRDUkpaY2ZxVUFKT1FDdDErdFJ0NFladmZGdlQ3OTZRblZCQmRU?=
- =?utf-8?B?WTh2ZHpFd0R4SUUydlNOcEZMbURVV1A5RzZtYS9kMFh0b2ZyYnhlamZNQWIv?=
- =?utf-8?B?bW1SbmExZFpLNk5udktUbjR1UEFYS044bi85WWxOUS9WY0dUaC9EUWRHZGVQ?=
- =?utf-8?B?dXJaMk9BR3FDOCtrcU1GNWh1V0E1NFpTSEdqaTZaRXgvWWZqemtBTGdtZ3Vv?=
- =?utf-8?B?SWhINElRSzRCYURBaXFqY3RZbDR5VUliWnhzTzlpdk9YYXdBYzFKYjRTcjVU?=
- =?utf-8?B?L2NET3BCSFR0UTl2dnRXMC81QVMzUi9MbXRxS1Y0UEhtRktQbmd3T0RpUE0v?=
- =?utf-8?B?MmdYbVd6UXRlVjdQWWpUd0tldjBocjlJTm1ObWRnaXY3YVg1RzdhbmRlemJ5?=
- =?utf-8?B?dlFleENSWTZXbytiNGp3WlYwOGRyVktnVi9vU3BuYVV6SElHQWJub2xIcjJS?=
- =?utf-8?B?Tm83cFZ3UFJFUTVreUlKaW9MRW45R21pNk1IUnBrTTB0ZnpPSVo2TzRBUVRx?=
- =?utf-8?B?ZnRHNFJEWW5IVHJ4Nk5lQ3lSSzU1REpRa0JSZkVScEErclhJeC9wdmZxSmdB?=
- =?utf-8?B?WXg1bkZreEg4YjB0czZoR3ZXcDAyY25mOXkwa21oMGM1K3paZEQvVEhEaVpM?=
- =?utf-8?B?WmJTS0dHZlZoaHdjS1FQTDUvSmpkYW02OUhwTlpWcStqeEJzcE9YT0JRNDJp?=
- =?utf-8?B?OWJIVFBKY0VacnYvK3pIclR4VFVpWnpVUnVuSkUvNHpxK2RRV0UvMnBUZldL?=
- =?utf-8?B?V1QvMVpiclphWS8yb2F1Q0Q4Z3VlcFdoZ2hWVTBzOS9SK05wbThXTHBQaVNj?=
- =?utf-8?B?QStMczJHMzd2cXdabGpyYlFRcDJMYVBZVDZnSFIwVkcyaUxiN3NJcUVtRlR4?=
- =?utf-8?B?M2N6dVUxM0xHajVUOWQwMDN3RG14bHJERU9zWkhBanBhaEo3ZEl1ZGNWbVJm?=
- =?utf-8?B?SHNmYjBvSEtnZ1lva0JWcC9Db0toOFFlUHhOU2xjUkNXK1Y4YWtOU0VvNTM0?=
- =?utf-8?B?b2l5Y3kzOGVBWmdvTisyenMyVjhEL2pMZldCeWJOMGdRV29uT3FxUTkyZWxB?=
- =?utf-8?B?b3MyRjFoenYyTmhsdWZGZGpSSXVYUEZCWVlvUURrNkhlYW5VVEZaVjc3cEF6?=
- =?utf-8?B?YmJQb09jL0MrNlBha3RwWUhDVEQrV1IxTlhJdkwrcjJSR0p5ZVRsOXVUMjAr?=
- =?utf-8?B?TVljWStWVVBUKzN6cmtxcTFiSS9QMUZMYkZTcGFIQ0hIZVNVbEFkQXpaaExV?=
- =?utf-8?Q?SjGqcaH5xHA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cGtRWnl3MGk2TVgrZy9DQ3haSmU0Ymp5YTRIbWhzMDlYWEl4ZDZXVXlhb2Nl?=
- =?utf-8?B?L0F6L3A4dUdQQXNWRys2UjZielZMem1YZk9IMUdYTmZzb1pLeWdEZEJ1YWVS?=
- =?utf-8?B?TVJRUDVTYW5RSWVvd3RJWjcvdFI5VmJqR0hlY0o3SnoxM1lJSTh4UXQ2RmR2?=
- =?utf-8?B?RS9rVjc3U1YvbFhIamZvNTlVSDFPckkxV21DUVZkMTk3ZXY0SXZGeGoyL3Fm?=
- =?utf-8?B?Q3JlbWZWNHJ2Mmlka0RLdVdxZXN0TG5KR3dNcWNvNHEwTzBFYlBqbzRXQm01?=
- =?utf-8?B?b014d0VRRTlGZDhTdVR4L1lBOEJielpkcm9UbWxPamp0UzlGczdXNmlPRVFD?=
- =?utf-8?B?alhCNldwR3E2STF2UzY3NGFYTFJOTTlPWXF3djU2VDEzUXVrYTJlNTYrY05Z?=
- =?utf-8?B?bm05TXFnNml4UkJYV1c4V3JWU0d3ckp5clA3UWRhdXQ0SWtxYkpiMnE0TzRx?=
- =?utf-8?B?QjZteCtEVlUzb1NlendPQ2NEUzgzV0VCWFJDRFF4c3hFazh6VHVPWFpMZlpw?=
- =?utf-8?B?TjdiT0J2SXRqb3VBRTVXT1JMekFGbHNIYmNvenl2QVlxbTliT0ZBbDErNGVj?=
- =?utf-8?B?MkpwWVhSd1FTeE82U2luRXdER011bk42VE9iY1ZQazQwcXc4TlV5eEVTWnlu?=
- =?utf-8?B?WXl1OHNYVjUyVXpKTk0rUzdITWFra2hYNktPMTFIMWZMN2k3OFpFMEZhNUh6?=
- =?utf-8?B?VkVyN05qYWpxT0M3VHQ1L1pITExNQmlBKzdxd3lNQmh5VmI1Wm9LYVN4cmRt?=
- =?utf-8?B?Qzh5N3JEMEhlRmsyL2tmSlpIMG1UQWsrN3hVTVFPckN1bStSVnUxeDBqSFZu?=
- =?utf-8?B?WURqN3M2UTRqMEQycnkvcWN6cjRTWkhpRzcxNFN2WDN1MS9MUnRhRGprSExD?=
- =?utf-8?B?eUp1VWk0Wm1aTXRYQjFGcG9rdnRVMUp3WGhTWWFNSVZvd1EycC94aGVsRzFH?=
- =?utf-8?B?SW9Ma3UrSzgrcDdyQ3FpZU5SRGMyandHanIyV1AycXZMeUJhTDBpQjFLYi9C?=
- =?utf-8?B?MEdYK3lJNUJuc0JhQWtKMmVXNFR0MVAxVmpneWpVWE1EdW53RXd1YTZHUHpk?=
- =?utf-8?B?VzIySzVBd1ovT01IVE1kNlozOEk1czAvWmxzRVAzYWdaQ2JYaGg2M3dWL2Fn?=
- =?utf-8?B?UElDNytUSzJ3Z2hkd0JVOURMQVVlVmtnSWphV0k2MEREUExKUkFxbDUzdXNF?=
- =?utf-8?B?Rk44WnRRc2hVaHJQUVB0SlFmOENsS21vRWJRdVpRbXJFT3NOM00ydDg2a3B5?=
- =?utf-8?B?VFVrSDFWd1QxNllvZ01ocGpzL2R6WVBORE1wQXd2MXFBd3Jra3FvVkhtbTBB?=
- =?utf-8?B?dE5DR3hwcDRKdCtjMWxCbWdYRmZpVUo4STdWc3pyVTgzQmVTSmRGdmJ0RzVk?=
- =?utf-8?B?RisyZTF4SzZpL3NIcWk2djNkZ3AxaEcrOGZneFhWOTRVQjFNUkp4cloyak9m?=
- =?utf-8?B?aWE3WFRUNHJFZGd1VkV5ZEdLSDRwQ1poK3YyUm1vTU42RGtZbkt0S2twTlkr?=
- =?utf-8?B?RnFVaVNDTThMNGxvbDJLM3ZJS0VTVko4dHloNXRxdStiSUlmTVhjbll0Z0tM?=
- =?utf-8?B?Um1TbmJPOEx4YWtUbFg4SktoZXRXWGRrQzlUQ1kvaE1DaTUzTlJ6WStNQ0hi?=
- =?utf-8?B?T0s4YXd2NExoc3V0MFhEZDFvOUFCTDBZYUh6c1pDa1I4aU5JMVYrY2J2ZFI0?=
- =?utf-8?B?azVvenhKdUxISG5YTk9wUThjTTc1Y0l5Z0k1aE1qVnQzKzZEbGZYK0o2QWRX?=
- =?utf-8?B?Y1VaZ3lVaXZIdk9oenlXY1h2MnRTRHdrSHRZQ2ZDMjlCY2l6UHF3UmZHeWJm?=
- =?utf-8?B?cjV3bDNNVnJ1ZGhCRGRxSjgxY0F2SGZYWCtVZFlrazRFUEpTdUwzQmdRUEQ1?=
- =?utf-8?B?S3B5ZjlZdjRZb2xza3Zqanl1STRzZEY5ZHJHa2l6VkdYQVhzdjJOcTIyQ0lr?=
- =?utf-8?B?TmVMVW51WjJURlA1czRUbEdGbTV4c2ZZM1FZai9UYTNRSG9STmxOaE5qd1hY?=
- =?utf-8?B?MDF5RUkrSytmTXNkQm5YVGJtMnJjdXNhMFdJM2lKMmRiekt3WStuQktJQjZp?=
- =?utf-8?B?WlZxaWFDTXFGdklpU2pYVFkvUXIzbVZXcXY4bmVEZXVtOHRWUjNEaTR5OWQx?=
- =?utf-8?B?K0IycDRhTzZPTHA5c0Y2ZG9FdE9BQm1iMUkxTGRMRnpkUjMwTzFGMWJlQzly?=
- =?utf-8?B?V0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ca5d9ba-8824-409d-7044-08dde96e3204
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2025 15:42:45.6893
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZvPLPNyftXW8ej8paAeY/k3fyefqg8J5g96pgqICReEP+K7Jw5VxOsZa64oPDISik1CcEiRbbRIXIyBVrrbiuvDgiDYeXIftmEpQ+8VLAvM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4784
-X-OriginatorOrg: intel.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 8B4A61F388
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 
-On 2025-08-30 12:55 AM, Nathan Chancellor wrote:
-> Hi Cezary,
+On Fri, 29 Aug 2025 11:29:22 +0200,
+Cryolitia PukNgae wrote:
 > 
-> On Wed, Aug 27, 2025 at 04:22:26PM +0200, Cezary Rojewski wrote:
->> Switch to the new board registration functions and remove the
->> then-unused code.
->>
->> The SSP-number-check is still important and cannot be just dropped. Move
->> it from avs_register_i2s_board(), which is being removed with this
->> patch, to avs_register_i2s_boards() to maintain sanity when registering
->> a board.
->>
->> Reviewed-by: Amadeusz S≈Çawi≈Ñski <amadeuszx.slawinski@linux.intel.com>
->> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+> We are discussig about the problem that, on some devices the lowest
+> playback value represents muted state instead of minimum audible volume.
+> In the previous discussion, we have shown that this problem is widespread
+> across a wide range of hardware[1][2]. And we have already added a bit for
+> it[1].
 > 
-> I just bisected a new NULL pointer dereference BUG on an old Chromebox
-> to this change as commit 6acfaee44cbe ("ASoC: Intel: avs: Cleanup
-> duplicate members") in next-20250829.
-
-(...)
-
->    git bisect bad a37280daa4d583c7212681c49b285de9464a5200
->    # bad: [6acfaee44cbe9364a91dcc373fb4e6e395c5b20b] ASoC: Intel: avs: Cleanup duplicate members
->    git bisect bad 6acfaee44cbe9364a91dcc373fb4e6e395c5b20b
->    # good: [3351e814cb49dff7ef4808f5ebfb299162994118] ASoC: Intel: avs: New board registration routines
->    git bisect good 3351e814cb49dff7ef4808f5ebfb299162994118
->    # first bad commit: [6acfaee44cbe9364a91dcc373fb4e6e395c5b20b] ASoC: Intel: avs: Cleanup duplicate members
+> Firstly, we need to discuss about how to design a module param for it. As
+> it is needed to debug the device for end users instead of ignoring
+> hardware mixer and using soft mixer only in pipewire, which has already
+> written in Arch Linux wiki[3], as an imperfect workaround.
 > 
->    [    0.000000] Linux version 6.17.0-rc2-debug-00065-g6acfaee44cbe (nathan@ax162) (x86_64-linux-gcc (GCC) 15.2.0, GNU ld (GNU Binutils) 2.45) #1 SMP PREEMPT_DYNAMIC Fri Aug 29 15:20:49 MST 2025
->    ...
->    [    5.021907] BUG: kernel NULL pointer dereference, address: 0000000000000078
->    [    5.022559] #PF: supervisor read access in kernel mode
->    [    5.023201] #PF: error_code(0x0000) - not-present page
->    [    5.023671] PGD 0 P4D 0
->    [    5.024135] Oops: Oops: 0000 [#1] SMP PTI
->    [    5.024600] CPU: 1 UID: 0 PID: 331 Comm: (udev-worker) Not tainted 6.17.0-rc2-debug-00065-g6acfaee44cbe #1 PREEMPT(full)  d53566f3620e7aa5231643b0a073759aa0a44325
->    [    5.025086] Hardware name: Google Teemo/Teemo, BIOS MrChromebox-2503.0 04/27/2025
->    [    5.025575] RIP: 0010:avs_probe_mb_probe+0x81/0x120 [snd_soc_avs_probe]
+> Inspired by Takashi Iwai[4], I would like to design a module param named
+> `quirk_names`, to be passed like
+> `1234:abcd:mixer_min_mute,4567:efef:ignore_ctl_error`, so that we can
+> apply one or more quirk on a specific USB device.
 
-(...)
+I suppose this will turn on each quirk bit?  We may want to turn *off*
+the quirk bit, too, e.g. extend the syntax with '!' marker
+`1234:abcd:!mixer_min_mute`.
 
-> If there is any other additional information I can provide or patches I
-> can test, I am more than happy to do so.
+Also, allowing multiple quirk bits by numbers would be also handy,
+e.g. `1234:abcd:003f`.  So, if the last part represents a hex number,
+it's treated as the quirk bits.
 
-Hi Nathan,
+One more thing would be to allow a wildcard to the device matching,
+e.g. `*:*:mixer_min_mute`.
 
-Thank you for the report - the form of your message made it easy to find 
-the root cause, much appreciated. Hint pointed out by Amadeusz - try 
-with probe-board disabled - sheds even more light on the problem.
+An open question is whether we may want yet a new module option or
+rather extend the existing quirk option to accept the strings
+instead.  Basically, when the given argument has a colon, it's a new
+syntax.  If it's only a number, it's an old syntax, and parse like
+before.  But, I'm open for either way (a new option or extend the
+existing one).
 
-Below diff is enough to address the null-ptr-deref:
+> And the already existed
+> param `ignore_ctl_error` could be deleted, because of included in the
+> one.
 
-diff --git a/sound/soc/intel/avs/board_selection.c 
-b/sound/soc/intel/avs/board_selection.c
-index 52e6266a7cb8..6412b0a010fa 100644
---- a/sound/soc/intel/avs/board_selection.c
-+++ b/sound/soc/intel/avs/board_selection.c
-@@ -438,9 +438,10 @@ static struct platform_device 
-*avs_register_board_pdata(struct avs_dev *adev, co
+Dropping an existing option isn't so easy.  It can break users who
+already applied it for long time.  So, unless it's really conflicting
+and does harmful, I'd rather keep the old option as is.
 
-  static int __maybe_unused avs_register_probe_board(struct avs_dev *adev)
-  {
-+       struct snd_soc_acpi_mach mach = {{0}};
-         struct platform_device *pdev;
+> >† † /* lowest playback value is muted on some devices */
+> >† † if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_MIN_MUTE)
+> >† † † † if (strstr(kctl->id.name, "Playback"))
+> >† † † † † † cval->min_mute = 1;
+> 
+> Secondly, all efforts so far is only for the Playback. But we have found
+> some devices have the same problem on the Capture. So for the problem
+> that the lowest playback value represents muted state instead of minimum†
+> udible volume:
+> 
+> † 1. On some devices we already tested, only happens on their Playback,
+> † † †but their Capture works perfectly. Or they are just a simple
+> † † †earphone without audio input.
+> † 2. On some devices we already tested, have the problem both on Playback
+> † † †and Capture.
+> † 3. Maybe on some devices we havn't found yet, have the problem only on
+> † † †Capture but not Playback.
+> 
+> How could we deal with them? Would two quirk bit seems a little waste?
 
--       pdev = avs_register_board(adev, "avs_probe_mb", NULL, 0);
-+       pdev = avs_register_board(adev, "avs_probe_mb", &mach, 
-sizeof(mach));
-         if (IS_ERR(pdev))
-                 return PTR_ERR(pdev);
-(end)
+It's a good question.  My gut feeling so far is to make another quirk
+bit for the capture, but we may find some compromised solution, too.
+> 
+> Thirdly, the most complex situation. We found a device: `3302:12db
+> MOONDROP Quark2` , that its volume control has a range 0-120, but acts to
+> mute when less than 8. I have no idea about how to deal with it simplly.
+> We are actively contacting the manufacturer and informing them of this
+> matter.
 
-However, I do not believe that's the 'correct' way to proceed. The 
-patchset of 5 is part of a larger series which I decided to split into 
-smaller chunks to make it easier to review. Unfortunately, looks like I 
-failed here and should have published a larger series instead. Even if 
-harder to review, brings no problems as one observed above.
+If that kind of behavior becomes common, we can add a common quirk bit.
+Until then, it's handled as an own fix.
 
-I see two options here:
-a) revert this patchset and I'll simply sent a new, larger series
-b) no revert and I'm sending the rest (~15 patches) to linux-sound
 
-I believe Mark makes the call here, I'll follow up as required of me.
+thanks,
 
-Kind regards,
-Czarek
+Takashi
