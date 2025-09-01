@@ -1,66 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BD032F745;
-	Mon,  1 Sep 2025 17:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822B633E1;
+	Mon,  1 Sep 2025 18:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756747183; cv=none; b=dnvEdiBe7m4xoqHLi4pCnZwtRM2uuMQjFEbmHMmsWGgBABK3K898A7CZeKO1/cFEPSrosDQ1k+Pffm1Qb/CkxIOnKtKH9lWTpcLYQzNkqd88D1WBkcaPFCGxVB8Aldg5cM4yJe0wIflBUKVwAIAY2k+jMdRLgG1wYBdB73PqI5Y=
+	t=1756750209; cv=none; b=NhsLtkzq/hymN2Xvfgo9g3HBNtiE7sK2ZmwFnsBBHZS5943SRdbdEOmUGw+6gX1coSg3G9XMet3SsU5R0VhBrOo7bd79SpycoDVxzQjfIRhHb2rZBo9SH/O9vdZ8e3W6sMAkFYaCpp+5s2f0HjaeGIQcxg3pGdRddL/RITfesh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756747183; c=relaxed/simple;
-	bh=LTsYfXSoWy+6ymATvvUmvSuhPhnA+upAcmRN+APLQ+M=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=I26ddZIlEoZAJq1gQWW4VN82BRl56wkPJ+gIFQVGISUNnVZfZLnukTQjMdBLxdsfD+sRzNQXN+Qq6M+kqy3Q12S4tzKIN0w1IZVngOjWZHakC8hjnt25TRvCLwmRlVm3zVZKkRVV9QsEbEv4iv8Ri5Env4gDc4DG32sUckT0/qA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bsVrj1hp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756750209; c=relaxed/simple;
+	bh=u4s0dHyUeQUG6hbgBlysKLZwGtKp79dKBs5fUKoIwwE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nBwEKsIsaQ9Es1Z2ZUwSinEIeIujYoDGu0KhdLk7tJyLaeTNnk1AdfGxMhLCEPcaHu0YagyxKxMT7dFSOJmcKcuV3PyQO//zi9BeQdN2RPFws3aInKItMM7zh7o+/e2lxm0YlEtMcHBaW9OjxmOldZet7fLzV/+6tVJNZzjYENs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mou8/7TJ; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bsVrj1hp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6422C4CEF0;
-	Mon,  1 Sep 2025 17:19:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756747182;
-	bh=LTsYfXSoWy+6ymATvvUmvSuhPhnA+upAcmRN+APLQ+M=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=bsVrj1hpsh4DPYF6zULELEC+ysh6Z8ZCPnDW8UiE27ff/hX0IQ/6zbyV/Jz3ig0xu
-	 aN823OHRzDIEi9oj3xXnnASY0xZUQ5nERJo9nSVmOaPCG53rsYFPQFrrIyFafeMLQf
-	 um2107p8JESZkK7c/gmHsg8FzlNPdBTQmmtQVME3s+cAiOtfmOHejhPOXv04TsE6lC
-	 OFRNEwXhdn1f1/yyESCztRojIXgj3ttpEjB86V292we/+EzPyNG/sO3OF/uoMZdjX8
-	 OJ7dc75UQf4+h8ZMUACeCQ2Tl/euUYeqzlXWGvrsfnihBCymYrtNG2ZW37Lf7/UBgH
-	 /ZzPoL49HkjYA==
-From: Vinod Koul <vkoul@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Qianfeng Rong <rongqianfeng@vivo.com>
-In-Reply-To: <20250814142428.282639-1-rongqianfeng@vivo.com>
-References: <20250814142428.282639-1-rongqianfeng@vivo.com>
-Subject: Re: [PATCH] soundwire: Use min() to improve code
-Message-Id: <175674717945.192919.14320510843993196619.b4-ty@kernel.org>
-Date: Mon, 01 Sep 2025 22:49:39 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mou8/7TJ"
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-544bd485420so343783e0c.2;
+        Mon, 01 Sep 2025 11:10:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756750206; x=1757355006; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u4s0dHyUeQUG6hbgBlysKLZwGtKp79dKBs5fUKoIwwE=;
+        b=mou8/7TJjW22olwK8Fy35/h+5FRpL8kbpNXvzTl/LR+N70mGeZfynfLEYa+8coGktZ
+         dm2OIKBiB3cUp08EI4Hdwom2B4FgpRbgHXvuQAqYLH+6RzC0lM+B6myW0kM/L7WynzXJ
+         WfxpLv30/U/XtM34H5od9Go3k1mHvfwfYQz9hrrX7DM+vrNMwbrqGWRsN21PLN2T+yX3
+         zZwTv5iO6x+1G0Rd0YKDb9xLyA8CIMUapBo09v/IdjwOOr2DHKn7SBJjUsKBoO3pyYqr
+         DLkHUvJMCyMWP1EOxU2q6QsRSv2q3eeq6StuWvuOkqvmM9wOjnAhmYyZ7te3dOFxW9ng
+         Rx9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756750206; x=1757355006;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u4s0dHyUeQUG6hbgBlysKLZwGtKp79dKBs5fUKoIwwE=;
+        b=p3RrfoE2vwiDfMrIyezSRV5HrNJnLYQ6H5bmOPoeDT1hdyFcwAP0zYyp6yI5EDA/Xv
+         YimtDjMUzz+nwwUJctIfhoUgLaNiZn39k0iFnVTmSyLg0iM/QAR7iJr/fowyeLQcszHt
+         Egto4ijdysLxYHTcBcKjXUB55qh3G+7l69PmbWN9fKLq5nzQmEv6Z8a60qbQFZiELt+h
+         x7D+sGZp5GAWl6CHFKmK91XziXnMX6rBtQZ0/54ksvjgdmiawABCLxuT6vMnlCHbVcMv
+         gZUfxuAGYPsfRkznC8e2caiNAH6AQverN/lTESGuElHmYji9WGR1f8jTGre4IpfKIY1h
+         yPFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUKk31WPcf54qSr1v+ZLV6ecythY7DOATVl+0B9VcnCsU24vQyn7VZDQNHLv6pb1xxRRGAZvIrCUor+@vger.kernel.org, AJvYcCVR9zovmcFu9XnPeO/JWFVau8cgrF/BrFiF5YhYzj/b58hMp0gG4ZLEh/DjNBL2qmZiB/1aKUVISj/23k8=@vger.kernel.org, AJvYcCXF7GevxzyvVIKAi8RlP8WdTHkzNsKSsAA+eNHb9+n/z4fk7WcGXQFuSy31QVf/eHh5Ejy90IC7Q18GhkJC@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyh82atzB0oySKT06LDx/ptO1sPsRM+MCXGaABhyLlW2zxIDwK5
+	3h7TiV/jfMXj8pS4PvFPtRyhOZJtgcnBla/fkd8q0W1QYatkx/UYCdnWr+b7EqZxek5XU8ByuhL
+	sqWxlTb2fBzCt1kNINCB5PF38NTUkWZs=
+X-Gm-Gg: ASbGncuT5CqPthvHj/ajTLkqAqctGVJpJddKheO4ciKJtzSxLsrd1wriVUDiKMbxOy+
+	Jj+kIujk8/X0AVgk/LtfqZIMsjTJrGzkuLAlFXVP15aXR2QK+BPAzIP3EoxUJ7At+P6XQtnVJ92
+	89F8c+23h8TnNrKGhrqd1I/JIMIz3chQU3N2KKCFhiWkNX5LN2SxzoUZOA38g2qrGdQtlVD6ix5
+	95Jn4wj8MHiJkHBVgqy/PcEX5qQmorHOo+S1RfzEDlf1elofg==
+X-Google-Smtp-Source: AGHT+IHXZ1r8GUTkdEGJtZstnBmcYDncXiw72Acoaycgnc5Y10NlmaPoxEphu/Y8hM9ev5TJlCyEe9lum5TKmzCXTGc=
+X-Received: by 2002:a05:6122:3c4a:b0:544:9a46:7c85 with SMTP id
+ 71dfb90a1353d-544a019bb21mr2759056e0c.4.1756750206322; Mon, 01 Sep 2025
+ 11:10:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+References: <20250901035956.1195081-1-alex.t.tran@gmail.com> <7de59d85-a72e-4afa-b3d7-8729e22f4c3f@sirena.org.uk>
+In-Reply-To: <7de59d85-a72e-4afa-b3d7-8729e22f4c3f@sirena.org.uk>
+From: Alex Tran <alex.t.tran@gmail.com>
+Date: Mon, 1 Sep 2025 11:09:55 -0700
+X-Gm-Features: Ac12FXznIgauai2qg9BT_nu_HrZkRzEL3M2uZi99adtx16zr_HtQ42YUlNTyMwI
+Message-ID: <CA+hkOd4QmJ=VbWwjg36npFv3ZEuNVAj8Xw_QCPhCaF5k4dFFfw@mail.gmail.com>
+Subject: Re: [PATCH v2] ASoC: codecs: tlv320dac33: switch to gpiod api
+To: Mark Brown <broonie@kernel.org>
+Cc: lgirdwood@gmail.com, tiwai@suse.com, perex@perex.cz, shenghao-ding@ti.com, 
+	kevin-lu@ti.com, baojun.xu@ti.com, linus.walleij@linaro.org, brgl@bgdev.pl, 
+	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Sep 1, 2025 at 3:35=E2=80=AFAM Mark Brown <broonie@kernel.org> wrot=
+e:
+> This is a set of separate changes which as covered in
+> submitting-patches.rst should each be split into individual patches,
+> this makes things much easier to review.
+>
+> As also covered in submitting-patches.rst any inter-version changelogs
+> should go after the --- so they can be removed by tooling.
 
-On Thu, 14 Aug 2025 22:24:28 +0800, Qianfeng Rong wrote:
-> Use min() to reduce the code in qcom_swrm_xfer_msg() and improve its
-> readability.
-> 
-> 
+I'll split it up into 3 separate patches: the removal of the struct
+tlv320dac33_platform_data,
+addition of burst_bclkdiv default value, and the conversion to gpiod.
 
-Applied, thanks!
-
-[1/1] soundwire: Use min() to improve code
-      commit: 88f5d2a477ec64b12e83b488407490bb4a9298f8
-
-Best regards,
--- 
-~Vinod
-
-
+Thanks for the feedback,
+--=20
+Alex Tran
