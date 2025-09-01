@@ -1,46 +1,46 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA522253FC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C8728DC4
 	for <linux-sound@vger.kernel.org>; Mon,  1 Sep 2025 05:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756703563; cv=none; b=YbEij2CXCNuLVPSZPKl69Kqfo0cOLZB0ItpKarqXKLu4nmSsv1xsoVgt9J6jAtnlADH76cevVYuvnb7KeJlf3XOiCu5yUl2I9Kq+2Ug5s/NObq34GA4JriN+Bx4qe+GP0UL2XxlxEgKCeOOWl1CPg8zJIaH4nhUXyEnKJOXCEYg=
+	t=1756703563; cv=none; b=kSfeMi6HqVhn6Tj/Xt0Bno+AgroyhMXVwK6LMY49lip2WfcBnSITK6J8igrHSF/k2xE7so3ga4tKkW1Cs483+XhDGZ0R7Bsgcm1ksN6EfmSjruX8hruHkQsqDfrhnnVo5+z8wz5L+6ABxSsV6kN8+xcKtJlqzuDxGQlvZFOEwvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756703563; c=relaxed/simple;
-	bh=ke3NXagnYGmhycdK2kU8N0wNZ2e+U8Q1Oihh6oc7FlM=;
+	bh=4YC1ZMMV6Lq5kzbNv13iGfvu2KvYB5U9Arr8CARbmbQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OpAnL2uYhn54AIihDKR4zkDsmW9T5BngltEQzczZgj2k5D4OB4/LnQN1h9nVBBCOE+1JN3nyPVKBzFn3fCGajpsN57NAr6Bz484q5mKonKv/pbngqXhaFBgG6a0qL9cAtnbh0Kzpv8RnWshLcIFhewYTms4knLauTkwI+KnPfcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=mtCsxCaC; arc=none smtp.client-ip=198.47.23.234
+	 MIME-Version:Content-Type; b=khE+KVA4g2PwcOh/62lvutw0QaRaRm373j0NHa4YzaUKhRuiIA7ek9OQPSNvHytO5r/340mmKdOXjcXIFpldMtD1J40QSAdNsTBGjYsjNPireep3uMvLSpZGumUsJI8HKLP4hYE4TJ+gUP6xez2BcrlFdEMEm+6sexlhUyZ6oas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=DEZ3mgEO; arc=none smtp.client-ip=198.47.23.235
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="mtCsxCaC"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5815CKGA2292876;
-	Mon, 1 Sep 2025 00:12:20 -0500
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="DEZ3mgEO"
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5815C92V2730446;
+	Mon, 1 Sep 2025 00:12:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1756703540;
-	bh=HWV5YrYxSohtENyjJUitIjcydDNpF5x+mny+ocLzNWU=;
+	s=ti-com-17Q1; t=1756703529;
+	bh=hhq9HiK4sjO7H2AJb4GLBjxm+Rc9TTTtB+hKk8MyluY=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=mtCsxCaCbFsMTPLK7SSVSxZgta63aIpaCRooZBlAJjL9OIHnE+cMvFeb9YavVHt2O
-	 J4L+O28UjcCAkr5PhejNz2DoVyZ5exVyniBeW3UFbtCocKvdco0eAs3mllTG0DnHFP
-	 dQ73QuO0e0z8s9uMhxZl0jN12Gx0iXKPjVrDHzhg=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5815CKBL1302475
+	b=DEZ3mgEO+t/8U1FW5Txn4ePxEx90nE3CMRDOkzKBLbYNat8rH1jYPv3+Seh/3aPqE
+	 D3aLq3Wjw87xocTWmfqLn/UJoODABmMyVRHWBfUBohPg0y3Ew5wNS9/ZL99Ri7PuNl
+	 HVghbOHdGd1C10YmsuZ9vWdzbWbzGJmuwo83PPrw=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5815C9Xf1868670
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Mon, 1 Sep 2025 00:12:20 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+	Mon, 1 Sep 2025 00:12:09 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 1
- Sep 2025 00:12:20 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2025 00:12:08 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 1 Sep 2025 00:12:20 -0500
+ Frontend Transport; Mon, 1 Sep 2025 00:12:08 -0500
 Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5815BvJC1628562;
-	Mon, 1 Sep 2025 00:12:15 -0500
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5815BvJA1628562;
+	Mon, 1 Sep 2025 00:12:04 -0500
 From: Niranjan H Y <niranjan.hy@ti.com>
 To: <alsa-devel@alsa-project.org>
 CC: <linux-sound@vger.kernel.org>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
@@ -50,9 +50,9 @@ CC: <linux-sound@vger.kernel.org>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
         <pierre-louis.bossart@linux.dev>, <navada@ti.com>,
         <shenghao-ding@ti.com>, <v-hampiholi@ti.com>, <baojun.xu@ti.com>,
         Niranjan H Y <niranjan.hy@ti.com>
-Subject: [PATCH v2 4/4] tas2783A: Add acpi match changes for Intel MTL
-Date: Mon, 1 Sep 2025 10:41:43 +0530
-Message-ID: <20250901051144.1112-4-niranjan.hy@ti.com>
+Subject: [PATCH v2 2/4] ASoc: tas2783A: machine driver amp utility for TI devices
+Date: Mon, 1 Sep 2025 10:41:41 +0530
+Message-ID: <20250901051144.1112-2-niranjan.hy@ti.com>
 X-Mailer: git-send-email 2.33.0.windows.2
 In-Reply-To: <20250901051144.1112-1-niranjan.hy@ti.com>
 References: <20250901051144.1112-1-niranjan.hy@ti.com>
@@ -66,63 +66,147 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-acpi match changes to support tas2783a on mtl
-on link 0 for 2 devices
+  Machine driver amp utility file to initialize and support
+multiple tas2783a devices are added.
 
 Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- .../intel/common/soc-acpi-intel-mtl-match.c   | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ include/sound/soc_sdw_utils.h        |  8 +++
+ sound/soc/sdw_utils/Makefile         |  3 +-
+ sound/soc/sdw_utils/soc_sdw_ti_amp.c | 93 ++++++++++++++++++++++++++++
+ 3 files changed, 103 insertions(+), 1 deletion(-)
+ create mode 100644 sound/soc/sdw_utils/soc_sdw_ti_amp.c
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 75dc8935a794..ec9fd8486c05 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -948,6 +948,30 @@ static const struct snd_soc_acpi_adr_device cs42l42_0_adr[] = {
- 	}
- };
+diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+index 6049a5d0cfcd..3c5e9b2af7f1 100644
+--- a/include/sound/soc_sdw_utils.h
++++ b/include/sound/soc_sdw_utils.h
+@@ -248,5 +248,13 @@ int asoc_sdw_cs42l43_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_so
+ int asoc_sdw_cs42l43_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_cs_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_maxim_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++/* TI */
++int asoc_sdw_ti_amp_init(struct snd_soc_card *card,
++			 struct snd_soc_dai_link *dai_links,
++			 struct asoc_sdw_codec_info *info,
++			 bool playback);
++int asoc_sdw_ti_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
++				     const char *name_prefix);
  
-+static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
-+	{
-+		.adr = 0x0000380102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "tas2783-1"
-+	},
-+	{
-+		.adr = 0x0000390102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "tas2783-2"
+ #endif
+diff --git a/sound/soc/sdw_utils/Makefile b/sound/soc/sdw_utils/Makefile
+index daf019113553..a87c53e1a2c1 100644
+--- a/sound/soc/sdw_utils/Makefile
++++ b/sound/soc/sdw_utils/Makefile
+@@ -6,5 +6,6 @@ snd-soc-sdw-utils-y := soc_sdw_utils.o soc_sdw_dmic.o soc_sdw_rt_dmic.o \
+ 		       soc_sdw_bridge_cs35l56.o 			\
+ 		       soc_sdw_cs42l42.o soc_sdw_cs42l43.o 		\
+ 		       soc_sdw_cs_amp.o					\
+-		       soc_sdw_maxim.o
++		       soc_sdw_maxim.o \
++		       soc_sdw_ti_amp.o
+ obj-$(CONFIG_SND_SOC_SDW_UTILS) += snd-soc-sdw-utils.o
+diff --git a/sound/soc/sdw_utils/soc_sdw_ti_amp.c b/sound/soc/sdw_utils/soc_sdw_ti_amp.c
+new file mode 100644
+index 000000000000..daa2311c064e
+--- /dev/null
++++ b/sound/soc/sdw_utils/soc_sdw_ti_amp.c
+@@ -0,0 +1,93 @@
++// SPDX-License-Identifier: GPL-2.0-only
++// Copyright (c) 2025 Texas Instruments Inc.
++
++/*
++ *  soc_sdw_ti_amp - Helpers to handle TI's soundwire based codecs
++ */
++
++#include <linux/device.h>
++#include <linux/errno.h>
++#include <sound/soc.h>
++#include <sound/soc-acpi.h>
++#include <sound/soc-dai.h>
++#include <sound/soc_sdw_utils.h>
++
++#define TIAMP_SPK_VOLUME_0DB		200
++
++int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
++				     const char *name_prefix)
++{
++	char *volume_ctl_name;
++	int ret;
++
++	volume_ctl_name = kasprintf(GFP_KERNEL, "%s Speaker Volume",
++				    name_prefix);
++	if (!volume_ctl_name)
++		return -ENOMEM;
++
++	ret = snd_soc_limit_volume(card, volume_ctl_name,
++				   TIAMP_SPK_VOLUME_0DB);
++	if (ret)
++		dev_err(card->dev,
++			"%s update failed %d\n",
++			volume_ctl_name, ret);
++
++	kfree(volume_ctl_name);
++	return 0;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_ti_amp_initial_settings, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_ti_spk_rtd_init(struct snd_soc_pcm_runtime *rtd,
++			     struct snd_soc_dai *dai)
++{
++	struct snd_soc_card *card = rtd->card;
++	char widget_name[16];
++	char speaker[16];
++	struct snd_soc_dapm_route route = {speaker, NULL, widget_name};
++	struct snd_soc_dai *codec_dai;
++	const char *prefix;
++	int i, ret = 0;
++
++	for_each_rtd_codec_dais(rtd, i, codec_dai) {
++		if (!strstr(codec_dai->name, "tas2783"))
++			continue;
++
++		prefix = codec_dai->component->name_prefix;
++		if (!strncmp(prefix, "tas2783-1", strlen("tas2783-1"))) {
++			strscpy(speaker, "Left Spk", sizeof(speaker));
++		} else if (!strncmp(prefix, "tas2783-2", strlen("tas2783-2"))) {
++			strscpy(speaker, "Right Spk", sizeof(speaker));
++		} else {
++			ret = -EINVAL;
++			dev_err(card->dev, "unhandled prefix %s", prefix);
++			break;
++		}
++
++		snprintf(widget_name, sizeof(widget_name), "%s SPK", prefix);
++		ret = asoc_sdw_ti_amp_initial_settings(card, prefix);
++		if (ret)
++			return ret;
++
++		ret = snd_soc_dapm_add_routes(&card->dapm, &route, 1);
++		if (ret)
++			return ret;
 +	}
-+};
 +
-+static const struct snd_soc_acpi_link_adr tas2783_link0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tas2783_0_adr),
-+		.adr_d = tas2783_0_adr,
-+	},
-+	{}
-+};
++	return ret;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_ti_spk_rtd_init, "SND_SOC_SDW_UTILS");
 +
- static const struct snd_soc_acpi_link_adr cs42l42_link0_max98363_link2[] = {
- 	/* Expected order: jack -> amp */
- 	{
-@@ -1080,6 +1104,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt715-rt711-rt1308-mono.tplg",
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tas2783_link0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tas2783.tplg",
-+	},
- 	{
- 		.link_mask = GENMASK(3, 0),
- 		.links = mtl_rt713_l0_rt1316_l12_rt1713_l3,
++int asoc_sdw_ti_amp_init(struct snd_soc_card *card,
++			 struct snd_soc_dai_link *dai_links,
++			 struct asoc_sdw_codec_info *info,
++			 bool playback)
++{
++	if (!playback)
++		return 0;
++
++	info->amp_num++;
++
++	return 0;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_ti_amp_init, "SND_SOC_SDW_UTILS");
++
 -- 
 2.25.1
 
