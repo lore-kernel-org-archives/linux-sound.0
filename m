@@ -1,99 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3470D218596;
-	Mon,  1 Sep 2025 10:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C8D1DFE09
+	for <linux-sound@vger.kernel.org>; Mon,  1 Sep 2025 11:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756722940; cv=none; b=HxeL7DbX+JThJ3rFVm4PrfW0wFQPK84qMsOpxhdtvlg92zrVn45lW3W1AbcuQvX6uhTnIEiOiW5762cDU62w0BG9pXWbN4uj1e8KG8XE4zGNAffPEezjekN3jdju/4qloVJLIVs4R+4F5lexgfIJdvvsfx/N+pRVb+xseTIYjWM=
+	t=1756725334; cv=none; b=bm7bYfH9IzmrT84Nao0TIRsO2n+4RFod9GedopjxPLhqsWmhOAsyhkR5unj36yv28ue2dnGWbpK7ZhZ3Vva2yWcI4xyoFoyCHhl8QQd+XIaBeuSP57cXzFvT16+11hx2RqV3LNm6h/8EtNs2FBKBRoZjUvKWl61Tq238qn2vJ7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756722940; c=relaxed/simple;
-	bh=PAYtZO8rvHPxpnmsKxZMRGL3a2TAeTujErtp5EkRzUw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JvHsX7ROl8Cn0452USwA/4B8ithPg73mB73jLgrvpa3w5wOvTH7Oqyuh8BnEwnE380o6vUg86Z/DrsSM+ybyujUni07EI8KhNqYN/BhLcTpMQtEx2S7Fsxj5lupRfvm9D+je8POnHPfk9EqHqjqM3Zj+G72SYA8CS1EpePZOkyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qkWonKTu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756725334; c=relaxed/simple;
+	bh=r+APyHp7ukCOffWC6T8FDUYI8Ifcs64Hg03ymTBisT0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a6s+VkabkTFwr1P5IMaN6HVuqqjF17oOjOzOvHVqdVGZIRaNFOr490WnF5GkEtOCFlMulGPqA2xWHY5DCsBv6/o5yEWpOK4X+T1vah6egHAj0FeRPdyYcqDpD5U2+JoUxOuD+PlQrMxhZ3T5LoGh3qSKxsagP4yqRrvnXTE8pos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZIsFkk8a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uTowglN6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZIsFkk8a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uTowglN6; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qkWonKTu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA8BDC4CEF0;
-	Mon,  1 Sep 2025 10:35:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756722940;
-	bh=PAYtZO8rvHPxpnmsKxZMRGL3a2TAeTujErtp5EkRzUw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qkWonKTuwJXwZwPxsldkF2+jdXEt6d6brcIcClWo7h5sS5PFjiw6tVkMB5PCv6kOc
-	 UFLGAN8SpbSZGAwbMmpHageIXA0lJXx7VnxLaBl4iVubU339KvDguttH9DIW8m77MR
-	 FKJTfCYoYXJFY4SUx25FzniWOTQ3HLd1x6Ov8WsO+Y0plSJoNhikjivnRT2H9g7BNt
-	 VIOJ+rgmL00E521uaCYVYoSG/3NgL/bvZlxKAnv7QI4wOP/x7lVMFAtYspdR9/e6ds
-	 PkfeTbOlx7UdLPmLDJ4BwKfi0DcASgrAmYs5rkn/aZbxouKDrLIYB3H1IYpd+ZhAa4
-	 AQKQD3+dU7Kow==
-Date: Mon, 1 Sep 2025 11:35:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Alex Tran <alex.t.tran@gmail.com>
-Cc: lgirdwood@gmail.com, tiwai@suse.com, perex@perex.cz,
-	shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
-	linus.walleij@linaro.org, brgl@bgdev.pl,
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: codecs: tlv320dac33: switch to gpiod api
-Message-ID: <7de59d85-a72e-4afa-b3d7-8729e22f4c3f@sirena.org.uk>
-References: <20250901035956.1195081-1-alex.t.tran@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZIsFkk8a";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uTowglN6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZIsFkk8a";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uTowglN6"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5F38F21172;
+	Mon,  1 Sep 2025 11:15:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756725331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/LmaSr7MUDGEiKm+O1yHUH5qFwx9frPSeOrqcp5fQRc=;
+	b=ZIsFkk8adw6LQacJ7tEePqQDhrU+jrjcXo0H4PrDkhnvDFX2M7DSppzrHdsHNm+k96upnb
+	k0jbmaKZqWK3/22NIeLhUgUmv4rcGOnvDrFgYGmE8l6pg+A598ajH1Q45W/AAakJqD0cmM
+	1tWDnLLNN4uTjPNDgCWhXzQ/DIiQ9Ho=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756725331;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/LmaSr7MUDGEiKm+O1yHUH5qFwx9frPSeOrqcp5fQRc=;
+	b=uTowglN6cnPDYXVsBnqAJCsYgHNAi273he4y/cqs3/TDB2I4MB2Bu6sf31Kg5sQLcys86d
+	a9liwh0THCmqBqAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756725331; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/LmaSr7MUDGEiKm+O1yHUH5qFwx9frPSeOrqcp5fQRc=;
+	b=ZIsFkk8adw6LQacJ7tEePqQDhrU+jrjcXo0H4PrDkhnvDFX2M7DSppzrHdsHNm+k96upnb
+	k0jbmaKZqWK3/22NIeLhUgUmv4rcGOnvDrFgYGmE8l6pg+A598ajH1Q45W/AAakJqD0cmM
+	1tWDnLLNN4uTjPNDgCWhXzQ/DIiQ9Ho=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756725331;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/LmaSr7MUDGEiKm+O1yHUH5qFwx9frPSeOrqcp5fQRc=;
+	b=uTowglN6cnPDYXVsBnqAJCsYgHNAi273he4y/cqs3/TDB2I4MB2Bu6sf31Kg5sQLcys86d
+	a9liwh0THCmqBqAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 39AD913A31;
+	Mon,  1 Sep 2025 11:15:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id H/YjDFOAtWgPEQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 01 Sep 2025 11:15:31 +0000
+Date: Mon, 01 Sep 2025 13:15:30 +0200
+Message-ID: <875xe277al.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Tina Wuest <tina@wuest.me>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: Allow Focusrite devices to use low samplerates
+In-Reply-To: <20250901092024.140993-1-tina@wuest.me>
+References: <20250901092024.140993-1-tina@wuest.me>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0pbq1X1Bu6UZ70ua"
-Content-Disposition: inline
-In-Reply-To: <20250901035956.1195081-1-alex.t.tran@gmail.com>
-X-Cookie: Auction:
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -3.30
+
+On Mon, 01 Sep 2025 11:20:24 +0200,
+Tina Wuest wrote:
+> 
+> Commit 05f254a6369ac020fc0382a7cbd3ef64ad997c92 ("ALSA: usb-audio:
+> Improve filtering of sample rates on Focusrite devices") changed the
+> check for max_rate in a way which was overly restrictive, forcing
+> devices to use very high samplerates if they support them, despite
+> support existing for lower rates as well.
+> 
+> This maintains the intended outcome (ensuring samplerates selected are
+> supported) while allowing devices with higher maximum samplerates to be
+> opened at all supported samplerates.
+> 
+> This patch was tested with a Clarett+ 8Pre USB
+> 
+> Signed-off-by: Tina Wuest <tina@wuest.me>
+
+Applied now.  Thanks.
 
 
---0pbq1X1Bu6UZ70ua
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Aug 31, 2025 at 08:59:56PM -0700, Alex Tran wrote:
-> Changelog:
-> - Changed reset GPIO setup that uses 'gpio_request' and
->   'gpio_direction_output' to use 'devm_gpio_request_one' instead=20
->   for legacy support.
-> - Convert to gpio descriptor for use.
-> - Better error handling with 'gpiod_set_value'.
-> - Removed cleanup of reset gpio as gpiod api is now used.
->=20
->=20
-> - Performed full conversion to gpiod with 'devm_gpiod_get_optional'.
-> - Removed struct 'tlv320dac33_platform_data' as it is
->   not used in the kernel.
-> - Removed file 'tlv320dac33-plat.h' as it was not included
->   anywhere outside this driver.
-> - Removed 'power_gpio' and added 'reset_gpiod'.
-> - Added default value for dac33->burst_bclkdiv as it can't be 0 (2-17).
->   See <https://www.ti.com/lit/ds/symlink/tlv320dac32.pdf>
-
-This is a set of separate changes which as covered in
-submitting-patches.rst should each be split into individual patches,
-this makes things much easier to review.
-
-As also covered in submitting-patches.rst any inter-version changelogs
-should go after the --- so they can be removed by tooling.
-
---0pbq1X1Bu6UZ70ua
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmi1dvYACgkQJNaLcl1U
-h9D9sQf/fvSmTxKv27Nx3uUb+QHN1k5uJGC6hMwPvA/X+F26IX4scR1QPiGoVdf2
-w3Sa5sbaPBeZAak88tCD07XDQ6wUldxd/UhAJbO4Ggvhv4k8cw5WDA0tvFchxnPA
-96WK07tdJtlXFH3gFMhXGOk//knMLqVnqcUZlL+4r3G5V+GrSAHBVNLFAaVU8t5Q
-RYem39bkzoNfMuKYeFEnPqp95IcbzsKQYcJJCKhraJv+jPCuyV7tL8yjNG+Sp3aC
-A2GMKsjHJ4RJQnL6PYddjUhaYlc77Rlfp6AnhAkVT9SVn/8atvYt1qI+G5fFR5DC
-MRqCJ0CGuNTZOOUoYsTPe/75CgDARw==
-=xZKN
------END PGP SIGNATURE-----
-
---0pbq1X1Bu6UZ70ua--
+Takashi
