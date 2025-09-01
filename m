@@ -1,99 +1,288 @@
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BE610F2;
-	Mon,  1 Sep 2025 02:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20BA229B2A;
+	Mon,  1 Sep 2025 04:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756695369; cv=none; b=kA6wiNhHSvYm1+1faTq+gqeD1J53JFjh/LP1wpMHzbN+v3Ubwwp2cMv/CcIzpbLIr1CpNcHQj++2lL1ekCRh7OqybaWuOrBVKtnCeE6iO26HC3w2yzxC+7e1wpTX9KtdCmNNEj2Q53mrzdbY0DOd++odadxi28vZv1EGxp/wdHw=
+	t=1756699208; cv=none; b=K9aJ2rdcZ3k0Uqy0ptVZoVCCVsmP2Z6moP/hhKOVGATTu2tam3JHsnmX7CGAe3fynfU6C0E/rvXV2Hm9AvXuoWJam49R5G5iAllsPqXFlDHUVSyL8luFz2fa/eC4vFfBDVbWbVmXyYcGjFP/D2UzU6aViC8l1tNXVK3ie8WgOKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756695369; c=relaxed/simple;
-	bh=PmewVBZ+ucHRnuv9jxcTPx5wY8ryXlkXK5HxMfeMbF0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZZaxuWbcZyjJgjnsOQTv2/j+A/LaVg/LL0fUfM1Aw1WHETKsZc1GyGB83FLhx2qqFGys+GZi7RW7kVk6vDpeSOvcs1GFMkROJ42q/6Q3jLfpO4rAFuFZoj1tDh/sbZ+hMqgcyCEL4Jt3P/Qz/U8ntlxMdwbHDdvpwouclnu9v+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nDFK9zVG; arc=none smtp.client-ip=209.85.221.180
+	s=arc-20240116; t=1756699208; c=relaxed/simple;
+	bh=mFdGiWYbHKTIQuZQ6JEvAvSFAMqV2qPA3NrIrGyHjfU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oS6HSCukx8E70W8O/I/NOY5hXHmjNo9xUwGfD762K9gfB6EpC0gk+1sRiB0FD7jXV2AMKdOMPZQ2/pCf1Z3lj19VtQERz0d5LBIWAp3iTA25VEF4M7W5opTwBofJte3aKKtekIi0t9/8ATYj3Fie3noims4XYEx2/ikYEDxxDdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CelcEl63; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nDFK9zVG"
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-54487445158so913398e0c.3;
-        Sun, 31 Aug 2025 19:56:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CelcEl63"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7722bcb989aso1888374b3a.1;
+        Sun, 31 Aug 2025 21:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756695367; x=1757300167; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PmewVBZ+ucHRnuv9jxcTPx5wY8ryXlkXK5HxMfeMbF0=;
-        b=nDFK9zVGlUG5LF/L+nlPKECwWD3ppuXnCvVUq/OiD58B3bYCShGA1xOz64weSU8jNx
-         EIhVJnvVeWGArtQFgvoyHkoCN4cgCMrC6LWoJ5KCGKkxxThWzYhQWv5QA+tPzQngv4J8
-         tpplUSSIHA0lDCzt/1vuBszvya59Xh82ShzDvlhQNyIQYf2DqWNMfuiUZobjAKK2i53m
-         TiuRbvi+kCekKK0/I6t1z8FEV8wKosJgxUwkw0LNwSTUKMeT6spNVuzpYEaJSeNrde5E
-         FzEjtqV/5BYgjiu9S9CEOr8wKpYd2EMiq/2JojyHNe0mTPZ597T+/tSmCjtnXNU+eJD2
-         LmJQ==
+        d=gmail.com; s=20230601; t=1756699206; x=1757304006; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BY3llSyqjM8B31nJmpobImIA2OMX2oAjKosHTE3YLXc=;
+        b=CelcEl63y4EhRqfz/gePH7RKKOSh/sZQzzcP/7FBwxLK8HW2YJYuhqWtiriKXxPdSj
+         VbVrVIs4kZor8YKabQSLGxsSmSSTFF4YTHpyB0Z/ZvdvTEt4h78diVSq93gP01Peg9Hg
+         CM3rbR9+saQyx0W/YjO4OX28bWLp3Pv+LduCIcY5BHztMRYnjLtbvT3ZM1AQL/N0CwB6
+         +hTxr28X29yz2aZxz6joG3AEmON5o8Zo0Eu3mhTeCv8zMmFbZ/1SLRydo3DAivBf/H85
+         oRGdqFcmEZ2+fKGBfFsPFIeufO0+37ykxdWAOgwtKZjnomqAohvA33mmHlUS8aj4g2Fh
+         Nvag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756695367; x=1757300167;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PmewVBZ+ucHRnuv9jxcTPx5wY8ryXlkXK5HxMfeMbF0=;
-        b=qJDkxD2z1fVAe3ZYlCsva9SMTdN9aRxySg/hgLfrTViu7xL9uR99ic8IarcqGP85Vf
-         GpjAZdLUMGMT56aHhdAms8nwplXIcXvbfgYOxURQI1zyZ0c/6rPpt/BY7Vp6Jsir7QBQ
-         zfjPLdEpMkPhg828I0M93Q/86nIsPT/rjVok7c1zdAHvz3G3XThX5CJg/j2lg5PAiKsy
-         86O0UUNH4of0tkKWsJF1YXe/jQ0a3DYG00cl/90gGgc88PNNqlaO4BJfKTMn6fm/UL9z
-         RISDJh8JR2dI1WU/7E7QhPYDbPESJEjktOy1zSR1MewhKGo484jxIYEyrj/ToYLCIrT5
-         P58w==
-X-Forwarded-Encrypted: i=1; AJvYcCWHTJQhxAGf2imh/5J/UVi3Xhw38LxyD86qDK1Zz6KgT7p2YbuEW6gzO632HJwX3/bNb9mU8rOla2xgwZMN@vger.kernel.org, AJvYcCWf6uAUBy3ia2Tk/6UmYGY82mOy3StDr/c8vvFfvARnD0ucMyKElGWhpaDPa81/oY/8veeadfd3N15c@vger.kernel.org, AJvYcCWnN251zruJqBBIDXtgDL6VJhmE8ODXIgUCgvaTN3AxurC/I0zqpawGdEKPDYjdPqc1oLQu03bE6s2QD+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBU5cqgoOAQLabS2idftTZZRTGNeuRqZ6jTe3WI7VJwdOCzK3J
-	qyQSvmv7h8rCRCr1XB0EzYDDqIqkLUEWilMPoY/PkxwvBMK46/BP1Qr2p5fJLUeyun9EKHucAUD
-	pQLt55Tty0nZxes76ZIUnZI+JXJHi4o8=
-X-Gm-Gg: ASbGnctuEpxEawaKLUBK3uFhAvRlZ/hX9fIAnOHYER3n7vORNi+zJSP4dn10U6mVi7m
-	niG1A/swYgChzVvA/h1TB0u48qoLcNwUAaf5kgVe/n2YnMAi9290N1NsH5Xo0lUWyBGJIdm8EPv
-	eUNDSb2YtDgG0cTD/hztEXUsD5rdBl5Bju1AUpXYGlPVF1Qd6OfmYbqsCu4RBEh6gDL1AEq6958
-	qPuT4gUp31bNJARACGT96elq9ShHPJj53Q0cPA=
-X-Google-Smtp-Source: AGHT+IGobaK+q3RUi/OA10JC+T+4OfjWR7pLORzFTtEml7V6OwEJ7QsO3zMWtwtakawBUK6DStwTfJ6uzLsKLmEJlo0=
-X-Received: by 2002:a05:6122:8c21:b0:541:fdc4:2551 with SMTP id
- 71dfb90a1353d-544a01d3574mr1426719e0c.3.1756695366911; Sun, 31 Aug 2025
- 19:56:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756699206; x=1757304006;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BY3llSyqjM8B31nJmpobImIA2OMX2oAjKosHTE3YLXc=;
+        b=JMELq8WgvgEcQpLLdlEHp+VDprqBLt+fS4sLq1THLU0hwKVUgptKaRDlD5nlctC9+e
+         NCmwZS5sd8uL0DZMF3UEnZKFQXoes5LSBZZQQEXCfVUO76zHzDlCnAk7JRd972PcasA2
+         uj99n1si9sxsGb+B682NipgPHoU5xZ9vOfFzqyEV5fKNxGoGdgG7T7+umXsKGCXTwafI
+         D25N/puOV0HZ7EhdBBTCScGLAZXnv/g8H39FeZhY46lcWu/ZfWbHjP6LSzDrcl0xSRwz
+         1tcTzurqmu8MgsNn5KBNW3kT1+WRwJ51wNPDKEbexKkG+ITZxMEgZ+guB7CpOT34+EGn
+         wjNw==
+X-Forwarded-Encrypted: i=1; AJvYcCU28F0pVn3TAXSEIru9LmbOGorDbrRDwQSArKC8xUMUJ5cCLZo9at3ygLga998NkCxUvUqNDEarCzVVBi4=@vger.kernel.org, AJvYcCUx5UsW+woVdWzA4L53nhERD6sbFcwFxCQRKcfAEQBnMi2tB7o/tVfhRs/L00t//yudCNlDJdJ0j28tTT2V@vger.kernel.org, AJvYcCW2bIuGrsft9Dk3hmSN+yCuzY5d1cKXLcdwp+150t1pNjQlO7CZXU4+ZwUKiomBMyi/3L4rKQq/49OS@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEw6OAZC6MJqLLsgBj0qyXhAA455VhY/jsSAlG8+rVtQ7n2K1a
+	BRWFUnWHakI/oihZzhOz5nUAExt938wmCN7KxJOcAbAWYQHuKlNJMyzA
+X-Gm-Gg: ASbGncvoUI0SQAVoluJIHUY2VkH2LQfKn22Yrh4gwlMT9OKX5fS85iwApGw5LRTdVzQ
+	Nh83hrUBcZy7hVztPBhGvF0op4QMCNYFjzOylQi23Gt3havWRrisp78bpn63ZPwO5iOSumjz/ef
+	URdKsN5DIkPpmHGgZhpOAm+Vbg3P5zDF2/yAKF+VPJvBGGIB7vTQ3Z1BhcoLicGjVyfUDOnF7Pz
+	4KIXK+OvlQb8bOQZ03ECOBlPTIZpEwCj26KswMECg6rSMWqJAGBAC+XLFS3MQcXSdF0gWWnx6hw
+	d6qLQH/JxJNhlU4crc7Xl0qhZFjvEcTUFYotsOj7kagLW4Z7oN1WlxCq3HH5N4sWfLWmErL6T0q
+	HrJRopGRjHRqBfYbLZSGPnAkfh7RV1N9745RQitlQw1pw+ibbIo2OMI4R1+i+bIUeljX9ax/JBw
+	==
+X-Google-Smtp-Source: AGHT+IFcLVYmrJizvyocgktBhoV7mRWwFCCVmmsoY3/ZEYiNbh2oYbcrjRBtAe+sPHCs6PID8NxLLg==
+X-Received: by 2002:a05:6a20:3d06:b0:243:c581:10a0 with SMTP id adf61e73a8af0-243d6f03294mr8635387637.30.1756699205755;
+        Sun, 31 Aug 2025 21:00:05 -0700 (PDT)
+Received: from fedora ([172.59.162.44])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7722a4e24e3sm8955545b3a.78.2025.08.31.21.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 Aug 2025 21:00:05 -0700 (PDT)
+From: Alex Tran <alex.t.tran@gmail.com>
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	tiwai@suse.com,
+	perex@perex.cz,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	linus.walleij@linaro.org,
+	brgl@bgdev.pl,
+	linux-sound@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alex Tran <alex.t.tran@gmail.com>
+Subject: [PATCH v2] ASoC: codecs: tlv320dac33: switch to gpiod api
+Date: Sun, 31 Aug 2025 20:59:56 -0700
+Message-ID: <20250901035956.1195081-1-alex.t.tran@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250831030855.957707-1-alex.t.tran@gmail.com> <CAMRc=Me5L4XtriaFSwcE9Vqri+6d+Rfn-4FzKUrN_VSOgfA_WA@mail.gmail.com>
-In-Reply-To: <CAMRc=Me5L4XtriaFSwcE9Vqri+6d+Rfn-4FzKUrN_VSOgfA_WA@mail.gmail.com>
-From: Alex Tran <alex.t.tran@gmail.com>
-Date: Sun, 31 Aug 2025 19:55:55 -0700
-X-Gm-Features: Ac12FXxp9jNWlJRXltqiLXfLh0CVzev7UmdUyV3I03fJLpPIa7QDc_Mrq4p9PY8
-Message-ID: <CA+hkOd6UsrQWbLRPOMyUPLBoytFa_6zew05TRuBEhMSr4T1afg@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: codecs: tlv320dac33: switch to gpiod api
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	linus.walleij@linaro.org, shenghao-ding@ti.com, kevin-lu@ti.com, 
-	baojun.xu@ti.com, linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 31, 2025 at 5:55=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl>=
- wrote:
->
-> The fact that the call to gpio_request() is still there made me think
-> immediately that the conversion is incomplete. I looked into why you
-> didn't change that and noticed that the global GPIO number comes
-> through platform data, specifically: struct tlv320dac33_platform_data.
-> That platform data struct however is not used in the kernel -and even
-> the header that defines it - sound/tlv320dac33-plat.h - is never
-> included outside of the driver. Seems to me like the main obstacle to
-> completing the conversion is not even used in mainline and can be
-> dropped?
->
-> Bart
+Changelog:
+- Changed reset GPIO setup that uses 'gpio_request' and
+  'gpio_direction_output' to use 'devm_gpio_request_one' instead 
+  for legacy support.
+- Convert to gpio descriptor for use.
+- Better error handling with 'gpiod_set_value'.
+- Removed cleanup of reset gpio as gpiod api is now used.
 
-Since struct tlv320dac33_platform_data isn't used in the kernel and the
-corresponding header file it's in isn't used outside of the driver,
-I'll go ahead
-and drop them and send in a v2. Thanks for the review.
 
---=20
-Alex Tran
+- Performed full conversion to gpiod with 'devm_gpiod_get_optional'.
+- Removed struct 'tlv320dac33_platform_data' as it is
+  not used in the kernel.
+- Removed file 'tlv320dac33-plat.h' as it was not included
+  anywhere outside this driver.
+- Removed 'power_gpio' and added 'reset_gpiod'.
+- Added default value for dac33->burst_bclkdiv as it can't be 0 (2-17).
+  See <https://www.ti.com/lit/ds/symlink/tlv320dac32.pdf>
+
+Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
+---
+ include/sound/tlv320dac33-plat.h | 21 ----------
+ sound/soc/codecs/tlv320dac33.c   | 68 +++++++++++++++-----------------
+ 2 files changed, 31 insertions(+), 58 deletions(-)
+ delete mode 100644 include/sound/tlv320dac33-plat.h
+
+diff --git a/include/sound/tlv320dac33-plat.h b/include/sound/tlv320dac33-plat.h
+deleted file mode 100644
+index 7a7249a89..000000000
+--- a/include/sound/tlv320dac33-plat.h
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * Platform header for Texas Instruments TLV320DAC33 codec driver
+- *
+- * Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
+- *
+- * Copyright:   (C) 2009 Nokia Corporation
+- */
+-
+-#ifndef __TLV320DAC33_PLAT_H
+-#define __TLV320DAC33_PLAT_H
+-
+-struct tlv320dac33_platform_data {
+-	int power_gpio;
+-	int mode1_latency; /* latency caused by the i2c writes in us */
+-	int auto_fifo_config; /* FIFO config based on the period size */
+-	int keep_bclk;	/* Keep the BCLK running in FIFO modes */
+-	u8 burst_bclkdiv;
+-};
+-
+-#endif /* __TLV320DAC33_PLAT_H */
+diff --git a/sound/soc/codecs/tlv320dac33.c b/sound/soc/codecs/tlv320dac33.c
+index 423b9264a..43d372dd6 100644
+--- a/sound/soc/codecs/tlv320dac33.c
++++ b/sound/soc/codecs/tlv320dac33.c
+@@ -14,7 +14,7 @@
+ #include <linux/pm.h>
+ #include <linux/i2c.h>
+ #include <linux/interrupt.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ #include <sound/core.h>
+@@ -24,7 +24,6 @@
+ #include <sound/initval.h>
+ #include <sound/tlv.h>
+ 
+-#include <sound/tlv320dac33-plat.h>
+ #include "tlv320dac33.h"
+ 
+ /*
+@@ -80,7 +79,7 @@ struct tlv320dac33_priv {
+ 	struct snd_soc_component *component;
+ 	struct regulator_bulk_data supplies[DAC33_NUM_SUPPLIES];
+ 	struct snd_pcm_substream *substream;
+-	int power_gpio;
++	struct gpio_desc *reset_gpiod;
+ 	int chip_power;
+ 	int irq;
+ 	unsigned int refclk;
+@@ -383,14 +382,26 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
+ 			goto exit;
+ 		}
+ 
+-		if (dac33->power_gpio >= 0)
+-			gpio_set_value(dac33->power_gpio, 1);
++		if (dac33->reset_gpiod) {
++			ret = gpiod_set_value(dac33->reset_gpiod, 1);
++			if (ret < 0) {
++				dev_err(&dac33->i2c->dev,
++					"Failed to set reset GPIO: %d\n", ret);
++				goto exit;
++			}
++		}
+ 
+ 		dac33->chip_power = 1;
+ 	} else {
+ 		dac33_soft_power(component, 0);
+-		if (dac33->power_gpio >= 0)
+-			gpio_set_value(dac33->power_gpio, 0);
++		if (dac33->reset_gpiod) {
++			ret = gpiod_set_value(dac33->reset_gpiod, 0);
++			if (ret < 0) {
++				dev_err(&dac33->i2c->dev,
++					"Failed to set reset GPIO: %d\n", ret);
++				goto exit;
++			}
++		}
+ 
+ 		ret = regulator_bulk_disable(ARRAY_SIZE(dac33->supplies),
+ 					     dac33->supplies);
+@@ -1462,16 +1473,9 @@ static struct snd_soc_dai_driver dac33_dai = {
+ 
+ static int dac33_i2c_probe(struct i2c_client *client)
+ {
+-	struct tlv320dac33_platform_data *pdata;
+ 	struct tlv320dac33_priv *dac33;
+ 	int ret, i;
+ 
+-	if (client->dev.platform_data == NULL) {
+-		dev_err(&client->dev, "Platform data not set\n");
+-		return -ENODEV;
+-	}
+-	pdata = client->dev.platform_data;
+-
+ 	dac33 = devm_kzalloc(&client->dev, sizeof(struct tlv320dac33_priv),
+ 			     GFP_KERNEL);
+ 	if (dac33 == NULL)
+@@ -1488,26 +1492,21 @@ static int dac33_i2c_probe(struct i2c_client *client)
+ 
+ 	i2c_set_clientdata(client, dac33);
+ 
+-	dac33->power_gpio = pdata->power_gpio;
+-	dac33->burst_bclkdiv = pdata->burst_bclkdiv;
+-	dac33->keep_bclk = pdata->keep_bclk;
+-	dac33->mode1_latency = pdata->mode1_latency;
++	if (!dac33->burst_bclkdiv)
++		dac33->burst_bclkdiv = 8;
+ 	if (!dac33->mode1_latency)
+ 		dac33->mode1_latency = 10000; /* 10ms */
+ 	dac33->irq = client->irq;
+ 	/* Disable FIFO use by default */
+ 	dac33->fifo_mode = DAC33_FIFO_BYPASS;
+ 
+-	/* Check if the reset GPIO number is valid and request it */
+-	if (dac33->power_gpio >= 0) {
+-		ret = gpio_request(dac33->power_gpio, "tlv320dac33 reset");
+-		if (ret < 0) {
+-			dev_err(&client->dev,
+-				"Failed to request reset GPIO (%d)\n",
+-				dac33->power_gpio);
+-			goto err_gpio;
+-		}
+-		gpio_direction_output(dac33->power_gpio, 0);
++	/* request optional reset GPIO */
++	dac33->reset_gpiod =
++		devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(dac33->reset_gpiod)) {
++		dev_err_probe(&client->dev, PTR_ERR(dac33->reset_gpiod),
++			      "Failed to get reset GPIO\n");
++		goto err;
+ 	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(dac33->supplies); i++)
+@@ -1518,19 +1517,17 @@ static int dac33_i2c_probe(struct i2c_client *client)
+ 
+ 	if (ret != 0) {
+ 		dev_err(&client->dev, "Failed to request supplies: %d\n", ret);
+-		goto err_get;
++		goto err;
+ 	}
+ 
+ 	ret = devm_snd_soc_register_component(&client->dev,
+ 			&soc_component_dev_tlv320dac33, &dac33_dai, 1);
+ 	if (ret < 0)
+-		goto err_get;
++		goto err;
+ 
+ 	return ret;
+-err_get:
+-	if (dac33->power_gpio >= 0)
+-		gpio_free(dac33->power_gpio);
+-err_gpio:
++
++err:
+ 	return ret;
+ }
+ 
+@@ -1540,9 +1537,6 @@ static void dac33_i2c_remove(struct i2c_client *client)
+ 
+ 	if (unlikely(dac33->chip_power))
+ 		dac33_hard_power(dac33->component, 0);
+-
+-	if (dac33->power_gpio >= 0)
+-		gpio_free(dac33->power_gpio);
+ }
+ 
+ static const struct i2c_device_id tlv320dac33_i2c_id[] = {
+-- 
+2.51.0
+
