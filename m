@@ -1,159 +1,146 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935B2338F45
-	for <linux-sound@vger.kernel.org>; Mon,  1 Sep 2025 13:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABA71A9FB9
+	for <linux-sound@vger.kernel.org>; Mon,  1 Sep 2025 14:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756734958; cv=none; b=NE5zXICj8oIZBy+Br1FUz+gesqsHqX1U2ZU3FENW+cSd8sO2rTHBI5ichNyRK2s77Dri4ENO/UfGrW1Np7LbU16EXN/v5WB1E6Hd/DAKZUEJ88OiaNoSfJCEKx6Jmy+5ZdrMoaA2KWL+CT/k8efGIqf3aHt3jXShZAZ69Ert8ao=
+	t=1756735507; cv=none; b=QeFlILuVxa45L5pUTH1jsOFEPwkOSpE5Y0QwgQfvLTRRApnaNCjhmFIqGqy5fbfyU1CLnesjBjBiRjS2GgAKSu1BbNAdHQ25V4BiOaQRAigbMPsSPRaUIg0blr2g0J+NQ8qcZFq3DiyiHapsNgkZHuWl4UZPUPHCEXdPnDfJ/Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756734958; c=relaxed/simple;
-	bh=OEfNXwx7ba29QLkvQYW+GfCpbR+wRaDI6Gm1k4gEsUU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=atV70bVCdxa/7E3RbCLudAXfO8f9tQ92e3mI/ISfLSSLMfGlYU34cVi/lVyJRR9iX/7jd7OhX0ixH9Dl04Xe61OAQfdPKEwUw5iAEFMmb5zOkrOBmZHN/lHVKCeMwsfXTduez6zhhcr0iveWTqQYbvwGwpFU3wMPjzzK6GlYMLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GtN4/73d; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1756735507; c=relaxed/simple;
+	bh=v4t/6Y/62xfPZAOq/A5yHWHpFLus6ObcQYLc9+RrAE4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g395TRMZcttYCL3QdlIY2K5Dm5fL1tCrVOXUEXl2a4VFjZNhGi8Ir9vdMZSjU8MJWLtwCISPbn3ZVOQzrjS3jeqhSNZGhMmeKFdQ+wDEwuHe/N4/bzAzsBXz08UrLhncE7cUc4D6C3FHYgPLeocOy0z66I/KG8bSYuO6gB4yW6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ou2hLhOb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JETED1lb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2Q7kVmh3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vo7dlgbU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GtN4/73d"
-Message-ID: <7bd4d359-2367-4002-a082-151a42e710d3@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1756734953;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ou2hLhOb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JETED1lb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2Q7kVmh3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vo7dlgbU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5C57D2118A;
+	Mon,  1 Sep 2025 14:05:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756735504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/n9U23ZBdIPJ8zX9weCyIsKOP+HNAxWeX8Q/95N9LIY=;
-	b=GtN4/73dSp2SoWnOaBpxVwybABsVY4jAZ7R7HvWKWaCIkvOoQ1vbyrT1jR2rG0t8K/oBhr
-	IDmzipas/9j0ufof2ZemBHt2DhfBtnVnnv/zLxkBF5WGUuaTbmn4pq0kgWGXrYFrDlVi8k
-	+sAOsPcHAXz0XQASwLLZMhFqXqSopsY=
-Date: Mon, 1 Sep 2025 15:55:25 +0200
+	bh=Xnx/oXinx0yk6OsECgCvuW6zhFsQoZiDXuQ/Zzkt8HM=;
+	b=Ou2hLhObeGQWjvUq3bSEI1pXe9yCMEvwEDt06ENTSLclw6sHRYZ9LoDXnapCB6nlm5+r5p
+	xThG+f5tihBAh30hPMxNqUE5t6re23kJGCskzxvvJOvzNX/TGPnBtYndGE5Yhct9oGeq3c
+	zmHxizhhub3R7LHyJZKoBKQyW0iqW9Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756735504;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xnx/oXinx0yk6OsECgCvuW6zhFsQoZiDXuQ/Zzkt8HM=;
+	b=JETED1lb8LvaN0DiSY+o+RASe75EJm71SwbDHRl39y+OIPOe5DK23H0gY206nwe4XYIS/v
+	c8iILdxjsi7m6hBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2Q7kVmh3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vo7dlgbU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756735503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xnx/oXinx0yk6OsECgCvuW6zhFsQoZiDXuQ/Zzkt8HM=;
+	b=2Q7kVmh3SATKolIYKgKR+aRL1/gnQ6vcU1OLuBmVkASYvmh58YuRbHlI7PJHmPLBVtTJNe
+	B/CFc9SoHH+StHEYXZZ1476TTwdG7o5X+35LDOpihssPynOcSfr/VrPyWRgOPLJ9MBjTA8
+	M7gE4JtR92Yce5hFI1I+dK94Km5LK6k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756735503;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Xnx/oXinx0yk6OsECgCvuW6zhFsQoZiDXuQ/Zzkt8HM=;
+	b=vo7dlgbUixN0upfQJxGqRAZwbSHvos167BostHmsZkGeK/PhJxXDg6iD19wGvGfCvnmQTf
+	xeybb3A0/9NX5CCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 168A0136ED;
+	Mon,  1 Sep 2025 14:05:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /FRBBA+otWixSQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 01 Sep 2025 14:05:03 +0000
+Date: Mon, 01 Sep 2025 16:05:02 +0200
+Message-ID: <87tt1m5kvl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] ASoC: SDCA: Add quirk for incorrect function types for 3 systems
+In-Reply-To: <20250901075755.2070983-1-mstrozek@opensource.cirrus.com>
+References: <20250901075755.2070983-1-mstrozek@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH] ASoC: SDCA: Add quirk for incorrect function types for 3
- systems
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>,
- Mark Brown <broonie@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-References: <20250901075755.2070983-1-mstrozek@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20250901075755.2070983-1-mstrozek@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 5C57D2118A
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,opensource.cirrus.com,linux.intel.com,linux.dev,gmail.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.51
 
-On 9/1/25 09:57, Maciej Strozek wrote:
+On Mon, 01 Sep 2025 09:57:46 +0200,
+Maciej Strozek wrote:
+> 
 > Certain systems have CS42L43 DisCo that claims to conform to version 0.6.28
 > but uses the function types from the 1.0 spec. Add a quirk as a workaround.
 > 
 > Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
 
-yay firmware quirks... Probably the start of a *long* list, eh?
+It's a fix for the report below, right?
+  https://github.com/thesofproject/linux/issues/5515
+Then please put it to Link tag.  Also at best give Fixes tag if you
+can give some hint for the stable backports.
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 
-> ---
->  include/sound/sdca.h            |  1 +
->  sound/soc/sdca/sdca_device.c    | 20 ++++++++++++++++++++
->  sound/soc/sdca/sdca_functions.c | 13 ++++++++-----
->  3 files changed, 29 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/sound/sdca.h b/include/sound/sdca.h
-> index 5a5d6de78d728..9c6a351c9d474 100644
-> --- a/include/sound/sdca.h
-> +++ b/include/sound/sdca.h
-> @@ -46,6 +46,7 @@ struct sdca_device_data {
-> 
->  enum sdca_quirk {
->  	SDCA_QUIRKS_RT712_VB,
-> +	SDCA_QUIRKS_SKIP_FUNC_TYPE_PATCHING,
->  };
-> 
->  #if IS_ENABLED(CONFIG_ACPI) && IS_ENABLED(CONFIG_SND_SOC_SDCA)
-> diff --git a/sound/soc/sdca/sdca_device.c b/sound/soc/sdca/sdca_device.c
-> index 0244cdcdd109a..4798ce2c8f0b4 100644
-> --- a/sound/soc/sdca/sdca_device.c
-> +++ b/sound/soc/sdca/sdca_device.c
-> @@ -7,6 +7,7 @@
->   */
-> 
->  #include <linux/acpi.h>
-> +#include <linux/dmi.h>
->  #include <linux/module.h>
->  #include <linux/property.h>
->  #include <linux/soundwire/sdw.h>
-> @@ -55,11 +56,30 @@ static bool sdca_device_quirk_rt712_vb(struct sdw_slave *slave)
->  	return false;
->  }
-> 
-> +static bool sdca_device_quirk_skip_func_type_patching(struct sdw_slave *slave)
-> +{
-> +	const char *vendor, *sku;
-> +
-> +	vendor = dmi_get_system_info(DMI_SYS_VENDOR);
-> +	sku = dmi_get_system_info(DMI_PRODUCT_SKU);
-> +
-> +	if (vendor && sku &&
-> +	    !strcmp(vendor, "Dell Inc.") &&
-> +	    (!strcmp(sku, "0C62") || !strcmp(sku, "0C63") || !strcmp(sku, "0C6B")) &&
-> +	    slave->sdca_data.interface_revision == 0x061c &&
-> +	    slave->id.mfg_id == 0x01fa && slave->id.part_id == 0x4243)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +
->  bool sdca_device_quirk_match(struct sdw_slave *slave, enum sdca_quirk quirk)
->  {
->  	switch (quirk) {
->  	case SDCA_QUIRKS_RT712_VB:
->  		return sdca_device_quirk_rt712_vb(slave);
-> +	case SDCA_QUIRKS_SKIP_FUNC_TYPE_PATCHING:
-> +		return sdca_device_quirk_skip_func_type_patching(slave);
->  	default:
->  		break;
->  	}
-> diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-> index f26f597dca9e9..13f68f7b6dd6a 100644
-> --- a/sound/soc/sdca/sdca_functions.c
-> +++ b/sound/soc/sdca/sdca_functions.c
-> @@ -90,6 +90,7 @@ static int find_sdca_function(struct acpi_device *adev, void *data)
->  {
->  	struct fwnode_handle *function_node = acpi_fwnode_handle(adev);
->  	struct sdca_device_data *sdca_data = data;
-> +	struct sdw_slave *slave = container_of(sdca_data, struct sdw_slave, sdca_data);
->  	struct device *dev = &adev->dev;
->  	struct fwnode_handle *control5; /* used to identify function type */
->  	const char *function_name;
-> @@ -137,11 +138,13 @@ static int find_sdca_function(struct acpi_device *adev, void *data)
->  		return ret;
->  	}
-> 
-> -	ret = patch_sdca_function_type(sdca_data->interface_revision, &function_type);
-> -	if (ret < 0) {
-> -		dev_err(dev, "SDCA version %#x invalid function type %d\n",
-> -			sdca_data->interface_revision, function_type);
-> -		return ret;
-> +	if (!sdca_device_quirk_match(slave, SDCA_QUIRKS_SKIP_FUNC_TYPE_PATCHING)) {
-> +		ret = patch_sdca_function_type(sdca_data->interface_revision, &function_type);
-> +		if (ret < 0) {
-> +			dev_err(dev, "SDCA version %#x invalid function type %d\n",
-> +				sdca_data->interface_revision, function_type);
-> +			return ret;
-> +		}
->  	}
-> 
->  	function_name = get_sdca_function_name(function_type);
-> --
-> 2.47.2
-> 
+thanks,
 
+Takashi
