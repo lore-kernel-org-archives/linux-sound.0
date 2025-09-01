@@ -1,80 +1,78 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D5832A80E;
-	Mon,  1 Sep 2025 18:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1E71F8724
+	for <linux-sound@vger.kernel.org>; Mon,  1 Sep 2025 19:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756752055; cv=none; b=fd/pZtPPLt/UKZltpPJnphSbkk7CRRHs8N9CWMpE7XpkN2cuU5ZfFgL/MeWdWZ87+suswDAD8qik/WNqJmic9K3Sy6dbuXrA965OpCo8JMK46pE/dQ+y2n3e73d6ac59M8bNxG9wpGwnhkC0O5P2YXOAM5CNyNI+gxOIGPgPkzg=
+	t=1756756245; cv=none; b=WHqcpy6xH/SRUBS4MCAMehKp5JGXMiwzxdcS48m2DfJ9AyY82j/KgcGh+rCLkrzmrWMLeKjZv9/JGcSmbi+0f0Wq2Ny1+2rGVjTWX3dp3ddW3lyiOZI27JXmwr7jDP8dgtETL8AFN+1Y/BTKi0SWZLfF92lohfdvCAmQl1yQBX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756752055; c=relaxed/simple;
-	bh=bVjI3ASTWWEltUdaK4FfNGdsnCPoWYmsdvySx6ZeYYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R62cxMbmTGZrROPNy6jAb+xOWf6tLEX6o+t8G2DQEoU6bavLdFxO2s6LRXSRz2qt2yPUu3ONyB+frCGEYOJf2oxbYw3NvRV2LS6rKNG5EZoyA++xyFCkysljPkjxoAU1eqZVoILMlvSqZ7ZJdqQnaOoSfO7k/kfuMOxWw7+CAtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YZzdT1ir; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756756245; c=relaxed/simple;
+	bh=bNozMk+UbMdf0ssHdcWg0zCJ6HDPoJ+No/5V1g/m1to=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FlzDosO/j9yAzPVAC1qVlHON2uB/c6qQJd4Nor8YQqhtgKi7U0oSWIITchBRJ4A6Nj/qrmYCzD5E2iCDs57pQVdIyDNAMEDa8nJYTsxX1yDgP4+jwfsLRLmPMoH6XbCiIVXj/2aTvnD7uC19HkQ11AQMIN8QvLyYegK7ezXBLlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XXAdwQ4O; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YZzdT1ir"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-77252278757so950796b3a.3;
-        Mon, 01 Sep 2025 11:40:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756752053; x=1757356853; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R7DeDWqH8wYhNot7WnxoPcAYXoxWoVz3/zDldviAMp0=;
-        b=YZzdT1ir/nIqTJQ+QvKakojgBxza4fl8M6Y/pVxrOL8gxEAQ/sdF+DCeropy3zExBO
-         b8Y5z9KIxSXt48osQOk5A+eGIMDQwOFmP7tqbJb6KyJ49xnlFUdN9fSDHKcOkfvg+5aH
-         89pItEw9Zbh1I1q4YqCaHGLint2cfPGRPrgIhVTo4Nfd2dgVga2z2u3IQdxHq7DEM+fD
-         yb1lOWk0plviilVjPRjv7LOJfRk8keH9Xn/OnIig8StRTUXiuBArWvUwO97Q6xycUWko
-         bjQwh6oaL2aG7h5x7CrBsaKDCDH0NNF9Enpy3ovOdZr1wG9Nue821maVc7bT7YXGW9//
-         OFGw==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XXAdwQ4O"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 581B4A9f002497
+	for <linux-sound@vger.kernel.org>; Mon, 1 Sep 2025 19:50:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=w3XV8QBS09K8rQoBNwhaUktzkD6jagB21OB
+	vcD6sKQc=; b=XXAdwQ4OrL9ZfUxatSNy/05sk+ga3U6j3xkdyq0TtzRxyF7Jdkv
+	9hnRricObceT6ZeJSmr6XuFUrbXpcRCBdKap/c5u1Qg7FJ1b36DDEravHiAF9qk+
+	ZHxFSqI7c1Lrgawz+4qxGRBi6Z/Te6RM54kz8cov8/i1IWTQ9uTTt4U5deX85roG
+	yiO2QlGKxJepoPdLWrPuuLnWDdOnQwgBv78lU58XjKk+5U9u5I5UudC7Pwpso3wb
+	0qmqlZio1yABW59MwdWKLjz3wYsX33hASwz7t8tDVVf7oabKeh+TDzsgG9lPNEW8
+	vuLHmCOm0VXSLNord+oqykPqrXgFvk+NXlg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ur8rwrhp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 01 Sep 2025 19:50:42 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4b2f9e8dca6so103875441cf.3
+        for <linux-sound@vger.kernel.org>; Mon, 01 Sep 2025 12:50:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756752053; x=1757356853;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R7DeDWqH8wYhNot7WnxoPcAYXoxWoVz3/zDldviAMp0=;
-        b=mMHTwlw097FFtoBwYHvg7ObVEIb+5G+sMlNg8/LJWGCEnHLw4gkeWC7cybTM7DKMT5
-         ETTDhHFqhZ4sbc71e7HAqlk0WX9XJNswoqAfnnD84StEZRZ4yVetyDwwCAPIFW/ZM+9i
-         TCohpzQzInGKwAe+hLd+TQOSm/+eFpz98KWyA/74I5q1z7VdwUqzabsz0t0tMAr9Pb+8
-         8Zwl28Clt1MIK+tVh+bTRmFxQGlDGm2jwSQLZSV1tlYtfHGKIrKzHsEymt5AQYHXMYiL
-         86Cd7OKIMvQJMw5bcHRRd/Hmh9dpm7sf/PnjpAOZ4722x7UuyF1B3ikNtZID2OkxdjrB
-         Lktg==
-X-Forwarded-Encrypted: i=1; AJvYcCUz9ZPATXkBif8Oh1kIRFrm9Kt9blhxwj4b2Zj4QQPoLcmZSRR1qQqzDtkiHmRYVoiydNpAmAh83i30Fok=@vger.kernel.org, AJvYcCVCrpCQ7hBuosCmEMCAJWeH73D70Zs9iOE9ZRKLRM009CfEMNpfP1+JSWfsoZqWN3QxZ10eOksCZVu7e7k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMiNrP60OsAjqBPFi+fczDhP/DM/Wu4Xbj8w7GLZPwpenDLECJ
-	cpH5dIoD4MLnn+iR/Yrkbig7CbjLyTksye5Gt1gef5JlAOc3QPIH1H3x
-X-Gm-Gg: ASbGnctDQlQ44j8Wp25YOJJAdAlllOVSoHT3hN7vCrPcBtpcVvCkqCdAoX6/WQogKtZ
-	CnqjcmozkVxMN90L1yjAaxmnk14/gDr9WfH3lAu5ETDOP52HNe0ZlTysdVazs/jmd+zkHQW57bz
-	r5f1gX6fli8gA3rBP6GnQtU/jSXAeTTGeC9OSAJ25rpjwQR0jyFzSjk6guqHnO0l2nwCFDYfpWL
-	3DL+/xQ+3WlbrSw4EPWvkyFIGSiapdOUB9EcKWL0N0ypBlkwstGf6GXZ65rDBRPksZXOGUzeXa8
-	Va6Rx+1N8HmxVRbWMFAAP+aj0o6SSc151ef6+zvIBtC557gtCdvt/xT6aEDjY1klv1yfAylpIEV
-	l8I/yYSNTmm9/rhktkZ8+lw2UaCVEIq4u3UQWQjs3SK7EEfudtT5HGQT4O3hMqcY=
-X-Google-Smtp-Source: AGHT+IGPSI2opYejr2p48bBaXvMx+ZJhg4jl4U8OHSS/IbewuOmBpwDLgpe9og2Eioj2wcUDT2UugQ==
-X-Received: by 2002:a05:6a20:72a4:b0:21a:e751:e048 with SMTP id adf61e73a8af0-243d6f0a632mr13384415637.35.1756752052876;
-        Mon, 01 Sep 2025 11:40:52 -0700 (PDT)
-Received: from fedora ([172.59.162.44])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77236d7eb7fsm9436621b3a.54.2025.09.01.11.40.51
+        d=1e100.net; s=20230601; t=1756756241; x=1757361041;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w3XV8QBS09K8rQoBNwhaUktzkD6jagB21OBvcD6sKQc=;
+        b=kmNzUoN8NNLkyDcZaFqCwS5KusvF7s8ZY3YxYOpxt1mLbfva3bXpKkjDt/ZS1AJVuT
+         tLVPk+ehidf1hHuCm0NFbuXqB1K86cjvd3Nvhi68pz4+YuiCXfNGEkJtWdk3sgqiq8vz
+         0F/cY8fmzIT46Ok0/4wMqHdmauxC+BdC48HbC4woLWkSxCZJnM/FR+fkD+h1m6MmfGEe
+         VUTkWAaGnl0Vj1H1HkjaFtTebkTu50RHrCgRPR+rDmgORJLlMc9nAFaQnW5/gpnCk2K4
+         ofd7W/Jhso6asLsn0RJe3g6vdCYTENeyqh5v1BBJ6krwh09mZW3kxiyWvIiUFOQA9dMr
+         nIlg==
+X-Forwarded-Encrypted: i=1; AJvYcCU11H2HGj7dHKcVuqArHMotq32XhscFZ3Hea7Y9mMJ+B468IbBMKQMjx1yC/OWlrgQ1p7T+j5uVooBQBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRSAa6mlG+hoQwjBNOHqlLg1W3VqlqjeTjJpKj2xj2mxOFot9V
+	fDoa79m46j+iGqEqOeJisYaGChrft3KlNhJ1xT9STAOXnkkMjRNvGqBhaYTk2BF0GBO+rGZcZZ5
+	F5pzCywoiNC4E+ULHaeUulC0x4pI9WhN5gMrOlUgLDC63tb36QSBWlApGhjVmfXvLrA==
+X-Gm-Gg: ASbGncttgGyQOLEe2nqilOOsZGEA99FE8N7/Oq26ZjHDZDG5IiUtGNJ9gDsTFWw68eM
+	xpQW20IL0+nffrPgPhiewYds436t74+VAPXWIkq1/T5o7fdC3fm7+5ZHEUMBHyU5qjKhaOy2J1n
+	g4pCVMP6W00tx1f7WN0VwcwcV1PeiWJW4cGjkpuXnukPFQo+Ut6ePVZsRK/wqqXBmqo/cQlq/l5
+	dptmZqKTY7pmGtT39QdpZAXcqlUMe5RSTOFlaSWkzSogy5LlBeTsxkI5edF/kAr+bxo/bg09Tpw
+	0gyR7wGUyQPyv/X6/CP7BBGfk/1XPDGRrxFwQok/B75EloBIjjxBaQ==
+X-Received: by 2002:a05:622a:1441:b0:4b3:755:3c82 with SMTP id d75a77b69052e-4b31db6a646mr96708871cf.49.1756756240808;
+        Mon, 01 Sep 2025 12:50:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFNqO+011I8C+a+NWKi0w13L3lHbVjjPv/XfgLwhTgpHoDzYVyuOZp/gX7zx+H3LGRPzX7dLQ==
+X-Received: by 2002:a05:622a:1441:b0:4b3:755:3c82 with SMTP id d75a77b69052e-4b31db6a646mr96708691cf.49.1756756240281;
+        Mon, 01 Sep 2025 12:50:40 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d7330e4bc9sm4653705f8f.10.2025.09.01.12.50.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 11:40:52 -0700 (PDT)
-From: Alex Tran <alex.t.tran@gmail.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alex Tran <alex.t.tran@gmail.com>
-Subject: [PATCH v3 1/3] ASoC: codecs: tlv320dac33: Remove unused struct tlv320dac33_platform_data and header file tlv320dac33-plat.h
-Date: Mon,  1 Sep 2025 11:40:08 -0700
-Message-ID: <20250901184008.1249535-3-alex.t.tran@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250901184008.1249535-1-alex.t.tran@gmail.com>
-References: <20250901184008.1249535-1-alex.t.tran@gmail.com>
+        Mon, 01 Sep 2025 12:50:39 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: robh@kernel.org, krzk+dt@kernel.org, vkoul@kernel.org
+Cc: conor+dt@kernel.org, srini@kernel.org, yung-chuan.liao@linux.intel.com,
+        pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH 0/7] soundwire: qcom: add support for v3.1.0 controller
+Date: Mon,  1 Sep 2025 20:50:30 +0100
+Message-ID: <20250901195037.47156-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,92 +80,54 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAxOSBTYWx0ZWRfX+nusErPgqF2K
+ yZqvWh8oiM5LTLEWVVv4SslpWESBdhphgk4jKOSHes/SXkLJBPtaKnejDkiXkrdVopF08cOOmHr
+ eD6bSNoWknL5DmImvWE0yf83luWbLKI1PWgU/DAV+SKFPlmnjZj6qPlnO8gepV0uV4sHf9f4xXE
+ DnCMgwUPkFb5ULx1BbfBmG3towYPnXn16VyISnKc0+y/q8/NfUQETQF5YN+bmUkAiD3svCHFMN+
+ JNHu+clgc1q8Cd1Nciifgn5I2SdVwrMBVSbVmXolpAd07wf8hyF+l4MlGJdf/9m9B84e8G8k5er
+ a1LVLhhl82wrq0fW3cVGDojqVO3kL8eS3ECpwFW7JGk+M3kTdkXCip1nvSbCKaXYfdIKO2+xg9c
+ ngTFW38I
+X-Proofpoint-GUID: y1RnODnru9E9Q2kW6yLtS-cLyaqdakRu
+X-Proofpoint-ORIG-GUID: y1RnODnru9E9Q2kW6yLtS-cLyaqdakRu
+X-Authority-Analysis: v=2.4 cv=PNkP+eqC c=1 sm=1 tr=0 ts=68b5f912 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=yJojWOMRYYMA:10 a=plMaQY1jPcDNhxvH7e0A:9 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-01_07,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
+ suspectscore=0 adultscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300019
 
-Remove the tlv320dac33_platform_data struct and header file
-tlv320dac33-plat.h as they are not used anywhere in the kernel
-or outside this driver.
+This patch series adds support for Qualcomm Soundwire Controller
+version v3.1.0.
+As part for adding this support, a new macro of_property_read_u8_index()
+is added so that we can remove the qcom,din-ports and qcom,dout-ports.
+As v3.1.0 supports more than 17 soundwire ports. Also due to change in
+the register offsets, new entries are added to the variant data.
 
-Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
----
-Changes in v2:
-- Included removal of struct 'tlv320dac33_platform_data'
-  and header file 'tlv320dac33-plat.h'
-Changes in v3:
-- Split into separate patches as per request
-- Moved inter-version changelogs after '---' line
+Tested this patchset on X14s and Glymur reference platform.
 
- include/sound/tlv320dac33-plat.h | 21 ---------------------
- sound/soc/codecs/tlv320dac33.c   | 12 ------------
- 2 files changed, 33 deletions(-)
- delete mode 100644 include/sound/tlv320dac33-plat.h
+Thanks,
+Srini
 
-diff --git a/include/sound/tlv320dac33-plat.h b/include/sound/tlv320dac33-plat.h
-deleted file mode 100644
-index 7a7249a89..000000000
---- a/include/sound/tlv320dac33-plat.h
-+++ /dev/null
-@@ -1,21 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Platform header for Texas Instruments TLV320DAC33 codec driver
-- *
-- * Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
-- *
-- * Copyright:   (C) 2009 Nokia Corporation
-- */
--
--#ifndef __TLV320DAC33_PLAT_H
--#define __TLV320DAC33_PLAT_H
--
--struct tlv320dac33_platform_data {
--	int power_gpio;
--	int mode1_latency; /* latency caused by the i2c writes in us */
--	int auto_fifo_config; /* FIFO config based on the period size */
--	int keep_bclk;	/* Keep the BCLK running in FIFO modes */
--	u8 burst_bclkdiv;
--};
--
--#endif /* __TLV320DAC33_PLAT_H */
-diff --git a/sound/soc/codecs/tlv320dac33.c b/sound/soc/codecs/tlv320dac33.c
-index 423b9264a..36b3de75a 100644
---- a/sound/soc/codecs/tlv320dac33.c
-+++ b/sound/soc/codecs/tlv320dac33.c
-@@ -24,7 +24,6 @@
- #include <sound/initval.h>
- #include <sound/tlv.h>
- 
--#include <sound/tlv320dac33-plat.h>
- #include "tlv320dac33.h"
- 
- /*
-@@ -1462,16 +1461,9 @@ static struct snd_soc_dai_driver dac33_dai = {
- 
- static int dac33_i2c_probe(struct i2c_client *client)
- {
--	struct tlv320dac33_platform_data *pdata;
- 	struct tlv320dac33_priv *dac33;
- 	int ret, i;
- 
--	if (client->dev.platform_data == NULL) {
--		dev_err(&client->dev, "Platform data not set\n");
--		return -ENODEV;
--	}
--	pdata = client->dev.platform_data;
--
- 	dac33 = devm_kzalloc(&client->dev, sizeof(struct tlv320dac33_priv),
- 			     GFP_KERNEL);
- 	if (dac33 == NULL)
-@@ -1488,10 +1480,6 @@ static int dac33_i2c_probe(struct i2c_client *client)
- 
- 	i2c_set_clientdata(client, dac33);
- 
--	dac33->power_gpio = pdata->power_gpio;
--	dac33->burst_bclkdiv = pdata->burst_bclkdiv;
--	dac33->keep_bclk = pdata->keep_bclk;
--	dac33->mode1_latency = pdata->mode1_latency;
- 	if (!dac33->mode1_latency)
- 		dac33->mode1_latency = 10000; /* 10ms */
- 	dac33->irq = client->irq;
+Srinivas Kandagatla (7):
+  of: base: Add of_property_read_u8_index
+  soundwire: qcom: remove unused rd_fifo_depth
+  dt-bindings: soundwire: qcom: deprecate qcom,din/out-ports
+  soundwire: qcom: deprecate qcom,din/out-ports
+  soundwire: qcom: prepare for v3.x
+  dt-bindings: soundwire: qcom: Document v3.1.0 version of IP block
+  soundwire: qcom: adding support for v3.1.0
+
+ .../bindings/soundwire/qcom,soundwire.yaml    |   8 +-
+ drivers/of/property.c                         |  33 +++
+ drivers/soundwire/qcom.c                      | 253 +++++++++++-------
+ include/linux/of.h                            |   9 +
+ 4 files changed, 197 insertions(+), 106 deletions(-)
+
 -- 
-2.51.0
+2.50.0
 
