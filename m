@@ -1,40 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A622F39D4
-	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 09:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5F42F0C67
+	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 09:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756806609; cv=none; b=IpcLClNPSYqFaG+ObLC47Oslt5zIHbjacKFTMC7WmqncxFP+LeyqA+B5q60nvto2Zcyq4Bpo5Veobp1JYh8PDw8rDlpqdGg9zISgtscSaZV0kDoFTAP0SVGyBeteuzQr+B+wISZRxlZGFv+vFGvYEAZIGaSFpuFRoUja8PCRI4k=
+	t=1756806689; cv=none; b=ty+PiHabthmH84bCBm1KpX+t51hffeXlBqNn8jIxg1I7iBlRk8+ToABE4J0298yNSq9rCuehr0ijpGqiGbACUmLDrPMxDeAPLBGoGOUTpJ3lxbr3axgXEshKZXM+h7uJmrrOLy9XXe1nze49rkmQfVLtMjtuX8VRBjUasJtt8I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756806609; c=relaxed/simple;
-	bh=GYwmPEzH7jYAgwsy+4F3z7uFn8PRt6AP8l+c6tTp+e0=;
+	s=arc-20240116; t=1756806689; c=relaxed/simple;
+	bh=+dLEptwjPbAKn2LTu7YvNaZ1ZvxUErP01Y8AezsTC1s=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gJ2uJjewzcx8/lF8AXR278HfJd0az0nlWRc3lUcpvRpRNQDOGUZFjzEaeRJFPvMzYHIQnWTsa5dj8+g5tifdOFxwRqD+hCMYRdMSYIB5YSh5kK35ptaDBvY6pbRK8vnu67aRRkDohBvv0L+5y5UktL+/j11+nx7QIACY7EG7hLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VFdrIVLR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=qE69DLYyQ1gwd7seTvPAth4eQXvEkQFkxY+7avwJ8+Am2ZNAafHHh+NX8AA1xcj3iLLeCo/UQeXrduhJZDy4LscvuJPLFJsZJsfrbO1FSGXc25JdIqewXFS0739ELaSP48/mF/cuRMhaeRUHLNLtzdpxO8iqHipHR9mtiqbV1Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W38PHnfj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VFdrIVLR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F155C4CEF5;
-	Tue,  2 Sep 2025 09:50:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W38PHnfj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57307C4CEED;
+	Tue,  2 Sep 2025 09:51:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756806609;
-	bh=GYwmPEzH7jYAgwsy+4F3z7uFn8PRt6AP8l+c6tTp+e0=;
+	s=k20201202; t=1756806688;
+	bh=+dLEptwjPbAKn2LTu7YvNaZ1ZvxUErP01Y8AezsTC1s=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=VFdrIVLRhPIqfHa7HjpDXs/WB70jI0kkWLQetShYx+ZgOH6dY8ZSawQP1o+rQQDlT
-	 BCOBIIgpEDC4i9hBtrjGcZzzzJOVxZ7GEv870Qg9Ba31bH0QdX0KqHRmN0smTtxD/t
-	 O6ZmRF+0MPSP5ANb6cxSEttRDy4Uxgd0aBAr8W/eA5spC9a5T5M+sLVJmdiL0ce7oo
-	 nw1Gzfw362YsxmA3M65OXaflujZat7eBI+oFzRWuD8hUBD245SGk+MOmePm4WKh2mD
-	 oG4HNsORMP2owrFTXBkMw/4kecwjlHXN1AsnmppmVv0mdFzlZzeGky3ugT2YtMnulj
-	 zh38JCw7c7y8w==
+	b=W38PHnfju2OEprdH7zMOrvQ6cE/LIwOvhARD10QmSql2hrNJZP/YgSQvoGz4Ny40L
+	 kNDwVDfw1kyaZRZIauMlORPAnlk1aeRkuKw1CMMolipVJSoJ+JYiLlDx1JBEfuo8em
+	 rXLoUQemdrRWMidd/l04iGjy5g01gePXcPHsr1lxp/0pYTGQGeDP4X/HdUpWYe6Ckw
+	 h7jy6BOewx4DxmMYkkQpLB0n5Vxg3suv2I/ip/TLdvBdd7aRw/fUB1+04toH3Npc1O
+	 WZ82jW2r+4dNNTcB9i+JsJnAyMbGCThVntPtyGwCvshS6G63b/Tx9IVptvnBeyKnfG
+	 UrOmJOOR/7yYw==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-In-Reply-To: <20250901085757.1287945-1-shumingf@realtek.com>
-References: <20250901085757.1287945-1-shumingf@realtek.com>
-Subject: Re: [PATCH] ASoC: rt712: avoid skipping the blind write
-Message-Id: <175680660785.13556.4934024369365511755.b4-ty@kernel.org>
-Date: Tue, 02 Sep 2025 10:50:07 +0100
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <877byqy54y.wl-kuninori.morimoto.gx@renesas.com>
+References: <877byqy54y.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/4] ASoC: soc-dapm: rename each functions/macro
+Message-Id: <175680668809.15924.7803240139118328869.b4-ty@kernel.org>
+Date: Tue, 02 Sep 2025 10:51:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,11 +44,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-cff91
 
-On Mon, 01 Sep 2025 16:57:57 +0800, shumingf@realtek.com wrote:
-> Some devices might not use the DMIC function of the RT712VB.
-> Therefore, this patch avoids skipping the blind write with RT712VB.
+On Tue, 26 Aug 2025 06:21:49 +0000, Kuninori Morimoto wrote:
+> ASoC has many functions/macro, but the naming rule is a little bit strange.
+> I'm now posting many patch-set to makes snd_soc_dapm_context local,
+> and all drivers will be replaced to new style.
+> I want to cleanup function/macro name too. These are just cleanup patches,
+> no feature changing.
 > 
+> kuninori Morimoto (4):
+>   ASoC: soc-dapm: rename snd_soc_dapm_kcontrol_widget() to snd_soc_dapm_kcontrol_to_widget()
+>   ASoC: soc-dapm: rename snd_soc_dapm_kcontrol_dapm() to snd_soc_dapm_kcontrol_to_dapm()
+>   ASoC: soc-dapm: rename dapm_kcontrol_get_value() to snd_soc_dapm_kcontrol_get_value()
+>   ASoC: soc-dapm: rename snd_soc_kcontrol_component() to snd_soc_kcontrol_to_component()
 > 
+> [...]
 
 Applied to
 
@@ -57,8 +65,14 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt712: avoid skipping the blind write
-      commit: f54d87dad7619c8026e95b848d6ef677b9f2b55f
+[1/4] ASoC: soc-dapm: rename snd_soc_dapm_kcontrol_widget() to snd_soc_dapm_kcontrol_to_widget()
+      commit: bbf7a84787d0dc5910d121b025dd5f4dea060768
+[2/4] ASoC: soc-dapm: rename snd_soc_dapm_kcontrol_dapm() to snd_soc_dapm_kcontrol_to_dapm()
+      commit: 2532041865305594e37c4c22bd650d52ea805ec8
+[3/4] ASoC: soc-dapm: rename dapm_kcontrol_get_value() to snd_soc_dapm_kcontrol_get_value()
+      commit: f6883f0f03575ecc8c4c5d2a04339bac91eb33d7
+[4/4] ASoC: soc-dapm: rename snd_soc_kcontrol_component() to snd_soc_kcontrol_to_component()
+      commit: 8a9772ec08f87c9e45ab1ad2c8d2b8c1763836eb
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
