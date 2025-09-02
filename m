@@ -1,90 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003FE2E719C
-	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 17:58:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070F0342CB8;
+	Tue,  2 Sep 2025 18:04:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756835888; cv=none; b=J02h4UhhrYrE9467zVRDOYPsaYQjHceEDk4Klcyh72p8GYyape4CJTK5kFCutWgysjt9CLcZx8V3cWmDy0nNTpjGmr9YJ7l4sF0koCEwjbvyBZRUK43OJJz+s2wwbnpAGbQVrb4hDSpffAQgO9rcoEwAozRQ9DpS8r5xNO4/n0k=
+	t=1756836286; cv=none; b=aALaqA8s3tGsfnDathfSEjDBs2jV5BysmsE1d+ePBZ7NJaNBxL7yK3LkcIB/gxs/AR/B8luGm+bSZCglRytKim3rBd3dexnPm2jQn7oczXo7rMwZqyJ4yoG6yeAzx2MEXN0JTPf7kGtYWN+EavWHG/9zECUiRBksLC3v4zq2OiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756835888; c=relaxed/simple;
-	bh=G1lFqotkVACtE6+sW5ZU3GR50PauyZ2v/bKjnH+XF/A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NR7PzOaICaSnaTJrZiSvNEjQsCFih0cDLCLIaDU6ttt55J1xxfS9R6YZdcP3H23kXwDJf2W/2gC5y3pOlK5cvAni/aVdxWsbGBS+gTxJS/J5jcE8sgJCNVHeZax6kmXGO6XGepI4fYkiAiK6DSGON24mGqFNr7JhPWCeinNUjtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nY624UIp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756836286; c=relaxed/simple;
+	bh=EeQ8qmgl4PWfxl1pAaKnRAnYiAo1vJ0KyU0hmIyxK4w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=koVKvX46S+RoLpQ2NgpKmn4d+1BozNvbjiiDIU7/fXXO2BAGbBdv/azEJ6OrKIIaMWt0e8u0KjrZhhh5XNteqcWe4kI2xmj4xFTgKYJuHcbsZFxQ/rgvfbNEUvjBrzFy/fcNaC26G+qjk3cx2MTkh4aaLXu2oqX8xTS+Ld4kr3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kLUtS4EQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nY624UIp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C55C4CEED;
-	Tue,  2 Sep 2025 17:58:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kLUtS4EQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE14C4CEF5;
+	Tue,  2 Sep 2025 18:04:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756835887;
-	bh=G1lFqotkVACtE6+sW5ZU3GR50PauyZ2v/bKjnH+XF/A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nY624UIp+uSHKMzQNUM4IB9W/3X12Zpc7akgwjhMDHHYimCJ7s1deyLtNMWlJKUAj
-	 /AsdyjMj2kYj95uATspMpvjbS0ak9/4TkxTYpGhSeqqZt+7/2hl/P5DgYt0PuDwQjh
-	 MqrxunDowAqiPPTqBr5DjuIcsDOMWxbHaDYNw1WCZ3Z14HRTSUhozugXJgZc3UdxXJ
-	 N1a6WYcId+juDGVm8Qrlycad6f3MZ1aZe7CWiAwgMV3q+g5X6kZwT4fAECqbLwDpku
-	 rsXskcfyw59gsifQ2B91jHZiXoIAgTP/YNtbI5znegPyTcjjKmRIFEmtLs6bdPOiCv
-	 adwA+m4AuFN/w==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, lukma@denx.de, mans@mansr.com, 
- ankur.tyagi85@gmail.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20250821082639.1301453-1-ckeepax@opensource.cirrus.com>
-References: <20250821082639.1301453-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v2 0/3] Minor bug fixes for some older Wolfson devices
-Message-Id: <175683588601.1108057.11765729005710176683.b4-ty@kernel.org>
-Date: Tue, 02 Sep 2025 18:58:06 +0100
+	s=k20201202; t=1756836285;
+	bh=EeQ8qmgl4PWfxl1pAaKnRAnYiAo1vJ0KyU0hmIyxK4w=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kLUtS4EQCkk/A9dMyixoi1pGnw8CaT7/84yqRE0njOsg7CM9YeKCsMJW2LZqf/3el
+	 OwkLmz0zmHq/Ult0Mjr+J3xAczSUME/cJj+KIXIpKd2tFpIBXsvDUA3dYAeFh3xrrc
+	 PVSXoeERVQ1XBMcvHz8gfRkBvTxrA9Z5py1fkabCPxPqrr6etzxIFWOKWRg/IKjarU
+	 VsS8FcOdKXyrR1omkG8kdLEyhSKjHNP2CPLo/lqGpTvrnlLJrm0y422E5+xy6W7aox
+	 WOFv69o5TYtUmb/4fVCkFspy4l2qy/HJ0wAE27xvGE7ICT3+iEZbI0ctdpyICJE8tH
+	 57cM+k93Ss8hw==
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-61cd6089262so9235852a12.3;
+        Tue, 02 Sep 2025 11:04:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVdZy2qaA2iYd6AnlPvrkdMCZE1a0AlVNBOrgvJSh83okn0OuObIXRD1HrUqsymLHOeYUpc6BFgn8+2ToU=@vger.kernel.org, AJvYcCWT03hd+m6J0ShcjZdkS1WuzTSHywcSd5rQwsA497gcmu8Nd1LbLfIryTvHX5xgbEblykSKpBtXTY4f9LJ/wA==@vger.kernel.org, AJvYcCWzzEieouwW1HSw12ZDiKIXQjMQ+UXb1wl5UZwvB0G3aYLlmtFMmBIMbhaYIkSJY+94dzd/WhZellw8@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUMlhndtS3D6a6CTXptaeORz0erv3STVrqZzn9FJ1vRjDMtB08
+	AxotFFFxV4kdE5g04WSD8BcJCLb1kbG0EAxpUULiVjeU0uE0JIAd8sVGjEnSLZslQ1mZstgl0tv
+	4gf2gdZMwrTCGzZjBRLBE4pmzjjGaiQ==
+X-Google-Smtp-Source: AGHT+IFS6/jTBaxYrOJnscPEN+/2YvkXakCmNm/PwzwXCk1mnjslLPBcUGBBbnZoHxpujqjkp7TnqY/26l/YlWGGcLY=
+X-Received: by 2002:a05:6402:2815:b0:61c:1b27:56d4 with SMTP id
+ 4fb4d7f45d1cf-61d26da447cmr10421007a12.35.1756836284070; Tue, 02 Sep 2025
+ 11:04:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+References: <20250902161156.145521-1-srinivas.kandagatla@oss.qualcomm.com> <20250902161156.145521-2-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20250902161156.145521-2-srinivas.kandagatla@oss.qualcomm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 2 Sep 2025 13:04:31 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKxPJ5KSJLoQNQjnivAYZF9j2wCLAxs4TgqeB7P6+XMOA@mail.gmail.com>
+X-Gm-Features: Ac12FXzChS6xv6fFnfBFo-YbbDH_HBgYtWIDPAASPv30eOZopkMvjiG8g64KNhI
+Message-ID: <CAL_JsqKxPJ5KSJLoQNQjnivAYZF9j2wCLAxs4TgqeB7P6+XMOA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] of: base: Add of_property_read_u8_index
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: krzk+dt@kernel.org, vkoul@kernel.org, conor+dt@kernel.org, 
+	srini@kernel.org, yung-chuan.liao@linux.intel.com, 
+	pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 21 Aug 2025 09:26:36 +0100, Charles Keepax wrote:
-> Minor bug fixes for a couple of older devices reported by some users.
-> Mostly this centers around the automatic PLL configuration getting the
-> wrong values due to rounding.
-> 
-> Thanks,
-> Charles
-> 
-> [...]
+On Tue, Sep 2, 2025 at 11:12=E2=80=AFAM Srinivas Kandagatla
+<srinivas.kandagatla@oss.qualcomm.com> wrote:
+>
+> Add support for of_property_read_u8_index(), simillar to others
+> u16 and u32 variants. Having this helper makes the code more tidy in
+> isome cases, specially when we are parsing multiple of these into
+> data structures.
+>
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> ---
+>  drivers/of/property.c | 33 +++++++++++++++++++++++++++++++++
+>  include/linux/of.h    |  9 +++++++++
+>  2 files changed, 42 insertions(+)
+>
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index c1feb631e383..a644b24d5b75 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -147,6 +147,39 @@ static void *of_find_property_value_of_size(const st=
+ruct device_node *np,
+>         return prop->value;
+>  }
+>
+> +/**
+> + * of_property_read_u8_index - Find and read a u8 from a multi-value pro=
+perty.
+> + *
+> + * @np:                device node from which the property value is to b=
+e read.
+> + * @propname:  name of the property to be searched.
+> + * @index:     index of the u8 in the list of values
+> + * @out_value: pointer to return value, modified only if no error.
+> + *
+> + * Search for a property in a device node and read nth 8-bit value from
+> + * it.
+> + *
+> + * Return: 0 on success, -EINVAL if the property does not exist,
+> + * -ENODATA if property does not have a value, and -EOVERFLOW if the
+> + * property data isn't large enough.
+> + *
+> + * The out_value is modified only if a valid u8 value can be decoded.
+> + */
+> +int of_property_read_u8_index(const struct device_node *np,
+> +                                      const char *propname,
+> +                                      u32 index, u8 *out_value)
+> +{
+> +       const u8 *val =3D of_find_property_value_of_size(np, propname,
+> +                                       ((index + 1) * sizeof(*out_value)=
+),
+> +                                       0, NULL);
+> +
+> +       if (IS_ERR(val))
+> +               return PTR_ERR(val);
+> +
+> +       *out_value =3D *(val + index);
 
-Applied to
+val[index]
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Otherwise,
 
-Thanks!
-
-[1/3] ASoC: wm8940: Correct PLL rate rounding
-      commit: d05afb53c683ef7ed1228b593c3360f4d3126c58
-[2/3] ASoC: wm8940: Correct typo in control name
-      commit: b4799520dcd6fe1e14495cecbbe9975d847cd482
-[3/3] ASoC: wm8974: Correct PLL rate rounding
-      commit: 9b17d3724df55ecc2bc67978822585f2b023be48
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
