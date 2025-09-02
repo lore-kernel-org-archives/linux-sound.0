@@ -1,113 +1,74 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96933019BA;
-	Tue,  2 Sep 2025 12:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B142FD7BD;
+	Tue,  2 Sep 2025 12:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756814850; cv=none; b=tpatGmUShmvXDtAqYPbyCIgoDJe38JEykmOwLP/Ggd49UpSaub+KU7Gw1UKzBvYMxCS2Eh5V5zQWIT+rEoX34l+iVi0LndlVI0N5REuiZthJ09kJ+5NkO/LvPKSln6iefbFsPhkxQjsAUgwoAAtIrQOJUD5RCZPJ2S/NiQgL4Gg=
+	t=1756815040; cv=none; b=O9z2ZoaN48pxd2bwZnxQ1ApQ5NVlDVgPaP9GDJqLm/DInJTXF6vLKIJZED0BPvBiaTVI4rwUu2CDnS+J/cnIhfW+mXgy1NhhjFaCi/VxXf+pfwM5q46hQwzs8/ncps7nrVeo3z7gg/kJFn2IOuSL3CS6N/WrOdBiAsGQrMAbm1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756814850; c=relaxed/simple;
-	bh=REVUoomLAJZclmtWiP2XudXja6GJhV9CKjtUpJ+tR9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=njb1QeNQINEhJmCQdSu9/eryFF0InkNobAChLzpG+b/cexzdcuxlax45udLix0bBGaeu6024FU5CwJeVkYY28g8Z4pdvPqOlVw90vGpKtt8AVpQwZM7LWIf4D1tXnTC0GHrbPbSYlHB4hec2aRDpT00raOOsj/7YW1KpD4dTXXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CPbbPB5i; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756815040; c=relaxed/simple;
+	bh=GbbFeZzrbcI8rDp8W4QhTXZmbwTKXN2A7HqoJkccNMA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B7BhlXSAWqDuWw0pWozGZ+WIjLwO07Q5/qrLVctNQ2cAEhf4iZiT9nqxVmjxbKgeRkRSBonkjOEcXPh0BCb6OnHJeCm+LnWeoFI6Nlz/grZgf6jd9W0HHKJexCJ205yphEJm5WAM5z2Ha92QuQP67cPwLi7FS/r/8m2VbpT8MvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=G624TEn7; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CPbbPB5i"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3dae49b1293so335795f8f.1;
-        Tue, 02 Sep 2025 05:07:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756814847; x=1757419647; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yHi6esc6xWnHBFPt5kmv45QR9np7D0h5gaBaysBxNhw=;
-        b=CPbbPB5iIq86NU539E7cYZ2SxAtxuEzYfleQkhA/2M7Cq4QSMovOg3TAQ0DdUeRaOm
-         JeKses+zfTdoLEX7ziw/UUVRET6F1c8i3TLbWIJmTuFsGDwMF948OGd5pNk3OBtjdi8X
-         4Of0astpWkY74hACjajmdbmCLNEgFNVq2to2/kX777Q6Aa+d65wgHzddGZmS75Y4h2cA
-         CKOMgL3zxseSBpieOu1i9oHud43Thw9dBEOzUdmfAj9JSEOI4cbhzSNyZlSe8BcCEIuL
-         MGphzjVYlPTDyChUCSdls6Bp4RpSeLmC228sxusD/vS2m5H4prQR6cVs/ZIO/AIbIhfm
-         Z6wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756814847; x=1757419647;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yHi6esc6xWnHBFPt5kmv45QR9np7D0h5gaBaysBxNhw=;
-        b=Ey1JUprvenBo9yB+j9VHy4zPkxYALSnYkpsoddN2OwiVA3wAsIqd7fZUSI68p+ukmp
-         wab0PG0KEKjfkeuIa74dMYKeGAMJ4bjzTHMG5OG5E0f55pHYXTF1sjpeA1lZxfs+F8ae
-         G0MLfcNW31ximGBJdyNt6IHthCeLGZc3JRmq2ZJKpn0bO55CQssMtHDFDneP3ooTkJpW
-         vNXWAisJe2g2osFpevuxY/I/sYLF8uGrGN8u+uDXTQMh7fcGfchCNwiNtmrjzISznWOr
-         e7sa/j4gk4iLL5dB+GujS7sRSdqqPbT5E4reUZM1CuFQYLATvOOtk99+oDHYKGUBRcC4
-         EYJA==
-X-Forwarded-Encrypted: i=1; AJvYcCWoS5kalyOGdhUKR/RYqOfU8bQsj6ai/HlHJCsYxCGruDnTSMwfG+MSjSd59tpoKqqx0dp1rwY90oxWqyk=@vger.kernel.org, AJvYcCXwqXEZiL5g0qZr+J3PN80J5WS+h4wDC10Pw2FXyskOHcvo2W6VE1qUIkjyBrV/fWpuQWoFVKgqQ+emZjo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/pg7jtemz6t+Ik0fLjTQLrf5c8P9ECc6ZMwsRl8lSXugfQ9WX
-	ROBX6+JlwGYRH95nLmOS4hItCPgEWX+yPFUzgVSIaFUH3fJAlh90eOR0
-X-Gm-Gg: ASbGncsGhbcTK+Sy2etljKZcqQnEbgcHjmO6kuTrotK5DEsorbwgqLwh02Yyfk55v/t
-	ZRoy0eGGeCRMec0Q+IQ0iGDnq9XEq1jqIMCv0t0RTcbn0UYVnxnSNGuZ02bBVWb1pLHNitLFQf3
-	Ccrpu+SvL1ff/heWrmgT2zx6IlAJ4x5ETguCFxu8AyXzDuADrsD1g7dyv6c06BG705VJ/S7Aj/I
-	Gq5MFgbYInaLmOAnDdSseCeACGQRy0MF8lp5UdPmL32O7NcIazED4Odg1AtE0sMPnpqzAvdm1vH
-	O3ckJFG3d6JWKjuHVh8308PrQQdidnO9cKKOu4Y3lyNoJWXlOsUTqrn5um605or2npubfQhr8tz
-	59/349mEk1KSjCoZ9ek/d
-X-Google-Smtp-Source: AGHT+IEC1qGVZIGdFWWUaDmFj3WEpMRuFaZo0xUy7X1JITS1B2cpohTDvt28I9fETEUvVtQ2zjiNXA==
-X-Received: by 2002:a05:6000:1a8a:b0:3c7:308e:4dff with SMTP id ffacd0b85a97d-3d1e07a9d97mr7395781f8f.57.1756814846650;
-        Tue, 02 Sep 2025 05:07:26 -0700 (PDT)
-Received: from localhost ([87.254.0.133])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3d701622b92sm8136088f8f.58.2025.09.02.05.07.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 05:07:25 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Keyon Jie <yang.jie@linux.intel.com>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ASoC: SOF: Intel: hda-stream: Fix incorrect variable used in error message
-Date: Tue,  2 Sep 2025 13:06:39 +0100
-Message-ID: <20250902120639.2626861-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="G624TEn7"
+Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 17A72C77;
+	Tue,  2 Sep 2025 14:09:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756814968;
+	bh=GbbFeZzrbcI8rDp8W4QhTXZmbwTKXN2A7HqoJkccNMA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G624TEn7U+k1qutEWygtZ71VS4M4AdCFCT2951MnoCwutqaiubDZM1ky7U/iI3P1f
+	 aoyEzRhQ2IrinA1+dt0OfB0iZQ4Xn69vmkz1th51Okkue+hYqC6OPras8qLE0reK8n
+	 xmhfAHZDuyzuGR4inm6/C+9iYXD/UU+YiUmQfUKs=
+Date: Tue, 2 Sep 2025 14:10:15 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, linux@treblig.org, arnd@arndb.de,
+	mchehab@kernel.org, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linux-media@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] Remove the wl1273 FM Radio
+Message-ID: <20250902121015.GI13448@pendragon.ideasonboard.com>
+References: <20250625133258.78133-1-linux@treblig.org>
+ <20250808154903.GB23187@pendragon.ideasonboard.com>
+ <20250902103249.GG2163762@google.com>
+ <20250902113527.GB1694@pendragon.ideasonboard.com>
+ <88042d72-b428-442e-ba3c-b15e587e12a7@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <88042d72-b428-442e-ba3c-b15e587e12a7@sirena.org.uk>
 
-The dev_err message is reporting an error about capture streams however
-it is using the incorrect variable num_playback instead of num_capture.
-Fix this by using the correct variable num_capture.
+On Tue, Sep 02, 2025 at 12:47:39PM +0100, Mark Brown wrote:
+> On Tue, Sep 02, 2025 at 01:35:27PM +0200, Laurent Pinchart wrote:
+> 
+> > Patch 1/4 has been queued in the media tree and should be in linux-next
+> > as commit 103b0cfc9ab6. It is based straight on v6.17-rc1. Patch 2/4 is
+> > also in linux-next, but is based on other ALSA patches. The simplest
+> > course of action would be for you to merge 3/4 for v6.18, and 4/4 for
+> > v6.19.
+> 
+> Or given that it's a driver removal we could just get a rebase of the
+> series against the meda tree applied?  The conflicts with ASoC should be
+> trivial to resolve.
 
-Fixes: a1d1e266b445 ("ASoC: SOF: Intel: Add Intel specific HDA stream operations")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/soc/sof/intel/hda-stream.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I don't mind either way. I know Linus doesn't like having the same patch
+merged with different commit IDs, but I don't know how strict the rule
+is, especially when git should be able to resolve the conflict
+transparently.
 
-diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-index aa6b0247d5c9..a34f472ef175 100644
---- a/sound/soc/sof/intel/hda-stream.c
-+++ b/sound/soc/sof/intel/hda-stream.c
-@@ -890,7 +890,7 @@ int hda_dsp_stream_init(struct snd_sof_dev *sdev)
- 
- 	if (num_capture >= SOF_HDA_CAPTURE_STREAMS) {
- 		dev_err(sdev->dev, "error: too many capture streams %d\n",
--			num_playback);
-+			num_capture);
- 		return -EINVAL;
- 	}
- 
 -- 
-2.51.0
+Regards,
 
+Laurent Pinchart
