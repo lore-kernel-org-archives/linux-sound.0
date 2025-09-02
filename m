@@ -1,46 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029722E7BAB;
-	Tue,  2 Sep 2025 07:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF38A2E7F2C;
+	Tue,  2 Sep 2025 07:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756799858; cv=none; b=OZThOpdqz5qakraJbTvWURYPhX/30nS8zrBmU85rcy7dZFgJhUcBdIPwSPEQ75pjpFfXKZNKuvQR3aUPXXZFmbvc6w6pdwD89UMxvGe4on+w9m5sgbkw0bWL6azzxlVzmuDRST6LI0NbGnn1UOnvKn2l45H7aWS8VZpyz+lH6cI=
+	t=1756799975; cv=none; b=dvbNhLG6MKEOUB6WPEVvyl8iFpyXFMT/z44fp9eUw1xkrXhaM7zjF8EwKnfIA+p8ofGu3qkXzyx/ykCJRtq6+brQYGVu+YDUkSVtP8szz/wl5FbzgH1ob1hys9jbQGNd6G8QuEUzJ8Ydt4J3R1mEpnL3QoL4Qhe5g8zEuqMy0Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756799858; c=relaxed/simple;
-	bh=Gcvqnyx8Usk/FWPQbu2+qHYvDN50/xAOdJmelSgFGmk=;
+	s=arc-20240116; t=1756799975; c=relaxed/simple;
+	bh=EF1op+eddct4pM3ZB2o0aAETXERusr9OmQud0x6jKd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TvWcCe+f+1/whY3FDDOtu8sypjo+JNMfIUbCDa1ij/nM4n3iG2/AocoEVGIT0VatwHo5QqlWBNd6WUIczQBGofJe7BuavV62zLnoc8niFXCwPalPY0oIaO2kvxG1HmRgmPyEE8RuKLPfQZfqrnjp/zzrCfqcdjnwK+nfY7QGkdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aphJ2tE2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=V8jLBox9bL4chOKTNuHuU+CinIqWf9lzULjF9kKODd++fra3MRP9euRLNDM+m/PIWA9lPmWosgZISR3szSkwRPhodmCu2QKxUR41Ckf/WU1oG26uyfL4AzlHVl/u04uppJqvtKRIuIF9HToc7+5bMMg/2thvkrz6id+TpTnKDow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vJG3GOiE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aphJ2tE2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41405C4CEED;
-	Tue,  2 Sep 2025 07:57:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vJG3GOiE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B101FC4CEF5;
+	Tue,  2 Sep 2025 07:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756799857;
-	bh=Gcvqnyx8Usk/FWPQbu2+qHYvDN50/xAOdJmelSgFGmk=;
+	s=k20201202; t=1756799974;
+	bh=EF1op+eddct4pM3ZB2o0aAETXERusr9OmQud0x6jKd8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aphJ2tE2lKg0ht07WmeV+lCEePwouSbeu64wnkgYb+khK2Tj6DN10V1/tjJSGBTE5
-	 HgBQtN5WvjAx9ag+elPJiP6WrFczukBev4nM3r22/HmzIRTG1I9kpJXYU5H633Rr5y
-	 fVSGEfFQQ6YSQp2rbUwbqS8vYizINRI9LmO5xg0wWfljrwPzO311zlkC4mzNox5CtH
-	 TUuDywaVZ0UnJNreB0fcaiYoHskcyifIgVGFpmw5zA9ArX3na2QYaZP5Rki70YFHSk
-	 mPRiXUDX3F1C7OG5lvmQq0GFLzaFL0bDB/rjj5emuuM9vE6V+XgiUs0l8xgIqG6nSh
-	 kwSeV6S00qaQQ==
-Date: Tue, 2 Sep 2025 09:57:34 +0200
+	b=vJG3GOiE51Copquw/et4yKR2MBNqyeTR1IAPc0P1wxza24c8Bq4Zc/8Q7eKkeJOJ8
+	 pYWFTt1JmIPWALpvCaXjNsP99j/f0dLV/DYLcnsQ3vBiopJOhJLZBr6W/QP40TczLY
+	 s4mj9mZjOSnLBdFU1bnx5nhOyDJcF93bwPlgmYGWl3pCuhraZsFOltCb77vP8GOf5t
+	 12ryEquytxYXA5Le3xuYe8epm+vJQDqaCgoRv6HGXdjCf7BWZqERl7WQ97+WKzu8y8
+	 +FrcNp9sY8CK3kbN/yxn0KKBCpQodqKbLOJCPqhdlq76MB+N2NhN1BGCu2b3GIzIWi
+	 ewGqlCi6YaApQ==
+Date: Tue, 2 Sep 2025 09:59:31 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jihed Chaibi <jihed.chaibi.dev@gmail.com>, linux-sound@vger.kernel.org, 
-	lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	drake@endlessm.com, katsuhiro@katsuster.net, matteomartelli3@gmail.com, 
-	zhoubinbin@loongson.cn, KCHSU0@nuvoton.com, patches@opensource.cirrus.com, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, shuah@kernel.org
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: everest,es8316: Document routing
- strings
-Message-ID: <20250902-cooperative-mink-from-asgard-b7ed63@kuoka>
-References: <20250809151853.47562-1-jihed.chaibi.dev@gmail.com>
- <20250809151853.47562-2-jihed.chaibi.dev@gmail.com>
- <d5d0133f-1b42-4ad0-a3e0-2a2bdeb67484@kernel.org>
- <c280310a-d9cf-4bc5-989c-0fb8093f714d@sirena.org.uk>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Jassi Brar <jassisinghbrar@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Michael Turquette <mturquette@baylibre.com>, Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+	linux-clk@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 01/37] dt-bindings: arm: apple: Add t6020x compatibles
+Message-ID: <20250902-optimal-copperhead-of-chemistry-ebd7fa@kuoka>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250828-dt-apple-t6020-v1-1-507ba4c4b98e@jannau.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,29 +69,15 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c280310a-d9cf-4bc5-989c-0fb8093f714d@sirena.org.uk>
+In-Reply-To: <20250828-dt-apple-t6020-v1-1-507ba4c4b98e@jannau.net>
 
-On Tue, Aug 12, 2025 at 12:05:55PM +0100, Mark Brown wrote:
-> On Tue, Aug 12, 2025 at 09:40:20AM +0200, Krzysztof Kozlowski wrote:
-> > On 09/08/2025 17:18, Jihed Chaibi wrote:
-> > > The es8316 driver defines several DAPM widget names that are used for
-> > > audio routing in the device tree. However, these strings are not
-> > > documented in the binding file.
-> 
-> > > This forces developers to read the C source to discover the valid
-> > > names, which can be inefficient and error-prone.
-> 
-> > Reading free form text is as inefficient and error-prone as reading the
-> > driver.
-> 
-> On the one hand, yes.  On the other hand this is better than what we had
-> before so seems useful.  Ideally at some point someone will add a
-> binding for this but that's a much bigger piece of work.
+On Thu, Aug 28, 2025 at 04:01:20PM +0200, Janne Grunau wrote:
+> This adds the following apple,t6020/t6021/t6022 platforms:
 
-Fair enough. Jihed, please send v2 with descriptions referring rather to
-pins or device, instead of the driver. Even though you took them from
-driver, people would just copy-paste this description later for their
-new drivers...
+"Add..."
+
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
