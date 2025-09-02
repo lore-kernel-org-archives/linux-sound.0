@@ -1,94 +1,185 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45F7199252;
-	Tue,  2 Sep 2025 18:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0E326C3A5;
+	Tue,  2 Sep 2025 19:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756836849; cv=none; b=trU0xTOoN8O0vh3K/EW3S9oUcjXeSoCFMaGQ5Y6gmn6kU7tz7qmqvEgVA133jkZrohSmfICSNITI3mfa8HTFGwZ5QoikPiwUwnQ0jDIzAPG68iOQQ2EOzmsmpiRbSAMPkDzUVRSiUBMUXk+iNNYpNaVenogv3eHdW2GspD1xNng=
+	t=1756842876; cv=none; b=sxRAoAAyEtZFev17KptWrqIyb3VrWDDAQbtK8iU9j7bSroojv9MyRUn/3J5RbjZBCkIAYNBDmAE1yYKK5Sbl2dK54YM2FVurwbYDzVjF49M3FHYbzgHi52CaHQ9e5uqCfk5vhV6CKe8t931QZgpauCB97yTeCkSY8Myt3wCoO4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756836849; c=relaxed/simple;
-	bh=9FXlkRNezVVh36P6t+TaeP3d9O4CmaR5C7VkAHxWSBw=;
+	s=arc-20240116; t=1756842876; c=relaxed/simple;
+	bh=oJOLNYG2Y3DXMCSgbwODVJA8SAuDYi5Dbvsh+hG6M4Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GEHw09H8p0JtNJ68D2OzIk1sS922mTyT8aQ3ya5ooQfV3c7q07FbqMyfxY8asSxCHV1W/yuxqiCEbgXK9uaI71k2yTQnld/GG1k/zqsOQDaUcTq8jmClYd1eufSl2m16yLTosPm/bMOlowzUmYQxTo4f4GwgHQfZWcFBIhqqp5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=annzOnK4; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=pTeAwe3H0ZfTbDJRRZWdM2xfd7eeEpnNtL9F+QPxdolsSSKSGVg2KssdqxuJvRFGlI5KGDCu5vrRtsKYB7eKris3kTBG9bP51RP8Q3AaoEHEOpuKMIM8oWx/tcTVmXEbAotzkNR8T4NOFEuVAdNms1mXBJiFmjXY3v5zT96bZJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrJeisJC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="annzOnK4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=prInBSTc958Smv0ZFj1+aRfjobzPNDuMLS/wI5zg1QA=; b=annzOnK4yKgF70nE
-	k0cEd0SooPPpXr13FzLO4tHBmS60iLrkntS6YIPuc9otL5H5aPzlmEEAJeGnuq+1lf4JaWoY0g4nu
-	gXPSIZW71/IXPOEoMK/vyUSNIrWlC+3fGY8ngBRadNLUy7uX6wfyKyrA/l1PPq5/+rzGaIgQnSIWL
-	N/0zKysgj3ahZmEQFUxvUZZjO2n5HZJf1mmuvm8p2w07Pu46KwRAM+MtptgkGF8MRr4D936gRuXMc
-	Mpy0v84U8UHj3GUgaWzzOmATCjZksdtS8ddNO1PbrJq8PRWl9fNs1nQbAMl7tVRfEeBP/oI7jDo59
-	lm6Xyf3M7podY2HFRg==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1utV8A-0087xg-2k;
-	Tue, 02 Sep 2025 17:49:18 +0000
-Date: Tue, 2 Sep 2025 17:49:18 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mark Brown <broonie@kernel.org>, Lee Jones <lee@kernel.org>,
-	arnd@arndb.de, mchehab@kernel.org, lgirdwood@gmail.com,
-	perex@perex.cz, tiwai@suse.com, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] Remove the wl1273 FM Radio
-Message-ID: <aLcuHnj_h3Xf7DiK@gallifrey>
-References: <20250625133258.78133-1-linux@treblig.org>
- <20250808154903.GB23187@pendragon.ideasonboard.com>
- <20250902103249.GG2163762@google.com>
- <20250902113527.GB1694@pendragon.ideasonboard.com>
- <88042d72-b428-442e-ba3c-b15e587e12a7@sirena.org.uk>
- <20250902121015.GI13448@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrJeisJC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D07CC4CEED;
+	Tue,  2 Sep 2025 19:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756842875;
+	bh=oJOLNYG2Y3DXMCSgbwODVJA8SAuDYi5Dbvsh+hG6M4Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZrJeisJCeZBLdRd9piYISWxH6ectOKfLkCBAI45oB9yskyvBJx+HrHbj0QupA23QY
+	 HMwYW+4SpxkS1Px4DFX1y0PnsLKuIvMupIqIiKRi5+/yisqqzHEEZpEI+OC+GPQMt+
+	 Ih9UPZZxLrikazCJPDm6WovmTyFRm0ulZKF/oPzplGj21mx5CKCfRPvb9oo4xKL1nz
+	 Qojwko0xFxCfGWgdvCBAYT8/hAuaZcNeMu33YO6xDjk/8M8E6xVx4H6De8eZjysot9
+	 apZ9PSugbHYcTWyIOnwbJIoCz8GthLjCfl1K6nrT8bke0E+1MO5eocgkH5TUTef2/d
+	 X7vBDpLUcS7MA==
+Date: Tue, 2 Sep 2025 14:54:34 -0500
+From: Rob Herring <robh@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 00/37] arm64: Add initial device trees for Apple M2
+ Pro/Max/Ultra devices
+Message-ID: <20250902194528.GA1014943-robh@kernel.org>
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
+ <20250829195119.GA1206685-robh@kernel.org>
+ <20250830071620.GD204299@robin.jannau.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250902121015.GI13448@pendragon.ideasonboard.com>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
-X-Uptime: 17:48:35 up 128 days,  2:02,  1 user,  load average: 0.01, 0.00,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <20250830071620.GD204299@robin.jannau.net>
 
-* Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
-> On Tue, Sep 02, 2025 at 12:47:39PM +0100, Mark Brown wrote:
-> > On Tue, Sep 02, 2025 at 01:35:27PM +0200, Laurent Pinchart wrote:
+On Sat, Aug 30, 2025 at 09:16:20AM +0200, Janne Grunau wrote:
+> On Fri, Aug 29, 2025 at 02:51:19PM -0500, Rob Herring wrote:
+> > On Thu, Aug 28, 2025 at 04:01:19PM +0200, Janne Grunau wrote:
+> > > This series adds device trees for Apple's M2 Pro, Max and Ultra based
+> > > devices. The M2 Pro (t6020), M2 Max (t6021) and M2 Ultra (t6022) SoCs
+> > > follow design of the t600x family so copy the structure of SoC *.dtsi
+> > > files.
+> > > 
+> > > t6020 is a cut-down version of t6021, so the former just includes the
+> > > latter and disables the missing bits.
+> > > 
+> > > t6022 is two connected t6021 dies. The implementation seems to use
+> > > t6021 and disables blocks based on whether it is useful to carry
+> > > multiple instances. The disabled blocks are mostly on the second die.
+> > > MMIO addresses on the second die have a constant offset. The interrupt
+> > > controller is multi-die aware. This setup can be represented in the
+> > > device tree with two top level "soc" nodes. The MMIO offset is applied
+> > > via "ranges" and devices are included with preprocessor macros to make
+> > > the node labels unique and to specify the die number for the interrupt
+> > > definition.
+> > > 
+> > > The devices itself are very similar to their M1 Pro, M1 Max and M1 Ultra
+> > > counterparts. The existing device templates are SoC agnostic so the new
+> > > devices can reuse them and include their t602{0,1,2}.dtsi file. The
+> > > minor differences in pinctrl and gpio numbers can be easily adjusted.
+> > > 
+> > > With the t602x SoC family Apple introduced two new devices:
+> > > 
+> > > The M2 Pro Mac mini is similar to the larger M1 and M2 Max Mac Studio. The
+> > > missing SDHCI card reader and two front USB3.1 type-c ports and their
+> > > internal USB hub can be easily deleted.
+> > > 
+> > > The M2 Ultra Mac Pro (tower and rack-mount cases) differs from all other
+> > > devices but may share some bits with the M2 Ultra Mac Studio. The PCIe
+> > > implementation on the M2 Ultra in the Mac Pro differs slightly. Apple
+> > > calls the PCIe controller "apcie-ge" in their device tree. The
+> > > implementation seems to be mostly compatible with the base t6020 PCIe
+> > > controller. The main difference is that there is only a single port with
+> > > with 8 or 16 PCIe Gen4 lanes. These ports connect to a Microchip
+> > > Switchtec PCIe switch with 100 lanes to which all internal PCIe devices
+> > > and PCIe slots connect too.
+> > > 
+> > > This series does not include PCIe support for the Mac Pro for two
+> > > reasons:
+> > > - the linux switchtec driver fails to probe and the downstream PCIe
+> > >   connections come up as PCIe Gen1
+> > > - some of the internal devices require PERST# and power control to come
+> > >   up. Since the device are connected via the PCIe switch the PCIe
+> > >   controller can not do this. The PCI slot pwrctrl can be utilized for
+> > >   power control but misses integration with PERST# as proposed in [1].
+> > > 
+> > > This series depends on "[PATCH v2 0/5] Apple device tree sync from
+> > > downstream kernel" [2] due to the reuse of the t600x device templates
+> > > (patch dependencies and DT compilation) and 4 page table level support
+> > > in apple-dart and io-pgtable-dart [3] since the dart instances report
+> > > 42-bit IAS (IOMMU device attach fails without the series).
+> > > 
+> > > After discussion with the devicetree maintainers we agreed to not extend
+> > > lists with the generic compatibles anymore [1]. Instead either the first
+> > > compatible SoC or t8103 is used as fallback compatible supported by the
+> > > drivers. t8103 is used as default since most drivers and bindings were
+> > > initially written for M1 based devices.
 > > 
-> > > Patch 1/4 has been queued in the media tree and should be in linux-next
-> > > as commit 103b0cfc9ab6. It is based straight on v6.17-rc1. Patch 2/4 is
-> > > also in linux-next, but is based on other ALSA patches. The simplest
-> > > course of action would be for you to merge 3/4 for v6.18, and 4/4 for
-> > > v6.19.
-> > 
-> > Or given that it's a driver removal we could just get a rebase of the
-> > series against the meda tree applied?  The conflicts with ASoC should be
-> > trivial to resolve.
+> > An issue here is any OS without the compatibles added to the drivers 
+> > won't work. Does that matter here? Soon as you need any new drivers or 
+> > significant driver changes it won't. The compatible additions could be 
+> > backported to stable. They aren't really any different than new PCI IDs 
+> > which get backported.
 > 
-> I don't mind either way. I know Linus doesn't like having the same patch
-> merged with different commit IDs, but I don't know how strict the rule
-> is, especially when git should be able to resolve the conflict
-> transparently.
+> I don't think backporting the driver compatible additions to stable
+> linux is very useful. It is only relevant for t602x devices and the only
+> way to interact with them is the serial console. The T602x PCIe support
+> added in v6.16 requires dart changes (the posted 4th level io page table
+> support) to be useful. After that PCIe ethernet works so there is a
+> practical way to interact with t602x systems. So there are probably zero
+> user of upstream linux on those devices 
+> I'm more concerned about other projects already supporting t602x
+> devices. At least u-boot and OpenBSD will be affected by this. As short
+> term solution m1n1 will add the generic compatibles [1] temporarily.
+> I think keeping this roughly for a year should allow to add the
+> compatibles and wait for "fixed" releases of those projects.
+> I'll send fixes for u-boot once the binding changes are reviewed.
 
-I still think the easiest thing is to leave 1/4 and 2/4 as you currently
-have them; and let Lee take 3/4 and 4/4 next time around.
+Honestly, at least in the cases where the generic compatible works for 
+every chip so far, I'd just stick with it. The issue with generic 
+compatibles is more that you don't really know if things are going to be 
+the same or not. And most of the time, the h/w ends up changing.
 
-Dave
+If you want to keep it like this since you've already done it, then for 
+all the binding patches:
 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
+Rob
