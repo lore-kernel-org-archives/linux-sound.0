@@ -1,86 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA1C27464F;
-	Tue,  2 Sep 2025 11:47:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0672FFDF7;
+	Tue,  2 Sep 2025 11:51:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756813665; cv=none; b=fYNxrdBtZzR5suR8eNgmION3OudtRHuZLC/ksi6dOzmIBlZ5eXRCxZOBoBN/vx7ldcEmMtSKU7SHhPPtnFGC3MmtzaEwkjrFbe+expvbnEAlr/3PztzNwht7ByCteD/gmRXffwshrt7pGQEb8/KzDC31jJqCG+JEFPDx/9cEX9E=
+	t=1756813870; cv=none; b=PW4iOMxhLfqj06HykMdTW94o+0aI9miSh89HW1IG45UkCfkK+l7Rofvw+Dci8WbeeVzsRvp2Lo4vdDyYA7Q/mVrtYBY0fMGHt2FI03zoaqCVQFJfrBbLepKjO24GBrQsUG1CNrI7nadJxfJVxKoE7fNkyisAlK0YfhKAay7U9JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756813665; c=relaxed/simple;
-	bh=gFiIHuOlveMZeWJISPdt16K+dFM+7ksMq9Q1qIX0Uww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QjUaGBQb4Ou27caA0DQ1CcPKZzE4HSaCryIEM21cmsoDDOBQw63HPh7RvqmRCmcydbvROBRp3vGQTxcw5+AyfRHOqio03vtbfS0iyaYxG86UUKH1mB69RqjhND8Rfy2d6ZrquFfZk5qnB/eDE/Qlq2qwHslu11+dUOGxXGg9DbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qkFKtnmS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756813870; c=relaxed/simple;
+	bh=Ug/wWUINd85myksx78WxXPqysEphL175GhQfhSFnuy4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ebAPK4ls9Wl2DIhFjZr2Z5XH8ax3wefgTsWF16QuxVz03hBD3lRXL0eurM2uO0Bpoh5C9g4NZyKAhGtRaIyXF54Gq+ylVpInZqtX9I0S7IdLzPc1A8jqtaPGaFSsWNXEtnOwpYArpP5V6RWpxAbE+eW2aarpnTyiB1I4KVJgDk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EC7JCwXO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qkFKtnmS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F73FC4CEED;
-	Tue,  2 Sep 2025 11:47:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EC7JCwXO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73824C4CEF7;
+	Tue,  2 Sep 2025 11:51:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756813664;
-	bh=gFiIHuOlveMZeWJISPdt16K+dFM+7ksMq9Q1qIX0Uww=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qkFKtnmS9o+B7stDBBNb4CF9EH2CLzN7QH4reLdLMsKVAtNnXgsb5ft7K/rvT1FYH
-	 2kZLIZnCn3rqA84Qaids1wyVTepkAr82vnJUFw/6z+YfDXWIaWNMwmwLTPF5mQYq/S
-	 LQn1d0MVRgidXrDUY5lLliezVqAi3EHMdZ44jar8ezQOpIhYjdipwsidHm8oiW0IWl
-	 XEjkLE/2qKfDY97gEWKPdVnabBXEhADqLOcxwhF6hyjNJwvAi+XqXHNm7iNOG50LWu
-	 r5wWIDouyZA4AElnCjdHPRAtfoAFnO0NUUJpmLmQcnS2ieKW5W7FZuiGRBLPPCNQ5F
-	 vMKy0cRXcuIaw==
-Date: Tue, 2 Sep 2025 12:47:39 +0100
+	s=k20201202; t=1756813869;
+	bh=Ug/wWUINd85myksx78WxXPqysEphL175GhQfhSFnuy4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=EC7JCwXODM0nM7nuTlj9s4n7nMZ0EMCVMovF5YB1C1Hx7wxZh5PycNCOBK8Q2zdXB
+	 7QFsKI9/YOlqbB+HTmI/gY12fsWx3HYgqOurHbf+N8ab66TXCDy9m0Ykfb1fxufXl8
+	 huyxPCv8pzavRuj1BcZMWbfoDGCku/w2LXpZ4QmGnoCsBNtN/bYyktSBM/qGcZJOgQ
+	 ti5QJ6KSkXyjb9FK5ybi4qx8DEuZooTbm4IHtZr3h+NMQ0NPHEjYAw0Udx501nk8CP
+	 wZezcoOpP95Bc+pArtMq735/OShpDMPPBroySTVEMsKKtYnOnSmYgdEKSpbylgjhhR
+	 7l3G4dOTG9PrA==
 From: Mark Brown <broonie@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Lee Jones <lee@kernel.org>, linux@treblig.org, arnd@arndb.de,
-	mchehab@kernel.org, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linux-media@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] Remove the wl1273 FM Radio
-Message-ID: <88042d72-b428-442e-ba3c-b15e587e12a7@sirena.org.uk>
-References: <20250625133258.78133-1-linux@treblig.org>
- <20250808154903.GB23187@pendragon.ideasonboard.com>
- <20250902103249.GG2163762@google.com>
- <20250902113527.GB1694@pendragon.ideasonboard.com>
+To: Kiseok Jo <kiseok.jo@irondevice.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+In-Reply-To: <aLGjvjpueVstekXP@stanley.mountain>
+References: <aLGjvjpueVstekXP@stanley.mountain>
+Subject: Re: [PATCH] ASoC: codec: sma1307: Fix memory corruption in
+ sma1307_setting_loaded()
+Message-Id: <175681386702.70970.9510307338795400264.b4-ty@kernel.org>
+Date: Tue, 02 Sep 2025 12:51:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1kymcy+inhIwERzs"
-Content-Disposition: inline
-In-Reply-To: <20250902113527.GB1694@pendragon.ideasonboard.com>
-X-Cookie: Vote anarchist.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
+On Fri, 29 Aug 2025 15:57:34 +0300, Dan Carpenter wrote:
+> The sma1307->set.header_size is how many integers are in the header
+> (there are 8 of them) but instead of allocating space of 8 integers
+> we allocate 8 bytes.  This leads to memory corruption when we copy data
+> it on the next line:
+> 
+>         memcpy(sma1307->set.header, data,
+>                sma1307->set.header_size * sizeof(int));
+> 
+> [...]
 
---1kymcy+inhIwERzs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Tue, Sep 02, 2025 at 01:35:27PM +0200, Laurent Pinchart wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> Patch 1/4 has been queued in the media tree and should be in linux-next
-> as commit 103b0cfc9ab6. It is based straight on v6.17-rc1. Patch 2/4 is
-> also in linux-next, but is based on other ALSA patches. The simplest
-> course of action would be for you to merge 3/4 for v6.18, and 4/4 for
-> v6.19.
+Thanks!
 
-Or given that it's a driver removal we could just get a rebase of the
-series against the meda tree applied?  The conflicts with ASoC should be
-trivial to resolve.
+[1/1] ASoC: codec: sma1307: Fix memory corruption in sma1307_setting_loaded()
+      commit: 78338108b5a856dc98223a335f147846a8a18c51
 
---1kymcy+inhIwERzs
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmi22VsACgkQJNaLcl1U
-h9CEwQf+PPBDQOqGVHx/AxUBR7lpd6txdkjXC7jkhYlJq7qfTeLGq25/8mABEr4Z
-f7m1yRog6ej2VKTMq63+z78KUe3R8sLqgI0TYgcinpQzbovm1xGoCVQcMmOlzd1i
-ahhkciYuDsfw0GykTwIKvpccONoOPr19A8OIQt9LMCOM8Rg1CXuhiQWibjXfshpc
-QSe9snqRKgJd4fgunsgCQFj2GxuJdMRNAWis1PGPSnzbqeq3AuXUKL6ZWY4yKFK/
-ByMNu44wT82ifN/nuzNsokCJi31YlSLBh4s53jcrMNHbwoF8+TNseB4gd8Nh/+Bi
-tEaUg1Opw+gGS+hIq0AezgrB6vhKew==
-=o/x2
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---1kymcy+inhIwERzs--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
