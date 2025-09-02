@@ -1,107 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFC52BE65C;
-	Tue,  2 Sep 2025 13:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B4C2848A1;
+	Tue,  2 Sep 2025 13:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756819009; cv=none; b=OY7Fi85uzLBuV32m8y6fBePSxj9mE02LtGrerW9L0z6zE3R0BACK4vY7fp9XXLNJjo0I0ODm+ka9N60AmqPhl8E8s7/Iqnj85pGym+yDTgVqk9aZBM4cp/pI521wTJAF706NG3Wz2IzR1HTcjQeJUkdsYzWqYPccKlCKgVSDEkQ=
+	t=1756820238; cv=none; b=diW1vXCwUDGSesfpoVcGubBwWbmz3RqXjYO9rTReuaqv4r63pAExl8sMVnkglCXf6nsTQkj959paUyTHkbMy4CRrzHTJegpVL7Hg1I4KoW4fPt3qPV4EJNjzKdM4w5diQAgn/+X4UcI3MLAflWMy4l2IP2aTxTIS2V5g0J5njYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756819009; c=relaxed/simple;
-	bh=vgV6oU+KN3/QRZFIeHk7PC6Ii26XZHrx8aCL79SZIG4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QDEx5VrdoLiZXyGgwuP9jSxdYLIBa14vJEHTlmhvZlqM1GuxNV7Sq914SKwti99ASZFtdoXpIq9QlFWbu2vRXGuDf/Lm1HTzDUq40FDferIjUvLw54Yk3nGGhJ5MuhZBK1Au2C8j4Q56CAdnJp54lBnXP5MRMXD2ZUg5SXxtOIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWaUPFgS; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1756820238; c=relaxed/simple;
+	bh=Te5CzzpMDl9FuNFcIn3BKuG3FhHEU09OQccy0nOcUCg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=oGdySdhaCEfZWdb506VaIgBxYDbet4HxRNHgcCngaaCoaLYCNf14a2wVYt2NESoIrf8yhwKz6PpxvmSAJRSUGviMG/pclWyysJXoUO1iOFGLuw/b4EE36ofuJQBLPLfSnLRK9AwhYAjpo9UVjez9p9z1X/dbGJtfgepEvXzYJlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCfrnnuV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWaUPFgS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756819008; x=1788355008;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=vgV6oU+KN3/QRZFIeHk7PC6Ii26XZHrx8aCL79SZIG4=;
-  b=CWaUPFgSI5dLxXyz2uyBIsHvigOmII+blAQS3sN/nkYNkH3LqEvEas6w
-   3AVuuoHtOkDiN4/qJ3JdEuCzqxg9+iTux1cwk5rzds0AQEzjT80gFHZ4F
-   G9u0z5zNrXyW/31Ax3t7ju6cEKnZk0UZikROUeA4GKuAzGS9YrhX/+Upx
-   CZe+wMyJqi2NZVVodNxt+TfgmmQcEJcuvDLmgx7siYuPuZKAFuSC8nm8z
-   hDXalSjI1FxxDOg3+tLSTteHLhN0094fN2gXZL7I9Ai4vHfJobtdGlYXx
-   86iwvo3QOlx890RZGQGutts0Mb9cUorOT0t5bJVDlK3lRyCAEnxkP048N
-   A==;
-X-CSE-ConnectionGUID: CBgZDrbhT+apD24wq/2w1g==
-X-CSE-MsgGUID: 8+Fw75hWSpOZ7joM4JTwbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="70521229"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="70521229"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 06:16:47 -0700
-X-CSE-ConnectionGUID: NfIZbdgxRV2me/reuHxKHA==
-X-CSE-MsgGUID: orfH6rrfQgGlXSCs3uNgog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="170831206"
-Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.183]) ([10.245.246.183])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 06:16:42 -0700
-Message-ID: <ec553d4f-169c-4173-8fa8-281ed3a147d8@linux.intel.com>
-Date: Tue, 2 Sep 2025 16:17:26 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCfrnnuV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EEE4C4CEF4;
+	Tue,  2 Sep 2025 13:37:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756820238;
+	bh=Te5CzzpMDl9FuNFcIn3BKuG3FhHEU09OQccy0nOcUCg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=OCfrnnuVO6Hqtk3HsgT5RqYeJdejCqT1KSw3xGO8sYcRtd9rOSWqtpmkFHwYD+lue
+	 oERs3Tq8oX2VIh0EAQdLfF85GWRbNPMXqu3zQ4344EfEVtk57adySD+e+4ZhhznpqA
+	 j9t3+LB05FwIuTaEpEu/bmwV5zwaThP0MHoaz9BTGgaR/11N4J6rxIyZviOG2fkN+e
+	 RrsfD0qH4TVAQdou0KU5KAhvKjGXv1vQEeNcPRjQvLSv9lBaw6peVESh0FzA/H+wmU
+	 Ne7DEBARMdATGDm5DGBsvQXSartHRZrSdALI3TO70ynDHgId8Ge1W3a0AFi4b+EKyW
+	 DVQLipU/nOF7Q==
+From: Mark Brown <broonie@kernel.org>
+To: Daniel Baluta <daniel.baluta@nxp.com>
+Cc: linux-sound@vger.kernel.org, imx@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Frank.Li@nxp.com, robh@kernel.org, 
+ laurentiu.mihalcea@nxp.com, dan.carpenter@linaro.org, waqar.hameed@axis.com, 
+ festevam@gmail.com, kernel@pengutronix.de, lgirdwood@gmail.com, 
+ peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com
+In-Reply-To: <20250902102101.378809-1-daniel.baluta@nxp.com>
+References: <20250902102101.378809-1-daniel.baluta@nxp.com>
+Subject: Re: [PATCH v2] ASoC: SOF: imx: Fix devm_ioremap_resource check
+Message-Id: <175682023505.513793.6818545507364756748.b4-ty@kernel.org>
+Date: Tue, 02 Sep 2025 14:37:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] ASoC: SOF: Intel: hda-stream: Fix incorrect
- variable used in error message
-To: Colin Ian King <colin.i.king@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Keyon Jie <yang.jie@linux.intel.com>,
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250902120639.2626861-1-colin.i.king@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20250902120639.2626861-1-colin.i.king@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-
-
-On 02/09/2025 15:06, Colin Ian King wrote:
-> The dev_err message is reporting an error about capture streams however
-> it is using the incorrect variable num_playback instead of num_capture.
-> Fix this by using the correct variable num_capture.
+On Tue, 02 Sep 2025 13:21:00 +0300, Daniel Baluta wrote:
+> devm_ioremap_resource does not return NULL on error
+> but an error pointer so we need to use IS_ERR to check
+> the return code.
 > 
-> Fixes: a1d1e266b445 ("ASoC: SOF: Intel: Add Intel specific HDA stream operations")
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-
-> ---
->  sound/soc/sof/intel/hda-stream.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> While at it also pass the error code to dev_err_probe
+> to improve logging.
 > 
-> diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-> index aa6b0247d5c9..a34f472ef175 100644
-> --- a/sound/soc/sof/intel/hda-stream.c
-> +++ b/sound/soc/sof/intel/hda-stream.c
-> @@ -890,7 +890,7 @@ int hda_dsp_stream_init(struct snd_sof_dev *sdev)
->  
->  	if (num_capture >= SOF_HDA_CAPTURE_STREAMS) {
->  		dev_err(sdev->dev, "error: too many capture streams %d\n",
-> -			num_playback);
-> +			num_capture);
->  		return -EINVAL;
->  	}
->  
+> [...]
 
--- 
-Péter
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: SOF: imx: Fix devm_ioremap_resource check
+      commit: 0c28431f6fe13f3a3be0978f79c1a7ae8a93d028
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
