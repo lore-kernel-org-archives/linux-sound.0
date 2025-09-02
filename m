@@ -1,93 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB672E0B77;
-	Tue,  2 Sep 2025 08:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AE732F757;
+	Tue,  2 Sep 2025 08:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756800047; cv=none; b=fLKnLNow0mBpUVVtK/A+VxI2pOd9gDW+zAJwZjX65Q/YCY3YzDwa8kdLn/UyX1cq9LUAOsMV2pxSU5BhcOzcQZne5d52aPwFLAseX5jy9zEkDgoJnUIa7+pvYRpWj7BWTtcBcKcj+cdf15QTBt5X5TOxrk2bPsPpFWyeyJGQPiQ=
+	t=1756800513; cv=none; b=qEDQN3ldHvC3MUKs3OyqsN8H6+Cpbj/OObLjgYuJumRII0G4unfbwpVmN0awt+7V+QC9haI5KtmALS7ajmAP1i+kvR+0gOU379575rmZB5i1Aqd34RlXX/tooMHtZqIB/Sn9f3Ql8RQcN8BOzrlLntEi8TyIDc57n3uzu/lXX60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756800047; c=relaxed/simple;
-	bh=XlVsb0W3gvnjnn4kOm0HH95XP5h++83OeqUtirs+pRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fs712x4B1eC1hy6/jap91JiIHTUaFZZbdHsynELVZX38TuMMsaqX7RYRopj5CmUbnpQxqpScJfZpM4XBCKgqmcJOmqrdHkT7SElTzz7t6t6IMaxoeGzb/OiTijZApryR7iUl2Vy8knWIg3AUfQf4Z1hZ9rz/OJ9FxasoWVdsCUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HBASvnqp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756800513; c=relaxed/simple;
+	bh=ErFSpIFWhZyzx0S/jtij6z3AzdzRV2dt3u6HKresHdg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EY91EEsmaEulI1XZurHk1I7hHDOBmAz4/mQb+YO9vJvoSPnLWZ8M8cQPcBwn3LR+f1May67NU9NFwd+mWYhfXQzolyk3McJY5WJ0etNpjF/6l1UA2d1yGPQ4FInRrrMdlYNaN2jEFWWOirby8Sckbu8bHITo4AkPL2DIrZojHF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz; spf=pass smtp.mailfrom=listout.xyz; dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b=F1hLjIdZ; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=listout.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HBASvnqp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87F7AC4CEED;
-	Tue,  2 Sep 2025 08:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756800047;
-	bh=XlVsb0W3gvnjnn4kOm0HH95XP5h++83OeqUtirs+pRQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HBASvnqpvbq6OOzulRPWaHHEQaAIa/2/uu+zbCRwmuIliU6WKxKIvK8kOp/CQTQHb
-	 BIzkYZeaT1Trt+xO9apuCJ5q0vK7nkFdtijGZIwOnYPAbs9PbgEVQiYaSIS6zn9HvH
-	 5ZFEXTcD5tmVDPhPY9rwGKOKKAKks+tA+VpuWCap6z0CV0QmpCZltNT71tun9A/MbV
-	 5WZwgoxhJzIFjVFY88pxITO4WNkHsKrYu4FiZeoe+isUrfIdxa+9gx5b+JSRI5wfDT
-	 t7ZHF/6wz4f5MYnmQZtcpXmWseqmrNF2SG5K4ZZWx+a3rXQzHbRyCkl9ItnKqkG375
-	 qRva0wy1l5/7g==
-Date: Tue, 2 Sep 2025 10:00:44 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Mark Kettenis <kettenis@openbsd.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Michael Turquette <mturquette@baylibre.com>, Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev, linux-gpio@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, linux-watchdog@vger.kernel.org, 
-	linux-clk@vger.kernel.org, dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 02/37] dt-bindings: arm: apple: apple,pmgr: Add
- t6020-pmgr compatible
-Message-ID: <20250902-falcon-of-awesome-wholeness-b3cbde@kuoka>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250828-dt-apple-t6020-v1-2-507ba4c4b98e@jannau.net>
+	dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b="F1hLjIdZ"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cGJK757vTz9sjQ;
+	Tue,  2 Sep 2025 10:08:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
+	t=1756800507;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Wt0H7S1xX71VzSiImElIEErr8Na6mUy13rTHnG67IgI=;
+	b=F1hLjIdZ5tM/6VAHQTliL55eBEhT3Io4U6mfdAVxhWocrU9ZzPXsma44ci/z33Dk7/Yk/6
+	BIBOT5Tz3mJhtpj4A4nJbZ+IiMzA9bjo8/ZYW0+XqU5a7WNBzCb6hOr7w6I2WZMlH9rJgs
+	6r7e7WmkhdlersPu0mef+AtpWsUnXFqCwEiwVJoRK0TPtD+GPk2DxbcqTjQfoFF4ALJEjz
+	rKcsTi6B6q4K2IM6M5QnVBc3WASKaAzMjDLyUiAlNd4F8cx8CmINn116iK42MqaKo/1hbn
+	TlymCWANRp9+d5y5wG06v1W6HlxvpPur4HtbVEruR7THJy7bfLuv1tFxSs9l6A==
+From: Brahmajit Das <listout@listout.xyz>
+To: linux-sound@vger.kernel.org,
+	linux-next@vger.kernel.org
+Cc: cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	broonie@kernel.org,
+	listout@listout.xyz
+Subject: [RFC PATCH] ASoC: Intel: avs: Fix reading 1 or more bytes from a region of size 0
+Date: Tue,  2 Sep 2025 13:38:12 +0530
+Message-ID: <20250902080812.684149-1-listout@listout.xyz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250828-dt-apple-t6020-v1-2-507ba4c4b98e@jannau.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 28, 2025 at 04:01:21PM +0200, Janne Grunau wrote:
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatible "apple,pmgr" anymore [1]. Use
-> "apple,t8103-pmgr" as base compatible as it is the SoC the bindings were
-> written for.
-> 
-> The block on Apple M2 Pro/Max/Ultra SoCs is compatible with
-> "apple,t8103-pmgr" so use it as fallback compatible and add t6020 as
-> per-SoC compatible.
-> 
-> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
+Building the next tree with GCC 16, results in the following error:
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+sound/soc/intel/avs/path.c:137:38: error: ‘strcmp’ reading 1 or more bytes from a region of size 0 [-Werror=stringop-overread]
+  137 |         return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from sound/soc/intel/avs/path.h:14,
+                 from sound/soc/intel/avs/path.c:15:
+sound/soc/intel/avs/topology.h: In function ‘avs_condpaths_walk’:
+sound/soc/intel/avs/topology.h:150:13: note: at offset 4 into source object ‘id’ of size 4
+  150 |         u32 id;
+      |             ^~
+sound/soc/intel/avs/topology.h:150:13: note: at offset 4 into source object ‘id’ of size 4
 
-Best regards,
-Krzysztof
+I'm not quite sure if this is a GCC bug or a problem with the source
+code.
+As an workaround, instead of using strcmp, strncmp helps. But would
+really appriciate comments from developers as I'm sure there might be a
+better way to fix this.
+
+Introduced by commit 595b7f155b926 ("ASoC: Intel: avs: Conditional-path
+support")
+
+Signed-off-by: Brahmajit Das <listout@listout.xyz>
+---
+ sound/soc/intel/avs/path.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
+index 7aa20fcf1a33..8c3df2002b58 100644
+--- a/sound/soc/intel/avs/path.c
++++ b/sound/soc/intel/avs/path.c
+@@ -134,7 +134,8 @@ static struct avs_tplg_path *avs_condpath_find_variant(struct avs_dev *adev,
+ static bool avs_tplg_path_template_id_equal(struct avs_tplg_path_template_id *id,
+ 					    struct avs_tplg_path_template_id *id2)
+ {
+-	return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
++	return id->id == id2->id &&
++	       !strncmp(id->tplg_name, id2->tplg_name, strlen(id->tplg_name));
+ }
+ 
+ static struct avs_path *avs_condpath_find_match(struct avs_dev *adev,
+-- 
+2.51.0
 
