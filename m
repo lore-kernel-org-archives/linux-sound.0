@@ -1,145 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830952EAB89
-	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 09:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F9B2EC0A5
+	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 09:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756805373; cv=none; b=g+wt/Rxko7a9ttchmvC/IXGWMDq9vE/QGIq6flOV5lwkGvbdWAt9UE2aTw5Mg8BioNkbaxbVoDktduATgpEq/OAyMS0LSWvEhkq1uxoRzEkxNIiEDDW5+XGOx1ILe26geAeaUvbBXGR0tAmccn4pq9WZYSN0SYoJ6sEtT6+sZWk=
+	t=1756806187; cv=none; b=FpfzshyKllvBQVGIN/Bt5CJI4L+MQ3eE4sPmHY5A2SVCM43A/Z1CcEZ01+HrDfWiwju/6En3eoar8/mGstjxRfYx6S1DL5ZZjj2IuwLmTG9Nt5FykbvjA9Czpkg03GFxEK56sU2y9gfu8SX2U4UGsqCg1r6h5T3lv6fHwzSuLj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756805373; c=relaxed/simple;
-	bh=OmgTIYJAUS8mNvun9VDPhhkjznGVjDhWGPGz5TTs5Rk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Z08W9kcOyzGlr8TlMLWZOESIt5J7Fk5dqgK9NoDnxIclzbCQkzQNs8lqfWE4rkEZKIbEjFFO+EdhcxM0b4xd82+I17ufQFfnJGkRwPb2LNx0lVLtNsjVRMU6yA4vh5FQ3D/t3JAw6TApOJnv1jjDD9ZLe5N3r+qCpIclrHOdYKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eSIAB52X; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756806187; c=relaxed/simple;
+	bh=+r79dL1gqrDNxRtTgrXMjVpAsgnr0cYz/E5/fOUW5xE=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=e5xvFxhiXUZbuZRiO5LkXEuHSs0XeGt3n5TeKI/yDpwA1GVS9214t+5F05ZdYbZHnhd8gzNEyZZeYKkY7liHUBCgQGWU1unXix2mWxL8KlGfunpcosRog1ZwQABUEZCdyAzVxfxGLB0juMP3u+fLO68KbxIAUyxZKJEn/yoV4UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IotGm6UW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vLOhaLTm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IotGm6UW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vLOhaLTm; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eSIAB52X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756805372; x=1788341372;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=OmgTIYJAUS8mNvun9VDPhhkjznGVjDhWGPGz5TTs5Rk=;
-  b=eSIAB52X8DX2gBjMEpvqyvhuR7WnDgVDySzhHx1C0hVRrHDyj7Hv0IFv
-   KBEqRqDiVXcZo01+WV2yC2jq63t/CIQwSetseBD8LS+jorLLf88CH2bF1
-   VvV7c9ePDNWaqbIbqRI2htBJn11EUe3XnoEZ2O92sg2mRnXpf1uxAVyF7
-   osNHG8jG7PjCGb5FO7NMBPzX9z03o9OqOfYxXChLWspOd2WXnDuUwxgQ8
-   mQiUjKTqiNjvglQ7Po1P9jydFAVKD5yyr6158WzaAGqXg548JG0qSQan1
-   rx+ynFS12Rki/R+PfHCbPobn4isIfftLgUxUDENID3D/TzdP9p+cve9um
-   Q==;
-X-CSE-ConnectionGUID: Tdzvi8iQThq3kcUEpFuijA==
-X-CSE-MsgGUID: hCkKPQiQSSOntlcJm4VxZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58275289"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="58275289"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:29:32 -0700
-X-CSE-ConnectionGUID: dF8sOXqPTrWUEowJjQG6pw==
-X-CSE-MsgGUID: +ZvbRBn6SBWAL865ng3j2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="170503297"
-Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa010.jf.intel.com with ESMTP; 02 Sep 2025 02:29:30 -0700
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: broonie@kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
-	nathan@kernel.org,
-	linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 17/17] ASoC: Intel: avs: ssm4567: Adjust platform name
-Date: Tue,  2 Sep 2025 11:48:53 +0200
-Message-Id: <20250902094853.1231842-18-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250902094853.1231842-1-cezary.rojewski@intel.com>
-References: <20250902094853.1231842-1-cezary.rojewski@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IotGm6UW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vLOhaLTm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IotGm6UW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vLOhaLTm"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B05361F44F;
+	Tue,  2 Sep 2025 09:43:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756806183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=WLH6zNDi4TZ5ZXN34xoFWURtIQIyMoaxKpZcKw32eqA=;
+	b=IotGm6UWQmbdIdtnTsNMyyONacJWiXk8/xip7rMVHNt3+XJbwO+scDjWr/e4XjB/Wvy6jM
+	JYNd4gF2jeD6+AupycJXcUYAeawMib1zM6+575bWQJ5avbSuDTsI1SXGxxVCFSPlQOMbSb
+	XRynu1maG2it0YwmSGHC1wVqMBjA4CM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756806183;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=WLH6zNDi4TZ5ZXN34xoFWURtIQIyMoaxKpZcKw32eqA=;
+	b=vLOhaLTmo0EjHZv1e3HMdZqJggNIXV2GO6bHqBUJDziIElI9zJ4qBmqau/ZWM+a/o8gj2k
+	3YIC5OQrruLdldBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756806183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=WLH6zNDi4TZ5ZXN34xoFWURtIQIyMoaxKpZcKw32eqA=;
+	b=IotGm6UWQmbdIdtnTsNMyyONacJWiXk8/xip7rMVHNt3+XJbwO+scDjWr/e4XjB/Wvy6jM
+	JYNd4gF2jeD6+AupycJXcUYAeawMib1zM6+575bWQJ5avbSuDTsI1SXGxxVCFSPlQOMbSb
+	XRynu1maG2it0YwmSGHC1wVqMBjA4CM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756806183;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=WLH6zNDi4TZ5ZXN34xoFWURtIQIyMoaxKpZcKw32eqA=;
+	b=vLOhaLTmo0EjHZv1e3HMdZqJggNIXV2GO6bHqBUJDziIElI9zJ4qBmqau/ZWM+a/o8gj2k
+	3YIC5OQrruLdldBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9895313882;
+	Tue,  2 Sep 2025 09:43:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qpl3JCe8tmj5EAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 02 Sep 2025 09:43:03 +0000
+Date: Tue, 02 Sep 2025 11:42:55 +0200
+Message-ID: <87frd59om8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.17-rc5
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-The name of the platform component matches the name of the card's
-platform_device.
+Linus,
 
-This allows for simplifying card and dai_link initialization:
-- drop mach->mach_params.platform usage
-- drop snd_soc_fixup_dai_links_platform_name() usage
+please pull sound fixes for v6.17-rc5 from:
 
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.17-rc5
+
+The topmost commit is bcd6659d4911c528381531472a0cefbd4003e29e
+
+----------------------------------------------------------------
+
+sound fixes for 6.17-rc5
+
+A collection of small changes including a few regression fixes.
+
+- Regression fix for Intel SKL/KBL HD-audio bindings
+- Regression fix for missing Nvidia HDMI codec entries after the
+  recent code reorganization
+- A few TAS2781 codec regression fixes
+- Fix for ASoC component lookup breakage
+- Usual HD-audio, USB-audio and SOF quirk entries
+
+----------------------------------------------------------------
+
+Aaron Erhardt (1):
+      ALSA: hda/realtek: Fix headset mic for TongFang X6[AF]R5xxY
+
+Ajye Huang (1):
+      ASoC: SOF: Intel: WCL: Add the sdw_process_wakeen op
+
+Brady Norander (1):
+      ALSA: hda: intel-dsp-config: Select SOF driver on MTL Chromebooks
+
+Cryolitia PukNgae (4):
+      ALSA: usb-audio: Add mute TLV for playback volumes on some devices
+      ASoC: codecs: idt821034: fix wrong log in idt821034_chip_direction_output()
+      ALSA: usb-audio: move mixer_quirks' min_mute into common quirk
+      ALSA: docs: Add documents for recently changes in snd-usb-audio
+
+Daniel Dadap (1):
+      ALSA: hda/hdmi: Restore missing HDMI codec entries
+
+Gergo Koteles (2):
+      ALSA: hda: tas2781: fix tas2563 EFI data endianness
+      ALSA: hda: tas2781: reorder tas2563 calibration variables
+
+Kuninori Morimoto (3):
+      ASoC: soc-core: care NULL dirver name on snd_soc_lookup_component_nolocked()
+      ASoC: soc-core: tidyup snd_soc_lookup_component_nolocked()
+      ASoC: rsnd: tidyup direction name on rsnd_dai_connect()
+
+Shenghao Ding (1):
+      ALSA: hda/tas2781: Fix EFI name for calibration beginning with 1 instead of 0
+
+Takashi Iwai (2):
+      ALSA: hda: Avoid binding with SOF for SKL/KBL platforms
+      ALSA: hda/hdmi: Add pin fix for another HP EliteDesk 800 G4 model
+
+Takashi Sakamoto (1):
+      ALSA: firewire-motu: drop EPOLLOUT from poll return values as write is not supported
+
+Tina Wuest (1):
+      ALSA: usb-audio: Allow Focusrite devices to use low samplerates
+
+qaqland (1):
+      ALSA: usb-audio: Add mute TLV for playback volumes on more devices
+
 ---
- sound/soc/intel/avs/boards/ssm4567.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
-
-diff --git a/sound/soc/intel/avs/boards/ssm4567.c b/sound/soc/intel/avs/boards/ssm4567.c
-index 3786eef8c494..ae0e6e27a8b8 100644
---- a/sound/soc/intel/avs/boards/ssm4567.c
-+++ b/sound/soc/intel/avs/boards/ssm4567.c
-@@ -81,8 +81,8 @@ avs_ssm4567_be_fixup(struct snd_soc_pcm_runtime *runrime, struct snd_pcm_hw_para
- 	return 0;
- }
- 
--static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
--			       int tdm_slot, struct snd_soc_dai_link **dai_link)
-+static int avs_create_dai_link(struct device *dev, int ssp_port, int tdm_slot,
-+			       struct snd_soc_dai_link **dai_link)
- {
- 	struct snd_soc_dai_link_component *platform;
- 	struct snd_soc_dai_link *dl;
-@@ -92,8 +92,6 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
- 	if (!dl || !platform)
- 		return -ENOMEM;
- 
--	platform->name = platform_name;
--
- 	dl->name = devm_kasprintf(dev, GFP_KERNEL,
- 				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
- 	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
-@@ -111,6 +109,7 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
- 	    !dl->codecs[1].name || !dl->codecs[1].dai_name)
- 		return -ENOMEM;
- 
-+	platform->name = dev_name(dev);
- 	dl->num_cpus = 1;
- 	dl->num_codecs = 2;
- 	dl->platforms = platform;
-@@ -135,18 +134,16 @@ static int avs_ssm4567_probe(struct platform_device *pdev)
- 	struct avs_mach_pdata *pdata;
- 	struct snd_soc_card *card;
- 	struct device *dev = &pdev->dev;
--	const char *pname;
- 	int ssp_port, tdm_slot, ret;
- 
- 	mach = dev_get_platdata(dev);
--	pname = mach->mach_params.platform;
- 	pdata = mach->pdata;
- 
- 	ret = avs_mach_get_ssp_tdm(dev, mach, &ssp_port, &tdm_slot);
- 	if (ret)
- 		return ret;
- 
--	ret = avs_create_dai_link(dev, pname, ssp_port, tdm_slot, &dai_link);
-+	ret = avs_create_dai_link(dev, ssp_port, tdm_slot, &dai_link);
- 	if (ret) {
- 		dev_err(dev, "Failed to create dai link: %d", ret);
- 		return ret;
-@@ -176,10 +173,6 @@ static int avs_ssm4567_probe(struct platform_device *pdev)
- 	card->num_dapm_routes = ARRAY_SIZE(card_base_routes);
- 	card->fully_routed = true;
- 
--	ret = snd_soc_fixup_dai_links_platform_name(card, pname);
--	if (ret)
--		return ret;
--
- 	return devm_snd_soc_register_deferrable_card(dev, card);
- }
- 
--- 
-2.25.1
+ Documentation/sound/alsa-configuration.rst     | 29 ++++++++++++++++++++++----
+ sound/firewire/motu/motu-hwdep.c               |  2 +-
+ sound/hda/codecs/hdmi/hdmi.c                   |  1 +
+ sound/hda/codecs/hdmi/nvhdmi.c                 | 17 +++++++++++++++
+ sound/hda/codecs/hdmi/tegrahdmi.c              |  2 ++
+ sound/hda/codecs/realtek/alc269.c              |  2 ++
+ sound/hda/codecs/side-codecs/tas2781_hda_i2c.c |  9 +++++---
+ sound/hda/core/intel-dsp-config.c              | 26 ++++++++++++++++++++---
+ sound/soc/codecs/idt821034.c                   |  2 +-
+ sound/soc/renesas/rcar/core.c                  |  2 +-
+ sound/soc/soc-core.c                           | 25 +++++++++++++---------
+ sound/soc/sof/intel/ptl.c                      |  1 +
+ sound/usb/format.c                             | 12 +++++++----
+ sound/usb/mixer_quirks.c                       |  8 +++----
+ sound/usb/quirks.c                             | 22 +++++++++++++++++--
+ sound/usb/usbaudio.h                           |  4 ++++
+ 16 files changed, 130 insertions(+), 34 deletions(-)
 
