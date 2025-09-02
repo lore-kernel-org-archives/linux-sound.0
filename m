@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA5123D7C4;
-	Tue,  2 Sep 2025 15:20:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B9E322C63;
+	Tue,  2 Sep 2025 15:47:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756826452; cv=none; b=theXT/1Y9lsMbKIdUcBOFsGiK6pEhlM0YxKpcgetTiJW0Ovr/Z5G1oTiPJVLeI9cHYps+wa1KZfR1ebVgjsePoEgHOQP/Vr9JtPD5aMfvq97FfWmwVzXknAgYlvoFOLzhc1OcNYtGvY1XEghdHxe/1xacqgASQf6khNg5CexZ4U=
+	t=1756828033; cv=none; b=mbUqsDHmlszu/ipyOtM9QqP6V11WV66HD2ts04QbHwZq3Hl5Jjn0xwM3UBdiBeSYzmlfVEgsbnOCk/huL0QkkzvAm9+dAyNewjdyjLWY+oADaQ2g5lx4wSovxJv30BTLW50CuKqAQdJDgzDCMrjuXOKCIi688p3IDtz9/UbWuQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756826452; c=relaxed/simple;
-	bh=PgnpS+OJ+OH80B0RKl39e2pHarXjAdJZp7WT5DCSVcU=;
+	s=arc-20240116; t=1756828033; c=relaxed/simple;
+	bh=hySp48UnvCMROUWJRYJLQKxmvnRkw1XrdDo4283avGI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nKhA5fQEUm+XAEyeiy4bSVYEKewUguKiQAORaNu69+6KJW2Py7Qbgg+NKUntBvxCYPjOhLWatWPztGIJIw1p+Bm9OSx4Jjk8xawycZrLBl0S0fhuNJtBrL8cGdevB8eq7h4PJpYqBGJtQniW+8qwJZuqpTOQ/FFH+dEpF+vaAg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2Rup3PT; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=qrcHWKWRt8byknsPurO20oeJP8SOu/7DsZRFt2tqXofCJ/jB5AFGfagl5TvatKCrHwJ08IFld5kynidpxIxhbJddXjzC2ZBJlWH5cLSH0jqG4WanGAe7qledJJpxbnoBQwEX2L8AFrH6Pd4irgQvuzDio4dkYFY/KY/y1pZHMB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qoop0PUo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2Rup3PT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 991B9C4CEED;
-	Tue,  2 Sep 2025 15:20:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qoop0PUo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B677EC4CEF5;
+	Tue,  2 Sep 2025 15:47:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756826451;
-	bh=PgnpS+OJ+OH80B0RKl39e2pHarXjAdJZp7WT5DCSVcU=;
+	s=k20201202; t=1756828032;
+	bh=hySp48UnvCMROUWJRYJLQKxmvnRkw1XrdDo4283avGI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q2Rup3PTliTol+0fzWRBDpCRhts7KHhL2QASNisikZ4XIMfu3INaRFmqz2v7TwpAd
-	 e8JEhL6HcgifGBcBHa2mz8+8dj3exN59qmN9HEPNCwqojBqXBs8ZvlC+Rj0vsWi/Eg
-	 a68NQBn0ql05cXZu+ayVXgnt/twOLZDM5JHr960wRqLeDSu1wvMNn+eVBCQaz+B1wq
-	 C0MF814H1j8X/HLTzo2vBDTD1ojE0M+e4RGPCYefs9cfk77EkOwBnk25uOeNVk7u8N
-	 z6T1Jq5uFg/FAZA9p0XoFHz4DLCzPDSlWSUlCh47zJsSGOLREUIXImF3KRNsNWvBAo
-	 64uoXcVgwHAEA==
-Message-ID: <63e43445-ef5f-49b2-85c1-f85d95426d5d@kernel.org>
-Date: Tue, 2 Sep 2025 17:20:41 +0200
+	b=Qoop0PUoSRM7ccmH7X8HwPTe7IYpZZvry2Ic2hA7KoefFUH/anzpnvOBKOltqjwe1
+	 OpzJ0z4m8CdbdMVbYpijEzEwETP+ZqCYtD0xxYJq+wRa/L2rC7mnCRPaQj8m38RJLc
+	 ELXcPSUI2XtH2MOk9xI7+bNNrwyGW/zdP3S+DvU585IbH18Uw5xg34If1MBch5Z6Df
+	 JqeNkacp9ytKscwh8qyTDQsx4UhWLdN73ToFtubojBtKQTgUUnRR7EerCIdJExV8w5
+	 FE+5OUtRHQnapmtloTd4b1BecIQDSwl9YuR4lCgOEuLzsUkHoDOxRw1YtE50Mj2pT3
+	 pRjiTS+ZxJMAw==
+Message-ID: <ebd1a1b7-c911-43f6-91cc-fcc2c01bc600@kernel.org>
+Date: Tue, 2 Sep 2025 17:47:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,33 +35,16 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH v2] dt-bindings: mfd: Move embedded controllers
- to own directory
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Tim Harvey <tharvey@gateworks.com>,
- Michael Walle <mwalle@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Jean Delvare <jdelvare@suse.com>,
- Thomas Gleixner <tglx@linutronix.de>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Tinghan Shen <tinghan.shen@mediatek.com>, devicetree@vger.kernel.org,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Mathew McBride <matt@traverse.com.au>
-References: <20250822075712.27314-2-krzysztof.kozlowski@linaro.org>
- <175682479961.2401991.17056649550187344851.b4-ty@kernel.org>
+Subject: Re: [PATCH 4/7] soundwire: qcom: deprecate qcom,din/out-ports
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, vkoul@kernel.org,
+ conor+dt@kernel.org, srini@kernel.org, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20250901195037.47156-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20250901195037.47156-5-srinivas.kandagatla@oss.qualcomm.com>
+ <20250902-light-vegan-snake-efe03c@kuoka>
+ <3c41bc8e-796b-4efe-97cd-03b737f09689@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,22 +90,102 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <175682479961.2401991.17056649550187344851.b4-ty@kernel.org>
+In-Reply-To: <3c41bc8e-796b-4efe-97cd-03b737f09689@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 02/09/2025 16:53, Lee Jones wrote:
->> [...]
+On 02/09/2025 15:13, Srinivas Kandagatla wrote:
+> On 9/2/25 9:38 AM, Krzysztof Kozlowski wrote:
+>> On Mon, Sep 01, 2025 at 08:50:34PM +0100, Srinivas Kandagatla wrote:
+>>> Number of input and output ports can be dynamically read from the
+>>> controller registers, getting this value from Device Tree is redundant
+>>> and potentially lead to bugs.
+>>>
+>>> Remove the code parsing this property along with marking this as
+>>> deprecated in device tree bindings.
+>>>
+>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>> ---
+>>>  drivers/soundwire/qcom.c | 134 ++++++++++++++-------------------------
+>>>  1 file changed, 49 insertions(+), 85 deletions(-)
+>>>
+>>> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+>>> index 7f19ebba6137..4fa3e1c080ef 100644
+>>> --- a/drivers/soundwire/qcom.c
+>>> +++ b/drivers/soundwire/qcom.c
+>>> @@ -128,7 +128,6 @@
+>>>  #define MAX_FREQ_NUM						1
+>>>  #define TIMEOUT_MS						100
+>>>  #define QCOM_SWRM_MAX_RD_LEN					0x1
+>>> -#define QCOM_SDW_MAX_PORTS					14
+>>>  #define DEFAULT_CLK_FREQ					9600000
+>>>  #define SWRM_MAX_DAIS						0xF
+>>>  #define SWR_INVALID_PARAM					0xFF
+>>> @@ -195,6 +194,7 @@ struct qcom_swrm_ctrl {
+>>>  	int wake_irq;
+>>>  	int num_din_ports;
+>>>  	int num_dout_ports;
+>>> +	int nports;
+>>>  	int cols_index;
+>>>  	int rows_index;
+>>>  	unsigned long port_mask;
+>>> @@ -202,7 +202,7 @@ struct qcom_swrm_ctrl {
+>>>  	u8 rcmd_id;
+>>>  	u8 wcmd_id;
+>>>  	/* Port numbers are 1 - 14 */
+>>> -	struct qcom_swrm_port_config pconfig[QCOM_SDW_MAX_PORTS + 1];
+>>> +	struct qcom_swrm_port_config *pconfig;
+>>>  	struct sdw_stream_runtime *sruntime[SWRM_MAX_DAIS];
+>>>  	enum sdw_slave_status status[SDW_MAX_DEVICES + 1];
+>>>  	int (*reg_read)(struct qcom_swrm_ctrl *ctrl, int reg, u32 *val);
+>>> @@ -1157,7 +1157,7 @@ static int qcom_swrm_stream_alloc_ports(struct qcom_swrm_ctrl *ctrl,
+>>>  				       struct snd_pcm_hw_params *params,
+>>>  				       int direction)
+>>>  {
+>>> -	struct sdw_port_config pconfig[QCOM_SDW_MAX_PORTS];
+>>> +	struct sdw_port_config *pconfig __free(kfree) = NULL;
+>>
+>> That's incorrect usage of __free(), missing constructor.
+>>
+>>>  	struct sdw_stream_config sconfig;
+>>>  	struct sdw_master_runtime *m_rt;
+>>>  	struct sdw_slave_runtime *s_rt;
+>>> @@ -1167,6 +1167,10 @@ static int qcom_swrm_stream_alloc_ports(struct qcom_swrm_ctrl *ctrl,
+>>>  	int maxport, pn, nports = 0, ret = 0;
+>>>  	unsigned int m_port;
+>>>  
+>>> +	pconfig = kcalloc(ctrl->nports, sizeof(*pconfig), GFP_KERNEL);
+>>
+>> This almost always goes to definition and I do not see anything
+>> preventing it.
+> Yes, It can go to the definition.
 > 
-> Applied, thanks!
+> But does this matter for a single instance of __free? I thought this was
+
+EVERY __free() must have constructor in definition and only exceptions
+are allowed if you cannot find such constructor (e.g. there are two for
+the same variable).
+
+> an issue if we have multiple __free() or guard() and __free() the order
+> of definitions matter.
+
+Yeah, for that reason this would matter, but here it is about preferred
+style.
+
 > 
-> [1/1] dt-bindings: mfd: Move embedded controllers to own directory
->       commit: 152afab28f7659a4292c9f7d3324eaeb49a55b8b
+> Will follow the recommendation in v2.
+> 
+> thanks,
+> --srini
+>>
+>>> +	if (!pconfig)
+>>> +		return -ENOMEM;
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> 
 
-
-There was a v3 here:
-
-https://lore.kernel.org/r/20250825081201.9775-2-krzysztof.kozlowski@linaro.org/
 
 Best regards,
 Krzysztof
