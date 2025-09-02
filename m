@@ -1,180 +1,90 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748092D239A
-	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 17:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003FE2E719C
+	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 17:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756833540; cv=none; b=fZCzgCPgGSqpWJkBDyjOOafEcQolV4yxz41maVBTcssRddD6XBCygTzEdAS+xt7Ql3usLzyTfk7dscrNFOtEb5kFTMBwnJDUhiQ0lFzecnMN6FNH59JHpBjCLSdjW1H8P9GK33DNDofuHOUUV1t1DlNuz7eJRTY4NIHZiigDtB0=
+	t=1756835888; cv=none; b=J02h4UhhrYrE9467zVRDOYPsaYQjHceEDk4Klcyh72p8GYyape4CJTK5kFCutWgysjt9CLcZx8V3cWmDy0nNTpjGmr9YJ7l4sF0koCEwjbvyBZRUK43OJJz+s2wwbnpAGbQVrb4hDSpffAQgO9rcoEwAozRQ9DpS8r5xNO4/n0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756833540; c=relaxed/simple;
-	bh=1sSLVXYSZauByzHFajXIPjaV/xOPBqIjHNOaQt4MQII=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=imzwokY3DGWa46jafJfRKRq8kVjW3BiwSw9+9M36fnpT+lz5H0Gpdpa//D26S2ELF5OhuTWCZdV0rGxcD2S6gzw49STbg7gFqKcL9pEQ10PSv5hymamDcaA5VyuSgLKzoDGBb3tCs6mMxEfjCkuMqad5Q4G3ICydi0eWwEIhhD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LFBeIzvM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=a6hiYE2R; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LFBeIzvM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=a6hiYE2R; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1756835888; c=relaxed/simple;
+	bh=G1lFqotkVACtE6+sW5ZU3GR50PauyZ2v/bKjnH+XF/A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NR7PzOaICaSnaTJrZiSvNEjQsCFih0cDLCLIaDU6ttt55J1xxfS9R6YZdcP3H23kXwDJf2W/2gC5y3pOlK5cvAni/aVdxWsbGBS+gTxJS/J5jcE8sgJCNVHeZax6kmXGO6XGepI4fYkiAiK6DSGON24mGqFNr7JhPWCeinNUjtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nY624UIp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LFBeIzvM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="a6hiYE2R";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LFBeIzvM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="a6hiYE2R"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6F14A211F2;
-	Tue,  2 Sep 2025 17:18:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756833518; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lYQ9jg8CEZ7jS8cgwoeXNoQaLBwZMmCcnn+wNfH4lVc=;
-	b=LFBeIzvMmpIh0PmrF17VNNyzb4UatFFB8NkI587L/2oG80Yybh4RkrfGMK6tMB6umvkv3G
-	T2rBjzaI7lx4RZb8DD2HFPDHKd5uHGb1JUcPfheZ2WQxLXYhtlwwL9cThg8nCJx7MJGY7Y
-	F/B1AOEyo0vsgXHEXt6qApGqnFZTmnM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756833518;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lYQ9jg8CEZ7jS8cgwoeXNoQaLBwZMmCcnn+wNfH4lVc=;
-	b=a6hiYE2RyzvD9mjCChXWv2Z1YzPTPgWy1BcqXL1G6v9d1UBoILuY12ASldIebZFQBiC02r
-	Du3fcn2zakR4xCDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756833518; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lYQ9jg8CEZ7jS8cgwoeXNoQaLBwZMmCcnn+wNfH4lVc=;
-	b=LFBeIzvMmpIh0PmrF17VNNyzb4UatFFB8NkI587L/2oG80Yybh4RkrfGMK6tMB6umvkv3G
-	T2rBjzaI7lx4RZb8DD2HFPDHKd5uHGb1JUcPfheZ2WQxLXYhtlwwL9cThg8nCJx7MJGY7Y
-	F/B1AOEyo0vsgXHEXt6qApGqnFZTmnM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756833518;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lYQ9jg8CEZ7jS8cgwoeXNoQaLBwZMmCcnn+wNfH4lVc=;
-	b=a6hiYE2RyzvD9mjCChXWv2Z1YzPTPgWy1BcqXL1G6v9d1UBoILuY12ASldIebZFQBiC02r
-	Du3fcn2zakR4xCDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 46B1F13ABB;
-	Tue,  2 Sep 2025 17:18:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GDn+D+4mt2i8UgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 02 Sep 2025 17:18:38 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 3/3] ASoC: Intel: bytcr_rt5651: Fix invalid quirk input mapping
-Date: Tue,  2 Sep 2025 19:18:21 +0200
-Message-ID: <20250902171826.27329-4-tiwai@suse.de>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250902171826.27329-1-tiwai@suse.de>
-References: <20250902171826.27329-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nY624UIp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C55C4CEED;
+	Tue,  2 Sep 2025 17:58:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756835887;
+	bh=G1lFqotkVACtE6+sW5ZU3GR50PauyZ2v/bKjnH+XF/A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=nY624UIp+uSHKMzQNUM4IB9W/3X12Zpc7akgwjhMDHHYimCJ7s1deyLtNMWlJKUAj
+	 /AsdyjMj2kYj95uATspMpvjbS0ak9/4TkxTYpGhSeqqZt+7/2hl/P5DgYt0PuDwQjh
+	 MqrxunDowAqiPPTqBr5DjuIcsDOMWxbHaDYNw1WCZ3Z14HRTSUhozugXJgZc3UdxXJ
+	 N1a6WYcId+juDGVm8Qrlycad6f3MZ1aZe7CWiAwgMV3q+g5X6kZwT4fAECqbLwDpku
+	 rsXskcfyw59gsifQ2B91jHZiXoIAgTP/YNtbI5znegPyTcjjKmRIFEmtLs6bdPOiCv
+	 adwA+m4AuFN/w==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, lukma@denx.de, mans@mansr.com, 
+ ankur.tyagi85@gmail.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20250821082639.1301453-1-ckeepax@opensource.cirrus.com>
+References: <20250821082639.1301453-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH v2 0/3] Minor bug fixes for some older Wolfson devices
+Message-Id: <175683588601.1108057.11765729005710176683.b4-ty@kernel.org>
+Date: Tue, 02 Sep 2025 18:58:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-cff91
 
-When an invalid value is passed via quirk option, currently
-bytcr_rt5640 driver just ignores and leaves as is, which may lead to
-unepxected results like OOB access.
+On Thu, 21 Aug 2025 09:26:36 +0100, Charles Keepax wrote:
+> Minor bug fixes for a couple of older devices reported by some users.
+> Mostly this centers around the automatic PLL configuration getting the
+> wrong values due to rounding.
+> 
+> Thanks,
+> Charles
+> 
+> [...]
 
-This patch adds the sanity check and corrects the input mapping to the
-certain default value if an invalid value is passed.
+Applied to
 
-Fixes: 64484ccee7af ("ASoC: Intel: bytcr_rt5651: Set card long_name based on quirks")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/soc/intel/boards/bytcr_rt5651.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/soc/intel/boards/bytcr_rt5651.c b/sound/soc/intel/boards/bytcr_rt5651.c
-index 67c62844ca2a..604a35d380e9 100644
---- a/sound/soc/intel/boards/bytcr_rt5651.c
-+++ b/sound/soc/intel/boards/bytcr_rt5651.c
-@@ -58,7 +58,8 @@ enum {
- 	BYT_RT5651_OVCD_SF_1P5	= (RT5651_OVCD_SF_1P5 << 13),
- };
- 
--#define BYT_RT5651_MAP(quirk)		((quirk) & GENMASK(3, 0))
-+#define BYT_RT5651_MAP_MASK		GENMASK(3, 0)
-+#define BYT_RT5651_MAP(quirk)		((quirk) & BYT_RT5651_MAP_MASK)
- #define BYT_RT5651_JDSRC(quirk)		(((quirk) & GENMASK(7, 4)) >> 4)
- #define BYT_RT5651_OVCD_TH(quirk)	(((quirk) & GENMASK(12, 8)) >> 8)
- #define BYT_RT5651_OVCD_SF(quirk)	(((quirk) & GENMASK(14, 13)) >> 13)
-@@ -100,14 +101,29 @@ MODULE_PARM_DESC(quirk, "Board-specific quirk override");
- 
- static void log_quirks(struct device *dev)
- {
--	if (BYT_RT5651_MAP(byt_rt5651_quirk) == BYT_RT5651_DMIC_MAP)
-+	int map;
-+
-+	map = BYT_RT5651_MAP(byt_rt5651_quirk);
-+	switch (map) {
-+	case BYT_RT5651_DMIC_MAP:
- 		dev_info(dev, "quirk DMIC_MAP enabled");
--	if (BYT_RT5651_MAP(byt_rt5651_quirk) == BYT_RT5651_IN1_MAP)
-+		break;
-+	case BYT_RT5651_IN1_MAP:
- 		dev_info(dev, "quirk IN1_MAP enabled");
--	if (BYT_RT5651_MAP(byt_rt5651_quirk) == BYT_RT5651_IN2_MAP)
-+		break;
-+	case BYT_RT5651_IN2_MAP:
- 		dev_info(dev, "quirk IN2_MAP enabled");
--	if (BYT_RT5651_MAP(byt_rt5651_quirk) == BYT_RT5651_IN1_IN2_MAP)
-+		break;
-+	case BYT_RT5651_IN1_IN2_MAP:
- 		dev_info(dev, "quirk IN1_IN2_MAP enabled");
-+		break;
-+	default:
-+		dev_warn_once(dev, "quirk sets invalid input map: 0x%x, default to DMIC_MAP\n", map);
-+		byt_rt5651_quirk &= ~BYT_RT5651_MAP_MASK;
-+		byt_rt5651_quirk |= BYT_RT5651_DMIC_MAP;
-+		break;
-+	}
-+
- 	if (BYT_RT5651_JDSRC(byt_rt5651_quirk)) {
- 		dev_info(dev, "quirk realtek,jack-detect-source %ld\n",
- 			 BYT_RT5651_JDSRC(byt_rt5651_quirk));
--- 
-2.50.1
+Thanks!
+
+[1/3] ASoC: wm8940: Correct PLL rate rounding
+      commit: d05afb53c683ef7ed1228b593c3360f4d3126c58
+[2/3] ASoC: wm8940: Correct typo in control name
+      commit: b4799520dcd6fe1e14495cecbbe9975d847cd482
+[3/3] ASoC: wm8974: Correct PLL rate rounding
+      commit: 9b17d3724df55ecc2bc67978822585f2b023be48
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
