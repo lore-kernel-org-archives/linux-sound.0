@@ -1,110 +1,113 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5117E2E7F35;
-	Tue,  2 Sep 2025 10:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D0B2EFD81;
+	Tue,  2 Sep 2025 10:13:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756808006; cv=none; b=GptXxMSYVqRQ70x/Srt3MttWA8rYChVtyRPdrsxm3oEzBmE6orQDpmKWMeBSGbzCGYwMkNC/yC6bCJJpH+Co73AWrpEbpxtFPjEiqFsNyQqkPy8VYY3RVHKLT9zpLEtme3F2A9Qq+5pmbSrcxAFWKNcYHKMWp5BOV0otf61bYbs=
+	t=1756808014; cv=none; b=KwxHnfDj5vllE5wusYt/S7Gjp4tkR6ftiQC7+Bq8YNC2K9YWTgXNe25HnZO+MWy/Sv9Ah7y3dKlqO7H6Ksxl72LnuRfKIypayj0t8EXdDBg078/L4lXVKJf7sy6R9DtBEmcl8HHj5Ph8ZUTvreBzPu4bpU03glAJb76PL23swCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756808006; c=relaxed/simple;
-	bh=+x5+xD327VrVKvC2XSn/z/9w7E65qib68L3AOO9oPAA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DwBVRb6pgGenIKVB8BVenQ2oue8G0v4CQeqDeqZCkYIknmNRXOrhMSXiy87ZSwEYHGco6HCxPl515c7F8ZuY0lTnHhlbwIaU+5rqYojpmXXj5QFauRayiWJPlGOldUNk1TnsyHLtSUOZwEagWMNxTzCE5lE+Qirm3muH7JaxC58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz; spf=pass smtp.mailfrom=listout.xyz; dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b=SglupOZ9; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=listout.xyz
+	s=arc-20240116; t=1756808014; c=relaxed/simple;
+	bh=jIMRsGPvtdg9poTpwyfPNA5yMvawN69xdr5rcZYO6dQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NR2dTVmtQwqz5HfP61IQK5H/t5uaZ+IoaGI4Kv1vIuxzNQqylea8xq1rZlDoIjZbWY+VeJRgr60c2Pw4TrTPZjm9t2r6f64H7EZvrT8tL30YukK+G6ryD3W53uVJ3dKOIrcUvQsa40FwOvWLStTCe8cEUfKtB2F/Uzpymj37Txo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OgQTdjce; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b="SglupOZ9"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4cGM5D3m96z9tdj;
-	Tue,  2 Sep 2025 12:13:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
-	t=1756808000;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Ut931pixYQwzMDm0QpIBcKlrBgaiL2aTzr2h+zhhBg=;
-	b=SglupOZ9rMN5H43LDeYRwuXljvh5qRNSNSTffQVU2/6NztElcoJFTyALEUik8nX8gVFgmD
-	ARk8qcKwcKU5LlYfUKu9cyuD+/0bUUKZGvJDGO39diMrsJMfvWl+HuCm0xAwkeLWT7pB0q
-	bJbkUtAH7SniV/l9hOgVCPsWTDj6e4+D+q0Z4WnNVPUhnDtS94SFEdQTUmvq5OBRmNG/d9
-	pGtPJlAsi54mk3RAajgHlwiiheyYbYXexYPWF64yvNFYrU9UfZEpk+CUyucpmdzrOd34Kh
-	/LaXQ/pTHAqOHxQwkaxPHpXAITAOxSN/2TtUQ0a8wkHUY0t4zHyFTzMk4O6hLg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of listout@listout.xyz designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=listout@listout.xyz
-Date: Tue, 2 Sep 2025 15:43:09 +0530
-From: Brahmajit Das <listout@listout.xyz>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, linux-next@vger.kernel.org, 
-	cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com, 
-	yung-chuan.liao@linux.intel.com, broonie@kernel.org
-Subject: [RFC PATCH v2] ASoC: Intel: avs: Fix reading 1 or more bytes from a
- region of size 0
-Message-ID: <5i2wpum25e3nljoxuuccys6fzby2qznytzcl7fke62wlc52tzf@7gzae2lreggu>
-References: <20250902080812.684149-1-listout@listout.xyz>
- <87qzwp9so4.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OgQTdjce"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756808014; x=1788344014;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jIMRsGPvtdg9poTpwyfPNA5yMvawN69xdr5rcZYO6dQ=;
+  b=OgQTdjcevTw8LSY+9LJeIQ8QSRjjE9QubyEBhLgDU57pt490aVq6TLbY
+   chWYbXniEC2Q+Tdel2YHbt+xOnWZXZaxRgQZoCzri7GF8yrs9uBQrq0+P
+   8dZZkdkQtXDhY3gJkaKc30AvVfXUfsr3exE2YCngtKIpHc/5d/7Zgk8Ph
+   2bocU7DWvvXw1QCyOQkXNK6Wgum8Z/HayT54eHEvSt0Cu4QcPemC8Nun2
+   wQexx93Ww5xPMik2/SlK0RPffsAfn6BLY4lt8THJFezGENxOWQL+dnj80
+   Dfw+zZ95D1nMDQYRh1e1VRDyYMD463TE3f5xKdrTwlMf471QZlP/+LpCu
+   g==;
+X-CSE-ConnectionGUID: Wxw8wKUIQLCk5xFiE3GxGQ==
+X-CSE-MsgGUID: Trfloa5ITj2vH6iaUoGYSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="70177134"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="70177134"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:13:32 -0700
+X-CSE-ConnectionGUID: /aQH3nLpQ32N0ZuQwOFi/A==
+X-CSE-MsgGUID: Qy/RqTAfRvakCVQ5xlPenw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="171118685"
+Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.183]) ([10.245.246.183])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:13:28 -0700
+Message-ID: <cb98f508-7ad1-4ed8-b366-7c2ed8951629@linux.intel.com>
+Date: Tue, 2 Sep 2025 13:14:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] ASoC: SOF: ipc4-topology: Fix a less than zero
+ check on a u32
+To: Colin Ian King <colin.i.king@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org,
+ linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250902083213.2620124-1-colin.i.king@gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <20250902083213.2620124-1-colin.i.king@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87qzwp9so4.wl-tiwai@suse.de>
-X-Rspamd-Queue-Id: 4cGM5D3m96z9tdj
 
-Building the next tree with GCC 16, results in the following error:
 
-sound/soc/intel/avs/path.c:137:38: error: ‘strcmp’ reading 1 or more bytes from a region of size 0 [-Werror=stringop-overread]
-  137 |         return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
-      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from sound/soc/intel/avs/path.h:14,
-                 from sound/soc/intel/avs/path.c:15:
-sound/soc/intel/avs/topology.h: In function ‘avs_condpaths_walk’:
-sound/soc/intel/avs/topology.h:150:13: note: at offset 4 into source object ‘id’ of size 4
-  150 |         u32 id;
-      |             ^~
-sound/soc/intel/avs/topology.h:150:13: note: at offset 4 into source object ‘id’ of size 4
 
-I'm not quite sure if this is a GCC bug or a problem with the source
-code.
-As an workaround, instead of using strcmp, strncmp helps. But would
-really appriciate comments from developers as I'm sure there might be a
-better way to fix this.
+On 02/09/2025 11:32, Colin Ian King wrote:
+> Currently the error check from the call to sof_ipc4_get_sample_type
+> is always false because a u32 variable out_ref_type is being used
+> to perform the less than zero check. Fix this by using the int
+> variable ret to perform the check.
+> 
+> Fixes: c04c2e829649 ("ASoC: SOF: ipc4-topology: Add support for 8-bit formats")
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
-Introduced by commit 595b7f155b926 ("ASoC: Intel: avs: Conditional-path
-support")
+Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-Suggested-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Brahmajit Das <listout@listout.xyz>
----
-Changes in v2:
-        - using sizeof()-1 instead of strlen() due to tplg_name being
-        fixed size array
----
- sound/soc/intel/avs/path.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> ---
+>  sound/soc/sof/ipc4-topology.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+> index f5e62cd8fc0c..b6a732d0adb4 100644
+> --- a/sound/soc/sof/ipc4-topology.c
+> +++ b/sound/soc/sof/ipc4-topology.c
+> @@ -2191,9 +2191,10 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+>  	case snd_soc_dapm_dai_in:
+>  		out_ref_rate = params_rate(fe_params);
+>  		out_ref_channels = params_channels(fe_params);
+> -		out_ref_type = sof_ipc4_get_sample_type(sdev, fe_params);
+> -		if (out_ref_type < 0)
+> -			return out_ref_type;
+> +		ret = sof_ipc4_get_sample_type(sdev, fe_params);
+> +		if (ret < 0)
+> +			return ret;
+> +		out_ref_type = (u32)ret;
+>  
+>  		if (!single_output_bitdepth) {
+>  			out_ref_valid_bits = sof_ipc4_get_valid_bits(sdev, fe_params);
 
-diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
-index 7aa20fcf1a33..367de5225ec4 100644
---- a/sound/soc/intel/avs/path.c
-+++ b/sound/soc/intel/avs/path.c
-@@ -134,7 +134,8 @@ static struct avs_tplg_path *avs_condpath_find_variant(struct avs_dev *adev,
- static bool avs_tplg_path_template_id_equal(struct avs_tplg_path_template_id *id,
-                                            struct avs_tplg_path_template_id *id2)
- {
--       return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
-+       return id->id == id2->id && !strncmp(id->tplg_name, id2->tplg_name,
-+                                            sizeof(id->tplg_name) - 1);
- }
+-- 
+Péter
 
- static struct avs_path *avs_condpath_find_match(struct avs_dev *adev,
---
-2.51.0
