@@ -1,47 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6FB2E3B07;
-	Tue,  2 Sep 2025 20:52:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E1A25A352
+	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 21:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756846379; cv=none; b=JB1/nbaBOgNdzUtzTbr+QVH2GkeM6ivHf8f25xLOMlsX4YE0jUpE8W08RL77vfrUngCpp1TUtGljhK9VLq5vInnFkWAh2Eyj4NuD3v3LFdLUjhJPf+HJOmBJuddP4JyOzDGzjzAkxO0vyZyGwspUd5A5y+OapTe/HlUXFnBYr00=
+	t=1756848030; cv=none; b=Z7MpQraoRTCNXjkAUVqA9kyH4Zx1VN674sRF0zHM5VUQV+xBmFEtgnHLglWS6kUG5KNliOeqrXqkjsKot9sWzdDIbxQPX6YVjTCAUlWULpe5+o6gdeCJv+wsQYgJgCfIElUMNnPK2FbNHAooUY4pKQly5qZuXp8FiURnAjGnlsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756846379; c=relaxed/simple;
-	bh=jECdS4CzQRUdpw1q8UvY0XbAJXPo1RSL3BkjoizI0Hw=;
+	s=arc-20240116; t=1756848030; c=relaxed/simple;
+	bh=B3POmnNV2FjOLnxqRNgBYkPzG8MPkiahAeDLdar2dYU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UaZoKxjylkpLFedXFrdmKh8dM1fjuEe0+4v38lh3IXHjRA37sGanAja4cIdmFPyKfzQfp3WaDgVvMzO8SzYDhLKjHYN6RxP/fO1sDAuAJ/dp9XxHHiwF+14E45dL4w2QcGFK9NwijLFTS+3WjrSNSb22U7dmhEn0iulzaVYnc70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O8X7ewLS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=khTzJV5MFaRVXABHPeyFVZW2yXDDIgxJjLAobQLZwhXO9/3p4aImG4yOdDLpmDQ39+JXClt6ck4GjvPZNFU92ef9IZT7+3aJsZnglQtNv3TiMS+iUyJZjrIdDznh93pAAB+khwgFmeDVjMPjtdenrvo6714IKDqvdtMHeUW5Z5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gCVAcHOk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O8X7ewLS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD889C4CEED;
-	Tue,  2 Sep 2025 20:52:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gCVAcHOk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13E2AC4CEED;
+	Tue,  2 Sep 2025 21:20:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756846379;
-	bh=jECdS4CzQRUdpw1q8UvY0XbAJXPo1RSL3BkjoizI0Hw=;
+	s=k20201202; t=1756848029;
+	bh=B3POmnNV2FjOLnxqRNgBYkPzG8MPkiahAeDLdar2dYU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O8X7ewLSTUxPVmrMSli6DcTVJqsbuOAtwGSFGZd1/mMohM2fuq99V5CqsrCG9oAJK
-	 ZCQZ94fVa4tZPWGiEEW9VY/JiCZnnbc+cevBe32S59461UCGzTZYXkuj8/IzQ3bEVZ
-	 ZDkLDoe0636QrDMy4RqA7DwvK3ON0gW9q9GFciYm2XsX/rff5YqS8nyts78B2hGO+f
-	 R8W90Z+nF6iV8gm1aoKS5mtxJ6RdvMkHU6EobolgQG6X2nlhoFbqNdl2Mo9WMWyUwv
-	 EqIXVqTbNfzSS3cKyH1wakZ/B/6Yj5Rdv6JpJWZb6It9NI4KPFZZTzGMim+RgUbDur
-	 tID0QvxDZsK+g==
-Date: Tue, 2 Sep 2025 15:52:58 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: chinkaiting@google.com, conor+dt@kernel.org, jim.shil@goertek.com,
-	jesse-ji@ti.com, lgirdwood@gmail.com, shenghao-ding@ti.com,
-	tiwai@suse.de, broonie@kernel.org, will-wang@ti.com, k-yi@ti.com,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	robinchen@ti.com, linux-sound@vger.kernel.org, krzk+dt@kernel.org,
-	toastcheng@google.com, alsa-devel@alsa-project.org,
-	andriy.shevchenko@linux.intel.com, henry.lo@ti.com,
-	13916275206@139.com
-Subject: Re: [PATCH v4 2/2] ASoC: tas2781: Add tas2118, tas2x20, tas5825
- support
-Message-ID: <175684637733.1163682.7826171092384451555.robh@kernel.org>
-References: <20250830061459.24371-1-baojun.xu@ti.com>
- <20250830061459.24371-2-baojun.xu@ti.com>
+	b=gCVAcHOkO4ihWW+UST1hmtBj3JM4zrkJdvSjCEUgjMLJt2X37M3rzaQbe4tqM/y8p
+	 mV68F/5ghVaZ9ZNwGzBYOd+BisEsvp16YSz0P7NuRFuh5EcO3R+vhehWrvDuPHzIfn
+	 Sa6iPY9k+2VmSDK8Nz2b97+aRnmEBCj1r4SMTvSTig1p5LThH7oQY0sWSF4Wqo2qCJ
+	 MAmmLob+T/CGx+G6s/V2sCsr+BB0LTpUY2YTUG/6E2JoVp1oisEDgMvNTWTvcUMzEQ
+	 LacKwXHhp9fGTKjvT/YyHSGVKfpVpTUrV2ZvzEgZ+C1XTYsxX9WCoN4ThqDJB8/wnA
+	 xYr4GPgbXqAIA==
+Date: Tue, 2 Sep 2025 14:20:25 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz,
+	amadeuszx.slawinski@linux.intel.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/17] ASoC: Intel: avs: Adjust platform names
+Message-ID: <20250902212025.GA2905120@ax162>
+References: <20250902094853.1231842-1-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,28 +42,17 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250830061459.24371-2-baojun.xu@ti.com>
+In-Reply-To: <20250902094853.1231842-1-cezary.rojewski@intel.com>
 
-
-On Sat, 30 Aug 2025 14:14:59 +0800, Baojun Xu wrote:
-> Update ti,tas2781.yaml for adding tas2118, tas2x20, tas257x and tas582x.
+On Tue, Sep 02, 2025 at 11:48:36AM +0200, Cezary Rojewski wrote:
+...
+> - for the probe-board mach-context is dropped entirely. The panic [2] is
+>   gone
 > 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-> 
-> ---
-> v4:
->  - Change description for adding tas257x and tas5827
->  - Added descriptions for tas2570, tas2572 and tas5827
->  - Remove unnecessary description for I2C register
-> v3:
->  - Remove unnecessary minItems.
->  - Remove unnecessary description for tas5825.
-> v2:
->  - Update the mail list for maintainers of yaml file
-> ---
->  .../devicetree/bindings/sound/ti,tas2781.yaml | 96 ++++++++++++++++++-
->  1 file changed, 95 insertions(+), 1 deletion(-)
-> 
+> [2]: https://lore.kernel.org/linux-sound/20250829225532.GA400117@ax162/
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Can confirm, I applied this on top of next-20250902 and there was no
+crash on boot.
 
+Cheers,
+Nathan
