@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006722EAB60
-	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 09:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3452EB5BA
+	for <linux-sound@vger.kernel.org>; Tue,  2 Sep 2025 09:29:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756805369; cv=none; b=emd9o3W6lLqJAeb+n8EkElgyu56VbLh1AurWbvkr/mTgH3VEaEQKLVE3j5eY3aWXmuYv9TLGEcAU3Rhhv0zouhZhVekynrqASNq4LZn74FRtmeIyR1fudQ5gmxBechI4n5BOE9GTXXqZDNqgE5CS6kYrVy19wPrxxoq9D5VuCPA=
+	t=1756805371; cv=none; b=W90Br8XAyaPe6DAIrBePHdQJaXe2jNbr0JsmAOxR4wZiTB2RD2SO+fEIgBBqZKH/30M2YBrUJRWC/3B4Zh7iA/+sl5AHG45gVAP4n2nhJJtNLK0JjhL6JD1KSy13ghP+JQWxTRRF/clj46N2xWDTqYPH1l2rtSUr2NR0891JdU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756805369; c=relaxed/simple;
-	bh=G3q1PfGxcxLmBQRiVfKy31xjL/3GITsLK9bzGwU1PbA=;
+	s=arc-20240116; t=1756805371; c=relaxed/simple;
+	bh=EfrlVASDt+gqP3NjZ1mYzRloENFsCMw9xQ9kLFLtGAg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dqm/i5ZCvX8Hub/CNV+0GAhy9stHeeSC2tohXuQrDD8SzmuHAGHaZk7iCXZdJm7XCKltmnvluWVDsDOKQ1LX0Fa28yzx9g61R50r0xzO/IvEHqmzBz4/CWw4YWhB/+q7w5mRGx+dam5OtJ3BhE8sejoPttIA0mjQqkhKiUCC2oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g7zNFejt; arc=none smtp.client-ip=192.198.163.18
+	 MIME-Version; b=NIGdu0v3CfLaR1nU0WhnuqVy46i6XwlWHsiBabokmYIsX9F1Q5IdinD7lFLuk1WhIQQizkgZjm7uEbYMIbVEkIRhsz3gC/qnH+U5xxJJq4l6SDkoWh7+jTV8FOv46iKhsjgdH3LDkagowvsVuKtYvFIT7X6eE3tlzI/olBiMCEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e25wNHAT; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7zNFejt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e25wNHAT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756805368; x=1788341368;
+  t=1756805370; x=1788341370;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=G3q1PfGxcxLmBQRiVfKy31xjL/3GITsLK9bzGwU1PbA=;
-  b=g7zNFejtVdOgxCZcXVH4D9eOnHVMdx7RJrp4mqsxrs24b80xqaIgu7I1
-   QW85J9bjjHlYi56ld+xKHCdcPLfC0QyYCxSKO/c+ED7iviEsUAhgIHoSl
-   W/iiy3IyZuO0US7gY/QP8LPzqbosKVrECOKgmOFhDJ30F5XeIFOnRXX39
-   CP/GmMNwVz1GLEw5SLwQ85nkyEYcDcW1sRDG0XVKSYgVJH6ED+sLnb08p
-   UK++6TBd8yidTHe+Z184R0DuY72BUlwbkvdy8WMky7A7JI80e3sIgWrxZ
-   Ub+7dPv0o4qjJiIX5jd4AVzlBuYbmmUVrV4GzRS12ERW34Nv5Ef4Ajs+4
-   g==;
-X-CSE-ConnectionGUID: AGWkS+4kR5uvPZdF4CFeaQ==
-X-CSE-MsgGUID: q0HSTpW9Q/Kl8mueeF32xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58275279"
+  bh=EfrlVASDt+gqP3NjZ1mYzRloENFsCMw9xQ9kLFLtGAg=;
+  b=e25wNHAT+E5NmoAi2OTAtNIGADHPrvOAZMfmZLKdpAxlGOO43qx0w49I
+   12ZGcL6Uh8PWmNH0dxl7pcnVtBjvS4jspzH5B3nFiqX2AT/P0xvNencYU
+   AEl1JfQjIVTjdnYjMPGidRcacr3x/CJw78lIWX73ls/+Y5m/oHVoP4AQB
+   zcj+DPbDyGXz2UdVVwphRoPSSWU3DxH8VQRDHwoerT9sKSkNvTFwkUU5W
+   YUjXXejbqR4QCUBtkDU+r2nBbs6dPYPfPvrvywqFgyXXdWib8ckIhi+di
+   sxpDS91j5HCE59oaI9ez6EsHm4dXxMwUAay6f4/CAG4GoH0+5nofs+2hf
+   Q==;
+X-CSE-ConnectionGUID: FG88yp6eTg6nqQjIyLSjzQ==
+X-CSE-MsgGUID: XJKMpFHPTtWx++/yGKxcWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58275283"
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="58275279"
+   d="scan'208";a="58275283"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:29:28 -0700
-X-CSE-ConnectionGUID: FiR9L0mGQ12sil5D9ED6Kw==
-X-CSE-MsgGUID: BJALKJO0S4SVtUHsXLWdGA==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:29:30 -0700
+X-CSE-ConnectionGUID: Zs/vmGngSQqduLWuP7sDcA==
+X-CSE-MsgGUID: QM92BasTQq2KG9ellDjGNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="170503279"
+   d="scan'208";a="170503288"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa010.jf.intel.com with ESMTP; 02 Sep 2025 02:29:26 -0700
+  by orviesa010.jf.intel.com with ESMTP; 02 Sep 2025 02:29:28 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -51,9 +51,9 @@ Cc: tiwai@suse.com,
 	nathan@kernel.org,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 15/17] ASoC: Intel: avs: rt5663: Adjust platform name
-Date: Tue,  2 Sep 2025 11:48:51 +0200
-Message-Id: <20250902094853.1231842-16-cezary.rojewski@intel.com>
+Subject: [PATCH 16/17] ASoC: Intel: avs: rt5682: Adjust platform name
+Date: Tue,  2 Sep 2025 11:48:52 +0200
+Message-Id: <20250902094853.1231842-17-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250902094853.1231842-1-cezary.rojewski@intel.com>
 References: <20250902094853.1231842-1-cezary.rojewski@intel.com>
@@ -74,16 +74,16 @@ This allows for simplifying card and dai_link initialization:
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/boards/rt5663.c | 15 ++++-----------
+ sound/soc/intel/avs/boards/rt5682.c | 15 ++++-----------
  1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/sound/soc/intel/avs/boards/rt5663.c b/sound/soc/intel/avs/boards/rt5663.c
-index 51648801710a..68fea325376a 100644
---- a/sound/soc/intel/avs/boards/rt5663.c
-+++ b/sound/soc/intel/avs/boards/rt5663.c
-@@ -134,8 +134,8 @@ static const struct snd_soc_ops avs_rt5663_ops = {
- };
- 
+diff --git a/sound/soc/intel/avs/boards/rt5682.c b/sound/soc/intel/avs/boards/rt5682.c
+index 9677b9ebeff1..81863728da1d 100644
+--- a/sound/soc/intel/avs/boards/rt5682.c
++++ b/sound/soc/intel/avs/boards/rt5682.c
+@@ -204,8 +204,8 @@ avs_rt5682_be_fixup(struct snd_soc_pcm_runtime *runtime, struct snd_pcm_hw_param
+ 	return 0;
+ }
  
 -static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
 -			       int tdm_slot, struct snd_soc_dai_link **dai_link)
@@ -92,7 +92,7 @@ index 51648801710a..68fea325376a 100644
  {
  	struct snd_soc_dai_link_component *platform;
  	struct snd_soc_dai_link *dl;
-@@ -145,8 +145,6 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
+@@ -215,8 +215,6 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
  	if (!dl || !platform)
  		return -ENOMEM;
  
@@ -101,7 +101,7 @@ index 51648801710a..68fea325376a 100644
  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
-@@ -161,6 +159,7 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
+@@ -231,6 +229,7 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
  	if (!dl->cpus->dai_name || !dl->codecs->name || !dl->codecs->dai_name)
  		return -ENOMEM;
  
@@ -109,12 +109,16 @@ index 51648801710a..68fea325376a 100644
  	dl->num_cpus = 1;
  	dl->num_codecs = 1;
  	dl->platforms = platform;
-@@ -202,18 +201,16 @@ static int avs_rt5663_probe(struct platform_device *pdev)
+@@ -272,7 +271,6 @@ static int avs_rt5682_probe(struct platform_device *pdev)
  	struct snd_soc_card *card;
- 	struct rt5663_private *priv;
+ 	struct snd_soc_jack *jack;
  	struct device *dev = &pdev->dev;
 -	const char *pname;
  	int ssp_port, tdm_slot, ret;
+ 
+ 	if (pdev->id_entry && pdev->id_entry->driver_data)
+@@ -282,14 +280,13 @@ static int avs_rt5682_probe(struct platform_device *pdev)
+ 	dev_dbg(dev, "avs_rt5682_quirk = %lx\n", avs_rt5682_quirk);
  
  	mach = dev_get_platdata(dev);
 -	pname = mach->mach_params.platform;
@@ -129,9 +133,9 @@ index 51648801710a..68fea325376a 100644
  	if (ret) {
  		dev_err(dev, "Failed to create dai link: %d", ret);
  		return ret;
-@@ -245,10 +242,6 @@ static int avs_rt5663_probe(struct platform_device *pdev)
+@@ -321,10 +318,6 @@ static int avs_rt5682_probe(struct platform_device *pdev)
  	card->fully_routed = true;
- 	snd_soc_card_set_drvdata(card, priv);
+ 	snd_soc_card_set_drvdata(card, jack);
  
 -	ret = snd_soc_fixup_dai_links_platform_name(card, pname);
 -	if (ret)
