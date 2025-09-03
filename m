@@ -1,91 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76BE2D3748;
-	Wed,  3 Sep 2025 21:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C27E2D0621;
+	Wed,  3 Sep 2025 23:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756934577; cv=none; b=E7GI4ERHIvqXczhSUSAGWZKx7kZIV8ZjihssClL762RQOE4FxpAPwi1E5AA7FEKdEnxdXbCoj8Mw9SBSBxZ9GMXtJg45TITueQ/BwOpvJxqcLqXTQb8j751RLAP6abP0TIkgKVav9kC/5Q0rKLleMHwU+voYaJjPjMcGxqwmAZ8=
+	t=1756943717; cv=none; b=rflFXwX4mhnXFWfbWNJEoKxtH8BteWifzSt9nJGkcnj+S6/hViKPM49YrDNW7VxS4nfsES3xCzWpxJoWJQ3Tpv4G2PGiSnt4AGZAqELCVl+4rJlMinSo7IIMiaepcMyhCcn+v8k138pUxbRLh/twoha/aUs3RvbLoU9SsYsyBZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756934577; c=relaxed/simple;
-	bh=oYD045PFx4IfNHTb8kF36GnmgwvDxgzMVkLuEyhReU0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HpT72vcT8pLzxM8oY34Yw7dP3SlrP74geTc+9iIW49kM4JBMYsWstPxfcWcs74ynMrQLHQnowF7CcQ7kJVJ/d+3dLgzd2I7mdfyIVxoE+t578vuVCckwN13UahJRhspf54jAKH1ft0uwf/kdXJPTU/wRFUMccyJch7dh1F+lhoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ShGCTxeB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756943717; c=relaxed/simple;
+	bh=stPXXt3aFflck7RvYXXDEOtlDLuJaXPiZ7XrvWIPpUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qJUw26LdsjBKCWxTQjB9B5S1EOz1qFNSOuTj34zWj3oJ7ePmc+LPwE5NlnWYvM052JB5K4pZ5OtQyBB41WvTGBcH8N7Z3E6ONl6JwT3+089kN2iJ3K31XrfCkVdfpvK5rdw8Op8tfCS6jFqlbKoiU/Qo6AX2sr6PN1JCz+9DM2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pWuz7rO9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ShGCTxeB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E705C4CEE7;
-	Wed,  3 Sep 2025 21:22:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pWuz7rO9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C525C4CEE7;
+	Wed,  3 Sep 2025 23:55:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756934577;
-	bh=oYD045PFx4IfNHTb8kF36GnmgwvDxgzMVkLuEyhReU0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ShGCTxeBX/lrduwrXSmirkUcRIIJNOmhZB3TUI7soO7c+0TjrVEzVz/rw+2CBhw/Z
-	 IQsBXLo6GDRyJhX2HzKaWtUX8v7h148A0qnCwBsYOW9ViCIlbFxGk/eMzjU9gC/Orf
-	 V/f53B4JkxYn6Z66HEUYRjIUc1MCG1Lt2xrC2XliV1rLSUbwTD56QjKrYxTZX/KzqY
-	 iGdBYeHKALKaHpv14sMbgwIABax3STRcDPR+G2kbOHaOSBBq5SpgDHVkpUzqsp9Pzs
-	 b5HeXZ8481m3g++GKFAIUm2xkVOuBk6nGFhfZvi6Yk7rV1VvoLQ6qenDq84gUhYtyW
-	 rZ/9ZBgr5fwYA==
-From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, Syed Saba Kareem <syed.sabakareem@amd.com>
-Cc: Vijendar.Mukunda@amd.com, Sunil-kumar.Dommati@amd.com, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Peter Zijlstra <peterz@infradead.org>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>
-In-Reply-To: <20250903171817.2549507-1-syed.sabakareem@amd.com>
-References: <20250903171817.2549507-1-syed.sabakareem@amd.com>
-Subject: Re: [PATCH] ASoC: amd: amd_sdw: Add quirks for some new Dell
- laptops
-Message-Id: <175693457437.292968.9677235604719840326.b4-ty@kernel.org>
-Date: Wed, 03 Sep 2025 22:22:54 +0100
+	s=k20201202; t=1756943717;
+	bh=stPXXt3aFflck7RvYXXDEOtlDLuJaXPiZ7XrvWIPpUo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pWuz7rO9Eigxxa53nEhXgXyDnAKPBgoLueFy7yrL/Q4grA5dTleI0hnfq1Hn+A4i8
+	 KobenaNzrJyYILgl+mDA1m0mN7TQfC9AmVEf+wwYB0MwS6w3v3QP7Pkw2kDUPjjJ/j
+	 xXBXXBv+flBVrCIdzOmiHfkRHUqOeaWWpHv8mbyVa2HaeP27ZqNZ547FLFe7pCMkV3
+	 +2geir6AWlxrcjlgd5x0cDVmQXHL1us9aZ6SlE4v2CMiJNHM4E5ZJXr1FdXhez9aGI
+	 oy9tmMYucXzDMtveOjpzvqi69yuEwjwDGIm5G6yKjcbErI4HxhZeMWRdraswQ7PSN+
+	 ReTtRBwDUYfjQ==
+Date: Wed, 3 Sep 2025 18:55:14 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: broonie@kernel.org, patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	krzk+dt@kernel.org, shuah@kernel.org, zhoubinbin@loongson.cn,
+	drake@endlessm.com, KCHSU0@nuvoton.com, matteomartelli3@gmail.com,
+	katsuhiro@katsuster.net, lgirdwood@gmail.com
+Subject: Re: [PATCH v2 1/3] ASoC: dt-bindings: everest,es8316: Document
+ routing strings
+Message-ID: <175694371395.3386752.1635490926247373183.robh@kernel.org>
+References: <20250903160119.83625-1-jihed.chaibi.dev@gmail.com>
+ <20250903160119.83625-2-jihed.chaibi.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-dfb17
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903160119.83625-2-jihed.chaibi.dev@gmail.com>
 
-On Wed, 03 Sep 2025 22:47:47 +0530, Syed Saba Kareem wrote:
-> Add a quirk to include the codec amplifier function
-> for Dell SKU's listed in quirk table.
-> Note: In these SKU's, the RT722 codec amplifier is excluded,
-> and an external amplifier is used instead.
+
+On Wed, 03 Sep 2025 18:01:17 +0200, Jihed Chaibi wrote:
+> Add a list of the es8316 pin names to the binding's description to make
+> it self-contained and improve the user experience for board developers.
 > 
+> Signed-off-by: Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+> 
+> ---
+> Changes in v2:
+>  - Rephrased description to refer to device pins instead of the
+>    driver.
+> ---
+>  .../bindings/sound/everest,es8316.yaml           | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: amd: amd_sdw: Add quirks for some new Dell laptops
-      commit: 3254959b4dd065eae396cf78ccc1361460b2f53e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
