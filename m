@@ -1,73 +1,63 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 275C42E1C65;
-	Wed,  3 Sep 2025 07:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694241E98E6;
+	Wed,  3 Sep 2025 07:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756885957; cv=none; b=WDafAjO45wxFDqenVtDIdr4kBelYr7ihtgqEi7GuK0tjEILWRsHJ1op29ueSrJVSpAn7Tfhd8ePwd8iwiSGIRW2QtCjZZ5ZuZDtezOue7cx0PnGGETAnVuyAGgNIOzxgF9EYLvsKJXq7lVdRJyMbO3Dh2HJdAM2nGNr90+810aE=
+	t=1756886162; cv=none; b=PdMRftb60KozEBYjmk30b4TbMRppTTOLleuIdabfTTyGCvN2A+HefUvPrv5dd37yM8Z3dxXn9eBnTPlUEKZTfEoDjD2wsuRYA4kkZF7TZckfp2JBK6pK8zDyLJmsWvTJmB5I/O/GeVA9zKfvPyp2bvcT/i7XKeunUnMSMwBzpu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756885957; c=relaxed/simple;
-	bh=J/4vRqi3AJdpwehg83I+xUR1uhChhlY3BgTR7xXzcbw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=chfIu6RS/PofHL35F76/Sux7gzRhUyRGfEnVQ1jkP9YYqPRSPLz18C3kDwMWUHkplEnW0MH4WpqOnZCk04QYPsRehpQy1Ghiz/ux8IpeKZPjrkQlS/Rp3LnfWFCQnjY1FyaveWiUohBZ5+Um02RA/Kjwh+0AOBZxxuWMIDKrW48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=KVKJgAgS; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1756886162; c=relaxed/simple;
+	bh=WmhHqUUx+HVECDShxhT+FGRZ6haAnZle3DlNSAyxg3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FFMfb2D9ZX8ExVzEAGInRBtXfSvmHvIA7M8LxEfXJ6Q5fVJaglGHYIRXkJT8GHmcX71Wjdy3LyLkGZpncN0VOn9ZSVgfN8dusvlvfmT+Gtcae1f0LYCZMWHN9PKjb0LRaDOO5RxyddZAGXkElklEA3POmcAgMAm3zukcQ1Ti/HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CR/k8E0B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="KVKJgAgS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=AR
-	IXlGMt16PIpWWt0ZclsjNVZ6EBzquojBnwrtblUWk=; b=KVKJgAgSQLQattdnXC
-	pwQAHVguH9p7A8q1FFrKGubaKdD2wfOczoduJyId2RVsvkZ1WYmDuyEoG9yMpZ4Y
-	K1tX5oW62DrADzEjTRenFoQFUeBqygCO8EamjCb8DYoPAT9MHKxr5OI0NSYciFRi
-	IYFNCxnda1qz6ArYWW72WDI5g=
-Received: from neo-TianYi510Pro-15ICK.. (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDXDzmf87do_tBKFw--.64726S2;
-	Wed, 03 Sep 2025 15:52:00 +0800 (CST)
-From: liuqiangneo@163.com
-To: srini@kernel.org,
-	sdharia@codeaurora.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Qiang Liu <liuqiang@kylinos.cn>
-Subject: [PATCH] slimbus: messaging: Remove redundant code
-Date: Wed,  3 Sep 2025 15:51:55 +0800
-Message-ID: <20250903075155.135539-1-liuqiangneo@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CR/k8E0B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 412DFC4CEF0;
+	Wed,  3 Sep 2025 07:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756886161;
+	bh=WmhHqUUx+HVECDShxhT+FGRZ6haAnZle3DlNSAyxg3M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CR/k8E0Bgtqr0iYlE5Mn9gViyYbEPJ2AoDTF1Zcyn6uDsoL/ezKaHF0fzzg6JvS/0
+	 ynKAyIAAYK5c5Cl2zkKISeTboUC2S4qoFo33CNuaUWOd+xymIn2kFbTRs/5YRq4V7N
+	 teh5hmgMO8q3aFS8V7zBkkQbVFf4vIRY+8ZUJMcSRyGcGaNtEft8UuH1LgnYZtHikP
+	 uPWi/Qdrgb0iPAv/TWM8n+ivVbeInTi18KP435JdpxT9hKRnT7JLyhELX4OedDTjUf
+	 ZRPh7x35IBa5pJqdcSh21WQ+4aHtEkUa5zASX9Baes+5nZpGQpful7ZSgCVquHyQOf
+	 7lfGkP5fk6gYw==
+Date: Wed, 3 Sep 2025 09:55:59 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: srini@kernel.org, broonie@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] ASoC: dt-bindings: qcom,sm8250: Add glymur sound card
+Message-ID: <20250903-sociable-corgi-of-grandeur-d1dc76@kuoka>
+References: <20250902140044.54508-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20250902140044.54508-3-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXDzmf87do_tBKFw--.64726S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrWry7Gr48JF1DXrWUGrWDtwb_yoWxXwb_Cr
-	s0qan2g39xX3W3tr9aqr4rZrWava1fW3y09FnFvFW5K3yjkrs8Xryqvr13uw1UJFW7tFZx
-	Ca1Utr1Ikr1fGjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbtrcPUUUUU==
-X-CM-SenderInfo: 5olx1xxdqj0vrr6rljoofrz/1tbisgy9YWi38HxQYgAAsD
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250902140044.54508-3-srinivas.kandagatla@oss.qualcomm.com>
 
-From: Qiang Liu <liuqiang@kylinos.cn>
+On Tue, Sep 02, 2025 at 03:00:40PM +0100, Srinivas Kandagatla wrote:
+> Document the bindings for the glymur sound card which is
+> audioreach based architecture.
+> 
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-Assigning txn->comp to itself has no effect.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Signed-off-by: Qiang Liu <liuqiang@kylinos.cn>
----
- drivers/slimbus/messaging.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
-index 6f01d944f9c6..27ca16f00e77 100644
---- a/drivers/slimbus/messaging.c
-+++ b/drivers/slimbus/messaging.c
-@@ -143,8 +143,6 @@ int slim_do_transfer(struct slim_controller *ctrl, struct slim_msg_txn *txn)
- 
- 		if (!txn->msg->comp)
- 			txn->comp = &done;
--		else
--			txn->comp = txn->comp;
- 	}
- 
- 	ret = ctrl->xfer_msg(ctrl, txn);
--- 
-2.43.0
+Best regards,
+Krzysztof
 
