@@ -1,84 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E2F27FB2A;
-	Wed,  3 Sep 2025 07:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C4E2D1F5E;
+	Wed,  3 Sep 2025 07:35:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756884186; cv=none; b=FwaUHZ6D2q0mfKtlUpfNBWgVSYmoYTEpJDv/hE3HBzVAvZ5omHREDJwkyh8+HUAWvLBNfItxiAI6w3/i6Hb/JxMRGBngK1HOrQk9Ph04pyJH7kAPrUWgnTb3FAePrFvylqWYxpt+IoUNY47w5K5jwB5Zx3hOsekyCMjDDV11r2s=
+	t=1756884912; cv=none; b=EQr0+zlVTpwtPp3hCr1FpiPtKzh3WhdEBHi7Ivl+BJIaQaPZUtMMhVj7cJKOLNWKXn5axSgPwhp7dZ2pDf2/A7lVo+G4nEewdERr7G8Wz9LTePeAxwibvvTsyVUKEmWZrJ0FwGIZMwb8oXZvG2WdXklxTLB6u/TYy+DAZTUce0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756884186; c=relaxed/simple;
-	bh=i8YViYCLv0G5HWt+WwVcqnR5OfAuwswwP8Ni9nzI9xk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W4sKLe5hWnPMpK7Z4JwqVL5o4jSwdO9OaXago77M0w75UQSPXfEGBffEk+OAaGreESrC9jYwpCo/L+eDkF9Lc/FCeTX8p8dEWS+CmVSy16X4A73N6cM7Md8cXr1MsjSAmQaAwevYeyW9OLsNl6OiksDQ76hFRdaooZjj59OiiKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CvztLMZU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756884912; c=relaxed/simple;
+	bh=8C3xjebS5A1uXK6PAJoBtn+sEHJWk+k90S1IcWEwjIA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Sta/TAg2uHOFatbp/dOwx29n2sQ6MRF//OFA17n/Mnz0MlapieCq21GSL33bkwzFEUIM4ktebNiJh7MyOp2K7VA41PKDec1Mb+a11Kc69BJw7afiUWxqN7ilS77OzqdQGYS7991rtCp4QivFGlu/W9kpqFIaOvdCil27+Son2CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M73gP3w1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CvztLMZU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7072C4CEF0;
-	Wed,  3 Sep 2025 07:23:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M73gP3w1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC3CC4CEF1;
+	Wed,  3 Sep 2025 07:35:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756884186;
-	bh=i8YViYCLv0G5HWt+WwVcqnR5OfAuwswwP8Ni9nzI9xk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CvztLMZUOgGBrIYsh5cn0NG/ZBk1o+0TNOTDgYrnAgHgGXReGBzdFckiiDW5wTGTn
-	 LzB8cRxhs7lXljN5fwMRdNapmxI0nGpde/BlCyxZ/F3YfJN+/QO/6Ss8oNOAFKaL27
-	 eDlIIs7KzBIhqyKKPQPy6N7zdYsb4gNrbKzBMKwo6IgsOcWDXSPpKEAg4+gPNbffvK
-	 diJZqyBEDPPCsymf89lShIPuRaPZPcI6tZbBDWuPnlMINwTAAjoQoJvK3Ys4iYNY5B
-	 FFHYpTSOn9ju6UYXwQZrAbEhwSLW6yjG5tKqCLWcWHlZ3t9eRn31xkltJTk25ViNb0
-	 maxJwEK6z9ZuQ==
-Date: Wed, 3 Sep 2025 08:23:01 +0100
+	s=k20201202; t=1756884911;
+	bh=8C3xjebS5A1uXK6PAJoBtn+sEHJWk+k90S1IcWEwjIA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=M73gP3w1W942MyxGPW01eX6vsT8OmQh3y23c5PTiaE+RaIv38yilqSRlEaMYQKisS
+	 YPdKyJmmD9bnCNvETJSIsXUAZGH52h91XwQkJJQrcgFxmDXzLKckKLQXZALgPEo+OQ
+	 nAng21hE2oG2216hOXxbcdI0y9pEaDwXOqhWlNC+GD4JrOm2eFbNv3iSS+QTkv040m
+	 6SASxWlOltZNjIwKIOuxAXYvVYg430sLqYlXJ7OFX2KySajblgm3sxfhB/wkncPO9z
+	 hdDQmpHAQ0ivmz2DeRoTJuEBxcWr8c0knan/GO3i1Xm5opx5zj19pjPkra2g4EnXYv
+	 N0/Naf28FshuA==
 From: Lee Jones <lee@kernel.org>
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mark Brown <broonie@kernel.org>, arnd@arndb.de, mchehab@kernel.org,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] Remove the wl1273 FM Radio
-Message-ID: <20250903072301.GZ2163762@google.com>
-References: <20250625133258.78133-1-linux@treblig.org>
- <20250808154903.GB23187@pendragon.ideasonboard.com>
- <20250902103249.GG2163762@google.com>
- <20250902113527.GB1694@pendragon.ideasonboard.com>
- <88042d72-b428-442e-ba3c-b15e587e12a7@sirena.org.uk>
- <20250902121015.GI13448@pendragon.ideasonboard.com>
- <aLcuHnj_h3Xf7DiK@gallifrey>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Benson Leung <bleung@chromium.org>, 
+ Guenter Roeck <groeck@chromium.org>, Tim Harvey <tharvey@gateworks.com>, 
+ Pengyu Luo <mitltlatltl@gmail.com>, Michael Walle <mwalle@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Jean Delvare <jdelvare@suse.com>, 
+ Thomas Gleixner <tglx@linutronix.de>, Lee Jones <lee@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Nikita Travkin <nikita@trvn.ru>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Tinghan Shen <tinghan.shen@mediatek.com>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+ linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Mathew McBride <matt@traverse.com.au>
+In-Reply-To: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
+References: <20250825081201.9775-2-krzysztof.kozlowski@linaro.org>
+Subject: Re: (subset) [PATCH v3] dt-bindings: mfd: Move embedded
+ controllers to own directory
+Message-Id: <175688490483.2489808.1034690962892116559.b4-ty@kernel.org>
+Date: Wed, 03 Sep 2025 08:35:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aLcuHnj_h3Xf7DiK@gallifrey>
+X-Mailer: b4 0.15-dev-c81fc
 
-On Tue, 02 Sep 2025, Dr. David Alan Gilbert wrote:
-
-> * Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
-> > On Tue, Sep 02, 2025 at 12:47:39PM +0100, Mark Brown wrote:
-> > > On Tue, Sep 02, 2025 at 01:35:27PM +0200, Laurent Pinchart wrote:
-> > > 
-> > > > Patch 1/4 has been queued in the media tree and should be in linux-next
-> > > > as commit 103b0cfc9ab6. It is based straight on v6.17-rc1. Patch 2/4 is
-> > > > also in linux-next, but is based on other ALSA patches. The simplest
-> > > > course of action would be for you to merge 3/4 for v6.18, and 4/4 for
-> > > > v6.19.
-> > > 
-> > > Or given that it's a driver removal we could just get a rebase of the
-> > > series against the meda tree applied?  The conflicts with ASoC should be
-> > > trivial to resolve.
-> > 
-> > I don't mind either way. I know Linus doesn't like having the same patch
-> > merged with different commit IDs, but I don't know how strict the rule
-> > is, especially when git should be able to resolve the conflict
-> > transparently.
+On Mon, 25 Aug 2025 10:12:02 +0200, Krzysztof Kozlowski wrote:
+> Move several embedded controller bindings (like ChromeOS EC, Gateworks
+> System Controller and Kontron sl28cpld Board Management) to new
+> subdirectory "embedded-controller" matching their purpose.
 > 
-> I still think the easiest thing is to leave 1/4 and 2/4 as you currently
-> have them; and let Lee take 3/4 and 4/4 next time around.
+> An embedded controller (EC) is a discrete component that contains a
+> microcontroller (i.e. a small CPU running a small firmware without
+> operating system) mounted into a larger computer system running
+> a fully fledged operating system that needs to utilize the embedded
+> controller as part of its operation.
+> 
+> [...]
 
-It's more disjointed than I like.  But it's okay.  Remind me later.
+Applied, thanks!
 
--- 
+[1/1] dt-bindings: mfd: Move embedded controllers to own directory
+      commit: e19df0d928a7d4a6dda919bb486e1ac2251f384f
+
+--
 Lee Jones [李琼斯]
+
