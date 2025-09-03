@@ -1,98 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD362D73B2;
-	Wed,  3 Sep 2025 07:39:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 275C42E1C65;
+	Wed,  3 Sep 2025 07:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756885170; cv=none; b=WfBtjbpphX0IgXY4WYkGl8JBprfRVpTz0rk3tdbMhqeAHXezWuoXt48ccBwm0VgBboaX9Q5ypA5f/6o8fSABXReiGW7GOQ6I3/1xJeIz2xCkzYY/XygLEsIezY6q2COduw9SOIcxZJoyukTzO6wwkHF/7nLQpyLaq/DPunEECic=
+	t=1756885957; cv=none; b=WDafAjO45wxFDqenVtDIdr4kBelYr7ihtgqEi7GuK0tjEILWRsHJ1op29ueSrJVSpAn7Tfhd8ePwd8iwiSGIRW2QtCjZZ5ZuZDtezOue7cx0PnGGETAnVuyAGgNIOzxgF9EYLvsKJXq7lVdRJyMbO3Dh2HJdAM2nGNr90+810aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756885170; c=relaxed/simple;
-	bh=nabVaKDp95bXX1pjLpK4nzWf1nseMWBruv5tgZaJBoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RgLSo4t9RnL2L+JF4an+eVqMdPBh1rtIXER+V/S9sbvnXb+k1NqL6WRuwPspTYV66mcMM27zLuIVDaADulwlmU+XNeZ082KD0yNliA72zJEDa0JPCqzX+D7j1m+BwbkhG+dRWUiFHhPdtE1qwVi9IFNUgxlLzyB3pJr/ahGExq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qoDk0nl6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756885957; c=relaxed/simple;
+	bh=J/4vRqi3AJdpwehg83I+xUR1uhChhlY3BgTR7xXzcbw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=chfIu6RS/PofHL35F76/Sux7gzRhUyRGfEnVQ1jkP9YYqPRSPLz18C3kDwMWUHkplEnW0MH4WpqOnZCk04QYPsRehpQy1Ghiz/ux8IpeKZPjrkQlS/Rp3LnfWFCQnjY1FyaveWiUohBZ5+Um02RA/Kjwh+0AOBZxxuWMIDKrW48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=KVKJgAgS; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qoDk0nl6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA52C4CEF0;
-	Wed,  3 Sep 2025 07:39:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756885169;
-	bh=nabVaKDp95bXX1pjLpK4nzWf1nseMWBruv5tgZaJBoA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qoDk0nl6DGMhrsb9Zero2GRf3mxlO2Zkmtca2Z/KeKD/A+oBDZ96dYcBPT94dwlkU
-	 f0DLzIj/ZwhCrb5B4tPNd/VVQsfYxVSV2/QOOMs9cLSO9APl7W8P7vIBAVhCCtvHGN
-	 Wtzw48LeMkWre+8zpgwv+Li+KmKBA5Y9dXQUwTFoIo9DK79zaqWKJYA9eeL0JZADFS
-	 qD9EiS0+jbqaNpPL+mO71C0U1WpdfN7z2meHxEAo+95mgjgwwldX3TLfUrljS59Nku
-	 X8Zz7gNiYLjBFpa/8drEj34cjLfh0bA/7FZxXieklmnEs9cQou/+e+pY9sOk2PlsS3
-	 SwaRwN9OWsD2w==
-Date: Wed, 3 Sep 2025 08:39:20 +0100
-From: Lee Jones <lee@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Michael Walle <mwalle@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jean Delvare <jdelvare@suse.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tinghan Shen <tinghan.shen@mediatek.com>,
-	devicetree@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-watchdog@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Mathew McBride <matt@traverse.com.au>
-Subject: Re: (subset) [PATCH v2] dt-bindings: mfd: Move embedded controllers
- to own directory
-Message-ID: <20250903073920.GA2163762@google.com>
-References: <20250822075712.27314-2-krzysztof.kozlowski@linaro.org>
- <175682479961.2401991.17056649550187344851.b4-ty@kernel.org>
- <63e43445-ef5f-49b2-85c1-f85d95426d5d@kernel.org>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="KVKJgAgS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=AR
+	IXlGMt16PIpWWt0ZclsjNVZ6EBzquojBnwrtblUWk=; b=KVKJgAgSQLQattdnXC
+	pwQAHVguH9p7A8q1FFrKGubaKdD2wfOczoduJyId2RVsvkZ1WYmDuyEoG9yMpZ4Y
+	K1tX5oW62DrADzEjTRenFoQFUeBqygCO8EamjCb8DYoPAT9MHKxr5OI0NSYciFRi
+	IYFNCxnda1qz6ArYWW72WDI5g=
+Received: from neo-TianYi510Pro-15ICK.. (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDXDzmf87do_tBKFw--.64726S2;
+	Wed, 03 Sep 2025 15:52:00 +0800 (CST)
+From: liuqiangneo@163.com
+To: srini@kernel.org,
+	sdharia@codeaurora.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Qiang Liu <liuqiang@kylinos.cn>
+Subject: [PATCH] slimbus: messaging: Remove redundant code
+Date: Wed,  3 Sep 2025 15:51:55 +0800
+Message-ID: <20250903075155.135539-1-liuqiangneo@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <63e43445-ef5f-49b2-85c1-f85d95426d5d@kernel.org>
+X-CM-TRANSID:_____wDXDzmf87do_tBKFw--.64726S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrWry7Gr48JF1DXrWUGrWDtwb_yoWxXwb_Cr
+	s0qan2g39xX3W3tr9aqr4rZrWava1fW3y09FnFvFW5K3yjkrs8Xryqvr13uw1UJFW7tFZx
+	Ca1Utr1Ikr1fGjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbtrcPUUUUU==
+X-CM-SenderInfo: 5olx1xxdqj0vrr6rljoofrz/1tbisgy9YWi38HxQYgAAsD
 
-On Tue, 02 Sep 2025, Krzysztof Kozlowski wrote:
+From: Qiang Liu <liuqiang@kylinos.cn>
 
-> On 02/09/2025 16:53, Lee Jones wrote:
-> >> [...]
-> > 
-> > Applied, thanks!
-> > 
-> > [1/1] dt-bindings: mfd: Move embedded controllers to own directory
-> >       commit: 152afab28f7659a4292c9f7d3324eaeb49a55b8b
-> 
-> 
-> There was a v3 here:
-> 
-> https://lore.kernel.org/r/20250825081201.9775-2-krzysztof.kozlowski@linaro.org/
+Assigning txn->comp to itself has no effect.
 
-Drop this, applied that!
+Signed-off-by: Qiang Liu <liuqiang@kylinos.cn>
+---
+ drivers/slimbus/messaging.c | 2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
+index 6f01d944f9c6..27ca16f00e77 100644
+--- a/drivers/slimbus/messaging.c
++++ b/drivers/slimbus/messaging.c
+@@ -143,8 +143,6 @@ int slim_do_transfer(struct slim_controller *ctrl, struct slim_msg_txn *txn)
+ 
+ 		if (!txn->msg->comp)
+ 			txn->comp = &done;
+-		else
+-			txn->comp = txn->comp;
+ 	}
+ 
+ 	ret = ctrl->xfer_msg(ctrl, txn);
 -- 
-Lee Jones [李琼斯]
+2.43.0
+
