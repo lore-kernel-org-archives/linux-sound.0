@@ -1,161 +1,137 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5ED28373;
-	Wed,  3 Sep 2025 00:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D2932F740;
+	Wed,  3 Sep 2025 03:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756859435; cv=none; b=NAcSYDWYYrBHQ9xWhiDCdRGFv4PXJDPW1lH7ZuQmScEHUny92iEOz9BXlije2Ca31OdS4cxCxB2JMSvt5SWeAsnamhs0DDfRj9TldSxDvA+JRwElJ3OjY7u0GLe4nM1g3CEnDUNq5pHTXn7gH/Su+qIk3udA/C2YDj25Wr+NtZI=
+	t=1756870341; cv=none; b=UKNfRQPDhSb7p+4/Wfv3XTdfIs51PaiHxO7AlU7Uco5oz+sqOxjHF438ibH4JKa8AP2YMf+khgEPDyedmjsftH24qI+mIFRJnPUHcYo8z5Qlx+IYXF72k7g1MAh2uhXjB1ImChypZP2VO0mj/WCiIinulK1zPAzhlEwEgx3o4L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756859435; c=relaxed/simple;
-	bh=kN1SVeqqtF7jjk4r9ClxSGmVc8Agt/K+EhDBYCzp8ao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fPlk6NapYMJq3O7apg4stnRVrfr6KKp+uC+P1kRMPWGrcLtoM5uSUVQgvHfRlEs/zGZIDe00Crk7Vu3w+3HH84ALmuYp0iTD8RSaEIMoGLs79uaZHLbIUjLt6UZDzNUv7scdjdvgbZdqLxbQtYIq+zyEaBPb5ENbtJGtxL0/2Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=huDgh31A; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756870341; c=relaxed/simple;
+	bh=1armfrQSPhghEXbEgCR40kMT3Mz1KUNVgAlY6GjrTLM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J5t5VZXgL/5Iof6OoWLFo3U1JfXrDUBu3hVZfePtCs16N4B/zwrcpCdWF5EmmR9bz4kftQTc+tOyppvPyFtKM+m5+YtnovbWV3uiDJ8FjlShx5IrpkZg3QttQElhH/1khn+snkJjD9WDehyCIr2qMeogk0BceX0EmBfunuymcOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6/aA16+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="huDgh31A"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-323267bc2eeso4666374a91.1;
-        Tue, 02 Sep 2025 17:30:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756859433; x=1757464233; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CmMfbXYYghLau518ZkBS9EQ6iyJ6tyWuJVdbkNRuMJc=;
-        b=huDgh31ARc1zjpSuTcEszPnxeXc9AKySu7L3CPRypwhJEev3uHHu7Hb1AK6NHj8gfL
-         7mzaLEfytoYC2fIviYqLghGXeocHw76lP87de955rZtFfsxFQrR2flng/WQ1IHrliBgj
-         ewXRPZi6ykEsBMrWA70vVO9vKCrRbE6tB6Rfr0V/wcv9E9PcgVglp67Synb9oxXPfbUb
-         YPW+T/3vG5jkJZvGfAXCLQtBJJiixKdO3jAPPms7rgB/tuZc0mNXHnGaCzihwRPHalmR
-         Wkj5VKRSlynicZLkOB5qgc5aBxEH+YMiDCnKoMNg0dHHF+R7ucvrQfsGf6bBbrLN0XlC
-         6K8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756859433; x=1757464233;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CmMfbXYYghLau518ZkBS9EQ6iyJ6tyWuJVdbkNRuMJc=;
-        b=BU7t0LHClP/WsMAMB9pbhGACljp/YKSVOPScDpvcxt1L4Os36d/cfYg22CAomO619i
-         H+Do6t/Mm6Q48Nq2SbzbK+gdonLINpMst0gLtPQ1u5AUKtdjlA5Ojlo/0Hv1PR4NHhhx
-         KSM1krpwkpYIcxQ0KwREMiCrMwkWTut46aoi8hOxawbnVNhjjmdRQvD8U9WQm1Ux2x3y
-         SzOhwlAO/ttgkv/G+78XUHAiiicIOou3DNRmdxGbLh24j3w2C8I3hIPnmwIqwA17FH+0
-         VGZP+34PnjZe7bCIu6zfv38fAFHaL9GNl2Pw7RZwNIRej9FGDdGI/YWW/N5HeLI0DQP+
-         xqDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUv6l1kqGPlksG2tkehWP9dkkFZUviZgV0BWcDcKtBcYmh7RsqoZaK3Erkw5VMIk8UbnP0mVKTdVcZ5bSk=@vger.kernel.org, AJvYcCVNG3V8J2CTN34aF2nev3ast5xDbiEAVXDK9zubOfbrvxFuqbT+5XxxsiUGnQTgUDzEqRtWwVi8oNQ=@vger.kernel.org, AJvYcCVTVtczB6Xs4h0EyMVSUvVAJiZtsVJu+IuOdf6Y2nlEIfl351vsbchC3RnFKETlSCa+SaOQfYIwvlbg@vger.kernel.org, AJvYcCVUP8Cic2Bre0RPMp81MW67LXllXAaTwSiLhtjfbFNgZvt8N0NEmxZ9OR3QQW94jXB9uxOs+mitkQtDB9Y=@vger.kernel.org, AJvYcCW9CK4COPo9DltvCTXW02qDbZBKefFcB38uV94m2dQXULlUJiGQI1OXTptFSKhxOy7hEztLg0f9PaM=@vger.kernel.org, AJvYcCWOHkB5zUiSYmeTuH3J/0Ak+FtoCMFIXjuIVMGDvLjGSZvMcZRpoWJHO1vWSue6Dgzcp0S7AAJEaaR+mtSq@vger.kernel.org, AJvYcCWpgbVe+irAdm42j6Vue9kSqSLFoPIweQWPJeKCvVZMPKd2/YDAe4Y6Wv/p3EHt5G1OaA4Ziw9WIfZQ@vger.kernel.org, AJvYcCWu4OOz4PW+97vu7iIOeLOu9QnF2HtscNKDB74BH2N3uc9J5ceN0Nbu8dp7fZNd9HS/q8vOunCN@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJjkPY7a0sto9YTi7clsatyWPbcV7ZBt5PXQST/oOk2aVHjEp3
-	KnanfOuvnZSmQVvDmBV6Ac7ClwHAm7h7yM33hJj8e2yVTZlJPuR4SET6dO8brb/B
-X-Gm-Gg: ASbGncuIUWbxNzUeV/rfC1wnjCJOr+9kYblifRaJxY47rmIvHmPQ8yNb3Er/iGDxn/9
-	MNHSN8ErYvxDFJ4ux4R2MlDW1AO7mhg0LZSBQ03mpgpRQU7VQ4BHr5v+BBFpIqZS0QrXQikSpZ4
-	ik8C371hzuHyHe3ts9jhMn1jXdgHf90zJjKTQGiMVthWUgg/xXqFWDbwdsv7ItFFLjbQGqPUpH6
-	zOnH5Chi4kK8MJ+PdWEqRT61pVgj9Ur7KnhIoytGKWsW3Yh0m6+ugrCO17+k9mK+Wil02QM/n/M
-	7FH7MsL7GVweIOH1H0lPtDMRCcnSzjSRoIDUmj/Zl20I8srdVzRxtahdm2wPS19jK8L6bk1AhZD
-	o9H8VPBatWoyOpHkDqLsbkg==
-X-Google-Smtp-Source: AGHT+IHKuGow4ZFuttu6aoYR+s2VkdzBbs1o2jEf8YSpdi38rlMbKdEgFtFxfdUZ56XgWRNUklItiw==
-X-Received: by 2002:a17:90b:1b12:b0:323:7e80:8818 with SMTP id 98e67ed59e1d1-328156e5627mr18724374a91.37.1756859433210;
-        Tue, 02 Sep 2025 17:30:33 -0700 (PDT)
-Received: from localhost ([216.228.127.131])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-329e23858ecsm3480217a91.14.2025.09.02.17.30.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 17:30:32 -0700 (PDT)
-Date: Tue, 2 Sep 2025 20:30:30 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH v3 00/20] BYEWORD_UPDATE: unifying (most) HIWORD_UPDATE
- macros
-Message-ID: <aLeMJjfhisYSIEph@yury>
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6/aA16+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C22F8C4CEF0;
+	Wed,  3 Sep 2025 03:32:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756870340;
+	bh=1armfrQSPhghEXbEgCR40kMT3Mz1KUNVgAlY6GjrTLM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=c6/aA16+bBkQH51tR2bcv5SM6tXtTwJMULf4022Tate2FmzdfUbzGvPiP2fkcVpWI
+	 RriSmrsN2ZlJj0IloB/qX3FQ3Nx9cN4lqbucrjYT4KLxt2DgUbVBqvIKo2olMXLgfB
+	 9N5kKv4v3IBmC1YJev3/3rxoXwXwhR46dCAt8jPxByNLb/XkehQ3Po6KdKfM7VpmMm
+	 1Q1BM8WVxFsEMqVtGOxGMqeKmeEKRty2lb7WMxAWqJ6tmtHvJWE+KovB1IE7Kw9o50
+	 ge8OGusvBxfm+9So2e0mbnLX+HsjFa6ZxAt4PFAo/YR4SAEcoNc0h0IuibbyWbTQJn
+	 FVh2NdAaEjS2A==
+Message-ID: <3242f4a2-9a5f-4165-8d24-5c2387967277@kernel.org>
+Date: Tue, 2 Sep 2025 22:32:05 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/14] Documentation: amd-pstate: Use internal link to
+ kselftest
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux DAMON <damon@lists.linux.dev>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Linux Power Management <linux-pm@vger.kernel.org>,
+ Linux Block Devices <linux-block@vger.kernel.org>,
+ Linux BPF <bpf@vger.kernel.org>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>,
+ Linux KASAN <kasan-dev@googlegroups.com>,
+ Linux Devicetree <devicetree@vger.kernel.org>,
+ Linux fsverity <fsverity@lists.linux.dev>,
+ Linux MTD <linux-mtd@lists.infradead.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Build System <linux-lbuild@vger.kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>,
+ Linux Sound <linux-sound@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, SeongJae Park <sj@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+ Perry Yuan <perry.yuan@amd.com>, Jens Axboe <axboe@kernel.dk>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+ tytso@mit.edu, Richard Weinberger <richard@nod.at>,
+ Zhihao Cheng <chengzhihao1@huawei.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Waiman Long <longman@redhat.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Shay Agroskin <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>,
+ David Arinzon <darinzon@amazon.com>, Saeed Bishara <saeedb@amazon.com>,
+ Andrew Lunn <andrew@lunn.ch>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Alexandru Ciobotaru <alcioa@amazon.com>,
+ The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Steve French <stfrench@microsoft.com>,
+ Meetakshi Setiya <msetiya@microsoft.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Bart Van Assche <bvanassche@acm.org>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>, Masahiro Yamada <masahiroy@kernel.org>
+References: <20250829075524.45635-1-bagasdotme@gmail.com>
+ <20250829075524.45635-5-bagasdotme@gmail.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20250829075524.45635-5-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 25, 2025 at 10:28:20AM +0200, Nicolas Frattaroli wrote:
-> This series was spawned by [1], where I was asked to move every instance
-> of HIWORD_UPDATE et al that I could find to a common macro in the same
-> series that I am introducing said common macro.
+On 8/29/2025 2:55 AM, Bagas Sanjaya wrote:
+> Convert kselftest docs link to internal cross-reference.
 > 
-> The first patch of the series introduces a new header file,
-> hw_bitfield.h, which contains two new macros: FIELD_PREP_WM16 and
-> FIELD_PREP_WM16_CONST. The latter can be used in initializers.
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>   Documentation/admin-guide/pm/amd-pstate.rst | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> I've cheekily added the hw_bitfield.h header to the BITMAP API section
-> of the MAINTAINERS file.
-> 
-> This macro definition checks that the mask fits, and that the value fits
-> in the mask. Like FIELD_PREP, it also shifts the value up to the mask,
-> so turning off a bit does not require using the mask as a value. Masks
-> are also required to be contiguous, like with FIELD_PREP.
-> 
-> For each definition of such a macro, the driver(s) that used it were
-> evaluated for three different treatments:
->  - full conversion to the new macro, for cases where replacing the
->    implementation of the old macro wouldn't have worked, or where the
->    conversion was trivial. These are the most complex patches in this
->    series, as they sometimes have to pull apart definitions of masks
->    and values due to the new semantics, which require a contiguous
->    mask and shift the value for us.
->  - replacing the implementation of the old macro with an instance of the
->    new macro, done where I felt it made the patch much easier to review
->    because I didn't want to drop a big diff on people.
->  - skipping conversion entirely, usually because the mask is
->    non-constant and it's not trivial to make it constant. Sometimes an
->    added complication is that said non-constant mask is either used in a
->    path where runtime overhead may not be desirable, or in an
->    initializer.
+> diff --git a/Documentation/admin-guide/pm/amd-pstate.rst b/Documentation/admin-guide/pm/amd-pstate.rst
+> index e1771f2225d5f0..37082f2493a7c1 100644
+> --- a/Documentation/admin-guide/pm/amd-pstate.rst
+> +++ b/Documentation/admin-guide/pm/amd-pstate.rst
+> @@ -798,5 +798,4 @@ Reference
+>   .. [3] Processor Programming Reference (PPR) for AMD Family 19h Model 51h, Revision A1 Processors
+>          https://www.amd.com/system/files/TechDocs/56569-A1-PUB.zip
+>   
+> -.. [4] Linux Kernel Selftests,
+> -       https://www.kernel.org/doc/html/latest/dev-tools/kselftest.html
+> +.. [4] Documentation/dev-tools/kselftest.rst
 
-Applied in bitmap-for-next for testing.
+Acked-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-Thanks,
-Yury
