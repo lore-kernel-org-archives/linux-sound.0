@@ -1,160 +1,144 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A0F30AAD2;
-	Thu,  4 Sep 2025 14:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92E1302CA3
+	for <linux-sound@vger.kernel.org>; Thu,  4 Sep 2025 14:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756996424; cv=none; b=YxdhxFOk52f+9mtLwx7OXrlYqqphY/YNlnx8dYU2CeZgT79k5qH6etpZPAHLB59a38DlecpqQTX1MBnuEoSGS/t9meGgG6FeAwuirKo7ElqX1KP8zSdnP/Hyd7JrSyZK4+9I23I0aIVsLSJlSUKEZkAlq/XXPGHOwSjOsYW4ICw=
+	t=1756997890; cv=none; b=UpFUR1ymxY6TIWCvIkTeG504sbgqw7g08I4A/JMWv50ysck/4zUyqzdsecD4dR1omyd3CM/q7/9O5xqIt7gNgO3ncLI7/pEdqeUfrS1sF/ezRyEGhoLuerdWTWzzWQPkCFc5VlHZAmHB1emB+CSfWMPGQu1vyGArZ/B+LI0IcK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756996424; c=relaxed/simple;
-	bh=1gFHQqTMswUOPeaCIGVasFV7ShuHaCbNqXR8xB/ipcI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YOgXZwwg4WRA9q3ArpPV7k32I+2X4eCGweQIR13UPfADqLF9NCBPFushLVTA7gpQeOazzidtf9CxhWGbDbP9N0FbhKEMAg1KmrWgALY3jbYUCRfzIaRd9Eclm4nzsoL4TOHVejbW+HEWqiaWi/aONEs9rtFqUUhDCwhugOVKluI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=WR+j4onD; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=FBd4BEaS reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1756997890; c=relaxed/simple;
+	bh=LDo7n+ht/14Y2XxvRALbph5m3OXHQeh08/h3UV9pPWI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FEQsojW8yfFYrEi4OSYmfH8A4JDt80GtAbuBP2frSyeeKJ8oMb3WM41B/zqicym6mHcuocyIwHZyS4byxfTBYqcxvvVhnZfiRh7eUL9pkSWj1RLEVdlnQgYyveRKrSQoC7M0+e5eCkgcMQxgVQPIwtkH/LQWSK42fghZXI6KhDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hcbtI2fT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2GemctlR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hcbtI2fT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2GemctlR; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="WR+j4onD";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="FBd4BEaS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1756996421; x=1788532421;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=zlqqrNZEiY7IvtFC2IBEJxofiBdzO+GTzrOpSqcb4w8=;
-  b=WR+j4onDB8Z9Ftp1RG8m3Q75uxfy7glT8/vLzk0Qowrv8Kv9XiuKpHOU
-   AJd8DQbwd+1h8vfb/+x9/3UwHOHKyHI4JaMVhEDje2YeklxY41qN+Z2PA
-   AoK5GQzcAbPV6PxMOWrTgMdCF5wY2fDhUrkH9W2WpEmDwSKyHS/M9EDb4
-   oBR8jbptN5w7YA1ThJZ6kg5XXpQgu7O+maqm5yAIlR656NhRMMIxmo13c
-   1FVPnuyfDgR1GPOJsvPZQT/vpkd4xWF7VO8qnD9uAXCyZNOFLINfyVq4i
-   Ajx2e5OhJBS2swqVJr9h0PM031UxXqwEFYlvixzDsUOdJU8dk+ET3LhjD
-   w==;
-X-CSE-ConnectionGUID: G8Hed7ClSl6WgvwutzZBuA==
-X-CSE-MsgGUID: 8y9w8OLiQMyZ87BDufx9nQ==
-X-IronPort-AV: E=Sophos;i="6.18,238,1751234400"; 
-   d="scan'208";a="46080653"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 04 Sep 2025 16:33:31 +0200
-X-CheckPoint: {68B9A339-15-20CAA7DA-EC9DC758}
-X-MAIL-CPID: 54915AE65B26EEED12B979108A0F4215_0
-X-Control-Analysis: str=0001.0A2D034A.68B9A341.0064,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8A97E161458;
-	Thu,  4 Sep 2025 16:33:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1756996405;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=zlqqrNZEiY7IvtFC2IBEJxofiBdzO+GTzrOpSqcb4w8=;
-	b=FBd4BEaS14MCTqQhaMKyPetyi2HMKe+mCbXS7zgCsuJzNmwMtXYZwLQ4jrwpSLA+PzN2up
-	McSGUADKYjEVrHOUtG+izV5tWNXLmvK4mzPVM20q66XHPPqS907HHAzLPXVRhqPXytUvIK
-	JuF4tG9AJStDVT/fXSdMFIQqbFTM5JFH7/yW643XqVg2eQDSMjcOSas61VgDFzfUBIFLBS
-	o8RilpJVvxV3cxnYihXyXVbTDuF3DDjDLq7QHUzfxBUDTJ4K5VTOx3fAfoKNzVfrlQRQ7a
-	FkKux87MuC0Amd7kiIzibz+1yYt/lN5FOFyuEDVMsHr/J5Yz2oHJ5FsT32C6Bw==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
- cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, devicetree@vger.kernel.org,
- l.stach@pengutronix.de, shengjiu.wang@gmail.com, perex@perex.cz,
- tiwai@suse.com, linux-sound@vger.kernel.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v6 0/7] drm/bridge: imx: Add HDMI PAI driver on i.MX8MP
-Date: Thu, 04 Sep 2025 16:33:21 +0200
-Message-ID: <13565586.O9o76ZdvQC@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20250904070600.1361165-1-shengjiu.wang@nxp.com>
-References: <20250904070600.1361165-1-shengjiu.wang@nxp.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hcbtI2fT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2GemctlR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hcbtI2fT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2GemctlR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 071A6601D5;
+	Thu,  4 Sep 2025 14:58:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756997887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qbEeFL6F/XMBChxR0YsDAt6KZRAz0SzeG+xlv6ufwOE=;
+	b=hcbtI2fTu4A+43wTHlk454t5pvwo3ZgHNZiFMZI0EK/XsaGQfpf8FrkFDsfL4FBM9elI/c
+	T7+7F8JJy1sSD6q/BKPQGNkGlCjrao0kJ8g7V6PNNS9jijv/zes3Vb8P8yQJUe/MH26Ymk
+	ejxYiZ+UAPyJG0wnalq3pTnCU9TxnB4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756997887;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qbEeFL6F/XMBChxR0YsDAt6KZRAz0SzeG+xlv6ufwOE=;
+	b=2GemctlR/8JqFIP5JSI0OqmQXICfNygbZzoQCFmeH03b5LOJOgRvDjT5j+Waky4hCbnY/J
+	EOtrZWGMKZLgCjDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hcbtI2fT;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2GemctlR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756997887; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qbEeFL6F/XMBChxR0YsDAt6KZRAz0SzeG+xlv6ufwOE=;
+	b=hcbtI2fTu4A+43wTHlk454t5pvwo3ZgHNZiFMZI0EK/XsaGQfpf8FrkFDsfL4FBM9elI/c
+	T7+7F8JJy1sSD6q/BKPQGNkGlCjrao0kJ8g7V6PNNS9jijv/zes3Vb8P8yQJUe/MH26Ymk
+	ejxYiZ+UAPyJG0wnalq3pTnCU9TxnB4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756997887;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qbEeFL6F/XMBChxR0YsDAt6KZRAz0SzeG+xlv6ufwOE=;
+	b=2GemctlR/8JqFIP5JSI0OqmQXICfNygbZzoQCFmeH03b5LOJOgRvDjT5j+Waky4hCbnY/J
+	EOtrZWGMKZLgCjDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A7F1913675;
+	Thu,  4 Sep 2025 14:58:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3F/WJ/6ouWg7AwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 04 Sep 2025 14:58:06 +0000
+Date: Thu, 04 Sep 2025 16:58:06 +0200
+Message-ID: <87frd2s1s1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: cryolitia@uniontech.com
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Kexy Biscuit <kexybiscuit@aosc.io>,
+	Nie Cheng <niecheng1@uniontech.com>,
+	Zhan Jun <zhanjun@uniontech.com>,
+	Feng Yuan <fengyuan@uniontech.com>,
+	Celeste Liu <uwu@coelacanthus.name>,
+	qaqland <anguoli@uniontech.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/4] ALSA: usb-audio: series of improvements to min_mute
+In-Reply-To: <20250903-sound-v1-0-d4ca777b8512@uniontech.com>
+References: <20250903-sound-v1-0-d4ca777b8512@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 071A6601D5
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
 
-Hi,
+On Wed, 03 Sep 2025 07:09:44 +0200,
+Cryolitia PukNgae via B4 Relay wrote:
+> 
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+> ---
+> Cryolitia PukNgae (4):
+>       ALSA: usb-audio: rename QUIRK_FLAG_MIXER_MIN_MUTE to QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE
+>       ALSA: usb-audio: add quirk QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE
+>       ALSA: usb-audio: apply "mixer_min_mute" quirks on some devices
+>       ALSA: usb-audio: apply quirk for MOONDROP Quark2
 
-Am Donnerstag, 4. September 2025, 09:05:53 CEST schrieb Shengjiu Wang:
-> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
-> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
->=20
-> Add HDMI PAI driver on i.MX8MP to make HDMI audio function fully work.
-
-On TQMa8MPxL + MBa8MPxL:
-Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-
->=20
-> changes in v6:
-> - remove mutex in dw_hdmi_set_sample_iec958()
->=20
-> changes in v5:
-> - add empty line commit message for patch 7
-> - remove blank line in dts node
-> - add component_unbind_all when dw_hdmi_probe return error
->=20
-> changes in v4:
-> - separate dts for soc and board
-> - bind hdmi_pai with hdmi_tx by moving some code to .bind() and .unbind()
-> - add "select DRM_DW_HDMI" to fix build error reported by test robot
-> - remove unnecessary code/definition in pai driver
->=20
-> changes in v3:
-> - add space and 'U' in asoundef.h
-> - add more commit message for binding doc commit
-> - add bitfield.h header for fixing build error
->=20
-> changes in v2:
-> - address some comments on commit messages
-> - add two more commits:
->   add definitions for the bits in IEC958 subframe
->   add API dw_hdmi_set_sample_iec958() for iec958 format
-> - use component helper in hdmi_pai and hdmi_tx driver
-> - use regmap in hdmi_pai driver.
-> - add clocks in binding doc
->=20
-> Shengjiu Wang (7):
->   dt-bindings: display: imx: add HDMI PAI for i.MX8MP
->   ALSA: Add definitions for the bits in IEC958 subframe
->   drm/bridge: dw-hdmi: Add API dw_hdmi_to_plat_data() to get plat_data
->   drm/bridge: dw-hdmi: Add API dw_hdmi_set_sample_iec958() for iec958
->     format
->   drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
->   arm64: dts: imx8mp: Add hdmi parallel audio interface node
->   arm64: dts: imx8mp-evk: enable hdmi_pai device
->=20
->  .../display/bridge/fsl,imx8mp-hdmi-tx.yaml    |  12 ++
->  .../display/imx/fsl,imx8mp-hdmi-pai.yaml      |  69 ++++++++
->  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   4 +
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |  27 ++-
->  drivers/gpu/drm/bridge/imx/Kconfig            |  11 ++
->  drivers/gpu/drm/bridge/imx/Makefile           |   1 +
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c  | 158 ++++++++++++++++++
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c   |  65 ++++++-
->  .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    |   5 +
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |  16 +-
->  include/drm/bridge/dw_hdmi.h                  |  11 +-
->  include/sound/asoundef.h                      |   9 +
->  12 files changed, 380 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx=
-8mp-hdmi-pai.yaml
->  create mode 100644 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
->=20
->=20
+Now applied for 6.18.  Thanks.
 
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+Takashi
