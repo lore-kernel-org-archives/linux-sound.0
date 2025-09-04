@@ -1,141 +1,226 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281B12E6CA2
-	for <linux-sound@vger.kernel.org>; Thu,  4 Sep 2025 10:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177091E5206
+	for <linux-sound@vger.kernel.org>; Thu,  4 Sep 2025 10:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756981701; cv=none; b=WJ+eTUos3pBZt6yNr5lvuasO4YK/vjCZykNKwOTn8J/OvlsxyPWLfHxDYHGBMS0p1peQH4aoRFjCwclEwAaLnjykMsJEB6eb6vk+xU6omvOR72aWH99XI6mlTJnK97miOAsRvrXVYMsWRNajWBnUPom9Uek6V2m2CfjQ2LIWoWU=
+	t=1756982290; cv=none; b=Ynxczk53Wp8RwAocauBayBNEPGAqbFYVqzxHdtwzPapE1N1n7xPuy2UE6dNClAHZRHXi0BqrLeS6lUyjYulKA4dOms44B2YnZmjNWSu4yZ+HumQHYlqYPyiFjFc417SRKFOZdwCZXUT0RtbgeHpAjXsa/z3UrVyEzYfgx61YicE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756981701; c=relaxed/simple;
-	bh=qbUdaJpkZUNHp9jHGrfzQUVMcgv61VMXD3m2CVITtec=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=HtmDfS8wRMwv/W/+btSh76Y3ZnD8Nb+pb4/FZaKrMtD7Pyd/Am8yPGHg56oh6ekfNt00cTrcfbD/G6ujgPYv2FuWevDM6V8a0uJOrkgxbhfrY7l95+FLDZrRc6fUgV/4A2CznFhWcOnwHqatIWXt06n26aau9PiVcxfrvAi2g2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qx7LdcBW; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1756982290; c=relaxed/simple;
+	bh=zFCZNR0/Oeq4eFVi6ZSGlqzw+Q5YIQwiZXjHXrX0gHs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g0NHupxx4yflnzz5pQx3yRQGNJEdL4ED7Visa3cL95v8WawV+DZMTxcGkKpaU8Aiw0GBfUAV66TtmSbt6SoFh7+iOD3jFbGJ+l++NX6NFj0WHJtdoRP8pdmmaxcIsVMUOFos9cD64ZT7j1yGBMO1dtLW2CPX0jqRGJ1o7/NchNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C5KBTlMo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rYzdZRGQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rQ3/syLW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oVQyoGe+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qx7LdcBW"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b0413cda0dbso12053866b.1
-        for <linux-sound@vger.kernel.org>; Thu, 04 Sep 2025 03:28:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756981698; x=1757586498; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i1WbBVjWxA4EfQgsM8BlOAO7GONdCMwV9UB8qyjfBQA=;
-        b=Qx7LdcBWQ0fhRzuIrdTdWZtzB4n8dmSU43bz2M9IdsoeauM8unxVW4pQoSl7HIVARI
-         oLJHjl9D58gzs4wl9fzbKiU2rNhbB2jNo13GIWiWlNJ3QHMDN10nomk6yjltXiBucar8
-         ONSNQgS92fjW1t0x30Aevj9O9DaJrO5smQDmCIIagFBFTTNXruXLPdOQlrD+6wB7v4iM
-         DFP/YdzZUDH3DfnPvkWoo0o50lnNauHRXaewRx2fvvLW78Q/4cBWNT3szywx9+eo7XHC
-         O/pp1eE57H4EDXSsHkbQl6p5TncMX1C1BqJHRt3Riv3XdrGieJXABveQRGClEkyvhy4Z
-         Eg1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756981698; x=1757586498;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i1WbBVjWxA4EfQgsM8BlOAO7GONdCMwV9UB8qyjfBQA=;
-        b=qhZknYBKc6INYZ0NBRVeg6dVaUO2aQtk76o+JlEohAsGDWB5Zl2oZJGlW4AtI7Jz8c
-         eunUyMBm7fOOyAppghIwrtmVDsD8WgJ9VPkqhfYT281GuWPUqMfX8ffaUP4ugBKtZp4u
-         Drnn/27Wn2d07ewf5jlQoHCX7jEnQQvSnLZeRHLJsXXoeeWX8Mx51n4L4SSQEbMxKOUR
-         4UPdxcVscp+digti/jkoLeVwkjcuwQYyInd7s28ui1FpPoNszKKEYlRGP5a4YNNjCG/R
-         EykvZlwY+mRptu+xr+8q92k5C4dIt18j5RRNixVK2vToIwiRj/mmGT72fCAxS8cBPudt
-         kwuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUj7Q/0ynTVOaC7YRGx+kVgw4jOXFUIULzYfBTwxzEatStMvrs0VLPzuSbcK8pCcxScc/nwRG/B9dqF9w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0qkeprjcAGRjA78nMAkWZSwePOKSRf5qVlD/K/O2iuMbMN4bR
-	SxsiyIVCQ+2NqlxTvTEZPVFO+mMK4ceJFiBlyp389Q+ecOqNFayqvuSJ3k1MLi/W5xo=
-X-Gm-Gg: ASbGnctzNDAvNo3MJdh0Arnx1yii4TdrE8d26WrlZ9T0pUKFGHLy+lmZnrhrOCULBgS
-	p27DtAm7WTyMDOTidmv7u/4iAhJLiNvLPdNdMFY51XuA167g14eJJ/nwSlI3uy10NBNg6umQk6P
-	yaTa3xLa01Erw/4JUxcMKM9x9J0tGUKlqOrTHBphgN6/UW10Px+DK6LOXqN9lgqQosR1pJ/kkg2
-	omgRZ+sUiVoQ8YnXmGgaF8FfjszYeNuBj9ETCFJFvDKZ/kIBiySc+gdx1CHijRJnFQmKRPvtxmD
-	IDPUW3asUb8zNTCGjAbe/hKVFtgVUddfc+84ZCDDmIUpq0mt9/msrc2bZkvoWqFRjmTIqALawQf
-	V/35hCPt0ItZG/n/BUzLLOVz4Hu9cnhwgVh1iuSL12TY=
-X-Google-Smtp-Source: AGHT+IGm0SQo3pUnsDlRExnSN4uloFxusrJCYADHHQqT05DYpckwZlVlB1+5UK2fMt5CUtQdDfixag==
-X-Received: by 2002:a17:907:9455:b0:afe:ed61:b3d8 with SMTP id a640c23a62f3a-aff042497a5mr1221075366b.5.1756981698516;
-        Thu, 04 Sep 2025 03:28:18 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b042258f4ffsm1031853466b.91.2025.09.04.03.28.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Sep 2025 03:28:17 -0700 (PDT)
-Message-ID: <59deb4ea-0364-4abc-bb99-36a032cc4464@linaro.org>
-Date: Thu, 4 Sep 2025 12:28:16 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C5KBTlMo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rYzdZRGQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rQ3/syLW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oVQyoGe+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D6D5E345EC;
+	Thu,  4 Sep 2025 10:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756982287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+InWK3Nnj7T4EtajtVLj1+qSvSr8bKWoN+ZdTos14s0=;
+	b=C5KBTlMo9rJ1n8ZMCPiYMWZlE6G12nKvVnAiny0FmHNax9WMA0Uf10lScgfox6BGOtTjmC
+	dYJyt08raElEl1EJYm8cULL+VpyaHYbn+NJa8Je2hJqQMx2KiXahEa8vR3EV4Ylrg8HoY5
+	9ypEG1s/P95ykKe5UUYKfuJCuuVMvOE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756982287;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+InWK3Nnj7T4EtajtVLj1+qSvSr8bKWoN+ZdTos14s0=;
+	b=rYzdZRGQbIKQyr24VqIlhFkSou7mMxLUyPTQ8+ms6YVhr6+6Eq9tuNUk/o8VVpdPLRgUOl
+	CVG7foXi3fJWVRDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="rQ3/syLW";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oVQyoGe+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1756982285; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+InWK3Nnj7T4EtajtVLj1+qSvSr8bKWoN+ZdTos14s0=;
+	b=rQ3/syLWAem0gPtH3oJsso2xmzHRm3yT68kxNERSnzs0k+m6wv1gQJvppgggMup755lbPh
+	WoTi4DVmEaPtft6CQYgebnVt4U9wNkYfUA+yVKkQ2EARIjNEroGgfGQiVT3l0uVC8FuWI0
+	hP0Axz2l3VU7OrER+Xro2z48I3QJWVA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1756982285;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+InWK3Nnj7T4EtajtVLj1+qSvSr8bKWoN+ZdTos14s0=;
+	b=oVQyoGe+BAnuazjPADKf84Zrx+1V79lBEojAN3AtclWwX8j0JE49ZgUzTzFgq0IlMcqDmC
+	Rrb+PqvlupzrNDDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C96B13675;
+	Thu,  4 Sep 2025 10:38:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Vz4jHQ1suWiHMQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 04 Sep 2025 10:38:05 +0000
+Date: Thu, 04 Sep 2025 12:38:05 +0200
+Message-ID: <878qiutsdu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: syzbot <syzbot+10b4363fb0f46527f3f3@syzkaller.appspotmail.com>,
+	tglx@linutronix.de,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	mingo@redhat.com,
+	perex@perex.cz,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com,
+	x86@kernel.org
+Subject: Re: [syzbot] [sound?] possible deadlock in __snd_pcm_lib_xfer (2)
+In-Reply-To: <20250904102056.YCByXJXj@linutronix.de>
+References: <68b1f3ab.a70a0220.f8cc2.00f0.GAE@google.com>
+	<68b2406a.a00a0220.1337b0.001e.GAE@google.com>
+	<20250904102056.YCByXJXj@linutronix.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] ASoC: qcom: audioreach: Add support for VI Sense
- module
-To: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250904102558.143745-3-krzysztof.kozlowski@linaro.org>
- <20250904102558.143745-4-krzysztof.kozlowski@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20250904102558.143745-4-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-1.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=e1e1566c7726877e];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,suse.de:mid,suse.de:dkim];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[10b4363fb0f46527f3f3];
+	DKIM_TRACE(0.00)[suse.de:+];
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: D6D5E345EC
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -1.01
 
-On 04/09/2025 12:26, Krzysztof Kozlowski wrote:
-> +	cm_cfg->cfg.num_channels = num_channels * 2;
-> +	for (i = 0; i < num_channels; i++) {
-> +		/*
-> +		 * Map speakers into Vsense and then Isense of each channel.
-> +		 * E.g. for PCM_CHANNEL_FL and PCM_CHANNEL_FR to:
-> +		 * [ 1, 2, 3, 4]
-I forgot to change this to [1
+On Thu, 04 Sep 2025 12:20:56 +0200,
+Sebastian Andrzej Siewior wrote:
+> 
+> On 2025-08-29 17:06:02 [-0700], syzbot wrote:
+> > syzbot has bisected this issue to:
+> > 
+> > commit d2d6422f8bd17c6bb205133e290625a564194496
+> > Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> > Date:   Fri Sep 6 10:59:04 2024 +0000
+> > 
+> >     x86: Allow to enable PREEMPT_RT.
+> > 
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12db5634580000
+> > start commit:   07d9df80082b Merge tag 'perf-tools-fixes-for-v6.17-2025-08..
+> > git tree:       upstream
+> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=11db5634580000
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=16db5634580000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=e1e1566c7726877e
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=10b4363fb0f46527f3f3
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10307262580000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17110242580000
+> > 
+> > Reported-by: syzbot+10b4363fb0f46527f3f3@syzkaller.appspotmail.com
+> > Fixes: d2d6422f8bd1 ("x86: Allow to enable PREEMPT_RT.")
+> 
+> This is unfortunate. There is nothing that sound did wrong, it is rather
+> special softirq handling in this case. We don't see this often because
+> it requires that a timer is cancelled at the time it is running.
+> The assumption made by sound is that spin_lock_irq() also disables
+> softirqs. This is not the case on PREEMPT_RT.
+> 
+> The hunk below avoids the splat. Adding local_bh_disable() to
+> spin_lock_irq() would cure it, too. It would also result in random
+> synchronisation points across the kernel leading to something less
+> usable.
+> The imho best solution would to get rid of softirq_ctrl.lock which has
+> been proposed
+> 	https://lore.kernel.org/all/20250901163811.963326-4-bigeasy@linutronix.de/
+> 
+> Comments?
 
-I'll wait for reviews and sent v3 later.
+Thank you for the detailed analysis!  It enlightened me.
 
-Best regards,
-Krzysztof
+It'd be appreciated if this gets fixed in the softirq core side.
+If nothing else flies, we can take your workaround, sure...
+
+
+Takashi
+
+> 
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+> @@ -84,19 +84,24 @@ void snd_pcm_group_init(struct snd_pcm_group *group)
+>  }
+>  
+>  /* define group lock helpers */
+> -#define DEFINE_PCM_GROUP_LOCK(action, mutex_action) \
+> +#define DEFINE_PCM_GROUP_LOCK(action, bh_lock, bh_unlock, mutex_action) \
+>  static void snd_pcm_group_ ## action(struct snd_pcm_group *group, bool nonatomic) \
+>  { \
+> -	if (nonatomic) \
+> +	if (nonatomic) { \
+>  		mutex_ ## mutex_action(&group->mutex); \
+> -	else \
+> -		spin_ ## action(&group->lock); \
+> +	} else { \
+> +		if (IS_ENABLED(CONFIG_PREEMPT_RT) && bh_lock)	\
+> +			local_bh_disable();			\
+> +		spin_ ## action(&group->lock);			\
+> +		if (IS_ENABLED(CONFIG_PREEMPT_RT) && bh_unlock)	\
+> +			local_bh_enable();			\
+> +	}							\
+>  }
+>  
+> -DEFINE_PCM_GROUP_LOCK(lock, lock);
+> -DEFINE_PCM_GROUP_LOCK(unlock, unlock);
+> -DEFINE_PCM_GROUP_LOCK(lock_irq, lock);
+> -DEFINE_PCM_GROUP_LOCK(unlock_irq, unlock);
+> +DEFINE_PCM_GROUP_LOCK(lock, 0, 0, lock);
+> +DEFINE_PCM_GROUP_LOCK(unlock, 0, 0, unlock);
+> +DEFINE_PCM_GROUP_LOCK(lock_irq, 1, 0, lock);
+> +DEFINE_PCM_GROUP_LOCK(unlock_irq, 0, 1, unlock);
+>  
+>  /**
+>   * snd_pcm_stream_lock - Lock the PCM stream
+> 
+> 
+> Sebastian
