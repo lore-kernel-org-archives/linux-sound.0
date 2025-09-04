@@ -1,48 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB7B3090E2;
-	Thu,  4 Sep 2025 17:03:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105B831A56A;
+	Thu,  4 Sep 2025 18:09:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757005419; cv=none; b=q8cBsRL+5JJszLP2A/43yT5adKOkziA4YIdoFb1AVD9w4eqiIO6RkgrQCYUaLct5uQuJOK05Vmx0xnfdeR+uw93OjECtelYZaxi+NwaYMVRV/UFXrZVoFOL35zijGs1oWyQ4uSh0aK1efS/gi5z9lUIs/qYPW/uUOWfnCH8cEh4=
+	t=1757009384; cv=none; b=SO9YkBzCTvgg5EBc1c1esvkGyx2jdF1diKniF4OEAF+bulOhRE3V9ZalXPOJQtYfGl9F2F2mZ9tbVY/hlO4gFjpYYxWcWaHf3TkI6bjwuJdJwL4nuodsEpzAwigD8bD8SP3PRdXuk2p4+4ksfjDJpMLvziRoRplQ07fgKItg/rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757005419; c=relaxed/simple;
-	bh=h4enIaBWf2+tX5VpkMxuowPlacjc37bSzT6LA+Z6dc0=;
+	s=arc-20240116; t=1757009384; c=relaxed/simple;
+	bh=Dzf/E0myGWwuHVTtzSDrAX9V7VK8/NJWwMdaP/xXb50=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uCnydai1eLAf29rgnUketPjo1tOaQMdhGWbplePs1E0Cwh3csaSX6lJ8BAnOhsyKhwvBL9j+RK3AYnYcaCddtUf4s9Z0YUGlngBCQ01Y0lVOzQI/NoUs1+OMw8NK2YJ/J3XdQRpjCiAo3wVZMX5/rrGAea2xdHsGSKOBC3lPab0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPdqa4hp; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=J89hBECQd81KoWgJFXFwYEiKcXbq5CRu39E9S+zTxxGPwUgwr+0zLVbtQ1e+SEqrrArfnMBwNADK/w6BbWXDfGHhsASTSlsrDr31hmXZpP1VZdpIpP20V8mLErsXrchvtuQuaylkqq5jLCVzo2R1DSjWbCZlq2dxgSGuxEYW5tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GpRAKSu6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CPdqa4hp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C378DC4CEF6;
-	Thu,  4 Sep 2025 17:03:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GpRAKSu6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31CB4C4CEF0;
+	Thu,  4 Sep 2025 18:09:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757005418;
-	bh=h4enIaBWf2+tX5VpkMxuowPlacjc37bSzT6LA+Z6dc0=;
+	s=k20201202; t=1757009383;
+	bh=Dzf/E0myGWwuHVTtzSDrAX9V7VK8/NJWwMdaP/xXb50=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CPdqa4hpp/WZLMFww90ZkJ92qlHLhVUK8/Q0aweFu8olhJTz3dbOioiSdHGbk1o4d
-	 sn2neJbvEbkXOJYmgy8Vp5W0CmOfDJ5+KHGMbDQoNHoCkAixjaLI3ObpyDBV1VPA2p
-	 f8saKAytKc9CjOv52rZn/zn7Qr6QEBy9iA3UujZUZciwTLB3hXSdDyHoU7cYdv+4f+
-	 YHGI8GiM5U3P4TA0FfnyBjmKwUuL/VVfuHUuefVHVF8v+X4gaE6VCjvtMHglrFmGIb
-	 5FS7MdVCc3BGRM3vbfogEpVFkMRZRLEEzRSw90tGUSNktxXxuGphODgZwllnCk+Igq
-	 4Jz/AAjTjp0xg==
+	b=GpRAKSu6oZa+akQ77ToHMpbGcEvDkFGHsjxn2CupWY/U8XNnM/GPb3jgvvvzM7iLp
+	 sDXntqT7zk4FF9LugCVVEtamnX99GxQGvwmnJLvH7h4rvQsv0olRjO0NusTvkdpIi+
+	 ycnUqmqc2rO7bDW+RHSohH2wc+gk3D+QIOLjF6QK7MGqDWOF1M4p/qoy/MpIv8tVvh
+	 tDR7jF7RarHIzQcFQagvrwdeCfsEr0W9dc74X1ACeqF6Vjo+UcZdUizSTdgs6Gm5Y5
+	 crkoBBVu0J8Bn5SHK0Ju+fhNpVtgFrzPBLpwVM80hcUiXaFK0hseo8T8kDUi59wQh+
+	 Lwijjr4JbWLoQ==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com, 
- prasad.kumpatla@oss.qualcomm.com
-In-Reply-To: <20250903151337.1037246-1-mohammad.rafi.shaik@oss.qualcomm.com>
-References: <20250903151337.1037246-1-mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v9 0/8] Enable audio on qcs6490-RB3Gen2 and
- qcm6490-idp boards
-Message-Id: <175700541553.105370.12358134412351621959.b4-ty@kernel.org>
-Date: Thu, 04 Sep 2025 18:03:35 +0100
+To: linux-sound@vger.kernel.org, krzk+dt@kernel.org, 
+ Jihed Chaibi <jihed.chaibi.dev@gmail.com>
+Cc: lgirdwood@gmail.com, robh@kernel.org, conor+dt@kernel.org, 
+ drake@endlessm.com, katsuhiro@katsuster.net, matteomartelli3@gmail.com, 
+ zhoubinbin@loongson.cn, KCHSU0@nuvoton.com, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, shuah@kernel.org
+In-Reply-To: <20250903160119.83625-1-jihed.chaibi.dev@gmail.com>
+References: <20250903160119.83625-1-jihed.chaibi.dev@gmail.com>
+Subject: Re: [PATCH v2 0/3] ASoC: dt-bindings: Document routing strings for
+ various codecs
+Message-Id: <175700938092.120028.16133127000007382726.b4-ty@kernel.org>
+Date: Thu, 04 Sep 2025 19:09:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,14 +49,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-dfb17
 
-On Wed, 03 Sep 2025 20:43:29 +0530, Mohammad Rafi Shaik wrote:
-> Audio support is now enabled on the qcs6490-RB3Gen2 and qcm6490-idp boards.
-> The updates include adding the necessary audio device tree support and the
-> required dependencies.
+On Wed, 03 Sep 2025 18:01:16 +0200, Jihed Chaibi wrote:
+> The series adds pin names for the es8316, wm8960, and nau8825
+> codecs to their respective binding files to improve the user
+> experience for board developers.
 > 
-> Both the qcs6490-RB3Gen2 and qcm6490-idp boards are derived from the
-> same SoC  platform. Therefore, the audio support changes are included
-> in a single patch set for consistency and ease of maintenance.
+> This v2 series addresses maintainer's feedback to rephrase the
+> description to refer to the device's pins and ports rather than the
+> driver.
 > 
 > [...]
 
@@ -70,8 +66,12 @@ Applied to
 
 Thanks!
 
-[1/8] ASoC: dt-bindings: qcom,lpass-va-macro: Update bindings for clocks to support ADSP
-      commit: 7748328c2fd82efed24257b2bfd796eb1fa1d09b
+[1/3] ASoC: dt-bindings: everest,es8316: Document routing strings
+      commit: acd2fa47aac568052bd8321586be64958e3e93b2
+[2/3] ASoC: dt-bindings: nuvoton,nau8825: Document routing strings
+      commit: 118ddab8bb4a06fd5e13446d11d69e301044087d
+[3/3] ASoC: dt-bindings: wlf,wm8960: Document routing strings (pin names)
+      commit: 0ccc1eeda155c947d88ef053e0b54e434e218ee2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
