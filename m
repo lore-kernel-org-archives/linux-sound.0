@@ -1,202 +1,62 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013053.outbound.protection.outlook.com [52.101.83.53])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269C128B400;
-	Thu,  4 Sep 2025 07:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756969657; cv=fail; b=ZBVUjf7Gq08mayScqrDwkS+LD3qm7H7u6AkwaArRCS2NRn6IxEL3RWdiFrpVPQKmVxPyUBFycQ6paBHfUZh6kWhk/vS2XiiY6Z4iVK/Swy6XDBavz+gf4CPFwxLYEe9At789ScdYi5NvykVPZEFbJ5Y+o+qkFahXgCLYzE5KIh0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756969657; c=relaxed/simple;
-	bh=owCom4fDJz9R7sVsEHnTUF4AmguYb4PsO48juJSw82Q=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dFu6HYnX2fy9Yvx/Rl/w63F3CZqJFjkMqHXJVZ6nxtUhyvCiYNWoz1qRHYij/Oxveb0M8fZB5Vh82ty0UuXqRyxfErfSVjFAWG6QxJmmy71a0Tr8V7N20uCcJmg+/pBeKTF00hv10epWmuspCiJsNiKXUcGtnGjlgOSUZnY4ZPU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=J7Z4Ycl1; arc=fail smtp.client-ip=52.101.83.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7233D289340;
+	Thu,  4 Sep 2025 07:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756969861; cv=none; b=Sm/xCTXDcASG45Q8CRN7XccWzW/456J873nU0QqZx6K/b4EDBwLjmCrjBxHXcVKbnvlVm0DgEDqEnwIgBCjqlyF8UbJuXLUEICTdhjZaxJuY8OEHey9A1R5f7oJr2ROdExQw7Sa4Kd8YcTP8mC8VjDVv9gP818l0VZAgtCRka3g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756969861; c=relaxed/simple;
+	bh=nZy0IyQHaJIUczXcoPF0OoMhKrOWk7gH/dgXGaa5YFo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=a3xcaCoK91dMbnX17VT1UrLOxQQPvSyq95l7Dtdch9yMO+x0mgZs0CnXbBZgPlfFdwXYNGlUIY4RA6cYl80qpFNFrFg4N5hWhpU7DFZ8cn8wEbbs3R5kwp9AK82GmaTGtTq0XzjpnLOJ5GiguY6qkZVfc/rLXx+ZUdLMJ9CpKe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rVBDlxQ9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="J7Z4Ycl1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BDWdlnUJ5hqlGfRGpi5daaC433qfaeAlQWjAjDMwlNJvxEsC9v4DKHYfmcIMXnmru99bAB0DyXnbQvBa6JKZV2rFjwfHdNNLF3NNX/YacjjN40Fa1cYC4vj0oNbjz7TemRX+wo27+komzNzggDWMrVtIsuSIwnl9wl7j0WrMQyodhlxpeppgwXupv9DBkRptKoM/fPiBHdmeEpXVurVS1qmA44q7/urDRn7YNzYwUbSjKJN75rHbJ+lM7zZAstXCSErXND14+PPBDpK8G3ZRuhCwd5K2mRkMDcjKt6isxE+1TCG+sFoXHbvOmfbRjlUaCUSDOI5ihWPMb3aaCJOBIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rdo/z73Npt9ybPywP2lr9lHgy1PcfMNqlyiU6OtRDJE=;
- b=Xta86cjZjkYAHxvh5tAstRLQ4AjmBZmZNyKBfjus+rGB5xbfR8nvGEJD/EodBxIndNWwk8JtwQMbcU3dV0MhFcW7YSI0kwr01sOdgoSumwFJDVdSFdieRMATe7NbEL9m3j1quA4COYnM8mNp59KVBz/HpDq9fn8OMtrtz4/wtrpPMD7F5K/+nM4qnG7AfOuaiYaSh0R119TG6XsFoPzWDDqn9EDiLZfKzkvBaJPADa87+wiq+4DXnd5r79o2wTv1Ldz4yMgYdKlGWnKPKyd8Pu5LvOzwVjBkQRSCSsbLwU8+OUxjNuN9D8q/K171BUvrPFAjzPLTQzUo9gHmr3ZBqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rdo/z73Npt9ybPywP2lr9lHgy1PcfMNqlyiU6OtRDJE=;
- b=J7Z4Ycl1D8pkUFAxCgN7x5/MLF6SWA6HbsZw6DUmGqRWR+xjnV0y6IO1zcFzxqHgQo9t/j1kFEQH4lWzUsD4YMMz+mQv0VTayMQSSAol+HTfhEdBSlii0PEll390lhF5pt5LKVPVjuMz1y4FTlVMMzqHXm++WeT5wYr1cLUCp5sXdVZTk70vMMej6ghd9QWzkiEg20GhLSNm+47IzFlz+rCcas/f7gU9ZmCZZyGwFLfkA+YpaLOc+XVwuVUGUua1YtZE8eBc1ylvxG9PAYHZ6AbEAd2R5B3vDeeJYsaQd5anVsaNLaIFM5MEfkMymT5inNLMtB53Ct0hKvoXBhHNbg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by DB8PR04MB7002.eurprd04.prod.outlook.com (2603:10a6:10:119::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.17; Thu, 4 Sep
- 2025 07:07:33 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%6]) with mapi id 15.20.9094.016; Thu, 4 Sep 2025
- 07:07:32 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org,
-	Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se,
-	jernej.skrabec@gmail.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	lumag@kernel.org,
-	dianders@chromium.org,
-	cristian.ciocaltea@collabora.com,
-	luca.ceresoli@bootlin.com,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	victor.liu@nxp.com,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	p.zabel@pengutronix.de,
-	devicetree@vger.kernel.org,
-	l.stach@pengutronix.de,
-	shengjiu.wang@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v6 7/7] arm64: dts: imx8mp-evk: enable hdmi_pai device
-Date: Thu,  4 Sep 2025 15:06:00 +0800
-Message-Id: <20250904070600.1361165-8-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20250904070600.1361165-1-shengjiu.wang@nxp.com>
-References: <20250904070600.1361165-1-shengjiu.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR04CA0016.apcprd04.prod.outlook.com
- (2603:1096:4:197::7) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rVBDlxQ9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F3BCC4CEF0;
+	Thu,  4 Sep 2025 07:10:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756969861;
+	bh=nZy0IyQHaJIUczXcoPF0OoMhKrOWk7gH/dgXGaa5YFo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=rVBDlxQ9oVZuZrwaWw2ap2AhQP6vpjLGobeO/Y83EidCJIzar6pI6hPd39Xi0PAOt
+	 DxhgbuigPi+aL3qPvA+b8YNqKqBDQRY3F2KwETFEGOuDo39LHhZviAw8MaBkIhXhhW
+	 13T2B/U2hKvLz1bW3xMY85Uk6prBK3q9teOW7CVdqWUkKOLgl6gqXmddh8hSAFtn6g
+	 JEq2JIXfO54ZzoWSuZZdvMNIxA00vFIyigwJdi7WaJaRKA8ZvQF9OIAoUcDDwpJTub
+	 OpJJY89wV182Losbe3u5D6sSvQ44hrFyGL8S1xaDa1OUdp1huexvXwkbh7HXU00b3Q
+	 PNj0eOP2Qq2Fw==
+From: Srinivas Kandagatla <srini@kernel.org>
+To: sdharia@codeaurora.org, liuqiangneo@163.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Qiang Liu <liuqiang@kylinos.cn>
+In-Reply-To: <20250903075155.135539-1-liuqiangneo@163.com>
+References: <20250903075155.135539-1-liuqiangneo@163.com>
+Subject: Re: [PATCH] slimbus: messaging: Remove redundant code
+Message-Id: <175696985957.289807.9989826262411299021.b4-ty@kernel.org>
+Date: Thu, 04 Sep 2025 08:10:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DB8PR04MB7002:EE_
-X-MS-Office365-Filtering-Correlation-Id: 443c3bae-4e48-449a-068c-08ddeb81b7ea
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|1800799024|19092799006|7416014|376014|52116014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?vnOApbFddLNvBtjT+nX9mX0Bezg0LYHN/X0sw4y1OgC2b2jMta/UvRHnFdjY?=
- =?us-ascii?Q?RQGj5qVdxwfdshlb/Mt/TLHApzlyDO4i7T4lZ8hRv2rIQIyV7XEh2hCkVS5A?=
- =?us-ascii?Q?o34GOvXPyQtauA4WopfCZCHxC7Fdgi/KjV4YWSNJT0TrbW9NCz8mLCUday2G?=
- =?us-ascii?Q?5af9JcDNEZCko7Gyy7Lrv8W3a8g0zE2ejU0pzYT/YMhah3HsG/WFAB0dXWn5?=
- =?us-ascii?Q?8nqXQ8PxVtl3wth0wnUhSW8lu4cc5fuDLgB8rm7WFjm1ouc4HXpmEZPfhOV9?=
- =?us-ascii?Q?iV3wIVxzPSrHc4N1DJHzf1a/tYGCQBnUwebkC/BCn2HGmatB4CJFMsMpIgDF?=
- =?us-ascii?Q?3oFI5KrY/I60KE3gIkcWA2naRP5hNnaaRa4XNDO2bGLeR7hxpUrFWio4/pUA?=
- =?us-ascii?Q?LxUR3ak8zKTrrHWYlZEVbpGRXB5Xp04tcanS0i3h5FdJt+Z5+pumFfyio1XE?=
- =?us-ascii?Q?g4jTLhfqXJCFOd9tQ0UBLp7JlHlByjCnu9ghq3JIsHi7DFO4yKQxzw86g+Zu?=
- =?us-ascii?Q?9j4idmdpQtF3M0KD0PM5ET6wDodWzS2tPXhFwfXQ3nk8zLNc9xzssHV1oOcA?=
- =?us-ascii?Q?hAtkAIgW6qUkpup0y/hUq1f/WptaplMUgRx72H+CdgfAQw6FuArINqu7uNWQ?=
- =?us-ascii?Q?/IsaFf0yv3XN91UR0vFZI2AuTIf1kkGABxLj5ArDU36RinNuLrtf/kI8wQHy?=
- =?us-ascii?Q?v1mgUfZtNFoNlLBkZ2UsMEVyADAGXxPS5eTgSOSHkAvr607ZKcWulR9qmZ/W?=
- =?us-ascii?Q?m/jptEUjCOm5iX4O8X0qcyBJrv3ybVed9bttHAPMbUV2hWSsmHw9CMZkogUd?=
- =?us-ascii?Q?+HSskhFD6sb7rb/uvPh09swDlZm+EPdWa4d5W8VaaipoC0yvS2SeS4Vwj5gP?=
- =?us-ascii?Q?fMKnqmkZc6C2E8XXepJYBNZC+RZw9/bwNHH5Uc8z6dxWjHj7WMgKNpDzojS6?=
- =?us-ascii?Q?osWkRCThWD/cg38pCj1oFtrKldQ5oXo1b8vwfI119/ThmlSo1w8zFmFk1a/h?=
- =?us-ascii?Q?mgeDOxC+rPMl9QEZirmTWiPZJYm6TlE1unuOhrDEOS5rP8Uej/jFwXdX5BPM?=
- =?us-ascii?Q?eOX5h3xySvoFBGLQMsUqfzsUXjCeyVFugvUT9ThaJ9ukdOFE5gfE9fSs24/c?=
- =?us-ascii?Q?CipNjc5gWJeBkUjOLn0MnZHYTTM0PVACZ84c56OiFl6jeZT7KcSMr7yFd+wd?=
- =?us-ascii?Q?EA3Mm0YwcMPIkDuZWFr0wFrmL6qI/YJUxT6hGsXA167DyR5BTxNyhdG+h3ek?=
- =?us-ascii?Q?M437mefCSpvimKOciOYnlBrCLFwKL8ke66l0jDoHe7ape3SsBgzHd/OCOm9H?=
- =?us-ascii?Q?S95AziyvV1ZtjlM3LF7k+LhmoKmQ2clj8gjhObwiUHJdy0IFBKa0MHlK5nyw?=
- =?us-ascii?Q?ZPZB7vv+pIFyhZA7bLZXHm/jOetHk/TR/IBxDgXidRxGyYLYBGmOiOq3N9Et?=
- =?us-ascii?Q?vmlENu1D7BrFf8g1z9ntCyrpxr5nV/iYGQ9nKSrdocMZ1NLUx7WtEqyfqdtS?=
- =?us-ascii?Q?hEcu9xijLUBO5SY=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(7416014)(376014)(52116014)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?0UpX53JQLY0qA7N31LBnmRL+LIRQgsTEBXnRVqorLM+S5Kutrc9ocW7WU954?=
- =?us-ascii?Q?pRYD9E0c9wL4qpHdymQzb107fKwTscLDxq2OShifEmy+y113jZrmdMHdQ9Xr?=
- =?us-ascii?Q?ClT3OgSIEb1rr/Ia38KNJelcJtIDIBmRmMGqemhQwMvYwEdm3O31xUrv9lsu?=
- =?us-ascii?Q?lJRsGDOXTSkMUKDVleFBV9P9bG2mJa5x6XuXDCT3N2Nk4Q7ZPIjy6R+eJ29S?=
- =?us-ascii?Q?A0yuwMqY71TH3PiiE8CgonyQAhtsoq91I55VrDf8r/tiAwc/7LQFQd9B43qM?=
- =?us-ascii?Q?5FWK74TbmLY77DIYVkrCoUYybZHxDLVW0yemoqTJecvxDKa6l9hsHpo9351Z?=
- =?us-ascii?Q?rdkpicWFsx+lVucS591hp6I7znQGzxFNX0b2g6+zDqDLWxGpATVWwsKkmGDx?=
- =?us-ascii?Q?C9s9SuxSI93ZOcXb0TdtzwZLEuT0Oog73lOQ7qluiMrJIjTSjvS5DoS+cg54?=
- =?us-ascii?Q?tTvVpcLQ9FPSnDRAjdBheL5O4JGXNJqZWD54daau4CQsX9ZRNCbEblHy9tYV?=
- =?us-ascii?Q?gmSXYdNy+++lv/2NtDoQY4lvzHzXzVJ7fQ3QONS9V8kEWZjDkwNd1BoBOeT4?=
- =?us-ascii?Q?UE9hjneNb7butcJpslgDz2xvX/lOVRHyPiBqDpx9HPh0DuOpUY2Y5peGVNva?=
- =?us-ascii?Q?SSty9sUvG9tJ++GSLdsEMsGiPAu1RUw4ZL/0CvWGk/5DzPvg7MmD5+RMOvXs?=
- =?us-ascii?Q?1uuQUR0HXKg0uLHx8TEcUvkFrBqBg/Z0vVdgqezTagBqmw2wGueOJn9mfnQV?=
- =?us-ascii?Q?iAjQfonMr7WMRtLRzLyJboDhs+W0Ae+et90plYPfOaSptsRVTWjImFHG/JsD?=
- =?us-ascii?Q?mfXsLV1TK7ty4hGJXheaKqZZfwLQPYQWsjifdQauRq1/ivyele00ZJO2nCRZ?=
- =?us-ascii?Q?dRJKJMGS9VAOa04XTLY0fFI3h37c1YAI+7+ilRu8ZEBsD4F+u/Nwj7lhS6xP?=
- =?us-ascii?Q?RC5qu97dKN4L2HAKCUa293n6yhrHrg8fpSAw8vSAbAbemrOD5P8Tt1lDBqyP?=
- =?us-ascii?Q?4eoo06dyZ4ugh9OQ37TMzJ+2Nh6zo8Vdsbmk1TUtLlnltAbwJp3lYzChB/vA?=
- =?us-ascii?Q?9quojIhaQipdzu6yE2LgE4HBmjKxJ9Mvhfg2OmVtiONntf/un4b9Fok24S/x?=
- =?us-ascii?Q?CUbv4zWXV5H5jSY4O+ku83NZr1eUBZgjo7U42GWSH2HGrt6s/rqpHYDi4wMX?=
- =?us-ascii?Q?n3ZLi0idyfvnjw+c33wUlICZwQ/ygp5rxI20Fk7Q3NWpLBFx7umuiDZwGRD1?=
- =?us-ascii?Q?QuUbfWWmL+1jnRtwLZQfA5gsYL4zqGhlhKMdhNZDt8z00VLDnE91EaHVtNMr?=
- =?us-ascii?Q?T19AnMFVGxazuHNyKN3TbdAix30Wvj+/8C4+0FpHXaQ4GnOAzjKU57VlcA92?=
- =?us-ascii?Q?g2RaEB8b0vkE8I/pCNPSPOAhmJyRDxc8tLANp7VXchg53QiCOdMpqm/JMTuM?=
- =?us-ascii?Q?tKC+jZDYMEexnCy4yxBAurfWoASZg0X4uXn0BhqZJU1racjoTFla4WMtPBaR?=
- =?us-ascii?Q?13/VTMjdwqgp8ExSaLHuhZLSuglwrNIKq/nv0CMTMvBX2wI+w2BOg2v25UiK?=
- =?us-ascii?Q?vYH3Ad00Z3w0kWM/Zc5/s6CG32Bw6cxKt3Hk/U7Z?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 443c3bae-4e48-449a-068c-08ddeb81b7ea
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2025 07:07:32.8552
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N4qjN7bzLUYALlAxtCaeZMQMoD1iobBFoJ6wctoqLq2JtjfGLI4I2tQ/gFZfMAjGcZLxXIQ3b2EM6PDqXFTxRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7002
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-Enable hdmi_pai device.
 
-Aud2htx module, hdmi_pai and hdmi controller compose the hdmi audio
-pipeline.
+On Wed, 03 Sep 2025 15:51:55 +0800, liuqiangneo@163.com wrote:
+> Assigning txn->comp to itself has no effect.
+> 
+> 
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
----
- arch/arm64/boot/dts/freescale/imx8mp-evk.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+Applied, thanks!
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-index 3730792daf50..20c400766ea8 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
-@@ -442,6 +442,10 @@ &flexcan2 {
- 	status = "disabled";/* can2 pin conflict with pdm */
- };
- 
-+&hdmi_pai {
-+	status = "okay";
-+};
-+
- &hdmi_pvi {
- 	status = "okay";
- };
+[1/1] slimbus: messaging: Remove redundant code
+      commit: 9ad5660840925cd6067b22f8e0bd1db87275cf58
+
+Best regards,
 -- 
-2.34.1
+Srinivas Kandagatla <srini@kernel.org>
 
