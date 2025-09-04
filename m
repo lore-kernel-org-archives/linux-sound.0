@@ -1,149 +1,137 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650A62FD7D7
-	for <linux-sound@vger.kernel.org>; Thu,  4 Sep 2025 10:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36271D432D;
+	Thu,  4 Sep 2025 10:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756981137; cv=none; b=QSUPpueVkIGztpPGz+ONU1FI31wHcyWwieH3CWk+bbvAjYihmV1SfWSjTUSkKHx91o44rhC9Oh72VyLHpSJfl/ShlPWIAB6eYUBtsTPhj/uV50PJN6uhn6+6jgIqJlrI56jqGGjPf0s9AnWo3yYgrFvGdtNr0Yr6PLZCdvcZi7M=
+	t=1756981261; cv=none; b=Gmt58t2NelFLBF6SfPhT8tGnzcqxKReU9Os6BffwGdzYrsAjiYsK7Hfk2opu3EZL53ByvQc/GCQ8J4UQlXtbCpzhW8qJqi59YAm+SBcE0YUG3T7DA3s8TW2qdHf/BxqPMF6E4zbBZpV2EZhjiOnIknYCEIXjpEIaCRYE0YpfiIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756981137; c=relaxed/simple;
-	bh=0z4DvdjsLX6ePogBY1auCiBA6lQ5eI1Z0Og0lwAREbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j2gNad/GhmnYMSYCeyZ971INJA37CIqfLByjkqNo2nA3+Yv2fmRVhrKfZIPQ8DHKxtLBzn2zxe7IpaQPrbvfF8C0v1IINVxxxXQgrLcij8Qvq6sR7UmVAUKy1kzyQ+XM0d+gl1LKYObEYWT/wf6DQf6nISUmMKJj09jHtU7GO9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XApCXX6N; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1756981261; c=relaxed/simple;
+	bh=bq5CTFtIi1VN2s5gJ3WNt7YS8aY6jsvi7q7T8nGCTpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MNeJk8Kcu0oHUk+K1e0k4gROWgSonkY+JJJR7BT2eqCfS2lJSNwkoM/2N/LpDJP5MyD0caFtGiWQfC4Ggxnf4Tl5t9JtvLPyWA2XdTJOmxCX1k5Jmr73+7t33Zko5DPYmQE/B1xKA9oglPz1UMhrSMYXI6z17ElDYMbUKQDEDGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xL9Ja/u5; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZXs/IIfl; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XApCXX6N"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-61ed8b5bbc9so169510a12.2
-        for <linux-sound@vger.kernel.org>; Thu, 04 Sep 2025 03:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756981134; x=1757585934; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=788DvyHs5EODeIANR32XpfigfVcSqxiFxI3EsfOqEDI=;
-        b=XApCXX6NeNhNAvhmv8CVw75krY9UpYhjvZTYa59GqJjJPe/TOI8//VN5zgPEHK1BJI
-         QSs7lI7/izZE87KcZxBE/eR6DcLe8vuE7ipf1VZpcZCURX2sjonDp3yXj4cqZu+0nreR
-         0colCHAEN4emV5MzJ/TLPjVYH/fQf0ECbzthOIAjTtcCwQutEArATKMTtZfpYVD9f3z1
-         EwYofra9Qx/hmCKqnHcAI0wICaH6bNAjVW6gkKgKjcsl2BU8RYvo6LPFOwC+I1ZSm77k
-         KWwNFEa4KWsL3Uq0bOHmPfJvXwx+g9Q5MwY7K7MKfcdz7xFlabxX5uNJK0tVZQ/n/DP8
-         /zwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756981134; x=1757585934;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=788DvyHs5EODeIANR32XpfigfVcSqxiFxI3EsfOqEDI=;
-        b=vgYL8dueYBTt/bEnS4/PKKp0oq3RiKmq9NieO+QEGS6y8AWrLxVVHMmBaluxuumC5/
-         /Ixln3g2BwgfZ95ivxXt49ML6QGcoI0PWIovOebwrbOWwAQWcYIe8xsGlGNlNOD2u1Js
-         3nQU0TUbG6W2LLE079UAmp2XTjCHi5r4vsRRTrMV0jFRfMyHcSOjq2lx66dsjcMvKHLt
-         c312CgbuzawiQ3drLY+4dR46R5Se5MBSKCxspFynf0Sk0vp3NjeFY9c/GFmD72bXBQAK
-         KtAxUnLq7Jzhi4mA3CG6TJ6XNV+JEnbnPLhdexLELJYfgDj7PYpXv2Tt0+zOLtCad5ER
-         Hy2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVV+k+N8hVLmHfR1lhROhU4TY8MrRjUdtMn2zO5EpHjmzKdjgfP94edfB3dufIpRuQw6gOrGqknTh4X6A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YygVeulLmndXL1Gu3UknThYyEgv8vN5o+OVzKWgQ2mQoM1vKay9
-	m0DSXuGVFvFYLn4JHoteKIbzEAmUnf47ZtfEslDvZ307pu7bB3p6s3Ga1JngLL6BSFY=
-X-Gm-Gg: ASbGncuH/kLqZyfiLbi1F2cYRedG0oSF2guBidH4Z33vD25UwCP2XVLun5uNwMfXgPN
-	+LELirci/XueLVZbI8wmroOyR7pUgu7m4WEZxR3AXXDvCoYHjayt3LirK5fnhV3vTzYPvwHFeeC
-	SpHDVhe+n808NDk7GKltrCfHW8Abfz4qeaWFGGC+TIllOnZGo9EDSjSlcXYqGdqE9BblU8hYF5b
-	pSFayWl6dxrT8G0ZoRkJ/Tiwdqxdw0MJ2ulaE4ou/wnRI/0y1+qvgucQ0yV9EOKyC2Br4pQ8sxb
-	bnF3+DC43erFSqaeaWC9dcA5bLRCxYcrFCgA4S+VtENHA1YKkjQ4zv/a07b/QHAzH0iywZcS2KL
-	33JBN0798uDuy+LOYOwb09EToS6pFukO4Wf6ETv2FxmhW
-X-Google-Smtp-Source: AGHT+IHWntgtcODAj/7kFve1sXTz2DdTGamGtUT21D8b3aznENuQ1mZPsX7EylSYmJeT9xBCC+l8AA==
-X-Received: by 2002:a17:907:25c3:b0:afe:b131:1820 with SMTP id a640c23a62f3a-aff0f01e9fcmr1044118066b.6.1756981133581;
-        Thu, 04 Sep 2025 03:18:53 -0700 (PDT)
-Received: from kuoka.. ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b041f6fb232sm1103667166b.87.2025.09.04.03.18.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 03:18:52 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] ASoC: qcom: q6apm-lpass-dais: Fix NULL pointer dereference if source graph failed
-Date: Thu,  4 Sep 2025 12:18:50 +0200
-Message-ID: <20250904101849.121503-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xL9Ja/u5";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZXs/IIfl"
+Date: Thu, 4 Sep 2025 12:20:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1756981258;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mo/GCBNNEoLa3zRVufE+F+aOMHPopqUOJZVpt8Nx0fw=;
+	b=xL9Ja/u5RbIIxp11jEzcYX3nXisPaSlKLMWTaSVc4vvh+E+Fgeu+Tzdo5mvLQ8Kr3XlXvq
+	X6N3rOPfPoO5wPhIbtC7v9Qm9GYoa0keabxS2K1MPmuhdRi0y6vTn2YWZ2DNjlO/12W0lk
+	PISOLndWcyoU9r2eUGSFDgFu5Emu5BU6vr2xNRmbCxDYiJ1d1+HRLhCrrptf9vUXj6wArw
+	tDc9ERtbH99Q8CCR4s6d9E8vNyDRvbwZEp8X3v23RQa2KSP5fQBJMQVmXU3cajtfs/vyqT
+	HwZ51ldkPVt2mDqqsFBcJmNVGs4qqFzj3dgRhKSK96yxEqJIfBpJn+QnRT9yaQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1756981258;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mo/GCBNNEoLa3zRVufE+F+aOMHPopqUOJZVpt8Nx0fw=;
+	b=ZXs/IIfl67CHO4ioq2N/iL7XZByCS2NkQ94C204C8uFo4igB48rxhIPT7Z1wlfCAe8IrqI
+	TAdr/GpcbmvKxZBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: syzbot <syzbot+10b4363fb0f46527f3f3@syzkaller.appspotmail.com>,
+	tglx@linutronix.de
+Cc: bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	mingo@redhat.com, perex@perex.cz, syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com, x86@kernel.org
+Subject: Re: [syzbot] [sound?] possible deadlock in __snd_pcm_lib_xfer (2)
+Message-ID: <20250904102056.YCByXJXj@linutronix.de>
+References: <68b1f3ab.a70a0220.f8cc2.00f0.GAE@google.com>
+ <68b2406a.a00a0220.1337b0.001e.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2051; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=0z4DvdjsLX6ePogBY1auCiBA6lQ5eI1Z0Og0lwAREbU=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBouWeJllIVY+hQGdNqHZvj/tioDr963JGTfjhCS
- P6pL6DYWlOJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaLlniQAKCRDBN2bmhouD
- 1xJfEACRVcFni8dKH4V2yPLhU+lrF63RMHnlRzgHV9jmPHmN+MvF6Q2Kz+dfrN9qSOaI3EQjmUq
- qtnY7eUeCe7aPA3eUdRBbqaoumyMc56M7YQW6HWWVHBkpHQz5xipIT7lJyIUSJ7WGlr0xFJfnLa
- TBi/sKAZKgvvjhfKe6eXwSxpl2/L1/hQ6BnWrURJH1bwxDyJl6j+wm7BNxOo6QJgHQc/J9U42u4
- axXFpApSpaZ71EZIyaiyo/PdYPX2EULNm8C+gOFIrsggipVxt7oYTzEQhogJtblISh3H/rtBEQ+
- vqNNlphoEEpCnwfrKdGYIKiOU2S3xp/QLm3AQCxFKSSIbg4q7PHl8mCsiIaXVRQAtVoBuDguZ3/
- CwlY4Hl+zI9wsNdWh09G8+C95WOGbSQul5LWEzq+eNlopX/2r/50m3Yu3kmFNqEARid/PtgtcrC
- OJTMRJW4Ohhsi8HGf0GFyv1LAl2P8xu4RUwVL/4SP2MzMg7iazAlZbbXc05O9BCvfP6s0JI2Yu+
- KNh0uP7oXCAKQ7Jt5J4zGI0376RuS4fEgVofTdSYnHZi+9OQES9Ww3Kps13xIS96+9zrNe/j5Kl
- CiC85g6WdbLDFSEg0I4eZ7bpdN4Rgj8GFOVVUYgLJqFXdb6q0LLrAJqodNUAVjtAeSAgitAbAhj ywZWoUCPOGTRV5A==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <68b2406a.a00a0220.1337b0.001e.GAE@google.com>
 
-If earlier opening of source graph fails (e.g. ADSP rejects due to
-incorrect audioreach topology), the graph is closed and
-"dai_data->graph[dai->id]" is assigned NULL.  Preparing the DAI for sink
-graph continues though and next call to q6apm_lpass_dai_prepare()
-receives dai_data->graph[dai->id]=NULL leading to NULL pointer
-exception:
+On 2025-08-29 17:06:02 [-0700], syzbot wrote:
+> syzbot has bisected this issue to:
+> 
+> commit d2d6422f8bd17c6bb205133e290625a564194496
+> Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Date:   Fri Sep 6 10:59:04 2024 +0000
+> 
+>     x86: Allow to enable PREEMPT_RT.
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12db5634580000
+> start commit:   07d9df80082b Merge tag 'perf-tools-fixes-for-v6.17-2025-08..
+> git tree:       upstream
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=11db5634580000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16db5634580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=e1e1566c7726877e
+> dashboard link: https://syzkaller.appspot.com/bug?extid=10b4363fb0f46527f3f3
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10307262580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17110242580000
+> 
+> Reported-by: syzbot+10b4363fb0f46527f3f3@syzkaller.appspotmail.com
+> Fixes: d2d6422f8bd1 ("x86: Allow to enable PREEMPT_RT.")
 
-  qcom-apm gprsvc:service:2:1: Error (1) Processing 0x01001002 cmd
-  qcom-apm gprsvc:service:2:1: DSP returned error[1001002] 1
-  q6apm-lpass-dais 30000000.remoteproc:glink-edge:gpr:service@1:bedais: fail to start APM port 78
-  q6apm-lpass-dais 30000000.remoteproc:glink-edge:gpr:service@1:bedais: ASoC: error at snd_soc_pcm_dai_prepare on TX_CODEC_DMA_TX_3: -22
-  Unable to handle kernel NULL pointer dereference at virtual address 00000000000000a8
-  ...
-  Call trace:
-   q6apm_graph_media_format_pcm+0x48/0x120 (P)
-   q6apm_lpass_dai_prepare+0x110/0x1b4
-   snd_soc_pcm_dai_prepare+0x74/0x108
-   __soc_pcm_prepare+0x44/0x160
-   dpcm_be_dai_prepare+0x124/0x1c0
+This is unfortunate. There is nothing that sound did wrong, it is rather
+special softirq handling in this case. We don't see this often because
+it requires that a timer is cancelled at the time it is running.
+The assumption made by sound is that spin_lock_irq() also disables
+softirqs. This is not the case on PREEMPT_RT.
 
-Fixes: 30ad723b93ad ("ASoC: qdsp6: audioreach: add q6apm lpass dai support")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The hunk below avoids the splat. Adding local_bh_disable() to
+spin_lock_irq() would cure it, too. It would also result in random
+synchronisation points across the kernel leading to something less
+usable.
+The imho best solution would to get rid of softirq_ctrl.lock which has
+been proposed
+	https://lore.kernel.org/all/20250901163811.963326-4-bigeasy@linutronix.de/
 
----
+Comments?
 
-Changes in v2:
-1. Use approach suggested by Srini (you gave me some code, so shall I
-   add Co-developed-by?)
----
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-index a0d90462fd6a..20974f10406b 100644
---- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-@@ -213,8 +213,10 @@ static int q6apm_lpass_dai_prepare(struct snd_pcm_substream *substream, struct s
- 
- 	return 0;
- err:
--	q6apm_graph_close(dai_data->graph[dai->id]);
--	dai_data->graph[dai->id] = NULL;
-+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+		q6apm_graph_close(dai_data->graph[dai->id]);
-+		dai_data->graph[dai->id] = NULL;
-+	}
- 	return rc;
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -84,19 +84,24 @@ void snd_pcm_group_init(struct snd_pcm_group *group)
  }
  
--- 
-2.48.1
+ /* define group lock helpers */
+-#define DEFINE_PCM_GROUP_LOCK(action, mutex_action) \
++#define DEFINE_PCM_GROUP_LOCK(action, bh_lock, bh_unlock, mutex_action) \
+ static void snd_pcm_group_ ## action(struct snd_pcm_group *group, bool nonatomic) \
+ { \
+-	if (nonatomic) \
++	if (nonatomic) { \
+ 		mutex_ ## mutex_action(&group->mutex); \
+-	else \
+-		spin_ ## action(&group->lock); \
++	} else { \
++		if (IS_ENABLED(CONFIG_PREEMPT_RT) && bh_lock)	\
++			local_bh_disable();			\
++		spin_ ## action(&group->lock);			\
++		if (IS_ENABLED(CONFIG_PREEMPT_RT) && bh_unlock)	\
++			local_bh_enable();			\
++	}							\
+ }
+ 
+-DEFINE_PCM_GROUP_LOCK(lock, lock);
+-DEFINE_PCM_GROUP_LOCK(unlock, unlock);
+-DEFINE_PCM_GROUP_LOCK(lock_irq, lock);
+-DEFINE_PCM_GROUP_LOCK(unlock_irq, unlock);
++DEFINE_PCM_GROUP_LOCK(lock, 0, 0, lock);
++DEFINE_PCM_GROUP_LOCK(unlock, 0, 0, unlock);
++DEFINE_PCM_GROUP_LOCK(lock_irq, 1, 0, lock);
++DEFINE_PCM_GROUP_LOCK(unlock_irq, 0, 1, unlock);
+ 
+ /**
+  * snd_pcm_stream_lock - Lock the PCM stream
 
+
+Sebastian
