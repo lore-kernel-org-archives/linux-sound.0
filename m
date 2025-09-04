@@ -1,46 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBFE3090D5;
-	Thu,  4 Sep 2025 16:51:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C591F2E2F0E;
+	Thu,  4 Sep 2025 17:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757004703; cv=none; b=Q9UeK2AdUxZM0IXijvZN9IlKvvmN+SrO3lK7xD1lO/P0pkXfmn+/lJLZGLUbBaLCnakzCBklnTHdxYe60xjYpy3KQfpi4eLoAy8h0f8faiD2p2YVJGoLBy1B6Dkv3C4cxcIO+OVH/frkEp+qQihqVdX+uEe7olqFOtazYsyU4xw=
+	t=1757005416; cv=none; b=USGLds9lcqLsJrXAd9kp3hTe0oQWGF/akhMjsqdhQaQaSL6geEDGjb5O7y9UcJOpmeQOg4FvhJWecQNEMm7l+zSpkD0KWCf4aIePUk+aNUFe3v7i2OWDbOk06oahxu3HoOEz76WjwHGHOA/xu/kX3K1n6aR0rmDkldZ3/gLPxD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757004703; c=relaxed/simple;
-	bh=+8ovVQoNr3xnSgge3ZNc/bWr+AwjWhQbChG07yqVIPc=;
+	s=arc-20240116; t=1757005416; c=relaxed/simple;
+	bh=cMNkrcEAHaz5vcVwAPPjgBUbsHMV2zR/t5dQZATrRu0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=L8YON6y5bW0IPuE07JoG8nNcjFcpb3+J1NXWCYfTqENhqmUvR3CVRwsXt4poEAaA+Ruq3lDGrwQPJrnvSRwrVPwe7I4GbxEJbyvQRZ3HtwnhEWI0F+XOnudWB8l6QhS6k7E7BBtIBkANflU34nYtizVeKSaZXVQp2NnxlAyGGrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BcVwFRLK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=aWMN3pQFtiId55tw343PoEsKZl4kh2VbrmX4VFQXcEtifX/4aXdcscVgvRZOsmioH3dKQYCKz0srZuYaX3c+4YAsOCBK7dkrpN7yHXDu2W+UvYLxRSaEocVD6KI5HChw6T/wcqFJrlxj1NK2nRAoIZqF1+iDdU4+ucWLfEqeGlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bopkcvzx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BcVwFRLK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BF48C4CEF1;
-	Thu,  4 Sep 2025 16:51:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bopkcvzx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 419CEC4CEF0;
+	Thu,  4 Sep 2025 17:03:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757004702;
-	bh=+8ovVQoNr3xnSgge3ZNc/bWr+AwjWhQbChG07yqVIPc=;
+	s=k20201202; t=1757005415;
+	bh=cMNkrcEAHaz5vcVwAPPjgBUbsHMV2zR/t5dQZATrRu0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BcVwFRLKDLv9D1Db6hTlu6+Q6+qbGdM1I+F0uP9Xn0yz9zOIJlXpSoaE6OXxxuUMi
-	 ijCXt6FYfhy93yve7WHjVIlW7HknW2G8QKe9tVRQm8fwE3F34LIbCklA24an7v4gET
-	 MkfD9kAIlHaH0MPKZp38UA+Ep6PFWby/GLLgV2sdIVwbB5BXxev0erUbmdJySA6aui
-	 SygA8NaWHg3925fQibmFWClHyH+KAP8M9E+tz5EqvQAKiUJuSccwZqjA5RWXVC1Nz2
-	 rA1lRsKmIqu/KfSoGxkkFCmfGTK2TDsGDvUmNaUSF1wuN/h1LaruqpNYaxnkCWzKh+
-	 KpVgtc165d9Cw==
+	b=BopkcvzxoMxvONFbzzkOSxTfYsZi/1PEvde1l/KjMF3AyXJOkvJ3QgNkKz0jZKqa8
+	 aTATQb/kgqi5BiGLck043gbvoaz3SIy+3hk1hiuFs8VLAps1y6M+xv8GbHXMy3Kfde
+	 6oDdPu07BnHeppnU4ty9TSeUS45mi4t7tlE8T5fWImmIPATgH/344uloeb9/5UZfhi
+	 CFgF6QAsnvzW+4twkXgM97o8wJDtfActZlylQdfZ7J5zgm/vQsvsGaSpY2ULbkXSz9
+	 HPpNh1aKSHeceJRlS1AW+gcx3I+r/qUVcKEHVOUgsW0HPgd7QsBaGJK9sEa+eZ7oMc
+	 YH5/woC9UKCYw==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: stable@vger.kernel.org
-In-Reply-To: <20250904101849.121503-2-krzysztof.kozlowski@linaro.org>
-References: <20250904101849.121503-2-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2] ASoC: qcom: q6apm-lpass-dais: Fix NULL pointer
- dereference if source graph failed
-Message-Id: <175700470013.101252.2850768839303017703.b4-ty@kernel.org>
-Date: Thu, 04 Sep 2025 17:51:40 +0100
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+Cc: cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ kernel@oss.qualcomm.com, 
+ Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <20250720173215.3075576-1-quic_pkumpatl@quicinc.com>
+References: <20250720173215.3075576-1-quic_pkumpatl@quicinc.com>
+Subject: Re: (subset) [PATCH v7 0/9] Enable audio on qcs6490-RB3Gen2 and
+ qcm6490-idp boards
+Message-Id: <175700541199.105370.17920346254717819046.b4-ty@kernel.org>
+Date: Thu, 04 Sep 2025 18:03:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,13 +54,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-dfb17
 
-On Thu, 04 Sep 2025 12:18:50 +0200, Krzysztof Kozlowski wrote:
-> If earlier opening of source graph fails (e.g. ADSP rejects due to
-> incorrect audioreach topology), the graph is closed and
-> "dai_data->graph[dai->id]" is assigned NULL.  Preparing the DAI for sink
-> graph continues though and next call to q6apm_lpass_dai_prepare()
-> receives dai_data->graph[dai->id]=NULL leading to NULL pointer
-> exception:
+On Sun, 20 Jul 2025 23:02:06 +0530, Prasad Kumpatla wrote:
+> Audio support is now enabled on the qcs6490-RB3Gen2 and qcm6490-idp boards.
+> The updates include adding the necessary audio device tree support and the required
+> dependencies.
+> 
+> Both the qcs6490-RB3Gen2 and qcm6490-idp boards are derived from the same SoC
+> platform. Therefore, the audio support changes are included in a single patch
+> set for consistency and ease of maintenance.
 > 
 > [...]
 
@@ -67,8 +71,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: qcom: q6apm-lpass-dais: Fix NULL pointer dereference if source graph failed
-      commit: 68f27f7c7708183e7873c585ded2f1b057ac5b97
+[3/9] ASoC: dt-bindings: qcom,lpass-va-macro: Update bindings for clocks to support ADSP
+      commit: 7748328c2fd82efed24257b2bfd796eb1fa1d09b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
