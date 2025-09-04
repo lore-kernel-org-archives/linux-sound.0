@@ -1,219 +1,113 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563522BD030
-	for <linux-sound@vger.kernel.org>; Thu,  4 Sep 2025 07:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B222C2343;
+	Thu,  4 Sep 2025 08:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756970657; cv=none; b=ZajF1XPfB46Q7bH4OasStJcrIo0A+wmH4MLKhrajdUkc+M6muy4eUvQOj1eM87rq4Z2HLPSKMmRrbaEYCbiF9+8TlqFEEwxMd0jI7CdeLOuxRf/IdEXYsrDO/P4AVud8TTKbyZytGI3554wQOK0LsQbx55rPfzqyiDewfKk1Jek=
+	t=1756975282; cv=none; b=KDziPThKmrqXfDWpNgI4wRLui6rNQMXlwBnwpBYdjLVxN/EZdSn5inqwg0PQC9JgW0+Ed/wYLYfnkFXBdHjNMNDABIlawze6lL6IfQGb8DVMxnYRbx4T1sWhWfI0hSS1GNA8eu08mRHeIeHnHU5P1nUTtfgot7HLy4OpoAcGTug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756970657; c=relaxed/simple;
-	bh=DoJW9RcGqDECsrTexk01tZGY2qzWHhWKZJkm+4qcdqQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UONaLkicJumC87ai93i27+5IVH1zQN0VdC18EXnFo47JNNzLM7VRbBMdn/RUsQ3M8aDnINlKMBdtandAAy0WUFGHMKF4t0cCgJ2er0OHKgstBrbtfg7XRO5tlm5xqTkQ6DPtBN0t8H6FlFuXy7JCA99RcEEqCMMdba8uTAR9Zcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WS0G3pg3; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1756975282; c=relaxed/simple;
+	bh=rkW+hd9eSoGmYDWWZXKqRemGUOuDtbEu5o+RnvQE6Og=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ko6L3Wdgsh8lAbvkI8iD/BSdptRvQuj8gU9HwE95ONgOwPBzG5IBukjcrFWGDBwcsDg/RI38mogMoKxs+kdQNWTUbxkSIS4cXduEb1GO5QBaKrsaUDgNuAyEZfVZ9O3jRESveGecKx8fzKZL8mFkZiqVEVvE8iAbBXUXV2InnlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz; spf=pass smtp.mailfrom=listout.xyz; dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b=0kz63BkB; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=listout.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=listout.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WS0G3pg3"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5841Tfei008689
-	for <linux-sound@vger.kernel.org>; Thu, 4 Sep 2025 07:24:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	neETbrUFGTfGqy8dnw8ZO/Ru3fbeUxPbB5fjZXKFH34=; b=WS0G3pg3h/9aa+Of
-	al8Whdp4JQ9sFkrD9gaUYw2dXAO+p46x60pJBq/8nmwFD/jxKNv55drFPzuQskm6
-	ATUUgqeVEBFU9LqjkDacf50Mf+UqKRA4qUuZNi/f/UjRa9jNY6YTqZVJFI0VNsvk
-	6DBMOWXimF1oLJY9HdIuO/QhBR7DIv13KPEV3Zr3vwxPtBM3onxlgtl8Ioj2MGo2
-	667CK1w5l2N3+2kHuWK2pLrLotfY3NQ05qoGfMm0zNJJbWxrsGiVtE0wKdK00mMy
-	4MLzOPSdSes74518UjMhSgpMV9B/C+YY2Im4zV6SqpNkcJN3CqmX1R39kS0h6d3L
-	oNCLXw==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uscv6r4x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 04 Sep 2025 07:24:14 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4b31ba1392fso17092791cf.2
-        for <linux-sound@vger.kernel.org>; Thu, 04 Sep 2025 00:24:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756970653; x=1757575453;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=neETbrUFGTfGqy8dnw8ZO/Ru3fbeUxPbB5fjZXKFH34=;
-        b=C878HDS5YbClILi7fHr17p8xQee6qP0n38NEdOso4+OXAUQ9N5qlp7P4glCqYIeEbU
-         AmfFFJoshapptXDZuD5EdLUosZqEbgPAS+Tk4a6xPeMIMEHjDIbVFUjekhnbgVr1Vuqd
-         YiNLkWKdKuYwPnj2QHjpbYjhE1uHPSa63Yaa/tIMdZGVh2Wa65SBtVTixZPSAeQe0xPq
-         nyJTJYOa+eaNmX9ojIGBehcqljcfi88dOLCtFCJd8l6BEk6VjYE6uPqCV2uRrp1HUdZa
-         YcB8BD5UvrmHB1EpLNs+/yFEJCRwyCN8iGtjf6jtxDcc5erTLvELnjNIQy7vKbCsKo17
-         giCw==
-X-Forwarded-Encrypted: i=1; AJvYcCXU0dvDfd3/Le5HngwDG+dpbm94Km6ZA/W+EUfcnFwHPAd33IqpjiqwO8UWmlItfJi2dJ+w858PXI92WQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXay15YK4IEGqu33kC9Wd3F4lWsayJ81Z/+xNs2vVfZLDP5TU7
-	uD86lNHMg8tDJQ+xpPzzRO4Z/WG0msmE+qz+9EG4YZx67KieenkyV/TT3qICPfvJa3xeqi/pZS6
-	piAtkCxVK7afc+UbGPrTMv/npfiPp3TPCxjSOeyjaEJo4VT88kmEe9ZXsxZI4BKmxVA==
-X-Gm-Gg: ASbGncuLEDJkAQPTt8BOsdCdPmVc92tGdLy0g16LfJXxUBxQXq/giYCuPnEj/Eqz1J/
-	AhDYgUv7geBFGeYK7Z30ksSMb2ddO6VmgiLnzX3Z2ES2gJIqIme/R3CGdngA0NieSQ7dUE4Rpp4
-	AbcLXcq0azaBa5p0PaV9bEvD90fRDMdQ/tJW8aX3iZFD/naMWXf/gNfbyhj3O0wyB7G7yGds5V/
-	PlyyNJSmny4MCoZPlHl04zO5Eun1BcUWzUG+nqGfaxoJHFjbpg9gyh4PbI7QI0vvfVWl3+vhdSZ
-	vRffmlU4XGpvM7HALJxGocZc6mkNQW7DH4L8wFzirj6IjhXHWbbGAx6H2w3z5WcP5tM=
-X-Received: by 2002:a05:622a:1dc7:b0:4b4:9429:cde with SMTP id d75a77b69052e-4b494291702mr45223921cf.29.1756970653233;
-        Thu, 04 Sep 2025 00:24:13 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHmccJXRkeUqwZ0CBqmOBNM7TXito+6UZAQrgNjxmbeeqLIOsTYNBKn3U44hbsudYxcCCadTA==
-X-Received: by 2002:a05:622a:1dc7:b0:4b4:9429:cde with SMTP id d75a77b69052e-4b494291702mr45223731cf.29.1756970652762;
-        Thu, 04 Sep 2025 00:24:12 -0700 (PDT)
-Received: from [192.168.68.119] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3cf34491a7fsm25837656f8f.57.2025.09.04.00.24.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Sep 2025 00:24:12 -0700 (PDT)
-Message-ID: <0beec691-a21c-4425-b06b-728d55e7e254@oss.qualcomm.com>
-Date: Thu, 4 Sep 2025 08:24:11 +0100
+	dkim=pass (2048-bit key) header.d=listout.xyz header.i=@listout.xyz header.b="0kz63BkB"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cHXxy4bSbz9skk;
+	Thu,  4 Sep 2025 10:41:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=listout.xyz; s=MBO0001;
+	t=1756975270;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MdWpIc05upd/DVNn4jXej5h48jXQjZqSVGU9z22ZNbY=;
+	b=0kz63BkB5mKsSA97LfBIFtChgrl1poPgNw5L2DHZ4DaLclLxKqi1KeDVm5FhYjos6gnKXo
+	Y97+8H5my3OwserRLT/kwRYZbdfBDwcHQUhCtOwSvfAxH9x8r76qcZ+vvCqEPT749KfIyQ
+	xVD1QDKV2xDfjZiu8+l7ESYU9LU5Jnnb+HmQSX80dDlODOrLFuKi6JSbIHv086SFXEG7h1
+	nL47PbAsKvTcIGHocIteeRIcUbvPuUlqG/LwFAsS3aNh3WAa/tqzNv1Ler+VdQqrxJ5TSe
+	8q74VASiHe2+9GkuRQEOSJzixK5e4H0IwmGnQsfA1rJSpc7CXB2wowQ7pX2/WQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of listout@listout.xyz designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=listout@listout.xyz
+Date: Thu, 4 Sep 2025 14:10:58 +0530
+From: Brahmajit Das <listout@listout.xyz>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, linux-next@vger.kernel.org, 
+	cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com, 
+	yung-chuan.liao@linux.intel.com, broonie@kernel.org
+Subject: Re: [RFC PATCH] ASoC: Intel: avs: Fix reading 1 or more bytes from a
+ region of size 0
+Message-ID: <dfgah3p2jump6zzqmbb6gw36ierfpth2l4fkfucskoppkwmojd@bqgh4nwh72cm>
+References: <20250902080812.684149-1-listout@listout.xyz>
+ <87qzwp9so4.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: codecs: lpass-wsa-macro: Fix speaker quality
- distortion
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: Alexey Klimov <alexey.klimov@linaro.org>
-References: <20250831151401.30897-2-krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20250831151401.30897-2-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMSBTYWx0ZWRfX/tbWmuxSwvEi
- ekkLgg1g5MwU5+cfvOzUc+Tt2Hb6yAq5Q4XfP1zt5Sxqoy5arHuNgraBV71Fx6a2ZVsHo3YTkZ4
- hONWYfvmfAb0OuBzsxewOFYIFbPPJWcnTdJ++qjOAmqmxweZYUp9mObzeDN86IATdwIyiX1okt7
- Oq/sOCmMR6aASgU4gWocw3iw/QGPfza8da/zwj2I/gpECHQGi276P5VQCGVwXdkOHup6rS3ezk8
- 4vEc5xCJolVh9qeaLvfzzL9hl5p3wERlwGqIvyxszgyQYMNMnSgi5DBVUZfnvnktTA/IfvwV5iQ
- B33FQejG8td8GyX9bs/o5+uD6d/6jdpWSNY1kGtRu0kVyeMiFGsoy35VBV2/M3W4OsxmNNLTc+a
- 7WQ4LPUL
-X-Authority-Analysis: v=2.4 cv=A8xsP7WG c=1 sm=1 tr=0 ts=68b93e9e cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=VfCHAZMPGebhGeETFh0A:9 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: tp5SURP4iGL5feLqv8yOogQXCnGUlB9e
-X-Proofpoint-GUID: tp5SURP4iGL5feLqv8yOogQXCnGUlB9e
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_02,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015
- suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300031
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87qzwp9so4.wl-tiwai@suse.de>
+X-Rspamd-Queue-Id: 4cHXxy4bSbz9skk
 
-
-
-On 8/31/25 4:14 PM, Krzysztof Kozlowski wrote:
-> Commit bb4a0f497bc1 ("ASoC: codecs: lpass: Drop unused
-> AIF_INVALID first DAI identifier") removed first entry in enum with DAI
-> identifiers, because it looked unused.  Turns out that there is a
-> relation between DAI ID and "WSA RX0 Mux"-like kcontrols (which use
-> "rx_mux_text" array).  That "rx_mux_text" array used first three entries
-> of DAI IDs enum, with value '0' being invalid.
+On 02.09.2025 10:15, Takashi Iwai wrote:
+> On Tue, 02 Sep 2025 10:08:12 +0200,
+> Brahmajit Das wrote:
+> > 
+> > Building the next tree with GCC 16, results in the following error:
+> > 
+> > sound/soc/intel/avs/path.c:137:38: error: ‘strcmp’ reading 1 or more bytes from a region of size 0 [-Werror=stringop-overread]
+> >   137 |         return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
+> >       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+...snip...
+> > Signed-off-by: Brahmajit Das <listout@listout.xyz>
+> > ---
+> >  sound/soc/intel/avs/path.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
+> > index 7aa20fcf1a33..8c3df2002b58 100644
+> > --- a/sound/soc/intel/avs/path.c
+> > +++ b/sound/soc/intel/avs/path.c
+> > @@ -134,7 +134,8 @@ static struct avs_tplg_path *avs_condpath_find_variant(struct avs_dev *adev,
+> >  static bool avs_tplg_path_template_id_equal(struct avs_tplg_path_template_id *id,
+> >  					    struct avs_tplg_path_template_id *id2)
+> >  {
+> > -	return id->id == id2->id && !strcmp(id->tplg_name, id2->tplg_name);
+> > +	return id->id == id2->id &&
+> > +	       !strncmp(id->tplg_name, id2->tplg_name, strlen(id->tplg_name));
 > 
-> The value passed tp "WSA RX0 Mux"-like kcontrols was used as DAI ID and
-> set to configure active channel count and mask, which are arrays indexed
-> by DAI ID.
+> Please use sizeof()-1 instead of strlen(), as it's a fixed size array.
 > 
-> After removal of first AIF_INVALID DAI identifier, this kcontrol was
-> updating wrong entries in active channel count and mask arrays which was
-> visible in reduced quality (distortions) during speaker playback on
-> several boards like Lenovo T14s laptop and Qualcomm SM8550-based boards.
+> Practically seen, it's likely a false-positive from the new compiler.
+> But it's still safer to add the boundary check in the code itself.
 > 
-> Reported-by: Alexey Klimov <alexey.klimov@linaro.org>
-> Fixes: bb4a0f497bc1 ("ASoC: codecs: lpass: Drop unused AIF_INVALID first DAI identifier")
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-Thanks for fixing this,
-
-tested this on T14s, WSA speakers, VA DMICs, RX and TX on headphones..
-everything seems to work fine.
-
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Tested-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-
-
---srini
-
-
-
-> ---
+> thanks,
 > 
-> Reported via IRC.
-> Fix for current v6.17-RC cycle.
-> 
-> I will be investigating rest of lpass macro codecs a bit later.
-> ---
->  sound/soc/codecs/lpass-wsa-macro.c | 22 +++++++++++++++-------
->  1 file changed, 15 insertions(+), 7 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-> index da6adb3de21d..d7eec9fdaf9c 100644
-> --- a/sound/soc/codecs/lpass-wsa-macro.c
-> +++ b/sound/soc/codecs/lpass-wsa-macro.c
-> @@ -368,6 +368,7 @@ static struct interp_sample_rate int_mix_sample_rate_val[] = {
->  	{192000, 0x6},	/* 192K */
->  };
->  
-> +/* Matches also rx_mux_text */
->  enum {
->  	WSA_MACRO_AIF1_PB,
->  	WSA_MACRO_AIF_MIX1_PB,
-> @@ -465,6 +466,7 @@ static const char *const rx_mix_ec_text[] = {
->  	"ZERO", "RX_MIX_TX0", "RX_MIX_TX1"
->  };
->  
-> +/* Order must match WSA_MACRO_MAX_DAIS enum (offset by 1) */
->  static const char *const rx_mux_text[] = {
->  	"ZERO", "AIF1_PB", "AIF_MIX1_PB"
->  };
-> @@ -2207,6 +2209,7 @@ static int wsa_macro_rx_mux_put(struct snd_kcontrol *kcontrol,
->  	u32 rx_port_value = ucontrol->value.integer.value[0];
->  	u32 bit_input;
->  	u32 aif_rst;
-> +	unsigned int dai_id;
->  	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
->  
->  	aif_rst = wsa->rx_port_value[widget->shift];
-> @@ -2224,17 +2227,22 @@ static int wsa_macro_rx_mux_put(struct snd_kcontrol *kcontrol,
->  
->  	switch (rx_port_value) {
->  	case 0:
-> -		if (wsa->active_ch_cnt[aif_rst]) {
-> -			clear_bit(bit_input,
-> -				  &wsa->active_ch_mask[aif_rst]);
-> -			wsa->active_ch_cnt[aif_rst]--;
-> +		/*
-> +		 * active_ch_cnt and active_ch_mask use DAI IDs (WSA_MACRO_MAX_DAIS).
-> +		 * active_ch_cnt == 0 was tested in if() above.
-> +		 */
-> +		dai_id = aif_rst - 1;
-> +		if (wsa->active_ch_cnt[dai_id]) {
-> +			clear_bit(bit_input, &wsa->active_ch_mask[dai_id]);
-> +			wsa->active_ch_cnt[dai_id]--;
->  		}
->  		break;
->  	case 1:
->  	case 2:
-> -		set_bit(bit_input,
-> -			&wsa->active_ch_mask[rx_port_value]);
-> -		wsa->active_ch_cnt[rx_port_value]++;
-> +		/* active_ch_cnt and active_ch_mask use DAI IDs (WSA_MACRO_MAX_DAIS). */
-> +		dai_id = rx_port_value - 1;
-> +		set_bit(bit_input, &wsa->active_ch_mask[dai_id]);
-> +		wsa->active_ch_cnt[dai_id]++;
->  		break;
->  	default:
->  		dev_err(component->dev,
+> Takashi
+So, I was testing again and with sizeof, I'm getting
 
+sound/soc/intel/avs/path.c:137:38: error: ‘strncmp’ specified bound 43 exceeds source size 0 [-Werror=stringop-overread]
+  137 |         return id->id == id2->id && !strncmp(id->tplg_name, id2->tplg_name,
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  138 |                                              sizeof(id->tplg_name) - 1);
+      |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+So my previous v2 is wrong, please ignore that.
+Whereas, with strlen there's no warning :( . I'm quite confused, and
+lack the GCC knowledge.
+
+-- 
+Regards,
+listout
