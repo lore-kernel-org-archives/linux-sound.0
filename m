@@ -1,119 +1,93 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275A318B12;
-	Fri,  5 Sep 2025 04:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828D51A23A9;
+	Fri,  5 Sep 2025 05:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757045782; cv=none; b=OZisFAxQUBRzMoDosRZUb8bw7rHOuCQk7m2TC0ZsugpfwKPLrdYmRNa8HP4ZBZQ38MPzweU1WEqGZMklkSaPI34B9jmQobc73/YVQwuNhYvRYIn3Rlengh8UPU7iHEvrvkq6gp7tIoTH+cZof77BOFm0Mrn7PCZ8S9FiXjuRoSk=
+	t=1757050251; cv=none; b=WtwyVpKPy7FwluZBYPT7Db1sQDbGNIOmuAzaxKHB9svsQxunGKzp3vQwIEDLSvfaRvV59BqW3sJXXYAS2xCFDJRX49j9shNbCo8ZH5IGc6cgCb89OPJw8+jdny76h1B6W2xBBYBfnAZKK2jMZ/OE0tar89uJhnhYUBZok94MMW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757045782; c=relaxed/simple;
-	bh=ud7JbkiHOCmI6mqhWepWfvvmpT1R+N/RUvTs7iar6HY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=a0Ac9HPtAncvzC1Z1lQLQGOqZQm82jH2vZAJAvQaElkk/LSMxIcd//4MDyb6DY6XQ7eB590S66ogs8NTgXCSuzgaeu47Rc+hM8kDPvdVVrhr/d9C8HObdwOuCTt8H8xU7FUOWuwPykOfwT63ULrj3blaRi1zZPCnJ9/R8MGTKkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=yvNHDBHe; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1757050251; c=relaxed/simple;
+	bh=cbLNZDh3PTn7q6E4OQ+QN+0z7GabqhC5AvixloSfBOw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UqRaW04TPLlSRqa5NZgQbAowzbg4TquPpPJYnY0KQVJjPA3P6jrgYghpDIGBhNN4myYhj8gaucVed6/Mxko1LjGmC7cnW/OQziv9Q7W2EonBgsAI7bGDN6MhWDyd/x/zirUztlnfvV1ubr3e8sTDZM4pPlLSBe0/lqnmTjCs0EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MWn/XXJ+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="yvNHDBHe"
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5854Flm43627524;
-	Thu, 4 Sep 2025 23:15:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1757045747;
-	bh=ud7JbkiHOCmI6mqhWepWfvvmpT1R+N/RUvTs7iar6HY=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=yvNHDBHeQN8D64rb4EC6U2OgdKFZghuqRyPQSidhtzSBVvukbFUUHDl7EQ/GV8EA9
-	 UfcZLNxIn+6pOolcu8jjJu0W5f8JAksOp9CkgaqgwMHB2oTZNNREF7BPuFjM+HxO2I
-	 dZNkiIvfDuYanMGDiKvop1QAKmeQ1LM/o8J2sm9U=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5854FkZ11367942
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 4 Sep 2025 23:15:46 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 4
- Sep 2025 23:15:45 -0500
-Received: from DLEE100.ent.ti.com ([fe80::ad4d:c227:3f85:880d]) by
- DLEE100.ent.ti.com ([fe80::ad4d:c227:3f85:880d%17]) with mapi id
- 15.01.2507.055; Thu, 4 Sep 2025 23:15:45 -0500
-From: "Xu, Baojun" <baojun.xu@ti.com>
-To: Mark Brown <broonie@kernel.org>
-CC: "tiwai@suse.de" <tiwai@suse.de>,
-        "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>,
-        "13916275206@139.com"
-	<13916275206@139.com>,
-        "alsa-devel@alsa-project.org"
-	<alsa-devel@alsa-project.org>,
-        "Ding, Shenghao" <shenghao-ding@ti.com>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "robh@kernel.org"
-	<robh@kernel.org>,
-        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "Yi, Ken" <k-yi@ti.com>, "Lo, Henry"
-	<henry.lo@ti.com>,
-        "Chen, Robin" <robinchen@ti.com>, "Ji, Jesse"
-	<jesse-ji@ti.com>,
-        "Wang, Will" <will-wang@ti.com>,
-        "jim.shil@goertek.com"
-	<jim.shil@goertek.com>,
-        "toastcheng@google.com" <toastcheng@google.com>,
-        "chinkaiting@google.com" <chinkaiting@google.com>
-Subject: Re: [EXTERNAL] Re: [PATCH v4 1/2] ASoC: tas2781: Add tas2118,
- tas2x20, tas5825 support
-Thread-Topic: [EXTERNAL] Re: [PATCH v4 1/2] ASoC: tas2781: Add tas2118,
- tas2x20, tas5825 support
-Thread-Index: AQHcGXV+g3xOktIe00qAtAz2a1355LSBruqAgAJSFIw=
-Date: Fri, 5 Sep 2025 04:15:45 +0000
-Message-ID: <12aa63e694c94213aeb6b48959d02b45@ti.com>
-References: <20250830061459.24371-1-baojun.xu@ti.com>,<993d7fe7-5206-45a9-acb6-0d610a3a2136@sirena.org.uk>
-In-Reply-To: <993d7fe7-5206-45a9-acb6-0d610a3a2136@sirena.org.uk>
-Accept-Language: en-GB, zh-CN, en-US
-Content-Language: en-GB
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MWn/XXJ+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72A60C4CEF1;
+	Fri,  5 Sep 2025 05:30:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757050251;
+	bh=cbLNZDh3PTn7q6E4OQ+QN+0z7GabqhC5AvixloSfBOw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MWn/XXJ+ofi0MQ6yNLOAOXyj0R0mJTamEQtYDYO3Rq805Q8XWzAoqlgfdxUdVINc+
+	 8ZJzdc5fvu6lucTJnI7xExC3GNZ/4Q2GZPg8aXAUFJ+wBmArdR+7QDPXVi8GqYjKre
+	 w8HETk4wIzk2BRpgX2yTV2CP0R+5UHpniDut0EWGNA9i12aAPnmc25TVcFupkyyMIv
+	 hJ0WrtWCkAkemIzf5tROqvSzKWZI9h17xRGf5FiVfmmaDqEgRyYPRZJFD7xB8tYSKy
+	 Lv9gBDntewXUM6wXywt4p2Vj+dfO5wd/YcnODeFS3SChYhA3EO2oqshNyLDQadmN5P
+	 naXijp2RR6Gmg==
+Message-ID: <82906e08-9583-4f4c-91ad-d5b53b2dffd6@kernel.org>
+Date: Fri, 5 Sep 2025 06:30:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] slimbus: qcom: remove unused qcom controller driver
+To: Rob Herring <robh@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: srini@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250724132808.101351-1-srinivas.kandagatla@oss.qualcomm.com>
+ <CAL_JsqKG+dcMgp1QF4F3Oxh5Shvagg6cSde=g1JMcEAquZhH_Q@mail.gmail.com>
+ <990cb5af-3846-44a3-b373-ded62d3309b9@oss.qualcomm.com>
+ <CAL_Jsq+zC91GPdzQQa9F8KEw5UL4xc13u5U_5vTyQG1WeJa5rw@mail.gmail.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <CAL_Jsq+zC91GPdzQQa9F8KEw5UL4xc13u5U_5vTyQG1WeJa5rw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
->=20
-> ________________________________________
-> From: Mark Brown <broonie@kernel.org>
-> Sent: 03 September 2025 19:36
-> To: Xu, Baojun
-> Cc: tiwai@suse.de; andriy.shevchenko@linux.intel.com; 13916275206@139.com=
-; alsa-devel@alsa-project.org; Ding, Shenghao; linux-sound@vger.kernel.org;=
- linux-kernel@vger.kernel.org; lgirdwood@gmail.com; robh@kernel.org; krzk+d=
-t@kernel.org; conor+dt@kernel.org; devicetree@vger.kernel.org; Yi, Ken; Lo,=
- Henry; Chen, Robin; Ji, Jesse; Wang, Will; jim.shil@goertek.com; toastchen=
-g@google.com; chinkaiting@google.com
-> Subject: [EXTERNAL] Re: [PATCH v4 1/2] ASoC: tas2781: Add tas2118, tas2x2=
-0, tas5825 support
->=20
-> On Sat, Aug 30, 2025 at 02:14:58PM +0800, Baojun Xu wrote:
-> > Add tas2020, tas2118, tas2120, tas2320, tas2570, tas2572, tas5825
-> > tas5827 support in tas2781 driver.
-> > Tas2118, tas2x20, tas257x have no on-chip DSP, tas582x have on-chip
-> > DSP but have no calibration required stereo smart amplifier.
->=20
-> This doesn't apply against current code, please check and resend.
->=20
 
-Hi, do you mean I need a re-patch for the newest (next/linux-next.git) code=
-?
-Or need to create patches on tree broonie/linux.git?
 
-Best Regards
-Jim=
+On 9/5/25 12:08 AM, Rob Herring wrote:
+> On Tue, Aug 19, 2025 at 8:44 AM Srinivas Kandagatla
+> <srinivas.kandagatla@oss.qualcomm.com> wrote:
+>>
+>> Thanks Rob for reporting this,
+>>
+>> On 8/19/25 2:35 PM, Rob Herring wrote:
+>>> On Thu, Jul 24, 2025 at 8:28 AM <srinivas.kandagatla@oss.qualcomm.com> wrote:
+>>>>
+>>>> From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>>>
+>>>> Qcom Slimbus controller driver is totally unused and dead code, there is
+>>>> no point in keeping this driver in the kernel without users.
+>>>>
+>>>> This patch removes the driver along with device tree bindings.
+>>>>
+>>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>>> ---
+>>>>  .../bindings/slimbus/qcom,slim.yaml           |  86 --
+>>>>  drivers/slimbus/Kconfig                       |   7 -
+>>>>  drivers/slimbus/Makefile                      |   3 -
+>>>>  drivers/slimbus/qcom-ctrl.c                   | 735 ------------------
+>>>>  4 files changed, 831 deletions(-)
+>>>>  delete mode 100644 Documentation/devicetree/bindings/slimbus/qcom,slim.yaml
+>>>>  delete mode 100644 drivers/slimbus/qcom-ctrl.c
+>>>
+>>> This adds warnings to dt_binding_check:
+>>>
+>>> Documentation/devicetree/bindings/slimbus/slimbus.example.dtb:
+>>> /example-0/soc/slim@28080000: failed to match any schema with
+>>> compatible: ['qcom,apq8064-slim', 'qcom,slim']
+>>
+>> Will replace this example with slim-ngd and fold it in the original patch.
+> 
+> Still warning in linux-next...
+Its done now!
+
+--srini
