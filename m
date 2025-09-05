@@ -1,255 +1,147 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164392D595B
-	for <linux-sound@vger.kernel.org>; Fri,  5 Sep 2025 12:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DD034AAFB;
+	Fri,  5 Sep 2025 12:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757073937; cv=none; b=L5uMkfVSDQmP3U0Q+AjXxxI2YuJNvYGtk+W+nhEq45rkW9AD3dX/EyhoZee3Et8yTSgmqZjQJxaNfrn4hiA0EElFaqO4/UUl2BZ9TNVAw8MqEnCMDK9Fz+0f9jC6MJa65TU8KmsMftCC/wwC9x2yZUybWCV3gu6BNtdaobe0j90=
+	t=1757074130; cv=none; b=gmSm/d/gE0NIe3gB89G7pROR4MnosINJG1zMPiRo+rhJtx/nh9UTQtU7uzqKahLcuSPDINkLw6AbRXAnJoulLoOMovQTcZBfCyJ9wCIDq2x4+Pk8hbvWr0KdRyJBql2TCyIMP1wRmM3QZOcOlDfx1WHRSAnmzXkV1UF1DAiiGec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757073937; c=relaxed/simple;
-	bh=Lu3EWfBw6tbmJQQsC/qJHzvytJW4vCXwtsBkv/FaC3g=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y08PJFLQJUwCpiUsHD39EouDeRZfcyZWoDMnw5f2ZyDZkiIU6XWWoc0QU6E609JGvi/4mBZJXg/F7Sji4lhECEbw4aV3ju3XTQ8LCsew78o9VKar8oCONI0PMAR+vhHErHLS10UthRc9lx+lND2C5WfT/sYvoyatrKJte7XwIu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DoZSUJKA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8qB0D7cj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DoZSUJKA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8qB0D7cj; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1757074130; c=relaxed/simple;
+	bh=f+rJAPv41Mb11Skbp4mCyfxSC8DpU6046y67tsjA+zQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=KOSewkGSQHJRa+c+m1z9/iEwvUizwrz2TMrXR4B6QTvINA4uuM6QhRyRzUrm/jD35D8T+Wq1YezFoGEKFE2D3mV8QMt1rsVvS4n8igUBb0tQNvgP3epaL/U6cnExxdo8ndwxBZKrjuE1TTM09fqOoOMGSYg+e64sVg3c2E8cCrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=AEiOjImT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=j1sbLv0E; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DoZSUJKA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8qB0D7cj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DoZSUJKA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8qB0D7cj"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3FBF95096;
-	Fri,  5 Sep 2025 12:05:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757073926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dY2pyQEsvjKEDWy8hmuHBBFlpnTjGGDquCo2hLd4wW4=;
-	b=DoZSUJKA2YJKEXaV22XIhvgKn+ifDAuV97zr6viduiwghMpYrLDOYDy3i9VlSMCo5BcNWV
-	mpnJr1c7zoQo2K2thOYAhn1LlpgizrWLGrvKz9sSquzVTgHNEAL5RbJML9vNsTZDj7WL/Y
-	lTWrhh8twJ+UlMTKeEAU3l6sx9zNCYU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757073926;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dY2pyQEsvjKEDWy8hmuHBBFlpnTjGGDquCo2hLd4wW4=;
-	b=8qB0D7cjFlkYpyTHs5Aa8FQmxynLq1pc/nlyLNT6RivFAhW3dV/ZYgTanCNNO/hfFWrvov
-	3o4R4PhdA+ORAeAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757073926; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dY2pyQEsvjKEDWy8hmuHBBFlpnTjGGDquCo2hLd4wW4=;
-	b=DoZSUJKA2YJKEXaV22XIhvgKn+ifDAuV97zr6viduiwghMpYrLDOYDy3i9VlSMCo5BcNWV
-	mpnJr1c7zoQo2K2thOYAhn1LlpgizrWLGrvKz9sSquzVTgHNEAL5RbJML9vNsTZDj7WL/Y
-	lTWrhh8twJ+UlMTKeEAU3l6sx9zNCYU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757073926;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dY2pyQEsvjKEDWy8hmuHBBFlpnTjGGDquCo2hLd4wW4=;
-	b=8qB0D7cjFlkYpyTHs5Aa8FQmxynLq1pc/nlyLNT6RivFAhW3dV/ZYgTanCNNO/hfFWrvov
-	3o4R4PhdA+ORAeAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 07DAA13306;
-	Fri,  5 Sep 2025 12:05:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oK1xAAbSumizWwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 05 Sep 2025 12:05:26 +0000
-Date: Fri, 05 Sep 2025 14:05:25 +0200
-Message-ID: <87h5xhqf3u.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: scarlett2: Add Vocaster speaker/headphone mute controls
-In-Reply-To: <aLrOwOb+6vhdzJzS@m.b4.vu>
-References: <aLm2Dy6+O/eLTGVn@m.b4.vu>
-	<87y0qtqos3.wl-tiwai@suse.de>
-	<aLrOwOb+6vhdzJzS@m.b4.vu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="AEiOjImT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="j1sbLv0E"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id F267DEC009E;
+	Fri,  5 Sep 2025 08:08:46 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Fri, 05 Sep 2025 08:08:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1757074126;
+	 x=1757160526; bh=5Lmq/7r9v/uNcdQKPUNBveu5dDJMDCCvrFqqy0YICxM=; b=
+	AEiOjImTCxAzXjSa8gzZurKeGNPDlH1Jv81SoyGWqf/6ohmKsf97cD67M3ja4o7N
+	WaX5+tmU5w8HRaddu0Y21Sri+hMm7aRCGyULo2Rfu1yoVNGfHVbdyoGBZOk0eVsS
+	Wgw93ZS65IAlH7U+6uMeExsevM/j6fPQ7hDGvsuhysPtYrvUkwqHGDyTXPcGN4uo
+	q8bL/KfPYODnzmd8e6aNLMgh3fr3+8YNjRtZ0IVBbGBO/mUkaVwaHPx0ujzjQ9x4
+	yu2HqOBnC4CDt550dXwfznHI6NZ19n2GYFHLdP3La0AIlY6VGV3kR1HLyqh8V7lw
+	Ivrpc275rQN+6ooo2rEzaA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757074126; x=
+	1757160526; bh=5Lmq/7r9v/uNcdQKPUNBveu5dDJMDCCvrFqqy0YICxM=; b=j
+	1sbLv0EuoTdvPCYDcViQ59xaEog7bQfAnLoQczmsSCXFMfi4txRMTfff0u4nh9QZ
+	hfWpIlATeCefRQqbnGBBViLsxpanCprXvDIh/65t/ih8wwE3FJYm/S06ubOYorUn
+	TS2TjgVqLmwUPFTz4ZS14+tj8E3VegNuXr7B5PIzAi/a7rDGo5JidQA7ZgjxJ06b
+	nPI0kwRIDU56Vm0uLmmz7OErrsFpGCTVyGOrGjjXYytKlFGe3iBjShYk/2IZA2LD
+	LERXMInEci4r6sxkS/g8suV1BiY593wdscrl46u4gStx/hAjLZs1RGaAAV9fhX0t
+	vA0JgmnsSotqhM2FCbTNg==
+X-ME-Sender: <xms:ztK6aO-zxnxyrJzzN8kRWB-cQOKU18-bOO5Ov31P61COw-UahlwZYw>
+    <xme:ztK6aOtyjRAiipIFcJkRJHNIknySCTF5SpvebhqkcEPDxSHrjxM5GkitpVIF_Nhxu
+    A1K3vsqjrFjJx81Y9I>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdekkeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhguuceu
+    vghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvghrnh
+    ephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdeinecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhguse
+    grrhhnuggsrdguvgdpnhgspghrtghpthhtohepuddupdhmohguvgepshhmthhpohhuthdp
+    rhgtphhtthhopehluhgtrgdrfigvihhsshesfhgrihhrphhhohhnvgdrtghomhdprhgtph
+    htthhopegrrhhnugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghrohhonhhivges
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhdrtggrrhhpvghnthgvrheslhhinh
+    grrhhordhorhhgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhi
+    ohhnrdhorhhgpdhrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgiipdhrtghpthhtoh
+    epqhhuihgtpgiftghhvghnghesqhhuihgtihhntgdrtghomhdprhgtphhtthhopehtihif
+    rghisehsuhhsvgdrtghomhdprhgtphhtthhopehtihifrghisehsuhhsvgdruggv
+X-ME-Proxy: <xmx:ztK6aKUkJTmOuLrJLga4jSqy_10oAkMCMKGEIeqOkKtk-2krU6uEzQ>
+    <xmx:ztK6aFzzo2GgBBydLdMisEY3oqd6SeyQokeicJr1ZhjFd8N0Eyd7Pg>
+    <xmx:ztK6aBGxdL1MMuX8rzg5wX0xrhU1No8BWETYRqxL5rJIGa33mdIlng>
+    <xmx:ztK6aKvjwUPyCnZv9TCMzXjxWVZ9C2PrgRhGUZ4meggGPhefHqNS6g>
+    <xmx:ztK6aBgJa7xXWKIpzbuS36Vpj9DQWQqT7Bl822J5bYeQSvoItd2g4hnN>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 18120700065; Fri,  5 Sep 2025 08:08:46 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+X-ThreadId: AJ-KNcceaLbJ
+Date: Fri, 05 Sep 2025 14:08:25 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Luca Weiss" <luca.weiss@fairphone.com>, "Takashi Iwai" <tiwai@suse.de>
+Cc: "Arnd Bergmann" <arnd@kernel.org>, "Mark Brown" <broonie@kernel.org>,
+ "Wesley Cheng" <quic_wcheng@quicinc.com>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dan Carpenter" <dan.carpenter@linaro.org>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <246834be-9e72-432e-86e4-e1c68262e710@app.fastmail.com>
+In-Reply-To: <DCKUCB8A1JCV.1GK0TW2YMXNZP@fairphone.com>
+References: <20250513123442.159936-1-arnd@kernel.org>
+ <20250513123442.159936-4-arnd@kernel.org>
+ <DBR2363A95M1.L9XBNC003490@fairphone.com> <87v7n72pg0.wl-tiwai@suse.de>
+ <DBR3FZGY4QS1.BX6M1PZS5RH4@fairphone.com> <87ms8j2on6.wl-tiwai@suse.de>
+ <DCKUCB8A1JCV.1GK0TW2YMXNZP@fairphone.com>
+Subject: Re: [PATCH 3/3] ALSA: qc_audio_offload: try to reduce address space confusion
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Fri, 05 Sep 2025 13:51:28 +0200,
-Geoffrey D. Bennett wrote:
-> 
-> On Fri, Sep 05, 2025 at 10:36:28AM +0200, Takashi Iwai wrote:
-> > On Thu, 04 Sep 2025 17:53:51 +0200,
-> > Geoffrey D. Bennett wrote:
-> > > 
-> > > Add support for the speaker and headphone mute controls on Focusrite
-> > > Vocaster interfaces. Unlike other Focusrite interfaces, these mute
-> > > controls are per-output, not per-channel.
-> > > 
-> > > Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
-> > > ---
-> > >  sound/usb/mixer_scarlett2.c | 97 ++++++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 96 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-> > > index e762d6110b1a..f2446bf3982c 100644
-> > > --- a/sound/usb/mixer_scarlett2.c
-> > > +++ b/sound/usb/mixer_scarlett2.c
-> > > @@ -10,8 +10,9 @@
-> > >   *   - Solo/2i2/4i4 Gen 4
-> > >   *   - Clarett 2Pre/4Pre/8Pre USB
-> > >   *   - Clarett+ 2Pre/4Pre/8Pre
-> > > + *   - Vocaster One/Two
-> > >   *
-> > > - *   Copyright (c) 2018-2024 by Geoffrey D. Bennett <g at b4.vu>
-> > > + *   Copyright (c) 2018-2025 by Geoffrey D. Bennett <g at b4.vu>
-> > >   *   Copyright (c) 2020-2021 by Vladimir Sadovnikov <sadko4u@gmail.com>
-> > >   *   Copyright (c) 2022 by Christian Colglazier <christian@cacolglazier.com>
-> > >   *
-> > > @@ -75,6 +76,9 @@
-> > >   * to many LinuxMusicians people and to Focusrite for hardware
-> > >   * donations).
-> > >   *
-> > > + * Support for Vocaster One and Two added in Mar 2024 (thanks to many
-> > > + * LinuxMusicians people and to Focusrite for hardware donations).
-> > > + *
-> > >   * This ALSA mixer gives access to (model-dependent):
-> > >   *  - input, output, mixer-matrix muxes
-> > >   *  - mixer-matrix gain stages
-> > > @@ -364,6 +368,21 @@ static const char *const scarlett2_dim_mute_names[SCARLETT2_DIM_MUTE_COUNT] = {
-> > >  	"Mute Playback Switch", "Dim Playback Switch"
-> > >  };
-> > >  
-> > > +/* Vocaster One speaker/headphone mute names */
-> > > +static const char *const vocaster_one_sp_hp_mute_names[] = {
-> > > +	"Speaker Mute Playback Switch",
-> > > +	"Headphones Mute Playback Switch",
-> > 
-> > Usually "XXX Playback Switch" indicates that it's a switch for
-> > mute/unmute, hence we don't put "Mute" here.
-> > 
-> > Actually, having a "mute" switch makes difficult to judge how it
-> > behaves: when the mixer switch is "on", is it muted, i.e. the sound
-> > goes off?  It's a contradiction to other mixer controls.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> 
-> Hi Takashi,
-> 
-> Calling it "XXX Mute Playback Switch" distinguishes it from the other
-> "XXX Playback Switch" controls created by the scarlett2 driver which
-> are not mute controls, and it also follows the existing pattern for
-> the other switch controls in the scarlett2 driver.
-> 
-> Some examples:
-> 
-> $ grep 'Playback Switch' *.state
-> ...
-> [actual mutes:]
-> Clarett Plus 2Pre.state:                name 'Line 01 Mute Playback Switch'
-> Clarett Plus 2Pre.state:                name 'Line 02 Mute Playback Switch'
-> Clarett Plus 2Pre.state:                name 'Line 03 Mute Playback Switch'
-> Clarett Plus 2Pre.state:                name 'Line 04 Mute Playback Switch'
-> Clarett Plus 2Pre.state:                name 'Mute Playback Switch'
-> ...
-> [other boolean controls, not mutes:]
-> Clarett Plus 2Pre.state:                name 'Dim Playback Switch'
-> Scarlett Gen 3 Solo.state:              name 'Direct Monitor Playback Switch'
-> Scarlett Gen 3 18i20.state:             name 'Talkback Mix A Playback Switch'
-> ...
-> Scarlett Gen 3 18i20.state:             name 'Talkback Mix L Playback Switch'
-> Scarlett Gen 4 16i16.state:             name 'Speaker Switching Playback Switch'
-> Scarlett Gen 4 16i16.state:             name 'Speaker Switching Alt Playback Switch'
-> 
-> I have been consistent since I first added mute support in
-> 0c88f9db1910 ("ALSA: usb-audio: scarlett2: Add mute support") in the
-> use of the terminology "XXX Mute Playback Switch" and the clear logic
-> of:
-> - mute on means that it's muted (no sound).
-> - mute off means that it's not muted.
-> 
-> I think usually "XXX Playback Switch" in other drivers is more of an
-> "enable audio" boolean rather than a "mute" boolean, so there it makes
-> sense that off = muted, on = not muted.
-> 
-> On the capture side in the scarlett2 driver, it is similar:
-> 
-> $ grep Switch V*
-> Vocaster One.state:             name 'MSD Mode Switch'
-> Vocaster One.state:             name 'Line In 1 DSP Capture Switch'
-> Vocaster One.state:             name 'Line In 1 Mute Capture Switch'
-> Vocaster One.state:             name 'Line In 1 Phantom Power Capture Switch'
-> Vocaster One.state:             name 'Line In 1 Autogain Capture Switch'
-> Vocaster Two.state:             name 'MSD Mode Switch'
-> Vocaster Two.state:             name 'Line In 1 DSP Capture Switch'
-> Vocaster Two.state:             name 'Line In 2 DSP Capture Switch'
-> Vocaster Two.state:             name 'Line In 1 Mute Capture Switch'
-> Vocaster Two.state:             name 'Line In 2 Mute Capture Switch'
-> Vocaster Two.state:             name 'Line In 1 Phantom Power Capture Switch'
-> Vocaster Two.state:             name 'Line In 2 Phantom Power Capture Switch'
-> Vocaster Two.state:             name 'Line In 1 Autogain Capture Switch'
-> Vocaster Two.state:             name 'Line In 2 Autogain Capture Switch'
-> 
-> alsamixer removes "Switch" and "Capture" from the name and displays
-> e.g.:
-> - Line In 1 DSP
-> - Line In 1 Mute
-> - Line In 1 Phantom Power
-> 
-> For each of those, off means function disabled and on means function
-> enabled, so the naming in my patch maintains consistency with all the
-> existing device controls. It also reflects the hardware where they are
-> called mute controls, and 0 = not muted, 1 = muted.
-> 
-> Does this address your concerns? The alternative would be to rename to
-> "XXX Playback Switch" and make off = mute. I think that would make it
-> more consistent with other drivers, but less consistent with the
-> existing device controls.
+On Fri, Sep 5, 2025, at 13:47, Luca Weiss wrote:
+> On Fri Aug 1, 2025 at 2:49 PM CEST, Takashi Iwai wrote:
+>> On Fri, 01 Aug 2025 14:35:27 +0200,
+>>> On Fri Aug 1, 2025 at 2:31 PM CEST, Takashi Iwai wrote:
+>>> > On Fri, 01 Aug 2025 13:31:42 +0200,
+>>> >> On Tue May 13, 2025 at 2:34 PM CEST, Arnd Bergmann wrote:
+>>> >> >
+>>> >> > Make this more explicit by pulling the conversion out first
+>>> >> > and warning if it is not part of the linear map, and using the
+>>> >> > actual physical address to map into the iommu in place of the
+>>> >> > dma address that may already be iommu-mapped into the usb host.
+>>> >> 
+>>> >> This patch is breaking USB audio offloading on Qualcomm devices on 6.16,
+>>> >> as tested on sm6350 and sc7280-based smartphones.
+>>> >> 
+>>> >> Let me know if I can be of any help to resolve this.
+>>> >
+>>> > I guess just dropping WARN_ON() would help?
+>>> >
+>>> > As far as I read the code, pa argument isn't used at all in
+>>> > uaudio_iommu_map() unless as sgt is NULL.  In this case, sgt is never
+>>> > NULL, hence the pa argument is just a placeholder.
+>>> > That said, the whole xfer_buf_pa (and its sanity check) can be dropped
+>>> > there.
+>>> 
+>>> Just the WARN splat is not the problem, it's actually failing
+>>> afterwards. Without the patch it works as expected.
+>>
+>> That is, replace WARN_ON() with 0.
+>>
+>> 	if (0 /*WARN_ON(!page_is_ram(PFN_DOWN(xfer_buf_pa)))*/) {
+>> 		ret = -ENXIO;
+>> 		goto unmap_sync;
+>> 	}
+>
+> Yes, that appears to work fine as well. Playback works again.
+>
 
-Hm, so it was no right choice to accept the changes in the past.
-The negative switch is always confusing.  But maybe we should accept
-again once after a similar stuff was already merged; otherwise it'll
-lead to more inconsistency.
+This does mean that the address returned from xfer_buf is not
+a kernel address in the virtual map though, and converting it
+through virt_to_phys() makes the pa undefined for
+uaudio_iommu_map(). Can you print what that pa value
+is that you get here, and where that sits in the address space?
 
-
-Takashi
+    Arnd
