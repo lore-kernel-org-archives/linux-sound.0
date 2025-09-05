@@ -1,151 +1,143 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E882D46B4
-	for <linux-sound@vger.kernel.org>; Fri,  5 Sep 2025 07:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E78286D76;
+	Fri,  5 Sep 2025 07:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757055835; cv=none; b=W3oOYvoWwFC7mJ6xwOzr7bZuMDXhYGqL7QkRz/jDnqd4NJ26TWIdH93KjrJufRlQd6xfaTHHGFCgfu13orJ9zBdGWJ28UqAnqtUl/iFE365YJRrKStL3a62VW7+s362xOJ0GrJjhSnZthecNT6OB2EAzS07j7oiqg0rWGkzLVvs=
+	t=1757056652; cv=none; b=F5uDkzn+RZBEXDfNjKyKKr3fs+yK4RjJ3d5aRhiSA6lWcFpokeG8A42BHixBYdayx5F9/PLXzYFej0Uv8Q+Ct6tMFnkHy7AtjJ8+0XIkvmQpjsKwcp5KQ13WW9LAxHMfkreEAR1Tw5HoX4dRq3PMtd2J8dzO3Z5T+xH8ZT+TLZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757055835; c=relaxed/simple;
-	bh=VM0nKVBbJC3EXcL+2r1nh5KaJBUzAyVK/5lsmjwQ2TI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZyO7h8HLDUG4uWwylP2/KFz9DrCKOqoLyAb8lBObgmjwIuaFmO8SpKl0sr3qX7umTl+qw5FDbbMSKSKC434/wntPwsvzqC5k6qzyARxiAfKSPSLVJg3r+BJajkESBZglLfIBMTpw6TFocJfyXKpi4l0luJmmwTtxZHCPkMJuNmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=O1UCHN8W; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1757056652; c=relaxed/simple;
+	bh=zvzF3I22x58AKMut8FakhVAUJz47DBp4si0JPq3EADc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YRzBtVWWj33fNuWXmaRXZFqtIAowIQmVR+93DPutaS+EA2Dsk10ETKRdfS8e4Y2nRodQnrRQUHkx/yB8a5gc9Mt1izETQyY9tCGRL/yxwntOS2aU0HG5GImRIPtrz2Bturf9TLp1hZEI/82W+5RZlIFFaus3YR9Wi6ZnPrhwMnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=YhgA+1QE; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="O1UCHN8W"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 584INSIr007609
-	for <linux-sound@vger.kernel.org>; Fri, 5 Sep 2025 07:03:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Uh0zHPqensMvXDsKJ/9Mhe+pmsC/EijM0tWsWvi8kEQ=; b=O1UCHN8WC97vjYZZ
-	HQDZWIFmZIQ4qKqGMXT5X6HeLjpiPQPpx5JctW96J4S4dEenQjD/UXfLN6gaBOAO
-	8gkxhFeptvAr0AWXVActyILCKrNApNne09l4WZWh7n1hbWoHLRuSfaV54jvmHNjS
-	nrp7MeNseUepje+n/GuywGdDlYSahWdn4CC8EAkFdBtJIBMHe98Po9JPS2NdQjLY
-	9oxW+WGXgIJNOAPelHTFWUWxUoNNANnMmYxvyH+oJHGzvjE5O4JD+dx7/YNxtXIS
-	cFCWyGEKilV4X3TAArof6gNI5lhNzYgVlPkuXXMkJmqJrTKVeflcSkaj/b87+fX2
-	Hvkk8Q==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ura9237q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 05 Sep 2025 07:03:52 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4b31bea5896so21386001cf.2
-        for <linux-sound@vger.kernel.org>; Fri, 05 Sep 2025 00:03:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757055832; x=1757660632;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uh0zHPqensMvXDsKJ/9Mhe+pmsC/EijM0tWsWvi8kEQ=;
-        b=P11DnTaqpGl3/WQ1xdnc5Ca9sfivcLt+9GYAjAKSGZprBnDN7HpidoVuLsEwTHYWNX
-         PSwha1GSZsde3cQahu0yG1cWCBVRi8OaRY5PG8WzIFlm+uBd4A7+EFMahLZ2kgri3F5v
-         y1taNAeAZubT3OSPiyGWoDSjTnk4lmU72PQw/ZzcAqiqm6k8IXtIjF1zviUsfI1n3i4M
-         5pGJ/HlcLR1qutw56HqB+pBKp9SR2Bw0c5txZ0cnqWeP/Mla94rlWAlW5f0aADxg2JDc
-         BWEXKYLNmtuipHTe5BMKjesqgf0Ez4VdSw4w0ofVEA2tvgW471v6k5WC9dALIAr69NSi
-         1dTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXCIgKlW309gN7kOB8Lr1MAZSEtt6WsPFlCrOdXg5Wjr8b+3oA6Aq75Ga/ibM1L4M4ndbbTGQHQcvjK/g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3lE2R+8ZnTZL2pZPUN0KUMurSr+rinjE6YMwT/biZB6AnBB1u
-	ETeRQJimiI6gWiEr/ZA6eFACAhRKsOo0K70Pmx/K/MuKHVU03z1O7K7pFR3yIstdKW13XSS0UH5
-	KXxGJQ8f/5CgdUqI84rz+4AWcXIzhv6fFKbGGmjX6L3e+rJncF634CGEDGiLaCvzOoQ==
-X-Gm-Gg: ASbGncvXvKuKdemYqZycpeblx9FALAF7hp9kxU+UPtGve9h/9yeglzisC4SSg009pGs
-	EyODNDB5zPYP/gLOMRF5bP8zM5yFfDwOkp4IMGD32XnaWshZFA4simQ4am1Kxq48OSMbHHi+y+d
-	YQG+iIUDI36njMGPxME3iST+HOJddItBRh4B8EcBumnTpvBjmGkvwmu6UkSy4OchxojlKE1JmtM
-	DZrvOR5wEt0pzmsZLmro1sLDkHDBd1sOQ7hxrx6a34S+2zugJhpxocYh35/C76QTwBjzQBmHF3v
-	f1TlV9lTf6UXqTaVk9zUpTTyUKp16WHpkWoMFcx3VhFPvwLaXkJe94aMT4Gkg9Evho8=
-X-Received: by 2002:a05:622a:8ca:b0:4b3:4fdb:f2a4 with SMTP id d75a77b69052e-4b34feb3e21mr151706391cf.73.1757055831871;
-        Fri, 05 Sep 2025 00:03:51 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHG2WGOBevUmbvF6L6SlA1g/1cS0fHSL6yPVxAnOVTWc4dOXAnkfXOBDdkJYebg/JKqxCflAg==
-X-Received: by 2002:a05:622a:8ca:b0:4b3:4fdb:f2a4 with SMTP id d75a77b69052e-4b34feb3e21mr151706061cf.73.1757055831200;
-        Fri, 05 Sep 2025 00:03:51 -0700 (PDT)
-Received: from [192.168.68.119] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-45b8f2d3c88sm183965295e9.19.2025.09.05.00.03.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Sep 2025 00:03:50 -0700 (PDT)
-Message-ID: <f6a631bb-d17d-4eba-adfc-4db08540f5a0@oss.qualcomm.com>
-Date: Fri, 5 Sep 2025 08:03:49 +0100
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="YhgA+1QE"
+X-UUID: 5b99d82e8a2811f0b33aeb1e7f16c2b6-20250905
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=1ErL5bVo2x3f2K2HF24mhghjLaSR58ICwgymuW5068A=;
+	b=YhgA+1QE+EYeQAi6AsS1h2Ug49sTte5kMzkxxGHTNJtrxMBHl2cExVbNhpjNucVragecg/nXkGDU3eooyhBnmJfhqQ2GT78XFyWKBxAnswEFZdVmBgyx5TBV3UmPe2f/DHKRIOWJlKF59E62ZodExzbvDcxbCi2AEoGAP7u9NCA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.3,REQID:b33041a0-032b-42ef-acbe-f079c8495939,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:f1326cf,CLOUDID:21303b6c-8443-424b-b119-dc42e68239b0,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:-3,IP:
+	nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
+	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5b99d82e8a2811f0b33aeb1e7f16c2b6-20250905
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
+	(envelope-from <cyril.chao@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1288314928; Fri, 05 Sep 2025 15:17:18 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Fri, 5 Sep 2025 15:17:14 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Fri, 5 Sep 2025 15:17:13 +0800
+From: Cyril Chao <Cyril.Chao@mediatek.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Darren Ye
+	<darren.ye@mediatek.com>, Cyril Chao <cyril.chao@mediatek.com>
+CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Cyril Chao
+	<Cyril.Chao@mediatek.com>
+Subject: [PATCH v2 00/10] ASoC: mediatek: Add support for MT8189 SoC
+Date: Fri, 5 Sep 2025 15:15:45 +0800
+Message-ID: <20250905071659.25805-1-Cyril.Chao@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/8] ASoC: codecs: wcd: add common helper for wcd
- codecs
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: broonie@kernel.org, perex@perex.cz, tiwai@suse.com, srini@kernel.org,
-        lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        krzysztof.kozlowski@linaro.org, neil.armstrong@linaro.org
-References: <20250822104927.2621866-1-srinivas.kandagatla@oss.qualcomm.com>
- <20250822104927.2621866-3-srinivas.kandagatla@oss.qualcomm.com>
- <kmm4e5bg7uehmlsgrfhzo4agr6ga6d5gxtpxq5sg4t3wql5p6m@llwyz4kzsj7y>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <kmm4e5bg7uehmlsgrfhzo4agr6ga6d5gxtpxq5sg4t3wql5p6m@llwyz4kzsj7y>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: VCtdHm6dq9feaH76gdEHZEw37L9s2lZQ
-X-Proofpoint-GUID: VCtdHm6dq9feaH76gdEHZEw37L9s2lZQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyMCBTYWx0ZWRfX0AdnnypXt7oS
- E3lpl380Y/y83qO6wpOnngAiFmKkkrnb+SVCzLWI+i32lnFHLi5MRlJhGKk8a1kY7nszlGBKm78
- 81jI4EPqE38ZHQrA8h0B4IZ0GC6Me39Qr/PohrcIeGRCWjzK91UC9SDTObG0pwpyX36o9oYUfM5
- Nf11kWE208OOnD5tVDSFr2YPnQvM6j7erE33GWw62frKdArw9rfHnZwMFsxP5YGu6hraoJvRF88
- BMDXO65GTJzUyQmKdzsE6BkfSDpTauHnxAK7uEO85ujbGenzMv/ex8pZcAt5+lfmKP6X86eTGs9
- tMxQyPzmAhgZo2ewqwvsubjHOpvRwHpJQBMlC6ErOEzTP/q2VtO0LkDbB5JHk0JsFYEfmKAETYN
- 9iMx/26K
-X-Authority-Analysis: v=2.4 cv=VNndn8PX c=1 sm=1 tr=0 ts=68ba8b58 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=Jf94gfbLdGj3VxC-8ggA:9
- a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-05_02,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300020
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-MTK: N
 
-Sorry for some reason I did not notice this email!.
+Based on tag: next-20250903, linux-next/master
 
-On 8/22/25 12:18 PM, Dmitry Baryshkov wrote:
->> + */
->> +
->> +#ifndef __WCD_COMMON_H__
->> +#define __WCD_COMMON_H___
->> +
->> +#define WCD_MIN_MICBIAS_MV	1000
->> +#define WCD_DEF_MICBIAS_MV	1800
->> +#define WCD_MAX_MICBIAS_MV	2850
-> These do not belong to a public header.
+This series of patches adds support for Mediatek AFE of MT8189 SoC.
+Patches are based on broonie tree "for-next" branch.
 
+Changes in v2:
+This version refines the implementation of the MT8189 audio driver,
+leveraging the feedback and comments provided during the review of the 
+MT8196 v6 patch series since they have samilar code structure.
+  - Refined the I2S DAI implementation based on reviewer comments,
+    removed unused widgets.
+  - Refined the TDM DAI implementation based on reviewer comments,
+    optimized the MUX widget flow.
+  - Refined the ADDA DAI implementation based on reviewer comments.
+  - Refined the PCM DAI implementation based on reviewer comments.
+  - Refined the platform driver based on reviewers comments, optimized
+    the Channel Merge(CM) related flow.
+  - Moved the pinctrl widget from the machine driver to the platform
+    driver based on reviewer comments.
+  - Removed unused clock initialization and settings to reduce redundancy.
+  - Added a restriction to limit the sample rate to 48kHz.
+  - Updated the machine driver’s compatible name as per the reviewer’s suggestions.
+  - Modify the patch order of the dt-bindings and driver implementation.
 
-All the wcd codecs have same MICBIAS circuitry, this is the internal
-micbias circuit we are talking about here.
+Cyril Chao (10):
+  ASoC: mediatek: mt8189: add common header
+  ASoC: mediatek: mt8189: support audio clock control
+  ASoC: mediatek: mt8189: support ADDA in platform driver
+  ASoC: mediatek: mt8189: support I2S in platform driver
+  ASoC: mediatek: mt8189: support TDM in platform driver
+  ASoC: mediatek: mt8189: support PCM in platform driver
+  ASoC: dt-bindings: mediatek,mt8189-afe-pcm: add audio afe document
+  ASoC: mediatek: mt8189: add platform driver
+  ASoC: dt-bindings: mediatek,mt8189-nau8825: add mt8189-nau8825
+    document
+  ASoC: mediatek: mt8189: add machine driver with nau8825
 
-Actual micbias value comes from device tree, but these are min/max
-ranges that are supported by all WCD codecs.
+ .../sound/mediatek,mt8189-afe-pcm.yaml        |   162 +
+ .../sound/mediatek,mt8189-nau8825.yaml        |   101 +
+ sound/soc/mediatek/Kconfig                    |    28 +
+ sound/soc/mediatek/Makefile                   |     1 +
+ sound/soc/mediatek/mt8189/Makefile            |    18 +
+ sound/soc/mediatek/mt8189/mt8189-afe-clk.c    |   738 ++
+ sound/soc/mediatek/mt8189/mt8189-afe-clk.h    |    72 +
+ sound/soc/mediatek/mt8189/mt8189-afe-common.h |   238 +
+ sound/soc/mediatek/mt8189/mt8189-afe-pcm.c    |  2617 ++++
+ sound/soc/mediatek/mt8189/mt8189-dai-adda.c   |  1228 ++
+ sound/soc/mediatek/mt8189/mt8189-dai-i2s.c    |  1463 +++
+ sound/soc/mediatek/mt8189/mt8189-dai-pcm.c    |   332 +
+ sound/soc/mediatek/mt8189/mt8189-dai-tdm.c    |   672 +
+ .../mediatek/mt8189/mt8189-interconnection.h  |    97 +
+ sound/soc/mediatek/mt8189/mt8189-nau8825.c    |  1041 ++
+ sound/soc/mediatek/mt8189/mt8189-reg.h        | 10773 ++++++++++++++++
+ 16 files changed, 19581 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8189-afe-pcm.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8189-nau8825.yaml
+ create mode 100644 sound/soc/mediatek/mt8189/Makefile
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-afe-clk.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-afe-clk.h
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-afe-common.h
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-afe-pcm.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-dai-adda.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-dai-i2s.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-dai-pcm.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-dai-tdm.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-interconnection.h
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-nau8825.c
+ create mode 100644 sound/soc/mediatek/mt8189/mt8189-reg.h
 
-Why do you think it should not be part of common header?
-
---srini
-> 
->> +#define WCD_MAX_MICBIAS		4
->> +
->> +struct wcd_common {
->> +	struct device *dev;
->> +	int max_bias;
->> +	u32 micb_mv[WCD_MAX_MICBIAS];
->> +	u32 micb_vout[WCD_MAX_MICBIAS];
->> +};
->> +
->> +int wcd_get_micb_vout_ctl_val(struct device *dev, u32 micb_mv);
->> +int wcd_dt_parse_micbias_info(struct wcd_common *common);
->> +
->> +#endif /* __WCD_COMMON_H___  */
+-- 
+2.45.2
 
