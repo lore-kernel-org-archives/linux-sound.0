@@ -1,307 +1,223 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A59534AB04
-	for <linux-sound@vger.kernel.org>; Fri,  5 Sep 2025 12:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F8F32F74D
+	for <linux-sound@vger.kernel.org>; Fri,  5 Sep 2025 13:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757075216; cv=none; b=cMcYiPpbaewi8lFkx5y7Ni9+OglsWAjq32eHiYFuKSdsJ+Q0VNENccvhEzm4IgmMTnGpz4FNh93FKg9YSUuEGxizIkceI4jRNYOSA3ZOpVtJLFn9boxbNr7/EZ4cWE0UvFoiOQZ1DzM6XBuoSx0EDSeZy6zNjDKwo8ntn4iPmpk=
+	t=1757078251; cv=none; b=a+HmtGSiy01WhtScN7IZ4bmADtppYX00ChRzwu+wRzQG4yIf362yPuqxyY6M2P0BCfiV0CCgmiz/XbyNUVnSWpRlUos41iMluAWjm1vRzpdrQJidqNJV2d2m5WTshbSHBqmd3T5Oks03qIYQ/QjQYClB92VzQF0eDv86YoqZz0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757075216; c=relaxed/simple;
-	bh=GfN82wVo5sRR/cioVFv5Q3a4VU5vBRPslau4m+964L0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s9l1/sTNp8drVhXanB141DBCmLWYBp5faKarliRzYPNvFgGQGdyrVGYDBYC1vL+C4CHtTDPucA1t02qsST26adj4qB5r7HjEY5x8HXpH+br2cgi9t+yBt1rFl3TJnIqsbaIpKb6CkLZsAwfZXLUzowzRIa+++DpOoDBOpHIjvrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SYRQ9W7a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=V4Kh5XJq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SYRQ9W7a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=V4Kh5XJq; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1757078251; c=relaxed/simple;
+	bh=Zkcfo2o+FE6Dr4HEv24TNQj8qmjc9xyPL7FgDWm8KHI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=mWhX4WkCwqyb+dd9v4uNDSGqhBQ84P5qVn4ADzejPe1Afr++/f+YsQ2GsT7qhzPefnk79b3JxnrTEQjMigBW61RH1CnFOAy1iydmrryfpwOOdvH4jvYmD3xtbtS7D73e7X1IAx1/Vo9ZcC/Y6ClFyG1I7yVyIMRMxb7h71ZscMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=c6xA49R1; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SYRQ9W7a";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V4Kh5XJq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SYRQ9W7a";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V4Kh5XJq"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A55C5218;
-	Fri,  5 Sep 2025 12:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757075211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T7cM7yaI46Oyq30wqCn22wCJasA4AjDh02VVRenYT4A=;
-	b=SYRQ9W7a4NXWZflHZ7o/d2RxRMyB2TzSvPw9AuATQwbO9JdQm9aSkg4AQe9VZW9KJ/J7IX
-	InyTPFofKsZwsHbSf4E+LlCOgCKuRHhRg/03QsfiWip/KWxaEoxLokt9kg0CeOKsBNOKVc
-	1fWUJG/qz0ooXvOGNDOdb653qH5UNTU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757075211;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T7cM7yaI46Oyq30wqCn22wCJasA4AjDh02VVRenYT4A=;
-	b=V4Kh5XJqawYLLjZ/eYvnTGnOf7ipjA5Sz5oPdiTlc9yUVilFWytcVKNB39bbt4Sw2ut4Eo
-	Nk041PfjzvDJFzCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757075211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T7cM7yaI46Oyq30wqCn22wCJasA4AjDh02VVRenYT4A=;
-	b=SYRQ9W7a4NXWZflHZ7o/d2RxRMyB2TzSvPw9AuATQwbO9JdQm9aSkg4AQe9VZW9KJ/J7IX
-	InyTPFofKsZwsHbSf4E+LlCOgCKuRHhRg/03QsfiWip/KWxaEoxLokt9kg0CeOKsBNOKVc
-	1fWUJG/qz0ooXvOGNDOdb653qH5UNTU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757075211;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T7cM7yaI46Oyq30wqCn22wCJasA4AjDh02VVRenYT4A=;
-	b=V4Kh5XJqawYLLjZ/eYvnTGnOf7ipjA5Sz5oPdiTlc9yUVilFWytcVKNB39bbt4Sw2ut4Eo
-	Nk041PfjzvDJFzCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C8DD913306;
-	Fri,  5 Sep 2025 12:26:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LU9+LwrXumhEYgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 05 Sep 2025 12:26:50 +0000
-Date: Fri, 05 Sep 2025 14:26:50 +0200
-Message-ID: <87bjnpqe45.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Luca Weiss" <luca.weiss@fairphone.com>
-Cc: "Takashi Iwai" <tiwai@suse.de>,
-	"Arnd Bergmann" <arnd@kernel.org>,
-	"Mark Brown" <broonie@kernel.org>,
-	"Wesley Cheng" <quic_wcheng@quicinc.com>,
-	"Arnd Bergmann" <arnd@arndb.de>,
-	"Jaroslav Kysela" <perex@perex.cz>,
-	"Takashi Iwai" <tiwai@suse.com>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-	"Dan Carpenter"
- <dan.carpenter@linaro.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 3/3] ALSA: qc_audio_offload: try to reduce address space confusion
-In-Reply-To: <DCKUCB8A1JCV.1GK0TW2YMXNZP@fairphone.com>
-References: <20250513123442.159936-1-arnd@kernel.org>
-	<20250513123442.159936-4-arnd@kernel.org>
-	<DBR2363A95M1.L9XBNC003490@fairphone.com>
-	<87v7n72pg0.wl-tiwai@suse.de>
-	<DBR3FZGY4QS1.BX6M1PZS5RH4@fairphone.com>
-	<87ms8j2on6.wl-tiwai@suse.de>
-	<DCKUCB8A1JCV.1GK0TW2YMXNZP@fairphone.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="c6xA49R1"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45b9853e630so19923435e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 05 Sep 2025 06:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1757078247; x=1757683047; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WJshM4vbpP3v/V9FLXmj0qYGNjvFFxUjZMAI3TJgc4s=;
+        b=c6xA49R1lZZsa9lNUDxW7ls82CgEr7aqABHU7cnhytHRQvvj//CMif2c8OEQa4BhXx
+         THk7tSxPunxlyjYbvLKIsVjS260BXBbW0Jj/fdAyaIs+IiNiPpjcXwADWzDdIx5nwumh
+         CPo1EHeUrjeW9Bsrh48RPPPGO+zMQj/6FnGBKqnta9ArhlrFZmOpNFZHk3rxyl2VWG9j
+         Q2wGQkmLdWYqBghfceBEFaNRcIQiA1sl+0NOWdS3IpzbLpbOpyd91wBpqU4Lqnvn6dHs
+         X30RynKOlxgcK3UjQjemdGs0c1zIvyLo8lOcMSAqxXUt7Pr6PP8+kxVee6379qWWBTU+
+         kKWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757078247; x=1757683047;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=WJshM4vbpP3v/V9FLXmj0qYGNjvFFxUjZMAI3TJgc4s=;
+        b=P/YlWuodI9FnwU1Q2Vn4la3SWzYcavoZ/EY+ofi67EZDc2f5giUICO8pTh9/3Hng3a
+         JVkc+/e3WCy1rVGSfp5vb/hyeQUEbu4GggE8IV7c2E2dDkSDXeP4zrc53OECEvW6Zasa
+         aGkYZ1iP03ZP+rf/1FVbVbzQk7OrJqUvIhg6Lle31nXh/itgBYo6phmLm/hFV+BM075Z
+         +fTkP0iWSuT/RZ9x5juZ4BRCTuNVmJNXOQLtNBeme7Yir8oCXds8P55jLZDMmZUBH3Kk
+         3O4nDR5KRdjm/9L9VDNxjah2u2ZHmF9D4AqgR4vfUt8RHacbPGsA11kFKKgsjzyw+mgy
+         f0Pw==
+X-Forwarded-Encrypted: i=1; AJvYcCVN70MwRZmGFjjwEwB3aWIvZBjMNl62FPBlQqRucyfHB0PAD3MBH4g648P+F+QFYEmoBIggEE4uIUKSTg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqGVvCoBF5d51JECerkYzLLcuj23jf3bISpx+9958Ag7LApKbC
+	lKnWes4MUjzykwOTn9jDtzAe782/v6qxTesFN86iWEb01Dd+/oFBbftvq1OKMsVvvNc=
+X-Gm-Gg: ASbGncu/ksrVPKNnjXN9ISbJqa+eBEWAL4F0bzwfZmk3jOh620RU250/Vmr996EwSQb
+	gKj+Ifle4LeQi4FG2dWGmY9VBYVd3RklVWcv/rjAT6FJQjc4uWJSif4/PmU7jqRHjcW+vR95JR1
+	2UoHDPS6MrCPMtXWCf49FARQMxhNBgY7UFGwp3vi/kq4vwrc1+hT5s52VmikhcRkoCRM73iVWcB
+	aKoYEqm75mey1FMJKKbZIpsBdo3g0zE2vNTShXmd4prrxER+247u7rLRgB2dT1Ed0QMR2q6aD0e
+	E+aJsHJPJ1eUzC09k6AXB/IYvBMYRiKoTadetD3vmmlgzNIX9UxTjqNxZLwD74jZjp//73YrHpR
+	d2+WcJYSCrxMw+xT1CATs4im57fh54pZNK+XDMHbgDh6kXqYNyM5amtRuHktCSOKjzg4OJizs2I
+	A+CDrZ/Zq1gepf6B5A12UzkRXgiBi9IjA=
+X-Google-Smtp-Source: AGHT+IEak2G8rifngU86etW0UMHLHxbdNZaCmkkUUn45TG2/kT+5jZbAiVE6FF/g7hrDJkNzPjebNA==
+X-Received: by 2002:a05:600c:35cb:b0:45d:cf5f:cff8 with SMTP id 5b1f17b1804b1-45ddc315be7mr8083565e9.11.1757078246688;
+        Fri, 05 Sep 2025 06:17:26 -0700 (PDT)
+Received: from localhost (ip-185-104-138-128.ptr.icomera.net. [185.104.138.128])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d978ab6fc7sm16412039f8f.45.2025.09.05.06.17.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Sep 2025 06:17:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,arndb.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 05 Sep 2025 15:17:20 +0200
+Message-Id: <DCKW943MHDZO.3QJRSTIXDW1C4@fairphone.com>
+Cc: "Arnd Bergmann" <arnd@kernel.org>, "Mark Brown" <broonie@kernel.org>,
+ "Wesley Cheng" <quic_wcheng@quicinc.com>, "Jaroslav Kysela"
+ <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Dan Carpenter" <dan.carpenter@linaro.org>,
+ <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 3/3] ALSA: qc_audio_offload: try to reduce address space
+ confusion
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Arnd Bergmann" <arnd@arndb.de>, "Takashi Iwai" <tiwai@suse.de>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250513123442.159936-1-arnd@kernel.org>
+ <20250513123442.159936-4-arnd@kernel.org>
+ <DBR2363A95M1.L9XBNC003490@fairphone.com> <87v7n72pg0.wl-tiwai@suse.de>
+ <DBR3FZGY4QS1.BX6M1PZS5RH4@fairphone.com> <87ms8j2on6.wl-tiwai@suse.de>
+ <DCKUCB8A1JCV.1GK0TW2YMXNZP@fairphone.com>
+ <246834be-9e72-432e-86e4-e1c68262e710@app.fastmail.com>
+In-Reply-To: <246834be-9e72-432e-86e4-e1c68262e710@app.fastmail.com>
 
-On Fri, 05 Sep 2025 13:47:28 +0200,
-Luca Weiss wrote:
-> 
-> Hi Takashi,
-> 
-> Sorry for the late reply, things got in the way.
-> 
-> On Fri Aug 1, 2025 at 2:49 PM CEST, Takashi Iwai wrote:
-> > On Fri, 01 Aug 2025 14:35:27 +0200,
-> > Luca Weiss wrote:
-> >> 
-> >> Hi Takashi,
-> >> 
-> >> On Fri Aug 1, 2025 at 2:31 PM CEST, Takashi Iwai wrote:
-> >> > On Fri, 01 Aug 2025 13:31:42 +0200,
-> >> > Luca Weiss wrote:
-> >> >> 
-> >> >> Hi Arnd,
-> >> >> 
-> >> >> On Tue May 13, 2025 at 2:34 PM CEST, Arnd Bergmann wrote:
-> >> >> > From: Arnd Bergmann <arnd@arndb.de>
-> >> >> >
-> >> >> > uaudio_transfer_buffer_setup() allocates a buffer for the subs->dev
-> >> >> > device, and the returned address for the buffer is a CPU local virtual
-> >> >> > address that may or may not be in the linear mapping, as well as a DMA
-> >> >> > address token that is accessible by the USB device, and this in turn
-> >> >> > may or may not correspond to the physical address.
-> >> >> >
-> >> >> > The use in the driver however assumes that these addresses are the
-> >> >> > linear map and the CPU physical address, respectively. Both are
-> >> >> > nonportable here, but in the end only the virtual address gets
-> >> >> > used by converting it to a physical address that gets mapped into
-> >> >> > a second iommu.
-> >> >> >
-> >> >> > Make this more explicit by pulling the conversion out first
-> >> >> > and warning if it is not part of the linear map, and using the
-> >> >> > actual physical address to map into the iommu in place of the
-> >> >> > dma address that may already be iommu-mapped into the usb host.
-> >> >> 
-> >> >> This patch is breaking USB audio offloading on Qualcomm devices on 6.16,
-> >> >> as tested on sm6350 and sc7280-based smartphones.
-> >> >> 
-> >> >> [  420.463176] q6afe-dai 3000000.remoteproc:glink-edge:apr:service@4:dais: AFE Port already open
-> >> >> [  420.472676] ------------[ cut here ]------------
-> >> >> [  420.472691] WARNING: CPU: 2 PID: 175 at sound/usb/qcom/qc_audio_offload.c:1056 handle_uaudio_stream_req+0xea8/0x13f8 [snd_usb_audio_qmi]
-> >> >> [  420.472726] Modules linked in: rfcomm zram zsmalloc zstd_compress algif_hash algif_skcipher bnep nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables nfnetlink ipv6 fuse uhid uinput snd_usb_audio_qmi q6asm_dai q6routing q6afe_dai q6usb q6afe_clocks q6adm q6asm snd_q6dsp_common q6afe q6core apr pdr_interface snd_soc_sm8250 snd_soc_qcom
-> >> >> _common snd_soc_qcom_offload_utils snd_soc_qcom_sdw soundwire_bus soc_usb snd_soc_core snd_compress snd_usb_audio ath10k_snoc ath10k_core snd_hwdep snd_usbmidi_lib ath fastrpc snd_pcm mac80211 hci_uart qrtr_smd snd_timer btqca qcom_pd_mapper snd_rawmidi bluetooth libarc4 qcom_pdr_msg cfg80211 snd soundcore ecdh_generic ecc rfkill qrtr qcom_stats qcom_q6v5_pas ipa qcom_pil_info qcom_q6v5 qcom_common
-> >> >> [  420.473018] CPU: 2 UID: 0 PID: 175 Comm: kworker/u32:9 Tainted: G        W           6.16.0 #1-postmarketos-qcom-sm6350 NONE
-> >> >> [  420.473033] Tainted: [W]=WARN
-> >> >> [  420.473038] Hardware name: Fairphone 4 (DT)
-> >> >> [  420.473045] Workqueue: qmi_msg_handler qmi_data_ready_work
-> >> >> [  420.473065] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> >> >> [  420.473075] pc : handle_uaudio_stream_req+0xea8/0x13f8 [snd_usb_audio_qmi]
-> >> >> [  420.473091] lr : handle_uaudio_stream_req+0xc84/0x13f8 [snd_usb_audio_qmi]
-> >> >> [  420.473104] sp : ffff800082f939a0
-> >> >> [  420.473110] x29: ffff800082f93b10 x28: ffff0000cfb796b8 x27: 0000000000008000
-> >> >> [  420.473128] x26: ffff0000842afc80 x25: ffffa8e75a23b0e0 x24: 0000000000008000
-> >> >> [  420.473145] x23: ffffa8e75a23bcf0 x22: ffff800082f93bd0 x21: 0000000000000000
-> >> >> [  420.473161] x20: ffff800082f93c98 x19: ffff0000939bb740 x18: ffffa8e77925a4d0
-> >> >> [  420.473178] x17: ffffffffffffffff x16: ffffa8e777ef9728 x15: ffffa8e77925a000
-> >> >> [  420.473194] x14: 0000000000000000 x13: 0000000000000dc0 x12: ffff800080000000
-> >> >> [  420.473211] x11: 0000000000000cc0 x10: 0000000000000001 x9 : ffffa8e77944b880
-> >> >> [  420.473227] x8 : ffffd719b5f4d000 x7 : ffff00009033da18 x6 : 0000000000000000
-> >> >> [  420.473244] x5 : 0000000000000000 x4 : ffff800082f93938 x3 : 0000000000000000
-> >> >> [  420.473260] x2 : 0000000000000000 x1 : ffff0000857790c0 x0 : 0000000000000000
-> >> >> [  420.473277] Call trace:
-> >> >> [  420.473283]  handle_uaudio_stream_req+0xea8/0x13f8 [snd_usb_audio_qmi] (P)
-> >> >> [  420.473300]  qmi_invoke_handler+0xbc/0x108
-> >> >> [  420.473314]  qmi_handle_message+0x90/0x1a8
-> >> >> [  420.473326]  qmi_data_ready_work+0x210/0x390
-> >> >> [  420.473339]  process_one_work+0x150/0x3a0
-> >> >> [  420.473351]  worker_thread+0x288/0x480
-> >> >> [  420.473362]  kthread+0x118/0x1e0
-> >> >> [  420.473375]  ret_from_fork+0x10/0x20
-> >> >> [  420.473390] ---[ end trace 0000000000000000 ]---
-> >> >> [  420.479244] qcom-q6afe aprsvc:service:4:4: cmd = 0x100e5 returned error = 0x1
-> >> >> [  420.479540] qcom-q6afe aprsvc:service:4:4: DSP returned error[1]
-> >> >> [  420.479558] qcom-q6afe aprsvc:service:4:4: AFE enable for port 0x7000 failed -22
-> >> >> [  420.479572] q6afe-dai 3000000.remoteproc:glink-edge:apr:service@4:dais: fail to start AFE port 88
-> >> >> [  420.479583] q6afe-dai 3000000.remoteproc:glink-edge:apr:service@4:dais: ASoC error (-22): at snd_soc_dai_prepare() on USB_RX
-> >> >> 
-> >> >> Reverting this patch makes it work as expected on 6.16.0.
-> >> >> 
-> >> >> Let me know if I can be of any help to resolve this.
-> >> >
-> >> > I guess just dropping WARN_ON() would help?
-> >> >
-> >> > As far as I read the code, pa argument isn't used at all in
-> >> > uaudio_iommu_map() unless as sgt is NULL.  In this case, sgt is never
-> >> > NULL, hence the pa argument is just a placeholder.
-> >> > That said, the whole xfer_buf_pa (and its sanity check) can be dropped
-> >> > there.
-> >> 
-> >> Just the WARN splat is not the problem, it's actually failing
-> >> afterwards. Without the patch it works as expected.
-> >
-> > OK, I wasn't clear enough; I meant to drop WARN_ON() *and* its error
-> > handling:
-> >
-> > 	if (WARN_ON(!page_is_ram(PFN_DOWN(xfer_buf_pa)))) {
-> > 		ret = -ENXIO;
-> > 		goto unmap_sync;
-> > 	}
-> >
-> > That is, replace WARN_ON() with 0.
-> >
-> > 	if (0 /*WARN_ON(!page_is_ram(PFN_DOWN(xfer_buf_pa)))*/) {
-> > 		ret = -ENXIO;
-> > 		goto unmap_sync;
-> > 	}
-> 
-> Yes, that appears to work fine as well. Playback works again.
-> 
-> >
-> > But you can try the patch I put in my previous reply instead (which
-> > will remove all unneeded ).
-> 
-> That patch doesn't compile for me with this error:
-> 
-> In file included from ./include/uapi/linux/posix_types.h:5,
->                  from ./include/uapi/linux/types.h:14,
->                  from ./include/linux/types.h:6,
->                  from ./include/linux/kasan-checks.h:5,
->                  from ./include/asm-generic/rwonce.h:26,
->                  from ./arch/arm64/include/asm/rwonce.h:67,
->                  from ./include/linux/compiler.h:390,
->                  from ./include/linux/dev_printk.h:14,
->                  from ./include/linux/device.h:15,
->                  from ./include/linux/auxiliary_bus.h:11,
->                  from sound/usb/qcom/qc_audio_offload.c:6:
-> sound/usb/qcom/qc_audio_offload.c: In function 'uaudio_transfer_buffer_setup':
-> ./include/linux/stddef.h:8:14: error: passing argument 3 of 'uaudio_iommu_map' makes integer from pointer without a cast [-Wint-conversion]
->     8 | #define NULL ((void *)0)
->       |              ^~~~~~~~~~~
->       |              |
->       |              void *
-> sound/usb/qcom/qc_audio_offload.c:1059:48: note: in expansion of macro 'NULL'
->  1059 |                                                NULL, len, &xfer_buf_sgt);
->       |                                                ^~~~
-> sound/usb/qcom/qc_audio_offload.c:555:51: note: expected 'phys_addr_t' {aka 'long long unsigned int'} but argument is of type 'void *'
->   555 |                                       phys_addr_t pa, size_t size,
->       |                                       ~~~~~~~~~~~~^~
+Hi Arnd,
 
-Then replace NULL with 0.  That is, like below.
+On Fri Sep 5, 2025 at 2:08 PM CEST, Arnd Bergmann wrote:
+> On Fri, Sep 5, 2025, at 13:47, Luca Weiss wrote:
+>> On Fri Aug 1, 2025 at 2:49 PM CEST, Takashi Iwai wrote:
+>>> On Fri, 01 Aug 2025 14:35:27 +0200,
+>>>> On Fri Aug 1, 2025 at 2:31 PM CEST, Takashi Iwai wrote:
+>>>> > On Fri, 01 Aug 2025 13:31:42 +0200,
+>>>> >> On Tue May 13, 2025 at 2:34 PM CEST, Arnd Bergmann wrote:
+>>>> >> >
+>>>> >> > Make this more explicit by pulling the conversion out first
+>>>> >> > and warning if it is not part of the linear map, and using the
+>>>> >> > actual physical address to map into the iommu in place of the
+>>>> >> > dma address that may already be iommu-mapped into the usb host.
+>>>> >>=20
+>>>> >> This patch is breaking USB audio offloading on Qualcomm devices on =
+6.16,
+>>>> >> as tested on sm6350 and sc7280-based smartphones.
+>>>> >>=20
+>>>> >> Let me know if I can be of any help to resolve this.
+>>>> >
+>>>> > I guess just dropping WARN_ON() would help?
+>>>> >
+>>>> > As far as I read the code, pa argument isn't used at all in
+>>>> > uaudio_iommu_map() unless as sgt is NULL.  In this case, sgt is neve=
+r
+>>>> > NULL, hence the pa argument is just a placeholder.
+>>>> > That said, the whole xfer_buf_pa (and its sanity check) can be dropp=
+ed
+>>>> > there.
+>>>>=20
+>>>> Just the WARN splat is not the problem, it's actually failing
+>>>> afterwards. Without the patch it works as expected.
+>>>
+>>> That is, replace WARN_ON() with 0.
+>>>
+>>> 	if (0 /*WARN_ON(!page_is_ram(PFN_DOWN(xfer_buf_pa)))*/) {
+>>> 		ret =3D -ENXIO;
+>>> 		goto unmap_sync;
+>>> 	}
+>>
+>> Yes, that appears to work fine as well. Playback works again.
+>>
+>
+> This does mean that the address returned from xfer_buf is not
+> a kernel address in the virtual map though, and converting it
+> through virt_to_phys() makes the pa undefined for
+> uaudio_iommu_map(). Can you print what that pa value
+> is that you get here, and where that sits in the address space?
 
+Adding a debug print gives me the following below.
 
-Takashi
+  dev_err(uaudio_qdev->data->dev, "xfer_buf_pa=3D%llx\n", xfer_buf_pa);
 
--- 8< --
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -1020,7 +1020,6 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
- 	struct sg_table xfer_buf_sgt;
- 	dma_addr_t xfer_buf_dma;
- 	void *xfer_buf;
--	phys_addr_t xfer_buf_pa;
- 	u32 len = xfer_buf_len;
- 	bool dma_coherent;
- 	dma_addr_t xfer_buf_dma_sysdev;
-@@ -1051,18 +1050,13 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
- 	if (!xfer_buf)
- 		return -ENOMEM;
- 
--	/* Remapping is not possible if xfer_buf is outside of linear map */
--	xfer_buf_pa = virt_to_phys(xfer_buf);
--	if (WARN_ON(!page_is_ram(PFN_DOWN(xfer_buf_pa)))) {
--		ret = -ENXIO;
--		goto unmap_sync;
--	}
- 	dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
- 			xfer_buf_dma, len);
- 
- 	/* map the physical buffer into sysdev as well */
-+	/* note: 0 is passed to pa argument as we use sgt */
- 	xfer_buf_dma_sysdev = uaudio_iommu_map(MEM_XFER_BUF, dma_coherent,
--					       xfer_buf_pa, len, &xfer_buf_sgt);
-+					       0, len, &xfer_buf_sgt);
- 	if (!xfer_buf_dma_sysdev) {
- 		ret = -ENOMEM;
- 		goto unmap_sync;
+Not sure what exactly you mean with "where that sits in the address
+space" and how I can figure that out.
+
+[  130.124938] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0486ea6000
+[  130.141583] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0484be5000
+[  130.145826] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0484bfd000
+[  130.150031] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0484c0d000
+[  130.155437] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0484ec5000
+[  130.159573] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0484f0d000
+[  130.164778] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0484f2d000
+[  130.180878] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0484fe5000
+[  130.185178] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0485005000
+[  130.189393] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba048507d000
+[  130.194323] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04850e5000
+[  130.198375] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba048561d000
+[  130.202280] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0485655000
+[  130.215915] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04856a5000
+[  130.219701] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0486f15000
+[  130.223351] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04870b5000
+[  130.227881] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04871bd000
+[  130.231780] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04871dd000
+[  130.235432] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04871f5000
+[  130.249669] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0487525000
+[  130.253451] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba048755d000
+[  130.257113] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba048758d000
+[  130.261473] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04875c5000
+[  130.265226] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04875d5000
+[  130.268856] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04875de000
+[  130.283635] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0486ed3000
+[  130.287445] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0486eca000
+[  130.291147] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04875e7000
+[  130.295957] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba04875f0000
+[  130.299995] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0489fd5000
+[  130.303607] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0489fde000
+[  130.317503] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0489fe7000
+[  130.321291] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba0489ff0000
+[  130.324979] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba048a005000
+[  130.329604] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba048a00e000
+[  130.333397] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba048a01d000
+[  130.337089] q6usb-dai 3000000.remoteproc:glink-edge:apr:service@4:usbd: =
+xfer_buf_pa=3Dffffba048a026000
+
+Regards
+Luca
