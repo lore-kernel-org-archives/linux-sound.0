@@ -1,152 +1,190 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8D5223DE8
-	for <linux-sound@vger.kernel.org>; Sun,  7 Sep 2025 10:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B8025F98B
+	for <linux-sound@vger.kernel.org>; Sun,  7 Sep 2025 11:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757239224; cv=none; b=TejR2+qXYCJM68bYmaAsDKp4fzSMZRSpvPEBmuJ3SisgkFshh7Abh8cl35ApIVXJylRynRMTyCixtn6sg+LOawATuRmyG3cHF1lm8DWTRqXPLz7dmXe58yq6ucmNccDEcRuc8hBqf26t3S8AIEHc3Rl+plqihQscRslNv0cmZMk=
+	t=1757244129; cv=none; b=MXeIzFzaRMbuITyBzhgMYlAOzHJjfLvZnMcNO1OSk2MNJcCPdvF9uuI4Qymn929WSNdh2sBwnmK8INQA2Yk/hCkUpBUdtevGTAQJDmO/3wnF1V3UUcCgQygsPX45KVMhjfjTMxWdbNld1nRUponXnviKPpSVoztSjxDhugJnGcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757239224; c=relaxed/simple;
-	bh=JdRGVx4bHeaB9hxsshS++UJcE2XQe4YXg/1/cdY5kpc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gtp45A7eXFDlcScz2BtESHcDi4PQzGDt2gea/OLRAv0DJVIOm0cprMO3gnXF9BG6QqH5DGxYW3AvTU3AxZp85MIuv5osStFpurzvXufem9in1RmolyBVR/DfP1RyUF/bN7uSQXzaAmNyqiAvCTzz0R/T7KmZRP9jEB1GpqTX04s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ROsvt3gP; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1757244129; c=relaxed/simple;
+	bh=8ZtINVwrqJmJKdkXZAFj16MJBFZQDrqOKOnZ89LFH44=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GnIy4lByiv3Vl8zxaCYGOn5Yu/J01ohIit19XWQZWwPbSFhQmlyuMrLoU9oHDQkbttPOSvW/EB1xhNuib4EoWjriRpTKG0n2V46WhCkyTdeE4eByj/sm8Amwm+WF8bau8KOaHfHjIB7hP+wMIk39q5yVsRZPmJBU7CWBEWl2HTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RRJr9K3y; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ROsvt3gP"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5878jcvY004835
-	for <linux-sound@vger.kernel.org>; Sun, 7 Sep 2025 10:00:21 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RRJr9K3y"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5878kCda021243
+	for <linux-sound@vger.kernel.org>; Sun, 7 Sep 2025 11:22:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	qr3Czd9PwhhylBpPVieXHwCBf6HZ/rEjYpqLSCwU1MQ=; b=ROsvt3gPtum96m7O
-	O+9R4aaL8zNmbnZ+R/3AfPkim2F6zAIbHwZq1T5fz/KNVz4e9KfKVXQhGVbESLb6
-	m7iX3fXPgiMe59J1CbZJhtQp5nQ2hf7bdQDAWynMIqjnT+3Cq46IFcW+7f2ra7dk
-	mUo3UwG1xETfod5qzQIyZpf+WCbg4V62gOa17zkTWQCjNDQv6boB/ojppi3UM1Y/
-	/tsvSboIWkAaUBRpYUY5Tq/Sw3GyO8BTqLcQdIbgwTNWveXlCD76nMsoPc73uvVo
-	kviLF5HEdr6HLO5uxptPcTtzMhPJhQ+PchDdTvJ4enNTGUcPsOwvZ45gWPjD5QYY
-	o3K5ug==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490dqfsumf-1
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=z5lwbFAbub1kacx3kQmlk5pdS6Nt779OaEy
+	iq0UjVoM=; b=RRJr9K3yDCfSbGpGsRBxyGv3XzSAAwha1dtYK3gKSKFkaIwJm1G
+	tGHtRodQKEK42xvyQpeesbxnycvWXGZP/ibEMDu9+4twrKr43+PpXHp4wFzWeiiM
+	+mcZQNv88/EFGSQJvySRHo5IsML/VveSqSzCqqTGgMtRunp3gaCFh3G6ZCSG3fcO
+	F7Rk1yD6zeTSIjmQZb/r1jLC4WM/ySn2dy+Cq55cMpFOLWKIq54jlu6Pbq2k4UzK
+	VS4MOHYiM5HtuS9TvJiwU7wkQUGXwB+mUcqckB7Z4c9JCH++xfjGcJJvHdztcie6
+	G2LNkXaMzhXZdSoivOugHFPgTUMQrQmkpaQ==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490by8t3e9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sun, 07 Sep 2025 10:00:20 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-7222232866aso93737556d6.0
-        for <linux-sound@vger.kernel.org>; Sun, 07 Sep 2025 03:00:20 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Sun, 07 Sep 2025 11:22:06 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-726aec6cf9fso114713966d6.1
+        for <linux-sound@vger.kernel.org>; Sun, 07 Sep 2025 04:22:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757239219; x=1757844019;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qr3Czd9PwhhylBpPVieXHwCBf6HZ/rEjYpqLSCwU1MQ=;
-        b=Wf8w41NAU3V4KuYvLX4rzfajPmTNwKtxcGRf77Pn1ugtPbXTpU8rG4FLY7euNshb7w
-         8qf8Tq0BwEkkoH4gxrGr6PZ00c2I0FWMBuw2poPsmi1d/W/UYlAMo/OaxxiXBUSCBvHE
-         9Z9Rs+iPQ8VyrsIAtbIOBgpEC6WI6FQycl4tdRL92E1c3PeNXf/OAVgWyxcYjZ799WnD
-         F62UFF+OITtuwZEpAZ+wLh1buuo3EnIbwmFPx5lQhaIv/xXhQo3ST63+SkTXPzYXPPwi
-         JEOwI/hqr3K845Zz1lxl60AfzthYZj5RjimmgTWwNR5z5DJf44YierxgxFa+x1x3uP4W
-         WJag==
-X-Gm-Message-State: AOJu0YwX3cETl7+zVgf7Xpr3vhODiIEjdsb0sP3YhwHRZBw4A/QYqDBX
-	LOMAazl8tp0BscqITIf3lRzedaVtsd/7XgNozRH4pDL29MzqyFzRwOf1EcWpG+iKQNt+i57ZbiG
-	cH8Z1VtP4j0a6jNEdCZP/NxyFZdGHz8Fm2vzGpWJ/G9DaOxnhJ7tlzRvK7SOzNO3JjA==
-X-Gm-Gg: ASbGncv9KwRjpQea6HXh9kiUKM/KsoHqEBLM9JY5XL/dU3jb1couWY99l3eyA5qy0zi
-	VNqnMFpR1yAsr1+06JVY0aytSeax5LCFe9kD2KKa+s1N1RHQZPBbV0KCj9gXq4f1hlx+1zs2ZnR
-	WOySXJKmrR1nTE6NtVsbDsKisSUKfTWMix85ML5kv32RwS/eac0VOEuuBkFb0p6JZplYBb7Al3R
-	BkPcgwe9xaDpqRLi/S5FcG+2nZZhdcYjG0wAPmpPyIMOSwEG11vhZsu+dJxasZMC3XJHqi3V0dG
-	/uunyLGCsOe4rlBNTtqwncRCqIHPfuueoFpIymxohwgYHseWDnnMgJDgkPKtKL1hAgs=
-X-Received: by 2002:a05:6214:2462:b0:70d:ae61:7ddd with SMTP id 6a1803df08f44-72bc5842ebcmr122738926d6.31.1757239219437;
-        Sun, 07 Sep 2025 03:00:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHZRn6PmHHN0WVzaevPq6eNyd0NSdg9SA4KKI1yKwL5vha/Px9Z7l0N1LQNsS6IGy0U+cad0g==
-X-Received: by 2002:a05:6214:2462:b0:70d:ae61:7ddd with SMTP id 6a1803df08f44-72bc5842ebcmr122738456d6.31.1757239218799;
-        Sun, 07 Sep 2025 03:00:18 -0700 (PDT)
-Received: from [192.168.68.119] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-45dd296ed51sm141015435e9.3.2025.09.07.03.00.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Sep 2025 03:00:18 -0700 (PDT)
-Message-ID: <899db9f0-27f5-4404-8357-4985e084ac99@oss.qualcomm.com>
-Date: Sun, 7 Sep 2025 11:00:17 +0100
+        d=1e100.net; s=20230601; t=1757244125; x=1757848925;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z5lwbFAbub1kacx3kQmlk5pdS6Nt779OaEyiq0UjVoM=;
+        b=SPBGY8/hwbFUNA11dr7oXGaCuhfamJjTUDBnf7xWkhWRWQ2l3sYQmyVmke4iu7pfKM
+         uXTIwoVm337uhZX4oLK47NXoZaR91/GBMmrf8RAhDGEQuWD0pYsakFIHpUHp0zFFix7T
+         NmC3lit+iXyDofTStZDIvbEVaFT04+U1pZLqS+9JQKvLqeDChZ1pDcePOd8pdaFhb/nv
+         L+ID1rM5WCA7ADoZKXZfJrCgPipZkLy5tQhLUL7dnnuPdch1XXc78Pzd5kthfVKf5vEO
+         N670YFVPUVYl2HseqovOl9Ov6lZB94u72Ae8oSbjxgUGD7ds+2Ce9U/Q8kHyos+NR1wE
+         S/QA==
+X-Forwarded-Encrypted: i=1; AJvYcCUt1gItSbtD5SG+v8iEqYklzR0w4D4EI1QQxXWYCOH7T1Bs264ru+fykfisQ6bzmJCVh2ZPZzXAAcj56A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNQr4/VUUx9HV+aTnRydtj03AoP1xcYFzQwV5kI56r7Q9wasyE
+	KIglrdL71C1xktixycYq0tcX/M1JpK0a2Y212L8Rpc3J75unURkm5NtainI0APUD6tkQh4QyCVW
+	4Cjl4+QEC6zKU7Zpao06RSdACPYEHEVeYQDA8NUxdQirjfztE9lCi5TrIhYEeV+UPg9T1Re6OLw
+	==
+X-Gm-Gg: ASbGncvCXZ9njmu8ci8bss64vIUixLreu7KNI1h2+8tV/HUaGN2iXKv0ZTxJ1/ApWwo
+	QZkN4/VGZgSSU5lhg02L+tzW++R6eUSBKZV8Wk1plc63dy2Ef3j+HS0zD7EvyzsakbaSv/dkAYX
+	zbP52TaJYxr+63GcYXGsBDCFArnEpTaMr62GKJO+NqDBW0iUG1PdD28JZIb0/KMWvsWHOOWttqF
+	R1FjOoR61z+ssiuI3x42O1gGuhx1MirCOsvU9a13aIuyn1VXPI5/BnOgqxIfFsXX/Mf25QEiAlj
+	hytXUFIsywwL+aaBPnAiYUGE/c50ep72kzrhks/atheB4HEdmDuRyQ==
+X-Received: by 2002:a05:6214:5009:b0:707:68f2:3275 with SMTP id 6a1803df08f44-739253df0c3mr44145496d6.24.1757244125454;
+        Sun, 07 Sep 2025 04:22:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHKUGBYnSF5i57SFoHRunF0/Ta03rZv7tEJw8AyW7VZIM+AwWjqeSfrzDoVDUQfv2ztrpokfg==
+X-Received: by 2002:a05:6214:5009:b0:707:68f2:3275 with SMTP id 6a1803df08f44-739253df0c3mr44145266d6.24.1757244125020;
+        Sun, 07 Sep 2025 04:22:05 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cf34494776sm37523289f8f.61.2025.09.07.04.22.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Sep 2025 04:22:04 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com, tiwai@suse.com, vkoul@kernel.org,
+        yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+        srini@kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v4 00/13] ASoC: codecs: wcd93xxx: remove code duplication
+Date: Sun,  7 Sep 2025 12:21:47 +0100
+Message-ID: <20250907112201.259405-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] ASoC: qcom: sc8280xp: Fix DAI format setting for
- MI2S interfaces
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        kernel@oss.qualcomm.com, prasad.kumpatla@oss.qualcomm.com,
-        ajay.nandam@oss.qualcomm.com
-References: <20250905150445.2596140-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20250905150445.2596140-4-mohammad.rafi.shaik@oss.qualcomm.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20250905150445.2596140-4-mohammad.rafi.shaik@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: mmE-MIo7IQsgCoJ23VFymY_B72fGD-Zf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzNSBTYWx0ZWRfX//++mbg8pMvm
- wowXVkWSQGOOjTUDTUxX4x8p5JRmLHWu8DREy1XaACMG7NgFQu+0a4WC8lSTS5gnX3+IMR0zFmG
- VlO17C+JkqEJ+ni2xEAQrbiSGui+i9XN6vP4FJ8pY3CvAoS/m8PzpxD4MBJrNYMoBeiOdbNdzCE
- EAfJObxDgD+rThnlzTsvL5Gwp8hHWYkRc731TUc/cDceoMFgBA4Av57E6IObkliOAfo7URde0UG
- Nae6RqnHoUJGT3Nx6rapDB6/zE/8LElsTB1La1I8nQAJtcJ8nLsST+LM7RyT3aO/5w+dTWaIYme
- GPQAB1coz8EjTWBepKxL0gbrGWsWccoCCi+Fqz29P8tax41jbUcZaYjVvC6llQYhtaWZcxWn1eh
- x4WRXSsJ
-X-Proofpoint-GUID: mmE-MIo7IQsgCoJ23VFymY_B72fGD-Zf
-X-Authority-Analysis: v=2.4 cv=N8UpF39B c=1 sm=1 tr=0 ts=68bd57b4 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=VTWOZG3uf4wZYCvkMeEA:9 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=Yv8PR5YX c=1 sm=1 tr=0 ts=68bd6ade cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=yJojWOMRYYMA:10 a=OLL_FvSJAAAA:8 a=QyXUC8HyAAAA:8 a=NNk1almXngzNn2I0ufIA:9
+ a=sPFwb3Qtu_UA:10 a=kl_IBrakYWIA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+ a=oIrB72frpwYPwTMnlWqB:22
+X-Proofpoint-GUID: gZG039MRlKkSGBqr9X3E5yMi1gT1RIte
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAxOCBTYWx0ZWRfXy3700oyeOTZU
+ /OqmEhjQDSVfg2M7eNh8KZ73JLLKp07wHA/4CBdErmRCqM7ZtARiwS5xNpJIbl5NWsbHcp1GHF8
+ OVk3Tt6pXxAlJLRFcZsf17EBVIKRCFEDPGbVlxWwG+4mwB7Er52nWIquhtQg0dgOiV2easi9qCV
+ hUj+NyRlvGCyL0ZSHRWbA1e8Uts3+HI+BbUTawPqhUDkXyPFdL2c+GDffw2amiSrFH9cphGYHib
+ s39fctgiQNhX++0+0JLTeVGso8neVhlDAuUvKplhFTys+mIILE3uTRu8WBi07HBynr0Czq3yFx/
+ 59Hg32jw+Q0ivTPqmz7VGxIbcEu3c1kqSbuWkZ1/ECL5kVxJhiEy7EA/SIwWVBzBq+baPwlEtrX
+ TmH6hXMn
+X-Proofpoint-ORIG-GUID: gZG039MRlKkSGBqr9X3E5yMi1gT1RIte
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-07_03,2025-09-04_01,2025-03-28_01
+ definitions=2025-09-07_04,2025-09-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0 malwarescore=0 clxscore=1015 bulkscore=0
- suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ bulkscore=0 malwarescore=0 suspectscore=0 phishscore=0 clxscore=1015
+ spamscore=0 priorityscore=1501 impostorscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060035
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060018
 
-On 9/5/25 4:04 PM, Mohammad Rafi Shaik wrote:
-> The current implementation does not configure the CPU DAI format for
-> MI2S interfaces, resulting in -EIO errors during audio playback and
-> capture. This prevents the correct clock from being enabled for the
-> MI2S interface. Configure the required DAI format to enable proper
-> clock settings. Tested on Lemans evk platform.
-> 
-> Fixes: 295aeea6646ad ("ASoC: qcom: add machine driver for sc8280xp")
+All the Qualcomm WCD codecs and WCD based codecs have lots of code in
+common, resulting in lot of duplicate code.
+This series is an attempt to clean some of this by moving the common
+code to wcd-common library or to soundwire helper functions.
 
-Am really not sure if this is a fix, because sc8280xp does not have any
-Mi2S support. If you have added support for MI2S on any other platform
-that uses sc8280xp machine driver, then that is the right fixes tag.
+Currently I have done cleanups for 4 codecs wcd934x, wcd937x, wcd938x
+and wcd939x, however any new Qualcomm codecs can avoid this duplication
+by using the wcd-common library.
 
---srini
-> Cc: <stable@vger.kernel.org>
-> Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> ---
->  sound/soc/qcom/sc8280xp.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-> index 73f9f82c4e25..3067b95bcdbb 100644
-> --- a/sound/soc/qcom/sc8280xp.c
-> +++ b/sound/soc/qcom/sc8280xp.c
-> @@ -32,6 +32,10 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
->  	int dp_pcm_id = 0;
->  
->  	switch (cpu_dai->id) {
-> +	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
-> +	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
-> +		snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
-> +		break;
->  	case WSA_CODEC_DMA_RX_0:
->  	case WSA_CODEC_DMA_RX_1:
->  		/*
+I have also added two helpers of_sdw_find_device_by_node() and
+sdw_slave_get_current_bank() in soundwire layer for the codecs to use them,
+this series was already acked by Soundwire maintainer Vinod.
+
+As original cleanup series was depending on the new soundwire interfaces
+I have combined both the series as they are cleaning up code
+duplications.
+
+As am touching the same codec drivers, 2 bug fixes are also added at the
+start of the series.
+
+There is still lot of code that is duplicate, but this is just a
+starting point for such cleanups.
+
+I have tested this on T14s, any testing is appreciated.
+
+Changes since v3:
+	- fixed a typo in wcd-common.h
+	- fixed wcd937x build errors reported by Kernel test robot lkp@intel.com
+	- added patch to fix stub functions in wcd937x which an result
+	  in build errors.
+Changes since v2:
+	-combined other cleanup patch series 
+	("[PATCH v2 0/4] ASoC: codecs: wcd937x/8x/9x: cleanup")
+	https://www.spinics.net/linux/fedora/linux-sound/msg25202.html
+	into this series to make it easy to apply.
+	- fixed copyright text.
+	- fixed few empty spaces and re-arrage header inclusion into
+	  source file.
+
+Changes since v1:
+	- add new patches to remove usage of dev_get_regmap
+	- add fix to wcd937x for comp soundwire ports
+
+
+Srinivas Kandagatla (13):
+  ASoC: codecs: wcd937x: set the comp soundwire port correctly
+  ASoC: codecs: wcd937x: make stub functions inline
+  soundwire: bus: add of_sdw_find_device_by_node helper
+  soundwire: bus: add sdw_slave_get_current_bank helper
+  ASoC: codecs: wcdxxxx: use of_sdw_find_device_by_node helper
+  ASoC: codecs: wcdxxxx: use sdw_slave_get_current_bank helper
+  ASoC: codecs: wcd: add common helper for wcd codecs
+  ASoC: codecs: wcd-common: move WCD_SDW_CH to common
+  ASoC: codecs: wcd-common: move component ops to common
+  ASoC: codecs: wcd939x: get regmap directly
+  ASoC: codecs: wcd-common: move status_update callback to common
+  ASoC: codecs: wcd938x: get regmap directly
+  ASoC: codecs: wcd937x: get regmap directly
+
+ drivers/soundwire/bus.c        |  12 +++
+ drivers/soundwire/slave.c      |   6 ++
+ include/linux/soundwire/sdw.h  |  17 ++++
+ sound/soc/codecs/Kconfig       |   7 ++
+ sound/soc/codecs/Makefile      |   2 +
+ sound/soc/codecs/wcd-common.c  | 143 +++++++++++++++++++++++++++++++++
+ sound/soc/codecs/wcd-common.h  |  46 +++++++++++
+ sound/soc/codecs/wcd934x.c     |  82 ++++++-------------
+ sound/soc/codecs/wcd937x-sdw.c |  67 ++-------------
+ sound/soc/codecs/wcd937x.c     |  93 ++++++---------------
+ sound/soc/codecs/wcd937x.h     |  24 ++----
+ sound/soc/codecs/wcd938x-sdw.c |  83 +++----------------
+ sound/soc/codecs/wcd938x.c     |  99 +++++------------------
+ sound/soc/codecs/wcd938x.h     |  26 +-----
+ sound/soc/codecs/wcd939x-sdw.c |  98 +++-------------------
+ sound/soc/codecs/wcd939x.c     | 104 ++++++------------------
+ sound/soc/codecs/wcd939x.h     |  32 +-------
+ 17 files changed, 359 insertions(+), 582 deletions(-)
+ create mode 100644 sound/soc/codecs/wcd-common.c
+ create mode 100644 sound/soc/codecs/wcd-common.h
+
+-- 
+2.50.0
 
