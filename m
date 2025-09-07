@@ -1,210 +1,234 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DC51C84B8;
-	Sat,  6 Sep 2025 21:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6854B2222AB
+	for <linux-sound@vger.kernel.org>; Sun,  7 Sep 2025 09:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757193393; cv=none; b=naWYYtM2x6aLwafPlns78IHjRHko/FFjKgv0iMY1GktpD+pTBSsTbSkRna2PM/jHCnKIISZr0FdrfIl5iULsfdDr0FVd4Z2zghVrSjxRUcItHczUSFMeBtDGqbWW3/YxrjwHRjTIYfYjKSlYR1LUQ1xirP+uzLqAwIrsA3dX1Q0=
+	t=1757238304; cv=none; b=LEwhhfzIHzDokKn4NbFPm5pkw0jYc5rmCv+DeY+Fw5SFyBdQ7N3V4l6VLZmh3uW6uDs77idO1+sBj7zdjCeM+Nix1n/9Elm9QVWQaBIn53ftzbtQnundBzquJYv8RmqcpKwNotZ4HzRE0BzPDHm0yLw0gjWeVLW1/PGNX80VihM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757193393; c=relaxed/simple;
-	bh=i6CUUxly2IJ+rfNNC5LP5pWnMei5uz2TtnCN/pi8/aI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZAj0fGxaENoOORUbhsCJEMaYlODkX1uQVCBv9H6n2KIe6XoHx7fxA2wuxMzrLDsAxkkEZbp0rgeiq0GVZ1MTa4P6ChNsTvouS6ybW9DoMCVnGu9A57VQOZ5Odjfkr+xD+wab/LMkJyVUSTj4QXB9aR1nprs6uc+9arG+pmPuAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QcJc2737; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757238304; c=relaxed/simple;
+	bh=ZG1Wd+YbO7ZFwoyTjQyoxkUYa4J5VZz7XZ6x6O4evtA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JbcxYyX7sI4p3QGpa4POdRPM/huJ/6PcEPKleIWtB3O7tLRuD2ozK3j1kAffFMuNMS7Vdwq6REBtqS3QQtkzYQigafbgM2nrrANp2yZOxBh7SElQe9yP2uBoiXJLrMZVXXDISTNElTgCDY3J2EbI+JiyTczaKUmqukD8hCGo2AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QDOQdZ4D; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QcJc2737"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757193391; x=1788729391;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=i6CUUxly2IJ+rfNNC5LP5pWnMei5uz2TtnCN/pi8/aI=;
-  b=QcJc2737IUP6tyrZn4YBX8W8Nrn79mzKi1wh8qCSwgPdyYMR+eaXZq0h
-   Yi5GOkvL8HihkhGwhfTP+ecCDgu1PhjNktiytIDpgRziDnMqQdYvPlc9s
-   dvY5LFdPpqXyB4GGJJv2ha9TBtR076mDW0oVU2DIsKep5ETzyt+3K2vi4
-   fl3lW9LuEkbrhckQe60DtnvpDUPBbQBiyXZ7pWIjjdDYpKcxUd9K9cCmn
-   mQZCb2661szdVfrz90cuIoLSsEymHQ0lLE5lV6GWuJUrKjCtF3lwXHSLN
-   SWeaFdroBKRtyhVEWWPVGEG6Gs/dWhR5uP8lJfHalxvxohajVyc24pbX8
-   Q==;
-X-CSE-ConnectionGUID: qzWZW6VJQYavMGjfIyzYcA==
-X-CSE-MsgGUID: N2stPripSz+ox6AdO/PCzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="62131844"
-X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="62131844"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 14:16:30 -0700
-X-CSE-ConnectionGUID: NZb7BFmIS2WbeOzrA9ejkw==
-X-CSE-MsgGUID: XDZRCbTWTKCQHCAkhoU+dg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="172366459"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Sep 2025 14:16:27 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uv0Gm-0001nZ-2G;
-	Sat, 06 Sep 2025 21:16:24 +0000
-Date: Sun, 7 Sep 2025 05:15:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com, tiwai@suse.com,
-	vkoul@kernel.org, srini@kernel.org, yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, neil.armstrong@linaro.org,
-	krzysztof.kozlowski@linaro.org, dmitry.baryshkov@oss.qualcomm.com,
-	linux-sound@vger.kernel.org,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v3 07/12] ASoC: codecs: wcd-common: move WCD_SDW_CH to
- common
-Message-ID: <202509070539.WhfiRSpY-lkp@intel.com>
-References: <20250905154430.12268-8-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QDOQdZ4D"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5878jaj6000872
+	for <linux-sound@vger.kernel.org>; Sun, 7 Sep 2025 09:45:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	oyZIr900A7As+J59YVgKLoRi1wJ9eu9B7vYZpViBB+g=; b=QDOQdZ4DKXpwnsQn
+	lMwDAdm3Kz18Ve26uwiQlOtzN+7c2sS5lvZAA+Qkwa2OiRwah2CVljEOXLj86tey
+	L22XBfMDU2l47nqvp2Fy5SZxt1EZnDnZOuiWzmKgaI2J3dOuDjz99XH7+B6qzEBw
+	k1EmfxCCBJo4TDS4kCAVNu5kmB8PTN14VQ3odI+J/OX4Def0g7aTps5NvUCkZpvw
+	M7odYgFFLz8a3OUK4faIM7AxLchVsqGTg6ofEcXPlqKNNeOhVtT1AOKMGX6g+ghD
+	8j8AU3MaZGWyjB1A/M8RxmZ7X9dlG39HBBb0W2SSt49nJh4Ncus9onWdt9ppypvA
+	MyyhsA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490d639vc7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 07 Sep 2025 09:45:01 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-72048b6e865so72036866d6.2
+        for <linux-sound@vger.kernel.org>; Sun, 07 Sep 2025 02:45:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757238300; x=1757843100;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oyZIr900A7As+J59YVgKLoRi1wJ9eu9B7vYZpViBB+g=;
+        b=olTvqIZx4l0nE2bJJQ+GrYj/YlcxNutzR+95Wy3XqpC4fWUcw5qxvYyvGflcibNEbF
+         r2NqYlfBzQixx6LhDQAgGADIQAVTdogUyz/ya/7KSGzJfdbsgL3H2R69lHFsbyPYnM63
+         3AzY4hotq+x3BEMhRul/7HtvIgT7LuLw33Kol8EumoJdO99d4baeV4zxVS7RwUNXJzK/
+         jqiuW+fvdzLc9SoSX5Nr1iPqWTWQAKsf+CXh4ZqkZu4RgO8XmOkQC8SlGlPN0V7e0nGF
+         StMidbqVsz6ouLW6O69cA7DRMaWK3OyohqryfCz8dOkqdbT3bnG4fDazWtXShslvuaFK
+         ROkA==
+X-Forwarded-Encrypted: i=1; AJvYcCUqBk4/xVyfMN7NNyn/fxj9fl90Nc7r5VfudzLhCTk0nMF3P+posRPGReKKVcMUXWGNmHzWI50viN/gjA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsZy7Rqs4uL4aM4GtyaV7C8q389yipNrxuQvDpYslJVzXKfqrS
+	/Zlkzv2Q7FV6hVSNinPz9CM4I88iB5BfONFcQOAx2VVARTi7T/Od6JNHh8WXnnGnH7PVJCX/d79
+	8LMVx7SFqVNIJ1DSvanlTxrx/jey7E+MxOboSp4uBXzIKRROc7S2m+iSVz26CEVWsL9gHBl8DFg
+	==
+X-Gm-Gg: ASbGncsQ2xkN5y48fM8I9HnBLKMfSkFmuUnLvwu2EoJYYhsOGG1p/bKHtU+7ADMyoKe
+	h95zdOdovE44ru0HOxOVtqLYiIAk3Y7d27gY9fgqZwhRLk92kgkmPw8MXNIzJRPK0sFzbdyoNI5
+	fCcyUqvv4C27qOJQ6yH7usmLt81CgN0KnPrQriDQwe+IPubn2cwv6P0jil91W27a8o11bIkthWh
+	kb5sGPuwgUzsWU+v1ndSFPGoLucM5KJ4Utl28N6BtHqqoHhztPyRXIXdwK/gaLFQA0uGfNPKuP1
+	8Fjx420baFzoYVfSgvziSQvNzeDSQ2g/1o0PuVFn5Jd1l+2TCTpKIbjZDfIxcKls4z8=
+X-Received: by 2002:a05:6214:2a4e:b0:72b:1221:fdc8 with SMTP id 6a1803df08f44-7393ca9ae9amr46966736d6.46.1757238300074;
+        Sun, 07 Sep 2025 02:45:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGv752JqWdu3Msbh92JO52ZP/kps3mtp/BqZuEag3qhT6I9q0o1F4xXhgqj68K+5kEyIYbyRQ==
+X-Received: by 2002:a05:6214:2a4e:b0:72b:1221:fdc8 with SMTP id 6a1803df08f44-7393ca9ae9amr46966436d6.46.1757238299539;
+        Sun, 07 Sep 2025 02:44:59 -0700 (PDT)
+Received: from [192.168.68.119] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3db72983560sm19277641f8f.1.2025.09.07.02.44.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Sep 2025 02:44:58 -0700 (PDT)
+Message-ID: <6eebcd0a-810e-4aa5-a16f-523aedf9e50c@oss.qualcomm.com>
+Date: Sun, 7 Sep 2025 10:44:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250905154430.12268-8-srinivas.kandagatla@oss.qualcomm.com>
-
-Hi Srinivas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on linus/master v6.17-rc4 next-20250905]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-codecs-wcd937x-set-the-comp-soundwire-port-correctly/20250905-234841
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250905154430.12268-8-srinivas.kandagatla%40oss.qualcomm.com
-patch subject: [PATCH v3 07/12] ASoC: codecs: wcd-common: move WCD_SDW_CH to common
-config: x86_64-buildonly-randconfig-001-20250907 (https://download.01.org/0day-ci/archive/20250907/202509070539.WhfiRSpY-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509070539.WhfiRSpY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509070539.WhfiRSpY-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from sound/soc/codecs/wcd937x.h:10,
-                    from sound/soc/codecs/wcd937x.c:26:
->> sound/soc/codecs/wcd-common.h:17:8: error: redefinition of 'struct wcd_sdw_ch_info'
-      17 | struct wcd_sdw_ch_info {
-         |        ^~~~~~~~~~~~~~~
-   In file included from sound/soc/codecs/wcd937x.c:24:
-   sound/soc/codecs/wcd-common.h:17:8: note: originally defined here
-      17 | struct wcd_sdw_ch_info {
-         |        ^~~~~~~~~~~~~~~
->> sound/soc/codecs/wcd-common.h:28:8: error: redefinition of 'struct wcd_common'
-      28 | struct wcd_common {
-         |        ^~~~~~~~~~
-   sound/soc/codecs/wcd-common.h:28:8: note: originally defined here
-      28 | struct wcd_common {
-         |        ^~~~~~~~~~
->> sound/soc/codecs/wcd-common.h:36:5: error: conflicting types for 'wcd_dt_parse_micbias_info'; have 'int(struct wcd_common *)'
-      36 | int wcd_dt_parse_micbias_info(struct wcd_common *common);
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/wcd-common.h:36:5: note: previous declaration of 'wcd_dt_parse_micbias_info' with type 'int(struct wcd_common *)'
-      36 | int wcd_dt_parse_micbias_info(struct wcd_common *common);
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/wcd937x.c: In function 'wcd937x_connect_port':
->> sound/soc/codecs/wcd937x.c:1186:53: error: initialization of 'const struct wcd937x_sdw_ch_info *' from incompatible pointer type 'struct wcd_sdw_ch_info *' [-Werror=incompatible-pointer-types]
-    1186 |         const struct wcd937x_sdw_ch_info *ch_info = &wcd->ch_info[ch_id];
-         |                                                     ^
->> sound/soc/codecs/wcd937x.c:1187:30: error: invalid use of undefined type 'const struct wcd937x_sdw_ch_info'
-    1187 |         u8 port_num = ch_info->port_num;
-         |                              ^~
-   sound/soc/codecs/wcd937x.c:1188:29: error: invalid use of undefined type 'const struct wcd937x_sdw_ch_info'
-    1188 |         u8 ch_mask = ch_info->ch_mask;
-         |                             ^~
-   sound/soc/codecs/wcd937x.c:1195:31: error: invalid use of undefined type 'const struct wcd937x_sdw_ch_info'
-    1195 |         mstr_ch_mask = ch_info->master_ch_mask;
-         |                               ^~
-   sound/soc/codecs/wcd937x.c: In function 'wcd937x_mbhc_micb_ctrl_threshold_mic':
-   sound/soc/codecs/wcd937x.c:1522:20: error: 'struct wcd937x_priv' has no member named 'micb2_mv'
-    1522 |         if (wcd937x->micb2_mv >= WCD_MBHC_THR_HS_MICB_MV)
-         |                    ^~
-   sound/soc/codecs/wcd937x.c:1525:61: error: 'struct wcd937x_priv' has no member named 'micb2_mv'
-    1525 |         micb_mv = req_en ? WCD_MBHC_THR_HS_MICB_MV : wcd937x->micb2_mv;
-         |                                                             ^~
-   sound/soc/codecs/wcd937x.c: In function 'wcd937x_set_micbias_data':
-   sound/soc/codecs/wcd937x.c:2432:34: error: 'struct wcd937x_priv' has no member named 'commmon'; did you mean 'common'?
-    2432 |                         wcd937x->commmon.micb_vout[0]);
-         |                                  ^~~~~~~
-         |                                  common
-   sound/soc/codecs/wcd937x.c:2434:34: error: 'struct wcd937x_priv' has no member named 'commmon'; did you mean 'common'?
-    2434 |                         wcd937x->commmon.micb_vout[1]);
-         |                                  ^~~~~~~
-         |                                  common
-   sound/soc/codecs/wcd937x.c:2436:34: error: 'struct wcd937x_priv' has no member named 'commmon'; did you mean 'common'?
-    2436 |                         wcd937x->commmon.micb_vout[2]);
-         |                                  ^~~~~~~
-         |                                  common
-   sound/soc/codecs/wcd937x.c: In function 'wcd937x_probe':
-   sound/soc/codecs/wcd937x.c:2897:41: error: passing argument 1 of 'wcd_dt_parse_micbias_info' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2897 |         ret = wcd_dt_parse_micbias_info(dev, &wcd937x->common);
-         |                                         ^~~
-         |                                         |
-         |                                         struct device *
-   sound/soc/codecs/wcd-common.h:36:50: note: expected 'struct wcd_common *' but argument is of type 'struct device *'
-      36 | int wcd_dt_parse_micbias_info(struct wcd_common *common);
-         |                               ~~~~~~~~~~~~~~~~~~~^~~~~~
-   sound/soc/codecs/wcd937x.c:2897:15: error: too many arguments to function 'wcd_dt_parse_micbias_info'
-    2897 |         ret = wcd_dt_parse_micbias_info(dev, &wcd937x->common);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/wcd-common.h:36:5: note: declared here
-      36 | int wcd_dt_parse_micbias_info(struct wcd_common *common);
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/wcd937x.c:2905:31: error: 'struct wcd937x_priv' has no member named 'micb2_mv'
-    2905 |         cfg->micb_mv = wcd937x->micb2_mv;
-         |                               ^~
-   cc1: some warnings being treated as errors
---
-   sound/soc/codecs/wcd937x-sdw.c: In function 'wcd9370_probe':
->> sound/soc/codecs/wcd937x-sdw.c:1075:40: error: 'struct wcd_sdw_ch_info' has no member named 'master_ch_mask'
-    1075 |                         wcd->ch_info[i].master_ch_mask = WCD937X_SWRM_CH_MASK(master_ch_mask[i]);
-         |                                        ^
-   sound/soc/codecs/wcd937x-sdw.c:1092:40: error: 'struct wcd_sdw_ch_info' has no member named 'master_ch_mask'
-    1092 |                         wcd->ch_info[i].master_ch_mask = WCD937X_SWRM_CH_MASK(master_ch_mask[i]);
-         |                                        ^
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 06/12] ASoC: codecs: wcd: add common helper for wcd
+ codecs
+To: kernel test robot <lkp@intel.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com, tiwai@suse.com,
+        vkoul@kernel.org, srini@kernel.org, yung-chuan.liao@linux.intel.com,
+        pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, neil.armstrong@linaro.org,
+        krzysztof.kozlowski@linaro.org, dmitry.baryshkov@oss.qualcomm.com,
+        linux-sound@vger.kernel.org
+References: <20250905154430.12268-7-srinivas.kandagatla@oss.qualcomm.com>
+ <202509070437.ko5lmTb9-lkp@intel.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <202509070437.ko5lmTb9-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyOSBTYWx0ZWRfXxsYmxH3miVRp
+ Xug+6fG/tkV73yfrR9CK2Zo84MLwnQ+Gk3sdX6mbESy6vTl2NPxwaapzOQcrjWretZvvxifWCz3
+ RCXZwo48U20RoGYv0IspEyGi78KGoCUh6RiFyn85+HVvRrnFzqQjvXOcPrmUVgAERc+vhcX27dM
+ bsZkTEc3wV2qq6vd36Ix5UNDbn7FhXf3c5NvPeTFigAdCzp4AK1J+h1zM04plrJhXt0n0jPceAv
+ giwU19qHU1tIPuPG2WpVnH2GTDMkaJE9NDNiXLaLH654kIs7vSbFxY/f4f9rdQUTWNEkfL03VjO
+ 8HrHTUqwEu944L5KvitCuvYBB7jMnsmX87qKVMkAtvi3ZmrFvuA9xt5LuLyrCK/nqAXInlPXvuo
+ nPL2akqB
+X-Proofpoint-GUID: fwG2redEgi-957wQlKQrSQfc3YLVOlDh
+X-Proofpoint-ORIG-GUID: fwG2redEgi-957wQlKQrSQfc3YLVOlDh
+X-Authority-Analysis: v=2.4 cv=DYgXqutW c=1 sm=1 tr=0 ts=68bd541d cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=anyJmfQTAAAA:8 a=NEAV23lmAAAA:8
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8
+ a=wfQ5NbLlidWtoCwthVsA:9 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
+ a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-07_03,2025-09-04_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 spamscore=0 impostorscore=0 malwarescore=0
+ bulkscore=0 suspectscore=0 adultscore=0 clxscore=1015 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509060029
 
 
-vim +17 sound/soc/codecs/wcd-common.h
 
-    16	
-  > 17	struct wcd_sdw_ch_info {
-    18		int port_num;
-    19		unsigned int ch_mask;
-    20	};
-    21	
-    22	#define WCD_SDW_CH(id, pn, cmask)	\
-    23		[id] = {			\
-    24			.port_num = pn,		\
-    25			.ch_mask = cmask,	\
-    26		}
-    27	
-  > 28	struct wcd_common {
-    29		struct device *dev;
-    30		int max_bias;
-    31		u32 micb_mv[WCD_MAX_MICBIAS];
-    32		u32 micb_vout[WCD_MAX_MICBIAS];
-    33	};
-    34	
-    35	int wcd_get_micb_vout_ctl_val(struct device *dev, u32 micb_mv);
-  > 36	int wcd_dt_parse_micbias_info(struct wcd_common *common);
-    37	
+On 9/6/25 9:23 PM, kernel test robot wrote:
+> Hi Srinivas,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on broonie-sound/for-next]
+> [also build test ERROR on linus/master v6.17-rc4 next-20250905]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-codecs-wcd937x-set-the-comp-soundwire-port-correctly/20250905-234841
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> patch link:    https://lore.kernel.org/r/20250905154430.12268-7-srinivas.kandagatla%40oss.qualcomm.com
+> patch subject: [PATCH v3 06/12] ASoC: codecs: wcd: add common helper for wcd codecs
+> config: x86_64-buildonly-randconfig-001-20250907 (https://download.01.org/0day-ci/archive/20250907/202509070437.ko5lmTb9-lkp@intel.com/config)
+> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509070437.ko5lmTb9-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202509070437.ko5lmTb9-lkp@intel.com/
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    sound/soc/codecs/wcd937x.c: In function 'wcd937x_mbhc_micb_ctrl_threshold_mic':
+>>> sound/soc/codecs/wcd937x.c:1522:20: error: 'struct wcd937x_priv' has no member named 'micb2_mv'
+>     1522 |         if (wcd937x->micb2_mv >= WCD_MBHC_THR_HS_MICB_MV)
+>          |                    ^~
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks for the report,
+
+Sorry about this, I was blindly assuming that wcd937x was part of arm64
+defconfig. And there was a typo in the header too,
+This is now fixed in v4.
+
+--srini
+
+>    sound/soc/codecs/wcd937x.c:1525:61: error: 'struct wcd937x_priv' has no member named 'micb2_mv'
+>     1525 |         micb_mv = req_en ? WCD_MBHC_THR_HS_MICB_MV : wcd937x->micb2_mv;
+>          |                                                             ^~
+>    sound/soc/codecs/wcd937x.c: In function 'wcd937x_set_micbias_data':
+>>> sound/soc/codecs/wcd937x.c:2432:34: error: 'struct wcd937x_priv' has no member named 'commmon'; did you mean 'common'?
+>     2432 |                         wcd937x->commmon.micb_vout[0]);
+>          |                                  ^~~~~~~
+>          |                                  common
+>    sound/soc/codecs/wcd937x.c:2434:34: error: 'struct wcd937x_priv' has no member named 'commmon'; did you mean 'common'?
+>     2434 |                         wcd937x->commmon.micb_vout[1]);
+>          |                                  ^~~~~~~
+>          |                                  common
+>    sound/soc/codecs/wcd937x.c:2436:34: error: 'struct wcd937x_priv' has no member named 'commmon'; did you mean 'common'?
+>     2436 |                         wcd937x->commmon.micb_vout[2]);
+>          |                                  ^~~~~~~
+>          |                                  common
+>    sound/soc/codecs/wcd937x.c: In function 'wcd937x_probe':
+>>> sound/soc/codecs/wcd937x.c:2897:41: error: passing argument 1 of 'wcd_dt_parse_micbias_info' from incompatible pointer type [-Werror=incompatible-pointer-types]
+>     2897 |         ret = wcd_dt_parse_micbias_info(dev, &wcd937x->common);
+>          |                                         ^~~
+>          |                                         |
+>          |                                         struct device *
+>    In file included from sound/soc/codecs/wcd937x.c:24:
+>    sound/soc/codecs/wcd-common.h:25:50: note: expected 'struct wcd_common *' but argument is of type 'struct device *'
+>       25 | int wcd_dt_parse_micbias_info(struct wcd_common *common);
+>          |                               ~~~~~~~~~~~~~~~~~~~^~~~~~
+>>> sound/soc/codecs/wcd937x.c:2897:15: error: too many arguments to function 'wcd_dt_parse_micbias_info'
+>     2897 |         ret = wcd_dt_parse_micbias_info(dev, &wcd937x->common);
+>          |               ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    sound/soc/codecs/wcd-common.h:25:5: note: declared here
+>       25 | int wcd_dt_parse_micbias_info(struct wcd_common *common);
+>          |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    sound/soc/codecs/wcd937x.c:2905:31: error: 'struct wcd937x_priv' has no member named 'micb2_mv'
+>     2905 |         cfg->micb_mv = wcd937x->micb2_mv;
+>          |                               ^~
+>    cc1: some warnings being treated as errors
+> --
+>    sound/soc/codecs/wcd-common.c: In function 'wcd_dt_parse_micbias_info':
+>>> sound/soc/codecs/wcd-common.c:34:41: warning: '-microvolt' directive writing 10 bytes into a region of size between 9 and 19 [-Wformat-overflow=]
+>       34 |         sprintf(micbias, "qcom,micbias%d-microvolt", micb_num);
+>          |                                         ^~~~~~~~~~
+>    In function 'wcd_get_micbias_val',
+>        inlined from 'wcd_dt_parse_micbias_info' at sound/soc/codecs/wcd-common.c:61:26:
+>    sound/soc/codecs/wcd-common.c:34:9: note: 'sprintf' output between 24 and 34 bytes into a destination of size 32
+>       34 |         sprintf(micbias, "qcom,micbias%d-microvolt", micb_num);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +1522 sound/soc/codecs/wcd937x.c
+> 
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1508  
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1509  static int wcd937x_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1510  						int micb_num, bool req_en)
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1511  {
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1512  	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1513  	int micb_mv;
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1514  
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1515  	if (micb_num != MIC_BIAS_2)
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1516  		return -EINVAL;
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1517  	/*
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1518  	 * If device tree micbias level is already above the minimum
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1519  	 * voltage needed to detect threshold microphone, then do
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1520  	 * not change the micbias, just return.
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1521  	 */
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24 @1522  	if (wcd937x->micb2_mv >= WCD_MBHC_THR_HS_MICB_MV)
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1523  		return 0;
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1524  
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1525  	micb_mv = req_en ? WCD_MBHC_THR_HS_MICB_MV : wcd937x->micb2_mv;
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1526  
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1527  	return wcd937x_mbhc_micb_adjust_voltage(component, micb_mv, MIC_BIAS_2);
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1528  }
+> 9be3ec196da41b Prasad Kumpatla 2024-05-24  1529  
+> 
+
