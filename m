@@ -1,182 +1,91 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FE8314B75;
-	Mon,  8 Sep 2025 18:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757356641; cv=pass; b=dmVOfw1qWmJYRYsVXjpoa7KXUFIq8sD5WGzQwPV2OwHfx38NjjJBQY8t7Wp86NhqGJnqWhCz8daWO7IGNOvNoHdXiO7GjSQejG0AFF6AaOILlc6UduISbYO9IGSZLXv67b3gwKBWqt9pT95BW71SuQS8Gek47EpxB0VzMWBVdrs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757356641; c=relaxed/simple;
-	bh=RnxaE3KiraFUwjH7IqB0XC7621NVji1ZG4b3sg6u+1A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rQwg7khRsyxcxNtRPDP3gvggtePrImH3mIHueRLazi7MmBGVFEzBielGMsjKHMHzsDQLbkj0QLuFkdB7k4cUc8yfGVRpCUp8cWFX5RQ3vHFjW9EyW0PdBz6afLDKHfHbYLuEogWac5QF6rhPNZpNzhE0VzNbAKcYL69AzE2Ixpo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=UhaQwwTj; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F221F31C56E;
+	Mon,  8 Sep 2025 18:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757357284; cv=none; b=UQPNnO2Ua5+oeinu7MDNt7IAxbTzF3E23mjlfk1n/lR5nhvliM0GXFYRjC3noCRbA2lDN+9z6CfL4jszQZAdRg7gezmxGoj/0wfX8dKXD5xjAjip9bXcJvSbbppPJ1iJK751u7UNp8AIygbXI9LqPxS7I6OkqwmGCUweVMWIVCA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757357284; c=relaxed/simple;
+	bh=nrCz2Ce0M359+SInF2ghabB0YsSAoH7kKyxoIgf6BVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Y6xIy3ReDOdHmk9BtsnyOkjfMzZNaJYD3B2UZWQ98NpR78mca6udVISyDnkWABNgWpYodOI7+SxZBTD13FnGK7LiX28PMXYjh9aARtUkkjc2YvPdH4AwZjPLnddkWWm5fHdSQTVb0GYyzsyzieCVDMyk05Cb04HfQgmyXR6xGQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m4VsoV9J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="UhaQwwTj"
-ARC-Seal: i=1; a=rsa-sha256; t=1757356580; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=cdVYgURB89dbHupAw4KMy46mfFbhabKB0fbmHFBgRBvBYvTtSQExrU1sKpfkpjcx1w/YUJ8oV4j9+YhGcpEjW7Zwj1jsW1OKgfubHjb4G2koqFAxMLoVYAz8Ccw0+lylg0YO1Htsg+KdPOqoubvi0rri2cAvyirq77JW+Ay5MYc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757356580; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=mqorkaZP8K3w37+KQC5xsu9iciTdS53JJYYC8j1jjZY=; 
-	b=lw0+9hG76wtgGAX2WMoklsJubSvxRXKF08iwS28xRKhrNx1q6Cy5o04wQBEzwFoYCfg3NXiHFcSLuWgyv23G8QKMtYdPesUVladZMLFYZLSp6+nayixftZ6vLJb3H28vG8XCLQdinZhZxABbk/hAEKpPDM5kWMqp0o6B9ah+w94=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757356580;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=mqorkaZP8K3w37+KQC5xsu9iciTdS53JJYYC8j1jjZY=;
-	b=UhaQwwTja7SFF9hVLfmnIc1Nk3Ao2vojsdkFkQ1NSXggwHTHU8YksUOjnlk+k/dQ
-	Zo810evf7Bf1W1IQVDWhYK4GEiE3z9tw0FTs6kDO5JCJJ8/no4Jni8fjICCwkBC3Oo8
-	n7wmxd995Nc2uwbGBP5jZdIa+Dk2ftPoB1SA5g1U=
-Received: by mx.zohomail.com with SMTPS id 1757356577657388.2831972624366;
-	Mon, 8 Sep 2025 11:36:17 -0700 (PDT)
-Message-ID: <79baaa0a-7cc4-44f0-bf71-38aff550b177@collabora.com>
-Date: Mon, 8 Sep 2025 15:35:58 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m4VsoV9J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801B8C4CEF1;
+	Mon,  8 Sep 2025 18:48:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757357283;
+	bh=nrCz2Ce0M359+SInF2ghabB0YsSAoH7kKyxoIgf6BVk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=m4VsoV9JR0uvKNH+Z7tw5ONgwzJEllOybVdFb5l6JWb89mDEZ0cybPLnYf8Jav11Z
+	 fBE8X0GGyVrqyMYPwqcWMFQPCLj5C1KJ6QI6euASRL540aWMQ3UGfKG7UPQUfP/mUo
+	 gO3CLALZ5Pgfco1MC+paLgOCWo+RLQCDHIf/t3md5+h5F+a9Vrh7roZdXFayAwcje8
+	 oNfUZdYuOPIV1X22EcKcn/2A0Ob+AiugJFsZ9Oj30dItiFZqbPDK1AEquX5ObPStB6
+	 Qn3J+wPtxrxdydz1pTpBtWzcTySHWsTaqbLo6xuOrYdaQ4heU6/Fuvj//z6PQekN3f
+	 MRAosX+6q824g==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: cros-qcom-dts-watchers@chromium.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel@oss.qualcomm.com,
+	prasad.kumpatla@oss.qualcomm.com
+Subject: Re: (subset) [PATCH v9 0/8] Enable audio on qcs6490-RB3Gen2 and qcm6490-idp boards
+Date: Mon,  8 Sep 2025 13:47:58 -0500
+Message-ID: <175735727829.2621347.16995874471828591592.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250903151337.1037246-1-mohammad.rafi.shaik@oss.qualcomm.com>
+References: <20250903151337.1037246-1-mohammad.rafi.shaik@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 02/14] media: dt-bindings: Convert MediaTek mt8173-vpu
- bindings to YAML
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
- krzk+dt@kernel.org, kuba@kernel.org,
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
- linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-3-ariel.dalessandro@collabora.com>
- <20250821-piquant-rapid-bear-8cedc0@kuoka>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250821-piquant-rapid-bear-8cedc0@kuoka>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Krzysztof,
 
-On 8/21/25 3:47 AM, Krzysztof Kozlowski wrote:
-> On Wed, Aug 20, 2025 at 02:12:50PM -0300, Ariel D'Alessandro wrote:
->> Convert the existing text-based DT bindings for Mediatek MT8173 Video Processor
->> Unit to a YAML schema.
+On Wed, 03 Sep 2025 20:43:29 +0530, Mohammad Rafi Shaik wrote:
+> Audio support is now enabled on the qcs6490-RB3Gen2 and qcm6490-idp boards.
+> The updates include adding the necessary audio device tree support and the
+> required dependencies.
 > 
-> DT schema, not YAML. Don't say YAML at all, neither here nor in subject.
-
-Ack.
-
+> Both the qcs6490-RB3Gen2 and qcm6490-idp boards are derived from the
+> same SoC  platform. Therefore, the audio support changes are included
+> in a single patch set for consistency and ease of maintenance.
 > 
-> Also looks not wrapped...
+> [...]
 
-Ack.
+Applied, thanks!
 
-> 
->>
->> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> ---
->>   .../bindings/media/mediatek,mt8173-vpu.yaml   | 76 +++++++++++++++++++
->>   .../bindings/media/mediatek-vpu.txt           | 31 --------
->>   2 files changed, 76 insertions(+), 31 deletions(-)
->>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
->>   delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vpu.txt
->>
->> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
->> new file mode 100644
->> index 0000000000000..44f5d7cc44042
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
->> @@ -0,0 +1,76 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-vpu.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Mediatek MT8173 Video Processor Unit
->> +
->> +maintainers:
->> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> +
->> +description:
->> +  Video Processor Unit is a HW video controller. It controls HW Codec including
->> +  H.264/VP8/VP9 Decode, H.264/VP8 Encode and Image Processor (scale/rotate/color convert).
-> 
-> Please wrap code according to the preferred limit expressed in Kernel
-> coding style (checkpatch is not a coding style description, but only a
-> tool).  However don't wrap blindly (see Kernel coding style).
+[2/8] arm64: dts: qcom: qcs6490-audioreach: Add AudioReach support for QCS6490
+      commit: 7c6de7511149da119b3aa9476ce5f746b9a3c786
+[3/8] arm64: dts: qcom: sc7280: Add WSA SoundWire and LPASS support
+      commit: eec852a4c84259c0fe68aaaed60c26dbf49b4ff2
+[4/8] arm64: dts: qcom: qcs6490-audioreach: Enable LPASS macros clock settings for audioreach
+      commit: d3c438554c6600fdc49430279e147aae1cb33876
+[5/8] arm64: dts: qcom: qcs6490-rb3gen2: Add WSA8830 speakers amplifier
+      commit: b6b4c9f76a8b173a1a1455d181d19b5ab8842a47
+[6/8] arm64: dts: qcom: qcs6490-rb3gen2: Add sound card
+      commit: 48b5ea6de47f58a0b5d1641ea8eb78157666d4a5
+[7/8] arm64: dts: qcom: qcm6490-idp: Add WSA8830 speakers and WCD9370 headset codec
+      commit: aa04c298619ff2621691ef1df5e243637d777222
+[8/8] arm64: dts: qcom: qcm6490-idp: Add sound card
+      commit: 7fd5b4a203cf88d1ad87aff27f9f23aed7b6dbd4
 
-Thanks for the comment. Wrapped to 80 column width.
-
-> 
->> +
->> +properties:
->> +  compatible:
->> +    const: mediatek,mt8173-vpu
->> +
->> +  reg:
->> +    minItems: 2
-> 
-> No, from where do you get such syntax?
-
-IIUC, what you mean is s/minItems/maxItems.
-
-> 
->> +
->> +  reg-names:
->> +    items:
->> +      - const: tcm
->> +      - const: cfg_reg
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    items:
->> +      - const: main
->> +
->> +  memory-region:
->> +    description:
->> +      phandle to a node describing reserved memory used by VPU
->> +      (see bindings/reserved-memory/reserved-memory.txt)
-> 
-> Drop, redundant description.
-
-Ack.
-
-Thanks a lot!
-
+Best regards,
 -- 
-Ariel D'Alessandro
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
-
+Bjorn Andersson <andersson@kernel.org>
