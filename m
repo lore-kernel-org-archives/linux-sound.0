@@ -1,203 +1,182 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E32303A1C
-	for <linux-sound@vger.kernel.org>; Mon,  8 Sep 2025 18:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757355520; cv=none; b=IiGKe/tSseoVMpzWGl80OwHRV9dNbzGPKez50jnhhNLKpUFxrqyBVpbcvGE999dwoTFu9JWo/avlwr69VoYiMdWXdFYxyJtwyrs4A6t4pibiHib5wITEnWl4hll6CE4Ti/DbnHJPuZt1UTGPndW+NrxqYPTviUpBzjBstGnbu4s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757355520; c=relaxed/simple;
-	bh=4qtyyFkAqi/EXUnCgIjsBDS6e3kOLtoXVXi5nZvXX4A=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=r+/5WYv6AQ8gPSipyAPJdmMDIqulncOGzEF/MdK/zqUsJ6teBZyczK1gmSwJfQ+pbkiAC11RzAarmbgRGJC/c+SLJ9rA5BA9YrDEvGq86DllAPjqYuK7EyGmncRvGKvdIWFt4KLqrSqZpXS8HAoNHpamxQ80gkyv+PuHgh4EjLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LCiO52Se; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FE8314B75;
+	Mon,  8 Sep 2025 18:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757356641; cv=pass; b=dmVOfw1qWmJYRYsVXjpoa7KXUFIq8sD5WGzQwPV2OwHfx38NjjJBQY8t7Wp86NhqGJnqWhCz8daWO7IGNOvNoHdXiO7GjSQejG0AFF6AaOILlc6UduISbYO9IGSZLXv67b3gwKBWqt9pT95BW71SuQS8Gek47EpxB0VzMWBVdrs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757356641; c=relaxed/simple;
+	bh=RnxaE3KiraFUwjH7IqB0XC7621NVji1ZG4b3sg6u+1A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rQwg7khRsyxcxNtRPDP3gvggtePrImH3mIHueRLazi7MmBGVFEzBielGMsjKHMHzsDQLbkj0QLuFkdB7k4cUc8yfGVRpCUp8cWFX5RQ3vHFjW9EyW0PdBz6afLDKHfHbYLuEogWac5QF6rhPNZpNzhE0VzNbAKcYL69AzE2Ixpo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=UhaQwwTj; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LCiO52Se"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3df15fdf0caso3657704f8f.0
-        for <linux-sound@vger.kernel.org>; Mon, 08 Sep 2025 11:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757355517; x=1757960317; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lb8SkQ+gt0WvvPJ4SzjGlb6HLfu8xf3EEt0ttO3omRo=;
-        b=LCiO52SexyXWWlSVyuolNT1J63bk+M3J0zJC/amCHsHl9KcVymvTUuYfe41t6dw6za
-         WK5hhcKR3GKhCTAzmq5XtbcL93tkswU+xTNzH24m1HOB0F6NatdtuFkpMniVibtpkS/9
-         x05mVI44Ls9aivDA/CajPlr3CXEg+djt1TB8o3xeDAKjgejDJwxIFpWHn/ggAXdDStAQ
-         iI0JMTlvZV3qcU73+1zL9SxgGaBA1BlGM26nOaYywrrclz+bG9VtMohyQKxVGZBS2VyW
-         uFRUxqkuJApOkxSnTMIF8l774tq+0j4KoAPKubvJd6nKIbhr009D1szKT4k12DZfFx/B
-         q2Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757355517; x=1757960317;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lb8SkQ+gt0WvvPJ4SzjGlb6HLfu8xf3EEt0ttO3omRo=;
-        b=mPNcrVEnRreZvYYXaUbS5PqJJuGQQwNPlRYtuG9pvlzuoDKFONczfnpwc/Zgc3KgTv
-         d3NjnOTSeFEdXwIIPjGRcS8LWssHFrg98MIjImBRYoWVt+ZPMEoRK+hytxvfqU8BwBFm
-         EBXDopPZo9yNniG9QXKql4WIlvAULaYqxMjtbNVgfK8cvdyq8MKrifAuvo+pTM74VtFP
-         5yl4pADl2kUHFbPTlDf+nlCJr+BSf8iTQZBWsOL05lHs1xSuAe1JzoRBouU4U48JeCDh
-         3Jd8BvnvJaGQVcuRiP5HIqfnMUIfFAu+ac7NmhXDVz808GyDj/3Zkj5YR/0Pgp9rMdus
-         CkXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWFEaxlkSsZBCj3/E0DjE/NixjokYZW9l7ZUw2FZObJcf6bx5JnVrNtcvlPn2lTh/191m5+QOU3lrttNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywvmnn/7KRENjBBAQuuuPCxNNrhRw5/IaP9juctslyrFXx+/CrY
-	EKJY8FW/X7uO562bLlvJjeT4ZJSFI0memAnSd8MiiY6twpgoF4wBSgIWvanbKVsKPXM=
-X-Gm-Gg: ASbGncuH0pA6ab5HFj+O/v6zLsgs1JgE4Z2BWLCZ2H5UvJsl+RW74QwvEazyO/X8soc
-	RF23PuL4up8f7yL9DlYT6o5mtAYAfZP9eP8EKfF1ilb9XjRrO9uDJ48YOzu2gnluOn2lTGAFsri
-	dSFRfLTJ1J32Wk/Hn+tahKtFOgKAyoU9kEoZplZsFKjOM3x7XSpLbsYVYat9Hivkf40yydTFXrT
-	YMQm3ZQvxUNcBwMrUDclN0h3sWkfUW3k6HngcDvzFUuUKNPvTiiHsVAvCbRLoUgUTqVkO645mQZ
-	6+GJ9JNVJo52sDdTvbRldiWSGUv9Brox+PQmJNrngRcgWvPOxLXmRWnYxzoHSnZ98Ul2iIMHZKj
-	o2fkNiTzVu6iuBYyO4XXhKB4I5Wk=
-X-Google-Smtp-Source: AGHT+IFOzTS8FVjEgH8Go18e2etfKEqg7OecFkUxP2xoc5+BHcVI+ILWLt3vxVvL+fS0RCc5g0yPVA==
-X-Received: by 2002:a05:6000:2486:b0:3e2:e079:86cf with SMTP id ffacd0b85a97d-3e64bde66d6mr9363317f8f.36.1757355516935;
-        Mon, 08 Sep 2025 11:18:36 -0700 (PDT)
-Received: from localhost ([2a02:c7c:7259:a00:1299:47dd:d3d7:b7cf])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45dda597641sm65257275e9.11.2025.09.08.11.18.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Sep 2025 11:18:36 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="UhaQwwTj"
+ARC-Seal: i=1; a=rsa-sha256; t=1757356580; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=cdVYgURB89dbHupAw4KMy46mfFbhabKB0fbmHFBgRBvBYvTtSQExrU1sKpfkpjcx1w/YUJ8oV4j9+YhGcpEjW7Zwj1jsW1OKgfubHjb4G2koqFAxMLoVYAz8Ccw0+lylg0YO1Htsg+KdPOqoubvi0rri2cAvyirq77JW+Ay5MYc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1757356580; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=mqorkaZP8K3w37+KQC5xsu9iciTdS53JJYYC8j1jjZY=; 
+	b=lw0+9hG76wtgGAX2WMoklsJubSvxRXKF08iwS28xRKhrNx1q6Cy5o04wQBEzwFoYCfg3NXiHFcSLuWgyv23G8QKMtYdPesUVladZMLFYZLSp6+nayixftZ6vLJb3H28vG8XCLQdinZhZxABbk/hAEKpPDM5kWMqp0o6B9ah+w94=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757356580;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=mqorkaZP8K3w37+KQC5xsu9iciTdS53JJYYC8j1jjZY=;
+	b=UhaQwwTja7SFF9hVLfmnIc1Nk3Ao2vojsdkFkQ1NSXggwHTHU8YksUOjnlk+k/dQ
+	Zo810evf7Bf1W1IQVDWhYK4GEiE3z9tw0FTs6kDO5JCJJ8/no4Jni8fjICCwkBC3Oo8
+	n7wmxd995Nc2uwbGBP5jZdIa+Dk2ftPoB1SA5g1U=
+Received: by mx.zohomail.com with SMTPS id 1757356577657388.2831972624366;
+	Mon, 8 Sep 2025 11:36:17 -0700 (PDT)
+Message-ID: <79baaa0a-7cc4-44f0-bf71-38aff550b177@collabora.com>
+Date: Mon, 8 Sep 2025 15:35:58 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 08 Sep 2025 19:18:35 +0100
-Message-Id: <DCNMJEP0XW33.1AUMCTJU5UPBY@linaro.org>
-Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
- <broonie@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Stephen Boyd" <sboyd@kernel.org>, "Lee Jones" <lee@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Dmitry
- Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
- <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH v3 2/3] ASoC: codecs: add new pm4125 audio codec driver
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Srinivas
- Kandagatla" <srini@kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20250814-pm4125_audio_codec_v1-v3-0-31a6ea0b368b@linaro.org>
- <20250814-pm4125_audio_codec_v1-v3-2-31a6ea0b368b@linaro.org>
- <df884334-c850-4ae9-b5e8-63cb834ae259@kernel.org>
- <DCNIVW9XSSY3.3H7TSNFDH7TKT@linaro.org>
- <690423ac-4283-47a0-9250-4c740978ccac@oss.qualcomm.com>
-In-Reply-To: <690423ac-4283-47a0-9250-4c740978ccac@oss.qualcomm.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 02/14] media: dt-bindings: Convert MediaTek mt8173-vpu
+ bindings to YAML
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
+ conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
+ edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
+ jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
+ krzk+dt@kernel.org, kuba@kernel.org,
+ kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
+ linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-3-ariel.dalessandro@collabora.com>
+ <20250821-piquant-rapid-bear-8cedc0@kuoka>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250821-piquant-rapid-bear-8cedc0@kuoka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On Mon Sep 8, 2025 at 4:45 PM BST, Srinivas Kandagatla wrote:
-> On 9/8/25 4:26 PM, Alexey Klimov wrote:
->> Hi Srini,
->>=20
->> On Fri Aug 15, 2025 at 4:36 PM BST, Srinivas Kandagatla wrote:
->
->
->>>> +static int pm4125_codec_enable_rxclk(struct snd_soc_dapm_widget *w, s=
-truct snd_kcontrol *kcontrol,
->>>> +				     int event)
->>>> +{
->>>> +	struct snd_soc_component *component =3D snd_soc_dapm_to_component(w-=
->dapm);
->>>> +
->>>> +	switch (event) {
->>>> +	case SND_SOC_DAPM_PRE_PMU:
->>>>
->>>> +static const struct snd_kcontrol_new pm4125_snd_controls[] =3D {
->>>> +	SOC_SINGLE_EXT("HPHL_COMP Switch", SND_SOC_NOPM, 0, 1, 0,
->>>
->>>     SOC_SINGLE_EXT("HPHL_COMP Switch", PM4125_COMP_L, 0, 1, 0, ?
->>>
->>>> +		       pm4125_get_compander, pm4125_set_compander),
->>>> +	SOC_SINGLE_EXT("HPHR_COMP Switch", SND_SOC_NOPM, 1, 1, 0,
->>>
->>>        SOC_SINGLE_EXT("HPHR_COMP Switch", PM4125_COMP_R, 1, 1, 0,?
->>>
->>>> +		       pm4125_get_compander, pm4125_set_compander),
->>>
->>> This is same issue in one of the WCD codec, which am going to send fixe=
-s
->>> along with my original wcd fixes series.
->>=20
->> So this was in other codecs for years, right?
->
-> only in wcd937x since it was added.
->
->>=20
->>>> +
->>>> +	SOC_SINGLE_TLV("HPHL Volume", PM4125_ANA_HPHPA_L_GAIN, 0, 20, 1,
->>>> +		       line_gain),
->>>> +	SOC_SINGLE_TLV("HPHR Volume", PM4125_ANA_HPHPA_R_GAIN, 0, 20, 1,
->>>> +		       line_gain),
-> ...
->                           PM4125_ANA_HPHPA_FSM_DIV_RATIO_MASK,
->>>                                       PM4125_ANA_HPHPA_FSM_DIV_RATIO_68=
-);
->>> @@ -309,8 +307,6 @@ static int pm4125_rx_clk_disable(struct
->>> snd_soc_component *component)
->>>         snd_soc_component_write_field(component,
->>> PM4125_DIG_SWR_CDC_RX_CLK_CTL,
->>>                                       PM4125_DIG_SWR_ANA_RX_CLK_EN_MASK=
-,
->>>                                       PM4125_DIG_SWR_RX_CLK_DISABLE);
->>> -       pm4125_global_mbias_disable(component);
->>> -
->>>         return 0;
->>>  }
->>=20
->> This doesn't work. Playback has two issues: 1) volume is very low and pr=
-obably
->> not adjustable and 2) sound during playback dies after a couple of secon=
-ds.
->>=20
->> Returning these global_mbias() calls restores the good behaviour.
->
-> What is global micbias to do with rx playback? Maybe something is missing=
-.
+Krzysztof,
 
-No idea. Spec that I can see doesn't say a lot about PM4125_ANA_MBIAS_EN re=
-gister.
-Just that these are main biases.
+On 8/21/25 3:47 AM, Krzysztof Kozlowski wrote:
+> On Wed, Aug 20, 2025 at 02:12:50PM -0300, Ariel D'Alessandro wrote:
+>> Convert the existing text-based DT bindings for Mediatek MT8173 Video Processor
+>> Unit to a YAML schema.
+> 
+> DT schema, not YAML. Don't say YAML at all, neither here nor in subject.
 
-> Which RX path are you testing?
->
-> I am testing this with Headphone and Lineout, it works for me.
->
->>=20
->> Maybe let's make a widget out of it? In such case I am not sure about
->> routing meaning that I not sure which paths do require mbias enable.
-> Not sure why RX would need mic bias?
+Ack.
 
-I am testing lineout that goes into wsa881x amplifier in analog mode (mono)=
-.
-I use the following amixers:
+> 
+> Also looks not wrapped...
 
-amixer -c0 cset iface=3DMIXER,name=3D'RX_CODEC_DMA_RX_0 Audio Mixer MultiMe=
-dia1' 1
-amixer -c0 cset iface=3DMIXER,name=3D'RX_MACRO RX0 MUX' 1
-amixer -c0 cset iface=3DMIXER,name=3D'RX INT0 DEM MUX' 1
-amixer -c0 cset iface=3DMIXER,name=3D'RX INT0_1 MIX1 INP0' 'RX0'
-#merge two channels together (right channel goes into INT0_1 input1)
-amixer -c0 cset iface=3DMIXER,name=3D'RX INT0_1 MIX1 INP1' 'RX1'
-amixer -c0 cset iface=3DMIXER,name=3D'EAR_RDAC Switch' 0
-amixer -c0 cset iface=3DMIXER,name=3D'HPHL_RDAC Switch' 0
-amixer -c0 cset iface=3DMIXER,name=3D'HPHR_RDAC Switch' 0
-amixer -c0 cset iface=3DMIXER,name=3D'LO_RDAC Switch' 1
-amixer -c0 cset iface=3DMIXER,name=3D'HPHL Switch' 1
-amixer -c0 cset iface=3DMIXER,name=3D'RX_RX0 Digital Volume' 80
-amixer -c0 cset iface=3DMIXER,name=3D'SpkrMono WSA_RDAC' 1
+Ack.
 
-and then aplay. With long .wav files the sound dies after few seconds of pl=
-ayback.
-But volume issue is present with any .wav files.
+> 
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> ---
+>>   .../bindings/media/mediatek,mt8173-vpu.yaml   | 76 +++++++++++++++++++
+>>   .../bindings/media/mediatek-vpu.txt           | 31 --------
+>>   2 files changed, 76 insertions(+), 31 deletions(-)
+>>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
+>>   delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vpu.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
+>> new file mode 100644
+>> index 0000000000000..44f5d7cc44042
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-vpu.yaml
+>> @@ -0,0 +1,76 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-vpu.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Mediatek MT8173 Video Processor Unit
+>> +
+>> +maintainers:
+>> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> +
+>> +description:
+>> +  Video Processor Unit is a HW video controller. It controls HW Codec including
+>> +  H.264/VP8/VP9 Decode, H.264/VP8 Encode and Image Processor (scale/rotate/color convert).
+> 
+> Please wrap code according to the preferred limit expressed in Kernel
+> coding style (checkpatch is not a coding style description, but only a
+> tool).  However don't wrap blindly (see Kernel coding style).
 
-After playing with pm4125_global_mbias_enable(), tt looks like
-both PM4125_ANA_MBIAS_EN_GLOBAL and PM4125_ANA_MBIAS_EN_V2I should be enabl=
-ed to avoid this problem.
+Thanks for the comment. Wrapped to 80 column width.
 
-Thanks,
-Alexey
+> 
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: mediatek,mt8173-vpu
+>> +
+>> +  reg:
+>> +    minItems: 2
+> 
+> No, from where do you get such syntax?
+
+IIUC, what you mean is s/minItems/maxItems.
+
+> 
+>> +
+>> +  reg-names:
+>> +    items:
+>> +      - const: tcm
+>> +      - const: cfg_reg
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: main
+>> +
+>> +  memory-region:
+>> +    description:
+>> +      phandle to a node describing reserved memory used by VPU
+>> +      (see bindings/reserved-memory/reserved-memory.txt)
+> 
+> Drop, redundant description.
+
+Ack.
+
+Thanks a lot!
+
+-- 
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
