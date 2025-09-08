@@ -1,99 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35E036B;
-	Mon,  8 Sep 2025 05:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707D822A4D5;
+	Mon,  8 Sep 2025 06:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757310437; cv=none; b=ZpOyCkH0Yvk1IUDcQeqRZA5BEhloAtj6cw3TsfOSK+Ety0c3JeC8xZmDP4w4Na4dUMhe5XEkqVBIbP4xl3kkO/3I1b2AAS/8QkuzQK14zT3/Wb4BCLz86pIYkvCixzMXF373+27smahzUVV2mIdBhgnYygPjvLq2Cl415xMUGO4=
+	t=1757312712; cv=none; b=m5F9vzvs2oVpSriJLaNXZ6b7cy+rTjT/3NEBMNIqqGhMGLldDqdQnlA4hfpGnQDhJaNxvRb3ExcmylbUwn2un1fZtfxiVkASZwGBZAaJmE+nmP5RxOnO8GBwVNE6iK8rmSE7vHZb9rIM+BCkU9fSwoTEvxH1JkA983SVBPjL30w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757310437; c=relaxed/simple;
-	bh=+DHv5K7x5Zki24ku10wUAB+lb3qUxD+Z6s1puPCmfY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bU8gUVtPmfatUb064t0TWfQMfhWyNOxBIpRXFmUrwHO1P0SnxYVZDX71Ht5jB0+aZCWHoDnBx3YQ/0O/KoYlY3VEdPyDIm8nt1IUoLC9mIGQV4QJblBK9wFqZUUe6d87HRVFisCM/vr6KjJR/tyGIWwwVTmT1kjYTNxmkfXfg/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bwPmLzhw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757312712; c=relaxed/simple;
+	bh=DzAfLw6ioEWpIKGDXdSWJiuIYg7unQ63sL0EFbUxunY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=S9lIkIvguFsZk3tkgDpnkc6Ex7VXS7D1lk+WfJrPq4bhGZ/KXBubboCFm+b2ktT477jQjQakU7IZNWZpolo2tYyCQNj7V4DxPdfJLO8hsRjidTid8Cdxd2U1Elsdb8pEkhUSigXxKOn9NdxWtwLu1NKKEIqQDtgToIAh6tovCqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Y17i16PE; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bwPmLzhw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 681CAC4CEF5;
-	Mon,  8 Sep 2025 05:47:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757310436;
-	bh=+DHv5K7x5Zki24ku10wUAB+lb3qUxD+Z6s1puPCmfY4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bwPmLzhwd1dzRc6PwRyjdCCDbb225leQScVwdBe702q/6RYoAkLXW3g9ZA+8ZXJaH
-	 HL6u6rZJwtonfy4K5YPBpK2MBANo4YKJN39xR82lLhStYUtdtgSiAUgEhygmdSqPJo
-	 4D9Iynm+o279EbEXJwdslmSRGJrEwfb8mKm6vucWF3YTbPG/cSrmEfGfKCuT53LNOU
-	 vl8Rl2pD7jItxhYWqiPjfbhWDXOsf27du7tzOe+I0gs5WII4E9vXbFTC+NMHZFpE+6
-	 6Y91c5g6IhHZDyKyIWKpTRVcL4XPM1ZQlfdJv4LhCMorOkcntLoNM2DY8ArJ0VqIZ1
-	 7LRlL4OC1L69A==
-Date: Mon, 8 Sep 2025 11:17:11 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Joris Verhaegen <verhaegen@google.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>, kernel-team@android.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-arm-msm@vger.kernel.org,
-	sound-open-firmware@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 0/3] ALSA: compress_offload: Add 64-bit safe timestamp
- API
-Message-ID: <aL5t33Ztwse6HoQP@vaman>
-References: <20250905091301.2711705-1-verhaegen@google.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Y17i16PE"
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5886MqhL3729044;
+	Mon, 8 Sep 2025 01:22:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1757312572;
+	bh=kiSruyZ6dIgTNsTur0Rl9zLXhun4FWHa+aZ/mS2ubQY=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To;
+	b=Y17i16PEiKMSFGlBGHVIGXfAUcoiMSfYcg099slOmq1wIxo1S7Ev/p/7MrKKOIMOx
+	 FG9XN1jkixRbuBdOjAMPf8FH508CE+QvUbuKwSR9DidpTsWS5xZpKGaWUc0UOWi/4F
+	 fSGm1rqgVXTk2C/dVQM436XZj/f1tNmqWjxSXR04=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5886Mqe23563612
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Mon, 8 Sep 2025 01:22:52 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 8
+ Sep 2025 01:22:51 -0500
+Received: from DLEE100.ent.ti.com ([fe80::ad4d:c227:3f85:880d]) by
+ DLEE100.ent.ti.com ([fe80::ad4d:c227:3f85:880d%17]) with mapi id
+ 15.01.2507.055; Mon, 8 Sep 2025 01:22:51 -0500
+From: "Xu, Baojun" <baojun.xu@ti.com>
+To: Mark Brown <broonie@kernel.org>
+CC: "tiwai@suse.de" <tiwai@suse.de>,
+        "andriy.shevchenko@linux.intel.com"
+	<andriy.shevchenko@linux.intel.com>,
+        "13916275206@139.com"
+	<13916275206@139.com>,
+        "alsa-devel@alsa-project.org"
+	<alsa-devel@alsa-project.org>,
+        "Ding, Shenghao" <shenghao-ding@ti.com>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "robh@kernel.org"
+	<robh@kernel.org>,
+        "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+        "Yi, Ken" <k-yi@ti.com>, "Lo, Henry"
+	<henry.lo@ti.com>,
+        "Chen, Robin" <robinchen@ti.com>, "Ji, Jesse"
+	<jesse-ji@ti.com>,
+        "Wang, Will" <will-wang@ti.com>,
+        "jim.shil@goertek.com"
+	<jim.shil@goertek.com>,
+        "toastcheng@google.com" <toastcheng@google.com>,
+        "chinkaiting@google.com" <chinkaiting@google.com>
+Subject: Re: [EXTERNAL] Re: [PATCH v4 1/2] ASoC: tas2781: Add tas2118,
+ tas2x20, tas5825 support
+Thread-Topic: [EXTERNAL] Re: [PATCH v4 1/2] ASoC: tas2781: Add tas2118,
+ tas2x20, tas5825 support
+Thread-Index: AQHcGXV+g3xOktIe00qAtAz2a1355LSBruqAgAJSFIyAAMMoAIAEAJrf
+Date: Mon, 8 Sep 2025 06:22:51 +0000
+Message-ID: <67fafc23d16d4790821321643a87385f@ti.com>
+References: <20250830061459.24371-1-baojun.xu@ti.com>
+ <993d7fe7-5206-45a9-acb6-0d610a3a2136@sirena.org.uk>
+ <12aa63e694c94213aeb6b48959d02b45@ti.com>,<b70314db-357f-4c39-a9b4-088d8ebed2b0@sirena.org.uk>
+In-Reply-To: <b70314db-357f-4c39-a9b4-088d8ebed2b0@sirena.org.uk>
+Accept-Language: en-GB, zh-CN, en-US
+Content-Language: en-GB
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250905091301.2711705-1-verhaegen@google.com>
 
-On 05-09-25, 10:12, Joris Verhaegen wrote:
-> The current compress offload timestamping API relies on struct
-> snd_compr_tstamp, whose cumulative counters like copied_total are
-> defined as __u32. On long-running high-resolution audio streams, these
-> 32-bit counters can overflow, causing incorrect availability
-> calculations.
-> 
-> This patch series transitions to a 64-bit safe API to solve the problem
-> while maintaining perfect backward compatibility with the existing UAPI.
-> The pointer operation is reworked to use a new timestamp struct with
-> 64-bit fields for the cumulative counters, named snd_compr_tstamp64.
-> ASoC drivers are updated to use the 64-bit structures. Corresponding
-> ioctls are added to expose them to user-space.
-> 
-> The series is structured as follows:
-> 
-> Patch 1: Updates the pointer op, refactors the core logic and ASoC
-> drivers to use it, and defines the new UAPI structs.
-> 
-> Patch 2: Exposes the SNDRV_COMPRESS_TSTAMP64 ioctl.
-> 
-> Patch 3: Exposes the corresponding SNDRV_COMPRESS_AVAIL64 ioctl.
-> 
-> This series has been tested on a Pixel 9 device. All compress offload
-> use cases, including long-running playback, were verified to work
-> correctly with the new 64-bit API.
+Hi Broonie,
 
-Acked-by: Vinod Koul <vkoul@kernel.org>
+> ________________________________________
+> From: Mark Brown <broonie@kernel.org>
+> Sent: 05 September 2025 18:41
+> To: Xu, Baojun
+> Cc: tiwai@suse.de; andriy.shevchenko@linux.intel.com; 13916275206@139.com=
+; alsa-devel@alsa-project.org; Ding, Shenghao; linux-sound@vger.kernel.org;=
+ linux-kernel@vger.kernel.org; lgirdwood@gmail.com; robh@kernel.org; krzk+d=
+t@kernel.org; conor+dt@kernel.org; devicetree@vger.kernel.org; Yi, Ken; Lo,=
+ Henry; Chen, Robin; Ji, Jesse; Wang, Will; jim.shil@goertek.com; toastchen=
+g@google.com; chinkaiting@google.com
+> Subject: Re: [EXTERNAL] Re: [PATCH v4 1/2] ASoC: tas2781: Add tas2118, ta=
+s2x20, tas5825 support
+>=20
+> On Fri, Sep 05, 2025 at 04:15:45AM +0000, Xu, Baojun wrote:
+>=20
+> > > This doesn't apply against current code, please check and resend.
+>=20
+> > Hi, do you mean I need a re-patch for the newest (next/linux-next.git) =
+code?
+> > Or need to create patches on tree broonie/linux.git?
+>=20
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-6=
+.18
+>=20
+This patch is also relative (shares the same include/sound/tas5825-tlv.h)
+with another commit on next/linux-next.git:
+https://patch.msgid.link/20250810122358.1575-1-baojun.xu@ti.com (ALSA: hda:=
+ Add TAS5825 support)
+However, it was not merged into broonie/sound.git yet, should I wait for it=
+?
 
-Please updated tinycompress changes with this once this is picked up by
-Takashi-san
-
--- 
-~Vinod
+Best Regards
+Jim
