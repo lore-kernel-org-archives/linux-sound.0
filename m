@@ -1,83 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9E0334722
-	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F17334722
+	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757421837; cv=none; b=XluUszmRRBBotyni8rdJ5X95UiqylpQLHI0rDDyVvSZvO11wc1m+3Mmyz2zv8kRHZ3GkQUhWduDKZiY8sxNyh6VrSl1Nd/u0gEtlK5lmH3njDoOXnZRsIuyhiKdRBpoVmuWXMuL8DPVPEDjO7vsmSWa93vSKiRM0zQdA761FYiY=
+	t=1757421842; cv=none; b=AkJGwUs09hbs0cDHmF59cc/uZpYsy5puhESFkwAK4zpr0jIIVm3mfDVqciOgm1LJkLmF3z6nBHB+Oitmka3XNUuHPA4o0dvDr5p3hpX/Xe/Dn0Tf9xyZtRWFvVJQka2tYKmhlwMZ2Kn5DdLs1F0B8HJf55O7aumTpGctkNWC8SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757421837; c=relaxed/simple;
-	bh=/zxiyPu1YOVY4T/2UUAa9ywrYRVrXkv6FjIEGaTJJj4=;
+	s=arc-20240116; t=1757421842; c=relaxed/simple;
+	bh=A9QhMoKR6YasXFQEaMlpXfALTJ7/6ZShZf9jG7xfuLw=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FVGca1sL/3LGRiIpzu8KNwDQJAev/GWvrXRa7xhijxxGpsMsDkjbSIsFV+Twn0z7qtR5jfCNR2OfDqw/bkCT1yaNiy9LRxVHgYKbwLwFYlF5tr3fjj0HzQ9Tk3BgYkyKo1m4XlGyDgWb3KhuEdsta1Rvz3Ax9nwu50L804Zo96w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eXBvw+GX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yKWnG4CO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eXBvw+GX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yKWnG4CO; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=IAlScSGugBQa9fg704ar+ltjHO3MLEz9VjIvYQnkGjwDazO/+nujisdXMnaSzD8tXkO+KB9IyS/b3ZvBYUPRWm+nOl/ydYHmb0JGIRe/0X5v7hrbxmpBfMkdSgPUD6AVna/heiY7RV4JY17TtNm4XZ5A9N2H6hB+F59Bmw1+iFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bWz1e6Qz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A25lBDCD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bWz1e6Qz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A25lBDCD; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eXBvw+GX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yKWnG4CO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eXBvw+GX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yKWnG4CO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bWz1e6Qz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A25lBDCD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bWz1e6Qz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A25lBDCD"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C57A3207BB;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B749A33BFC;
 	Tue,  9 Sep 2025 12:43:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1757421814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tJ/CMcj+9QRXx+w+Thkbr9rwWPgqMzc92zDjQp/lU/Y=;
-	b=eXBvw+GXl3y+mgQyLwtQMfSBnzlXtybqk5QAMBu8Ff6qcTX/CRjcjDkZslRrGTualgdSw5
-	bDsTuNpLSZ1kmiFFd0f8insjegcCaxnvCisqz/6/1rjRD2LopkmPjRc2YIKACCOstNBn+o
-	1db+qnA2rcImwd5I1jzEifcfFNQ6zGk=
+	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
+	b=bWz1e6Qzq9sqZVhEr8O7v4kYF93872i44+rX5Mzbaxbg53YDBU7CFeMgZNIx1Kto186BFv
+	lkP4UiJNV5urtsi+PwG1kfZXCZJ23hnL+ZvkGUhuHvtDBIHp6iUBr84hln2Jot2JKGsdF5
+	TqUxdoEF7KiOdNWviEBnQII6Gx5kSnw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1757421814;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tJ/CMcj+9QRXx+w+Thkbr9rwWPgqMzc92zDjQp/lU/Y=;
-	b=yKWnG4COgN0bztEWqZq5O81nf+HNLObQNniu3d9CZyCZ3FgC7boduMOvKAmzLs4PaCLGil
-	sqk95FCVMhMFF3CQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
+	b=A25lBDCDuwDzeSp4yZR0eUD0rp9+i7+GrEhnwo58zq2xuXaZkQ7YeR3mDxwq53keC/VSj7
+	M2F1ROEPlWfowUAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bWz1e6Qz;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=A25lBDCD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1757421814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tJ/CMcj+9QRXx+w+Thkbr9rwWPgqMzc92zDjQp/lU/Y=;
-	b=eXBvw+GXl3y+mgQyLwtQMfSBnzlXtybqk5QAMBu8Ff6qcTX/CRjcjDkZslRrGTualgdSw5
-	bDsTuNpLSZ1kmiFFd0f8insjegcCaxnvCisqz/6/1rjRD2LopkmPjRc2YIKACCOstNBn+o
-	1db+qnA2rcImwd5I1jzEifcfFNQ6zGk=
+	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
+	b=bWz1e6Qzq9sqZVhEr8O7v4kYF93872i44+rX5Mzbaxbg53YDBU7CFeMgZNIx1Kto186BFv
+	lkP4UiJNV5urtsi+PwG1kfZXCZJ23hnL+ZvkGUhuHvtDBIHp6iUBr84hln2Jot2JKGsdF5
+	TqUxdoEF7KiOdNWviEBnQII6Gx5kSnw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1757421814;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tJ/CMcj+9QRXx+w+Thkbr9rwWPgqMzc92zDjQp/lU/Y=;
-	b=yKWnG4COgN0bztEWqZq5O81nf+HNLObQNniu3d9CZyCZ3FgC7boduMOvKAmzLs4PaCLGil
-	sqk95FCVMhMFF3CQ==
+	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
+	b=A25lBDCDuwDzeSp4yZR0eUD0rp9+i7+GrEhnwo58zq2xuXaZkQ7YeR3mDxwq53keC/VSj7
+	M2F1ROEPlWfowUAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B815813ABB;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA19D13A56;
 	Tue,  9 Sep 2025 12:43:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EEtpLPYgwGi6TgAAD6G6ig
+	id AJbrKPYgwGi6TgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 09 Sep 2025 12:43:34 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 09/14] ALSA: line6: Use guard() for spin locks
-Date: Tue,  9 Sep 2025 14:43:29 +0200
-Message-ID: <20250909124331.10670-10-tiwai@suse.de>
+Subject: [PATCH 08/14] ALSA: ppc: Use guard() for spin locks
+Date: Tue,  9 Sep 2025 14:43:28 +0200
+Message-ID: <20250909124331.10670-9-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250909124331.10670-1-tiwai@suse.de>
 References: <20250909124331.10670-1-tiwai@suse.de>
@@ -89,28 +90,36 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: B749A33BFC
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 
 Clean up the code using guard() for spin locks.
 
@@ -118,200 +127,339 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/line6/capture.c |  6 +-----
- sound/usb/line6/driver.c  | 29 ++++++++++++++---------------
- sound/usb/line6/midi.c    | 10 ++--------
- sound/usb/line6/pcm.c     | 27 ++++++++++++---------------
- 4 files changed, 29 insertions(+), 43 deletions(-)
+ sound/ppc/awacs.c    | 24 +++---------
+ sound/ppc/beep.c     | 17 +++------
+ sound/ppc/burgundy.c | 10 +----
+ sound/ppc/pmac.c     | 88 ++++++++++++++++++++++----------------------
+ 4 files changed, 57 insertions(+), 82 deletions(-)
 
-diff --git a/sound/usb/line6/capture.c b/sound/usb/line6/capture.c
-index 84a9b7b76f43..9ef4faa006a0 100644
---- a/sound/usb/line6/capture.c
-+++ b/sound/usb/line6/capture.c
-@@ -145,8 +145,6 @@ void line6_capture_check_period(struct snd_line6_pcm *line6pcm, int length)
- static void audio_in_callback(struct urb *urb)
- {
- 	int i, index, length = 0, shutdown = 0;
+diff --git a/sound/ppc/awacs.c b/sound/ppc/awacs.c
+index 13a6f3af13ef..c231a9d6d1de 100644
+--- a/sound/ppc/awacs.c
++++ b/sound/ppc/awacs.c
+@@ -137,13 +137,11 @@ static int snd_pmac_awacs_get_volume(struct snd_kcontrol *kcontrol,
+ 	int reg = kcontrol->private_value & 0xff;
+ 	int lshift = (kcontrol->private_value >> 8) & 0xff;
+ 	int inverted = (kcontrol->private_value >> 16) & 1;
 -	unsigned long flags;
--
- 	struct snd_line6_pcm *line6pcm = (struct snd_line6_pcm *)urb->context;
+ 	int vol[2];
  
- 	line6pcm->in.last_frame = urb->start_frame;
-@@ -156,7 +154,7 @@ static void audio_in_callback(struct urb *urb)
- 		if (urb == line6pcm->in.urbs[index])
- 			break;
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	vol[0] = (chip->awacs_reg[reg] >> lshift) & 0xf;
+ 	vol[1] = chip->awacs_reg[reg] & 0xf;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	if (inverted) {
+ 		vol[0] = 0x0f - vol[0];
+ 		vol[1] = 0x0f - vol[1];
+@@ -161,7 +159,6 @@ static int snd_pmac_awacs_put_volume(struct snd_kcontrol *kcontrol,
+ 	int lshift = (kcontrol->private_value >> 8) & 0xff;
+ 	int inverted = (kcontrol->private_value >> 16) & 1;
+ 	int val, oldval;
+-	unsigned long flags;
+ 	unsigned int vol[2];
  
--	spin_lock_irqsave(&line6pcm->in.lock, flags);
-+	guard(spinlock_irqsave)(&line6pcm->in.lock);
- 
- 	for (i = 0; i < LINE6_ISO_PACKETS; ++i) {
- 		char *fbuf;
-@@ -211,8 +209,6 @@ static void audio_in_callback(struct urb *urb)
- 		    test_bit(LINE6_STREAM_PCM, &line6pcm->in.running))
- 			line6_capture_check_period(line6pcm, length);
+ 	vol[0] = ucontrol->value.integer.value[0];
+@@ -174,14 +171,13 @@ static int snd_pmac_awacs_put_volume(struct snd_kcontrol *kcontrol,
  	}
+ 	vol[0] &= 0x0f;
+ 	vol[1] &= 0x0f;
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	oldval = chip->awacs_reg[reg];
+ 	val = oldval & ~(0xf | (0xf << lshift));
+ 	val |= vol[0] << lshift;
+ 	val |= vol[1];
+ 	if (oldval != val)
+ 		snd_pmac_awacs_write_reg(chip, reg, val);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return oldval != reg;
+ }
+ 
+@@ -204,11 +200,9 @@ static int snd_pmac_awacs_get_switch(struct snd_kcontrol *kcontrol,
+ 	int shift = (kcontrol->private_value >> 8) & 0xff;
+ 	int invert = (kcontrol->private_value >> 16) & 1;
+ 	int val;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	val = (chip->awacs_reg[reg] >> shift) & 1;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	if (invert)
+ 		val = 1 - val;
+ 	ucontrol->value.integer.value[0] = val;
+@@ -224,16 +218,14 @@ static int snd_pmac_awacs_put_switch(struct snd_kcontrol *kcontrol,
+ 	int invert = (kcontrol->private_value >> 16) & 1;
+ 	int mask = 1 << shift;
+ 	int val, changed;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	val = chip->awacs_reg[reg] & ~mask;
+ 	if (ucontrol->value.integer.value[0] != invert)
+ 		val |= mask;
+ 	changed = chip->awacs_reg[reg] != val;
+ 	if (changed)
+ 		snd_pmac_awacs_write_reg(chip, reg, val);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return changed;
+ }
+ 
+@@ -541,14 +533,12 @@ static int snd_pmac_screamer_mic_boost_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_pmac *chip = snd_kcontrol_chip(kcontrol);
+ 	int val = 0;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	if (chip->awacs_reg[6] & MASK_MIC_BOOST)
+ 		val |= 2;
+ 	if (chip->awacs_reg[0] & MASK_GAINLINE)
+ 		val |= 1;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	ucontrol->value.integer.value[0] = val;
+ 	return 0;
+ }
+@@ -559,9 +549,8 @@ static int snd_pmac_screamer_mic_boost_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_pmac *chip = snd_kcontrol_chip(kcontrol);
+ 	int changed = 0;
+ 	int val0, val6;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	val0 = chip->awacs_reg[0] & ~MASK_GAINLINE;
+ 	val6 = chip->awacs_reg[6] & ~MASK_MIC_BOOST;
+ 	if (ucontrol->value.integer.value[0] & 1)
+@@ -576,7 +565,6 @@ static int snd_pmac_screamer_mic_boost_put(struct snd_kcontrol *kcontrol,
+ 		snd_pmac_awacs_write_reg(chip, 6, val6);
+ 		changed = 1;
+ 	}
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return changed;
+ }
+ 
+diff --git a/sound/ppc/beep.c b/sound/ppc/beep.c
+index bf289783eafd..ab2468790b0c 100644
+--- a/sound/ppc/beep.c
++++ b/sound/ppc/beep.c
+@@ -88,7 +88,6 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
+ {
+ 	struct snd_pmac *chip;
+ 	struct pmac_beep *beep;
+-	unsigned long flags;
+ 	int beep_speed = 0;
+ 	int srate;
+ 	int period, ncycles, nsamples;
+@@ -112,10 +111,9 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
+ 		return -1;
+ 
+ 	if (! hz) {
+-		spin_lock_irqsave(&chip->reg_lock, flags);
++		guard(spinlock_irqsave)(&chip->reg_lock);
+ 		if (beep->running)
+ 			snd_pmac_beep_stop(chip);
+-		spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 		return 0;
+ 	}
+ 
+@@ -125,13 +123,11 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
+ 	if (hz <= srate / BEEP_BUFLEN || hz > srate / 2)
+ 		hz = 1000;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
+-	if (chip->playback.running || chip->capture.running || beep->running) {
+-		spin_unlock_irqrestore(&chip->reg_lock, flags);
+-		return 0;
++	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
++		if (chip->playback.running || chip->capture.running || beep->running)
++			return 0;
++		beep->running = 1;
+ 	}
+-	beep->running = 1;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 
+ 	if (hz == beep->hz && beep->volume == beep->volume_play) {
+ 		nsamples = beep->nsamples;
+@@ -151,9 +147,8 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
+ 		beep->nsamples = nsamples;
+ 	}
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	snd_pmac_beep_dma_start(chip, beep->nsamples * 4, beep->addr, beep_speed);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return 0;
+ }
+ 
+diff --git a/sound/ppc/burgundy.c b/sound/ppc/burgundy.c
+index ba15bc34c9ec..5d6accce3a72 100644
+--- a/sound/ppc/burgundy.c
++++ b/sound/ppc/burgundy.c
+@@ -59,9 +59,8 @@ static unsigned
+ snd_pmac_burgundy_rcw(struct snd_pmac *chip, unsigned addr)
+ {
+ 	unsigned val = 0;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 
+ 	out_le32(&chip->awacs->codec_ctrl, addr + 0x100000);
+ 	snd_pmac_burgundy_busy_wait(chip);
+@@ -83,8 +82,6 @@ snd_pmac_burgundy_rcw(struct snd_pmac *chip, unsigned addr)
+ 	snd_pmac_burgundy_extend_wait(chip);
+ 	val += ((in_le32(&chip->awacs->codec_stat)>>4) & 0xff) <<24;
+ 
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
 -
--	spin_unlock_irqrestore(&line6pcm->in.lock, flags);
+ 	return val;
  }
  
- /* open capture callback */
-diff --git a/sound/usb/line6/driver.c b/sound/usb/line6/driver.c
-index c505c1cba162..e97368c31417 100644
---- a/sound/usb/line6/driver.c
-+++ b/sound/usb/line6/driver.c
-@@ -286,31 +286,30 @@ static void line6_data_received(struct urb *urb)
+@@ -100,17 +97,14 @@ static unsigned
+ snd_pmac_burgundy_rcb(struct snd_pmac *chip, unsigned int addr)
  {
- 	struct usb_line6 *line6 = (struct usb_line6 *)urb->context;
- 	struct midi_buffer *mb = &line6->line6midi->midibuf_in;
+ 	unsigned val = 0;
 -	unsigned long flags;
- 	int done;
  
- 	if (urb->status == -ESHUTDOWN)
- 		return;
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
  
- 	if (line6->properties->capabilities & LINE6_CAP_CONTROL_MIDI) {
--		spin_lock_irqsave(&line6->line6midi->lock, flags);
--		done =
--			line6_midibuf_write(mb, urb->transfer_buffer, urb->actual_length);
-+		scoped_guard(spinlock_irqsave, &line6->line6midi->lock) {
-+			done =
-+				line6_midibuf_write(mb, urb->transfer_buffer, urb->actual_length);
+ 	out_le32(&chip->awacs->codec_ctrl, addr + 0x100000);
+ 	snd_pmac_burgundy_busy_wait(chip);
+ 	snd_pmac_burgundy_extend_wait(chip);
+ 	val += (in_le32(&chip->awacs->codec_stat) >> 4) & 0xff;
  
--		if (done < urb->actual_length) {
--			line6_midibuf_ignore(mb, done);
--			dev_dbg(line6->ifcdev, "%d %d buffer overflow - message skipped\n",
--				done, urb->actual_length);
-+			if (done < urb->actual_length) {
-+				line6_midibuf_ignore(mb, done);
-+				dev_dbg(line6->ifcdev, "%d %d buffer overflow - message skipped\n",
-+					done, urb->actual_length);
-+			}
- 		}
--		spin_unlock_irqrestore(&line6->line6midi->lock, flags);
- 
- 		for (;;) {
--			spin_lock_irqsave(&line6->line6midi->lock, flags);
--			done =
--				line6_midibuf_read(mb, line6->buffer_message,
--						   LINE6_MIDI_MESSAGE_MAXLEN,
--						   LINE6_MIDIBUF_READ_RX);
--			spin_unlock_irqrestore(&line6->line6midi->lock, flags);
-+			scoped_guard(spinlock_irqsave, &line6->line6midi->lock) {
-+				done =
-+					line6_midibuf_read(mb, line6->buffer_message,
-+							   LINE6_MIDI_MESSAGE_MAXLEN,
-+							   LINE6_MIDIBUF_READ_RX);
-+			}
- 
- 			if (done <= 0)
- 				break;
-diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
-index 1d77794b4490..4731293728e6 100644
---- a/sound/usb/line6/midi.c
-+++ b/sound/usb/line6/midi.c
-@@ -72,7 +72,6 @@ static void line6_midi_transmit(struct snd_rawmidi_substream *substream)
- */
- static void midi_sent(struct urb *urb)
- {
--	unsigned long flags;
- 	int status;
- 	int num;
- 	struct usb_line6 *line6 = (struct usb_line6 *)urb->context;
-@@ -84,7 +83,7 @@ static void midi_sent(struct urb *urb)
- 	if (status == -ESHUTDOWN)
- 		return;
- 
--	spin_lock_irqsave(&line6->line6midi->lock, flags);
-+	guard(spinlock_irqsave)(&line6->line6midi->lock);
- 	num = --line6->line6midi->num_active_send_urbs;
- 
- 	if (num == 0) {
-@@ -94,8 +93,6 @@ static void midi_sent(struct urb *urb)
- 
- 	if (num == 0)
- 		wake_up(&line6->line6midi->send_wait);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
 -
--	spin_unlock_irqrestore(&line6->line6midi->lock, flags);
+ 	return val;
  }
  
- /*
-@@ -158,17 +155,14 @@ static int line6_midi_output_close(struct snd_rawmidi_substream *substream)
- static void line6_midi_output_trigger(struct snd_rawmidi_substream *substream,
- 				      int up)
- {
--	unsigned long flags;
- 	struct usb_line6 *line6 =
- 	    line6_rawmidi_substream_midi(substream)->line6;
+diff --git a/sound/ppc/pmac.c b/sound/ppc/pmac.c
+index a3d346f1cc05..6d7dab26ddf2 100644
+--- a/sound/ppc/pmac.c
++++ b/sound/ppc/pmac.c
+@@ -206,32 +206,32 @@ static int snd_pmac_pcm_prepare(struct snd_pmac *chip, struct pmac_stream *rec,
+ 	 * common to many PowerBook G3 systems and random noise otherwise
+ 	 * captured on iBook2's about every third time. -ReneR
+ 	 */
+-	spin_lock_irq(&chip->reg_lock);
+-	snd_pmac_dma_stop(rec);
+-	chip->extra_dma.cmds->command = cpu_to_le16(DBDMA_STOP);
+-	snd_pmac_dma_set_command(rec, &chip->extra_dma);
+-	snd_pmac_dma_run(rec, RUN);
+-	spin_unlock_irq(&chip->reg_lock);
+-	mdelay(5);
+-	spin_lock_irq(&chip->reg_lock);
+-	/* continuous DMA memory type doesn't provide the physical address,
+-	 * so we need to resolve the address here...
+-	 */
+-	offset = runtime->dma_addr;
+-	for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++) {
+-		cp->phy_addr = cpu_to_le32(offset);
+-		cp->req_count = cpu_to_le16(rec->period_size);
+-		/*cp->res_count = cpu_to_le16(0);*/
+-		cp->xfer_status = cpu_to_le16(0);
+-		offset += rec->period_size;
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		snd_pmac_dma_stop(rec);
++		chip->extra_dma.cmds->command = cpu_to_le16(DBDMA_STOP);
++		snd_pmac_dma_set_command(rec, &chip->extra_dma);
++		snd_pmac_dma_run(rec, RUN);
+ 	}
+-	/* make loop */
+-	cp->command = cpu_to_le16(DBDMA_NOP | BR_ALWAYS);
+-	cp->cmd_dep = cpu_to_le32(rec->cmd.addr);
++	mdelay(5);
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		/* continuous DMA memory type doesn't provide the physical address,
++		 * so we need to resolve the address here...
++		 */
++		offset = runtime->dma_addr;
++		for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++) {
++			cp->phy_addr = cpu_to_le32(offset);
++			cp->req_count = cpu_to_le16(rec->period_size);
++			/*cp->res_count = cpu_to_le16(0);*/
++			cp->xfer_status = cpu_to_le16(0);
++			offset += rec->period_size;
++		}
++		/* make loop */
++		cp->command = cpu_to_le16(DBDMA_NOP | BR_ALWAYS);
++		cp->cmd_dep = cpu_to_le32(rec->cmd.addr);
  
- 	line6->line6midi->substream_transmit = substream;
--	spin_lock_irqsave(&line6->line6midi->lock, flags);
-+	guard(spinlock_irqsave)(&line6->line6midi->lock);
- 
- 	if (line6->line6midi->num_active_send_urbs == 0)
- 		line6_midi_transmit(substream);
--
--	spin_unlock_irqrestore(&line6->line6midi->lock, flags);
- }
- 
- static void line6_midi_output_drain(struct snd_rawmidi_substream *substream)
-diff --git a/sound/usb/line6/pcm.c b/sound/usb/line6/pcm.c
-index 81e6d5e05135..f61d9f6cf754 100644
---- a/sound/usb/line6/pcm.c
-+++ b/sound/usb/line6/pcm.c
-@@ -182,11 +182,10 @@ static void line6_buffer_release(struct snd_line6_pcm *line6pcm,
- static int line6_stream_start(struct snd_line6_pcm *line6pcm, int direction,
- 			      int type)
- {
--	unsigned long flags;
- 	struct line6_pcm_stream *pstr = get_stream(line6pcm, direction);
- 	int ret = 0;
- 
--	spin_lock_irqsave(&pstr->lock, flags);
-+	guard(spinlock_irqsave)(&pstr->lock);
- 	if (!test_and_set_bit(type, &pstr->running) &&
- 	    !(pstr->active_urbs || pstr->unlink_urbs)) {
- 		pstr->count = 0;
-@@ -199,7 +198,6 @@ static int line6_stream_start(struct snd_line6_pcm *line6pcm, int direction,
- 
- 	if (ret < 0)
- 		clear_bit(type, &pstr->running);
--	spin_unlock_irqrestore(&pstr->lock, flags);
- 	return ret;
- }
- 
-@@ -207,21 +205,20 @@ static int line6_stream_start(struct snd_line6_pcm *line6pcm, int direction,
- static void line6_stream_stop(struct snd_line6_pcm *line6pcm, int direction,
- 			  int type)
- {
--	unsigned long flags;
- 	struct line6_pcm_stream *pstr = get_stream(line6pcm, direction);
- 
--	spin_lock_irqsave(&pstr->lock, flags);
--	clear_bit(type, &pstr->running);
--	if (!pstr->running) {
--		spin_unlock_irqrestore(&pstr->lock, flags);
--		line6_unlink_audio_urbs(line6pcm, pstr);
--		spin_lock_irqsave(&pstr->lock, flags);
--		if (direction == SNDRV_PCM_STREAM_CAPTURE) {
--			line6pcm->prev_fbuf = NULL;
--			line6pcm->prev_fsize = 0;
--		}
-+	scoped_guard(spinlock_irqsave, &pstr->lock) {
-+		clear_bit(type, &pstr->running);
-+		if (pstr->running)
-+			return;
+-	snd_pmac_dma_stop(rec);
+-	snd_pmac_dma_set_command(rec, &rec->cmd);
+-	spin_unlock_irq(&chip->reg_lock);
++		snd_pmac_dma_stop(rec);
++		snd_pmac_dma_set_command(rec, &rec->cmd);
 +	}
-+
-+	line6_unlink_audio_urbs(line6pcm, pstr);
-+	if (direction == SNDRV_PCM_STREAM_CAPTURE) {
-+		guard(spinlock_irqsave)(&pstr->lock);
-+		line6pcm->prev_fbuf = NULL;
-+		line6pcm->prev_fsize = 0;
- 	}
--	spin_unlock_irqrestore(&pstr->lock, flags);
- }
  
- /* common PCM trigger callback */
+ 	return 0;
+ }
+@@ -253,26 +253,26 @@ static int snd_pmac_pcm_trigger(struct snd_pmac *chip, struct pmac_stream *rec,
+ 			return -EBUSY;
+ 		command = (subs->stream == SNDRV_PCM_STREAM_PLAYBACK ?
+ 			   OUTPUT_MORE : INPUT_MORE) + INTR_ALWAYS;
+-		spin_lock(&chip->reg_lock);
+-		snd_pmac_beep_stop(chip);
+-		snd_pmac_pcm_set_format(chip);
+-		for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
+-			out_le16(&cp->command, command);
+-		snd_pmac_dma_set_command(rec, &rec->cmd);
+-		(void)in_le32(&rec->dma->status);
+-		snd_pmac_dma_run(rec, RUN|WAKE);
+-		rec->running = 1;
+-		spin_unlock(&chip->reg_lock);
++		scoped_guard(spinlock, &chip->reg_lock) {
++			snd_pmac_beep_stop(chip);
++			snd_pmac_pcm_set_format(chip);
++			for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
++				out_le16(&cp->command, command);
++			snd_pmac_dma_set_command(rec, &rec->cmd);
++			(void)in_le32(&rec->dma->status);
++			snd_pmac_dma_run(rec, RUN|WAKE);
++			rec->running = 1;
++		}
+ 		break;
+ 
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+-		spin_lock(&chip->reg_lock);
+-		rec->running = 0;
+-		snd_pmac_dma_stop(rec);
+-		for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
+-			out_le16(&cp->command, DBDMA_STOP);
+-		spin_unlock(&chip->reg_lock);
++		scoped_guard(spinlock, &chip->reg_lock) {
++			rec->running = 0;
++			snd_pmac_dma_stop(rec);
++			for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
++				out_le16(&cp->command, DBDMA_STOP);
++		}
+ 		break;
+ 
+ 	default:
+@@ -1321,14 +1321,12 @@ int snd_pmac_new(struct snd_card *card, struct snd_pmac **chip_return)
+ 
+ void snd_pmac_suspend(struct snd_pmac *chip)
+ {
+-	unsigned long flags;
+-
+ 	snd_power_change_state(chip->card, SNDRV_CTL_POWER_D3hot);
+ 	if (chip->suspend)
+ 		chip->suspend(chip);
+-	spin_lock_irqsave(&chip->reg_lock, flags);
+-	snd_pmac_beep_stop(chip);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
++		snd_pmac_beep_stop(chip);
++	}
+ 	if (chip->irq >= 0)
+ 		disable_irq(chip->irq);
+ 	if (chip->tx_irq >= 0)
 -- 
 2.50.1
 
