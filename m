@@ -1,83 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F9B1EDA26
-	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA10335BDC
+	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757421825; cv=none; b=VS6rLigC7q0iqzYGS7YEqePtOmOtfyq4ks2pYNIw5So9E8gk+xtXdNDSd7i37bc4mlSbxPpJYbx2GwqLXKywVXwKDm3tBdhJGswi8QvWyAdxG7aNEbddvk/LTQofIVjufrcqusgOq2Tn3qum0vm5+qLAmi9LJ9Tpmo7xAn42Y4Q=
+	t=1757421830; cv=none; b=hPoUy6OXSmJsYLkct9RAxB/Ikpxjy0eXLgm3A+hps+X0PLwbh51dPn49+t9mQYIBeu6RYqqwztvbCSnmfZqyVNdZpUMcPpUj/H19d4GgAnwxuWzdW97MXvXC6azwP9sM+WlRlCya2+KPdqPetyTu6kesPE4nRBPx5GdxxN4Gsl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757421825; c=relaxed/simple;
-	bh=1ZW/9Eie25Xg546VRRBha/o426rgywe20PXKjwkgMcw=;
+	s=arc-20240116; t=1757421830; c=relaxed/simple;
+	bh=A68IQZPJJB6T1x387jl8XpQ4i4ULLXijfEik4RM85qk=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BSz9ukcFw/CKwcF8iebfHsZsFrbW/pqrEMIDh0huIHADuLOx1EaMnAK1SjdmvdCx9ZrntIEf6J6SEvE3vqH1FHQxVSAPhJ97xelWtG8+WCdGLhKdMqIyDBFmZOz+2LdGup0RCcCQHPmZOG8sEC8Wwik982As3eGGkHBRWcKyU8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IbduQjJ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WAfVf0JS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IbduQjJ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WAfVf0JS; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=NfzyI9IRuvn6UAGf/46zZJ/iUBu5BPcbPQZ7Kb5Lj+TK9EtwL90f3TRewsgSLF3rQBrK3uL4on3cupDHH5c2IWPDZgFXQKkRg0Uhq+4iNk1UlPnVcBbwO5Cy+Bb4lRMoXtvswNvcKu6h3+mCwI6XFCSf4rEdo4Jsi2su1TaT2Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FH8SMx2f; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jcyg7nQz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FH8SMx2f; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jcyg7nQz; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IbduQjJ+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WAfVf0JS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IbduQjJ+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WAfVf0JS"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FH8SMx2f";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jcyg7nQz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FH8SMx2f";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jcyg7nQz"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A9A721FCFE;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 91EF233B09;
 	Tue,  9 Sep 2025 12:43:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1757421814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fbLfQ1IAbrdBXWT5kGvB/gS+U5hMJieESqLAFyqwa04=;
-	b=IbduQjJ+mXixjCxylabKn0rl/PaNpf8gdUypHFqhQ8O9SGd7ruNPsL0UhLwFPG+g+PdOu2
-	H6EwkMksF8LTT1AzqyC93HuxqFKtofMcJaQR+s0cU39KdgqOC00QSCK3QJQH1+9ikx91UN
-	+nf/gXsCqrYQBJIvDLDefEIudpjBGPQ=
+	bh=TcxlmVq53m+wGts9FZb7PKLQgU5ZD7goVhuRBo6gA/E=;
+	b=FH8SMx2fvlPpVNnP/0x6OOgfUgEzwK61G91lQUC5kQAR2pOgxVgRN+vYeJkYFaiVXSkDrC
+	uqj7jqV6/llW+gwRkXRp/T8noNORl5L4a0hCVFV1yo9nivLmSbh7HfHKw1+cjrp/V8dXPm
+	oF1vlrL8s5NDR0E1ez3Fg3wa72SDObo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1757421814;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fbLfQ1IAbrdBXWT5kGvB/gS+U5hMJieESqLAFyqwa04=;
-	b=WAfVf0JSrchRowVFZLabKqDyfQt3I/qexbXt7VR9J/PN9VRRVjAgXkUmm4QuVUy85xfQRg
-	smRrI+ZdYAiG+zCQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=TcxlmVq53m+wGts9FZb7PKLQgU5ZD7goVhuRBo6gA/E=;
+	b=Jcyg7nQznl3ayNBvlFwcgBABeCpYflxRXt6B+lSnaH917nBjCn6snb7dh0YwUsT242jKPU
+	CvZLMDLHEn3DLPCg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1757421814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fbLfQ1IAbrdBXWT5kGvB/gS+U5hMJieESqLAFyqwa04=;
-	b=IbduQjJ+mXixjCxylabKn0rl/PaNpf8gdUypHFqhQ8O9SGd7ruNPsL0UhLwFPG+g+PdOu2
-	H6EwkMksF8LTT1AzqyC93HuxqFKtofMcJaQR+s0cU39KdgqOC00QSCK3QJQH1+9ikx91UN
-	+nf/gXsCqrYQBJIvDLDefEIudpjBGPQ=
+	bh=TcxlmVq53m+wGts9FZb7PKLQgU5ZD7goVhuRBo6gA/E=;
+	b=FH8SMx2fvlPpVNnP/0x6OOgfUgEzwK61G91lQUC5kQAR2pOgxVgRN+vYeJkYFaiVXSkDrC
+	uqj7jqV6/llW+gwRkXRp/T8noNORl5L4a0hCVFV1yo9nivLmSbh7HfHKw1+cjrp/V8dXPm
+	oF1vlrL8s5NDR0E1ez3Fg3wa72SDObo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1757421814;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fbLfQ1IAbrdBXWT5kGvB/gS+U5hMJieESqLAFyqwa04=;
-	b=WAfVf0JSrchRowVFZLabKqDyfQt3I/qexbXt7VR9J/PN9VRRVjAgXkUmm4QuVUy85xfQRg
-	smRrI+ZdYAiG+zCQ==
+	bh=TcxlmVq53m+wGts9FZb7PKLQgU5ZD7goVhuRBo6gA/E=;
+	b=Jcyg7nQznl3ayNBvlFwcgBABeCpYflxRXt6B+lSnaH917nBjCn6snb7dh0YwUsT242jKPU
+	CvZLMDLHEn3DLPCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C64B1388C;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8109313ABD;
 	Tue,  9 Sep 2025 12:43:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yPCjJfYgwGi6TgAAD6G6ig
+	id YFPxHvYgwGi6TgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 09 Sep 2025 12:43:34 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 07/14] ALSA: snd_ps3: Use guard() for spin locks
-Date: Tue,  9 Sep 2025 14:43:27 +0200
-Message-ID: <20250909124331.10670-8-tiwai@suse.de>
+Subject: [PATCH 05/14] ALSA: snd-n64: Use guard() for spin locks
+Date: Tue,  9 Sep 2025 14:43:25 +0200
+Message-ID: <20250909124331.10670-6-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250909124331.10670-1-tiwai@suse.de>
 References: <20250909124331.10670-1-tiwai@suse.de>
@@ -118,103 +118,72 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/ppc/snd_ps3.c | 21 +++++----------------
- 1 file changed, 5 insertions(+), 16 deletions(-)
+ sound/mips/snd-n64.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/sound/ppc/snd_ps3.c b/sound/ppc/snd_ps3.c
-index ce7ee2713f9d..225b20f0b71a 100644
---- a/sound/ppc/snd_ps3.c
-+++ b/sound/ppc/snd_ps3.c
-@@ -221,7 +221,6 @@ static int snd_ps3_program_dma(struct snd_ps3_card_info *card,
- 	int fill_stages, dma_ch, stage;
- 	enum snd_ps3_ch ch;
- 	uint32_t ch0_kick_event = 0; /* initialize to mute gcc */
--	unsigned long irqsave;
- 	int silent = 0;
+diff --git a/sound/mips/snd-n64.c b/sound/mips/snd-n64.c
+index e1b2ff65d850..f17e63f2ff5a 100644
+--- a/sound/mips/snd-n64.c
++++ b/sound/mips/snd-n64.c
+@@ -81,10 +81,9 @@ static u32 n64mi_read_reg(struct n64audio *priv, const u8 reg)
+ static void n64audio_push(struct n64audio *priv)
+ {
+ 	struct snd_pcm_runtime *runtime = priv->chan.substream->runtime;
+-	unsigned long flags;
+ 	u32 count;
  
- 	switch (filltype) {
-@@ -242,7 +241,7 @@ static int snd_ps3_program_dma(struct snd_ps3_card_info *card,
+-	spin_lock_irqsave(&priv->chan.lock, flags);
++	guard(spinlock_irqsave)(&priv->chan.lock);
  
- 	snd_ps3_verify_dma_stop(card, 700, 0);
- 	fill_stages = 4;
--	spin_lock_irqsave(&card->dma_lock, irqsave);
-+	guard(spinlock_irqsave)(&card->dma_lock);
- 	for (ch = 0; ch < 2; ch++) {
- 		for (stage = 0; stage < fill_stages; stage++) {
- 			dma_ch = stage * 2 + ch;
-@@ -289,7 +288,6 @@ static int snd_ps3_program_dma(struct snd_ps3_card_info *card,
- 	}
- 	/* ensure the hardware sees the change */
- 	wmb();
--	spin_unlock_irqrestore(&card->dma_lock, irqsave);
+ 	count = priv->chan.writesize;
  
+@@ -104,15 +103,12 @@ static void n64audio_push(struct n64audio *priv)
+ 	priv->chan.nextpos %= priv->chan.bufsize;
+ 
+ 	runtime->delay = runtime->period_size;
+-
+-	spin_unlock_irqrestore(&priv->chan.lock, flags);
+ }
+ 
+ static irqreturn_t n64audio_isr(int irq, void *dev_id)
+ {
+ 	struct n64audio *priv = dev_id;
+ 	const u32 intrs = n64mi_read_reg(priv, MI_INTR_REG);
+-	unsigned long flags;
+ 
+ 	// Check it's ours
+ 	if (!(intrs & MI_INTR_AI))
+@@ -121,11 +117,9 @@ static irqreturn_t n64audio_isr(int irq, void *dev_id)
+ 	n64audio_write_reg(priv, AI_STATUS_REG, 1);
+ 
+ 	if (priv->chan.substream && snd_pcm_running(priv->chan.substream)) {
+-		spin_lock_irqsave(&priv->chan.lock, flags);
+-
+-		priv->chan.pos = priv->chan.nextpos;
+-
+-		spin_unlock_irqrestore(&priv->chan.lock, flags);
++		scoped_guard(spinlock_irqsave, &priv->chan.lock) {
++			priv->chan.pos = priv->chan.nextpos;
++		}
+ 
+ 		snd_pcm_period_elapsed(priv->chan.substream);
+ 		if (priv->chan.substream && snd_pcm_running(priv->chan.substream))
+@@ -221,7 +215,7 @@ static int n64audio_pcm_prepare(struct snd_pcm_substream *substream)
+ 		rate = 16;
+ 	n64audio_write_reg(priv, AI_BITCLOCK_REG, rate - 1);
+ 
+-	spin_lock_irq(&priv->chan.lock);
++	guard(spinlock_irq)(&priv->chan.lock);
+ 
+ 	/* Setup the pseudo-dma transfer pointers.  */
+ 	priv->chan.pos = 0;
+@@ -230,7 +224,6 @@ static int n64audio_pcm_prepare(struct snd_pcm_substream *substream)
+ 	priv->chan.writesize = snd_pcm_lib_period_bytes(substream);
+ 	priv->chan.bufsize = snd_pcm_lib_buffer_bytes(substream);
+ 
+-	spin_unlock_irq(&priv->chan.lock);
  	return 0;
  }
-@@ -561,7 +559,6 @@ static int snd_ps3_pcm_prepare(struct snd_pcm_substream *substream)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct snd_ps3_card_info *card = snd_pcm_substream_chip(substream);
--	unsigned long irqsave;
- 
- 	if (!snd_ps3_set_avsetting(substream)) {
- 		/* some parameter changed */
-@@ -578,8 +575,7 @@ static int snd_ps3_pcm_prepare(struct snd_pcm_substream *substream)
- 	}
- 
- 	/* restart ring buffer pointer */
--	spin_lock_irqsave(&card->dma_lock, irqsave);
--	{
-+	scoped_guard(spinlock_irqsave, &card->dma_lock) {
- 		card->dma_buffer_size = runtime->dma_bytes;
- 
- 		card->dma_last_transfer_vaddr[SND_PS3_CH_L] =
-@@ -600,7 +596,6 @@ static int snd_ps3_pcm_prepare(struct snd_pcm_substream *substream)
- 			 card->dma_start_bus_addr[SND_PS3_CH_L]);
- 
- 	}
--	spin_unlock_irqrestore(&card->dma_lock, irqsave);
- 
- 	/* ensure the hardware sees the change */
- 	mb();
-@@ -618,11 +613,9 @@ static int snd_ps3_pcm_trigger(struct snd_pcm_substream *substream,
- 		/* clear outstanding interrupts  */
- 		update_reg(PS3_AUDIO_AX_IS, 0);
- 
--		spin_lock(&card->dma_lock);
--		{
-+		scoped_guard(spinlock, &card->dma_lock) {
- 			card->running = 1;
- 		}
--		spin_unlock(&card->dma_lock);
- 
- 		snd_ps3_program_dma(card,
- 				    SND_PS3_DMA_FILLTYPE_SILENT_FIRSTFILL);
-@@ -636,11 +629,9 @@ static int snd_ps3_pcm_trigger(struct snd_pcm_substream *substream,
- 		break;
- 
- 	case SNDRV_PCM_TRIGGER_STOP:
--		spin_lock(&card->dma_lock);
--		{
-+		scoped_guard(spinlock, &card->dma_lock) {
- 			card->running = 0;
- 		}
--		spin_unlock(&card->dma_lock);
- 		snd_ps3_wait_for_dma_stop(card);
- 		break;
- 	default:
-@@ -661,12 +652,10 @@ static snd_pcm_uframes_t snd_ps3_pcm_pointer(
- 	size_t bytes;
- 	snd_pcm_uframes_t ret;
- 
--	spin_lock(&card->dma_lock);
--	{
-+	scoped_guard(spinlock, &card->dma_lock) {
- 		bytes = (size_t)(card->dma_last_transfer_vaddr[SND_PS3_CH_L] -
- 				 card->dma_start_vaddr[SND_PS3_CH_L]);
- 	}
--	spin_unlock(&card->dma_lock);
- 
- 	ret = bytes_to_frames(substream->runtime, bytes * 2);
  
 -- 
 2.50.1
