@@ -1,83 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C72322C6B
-	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9E0334722
+	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757421836; cv=none; b=eoMtDAO8ZxxooMR76cbU0NSo6e6RtyL4MTxPNb5D5g3SthpLYZr+xQgvdEOiLuqj2RGwXjmp5qLBlbfYUn6hLLqNFs4nXmv8e1T02OsiF25AVPVhm21GUJ1I+L7oLq8DtAX/QN7tMVdte9F0U0gD5oKvKoSl1nfwmxN+LIGpL84=
+	t=1757421837; cv=none; b=XluUszmRRBBotyni8rdJ5X95UiqylpQLHI0rDDyVvSZvO11wc1m+3Mmyz2zv8kRHZ3GkQUhWduDKZiY8sxNyh6VrSl1Nd/u0gEtlK5lmH3njDoOXnZRsIuyhiKdRBpoVmuWXMuL8DPVPEDjO7vsmSWa93vSKiRM0zQdA761FYiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757421836; c=relaxed/simple;
-	bh=jujhy7fI53R76/Xp4CrKZAErlM9uE9gwwubr5rYUgYk=;
+	s=arc-20240116; t=1757421837; c=relaxed/simple;
+	bh=/zxiyPu1YOVY4T/2UUAa9ywrYRVrXkv6FjIEGaTJJj4=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nXbw9Fd+c5lLdLQB8oQjU1MIFWQjDhpeVp2bW4fLy8i8HH2wvSCWnQQ/5EtiucC+udWg8TFV045sND0qRezIIKWz/sEdPQcuHsWf0tFJ+gDbsxOWuR/WkM+Pw7h7tW1sz+OkDdQzFRvGitdSGCrBsQlSg9REHSEwDMG/sbiTUx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=akSLJgGr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xKvRC+dq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=akSLJgGr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xKvRC+dq; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=FVGca1sL/3LGRiIpzu8KNwDQJAev/GWvrXRa7xhijxxGpsMsDkjbSIsFV+Twn0z7qtR5jfCNR2OfDqw/bkCT1yaNiy9LRxVHgYKbwLwFYlF5tr3fjj0HzQ9Tk3BgYkyKo1m4XlGyDgWb3KhuEdsta1Rvz3Ax9nwu50L804Zo96w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eXBvw+GX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yKWnG4CO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eXBvw+GX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yKWnG4CO; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="akSLJgGr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xKvRC+dq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="akSLJgGr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xKvRC+dq"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eXBvw+GX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yKWnG4CO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eXBvw+GX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yKWnG4CO"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9B3F233B7E;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C57A3207BB;
 	Tue,  9 Sep 2025 12:43:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1757421814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JhLcstwSmyFmeCqY9F2xrkDi9BXch9q8J2DrwWK3xl4=;
-	b=akSLJgGr5ev4B78l6C3qQph5FQqvz4GZw3+5z0z8zyvFkVMOvRU68JWV4s3xJbiq1hFxgs
-	wodfLeC//De2H50EFmZI7jTTblYLIhkh9Mp3TDZP9ghSWXLcheg7X93+u1X06TP5V18BB7
-	TW/2V3+UQYPvF1u8V9gRXBD2/O4y3D4=
+	bh=tJ/CMcj+9QRXx+w+Thkbr9rwWPgqMzc92zDjQp/lU/Y=;
+	b=eXBvw+GXl3y+mgQyLwtQMfSBnzlXtybqk5QAMBu8Ff6qcTX/CRjcjDkZslRrGTualgdSw5
+	bDsTuNpLSZ1kmiFFd0f8insjegcCaxnvCisqz/6/1rjRD2LopkmPjRc2YIKACCOstNBn+o
+	1db+qnA2rcImwd5I1jzEifcfFNQ6zGk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1757421814;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JhLcstwSmyFmeCqY9F2xrkDi9BXch9q8J2DrwWK3xl4=;
-	b=xKvRC+dqm5v3sbYxHw1LTGUyboqUG/qei/2lqDhuT3gpAVwixEgJxyysCrQnlfePCFBZMD
-	K99KelMRQBNr+PAA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=tJ/CMcj+9QRXx+w+Thkbr9rwWPgqMzc92zDjQp/lU/Y=;
+	b=yKWnG4COgN0bztEWqZq5O81nf+HNLObQNniu3d9CZyCZ3FgC7boduMOvKAmzLs4PaCLGil
+	sqk95FCVMhMFF3CQ==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1757421814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JhLcstwSmyFmeCqY9F2xrkDi9BXch9q8J2DrwWK3xl4=;
-	b=akSLJgGr5ev4B78l6C3qQph5FQqvz4GZw3+5z0z8zyvFkVMOvRU68JWV4s3xJbiq1hFxgs
-	wodfLeC//De2H50EFmZI7jTTblYLIhkh9Mp3TDZP9ghSWXLcheg7X93+u1X06TP5V18BB7
-	TW/2V3+UQYPvF1u8V9gRXBD2/O4y3D4=
+	bh=tJ/CMcj+9QRXx+w+Thkbr9rwWPgqMzc92zDjQp/lU/Y=;
+	b=eXBvw+GXl3y+mgQyLwtQMfSBnzlXtybqk5QAMBu8Ff6qcTX/CRjcjDkZslRrGTualgdSw5
+	bDsTuNpLSZ1kmiFFd0f8insjegcCaxnvCisqz/6/1rjRD2LopkmPjRc2YIKACCOstNBn+o
+	1db+qnA2rcImwd5I1jzEifcfFNQ6zGk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1757421814;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JhLcstwSmyFmeCqY9F2xrkDi9BXch9q8J2DrwWK3xl4=;
-	b=xKvRC+dqm5v3sbYxHw1LTGUyboqUG/qei/2lqDhuT3gpAVwixEgJxyysCrQnlfePCFBZMD
-	K99KelMRQBNr+PAA==
+	bh=tJ/CMcj+9QRXx+w+Thkbr9rwWPgqMzc92zDjQp/lU/Y=;
+	b=yKWnG4COgN0bztEWqZq5O81nf+HNLObQNniu3d9CZyCZ3FgC7boduMOvKAmzLs4PaCLGil
+	sqk95FCVMhMFF3CQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F12313ABF;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B815813ABB;
 	Tue,  9 Sep 2025 12:43:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gPpiIvYgwGi6TgAAD6G6ig
+	id EEtpLPYgwGi6TgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 09 Sep 2025 12:43:34 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 06/14] ALSA: parisc: Use guard() for spin locks
-Date: Tue,  9 Sep 2025 14:43:26 +0200
-Message-ID: <20250909124331.10670-7-tiwai@suse.de>
+Subject: [PATCH 09/14] ALSA: line6: Use guard() for spin locks
+Date: Tue,  9 Sep 2025 14:43:29 +0200
+Message-ID: <20250909124331.10670-10-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250909124331.10670-1-tiwai@suse.de>
 References: <20250909124331.10670-1-tiwai@suse.de>
@@ -88,6 +88,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -100,7 +101,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -109,7 +110,6 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-Spam-Score: -2.80
 
 Clean up the code using guard() for spin locks.
@@ -118,253 +118,200 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/parisc/harmony.c | 99 +++++++++++++++++-------------------------
- 1 file changed, 39 insertions(+), 60 deletions(-)
+ sound/usb/line6/capture.c |  6 +-----
+ sound/usb/line6/driver.c  | 29 ++++++++++++++---------------
+ sound/usb/line6/midi.c    | 10 ++--------
+ sound/usb/line6/pcm.c     | 27 ++++++++++++---------------
+ 4 files changed, 29 insertions(+), 43 deletions(-)
 
-diff --git a/sound/parisc/harmony.c b/sound/parisc/harmony.c
-index 76dd2210f9ea..4b5a54da25fb 100644
---- a/sound/parisc/harmony.c
-+++ b/sound/parisc/harmony.c
-@@ -140,32 +140,25 @@ harmony_enable_interrupts(struct snd_harmony *h)
- static void
- harmony_mute(struct snd_harmony *h)
+diff --git a/sound/usb/line6/capture.c b/sound/usb/line6/capture.c
+index 84a9b7b76f43..9ef4faa006a0 100644
+--- a/sound/usb/line6/capture.c
++++ b/sound/usb/line6/capture.c
+@@ -145,8 +145,6 @@ void line6_capture_check_period(struct snd_line6_pcm *line6pcm, int length)
+ static void audio_in_callback(struct urb *urb)
  {
+ 	int i, index, length = 0, shutdown = 0;
 -	unsigned long flags;
 -
--	spin_lock_irqsave(&h->mixer_lock, flags);
-+	guard(spinlock_irqsave)(&h->mixer_lock);
- 	harmony_wait_for_control(h);
- 	harmony_write(h, HARMONY_GAINCTL, HARMONY_GAIN_SILENCE);
--	spin_unlock_irqrestore(&h->mixer_lock, flags);
- }
+ 	struct snd_line6_pcm *line6pcm = (struct snd_line6_pcm *)urb->context;
  
- static void
- harmony_unmute(struct snd_harmony *h)
- {
--	unsigned long flags;
+ 	line6pcm->in.last_frame = urb->start_frame;
+@@ -156,7 +154,7 @@ static void audio_in_callback(struct urb *urb)
+ 		if (urb == line6pcm->in.urbs[index])
+ 			break;
+ 
+-	spin_lock_irqsave(&line6pcm->in.lock, flags);
++	guard(spinlock_irqsave)(&line6pcm->in.lock);
+ 
+ 	for (i = 0; i < LINE6_ISO_PACKETS; ++i) {
+ 		char *fbuf;
+@@ -211,8 +209,6 @@ static void audio_in_callback(struct urb *urb)
+ 		    test_bit(LINE6_STREAM_PCM, &line6pcm->in.running))
+ 			line6_capture_check_period(line6pcm, length);
+ 	}
 -
--	spin_lock_irqsave(&h->mixer_lock, flags);
-+	guard(spinlock_irqsave)(&h->mixer_lock);
- 	harmony_wait_for_control(h);
- 	harmony_write(h, HARMONY_GAINCTL, h->st.gain);
--	spin_unlock_irqrestore(&h->mixer_lock, flags);
+-	spin_unlock_irqrestore(&line6pcm->in.lock, flags);
  }
  
- static void
- harmony_set_control(struct snd_harmony *h)
+ /* open capture callback */
+diff --git a/sound/usb/line6/driver.c b/sound/usb/line6/driver.c
+index c505c1cba162..e97368c31417 100644
+--- a/sound/usb/line6/driver.c
++++ b/sound/usb/line6/driver.c
+@@ -286,31 +286,30 @@ static void line6_data_received(struct urb *urb)
  {
- 	u32 ctrl;
+ 	struct usb_line6 *line6 = (struct usb_line6 *)urb->context;
+ 	struct midi_buffer *mb = &line6->line6midi->midibuf_in;
 -	unsigned long flags;
+ 	int done;
  
--	spin_lock_irqsave(&h->lock, flags);
-+	guard(spinlock_irqsave)(&h->lock);
+ 	if (urb->status == -ESHUTDOWN)
+ 		return;
  
- 	ctrl = (HARMONY_CNTL_C      |
- 		(h->st.format << 6) |
-@@ -174,8 +167,6 @@ harmony_set_control(struct snd_harmony *h)
+ 	if (line6->properties->capabilities & LINE6_CAP_CONTROL_MIDI) {
+-		spin_lock_irqsave(&line6->line6midi->lock, flags);
+-		done =
+-			line6_midibuf_write(mb, urb->transfer_buffer, urb->actual_length);
++		scoped_guard(spinlock_irqsave, &line6->line6midi->lock) {
++			done =
++				line6_midibuf_write(mb, urb->transfer_buffer, urb->actual_length);
  
- 	harmony_wait_for_control(h);
- 	harmony_write(h, HARMONY_CNTL, ctrl);
--
--	spin_unlock_irqrestore(&h->lock, flags);
- }
- 
- static irqreturn_t
-@@ -184,53 +175,53 @@ snd_harmony_interrupt(int irq, void *dev)
- 	u32 dstatus;
- 	struct snd_harmony *h = dev;
- 
--	spin_lock(&h->lock);
--	harmony_disable_interrupts(h);
--	harmony_wait_for_control(h);
--	dstatus = harmony_read(h, HARMONY_DSTATUS);
--	spin_unlock(&h->lock);
-+	scoped_guard(spinlock, &h->lock) {
-+		harmony_disable_interrupts(h);
-+		harmony_wait_for_control(h);
-+		dstatus = harmony_read(h, HARMONY_DSTATUS);
-+	}
- 
- 	if (dstatus & HARMONY_DSTATUS_PN) {
- 		if (h->psubs && h->st.playing) {
--			spin_lock(&h->lock);
--			h->pbuf.buf += h->pbuf.count; /* PAGE_SIZE */
--			h->pbuf.buf %= h->pbuf.size; /* MAX_BUFS*PAGE_SIZE */
-+			scoped_guard(spinlock, &h->lock) {
-+				h->pbuf.buf += h->pbuf.count; /* PAGE_SIZE */
-+				h->pbuf.buf %= h->pbuf.size; /* MAX_BUFS*PAGE_SIZE */
- 
--			harmony_write(h, HARMONY_PNXTADD, 
--				      h->pbuf.addr + h->pbuf.buf);
--			h->stats.play_intr++;
--			spin_unlock(&h->lock);
-+				harmony_write(h, HARMONY_PNXTADD,
-+					      h->pbuf.addr + h->pbuf.buf);
-+				h->stats.play_intr++;
-+			}
-                         snd_pcm_period_elapsed(h->psubs);
- 		} else {
--			spin_lock(&h->lock);
--			harmony_write(h, HARMONY_PNXTADD, h->sdma.addr);
--			h->stats.silence_intr++;
--			spin_unlock(&h->lock);
-+			scoped_guard(spinlock, &h->lock) {
-+				harmony_write(h, HARMONY_PNXTADD, h->sdma.addr);
-+				h->stats.silence_intr++;
+-		if (done < urb->actual_length) {
+-			line6_midibuf_ignore(mb, done);
+-			dev_dbg(line6->ifcdev, "%d %d buffer overflow - message skipped\n",
+-				done, urb->actual_length);
++			if (done < urb->actual_length) {
++				line6_midibuf_ignore(mb, done);
++				dev_dbg(line6->ifcdev, "%d %d buffer overflow - message skipped\n",
++					done, urb->actual_length);
 +			}
  		}
- 	}
+-		spin_unlock_irqrestore(&line6->line6midi->lock, flags);
  
- 	if (dstatus & HARMONY_DSTATUS_RN) {
- 		if (h->csubs && h->st.capturing) {
--			spin_lock(&h->lock);
--			h->cbuf.buf += h->cbuf.count;
--			h->cbuf.buf %= h->cbuf.size;
-+			scoped_guard(spinlock, &h->lock) {
-+				h->cbuf.buf += h->cbuf.count;
-+				h->cbuf.buf %= h->cbuf.size;
- 
--			harmony_write(h, HARMONY_RNXTADD,
--				      h->cbuf.addr + h->cbuf.buf);
--			h->stats.rec_intr++;
--			spin_unlock(&h->lock);
-+				harmony_write(h, HARMONY_RNXTADD,
-+					      h->cbuf.addr + h->cbuf.buf);
-+				h->stats.rec_intr++;
+ 		for (;;) {
+-			spin_lock_irqsave(&line6->line6midi->lock, flags);
+-			done =
+-				line6_midibuf_read(mb, line6->buffer_message,
+-						   LINE6_MIDI_MESSAGE_MAXLEN,
+-						   LINE6_MIDIBUF_READ_RX);
+-			spin_unlock_irqrestore(&line6->line6midi->lock, flags);
++			scoped_guard(spinlock_irqsave, &line6->line6midi->lock) {
++				done =
++					line6_midibuf_read(mb, line6->buffer_message,
++							   LINE6_MIDI_MESSAGE_MAXLEN,
++							   LINE6_MIDIBUF_READ_RX);
 +			}
-                         snd_pcm_period_elapsed(h->csubs);
- 		} else {
--			spin_lock(&h->lock);
--			harmony_write(h, HARMONY_RNXTADD, h->gdma.addr);
--			h->stats.graveyard_intr++;
--			spin_unlock(&h->lock);
-+			scoped_guard(spinlock, &h->lock) {
-+				harmony_write(h, HARMONY_RNXTADD, h->gdma.addr);
-+				h->stats.graveyard_intr++;
-+			}
- 		}
- 	}
  
--	spin_lock(&h->lock);
--	harmony_enable_interrupts(h);
--	spin_unlock(&h->lock);
-+	scoped_guard(spinlock, &h->lock) {
-+		harmony_enable_interrupts(h);
+ 			if (done <= 0)
+ 				break;
+diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
+index 1d77794b4490..4731293728e6 100644
+--- a/sound/usb/line6/midi.c
++++ b/sound/usb/line6/midi.c
+@@ -72,7 +72,6 @@ static void line6_midi_transmit(struct snd_rawmidi_substream *substream)
+ */
+ static void midi_sent(struct urb *urb)
+ {
+-	unsigned long flags;
+ 	int status;
+ 	int num;
+ 	struct usb_line6 *line6 = (struct usb_line6 *)urb->context;
+@@ -84,7 +83,7 @@ static void midi_sent(struct urb *urb)
+ 	if (status == -ESHUTDOWN)
+ 		return;
+ 
+-	spin_lock_irqsave(&line6->line6midi->lock, flags);
++	guard(spinlock_irqsave)(&line6->line6midi->lock);
+ 	num = --line6->line6midi->num_active_send_urbs;
+ 
+ 	if (num == 0) {
+@@ -94,8 +93,6 @@ static void midi_sent(struct urb *urb)
+ 
+ 	if (num == 0)
+ 		wake_up(&line6->line6midi->send_wait);
+-
+-	spin_unlock_irqrestore(&line6->line6midi->lock, flags);
+ }
+ 
+ /*
+@@ -158,17 +155,14 @@ static int line6_midi_output_close(struct snd_rawmidi_substream *substream)
+ static void line6_midi_output_trigger(struct snd_rawmidi_substream *substream,
+ 				      int up)
+ {
+-	unsigned long flags;
+ 	struct usb_line6 *line6 =
+ 	    line6_rawmidi_substream_midi(substream)->line6;
+ 
+ 	line6->line6midi->substream_transmit = substream;
+-	spin_lock_irqsave(&line6->line6midi->lock, flags);
++	guard(spinlock_irqsave)(&line6->line6midi->lock);
+ 
+ 	if (line6->line6midi->num_active_send_urbs == 0)
+ 		line6_midi_transmit(substream);
+-
+-	spin_unlock_irqrestore(&line6->line6midi->lock, flags);
+ }
+ 
+ static void line6_midi_output_drain(struct snd_rawmidi_substream *substream)
+diff --git a/sound/usb/line6/pcm.c b/sound/usb/line6/pcm.c
+index 81e6d5e05135..f61d9f6cf754 100644
+--- a/sound/usb/line6/pcm.c
++++ b/sound/usb/line6/pcm.c
+@@ -182,11 +182,10 @@ static void line6_buffer_release(struct snd_line6_pcm *line6pcm,
+ static int line6_stream_start(struct snd_line6_pcm *line6pcm, int direction,
+ 			      int type)
+ {
+-	unsigned long flags;
+ 	struct line6_pcm_stream *pstr = get_stream(line6pcm, direction);
+ 	int ret = 0;
+ 
+-	spin_lock_irqsave(&pstr->lock, flags);
++	guard(spinlock_irqsave)(&pstr->lock);
+ 	if (!test_and_set_bit(type, &pstr->running) &&
+ 	    !(pstr->active_urbs || pstr->unlink_urbs)) {
+ 		pstr->count = 0;
+@@ -199,7 +198,6 @@ static int line6_stream_start(struct snd_line6_pcm *line6pcm, int direction,
+ 
+ 	if (ret < 0)
+ 		clear_bit(type, &pstr->running);
+-	spin_unlock_irqrestore(&pstr->lock, flags);
+ 	return ret;
+ }
+ 
+@@ -207,21 +205,20 @@ static int line6_stream_start(struct snd_line6_pcm *line6pcm, int direction,
+ static void line6_stream_stop(struct snd_line6_pcm *line6pcm, int direction,
+ 			  int type)
+ {
+-	unsigned long flags;
+ 	struct line6_pcm_stream *pstr = get_stream(line6pcm, direction);
+ 
+-	spin_lock_irqsave(&pstr->lock, flags);
+-	clear_bit(type, &pstr->running);
+-	if (!pstr->running) {
+-		spin_unlock_irqrestore(&pstr->lock, flags);
+-		line6_unlink_audio_urbs(line6pcm, pstr);
+-		spin_lock_irqsave(&pstr->lock, flags);
+-		if (direction == SNDRV_PCM_STREAM_CAPTURE) {
+-			line6pcm->prev_fbuf = NULL;
+-			line6pcm->prev_fsize = 0;
+-		}
++	scoped_guard(spinlock_irqsave, &pstr->lock) {
++		clear_bit(type, &pstr->running);
++		if (pstr->running)
++			return;
 +	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -297,7 +288,7 @@ snd_harmony_playback_trigger(struct snd_pcm_substream *ss, int cmd)
- 	if (h->st.capturing)
- 		return -EBUSY;
- 
--	spin_lock(&h->lock);
-+	guard(spinlock)(&h->lock);
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 		h->st.playing = 1;
-@@ -316,11 +307,9 @@ snd_harmony_playback_trigger(struct snd_pcm_substream *ss, int cmd)
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
- 	case SNDRV_PCM_TRIGGER_SUSPEND:
- 	default:
--		spin_unlock(&h->lock);
- 		snd_BUG();
- 		return -EINVAL;
++
++	line6_unlink_audio_urbs(line6pcm, pstr);
++	if (direction == SNDRV_PCM_STREAM_CAPTURE) {
++		guard(spinlock_irqsave)(&pstr->lock);
++		line6pcm->prev_fbuf = NULL;
++		line6pcm->prev_fsize = 0;
  	}
--	spin_unlock(&h->lock);
- 	
- 	return 0;
- }
-@@ -333,7 +322,7 @@ snd_harmony_capture_trigger(struct snd_pcm_substream *ss, int cmd)
- 	if (h->st.playing)
- 		return -EBUSY;
- 
--	spin_lock(&h->lock);
-+	guard(spinlock)(&h->lock);
-         switch (cmd) {
-         case SNDRV_PCM_TRIGGER_START:
- 		h->st.capturing = 1;
-@@ -352,11 +341,9 @@ snd_harmony_capture_trigger(struct snd_pcm_substream *ss, int cmd)
-         case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-         case SNDRV_PCM_TRIGGER_SUSPEND:
- 	default:
--		spin_unlock(&h->lock);
- 		snd_BUG();
-                 return -EINVAL;
-         }
--	spin_unlock(&h->lock);
- 		
-         return 0;
- }
-@@ -674,7 +661,7 @@ snd_harmony_volume_get(struct snd_kcontrol *kc,
- 	int invert = (kc->private_value >> 24) & 0xff;
- 	int left, right;
- 	
--	spin_lock_irq(&h->mixer_lock);
-+	guard(spinlock_irq)(&h->mixer_lock);
- 
- 	left = (h->st.gain >> shift_left) & mask;
- 	right = (h->st.gain >> shift_right) & mask;
-@@ -687,8 +674,6 @@ snd_harmony_volume_get(struct snd_kcontrol *kc,
- 	if (shift_left != shift_right)
- 		ucontrol->value.integer.value[1] = right;
- 
--	spin_unlock_irq(&h->mixer_lock);
--
- 	return 0;
- }  
- 
-@@ -704,7 +689,7 @@ snd_harmony_volume_put(struct snd_kcontrol *kc,
- 	int left, right;
- 	int old_gain = h->st.gain;
- 	
--	spin_lock_irq(&h->mixer_lock);
-+	guard(spinlock_irq)(&h->mixer_lock);
- 
- 	left = ucontrol->value.integer.value[0] & mask;
- 	if (invert)
-@@ -722,8 +707,6 @@ snd_harmony_volume_put(struct snd_kcontrol *kc,
- 
- 	snd_harmony_set_new_gain(h);
- 
--	spin_unlock_irq(&h->mixer_lock);
--	
- 	return h->st.gain != old_gain;
+-	spin_unlock_irqrestore(&pstr->lock, flags);
  }
  
-@@ -743,13 +726,11 @@ snd_harmony_captureroute_get(struct snd_kcontrol *kc,
- 	struct snd_harmony *h = snd_kcontrol_chip(kc);
- 	int value;
- 	
--	spin_lock_irq(&h->mixer_lock);
-+	guard(spinlock_irq)(&h->mixer_lock);
- 
- 	value = (h->st.gain >> HARMONY_GAIN_IS_SHIFT) & 1;
- 	ucontrol->value.enumerated.item[0] = value;
- 
--	spin_unlock_irq(&h->mixer_lock);
--
- 	return 0;
- }  
- 
-@@ -761,7 +742,7 @@ snd_harmony_captureroute_put(struct snd_kcontrol *kc,
- 	int value;
- 	int old_gain = h->st.gain;
- 	
--	spin_lock_irq(&h->mixer_lock);
-+	guard(spinlock_irq)(&h->mixer_lock);
- 
- 	value = ucontrol->value.enumerated.item[0] & 1;
- 	h->st.gain &= ~HARMONY_GAIN_IS_MASK;
-@@ -769,8 +750,6 @@ snd_harmony_captureroute_put(struct snd_kcontrol *kc,
- 
- 	snd_harmony_set_new_gain(h);
- 
--	spin_unlock_irq(&h->mixer_lock);
--	
- 	return h->st.gain != old_gain;
- }
- 
+ /* common PCM trigger callback */
 -- 
 2.50.1
 
