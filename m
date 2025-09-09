@@ -1,69 +1,69 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19D63376AE
-	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6516B338F5B
+	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757420432; cv=none; b=DNxcCy4MdVou01NCTP9ojJx2/4hVpi5ROo/qdjibheT1tknxMrswMaig8pxzEPsU0RapymYf7fl+i1nBFIcBsML24VbMvMgU60sW3L4EVaopfNHDW2mTajc3e92l1Hxseffqa0nYyLjbPLtRjaH4D6NK+Gz6R/stnBdKeMmXstE=
+	t=1757420433; cv=none; b=KakkPUi9h/7+pQ5i0CzzHs69bByNTUsHG8pY4sSWeBai/Hc3LhS0b/31TKdW0IpHX3mDE9CTjtVqIL94ukp6oCopjPQkGpTDEo46qJVkQWOSjR56BDupCekjRpWKv6ca/Aeqs+MhraVqKVeb3vHj6dfBKkPOXI3Oc7/qxBU1hXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757420432; c=relaxed/simple;
-	bh=Vob2QVOiy3TJum+gYviV62RlyAAAfxmjXX+ywQHAW1E=;
+	s=arc-20240116; t=1757420433; c=relaxed/simple;
+	bh=3K5xmPHboti1L/ErBrejTcSDf/a3Rugqu21m6y+BMzA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=friTedh0AUWi+w15yvWIZwAHfQX7n3zFPczJHHe9wzTzNM6jrVke4MxHtmz++SV2miFiIx9PW3+hOki2TrrSWS9tCt4HlaZGDqgp8NVUqRCRcRBYMGw81I7Sh9/mncJjZ7VPD2/qTxvzSfSP2ktWhHGPYkcR02zDpOkp+vOv5DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mup4SmyB; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=hgqEMX0UTsoCsKmKPKivqgHRyq80BaG6pLisblNx2J23in2+bcQnfWDt3f9aEG/f06pb9qhK8uQl/WtEg3ViBvHhn6telRNpGo9WIO8x4lKf7iuvIwoZ4fNsmsZNsvaxgdWGsJWAtXT7hJK1TMyDazdtjhsgUAB7wiFPtutZ8J8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IT8Qnq3O; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mup4SmyB"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5899LRcT029803
-	for <linux-sound@vger.kernel.org>; Tue, 9 Sep 2025 12:20:30 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IT8Qnq3O"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5899LRuH009159
+	for <linux-sound@vger.kernel.org>; Tue, 9 Sep 2025 12:20:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=8G8MT1LjzV5
-	F7x7h2zP9USaReyOZ6QfiVzZlkcEwqQo=; b=mup4SmyBrX3q3NupGxjVD7ylL3O
-	d4yLScnxDeH4FNQGGIDQbx65SaIle3x14fvG3KUBi/v92eTD2ctopYm747WnKG2r
-	/ebIzFVjLTXvIDjpTVnQNER4i+VaDmqkttrdbvzTIA2RQ4Yz6L9wu8ertV7VC/Q8
-	YIbIPVQat7yenzmcLPXchlXfpM0IqhlXp3QtIoM/VPeImePgSjzva+6H3tb4zilF
-	AJ6IKPBz0+p72QDrzi+VfFqm/PSLhB+8GjUo7FohY9/Zj3lhB1vbG+d2KPFazihr
-	Ihz/eUG84ncooXYJYZHi8FBMVLMjtpYmoy2kp0gpVx7iW4S2dOH4rVOf0vg==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491t37vn0r-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=lB0PeZTreDY
+	Q4uFWa9S5tmFsvOqmEo73wcjiWz8cRXI=; b=IT8Qnq3O0SyQxaG76SvjknEAwao
+	LUMvaDLMmKxpAUmsKQAsRV8TUyWx4C/xCZeNaW79+ha0Ke0hGtAn2NnzWCpJd2AB
+	8ePamP9xbbGzTYwZ1EKWMpencTO3L/TGUhajy8t1+DJRr9cR2G2KcAwfwGdhUDRT
+	jt9o+3wNCpAXbPVcDYao5yGu3lV9OFO82M1aetgzt3S3HucJgFvr3tXSQHCq9IhU
+	UQ4gD9Pv2wGPeYUt+dOLZ2RpWtVRevnSQ6wgxDI20ChQpFzQpmpXIIrZhAaxxdSL
+	c7iP8Xs898NN5FgSFned4Nb6sDMuRhfNw6cOdDBCPBEkF8MQbWKEpFAZSDQ==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491qhdvybp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 09 Sep 2025 12:20:30 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4b5e9b60ce6so130813681cf.2
-        for <linux-sound@vger.kernel.org>; Tue, 09 Sep 2025 05:20:29 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Tue, 09 Sep 2025 12:20:31 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-72108a28f05so219394976d6.3
+        for <linux-sound@vger.kernel.org>; Tue, 09 Sep 2025 05:20:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757420428; x=1758025228;
+        d=1e100.net; s=20230601; t=1757420430; x=1758025230;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8G8MT1LjzV5F7x7h2zP9USaReyOZ6QfiVzZlkcEwqQo=;
-        b=e70Ulel+dGjmF5rIIQIfFLemlwHBOjqVYONJGZxUmoAYRFkSAmIJklfHmo2t2+7KT3
-         IXPd2Hj73W/sCfxP6d7CBOPz0y6GbwbCbhKcO04zjaspA/U5aqm7mp4amNXtd4/pzGkn
-         Woanmkx/LTixUlKllqwTM8fQcGpHzXk5eQ+XawnMyiXOtt5L8ZQkYRrMC6MX8NIBWkp/
-         GigEz2R3Z7PgtB0A8Y1LJDeHQB9QLGxrkviKEdoWKUiC8p8Ck0VH3wROET2BR6Pc38Jc
-         mJFIa7OfNggdoUqV4YSVW0fuVTgNrx2SR+Fs0VRl+0+s5v3U1DlTMrZml2O+f9KUHznx
-         +W6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUzuH/LVLAbrYZ/eSzbsYj4PCpuMmdDccEr+1GSsgLT+uMv/qVf7oznbY0AwMK939pDg/nqFajOlbVdkw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmStsACyOz5t0xzQ3OMpetPzLbtEMSoB8VMjrLs5a+/SLpsfq1
-	ep6UFyFYqFGACVUzBjSv8H3rI3dbasaD2rET1hxnLKFwzY2crOXW4vKVHFdxfRH7QOlhpP2dQ/v
-	1ePARXY02u8iyn4Ao/348/R3/15g0W2FaNpiQk+tCnpY+LlLRshbbCH8g3ujEBH1BDA==
-X-Gm-Gg: ASbGnct5QyhXrEC2vSyzHZAGNqVsLVTyt9lG+aB6zLY+qMYD3fv+YG3eaIRGPQr3Wci
-	JqN2/n4jMgHkc6dXBdKHqrkXPrwybjR1vK0BoAW9tYPnkEhUlC555qaili9yt7SNc6olE9+POjh
-	4EMLZeMItUZtJ73nU4F9DkZ5pbLlQiFWi/4TLfxGKGUhKvD6HJLNeZ/Lkv+QskrMT00jPkyyEGH
-	XBxtpK9p9JwfQKUZIcgvhzM5yOHrX+r6GssM+ve5uqUcS4ek8Fah44/H75v8Tw+hTEznXAViXqY
-	+YCMg3XGW/vDOtEiT97E3D15VLaXYdfvg71boQKS8U34CbNSymhVIg==
-X-Received: by 2002:a05:622a:4816:b0:4b5:146b:4f23 with SMTP id d75a77b69052e-4b5f8593458mr120757111cf.72.1757420427347;
-        Tue, 09 Sep 2025 05:20:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEyE4o5g2tzXIgE/waSqSN++D8rmhx3Yy+KxD2D6Mc7aqdCmqk4G3HEZ9A5YJcSuuGHZBatKg==
-X-Received: by 2002:a05:622a:4816:b0:4b5:146b:4f23 with SMTP id d75a77b69052e-4b5f8593458mr120756711cf.72.1757420426575;
-        Tue, 09 Sep 2025 05:20:26 -0700 (PDT)
+        bh=lB0PeZTreDYQ4uFWa9S5tmFsvOqmEo73wcjiWz8cRXI=;
+        b=hFwKOTRYxcTXWHfloNbcjIlpW9TLaNNPP8V/wAASoUZMP8KtLbWJlc/zm7/zg4aMLw
+         C2jUBODEYgBxbiG0P4aDZ/xsIJV+6TI+zHcWxie2+vkF0xtwJ6IUzvndz5jrW/EOiA4p
+         QFd2xy6javcdWHwX3c0dMCm+mbiMUXNoxkGJLsFo0mWyDcBJXxY27Uh1pWfR87O/BGXF
+         TpvnY/eyATtljQYREGchYVyK2h75TH/zGbEyihQPWhm6HU5MqLE3eqzW/IA2louD31Ys
+         dQPAD+maaG3M+P5QI1L/ThV8sW87Gcs+AkAKpiV9JXE1fOqvVu9TJ3axRhBAWbo8sOI7
+         teqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIKbgnt2aKqBiLd2Y1MqjnmiSYvmDRZY/rHsNMvbGnbIh5Q58+aUUfpeCrsiJeXX/wLOjx5QZFtk0inw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzB+HUz6T5Nmq/T7jwR8CjdX6H8lDLbi0VapINxof1hRDpgKq0T
+	OhB+mFO9xP7ULxxde2vm5vWl7LDNnk2hcYul1jEdLbB9oCfayHdSMZHAeSl1d8Pln1fvOuVrIsm
+	prBDppBQvrGrfXdp3nt4/DOtDUagxCOcjsAj8t67dWBuQ7Na2GK1RaVzvNdRSPbfsOA==
+X-Gm-Gg: ASbGncu4RqgQLOZwYqxOqUttFVZIazFNMwlKGn2303WcDwQf2g82vYwLkR241o8ZwOL
+	nLMfodRIdWMU+ysbpQKlUKL+j04W/GvQ0kYHw+SAWGNTvJpbiqOgi0ZjPBKoDrJVMZdfJhWYcLN
+	V5AY9y5GdteYL9K5HMcK7EpqkECkje4xUq8oyQCYw/zSw2TwhQcRCT5w2FmiVy80LuIa+FnOdOC
+	mSZ99unGE4ugDbVYVVl9V2BoQ88Zvo+sEOt9mUUGdS4jwpOUWaUHIm43If1SmqDJuMlpPPMCqi9
+	ZuA90EmXpnKLUJ3/e63u+V9F6CbkJhudzCSIp9wjo9XpcdOByiuriQ==
+X-Received: by 2002:a05:6214:1d22:b0:713:eb89:2d83 with SMTP id 6a1803df08f44-7393ca97d6cmr108893326d6.35.1757420430211;
+        Tue, 09 Sep 2025 05:20:30 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGIkqRPqZ80G2kS2sZppCLlkzHqKSS7y8bRlsnibaLdSQA0Ndi1sbn9C8H832lif8DyRXP1Sw==
+X-Received: by 2002:a05:6214:1d22:b0:713:eb89:2d83 with SMTP id 6a1803df08f44-7393ca97d6cmr108892886d6.35.1757420429603;
+        Tue, 09 Sep 2025 05:20:29 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e75224db20sm2414629f8f.60.2025.09.09.05.20.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e75224db20sm2414629f8f.60.2025.09.09.05.20.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 05:20:26 -0700 (PDT)
+        Tue, 09 Sep 2025 05:20:27 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: broonie@kernel.org
 Cc: lgirdwood@gmail.com, tiwai@suse.com, vkoul@kernel.org, srini@kernel.org,
@@ -71,9 +71,9 @@ Cc: lgirdwood@gmail.com, tiwai@suse.com, vkoul@kernel.org, srini@kernel.org,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         dmitry.baryshkov@oss.qualcomm.com, linux-sound@vger.kernel.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v5 09/13] ASoC: codecs: wcd-common: move component ops to common
-Date: Tue,  9 Sep 2025 13:19:50 +0100
-Message-ID: <20250909121954.225833-10-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v5 10/13] ASoC: codecs: wcd939x: get regmap directly
+Date: Tue,  9 Sep 2025 13:19:51 +0100
+Message-ID: <20250909121954.225833-11-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250909121954.225833-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20250909121954.225833-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -84,250 +84,102 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: JbwS7Rsf8ajbZ4BzZLAK5zNSU3Tsd5Yf
-X-Proofpoint-GUID: JbwS7Rsf8ajbZ4BzZLAK5zNSU3Tsd5Yf
-X-Authority-Analysis: v=2.4 cv=NdLm13D4 c=1 sm=1 tr=0 ts=68c01b8e cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=eQjB__F64b99YC4tFhYA:9
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA2NiBTYWx0ZWRfX0vRWQrBwko4Y
- OXrjRKgpVHjcfcX1QE6l1/GGXp+MQNGb+dfIc6He5abynr5/lWDyD82qSpTqcMgxyml8X3VNq81
- qIguaOUVF/eV9NuCVdhBxcfqYBRMdKlGkx9eraHVbiohBa4YFyZ5RmUpPfYXiWk9uT7q2MQZWfl
- yV18K6f6D0etdZrsnMsNa7mQxW1ublYvJfuVuZgYuxTwU5HTTL+UkFj5tpZslgwi+ZvLiqIb5lJ
- DHBJcloxhX3sFyg+VAKWgW8VEBzKWQftnnr4Fd8YRAO8pxczmhV2EIHYaASbYFrRZDV/M35VUaC
- 0ZdComCrJfFck3mcMohi1xw6ZVIlMfe3FpSZl+NsmRft7L/gWpUSHbrh+YVdT5K7qI1Y6KxQm3t
- 9cHc335A
+X-Proofpoint-GUID: vs29YiWqoXedn89jzpJzyxiwI02n7A_D
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDAzNCBTYWx0ZWRfXzYo9mTjGpCcf
+ GW22YtJNSMI9YlzjvftcG0P7hqfRbsZgESuZ50ufJlCBIbqDTCoCYC4t8v5K5ZuvFisuqg5Txjh
+ 53xBn7LuBrIpDrr5/xq/AbuGptNFkrCMDL0sjG/tEaVVV0ocqL1DH9fjJi7Q6MlRxYRSMY7bgBD
+ JwxU+nd1mPcu9gRfmjKN5AhSUsiiKD13MbHHem4oA+k3u8jZalIvvAvc7NJ/KWaORmVWCL6kMIu
+ Oix4loN9TVnTXHioMPIjdeYysDB5CkXD8SZja1pf705uaigHUPj/c0D3p3t+mWoip9eB2+bUjx0
+ LItvO/tFmlK3aM2hvDrwcXYB8LbaZ6uZr+7LuBmot+8R+nyptR6rRDq96SvQm9VtTGF+PV21T/a
+ imXJscDk
+X-Authority-Analysis: v=2.4 cv=YOCfyQGx c=1 sm=1 tr=0 ts=68c01b8f cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=jWMDT5uzmWzhJut3sAYA:9
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-ORIG-GUID: vs29YiWqoXedn89jzpJzyxiwI02n7A_D
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-09_01,2025-09-08_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 adultscore=0 suspectscore=0 phishscore=0
- clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501
+ malwarescore=0 phishscore=0 clxscore=1015 adultscore=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080066
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080034
 
-component_ops for wcd97x, wcd938x, wcd939x soundwire codecs are exactly
-identlical, move them to common driver to remove this duplicate code.
+for some reason we ended up with a boiler plate for dev_get_regmap in
+wcd939x codec and started exporting a symbol for this. Remove this
+redundant wrapper and direclty get regmap.
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- sound/soc/codecs/wcd-common.c  | 27 +++++++++++++++++++++++++++
- sound/soc/codecs/wcd-common.h  |  1 +
- sound/soc/codecs/wcd937x-sdw.c | 29 ++---------------------------
- sound/soc/codecs/wcd938x-sdw.c | 20 ++------------------
- sound/soc/codecs/wcd939x-sdw.c | 29 ++---------------------------
- 5 files changed, 34 insertions(+), 72 deletions(-)
+ sound/soc/codecs/wcd939x-sdw.c | 9 ---------
+ sound/soc/codecs/wcd939x.c     | 6 +++---
+ sound/soc/codecs/wcd939x.h     | 6 ------
+ 3 files changed, 3 insertions(+), 18 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd-common.c b/sound/soc/codecs/wcd-common.c
-index 8f3c0806cdc9..7a48cc5064cc 100644
---- a/sound/soc/codecs/wcd-common.c
-+++ b/sound/soc/codecs/wcd-common.c
-@@ -7,6 +7,8 @@
- #include <linux/device.h>
- #include <linux/of.h>
- #include <linux/printk.h>
-+#include <linux/component.h>
-+#include <linux/pm_runtime.h>
- 
- #include "wcd-common.h"
- 
-@@ -66,5 +68,30 @@ int wcd_dt_parse_micbias_info(struct wcd_common *common)
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(wcd_dt_parse_micbias_info);
-+
-+static int wcd_sdw_component_bind(struct device *dev, struct device *master, void *data)
-+{
-+	pm_runtime_set_autosuspend_delay(dev, 3000);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+
-+	return 0;
-+}
-+
-+static void wcd_sdw_component_unbind(struct device *dev, struct device *master, void *data)
-+{
-+	pm_runtime_disable(dev);
-+	pm_runtime_set_suspended(dev);
-+	pm_runtime_dont_use_autosuspend(dev);
-+}
-+
-+const struct component_ops wcd_sdw_component_ops = {
-+	.bind = wcd_sdw_component_bind,
-+	.unbind = wcd_sdw_component_unbind,
-+};
-+EXPORT_SYMBOL_GPL(wcd_sdw_component_ops);
-+
- MODULE_DESCRIPTION("Common Qualcomm WCD Codec helpers driver");
- MODULE_LICENSE("GPL");
-diff --git a/sound/soc/codecs/wcd-common.h b/sound/soc/codecs/wcd-common.h
-index d94e8879a1d7..0d4e9f8e39f2 100644
---- a/sound/soc/codecs/wcd-common.h
-+++ b/sound/soc/codecs/wcd-common.h
-@@ -34,6 +34,7 @@ struct wcd_common {
- 	u32 micb_vout[WCD_MAX_MICBIAS];
- };
- 
-+extern const struct component_ops wcd_sdw_component_ops;
- int wcd_get_micb_vout_ctl_val(struct device *dev, u32 micb_mv);
- int wcd_dt_parse_micbias_info(struct wcd_common *common);
- 
-diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sdw.c
-index 8f2819163527..59c353cafd31 100644
---- a/sound/soc/codecs/wcd937x-sdw.c
-+++ b/sound/soc/codecs/wcd937x-sdw.c
-@@ -983,31 +983,6 @@ static const struct sdw_slave_ops wcd9370_slave_ops = {
- 	.interrupt_callback = wcd9370_interrupt_callback,
- };
- 
--static int wcd937x_sdw_component_bind(struct device *dev,
--				      struct device *master, void *data)
--{
--	pm_runtime_set_autosuspend_delay(dev, 3000);
--	pm_runtime_use_autosuspend(dev);
--	pm_runtime_mark_last_busy(dev);
--	pm_runtime_set_active(dev);
--	pm_runtime_enable(dev);
--
--	return 0;
--}
--
--static void wcd937x_sdw_component_unbind(struct device *dev,
--					 struct device *master, void *data)
--{
--	pm_runtime_disable(dev);
--	pm_runtime_set_suspended(dev);
--	pm_runtime_dont_use_autosuspend(dev);
--}
--
--static const struct component_ops wcd937x_sdw_component_ops = {
--	.bind = wcd937x_sdw_component_bind,
--	.unbind = wcd937x_sdw_component_unbind,
--};
--
- static int wcd9370_probe(struct sdw_slave *pdev,
- 			 const struct sdw_device_id *id)
- {
-@@ -1093,7 +1068,7 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 	}
- 
- 
--	ret = component_add(dev, &wcd937x_sdw_component_ops);
-+	ret = component_add(dev, &wcd_sdw_component_ops);
- 	if (ret)
- 		return ret;
- 
-@@ -1107,7 +1082,7 @@ static int wcd9370_remove(struct sdw_slave *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 
--	component_del(dev, &wcd937x_sdw_component_ops);
-+	component_del(dev, &wcd_sdw_component_ops);
- 
- 	return 0;
- }
-diff --git a/sound/soc/codecs/wcd938x-sdw.c b/sound/soc/codecs/wcd938x-sdw.c
-index 1dc13b6fabfa..92714aef09d5 100644
---- a/sound/soc/codecs/wcd938x-sdw.c
-+++ b/sound/soc/codecs/wcd938x-sdw.c
-@@ -1182,22 +1182,6 @@ static const struct sdw_slave_ops wcd9380_slave_ops = {
- 	.bus_config = wcd9380_bus_config,
- };
- 
--static int wcd938x_sdw_component_bind(struct device *dev,
--				      struct device *master, void *data)
--{
--	return 0;
--}
--
--static void wcd938x_sdw_component_unbind(struct device *dev,
--					 struct device *master, void *data)
--{
--}
--
--static const struct component_ops wcd938x_sdw_component_ops = {
--	.bind   = wcd938x_sdw_component_bind,
--	.unbind = wcd938x_sdw_component_unbind,
--};
--
- static int wcd9380_probe(struct sdw_slave *pdev,
- 			 const struct sdw_device_id *id)
- {
-@@ -1262,7 +1246,7 @@ static int wcd9380_probe(struct sdw_slave *pdev,
- 	pm_runtime_set_active(dev);
- 	pm_runtime_enable(dev);
- 
--	ret = component_add(dev, &wcd938x_sdw_component_ops);
-+	ret = component_add(dev, &wcd_sdw_component_ops);
- 	if (ret)
- 		goto err_disable_rpm;
- 
-@@ -1280,7 +1264,7 @@ static int wcd9380_remove(struct sdw_slave *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 
--	component_del(dev, &wcd938x_sdw_component_ops);
-+	component_del(dev, &wcd_sdw_component_ops);
- 
- 	pm_runtime_disable(dev);
- 	pm_runtime_set_suspended(dev);
 diff --git a/sound/soc/codecs/wcd939x-sdw.c b/sound/soc/codecs/wcd939x-sdw.c
-index 97a829e3ce4f..6aecad2a28aa 100644
+index 6aecad2a28aa..38da706d80be 100644
 --- a/sound/soc/codecs/wcd939x-sdw.c
 +++ b/sound/soc/codecs/wcd939x-sdw.c
-@@ -1378,31 +1378,6 @@ static const struct sdw_slave_ops wcd9390_slave_ops = {
- 	.bus_config = wcd9390_bus_config,
- };
+@@ -187,15 +187,6 @@ int wcd939x_sdw_set_sdw_stream(struct wcd939x_sdw_priv *wcd,
+ }
+ EXPORT_SYMBOL_GPL(wcd939x_sdw_set_sdw_stream);
  
--static int wcd939x_sdw_component_bind(struct device *dev, struct device *master,
--				      void *data)
+-struct regmap *wcd939x_swr_get_regmap(struct wcd939x_sdw_priv *wcd)
 -{
--	pm_runtime_set_autosuspend_delay(dev, 3000);
--	pm_runtime_use_autosuspend(dev);
--	pm_runtime_mark_last_busy(dev);
--	pm_runtime_set_active(dev);
--	pm_runtime_enable(dev);
+-	if (wcd->regmap)
+-		return wcd->regmap;
 -
--	return 0;
+-	return ERR_PTR(-EINVAL);
 -}
+-EXPORT_SYMBOL_GPL(wcd939x_swr_get_regmap);
 -
--static void wcd939x_sdw_component_unbind(struct device *dev,
--					 struct device *master, void *data)
--{
--	pm_runtime_disable(dev);
--	pm_runtime_set_suspended(dev);
--	pm_runtime_dont_use_autosuspend(dev);
--}
--
--static const struct component_ops wcd939x_sdw_component_ops = {
--	.bind = wcd939x_sdw_component_bind,
--	.unbind = wcd939x_sdw_component_unbind,
--};
--
- static int wcd9390_probe(struct sdw_slave *pdev, const struct sdw_device_id *id)
+ static int wcd9390_update_status(struct sdw_slave *slave,
+ 				 enum sdw_slave_status status)
  {
- 	struct device *dev = &pdev->dev;
-@@ -1466,7 +1441,7 @@ static int wcd9390_probe(struct sdw_slave *pdev, const struct sdw_device_id *id)
- 		regcache_cache_only(wcd->regmap, true);
+diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
+index a414cd99b946..e74e6f013131 100644
+--- a/sound/soc/codecs/wcd939x.c
++++ b/sound/soc/codecs/wcd939x.c
+@@ -3374,10 +3374,10 @@ static int wcd939x_bind(struct device *dev)
  	}
  
--	ret = component_add(dev, &wcd939x_sdw_component_ops);
-+	ret = component_add(dev, &wcd_sdw_component_ops);
- 	if (ret)
- 		return ret;
+ 	/* Get regmap from TX SoundWire device */
+-	wcd939x->regmap = wcd939x_swr_get_regmap(wcd939x->sdw_priv[AIF1_CAP]);
+-	if (IS_ERR(wcd939x->regmap)) {
++	wcd939x->regmap = wcd939x->sdw_priv[AIF1_CAP]->regmap;
++	if (!wcd939x->regmap) {
+ 		dev_err(dev, "could not get TX device regmap\n");
+-		ret = PTR_ERR(wcd939x->regmap);
++		ret = -ENODEV;
+ 		goto err_remove_rx_link;
+ 	}
  
-@@ -1481,7 +1456,7 @@ static int wcd9390_remove(struct sdw_slave *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct wcd939x_sdw_priv *wcd = dev_get_drvdata(dev);
+diff --git a/sound/soc/codecs/wcd939x.h b/sound/soc/codecs/wcd939x.h
+index ca6353222ea0..6bd2366587a8 100644
+--- a/sound/soc/codecs/wcd939x.h
++++ b/sound/soc/codecs/wcd939x.h
+@@ -918,8 +918,6 @@ int wcd939x_sdw_hw_params(struct wcd939x_sdw_priv *wcd,
+ 			  struct snd_pcm_substream *substream,
+ 			  struct snd_pcm_hw_params *params,
+ 			  struct snd_soc_dai *dai);
+-
+-struct regmap *wcd939x_swr_get_regmap(struct wcd939x_sdw_priv *wcd);
+ #else
  
--	component_del(dev, &wcd939x_sdw_component_ops);
-+	component_del(dev, &wcd_sdw_component_ops);
+ static inline int wcd939x_sdw_free(struct wcd939x_sdw_priv *wcd,
+@@ -944,10 +942,6 @@ static inline int wcd939x_sdw_hw_params(struct wcd939x_sdw_priv *wcd,
+ 	return -EOPNOTSUPP;
+ }
  
- 	if (wcd->regmap)
- 		regmap_exit(wcd->regmap);
+-struct regmap *wcd939x_swr_get_regmap(struct wcd939x_sdw_priv *wcd)
+-{
+-	return PTR_ERR(-EINVAL);
+-}
+ #endif /* CONFIG_SND_SOC_WCD939X_SDW */
+ 
+ #endif /* __WCD939X_H__ */
 -- 
 2.50.0
 
