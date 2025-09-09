@@ -1,140 +1,293 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7081821FF45
-	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 01:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F71D315D36;
+	Tue,  9 Sep 2025 06:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757382154; cv=none; b=PVLt8SuNhGJ8YOMFYaEI+vfuidTS5XXm1NxdVSXjIusBPyibpIUbLOsrGWchjjx+nQW+A2mGVzduQb+kFwAePLcmzwrRzcHjekg8Qi5DedVTnMudN3WoG5TDATJKzsl6pDQOgxRfwjKkPKhom3L6UXBopjQb08xmBhmKZeJ+e5o=
+	t=1757398635; cv=none; b=jbCLoyjAmOKtulNm7dR8aPQ1+EBkuBey4eFVVPcpYbOKT+QHemx0f5bVZaLvJtM0HaGfnuhumHaA7qt5sG8GN84yNbylQNuaaJWx2QF70AwDtmhHqeO8u4BgVRMdp977DVtxY98zq9/L/qZcimGJ94iGhvaWN6HL7lDzoxMQJC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757382154; c=relaxed/simple;
-	bh=KQP3D3FC6Cb3qBPn1Kg6IJbzGqV2kIoSjvKB6W3Qea8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nUR5I+rSjeJLIm8G3hpOAsa2LhwObqdhoDQzBQZfABMWfo/vFq12P3HY8+3JV7jLO03yCw4qpRRzTsqSp950uuf8PtmWdM1LC3H3s6Xac0Y6oprjxKSalW5kgW6rppbggkOJ3/u5ypBnQB2AEUqAb7x+PXSaINOpmX3CoXqBnXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nz3t9I2v; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1757398635; c=relaxed/simple;
+	bh=yoHhQ9CgBx7px++zQ5XjK1tbH2Daas08llkbF8aNblQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u3E56BybowBwo0zUVMu2BhRUJC/yh/MeM9vwcPQkNYPe9udAmBQ1D+EL21kG3uFfQElGNTQv2bXagOgtogpTVYsVqI/6buz/LK13tCYMDEinPDkz9mq5zcRrJOSBIdV5M+3i9rzz9/zbhNZH60GwqPzBgHL4rHLKEhCsl9TaqKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iwHrR08l; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nz3t9I2v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757382152; x=1788918152;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=KQP3D3FC6Cb3qBPn1Kg6IJbzGqV2kIoSjvKB6W3Qea8=;
-  b=nz3t9I2vUHABRyI6dfG2r/s/MypSZxdVF3icWrUn0Uuz1R1NIwKRGSRR
-   MeqJ243zq7huKO0apM5uQ6/p//E3WXHN1ewAo55vOuVuCwfzOJKD2UsvA
-   ACdGyzA4AR7pKf9C6KKLrJff23/wKjfIDDhjLNT7FJlBPlmj5KLhXXyt7
-   b2V621nDgT2CzvBHoRjRT6DmGPJu7n3U3oyOIFwqD/Qe1NmbYy0eE+b01
-   W9GphN8mNcz0nTxjhNFKfR+CwLcEv67Ty7BUkzcLC8tUkQNm8zkoEkxv/
-   dj9yOnRiBDZyuo4/C42uSO1k4lvPRgwI8I56uWkuqkwW+fPcJd2H/h8Yg
-   Q==;
-X-CSE-ConnectionGUID: KMDBj3heQpGyvkpnk8pS2Q==
-X-CSE-MsgGUID: C8wg8K5cQQWeVJnfYJdDJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11547"; a="59727284"
-X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="59727284"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 18:42:31 -0700
-X-CSE-ConnectionGUID: rHLuBwQ+ThCJ7jeeqCPtHg==
-X-CSE-MsgGUID: 98BJ4mUuSl6lm/ussRafxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,250,1751266800"; 
-   d="scan'208";a="203729964"
-Received: from unknown (HELO [10.227.10.84]) ([10.227.10.84])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2025 18:42:29 -0700
-Message-ID: <7687e3cd-2f66-4092-92aa-774b7ed7e487@linux.intel.com>
-Date: Tue, 9 Sep 2025 09:42:20 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iwHrR08l"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3df2f4aedc7so2956900f8f.2;
+        Mon, 08 Sep 2025 23:17:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757398632; x=1758003432; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2FFPJcPGJNDsgjdC7NcMD9qGE/tE0wRplyMDk1rByxg=;
+        b=iwHrR08lZPRQ9pnoiEPqGeGqDjWm8urrvpOWVOF9ggdMR5CCW3QXGv3iVD36jmdRFe
+         G4yLgm1HHBW3+N+xFXHMUX8ALt7Aj1xQ02Sr9MeeyD1GpZu/zE02gZIgnYcZPwHD77GD
+         gMUtwTwFBaGDOq58bKHn3SVeTGA63YKL3+KhbuQMlcpN2ouxK9zqKEOCLhdOaUcjiY4K
+         lwJv4Yd7czDUroB6xc5529Bn22/gtmR6eVcm7YJYRlBuzSr9H7MIyStSpbxtOgRKl83c
+         zF/wLXvzXNmsgTHBA7EAISD4LgnANXp426QIVL2gSMq95iON7Ce4Zqks7edtvYg/I/q8
+         YaNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757398632; x=1758003432;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2FFPJcPGJNDsgjdC7NcMD9qGE/tE0wRplyMDk1rByxg=;
+        b=ZtlAr/XrTavLClzCcBvOAprODW0G+y/mZI6+0cN3A9Qd9lHQKEMXuCEALoEX8Oze01
+         q29rsUF6jK/B4oIvhio2SOEL9GCpN5jWqCRkq9UGRehunlAf5xJlI+ym9WMroHRh00Rs
+         kY1Xbn15pnrLfLHokbmAYeM2QGipP+R8VNIHMVd7BWr/Ow6HbJSpFc8Lfh6/lz770DHB
+         d3JI3QSAU6inAs1T3ZiXeKKLea09Mez5mt/BxwB6UJEx3pnMZ4/EIoRysGTVqSCgr2/N
+         s/yD7P8ENYaX10dAXHktP0Tb6URYp19TjBwyzpACjB1RYE1mj2NCV48kpIf3Rtj69JKY
+         6SWg==
+X-Forwarded-Encrypted: i=1; AJvYcCV/0hkTP+oAwbdpsjkCELAh97+h34IgfBOu64949ojiogCmfm4FOHmzmAxKfkTLGYUNlTw3HKTkyWwRsmE=@vger.kernel.org, AJvYcCVmb95hqOg5WAYpzQBM7BTfwJOOjULl/1WW6Wh5Ia7hze3E2Bg8eLIjnsB0QHEOx4/G0omTsKSFF/99Q1k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPf01cdiqFNm2yp7Y+yEsnC803zRqDP05NZJVqn02tM6EyeOBD
+	R3r2pfpjuILelnA0I96wwh/+N8zAA0gWFhwJVAA5cxnfsrGgNaSlY0gQh/lmdGwL
+X-Gm-Gg: ASbGncvm96ptgSSJyRynCnd990YHPj5NUoMKZs9XJY4VzrIoKEoy0Qh/2JGg+jqp42O
+	g2kqbrmFHO4cxq5qrdAkAwqooCTaDRphupHcppUdJsK15IQuDxVU38fVyklveNi4oDNGgkl+MWC
+	HQlmUsYGk4I6jDdzyMa6FmRM/2AbPgnP7gsfw6UCwh+TvcErdehOLaLmqbP9gSVg4pY5tfvO2PB
+	FRNiWFX3bT3JuJfG6cLm9bfqTGx6UwcvfVvpE2yyxiEtLWNeFhdj95PY0CWeqdeCaoNyvbZ+vyw
+	dBLC6l/0Utw23ORa74hiT9pPNScmR/cm3HiipBpa1joPsWbJz/I3xNHIDwuiZJH+tPhxWSmVi5+
+	mTJVf8ESCaaCuIONHZbgo9MLbJtwVW5Ob/KGHrGi9NQbtMswvdN1qc4+F
+X-Google-Smtp-Source: AGHT+IFRsjA4jE5CQ530QLjZI5/Qn+p26X75xpQcc4lXNl3iHmepdOFyHFjbdzj17gqaz1pQxgFZIw==
+X-Received: by 2002:adf:a345:0:b0:3e7:27b9:40f3 with SMTP id ffacd0b85a97d-3e727c88694mr5794698f8f.15.1757398631565;
+        Mon, 08 Sep 2025 23:17:11 -0700 (PDT)
+Received: from pc.. ([105.160.50.66])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7521bfdc6sm1204949f8f.8.2025.09.08.23.17.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Sep 2025 23:17:10 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Julia Lawall <julia.lawall@inria.fr>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Erick Karanja <karanja99erick@gmail.com>
+Subject: [PATCH] ALSA: spi: Replace lock/unlock patterns with guard
+Date: Tue,  9 Sep 2025 09:17:02 +0300
+Message-ID: <20250909061702.350164-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/15] ASoC: SDCA: Rely less on the ASoC component in IRQ
- handling
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, rafael@kernel.org, pierre-louis.bossart@linux.dev,
- peter.ujfalusi@linux.intel.com, shumingf@realtek.com, lgirdwood@gmail.com,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- bard.liao@intel.com
-References: <20250905143123.3038716-1-ckeepax@opensource.cirrus.com>
- <20250905143123.3038716-8-ckeepax@opensource.cirrus.com>
- <01bc3a67-6ed7-4bb5-8106-531af7f29d63@linux.intel.com>
- <aL7SmSjHTZ0lDm8l@opensource.cirrus.com>
- <aL7rltyvMy/ctrFU@opensource.cirrus.com>
-Content-Language: en-US
-From: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
-In-Reply-To: <aL7rltyvMy/ctrFU@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Replace lock/unlock patterns with guard.This simplifies control
+flow especially with conditional jumps and improves code readability.
 
+Generated-by: Coccinelle SmPL
 
-On 9/8/2025 10:43 PM, Charles Keepax wrote:
-> On Mon, Sep 08, 2025 at 01:56:57PM +0100, Charles Keepax wrote:
->> On Mon, Sep 08, 2025 at 06:27:40PM +0800, Liao, Bard wrote:
->>>
->>>
->>> On 9/5/2025 10:31 PM, Charles Keepax wrote:
->>>> In the future some IRQs (mostly File DownLoad) will need to run before
->>>> the soundcard is constructed, as such refactor more of the IRQ handling
->>>> to use raw device and regmap pointers rather than accessing things
->>>> through the component.
->>>>
->>>> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
->>>> ---
->>>
->>>> -int sdca_irq_data_populate(struct snd_soc_component *component,
->>>> +int sdca_irq_data_populate(struct device *dev, struct regmap *regmap,
->>>> +			   struct snd_soc_component *component,
->>>>  			   struct sdca_function_data *function,
->>>>  			   struct sdca_entity *entity,
->>>>  			   struct sdca_control *control,
->>>>  			   struct sdca_interrupt *interrupt)
->>>>  {
->>>> -	struct device *dev = component->dev;
->>>
->>> Previously, we assume 'component' will never be null.
->>>
->>>>  	const char *name;
->>>>  
->>>> +	if (!dev && component)
->>>
->>> But now we test 'component'. If we don't assume 'component' is not null
->>> any more, we could test 'component' at the very beginning of this function.
->>
->> Good spot, that was missed when moving from an older version of
->> the code. I will get that fixed up.
-> 
-> Apologies I had slightly misinterpretted this, and thought you
-> meant we were dereferencing component before testing it in
-> sdca_irq_data_populate, but we arn't.
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
+ sound/spi/at73c213.c | 99 ++++++++++++++++++--------------------------
+ 1 file changed, 41 insertions(+), 58 deletions(-)
 
-No, my question is about whether component can be NULL.
-
-> 
-> The intention of this patch is to allow the user to call
-> scda_irq_data_populate with or without a component. If you call
-> it with a component and pass NULL for dev/regmap it will use the
-> component for those. If you pass dev/regmap, it is fine to pass
-> NULL for component, the current user doesn't do this but the user
-> added later in the series will.
-
-Understood. I had the question because the change below.
-
-+	interrupt->dev = dev;
-+	if (!regmap && component)
-+		interrupt->function_regmap = component->regmap;
-+	else
-+		interrupt->function_regmap = regmap;
-
-If both regmap and component are null, the interrupt->function_regmap
-will be NULL. Is it valid?
-
-> 
-> Thanks,
-> Charles
-> 
+diff --git a/sound/spi/at73c213.c b/sound/spi/at73c213.c
+index a0a7f90b6146..944bc3d56e4c 100644
+--- a/sound/spi/at73c213.c
++++ b/sound/spi/at73c213.c
+@@ -275,7 +275,7 @@ static int snd_at73c213_pcm_trigger(struct snd_pcm_substream *substream,
+ 	struct snd_at73c213 *chip = snd_pcm_substream_chip(substream);
+ 	int retval = 0;
+ 
+-	spin_lock(&chip->lock);
++	guard(spinlock)(&chip->lock);
+ 
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+@@ -292,8 +292,6 @@ static int snd_at73c213_pcm_trigger(struct snd_pcm_substream *substream,
+ 		break;
+ 	}
+ 
+-	spin_unlock(&chip->lock);
+-
+ 	return retval;
+ }
+ 
+@@ -358,30 +356,30 @@ static irqreturn_t snd_at73c213_interrupt(int irq, void *dev_id)
+ 	int next_period;
+ 	int retval = IRQ_NONE;
+ 
+-	spin_lock(&chip->lock);
++	scoped_guard (spinlock, &chip->lock) {
+ 
+-	block_size = frames_to_bytes(runtime, runtime->period_size);
+-	status = ssc_readl(chip->ssc->regs, IMR);
+-
+-	if (status & SSC_BIT(IMR_ENDTX)) {
+-		chip->period++;
+-		if (chip->period == runtime->periods)
+-			chip->period = 0;
+-		next_period = chip->period + 1;
+-		if (next_period == runtime->periods)
+-			next_period = 0;
+-
+-		offset = block_size * next_period;
+-
+-		ssc_writel(chip->ssc->regs, PDC_TNPR,
+-				(long)runtime->dma_addr + offset);
+-		ssc_writel(chip->ssc->regs, PDC_TNCR,
+-				runtime->period_size * runtime->channels);
+-		retval = IRQ_HANDLED;
+-	}
++		block_size = frames_to_bytes(runtime, runtime->period_size);
++		status = ssc_readl(chip->ssc->regs, IMR);
++
++		if (status & SSC_BIT(IMR_ENDTX)) {
++			chip->period++;
++			if (chip->period == runtime->periods)
++				chip->period = 0;
++			next_period = chip->period + 1;
++			if (next_period == runtime->periods)
++				next_period = 0;
+ 
+-	ssc_readl(chip->ssc->regs, IMR);
+-	spin_unlock(&chip->lock);
++			offset = block_size * next_period;
++
++			ssc_writel(chip->ssc->regs, PDC_TNPR,
++					(long)runtime->dma_addr + offset);
++			ssc_writel(chip->ssc->regs, PDC_TNCR,
++					runtime->period_size * runtime->channels);
++			retval = IRQ_HANDLED;
++		}
++
++		ssc_readl(chip->ssc->regs, IMR);
++	}
+ 
+ 	if (status & SSC_BIT(IMR_ENDTX))
+ 		snd_pcm_period_elapsed(chip->substream);
+@@ -401,7 +399,7 @@ static int snd_at73c213_mono_get(struct snd_kcontrol *kcontrol,
+ 	int mask = (kcontrol->private_value >> 16) & 0xff;
+ 	int invert = (kcontrol->private_value >> 24) & 0xff;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
+ 
+ 	ucontrol->value.integer.value[0] =
+ 		(chip->reg_image[reg] >> shift) & mask;
+@@ -410,8 +408,6 @@ static int snd_at73c213_mono_get(struct snd_kcontrol *kcontrol,
+ 		ucontrol->value.integer.value[0] =
+ 			mask - ucontrol->value.integer.value[0];
+ 
+-	mutex_unlock(&chip->mixer_lock);
+-
+ 	return 0;
+ }
+ 
+@@ -431,13 +427,13 @@ static int snd_at73c213_mono_put(struct snd_kcontrol *kcontrol,
+ 		val = mask - val;
+ 	val <<= shift;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	scoped_guard (mutex, &chip->mixer_lock) {
+ 
+-	val = (chip->reg_image[reg] & ~(mask << shift)) | val;
+-	change = val != chip->reg_image[reg];
+-	retval = snd_at73c213_write_reg(chip, reg, val);
++		val = (chip->reg_image[reg] & ~(mask << shift)) | val;
++		change = val != chip->reg_image[reg];
++		retval = snd_at73c213_write_reg(chip, reg, val);
+ 
+-	mutex_unlock(&chip->mixer_lock);
++	}
+ 
+ 	if (retval)
+ 		return retval;
+@@ -473,7 +469,7 @@ static int snd_at73c213_stereo_get(struct snd_kcontrol *kcontrol,
+ 	int mask = (kcontrol->private_value >> 24) & 0xff;
+ 	int invert = (kcontrol->private_value >> 22) & 1;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
+ 
+ 	ucontrol->value.integer.value[0] =
+ 		(chip->reg_image[left_reg] >> shift_left) & mask;
+@@ -487,8 +483,6 @@ static int snd_at73c213_stereo_get(struct snd_kcontrol *kcontrol,
+ 			mask - ucontrol->value.integer.value[1];
+ 	}
+ 
+-	mutex_unlock(&chip->mixer_lock);
+-
+ 	return 0;
+ }
+ 
+@@ -514,29 +508,20 @@ static int snd_at73c213_stereo_put(struct snd_kcontrol *kcontrol,
+ 	val1 <<= shift_left;
+ 	val2 <<= shift_right;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
+ 
+ 	val1 = (chip->reg_image[left_reg] & ~(mask << shift_left)) | val1;
+ 	val2 = (chip->reg_image[right_reg] & ~(mask << shift_right)) | val2;
+ 	change = val1 != chip->reg_image[left_reg]
+ 		|| val2 != chip->reg_image[right_reg];
+ 	retval = snd_at73c213_write_reg(chip, left_reg, val1);
+-	if (retval) {
+-		mutex_unlock(&chip->mixer_lock);
+-		goto out;
+-	}
++	if (retval)
++		return retval;
+ 	retval = snd_at73c213_write_reg(chip, right_reg, val2);
+-	if (retval) {
+-		mutex_unlock(&chip->mixer_lock);
+-		goto out;
+-	}
+-
+-	mutex_unlock(&chip->mixer_lock);
++	if (retval)
++		return retval;
+ 
+ 	return change;
+-
+-out:
+-	return retval;
+ }
+ 
+ #define snd_at73c213_mono_switch_info	snd_ctl_boolean_mono_info
+@@ -549,7 +534,7 @@ static int snd_at73c213_mono_switch_get(struct snd_kcontrol *kcontrol,
+ 	int shift = (kcontrol->private_value >> 8) & 0xff;
+ 	int invert = (kcontrol->private_value >> 24) & 0xff;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	guard(mutex)(&chip->mixer_lock);
+ 
+ 	ucontrol->value.integer.value[0] =
+ 		(chip->reg_image[reg] >> shift) & 0x01;
+@@ -558,8 +543,6 @@ static int snd_at73c213_mono_switch_get(struct snd_kcontrol *kcontrol,
+ 		ucontrol->value.integer.value[0] =
+ 			0x01 - ucontrol->value.integer.value[0];
+ 
+-	mutex_unlock(&chip->mixer_lock);
+-
+ 	return 0;
+ }
+ 
+@@ -583,14 +566,14 @@ static int snd_at73c213_mono_switch_put(struct snd_kcontrol *kcontrol,
+ 		val = mask - val;
+ 	val <<= shift;
+ 
+-	mutex_lock(&chip->mixer_lock);
++	scoped_guard (mutex, &chip->mixer_lock) {
+ 
+-	val |= (chip->reg_image[reg] & ~(mask << shift));
+-	change = val != chip->reg_image[reg];
++		val |= (chip->reg_image[reg] & ~(mask << shift));
++		change = val != chip->reg_image[reg];
+ 
+-	retval = snd_at73c213_write_reg(chip, reg, val);
++		retval = snd_at73c213_write_reg(chip, reg, val);
+ 
+-	mutex_unlock(&chip->mixer_lock);
++	}
+ 
+ 	if (retval)
+ 		return retval;
+-- 
+2.43.0
 
