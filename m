@@ -1,227 +1,228 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2795273D67
-	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 08:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757408239; cv=fail; b=sQMlSj3bX9pg9gVU/fFmMM1Vws4rwSSFhVGrAEMH0Yi4qxxUXz/ZvZk0gF4Z4OL+FskXUm/9IJLijbM3wjBScwe6T+nqyqxUv9t9+V0IEfMRouQX/3n5fqHZXbMKHsT84vjnOyILWn26lNdvC7CsmgUmIr6tPR4U2Zfrhng9vmk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757408239; c=relaxed/simple;
-	bh=MqC3BawXuPhGHgBQNGA7Ua8OurrYf6ivzjhnEit+4ps=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A0iPprHP63XjApg9Rl3jbpFYIngNI0wJ8Og3Gboma3SLF1ybTPjLzFao3kUs6QvI0Gpql6GMDU8Zkk/KZreZBv3bSHbiccOXTx7modS1ecsnj8zpuabzQ0wh+DccyOLwOTPMGcOJpH3ukIKkPP+z7uVe6PRl5yA2SuUMplDgkuQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=cOV/F4xW; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=gIZSxhui; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA485274FD5
+	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 08:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757408383; cv=none; b=Txd0NnAZMw1I/xXdy6ODSYPk/Gse1SIxqvyPvQTREi+NewN/rpQLQeJcZCNANB0gjDd5bmcvX5Eqs/7ns95xyxz+WzAvbTb3r9P3vdPEuAhhTotU2fnFpF1KTxcm48iFbmyqjRHsksA6ei7juW7PLgnLr7fFaWp0PDjT+ZCsHZ8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757408383; c=relaxed/simple;
+	bh=P5f6Y1ie90f3NrcxzPSA9or+iXu7oegMxJQn2yHblUI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dJodzVqGtdseQltouaaS03j3GWaPNY7ONuQqNMYLYNZiYg1q2Slo0qAyBNWyUP7xSPhPpeMQ9F0FjQ0wRRlbjR5H9w++kHJQ6+K84nQcKe+T0ArJEGeijrt9/jGU44Jki3a5Z0x9zdd0WQ7lE3xamdgTkukgY5mmDx58Yr9IBs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WhD45UHO; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="cOV/F4xW";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="gIZSxhui"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 588KTCVP1252810;
-	Tue, 9 Sep 2025 03:57:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=e1EkCKQVy5eRYHbvPt
-	3ZPEwnaqOCYqyolIyJ0AnWVpQ=; b=cOV/F4xWHpAgCkHzjYL+M2yCrESM7flihW
-	NneEitBR7xlxWyaDnspkjp8TIj8iMRQXhFQuyScWszy7yrMSAHcK1EPg0VqsWCM8
-	NX6UZdxOf8QK5C0WxqZCYG43MUHvaggwwinJ6YAyQjBNip96XOgmm+dC6/eua4/o
-	+5ZONBwkN9s/bw9vRgJxk10gDomrUu76Ocfw6SfhkY0RYUpOahgvr0av+W2dtBzE
-	st4+KgDTslsq2JJZlqtHkCqRAh7TIEYeAsEIg1oJG0aH9Or9Lst5+ELDXAyKJmA+
-	ZbXeLgSwCa3C47B28BXk/iosBstdsII+vaiQfgWNg4EQK0sKJzcw==
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10on2130.outbound.protection.outlook.com [40.107.93.130])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 49227r8vh2-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 09 Sep 2025 03:56:59 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bk5LA9kMjz/BOXkTmTAysJs4fgh/IRjinzqU5VHqIFGkFernxFAF5GLvxDBPbnsRNkvbvjds/ytf4+cDj7RnJKJK1IhzwyJGyiC1X4w7cTDnSRnQw8fUtRuaoQHavIatO+FMjjCqFV2FOCReHvFGL7ZbCnCNsRwcmSwTAwqk01rexV1SMgJe47NYrZW3fOkAaMvJmfTAYSOY2j8gW37kmXWypLobpLFrMKR2O2fh8ibtEVgkAl1y+PT97sEy4VNmz7gKRUBsqJnWuFCZgk2Pt8YYUveXicMYDn/+qkIwmjxmTV9OWEewUe8zwYXBMgohBwGcXHUgSrkZE3PGOD4xEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e1EkCKQVy5eRYHbvPt3ZPEwnaqOCYqyolIyJ0AnWVpQ=;
- b=tpX6je85+YT17Xae5iEp58kwxHM9yvqLC3oKpGOkzlSZeipFUGxGwLDQDlQtI4osbMkfJhUUk8vovj9CrXMPi+Q9yEzkXaPxvTx4ySKeZ1WexN2pR5e0w2FFqmKZY0Q5PKR+Z4U0nL9bu/NuV3EFpn7XZOcDDx/of6bUDnYpS6s7pxzGNIe7sufrAYSmAXRmVozbAGd73eBHdwOIKakLkkGRcPIgduUYx4vHlHlfcU34bGtyYJ4eYCIZJWg8tzknsSls5AqjWc9ithZWfQuoY/aZgOs195b4EDJl/6zwaKdwr0gm/vcUMcipL9PGzaZhAkBRgSMmFE13g/6uwdfdVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e1EkCKQVy5eRYHbvPt3ZPEwnaqOCYqyolIyJ0AnWVpQ=;
- b=gIZSxhuiO6fmNVJi6DRsbYvP/0mwEeEBy5srfi/vmOQb6jc+C4m1NXQLNVfU+AxoOhbo0RYLKqKATaMtfPO/9v5PKOcoOrtXaqYuEyBXKNj1uDkwzlxEfxkVVpkL1ZUMA1KAcaFv6lEV0HQ8i802lcNTA6udiZBe00LbmhI3b1s=
-Received: from SJ0PR05CA0205.namprd05.prod.outlook.com (2603:10b6:a03:330::30)
- by DS2PR19MB9150.namprd19.prod.outlook.com (2603:10b6:8:2b4::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Tue, 9 Sep
- 2025 08:56:56 +0000
-Received: from SA2PEPF000015CD.namprd03.prod.outlook.com
- (2603:10b6:a03:330:cafe::b) by SJ0PR05CA0205.outlook.office365.com
- (2603:10b6:a03:330::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.10 via Frontend Transport; Tue,
- 9 Sep 2025 08:56:56 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
- does not designate 84.19.233.75 as permitted sender)
- receiver=protection.outlook.com; client-ip=84.19.233.75;
- helo=edirelay1.ad.cirrus.com;
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SA2PEPF000015CD.mail.protection.outlook.com (10.167.241.203) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.13
- via Frontend Transport; Tue, 9 Sep 2025 08:56:55 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 9EF57406540;
-	Tue,  9 Sep 2025 08:56:54 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 8641582024A;
-	Tue,  9 Sep 2025 08:56:54 +0000 (UTC)
-Date: Tue, 9 Sep 2025 09:56:53 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
-Cc: broonie@kernel.org, rafael@kernel.org, pierre-louis.bossart@linux.dev,
-        peter.ujfalusi@linux.intel.com, shumingf@realtek.com,
-        lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-        patches@opensource.cirrus.com, bard.liao@intel.com
-Subject: Re: [PATCH 07/15] ASoC: SDCA: Rely less on the ASoC component in IRQ
- handling
-Message-ID: <aL/r1XQmDnK6ZrkF@opensource.cirrus.com>
-References: <20250905143123.3038716-1-ckeepax@opensource.cirrus.com>
- <20250905143123.3038716-8-ckeepax@opensource.cirrus.com>
- <01bc3a67-6ed7-4bb5-8106-531af7f29d63@linux.intel.com>
- <aL7SmSjHTZ0lDm8l@opensource.cirrus.com>
- <aL7rltyvMy/ctrFU@opensource.cirrus.com>
- <7687e3cd-2f66-4092-92aa-774b7ed7e487@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WhD45UHO"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5896SjoH024335
+	for <linux-sound@vger.kernel.org>; Tue, 9 Sep 2025 08:59:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	fdz14Bg4xghRr0ECw7idvzBERq015x3/DUoRn1a89I4=; b=WhD45UHOV91nNnHh
+	BLAs1ZYsW/UGPn9OXQX3OuPOKFNWDxwndhSQOnR2w5nOYM0zaVzNIxB4WFNhynT7
+	XK+/mhC2m2gimLB4lQ8DxYONy0H0Gzoky5pg5QSCF51H+oPrCEuIHdToZxX88k1R
+	ZWPeb1bPQy2/913eI+vjbo2/UUFPg2BTGZeZVa29pY5qiyk3pJxd/ts7QOM/EyWP
+	vL6ayhtm691w7rowKZZJOO9DcjVUlkLYXEkFgY/7VToZ2QhHFS8DtO1+HElIllgd
+	+1lf3CT5/iSmsxDkcWWVIgAnuFjuNZ4qKERrQwjUBJVNbWMTKY7XkwnOpw4JwLrW
+	UGhWNg==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490bws7qdv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 09 Sep 2025 08:59:40 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-72023d1be83so188500716d6.3
+        for <linux-sound@vger.kernel.org>; Tue, 09 Sep 2025 01:59:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757408379; x=1758013179;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fdz14Bg4xghRr0ECw7idvzBERq015x3/DUoRn1a89I4=;
+        b=sTrvtZd1QKzg+YZ5Z2d8z4wZEjUuvrDfVKuAdmANTeE8bVYrqkvhYJX/eGm3N1939T
+         RyJ4qcbrBYdFseOzTSeV/RL0MxBLurEJLgrRpA8L+qXMNe7J2tbyCgt9GlxXJwsetMuM
+         +hsT1aD9gngiqLXKqAEhJ3HCrTKEjoMis0oqf3hkHcwOtwynHeXPmliDlNAchz1eYWHq
+         T2oR6mORr1QgSD75xxlYSnPgNy40IR4yzzUSLz/pT1EYxU+jMJPKsXeov7ym908gSbHm
+         PDwdwaFCjREzVmBDSvT8U5bHp6mRQofS4d27y6u8Axvb5kCesFInAKRmziuFY6zWrek1
+         JaAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXdrCqt5tcGCKGSG1sCs/5ighEIKIpyp1/7UJkxyUc9i7G48i7FrLxj9l1Nm7QFcJvMVSmGLOP6PqqmMA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2LR5VfqHHTnzhbiwljcDxgravFklumLa8YJl9iGec76jAJV+h
+	AQDkTn5kb6agi7zjGB48RRHel6hlDZAAg8yHgUNIUAzw2nstNECkC2e1CU+vs4yXvhvcTs9sV4V
+	xf5gM5z3kltTy79UHOrG5eXQvVHOeMb2sfvIWB80cmpG+h5VtYFjzXuijgurSvUpYKw==
+X-Gm-Gg: ASbGncvZyejZ4xY084IFbYWSqg4Z1Rq45+x5j6QXP+CRk9qakzN9u4LTBuLaLPjOH1S
+	co5HuuUgJpNSICct2hSgeLLpdRM4AENBw1/54RDB9dQf0JrXDpsoVc8r63qz5HrzRRuiFiauSR0
+	WQsfvWSdn6RUDPdoBfytYRQZHJlo9sGI4e8PxdUELCrb0KqUoilPuYgzZgOYHelHSop47JIi0Q5
+	gwwwAtbeICj23ANMJzPinND/gFRhGOTsGXAn7QxQ7CZ2bjtJdQzLkQweNBMdTXphv9mq28iZCRg
+	Hb7W+xLCLfPeGmTi7XWeOMoHJnR3/0y8afz/c2YoySLdrOjXECSZUcds/d4Qg7JSaOE=
+X-Received: by 2002:a05:6214:21ec:b0:70d:e81c:2afc with SMTP id 6a1803df08f44-73932e924cbmr111729076d6.29.1757408378653;
+        Tue, 09 Sep 2025 01:59:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHrXIllQe6JlmakB5gb4NxUmjAze0ngHBzvcwXOlEsn3zCyudA+uF+goeWctYB2ACNm+n6RVQ==
+X-Received: by 2002:a05:6214:21ec:b0:70d:e81c:2afc with SMTP id 6a1803df08f44-73932e924cbmr111728756d6.29.1757408378032;
+        Tue, 09 Sep 2025 01:59:38 -0700 (PDT)
+Received: from [192.168.68.119] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3e7521bfd97sm1758251f8f.7.2025.09.09.01.59.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Sep 2025 01:59:37 -0700 (PDT)
+Message-ID: <fad744a8-f042-413e-98bd-7f66c957dee9@oss.qualcomm.com>
+Date: Tue, 9 Sep 2025 09:59:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7687e3cd-2f66-4092-92aa-774b7ed7e487@linux.intel.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015CD:EE_|DS2PR19MB9150:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2990d6e6-4bee-450c-a105-08ddef7ed425
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|61400799027|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?FRao1nfiSghOcqGsyRVtF3nkVtcKSf6oNu/Kfa5ASF7vuqXDU5/cQAlIl1GB?=
- =?us-ascii?Q?8mkOY3pu4s3pKEEFbpRDnzl7ErDUixJeMef/Qx6DFCN1VxVnJ5AugGDZZDXp?=
- =?us-ascii?Q?qRMjBX7KPHUS6N1XP+k/aT9xwy70w9/xESUu2lQdqj4yS2PtW/5ZA06E705R?=
- =?us-ascii?Q?5yERkgk+VvJepE18ChHCr/i9kom09XkB6fazsTJw2gExKUVGIi//gw0bjlpZ?=
- =?us-ascii?Q?9nvG6xwRIyG+motPv/0nTQEHBtA9HxYu3KZU4ZiBcFDXYvEb1id52gMTqur0?=
- =?us-ascii?Q?C8sBjTE/E7rwubjmk+fIF6wKp+yXBhIf4vomX1Sy1Vb0SCoXFWpbqyExuhKs?=
- =?us-ascii?Q?q4rvTA4EB0BuGb+w4RYA0Ok54OJZfInVvcNHHNwIfMCSyVzm8KOImMUbJtLt?=
- =?us-ascii?Q?iiwPKuPuCnKHRHy2qwzMkR22diL0UGcK46EV8/wTCv4KSb5fvyanhYlmsoJq?=
- =?us-ascii?Q?biPil55DJLgTXpEINPw24wpEcvt1GgCaTqII1Nls/UFdCquVNFBsY9fcGFwP?=
- =?us-ascii?Q?7ktkrpn5LK8cpNyjcQbwxaqYsqdanLtir9yvRivxWD/mYYBDXf7qCxa5WYKP?=
- =?us-ascii?Q?IB5QLlyuH0E8df8tFFrGfzSPn+ZkBW2IiiXw8jX+0xSr0jeVs+a2HWzsVTpG?=
- =?us-ascii?Q?e394rsaKxf5R7heXMM5iB45O0PMiIDA8SPguHsfWIgaDr8qG7PbQy93fGVwZ?=
- =?us-ascii?Q?hBXxRuDc3vjbz0dgs8YOw5JX/DaPBr8LnkreX/2zMTX/PXW5z7RFjuiZf+uk?=
- =?us-ascii?Q?yXxIkNOcwSmj7jr775v+KCMxlNZk6UVXSJWP6UrvujwcDXkSGy74kJbJBVmQ?=
- =?us-ascii?Q?0g/O8440rDXD8j5WvUgSJMpdWJZsJprI+GgkSKs8cE4afTAzwTRe2H/aNyvS?=
- =?us-ascii?Q?ZiryENjohENgx9Q4Wb6ovvnFT8Ks/RvDcD2quZOg8Ut7zJAhx3pTBiIX7xvt?=
- =?us-ascii?Q?ITMzaSOmWfSwJI4Wk4+0CTNARmijGaBcDJqImOR9tSs05m7gryxHSAPMXgRH?=
- =?us-ascii?Q?xTWSpeGjdDLnAULMgsBBub2LikBP5Uv0gQumdM+aAN/r8DG7t6aJgtFRexcK?=
- =?us-ascii?Q?D0emS1sHbaiEfUlqC8q0TfefDZ4bOfq7uoreYJYFgNd+obWMmwyUFKrCXDIS?=
- =?us-ascii?Q?M0+vLgWFvhiP34l7RbaeZJwcgZNq0MFpM8068Hpoc9KznXAixFXW3+F9mWqd?=
- =?us-ascii?Q?srew4Vh5QLp/WMWZUGy3d05vM75hQTbYDtCBqW4NzDgf2pEBeJ0Tt6WfRixJ?=
- =?us-ascii?Q?vcg6OcOjo8Mj7rtjupZNOesoyCsgsykUtecLR8a1GCBWVWMNse2Vi4ZfVa3q?=
- =?us-ascii?Q?aqvUonLfEHmCawb/kgiuwBy9weO3P0kYJ3fXOca6GfXkiLj/AUWHBF9KOvZ9?=
- =?us-ascii?Q?dTTEeY9utho2NztKZdgPXz/inDHAUB2J8CkCau7Vkb969qmJjC26zd5wjN5t?=
- =?us-ascii?Q?eHVJjA14uj11oYFQPiPBJiZahKmKFXQ5yzroTM5q0wzIFBuqmMbiafLm8Q16?=
- =?us-ascii?Q?LZcN/ITSoRBYVVTk++ZuSA1jdFLB/i+j0q39?=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(61400799027)(36860700013);DIR:OUT;SFP:1102;
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 08:56:55.7774
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2990d6e6-4bee-450c-a105-08ddef7ed425
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF000015CD.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB9150
-X-Authority-Analysis: v=2.4 cv=f+FIBPyM c=1 sm=1 tr=0 ts=68bfebdb cx=c_pps
- a=0CBzKAtbur25xjsvgbLWCA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=eGIY-NOgzIOCrT1opjAA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA5MDA4NiBTYWx0ZWRfX3BrPeAGrIwcr
- RQ4x6TzJM52PEk+i0n8dFsQXY9FeGTa1sb7W5IwWtLeB2GRnDD/9d49ePubiowkiFfCMEgh2fPL
- qLxrHiMc2SPPb+Ualr3/jLU3nUx5Df2CoImCm2Rm4s1/ZyB5Uz7AxoHBLL3N55wVDIN6L555X9l
- VvKmT83U72xfOM7mPOQ7D/5atjFRLFKmGGaakZhngVQKgOkiWXMCY1HxcAAw891TfXLFZVJNNYs
- q2F8ZGSZIalK6LRMHWgTgbeeQR/OlJVZl/n0pyHhuUtS+9UvqtNrOiQ4Pw3IVIRQfluiHuKn9x7
- rrFSRdD8GouealDCiQ1/9aR8cwM0C1/U68S/gjUVS4+EU/cnBIzyIIlj8Wz3hY=
-X-Proofpoint-GUID: XCzULpa5bVBpzTchx7v9ng_Z9iYkJjrF
-X-Proofpoint-ORIG-GUID: XCzULpa5bVBpzTchx7v9ng_Z9iYkJjrF
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] ASoC: codecs: add new pm4125 audio codec driver
+To: Alexey Klimov <alexey.klimov@linaro.org>,
+        Srinivas Kandagatla <srini@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Lee Jones <lee@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
+        linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        christophe.jaillet@wanadoo.fr
+References: <20250814-pm4125_audio_codec_v1-v3-0-31a6ea0b368b@linaro.org>
+ <20250814-pm4125_audio_codec_v1-v3-2-31a6ea0b368b@linaro.org>
+ <df884334-c850-4ae9-b5e8-63cb834ae259@kernel.org>
+ <DCNIVW9XSSY3.3H7TSNFDH7TKT@linaro.org>
+ <690423ac-4283-47a0-9250-4c740978ccac@oss.qualcomm.com>
+ <DCNMJEP0XW33.1AUMCTJU5UPBY@linaro.org>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <DCNMJEP0XW33.1AUMCTJU5UPBY@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: _NHtGCVujKG8pydyhU2SmOTN9lCWfWUb
+X-Proofpoint-GUID: _NHtGCVujKG8pydyhU2SmOTN9lCWfWUb
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAxOCBTYWx0ZWRfX/tipPunU0ZdZ
+ g6ma0NdeSh1CVzSIE2SwMo5o8rbnKNK/uavleqMwJnxhjjnNGZ5GMmkv4q/x4MDFfZch/kPFfrc
+ UN6UYzZDugWyH40tLzO55c8G3ZSSamtO1yxE7LcalyU4Q4LyS9lc+jpfJXfjxaA9mWeugNVbIW4
+ BeRjkYZPsr08RiA46lUy/NH3UTnrufyF9ylzIAMvxoV2shDsTxVpcI5FFy+6RUhlyjlkGOFLDhj
+ 9vQk6SPrglBfPILOoUFZT869ndGLDyXQdKqvjeY93MmeODUPjpRvAov6MWDRQ6oiXgU0mnxdtzn
+ r5sBw52x2Q9AxVz04eg5qv/I9BANmsUMngZddQ+TOaidBu8cwHB39RFZe3IzyBTt1smzcM1hToJ
+ efZwdc9T
+X-Authority-Analysis: v=2.4 cv=G4kcE8k5 c=1 sm=1 tr=0 ts=68bfec7c cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=ji0vVS2q0_Gih0BFB0gA:9
+ a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_06,2025-09-08_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060018
 
-On Tue, Sep 09, 2025 at 09:42:20AM +0800, Liao, Bard wrote:
-> On 9/8/2025 10:43 PM, Charles Keepax wrote:
-> > On Mon, Sep 08, 2025 at 01:56:57PM +0100, Charles Keepax wrote:
-> >> On Mon, Sep 08, 2025 at 06:27:40PM +0800, Liao, Bard wrote:
-> >>> On 9/5/2025 10:31 PM, Charles Keepax wrote:
-> >>>> -int sdca_irq_data_populate(struct snd_soc_component *component,
-> >>>> +int sdca_irq_data_populate(struct device *dev, struct regmap *regmap,
-> >>>> +			   struct snd_soc_component *component,
-> >>>>  			   struct sdca_function_data *function,
-> >>>>  			   struct sdca_entity *entity,
-> >>>>  			   struct sdca_control *control,
-> >>>>  			   struct sdca_interrupt *interrupt)
-> >>>>  {
-> >>>> -	struct device *dev = component->dev;
-> >>>
-> >>> Previously, we assume 'component' will never be null.
-> >>>
-> >>>>  	const char *name;
-> >>>>  
-> >>>> +	if (!dev && component)
-> >>>
-> >>> But now we test 'component'. If we don't assume 'component' is not null
-> >>> any more, we could test 'component' at the very beginning of this function.
-> >>
-> >> Good spot, that was missed when moving from an older version of
-> >> the code. I will get that fixed up.
-> > 
-> > Apologies I had slightly misinterpretted this, and thought you
-> > meant we were dereferencing component before testing it in
-> > sdca_irq_data_populate, but we arn't.
+On 9/8/25 7:18 PM, Alexey Klimov wrote:
+> On Mon Sep 8, 2025 at 4:45 PM BST, Srinivas Kandagatla wrote:
+>> On 9/8/25 4:26 PM, Alexey Klimov wrote:
+>>> Hi Srini,
+>>>
+>>> On Fri Aug 15, 2025 at 4:36 PM BST, Srinivas Kandagatla wrote:
+>>
+>>
+>>>>> +static int pm4125_codec_enable_rxclk(struct snd_soc_dapm_widget *w, struct snd_kcontrol *kcontrol,
+>>>>> +				     int event)
+>>>>> +{
+>>>>> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+>>>>> +
+>>>>> +	switch (event) {
+>>>>> +	case SND_SOC_DAPM_PRE_PMU:
+>>>>>
+>>>>> +static const struct snd_kcontrol_new pm4125_snd_controls[] = {
+>>>>> +	SOC_SINGLE_EXT("HPHL_COMP Switch", SND_SOC_NOPM, 0, 1, 0,
+>>>>
+>>>>     SOC_SINGLE_EXT("HPHL_COMP Switch", PM4125_COMP_L, 0, 1, 0, ?
+>>>>
+>>>>> +		       pm4125_get_compander, pm4125_set_compander),
+>>>>> +	SOC_SINGLE_EXT("HPHR_COMP Switch", SND_SOC_NOPM, 1, 1, 0,
+>>>>
+>>>>        SOC_SINGLE_EXT("HPHR_COMP Switch", PM4125_COMP_R, 1, 1, 0,?
+>>>>
+>>>>> +		       pm4125_get_compander, pm4125_set_compander),
+>>>>
+>>>> This is same issue in one of the WCD codec, which am going to send fixes
+>>>> along with my original wcd fixes series.
+>>>
+>>> So this was in other codecs for years, right?
+>>
+>> only in wcd937x since it was added.
+>>
+>>>
+>>>>> +
+>>>>> +	SOC_SINGLE_TLV("HPHL Volume", PM4125_ANA_HPHPA_L_GAIN, 0, 20, 1,
+>>>>> +		       line_gain),
+>>>>> +	SOC_SINGLE_TLV("HPHR Volume", PM4125_ANA_HPHPA_R_GAIN, 0, 20, 1,
+>>>>> +		       line_gain),
+>> ...
+>>                           PM4125_ANA_HPHPA_FSM_DIV_RATIO_MASK,
+>>>>                                       PM4125_ANA_HPHPA_FSM_DIV_RATIO_68);
+>>>> @@ -309,8 +307,6 @@ static int pm4125_rx_clk_disable(struct
+>>>> snd_soc_component *component)
+>>>>         snd_soc_component_write_field(component,
+>>>> PM4125_DIG_SWR_CDC_RX_CLK_CTL,
+>>>>                                       PM4125_DIG_SWR_ANA_RX_CLK_EN_MASK,
+>>>>                                       PM4125_DIG_SWR_RX_CLK_DISABLE);
+>>>> -       pm4125_global_mbias_disable(component);
+>>>> -
+>>>>         return 0;
+>>>>  }
+>>>
+>>> This doesn't work. Playback has two issues: 1) volume is very low and probably
+>>> not adjustable and 2) sound during playback dies after a couple of seconds.
+>>>
+>>> Returning these global_mbias() calls restores the good behaviour.
+>>
+>> What is global micbias to do with rx playback? Maybe something is missing.
 > 
-> No, my question is about whether component can be NULL.
-
-The expectation would be component can not be NULL in
-sdca_irq_populate(), but it could be NULL inside
-sdca_irq_data_populate(), if called from somewhere else.
-
-> Understood. I had the question because the change below.
+> No idea. Spec that I can see doesn't say a lot about PM4125_ANA_MBIAS_EN register.
+> Just that these are main biases.
 > 
-> +	interrupt->dev = dev;
-> +	if (!regmap && component)
-> +		interrupt->function_regmap = component->regmap;
-> +	else
-> +		interrupt->function_regmap = regmap;
+>> Which RX path are you testing?
+>>
+>> I am testing this with Headphone and Lineout, it works for me.
+>>
+>>>
+>>> Maybe let's make a widget out of it? In such case I am not sure about
+>>> routing meaning that I not sure which paths do require mbias enable.
+>> Not sure why RX would need mic bias?
 > 
-> If both regmap and component are null, the interrupt->function_regmap
-> will be NULL. Is it valid?
+> I am testing lineout that goes into wsa881x amplifier in analog mode (mono).
+> I use the following amixers:
+> 
+> amixer -c0 cset iface=MIXER,name='RX_CODEC_DMA_RX_0 Audio Mixer MultiMedia1' 1
+> amixer -c0 cset iface=MIXER,name='RX_MACRO RX0 MUX' 1
+> amixer -c0 cset iface=MIXER,name='RX INT0 DEM MUX' 1
+> amixer -c0 cset iface=MIXER,name='RX INT0_1 MIX1 INP0' 'RX0'
+> #merge two channels together (right channel goes into INT0_1 input1)
+> amixer -c0 cset iface=MIXER,name='RX INT0_1 MIX1 INP1' 'RX1'
+> amixer -c0 cset iface=MIXER,name='EAR_RDAC Switch' 0
+> amixer -c0 cset iface=MIXER,name='HPHL_RDAC Switch' 0
+> amixer -c0 cset iface=MIXER,name='HPHR_RDAC Switch' 0
+> amixer -c0 cset iface=MIXER,name='LO_RDAC Switch' 1
+> amixer -c0 cset iface=MIXER,name='HPHL Switch' 1
+> amixer -c0 cset iface=MIXER,name='RX_RX0 Digital Volume' 80
+> amixer -c0 cset iface=MIXER,name='SpkrMono WSA_RDAC' 1
+> 
+> and then aplay. With long .wav files the sound dies after few seconds of playback.
+> But volume issue is present with any .wav files.
+> 
+> After playing with pm4125_global_mbias_enable(), tt looks like
+> both PM4125_ANA_MBIAS_EN_GLOBAL and PM4125_ANA_MBIAS_EN_V2I should be enabled to avoid this problem.
+> 
+Looks like this is main bias for all tx and rx circuits. we need a power
+dapm widget to reflect this dependency correctly.
 
-Ok... yeah I see. I guess it depends on the IRQ handler that
-ultimately gets registered. In most cases I would expect the
-handler to need a regmap, however, we don't really validate
-any of the data that is purely for the handler. For example we
-don't validate function/entity/control either, we check dev for
-NULL because it is used for devm allocation of the name string,
-not because it is data for the handler. I think doing it this
-way saves us making assumptions, once we start doing so we start
-to constraint what can be done through the API.
+--srini
 
-Thanks,
-Charles
+> Thanks,
+> Alexey
+> 
+
