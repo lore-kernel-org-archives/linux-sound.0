@@ -1,83 +1,75 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D63F3376AE
-	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F552322A15
+	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 12:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757420438; cv=none; b=QjbCQ+zfrC+g5tJ+HNhNwPhlwqGa42mEz6lfTlsE372wQUB+hYHk4zzUlIPjq1IFVnTxzjHbF56jvyntOwSnFt932k/aZAgiB2d4t0kgb9X64L3LBDBjJNx+g4KRc7pHDnHzTcJ4kdXVHNY9eqsSeEARuL8A58E9KS6Q2nL4FSc=
+	t=1757421818; cv=none; b=SvmdVm0G3q33J6sKHCcdL5HCGzr8gfhd3EY+N4Uqao0gcA23Ms9SYhEkRwntyBEYVYO8KybWuL2owl2vHfstdkq4d4P4cVw57ABs23FK5i9Izc8EJzTVM5hCLI/9vXy3+URs3Rd4zxGdibAXuplYV8WEbjMxbPP0VN9RrV64RtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757420438; c=relaxed/simple;
-	bh=HmXyaDzSyYWKVyfOvvK8VoaY3HzpzmVHwTfs57fRK7Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hr2idsNkr24TlL71vpLsv75EVpHFZHv5XJmfMDNtN/YvNN1bslO9gctREGXylUCBhc5+inWbAkvZ/82z0vGBahsNErQvKG7kG7sYPD1hv+d0Etdc9ZpUqvjgo1oSvKreU92tIwQGTiEkWrBFM3P+upHx7ipW1MsNWYwk5PT5Tlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=L5DXRPLR; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1757421818; c=relaxed/simple;
+	bh=c8SAr6KGDqglqEG9MmaxEG8b96wTowGavX+453yhi3U=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=UGLV2EHcn1uggdi60m2IYacELWIUq2mn6W6FDn7ca0Vu70N909xJGiIcuJp81I0Pv06qxiNxXA4FgZ/l5eZmasE3HwqWXhihoVPB6/z4DXZ89lalAG/7gpCZyKIze+15pfBpFxLI7yCjWjo5HXgzmZw7c/MYB/4w72xygA4qTHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fN7xYHUj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kh9l/M1t; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fN7xYHUj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kh9l/M1t; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="L5DXRPLR"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5899Lhja029929
-	for <linux-sound@vger.kernel.org>; Tue, 9 Sep 2025 12:20:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=oOmSsAnlxpq
-	Orq3+ovrwk8ydYShsFwbNuJh8B6XuDYY=; b=L5DXRPLR3OjN03nOD4GLtIgaS39
-	nT4AGl02owqfL3J/mWro2xbldiKRy3NSTUyfZgLpEIpmua/k83vVaUpeBG+ooH2o
-	AO7l4+EdesubTiRFpws8aumc89Ke/0M7oM/CYYQPFWIk3revcqzNtq20VvJX8KFX
-	YeIBpTmiYEtLOOGAiER4Bobx+LGgyAxc9G7hP9nZ5fpVP+55QQmAUOnmVj5rw4Ot
-	bSCnOdNkObennWUhMB3nORsSYfXFgSHh4uQnlLyxqfWqLVlQUOXiIPF5fDSQMyyf
-	CaRwnrRKUEf3M08r2/TC2tF2/yQrF5Ki5bvKOP6QtcCSszxUyxN9NHzwBOQ==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491t37vn1k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 09 Sep 2025 12:20:34 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-718cb6230afso121303706d6.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Sep 2025 05:20:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757420433; x=1758025233;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oOmSsAnlxpqOrq3+ovrwk8ydYShsFwbNuJh8B6XuDYY=;
-        b=NKacAOuxBNq45buB+u7yP9SEu9SiqppeomFs7V3I7UoqvlzhBCTAQ/m8Uq+RljhINC
-         vnHgcUvfUMr05vapWBFN5mgmArKBRisvDu6j80e5MGaDrZDDuzkPhzeLAKdCMAevk5Cx
-         iysUrxjAuZ7GghFLPuEgIuW85VVMtuMkArOa2mYrDFThID4/xZcfL6uft3W/ACengiir
-         HSnwcpQuwwGYGpju3IUUmPXfxOwxd/fbSgrgenFWOC7ASRneHLnMJUXKeda/AxKVygND
-         MeYaxAz0Xw74EoATjB9lvwvlgZDvJCXu8GjhKu3FOIBXQBmV2nhes4WC+QHJDFTXUMMT
-         YCsg==
-X-Forwarded-Encrypted: i=1; AJvYcCW1ScLTXdEqmXjsp3mP8UVUyI9CMsKNVKKJgFVuZiNVJf4m7fZXrfhIzHtJtYJf6eYXWujkOixoGFmXjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSdxndo39CcDuFAV3E3yw6hWgs4pKWPn6s9VPdtlKz2pU7opOQ
-	CLf2ABa9PgFoz+NmZWY5UEK9KC2g9mkqM78HH/15zKyBX/+kB9XsgPrDNHdhk/bAYYmFORD8diP
-	NJslRIKYhhW6DY2hT88rhXBX/UzLjkZyGUu+63hHqRY8gDV6CZlvla61T4EFKnQFtoMbS9vzIuQ
-	==
-X-Gm-Gg: ASbGnctXxvB0U4KPbFOQt0e2yMzkfcJpi9eKoDGB73CRTFOlJ6idM2SdPLTuHF+5h8J
-	x/Xp+bwLzoICqhOdZOmc9wmTCC//TwQQ5p/VfIR375psFWt8SugtM2Qsce3rkbMs36AqRB4Hb+A
-	ebGOlqDrAAG4TdyjLb+A8oYvKEA+vm8p79d6TL4oXRPLOfRedmQKAgh+AL8eCFdLun1+AtWZ8gr
-	0HsX/taulqpD0CRz3CJoq2Tc6SL33N2X3K3GPPSXrKVZWnHeYPdGULshVV9ss6mQYAQ1//bEUiF
-	O71c6cL4/dlVwH6fLoV3dmmV0ebMoczp/nRiBNQYDow1KIilQ/XSXw==
-X-Received: by 2002:ad4:5cec:0:b0:728:7749:26e4 with SMTP id 6a1803df08f44-7394276ffa4mr117056756d6.57.1757420433260;
-        Tue, 09 Sep 2025 05:20:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFGXF+ftxU8ZDSlhD2HodezUk/i4BybgQlaMQPM/WXTVJmY4zEZIOZUrPopisD1hK+pGViISw==
-X-Received: by 2002:ad4:5cec:0:b0:728:7749:26e4 with SMTP id 6a1803df08f44-7394276ffa4mr117056186d6.57.1757420432633;
-        Tue, 09 Sep 2025 05:20:32 -0700 (PDT)
-Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e75224db20sm2414629f8f.60.2025.09.09.05.20.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 05:20:32 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com, tiwai@suse.com, vkoul@kernel.org, srini@kernel.org,
-        yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        dmitry.baryshkov@oss.qualcomm.com, linux-sound@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v5 13/13] ASoC: codecs: wcd937x: get regmap directly
-Date: Tue,  9 Sep 2025 13:19:54 +0100
-Message-ID: <20250909121954.225833-14-srinivas.kandagatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250909121954.225833-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20250909121954.225833-1-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fN7xYHUj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kh9l/M1t";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fN7xYHUj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kh9l/M1t"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4A399338B6;
+	Tue,  9 Sep 2025 12:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757421814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=/ZtjXJXiqA3qOCrNiP6Dyv0RE+pmBMWL7d7k2T+bnAo=;
+	b=fN7xYHUjcexn/QMbFAjAqc6m/XzZzucXsnu0TL0PuMI3iv5UCJZ+rRy/z6FNQh6JImibKd
+	cAY0QjlxGdOzdTp8Dzw5XMhbtUMbeaW4rJU1go4duH1xl4kes7q8FEqC5HapWa2JRj4Jo8
+	0hPVbHjkogzbCqFJCh5gq4u86k/GukE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757421814;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=/ZtjXJXiqA3qOCrNiP6Dyv0RE+pmBMWL7d7k2T+bnAo=;
+	b=kh9l/M1tAcGZtanRd14MlhbdSlawen4Xu6S32eRasF+wcZILXKYW3DsXs3VZBJKblPz0vS
+	Mk53QVln6pr1SGCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757421814; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=/ZtjXJXiqA3qOCrNiP6Dyv0RE+pmBMWL7d7k2T+bnAo=;
+	b=fN7xYHUjcexn/QMbFAjAqc6m/XzZzucXsnu0TL0PuMI3iv5UCJZ+rRy/z6FNQh6JImibKd
+	cAY0QjlxGdOzdTp8Dzw5XMhbtUMbeaW4rJU1go4duH1xl4kes7q8FEqC5HapWa2JRj4Jo8
+	0hPVbHjkogzbCqFJCh5gq4u86k/GukE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757421814;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=/ZtjXJXiqA3qOCrNiP6Dyv0RE+pmBMWL7d7k2T+bnAo=;
+	b=kh9l/M1tAcGZtanRd14MlhbdSlawen4Xu6S32eRasF+wcZILXKYW3DsXs3VZBJKblPz0vS
+	Mk53QVln6pr1SGCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B4901388C;
+	Tue,  9 Sep 2025 12:43:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id k37qDfYgwGi6TgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 09 Sep 2025 12:43:34 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH 00/14] ALSA: Use guard() for spin locks (for the rest legacy stuff)
+Date: Tue,  9 Sep 2025 14:43:20 +0200
+Message-ID: <20250909124331.10670-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -85,50 +77,82 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: -vqkp6OMqRKN2KdzvVdBJ0EH5V44e4T4
-X-Proofpoint-GUID: -vqkp6OMqRKN2KdzvVdBJ0EH5V44e4T4
-X-Authority-Analysis: v=2.4 cv=NdLm13D4 c=1 sm=1 tr=0 ts=68c01b92 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=5pqs-Pqnn3KeH4UlXPsA:9
- a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA2NiBTYWx0ZWRfX9N+7xXpPoJPx
- y4vg+vTP0gC1FEqyvvOg1jgVAZM9KtiKFmR+AAzpn8EbF+KtT/+wZDcHOa/EEDArNdxLip0nzBO
- s8S3Ykv6IYfTd5pZeoWAxotmn16TlCi+c2LjTcT2DlyOA/kbpO9JFtGlzeiHdO9X8yzSrLMVfS7
- G35QJUX+Y3Uwxe9F8ofE9lAMULWpPZ7bjbl8oVAF09+7ViQZp54ua0dSHySZ2gTdldQ9+OO1llw
- 6hoDLn6PMk1ITTGLKYXm1yqEwvtmNSiqYJe0pV24TLaB6+pbnaVhaNw7QeE+DaDok6MI/WhlRWy
- yyRSKJL1n3dCgDd3dwQkDGnSLR+KeuCFRvqI0dJ5pSAtQWekE+WxtARKKfF0NrsneIilms1vu4a
- +YqhKOd7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-09_01,2025-09-08_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 adultscore=0 suspectscore=0 phishscore=0
- clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080066
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -2.80
 
-Remove usage of dev_get_regmap, as this its more efficient to directly
-reference the pointer.
+Hi,
 
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- sound/soc/codecs/wcd937x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+this is a gleaning work, the cleanup of manual spin locks with guard()
+for the remaining legacy ALSA drivers.
+It also has an additional code style fix for aoa driver, too.
 
-diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index 4c040e3862f4..421ec7a2d6bd 100644
---- a/sound/soc/codecs/wcd937x.c
-+++ b/sound/soc/codecs/wcd937x.c
-@@ -2790,7 +2790,7 @@ static int wcd937x_bind(struct device *dev)
- 		return -EINVAL;
- 	}
- 
--	wcd937x->regmap = dev_get_regmap(&wcd937x->tx_sdw_dev->dev, NULL);
-+	wcd937x->regmap = wcd937x->sdw_priv[AIF1_CAP]->regmap;
- 	if (!wcd937x->regmap) {
- 		dev_err(dev, "could not get TX device regmap\n");
- 		return -EINVAL;
+All are about code cleanups, and three should be no functional
+changes.
+
+
+Takashi
+
+===
+
+Takashi Iwai (14):
+  ALSA: aoa: Use guard() for spin locks
+  ALSA: aoa: Don't split string across lines
+  ALSA: arm: Use guard() for spin locks
+  ALSA: sgio2audio: Use guard() for spin locks
+  ALSA: snd-n64: Use guard() for spin locks
+  ALSA: parisc: Use guard() for spin locks
+  ALSA: snd_ps3: Use guard() for spin locks
+  ALSA: ppc: Use guard() for spin locks
+  ALSA: line6: Use guard() for spin locks
+  ALSA: usb: fcp: Use guard() for spin locks
+  ALSA: usb-audio: Use guard() for spin locks
+  ALSA: sparc/amd7930: Use guard() for spin locks
+  ALSA: sparc/cs4231: Use guard() for spin locks
+  ALSA: sparc/dbri: Use guard() for spin locks
+
+ sound/aoa/soundbus/i2sbus/core.c |   4 +-
+ sound/aoa/soundbus/i2sbus/pcm.c  | 130 ++++++++----------
+ sound/arm/aaci.c                 | 148 +++++++++-----------
+ sound/mips/sgio2audio.c          |  20 +--
+ sound/mips/snd-n64.c             |  17 +--
+ sound/parisc/harmony.c           |  99 ++++++--------
+ sound/ppc/awacs.c                |  24 +---
+ sound/ppc/beep.c                 |  17 +--
+ sound/ppc/burgundy.c             |  10 +-
+ sound/ppc/pmac.c                 |  88 ++++++------
+ sound/ppc/snd_ps3.c              |  21 +--
+ sound/sparc/amd7930.c            | 110 ++++++---------
+ sound/sparc/cs4231.c             | 204 +++++++++------------------
+ sound/sparc/dbri.c               | 228 +++++++++++++++----------------
+ sound/usb/fcp.c                  |  17 +--
+ sound/usb/line6/capture.c        |   6 +-
+ sound/usb/line6/driver.c         |  29 ++--
+ sound/usb/line6/midi.c           |  10 +-
+ sound/usb/line6/pcm.c            |  27 ++--
+ sound/usb/pcm.c                  | 206 ++++++++++++++--------------
+ 20 files changed, 592 insertions(+), 823 deletions(-)
+
 -- 
-2.50.0
+2.50.1
 
