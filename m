@@ -1,77 +1,88 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B27B2144D7
-	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 13:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263E7257458;
+	Tue,  9 Sep 2025 15:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757423722; cv=none; b=Oim9dT2p7e3dpu3CRVK9lIWjf1UBi0pmqnGA15rE9DeM2Ea7KY9DoE5GypLZXUo2E4aFEf08O8M0d9/4wU0c/qMJvUQBxtVeFGAvwoL7HMErr9dI/KkgIpEMYdHxqQEpu/LlhYfJ57gqaTXYjU+yX7DkdFPN5dLVbwnLLW/1F1g=
+	t=1757430944; cv=none; b=PlQyhhTSl0J4OHxKIWEq27wvWOgEKGQ36zrsNspx8R7Z26P4JzdU512P5gLMMZMYSNksk+iMDFRkH0FRa9dBY7ZAuRPkgrXXodN9H830Kz+Ry6JtaB/7k6ArU4wlsZ7GNJaTU26y4Vlolglb+SYsVz0RYpNcuP4reoGlUc77sIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757423722; c=relaxed/simple;
-	bh=tMOz9Y6ViawhrZ9N6nnLGRuKDgQUfRbfnc1/xQ1mE6g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qqL3CoHZFmxIRz7twuGKzmFrOyBKDucw1ItBYayQTASeHq2ZxyEh7PD1Nkjmh3zNqTzyIlQZssHvsCG1fAEu5oOEwYNC83pSiY0oOMEKJNCH+Zjpw6g/xztMkaZLnEHR2pmaKGmFPHYbFRC78BxurHedctL+YK4VJdQEVv1hi9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TAetq+KR; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1757430944; c=relaxed/simple;
+	bh=6MLYPQLprIBwnp4Qv84nvYux6xC52Rv+rX5AQz2KTGA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=AgnSBPiAdzf1/k4/VXvgXmfXq1axJIRirm72jrXdf8atnDeSkmRm0er/iG6gyRVsiRQxnWksnJ6/7k5i7THL0M39GN4zAFackcnkFM9KX2G87PvJO4js9gyaUA1fEdzFxGiMCcz36X3kQDnMePKpLNipRKYLZBAr7hV6q4UKDsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fxAr3SYh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TAetq+KR"
-Message-ID: <344c85fe-e5f1-4d14-8855-586e60becbe0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757423719;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7dM1x7ij+jBvOux3l0CastuCukC+rHKhbFX4wOt521Q=;
-	b=TAetq+KRfyRV6gIKWn9xGIfFUQEheLpBjMyjC4dBZvt1HMqxGx+SCIeK4rN9/VtqGBYV8s
-	dUhb+bOC4oZbK6RoXNagAXeefTKxR+4R+L7uJ2tggBMhkWLDawf0EXrryky3lw5sfT3duX
-	m908qPY2cx9Kz+BakYYk00XWMdwb73o=
-Date: Tue, 9 Sep 2025 15:14:16 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fxAr3SYh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09FCEC4CEF4;
+	Tue,  9 Sep 2025 15:15:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757430943;
+	bh=6MLYPQLprIBwnp4Qv84nvYux6xC52Rv+rX5AQz2KTGA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=fxAr3SYha/LGO3Q0jpuQ2kzRWrhnT4KPAFD0/9m73KTMgM4L1hUEH7fZ15VrjHswf
+	 +G3TPMYe9dVaypD+bh2e2RLhki033mKZREQ34DDUgIEC4rl+EOuBeec2xX0VBQyyfk
+	 6UyzXssEzxuYe6lRT81mq2TYRmAt3Q2zXIJNfwRpdmP3mRkr9JcJWZB+aICw/voyD9
+	 QjdCvLIZOcJl+wnAjyFK9VMbD1PjWOEDsXPKOeg5+72Tmb3m7M1kgL4UJ3Bp7cwCDO
+	 XsrOt7T9cSzcJ3uqXLGBZZoxSgPU2pYc8rPIbdZ0kjv2kKVQQnS1EcrAqFkrWjEvEc
+	 w7rdS363ciHhQ==
+From: Mark Brown <broonie@kernel.org>
+To: Alex Tran <alex.t.tran@gmail.com>
+Cc: lgirdwood@gmail.com, shenghao-ding@ti.com, kevin-lu@ti.com, 
+ baojun.xu@ti.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250901184008.1249535-3-alex.t.tran@gmail.com>
+References: <20250901184008.1249535-3-alex.t.tran@gmail.com>
+Subject: Re: [PATCH v3 1/3] ASoC: codecs: tlv320dac33: Remove unused struct
+ tlv320dac33_platform_data and header file tlv320dac33-plat.h
+Message-Id: <175743094177.224368.14252023546153247015.b4-ty@kernel.org>
+Date: Tue, 09 Sep 2025 16:15:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 11/15] ASoC: SDCA: Add FDL library for XU entities
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, rafael@kernel.org, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, shumingf@realtek.com, lgirdwood@gmail.com,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-References: <20250905143123.3038716-1-ckeepax@opensource.cirrus.com>
- <20250905143123.3038716-12-ckeepax@opensource.cirrus.com>
- <9504c1fc-d65f-40ad-afd6-cc4bbb880b23@linux.dev>
- <aL7XMkyQr77zaPqO@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <aL7XMkyQr77zaPqO@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-Mailer: b4 0.15-dev-94e36
 
-On 9/8/25 15:16, Charles Keepax wrote:
-> On Mon, Sep 08, 2025 at 02:14:00PM +0200, Pierre-Louis Bossart wrote:
->>  
->>> +config SND_SOC_SDCA_XU
->>> +	bool "SDCA XU support"
->>> +	depends on SND_SOC_SDCA
->>> +	default y
->>> +	help
->>> +	  This option enables support for the MIPI SDCA XU Entity driver.
->>> +
->>
->> I completely agree on the need for a common library for file
->> download. But that functionality happens to be part of the XU
->> scope. Other things might be added by vendors for secret-sauce
->> controls.
->>
->> IOW, this isn't XU support per se but FDL support only. An
->> actual vendor-specific XU driver would rely on the FDL library
->> and add more things of top.
+On Mon, 01 Sep 2025 11:40:08 -0700, Alex Tran wrote:
+> Remove the tlv320dac33_platform_data struct and header file
+> tlv320dac33-plat.h as they are not used anywhere in the kernel
+> or outside this driver.
 > 
-> We can rename this to be more directly FDL, that seems fine.
+> 
 
-ok
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/3] ASoC: codecs: tlv320dac33: Remove unused struct tlv320dac33_platform_data and header file tlv320dac33-plat.h
+      commit: 06aba2126b414248a34b13584f22a78787c95450
+[2/3] ASoC: codecs: tlv320dac33: Add default value for burst_bclkdiv
+      commit: 960ef523cfe420ae8fdd801f1d12be0fb7ed8719
+[3/3] ASoC: codecs: tlv320dac33: Convert to use gpiod api
+      commit: 1cf87861a2e02432fb68f8bcc8f20a8e42acde59
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
