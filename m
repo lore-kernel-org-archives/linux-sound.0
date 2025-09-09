@@ -1,203 +1,140 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2051.outbound.protection.outlook.com [40.107.100.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C9218A93F;
-	Tue,  9 Sep 2025 06:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757398818; cv=fail; b=nzPHzjIREnZMCuYLLBdYhT8Ott2bq/do1FgDAKjQl1R2qs6dO29gtvlaVufppkt1lehTBU7eioR9/UPviKhJBDBw3uLfWROn/uQkhUomrob3SLaFf4hqYtnT20o9ykzIIWujTpUFweWTiLlAAMy+8T7/3jrwUb4TJ1DizmXFJKY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757398818; c=relaxed/simple;
-	bh=RBOiKMXLv6uE2+GYYieMzqyx5eDpUmbcURXUGi5kSY4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E58luswdPsnueF9W+v5/x4FPD3ia19Evs1ruhiUuVjMCfE4AXRcp1shU+ljX5dBJqvaW8HxoaCoaIbNsxRlTAlhiFMrkf6VJLQkKHTxFG/3jh8p6Q43XdVlhlRkmznXTLHrSHDfJV1T9FXePOnFZXNq8C6lYlYRa+WkO6bPTcH8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=PaQyXekD; arc=fail smtp.client-ip=40.107.100.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF303235074;
+	Tue,  9 Sep 2025 06:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757399374; cv=none; b=GCpckla+wgpFELiNz/tPWQPHrqqLgNLjLKGL7dA4RC8i+XgB59T94W9xIwRu7xHDqKuaos1OhdwnZON2Q6+0fAqff/NZU8VH2cJd7u1k/4dNQhpOrrhYghYJjQoKLm+RnO889xAwRMOdFzN9gdsxhTdb3zz0SgbF22d/Hx6bPdI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757399374; c=relaxed/simple;
+	bh=RSVuLnwfn6lKemssdBwmkRTtO64cdfYMqOYTLPlQs3s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gfar64rKewtwRmUjN84mhJB7eA7yilT9ZgpV7aIw2vsy+ma8vw6yCHGhA3rKCPXCabMGoBGwTEhJtEDiYzrkYvPZf70wr8oldmIKOyahkXY0c8VVRmXoYaJUW1ADb+yG4Zd9SPGtZhQ0Gv+Sk+38exiGgYibScrYz2UdyoKFJMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ODPEczKa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="PaQyXekD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DQkbzzWUGAiwelegFW1vFl13LtOPrEGwMEoLzC2cGQRTSdZz9yGaoi+8m3R/vfZPelVI6JKfov0h31fNkYv+mU4i82YPiKJrP4830Lqpz0nNVzVH9+87rLYyBWJGOIKNEaFAw/0tBXy5VPT/JI1mwLG/MjsfFvg6C6233oQfGdQAlCpzp4lnAT1jRsh/OndUzkJJPu0r/oFnPXbQt/il/O5lG3XSLgU37C2u8PcOp9OZvatzY9ZHsFgjkwf/UVg1M3qrj1R6LQmaLD7kFmxNm4rhQ74D2vX1UfsLixyLCkdj6+11nb+rQi/nSq0nLT9+a60jujSlX7rK4qYGx6TmXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K0UGYSPyT+PTQVjFy04USbvvntQIu7mNnkD9kwYJzLM=;
- b=pCbw9IEkNBhxsCNujxWffVSQ6ETpXFpgO7XCsvVnBni5obmpY1pq9Z4HNLk4gZMkL1vqRyShln1+pyaiqU0zZ5SwusBFqei9WpLdkyUzE+Cr0kpWBncNgSNVNLLb6e5nw46ifC4ZBp03L+VwKFxjBxK5HFqueni+R8xBt5PjGZedmdBGxiNlGSx6q1BOn6YrPAv6QE2xlKO51dYfcPs9Pp2O//Q/EzHz2CRh3rGz1xLW5DeEjVtV8k0h8yoQFRy0eGHD+/tsqTH3LmCO7Gu6D+Q227gU++Bk1c0FtkEsLWSBt9OH1HmIkssP7RQ67gRg0oFs/TU6Pku5mMNUlL2KhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K0UGYSPyT+PTQVjFy04USbvvntQIu7mNnkD9kwYJzLM=;
- b=PaQyXekDCv+Skju0ecXsc8v8le2YPlrvJaVgJ6XyYTqMALeD1OcMuep0jOdygkt/t8etAyCF4ABuZ6SNFo227VFYwa/IX1J0zMtF4O/tLH+LR5kcsPKbLhRW5lLHG1xiCuOLRf9Us9qAFRvh7V8OMuSadO9/4t4aBu0PA+RVzhI=
-Received: from DS7PR03CA0184.namprd03.prod.outlook.com (2603:10b6:5:3b6::9) by
- SA3PR12MB7998.namprd12.prod.outlook.com (2603:10b6:806:320::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.18; Tue, 9 Sep
- 2025 06:20:10 +0000
-Received: from DS2PEPF0000343B.namprd02.prod.outlook.com
- (2603:10b6:5:3b6:cafe::3d) by DS7PR03CA0184.outlook.office365.com
- (2603:10b6:5:3b6::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.15 via Frontend Transport; Tue,
- 9 Sep 2025 06:20:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- DS2PEPF0000343B.mail.protection.outlook.com (10.167.18.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9115.13 via Frontend Transport; Tue, 9 Sep 2025 06:20:10 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 8 Sep
- 2025 23:20:05 -0700
-Received: from r9-mach.amd.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Mon, 8 Sep 2025 23:20:00 -0700
-From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, "Venkata Prasad
- Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Greg KH <gregkh@linuxfoundation.org>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>, "open list:SOUND - SOC LAYER / DYNAMIC
- AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] ASoC: amd: acp: Fix incorrect retrival of acp_chip_info
-Date: Tue, 9 Sep 2025 11:49:50 +0530
-Message-ID: <20250909061959.2881158-1-venkataprasad.potturu@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ODPEczKa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51560C4CEF4;
+	Tue,  9 Sep 2025 06:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757399373;
+	bh=RSVuLnwfn6lKemssdBwmkRTtO64cdfYMqOYTLPlQs3s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ODPEczKa/AlXKhw6F8c9TO09Io1SaxNo2XlIOUAggPIbGDm87relJQDwAsvfXFd7P
+	 rzIHU+XrDwvKXq4U+1b4yJVDvOJBp/lSFUBg+od9u0qR+S5uCy0m2bClTkMA33SBYx
+	 NXn7fg6brMGNc1u/FUII/nK7/oPS70XAGvEeGNLPuiTHBV4U6QqWkrj/Q2PyiGnujU
+	 5RaqwplwO5CHfsdCRSX0KyHGS3p7+50u6GJQANsnvNtLaV/B3eorVx4hq1sn3FgVT5
+	 6g3Vc/sebHYaIwlAfYy+zBitJas0cE1IYEoJhEclbmmxrUlIEy2T+eQxyye0p+SyM5
+	 7XaiAU2f3FKDA==
+Message-ID: <898bf39e-1b34-40e9-bdfa-ec4eca1c3f7d@kernel.org>
+Date: Tue, 9 Sep 2025 08:29:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343B:EE_|SA3PR12MB7998:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7590eb1f-7ddd-4eb1-e30c-08ddef68ede6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?sm+bnQ4bSqG8sWY5n4kNzFw598JFGAwoEU1PP370v57XVCf7j5HOEp9F4h6P?=
- =?us-ascii?Q?iH37kwFbNHBgy+wtIYu11ePe170R76EmNhkGv6ACBUs9LE+VFYZpWGTZK7Ph?=
- =?us-ascii?Q?AQOhOTJLl2FFZMeMpi8q+hvsrHddVPV3N/kdV19nEF4njHKtlECG1dm1sbsu?=
- =?us-ascii?Q?bPjDNK0gQeTYDQwRF05pGPq8hXl/I4XtopE8RFgzT1TwQuvfrJqaFmRqMHG4?=
- =?us-ascii?Q?Ll89bx/7PeKNs5PnUtMjxTJjI+f6mHysNtPntjs/hcPK1Q1/5k6Vf0ixBRRE?=
- =?us-ascii?Q?puTW1+R3wHUflkqXGfe7VKYVIrKtTkE98L4uUWPEQMk6R2rwOgcQK2q5MdCG?=
- =?us-ascii?Q?cn1QiW3MdyRN9G2OnzcaELwCUZquVcDVCN+7nVyEJgWlvFIVHY03kI88W+V+?=
- =?us-ascii?Q?JJxkBuQ+UYT5ocISf+mLeuGgVaLLDheOGmNsYk9s4Wj6xQ2u6JkFyQ4PtL73?=
- =?us-ascii?Q?tIvqy6iDHcVP+Ap9kcAnnHQubxFqbhvCOIWKDfLhzmxevhbVpTuKsa/eEIZt?=
- =?us-ascii?Q?17Iee+dnUmlsuLbxm92UQDIvZzvzXg/fmy8Ea3zHy2efsNFpIkXXcuSUw5Iy?=
- =?us-ascii?Q?mhsbc2Yi1aHKRA00B9xpN0fvtA/ObaIRe8uPhKZCWvwCCg0sDNO/8wUmdTz7?=
- =?us-ascii?Q?CeAzyXH3OloiMcCnE233TUnfFbjK7oisvpsUEom8Sl5fBIW3q+uqaEIjJk4+?=
- =?us-ascii?Q?jCRmJ4dbjFFDnZyXSSsSWBzhKFpFdsRb7zOJCxAOCr1nJcRAcMOw+FAPrXJ6?=
- =?us-ascii?Q?WVRQ1dtOo16zlK1ltF1dH5FOjGrQW4CfRfe+vx6NtKJhBolvmshkxwxquO7k?=
- =?us-ascii?Q?Zad405SNta/nLyx1RlyhyUD7aDUFn1NgdPq8LMgjO/mDrNMOh3srLBhmhl7k?=
- =?us-ascii?Q?7qaTUmFuTSrDboS9jG2zIpUd2f72F4mUTUGmOd8GRSwQAW5ZvCghEPYaSLCm?=
- =?us-ascii?Q?DDpw22tndd+fyHtVt+tsItCcW28ueaWSqQYLzG679L2jJjlrWL4XYys0+jXf?=
- =?us-ascii?Q?jm3QwKcBlP0Kq1cb+P8O9ry4i26p3Bvq04LIzeSbVM0kDLlTJGGeIAHHLDQ4?=
- =?us-ascii?Q?Q5+nVQl8zktPhLEwlJKDtPDxE2VjZVGVfJEqpGGOVHuxokdSPlvkJu2pHplT?=
- =?us-ascii?Q?/W2trZMtKFg6xG7LR9RwaUcgocpwFdqBt5sLq2nkTYtUaVDirVp5G80JPSb2?=
- =?us-ascii?Q?Ae/AkZ3dMJK0kal0DbNygTaqwjajYdX89jPxnvUxz8CNPgb3LilShiooZLwb?=
- =?us-ascii?Q?DsbwGlgKpZlF3dUuDZEvG1ebRG9xQmwjIJlk70BXIhz4hsWlcEZmyRCVgE47?=
- =?us-ascii?Q?Cj07uLqaQMOBj6zIRkLn05I6HcZKk9/pj2K+/L0mdz2JBgHo8C71CuRRD7G2?=
- =?us-ascii?Q?IVQdNSAvoshi9TucfwNyTcjip/zc0637NMgHwn6xacfEzEI+Gq9z9I+pcOW1?=
- =?us-ascii?Q?JFIc2A4mG6GWzOrHkZ06mB+4fTCSMMxBONIPGOBoCptck6eyhXmcyOj8NjZv?=
- =?us-ascii?Q?gUUYStm4JEbEVDInn4kvhE+PU1J9lvlWon5A?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 06:20:10.2655
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7590eb1f-7ddd-4eb1-e30c-08ddef68ede6
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS2PEPF0000343B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7998
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 03/14] dt-bindings: arm: mediatek: mmsys: Add
+ assigned-clocks/rates properties
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
+ conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
+ edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
+ jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
+ krzk+dt@kernel.org, kuba@kernel.org,
+ kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
+ linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-4-ariel.dalessandro@collabora.com>
+ <20250821-electric-kestrel-of-awe-cb89dc@kuoka>
+ <1cf0b296-adaa-4c80-864c-9b78f09cd3e3@collabora.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <1cf0b296-adaa-4c80-864c-9b78f09cd3e3@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use dev_get_drvdata(dev->parent) instead of dev_get_platdata(dev)
-to correctly get acp_chip_info members in acp I2S driver.
-This resolves issues where some members were zero due to incorrect
-data access.
+On 08/09/2025 21:19, Ariel D'Alessandro wrote:
+> Krzysztof,
+> 
+> On 8/21/25 3:43 AM, Krzysztof Kozlowski wrote:
+>> On Wed, Aug 20, 2025 at 02:12:51PM -0300, Ariel D'Alessandro wrote:
+>>> Current, the DT bindings for MediaTek mmsys controller is missing the
+>>> assigned-clocks and assigned-clocks-rates properties. Add these and
+>>
+>> No, they do not miss them. I don't understand why you are adding these.
+> 
+> The reason I added these is due to the following check error:
+> 
+> $ make -j$(nproc) CHECK_DTBS=y mediatek/mt8173-elm.dtb
+>    DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
+> [...]
+> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: syscon@14000000 
+> (mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do 
+> not match any of the regexes: '^pinctrl-[0-9]+$'
+> 	from schema $id: 
+> http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
 
-Fixes: e3933683b25e ("ASoC: amd: acp: Remove redundant acp_dev_data structure")
+This is looking like missing clocks or other unevaluated property by the
+binding.
 
-Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
----
- sound/soc/amd/acp/acp-i2s.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/amd/acp/acp-i2s.c b/sound/soc/amd/acp/acp-i2s.c
-index 617690362ad7..4ba0a66981ea 100644
---- a/sound/soc/amd/acp/acp-i2s.c
-+++ b/sound/soc/amd/acp/acp-i2s.c
-@@ -73,7 +73,7 @@ static int acp_i2s_set_fmt(struct snd_soc_dai *cpu_dai,
- 			   unsigned int fmt)
- {
- 	struct device *dev = cpu_dai->component->dev;
--	struct acp_chip_info *chip = dev_get_platdata(dev);
-+	struct acp_chip_info *chip = dev_get_drvdata(dev->parent);
- 	int mode;
- 
- 	mode = fmt & SND_SOC_DAIFMT_FORMAT_MASK;
-@@ -199,7 +199,7 @@ static int acp_i2s_hwparams(struct snd_pcm_substream *substream, struct snd_pcm_
- 	u32 reg_val, fmt_reg, tdm_fmt;
- 	u32 lrclk_div_val, bclk_div_val;
- 
--	chip = dev_get_platdata(dev);
-+	chip = dev_get_drvdata(dev->parent);
- 	rsrc = chip->rsrc;
- 
- 	/* These values are as per Hardware Spec */
-@@ -386,7 +386,7 @@ static int acp_i2s_trigger(struct snd_pcm_substream *substream, int cmd, struct
- {
- 	struct acp_stream *stream = substream->runtime->private_data;
- 	struct device *dev = dai->component->dev;
--	struct acp_chip_info *chip = dev_get_platdata(dev);
-+	struct acp_chip_info *chip = dev_get_drvdata(dev->parent);
- 	struct acp_resource *rsrc = chip->rsrc;
- 	u32 val, period_bytes, reg_val, ier_val, water_val, buf_size, buf_reg;
- 
-@@ -516,14 +516,13 @@ static int acp_i2s_trigger(struct snd_pcm_substream *substream, int cmd, struct
- static int acp_i2s_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
- {
- 	struct device *dev = dai->component->dev;
--	struct acp_chip_info *chip = dev_get_platdata(dev);
-+	struct acp_chip_info *chip = dev_get_drvdata(dev->parent);
- 	struct acp_resource *rsrc = chip->rsrc;
- 	struct acp_stream *stream = substream->runtime->private_data;
- 	u32 reg_dma_size = 0, reg_fifo_size = 0, reg_fifo_addr = 0;
- 	u32 phy_addr = 0, acp_fifo_addr = 0, ext_int_ctrl;
- 	unsigned int dir = substream->stream;
- 
--	chip = dev_get_platdata(dev);
- 	switch (dai->driver->id) {
- 	case I2S_SP_INSTANCE:
- 		if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
-@@ -632,7 +631,7 @@ static int acp_i2s_startup(struct snd_pcm_substream *substream, struct snd_soc_d
- {
- 	struct acp_stream *stream = substream->runtime->private_data;
- 	struct device *dev = dai->component->dev;
--	struct acp_chip_info *chip = dev_get_platdata(dev);
-+	struct acp_chip_info *chip = dev_get_drvdata(dev->parent);
- 	struct acp_resource *rsrc = chip->rsrc;
- 	unsigned int dir = substream->stream;
- 	unsigned int irq_bit = 0;
--- 
-2.43.0
-
+Best regards,
+Krzysztof
