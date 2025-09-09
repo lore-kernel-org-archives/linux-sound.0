@@ -1,88 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF5631D392
-	for <linux-sound@vger.kernel.org>; Tue,  9 Sep 2025 17:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6DF24C077;
+	Tue,  9 Sep 2025 22:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757438628; cv=none; b=fvOkS5pFcg9rqK4v8sNPWerG7s2UHmx6Xgm8/GKUWV3mGrnaFCxxWHavBizqT8lyHNTjhUpvG7dBjuFSLCB2ko4rqv+USWEzopxlVg/lHD/hze9/8IFnmzIe33SIgr49uR5KOtSz3CXJD/P6BGJWzyX737dEUbu4Y+nd+Gy3A8k=
+	t=1757458288; cv=none; b=bQ5DDC454cIrakykoxvSM9nRMkzO+Yiv/5Rz6HAeVOeAUKCNIns+D6RiHjp3Z6I5rRrPBwk15v3RPryWbHpKKSfuVdJA6WgsC8cSyxybMy4FvftOnm6/fqvNoP6NAAXztIxHzE+d8Cp1Ay6zjd51ooyLM/qQWVcwyf7r4XTsMbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757438628; c=relaxed/simple;
-	bh=GxjokJjtumWfHbe5GkNmN3M8xkTGcvI8iuNxmSyF0KA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d0HgEosDULjtDGXJxh8XrLzynPSfEWS4/5rvNhJ0IojzUQzmTtIPTM+wJODwNd/13H1+dtiHJu2DbHPNTbBgebqDDciNbNMPBCff7YOPWZ51OWX3ezpSm7yDdCyWzhptnaC+baN+cdfJwbUlPiiNOOrtqwmp7drA3FCppK60ggM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5Ga8lsM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757458288; c=relaxed/simple;
+	bh=hVkbApMjSIvOcQPTbhTfbGDhsk7uuR0NkY2ZCWwukDk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E9ZMxD9pxnl3hU2exaGfMa2lHjP2O3dC5sHADQ5WWpJRlPszzGvL+Gun/P/n1dprCPRLAMbSI8OH5lPYQ+724B3RZo9UM+fsJOlBmQnAgoxS+aOx/fz+CKrv1wrbx+tjTVqqWG02kVEzyF6s9SGrBFcIAqYjqCxWaHflG8eCPI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=UdoVy+P2; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5Ga8lsM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EC3FC4CEF8;
-	Tue,  9 Sep 2025 17:23:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757438627;
-	bh=GxjokJjtumWfHbe5GkNmN3M8xkTGcvI8iuNxmSyF0KA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=P5Ga8lsMk9m96QzzdKsBzWEz6TlPdiPj3Rym2ovTXdSYVdYyT/AwjMYmlrIh4ZXJL
-	 GeHhHs+Z69+wLN7FeAhWtdXCgAg7cXSjdguoKf8jdY5t9el3SS848m76hJK2JZHQ9N
-	 q78JVWvd/qp3aLhC95C1QomF4jurPR3oIExqilhMBpMLXCV5uZbBk9zsKrkgWSsA/H
-	 YTYpA0x9lp3BcKHLhsjIHeJ0ecJqkbAqSXzadnA1wcYB2fuAmV0QGiS/2Zz8qsri95
-	 KJKom+rDTOCcyDsGjfria0dCRuKJIjQ9NCUbq5aiO3m4wFbNjFqs1MnTG82LXd7brp
-	 9IC2pUAuQfATg==
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250902171826.27329-1-tiwai@suse.de>
-References: <20250902171826.27329-1-tiwai@suse.de>
-Subject: Re: [PATCH 0/3] ASoC: Intel: Fix invalid quirk input mapping
-Message-Id: <175743862693.300420.14705810864194949240.b4-ty@kernel.org>
-Date: Tue, 09 Sep 2025 18:23:46 +0100
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="UdoVy+P2"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 589L0XYK030992;
+	Tue, 9 Sep 2025 22:51:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=R5/kwEtBv6MTG8QxbIi61njmmPO+O
+	S//mRuQfHWca5w=; b=UdoVy+P2j8q2+G5QqOP27sNDZMBD6oSmauiFdAXJidAi9
+	FF+pGO6LcgWpIkEp7J450itXC4rI0nDCOea5NVAS0Yq5wCQfYJ/FG4DuPWX2VOso
+	qJIpI1qxk1tcHmIld/cvHFP9Nk/knRRcTbxWugzu3CgYWrzVTxiAHP1rQlxTmQop
+	8nLiAF+G9SnURoFSSnWYg2T5QOPCKYsIEDx9YuMut33JWl373jRjCgCSdM7K2QOn
+	T5Y1ITjlze+9ZlcaHXs7EGidF+VE2NSnocol5su/5JvQ0CkhThk9iM6y6KfLMeOk
+	INfIO4swdFWvs6cbzh/JEnoMoyi8geEgaABKGXxpA==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4921peb2en-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 09 Sep 2025 22:51:14 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 589Mb1n4002987;
+	Tue, 9 Sep 2025 22:51:13 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 490bdgrsyb-1;
+	Tue, 09 Sep 2025 22:51:13 +0000
+From: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+To: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+        ranjani.sridharan@linux.intel.com, broonie@kernel.org,
+        linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org
+Cc: linux-kernel@vger.kernel.org, lgirdwood@gmail.com, daniel.baluta@nxp.com
+Subject: [PATCH] ASoC: SOF: ipc3-dtrace: fix potential integer overflow in allocation
+Date: Tue,  9 Sep 2025 15:51:11 -0700
+Message-ID: <20250909225111.3740029-1-samasth.norway.ananda@oracle.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-94e36
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-09_03,2025-09-08_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 suspectscore=0
+ bulkscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2508110000
+ definitions=main-2509090223
+X-Proofpoint-GUID: KcywZnWSITHM6LfDXmryhOSK9Aq_v1Fy
+X-Proofpoint-ORIG-GUID: KcywZnWSITHM6LfDXmryhOSK9Aq_v1Fy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDE1MiBTYWx0ZWRfX6hwg8mXDOpd2
+ aFbw+LhEfVmJZ2z0kKVgvuNnJ4oBkRQ/3HcV+L2FLi9JuTsQ86VD+cTeWDNB1iEVI3YaPBeMNVg
+ jg9KlP3fWGA6AoCiwY/rvKlS7tAgZfh6TVUvB4tmn0LN/yNjsoNCub+PzlJQFVPdxgrnSi/zA0Y
+ CoIvyuFvtZETQ1LCs4xpG1dUa+TtH54Kzibw4CxXz3rgne3Tiz9EtMKwMv7Y+Vr7CmYFR4xQQV5
+ cNJIV3/u4KoNK2HoJqOW34Pz1WpLeC141uttaquANuc584inmgyGt60DmDwIRDygMLUMwLmO3KE
+ shWjYgtlDwnSGGP6SLTyWqpCHk3ev3nwUVNu31NmUJB8+MkaHNqBL8DDdT/qv59vyLbLmNeT8WX
+ qp2ddQDrjfamfGsRejz6un8ssItotg==
+X-Authority-Analysis: v=2.4 cv=b9Oy4sGx c=1 sm=1 tr=0 ts=68c0af62 b=1 cx=c_pps
+ a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
+ a=yJojWOMRYYMA:10 a=yPCof4ZbAAAA:8 a=mtaZG1nP8qNN4-AM54QA:9 cc=ntf
+ awl=host:12084
 
-On Tue, 02 Sep 2025 19:18:18 +0200, Takashi Iwai wrote:
-> This is a revised patch set for potential OOB accesses when wild
-> values are passed to quirk option for ASoC Intel drivers.
-> Unlike the v1 previous patchset, invalid quirk values are checked and
-> corrected at log_quirks() in each driver, instead.
-> 
-> v1: https://lore.kernel.org/20250415083144.6588-1-tiwai@suse.de
-> 
-> [...]
+Fix a potential integer overflow vulnerability in trace_filter_parse()
+where the allocation size calculation could overflow.
 
-Applied to
+The issue occurs when:
+1. capacity is calculated by adding TRACE_FILTER_ELEMENTS_PER_ENTRY in a
+   loop for each entry found in the input string.
+2. capacity * sizeof(**out) multiplication could overflow if many
+   entries are present in the input.
+3. This results in a smaller allocation than expected, leading to
+   potential buffer overflow.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Replace kmalloc() with kmalloc_array() which provides built-in overflow
+checking and will safely fail the allocation if overflow would occur,
+preventing memory corruption.
 
-Thanks!
+Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+---
+ sound/soc/sof/ipc3-dtrace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1/3] ASoC: Intel: bytcht_es8316: Fix invalid quirk input mapping
-      commit: b20eb0e8de383116f1e1470d74da2a3c83c4e345
-[2/3] ASoC: Intel: bytcr_rt5640: Fix invalid quirk input mapping
-      commit: fba404e4b4af4f4f747bb0e41e9fff7d03c7bcc0
-[3/3] ASoC: Intel: bytcr_rt5651: Fix invalid quirk input mapping
-      commit: 4336efb59ef364e691ef829a73d9dbd4d5ed7c7b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/sof/ipc3-dtrace.c b/sound/soc/sof/ipc3-dtrace.c
+index e5c8fec173c4..6ec391fd39a9 100644
+--- a/sound/soc/sof/ipc3-dtrace.c
++++ b/sound/soc/sof/ipc3-dtrace.c
+@@ -126,7 +126,7 @@ static int trace_filter_parse(struct snd_sof_dev *sdev, char *string,
+ 		capacity += TRACE_FILTER_ELEMENTS_PER_ENTRY;
+ 		entry = strchr(entry + 1, entry_delimiter[0]);
+ 	}
+-	*out = kmalloc(capacity * sizeof(**out), GFP_KERNEL);
++	*out = kmalloc_array(capacity, sizeof(**out), GFP_KERNEL);
+ 	if (!*out)
+ 		return -ENOMEM;
+ 
+-- 
+2.50.1
 
