@@ -1,84 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1969D31A57D
-	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 11:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCE425DB0A
+	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 11:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757502616; cv=none; b=ghO/78DjMc3dmoPkk6DKWyI2wwLS+sVSHlhLH8FlB9u6f5hAm6IMegb5bHAMAXq3SeZQwQJtb4XIl3ivgdTqkprz9oWP6tHIu+qzft40QBoW081bxEfGWZhBXpaUm6OzBF+JUfWD1VmFA96Q78bdQCgTSyp18nTiLQUZZ5pDN98=
+	t=1757502622; cv=none; b=akxUAt/sEU1IgyaTcfimD83eF1zWp5+uhewzIjBm0j2Kw6hUK9AGHC7tOPqMmSOll2ZUFkPK5DcqKI+Z/1dsY66hYg085t1SR0aCGVNRrQkRIZPampXPpFK6jW2zJv3g/O4SzPQDGHCtaXLQNH5TEjwG0vtne6FfBiiXQi7B+Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757502616; c=relaxed/simple;
-	bh=hCbd4HyML+9B5igkmgsbU+LoBQChPNqr8Pnrph0a8IE=;
+	s=arc-20240116; t=1757502622; c=relaxed/simple;
+	bh=A9QhMoKR6YasXFQEaMlpXfALTJ7/6ZShZf9jG7xfuLw=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=keNnlnX6OezjCIdJn2f5/adxvEWFeE5rS1ndtUsucC2o6suHS0iOBNhBRdBxI3c8wWssDCqKGDk3XrqW/iXqmNCjoqucgfbTJcy8jdC8IefOyP5QoEHfXTP0LWZreHra8uPs2/emc3X2YatCZ/SNgv67eHaBz+jMzgiSdKwCctI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OAFCIvOC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=reds2M0c; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OAFCIvOC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=reds2M0c; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=TCImjAsxXly4uTny99ubQK5Xcqk8ElknL2BdYSppIReJB+837APjXVW7+PSfykp2sD+HBSZiD7M6ba29iDW/51GIJJS6HjSmgyPKx1woRjntx74QB+DG5RVE5lAgBS9lZpveAybREjx4llsCrU+G4h0+M7PWJKHraeFpbSAinS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vHjQs5n2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GBJcGqXW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vHjQs5n2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GBJcGqXW; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OAFCIvOC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="reds2M0c";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OAFCIvOC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="reds2M0c"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vHjQs5n2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GBJcGqXW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vHjQs5n2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GBJcGqXW"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1852A378A1;
-	Wed, 10 Sep 2025 11:09:46 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C8683601D9;
+	Wed, 10 Sep 2025 11:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757502586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1757502585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1ULzo6WXSj3KuRMFqZpsqB7IuNNGyxxvP3RZtzApKcA=;
-	b=OAFCIvOCGxSZ9E6fwydf+30nKyl4k0DXh2u6emCV1isY55MgBvfFXUmq/HVA/WpQEEtZ4V
-	YFgrWMm3XMirdfWQ2yxsUPDJVTMxNUDh+a3YwpW4UF3mDSZxibo0V5mai8WtrsscE4oLet
-	LFSHJ9ZFy57bXqmBSChqrVyskqnbYaA=
+	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
+	b=vHjQs5n2QJrpcAECZpy8gvrZcDRexpe2yGvBl0lEDKAlwQIUJ/XNxRqX/2c3+mBk7dmIsX
+	4wlKtr4qvVLQ6sqCFPv4P568kLQvIUw2hlkwoUxIBK39+P31+H0RHFyVrCdcyo74BGg9yO
+	v5XKTbKmDODLR1jangmjmLMILrSiC7E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757502586;
+	s=susede2_ed25519; t=1757502585;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1ULzo6WXSj3KuRMFqZpsqB7IuNNGyxxvP3RZtzApKcA=;
-	b=reds2M0cVK2svXG4yDkpCfzXQG++5EMmlwws3vg4k9pgq8lSuyLu9bVH1DmLzhXuxH/h0u
-	EALHIqFT4rE3yoBg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OAFCIvOC;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=reds2M0c
+	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
+	b=GBJcGqXWAPOJGU7vmtxSFe2X88OJGw5TUvrCoz0RSYoUQWQ5uB2yBIP6ciSpkL2Tcm/CF1
+	9KbHRus1iNxuNqAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757502586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1757502585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1ULzo6WXSj3KuRMFqZpsqB7IuNNGyxxvP3RZtzApKcA=;
-	b=OAFCIvOCGxSZ9E6fwydf+30nKyl4k0DXh2u6emCV1isY55MgBvfFXUmq/HVA/WpQEEtZ4V
-	YFgrWMm3XMirdfWQ2yxsUPDJVTMxNUDh+a3YwpW4UF3mDSZxibo0V5mai8WtrsscE4oLet
-	LFSHJ9ZFy57bXqmBSChqrVyskqnbYaA=
+	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
+	b=vHjQs5n2QJrpcAECZpy8gvrZcDRexpe2yGvBl0lEDKAlwQIUJ/XNxRqX/2c3+mBk7dmIsX
+	4wlKtr4qvVLQ6sqCFPv4P568kLQvIUw2hlkwoUxIBK39+P31+H0RHFyVrCdcyo74BGg9yO
+	v5XKTbKmDODLR1jangmjmLMILrSiC7E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757502586;
+	s=susede2_ed25519; t=1757502585;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1ULzo6WXSj3KuRMFqZpsqB7IuNNGyxxvP3RZtzApKcA=;
-	b=reds2M0cVK2svXG4yDkpCfzXQG++5EMmlwws3vg4k9pgq8lSuyLu9bVH1DmLzhXuxH/h0u
-	EALHIqFT4rE3yoBg==
+	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
+	b=GBJcGqXWAPOJGU7vmtxSFe2X88OJGw5TUvrCoz0RSYoUQWQ5uB2yBIP6ciSpkL2Tcm/CF1
+	9KbHRus1iNxuNqAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF0A113A54;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AFBE113A54;
 	Wed, 10 Sep 2025 11:09:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gNIyOXlcwWi+YAAAD6G6ig
+	id sC3BKXlcwWi+YAAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 10 Sep 2025 11:09:45 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 10/14] ALSA: usb: fcp: Use guard() for spin locks
-Date: Wed, 10 Sep 2025 13:09:25 +0200
-Message-ID: <20250910110932.15234-11-tiwai@suse.de>
+Subject: [PATCH 08/14] ALSA: ppc: Use guard() for spin locks
+Date: Wed, 10 Sep 2025 13:09:23 +0200
+Message-ID: <20250910110932.15234-9-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250910110932.15234-1-tiwai@suse.de>
 References: <20250910110932.15234-1-tiwai@suse.de>
@@ -90,34 +89,28 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 1852A378A1
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.01
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 
 Clean up the code using guard() for spin locks.
 
@@ -125,51 +118,339 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/fcp.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ sound/ppc/awacs.c    | 24 +++---------
+ sound/ppc/beep.c     | 17 +++------
+ sound/ppc/burgundy.c | 10 +----
+ sound/ppc/pmac.c     | 88 ++++++++++++++++++++++----------------------
+ 4 files changed, 57 insertions(+), 82 deletions(-)
 
-diff --git a/sound/usb/fcp.c b/sound/usb/fcp.c
-index 98f9964311a7..5ee8d8b66058 100644
---- a/sound/usb/fcp.c
-+++ b/sound/usb/fcp.c
-@@ -820,7 +820,6 @@ static long fcp_hwdep_read(struct snd_hwdep *hw, char __user *buf,
- {
- 	struct usb_mixer_interface *mixer = hw->private_data;
- 	struct fcp_data *private = mixer->private_data;
+diff --git a/sound/ppc/awacs.c b/sound/ppc/awacs.c
+index 13a6f3af13ef..c231a9d6d1de 100644
+--- a/sound/ppc/awacs.c
++++ b/sound/ppc/awacs.c
+@@ -137,13 +137,11 @@ static int snd_pmac_awacs_get_volume(struct snd_kcontrol *kcontrol,
+ 	int reg = kcontrol->private_value & 0xff;
+ 	int lshift = (kcontrol->private_value >> 8) & 0xff;
+ 	int inverted = (kcontrol->private_value >> 16) & 1;
 -	unsigned long flags;
- 	long ret = 0;
- 	u32 event;
+ 	int vol[2];
  
-@@ -832,10 +831,10 @@ static long fcp_hwdep_read(struct snd_hwdep *hw, char __user *buf,
- 	if (ret)
- 		return ret;
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	vol[0] = (chip->awacs_reg[reg] >> lshift) & 0xf;
+ 	vol[1] = chip->awacs_reg[reg] & 0xf;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	if (inverted) {
+ 		vol[0] = 0x0f - vol[0];
+ 		vol[1] = 0x0f - vol[1];
+@@ -161,7 +159,6 @@ static int snd_pmac_awacs_put_volume(struct snd_kcontrol *kcontrol,
+ 	int lshift = (kcontrol->private_value >> 8) & 0xff;
+ 	int inverted = (kcontrol->private_value >> 16) & 1;
+ 	int val, oldval;
+-	unsigned long flags;
+ 	unsigned int vol[2];
  
--	spin_lock_irqsave(&private->notify.lock, flags);
--	event = private->notify.event;
--	private->notify.event = 0;
--	spin_unlock_irqrestore(&private->notify.lock, flags);
-+	scoped_guard(spinlock_irqsave, &private->notify.lock) {
-+		event = private->notify.event;
-+		private->notify.event = 0;
+ 	vol[0] = ucontrol->value.integer.value[0];
+@@ -174,14 +171,13 @@ static int snd_pmac_awacs_put_volume(struct snd_kcontrol *kcontrol,
+ 	}
+ 	vol[0] &= 0x0f;
+ 	vol[1] &= 0x0f;
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	oldval = chip->awacs_reg[reg];
+ 	val = oldval & ~(0xf | (0xf << lshift));
+ 	val |= vol[0] << lshift;
+ 	val |= vol[1];
+ 	if (oldval != val)
+ 		snd_pmac_awacs_write_reg(chip, reg, val);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return oldval != reg;
+ }
+ 
+@@ -204,11 +200,9 @@ static int snd_pmac_awacs_get_switch(struct snd_kcontrol *kcontrol,
+ 	int shift = (kcontrol->private_value >> 8) & 0xff;
+ 	int invert = (kcontrol->private_value >> 16) & 1;
+ 	int val;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	val = (chip->awacs_reg[reg] >> shift) & 1;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	if (invert)
+ 		val = 1 - val;
+ 	ucontrol->value.integer.value[0] = val;
+@@ -224,16 +218,14 @@ static int snd_pmac_awacs_put_switch(struct snd_kcontrol *kcontrol,
+ 	int invert = (kcontrol->private_value >> 16) & 1;
+ 	int mask = 1 << shift;
+ 	int val, changed;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	val = chip->awacs_reg[reg] & ~mask;
+ 	if (ucontrol->value.integer.value[0] != invert)
+ 		val |= mask;
+ 	changed = chip->awacs_reg[reg] != val;
+ 	if (changed)
+ 		snd_pmac_awacs_write_reg(chip, reg, val);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return changed;
+ }
+ 
+@@ -541,14 +533,12 @@ static int snd_pmac_screamer_mic_boost_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_pmac *chip = snd_kcontrol_chip(kcontrol);
+ 	int val = 0;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	if (chip->awacs_reg[6] & MASK_MIC_BOOST)
+ 		val |= 2;
+ 	if (chip->awacs_reg[0] & MASK_GAINLINE)
+ 		val |= 1;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	ucontrol->value.integer.value[0] = val;
+ 	return 0;
+ }
+@@ -559,9 +549,8 @@ static int snd_pmac_screamer_mic_boost_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_pmac *chip = snd_kcontrol_chip(kcontrol);
+ 	int changed = 0;
+ 	int val0, val6;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	val0 = chip->awacs_reg[0] & ~MASK_GAINLINE;
+ 	val6 = chip->awacs_reg[6] & ~MASK_MIC_BOOST;
+ 	if (ucontrol->value.integer.value[0] & 1)
+@@ -576,7 +565,6 @@ static int snd_pmac_screamer_mic_boost_put(struct snd_kcontrol *kcontrol,
+ 		snd_pmac_awacs_write_reg(chip, 6, val6);
+ 		changed = 1;
+ 	}
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return changed;
+ }
+ 
+diff --git a/sound/ppc/beep.c b/sound/ppc/beep.c
+index bf289783eafd..ab2468790b0c 100644
+--- a/sound/ppc/beep.c
++++ b/sound/ppc/beep.c
+@@ -88,7 +88,6 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
+ {
+ 	struct snd_pmac *chip;
+ 	struct pmac_beep *beep;
+-	unsigned long flags;
+ 	int beep_speed = 0;
+ 	int srate;
+ 	int period, ncycles, nsamples;
+@@ -112,10 +111,9 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
+ 		return -1;
+ 
+ 	if (! hz) {
+-		spin_lock_irqsave(&chip->reg_lock, flags);
++		guard(spinlock_irqsave)(&chip->reg_lock);
+ 		if (beep->running)
+ 			snd_pmac_beep_stop(chip);
+-		spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 		return 0;
+ 	}
+ 
+@@ -125,13 +123,11 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
+ 	if (hz <= srate / BEEP_BUFLEN || hz > srate / 2)
+ 		hz = 1000;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
+-	if (chip->playback.running || chip->capture.running || beep->running) {
+-		spin_unlock_irqrestore(&chip->reg_lock, flags);
+-		return 0;
++	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
++		if (chip->playback.running || chip->capture.running || beep->running)
++			return 0;
++		beep->running = 1;
+ 	}
+-	beep->running = 1;
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 
+ 	if (hz == beep->hz && beep->volume == beep->volume_play) {
+ 		nsamples = beep->nsamples;
+@@ -151,9 +147,8 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
+ 		beep->nsamples = nsamples;
+ 	}
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 	snd_pmac_beep_dma_start(chip, beep->nsamples * 4, beep->addr, beep_speed);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+ 	return 0;
+ }
+ 
+diff --git a/sound/ppc/burgundy.c b/sound/ppc/burgundy.c
+index ba15bc34c9ec..5d6accce3a72 100644
+--- a/sound/ppc/burgundy.c
++++ b/sound/ppc/burgundy.c
+@@ -59,9 +59,8 @@ static unsigned
+ snd_pmac_burgundy_rcw(struct snd_pmac *chip, unsigned addr)
+ {
+ 	unsigned val = 0;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 
+ 	out_le32(&chip->awacs->codec_ctrl, addr + 0x100000);
+ 	snd_pmac_burgundy_busy_wait(chip);
+@@ -83,8 +82,6 @@ snd_pmac_burgundy_rcw(struct snd_pmac *chip, unsigned addr)
+ 	snd_pmac_burgundy_extend_wait(chip);
+ 	val += ((in_le32(&chip->awacs->codec_stat)>>4) & 0xff) <<24;
+ 
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+-
+ 	return val;
+ }
+ 
+@@ -100,17 +97,14 @@ static unsigned
+ snd_pmac_burgundy_rcb(struct snd_pmac *chip, unsigned int addr)
+ {
+ 	unsigned val = 0;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->reg_lock, flags);
++	guard(spinlock_irqsave)(&chip->reg_lock);
+ 
+ 	out_le32(&chip->awacs->codec_ctrl, addr + 0x100000);
+ 	snd_pmac_burgundy_busy_wait(chip);
+ 	snd_pmac_burgundy_extend_wait(chip);
+ 	val += (in_le32(&chip->awacs->codec_stat) >> 4) & 0xff;
+ 
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
+-
+ 	return val;
+ }
+ 
+diff --git a/sound/ppc/pmac.c b/sound/ppc/pmac.c
+index a3d346f1cc05..6d7dab26ddf2 100644
+--- a/sound/ppc/pmac.c
++++ b/sound/ppc/pmac.c
+@@ -206,32 +206,32 @@ static int snd_pmac_pcm_prepare(struct snd_pmac *chip, struct pmac_stream *rec,
+ 	 * common to many PowerBook G3 systems and random noise otherwise
+ 	 * captured on iBook2's about every third time. -ReneR
+ 	 */
+-	spin_lock_irq(&chip->reg_lock);
+-	snd_pmac_dma_stop(rec);
+-	chip->extra_dma.cmds->command = cpu_to_le16(DBDMA_STOP);
+-	snd_pmac_dma_set_command(rec, &chip->extra_dma);
+-	snd_pmac_dma_run(rec, RUN);
+-	spin_unlock_irq(&chip->reg_lock);
+-	mdelay(5);
+-	spin_lock_irq(&chip->reg_lock);
+-	/* continuous DMA memory type doesn't provide the physical address,
+-	 * so we need to resolve the address here...
+-	 */
+-	offset = runtime->dma_addr;
+-	for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++) {
+-		cp->phy_addr = cpu_to_le32(offset);
+-		cp->req_count = cpu_to_le16(rec->period_size);
+-		/*cp->res_count = cpu_to_le16(0);*/
+-		cp->xfer_status = cpu_to_le16(0);
+-		offset += rec->period_size;
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		snd_pmac_dma_stop(rec);
++		chip->extra_dma.cmds->command = cpu_to_le16(DBDMA_STOP);
++		snd_pmac_dma_set_command(rec, &chip->extra_dma);
++		snd_pmac_dma_run(rec, RUN);
+ 	}
+-	/* make loop */
+-	cp->command = cpu_to_le16(DBDMA_NOP | BR_ALWAYS);
+-	cp->cmd_dep = cpu_to_le32(rec->cmd.addr);
++	mdelay(5);
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		/* continuous DMA memory type doesn't provide the physical address,
++		 * so we need to resolve the address here...
++		 */
++		offset = runtime->dma_addr;
++		for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++) {
++			cp->phy_addr = cpu_to_le32(offset);
++			cp->req_count = cpu_to_le16(rec->period_size);
++			/*cp->res_count = cpu_to_le16(0);*/
++			cp->xfer_status = cpu_to_le16(0);
++			offset += rec->period_size;
++		}
++		/* make loop */
++		cp->command = cpu_to_le16(DBDMA_NOP | BR_ALWAYS);
++		cp->cmd_dep = cpu_to_le32(rec->cmd.addr);
+ 
+-	snd_pmac_dma_stop(rec);
+-	snd_pmac_dma_set_command(rec, &rec->cmd);
+-	spin_unlock_irq(&chip->reg_lock);
++		snd_pmac_dma_stop(rec);
++		snd_pmac_dma_set_command(rec, &rec->cmd);
 +	}
  
- 	if (copy_to_user(buf, &event, sizeof(event)))
- 		return -EFAULT;
-@@ -946,11 +945,9 @@ static void fcp_notify(struct urb *urb)
- 	}
- 
- 	if (data) {
--		unsigned long flags;
--
--		spin_lock_irqsave(&private->notify.lock, flags);
--		private->notify.event |= data;
--		spin_unlock_irqrestore(&private->notify.lock, flags);
-+		scoped_guard(spinlock_irqsave, &private->notify.lock) {
-+			private->notify.event |= data;
+ 	return 0;
+ }
+@@ -253,26 +253,26 @@ static int snd_pmac_pcm_trigger(struct snd_pmac *chip, struct pmac_stream *rec,
+ 			return -EBUSY;
+ 		command = (subs->stream == SNDRV_PCM_STREAM_PLAYBACK ?
+ 			   OUTPUT_MORE : INPUT_MORE) + INTR_ALWAYS;
+-		spin_lock(&chip->reg_lock);
+-		snd_pmac_beep_stop(chip);
+-		snd_pmac_pcm_set_format(chip);
+-		for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
+-			out_le16(&cp->command, command);
+-		snd_pmac_dma_set_command(rec, &rec->cmd);
+-		(void)in_le32(&rec->dma->status);
+-		snd_pmac_dma_run(rec, RUN|WAKE);
+-		rec->running = 1;
+-		spin_unlock(&chip->reg_lock);
++		scoped_guard(spinlock, &chip->reg_lock) {
++			snd_pmac_beep_stop(chip);
++			snd_pmac_pcm_set_format(chip);
++			for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
++				out_le16(&cp->command, command);
++			snd_pmac_dma_set_command(rec, &rec->cmd);
++			(void)in_le32(&rec->dma->status);
++			snd_pmac_dma_run(rec, RUN|WAKE);
++			rec->running = 1;
 +		}
+ 		break;
  
- 		wake_up_interruptible(&private->notify.queue);
- 	}
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+-		spin_lock(&chip->reg_lock);
+-		rec->running = 0;
+-		snd_pmac_dma_stop(rec);
+-		for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
+-			out_le16(&cp->command, DBDMA_STOP);
+-		spin_unlock(&chip->reg_lock);
++		scoped_guard(spinlock, &chip->reg_lock) {
++			rec->running = 0;
++			snd_pmac_dma_stop(rec);
++			for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
++				out_le16(&cp->command, DBDMA_STOP);
++		}
+ 		break;
+ 
+ 	default:
+@@ -1321,14 +1321,12 @@ int snd_pmac_new(struct snd_card *card, struct snd_pmac **chip_return)
+ 
+ void snd_pmac_suspend(struct snd_pmac *chip)
+ {
+-	unsigned long flags;
+-
+ 	snd_power_change_state(chip->card, SNDRV_CTL_POWER_D3hot);
+ 	if (chip->suspend)
+ 		chip->suspend(chip);
+-	spin_lock_irqsave(&chip->reg_lock, flags);
+-	snd_pmac_beep_stop(chip);
+-	spin_unlock_irqrestore(&chip->reg_lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
++		snd_pmac_beep_stop(chip);
++	}
+ 	if (chip->irq >= 0)
+ 		disable_irq(chip->irq);
+ 	if (chip->tx_irq >= 0)
 -- 
 2.50.1
 
