@@ -1,127 +1,141 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F4931AF2C
-	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 15:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757519655; cv=none; b=LuvXLADPYD0YtOJkoI/VrLAxNPhB1D4DAEOuPfmXMJg5uD0EHHp4Gtazcuq2ekSx58jMy3XLMvi+pi34Rvm8+95Uhd9QxqarsawTYZgEOm54UIi3cOGKeYkb33iGCxYe9g7PTHXR/sMMBBXJl0dBzfady3d8/UY9lYmrvGidV4c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757519655; c=relaxed/simple;
-	bh=C1AjRx7KnjXXSlctsl/aH4GowViazJTD/uAewQRTZB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EUU95/PGogM3G+vl5TXGtBY1wSuK3v0RZ6nYjRizDBJ00dU+heesVkeHK27aKHElaJN/l2H49ouo4T+mSCEOiwWojUC65YjVvyHuLWfWPetHpe/NFmpQnJMu2+jWUZ1GA0YcEShp5G2XpQKUMx5lWiKxCfZC3rPGxHdgpJBcUFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1uwN8y-0008U5-Ku; Wed, 10 Sep 2025 17:54:00 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1uwN8x-000cAf-1T;
-	Wed, 10 Sep 2025 17:53:59 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1uwN8x-00GJ0O-0v;
-	Wed, 10 Sep 2025 17:53:59 +0200
-Date: Wed, 10 Sep 2025 17:53:59 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: Mark Brown <broonie@kernel.org>, Jonas Rebmann <jre@pengutronix.de>,
-	Andrew Lunn <andrew@lunn.ch>, imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
-	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH 1/4] dt-bindings: net: dsa: nxp,sja1105: Add reset-gpios
- property
-Message-ID: <20250910155359.tqole7726sapvgzr@pengutronix.de>
-References: <20250910-imx8mp-prt8ml-v1-0-fd04aed15670@pengutronix.de>
- <20250910-imx8mp-prt8ml-v1-1-fd04aed15670@pengutronix.de>
- <20250910125611.wmyw2b4jjtxlhsqw@skbuf>
- <20250910143044.jfq5fsv2rlsrr5ku@pengutronix.de>
- <20250910144328.do6t5ilfeclm2xa4@skbuf>
- <693c3d1e-a65b-47ea-9b21-ce1d4a772066@sirena.org.uk>
- <20250910153454.ibh6w7ntxraqvftb@skbuf>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14EE321F3B;
+	Wed, 10 Sep 2025 16:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757520152; cv=pass; b=pniU4QJiKCp8YIL5pb8RETbUPaYx7fRMNxoEqfBfoKR2wtKWkPb9l4w5daxJt3j9vjBEMtG+438KbVCbGZwSyclJ/dGP7Tpt94SxCRXirJwX5iVfd9/N1pOg5HMArQczlZcwDe28w+zmtXzb3NBZLZySvrYoFeRrtNOv6VuFuUw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757520152; c=relaxed/simple;
+	bh=VBGasfSXDfmNknPuWb239zD2FB/oTXbNwUswyjyWCcg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u00B4tX+ycayT6qOVnzzWHlPE89lIJ3vBQyvYIcsNw3IpaIV8AZ4hlMWPCmdVaW5fXpJ2u60sD+n46/ae1OADd4+apSnJnpgvT0IFUvqfc+yC/Hzz/gC8HFDjTKd9R6xs3i403vvVjVrItj3sO+w5H2WPuir0j8NqtrxeYKABFI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=NNi7LZBV; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="NNi7LZBV"
+ARC-Seal: i=1; a=rsa-sha256; t=1757520086; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=R5DDqmabhsADtMQCa2PEdFT6F6wXS9UD/gGmpLywYcPrMKfhq88xNdBkGb8waBzjsKLkauIkTZ7z1RrkRmx77yxGkMbmt4pn6EQY273AbNRYhBkKrWQsQCCodV5fCFt+Cj1jRCQZhj/po422gXn04MM32CEJaiiCea5eXeOEiD0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1757520086; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=VwPPYJTQ/XXwyamtgAxlZ1NzteBcBgnI+IIDSuPw/fU=; 
+	b=R1Oct9/K0pgrsE6ekil11c92iYphWLbg1NfznTSVdecOiUThXFJD1HAwSAGsj1jCTP4WnUmmCJzdJmNTcxwzCvtPBuwMVx9tq3arn6K65HuQ6uowbNLYIFAbsWPnMc5xk99S9/1Prfjkr5wM34P6crUTigUGLLtUVHH32uXx5Zw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757520085;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=VwPPYJTQ/XXwyamtgAxlZ1NzteBcBgnI+IIDSuPw/fU=;
+	b=NNi7LZBVPN/l/xAW+MYrNHuVhd3P5biETVJMrjrMGhoO7Szh7a/eXWCGKVyejaWg
+	AUU46rWM9rcHy4fqDfkLmO5jQ3oCB1ppq9L7YS+VbG/zh9hiHS+HkbgMig99r/4Z2TX
+	wYz1HTF4q2uewOLrLqy2+D5+3paLJyIyf7EEXJJk=
+Received: by mx.zohomail.com with SMTPS id 1757520082828908.8305273727573;
+	Wed, 10 Sep 2025 09:01:22 -0700 (PDT)
+Message-ID: <7523752e-eb7b-4211-84f2-33916c39ee2b@collabora.com>
+Date: Wed, 10 Sep 2025 13:01:07 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910153454.ibh6w7ntxraqvftb@skbuf>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sound@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 13/14] dt-bindings: input/touchscreen: Convert MELFAS
+ MIP4 Touchscreen to YAML
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
+ conor+dt@kernel.org, davem@davemloft.net, edumazet@google.com,
+ flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
+ jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
+ kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
+ lgirdwood@gmail.com, louisalexis.eyraud@collabora.com,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-14-ariel.dalessandro@collabora.com>
+ <CACRpkdbpKqKyebADj0xPFq3g0biPh-vm4d6C3sd8r0URyfyYRg@mail.gmail.com>
+ <caguo7ud4dapb4yupeq2x4ocwoh4dt5nedwjsyuqsaratugcgz@ozajhsqwfzq6>
+ <CACRpkdZRHQ6vuchN8x8d0uPCVMPPHOdBVWiUhzFJNs2paHGbYw@mail.gmail.com>
+ <f199fc0b-20c0-4c22-b0ed-c508514b60c6@kernel.org>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <f199fc0b-20c0-4c22-b0ed-c508514b60c6@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On 25-09-10, Vladimir Oltean wrote:
-> On Wed, Sep 10, 2025 at 04:09:05PM +0100, Mark Brown wrote:
-> > > And if you plan to do that from the GPIO function of your SoC, the SoC
-> > > might be busy doing other stuff, like booting, and no one might be
-> > > driving the RST_N voltage to a defined state.
-> > 
-> > I suspect you're reading too much into the datasheet there.  I suspect
-> > that what it's trying to say is that the reset signal only works with
-> > stable power and clocks, that it must be held low for the 5us while
-> > those conditions hold and that you have to do at least one cold reset
-> > after power on.  The above wording is pretty common in datasheets and I
-> > know in a bunch of cases it was carried forward kind of blindly rather
-> > than looking at the actual device requirements.
-> 
-> No, it doesn't say that, and I had discussions with the application
-> engineering team for this chip about this :-/
-> 
-> I can't comment on anything extrapolated outside of the SJA1105/SJA1110.
-> 
-> > > It really depends on a lot of factors including the reset timing and
-> > > supply voltage distribution of the PCB, but RST_N has essentially 2
-> > > purposes. One is ensuring proper POR sequencing, the other is cold
-> > > resetting at runtime. You can do the latter over SPI with identical
-> > > outcome, which leaves proper POR sequencing, which is not best served by
-> > > a GPIO in my experience.
-> > 
-> > I'm not sure not including the signal in the DT bindings is going to
-> > influence board designers much either way TBH.
-> 
-> Either way, something has to nudge at least the software developer
-> towards finding and reading the vendor's relevant documentation.
-> 
-> In that sense, 'reset-gpios' is misleading to say the least, because
-> everyone sees a reset GPIO and has the human tendency to think there
-> isn't anything more to be known about it (like I also did).
-> 
-> To be clear, I'm saying that supporting 'reset-gpios' in this driver was
-> a mistake, at least in the form where its supplies and clocks aren't
-> also under control. I'm not sure it's a mistake that we need to document,
-> and if we do, there need to be a lot more disclaimers. Also, I'm pretty
-> sure nothing will break if driver support for it is simply removed.
+Krzysztof, all,
 
-IMHO silently removing the support will break designs for sure and
-should never be done. As said, imagine that the firmware will handle the
-supplies and the driver only needs to release the reset. If you silently
-remove the support, the device will be kept in reset-state. In field
-firmware updates are seldom, so you break your device by updating to a
-new kernel.
+On 9/9/25 3:56 AM, Krzysztof Kozlowski wrote:
+> On 05/09/2025 13:33, Linus Walleij wrote:
+>> On Fri, Sep 5, 2025 at 12:02 PM Dmitry Torokhov
+>> <dmitry.torokhov@gmail.com> wrote:
+>>> On Thu, Aug 21, 2025 at 01:56:24PM +0200, Linus Walleij wrote:
+>>>> Hi Ariel,
+>>>>
+>>>> thanks for your patch!
+>>>>
+>>>> On Wed, Aug 20, 2025 at 7:17 PM Ariel D'Alessandro
+>>>> <ariel.dalessandro@collabora.com> wrote:
+>>>>
+>>>>> +  ce-gpios:
+>>>>> +    description: GPIO connected to the CE (chip enable) pin of the chip
+>>>>> +    maxItems: 1
+>>>>
+>>>> Mention that this should always have the flag GPIO_ACTIVE_HIGH
+>>>> as this is required by the hardware.
+>>>>
+>>>> Unfortunately we have no YAML syntax for enforcing flags :/
+>>>
+>>> Theoretically there can be an inverter on the line, so from the AP point
+>>> of view the line is active low while from the peripheral POV the pin is
+>>> active high...
+>>
+>> Yes, I think someone even proposed adding inverters to the
+>> device tree and was nixed.
+> 
+> It's not about DT, it's about board design - you can (almost?) always
+> invert the logical signal, so this should match what hardware requires
+> plus any inverter on the board.
+> 
+> 
+>>
+>> It's a matter of phrasing I would say:
+>>
+>> "Mention that this should nominally have the flag GPIO_ACTIVE_HIGH
+> 
+> No, please do not, it is wrong. If hardware requires active high, then
+> just say this is active high. But the actual GPIO flag depends on the
+> board design if signal is inverted.
 
-One could argue that the driver supported it but there was no dt-binding
-yet, so it was a hidden/unstable feature but I don't know the policy.
+After the discussion from this thread, will mark it a "active high" in 
+the property description for v2.
 
-Regards,
-  Marco
+Thanks,
+
+-- 
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
+
