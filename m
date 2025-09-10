@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA67630C35C;
-	Wed, 10 Sep 2025 07:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D7F35961;
+	Wed, 10 Sep 2025 07:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757489204; cv=none; b=Y1dYXIbZ+k8RVaNw4oqHmFL8+XPtza6/GeAi8S8j5+j2l+NR/GFDF0YG1WovNWZq5m8i0FiKX/yGukV4lui1h8QHvqR45UHsThzzfhEPwI345TQ/pK7baFTeuk9Z+BKvbf6x2Vg/uf3LR3kRYkM8F/Aab99od4N9H+1iWsMV5HY=
+	t=1757489968; cv=none; b=PjxCyXK/YihKokd/A7m3kZN5vQka76/5xELn4zUcNia0kr7OleedezObcYlpOPVSuiRpMMyqvSBNQPLSLPcmKr/oF+xY33XDA/kyxLN9i/c0k8woY2twsmR6EC6bssrjcDnXvCXxVe0uPD1dTgBJjM/yAyWm/zFI9kAy5u2tOCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757489204; c=relaxed/simple;
-	bh=KE3esNB7UKsjihYYF5taQ7LSou0rFGDkw7v3co9dR/k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EwV3ogsczKEVkRbolT5+6UVQRQgq5zjaaRrI6MKTjUikzQPN7lfK/EUImn1Xt5IpT5OrRoUIWux9QMt1cPMVA8rwswMfcMcuwWF1Azzs+uuu7pis01vDoQOioLAruRebCCRNAWWpol3aTOjFmsHGPoPAHi9I6OkxjW3kEaQ3rg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahRP6wPx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757489968; c=relaxed/simple;
+	bh=qcFOMwBPivb9litkeo7VOk61nrVY3bbAuM8EK+eTT5Y=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=uqoSh4Pgg6fAUr+SCWLSjKFZPxRxLTLRjLJ1In5hKArwDAnjWeY5odb12hSJ8dFjiRpMV0AeBQWfH7yUwAoAjkpEx2QAbQsnng6EQZHZYXbaaWHZ/coV8bH1tS5hWmA4ql+lyfd94URAe6T1VbbRhxwqWG4Kq+WkBY628YS6QSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBVrLRSO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahRP6wPx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C05AC4CEFA;
-	Wed, 10 Sep 2025 07:26:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBVrLRSO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AF29C4CEF5;
+	Wed, 10 Sep 2025 07:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757489204;
-	bh=KE3esNB7UKsjihYYF5taQ7LSou0rFGDkw7v3co9dR/k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ahRP6wPxvZvrHBbXvrpn3bLo7VGflsEQZv3wVO+GiSxl0NSnY0tothuO3pcmnXO8Y
-	 zhViw2rLnA8KW5pyvQuEzTzjgNqsLSOyy3hfThJxJtCVSjGkIMG7z4yPw4KYzMxZFp
-	 kX+wekNhgJ+Ja7q5pBatRZm15I12vEhKVvosJs28sfsv1xU622XZ5IWFNBtFIyJ38k
-	 V35dwyrBuDaeql4CAJ5lY1oKiyAjMoG9/pEapzc7oMaqmdJD2ORDys8duhjEVc+srl
-	 QMV3Yohx+E+BbxFrG7RchcoGhnLSB4aPVJawz+xBbDVqWlhF+s5AAkcx8fPrtl5LmA
-	 ey8MmFzIjIv9w==
-Message-ID: <43090acb-ea36-4015-b14f-78d44d789d42@kernel.org>
-Date: Wed, 10 Sep 2025 09:26:38 +0200
+	s=k20201202; t=1757489967;
+	bh=qcFOMwBPivb9litkeo7VOk61nrVY3bbAuM8EK+eTT5Y=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=uBVrLRSOZk2/da0u0ZDRVe0IQc1frxeDju3x7zwFE59Omx0J/LpuKjh//yznqG2eb
+	 UAqkYFENtSVAxofheMp8ZXSvos/ngXvEz25IoISB54fHP/t/+PG2A/QlOKWW+m9Nkq
+	 lTeL0ekkuOF8HZo9VWzidohMdOxA4/9Elz9GUsKs9NTVYMGQbp0uO5YQABUoPS3hyw
+	 TfxsBcj0FWw++nmsA+fGolMsI09OzXRVkE22iLj1iK6eZL6jBp+5eOO3Yxzl2xxD42
+	 YMd0kBqYHqkNzTnpDcxtQLHkiEQAUBkhOr24jWi5E7nleRe2LXsRZ0QE+vpDpZGi+O
+	 N4EnbMGiGn6iw==
+Message-ID: <a9507045-b900-49ee-8841-0f8fd30816ba@kernel.org>
+Date: Wed, 10 Sep 2025 09:39:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,6 +37,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 1/2] ASoC: dt-bindings: qcom,sm8250: Add QCS8300 sound
  card
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
  Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
  Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -49,7 +50,7 @@ Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
  ajay.nandam@oss.qualcomm.com
 References: <20250905142647.2566951-1-mohammad.rafi.shaik@oss.qualcomm.com>
  <20250905142647.2566951-2-mohammad.rafi.shaik@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <43090acb-ea36-4015-b14f-78d44d789d42@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -94,34 +95,33 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250905142647.2566951-2-mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <43090acb-ea36-4015-b14f-78d44d789d42@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 05/09/2025 16:26, Mohammad Rafi Shaik wrote:
-> Add bindings for QCS8300 sound card, which looks fully
-> compatible with existing SM8250.
+On 10/09/2025 09:26, Krzysztof Kozlowski wrote:
+>> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> index 8ac91625dce5..eebf80c1d79a 100644
+>> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> @@ -35,6 +35,7 @@ properties:
+>>            - qcom,qcm6490-idp-sndcard
+>>            - qcom,qcs6490-rb3gen2-sndcard
+>>            - qcom,qcs8275-sndcard
 > 
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> ---
->  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
->  1 file changed, 1 insertion(+)
+> So what is the point of this compatible? There is no user of it and I
+> think you added QCS8275 for this case exactly...
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> index 8ac91625dce5..eebf80c1d79a 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> @@ -35,6 +35,7 @@ properties:
->            - qcom,qcm6490-idp-sndcard
->            - qcom,qcs6490-rb3gen2-sndcard
->            - qcom,qcs8275-sndcard
+> Shall I start reverting commits from Qualcomm because you post patches
+> "just in case" and turns out they are completely not needed? No single
+> user of such code?
 
-So what is the point of this compatible? There is no user of it and I
-think you added QCS8275 for this case exactly...
 
-Shall I start reverting commits from Qualcomm because you post patches
-"just in case" and turns out they are completely not needed? No single
-user of such code?
+@Mark,
+
+In case it wasn't obvious, please do not merge the patch till we get
+some clarification. For sure it is wrong one way or another: either
+incomplete or just duplicated.
 
 Best regards,
 Krzysztof
