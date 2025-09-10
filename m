@@ -1,160 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF3830ACEA
-	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 09:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AE2313E29
+	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 09:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757495854; cv=none; b=EJ71oYVkrPGuipDA9olaD2XYnnU533hiAo8Wam58Q2DAzTJW48u81IN/xf9Cyu0E1yrLIaRAJiYPNtDXxKXO1IsOqZTVzmyw0LoFRnDJGzMteQOjlKL/JSseC6aQI8D1Rva7wfjbn/KqIN/VbUEKYs0XvjLTzrO1QEc2B0MFfeQ=
+	t=1757497079; cv=none; b=rqEbvrRpGNf5jzSUBHIXJIk5oZtOO9wDQti4OuSG1xRw9x3VqxDTyvFl/SL4NR+Rpt1JcsoQqqztR6umlBxugNU4qemBwTWcnWYHyCE21PVGwdP4OP1bvF9uvUTJU6VvrqPTu1Jy/CHxXGmZfUVPE3UQu1TM6+CBYOHi660riJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757495854; c=relaxed/simple;
-	bh=SjKs9oCrenImG0RG3XvxaFxGywWDapdI/0foyNwUtiY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mewRYbdYeWderusNrXmFKC5NGU0Lh7s42kIE16cljR8w6WuqzSYSYfvwZGSiOSbZxIxmKUDDkCpTnR7v1grSHHVrho8YJN6Cw1F0bl+uLVd5vRMGouNGWzyK7cDEezJtmVterJwvYirZ5cZQ5wHNRy90yaMoFpasNHYISjczZCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wpQ4RqM4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9XA33nXs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wpQ4RqM4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9XA33nXs; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wpQ4RqM4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9XA33nXs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wpQ4RqM4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9XA33nXs"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E932371F6;
-	Wed, 10 Sep 2025 09:17:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757495850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/JapfLJgp168zjhr+Azwnb5KVJmSjxr/r/6m5rjAdZ4=;
-	b=wpQ4RqM4hoyqGskZ/trspeAImZoKmWXUtwxQoZP8HXj9sMw/cVJOcn+upqK+T2nFuqfIiw
-	tReqlEZbEZIm+YwEkJQ3Xw2sToiijex8+bcR0c1MxlQUmK4vDPEycXYtycY1V030M7EdvX
-	2captUHoWBH0Lec8nxSs0xpgE00px9M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757495850;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/JapfLJgp168zjhr+Azwnb5KVJmSjxr/r/6m5rjAdZ4=;
-	b=9XA33nXssEmV4bGhbKRKt4k4+6qcNP+rnvlv7wxtcEO8i1LJQ045V3QgPK0w9Qfjn8OlGR
-	boRCwt6pwhTDE8DQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wpQ4RqM4;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9XA33nXs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757495850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/JapfLJgp168zjhr+Azwnb5KVJmSjxr/r/6m5rjAdZ4=;
-	b=wpQ4RqM4hoyqGskZ/trspeAImZoKmWXUtwxQoZP8HXj9sMw/cVJOcn+upqK+T2nFuqfIiw
-	tReqlEZbEZIm+YwEkJQ3Xw2sToiijex8+bcR0c1MxlQUmK4vDPEycXYtycY1V030M7EdvX
-	2captUHoWBH0Lec8nxSs0xpgE00px9M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757495850;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/JapfLJgp168zjhr+Azwnb5KVJmSjxr/r/6m5rjAdZ4=;
-	b=9XA33nXssEmV4bGhbKRKt4k4+6qcNP+rnvlv7wxtcEO8i1LJQ045V3QgPK0w9Qfjn8OlGR
-	boRCwt6pwhTDE8DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A8F2513301;
-	Wed, 10 Sep 2025 09:17:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +/D5JylCwWiXPAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 10 Sep 2025 09:17:29 +0000
-Date: Wed, 10 Sep 2025 11:17:29 +0200
-Message-ID: <87zfb2vf86.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Patrick Lai <plai@qti.qualcomm.com>,
-	Annemarie Porter <annemari@quicinc.com>,
-	srinivas.kandagatla@oss.qualcomm.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	kernel@oss.qualcomm.com,
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Subject: Re: [PATCH v2 1/2] ALSA: compress: add raw opus codec define and opus decoder structs
-In-Reply-To: <20250910-opus_codec_rfc_v1-v2-1-35fb6536df6b@linaro.org>
-References: <20250910-opus_codec_rfc_v1-v2-0-35fb6536df6b@linaro.org>
-	<20250910-opus_codec_rfc_v1-v2-1-35fb6536df6b@linaro.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1757497079; c=relaxed/simple;
+	bh=cWm8EcycI60jj7JL695XhYTEoHqJuv/2xBU7iViB9YU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hK3ltaRM54k6j8Fkm/H381Sg/iRz/JjDLce7OiSKH5yZ9EtqWfxFzpJx8DFObbiRXHuDqRvH8/EJDKVjJu4OTvD/nUvfnRR2dNOpI4THyx9n+LJ1oUopK95ZoUhARZMXaf7ekFozi7g69zTZbguTZrg4qx7OkCY3ftXP1jJgM6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <s.kerkmann@pengutronix.de>)
+	id 1uwHGt-0007uM-Ja; Wed, 10 Sep 2025 11:37:47 +0200
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <s.kerkmann@pengutronix.de>)
+	id 1uwHGs-000ZLc-37;
+	Wed, 10 Sep 2025 11:37:46 +0200
+Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
+	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
+	(envelope-from <s.kerkmann@pengutronix.de>)
+	id 1uwHGs-000000090kl-3jh2;
+	Wed, 10 Sep 2025 11:37:46 +0200
+From: Stefan Kerkmann <s.kerkmann@pengutronix.de>
+Subject: [PATCH v2 0/2] ASoC: codecs: pcm1754: add pcm1754 dac driver
+Date: Wed, 10 Sep 2025 11:34:04 +0200
+Message-Id: <20250910-v6-12-topic-pcm1754-v2-0-0917dbe73c65@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,gmail.com,qti.qualcomm.com,quicinc.com,oss.qualcomm.com,vger.kernel.org,linaro.org,linux.dev];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 2E932371F6
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAxGwWgC/32NQQ7CIBBFr9KwdgwQUXDlPUwXBKbtLAQCldQ03
+ F3sAVy+l/z3d1YwExZ2H3aWsVKhGDrI08DcYsOMQL4zk1wqroWGegUhYY2JHCT3Ejd1Aa0mK53
+ xynnO+jJlnGg7qs+x80JljflznFTxs/97VQAHFN4LbdAaYx8Jw/xecwy0nT2ysbX2BZj/OGG7A
+ AAA
+X-Change-ID: 20250818-v6-12-topic-pcm1754-85fa2c9d5cd0
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ =?utf-8?q?Alvin_=C5=A0ipraga?= <alvin@pqrs.dk>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel@pengutronix.de, 
+ Stefan Kerkmann <s.kerkmann@pengutronix.de>, 
+ =?utf-8?q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: s.kerkmann@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-On Wed, 10 Sep 2025 10:11:41 +0200,
-Alexey Klimov wrote:
-> +struct snd_dec_opus {
-> +	union {
-> +		struct {
-> +			__u8 minor:4;
-> +			__u8 major:4;
-> +		} __attribute__((packed)) fields;
+Signed-off-by: Stefan Kerkmann <s.kerkmann@pengutronix.de>
+---
+Changes in v2:
+- addressed DT binding review comments from Krzysztof
+- Link to v1: https://lore.kernel.org/r/20250818-v6-12-topic-pcm1754-v1-0-e1dd189ea99a@pengutronix.de
 
-Bit fields aren't really good for ABI definition, as it's not well
-defined.  I'd rather leave it as a u8.  If any, you can provide a
-bitmask definition or a macro to retrieve the version numbers.
+---
+Alvin Šipraga (1):
+      ASoC: codecs: pcm1754: add pcm1754 dac driver
 
-Also, don't forget to bump the API protocol number.
-It's been already increased to 0.4.0 for 64bit tstamp support, and
-yours need to increase one more.
+Stefan Kerkmann (1):
+      ASoC: dt-bindings: ti,pcm1754: add binding documentation
 
-(That is, please make sure to create patches based on linux-next, or
- for-next branch of sound git tree.)
+ .../devicetree/bindings/sound/ti,pcm1754.yaml      |  55 ++++++
+ sound/soc/codecs/Kconfig                           |   5 +
+ sound/soc/codecs/Makefile                          |   2 +
+ sound/soc/codecs/pcm1754.c                         | 185 +++++++++++++++++++++
+ 4 files changed, 247 insertions(+)
+---
+base-commit: adc218676eef25575469234709c2d87185ca223a
+change-id: 20250818-v6-12-topic-pcm1754-85fa2c9d5cd0
 
+Best regards,
+-- 
+Stefan Kerkmann <s.kerkmann@pengutronix.de>
 
-thanks,
-
-Takashi
