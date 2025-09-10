@@ -1,84 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C634A31A556
-	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 11:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D072331A55F
+	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 11:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757502590; cv=none; b=q8bM8FpBV83+TQTw8J29/Lt3cSR39VN9JmU2wKibv8Ndr7yD4JrDdT456WY1ZzMsItBoF1ckQhpHg73Zk/jTCRSaiGYVFLNDq1psxyk1P1GX/3Gh1zuSLfyef6kYCCA4IcuIKZxBaM8dwVvwCkBQrtFHTGpo2ZGumr51belSyew=
+	t=1757502594; cv=none; b=HmmiqCCaqxKF+xCnq4ozn60F887zfMbMQoY88pRdFa+c7H5h8LHd/7bYqJrGIEUkRYDDS2VkJCyROMp76QkKrEEMMAJyi+z15zeuhOCi6HDQOKNGJKJHnrtzAS6h4zxhvNr6Dktl567/ucf7fjA9lr5nTw8DgTj4bDxfysbkPGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757502590; c=relaxed/simple;
-	bh=nn5rnfLtyjC/iUQzMMjFYARzoGt4pDQbhQo+tLUig6M=;
+	s=arc-20240116; t=1757502594; c=relaxed/simple;
+	bh=jujhy7fI53R76/Xp4CrKZAErlM9uE9gwwubr5rYUgYk=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XufNe+ncHjTAcjLmdoGvlKkqbU3EmVXdH/LonPiwI1b01vWZpttFx+BFoXXLoqdP+/LPSNVKLNRpoiYNtmorFtjDPpnl3+gW/cdPIW3+VheOkVIZGj0wX9a/Juss2S7VXgNzTUSmFwyyEIU7HbNcxSQ8VINUojjF5OZzW6bcT1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M5sVn6IR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y5U+aKvt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M5sVn6IR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y5U+aKvt; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=Wn59Xfs4qk3inYfddo0gObknFjXSKHQ8JJcxu0/EXQrKb2pN0pc2RUVH0weMDrc0VdImAqmlqtSLys3wPTwigeo/OOwD5L6jSImQhFChM/r0ksPhLTC2NrZYXVV8j8rSVru5uzyTYSHaJxh1TsJcXnYeDR79PlQMF3JRLgbAGB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rl7nDtEj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NdnH8syo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rl7nDtEj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NdnH8syo; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M5sVn6IR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y5U+aKvt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M5sVn6IR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y5U+aKvt"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rl7nDtEj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NdnH8syo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rl7nDtEj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NdnH8syo"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2F17137830;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8BC50601C8;
 	Wed, 10 Sep 2025 11:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1757502585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vNHugkJS4pPD34/UNHmqTtU7iulmQzksM7b5dcGNkvo=;
-	b=M5sVn6IRN71d1PAPgHgC0SsSTdDrHsioS9kloJVWS9s02GM+WGkpfBQboWNJkyvHSc7BnB
-	A16v/yiHc6Tav3sxU6CfPhbniEUglyk/xZYYXHDAdLw0cyIf3FHAH4s7rFY4NW/wWrD/E5
-	Y7RGeWxynj3bGT+TDveMtxL5bVYhya8=
+	bh=JhLcstwSmyFmeCqY9F2xrkDi9BXch9q8J2DrwWK3xl4=;
+	b=rl7nDtEj8kIgRXeJrZAgg1dR1y+iixmA4Tx8HRVCgOLPM03WoVCMM3UK1Ua+B2/LBXBEyx
+	bwjya9NKw7qjDsosmNysnkHPpg50Q2TGZ46XN25Y+CH8f6pOqEUFQiloRRR8fozp2KxAJ5
+	Um4Brhk10qFK091yIqvN2BsMaLYTRNM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1757502585;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vNHugkJS4pPD34/UNHmqTtU7iulmQzksM7b5dcGNkvo=;
-	b=y5U+aKvtU+7ergqaRFuoQDvwzuKR9tElv3AykIoVqV/f++z19R+9wCvLHoT8zL/rT53yri
-	n/Usb2hVvSopvWAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=M5sVn6IR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=y5U+aKvt
+	bh=JhLcstwSmyFmeCqY9F2xrkDi9BXch9q8J2DrwWK3xl4=;
+	b=NdnH8syoYpSVj7KW4UnzZaeyp3Lik2jSUaNnMviQ0nQx6Tp9HybQRdxvndclQ1AtNK8O5l
+	juIn3BpPyrq5OrBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1757502585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vNHugkJS4pPD34/UNHmqTtU7iulmQzksM7b5dcGNkvo=;
-	b=M5sVn6IRN71d1PAPgHgC0SsSTdDrHsioS9kloJVWS9s02GM+WGkpfBQboWNJkyvHSc7BnB
-	A16v/yiHc6Tav3sxU6CfPhbniEUglyk/xZYYXHDAdLw0cyIf3FHAH4s7rFY4NW/wWrD/E5
-	Y7RGeWxynj3bGT+TDveMtxL5bVYhya8=
+	bh=JhLcstwSmyFmeCqY9F2xrkDi9BXch9q8J2DrwWK3xl4=;
+	b=rl7nDtEj8kIgRXeJrZAgg1dR1y+iixmA4Tx8HRVCgOLPM03WoVCMM3UK1Ua+B2/LBXBEyx
+	bwjya9NKw7qjDsosmNysnkHPpg50Q2TGZ46XN25Y+CH8f6pOqEUFQiloRRR8fozp2KxAJ5
+	Um4Brhk10qFK091yIqvN2BsMaLYTRNM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1757502585;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vNHugkJS4pPD34/UNHmqTtU7iulmQzksM7b5dcGNkvo=;
-	b=y5U+aKvtU+7ergqaRFuoQDvwzuKR9tElv3AykIoVqV/f++z19R+9wCvLHoT8zL/rT53yri
-	n/Usb2hVvSopvWAw==
+	bh=JhLcstwSmyFmeCqY9F2xrkDi9BXch9q8J2DrwWK3xl4=;
+	b=NdnH8syoYpSVj7KW4UnzZaeyp3Lik2jSUaNnMviQ0nQx6Tp9HybQRdxvndclQ1AtNK8O5l
+	juIn3BpPyrq5OrBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 113C513A54;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 70A4713A54;
 	Wed, 10 Sep 2025 11:09:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KF0OA3lcwWi+YAAAD6G6ig
+	id IDdNGnlcwWi+YAAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 10 Sep 2025 11:09:45 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 03/14] ALSA: arm: Use guard() for spin locks
-Date: Wed, 10 Sep 2025 13:09:18 +0200
-Message-ID: <20250910110932.15234-4-tiwai@suse.de>
+Subject: [PATCH 06/14] ALSA: parisc: Use guard() for spin locks
+Date: Wed, 10 Sep 2025 13:09:21 +0200
+Message-ID: <20250910110932.15234-7-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250910110932.15234-1-tiwai@suse.de>
 References: <20250910110932.15234-1-tiwai@suse.de>
@@ -89,35 +88,29 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 2F17137830
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCPT_COUNT_ONE(0.00)[1];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.01
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -2.80
 
 Clean up the code using guard() for spin locks.
 
@@ -125,221 +118,253 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/arm/aaci.c | 148 ++++++++++++++++++++++-------------------------
- 1 file changed, 68 insertions(+), 80 deletions(-)
+ sound/parisc/harmony.c | 99 +++++++++++++++++-------------------------
+ 1 file changed, 39 insertions(+), 60 deletions(-)
 
-diff --git a/sound/arm/aaci.c b/sound/arm/aaci.c
-index 881d5b067c23..5548ed8e6b1c 100644
---- a/sound/arm/aaci.c
-+++ b/sound/arm/aaci.c
-@@ -210,45 +210,43 @@ static void aaci_fifo_irq(struct aaci *aaci, int channel, u32 mask)
- 			return;
- 		}
- 
--		spin_lock(&aacirun->lock);
-+		scoped_guard(spinlock, &aacirun->lock) {
-+			ptr = aacirun->ptr;
-+			do {
-+				unsigned int len = aacirun->fifo_bytes;
-+				u32 val;
- 
--		ptr = aacirun->ptr;
--		do {
--			unsigned int len = aacirun->fifo_bytes;
--			u32 val;
-+				if (aacirun->bytes <= 0) {
-+					aacirun->bytes += aacirun->period;
-+					period_elapsed = true;
-+				}
-+				if (!(aacirun->cr & CR_EN))
-+					break;
- 
--			if (aacirun->bytes <= 0) {
--				aacirun->bytes += aacirun->period;
--				period_elapsed = true;
--			}
--			if (!(aacirun->cr & CR_EN))
--				break;
-+				val = readl(aacirun->base + AACI_SR);
-+				if (!(val & SR_RXHF))
-+					break;
-+				if (!(val & SR_RXFF))
-+					len >>= 1;
- 
--			val = readl(aacirun->base + AACI_SR);
--			if (!(val & SR_RXHF))
--				break;
--			if (!(val & SR_RXFF))
--				len >>= 1;
-+				aacirun->bytes -= len;
- 
--			aacirun->bytes -= len;
-+				/* reading 16 bytes at a time */
-+				for( ; len > 0; len -= 16) {
-+					asm(
-+					    "ldmia	%1, {r0, r1, r2, r3}\n\t"
-+					    "stmia	%0!, {r0, r1, r2, r3}"
-+					    : "+r" (ptr)
-+					    : "r" (aacirun->fifo)
-+					    : "r0", "r1", "r2", "r3", "cc");
- 
--			/* reading 16 bytes at a time */
--			for( ; len > 0; len -= 16) {
--				asm(
--					"ldmia	%1, {r0, r1, r2, r3}\n\t"
--					"stmia	%0!, {r0, r1, r2, r3}"
--					: "+r" (ptr)
--					: "r" (aacirun->fifo)
--					: "r0", "r1", "r2", "r3", "cc");
-+					if (ptr >= aacirun->end)
-+						ptr = aacirun->start;
-+				}
-+			} while(1);
- 
--				if (ptr >= aacirun->end)
--					ptr = aacirun->start;
--			}
--		} while(1);
--
--		aacirun->ptr = ptr;
--
--		spin_unlock(&aacirun->lock);
-+			aacirun->ptr = ptr;
-+		}
- 
- 		if (period_elapsed)
- 			snd_pcm_period_elapsed(aacirun->substream);
-@@ -270,45 +268,43 @@ static void aaci_fifo_irq(struct aaci *aaci, int channel, u32 mask)
- 			return;
- 		}
- 
--		spin_lock(&aacirun->lock);
-+		scoped_guard(spinlock, &aacirun->lock) {
-+			ptr = aacirun->ptr;
-+			do {
-+				unsigned int len = aacirun->fifo_bytes;
-+				u32 val;
- 
--		ptr = aacirun->ptr;
--		do {
--			unsigned int len = aacirun->fifo_bytes;
--			u32 val;
-+				if (aacirun->bytes <= 0) {
-+					aacirun->bytes += aacirun->period;
-+					period_elapsed = true;
-+				}
-+				if (!(aacirun->cr & CR_EN))
-+					break;
- 
--			if (aacirun->bytes <= 0) {
--				aacirun->bytes += aacirun->period;
--				period_elapsed = true;
--			}
--			if (!(aacirun->cr & CR_EN))
--				break;
-+				val = readl(aacirun->base + AACI_SR);
-+				if (!(val & SR_TXHE))
-+					break;
-+				if (!(val & SR_TXFE))
-+					len >>= 1;
- 
--			val = readl(aacirun->base + AACI_SR);
--			if (!(val & SR_TXHE))
--				break;
--			if (!(val & SR_TXFE))
--				len >>= 1;
-+				aacirun->bytes -= len;
- 
--			aacirun->bytes -= len;
-+				/* writing 16 bytes at a time */
-+				for ( ; len > 0; len -= 16) {
-+					asm(
-+					    "ldmia	%0!, {r0, r1, r2, r3}\n\t"
-+					    "stmia	%1, {r0, r1, r2, r3}"
-+					    : "+r" (ptr)
-+					    : "r" (aacirun->fifo)
-+					    : "r0", "r1", "r2", "r3", "cc");
- 
--			/* writing 16 bytes at a time */
--			for ( ; len > 0; len -= 16) {
--				asm(
--					"ldmia	%0!, {r0, r1, r2, r3}\n\t"
--					"stmia	%1, {r0, r1, r2, r3}"
--					: "+r" (ptr)
--					: "r" (aacirun->fifo)
--					: "r0", "r1", "r2", "r3", "cc");
-+					if (ptr >= aacirun->end)
-+						ptr = aacirun->start;
-+				}
-+			} while (1);
- 
--				if (ptr >= aacirun->end)
--					ptr = aacirun->start;
--			}
--		} while (1);
--
--		aacirun->ptr = ptr;
--
--		spin_unlock(&aacirun->lock);
-+			aacirun->ptr = ptr;
-+		}
- 
- 		if (period_elapsed)
- 			snd_pcm_period_elapsed(aacirun->substream);
-@@ -577,10 +573,8 @@ static void aaci_pcm_playback_start(struct aaci_runtime *aacirun)
- static int aaci_pcm_playback_trigger(struct snd_pcm_substream *substream, int cmd)
+diff --git a/sound/parisc/harmony.c b/sound/parisc/harmony.c
+index 76dd2210f9ea..4b5a54da25fb 100644
+--- a/sound/parisc/harmony.c
++++ b/sound/parisc/harmony.c
+@@ -140,32 +140,25 @@ harmony_enable_interrupts(struct snd_harmony *h)
+ static void
+ harmony_mute(struct snd_harmony *h)
  {
- 	struct aaci_runtime *aacirun = substream->runtime->private_data;
 -	unsigned long flags;
--	int ret = 0;
- 
--	spin_lock_irqsave(&aacirun->lock, flags);
-+	guard(spinlock_irqsave)(&aacirun->lock);
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
-@@ -606,12 +600,10 @@ static int aaci_pcm_playback_trigger(struct snd_pcm_substream *substream, int cm
- 		break;
- 
- 	default:
--		ret = -EINVAL;
-+		return -EINVAL;
- 	}
- 
--	spin_unlock_irqrestore(&aacirun->lock, flags);
 -
--	return ret;
-+	return 0;
+-	spin_lock_irqsave(&h->mixer_lock, flags);
++	guard(spinlock_irqsave)(&h->mixer_lock);
+ 	harmony_wait_for_control(h);
+ 	harmony_write(h, HARMONY_GAINCTL, HARMONY_GAIN_SILENCE);
+-	spin_unlock_irqrestore(&h->mixer_lock, flags);
  }
  
- static const struct snd_pcm_ops aaci_playback_ops = {
-@@ -661,10 +653,8 @@ static void aaci_pcm_capture_start(struct aaci_runtime *aacirun)
- static int aaci_pcm_capture_trigger(struct snd_pcm_substream *substream, int cmd)
+ static void
+ harmony_unmute(struct snd_harmony *h)
  {
- 	struct aaci_runtime *aacirun = substream->runtime->private_data;
 -	unsigned long flags;
--	int ret = 0;
- 
--	spin_lock_irqsave(&aacirun->lock, flags);
-+	guard(spinlock_irqsave)(&aacirun->lock);
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
-@@ -690,12 +680,10 @@ static int aaci_pcm_capture_trigger(struct snd_pcm_substream *substream, int cmd
- 		break;
- 
- 	default:
--		ret = -EINVAL;
-+		return -EINVAL;
- 	}
- 
--	spin_unlock_irqrestore(&aacirun->lock, flags);
 -
--	return ret;
-+	return 0;
+-	spin_lock_irqsave(&h->mixer_lock, flags);
++	guard(spinlock_irqsave)(&h->mixer_lock);
+ 	harmony_wait_for_control(h);
+ 	harmony_write(h, HARMONY_GAINCTL, h->st.gain);
+-	spin_unlock_irqrestore(&h->mixer_lock, flags);
  }
  
- static int aaci_pcm_capture_prepare(struct snd_pcm_substream *substream)
+ static void
+ harmony_set_control(struct snd_harmony *h)
+ {
+ 	u32 ctrl;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&h->lock, flags);
++	guard(spinlock_irqsave)(&h->lock);
+ 
+ 	ctrl = (HARMONY_CNTL_C      |
+ 		(h->st.format << 6) |
+@@ -174,8 +167,6 @@ harmony_set_control(struct snd_harmony *h)
+ 
+ 	harmony_wait_for_control(h);
+ 	harmony_write(h, HARMONY_CNTL, ctrl);
+-
+-	spin_unlock_irqrestore(&h->lock, flags);
+ }
+ 
+ static irqreturn_t
+@@ -184,53 +175,53 @@ snd_harmony_interrupt(int irq, void *dev)
+ 	u32 dstatus;
+ 	struct snd_harmony *h = dev;
+ 
+-	spin_lock(&h->lock);
+-	harmony_disable_interrupts(h);
+-	harmony_wait_for_control(h);
+-	dstatus = harmony_read(h, HARMONY_DSTATUS);
+-	spin_unlock(&h->lock);
++	scoped_guard(spinlock, &h->lock) {
++		harmony_disable_interrupts(h);
++		harmony_wait_for_control(h);
++		dstatus = harmony_read(h, HARMONY_DSTATUS);
++	}
+ 
+ 	if (dstatus & HARMONY_DSTATUS_PN) {
+ 		if (h->psubs && h->st.playing) {
+-			spin_lock(&h->lock);
+-			h->pbuf.buf += h->pbuf.count; /* PAGE_SIZE */
+-			h->pbuf.buf %= h->pbuf.size; /* MAX_BUFS*PAGE_SIZE */
++			scoped_guard(spinlock, &h->lock) {
++				h->pbuf.buf += h->pbuf.count; /* PAGE_SIZE */
++				h->pbuf.buf %= h->pbuf.size; /* MAX_BUFS*PAGE_SIZE */
+ 
+-			harmony_write(h, HARMONY_PNXTADD, 
+-				      h->pbuf.addr + h->pbuf.buf);
+-			h->stats.play_intr++;
+-			spin_unlock(&h->lock);
++				harmony_write(h, HARMONY_PNXTADD,
++					      h->pbuf.addr + h->pbuf.buf);
++				h->stats.play_intr++;
++			}
+                         snd_pcm_period_elapsed(h->psubs);
+ 		} else {
+-			spin_lock(&h->lock);
+-			harmony_write(h, HARMONY_PNXTADD, h->sdma.addr);
+-			h->stats.silence_intr++;
+-			spin_unlock(&h->lock);
++			scoped_guard(spinlock, &h->lock) {
++				harmony_write(h, HARMONY_PNXTADD, h->sdma.addr);
++				h->stats.silence_intr++;
++			}
+ 		}
+ 	}
+ 
+ 	if (dstatus & HARMONY_DSTATUS_RN) {
+ 		if (h->csubs && h->st.capturing) {
+-			spin_lock(&h->lock);
+-			h->cbuf.buf += h->cbuf.count;
+-			h->cbuf.buf %= h->cbuf.size;
++			scoped_guard(spinlock, &h->lock) {
++				h->cbuf.buf += h->cbuf.count;
++				h->cbuf.buf %= h->cbuf.size;
+ 
+-			harmony_write(h, HARMONY_RNXTADD,
+-				      h->cbuf.addr + h->cbuf.buf);
+-			h->stats.rec_intr++;
+-			spin_unlock(&h->lock);
++				harmony_write(h, HARMONY_RNXTADD,
++					      h->cbuf.addr + h->cbuf.buf);
++				h->stats.rec_intr++;
++			}
+                         snd_pcm_period_elapsed(h->csubs);
+ 		} else {
+-			spin_lock(&h->lock);
+-			harmony_write(h, HARMONY_RNXTADD, h->gdma.addr);
+-			h->stats.graveyard_intr++;
+-			spin_unlock(&h->lock);
++			scoped_guard(spinlock, &h->lock) {
++				harmony_write(h, HARMONY_RNXTADD, h->gdma.addr);
++				h->stats.graveyard_intr++;
++			}
+ 		}
+ 	}
+ 
+-	spin_lock(&h->lock);
+-	harmony_enable_interrupts(h);
+-	spin_unlock(&h->lock);
++	scoped_guard(spinlock, &h->lock) {
++		harmony_enable_interrupts(h);
++	}
+ 
+ 	return IRQ_HANDLED;
+ }
+@@ -297,7 +288,7 @@ snd_harmony_playback_trigger(struct snd_pcm_substream *ss, int cmd)
+ 	if (h->st.capturing)
+ 		return -EBUSY;
+ 
+-	spin_lock(&h->lock);
++	guard(spinlock)(&h->lock);
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_START:
+ 		h->st.playing = 1;
+@@ -316,11 +307,9 @@ snd_harmony_playback_trigger(struct snd_pcm_substream *ss, int cmd)
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 	default:
+-		spin_unlock(&h->lock);
+ 		snd_BUG();
+ 		return -EINVAL;
+ 	}
+-	spin_unlock(&h->lock);
+ 	
+ 	return 0;
+ }
+@@ -333,7 +322,7 @@ snd_harmony_capture_trigger(struct snd_pcm_substream *ss, int cmd)
+ 	if (h->st.playing)
+ 		return -EBUSY;
+ 
+-	spin_lock(&h->lock);
++	guard(spinlock)(&h->lock);
+         switch (cmd) {
+         case SNDRV_PCM_TRIGGER_START:
+ 		h->st.capturing = 1;
+@@ -352,11 +341,9 @@ snd_harmony_capture_trigger(struct snd_pcm_substream *ss, int cmd)
+         case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+         case SNDRV_PCM_TRIGGER_SUSPEND:
+ 	default:
+-		spin_unlock(&h->lock);
+ 		snd_BUG();
+                 return -EINVAL;
+         }
+-	spin_unlock(&h->lock);
+ 		
+         return 0;
+ }
+@@ -674,7 +661,7 @@ snd_harmony_volume_get(struct snd_kcontrol *kc,
+ 	int invert = (kc->private_value >> 24) & 0xff;
+ 	int left, right;
+ 	
+-	spin_lock_irq(&h->mixer_lock);
++	guard(spinlock_irq)(&h->mixer_lock);
+ 
+ 	left = (h->st.gain >> shift_left) & mask;
+ 	right = (h->st.gain >> shift_right) & mask;
+@@ -687,8 +674,6 @@ snd_harmony_volume_get(struct snd_kcontrol *kc,
+ 	if (shift_left != shift_right)
+ 		ucontrol->value.integer.value[1] = right;
+ 
+-	spin_unlock_irq(&h->mixer_lock);
+-
+ 	return 0;
+ }  
+ 
+@@ -704,7 +689,7 @@ snd_harmony_volume_put(struct snd_kcontrol *kc,
+ 	int left, right;
+ 	int old_gain = h->st.gain;
+ 	
+-	spin_lock_irq(&h->mixer_lock);
++	guard(spinlock_irq)(&h->mixer_lock);
+ 
+ 	left = ucontrol->value.integer.value[0] & mask;
+ 	if (invert)
+@@ -722,8 +707,6 @@ snd_harmony_volume_put(struct snd_kcontrol *kc,
+ 
+ 	snd_harmony_set_new_gain(h);
+ 
+-	spin_unlock_irq(&h->mixer_lock);
+-	
+ 	return h->st.gain != old_gain;
+ }
+ 
+@@ -743,13 +726,11 @@ snd_harmony_captureroute_get(struct snd_kcontrol *kc,
+ 	struct snd_harmony *h = snd_kcontrol_chip(kc);
+ 	int value;
+ 	
+-	spin_lock_irq(&h->mixer_lock);
++	guard(spinlock_irq)(&h->mixer_lock);
+ 
+ 	value = (h->st.gain >> HARMONY_GAIN_IS_SHIFT) & 1;
+ 	ucontrol->value.enumerated.item[0] = value;
+ 
+-	spin_unlock_irq(&h->mixer_lock);
+-
+ 	return 0;
+ }  
+ 
+@@ -761,7 +742,7 @@ snd_harmony_captureroute_put(struct snd_kcontrol *kc,
+ 	int value;
+ 	int old_gain = h->st.gain;
+ 	
+-	spin_lock_irq(&h->mixer_lock);
++	guard(spinlock_irq)(&h->mixer_lock);
+ 
+ 	value = ucontrol->value.enumerated.item[0] & 1;
+ 	h->st.gain &= ~HARMONY_GAIN_IS_MASK;
+@@ -769,8 +750,6 @@ snd_harmony_captureroute_put(struct snd_kcontrol *kc,
+ 
+ 	snd_harmony_set_new_gain(h);
+ 
+-	spin_unlock_irq(&h->mixer_lock);
+-	
+ 	return h->st.gain != old_gain;
+ }
+ 
 -- 
 2.50.1
 
