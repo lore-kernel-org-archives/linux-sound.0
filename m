@@ -1,83 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCE425DB0A
-	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 11:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957B331A57C
+	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 11:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757502622; cv=none; b=akxUAt/sEU1IgyaTcfimD83eF1zWp5+uhewzIjBm0j2Kw6hUK9AGHC7tOPqMmSOll2ZUFkPK5DcqKI+Z/1dsY66hYg085t1SR0aCGVNRrQkRIZPampXPpFK6jW2zJv3g/O4SzPQDGHCtaXLQNH5TEjwG0vtne6FfBiiXQi7B+Jk=
+	t=1757502623; cv=none; b=Ie15ASA8fupYMJwrc098Lvf9KF0g+Lve/94w25y6QWsfQ/7Xxp2Jp1cS3p5dgsekvIUVtNQMzZFgrdeb/4yTwYt2D8UY0u3O77LezFzKXUFNjXiFB2vhYUJXMesvvLklD0/hZCBuaOfIcX7iFEve6MYs8GFxaCpGdHCawwVUhKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757502622; c=relaxed/simple;
-	bh=A9QhMoKR6YasXFQEaMlpXfALTJ7/6ZShZf9jG7xfuLw=;
+	s=arc-20240116; t=1757502623; c=relaxed/simple;
+	bh=GDJvghWY9Rn3wKAVyyCCTS/woxG+7MtXCQmipWb1mtU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TCImjAsxXly4uTny99ubQK5Xcqk8ElknL2BdYSppIReJB+837APjXVW7+PSfykp2sD+HBSZiD7M6ba29iDW/51GIJJS6HjSmgyPKx1woRjntx74QB+DG5RVE5lAgBS9lZpveAybREjx4llsCrU+G4h0+M7PWJKHraeFpbSAinS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vHjQs5n2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GBJcGqXW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vHjQs5n2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GBJcGqXW; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=mJINeF1NNDOEDSBbSimZI/RhWvgmEyYUmeL+7j9fOEXLCCo3C4Sy1GqhqN8sJNMxpi1wXP6/u1SZxwNFVrkkHHaCoifToMbUVad7h0sm4Q1/1faE05i6cWnm/HjdvcP2SWac8jzdtwsJVNHVH1UYxm0MpYo6cdbGKOJ9O3twKrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XF3E3uSv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5jS/6rdx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XF3E3uSv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5jS/6rdx; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vHjQs5n2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GBJcGqXW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vHjQs5n2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GBJcGqXW"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XF3E3uSv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5jS/6rdx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XF3E3uSv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5jS/6rdx"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C8683601D9;
-	Wed, 10 Sep 2025 11:09:45 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 81550378E3;
+	Wed, 10 Sep 2025 11:09:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757502585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1757502586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
-	b=vHjQs5n2QJrpcAECZpy8gvrZcDRexpe2yGvBl0lEDKAlwQIUJ/XNxRqX/2c3+mBk7dmIsX
-	4wlKtr4qvVLQ6sqCFPv4P568kLQvIUw2hlkwoUxIBK39+P31+H0RHFyVrCdcyo74BGg9yO
-	v5XKTbKmDODLR1jangmjmLMILrSiC7E=
+	bh=bqb8EAMTOPHeIYNqi7qh5X4zdOnAf3GY2xg83H0b9Gk=;
+	b=XF3E3uSvgwcvrc4GIL6u+6YYq0ifXxfzYIxRBaLVYNujL5SQfhqTcUF+/80l9WwhPEQvUP
+	ffGkBXY++MBWbGFOY0iI4enIkTH7TWRBa+NYTC0/4j8IuBDed8N4L8Aek5GRAWOimbtRkr
+	1a8ZgCBuIXabQwapNfouo6hFf12BINw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757502585;
+	s=susede2_ed25519; t=1757502586;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
-	b=GBJcGqXWAPOJGU7vmtxSFe2X88OJGw5TUvrCoz0RSYoUQWQ5uB2yBIP6ciSpkL2Tcm/CF1
-	9KbHRus1iNxuNqAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=bqb8EAMTOPHeIYNqi7qh5X4zdOnAf3GY2xg83H0b9Gk=;
+	b=5jS/6rdxMhFwmx5CsXr0z9vUtqrUvunNziUIuxO0281tVU5zo3iJF/9CQmsApJykA3hnUr
+	kuvaZkR5G5oTlsBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XF3E3uSv;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="5jS/6rdx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757502585; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1757502586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
-	b=vHjQs5n2QJrpcAECZpy8gvrZcDRexpe2yGvBl0lEDKAlwQIUJ/XNxRqX/2c3+mBk7dmIsX
-	4wlKtr4qvVLQ6sqCFPv4P568kLQvIUw2hlkwoUxIBK39+P31+H0RHFyVrCdcyo74BGg9yO
-	v5XKTbKmDODLR1jangmjmLMILrSiC7E=
+	bh=bqb8EAMTOPHeIYNqi7qh5X4zdOnAf3GY2xg83H0b9Gk=;
+	b=XF3E3uSvgwcvrc4GIL6u+6YYq0ifXxfzYIxRBaLVYNujL5SQfhqTcUF+/80l9WwhPEQvUP
+	ffGkBXY++MBWbGFOY0iI4enIkTH7TWRBa+NYTC0/4j8IuBDed8N4L8Aek5GRAWOimbtRkr
+	1a8ZgCBuIXabQwapNfouo6hFf12BINw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757502585;
+	s=susede2_ed25519; t=1757502586;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BZVxWwJMpmbRiwE1IPPvybOvbj+FR0SmdWlNRNrjWnM=;
-	b=GBJcGqXWAPOJGU7vmtxSFe2X88OJGw5TUvrCoz0RSYoUQWQ5uB2yBIP6ciSpkL2Tcm/CF1
-	9KbHRus1iNxuNqAw==
+	bh=bqb8EAMTOPHeIYNqi7qh5X4zdOnAf3GY2xg83H0b9Gk=;
+	b=5jS/6rdxMhFwmx5CsXr0z9vUtqrUvunNziUIuxO0281tVU5zo3iJF/9CQmsApJykA3hnUr
+	kuvaZkR5G5oTlsBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AFBE113A54;
-	Wed, 10 Sep 2025 11:09:45 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 618E213301;
+	Wed, 10 Sep 2025 11:09:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sC3BKXlcwWi+YAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 10 Sep 2025 11:09:45 +0000
+	id KMiZFnpcwWi+YAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 10 Sep 2025 11:09:46 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 08/14] ALSA: ppc: Use guard() for spin locks
-Date: Wed, 10 Sep 2025 13:09:23 +0200
-Message-ID: <20250910110932.15234-9-tiwai@suse.de>
+Subject: [PATCH 13/14] ALSA: sparc/cs4231: Use guard() for spin locks
+Date: Wed, 10 Sep 2025 13:09:28 +0200
+Message-ID: <20250910110932.15234-14-tiwai@suse.de>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250910110932.15234-1-tiwai@suse.de>
 References: <20250910110932.15234-1-tiwai@suse.de>
@@ -89,28 +90,34 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 81550378E3
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
 	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 
 Clean up the code using guard() for spin locks.
 
@@ -118,339 +125,607 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/ppc/awacs.c    | 24 +++---------
- sound/ppc/beep.c     | 17 +++------
- sound/ppc/burgundy.c | 10 +----
- sound/ppc/pmac.c     | 88 ++++++++++++++++++++++----------------------
- 4 files changed, 57 insertions(+), 82 deletions(-)
+ sound/sparc/cs4231.c | 204 +++++++++++++++----------------------------
+ 1 file changed, 68 insertions(+), 136 deletions(-)
 
-diff --git a/sound/ppc/awacs.c b/sound/ppc/awacs.c
-index 13a6f3af13ef..c231a9d6d1de 100644
---- a/sound/ppc/awacs.c
-+++ b/sound/ppc/awacs.c
-@@ -137,13 +137,11 @@ static int snd_pmac_awacs_get_volume(struct snd_kcontrol *kcontrol,
- 	int reg = kcontrol->private_value & 0xff;
- 	int lshift = (kcontrol->private_value >> 8) & 0xff;
- 	int inverted = (kcontrol->private_value >> 16) & 1;
--	unsigned long flags;
- 	int vol[2];
+diff --git a/sound/sparc/cs4231.c b/sound/sparc/cs4231.c
+index 8d54617e2526..d9e5cca94c73 100644
+--- a/sound/sparc/cs4231.c
++++ b/sound/sparc/cs4231.c
+@@ -357,10 +357,9 @@ static void snd_cs4231_busy_wait(struct snd_cs4231 *chip)
  
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	vol[0] = (chip->awacs_reg[reg] >> lshift) & 0xf;
- 	vol[1] = chip->awacs_reg[reg] & 0xf;
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	if (inverted) {
- 		vol[0] = 0x0f - vol[0];
- 		vol[1] = 0x0f - vol[1];
-@@ -161,7 +159,6 @@ static int snd_pmac_awacs_put_volume(struct snd_kcontrol *kcontrol,
- 	int lshift = (kcontrol->private_value >> 8) & 0xff;
- 	int inverted = (kcontrol->private_value >> 16) & 1;
- 	int val, oldval;
--	unsigned long flags;
- 	unsigned int vol[2];
- 
- 	vol[0] = ucontrol->value.integer.value[0];
-@@ -174,14 +171,13 @@ static int snd_pmac_awacs_put_volume(struct snd_kcontrol *kcontrol,
- 	}
- 	vol[0] &= 0x0f;
- 	vol[1] &= 0x0f;
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	oldval = chip->awacs_reg[reg];
- 	val = oldval & ~(0xf | (0xf << lshift));
- 	val |= vol[0] << lshift;
- 	val |= vol[1];
- 	if (oldval != val)
- 		snd_pmac_awacs_write_reg(chip, reg, val);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	return oldval != reg;
- }
- 
-@@ -204,11 +200,9 @@ static int snd_pmac_awacs_get_switch(struct snd_kcontrol *kcontrol,
- 	int shift = (kcontrol->private_value >> 8) & 0xff;
- 	int invert = (kcontrol->private_value >> 16) & 1;
- 	int val;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	val = (chip->awacs_reg[reg] >> shift) & 1;
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	if (invert)
- 		val = 1 - val;
- 	ucontrol->value.integer.value[0] = val;
-@@ -224,16 +218,14 @@ static int snd_pmac_awacs_put_switch(struct snd_kcontrol *kcontrol,
- 	int invert = (kcontrol->private_value >> 16) & 1;
- 	int mask = 1 << shift;
- 	int val, changed;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	val = chip->awacs_reg[reg] & ~mask;
- 	if (ucontrol->value.integer.value[0] != invert)
- 		val |= mask;
- 	changed = chip->awacs_reg[reg] != val;
- 	if (changed)
- 		snd_pmac_awacs_write_reg(chip, reg, val);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	return changed;
- }
- 
-@@ -541,14 +533,12 @@ static int snd_pmac_screamer_mic_boost_get(struct snd_kcontrol *kcontrol,
+ static void snd_cs4231_mce_up(struct snd_cs4231 *chip)
  {
- 	struct snd_pmac *chip = snd_kcontrol_chip(kcontrol);
- 	int val = 0;
 -	unsigned long flags;
+ 	int timeout;
  
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	if (chip->awacs_reg[6] & MASK_MIC_BOOST)
- 		val |= 2;
- 	if (chip->awacs_reg[0] & MASK_GAINLINE)
- 		val |= 1;
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	ucontrol->value.integer.value[0] = val;
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 	snd_cs4231_ready(chip);
+ #ifdef CONFIG_SND_DEBUG
+ 	if (__cs4231_readb(chip, CS4231U(chip, REGSEL)) & CS4231_INIT)
+@@ -376,7 +375,6 @@ static void snd_cs4231_mce_up(struct snd_cs4231 *chip)
+ 	if (!(timeout & CS4231_MCE))
+ 		__cs4231_writeb(chip, chip->mce_bit | (timeout & 0x1f),
+ 				CS4231U(chip, REGSEL));
+-	spin_unlock_irqrestore(&chip->lock, flags);
+ }
+ 
+ static void snd_cs4231_mce_down(struct snd_cs4231 *chip)
+@@ -486,7 +484,6 @@ static int snd_cs4231_trigger(struct snd_pcm_substream *substream, int cmd)
+ 	{
+ 		unsigned int what = 0;
+ 		struct snd_pcm_substream *s;
+-		unsigned long flags;
+ 
+ 		snd_pcm_group_for_each_entry(s, substream) {
+ 			if (s == chip->playback_substream) {
+@@ -498,7 +495,7 @@ static int snd_cs4231_trigger(struct snd_pcm_substream *substream, int cmd)
+ 			}
+ 		}
+ 
+-		spin_lock_irqsave(&chip->lock, flags);
++		guard(spinlock_irqsave)(&chip->lock);
+ 		if (cmd == SNDRV_PCM_TRIGGER_START) {
+ 			cs4231_dma_trigger(substream, what, 1);
+ 			chip->image[CS4231_IFACE_CTRL] |= what;
+@@ -508,7 +505,6 @@ static int snd_cs4231_trigger(struct snd_pcm_substream *substream, int cmd)
+ 		}
+ 		snd_cs4231_out(chip, CS4231_IFACE_CTRL,
+ 			       chip->image[CS4231_IFACE_CTRL]);
+-		spin_unlock_irqrestore(&chip->lock, flags);
+ 		break;
+ 	}
+ 	default:
+@@ -564,14 +560,11 @@ static unsigned char snd_cs4231_get_format(struct snd_cs4231 *chip, int format,
+ 
+ static void snd_cs4231_calibrate_mute(struct snd_cs4231 *chip, int mute)
+ {
+-	unsigned long flags;
+-
+ 	mute = mute ? 1 : 0;
+-	spin_lock_irqsave(&chip->lock, flags);
+-	if (chip->calibrate_mute == mute) {
+-		spin_unlock_irqrestore(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
++	if (chip->calibrate_mute == mute)
+ 		return;
+-	}
++
+ 	if (!mute) {
+ 		snd_cs4231_dout(chip, CS4231_LEFT_INPUT,
+ 				chip->image[CS4231_LEFT_INPUT]);
+@@ -599,26 +592,23 @@ static void snd_cs4231_calibrate_mute(struct snd_cs4231 *chip, int mute)
+ 	snd_cs4231_dout(chip, CS4231_MONO_CTRL,
+ 			mute ? 0xc0 : chip->image[CS4231_MONO_CTRL]);
+ 	chip->calibrate_mute = mute;
+-	spin_unlock_irqrestore(&chip->lock, flags);
+ }
+ 
+ static void snd_cs4231_playback_format(struct snd_cs4231 *chip,
+ 				       struct snd_pcm_hw_params *params,
+ 				       unsigned char pdfr)
+ {
+-	unsigned long flags;
+-
+ 	guard(mutex)(&chip->mce_mutex);
+ 	snd_cs4231_calibrate_mute(chip, 1);
+ 
+ 	snd_cs4231_mce_up(chip);
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
+-	snd_cs4231_out(chip, CS4231_PLAYBK_FORMAT,
+-		       (chip->image[CS4231_IFACE_CTRL] & CS4231_RECORD_ENABLE) ?
+-		       (pdfr & 0xf0) | (chip->image[CS4231_REC_FORMAT] & 0x0f) :
+-		       pdfr);
+-	spin_unlock_irqrestore(&chip->lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->lock) {
++		snd_cs4231_out(chip, CS4231_PLAYBK_FORMAT,
++			       (chip->image[CS4231_IFACE_CTRL] & CS4231_RECORD_ENABLE) ?
++			       (pdfr & 0xf0) | (chip->image[CS4231_REC_FORMAT] & 0x0f) :
++			       pdfr);
++	}
+ 
+ 	snd_cs4231_mce_down(chip);
+ 
+@@ -667,11 +657,10 @@ static unsigned long snd_cs4231_timer_resolution(struct snd_timer *timer)
+ 
+ static int snd_cs4231_timer_start(struct snd_timer *timer)
+ {
+-	unsigned long flags;
+ 	unsigned int ticks;
+ 	struct snd_cs4231 *chip = snd_timer_chip(timer);
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 	ticks = timer->sticks;
+ 	if ((chip->image[CS4231_ALT_FEATURE_1] & CS4231_TIMER_ENABLE) == 0 ||
+ 	    (unsigned char)(ticks >> 8) != chip->image[CS4231_TIMER_HIGH] ||
+@@ -686,44 +675,39 @@ static int snd_cs4231_timer_start(struct snd_timer *timer)
+ 			       chip->image[CS4231_ALT_FEATURE_1] |
+ 					CS4231_TIMER_ENABLE);
+ 	}
+-	spin_unlock_irqrestore(&chip->lock, flags);
+ 
  	return 0;
  }
-@@ -559,9 +549,8 @@ static int snd_pmac_screamer_mic_boost_put(struct snd_kcontrol *kcontrol,
- 	struct snd_pmac *chip = snd_kcontrol_chip(kcontrol);
- 	int changed = 0;
- 	int val0, val6;
--	unsigned long flags;
  
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	val0 = chip->awacs_reg[0] & ~MASK_GAINLINE;
- 	val6 = chip->awacs_reg[6] & ~MASK_MIC_BOOST;
- 	if (ucontrol->value.integer.value[0] & 1)
-@@ -576,7 +565,6 @@ static int snd_pmac_screamer_mic_boost_put(struct snd_kcontrol *kcontrol,
- 		snd_pmac_awacs_write_reg(chip, 6, val6);
- 		changed = 1;
- 	}
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
- 	return changed;
+ static int snd_cs4231_timer_stop(struct snd_timer *timer)
+ {
+-	unsigned long flags;
+ 	struct snd_cs4231 *chip = snd_timer_chip(timer);
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 	chip->image[CS4231_ALT_FEATURE_1] &= ~CS4231_TIMER_ENABLE;
+ 	snd_cs4231_out(chip, CS4231_ALT_FEATURE_1,
+ 		       chip->image[CS4231_ALT_FEATURE_1]);
+-	spin_unlock_irqrestore(&chip->lock, flags);
+ 
+ 	return 0;
  }
  
-diff --git a/sound/ppc/beep.c b/sound/ppc/beep.c
-index bf289783eafd..ab2468790b0c 100644
---- a/sound/ppc/beep.c
-+++ b/sound/ppc/beep.c
-@@ -88,7 +88,6 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
+ static void snd_cs4231_init(struct snd_cs4231 *chip)
  {
- 	struct snd_pmac *chip;
- 	struct pmac_beep *beep;
 -	unsigned long flags;
- 	int beep_speed = 0;
- 	int srate;
- 	int period, ncycles, nsamples;
-@@ -112,10 +111,9 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
- 		return -1;
+-
+ 	snd_cs4231_mce_down(chip);
  
- 	if (! hz) {
--		spin_lock_irqsave(&chip->reg_lock, flags);
-+		guard(spinlock_irqsave)(&chip->reg_lock);
- 		if (beep->running)
- 			snd_pmac_beep_stop(chip);
--		spin_unlock_irqrestore(&chip->reg_lock, flags);
+ #ifdef SNDRV_DEBUG_MCE
+ 	pr_debug("init: (1)\n");
+ #endif
+ 	snd_cs4231_mce_up(chip);
+-	spin_lock_irqsave(&chip->lock, flags);
+-	chip->image[CS4231_IFACE_CTRL] &= ~(CS4231_PLAYBACK_ENABLE |
+-					    CS4231_PLAYBACK_PIO |
+-					    CS4231_RECORD_ENABLE |
+-					    CS4231_RECORD_PIO |
+-					    CS4231_CALIB_MODE);
+-	chip->image[CS4231_IFACE_CTRL] |= CS4231_AUTOCALIB;
+-	snd_cs4231_out(chip, CS4231_IFACE_CTRL, chip->image[CS4231_IFACE_CTRL]);
+-	spin_unlock_irqrestore(&chip->lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->lock) {
++		chip->image[CS4231_IFACE_CTRL] &= ~(CS4231_PLAYBACK_ENABLE |
++						    CS4231_PLAYBACK_PIO |
++						    CS4231_RECORD_ENABLE |
++						    CS4231_RECORD_PIO |
++						    CS4231_CALIB_MODE);
++		chip->image[CS4231_IFACE_CTRL] |= CS4231_AUTOCALIB;
++		snd_cs4231_out(chip, CS4231_IFACE_CTRL, chip->image[CS4231_IFACE_CTRL]);
++	}
+ 	snd_cs4231_mce_down(chip);
+ 
+ #ifdef SNDRV_DEBUG_MCE
+@@ -731,10 +715,10 @@ static void snd_cs4231_init(struct snd_cs4231 *chip)
+ #endif
+ 
+ 	snd_cs4231_mce_up(chip);
+-	spin_lock_irqsave(&chip->lock, flags);
+-	snd_cs4231_out(chip, CS4231_ALT_FEATURE_1,
+-			chip->image[CS4231_ALT_FEATURE_1]);
+-	spin_unlock_irqrestore(&chip->lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->lock) {
++		snd_cs4231_out(chip, CS4231_ALT_FEATURE_1,
++			       chip->image[CS4231_ALT_FEATURE_1]);
++	}
+ 	snd_cs4231_mce_down(chip);
+ 
+ #ifdef SNDRV_DEBUG_MCE
+@@ -742,16 +726,16 @@ static void snd_cs4231_init(struct snd_cs4231 *chip)
+ 		 chip->image[CS4231_ALT_FEATURE_1]);
+ #endif
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
+-	snd_cs4231_out(chip, CS4231_ALT_FEATURE_2,
+-			chip->image[CS4231_ALT_FEATURE_2]);
+-	spin_unlock_irqrestore(&chip->lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->lock) {
++		snd_cs4231_out(chip, CS4231_ALT_FEATURE_2,
++			       chip->image[CS4231_ALT_FEATURE_2]);
++	}
+ 
+ 	snd_cs4231_mce_up(chip);
+-	spin_lock_irqsave(&chip->lock, flags);
+-	snd_cs4231_out(chip, CS4231_PLAYBK_FORMAT,
+-			chip->image[CS4231_PLAYBK_FORMAT]);
+-	spin_unlock_irqrestore(&chip->lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->lock) {
++		snd_cs4231_out(chip, CS4231_PLAYBK_FORMAT,
++			       chip->image[CS4231_PLAYBK_FORMAT]);
++	}
+ 	snd_cs4231_mce_down(chip);
+ 
+ #ifdef SNDRV_DEBUG_MCE
+@@ -759,9 +743,9 @@ static void snd_cs4231_init(struct snd_cs4231 *chip)
+ #endif
+ 
+ 	snd_cs4231_mce_up(chip);
+-	spin_lock_irqsave(&chip->lock, flags);
+-	snd_cs4231_out(chip, CS4231_REC_FORMAT, chip->image[CS4231_REC_FORMAT]);
+-	spin_unlock_irqrestore(&chip->lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->lock) {
++		snd_cs4231_out(chip, CS4231_REC_FORMAT, chip->image[CS4231_REC_FORMAT]);
++	}
+ 	snd_cs4231_mce_down(chip);
+ 
+ #ifdef SNDRV_DEBUG_MCE
+@@ -771,8 +755,6 @@ static void snd_cs4231_init(struct snd_cs4231 *chip)
+ 
+ static int snd_cs4231_open(struct snd_cs4231 *chip, unsigned int mode)
+ {
+-	unsigned long flags;
+-
+ 	guard(mutex)(&chip->open_mutex);
+ 	if ((chip->mode & mode))
+ 		return -EAGAIN;
+@@ -781,7 +763,7 @@ static int snd_cs4231_open(struct snd_cs4231 *chip, unsigned int mode)
  		return 0;
  	}
+ 	/* ok. now enable and ack CODEC IRQ */
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 	snd_cs4231_out(chip, CS4231_IRQ_STATUS, CS4231_PLAYBACK_IRQ |
+ 		       CS4231_RECORD_IRQ |
+ 		       CS4231_TIMER_IRQ);
+@@ -794,8 +776,6 @@ static int snd_cs4231_open(struct snd_cs4231 *chip, unsigned int mode)
+ 		       CS4231_TIMER_IRQ);
+ 	snd_cs4231_out(chip, CS4231_IRQ_STATUS, 0);
  
-@@ -125,13 +123,11 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
- 	if (hz <= srate / BEEP_BUFLEN || hz > srate / 2)
- 		hz = 1000;
+-	spin_unlock_irqrestore(&chip->lock, flags);
+-
+ 	chip->mode = mode;
+ 	return 0;
+ }
+@@ -896,25 +876,18 @@ static int snd_cs4231_playback_prepare(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_cs4231 *chip = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+-	unsigned long flags;
+-	int ret = 0;
  
--	spin_lock_irqsave(&chip->reg_lock, flags);
--	if (chip->playback.running || chip->capture.running || beep->running) {
--		spin_unlock_irqrestore(&chip->reg_lock, flags);
--		return 0;
-+	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
-+		if (chip->playback.running || chip->capture.running || beep->running)
-+			return 0;
-+		beep->running = 1;
- 	}
--	beep->running = 1;
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
  
- 	if (hz == beep->hz && beep->volume == beep->volume_play) {
- 		nsamples = beep->nsamples;
-@@ -151,9 +147,8 @@ static int snd_pmac_beep_event(struct input_dev *dev, unsigned int type,
- 		beep->nsamples = nsamples;
- 	}
+ 	chip->image[CS4231_IFACE_CTRL] &= ~(CS4231_PLAYBACK_ENABLE |
+ 					    CS4231_PLAYBACK_PIO);
  
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 	snd_pmac_beep_dma_start(chip, beep->nsamples * 4, beep->addr, beep_speed);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
+-	if (WARN_ON(runtime->period_size > 0xffff + 1)) {
+-		ret = -EINVAL;
+-		goto out;
+-	}
++	if (WARN_ON(runtime->period_size > 0xffff + 1))
++		return -EINVAL;
+ 
+ 	chip->p_periods_sent = 0;
+ 
+-out:
+-	spin_unlock_irqrestore(&chip->lock, flags);
+-
+-	return ret;
++	return 0;
+ }
+ 
+ static int snd_cs4231_capture_hw_params(struct snd_pcm_substream *substream,
+@@ -934,27 +907,23 @@ static int snd_cs4231_capture_hw_params(struct snd_pcm_substream *substream,
+ static int snd_cs4231_capture_prepare(struct snd_pcm_substream *substream)
+ {
+ 	struct snd_cs4231 *chip = snd_pcm_substream_chip(substream);
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 	chip->image[CS4231_IFACE_CTRL] &= ~(CS4231_RECORD_ENABLE |
+ 					    CS4231_RECORD_PIO);
+ 
+ 
+ 	chip->c_periods_sent = 0;
+-	spin_unlock_irqrestore(&chip->lock, flags);
+ 
  	return 0;
  }
  
-diff --git a/sound/ppc/burgundy.c b/sound/ppc/burgundy.c
-index ba15bc34c9ec..5d6accce3a72 100644
---- a/sound/ppc/burgundy.c
-+++ b/sound/ppc/burgundy.c
-@@ -59,9 +59,8 @@ static unsigned
- snd_pmac_burgundy_rcw(struct snd_pmac *chip, unsigned addr)
+ static void snd_cs4231_overrange(struct snd_cs4231 *chip)
  {
- 	unsigned val = 0;
 -	unsigned long flags;
+ 	unsigned char res;
  
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 	res = snd_cs4231_in(chip, CS4231_TEST_INIT);
+-	spin_unlock_irqrestore(&chip->lock, flags);
  
- 	out_le32(&chip->awacs->codec_ctrl, addr + 0x100000);
- 	snd_pmac_burgundy_busy_wait(chip);
-@@ -83,8 +82,6 @@ snd_pmac_burgundy_rcw(struct snd_pmac *chip, unsigned addr)
- 	snd_pmac_burgundy_extend_wait(chip);
- 	val += ((in_le32(&chip->awacs->codec_stat)>>4) & 0xff) <<24;
+ 	/* detect overrange only above 0dB; may be user selectable? */
+ 	if (res & (0x08 | 0x02))
+@@ -1013,7 +982,6 @@ static snd_pcm_uframes_t snd_cs4231_capture_pointer(
  
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
--
- 	return val;
- }
- 
-@@ -100,17 +97,14 @@ static unsigned
- snd_pmac_burgundy_rcb(struct snd_pmac *chip, unsigned int addr)
+ static int snd_cs4231_probe(struct snd_cs4231 *chip)
  {
- 	unsigned val = 0;
 -	unsigned long flags;
+ 	int i;
+ 	int id = 0;
+ 	int vers = 0;
+@@ -1024,11 +992,10 @@ static int snd_cs4231_probe(struct snd_cs4231 *chip)
+ 		if (__cs4231_readb(chip, CS4231U(chip, REGSEL)) & CS4231_INIT)
+ 			msleep(2);
+ 		else {
+-			spin_lock_irqsave(&chip->lock, flags);
++			guard(spinlock_irqsave)(&chip->lock);
+ 			snd_cs4231_out(chip, CS4231_MISC_INFO, CS4231_MODE2);
+ 			id = snd_cs4231_in(chip, CS4231_MISC_INFO) & 0x0f;
+ 			vers = snd_cs4231_in(chip, CS4231_VERSION);
+-			spin_unlock_irqrestore(&chip->lock, flags);
+ 			if (id == 0x0a)
+ 				break;	/* this is valid value */
+ 		}
+@@ -1038,14 +1005,12 @@ static int snd_cs4231_probe(struct snd_cs4231 *chip)
+ 	if (id != 0x0a)
+ 		return -ENODEV;	/* no valid device found */
  
--	spin_lock_irqsave(&chip->reg_lock, flags);
-+	guard(spinlock_irqsave)(&chip->reg_lock);
- 
- 	out_le32(&chip->awacs->codec_ctrl, addr + 0x100000);
- 	snd_pmac_burgundy_busy_wait(chip);
- 	snd_pmac_burgundy_extend_wait(chip);
- 	val += (in_le32(&chip->awacs->codec_stat) >> 4) & 0xff;
- 
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
+-	spin_lock_irqsave(&chip->lock, flags);
 -
- 	return val;
- }
- 
-diff --git a/sound/ppc/pmac.c b/sound/ppc/pmac.c
-index a3d346f1cc05..6d7dab26ddf2 100644
---- a/sound/ppc/pmac.c
-+++ b/sound/ppc/pmac.c
-@@ -206,32 +206,32 @@ static int snd_pmac_pcm_prepare(struct snd_pmac *chip, struct pmac_stream *rec,
- 	 * common to many PowerBook G3 systems and random noise otherwise
- 	 * captured on iBook2's about every third time. -ReneR
- 	 */
--	spin_lock_irq(&chip->reg_lock);
--	snd_pmac_dma_stop(rec);
--	chip->extra_dma.cmds->command = cpu_to_le16(DBDMA_STOP);
--	snd_pmac_dma_set_command(rec, &chip->extra_dma);
--	snd_pmac_dma_run(rec, RUN);
--	spin_unlock_irq(&chip->reg_lock);
--	mdelay(5);
--	spin_lock_irq(&chip->reg_lock);
--	/* continuous DMA memory type doesn't provide the physical address,
--	 * so we need to resolve the address here...
--	 */
--	offset = runtime->dma_addr;
--	for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++) {
--		cp->phy_addr = cpu_to_le32(offset);
--		cp->req_count = cpu_to_le16(rec->period_size);
--		/*cp->res_count = cpu_to_le16(0);*/
--		cp->xfer_status = cpu_to_le16(0);
--		offset += rec->period_size;
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		snd_pmac_dma_stop(rec);
-+		chip->extra_dma.cmds->command = cpu_to_le16(DBDMA_STOP);
-+		snd_pmac_dma_set_command(rec, &chip->extra_dma);
-+		snd_pmac_dma_run(rec, RUN);
- 	}
--	/* make loop */
--	cp->command = cpu_to_le16(DBDMA_NOP | BR_ALWAYS);
--	cp->cmd_dep = cpu_to_le32(rec->cmd.addr);
-+	mdelay(5);
-+	scoped_guard(spinlock_irq, &chip->reg_lock) {
-+		/* continuous DMA memory type doesn't provide the physical address,
-+		 * so we need to resolve the address here...
-+		 */
-+		offset = runtime->dma_addr;
-+		for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++) {
-+			cp->phy_addr = cpu_to_le32(offset);
-+			cp->req_count = cpu_to_le16(rec->period_size);
-+			/*cp->res_count = cpu_to_le16(0);*/
-+			cp->xfer_status = cpu_to_le16(0);
-+			offset += rec->period_size;
-+		}
-+		/* make loop */
-+		cp->command = cpu_to_le16(DBDMA_NOP | BR_ALWAYS);
-+		cp->cmd_dep = cpu_to_le32(rec->cmd.addr);
- 
--	snd_pmac_dma_stop(rec);
--	snd_pmac_dma_set_command(rec, &rec->cmd);
--	spin_unlock_irq(&chip->reg_lock);
-+		snd_pmac_dma_stop(rec);
-+		snd_pmac_dma_set_command(rec, &rec->cmd);
+-	/* clear any pendings IRQ */
+-	__cs4231_readb(chip, CS4231U(chip, STATUS));
+-	__cs4231_writeb(chip, 0, CS4231U(chip, STATUS));
+-	mb();
+-
+-	spin_unlock_irqrestore(&chip->lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->lock) {
++		/* clear any pendings IRQ */
++		__cs4231_readb(chip, CS4231U(chip, STATUS));
++		__cs4231_writeb(chip, 0, CS4231U(chip, STATUS));
++		mb();
 +	}
+ 
+ 	chip->image[CS4231_MISC_INFO] = CS4231_MODE2;
+ 	chip->image[CS4231_IFACE_CTRL] =
+@@ -1059,12 +1024,10 @@ static int snd_cs4231_probe(struct snd_cs4231 *chip)
+ 
+ 	snd_cs4231_mce_down(chip);
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
+-
+-	for (i = 0; i < 32; i++)	/* ok.. fill all CS4231 registers */
+-		snd_cs4231_out(chip, i, *ptr++);
+-
+-	spin_unlock_irqrestore(&chip->lock, flags);
++	scoped_guard(spinlock_irqsave, &chip->lock) {
++		for (i = 0; i < 32; i++)	/* ok.. fill all CS4231 registers */
++			snd_cs4231_out(chip, i, *ptr++);
++	}
+ 
+ 	snd_cs4231_mce_up(chip);
+ 
+@@ -1273,14 +1236,12 @@ static int snd_cs4231_get_mux(struct snd_kcontrol *kcontrol,
+ 			      struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_cs4231 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 	ucontrol->value.enumerated.item[0] =
+ 		(chip->image[CS4231_LEFT_INPUT] & CS4231_MIXS_ALL) >> 6;
+ 	ucontrol->value.enumerated.item[1] =
+ 		(chip->image[CS4231_RIGHT_INPUT] & CS4231_MIXS_ALL) >> 6;
+-	spin_unlock_irqrestore(&chip->lock, flags);
  
  	return 0;
  }
-@@ -253,26 +253,26 @@ static int snd_pmac_pcm_trigger(struct snd_pmac *chip, struct pmac_stream *rec,
- 			return -EBUSY;
- 		command = (subs->stream == SNDRV_PCM_STREAM_PLAYBACK ?
- 			   OUTPUT_MORE : INPUT_MORE) + INTR_ALWAYS;
--		spin_lock(&chip->reg_lock);
--		snd_pmac_beep_stop(chip);
--		snd_pmac_pcm_set_format(chip);
--		for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
--			out_le16(&cp->command, command);
--		snd_pmac_dma_set_command(rec, &rec->cmd);
--		(void)in_le32(&rec->dma->status);
--		snd_pmac_dma_run(rec, RUN|WAKE);
--		rec->running = 1;
--		spin_unlock(&chip->reg_lock);
-+		scoped_guard(spinlock, &chip->reg_lock) {
-+			snd_pmac_beep_stop(chip);
-+			snd_pmac_pcm_set_format(chip);
-+			for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
-+				out_le16(&cp->command, command);
-+			snd_pmac_dma_set_command(rec, &rec->cmd);
-+			(void)in_le32(&rec->dma->status);
-+			snd_pmac_dma_run(rec, RUN|WAKE);
-+			rec->running = 1;
-+		}
- 		break;
+@@ -1289,7 +1250,6 @@ static int snd_cs4231_put_mux(struct snd_kcontrol *kcontrol,
+ 			      struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_cs4231 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	unsigned short left, right;
+ 	int change;
  
- 	case SNDRV_PCM_TRIGGER_STOP:
- 	case SNDRV_PCM_TRIGGER_SUSPEND:
--		spin_lock(&chip->reg_lock);
--		rec->running = 0;
--		snd_pmac_dma_stop(rec);
--		for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
--			out_le16(&cp->command, DBDMA_STOP);
--		spin_unlock(&chip->reg_lock);
-+		scoped_guard(spinlock, &chip->reg_lock) {
-+			rec->running = 0;
-+			snd_pmac_dma_stop(rec);
-+			for (i = 0, cp = rec->cmd.cmds; i < rec->nperiods; i++, cp++)
-+				out_le16(&cp->command, DBDMA_STOP);
-+		}
- 		break;
+@@ -1299,7 +1259,7 @@ static int snd_cs4231_put_mux(struct snd_kcontrol *kcontrol,
+ 	left = ucontrol->value.enumerated.item[0] << 6;
+ 	right = ucontrol->value.enumerated.item[1] << 6;
  
- 	default:
-@@ -1321,14 +1321,12 @@ int snd_pmac_new(struct snd_card *card, struct snd_pmac **chip_return)
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
  
- void snd_pmac_suspend(struct snd_pmac *chip)
+ 	left = (chip->image[CS4231_LEFT_INPUT] & ~CS4231_MIXS_ALL) | left;
+ 	right = (chip->image[CS4231_RIGHT_INPUT] & ~CS4231_MIXS_ALL) | right;
+@@ -1308,8 +1268,6 @@ static int snd_cs4231_put_mux(struct snd_kcontrol *kcontrol,
+ 	snd_cs4231_out(chip, CS4231_LEFT_INPUT, left);
+ 	snd_cs4231_out(chip, CS4231_RIGHT_INPUT, right);
+ 
+-	spin_unlock_irqrestore(&chip->lock, flags);
+-
+ 	return change;
+ }
+ 
+@@ -1331,18 +1289,15 @@ static int snd_cs4231_get_single(struct snd_kcontrol *kcontrol,
+ 				 struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_cs4231 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int reg = kcontrol->private_value & 0xff;
+ 	int shift = (kcontrol->private_value >> 8) & 0xff;
+ 	int mask = (kcontrol->private_value >> 16) & 0xff;
+ 	int invert = (kcontrol->private_value >> 24) & 0xff;
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 
+ 	ucontrol->value.integer.value[0] = (chip->image[reg] >> shift) & mask;
+ 
+-	spin_unlock_irqrestore(&chip->lock, flags);
+-
+ 	if (invert)
+ 		ucontrol->value.integer.value[0] =
+ 			(mask - ucontrol->value.integer.value[0]);
+@@ -1354,7 +1309,6 @@ static int snd_cs4231_put_single(struct snd_kcontrol *kcontrol,
+ 				 struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_cs4231 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int reg = kcontrol->private_value & 0xff;
+ 	int shift = (kcontrol->private_value >> 8) & 0xff;
+ 	int mask = (kcontrol->private_value >> 16) & 0xff;
+@@ -1367,14 +1321,12 @@ static int snd_cs4231_put_single(struct snd_kcontrol *kcontrol,
+ 		val = mask - val;
+ 	val <<= shift;
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 
+ 	val = (chip->image[reg] & ~(mask << shift)) | val;
+ 	change = val != chip->image[reg];
+ 	snd_cs4231_out(chip, reg, val);
+ 
+-	spin_unlock_irqrestore(&chip->lock, flags);
+-
+ 	return change;
+ }
+ 
+@@ -1396,7 +1348,6 @@ static int snd_cs4231_get_double(struct snd_kcontrol *kcontrol,
+ 				 struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_cs4231 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int left_reg = kcontrol->private_value & 0xff;
+ 	int right_reg = (kcontrol->private_value >> 8) & 0xff;
+ 	int shift_left = (kcontrol->private_value >> 16) & 0x07;
+@@ -1404,15 +1355,13 @@ static int snd_cs4231_get_double(struct snd_kcontrol *kcontrol,
+ 	int mask = (kcontrol->private_value >> 24) & 0xff;
+ 	int invert = (kcontrol->private_value >> 22) & 1;
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 
+ 	ucontrol->value.integer.value[0] =
+ 		(chip->image[left_reg] >> shift_left) & mask;
+ 	ucontrol->value.integer.value[1] =
+ 		(chip->image[right_reg] >> shift_right) & mask;
+ 
+-	spin_unlock_irqrestore(&chip->lock, flags);
+-
+ 	if (invert) {
+ 		ucontrol->value.integer.value[0] =
+ 			(mask - ucontrol->value.integer.value[0]);
+@@ -1427,7 +1376,6 @@ static int snd_cs4231_put_double(struct snd_kcontrol *kcontrol,
+ 				 struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_cs4231 *chip = snd_kcontrol_chip(kcontrol);
+-	unsigned long flags;
+ 	int left_reg = kcontrol->private_value & 0xff;
+ 	int right_reg = (kcontrol->private_value >> 8) & 0xff;
+ 	int shift_left = (kcontrol->private_value >> 16) & 0x07;
+@@ -1446,7 +1394,7 @@ static int snd_cs4231_put_double(struct snd_kcontrol *kcontrol,
+ 	val1 <<= shift_left;
+ 	val2 <<= shift_right;
+ 
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 
+ 	val1 = (chip->image[left_reg] & ~(mask << shift_left)) | val1;
+ 	val2 = (chip->image[right_reg] & ~(mask << shift_right)) | val2;
+@@ -1455,8 +1403,6 @@ static int snd_cs4231_put_double(struct snd_kcontrol *kcontrol,
+ 	snd_cs4231_out(chip, left_reg, val1);
+ 	snd_cs4231_out(chip, right_reg, val2);
+ 
+-	spin_unlock_irqrestore(&chip->lock, flags);
+-
+ 	return change;
+ }
+ 
+@@ -1601,7 +1547,6 @@ static int cs4231_attach_finish(struct snd_card *card)
+ 
+ static irqreturn_t snd_cs4231_sbus_interrupt(int irq, void *dev_id)
  {
 -	unsigned long flags;
+ 	unsigned char status;
+ 	u32 csr;
+ 	struct snd_cs4231 *chip = dev_id;
+@@ -1638,9 +1583,8 @@ static irqreturn_t snd_cs4231_sbus_interrupt(int irq, void *dev_id)
+ 		snd_cs4231_overrange(chip);
+ 
+ 	/* ACK the CS4231 interrupt. */
+-	spin_lock_irqsave(&chip->lock, flags);
++	guard(spinlock_irqsave)(&chip->lock);
+ 	snd_cs4231_outm(chip, CS4231_IRQ_STATUS, ~CS4231_ALL_IRQS | ~status, 0);
+-	spin_unlock_irqrestore(&chip->lock, flags);
+ 
+ 	return IRQ_HANDLED;
+ }
+@@ -1652,42 +1596,34 @@ static irqreturn_t snd_cs4231_sbus_interrupt(int irq, void *dev_id)
+ static int sbus_dma_request(struct cs4231_dma_control *dma_cont,
+ 			    dma_addr_t bus_addr, size_t len)
+ {
+-	unsigned long flags;
+ 	u32 test, csr;
+-	int err;
+ 	struct sbus_dma_info *base = &dma_cont->sbus_info;
+ 
+ 	if (len >= (1 << 24))
+ 		return -EINVAL;
+-	spin_lock_irqsave(&base->lock, flags);
++	guard(spinlock_irqsave)(&base->lock);
+ 	csr = sbus_readl(base->regs + APCCSR);
+-	err = -EINVAL;
+ 	test = APC_CDMA_READY;
+ 	if (base->dir == APC_PLAY)
+ 		test = APC_PDMA_READY;
+ 	if (!(csr & test))
+-		goto out;
+-	err = -EBUSY;
++		return -EINVAL;
+ 	test = APC_XINT_CNVA;
+ 	if (base->dir == APC_PLAY)
+ 		test = APC_XINT_PNVA;
+ 	if (!(csr & test))
+-		goto out;
+-	err = 0;
++		return -EBUSY;
+ 	sbus_writel(bus_addr, base->regs + base->dir + APCNVA);
+ 	sbus_writel(len, base->regs + base->dir + APCNC);
+-out:
+-	spin_unlock_irqrestore(&base->lock, flags);
+-	return err;
++	return 0;
+ }
+ 
+ static void sbus_dma_prepare(struct cs4231_dma_control *dma_cont, int d)
+ {
+-	unsigned long flags;
+ 	u32 csr, test;
+ 	struct sbus_dma_info *base = &dma_cont->sbus_info;
+ 
+-	spin_lock_irqsave(&base->lock, flags);
++	guard(spinlock_irqsave)(&base->lock);
+ 	csr = sbus_readl(base->regs + APCCSR);
+ 	test =  APC_GENL_INT | APC_PLAY_INT | APC_XINT_ENA |
+ 		APC_XINT_PLAY | APC_XINT_PEMP | APC_XINT_GENL |
+@@ -1697,16 +1633,14 @@ static void sbus_dma_prepare(struct cs4231_dma_control *dma_cont, int d)
+ 			APC_XINT_CAPT | APC_XINT_CEMP | APC_XINT_GENL;
+ 	csr |= test;
+ 	sbus_writel(csr, base->regs + APCCSR);
+-	spin_unlock_irqrestore(&base->lock, flags);
+ }
+ 
+ static void sbus_dma_enable(struct cs4231_dma_control *dma_cont, int on)
+ {
+-	unsigned long flags;
+ 	u32 csr, shift;
+ 	struct sbus_dma_info *base = &dma_cont->sbus_info;
+ 
+-	spin_lock_irqsave(&base->lock, flags);
++	guard(spinlock_irqsave)(&base->lock);
+ 	if (!on) {
+ 		sbus_writel(0, base->regs + base->dir + APCNC);
+ 		sbus_writel(0, base->regs + base->dir + APCNVA);
+@@ -1731,8 +1665,6 @@ static void sbus_dma_enable(struct cs4231_dma_control *dma_cont, int on)
+ 	else
+ 		csr &= ~(APC_CDMA_READY << shift);
+ 	sbus_writel(csr, base->regs + APCCSR);
 -
- 	snd_power_change_state(chip->card, SNDRV_CTL_POWER_D3hot);
- 	if (chip->suspend)
- 		chip->suspend(chip);
--	spin_lock_irqsave(&chip->reg_lock, flags);
--	snd_pmac_beep_stop(chip);
--	spin_unlock_irqrestore(&chip->reg_lock, flags);
-+	scoped_guard(spinlock_irqsave, &chip->reg_lock) {
-+		snd_pmac_beep_stop(chip);
-+	}
- 	if (chip->irq >= 0)
- 		disable_irq(chip->irq);
- 	if (chip->tx_irq >= 0)
+-	spin_unlock_irqrestore(&base->lock, flags);
+ }
+ 
+ static unsigned int sbus_dma_addr(struct cs4231_dma_control *dma_cont)
 -- 
 2.50.1
 
