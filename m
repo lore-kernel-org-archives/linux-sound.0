@@ -1,234 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB889220685;
-	Wed, 10 Sep 2025 13:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A793A322745;
+	Wed, 10 Sep 2025 14:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757512573; cv=fail; b=VX2ugS/DcjQ4Ak0dOh9AXwj72g1BB251do92w3SlOKBNTazInOf7uN8MKV/FPKgL5gALusfME9w56iU1QQ/9XJillpnz70N8cE0lxrNBUOF5rauBcUb72pdVlN3TRoUhOi2mOWl9PmaO3JTqFpn5B/9nNdTawA+8jPi1hQNxzwg=
+	t=1757513162; cv=pass; b=RseXRxCzlO9OVseJj3DBWofR9XiOd8Kz8LHOE9hG8fYNOkhsJIdNQ9OBmF5CD3p0CKcw/1vEDHXc6+cGzD8zmTnFwHiRdFVA1/o9Wj0pRK5TQexojKzpedWuGLPbYfN9biQTM6CGGd2IlLzdETfmJAUrk+i1V/jhi6J7D0xJQ4g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757512573; c=relaxed/simple;
-	bh=4HwJcW6qrfvOe1AaRHiKEbtqUpQSFuoYgq3grEr+/JU=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EmtXrSK4cEjI92v18L6S2bpwL8QxEK5xUKWTmMFMNeNO9EwSuia/QI1EwbGuc4Q82XLsfcr5CTcVgl39ZhotTz/HOSxjTQBmX178rhfMSyNDuGCDEUceFcz1ARI2ibniAX87FWnd5hUChuyb8CbHeCaNfh+S2U5J9a70Wn6QBN8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjQ0qGMv; arc=fail smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1757513162; c=relaxed/simple;
+	bh=FONkIWI0n7lG/bUtRih9a715N9XA1/QgoWiRIL6pOMc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Led4Xyg2zycabojrGQIylF/V68hg5lc9vHaERYY4+CSab6Q15AeOec+7KOqV7L3j4NQdn9tK3CdUyH9c9xtM1TDkJWnVaJUuN/L7A1iXV1bRtezbUDcH6ZrK21P/FFVY1KO2E/9ZDMvDsUw4nLWiiD1e1sTJqKcjsutw4Pj9Pe0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=IHYKNoZY; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjQ0qGMv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757512572; x=1789048572;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=4HwJcW6qrfvOe1AaRHiKEbtqUpQSFuoYgq3grEr+/JU=;
-  b=MjQ0qGMvl6uGGEzko4TxaU1ZF6iES8BBGbFT1YrckjNDN6DLgfz8ZfaY
-   YpafFCW1try3sYh/PHZw98y8tZLpYmQqYXOjYUyeoBRt5Qe4ksEM1gk5+
-   TjQz6uwHrEHumAaWT8oXwAZaGqs6RWV6x9lj43ljB+j3AolcW78i2xMm5
-   0oCGUK4y7UAG552l+EW5nbAspwAKg5LN6ZmGDanzx1iWxQMak5JA3q4Rv
-   A8lwHvQSDfYA26CySsFMJ7c7/91km8CYYxqu9CxRN1Bt1hP6N44Wsu1hB
-   +JgBYSgiDarByQiZKVG3r2bV4psp6sK+O5g2BATbAFCJoi43ySO2KsKyC
-   A==;
-X-CSE-ConnectionGUID: uaUq/b1zTGG9EWkhIwNuRQ==
-X-CSE-MsgGUID: ZnxvnzP3QjeF/rokLaUr6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="59897910"
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="59897910"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 06:53:41 -0700
-X-CSE-ConnectionGUID: prdKfRt8Tc+Jv8YUsRObiQ==
-X-CSE-MsgGUID: jZXAMeBnQVOOKbJHv8UkfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="197077657"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 06:53:41 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 10 Sep 2025 06:53:40 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Wed, 10 Sep 2025 06:53:40 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (40.107.100.67)
- by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 10 Sep 2025 06:53:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d0iHZRIgOaipUy1yLw8pA6eeJBDAxTCiaqkyN+fsk3Z8UpuaGKKounBofwSBIZEyBMwkUtFgUDaKKd8G3rmms9s53lgB3A6hc3AVUHihBjJGsL7pnYJiKM2/i9Ejfp8NWtHuJbqNKo9ijaEru6V8d3zyYJ8YiPwL8FN49rQbBPCTKSRLETiOTojaPojL5frlO/cNwtPzHGbC+BNYl99BW3WbLY216Q1UbFWIhQcEYPlZy0et4zVz7Ug7qHS84KU+V/B0b/44nJSM5OG4kqvtys7dnT0h/x0zOkSNEN/Ckch8qy/XDqkrSW1jW2sfHYv2+RZfmAkP4EzvyIYVAauBeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NUJf+AR1921bFghy00DGZpuHqvqwdjiobaqJFI/fLc0=;
- b=rB2i1N+j1gxyhoS1wxcQT1bMqSWDCgqCp7P+OgTyrWDS6cZ9U54DeYQ/yucud+dJkLAsN+k7LFC6N4yJDVdSZUPKbRT04qhXBwuZuGGKexeX56ijLAWyi4l5pR5+pra+BjR68g+ZoqnF/jcMASYwD4jgT8muyphsdMlXknIga7I5Vc5uY2dXaIAj/ZV3tpYViMtiKWPiVxaluK+xt/+huhfgeZEIjb0y4P/onRv+yjNmYRoWiKdupiHWgfx0lb7F9+UIK46G4d2GMF6xMc95GpBG9uLMgxL/w9WVQj1bi4v53zlC1Fw4m+eFLZ0Sy2RtEju9QzeimnbyqlMGLooMpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
- by SJ0PR11MB8272.namprd11.prod.outlook.com (2603:10b6:a03:47d::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Wed, 10 Sep
- 2025 13:53:36 +0000
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::3:e0a:87af:d4b6]) by SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::3:e0a:87af:d4b6%6]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 13:53:36 +0000
-Message-ID: <d2f8e45e-c289-4649-b764-8ded15f0bb16@intel.com>
-Date: Wed, 10 Sep 2025 15:53:29 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: amd: acp: Fix incorrect retrival of acp_chip_info
-To: "Prasad, Prasad" <venkataprasad.potturu@amd.com>
-CC: "Mukunda, Vijendar" <Vijendar.Mukunda@amd.com>, "Hiregoudar, Basavaraj"
-	<Basavaraj.Hiregoudar@amd.com>, "Dommati, Sunil-kumar"
-	<Sunil-kumar.Dommati@amd.com>, "Saba Kareem, Syed" <Syed.SabaKareem@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Greg KH <gregkh@linuxfoundation.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>, "open list:SOUND - SOC LAYER / DYNAMIC
- AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>, "broonie@kernel.org" <broonie@kernel.org>,
-	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
-References: <20250909061959.2881158-1-venkataprasad.potturu@amd.com>
- <0f631a47-d487-4770-a046-af2c33ad670a@intel.com>
- <PH7PR12MB5951638E3C707F3B97B46567E90EA@PH7PR12MB5951.namprd12.prod.outlook.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <PH7PR12MB5951638E3C707F3B97B46567E90EA@PH7PR12MB5951.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA2P291CA0018.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1e::13) To SN7PR11MB8283.namprd11.prod.outlook.com
- (2603:10b6:806:26c::16)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="IHYKNoZY"
+ARC-Seal: i=1; a=rsa-sha256; t=1757513088; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=VEkyJDxuAQfVsvKhIxBruPEvS+E+Faq6lkb8StCuTHDG4il/MJXRcIahNdDe1K9l5asGM6fNcHpp2dATLpTDdixJydv1Eav7Ciq7KRQ57d64AIcR9G9MzobjDNJWa735TFRzENggkAWdoogP0hXnRRQvmnhic10HgfMoJOI0qqw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1757513088; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=QEeqIWIF/AD2zfk8ywdiI9kgEblpq8FH1YjniWeVCN4=; 
+	b=P9BxtulcIUGD/6FoPkulfuuR84JV4Ri/6txauWEhPar814ZnGKTiquSh/essihNHEQbflrG4B1II2xYvbvqlCLvtwTc27q7uJsa6RzH4frCk8k+iYr2hMphCwl+2BMJFaXmesNFLrkU20dt2cWy9mIGCBaIpcPsipJH3cRPNWPM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757513088;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=QEeqIWIF/AD2zfk8ywdiI9kgEblpq8FH1YjniWeVCN4=;
+	b=IHYKNoZY4zf4ISQCHWYEleElg0zyYX0fAY3flK0zslYU4qZregRMacfv+qxcfwpQ
+	1x+1iaYapTxzAjxF38sg0OhTVRo1GLDfKW55tsC3QwJKNIhZiomEvEjFNt5Ia3ldCpT
+	ecLwFY4c1qFjQXhURNFG3nBQQ/aFvg2+LOYp7AEA=
+Received: by mx.zohomail.com with SMTPS id 1757513084822538.2895524618148;
+	Wed, 10 Sep 2025 07:04:44 -0700 (PDT)
+Message-ID: <28049fe0-0ae7-4b40-9f95-1513e317547f@collabora.com>
+Date: Wed, 10 Sep 2025 11:04:29 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|SJ0PR11MB8272:EE_
-X-MS-Office365-Filtering-Correlation-Id: 275a99aa-9046-44b4-70e4-08ddf0717076
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YUFFVlRuTEpQMEhQdFY0V2JMZ09BUG9RYlJhTXZyV2tlSllCUDFXY0paQTJk?=
- =?utf-8?B?YnVFTnROdUNYSWtZa3N5UndQVTE3MGxreDBET0duRjlNS2JXclJDSjJIbVNn?=
- =?utf-8?B?WjJqM0lWaE8yUHZxZldqLzlnRkQ1OFlsN3FXdFpCMFp6OXQ1eDF3TklDNzEy?=
- =?utf-8?B?YUJjMTZZVUZSU21WV05aZ0JVUzZzR1dnOGRKZCtZdFRjNytacDdLVDZkVjk4?=
- =?utf-8?B?V3ByajZWdFVwWUNsbUQxZFdKc0RiMFdBcFNuTGc1U3FmUEZPT0E1dXlCZ0kz?=
- =?utf-8?B?MHBVc09yZGd5SFd6VkJsaG1vMC9uM2pucE5ENHBFTjhMalV3cmFYRDJ2U3di?=
- =?utf-8?B?MXRnUlFFNmVqSzRqNGhoamVYR1FUSmJNeElJT3hwKzF3MjZYU29oUnhLcG9i?=
- =?utf-8?B?akdYNVBST0FaSGlZWStIZCt4bFNPV2ZPdzVoZm93WDhqc29MSHFiMzZlUjF3?=
- =?utf-8?B?SVBmRTgycUhPeVc3eVMwM29LRXpWam0wZFN0L3BGMENJUXdoUFBIbmNPazFO?=
- =?utf-8?B?bWErZUFyOXVzQUpiZkh1NUNlVVBRMGprU3pjamxIYXU1NVlGZjRyQi9Vd1BU?=
- =?utf-8?B?VTJhbU5lSDhMVEg5YS9ZdGlLTFh4d1Zna0hIQjVmUGVrSnNyRHZrbFpodnRa?=
- =?utf-8?B?ZFVvWVhFalhScldtWFk1eGwxQzlSU0pRSjllUjJYU1h1T2RLb20xbHE4RlJm?=
- =?utf-8?B?THZ3Mjc2blFlZnBqMHc3MzFIT3BXdkhPVUt6bWE4OEEyM0cyTTVXaUg5MXli?=
- =?utf-8?B?M20rY0NHOFlQd0FiS1hiWmpRa09WWExHVnBwK3NrdEdGbWp3ZG80Qkg4MEli?=
- =?utf-8?B?WlR6K0FLWWR2cHI1ZXE0THRZV0hOczA5ZUFPZlFjVG1IVmNHRUpzNUJqbEkr?=
- =?utf-8?B?cFVUSGVhT2RwaWZxQ21RaVRtNEgydnpSVWZFSnNxZWN6OTkvUnB0TEhYZlg0?=
- =?utf-8?B?MmxRNVRKZlFiMWpPd0d5WnJzZGc0RXpjY2F4aXp6a0dibDVjTUx1VnJvcERq?=
- =?utf-8?B?dTJxanN3T1pMbjgya1pkeStMRmxUZm5SeUJObzR3ZG5DdTdkUjN6bHowRGk0?=
- =?utf-8?B?Mkk2RWVoL2xZRTEvNWd3SFpISFhDaGdzRGxkYllaY0lxTjMxKzg2NkdIRUd4?=
- =?utf-8?B?VS9Cd0t0SnVwRWRKUVpaMThzdnNpemxOemZpWUF4NHZJMm1HcmhNVWdQL3FD?=
- =?utf-8?B?Vko4OHhKek12NytpRG1ZWlFlU1BOL2I5NllpK1I3cUF4SC9KMndQRGF0Q2xu?=
- =?utf-8?B?ZTExUjg4NTh1dXBabjl2L0NyU3kxWDJ0Ty96MSttYXltUG55aXJ3endXeUc2?=
- =?utf-8?B?YlMxL2NvZHlrMmdBbmV0NWRHdVJIT2RGYlFYOVBObFp4dXgzWE1SWk4rMEYw?=
- =?utf-8?B?cTM3SDhKZENWaWU0SjQxZmN3TzlsbXQyM0hkelVFcGNqVHZjOFdiV24zc2tJ?=
- =?utf-8?B?RWJmVXArNy85cW95T2lBTk04eFlEZDdZOUxQNjAyajUza2tCSjJFdjI0dGhZ?=
- =?utf-8?B?WTRwMlZyWjZobStMbFBZc2dHNmViL0dIUUE0L2F5aEF2Q01zbmwvQnBtaVMv?=
- =?utf-8?B?YjVIYnpmcU5ONkUrUzlTQ3B6Ynd1OVBsMkVaUEdDQmxnYTNHUFpFc09xY0Rs?=
- =?utf-8?B?SVZCTi8yVmtUNDZURTlqWVR0SmEveVZtbEdVc0JyZU42aW42RDhPU3c4czdC?=
- =?utf-8?B?bmZxOExXNFhaMlF0NU5xM0VSa3N2NVh2MWlkdjhLWUt6NlBjQk9RckNHRHYx?=
- =?utf-8?B?SThtL0UvYXNnS1czYnBpZDJVY1hKSGYvRytVY2hwRnByVHA5TVAvVm9OQnBa?=
- =?utf-8?B?NWErQXJDMnlyWGRkVDlubGZ6dDVzeThaTjFUUFQ1WFE3c3oxd3ZiVHVvVStw?=
- =?utf-8?B?VEZPSEd5dFlVbWpFMERMVmJFcDlwalRlMFcrZ2JTUmNNaW9zbWJXWHJwWTRT?=
- =?utf-8?Q?JtnB8LpltTs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dmwxZDhHV05ZMHNNV0dNU2NWTVlPc0t6Wi9XQUtUVWY5K1JxcVpYbjFqTS9R?=
- =?utf-8?B?bXFwdm9xS0wxLzZ6YWZLYkZITmd6TDZ6UDZ0b29KOXlpRkxYYUFtZWxjU0Fr?=
- =?utf-8?B?aXlLQzJQTFRoeXVOK1ZKQWhxUjJzb24zSGM2a3Fxc1Q1YkUvU0dqeXJvTHhm?=
- =?utf-8?B?dUIvNmcyd0RKSmFEWWJIUXZzQzcybEFTSmxISFQwT2lReWVpNjM1Sk8wdmNt?=
- =?utf-8?B?eUJobUdZYnQ2a3U3VFNyT2cwN2x4SkNLVFFIak51RDFRRGc2VU5hSHJBQnlr?=
- =?utf-8?B?cllyWGlkQko2d3JDWHpWaFVWUlpDbjdJMXlIREZuQXJwQUZRMm04a3ZaditT?=
- =?utf-8?B?dWdqYlZvOXJqbmxOaWh5MlcvZm9ZanVNbk5ZeW5pcFhtTG1pbVF6TTlHS0FR?=
- =?utf-8?B?STBiMnBHZURodG9veWxIY3FIa3VXcmY5NjJ2Q09LOHhKbTkwbG1BVW53OG1T?=
- =?utf-8?B?dDJBN2dGT0JzR1lITzdJMFp5cjBMbWJPbitoYkVDVE54YUhxWElmT3BBY3RI?=
- =?utf-8?B?QUtWQ2I1bWNKaTUzVFFRNEtGQzlRVldhR0FrSndmSC8vNHIzdi9jRysyRm9t?=
- =?utf-8?B?eHdsWkU0VHdKVHRKaDhnYk5BVGIrRHZHWFBSSnNDNFowdDh4cHo1dXpBcW1X?=
- =?utf-8?B?RWVCVnhRY0lNb2xKaHkvQkhmeDMyVkViQVhYY2ZEQ2Z1ZEl6T0Y3cDdxL0RK?=
- =?utf-8?B?bWtEZWRCYlFaazVJQkJKVkV0WlBCYlYvZmNsK2xmY2l5bUgvM21rR1dVYi9i?=
- =?utf-8?B?bHdJdTVWQURvcjFzeGhZc1kra1A0aDBGb3FHZWhmM1czVWk3dlZIUUtoaWpP?=
- =?utf-8?B?S0Y2K3ZoYjdhNlpPUDFXUnY3SDJyZ3dJaFhIY3FwR2k2aUFVM2VnczNITlhJ?=
- =?utf-8?B?VUV3YnE2dm0vZS9JdHpwOTlHcS9WUkZYeVZtbHo1MUx6MUxGOTU4MkhPV3Zp?=
- =?utf-8?B?V05XbFd6R2g1OGJWUzhSNTRpVmFqcHg0YVJtczZqdkhtVU5Zd0Vab2V5cmU3?=
- =?utf-8?B?Q0hEa2hRN3hNN21RNUtlejVmTS9sWnNjOU93SDRJeVFKZGdocy9XUFV6N2ZM?=
- =?utf-8?B?dTE3dkduaVlNRytXN2Y4akJNUFpodmdjVFRWK0xCdEsvdHJaZkRhL0pmMWIz?=
- =?utf-8?B?K0o5ekduWVVnWXVqSk9MeXNlTjJyRE9XQkRhbzdxTFRmQXhocCt1LzdYeisx?=
- =?utf-8?B?Tkx5QU1iZVVxeHRjTzFOWVFUWkR0bFd6MkpWMzRqSC9LMVFFTjBKRSt4L0xH?=
- =?utf-8?B?M3EyN2I1ZytMcmF5eWpPS09lcGpmTzM2akFIOW9uTXFkNmIyL01TeTl2R01B?=
- =?utf-8?B?RksxYlVTbk1SYVppcGFDY29scjA0ZldxbVFjNExMWUkxcFU5QzZ3WmEyZnlB?=
- =?utf-8?B?dlgybEV1aXpWU1BtWEQvUWJGSkw3cFYvenl0ZkNTamw2RnFITHp5V3cxKzhO?=
- =?utf-8?B?ejUxZXNTSG5vMlpoaWtzcXNtSEZlSkk0eVpJbVdyenRlTytLd0owaWw3YU01?=
- =?utf-8?B?SW9jdnA2YWpNV0FUN1FXeVA5SUl6bU5LYkNmMlRRclhBRUExc2pFL0JRS1Fh?=
- =?utf-8?B?NExzUEhOUllWUjVLYStxemlYd0s2cERZbENrOExUR3kxUE03eVNQTFUwcXBv?=
- =?utf-8?B?WE5Eb01mK0FzNGZVUk9BZWRKUmdrTjg1YkVkeGVIQWdqOVdLcXlZUWM1eE94?=
- =?utf-8?B?Q3JjMzdDYWVmUkk0Q2prbEx4TThiT0d2UUxGZUpyd3hmRUpJRWxQVjMxVVl0?=
- =?utf-8?B?L0FMR2E5ckhTQWpQeWxpVXpwb05ObUhMNm93RjBRNnBJdTVCSWU3WERRNEZY?=
- =?utf-8?B?dDFtcTlUbWI2WSs5ekRiUk1lTXNaVS9RVW9JY04wVk5JOFhoaHBEZ21IZ1dw?=
- =?utf-8?B?dlVFaEFwRHdLS0dUcDJDdko5QXBDUnRXOFV0TG9WUkhDSS90aXI0NmhoOGdO?=
- =?utf-8?B?WlVHaXFUVUhFUDRRVzE1bktXWnlvL3ltQnpOOWNER2doUHFXZ2g3S3J6TE5Z?=
- =?utf-8?B?MDBqOEtnNUlKRUI4djZIb2QwNlUwTmNUanRRZGpjT3ZnZlNxbW9hTEczamJG?=
- =?utf-8?B?M0tJaU53S1BTZzJiR0lyU2dDYkxJQUg0MHJSVmpld0ZhWlYwSXNyMTdVUTFJ?=
- =?utf-8?B?U1J1WUs4U3RpdTJmTnRuZlU1YVFLak1BeXRReXdFY0lTeW45d2ZVTlAxNzU2?=
- =?utf-8?B?ZEE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 275a99aa-9046-44b4-70e4-08ddf0717076
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 13:53:36.6924
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rruguyQIeLDhaLAug0JlENaKC25dWxFsbcoriokXLKk9Q3D9wzQQ547JRo1yLecUV8kVIYoIyUsaZgz0oGkAs66res3cFQ300fFduRrTQ7E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8272
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 07/14] dt-bindings: display: mediatek,ufoe: Add
+ mediatek,gce-client-reg property
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
+ conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
+ edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
+ jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
+ krzk+dt@kernel.org, kuba@kernel.org,
+ kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
+ linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-8-ariel.dalessandro@collabora.com>
+ <20250821-wandering-vermilion-pigeon-b8c9f0@kuoka>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250821-wandering-vermilion-pigeon-b8c9f0@kuoka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On 2025-09-10 3:39 PM, Prasad, Prasad wrote:
+Krzysztof,
+
+On 8/21/25 3:50 AM, Krzysztof Kozlowski wrote:
+> On Wed, Aug 20, 2025 at 02:12:55PM -0300, Ariel D'Alessandro wrote:
+>> Current, the DT bindings for Mediatek UFOe (Unified Frame Optimization
+>> engine) is missing the mediatek,gce-client-reg property. Add it and
 > 
-> On 9/10/2025 2:41 PM, Cezary Rojewski wrote:
->> On 2025-09-09 8:19 AM, Venkata Prasad Potturu wrote:
->>> Use dev_get_drvdata(dev->parent) instead of dev_get_platdata(dev)
->>> to correctly get acp_chip_info members in acp I2S driver.
->>> This resolves issues where some members were zero due to incorrect
->>> data access.
->>
->> Hi,
->>
->> 'some members were zero' meaning null-ptr-deref? If so, please reword
->> to make it more explicit.
-> It's not a null-ptr-deref, members were not updated properly, will
-> rephrase the commit description
->>
->> Given the history of this file, mainly Commit 6d9b64156d84 ("ASoC:
->> amd: acp: Fix NULL pointer deref in acp_i2s_set_tdm_slot") it's kind
->> of surprising that the issue is addressed in staggered fashion. Why
->> was set_tdm_slot() fixed separately?
-> This fix was missed earlier at the time of this commit 6d9b64156d84.
+> Why is it missing? If the binding is complete, it cannot be missing...
 
-Let's mention that in the commit message then. It's clear now that the 
-earlier fix is insufficient and null-ptr-derefs may still occur.
+Due to the following error:
 
+$ make -j$(nproc) CHECK_DTBS=y mediatek/mt8173-elm.dtb
+   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+   DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
+[...]
+arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: ufoe@1401a000 
+(mediatek,mt8173-disp-ufoe): 'mediatek,gce-client-reg' does not match 
+any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: 
+http://devicetree.org/schemas/display/mediatek/mediatek,ufoe.yaml#
+
+> 
+>> update the example as well.
 >>
->>> Fixes: e3933683b25e ("ASoC: amd: acp: Remove redundant acp_dev_data
->>> structure")
->>>
->>> Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> ---
+>>   .../bindings/display/mediatek/mediatek,ufoe.yaml      | 11 +++++++++++
+>>   1 file changed, 11 insertions(+)
 >>
->> No newline between the tags, please.
-> Okay, will send v2 patch.
+>> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
+>> index 61a5e22effbf2..ecb4c0359fec3 100644
+>> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
+>> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
+>> @@ -64,6 +64,14 @@ properties:
+>>         - port@0
+>>         - port@1
+>>   
+>> +  mediatek,gce-client-reg:
+>> +    description: The register of client driver can be configured by gce with
+>> +      4 arguments defined in this property, such as phandle of gce, subsys id,
+>> +      register offset and size. Each GCE subsys id is mapping to a client
+> 
+> Don't explain what DT syntax is. We all know, so that's completely
+> redundant description. Explain the purpose. Explain Arguments with sechema - items.
+
+Although I agree with your suggestions, this is exactly how the rest of 
+the Mediatek DT bindings describe this node. This patch is based on the 
+other +20 files, which describe the node in the same way.
+
+Regards,
+
+-- 
+Ariel D'Alessandro
+Software Engineer
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
+
