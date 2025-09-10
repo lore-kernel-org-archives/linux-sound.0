@@ -1,110 +1,212 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE1323FC4C
-	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 12:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752782638BC
+	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 12:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757506162; cv=none; b=pKEpGfBD3d+KIr7qA/IwF3c9S91OjOvli7JaLw7FuZBnWe6u9EqFOlO5GoJxAsyjamhNSQmG5y6JGChUaJ0hN9d1RG8F3QeNSGj3q/NcHk80s8MTVCNL5yMTsS2TuJljKFIiJjGcNrgDBgtkNKbm9fVWbELzgwhjPXN3uNRD6C8=
+	t=1757506833; cv=none; b=XhHZ9JTN2rwuT0BT8Vr4wpxWfM9aYyb5/KHFHgSc/N9FZduCU4UBzUjh68i5Jm1dYjCpdt44HvldZ0INYbuHQBsZ0E17Bwr5QF7QWom5tMrARGo8dHHnga62RBZSWErw4tAJDKcgxtZ8tlchfFuPiNnQEx2AQJfS0zVhfG6ota8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757506162; c=relaxed/simple;
-	bh=zVbI3OLP7oRO2vJUZysMEniXlRCDTJI3ybbPZOGuFZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mCZ3uSaELJ+4vnmKutA13c8Q2mITrU2dlclLOoOx8D/TxCC0z4at/aoUFztd4mLh2vnVQANgOeWJmwEVHg8poyHZjsJXNrCeX12VhoJPk8ySW7ZmD/0Zzb0h3FEpEHSreCdP/APiCA7f5nAkLCjuc4yvSCFoOei0582P6KELSLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PGKyacuO; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1757506833; c=relaxed/simple;
+	bh=jTHoT1uW3HxBbYmP6e/PMw2qWVwiloCBGBmkM2QsN6w=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jDd7c/++Q5NUFjpFtr+s+FmrAjBEakBMVu6WU4qVWmhgFb+ouRTo5c8hnAhYNwl1NigTzvSI5dS6M1TSzquTfarUAjXzg6zZRMR9aEx9+4tI2KJrqpVYGqCasO1W+cHdcTkY66XP4vHIEU8UmVJN8i/d01OVs2Dt5u2fr3Oboiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=KVkoyo8p; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PGKyacuO"
-Message-ID: <6ee44392-afef-4c63-a8af-f50931b15551@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757506158;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iLuqgyIgEszQ8sxPSJ6y2LOVENn6KT3YWe6e67w58TA=;
-	b=PGKyacuOXq5g35ByLD9r5j+qkX+o3BOUIOcUZG8BdYIHxE/33iipUuAJWxpCSBZCh9jp8/
-	rDBuSMSVDHaHf4K3wyb8k35qjeZoC66Dqcv+ycILiDtFfErIXpMpB9YpJ0qlTu16TMZoEL
-	b3PHuC/9i8iOW5NzjkX/mr8P95M3vxc=
-Date: Wed, 10 Sep 2025 14:09:14 +0200
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="KVkoyo8p"
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58ACK4gD564253;
+	Wed, 10 Sep 2025 07:20:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1757506804;
+	bh=8aTQcPl4O+VmyCqwxDGssnLTCR/FcBmnBLatFoTCvUM=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=KVkoyo8puIUOwsTTfOWHaauA5VGuAadVNU2weGlNPlDytCdX8cWce4cDUtUD6Ja/0
+	 vCf/BkCKFnpILFax+oeWxheaIZUsIjaB20/WlvjcB6m/lm6GXJ0uU/mzcYkZuxuzAa
+	 uv02gkAn8LdOpDljf4k3xc3Gjud+p52UQF6gRDXM=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58ACK4SN272223
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Wed, 10 Sep 2025 07:20:04 -0500
+Received: from DFLE202.ent.ti.com (10.64.6.60) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 10
+ Sep 2025 07:20:03 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE202.ent.ti.com
+ (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 10 Sep 2025 07:20:03 -0500
+Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58ACJm8F460003;
+	Wed, 10 Sep 2025 07:19:58 -0500
+From: Niranjan H Y <niranjan.hy@ti.com>
+To: <alsa-devel@alsa-project.org>
+CC: <linux-sound@vger.kernel.org>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
+        <perex@perex.cz>, <tiwai@suse.com>, <yung-chuan.liao@linux.intel.com>,
+        <cezary.rojewski@intel.com>, <peter.ujfalusi@linux.intel.com>,
+        <ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
+        <pierre-louis.bossart@linux.dev>, <navada@ti.com>,
+        <shenghao-ding@ti.com>, <v-hampiholi@ti.com>, <baojun.xu@ti.com>,
+        Niranjan H Y <niranjan.hy@ti.com>
+Subject: [PATCH v3 2/4] ASoc: tas2783A: machine driver amp utility for TI devices
+Date: Wed, 10 Sep 2025 17:49:15 +0530
+Message-ID: <20250910121917.458-2-niranjan.hy@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <20250910121917.458-1-niranjan.hy@ti.com>
+References: <20250910121917.458-1-niranjan.hy@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 09/15] ASoC: SDCA: Add UMP buffer helper functions
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, rafael@kernel.org, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, shumingf@realtek.com, lgirdwood@gmail.com,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-References: <20250905143123.3038716-1-ckeepax@opensource.cirrus.com>
- <20250905143123.3038716-10-ckeepax@opensource.cirrus.com>
- <e85fa12d-727c-402b-a7c1-493d2224f228@linux.dev>
- <aL7W3iS1YxGfk/AP@opensource.cirrus.com>
- <2a069e04-8f72-48b2-af5c-6b45a0ea8e5e@linux.dev>
- <aMBbavEX2RyzBy1o@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <aMBbavEX2RyzBy1o@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 9/9/25 18:52, Charles Keepax wrote:
-> On Tue, Sep 09, 2025 at 03:14:00PM +0200, Pierre-Louis Bossart wrote:
->> On 9/8/25 15:15, Charles Keepax wrote:
->>> On Mon, Sep 08, 2025 at 02:02:09PM +0200, Pierre-Louis Bossart wrote:
->>>> On 9/5/25 16:31, Charles Keepax wrote:
->>>> 4. host detects ownership change or times out with a failed transfer error message.
->>>
->>> by receiving an IRQ on the owner control.
->>
->> but that IRQ may never come, in which case the entire protocol would fail.
->>>
->>> You might need to elaborate a little more on what you think is
->>> missing. The four functions implement the four operations that
->>> power a UMP buffer, checking you have ownership, passing
->>> ownership back to the device, reading data, and writing data.
->>>
->>> One could combine more of the functionality into a single helper,
->>> but then you start to hit problems where you need to do extra
->>> bits.
->>>
->>> For example HID, very simple just: check you own the buffer,
->>> read the message, and pass the buffer back.
->>
->> I remember one of the early implementations of HID support
->> in a Realtek driver needed some sort of timeout to reset the
->> communication in case the ownership change interrupt never
->> came. It's reasonable to expect that things will go wrong at
->> some point in the communication between host and device, isn't it?
-> 
-> I will have a look see if I can find that driver and see what is
-> going on there. But HID seems like a good example (or at least the
-> event part of HID) of why the wait isn't in the UMP code to me.
-> 
-> The only notification that comes from the device is the the
-> UMP buffer is being returned to the host, which indicates a HID
-> event has happened. But there is no time out on HID events, it
-> could be months between HID events. Like one could set a timeout
-> and at each timeout just verify the buffer is still set to the
-> device but that seems very cautious. Or one could check the buffer
-> is set as expected on boot, but I would really expect the SDCA
-> reset/boot logic to ensure that is good.
-> 
-> If it is a UMP transfer where the host expects the device to do
-> something and return that may need a timeout but as that is a
-> subset of UMP transfers it feels like it makes more sense to
-> implement the timeouts in the places that need them.
+  Machine driver amp utility file to initialize and support
+multiple tas2783a devices are added.
 
-You have a point that in the case where the host waits for an event, then the notion of timeout is irrelevant.
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+---
+ include/sound/soc_sdw_utils.h        |  8 +++
+ sound/soc/sdw_utils/Makefile         |  3 +-
+ sound/soc/sdw_utils/soc_sdw_ti_amp.c | 93 ++++++++++++++++++++++++++++
+ 3 files changed, 103 insertions(+), 1 deletion(-)
+ create mode 100644 sound/soc/sdw_utils/soc_sdw_ti_amp.c
 
-What I was referring to was the case where the host writes a message and waits for a notification that the message has been handled. 
-This could be a write to a buffer or a read from a buffer. That's standard IPC stuff, and all existing cases of such message-passing IPC do have a timeout built-in. The communication is serial by nature since there is a single signaling mechanism, so the host has to wait before sending another message.
+diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+index 6049a5d0c..3c5e9b2af 100644
+--- a/include/sound/soc_sdw_utils.h
++++ b/include/sound/soc_sdw_utils.h
+@@ -248,5 +248,13 @@ int asoc_sdw_cs42l43_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_so
+ int asoc_sdw_cs42l43_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_cs_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_maxim_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++/* TI */
++int asoc_sdw_ti_amp_init(struct snd_soc_card *card,
++			 struct snd_soc_dai_link *dai_links,
++			 struct asoc_sdw_codec_info *info,
++			 bool playback);
++int asoc_sdw_ti_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
++				     const char *name_prefix);
+ 
+ #endif
+diff --git a/sound/soc/sdw_utils/Makefile b/sound/soc/sdw_utils/Makefile
+index daf019113..a87c53e1a 100644
+--- a/sound/soc/sdw_utils/Makefile
++++ b/sound/soc/sdw_utils/Makefile
+@@ -6,5 +6,6 @@ snd-soc-sdw-utils-y := soc_sdw_utils.o soc_sdw_dmic.o soc_sdw_rt_dmic.o \
+ 		       soc_sdw_bridge_cs35l56.o 			\
+ 		       soc_sdw_cs42l42.o soc_sdw_cs42l43.o 		\
+ 		       soc_sdw_cs_amp.o					\
+-		       soc_sdw_maxim.o
++		       soc_sdw_maxim.o \
++		       soc_sdw_ti_amp.o
+ obj-$(CONFIG_SND_SOC_SDW_UTILS) += snd-soc-sdw-utils.o
+diff --git a/sound/soc/sdw_utils/soc_sdw_ti_amp.c b/sound/soc/sdw_utils/soc_sdw_ti_amp.c
+new file mode 100644
+index 000000000..daa2311c0
+--- /dev/null
++++ b/sound/soc/sdw_utils/soc_sdw_ti_amp.c
+@@ -0,0 +1,93 @@
++// SPDX-License-Identifier: GPL-2.0-only
++// Copyright (c) 2025 Texas Instruments Inc.
++
++/*
++ *  soc_sdw_ti_amp - Helpers to handle TI's soundwire based codecs
++ */
++
++#include <linux/device.h>
++#include <linux/errno.h>
++#include <sound/soc.h>
++#include <sound/soc-acpi.h>
++#include <sound/soc-dai.h>
++#include <sound/soc_sdw_utils.h>
++
++#define TIAMP_SPK_VOLUME_0DB		200
++
++int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
++				     const char *name_prefix)
++{
++	char *volume_ctl_name;
++	int ret;
++
++	volume_ctl_name = kasprintf(GFP_KERNEL, "%s Speaker Volume",
++				    name_prefix);
++	if (!volume_ctl_name)
++		return -ENOMEM;
++
++	ret = snd_soc_limit_volume(card, volume_ctl_name,
++				   TIAMP_SPK_VOLUME_0DB);
++	if (ret)
++		dev_err(card->dev,
++			"%s update failed %d\n",
++			volume_ctl_name, ret);
++
++	kfree(volume_ctl_name);
++	return 0;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_ti_amp_initial_settings, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_ti_spk_rtd_init(struct snd_soc_pcm_runtime *rtd,
++			     struct snd_soc_dai *dai)
++{
++	struct snd_soc_card *card = rtd->card;
++	char widget_name[16];
++	char speaker[16];
++	struct snd_soc_dapm_route route = {speaker, NULL, widget_name};
++	struct snd_soc_dai *codec_dai;
++	const char *prefix;
++	int i, ret = 0;
++
++	for_each_rtd_codec_dais(rtd, i, codec_dai) {
++		if (!strstr(codec_dai->name, "tas2783"))
++			continue;
++
++		prefix = codec_dai->component->name_prefix;
++		if (!strncmp(prefix, "tas2783-1", strlen("tas2783-1"))) {
++			strscpy(speaker, "Left Spk", sizeof(speaker));
++		} else if (!strncmp(prefix, "tas2783-2", strlen("tas2783-2"))) {
++			strscpy(speaker, "Right Spk", sizeof(speaker));
++		} else {
++			ret = -EINVAL;
++			dev_err(card->dev, "unhandled prefix %s", prefix);
++			break;
++		}
++
++		snprintf(widget_name, sizeof(widget_name), "%s SPK", prefix);
++		ret = asoc_sdw_ti_amp_initial_settings(card, prefix);
++		if (ret)
++			return ret;
++
++		ret = snd_soc_dapm_add_routes(&card->dapm, &route, 1);
++		if (ret)
++			return ret;
++	}
++
++	return ret;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_ti_spk_rtd_init, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_ti_amp_init(struct snd_soc_card *card,
++			 struct snd_soc_dai_link *dai_links,
++			 struct asoc_sdw_codec_info *info,
++			 bool playback)
++{
++	if (!playback)
++		return 0;
++
++	info->amp_num++;
++
++	return 0;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_ti_amp_init, "SND_SOC_SDW_UTILS");
++
+-- 
+2.45.2
 
-I am not sure it's a great idea to leave the timeout handling at a higher level, because you will have to deal with other sources of information. Once a message has been sent with UMP, there will be additional signaling that the action requested by the host was completed on the peripheral side. In the case of FDL, once the firmware buffers have been transferred, possibly in different chunks, then the peripheral might have to perform an internal reboot/reset. That takes time and it's a different level of timeout.
-
-My take is that the UMP should implement basic timeout capabilities for just 'buffer passed/ownership changed' transition. Things will go wrong and you want information on where they went wrong. Implementing timeouts at a higher level makes it harder to debug/root cause.
