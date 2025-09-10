@@ -1,128 +1,91 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241A0264638
-	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 12:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9454B31A57A
+	for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 12:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757506842; cv=none; b=L+WAV24JoMxZdZZbgS+ZQI5pjgtZapotd9UQHCiV0LLpXKraEMXFzH/HJuArHpI4GpX4fGSvGOqT6RmNkKSEFOApE6ITcOlKRTIELKCGfpQuzvN/ROdJh9QV8WaVKmU9OynG2mRBKWUddAOng5waMPcevEenYpoAlZ70yEMQpxE=
+	t=1757507752; cv=none; b=h1DeQ/wa6aLyXrb0aHm4Aqe2qt0+fLb94QN2LLEqJTB2aJdocxo5pD9vZ8KPjWaMoqtSfUeDTyhTUHPMHm4076K0Qf8SFwU9Ob3lBG7pO7RUGtd5bExYTQSoCkIQWxDqhQZeluWAuyDEbZxn3ytf88038lX0lCSnM35hBYACULU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757506842; c=relaxed/simple;
-	bh=s1N3NdUeVcoT58SoUhT/8Dkw0ocJuxYMOksUv4wzaYE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hcB8jazjdFCIcjnuu84QPHvql3OCKIauYFXN0oCxMptgytVJNrAa3pPrZ0sc4y0N9QqySqmYip/3HH+BczcPQ+ZXlviRTu8T1X3JclxG6ca+MocBi/Nv9BLJi5QFHHKLFw25fRKeRmqil669jrBNRJftjcC8cVaoslBbFc7CwSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=UYAivTL8; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="UYAivTL8"
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58ACKHLk135141;
-	Wed, 10 Sep 2025 07:20:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1757506817;
-	bh=8z80+cxELcclVb1Sw1gI6kg3mt3dNGNWa9P08UAOgNE=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=UYAivTL85H0w0RJ9+xdNyfhUQMrBTrJCmRLyhT30TG9asaDVUo9qPzRYlZ7K0Igta
-	 fS8ehbWCxDtY+HYe+GEVXjeIyit/tsP7PWUByvAk1ZvNW/qlfYJURkA5xrprXPP7ZP
-	 unHVvQO5/djNCl49hX+GtzFj/bDh9k+fRyf15fmE=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58ACKHi01138567
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 10 Sep 2025 07:20:17 -0500
-Received: from DLEE202.ent.ti.com (157.170.170.77) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 10
- Sep 2025 07:20:16 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE202.ent.ti.com
- (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 10 Sep 2025 07:20:16 -0500
-Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58ACJm8H460003;
-	Wed, 10 Sep 2025 07:20:12 -0500
-From: Niranjan H Y <niranjan.hy@ti.com>
-To: <alsa-devel@alsa-project.org>
-CC: <linux-sound@vger.kernel.org>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-        <perex@perex.cz>, <tiwai@suse.com>, <yung-chuan.liao@linux.intel.com>,
-        <cezary.rojewski@intel.com>, <peter.ujfalusi@linux.intel.com>,
-        <ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
-        <pierre-louis.bossart@linux.dev>, <navada@ti.com>,
-        <shenghao-ding@ti.com>, <v-hampiholi@ti.com>, <baojun.xu@ti.com>,
-        Niranjan H Y <niranjan.hy@ti.com>
-Subject: [PATCH v3 4/4] tas2783A: Add acpi match changes for Intel MTL
-Date: Wed, 10 Sep 2025 17:49:17 +0530
-Message-ID: <20250910121917.458-4-niranjan.hy@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20250910121917.458-1-niranjan.hy@ti.com>
-References: <20250910121917.458-1-niranjan.hy@ti.com>
+	s=arc-20240116; t=1757507752; c=relaxed/simple;
+	bh=5oyM4KK8isjinRlGtjABwbbp5Itnh8VOKIYmapoG2IQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=rYo8ix295qvtUnmvJPsQPWS1VVSqRJeB4nZAhRMtZVQy/LDKLKxjR8vRc/OjOnIxVnmOZ8WR6o7mLeuvFqTxJHn+D7vdDMb5d+3OEgvJcZBie6MoWpKi8ODOG5wfcjoEYIYEEhtHu0IYTRhLLYb3RdVhHeSMGGZsO2axoG0CDxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <jre@pengutronix.de>)
+	id 1uwK31-0002Rk-HS; Wed, 10 Sep 2025 14:35:39 +0200
+From: Jonas Rebmann <jre@pengutronix.de>
+Date: Wed, 10 Sep 2025 14:35:21 +0200
+Subject: [PATCH 1/4] dt-bindings: net: dsa: nxp,sja1105: Add reset-gpios
+ property
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250910-imx8mp-prt8ml-v1-1-fd04aed15670@pengutronix.de>
+References: <20250910-imx8mp-prt8ml-v1-0-fd04aed15670@pengutronix.de>
+In-Reply-To: <20250910-imx8mp-prt8ml-v1-0-fd04aed15670@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, Jonas Rebmann <jre@pengutronix.de>
+X-Mailer: b4 0.15-dev-7abec
+X-Developer-Signature: v=1; a=openpgp-sha256; l=871; i=jre@pengutronix.de;
+ h=from:subject:message-id; bh=5oyM4KK8isjinRlGtjABwbbp5Itnh8VOKIYmapoG2IQ=;
+ b=owGbwMvMwCV2ZcYT3onnbjcwnlZLYsg4WDBTwqJL7m4K4zr2ScL3XUynm8rteXj9jcGHY7oej
+ gWPZS/bd5SyMIhxMciKKbLEqskpCBn7XzertIuFmcPKBDKEgYtTACYifIqR4dzDS2+r9il9WrPu
+ 7/bvh875JT+QrGJICT/PrXfd5Sm7yi+GvyJnfCwc0033WwhWpUan5Z0TeLj8jvL+J4/iZlvcD9R
+ azgEA
+X-Developer-Key: i=jre@pengutronix.de; a=openpgp;
+ fpr=0B7B750D5D3CD21B3B130DE8B61515E135CD49B5
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::ac
+X-SA-Exim-Mail-From: jre@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sound@vger.kernel.org
 
-acpi match changes to support tas2783a on mtl
-on link 0 for 2 devices
+Both the nxp,sja1105 and the nxp,sja1110 series feature an active-low
+reset pin, rendering reset-gpios a valid property for all of the
+nxp,sja1105 family.
 
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
 ---
- .../intel/common/soc-acpi-intel-mtl-match.c   | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 75dc8935a..ec9fd8486 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -948,6 +948,30 @@ static const struct snd_soc_acpi_adr_device cs42l42_0_adr[] = {
- 	}
- };
+diff --git a/Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml b/Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml
+index 9432565f4f5d..8f4ef9d64556 100644
+--- a/Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml
++++ b/Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml
+@@ -32,6 +32,11 @@ properties:
+   reg:
+     maxItems: 1
  
-+static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
-+	{
-+		.adr = 0x0000380102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "tas2783-1"
-+	},
-+	{
-+		.adr = 0x0000390102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "tas2783-2"
-+	}
-+};
++  reset-gpios:
++    description:
++      GPIO to be used to reset the whole device
++    maxItems: 1
 +
-+static const struct snd_soc_acpi_link_adr tas2783_link0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tas2783_0_adr),
-+		.adr_d = tas2783_0_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr cs42l42_link0_max98363_link2[] = {
- 	/* Expected order: jack -> amp */
- 	{
-@@ -1080,6 +1104,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt715-rt711-rt1308-mono.tplg",
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = tas2783_link0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-mtl-tas2783.tplg",
-+	},
- 	{
- 		.link_mask = GENMASK(3, 0),
- 		.links = mtl_rt713_l0_rt1316_l12_rt1713_l3,
+   spi-cpha: true
+   spi-cpol: true
+ 
+
 -- 
-2.45.2
+2.51.0.178.g2462961280
 
