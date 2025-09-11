@@ -1,120 +1,191 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.77.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FCC3FE7
-	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 01:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B568329F29;
+	Thu, 11 Sep 2025 05:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.77.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757555128; cv=none; b=kbRw47XqsIXBBHS0ZlbtVs64wbLsA8xOIc1SN98hy27CVwVjTXfv5DS/iR2VVKmHaQJBnhK2qqXccC3oEls33diXxWl8wN4frsLmMsJRdvSQByOeUSFxALeDuzXH9w+UVSFi1Ixr1ZZRtlldlS1NQMa9nIrU9bsvKEDeXX+EN5o=
+	t=1757569673; cv=none; b=gKQXfcq4D8tPzPN5ay7PsT5jIhZ1yHsNk6M0Cn5Zc4Xo+jzHFjtQKBmMpBRn6bPRI/NdWfcyc1bj90Bj4KbUiz4jor+gwkajRFJI0c9qAXrqpCa/nLlb7bsl1qntolJs6TOVobCKCZWcbSrH43CvKx4jFiGuQXH57j/w7DEaXIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757555128; c=relaxed/simple;
-	bh=/ybA8rV1EJNP2W7n4pc0WrgmP7vGzSXVOSvxu8gV984=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=qxfiiWjhsDv1fq7kMjfUDvF/cg2c9b+//2/elhwi4a6nmG1A60MwUY00sPrzdw4Lo1CAIUAfB+oe0VnU1GZm6fTgj1xedx9kFJ1yfnJR9ZpNK49+VRkxtLTJYDdluPNGrbcLRR5e58XisKvZcS190nZU30lKnpaW1U6EQ17d2mM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DI0iCh/z; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757569673; c=relaxed/simple;
+	bh=MZyNehkEDO+xrWPj2ZXjZEeu4YgI8vPyjedZrtrtDWs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=cY9XpVVKaM1N+HJ8ufvYrLaFz4yqEzzbaZYzYEGJ+/slzUTNsjyUty7UnhXFmkpHdjFQVkj731MSZ+tcoLovTsrOBECti4zXq5aM85flsPDgmE4NR24RpjgQUFerwqzSZsFN/xfnVa+5nQjq5C56jFwvZjR02E5rqTLpR93wZAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=RYRfsaYM; arc=none smtp.client-ip=114.132.77.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DI0iCh/z"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45de60d39b7so1313995e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 18:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757555124; x=1758159924; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M/d3COCVOI2+CAvfRN1DBcCvbUT4aDWnGnI7OhpJdo8=;
-        b=DI0iCh/zjBsPg9Zf5gIIBs8oo0R6WNy4/3pXrWpcxhEJsimM02G8gjTWtIn7pQveJf
-         K2qEiSQK97uXsGfpC0NhnL8TTQpjNI0mAN3Z+f6M70mh+7NiudxTzf3LLgui8YOTOyic
-         AaoQFUfAN+wilkKF4cTO8FEf2gb8VDDlT8I/rU2a/0ewPZwh/zQvabCjHJrqoK60BD6j
-         slmOgVy2Svk+5KIQ7ErOWegrGeO/GBrpLirMCzjooZ6GedZTPyOk12gGosvtTqV+bPWE
-         Lwk7Yd5biCuhZOKqpvAhuqHPog7+jZebre5D8byehh3S6opiMHeTSs9GvVgJi3J4ryl0
-         qpRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757555124; x=1758159924;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=M/d3COCVOI2+CAvfRN1DBcCvbUT4aDWnGnI7OhpJdo8=;
-        b=CJoZqDt5oSUXTtEY3NKG9enlnXGVx1COJxqVviTQlEIkRGiF3nVuuGPlqQWPaOU32Z
-         nzAgFH3COYtZ7rJvdf1PDOu9L272hBw5SWj23Zc6lyd/+BeZDLyztOP3qY70TVkUJW68
-         mfVmevGd6BBn90QHNgQluu94v1V6+LWrq91FBrvmHJL6raVOgNAFaHOOqoYIGmaINZdI
-         Q5H97GTbxU62axRMgxwLZYjbunYhY9hZ+84YU1QsQXMCypQ1hr4eRWAhqNVQBHIP9Tw2
-         JQG+/sLnKwoaexT/zygP9RGzpY/6V1TevNPul+ByEF/uv16jDAFZGmb3WYyZp5IcT/tw
-         ADIA==
-X-Forwarded-Encrypted: i=1; AJvYcCW15wvBc/X50V78M/snNRKihovhxkO7a1jNZLVoYYb7sRoZgmqodLiZAXYs/MTINZWh+gPHFtuO4rqzVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtH6UycX86Xb8aTMCecFDNhmVcEtjzc2z0kOtBARhet86Vs3FH
-	a8KUjODuJVKwWJFzpynwcSTXe6kk3WHUOz+0Xv2jCpRnsaCYFlcx9DH2dBlmmPK0jYw=
-X-Gm-Gg: ASbGncv3yH81601Jr89rLLPwPY1C3lBlq7EtgVKJXR55O1g842PK3tH4CbrWu9HtyFC
-	aMAV5OT8CS/AGji3uYafsqOoVTIPudb85W0wvz9kmaYl7lPJkvxRJ3QgD0E0Y/vA1sFMXdS3l1L
-	N8CCNwDNwnSAP10L0/F1OlII/We5xXmU/32T9FH/UHx4ZLDCxr7zObfH1PqEw8YrLDBReoUscAA
-	ZLO9bBUny6TFN5Rhe9P3nxLXIcLYIzVdDRQwmFYBslpfZjZt2SICdYFSYM8z3jjMLYLcb+rY4Wn
-	9ISPPhx61uRxkugxlcODu9Pe7ACjGA4GQBUyRZaiJ5h3SbyATcrV0Hkqz0r8MkTwIIcPgeam7BW
-	WxYfSSuHrQQu7iKnXX8+J1GyBafh45LCIqg04+A==
-X-Google-Smtp-Source: AGHT+IH4eMVXJCTPangdeJtchrAmKu6Lteh/vHgi48PICpOXu0flxxJARIoGuHWpxATLSXYCQLGOzA==
-X-Received: by 2002:a05:600c:1c8b:b0:45d:f81e:6258 with SMTP id 5b1f17b1804b1-45df81e6532mr38124815e9.29.1757555124017;
-        Wed, 10 Sep 2025 18:45:24 -0700 (PDT)
-Received: from localhost ([2a02:c7c:7259:a00:a727:6a46:52e3:cac2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607870cfsm480074f8f.19.2025.09.10.18.45.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Sep 2025 18:45:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="RYRfsaYM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1757569650;
+	bh=Pd8E5nwso3tDIIp7ab7uxQOFaM7OtDLMcKjQtOfLAWA=;
+	h=From:Date:Subject:MIME-Version:Message-Id:To;
+	b=RYRfsaYMsG9WaX6QfF9V2PDpNBsqfSgVgPVZBRMmsOhWHRArJut60gKPcyZgkPEfe
+	 KJ2QdjdVrr9k0b24O4u3qJara7moqvF1xIPS3i0BVSf6ZwjGL9Mq6Of6BRjjtsFf2D
+	 QHK07tQvQC+K8OIOw3uIYHB3TtqNz5GK694fTrP0=
+X-QQ-mid: esmtpsz18t1757569645tbae29400
+X-QQ-Originating-IP: sDZRU4N6vZL21xBIP2dp/dXDI3uIkBybEVLTmW+dvvg=
+Received: from = ( [61.145.255.150])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 11 Sep 2025 13:47:22 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 16154328192209350849
+EX-QQ-RecipientCnt: 15
+From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Date: Thu, 11 Sep 2025 13:47:10 +0800
+Subject: [PATCH v3 1/2] ASoC: dt-bindings: Add bindings for SpacemiT K1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 11 Sep 2025 02:45:21 +0100
-Message-Id: <DCPLAK9BYI9D.256FT1VOPLSW3@linaro.org>
-Cc: <lgirdwood@gmail.com>, <tiwai@suse.com>, <vkoul@kernel.org>,
- <srini@kernel.org>, <yung-chuan.liao@linux.intel.com>,
- <pierre-louis.bossart@linux.dev>, <linux-arm-msm@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <dmitry.baryshkov@oss.qualcomm.com>,
- <linux-sound@vger.kernel.org>, <Stable@vger.kernel.org>
-Subject: Re: [PATCH v5 01/13] ASoC: codecs: wcd937x: set the comp soundwire
- port correctly
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>,
- <broonie@kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20250909121954.225833-1-srinivas.kandagatla@oss.qualcomm.com>
- <20250909121954.225833-2-srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20250909121954.225833-2-srinivas.kandagatla@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250911-k1-i2s-v3-1-57f173732f9c@linux.spacemit.com>
+References: <20250911-k1-i2s-v3-0-57f173732f9c@linux.spacemit.com>
+In-Reply-To: <20250911-k1-i2s-v3-0-57f173732f9c@linux.spacemit.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, 
+ Troy Mitchell <troy.mitchell@linux.spacemit.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757569637; l=2552;
+ i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
+ bh=MZyNehkEDO+xrWPj2ZXjZEeu4YgI8vPyjedZrtrtDWs=;
+ b=mGBVFiExQ0QO9T+P2Au+nmTf7TOKFhgkQB2q33d8wdm16gjBqxAViQU8m01yMF5WAg6AZEqQc
+ 303tdXTjQNQAxEPHGlPxDVxIdss5utvuKzTiMVT/N24cLnQ0LhOoc8z
+X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
+ pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:linux.spacemit.com:qybglogicsvrsz:qybglogicsvrsz3a-0
+X-QQ-XMAILINFO: N23fUA7tbDKk8aTdHiDiRP8Aps/pnmoZlhs9HVmCq2v9v/pKcxi/TWE9
+	kSUKsUTRzuSrx7UjcjfH7AI1tV2VLcAQqeoj7FR5pDBTEqCvu8Xle+9/Zk41olQ3KQIZcBw
+	L79GCQC9b/FIaENGIAVZldBpt5el+EjG736OdLyv8wdHLlfRT2Dej1qTWRV9mG5yWEm2DWB
+	0eCRk4u+MPNL1J6R8MHFySJeLWRV7LRqxzBjbSqEo1Gf+EGTbGxqNTMVQ9sOtz0RM5K3CXg
+	TsG400gbiQNsY5iRckFN3yb658pwTpaxrxvV0RKEdHtBFq69ytnU2zF6inkAPNrGmKmdt1o
+	nCio5NDyOE4TUWcW0pfONBzsOqmQli3fZxz1zFLUhK3Irrk+JGYAEgGyp9HD8R5yghxf4by
+	9KEQazxFvdRgo67He1hoO1pIT8t4AL1XUUbo/ZjFpZfZ5Efi2BOa2LvhaVfd1UkYzhFiH4M
+	o8/hRFjUNHD2I6Aiv1Eb+cXi4oj99Elnox+OtCOxz2lFdhnPFFNkS6GmhDInic8y0VPRnny
+	Gvb5F574LVvWEMJF1canEP1c1HarolLreAaJOAy7/uI52wuYYd4s0IodZkecp9cXhZgbdwD
+	Vu3z0hhilD9bZ3/eHX77WsWK5ikfxaFOAldj3Asrwc/ACeG/2hkotWexLtyI6wugFMUTFMS
+	Ugo0BtmX2/DwKAr0AYobve8yPVI5lBpL6Lvc/kGE6yN04unGKT9Tv/nscurMNGwIqIYpnRF
+	pKDsbJ5eWOvs7DeZGkbwwFYWGSNCFd0V+8LuyiWyYdyJOt1+PHhp9d4zyPBs7wzuVOSrIWu
+	RAOzculnPJ0Y/Egqo9yBPVHhz6E9Zv7DH/neCBdcnitVxSThwTEGjeWzgkfCFR44RPI397C
+	Mfq9EdvdIpqx7KWJu7/4+BkTcz5tXBs7aAdPdhhZV1vDHVwIgetpi3qNxf9e5PP9hnIo+vS
+	rP2/AcgPppilzk+ueSQ1x/N0pPbtXMNkG6op/db6O4vsJjZqgHI/fM2JovPkjEiug3hlc8b
+	ghe+xEYtCXY09M52AYtQuHYvGAA6ykXL1pvAVBUDYkD0hJLbYFm7waufok1n4w9tS7WwmM5
+	YcB298fvd/ubMa25ZDxqaI=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-RECHKSPAM: 0
 
-On Tue Sep 9, 2025 at 1:19 PM BST, Srinivas Kandagatla wrote:
-> For some reason we endup with setting soundwire port for
-> HPHL_COMP and HPHR_COMP as zero, this can potentially result
-> in a memory corruption due to accessing and setting -1 th element of
-> port_map array.
->
-> Fixes: 82be8c62a38c ("ASoC: codecs: wcd937x: add basic controls")
-> Cc: <Stable@vger.kernel.org>
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Add dt-binding for the i2s driver of SpacemiT's K1 SoC.
 
-Reviewed-by: Alexey Klimov <alexey.klimov@linaro.org>
+Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+---
+ .../devicetree/bindings/sound/spacemit,k1-i2s.yaml | 87 ++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..55bd0b307d22b3611d0fefb1e925e56812848dd1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
+@@ -0,0 +1,87 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/spacemit,k1-i2s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: K1 I2S controller
++
++description:
++  The I2S bus (Inter-IC sound bus) is a serial link for digital
++  audio data transfer between devices in the system.
++
++maintainers:
++  - Troy Mitchell <troy.mitchell@linux.spacemit.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: spacemit,k1-i2s
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: clock for I2S sysclk
++      - description: clock for I2S bclk
++      - description: clock for I2S bus
++      - description: clock for I2S controller
++
++  clock-names:
++    items:
++      - const: sysclk
++      - const: bclk
++      - const: bus
++      - const: func
++
++  dmas:
++    minItems: 1
++    maxItems: 2
++
++  dma-names:
++    minItems: 1
++    items:
++      - const: tx
++      - const: rx
++
++  resets:
++    maxItems: 1
++
++  port:
++    $ref: audio-graph-port.yaml#
++    unevaluatedProperties: false
++
++  "#sound-dai-cells":
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - dmas
++  - dma-names
++  - resets
++  - "#sound-dai-cells"
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/spacemit,k1-syscon.h>
++    i2s@d4026000 {
++      compatible = "spacemit,k1-i2s";
++      reg = <0xd4026000 0x30>;
++      clocks = <&syscon_mpmu CLK_I2S_SYSCLK>,
++               <&syscon_mpmu CLK_I2S_BCLK>,
++               <&syscon_apbc CLK_SSPA0_BUS>,
++               <&syscon_apbc CLK_SSPA0>;
++      clock-names = "sysclk", "bclk", "bus", "func";
++      dmas = <&pdma0 21>, <&pdma0 22>;
++      dma-names = "tx", "rx";
++      resets = <&syscon_apbc RESET_SSPA0>;
++      #sound-dai-cells = <0>;
++    };
 
-> ---
->  sound/soc/codecs/wcd937x.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-> index 3b0a8cc314e0..de2dff3c56d3 100644
-> --- a/sound/soc/codecs/wcd937x.c
-> +++ b/sound/soc/codecs/wcd937x.c
-> @@ -2046,9 +2046,9 @@ static const struct snd_kcontrol_new wcd937x_snd_co=
-ntrols[] =3D {
->  	SOC_ENUM_EXT("RX HPH Mode", rx_hph_mode_mux_enum,
->  		     wcd937x_rx_hph_mode_get, wcd937x_rx_hph_mode_put),
-> =20
-> -	SOC_SINGLE_EXT("HPHL_COMP Switch", SND_SOC_NOPM, 0, 1, 0,
-> +	SOC_SINGLE_EXT("HPHL_COMP Switch", WCD937X_COMP_L, 0, 1, 0,
->  		       wcd937x_get_compander, wcd937x_set_compander),
-> -	SOC_SINGLE_EXT("HPHR_COMP Switch", SND_SOC_NOPM, 1, 1, 0,
-> +	SOC_SINGLE_EXT("HPHR_COMP Switch", WCD937X_COMP_R, 1, 1, 0,
->  		       wcd937x_get_compander, wcd937x_set_compander),
-> =20
->  	SOC_SINGLE_TLV("HPHL Volume", WCD937X_HPH_L_EN, 0, 20, 1, line_gain),
+-- 
+2.51.0
 
