@@ -1,63 +1,63 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DC6192D8A
-	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 01:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FCC3FE7
+	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 01:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757554146; cv=none; b=OQ88142BQJQcYv7kaVbktWEQEmQEiXYictzIGijfsZtLke4LCAdMRkaIO1EQqKNps3Egvo6748883YxThFxYIyKXJmtJ0L4bhjcqxoGPFchxvbQ5YLxWoV5XITmQA4J+JF4Hv+SvsiKI5nV4bVhgPhUPs2kPeRRcJWE11bkw8j0=
+	t=1757555128; cv=none; b=kbRw47XqsIXBBHS0ZlbtVs64wbLsA8xOIc1SN98hy27CVwVjTXfv5DS/iR2VVKmHaQJBnhK2qqXccC3oEls33diXxWl8wN4frsLmMsJRdvSQByOeUSFxALeDuzXH9w+UVSFi1Ixr1ZZRtlldlS1NQMa9nIrU9bsvKEDeXX+EN5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757554146; c=relaxed/simple;
-	bh=pbx9CJKc7axWAeDhhMzHI08am0iyRkygI0vfKsokbPU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:
-	 References:In-Reply-To; b=Jmhbjvu8/GQuUP1wiRUmBTkt5vpRR18fUihBLwUwK/K9BEQDSk+RNXrqvt3FzlSew+Es/nAONgYAANurtNn0Ce7NbhGTfs7jG54gO7vZDQlgji5fzsDX78qI3fDofb82qcUUj7irymaL7340rvFrHU4rFabare2HcsxWFXp9wIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CQXY/4FT; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1757555128; c=relaxed/simple;
+	bh=/ybA8rV1EJNP2W7n4pc0WrgmP7vGzSXVOSvxu8gV984=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=qxfiiWjhsDv1fq7kMjfUDvF/cg2c9b+//2/elhwi4a6nmG1A60MwUY00sPrzdw4Lo1CAIUAfB+oe0VnU1GZm6fTgj1xedx9kFJ1yfnJR9ZpNK49+VRkxtLTJYDdluPNGrbcLRR5e58XisKvZcS190nZU30lKnpaW1U6EQ17d2mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DI0iCh/z; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CQXY/4FT"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45df09c7128so1228565e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 18:29:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DI0iCh/z"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45de60d39b7so1313995e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 18:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757554143; x=1758158943; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=linaro.org; s=google; t=1757555124; x=1758159924; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jHYUQTMOk4dJ87X5RQiMHCWDgvXiiQtLLT2XJqAjiYc=;
-        b=CQXY/4FTERuyHPJDONGTYbglxequOCl3GyQgJ/cSLiXHzN5JOiTZgs6tsjNOEri9yA
-         uN25JcRcy8nz6uPwxRcn3J2fthUYomHJMGiSHst6PTOwKu9v65g+zy0nJIjmF+fO5dVE
-         3WcNnzueoxsZeiyEnia7YZPIJ24vVdf0NmD8f1ynNXeMyxa/2WYjsk9nPx9jwU0uYoOY
-         wFJb9k+nbyj6IDRYF22Aj6KNowtyT3Og22uIArzvFk9bBlxFaXj4an4bqD8KiwVkUSOa
-         StXGKtp6YHMEE6nF7mPCezZ8ZDPSuNRKitD+F0TW769X9D6cwerytrfQXHT+VEqnyFRf
-         doFA==
+        bh=M/d3COCVOI2+CAvfRN1DBcCvbUT4aDWnGnI7OhpJdo8=;
+        b=DI0iCh/zjBsPg9Zf5gIIBs8oo0R6WNy4/3pXrWpcxhEJsimM02G8gjTWtIn7pQveJf
+         K2qEiSQK97uXsGfpC0NhnL8TTQpjNI0mAN3Z+f6M70mh+7NiudxTzf3LLgui8YOTOyic
+         AaoQFUfAN+wilkKF4cTO8FEf2gb8VDDlT8I/rU2a/0ewPZwh/zQvabCjHJrqoK60BD6j
+         slmOgVy2Svk+5KIQ7ErOWegrGeO/GBrpLirMCzjooZ6GedZTPyOk12gGosvtTqV+bPWE
+         Lwk7Yd5biCuhZOKqpvAhuqHPog7+jZebre5D8byehh3S6opiMHeTSs9GvVgJi3J4ryl0
+         qpRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757554143; x=1758158943;
-        h=in-reply-to:references:to:from:subject:message-id:date
+        d=1e100.net; s=20230601; t=1757555124; x=1758159924;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=jHYUQTMOk4dJ87X5RQiMHCWDgvXiiQtLLT2XJqAjiYc=;
-        b=QkTz7oIRXc/+Ej6GHc/gDnb/jmstRrIouBZ7ImLvxnLnf27kjs+SF3JBuFNVyHlXWt
-         9tzls4lTnGbMQl6+2w7/ZMcWj8ROX7HUfwQTXqcOl1agNnqCwpKMA9QOhGcLi8Y9f4wf
-         1fkJcrGnUKK+HMJexjNM+uhII8DkBVOYCPN/Gdr/hXExRbgdCH8ZanLuJzlKka/Bt77Z
-         9dYBpiqYH3HC52D7OSAIh18b08ifoUt5ScHjjpZ/LlJtoerzAL5cOzNZSfKsmJPXhIFP
-         Eql7skVOleOgYQohYShh+X5MSlRb63kVFjE7A+CGdXQ30uyqDzWI1Pq8CjCCvjkf3qwg
-         mcmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTtky9SYQ7uV/RWmUZ7y5TdX3RguquGKUZI2ko3NkunwTz0IUW0VPaax8w3M7IPrCdHGbsDLpiR+Vd8A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx31FyHhGUPvYIrSeFFScrk0Xhmm3/B3kAG4BU20E9qlXI7iVer
-	mZ/7rVK9ECi6gFx9ZpGj8wM9swC5fqeaoNX/SE3pGMzLT4Y++x4Uu+Mw1i3YNPAMFq4=
-X-Gm-Gg: ASbGncvfjVDHUZderh4QvsCixSniTXqcOc3a/gE/h8cDoDuG82LSi38sEEBED7ZIiVr
-	GyQvh052zLO58mCMFGZiG6CWL/Qi8QBUfMCg+fyaR/078Zc8Fh5NtKbmbf8kRaeo+M7xa0jC/bj
-	KRGfq2jFlCQiPSnuRCRrSrjEk1WCDDzAusZNpMXZNhGmlq1cBKzAnWsfjMM/YhUmMaF+bL2zY6s
-	d7CeYlBIPtGEnrQlwS4sSlgd3q3PZaTWKO4fing1U8AME0ZgnCQTZD+OCzbuA4hF6q+X9BkaOGi
-	/ygcgIcTu9USnLP6nbcW2Bl1uObLbj/E38BkU16zVmVv2G07DrRoW2BspgsYQP4yvJHI8bA7eFV
-	jPROEvvo8hnR860JAitQq7oliaLU=
-X-Google-Smtp-Source: AGHT+IHN9v4zGixZCD8v12S2CL9xgTL8XJHDo1lrrR0rUDFompRjHV21wwHe9bU6LTLmvxJxRTsOMQ==
-X-Received: by 2002:a05:600c:c3cf:b0:45b:8b95:7119 with SMTP id 5b1f17b1804b1-45dfd5c0dc5mr7309475e9.8.1757554143119;
-        Wed, 10 Sep 2025 18:29:03 -0700 (PDT)
+        bh=M/d3COCVOI2+CAvfRN1DBcCvbUT4aDWnGnI7OhpJdo8=;
+        b=CJoZqDt5oSUXTtEY3NKG9enlnXGVx1COJxqVviTQlEIkRGiF3nVuuGPlqQWPaOU32Z
+         nzAgFH3COYtZ7rJvdf1PDOu9L272hBw5SWj23Zc6lyd/+BeZDLyztOP3qY70TVkUJW68
+         mfVmevGd6BBn90QHNgQluu94v1V6+LWrq91FBrvmHJL6raVOgNAFaHOOqoYIGmaINZdI
+         Q5H97GTbxU62axRMgxwLZYjbunYhY9hZ+84YU1QsQXMCypQ1hr4eRWAhqNVQBHIP9Tw2
+         JQG+/sLnKwoaexT/zygP9RGzpY/6V1TevNPul+ByEF/uv16jDAFZGmb3WYyZp5IcT/tw
+         ADIA==
+X-Forwarded-Encrypted: i=1; AJvYcCW15wvBc/X50V78M/snNRKihovhxkO7a1jNZLVoYYb7sRoZgmqodLiZAXYs/MTINZWh+gPHFtuO4rqzVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtH6UycX86Xb8aTMCecFDNhmVcEtjzc2z0kOtBARhet86Vs3FH
+	a8KUjODuJVKwWJFzpynwcSTXe6kk3WHUOz+0Xv2jCpRnsaCYFlcx9DH2dBlmmPK0jYw=
+X-Gm-Gg: ASbGncv3yH81601Jr89rLLPwPY1C3lBlq7EtgVKJXR55O1g842PK3tH4CbrWu9HtyFC
+	aMAV5OT8CS/AGji3uYafsqOoVTIPudb85W0wvz9kmaYl7lPJkvxRJ3QgD0E0Y/vA1sFMXdS3l1L
+	N8CCNwDNwnSAP10L0/F1OlII/We5xXmU/32T9FH/UHx4ZLDCxr7zObfH1PqEw8YrLDBReoUscAA
+	ZLO9bBUny6TFN5Rhe9P3nxLXIcLYIzVdDRQwmFYBslpfZjZt2SICdYFSYM8z3jjMLYLcb+rY4Wn
+	9ISPPhx61uRxkugxlcODu9Pe7ACjGA4GQBUyRZaiJ5h3SbyATcrV0Hkqz0r8MkTwIIcPgeam7BW
+	WxYfSSuHrQQu7iKnXX8+J1GyBafh45LCIqg04+A==
+X-Google-Smtp-Source: AGHT+IH4eMVXJCTPangdeJtchrAmKu6Lteh/vHgi48PICpOXu0flxxJARIoGuHWpxATLSXYCQLGOzA==
+X-Received: by 2002:a05:600c:1c8b:b0:45d:f81e:6258 with SMTP id 5b1f17b1804b1-45df81e6532mr38124815e9.29.1757555124017;
+        Wed, 10 Sep 2025 18:45:24 -0700 (PDT)
 Received: from localhost ([2a02:c7c:7259:a00:a727:6a46:52e3:cac2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e037b9ebbsm3680935e9.11.2025.09.10.18.29.02
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607870cfsm480074f8f.19.2025.09.10.18.45.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Sep 2025 18:29:02 -0700 (PDT)
+        Wed, 10 Sep 2025 18:45:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,57 +66,55 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 11 Sep 2025 02:29:02 +0100
-Message-Id: <DCPKY2GED44G.I2DSV6ZBXYAQ@linaro.org>
-Subject: Re: [PATCH] ASoC: codecs: lpass-wsa-macro: Fix speaker quality
- distortion
+Date: Thu, 11 Sep 2025 02:45:21 +0100
+Message-Id: <DCPLAK9BYI9D.256FT1VOPLSW3@linaro.org>
+Cc: <lgirdwood@gmail.com>, <tiwai@suse.com>, <vkoul@kernel.org>,
+ <srini@kernel.org>, <yung-chuan.liao@linux.intel.com>,
+ <pierre-louis.bossart@linux.dev>, <linux-arm-msm@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <dmitry.baryshkov@oss.qualcomm.com>,
+ <linux-sound@vger.kernel.org>, <Stable@vger.kernel.org>
+Subject: Re: [PATCH v5 01/13] ASoC: codecs: wcd937x: set the comp soundwire
+ port correctly
 From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>, "Srinivas
- Kandagatla" <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>,
+ <broonie@kernel.org>
 X-Mailer: aerc 0.20.0
-References: <20250831151401.30897-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20250831151401.30897-2-krzysztof.kozlowski@linaro.org>
+References: <20250909121954.225833-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20250909121954.225833-2-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20250909121954.225833-2-srinivas.kandagatla@oss.qualcomm.com>
 
-On Sun Aug 31, 2025 at 4:14 PM BST, Krzysztof Kozlowski wrote:
-> Commit bb4a0f497bc1 ("ASoC: codecs: lpass: Drop unused
-> AIF_INVALID first DAI identifier") removed first entry in enum with DAI
-> identifiers, because it looked unused.  Turns out that there is a
-> relation between DAI ID and "WSA RX0 Mux"-like kcontrols (which use
-> "rx_mux_text" array).  That "rx_mux_text" array used first three entries
-> of DAI IDs enum, with value '0' being invalid.
+On Tue Sep 9, 2025 at 1:19 PM BST, Srinivas Kandagatla wrote:
+> For some reason we endup with setting soundwire port for
+> HPHL_COMP and HPHR_COMP as zero, this can potentially result
+> in a memory corruption due to accessing and setting -1 th element of
+> port_map array.
 >
-> The value passed tp "WSA RX0 Mux"-like kcontrols was used as DAI ID and
-> set to configure active channel count and mask, which are arrays indexed
-> by DAI ID.
->
-> After removal of first AIF_INVALID DAI identifier, this kcontrol was
-> updating wrong entries in active channel count and mask arrays which was
-> visible in reduced quality (distortions) during speaker playback on
-> several boards like Lenovo T14s laptop and Qualcomm SM8550-based boards.
->
-> Reported-by: Alexey Klimov <alexey.klimov@linaro.org>
-> Fixes: bb4a0f497bc1 ("ASoC: codecs: lpass: Drop unused AIF_INVALID first =
-DAI identifier")
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
+> Fixes: 82be8c62a38c ("ASoC: codecs: wcd937x: add basic controls")
+> Cc: <Stable@vger.kernel.org>
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+
+Reviewed-by: Alexey Klimov <alexey.klimov@linaro.org>
+
+
 > ---
+>  sound/soc/codecs/wcd937x.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> Reported via IRC.
-> Fix for current v6.17-RC cycle.
->
-> I will be investigating rest of lpass macro codecs a bit later.
-
-Any updates on other lpass macro codecs? Is something still broken there
-or are they fine? So I guess the changes for wsa and rx macro were applied.
-va, tx?
-
-FWIW, I understand that I am late to the party but I tested this one anyway
-on sm8550 and it seems to fix the distorted sound and unstable volume.
-Sorry for delay. Just confirming.
-
-Thank you,
-Alexey
+> diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
+> index 3b0a8cc314e0..de2dff3c56d3 100644
+> --- a/sound/soc/codecs/wcd937x.c
+> +++ b/sound/soc/codecs/wcd937x.c
+> @@ -2046,9 +2046,9 @@ static const struct snd_kcontrol_new wcd937x_snd_co=
+ntrols[] =3D {
+>  	SOC_ENUM_EXT("RX HPH Mode", rx_hph_mode_mux_enum,
+>  		     wcd937x_rx_hph_mode_get, wcd937x_rx_hph_mode_put),
+> =20
+> -	SOC_SINGLE_EXT("HPHL_COMP Switch", SND_SOC_NOPM, 0, 1, 0,
+> +	SOC_SINGLE_EXT("HPHL_COMP Switch", WCD937X_COMP_L, 0, 1, 0,
+>  		       wcd937x_get_compander, wcd937x_set_compander),
+> -	SOC_SINGLE_EXT("HPHR_COMP Switch", SND_SOC_NOPM, 1, 1, 0,
+> +	SOC_SINGLE_EXT("HPHR_COMP Switch", WCD937X_COMP_R, 1, 1, 0,
+>  		       wcd937x_get_compander, wcd937x_set_compander),
+> =20
+>  	SOC_SINGLE_TLV("HPHL Volume", WCD937X_HPH_L_EN, 0, 20, 1, line_gain),
 
