@@ -1,284 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CA91DFD8F;
-	Thu, 11 Sep 2025 07:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757576474; cv=fail; b=ltxYrZixmnYKHFfYqA/n52vX6q9LgJ21i6yFZl04wC/aAETGPtTcWnmuAkL/h0td+TxL/bBzzXZFlf72NyuTNh2OK2whEh7DsBBSr0sGU7AwYUudk+Sic0HEddyHTlnwu3swuC2BCW6ZIpFOqd5JNQgP0dbbOywfmupGZbvkFTU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757576474; c=relaxed/simple;
-	bh=mgRfuBOgPijjR5x9+SPLt/09vovAthBS6/ls2EjaeDU=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=tsAw0REJQYgDzaSKQ/t+caQ19hd/sqVG7xqzP5R+DQATirImloVhPs4km6xBQMbb+d4FbboT9lEWEb1yxT61mE/FGZyXUJfdvBMT0gByqfP4UIpZ1huyFIaTv+3UCO/k5EfVyjkPbchu3N70b3isS0kecBh5y8OWoQwzTTBnowQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BZAa0OBF; arc=fail smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAF127A91F
+	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 09:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757581519; cv=none; b=N+qHiJUnNeJcMeNMbYqDLEX+2Ms2lp8H431fQDPfILW0N/oBw/hFygpju+dz1eeW61gNa5ZxWebSTXdOCOy/6+YJgSB85l9f0vzgAQXOPFV708rAzLhhahUuPlqIAojV6GCfQbAWHpSeqz840jFgJN+DYHSEiSPSvsCJEm+0GXI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757581519; c=relaxed/simple;
+	bh=PZ8cckgNLhYYSqzwCtFOQJIyga//MtRxNtnEtkwBpCc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tLA8Xsnqaj2gWsZfyWBak8JjZ0faWRAiIhCS7nXw+tB6LnOva3gXD+FIh04wUZIcuP6H6Es08V38ItjzmM+WUM/uaiOwkFqOw8GCXzvOAZXETBYYK7IZxCzXI+to7VtYcl74o6FrdAuCzz/sGCbwh0MZqSu17yz37Z1r7+olLFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Dnh/VZZT; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BZAa0OBF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757576473; x=1789112473;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=mgRfuBOgPijjR5x9+SPLt/09vovAthBS6/ls2EjaeDU=;
-  b=BZAa0OBFQcFQxXBMIexfTT9la1srycP1cXG18xWqPjgtg3mrJZaqwpZX
-   ni/s4yhzghngvSZUo+sGrzaSYqx/qSIxp7yKJ2n2d0UU5vQqMRJauHTYe
-   T36qYcBiZaeoXHaIVqYtTE6YGNLwZuWs0qRUJfgyCmmm+hcBEk37tPK2v
-   U3E1bj14e/Z4xJ8ha47mYmaRVE2LKrGp7Q46xhAGEHYtb2x0JBmbd7cBT
-   QqqRWUqOhytfcZ8NbJsILlq7uSlUNecBp3ObBp4SAERK9csugi9QiaPwy
-   aL9z292Vp4pdZzLjr5DJO/V4WH7cAt++H82m4bbXYNtjQNoPH5idC+Qhj
-   A==;
-X-CSE-ConnectionGUID: ky8G/vp1TKm956QIlvbQ/Q==
-X-CSE-MsgGUID: HQCva8uxSUqLpzjIW3TisA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="59837351"
-X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; 
-   d="scan'208";a="59837351"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 00:41:11 -0700
-X-CSE-ConnectionGUID: xIMH3tIxRB6yDokufC9qNg==
-X-CSE-MsgGUID: jfX9dYrMRZa4EYeVoMmiYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; 
-   d="scan'208";a="173684371"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 00:41:10 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 11 Sep 2025 00:41:09 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17 via Frontend Transport; Thu, 11 Sep 2025 00:41:09 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (40.107.100.81)
- by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 11 Sep 2025 00:41:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XC1rw7BO45bqoOuNv6fi7mUVr+c+ryQuxI++d63A6G0Ehel/nGbvEw+6z0Cwvw/VkUl58W5xehPGmQqiTDDN8R12ymPis6AfrI25EB9wUkWeUVEQerpo4aECMcUKyZhCPkv7DgIzLhE4+j4WQjYZFuuIki3rDduO0YIrVCeMR64sloxWO4gezyoUFK1Vda4z851EI2NHdypMxtT5CVtxgmGPmcUilSw63dPH1gsMWsut/cew+yXqFDzTeklM3Kd5SBv8lFthwD9lBErF6yTkp8JuQDuI5DmUIO0QrweX8HktgNweKNF1sEZOe7QK0PuSJArScf8qU/trTI9DHkm2Pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3rOZjXtHOk6ARemayxZdsSIGbkbYLu+4/C57h8Gsp4E=;
- b=Q0ALBhAwDN9Zo8vCQSKRW2YdkHCvi5k3UpphdhcGxM4XqkxY4hrEXeUxzU3VKFt77IRv+5H6vZLT4Mq/Qi2/CafGAfxAnsrFtYHhPFiA0wGbncEeE95tkekqGVC+GbUT8/BfGB4oHML5JcOD1tRNofUWYfL7f9VXkUxZW1iTb84jBKU49WAlGkiM5AQ3GRPivCfX3JfajjSVciRN7kDN88WuPgfTtd9PU8zETzYmVe7RyzwMd2aiXTN/ZQuyJLuch2mgbTKNiBISmwZzc77DPko0GN22BIzB9XNXdkpYilW3JVY7yldDHG1ORQE3WVkOZLRcGgUJ0pzWOrJ/jzlXRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com (2603:10b6:806:26c::16)
- by LV3PR11MB8765.namprd11.prod.outlook.com (2603:10b6:408:21d::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
- 2025 07:41:06 +0000
-Received: from SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::3:e0a:87af:d4b6]) by SN7PR11MB8283.namprd11.prod.outlook.com
- ([fe80::3:e0a:87af:d4b6%6]) with mapi id 15.20.9094.021; Thu, 11 Sep 2025
- 07:41:06 +0000
-Message-ID: <73a46879-b1be-4668-8447-17786b3b1d57@intel.com>
-Date: Thu, 11 Sep 2025 09:40:59 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: amd: acp: Fix incorrect retrival of
- acp_chip_info
-To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Greg KH <gregkh@linuxfoundation.org>, Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
-	Peter Zijlstra <peterz@infradead.org>, "open list:SOUND - SOC LAYER / DYNAMIC
- AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
-	<alsa-devel@alsa-project.org>
-References: <20250910171419.3682468-1-venkataprasad.potturu@amd.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20250910171419.3682468-1-venkataprasad.potturu@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA2P291CA0018.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1e::13) To SN7PR11MB8283.namprd11.prod.outlook.com
- (2603:10b6:806:26c::16)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Dnh/VZZT"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58B2Ik4l031070
+	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 09:05:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	0u2naj8CCXUbRQi7woSxwORKajIczkY9v1F3cpnGx/U=; b=Dnh/VZZTQKh1Rdqu
+	0X5UxNGHllPcqNRjwml6dRoIhoqJUx4V7ToAh58BeaP4YS5OtQgPI8jenX+2mrnM
+	RNYfk8k7MtX+gVYy8jF01jdzyrcyKhnp7RKQnjJ+hEeqyum8ZPPrYfTCtKHQqDuo
+	+Ptncou5HZngXTrUHWzDjDpfBYoHUB1kiH/Nv0vmDRmUFj0f4cexYO0RrLLb7/yZ
+	/CmgX8c1OUwk2rPjaXXiSubUCTXUzaQbgt/gGdRtQ+K85lyIY+4CUwgrie5t2jxp
+	OlYwc+nH50huLhsHJGEEgAf4WV5z2cVFqUKFsN0cq/JLyusTC2RQwOOSJdTGpUWe
+	Vrg6wg==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490dqg6smg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 09:05:17 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4b5fb61d80dso14579771cf.0
+        for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 02:05:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757581505; x=1758186305;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0u2naj8CCXUbRQi7woSxwORKajIczkY9v1F3cpnGx/U=;
+        b=GjiOKlfDCqbZq27/XDQotFXby/OxqswBqLca2mL6Q9c73Pse5n1NIngXSVn89aUgYp
+         kzRZFk/3IleV4fAs8LrdcgSmvl+Ck6j8fByWgRE352KuCby6XPNp8EcTj6ciBRzYM4O2
+         AGLvbx/x+KF/ZunLQxw8GgN9WDrLQ0NiITQyY/IvxsGLOQcd8nxj+C3ZLTBvJAQEW9nU
+         l8mKebkjwDQWpXCywRLlOe9371boeJEnaOifDHZu6t2gOttLS6mFWL/6O4zKy8OQAeWu
+         IE5ylpUO6kd3Nr22FpqHwFuOLlf6/cpjCLyc6V4KF8PyDCgc0VklgRPL7uOHT6eGsbTY
+         KpuA==
+X-Forwarded-Encrypted: i=1; AJvYcCUsg8OtYcVGV8gKmD4rTjwela/Yyk3JEGHSap4kAGbcSKbu/QucSKwy8LLgGT/mhgBT86DyFrhlZJzGOA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzccBhOJpJ/P+KO6+d1I84E6CaQSgvHdnma1zpqpVcy8pqwgbm1
+	rxBZXyyKuy18bhREPh9RMk0/uwxHTdQvqTVfWvGr4sYfkUsrnU+rmCM6fkIKcGiYVC3NfaC3jl8
+	rkNH7pxtlLCCmu/kVpFhe7LIjW/3ke6QVRz/0SQeobLERgVXGdl1jdlxbNeuu76AORg==
+X-Gm-Gg: ASbGncutkn2/hXzPkjjDmMmOvdts+/tgtzYBxnuyqBck7wPibvXpIirdMBP1KPGhWyw
+	rWb3KiUcf26Hc2UmtjMEfW4ZVas6waJgphECuR6h151G8+yjEr2+Vf2EEbBKI6H1XQqDxU+8Lr0
+	9DIhQG14exgNhrzuT5yxD+u7TtvaZyUQ40Dn1oZ7fJ7m66l0NVcIQFU54vWtZtc1bZ8haS47D7k
+	+j3cjmmAvOJL4pirBc2QoZQNCXVIXyX5rSjHR2rtFUXDKQRXTRppylb+QdgTj+x3Htcu/+c5pZI
+	QNlDp3zjprzxDiJY8yPy7iuIiUI+nfg0ELBeVxAXvd75g/59sDKuzoCTuTvlo2JNggQ=
+X-Received: by 2002:a05:622a:4a8d:b0:4b4:92b7:d4ad with SMTP id d75a77b69052e-4b5f843bfb0mr226558331cf.45.1757581505193;
+        Thu, 11 Sep 2025 02:05:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHTnS3BYav3uc5wJMafVF0tQOozNnyOpz5mhr6CAmgA4gxSAct3x4qONCiVS/C4iKC/Cu/vQA==
+X-Received: by 2002:a05:622a:4a8d:b0:4b4:92b7:d4ad with SMTP id d75a77b69052e-4b5f843bfb0mr226557401cf.45.1757581504418;
+        Thu, 11 Sep 2025 02:05:04 -0700 (PDT)
+Received: from [192.168.68.120] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3e7607cd329sm1640115f8f.31.2025.09.11.02.05.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Sep 2025 02:05:03 -0700 (PDT)
+Message-ID: <3e0de4f3-2815-4912-a528-16147803a7c8@oss.qualcomm.com>
+Date: Thu, 11 Sep 2025 10:05:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8283:EE_|LV3PR11MB8765:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c5fda0c-8138-4917-7c24-08ddf10690f4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bWxyNkpmb3didmNiTkxDSkRLQWZrczdIK1RhNjVvdXhuZjQ1L1UyeXlweW1h?=
- =?utf-8?B?b29iM1NGTFlmbzZZSTJDdHA5UFBleklyMTlrOG1ManRaUFd2eHE2RFpMNFJv?=
- =?utf-8?B?UnpMc3o4R1MzaEZBYXIwSlBxeXU4b3pWTXVzamt1TVlKZ2pxQ2tma1BFYkJo?=
- =?utf-8?B?T1BHODNuY1dKZXdWdDFQZE1xbHpqaUxLWVNrYnVIOE02RjZZUnYzcmFNdUEr?=
- =?utf-8?B?aVRqSE9sUUJYMWNlOERDVXoyWEtWVGdFZ0FRZ3JUbkkrNmxUU0Z5ZUphRHZK?=
- =?utf-8?B?QWlQNjYwS0w5RXllQ3BON3cvNkFVREN6Qi9hTlFIT3VGRjJEK0srSzJNM3Aw?=
- =?utf-8?B?blB3RkZmeVlWMW5RZTdMdVV3Q3Myb3FTMjNrU2NwL3NyNlNIekJEYksyb1BB?=
- =?utf-8?B?VzFkU3F0eVFsbm80Nnc2aFMra1RRMzVEY0lFMEZHcWNsZzRyTHNKYjN1bnN3?=
- =?utf-8?B?enR0bCtVdkdRUzBLdFd5NWtvVEtZV0M3d3JVelU4MnB3eDNjTkhRZnBpMkg1?=
- =?utf-8?B?SVB3N3NhNHJYQ1kvTEJPZUN4dDFhQnhwQW82WVdKbjRiUFUrZFBrMmpDVk05?=
- =?utf-8?B?aS9JQVpKeDlLRWEva3JmSzZmei8rL1grWjNwZ2xVazEyRmRmejczWWtGSjlv?=
- =?utf-8?B?ZkJ2TzBjUWRVYSt5R0VaWldROVhrRHh5SSs1OGFRM3ZQekJSR01lV1NCQlYw?=
- =?utf-8?B?R200WEVjbWtnM3FzL2FRR1BJQWs5ZHRDaDBBMlpKZmtPamJrNGpNQ2l5SWpE?=
- =?utf-8?B?NXVSVWdJdnpmOHgwSFh3TVpteVVINDJQeSsrWC9LU1N1MnZ1TWowUlZLVFJX?=
- =?utf-8?B?SDlBaVFEOXhOYUhiVjlqb2M4cjZ5bmdZamdyYUlYZklNM3l1c2pmQWduelg4?=
- =?utf-8?B?c0QrU0puUzYwZDZpRk1SdFlHTjBqZXRKcVFYQ3F4VERMcmJLclRzZTNBcFNW?=
- =?utf-8?B?ZzlDaUQ3NytsRnFrRHJXVkhiK21CaDdkc3I3NEo0K2FPL0k3c3RQWVNqbFNu?=
- =?utf-8?B?UVNHOFdRdnhZelppaysreXNOSnVCL2N2cWpJYUVmTE1KMkZGY3d1V0M4bUJk?=
- =?utf-8?B?Qkx4dUZ5ZFVqZWFNanJhanZINXdPVk9rSnRMbGRPd0RkeGR5MDVQNlNSM1FH?=
- =?utf-8?B?NHdqK0JqQUhtWFR2R1pCVlFVQVlRVldDSmRjRjAwNlo4TktnNTA1TXlFc00x?=
- =?utf-8?B?WUlZZjRxZnZNSVVnTkdWQ2hwejBUZ0xTTTMyUWxpQUQrR3hNNWNzZ3R1QURT?=
- =?utf-8?B?OWFuZU5HTEVOVEJZOWY3VDBtdW9VdHRtbU83YzNtbkdwV0kxTklOZFpRWDY5?=
- =?utf-8?B?Mzd0WnpjcVI2SWxJdUhmMnRvWUYvREF3ZlFYb3pFaS9qa3Fqc3ZVWWNSQnRa?=
- =?utf-8?B?dVNJb0dGRk9Cd0lTNnZuNnpCUXZlUDZ2NEx4VlMxSEFqZlJERnZSUzJXNnpw?=
- =?utf-8?B?bTVNeU5CcVl4SmZwOW5TNldtR3RVNi90VzR1enJIejNudWpJUEZNNVNsSFRL?=
- =?utf-8?B?aDZsUGZKbWpnSFV0cTJoWkZVaHI0SFdOSzZzSkF0ZFhpS3ZzR1Y1RWVQVE81?=
- =?utf-8?B?dXI2WHhSRzB5aEFGV3pWMlp0NG1SRnpuWjhrc1IyMXZRaXluWUZsYlhpZCs2?=
- =?utf-8?B?TTJHM3FRY010d25BdCtGVU1BN3dMaVorYjhvTThXdG9WMFZUN3ZVS2tQbXY0?=
- =?utf-8?B?RzcyREhqVWRVNnVKcXRYTUcwNmpQRVlqSnppbnE3L2taQkgvTE05ZGpJUHF1?=
- =?utf-8?B?VGtMNDR4QmwrWXNoQ0Q2WUYwNDJySVdXS0pheEd1VE50bU9JaUZabVg0ZlUv?=
- =?utf-8?B?aVpGSDh2UlN1UFhNS2c3NnVzcERvQkNudURHVVd4dlNNTjM5Tit2dlZYczZL?=
- =?utf-8?B?eVg3TGNBMU80R0xKeGtybTRsUGRtWDNqdElhREhwR0JPWEJGUVZCcEIyVGY0?=
- =?utf-8?Q?y6RJXneksYc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB8283.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZHRsVk9abHZ4d3kzd3dvbWxJY2ZBcVhPRThNeFVCd09PNHRNdi91RFVMVDJ1?=
- =?utf-8?B?RmNzU01XWFBUdlRONVZPbjU5OEJqOUNiaElCZzFuaUVUbHo3TWRWRHN2bzNT?=
- =?utf-8?B?ZHAzSWd5c3VHSDYxMGRkMXAxdm55U2JiV3VxVHZhRmN4cEJFcFdJaktWblA4?=
- =?utf-8?B?eGI0UDVGOERhemFabEJqeThwRUQvbTZKNTI4c0p0OUVPSGhFSGdkY0cwb254?=
- =?utf-8?B?eXI1dzhGWXA3UVpWRlNQVVBMd2RFdUE5VWFGeElheTRXNnN6V29wRHVoUnlw?=
- =?utf-8?B?ZisxUTFHU2JHV29UTzA5elpYeE9CU1dDc2M3cmpsQS9UNWJzKyswVTZlVDJW?=
- =?utf-8?B?aVlDYlFmN25EL0dTRTRRdXdIMHdiNEwwNHpLNDRWN3pEKzREQ0dtSWFMUXFV?=
- =?utf-8?B?S0k5d25jSlk4Vm16SjF3TS9PMTdsQUswczVjVGExeXFUUGxnTnh0aGhjUUFT?=
- =?utf-8?B?WjlOSVRNcFpMT3E3R09pYVlnYzVNdUNkcDFLMWpQeG9qd2FOTzE2OGtkcDVN?=
- =?utf-8?B?Z1dEM2tJaldxb1ZiT0N4YkRuZXByZFE2V0NhREJVNGJpMDFNbUxCRmdMNXV1?=
- =?utf-8?B?RmROa1YzNGNyd1FxR0I2TDdrQWpkc2dNSGE0cHorcDZhN3hWNjBFZXZqeDRQ?=
- =?utf-8?B?WktDWG9lM2l2MDMvTXdXSFFLUE1wVEJWSDBTWFF3REI1dXNlRGtzTFQ3MXNY?=
- =?utf-8?B?OGNaNWF3bFVMMk1KT2FGQ3h3ZUxsdTBMWGlScWwrNDZDeVVCTCtBLy9jU0Q4?=
- =?utf-8?B?V2RvOWI3KzJiRS9TTloxcDRzVFhkMmFpYnhUY3Z6dmtYakI2a0tsYXpoQ1I4?=
- =?utf-8?B?RVJkQ3pWNTJGNklyVG5BbXYyNkZiUi8wOHJ5eVU4N3pTc1UxRXAwSDhQRjMy?=
- =?utf-8?B?UWpRSXIvdnJNWUViQkVuRGwwZnlES3VpSUVySm5pcjBpTU9zbWliQjRuN1dI?=
- =?utf-8?B?RjdvdTZNaEJXbmJEMXRaaWVuTld5blRjcDIvSjh5UlJwRzIzc2c0U09QdVBt?=
- =?utf-8?B?US9wbXdUakJwRnplQ0pJNlpvYWIwZjZCYWN2ZnhZanNqTFk4YlgrWENIRG85?=
- =?utf-8?B?eUhYSHVhM0JtdDRPRlR3dm9uVWoyVGdCMnJOUFE4blo1U3VGckgyR0tWQUZ6?=
- =?utf-8?B?WTdVUDN3c0RzU0JlQ3NuaVl0TUpFNUZ2UnBwK0FtSHZIWVRlVE9GNGZrY2Vk?=
- =?utf-8?B?a0QyR2I3VlBOS09ZcDNxeVZlWXNRbmpwVkk0L29iWlZ0QTBneHV5bGVUeWc4?=
- =?utf-8?B?NTRjRUM1Y3pGNjFScjR5UmtHVlkwenFIdXhUb1M0WEF0QTkwRFVSQ05TWkJr?=
- =?utf-8?B?c2pKWGtpTWZPenVhckQ3eml6SmpnU0pSK2JRUmJBSWxEL1p3cWNPYzVXNTA2?=
- =?utf-8?B?eFRHVXIxNzZjY0xCayt2dEZ3UXc2cXIyNkR5aVpOTjBwZHA4clBOODZqUGxr?=
- =?utf-8?B?bkowRGIva21XeHcxSU5QTkU3VG9iNjBURnhvWXhuNkFrY0xZWlVjQ2VBbHNJ?=
- =?utf-8?B?NklIdU1HSzVmdTVJM0JNeTJ1aEdQWGhSdFY0ZDBCc1hyZzdqQlczc2V0YnNM?=
- =?utf-8?B?eDNjcVBSSEtrNElxRSt6REZ6RkRodnc5dWNaL3hhUHpYNUxOQmpTZExsdE4x?=
- =?utf-8?B?dUFoa0NWMjJTMFhXU0FPMHZtRUVLMUM0WHFoeFdHS3BzclVNc1hNcUxlQW1H?=
- =?utf-8?B?MWhYT1pyZmMzclM0OEN4ZEdpQVU4aXNSOWZyY0VOOWNiaEdjNW03UTFwTG1L?=
- =?utf-8?B?WTIrWjg5SmdweUN4d3lobVk0MGJTZ1l0TTgxM2hOUW1NdmVweTNQMW9Rb2h5?=
- =?utf-8?B?b05ScmtOM1NDWi9DbTdIRlFzRDE4RUFHU052dUVpVFF6Qkd0OUZuOUlCYUlt?=
- =?utf-8?B?R0VuLzN1RnNiczVaM3pXUlhHS3RtSWxlWWh6NGVGczFHYmZDVnZpOWM2aytF?=
- =?utf-8?B?blErTnVpMzlobVcvazdyQWhVdWtOc215L05LTkJ4QWsxcnVZSUE2UlBjNk8y?=
- =?utf-8?B?YlR5VkZXeWlkbTFVWjY4TkJUWjNBTHBTc1U0U04zUEpEWlAyb21MRGNPVmhF?=
- =?utf-8?B?QzVaSVZBd3lXaEh6c1dUWW5xNnE3cnN2UjJ5K0JzbzFhVWt1RFFxNlJZaVhi?=
- =?utf-8?B?N3h3YXB5WW5XWmxOSTdSK3pqQ2lhRXd4UFo0Q3daMFhPb1FSSnhubDQrSUMr?=
- =?utf-8?B?T2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c5fda0c-8138-4917-7c24-08ddf10690f4
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8283.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 07:41:06.2560
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mrL/cREJYf1hwt8a5wVIvEcN9i77H8gREUlXQPp/3S8oDdzXrjQZ1r7mEX3Rcs16wI1pcFwLEQamzfCT32VPzImi7bnxqyM0G41eLoqV/IA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8765
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/7] soundwire: qcom: add support for v3.1.0
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Alexey Klimov <alexey.klimov@linaro.org>, vkoul@kernel.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, srini@kernel.org,
+        yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20250904105616.39178-1-srinivas.kandagatla@oss.qualcomm.com>
+ <DCPK67SQ5DEI.2AFDVRKZSEWTS@linaro.org>
+ <7b7db1d2-5f53-4b08-920d-67a57d975313@oss.qualcomm.com>
+ <cbb57a2d-c64e-448b-87dd-688458f87900@kernel.org>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <cbb57a2d-c64e-448b-87dd-688458f87900@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: wrPU5dEaRlm884vlyNpNoCXNkVVy9f6i
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzNSBTYWx0ZWRfX7PG9ADwqwzQU
+ flbG4Z859sthsz3wQbyu2mOgZb0n2sK3TkuJE0bLM0qgx3T7qJRHY9ZcXs7aFdbanrIa47O+CkM
+ IZk51rTrfN21JTjQr+8JrIhW5c8gFroIVZV5Ps+zH6eDCJGfGwvAqZtCa1sEOTZAcFXCnPH3JHZ
+ ECty3CL9NedpCALB5YAUFnvP6B3gFItUFu7gBg1twHoE3BtWUQoseFGUFAPqPLGX62xvGB7NBgN
+ J9Kobx5QJjLpcBCaYm1DeEb/kd7RUE56xeK/AMRq6lMhagt8RDoQ7lxx+zDVPAvLt9KzX4pH4fK
+ 1j/AusVRdoYPD48tsjejO1+fklOrK113NGkqbkGABG+sTpDGhvh9YKNNLr1jKh43ApwenGVu2qL
+ KgJ0dYnA
+X-Proofpoint-GUID: wrPU5dEaRlm884vlyNpNoCXNkVVy9f6i
+X-Authority-Analysis: v=2.4 cv=N8UpF39B c=1 sm=1 tr=0 ts=68c290cd cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=vF7HM7XGAAAA:8 a=EUspDBNiAAAA:8
+ a=vORUVIV6M-B3JFilGG8A:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+ a=bNn2QJc11pDkoTYzAKk6:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0 malwarescore=0 clxscore=1015 bulkscore=0
+ suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060035
 
-On 2025-09-10 7:13 PM, Venkata Prasad Potturu wrote:
-> Use dev_get_drvdata(dev->parent) instead of dev_get_platdata(dev)
-> to correctly obtain acp_chip_info members in the acp I2S driver.
-> Previously, some members were not updated properly due to incorrect
-> data access, which could potentially lead to null pointer
-> dereferences.
-> 
-> This issue was missed in the earlier commit
-> ("ASoC: amd: acp: Fix NULL pointer deref in acp_i2s_set_tdm_slot"),
-> which only addressed set_tdm_slot(). This change ensures that all
-> relevant functions correctly retrieve acp_chip_info, preventing
-> further null pointer dereference issues.
-> 
-> Fixes: e3933683b25e ("ASoC: amd: acp: Remove redundant acp_dev_data structure")
-> 
-> Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
 
-Thank you for the update, the patch looks better.
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+On 9/11/25 7:31 AM, Krzysztof Kozlowski wrote:
+> On 11/09/2025 07:49, Srinivas Kandagatla wrote:
+>>
+>>
+>> On 9/11/25 1:52 AM, Alexey Klimov wrote:
+>>> On Thu Sep 4, 2025 at 11:56 AM BST, Srinivas Kandagatla wrote:
+>>>> This patch series adds support for Qualcomm Soundwire Controller
+>>>> version v3.1.0.
+>>>> As part for adding this support, a new macro of_property_read_u8_index()
+>>>> is added so that we can remove the qcom,din-ports and qcom,dout-ports.
+>>>> As v3.1.0 supports more than 17 soundwire ports. Also due to change in
+>>>> the register offsets, new entries are added to the variant data.
+>>>>
+>>>> Tested this patchset on X14s and Glymur reference platform.
+>>>
+>>> Well, I don't have any Glymur devices and no idea what is
+>>> x14s (I guess some laptop), but I picked the series locally to test
+>>> on sm8550, it seems there are some generic changes, and
+>>> qcom-soundwire probe failed:
+>>>
+>>>  remoteproc remoteproc1: powering up adsp
+>>>  remoteproc remoteproc1: Booting fw image qcom/sm8550/adsp.mbn, size 8364
+>>>  remoteproc remoteproc1: remote processor adsp is now up
+>>>  qcom,fastrpc 6800000.remoteproc:glink-edge.fastrpcglink-apps-dsp.-1.-1: no reserved DMA memory for FASTRPC
+>>>  PDR: Indication received from msm/adsp/audio_pd, state: 0x1fffffff, trans-id: 1
+>>>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@3: Adding to iommu group 12
+>>>  qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:1
+>>>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@4: Adding to iommu group 13
+>>>  qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:2
+>>>  PDR: Indication received from msm/adsp/charger_pd, state: 0x1fffffff, trans-id: 1
+>>>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@5: Adding to iommu group 14
+>>>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@6: Adding to iommu group 15
+>>>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@7: Adding to iommu group 16
+>>>  qcom-apm gprsvc:service:2:1: CMD timeout for [1001021] opcode
+>>>  platform 6800000.remoteproc:glink-edge:gpr:service@1:dais: Adding to iommu group 17
+>>>  va_macro 6d44000.codec: qcom,dmic-sample-rate dt entry missing
+>>>  qcom-soundwire 6d30000.soundwire: probe with driver qcom-soundwire failed with error -75
+>>>  sched: DL replenish lagged too much
+>>>  platform sound: deferred probe pending: snd-sc8280xp: WCD Playback: codec dai not found
+>>>
+>>> Are there any dependencies I am missing?
+>>
+>> Looks like there is a bug in sm8550 dts, its adding incorrect number of
+>> ports, which is why we are seeing this error.
+> 
+> 
+> Yes, the DTS has incorrect value for number of ports. Few others have as
+> well. It's known (for me :) ), but I never bothered to fix it because it
+> is not that trivial - need also port config for missing node.
 
-> ---
+Thanks for confirming, This will need fixing at some point in time,
+however for now Am happy to add some flexibility to the driver so that
+it does not break things that were working. This will however result in
+a new kernel message about miss match in dt, which should bring some
+attention for fixing.
+
+I have shared small patch in this thread for try.
+
+https://lore-kernel.gnuweeb.org/linux-devicetree/b7a637d1-8868-40f3-8f82-8f5ab0684d52@oss.qualcomm.com/
+
+
+--srini
+
 > 
-> Changes since v1:
-> - Update the commit description.
-> 
->   sound/soc/amd/acp/acp-i2s.c | 11 +++++------
->   1 file changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/sound/soc/amd/acp/acp-i2s.c b/sound/soc/amd/acp/acp-i2s.c
-> index 617690362ad7..4ba0a66981ea 100644
-> --- a/sound/soc/amd/acp/acp-i2s.c
-> +++ b/sound/soc/amd/acp/acp-i2s.c
-> @@ -73,7 +73,7 @@ static int acp_i2s_set_fmt(struct snd_soc_dai *cpu_dai,
->   			   unsigned int fmt)
->   {
->   	struct device *dev = cpu_dai->component->dev;
-> -	struct acp_chip_info *chip = dev_get_platdata(dev);
-> +	struct acp_chip_info *chip = dev_get_drvdata(dev->parent);
->   	int mode;
->   
->   	mode = fmt & SND_SOC_DAIFMT_FORMAT_MASK;
-> @@ -199,7 +199,7 @@ static int acp_i2s_hwparams(struct snd_pcm_substream *substream, struct snd_pcm_
->   	u32 reg_val, fmt_reg, tdm_fmt;
->   	u32 lrclk_div_val, bclk_div_val;
->   
-> -	chip = dev_get_platdata(dev);
-> +	chip = dev_get_drvdata(dev->parent);
->   	rsrc = chip->rsrc;
->   
->   	/* These values are as per Hardware Spec */
-> @@ -386,7 +386,7 @@ static int acp_i2s_trigger(struct snd_pcm_substream *substream, int cmd, struct
->   {
->   	struct acp_stream *stream = substream->runtime->private_data;
->   	struct device *dev = dai->component->dev;
-> -	struct acp_chip_info *chip = dev_get_platdata(dev);
-> +	struct acp_chip_info *chip = dev_get_drvdata(dev->parent);
->   	struct acp_resource *rsrc = chip->rsrc;
->   	u32 val, period_bytes, reg_val, ier_val, water_val, buf_size, buf_reg;
->   
-> @@ -516,14 +516,13 @@ static int acp_i2s_trigger(struct snd_pcm_substream *substream, int cmd, struct
->   static int acp_i2s_prepare(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
->   {
->   	struct device *dev = dai->component->dev;
-> -	struct acp_chip_info *chip = dev_get_platdata(dev);
-> +	struct acp_chip_info *chip = dev_get_drvdata(dev->parent);
->   	struct acp_resource *rsrc = chip->rsrc;
->   	struct acp_stream *stream = substream->runtime->private_data;
->   	u32 reg_dma_size = 0, reg_fifo_size = 0, reg_fifo_addr = 0;
->   	u32 phy_addr = 0, acp_fifo_addr = 0, ext_int_ctrl;
->   	unsigned int dir = substream->stream;
->   
-> -	chip = dev_get_platdata(dev);
->   	switch (dai->driver->id) {
->   	case I2S_SP_INSTANCE:
->   		if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
-> @@ -632,7 +631,7 @@ static int acp_i2s_startup(struct snd_pcm_substream *substream, struct snd_soc_d
->   {
->   	struct acp_stream *stream = substream->runtime->private_data;
->   	struct device *dev = dai->component->dev;
-> -	struct acp_chip_info *chip = dev_get_platdata(dev);
-> +	struct acp_chip_info *chip = dev_get_drvdata(dev->parent);
->   	struct acp_resource *rsrc = chip->rsrc;
->   	unsigned int dir = substream->stream;
->   	unsigned int irq_bit = 0;
+> Best regards,
+> Krzysztof
 
