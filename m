@@ -1,165 +1,166 @@
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.65.219])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CE9254B09;
-	Thu, 11 Sep 2025 05:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.65.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9B4329F29
+	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 05:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757569678; cv=none; b=a49jvco+l+OK6FN0qinnH6n5b0Nm39Ym4XrGP8mm2z/fuhVU8w/RN3ssK+T8SXjYRFhi3JkFZn0TGpeNomqqpPjle4BDMV7bF69v67DANr9SVe+pv3lcALBqxpKxyHtF2EqKsP2DAqVK6chPzocoFSQwJcEYC0xrzh8nJPqExZg=
+	t=1757569752; cv=none; b=W9NPS9F1SbkaFC7DpRa64yBG/0TblvllOsejwdX0QxPWR1dNtX8hxl7GDDEUaIM4fi6GH6eeDXL2DL7Ji7dY+SivYDd/0pCm1dYqfrigrXBbvbyLriqd+jb8waYIpv668nXK/WC08Z6f8TraCHz3tot1/OlihuZ1OA7BkOdTWYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757569678; c=relaxed/simple;
-	bh=wyo7J5QXwYorHs3VIYK952W/gBVMDZcLxmYyvyfKHKw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WoY5oe7jJ7NT+pWSXQ1f9ZHD6Yfhx/ctYbLgY4Ow88SKutsJMolYJvVHpEI7PvxjEhErWBj7g2y7OnRKw3+PZXBfqfgMLA9Nb6qb6iRstDSAKMVMOlYTsILo+bWNBpivMA8WTuUR3CFCVf2tpx9M03cHuCL/mq8iidFY5uPBS7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=pMwb1HTB; arc=none smtp.client-ip=114.132.65.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1757569752; c=relaxed/simple;
+	bh=CNfDazX35H0BrnzRvDVB6jBjp52YwfrEvQB1d/G4PFE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YOoOHNEF+Wa8irghLxFGozOiOD1umDk25f/+uzFQV7Cm3XPDVXFVNNqOBusziwkBAkDJqTGX0BVg4BOHGB/fV3R1i8gWUa43gPGGAeUv1AFeKMWHAUScF33L2Sw+BPI2ZyBWh6rp18X0g/stGBYjVGmqyLq3ois7D+VgDRKvZPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PQzlHgXI; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="pMwb1HTB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1757569647;
-	bh=gba1Pk4T5pQwOY2V80nBcfMbzr4ZlXRsPp1nhoH8bGc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:To;
-	b=pMwb1HTBJoByXcZi6NBPN7p1l5wqf7G0hCReGWdvnltO+3ZClJOjy9rrkZxiWLfjs
-	 qRu+kyJpl/nxmHO+9HOoQogYEvdp0rGR9gCvl9G3GVpBevqXeGxi49fDPycCVfFpBA
-	 rlYfJiFAsyByfRzC214uXcvoSu2Q0DTz0z9dUcqw=
-X-QQ-mid: esmtpgz15t1757569640td1eec744
-X-QQ-Originating-IP: zD+y2Tss7YaPUqLQHkkUXRkXYwluZmlFiaX+x5Us2Xk=
-Received: from = ( [61.145.255.150])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 11 Sep 2025 13:47:18 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10611340100835449465
-EX-QQ-RecipientCnt: 16
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Subject: [PATCH v3 0/2] ASoC: spacemit: add i2s support to K1 SoC
-Date: Thu, 11 Sep 2025 13:47:09 +0800
-Message-Id: <20250911-k1-i2s-v3-0-57f173732f9c@linux.spacemit.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PQzlHgXI"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58B2J3hs003255
+	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 05:49:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	XAJVBX/BV2Mp43aITD557dcejFKZOMYbma50zk6ukeU=; b=PQzlHgXIm4pNt/a2
+	5UrvXVufHJZ0SMx8tHL4Eujlxv9DNau+CemTElShteZHB2bGj/0Se5dXT0tE3gVk
+	B1EhVYZJtXmKqrR6Mr5HDxCFLltIbyIXSfaqDByKUScnyqdGz0Bb7vwlKoIcY9Pt
+	r1onn8e/6dlabWMj1ZWsuGcgyJHwBXo7XrWeKHS02G2vuJ50/xt6HixN5M+L801F
+	c41vE1uhuGEO+qBURInUSK6yNOvtMLopEtyvFT8/5pYXoBghMEuS6bcC44Qt9O+z
+	C82TfbhVif+9mkNKTTgNiCKi0NuXbZI735IGN+YqeVJltQxmEf78GoRktkN6E5lp
+	FH5/mw==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8pedy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 05:49:09 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-7248ed9f932so3783716d6.3
+        for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 22:49:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757569749; x=1758174549;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XAJVBX/BV2Mp43aITD557dcejFKZOMYbma50zk6ukeU=;
+        b=lcyOvjTX4NELUgKvNPjQPlqddEjUAm2SsaIDdka9vtdyVHnth/773wEiQYlyFZ08h1
+         41MPI+GKIbCfhBhCg7MCpwKAXG7h3v5vTWBU31VLYv8qs/RJxFZAJ0JHX4gyWYf/eFpu
+         lA9F33j8l9YreaZttCZ/C3/Lk5lLQ37+1CNuFrkKY8/HfyEpzlm/QvXuH7syyi2gniNL
+         utAWQM5i4xL+aW3XJYJ3E7cK43NK8t6UMyhC7Aq3GrWKD3AO3aSgvoPr2uhXZqNepbJN
+         Bg/Q1QZcUPHReuQ4q9nWOhlNNONjPzlw2I6ZJrVP0Fqc1GN2CrrIPqlyrcKMFHSoH0M0
+         LmlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUpDOS35dvWmZvmkOJAw6wURkOdtTZidp1x5h2gFx+VSOFyIXKunf3lhOnYXOugY7+lWzgQ1mZqNIkAKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygkeOdUoNh4qTttAdTVfNj0PEyKQZvEXp/6lq0q1s2kg5OmSr5
+	BV9eRbvwLFU4x28Sp+MpPHccWCcoMCUDYWPBFv9WyTaVJRFhVwUcDhMLWKIoYHBqnfw6sw4kd90
+	aL6A0yDIuwuAr2eUnWnH3dFiRlX/uE+vojMnMIPswC8YJ2LeUNcDo0nGINtZnDidLTg==
+X-Gm-Gg: ASbGncv2YC2LrTHc5tBjLHDN1prsTP82ajnzgDLeXTb6UIIlIN9SjsxnKonok++rprB
+	OdaWiKE001AJihELT/D66UipM+nWdvdV7dYa2Q1oRPHrsDHR769aNlaKl2BakwmLQKC8OuRUENE
+	2KGURQQadwPvZAvVQ+ZeTN9BxgzEzw49/U6866KFd1tt/hxDyEYzdJCfUU0XIQz+73sABp+Up8R
+	dYFjaxmRkPuIK+/xfA1GNcBER7scuyryiN5s6YPeggtpKZZAmY6HI5RhyeNdJ1m6U9E7HiUroP+
+	aymyxJKZXdpHXRmSnMgSFkiGRh71WzVjJv6MLv5+eElFSpFyL1Z4SM4Q/skUJbM+h4k=
+X-Received: by 2002:a05:6214:3015:b0:72a:679d:3560 with SMTP id 6a1803df08f44-73940bb3714mr189836646d6.51.1757569748844;
+        Wed, 10 Sep 2025 22:49:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEv33l1lT3f5JIUGjoNlxGeEhADQaiwhDfuuPedj6AJUeuHITft8OXqXep9x1O23/mT5xinFA==
+X-Received: by 2002:a05:6214:3015:b0:72a:679d:3560 with SMTP id 6a1803df08f44-73940bb3714mr189836386d6.51.1757569748212;
+        Wed, 10 Sep 2025 22:49:08 -0700 (PDT)
+Received: from [192.168.68.120] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3e7607cd329sm1020544f8f.31.2025.09.10.22.49.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Sep 2025 22:49:07 -0700 (PDT)
+Message-ID: <7b7db1d2-5f53-4b08-920d-67a57d975313@oss.qualcomm.com>
+Date: Thu, 11 Sep 2025 06:49:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/7] soundwire: qcom: add support for v3.1.0
+To: Alexey Klimov <alexey.klimov@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        vkoul@kernel.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, srini@kernel.org,
+        yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20250904105616.39178-1-srinivas.kandagatla@oss.qualcomm.com>
+ <DCPK67SQ5DEI.2AFDVRKZSEWTS@linaro.org>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <DCPK67SQ5DEI.2AFDVRKZSEWTS@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGBiwmgC/22R3W7bMAyFXyXw9VSQEvXjYBj2HsMQ0BKVCmmcz
- krdFkXevbLbDhmWSxI653zUeeuqTEVqt928dZPMpZbT2AbzbdPFex73okpqc6dBWwho1AFV0VU
- h2iE7K8wxdO3x4yS5vKxGv35/zJP8eWp+549lN3AVFU/HYzlvN9lE6wxmD0KGxGCIRAAomtAn8
- h4yuJigu+bYblYKD6ieT9OhjPtdOvJuWexmrXzSMVtwzMlvZ7tI/8kUYzT1qLNYBstGmEyfMnn
- ntBUfg+Soh54X4VFq5c/Q72tqj7jcHh8O6/17GWXic/stNZMCFQfWQGwhUfj5UManl7v6yFFa8
- l0D+PEfTciWxUByffKWjIhA8gDBJM6UJGRBm2ywt2mCpmua2TYEjX5wg4/C4G4iLL3cl3o+Ta9
- r3zOuxXxWS1/VzrjcYxCpH3QPhDfMVq9ZX+l1+KvXTQ+9+IFai6DjTf3lcnkH6Rban30CAAA=
-X-Change-ID: 20250813-k1-i2s-115bf65eaac8
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
- linux-kernel@vger.kernel.org, 
- Troy Mitchell <troy.mitchell@linux.spacemit.com>, 
- Jinmei Wei <weijinmei@linux.spacemit.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757569637; l=3133;
- i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
- bh=wyo7J5QXwYorHs3VIYK952W/gBVMDZcLxmYyvyfKHKw=;
- b=iQIwYBxkdVAD/JmeC/sIDKyr80CBKdbO6QwoyhiURHDrmlgONjNFU6gLoyjhAd0u0U/UA6+jb
- aV0mzBdX1xdC2qd7P81w+h6MfH4EBBo5olHja30qxUOlLOvdPzRSU+x
-X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
- pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: MA4gBIaQqRQg3kL+u/xQbbRIikTTteDhmXsZPSJKc1N4l+hYE6nomKJh
-	Hz8JYgPfx3boklRdfIu0W/n2yCszq5JpEm0aqqMT1st2ipMLw6VU5LhBw7/Dr5uwcgK8dKX
-	vsr0BQm6X/3CvpZhnESnfzJWy77wwvliRQ1rqqKh50ioQyMOyWhwQcJnoXGn4c09WSH/imu
-	Vwm501cc+zBB7oZxuqnTbZyxNFNb4NK11kTQ5V9XjJ2LRnIPM/wlL2LPqySBDOdzoZy2m/h
-	jd0hn7ohxZsuuvKbdTP80Saq6Ex+ebyLaVtG5x9W6a8vnOto5WfRWtzgtlWfi/or/3xy8SH
-	74SBgiTh0LmKbh8hpzV/Fnpah2DWR9pGgNSY0jn722U1/6jrj/1hzhttDX//UlE323tdTT6
-	ebWU3hGDLf5z6oxj4wQi0ZJGQzopDwJKKX4MYQHQIiVGCvbYBt007HEtsReASmlXAvK1cK0
-	D++tl2Pslbc8aRO2Or8DiYdOwEOpzDRnc2W5XWMycT3QMgwnrTARVGMj9PhgWk3CHKpBqqj
-	iZgfi5/fECYqrbiMFgV8x1lmiwnVr6GF8fnyme9F8yVp+bfx6ve1Dvyl0w0MPTydnI0weo0
-	mG7mz7s7M76HBy1LgDr0UQCQNR1bMNEZdxlcGM4mfZmjnkFCA0JkyJqZO6XH0tWTXyqBr3m
-	PbjEDzTVDSxwiXhewFSOJdv0URfyO4KyDYec7yxlWNrPnC4GWTD2Gsz0sVvgZay6hFfUuvq
-	Af4PbLVMdVs4siXsOkAjELLoH5dBRuz5iUDXmNYCUMgZYAPesDEDMj3qZYfySa+pAZA8Q+Q
-	bunhfCwIWyznZKHLCq/BWMMd3Y7NQpsq9WmNrIH+BUnVQJb3n7dPjvRMN4EdK+milzLxx4k
-	wtOGAdJTScomUpgDv32wVRtm7jGfWNqfPSmHWlHeFL3nTa/1iVfgFfnDlS1EaI+M3U6+m47
-	/ZkQa667pkoQLhAekU96NOZKmL6ucBxGkKQCuFbyb/AJAhgGHuKJSqp3rEYIHcEJnNnMMFY
-	gY3Q2G1zewPtU+k/vdZd21MaqLMOJ/b97Wd6ehSsXm1j2ojxWOxt+oK51MQMrKL52TPMx7l
-	d2i+cheYwKQi7l/p2svHnU6wQzWawB6HgTx6iV4ftTq
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfX2rgKhFHLt2MN
+ JmwJ1T7rNZzMVEvNvRB9A9dAl5VqA6g9NSDickR6p2c5ybVbMdiowmCJpmnX70wjITOEv4OfTai
+ ccxmo1nySX7Ghu/z+jVz2XJHX0VwxD1v0+P199WHYKOrFgs6vMPYqxHaPmHY8zLUxtEsAXtMpud
+ mqFTnVdlTXFaEOEQPe+eiMFDuEfzf5EMFDOAd2OFM51d746OYCPEb8dDMu/DI5HUf2dqI1Zb0A3
+ am4qhJZz3sYN90sch0EiP9EvMq1kbUqByOkrbhoUfms2DsbdoMCG4vOe3BcXGFdZVHWt7zoY7b7
+ Wq5ohQ2kICT9YlV/uNWpjVRNrzSh07jx8WY2EcV4Z6vMHKr8EV0RMp6yRphx2jMvIJvY7rJzSLH
+ MGlkwPnd
+X-Proofpoint-ORIG-GUID: w6MSmKwvBUWaPS7PKMgYHbmYavfeXnma
+X-Proofpoint-GUID: w6MSmKwvBUWaPS7PKMgYHbmYavfeXnma
+X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68c262d5 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=WkAs_pJEH6EIBUO6gLIA:9
+ a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
 
-On the K1 SoC, there is a full-duplex I2S controller.
 
-The I2S is programmable, with the sample width configurable
-to 8, 16, 18, or 32 bits.
 
-A dedicated FIFO is provided for transmit (TXFIFO) and another
-for receive (RXFIFO). In non-packed mode, both FIFOs are 32
-entries deep and 32 bits wide, giving a total of 32 samples each.
+On 9/11/25 1:52 AM, Alexey Klimov wrote:
+> On Thu Sep 4, 2025 at 11:56 AM BST, Srinivas Kandagatla wrote:
+>> This patch series adds support for Qualcomm Soundwire Controller
+>> version v3.1.0.
+>> As part for adding this support, a new macro of_property_read_u8_index()
+>> is added so that we can remove the qcom,din-ports and qcom,dout-ports.
+>> As v3.1.0 supports more than 17 soundwire ports. Also due to change in
+>> the register offsets, new entries are added to the variant data.
+>>
+>> Tested this patchset on X14s and Glymur reference platform.
+> 
+> Well, I don't have any Glymur devices and no idea what is
+> x14s (I guess some laptop), but I picked the series locally to test
+> on sm8550, it seems there are some generic changes, and
+> qcom-soundwire probe failed:
+> 
+>  remoteproc remoteproc1: powering up adsp
+>  remoteproc remoteproc1: Booting fw image qcom/sm8550/adsp.mbn, size 8364
+>  remoteproc remoteproc1: remote processor adsp is now up
+>  qcom,fastrpc 6800000.remoteproc:glink-edge.fastrpcglink-apps-dsp.-1.-1: no reserved DMA memory for FASTRPC
+>  PDR: Indication received from msm/adsp/audio_pd, state: 0x1fffffff, trans-id: 1
+>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@3: Adding to iommu group 12
+>  qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:1
+>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@4: Adding to iommu group 13
+>  qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev: gprsvc:service:2:2
+>  PDR: Indication received from msm/adsp/charger_pd, state: 0x1fffffff, trans-id: 1
+>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@5: Adding to iommu group 14
+>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@6: Adding to iommu group 15
+>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@7: Adding to iommu group 16
+>  qcom-apm gprsvc:service:2:1: CMD timeout for [1001021] opcode
+>  platform 6800000.remoteproc:glink-edge:gpr:service@1:dais: Adding to iommu group 17
+>  va_macro 6d44000.codec: qcom,dmic-sample-rate dt entry missing
+>  qcom-soundwire 6d30000.soundwire: probe with driver qcom-soundwire failed with error -75
+>  sched: DL replenish lagged too much
+>  platform sound: deferred probe pending: snd-sc8280xp: WCD Playback: codec dai not found
+> 
+> Are there any dependencies I am missing?
 
-The register definitions can be found here[1]
+Looks like there is a bug in sm8550 dts, its adding incorrect number of
+ports, which is why we are seeing this error.
 
-Link:
-https://developer.spacemit.com/documentation?token=Rn9Kw3iFHirAMgkIpTAcV2Arnkf#18.2-spi%2Fi2s [1]
+Its good that alteast this series is detecting some of the bugs.
 
-Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
----
-Changes in v3:
-- Patch 1/2:
-  - simplify dma-names definition
-- Patch 2/2 
-  - remove empty spacemit_i2s_remove()
-  - move FSRT setup for DSP_A into switch-case in spacemit_i2s_set_fmt()
-- Link to v2: https://lore.kernel.org/r/20250828-k1-i2s-v2-0-09e7b40f002c@linux.spacemit.com
 
-Changes in v2:
-- Patch 1/2:
-  - modify commit message
-  - remove unused third cell from pdma dmas property
-  - update SPDX license in spacemit,k1-i2s.yaml to (GPL-2.0-only OR BSD-2-Clause)
-- Patch 2/2:
-  - modify commit message
-  - reset_assert in dai_ops::remove
-  - select CMA and DMA_CMA in Kconfig
-  - use devm_reset_control_get_exclusive
-- Link to v1: https://lore.kernel.org/r/20250814-k1-i2s-v1-0-c31149b29041@linux.spacemit.com
-
----
-Troy Mitchell (2):
-      ASoC: dt-bindings: Add bindings for SpacemiT K1
-      ASoC: spacemit: add i2s support for K1 SoC
-
- .../devicetree/bindings/sound/spacemit,k1-i2s.yaml |  87 ++++
- sound/soc/Kconfig                                  |   1 +
- sound/soc/Makefile                                 |   1 +
- sound/soc/spacemit/Kconfig                         |  16 +
- sound/soc/spacemit/Makefile                        |   5 +
- sound/soc/spacemit/k1_i2s.c                        | 444 +++++++++++++++++++++
- 6 files changed, 554 insertions(+)
----
-base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
-change-id: 20250813-k1-i2s-115bf65eaac8
-prerequisite-change-id: 20250701-working_dma_0701_v2-7d2cf506aad7:v5
-prerequisite-patch-id: 3fe97698036c32c20d03b1b835a5735e8ee8126c
-prerequisite-patch-id: bf64cb2fbb9699d2ace64ae517532f13c6f8d277
-prerequisite-patch-id: 49263c65c84a0b045f9b5ae6831dc011c4dea52f
-prerequisite-patch-id: 2b43599bf7568e6432faa2f6aca5b2db792cd1c1
-prerequisite-patch-id: 1b840918a99543f4497b6475ee52977bdb59f1c3
-prerequisite-patch-id: 2f77be523fd5423bd011e3081a3635d130410096
-prerequisite-patch-id: 78bcc660796fc4f73b884d17a1b63e62f99dfdd0
-prerequisite-patch-id: 62d0b3678cf825bca51424ad85cf35ebdd6dc171
-prerequisite-message-id: <20250911-k1-clk-i2s-generation-v4-0-cba204a50d48@linux.spacemit.com>
-prerequisite-patch-id: b46d4007c5b20f11845db739fc78ffccc54f4dab
-prerequisite-patch-id: 1e193c412de1206c024a674e2dd7da88092976b9
-prerequisite-patch-id: af07a4bca4109b13a74c0b20a12f96af863090ef
-prerequisite-message-id: <20250824-k1-clk-i2s-v5-0-217b6b7cea06@linux.spacemit.com>
-prerequisite-patch-id: 6f2626811da4833395f52f712d9f2a5fb553cb48
-prerequisite-patch-id: d2594982f7a8f39c2aa4f21490a19e93ab67254d
-
-Best regards,
--- 
-Troy Mitchell <troy.mitchell@linux.spacemit.com>
+--srini
+> 
+> When I reverted the series the audio started to work again.
+> 
+> Best regards,
+> Alexey
 
