@@ -1,43 +1,43 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD42C32CF87;
-	Thu, 11 Sep 2025 13:42:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCD122259B;
+	Thu, 11 Sep 2025 14:31:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757598125; cv=pass; b=O7S7Ls6tDoSkl/0IzZOUjn5TDtk4mWkVnOx/Pxh/V8ieknVDFpEdoIqBKyimAhTheEJAbliKFRkR70kqvsh+gqVqz19/Cb/o3gasNqFFW35ZaLVjU+PT+ZxH9QFMh95eMkvCNrVWDBR7EMGrFny3yCImNCf/tz3XlQ3i3H5W+5c=
+	t=1757601071; cv=pass; b=AxW569ca/UZ9VVbILIlOHvBwNV5H7uKXnt7AW5X+Rql6M9tRF8W/EPfsAt4+0u5dwKj0umNqXkLGDckr+v7MSZfyBXXW/hKE0/81GePp+AEL/yi2PeCOEWZIQ11kj1c+ysiKl247Dc82LPnlCYWma2mpzVUSOnMK0WYWGU3SQeE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757598125; c=relaxed/simple;
-	bh=+j7wH6J9TwHPLevUCUsfv49hVVIfmnnJ50vL4o03eGs=;
+	s=arc-20240116; t=1757601071; c=relaxed/simple;
+	bh=ENyo8hlExL0a64lneN3wYIQx9ceQ4J02gvt6LoyVFaY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g0NQbJJa1PT1tE3smNzd6Aj6LIXqEGnI6zLKCb3QguR6IkOinaKLdQsgYv4M3GNOfIvJGWzIDj5A+C5yzlaeNkM1VcGDZFyONDqSbkoG8MXGGvX9n6Lq1YCtEHVHggIV6TRMuBaXW21ckdvvDEqZn9gd+7QAoPKKC9ch+qO96RI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=NsRlRzli; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:Content-Type; b=cmdEz6WnYVzJogjLHGGT7dHaNP7KbvF289LTQcJkzHcILlYjDPF0QXKsM6z7zrgwZLd+F+g2PCd9S7qQ20mvYrJbN1hy57upXwzq3vIE/JFDuhCTgwihrvyXioR96Y5mIWM0rVYgGMvn7z3ubc1chgK4i1tYhhDs3ABzpKPVgFs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=ZCWq2Dt/; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="NsRlRzli"
-ARC-Seal: i=1; a=rsa-sha256; t=1757598055; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="ZCWq2Dt/"
+ARC-Seal: i=1; a=rsa-sha256; t=1757601008; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=Wd4WA6Er9cB9s6Hkt5aT6OBU5Qo5bfiy5l1P+Xa+5VFE3pcj0EYC1irYclVw44xfA/LGEE1P3H5NoyDRj8g5aYL5DO6LFfOSdTi8Xo68/Y7PYyTuxxfNdOv2I+XK48iy/vJy4GjAsgOcqTkVjb0ACFfdnqJgaw2FRauP6e/Vqb0=
+	b=fKylatfoGlWuRdvSCbn3egSlJ82Cbc81pjdBqhTrxvRWzYzpTEHGB+pEol0MxJFv7cSofmdSTGfeMveBJ4mREx8G0LNwE4bLDqwId4ZgLEBpbzxFN5xNm3TfnYFrjN4gd9GASWxHA6CkqAJFTwF8ahTJVfVL7hALfGHbVQ+PHwE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757598055; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=akxgWnU52qi2aW5V4nycRXC1MA1p0XXtUX8b0SkdlHI=; 
-	b=LfUX1aQVAVFdHj8+y0//AJhf1fsHBn+VlpRO4LG22OXZv6/dMLXEYKunDdZoe364LrK8PnREgYhBB/fWBvWDinro5SWb85l1HU8gYCD9V+RoB8cvwAKdJEOq+hDpLHGB00DB6JJkrLd/THhPkaxSJdT3eQR6r8MibvY/ip2bat8=
+	t=1757601008; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Mt87tHkCDrz9K7C85pTFu77GL3qr/zrL67mBd2f4Ly4=; 
+	b=ggbsi/0msrtWqOmLEDVikyKSGUHKt7JutW13zHhtrhLZBh0iFNMP/iLNtcBHMM8VJQQloVCdWfwAJp/kcnqt5JjF3WtDZmfGJbgZoBeqeXi4CvWMjPiwUzZUx0ukViLgRPnLZVHklPCxqzP1hm9l0qN0YxKWLqXUyk6AsisUGWc=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
 	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757598055;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757601008;
 	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
 	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=akxgWnU52qi2aW5V4nycRXC1MA1p0XXtUX8b0SkdlHI=;
-	b=NsRlRzlifXvTvvkDhLOg2YrB9VbwSR8DvKqJVdp8u4HzCFR5KM3LbVsfzq9vFNLv
-	HWBTS+duRr9SPP50E7s5ev8uzaDXlk5sQhS7q0jMxjng1FJa7tsWMU7IDEw8Cg44Nka
-	20rr30YjpaoW+uxdoNzBf0ZcDiNq8aysDR0/skEo=
-Received: by mx.zohomail.com with SMTPS id 1757598052583569.5590919976829;
-	Thu, 11 Sep 2025 06:40:52 -0700 (PDT)
-Message-ID: <c473c6ff-856a-4950-9c75-7bace41886ca@collabora.com>
-Date: Thu, 11 Sep 2025 10:40:36 -0300
+	bh=Mt87tHkCDrz9K7C85pTFu77GL3qr/zrL67mBd2f4Ly4=;
+	b=ZCWq2Dt/O+0lXM5sUN/qed2Rp3/lwSfyQJVEzLijcl+pa7YXFipLOLT0myJB/N9/
+	Oq1o7TaV4NBQPNCrbWbExkBpxQABWH1+bda9C3mCLe1Nwh8zGc7CcC7tk4gO6ltwUvI
+	XH41PpeHAD6HBnluijWBcoUR53jddWzEKR6ukUKA=
+Received: by mx.zohomail.com with SMTPS id 1757601005694334.08530516479357;
+	Thu, 11 Sep 2025 07:30:05 -0700 (PDT)
+Message-ID: <5486a77a-7c5b-4316-9ff9-4cd458fb1001@collabora.com>
+Date: Thu, 11 Sep 2025 11:29:48 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,72 +45,65 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 03/14] dt-bindings: arm: mediatek: mmsys: Add
- assigned-clocks/rates properties
-To: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v1 00/14] MediaTek dt-bindings sanitization (MT8173)
+To: Mark Brown <broonie@kernel.org>
 Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
  andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
- krzk+dt@kernel.org, kuba@kernel.org,
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
- linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
+ chunkuang.hu@kernel.org, ck.hu@mediatek.com, conor+dt@kernel.org,
+ davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+ flora.fu@mediatek.com, houlong.wei@mediatek.com, jeesw@melfas.com,
+ jmassot@collabora.com, kernel@collabora.com, krzk+dt@kernel.org,
+ kuba@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
+ lgirdwood@gmail.com, linus.walleij@linaro.org,
+ louisalexis.eyraud@collabora.com, maarten.lankhorst@linux.intel.com,
+ matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
+ mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
+ robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch,
+ support.opensource@diasemi.com, tiffany.lin@mediatek.com,
+ tzimmermann@suse.de, yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org
 References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-4-ariel.dalessandro@collabora.com>
- <20250821-electric-kestrel-of-awe-cb89dc@kuoka>
- <1cf0b296-adaa-4c80-864c-9b78f09cd3e3@collabora.com>
- <898bf39e-1b34-40e9-bdfa-ec4eca1c3f7d@kernel.org>
+ <9401aab0-1168-4570-a0a1-1310f37142eb@sirena.org.uk>
 Content-Language: en-US
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <898bf39e-1b34-40e9-bdfa-ec4eca1c3f7d@kernel.org>
+In-Reply-To: <9401aab0-1168-4570-a0a1-1310f37142eb@sirena.org.uk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
 
-Krzysztof,
+Mark,
 
-On 9/9/25 3:29 AM, Krzysztof Kozlowski wrote:
-> On 08/09/2025 21:19, Ariel D'Alessandro wrote:
->> Krzysztof,
+On 8/20/25 2:19 PM, Mark Brown wrote:
+> On Wed, Aug 20, 2025 at 02:12:48PM -0300, Ariel D'Alessandro wrote:
+>> This patch series continues the effort to address Device Tree validation
+>> warnings for MediaTek platforms, with a focus on MT8173. It follows the initial
+>> cleanup series by Angelo (https://www.spinics.net/lists/kernel/msg5780177.html)
 >>
->> On 8/21/25 3:43 AM, Krzysztof Kozlowski wrote:
->>> On Wed, Aug 20, 2025 at 02:12:51PM -0300, Ariel D'Alessandro wrote:
->>>> Current, the DT bindings for MediaTek mmsys controller is missing the
->>>> assigned-clocks and assigned-clocks-rates properties. Add these and
->>>
->>> No, they do not miss them. I don't understand why you are adding these.
->>
->> The reason I added these is due to the following check error:
->>
->> $ make -j$(nproc) CHECK_DTBS=y mediatek/mt8173-elm.dtb
->>     DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
->> [...]
->> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: syscon@14000000
->> (mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do
->> not match any of the regexes: '^pinctrl-[0-9]+$'
->> 	from schema $id:
->> http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+>> Similarly to the ongoing MT8183 work done by Julien Massot, this patchset
+>> eliminates several of the remaining warnings by improving or converting DT
+>> bindings to YAML, adding missing properties, and updating device tree files
+>> accordingly.
 > 
-> This is looking like missing clocks or other unevaluated property by the
-> binding.
+> Same question as for that series, what's the story with
+> interdependencies between the patches?
+> 
+> Please submit patches using subject lines reflecting the style for the
+> subsystem, this makes it easier for people to identify relevant patches.
+> Look at what existing commits in the area you're changing are doing and
+> make sure your subject lines visually resemble what they're doing.
+> There's no need to resubmit to fix this alone.
 
-Agreed, the rate assignment has to be moved in other DT nodes, it's not 
-a binding issue.
+I'm resubmitting patchset v2 with several fixes addressing feedback on 
+each patch. While doing so, I've updated each subject line according to 
+each subsystem log.
 
-Thanks,
+Of course let me know if this still need some work.
+
+Thanks for your help!
 
 -- 
 Ariel D'Alessandro
