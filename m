@@ -1,112 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86629248891
-	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 18:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49452D3228
+	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 21:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757615526; cv=none; b=OSdPCwd2I4ZZFeEODD/gBSatRcPl08/iCYeUbXIZa4BxwrPLndJzcpQgASO4Qyc4RIjM5+WRNyfJsNvDfpXweP+kjlTmonrTVrtUWJhugzkqm5OqupiMosa9dnjqq6uS22S74iBHktUyb6ftvvE8hiTv7MHdP9WAFZ36+FZxARo=
+	t=1757627071; cv=none; b=tbExV/J0kaPjjj5QVqcPKCh/5u9qG/UEowGPlujxtulxXko6YjNTGxQAfwBTbWRyjp8y70dvBYChcxxfx4k3s1od4BNU2KhdORlslaMZXrB3Z3H3/d0UxsXLYvKOXccrxJwhqO/qKMEWayawlTSrFrugWTDhllpQLIrP2Ps2cSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757615526; c=relaxed/simple;
-	bh=HVawjMcQczynRglGSlCyy+kwMjziDRllYDRfqUgmecQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SAbxIf6J2RgD+3uRxwdKguJ5e58m7flmsoDyOJbxKIDu6QQowKHH/pzqZ2RbYGP5bhO/WdZxKzQBqcRm5YcKoDBnowiOJwmcQPPQ6UznsAS6e9OL0CMLk/cu4ivzC4X7Uq+KRzcAnSaFp35A09EH8ygt3bdb4yCc/uwy2NvP+GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fTlhMwFq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757627071; c=relaxed/simple;
+	bh=mUvIbGyVkrFQ44a7PRrcV1n+CvoSl3HqAUu9F1HIHoo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nnaWvZSEaKP4554sKHDf231KPOPQIyTfO28A7y9Lr1/dD1x9dxdK9Fw9yFY+DMaY70uj+ofeOp4YMfGXhCWV8d6dUWgQV3Do2T7kvTR/jGcjkUA2+SVxz4lusfw/wk8MldxzUfBI6VWwN4hLDJY64HE9qtYFJK3MRkqt2UWgwWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VJ7nEJoU; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fTlhMwFq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55962C4CEF0;
-	Thu, 11 Sep 2025 18:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757615526;
-	bh=HVawjMcQczynRglGSlCyy+kwMjziDRllYDRfqUgmecQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fTlhMwFq+63syrURiIERJz6aKhuNRgLCWi/pHK97ZgyFSfmlPWyey5+fwBCdSW5Ht
-	 ZbyPIuu2E/ePFfiHHuRMclEybQY4Jbd8lFix6gbTpRQPEb385sy4YySFOE0/044h+s
-	 L0p5BHVYfJ85Vbq2RHy/QfDbZRHSTu2vhVoIhjgYiEWPSdp0zVwKxB4akdXKmu2R92
-	 lSlzIKh++DVmPOg/uorXgdWfRXkjFxJnND+qw6zFnPa0bKl4dmZWoPrTCl4AsfB8E5
-	 3BgsM2UxrdQrFrb6hK/hc4IULjkuet5CRL/4/AHARvBQ7sbZjPnEwF3b/aQMpZU6L8
-	 Yw9aDTGEuYUog==
-Date: Thu, 11 Sep 2025 19:32:00 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-	"perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	"yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
-	"cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
-	"peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
-	"ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>,
-	"kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
-	"pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>,
-	"Navada Kanyana, Mukund" <navada@ti.com>,
-	"Ding, Shenghao" <shenghao-ding@ti.com>,
-	"Hampiholi, Vallabha" <v-hampiholi@ti.com>,
-	"Xu, Baojun" <baojun.xu@ti.com>
-Subject: Re: [EXTERNAL] Re: [PATCH v4 2/6] ASoC: ops: add
- snd_soc_get_volsw_clamped
-Message-ID: <fcde8a20-dcd1-4f2f-8257-b8e29369305e@sirena.org.uk>
-References: <20250911155704.2236-1-niranjan.hy@ti.com>
- <20250911155704.2236-2-niranjan.hy@ti.com>
- <652726cc-b286-4ba0-b49c-8b981d6d0244@sirena.org.uk>
- <41a87c2b7f21467d833b7eefde8e63a0@ti.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VJ7nEJoU"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1757627057;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oSsmD+PT9J7Rok4sUSj0iKhGngM/Czt934IPRIT54X8=;
+	b=VJ7nEJoURZKTp3AMNtFWZTZunptkFQ3hJgZglAaJad3SE5RQGE7N02UZ9TARw4BB+lpOR5
+	nURSLtXRGfi5KPF/YKeyNijYlKtsPbK0w3DVsbSa/OA1fa+SDxUn9LX65EXs8w2JP0qL/2
+	+4WjlieDhlKy932EffdHd3HHlTcvCYk=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Johannes Berg <johannes@sipsolutions.net>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	Takashi Iwai <tiwai@suse.de>,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: aoa: Remove redundant size arguments from strscpy()
+Date: Thu, 11 Sep 2025 23:43:22 +0200
+Message-ID: <20250911214334.1482982-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wz+D+05ykIzKd/3V"
-Content-Disposition: inline
-In-Reply-To: <41a87c2b7f21467d833b7eefde8e63a0@ti.com>
-X-Cookie: Your domestic life may be harmonious.
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
+The size parameter of strscpy() is optional if the destination buffer
+has a fixed length and strscpy() can automatically determine its size
+using sizeof(). This makes many explicit size arguments redundant.
 
---wz+D+05ykIzKd/3V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Remove them to shorten and simplify the code.
 
-On Thu, Sep 11, 2025 at 05:21:14PM +0000, Holalu Yogendra, Niranjan wrote:
-> > From: Mark Brown <broonie@kernel.org>
+No functional changes intended.
 
-> > Why is this a separate API, what is the situation where we would want to
-> > report an invalid value from a control?  I was thinking of just adding
-> > this to the existing operations rather than adding separate ones that
-> > need to be explicitly set.
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/aoa/codecs/onyx.c    | 2 +-
+ sound/aoa/codecs/tas.c     | 2 +-
+ sound/aoa/codecs/toonie.c  | 2 +-
+ sound/aoa/core/alsa.c      | 8 ++++----
+ sound/aoa/fabrics/layout.c | 9 +++------
+ 5 files changed, 10 insertions(+), 13 deletions(-)
 
->   Since few of the drivers as still using the original API, and was not s=
-ure if
-> everyone wanted to clamp the register value, did not want to disturb the
-> original API snd_soc_get_volsw. Per my analysis, if register read fails d=
-ue to=20
-In what situation would anything want to report an invalid value?
+diff --git a/sound/aoa/codecs/onyx.c b/sound/aoa/codecs/onyx.c
+index ac347a14f282..fe59a7c59091 100644
+--- a/sound/aoa/codecs/onyx.c
++++ b/sound/aoa/codecs/onyx.c
+@@ -1013,7 +1013,7 @@ static int onyx_i2c_probe(struct i2c_client *client)
+ 		goto fail;
+ 	}
+ 
+-	strscpy(onyx->codec.name, "onyx", MAX_CODEC_NAME_LEN);
++	strscpy(onyx->codec.name, "onyx");
+ 	onyx->codec.owner = THIS_MODULE;
+ 	onyx->codec.init = onyx_init_codec;
+ 	onyx->codec.exit = onyx_exit_codec;
+diff --git a/sound/aoa/codecs/tas.c b/sound/aoa/codecs/tas.c
+index 804b2ebbe28f..68b420a35fec 100644
+--- a/sound/aoa/codecs/tas.c
++++ b/sound/aoa/codecs/tas.c
+@@ -892,7 +892,7 @@ static int tas_i2c_probe(struct i2c_client *client)
+ 	/* seems that half is a saner default */
+ 	tas->drc_range = TAS3004_DRC_MAX / 2;
+ 
+-	strscpy(tas->codec.name, "tas", MAX_CODEC_NAME_LEN);
++	strscpy(tas->codec.name, "tas");
+ 	tas->codec.owner = THIS_MODULE;
+ 	tas->codec.init = tas_init_codec;
+ 	tas->codec.exit = tas_exit_codec;
+diff --git a/sound/aoa/codecs/toonie.c b/sound/aoa/codecs/toonie.c
+index 0da5af129492..b59967c49e0a 100644
+--- a/sound/aoa/codecs/toonie.c
++++ b/sound/aoa/codecs/toonie.c
+@@ -126,7 +126,7 @@ static int __init toonie_init(void)
+ 	if (!toonie)
+ 		return -ENOMEM;
+ 
+-	strscpy(toonie->codec.name, "toonie", sizeof(toonie->codec.name));
++	strscpy(toonie->codec.name, "toonie");
+ 	toonie->codec.owner = THIS_MODULE;
+ 	toonie->codec.init = toonie_init_codec;
+ 	toonie->codec.exit = toonie_exit_codec;
+diff --git a/sound/aoa/core/alsa.c b/sound/aoa/core/alsa.c
+index 7fce8581ddbd..aad7dfe089c7 100644
+--- a/sound/aoa/core/alsa.c
++++ b/sound/aoa/core/alsa.c
+@@ -28,10 +28,10 @@ int aoa_alsa_init(char *name, struct module *mod, struct device *dev)
+ 		return err;
+ 	aoa_card = alsa_card->private_data;
+ 	aoa_card->alsa_card = alsa_card;
+-	strscpy(alsa_card->driver, "AppleOnbdAudio", sizeof(alsa_card->driver));
+-	strscpy(alsa_card->shortname, name, sizeof(alsa_card->shortname));
+-	strscpy(alsa_card->longname, name, sizeof(alsa_card->longname));
+-	strscpy(alsa_card->mixername, name, sizeof(alsa_card->mixername));
++	strscpy(alsa_card->driver, "AppleOnbdAudio");
++	strscpy(alsa_card->shortname, name);
++	strscpy(alsa_card->longname, name);
++	strscpy(alsa_card->mixername, name);
+ 	err = snd_card_register(aoa_card->alsa_card);
+ 	if (err < 0) {
+ 		printk(KERN_ERR "snd-aoa: couldn't register alsa card\n");
+diff --git a/sound/aoa/fabrics/layout.c b/sound/aoa/fabrics/layout.c
+index e68b4cb4df29..bb2a0ef3004b 100644
+--- a/sound/aoa/fabrics/layout.c
++++ b/sound/aoa/fabrics/layout.c
+@@ -949,8 +949,7 @@ static void layout_attached_codec(struct aoa_codec *codec)
+ 				ldev->gpio.methods->set_lineout(codec->gpio, 1);
+ 			ctl = snd_ctl_new1(&lineout_ctl, codec->gpio);
+ 			if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+-				strscpy(ctl->id.name,
+-					"Headphone Switch", sizeof(ctl->id.name));
++				strscpy(ctl->id.name, "Headphone Switch");
+ 			ldev->lineout_ctrl = ctl;
+ 			aoa_snd_ctl_add(ctl);
+ 			ldev->have_lineout_detect =
+@@ -964,15 +963,13 @@ static void layout_attached_codec(struct aoa_codec *codec)
+ 						   ldev);
+ 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+ 					strscpy(ctl->id.name,
+-						"Headphone Detect Autoswitch",
+-						sizeof(ctl->id.name));
++						"Headphone Detect Autoswitch");
+ 				aoa_snd_ctl_add(ctl);
+ 				ctl = snd_ctl_new1(&lineout_detected,
+ 						   ldev);
+ 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+ 					strscpy(ctl->id.name,
+-						"Headphone Detected",
+-						sizeof(ctl->id.name));
++						"Headphone Detected");
+ 				ldev->lineout_detected_ctrl = ctl;
+ 				aoa_snd_ctl_add(ctl);
+ 			}
+-- 
+2.50.1
 
-> some issue (like IO) and, for some reason if register value was modified
-> to have the value greater than mc->max value, the volume is report errone=
-ously.
->   Are you thinking that this patch could be dropped and clamp the value t=
-o max in =20
-> 'soc_get_volsw' (as in 1st patch) and use the same API ? Please suggest.
-
-Yes, everything should report valid values.  I/O errors should be
-propagated as errors.
-
---wz+D+05ykIzKd/3V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjDFZ8ACgkQJNaLcl1U
-h9DhDwf/VutNkY/S+yvt/e7kV3OOg13DJI2Uc58GTgBOZ47hylTbuSNRU1eNFmCN
-gy6RwcjBoitXHIQ+snFV4EPHOzKwBYtKTvc97rS41zBEFm8bfWwQuT23CcT9rBTa
-VHAz8PxWo/JoTa9o6URi6NAIWs8Pp3ijTqDV5RDveCpWtY9i4VJTFdfPlY8JAw94
-52PDO0L+nUNb2bNgF6CevLZSRU+GxvegUFsAfbye9Ljo8283SmD6RZBtfXlQWJ/x
-UZoPCwhvGhM1fSRH7l20fnSEoGMAzsK+CPOqMEJW5xLajqmvqzzCQhe35lyyFO79
-T8VCl0FEi3j3YVC0vk0gHj7eTRbbqg==
-=AhOl
------END PGP SIGNATURE-----
-
---wz+D+05ykIzKd/3V--
