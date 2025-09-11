@@ -1,139 +1,109 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942F9283FDC
-	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 06:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952BA26FDA9
+	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 07:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757572610; cv=none; b=Zx6Z4DIv5wEbR2hs3IR8xqp6YBTNtaBmHFruEGsBi5WN4WsOoAzr9YiDM5urTxuHv10WYGWdmfxZqfRlse0tsYQHtM+OEdyZtB/EJxb/ysoT9zHYwJFSLrXufGVgIjVyiKpAywAFb6hoDElQqkTNjqB9Rs2RpaG1+QzjPocY2oQ=
+	t=1757574661; cv=none; b=CH1tbNUSPl0MdMMvFgkCg+Ewav6V3EOmUCKb05gkPBizpGtZkZZ6hjnxHB7JoU11lDRb62R43e1X1hiIg43yGrlEIPstxPBLSL00MTeo4AWXTcG5AwKk5cVuiFROQAU5dh+oyE1/xibV9mKnkK3IlWfgMKu4b37wp1r2lcQf134=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757572610; c=relaxed/simple;
-	bh=z+gGsuW1nP7yJtlnfXfDq453MF7xeDeN/7Bqp1rigus=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oYGxVdFHUs1d4mPC8A9f2tfbhcQvjyXG6DqDKKyvMkr38+k01/R1CHdyfN5/iwdavTYKq54nwHeOjDr4uUUNuREiA3n+BN56or4pralzM6rGgnEuoxiHEMPfYE08hQ3bONu/XqHsaXfAh+1clro1SRPu88izWAObLdb7gHsZ7hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jcfhArRd; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jcfhArRd"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58B2Ie4U000431
-	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 06:36:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=Q4ORjV3h/Ug
-	G8t1QXMHoEv//ijDc+HhKRFWyrdBcOJg=; b=jcfhArRd2NIdgBoVrwL3sdrqqwd
-	kzJxqYYVERFKeWu67qfx5kMo3mSt9WrDYvk+vVF6xRInAHRg4/K4QRBqls4Nvqlz
-	Hw6bRTCCcNdJsboF7CD0w6IjciyWs/Fu+pw0M9bl/ZkcPRC93sIRBAjirSWxEO4V
-	JGHuqkbl6hHosgictnvkCVc7qbL6cRDeoZTeEsymUT0XM4vRX+x6YCkmXwBvI54M
-	sJcuSUnmMg/mf0+on5+PBBcc3HgcDCLDCnXxMVySNtNXP9AY6TDRciTPQFVBFSrj
-	eb5f3zs/+/olwwwQ2mTHyRpYSjXmkq6aVCwdbSwllEcWc1YAkokEE56beDQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 493cpb231d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 06:36:47 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-244582bc5e4so4704395ad.2
-        for <linux-sound@vger.kernel.org>; Wed, 10 Sep 2025 23:36:47 -0700 (PDT)
+	s=arc-20240116; t=1757574661; c=relaxed/simple;
+	bh=vl70sf7AjDwcIlQD7K54NwrKW872e7tkmwD9HH31AbE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NKMhAKzVymwKWG7zM53efxVwnwR6MzLtx+CBG+V4GYm6yKI+xlPLcIY6X1BC5m/CMUmitOTL+OUksXvdPQSNtVkGixz2TRSzQztGrEx6Mb6GGU7nnB5RsPM/UxornTKdgYiXWvcF2qUmblM8gvN1TtDGW1OQ3ENwcPO94Ba6Akk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-8bdb4985309so116901241.1
+        for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 00:10:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757572606; x=1758177406;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q4ORjV3h/UgG8t1QXMHoEv//ijDc+HhKRFWyrdBcOJg=;
-        b=MYFE0o1puZK0saRmhzFZsdZ6UCco0amfEFJoCl30RNRtRVA/7IlNAUwFEFNY2G7nKI
-         gce5EOljQSRbSw/KcA4UaVm5gkau+Pb6wf85UCCs/BhZ/PDRb4LmQ7yqC0W374KrP0kc
-         jv55AG7CWav+xyEjyaOTeUumdxhZ3EH6Us25xEeBp6NlBmlO4+Mgh1hNWkZ5VU30ICxj
-         gjKCiaTA2b1JKmvM3BNpNbyp9XB1v4G64x8tV1T1XxvaCN+1ckOIxdRiDk1NmSNy/ILp
-         KN5sD7SloQzmW9QpImCa7QOLeWDeSkFqNwREn6eYqWjqlS/9ZqH2e9ryXNHdosWG5B9c
-         e0rw==
-X-Gm-Message-State: AOJu0YxNYcKDf62FtXwuOuvOZ+hroGWbbj2Ym+9cqFkl9nzPT0ji1rfs
-	uTLS8oxirZ7XXQ61kiyblLvjxAnlM/OncLYi/LumWSOZON0dsxalWENtmOl5XFAsVhM+nl3dLND
-	bjgnz3bo4x67jHHIeWKcBNeRMkqZPJj7J9rFmvv2kelb2rRcXN10ZNK2RXnaCfzMElA==
-X-Gm-Gg: ASbGnctHWB1UHCyEbvcW0CzS2CkqVCx7L6RfnujSTg1+xPJGLGfxNbbccyHeun/Jb2f
-	mdL9UZNnWM+ag3rfxvZIsIegotey3I2cRuShMrPL3vC46S0Y+3k4VVgMmoPcOeCOJKJy3C1OJGq
-	XCFZtuATuoiZ/yMBq9RHSmzk+iOtphzRRbAEtqjC6q/SxiW8a98lSSiKFfz+hn2R0nMmRam6TBR
-	a//8pM+5BkttTwYCw2uenzBUIoRhH89/bKZl4vVDNvINUJh6utgOKltTeRZYgwIrCb5rRf+YZLI
-	WRmW+RKz2sbmQuQqJ3l6ls4ETp2+3x4A7jtDKwB2Ks49xmudgoMu8MdcrqIDAg/G+b4u51a7G2F
-	L
-X-Received: by 2002:a17:902:e5d0:b0:24b:2b07:5fa5 with SMTP id d9443c01a7336-25172291ab5mr225873595ad.29.1757572606000;
-        Wed, 10 Sep 2025 23:36:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF9eV4g/Bz1IC9gIK4+YyyAJHqfkhbwcypak7raP2+NFnageWgjl1k5GmykpU3x8QunX0CgBA==
-X-Received: by 2002:a17:902:e5d0:b0:24b:2b07:5fa5 with SMTP id d9443c01a7336-25172291ab5mr225873325ad.29.1757572605304;
-        Wed, 10 Sep 2025 23:36:45 -0700 (PDT)
-Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25c3a84f72fsm7739125ad.72.2025.09.10.23.36.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Sep 2025 23:36:45 -0700 (PDT)
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
-        prasad.kumpatla@oss.qualcomm.com, ajay.nandam@oss.qualcomm.com,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [RESEND PATCH v4 3/3] ASoC: qcom: sc8280xp: Enable DAI format configuration for MI2S interfaces
-Date: Thu, 11 Sep 2025 12:06:12 +0530
-Message-Id: <20250911063612.2242184-4-mohammad.rafi.shaik@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250911063612.2242184-1-mohammad.rafi.shaik@oss.qualcomm.com>
-References: <20250911063612.2242184-1-mohammad.rafi.shaik@oss.qualcomm.com>
+        d=1e100.net; s=20230601; t=1757574658; x=1758179458;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Oka+5NFB5wMrpMR5fbSO4AzIeW3Sp+JtBLuI9s6Y+gk=;
+        b=Mma1Aj5ds/nClhZ0TtTbFfy6MyjRGFnJSAvdsTLT9or3OhSlK/s6vg3bztvK5ONGCA
+         0UoBeby27jsKI+lor/taP5eM+ph7WUQ1rRUZEBohga9RS6Ry93q+T3hV//iNdSKForp4
+         vMthCMPAl+rm5CYn714nqyzxjsWCzUlzQZtxilryiM6ql127Fy3PsPyzp5eRvFWdY31h
+         i4HSHEP6o4vGU9QG8kKEkKzg3q435UmtH9SrswLyRWriMjYbEGNA/qqB9sLHB92Kx8J0
+         sK5OpDT7ckiPNxbYmy1LPLKebRdFJlFYQOGMkgBXQGX2eEo4/aVVcTPJTf0+f1eN7yt3
+         rvcw==
+X-Forwarded-Encrypted: i=1; AJvYcCWwWWDbAsNLogWY+0BOobyddrlHFDZaDiTdS/A9TUHafj9c71YQi/EZPSQ5lp2yZq8AkofxupntsjZ99Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfX6T0HXEuYZBvbKTPVyPi1EBYzO8mc2AXvv/2Fr/DBKAmwpTr
+	oY5/sesKqdVzM3UDPx1k/8mxD0ZVeEeLNEvGK60aqFCIL2rBqaOydYRpw0jxGF9p
+X-Gm-Gg: ASbGncvOMGSUJNN7gTNT2d2qGgctN+PnvVFzzSYVEScArv5qPUZqfTdKx71gTqw/cF4
+	LqBQpZqZIM+ag9ckJsAM/1REyCXxlhxaczB1q1/gEdIuyYwIq3wFhH5GSJgnd3iuJ3tWxHig80m
+	pCYNOzr/Dzv2+BnWEA5uRRqg33eDVS314pjjvaaaXW4eKrvrhy/z+cm8LPkrvvQx5XC/in5Nkqs
+	AVE2hGBB4VDe5tUtEh1VfxtO8yaHitZUTFXGUGXAUsgBvPtDD2x06b/rm2QpMDBSPZBjC9NNgal
+	EZoBFYHud0RAdAB0C90Adk5+xRDen+FqRR4fA8WdTgmeJfabr71dY74Old6xy06uwflpglBg1nq
+	0UnQGV100Vq8gkET9wla9dZKVGQyEi6fSFdcG8t8JfQzxN9tZQDrLgGuB4d+D
+X-Google-Smtp-Source: AGHT+IF7W3Wudl40+KwmG5EhZydK9hjRng7atLMJqphQfA/LuILFx0bRjHDknFrf0fhheUDKj33Uuw==
+X-Received: by 2002:a05:6102:3e1a:b0:521:27b:bea4 with SMTP id ada2fe7eead31-53d0b8fb7f7mr4838865137.6.1757574658390;
+        Thu, 11 Sep 2025 00:10:58 -0700 (PDT)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8ccc9662640sm129496241.7.2025.09.11.00.10.57
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Sep 2025 00:10:57 -0700 (PDT)
+Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-89019079fbeso113544241.2
+        for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 00:10:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUHTUqyq57YOpaq5cCqCz73hJ/W71TvnOYgxy0zSedzAvppiLwBmTFPoFY58PwpOnlixy+Uax8HM8uaHg==@vger.kernel.org
+X-Received: by 2002:a05:6102:5803:b0:537:f1db:7695 with SMTP id
+ ada2fe7eead31-53d13a507cbmr5112188137.26.1757574657743; Thu, 11 Sep 2025
+ 00:10:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEwMDE1MCBTYWx0ZWRfX6kD5SkyvVamG
- jgL43937XIW4b+Lesf5X+AKDFsByA0yzL7WeReyPnU8gULP4MongqngpRM3Y/zfHwYh6EGYA2ml
- 24jhKE4c7pU9wIGNI0J0BfZMuh081ut03MLHW4R0MiFA+vaP1api03L5wWHI0AihfW5bWYtrFXD
- evronYvHz2fWa9UbbNqi/xcZX5KIjGMug/dUZCLb97q7cggrvlg0p0mLWnCAQ4wV3vQ/Jy7perv
- Ufpova0er4hc77qD5T0LK3l2gQFjRCLEvR5Cj6IsW602qbNXvwGc2nOTBk+WrCFlCsgGI48rVmG
- fVef61c6HdWsKn2zC9g+XlY0W0/0Plb3TxcpgvKHNKenyTq7D4/X/z5w+uyqUeV6ilGZmJgcqXP
- 8VysbZMY
-X-Proofpoint-ORIG-GUID: sWLCOwb7eTM1phdqbjVBYBcRMKVMNeA7
-X-Proofpoint-GUID: sWLCOwb7eTM1phdqbjVBYBcRMKVMNeA7
-X-Authority-Analysis: v=2.4 cv=P4k6hjAu c=1 sm=1 tr=0 ts=68c26dff cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=wtrncf1qwap5WzB382UA:9
- a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 clxscore=1015 impostorscore=0 suspectscore=0
- spamscore=0 bulkscore=0 malwarescore=0 adultscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509100150
+References: <87jz291yrr.wl-kuninori.morimoto.gx@renesas.com>
+ <20250910084736.3336686-1-geert+renesas@glider.be> <87ecsddfqr.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87ecsddfqr.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 11 Sep 2025 09:10:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWjNV2TS1DVOUjXV0iw-ioKPqcYcWG2eYe6=prsTf4W3g@mail.gmail.com>
+X-Gm-Features: AS18NWCe45WjIvunb1GkWGA1_U_e7GImb4Y75y1bh1rdoSHSYSjzoT01QSF2LnA
+Message-ID: <CAMuHMdWjNV2TS1DVOUjXV0iw-ioKPqcYcWG2eYe6=prsTf4W3g@mail.gmail.com>
+Subject: Re: [PATCH 1/4] ASoC: renesas: msiof: Use guard() for spin locks
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: broonie@kernel.org, linux-sound@vger.kernel.org, tiwai@suse.de
+Content-Type: text/plain; charset="UTF-8"
 
-Add support for configuring the DAI format on MI2S interfaces,
-this enhancement allows setting the appropriate bit clock and
-frame clock polarity, ensuring correct audio data transmission
-over MI2S.
+Hi Morimoto-san,
 
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
----
- sound/soc/qcom/sc8280xp.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On Thu, 11 Sept 2025 at 01:56, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> > > @@ -372,10 +372,9 @@ static int msiof_trigger(struct snd_soc_component *component,
+> > >  {
+> > >     struct device *dev = component->dev;
+> > >     struct msiof_priv *priv = dev_get_drvdata(dev);
+> > > -   unsigned long flags;
+> > >     int ret = -EINVAL;
+> > >
+> > > -   spin_lock_irqsave(&priv->lock, flags);
+> > > +   guard(spinlock_irqsave)(&priv->lock);
+> >
+> > You want to include #include <linux/cleanup.h>, as it is not included
+> > implicitly on all platforms.  This applies to all patches in this series.
+>
+> Oops ? I didn't notice about that. Thank you for pointing it.
+> OK, will post such patch.
+>
+> ... or can I add it on <sound/soc.h> for ASoC user ?
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 73f9f82c4e25..3067b95bcdbb 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -32,6 +32,10 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- 	int dp_pcm_id = 0;
- 
- 	switch (cpu_dai->id) {
-+	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
-+	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
-+		snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
-+		break;
- 	case WSA_CODEC_DMA_RX_0:
- 	case WSA_CODEC_DMA_RX_1:
- 		/*
+Upon second look, include/linux/spinlock.h already includes it,
+so please ignore my email.
+(I must have misremembered seeing kernel robot reports, probably
+ they were about direct users of __free).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.34.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
