@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914E026A0B3;
-	Thu, 11 Sep 2025 07:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8513B2749F1;
+	Thu, 11 Sep 2025 07:38:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757575572; cv=none; b=COW+nOom/BAMROx+R+i2iGUJ7WErlVV8v/b+7nLcDxgRe+p9AAgRhitjoibKPMLbJMjRwZZD7u0ZCKjNxKpOxXT8WhcT+M341JlOobaW7xSA6cOVkfooOMpt1EAYKGZmrg6Y2VZ+fXqWJa/rSX63H3XGD41UMGvkMgTbLwD+Jv4=
+	t=1757576311; cv=none; b=DjU20eZLkcNFcsSWogOBASK1CUmZZl27n1WrXuDG+2BTM4JXlPBS+1W0/rHb0EJF14TxbTCPp0ez//0Jc+njT/f9Pj8OuF2C3mxV+nEMtH4Xcrb6s9vYuKM3moBEpKPnJXUdwTKdQ1GyLh7lT8t+N4XW4kNB5uysULB29lF/KCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757575572; c=relaxed/simple;
-	bh=CmezHyB1HkJJeJ1CoSh2IlnsvQ1nyPiZtOoD1baW30A=;
+	s=arc-20240116; t=1757576311; c=relaxed/simple;
+	bh=mSxMMdqTf8YS4+vsh6ryR3ge1CJqW+qi0gYEJZlf6JM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Iv54mR6246NTp0hkd5APr34b/IsGbe+12F27B0yFF98pRmukvgSxvkvrD6kHLMPUcveRNoWH1VCoc06JX9YwoEjG+8nj69oiQWYgcBDQRLOJjBoimbAUoXV6jbG7TqbwAgQRuVFdRGVZ/CGhHE/M2g2zJJKWuffw7wrmGMNHZdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ga4iNlc3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EPfc5NisjwUXkaCFiZfG++CTGXxgJHMrn4OcTMONWEsQinQmipMe8R68SdR6pCAHMH30lSNb3oITq8bC/5eryrgILw+ICut2CQz6YUkpNoHEz4NkKwHu5E9qBVSHvNhe78/AtxYrzXXV9AvlEs8KyZyy3wX0p1OtVr/6HQavC0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qdFoh5fa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ga4iNlc3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA56C4CEF1;
-	Thu, 11 Sep 2025 07:26:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qdFoh5fa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 808EBC4CEF9;
+	Thu, 11 Sep 2025 07:38:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757575572;
-	bh=CmezHyB1HkJJeJ1CoSh2IlnsvQ1nyPiZtOoD1baW30A=;
+	s=k20201202; t=1757576311;
+	bh=mSxMMdqTf8YS4+vsh6ryR3ge1CJqW+qi0gYEJZlf6JM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ga4iNlc3m/a0A/uuqP82l5CqNf3d1laV3smTHtuMkZq+qHJA0/Mbnjr3EfNLZS2Uc
-	 9RAyaaXO6SJXyM5ai+DFUFNKcTJbUTEzXo0jHun5vnr5C21B7giTi5o/kr0FMG9qIu
-	 hh9Rp9YVkksg+RW+Khk1IirfwdYi/CY8jhFLexNamb2qwuxwDj7oaTDXTq2q9i/kYA
-	 s7teDS2/NIdkIciIcbmyWuO2P+M1D/ZNA41lbt/vDZpUPum1KXfiocTGL3OjyKjfRN
-	 R8nxrEGRoR8UrER5JIZcHuhj89z90x4DZ9UCpby3HmFFjrcSIR3J2+8vyyLsFByXuG
-	 KPMhJmpD7rxVQ==
-Date: Thu, 11 Sep 2025 09:26:09 +0200
+	b=qdFoh5faaFsq4HFYDUKQh3sNE0HpbDS/Plp2/xCYr4NS5ksIPSrzKQ3GR2vvJBQwU
+	 qFaWIaW9c4eslG+cvZJHxg1jBZOkZ6M3FG2HVLAYwS2bSigmmLkGgztg36O7PYYcq8
+	 8KxKyDBkbhoD2NwljnmYAM2lzpDPpC/Ki+JfGblufzi3pe/TnX6IFxgkSyfCPUMmu8
+	 1Fp5AeC7/ycn1rBKD4vN5rFoTkPH+Kc+h7V+Mhwe3sTyBA92LBF5Ste/lwsK/pjfHT
+	 8yso801+zoBdYfuIZmRSbihIIzf72vq5dtevE6RhBIqMy9+CInKzmVkbtRXuO6hMib
+	 QX9nEHq6o3WFQ==
+Date: Thu, 11 Sep 2025 09:38:28 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+To: Stefan Kerkmann <s.kerkmann@pengutronix.de>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@gentoo.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	spacemit@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: Add bindings for SpacemiT K1
-Message-ID: <20250911-thundering-wildebeest-of-awe-eddf22@kuoka>
-References: <20250911-k1-i2s-v3-0-57f173732f9c@linux.spacemit.com>
- <20250911-k1-i2s-v3-1-57f173732f9c@linux.spacemit.com>
+	Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: ti,pcm1754: add binding
+ documentation
+Message-ID: <20250911-whimsical-speedy-pigeon-b85014@kuoka>
+References: <20250910-v6-12-topic-pcm1754-v2-0-0917dbe73c65@pengutronix.de>
+ <20250910-v6-12-topic-pcm1754-v2-1-0917dbe73c65@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,15 +47,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250911-k1-i2s-v3-1-57f173732f9c@linux.spacemit.com>
+In-Reply-To: <20250910-v6-12-topic-pcm1754-v2-1-0917dbe73c65@pengutronix.de>
 
-On Thu, Sep 11, 2025 at 01:47:10PM +0800, Troy Mitchell wrote:
-> Add dt-binding for the i2s driver of SpacemiT's K1 SoC.
-> 
-> Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-> ---
->  .../devicetree/bindings/sound/spacemit,k1-i2s.yaml | 87 ++++++++++++++++++++++
->  1 file changed, 87 insertions(+)
+On Wed, Sep 10, 2025 at 11:34:05AM +0200, Stefan Kerkmann wrote:
+> +  vcc-supply: true
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+> +  format-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO used to select the PCM format
+> +
+> +  mute-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO used to mute all outputs
+> +
+> +required:
+> +  - compatible
+> +  - '#sound-dai-cells'
+> +  - vcc-supply
+
+If there is going to be a new version then:
+
+Keep same order as in properties, so supply before cells.
+
+> +
+> +additionalProperties: false
+
+and this should be probably unevaluatedProperties: false.
+
+Regardless,
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
