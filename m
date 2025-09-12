@@ -1,68 +1,69 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79685238142
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B963A26E715
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757665955; cv=none; b=Tzm9jpHySWAAGj3ahhUvf1UWkgCgOIOeqN75JTDC+N3+vGvk/6804k9bJA6euVOlYGzM99uaTg2Px0gSFCCnXPGOVe2QObrczXckm79t6r6nt5Hmb0xtBkuFuH6FpqtF7refgfW+gX1lHDOGRIvuESBiSmLLHYmisGzoZA86tZs=
+	t=1757665955; cv=none; b=tN3hnBjQGF2GN68LOuTUfoCZjSM/yCJte/KitdqyIaSda1g+ptzMu75VHQiC58zczQcBc2dY05kPxVGVwAiOHgERi3EAsf2rfh992Vk4DJyAUvThVoTlHWt3tKplvEZDrcClCAI8Si9O+m83sw4rQFMAIz4ddWBMEYjQ9/QJKek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1757665955; c=relaxed/simple;
-	bh=BWh7wHrK8yZtB0eeU6Iysd3kLhRZzpxdN6HZoeCFTmI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hq0naQK/GTWUy7DOEzUicfq3mErCwfRBbRb4AciSoMUa9FvozHOoze1L87CRA6A93vL2ke+WA2WalG4uED4Y6nck0dVC9iGt3l87sn1w8Izm7WwikiAfpVUeTcuT9jTxADSmaKuACbMfvhZCP30YwFbWDTewpCvTw8cBe/fnNtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hwGaiLgk; arc=none smtp.client-ip=205.220.180.131
+	bh=6dzcJu5beHXFPE2ysDUwBwwBtBpB4yJJYn3tCF46Fow=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=it7WRzD8GmIB9VGNzIHwYLf5njQO5dQHgRkk7O9/RqxYj6WoBF1oUVyYuc++ink58Yl5Zk7UZzXXUmsjnwP8m7Hp+ZjKzIsVnkyAUoy8iyKjU1jyGYJ97bKFxuv0mA3wVzkIaLYpgVms+YdCJ51TBfDBGNu88rLiWXc3dw4ShTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OSoZgAXK; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hwGaiLgk"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C69kE9002423
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:31 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OSoZgAXK"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C7Ql1s006616
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=x+G4Fopcs9BfzCpIG/+vVPae3N/6PqxOMft
-	1V4SqZbo=; b=hwGaiLgkPHUx3Pho3y5EX2l96qa8rjA1SAsZ1kqNeJR1G5Ql6lT
-	48qq2IgL5Rev6N3gtI/mTz6ZFM2CFU07KCqwxiUWRijfIeSYhD602uAytFnwq7+6
-	1MZTNX855NDoMROZ/E0+Qgmtfo9jXuTAD+lxXlb0OTiy95zGiI0+3zWHmDCKTBqD
-	kmf/Y+B9/fKt+bFvUHee2RNoDnAIcMitG23Ehet37yrVQZt3e+MCFEy5CZZYo6Dn
-	u/ZJ2t6DrHVV8ODPr+GvmItfNbPpZgA33z9RyaqGu+CeTLlHDlt5qwSQxdqGzoxQ
-	E9Rxp0OY3fvElI4Cf7Ip2rGk3cjYEf+srHw==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8tw9f-1
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=B6VI6rYD+l1
+	gAQRdPHYZqiU7gvDzWifBcr0RacDOpag=; b=OSoZgAXKmdqUY6KvgQqtrGReG4d
+	cm4zghAOs5ox6GVceNxcAUbwQV2+Y5gemn2EpBQHlZdlm1HoaJvZQDTxwwiVH1tj
+	Ht33z8GbxpXPB0iIQGp3zX51CgCK4XCJYZ82NBDkKFsGPdRKsDEncKhCe4lX7GvT
+	dzb7Vu3DGKpu/IVggLM7D8yGSTy9IE+usRNXyEf2LnikXfqNPRpK7NTNLgiSHvwY
+	uNM92GkNLS8p0sgGfmXCslbXp074YuhrSJTP6hjuVtyPktrmttlF43rtWGfamxyG
+	xdWzNNgHdpJ9f/xHE/Tvt91MvQPCnyiQPBH4ZCbUPqgejR/KBYsaR239FBA==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491vc2ewge-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:31 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4b345aff439so48209341cf.0
-        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 01:32:31 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:32 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-70edbfb260fso30559106d6.1
+        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 01:32:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757665950; x=1758270750;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x+G4Fopcs9BfzCpIG/+vVPae3N/6PqxOMft1V4SqZbo=;
-        b=idURu11n4a/X0fc9fC+ZR7B6wXh6+F5sp6fiLsobpLaQ3G/MOZhcCyQK3kAPccbcv8
-         ZVgiVPRanohIVPVV0jznP/mxcFsR6LjZMsAGCNToD9Avq/IUGJtZ0NIhlfd58gXGOuSj
-         Hu+VbEXrm4eK/1EGgDjKCX9g4+8Hj/TnpFxsk6jUmqB+o/9rPBAwO4PKu86YuKDP4k4/
-         Vo84biTWNqKekoreRJntort261Qy/GpOBM6il3ttyj+ECFg8TzlTUg/zlVh0d/2Ua1+g
-         Qg1s6UdvsA4t4Bh78ygXW8ctW7uAM7U+lkmcmroiTSsTBrwm0BbF5zsErEHRBFnMrOKv
-         uzpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUevdPcmGMvio1wqw/ToM1ELoVCOzG4DgSC7tOW/1e8F8JUCvev05DmefwPOzdTv5QUD6qrRZlunI+0jw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywh3yUroxxTGAJ0ILbVQg4S5Mb/3W8vuo7WPTBnXKBD/6Gg1HDF
-	enRlRkG1Rdmh+mpl8/+V6bNYXQWdqa7WOo/mAElE2MXOETj3L9SXDOkCw/gfuNtbgxrNyezu9r7
-	ajyAPsMHaONyjP/tN7ZiDeWMXnvq4cmQcuQ/qb1gJltl6dAjr/sDP/+yIqJ/Su4LW6g==
-X-Gm-Gg: ASbGncuRaWjRjYZag+bp847/c2+XTg7TdH1I6Z56zi8MNkC9TveKtrDH8nipAluQLPc
-	F87iNnxiHOke82Etji1Lv0PP7l6PY7dxyLEjHmeMII8CEdcmor3AGzTPQ2uRoFF5ueqbSPk15oY
-	A5qzTMculiBNBFRJxBq54J5eHo5FDH1c33yX4321kFXTG7xYtadwYn8A9eUBlyrLc3k9GnqRAjw
-	s1fb5yF3zLFLUThXAHAv0p5zg+h+Xq7YCSVkvUuBXIrPsKtbfGlpzNFHlygYlP4RjB2qnhpZp+X
-	JnbzeaPoGw2DhLL3rfoeVm7AH/WXiTxIy0lLudrqKTqJF6wx7U1kMQ==
-X-Received: by 2002:a05:622a:60c:b0:4b5:db9f:9904 with SMTP id d75a77b69052e-4b77d096969mr25292101cf.22.1757665950447;
+        d=1e100.net; s=20230601; t=1757665951; x=1758270751;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B6VI6rYD+l1gAQRdPHYZqiU7gvDzWifBcr0RacDOpag=;
+        b=RwkhCgoRk3vZZvlJFw+nCW17TVSn1uCCTbOmlsyaQ9x2mENzVcAnTZPX5PcZISDVo9
+         IdT1q9ZYM/SZ7Uso0vv15Lhk9ZVn0kvjZieoqHVzMirP2SKxv/RdxWl9J9tDQXv8SAJV
+         YwV5syjsq+RC62u7mm1wf43tT5hjjqBoEyTBivZ1zg6zT7NI3Vz20bC69eeifa9O2bP3
+         9RE8v/zxdefnJPgumOrt4JmKSyqbxMuZoac0PfuT4fyUUCJE7XL5+/PRElRRUhEbf7M3
+         B5LGMGTg4k1biJ0koaVZTHb3TPWj1zQusb1f2NJD+JiiMZEsSb1tMi66/wSSJMv8+crb
+         Vg7A==
+X-Forwarded-Encrypted: i=1; AJvYcCWUkG2Sl+y91a4JiH6/zO8ev/S6kq0Sj4bIh93DxCNBhPfv+lO+hX8y66/lrkzHsB8NFTM9H2KxD0JmvA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1h9GDr7wSLH2AXvQxwVh+0tzTBjEHqIi7cwLfvyMSowPCw92w
+	eMKmplz/Nnba91zkXZLnS+oUxX+2p34z5UR/0YNcTPUdfoL71QjpB78T4anEgWuA0xL4x/PjP2K
+	0aWHx2EVHdr0I0KRnMTB0pvmdyI4IZ1pWQsZWbYySzMC/tBH9dz+88+l/GYZrCYDkxQ==
+X-Gm-Gg: ASbGnctKpvo9V7MF+zpv3AY9iBC+EGj0a6AnccJjdx5Nf5sb6CCYrDKPVU+b6W154dE
+	O4sgSdWvP41J6sMbxSKFlpU2SlbSLkd1pzRx8jaL3y5MSGrEvWCIgA5zv0Hfftwypbp6fyoUomV
+	Yq358jqkUp1EP2q00uySNz1yLsgCHc1wRTbr2YyIaxWeRzrCEVambpdutR17vcbeHV4JPRiG1m0
+	2VfXrizPml+tLVHO21UDCdBl6TQhwOjNQscQAAfa8+CT+/GOYPI4fZaPZYal1TnX6t4xs7awSxA
+	PfVHgwmGfcatiWNHHnU3F/FhtNJEfg5w9CagqxHzR14Z85A5kDEuoA==
+X-Received: by 2002:a05:6214:e6f:b0:763:e314:63ec with SMTP id 6a1803df08f44-767c5af17e2mr29399216d6.67.1757665951457;
+        Fri, 12 Sep 2025 01:32:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG0qy4hjjfisWxEbcXf4ENJkYksaMBthTfpP/gGk+hCjiWoQIz3yScOjbpnmM/mruFNXXqz0w==
+X-Received: by 2002:a05:6214:e6f:b0:763:e314:63ec with SMTP id 6a1803df08f44-767c5af17e2mr29398906d6.67.1757665950959;
         Fri, 12 Sep 2025 01:32:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFmfYwelW8JgprI2UZVxfQqLOHW7kQBbcL91njBTANWpPA6QoJQBKRe6HjQSbxJkGd5DAR5RA==
-X-Received: by 2002:a05:622a:60c:b0:4b5:db9f:9904 with SMTP id d75a77b69052e-4b77d096969mr25291771cf.22.1757665949914;
-        Fri, 12 Sep 2025 01:32:29 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017c1dd3sm31247265e9.2.2025.09.12.01.32.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017c1dd3sm31247265e9.2.2025.09.12.01.32.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 01:32:29 -0700 (PDT)
+        Fri, 12 Sep 2025 01:32:30 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: robh@kernel.org, krzk+dt@kernel.org, vkoul@kernel.org
 Cc: conor+dt@kernel.org, srini@kernel.org, yung-chuan.liao@linux.intel.com,
@@ -70,10 +71,12 @@ Cc: conor+dt@kernel.org, srini@kernel.org, yung-chuan.liao@linux.intel.com,
         devicetree@vger.kernel.org, alexey.klimov@linaro.org,
         linux-sound@vger.kernel.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v4 0/7] soundwire: qcom: add support for v3.1.0
-Date: Fri, 12 Sep 2025 09:32:18 +0100
-Message-ID: <20250912083225.228778-1-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v4 1/7] of: base: Add of_property_read_u8_index
+Date: Fri, 12 Sep 2025 09:32:19 +0100
+Message-ID: <20250912083225.228778-2-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250912083225.228778-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20250912083225.228778-1-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,65 +84,111 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfX/nivN7Cm9VEn
- IEywwbepPO+5Eynp/MR7aSThxmisZdP9QFD8235qAWF7JHlg4Nu2E9keokYUveXLSj2x13S1fqV
- 9TpiBrsprGhphkJ+8c9f/S2HUTLQScYsQPNNKuS6Huei0ckgK8KsxLolHyv6tIlNV7IuulSViGs
- iON0hlbUu15k755kc0B/OoCQqCqgiUhIS+Xloj3KMbcvHlYkOEFXJI2lEwLUl9xNwLCbk6DUI83
- SMGnMw8H0LcVT4gYq80d8TMkYYw29q42TYn/KHee95N2+uD5Do8DaGD//fU3YmxmoNzB37z4X7a
- ATAi8OTk26YYTkbiu3ybSvyYtTlJLDTb/q6QQ2Y23WH4NdsZVMYFRw84/r04aEx78zY5T7m1Fjz
- XUIZHKQC
-X-Proofpoint-ORIG-GUID: QU-GhXa1mZEjrj_I4BrsnIXKQnG4USqL
-X-Proofpoint-GUID: QU-GhXa1mZEjrj_I4BrsnIXKQnG4USqL
-X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68c3da9f cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=yJojWOMRYYMA:10 a=plMaQY1jPcDNhxvH7e0A:9 a=kacYvNCVWA4VmyqE58fU:22
+X-Authority-Analysis: v=2.4 cv=FN4bx/os c=1 sm=1 tr=0 ts=68c3daa0 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=3hxEEigdzuJGYQGY9uYA:9
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-ORIG-GUID: muWeGwXWTCqZs-VOV_i8_QTwRZ0P2aos
+X-Proofpoint-GUID: muWeGwXWTCqZs-VOV_i8_QTwRZ0P2aos
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA5NCBTYWx0ZWRfX0WhfGxa328Gz
+ Y6XwF+EqTiZYZ7FKtIm4qwpMDn1Eqxs7oiTtJG6Yzi38iuuWsBv6DfMvtsULYltUw0HRDqfWphk
+ 81prKhYrBIBxlfJuodyctWmV9MiBkOEbiTvMP0m1M1DmhnhgpHIlnwx15ff+OBzBoD+JFKIGp3G
+ g7SztGoxtHdVpaa05YJzU2E/vsM57NJw9JN9qUWo4bYQZl1yip66ADg/hyDN1BgQbgkcqBQk3T/
+ UgJqBKT3jl7aGbvomz5pRIZ2MoQJz/EeoG/DqvgHyDb/4n2tKnKfJE61OF3kmxqSAWcMKqmDFON
+ f+cX2YjsNKEYgfg9xGJkSbnl3yB5+WJwWQaBuNHqYVLYtdHLBGT4F+Zjd1X18X+v0me/NN32RNk
+ FkCoW9g/
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-12_03,2025-09-11_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
+ bulkscore=0 impostorscore=0 malwarescore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080094
 
-This patch series adds support for Qualcomm Soundwire Controller
-version v3.1.0.
-As part for adding this support, a new macro of_property_read_u8_index()
-is added so that we can remove the qcom,din-ports and qcom,dout-ports.
-As v3.1.0 supports more than 17 soundwire ports. Also due to change in
-the register offsets, new entries are added to the variant data.
+Add support for of_property_read_u8_index(), simillar to others
+u16 and u32 variants. Having this helper makes the code more tidy in
+isome cases, specially when we are parsing multiple of these into
+data structures.
 
-Tested this patchset on T14s and Glymur reference platform.
-Alexey also tested this on SM8550
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ drivers/of/property.c | 33 +++++++++++++++++++++++++++++++++
+ include/linux/of.h    |  9 +++++++++
+ 2 files changed, 42 insertions(+)
 
-Merge strategy:
-
-I think the patches can go via soundwire tree given that Rob has
-provided Reviewed-by on the of_property patch.
-Vinod are you okay with this?
-
-Changes since v3:
-	- added bit more flexiblity to driver with a missmatch message
-	to address incorrectly specified dt-entires.
-
-Thanks,
-Srini
-
-Srinivas Kandagatla (7):
-  of: base: Add of_property_read_u8_index
-  soundwire: qcom: remove unused rd_fifo_depth
-  dt-bindings: soundwire: qcom: deprecate qcom,din/out-ports
-  soundwire: qcom: deprecate qcom,din/out-ports
-  soundwire: qcom: prepare for v3.x
-  dt-bindings: soundwire: qcom: Document v3.1.0 version of IP block
-  soundwire: qcom: adding support for v3.1.0
-
- .../bindings/soundwire/qcom,soundwire.yaml    |   8 +-
- drivers/of/property.c                         |  33 +++
- drivers/soundwire/qcom.c                      | 257 +++++++++++-------
- include/linux/of.h                            |   9 +
- 4 files changed, 199 insertions(+), 108 deletions(-)
-
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index c1feb631e383..4e3524227720 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -147,6 +147,39 @@ static void *of_find_property_value_of_size(const struct device_node *np,
+ 	return prop->value;
+ }
+ 
++/**
++ * of_property_read_u8_index - Find and read a u8 from a multi-value property.
++ *
++ * @np:		device node from which the property value is to be read.
++ * @propname:	name of the property to be searched.
++ * @index:	index of the u8 in the list of values
++ * @out_value:	pointer to return value, modified only if no error.
++ *
++ * Search for a property in a device node and read nth 8-bit value from
++ * it.
++ *
++ * Return: 0 on success, -EINVAL if the property does not exist,
++ * -ENODATA if property does not have a value, and -EOVERFLOW if the
++ * property data isn't large enough.
++ *
++ * The out_value is modified only if a valid u8 value can be decoded.
++ */
++int of_property_read_u8_index(const struct device_node *np,
++				       const char *propname,
++				       u32 index, u8 *out_value)
++{
++	const u8 *val = of_find_property_value_of_size(np, propname,
++					((index + 1) * sizeof(*out_value)),
++					0, NULL);
++
++	if (IS_ERR(val))
++		return PTR_ERR(val);
++
++	*out_value = val[index];
++	return 0;
++}
++EXPORT_SYMBOL_GPL(of_property_read_u8_index);
++
+ /**
+  * of_property_read_u16_index - Find and read a u16 from a multi-value property.
+  *
+diff --git a/include/linux/of.h b/include/linux/of.h
+index a62154aeda1b..0c95e26c7191 100644
+--- a/include/linux/of.h
++++ b/include/linux/of.h
+@@ -316,6 +316,9 @@ extern struct property *of_find_property(const struct device_node *np,
+ extern bool of_property_read_bool(const struct device_node *np, const char *propname);
+ extern int of_property_count_elems_of_size(const struct device_node *np,
+ 				const char *propname, int elem_size);
++extern int of_property_read_u8_index(const struct device_node *np,
++				       const char *propname,
++				       u32 index, u8 *out_value);
+ extern int of_property_read_u16_index(const struct device_node *np,
+ 				       const char *propname,
+ 				       u32 index, u16 *out_value);
+@@ -639,6 +642,12 @@ static inline int of_property_count_elems_of_size(const struct device_node *np,
+ 	return -ENOSYS;
+ }
+ 
++static inline int of_property_read_u8_index(const struct device_node *np,
++			const char *propname, u32 index, u8 *out_value)
++{
++	return -ENOSYS;
++}
++
+ static inline int of_property_read_u16_index(const struct device_node *np,
+ 			const char *propname, u32 index, u16 *out_value)
+ {
 -- 
 2.50.0
 
