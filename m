@@ -1,86 +1,61 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF2F2BE7B1
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 22:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10A41E5219;
+	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757714877; cv=none; b=i6YTNLsOmaVKeuW9VfNszqjdcst1Qb27HG84uLwLlv3yU0GcSiwKwPyYmjq4KATbnBrrRKCaYYSesxcGxHcwLLOOzG5P9F8A6kzk+89uKInkbNKVm6+ywnhCQB/ZIafTt3/xi0UQ2UEJvM9EfIpkeXNYGNxqAHRj1XPlzX/kcNc=
+	t=1757716673; cv=none; b=H0YReYSobK1Xoqz1WQhH7ecxu90OW2naYnkKWlLsMV76R8LDU7RefhXRpbUEoc8BGoBrAR3Owub3gbUCKEpDHjurPaonrawl0ZYJC/pB2RKOhz46ILOjSkUhinLCqrE1ZAV4SMPRdlbQ3eQ0Zp0HLM2HWzu5aQxT5MWK+IupSCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757714877; c=relaxed/simple;
-	bh=+yph0vA7hH7D2dOH8dcz8OTQ5zI8ZyZYi0J1x57wbuc=;
+	s=arc-20240116; t=1757716673; c=relaxed/simple;
+	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pb2rEt/yOK+qbWwM6GaNaGAAx18ijCMrwuNu13Zl4s2b3qfjLnz8tVAigf4g8yc+nFDw3DecyPnp85myy2GmLYVGLsMON1Rul47VPQktbl0XXBqxdcjXJb6aCUGlLBESXd4Jk6dp5MQYpFGXakKoOp1B5+WRf5u5sd2Npi516QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=U/TSqtgk; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=JmetdA+kRB5A/O39+6elgPq7XC4XLb5Mnuhznvf9du/0T8FBZoECP6brGFt4rhrJLmA9Omz3S93c1oA2BA8eVICwOMMmm+3B+EQn1rj867BBg8zb3VrtIaPs4wvv+D7+xltRjhTvGEgDZFsDYky/Cz80pchu8ri2Wh/YAoNgWG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrVcwliJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="U/TSqtgk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=XtZM
-	38dcKGfPDowHADfBNhN+yZMd/DBKAr/Q56lBQhU=; b=U/TSqtgky9mRHKpLYuTy
-	UfXd7XedJP9Hk+5/2IqTWU+ncNGhELZK0Vc0RXbSYaIz7Hw6VMZAT5JoyMYY6z4g
-	WzMES95KXJxGoQ7e6ctjM2JN/2k4u/gVXKL/EPXHHKnINEvdgPhLK+f+fB3cHt9L
-	BpsliJIKV+ndVoI8YPP2/7JNqgTQ5aLQNm6R5gAL99+5MFMbIChu6laV+I2f8W3m
-	RpmupwmKLyH5mtQ8NSf2xEebzmoGbDEbi8by9Z1l1UyIN+iGY8UbAOXQISM6qt8c
-	5VvYJPYCkQGivyZtg4DnvEdmEwmxNTAeKfuH6DGfDaXfeL6rCKUkNLis+l/AE6hJ
-	Eg==
-Received: (qmail 1499859 invoked from network); 13 Sep 2025 00:07:43 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Sep 2025 00:07:43 +0200
-X-UD-Smtp-Session: l3s3148p1@dRQG4qE+rtYgAQnoAHJ8AC93OVDMgFWg
-Date: Sat, 13 Sep 2025 00:07:42 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Janne Grunau <j@jannau.net>
-Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 10/37] dt-bindings: i2c: apple,i2c: Add apple,t6020-i2c
- compatible
-Message-ID: <aMSZrp3pbS2CeBOE@shikoro>
-References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net>
- <20250828-dt-apple-t6020-v1-10-507ba4c4b98e@jannau.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrVcwliJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2214AC4CEF1;
+	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757716673;
+	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TrVcwliJdziWcvEcLi0TVBaYRU0cqz+P0LkYP18PS4V8it1ba7cZ92zsa5Y3dzWLc
+	 YrEuOyNwShq0RR+1+3s/CzKz/FvAj8Dg2ILyM9zKHc+GxAcTbJRbF9zrHAxYtHAtWS
+	 nowrg87C3Mhu7Ma9MVTSiKPANaSzfmKeaaI+jiwqqKI/eFzfgCVIsx0GyGgRpB5mC/
+	 E1FV/bHUfiM/xWBXFUvAkeBLYpdn5iD18PAOpqzc3WdYh8uHA0QJpTs+ikEAG/Jg8A
+	 LroectmFESH23Jvjk8Jl5nAs0sIu7GliX4k4LL9XE6Kb1IBSFNtgZdkeRG9oO5IQJw
+	 v2hGeBjsKFJvA==
+Date: Fri, 12 Sep 2025 17:37:52 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: luiz.dentz@gmail.com, kuba@kernel.org, airlied@gmail.com,
+	mripard@kernel.org, angelogioacchino.delregno@collabora.com,
+	linux-arm-kernel@lists.infradead.org,
+	maarten.lankhorst@linux.intel.com, tiffany.lin@mediatek.com,
+	houlong.wei@mediatek.com, minghsiu.tsai@mediatek.com,
+	lgirdwood@gmail.com, louisalexis.eyraud@collabora.com,
+	linus.walleij@linaro.org, devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, yunfei.dong@mediatek.com,
+	edumazet@google.com, linux-bluetooth@vger.kernel.org,
+	tzimmermann@suse.de, broonie@kernel.org, andrew+netdev@lunn.ch,
+	kernel@collabora.com, chunkuang.hu@kernel.org,
+	amergnat@baylibre.com, conor+dt@kernel.org, matthias.bgg@gmail.com,
+	support.opensource@diasemi.com, linux-rockchip@lists.infradead.org,
+	davem@davemloft.net, andrew-ct.chen@mediatek.com,
+	krzk+dt@kernel.org, p.zabel@pengutronix.de, sean.wang@kernel.org,
+	linux-kernel@vger.kernel.org, simona@ffwll.ch,
+	linux-mediatek@lists.infradead.org, marcel@holtmann.org,
+	dmitry.torokhov@gmail.com, dri-devel@lists.freedesktop.org,
+	pabeni@redhat.com, jeesw@melfas.com, mchehab@kernel.org,
+	linux-media@vger.kernel.org, flora.fu@mediatek.com,
+	linux-gpio@vger.kernel.org, heiko@sntech.de,
+	linux-sound@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 05/12] dt-bindings: display: mediatek,od: Add
+ mediatek,gce-client-reg property
+Message-ID: <175771595983.1528737.3645378655142592974.robh@kernel.org>
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-6-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,21 +64,36 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250828-dt-apple-t6020-v1-10-507ba4c4b98e@jannau.net>
+In-Reply-To: <20250911151001.108744-6-ariel.dalessandro@collabora.com>
 
-On Thu, Aug 28, 2025 at 04:01:29PM +0200, Janne Grunau wrote:
-> After discussion with the devicetree maintainers we agreed to not extend
-> lists with the generic compatible "apple,i2c" anymore [1]. Use
-> "apple,t8103-i2c" as fallback compatible as it is the SoC the driver
-> and bindings were written for.
-> 
-> This block is compatible with t8103, so just add the new per-SoC
-> compatible using apple,t8103-i2c as base.
-> 
-> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Acked-by: Andi Shyti <andi.shyti@kernel.org>
 
-Applied to for-next, thanks!
+On Thu, 11 Sep 2025 12:09:54 -0300, Ariel D'Alessandro wrote:
+> Currently, users of Mediatek OD (display overdrive) DT bindings set
+> mediatek,gce-client-reg node property, which is missing from the DT schema.
+> 
+> For example, device tree arch/arm64/boot/dts/mediatek/mt8173.dtsi is
+> causing the following dtb check error:
+> 
+> ```
+> $ make CHECK_DTBS=y mediatek/mt8173-elm.dtb
+>    SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+>    DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
+> [...]
+> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: od@14023000
+> (mediatek,mt8173-disp-od): 'mediatek,gce-client-reg' does not match
+> any of the regexes: '^pinctrl-[0-9]+$'
+> ```
+> 
+> This commit adds the missing node property in the DT schema and updates the
+> example as well.
+> 
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> ---
+>  .../bindings/display/mediatek/mediatek,od.yaml     | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
 
+I fixed up the commit msg with Krzysztof's comments and applied both 
+display patches. Thanks!
+
+Rob
