@@ -1,79 +1,80 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B963A26E715
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EA02AD13
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757665955; cv=none; b=tN3hnBjQGF2GN68LOuTUfoCZjSM/yCJte/KitdqyIaSda1g+ptzMu75VHQiC58zczQcBc2dY05kPxVGVwAiOHgERi3EAsf2rfh992Vk4DJyAUvThVoTlHWt3tKplvEZDrcClCAI8Si9O+m83sw4rQFMAIz4ddWBMEYjQ9/QJKek=
+	t=1757665957; cv=none; b=RkDQY6S36UDwALU5XulBfvlJYZvRcSyZ5a1pQhJgaUhLawhj+rdZwoYkrAJ+85Bg0XlGm2mpDGTh3MpwdZnwoiXImknQK0m6bV6MFol9YF+hBg/AUGAzgULXS7WPFZalirdy5ovhicaB68RzzwFWEPDl2zHIV6X/i2bX+fNZyDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757665955; c=relaxed/simple;
-	bh=6dzcJu5beHXFPE2ysDUwBwwBtBpB4yJJYn3tCF46Fow=;
+	s=arc-20240116; t=1757665957; c=relaxed/simple;
+	bh=v5ysVI2U/oh21lZONgkiOffTVAxpv7ka1beglSqt7zs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=it7WRzD8GmIB9VGNzIHwYLf5njQO5dQHgRkk7O9/RqxYj6WoBF1oUVyYuc++ink58Yl5Zk7UZzXXUmsjnwP8m7Hp+ZjKzIsVnkyAUoy8iyKjU1jyGYJ97bKFxuv0mA3wVzkIaLYpgVms+YdCJ51TBfDBGNu88rLiWXc3dw4ShTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OSoZgAXK; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=AzLucp0bj9dg92dXvmqRbYGiTuy7uhvQb9+TMvXogbVm0DH5YncKKGwGVNXkry6w2gCNsOtkhdz3yRmjQhIVe5HbFHZHngg2V53Z27qYb9yLLYTAouhRJcJ0oa6xKxEXiL5TCYnj8I6dmv1RoAzd4X8Z5r/fwmZZ23xXFUbCI6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hUpWz1uI; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OSoZgAXK"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hUpWz1uI"
 Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C7Ql1s006616
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:32 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C7Ql1t006616
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=B6VI6rYD+l1
-	gAQRdPHYZqiU7gvDzWifBcr0RacDOpag=; b=OSoZgAXKmdqUY6KvgQqtrGReG4d
-	cm4zghAOs5ox6GVceNxcAUbwQV2+Y5gemn2EpBQHlZdlm1HoaJvZQDTxwwiVH1tj
-	Ht33z8GbxpXPB0iIQGp3zX51CgCK4XCJYZ82NBDkKFsGPdRKsDEncKhCe4lX7GvT
-	dzb7Vu3DGKpu/IVggLM7D8yGSTy9IE+usRNXyEf2LnikXfqNPRpK7NTNLgiSHvwY
-	uNM92GkNLS8p0sgGfmXCslbXp074YuhrSJTP6hjuVtyPktrmttlF43rtWGfamxyG
-	xdWzNNgHdpJ9f/xHE/Tvt91MvQPCnyiQPBH4ZCbUPqgejR/KBYsaR239FBA==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491vc2ewge-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=FBClr38gw2V
+	NN9TJfggNIGizEzrQ3dx3VKp0vsyukpM=; b=hUpWz1uIQMMYCIfQP9QHV2F4b5y
+	ov6AqsaaYhvO1F8j1qXJYDxD7u1EAupnpzGy2HaLvobLodE+6y5XKgOjn3Ng8pbg
+	xGfo6KDbnPADRsj4wV5wbrisXbq6ehvuDT51qSR6hQq6ETiNhD3Ty0ACGiAvCqya
+	9dyH4pkm8thDVaFUFP0yXHQc26jxUh/WTh2eIcgRrpLtXi79rHun05t4KTJlmp8i
+	CwQun12qTFlWC1PcJxMnK6UdmB+azzhmEHB4EY9/aEm68vDOFYgTiQDMFT8acHZL
+	07VTAMPNVRx3YOX0WMyeGwKcrliUt/541esuDW8jsK+H5ACsvIAIMrs8rJA==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491vc2ewgk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:32 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-70edbfb260fso30559106d6.1
-        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 01:32:32 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:32:35 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4b345aff439so48210721cf.0
+        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 01:32:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757665951; x=1758270751;
+        d=1e100.net; s=20230601; t=1757665954; x=1758270754;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B6VI6rYD+l1gAQRdPHYZqiU7gvDzWifBcr0RacDOpag=;
-        b=RwkhCgoRk3vZZvlJFw+nCW17TVSn1uCCTbOmlsyaQ9x2mENzVcAnTZPX5PcZISDVo9
-         IdT1q9ZYM/SZ7Uso0vv15Lhk9ZVn0kvjZieoqHVzMirP2SKxv/RdxWl9J9tDQXv8SAJV
-         YwV5syjsq+RC62u7mm1wf43tT5hjjqBoEyTBivZ1zg6zT7NI3Vz20bC69eeifa9O2bP3
-         9RE8v/zxdefnJPgumOrt4JmKSyqbxMuZoac0PfuT4fyUUCJE7XL5+/PRElRRUhEbf7M3
-         B5LGMGTg4k1biJ0koaVZTHb3TPWj1zQusb1f2NJD+JiiMZEsSb1tMi66/wSSJMv8+crb
-         Vg7A==
-X-Forwarded-Encrypted: i=1; AJvYcCWUkG2Sl+y91a4JiH6/zO8ev/S6kq0Sj4bIh93DxCNBhPfv+lO+hX8y66/lrkzHsB8NFTM9H2KxD0JmvA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1h9GDr7wSLH2AXvQxwVh+0tzTBjEHqIi7cwLfvyMSowPCw92w
-	eMKmplz/Nnba91zkXZLnS+oUxX+2p34z5UR/0YNcTPUdfoL71QjpB78T4anEgWuA0xL4x/PjP2K
-	0aWHx2EVHdr0I0KRnMTB0pvmdyI4IZ1pWQsZWbYySzMC/tBH9dz+88+l/GYZrCYDkxQ==
-X-Gm-Gg: ASbGnctKpvo9V7MF+zpv3AY9iBC+EGj0a6AnccJjdx5Nf5sb6CCYrDKPVU+b6W154dE
-	O4sgSdWvP41J6sMbxSKFlpU2SlbSLkd1pzRx8jaL3y5MSGrEvWCIgA5zv0Hfftwypbp6fyoUomV
-	Yq358jqkUp1EP2q00uySNz1yLsgCHc1wRTbr2YyIaxWeRzrCEVambpdutR17vcbeHV4JPRiG1m0
-	2VfXrizPml+tLVHO21UDCdBl6TQhwOjNQscQAAfa8+CT+/GOYPI4fZaPZYal1TnX6t4xs7awSxA
-	PfVHgwmGfcatiWNHHnU3F/FhtNJEfg5w9CagqxHzR14Z85A5kDEuoA==
-X-Received: by 2002:a05:6214:e6f:b0:763:e314:63ec with SMTP id 6a1803df08f44-767c5af17e2mr29399216d6.67.1757665951457;
-        Fri, 12 Sep 2025 01:32:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG0qy4hjjfisWxEbcXf4ENJkYksaMBthTfpP/gGk+hCjiWoQIz3yScOjbpnmM/mruFNXXqz0w==
-X-Received: by 2002:a05:6214:e6f:b0:763:e314:63ec with SMTP id 6a1803df08f44-767c5af17e2mr29398906d6.67.1757665950959;
-        Fri, 12 Sep 2025 01:32:30 -0700 (PDT)
+        bh=FBClr38gw2VNN9TJfggNIGizEzrQ3dx3VKp0vsyukpM=;
+        b=EArHDQYCqHbI5wsVscS7p+LtN6HpXfUwOPETT4wMR8sXdgf5ptvgdSULuVkr7AEjVe
+         C6VrtHUYWilP6YiwVdoQjAkGCoOwhWGeLRug7fQHIukdGduzuRJAQew2fTvTJiimW+PG
+         EtADHkSVBo4EHQmpSAJlgrg8x0fLmOnnwgiD45fSf5fin+K7p7yxIy+ZtDyEJlXmZJwz
+         5cgX8+2UZfvfCN98pId37fvC/3j2S9Gg59xKb2a9wu5RQTgptm7Cx3YCohz6IsIhJ5o/
+         CtbblXUVVZRAaUMctXW9HbE6C+qNmctpFf0nF3Bfn67o4yDeS0vGMdegFXaNxy5gGRhB
+         z/Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCVYrZhaOjdQFGRfLqPGL4jwc6n8cnhnm+74gll/OdEb3Z9Ct6zDfAaowAzXe2/t2I5zKn/nr73xES0sag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YysHmOt1dXApROI7aLOBHbyYeH6brwBwloYe0XTAPTAS+5In4wj
+	rkO0WOGW6ma9tGdkR4EEq2JWYCuu0rO0+7vcwCjqkQJPomAKkrhR1YkEcbFCzRSgvovMv1MktgQ
+	e0vx3G1s+7MIA+EA8gYrzN1v2jIA+m3oirUlkJES1F2n0Ttppg/MLMzHMRUOD6LianA==
+X-Gm-Gg: ASbGncsuxUGRSryV3ueWkE0GrRLrG3jnIE98NUgvJcMoDTYxVRFpP0xwW7R+iUg25MP
+	lWCXk7SESOqKqQFDWdgMbbaMAnxMXtGppPP4eDcA6tk2/SVnFuJjWw0DQ5xRx9KCV4l5/JqGaqq
+	839Pm+N9q9HwUo6FYMkNnUqZXeQF1a1HoXN5B87/e/8yzp8HYSnaV0IwLHv5S0L63jrvxPWSqnF
+	Lvt93kiH1tmkM41dLLwFqh86H2RF82gaGOG0Sm0v3IbPZp0dJrvI/P7xiqCOtChawa/86dXBN7e
+	4UdJ2GjNRjL3y7yem5DzqVuRhkAwMJiswJoO5frMg2/UjI2LrW6nxA==
+X-Received: by 2002:a05:622a:59c7:b0:4b5:6f4e:e37 with SMTP id d75a77b69052e-4b77d0a6081mr29069871cf.25.1757665953784;
+        Fri, 12 Sep 2025 01:32:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFopUZDavpVxdanmw7MtaP01Mue9WsZ3a5xgclqjjwJJdUVbfjz2c6I747Plj1V/W5+wG0V7w==
+X-Received: by 2002:a05:622a:59c7:b0:4b5:6f4e:e37 with SMTP id d75a77b69052e-4b77d0a6081mr29069521cf.25.1757665953185;
+        Fri, 12 Sep 2025 01:32:33 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017c1dd3sm31247265e9.2.2025.09.12.01.32.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017c1dd3sm31247265e9.2.2025.09.12.01.32.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 01:32:30 -0700 (PDT)
+        Fri, 12 Sep 2025 01:32:31 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: robh@kernel.org, krzk+dt@kernel.org, vkoul@kernel.org
 Cc: conor+dt@kernel.org, srini@kernel.org, yung-chuan.liao@linux.intel.com,
         pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, alexey.klimov@linaro.org,
         linux-sound@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH v4 1/7] of: base: Add of_property_read_u8_index
-Date: Fri, 12 Sep 2025 09:32:19 +0100
-Message-ID: <20250912083225.228778-2-srinivas.kandagatla@oss.qualcomm.com>
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [PATCH v4 2/7] soundwire: qcom: remove unused rd_fifo_depth
+Date: Fri, 12 Sep 2025 09:32:20 +0100
+Message-ID: <20250912083225.228778-3-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250912083225.228778-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20250912083225.228778-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -84,19 +85,19 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=FN4bx/os c=1 sm=1 tr=0 ts=68c3daa0 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=3hxEEigdzuJGYQGY9uYA:9
- a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-ORIG-GUID: muWeGwXWTCqZs-VOV_i8_QTwRZ0P2aos
-X-Proofpoint-GUID: muWeGwXWTCqZs-VOV_i8_QTwRZ0P2aos
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA5NCBTYWx0ZWRfX0WhfGxa328Gz
- Y6XwF+EqTiZYZ7FKtIm4qwpMDn1Eqxs7oiTtJG6Yzi38iuuWsBv6DfMvtsULYltUw0HRDqfWphk
- 81prKhYrBIBxlfJuodyctWmV9MiBkOEbiTvMP0m1M1DmhnhgpHIlnwx15ff+OBzBoD+JFKIGp3G
- g7SztGoxtHdVpaa05YJzU2E/vsM57NJw9JN9qUWo4bYQZl1yip66ADg/hyDN1BgQbgkcqBQk3T/
- UgJqBKT3jl7aGbvomz5pRIZ2MoQJz/EeoG/DqvgHyDb/4n2tKnKfJE61OF3kmxqSAWcMKqmDFON
- f+cX2YjsNKEYgfg9xGJkSbnl3yB5+WJwWQaBuNHqYVLYtdHLBGT4F+Zjd1X18X+v0me/NN32RNk
- FkCoW9g/
+X-Authority-Analysis: v=2.4 cv=FN4bx/os c=1 sm=1 tr=0 ts=68c3daa3 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=15vvQeE90rD5c5FzQNIA:9
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-ORIG-GUID: ep2okGUlFSNbiUDPqeSwWIR9j1RXkuH1
+X-Proofpoint-GUID: ep2okGUlFSNbiUDPqeSwWIR9j1RXkuH1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA5NCBTYWx0ZWRfX+ewoo3siQRQq
+ gJydoE1XJUPXQAVjAF8RdbhoE+W9tWhLbUQYfN0GLJv6SNYBtIgCwpFe6lJYBboBnNsuanVeR09
+ Nh3PCO7IrgI8Pmof7tqL1qotzhGD7PyBsH/IZct4bGEeHLOzuYhd4/Ag+BRAGari1LAdnIo8ku3
+ smcmSrRSzr8S4sWc3ajc/HKb9dKhK3nQ6vBY8O7qU+DhHXdDh1iZh8mQLsjqZL2oZDmOnpGSfn+
+ JHph/MRS2aFGdJFWsOaF7mM25SB6ldkMMfLzvv54ZW3hLd0hAHxSWSVYmxkN1HL7DSKj+mx+rPb
+ ftNwnhcdGNePWXIUGiWKK2Aa8Vqg3h01RhC1xl/NZpM2YMDaIIFZaqUQI8BzUKvqiI03+ps2vJM
+ OHOFO3OQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-12_03,2025-09-11_02,2025-03-28_01
@@ -106,89 +107,38 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080094
 
-Add support for of_property_read_u8_index(), simillar to others
-u16 and u32 variants. Having this helper makes the code more tidy in
-isome cases, specially when we are parsing multiple of these into
-data structures.
+remove read fifo depth field parsing logic, as rd_fifo_depth is never
+used in the driver. Cleaning this up would benefit when adding new
+variant support which includes adding variant fields for rd_fifo_depth.
+
+ex: Glymur has this rd_fifo_depth register fields changed from v2.x
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- drivers/of/property.c | 33 +++++++++++++++++++++++++++++++++
- include/linux/of.h    |  9 +++++++++
- 2 files changed, 42 insertions(+)
+ drivers/soundwire/qcom.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/of/property.c b/drivers/of/property.c
-index c1feb631e383..4e3524227720 100644
---- a/drivers/of/property.c
-+++ b/drivers/of/property.c
-@@ -147,6 +147,39 @@ static void *of_find_property_value_of_size(const struct device_node *np,
- 	return prop->value;
- }
+diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+index 5b3078220189..f3ad53ec6e76 100644
+--- a/drivers/soundwire/qcom.c
++++ b/drivers/soundwire/qcom.c
+@@ -209,7 +209,6 @@ struct qcom_swrm_ctrl {
+ 	int (*reg_write)(struct qcom_swrm_ctrl *ctrl, int reg, int val);
+ 	u32 slave_status;
+ 	u32 wr_fifo_depth;
+-	u32 rd_fifo_depth;
+ 	bool clock_stop_not_supported;
+ };
  
-+/**
-+ * of_property_read_u8_index - Find and read a u8 from a multi-value property.
-+ *
-+ * @np:		device node from which the property value is to be read.
-+ * @propname:	name of the property to be searched.
-+ * @index:	index of the u8 in the list of values
-+ * @out_value:	pointer to return value, modified only if no error.
-+ *
-+ * Search for a property in a device node and read nth 8-bit value from
-+ * it.
-+ *
-+ * Return: 0 on success, -EINVAL if the property does not exist,
-+ * -ENODATA if property does not have a value, and -EOVERFLOW if the
-+ * property data isn't large enough.
-+ *
-+ * The out_value is modified only if a valid u8 value can be decoded.
-+ */
-+int of_property_read_u8_index(const struct device_node *np,
-+				       const char *propname,
-+				       u32 index, u8 *out_value)
-+{
-+	const u8 *val = of_find_property_value_of_size(np, propname,
-+					((index + 1) * sizeof(*out_value)),
-+					0, NULL);
-+
-+	if (IS_ERR(val))
-+		return PTR_ERR(val);
-+
-+	*out_value = val[index];
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(of_property_read_u8_index);
-+
- /**
-  * of_property_read_u16_index - Find and read a u16 from a multi-value property.
-  *
-diff --git a/include/linux/of.h b/include/linux/of.h
-index a62154aeda1b..0c95e26c7191 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -316,6 +316,9 @@ extern struct property *of_find_property(const struct device_node *np,
- extern bool of_property_read_bool(const struct device_node *np, const char *propname);
- extern int of_property_count_elems_of_size(const struct device_node *np,
- 				const char *propname, int elem_size);
-+extern int of_property_read_u8_index(const struct device_node *np,
-+				       const char *propname,
-+				       u32 index, u8 *out_value);
- extern int of_property_read_u16_index(const struct device_node *np,
- 				       const char *propname,
- 				       u32 index, u16 *out_value);
-@@ -639,6 +642,12 @@ static inline int of_property_count_elems_of_size(const struct device_node *np,
- 	return -ENOSYS;
- }
+@@ -898,7 +897,6 @@ static int qcom_swrm_init(struct qcom_swrm_ctrl *ctrl)
+ 	swrm_wait_for_frame_gen_enabled(ctrl);
+ 	ctrl->slave_status = 0;
+ 	ctrl->reg_read(ctrl, SWRM_COMP_PARAMS, &val);
+-	ctrl->rd_fifo_depth = FIELD_GET(SWRM_COMP_PARAMS_RD_FIFO_DEPTH, val);
+ 	ctrl->wr_fifo_depth = FIELD_GET(SWRM_COMP_PARAMS_WR_FIFO_DEPTH, val);
  
-+static inline int of_property_read_u8_index(const struct device_node *np,
-+			const char *propname, u32 index, u8 *out_value)
-+{
-+	return -ENOSYS;
-+}
-+
- static inline int of_property_read_u16_index(const struct device_node *np,
- 			const char *propname, u32 index, u16 *out_value)
- {
+ 	return 0;
 -- 
 2.50.0
 
