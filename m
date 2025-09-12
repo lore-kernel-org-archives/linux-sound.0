@@ -1,177 +1,230 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1B619F135
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 14:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4693F31354D
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 15:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757687291; cv=none; b=bxR85h+WQws1IDiiomw9Z/ZPWBJxIyJHoDxpvmQ79/HKpMV+X0PjbiWGVALcmSyP72bsO3I+ZLTOtHq7sZeqPQ+dGtD5k71+ZfTJytbr9QKzMWdW3uARA3llL1bCwG16yx5HLnYC6oBOWIAlgkGbVicJadXzQdArBA/a4xwPksM=
+	t=1757689804; cv=none; b=aBrFZPt1p969dWG8XCA3axKb9Hwi389AJz6Q52DWb0cGokIJSiXf9phcvfR9TH+jrMrWeUaIt4BuhXm+0Pr7LO+w0XaykSlCxXS+S/L7UPxiMiybfY1nxsgrhIpUBNHHmfZR6ay8SY/IW7XPdtom4cHon2MKRs3ZfabEwCGlxuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757687291; c=relaxed/simple;
-	bh=JFOg5p1iJ5KxXp0KyBvJj/giFbvKAa15YFCa02d2BZ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dKTAPnga+qOkaa5MPlDeaKr1kDB4IFbvnkYQmsoBiEZhwf+8CrAZsU7+zNp8olijZnhUzdC6lQoonKlFdQ9S4ICyV0ceje0gJOnpKtYbH1uuQRAWhhljg8HTCbeahmX0KHQNNmMLoIxw5nUzBwsH/ssMj/ask5q75cmIepg5HYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MaTESpGq; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757689804; c=relaxed/simple;
+	bh=yBMtdHR8Z2DW6AnutSlIlWUYFnDNkrdCerjgdZMZ7KU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cWXvgQWlNOt0zKxseusjQc1OgjU9Vsf5cUJlgFjm2pT6FQBy1R0bcOpnJvDK2NYRiVjiyxszEC5z4jFeFIgGrtDwyOEi9A9NSyr6mVIV9MYuNP+GApHavkb+MXudoe39lKwBeV2jc3Oo6DK/3R5xZNOEAmuG6BlzKxPuF6vLH0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PvctjGLf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T7cdSouk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PvctjGLf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T7cdSouk; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MaTESpGq"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45dd7b15a64so17804535e9.0
-        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 07:28:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757687288; x=1758292088; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=jnkM+AnZyhps3qygpz2dIT80TKNeLfoU88kbfoaXJwA=;
-        b=MaTESpGqpTMpTxS5eQvECHwzZqQxvguH81IoIjAdnY6Iuon/s97rA4MgR7ETN4ig4W
-         ZB4kYLAIl5NCHpNeQhKXG2zUbFj4D2hD2Gr8oZV5LTseZWBSFCjCwfxSwTtS87WAwzPa
-         vDF2+G3vWpzq8FbfUpruZSNWV2Nr5Yw4vuEhmyeC4C6qPwjRXq+892caanXthJfzsT5I
-         ofNQi44GhPK9gBRN2TikmfEwn9zuQ1w/6iDiKIn43duVCQJMDlP9fO3qXW6WJBh+w/AR
-         FmItq8OgX7XQln6LAuxWFtzcuITtmn0IsoDUsVwJ3inhv7zLTKjaamm4hsDU2sNgDLTY
-         YTiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757687288; x=1758292088;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jnkM+AnZyhps3qygpz2dIT80TKNeLfoU88kbfoaXJwA=;
-        b=dyOG1u3JUKP6095qupLqaJskd5XxI7X8vX2yyzZ43F28K69Nas0iGTIM4Tk7hfyrF7
-         abmE4kLxgu7FznBObhMgRVbWHbR8a0laiXnlcPlCoiy7sQHlrmzKy8m/0xPygcEDYcfX
-         5Ewv95Sl1vyB9XXo13eNdVu6V2mHqiJtHrVAJWBCg6HrfBiF26K5oGDe37YfvCnkQkzq
-         0rhpoXOXurR7DWzF8465eNX7Jnr/lyij9C9iqt5UoFMI+vtoWJdl7Klm4x6x1/fr2BQZ
-         JsQurKAKBxuvatFK/ih0bDkn6XtApkNs4Od8lUodGmUVNvWHbZH1aiRLDu3v6i5YTLat
-         zYyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUZkHs6Wvcwent6gmFGEcnSymNB/WjDZfKblY6tbwHVjE+QI7rqgZpcdPNJrw/UzmWn9+9ywLdKoVAfFQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YybZ0V5s5X+WehJf59z+W/2CRCAgFNI/haPnge24kekRklQXK/e
-	Ye0PPbKF4ym28bd2hw7y8h9/6PTk2P6qZWtCU+pjJu5zZDq0F4M6z9Bf
-X-Gm-Gg: ASbGncvDK+FQlhoMRDbiY/uQK1QFAyZ4bNXFPVZpUBR102cs1u39Za9K8Zs0g3wy1tm
-	ntQdA+118EGt/MDWDS2W9pyA3x7TzkWBH54Q3JDKOm+ak4Ivc0/3onWx0nJXA1rsERsJy+UlhYK
-	emx+/YcxHnVPe8Z1jOS9gssMDMejKDfjDOsmEAu4K05TLMVR38ar4OdNOXnyD+ZOi10wjUvVRur
-	4YeaomWUmRMZHUrimpRTtKo2ySy8947gXHUOIRu83Wzh8Nv3Qo4cLwpuQT9y0ZI3+yLEJnt6+01
-	+1ysIXzflZ0mpKwc0H/2n2Feo435GsHpQkM5ne/w5PQrQPV9xWb5GmBmFXiovRx0lTr3cwSlbgB
-	ATV1J1W49w6p7ICCZRwSL89SLVN3P4jUJcWkfKx7qbQ==
-X-Google-Smtp-Source: AGHT+IGDvV53/LNE/OpdCCjsAZPEbICrc+wJ2bgnqrFTzigP/wpDBOWh7QRU2BBuWo1pqbgZm/YfGQ==
-X-Received: by 2002:a05:600c:1c19:b0:45d:d259:9a48 with SMTP id 5b1f17b1804b1-45f2128cba7mr31759255e9.9.1757687287618;
-        Fri, 12 Sep 2025 07:28:07 -0700 (PDT)
-Received: from [192.168.2.177] ([91.116.220.47])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017b27b6sm67769045e9.16.2025.09.12.07.27.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 07:28:06 -0700 (PDT)
-Message-ID: <3de4b03d-4940-4d96-bf20-5bb45f1cc5a5@gmail.com>
-Date: Fri, 12 Sep 2025 16:13:54 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PvctjGLf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T7cdSouk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PvctjGLf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T7cdSouk"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 36FC620F12;
+	Fri, 12 Sep 2025 15:09:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757689798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F/pM/9W1r75+CaDorOZpGk2LU+S6hOX+QgOMBroL+zs=;
+	b=PvctjGLfSuDclCddVBNmBQSwY9/Flua3RqMf0XLlwJ0ZwrSrQzsQkvzOzIHqHbbMlrVVf3
+	SMHveOmH9RTeuGx+A6NvQZpSaoe2A/1Yq+AoT8mgpM0pmfSy00GSzGb+n1YLaigb5xwA+n
+	e7GxWfsk9Xmim5wGMqimqplINPibA+g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757689798;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F/pM/9W1r75+CaDorOZpGk2LU+S6hOX+QgOMBroL+zs=;
+	b=T7cdSouk/K4l81JJ/UOIziYPp4EFoWTjUIl9vPrTFC0u88tskt6+l+DR6pgfOdpfMy//q1
+	ku1F5jIgoOkcWsCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PvctjGLf;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=T7cdSouk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757689798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F/pM/9W1r75+CaDorOZpGk2LU+S6hOX+QgOMBroL+zs=;
+	b=PvctjGLfSuDclCddVBNmBQSwY9/Flua3RqMf0XLlwJ0ZwrSrQzsQkvzOzIHqHbbMlrVVf3
+	SMHveOmH9RTeuGx+A6NvQZpSaoe2A/1Yq+AoT8mgpM0pmfSy00GSzGb+n1YLaigb5xwA+n
+	e7GxWfsk9Xmim5wGMqimqplINPibA+g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757689798;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F/pM/9W1r75+CaDorOZpGk2LU+S6hOX+QgOMBroL+zs=;
+	b=T7cdSouk/K4l81JJ/UOIziYPp4EFoWTjUIl9vPrTFC0u88tskt6+l+DR6pgfOdpfMy//q1
+	ku1F5jIgoOkcWsCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C867113869;
+	Fri, 12 Sep 2025 15:09:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id b1yDL8U3xGi0MQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 12 Sep 2025 15:09:57 +0000
+Date: Fri, 12 Sep 2025 17:09:57 +0200
+Message-ID: <87a52zr9kq.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: cryolitia@uniontech.com
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Kexy Biscuit <kexybiscuit@aosc.io>,
+	Nie Cheng <niecheng1@uniontech.com>,
+	Zhan Jun <zhanjun@uniontech.com>,
+	Feng Yuan <fengyuan@uniontech.com>,
+	qaqland <anguoli@uniontech.com>,
+	kernel@uniontech.com
+Subject: Re: [PATCH v2 0/3] ALSA: usb-audio: add module param device_quirk_flags
+In-Reply-To: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
+References: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 26/38] arm64: dts: mediatek: acelink-ew-7886cax: Remove
- unnecessary cells in spi-nand
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, robh@kernel.org
-Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
- conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
- mchehab@kernel.org, chunfeng.yun@mediatek.com, vkoul@kernel.org,
- kishon@kernel.org, sean.wang@kernel.org, linus.walleij@linaro.org,
- lgirdwood@gmail.com, broonie@kernel.org, andersson@kernel.org,
- mathieu.poirier@linaro.org, daniel.lezcano@linaro.org, tglx@linutronix.de,
- atenart@kernel.org, jitao.shi@mediatek.com, ck.hu@mediatek.com,
- houlong.wei@mediatek.com, kyrie.wu@mediatek.corp-partner.google.com,
- andy.teng@mediatek.com, tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com,
- shane.chien@mediatek.com, olivia.wen@mediatek.com, granquet@baylibre.com,
- eugen.hristev@linaro.org, arnd@arndb.de, sam.shih@mediatek.com,
- jieyy.yang@mediatek.com, frank-w@public-files.de, mwalle@kernel.org,
- fparent@baylibre.com, linux-crypto@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-27-angelogioacchino.delregno@collabora.com>
-Content-Language: en-US, ca-ES, es-ES
-From: Matthias Brugger <matthias.bgg@gmail.com>
-Autocrypt: addr=matthias.bgg@gmail.com; keydata=
- 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
-In-Reply-To: <20250724083914.61351-27-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 36FC620F12
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 
-
-
-On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> There is no need to specify #address-cells and #size-cells in a
-> node that has only one non-addressable subnode, and this is the
-> case of the flash@0 node in this devicetree, as it has only one
-> "partitions" subnode.
+On Fri, 12 Sep 2025 08:48:57 +0200,
+Cryolitia PukNgae via B4 Relay wrote:
 > 
-> Remove those to suppress an avoid_unnecessary_addr_size warning.
+> As an implementation of what has been discussed previously[1].
 > 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-Applied, thanks
-
+> > An open question is whether we may want yet a new module option or
+> > rather extend the existing quirk option to accept the strings
+> > instead.  Basically, when the given argument has a colon, it's a new
+> > syntax.  If it's only a number, it's an old syntax, and parse like
+> > before.  But, I'm open for either way (a new option or extend the
+> > existing one).
+> 
+> I would like to add a new param. The existed param
+> `static unsigned int quirk_flags[SNDRV_CARDS]` seems to related to
+> some sequence the card probed. To be honest, I havn't fully understood
+> it. And it seems hard to improve it while keeping compatibility.
+> 
+> 1. https://lore.kernel.org/all/87h5xm5g7f.wl-tiwai@suse.de/
+> 
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 > ---
->   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts | 2 --
->   1 file changed, 2 deletions(-)
+> Changes in v2:
+> - Cleaned up some internal rebase confusion, sorry for that
+> - Link to v1: https://lore.kernel.org/r/20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts b/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts
-> index 08b3b0827436..30805a610262 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts
-> @@ -98,8 +98,6 @@ &spi0 {
->   	flash@0 {
->   		compatible = "spi-nand";
->   		reg = <0>;
-> -		#address-cells = <1>;
-> -		#size-cells = <1>;
->   		spi-max-frequency = <52000000>;
->   		spi-rx-bus-width = <4>;
->   		spi-tx-bus-width = <4>;
+> ---
+> Cryolitia PukNgae (3):
+>       ALSA: usb-audio: add two-way convert between name and bit for QUIRK_FLAG_*
+>       ALSA: usb-audio: add module param device_quirk_flags
+>       ALSA: doc: add docs about device_device_quirk_flags in snd-usb-audio
 
+Well, what I had in mind is something like:
+
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -73,7 +73,7 @@ static bool lowlatency = true;
+ static char *quirk_alias[SNDRV_CARDS];
+ static char *delayed_register[SNDRV_CARDS];
+ static bool implicit_fb[SNDRV_CARDS];
+-static unsigned int quirk_flags[SNDRV_CARDS];
++static char *quirk_flags[SNDRV_CARDS];
+ 
+ bool snd_usb_use_vmalloc = true;
+ bool snd_usb_skip_validation;
+@@ -103,8 +103,8 @@ module_param_array(delayed_register, charp, NULL, 0444);
+ MODULE_PARM_DESC(delayed_register, "Quirk for delayed registration, given by id:iface, e.g. 0123abcd:4.");
+ module_param_array(implicit_fb, bool, NULL, 0444);
+ MODULE_PARM_DESC(implicit_fb, "Apply generic implicit feedback sync mode.");
+-module_param_array(quirk_flags, uint, NULL, 0444);
+-MODULE_PARM_DESC(quirk_flags, "Driver quirk bit flags.");
++module_param_array(quirk_flags, charp, NULL, 0444);
++MODULE_PARM_DESC(quirk_flags, "Driver quirk overrides.");
+ module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
+ MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
+ module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
+@@ -692,6 +692,22 @@ static void usb_audio_make_longname(struct usb_device *dev,
+ 	}
+ }
+ 
++static void set_quirk_flags(struct snd_usb_audio *chip, int idx)
++{
++	int i;
++
++	/* old style option found: the position-based integer value */
++	if (quirk_flags[idx] &&
++	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags))
++		return;
++
++	/* take the default quirk from the quirk table */
++	snd_usb_init_quirk_flags(chip);
++	/* add or correct quirk bits from options */
++	for (i = 0; i < ARRAY_SIZE(quirk_flags); i++)
++		snd_usb_apply_quirk_option(chip, quirk_flags[i]);
++}
++
+ /*
+  * create a chip instance and set its names.
+  */
+@@ -750,10 +766,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
+ 	INIT_LIST_HEAD(&chip->midi_v2_list);
+ 	INIT_LIST_HEAD(&chip->mixer_list);
+ 
+-	if (quirk_flags[idx])
+-		chip->quirk_flags = quirk_flags[idx];
+-	else
+-		snd_usb_init_quirk_flags(chip);
++	set_quirk_flags(chip, idx);
+ 
+ 	card->private_free = snd_usb_audio_free;
+ 
+.... and snd_usb_apply_quirk_option() adds or corrects the quirk bits
+based on the string value if it matches with the probed device.
+This function will be similar like your parser.
+
+In that way, the old quirk_flags options work as-is, while you can use
+a new style by passing values with "X:Y:Z" style.
+
+
+Takashi
