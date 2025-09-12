@@ -1,66 +1,66 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE0A3164DC
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 14:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB76031354D
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 14:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757686965; cv=none; b=vEwnYgd+WfRyW5EmkRYW1BTiytleYjWg1vy+gTw3NWiq0ERiQprMV8y8lCiiuBbyHtOHTanKlzkBIVgOgFJuyHwWrHmoHFxXum+HlpGEepJ0pSkuh/BVwWmvG36vET4RmGhveOgK6vDkQbGNVNp4MdNx24As5bHk08W3z7HBUsk=
+	t=1757686983; cv=none; b=P/4GzLHLMURNsW66i7gMgdSCwLakuFIPVqow+MdzC7QJpY1UOq/MPh6+Uu8pS/QGgW1XMLyqr9UNdW3+7rI15alIGp0AmmcnYOMw22jxwI7IoiLkyzt29GGp0wS5a4tgfHSs4qBV3jDmaL93V+IPdgnD7BRWJDfk+euLbmVrSFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757686965; c=relaxed/simple;
-	bh=t5l/naQj3nmZrrosN65ssHKsRcpoZMY4WQY0oZATpMQ=;
+	s=arc-20240116; t=1757686983; c=relaxed/simple;
+	bh=nx6xFnItCGXcISjxReH3/VA4Sb0JnyRrb3I1w2HIANw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ap/Cq/iARz15GwBA29I3rTKP+2RYXm5hsPoF/xcB4BOSpQfBG5ecEg/DVMSmJm3163CQoFesZi2VimgZZHhP7r6JTu/W8L8kNLPynLr2VReQCpVzgPvtbmYKnnKDvYuJcXX+oNMc92vg6Ts3OiUrL7Ym9k3qNc3or0JWUTqjxx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNQ02lqS; arc=none smtp.client-ip=209.85.128.44
+	 In-Reply-To:Content-Type; b=bU+7F4d7OoCn7qD0U8jNbQeXerP8qJM4zuiXtUNh+N90TxhE/OT0hg2e1kUNOKIqtpFS2do/5VvOqqGCHlIkjNT4XxkEtWebJ5rkosWMSDs8/qSUmm3PbkBiUj0kAnWY/gTbo67Iu8ENQgZfkHfhv4dkwq/QW2VilmfGWP/Tt6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e9jSqWQ7; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNQ02lqS"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45de1084868so10202945e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 07:22:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e9jSqWQ7"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3e77e917eefso554979f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 07:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757686962; x=1758291762; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757686980; x=1758291780; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=VymCpN9fDyNm7QOg2yye26PyPlP5MnwUCjdKp/JISyg=;
-        b=BNQ02lqSuqirbnxTe2NFyyhmcOufy2yu2NRTUkrDQcJukAkwxwk9Nhyrextlnm8rUD
-         he5z2XsPFh7qL5wOWZoBdKfJFuJ/2VEVD0pIh6o54ifZ+BEDWdc3FETVuUI2ZPZaeGIx
-         qyZFjZtZs6dVVonYBWBH7IcNJB9zeo/qn0ikHV9JVin6qrKTcO27Wd8lkiuzgsXbpsRe
-         vRLzyKfRYh3itLF+sC4/3B7DarGOYKTfZBBPv1MUAvdCEdfM4gIDvPLS/VAEx2xhg3fN
-         fwnhIfThBa4B+MZ1Zbll1aLDwQEZcJFUbum27eIUNMYsIPf3t6pxUhmUYLnoGzPrBdau
-         Slig==
+        bh=ek0TO7GNCfMGdZrn2a6dssI2HabH0ybImb9FG8faTKA=;
+        b=e9jSqWQ79UnmWGmn+kmvUMsz2VtjnIANExxyKp0Vcvq7GdhaV4WDzNP2ID7lW2/v8E
+         tbobSTgbHNq4UwpTwF2J54Z2KK13+hFDIyWpvgiFCbNOfatvUZEWKtuQhd4jnRJaxXZ4
+         pd/2R4Ze7J1dFPbw2D0UaIJ/9+Av1f5xPeVx80SYFGUq6HSWXPkYgGOifYwcEbeIl1ga
+         j9cJe+npACJMklXevDWm0vFqAj/tSfyUuBHV7suxMV09ap/BSafW96Cm7j94ahDiyAtK
+         hk26WFTPvHp+qWzWv58CNTppCd0bH+4zGIrC7cGEMjPY/jS318BLAwsaIDWvo74gcgKp
+         PY2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757686962; x=1758291762;
+        d=1e100.net; s=20230601; t=1757686980; x=1758291780;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VymCpN9fDyNm7QOg2yye26PyPlP5MnwUCjdKp/JISyg=;
-        b=vbOHH981NYWrVA+xct3L0wUSXselvuhbAJ0T/GqiaC1Is0ycczN7AB05H67OSm/Lry
-         3CgIi48ZhSWBoK2YuSL0AYpUfWAkX7ayl0uhZR6GaT5sBuUb73nXO2vSjBpHfV/oCIfr
-         rAggVvx18c6bAYaL2npDNuMT4h3lSIkLdXk75OlXESrs5lHl6wNqyD0wE46gyguaTC/k
-         MtojTb07yuIofhPK5TTt2UuJUSV5YaBPxt4jLY9wX0DeHWCQIRGIPqUifmbJPxqhTr1Y
-         X+agbq4i6cLmxcZMTPuX7SrFNB/yvDOofRK51Tfv4EVwZiGpdUjv9ts0VZmfSsFtu8ZF
-         iyMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWUJ/UCIEKq6mqn60ZGPNkxYgQKETfRJP+EnITrGRDMowcpTuZEa8WRrRPcNPqAbJ2eCgiyENRzhxU30g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yytgv1arC6tMr8Ig/BRfNNW0fFKwGGcoqjZyXbixruUiaFrHRei
-	T+MM/fRy5tAFqGrLKdsIhXdtlqkuDkCh3xrS9W7PhLEh0B5O/Qd/9avr
-X-Gm-Gg: ASbGncvTST/cEEKzshaC/ECc2mzIMAtoN5FOke9B38JoW+n1VSYgU2CR4M5jttTqt+N
-	09vYc7La4Fs/qG+EEDPjx7Q/lz6Ib/dvIwnFotkvsVnjeXEZ48jobhvk53CFkEfijAjHNvkjr0k
-	MQK/2/kw+/IBhtkxY7W2ujj+mPvpbV5cm8YKvIEGVR4oRhfwbZA3quDtJjMz1Szj9Foj+6SQe5P
-	2V+Se3SECs6YtUJisy9l6qkk1xdN32A6Lh2r5DYczZfGq5S3cVMhi6XV98IVfhKbx949v48pPBO
-	2Rbyom/DaNwwt7jRklBd3H1/xZr8698LISGjz+PEaOpjMOUETL3Jq3+msVVGNVgcC4hXThpGXo2
-	OB5itHnjPzLEjwdeaTKD5NgXbT9LaPqE=
-X-Google-Smtp-Source: AGHT+IGS/ldf5VzaTVStAjlJrTC/ggG5z3uMdvDlNsP8I8AfAyjYBZwViC4ftI3Cml1zaAZD0YLmkg==
-X-Received: by 2002:a05:6000:2509:b0:3d9:70cc:6dd0 with SMTP id ffacd0b85a97d-3e765a05342mr3225811f8f.33.1757686962105;
-        Fri, 12 Sep 2025 07:22:42 -0700 (PDT)
+        bh=ek0TO7GNCfMGdZrn2a6dssI2HabH0ybImb9FG8faTKA=;
+        b=IDnrV174MmELCoFiYFBTBRVed6XMMJrC5NTsu0XRukd9fO77xGs77tfB+4Ex6xQpOI
+         Pnh7YLrNLID4lLlDwotgrKZWdYNsE9XaBGEIBRb8GdXmU6YUgcL0ehekAU5mAiaCAyLm
+         o+5F21l7+1121Stqv2DKtnptO/LQSx0GxedYjyd1YtFT1ySvx6SfyWlvzDTGFtLCLdaf
+         TbGZFKD0s7hb2P1xUBWX7rOcoa3G4hEkE1gajzzdzeoCI+v6Bu9vmSVkVJla4PteGpNg
+         szfs/sEZwmBCr1wCZGQU3qglYxYPRQ5KSgHDVO66Im/2ZAOkYl8yTVW7aPjsYYu/Ad8E
+         +Heg==
+X-Forwarded-Encrypted: i=1; AJvYcCXVvwLm5sp3DQix3cPbdkBF8UkAXc8U5vtfLhZ4iM7PVN5D4ELXDKmhTVl0s8Qp/FdB0jQ6D3jt1q9hiQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUTV01uoxeRoSHpq7PJpzwdQso81IClMSqUnRlp9xAVL77gjoM
+	eejIyKZWi21d43+pbttE90QmsSMT4C97ICudQ9+udk2vuDkJJx2riILg
+X-Gm-Gg: ASbGncttL+zimYzCqYSw70q1RDxLsftUWqrQmDU4EXhLDhVXosddJLbEBeD28bY48gP
+	5OJQi+4efIQ+NvbbvUY2H0N34V2P4dTt85f76O3G/K8xKOwldP2Tff8jb0bgHUP3ggQR0sPTsrS
+	vQZDMMu1K8Y0rx+yKmOvkJ3V60n/qIafxq3Y7DYZ9X8a1EweY/rJznh9x4D6k2M/z0poJ7ojYOd
+	ZjmslROmRieu/Ud36MIRVKFASF8r79Ml2BuyqIs38xt5IG8rNtC0BFenWs8Ip0aT+47AM3HB3hN
+	9JL72gRWUmDaoXYQBNTBowkVdgA9d+x28cbNhgwkRl0sx5piD4YbeOsN3uU/VbXYl7Hnm68mzEv
+	4kE4tDgmZRpzy2Y4P7ftjCRHexPtR0Cw=
+X-Google-Smtp-Source: AGHT+IEyMrgn2AGObMNXrXfOyNSBeXONFdMwd2oXsFxZJiErmFGwTSul75U9TPJBys255/fSCwqlMQ==
+X-Received: by 2002:a05:6000:26cc:b0:3e0:34f4:3225 with SMTP id ffacd0b85a97d-3e765a09238mr3563649f8f.45.1757686979724;
+        Fri, 12 Sep 2025 07:22:59 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e016b5a16sm67350635e9.12.2025.09.12.07.22.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607cd0a7sm6624214f8f.39.2025.09.12.07.22.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 07:22:40 -0700 (PDT)
-Message-ID: <b28210f7-8154-406e-b2c5-70de85deffb7@gmail.com>
-Date: Fri, 12 Sep 2025 16:22:36 +0200
+        Fri, 12 Sep 2025 07:22:58 -0700 (PDT)
+Message-ID: <2d711432-f6db-400d-b97c-135c839cf5f1@gmail.com>
+Date: Fri, 12 Sep 2025 16:22:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 35/38] arm64: dts: mediatek: mt8195-cherry: Move
- VBAT-supply to Tomato R1/R2
+Subject: Re: [PATCH 36/38] arm64: dts: mediatek: mt8195-cherry: Add missing
+ regulators to rt5682
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -93,7 +93,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-36-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-37-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -139,59 +139,39 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-36-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-37-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> Move the VBAT supply to mt8195-cherry-tomato-{r1,r2} as this power
-> supply is named like that only for the Realtek RT5682i codec.
+> Add the missing DBVDD and LDO1-IN power supplies to the codec
+> node as both RT5682i and RT5682s require those.
+> 
+> This commit only fixes a dtbs_check warning but doesn't produce
+> any functional changes because the VIO18 LDO is already powered
+> on because it's assigned as AVDD supply anyway.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts | 1 +
->   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts | 1 +
->   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi          | 1 -
->   3 files changed, 2 insertions(+), 1 deletion(-)
+>   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts b/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts
-> index a82d716f10d4..a50b4e8efaba 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts
-> @@ -13,6 +13,7 @@ / {
->   &audio_codec {
->   	compatible = "realtek,rt5682i";
->   	realtek,btndet-delay = <16>;
-> +	VBAT-supply = <&pp3300_z5>;
->   };
->   
->   &sound {
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts b/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts
-> index 2d6522c144b7..a8657c0068d5 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts
-> @@ -13,6 +13,7 @@ / {
->   &audio_codec {
->   	compatible = "realtek,rt5682i";
->   	realtek,btndet-delay = <16>;
-> +	VBAT-supply = <&pp3300_z5>;
->   };
->   
->   &pio_default {
 > diff --git a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
-> index e70599807bb1..d40f4c1b9766 100644
+> index d40f4c1b9766..b3761b80cac7 100644
 > --- a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
 > +++ b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
-> @@ -535,7 +535,6 @@ audio_codec: codec@1a {
+> @@ -534,7 +534,9 @@ audio_codec: codec@1a {
+>   		realtek,jd-src = <1>;
 >   
 >   		AVDD-supply = <&mt6359_vio18_ldo_reg>;
+> +		DBVDD-supply = <&mt6359_vio18_ldo_reg>;
 >   		MICVDD-supply = <&pp3300_z2>;
-> -		VBAT-supply = <&pp3300_z5>;
+> +		LDO1-IN-supply = <&mt6359_vio18_ldo_reg>;
 >   	};
 >   };
 >   
