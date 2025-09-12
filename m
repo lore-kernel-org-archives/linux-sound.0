@@ -1,66 +1,66 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BED311C30
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 14:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBDD310640
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 14:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757686817; cv=none; b=A6gBYwvHjdXnAnpAt6fPVM6zglul5ykGVjinHw7dTLbCx7vIEE3WEgF7rraQNFo00A8u/L9nwYFIXRUv3ZDKrSjcayCQPTvjnE2DmTrvs3RP1lnCBMOR5JfwbS0mXgmY9hTbciDmHmpdWBiOch5mzYb1kKI5+ZP6ytAY6TTdthI=
+	t=1757686828; cv=none; b=PNSlZXnWJc7HO6/luLyY5k33647JpGJdRXStnMWV9MBHUY5YiM8+QL5+2GFrY2KU3j99tTHOMPv45MADrFz+F6nHdXOtMiB5/ew12pJvOiecTFPUsJt0IklIGxb2tvUJjI8SLi8MXlKV09LOG+V6zdKZeqB/jDgqRzqZDzsDbdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757686817; c=relaxed/simple;
-	bh=EVbOp99sPb6YaiW0/j7yT/7PlojN9LZSWPvpHmas4ao=;
+	s=arc-20240116; t=1757686828; c=relaxed/simple;
+	bh=ywoSao/pIMcsJJINwYGsAstaDWlkDRlAqJDHcceNgM0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RfO05dI81EddJLezzmowBumGVxGcgrVbKXcTFnzegb3bW5hP0SdeSmnQes7v9tBwyas/GHjtRoTPl98kTEAyZ2nibyfGTxJeNHiq+PgBGbqRQzlOSg9mbOZ6Re+jdFkAEfcgqEleFPq3Fi8OCJ+chofwacnWFOaD7XDGmS6S5Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AIeJEpVu; arc=none smtp.client-ip=209.85.128.49
+	 In-Reply-To:Content-Type; b=G0GSEaVYn5QqlJGjg36mv6qfY9LL3j6vmsM4A5vcfKHa2fMOK6N62NRSp+bmqkO8L7/4YjKNq5nbn0uEy2unGP5LlOJi4Tn8lZjasSDjLWRdtRWSiy1O78sSLa+0QJFOpZYXlQXrF8khHtD5OPPYAUP4etkRoHkI1+lvun3CITU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GlX1wHAd; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AIeJEpVu"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45dd7b15a64so17719525e9.0
-        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 07:20:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GlX1wHAd"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45dd505a1dfso16623095e9.2
+        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 07:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757686813; x=1758291613; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757686824; x=1758291624; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zo6qWVc0jZZmv8jDaeRnPGtja64w2ge7orZf47CFJn8=;
-        b=AIeJEpVuhdfEU02IC7XuGXzI037Wc9g59ptXd5n5XQxKAR6P8FZ3WxxvDiiRyPccM3
-         95+zGxtWVQPAcyt39cCFlJwgTksIQr7tB6cc0XKMAEatPNNfErY2YHKFxnyIKUzxe4rc
-         WdJdlJusv5CZt/I4+VBaJ//EwCEFE9Y0S5kXu9764DjiONUXV1iR8lzzRy+zptbkKIY5
-         KESI3BvUIvlL9Ch7i5JFRCrluQaUTAK6s9WL1VDp7V58SlsfsDOSn4uW2v6+2A/flOQP
-         W+7t7NzxGq4LzsqPItg1htrmzTsaQpal5alyeLct40DAQiiQScrUSQUUccCkDmQTFE++
-         QHZQ==
+        bh=ehDN8c0/F5eZ831IVZll96+NWY7i1QcRKUtRMZjXuP0=;
+        b=GlX1wHAd+V2nAZ/nKC/Dmj3NhNoYGsNIHbZMVGgp237l9/UyomdS6d/SKxsEeAYQ/j
+         3ghdKGOmb5wMpfeokUnmM6JVf/ncMdoGj5duRf81taphxVXUt3UWLdQIhLueldyx5TvJ
+         uSiDGqRP8B16sLIQdf77sH2M2PPcglKpWFr21h7Bnzk0Z1G4BgAbeSMRW67VjVrg30A6
+         Y9E3217mZVcWzkmZO2UuVxwkCzf7HdXl4K4OeOtTK0JQnw9B9xFyzMdvWhmw/fA/PwZv
+         W8MHinFYlNDyRQEfyzKbu9unvRITL7ExlO24AiZ7eX9J9U/ZX7fykQfV54mEVHmuLGKf
+         X1pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757686813; x=1758291613;
+        d=1e100.net; s=20230601; t=1757686824; x=1758291624;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zo6qWVc0jZZmv8jDaeRnPGtja64w2ge7orZf47CFJn8=;
-        b=s2c2ZNqTtvR+kOXiV3kKzFuTCVcmcBYLskuPi22anlEu5c8hWF09JWfeAMFl3KL3nl
-         IFopvYT0H2nKgeuuc/IXlqtHLqK85K6IMCEytiLW67m2CxU7k4pQ1C6QyPaJPrpz4NZf
-         QP6Taem4bYalGZGCYZpjltwP7SkipcXmAc6W96qfcHWBdrEPeWtyWh79lQN6Sdkc6kWj
-         4tNgJwSPi/BYQfU8P+AZegItgWnRKAXZeOa9n6uFP3IlPwiapyjE+KIei1JAC4npmAbV
-         gO1eOFcNM54MydWjXgfSAftwX95cD45cFzNvPmpo0fmGnldZYJY+xmYnqblo8B/mRkXs
-         ehFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbIeJWLb+MieVxnZZPqfavGQSRKJjx5Xa0p6VSCtpZIzyuoxQLUJpaqMWLBZ+8ArjXzTWBBl+tjzmi2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9ujwwz0f91lWHySn6NHWBhybZyHeCulnfsFvhkqhjo/RMVYQz
-	Q+Pk/2Oc+d9UjkBJ6qNcMy12b9mAQweUIcNIcacfe1gTx79EG0JoI89c
-X-Gm-Gg: ASbGnct8w2ejMhn42kMQmhRQeo3Q3hvs9SJlS/HCdS1ByVpaGvi94zj1QcWsZavnqgb
-	rNWAb/QITy47tVU9B7+NDETWKbvWPKKkVf87nyCYfU3J0qkQxB8N9Swlz8bm4nSJfav4cEQcX3D
-	nyqRPkiuQ6CVb4vegowCMPhNUd1IQVmA2wmgSUaGNAGEMPuI5LmUNrCx180oZi8OO9hiSZotPvm
-	wQ05Dl6q8AqVc/TkUvNZUh8oEjX/lk+UnHnO55HX+m1Nv9ju64tmgNQZARU15LziCBnEMWkseyU
-	W1j+RlwS/3VJ+NJa+e/n54ClR06GYuuUOOeo9tLzyY3iwqveNhYbu7xOHQpWyYTH7ZNq+AxbFKl
-	liMrNo6xhXrfsnMKvJpSMIIXQkK3Ndm8=
-X-Google-Smtp-Source: AGHT+IEYiPOKWB+0nvhix6TOxrJpFoMyLdNoRjDPkAz1Qots2CwSj1hz+7mDLBhL/v2fign1H2JEQQ==
-X-Received: by 2002:a05:600c:6610:b0:45d:cfa4:ce10 with SMTP id 5b1f17b1804b1-45f2128d4c1mr29424165e9.10.1757686813242;
-        Fri, 12 Sep 2025 07:20:13 -0700 (PDT)
+        bh=ehDN8c0/F5eZ831IVZll96+NWY7i1QcRKUtRMZjXuP0=;
+        b=JAYXGzN32hbWfIApGl2ULZQXFu+RCU+KTbtg6Yy3tzZuWDZQRhYU958dR4ccidDk9I
+         LR9a7yBnSf4w4jIz/RdNiZbgKToZWbmlp7SR2s9e3VT9hpO52+gukx++AdLtSGiO+iMs
+         mMJhFDt8TW6iP+/LUKPeoQ1QhlhLyhngRT0K8yVmbRmBvmt++Vy11NIca9z6jbRRpChd
+         f05MK4INp9MpabOWA0TktgkjNelzAyS9Yoyxea/0JJMKFUZM7+DXnLr77oxnpsalRtU4
+         aaaQXx2tlV9479lpaGxxMawLQwFOdk3f7QMl7eD4Rv4IeZS3jGTsjoXjHPaNIvGaTDDP
+         Jpaw==
+X-Forwarded-Encrypted: i=1; AJvYcCUqNDDPl54RrDx7xp1ABxj6jsYGrvXl9zqIDQgaIVQcxAHL1i/4LfN27Df3QWQxlYl+u8xL8UFGG/ioMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YysdzeR0duc79Mzw0B2HGeUfCPwxADY4tQ7RTRoCVLSH0VOyOpL
+	ovYmoDNq+xAwWLhgH2VRGEXKBONGzqGWWswcQx3RVi9+c5GRmOjTNI+x
+X-Gm-Gg: ASbGnctbvzz6MfDoK4/IPDYhAgsEJsgiU2NHQcJj9UxKo5vESF5nKEkMBaWnErSM2Jq
+	o6VPWVcxM5Q2gl2aATxP2vrCf9jZCq6CuWtWxTmCGmrruBES2Mh6qy+U533EF2Vc8RqONvWi+dp
+	k7qy2hkhYaDPN8WmBem2ELllOu9R7R7w97wIQn5IWNlndeWDZsIHFC57ulG1Aen6/kf7ddWkmgb
+	MBtsZ1MCp/Fj8l1mdHH7CMVY0lhyW8ZBTcV/qQvYD/VJR9DQkeq+PajVPLRAqcwlmglZgxB15pz
+	VUc5KuJ9EuxyLxwnyv4GQiF9pFZL5AmtTtT7lIxX6jGD6avZyosyNWiXeC9fj20SX6cUnrz/Bp5
+	vP/XDWpchn6yI8+9FA/p/w4nBmEREFzw=
+X-Google-Smtp-Source: AGHT+IHtSSdiDkUB898paY6KoQvNDE3OgBxVTaH21P4AnZRGobWI8BJOt5uErOIC2i3WhKinxdthWA==
+X-Received: by 2002:a05:600c:4585:b0:45c:8e6d:a45f with SMTP id 5b1f17b1804b1-45f211caa28mr37824695e9.5.1757686823899;
+        Fri, 12 Sep 2025 07:20:23 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e0372b983sm63475385e9.9.2025.09.12.07.20.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e03729c76sm64384065e9.6.2025.09.12.07.20.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 07:20:12 -0700 (PDT)
-Message-ID: <bde30144-0c57-4d34-b6cd-2a53dc099bdf@gmail.com>
-Date: Fri, 12 Sep 2025 16:12:25 +0200
+        Fri, 12 Sep 2025 07:20:21 -0700 (PDT)
+Message-ID: <e06e9568-1129-4262-83a9-ab652101831a@gmail.com>
+Date: Fri, 12 Sep 2025 16:12:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 21/38] arm64: dts: mediatek: mt6795-sony-xperia-m5: Add
- pinctrl for mmc1/mmc2
+Subject: Re: [PATCH 22/38] arm64: dts: mediatek: Fix node name for SYSIRQ
+ controller on all SoCs
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -93,7 +93,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-22-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-23-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -139,88 +139,81 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-22-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-23-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
-> Add pinctrl nodes for the MicroSD slot on mmc1 and SDIO Controller
-> on mmc2 and assign those to the respective controller nodes.
-> This makes sure that all of the pins are muxed in the right state
-> and with the right pullup/down(s) before trying to use the mmc
-> controllers.
+> The sysirq has "intpol-controller" as node name, but being this an
+> interrupt controller, it needs to be named "interrupt-controller"
+> as per what the bindings (correctly) expect.
+> 
+> This commit brings no functional changes, but fixes a dtbs_check
+> warning.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   .../dts/mediatek/mt6795-sony-xperia-m5.dts    | 38 +++++++++++++++++++
->   1 file changed, 38 insertions(+)
+>   arch/arm64/boot/dts/mediatek/mt6755.dtsi | 2 +-
+>   arch/arm64/boot/dts/mediatek/mt6779.dtsi | 2 +-
+>   arch/arm64/boot/dts/mediatek/mt6795.dtsi | 2 +-
+>   arch/arm64/boot/dts/mediatek/mt6797.dtsi | 2 +-
+>   4 files changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts b/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-> index 03cc48321a3f..fccb948cfa45 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dts
-> @@ -227,6 +227,8 @@ &mmc0 {
->   
->   &mmc1 {
->   	/* MicroSD card slot */
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc1_pins_default>;
->   	vmmc-supply = <&mt6331_vmc_reg>;
->   	vqmmc-supply = <&mt6331_vmch_reg>;
->   	status = "okay";
-> @@ -234,6 +236,8 @@ &mmc1 {
->   
->   &mmc2 {
->   	/* SDIO WiFi on MMC2 */
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&mmc2_pins_default>;
->   	vmmc-supply = <&mt6331_vmc_reg>;
->   	vqmmc-supply = <&mt6331_vmch_reg>;
->   	status = "okay";
-> @@ -311,6 +315,40 @@ pins-ds {
->   		};
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6755.dtsi b/arch/arm64/boot/dts/mediatek/mt6755.dtsi
+> index b55d3fac9bd4..8da5c0a56a02 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6755.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6755.dtsi
+> @@ -98,7 +98,7 @@ timer {
+>   			     (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
 >   	};
 >   
-> +	mmc1_pins_default: microsd-pins {
-> +		pins-cmd-dat {
-> +			pinmux = <PINMUX_GPIO171__FUNC_MSDC1_DAT0>,
-> +				 <PINMUX_GPIO172__FUNC_MSDC1_DAT1>,
-> +				 <PINMUX_GPIO173__FUNC_MSDC1_DAT2>,
-> +				 <PINMUX_GPIO174__FUNC_MSDC1_DAT3>,
-> +				 <PINMUX_GPIO170__FUNC_MSDC1_CMD>;
-> +			input-enable;
-> +			bias-pull-up = <MTK_PUPD_SET_R1R0_01>;
-> +		};
-> +
-> +		pins-clk {
-> +			pinmux = <PINMUX_GPIO175__FUNC_MSDC1_CLK>;
-> +			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
-> +		};
-> +	};
-> +
-> +	mmc2_pins_default: sdio-pins {
-> +		pins-cmd-dat {
-> +			pinmux = <PINMUX_GPIO100__FUNC_MSDC2_DAT0>,
-> +				 <PINMUX_GPIO101__FUNC_MSDC2_DAT1>,
-> +				 <PINMUX_GPIO102__FUNC_MSDC2_DAT2>,
-> +				 <PINMUX_GPIO103__FUNC_MSDC2_DAT3>,
-> +				 <PINMUX_GPIO105__FUNC_MSDC2_CMD>;
-> +			input-enable;
-> +			bias-pull-up = <MTK_PUPD_SET_R1R0_01>;
-> +		};
-> +
-> +		pins-clk {
-> +			pinmux = <PINMUX_GPIO104__FUNC_MSDC2_CLK>;
-> +			bias-pull-down = <MTK_PUPD_SET_R1R0_10>;
-> +		};
-> +	};
-> +
->   	nfc_pins: nfc-pins {
->   		pins-irq {
->   			pinmux = <PINMUX_GPIO3__FUNC_GPIO3>;
+> -	sysirq: intpol-controller@10200620 {
+> +	sysirq: interrupt-controller@10200620 {
+>   		compatible = "mediatek,mt6755-sysirq",
+>   			     "mediatek,mt6577-sysirq";
+>   		interrupt-controller;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6779.dtsi b/arch/arm64/boot/dts/mediatek/mt6779.dtsi
+> index 5c579e88e749..70f3375916e8 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6779.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6779.dtsi
+> @@ -138,7 +138,7 @@ ppi_cluster1: interrupt-partition-1 {
+>   
+>   		};
+>   
+> -		sysirq: intpol-controller@c53a650 {
+> +		sysirq: interrupt-controller@c53a650 {
+>   			compatible = "mediatek,mt6779-sysirq",
+>   				     "mediatek,mt6577-sysirq";
+>   			interrupt-controller;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> index 38f65aad2802..58833e5135c8 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+> @@ -404,7 +404,7 @@ pwrap: pwrap@1000d000 {
+>   			clock-names = "spi", "wrap";
+>   		};
+>   
+> -		sysirq: intpol-controller@10200620 {
+> +		sysirq: interrupt-controller@10200620 {
+>   			compatible = "mediatek,mt6795-sysirq",
+>   				     "mediatek,mt6577-sysirq";
+>   			interrupt-controller;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt6797.dtsi b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+> index f2d93bf6a055..8ac98a378fd6 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+> @@ -228,7 +228,7 @@ apmixedsys: apmixed@1000c000 {
+>   		#clock-cells = <1>;
+>   	};
+>   
+> -	sysirq: intpol-controller@10200620 {
+> +	sysirq: interrupt-controller@10200620 {
+>   		compatible = "mediatek,mt6797-sysirq",
+>   			     "mediatek,mt6577-sysirq";
+>   		interrupt-controller;
 
