@@ -1,87 +1,185 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5F84207A
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 11:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F212830103E
+	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 12:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757676645; cv=none; b=khz+l/Oh+7e/kaXASyKi1vmkexQ/FWb4Ls3VhEm/DeFfxIs4ReiKjpXypoyxZlq76f+CgRh5RnMHEfbldbZ9hsLawzBTkDs07La3TZApYoEkjJvWvDjBfOfmjV9Oo6I/l0WW09455Xxk5MbXkoulJffapFAR5VTG7yKfxbPIEAs=
+	t=1757678821; cv=none; b=phfiryp0ALfx4BF+xd+z+zo0/IFos8dvjY7HEEpg5U4jdkOvrBUWfVmD9Vw6gSK5k3YhpcQ5o1AAfuVfWPSLUPrUWpa/5rZQgSWDlWwaBxwlz3Fuo2CPP7qDcXOMpLFeDyw1gWcfpaDMyYYDLbwcw5nPEdIe2qQZ0AlXJuLufcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757676645; c=relaxed/simple;
-	bh=wwNEPQ8Ub2Bi1rTK+y9jv2+BOVxcYgElrlEKhsxKZg8=;
+	s=arc-20240116; t=1757678821; c=relaxed/simple;
+	bh=7tLsPQ56GHykSvGu2h/RP8o92u88h3vhaDOKuu5gNK4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=buR1/SaKZFuFwZhGhcyyZesKbn+o7tf8+BoDIpQw51211TY8h2cq1Kx0uU6gDaSOdpbQxC63LkmaNBFaev6JQW7Oue1MS0vwYpRbfzEoAyjef73BjL2RTvlCrlNLbs7e3REGplyj83ioMLiXb5/DlClvMUOMd3ZPwJ+sugLmJPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=N4CcQPLT; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=kV9KsNSodOXIJCW0wnCjjUyJYkXGwLNyCnaKPgGyDXaTKVvK8oPsThSpgl+mxYQtTqayWWUJCvkbFqOMIe9H5cQ4AzetaqyDMpWkc5tJ5TLla/T92HtvqsMwRVXXr2tTPXJySRG06lzxzYWhKbTi7eSK8QEYcgoPEQAZ9gISRJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=epwqyXdn; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="N4CcQPLT"
-Message-ID: <baa8bf28-d5fc-44d5-b846-d3d110b91e1b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757676641;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SGgJJctjU086CxZN0zvG4DX897rv1zFpRePhmYCqJRQ=;
-	b=N4CcQPLTRy6UOKGv7dpgIGJWIqPIUVAN/dXeteOv5hRjAt9n+WypmGZb3VIQDgxf1SXpi8
-	T6OPq2UphGTU1APDujt47KQgI59Uf1U4AoMmGW5F14Pj43z9AfVb8DSVFsgJ8qB7Xmp8XM
-	5sMI4NvK6Qd6KjvyLAtv/slNwqST8lQ=
-Date: Fri, 12 Sep 2025 13:30:23 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="epwqyXdn"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3df3be0e098so1144472f8f.1
+        for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 05:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757678817; x=1758283617; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=CE95xq6ZgnpOLnyTR/eAjFT0tRmq5j5KNZb4KBSgErs=;
+        b=epwqyXdnnAMuWqdFrWmyTklhrzltxKBEXEibAYGbDKc4Lmun9qqEi1Qfed9WsYQXf3
+         pt27wud0vU2YGi0DaYp+sYBGQgHvBZ6lsS2xxcy7wvUD+3X6EruDIRyGcB7djWZpiyvq
+         sAR1sPJrP3blN0F1TWq40Eua7+oOF+lmWTVEutp3tzRCj93V5IWxTw7FxkmXi1Sa/RoJ
+         xVj6HR9biwRMnGVB6ILhkpVlDhXOkmwjDGSTZtojHbMeQq7YSSxPBLB2F/6FZ79Exw7l
+         bgdnPKRgDhKKVQwXI3FGt/x7xdola+RtvgXaX0spAW9P5Vzl2e6B2/7ypvMEdmDnF+eO
+         DlbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757678817; x=1758283617;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CE95xq6ZgnpOLnyTR/eAjFT0tRmq5j5KNZb4KBSgErs=;
+        b=duYo9s6oieW7UiGnURwJnblkFqR6QYZ/sXRWFiAz3siecqewnMYCCwfdvNav8PQFPj
+         tNaU7FI3VNpcSuHVGF7X9cmL1mDXBWmKvqW0uImiVNtO8gl+xXYPOEavIkP6Ro13XwqT
+         WYDyQuVEUountMyK/7dlpwsdcob4lz0hN+w4Vx8G+NuqBjK2uE4mUI5vl76HmKMqSlQz
+         fd4zYmIroSHHXEanPx8yn6gwiO9+jIW0awPzQFGEvyr/WM5Ypuv/00RCJrhQsjo3RFab
+         1V4As3Q7Dga2tfDsyv0lxPzeuovq9tdn1Zfp1nhrVHuQRrqjT59TzUyNYuDl768tjx99
+         zkKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVqqqRtFShpR/42yxGm2h4t74G19tysaT3fuTq+CBi0EjlUif3OVS4N4A6z50QMLP5Awfs4OUBhQqZSNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySRSDntoL185p0sG3Wyn6VsvZBZrHpY+yKJCIakDkOliK530Pt
+	ovCc9GVxit0H6Zbk55oMwSzZyNpW4o5ZNBVIBZukG9rSQP+F8j4BDpR3
+X-Gm-Gg: ASbGncsiMefGbC70ERr4qdc0nkC/OtCZg1Qn4FsrG02afgRG33rwUr+4YmH5xq9O5Ww
+	cB5l6FMyDlQHchWJ8nUjzwkIh2qIMz3JZHCjWxcnjsIv3iY900hxXdUb8b9jp1eZkG9/+06/83o
+	Pttu46Q6NI4T/HfNV3+3IKmcGqixtacFmTLRMt7Rs+wD9xhP9lIvuoXPnTGyPuQnTtrSSYwovMI
+	0u/iHk6/L5ihC1DYS6iVlrD1ULib58u6uA21fz3haessisXUW1uhZlhz7ACicfx7q/lZhQT2hYh
+	FnRhDhu/5cdZ9ICVXLKASCl/tWhMhyW9zQx2jusffOuxbU0cqHRQiQCPf6Qvadc7c/9c4NoUrWH
+	jfNT2c/s4dk9MY299km6JhVn22JKRh9U=
+X-Google-Smtp-Source: AGHT+IETh19o0d8FqUptONExUhi8XbDE/+I2zw2k77iRDOfZ4p95STnqI67o6JmXlfRcZZ+LQx9RNQ==
+X-Received: by 2002:a05:6000:2f87:b0:3e4:8163:b6f9 with SMTP id ffacd0b85a97d-3e765796c6bmr2563890f8f.14.1757678816740;
+        Fri, 12 Sep 2025 05:06:56 -0700 (PDT)
+Received: from [192.168.2.177] ([91.116.220.47])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e76078fe3bsm6411847f8f.28.2025.09.12.05.06.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Sep 2025 05:06:55 -0700 (PDT)
+Message-ID: <cfc03953-7c00-4164-bf91-cab0c24f0fde@gmail.com>
+Date: Fri, 12 Sep 2025 14:06:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 09/15] ASoC: SDCA: Add UMP buffer helper functions
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, rafael@kernel.org, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, shumingf@realtek.com, lgirdwood@gmail.com,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-References: <aL7W3iS1YxGfk/AP@opensource.cirrus.com>
- <2a069e04-8f72-48b2-af5c-6b45a0ea8e5e@linux.dev>
- <aMBbavEX2RyzBy1o@opensource.cirrus.com>
- <6ee44392-afef-4c63-a8af-f50931b15551@linux.dev>
- <aMF/H8yejQ51B65X@opensource.cirrus.com>
- <0c440de8-764a-40a4-b040-a343ac3687f2@linux.dev>
- <aMGbz3l2n0q9Fhkh@opensource.cirrus.com>
- <4ddd1987-427d-409a-af89-7b505df5fa34@linux.dev>
- <aMLJip1e61LlEjwx@opensource.cirrus.com>
- <384bd185-9aad-4590-9251-41c572dde3c2@linux.dev>
- <aMP25yy/pxSlshf/@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <aMP25yy/pxSlshf/@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/38] dt-bindings: mailbox: mediatek,gce-mailbox: Make
+ clock-names optional
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, robh@kernel.org
+Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
+ conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
+ mchehab@kernel.org, chunfeng.yun@mediatek.com, vkoul@kernel.org,
+ kishon@kernel.org, sean.wang@kernel.org, linus.walleij@linaro.org,
+ lgirdwood@gmail.com, broonie@kernel.org, andersson@kernel.org,
+ mathieu.poirier@linaro.org, daniel.lezcano@linaro.org, tglx@linutronix.de,
+ atenart@kernel.org, jitao.shi@mediatek.com, ck.hu@mediatek.com,
+ houlong.wei@mediatek.com, kyrie.wu@mediatek.corp-partner.google.com,
+ andy.teng@mediatek.com, tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com,
+ shane.chien@mediatek.com, olivia.wen@mediatek.com, granquet@baylibre.com,
+ eugen.hristev@linaro.org, arnd@arndb.de, sam.shih@mediatek.com,
+ jieyy.yang@mediatek.com, frank-w@public-files.de, mwalle@kernel.org,
+ fparent@baylibre.com, linux-crypto@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-4-angelogioacchino.delregno@collabora.com>
+Content-Language: en-US, ca-ES, es-ES
+From: Matthias Brugger <matthias.bgg@gmail.com>
+Autocrypt: addr=matthias.bgg@gmail.com; keydata=
+ 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
+In-Reply-To: <20250724083914.61351-4-angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 
 
-> Yeah mainly my question was that it says "wait until" but I have
-> never been able to define what that wait is. One possible
-> interpretation is as soon as you see the device not requesting
-> FDL you can progress, but perhaps a safer interpretation is if
-> you see X milliseconds without an FDL request you can progress
-> which is what we have gone with in the code for now. Was really
-> just hoping you were going to be like "you also missed this other
-> useful DisCo property" :-)
 
-I don't think DisCo defined anything related to FDL. 
+On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
+> The GCE Mailbox needs only one clock and the clock-names can be
+> used only by the driver (which, for instance, does not use it),
+> and this is true for all of the currently supported MediaTek SoCs.
+> 
+> Stop requiring to specify clock-names on all non-MT8195 GCEs.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-The only thing I see in the spec are Device-initiated status changes, i.e. the loops would look like
+Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
-do {
-	do {
-		send_chunk()
-		wait for FDLD_Chunk_OK();
-	} while (!FDLD_File_OK)
-	get_next file();
-} while (!FDLD_Complete or !FDLD_Request_Reset) {
-
-BTW, FDLD_Request_Reset (bxxx1Rxxx) and FDLD_Need_Reset (b0001r000) are probably the same concept using different names, not sure if this was clarified in a edit.
-
-Like you said this can probably be discussed in a follow-up thread, it'll take time to limit and adjust the many degrees of freedom in the spec to what vendors actually implemented :-)
-
+> ---
+>   .../bindings/mailbox/mediatek,gce-mailbox.yaml        | 11 -----------
+>   1 file changed, 11 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
+> index 73d6db34d64a..587126d03fc6 100644
+> --- a/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
+> +++ b/Documentation/devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml
+> @@ -60,17 +60,6 @@ required:
+>     - interrupts
+>     - clocks
+>   
+> -allOf:
+> -  - if:
+> -      not:
+> -        properties:
+> -          compatible:
+> -            contains:
+> -              const: mediatek,mt8195-gce
+> -    then:
+> -      required:
+> -        - clock-names
+> -
+>   additionalProperties: false
+>   
+>   examples:
 
