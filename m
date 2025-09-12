@@ -1,238 +1,223 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFFB846F
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 06:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA84846F;
+	Fri, 12 Sep 2025 06:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757657074; cv=none; b=D1yrpnxRGiriZzgJWlzKZaqvwEiPbhU8Ix6b0GDciJzvNBDMPIBRa30rIXtME1QTr25vSUdvDpvKW5PK2hHqgpB23rEet9LYv5jlcY2561Oc81TIU9CV05JHRvxL0fcfjjj6zGlmxgnX1j6mUGlfBZd1FdCT2EfIanmT9544sIU=
+	t=1757657203; cv=none; b=W8v5OPYq6FBfSW01OMJDfRrEfAlJlQ34K9Yp3OJo+OBdwVsVI2mnkDbzVPJUbwl4BAU675MOT5qhYTlfKE1w0LgwWdFxLge5fTgBqSYZlEy64MlwLsMyyXzRccLaF0r2zYkccKWRUmIIc5tXPwZEwyPgNy+yovWXURqcQywv+Cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757657074; c=relaxed/simple;
-	bh=H+RU3ZpZ8JE6vnvoBeHrWfO+WMqcoDe1/PcuQn5zuq4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=MZY/i1X14KPYG57OemROx0CpCkbiUmM3MmOoubtVE7MHYR7XVWIfbYxWaqegJ+6EhTnsHfQSBPQFPbdySgh+v8MCjKO0f6xTLkyU1CU3Pj3zmkk594DhKExSUGaKjcI2OfsBHRt3j4Kv29txQekVHSSaE3gSE36KGPlUwEj03M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ss4kApD1; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757657203; c=relaxed/simple;
+	bh=nF4lItlwYcOfTnssRbtSp09OmwNC56e9ezNLiwIkcKE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gxb7JaAQrci9HEsthWWGFgHnNP/GfBGwEquiTeCymwgFUhjHW/r2BvKaa9OqEofh6A9iciC+dW2C3aQ6QZ3ZfcRG2PG1eRZP6dm6ZdScAQR0xjoezyyain7Q3rk3xdtTTLeGGOjuMBXVihWpxKblY6BCwH902YNvTB8+hCylf4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EJFK7rGz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ss4kApD1"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45df09c7128so11755325e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 11 Sep 2025 23:04:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757657070; x=1758261870; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZMSrpAntLDN0J/x7YsZShEjIcXiiRe6na509xuS9GSU=;
-        b=Ss4kApD1rVBIvzbrjJmAnorfcWwCD0A2Ya0B3ZvPZhssYDkD1YjqLjksD21nPAfpcC
-         O8UnoELF3gtS2FPpAvW5ydyqwpWhMODIFbGkuIwv668aYA9KR9e3molBjqm6LR14dYw4
-         j6dPqM7wToZAni6U/zfTajM/+0v4ITxB4p1s1BNQCb/1U0LuXtrvUvoS5NvSWvnb0htm
-         Yb028LQdf//nrubqJzxh2b5H9SabOkLkJqe6IGZaCqhNnEe5rLFsTDLNoVlSYEuIXXtG
-         Iw8L3q3SY1BvQPpNumIa22KhRZDUOnaNiEzV8q8ppZOMcMweZ7rAH8WXM7hUlyj7KwsO
-         J/vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757657070; x=1758261870;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZMSrpAntLDN0J/x7YsZShEjIcXiiRe6na509xuS9GSU=;
-        b=nccuo7ICaxtpHJujRilZ39WYST6DS+44mkb39ENOMzh/s4SIN4hFV+Onhnx4Fjj0Y8
-         +kAtLaJ/csq3wU5Bx17AmMKxp6sU94zCRu3aDg9iM7YqRH8ZVoXfuHvA9urbb080Z1YY
-         XBf0rALNeiGKnC3eJEYpb+Vqa6MoC5B4pa4YkvlmPPHh/o+lLLpUQ8FfA8enP91fbr/9
-         /HoK2N7CsGwwBOQ2kYdKvEiCtCqWym6S6sTgY1o56JFVfosBDUUBXTTjohOO75x/b4J/
-         sbM7lRaZ/QU9YTcEcNjpCuL6KoYQrVFLBDIQFwwL4UH7PkvYuHq+aj/i8K6ttd1Aq+w1
-         6Efg==
-X-Forwarded-Encrypted: i=1; AJvYcCVmP1pQEdurgZRwu23X/0FgQK9FrTYxYPyllQD4Rb9Ja48MS9uxD5eZvPGA3blMUJ29c/hNPAaBuTJSsg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+60fKuDZjCc1A+mStfbsip3ivGE4/b9FugAI/DrExZr50eOzs
-	vJ/8ykTKQVMDX/vUt/8EVStLqhOiRaEeNiLrqFEHrqR3E95z9ZOz7jcc6DvFHque9szfhT49mY5
-	C3hhD
-X-Gm-Gg: ASbGncvZuUisRMJQvNrFwFrqDH9iFmYuiH15MIxFmYQil8JF+VUCTpfpHy5Y/HdvPeB
-	tXWpEgNZf0DrV7XYpTDHYCNtbODbOWUs6NJ9MbO+GT/ZqSw93Ovm410Qf05XwyBjWWYgHfV5dNQ
-	Bh7/tCfhaQbUe6QUuw0gHnpiIRdj+Xfo2lMR9RiTeHjw4ycAaItH/ksvWYVHnoFcarYso0O/OBx
-	f7FwJ4tAQiHLkRbQe5jPNCD2WHgd43iJNh3DOixBNQ1qu3wj5VnIKCiaLPcEE22TVNHwrB8+j2D
-	PTY3gymSdKQUFmvethtSZvFFWdscr/xmOeCBvUxvtczILugvuc5Hd+Qa/bBfcZ3nVlNCH57LIgg
-	eKPDWQuMiCy8CGW2RizTpWg/rzsoethiPyGzkfg==
-X-Google-Smtp-Source: AGHT+IE31yVvyDzbJ7EarCQENdlqCBuPzVEk6j9xu/i/DAWm+fQyejmawmcytqLXbFpTGy+DBQDCMg==
-X-Received: by 2002:a05:600c:1f13:b0:45d:d79c:7503 with SMTP id 5b1f17b1804b1-45f2128cc58mr14815135e9.12.1757657069498;
-        Thu, 11 Sep 2025 23:04:29 -0700 (PDT)
-Received: from localhost ([2a02:c7c:7259:a00:7fc8:312e:f611:930d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017c1455sm51921785e9.24.2025.09.11.23.04.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Sep 2025 23:04:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJFK7rGz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA2BBC4CEF4;
+	Fri, 12 Sep 2025 06:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757657202;
+	bh=nF4lItlwYcOfTnssRbtSp09OmwNC56e9ezNLiwIkcKE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EJFK7rGzhfob+IekXtskHBj9H3/tlwfA5r6OsrA5/XqgADcxCkFG+wxRo3MQJ6Hj+
+	 e/nziZ9YO9zrEXEVmQwbi4lLgZH+TF9EK7O+x4jucMkwIMQWkaCZ8HpJy4f2jGu+dx
+	 GS7rYRGpg1nUATgMZlpUSlxYRolA2Gy41lBuh64hjod/AW9zpbR5J+RHwbCpLg3UOi
+	 6osILbswgGibrPTlCzKfqtVQlaQkt2/YHx8TWlkhdpizWmi89w9OMb3VSD4DxrVVZK
+	 ptWCx0Yw3lHjI8ztpwlRCRfDvNiunmUZCKtdQrmz0KV+KNxpim8XEq3dgfzQ8jSwrM
+	 1klI6eVNRA0gA==
+Date: Fri, 12 Sep 2025 08:06:39 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
+	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, broonie@kernel.org, 
+	chunkuang.hu@kernel.org, conor+dt@kernel.org, davem@davemloft.net, 
+	dmitry.torokhov@gmail.com, edumazet@google.com, flora.fu@mediatek.com, heiko@sntech.de, 
+	houlong.wei@mediatek.com, jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, 
+	kuba@kernel.org, lgirdwood@gmail.com, linus.walleij@linaro.org, 
+	louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com, maarten.lankhorst@linux.intel.com, 
+	marcel@holtmann.org, matthias.bgg@gmail.com, mchehab@kernel.org, 
+	minghsiu.tsai@mediatek.com, mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com, 
+	robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch, 
+	support.opensource@diasemi.com, tiffany.lin@mediatek.com, tzimmermann@suse.de, 
+	yunfei.dong@mediatek.com, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v2 01/12] dt-bindings: media: Convert MediaTek mt8173-mdp
+ bindings to DT schema
+Message-ID: <20250912-alluring-turaco-of-conversion-dca193@kuoka>
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-2-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 12 Sep 2025 07:04:28 +0100
-Message-Id: <DCQLFI5WVIPR.192CD0VMBLD8Q@linaro.org>
-Cc: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <srini@kernel.org>, <yung-chuan.liao@linux.intel.com>,
- <pierre-louis.bossart@linux.dev>, <linux-arm-msm@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH v3 0/7] soundwire: qcom: add support for v3.1.0
-From: "Alexey Klimov" <alexey.klimov@linaro.org>
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>,
- <vkoul@kernel.org>
-X-Mailer: aerc 0.20.0
-References: <20250904105616.39178-1-srinivas.kandagatla@oss.qualcomm.com>
- <DCPK67SQ5DEI.2AFDVRKZSEWTS@linaro.org>
- <b7a637d1-8868-40f3-8f82-8f5ab0684d52@oss.qualcomm.com>
-In-Reply-To: <b7a637d1-8868-40f3-8f82-8f5ab0684d52@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250911151001.108744-2-ariel.dalessandro@collabora.com>
 
-On Thu Sep 11, 2025 at 7:16 AM BST, Srinivas Kandagatla wrote:
-> Thanks Alexey,
->
-> On 9/11/25 1:52 AM, Alexey Klimov wrote:
->> On Thu Sep 4, 2025 at 11:56 AM BST, Srinivas Kandagatla wrote:
->>> This patch series adds support for Qualcomm Soundwire Controller
->>> version v3.1.0.
->>> As part for adding this support, a new macro of_property_read_u8_index(=
-)
->>> is added so that we can remove the qcom,din-ports and qcom,dout-ports.
->>> As v3.1.0 supports more than 17 soundwire ports. Also due to change in
->>> the register offsets, new entries are added to the variant data.
->>>
->>> Tested this patchset on X14s and Glymur reference platform.
->>=20
->> Well, I don't have any Glymur devices and no idea what is
->> x14s (I guess some laptop), but I picked the series locally to test
->> on sm8550, it seems there are some generic changes, and
->> qcom-soundwire probe failed:
->>=20
->>  remoteproc remoteproc1: powering up adsp
->>  remoteproc remoteproc1: Booting fw image qcom/sm8550/adsp.mbn, size 836=
-4
->>  remoteproc remoteproc1: remote processor adsp is now up
->>  qcom,fastrpc 6800000.remoteproc:glink-edge.fastrpcglink-apps-dsp.-1.-1:=
- no reserved DMA memory for FASTRPC
->>  PDR: Indication received from msm/adsp/audio_pd, state: 0x1fffffff, tra=
-ns-id: 1
->>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@3: Adding to =
-iommu group 12
->>  qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR =
-dev: gprsvc:service:2:1
->>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@4: Adding to =
-iommu group 13
->>  qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR =
-dev: gprsvc:service:2:2
->>  PDR: Indication received from msm/adsp/charger_pd, state: 0x1fffffff, t=
-rans-id: 1
->>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@5: Adding to =
-iommu group 14
->>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@6: Adding to =
-iommu group 15
->>  platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@7: Adding to =
-iommu group 16
->>  qcom-apm gprsvc:service:2:1: CMD timeout for [1001021] opcode
->>  platform 6800000.remoteproc:glink-edge:gpr:service@1:dais: Adding to io=
-mmu group 17
->>  va_macro 6d44000.codec: qcom,dmic-sample-rate dt entry missing
->>  qcom-soundwire 6d30000.soundwire: probe with driver qcom-soundwire fail=
-ed with error -75
->>  sched: DL replenish lagged too much
->>  platform sound: deferred probe pending: snd-sc8280xp: WCD Playback: cod=
-ec dai not found
->>=20
->> Are there any dependencies I am missing?
->
-> Can you pl try this change an see if it helps,
->
-> ---------------------->cut<----------------------------------
-> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-> index a7b6d9ecc3ba..622cc6c31264 100644
-> --- a/drivers/soundwire/qcom.c
-> +++ b/drivers/soundwire/qcom.c
-> @@ -1426,6 +1426,26 @@ static int qcom_swrm_get_port_config(struct
-> qcom_swrm_ctrl *ctrl)
->         ctrl->num_dout_ports =3D
-> FIELD_GET(SWRM_COMP_PARAMS_DOUT_PORTS_MASK, val);
->         ctrl->num_din_ports =3D FIELD_GET(SWRM_COMP_PARAMS_DIN_PORTS_MASK=
-,
-> val);
->
-> +       ret =3D of_property_read_u32(np, "qcom,din-ports", &val);
-> +       if (!ret) { /* only if present */
-> +               if (val !=3D ctrl->num_din_ports) {
-> +                       dev_err(ctrl->dev, "din-ports (%d) miss match
-> with controller (%d)",
-> +                               val, ctrl->num_din_ports);
-> +               }
+On Thu, Sep 11, 2025 at 12:09:50PM -0300, Ariel D'Alessandro wrote:
+> Convert the existing text-based DT bindings for MediaTek MT8173 Media Data
+> Path to a DT schema.
+> 
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> ---
+>  .../bindings/media/mediatek,mt8173-mdp.yaml   | 169 ++++++++++++++++++
+>  .../bindings/media/mediatek-mdp.txt           |  95 ----------
+>  2 files changed, 169 insertions(+), 95 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+> new file mode 100644
+> index 0000000000000..8ca33a733c478
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+> @@ -0,0 +1,169 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-mdp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +               ctrl->num_din_ports =3D val;
-> +       }
+> +title: MediaTek MT8173 Media Data Path
 > +
-> +       ret =3D of_property_read_u32(np, "qcom,dout-ports", &val);
-> +       if (!ret) { /* only if present */
-> +               if (val !=3D ctrl->num_dout_ports) {
-> +                       dev_err(ctrl->dev, "dout-ports (%d) miss match
-> with controller (%d)",
-> +                               val, ctrl->num_dout_ports);
-> +               }
+> +maintainers:
+> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 > +
-> +               ctrl->num_dout_ports =3D val;
-> +       }
+> +description:
+> +  Media Data Path is used for scaling and color space conversion.
 > +
->         ctrl->nports =3D ctrl->num_dout_ports + ctrl->num_din_ports;
->
->         ctrl->pconfig =3D devm_kcalloc(ctrl->dev, ctrl->nports + 1,
->
->
-> ---------------------->cut<----------------------------------
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - mediatek,mt8173-mdp-rdma
+> +          - mediatek,mt8173-mdp-rsz
+> +          - mediatek,mt8173-mdp-wdma
+> +          - mediatek,mt8173-mdp-wrot
 
-Thanks. Yep, with that change it works/inits:
+Why there is no mediatek,mt8173-mdp here? What does this compatible
+represent?
 
- remoteproc remoteproc1: powering up adsp
- remoteproc remoteproc1: Booting fw image qcom/sm8550/adsp.mbn, size 8364
- remoteproc remoteproc1: remote processor adsp is now up
- qcom,fastrpc 6800000.remoteproc:glink-edge.fastrpcglink-apps-dsp.-1.-1: no=
- reserved DMA memory for FASTRPC
- PDR: Indication received from msm/adsp/audio_pd, state: 0x1fffffff, trans-=
-id: 1
- platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@3: Adding to iom=
-mu group 12
- qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev=
-: gprsvc:service:2:1
- platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@4: Adding to iom=
-mu group 13
- qcom,apr 6800000.remoteproc:glink-edge.adsp_apps.-1.-1: Adding APR/GPR dev=
-: gprsvc:service:2:2
- PDR: Indication received from msm/adsp/charger_pd, state: 0x1fffffff, tran=
-s-id: 1
- platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@5: Adding to iom=
-mu group 14
- platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@6: Adding to iom=
-mu group 15
- platform 6800000.remoteproc:glink-edge:fastrpc:compute-cb@7: Adding to iom=
-mu group 16
- qcom-apm gprsvc:service:2:1: CMD timeout for [1001021] opcode
- platform 6800000.remoteproc:glink-edge:gpr:service@1:dais: Adding to iommu=
- group 17
- va_macro 6d44000.codec: qcom,dmic-sample-rate dt entry missing
- qcom-soundwire 6d30000.soundwire: dout-ports (0) miss match with controlle=
-r (1)
- wcd938x_codec audio-codec: bound sdw:2:0:0217:010d:00:4 (ops wcd938x_sdw_c=
-omponent_ops [snd_soc_wcd938x_sdw])
- wcd938x_codec audio-codec: bound sdw:3:0:0217:010d:00:3 (ops wcd938x_sdw_c=
-omponent_ops [snd_soc_wcd938x_sdw])
- snd-sc8280xp sound: ASoC: Parent card not yet available, widget card bindi=
-ng deferred
- va_macro 6d44000.codec: supply vdd-micb not found, using dummy regulator
- ALSA: Control name 'stream0.vol_ctrl0 MultiMedia1 Playback Volume' truncat=
-ed to 'stream0.vol_ctrl0 MultiMedia1 Playback Volu'
- ALSA: Control name 'stream1.vol_ctrl1 MultiMedia2 Playback Volume' truncat=
-ed to 'stream1.vol_ctrl1 MultiMedia2 Playback Volu'
- ALSA: Control name 'stream4.vol_ctrl4 MultiMedia5 Playback Volume' truncat=
-ed to 'stream4.vol_ctrl4 MultiMedia5 Playback Volu'
- input: SM8550-QRD Headset Jack as /devices/platform/sound/sound/card0/inpu=
-t4
+> +      - items:
+> +          - const: mediatek,mt8173-mdp-rdma
 
-Playback works. Note the ports mismatch message ^^^
+Still suspicious. Device cannot be simulatanously: compatible and not
+compatible. This is not a well known cat that has superposition of two
+states, whenenver you look the other way.
 
-Thanks,
-Alexey
+Maybe the old binding was incorrect, maybe the in-tree DTS is incorrect.
+Whichever the reason, this must be investigated and documented, because
+by standard rules this is wrong. Each wrong code needs very clear
+explanations (and "someone did it" is not a good enough explanation).
 
+> +          - const: mediatek,mt8173-mdp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  mediatek,vpu:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to Mediatek Video Processor Unit for HW Codec encode/decode and
+> +      image processing.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - power-domains
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8173-mdp-rdma
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: Main clock
+> +            - description: Mutex clock
+> +    else:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: Main clock
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - mediatek,mt8173-mdp-rdma
+> +              - mediatek,mt8173-mdp-wdma
+> +              - mediatek,mt8173-mdp-wrot
+> +    then:
+> +      required:
+> +        - iommus
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8173-mdp
+> +    then:
+> +      required:
+> +        - mediatek,vpu
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8173-clk.h>
+> +    #include <dt-bindings/memory/mt8173-larb-port.h>
+> +    #include <dt-bindings/power/mt8173-power.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        mdp_rdma0: rdma@14001000 {
+> +            compatible = "mediatek,mt8173-mdp-rdma",
+> +                         "mediatek,mt8173-mdp";
+> +            reg = <0 0x14001000 0 0x1000>;
+> +            clocks = <&mmsys CLK_MM_MDP_RDMA0>,
+> +                     <&mmsys CLK_MM_MUTEX_32K>;
+> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
+> +            iommus = <&iommu M4U_PORT_MDP_RDMA0>;
+> +            mediatek,vpu = <&vpu>;
+> +        };
+> +
+> +        mdp_rdma1: rdma@14002000 {
+> +            compatible = "mediatek,mt8173-mdp-rdma";
+> +            reg = <0 0x14002000 0 0x1000>;
+> +            clocks = <&mmsys CLK_MM_MDP_RDMA1>,
+> +                     <&mmsys CLK_MM_MUTEX_32K>;
+> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
+> +            iommus = <&iommu M4U_PORT_MDP_RDMA1>;
+> +        };
+
+My previous comment applies.
+
+Keep one or two examples.
+
+Best regards,
+Krzysztof
 
