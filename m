@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DCE27FB2A;
-	Fri, 12 Sep 2025 06:22:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8221C28726D;
+	Fri, 12 Sep 2025 06:49:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757658158; cv=none; b=ja+m9/EahfOsdMR2cak/MlZ4bR9xjDv3DqYBFGtYTr3uDXX1NzOjfwBjIwX7ieWqcgMdy88HsiTdfvjnswrjed0U7/QM8jrFaa1LJJzhtnfIvPkVyu5Yej1VNOrG1Kup1RBYlV58YquIn5SXjYirMWZu/8sFJEzJvvC99x7HZ/w=
+	t=1757659751; cv=none; b=nPTkC2Biuw6qPgWAkrJhv/SRPc2U/GnPfv1sK4No3yS+gaYCURsWhffDLtmyOFVU1MXL/pwXCEmQxcn1aIyekuZISorcleCcI7X2Oe1IFB1zbbXXrgYQaV6w5DEbTM5Tz17bjZf+TnhVCbOYvhiMZ9y9vXilYm7R74rf8+4gDro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757658158; c=relaxed/simple;
+	s=arc-20240116; t=1757659751; c=relaxed/simple;
 	bh=niQWF1wkWxTNHpw5prHOgNovhde76RsAWKwkEaCR3sQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gMAUqu8O8QCyv2idUH2JbLaJZruoivp6KBxUexzLvcB92LYdU56ULwSlxLkYemT0JLPV0Xus4K2DUxx9Tjf2mod5r0RCVux8r4A7I2nE9zjcZuqp79RhdKdK/oN++dYUPm2d136EdR0nq03vK41uh9lHQU1XwAaLAzJXlvHy5oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SpH3kVpd; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=QBI5kjR4BA+CabCTq1Y2wzynIj6TR2kKeOUh3vDO4pCs6+K/TgYouOMpjqlnXNY57cZojbl3z5XgiTKIjXLvgMJp4PKY86p3gyl6SQJUyZuq2btcd2RF7DFM4q9jngyWL/OQAYjsiBnbF5QoLysJvEKu0hZUyls6ri2H4HMtr9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VGkd3b8O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SpH3kVpd"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C3577C4CEF9;
-	Fri, 12 Sep 2025 06:22:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VGkd3b8O"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A72CC4CEFA;
+	Fri, 12 Sep 2025 06:49:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757658157;
+	s=k20201202; t=1757659751;
 	bh=niQWF1wkWxTNHpw5prHOgNovhde76RsAWKwkEaCR3sQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=SpH3kVpd4ZyAJiD7Wm9KmLtxScmjEnrvzcsD9pAStcvnn1DArgcCAJKYQ46RoD5rW
-	 JwrPkrwCOQcfH0gPcVWghONi/hw92LHrZtqVpp2Tl3MG2BfjygSEa/ohowmsVfrYAW
-	 a1MqTb1nEMiNhGBQiQCX3bL6wJqj/6rEZ0cRiJE36/y+6Zrju022fjP/G2f4Gyo/J+
-	 3hAwnG0tbhMtH64U3QA6zE87z3m2C8vpthVmf7mDzY7Xq0NE8RstsLJ9Xud5A6hHMw
-	 cB6tH/moGD/ZdZ/QgT2ikh2Qu4fCMhTSQRcrCuB+6OlJlcpyyk2rCPb5dGq1TWtE6i
-	 nzb4gL/Ug2cNw==
+	b=VGkd3b8OeSmmUozbt5+QZx5XpeZ9MMm9PduNKTbJzBE7xCkTzUtIsjW1Nb2vvSjKZ
+	 DFFIC32LAcRUot6dnSxwmUYT0nTKydvtgzqfl3cooG5IpF4+FsF2FJgk94txy9Bx3b
+	 4tx3QQUFf8YayUxnTleCIfR6m7obC3lnxBZP9xagPs0wvUBYNFQUbx8UcXUuVMSrKO
+	 +JJ5Du6jJmcI9dwayym0rUHD6Zf9/tb29nDCWq1isTg7jOVfcNp/08v7NhBg2KXdbq
+	 h7jbMAyaFSAmukEk2orx6jwIkmWY3GzHbFmENdVXCR388lIzUcww1jbDrt+kGI6Y+S
+	 7as0y5+rfe4JQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7DC0CA101F;
-	Fri, 12 Sep 2025 06:22:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED4ACAC595;
+	Fri, 12 Sep 2025 06:49:11 +0000 (UTC)
 From: Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Date: Fri, 12 Sep 2025 14:22:37 +0800
-Subject: [PATCH 3/3] ALSA: doc: add docs about device_device_quirk_flags in
- snd-usb-audio
+Date: Fri, 12 Sep 2025 14:49:00 +0800
+Subject: [PATCH v2 3/3] ALSA: doc: add docs about device_device_quirk_flags
+ in snd-usb-audio
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,9 +41,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250912-sound-v1-3-cc9cfd9f2d01@uniontech.com>
-References: <20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com>
-In-Reply-To: <20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com>
+Message-Id: <20250912-sound-v2-3-01ea3d279f4b@uniontech.com>
+References: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
+In-Reply-To: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
 To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  Jonathan Corbet <corbet@lwn.net>
 Cc: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
@@ -53,11 +53,11 @@ Cc: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
  Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>, 
  kernel@uniontech.com, Cryolitia PukNgae <cryolitia@uniontech.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757658156; l=7115;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757659749; l=7115;
  i=cryolitia@uniontech.com; s=20250730; h=from:subject:message-id;
  bh=s/0dZ04dkumVF/ET0AfUgOb4GzZPo7Sb5MusAYIlxoQ=;
- b=JI1NdkylKrFAuH6PjLVbvnMuInZ8TbCF1qsYgfuaNku646M7BZmoQpb3xuB7k2X+ZkPw92sEw
- zv+gkaxVPOeDTXuv2wts9Vq4jw+vZZkXX2yK2OdXlXMPf9oIdn5pH7b
+ b=MzHSOU9T94yHiBeBcOyihqZ8o2FViu1+bHrllNTq/IVFuryeOQEIR1P9Axf6Tb+3H2KUZM8IE
+ Rli8GvTTN2uD5E3OLkngF0LIFxxbIa/EwtajnfFJMOWSP6fzgWr1nzy
 X-Developer-Key: i=cryolitia@uniontech.com; a=ed25519;
  pk=tZ+U+kQkT45GRGewbMSB4VPmvpD+KkHC/Wv3rMOn/PU=
 X-Endpoint-Received: by B4 Relay for cryolitia@uniontech.com/20250730 with
