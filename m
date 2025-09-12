@@ -1,153 +1,260 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADE319E97A
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 08:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAEA2DC793;
+	Fri, 12 Sep 2025 08:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757666256; cv=none; b=WujzAQUMMIbLpHT3VH06JQeMrsMsgLWWNds/rHy10TeKBi8+t7Q6nvkcjgOn9/IkYOvBVcgUvYwnxswAGjjCtk8h9l/sfL3Fgin6I4BdKXxyiQsz41mT8nbMo7HUFhyE+8HM0t9ICHc5lTzk/N26K10xX+d7xrZcgE9BIMnQYCc=
+	t=1757666980; cv=none; b=oiJI1gnNRNzRde0yy5i09r/wFFKi+JOQg3d/xlUG61FcXRHNKKwv2v5ahVjHrp494u/uNbWWbIXsDlP5NjCZrWt2hYprRphHx9zOoNuXerDQArxhRPBdf+G40Nn5LaeT/Af+xm6aRYh1RxPPQPsFjR5TDzgYlwL6cnLNjKWz9pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757666256; c=relaxed/simple;
-	bh=8/GHwW0Y+9Y9IUnpL17+yW/RmJwF9R/KShC0xllh8j8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qT/XKczI8ddGoSUjjrzHEo49nB66+jYbfpifCQfZoAUwvzKT6WAlnI2G/p+yOY5FT5oFHB0Kpl52RsDiGW9vpZMTe8Q0g1tr+i4oohE5bUffuj/7drn647aWujVeBGIkOT88PmQ1mu5Mp2q9Ptno/hPyFRWZDmQ0mrXSbaYKXmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=KShTcszp; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1757666980; c=relaxed/simple;
+	bh=t2CbprpuSHyhZVsAXOvVA2HQNj6MCqFKJW6RdhauD7A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YzyH+KNIYhcyzMHeUFYZxYD3dmrb4Ky+xkHQbu38/qiT0MD+E9tJrRnZRou3fSnq+VwxFoZMeY7Fh3rnsyM/N5JYSqKvCVuArOiYu+xAm7K6rQls+y7az1YnSZAA2jwS2H/T7DJtGXteXrUpptG3yjH5wMqgdtZakvbwZWG0QfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=b9k6Y/jY; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="KShTcszp"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58C8b8Eq567551;
-	Fri, 12 Sep 2025 03:37:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1757666228;
-	bh=jCb4v09bPw1MiUGH9n/tMfZEizxwD5WJUekIe7nnIvw=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=KShTcszppDjmwMwnliNrw9Sr+lhHeBg+R/llnvBYUw1j+57TNhriuBi3zi/IDNukK
-	 lFBJ3pYTjZicSr/VQMvKpagkCURA/ticCmrJs3JEBE/KakV+tuHrsGYLDU/2O8CFNf
-	 H87n0f+YulEbCzlyf+yztupnOmGT4Ju+HbtObd+8=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58C8b71D1177116
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Fri, 12 Sep 2025 03:37:08 -0500
-Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 12
- Sep 2025 03:37:06 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 12 Sep 2025 03:37:06 -0500
-Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58C8afmC3320658;
-	Fri, 12 Sep 2025 03:37:01 -0500
-From: Niranjan H Y <niranjan.hy@ti.com>
-To: <alsa-devel@alsa-project.org>
-CC: <linux-sound@vger.kernel.org>, <lgirdwood@gmail.com>, <broonie@kernel.org>,
-        <perex@perex.cz>, <tiwai@suse.com>, <yung-chuan.liao@linux.intel.com>,
-        <cezary.rojewski@intel.com>, <peter.ujfalusi@linux.intel.com>,
-        <ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
-        <pierre-louis.bossart@linux.dev>, <navada@ti.com>,
-        <shenghao-ding@ti.com>, <v-hampiholi@ti.com>, <baojun.xu@ti.com>,
-        Niranjan H Y <niranjan.hy@ti.com>
-Subject: [PATCH v5 4/5] ASoc: tas2783A: add machine driver changes
-Date: Fri, 12 Sep 2025 14:06:23 +0530
-Message-ID: <20250912083624.804-4-niranjan.hy@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20250912083624.804-1-niranjan.hy@ti.com>
-References: <20250912083624.804-1-niranjan.hy@ti.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="b9k6Y/jY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1757666976;
+	bh=t2CbprpuSHyhZVsAXOvVA2HQNj6MCqFKJW6RdhauD7A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b9k6Y/jYHYRf1lBd3IVQs8MHuAF8Lp6WToReTrp1ENuOHC572Yy8h6K04o261v7Ua
+	 4yW19LAPpuImfWtnGkwQ0AI++cysclzDjM48otKS6QWxc3huIGYnfsD2EIhixgRlnB
+	 DASIixfeR12WRXjgbBInSPg9IQsTxZ3yVzg7gkK97V+olG00bTvwQxVTAQNjgQjLX8
+	 BuV3duQibBT6UOIh8+w26DohRm5Zwb+2dqew+bmZTDDDfA5DyuNbhJDKNQWRtzO5s7
+	 rixyPQa88tYz+a/WjvMPdPxtN1tP4M3Azs1f15mTHQRrIsynehoHJn87WgBxnP8tJx
+	 h179TIG0hlXKg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0E66317E05BE;
+	Fri, 12 Sep 2025 10:49:35 +0200 (CEST)
+Message-ID: <181e1668-6efc-4dce-91e4-7b535e17dd46@collabora.com>
+Date: Fri, 12 Sep 2025 10:49:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/12] dt-bindings: media: Convert MediaTek mt8173-mdp
+ bindings to DT schema
+To: Chen-Yu Tsai <wenst@chromium.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Ariel D'Alessandro <ariel.dalessandro@collabora.com>, airlied@gmail.com,
+ amergnat@baylibre.com, andrew+netdev@lunn.ch, andrew-ct.chen@mediatek.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, conor+dt@kernel.org,
+ davem@davemloft.net, dmitry.torokhov@gmail.com, edumazet@google.com,
+ flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com,
+ jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org, kuba@kernel.org,
+ lgirdwood@gmail.com, linus.walleij@linaro.org,
+ louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+ maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
+ matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com,
+ mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com,
+ robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch,
+ support.opensource@diasemi.com, tiffany.lin@mediatek.com,
+ tzimmermann@suse.de, yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-bluetooth@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+ <20250911151001.108744-2-ariel.dalessandro@collabora.com>
+ <20250912-alluring-turaco-of-conversion-dca193@kuoka>
+ <CAGXv+5GovP7NuG042AwfmtC-sPJMGuFAm6iZ0iqNZgU0VE+qmQ@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <CAGXv+5GovP7NuG042AwfmtC-sPJMGuFAm6iZ0iqNZgU0VE+qmQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Add tas2783-codec for codec_info
+Il 12/09/25 10:27, Chen-Yu Tsai ha scritto:
+> On Fri, Sep 12, 2025 at 2:06 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On Thu, Sep 11, 2025 at 12:09:50PM -0300, Ariel D'Alessandro wrote:
+>>> Convert the existing text-based DT bindings for MediaTek MT8173 Media Data
+>>> Path to a DT schema.
+>>>
+>>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>>> ---
+>>>   .../bindings/media/mediatek,mt8173-mdp.yaml   | 169 ++++++++++++++++++
+>>>   .../bindings/media/mediatek-mdp.txt           |  95 ----------
+>>>   2 files changed, 169 insertions(+), 95 deletions(-)
+>>>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>>>   delete mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp.txt
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>>> new file mode 100644
+>>> index 0000000000000..8ca33a733c478
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
+>>> @@ -0,0 +1,169 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-mdp.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: MediaTek MT8173 Media Data Path
+>>> +
+>>> +maintainers:
+>>> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>>> +
+>>> +description:
+>>> +  Media Data Path is used for scaling and color space conversion.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    oneOf:
+>>> +      - enum:
+>>> +          - mediatek,mt8173-mdp-rdma
+>>> +          - mediatek,mt8173-mdp-rsz
+>>> +          - mediatek,mt8173-mdp-wdma
+>>> +          - mediatek,mt8173-mdp-wrot
+>>
+>> Why there is no mediatek,mt8173-mdp here? What does this compatible
+>> represent?
+>>
+>>> +      - items:
+>>> +          - const: mediatek,mt8173-mdp-rdma
+>>
+>> Still suspicious. Device cannot be simulatanously: compatible and not
+>> compatible. This is not a well known cat that has superposition of two
+>> states, whenenver you look the other way.
+>>
+>> Maybe the old binding was incorrect, maybe the in-tree DTS is incorrect.
+>> Whichever the reason, this must be investigated and documented, because
+>> by standard rules this is wrong. Each wrong code needs very clear
+>> explanations (and "someone did it" is not a good enough explanation).
+> 
+> My guess is that "mediatek,mt8173-mdp" is meant to serve as a single
+> entry point for the implementation to bind the driver to. The MDP is
+> a Data Pipeline and there could be multiple instances of the same
+> IP block, as seen in the original example.
+> 
 
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
----
- sound/soc/sdw_utils/soc_sdw_utils.c | 38 +++++++++++++++++++++--------
- 1 file changed, 28 insertions(+), 10 deletions(-)
+Yeah your guess is right.
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 1580331cd..56c72ef27 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -35,12 +35,12 @@ static const struct snd_kcontrol_new generic_spk_controls[] = {
- 	SOC_DAPM_PIN_SWITCH("Speaker"),
- };
- 
--static const struct snd_soc_dapm_widget maxim_widgets[] = {
-+static const struct snd_soc_dapm_widget lr_spk_widgets[] = {
- 	SND_SOC_DAPM_SPK("Left Spk", NULL),
- 	SND_SOC_DAPM_SPK("Right Spk", NULL),
- };
- 
--static const struct snd_kcontrol_new maxim_controls[] = {
-+static const struct snd_kcontrol_new lr_spk_controls[] = {
- 	SOC_DAPM_PIN_SWITCH("Left Spk"),
- 	SOC_DAPM_PIN_SWITCH("Right Spk"),
- };
-@@ -58,6 +58,24 @@ static const struct snd_kcontrol_new rt700_controls[] = {
- };
- 
- struct asoc_sdw_codec_info codec_info_list[] = {
-+	{
-+		.part_id = 0x0000, /* TAS2783A */
-+		.dais = {
-+			{
-+				.direction = {true, true},
-+				.dai_name = "tas2783-codec",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
-+				.init = asoc_sdw_ti_amp_init,
-+				.rtd_init = asoc_sdw_ti_spk_rtd_init,
-+				.controls = lr_spk_controls,
-+				.num_controls = ARRAY_SIZE(lr_spk_controls),
-+				.widgets = lr_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(lr_spk_widgets),
-+			},
-+		},
-+		.dai_num = 1,
-+	},
- 	{
- 		.part_id = 0x700,
- 		.dais = {
-@@ -450,10 +468,10 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
- 				.init = asoc_sdw_maxim_init,
- 				.rtd_init = asoc_sdw_maxim_spk_rtd_init,
--				.controls = maxim_controls,
--				.num_controls = ARRAY_SIZE(maxim_controls),
--				.widgets = maxim_widgets,
--				.num_widgets = ARRAY_SIZE(maxim_widgets),
-+				.controls = lr_spk_controls,
-+				.num_controls = ARRAY_SIZE(lr_spk_controls),
-+				.widgets = lr_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(lr_spk_widgets),
- 			},
- 		},
- 		.dai_num = 1,
-@@ -469,10 +487,10 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
- 				.init = asoc_sdw_maxim_init,
- 				.rtd_init = asoc_sdw_maxim_spk_rtd_init,
--				.controls = maxim_controls,
--				.num_controls = ARRAY_SIZE(maxim_controls),
--				.widgets = maxim_widgets,
--				.num_widgets = ARRAY_SIZE(maxim_widgets),
-+				.controls = lr_spk_controls,
-+				.num_controls = ARRAY_SIZE(lr_spk_controls),
-+				.widgets = lr_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(lr_spk_widgets),
- 			},
- 		},
- 		.dai_num = 1,
--- 
-2.45.2
+Cheers,
+Angelo
+
+> The datasheet I have doesn't cover the "RDMA" block specifically, so
+> I can't say whether there is an actual difference between the two RDMA
+> blocks.
+> 
+> 
+> ChenYu
+> 
+>>> +          - const: mediatek,mt8173-mdp
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  clocks:
+>>> +    minItems: 1
+>>> +    maxItems: 2
+>>> +
+>>> +  power-domains:
+>>> +    maxItems: 1
+>>> +
+>>> +  iommus:
+>>> +    maxItems: 1
+>>> +
+>>> +  mediatek,vpu:
+>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>> +    description:
+>>> +      phandle to Mediatek Video Processor Unit for HW Codec encode/decode and
+>>> +      image processing.
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - reg
+>>> +  - clocks
+>>> +  - power-domains
+>>> +
+>>> +allOf:
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            const: mediatek,mt8173-mdp-rdma
+>>> +    then:
+>>> +      properties:
+>>> +        clocks:
+>>> +          items:
+>>> +            - description: Main clock
+>>> +            - description: Mutex clock
+>>> +    else:
+>>> +      properties:
+>>> +        clocks:
+>>> +          items:
+>>> +            - description: Main clock
+>>> +
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            enum:
+>>> +              - mediatek,mt8173-mdp-rdma
+>>> +              - mediatek,mt8173-mdp-wdma
+>>> +              - mediatek,mt8173-mdp-wrot
+>>> +    then:
+>>> +      required:
+>>> +        - iommus
+>>> +
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            const: mediatek,mt8173-mdp
+>>> +    then:
+>>> +      required:
+>>> +        - mediatek,vpu
+>>> +
+>>> +additionalProperties: false
+>>> +
+>>> +examples:
+>>> +  - |
+>>> +    #include <dt-bindings/clock/mt8173-clk.h>
+>>> +    #include <dt-bindings/memory/mt8173-larb-port.h>
+>>> +    #include <dt-bindings/power/mt8173-power.h>
+>>> +
+>>> +    soc {
+>>> +        #address-cells = <2>;
+>>> +        #size-cells = <2>;
+>>> +
+>>> +        mdp_rdma0: rdma@14001000 {
+>>> +            compatible = "mediatek,mt8173-mdp-rdma",
+>>> +                         "mediatek,mt8173-mdp";
+>>> +            reg = <0 0x14001000 0 0x1000>;
+>>> +            clocks = <&mmsys CLK_MM_MDP_RDMA0>,
+>>> +                     <&mmsys CLK_MM_MUTEX_32K>;
+>>> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
+>>> +            iommus = <&iommu M4U_PORT_MDP_RDMA0>;
+>>> +            mediatek,vpu = <&vpu>;
+>>> +        };
+>>> +
+>>> +        mdp_rdma1: rdma@14002000 {
+>>> +            compatible = "mediatek,mt8173-mdp-rdma";
+>>> +            reg = <0 0x14002000 0 0x1000>;
+>>> +            clocks = <&mmsys CLK_MM_MDP_RDMA1>,
+>>> +                     <&mmsys CLK_MM_MUTEX_32K>;
+>>> +            power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
+>>> +            iommus = <&iommu M4U_PORT_MDP_RDMA1>;
+>>> +        };
+>>
+>> My previous comment applies.
+>>
+>> Keep one or two examples.
+>>
+>> Best regards,
+>> Krzysztof
+>>
 
