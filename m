@@ -1,230 +1,194 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4693F31354D
-	for <linux-sound@vger.kernel.org>; Fri, 12 Sep 2025 15:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757689804; cv=none; b=aBrFZPt1p969dWG8XCA3axKb9Hwi389AJz6Q52DWb0cGokIJSiXf9phcvfR9TH+jrMrWeUaIt4BuhXm+0Pr7LO+w0XaykSlCxXS+S/L7UPxiMiybfY1nxsgrhIpUBNHHmfZR6ay8SY/IW7XPdtom4cHon2MKRs3ZfabEwCGlxuc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757689804; c=relaxed/simple;
-	bh=yBMtdHR8Z2DW6AnutSlIlWUYFnDNkrdCerjgdZMZ7KU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cWXvgQWlNOt0zKxseusjQc1OgjU9Vsf5cUJlgFjm2pT6FQBy1R0bcOpnJvDK2NYRiVjiyxszEC5z4jFeFIgGrtDwyOEi9A9NSyr6mVIV9MYuNP+GApHavkb+MXudoe39lKwBeV2jc3Oo6DK/3R5xZNOEAmuG6BlzKxPuF6vLH0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PvctjGLf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T7cdSouk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PvctjGLf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=T7cdSouk; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8CC23C8CD;
+	Fri, 12 Sep 2025 15:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757692101; cv=fail; b=YsIUdLn50ROcZzgfJMPcG+WRfGcWq3EjzZRUvTyrTvhAISgFl07VbDbUcIq9GCfP0+jqfQUe1T8VAmQH/4i+P/Rc6H1BrKR6hN+W61jUJ1K7RvXCBoaOKjEvlXzJBVMsPbwmvnnnqWHnlgME+t7LwZFTs3zhvvJrCi4iV2y2EZE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757692101; c=relaxed/simple;
+	bh=1/zSuMZAyT+s4GkuNDfHmBgROLKXVWlmMONU+/27Fzo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LsreSlFRhJBRY1n3HzMW2jGG0iGjKM9YFMY05OMrNYBeowYfn7PEmepiMcblmNTIlkGt9Yjc+5IIlOJUAm9f+ka6X77Ika+TtYRuEt+K4DQ/h/xTfiGkRDBjf/4TCQhB0NPTaAMrd1uJxUncLmQLwseWBEsDRmteeVDQTNLYAfM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EbXXuYnO; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=aA92s82O; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PvctjGLf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T7cdSouk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PvctjGLf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T7cdSouk"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 36FC620F12;
-	Fri, 12 Sep 2025 15:09:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757689798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F/pM/9W1r75+CaDorOZpGk2LU+S6hOX+QgOMBroL+zs=;
-	b=PvctjGLfSuDclCddVBNmBQSwY9/Flua3RqMf0XLlwJ0ZwrSrQzsQkvzOzIHqHbbMlrVVf3
-	SMHveOmH9RTeuGx+A6NvQZpSaoe2A/1Yq+AoT8mgpM0pmfSy00GSzGb+n1YLaigb5xwA+n
-	e7GxWfsk9Xmim5wGMqimqplINPibA+g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757689798;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F/pM/9W1r75+CaDorOZpGk2LU+S6hOX+QgOMBroL+zs=;
-	b=T7cdSouk/K4l81JJ/UOIziYPp4EFoWTjUIl9vPrTFC0u88tskt6+l+DR6pgfOdpfMy//q1
-	ku1F5jIgoOkcWsCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PvctjGLf;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=T7cdSouk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757689798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F/pM/9W1r75+CaDorOZpGk2LU+S6hOX+QgOMBroL+zs=;
-	b=PvctjGLfSuDclCddVBNmBQSwY9/Flua3RqMf0XLlwJ0ZwrSrQzsQkvzOzIHqHbbMlrVVf3
-	SMHveOmH9RTeuGx+A6NvQZpSaoe2A/1Yq+AoT8mgpM0pmfSy00GSzGb+n1YLaigb5xwA+n
-	e7GxWfsk9Xmim5wGMqimqplINPibA+g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757689798;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F/pM/9W1r75+CaDorOZpGk2LU+S6hOX+QgOMBroL+zs=;
-	b=T7cdSouk/K4l81JJ/UOIziYPp4EFoWTjUIl9vPrTFC0u88tskt6+l+DR6pgfOdpfMy//q1
-	ku1F5jIgoOkcWsCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C867113869;
-	Fri, 12 Sep 2025 15:09:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id b1yDL8U3xGi0MQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 12 Sep 2025 15:09:57 +0000
-Date: Fri, 12 Sep 2025 17:09:57 +0200
-Message-ID: <87a52zr9kq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: cryolitia@uniontech.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Kexy Biscuit <kexybiscuit@aosc.io>,
-	Nie Cheng <niecheng1@uniontech.com>,
-	Zhan Jun <zhanjun@uniontech.com>,
-	Feng Yuan <fengyuan@uniontech.com>,
-	qaqland <anguoli@uniontech.com>,
-	kernel@uniontech.com
-Subject: Re: [PATCH v2 0/3] ALSA: usb-audio: add module param device_quirk_flags
-In-Reply-To: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
-References: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EbXXuYnO";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="aA92s82O"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58CFb2Lt643006;
+	Fri, 12 Sep 2025 10:48:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=x2TQ60a1xMDY//xKwOTZkEz3RfAt7+UF0yrzkFIBZhE=; b=
+	EbXXuYnOyv5AvE5wGn5FD9hEFX6nRlOMCYPJWJKEBy6Kq/k6AqH9Dicg0YGEhvxE
+	GEmBGKQusWI4Kmu4bnVVGxn6yCsgn68tcbMnt4ZsawKmg1kNMI8i71zCM7cU1iHs
+	kSemzDkERBCSrfKva8BdNdbj1ElVICk//mm6CkiZrnY3woKqc727PavFZODOGn6y
+	JLc7mfsuOXpt+TZpKgdnQN7jhNYCLHUahvL95Ckj6Q4RNyO28EPdjQ2kpxrv6JY+
+	Km68sVqkAOZQGcV/FvWAvWjUWTOrNSFy9hHW3S5DKnFwROBW0IcJ6/5/TDPWk6x1
+	VRcsq6e2f8fCn21fqHuvIw==
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11on2129.outbound.protection.outlook.com [40.107.223.129])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 492q6td5yd-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 12 Sep 2025 10:48:15 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wxShsQ0gKYi02n58jaF0fKZj+vNlmz44qUaRB/xTt+GjLfEGOISyqEXcgEfBcIVy/aV6fzSXeKwQfZZxws0SVlld1DUJ2e/qj7WxIl43/bME1FrtzBEawb+9878K5ZvBFvEb6wUSOjSctOIhQeu49A/UxyIjyyrPs2bd/klzwmgBoqdTuHW5A05YWBy6Nof2p4EMppfXf46aAVnszh6c42XKR1V4D4rOclceHz8q61wIDueCPFUOXPaAq0jV+HI/yxe/xqiGpUYJ7B44wBdQLkrr4YzTPttYv+GbUa3Su9WCYqi/TEhGQPjfyou8tLL3jmlTpQBvqcmYQA36BLWJFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x2TQ60a1xMDY//xKwOTZkEz3RfAt7+UF0yrzkFIBZhE=;
+ b=qpAPZqxOc9fSfz2psS5YDchKYZs6pmBey22f3kaigNh3QNkKFcsUWS4ecBzpCogVR/D74udyOiLPDJ6AI7Sqea+VxYNpUhM5SErRUjjkoEjnFvvsRdpYEU3AiuO6ZTRT83gWB4VEeWm1Q48Px9X/qs9KVsjGHRYSCw1AHoJfnNLkPQC4h98ZR3dEB8uYzW4hFxhE/W2fJL2fIYwilPHq7CKW40PApYeDlgjeFhyINeQfIece4du9252SueBOZdcseQaN1W1qwAB1HmfbOQUL6zt/A5dhzrAdKowCBAH7uiXg0/IlH/LrqEbkwoXwLy5AVPEWOU/s0budbZI82s5Bpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x2TQ60a1xMDY//xKwOTZkEz3RfAt7+UF0yrzkFIBZhE=;
+ b=aA92s82O7NebSzXUYVYinbqsPZxBPyd6ktQd9kyJKLxybKDmtlelFdw4/K/oPcWdqCrpD5XU7yeA7SHSsfH8S2ytetFT15BWJUqGNrpANwikiMPBRfuHxJjfPFM4jAc+n/36wEiNmeqjfU0Tq28NEWqXRQn9p/mVL9Cqy8B2cng=
+Received: from DS7P220CA0027.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:223::19) by
+ SJ0PR19MB4478.namprd19.prod.outlook.com (2603:10b6:a03:287::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Fri, 12 Sep
+ 2025 15:48:12 +0000
+Received: from DS3PEPF0000C37F.namprd04.prod.outlook.com
+ (2603:10b6:8:223:cafe::d0) by DS7P220CA0027.outlook.office365.com
+ (2603:10b6:8:223::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.18 via Frontend Transport; Fri,
+ 12 Sep 2025 15:48:11 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: Fail (protection.outlook.com: domain of opensource.cirrus.com
+ does not designate 84.19.233.75 as permitted sender)
+ receiver=protection.outlook.com; client-ip=84.19.233.75;
+ helo=edirelay1.ad.cirrus.com;
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ DS3PEPF0000C37F.mail.protection.outlook.com (10.167.23.9) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.13 via
+ Frontend Transport; Fri, 12 Sep 2025 15:48:10 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id B9E63406542;
+	Fri, 12 Sep 2025 15:48:09 +0000 (UTC)
+Received: from lonswws02.ad.cirrus.com (lonswws02.ad.cirrus.com [198.90.188.42])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 7E91682025A;
+	Fri, 12 Sep 2025 15:48:09 +0000 (UTC)
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+        Stefan Binding <sbinding@opensource.cirrus.com>
+Subject: [PATCH v2 1/2] ASoC: dt-bindings: cirrus,cs35l41: Document the cirrus,subsystem-id property
+Date: Fri, 12 Sep 2025 16:47:44 +0100
+Message-ID: <20250912154759.279661-2-sbinding@opensource.cirrus.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250912154759.279661-1-sbinding@opensource.cirrus.com>
+References: <20250912154759.279661-1-sbinding@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 36FC620F12
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF0000C37F:EE_|SJ0PR19MB4478:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: cfb5fa54-668b-4e4e-7532-08ddf213c6e1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|36860700013|61400799027;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?KfNgAPy3n0VD4fIPWaWI3GQ3dgdrNhB8SRY2R0NGEGJmWyW7c5QHVVYYiAcr?=
+ =?us-ascii?Q?dSTxSIXZPm9Syrq11EAu/2XjkV9lTZpVm4OLJJuKENYZkY7WHOcPdVVuiPb6?=
+ =?us-ascii?Q?AEeJLNVR9QLekgRevY3ceF7KOwSn8ppttDuREu7KJA7edHKuEclOBJzjbVk9?=
+ =?us-ascii?Q?4QL6WDA1090FXQUtJCrtfgoqN+7hhN0y+6rZ6RB9WChUmUo0FFGrU8zKzQXn?=
+ =?us-ascii?Q?x6AyYtKwSswNCvJxJnU23605pAN6QL+3KVKy/smjryiPcjxbMDFrgFg1CNa3?=
+ =?us-ascii?Q?C7iOXsQLukJqZ8eXltFZsvrhTedf3wFpjIjTypTDBRzGV0TrKJejVCUcfuPU?=
+ =?us-ascii?Q?1uVj+/fcBvkH8w+MzSLKS7f0SSP+DVG2Vc08DHL1BPrAIcyKDmgwgYdf0ymi?=
+ =?us-ascii?Q?lGgcDtB6N+j7DlJmk7s0SJYK6Ma/ugmjQh0khkyWB1vJkFs1wOtFlkFRr4OE?=
+ =?us-ascii?Q?vxWZgsYdmibBDkzqGrwLH/DwVuFRTOmLpgs0s+kuxYF2OxZN+GR8SJ3+B1pF?=
+ =?us-ascii?Q?xrJ4bMlE6W8H0tSGo7g7Ibi8lgGUO3ZkX/WsPMAvECWQBv0PWUbUSgzAC+zt?=
+ =?us-ascii?Q?WpDJyuQQjSnLr9FAbhcg4s8z+Y9A8aK53TqXrAq4hYcT0Kc8sQHwPe4pWlBH?=
+ =?us-ascii?Q?lernSeMgPpnQYt38Dy5PtKYa1m/Z6K+38jSAl3FvyiUWEnChV59dYOKGnETn?=
+ =?us-ascii?Q?lkkkh3bSpq/9/gwU6T80OBe5a8u6wAwBXA2L/yKzzJRQXchiJqmnJ9ls9XDJ?=
+ =?us-ascii?Q?Iu01ex4ss/XfrxL3uA5K+OZ3TqqMDcSVH485nTPfLYMG7hAW8JckHiO2xH5t?=
+ =?us-ascii?Q?X0ownHOERp/vVFUqKTaneDvnhMGUVfIq1MRYBfQtzYAgLuxlgpjF8TFhQsR3?=
+ =?us-ascii?Q?J4XYFqZxwg58QrRRBrNqNkJvYxP43nxCuZaLV1+nRbpxp3kFKEigbGpbhWaN?=
+ =?us-ascii?Q?+D5StIqBuxg03p0oXwEf8k73kLgjCun3SMk3/KkG4goW7bQR0J2t2jERc8Le?=
+ =?us-ascii?Q?4vQn4hENUnnlyNLuwZoTPABZirKXoSc1Otiaf/vGmFzMYsGEYz0Hr+FXIBjE?=
+ =?us-ascii?Q?ci/OrLCO1KyXn8iOrWNrEvWZ40qPkWxeHaSDdCHoySpPevcEmzbTCl+2JYxf?=
+ =?us-ascii?Q?DhpvxdNH05H/iNXOpejmBx5i/PqKi1NIUN5cV06yu4RD8Q/R1sJipsrqeTTt?=
+ =?us-ascii?Q?QlMChRqbyJ2AYkI6n7qkxbLh1sN708iwlQEeEYKKZJKgpYuj+iHgCJLpngKt?=
+ =?us-ascii?Q?+zzYO2qhhHtm6kyPYd44JFP9PHbpTcld+yf0zIxAgNlqQuLYqT1G8qRcze7U?=
+ =?us-ascii?Q?CHCNpQL+td8Arux9TEVqZ69hh9lsYZQkCyWQqBV/3WMTfSTAmhRfXo6nobou?=
+ =?us-ascii?Q?rLzc68cZZOqUAp+0E+6ztIPLCge99Z5Y5HhFUbiQkRhgqtue4H08FtSZlTbJ?=
+ =?us-ascii?Q?w4lPNGFrr4V5mZTW+LYFOwKBS8FWvKZSadvLCIcveJ2OTx65Z9V8afc3BJ+P?=
+ =?us-ascii?Q?FyFFKUxZ0PpYeUn0xIO5UXNJCtsnWD9dBufw?=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700013)(61400799027);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 15:48:10.8917
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfb5fa54-668b-4e4e-7532-08ddf213c6e1
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS3PEPF0000C37F.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB4478
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEyMDE0NyBTYWx0ZWRfX5Jz1aKnWpgve
+ h84S30rNJ7WPcMoN+xkVFEjqNyf63jC7cY+6Z6zwiLNe7XLwhosrH4ZXbFrSRMUFw0ccnaUYWjf
+ nulJQIQeq/RJ8q9IT8C/9EfmmPJl/3kpaaJzsKrkq23mmr4A1loHiv+QCAq1M6TL6vLjTRnSFWV
+ oUZI9EkgCun8GjPaJqSXQkBqJcCa+nlMC1YBc7x/8mc/bXTOqXtrTmRRH8pdeGZDkNf/j2gVL69
+ eJkn1vxg4VvCgxQrP2dthujjpTHoOr05qdYy6QTQCRoGCix2Z0pnB7rxliSaVFNzGV6NvYCqV6i
+ PogFxg4klmfTex3eubR9CcGl3uPdzrpqkJdXTlkqWy8EJ58vTNTyw1x9KJ3fO0=
+X-Proofpoint-GUID: mihHy2QxKY10x9j3M65amatav1Xd-Dbn
+X-Authority-Analysis: v=2.4 cv=X71SKHTe c=1 sm=1 tr=0 ts=68c440bf cx=c_pps
+ a=rpzdijBBfSkI3xxH5MEd0g==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10 a=w1d2syhTAAAA:8
+ a=pTMMdCdBRh1H00hwDNUA:9
+X-Proofpoint-ORIG-GUID: mihHy2QxKY10x9j3M65amatav1Xd-Dbn
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, 12 Sep 2025 08:48:57 +0200,
-Cryolitia PukNgae via B4 Relay wrote:
-> 
-> As an implementation of what has been discussed previously[1].
-> 
-> > An open question is whether we may want yet a new module option or
-> > rather extend the existing quirk option to accept the strings
-> > instead.  Basically, when the given argument has a colon, it's a new
-> > syntax.  If it's only a number, it's an old syntax, and parse like
-> > before.  But, I'm open for either way (a new option or extend the
-> > existing one).
-> 
-> I would like to add a new param. The existed param
-> `static unsigned int quirk_flags[SNDRV_CARDS]` seems to related to
-> some sequence the card probed. To be honest, I havn't fully understood
-> it. And it seems hard to improve it while keeping compatibility.
-> 
-> 1. https://lore.kernel.org/all/87h5xm5g7f.wl-tiwai@suse.de/
-> 
-> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
-> ---
-> Changes in v2:
-> - Cleaned up some internal rebase confusion, sorry for that
-> - Link to v1: https://lore.kernel.org/r/20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com
-> 
-> ---
-> Cryolitia PukNgae (3):
->       ALSA: usb-audio: add two-way convert between name and bit for QUIRK_FLAG_*
->       ALSA: usb-audio: add module param device_quirk_flags
->       ALSA: doc: add docs about device_device_quirk_flags in snd-usb-audio
+Add new property: cirrus,subsystem-id
+This new property is used to uniquely identify the system if device
+tree is used, to allow the driver to select the correct firmware and
+tuning for the system.
 
-Well, what I had in mind is something like:
+Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
+---
+ Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -73,7 +73,7 @@ static bool lowlatency = true;
- static char *quirk_alias[SNDRV_CARDS];
- static char *delayed_register[SNDRV_CARDS];
- static bool implicit_fb[SNDRV_CARDS];
--static unsigned int quirk_flags[SNDRV_CARDS];
-+static char *quirk_flags[SNDRV_CARDS];
+diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml
+index 14dea1feefc5..e6cf2ebcd777 100644
+--- a/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml
++++ b/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml
+@@ -151,6 +151,12 @@ properties:
+     minimum: 0
+     maximum: 5
  
- bool snd_usb_use_vmalloc = true;
- bool snd_usb_skip_validation;
-@@ -103,8 +103,8 @@ module_param_array(delayed_register, charp, NULL, 0444);
- MODULE_PARM_DESC(delayed_register, "Quirk for delayed registration, given by id:iface, e.g. 0123abcd:4.");
- module_param_array(implicit_fb, bool, NULL, 0444);
- MODULE_PARM_DESC(implicit_fb, "Apply generic implicit feedback sync mode.");
--module_param_array(quirk_flags, uint, NULL, 0444);
--MODULE_PARM_DESC(quirk_flags, "Driver quirk bit flags.");
-+module_param_array(quirk_flags, charp, NULL, 0444);
-+MODULE_PARM_DESC(quirk_flags, "Driver quirk overrides.");
- module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
- MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
- module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
-@@ -692,6 +692,22 @@ static void usb_audio_make_longname(struct usb_device *dev,
- 	}
- }
- 
-+static void set_quirk_flags(struct snd_usb_audio *chip, int idx)
-+{
-+	int i;
++  cirrus,subsystem-id:
++    $ref: /schemas/types.yaml#/definitions/string
++    description:
++      Subsystem ID. If this property is present, it sets the system name,
++      used to identify the firmware and tuning to load.
 +
-+	/* old style option found: the position-based integer value */
-+	if (quirk_flags[idx] &&
-+	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags))
-+		return;
-+
-+	/* take the default quirk from the quirk table */
-+	snd_usb_init_quirk_flags(chip);
-+	/* add or correct quirk bits from options */
-+	for (i = 0; i < ARRAY_SIZE(quirk_flags); i++)
-+		snd_usb_apply_quirk_option(chip, quirk_flags[i]);
-+}
-+
- /*
-  * create a chip instance and set its names.
-  */
-@@ -750,10 +766,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
- 	INIT_LIST_HEAD(&chip->midi_v2_list);
- 	INIT_LIST_HEAD(&chip->mixer_list);
- 
--	if (quirk_flags[idx])
--		chip->quirk_flags = quirk_flags[idx];
--	else
--		snd_usb_init_quirk_flags(chip);
-+	set_quirk_flags(chip, idx);
- 
- 	card->private_free = snd_usb_audio_free;
- 
-.... and snd_usb_apply_quirk_option() adds or corrects the quirk bits
-based on the string value if it matches with the probed device.
-This function will be similar like your parser.
+ required:
+   - compatible
+   - reg
+-- 
+2.43.0
 
-In that way, the old quirk_flags options work as-is, while you can use
-a new style by passing values with "X:Y:Z" style.
-
-
-Takashi
