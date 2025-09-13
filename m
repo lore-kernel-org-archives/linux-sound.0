@@ -1,99 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10A41E5219;
-	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D212EFD8F;
+	Sat, 13 Sep 2025 13:48:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757716673; cv=none; b=H0YReYSobK1Xoqz1WQhH7ecxu90OW2naYnkKWlLsMV76R8LDU7RefhXRpbUEoc8BGoBrAR3Owub3gbUCKEpDHjurPaonrawl0ZYJC/pB2RKOhz46ILOjSkUhinLCqrE1ZAV4SMPRdlbQ3eQ0Zp0HLM2HWzu5aQxT5MWK+IupSCA=
+	t=1757771297; cv=none; b=CiIDD+R8OwR3GRjCco+xJpJnC2XZBmmnOhexqBu4IuhLkw6r5IcVk7QrMyjytujgUT2rcWjMcrf0cfOSkGiVFuTq3m+kVPHXIierurKzOW3mmwZMwLDF+RXenIpatvifgNuvlnHor3lzJ87k3H8uE1EIcuDQ5O4geatKTh466aQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757716673; c=relaxed/simple;
-	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JmetdA+kRB5A/O39+6elgPq7XC4XLb5Mnuhznvf9du/0T8FBZoECP6brGFt4rhrJLmA9Omz3S93c1oA2BA8eVICwOMMmm+3B+EQn1rj867BBg8zb3VrtIaPs4wvv+D7+xltRjhTvGEgDZFsDYky/Cz80pchu8ri2Wh/YAoNgWG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrVcwliJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757771297; c=relaxed/simple;
+	bh=/oCGpltAdao6wLpQsgZHv8K//UEGgTFV+udT4sKbVsI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TWQGZOuQ4MkpsaPIUSkcF/AMso9eyrAVU/WFtgoyWxGCqsWLV1XAyeBlC+ErzywEOh6X4HYezE6ZSKEV0O1hRYF3+dk/QMuOn8dmkUqjNSDAWVwKez+eAVp/OOjq34em0ZzQjIywEcQaG1y77FZRDkSJvLfalwq9r6/0PCymSY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lt7W/eFA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrVcwliJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2214AC4CEF1;
-	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lt7W/eFA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5237CC4CEEB;
+	Sat, 13 Sep 2025 13:48:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757716673;
-	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TrVcwliJdziWcvEcLi0TVBaYRU0cqz+P0LkYP18PS4V8it1ba7cZ92zsa5Y3dzWLc
-	 YrEuOyNwShq0RR+1+3s/CzKz/FvAj8Dg2ILyM9zKHc+GxAcTbJRbF9zrHAxYtHAtWS
-	 nowrg87C3Mhu7Ma9MVTSiKPANaSzfmKeaaI+jiwqqKI/eFzfgCVIsx0GyGgRpB5mC/
-	 E1FV/bHUfiM/xWBXFUvAkeBLYpdn5iD18PAOpqzc3WdYh8uHA0QJpTs+ikEAG/Jg8A
-	 LroectmFESH23Jvjk8Jl5nAs0sIu7GliX4k4LL9XE6Kb1IBSFNtgZdkeRG9oO5IQJw
-	 v2hGeBjsKFJvA==
-Date: Fri, 12 Sep 2025 17:37:52 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: luiz.dentz@gmail.com, kuba@kernel.org, airlied@gmail.com,
-	mripard@kernel.org, angelogioacchino.delregno@collabora.com,
-	linux-arm-kernel@lists.infradead.org,
-	maarten.lankhorst@linux.intel.com, tiffany.lin@mediatek.com,
-	houlong.wei@mediatek.com, minghsiu.tsai@mediatek.com,
-	lgirdwood@gmail.com, louisalexis.eyraud@collabora.com,
-	linus.walleij@linaro.org, devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org, yunfei.dong@mediatek.com,
-	edumazet@google.com, linux-bluetooth@vger.kernel.org,
-	tzimmermann@suse.de, broonie@kernel.org, andrew+netdev@lunn.ch,
-	kernel@collabora.com, chunkuang.hu@kernel.org,
-	amergnat@baylibre.com, conor+dt@kernel.org, matthias.bgg@gmail.com,
-	support.opensource@diasemi.com, linux-rockchip@lists.infradead.org,
-	davem@davemloft.net, andrew-ct.chen@mediatek.com,
-	krzk+dt@kernel.org, p.zabel@pengutronix.de, sean.wang@kernel.org,
-	linux-kernel@vger.kernel.org, simona@ffwll.ch,
-	linux-mediatek@lists.infradead.org, marcel@holtmann.org,
-	dmitry.torokhov@gmail.com, dri-devel@lists.freedesktop.org,
-	pabeni@redhat.com, jeesw@melfas.com, mchehab@kernel.org,
-	linux-media@vger.kernel.org, flora.fu@mediatek.com,
-	linux-gpio@vger.kernel.org, heiko@sntech.de,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 05/12] dt-bindings: display: mediatek,od: Add
- mediatek,gce-client-reg property
-Message-ID: <175771595983.1528737.3645378655142592974.robh@kernel.org>
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
- <20250911151001.108744-6-ariel.dalessandro@collabora.com>
+	s=k20201202; t=1757771296;
+	bh=/oCGpltAdao6wLpQsgZHv8K//UEGgTFV+udT4sKbVsI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Lt7W/eFAxt2hlDqIBxfKBot0QNEPUq6qXDjrozo62u4hDBo2mTmbmV2KMJlMzxGEE
+	 igL/aietAZZfp8u9Q75WFcWQyV36gkx5ey5nK0jgKGGAs4ZA7snNFzk7VO+rFUplVg
+	 CjyCMV0MSP5KPxEXVi60qNGHtc6g7Wq98VuzlYsJEZB40dsbMrAwMC+itetHJwWuL3
+	 HtY0i6oAa2cVGvwCecDj3XxG5mh2Q2RpVdFk1yMyp5V5H6zefPOFp4q0tG18lvUSiR
+	 VeAruGCEJHA4hL0e3EQvKfiRVQxVKqNzgmMACjIMXFPqunvt93eN5ruHIaRTEBwZXO
+	 QK+KQgfQvP6og==
+Message-ID: <d6a70fc3-eec2-4de4-a107-d687fc0a31aa@kernel.org>
+Date: Sat, 13 Sep 2025 15:48:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250911151001.108744-6-ariel.dalessandro@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: cirrus,cs35l41: Document the
+ cirrus,subsystem-id property
+To: Stefan Binding <sbinding@opensource.cirrus.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20250912154759.279661-1-sbinding@opensource.cirrus.com>
+ <20250912154759.279661-2-sbinding@opensource.cirrus.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250912154759.279661-2-sbinding@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
-On Thu, 11 Sep 2025 12:09:54 -0300, Ariel D'Alessandro wrote:
-> Currently, users of Mediatek OD (display overdrive) DT bindings set
-> mediatek,gce-client-reg node property, which is missing from the DT schema.
+On 12/09/2025 17:47, Stefan Binding wrote:
+> Add new property: cirrus,subsystem-id
+> This new property is used to uniquely identify the system if device
+> tree is used, to allow the driver to select the correct firmware and
+> tuning for the system.
 > 
-> For example, device tree arch/arm64/boot/dts/mediatek/mt8173.dtsi is
-> causing the following dtb check error:
-> 
-> ```
-> $ make CHECK_DTBS=y mediatek/mt8173-elm.dtb
->    SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->    DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
-> [...]
-> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: od@14023000
-> (mediatek,mt8173-disp-od): 'mediatek,gce-client-reg' does not match
-> any of the regexes: '^pinctrl-[0-9]+$'
-> ```
-> 
-> This commit adds the missing node property in the DT schema and updates the
-> example as well.
-> 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
 > ---
->  .../bindings/display/mediatek/mediatek,od.yaml     | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml
+> index 14dea1feefc5..e6cf2ebcd777 100644
+> --- a/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml
+> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml
+> @@ -151,6 +151,12 @@ properties:
+>      minimum: 0
+>      maximum: 5
+>  
+> +  cirrus,subsystem-id:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    description:
+> +      Subsystem ID. If this property is present, it sets the system name,
+> +      used to identify the firmware and tuning to load.
 
-I fixed up the commit msg with Krzysztof's comments and applied both 
-display patches. Thanks!
+Please do not send new version immediately, but allow people to actually
+review your code. You received the review on v1.
 
-Rob
+Best regards,
+Krzysztof
