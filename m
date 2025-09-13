@@ -1,30 +1,30 @@
 Received: from mail.inboxia.org (mail.inboxia.org [95.217.72.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BFA1A314B;
-	Sat, 13 Sep 2025 22:45:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8767E281358;
+	Sat, 13 Sep 2025 22:54:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.217.72.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757803530; cv=none; b=JWM6ErT5h/99MVQBMjzudfzy1vpXNziv5tTeLITBctXBOZ9RT1fn0cMjs/yqF8tzHRrYvpiiC7z3LnZ7lOZGlbc7NY7gdO+cFY+e8v+dPSH3LogYD1hD762zM25ayFTYUCDNw/hi06Jaus8TK6fxw8KLOMR4UZf6tnkuwfjjooU=
+	t=1757804074; cv=none; b=tlUIUcvS8AM1lApzlLGcbIFxEZoDQsX2z4i60rwh0nmNPH9azWDgj4psl4fFOBd2DxXcT7gRBZX28X09+u6SUSkG6zQoOcVpUuk5OrW8+wzSmNAkarCsyYHKf9kxMcAHXmeVBVuBj7KZ2+9I1c3mLVSvDH0WoKzN9HiyBk1JwmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757803530; c=relaxed/simple;
-	bh=KAlbMy49hkms1Al+qR8sVuuf/ndsc9PyiN4dXJi+Mlo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e812mHV9IozyPoMABMHG/9OCXeQOXYIrm7HVyJaEKgQD+NKLP+khOxOF6dGeOEqK3OipM1QDRO9MyHRUxEv7MgtWdy3DkP9CwTOSMeoEpzVe+9Wg/B/scQUxigp5URatjZ5IaCvEPNCl7jCbdpAIQzfPsYRLgdF1IYz2gAMhy3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inboxia.org; spf=pass smtp.mailfrom=inboxia.org; dkim=pass (2048-bit key) header.d=inboxia.org header.i=@inboxia.org header.b=ejVdlobP; arc=none smtp.client-ip=95.217.72.145
+	s=arc-20240116; t=1757804074; c=relaxed/simple;
+	bh=Ov+iY87a4T6MxIJwaQ7aBlIVZMr67tRxz1XZAtFSe4M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dJ/FC+ywAko4VIDfwEMDp6okTENxreptEHVJDTNFfWGpVuqpyCRQjHllE8tFWpYXpOCGkr3+lVX8DK2utgPRbe8yvGZN6fGHSqakYoOdFqvhd1tTxwq36Cnay76yrsrNQC7ugeHGvyPxxixmHNhQ5Qd/ukmmE8EP5Dd1C9DWJG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inboxia.org; spf=pass smtp.mailfrom=inboxia.org; dkim=pass (2048-bit key) header.d=inboxia.org header.i=@inboxia.org header.b=GYKBAfj/; arc=none smtp.client-ip=95.217.72.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inboxia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inboxia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inboxia.org header.i=@inboxia.org header.b="ejVdlobP"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7CA9E6166713;
-	Sat, 13 Sep 2025 22:36:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=inboxia.org header.i=@inboxia.org header.b="GYKBAfj/"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EFBC061664F9;
+	Sat, 13 Sep 2025 22:54:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inboxia.org; s=dkim;
-	t=1757802974; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=dg58pqC1a3dSXa+6eFNI1bKCrcYCFjCJ/ft1V528zas=;
-	b=ejVdlobPsr+nkO/vflXoIUwqMlGMHaOAn2Z7mDMcIzJE/CimtrmDyckaktJnSekb7XYLy5
-	XxbZpbPyYCArOm46ws/vFqLeCr4419Ir1jyhv66IynDFNsR8OivXyv5QhNLnxkR5Q+RiNL
-	W4u1T75XQYYo0xRFlLF6nQ+aZxoOcjbbuO9IAjGrg5CODQC3u/gORgtOKO+eJMxzjnmoxU
-	hwUKmNOiTYFzckVElZAzNDHVWR3SNLZ1ZP1jpk98zBg6hqsJNN5TrGgB1gAkQJ0HvrnyQ0
-	Zxz+1RMMcSSBCCNvbUwX8I8/cDNEJrenZY/6jtWZ2xXq64RLo9ZNmbKYyx/TBw==
+	t=1757804069; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=TtJUKcztkL0EXNkAHTxW0ZztC2IDBAoAmsySOvYQcCM=;
+	b=GYKBAfj/cuYNdOfAd2KE2KB15xNMyyGmU2z5XDnucJBJovXnmsnE9SAcJeomoxotLEleE7
+	t/WcqP8x8mcz9msjycpccuvbvysLFXku/bo9dsEt6uwNCp6FqBDOlJi4jEXKIx+QxxfdNE
+	96nQji/yem74FztXEtQWHnfpKX/VoZ8A05XbgWN4IuaOT3svBt0TVxi9e4obIrNhyNDkvD
+	R5W1aU2KbzBqKM7hpRmF2wyqBw7obLoFk+1skqyyQYelbUsywthxGQWeXfq2jJc9+BQq8R
+	2fXrXv8DJ2rf0C13rjwZ9fVqaakeybqQv9/x8No7WffXykhmkkbwK3vJaHp3sA==
 From: Bou-Saan Che <yungmeat@inboxia.org>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -33,9 +33,9 @@ Cc: alsa-devel@alsa-project.org,
 	linux-kernel@vger.kernel.org,
 	patches@opensource.cirrus.com,
 	Bou-Saan Che <yungmeat@inboxia.org>
-Subject: [PATCH 1/2] ALSA: hda: cs35l41: Support Lenovo Thinkbook 13x Gen 5
-Date: Sun, 14 Sep 2025 01:35:57 +0300
-Message-ID: <20250913223557.9116-1-yungmeat@inboxia.org>
+Subject: [PATCH] ALSA: hda/realtek: Fix volume adjustment issue on Lenovo Thinkbook 13x Gen 4
+Date: Sun, 14 Sep 2025 01:53:44 +0300
+Message-ID: <20250913225344.12822-1-yungmeat@inboxia.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -46,36 +46,32 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-This laptop does not contain _DSD so needs to be supported using the
-configuration table.
+This patch fixes the volume adjustment issue on this laptop by applying
+the necessary quirk configuration for the Realtek ALC287 codec.
+
+The issue was caused by incorrect configuration in the driver,
+which prevented proper volume control on certain systems.
 
 Signed-off-by: Bou-Saan Che <yungmeat@inboxia.org>
 ---
- sound/pci/hda/cs35l41_hda_property.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ sound/pci/hda/patch_realtek.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index d8249d997c2a..16d5ea77192f 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -135,6 +135,8 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "17AA38C8", 4, INTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, CS35L41_RIGHT, CS35L41_LEFT }, 0, 2, -1, 1000, 4500, 24 },
- 	{ "17AA38F9", 2, EXTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, 0, 0 }, 0, 2, -1, 0, 0, 0 },
- 	{ "17AA38FA", 2, EXTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, 0, 0 }, 0, 2, -1, 0, 0, 0 },
-+	{ "17AA3929", 4, INTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, CS35L41_RIGHT, CS35L41_LEFT }, 0, 2, -1, 1000, 4500, 24 },
-+	{ "17AA392B", 4, INTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, CS35L41_RIGHT, CS35L41_LEFT }, 0, 2, -1, 1000, 4500, 24 },
- 	{}
- };
- 
-@@ -558,6 +560,8 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "17AA38C8", generic_dsd_config },
- 	{ "CSC3551", "17AA38F9", generic_dsd_config },
- 	{ "CSC3551", "17AA38FA", generic_dsd_config },
-+	{ "CSC3551", "17AA3929", generic_dsd_config },
-+	{ "CSC3551", "17AA392B", generic_dsd_config },
- 	{}
- };
- 
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 2627e2f49316..1981e3374b3e 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -11346,8 +11346,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x38be, "Yoga S980-14.5 proX YC Dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38bf, "Yoga S980-14.5 proX LX Dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38c3, "Y980 DUAL", ALC287_FIXUP_TAS2781_I2C),
+-	SND_PCI_QUIRK(0x17aa, 0x38c7, "Thinkbook 13x Gen 4", ALC287_FIXUP_CS35L41_I2C_4),
+-	SND_PCI_QUIRK(0x17aa, 0x38c8, "Thinkbook 13x Gen 4", ALC287_FIXUP_CS35L41_I2C_4),
++	SND_PCI_QUIRK(0x17aa, 0x38c7, "Thinkbook 13x Gen 4", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
++	SND_PCI_QUIRK(0x17aa, 0x38c8, "Thinkbook 13x Gen 4", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x38cb, "Y790 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38cd, "Y790 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38d2, "Lenovo Yoga 9 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
 -- 
 2.51.0
 
