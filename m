@@ -1,125 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.inboxia.org (mail.inboxia.org [95.217.72.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D212EFD8F;
-	Sat, 13 Sep 2025 13:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C758E238172;
+	Sat, 13 Sep 2025 22:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.217.72.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757771297; cv=none; b=CiIDD+R8OwR3GRjCco+xJpJnC2XZBmmnOhexqBu4IuhLkw6r5IcVk7QrMyjytujgUT2rcWjMcrf0cfOSkGiVFuTq3m+kVPHXIierurKzOW3mmwZMwLDF+RXenIpatvifgNuvlnHor3lzJ87k3H8uE1EIcuDQ5O4geatKTh466aQ=
+	t=1757803120; cv=none; b=p6nIY8sz+B7u47kuARPKQ8qTmhRj+7lopwQvfOHqkVoUI928EWECj6y/7y5sIgCzd9nG2J/hVbREr3Z6OgfjwFL8wXS88FEMOUr2imADqWd599vD3g/Bqnkuz0ckHAHtcBklbHnKem2BQzRLNsKsrrJSIfUn+DdOk90RlQB1tP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757771297; c=relaxed/simple;
-	bh=/oCGpltAdao6wLpQsgZHv8K//UEGgTFV+udT4sKbVsI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TWQGZOuQ4MkpsaPIUSkcF/AMso9eyrAVU/WFtgoyWxGCqsWLV1XAyeBlC+ErzywEOh6X4HYezE6ZSKEV0O1hRYF3+dk/QMuOn8dmkUqjNSDAWVwKez+eAVp/OOjq34em0ZzQjIywEcQaG1y77FZRDkSJvLfalwq9r6/0PCymSY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lt7W/eFA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757803120; c=relaxed/simple;
+	bh=Dv6zSAtrCBxyeEhzC3hUq7L5HZfD7vtK/TqCTcWjyn4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k8yxmt099mDniba8uRg1DiXcWiRI6JVIqYnrjTm0yqiUrG60M4I7hYeykqah9avoPwoXR9kggWQmCmFOPSjlG73tyKBtTMcCA/L5DkbrRTbxkT57PN7yG6uGEycJkiJkDxPl0I1pC1esR82iww4zoJfcB+fZRYGhK/dJR/VIUZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inboxia.org; spf=pass smtp.mailfrom=inboxia.org; dkim=pass (2048-bit key) header.d=inboxia.org header.i=@inboxia.org header.b=QQ4pj+V6; arc=none smtp.client-ip=95.217.72.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inboxia.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inboxia.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lt7W/eFA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5237CC4CEEB;
-	Sat, 13 Sep 2025 13:48:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757771296;
-	bh=/oCGpltAdao6wLpQsgZHv8K//UEGgTFV+udT4sKbVsI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Lt7W/eFAxt2hlDqIBxfKBot0QNEPUq6qXDjrozo62u4hDBo2mTmbmV2KMJlMzxGEE
-	 igL/aietAZZfp8u9Q75WFcWQyV36gkx5ey5nK0jgKGGAs4ZA7snNFzk7VO+rFUplVg
-	 CjyCMV0MSP5KPxEXVi60qNGHtc6g7Wq98VuzlYsJEZB40dsbMrAwMC+itetHJwWuL3
-	 HtY0i6oAa2cVGvwCecDj3XxG5mh2Q2RpVdFk1yMyp5V5H6zefPOFp4q0tG18lvUSiR
-	 VeAruGCEJHA4hL0e3EQvKfiRVQxVKqNzgmMACjIMXFPqunvt93eN5ruHIaRTEBwZXO
-	 QK+KQgfQvP6og==
-Message-ID: <d6a70fc3-eec2-4de4-a107-d687fc0a31aa@kernel.org>
-Date: Sat, 13 Sep 2025 15:48:12 +0200
+	dkim=pass (2048-bit key) header.d=inboxia.org header.i=@inboxia.org header.b="QQ4pj+V6"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6B6A961669AB;
+	Sat, 13 Sep 2025 22:38:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inboxia.org; s=dkim;
+	t=1757803115; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=OKpsQgiTJ2njmnvAgQ8cOrHhf1ic2qR7pqpfcC3YiGg=;
+	b=QQ4pj+V6+nSW+ZoiQeJC0EeL1hnhswnclTB6UCrTSSpZ9Txd6SXPxDHRqGlis2c2Ws+gry
+	bdfrh3ee4lPOmqBbFUm8pitab4J6UDitwxuL6NYmQKYsilMMBDTPJwER8LsvJiGNSvKR03
+	d/36UM5GhRAU29cU85TZfq+E2vwSnklGyWhLETjRS6NvqfKoDWBWNhttb1hTjHm9W1skMG
+	cdrv9VzN6fEnouZB6AFguj3H3BaZK95u7Q73pj/orwGdTqn3JbB1Se+Qzo/e0/IV74QKgD
+	iqCRkEV1oLRxrRhuA0tZ1CsHEqoKABWWJ+Arcp2nnalIieicyEPxp5ajaaL4dw==
+From: Bou-Saan Che <yungmeat@inboxia.org>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	Bou-Saan Che <yungmeat@inboxia.org>
+Subject: [PATCH 2/2] ALSA: hda/realtek: Support Lenovo Thinkbook 13x Gen 5
+Date: Sun, 14 Sep 2025 01:38:25 +0300
+Message-ID: <20250913223825.9264-1-yungmeat@inboxia.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: cirrus,cs35l41: Document the
- cirrus,subsystem-id property
-To: Stefan Binding <sbinding@opensource.cirrus.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-References: <20250912154759.279661-1-sbinding@opensource.cirrus.com>
- <20250912154759.279661-2-sbinding@opensource.cirrus.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250912154759.279661-2-sbinding@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 12/09/2025 17:47, Stefan Binding wrote:
-> Add new property: cirrus,subsystem-id
-> This new property is used to uniquely identify the system if device
-> tree is used, to allow the driver to select the correct firmware and
-> tuning for the system.
-> 
-> Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
-> ---
->  Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml
-> index 14dea1feefc5..e6cf2ebcd777 100644
-> --- a/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs35l41.yaml
-> @@ -151,6 +151,12 @@ properties:
->      minimum: 0
->      maximum: 5
->  
-> +  cirrus,subsystem-id:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    description:
-> +      Subsystem ID. If this property is present, it sets the system name,
-> +      used to identify the firmware and tuning to load.
+The laptop does not contain valid _DSD for these amps, so requires
+entries into the CS35L41 configuration table to function correctly.
 
-Please do not send new version immediately, but allow people to actually
-review your code. You received the review on v1.
+Signed-off-by: Bou-Saan Che <yungmeat@inboxia.org>
+---
+ sound/pci/hda/patch_realtek.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Best regards,
-Krzysztof
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 2627e2f49316..36dc0389c9bd 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -11368,6 +11368,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TAS2781_I2C),
++	SND_PCI_QUIRK(0x17aa, 0x3929, "Thinkbook 13x Gen 5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
++	SND_PCI_QUIRK(0x17aa, 0x392b, "Thinkbook 13x Gen 5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo B50-70", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x3bf8, "Quanta FL1", ALC269_FIXUP_PCM_44K),
+-- 
+2.51.0
+
