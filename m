@@ -1,152 +1,80 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6569D3BB48
-	for <linux-sound@vger.kernel.org>; Sun, 14 Sep 2025 10:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D1F1B4141
+	for <linux-sound@vger.kernel.org>; Sun, 14 Sep 2025 10:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757845133; cv=none; b=H4gURNVecOJP3JZ3UVBfH9iQHGW2XHAl5dObQgddNusRvEItQ/EvhiuJ9AtPb3BNtipp7Tyx/jhevtXH9642dW92On/1nNg7LUKlM+u8VqI1r+lZJZQZ+yV42egX8DnSJJmzePEO2idh5GSdaUNpjMxnIUMEaGpptlR0tiUuplA=
+	t=1757847066; cv=none; b=UiFlZbGvW3qP8A+Xc2C4kwMbvP0hgrksZP4rzfZrxUAMFmq4kN2CGBK6hLMd8HBKOQJN6ze3PiHbN2K1BiIkxUhDiEtSarxxGjM3ULz7UKLCeOK1SwbHOFGuxSwWwxU7FlF2BnFSUVKmJaSk9H+7MqH/9I91UKyKwNo2xoTwIc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757845133; c=relaxed/simple;
-	bh=YsXdjPEu66+hOwttY4dS6ZDKoQIvSg5qD1PQ2mD9SMA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A6s2B5Ye6yxYyXcqxhN7O6U6lFwNC3i0Le7GXAi6jMcRAbFGfenSD7bsygl4TDg17S6zeyM4pw2shxIhp4xDrz4U7aitie573180ACGYH2utqxDvl6FfwubNKZMAnZRJcR82ju/uy4kvJQ/tv/Q02RFKXyX4hamm7o9f9v0FOto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wG1+u48x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=l1KdJjFP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wG1+u48x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=l1KdJjFP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wG1+u48x";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l1KdJjFP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wG1+u48x";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l1KdJjFP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 99D291FB41;
-	Sun, 14 Sep 2025 10:18:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757845129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qdYMhB1ezhTpqG+xcgrzsoO3g51NHGjcmCroRq2tIL4=;
-	b=wG1+u48xoblAS8EdH/esCVqz0jOgR1Lna6GvjT/nlzBeN60Aol2CPQmrQsZbpa6lwVnmfH
-	kM+bXEh1KcZihZS6hBmdOf86PYG8OXJxT9RCRAaEnhN7C7RvL0+Nfm8Y1aA7k/ok1UW9sW
-	uMooaE9D8T25uSIa92hFuhotAGLqarY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757845129;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qdYMhB1ezhTpqG+xcgrzsoO3g51NHGjcmCroRq2tIL4=;
-	b=l1KdJjFPMOJQw27fZDEG6klG4wUkKwqXpFYZY0OjGUVsClriMCov+/LO8VMyn+Ldc/DMcg
-	MrQwvw9nosDapTCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757845129; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qdYMhB1ezhTpqG+xcgrzsoO3g51NHGjcmCroRq2tIL4=;
-	b=wG1+u48xoblAS8EdH/esCVqz0jOgR1Lna6GvjT/nlzBeN60Aol2CPQmrQsZbpa6lwVnmfH
-	kM+bXEh1KcZihZS6hBmdOf86PYG8OXJxT9RCRAaEnhN7C7RvL0+Nfm8Y1aA7k/ok1UW9sW
-	uMooaE9D8T25uSIa92hFuhotAGLqarY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757845129;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qdYMhB1ezhTpqG+xcgrzsoO3g51NHGjcmCroRq2tIL4=;
-	b=l1KdJjFPMOJQw27fZDEG6klG4wUkKwqXpFYZY0OjGUVsClriMCov+/LO8VMyn+Ldc/DMcg
-	MrQwvw9nosDapTCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 64C4C13419;
-	Sun, 14 Sep 2025 10:18:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tCGAF4mWxmiJIgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 14 Sep 2025 10:18:49 +0000
-Date: Sun, 14 Sep 2025 12:18:48 +0200
-Message-ID: <87jz21pcaf.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Bou-Saan Che <yungmeat@inboxia.org>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 2/2] ALSA: hda/realtek: Support Lenovo Thinkbook 13x Gen 5
-In-Reply-To: <20250913223825.9264-1-yungmeat@inboxia.org>
-References: <20250913223825.9264-1-yungmeat@inboxia.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1757847066; c=relaxed/simple;
+	bh=ua5Vb5zOeYFg3FVg3bHIT2DYfrWRx2dMA6ntfB7TQUU=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=HX5oSOFq1h4o57tdY8tWXswX1ZRT1Ur0U4AmTsOgPQgK+CR2zQyH/VVBbmgUmx3Q2Cfnix7Vf5d5fHI/hl7FOeDjeUNZ9JV75/9iE8V7Lej8aLf2Etoq3CsrMVt+q0n2vfhIscfLpJkQrK16SrBhhTJ3GOGuWjjZA0HbabORkZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-3ee1d164774so61147285ab.1
+        for <linux-sound@vger.kernel.org>; Sun, 14 Sep 2025 03:51:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757847064; x=1758451864;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1G99QjZJIxqZZW0DGsDJGiZk1djjVFhimNBcqrYyh24=;
+        b=wzv3vql2RpkbZvMTR4ej0m8fQ2KSyl0LEAyxPFZc3xET4duLMfmdGaOmLT2qsBLMnk
+         scmno7d5V5iQKukqSyzcv+ndLeBvzL62GzE1ciSzpWx0etfJFyeDGKCXQzzIHQe6kr6v
+         qZN8aSvzX/COc6W6iBsIMQuSjoDQCH6dtq7SVXkXATDRS0Lo+vOVIlHl6GzlFnHQ/1w4
+         yV9SdIA60GATG+gmvfbEKuk0yUQncKoJY0o9snQwjK5Efen3lbCtk93DdriG2L1MhQwM
+         WNIgTAbyBr1y0UKC/TZ73DdMcRCKANtZ2ikgPf4SsjYwS3fJ9axdg6giR8qfrn62IVgB
+         2jqA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZdWC7uEQ5ry65XwBIi0mOTIBI+QYrEo6gZDOiyy8efKqIrZu14QietpWXPZ25Wz82USB3LiFy3J5Aaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6NP36Kd6VQndR2HBw6NuJTFxI3awP5VGmrPIniTAEaKbrOEA8
+	BkIQsJ7WLDTXEnbKedPwkm0H9/4OI3TffJKR4E5hOkhzYm59JmsOygZHIifl28Qc49D1qHWSQfF
+	Hbu8tpR3GpjC6H1whbzdQkW5qx3hHWbnxGxr43IkIzPed97yqiyMIoWspwh0=
+X-Google-Smtp-Source: AGHT+IEWB7tBi7JGtQbX1WM80HBYeWQL4LG1xhguZ8b0CvUJv0a+SKXJBPC5JWj+b2DFXN8yyD+lm184jJWgFLvlptAUAb3a95gX
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+X-Received: by 2002:a92:c24e:0:b0:423:fc5c:c7b9 with SMTP id
+ e9e14a558f8ab-423fc5cc9eemr20438445ab.1.1757847063795; Sun, 14 Sep 2025
+ 03:51:03 -0700 (PDT)
+Date: Sun, 14 Sep 2025 03:51:03 -0700
+In-Reply-To: <684ffc59.a00a0220.279073.0037.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68c69e17.050a0220.3c6139.04e1.GAE@google.com>
+Subject: Re: [syzbot] [sound?] kernel BUG in filemap_fault (2)
+From: syzbot <syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, chaitanyas.prakash@arm.com, davem@davemloft.net, 
+	david@redhat.com, edumazet@google.com, hdanton@sina.com, horms@kernel.org, 
+	jack@suse.cz, kuba@kernel.org, kuniyu@google.com, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, perex@perex.cz, 
+	ryan.roberts@arm.com, syzkaller-bugs@googlegroups.com, tiwai@suse.com, 
+	willemb@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 14 Sep 2025 00:38:25 +0200,
-Bou-Saan Che wrote:
-> 
-> The laptop does not contain valid _DSD for these amps, so requires
-> entries into the CS35L41 configuration table to function correctly.
-> 
-> Signed-off-by: Bou-Saan Che <yungmeat@inboxia.org>
+syzbot suspects this issue was fixed by commit:
 
-As requested in your another patch, could you try to rebase to the
-latest 6.17-rc, verify the patch still working and resubmit?
+commit bdb86f6b87633cc020f8225ae09d336da7826724
+Author: Ryan Roberts <ryan.roberts@arm.com>
+Date:   Mon Jun 9 09:27:23 2025 +0000
 
+    mm/readahead: honour new_order in page_cache_ra_order()
 
-thanks,
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1100b934580000
+start commit:   b4911fb0b060 Merge tag 'mmc-v6.16-rc1' of git://git.kernel..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3f6ddf055b5c86f8
+dashboard link: https://syzkaller.appspot.com/bug?extid=263f159eb37a1c4c67a4
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=157cf48c580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=146a948c580000
 
-Takashi
+If the result looks correct, please mark the issue as fixed by replying with:
 
-> ---
->  sound/pci/hda/patch_realtek.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 2627e2f49316..36dc0389c9bd 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -11368,6 +11368,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
->  	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TAS2781_I2C),
->  	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TAS2781_I2C),
-> +	SND_PCI_QUIRK(0x17aa, 0x3929, "Thinkbook 13x Gen 5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
-> +	SND_PCI_QUIRK(0x17aa, 0x392b, "Thinkbook 13x Gen 5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
->  	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
->  	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo B50-70", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
->  	SND_PCI_QUIRK(0x17aa, 0x3bf8, "Quanta FL1", ALC269_FIXUP_PCM_44K),
-> -- 
-> 2.51.0
-> 
-> 
+#syz fix: mm/readahead: honour new_order in page_cache_ra_order()
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
