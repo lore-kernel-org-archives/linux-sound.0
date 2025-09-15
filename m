@@ -1,74 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98535158545;
-	Mon, 15 Sep 2025 00:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74D6143756
+	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 02:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757895154; cv=none; b=oGhZ1aUts1gdTh/0trh7tmpqoJ5v8rGmAOb3E/CE3Mx2BRepYSwMPDZ40itwaxctKWT4u0QptqMTgktK3rvBATCsIjqcbbmfxLYRgUI4rTTLojpgfwjIj2M3L++fWB7PsPxJ39a+qITQi2tYkwF0aodftaksD9aIZlAeD+aXHr0=
+	t=1757904546; cv=none; b=PsnB7rOUYWFTm8R9uA7T8S8F/9xCNcakptsuklNcRxnxEnavGKSgCOuzdrEqUgx74X8pHnfNMylwhXBlCHayIsOxM9WXsMpqZhng1T/kfjrJ5hADj5PpN6cx30UWySEHH0fFhlkp+eetAqnr0x/NQpi/MW4hdCbAZmcqBAXgWVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757895154; c=relaxed/simple;
-	bh=UbiiW95aQkxFo3IVZ6BYSGYhMqA/n8zEEIb5wb50uts=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LaN+5WB8IvoGXlLl+f0E91rLhZ/ocmrmB20H6T0Ctspa+2anc8Z9uY9mk5Oz8coeyM1VCCnNBy7phaBZP8+qbqbVACj5t+qa+VHbQGa0MLAWcESlyT/+P5yBT8YdaxaDOW5sZticw4qcIJwfpxd0JtBFXM7o2BJSetzAyxDsqbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U44cO0PU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757904546; c=relaxed/simple;
+	bh=QVRlrQi7efUNQH1dFvPl0sCLnDMidmy3kClde40Yo2Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Yi/DD9prD1EVgTpXdBfGNaFuHRrwuY4BBSPHaV832PCrsgbbBlnXDkiNNiYybeIAy+iLfNN4YuzCHqAKm+qlVk4AumeAui4xpUoZGWejbiZ62zTphdmaDyx/WYp7HBFW8qQjsfzzV6wzglw8K0mzP5p6Ebdc3//7eV+UyICvLHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Li6vTjPN; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U44cO0PU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13AECC4CEF0;
-	Mon, 15 Sep 2025 00:12:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757895154;
-	bh=UbiiW95aQkxFo3IVZ6BYSGYhMqA/n8zEEIb5wb50uts=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U44cO0PUxNY01mFS2Jti1eqVALemOF50c3VaOKUC5xbCNlAQjVV/ygpBjc60AcKKt
-	 FMQoBif5NPmfyoH7LuaUdZyMtklATc9S9hx5Gw5o7EygUN8i2q291C4qLDrQb9Xrj6
-	 dMVKCKQ1mMvXq/FshFhZE9fSMJCfWkt/GBDiDW+1MyK1nQRznAlRIR+nOSZZZCpSLv
-	 Z4dQQPw6w4lY8e8xzi26hYOsjXvQV4EmvZGnwuTkxbKMZWGToppz2g9Ybu9bT3gIv4
-	 0vNx7ENyBIpf2Uzyqpg0b1YXhI8tljqJJqDxzW1YEMXyPXTeRS9DZt53YsWLWcSOPJ
-	 pc7UW9rNtUdkA==
-Date: Sun, 14 Sep 2025 19:12:33 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Jonas Rebmann <jre@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>, devicetree@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
-	imx@lists.linux.dev, Sascha Hauer <s.hauer@pengutronix.de>,
-	Andrew Lunn <andrew@lunn.ch>, netdev@vger.kernel.org,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/4] dt-bindings: arm: fsl: Add Protonic PRT8ML
-Message-ID: <175789515239.2294687.11215788946792312657.robh@kernel.org>
-References: <20250910-imx8mp-prt8ml-v1-0-fd04aed15670@pengutronix.de>
- <20250910-imx8mp-prt8ml-v1-3-fd04aed15670@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Li6vTjPN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757904544; x=1789440544;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=QVRlrQi7efUNQH1dFvPl0sCLnDMidmy3kClde40Yo2Y=;
+  b=Li6vTjPNGNyPycInmxWRlT+ZF/h5lzK1I25bX08rdXUL16LOB7L7CYRi
+   0JqFLJeoQXBzp3Cmf6lYf17RTnwh+j5nnFQxClnR6vjfNXlnU0Jpwuw16
+   JNxoE3OCOpt/4xdYt/a3DIHg5Zk5NB7Hi6Lc0k66kDtKGJ45Ke0xNnFbE
+   KuBecotwPiiKvj0eVLN7tufHprzpw643l2InrfMG8W0c1sfF48ppZi0O7
+   DWHgzfRXjC31wjjUUGU3IWh31MQWPfblAMqED/kGTcUnT+BLH0EyZ2x2n
+   /Gz/uSmcf/YZVDE95rPzpGh4S5+zLxyXKrhVEK4X+191ZldCqsDnQlOz/
+   w==;
+X-CSE-ConnectionGUID: 6B14ZfVUTOqzxC3hU9HS4A==
+X-CSE-MsgGUID: LlJo1K1qT2e3DHVVBVOYCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="47719672"
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="47719672"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 19:49:04 -0700
+X-CSE-ConnectionGUID: kopVPvY3QwidGJyfZBiK8w==
+X-CSE-MsgGUID: Bw/iYCqqSi+HpdH0nrRddA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
+   d="scan'208";a="173786839"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 19:49:02 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH] ASoC: Intel: hda-sdw-bpt: set persistent_buffer false
+Date: Mon, 15 Sep 2025 10:48:53 +0800
+Message-ID: <20250915024853.1153518-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250910-imx8mp-prt8ml-v1-3-fd04aed15670@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+The persistent_buffer agreement is false when hda_cl_prepare() is
+called. We should use the same value when hda_cl_cleanup() is called.
 
-On Wed, 10 Sep 2025 14:35:23 +0200, Jonas Rebmann wrote:
-> Add DT compatible string for Protonic PRT8ML board.
-> 
-> Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
-> ---
->  Documentation/devicetree/bindings/arm/fsl.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Fixes: 5d5cb86fb46ea ("ASoC: SOF: Intel: hda-sdw-bpt: add helpers for SoundWire BPT DMA")
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+---
+ sound/soc/sof/intel/hda-sdw-bpt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+diff --git a/sound/soc/sof/intel/hda-sdw-bpt.c b/sound/soc/sof/intel/hda-sdw-bpt.c
+index 1327f1cad0bc..ff5abccf0d88 100644
+--- a/sound/soc/sof/intel/hda-sdw-bpt.c
++++ b/sound/soc/sof/intel/hda-sdw-bpt.c
+@@ -150,7 +150,7 @@ static int hda_sdw_bpt_dma_deprepare(struct device *dev, struct hdac_ext_stream
+ 	u32 mask;
+ 	int ret;
+ 
+-	ret = hda_cl_cleanup(sdev->dev, dmab_bdl, true, sdw_bpt_stream);
++	ret = hda_cl_cleanup(sdev->dev, dmab_bdl, false, sdw_bpt_stream);
+ 	if (ret < 0) {
+ 		dev_err(sdev->dev, "%s: SDW BPT DMA cleanup failed\n",
+ 			__func__);
+-- 
+2.43.0
 
