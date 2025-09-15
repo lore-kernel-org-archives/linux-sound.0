@@ -1,142 +1,326 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3880033EB0E;
-	Mon, 15 Sep 2025 15:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DBC27B4E8
+	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 16:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757950136; cv=none; b=PULojLHeUIglSJarnXI/jU2Ko5V0SSMOrR5vlpZ2pgmUeWQniCjDWpFoClb4h8UEOIJZVTWGf2AMOuUlQ/L7YkaIXJKYhew9wrZlZuCe7e7i1kbuGZ8SFQ8VoOc9HlYi9Ozhslki0U58Y7n46EcLzBhQv1x+kSlIL7weC1IQwEs=
+	t=1757953677; cv=none; b=pEd2dHor7LuxrIo6kEEcswWxRutHrzLFxvo2xz3waC587oAf+CChG+bPl6Sif0iU8W6W8eaCl+YNxKN5xQLkSM2y/hs7l8WfStEFjG+1G+72kkzrVLttL7UwvCtqAaZhtok13GtmVBMuZaZOyQOrXL5+WoKoqvRmE29KZ9H8g3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757950136; c=relaxed/simple;
-	bh=FrUwLVp9oT4QMuvl2+RLd/Htn+U5s410/r63EHY3p/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BC95zh2PsgtYECXs8f3R1UWLKzMUiK9FLpTojLluOIdQ6j01aqnHmiVNXmMGym5d+RownXwq27lU0z8mSzudUNvA7qdT8g3RSXhhMlzIXbhSz1hXatG29nS7lPhhDAYRDdRDvmmatpGvvSV7Uoe2SUFwdzZNm86DN1CtFIeEGOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zCU31LXs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=a6cJcrFi; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1757953677; c=relaxed/simple;
+	bh=dp3PdjDdnBCDNCoLo5pYI/FI1SjBH+7I+EFb+CU2Nb4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=kxakYhTmnmfanSu45BTTORdQktLlrbU/9oetWt4yReKYjHdolyKL2zxcsHiKZ2gmJA6oM4a33xcVK7o5SrA09yz1v9tXbnieu+sL9fHIB4yo0WvNTUuK4pmNqB55GQPIqMXWOgm+qccZHjs1sTSKHvV1ARVhC1iOgmL6upjcW9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JcG67AXa; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zCU31LXs";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="a6cJcrFi"
-Date: Mon, 15 Sep 2025 17:28:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1757950132;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QS0vbJrwIK1VQTFT5zhVSNs9IJ/m8dvIWJUpIwiwK8U=;
-	b=zCU31LXs/r0NGtwvRYwyysXxFYv7vsG9uosroledtZJ4oPNVAhwzeO/r6oZJbs/w40Cec0
-	VJccwLhaWHTDAEUV/ObtVc4pTMpPzw4AYhiVLB6HV2hl5tDVpmQiFmg5J6dzNfQ8IQcPM2
-	s2RS2GieVF9l0Gj4i+0oENdKnr4NzjPIl+Z2Hy5785y0QdFSfGkNYCxWkQLXxO9tocxls6
-	XhHUPLLpL7m2UTVLo7+0G+fQvcZaFoU2Vy3HhUAN+WQAh+vrYJHnR5X2S3u+HkPohrrPrF
-	lS797pwiQe9KEEh8yUtBs3kMZd4cInErQ1Sv0MMlyjGkS81bxbyp5xagBoUfPA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1757950132;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QS0vbJrwIK1VQTFT5zhVSNs9IJ/m8dvIWJUpIwiwK8U=;
-	b=a6cJcrFit+gRGaEG5ZVVlq82BoXzdMzQMe7ukHCn7C4gasz64Ln14c26jcIoins5RLhWvQ
-	XFJiQd3O2TLNwoCg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: syzbot <syzbot+10b4363fb0f46527f3f3@syzkaller.appspotmail.com>,
-	tglx@linutronix.de, bp@alien8.de, dave.hansen@linux.intel.com,
-	hpa@zytor.com, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, mingo@redhat.com, perex@perex.cz,
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com, x86@kernel.org
-Subject: [PATCH] ALSA: pcm: Disable bottom softirqs as part of
- spin_lock_irq() on PREEMPT_RT
-Message-ID: <20250915152851.-ATGMKhp@linutronix.de>
-References: <68b1f3ab.a70a0220.f8cc2.00f0.GAE@google.com>
- <68b2406a.a00a0220.1337b0.001e.GAE@google.com>
- <20250904102056.YCByXJXj@linutronix.de>
- <878qiutsdu.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JcG67AXa"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45f2acb5f42so11189725e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 09:27:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757953673; x=1758558473; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iiRzAGd5Bu7sXKaTAGDSR0/OTr/xNf1IsKHtXs+OV+4=;
+        b=JcG67AXaTbFSqagsquxAd8ec/szdxgcgpcmr+tamhwtufryTXW1d3gqyskQYvS8zjx
+         3KqsTv5NgoGIxuisTcN0QpHEBvPoQHb0E/gEivLLla/KsCGEA7SsbY8fu0vlPej8TjwQ
+         G7x7MWBl7znyDJSiE2uDRezgM43/VHCgvQZyPWnyjahwORcFMnctBNsvOhQKU+aVue3g
+         aMIHERTYPm2MwbcSrAt/wMVPkL7yrdKAgTPIDNWcPpa/+2lo1mNYV3yloQZjk2k7lv4V
+         +0i+WMy0kQCatkaf38i76PoNINL7zgZJKWJZnApKarAPn7XB6NeS66arzn08WIHyVzob
+         BUWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757953673; x=1758558473;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iiRzAGd5Bu7sXKaTAGDSR0/OTr/xNf1IsKHtXs+OV+4=;
+        b=s6FyQsL8X9+6ZuZhQwDZhThANPd6JPYRCPLK1/9GnamJbO33A3dfKDboojEmNyQGiP
+         lFai/CW7iCwdhg6C52H0/HfuAGxZRPe4aCILSz/Hvp4hVXIBspc0bUCslzUbOqsAJtGy
+         aXK5OKBIJeLvWmawh/8L9mIhaSTveEPX6O3/y0/dDxaGOPyS2u2ncWcEYhseqYjxKa02
+         aEl3eJ9JJ0z4QOjRbmTCxdB3Ui8H+mpfgggoumXSsBvcZ3K6JdfsTpouZgk30cH4/rtr
+         ecsSTQ0mn5oTLQ1f/8xYxNYpvVqC56qwwPxn3KjbEoXfFapLeYbFS28WQWPcTG6umvUj
+         Ejng==
+X-Forwarded-Encrypted: i=1; AJvYcCWW+VenEa2q3mMRqnmmljkVeovn7Tziu7gQPwOG8JXzzsRu9YCl0fACSJjuK1Gg3/vIaQxiEwUd0TlaKA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/JAx1/N3z6UyHynNGLMrOMTD3kwCQvjBbwtODYN6G4Jk9Wqt1
+	8jSlelpGX6cOYSZQzQgIe+1A2dQonCSlUkiceswhvcmzO6sB9Xg7xqEhl0Pg5k5gGvo=
+X-Gm-Gg: ASbGnctmGSa0T0SbfRolvPZvLeiadO+KjZuZRxUuw/L62ZgLdyHuIpjHfgNJ0Yc1FrX
+	SQvSTYLoYLlhasqVSx5zAuj1KgZHn1CGBenJnOZZwJkNFoeOH9kJTPunfx2EQo24f869i/pb5Lg
+	MQpMqJdHdSqJfUOO0w2IJErwl9jRZe1cVvU6JJpRZ/wqh8mVpzIAWuUBpRD2JKwk5MHRGqnvymi
+	8ECnh6R+YndgA+T+YtUhPqACOiTrJEXkZS3JXccByKj2AUHwhr2ROqsqVIP2hrJRuEopIVBRKhZ
+	7bnJS6sr6SC/XR0daR+mflwMUU0GjWmhN6Tz2L8bM+VZo/fIOkQMefpSgYr1wh1zEObn8uTj9Ms
+	OOeVpRqGoYk620AJ7mZ27idqG+5smzbbAOBgvOUc=
+X-Google-Smtp-Source: AGHT+IHCMUIWvbbbrjTN7JnsuSXMb9IngsbObevrB939xc8giHGGWQEsHkncW8Ue/c6n31Nvg8IviQ==
+X-Received: by 2002:a05:600c:3506:b0:45f:2d7b:7953 with SMTP id 5b1f17b1804b1-45f2efdf77cmr28899635e9.18.1757953673398;
+        Mon, 15 Sep 2025 09:27:53 -0700 (PDT)
+Received: from orion.home ([2a02:c7c:7259:a00:e60f:4b6c:1734:808b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e9a066366fsm7857989f8f.44.2025.09.15.09.27.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Sep 2025 09:27:52 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+Date: Mon, 15 Sep 2025 17:27:48 +0100
+Subject: [PATCH v4 1/4] dt-bindings: sound: add bindings for pm4125 audio
+ codec
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <878qiutsdu.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250915-pm4125_audio_codec_v1-v4-1-b247b64eec52@linaro.org>
+References: <20250915-pm4125_audio_codec_v1-v4-0-b247b64eec52@linaro.org>
+In-Reply-To: <20250915-pm4125_audio_codec_v1-v4-0-b247b64eec52@linaro.org>
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ christophe.jaillet@wanadoo.fr, Alexey Klimov <alexey.klimov@linaro.org>
+X-Mailer: b4 0.14.2
 
-snd_pcm_group_lock_irq() acquires a spinlock_t and disables interrupts
-via spin_lock_irq(). This also implicitly disables the handling of
-softirqs such as TIMER_SOFTIRQ.
-On PREEMPT_RT softirqs are preemptible and spin_lock_irq() does not
-disable them. That means a timer can be invoked during spin_lock_irq()
-on the same CPU. Due to synchronisations reasons local_bh_disable() has
-a per-CPU lock named softirq_ctrl.lock which synchronizes individual
-softirq against each other.
-syz-bot managed to trigger a lockdep report where softirq_ctrl.lock is
-acquired in hrtimer_cancel() in addition to hrtimer_run_softirq(). This
-is a possible deadlock.
+The audio codec IC is found on Qualcomm PM4125/PM2250 PMIC.
+It has TX and RX soundwire slave devices hence two files are added.
 
-The softirq_ctrl.lock can not be made part of spin_lock_irq() as this
-would lead to too much synchronisation against individual threads on the
-system. To avoid the possible deadlock, softirqs must be manually
-disabled before the lock is acquired.
-
-Disable softirqs before the lock is acquired on PREEMPT_RT.
-
-Reported-by: syzbot+10b4363fb0f46527f3f3@syzkaller.appspotmail.com
-Fixes: d2d6422f8bd1 ("x86: Allow to enable PREEMPT_RT.")
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 ---
+ .../bindings/sound/qcom,pm4125-codec.yaml          | 134 +++++++++++++++++++++
+ .../devicetree/bindings/sound/qcom,pm4125-sdw.yaml |  79 ++++++++++++
+ 2 files changed, 213 insertions(+)
 
-I don't see a way around this given the report. I don't see how to
-address this within the softirq. Taking this lock as part of every
-spin_lock_irq() would be a mess and while testing I didn't even manage
-to boot the machine. So I probably missed a detail (but then I would
-only know how mad it really is).
+diff --git a/Documentation/devicetree/bindings/sound/qcom,pm4125-codec.yaml b/Documentation/devicetree/bindings/sound/qcom,pm4125-codec.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..6e2f103be1d32479ebe3420e06d1ebedaf3bc379
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/qcom,pm4125-codec.yaml
+@@ -0,0 +1,134 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/qcom,pm4125-codec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm PM4125 Audio Codec
++
++maintainers:
++  - Alexey Klimov <alexey.klimov@linaro.org>
++
++description:
++  The audio codec IC found on Qualcomm PM4125/PM2250 PMIC.
++  It has RX and TX Soundwire slave devices.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: qcom,pm4125-codec
++
++  reg:
++    description:
++      Specifies the SPMI base address for the audio codec peripherals. The
++      address space contains reset register needed to power-on the codec.
++    maxItems: 1
++
++  reg-names:
++    maxItems: 1
++
++  vdd-io-supply:
++    description: A reference to the 1.8V I/O supply
++
++  vdd-cp-supply:
++    description: A reference to the charge pump I/O supply
++
++  vdd-mic-bias-supply:
++    description: A reference to the 3.3V mic bias supply
++
++  vdd-pa-vpos-supply:
++    description: A reference to the PA VPOS supply
++
++  qcom,tx-device:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: A reference to Soundwire tx device phandle
++
++  qcom,rx-device:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: A reference to Soundwire rx device phandle
++
++  qcom,micbias1-microvolt:
++    description: micbias1 voltage
++    minimum: 1800000
++    maximum: 2850000
++
++  qcom,micbias2-microvolt:
++    description: micbias2 voltage
++    minimum: 1800000
++    maximum: 2850000
++
++  qcom,micbias3-microvolt:
++    description: micbias3 voltage
++    minimum: 1800000
++    maximum: 2850000
++
++  qcom,mbhc-buttons-vthreshold-microvolt:
++    description:
++      Array of 8 Voltage threshold values corresponding to headset
++      button0 - button7
++    minItems: 8
++    maxItems: 8
++
++  '#sound-dai-cells':
++    const: 1
++
++required:
++  - compatible
++  - reg
++  - vdd-io-supply
++  - vdd-cp-supply
++  - vdd-mic-bias-supply
++  - vdd-pa-vpos-supply
++  - qcom,tx-device
++  - qcom,rx-device
++  - qcom,micbias1-microvolt
++  - qcom,micbias2-microvolt
++  - qcom,micbias3-microvolt
++  - '#sound-dai-cells'
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/spmi/spmi.h>
++
++    spmi {
++        #address-cells = <2>;
++        #size-cells = <0>;
++
++        pmic {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            audio-codec@f000 {
++                compatible = "qcom,pm4125-codec";
++                reg = <0xf000>;
++                vdd-io-supply = <&pm4125_l15>;
++                vdd-cp-supply = <&pm4125_s4>;
++                vdd-pa-vpos-supply = <&pm4125_s4>;
++                vdd-mic-bias-supply = <&pm4125_l22>;
++                qcom,micbias1-microvolt = <1800000>;
++                qcom,micbias2-microvolt = <1800000>;
++                qcom,micbias3-microvolt = <1800000>;
++                qcom,rx-device = <&pm4125_rx>;
++                qcom,tx-device = <&pm4125_tx>;
++                #sound-dai-cells = <1>;
++            };
++        };
++    };
++
++    /* ... */
++
++    soundwire@a610000 {
++        reg = <0x0a610000 0x2000>;
++        #address-cells = <2>;
++        #size-cells = <0>;
++        pm4125_rx: audio-codec@0,4 {
++            compatible = "sdw20217010c00";
++            reg = <0 4>;
++            qcom,rx-port-mapping = <1 3>;
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/sound/qcom,pm4125-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,pm4125-sdw.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..23624f32ac305838da7b472ef25995197d42f2b6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/qcom,pm4125-sdw.yaml
+@@ -0,0 +1,79 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/qcom,pm4125-sdw.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm SoundWire Slave devices on PM4125/PM2250 PMIC audio codec.
++
++maintainers:
++  - Alexey Klimov <alexey.klimov@linaro.org>
++
++description:
++  The audio codec IC found on Qualcomm PM4125/PM2250 PMICs.
++  It has RX and TX Soundwire slave devices.
++
++properties:
++  compatible:
++    const: sdw20217010c00
++
++  reg:
++    maxItems: 1
++
++  qcom,tx-port-mapping:
++    description: |
++      Specifies static port mapping between device and host tx ports.
++      In the order of the device port index which are adc1_port, adc23_port,
++      dmic03_mbhc_port, dmic46_port.
++      Supports maximum 2 tx soundwire ports.
++
++      PM4125 TX Port 1 (ADC1,2 & DMIC0 & MBHC)    <=> SWR0 Port 1
++      PM4125 TX Port 2 (ADC1 & DMIC0,1,2 & MBHC)  <=> SWR0 Port 2
++
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 2
++    maxItems: 2
++    items:
++      enum: [1, 2, 3, 4]
++
++  qcom,rx-port-mapping:
++    description: |
++      Specifies static port mapping between device and host rx ports.
++      In the order of device port index which are hph_port, clsh_port,
++      comp_port, lo_port, dsd port.
++      Supports maximum 2 rx soundwire ports.
++
++      PM4125 RX Port 1 (HPH_L/R)       <==>    SWR1 Port 1 (HPH_L/R)
++      PM4125 RX Port 2 (COMP_L/R)      <==>    SWR1 Port 3 (COMP_L/R)
++
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 2
++    maxItems: 2
++    items:
++      enum: [1, 2, 3, 4, 5]
++
++required:
++  - compatible
++  - reg
++
++oneOf:
++  - required:
++      - qcom,tx-port-mapping
++  - required:
++      - qcom,rx-port-mapping
++
++additionalProperties: false
++
++examples:
++  - |
++    soundwire@a610000 {
++        reg = <0x0a610000 0x2000>;
++        #address-cells = <2>;
++        #size-cells = <0>;
++        pm4125_rx: codec@0,1 {
++            compatible = "sdw20217010c00";
++            reg = <0 1>;
++            qcom,rx-port-mapping = <1 3>;
++        };
++    };
++...
 
-This can be an intermediate solution until
-	https://lore.kernel.org/all/20250901163811.963326-4-bigeasy@linutronix.de/
-
-gets merged and the !PREEMPT_RT_NEEDS_BH_LOCK case the default (i.e. not
-a config option anymore).
-
- sound/core/pcm_native.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
-
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 1eab940fa2e5a..68bee40c9adaf 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -84,19 +84,24 @@ void snd_pcm_group_init(struct snd_pcm_group *group)
- }
- 
- /* define group lock helpers */
--#define DEFINE_PCM_GROUP_LOCK(action, mutex_action) \
-+#define DEFINE_PCM_GROUP_LOCK(action, bh_lock, bh_unlock, mutex_action) \
- static void snd_pcm_group_ ## action(struct snd_pcm_group *group, bool nonatomic) \
- { \
--	if (nonatomic) \
-+	if (nonatomic) { \
- 		mutex_ ## mutex_action(&group->mutex); \
--	else \
--		spin_ ## action(&group->lock); \
-+	} else { \
-+		if (IS_ENABLED(CONFIG_PREEMPT_RT) && bh_lock)   \
-+			local_bh_disable();			\
-+		spin_ ## action(&group->lock);			\
-+		if (IS_ENABLED(CONFIG_PREEMPT_RT) && bh_unlock) \
-+			local_bh_enable();                      \
-+	}							\
- }
- 
--DEFINE_PCM_GROUP_LOCK(lock, lock);
--DEFINE_PCM_GROUP_LOCK(unlock, unlock);
--DEFINE_PCM_GROUP_LOCK(lock_irq, lock);
--DEFINE_PCM_GROUP_LOCK(unlock_irq, unlock);
-+DEFINE_PCM_GROUP_LOCK(lock, false, false, lock);
-+DEFINE_PCM_GROUP_LOCK(unlock, false, false, unlock);
-+DEFINE_PCM_GROUP_LOCK(lock_irq, true, false, lock);
-+DEFINE_PCM_GROUP_LOCK(unlock_irq, false, true, unlock);
- 
- /**
-  * snd_pcm_stream_lock - Lock the PCM stream
 -- 
-2.51.0
+2.47.3
 
