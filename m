@@ -1,159 +1,247 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8882E54B6
-	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 08:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A51C2EA175
+	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 08:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757923342; cv=none; b=PO7qP7yKFU/V82hn0dlHCf3z7SNTTA+KYxBrefCgL1SyfHHQXVGcQ5abBmhGEvEqrhtWEpcVjv6ILDHSyB9XH//G2SRwD9bI3lUMBfpHSqv6PCnC7JT6TWBv63bFEq13aliPSM39bOwKgaLlRSmI/QCESetejdmqnK78U5IaHKw=
+	t=1757923700; cv=none; b=FwCBH3lXt8SyXRYWNL1WRkyBKhJEs0US1hKN7MWQDrUYAQ6vFjUfhcChd9Ac+m8nsQPLMfJYlnzI0KU5nodBxoChQGRxawjIhLiuHXzsuqBGqM24KzPw1tb/e/9WtQvpxKPx9fudTL6zRwduiFNNKKu2W1WSAMuyI61K/A3vGtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757923342; c=relaxed/simple;
-	bh=NxN20Gn0aHENTScrUN7kSeNIZDjx6Vfsg2GuEin00cI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pEFeudZFy4pEzQTkZUBXqBYso2n5mZloecOtls1wKadQtX6HxlNTTHALea4aY+RDUgaPUKsJxzv9L10g/HRCpuPYJKMQXqaU/H+QSTqhE/rT2EWZzou0RpOA+9HuvaDKQZwsti+i/snmcyCivDyPyh3hkXJM+sKn2E6qE2tMFgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=E+Z3o74A; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1757923700; c=relaxed/simple;
+	bh=nZCLcCQFq2IJeLgrRSkd8ZecKWJX4Xujz9WUpsDZapw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C8cxpPwqUYqMT2usuk4YPsIQBb/UwYT75zLYqpL5Q0HQMj0fFSJLjP8F67MLtFhSIMr6mZQmLMtvvT+0nwdh43WqIbybG/EXzekn7ZC+fzwiZQnJz+bsPFdbLKYr5nr8UNorZkjI0en++vrCodeyfRFo2732m+8q+z+2CFrWYZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hjLnS2zz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q/9Yk1kt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hjLnS2zz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q/9Yk1kt; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="E+Z3o74A"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F7I03l024597
-	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 08:02:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZkqyB913YY3yMnVNUtYTJNCapGusGIc3uihCU//zesY=; b=E+Z3o74AcYrQCKfJ
-	q++aZsY3x5gkBr3fR2bN23BcfOK6+uSrLRIhdG5hmkc0vop4MqS0u6EVdS28qPoV
-	+eT3NYEddOpyIszr5MYllrQTXdzh0vkcORMBlE8tfl9aHQlbs+3InWCJjMnOmZFl
-	DKhB1USPR+ni34xj1RZB9RoKUN9xGoBp4j0beyNMwJolUSIfF7idDLiR1LcH2+ai
-	UC+19lTNnkzpVkzkRE5O6fuleOYJrceegAczVRj2NWSftphzWJ/zkebMejZ/E7Ws
-	ZVbqUR6OZcielbTxVxBdjMFVAZMqqpYPLKNfmwZt5/5tcfzS1Vvw4RQyCgxG4boi
-	K6oNpA==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 494wyr47ev-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 08:02:19 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4b302991816so83862511cf.0
-        for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 01:02:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757923338; x=1758528138;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZkqyB913YY3yMnVNUtYTJNCapGusGIc3uihCU//zesY=;
-        b=rdlvY2IxhzyTD25uv7s1IuuiVOXCoaL1PiQ2EsRVIdc3tK2ul3/8EkuJe/cekEvFaF
-         +xbZigzGPMRTF9EqVdIQWvutTtGa/MfXQ7at477uNKhmBLp4Bggw+BYL7lZMIJaualQH
-         mE6Ekz/Ji+YG3OT6H9A3A0p5xg+u+BRtb/wcSmOfgkvF8zWVzqdCfFX1Rg+TnDo0PfOZ
-         WyK48CUADo/PYijOl6uEIvCIj7KfwAxO25HMS8mBbai/3mLd2USRRXsvKy9vd6ebZijl
-         0vJ0j6NOSdC6mChKl1IQhxlh4q1p3m2Xvc5P0BUg2VwRUUP77kHrElysCQ0q6H+SEB6y
-         rMEg==
-X-Gm-Message-State: AOJu0YyCD8TxKvA2m9gONtVejv0PH1SnzlBIGfEhNZEAiHX9jhcZHNUu
-	+CNNpcmnZyxetGgnZz4F/hcTSuIqQYYROV6lo+K6PPUM3eeGZjgoOAauINmEMvrXzWfq1pTazCU
-	ag8VCUuRRKuFEHI34NP7vxTkbt2Vim7U9BSkdTUpqCjzEMfcflNGRKHHkoApF20zmlg==
-X-Gm-Gg: ASbGncvfNqUCD0MEqao5lHf/JxJscoI7HbGNkOstedBahyhTqGpIidsfybpXG3w5mj3
-	T7IDTis90jYXwnWYBS1zPgqwKGxeiY07ewCnqwk97UNvVBbf07ROTEfz4yK7CfhGOq5eEKE8tHr
-	bHOFt51oOUxt7GL4YzKuxQVC+JYGIxpzpbtjL2QRbkKMdkOG3Y3J6uoAWfTLS2AfgaNoKACnEZ3
-	NlIBWIu7xga+Ja32MysDXSvafNTBjx6QGE9MUQx/qKr5Eh7G8bJM25kfvBXQqBw8s8TwNYiyvsQ
-	CZDo1V1JEEpynSotWZgmzQ4eGRcOZJsYHySlWySwr6QvzaXqwJ7YWeZP+GBVgdvyLy0=
-X-Received: by 2002:a05:622a:247:b0:4b6:3178:b253 with SMTP id d75a77b69052e-4b77d06a1f4mr163367851cf.58.1757923338473;
-        Mon, 15 Sep 2025 01:02:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFNw31LJSCp0juE0c9doaAiFovtWcdc7NGc8wtk3ZUQMcSD0QCoI0uGjhTOyxUVgoOmvnfINA==
-X-Received: by 2002:a05:622a:247:b0:4b6:3178:b253 with SMTP id d75a77b69052e-4b77d06a1f4mr163367321cf.58.1757923337914;
-        Mon, 15 Sep 2025 01:02:17 -0700 (PDT)
-Received: from [192.168.68.120] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3e9fd89af70sm4863751f8f.43.2025.09.15.01.02.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Sep 2025 01:02:17 -0700 (PDT)
-Message-ID: <f13c79a7-9595-4795-bd74-ea440f74a12f@oss.qualcomm.com>
-Date: Mon, 15 Sep 2025 09:02:16 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hjLnS2zz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q/9Yk1kt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hjLnS2zz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q/9Yk1kt"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6DCDC1F7EC;
+	Mon, 15 Sep 2025 08:08:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757923695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bHErkFNgVoEXeacOUH5sYxdbGPnKlzShAmrSQM7XABw=;
+	b=hjLnS2zzvGcP8PolHl3YSpvI7jZpoAP9UqQwgB7BMv34Nszqgzt623JQT+rg0ZaSoIbrPv
+	fKgFDaKFB4qIthsasZvBJRmJivWe4SsGYjlQFfs0WL/HvmEak4j7F2PBumb1oNTKYvoggb
+	yxkh2aXMFGmVp0EGRkF0cQ/tK99P0Y8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757923695;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bHErkFNgVoEXeacOUH5sYxdbGPnKlzShAmrSQM7XABw=;
+	b=q/9Yk1ktZiQ5A2FORrPczJdkCTESVMZSyteeSr70fKEyR3UXvkjtNvKLt2yLKW484yN9Yo
+	v1Qf6OExZ5G1o9DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757923695; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bHErkFNgVoEXeacOUH5sYxdbGPnKlzShAmrSQM7XABw=;
+	b=hjLnS2zzvGcP8PolHl3YSpvI7jZpoAP9UqQwgB7BMv34Nszqgzt623JQT+rg0ZaSoIbrPv
+	fKgFDaKFB4qIthsasZvBJRmJivWe4SsGYjlQFfs0WL/HvmEak4j7F2PBumb1oNTKYvoggb
+	yxkh2aXMFGmVp0EGRkF0cQ/tK99P0Y8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757923695;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bHErkFNgVoEXeacOUH5sYxdbGPnKlzShAmrSQM7XABw=;
+	b=q/9Yk1ktZiQ5A2FORrPczJdkCTESVMZSyteeSr70fKEyR3UXvkjtNvKLt2yLKW484yN9Yo
+	v1Qf6OExZ5G1o9DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EDAEE1368D;
+	Mon, 15 Sep 2025 08:08:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aQOgOG7Jx2ggYQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 15 Sep 2025 08:08:14 +0000
+Date: Mon, 15 Sep 2025 10:08:14 +0200
+Message-ID: <877by0p28h.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cryolitia PukNgae <cryolitia@uniontech.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Kexy Biscuit <kexybiscuit@aosc.io>,
+	Nie Cheng <niecheng1@uniontech.com>,
+	Zhan Jun <zhanjun@uniontech.com>,
+	Feng Yuan <fengyuan@uniontech.com>,
+	qaqland <anguoli@uniontech.com>,
+	kernel@uniontech.com
+Subject: Re: [PATCH v2 0/3] ALSA: usb-audio: add module param device_quirk_flags
+In-Reply-To: <408B48A84E5811C4+555ae002-5b34-4f90-9452-a3458a11f10f@uniontech.com>
+References: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
+	<87a52zr9kq.wl-tiwai@suse.de>
+	<408B48A84E5811C4+555ae002-5b34-4f90-9452-a3458a11f10f@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] ASoC: qcom: sc8280xp: Fix sound card driver name match
- data for QCS8275
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
-        prasad.kumpatla@oss.qualcomm.com, ajay.nandam@oss.qualcomm.com,
-        stable@vger.kernel.org
-References: <20250914131549.1198740-1-mohammad.rafi.shaik@oss.qualcomm.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20250914131549.1198740-1-mohammad.rafi.shaik@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: JkBQ-RjwXFlSx103S-wHiGotC1RXX5e4
-X-Authority-Analysis: v=2.4 cv=SouQ6OO0 c=1 sm=1 tr=0 ts=68c7c80b cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=3r9HinHMD_fb42oTSBcA:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAwMCBTYWx0ZWRfX5pK3uuVqktqQ
- MkwTFs0RTvQszoVD0QroeD9ruRpN4wQrPKo/IVK71LVKH9HZGGDTKI9DxYtet46GpcULC/W2UR4
- iJpvMZTfhLtN6JODiujDtv2Ht8mvBsOd8F8QBbQRWt+kdXeh6EihEBaYqOACVEFrFFs4GRJSBXR
- 8K36f0NN3JM6EKvErPbR/4KLEvw7gOjITGh2xOK1+cRH+yvGzVXOyTQYdvIvRFAfTZ/y7ZkDR0i
- Hjccn1EHWD46SegwhVuNS2mnH2FstBLm5AXtQugWn8tltL1w1hBk6apx94hXXReyn5GsTvHmS3q
- J4X+mDFrdAGsO1z8fuiDaZHmaVx5teHc6+A2PEXQtLejpyBrmdX9K1QYfl8e+xMKoGSUfvoJ5VB
- A9zo4DV/
-X-Proofpoint-GUID: JkBQ-RjwXFlSx103S-wHiGotC1RXX5e4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-15_03,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 phishscore=0 adultscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509130000
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-
-
-On 9/14/25 2:15 PM, Mohammad Rafi Shaik wrote:
-> The QCS8275 board is based on Qualcomm's QCS8300 SoC family, and all
-I guess you meant SoC instead of board here.
-
-> supported firmware files are located in the qcs8300 directory. The
-> sound topology and ALSA UCM configuration files have also been migrated
-> from the qcs8275 directory to the actual SoC qcs8300 directory in
-> linux-firmware. With the current setup, the sound topology fails
-> to load, resulting in sound card registration failure.
+On Mon, 15 Sep 2025 09:43:05 +0200,
+Cryolitia PukNgae wrote:
 > 
-> This patch updates the driver match data to use the correct driver name
-> qcs8300 for the qcs8275-sndcard, ensuring that the sound card driver
-> correctly loads the sound topology and ALSA UCM configuration files
-> from the qcs8300 directory.
 > 
-> Fixes: 34d340d48e595 ("ASoC: qcom: sc8280xp: Add support for QCS8275")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-
-LGTM,
-
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-
-
---srini
-> ---
->  sound/soc/qcom/sc8280xp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-> index 73f9f82c4e25..db48168b7d3f 100644
-> --- a/sound/soc/qcom/sc8280xp.c
-> +++ b/sound/soc/qcom/sc8280xp.c
-> @@ -186,7 +186,7 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
->  static const struct of_device_id snd_sc8280xp_dt_match[] = {
->  	{.compatible = "qcom,qcm6490-idp-sndcard", "qcm6490"},
->  	{.compatible = "qcom,qcs6490-rb3gen2-sndcard", "qcs6490"},
-> -	{.compatible = "qcom,qcs8275-sndcard", "qcs8275"},
-> +	{.compatible = "qcom,qcs8275-sndcard", "qcs8300"},
->  	{.compatible = "qcom,qcs9075-sndcard", "qcs9075"},
->  	{.compatible = "qcom,qcs9100-sndcard", "qcs9100"},
->  	{.compatible = "qcom,sc8280xp-sndcard", "sc8280xp"},
+> On 12/09/2025 23.09, Takashi Iwai wrote:
+> > On Fri, 12 Sep 2025 08:48:57 +0200,
+> > Cryolitia PukNgae via B4 Relay wrote:
+> >>
+> >> As an implementation of what has been discussed previously[1].
+> >>
+> >>> An open question is whether we may want yet a new module option or
+> >>> rather extend the existing quirk option to accept the strings
+> >>> instead.  Basically, when the given argument has a colon, it's a new
+> >>> syntax.  If it's only a number, it's an old syntax, and parse like
+> >>> before.  But, I'm open for either way (a new option or extend the
+> >>> existing one).
+> >>
+> >> I would like to add a new param. The existed param
+> >> `static unsigned int quirk_flags[SNDRV_CARDS]` seems to related to
+> >> some sequence the card probed. To be honest, I havn't fully understood
+> >> it. And it seems hard to improve it while keeping compatibility.
+> >>
+> >> 1. https://lore.kernel.org/all/87h5xm5g7f.wl-tiwai@suse.de/
+> >>
+> >> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+> >> ---
+> >> Changes in v2:
+> >> - Cleaned up some internal rebase confusion, sorry for that
+> >> - Link to v1: https://lore.kernel.org/r/20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com
+> >>
+> >> ---
+> >> Cryolitia PukNgae (3):
+> >>       ALSA: usb-audio: add two-way convert between name and bit for QUIRK_FLAG_*
+> >>       ALSA: usb-audio: add module param device_quirk_flags
+> >>       ALSA: doc: add docs about device_device_quirk_flags in snd-usb-audio
+> > 
+> > Well, what I had in mind is something like:
+> > 
+> > --- a/sound/usb/card.c
+> > +++ b/sound/usb/card.c
+> > @@ -73,7 +73,7 @@ static bool lowlatency = true;
+> >  static char *quirk_alias[SNDRV_CARDS];
+> >  static char *delayed_register[SNDRV_CARDS];
+> >  static bool implicit_fb[SNDRV_CARDS];
+> > -static unsigned int quirk_flags[SNDRV_CARDS];
+> > +static char *quirk_flags[SNDRV_CARDS];
+> >  
+> >  bool snd_usb_use_vmalloc = true;
+> >  bool snd_usb_skip_validation;
+> > @@ -103,8 +103,8 @@ module_param_array(delayed_register, charp, NULL, 0444);
+> >  MODULE_PARM_DESC(delayed_register, "Quirk for delayed registration, given by id:iface, e.g. 0123abcd:4.");
+> >  module_param_array(implicit_fb, bool, NULL, 0444);
+> >  MODULE_PARM_DESC(implicit_fb, "Apply generic implicit feedback sync mode.");
+> > -module_param_array(quirk_flags, uint, NULL, 0444);
+> > -MODULE_PARM_DESC(quirk_flags, "Driver quirk bit flags.");
+> > +module_param_array(quirk_flags, charp, NULL, 0444);
+> > +MODULE_PARM_DESC(quirk_flags, "Driver quirk overrides.");
+> >  module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
+> >  MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
+> >  module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
+> > @@ -692,6 +692,22 @@ static void usb_audio_make_longname(struct usb_device *dev,
+> >  	}
+> >  }
+> >  
+> > +static void set_quirk_flags(struct snd_usb_audio *chip, int idx)
+> > +{
+> > +	int i;
+> > +
+> > +	/* old style option found: the position-based integer value */
+> > +	if (quirk_flags[idx] &&
+> > +	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags))
+> > +		return;
+> > +
+> > +	/* take the default quirk from the quirk table */
+> > +	snd_usb_init_quirk_flags(chip);
+> > +	/* add or correct quirk bits from options */
+> > +	for (i = 0; i < ARRAY_SIZE(quirk_flags); i++)
+> > +		snd_usb_apply_quirk_option(chip, quirk_flags[i]);
+> > +}
+> > +
+> >  /*
+> >   * create a chip instance and set its names.
+> >   */
+> > @@ -750,10 +766,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
+> >  	INIT_LIST_HEAD(&chip->midi_v2_list);
+> >  	INIT_LIST_HEAD(&chip->mixer_list);
+> >  
+> > -	if (quirk_flags[idx])
+> > -		chip->quirk_flags = quirk_flags[idx];
+> > -	else
+> > -		snd_usb_init_quirk_flags(chip);
+> > +	set_quirk_flags(chip, idx);
+> >  
+> >  	card->private_free = snd_usb_audio_free;
+> >  
+> > .... and snd_usb_apply_quirk_option() adds or corrects the quirk bits
+> > based on the string value if it matches with the probed device.
+> > This function will be similar like your parser.
+> > 
+> > In that way, the old quirk_flags options work as-is, while you can use
+> > a new style by passing values with "X:Y:Z" style.
+> > 
+> 
+> Thanks for your review. To be honest, I haven't understand how
+> `static unsigned int quirk_flags[SNDRV_CARDS]` works. e.g., based on the
+> current array form, how to pass a flag, and what does the index of the
+> array means.
+> 
+> Could you please explain it for me. thx.
 
+That option works just like other options of the card arrays -- each
+value is passed sequentially to the device of the given probe slot.
+That is, the first probed device takes quirk_flags[0], the second
+probed device takes quirk_flats[1], and so on.
+Admittedly, although this works fine for the static probe
+configuration like PCI devices or such, it's not ideal with
+USB-audio.  So the new format is requested.
+
+
+Takashi
