@@ -1,111 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E206FEED8
-	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 02:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228182652A4
+	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 07:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757905027; cv=none; b=VtYCkokY5AzMoVB1w5ltmv4MKCqavP71nBF/hnAAEoraJGNyZz5N9WjiPB0lAH9TqqLNtr8VCLqIoHTq7Ok5G/zKry6qgQR3o2anseMWyiK1oh8Rj7S4sg0s/CqyyRiRs5eQ6VaZREOWbmz93X0upF5tcM6xw5/h/v9vUXlNXDw=
+	t=1757921131; cv=none; b=ScWKDw1y+BgmQqm3lmxhJq3I5EXXbZFVScGmkPOttHRgOL6wcvXhRWWj2GCrp/wpQZ5FBTZcna4xvjWUNFOqZHmmfGGb921zxjucvR9JF1kImo34nBphOQpn/NwvZultX1mL9USunWiEaWRWlqWAJ1IWX3m7KCyri1kFK0ikRak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757905027; c=relaxed/simple;
-	bh=3CXzRgbkoTqMNR2QyzpzNkKabUGD5hozElX/LcvZJM4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o5+XX/EjPCxrGPEO6Dhw92AB5kvNEdMCD/N4K+X0xQX8yXkpSL0NDDqAHaBzNCtvdX+Jvn8nATu7elBPKdNAfJ3OkWKFAszZxQXrakYFiSXqcVfg0EFM9ySIGCHlZnYccJuh+Up6cWiDxwLt373H+nAmFOGl5gRn6CN3u/rofSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FgfQfLtJ; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1757921131; c=relaxed/simple;
+	bh=8fCUQ11DL5F/0Lqpm8GDwb6J3QMNm+ADL0F4mfEKQwM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lwzfRCRZCywFeBZzvICqXOb5MHtGcKXPQx2h3nb/vESoHLmB1ABD+w1iXoJ6x+psLXgbgAN6DeIhXJR7XV/DhfzdS4HYzKKaMneokd288rGMD4b+tJSjITbpyVi6ZLg6oFBKWcG5osGqqrCQgT2s/9mF3J5x7yKmw64qSC5w1R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p3kZ88AV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FxOytutH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p3kZ88AV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FxOytutH; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FgfQfLtJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757905026; x=1789441026;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3CXzRgbkoTqMNR2QyzpzNkKabUGD5hozElX/LcvZJM4=;
-  b=FgfQfLtJSLIHHwGw/eoM9s433dk40VBFiJNLRAm3UDdZTRjp+PQxUdZF
-   aaQI9xV0SmalWNH88XnAFtSVcnQO/z18h/zsBSl2o/jGuGb3jJch0GjUd
-   95zuNR8U8ZqYtXmQUFngTA+LghjtiyBWezqvvJDSWkO+HsyBk563Vsiwm
-   GewnPXdskTqDF3As5RFzSawWxGw0TW/uOGhvxAmVjh4LJRjE2IZ2rMe5E
-   1Mma1z4vJT0UjE7i4xCrUiPDH2AY7SusOF5/pkls+RKnkVT9d30hl/tS9
-   Xd50y/zeVde7T5LGC+sXJqsKFkbGJ+4mjR3oqpQ2uqMufS2tktRqLx9M5
-   A==;
-X-CSE-ConnectionGUID: ++oPnz5oQUCf2QpmbpG6yA==
-X-CSE-MsgGUID: BZ/cldZdRImmMWjAdv1TTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="59194015"
-X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
-   d="scan'208";a="59194015"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 19:57:05 -0700
-X-CSE-ConnectionGUID: eF/JfOOOS32mo4sOcgCcOA==
-X-CSE-MsgGUID: 8XXh2kv1Qvi7RuoXlRY7mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,265,1751266800"; 
-   d="scan'208";a="178503531"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2025 19:57:03 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com
-Subject: [PATCH] ASoC: Intel: PTL: Add entry for HDMI-In capture support to non-I2S codec boards.
-Date: Mon, 15 Sep 2025 10:56:54 +0800
-Message-ID: <20250915025655.1154279-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p3kZ88AV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FxOytutH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p3kZ88AV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FxOytutH"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4CF9B336FF;
+	Mon, 15 Sep 2025 07:25:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757921128; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JMd/nitlP8qOmRswa/STelaVTi/2uUpbJw5r3qvELl0=;
+	b=p3kZ88AVDINYgirTiRNy7MuPJr+zSmBv5Tf1yZNg0bqMw7HmF5Acjz1QahXg4FnHmkw2bL
+	j6EKrSP5ttv8Ld2lVHkP4MyakP9oEKP5IMVgoyHT63KjgdoHWPU0uweDoR1e5kPHOaBKPV
+	k4o47gy64vfCu94xP5P3wFafFX3Qk24=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757921128;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JMd/nitlP8qOmRswa/STelaVTi/2uUpbJw5r3qvELl0=;
+	b=FxOytutHmctOdbjNXNqafKylY725oOB8t5y5u39t7tIQas/dYoeOcNZCUFGyrZppOTRw+Z
+	Q9mmIi9bASpulCBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1757921128; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JMd/nitlP8qOmRswa/STelaVTi/2uUpbJw5r3qvELl0=;
+	b=p3kZ88AVDINYgirTiRNy7MuPJr+zSmBv5Tf1yZNg0bqMw7HmF5Acjz1QahXg4FnHmkw2bL
+	j6EKrSP5ttv8Ld2lVHkP4MyakP9oEKP5IMVgoyHT63KjgdoHWPU0uweDoR1e5kPHOaBKPV
+	k4o47gy64vfCu94xP5P3wFafFX3Qk24=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1757921128;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JMd/nitlP8qOmRswa/STelaVTi/2uUpbJw5r3qvELl0=;
+	b=FxOytutHmctOdbjNXNqafKylY725oOB8t5y5u39t7tIQas/dYoeOcNZCUFGyrZppOTRw+Z
+	Q9mmIi9bASpulCBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CF811372E;
+	Mon, 15 Sep 2025 07:25:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id k+FOBWi/x2g4UgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 15 Sep 2025 07:25:28 +0000
+Date: Mon, 15 Sep 2025 09:25:27 +0200
+Message-ID: <87cy7sp47s.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Bou-Saan Che <yungmeat@inboxia.org>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] ALSA: hda: cs35l41: Support Lenovo Thinkbook 13x Gen 5
+In-Reply-To: <20250914191537.2530-1-yungmeat@inboxia.org>
+References: <20250914191537.2530-1-yungmeat@inboxia.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
 
-From: Balamurugan C <balamurugan.c@intel.com>
+On Sun, 14 Sep 2025 21:15:37 +0200,
+Bou-Saan Che wrote:
+> 
+> This laptop does not contain _DSD so needs to be supported using the
+> configuration table.
+> 
+> Signed-off-by: Bou-Saan Che <yungmeat@inboxia.org>
 
-Adding HDMI-In capture support for the PTL products which doesn't have
-onboard I2S codec. But need to support HDMI-In capture via I2S and
-audio playback through HDMI/DP monitor.
+Thanks, applied all three patches now to for-linus branch.
 
-Signed-off-by: Balamurugan C <balamurugan.c@intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/intel/boards/sof_ssp_amp.c              | 6 ++++++
- sound/soc/intel/common/soc-acpi-intel-ptl-match.c | 6 ++++++
- 2 files changed, 12 insertions(+)
 
-diff --git a/sound/soc/intel/boards/sof_ssp_amp.c b/sound/soc/intel/boards/sof_ssp_amp.c
-index 48ee5353bdf1..729c0cd7c19c 100644
---- a/sound/soc/intel/boards/sof_ssp_amp.c
-+++ b/sound/soc/intel/boards/sof_ssp_amp.c
-@@ -216,6 +216,12 @@ static const struct platform_device_id board_ids[] = {
- 					/* SSP 0 and SSP 2 are used for HDMI IN */
- 					SOF_HDMI_PLAYBACK_PRESENT),
- 	},
-+	{
-+		.name = "ptl_lt6911_hdmi_ssp",
-+		.driver_data = (kernel_ulong_t)(SOF_SSP_MASK_HDMI_CAPTURE(0x5) |
-+					/* SSP 0 and SSP 2 are used for HDMI IN */
-+					SOF_HDMI_PLAYBACK_PRESENT),
-+	},
- 	{ }
- };
- MODULE_DEVICE_TABLE(platform, board_ids);
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index e292701dfcfe..3c8b10e21ceb 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -61,6 +61,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_machines[] = {
- 					SND_SOC_ACPI_TPLG_INTEL_SSP_MSB |
- 					SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER,
- 	},
-+	/* place amp-only boards in the end of table */
-+	{
-+		.id = "INTC10B0",
-+		.drv_name = "ptl_lt6911_hdmi_ssp",
-+		.sof_tplg_filename = "sof-ptl-hdmi-ssp02.tplg",
-+	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_ptl_machines);
--- 
-2.43.0
-
+Takashi
