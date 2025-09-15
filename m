@@ -1,137 +1,135 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BAED2FC037
-	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 10:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE392FF648
+	for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 10:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757932471; cv=none; b=sfsfoI04/mLWkcsa/GSu3HXlQAK6hfQPOPzIlmvUDqZjq7Xd92l/tck7oYyrIIkSRmkTwqmIADStX/uCpKfc3tW4epzSslCV2y2125d3mN29jpWSFfshtpDcb9RaDyZWBDNDzOye1U8wkDBgYI1h4OWRf6wXzQkvCDBTsweDdvY=
+	t=1757933434; cv=none; b=m5OzjM+7J+TLt8SpfJGMtLu+skP9+yYV3kH1GfJekzEyUP7tCX8dFzEgpLtsx15Me2nLOSbxoWMaDcfTjREK+1T+bI62BrqhzipywGhxBx31R9pbhfkwEOE0LB+ffwl+j7jJ1qss61pvLmrOLOLGMP9JZsiu3ntzjqmgWiZijek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757932471; c=relaxed/simple;
-	bh=l0IxsEhh0UI2MeXsRkhtWOxyRsRXivFNd5jOuvoFet4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BqxU7+dd64YCXrfw6/MJlJiMF/Bb4yXoJduS2EigR3PKXBEyxyEx4uanRUgYoeXK4uG9n6vidXyrBAxfIrlViMVIi5vC05nrw7efLfVky5PUn7Hek3O77JafHjNmrSmaf6EMzrfvO/e5TPUCxik5rN5Qp0dwZej9D9/nR0Pq/ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=emt6egCR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZX83q5nv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=emt6egCR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZX83q5nv; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1757933434; c=relaxed/simple;
+	bh=kARumPxqfmMMWgp1NvnsY+8lw/OMkVWPKeLFtKSIlME=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KIilW2HGcbFcEuUhOfaG9zJ1etuUqh7hkPv31S8Boly560ON5dicYUsYbDA7q1WPPUuZSXlYBddW80po8NfDVzZzqye6mPZIuvSRG/bRttA/oyxWxL9MsvDPFYy51CeFzXyxoQ7aFzTPMdepcq5XwnPoV5zYgpFLKTkX65Leu54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dsm1gepW; arc=none smtp.client-ip=74.125.224.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="emt6egCR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZX83q5nv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="emt6egCR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZX83q5nv"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A030F22C0A;
-	Mon, 15 Sep 2025 10:34:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757932467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9SW5c+gjQIhlWqokd5OPBkQQfnZsSckbhdO380pLmBQ=;
-	b=emt6egCR9DHZpy+AhzKmh745PRSdMlVEhOM+xCzcHW5SGL5aeMR7aMhlbXCOuRAs1KDbq7
-	Xgz5w8tno1Vq/h/S5rhSjyLIEBkXxSciWn2DkXBBK8RSAmqQ2MDxbWL5/2lPDD853iclbK
-	kAAgj5MGCMfyr0WaRQyv+SuTllDUSQU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757932467;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9SW5c+gjQIhlWqokd5OPBkQQfnZsSckbhdO380pLmBQ=;
-	b=ZX83q5nvJ3+IWo/tdKUmgL4nRmLEmGCYG/aaGFvdHnxo29qg3Tp1uGj+8itjwSMxs/Ly+P
-	D4iW5XwriXv1/6BA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=emt6egCR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZX83q5nv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757932467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9SW5c+gjQIhlWqokd5OPBkQQfnZsSckbhdO380pLmBQ=;
-	b=emt6egCR9DHZpy+AhzKmh745PRSdMlVEhOM+xCzcHW5SGL5aeMR7aMhlbXCOuRAs1KDbq7
-	Xgz5w8tno1Vq/h/S5rhSjyLIEBkXxSciWn2DkXBBK8RSAmqQ2MDxbWL5/2lPDD853iclbK
-	kAAgj5MGCMfyr0WaRQyv+SuTllDUSQU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757932467;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9SW5c+gjQIhlWqokd5OPBkQQfnZsSckbhdO380pLmBQ=;
-	b=ZX83q5nvJ3+IWo/tdKUmgL4nRmLEmGCYG/aaGFvdHnxo29qg3Tp1uGj+8itjwSMxs/Ly+P
-	D4iW5XwriXv1/6BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 734B11368D;
-	Mon, 15 Sep 2025 10:34:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6MHEGrPrx2gPEwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 15 Sep 2025 10:34:27 +0000
-Date: Mon, 15 Sep 2025 12:34:26 +0200
-Message-ID: <87jz203sy5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: John Keeping <jkeeping@inmusicbrands.com>
-Cc: linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: serial-generic: remove shared static buffer
-In-Reply-To: <20250915094220.2959202-1-jkeeping@inmusicbrands.com>
-References: <20250915094220.2959202-1-jkeeping@inmusicbrands.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dsm1gepW"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-62adfdda606so985268d50.2
+        for <linux-sound@vger.kernel.org>; Mon, 15 Sep 2025 03:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757933430; x=1758538230; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=a3UAx19vK1YiNrAi97n0gU/rRiRg+M8i65mS2Lnx+jM=;
+        b=dsm1gepW+64GUvS7kMWqaTSMnvOb4DE2XTTvWEeHN+RE/+11IMxt7/VT5nrAsrozPj
+         LjW2VVhrxJupJV9qXK3qo8acFznWW8EUfnwnoI4vzGcKbj1UMmf+bhA1qOvMvaSEpSri
+         JxWMtmdA/Sij1xAwa/AkWOoJWA5FL9LcqfNjqBUys25YDzn55KJIvJEGu+5RMQH+vPpr
+         P8UCDM4suEIwAfOvYk3SwbegH35M/X9YI1gUIk0XqsFMHy+ZES0t8yI4pLpuClLxwNQX
+         aI3en3/nuAnC9ZoXdtEoEmEg9DHc2ZK9SllMJGfkcANMbMEBs5t6ih8A2jNMaQ6iEEy7
+         zv+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757933430; x=1758538230;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a3UAx19vK1YiNrAi97n0gU/rRiRg+M8i65mS2Lnx+jM=;
+        b=c6MvkITfSN01bHcbEmnu0gJK+DWdJG49kttKfEUuAtbiDUviI8/1EmVt0N+aRBvk7J
+         9J2JfaFXPoZzNWRO6ckkQc6UEBGeaNfKYqifedt/Ef/LjHV7BaTPmY4vK1c5u0AnlAgU
+         bGuaureeWlDydznL4rMfFnRUDQ9PB1Azwzt3t3QBDhA2M88zn+y4gYYyRVLfAEzWDJJR
+         dqLcv2JG0Q06Y3d9+xqe/f68oVtZBuIljqB67fDmb51vbUU2blJAbUzMOHfawL3hqLm9
+         r9l8Kc9mtVAfc8uczLc9mQD+1XlKxMwYrH9PJJCFVkwTROID7PTRimfjQtayXWxF2+3X
+         LsDg==
+X-Forwarded-Encrypted: i=1; AJvYcCW9wyId9Qr1wajsFm+1J/PFskyjMCeB4tk5f2H00eF8WTniSGh6ngAxOC+ogu1M0q2cepZayKOsf8mLeQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNkc/rlYs38UKNCE58FwNFSSVE/xdT0KOuvmE+5B1ezhmzdwNE
+	l+11l9TGmVAEnpdnR4oQBCrLf/+YN2mp+vYi0ei4lNo3Rzapzy886Ij3BZLvK8IYxmIbSP6fSNK
+	xH9HNXPbMWnJT3ZpL+IplaCK/ffRFK5HNhiWHUE9ufQ==
+X-Gm-Gg: ASbGnctZXgxiVpsJ1D4kSja2XjhAzfozmC722BPCf94cjxbvYi2geBFmXgqrITmL8b2
+	mIR4KiSD6Es5J4nCzd+XE0ntPD8o5GPiJrFpAGTUwu84ClMTEN0RbYNvJ7wr5obinS0csCwZ1lo
+	JtwP5+qy5gv2hb7WyGpJj7FJwbeueKnLrUJKon0RxbXqR+hrYCccWraBxS9SRuRXR5zKU1czs+a
+	AJP/k05DzGGiHAlttY=
+X-Google-Smtp-Source: AGHT+IGDEYgOKM3gJ8Zzlityz/syLNE9FRvDAqAmupyu9aSeveyvR7FHQhtEilEP6qYlMPKL0ImuzwqqE0dGUhFDiNI=
+X-Received: by 2002:a05:690c:3706:b0:722:7d35:e0c2 with SMTP id
+ 00721157ae682-730626d2dd2mr106799857b3.2.1757933429679; Mon, 15 Sep 2025
+ 03:50:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: A030F22C0A
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+References: <20250828-dt-apple-t6020-v1-0-507ba4c4b98e@jannau.net> <20250828-dt-apple-t6020-v1-3-507ba4c4b98e@jannau.net>
+In-Reply-To: <20250828-dt-apple-t6020-v1-3-507ba4c4b98e@jannau.net>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 15 Sep 2025 12:49:53 +0200
+X-Gm-Features: Ac12FXxZCAZGblY8VwFHa1GJ1rGV08p3Fv5KI-OAzvQkX2G4ZDMKiAukPP3wanY
+Message-ID: <CAPDyKFr9dAvP7U3dZ_LFw8YxcvJ6n95OKKLYpntUarqdfUqjWQ@mail.gmail.com>
+Subject: Re: [PATCH 03/37] pmdomain: apple: Add "apple,t8103-pmgr-pwrstate"
+To: Janne Grunau <j@jannau.net>
+Cc: Sven Peter <sven@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sasha Finkelstein <fnkl.kernel@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	van Spriel <arend@broadcom.com>, Lee Jones <lee@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	Stephen Boyd <sboyd@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Michael Turquette <mturquette@baylibre.com>, 
+	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-bluetooth@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-nvme@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 15 Sep 2025 11:42:19 +0200,
-John Keeping wrote:
-> 
-> If multiple instances of this driver are instantiated and try to send
-> concurrently then the single static buffer snd_serial_generic_tx_work()
-> will cause corruption in the data output.
-> 
-> Move the buffer into the per-instance driver data to avoid this.
-> 
-> Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
+On Thu, 28 Aug 2025 at 16:01, Janne Grunau <j@jannau.net> wrote:
+>
+> After discussion with the devicetree maintainers we agreed to not extend
+> lists with the generic compatible "apple,pmgr-pwrstate" anymore [1]. Use
+> "apple,t8103-pmgr-pwrstate" as base compatible as it is the SoC the
+> driver and bindings were written for.
+>
+> [1]: https://lore.kernel.org/asahi/12ab93b7-1fc2-4ce0-926e-c8141cfe81bf@kernel.org/
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
 
-Thanks, applied now to for-next branch.
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 
+Kind regards
+Uffe
 
-Takashi
+> ---
+>  drivers/pmdomain/apple/pmgr-pwrstate.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/pmdomain/apple/pmgr-pwrstate.c b/drivers/pmdomain/apple/pmgr-pwrstate.c
+> index 9467235110f4654e00ab96c25e160e125ef0f3e5..82c33cf727a825d2536644d2fe09c0282acd1ef8 100644
+> --- a/drivers/pmdomain/apple/pmgr-pwrstate.c
+> +++ b/drivers/pmdomain/apple/pmgr-pwrstate.c
+> @@ -306,6 +306,7 @@ static int apple_pmgr_ps_probe(struct platform_device *pdev)
+>  }
+>
+>  static const struct of_device_id apple_pmgr_ps_of_match[] = {
+> +       { .compatible = "apple,t8103-pmgr-pwrstate" },
+>         { .compatible = "apple,pmgr-pwrstate" },
+>         {}
+>  };
+>
+> --
+> 2.51.0
+>
