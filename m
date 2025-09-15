@@ -1,213 +1,201 @@
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11022092.outbound.protection.outlook.com [40.93.195.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ED736D;
-	Mon, 15 Sep 2025 08:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757925741; cv=none; b=kaFg4txrytgYhdjuj8yaQ/I9crn+FAKlsYqfyO4s5MxRy08If8bmEKicPBHyzDsGEf63BoiXlKFUIfQUVDV3pkdDlQReddqQ3+c/F5+9HT6ljIUtZMy9AtBAHB2JU0/kGtSzjRVK1/AcBuBew9ivTSnS6O/78HtgxOiWzCtLqs4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757925741; c=relaxed/simple;
-	bh=ZQ9/1OQ5zgWl2afiY0uhe6nntXDy+Ux5mLMYKveBP84=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GNmhMTQ+/EEy2Y5sbFeFgX27+a8mytCsICQdZ67vCfA99F7nu5xfh01I9fSytYpICYkQ8RQpzZ13sIdhY/zYIZImP7n/jLxa7yyRHYsD4aoi3FVtx39rhVCO1v9YZI5eF7LTkHMdE2JK1XHMu7t1KHHn0L7on1HK4lNaQ/R5f3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=bx5/1n8B; arc=none smtp.client-ip=54.254.200.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0D22F9980;
+	Mon, 15 Sep 2025 09:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.92
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757929357; cv=fail; b=InW1KZTQ8WIMTqTM2rPLFYV+ssvjdbnfVXntn8auimX/S/IpEOex0mfnfQt1B0ioTX318ELEFUmWiIIQYuPGZmmlTWbxUvoKUV47XZeIaPZummGfO2f6/25CqxnBJfPFdCCR5/A1803HpkV3Z9hS3kO9uHh3XT5HbYvegyiwinU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757929357; c=relaxed/simple;
+	bh=/J/JwkTazSxuKVhkjcacvDMmVgY+8ov+ZEhWK6Wfq54=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=I9fWycpfubs8qADrSxkZ3Ei/l1zC9Dr9FpHFPtISErfIgse4C83FBBaK/4NPQWAdTWrU+nJQCm1/ITgIFVeaAY7y/OWQ8Hvbck5cukFMP7QL2xpROShH8PWGwUVmJ/akYnh36vW81GDJ2/SIduJYSIIN/AZCV3tiUq381Pk1fgU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com; spf=pass smtp.mailfrom=inmusicbrands.com; dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b=U0xbQKRN; arc=fail smtp.client-ip=40.93.195.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inmusicbrands.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="bx5/1n8B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1757925693;
-	bh=ONwI2U2f2czYvS146yv8bYCH6Eh8amtdVyt6bAK4hro=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=bx5/1n8BRcO53gEru4loZ+I2mXKkdOgIhFeG7dTTccyuYmWvEclX/xL8Wh87+Oc9O
-	 8njDVG5EpykUGUX5vvNxcHJTyZ3/OT31YEcTfbrlKT8rZNij1gmFj37IAuIjQWvZ8Q
-	 AblbyLtybKaovfCPL5EQ/8zvCmmRZvs11PedxuiA=
-X-QQ-mid: zesmtpsz9t1757925594t13176318
-X-QQ-Originating-IP: 1yqyX70u9cEvSZHh2DkNwqhZn7NylZUwcumWXRspy+A=
-Received: from [198.18.0.1] ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 15 Sep 2025 16:39:52 +0800 (CST)
-X-QQ-SSF: 0002000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 12716244607003397470
-EX-QQ-RecipientCnt: 15
-Message-ID: <E8E9626E8F00D397+401f622f-247f-4b0e-b82b-faca3a1055d0@uniontech.com>
-Date: Mon, 15 Sep 2025 16:39:52 +0800
+	dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b="U0xbQKRN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eMzN8lw1LS1/NfFxLR0tVqJKV2PnPfNpiO3XBREb99Jb8wtnjvDBCZDFR4v+eo4fKmAGvbmWCyXR2pV8iBwQ+yS7FWva/NAioQLfNoIUO0U99BmMSP/ES7OU5GUr1aF8XyezpZnTP1ZWESlP8PHwM/7IiAWA2OSV1hc9mMDSIP7Q3Rpn5jI7MdeJU1jU5nMMvgAqYv7qG3j/ce6PtRBkFmWgP6BQZAuMtL+bllY+WgBbdUZYRHsFNK371QCQXEuVUPeCz1xxF8fBgIE9C0uKaQvNyZISidc09PWAkv3+rRNvrektODicthNtEGM5V3Hfpsu8yM3IqYl5Zg+yZlBUgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GUL93Iy1ASdFSsf/2Tk0XZIJtzDHW5nPP0iWtIEbmw0=;
+ b=wF+/uD6OWF6t+Pl8CYQHN0gDBg0r+iz7nBub2Xjtc9JWL2xR1rr4wB/rUQXUiePEU6SfeLAGrfX3yw4o5dG9YJC4ntfOhEQyg6EF4DaZhQ58oqhEgrsbFp2Ky4B+xPRTCNxKubNlZRr6dJuer/lkpMohyFLIaY8Wzl2SkiPCzRvutcxu6LtdnddTWGQlZxF4m5bc6fpm5DD8JToIJIeavgfud/HYD9IXp0pDFDnoFIr3RcrshzDGIuw0LINpVLirT1jRMIdV711mRclxcP8cKe1OFW+asgUX5ytMnHzQ0TiZ69S5Ki19GXlAnFAnKmP87GcBWHQe1OGIaw1rEvkJKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=inmusicbrands.com; dmarc=pass action=none
+ header.from=inmusicbrands.com; dkim=pass header.d=inmusicbrands.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inmusicbrands.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GUL93Iy1ASdFSsf/2Tk0XZIJtzDHW5nPP0iWtIEbmw0=;
+ b=U0xbQKRNhVCjRlD9JaJyIhAseaVu0g3UkK3yUl/OrQ+z2fvrHVOXWcj361Nd3qOps+0ciFYLAUkM+b3roCO6lmkbsGdcZ+zwy3NMmnf6V7qnH85uXCqqeFPHyFdk9ldQwbctpnrY+/cJrqfLGToJec5eM4Se9h8vqG62XAil6yg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=inmusicbrands.com;
+Received: from MW4PR08MB8282.namprd08.prod.outlook.com (2603:10b6:303:1bd::18)
+ by LV3PR08MB10352.namprd08.prod.outlook.com (2603:10b6:408:281::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Mon, 15 Sep
+ 2025 09:42:32 +0000
+Received: from MW4PR08MB8282.namprd08.prod.outlook.com
+ ([fe80::55b3:31f1:11c0:4401]) by MW4PR08MB8282.namprd08.prod.outlook.com
+ ([fe80::55b3:31f1:11c0:4401%6]) with mapi id 15.20.9115.018; Mon, 15 Sep 2025
+ 09:42:32 +0000
+From: John Keeping <jkeeping@inmusicbrands.com>
+To: linux-sound@vger.kernel.org
+Cc: John Keeping <jkeeping@inmusicbrands.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: serial-generic: remove shared static buffer
+Date: Mon, 15 Sep 2025 10:42:19 +0100
+Message-ID: <20250915094220.2959202-1-jkeeping@inmusicbrands.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO2P265CA0387.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:f::15) To MW4PR08MB8282.namprd08.prod.outlook.com
+ (2603:10b6:303:1bd::18)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] ALSA: usb-audio: add module param
- device_quirk_flags
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-sound@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Mingcong Bai <jeffbai@aosc.io>,
- Kexy Biscuit <kexybiscuit@aosc.io>, Nie Cheng <niecheng1@uniontech.com>,
- Zhan Jun <zhanjun@uniontech.com>, Feng Yuan <fengyuan@uniontech.com>,
- qaqland <anguoli@uniontech.com>, kernel@uniontech.com
-References: <20250912-sound-v2-0-01ea3d279f4b@uniontech.com>
- <87a52zr9kq.wl-tiwai@suse.de>
- <408B48A84E5811C4+555ae002-5b34-4f90-9452-a3458a11f10f@uniontech.com>
- <877by0p28h.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Cryolitia PukNgae <cryolitia@uniontech.com>
-In-Reply-To: <877by0p28h.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3a-0
-X-QQ-XMAILINFO: M3MOXkEWTBZdqfey1fOjSb3I+RIXEwfd/jbxZhpREB6aR5Op6ZBazuFc
-	STLdahbMx9FDu7hn/gf3R3HxpTv92EH2ik2ssEznOW+cbzLg1WOklaxcVTBEU8zCW9ZmBcw
-	/HkyuRH6qvMtZSeBYqLjpbBy8WHoB0/nDjkh+j5C3ub+PiVzyfxkk1usyCd6ZHg4SbGubCB
-	TjCGSACljX8xcUa2799rUBHZNzqsF+MEeG5gD1JO+f7cj+AeRPBaH79T8y+xC/bFOLC0Qfe
-	/bLLDi+6GJyACrERfVVlE1+/g8XpdH7fECHoPs5SztgEmQMK7EeHv/eoS6O8pLUx6gczbrX
-	fs4zr3SbLqnMr1wkdAJmkdcHlOkojW4y+ilmb0LwishgBcWYbzrifOkFBVJ3hiautd+i8fo
-	Ihlvb3RgykcFWEKf70dPAH/kuwrVQbsa1+26nVbRp/dzpjHiPzzZH0th3OTAUjdMbXie+/f
-	fmJrU7DEKuopOWBznuC9H7S2aFjRiMG5wKcXdM92k1WpW0V4OjBeg9YkAGt0eA6lqCDJ1IK
-	iT935Id98uUgjVOPDZm9MC9GYHDVpKg+1D052bu9FuLTEJE7MFud7fmxcPw20PtGhJmg29H
-	nopwDFs8FTLIuy145oP/tJkucxsGzw+7XFMwuS7v1SQz21G2Tc4uzCpH4juMtq4TCxb0wCE
-	fshD4yJk9Uieii801ion44yaxGuf1wWtaHF6QQcbeIv0sYsgMIG0Qj2Kvm/mMeO96qULOBV
-	Qrgc5LpbHu7Mp5nHK+XakQwhf8SjWBONeaYb20tG7cTsN/6qt/D57zyqIW2Zirgn2lOm++y
-	uWU5n0T9bn6Ckzf4coH0alYyjg8qNkcQB4DhKjZsEdsXGxLFhulsu3h3mcQ/+446qxVFOSZ
-	HnPFIZh4mFIUtdcZkU4loHpdyEpEJLu3TlFdXm+sgk91kWYa7yLh0kbifaHViiNJVIwKkgW
-	G8K4XkI3QiJjCXoZaAfsa4l2pwoPHTtlTTNPljbPXkEwKabXjgWcJ2HMPygPKdiDylbKi8D
-	b2+0DFvq7rRjJ6EgHMFaKUf60rBE0cWQG574oRDci3Rg1OWPp0wHC20AkR/+M/EACopjUP9
-	vdsH2/cYyRTNUiyqjEpltSqs+V7OtQabYiVu7qYQlYiIwPSS6CY1RtE7jJ+3hzEvF4+r0bj
-	EzemMzKlhgvI1R+gaxqssBdwyQewZS8oufowlzIehS8Ld5eoYE96chtVljt+aGotOA9UJiI
-	G99BD6LHVEaNvoo0ckw==
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-X-QQ-RECHKSPAM: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR08MB8282:EE_|LV3PR08MB10352:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd350f7d-d63e-4284-55fd-08ddf43c315b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?BJ+odrNKJuDPjhvIztEAKs+qe6VuHeJAFS2ETi5YMCrf4D2Ihkc4z/77dxiD?=
+ =?us-ascii?Q?b0OSZJ6jzlBArxan21HaU0jq/fUTz95pft4ABtwhJzdTHacjBgakKAx3MCUM?=
+ =?us-ascii?Q?dLv2Orrs6WPlYZ/39wK7/ZoE0K3ksDirhfuEUnpdPRPUyzRpDkBDOAdDFApV?=
+ =?us-ascii?Q?pr6J/SLUFGeM0RU4jSk28WSYFRwx5b/p34xetpSXHvMK9PWv7xd/oRYFl+Yz?=
+ =?us-ascii?Q?ew6fWP/M3WCxNpcxRo8yOZ6cDeuDUKbQuiUiAxVytETAL9GdhDb8DYr5aMom?=
+ =?us-ascii?Q?2HX2NpEvSQ4DzFEW4F47hvHFQWlbfQIKk0t+9X1zad9ob3A1XOOAdo91fjpL?=
+ =?us-ascii?Q?Wt8PCp19Jw6YF92CFAH7WhA+sPOOsOqsifqOkmrYDqtOfgQDFzSnSG2alHi+?=
+ =?us-ascii?Q?uhLqfMpsH6y0pl+v0ved2T3r8SLPTXQhyKYPhae5V/46lGucqTeqQgh0PTLu?=
+ =?us-ascii?Q?5EOILP2MfMopgD/TRz+cbaUugNn9SyasHfQPXK6cxQiV2Jarx05mZmcQ2pH6?=
+ =?us-ascii?Q?OVMtsM71xliL2sTVI+SkNZCP/mH8Jx8SOehVahw7IQwsGlorYkQQl30qHBqi?=
+ =?us-ascii?Q?2WGqHrC7/3yg1hcAuL7nH12PhugYbLvsbQxCSE2WT2XcvEyQx+RHqWA/kXWe?=
+ =?us-ascii?Q?+YuvCbvA/4dvTwUx5DbO3qNcuO2JTRFVFxS1u2ijz5FsIx7sNBRU0Aaaloxr?=
+ =?us-ascii?Q?i3n1sO6vD1RyLSY6Toy8Lx2iqyrNLewoApgVsQ3i9OX5iOiKUz2hToGwhGKs?=
+ =?us-ascii?Q?TRackdrQ8K5hbGNnWmEnOs8+/A51z/Ja21cpiWfpNuoplkoXznczGVI38ESW?=
+ =?us-ascii?Q?xeeneQPe5igwMiPmAp7Qu+T89JS7Nzfds3tg6aQlW3yIatNFgy1wl/0KrsiM?=
+ =?us-ascii?Q?qHw+XpKgWeJo1FS/yVsA0tC9snUprjgBENiVrvS6MsI9WOIt1Rzx8tsZT9Wq?=
+ =?us-ascii?Q?xtBH+bhXcD/+QhW0YkX+z7NU9krkGBEPY8K9TUhBeuo+3M1tA3uo8tagysbI?=
+ =?us-ascii?Q?sVX4u7GQtyKC8KI+W9yYBJ3ukgFnX5PMCnGvlt8yH8wMb80gF+cd03jZ0wvn?=
+ =?us-ascii?Q?Yhex9ENrta9tZd++BFeYpWbu3Kp4+ohV9hwPhA3Hg2/8JeFckFUKsWJzdfc0?=
+ =?us-ascii?Q?Ni4rukiXv8JzWLSv1xs1nslaxQja6WNL7clUdoWRB3KrtJBpHjn69utEjDbf?=
+ =?us-ascii?Q?NkC0wuLFe3JpQdWecQKBI90me3UAf4/lTRexXzbRi4ptIm2oPfwZUVel6NVp?=
+ =?us-ascii?Q?eG5vP4h4SPbaG2uwKSJdig2p8mdcA4+0/8jENy606s7LaqtvwxEroLd6s4AJ?=
+ =?us-ascii?Q?BexR6F6YJSPl6225Ocrb7MvxR9OJTNhix9jsjaDLUPL2mn2UKH3vMpLvs/B1?=
+ =?us-ascii?Q?1IVlBqQkkmY1zUxvVh3kJMfPaKJPVM6WA+FST4w28l/rFDq79zeOud+4n3HJ?=
+ =?us-ascii?Q?FRkzkq/OqzFXPJ1AVGmcoiNdKBb/pbSaR0/9DIHKccjwFGlzfGzeHA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR08MB8282.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?SbgBFXfu9V863OynFUGTc9vAX+gUCsTbbZbwZ2yyBVppgC73nv6ZtDeJrjmp?=
+ =?us-ascii?Q?8zsHfS3km3o7ZvkhsxqWQE4OcY8t2ZDnVhrgWjsprzdbeO/3D5WR7e3RVM3x?=
+ =?us-ascii?Q?iChCILRL/53BU4rJjgD2Tr2AFoo/AtitVvG2XcQUsyh8MZ2bp3lk9910V7lu?=
+ =?us-ascii?Q?k1Ay2m9fk0dYMRV8+rPcpfFZ9YkpAZxpHy5YravmsoGNNjsK/R+qTDBidQoo?=
+ =?us-ascii?Q?GdBhGWi5GvZH6r/j8TF6aCB9LL1nLiA5aDzCfoKV8GgpLvs817q8fIhG0Jw3?=
+ =?us-ascii?Q?jMpqAv8igiahGMTkg9Jtmh7RprxpsHbkEkSQtA1b8aLfb4r8Kyl2W8P3sx3r?=
+ =?us-ascii?Q?DVyh7RpbCZoIpdi1Ya6zspHLOezjk7KKG+RVjlF8oxylPKqPPRhPQVG0mpEc?=
+ =?us-ascii?Q?HrUQPRs9cg7dHVV7OES3dsIpHDl4Bljd+hQTmgE33shHYqEsomNwv7rYx7co?=
+ =?us-ascii?Q?B3fl9pYqe+5BFTMD5AzYMezuLoFnmybMkbCLB0IIbKSMuOoIRuvGBIbmJJk0?=
+ =?us-ascii?Q?gC38JhPNo4HaEa1p/EKu4rtv80WZxNbAcGtV3qLubne/n5qHiYTffPFXVyfO?=
+ =?us-ascii?Q?WnXLn1Afxu6fG1EzER/Clt5TeECseVwwTVOumhFPHaf61sqIeDINlVnpFIJX?=
+ =?us-ascii?Q?TT/y128Js823wZvpU22uA30mA2B2ouPIvb7eVHdSaGjUbMsH67Ced7WOKMoy?=
+ =?us-ascii?Q?SKraLuweYXNO0sRHY9A9T6r8vmsSfizNs9ZWpQ3iEX2KM4C3bHMpY2TpWzLK?=
+ =?us-ascii?Q?fisixahvRXsWuhz7DzzIvOoEt4cVN2BzsKjkftIacGQhbFi6dZadF3ljqd3j?=
+ =?us-ascii?Q?S9o8zT3ewKaCFz/WMXqQUrSMLwypQCkZiXjMBVv9zK0jSCCcB5IF63CzZU3C?=
+ =?us-ascii?Q?qFIrzCs9ieZDEbhN3PJFcuWBTBxKs9GVTw4QvAllSPBna5qJueAcXkUxbwd8?=
+ =?us-ascii?Q?pfuSV0VBzyjpaS1IKpKRsHOdrjVyMVMQ8o4alyYEexAldkINQKJxBe4Redg4?=
+ =?us-ascii?Q?fOMAwCQBIoJpnXdTl0jrJlig7LHy0XKwmQun3uIqAr977U5L4XckZMGbdLl/?=
+ =?us-ascii?Q?R2qXgRWrJJpXVFWmgzQpxOprXt2cVqnO4uViflihFo9yTh4P2LAUgbw+pI71?=
+ =?us-ascii?Q?vw9A1VYN9DHTuId7VCmAiUzeAKO54DG6HoPzMdOO+b1fMovSXVFC7C77Kfu5?=
+ =?us-ascii?Q?CziZtau9ZqHH5zntSCb1wIMyTA/4uaCvuGIFF4sin9rBaZi7+7gdvoKYo5uE?=
+ =?us-ascii?Q?cyJ7mW4YMXuuaBKs/BkNAwv442t6TtnwKQUIfy/XHq62IVcTa3ARi/0nlcUr?=
+ =?us-ascii?Q?Tog0qZryqCsuX5cI+tyFV6m52kllYGxkgAuJiZ+VtBP0AsM882ZbJ0O8/mgV?=
+ =?us-ascii?Q?xtAA99nyzD8kiajQSN4crOw4kIN4dZbEQN+S21wNNF482YWkFP4CNQBmQM0v?=
+ =?us-ascii?Q?CDoYoOmrm8DwzT5BD5GcwjVLHWrCZVgPpMRrn03wa9YMv3Pp0n3OJqLl7wkH?=
+ =?us-ascii?Q?VSx3SpB9g121ecKCxsKztdXa3I5WSPesvefEH1QBu/rnu8ORMzERFuECnh8C?=
+ =?us-ascii?Q?8AiKHdeZ/ROOjTlzk62cuINQmR3CnFEkffjKd4Y90Sl1a7/mtK/4z7ITskuW?=
+ =?us-ascii?Q?cg=3D=3D?=
+X-OriginatorOrg: inmusicbrands.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd350f7d-d63e-4284-55fd-08ddf43c315b
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR08MB8282.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 09:42:32.1891
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 24507e43-fb7c-4b60-ab03-f78fafaf0a65
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 39he5b2+2A8kheO0PqLk0xSnHFIDD8N0OmhyfIAFxTBFQnvFszVGSMdBe/k6x8x6bnqxvGBn6kJ1+b6Kl51CjSdlwKXlcU3O5yQubPcPouw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR08MB10352
 
+If multiple instances of this driver are instantiated and try to send
+concurrently then the single static buffer snd_serial_generic_tx_work()
+will cause corruption in the data output.
 
+Move the buffer into the per-instance driver data to avoid this.
 
-On 15/09/2025 16.08, Takashi Iwai wrote:
-> On Mon, 15 Sep 2025 09:43:05 +0200,
-> Cryolitia PukNgae wrote:
->>
->>
->>
->> On 12/09/2025 23.09, Takashi Iwai wrote:
->>> On Fri, 12 Sep 2025 08:48:57 +0200,
->>> Cryolitia PukNgae via B4 Relay wrote:
->>>>
->>>> As an implementation of what has been discussed previously[1].
->>>>
->>>>> An open question is whether we may want yet a new module option or
->>>>> rather extend the existing quirk option to accept the strings
->>>>> instead.  Basically, when the given argument has a colon, it's a new
->>>>> syntax.  If it's only a number, it's an old syntax, and parse like
->>>>> before.  But, I'm open for either way (a new option or extend the
->>>>> existing one).
->>>>
->>>> I would like to add a new param. The existed param
->>>> `static unsigned int quirk_flags[SNDRV_CARDS]` seems to related to
->>>> some sequence the card probed. To be honest, I havn't fully understood
->>>> it. And it seems hard to improve it while keeping compatibility.
->>>>
->>>> 1. https://lore.kernel.org/all/87h5xm5g7f.wl-tiwai@suse.de/
->>>>
->>>> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
->>>> ---
->>>> Changes in v2:
->>>> - Cleaned up some internal rebase confusion, sorry for that
->>>> - Link to v1: https://lore.kernel.org/r/20250912-sound-v1-0-cc9cfd9f2d01@uniontech.com
->>>>
->>>> ---
->>>> Cryolitia PukNgae (3):
->>>>       ALSA: usb-audio: add two-way convert between name and bit for QUIRK_FLAG_*
->>>>       ALSA: usb-audio: add module param device_quirk_flags
->>>>       ALSA: doc: add docs about device_device_quirk_flags in snd-usb-audio
->>>
->>> Well, what I had in mind is something like:
->>>
->>> --- a/sound/usb/card.c
->>> +++ b/sound/usb/card.c
->>> @@ -73,7 +73,7 @@ static bool lowlatency = true;
->>>  static char *quirk_alias[SNDRV_CARDS];
->>>  static char *delayed_register[SNDRV_CARDS];
->>>  static bool implicit_fb[SNDRV_CARDS];
->>> -static unsigned int quirk_flags[SNDRV_CARDS];
->>> +static char *quirk_flags[SNDRV_CARDS];
->>>  
->>>  bool snd_usb_use_vmalloc = true;
->>>  bool snd_usb_skip_validation;
->>> @@ -103,8 +103,8 @@ module_param_array(delayed_register, charp, NULL, 0444);
->>>  MODULE_PARM_DESC(delayed_register, "Quirk for delayed registration, given by id:iface, e.g. 0123abcd:4.");
->>>  module_param_array(implicit_fb, bool, NULL, 0444);
->>>  MODULE_PARM_DESC(implicit_fb, "Apply generic implicit feedback sync mode.");
->>> -module_param_array(quirk_flags, uint, NULL, 0444);
->>> -MODULE_PARM_DESC(quirk_flags, "Driver quirk bit flags.");
->>> +module_param_array(quirk_flags, charp, NULL, 0444);
->>> +MODULE_PARM_DESC(quirk_flags, "Driver quirk overrides.");
->>>  module_param_named(use_vmalloc, snd_usb_use_vmalloc, bool, 0444);
->>>  MODULE_PARM_DESC(use_vmalloc, "Use vmalloc for PCM intermediate buffers (default: yes).");
->>>  module_param_named(skip_validation, snd_usb_skip_validation, bool, 0444);
->>> @@ -692,6 +692,22 @@ static void usb_audio_make_longname(struct usb_device *dev,
->>>  	}
->>>  }
->>>  
->>> +static void set_quirk_flags(struct snd_usb_audio *chip, int idx)
->>> +{
->>> +	int i;
->>> +
->>> +	/* old style option found: the position-based integer value */
->>> +	if (quirk_flags[idx] &&
->>> +	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags))
->>> +		return;
->>> +
->>> +	/* take the default quirk from the quirk table */
->>> +	snd_usb_init_quirk_flags(chip);
->>> +	/* add or correct quirk bits from options */
->>> +	for (i = 0; i < ARRAY_SIZE(quirk_flags); i++)
->>> +		snd_usb_apply_quirk_option(chip, quirk_flags[i]);
->>> +}
->>> +
->>>  /*
->>>   * create a chip instance and set its names.
->>>   */
->>> @@ -750,10 +766,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
->>>  	INIT_LIST_HEAD(&chip->midi_v2_list);
->>>  	INIT_LIST_HEAD(&chip->mixer_list);
->>>  
->>> -	if (quirk_flags[idx])
->>> -		chip->quirk_flags = quirk_flags[idx];
->>> -	else
->>> -		snd_usb_init_quirk_flags(chip);
->>> +	set_quirk_flags(chip, idx);
->>>  
->>>  	card->private_free = snd_usb_audio_free;
->>>  
->>> .... and snd_usb_apply_quirk_option() adds or corrects the quirk bits
->>> based on the string value if it matches with the probed device.
->>> This function will be similar like your parser.
->>>
->>> In that way, the old quirk_flags options work as-is, while you can use
->>> a new style by passing values with "X:Y:Z" style.
->>>
->>
->> Thanks for your review. To be honest, I haven't understand how
->> `static unsigned int quirk_flags[SNDRV_CARDS]` works. e.g., based on the
->> current array form, how to pass a flag, and what does the index of the
->> array means.
->>
->> Could you please explain it for me. thx.
-> 
-> That option works just like other options of the card arrays -- each
-> value is passed sequentially to the device of the given probe slot.
-> That is, the first probed device takes quirk_flags[0], the second
-> probed device takes quirk_flats[1], and so on.
-> Admittedly, although this works fine for the static probe
-> configuration like PCI devices or such, it's not ideal with
-> USB-audio.  So the new format is requested.
-> 
+Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
+---
+ sound/drivers/serial-generic.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-Thanks for your clear explain. I would try to implement it.
-
-Cryolitia PukNgae
+diff --git a/sound/drivers/serial-generic.c b/sound/drivers/serial-generic.c
+index 21ae053c05767..766206c6ca75a 100644
+--- a/sound/drivers/serial-generic.c
++++ b/sound/drivers/serial-generic.c
+@@ -37,6 +37,8 @@ MODULE_LICENSE("GPL");
+ #define SERIAL_TX_STATE_ACTIVE	1
+ #define SERIAL_TX_STATE_WAKEUP	2
+ 
++#define INTERNAL_BUF_SIZE 256
++
+ struct snd_serial_generic {
+ 	struct serdev_device *serdev;
+ 
+@@ -51,6 +53,7 @@ struct snd_serial_generic {
+ 	struct work_struct tx_work;
+ 	unsigned long tx_state;
+ 
++	char tx_buf[INTERNAL_BUF_SIZE];
+ };
+ 
+ static void snd_serial_generic_tx_wakeup(struct snd_serial_generic *drvdata)
+@@ -61,11 +64,8 @@ static void snd_serial_generic_tx_wakeup(struct snd_serial_generic *drvdata)
+ 	schedule_work(&drvdata->tx_work);
+ }
+ 
+-#define INTERNAL_BUF_SIZE 256
+-
+ static void snd_serial_generic_tx_work(struct work_struct *work)
+ {
+-	static char buf[INTERNAL_BUF_SIZE];
+ 	int num_bytes;
+ 	struct snd_serial_generic *drvdata = container_of(work, struct snd_serial_generic,
+ 						   tx_work);
+@@ -78,8 +78,10 @@ static void snd_serial_generic_tx_work(struct work_struct *work)
+ 		if (!test_bit(SERIAL_MODE_OUTPUT_OPEN, &drvdata->filemode))
+ 			break;
+ 
+-		num_bytes = snd_rawmidi_transmit_peek(substream, buf, INTERNAL_BUF_SIZE);
+-		num_bytes = serdev_device_write_buf(drvdata->serdev, buf, num_bytes);
++		num_bytes = snd_rawmidi_transmit_peek(substream, drvdata->tx_buf,
++						      INTERNAL_BUF_SIZE);
++		num_bytes = serdev_device_write_buf(drvdata->serdev, drvdata->tx_buf,
++						    num_bytes);
+ 
+ 		if (!num_bytes)
+ 			break;
+-- 
+2.51.0
 
