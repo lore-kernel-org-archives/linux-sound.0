@@ -1,81 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3F12BE039
-	for <linux-sound@vger.kernel.org>; Tue, 16 Sep 2025 09:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673E9275865
+	for <linux-sound@vger.kernel.org>; Tue, 16 Sep 2025 10:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758016357; cv=none; b=R2Y/C7ftXSouUnFBnMoWUIRuX+6piWRdstRnSQ/+vyyiyp9ALsBw7yzFBaA+xnSkbdxfKxGAT9++dzoTVkc5qpHD/NA0CsuzMWCVhifV0AUVF/KPSeKo5JsxbZj2ka8o3u6GIb4OeoEIhIpjE2xomfDdZhvu4ogbmhF2s0oNX7U=
+	t=1758019584; cv=none; b=gxmHXwiLM82043DbfVfRFRuaf++JIpC477BdYUijq+6D05PQLD+ViYIzQnfn1jeYr4T+fU9erkGHBtR3zezlsXp90YGwcEvTWOFh1+mpfe9iBVoMxsjsaXj5WNhyqjK0Rf0+6ymh/lCuhfMX4YfUJBclY0y0HElI/8h28Q5fsCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758016357; c=relaxed/simple;
-	bh=j49RxSMqcn23wA5ywzIFVB1AAKXUFLb7+fxpVumsffc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eA94EYMO9w6chfY/7lS5+HmyAu6jWPnjJHJjNr2BtE1nESgjFsHBU2rHCA3vyLKLgFZPQdlsNrs/G6ymwRQfZ6AuxaOvq4/K9YUDVqwJyDs5ud4Nmmvx8H8lz7SG/XFFAlVxl//g0bVkhdGOc16qO+5LQUVfskAIkzGam5fgazM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0z1FIuV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758019584; c=relaxed/simple;
+	bh=6mcsjg4mpO7vTJmNBL+xKZEXfWJ+PXy1vWl3m3v7CM0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=strPZll90SST+iPUkG3QKiTaO+wL/HBp9YBu2c1zE/Hk3Rd8LyaCMmRHREciK62H/Vz07TWoywATMX9/mZZX5rokaBgrmATbBSXzlQhSQuPw43sfdflhhGbpS9LYZpU2teBouOpTZzIllEW4YJP74qyXFygf7DNjcXvrCoxvDjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCAMiWD5; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0z1FIuV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E1BDC4CEFA;
-	Tue, 16 Sep 2025 09:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758016357;
-	bh=j49RxSMqcn23wA5ywzIFVB1AAKXUFLb7+fxpVumsffc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=U0z1FIuVU0ALb6EmEY8/GuhI8f15UcoVhCe4RriFA8lfz4Rk5PVw5dATDZyG/vlb8
-	 U9nu9OrLqCYfgVYnvZPHOnraWs+GMkxiPaiAETNA+QNMTxQ0TcqU017pwoVbvogq1+
-	 F3ienvmZBdUs5WpqjnyeJPx14vE3NdzTH2DbsLQmDL3B2kEtt2+eVV7NscmhmX0WN7
-	 tPzZ88J1RgUzUS0ujlECneGRsm5AxTkVYBc6DN2iJX+im/3JLYJKxiSgsPD2EYa4w6
-	 ttieORWdCMtVZLhGQZteBAcUjmYtsNgEq8osyegEi+UvsI5ZYTYtiQT0xeHgZlLu1j
-	 PzK1tk1vFFETg==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20250915024853.1153518-1-yung-chuan.liao@linux.intel.com>
-References: <20250915024853.1153518-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: hda-sdw-bpt: set persistent_buffer false
-Message-Id: <175801635630.60605.1817085462072588026.b4-ty@kernel.org>
-Date: Tue, 16 Sep 2025 10:52:36 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCAMiWD5"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45df7dc1b98so36192905e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 16 Sep 2025 03:46:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758019580; x=1758624380; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9EdigPIMX6NPHC4cwORQzphly7TiWe8t44OOW+EEUbE=;
+        b=gCAMiWD5ze16gMImlXrdxpm0tgQ/svAv7yoE/gJaJ0JpqSSviYIvcKJDME7FuYXIAa
+         qR64S4+f9w/FVSEzcnTiDYxMKGEhr68KgsG0xdsDPCbVt3TZS5YjGVcCUeFiAwEY2o2H
+         dOOafJsftPGu9y7DRBNRsyg330HBkHrSW6M00B9H/YsOe/y3RIbzxY+/bZcCOcZuTfHd
+         6yb0zzSJ+OpJDf1hN2aDN0B71B3lsxtfLQDQ7oBeH3PUGfoXD8tZNAK9Iz9woW/WPzh7
+         yjTfZxHuC9c0imCS5WX7apRZ1sKaD0KBpceFTlf7y5eEGk6jqFQvHbjZBuwxuRCxfmJk
+         Y9oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758019580; x=1758624380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9EdigPIMX6NPHC4cwORQzphly7TiWe8t44OOW+EEUbE=;
+        b=NDKwCpJPsn2912Vyhan8fO0S/gUQqhV4ZltX7nU/YNjST3roL6Tg+naPf6Xcdx223s
+         MOql2GZsed9jM4Xvtfjrz2kvhM6OHY6Lkoo435NaXI76bSePo4Jw86z5EPOU8+cBHBUK
+         g7O9EXQ6fMt5ygIKTJtwkZm9V3G3+gSbRsVtJ4/+8TXJOYFrs7XHyc7Lce9PjPKi2aZw
+         jzZwbTzMpbKsjJgn1KVojQUnyT2vkrUeaCRsW0/PsU9prDXsqmNyZX7tdlJzaEGQT9nF
+         BtZ0qQwMnupR45oX1UYzIV+H8dZ7wcGZBZgxbAKFlwqG2KxTMoBjTF0lsEebn4I8ALg9
+         VN9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVBk6EPROSc9LgZAn5Zg+0dxJoXJXyILVsmZGxIrh2ElPLUo4YX4dCiYq8G2NBftzdxCvt5vx7mUeNbJQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3HkuscswaSReHRB9rmQwMP+5DVgdRWG4hzkTMPAdCLX1ZhIm5
+	hJw4eKPDqKC/iM1JMv+/48TY8q8GKZaQepgUzSy/vkbGnShK37Bn4aK6
+X-Gm-Gg: ASbGnctjorcCitmHEhTAb82iN0ntJZ8DFD8/dTGU0VbnIEobs5UdnkBHLqAoNC5mXrV
+	1jK1tGvBK87JwzzbPdUo1P+1iXNAZ+bp/AKmjkC7BwSM2KILgtIwqjnOLxfp5dCuGy+bxI/tdcd
+	oRHsJ9VKedfCriJwd3TpsBjtjE2rZjnitnBwaJpSuaKk634Lik2euCtlWadPevaU8ZQBhdKlaF8
+	mTb+ornb7sleTJw5UNmMCx3FbZzmuoonidEh/e6wm47LCmutsuzgQOsxyBO7D1/TCC4RJYhWZbE
+	uPp4SUhP9SzuwdjFBS3PDR1nDHm8b5KfRh/3hesjh1JosaqMRAF3mUchb18FABcwFOqb+JXX1OO
+	ODXAQCDLLMvKfuRLROuejzwMn
+X-Google-Smtp-Source: AGHT+IEwploMqHYB5eM2vvE3PR4MXORlVYqWpE9ZMhJ/ZDhY5aGxDy1NW3Rem0cCgzWHPEtu12e+OA==
+X-Received: by 2002:a05:600c:4fcb:b0:45d:d099:873 with SMTP id 5b1f17b1804b1-45f2926264fmr106100155e9.6.1758019579471;
+        Tue, 16 Sep 2025 03:46:19 -0700 (PDT)
+Received: from gmail.com ([136.226.167.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45edd9f75d1sm195147265e9.17.2025.09.16.03.46.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Sep 2025 03:46:19 -0700 (PDT)
+From: hariconscious@gmail.com
+To: shuah@kernel.org,
+	syzbot+c3dbc239259940ededba@syzkaller.appspotmail.com,
+	linux-kernel-mentees@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	HariKrishna Sagala <hariconscious@gmail.com>
+Subject: [PATCH] sound/core/seq : fix data-race in snd_seq_fifo_cell_out/snd_seq_fifo_poll_wait
+Date: Tue, 16 Sep 2025 16:15:48 +0530
+Message-ID: <20250916104547.27599-2-hariconscious@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-56183
+Content-Transfer-Encoding: 8bit
 
-On Mon, 15 Sep 2025 10:48:53 +0800, Bard Liao wrote:
-> The persistent_buffer agreement is false when hda_cl_prepare() is
-> called. We should use the same value when hda_cl_cleanup() is called.
-> 
-> 
+From: HariKrishna Sagala <hariconscious@gmail.com>
 
-Applied to
+data race in both the functions, snd_seq_fifo_cell_out &
+snd_seq_fifo_poll_wait is protected with guards
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Reported-by: syzbot+c3dbc239259940ededba@syzkaller.appspotmail.com
+Fixes: https://syzkaller.appspot.com/bug?extid=c3dbc239259940ededba
+Signed-off-by: HariKrishna Sagala <hariconscious@gmail.com>
+---
+ sound/core/seq/seq_fifo.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-Thanks!
-
-[1/1] ASoC: Intel: hda-sdw-bpt: set persistent_buffer false
-      commit: 8b184c34806e5da4d4847fabd3faeff38b47e70a
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/core/seq/seq_fifo.c b/sound/core/seq/seq_fifo.c
+index f23c6b7ae240..65e28ebb0eb1 100644
+--- a/sound/core/seq/seq_fifo.c
++++ b/sound/core/seq/seq_fifo.c
+@@ -138,16 +138,18 @@ static struct snd_seq_event_cell *fifo_cell_out(struct snd_seq_fifo *f)
+ {
+ 	struct snd_seq_event_cell *cell;
+ 
+-	cell = f->head;
+-	if (cell) {
+-		f->head = cell->next;
++	scoped_guard(spinlock_irqsave, &f->lock) {
++		cell = f->head;
++		if (cell) {
++			f->head = cell->next;
+ 
+-		/* reset tail if this was the last element */
+-		if (f->tail == cell)
+-			f->tail = NULL;
++			/* reset tail if this was the last element */
++			if (f->tail == cell)
++				f->tail = NULL;
+ 
+-		cell->next = NULL;
+-		f->cells--;
++			cell->next = NULL;
++			f->cells--;
++		}
+ 	}
+ 
+ 	return cell;
+@@ -210,7 +212,9 @@ int snd_seq_fifo_poll_wait(struct snd_seq_fifo *f, struct file *file,
+ 			   poll_table *wait)
+ {
+ 	poll_wait(file, &f->input_sleep, wait);
+-	return (f->cells > 0);
++	guard(spinlock_irqsave)(&f->lock);
++	int isNonzero = (f->cells > 0);
++	return isNonzero;
+ }
+ 
+ /* change the size of pool; all old events are removed */
+-- 
+2.43.0
 
