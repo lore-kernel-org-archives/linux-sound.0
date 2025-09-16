@@ -1,82 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C882330DEB4
-	for <linux-sound@vger.kernel.org>; Tue, 16 Sep 2025 12:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAD630C365;
+	Tue, 16 Sep 2025 12:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758024534; cv=none; b=YAL+qJmvZxGxY40MwpV1tlFpj2Vg5xnQ/whOGtR0/tgZJTJreBqvE5bSPoRlBB0/D2EhtUxBTjRHJNYvH/ERFxWPVtgVr3KwIdadfDUjnlt4yhJbMdgmyvMOpKGRJxLonKuBRlAQ2FtEflYc58gRqY0piTF7l6xvdXHhp6FtSZs=
+	t=1758025414; cv=none; b=kW+yl6BXnTeiuGwgpp+LurGNJMr+Pr7doksS6SIdcwqLxEbtREaL1/8CUui4VKV+P0pHJMSLDuK79WCz6oX1TV6GGW4ZmHCVkw3Ibtbrv1ZU4AbAzc91vMX25lfzqPJuiDtPy4IUORsIE4pHqFwnWush/QkYER4NklDWQWaUP0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758024534; c=relaxed/simple;
-	bh=fgSB2YAW0+UvMEO/j3jLykXkff8pJ93uPjHAxqGlEBg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JES7VFcrT7z9rRBSHbu2h5xCU8+R3Yc8vY2L2geQgX61R94hcRVjTKGYJpB8Y19xlDKeT2BH7bTrcQp2koWukVg0eeKRBCjCmVrFqxzeQrS2huasC3AAriam4ZbTW0P+VAaCWpE1AvRxtuz5rAb55QyjEh1k4NLwwEyLZS182Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o0A3lBMc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758025414; c=relaxed/simple;
+	bh=RLCgcEz9U2n5S1W5t2iRA2VOSeKLjuQTZkTLxEXOzDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C6oF4KPbi+Lzr07RBreart5a2p5dvxO+dijc0jcfojd7ek0h7DHeVwRlfvoJY/qMVnVA6CRrslmQJNz6FwNW+B0fnm2eCCJbb5nvN4WwVBfVhRgc+LYFQWALrWlfCoUqPPtyZMUHqTVallyyKHVYBHfFFrMnNnj7pP2XKiLZoS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dPAqw8wV; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FsgF4lV6; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o0A3lBMc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81325C4CEF0;
-	Tue, 16 Sep 2025 12:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758024533;
-	bh=fgSB2YAW0+UvMEO/j3jLykXkff8pJ93uPjHAxqGlEBg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=o0A3lBMcYgDfderCIg3deqBTS/FWnZ2firGEiHMmTjfJOpnsBQPmYbgazesXLv52/
-	 GRLG0GtvfD011obzNkpg+khtZtTShEFEtXNBkXf9JHDF6SRYr3lag2y/I/hNFxkOy1
-	 Mqqjz3jso5f9AuUeZv9qSko061zXjGjtj6V8c58ThP776N+AXDKeAMrG9vJQg5ywij
-	 8/Gao4eTxpFcT5K9Nt0lNk1Ej6zTnIgDR5r5VBAGl4EXCv0NWNeA4+rvKLizrpZiLz
-	 Zpj6YAJIAOFD0QAztZO3Fo2s10B/Y6wcSwz3E9FCV6ZrmSMtEaKzK+0zkp5YPFfMbC
-	 suT5mNBCGyhjg==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com
-In-Reply-To: <20250915025655.1154279-1-yung-chuan.liao@linux.intel.com>
-References: <20250915025655.1154279-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: PTL: Add entry for HDMI-In capture
- support to non-I2S codec boards.
-Message-Id: <175802453226.111062.18341192807500136103.b4-ty@kernel.org>
-Date: Tue, 16 Sep 2025 13:08:52 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dPAqw8wV";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FsgF4lV6"
+Date: Tue, 16 Sep 2025 14:23:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1758025410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=++K6FgctVgLpdC/U11hAdp7fRDnE69jEmJOIzyqcLgE=;
+	b=dPAqw8wVqTPs+OLamKZNR5YmRcPuYzoQrVCX/ix7vQ+PtQ0YonPdcsaRm45aYmJC7pz12H
+	IuZ8LPcgxomtLzNqMfL1JN7Xgix7mCAH7VlgFuiY85LTO1PfjazKw4aVU3QEIC+R7ToBHW
+	y0JskukJlo2jb7FTBxPTYCilbgRKeaYgd6utSXoGM5uTh0ANOVlElU8JYeSlOdvkL4IfKR
+	yaLkfuKeHi0vUWXYIoECLNT4B71R7SyzKXALBs9DAsBZoonatldAmfSVMuFRNbRDRkq5yw
+	bt8Y3HMtqFQ2VK+sNfmqNxcb0ZIays8hy4NcsNDLOGjrQCeHkKwOWuV5iUhQpQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1758025410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=++K6FgctVgLpdC/U11hAdp7fRDnE69jEmJOIzyqcLgE=;
+	b=FsgF4lV6siGCUK1ZD6Ja88G9K3BTciKf2XHZbhfnvm6eSNYrSshiP002Y9B33aB6GbtrTB
+	W/P9dmh9ed/cbeBA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: syzbot <syzbot+10b4363fb0f46527f3f3@syzkaller.appspotmail.com>,
+	tglx@linutronix.de, bp@alien8.de, dave.hansen@linux.intel.com,
+	hpa@zytor.com, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, mingo@redhat.com, perex@perex.cz,
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com, x86@kernel.org
+Subject: Re: [PATCH] ALSA: pcm: Disable bottom softirqs as part of
+ spin_lock_irq() on PREEMPT_RT
+Message-ID: <20250916122328.IAZ6wvY5@linutronix.de>
+References: <68b1f3ab.a70a0220.f8cc2.00f0.GAE@google.com>
+ <68b2406a.a00a0220.1337b0.001e.GAE@google.com>
+ <20250904102056.YCByXJXj@linutronix.de>
+ <878qiutsdu.wl-tiwai@suse.de>
+ <20250915152851.-ATGMKhp@linutronix.de>
+ <87v7li20me.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-56183
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87v7li20me.wl-tiwai@suse.de>
 
-On Mon, 15 Sep 2025 10:56:54 +0800, Bard Liao wrote:
-> Adding HDMI-In capture support for the PTL products which doesn't have
-> onboard I2S codec. But need to support HDMI-In capture via I2S and
-> audio playback through HDMI/DP monitor.
+On 2025-09-16 11:43:53 [+0200], Takashi Iwai wrote:
+> I applied now to for-next branch for 6.18.
+> It's already at a late stage for 6.17 release, and the issue doesn't
+> seem like an urgent regression to be fixed.
+
+Sure. Thank you.
+
+> Thanks!
 > 
-> 
+> Takashi
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: Intel: PTL: Add entry for HDMI-In capture support to non-I2S codec boards.
-      commit: cc648f4dde2ffbb74b9c1626e3eaaac89c6fbe16
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Sebastian
