@@ -1,80 +1,150 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FAAF3A1D2;
-	Tue, 16 Sep 2025 12:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F2F306B16
+	for <linux-sound@vger.kernel.org>; Tue, 16 Sep 2025 13:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758027016; cv=none; b=PmIC4yMvF854hrnUkYltCd5vPrMFkk7QWi1ZVhKsYbHJMpLb0sb7UkQ2ukgD4fK7245rkFvLKk///3xXzQtyDK+A65Un8mu8xwbM2uB4r4U798+22xp1hyFNlXXQ8lSEZ0xcCY1g9VjJx+9Ka73b9NoBHmQNvqcR9DczUo6jbcY=
+	t=1758027918; cv=none; b=KBKBTeOO6UzfV+aSMJWM1aFttew5CkSStzGJmjS5yf6eoBvsLh8HiX77CmjtpMJbYIhrWfnnyE/HolYvpX+aGmlXVjK5qy5Su1p7TNM44oj00jnXCi+B9m9FULINVFg0B4XhBRgsQcbFlWNwo6AfV3yRHDeK7yDAgzD3rrSysso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758027016; c=relaxed/simple;
-	bh=uFtjepYjm5+nQjKzH3LSpGOqC5GBj0n7yBC1XHaSZE4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=su1QC++TKbHsnAQvS1aa55b/uqs9oaQQoJ9zyCoLQY4xVqCbL9+/ZHchnLurVczRKgtiac+gTjcKI22hB8539h6JHRYzruL/WdxoFX7t86Ju3ED7qD3UEcidTC14Wsohff5c3g0Fy5rQ+YcFPsiTrd4KaBBh/eO3LqzzwszfiZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2BAC02B;
-	Tue, 16 Sep 2025 05:50:04 -0700 (PDT)
-Received: from [10.1.31.217] (XHFQ2J9959.cambridge.arm.com [10.1.31.217])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B8F0B3F673;
-	Tue, 16 Sep 2025 05:50:09 -0700 (PDT)
-Message-ID: <80840307-942d-4e7b-849d-2ca9bb4bbefa@arm.com>
-Date: Tue, 16 Sep 2025 13:50:08 +0100
+	s=arc-20240116; t=1758027918; c=relaxed/simple;
+	bh=r5/fVGUqR5HFq3vZ6jzZGnPxFTJWkyAAbjkTFFzkg/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=srWqXyEJAIadUYi61J+RWtrCFXFnsUI2gbn+sG4uqLqig2VPIfNFcZqK6ZaNw0evKty+fk/kypN3eH9Lsnyo2olBsDTXNKPLnqrR5hMU0AjLE9dW/mnB2EIj5dGHMXp5oWMcTrwznN4YyTqeFvrRZX+4L0PapWBSNDGm7k9HOpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m8uZ4vnQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oPCGfQyg; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=m8uZ4vnQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oPCGfQyg; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m8uZ4vnQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oPCGfQyg";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="m8uZ4vnQ";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oPCGfQyg"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 35D5A2285F;
+	Tue, 16 Sep 2025 13:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1758027915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9A36b/S0SgJ3ZG9RQ8biclrjxz+wbguqohO1hbWIE+g=;
+	b=m8uZ4vnQE1zjwjbdlDny+v1H3oz4YmrTFGp6HpHPSf5CboZShTGyHPnPBUpCB5jSggp9Oi
+	//XJLJe2XQvYRxXajkl0SrUSDnPxZUmkpg3CopZ2VIf/xIlmWJZtG/mTxCwViYi45O984C
+	SH2n4gq1xeUD6nckgNH910cUkIEUChY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1758027915;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9A36b/S0SgJ3ZG9RQ8biclrjxz+wbguqohO1hbWIE+g=;
+	b=oPCGfQyghRK4oZdMQzenU12tiuFL6w91f1jKeOpG7gchJFVCaG+gA0g0qW7Xciy5GETPVP
+	gEnzfcVHGzB7qxDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1758027915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9A36b/S0SgJ3ZG9RQ8biclrjxz+wbguqohO1hbWIE+g=;
+	b=m8uZ4vnQE1zjwjbdlDny+v1H3oz4YmrTFGp6HpHPSf5CboZShTGyHPnPBUpCB5jSggp9Oi
+	//XJLJe2XQvYRxXajkl0SrUSDnPxZUmkpg3CopZ2VIf/xIlmWJZtG/mTxCwViYi45O984C
+	SH2n4gq1xeUD6nckgNH910cUkIEUChY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1758027915;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9A36b/S0SgJ3ZG9RQ8biclrjxz+wbguqohO1hbWIE+g=;
+	b=oPCGfQyghRK4oZdMQzenU12tiuFL6w91f1jKeOpG7gchJFVCaG+gA0g0qW7Xciy5GETPVP
+	gEnzfcVHGzB7qxDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1CFDA139CB;
+	Tue, 16 Sep 2025 13:05:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id biARB4tgyWgLCgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 16 Sep 2025 13:05:15 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 9D3CFA0A83; Tue, 16 Sep 2025 15:05:14 +0200 (CEST)
+Date: Tue, 16 Sep 2025 15:05:14 +0200
+From: Jan Kara <jack@suse.cz>
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: syzbot <syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com>, 
+	akpm@linux-foundation.org, chaitanyas.prakash@arm.com, davem@davemloft.net, 
+	david@redhat.com, edumazet@google.com, hdanton@sina.com, horms@kernel.org, 
+	jack@suse.cz, kuba@kernel.org, kuniyu@google.com, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com, willemb@google.com
+Subject: Re: [syzbot] [sound?] kernel BUG in filemap_fault (2)
+Message-ID: <lqzgi7abe2onda3faavn5ays6gdw4syiu32hmrfaibrh6cmozs@pjf3llvnnefk>
+References: <68c69e17.050a0220.3c6139.04e1.GAE@google.com>
+ <80840307-942d-4e7b-849d-2ca9bb4bbefa@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [sound?] kernel BUG in filemap_fault (2)
-Content-Language: en-GB
-To: syzbot <syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com>,
- akpm@linux-foundation.org, chaitanyas.prakash@arm.com, davem@davemloft.net,
- david@redhat.com, edumazet@google.com, hdanton@sina.com, horms@kernel.org,
- jack@suse.cz, kuba@kernel.org, kuniyu@google.com,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org, pabeni@redhat.com, perex@perex.cz,
- syzkaller-bugs@googlegroups.com, tiwai@suse.com, willemb@google.com
-References: <68c69e17.050a0220.3c6139.04e1.GAE@google.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <68c69e17.050a0220.3c6139.04e1.GAE@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <80840307-942d-4e7b-849d-2ca9bb4bbefa@arm.com>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[263f159eb37a1c4c67a4];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[sina.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[syzkaller.appspotmail.com,linux-foundation.org,arm.com,davemloft.net,redhat.com,google.com,sina.com,kernel.org,suse.cz,vger.kernel.org,perex.cz,googlegroups.com,suse.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,arm.com:email,suse.com:email];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
 
-On 14/09/2025 11:51, syzbot wrote:
-> syzbot suspects this issue was fixed by commit:
+On Tue 16-09-25 13:50:08, Ryan Roberts wrote:
+> On 14/09/2025 11:51, syzbot wrote:
+> > syzbot suspects this issue was fixed by commit:
+> > 
+> > commit bdb86f6b87633cc020f8225ae09d336da7826724
+> > Author: Ryan Roberts <ryan.roberts@arm.com>
+> > Date:   Mon Jun 9 09:27:23 2025 +0000
+> > 
+> >     mm/readahead: honour new_order in page_cache_ra_order()
 > 
-> commit bdb86f6b87633cc020f8225ae09d336da7826724
-> Author: Ryan Roberts <ryan.roberts@arm.com>
-> Date:   Mon Jun 9 09:27:23 2025 +0000
+> I'm not sure what original bug you are claiming this is fixing? Perhaps this?
 > 
->     mm/readahead: honour new_order in page_cache_ra_order()
+> https://lore.kernel.org/linux-mm/6852b77e.a70a0220.79d0a.0214.GAE@google.com/
 
-I'm not sure what original bug you are claiming this is fixing? Perhaps this?
+I think it was:
 
-https://lore.kernel.org/linux-mm/6852b77e.a70a0220.79d0a.0214.GAE@google.com/
+https://lore.kernel.org/all/684ffc59.a00a0220.279073.0037.GAE@google.com/
 
-If so, the fix for that was squashed into the original patch before it was
-merged upstream. That is now Commit 38b0ece6d763 ("mm/filemap: allow arch to
-request folio size for exec memory").
+at least that's what the syzbot email replies to... And it doesn't make a
+lot of sense but it isn't totally off either. So I'd just let the syzbot
+bug autoclose after some timeout.
 
-Thanks,
-Ryan
-
-
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1100b934580000
-> start commit:   b4911fb0b060 Merge tag 'mmc-v6.16-rc1' of git://git.kernel..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3f6ddf055b5c86f8
-> dashboard link: https://syzkaller.appspot.com/bug?extid=263f159eb37a1c4c67a4
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=157cf48c580000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=146a948c580000
-> 
-> If the result looks correct, please mark the issue as fixed by replying with:
-> 
-> #syz fix: mm/readahead: honour new_order in page_cache_ra_order()
-> 
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
