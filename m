@@ -1,340 +1,92 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E3520DD42
-	for <linux-sound@vger.kernel.org>; Tue, 16 Sep 2025 16:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893F12820B9;
+	Tue, 16 Sep 2025 21:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758038962; cv=none; b=pmzWKpor1SWMVgcfYZNGaez+5P/F6C69A+jKhQOxOAVNmf9bYDPxp4SgdKmqVqYxWl5kxSYsl4AkEQTZ12asTMLm2giiAbGU/tRC13ccy/cAi/ulyA0TFelYv2dWiwX++ykelLt3Y5co1eJxp9SaALu2AsOaYwsSJwv/5U4Y8Nw=
+	t=1758058920; cv=none; b=Rl1ayH5HnHZtwaMpTzQZdZQ+OMJIsHIczrumY3+bhFf3QZaYRsHea3fQw+B6eu97974Xi2bLdjSk1W25GhqAk++HmYu9ysE0Yy/m0hghn9NrpbOSU2VaUAJMATyrEXQmaB0tdMv+qGdx5LoPdsAWUCuJtVA88Mex6+qhbJLcu0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758038962; c=relaxed/simple;
-	bh=gHBFPGLxpgeIbpqz53lBnp+GFhA6FFof1/8vmOqOGoE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DznTZBdiUYH0dIoyLyxMH3YdfGyF1gMccPg8BqqxyKHTOVef8E+DF6kJuSY6nnX4j4RBJ8N85mdSZfHbfViEJ9rKfBccFMPfxv4apxetG+DmrPGbP7B2PtrSslQmsUycl+RuGBo0UT3dZU/h8mIWVwNfoco9fBembpxtP6Lmen8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1EE+nP5L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7vC6bWcK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hISESrwM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SsYRJ+1V; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758058920; c=relaxed/simple;
+	bh=tRIfdhsAJMME1a45JIICOi38lqR6oYNtURxnDEmjumg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZCxleXv/YpG6imYdnln+24v0YGazAw/fQuwmXZcgckAws3NHj8NAygd3f4S9LG6K++cF5bWZvfM1WG4NGq8gv7G3TEF8pMPnt0nr+ZQqr1iZC2WjW/QvnoIJYi2oT+1Qdu8dLeD/5la0DYp0yvki4N05P6mjVx5T1mCbThFJ240=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RiKilsRb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1EE+nP5L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7vC6bWcK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hISESrwM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SsYRJ+1V"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EAB2F1F453;
-	Tue, 16 Sep 2025 16:09:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758038959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Sk5AEI/paeTqJ+QNDnjHg/KvAsKlZn9pZI9pJzQwMJ0=;
-	b=1EE+nP5LkZNQAD1UiiG13D4lO1RGbKhrjLlO2fhVPILTDBJeMfs5+tjg+VxgmU+HfhYV13
-	bs4TGizkhW1fGuTCUN7YtE55hbG66vO2b1IP3HFtXef8X8ICQGIakJcR1RcZo8KPNLBURg
-	hnopb4muD5oABBxfDR3C/RKyuTs0m0k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758038959;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Sk5AEI/paeTqJ+QNDnjHg/KvAsKlZn9pZI9pJzQwMJ0=;
-	b=7vC6bWcKz1O2YREeyLf4QpftmnlLqeaPZ4plTqGvbPxdmbNNBXH3dqRRFWsXQ9s8s4jx/e
-	lTK+9LEQOu6e07Cw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hISESrwM;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SsYRJ+1V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758038958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Sk5AEI/paeTqJ+QNDnjHg/KvAsKlZn9pZI9pJzQwMJ0=;
-	b=hISESrwM1LjUKFjEDprbKKbLOW4F3yNktMqhMR6RqIb8igdiCyTLXh3KohubKC05AjCXyA
-	q8EptqWsQfigsBmjAi4PlaSKHmk2aR3Dew3ZhdVmkngeuRcG+zcGTDAz1pKdlfXidJye63
-	PlkNLEtnlQ3/n7VUXfFLSGQqv2I7Aos=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758038958;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Sk5AEI/paeTqJ+QNDnjHg/KvAsKlZn9pZI9pJzQwMJ0=;
-	b=SsYRJ+1VYrIEeso//o0izaLeJGA/0iyU3ENs4m9KHZv4KYXO8r68EH6KWsKVQpsSdv68EH
-	EQZqtoHXwR8FwBCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 873BF13A63;
-	Tue, 16 Sep 2025 16:09:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TgeOH66LyWhhSwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 16 Sep 2025 16:09:18 +0000
-Date: Tue, 16 Sep 2025 18:09:18 +0200
-Message-ID: <87o6raxtu9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Luca Weiss" <luca.weiss@fairphone.com>
-Cc: "Arnd Bergmann" <arnd@arndb.de>,
-	"Takashi Iwai" <tiwai@suse.de>,
-	"Arnd Bergmann" <arnd@kernel.org>,
-	"Mark Brown" <broonie@kernel.org>,
-	"Wesley Cheng" <quic_wcheng@quicinc.com>,
-	"Jaroslav Kysela"
- <perex@perex.cz>,
-	"Takashi Iwai" <tiwai@suse.com>,
-	"Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>,
-	"Dan Carpenter" <dan.carpenter@linaro.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 3/3] ALSA: qc_audio_offload: try to reduce address space confusion
-In-Reply-To: <DCU39JVDVFAG.2EOCQ37KAS3N0@fairphone.com>
-References: <20250513123442.159936-1-arnd@kernel.org>
-	<20250513123442.159936-4-arnd@kernel.org>
-	<DBR2363A95M1.L9XBNC003490@fairphone.com>
-	<87v7n72pg0.wl-tiwai@suse.de>
-	<DBR3FZGY4QS1.BX6M1PZS5RH4@fairphone.com>
-	<87ms8j2on6.wl-tiwai@suse.de>
-	<DCKUCB8A1JCV.1GK0TW2YMXNZP@fairphone.com>
-	<87bjnpqe45.wl-tiwai@suse.de>
-	<a2a6843f-7e03-4b7e-b5fc-415ac9fc6621@app.fastmail.com>
-	<DCU39JVDVFAG.2EOCQ37KAS3N0@fairphone.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RiKilsRb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60407C4CEEB;
+	Tue, 16 Sep 2025 21:41:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758058920;
+	bh=tRIfdhsAJMME1a45JIICOi38lqR6oYNtURxnDEmjumg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=RiKilsRb4kpDl0//LUuc+uz2OTTgEllKymx7sarK7K5V2gLsr1ROtovFW0kOsUepf
+	 CVUdEQwwFLuSUlqYhn6YaIEwVcdS85CEUrDgYJ/g/48X7rp29GP9CNn6aMIQ33PIx6
+	 qMTtsWRCJkxlISgeK+B5r9gsmYQwYK6nqqaFNCyItywRMPpokt8mtHhDOYHRiXCGLD
+	 KWtBypRC0GLgKb/k4OKDQX3TcZQszrX6kdAAB5qWE85+zq27Y2ISZzvlf2onQxOUXP
+	 eVaTIJcnLNpTPwq+FD10s0x7LBVntsCuIxjWMtNZ14xDhjF+mKr+hGMh5HIGCYjgHd
+	 JlE06EhPv51FA==
+From: Mark Brown <broonie@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Jonas Rebmann <jre@pengutronix.de>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, Lucas Stach <l.stach@pengutronix.de>, 
+ David Jander <david@protonic.nl>, Oleksij Rempel <o.rempel@pengutronix.de>
+In-Reply-To: <20250910-imx8mp-prt8ml-v1-0-fd04aed15670@pengutronix.de>
+References: <20250910-imx8mp-prt8ml-v1-0-fd04aed15670@pengutronix.de>
+Subject: Re: (subset) [PATCH 0/4] Mainline Protonic PRT8ML board
+Message-Id: <175805891512.247117.14108545633571750279.b4-ty@kernel.org>
+Date: Tue, 16 Sep 2025 22:41:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: EAB2F1F453
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-56183
 
-On Tue, 16 Sep 2025 10:41:01 +0200,
-Luca Weiss wrote:
+On Wed, 10 Sep 2025 14:35:20 +0200, Jonas Rebmann wrote:
+> This series adds the Protonic PRT8ML device tree as well as some minor
+> corrections to the devicetree bindings used.
 > 
-> Hi Arnd,
 > 
-> On Fri Sep 5, 2025 at 4:54 PM CEST, Arnd Bergmann wrote:
-> > On Fri, Sep 5, 2025, at 14:26, Takashi Iwai wrote:
-> >> On Fri, 05 Sep 2025 13:47:28 +0200,
-> >
-> >> @@ -1051,18 +1050,13 @@ static int uaudio_transfer_buffer_setup(struct 
-> >> snd_usb_substream *subs,
-> >>  	if (!xfer_buf)
-> >>  		return -ENOMEM;
-> >> 
-> >> -	/* Remapping is not possible if xfer_buf is outside of linear map */
-> >> -	xfer_buf_pa = virt_to_phys(xfer_buf);
-> >> -	if (WARN_ON(!page_is_ram(PFN_DOWN(xfer_buf_pa)))) {
-> >> -		ret = -ENXIO;
-> >> -		goto unmap_sync;
-> >> -	}
-> >>  	dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
-> >>  			xfer_buf_dma, len);
-> >> 
-> >>  	/* map the physical buffer into sysdev as well */
-> >> +	/* note: 0 is passed to pa argument as we use sgt */
-> >>  	xfer_buf_dma_sysdev = uaudio_iommu_map(MEM_XFER_BUF, dma_coherent,
-> >> -					       xfer_buf_pa, len, &xfer_buf_sgt);
-> >> +					       0, len, &xfer_buf_sgt);
-> >>  	if (!xfer_buf_dma_sysdev) {
-> >>  		ret = -ENOMEM;
-> >>  		goto unmap_sync;
-> >
-> >
-> > Makes sense. I had to rework the code a little more to actually
-> > understand how it fits together, for reference the below version
-> > (I don't expect it to build cleanly) would split up
-> > uaudio_iommu_map() into one function that takes a physical
-> > address and another function that takes an sg table.
-> 
-> Are you planning to post this as a proper patch? It's a bit late in the
-> 6.17 cycle already but good to still get this fixed for final release.
-> 
-> Or revert the original commit that broke it for now.
-> 
-> I couldn't really test your patch since there's a couple of compile
-> errors where I wasn't sure how to resolve them correctly.
 
-Could you check the patch below, then?  At least it compiles without
-errors.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Takashi
+Thanks!
 
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -538,38 +538,33 @@ static void uaudio_iommu_unmap(enum mem_type mtype, unsigned long iova,
- 			umap_size, iova, mapped_iova_size);
- }
- 
-+static int uaudio_iommu_map_prot(bool dma_coherent)
-+{
-+	int prot = IOMMU_READ | IOMMU_WRITE;
-+
-+	if (dma_coherent)
-+		prot |= IOMMU_CACHE;
-+	return prot;
-+}
-+
- /**
-- * uaudio_iommu_map() - maps iommu memory for adsp
-+ * uaudio_iommu_map_pa() - maps iommu memory for adsp
-  * @mtype: ring type
-  * @dma_coherent: dma coherent
-  * @pa: physical address for ring/buffer
-  * @size: size of memory region
-- * @sgt: sg table for memory region
-  *
-  * Maps the XHCI related resources to a memory region that is assigned to be
-  * used by the adsp.  This will be mapped to the domain, which is created by
-  * the ASoC USB backend driver.
-  *
-  */
--static unsigned long uaudio_iommu_map(enum mem_type mtype, bool dma_coherent,
--				      phys_addr_t pa, size_t size,
--				      struct sg_table *sgt)
-+static unsigned long uaudio_iommu_map_pa(enum mem_type mtype, bool dma_coherent,
-+					 phys_addr_t pa, size_t size)
- {
--	struct scatterlist *sg;
- 	unsigned long iova = 0;
--	size_t total_len = 0;
--	unsigned long iova_sg;
--	phys_addr_t pa_sg;
- 	bool map = true;
--	size_t sg_len;
--	int prot;
--	int ret;
--	int i;
--
--	prot = IOMMU_READ | IOMMU_WRITE;
--
--	if (dma_coherent)
--		prot |= IOMMU_CACHE;
-+	int prot = uaudio_iommu_map_prot(dma_coherent);
- 
- 	switch (mtype) {
- 	case MEM_EVENT_RING:
-@@ -583,20 +578,41 @@ static unsigned long uaudio_iommu_map(enum mem_type mtype, bool dma_coherent,
- 				     &uaudio_qdev->xfer_ring_iova_size,
- 				     &uaudio_qdev->xfer_ring_list, size);
- 		break;
--	case MEM_XFER_BUF:
--		iova = uaudio_get_iova(&uaudio_qdev->curr_xfer_buf_iova,
--				     &uaudio_qdev->xfer_buf_iova_size,
--				     &uaudio_qdev->xfer_buf_list, size);
--		break;
- 	default:
- 		dev_err(uaudio_qdev->data->dev, "unknown mem type %d\n", mtype);
- 	}
- 
- 	if (!iova || !map)
--		goto done;
-+		return 0;
- 
--	if (!sgt)
--		goto skip_sgt_map;
-+	iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot, GFP_KERNEL);
-+
-+	return iova;
-+}
-+
-+static unsigned long uaudio_iommu_map_xfer_buf(bool dma_coherent, size_t size,
-+					       struct sg_table *sgt)
-+{
-+	struct scatterlist *sg;
-+	unsigned long iova = 0;
-+	size_t total_len = 0;
-+	unsigned long iova_sg;
-+	phys_addr_t pa_sg;
-+	size_t sg_len;
-+	int prot = uaudio_iommu_map_prot(dma_coherent);
-+	int ret;
-+	int i;
-+
-+	prot = IOMMU_READ | IOMMU_WRITE;
-+
-+	if (dma_coherent)
-+		prot |= IOMMU_CACHE;
-+
-+	iova = uaudio_get_iova(&uaudio_qdev->curr_xfer_buf_iova,
-+			       &uaudio_qdev->xfer_buf_iova_size,
-+			       &uaudio_qdev->xfer_buf_list, size);
-+	if (!iova)
-+		goto done;
- 
- 	iova_sg = iova;
- 	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
-@@ -618,11 +634,6 @@ static unsigned long uaudio_iommu_map(enum mem_type mtype, bool dma_coherent,
- 		uaudio_iommu_unmap(MEM_XFER_BUF, iova, size, total_len);
- 		iova = 0;
- 	}
--	return iova;
--
--skip_sgt_map:
--	iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot, GFP_KERNEL);
--
- done:
- 	return iova;
- }
-@@ -1061,8 +1072,8 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
- 			xfer_buf_dma, len);
- 
- 	/* map the physical buffer into sysdev as well */
--	xfer_buf_dma_sysdev = uaudio_iommu_map(MEM_XFER_BUF, dma_coherent,
--					       xfer_buf_pa, len, &xfer_buf_sgt);
-+	xfer_buf_dma_sysdev = uaudio_iommu_map_xfer_buf(dma_coherent,
-+							len, &xfer_buf_sgt);
- 	if (!xfer_buf_dma_sysdev) {
- 		ret = -ENOMEM;
- 		goto unmap_sync;
-@@ -1143,8 +1154,8 @@ uaudio_endpoint_setup(struct snd_usb_substream *subs,
- 	sg_free_table(sgt);
- 
- 	/* data transfer ring */
--	iova = uaudio_iommu_map(MEM_XFER_RING, dma_coherent, tr_pa,
--			      PAGE_SIZE, NULL);
-+	iova = uaudio_iommu_map_pa(MEM_XFER_RING, dma_coherent, tr_pa,
-+				   PAGE_SIZE);
- 	if (!iova) {
- 		ret = -ENOMEM;
- 		goto clear_pa;
-@@ -1207,8 +1218,8 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
- 	mem_info->dma = sg_dma_address(sgt->sgl);
- 	sg_free_table(sgt);
- 
--	iova = uaudio_iommu_map(MEM_EVENT_RING, dma_coherent, er_pa,
--			      PAGE_SIZE, NULL);
-+	iova = uaudio_iommu_map_pa(MEM_EVENT_RING, dma_coherent, er_pa,
-+				   PAGE_SIZE);
- 	if (!iova) {
- 		ret = -ENOMEM;
- 		goto clear_pa;
+[2/4] ASoC: dt-bindings: asahi-kasei,ak4458: Reference common DAI properties
+      commit: 8d7de4a014f589c1776959f7fdadbf7b12045aac
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
