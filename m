@@ -1,78 +1,66 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7478D1C84C0;
-	Wed, 17 Sep 2025 17:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5B32797A3
+	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 20:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758131905; cv=none; b=ZXcUrpssm+B3r8SbE8yYQiP4dwnGBl3oYdLbwY12hCQF0C+rgW6RFxnQSkOAR8m9VYWBAmpjcsL1CXit7OST0g1cSiVr7TxgqGrM0ijMxxm2crcPjjQ0h1sY9+iijzKBwfE5e+YiLpwCusnfj4kpfNzsXBWj0MGnZobU3F3H5Po=
+	t=1758140550; cv=none; b=a5cb5CYuUHgtvDkQOS3EQVO+8TCRdm969HNbskrQ1cM5WLmTWY70rXNgWpa6z2nchnj8M1UyufYRoAcX+GwASym6QaDe18jxBoN1xNPVnP+WgHPpbwugZbDX63yAbqtTAKllcMH8krvkjsh49fVUP9oz2mCBrWUiA8XK013/Sbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758131905; c=relaxed/simple;
-	bh=6zMlqvkkJUxPR+2hCntCFeaA3Ngj3U6itSCfgav3eEY=;
+	s=arc-20240116; t=1758140550; c=relaxed/simple;
+	bh=fkVD6/Dkx5ZmPkfVNphd2pXxWxij5VFj4NtT7mXHbVY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ERx5V9Fwb0VL/W0jGpTMrwbmUs0k0tXKZEUXHM2SbxBQeWOibwqNELnp7pwT20wTsqdzFZNfd96KhZY4GYbOSr5iGaKIVk6BoqOpa9/fQNOP+Z/dg/dV0D7spO+PwxP1RM0lYo0gJeBdfkx8nDQKrKjPn+n9/T2c2e5Rc03NINA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ST1KfL37; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=feT/bzYFSnMYpKq1+kFmNWVNYgEVCj3NLAW6AhNhqZ6jSvyc+OlhYlCXq8pE1172+cV8q9PkoT49482zMM0CTJZv6gssFKpzT2YH98/phzL86/lCmX01IuqXHpxWxLG2ayXfnfvPBFFE9sTwWIkF2SuNoBnCUzXAtR1eqmwew64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RlrM3x3n; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ST1KfL37"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=4sg0pwVlDI3PlcEWg3BqiWrpfnSRU0MPr0hgbDjPw6w=; b=ST1KfL37z8LSxRSVV7aGFKe8Z9
-	u2ZfkpoxZX0BcWKZNcx6GOPpjZwYIB/ijc7R9rMKCezRU7vYQZSHesfNQuvqzzDRDnQoT/vsjpOtn
-	FhGLzQdSUzYoJ1H1dBn0Vl3blJwnwaX6a8aHl/ONmnuWqRv1WAR+aLAQvf6w2IPcMJpI07Bo+fsVY
-	UsG0cA7voaF7RMUFkdf/tY5BTr/10CY+zxBKKhgTSGtM/gHixBteOuTEofuJ05ckY7Sqfr36beljR
-	I8aGbN5mwE+13QVhKPlYZl1KP9R/V26NlEwdxPsvjFCrAsZU+9y0JWa8eqVFO4PhH1DRidVpjeKnG
-	4c5yfdXw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uywQ6-0000000DlSR-48eJ;
-	Wed, 17 Sep 2025 17:58:19 +0000
-Message-ID: <9c459c3f-7a7b-42d6-8a4c-66ade94e1029@infradead.org>
-Date: Wed, 17 Sep 2025 10:58:17 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RlrM3x3n"
+Message-ID: <3fdabc7d-b937-435d-b644-152a9635ba18@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1758140544;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HC59sexiN5oGSdJ01D1lEc9II6F1uzTukaovjegeBIs=;
+	b=RlrM3x3nZy2DCg+7Bc2Y+F1zslL6Or9sCfWs8jf3Kz2FbIo1Ec9+UFrm+04RHYZPK6LvAu
+	mKaM1PQeYtylQPHQfrRiag/dLrY6DHB7hQc+ymYX9U6QoMV3cMyYi9SoWNaqTgJdsKqcv+
+	sn99KxnCXPffLBACge/DMTpyEtgNWtM=
+Date: Wed, 17 Sep 2025 20:49:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] ALSA: doc: add docs about
- device_device_quirk_flags in snd-usb-audio
-To: cryolitia@uniontech.com, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>
-Cc: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>,
- Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>,
- Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>,
- kernel@uniontech.com, linux-modules@vger.kernel.org
-References: <20250917-sound-v3-0-92ebe9472a0a@uniontech.com>
- <20250917-sound-v3-4-92ebe9472a0a@uniontech.com>
+Subject: Re: [PATCH v2 07/19] ASoC: SDCA: Factor out a helper to find SDCA IRQ
+ data
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: rafael@kernel.org, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, shumingf@realtek.com, lgirdwood@gmail.com,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+References: <20250912103504.2679226-1-ckeepax@opensource.cirrus.com>
+ <20250912103504.2679226-8-ckeepax@opensource.cirrus.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250917-sound-v3-4-92ebe9472a0a@uniontech.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20250912103504.2679226-8-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
+> +static struct sdca_interrupt *get_interrupt_data(struct device *dev, int irq,
+> +						 struct sdca_interrupt_info *info)
+> +{
+> +	if (irq == SDCA_NO_INTERRUPT) {
+> +		return NULL;
+> +	} else if (irq < 0 || irq >= SDCA_MAX_INTERRUPTS) {
+> +		dev_err(dev, "bad irq position: %d\n", irq);
+> +		return ERR_PTR(-EINVAL);
+> +	}
 
-On 9/17/25 5:46 AM, Cryolitia PukNgae via B4 Relay wrote:
-> @@ -2344,8 +2386,8 @@ report it to the upstream.
->  NB: ``quirk_alias`` option is provided only for testing / development.
->  If you want to have a proper support, contact to upstream for
->  adding the matching quirk in the driver code statically.
-> -Ditto for ``quirk_flags``.  If a device is known to require specific
-> -workarounds, please report to the upstream.
-> +Ditto for ``quirk_flags``.  If a device
-> +is known to require specific workarounds, please report to the upstream.
-
-What is the purpose of this change?
-
--- 
-~Randy
+Checking for the range isn't bad but could this be improved with the 'mipi-sdca-control-interrupt-position' DisCo properties?
+When parsing the DisCo data, we can probably come-up with a mask of valid interrupts, no?
 
