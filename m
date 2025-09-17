@@ -1,234 +1,122 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E32332A5B
-	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 13:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9735F19F115
+	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 13:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758116745; cv=none; b=eBLLEjPQiOcQJUp69xQfEteLs/DvEh2DMu9yJJs2f88PkekyWO/cmITyubKgMCyuNGF0rEmQPRuLHjsB+hA+Pcyt2zucHmGdRbUZ9fIHGTesUbv/+bjFI3TOE8RAkfVfL05S969DgGLk8cxs9YnKKGVN/fqch4jR3WvSeM85Lac=
+	t=1758117599; cv=none; b=VRxGeKcaSf9g0jnp8UFSJtZvRzaVWgFNy5rH0n6/yb3vkqw/h0mtmbCtSIUUU94NPUtA0i6JgT+mloGxPVrhYFR3prK+L/yv+FqST+6wFEZbWKdtDXhQ2w/aIt+Eu3GMhmpWCLA4dOPJ420iV2eiNQXG793aK9QkgJQva23gbtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758116745; c=relaxed/simple;
-	bh=pttNoyrVMO9HIku9QnhGRBuzxeRAlRZhE0Pn0ymP/IQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NFv5C1MISS/qIGXH4ZQDc2TbQ3ldMeyNVipSAz+AzSQYMrPMK91jOwPq1vQydyyTkCy68zKUmN6a4ENh9DQv8HqjBufinUbTs85/F39V0z3mZuE2RnNLPR+DrJ+htt6uJdz8g3jLC8g3eM4VufTbLYvVjMi9Ntg4fpDIuG1PKgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cL4dI1cm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2EAcp0KX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cL4dI1cm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2EAcp0KX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758117599; c=relaxed/simple;
+	bh=HlsOgoJMDiPmGZJ/m+0CIAOip4+dnf62vlXnIwPb0pk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=fvm5GkMBwSm9VGxkxXDb1CXDWwHJfM8rN7lqeSzkMTUwLyVqSUMW4iqyPkifgsaoHRdriXHLEqZnxp722V4ezN2XRXW+n0tNrvN6b5q45CmdaLHqg3RZfpFqxRjiYcrFoOX05+roIpCAEBp1DHxuwlrghQC3FZsdogknUguPQmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=qHPP+gtf; arc=none smtp.client-ip=209.85.218.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cL4dI1cm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2EAcp0KX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cL4dI1cm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2EAcp0KX"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5DEFA2017A;
-	Wed, 17 Sep 2025 13:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758116741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=13Ej0a5LcZRESyka9zE9AK+QSaGitNj9CQUgrUKtJJo=;
-	b=cL4dI1cmxNNbqLFkGrb4NyRAZTyFbeuZF+xxNpPZ2N81pZalZxmq4CWKUrNn6i+rA6ubuf
-	AEG6oFms1U1siTsakc4T4ZxZTSzkr6joyvt/dKdjDRGoArAt0zs+OP07UBSe+bjOYutorx
-	XP6Rlp6EVfMgu53jEne01ufQCs5fNmg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758116741;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=13Ej0a5LcZRESyka9zE9AK+QSaGitNj9CQUgrUKtJJo=;
-	b=2EAcp0KXYGQcDdwOmvXzIJ8hQvle/WjeSQ64vwBKJQRt2kfS1NFNz8daDq7mZlF33rHkih
-	NVNazWta+c4320AQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cL4dI1cm;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2EAcp0KX
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758116741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=13Ej0a5LcZRESyka9zE9AK+QSaGitNj9CQUgrUKtJJo=;
-	b=cL4dI1cmxNNbqLFkGrb4NyRAZTyFbeuZF+xxNpPZ2N81pZalZxmq4CWKUrNn6i+rA6ubuf
-	AEG6oFms1U1siTsakc4T4ZxZTSzkr6joyvt/dKdjDRGoArAt0zs+OP07UBSe+bjOYutorx
-	XP6Rlp6EVfMgu53jEne01ufQCs5fNmg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758116741;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=13Ej0a5LcZRESyka9zE9AK+QSaGitNj9CQUgrUKtJJo=;
-	b=2EAcp0KXYGQcDdwOmvXzIJ8hQvle/WjeSQ64vwBKJQRt2kfS1NFNz8daDq7mZlF33rHkih
-	NVNazWta+c4320AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B968B137C3;
-	Wed, 17 Sep 2025 13:45:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id D/tkK4S7ymjGegAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 17 Sep 2025 13:45:40 +0000
-Date: Wed, 17 Sep 2025 15:45:40 +0200
-Message-ID: <87ms6tchvf.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: cryolitia@uniontech.com,
-	Cryolitia PukNgae via B4 Relay <devnull+cryolitia.uniontech.com@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Kexy Biscuit <kexybiscuit@aosc.io>,
-	Nie Cheng <niecheng1@uniontech.com>,
-	Zhan Jun <zhanjun@uniontech.com>,
-	Feng Yuan <fengyuan@uniontech.com>,
-	qaqland <anguoli@uniontech.com>,
-	kernel@uniontech.com,
-	linux-modules@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH v3 3/4] ALSA: usb-audio: add module param device_quirk_flags
-In-Reply-To: <20250917-sound-v3-3-92ebe9472a0a@uniontech.com>
-References: <20250917-sound-v3-0-92ebe9472a0a@uniontech.com>
-	<20250917-sound-v3-3-92ebe9472a0a@uniontech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="qHPP+gtf"
+Received: by mail-ej1-f67.google.com with SMTP id a640c23a62f3a-b00a9989633so213284166b.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 06:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1758117596; x=1758722396; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gZ9rs3FYgxiBqHA5bToxvQlS5tlMrcogmGb69UagQr4=;
+        b=qHPP+gtfpXR5xeOZ6IL2fS8PLhKilpKAi/Wlg4jPwt/l+oSBp4oMB+3OVo+SLzX2nZ
+         U3W1rMK+57Dpfc8IARzBYt6/IHmMIsp+/+CW5uKqmIv/Hw40RyWn4WCP3wMpz9bqn5pk
+         LBjN08Le3/Z6jfLllAsWRa0vn5NBMugb7HHeHUYcvNxayhev56D4RKj5ZvQahU9W+9By
+         xME+iqgfpiOxFhZGCvmsDlWvwmQTIX8QpgkBXkU4oP5wjgFog71DF7b5E4qaVn8RFHyM
+         J2kZW0CdtWgqZh+YkACGE45J+47az/iX9B4AdE9WQQc7p59Dwg5exvA/530ZXLPNkLW+
+         eG3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758117596; x=1758722396;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gZ9rs3FYgxiBqHA5bToxvQlS5tlMrcogmGb69UagQr4=;
+        b=wJTYgnj6RZdzVB0GD6oGdmmzS+lD1qLC4EFuAVyr2i4LJ7sPZgZCRYR0mtnmNIX0a9
+         tpFev73Jqpf1eQRTEP5w3LQufU03wDkEMhwLxE51bo6/QKrPv7cWSZ6jw0dZzRAn6qlI
+         IQPhJoO6Xi02OAhICYtoKxg3SbPTNCxRPLjoXp9WfaFf+4iIE7vy58FeAFprzd2VpvEr
+         pdlvovEIt98eNyuYxM+3mXV+TWVmp0sNT1cMLAnSkL5X7e15KjReTYFRyOjfCNQEFeOV
+         hv1g702qLdz+y2whNQxCJSm+nhH25m2Kvk/e0pmmNKvKPEb0YUF8FN1mP42BIhvKDk30
+         BHZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVitXDw/zan2j9WDWXJNs7UGOjzM2DLErNs7hRVQMDzfI3Py1WrjqSMCb8TWuYzFbttLswfN+aoy2sykA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHTpGu5cEOQ88V/6kWmaMTezCmha3b9S9gN5pP9WvsT7WgeOrJ
+	Nfi8nwF+bPvSGUQo+Xl//4Ax4mNYSZVovdvLlryc7TNd7LJQ+p+QOdVpzhSjQXzP5AM=
+X-Gm-Gg: ASbGnctTYv8IKaIwzGWvxySx14Kk2lePVecQ5A9bCVIhfxea3v3XeKoS54LaO/LweTS
+	mcWnAzqsVcH+NJBHMYJylWpA+tHefjkLSki7k4IaeVJ1CUHyc1LzCFU1AiE+sHKdlgsCRdulVDC
+	w5bxGIXXwbClSXGc+dPsjaVQiH0w7AnpUw0jSFshK7nywfoxMdMdqSX3FkVZwvzTTebeFTESpe6
+	e4yQOJROaEz/DS1Euhge/unRrVvwjm4fhMcig25uyA+WbSyzLrnzpyicuctl681GDqDw51pU/LH
+	GJvKFwHRkdXIhZl4QwUSU80cB6dlWQMdTs2+7HHG25UHDSsHz8laSTNDaD8o5Edp0OEm2a8mOLV
+	8EZm+vENvszIPq9uidSI8Pt2Ac6SB5/BPMwFwQT/fgccEK0kGc9vFK69Jb931ZPVy0JXpDWLDCs
+	sR+BSkTMlys24=
+X-Google-Smtp-Source: AGHT+IE6uqG8zk5CcZdAZHV2QgIl0M9D9lZbkHeKeWQerza8j7gurxNLzuBhabljZ9UXI66L02Tr1w==
+X-Received: by 2002:a17:907:3fa9:b0:b0e:d477:4978 with SMTP id a640c23a62f3a-b16836ee333mr623953266b.32.1758117595928;
+        Wed, 17 Sep 2025 06:59:55 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07c7159e6csm1159327866b.33.2025.09.17.06.59.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Sep 2025 06:59:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 5DEFA2017A
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TAGGED_RCPT(0.00)[cryolitia.uniontech.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -2.01
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 17 Sep 2025 15:59:55 +0200
+Message-Id: <DCV4O98LHJW2.1HVRG1E5C10DY@fairphone.com>
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Takashi Iwai" <tiwai@suse.de>, <linux-sound@vger.kernel.org>
+Cc: "Luca Weiss" <luca.weiss@fairphone.com>, "Arnd Bergmann"
+ <arnd@kernel.org>
+Subject: Re: [PATCH] ALSA: usb: qcom: Fix false-positive address space check
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250917130909.8211-1-tiwai@suse.de>
+In-Reply-To: <20250917130909.8211-1-tiwai@suse.de>
 
-On Wed, 17 Sep 2025 14:46:42 +0200,
-Cryolitia PukNgae via B4 Relay wrote:
-> 
-> From: Cryolitia PukNgae <cryolitia@uniontech.com>
-> 
-> For apply and unapply quirk flags more flexibly though param and sysfs
-> 
-> Co-developed-by: Takashi Iwai <tiwai@suse.de>
-> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
+Hi Takashi,
 
-I think an easier approach would be to rather parse the string value
-at each time when probing a device and seeking for options.
+On Wed Sep 17, 2025 at 3:09 PM CEST, Takashi Iwai wrote:
+> The sanity check previously added to uaudio_transfer_buffer_setup()
+> assumed the allocated buffer being linear-mapped.  But the buffer
+> allocated via usb_alloc_coherent() isn't always so, rather to be used
+> with (SG-)DMA API.  This leaded to a false-positive warning and the
+> driver failed to work.
+>
+> Actually uaudio_transfer_buffer_setup() deals only with the DMA-API
+> addresses for MEM_XFER_BUF type, while other callers of
+> uaudio_iommu_map() are with pages with physical addresses for
+> MEM_EVENT_RING and MEM_XFER_RING types.  So this patch splits the
+> mapping helper function to two different ones, uaudio_iommu_map() for
+> the DMA pages and uaudio_iommu_map_pa() for the latter, in order to
+> handle mapping differently for each type.  Along with it, the
+> unnecessary address check that caused probe error is dropped, too.
 
-That is, let's code without a mutex at first (for the permission
-0444):
+Thanks for fixing this, and Arnd for the help!
 
-void snd_usb_init_dynamic_quirks(int idx, struct snd_usb_audio *chip)
-{
-	....
-	/* old style option found: the position-based integer value */
-	if (quirk_flags[idx] &&
-	    !kstrtou32(quirk_flags[idx], 0, &chip->quirk_flags)) {
-		usb_audio_dbg(....);
-		return;
-	}
+> Fixes: 3335a1bbd624 ("ALSA: qc_audio_offload: try to reduce address space=
+ confusion")
+> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Reported-and-tested-by: Luca Weiss <luca.weiss@fairphone.com>
 
-	/* take the default quirk from the quirk table */
-	snd_usb_init_quirk_flags(chip);
+I don't know if https://www.kernel.org/doc/html/latest/process/maintainer-t=
+ip.html
+is applicable to also sound subsystem or the whole tree but maybe
+separate tags are simpler?
 
-	for (i = 0; i < ARRAY_SIZE(quirk_flags); i++) {
-		if (quirk_flags[i] && *quirk_flags[i]) {
-			err = parse_quirk_option(chip, quirk_flags[i]);
-			if (err < 0)
-				return;
-		}
-	}
-}
+Reported-by: Luca Weiss <luca.weiss@fairphone.com>
+Tested-by: Luca Weiss <luca.weiss@fairphone.com>
 
-and the parser would be something like:
+Regards
+Luca
 
-static int parse_quirk_option(struct snd_usb_audio *chip, const char *str)
-{
-	char *val __free(kfree) = NULL;
-	char *field;
-	int pid, vid;
-
-	if (!strchr(str, ':'))
-		return 0;
-
-	val = kstrdup(str, GFP_KERNEL);
-	if (!val)
-		return -ENOMEM;
-
-	/* Each entry consists of VID:PID:flags */
-	field = strsep(&p, ":");
-	if (!field)
-		return 0;
-	if (strcmp(field, "*") == 0)
-		vid = 0;
-	else if (kstrtou16(field, 16, &vid))
-		return 0; // can spew warning message, too
-
-	field = strsep(&p, ":");
-	if (!field)
-		return 0;
-	if (strcmp(field, "*") == 0)
-		pid = 0;
-	else if (kstrtou16(field, 16, &pid))
-		return 0; // can spew warning message, too
-
-	.... // evaluate the tokens, set or clear chip->quirk_flags accordingly
-	return 0;
-}
-
-So you can just use the normal charp type for the parameters.
-
-Once after this working, we may want to allow the dynamic module
-parameter change.  Then make the parameter a special type just to take
-the device_quirk_mutex at set callback, while the set callback simply
-calls parm_set_charp() for the rest.  For get and free callbacks, we
-can use param_get_charp() and param_free_charp() as is.
-Finally, snd_usb_init_dynamic_quirks() takes the device_quirk_mutex,
-and that's all.  No need for heavy cleanups or linked list handling.
-
-Of course, it's a bit inefficient from the performance POV, but the
-device probing is rather a very rare event, so the speed doesn't
-matter at all.
-
-
-thanks,
-
-Takashi
+> Closes: https://lore.kernel.org/DBR2363A95M1.L9XBNC003490@fairphone.com
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>  sound/usb/qcom/qc_audio_offload.c | 92 ++++++++++++++++---------------
+>  1 file changed, 48 insertions(+), 44 deletions(-)
