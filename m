@@ -1,211 +1,368 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D94E2E2EF9
-	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 07:57:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE5B2C21C5
+	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 08:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758095847; cv=none; b=TBiEjF7V/Vm5B5ATPDTOkhMvCvIfdoBZxpBW0O6+cGmG++SYgj3gSuJRC2ODjer214dhTQ/ArurnLF8qrzSrJYkluAMofyQ9trdUJ2EtecMOJiC5Cw1yH1XtbX/tEFLv8iKosl1VHCmSyN1ouYpBqEMDtwSRnrm14ipqz3+/qsM=
+	t=1758097169; cv=none; b=Bb6j0h1lftWCuhTEV+zngdHbM/BJEwSsG1WgOBa9mkekrmqD4Vy22AQ5IUDsZmRRVsqYyjwVbAxm9Rn83uX2d5MeT5oHZh+VucOv7M0OdHkw4GE17BREXONWKGhuVwRk+QZa5uJevFTZKChxnUudf0wc0+gM06nfMA31wQRNLFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758095847; c=relaxed/simple;
-	bh=7cjsHAs6KihPquo/vuD2/3FbmYO2y4zQ9Q9gpKGQuRc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nf4t6K1Hmd1HVckL+t31nA17YHTknNTRkvjaXR/cFXk1NZOsP6h8LcvbNHH4di/5T3DTXpNc8GrVKaOErAnR4khpRLDZtAzU/WRvFLojojkFwr6hCTqVAPCvuF/Neg8VBtINXngcW9J2RGSoG3ApA6NE57FazRhlqmrQkzs/Uu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e2XCsfAV; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1758097169; c=relaxed/simple;
+	bh=peOIbYU6htFMTQRA/VcBJe2Lsffwsbwp/kKlXcfL6GY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=Ekr2Q5r2eUpIxKcwDYOz1rs/6uaWgIGfMiVy3+oPwNwyNeUlaRDDB//cN2NnWxtZPktAPP0XIKl0qEUB4zL9wTMJDsb2vZwMxFzVVbvDSYlrjsZcTtylsWrnVUzFzYzfRIPjyktd5tcLQf5S5G6nFu5ErL7y4w4AKxqGD55+OzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=M+czzIS+; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e2XCsfAV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1758095844;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9PzBAtZ6dCpqAcibyTZBdx2ih4FIqPQpEwny2ET0cgw=;
-	b=e2XCsfAVFnYbVjRYNnN5n0JmaUmWIHMSCj3x/wCraIerTbLvdjOn2yWGVCNB6uBLtV50cv
-	UHblyaMIAEY3CjuDt4NeKjoa9S+cG8Y08DhXErECfI82WPY1ztAiSB03pFUHALrFxViGs6
-	p7d+yPsJccq4pZVtTVkZm4ezbGiSlGI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-478--wUhEblOO5SkgEIgTnZn-Q-1; Wed, 17 Sep 2025 03:57:23 -0400
-X-MC-Unique: -wUhEblOO5SkgEIgTnZn-Q-1
-X-Mimecast-MFC-AGG-ID: -wUhEblOO5SkgEIgTnZn-Q_1758095842
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3ecdb10a612so639838f8f.2
-        for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 00:57:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="M+czzIS+"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b0415e03e25so808770366b.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 01:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1758097164; x=1758701964; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3tulPDEUZIFKEReR+gBOBkznmrdl/S7EwDLj5UhpCJo=;
+        b=M+czzIS+J5zTf+Qkfcrf3NetsTXIG7E7WXKgCvyPMtG64DovG8F66iPTLmtGiBOcc+
+         lVeeRjddR6WVLgmylKFW00fCeMfaevXflytV0Xnw5YkmbO+Rk9AHCs+x68jGXQGuX0sB
+         ATgPocoVEMPq3NFa323lXDsGIKzhbamT4LlbuPmRZDsG79rXHQgEA7IFBFJ5WSvffe29
+         eAlS6+j/IP/lS9WJHjCHaqeMVi1ZQ6/GkJ1egVZ9v4mJr76rUNK4eR011yw2df5SB2rB
+         KjTLUuN8Yya3PlSm/6KxxrwjsV4eFhq/GnXvaWVRavfWV2qUrVKQyGSmqPbvYs7WWt3X
+         3sJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758095842; x=1758700642;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9PzBAtZ6dCpqAcibyTZBdx2ih4FIqPQpEwny2ET0cgw=;
-        b=FuyzoOmMRXgmqlW42R2pjXpkGcRrbWrJo+obwjRL4HZxttc0uJkNlvs92s7Ld6rLhR
-         oxWJ7OXC0WAONGPLaot5Rf7o2rlYnt1nQdd9Pbs7eC90nsLm+WcqrIAaZ8hfPv6WpeS0
-         pOh7Fum6drjzfrNlaw78icKq35nj9o/Zl7Gsz/WddlWrEuBg56jfr+wyIbVuOolQ6DCM
-         pT47SlKmR+eGAglhhWbfATQaPWPK9Va8opjBSwLLGnZkpFybikoAzULGfc9vvPtMzsL/
-         eIpM0Kd0gDcL5r02/h0Qx0XaDG5ZpyhCDKbhuB7jnNGBYSKHUlbOUXc8I+px+31m8huu
-         +5FQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3gHB+5Di0kJGTtxCNGE3TueM642pJwfTRSFcqETLntNVh1jy6Fa4YuJxwLVwyFkgqVX50HYbhtZn0lg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcDwjYujvLUQAqzcz9ECHib7EzdyRZK7ldElkjH+sr8FEJSMXT
-	BIioy0bnd+RmXJKcRwjAesjadnqeDtCT6p0Elu/cD/2o6O+NCLr1dt1LLrnlDYaIYbyFu24mbSb
-	qdGfQaflYaqyTFcTfh/AxlOPmKLDqixIOA2GqpLYEOY2VoBXuS7sp24c2xkxdDqbA
-X-Gm-Gg: ASbGncs5XsCPC18QEaRo10mG4YKDr3kDL/vZ36ac05mXuvbKzOBtQt9FEIHLg8pTV20
-	ghhqQlrnQf/kW2H89e2ejfWIGFYjA57g1SAA8HYhT6WFZSEVZSKramKwMjDVDv8Bx58R0b/yTlv
-	mWR8gIjl1K2wHrZFCzEKoWPLCFlo1U8Mc7fw9mEZAa/k9EOnjzqrRBFULsCsXfkTQDGUY4SiN10
-	XAG3teFLEg5Q1TbYocBIAFpMfwhLAZuAdKaudN7j4jlF3ND2E0cc/6hh0ci3mGdmlxhxS6lrl7M
-	L7R1F5W/ec4Wc9LUBaqQKuGB9IIGoByd/ch7WZdzzmyO8h1KB0I2yHXtaL/Uy6rQdv4Xw+FqMHH
-	C74xI2LQERy2q1CoqDzBS0/wjVT4Vs2v92rV08gZLtSdz1nMIxkwSQ4fQVkwablHP
-X-Received: by 2002:a05:6000:40c8:b0:3d2:9cbf:5b73 with SMTP id ffacd0b85a97d-3ecdf9b5961mr874638f8f.6.1758095841889;
-        Wed, 17 Sep 2025 00:57:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH1fuIiFC5t7bfIvFNwsccdu8uwKOxCMzstpj7QWFZNvkLHIrE8zhNFdLVe+xbAw0R9o3KnJw==
-X-Received: by 2002:a05:6000:40c8:b0:3d2:9cbf:5b73 with SMTP id ffacd0b85a97d-3ecdf9b5961mr874608f8f.6.1758095841400;
-        Wed, 17 Sep 2025 00:57:21 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f27:6d00:7b96:afc9:83d0:5bd? (p200300d82f276d007b96afc983d005bd.dip0.t-ipconnect.de. [2003:d8:2f27:6d00:7b96:afc9:83d0:5bd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45f32642813sm31271485e9.10.2025.09.17.00.57.19
+        d=1e100.net; s=20230601; t=1758097164; x=1758701964;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3tulPDEUZIFKEReR+gBOBkznmrdl/S7EwDLj5UhpCJo=;
+        b=jCTVG9g6W/nTWHcl4tnvZQ6sUfjA3qLCyNaFRoTNOTLzflBMffFzhBifbw9sNj0wn+
+         z6CZr0kznfEglfaTBhoAzUamsAMSNHRtwnmUXn0vruPN9C5itpzf65bPv8vQSWlHfouW
+         4R23MVcNhbPITZVsJ3VMMVBhlmBpWvkVzDDRWLSFmCsVi4pR2O36MO69a03yNnQ9FNUT
+         acvisGQW6gwTX6KlZCTeHypmLX4rMR2XjwVQUx36hCltlMLnBJDgO6tWmSBfR8WPVJgu
+         TF5mw5UohdDjbhrSp4V8uCDE7bcesF4iG+w1FQZvGtFM7Io5g2IMMNL2WZjoQy7coCCK
+         7rew==
+X-Forwarded-Encrypted: i=1; AJvYcCXBaDeOu/HlCt/0bOQ/s7eZT9xhpsENTDqzxJXhDSY9O0Ir6bEQ7E+3c828346Q0B56MCm5+v+6Ag8liQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRUZJi0tJzva38RoFmYGMgDAYsgkTnfGCFtZQ1NGis2Ur+pU0I
+	JDpjanjqE5kx55lllUiyhruKlfUjySc+IFtKbLCymkTMFW4ZwtEau3y3QQIpgaPq7UA=
+X-Gm-Gg: ASbGncvqhFgt9MfihuANjL0nmtB7DUbmqq/Yr8owx8iZd958q/lQL77jeYh3to0RkAv
+	cLp27moldp4v+EBUXxfcXhU+1tk/H9mOPKQArdA+LIpxC1ALaJVnPjBhPqsnzKF1gkSTBYq8GsU
+	HLk4eSuGpn/eMGgVV0M1jODXCGUPRKgh8cHIWp6fmDAmfGOHbqDnmcmxDEkZYnvQhJQXC70tLCQ
+	wcF5EINRcO0Tm5p0ai325BcYzpWhLmQsqW1bjazHYbPD5kSoXfaI8NDR6C3iN0Xg9PcnGP7VgQj
+	RVvhhPiJFiOqjW5l6PWKUt9k0DZC48URsZFbnjg8wWZRLxTpThNeIQNYAC/7U+3Y8NLdLsB4ZkW
+	meVE6eYfZT4W3Ps84KEbCIa0HB4eC/IxzD95soAztZhg/fhPtWsTdaAg+YvXX6x1n1muUF2arq9
+	HlwphACnj33xzG5T3ThAupMg==
+X-Google-Smtp-Source: AGHT+IEFcyz4PFJ1ypPo7TZSmV9J03co38u+ISE3aEa6H9BlOHAkROj+JRNr+EhUcdLXbfcLPxcDOg==
+X-Received: by 2002:a17:907:3d03:b0:b0e:bb58:652b with SMTP id a640c23a62f3a-b1bbb067465mr152904166b.39.1758097164392;
+        Wed, 17 Sep 2025 01:19:24 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b32f1e26sm1342544466b.77.2025.09.17.01.19.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Sep 2025 00:57:20 -0700 (PDT)
-Message-ID: <7e338491-0c6b-4b65-93b7-df0af8b2fd87@redhat.com>
-Date: Wed, 17 Sep 2025 09:57:19 +0200
+        Wed, 17 Sep 2025 01:19:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [sound?] kernel BUG in filemap_fault (2)
-To: Jan Kara <jack@suse.cz>, Ryan Roberts <ryan.roberts@arm.com>
-Cc: syzbot <syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com>,
- akpm@linux-foundation.org, chaitanyas.prakash@arm.com, davem@davemloft.net,
- edumazet@google.com, hdanton@sina.com, horms@kernel.org, kuba@kernel.org,
- kuniyu@google.com, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
- perex@perex.cz, syzkaller-bugs@googlegroups.com, tiwai@suse.com,
- willemb@google.com
-References: <68c69e17.050a0220.3c6139.04e1.GAE@google.com>
- <80840307-942d-4e7b-849d-2ca9bb4bbefa@arm.com>
- <lqzgi7abe2onda3faavn5ays6gdw4syiu32hmrfaibrh6cmozs@pjf3llvnnefk>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- qIws/H2t
-In-Reply-To: <lqzgi7abe2onda3faavn5ays6gdw4syiu32hmrfaibrh6cmozs@pjf3llvnnefk>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hGcbx1NNdBV2U6n3GoTFdOFA98SwXI4P6VcxnC3Euj4_1758095842
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 17 Sep 2025 10:19:23 +0200
+Message-Id: <DCUXFIZ5KRCU.3JANM98BSE8SE@fairphone.com>
+To: "Takashi Iwai" <tiwai@suse.de>, "Luca Weiss" <luca.weiss@fairphone.com>
+Cc: "Arnd Bergmann" <arnd@arndb.de>, "Arnd Bergmann" <arnd@kernel.org>,
+ "Mark Brown" <broonie@kernel.org>, "Wesley Cheng"
+ <quic_wcheng@quicinc.com>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dan Carpenter" <dan.carpenter@linaro.org>, <linux-sound@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 3/3] ALSA: qc_audio_offload: try to reduce address space
+ confusion
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20250513123442.159936-1-arnd@kernel.org>
+ <20250513123442.159936-4-arnd@kernel.org>
+ <DBR2363A95M1.L9XBNC003490@fairphone.com> <87v7n72pg0.wl-tiwai@suse.de>
+ <DBR3FZGY4QS1.BX6M1PZS5RH4@fairphone.com> <87ms8j2on6.wl-tiwai@suse.de>
+ <DCKUCB8A1JCV.1GK0TW2YMXNZP@fairphone.com> <87bjnpqe45.wl-tiwai@suse.de>
+ <a2a6843f-7e03-4b7e-b5fc-415ac9fc6621@app.fastmail.com>
+ <DCU39JVDVFAG.2EOCQ37KAS3N0@fairphone.com> <87o6raxtu9.wl-tiwai@suse.de>
+In-Reply-To: <87o6raxtu9.wl-tiwai@suse.de>
 
-On 16.09.25 15:05, Jan Kara wrote:
-> On Tue 16-09-25 13:50:08, Ryan Roberts wrote:
->> On 14/09/2025 11:51, syzbot wrote:
->>> syzbot suspects this issue was fixed by commit:
->>>
->>> commit bdb86f6b87633cc020f8225ae09d336da7826724
->>> Author: Ryan Roberts <ryan.roberts@arm.com>
->>> Date:   Mon Jun 9 09:27:23 2025 +0000
->>>
->>>      mm/readahead: honour new_order in page_cache_ra_order()
->>
->> I'm not sure what original bug you are claiming this is fixing? Perhaps this?
->>
->> https://lore.kernel.org/linux-mm/6852b77e.a70a0220.79d0a.0214.GAE@google.com/
-> 
-> I think it was:
-> 
-> https://lore.kernel.org/all/684ffc59.a00a0220.279073.0037.GAE@google.com/
-> 
-> at least that's what the syzbot email replies to... And it doesn't make a
-> lot of sense but it isn't totally off either. So I'd just let the syzbot
-> bug autoclose after some timeout.
+Hi Takashi,
 
-Hm, in the issue we ran into was:
+On Tue Sep 16, 2025 at 6:09 PM CEST, Takashi Iwai wrote:
+> On Tue, 16 Sep 2025 10:41:01 +0200,
+> Luca Weiss wrote:
+>>=20
+>> Hi Arnd,
+>>=20
+>> On Fri Sep 5, 2025 at 4:54 PM CEST, Arnd Bergmann wrote:
+>> > On Fri, Sep 5, 2025, at 14:26, Takashi Iwai wrote:
+>> >> On Fri, 05 Sep 2025 13:47:28 +0200,
+>> >
+>> >> @@ -1051,18 +1050,13 @@ static int uaudio_transfer_buffer_setup(struc=
+t=20
+>> >> snd_usb_substream *subs,
+>> >>  	if (!xfer_buf)
+>> >>  		return -ENOMEM;
+>> >>=20
+>> >> -	/* Remapping is not possible if xfer_buf is outside of linear map *=
+/
+>> >> -	xfer_buf_pa =3D virt_to_phys(xfer_buf);
+>> >> -	if (WARN_ON(!page_is_ram(PFN_DOWN(xfer_buf_pa)))) {
+>> >> -		ret =3D -ENXIO;
+>> >> -		goto unmap_sync;
+>> >> -	}
+>> >>  	dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
+>> >>  			xfer_buf_dma, len);
+>> >>=20
+>> >>  	/* map the physical buffer into sysdev as well */
+>> >> +	/* note: 0 is passed to pa argument as we use sgt */
+>> >>  	xfer_buf_dma_sysdev =3D uaudio_iommu_map(MEM_XFER_BUF, dma_coherent=
+,
+>> >> -					       xfer_buf_pa, len, &xfer_buf_sgt);
+>> >> +					       0, len, &xfer_buf_sgt);
+>> >>  	if (!xfer_buf_dma_sysdev) {
+>> >>  		ret =3D -ENOMEM;
+>> >>  		goto unmap_sync;
+>> >
+>> >
+>> > Makes sense. I had to rework the code a little more to actually
+>> > understand how it fits together, for reference the below version
+>> > (I don't expect it to build cleanly) would split up
+>> > uaudio_iommu_map() into one function that takes a physical
+>> > address and another function that takes an sg table.
+>>=20
+>> Are you planning to post this as a proper patch? It's a bit late in the
+>> 6.17 cycle already but good to still get this fixed for final release.
+>>=20
+>> Or revert the original commit that broke it for now.
+>>=20
+>> I couldn't really test your patch since there's a couple of compile
+>> errors where I wasn't sure how to resolve them correctly.
+>
+> Could you check the patch below, then?  At least it compiles without
+> errors.
 
-	VM_BUG_ON_FOLIO(!folio_contains(folio, index), folio);
+It does compile as well for me, but looks like it's not working.
 
-in filemap_fault().
+It's still triggering the WARN_ON from
 
-Now, that sounds rather bad, especially given that it was reported upstream.
+  if (WARN_ON(!page_is_ram(PFN_DOWN(xfer_buf_pa)))) {
 
-So likely we should figure out what happened and see if it really fixed 
-it and if so, why it fixed it (stable backports etc)?
+[  214.157471] ------------[ cut here ]------------
+[  214.157491] WARNING: CPU: 4 PID: 12 at sound/usb/qcom/qc_audio_offload.c=
+:1067 handle_uaudio_stream_req+0xecc/0x13c4
+[  214.157510] Modules linked in:
+[  214.157522] CPU: 4 UID: 0 PID: 12 Comm: kworker/u32:0 Tainted: G        =
+W           6.16.0-00047-gfa3c1e37ba38 #1 NONE=20
+[  214.157531] Tainted: [W]=3DWARN
+[  214.157535] Hardware name: Fairphone 4 (DT)
+[  214.157541] Workqueue: qmi_msg_handler qmi_data_ready_work
+[  214.157553] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=
+=3D--)
+[  214.157560] pc : handle_uaudio_stream_req+0xecc/0x13c4
+[  214.157568] lr : handle_uaudio_stream_req+0xcdc/0x13c4
+[  214.157575] sp : ffff8000800b39d0
+[  214.157579] x29: ffff8000800b3b40 x28: ffff0000895eb6b0 x27: 00000000000=
+08000
+[  214.157589] x26: ffff0000d6bae960 x25: ffffa11dbe275e28 x24: 00000000000=
+08000
+[  214.157598] x23: ffffa11dbe0a4ec0 x22: ffff8000800b3c00 x21: 00000000000=
+00000
+[  214.157608] x20: ffff8000800b3cc8 x19: ffff00008b128ac0 x18: ffffa11dbdf=
+aa258
+[  214.157617] x17: ffff0000803e9388 x16: ffff0000800162c0 x15: ffffa11dbdf=
+aa000
+[  214.157626] x14: 0000000000000500 x13: ffffa11dbe03c000 x12: 00000000000=
+00000
+[  214.157636] x11: 0000000000000001 x10: 0000000000000001 x9 : ffffa11dbe0=
+f78a0
+[  214.157645] x8 : ffffdee36909b000 x7 : ffff0000d6ac8418 x6 : 00000000000=
+00000
+[  214.157654] x5 : 0000000000000000 x4 : ffff8000800b3968 x3 : 00000000000=
+00000
+[  214.157663] x2 : 0000000000000000 x1 : ffff0000801a4100 x0 : 00000000000=
+00000
+[  214.157672] Call trace:
+[  214.157677]  handle_uaudio_stream_req+0xecc/0x13c4 (P)
+[  214.157687]  qmi_invoke_handler+0xb4/0x100
+[  214.157694]  qmi_handle_message+0x88/0x1a0
+[  214.157702]  qmi_data_ready_work+0x208/0x35c
+[  214.157709]  process_one_work+0x144/0x2c4
+[  214.157719]  worker_thread+0x280/0x45c
+[  214.157726]  kthread+0xfc/0x1dc
+[  214.157733]  ret_from_fork+0x10/0x20
+[  214.157744] ---[ end trace 0000000000000000 ]---
 
-Could be that Ryans patch is just making the problem harder to 
-reproduce, of course (what I assume right now).
+Should that code be removed with the new code now?
 
+Regards
+Luca
 
-Essentially we do a
-
-	folio = filemap_get_folio(mapping, index);
-
-followed by
-
-	if (!lock_folio_maybe_drop_mmap(vmf, folio, &fpin))
-		goto out_retry;
-
-	/* Did it get truncated? */
-	if (unlikely(folio->mapping != mapping)) {
-		folio_unlock(folio);
-		folio_put(folio);
-		goto retry_find;
-	}
-	VM_BUG_ON_FOLIO(!folio_contains(folio, index), folio);
-
-
-I would assume that if !folio_contains(folio, index), either the folio 
-got split in the meantime (filemap_get_folio() returned with a raised 
-reference, though) or that file pagecache contained something wrong.
-
-
-In __filemap_get_folio() we perform the same checks after locking the 
-folio (with FGP_LOCK), and weird enough it didn't trigger yet there.
-
--- 
-Cheers
-
-David / dhildenb
+>
+>
+> Takashi
+>
+> --- a/sound/usb/qcom/qc_audio_offload.c
+> +++ b/sound/usb/qcom/qc_audio_offload.c
+> @@ -538,38 +538,33 @@ static void uaudio_iommu_unmap(enum mem_type mtype,=
+ unsigned long iova,
+>  			umap_size, iova, mapped_iova_size);
+>  }
+> =20
+> +static int uaudio_iommu_map_prot(bool dma_coherent)
+> +{
+> +	int prot =3D IOMMU_READ | IOMMU_WRITE;
+> +
+> +	if (dma_coherent)
+> +		prot |=3D IOMMU_CACHE;
+> +	return prot;
+> +}
+> +
+>  /**
+> - * uaudio_iommu_map() - maps iommu memory for adsp
+> + * uaudio_iommu_map_pa() - maps iommu memory for adsp
+>   * @mtype: ring type
+>   * @dma_coherent: dma coherent
+>   * @pa: physical address for ring/buffer
+>   * @size: size of memory region
+> - * @sgt: sg table for memory region
+>   *
+>   * Maps the XHCI related resources to a memory region that is assigned t=
+o be
+>   * used by the adsp.  This will be mapped to the domain, which is create=
+d by
+>   * the ASoC USB backend driver.
+>   *
+>   */
+> -static unsigned long uaudio_iommu_map(enum mem_type mtype, bool dma_cohe=
+rent,
+> -				      phys_addr_t pa, size_t size,
+> -				      struct sg_table *sgt)
+> +static unsigned long uaudio_iommu_map_pa(enum mem_type mtype, bool dma_c=
+oherent,
+> +					 phys_addr_t pa, size_t size)
+>  {
+> -	struct scatterlist *sg;
+>  	unsigned long iova =3D 0;
+> -	size_t total_len =3D 0;
+> -	unsigned long iova_sg;
+> -	phys_addr_t pa_sg;
+>  	bool map =3D true;
+> -	size_t sg_len;
+> -	int prot;
+> -	int ret;
+> -	int i;
+> -
+> -	prot =3D IOMMU_READ | IOMMU_WRITE;
+> -
+> -	if (dma_coherent)
+> -		prot |=3D IOMMU_CACHE;
+> +	int prot =3D uaudio_iommu_map_prot(dma_coherent);
+> =20
+>  	switch (mtype) {
+>  	case MEM_EVENT_RING:
+> @@ -583,20 +578,41 @@ static unsigned long uaudio_iommu_map(enum mem_type=
+ mtype, bool dma_coherent,
+>  				     &uaudio_qdev->xfer_ring_iova_size,
+>  				     &uaudio_qdev->xfer_ring_list, size);
+>  		break;
+> -	case MEM_XFER_BUF:
+> -		iova =3D uaudio_get_iova(&uaudio_qdev->curr_xfer_buf_iova,
+> -				     &uaudio_qdev->xfer_buf_iova_size,
+> -				     &uaudio_qdev->xfer_buf_list, size);
+> -		break;
+>  	default:
+>  		dev_err(uaudio_qdev->data->dev, "unknown mem type %d\n", mtype);
+>  	}
+> =20
+>  	if (!iova || !map)
+> -		goto done;
+> +		return 0;
+> =20
+> -	if (!sgt)
+> -		goto skip_sgt_map;
+> +	iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot, GFP_KERNEL);
+> +
+> +	return iova;
+> +}
+> +
+> +static unsigned long uaudio_iommu_map_xfer_buf(bool dma_coherent, size_t=
+ size,
+> +					       struct sg_table *sgt)
+> +{
+> +	struct scatterlist *sg;
+> +	unsigned long iova =3D 0;
+> +	size_t total_len =3D 0;
+> +	unsigned long iova_sg;
+> +	phys_addr_t pa_sg;
+> +	size_t sg_len;
+> +	int prot =3D uaudio_iommu_map_prot(dma_coherent);
+> +	int ret;
+> +	int i;
+> +
+> +	prot =3D IOMMU_READ | IOMMU_WRITE;
+> +
+> +	if (dma_coherent)
+> +		prot |=3D IOMMU_CACHE;
+> +
+> +	iova =3D uaudio_get_iova(&uaudio_qdev->curr_xfer_buf_iova,
+> +			       &uaudio_qdev->xfer_buf_iova_size,
+> +			       &uaudio_qdev->xfer_buf_list, size);
+> +	if (!iova)
+> +		goto done;
+> =20
+>  	iova_sg =3D iova;
+>  	for_each_sg(sgt->sgl, sg, sgt->nents, i) {
+> @@ -618,11 +634,6 @@ static unsigned long uaudio_iommu_map(enum mem_type =
+mtype, bool dma_coherent,
+>  		uaudio_iommu_unmap(MEM_XFER_BUF, iova, size, total_len);
+>  		iova =3D 0;
+>  	}
+> -	return iova;
+> -
+> -skip_sgt_map:
+> -	iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot, GFP_KERNEL);
+> -
+>  done:
+>  	return iova;
+>  }
+> @@ -1061,8 +1072,8 @@ static int uaudio_transfer_buffer_setup(struct snd_=
+usb_substream *subs,
+>  			xfer_buf_dma, len);
+> =20
+>  	/* map the physical buffer into sysdev as well */
+> -	xfer_buf_dma_sysdev =3D uaudio_iommu_map(MEM_XFER_BUF, dma_coherent,
+> -					       xfer_buf_pa, len, &xfer_buf_sgt);
+> +	xfer_buf_dma_sysdev =3D uaudio_iommu_map_xfer_buf(dma_coherent,
+> +							len, &xfer_buf_sgt);
+>  	if (!xfer_buf_dma_sysdev) {
+>  		ret =3D -ENOMEM;
+>  		goto unmap_sync;
+> @@ -1143,8 +1154,8 @@ uaudio_endpoint_setup(struct snd_usb_substream *sub=
+s,
+>  	sg_free_table(sgt);
+> =20
+>  	/* data transfer ring */
+> -	iova =3D uaudio_iommu_map(MEM_XFER_RING, dma_coherent, tr_pa,
+> -			      PAGE_SIZE, NULL);
+> +	iova =3D uaudio_iommu_map_pa(MEM_XFER_RING, dma_coherent, tr_pa,
+> +				   PAGE_SIZE);
+>  	if (!iova) {
+>  		ret =3D -ENOMEM;
+>  		goto clear_pa;
+> @@ -1207,8 +1218,8 @@ static int uaudio_event_ring_setup(struct snd_usb_s=
+ubstream *subs,
+>  	mem_info->dma =3D sg_dma_address(sgt->sgl);
+>  	sg_free_table(sgt);
+> =20
+> -	iova =3D uaudio_iommu_map(MEM_EVENT_RING, dma_coherent, er_pa,
+> -			      PAGE_SIZE, NULL);
+> +	iova =3D uaudio_iommu_map_pa(MEM_EVENT_RING, dma_coherent, er_pa,
+> +				   PAGE_SIZE);
+>  	if (!iova) {
+>  		ret =3D -ENOMEM;
+>  		goto clear_pa;
 
