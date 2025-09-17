@@ -1,156 +1,78 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB3A2FAC18
-	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 16:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7478D1C84C0;
+	Wed, 17 Sep 2025 17:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758126037; cv=none; b=eztgbI3uyGgInUDim+ajw7fNtDihpoLp+m11sTk2oD9vQxGPAGS85tIH9pdnqZ1pHt7eWk+8n1HaN1osOX6MVtdhJAkmuybw6yeJsxYSoWj1htwtDajHNXIxawui8S7oclVTr1RLt2xNDSmD1eM97Bf2SFrCjZDd3vgY3yp8hRU=
+	t=1758131905; cv=none; b=ZXcUrpssm+B3r8SbE8yYQiP4dwnGBl3oYdLbwY12hCQF0C+rgW6RFxnQSkOAR8m9VYWBAmpjcsL1CXit7OST0g1cSiVr7TxgqGrM0ijMxxm2crcPjjQ0h1sY9+iijzKBwfE5e+YiLpwCusnfj4kpfNzsXBWj0MGnZobU3F3H5Po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758126037; c=relaxed/simple;
-	bh=LQuvKEHTVJZsvHGLtLW0Kg8WTPnzr/+0HihLj4fYHts=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kkBiTqWodvR0EVglazk6uCZ7qKBGFhxyiLivyd+bkjgbfVCCTFFwbyfaWfdiX6jltIgrBGSsJ1RTtrRksL7cUGwPN2RzQ52m7baItOpWZzs53Q3wh/7QhSRLJlshugybwYqxja7epCZFimXlQJol52iVM5fC3jDUjKN+5+eAXmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RY0bUt/s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dniolIEq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RY0bUt/s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dniolIEq; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758131905; c=relaxed/simple;
+	bh=6zMlqvkkJUxPR+2hCntCFeaA3Ngj3U6itSCfgav3eEY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ERx5V9Fwb0VL/W0jGpTMrwbmUs0k0tXKZEUXHM2SbxBQeWOibwqNELnp7pwT20wTsqdzFZNfd96KhZY4GYbOSr5iGaKIVk6BoqOpa9/fQNOP+Z/dg/dV0D7spO+PwxP1RM0lYo0gJeBdfkx8nDQKrKjPn+n9/T2c2e5Rc03NINA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ST1KfL37; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RY0bUt/s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dniolIEq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RY0bUt/s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dniolIEq"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A55522785;
-	Wed, 17 Sep 2025 16:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758126034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XuIJwH4EkUh14GpweEDXfjpcwhTMBfMSb+0vHYyWZMc=;
-	b=RY0bUt/sT+uGF3H/BcKE1d7DtBPhYGx79Ja9jD84qI15uaw7pXrQZz4em4HCMgkTTWQ0qc
-	nIk7JS96Gi5JVzAYobbGZE7bu8V8CvMgqdlLCdYRDIY48JWAvU2DJ1HkJD6FDuDiV1Hvso
-	UTAWIwFj4l1vnK55EGmSjYHn1Ag89zE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758126034;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XuIJwH4EkUh14GpweEDXfjpcwhTMBfMSb+0vHYyWZMc=;
-	b=dniolIEqy85hRTW3DEu/15DZhkznlh56Avr/hs6fnrf+RAaG1T16Vpj70+YT+68Q1rsjv2
-	va17oXnocTnyOcCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="RY0bUt/s";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dniolIEq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758126034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XuIJwH4EkUh14GpweEDXfjpcwhTMBfMSb+0vHYyWZMc=;
-	b=RY0bUt/sT+uGF3H/BcKE1d7DtBPhYGx79Ja9jD84qI15uaw7pXrQZz4em4HCMgkTTWQ0qc
-	nIk7JS96Gi5JVzAYobbGZE7bu8V8CvMgqdlLCdYRDIY48JWAvU2DJ1HkJD6FDuDiV1Hvso
-	UTAWIwFj4l1vnK55EGmSjYHn1Ag89zE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758126034;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XuIJwH4EkUh14GpweEDXfjpcwhTMBfMSb+0vHYyWZMc=;
-	b=dniolIEqy85hRTW3DEu/15DZhkznlh56Avr/hs6fnrf+RAaG1T16Vpj70+YT+68Q1rsjv2
-	va17oXnocTnyOcCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DDA111368D;
-	Wed, 17 Sep 2025 16:20:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vRpiNNHfymiMLwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 17 Sep 2025 16:20:33 +0000
-Date: Wed, 17 Sep 2025 18:20:33 +0200
-Message-ID: <87wm5xaw4u.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: tiwai@suse.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ALSA: hda: intel-dsp-config: Prevent SEGFAULT if ACPI_HANDLE() is NULL
-In-Reply-To: <20250917160609.461718-1-rf@opensource.cirrus.com>
-References: <20250917160609.461718-1-rf@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ST1KfL37"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=4sg0pwVlDI3PlcEWg3BqiWrpfnSRU0MPr0hgbDjPw6w=; b=ST1KfL37z8LSxRSVV7aGFKe8Z9
+	u2ZfkpoxZX0BcWKZNcx6GOPpjZwYIB/ijc7R9rMKCezRU7vYQZSHesfNQuvqzzDRDnQoT/vsjpOtn
+	FhGLzQdSUzYoJ1H1dBn0Vl3blJwnwaX6a8aHl/ONmnuWqRv1WAR+aLAQvf6w2IPcMJpI07Bo+fsVY
+	UsG0cA7voaF7RMUFkdf/tY5BTr/10CY+zxBKKhgTSGtM/gHixBteOuTEofuJ05ckY7Sqfr36beljR
+	I8aGbN5mwE+13QVhKPlYZl1KP9R/V26NlEwdxPsvjFCrAsZU+9y0JWa8eqVFO4PhH1DRidVpjeKnG
+	4c5yfdXw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uywQ6-0000000DlSR-48eJ;
+	Wed, 17 Sep 2025 17:58:19 +0000
+Message-ID: <9c459c3f-7a7b-42d6-8a4c-66ade94e1029@infradead.org>
+Date: Wed, 17 Sep 2025 10:58:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 2A55522785
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
-
-On Wed, 17 Sep 2025 18:06:09 +0200,
-Richard Fitzgerald wrote:
-> 
-> Check in snd_intel_dsp_check_soundwire() that the pointer returned by
-> ACPI_HANDLE() is not NULL, before passing it on to other functions.
-> 
-> The original code assumed a non-NULL return, but if it was unexpectedly
-> NULL it would end up passed to acpi_walk_namespace() as the start
-> point, and would result in
-> 
-> [    3.219028] BUG: kernel NULL pointer dereference, address:
-> 0000000000000018
-> [    3.219029] #PF: supervisor read access in kernel mode
-> [    3.219030] #PF: error_code(0x0000) - not-present page
-> [    3.219031] PGD 0 P4D 0
-> [    3.219032] Oops: Oops: 0000 [#1] SMP NOPTI
-> [    3.219035] CPU: 2 UID: 0 PID: 476 Comm: (udev-worker) Tainted: G S
-> AW   E       6.17.0-rc5-test #1 PREEMPT(voluntary)
-> [    3.219038] Tainted: [S]=CPU_OUT_OF_SPEC, [A]=OVERRIDDEN_ACPI_TABLE,
-> [W]=WARN, [E]=UNSIGNED_MODULE
-> [    3.219040] RIP: 0010:acpi_ns_walk_namespace+0xb5/0x480
-> 
-> This problem was triggered by a bugged DSDT that the kernel couldn't parse.
-> But it shouldn't be possible to SEGFAULT the kernel just because of some
-> bugs in ACPI.
-> 
-> Fixes: 0650857570d1 ("ALSA: hda: add autodetection for SoundWire")
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-
-Thanks, applied now.
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] ALSA: doc: add docs about
+ device_device_quirk_flags in snd-usb-audio
+To: cryolitia@uniontech.com, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>
+Cc: linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit <kexybiscuit@aosc.io>,
+ Nie Cheng <niecheng1@uniontech.com>, Zhan Jun <zhanjun@uniontech.com>,
+ Feng Yuan <fengyuan@uniontech.com>, qaqland <anguoli@uniontech.com>,
+ kernel@uniontech.com, linux-modules@vger.kernel.org
+References: <20250917-sound-v3-0-92ebe9472a0a@uniontech.com>
+ <20250917-sound-v3-4-92ebe9472a0a@uniontech.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250917-sound-v3-4-92ebe9472a0a@uniontech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-Takashi
+
+On 9/17/25 5:46 AM, Cryolitia PukNgae via B4 Relay wrote:
+> @@ -2344,8 +2386,8 @@ report it to the upstream.
+>  NB: ``quirk_alias`` option is provided only for testing / development.
+>  If you want to have a proper support, contact to upstream for
+>  adding the matching quirk in the driver code statically.
+> -Ditto for ``quirk_flags``.  If a device is known to require specific
+> -workarounds, please report to the upstream.
+> +Ditto for ``quirk_flags``.  If a device
+> +is known to require specific workarounds, please report to the upstream.
+
+What is the purpose of this change?
+
+-- 
+~Randy
+
