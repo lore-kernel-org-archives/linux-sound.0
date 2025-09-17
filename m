@@ -1,196 +1,175 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011018.outbound.protection.outlook.com [52.101.125.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C71736B;
-	Wed, 17 Sep 2025 00:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758069139; cv=fail; b=mEISGmzas5PHL6YJfPbiQrXzRgC0QTzOtMHCOeR+lJ9MnDf0L/p6phBHvdSYayPwnJsaROBtz5BTcfnzYUkfaOzA9P0kfHm84FlGZjvUGKnVXeHpadIHIqpafGvxT4hhea2xZU9Ew5XThj6KkSHucbCDIl0Er0C3UwQYvphQm5Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758069139; c=relaxed/simple;
-	bh=mnZdmCZx2ngA9Zbv82bXVZATnQ2R2u3a0GkR/nDhxms=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=J96qnT3oM4PWqmGf2QGsmJYStrJIRkbTAEjFf6JGwRcKiYt/BVnCfHgZ/S88/j24wukSJbT/F38Rz/14YibZaxXkJmLBh8Ssm9rMeOfId+WFRZDL5NSTCWqqqlTjzvuftiw4RxTrdmjVZJu0P8fqX33TL+VQ3kdM27N7M3xWw5k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=hzGOvnNs; arc=fail smtp.client-ip=52.101.125.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131B02F7467
+	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 07:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758094376; cv=none; b=CWD0Iz4CMtWaKQAXQMso9EG+0T87WaTvy0nOcSHVpAsqmPI6HfHbJIFBZ1mD0TIDeWiLNUYMTiRugDFKd97TPW8Yf9sXyuNB87M+C1BDOf7eQr1d46ALiQWalDsa6z+W+aUUBg2PSmIgJ430KSU8TAKDSHukS7AKK+/s6hFySHE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758094376; c=relaxed/simple;
+	bh=4UuqKX3OB4C4vFgEAnd56vVvZ8U0LkURnxJegy0E2fU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Txrw3Ex01QjxjiOWvZfJyQIZ1dFX+0IhMP+jHEDcyd1E+0054gKJZ/Yj9nNJ5vQUsZE6j5GseIeTwREF1y0MS6YpjyC668t4ydpph0BUfjCozMKq4MVpDh20y8MTz59iZhp0Rv7kjPMeGGqq/RC0uKNBUsxtgt8/yOJCZTt+NRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z9DwWrGg; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="hzGOvnNs"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RZjKpP6rqdpkvrvguXtfsUciB2wKVanSFQ7RjxqaJfpa9Xzz9jSxtWOTxvj2fmlKm3i/WuS2vhLtOvIMB6S6HZ2AIWjEfZ7ohuVmPPuEZRz6uK+xcMNLMwXXQ+UxdWKiVI0J1kVV9EtNXPyfpd9Il8w7/rMWziEUkMoLbrcpXMmij/ClHCePbTw20+VzQPAvckBA9bcAP9dwYA7d7G+B3i0Tiq6qprOfvGKdLyGgTUMPQvyuXo4UWEm009Z/G+XGII4nBNWUHVZ2pMUe8j4biM5OjH4eWymGwGXmSYCi+McC/vo2Esqqu4r9LqaAkpTkcv+xFrWoueBsTnrwX6ErxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oo4aqY6u5AZwm5E2yJT5QfEE3m6c8vD9SNxbiB+Mit4=;
- b=vT0+GtkY0Qn740xwUS4Gh2kOBK99d2VP78VIuKKQJSNTJ1fA7Saj4MwkttByHxNa5Dsbb8TtD7kuL8mg6+w8tRiXQGepFMPy/jqoxbNYEyYcKyesHpchXg/BMejwfHUAt/SykiS6uMC2H+DR8s0PBi5t6qj+w/P9iHGbgScWKn/NuV0JfeGT62pNKrPH4mnIy0FYqBk3fwQ0uYSGFh/ERg5VILWagqs+A/maMoJaf2vozaLYcKwtzygUyfk7vQ0QPD551Rfwz1o2P7q6WMGMvbmSaWjm3B8LVZmG7yqW9SgdHzectDFfXJQmt7582lvjKZ6ILAf62jjbNn32r5K6fA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oo4aqY6u5AZwm5E2yJT5QfEE3m6c8vD9SNxbiB+Mit4=;
- b=hzGOvnNsKVLzDAOSdZDdnT9Z97rdAu8A0olqX3OXzsVc1TH4TTIIeIXjosOC9EysmxE8Mfx7dWWsWj7bOuaDe04bVp2ualOdhVX/LGOaGp94MgdkU/ghLelgDhf3xuNrEyJEPBuMFDCu1UA5z9mhP+p3yoLiqXifWNIc21Efn2g=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TY4PR01MB14650.jpnprd01.prod.outlook.com
- (2603:1096:405:235::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Wed, 17 Sep
- 2025 00:32:12 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%3]) with mapi id 15.20.9137.012; Wed, 17 Sep 2025
- 00:32:11 +0000
-Message-ID: <87ms6taph0.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Olivier Moysan <olivier.moysan@foss.st.com>
-Cc: Arnaud Pouliquen
-	<arnaud.pouliquen@foss.st.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	"Mark\
- Brown" <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai
-	<tiwai@suse.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	"Alexandre\
- Torgue" <alexandre.torgue@foss.st.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: stm32: sai: manage context in set_sysclk callback
-In-Reply-To: <20250916123118.84175-1-olivier.moysan@foss.st.com>
-References: <20250916123118.84175-1-olivier.moysan@foss.st.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 17 Sep 2025 00:32:11 +0000
-X-ClientProxiedBy: TYCP286CA0356.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:7c::8) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z9DwWrGg"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45ed646b656so54429745e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 00:32:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758094372; x=1758699172; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NssRIOM+Nk5TpF2zDpkYc0MvhVsky+7OBhV3Anr+sDk=;
+        b=Z9DwWrGgHKvonHOxR6rUMqawcDYv4n3gRUJtKpWVLxRenj6qh2XvNYPFKOKPS04JS/
+         7EL+IEL0qPmy1doiq89qtiUq+BMCwxGXIRJPWBpbkifaABG8C8EmN1ImBxOzfjvAFnS5
+         DBW5sheVhmatjb/Lk0dSSpIikQaDWEBh8Zh56iyvvR49y4b3ChXT03OxdFzalhHTZkqL
+         tM4h3QXpkjyUrNqS2wiTaFBfHKOFoWKksQ9VhnzTxnxxAqVGMJQsFuTPJaaG7G664wsQ
+         G6EhXlJJc7xmIXFGMVNa3wWKf1fXM7dJV0SLWgn+W3tacyQ1uX/X8MpshsZSGWpz3fIh
+         IgDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758094372; x=1758699172;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NssRIOM+Nk5TpF2zDpkYc0MvhVsky+7OBhV3Anr+sDk=;
+        b=DkrIqZevJAO9ykKzBe+QIFrq3gH39SP+LP+BAebdRV7TpS68wYfA2u4dBXZRQ9Dmly
+         72WTMibln6d1zzh/dQbhsm6VR3v17UykNf4jU5MdH5BMqGh7MaR/oyuvJ9OBKqxE+bZV
+         jf4R+vwPEoZYWLZ95W1R1U5lTkVfoCOqQB8jjbZlxjqedX+iFcEmoqfXTHvw5MsChhBb
+         WxLZGMSPkIdKX7CmVoSOyXC83T5qiKvZ8zqpab9r/Vg/qgbQjr3u74q4iHyQeoVv42/P
+         zhpuzwmUkUz2Q98SrGZUa2Cj/z2lbukXZQaNyXSEYgmsS6BVrrj8qJmoxSQ8cs9yoI/3
+         hItA==
+X-Forwarded-Encrypted: i=1; AJvYcCX4HzHkeKswjdx/AthZmlfeSmB950dQLEoIWPqw9b/tJ3FgKq6PCWattPOgUtRCe+Yd2aUdaxaIIN6qeA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRh4iRYcwgJ6DnO2P2CjEmDHLDMjj5ARwypMYbiCauxky0BlDZ
+	e06L/vgCWxr8l6dTCetnXyC0aUdFFJl750EyNtdKERWrp0V6LwAm6YBB7K0r6/ZQBDOWpoKzpx4
+	/AQWf
+X-Gm-Gg: ASbGnctFuHlut08u0zYYLXD4nfu/wE877TfhRGrRWM4RK+BpJaYb5B/mZW6251jJAe1
+	s9521s5vMkyDodFBo3Ca8Vxvl3pA2SpeIyyh6wkcov9IuSiU7o8dy7D6GmEpF2sgKd4iZKrRa6Z
+	R+CIYyqi8jS9ZqyVYzB7XnaRac4WCy/x5khQEg5VzQ/Gai8rmAfycIfoea/8Am/b+wgLNYPPhxn
+	h2Zh8fc5rMQyC+4YurkP8am93LqPWdv7i6mNyhRcvG5RKMzjn1KtJlwwCGc62+giFzRTVJ4xm29
+	v5LYkTZ6+K/Dx52y9tIbHsBr/P2ShFOCn8RrkDIrUwt6wQywPHcnsN2gT3hKkBF+702eXYm3Gsm
+	xqWhwXu6imeHHfoYOxjsRHtSu8RMM
+X-Google-Smtp-Source: AGHT+IGE3KGGsL03Vf5Ls5zNFSXdigUvJnu+gvn1xbZ1dzKAezrUvG4htWCcEVpLa4a+HvmsvGC2Kw==
+X-Received: by 2002:a05:600c:5248:b0:45b:8adf:cf2b with SMTP id 5b1f17b1804b1-46206099ddamr9334455e9.21.1758094372096;
+        Wed, 17 Sep 2025 00:32:52 -0700 (PDT)
+Received: from orion.home ([2a02:c7c:7259:a00:75ac:2ea2:dfdc:89c7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4613eb27f25sm25442035e9.23.2025.09.17.00.32.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Sep 2025 00:32:51 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+Subject: [PATCH v3 0/3] Add raw OPUS codec support for compress offload
+Date: Wed, 17 Sep 2025 08:32:49 +0100
+Message-Id: <20250917-opus_codec_rfc_v1-v3-0-7737ad40132e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY4PR01MB14650:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce3fb69f-2112-4f74-2a71-08ddf581a479
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?RpGNp8vtGdPR6Ob+bWXZ2BuX2vMvJawcao5fSZOwL7B+PzKJ4H/jt5afxqkG?=
- =?us-ascii?Q?H8zO23qZdYmZP/QXWR2J1AS/IhhgSrVt8Qd7pK6Qc9XYKp3MHYJXfZU/Zxj+?=
- =?us-ascii?Q?oEdiz4g3hf8nAGiHwOT9JwXCNYfKB6p/yzaJaeXIhtwTAzl8vP3i9tRJPMZr?=
- =?us-ascii?Q?jAKHcRyDQ2UsDp8cTXiJ6GzqI2MTZBBI+hupWOiLOBlJkXUpNi6xru2Bg3wm?=
- =?us-ascii?Q?cR+LO53e0um4SiwvLwLQ5AdlIx8jQJLLKuN5DlzaY5zVUnPktzL/nn7bstCV?=
- =?us-ascii?Q?pDQf2JfAl5apCBymMshwQ5HPFHtPW5WP6xJO4zPle1I6LmoRI08iJYeVLVpe?=
- =?us-ascii?Q?P0qJ0hs0nMmtAKlKN9/PAsa3QeoLPJxSEeSfpz86sFePD+G+/ZO9+bBeI/DE?=
- =?us-ascii?Q?CN+sariJNV4jE2bW2eTPP2G2uuGLf8GRfad8WxdQJWQkc4cTRWJVx/QhJlHV?=
- =?us-ascii?Q?7Kv88hPln3XGBV8f71DJ4mHAyGkNtmrA3JTHfciGHK1AfWXBwd+TsP5s/Fxj?=
- =?us-ascii?Q?wvd9l1yP5T/di4txvLWPQG/71Ul+R5uz0mX1BhX6RCkG20If07GH0eJrSeUv?=
- =?us-ascii?Q?eTUyx4VdHK6nOw/1Syw8DnDZcIa1TdgI4qw7Kjh5I00DwVq8xfdi+BfhPKLX?=
- =?us-ascii?Q?eH/ldhRtWXlHnI06NJbLmr6g6hDPbJaikcIebd4pZEOYEL9SKHgYWdxCfYV9?=
- =?us-ascii?Q?GbUU9cfa41tRL9CJILdpm9C6EQLxqBy2RiyMW+spsXkAzleqGB3LoI6jMoGt?=
- =?us-ascii?Q?fIuvS2zOrOizrs11TWdmxRocPJfAZlif7pQffh8o3k9lutw9Hi/qpBwhV7G1?=
- =?us-ascii?Q?1WdCgrOlgsXG+WKqZ40ZwheRmW2++7wq6TYkb0Jlz4yKKFBXoHCMTLhVhh2A?=
- =?us-ascii?Q?58e+5XqlmGzuFXrSVIod33Qzt5ALZOe2hY/bb44WCTAzgP1v4yuPhn6hukZB?=
- =?us-ascii?Q?NUBGHs2MdT+ghUvGwZxBqsRtICoss3oso26VKed03XtpETgsg7HjQLM8Fril?=
- =?us-ascii?Q?di5jKOKy7uqTTZXcYJEiqnxP19e/8t3HHCy/DbnELyhlO6lNfDMAOMKlioEJ?=
- =?us-ascii?Q?04CM65Mp0d5w16wJPZeY6QZli8zstq+8CQ8yDW8akc+ojJg/mKXP4ZqqKKXv?=
- =?us-ascii?Q?IdxUxExR2/PV6ID9B+t7t2Qynj2NCPbBoCRAkCuKe4AsuvrhMoe2rPOK3aQq?=
- =?us-ascii?Q?QrYEE8wcIPWUfiPSlP++BTwhOytKK3M2AxBKE11nS9dFVupsyPcGsklybMp6?=
- =?us-ascii?Q?ZhUsUB7MjI3YOxKToq7lKH1OPMxspmdVTerpByH88if+h3LUKxWass70GJwn?=
- =?us-ascii?Q?lB/vWtrKzyXhQi+446XNCgIpQvHZhhNRozfSg8z0j+UY+k4N9YT5btShO/HW?=
- =?us-ascii?Q?6+3TGEFg3GK6wpc8XWO/evYewbsDqJ49Lap59yZGr5kLYEiIOamd1jk1fsye?=
- =?us-ascii?Q?JnLW03HroMV0JopxlVeUno3HC1YN9eSRjXyliLq1+pkpU/CTspgPOQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?qc9YNDBcVlvTNiwiS/zWUk53pun2jsIqAkt8ii5wLx2smi79VrEZmOXrmHY2?=
- =?us-ascii?Q?dhpxEaNb82Ctff0Wp2M8eAj/GcLS1oDLwWRguNllwAShyLviZKolVktW4q9U?=
- =?us-ascii?Q?oXPyYJmWMZPbMG7LmaUgTUJJM0UcVfe9OTtgjbCeyT7wp5pw8hnzOGJuo2UI?=
- =?us-ascii?Q?sS6/QINu7HEZLtkI5ScrCheZnmbg51Q1EX5lu3OHhJBV8FrJr/A9ArFNH+8z?=
- =?us-ascii?Q?elMdapyeBGbZjWBXAfYlvupSpMsZLY01pk9nwj0ftEj7IkoH3DL0c8ympEP5?=
- =?us-ascii?Q?St5kg+oszguXmYhMQos0E911CyKWmb+Rs0SLSep2mrfHkvZZxP7AIAkz9ZGA?=
- =?us-ascii?Q?MKSkfZ6PqtRIOdar5WTLpQWg3hK3Fww9MiadBi8GMf0QWdF8RQpJMHRlvjrK?=
- =?us-ascii?Q?gEtG6yFCJVTtJ5MAxWLggJUtIMK0fUt6nTRCo2jMJhHdyEWKp0+WiX11Oa68?=
- =?us-ascii?Q?AqwXyEo6mHXALzu/5qygx8E71rMvso+6qjwQ77hr4713Pd8h5DmNSH+Ws7MQ?=
- =?us-ascii?Q?IqDACXur6XhHLqp2jyfV1YHDIMoXNHPD0fI7RSYdqnMxHUFgl1K3oxfqwv3T?=
- =?us-ascii?Q?CZW+fztckthjZZAirHUElJm0f9Vu1m+iuUZ4ZkA/DpYOh/ApW3YZ9w9DThbV?=
- =?us-ascii?Q?3HWTyFqCsQ/yH+MS/y+35Jh14+OHFnEyQ2TprJ3iNrjDm5UeAJXaX+ZeZOeR?=
- =?us-ascii?Q?4l9NbL90umu2ShuCC9vKhMWuY6vyr2bUiWHKu5GJh9VS47YDN991Y3Davkaf?=
- =?us-ascii?Q?YmcYmVRaAKklvbpQbSAk3ehDTHeO6rmtzmwVtcE/4sxGUuuayqB8bjI9bGPk?=
- =?us-ascii?Q?MDxl51x661G5gOriGb4K482bCASxEGNDg2CIT4TclF/nLWTk9YEJ7DTsiLjX?=
- =?us-ascii?Q?Pc/Uerq5dhFgtYsH6zqSJw75TbZREZUUr6dxD8hpta4tVL8iJASuiQOFfMIO?=
- =?us-ascii?Q?skMfMEj2gX1qJr8qDq6MTTjE7cvhL9fCiNX7U3Zg79MW1tTd1ewIRKRxCDWF?=
- =?us-ascii?Q?SpPfQ3KG6kHYTAm4azDCmyEmZVaWdrMjHuPeSoJWwRU5by8p5KGTXFQ49IZT?=
- =?us-ascii?Q?81sMGGCZ//ejea/dMjimUXrsdv+utnIQdqjw4Y5jvr1p8CYvrb/e15Onl9Mh?=
- =?us-ascii?Q?hLrTzu+86WYIJwFaKlszwKOZJ47enLzvRUOALAmDGoJkoMmI5WuJRoynQ+Ha?=
- =?us-ascii?Q?SvTDLHHv0rL26JAJ9ACNfzTwc8Y7XRmHaK6BZ/RVgtx+t6OS2O8Sg8XKzPRO?=
- =?us-ascii?Q?UEF0uwcKBdEk4YVA5jn7u3vlp9kt+ZpXq2cOtBucrAfVoWPZdGVoTKOOz2g9?=
- =?us-ascii?Q?4ACH9eBB81vw/z0Ok/PBgrkgGFMixPvUFhEzo57iOEZKkM4zXcHKYnNuyTfa?=
- =?us-ascii?Q?yhMwHVfQdjFAfBOpZv0n/RgAPBYFrgdbeuVfav73KgDsRmCMYf3J9IFiM2qr?=
- =?us-ascii?Q?Gz3ijzfklfSS+tBV/5GBbjtmVrPouHtNp0xudvjFDw9kYZWFBBNN61ovL0tn?=
- =?us-ascii?Q?YrC86DZTgO/FShzDcfZFLPY3kof52jF3eX9L/bWGfeybrhpCShjZ8HkKoeaZ?=
- =?us-ascii?Q?69ez12Pq8nGJPcGik33tYGcw9G4MD25lskJq8K3kCEr/f8YkYZvXDqlICPhV?=
- =?us-ascii?Q?M/S9aVUtqWUkJHUBiGHZbLw=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce3fb69f-2112-4f74-2a71-08ddf581a479
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 00:32:11.7685
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3XCwOn2PeMzuY3UcKjmH6vASB+TzWA8Ey9n+7LK7e8FFo4HnaRvtHcBgwZMo93HqooUYLHA+9c70TDx6DgStG5iHHS8PZR9akLzEZIWwY2H+VKZnMsps4ddk1uWH8yjw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB14650
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACFkymgC/32OywrCMBBFf6VkbWWSNGnqyv8QKXm2AWlKokUp/
+ XfTblRQYTb3wjl3ZpRs9DahQzGjaCeffBhyoLsC6V4OnS29yRkRIAw45mUYb6nVwVjdRqfbCZe
+ KgzIUhGioQpkbo3X+vjlP55x7n64hPraJCa/tP1s+KLGrQYGssKzhePGDjGEfYrfaN1QQ+IWyy
+ jBdMw6C8Xd0/WQir/UGf1WQrKDMKc4oN46rD8WyLE9PUH3sMQEAAA==
+X-Change-ID: 20250616-opus_codec_rfc_v1-b60bd308893b
+To: Vinod Koul <vkoul@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: Patrick Lai <plai@qti.qualcomm.com>, 
+ Annemarie Porter <annemari@quicinc.com>, 
+ srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ kernel@oss.qualcomm.com, Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, 
+ Alexey Klimov <alexey.klimov@linaro.org>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+X-Mailer: b4 0.14.2
 
+This series adds support in kernel to recognise raw (or plain) OPUS
+codec playback for compress offloading. At this point this series
+doesn't deal with OPUS packets packed in any kind of containers (OGG or
+others) and focuses on adding missing bits for pure OPUS packets.
 
-Hi Olivier
+The second patch adds its usage in Qualcomm Audio DSP code. To correctly
+recognise raw OPUS packets by qdsp6, each packets needs to be prepended
+with 4-bytes field that contains length of a raw OPUS packet.
+It is expected to be useful for usecases when OPUS packets are streamed
+over network and they are not encapsulated in a container. Userspace
+application that will use the compress API has to manually add such
+4-bytes long field to each OPUS packet.
 
-Thank you for your feedback
+This is tested on sm8750-mtp. It is expected that next hardware revisions
+will also support raw OPUS codec offloading.
 
-> Here is feedback regarding commit 5725bce709db1c001140d79398581e067e28c031
-> ASoC: simple-card-utils: Unify clock direction by clk_direction
-(snip)
-> To accommodate the change introduced by this commit, I added the property
-> "system-clock-direction-out" in the SAI device tree node.
-(snip)
-> * Before the change:
-> - Initialization:
-> simple_init_dai() -> set_sysclk(id=0, freq=sai_ck freq, dir=out)
-> 	Calls clk_set_rate_exclusive()
-> simple_util_shutdown() -> set_sysclk(id=0, freq=0, dir=out)
-> 	Calls clk_rate_exclusive_put() (releases the mclk clock)
+Dependencies are:
+-- hardware with DSP that supports decoding OPUS packets (>= Qualcomm sm8750);
+-- adsp fastrpc;
+-- explicitly setting format in sm8750 soundcard driver
+https://lore.kernel.org/linux-sound/20250911154340.2798304-1-alexey.klimov@linaro.org/
+-- running adsprpcd tool with support for Audio PD and DSP libraries
+loading support (or its alternative);
+-- tinycompress fcplay tool that will prepare raw opus packets and
+do the required addition of length field;
+-- mfc module in topology compress-playback path, that module is
+expected to parse channel mapping and do the required things to
+map streams/channels to physically-present output channels on backend.
 
-Here, about "Before the change". Does this "change" mean "before adding
-system-clock-direction-out" or "before commit 5725bce709db1..." ?
+The userspace tinycompress tool with support for raw OPUS compress
+playback is located here:
+https://github.com/laklimov/tinycompress_opus
+branch: opus_v3_workinprogress
 
-> * After the change:
-> - Initialization:
-> simple_init_dai() -> set_sysclk(id=0, freq=sai_ck freq, dir=out)
-> 	Calls clk_set_rate_exclusive()
-> simple_util_shutdown() -> set_sysclk(id=0, freq=0, dir=in)
-> 	clk_rate_exclusive_put() NOT called (mclk clock is not released)
+The userspace tool is not expected that it is ready and still needs
+some work, for instance recognition that it runs on Qualcomm hardware.
+More like working PoC.
 
-Hmm...
-If it was latest kernel, and if you added "system-clock-direction-out" in DT,
-dir should be "out" in my understanding. dir=in means it doesn't have
-"system-clock-direction-out".
-
-And, dir will not be changed (out/in) in init / shutdown.
-Are these same DAI ? Both "struct snd_soc_dai" and "struct simple_util_dai"
-have "*name". Could you please double-check it ?
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 ---
-Kuninori Morimoto
+Changes in v3:
+- back to define version member as __u8 in snd_dec_opus and reading it in audioreach_set_compr_media_format()
+as suggested by Takashi;
+- new patch, bumping compress API minor version as suggested by Vinod and Takashi;
+- Link to v2: https://lore.kernel.org/r/20250910-opus_codec_rfc_v1-v2-0-35fb6536df6b@linaro.org
+
+Changes in v2 (as suggested by Vinod):
+- opus decoder struct: switch version memeber to be union to allow reading it
+ as a byte or two 4-bits fields;
+- audioreach_set_compr_media_format: read version byte.
+- Link to v1: https://lore.kernel.org/r/20250820-opus_codec_rfc_v1-v1-0-54d5c7560856@linaro.org
+
+Changes since RFC (mostly as suggetsed by Srini):
+- added struct snd_dec_opus_ch_map to struct snd_dec_opus;
+- changed tags;
+- reworked comments for struct snd_dec_opus;
+In qcom audioreach patch:
+- corrected how {stream_count,coupled_count} is ejected from mcfg->codec;
+- stopped dealing with channel mapping parsing (this is internal struct for
+  decoder on audio DSP side);
+- used sizeof(*opus_cfg) for payload size;
+Tinycompress/fcplay:
+- small updates to match kernel structs.
+- Link to RFC: https://lore.kernel.org/r/20250616-opus_codec_rfc_v1-v1-0-1f70b0a41a70@linaro.org
+
+---
+Alexey Klimov (3):
+      ALSA: compress: add raw opus codec define and opus decoder structs
+      ALSA: compress_offload: increase SNDRV_COMPRESS_VERSION minor version by 1
+      ASoC: qcom: qdsp6/audioreach: add support for offloading raw opus playback
+
+ include/uapi/sound/compress_offload.h |  2 +-
+ include/uapi/sound/compress_params.h  | 43 ++++++++++++++++++++++++++++++++++-
+ sound/soc/qcom/qdsp6/audioreach.c     | 27 ++++++++++++++++++++++
+ sound/soc/qcom/qdsp6/audioreach.h     | 17 ++++++++++++++
+ sound/soc/qcom/qdsp6/q6apm-dai.c      |  3 ++-
+ sound/soc/qcom/qdsp6/q6apm.c          |  3 +++
+ 6 files changed, 92 insertions(+), 3 deletions(-)
+---
+base-commit: 05af764719214d6568adb55c8749dec295228da8
+change-id: 20250616-opus_codec_rfc_v1-b60bd308893b
+
+Best regards,
+-- 
+Alexey Klimov <alexey.klimov@linaro.org>
+
