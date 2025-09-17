@@ -1,206 +1,196 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FF92F291D
-	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 08:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7742F32D5DD
+	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 09:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758098160; cv=none; b=oGJJAnaAh6aDRKdwdbQfFYjHnpOFZn3mIX+amnUxKUISdLYFciJx6+QjPRaRzX0LZakGXiFXWLZb1GJXARjxUsb27clVBj1kH/Z6qJ5BKH9JZPsG8g4oHZr+ZTT1SzH3VpwzsGRGLYlSutTLFt5qvu5TcwZyZqgbDuKyeohoYR0=
+	t=1758099863; cv=none; b=nbb9WrLM1aP9U6srNRYUh0CbLZFgK7mTqGhtM8eBpmKft55FsOu7tWYLUKQ71U4hULdfqEarFzjHdz18YCWBZBgp9N92wzVvKBlZzShgfvxccwRQ5+mG0k7ehWAalrqoObqbRKrr7BatGKetpbM5Y3HPJR5KnR45+RVL+26JQT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758098160; c=relaxed/simple;
-	bh=ofO0Q8oMta1PRDwIhLkYMub7GGndR7KtZQUqeFBiVPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JCmu0jN+NZsPkomnRfECT8y7Ma0s8Z8EZgTvYwmB09vIH4IS0NEwKMCh7FAEQHUvkwmQEtB4P/7jisIWtiIjp/AxMNfLqkFp3V3Pp2CTHwaoYWja00LdqnF52uFA4KdjGeeomhMeZRpJRCB6zBKu8TBF1JYa8zCvbnQ3yByTSkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K0CKpcQJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aGmtl/eV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=K0CKpcQJ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aGmtl/eV; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1758099863; c=relaxed/simple;
+	bh=ZknuNHFq0tyeptFvJcnnsXRV6fSiqoXd5zwMcfSSKD4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OBtswo5+IVcgpooV3tvw8RQnzinAxDFaF7s21ScW0WflH3DyfmMte9P9kxnHkCyt/2yTw1W6AZl/G12ZZpYS19wNImsiwcjGY0lPIUAOlUVZZAzMlSU3Uc0lG1subwpVCZzts8sH9MwjjaK7HMjQ6Occ+zPL3gRT3by1rMkpfOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=innEyywP; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K0CKpcQJ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aGmtl/eV";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="K0CKpcQJ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aGmtl/eV"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2F73A1F79F;
-	Wed, 17 Sep 2025 08:35:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1758098151; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BasLqjHtVshfjdyLg2J6q/oyQyWJ9sPXGwCbgbGkmqs=;
-	b=K0CKpcQJHVMxSJ+0OTFPfYcV2OQ3IS7jig+x8ob4XXEYr/va3BZ90Lw30tMgFKMxGbQsRe
-	wWJgOOxdyvKIkGPA+QLwucu4EJLL2mBYylcaol6HmYxdEMQDGiMcoHTqSItojZq/0sEJVs
-	NlB55PNYrKpbGroyNlKHypEvgErFWrA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1758098151;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BasLqjHtVshfjdyLg2J6q/oyQyWJ9sPXGwCbgbGkmqs=;
-	b=aGmtl/eVV6qvZej9Irm87pmJC9gTjqhA4sHTtOsVXSk0BcUzvZreilLZGDZCGSUx9rhB8s
-	W7+K9XDbHa/fxCBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1758098151; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BasLqjHtVshfjdyLg2J6q/oyQyWJ9sPXGwCbgbGkmqs=;
-	b=K0CKpcQJHVMxSJ+0OTFPfYcV2OQ3IS7jig+x8ob4XXEYr/va3BZ90Lw30tMgFKMxGbQsRe
-	wWJgOOxdyvKIkGPA+QLwucu4EJLL2mBYylcaol6HmYxdEMQDGiMcoHTqSItojZq/0sEJVs
-	NlB55PNYrKpbGroyNlKHypEvgErFWrA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1758098151;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BasLqjHtVshfjdyLg2J6q/oyQyWJ9sPXGwCbgbGkmqs=;
-	b=aGmtl/eVV6qvZej9Irm87pmJC9gTjqhA4sHTtOsVXSk0BcUzvZreilLZGDZCGSUx9rhB8s
-	W7+K9XDbHa/fxCBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 158141368D;
-	Wed, 17 Sep 2025 08:35:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GcU6Bedyymj4CwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 17 Sep 2025 08:35:51 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B774CA0A95; Wed, 17 Sep 2025 10:35:46 +0200 (CEST)
-Date: Wed, 17 Sep 2025 10:35:46 +0200
-From: Jan Kara <jack@suse.cz>
-To: David Hildenbrand <david@redhat.com>
-Cc: Jan Kara <jack@suse.cz>, Ryan Roberts <ryan.roberts@arm.com>, 
-	syzbot <syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com>, akpm@linux-foundation.org, chaitanyas.prakash@arm.com, 
-	davem@davemloft.net, edumazet@google.com, hdanton@sina.com, horms@kernel.org, 
-	kuba@kernel.org, kuniyu@google.com, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com, perex@perex.cz, 
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com, willemb@google.com
-Subject: Re: [syzbot] [sound?] kernel BUG in filemap_fault (2)
-Message-ID: <s5pl5yhhxyz7dn4r2v6c4ll53ejboe5xa5226ytgg7kjirgmh5@tofyas4lp4uy>
-References: <68c69e17.050a0220.3c6139.04e1.GAE@google.com>
- <80840307-942d-4e7b-849d-2ca9bb4bbefa@arm.com>
- <lqzgi7abe2onda3faavn5ays6gdw4syiu32hmrfaibrh6cmozs@pjf3llvnnefk>
- <7e338491-0c6b-4b65-93b7-df0af8b2fd87@redhat.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="innEyywP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758099858;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=x5npCVbmbW8kT6qQZFnkl4JniL63oW0fDP/nvQRcCcY=;
+	b=innEyywPK0RhpC8qj/pKjiMx2bMO0emxYhTHGrG8/+Ks0CyMey7VatlbLw23OKlbzNmuAk
+	oQYPDEhW313CNxnjEbPeuI2Mr1aFoQV2cm2tt1E4f3uT9hY33OWvqjKz+++kcVqoTItteO
+	c0JLXmQgjWOc2HShuu+NWQjeHUvovls=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-460-xKd_1M1vOWuY7LeH9K78Jg-1; Wed, 17 Sep 2025 05:04:16 -0400
+X-MC-Unique: xKd_1M1vOWuY7LeH9K78Jg-1
+X-Mimecast-MFC-AGG-ID: xKd_1M1vOWuY7LeH9K78Jg_1758099855
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3ece14b9231so120822f8f.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 02:04:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758099855; x=1758704655;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x5npCVbmbW8kT6qQZFnkl4JniL63oW0fDP/nvQRcCcY=;
+        b=qigEqrXAwrrz/bdo1LmQoSp5I28dHDeG1MceuTBpKeZRa1DIQA0r/EGYf6KGCZp+6F
+         XkSE7TnY838zFK6uDxPaW3b/BhE0OOf/kXQ7kH4DmszGQctJqZ3u5zjb4h6JfZgIiAxg
+         S6kStYQfdAzHzlJ+qZW2xr7cWetrDMun0DgtGBfoDI6LT1hwplyoJ8WNa+9cFW+7inZB
+         2BkB+a8CiVgD0JbMfBE9Mt5l7E6l6fD0276G3m110YLDP7UPwXKhCjgAd5Sav17ICljl
+         eSJtbBs+R8mcxXEK4jMlv0Z0NaVFjG5RFi5GnT4HSJJAbPCBuLuWagYj2IgAnRU9nHWp
+         NEFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKm1MRtLLkZNEXy5XzuKXSQtbRf1wN/2QJOz14Wx/DasidrJXi7sWkT2UGn0eXHNBHSQcUf9fNuG4+BA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0w8rY5IJI87/JNQnnDs6unhg4TGkJfRUI64/q8MJ9K1Y+SJTS
+	Mn+TZ157h4aM5EC92QivBUVjpJRCa4s0teyM86JH/SNzx/pseal5RvdCnhtUu5Hey/ydd7jYX+x
+	L6SX4HVmAe/NTeYuuheAP2X9K7GZ6ejWZd+HhmN5WzwntRZaJvYBJoYbIkJwkVh5j
+X-Gm-Gg: ASbGncvixoKcqkFSQ/ADOyD8LKJNMgGjBiabYVnx30SFnfamiwFhIcLqc9s2c+bQ2OX
+	odPeTZdmvsVQ2SPYIkKalStukho8Gsfk4aRdcK/3bGGURKp0/wCJWQbptZEVaWsew5p8kPBg016
+	eCnfAnvDLSmndle4bCa8EoUqQG+TNDpnoipyB+uGPnM10kt5Dwt4l9Sc4gv27Ei1Pz8Uc0pXFFh
+	loaizqJki5pVwAHNcTqz78L8JCk98PyMA5xgSw5gX6hWuG/VN5fJ3bq80ZBG1cizxLNzmCmTL0p
+	KGN8TO1hediCCaKeBdF1JvzTeIaQbYuLK6Ws9LUDKZ54ucdn4iVif2VGphe755kaEqfDoZqOXY+
+	KryDk3k/qcqEqJDYB4lbPe80KENy4rgQLS/S7E4Q3pJjx6Js2Bt23JHX2R3lNHJa0
+X-Received: by 2002:a5d:588b:0:b0:3e9:3b91:e846 with SMTP id ffacd0b85a97d-3ecdf9bec6cmr1252293f8f.10.1758099854802;
+        Wed, 17 Sep 2025 02:04:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEdI4OELMUMHMlRwzj6+l/2Y9hePxscl3Z5Y6ewrNZjZAKUiJVhUKBuG0aAn+4uFmb0FpMAtQ==
+X-Received: by 2002:a5d:588b:0:b0:3e9:3b91:e846 with SMTP id ffacd0b85a97d-3ecdf9bec6cmr1252248f8f.10.1758099854160;
+        Wed, 17 Sep 2025 02:04:14 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f27:6d00:7b96:afc9:83d0:5bd? (p200300d82f276d007b96afc983d005bd.dip0.t-ipconnect.de. [2003:d8:2f27:6d00:7b96:afc9:83d0:5bd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4613a072a38sm30431035e9.24.2025.09.17.02.04.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Sep 2025 02:04:13 -0700 (PDT)
+Message-ID: <4551b48c-eba5-42a3-aa53-74d412a126b9@redhat.com>
+Date: Wed, 17 Sep 2025 11:04:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7e338491-0c6b-4b65-93b7-df0af8b2fd87@redhat.com>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[263f159eb37a1c4c67a4];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[sina.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.cz,arm.com,syzkaller.appspotmail.com,linux-foundation.org,davemloft.net,google.com,sina.com,kernel.org,vger.kernel.org,redhat.com,perex.cz,googlegroups.com,suse.com];
-	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -2.30
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [sound?] kernel BUG in filemap_fault (2)
+To: Jan Kara <jack@suse.cz>
+Cc: Ryan Roberts <ryan.roberts@arm.com>,
+ syzbot <syzbot+263f159eb37a1c4c67a4@syzkaller.appspotmail.com>,
+ akpm@linux-foundation.org, chaitanyas.prakash@arm.com, davem@davemloft.net,
+ edumazet@google.com, hdanton@sina.com, horms@kernel.org, kuba@kernel.org,
+ kuniyu@google.com, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+ perex@perex.cz, syzkaller-bugs@googlegroups.com, tiwai@suse.com,
+ willemb@google.com
+References: <68c69e17.050a0220.3c6139.04e1.GAE@google.com>
+ <80840307-942d-4e7b-849d-2ca9bb4bbefa@arm.com>
+ <lqzgi7abe2onda3faavn5ays6gdw4syiu32hmrfaibrh6cmozs@pjf3llvnnefk>
+ <7e338491-0c6b-4b65-93b7-df0af8b2fd87@redhat.com>
+ <s5pl5yhhxyz7dn4r2v6c4ll53ejboe5xa5226ytgg7kjirgmh5@tofyas4lp4uy>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <s5pl5yhhxyz7dn4r2v6c4ll53ejboe5xa5226ytgg7kjirgmh5@tofyas4lp4uy>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: kreyGciOJLgSDSDmUnzGYHBiHXbeCFni7-sCfk72-mI_1758099855
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed 17-09-25 09:57:19, David Hildenbrand wrote:
-> On 16.09.25 15:05, Jan Kara wrote:
-> > On Tue 16-09-25 13:50:08, Ryan Roberts wrote:
-> > > On 14/09/2025 11:51, syzbot wrote:
-> > > > syzbot suspects this issue was fixed by commit:
-> > > > 
-> > > > commit bdb86f6b87633cc020f8225ae09d336da7826724
-> > > > Author: Ryan Roberts <ryan.roberts@arm.com>
-> > > > Date:   Mon Jun 9 09:27:23 2025 +0000
-> > > > 
-> > > >      mm/readahead: honour new_order in page_cache_ra_order()
-> > > 
-> > > I'm not sure what original bug you are claiming this is fixing? Perhaps this?
-> > > 
-> > > https://lore.kernel.org/linux-mm/6852b77e.a70a0220.79d0a.0214.GAE@google.com/
-> > 
-> > I think it was:
-> > 
-> > https://lore.kernel.org/all/684ffc59.a00a0220.279073.0037.GAE@google.com/
-> > 
-> > at least that's what the syzbot email replies to... And it doesn't make a
-> > lot of sense but it isn't totally off either. So I'd just let the syzbot
-> > bug autoclose after some timeout.
+>>
+>> 	if (!lock_folio_maybe_drop_mmap(vmf, folio, &fpin))
+>> 		goto out_retry;
+>>
+>> 	/* Did it get truncated? */
+>> 	if (unlikely(folio->mapping != mapping)) {
+>> 		folio_unlock(folio);
+>> 		folio_put(folio);
+>> 		goto retry_find;
+>> 	}
+>> 	VM_BUG_ON_FOLIO(!folio_contains(folio, index), folio);
+>>
+>>
+>> I would assume that if !folio_contains(folio, index), either the folio got
+>> split in the meantime (filemap_get_folio() returned with a raised reference,
+>> though) or that file pagecache contained something wrong.
 > 
-> Hm, in the issue we ran into was:
+> Right.
 > 
-> 	VM_BUG_ON_FOLIO(!folio_contains(folio, index), folio);
+>> In __filemap_get_folio() we perform the same checks after locking the folio
+>> (with FGP_LOCK), and weird enough it didn't trigger yet there.
 > 
-> in filemap_fault().
-> 
-> Now, that sounds rather bad, especially given that it was reported upstream.
-> 
-> So likely we should figure out what happened and see if it really fixed it
-> and if so, why it fixed it (stable backports etc)?
+> But we don't call __filemap_get_folio() with FGP_LOCK from filemap_fault().
 
-Ok, ok, fair enough ;)
+Yes. I should have clarified that we haven't seen the VM_BUG_ON_FOLIO() 
+trigger on other callpaths that set FGP_LOCK, because I would think the 
+very same problem could happen there as well.
 
-> Could be that Ryans patch is just making the problem harder to reproduce, of
-> course (what I assume right now).
-> 
-> Essentially we do a
-> 
-> 	folio = filemap_get_folio(mapping, index);
-> 
-> followed by
-> 
-> 	if (!lock_folio_maybe_drop_mmap(vmf, folio, &fpin))
-> 		goto out_retry;
-> 
-> 	/* Did it get truncated? */
-> 	if (unlikely(folio->mapping != mapping)) {
-> 		folio_unlock(folio);
-> 		folio_put(folio);
-> 		goto retry_find;
-> 	}
-> 	VM_BUG_ON_FOLIO(!folio_contains(folio, index), folio);
-> 
-> 
-> I would assume that if !folio_contains(folio, index), either the folio got
-> split in the meantime (filemap_get_folio() returned with a raised reference,
-> though) or that file pagecache contained something wrong.
+> The folio locking is handled by lock_folio_maybe_drop_mmap() as you
+> mentioned. So this is the first time we do the assert after getting the
+> folio AFAICT. So some race with folio split looks plausible. Checking the
+> reproducer it does play with mmap(2) and madvise(MADV_REMOVE) over the
+> mapped range so the page fault may be racing with
+> truncate_inode_partial_folio()->try_folio_split(). But I don't see the race
+> there now...
 
-Right.
+__filemap_get_folio() will grab a reference and verify that the xarray 
+didn't change. So having a concurrent split succeed would be weird, 
+because freezing the refcount should fail. Of course, some refcounting 
+inconsistency could trigger something weird like that.
 
-> In __filemap_get_folio() we perform the same checks after locking the folio
-> (with FGP_LOCK), and weird enough it didn't trigger yet there.
+I can spot that we are also manually calling 
+__filemap_get_folio(FGP_CREAT|FGP_FOR_MMAP) on the else path if 
+filemap_get_folio() failed, maybe that's the problematic bit (and maybe 
+that's where readahead logic makes a difference).
 
-But we don't call __filemap_get_folio() with FGP_LOCK from filemap_fault().
-The folio locking is handled by lock_folio_maybe_drop_mmap() as you
-mentioned. So this is the first time we do the assert after getting the
-folio AFAICT. So some race with folio split looks plausible. Checking the
-reproducer it does play with mmap(2) and madvise(MADV_REMOVE) over the
-mapped range so the page fault may be racing with
-truncate_inode_partial_folio()->try_folio_split(). But I don't see the race
-there now...
-
-								Honza
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Cheers
+
+David / dhildenb
+
