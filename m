@@ -1,87 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0802F5A2A;
-	Wed, 17 Sep 2025 11:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F342432BBED;
+	Wed, 17 Sep 2025 12:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758109190; cv=none; b=bopWPYnkVX+hl3XEx5R1MOnTb7MWJedTke9d7VCJQ5ovteQHWNpIWi0KhUzKwj49XuFMlMkimo0DsZjg0m5+iYT2o8IqK0KR1+gbHOORdiHtN+PU+5gqMH7Gfxf8YB0GbsmXzZOxWqEu+HkH6STBswAXd1ne9OtS17wW5jqCKP0=
+	t=1758111035; cv=none; b=s5pTnAdNAuAS773IbaZm4o2IjHsiqw5tIGlE9ivmb+KxKcMsu3egvdHUJ+0VlKqLCu0huw2Uipv1c3r1IarKq+0IkB/faI91wrtbKU9JWnvXivhnEP26WW7teP44yjwCZkneHt2vaNKvXtQkFqwS2oD7u+qARYshRrVDANJYMAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758109190; c=relaxed/simple;
-	bh=JPMCEaWQxLA38lC24FQ0rxlTNPnKwalzKyJK8yfHqok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MGLHeJt2XyrYpMUMphFv01J7xVNuodJfpYJDlfvlKOktoE7bvobYlaJLVfIM4KOF9V7deXQaf01O/zBRMRRM2fwi1ZIadcBGrB2Zug/WIaS7DVlYc9uXARzOO1i2mVDrKH9xcnf6M+9X1VPu4ORUeGX4lUbXGsI9qQ7Em7CNwrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GSfaV//+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1758111035; c=relaxed/simple;
+	bh=hAQ+KeN3VG0PfLLgQCMRkpaPl35eqWnQFwZD5PcHz08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rktEqL6VVNcfI3QbTvroNjFjVaoFO88PVnZ6G5BDVPOy1hb7P0B2Q0DPFZILR3kkT6eH1YXH6/aVSaYYbjVVsI4lVVh4w7Js6NkHkH0eKw8YQm2j7Tub3hMcUqF0iDvCpTzWMklaEuPTTq+dhRLNkpqysvV/ACWYYc8fQpb1Ybk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TYpfTG8X; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GSfaV//+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89AE5C4CEF0;
-	Wed, 17 Sep 2025 11:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758109189;
-	bh=JPMCEaWQxLA38lC24FQ0rxlTNPnKwalzKyJK8yfHqok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GSfaV//+EoCRIjS4mrDlxg3qfGvWgJYLsUgBCXyoHFfaJDTMcGncpK8t0IiLP/n2A
-	 5KX+jNiPHe5EafQMCpzRzRHkqRBFZ+hC5zxTugVnGns9yKlvzUwTc4VJw3shhzcUo6
-	 NheeyNNDYAhwj76lcwJqSUCsZ30QrO4OeVKOkkXSBJqmyXPMUy4w6EedpMEGAxTDs2
-	 uuR2uoVUe2vBGwowApwptg5R7OnZxh5lArH85tlKkQ0QNciA/QG8UMQDytjPhbap04
-	 Vc9epzNOIweg9UQ4XAR7VGqfK6bqojrFm1yR8+OLkkUqLuTC82GDJ16f/0OJmKaYKC
-	 0Ceo9ToVT9oeg==
-Date: Wed, 17 Sep 2025 12:39:43 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Patrick Lai <plai@qti.qualcomm.com>,
-	Annemarie Porter <annemari@quicinc.com>,
-	srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	kernel@oss.qualcomm.com,
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Subject: Re: [PATCH v3 3/3] ASoC: qcom: qdsp6/audioreach: add support for
- offloading raw opus playback
-Message-ID: <1e29ebfc-9b0d-4f3e-a034-64e102273de0@sirena.org.uk>
-References: <20250917-opus_codec_rfc_v1-v3-0-7737ad40132e@linaro.org>
- <20250917-opus_codec_rfc_v1-v3-3-7737ad40132e@linaro.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TYpfTG8X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1758111031;
+	bh=hAQ+KeN3VG0PfLLgQCMRkpaPl35eqWnQFwZD5PcHz08=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TYpfTG8XL04KY+XUYVK5Pt3SCSUH1lzm0/hI+mgoqyqL112T0nyZ6rLa8C25X+UWL
+	 iAAVy3iy+8cpCsXvrYWFgak7/mX8B+81nXiklDmwuU0PxzmQJRdJLEDYMLOoCeFB3P
+	 lVS4LfZU2Th2Qzf3j63PABPdxjFUHoxD02UdtvtTPSXkPnPEpeYejsYEEEa/rAX+fX
+	 kpE5h1nFpPE4FqkvYX6ytwMw8t8Q6k6Fvo1abiDIOx2iSYJmFAd13U8GeXnUR09u+V
+	 EgQhybbOQ5ehgsY3v7KYNzom+RDroDzs5A8UZNY4Xbz9wkiXh/cRIn8tDte3Hg1+IJ
+	 DNMSCBaqS7MWA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5909917E00EC;
+	Wed, 17 Sep 2025 14:10:30 +0200 (CEST)
+Message-ID: <27deb3bf-7b93-4049-b3a4-b0c9bfcb5c43@collabora.com>
+Date: Wed, 17 Sep 2025 14:10:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5+aHDuhDSkVtN+Z2"
-Content-Disposition: inline
-In-Reply-To: <20250917-opus_codec_rfc_v1-v3-3-7737ad40132e@linaro.org>
-X-Cookie: Lake Erie died for your sins.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: dsp: mediatek: add mt8196 dsp
+ document
+To: "hailong.fan" <hailong.fan@mediatek.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20250917075336.5985-1-hailong.fan@mediatek.com>
+ <20250917075336.5985-2-hailong.fan@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250917075336.5985-2-hailong.fan@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Il 17/09/25 09:53, hailong.fan ha scritto:
+> From: Hailong Fan <hailong.fan@mediatek.com>
+> 
+> Add device tree binding documentation for the MediaTek
+> MT8196 DSP. The DSP is used by the Sound Open Firmware
+> driver node and includes registers, clocks, memory regions,
+> and a mailbox for DSP communication.
+> 
+> Signed-off-by: Hailong Fan <hailong.fan@mediatek.com>
+> ---
+>   .../bindings/dsp/mediatek,mt8196-dsp.yaml     | 98 +++++++++++++++++++
+>   1 file changed, 98 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/dsp/mediatek,mt8196-dsp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/dsp/mediatek,mt8196-dsp.yaml b/Documentation/devicetree/bindings/dsp/mediatek,mt8196-dsp.yaml
+> new file mode 100644
+> index 000000000000..af0f9d71200f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/dsp/mediatek,mt8196-dsp.yaml
+> @@ -0,0 +1,98 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/dsp/mediatek,mt8196-dsp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek mt8196 DSP core
+
+mt->MT (MT8196)
+
+> +
+> +maintainers:
+> +  - Hailong Fan <hailong.fan@mediatek.com>
+> +
+> +description: |
+
+Drop the colon |, you don't need it.
 
 
---5+aHDuhDSkVtN+Z2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> +  The MediaTek mt8196 SoC contains a DSP core used for advanced pre-
 
-On Wed, Sep 17, 2025 at 08:32:52AM +0100, Alexey Klimov wrote:
-> Add support for OPUS module, OPUS format ID, media format payload struct
-> and make it all recognizable by audioreach compress playback path.
+mt->MT (MT8196)
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Also document *which* DSP core this SoC contains. Specifically, say that this SoC
+contains a dual-core Cadence HiFi5 Audio Engine DSP - because this is what it is.
 
---5+aHDuhDSkVtN+Z2
-Content-Type: application/pgp-signature; name="signature.asc"
+> +  and post-audio processing. This DSP is typically used by the Sound
+> +  Open Firmware (SOF) driver and requires registers, clocks, memory
+> +  regions, and a mailbox for communication.
 
------BEGIN PGP SIGNATURE-----
+..snip..
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmjKnf8ACgkQJNaLcl1U
-h9DVBAf/SyeCSpGrRfF5GOjjzgqmyrK1Yj6K1rb9dMZb8HNgOvLxADwW6TQyMiDI
-wcbW54qUqw1cnGF5bmUUeKOUibxfwENLv6pLTtRSAEkRE0cKXEFKKgwA2lVmvUuy
-oY1K115xjV/Db91tPeOT2MURM0riH8mCCutuKSiYsyWsy05IkyTx78e/Apus2nEo
-51DaTk2bhg/4DOl5CCawWnDjDXr/fqTtyiVgoYTewAvvij8gSCRpJI9l6yfMcUpq
-fEgqDCBDtUf72kisQmFUo/w2vqBUbAAEuaY7SzD/4edfp7lJvxfZRGmq420VvTK3
-pF1sFsjTRokQUCRU5dCPukVfAf/Mwg==
-=dm9f
------END PGP SIGNATURE-----
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8196-clk.h>
+> +    #include <dt-bindings/power/mt8196-power.h>
 
---5+aHDuhDSkVtN+Z2--
+Before including binding headers with the same names as downstream, refer to the
+series that are currently on the mailing lists, because that's what will ultimately
+get upstream.
+
+dt-bindings/clock/mediatek,mt8196-clock.h
+dt-bindings/power/mediatek,mt8196-power.h
+
+> +    adsp@1a000000 {
+> +        compatible = "mediatek,mt8196-dsp";
+> +        reg = <0x1a000000 0x5000>,
+> +              <0x1a210000 0x80000>,
+> +              <0x1a345000 0x300>,
+> +              <0x1a00f000 0x1000>;
+> +        reg-names = "cfg", "sram", "sec", "bus";
+> +        clocks = <&cksys_clk CLK_CK_ADSP_SEL>,
+> +                 <&cksys_clk CLK_CK_TCK_26M_MX9>,
+> +                 <&cksys_clk CLK_CK_ADSPPLL>;
+
+and use the upstream names for those clocks.
+
+<&topckgen CLK_TOP_ADSP>,
+<&clk26m>,
+<&apmixedsys CLK_APMIXED_ADSPPLL>,
+
+> +        clock-names = "audiodsp",
+> +                      "sys_clk",
+> +                      "adsppll";
+
+clock-names fit in one line; plus, please "sys-clk" instead.
+
+> +        power-domains = <&scpsys MT8196_POWER_DOMAIN_ADSP_TOP_DORMANT>;
+
+power-domains = <&spm MT8196_POWER_DOMAIN_ADSP_TOP_DORMANT>;
+
+> +        mboxes = <&adsp_mailbox0>, <&adsp_mailbox1>;
+> +        mbox-names = "rx", "tx";
+> +    };
+
+Regards,
+Angelo
