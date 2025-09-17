@@ -1,160 +1,72 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8814D1DE4C4
-	for <linux-sound@vger.kernel.org>; Wed, 17 Sep 2025 13:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49232EBBB2;
+	Wed, 17 Sep 2025 13:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758114747; cv=none; b=TOCXHTjS6COFTglN0eOoLYzXzlwGRIOctbRds2e3v3o4vXEuBVa4JHEY+Ny1rkkx5LnVrC58n4aRtznZ7VsMLoPt1irGOREkObQ9oZXkn8exIWS3tg4EtMdE8AP2se/JgE+lYWCFQSpXF0Nf4bENHt9l9+csm0sQsEjBu5ia+m0=
+	t=1758115682; cv=none; b=onK+IeOcY7EjfuBxNhxpGK/FiA6a5N6Vsl5X9VJonz4y0cpsgLimbGWf9zRt24wLmgjug6UkjoHogIsohwYms8rEF0JJoRI85A1m+jrtwm5ZyV9FLShZkRanz04DXnqeMnO8ElIgTcfsjFg4dT4ECi1qX4MMde1ylhDdUjRlHWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758114747; c=relaxed/simple;
-	bh=idEVzpN4vlkpt3jQp88gH0ZL7rkRcPSesetXBfE6c3c=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fRjQpfF7pcCC5XGrS0joLI+YZZEly7SYWnZ4Tb2dS2hE6vIV0XnfpVzNeCOn7dfS3HfwDQK6eToo1ydL0SO1TXwnx2rHgvE7ZPcviThKcYKMmL23X/tYTsTsH9mp1bQznUOYPTmJ7rhJnYhyxiHBjCYJR89cBHWWlf7gohw0U0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QcJIh7J/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=55KP0dXB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QcJIh7J/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=55KP0dXB; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1758115682; c=relaxed/simple;
+	bh=TiTzmMbR5nva4akgdNhgMpzqQgt4sNgYMEMrUKSoyiU=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=quOi9iv5XE+FC9YwJWxAgve3bsGGyVxmPeMc+YDESQipQz7MgkCsS0M4yEH7LGUd/CrxWp8xwSTr7NpZKxA58/eBhArelrzKDrNrCTEeu25HRR1BxFQY7BUTBbXRskhQqv438iDwybkwTE2k92XVjgwY2i3ZW1X526rW2sPBJkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=Y4JWp/2/; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QcJIh7J/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="55KP0dXB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QcJIh7J/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="55KP0dXB"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BBC1C1FED5;
-	Wed, 17 Sep 2025 13:12:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758114743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=miYOdNg0sxOGY/FSiJ8E5n6I55+a3iiyeqkliFEPIEA=;
-	b=QcJIh7J/FPWE5BMPsqpDdNav5cS4/xejQB3Om7ZiOpo4LnPwPH9tZZNRZrnOILHW+uIMfp
-	+jGHNYr9K/BgzkOeCKrm4nW/ozvXHMGoTqmobOfplq13UCrqkF5Ew/DeQtCFte1Twb1wBf
-	imY9UaIgx4Cbt7K40+vN84Mcljuw1dk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758114743;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=miYOdNg0sxOGY/FSiJ8E5n6I55+a3iiyeqkliFEPIEA=;
-	b=55KP0dXBHd/7jL+iUa3FeZ17nju5SetCNuLmAkp2z94R9J9HPF0u2fQwyHc7cMlnMYfgt/
-	5RLW1aCvYxFC2oAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758114743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=miYOdNg0sxOGY/FSiJ8E5n6I55+a3iiyeqkliFEPIEA=;
-	b=QcJIh7J/FPWE5BMPsqpDdNav5cS4/xejQB3Om7ZiOpo4LnPwPH9tZZNRZrnOILHW+uIMfp
-	+jGHNYr9K/BgzkOeCKrm4nW/ozvXHMGoTqmobOfplq13UCrqkF5Ew/DeQtCFte1Twb1wBf
-	imY9UaIgx4Cbt7K40+vN84Mcljuw1dk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758114743;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=miYOdNg0sxOGY/FSiJ8E5n6I55+a3iiyeqkliFEPIEA=;
-	b=55KP0dXBHd/7jL+iUa3FeZ17nju5SetCNuLmAkp2z94R9J9HPF0u2fQwyHc7cMlnMYfgt/
-	5RLW1aCvYxFC2oAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5BEAA1368D;
-	Wed, 17 Sep 2025 13:12:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4ScSFLezymgUbwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 17 Sep 2025 13:12:23 +0000
-Date: Wed, 17 Sep 2025 15:12:22 +0200
-Message-ID: <87tt11cjex.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Takashi Iwai" <tiwai@suse.de>,
-	"Luca Weiss" <luca.weiss@fairphone.com>,
-	"Arnd Bergmann" <arnd@kernel.org>,
-	"Mark Brown" <broonie@kernel.org>,
-	"Wesley Cheng" <quic_wcheng@quicinc.com>,
-	"Jaroslav Kysela" <perex@perex.cz>,
-	"Takashi Iwai" <tiwai@suse.com>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-	"Dan Carpenter" <dan.carpenter@linaro.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] ALSA: qc_audio_offload: try to reduce address space confusion
-In-Reply-To: <548b20d2-70f5-403c-821c-630c1e605b34@app.fastmail.com>
-References: <20250513123442.159936-1-arnd@kernel.org>
-	<20250513123442.159936-4-arnd@kernel.org>
-	<DBR2363A95M1.L9XBNC003490@fairphone.com>
-	<87v7n72pg0.wl-tiwai@suse.de>
-	<DBR3FZGY4QS1.BX6M1PZS5RH4@fairphone.com>
-	<87ms8j2on6.wl-tiwai@suse.de>
-	<DCKUCB8A1JCV.1GK0TW2YMXNZP@fairphone.com>
-	<87bjnpqe45.wl-tiwai@suse.de>
-	<a2a6843f-7e03-4b7e-b5fc-415ac9fc6621@app.fastmail.com>
-	<DCU39JVDVFAG.2EOCQ37KAS3N0@fairphone.com>
-	<87o6raxtu9.wl-tiwai@suse.de>
-	<DCUXFIZ5KRCU.3JANM98BSE8SE@fairphone.com>
-	<87v7lhwkf2.wl-tiwai@suse.de>
-	<548b20d2-70f5-403c-821c-630c1e605b34@app.fastmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="Y4JWp/2/"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1758115677;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wERivNMnB7eyGntxtjltf/WH53+pKFmfMOZ0+81HSi4=;
+	b=Y4JWp/2/8qybWiWVyBBAr7DIDnnvKPO+mKw5TTfmz4gXivTD5MnRKB1N1oQBZCP4jlMWaR
+	jThSbsXYMd+q4x7KwzGOOGfUndQaHovo+K4AmzYZbdFKhPSGY7cJH6vHkgJxuTkrskqcQ8
+	gUIgM1DpeCalLw9BiGBoO8WExfhzJs3anjlnny1Dw0dzVmJ2WIe5Ne7IywOi49yAfnoR4i
+	1dL6ClzJbXfY7jJI53Aayl0P0X+lwbUZyZYuRGMg14wYBL4T1fcrQ813gwpYply7KjM4/W
+	MwpLWMZr+4iybDPZ6FsmJSXg/bunueDYUFRjVReIR3n7IYrBKXIF5vEbAAkJdg==
+Date: Wed, 17 Sep 2025 15:27:56 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: cryolitia@uniontech.com
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, Petr
+ Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Sami
+ Tolvanen <samitolvanen@google.com>, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Mingcong Bai <jeffbai@aosc.io>, Kexy Biscuit
+ <kexybiscuit@aosc.io>, Nie Cheng <niecheng1@uniontech.com>, Zhan Jun
+ <zhanjun@uniontech.com>, Feng Yuan <fengyuan@uniontech.com>, qaqland
+ <anguoli@uniontech.com>, kernel@uniontech.com, linux-modules@vger.kernel.org
+Subject: Re: [PATCH v3 4/4] ALSA: doc: add docs about
+ device_device_quirk_flags in snd-usb-audio
+In-Reply-To: <20250917-sound-v3-4-92ebe9472a0a@uniontech.com>
+References: <20250917-sound-v3-0-92ebe9472a0a@uniontech.com>
+ <20250917-sound-v3-4-92ebe9472a0a@uniontech.com>
+Message-ID: <0999abc5390bbfcb21e15bd140510540@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-On Wed, 17 Sep 2025 14:52:54 +0200,
-Arnd Bergmann wrote:
+Hello Cryolitia,
+
+On 2025-09-17 14:46, Cryolitia PukNgae via B4 Relay wrote:
+> From: Cryolitia PukNgae <cryolitia@uniontech.com>
 > 
-> On Wed, Sep 17, 2025, at 10:30, Takashi Iwai wrote:
-> > On Wed, 17 Sep 2025 10:19:23 +0200,
-> >> >> 
-> >> >> Are you planning to post this as a proper patch? It's a bit late in the
-> >> >> 6.17 cycle already but good to still get this fixed for final release.
+> Just briefly described about the new option.
 > 
-> I was expecting your earlier suggestion (without my experimental
-> changes) to get merged for 6.17.
+> Signed-off-by: Cryolitia PukNgae <cryolitia@uniontech.com>
 
-Ah that was misunderstanding, then.
-
-> >> Should that code be removed with the new code now?
-> >
-> > Yes, please try the revised patch below.
-> 
-> This version looks good to me, thanks for following up,
-> and sorry if I caused you extra work.
-> 
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-
-Thanks, I'm going to include this for the next PR for 6.17-rc7.
-
-
-Takashi
+Isn't the patch subject a bit wrong, and should contain
+"device quirk_flags" instead of "device_device_quirk_flags"?
